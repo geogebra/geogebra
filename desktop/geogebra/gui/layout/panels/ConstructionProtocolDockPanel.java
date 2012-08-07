@@ -30,7 +30,7 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return (JComponent) app.getGuiManager().getConstructionProtocolView();
+		return app.getGuiManager().getConstructionProtocolView();
 	}
 
 	@Override

@@ -45,8 +45,6 @@ import javax.swing.text.JTextComponent;
 public class InputDialogD extends geogebra.common.gui.dialog.InputDialog implements ActionListener,
 		WindowFocusListener, VirtualKeyboardListener {
 
-	private static final long serialVersionUID = 1L;
-
 	protected AppD app;
 
 	protected GeoElement geo;

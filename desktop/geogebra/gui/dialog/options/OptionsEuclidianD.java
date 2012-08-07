@@ -30,7 +30,6 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -364,7 +363,7 @@ public class OptionsEuclidianD extends
 		// line style
 		DashListRenderer renderer = new DashListRenderer();
 		renderer.setPreferredSize(new Dimension(80, app.getGUIFontSize() + 6));
-		cbGridStyle = new JComboBox(EuclidianViewD.getLineTypes());
+		cbGridStyle = new JComboBox(EuclidianView.getLineTypes());
 		cbGridStyle.setRenderer(renderer);
 		cbGridStyle.addActionListener(this);
 

@@ -23,6 +23,8 @@ import javax.swing.tree.TreePath;
  */
 public class AlgebraTree extends JTree {
 
+	private static final long serialVersionUID = 1L;
+	
 	protected AppD app; // parent appame
 	protected Kernel kernel;
 
@@ -433,7 +435,7 @@ public class AlgebraTree extends JTree {
 			}
 
 			model.insertNodeInto(parent, rootType, pos);
-		};
+		}
 
 
 		return parent;

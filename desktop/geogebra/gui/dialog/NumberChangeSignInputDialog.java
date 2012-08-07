@@ -12,11 +12,6 @@ import javax.swing.JCheckBox;
  *
  */
 public class NumberChangeSignInputDialog extends InputDialogD {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	private boolean changingSign;
 

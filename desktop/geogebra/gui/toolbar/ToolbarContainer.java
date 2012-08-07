@@ -194,6 +194,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	private class MyDockPanel extends DockPanel {
 
+		private static final long serialVersionUID = 1L;
+
 		public MyDockPanel() {
 			this(0, "", "1", false, 0);
 		}

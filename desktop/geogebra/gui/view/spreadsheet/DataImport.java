@@ -75,8 +75,8 @@ public class DataImport {
 				transferString = DataImport
 						.convertHTMLTableToCSV((String) contents
 								.getTransferData(HTMLflavor));
-				//transferString = (String) contents
-				//		.getTransferData(DataFlavor.stringFlavor);
+				// transferString = (String) contents
+				// .getTransferData(DataFlavor.stringFlavor);
 			}
 
 		} catch (UnsupportedFlavorException e) {
@@ -84,10 +84,6 @@ public class DataImport {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		// null the transfer string to force string flavor result
-		// TODO: remove this temporary test 
-		transferString = null;
 
 		// no HTML found, try plain text
 		if (transferString == null
@@ -190,10 +186,11 @@ public class DataImport {
 			App.debug("clipboard: no HTML");
 		}
 
-		if (sbHTML.length() != 0) // found HTML table to paste as CSV
+		if (sbHTML.length() != 0) {
+			// found HTML table to paste as CSV
 			return sbHTML.toString();
-		else
-			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -209,8 +206,8 @@ public class DataImport {
 	 *            true = comma delimited parsing, false = tab delimited parsing
 	 * @return 2D string array with values formatted for the spreadsheet.
 	 */
-	public static String[][] parseExternalData(App app,
-			String source, String[] separator, boolean isCSV) {
+	public static String[][] parseExternalData(App app, String source,
+			String[] separator, boolean isCSV) {
 
 		String decimalSeparator, groupingSeparator;
 		if (separator == null) {
@@ -245,8 +242,8 @@ public class DataImport {
 
 				// remove localized number formatting
 				// e.g. 3,400 ---> 3400 or 3,400 --> 3.400 depending on locale
-				data[i][k] = adjustNumberString(app, data[i][k],
-						decimalSeparator, groupingSeparator);
+				data[i][k] = adjustNumberString(data[i][k], decimalSeparator,
+						groupingSeparator);
 			}
 		}
 
@@ -332,8 +329,8 @@ public class DataImport {
 	 * given string is a number that Geogebra's parser recognizes. If cannot be
 	 * parsed to a number, then the original string is returned.
 	 */
-	private static String adjustNumberString(App app, String s,
-			String decimalSeparator, String groupingSeparator) {
+	private static String adjustNumberString(String s, String decimalSeparator,
+			String groupingSeparator) {
 
 		if (s == null || s.equals(""))
 			return s;

@@ -120,9 +120,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 		if (f != null) {
 			return UIManager.getIcon(f.isDirectory() ? "FileView.directoryIcon"
 					: "FileView.fileIcon");
-		} else {
-			return null;
-		}
+		} 
+		return null;
 	}
 
 	/**
@@ -135,9 +134,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	public boolean isParent(File folder, File file) {
 		if (folder == null || file == null) {
 			return false;
-		} else {
-			return folder.equals(file.getParentFile());
-		}
+		} 
+		return folder.equals(file.getParentFile());
 	}
 
 	/**
@@ -278,9 +276,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	public File createFileObject(File dir, String filename) {
 		if (dir == null) {
 			return new File(filename);
-		} else {
-			return new File(dir, filename);
-		}
+		} 
+		return new File(dir, filename);
 	}
 
 	/**
@@ -318,7 +315,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 			}
 		}
 
-		return (File[]) files.toArray(new File[files.size()]);
+		return files.toArray(new File[files.size()]);
 	}
 
 	/**
@@ -346,9 +343,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 						}
 					}
 					return f;
-				} else {
-					return psf;
-				}
+				} 
+				return psf;
 			}
 		}
 		return null;
@@ -406,9 +402,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 		if (newFolder.exists()) {
 			throw new IOException("Directory already exists:"
 					+ newFolder.getAbsolutePath());
-		} else {
-			newFolder.mkdirs();
 		}
+		newFolder.mkdirs();
 
 		return newFolder;
 	}

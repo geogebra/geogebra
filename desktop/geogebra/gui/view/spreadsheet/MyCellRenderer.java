@@ -79,7 +79,6 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	 * @param view
 	 * @param formatHandler
 	 */
-	@SuppressWarnings("unchecked")
 	public MyCellRenderer(AppD app, SpreadsheetView view,
 			CellFormat formatHandler) {
 
@@ -107,6 +106,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		comboBox.setModel(cbModel);
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -202,7 +202,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				text = GeoElement.convertIndicesToHTML(geo
 						.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
-				
+
 			}
 		}
 
@@ -221,7 +221,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		// use geo bgColor if there is no format bgColor
 		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
-			bgColor = geogebra.awt.GColorD.getAwtColor(geo.getBackgroundColor());
+			bgColor = geogebra.awt.GColorD
+					.getAwtColor(geo.getBackgroundColor());
 			isCustomBGColor = true;
 		}
 
@@ -301,6 +302,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	 */
 	private static class MyListCellRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
+
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean hasFocus) {

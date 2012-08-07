@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
@@ -64,7 +65,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	// test type (tail)
 	private static final String tail_left = "<";
 	private static final String tail_right = ">";
-	private static final String tail_two = ExpressionNode.strNOT_EQUAL;
+	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 	private String tail = tail_two;
 
 	// input fields
@@ -108,7 +109,6 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	//           Create GUI 
 	//============================================================
 
-	@SuppressWarnings("rawtypes")
 	private void createGUIElements(){
 
 
@@ -582,7 +582,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	//============================================================
 
 
-	private JPanel flowPanel(Component... comp){
+	private static JPanel flowPanel(Component... comp){
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
@@ -591,7 +591,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		return p;
 	}
 
-	private Box hBox(Component... comp){
+	private static Box hBox(Component... comp){
 		Box b = Box.createHorizontalBox();
 		for(int i = 0; i<comp.length; i++){
 			b.add(comp[i]);
@@ -599,7 +599,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		return b;
 	}
 
-	private Box vBox(Component... comp){
+	private static Box vBox(Component... comp){
 		Box p = Box.createVerticalBox();
 		for(int i = 0; i<comp.length; i++){
 			p.add(Box.createVerticalGlue());

@@ -4,7 +4,6 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.OptionsDefaults;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.main.AppD;

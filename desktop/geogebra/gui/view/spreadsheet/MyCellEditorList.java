@@ -29,7 +29,6 @@ public class MyCellEditorList extends DefaultCellEditor implements ActionListene
 	private JComboBox comboBox;	
 	private DefaultComboBoxModel model;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public MyCellEditorList() {
 		
 		super(new JComboBox());

@@ -26,7 +26,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree{
 		super(app, view);
 	}
 
-	
+	@Override
 	protected String getDescription(GeoElement geo){
 
 		String text = null;

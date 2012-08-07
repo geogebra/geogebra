@@ -190,7 +190,6 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 
 	private JPanel selectViewPanel;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void createCbView() {
 		cbView = new JComboBox();
 		cbView.addItem(""); // ev
@@ -219,7 +218,6 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected JPanel buildBasicNorthPanel() {
 
 		// ===================================
@@ -439,7 +437,7 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 		// line style
 		DashListRenderer renderer = new DashListRenderer();
 		renderer.setPreferredSize(new Dimension(130, app.getGUIFontSize() + 6));
-		cbGridStyle = new JComboBox(EuclidianViewD.getLineTypes());
+		cbGridStyle = new JComboBox(EuclidianView.getLineTypes());
 		cbGridStyle.setRenderer(renderer);
 		cbGridStyle.addActionListener(this);
 		stylePanel.add(cbGridStyle);
@@ -1082,7 +1080,6 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 		final static protected int AXIS_X = 0;
 		final static protected int AXIS_Y = 1;
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public AxisPanel(int axis) {
 
 			this.axis = axis;

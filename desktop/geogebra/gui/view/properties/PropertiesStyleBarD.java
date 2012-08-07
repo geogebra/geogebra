@@ -236,6 +236,8 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	
 	private class PropertiesButton extends JToggleButton {
 
+		private static final long serialVersionUID = 1L;
+		
 		private JToolTip tip;
 
 		public PropertiesButton(){

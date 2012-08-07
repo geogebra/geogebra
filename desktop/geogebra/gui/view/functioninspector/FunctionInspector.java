@@ -101,7 +101,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class FunctionInspector extends InputDialogD 
 implements View, MouseListener, ListSelectionListener, 
-KeyListener, ActionListener, SpecialNumberFormatInterface {
+KeyListener, SpecialNumberFormatInterface {
 
 	private static final long serialVersionUID = 1L;
 	

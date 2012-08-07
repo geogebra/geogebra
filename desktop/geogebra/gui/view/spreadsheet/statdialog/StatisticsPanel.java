@@ -204,7 +204,6 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	/**
 	 * Creates the JComboBox that selects inference mode
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void createInferenceTypeComboBox(){
 
 		if(cbInferenceMode == null){

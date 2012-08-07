@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 public class TurtleDriverPanel extends JPanel implements ActionListener,
 		SetLabels {
 
+	private static final long serialVersionUID = 1L;
+	
 	private GeoTurtle t;
 	private JButton btnFD, btnBK, btnLT, btnRT, btnShape, btnClear;
 	private double distance = 1, angle = 10;

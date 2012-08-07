@@ -42,7 +42,6 @@ public class AnimationSpeedPanel
 	private AppD app;	
 	private Kernel kernel;
 
-	@SuppressWarnings("rawtypes")
 	public AnimationSpeedPanel(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -72,7 +71,6 @@ public class AnimationSpeedPanel
 		setLabels();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void setLabels() {
 		modeLabel.setText(app.getPlain("Repeat") + ": ");
 		speedLabel.setText(app.getPlain("AnimationSpeed") + ": ");

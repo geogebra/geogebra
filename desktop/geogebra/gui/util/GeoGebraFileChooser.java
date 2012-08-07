@@ -420,7 +420,8 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 				
 				// Update preview for saving a ggb file
 				else if (fileChooser.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA_SAVE) {
-					tmpImage = app.getExportImage(MyXMLio.THUMBNAIL_PIXELS_X,MyXMLio.THUMBNAIL_PIXELS_Y);	
+					tmpImage = app.getExportImage(
+							geogebra.common.io.MyXMLio.THUMBNAIL_PIXELS_X,geogebra.common.io.MyXMLio.THUMBNAIL_PIXELS_Y);	
 					//TODO: show file size info?
 					fileLabel.setText(null);
 				}
@@ -547,8 +548,8 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 					int height = img.getHeight();
 					
 					// center image
-					int x = (int) ((getWidth() - width) / 2);
-					int y = (int) ((getHeight() - height) / 2);
+					int x = ((getWidth() - width) / 2);
+					int y = ((getHeight() - height) / 2);
 
 					// draw the image
 					g2.drawImage(img, x, y, width, height, null);

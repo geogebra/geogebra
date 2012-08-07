@@ -54,13 +54,13 @@ class WindowMenu extends BaseMenu {
 		int current = -1;
 		
 		for (int i = 0; i < size; i++) {
-			GeoGebraFrame ggb = (GeoGebraFrame) ggbInstances.get(i);
+			GeoGebraFrame ggb = ggbInstances.get(i);
 			AppD application = ggb.getApplication();
 			if (app == application) current = i;
 		}
 		
 		for (int i = 0; i < size; i++) {
-			GeoGebraFrame ggb = (GeoGebraFrame) ggbInstances.get(i);
+			GeoGebraFrame ggb = ggbInstances.get(i);
 			AppD application = ggb.getApplication();
 
 			sb.setLength(0);
@@ -86,6 +86,7 @@ class WindowMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
+	@Override
 	protected void initActions()
 	{
 		newWindowAction = new AbstractAction(app.getMenu("NewWindow"), app

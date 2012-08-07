@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
  *
  */
 public class InputDialogOpenDataFolderURL extends InputDialogD{
-	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
 	
 	public InputDialogOpenDataFolderURL(AppD app, SpreadsheetView view, String initString) {
@@ -36,6 +35,7 @@ public class InputDialogOpenDataFolderURL extends InputDialogD{
 		
 	}
 
+	@Override
 	public void setLabels(String title) {
 		wrappedDialog.setTitle(title);
 		
@@ -48,6 +48,7 @@ public class InputDialogOpenDataFolderURL extends InputDialogD{
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 

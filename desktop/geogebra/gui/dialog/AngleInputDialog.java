@@ -30,8 +30,6 @@ import javax.swing.JRadioButton;
  * @author hohenwarter
  */
 public class AngleInputDialog extends InputDialogD {
-	
-	private static final long serialVersionUID = 1L;
 
 	protected JRadioButton rbCounterClockWise, rbClockWise; 	
 	

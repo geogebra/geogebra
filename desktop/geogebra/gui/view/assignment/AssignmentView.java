@@ -102,8 +102,7 @@ public class AssignmentView extends JPanel implements View, Gridable {
 		return App.VIEW_ASSIGNMENT;
 	}
 
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
-			throws PrinterException {
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

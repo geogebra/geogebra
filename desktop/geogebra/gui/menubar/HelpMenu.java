@@ -16,7 +16,7 @@ import javax.swing.event.MenuListener;
 /**
  * The "Help" menu.
  */
-class HelpMenu extends BaseMenu implements MenuListener {
+class HelpMenu extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
 	private AbstractAction

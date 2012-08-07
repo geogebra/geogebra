@@ -19,7 +19,7 @@ import javax.swing.event.MenuListener;
 /**
  * The "Edit" menu.
  */
-public class EditMenu extends BaseMenu implements MenuListener {
+public class EditMenu extends BaseMenu {
 	private static final long serialVersionUID = -2649808771324470803L;
 
 	private AbstractAction

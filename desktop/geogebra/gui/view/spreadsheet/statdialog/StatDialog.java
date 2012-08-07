@@ -100,7 +100,7 @@ public class StatDialog extends JPanel implements View, Printable,
 		public String getLabel() {
 			return label;
 		}
-	};
+	}
 
 	// public static final int regressionTypes = 9;
 	private Regression regressionMode = Regression.NONE;

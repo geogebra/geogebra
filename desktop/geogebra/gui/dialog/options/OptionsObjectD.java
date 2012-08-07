@@ -39,7 +39,6 @@ public class OptionsObjectD extends
 		geogebra.common.gui.dialog.options.OptionsObject implements
 		OptionPanelD, SetLabels {
 
-	private static final long serialVersionUID = 1L;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
 

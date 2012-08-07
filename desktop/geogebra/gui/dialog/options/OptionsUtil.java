@@ -96,6 +96,8 @@ public class OptionsUtil {
 
 	public static class TitlePanel extends JPanel {
 
+		private static final long serialVersionUID = 1L;
+
 		public TitlePanel() {
 			this("");
 		}

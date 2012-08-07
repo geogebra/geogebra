@@ -45,8 +45,7 @@ import javax.swing.text.Utilities;
  * 
  */
 public class TextLineNumber extends JPanel implements CaretListener,
-DocumentListener, PropertyChangeListener {
-
+		DocumentListener, PropertyChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	public final static float LEFT = 0.0f;
@@ -276,8 +275,6 @@ DocumentListener, PropertyChangeListener {
 		int endOffset = component
 				.viewToModel(new Point(0, clip.y + clip.height));
 
-
-		
 		while (rowStartOffset <= endOffset) {
 			try {
 				if (isCurrentLine(rowStartOffset))
@@ -288,9 +285,10 @@ DocumentListener, PropertyChangeListener {
 				// Get the line number as a string and then determine the
 				// "X" and "Y" offsets for drawing the string.
 				String lineNumber = getTextLineNumber(rowStartOffset);
-				if(lineNumber != null){
+				if (lineNumber != null) {
 					int stringWidth = fontMetrics.stringWidth(lineNumber);
-					int x = getOffsetX(availableWidth, stringWidth) + insets.left;
+					int x = getOffsetX(availableWidth, stringWidth)
+							+ insets.left;
 					int y = getOffsetY(rowStartOffset, fontMetrics);
 					g.drawString(lineNumber, x, y);
 				}
@@ -298,8 +296,7 @@ DocumentListener, PropertyChangeListener {
 				// Move to the next row
 				rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
 
-			} catch (Exception e) 
-			{   
+			} catch (Exception e) {
 				App.debug(e.getMessage());
 			}
 		}
@@ -314,13 +311,12 @@ DocumentListener, PropertyChangeListener {
 		Element root = component.getDocument().getDefaultRootElement();
 
 		if (root.getElementIndex(rowStartOffset) == root
-				.getElementIndex(caretPosition))
+				.getElementIndex(caretPosition)) {
 			return true;
-		else
-			return false;
+		}
+		return false;
 	}
 
-	
 	/*
 	 * Get the line number to be drawn. A null string is returned when a line of
 	 * text has wrapped.
@@ -330,10 +326,10 @@ DocumentListener, PropertyChangeListener {
 		int index = root.getElementIndex(rowStartOffset);
 		Element line = root.getElement(index);
 
-		if (line.getStartOffset() == rowStartOffset)
+		if (line.getStartOffset() == rowStartOffset) {
 			return String.valueOf(index + 1);
-		else
-			return null;
+		}
+		return null;
 	}
 
 	/*

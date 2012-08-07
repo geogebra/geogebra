@@ -6,7 +6,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
 import geogebra.common.kernel.algos.AlgoListMax;
 import geogebra.common.kernel.algos.AlgoListMin;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
@@ -30,7 +29,6 @@ import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
-import geogebra.common.main.App;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
 import geogebra.main.AppD;
 
@@ -102,10 +100,10 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	// =======================================================
 
 	private String[][] getStatMap() {
-		if (mode == StatDialog.MODE_ONEVAR)
+		if (mode == StatDialog.MODE_ONEVAR) {
 			return createOneVarStatMap();
-		else
-			return createTwoVarStatMap();
+		}
+		return createTwoVarStatMap();
 	}
 
 	private String[][] createOneVarStatMap() {
@@ -152,7 +150,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	 * 
 	 */
 	public void updatePanel() {
-	//	App.printStacktrace("update stat panel");
+		// App.printStacktrace("update stat panel");
 		GeoList dataList = statDialog.getStatDialogController()
 				.getDataSelected();
 

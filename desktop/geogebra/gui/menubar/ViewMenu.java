@@ -55,6 +55,7 @@ public class ViewMenu extends BaseMenu {
 	/**
 	 * Initialize the menu items.
 	 */
+	@Override
 	protected void initItems() {
 
 		if (!initialized) {
@@ -126,6 +127,7 @@ public class ViewMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
+	@Override
 	protected void initActions() {
 		initViewActions();
 

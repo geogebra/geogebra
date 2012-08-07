@@ -140,7 +140,7 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		} 
 	}
 
-
+	@Override
 	public void setVisible(boolean isVisible) {	
 		if(!isVisible){
 

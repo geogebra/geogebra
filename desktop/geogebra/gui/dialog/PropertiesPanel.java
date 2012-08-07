@@ -191,12 +191,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private BackgroundImagePanel bgImagePanel;
 	private AbsoluteScreenLocationPanel absScreenLocPanel;
 	private ListsAsComboBoxPanel comboBoxPanel;
-	//private ShowView2D showView2D;
+	// private ShowView2D showView2D;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
 
 	private GraphicsViewLocationPanel graphicsViewLocationPanel;
-	
 
 	// private CoordinateFunctionPanel coordinateFunctionPanel;
 
@@ -284,39 +283,36 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		checkBoxFixPanel = new CheckBoxFixPanel();
 		absScreenLocPanel = new AbsoluteScreenLocationPanel();
 		comboBoxPanel = new ListsAsComboBoxPanel();
-		//showView2D = new ShowView2D();
+		// showView2D = new ShowView2D();
 		auxPanel = new AuxiliaryObjectPanel();
 		animStepPanel = new AnimationStepPanel(app);
 		textFieldSizePanel = new TextfieldSizePanel(app);
 		animSpeedPanel = new AnimationSpeedPanel(app);
 		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
 
-
-				
-
 		// tabbed pane for properties
 		tabs = new JTabbedPane();
 		initTabs();
-		
+
 		tabs.addChangeListener(new ChangeListener() {
-			
+
 			public void stateChanged(ChangeEvent e) {
 				applyModifications();
-				
+
 			}
 		});
 
 		setLayout(new BorderLayout());
 		add(tabs, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	 * apply tabs modifications (text edit panel, etc.)
 	 */
-	public void applyModifications(){
-		if(textEditPanel!=null)
+	public void applyModifications() {
+		if (textEditPanel != null)
 			textEditPanel.applyModifications();
-		if(scriptEditPanel!=null)
+		if (scriptEditPanel != null)
 			scriptEditPanel.applyModifications();
 	}
 
@@ -371,10 +367,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		basicTabList.add(rightAnglePanel);
 		basicTabList.add(allowOutlyingIntersectionsPanel);
 		basicTabList.add(showTrimmedIntersectionLines);
-		
-		
-		
-		//basicTabList.add(showView2D);
+
+		// basicTabList.add(showView2D);
 		basicTab = new TabPanel(basicTabList);
 		tabPanelList.add(basicTab);
 
@@ -449,7 +443,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			positionTab = new TabPanel(positionTabList);
 			tabPanelList.add(positionTab);
-			
 
 		}
 
@@ -504,7 +497,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * Update the labels of this panel in case the user language was changed.
 	 */
 	public void setLabels() {
-		
+
 		// update labels of tabs
 		// TODO change label for script tab
 		basicTab.setTitle(app.getMenu("Properties.Basic"));
@@ -553,7 +546,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
 		comboBoxPanel.setLabels();
-		//showView2D.setLabels();
+		// showView2D.setLabels();
 		sliderPanel.setLabels();
 
 		if (!isDefaults) {
@@ -571,7 +564,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			showConditionPanel.setLabels();
 			colorFunctionPanel.setLabels();
 		}
-		
 
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
@@ -582,19 +574,16 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			TabPanel tp = tabPanelList.get(i);
 			tp.addToTabbedPane(tabs);
 		}
-		
 
 		// switch back to previously selected tab
 		if (tabs.getTabCount() > 0) {
 			int index = tabs.indexOfComponent(selectedTab);
 			tabs.setSelectedIndex(Math.max(0, index));
-			//tabs.setVisible(true);
+			// tabs.setVisible(true);
 		} else {
-			//tabs.setVisible(false);
+			// tabs.setVisible(false);
 		}
 	}
-	
-	
 
 	/**
 	 * Update all tabs after new GeoElements were selected.
@@ -609,7 +598,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
-		
+
 		tabs.removeAll();
 		for (int i = 0; i < tabPanelList.size(); i++) {
 			TabPanel tp = tabPanelList.get(i);
@@ -642,7 +631,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		return oneVisible;
 	}
-	
 
 	public void updateSelection(Object[] geos) {
 		// if (geos == oldSelGeos) return;
@@ -655,17 +643,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		// if (geos == oldSelGeos) return;
 		// oldSelGeos = geos;
 
-		updateSelection(new GeoElement[] {geo});
+		updateSelection(new GeoElement[] { geo });
 	}
-	
+
 	/**
 	 * Update just definition of one geo
-	 * @param geo geo
+	 * 
+	 * @param geo
+	 *            geo
 	 */
 	public void updateOneGeoDefinition(GeoElement geo) {
 		namePanel.updateDef(geo);
 	}
-	
+
 	private class TabPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
@@ -970,8 +960,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					geo = (GeoElement) geos[i];
 					geo.setShowTrimmedIntersectionLines(showTrimmedLinesCB
 							.isSelected());
-					geo.getParentAlgorithm().getInput()[0].setEuclidianVisible(!showTrimmedLinesCB.isSelected());
-					geo.getParentAlgorithm().getInput()[1].setEuclidianVisible(!showTrimmedLinesCB.isSelected());
+					geo.getParentAlgorithm().getInput()[0]
+							.setEuclidianVisible(!showTrimmedLinesCB
+									.isSelected());
+					geo.getParentAlgorithm().getInput()[1]
+							.setEuclidianVisible(!showTrimmedLinesCB
+									.isSelected());
 					geo.getParentAlgorithm().getInput()[0].updateRepaint();
 					geo.getParentAlgorithm().getInput()[1].updateRepaint();
 					geo.updateRepaint();
@@ -1085,7 +1079,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JPanel previewMetaPanel;
 		private boolean allFillable = false;
 		private boolean hasBackground = false;
-		
 
 		public ColorPanel(GeoGebraColorChooser colChooser) {
 
@@ -1263,7 +1256,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			boolean equalObjColor = true;
 			boolean equalObjColorBackground = true;
-			boolean hasImageGeo = geo0.isGeoImage(); 
+			boolean hasImageGeo = geo0.isGeoImage();
 			allFillable = geo0.isFillable();
 			hasBackground = geo0.hasBackgroundColor();
 
@@ -1375,12 +1368,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			btnClearBackground.setVisible(rbtnBackgroundColor.isSelected());
 			btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 
-			
 			// hide the color chooser and preview if we have an image
 			colorChooserContainer.setVisible(!hasImageGeo);
 			previewMetaPanel.setVisible(!hasImageGeo);
-		
-			
+
 			return this;
 		}
 
@@ -1395,18 +1386,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					new geogebra.awt.GColorD(color));
 			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
 					+ color.getBlue();
-			if (name != null)
+			if (name != null) {
 				return name + "  " + rgbStr;
-			else
-				return rgbStr;
+			}
+			return rgbStr;
 		}
 
 		/**
 		 * Sets color of selected GeoElements
 		 */
 		private void updateColor(Color col, float alpha, boolean updateAlphaOnly) {
-			if (col == null || geos == null)
+			if (col == null || geos == null) {
 				return;
+			}
 
 			// update preview panel
 			previewPanel.setPreview(col, alpha);
@@ -1445,8 +1437,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			kernel.notifyRepaint();
 		}
 
-		// show color panel for all geos 
-		// (for images only the opacity slider is shown)		
+		// show color panel for all geos
+		// (for images only the opacity slider is shown)
 		private boolean checkGeos(Object[] geos) {
 			return true;
 		}
@@ -1495,7 +1487,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JComboBox labelModeCB;
 		private boolean showNameValueComboBox;
 
-		@SuppressWarnings("rawtypes")
 		public LabelPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
@@ -1513,7 +1504,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			add(labelModeCB);
 		}
 
-		@SuppressWarnings("unchecked")
 		public void setLabels() {
 			showLabelCB.setText(app.getPlain("ShowLabel") + ":");
 
@@ -1773,7 +1763,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JComboBox layerModeCB;
 		private JLabel layerLabel;
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public LayerPanel() {
 			layerLabel = new JLabel();
 			layerLabel.setLabelFor(layerModeCB);
@@ -2262,7 +2251,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					return false;
 				GeoFunction gfun = (GeoFunction) geos[i];
 				if (!gfun.isBooleanFunction()
-						|| gfun.getVarString(StringTemplate.defaultTemplate).equals("y"))
+						|| gfun.getVarString(StringTemplate.defaultTemplate)
+								.equals("y"))
 					return false;
 			}
 			return true;
@@ -2346,7 +2336,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			return this;
 		}
 
-
 		private boolean checkGeos(Object[] geos) {
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
@@ -2374,48 +2363,50 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				boolean flag = cbAbsScreenLoc.isSelected();
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				for (int i = 0; i < geos.length; i++) {
-					
+
 					if (geos[i] instanceof AbsoluteScreenLocateable) {
-					
-					geo = (AbsoluteScreenLocateable) geos[i];
-					if (flag) {
-						// convert real world to screen coords
-						int x = ev.toScreenCoordX(geo.getRealWorldLocX());
-						int y = ev.toScreenCoordY(geo.getRealWorldLocY());
-						if (!geo.isAbsoluteScreenLocActive())
-							geo.setAbsoluteScreenLoc(x, y);
-					} else {
-						// convert screen coords to real world
-						double x = ev.toRealWorldCoordX(geo
-								.getAbsoluteScreenLocX());
-						double y = ev.toRealWorldCoordY(geo
-								.getAbsoluteScreenLocY());
-						if (geo.isAbsoluteScreenLocActive())
-							geo.setRealWorldLoc(x, y);
-					}
-					geo.setAbsoluteScreenLocActive(flag);
-					geo.toGeoElement().updateRepaint();
-					}  else if (((GeoElement) geos[i]).isPinnable()) {
+
+						geo = (AbsoluteScreenLocateable) geos[i];
+						if (flag) {
+							// convert real world to screen coords
+							int x = ev.toScreenCoordX(geo.getRealWorldLocX());
+							int y = ev.toScreenCoordY(geo.getRealWorldLocY());
+							if (!geo.isAbsoluteScreenLocActive())
+								geo.setAbsoluteScreenLoc(x, y);
+						} else {
+							// convert screen coords to real world
+							double x = ev.toRealWorldCoordX(geo
+									.getAbsoluteScreenLocX());
+							double y = ev.toRealWorldCoordY(geo
+									.getAbsoluteScreenLocY());
+							if (geo.isAbsoluteScreenLocActive())
+								geo.setRealWorldLoc(x, y);
+						}
+						geo.setAbsoluteScreenLocActive(flag);
+						geo.toGeoElement().updateRepaint();
+					} else if (((GeoElement) geos[i]).isPinnable()) {
 						ArrayList<GeoElement> al = new ArrayList<GeoElement>();
 						al.add((GeoElement) geos[i]);
-						
-						// geo could be redefined, so need to change geos[i] to new geo
-						geos[i] = EuclidianStyleBarStatic.applyFixPosition(al, flag, app.getActiveEuclidianView());
+
+						// geo could be redefined, so need to change geos[i] to
+						// new geo
+						geos[i] = EuclidianStyleBarStatic.applyFixPosition(al,
+								flag, app.getActiveEuclidianView());
 					}
 				}
 
 				updateSelection(geos);
 			}
 		}
-	}	
-	
+	}
+
 	/**
 	 * panel to set whether GeoLists are drawn as ComboBoxes
 	 * 
 	 * @author Michael
 	 */
-	private class ListsAsComboBoxPanel extends JPanel implements
-			ItemListener, SetLabels, UpdateablePropertiesPanel {
+	private class ListsAsComboBoxPanel extends JPanel implements ItemListener,
+			SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2452,8 +2443,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			for (int i = 0; i < geos.length; i++) {
 				temp = (GeoList) geos[i];
 				// same object visible value
-				if (geo0.drawAsComboBox() != temp
-						.drawAsComboBox())
+				if (geo0.drawAsComboBox() != temp.drawAsComboBox())
 					equalVal = false;
 			}
 
@@ -2470,9 +2460,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private boolean checkGeos(Object[] geos) {
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isGeoList()) {					
-						return false;
-				} 
+				if (!geo.isGeoList()) {
+					return false;
+				}
 			}
 			return true;
 		}
@@ -2491,16 +2481,16 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoList) geos[i];
 					geo.setDrawAsComboBox(flag);
-					
+
 					if (flag) {
 						geo.setEuclidianVisible(true);
 					}
-					
+
 					app.getActiveEuclidianView().drawListAsComboBox(geo, flag);
-					
+
 					geo.updateRepaint();
 				}
-				
+
 				app.refreshViews();
 
 				updateSelection(geos);
@@ -2961,7 +2951,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// set location textfield
 			GeoElement p = (GeoElement) geo0.getStartPoint();
 			if (equalLocation && p != null) {
-				cbLocation.setSelectedItem(p.getLabel(StringTemplate.editTemplate));
+				cbLocation.setSelectedItem(p
+						.getLabel(StringTemplate.editTemplate));
 			} else
 				cbLocation.setSelectedItem(null);
 
@@ -3061,11 +3052,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				locPanel.add(cbLocation[i]);
 				add(locPanel);
 			}
-			
+
 			labelLocation[0].setIcon(app.getImageIcon("corner1.png"));
 			labelLocation[1].setIcon(app.getImageIcon("corner2.png"));
 			labelLocation[2].setIcon(app.getImageIcon("corner4.png"));
-			
+
 		}
 
 		public void setLabels() {
@@ -3105,7 +3096,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					GeoPointND p = (GeoPointND) it.next();
 
 					for (int k = 0; k < 3; k++) {
-						cbModel[k].addElement(p.getLabel(StringTemplate.defaultTemplate));
+						cbModel[k].addElement(p
+								.getLabel(StringTemplate.defaultTemplate));
 					}
 				}
 			}
@@ -3127,7 +3119,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				// set location textfield
 				GeoPoint p = geo0.getCorner(k);
 				if (equalLocation && p != null) {
-					cbLocation[k].setSelectedItem(p.getLabel(StringTemplate.defaultTemplate));
+					cbLocation[k].setSelectedItem(p
+							.getLabel(StringTemplate.defaultTemplate));
 				} else
 					cbLocation[k].setSelectedItem(null);
 
@@ -3222,11 +3215,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			add(td.getButtonPanel(), BorderLayout.SOUTH);
 
 		}
-		
+
 		/**
 		 * apply edit modifications
 		 */
-		public void applyModifications(){
+		public void applyModifications() {
 			td.applyModifications();
 		}
 
@@ -3277,10 +3270,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		public ScriptEditPanel() {
 			super(new BorderLayout());
-			
+
 			int row = 35;
 			int column = 15;
-			
+
 			tabbedPane = new JTabbedPane();
 
 			clickDialog = new ScriptInputDialog(app, app.getPlain("Script"),
@@ -3288,48 +3281,50 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			updateDialog = new ScriptInputDialog(app,
 					app.getPlain("JavaScript"), null, row, column, true, false);
 			globalDialog = new ScriptInputDialog(app,
-					app.getPlain("GlobalJavaScript"), null, row, column, false, true);
+					app.getPlain("GlobalJavaScript"), null, row, column, false,
+					true);
 			setLayout(new BorderLayout());
 			// add(td.getInputPanel(), BorderLayout.NORTH);
 			// add(td2.getInputPanel(), BorderLayout.CENTER);
 			clickScriptPanel = new JPanel(new BorderLayout(0, 0));
-			clickScriptPanel.add(clickDialog.getInputPanel(row, column,true),
+			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			clickScriptPanel.add(clickDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
-			updateScriptPanel.add(updateDialog.getInputPanel(row,column,true),
+			updateScriptPanel.add(
+					updateDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
-			globalScriptPanel.add(globalDialog.getInputPanel(row,column,true),
+			globalScriptPanel.add(
+					globalDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
-			
 			add(tabbedPane, BorderLayout.CENTER);
-			
+
 			tabbedPane.addChangeListener(new ChangeListener() {
-				
+
 				public void stateChanged(ChangeEvent e) {
 					applyModifications();
-					
+
 				}
 			});
 
 		}
-		
+
 		/**
 		 * apply edit modifications
 		 */
-		public void applyModifications(){
+		public void applyModifications() {
 			clickDialog.applyModifications();
 			updateDialog.applyModifications();
-			globalDialog.applyModifications();		
+			globalDialog.applyModifications();
 		}
 
 		public void setLabels() {
@@ -3342,9 +3337,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		public JPanel update(Object[] geos) {
 			if (geos.length != 1 || !checkGeos(geos))
 				return null;
-			
+
 			// remember selected tab
-			Component selectedTab = tabbedPane.getSelectedComponent();			
+			Component selectedTab = tabbedPane.getSelectedComponent();
 
 			GeoElement button = (GeoElement) geos[0];
 			clickDialog.setGeo(button);
@@ -3357,11 +3352,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				tabbedPane.addTab(app.getPlain("OnUpdate"), updateScriptPanel);
 			tabbedPane.addTab(app.getPlain("GlobalJavaScript"),
 					globalScriptPanel);
-			
 
-			//select tab as before
-			tabbedPane.setSelectedIndex(Math.max(0, tabbedPane.indexOfComponent(selectedTab)));
-			
+			// select tab as before
+			tabbedPane.setSelectedIndex(Math.max(0,
+					tabbedPane.indexOfComponent(selectedTab)));
+
 			return this;
 		}
 
@@ -4115,8 +4110,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			for (int i = 0; i < fontSizes.length; ++i) {
 				cbSize.addItem(fontSizes[i]);
 			}
-			
-			cbSize.addItem(app.getMenu("Custom")+"...");
+
+			cbSize.addItem(app.getMenu("Custom") + "...");
 
 			cbSize.setSelectedIndex(selectedIndex);
 			cbSize.addActionListener(this);
@@ -4177,17 +4172,18 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// set value to first text's size and style
 			TextProperties geo0 = (TextProperties) geos[0];
 
-			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0.getFontSizeMultiplier())); // font
-																					// size
-																					// ranges
-																					// from
-																					// -6
-																					// to
-																					// 6,
-																					// transform
-																					// this
-																					// to
-																					// 0,1,..,6
+			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0
+					.getFontSizeMultiplier())); // font
+			// size
+			// ranges
+			// from
+			// -6
+			// to
+			// 6,
+			// transform
+			// this
+			// to
+			// 0,1,..,6
 			cbFont.setSelectedIndex(geo0.isSerifFont() ? 1 : 0);
 			int selItem = -1;
 
@@ -4214,7 +4210,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				if (!secondLineVisible) {
 					secondLineVisible = true;
 				}
-				
+
 				secondLine.setVisible(secondLineVisible);
 			}
 
@@ -4258,21 +4254,25 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			Object source = e.getSource();
 
 			if (source == cbSize) {
-				
+
 				double multiplier;
-				
+
 				if (cbSize.getSelectedIndex() == 7) {
-					String percentStr = JOptionPane.showInputDialog(app.getFrame(), app.getPlain("EnterPercentage"), Math.round(((TextProperties) geos[0]).getFontSizeMultiplier()*100)+"%");
-					
+					String percentStr = JOptionPane.showInputDialog(
+							app.getFrame(),
+							app.getPlain("EnterPercentage"),
+							Math.round(((TextProperties) geos[0])
+									.getFontSizeMultiplier() * 100) + "%");
+
 					if (percentStr == null) {
 						// Cancel
 						return;
 					}
-					percentStr = percentStr.replaceAll("%","");
-					
+					percentStr = percentStr.replaceAll("%", "");
+
 					try {
 						multiplier = StringUtil.parseDouble(percentStr) / 100;
-						
+
 						if (multiplier < 0.01) {
 							multiplier = 0.01;
 						} else if (multiplier > 100) {
@@ -4282,7 +4282,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 						app.showError("InvalidInput");
 						return;
 					}
-					
+
 				} else {
 					// transform indices to a multiplier
 					multiplier = GeoText.getRelativeFontSize(cbSize
@@ -4291,7 +4291,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				TextProperties text;
 				for (int i = 0; i < geos.length; i++) {
 					text = (TextProperties) geos[i];
-					text.setFontSizeMultiplier(multiplier); 
+					text.setFontSizeMultiplier(multiplier);
 					((GeoElement) text).updateRepaint();
 				}
 
@@ -4325,8 +4325,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					} else // significant figures
 					{
 						// Application.debug("figures"+roundingMenuLookup[decimals]+"");
-						text.setPrintFigures(
-								AppD.roundingMenuLookup[decimals], true);
+						text.setPrintFigures(AppD.roundingMenuLookup[decimals],
+								true);
 					}
 					((GeoElement) text).updateRepaint();
 
@@ -4778,10 +4778,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// =============================================
 			// create array of image files from toolbar icons
 			// for testing only ...
-			
+
 			imgFileNameList = new ArrayList<String>();
 			String imagePath = "/geogebra/gui/images/";
-			
+
 			imgFileNameList.add(""); // for delete
 			imgFileNameList.add(imagePath + "go-down.png");
 			imgFileNameList.add(imagePath + "go-up.png");
@@ -4793,12 +4793,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			imgFileNameList.add(imagePath + "nav_skipforward.png");
 			imgFileNameList.add("/geogebra/main/nav_play.png");
 			imgFileNameList.add("/geogebra/main/nav_pause.png");
-			
+
 			imgFileNameList.add(imagePath + "exit.png");
-			
-			
+
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
-			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);  
+			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
 			for (int i = 1; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
 						imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
@@ -4806,9 +4805,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// ============================================
 
 			// panel for button to open external file
-						
+
 			btnImage = new PopupMenuButton(app, iconArray, -1, 4,
-					new Dimension(32, 32), geogebra.common.gui.util.SelectionTable.MODE_ICON);
+					new Dimension(32, 32),
+					geogebra.common.gui.util.SelectionTable.MODE_ICON);
 			btnImage.setSelectedIndex(1);
 			btnImage.setStandardButton(true);
 			btnImage.setKeepVisible(false);
@@ -4820,7 +4820,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			btnPanel.add(btnImage);
 			btnPanel.add(btnOpenFile);
-			
+
 			// =====================================
 			// put all sub panels together
 
@@ -4831,7 +4831,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		private void updateFillTypePanel(int fillType) {
-			
+
 			switch (fillType) {
 
 			case GeoElement.FILL_STANDARD:
@@ -4853,10 +4853,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				this.btnImage.setVisible(true);
 
 				// for GeoButtons only show the image file button
-				if(hasGeoButton){
+				if (hasGeoButton) {
 					transparencyPanel.setVisible(false);
-					lblFillType.setVisible(false); 
-					cbFillType.setVisible(false); 
+					lblFillType.setVisible(false);
+					cbFillType.setVisible(false);
 					this.btnImage.setVisible(true);
 				}
 				break;
@@ -4898,12 +4898,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			fillingSlider.addChangeListener(this);
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
-			
+
 			// set selected image to first geo image
 			if (hasGeoButton) {
-				int index = imgFileNameList
-						.lastIndexOf(((GeoElement) geos[0])
-								.getImageFileName());
+				int index = imgFileNameList.lastIndexOf(((GeoElement) geos[0])
+						.getImageFileName());
 				btnImage.setSelectedIndex(index > 0 ? index : 0);
 			} else {
 				btnImage.setSelectedIndex(0);
@@ -4920,10 +4919,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			lblFillType.setVisible(true); // TODO remove this (see below)
 			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
-					
+
 				hasGeoButton = ((GeoElement) geos[i]).isGeoButton();
-				if (!(((GeoElement) geos[i]).isInverseFillable()) 
-						// transformed objects copy inverse filling from parents, so users can't change this
+				if (!(((GeoElement) geos[i]).isInverseFillable())
+				// transformed objects copy inverse filling from parents, so
+				// users can't change this
 						|| (((GeoElement) geos[i]).getParentAlgorithm() instanceof AlgoTransformation)) {
 					cbFillInverse.setVisible(false);
 					lblFillInverse.setVisible(false);
@@ -4932,9 +4932,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					geosOK = false;
 					break;
 				}
-				
+
 				// TODO add fill type for 3D elements
-				if (((GeoElement) geos[i]).isGeoElement3D() || ((GeoElement) geos[i]).isGeoImage()) {
+				if (((GeoElement) geos[i]).isGeoElement3D()
+						|| ((GeoElement) geos[i]).isGeoImage()) {
 					lblFillType.setVisible(false);
 					cbFillType.setVisible(false);
 				}
@@ -4973,25 +4974,26 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			// handle change in fill type
 			if (source == cbFillType) {
-				
+
 				int fillType = cbFillType.getSelectedIndex();
-				
+
 				// set selected image to first geo image
 				if (fillType == GeoElement.FILL_IMAGE
 						&& ((GeoElement) geos[0]).getFillImage() != null) {
 					btnImage.setSelectedIndex(this.imgFileNameList
-							.lastIndexOf(((GeoElement) geos[0]).getImageFileName()));
-				}else{
+							.lastIndexOf(((GeoElement) geos[0])
+									.getImageFileName()));
+				} else {
 					btnImage.setSelectedIndex(-1);
 				}
-				
+
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setFillType(fillType);
 					geo.updateRepaint();
 				}
 				fillingPanel.updateFillTypePanel(fillType);
-				
+
 			} else if (source == cbFillInverse) {
 
 				for (int i = 0; i < geos.length; i++) {
@@ -5499,15 +5501,14 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * panel to show a 2D view from a plane, polygon, etc.
 	 * 
 	 * @author mathieu
 	 */
-	private class ShowView2D extends JPanel implements
-			ItemListener, SetLabels, UpdateablePropertiesPanel {
+	private class ShowView2D extends JPanel implements ItemListener, SetLabels,
+			UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -5544,8 +5545,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			for (int i = 0; i < geos.length; i++) {
 				temp = (ViewCreator) geos[i];
 				// same object visible value
-				if (geo0.hasView2DVisible() != temp
-						.hasView2DVisible())
+				if (geo0.hasView2DVisible() != temp.hasView2DVisible())
 					equalVal = false;
 			}
 
@@ -5588,7 +5588,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 	}
-
 
 	/**
 	 * Panel for segment decoration
@@ -5956,7 +5955,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 		this.propPanel = propPanel;
 
 		// non auto complete input panel
-		InputPanelD inputPanel = new InputPanelD(null, app, -1 , false);
+		InputPanelD inputPanel = new InputPanelD(null, app, -1, false);
 		tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
 
 		tfCondition.addActionListener(this);
@@ -6254,7 +6253,6 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		defaultB = "" + col.getBlue() / 255.0;
 		defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
 
-		
 		// remove action listeners
 		tfRed.removeActionListener(this);
 		tfGreen.removeActionListener(this);
@@ -6275,10 +6273,12 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			strGreen = colorList.get(1).getLabel(StringTemplate.editTemplate);
 			strBlue = colorList.get(2).getLabel(StringTemplate.editTemplate);
 			if (colorList.size() == 4)
-				strAlpha = colorList.get(3).getLabel(StringTemplate.editTemplate);
+				strAlpha = colorList.get(3).getLabel(
+						StringTemplate.editTemplate);
 		}
-		
-		// set the selected color space and labels to match the first geo's color space
+
+		// set the selected color space and labels to match the first geo's
+		// color space
 		colorSpace = geo0.getColorSpace();
 		cbColorSpace.setSelectedIndex(colorSpace);
 		allowSetComboBoxLabels = false;
@@ -6290,12 +6290,16 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			geo = (GeoElement) geos[i];
 			GeoList colorListTemp = geo.getColorFunction();
 			if (colorListTemp != null) {
-				String strRedTemp = colorListTemp.get(0).getLabel(StringTemplate.editTemplate);
-				String strGreenTemp = colorListTemp.get(1).getLabel(StringTemplate.editTemplate);
-				String strBlueTemp = colorListTemp.get(2).getLabel(StringTemplate.editTemplate);
+				String strRedTemp = colorListTemp.get(0).getLabel(
+						StringTemplate.editTemplate);
+				String strGreenTemp = colorListTemp.get(1).getLabel(
+						StringTemplate.editTemplate);
+				String strBlueTemp = colorListTemp.get(2).getLabel(
+						StringTemplate.editTemplate);
 				String strAlphaTemp = "";
 				if (colorListTemp.size() == 4)
-					strAlphaTemp = colorListTemp.get(3).getLabel(StringTemplate.editTemplate);
+					strAlphaTemp = colorListTemp.get(3).getLabel(
+							StringTemplate.editTemplate);
 				if (!strRed.equals(strRedTemp))
 					strRed = "";
 				if (!strGreen.equals(strGreenTemp))
@@ -6310,17 +6314,16 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		// set the color fields
 		tfRed.setText(strRed);
 		tfGreen.setText(strGreen);
-		tfBlue.setText(strBlue);	
+		tfBlue.setText(strBlue);
 		tfAlpha.setText(strAlpha);
-		
-		
+
 		// restore action listeners
 		tfRed.addActionListener(this);
 		tfGreen.addActionListener(this);
 		tfBlue.addActionListener(this);
 		tfAlpha.addActionListener(this);
 		cbColorSpace.addActionListener(this);
-		
+
 		return this;
 	}
 
@@ -6380,8 +6383,8 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 					"{" + strRed + "," + strGreen + "," + strBlue + "}");
 
 			listAlpha = kernel.getAlgebraProcessor().evaluateToList(
-						"{" + strRed + "," + strGreen + "," + strBlue + ","
-								+ strAlpha + "}");
+					"{" + strRed + "," + strGreen + "," + strBlue + ","
+							+ strAlpha + "}");
 
 		}
 
@@ -6503,7 +6506,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 	private boolean checkGeos(Object[] geos) {
 
 		// always show this option, nothing to check
-		
+
 		return true;
 	}
 
@@ -6556,7 +6559,6 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
 
-
 	private boolean actionPerforming = false;
 	private boolean redefinitionFailed = false;
 	private Runnable doActionStopped = new Runnable() {
@@ -6590,7 +6592,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		// definition field: non auto complete input panel
 		inputPanelDef = new InputPanelD(null, app, 1, -1, true);
-		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef.getTextComponent();
+		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef
+				.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 		tfDefinition.addActionListener(this);
 		tfDefinition.addFocusListener(this);
@@ -6674,11 +6677,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				.isGeoButton()) && currentGeo.isIndependent()));
 		if (showDefinition) {
 			/*
-			tfDefinition.removeActionListener(this);
-			defInputHandler.setGeoElement(currentGeo);
-			tfDefinition.setText(getDefText(currentGeo));
-			tfDefinition.addActionListener(this);
-			*/
+			 * tfDefinition.removeActionListener(this);
+			 * defInputHandler.setGeoElement(currentGeo);
+			 * tfDefinition.setText(getDefText(currentGeo));
+			 * tfDefinition.addActionListener(this);
+			 */
 			updateDef(currentGeo);
 
 			if (currentGeo.isIndependent()) {
@@ -6705,19 +6708,19 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		return this;
 	}
-	
-	public void updateDef(GeoElement geo){
 
-		//do nothing if called by doActionPerformed
+	public void updateDef(GeoElement geo) {
+
+		// do nothing if called by doActionPerformed
 		if (actionPerforming)
 			return;
-		
+
 		tfDefinition.removeActionListener(this);
 		defInputHandler.setGeoElement(geo);
 		tfDefinition.setText(getDefText(geo));
 		tfDefinition.addActionListener(this);
-		
-		//App.printStacktrace(""+geo);
+
+		// App.printStacktrace(""+geo);
 	}
 
 	private static boolean checkGeos(Object[] geos) {
@@ -6750,11 +6753,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			String strDefinition = tfDefinition.getText();
 			if (!strDefinition.equals(getDefText(currentGeo))) {
 
-				if (defInputHandler.processInput(strDefinition)){	
-					//if succeeded, switch current geo
+				if (defInputHandler.processInput(strDefinition)) {
+					// if succeeded, switch current geo
 					currentGeo = defInputHandler.getGeoElement();
 					app.addSelectedGeo(currentGeo);
-				}else
+				} else
 					redefinitionFailed = true;
 
 				tfDefinition.requestFocusInWindow();
@@ -6771,41 +6774,36 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			}
 			currentGeo.updateRepaint();
 		}
-		
 
 		SwingUtilities.invokeLater(doActionStopped);
 	}
-
-	
 
 	public void focusGained(FocusEvent arg0) {
 	}
 
 	public void focusLost(FocusEvent e) {
-		
+
 		if (actionPerforming)
 			return;
-		
+
 		Object source = e.getSource();
 		if (source == tfDefinition) {
-			
-			if (redefinitionFailed){
-				redefinitionFailed=false;
+
+			if (redefinitionFailed) {
+				redefinitionFailed = false;
 				return;
 			}
-			
+
 			String strDefinition = getDefText(currentGeo);
 			if (!strDefinition.equals(tfDefinition.getText())) {
-				tfDefinition.setText(strDefinition);	
+				tfDefinition.setText(strDefinition);
 			}
 			SwingUtilities.invokeLater(doActionStopped);
 
-		} else { 	
+		} else {
 			doActionPerformed(source);
 		}
-		
 
-		
 	}
 
 	private static String getDefText(GeoElement geo) {

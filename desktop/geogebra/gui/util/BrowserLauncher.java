@@ -80,10 +80,10 @@ public class BrowserLauncher {
 					if (Runtime.getRuntime().exec(
 							new String[] {"which", browsers[count]}).waitFor() == 0)
 						browser = browsers[count];
-				if (browser == null)
+				if (browser == null) {
 					throw new Exception("Could not find web browser");
-				else
-					Runtime.getRuntime().exec(new String[] {browser, url});
+				}
+				Runtime.getRuntime().exec(new String[] {browser, url});
 			}
 		}
 		catch (Exception e) {

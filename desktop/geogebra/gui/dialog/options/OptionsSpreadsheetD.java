@@ -20,6 +20,7 @@ import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,8 +49,6 @@ import javax.swing.border.Border;
 public class OptionsSpreadsheetD extends
 		geogebra.common.gui.dialog.options.OptionsSpreadsheet implements
 		OptionPanelD, ActionListener, FocusListener, SetLabels {
-
-	private static final long serialVersionUID = 1L;
 
 	private AppD app;
 	private SpreadsheetView view;
@@ -226,7 +225,7 @@ public class OptionsSpreadsheetD extends
 		locationPanel.add(urlPanel);
 
 		JPanel setButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		setButtonPanel.setAlignmentX(wrappedPanel.LEFT_ALIGNMENT);
+		setButtonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		setButtonPanel.add(Box.createHorizontalStrut(2 * tab));
 		setButtonPanel.add(restoreButton);
 		setButtonPanel.add(setCurrentButton);

@@ -68,6 +68,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private InputBarHelpPanel thisPanel;
 	private Color bgColor = Color.WHITE;
 
+	//TODO remove?
 	private Color titleColor;
 
 	private MyJTree cmdTree, fcnTree;
@@ -669,8 +670,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
-				&& !descriptionCAS.equals(cmd + AppD.syntaxCAS)) {
-			if (!description.equals(cmd + AppD.syntaxStr))
+				&& !descriptionCAS.equals(cmd + App.syntaxCAS)) {
+			if (!description.equals(cmd + App.syntaxStr))
 				try {
 					doc.insertString(doc.getLength(), description + "\n",
 							doc.getStyle("regular"));

@@ -160,7 +160,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		createPlotMap();
 		createGUI();
-	
+
 	}
 
 	/**
@@ -183,7 +183,6 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		btnOptions.setSelected(false);
 
 	}
-	
 
 	// ==============================================
 	// GUI
@@ -321,7 +320,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		fldNumClasses.setToolTipText(app.getMenu("Classes"));
 		lblStart.setText(app.getMenu("Start") + ": ");
 		lblWidth.setText(app.getMenu("Width") + ": ");
-		if (mode == statDialog.MODE_REGRESSION) {
+		if (mode == StatDialog.MODE_REGRESSION) {
 			lblTitleX.setText(app.getMenu("Column.X") + ": ");
 			lblTitleY.setText(app.getMenu("Column.Y") + ": ");
 		}
@@ -335,7 +334,6 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	/**
 	 * Creates the JComboBox that selects display type
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void createDisplayTypeComboBox() {
 
 		if (cbDisplayType == null) {
@@ -385,7 +383,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		plotPanelNorth.removeAll();
 		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
-		if (selectedPlot == this.PLOT_SCATTERPLOT) {
+		if (selectedPlot == StatComboPanel.PLOT_SCATTERPLOT) {
 			plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			plotPanelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
 			plotPanelSouth.add(lblTitleX);
@@ -397,7 +395,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 		}
 
-		else if (selectedPlot == this.PLOT_HISTOGRAM) {
+		else if (selectedPlot == StatComboPanel.PLOT_HISTOGRAM) {
 
 			// plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			// plotPanelNorth.add(lblTitleY);
@@ -466,11 +464,13 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		});
 
 		sliderNumClasses.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				fldNumClasses.setVisible(true);
 				fldNumClasses.revalidate();
 			}
 
+			@Override
 			public void mouseExited(MouseEvent arg0) {
 				fldNumClasses.setVisible(false);
 				fldNumClasses.revalidate();
@@ -585,7 +585,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		if (hasControlPanel)
 			((CardLayout) controlCards.getLayout()).show(controlCards,
 					"blankPanel");
-		
+
 		if (doCreate) {
 			clearPlotGeoList();
 		}
@@ -594,13 +594,13 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		updatePlotPanelLayout();
 
 		// if invalid data, show blank plot and exit
-		if(!statDialog.getStatDialogController().isValidData()){
+		if (!statDialog.getStatDialogController().isValidData()) {
 			imageContainer.setIcon(null);
 			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
 					"imagePanel");
 			return;
 		}
-		
+
 		switch (selectedPlot) {
 
 		case PLOT_HISTOGRAM:
@@ -776,7 +776,6 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		}
 
-		
 		if (doCreate && statGeo.removeFromConstruction()) {
 			for (GeoElement listGeo : plotGeoList) {
 				// add the geo to our view and remove it from EV
@@ -896,7 +895,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	// Utilities
 	// ============================================================
 
-	private JPanel flowPanel(JComponent... comp) {
+	private static JPanel flowPanel(JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
@@ -905,7 +904,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		return p;
 	}
 
-	private JPanel flowPanelRight(JComponent... comp) {
+	private static JPanel flowPanelRight(JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
@@ -914,7 +913,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		return p;
 	}
 
-	private JPanel boxXPanel(JComponent... comp) {
+	private static JPanel boxXPanel(JComponent... comp) {
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 		for (int i = 0; i < comp.length; i++) {
@@ -987,7 +986,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = app.getShiftDown() ? app.getEuclidianView2()
+				euclidianViewID = AppD.getShiftDown() ? app.getEuclidianView2()
 						.getViewID() : app.getEuclidianView1().getViewID();
 			}
 

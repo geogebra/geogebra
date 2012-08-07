@@ -69,7 +69,7 @@ public class StatDialogOptionsPanel extends JPanel implements ActionListener,
 
 	}
 
-	private JComponent insetPanel(JComponent comp, int inset) {
+	private static JComponent insetPanel(JComponent comp, int inset) {
 		comp.setBorder(BorderFactory.createEmptyBorder(2, inset, 0, 0));
 		return comp;
 	}

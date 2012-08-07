@@ -40,6 +40,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.JToolTip;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
@@ -215,7 +216,7 @@ public class ModeToggleMenu extends JPanel {
 													// inside an awt window
 			Point locApp = component.getLocationOnScreen();
 			
-			if (toolbar.getOrientation() == JToolBar.HORIZONTAL) {
+			if (toolbar.getOrientation() == SwingConstants.HORIZONTAL) {
 				popMenu.show(component, locButton.x - locApp.x, locButton.y
 						- locApp.y + tbutton.getHeight());
 			} else {

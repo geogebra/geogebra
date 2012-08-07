@@ -31,12 +31,13 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 
 /**
- * Provides infrastructure for realizing a simple auto completion mechanism
- * for {@link JTextField} components.
- * A user should prefer one of the static <code>install</code> methods in the
- * {@link AutoCompletion} class over instantiating this class directly.
+ * Provides infrastructure for realizing a simple auto completion mechanism for
+ * {@link JTextField} components. A user should prefer one of the static
+ * <code>install</code> methods in the {@link AutoCompletion} class over
+ * instantiating this class directly.
  * 
- * @param <T> The type of the displayed completion options 
+ * @param <T>
+ *            The type of the displayed completion options
  * 
  * @author Julian Lettner
  */
@@ -44,30 +45,36 @@ public class OptionsPopup<T> {
 	private final JTextField textField;
 	private final CompletionProvider<T> completionProvider;
 	private final int maxPopupRowCount;
-	
+
 	private final JPopupMenu popup;
 	private final DelegatingListModel listModel;
 	private final JList list;
-	
+
 	private DocumentListener documentListener;
 	private String userInput;
 	private int popupRowCount;
-	
+
 	/**
 	 * Initializes components and registers event listeners.
 	 * 
-	 * @param textField The text field
-	 * @param completionProvider A completion provider (The returned values will be 
-	 * 							 the input for the supplied {@link ListCellRenderer})
-	 * @param listCellRenderer A list cell renderer which visualizes the options 
-	 *                         returned by the provided {@link CompletionProvider}
-	 * @param maxPopupRowCount The maximal number of rows for the options popup
+	 * @param textField
+	 *            The text field
+	 * @param completionProvider
+	 *            A completion provider (The returned values will be the input
+	 *            for the supplied {@link ListCellRenderer})
+	 * @param listCellRenderer
+	 *            A list cell renderer which visualizes the options returned by
+	 *            the provided {@link CompletionProvider}
+	 * @param maxPopupRowCount
+	 *            The maximal number of rows for the options popup
 	 */
-	public OptionsPopup(JTextField textField, CompletionProvider<T> completionProvider, ListCellRenderer listCellRenderer, int maxPopupRowCount) {
+	public OptionsPopup(JTextField textField,
+			CompletionProvider<T> completionProvider,
+			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
 		this.textField = textField;
 		this.completionProvider = completionProvider;
 		this.maxPopupRowCount = maxPopupRowCount;
-		
+
 		// Initialize components
 		listModel = new DelegatingListModel();
 		list = new JList(listModel);
@@ -78,39 +85,57 @@ public class OptionsPopup<T> {
 		popup.add(new JScrollPane(list));
 		popup.setBorder(BorderFactory.createEmptyBorder());
 		popup.setFocusable(false);
-		
+
 		registerListeners();
 	}
 
 	private void registerListeners() {
-		// Suggest completions on text changes, store reference to listener object
+		// Suggest completions on text changes, store reference to listener
+		// object
 		documentListener = new DocumentListener() {
-			public void removeUpdate(DocumentEvent e) { showCompletion(); }
-			public void insertUpdate(DocumentEvent e) { showCompletion(); }
-			public void changedUpdate(DocumentEvent e) { showCompletion(); }
+			public void removeUpdate(DocumentEvent e) {
+				showCompletion();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				showCompletion();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				showCompletion();
+			}
 		};
 		textField.getDocument().addDocumentListener(documentListener);
 		// Handle special keys (e.g. navigation)
 		textField.addKeyListener(new KeyAdapter() {
-			@Override public void keyPressed(KeyEvent e) { handleSpecialKeys(e); }
+			@Override
+			public void keyPressed(KeyEvent e) {
+				handleSpecialKeys(e);
+			}
 		});
 		// Hide popup when text field loses focus
 		textField.addFocusListener(new FocusAdapter() {
-			@Override public void focusLost(FocusEvent e) { hideOptionsPopup(); }
+			@Override
+			public void focusLost(FocusEvent e) {
+				hideOptionsPopup();
+			}
 		});
 		// Allow the user click on a option for completion
 		list.addMouseListener(new MouseAdapter() {
-			@Override public void mouseClicked(MouseEvent e) { handleMouseClick(e); }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				handleMouseClick(e);
+			}
 		});
 	}
-	
+
 	private void showCompletion() {
 		userInput = textField.getText();
 		if (null == userInput || 0 == userInput.length()) {
 			hideOptionsPopup();
 			return;
 		}
-		
+
 		List<?> options = completionProvider.getCompletionOptions(userInput);
 		if (null != options && 0 != options.size()) {
 			listModel.setDataList(options);
@@ -119,25 +144,25 @@ public class OptionsPopup<T> {
 			hideOptionsPopup();
 		}
 	}
-	
-	private void showOptionsPopup() {		
+
+	private void showOptionsPopup() {
 		// Adjust size of the popup if necessary
 		int newPopupRowCount = Math.min(listModel.getSize(), maxPopupRowCount);
 		adjustPopupSize(newPopupRowCount);
-		
+
 		// Show popup just beneath the text field
 		if (!isOptionsPopupVisible()) {
 			popup.show(textField, 0, textField.getHeight());
 		}
 	}
-	
+
 	// Adjusts the size of the popup (tricky)
 	private void adjustPopupSize(int newPopupRowCount) {
 		if (popupRowCount == newPopupRowCount) {
 			return;
 		}
 		popupRowCount = newPopupRowCount;
-		
+
 		// Set visible row count in list
 		list.setVisibleRowCount(popupRowCount);
 		// Let the UI calculate the preferred size
@@ -150,7 +175,7 @@ public class OptionsPopup<T> {
 		popup.setPreferredSize(size);
 		popup.pack();
 	}
-	
+
 	private boolean isOptionsPopupVisible() {
 		return popup.isVisible();
 	}
@@ -161,41 +186,41 @@ public class OptionsPopup<T> {
 			list.clearSelection();
 		}
 	}
-	
+
 	private void updateText() {
-		@SuppressWarnings("unchecked")
 		T option = (T) list.getSelectedValue();
-		String text = option == null ? userInput : completionProvider.toString(option);
+		String text = option == null ? userInput : completionProvider
+				.toString(option);
 		Document d = textField.getDocument();
 		d.removeDocumentListener(documentListener);
 		textField.setText(text);
 		d.addDocumentListener(documentListener);
 	}
-	
+
 	private void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isOptionsPopupVisible()) {
 			return;
 		}
 
-		switch(keyEvent.getKeyCode()) {
-		case VK_ESCAPE:			// [ESC]
+		switch (keyEvent.getKeyCode()) {
+		case VK_ESCAPE: // [ESC]
 			hideOptionsPopup();
 			keyEvent.consume();
 			break;
-		case VK_ENTER:			// [ENTER]
+		case VK_ENTER: // [ENTER]
 			hideOptionsPopup();
 			textField.selectAll();
 			break;
-		case VK_DOWN:			// [DOWN]
+		case VK_DOWN: // [DOWN]
 			navigateRelative(+1);
 			break;
-		case VK_UP:				// [UP]
+		case VK_UP: // [UP]
 			navigateRelative(-1);
-			break;	
-		case VK_PAGE_DOWN:		// [PAGE_DOWN]
+			break;
+		case VK_PAGE_DOWN: // [PAGE_DOWN]
 			navigateRelative(+maxPopupRowCount - 1);
 			break;
-		case VK_PAGE_UP:		// [PAGE_UP]
+		case VK_PAGE_UP: // [PAGE_UP]
 			navigateRelative(-maxPopupRowCount + 1);
 			break;
 		}
@@ -205,18 +230,18 @@ public class OptionsPopup<T> {
 		boolean up = offset < 0;
 		int end = listModel.getSize() - 1;
 		int index = list.getSelectedIndex();
-		
+
 		// Wrap around
 		if (-1 == index) {
 			index = up ? end : 0;
 		} else if (0 == index && up || end == index && !up) {
-			index = - 1;
+			index = -1;
 		} else {
 			index += offset;
 			index = max(0, min(end, index));
 		}
 
-		if(-1 == index) {
+		if (-1 == index) {
 			list.clearSelection();
 		} else {
 			list.setSelectedIndex(index);
@@ -224,7 +249,7 @@ public class OptionsPopup<T> {
 		}
 		updateText();
 	}
-	
+
 	private void handleMouseClick(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			updateText();

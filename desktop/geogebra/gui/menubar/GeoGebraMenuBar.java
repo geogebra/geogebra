@@ -481,7 +481,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append("\nHeap: ");
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB\nCAS: ");
-		sb.append(AppD.getCASVersionString());
+		sb.append(App.getCASVersionString());
 		sb.append("\n\n");
 
 		// copy log file to systemInfo

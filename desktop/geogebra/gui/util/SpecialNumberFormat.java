@@ -2,6 +2,7 @@ package geogebra.gui.util;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -94,7 +95,7 @@ public class SpecialNumberFormat implements ActionListener {
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, AppD.strDecimalSpacesAC, 0);
+				strDecimalSpaces, App.strDecimalSpacesAC, 0);
 
 		updateMenuDecimalPlaces(); 
 		
@@ -110,11 +111,11 @@ public class SpecialNumberFormat implements ActionListener {
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < AppD.figuresLookup.length)
-				pos = AppD.figuresLookup[printFigures];
+			if (printFigures > 0 && printFigures < App.figuresLookup.length)
+				pos = App.figuresLookup[printFigures];
 		} else {
-			if (printDecimals > 0 && printDecimals < AppD.decimalsLookup.length)
-				pos = AppD.decimalsLookup[printDecimals];
+			if (printDecimals > 0 && printDecimals < App.decimalsLookup.length)
+				pos = App.decimalsLookup[printDecimals];
 		}
 
 		try {

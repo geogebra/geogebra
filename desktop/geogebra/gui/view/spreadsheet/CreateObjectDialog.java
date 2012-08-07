@@ -49,8 +49,6 @@ import javax.swing.event.ListSelectionListener;
  */
 public class CreateObjectDialog extends InputDialogD implements
 		ListSelectionListener, FocusListener {
-
-	private static final long serialVersionUID = 1L;
 	
 	private SpreadsheetView view;
 	private CellRangeProcessor cp;
@@ -132,7 +130,6 @@ public class CreateObjectDialog extends InputDialogD implements
 		wrappedDialog.addWindowFocusListener(this);
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void createAdditionalGUI() {
 
 		model = new DefaultListModel();

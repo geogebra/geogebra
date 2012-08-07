@@ -66,7 +66,8 @@ import javax.swing.tree.TreePath;
  * @author G.Sturr 2010-2-6
  * 
  */
-public class FileBrowserPanel extends JPanel implements ActionListener, TreeSelectionListener, TreeExpansionListener {
+public class FileBrowserPanel extends JPanel implements ActionListener,
+		TreeSelectionListener, TreeExpansionListener {
 	private static final long serialVersionUID = 1L;
 	// components
 	private SpreadsheetView view;
@@ -76,13 +77,13 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	private DefaultTreeModel treeModel;
 
 	// parser
-	private   QDParser xmlParser;
-	private   MyFileTreeHandler handler;
+	private QDParser xmlParser;
+	private MyFileTreeHandler handler;
 
 	// directory
 	private Object root;
 	private File rootFile;
-	private URL rootURL;	
+	private URL rootURL;
 
 	// GUI
 	public JButton minimizeButton;
@@ -95,8 +96,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	public final static int MODE_FILE = 1;
 	public final static int MODE_HTML = 2;
 	private int mode;
-	
-	
+
 	/**
 	 * Constructs a file browser panel with an empty file tree. Use setRoot() to
 	 * load a directory into the tree.
@@ -104,69 +104,67 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	public FileBrowserPanel(SpreadsheetView view) {
 
 		this.view = view;
-		browserPanel = this;	
+		browserPanel = this;
 		app = view.getApplication();
 
 		xmlParser = new QDParser();
 		handler = new MyFileTreeHandler();
 
 		setBackground(view.table.getBackground());
-		setLayout(new BorderLayout());	
+		setLayout(new BorderLayout());
 
-
-		//======================================		
+		// ======================================
 		// Create file tree
 
 		tree = new JTree(new DefaultMutableTreeNode());
 		treeModel = (DefaultTreeModel) tree.getModel();
 		// add listeners
-		tree.addTreeSelectionListener(this); 
+		tree.addTreeSelectionListener(this);
 		tree.addTreeExpansionListener(this);
 
 		// set visual properties
-		//tree.setRootVisible(false);
+		// tree.setRootVisible(false);
 		MyRenderer renderer = new MyRenderer();
-		tree.setCellRenderer(renderer);	
-		tree.setFont(app.getPlainFont());	
-		tree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));			
+		tree.setCellRenderer(renderer);
+		tree.setFont(app.getPlainFont());
+		tree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		//TODO is this needed?
+		// TODO is this needed?
 		tree.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseEntered(MouseEvent e) {
 				requestFocusInWindow();
 			}
 		});
 
-		// enclose tree in a scroll pane 
+		// enclose tree in a scroll pane
 		JScrollPane treePane = new JScrollPane(tree);
 
-
 		// mouse listener to trigger context menu
-		tree.addMouseListener ( new MouseAdapter ()
-		{
-			public void mousePressed (MouseEvent e) {
-				if(AppD.isRightClick(e) && mode == MODE_FILE){		
-					//ContextMenu contextMenu = new ContextMenu();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (AppD.isRightClick(e) && mode == MODE_FILE) {
+					// ContextMenu contextMenu = new ContextMenu();
 					FileBrowserMenu contextMenu = new FileBrowserMenu();
-					contextMenu.show(e.getComponent(), e.getX(),e.getY());
+					contextMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
-		}
-		);
+		});
 
-		//======================================	
+		// ======================================
 		// Create header
 
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
-		//menuButton = new JButton(app.getMenu("Load")+ "...");  
-		menuButton = new JButton(dropDownIcon(app.getImageIcon("aux_folder.gif"), this.getBackground()));
-		//menuButton = new JButton(app.getImageIcon("aux_folder.gif"));
+		// menuButton = new JButton(app.getMenu("Load")+ "...");
+		menuButton = new JButton(dropDownIcon(
+				app.getImageIcon("aux_folder.gif"), this.getBackground()));
+		// menuButton = new JButton(app.getImageIcon("aux_folder.gif"));
 		menuButton.setBorderPainted(false);
 		menuButton.setFont(app.getPlainFont());
 		menuButton.addActionListener(this);
 		toolbar.add(menuButton);
-
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
@@ -180,45 +178,39 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 		JPanel header = new JPanel(new BorderLayout());
 		header.add(toolbar, BorderLayout.WEST);
 		header.add(buttonPanel, BorderLayout.EAST);
-		//	header.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-		//		.createEtchedBorder(), BorderFactory.createEmptyBorder(2, 5, 2,5)));
+		// header.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+		// .createEtchedBorder(), BorderFactory.createEmptyBorder(2, 5, 2,5)));
 
-
-		//===========================================	
+		// ===========================================
 		// Add all components to the browser panel
 
 		this.add(header, BorderLayout.NORTH);
 		this.add(treePane, BorderLayout.CENTER);
 
-		
 		updateFonts();
-
 
 	}
 
+	// =============================================
+	// Context Menu
+	// =============================================
 
-	
-	
-	//=============================================
-	//      Context Menu
-	//=============================================
-
-	private class ContextMenu extends JPopupMenu{
+	private class ContextMenu extends JPopupMenu {
 		private static final long serialVersionUID = 1L;
 		JMenuItem menuItem;
 
-		public  ContextMenu(){
+		public ContextMenu() {
 			this.setOpaque(true);
-			setBackground(bgColor);	
+			setBackground(bgColor);
 			setFont(app.getPlainFont());
 
-			menuItem = new JMenuItem(app.getMenu("SaveToXML") + "...", app.getEmptyIcon());
+			menuItem = new JMenuItem(app.getMenu("SaveToXML") + "...",
+					app.getEmptyIcon());
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
 						saveXMLTree(rootFile);
-
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -230,23 +222,21 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 		}
 	}
 
+	// =============================================
+	// File Browser Menu
+	// =============================================
 
-
-
-	//=============================================
-	//      File Browser Menu
-	//=============================================
-
-	private class FileBrowserMenu extends JPopupMenu{
+	private class FileBrowserMenu extends JPopupMenu {
 		private static final long serialVersionUID = 1L;
 		JMenuItem menuItem;
 
-		public  FileBrowserMenu(){
+		public FileBrowserMenu() {
 			this.setOpaque(true);
-			setBackground(bgColor);	
+			setBackground(bgColor);
 			setFont(app.getPlainFont());
 
-			menuItem = new JMenuItem(app.getMenu("OpenFileFolder") + "...", app.getImageIcon("document-open.png"));
+			menuItem = new JMenuItem(app.getMenu("OpenFileFolder") + "...",
+					app.getImageIcon("document-open.png"));
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser fc = new JFileChooser();
@@ -256,26 +246,30 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 						setRoot(fc.getSelectedFile(), MODE_FILE);
 						view.settings().setInitialBrowserMode(MODE_FILE);
 					}
-					
+
 				}
 			});
 			add(menuItem);
 			menuItem.setBackground(bgColor);
 
-			menuItem = new JMenuItem(app.getMenu("OpenFromWebpage") + "..." , app.getImageIcon("wiki.png"));
+			menuItem = new JMenuItem(app.getMenu("OpenFromWebpage") + "...",
+					app.getImageIcon("wiki.png"));
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
 
-						//TODO: 1) drop down history of URLs
-						
-						//	URL url = new URL("http://www.santarosa.edu/~gsturr/data/Text.xml");
-						//	URL url = new URL("http://www.santarosa.edu/~gsturr/data/BPS5/BPS5.xml");
-						String initString = "http://";				
-						initString  = view.DEFAULT_URL;
+						// TODO: 1) drop down history of URLs
 
-						InputDialogD id = new InputDialogOpenDataFolderURL(app,view, initString);
+						// URL url = new
+						// URL("http://www.santarosa.edu/~gsturr/data/Text.xml");
+						// URL url = new
+						// URL("http://www.santarosa.edu/~gsturr/data/BPS5/BPS5.xml");
+						String initString = "http://";
+						initString = view.DEFAULT_URL;
+
+						InputDialogD id = new InputDialogOpenDataFolderURL(app,
+								view, initString);
 						id.setVisible(true);
 
 						// setDirectory(url);
@@ -286,10 +280,11 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 			});
 			add(menuItem);
 			menuItem.setBackground(bgColor);
-			
+
 			addSeparator();
 
-			menuItem = new JMenuItem(app.getMenu("SaveToXML") + "...", app.getEmptyIcon());
+			menuItem = new JMenuItem(app.getMenu("SaveToXML") + "...",
+					app.getEmptyIcon());
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -305,18 +300,14 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 			add(menuItem);
 			menuItem.setBackground(bgColor);
 			menuItem.setEnabled(mode == MODE_FILE);
-					
 
 		}
 	}
 
+	// =============================================
+	// Set Directory Tree
+	// =============================================
 
-
-	//=============================================
-	//   Set Directory Tree
-	//=============================================
-
-	
 	public Object getRoot() {
 		return root;
 	}
@@ -325,66 +316,66 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 		String rootString = null;
 
-		if(mode == MODE_FILE)
+		if (mode == MODE_FILE)
 			rootString = rootFile.getPath();
-		if(mode == MODE_URL)
+		if (mode == MODE_URL)
 			rootString = rootURL.getPath();
 
 		return rootString;
 	}
-	
-	public int getMode(){
+
+	public int getMode() {
 		return mode;
 	}
-	
-	
+
 	public boolean setRoot(String rootString, int mode) {
-		
+
 		Object root = null;
-		
-			if(mode == MODE_FILE)
-				root = new File(rootString);
-			else
-				try {
-					root = new URL(rootString);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-					return false;
-				}
+
+		if (mode == MODE_FILE)
+			root = new File(rootString);
+		else
+			try {
+				root = new URL(rootString);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+				return false;
+			}
 		setRoot(root, mode);
 		return true;
 	}
-	
+
 	public void setRoot(Object root, int mode) {
-			
-		if (root == null) return;
-		
+
+		if (root == null)
+			return;
+
 		this.root = root;
 		this.mode = mode;
-		
-		if(mode == MODE_URL)
+
+		if (mode == MODE_URL)
 			this.rootURL = (URL) root;
-		if(mode == MODE_FILE)
+		if (mode == MODE_FILE)
 			this.rootFile = (File) root;
-		
+
 		loadRootDirectory();
 	}
-	
-	
-	private boolean loadRootDirectory(){
+
+	private boolean loadRootDirectory() {
 
 		boolean succ = true;
 
-		switch (mode){
+		switch (mode) {
 
-		case MODE_URL :
+		case MODE_URL:
 			this.rootURL = (URL) root;
 			InputStream is;
 			try {
 
 				is = rootURL.openStream();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-				xmlParser.parse(handler,reader);
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(is));
+				xmlParser.parse(handler, reader);
 
 				treeModel.setRoot(handler.getFileTree());
 				treeModel.reload();
@@ -392,7 +383,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 				is.close();
 
 			} catch (Exception e) {
-				
+
 				e.printStackTrace();
 				succ = false;
 			}
@@ -414,23 +405,18 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 				succ = false;
 			}
 
-		}	
+		}
 
 		return succ;
 
 	}
 
-
-
-
-
-	//=============================================
+	// =============================================
 	// Event Handlers
-	//=============================================
-
+	// =============================================
 
 	/**
-	 * Handle button clicks. 
+	 * Handle button clicks.
 	 */
 	public void actionPerformed(ActionEvent e) {
 
@@ -442,22 +428,20 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 			menu.show(app.getMainComponent(), locButton.x - locApp.x,
 					locButton.y - locApp.y + menuButton.getHeight());
 
-			// minimize the browser	
+			// minimize the browser
 		} else if (e.getSource() == minimizeButton) {
 			view.minimizeBrowserPanel();
 			minimizeButton.getModel().setRollover(false);
 		}
 	}
 
-
-
 	/**
-	 * Listener for data file (tree leaf) selection. Creates a path
-	 * string for the file and then loads the file into the spreadsheet.
+	 * Listener for data file (tree leaf) selection. Creates a path string for
+	 * the file and then loads the file into the spreadsheet.
 	 */
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
-		.getLastSelectedPathComponent();
+				.getLastSelectedPathComponent();
 
 		if (node == null)
 			return;
@@ -465,7 +449,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 		if (node.isLeaf()) {
 			TreePath p = e.getPath();
 
-			switch(mode){
+			switch (mode) {
 			case MODE_URL:
 				try {
 					view.loadSpreadsheetFromURL(getURLFromPath(p));
@@ -483,18 +467,16 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 	}
 
-
-
 	/**
 	 * Listener for expanded node. Adds sub-directory contents to the tree when
-	 * a node is expanded.
-	 * Note: currently, XML trees have depth = 1 and cannot be expanded
+	 * a node is expanded. Note: currently, XML trees have depth = 1 and cannot
+	 * be expanded
 	 */
 	public void treeExpanded(TreeExpansionEvent e) {
 
-		if(mode == MODE_FILE){
+		if (mode == MODE_FILE) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath()
-			.getLastPathComponent();
+					.getLastPathComponent();
 
 			addFileTree(node, getFileFromPath(e.getPath()));
 			treeModel.reload(node);
@@ -508,24 +490,24 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	/**
 	 * Update fonts
 	 */
-	public void updateFonts(){
+	public void updateFonts() {
 		Font font = app.getPlainFont();
 		setFont(font);
 		menuButton.setFont(app.getPlainFont());
 		repaint();
 	}
 
-
-
-
 	// =============================================
-	//         Tree Cell Renderer
+	// Tree Cell Renderer
 	// =============================================
 
 	private class MyRenderer extends DefaultTreeCellRenderer {
 		private static final long serialVersionUID = 1L;
-		public MyRenderer() { }
 
+		public MyRenderer() {
+		}
+
+		@Override
 		public Component getTreeCellRendererComponent(JTree tree, Object value,
 				boolean sel, boolean expanded, boolean leaf, int row,
 				boolean hasFocus) {
@@ -533,56 +515,53 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 			super.getTreeCellRendererComponent(tree, value, sel, expanded,
 					leaf, row, hasFocus);
 
-			if (value == null) {		
+			if (value == null) {
 				setText("");
 				return this;
 			}
 			setFont(app.getPlainFont());
-			String text = value.toString();			
+			String text = value.toString();
 			if (leaf) {
 				setIcon(null);
 				if (text != null && text.contains(".")) {
 					text = text.substring(0, text.lastIndexOf("."));
 				}
-			}		
-			setText(text);		
+			}
+			setText(text);
 
 			return this;
 		}
 	}
 
-
-
-
 	// =============================================
-	//        File system methods
+	// File system methods
 	// =============================================
 
 	/**
-	 * Adds the entries in a file directory to a tree node. 
-	 * (Does not traverse sub-directories.)
+	 * Adds the entries in a file directory to a tree node. (Does not traverse
+	 * sub-directories.)
 	 */
-	private void addFileTree(DefaultMutableTreeNode node, File dir ) {
+	private void addFileTree(DefaultMutableTreeNode node, File dir) {
 
 		// Get list of entries in rootDir.
 		// Exit if no entries, otherwise sort the list
-		File [] dirList = dir.listFiles(new DataFileFilter());
+		File[] dirList = dir.listFiles(new DataFileFilter());
 
-		if(dirList == null ) {
+		if (dirList == null) {
 			node.add(new DefaultMutableTreeNode());
-			return;			
+			return;
 		}
 		sortFileList(dirList);
 
-
 		// Add nodes for each directory and text file.
-		node.removeAllChildren();	
+		node.removeAllChildren();
 		for (File file : dirList) {
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
 					file.getName());
 			if (file.isDirectory()) {
 				newNode.add(new DefaultMutableTreeNode());
-				node.add(newNode);}
+				node.add(newNode);
+			}
 			if (file.isFile()) {
 				node.add(newNode);
 			}
@@ -590,7 +569,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 		// If our node is still empty, add a child so the tree will display a
 		// a directory folder.
-		if(node.getChildCount()==0)
+		if (node.getChildCount() == 0)
 			node.add(new DefaultMutableTreeNode());
 
 		return;
@@ -598,11 +577,9 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	}
 
 	@SuppressWarnings("unchecked")
-	private void sortFileList(File [] fileList){
-		Arrays.sort(fileList, new Comparator()
-		{
-			public int compare(Object o1, Object o2)
-			{
+	private static void sortFileList(File[] fileList) {
+		Arrays.sort(fileList, new Comparator() {
+			public int compare(Object o1, Object o2) {
 				return ((File) o1).getName().compareTo(((File) o2).getName());
 			}
 		});
@@ -615,73 +592,66 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 		public boolean accept(File dir, String name) {
 
-			File f = new File(dir.getPath() + dir.separatorChar + name);
-			if (f.isDirectory())
+			File f = new File(dir.getPath() + File.separatorChar + name);
+			if (f.isDirectory()) {
 				return true;
+			}
 
-			String[] extensions = { "txt", "csv","dat" };
+			String[] extensions = { "txt", "csv", "dat" };
 			name = name.toLowerCase();
 			for (int i = extensions.length - 1; i >= 0; i--) {
 				if (name.endsWith(extensions[i])) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 	}
 
-
-	private File getFileFromPath(TreePath p){
+	private File getFileFromPath(TreePath p) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(rootFile.getPath()+ File.separator);
-		for(int i=1;i< p.getPathCount()-1;i++){
-			sb.append(p.getPathComponent(i).toString()+ File.separator);
+		sb.append(rootFile.getPath() + File.separator);
+		for (int i = 1; i < p.getPathCount() - 1; i++) {
+			sb.append(p.getPathComponent(i).toString() + File.separator);
 		}
 		sb.append(p.getLastPathComponent().toString());
 		return new File(sb.toString());
 	}
 
-	
-	private URL getURLFromPath(TreePath p) throws MalformedURLException{
+	private URL getURLFromPath(TreePath p) throws MalformedURLException {
 
 		String dirPath = rootURL.getFile();
 
-		//Extract the URL directory path from the name of the XML file.
-		//We assume that the XML file is located within the data file
-		//at the topmost level.
-		//TODO -- is there a better way?
+		// Extract the URL directory path from the name of the XML file.
+		// We assume that the XML file is located within the data file
+		// at the topmost level.
+		// TODO -- is there a better way?
 		int lastIndex = dirPath.lastIndexOf("/");
 		dirPath = dirPath.substring(0, lastIndex);
 		lastIndex = dirPath.lastIndexOf("/");
 		dirPath = dirPath.substring(0, lastIndex);
 
-		for(int i=0;i< p.getPathCount();i++){
+		for (int i = 0; i < p.getPathCount(); i++) {
 			dirPath += "/" + p.getPathComponent(i).toString();
-		}	
-		//System.out.println("dirpath: " + dirPath);
+		}
+		// System.out.println("dirpath: " + dirPath);
 
-
-		return new URL(rootURL.getProtocol(),rootURL.getHost(),dirPath);
+		return new URL(rootURL.getProtocol(), rootURL.getHost(), dirPath);
 
 	}
 
-
-
-
-	//==============================
-	//        XML 
-	//==============================
+	// ==============================
+	// XML
+	// ==============================
 
 	private void saveXMLTree(File rootDir) {
 
 		StringBuilder sb = buildXMLFileTree(rootDir);
-		//System.out.println(sb);
+		// System.out.println(sb);
 		JFileChooser fc = new JFileChooser();
-		fc.setSelectedFile(new File(rootDir.getName()+ ".xml"));
+		fc.setSelectedFile(new File(rootDir.getName() + ".xml"));
 		fc.setCurrentDirectory(rootFile);
-
 
 		int returnVal = fc.showSaveDialog(browserPanel);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -715,7 +685,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 	private void traverseDirectory(File dir, StringBuilder sb) {
 
-		File [] fileList = dir.listFiles(new DataFileFilter());
+		File[] fileList = dir.listFiles(new DataFileFilter());
 
 		sortFileList(fileList);
 		for (File file : fileList) {
@@ -731,9 +701,8 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 	}
 
-
 	/**
-	 * Handler used by QDParser to parse XML file trees. 
+	 * Handler used by QDParser to parse XML file trees.
 	 */
 	public static class MyFileTreeHandler implements DocHandler {
 
@@ -741,7 +710,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 		private DefaultMutableTreeNode currentNode = new DefaultMutableTreeNode();
 
 		public void startElement(String tag, LinkedHashMap<String, String> h)
-		throws Exception {
+				throws Exception {
 
 			if (tag.equals("root")) {
 				currentNode = new DefaultMutableTreeNode(h.get("name"));
@@ -758,7 +727,8 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 					DefaultMutableTreeNode newFileNode = new DefaultMutableTreeNode();
 					currentNode.add(newFileNode);
 				} else {
-					DefaultMutableTreeNode newFileNode = new DefaultMutableTreeNode(h.get("name"));
+					DefaultMutableTreeNode newFileNode = new DefaultMutableTreeNode(
+							h.get("name"));
 					currentNode.add(newFileNode);
 				}
 			}
@@ -785,43 +755,35 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 
 		public int getConsStep() {
 			return 0;
-		}		
+		}
 	}
 
-	/** 
-	 * Add a downward triangle to an icon to indicate a drop down menu. */
-	private ImageIcon dropDownIcon( ImageIcon icon, Color bgColor) {
+	/**
+	 * Add a downward triangle to an icon to indicate a drop down menu.
+	 */
+	private static ImageIcon dropDownIcon(ImageIcon icon, Color bgColor) {
 
-		// Create image 
+		// Create image
 		int w = icon.getIconWidth();
 		int h = icon.getIconHeight();
-		
-		BufferedImage image = new BufferedImage(w + 14, h, BufferedImage.TYPE_INT_ARGB);
+
+		BufferedImage image = new BufferedImage(w + 14, h,
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = image.createGraphics();
 
-	
 		g2.drawImage(icon.getImage(), 0, 0, w, h, 0, 0, w, h, null);
 
 		// right hand side: a downward triangle
 		g2.setColor(Color.BLACK);
 		int x = w + 5;
-		int y = h/2-1;
-		g2.drawLine(x, y, x+6, y);
-		g2.drawLine(x+1, y+1, x+5, y+1);
-		g2.drawLine(x+2, y+2, x+4, y+2);
-		g2.drawLine(x+3, y+3, x+3, y+3);
+		int y = h / 2 - 1;
+		g2.drawLine(x, y, x + 6, y);
+		g2.drawLine(x + 1, y + 1, x + 5, y + 1);
+		g2.drawLine(x + 2, y + 2, x + 4, y + 2);
+		g2.drawLine(x + 3, y + 3, x + 3, y + 3);
 
-		return new ImageIcon(image);	
+		return new ImageIcon(image);
 
 	}
 
-	
-	
-	
-	
-	
-	
-
 }
-
-

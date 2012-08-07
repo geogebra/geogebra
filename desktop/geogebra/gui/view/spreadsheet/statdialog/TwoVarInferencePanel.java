@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
@@ -57,7 +58,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener, Focu
 	// test type (tail)
 	private static final String tail_left = "<";
 	private static final String tail_right = ">";
-	private static final String tail_two = ExpressionNode.strNOT_EQUAL;
+	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 	private String tail = tail_two;
 
 
@@ -109,8 +110,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener, Focu
 	//           Create GUI 
 	//============================================================
 
-
-	@SuppressWarnings("rawtypes")
 	private void createGUIElements(){
 
 		// components

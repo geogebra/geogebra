@@ -13,7 +13,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -227,8 +226,8 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		setDefaultRenderer(Object.class,
-				new MyCellRenderer(app, view, (CellFormat) this.getCellFormatHandler()));
+		setDefaultRenderer(Object.class, new MyCellRenderer(app, view,
+				(CellFormat) this.getCellFormatHandler()));
 		editor = new MyCellEditor(kernel);
 		setDefaultEditor(Object.class, editor);
 
@@ -622,11 +621,11 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 			if (view.isVisibleStyleBar())
 				view.getSpreadsheetStyleBar().updateStyleBar();
 
-			app.setSelectedGeos(list,false);			
-			if (list.size()>0){
+			app.setSelectedGeos(list, false);
+			if (list.size() > 0) {
 				app.updateSelection(true);
-			}else{
-				//don't update properties view for objects, but for spreadsheet
+			} else {
+				// don't update properties view for objects, but for spreadsheet
 				app.updateSelection(false);
 				app.setPropertiesViewPanel(OptionType.SPREADSHEET);
 			}
@@ -721,9 +720,8 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		GPoint newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (newCell.x != -1 && newCell.y != -1) {
 			return setSelection(newCell.x, newCell.y);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public boolean setSelection(int c, int r) {
@@ -746,7 +744,7 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 
 	public boolean setSelection(CellRange cr) {
 
-		if (cr!=null && !cr.isValid())
+		if (cr != null && !cr.isValid())
 			return false;
 
 		try {
@@ -962,11 +960,11 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		}
 
 		Rectangle cellRect = getCellRect(row, column, false);
-		if (min)
+		if (min) {
 			return new GPoint(cellRect.x, cellRect.y);
-		else
-			return new GPoint(cellRect.x + cellRect.width, cellRect.y
-					+ cellRect.height);
+		}
+		return new GPoint(cellRect.x + cellRect.width, cellRect.y
+				+ cellRect.height);
 	}
 
 	protected GPoint getMinSelectionPixel() {
@@ -1046,9 +1044,8 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 	/**
 	 * Overrides the paint() to draw special spreadsheet table graphics, e.g.
 	 * selection rectangle and custom borders
-	 * 
-	 * @Override
 	 */
+	@Override
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
 
@@ -1077,10 +1074,10 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		if (isDragging2) {
 			GPoint point1 = getPixel(minColumn2, minRow2, true);
 			GPoint point2 = getPixel(maxColumn2, maxRow2, false);
-			int x1 = (int) point1.getX();
-			int y1 = (int) point1.getY();
-			int x2 = (int) point2.getX();
-			int y2 = (int) point2.getY();
+			int x1 = point1.getX();
+			int y1 = point1.getY();
+			int x2 = point2.getX();
+			int y2 = point2.getY();
 			graphics.setColor(Color.GRAY);
 			// Application.debug(x1 + "," + y1 + "," + x2 + "," + y2);
 			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
@@ -1109,10 +1106,10 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 				GPoint point1 = getPixel(dragingToColumn, minSelectionRow, true);
 				GPoint point2 = getPixel(minSelectionColumn - 1,
 						maxSelectionRow, false);
-				int x1 = (int) point1.getX();
-				int y1 = (int) point1.getY();
-				int x2 = (int) point2.getX();
-				int y2 = (int) point2.getY();
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
@@ -1120,11 +1117,12 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 			} else if (dragingToRow > maxSelectionRow) { // 4
 				GPoint point1 = getPixel(minSelectionColumn,
 						maxSelectionRow + 1, true);
-				GPoint point2 = getPixel(maxSelectionColumn, dragingToRow, false);
-				int x1 = (int) point1.getX();
-				int y1 = (int) point1.getY();
-				int x2 = (int) point2.getX();
-				int y2 = (int) point2.getY();
+				GPoint point2 = getPixel(maxSelectionColumn, dragingToRow,
+						false);
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
 						LINE_THICKNESS1);
@@ -1134,10 +1132,10 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 				GPoint point1 = getPixel(minSelectionColumn, dragingToRow, true);
 				GPoint point2 = getPixel(maxSelectionColumn,
 						minSelectionRow - 1, false);
-				int x1 = (int) point1.getX();
-				int y1 = (int) point1.getY();
-				int x2 = (int) point2.getX();
-				int y2 = (int) point2.getY();
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2
@@ -1145,11 +1143,12 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 			} else if (dragingToColumn > maxSelectionColumn) { // 3
 				GPoint point1 = getPixel(maxSelectionColumn + 1,
 						minSelectionRow, true);
-				GPoint point2 = getPixel(dragingToColumn, maxSelectionRow, false);
-				int x1 = (int) point1.getX();
-				int y1 = (int) point1.getY();
-				int x2 = (int) point2.getX();
-				int y2 = (int) point2.getY();
+				GPoint point2 = getPixel(dragingToColumn, maxSelectionRow,
+						false);
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
 				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2
 						- y1);
 				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
@@ -1171,8 +1170,8 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 				graphics.setColor(selectionRectangleColor);
 			}
 
-			int x = (int) pixel1.getX() - (DOT_SIZE + 1) / 2;
-			int y = (int) pixel1.getY() - (DOT_SIZE + 1) / 2;
+			int x = pixel1.getX() - (DOT_SIZE + 1) / 2;
+			int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
 			graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE);
 		}
 
@@ -1180,10 +1179,10 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
 			GPoint min = this.getMinSelectionPixel();
 			GPoint max = this.getMaxSelectionPixel();
-			int x1 = (int) min.getX();
-			int y1 = (int) min.getY();
-			int x2 = (int) max.getX();
-			int y2 = (int) max.getY();
+			int x1 = min.getX();
+			int y1 = min.getY();
+			int x2 = max.getX();
+			int y2 = max.getY();
 
 			// graphics.setColor(Color.BLUE);
 			graphics.setColor(selectionRectangleColor);
@@ -1429,16 +1428,16 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 
 		if (!cellResizeHeightSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeHeightSet) {
-				setPreferredCellSize((int) cellPoint.getY(),
-						(int) cellPoint.getX(), false, true);
+				setPreferredCellSize(cellPoint.getY(),
+						cellPoint.getX(), false, true);
 			}
 			cellResizeHeightSet.clear();
 		}
 
 		if (!cellResizeWidthSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeWidthSet) {
-				setPreferredCellSize((int) cellPoint.getY(),
-						(int) cellPoint.getX(), true, false);
+				setPreferredCellSize(cellPoint.getY(),
+						cellPoint.getX(), true, false);
 			}
 			cellResizeWidthSet.clear();
 		}
@@ -1714,8 +1713,7 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		CellRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
-		if (cr.isPartialRow()
-				|| (!cr.isPartialColumn() && AppD.getShiftDown())) {
+		if (cr.isPartialRow() || (!cr.isPartialColumn() && AppD.getShiftDown())) {
 			targetRange = new CellRange(app, cr.getMaxColumn() + 1,
 					cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {

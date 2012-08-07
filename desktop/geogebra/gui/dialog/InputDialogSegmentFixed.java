@@ -1,6 +1,7 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -10,18 +11,18 @@ import geogebra.main.AppD;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-public class InputDialogSegmentFixed extends InputDialogD{
-	private static final long serialVersionUID = 1L;
+public class InputDialogSegmentFixed extends InputDialogD {
+
 	private GeoPoint geoPoint1;
 
 	private Kernel kernel;
-	
-	public InputDialogSegmentFixed(AppD app, String title, InputHandler handler, GeoPoint point1, Kernel kernel) {
+
+	public InputDialogSegmentFixed(AppD app, String title,
+			InputHandler handler, GeoPoint point1, Kernel kernel) {
 		super(app, app.getPlain("Length"), title, "", false, handler);
-		
+
 		geoPoint1 = point1;
 		this.kernel = kernel;
-
 	}
 
 	/**
@@ -38,15 +39,15 @@ public class InputDialogSegmentFixed extends InputDialogD{
 				processInput();
 			} else if (source == btCancel) {
 				setVisibleForTools(false);
-			} 
+			}
 		} catch (Exception ex) {
-			// do nothing on uninitializedValue		
+			// do nothing on uninitializedValue
 			setVisibleForTools(false);
 		}
 	}
-	
+
 	private boolean processInput() {
-		
+
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
@@ -56,8 +57,9 @@ public class InputDialogSegmentFixed extends InputDialogD{
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		if (ret) { 
-			DialogManagerD.doSegmentFixed(kernel, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
+		if (ret) {
+			DialogManager.doSegmentFixed(kernel, geoPoint1,
+					((NumberInputHandler) inputHandler).getNum());
 		}
 
 		return ret;

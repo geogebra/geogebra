@@ -8,7 +8,9 @@ import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 
 public class PythonDockPanel extends DockPanel {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public PythonDockPanel(AppD app) {
 		super(
 				App.VIEW_PYTHON, 		// view id

@@ -33,6 +33,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JDialog;
 import javax.swing.JPopupMenu;
 
@@ -460,10 +461,10 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 			actionList = new ArrayList<AbstractAction>();
 
 			if (exportToEVAction != null) {
-				exportToEVAction.putValue(AbstractAction.NAME, getApplication()
+				exportToEVAction.putValue(Action.NAME, getApplication()
 						.getMenu("CopyToGraphics"));
-				exportToEVAction.putValue(AbstractAction.SMALL_ICON,
-						getApplication().getEmptyIcon());
+				exportToEVAction.putValue(Action.SMALL_ICON, getApplication()
+						.getEmptyIcon());
 				actionList.add(exportToEVAction);
 			}
 			actionList.add(drawingPadToClipboardAction);

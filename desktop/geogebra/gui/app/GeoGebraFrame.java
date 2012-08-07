@@ -665,7 +665,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);			
 
-			AppD.debug("attempting to export: "+filename+" at "+dpiStr+"dpi");
+			App.debug("attempting to export: "+filename+" at "+dpiStr+"dpi");
 
 			final String extension = app.getExtension(filename);
 

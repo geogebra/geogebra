@@ -34,8 +34,6 @@ import javax.swing.border.Border;
 public class OptionsLayoutD extends
 		geogebra.common.gui.dialog.options.OptionsLayout implements
 		OptionPanelD, ActionListener, FocusListener, SetLabels {
-	/** */
-	private static final long serialVersionUID = 1L;
 
 	private AppD app;
 	private Settings settings;

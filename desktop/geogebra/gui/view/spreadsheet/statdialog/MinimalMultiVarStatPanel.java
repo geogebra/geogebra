@@ -8,66 +8,72 @@ import geogebra.main.AppD;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Extension of BasicStatTable that displays summary statistics for multiple data sets.
- *  
+ * Extension of BasicStatTable that displays summary statistics for multiple
+ * data sets.
+ * 
  * @author G. Sturr
- *
+ * 
  */
 public class MinimalMultiVarStatPanel extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
-	public MinimalMultiVarStatPanel(AppD app, StatDialog statDialog){
-		super(app,statDialog, -1);			
+
+	public MinimalMultiVarStatPanel(AppD app, StatDialog statDialog) {
+		super(app, statDialog, -1);
 	}
 
-	public String[] getRowNames(){
+	@Override
+	public String[] getRowNames() {
 		return statDialog.getDataTitles();
 	}
-	
-	public String[] getColumnNames(){
-		
+
+	@Override
+	public String[] getColumnNames() {
+
 		String[][] cmdMap = getCmdMap();
-		String [] names = new String[cmdMap.length];
-		for(int i= 0; i< cmdMap.length; i++){
+		String[] names = new String[cmdMap.length];
+		for (int i = 0; i < cmdMap.length; i++) {
 			names[i] = cmdMap[i][0];
 		}
 		return names;
 	}
-	
-	public int getRowCount(){
+
+	@Override
+	public int getRowCount() {
 		return getRowNames().length;
 	}
-	
-	public int getColumnCount(){
+
+	@Override
+	public int getColumnCount() {
 		return getColumnNames().length;
 	}
-	
 
-	
-	public void updatePanel(){
-		GeoList dataList = statDialog.getStatDialogController().getDataSelected();
+	@Override
+	public void updatePanel() {
+		GeoList dataList = statDialog.getStatDialogController()
+				.getDataSelected();
 		DefaultTableModel model = statTable.getModel();
 		String[] titles = statDialog.getDataTitles();
 		String[][] cmdMap = getCmdMap();
-		
-		for(int row = 0; row < titles.length; row++ ){
+
+		for (int row = 0; row < titles.length; row++) {
 			// get the stats for this list
-			for(int col = 0; col < cmdMap.length; col++){
-				
-				AlgoElement algo = getStatMapAlgo(cmdMap[col][1], (GeoList)dataList.get(row), null);
-				app.getKernel().getConstruction().removeFromConstructionList(algo);
-				model.setValueAt(statDialog.format(((GeoNumeric)algo.getGeoElements()[0]).getDouble()), row, col);
+			for (int col = 0; col < cmdMap.length; col++) {
+
+				AlgoElement algo = getStatMapAlgo(cmdMap[col][1],
+						(GeoList) dataList.get(row), null);
+				app.getKernel().getConstruction()
+						.removeFromConstructionList(algo);
+				model.setValueAt(statDialog.format(((GeoNumeric) algo
+						.getGeoElements()[0]).getDouble()), row, col);
 			}
 		}
 		statTable.repaint();
 	}
-	
-	
-	private String[][] getCmdMap(){
-		String[][] map = { 
-				{app.getMenu("Length.short") ,"Length"},
-				{app.getMenu("Mean") ,"Mean"},
-				{app.getMenu("SampleStandardDeviation.short") ,"SampleSD"}
-		};
+
+	private String[][] getCmdMap() {
+		String[][] map = { { app.getMenu("Length.short"), "Length" },
+				{ app.getMenu("Mean"), "Mean" },
+				{ app.getMenu("SampleStandardDeviation.short"), "SampleSD" } };
 		return map;
 	}
 

@@ -387,9 +387,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 
 	}
 
-
-
-	private JComponent insetPanelRight(int inset, JComponent... comp){
+	private static JComponent insetPanelRight(int inset, JComponent... comp){
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
@@ -399,8 +397,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		return p;
 	}
 
-
-	private JComponent insetPanel(int inset, JComponent... comp){
+	private static JComponent insetPanel(int inset, JComponent... comp){
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
@@ -408,10 +405,6 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		p.setBorder(BorderFactory.createEmptyBorder(2, inset, 0, 0));
 		return p;
 	}
-
-
-
-
 
 	public void setLabels(){
 		

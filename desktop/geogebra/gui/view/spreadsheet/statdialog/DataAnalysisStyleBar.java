@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
  */
 public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	private AppD app;
 	private StatDialog statDialog;
 	protected int iconHeight = 18;

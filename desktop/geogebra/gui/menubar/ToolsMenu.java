@@ -52,6 +52,7 @@ class ToolsMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
+	@Override
 	protected void initActions()
 	{
 		toolbarConfigAction = new AbstractAction(app

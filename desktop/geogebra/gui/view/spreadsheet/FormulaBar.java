@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
@@ -146,8 +147,8 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 
 		String cellContents = "";
-		GeoElement cellGeo = table.relativeCopy.getValue(app, column, row);
-		if(cellGeo != null){
+		GeoElement cellGeo = RelativeCopy.getValue(app, column, row);
+		if(cellGeo != null) {
 			//Application.debug("cell with geo selected at: " + row + " ," + column);
 			cellContents = cellGeo.getRedefineString(true, false);
 			int index = cellContents.indexOf("=");
@@ -219,6 +220,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 
 	private class BarButtonListener extends MouseAdapter{
+		@Override
 		public void mouseClicked(MouseEvent event){
 			Object source = event.getSource();	
 
@@ -230,16 +232,13 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 				} catch (AWTException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(source == btnAcceptFormula){
-				if(fldFormula.hasFocus())
+			} else if(source == btnAcceptFormula) {
+				if(fldFormula.hasFocus()) {
 					editor.stopCellEditing(0, 1);
+				}
 			}
-
 		}
-
 	}
-
 
 	public void updateFonts(Font font){
 		fldFormula.setFont(font);

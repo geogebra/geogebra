@@ -14,6 +14,7 @@ import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -71,7 +72,6 @@ public class OptionsAdvancedD extends
 			tooltipTimeoutLabel;
 
 	/** */
-	@SuppressWarnings("rawtypes")
 	private JComboBox cbKeyboardLanguage, cbTooltipLanguage, cbTooltipTimeout,
 			cbGUIFont;
 
@@ -177,7 +177,6 @@ public class OptionsAdvancedD extends
 	/**
 	 * Initialize the virtual keyboard panel
 	 */
-	@SuppressWarnings("rawtypes")
 	private void initVirtualKeyboardPanel() {
 		virtualKeyboardPanel = new JPanel();
 		virtualKeyboardPanel.setLayout(new BoxLayout(virtualKeyboardPanel,
@@ -218,7 +217,6 @@ public class OptionsAdvancedD extends
 	/**
 	 * Initialize the GUI fontsize panel
 	 */
-	@SuppressWarnings("rawtypes")
 	private void initGUIFontSizePanel() {
 		guiFontsizePanel = new JPanel();
 		guiFontsizePanel.setLayout(new BoxLayout(guiFontsizePanel,
@@ -255,7 +253,6 @@ public class OptionsAdvancedD extends
 	/**
 	 * Initialize the tooltip panel.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initTooltipPanel() {
 		tooltipPanel = new JPanel();
 		tooltipPanel.setLayout(new BoxLayout(tooltipPanel, BoxLayout.Y_AXIS));
@@ -318,7 +315,7 @@ public class OptionsAdvancedD extends
 		twoColumns.setLayout(new BorderLayout());
 		twoColumns.add(guiPanelEast, BorderLayout.EAST);
 		twoColumns.add(guiPanelWest, BorderLayout.WEST);
-		twoColumns.setAlignmentX(wrappedPanel.LEFT_ALIGNMENT);
+		twoColumns.setAlignmentX(Component.LEFT_ALIGNMENT);
 		miscPanel.add(twoColumns);
 
 		cbEnableScripting = new JCheckBox();
@@ -959,7 +956,6 @@ public class OptionsAdvancedD extends
 	/**
 	 * @see #setLabelsKeyboardLanguage()
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setLabelsTooltipLanguages() {
 		String[] languages = new String[AppD.getSupportedLocales().size() + 1];
 		languages[0] = app.getPlain("Default");

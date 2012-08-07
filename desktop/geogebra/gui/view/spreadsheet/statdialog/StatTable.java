@@ -41,63 +41,65 @@ public class StatTable extends JScrollPane {
 	boolean isRowHeaderPainted = true;
 
 	// layout
-	private static final Color TABLE_GRID_COLOR = StatDialog.TABLE_GRID_COLOR ;
-	private static final Color TABLE_HEADER_COLOR = StatDialog.TABLE_HEADER_COLOR;  
-	private static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);  
+	private static final Color TABLE_GRID_COLOR = StatDialog.TABLE_GRID_COLOR;
+	private static final Color TABLE_HEADER_COLOR = StatDialog.TABLE_HEADER_COLOR;
+	private static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.GColorD
+			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 
 	protected DefaultTableModel tableModel;
-	private HashMap<Point,MyComboBoxEditor> comboBoxEditorMap;
-	private HashMap<Point,MyComboBoxRenderer> comboBoxRendererMap;
+	private HashMap<Point, MyComboBoxEditor> comboBoxEditorMap;
+	private HashMap<Point, MyComboBoxRenderer> comboBoxRendererMap;
 	private ActionListener al;
 	AppD app;
 
-	public StatTable(AppD app){
+	public StatTable(AppD app) {
 
 		this.app = app;
 
 		// create and initialize the table
 		initTable();
 
-		// enclose the table in this scrollPane	
+		// enclose the table in this scrollPane
 		setViewportView(myTable);
 		myTable.setBorder(BorderFactory.createEmptyBorder());
-		//setBorder(BorderFactory.createEmptyBorder());
-		myTable.setBorder(BorderFactory.createLineBorder(SystemColor.controlShadow));
+		// setBorder(BorderFactory.createEmptyBorder());
+		myTable.setBorder(BorderFactory
+				.createLineBorder(SystemColor.controlShadow));
 
-		// set the  corners
+		// set the corners
 		setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, new Corner());
 		setCorner(ScrollPaneConstants.LOWER_RIGHT_CORNER, new Corner());
 		setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, new Corner());
 		this.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, new Corner());
 
-		if(isRowHeaderPainted){
-			((JPanel)this.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER)).
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,TABLE_GRID_COLOR));
+		if (isRowHeaderPainted) {
+			((JPanel) this.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER))
+					.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
+							TABLE_GRID_COLOR));
 		}
 
 		myTable.setPreferredScrollableViewportSize(myTable.getPreferredSize());
 		myTable.setBackground(this.getBackground());
 
+	}
 
-
-	} 
-
-	public MyTable getTable(){
+	public MyTable getTable() {
 		return myTable;
 	}
 
-	private void initTable(){
+	private void initTable() {
 
 		myTable = new MyTable();
 
 		// table settings
-		myTable.setDefaultRenderer(Object.class, new MyCellRenderer());    
-		myTable.setColumnSelectionAllowed(true); 
+		myTable.setDefaultRenderer(Object.class, new MyCellRenderer());
+		myTable.setColumnSelectionAllowed(true);
 		myTable.setRowSelectionAllowed(true);
-		myTable.setShowGrid(true); 	 
-		myTable.setGridColor(TABLE_GRID_COLOR); 	 	
+		myTable.setShowGrid(true);
+		myTable.setGridColor(TABLE_GRID_COLOR);
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		//((JLabel) statTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		// ((JLabel)
+		// statTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
 		myTable.setBackground(Color.white);
 
@@ -105,45 +107,45 @@ public class StatTable extends JScrollPane {
 
 	private static class Corner extends JPanel {
 		private static final long serialVersionUID = 1L;
+
+		@Override
 		protected void paintComponent(Graphics g) {
 			g.setColor(TABLE_HEADER_COLOR);
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
 	}
 
+	public void setStatTable(int rows, String[] rowNames, int columns,
+			String[] columnNames) {
 
-
-	public void setStatTable(int rows, String[] rowNames, int columns, String[] columnNames){
-
-		//TODO: cannot remove columns ... call this again with fewer columns
+		// TODO: cannot remove columns ... call this again with fewer columns
 		// and the older columns persist ????
 
-		tableModel = new DefaultTableModel(rows,columns);
+		tableModel = new DefaultTableModel(rows, columns);
 		myTable.setModel(tableModel);
 
 		// set column names
-		if(columnNames == null){
+		if (columnNames == null) {
 			myTable.setTableHeader(null);
-			this.setColumnHeaderView(null);	
-		}else{
+			this.setColumnHeaderView(null);
+		} else {
 			tableModel.setColumnCount(0);
-			for(int i=0; i< columnNames.length; i++)
-				tableModel.addColumn(columnNames[i]);	
+			for (int i = 0; i < columnNames.length; i++)
+				tableModel.addColumn(columnNames[i]);
 		}
 
 		// create row header
-		if(rowNames != null){
-			rowHeader = new MyRowHeader(myTable, rowNames);	
-			//rowHeaderModel = new DefaultListModel();
-			//.setModel(rowHeaderModel);
+		if (rowNames != null) {
+			rowHeader = new MyRowHeader(myTable, rowNames);
+			// rowHeaderModel = new DefaultListModel();
+			// .setModel(rowHeaderModel);
 			setRowHeaderView(rowHeader);
-		}else{
+		} else {
 			setRowHeaderView(null);
 		}
 
-
-		myTable.setPreferredScrollableViewportSize(myTable.getPreferredSize());		
-		//statTable.setMinimumSize(statTable.getPreferredSize());
+		myTable.setPreferredScrollableViewportSize(myTable.getPreferredSize());
+		// statTable.setMinimumSize(statTable.getPreferredSize());
 
 		this.revalidate();
 
@@ -151,154 +153,152 @@ public class StatTable extends JScrollPane {
 
 	}
 
-
-	public void clear(){
-		for(int r = 0; r < myTable.getRowCount(); r++)
-			for(int c = 0; c < myTable.getColumnCount(); c++)
+	public void clear() {
+		for (int r = 0; r < myTable.getRowCount(); r++)
+			for (int c = 0; c < myTable.getColumnCount(); c++)
 				myTable.setValueAt(" ", r, c);
 
 	}
 
-
 	/**
 	 * Sets the table cells that will use a ComboBox
+	 * 
 	 * @param cellMap
 	 */
-	public void setComboBoxCells(HashMap<Point, String[]>cellMap, ActionListener al){
+	public void setComboBoxCells(HashMap<Point, String[]> cellMap,
+			ActionListener al) {
 
 		this.al = al;
 
-		if(comboBoxEditorMap == null)
-			comboBoxEditorMap = new HashMap<Point,MyComboBoxEditor>();
+		if (comboBoxEditorMap == null)
+			comboBoxEditorMap = new HashMap<Point, MyComboBoxEditor>();
 		comboBoxEditorMap.clear();
-		if(comboBoxRendererMap == null)
-			comboBoxRendererMap = new HashMap<Point,MyComboBoxRenderer>();
+		if (comboBoxRendererMap == null)
+			comboBoxRendererMap = new HashMap<Point, MyComboBoxRenderer>();
 		comboBoxRendererMap.clear();
 
-		for(Point cell : cellMap.keySet()){
-			
+		for (Point cell : cellMap.keySet()) {
+
 			// get the String data for this combo box
 			String[] items = cellMap.get(cell);
-			
+
 			// extract the menu items and the combo box label
-			String comboBoxLabel = items[items.length-1];
-			String[] comboBoxItems = new String[items.length-1];
-			System.arraycopy(items, 0, comboBoxItems, 0 , comboBoxItems.length);
-			
-			// create the comboBox editors/renderers and map them   
+			String comboBoxLabel = items[items.length - 1];
+			String[] comboBoxItems = new String[items.length - 1];
+			System.arraycopy(items, 0, comboBoxItems, 0, comboBoxItems.length);
+
+			// create the comboBox editors/renderers and map them
 			comboBoxEditorMap.put(cell, new MyComboBoxEditor(comboBoxItems));
-			comboBoxRendererMap.put(cell, new MyComboBoxRenderer(comboBoxLabel, comboBoxItems));
-			
+			comboBoxRendererMap.put(cell, new MyComboBoxRenderer(comboBoxLabel,
+					comboBoxItems));
+
 		}
 	}
 
 	/**
 	 * Gets the selected index for a cell given cell comboBox
+	 * 
 	 * @param row
 	 * @param column
 	 * @return
 	 */
-	public Integer getComboCellEditorSelectedIndex(int row, int column){
-		if (comboBoxEditorMap == null) return null;
-
-		int modelColumn = myTable.convertColumnIndexToModel(column);
-		Point cell = new Point(row,modelColumn);
-		if (comboBoxEditorMap.keySet().contains(cell))
-			return comboBoxEditorMap.get(cell).getSelectedIndex();
-		else
+	public Integer getComboCellEditorSelectedIndex(int row, int column) {
+		if (comboBoxEditorMap == null)
 			return null;
 
+		int modelColumn = myTable.convertColumnIndexToModel(column);
+		Point cell = new Point(row, modelColumn);
+		if (comboBoxEditorMap.keySet().contains(cell)) {
+			return comboBoxEditorMap.get(cell).getSelectedIndex();
+		}
+		return null;
 	}
 
 	/**
 	 * Sets the selected index for a cell given cell comboBox
+	 * 
 	 * @param index
 	 * @param row
 	 * @param column
 	 * @return
 	 */
-	public boolean setComboCellSelectedIndex(int index, int row, int column){
+	public boolean setComboCellSelectedIndex(int index, int row, int column) {
 
-		if (comboBoxRendererMap == null) return false;
+		if (comboBoxRendererMap == null)
+			return false;
 
 		int modelColumn = myTable.convertColumnIndexToModel(column);
-		Point cell = new Point(row,modelColumn);
+		Point cell = new Point(row, modelColumn);
 
-		if (comboBoxEditorMap.keySet().contains(cell)){
+		if (comboBoxEditorMap.keySet().contains(cell)) {
 			comboBoxEditorMap.get(cell).setSelectedIndex(index);
 			return true;
 		}
-		else
-			return false;
-
+		return false;
 	}
 
-
-
-	public void setLabels(String[] rowNames, String[] columnNames){
+	public void setLabels(String[] rowNames, String[] columnNames) {
 
 		// set column names
-		if(columnNames != null){
-			for(int i=0; i< columnNames.length; i++)
-				myTable.getColumnModel().getColumn(i).setHeaderValue(columnNames[i]);	
+		if (columnNames != null) {
+			for (int i = 0; i < columnNames.length; i++)
+				myTable.getColumnModel().getColumn(i)
+						.setHeaderValue(columnNames[i]);
 		}
 
-		if(rowNames != null){
-			rowHeader = new MyRowHeader(myTable, rowNames);		
+		if (rowNames != null) {
+			rowHeader = new MyRowHeader(myTable, rowNames);
 			setRowHeaderView(rowHeader);
 		}
 
 		repaint();
 	}
 
-
-	public DefaultTableModel getModel(){
+	public DefaultTableModel getModel() {
 		return tableModel;
 	}
-
-
 
 	public void updateFonts(Font font) {
 		setFont(font);
 
-		if(myTable != null && myTable.getRowCount()>0){
-			myTable.setFont(font); 
+		if (myTable != null && myTable.getRowCount() > 0) {
+			myTable.setFont(font);
 			autoFitRowHeight();
-			if(rowHeader != null){
+			if (rowHeader != null) {
 				rowHeader.setFont(font);
 				rowHeader.setFixedCellHeight(myTable.getRowHeight());
 			}
 
-			if(myTable.getTableHeader() != null)	
+			if (myTable.getTableHeader() != null)
 				myTable.getTableHeader().setFont(font);
 		}
-		
-		if(myTable != null)
-			myTable.setPreferredScrollableViewportSize(myTable.getPreferredSize());
+
+		if (myTable != null)
+			myTable.setPreferredScrollableViewportSize(myTable
+					.getPreferredSize());
 	}
 
-
-
 	/**
-	 * Adjust the width of a column to fit the maximum preferred width of 
-	 * its cell contents.
+	 * Adjust the width of a column to fit the maximum preferred width of its
+	 * cell contents.
 	 */
-	public void autoFitColumnWidth(int column, int defaultColumnWidth){
+	public void autoFitColumnWidth(int column, int defaultColumnWidth) {
 
 		MyTable table = myTable;
-		if(table.getRowCount() <= 0)
+		if (table.getRowCount() <= 0)
 			return;
 
-		TableColumn tableColumn = table.getColumnModel().getColumn(column); 
+		TableColumn tableColumn = table.getColumnModel().getColumn(column);
 
 		int prefWidth = 0;
 		int tempWidth = -1;
 		for (int row = 0; row < table.getRowCount(); row++) {
-			if(table.getValueAt(row, column)!=null){
-				tempWidth = (int) table.getCellRenderer(row, column)
-				.getTableCellRendererComponent(table,
-						table.getValueAt(row, column), false, false,
-						row, column).getPreferredSize().getWidth();
+			if (table.getValueAt(row, column) != null) {
+				tempWidth = (int) table
+						.getCellRenderer(row, column)
+						.getTableCellRendererComponent(table,
+								table.getValueAt(row, column), false, false,
+								row, column).getPreferredSize().getWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
 		}
@@ -306,25 +306,24 @@ public class StatTable extends JScrollPane {
 		// set the new column width
 		if (tempWidth == -1) {
 			// column is empty
-			prefWidth = defaultColumnWidth- table.getIntercellSpacing().width;
+			prefWidth = defaultColumnWidth - table.getIntercellSpacing().width;
 		} else {
 
 			prefWidth = Math.max(prefWidth, tableColumn.getMinWidth());
-			//System.out.println("pref width: " + prefWidth);
+			// System.out.println("pref width: " + prefWidth);
 		}
 		table.getTableHeader().setResizingColumn(tableColumn);
-		tableColumn.setWidth(prefWidth
-				+ table.getIntercellSpacing().width);
+		tableColumn.setWidth(prefWidth + table.getIntercellSpacing().width);
 	}
 
 	/**
-	 * Adjust the height of a row to fit the maximum preferred height of 
-	 * its cell contents.
+	 * Adjust the height of a row to fit the maximum preferred height of its
+	 * cell contents.
 	 */
-	public void autoFitRowHeight(){
+	public void autoFitRowHeight() {
 
 		MyTable table = myTable;
-		if(table.getRowCount() <= 0)
+		if (table.getRowCount() <= 0)
 			return;
 
 		// iterate through the rows and find the preferred height
@@ -332,11 +331,13 @@ public class StatTable extends JScrollPane {
 		int tempHeight = -1;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			for (int column = 0; column < table.getColumnCount(); column++) {
-				if(table.getValueAt(row, column)!=null){
-					tempHeight = (int) table.getCellRenderer(row, column)
-					.getTableCellRendererComponent(table,
-							table.getValueAt(row, column), false, false,
-							row, column).getPreferredSize().getHeight();
+				if (table.getValueAt(row, column) != null) {
+					tempHeight = (int) table
+							.getCellRenderer(row, column)
+							.getTableCellRendererComponent(table,
+									table.getValueAt(row, column), false,
+									false, row, column).getPreferredSize()
+							.getHeight();
 					prefHeight = Math.max(prefHeight, tempHeight);
 				}
 			}
@@ -346,28 +347,26 @@ public class StatTable extends JScrollPane {
 		table.setRowHeight(prefHeight);
 	}
 
-
-
-
-	//======================================================
-	//         Table Cell Renderer 
-	//======================================================
+	// ======================================================
+	// Table Cell Renderer
+	// ======================================================
 
 	private static class MyCellRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
-		public MyCellRenderer(){
+
+		public MyCellRenderer() {
 			// cell padding
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) 
-		{
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
 			setFont(table.getFont());
 			setText((String) value);
 
-			if (isSelected) 
+			if (isSelected)
 				setBackground(SELECTED_BACKGROUND_COLOR);
 			else
 				setBackground(Color.white);
@@ -377,17 +376,15 @@ public class StatTable extends JScrollPane {
 
 	}
 
+	// ======================================================
+	// Row Header
+	// ======================================================
 
-	//======================================================
-	//         Row Header 
-	//======================================================
-
-	public class MyRowHeader extends JList  {
+	public class MyRowHeader extends JList {
 		private static final long serialVersionUID = 1L;
 		JTable table;
 
-
-		public MyRowHeader(JTable table, String[] rowNames){
+		public MyRowHeader(JTable table, String[] rowNames) {
 			super(rowNames);
 			this.table = table;
 			setCellRenderer(new RowHeaderRenderer(table));
@@ -396,23 +393,21 @@ public class StatTable extends JScrollPane {
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 			private static final long serialVersionUID = 1L;
-			public RowHeaderRenderer(JTable table) {  
 
-				if(isRowHeaderPainted)
-				{
+			public RowHeaderRenderer(JTable table) {
+
+				if (isRowHeaderPainted) {
 					setOpaque(true);
 					setBackground(TABLE_HEADER_COLOR);
 
-					setBorder(BorderFactory.createCompoundBorder(
-							BorderFactory.createMatteBorder(0, 0, 1, 1, TABLE_GRID_COLOR), 
+					setBorder(BorderFactory.createCompoundBorder(BorderFactory
+							.createMatteBorder(0, 0, 1, 1, TABLE_GRID_COLOR),
 							BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-				}
-				else
-				{
+				} else {
 					setOpaque(true);
 					setBackground(table.getBackground());
-					setBorder(BorderFactory.createCompoundBorder(
-							BorderFactory.createMatteBorder(0, 0, 0, 1, TABLE_GRID_COLOR), 
+					setBorder(BorderFactory.createCompoundBorder(BorderFactory
+							.createMatteBorder(0, 0, 0, 1, TABLE_GRID_COLOR),
 							BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 				}
 
@@ -420,9 +415,9 @@ public class StatTable extends JScrollPane {
 				setFont(table.getFont());
 			}
 
-
-			public Component getListCellRendererComponent( JList list, 
-					Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList list,
+					Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
 
 				setFont(table.getFont());
 				setText((String) value);
@@ -432,45 +427,46 @@ public class StatTable extends JScrollPane {
 		}
 	}
 
-
-	//======================================================
-	//         ComboBox Renderer
-	//======================================================
+	// ======================================================
+	// ComboBox Renderer
+	// ======================================================
 
 	public class MyComboBoxRenderer extends JPanel implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 		JComboBox comboBox;
 		JLabel label;
+
 		public MyComboBoxRenderer(String text, String[] items) {
 
 			setLayout(new BorderLayout());
 			comboBox = new JComboBox(items);
 			add(comboBox, BorderLayout.EAST);
-			if(text != null){
+			if (text != null) {
 				label = new JLabel(text);
 				add(label, BorderLayout.CENTER);
 			}
 
 		}
 
-		public Component getTableCellRendererComponent(JTable table, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
 
 			setFont(table.getFont());
 			setForeground(table.getForeground());
 			setBackground(table.getBackground());
-			comboBox.setSelectedIndex(getComboCellEditorSelectedIndex(row,column));
+			comboBox.setSelectedIndex(getComboCellEditorSelectedIndex(row,
+					column));
 			return this;
 		}
 	}
 
+	// ======================================================
+	// ComboBox Editor
+	// ======================================================
 
-
-	//======================================================
-	//         ComboBox Editor
-	//======================================================
-
-	public class MyComboBoxEditor extends DefaultCellEditor implements ItemListener {
+	public class MyComboBoxEditor extends DefaultCellEditor implements
+			ItemListener {
 		private static final long serialVersionUID = 1L;
 		JComboBox comboBox;
 		JLabel label;
@@ -483,8 +479,8 @@ public class StatTable extends JScrollPane {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value,
-				boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(JTable table,
+				Object value, boolean isSelected, int row, int column) {
 			setFont(table.getFont());
 			this.row = row;
 			this.column = column;
@@ -492,38 +488,39 @@ public class StatTable extends JScrollPane {
 
 		}
 
-		public void itemStateChanged( ItemEvent e ){
-			if( e.getStateChange() != ItemEvent.SELECTED){
+		public void itemStateChanged(ItemEvent e) {
+			if (e.getStateChange() != ItemEvent.SELECTED) {
 				return;
 			}
 
-			myTable.getModel().setValueAt((Integer)comboBox.getSelectedIndex(), row,column);
-			al.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "updateTable"));
+			myTable.getModel().setValueAt(comboBox.getSelectedIndex(), row,
+					column);
+			al.actionPerformed(new ActionEvent(this,
+					ActionEvent.ACTION_PERFORMED, "updateTable"));
 		}
 
-		public int getSelectedIndex(){
+		public int getSelectedIndex() {
 			return comboBox.getSelectedIndex();
 		}
-		public void setSelectedIndex(int index){
+
+		public void setSelectedIndex(int index) {
 			comboBox.setSelectedIndex(index);
 		}
 
 	}
 
-
-
-
-
-	//======================================================
-	//        MyTable
-	//======================================================
-	public  class MyTable extends JTable{
+	// ======================================================
+	// MyTable
+	// ======================================================
+	public class MyTable extends JTable {
 		private static final long serialVersionUID = 1L;
+
 		// disable cell editing
 		@Override
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 
-			if (comboBoxEditorMap == null) return false;
+			if (comboBoxEditorMap == null)
+				return false;
 
 			int modelColumn = convertColumnIndexToModel(colIndex);
 			Point cell = new Point(rowIndex, modelColumn);
@@ -540,35 +537,33 @@ public class StatTable extends JScrollPane {
 			}
 		}
 
-		//  Determine if comboCellEditor should be used
+		// Determine if comboCellEditor should be used
 		@Override
-		public TableCellEditor getCellEditor(int row, int column){
+		public TableCellEditor getCellEditor(int row, int column) {
 			if (comboBoxEditorMap == null)
 				return super.getCellEditor(row, column);
 
 			int modelColumn = convertColumnIndexToModel(column);
-			Point cell = new Point(row,modelColumn);
-			if (comboBoxEditorMap.keySet().contains(cell))
+			Point cell = new Point(row, modelColumn);
+			if (comboBoxEditorMap.keySet().contains(cell)) {
 				return comboBoxEditorMap.get(cell);
-			else
-				return super.getCellEditor(row, column);
+			}
+			return super.getCellEditor(row, column);
 		}
 
-		//  Determine if comboCellRenderer should be used
+		// Determine if comboCellRenderer should be used
 		@Override
-		public TableCellRenderer getCellRenderer(int row, int column){
+		public TableCellRenderer getCellRenderer(int row, int column) {
 			if (comboBoxRendererMap == null)
 				return super.getCellRenderer(row, column);
 
-			int modelColumn = convertColumnIndexToModel( column );
-			Point cell = new Point(row,modelColumn);
-			if (comboBoxRendererMap.keySet().contains(cell))
+			int modelColumn = convertColumnIndexToModel(column);
+			Point cell = new Point(row, modelColumn);
+			if (comboBoxRendererMap.keySet().contains(cell)) {
 				return comboBoxRendererMap.get(cell);
-			else
-				return super.getCellRenderer(row, column);
+			}
+			return super.getCellRenderer(row, column);
 		}
 	}
-
-
 
 }

@@ -1,6 +1,7 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
@@ -17,26 +18,28 @@ import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 
 public class InputDialogDilate extends InputDialogD {
-	private static final long serialVersionUID = 1L;
+
 	GeoPoint[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
-		
-	public InputDialogDilate(AppD app, String title, InputHandler handler,  GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+
+	public InputDialogDilate(AppD app, String title, InputHandler handler,
+			GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app.getFrame(), false);
-		
+
 		this.app = app;
 		inputHandler = handler;
-		
+
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
 
-		createGUI(title, app.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);		
+		createGUI(title, app.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
+				1, true, false, false, false, DialogType.GeoGebraEditor);
 		JPanel centerPanel = new JPanel(new BorderLayout());
-		centerPanel.add(inputPanel, BorderLayout.CENTER);								
-		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);		
+		centerPanel.add(inputPanel, BorderLayout.CENTER);
+		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		centerOnScreen();
 	}
 
@@ -49,20 +52,20 @@ public class InputDialogDilate extends InputDialogD {
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-					setVisibleForTools(!processInput());
-				} else if (source == btApply) {
-					processInput();
-				} else if (source == btCancel) {
-					setVisibleForTools(false);
-			} 
+				setVisibleForTools(!processInput());
+			} else if (source == btApply) {
+				processInput();
+			} else if (source == btCancel) {
+				setVisibleForTools(false);
+			}
 		} catch (Exception ex) {
-			// do nothing on uninitializedValue		
+			// do nothing on uninitializedValue
 			setVisibleForTools(false);
 		}
 	}
-	
+
 	private boolean processInput() {
-		
+
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
@@ -71,49 +74,40 @@ public class InputDialogDilate extends InputDialogD {
 		boolean success = inputHandler.processInput(inputPanel.getText());
 
 		cons.setSuppressLabelCreation(oldVal);
-		
+
 		if (success) {
-			return DialogManagerD.doDilate(kernel, ((NumberInputHandler)inputHandler).getNum(), points, selGeos);
+			return DialogManager.doDilate(kernel,
+					((NumberInputHandler) inputHandler).getNum(), points,
+					selGeos);
 		}
-		
+
 		return false;
-		
+
 		/*
-		
-		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
+		 * 
+		 * // avoid labeling of num Construction cons =
+		 * kernel.getConstruction(); boolean oldVal =
+		 * cons.isSuppressLabelsActive(); cons.setSuppressLabelCreation(true);
+		 * 
+		 * boolean success = inputHandler.processInput(inputPanel.getText());
+		 * 
+		 * cons.setSuppressLabelCreation(oldVal);
+		 * 
+		 * if (success) { NumberValue num =
+		 * ((NumberInputHandler)inputHandler).getNum();
+		 * 
+		 * if (selGeos.length > 0) { // mirror all selected geos //GeoElement []
+		 * selGeos = getSelectedGeos(); GeoPoint2 point = points[0];
+		 * ArrayList<GeoElement> ret = new ArrayList<GeoElement>(); for (int
+		 * i=0; i < selGeos.length; i++) { if (selGeos[i] != point) { if
+		 * ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
+		 * ret.addAll(Arrays.asList(kernel.Dilate(null, selGeos[i], num,
+		 * point))); } } if (!ret.isEmpty()) {
+		 * kernel.getApplication().getActiveEuclidianView
+		 * ().getEuclidianController().memorizeJustCreatedGeos(ret);
+		 * app.storeUndoInfo(); } return true; } } return false;
+		 */
 
-		boolean success = inputHandler.processInput(inputPanel.getText());
-
-		cons.setSuppressLabelCreation(oldVal);
-		
-		if (success) {
-			NumberValue num = ((NumberInputHandler)inputHandler).getNum();
-
-			if (selGeos.length > 0) {					
-				// mirror all selected geos
-				//GeoElement [] selGeos = getSelectedGeos();
-				GeoPoint2 point = points[0];
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-				for (int i=0; i < selGeos.length; i++) {				
-					if (selGeos[i] != point) {
-						if ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
-							ret.addAll(Arrays.asList(kernel.Dilate(null,  selGeos[i], num, point)));
-					}
-				}
-				if (!ret.isEmpty()) {
-					kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(ret);
-					app.storeUndoInfo();
-				}
-				return true;
-			}			
-		}
-		return false;	
-		
-		*/
-	
 	}
 
 	@Override
@@ -128,7 +122,7 @@ public class InputDialogDilate extends InputDialogD {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
 	}
 
 }

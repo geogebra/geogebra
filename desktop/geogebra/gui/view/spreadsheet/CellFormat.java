@@ -159,7 +159,7 @@ public class CellFormat implements CellFormatInterface {
 		GPoint columnKey = new GPoint(cellKey.x, -1);
 
 		// Get the format table
-		HashMap formatMap = formatMapArray[formatType];
+		MyHashMap formatMap = formatMapArray[formatType];
 
 		// Check there is a format for this cell
 		if (formatMap.containsKey(cellKey)) {

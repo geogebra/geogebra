@@ -1,4 +1,3 @@
-
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
@@ -44,9 +43,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class SpreadsheetView extends JPanel implements 
-View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetViewInterface
-{
+public class SpreadsheetView extends JPanel implements View, ComponentListener,
+		FocusListener, Gridable, SettingListener, SpreadsheetViewInterface {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,40 +59,38 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	private JTableHeader tableHeader;
 
 	// moved to kernel
-	// if these are increased above 32000, you need to change traceRow to an int[]
-	//public static int MAX_COLUMNS = 9999; // TODO make sure this is actually used
-	//public static int MAX_ROWS = 9999; // TODO make sure this is actually used
+	// if these are increased above 32000, you need to change traceRow to an
+	// int[]
+	// public static int MAX_COLUMNS = 9999; // TODO make sure this is actually
+	// used
+	// public static int MAX_ROWS = 9999; // TODO make sure this is actually
+	// used
 
 	private static int DEFAULT_COLUMN_WIDTH = 70;
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
 
-	//TODO: should traceDialog belong to the SpreadsheetTraceManager?
+	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	private TraceDialog traceDialog;
 
-	//fields for split panel, fileBrowser and stylebar
+	// fields for split panel, fileBrowser and stylebar
 	private JScrollPane spreadsheet;
 	private FileBrowserPanel fileBrowser;
 	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBar styleBar;
 	private JPanel restorePanel;
 
-
 	// toolbar manager
 	SpreadsheetToolbarManager toolbarManager;
-
 
 	// file browser defaults
 	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
 	public static final int DEFAULT_MODE = FileBrowserPanel.MODE_FILE;
-	//private int initialBrowserMode = DEFAULT_MODE;
+	// private int initialBrowserMode = DEFAULT_MODE;
 	// file browser settings
-	//private String initialURL = DEFAULT_URL;
-
-
+	// private String initialURL = DEFAULT_URL;
 
 	// current toolbar mode
 	private int mode = -1;
-
 
 	private JSplitPane splitPane;
 	private FormulaBar formulaBar;
@@ -102,12 +98,9 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 	private SpreadsheetViewDnD dndHandler;
 
-
-
-
 	/******************************************************
-	 * Construct spreadsheet view as a split panel. 
-	 * Left panel holds file tree browser, right panel holds spreadsheet. 
+	 * Construct spreadsheet view as a split panel. Left panel holds file tree
+	 * browser, right panel holds spreadsheet.
 	 */
 	public SpreadsheetView(AppD app) {
 
@@ -117,35 +110,32 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		// Initialize settings and register listener
 		app.getSettings().getSpreadsheet().addListener(this);
 
-
 		// Build the spreadsheet table and enclosing scrollpane
 		buildSpreadsheet();
 
-		// Build the spreadsheet panel: formulaBar above, spreadsheet in Center  
+		// Build the spreadsheet panel: formulaBar above, spreadsheet in Center
 		spreadsheetPanel = new JPanel(new BorderLayout());
-		spreadsheetPanel.add(spreadsheet,BorderLayout.CENTER);
+		spreadsheetPanel.add(spreadsheet, BorderLayout.CENTER);
 
 		// Set the spreadsheet panel as the right component of this JSplitPane
 		splitPane = new JSplitPane();
-		splitPane.setRightComponent(spreadsheetPanel);	
+		splitPane.setRightComponent(spreadsheetPanel);
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 
-		// Set the browser as the left component or to null if showBrowserPanel == false
-		setShowFileBrowser(settings().showBrowserPanel());  
-
+		// Set the browser as the left component or to null if showBrowserPanel
+		// == false
+		setShowFileBrowser(settings().showBrowserPanel());
 
 		setLayout(new BorderLayout());
-		add(splitPane,BorderLayout.CENTER);
+		add(splitPane, BorderLayout.CENTER);
 
 		setBorder(BorderFactory.createEmptyBorder());
 		addFocusListener(this);
 		updateFonts();
 		attachView();
 
-
 		// Create tool bar manager to handle tool bar mode changes
 		toolbarManager = new SpreadsheetToolbarManager(app, this);
-
 
 		dndHandler = new SpreadsheetViewDnD(app, this);
 
@@ -153,20 +143,19 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 	}
 
-
-	private void buildSpreadsheet(){
+	private void buildSpreadsheet() {
 
 		// Create the spreadsheet table model and the table
 		tableModel = (SpreadsheetTableModelD) app.getSpreadsheetTableModel();
 		table = new MyTableD(this, tableModel.getDefaultTableModel());
 
 		// Create row header
-		rowHeader = new SpreadsheetRowHeader(app,table);
+		rowHeader = new SpreadsheetRowHeader(app, table);
 
 		// Set column width
-		table.headerRenderer.setPreferredSize(new Dimension((int)(table.preferredColumnWidth)
-				, (int)(SpreadsheetSettings.TABLE_CELL_HEIGHT)));
-
+		table.headerRenderer.setPreferredSize(new Dimension(
+				(table.preferredColumnWidth),
+				(SpreadsheetSettings.TABLE_CELL_HEIGHT)));
 
 		// Put the table and the row header into a scroll plane
 		// The scrollPane is named as spreadsheet
@@ -175,49 +164,48 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		spreadsheet.setRowHeaderView(rowHeader);
 		spreadsheet.setViewportView(table);
 
-		// save the table header 
+		// save the table header
 		tableHeader = table.getTableHeader();
 
 		// Create and set the scrollpane corners
-		Corner upperLeftCorner = new Corner(); //use FlowLayout
-		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR));		
+		Corner upperLeftCorner = new Corner(); // use FlowLayout
+		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
+				MyTableD.HEADER_GRID_COLOR));
 		upperLeftCorner.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				table.selectAll();
 			}
 		});
-		spreadsheet.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, upperLeftCorner);
-		spreadsheet.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, new Corner());
-		spreadsheet.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, new Corner());
-
+		spreadsheet.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER,
+				upperLeftCorner);
+		spreadsheet.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER,
+				new Corner());
+		spreadsheet.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER,
+				new Corner());
 
 		// Add a resize listener to the table so it can auto-enlarge if needed
-		table.addComponentListener(this); 
+		table.addComponentListener(this);
 
 	}
 
-
-	//===============================================================
-	//             Corners
-	//===============================================================
-
-
+	// ===============================================================
+	// Corners
+	// ===============================================================
 
 	private static class Corner extends JComponent {
 		private static final long serialVersionUID = -4426785169061557674L;
 
+		@Override
 		protected void paintComponent(Graphics g) {
 			g.setColor(MyTableD.BACKGROUND_COLOR_HEADER);
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
 	}
 
-
-
-	//===============================================================
-	//             Defaults
-	//===============================================================
-
+	// ===============================================================
+	// Defaults
+	// ===============================================================
 
 	public void setDefaultLayout() {
 		setShowGrid(true);
@@ -230,17 +218,13 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	}
 
 	public void setDefaultSelection() {
-		setSpreadsheetScrollPosition(0,0);
-		table.setInitialCellSelection(0,0);
+		setSpreadsheetScrollPosition(0, 0);
+		table.setInitialCellSelection(0, 0);
 	}
 
-
-
-
-	//===============================================================
-	//              getters/setters
-	//===============================================================
-
+	// ===============================================================
+	// getters/setters
+	// ===============================================================
 
 	public AppD getApplication() {
 		return app;
@@ -250,130 +234,118 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		return table;
 	}
 
-
-	public JViewport getRowHeader(){
+	public JViewport getRowHeader() {
 		return spreadsheet.getRowHeader();
 	}
 
-	public JViewport getColumnHeader(){
+	public JViewport getColumnHeader() {
 		return spreadsheet.getColumnHeader();
 	}
 
-	public JTableHeader getTableHeader(){
+	public JTableHeader getTableHeader() {
 		return tableHeader;
 	}
-	
+
 	public int getMode() {
 		return mode;
 	}
 
-
-
-	/** 
-	 * get spreadsheet styleBar 
+	/**
+	 * get spreadsheet styleBar
 	 */
-	public SpreadsheetStyleBar getSpreadsheetStyleBar(){
-		if(styleBar==null){
+	public SpreadsheetStyleBar getSpreadsheetStyleBar() {
+		if (styleBar == null) {
 			styleBar = new SpreadsheetStyleBar(this);
 		}
 		return styleBar;
 	}
 
-
-	//===============================================================
-	//              VIEW Implementation
-	//===============================================================
-
+	// ===============================================================
+	// VIEW Implementation
+	// ===============================================================
 
 	public void attachView() {
-		//clearView();
+		// clearView();
 		kernel.notifyAddAll(this);
-		kernel.attach(this);		
+		kernel.attach(this);
 	}
 
 	public void detachView() {
 		kernel.detach(this);
-		//clearView();
-		//kernel.notifyRemoveAll(this);		
+		// clearView();
+		// kernel.notifyRemoveAll(this);
 	}
 
+	public void add(GeoElement geo) {
+		// Application.debug(new Date() + " ADD: " + geo);
 
-	public void add(GeoElement geo) {	
-		//Application.debug(new Date() + " ADD: " + geo);				
-
-		update(geo);	
+		update(geo);
 		GPoint location = geo.getSpreadsheetCoords();
 
 		// autoscroll to new cell's location
-		if (scrollToShow && location != null )
-			table.scrollRectToVisible(table.getCellRect(location.y, location.x, true));
+		if (scrollToShow && location != null)
+			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
+					true));
 
 	}
 
-
 	public void remove(GeoElement geo) {
-		//Application.debug(new Date() + " REMOVE: " + geo);
+		// Application.debug(new Date() + " REMOVE: " + geo);
 
-		if(app.getTraceManager().isTraceGeo(geo)){
+		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
-			if(isTraceDialogVisible())
+			if (isTraceDialogVisible())
 				traceDialog.updateTraceDialog();
 		}
 
 		GPoint location = geo.getSpreadsheetCoords();
 
-		switch (geo.getGeoClassType()){
-			case BOOLEAN:
-			case BUTTON:
-			case LIST:
-				table.oneClickEditMap.remove(geo);				
+		switch (geo.getGeoClassType()) {
+		case BOOLEAN:
+		case BUTTON:
+		case LIST:
+			table.oneClickEditMap.remove(geo);
 		}
 	}
 
-
-
 	public void rename(GeoElement geo) {
 
-
 		/*
-		if(app.getTraceManager().isTraceGeo(geo))
-			app.getTraceManager().updateTraceSettings(geo);
-		*/
-		
-		if(isTraceDialogVisible()){
+		 * if(app.getTraceManager().isTraceGeo(geo))
+		 * app.getTraceManager().updateTraceSettings(geo);
+		 */
+
+		if (isTraceDialogVisible()) {
 			traceDialog.updateTraceDialog();
 		}
 
 	}
 
-
-	public void updateAuxiliaryObject(GeoElement geo) {	
+	public void updateAuxiliaryObject(GeoElement geo) {
 		// ignore
 	}
 
-	public void repaintView() {	
-		repaint();		
+	public void repaintView() {
+		repaint();
 	}
 
 	public void clearView() {
 
-		//Application.debug(new Date() + " CLEAR VIEW");
+		// Application.debug(new Date() + " CLEAR VIEW");
 
-		//clear the table model
+		// clear the table model
 		setDefaultLayout();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
 
 	}
 
-
-
 	/** Respond to changes in mode sent by GUI manager */
-	public void setMode(int mode){
+	public void setMode(int mode) {
 
 		this.mode = mode;
 
-		if(isTraceDialogVisible()){
+		if (isTraceDialogVisible()) {
 			traceDialog.toolbarModeChanged(mode);
 		}
 
@@ -383,151 +355,131 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 	}
 
-
-
 	/**
-	 * Clear table and set to default layout. 
-	 * This method is called on startup or when new window is called
+	 * Clear table and set to default layout. This method is called on startup
+	 * or when new window is called
 	 */
 	public void restart() {
 
 		clearView();
-		tableModel.clearView();			
+		tableModel.clearView();
 		updateColumnWidths();
-		updateFonts(); 
+		updateFonts();
 
 		app.getTraceManager().loadTraceGeoCollection();
 
 		table.oneClickEditMap.clear();
 
-		// clear the formats and call settingsChanged 
+		// clear the formats and call settingsChanged
 		settings().setCellFormat(null);
-		
-	}	
+
+	}
 
 	/** Resets spreadsheet after undo/redo call. */
 	public void reset() {
-		if(app.getTraceManager() != null)
+		if (app.getTraceManager() != null)
 			app.getTraceManager().loadTraceGeoCollection();
-	}	
-
+	}
 
 	public void update(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
-		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS) {
+		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
+				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 
-
-			//TODO: rowHeader and column 
-			//  changes should be handled by a table model listener			
+			// TODO: rowHeader and column
+			// changes should be handled by a table model listener
 
 			if (location.y >= tableModel.getRowCount()) {
-				//	tableModel.setRowCount(location.y + 1);		
+				// tableModel.setRowCount(location.y + 1);
 				spreadsheet.getRowHeader().revalidate();
 			}
 			if (location.x >= tableModel.getColumnCount()) {
-				tableModel.setColumnCount(location.x + 1);		
+				tableModel.setColumnCount(location.x + 1);
 				JViewport cH = spreadsheet.getColumnHeader();
 
 				// bugfix: double-click to load ggb file gives cH = null
-				if (cH != null) cH.revalidate();
+				if (cH != null)
+					cH.revalidate();
 			}
 
-			//Mark this cell to be resized by height
+			// Mark this cell to be resized by height
 			table.cellResizeHeightSet.add(new GPoint(location.x, location.y));
 
-			// put geos with special editors in the oneClickEditMap 
-			if(geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()){
+			// put geos with special editors in the oneClickEditMap
+			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
 				table.oneClickEditMap.put(location, geo);
 			}
 		}
-	}	
-
-	
+	}
 
 	final public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
 
-	
-
-
 	private boolean scrollToShow = false;
-
 
 	public void setScrollToShow(boolean scrollToShow) {
 		this.scrollToShow = scrollToShow;
 	}
 
-
-	//=====================================================
-	//               Formula Bar
-	//=====================================================
-
+	// =====================================================
+	// Formula Bar
+	// =====================================================
 
 	public FormulaBar getFormulaBar() {
-		if(formulaBar == null){
+		if (formulaBar == null) {
 			// Build the formula bar
-			formulaBar = new FormulaBar(app, this); 
+			formulaBar = new FormulaBar(app, this);
 			formulaBar.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(0,0,1,0,SystemColor.controlShadow), 
-					BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+					BorderFactory.createMatteBorder(0, 0, 1, 0,
+							SystemColor.controlShadow), BorderFactory
+							.createEmptyBorder(4, 4, 4, 4)));
 		}
 		return formulaBar;
 	}
 
-	public void updateFormulaBar(){
-		if(formulaBar != null && settings().showFormulaBar())
+	public void updateFormulaBar() {
+		if (formulaBar != null && settings().showFormulaBar())
 			formulaBar.update();
 	}
 
-	
+	// =====================================================
+	// Tracing
+	// =====================================================
 
-	//=====================================================
-	//               Tracing
-	//=====================================================
-
-
-
-	public void showTraceDialog(GeoElement geo, CellRange traceCell){
-		if (traceDialog == null){
+	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+		if (traceDialog == null) {
 			traceDialog = new TraceDialog(app, geo, traceCell);
-		}else{
+		} else {
 			traceDialog.setTraceDialogSelection(geo, traceCell);
 		}
-		traceDialog.setVisible(true);		
+		traceDialog.setVisible(true);
 	}
 
-	public boolean isTraceDialogVisible(){
+	public boolean isTraceDialogVisible() {
 		return (traceDialog != null && traceDialog.isVisible());
 	}
 
-	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow){
-		if (traceDialog == null){
+	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+		if (traceDialog == null) {
 			return null;
-		}else{
-			return traceDialog.getTraceSelectionRange(anchorColumn, anchorRow);
 		}
+		return traceDialog.getTraceSelectionRange(anchorColumn, anchorRow);
 	}
 
-	public void setTraceDialogMode(boolean enableMode){
-		if(enableMode){
+	public void setTraceDialogMode(boolean enableMode) {
+		if (enableMode) {
 			table.setSelectionRectangleColor(Color.GRAY);
-			//table.setFocusable(false);
-		}
-		else{
-			table.setSelectionRectangleColor(table.SELECTED_RECTANGLE_COLOR);
-			//table.setFocusable(true);
+			// table.setFocusable(false);
+		} else {
+			table.setSelectionRectangleColor(MyTableD.SELECTED_RECTANGLE_COLOR);
+			// table.setFocusable(true);
 		}
 	}
 
-
-
-
-	//===============================================================
-	//             XML 
-	//===============================================================
-
-
+	// ===============================================================
+	// XML
+	// ===============================================================
 
 	/**
 	 * returns settings in XML format
@@ -535,8 +487,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	public void getXML(StringBuilder sb, boolean asPreference) {
 		sb.append("<spreadsheetView>\n");
 
-		int width = getWidth();//getPreferredSize().width;
-		int height = getHeight();//getPreferredSize().height;
+		int width = getWidth();// getPreferredSize().width;
+		int height = getHeight();// getPreferredSize().height;
 
 		sb.append("\t<size ");
 		sb.append(" width=\"");
@@ -547,7 +499,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		sb.append("\"");
 		sb.append("/>\n");
 
-
 		sb.append("\t<prefCellSize ");
 		sb.append(" width=\"");
 		sb.append(table.preferredColumnWidth);
@@ -557,23 +508,24 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		sb.append("\"");
 		sb.append("/>\n");
 
-		
-		if(!asPreference){
+		if (!asPreference) {
 
-			// column widths 
-			for (int col = 0 ; col < table.getColumnCount() ; col++) {
-				TableColumn column = table.getColumnModel().getColumn(col); 
+			// column widths
+			for (int col = 0; col < table.getColumnCount(); col++) {
+				TableColumn column = table.getColumnModel().getColumn(col);
 				int colWidth = column.getWidth();
-				//if (colWidth != DEFAULT_COLUMN_WIDTH)
-				if (colWidth !=	table.preferredColumnWidth)
-					sb.append("\t<spreadsheetColumn id=\""+col+"\" width=\""+colWidth+"\"/>\n");
+				// if (colWidth != DEFAULT_COLUMN_WIDTH)
+				if (colWidth != table.preferredColumnWidth)
+					sb.append("\t<spreadsheetColumn id=\"" + col
+							+ "\" width=\"" + colWidth + "\"/>\n");
 			}
 
-			// row heights 
-			for (int row = 0 ; row < table.getRowCount() ; row++) {
+			// row heights
+			for (int row = 0; row < table.getRowCount(); row++) {
 				int rowHeight = table.getRowHeight(row);
 				if (rowHeight != table.getRowHeight())
-					sb.append("\t<spreadsheetRow id=\""+row+"\" height=\""+rowHeight+"\"/>\n");
+					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
+							+ rowHeight + "\"/>\n");
 			}
 
 			// initial selection
@@ -588,7 +540,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 			sb.append("\"");
 
 			sb.append(" column=\"");
-			sb.append(table.getColumnModel().getSelectionModel().getAnchorSelectionIndex());
+			sb.append(table.getColumnModel().getSelectionModel()
+					.getAnchorSelectionIndex());
 			sb.append("\"");
 
 			sb.append(" row=\"");
@@ -598,68 +551,63 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 			sb.append("/>\n");
 		}
 
-
-
 		// layout
 		sb.append("\t<layout ");
 
 		sb.append(" showFormulaBar=\"");
-		sb.append(settings().showFormulaBar()  ? "true" : "false" );
+		sb.append(settings().showFormulaBar() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showGrid=\"");
-		sb.append(settings().showGrid()  ? "true" : "false" );
+		sb.append(settings().showGrid() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showHScrollBar=\"");
-		sb.append(settings().showHScrollBar()  ? "true" : "false" );
+		sb.append(settings().showHScrollBar() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showVScrollBar=\"");
-		sb.append(settings().showVScrollBar()  ? "true" : "false" );
+		sb.append(settings().showVScrollBar() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showBrowserPanel=\"");
-		sb.append(settings().showBrowserPanel()  ? "true" : "false" );
+		sb.append(settings().showBrowserPanel() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showColumnHeader=\"");
-		sb.append(settings().showColumnHeader()  ? "true" : "false" );
+		sb.append(settings().showColumnHeader() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showRowHeader =\"");
-		sb.append(settings().showRowHeader()  ? "true" : "false" );
+		sb.append(settings().showRowHeader() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" allowSpecialEditor=\"");
-		sb.append(settings().allowSpecialEditor()  ? "true" : "false" );
+		sb.append(settings().allowSpecialEditor() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" allowToolTips=\"");
-		sb.append(settings().allowToolTips()  ? "true" : "false" );
+		sb.append(settings().allowToolTips() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" equalsRequired=\"");
-		sb.append(settings().equalsRequired()  ? "true" : "false" );
+		sb.append(settings().equalsRequired() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append("/>\n");
 
-		//---- end layout
-
-
+		// ---- end layout
 
 		// file browser
-		if(fileBrowser != null){
+		if (fileBrowser != null) {
 			sb.append("\t<spreadsheetBrowser ");
 
-			if(!settings().initialFilePath().equals(settings().defaultFile()) 
-					|| settings().initialURL() != DEFAULT_URL 
-					|| settings().initialBrowserMode() != DEFAULT_MODE)
-			{	
+			if (!settings().initialFilePath().equals(settings().defaultFile())
+					|| settings().initialURL() != DEFAULT_URL
+					|| settings().initialBrowserMode() != DEFAULT_MODE) {
 				sb.append(" default=\"");
 				sb.append("false");
-				sb.append("\"");	
+				sb.append("\"");
 
 				sb.append(" dir=\"");
 				sb.append(settings().initialFilePath());
@@ -671,52 +619,42 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 				sb.append(" mode=\"");
 				sb.append(settings().initialBrowserMode());
-				sb.append("\"");	
+				sb.append("\"");
 
-			}else{
+			} else {
 
 				sb.append(" default=\"");
 				sb.append("true");
-				sb.append("\"");	
+				sb.append("\"");
 			}
 
 			sb.append("/>\n");
 		}
 
-
-		//cell formats
-		if(!asPreference)
+		// cell formats
+		if (!asPreference)
 			table.getCellFormatHandler().getXML(sb);
-
-
 
 		sb.append("</spreadsheetView>\n");
 
-		//	Application.debug(sb);
+		// Application.debug(sb);
 
 	}
 
+	// ===============================================================
+	// Update
+	// ===============================================================
 
-
-
-
-
-	//===============================================================
-	//             Update 
-	//===============================================================
-
-
-	public void setLabels(){
-		if(traceDialog !=null)
+	public void setLabels() {
+		if (traceDialog != null)
 			traceDialog.setLabels();
-		
-		if (table !=null)
+
+		if (table != null)
 			table.setLabels();
-		if(formulaBar != null){
+		if (formulaBar != null) {
 			formulaBar.setLabels();
 		}
 	}
-
 
 	public void updateFonts() {
 
@@ -724,14 +662,14 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 		MyTextField dummy = new MyTextField(app);
 		dummy.setFont(font);
-		dummy.setText("9999");  // for row header width
+		dummy.setText("9999"); // for row header width
 		int h = dummy.getPreferredSize().height;
-		int w = dummy.getPreferredSize().width;	
-		rowHeader.setFixedCellWidth(w);	
+		int w = dummy.getPreferredSize().width;
+		rowHeader.setFixedCellWidth(w);
 
-		//TODO: column widths are not set from here
+		// TODO: column widths are not set from here
 		// need to revise updateColumnWidths() to do this correctly
-		dummy.setText("MMMMMMMMMM");  // for column width
+		dummy.setText("MMMMMMMMMM"); // for column width
 		h = dummy.getPreferredSize().height;
 		w = dummy.getPreferredSize().width;
 		table.setRowHeight(h);
@@ -743,98 +681,97 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		table.headerRenderer.setFont(font);
 
 		// Adjust row heights for tall LaTeX images
-		table.fitAll(true, false); 
+		table.fitAll(true, false);
 
-		if(fileBrowser != null)
+		if (fileBrowser != null)
 			fileBrowser.updateFonts();
-		
-		if(formulaBar != null)
+
+		if (formulaBar != null)
 			formulaBar.updateFonts(font);
 	}
 
-
-
 	public void setColumnWidth(int col, int width) {
-		//Application.debug("col = "+col+" width = "+width);
-		TableColumn column = table.getColumnModel().getColumn(col); 
+		// Application.debug("col = "+col+" width = "+width);
+		TableColumn column = table.getColumnModel().getColumn(col);
 		column.setPreferredWidth(width);
-		//column.
+		// column.
 	}
 
 	public void setRowHeight(int row, int height) {
 		table.setRowHeight(row, height);
 	}
 
-
 	public void updateColumnWidths() {
 		Font font = app.getPlainFont();
 
 		int size = font.getSize();
-		if (size < 12) size = 12; // minimum size
-		double multiplier = (double)(size)/12.0;
+		if (size < 12) {
+			size = 12; // minimum size
+		}
+		double multiplier = (size) / 12.0;
 		table.setPreferredColumnWidth((int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier));
-		for (int i = 0; i < table.getColumnCount(); ++ i) {
-			table.getColumnModel().getColumn(i).setPreferredWidth(table.preferredColumnWidth());
+		for (int i = 0; i < table.getColumnCount(); ++i) {
+			table.getColumnModel().getColumn(i)
+					.setPreferredWidth(table.preferredColumnWidth());
 		}
 
 	}
 
-	public void setColumnWidthsFromSettings(){
+	public void setColumnWidthsFromSettings() {
 
 		table.setPreferredColumnWidth(settings().preferredColumnWidth());
-		HashMap<Integer,Integer> widthMap = settings().getWidthMap();
-		for (int i = 0; i < table.getColumnCount(); ++ i) {
-			if(widthMap.containsKey(i))
-				table.getColumnModel().getColumn(i).setPreferredWidth(widthMap.get(i));
-			else
-				table.getColumnModel().getColumn(i).setPreferredWidth(table.preferredColumnWidth());
+		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
+		for (int i = 0; i < table.getColumnCount(); ++i) {
+			if (widthMap.containsKey(i)) {
+				table.getColumnModel().getColumn(i)
+						.setPreferredWidth(widthMap.get(i));
+			} else {
+				table.getColumnModel().getColumn(i)
+						.setPreferredWidth(table.preferredColumnWidth());
+			}
 		}
 	}
 
-	public void setRowHeightsFromSettings(){
-		HashMap<Integer,Integer> heightMap = app.getSettings().getSpreadsheet().getHeightMap();
-		table.setRowHeight(app.getSettings().getSpreadsheet().preferredRowHeight());
-		if(!heightMap.isEmpty()){
-			for (Integer r: heightMap.keySet()) {
+	public void setRowHeightsFromSettings() {
+		HashMap<Integer, Integer> heightMap = app.getSettings()
+				.getSpreadsheet().getHeightMap();
+		table.setRowHeight(app.getSettings().getSpreadsheet()
+				.preferredRowHeight());
+		if (!heightMap.isEmpty()) {
+			for (Integer r : heightMap.keySet()) {
 				table.setRowHeight(r, heightMap.get(r));
 			}
 		}
 	}
 
-
 	public void updateRowHeader() {
-		if(rowHeader != null)
+		if (rowHeader != null) {
 			rowHeader.updateRowHeader();
+		}
 	}
 
-
-	public void setSpreadsheetScrollPosition(int hScroll, int vScroll){
+	public void setSpreadsheetScrollPosition(int hScroll, int vScroll) {
 		spreadsheet.getHorizontalScrollBar().setValue(hScroll);
 		spreadsheet.getVerticalScrollBar().setValue(vScroll);
 	}
 
-
-
-
-
 	// ==========================================================
 	// Handle spreadsheet resize.
 	//
-	// Adds extra rows and columns to fill the enclosing scrollpane. 
+	// Adds extra rows and columns to fill the enclosing scrollpane.
 	// This is sometimes needed when rows or columns are resized
 	// or the application window is enlarged.
 
-
 	/**
-	 * Tests if the spreadsheet fits the enclosing scrollpane viewport.
-	 * Adds rows or columns if needed to fill the viewport.
+	 * Tests if the spreadsheet fits the enclosing scrollpane viewport. Adds
+	 * rows or columns if needed to fill the viewport.
 	 */
 	public void expandSpreadsheetToViewport() {
 
 		if (table.getWidth() < spreadsheet.getWidth()) {
 
 			int newColumns = (spreadsheet.getWidth() - table.getWidth())
-			/ table.preferredColumnWidth();
+					/ table.preferredColumnWidth();
 			table.removeComponentListener(this);
 			tableModel.setColumnCount(table.getColumnCount() + newColumns);
 			table.addComponentListener(this);
@@ -842,7 +779,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		}
 		if (table.getHeight() < spreadsheet.getHeight()) {
 			int newRows = (spreadsheet.getHeight() - table.getHeight())
-			/ table.getRowHeight();
+					/ table.getRowHeight();
 			table.removeComponentListener(this);
 			tableModel.setRowCount(table.getRowCount() + newRows);
 			table.addComponentListener(this);
@@ -864,20 +801,18 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		expandSpreadsheetToViewport();
 	}
 
-	public void componentHidden(ComponentEvent e) {}
-	public void componentMoved(ComponentEvent e) {}
-	public void componentShown(ComponentEvent e) {}
+	public void componentHidden(ComponentEvent e) {
+	}
 
+	public void componentMoved(ComponentEvent e) {
+	}
 
+	public void componentShown(ComponentEvent e) {
+	}
 
-
-
-
-	//===============================================================
-	//             Data Import & File Browser 
-	//===============================================================
-
-
+	// ===============================================================
+	// Data Import & File Browser
+	// ===============================================================
 
 	public boolean loadSpreadsheetFromURL(File f) {
 
@@ -886,8 +821,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		URL url = null;
 		try {
 			url = f.toURI().toURL();
-			succ = loadSpreadsheetFromURL(url); 
-		} 
+			succ = loadSpreadsheetFromURL(url);
+		}
 
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -905,17 +840,16 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		return succ;
 	}
 
-
-	public FileBrowserPanel getFileBrowser() {		
-		if (fileBrowser == null && app.hasFullPermissions()) {
+	public FileBrowserPanel getFileBrowser() {
+		if (fileBrowser == null && AppD.hasFullPermissions()) {
 			fileBrowser = new FileBrowserPanel(this);
 			fileBrowser.setMinimumSize(new Dimension(50, 0));
-			//initFileBrowser();
-			//fileBrowser.setRoot(settings.initialPath(), settings.initialBrowserMode());
-		}	
+			// initFileBrowser();
+			// fileBrowser.setRoot(settings.initialPath(),
+			// settings.initialBrowserMode());
+		}
 		return fileBrowser;
 	}
-
 
 	public void setShowFileBrowser(boolean showFileBrowser) {
 
@@ -934,45 +868,48 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 	}
 
-	public boolean getShowBrowserPanel(){
+	public boolean getShowBrowserPanel() {
 		return settings().showBrowserPanel();
 
 	}
 
-	public void minimizeBrowserPanel(){
+	public void minimizeBrowserPanel() {
 		splitPane.setDividerLocation(10);
 		splitPane.setDividerSize(0);
 		splitPane.setLeftComponent(getRestorePanel());
 	}
 
-
-	public void restoreBrowserPanel(){
+	public void restoreBrowserPanel() {
 		splitPane.setDividerLocation(splitPane.getLastDividerLocation());
 		splitPane.setDividerSize(4);
 		splitPane.setLeftComponent(getFileBrowser());
 
 	}
 
-
 	/**
-	 * Returns restorePanel, if none exists a new one is built.
-	 * RestorePanel is a slim vertical bar that holds the place 
-	 * of the minimized fileBrowser. When clicked it restores the
-	 * file browser to full size. 
+	 * Returns restorePanel, if none exists a new one is built. RestorePanel is
+	 * a slim vertical bar that holds the place of the minimized fileBrowser.
+	 * When clicked it restores the file browser to full size.
 	 * 
 	 */
 	public JPanel getRestorePanel() {
 		if (restorePanel == null) {
 			restorePanel = new JPanel();
-			restorePanel.setMinimumSize(new Dimension(10,0));
+			restorePanel.setMinimumSize(new Dimension(10, 0));
 			restorePanel.setBorder(BorderFactory.createEtchedBorder(1));
 			restorePanel.addMouseListener(new MouseAdapter() {
+
+				@Override
 				public void mouseClicked(MouseEvent e) {
 					restoreBrowserPanel();
 				}
+
+				@Override
 				public void mouseEntered(MouseEvent e) {
 					restorePanel.setBackground(Color.LIGHT_GRAY);
 				}
+
+				@Override
 				public void mouseExited(MouseEvent e) {
 					restorePanel.setBackground(null);
 				}
@@ -982,45 +919,44 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		return restorePanel;
 	}
 
-
-
 	public int getInitialBrowserMode() {
 		return settings().initialBrowserMode();
 	}
-
 
 	public String getInitialURLString() {
 		return settings().initialURL();
 	}
 
-
 	public String getInitialFileString() {
 		return settings().initialFilePath();
 	}
 
+	public void setBrowserDefaults(boolean doRestore) {
 
-	public void setBrowserDefaults(boolean doRestore){
-
-		if(doRestore){
+		if (doRestore) {
 			settings().setInitialFilePath(settings().defaultFile());
 			settings().setInitialURL(DEFAULT_URL);
 			settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
-			//initFileBrowser();
+			// initFileBrowser();
 
-		}else{
+		} else {
 			settings().setInitialFilePath(fileBrowser.getRootString());
 			settings().setInitialBrowserMode(fileBrowser.getMode());
 		}
 	}
 
-	public void initFileBrowser(){
-		// don't init file browser without full permissions (e.g. unsigned applets)
-		if(!app.hasFullPermissions() || !settings().showBrowserPanel()) return;
+	public void initFileBrowser() {
+		// don't init file browser without full permissions (e.g. unsigned
+		// applets)
+		if (!AppD.hasFullPermissions() || !settings().showBrowserPanel())
+			return;
 
-		if(settings().initialBrowserMode() == FileBrowserPanel.MODE_FILE)
-			setFileBrowserDirectory(settings().initialFilePath(), settings().initialBrowserMode());
+		if (settings().initialBrowserMode() == FileBrowserPanel.MODE_FILE)
+			setFileBrowserDirectory(settings().initialFilePath(), settings()
+					.initialBrowserMode());
 		else
-			setFileBrowserDirectory(settings().initialURL(), settings().initialBrowserMode());
+			setFileBrowserDirectory(settings().initialURL(), settings()
+					.initialBrowserMode());
 	}
 
 	public boolean setFileBrowserDirectory(String rootString, int mode) {
@@ -1029,19 +965,15 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	}
 
 	/*
-	public void setDefaultFileBrowserDirectory() {
-		if(this.DEFAULT_MODE == FileBrowserPanel.MODE_FILE)
-			setFileBrowserDirectory(String rootString, int mode)
-		else
-			setFileBrowserDirectory(DEFAULT_URL, FileBrowserPanel.MODE_URL);
-	}
+	 * public void setDefaultFileBrowserDirectory() { if(this.DEFAULT_MODE ==
+	 * FileBrowserPanel.MODE_FILE) setFileBrowserDirectory(String rootString,
+	 * int mode) else setFileBrowserDirectory(DEFAULT_URL,
+	 * FileBrowserPanel.MODE_URL); }
 	 */
 
-
-	//================================================
-	//	         Spreadsheet Settings
-	//================================================
-
+	// ================================================
+	// Spreadsheet Settings
+	// ================================================
 
 	public void setShowRowHeader(boolean showRowHeader) {
 		if (showRowHeader) {
@@ -1050,7 +982,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 			spreadsheet.setRowHeaderView(null);
 		}
 	}
-
 
 	public void setShowColumnHeader(boolean showColumnHeader) {
 		if (showColumnHeader) {
@@ -1062,38 +993,34 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		}
 	}
 
-
 	public void setShowVScrollBar(boolean showVScrollBar) {
 		if (showVScrollBar) {
 			spreadsheet
-			.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+					.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		} else {
 			spreadsheet
-			.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+					.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		}
 	}
-
 
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		if (showHScrollBar) {
 			spreadsheet
-			.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+					.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		} else {
 			spreadsheet
-			.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		}
 	}
 
-
 	public void setShowGrid(boolean showGrid) {
 		table.setShowGrid(showGrid);
-		if(showGrid)
-			table.setIntercellSpacing(new Dimension(1,1));
+		if (showGrid)
+			table.setIntercellSpacing(new Dimension(1, 1));
 		else
-			table.setIntercellSpacing(new Dimension(0,0));
+			table.setIntercellSpacing(new Dimension(0, 0));
 		getSpreadsheetStyleBar().updateStyleBar();
 	}
-
 
 	public boolean getAllowToolTips() {
 		return settings().allowToolTips();
@@ -1103,98 +1030,95 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		// do nothing yet
 	}
 
-
 	public void setShowFormulaBar(boolean showFormulaBar) {
-		if(showFormulaBar)
-			spreadsheetPanel.add(getFormulaBar(),BorderLayout.NORTH);
-		else
-			if(formulaBar != null)
-				spreadsheetPanel.remove(formulaBar);
+		if (showFormulaBar)
+			spreadsheetPanel.add(getFormulaBar(), BorderLayout.NORTH);
+		else if (formulaBar != null)
+			spreadsheetPanel.remove(formulaBar);
 
-		if(formulaBar != null)
+		if (formulaBar != null)
 			formulaBar.update();
 		this.revalidate();
 		this.repaint();
 		getSpreadsheetStyleBar().updateStyleBar();
 	}
 
-	public boolean getShowFormulaBar(){
+	public boolean getShowFormulaBar() {
 		return settings().showFormulaBar();
 	}
 
-
-	public boolean isVisibleStyleBar(){
+	public boolean isVisibleStyleBar() {
 		return styleBar == null || styleBar.isVisible();
 	}
 
-
-	public void setColumnSelect(boolean isColumnSelect){
-		//do nothing yet
+	public void setColumnSelect(boolean isColumnSelect) {
+		// do nothing yet
 	}
 
-	public boolean isColumnSelect(){
+	public boolean isColumnSelect() {
 		return settings().isColumnSelect();
 	}
 
-	public void setAllowSpecialEditor(boolean allowSpecialEditor){
+	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
 		repaint();
 	}
 
-	public boolean allowSpecialEditor(){
+	public boolean allowSpecialEditor() {
 		return settings().allowSpecialEditor();
 	}
 
 	/**
 	 * sets requirement that commands entered into cells must start with "="
-	 */	
-	public void setEqualsRequired(boolean isEqualsRequired){
+	 */
+	public void setEqualsRequired(boolean isEqualsRequired) {
 		table.setEqualsRequired(isEqualsRequired);
 	}
 
 	/**
 	 * gets requirement that commands entered into cells must start with "="
 	 */
-	public boolean isEqualsRequired(){
+	public boolean isEqualsRequired() {
 		return settings().equalsRequired();
 	}
 
-
 	boolean allowSettingUpate = true;
 
-	protected void updateCellFormat(String cellFormat){
-		if(!allowSettingUpate) return;
+	protected void updateCellFormat(String cellFormat) {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().setCellFormat(cellFormat);
 		settings().addListener(this);
 	}
 
-	protected void updateAllRowSettings(){
-		if(!allowSettingUpate) return;
+	protected void updateAllRowSettings() {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().setPreferredRowHeight(table.getRowHeight());
 		settings().getHeightMap().clear();
-		for (int row = 0 ; row < table.getRowCount() ; row++) {
+		for (int row = 0; row < table.getRowCount(); row++) {
 			int rowHeight = table.getRowHeight(row);
 			if (rowHeight != table.getRowHeight())
-				settings().getHeightMap().put(row,rowHeight);
+				settings().getHeightMap().put(row, rowHeight);
 		}
 		settings().addListener(this);
 	}
 
-
-
-	protected void updateRowHeightSetting(int row, int height){
-		if(!allowSettingUpate) return;
+	protected void updateRowHeightSetting(int row, int height) {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().getHeightMap().put(row, height);
 		settings().addListener(this);
 	}
 
-	protected void updatePreferredRowHeight(int preferredRowHeight){
-		if(!allowSettingUpate) return;
+	protected void updatePreferredRowHeight(int preferredRowHeight) {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().getHeightMap().clear();
@@ -1202,17 +1126,18 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		settings().addListener(this);
 	}
 
-
-	protected void updateColumnWidth(int col, int colWidth){
-		if(!allowSettingUpate) return;
+	protected void updateColumnWidth(int col, int colWidth) {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().getWidthMap().put(col, colWidth);
 		settings().addListener(this);
 	}
 
-	protected void updatePreferredColumnWidth(int colWidth){
-		if(!allowSettingUpate) return;
+	protected void updatePreferredColumnWidth(int colWidth) {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().getWidthMap().clear();
@@ -1220,35 +1145,33 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		settings().addListener(this);
 	}
 
-
-	protected void updateAllColumnWidthSettings(){
-		if(!allowSettingUpate) return;
+	protected void updateAllColumnWidthSettings() {
+		if (!allowSettingUpate)
+			return;
 
 		settings().removeListener(this);
 		settings().setPreferredColumnWidth(table.preferredColumnWidth);
 		settings().getWidthMap().clear();
-		for (int col = 0 ; col < table.getColumnCount() ; col++) {
-			TableColumn column = table.getColumnModel().getColumn(col); 
+		for (int col = 0; col < table.getColumnCount(); col++) {
+			TableColumn column = table.getColumnModel().getColumn(col);
 			int colWidth = column.getWidth();
-			if (colWidth !=	table.preferredColumnWidth)
+			if (colWidth != table.preferredColumnWidth)
 				settings().getWidthMap().put(col, colWidth);
 		}
 		settings().addListener(this);
 	}
 
-
-	protected SpreadsheetSettings settings(){
+	protected SpreadsheetSettings settings() {
 		return app.getSettings().getSpreadsheet();
 	}
 
-	
 	public void settingsChanged(AbstractSettings settings0) {
 
 		allowSettingUpate = false;
 
 		// layout
 		setShowColumnHeader(settings().showColumnHeader());
-		setShowRowHeader(settings().showRowHeader()) ;
+		setShowRowHeader(settings().showRowHeader());
 		setShowVScrollBar(settings().showVScrollBar());
 		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());
@@ -1259,53 +1182,55 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		setEqualsRequired(settings().equalsRequired());
 
 		// browser panel
-		if(app.hasFullPermissions()){
+		if (AppD.hasFullPermissions()) {
 			settings().removeListener(this);
-			if(settings().initialBrowserMode() < 0)
+			if (settings().initialBrowserMode() < 0)
 				settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
-			if(settings().defaultFile() == null)
+			if (settings().defaultFile() == null)
 				settings().setDefaultFile(System.getProperty("user.dir"));
-			if(settings().initialFilePath() == null)
+			if (settings().initialFilePath() == null)
 				settings().setInitialFilePath(System.getProperty("user.dir"));
-			if(settings().initialURL() == null)
+			if (settings().initialURL() == null)
 				settings().setInitialURL(DEFAULT_URL);
 			settings().addListener(this);
 		}
 
 		setShowFileBrowser(settings().showBrowserPanel());
 
-		// row height and column widths		
+		// row height and column widths
 		setColumnWidthsFromSettings();
 		setRowHeightsFromSettings();
 
 		// cell format
-		getTable().getCellFormatHandler().processXMLString(settings().cellFormat());	
+		getTable().getCellFormatHandler().processXMLString(
+				settings().cellFormat());
 
 		// preferredSize
-		this.setPreferredSize(geogebra.awt.GDimensionD.getAWTDimension(settings().preferredSize()));
-
+		this.setPreferredSize(geogebra.awt.GDimensionD
+				.getAWTDimension(settings().preferredSize()));
 
 		// initial position
-		// TODO not working yet ... 
-		//setSpreadsheetScrollPosition(settings.scrollPosition().x, settings.scrollPosition().y);
-		//getTable().setInitialCellSelection(settings.selectedCell().x, settings.selectedCell().y);
+		// TODO not working yet ...
+		// setSpreadsheetScrollPosition(settings.scrollPosition().x,
+		// settings.scrollPosition().y);
+		// getTable().setInitialCellSelection(settings.selectedCell().x,
+		// settings.selectedCell().y);
 
 		allowSettingUpate = true;
 
 	}
 
+	// ================================================
+	// Focus
+	// ================================================
 
-
-
-	//================================================
-	//	         Focus
-	//================================================
-
-	protected boolean hasViewFocus(){
+	protected boolean hasViewFocus() {
 		boolean hasFocus = false;
 		try {
-			if(app.getGuiManager().getLayout().getDockManager().getFocusedPanel() != null)
-				hasFocus = app.getGuiManager().getLayout().getDockManager().getFocusedPanel().isAncestorOf(this);
+			if (app.getGuiManager().getLayout().getDockManager()
+					.getFocusedPanel() != null)
+				hasFocus = app.getGuiManager().getLayout().getDockManager()
+						.getFocusedPanel().isAncestorOf(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1313,41 +1238,39 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		return hasFocus;
 	}
 
-
-
 	// transfer focus to the table
+	@Override
 	public void requestFocus() {
 		if (table != null)
 			table.requestFocus();
 	}
 
-
-	// test all components of SpreadsheetView for hasFocus 
+	// test all components of SpreadsheetView for hasFocus
+	@Override
 	public boolean hasFocus() {
 		if (table == null)
 			return false;
 		return table.hasFocus()
-		|| rowHeader.hasFocus()
-		|| (table.getTableHeader() != null && table.getTableHeader().hasFocus())
-		|| spreadsheet.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER).hasFocus()
-		|| (formulaBar != null && formulaBar.hasFocus());
+				|| rowHeader.hasFocus()
+				|| (table.getTableHeader() != null && table.getTableHeader()
+						.hasFocus())
+				|| spreadsheet.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER)
+						.hasFocus()
+				|| (formulaBar != null && formulaBar.hasFocus());
 	}
 
 	public void focusGained(FocusEvent arg0) {
 
 	}
 
-
 	public void focusLost(FocusEvent arg0) {
 		getTable().repaint();
 
 	}
 
-
 	public int getViewID() {
 		return App.VIEW_SPREADSHEET;
 	}
-
 
 	public int[] getGridColwidths() {
 		int[] colWidths = new int[2 + tableModel.getHighestUsedColumn()];
@@ -1358,26 +1281,25 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		return colWidths;
 	}
 
-
 	public int[] getGridRowHeights() {
-		int[] rowHeights=new int[2+tableModel.getHighestUsedRow()];
-		
-		if(table.getTableHeader() == null)
+		int[] rowHeights = new int[2 + tableModel.getHighestUsedRow()];
+
+		if (table.getTableHeader() == null)
 			rowHeights[0] = 0;
 		else
-			rowHeights[0]=table.getTableHeader().getHeight();
-		
-		for (int r=0;r<=tableModel.getHighestUsedRow();r++){
-			rowHeights[r+1]=table.getRowHeight(r);
+			rowHeights[0] = table.getTableHeader().getHeight();
+
+		for (int r = 0; r <= tableModel.getHighestUsedRow(); r++) {
+			rowHeights[r + 1] = table.getRowHeight(r);
 		}
 		return rowHeights;
 	}
 
-
 	public Component[][] getPrintComponents() {
-		return new Component[][]{
-				{spreadsheet.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER), spreadsheet.getColumnHeader()},
-				{spreadsheet.getRowHeader(),table}};
+		return new Component[][] {
+				{ spreadsheet.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER),
+						spreadsheet.getColumnHeader() },
+				{ spreadsheet.getRowHeader(), table } };
 	}
 
 }

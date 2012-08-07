@@ -9,7 +9,7 @@ import javax.swing.event.PopupMenuListener;
  * keeping the correct (usually larger) width of its popup menu.
  * 
  * @author Markus Hohenwarter
- * @see http://forums.sun.com/thread.jspa?threadID=570675
+ * @see "http://forums.sun.com/thread.jspa?threadID=570675"
  */
 public class MyComboBox extends JComboBox implements PopupMenuListener {
 	

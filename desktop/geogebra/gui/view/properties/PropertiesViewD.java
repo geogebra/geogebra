@@ -51,8 +51,6 @@ import javax.swing.JPanel;
 public class PropertiesViewD extends
 		geogebra.common.gui.view.properties.PropertiesView {
 
-	private static final long serialVersionUID = 1L;
-
 	// private GeoTree geoTree;
 
 	private PropertiesStyleBarD styleBar;

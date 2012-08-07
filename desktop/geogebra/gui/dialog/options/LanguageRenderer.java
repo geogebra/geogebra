@@ -15,18 +15,17 @@ import javax.swing.JList;
  * @author michael
  *
  */
-@SuppressWarnings("serial")
 public class LanguageRenderer  extends DefaultListCellRenderer {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private App app;
 
-	@SuppressWarnings("javadoc")
 	LanguageRenderer(App app) {
 		super();
 		this.app = app;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
