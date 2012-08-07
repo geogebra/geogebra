@@ -38,6 +38,7 @@ public class AlgoSlopeField extends AlgoElement {
 	private AlgoDenominator denAlgo;
 	private FunctionalNVar num, den;
 	private boolean quotient;
+	private EuclidianView mainView;
 
 	/**
 	 * @param cons cons
@@ -136,7 +137,8 @@ public class AlgoSlopeField extends AlgoElement {
 
 		if (al == null) al = new ArrayList<MyPoint>();
 		else al.clear();
-
+		
+		mainView = null;
 		double xmax = -Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
 		double xmin = Double.MAX_VALUE;
@@ -155,6 +157,7 @@ public class AlgoSlopeField extends AlgoElement {
 			EuclidianView view = kernel.getApplication().getEuclidianView1();
 
 			if (view.isVisibleInThisView(locus)) {
+				mainView = view;
 				xmax = Math.max(xmax,  view.toRealWorldCoordX((view.getWidth())));
 				ymax = Math.max(ymax,  view.toRealWorldCoordY(0));
 				xmin = Math.min(xmin,  view.toRealWorldCoordX(0));
@@ -165,6 +168,8 @@ public class AlgoSlopeField extends AlgoElement {
 			if (app.hasEuclidianView2()) {
 				EuclidianView view2 = app.getEuclidianView2();
 				if (view2.isVisibleInThisView(locus)) {
+					if(mainView == null)
+						mainView = view2;
 					xmax = Math.max(xmax,  view2.toRealWorldCoordX((view.getWidth())));
 					ymax = Math.max(ymax,  view2.toRealWorldCoordY(0));
 					xmin = Math.min(xmin,  view2.toRealWorldCoordX(0));
@@ -192,8 +197,8 @@ public class AlgoSlopeField extends AlgoElement {
 				length = 0.5;
 			}
 			
-			double xLength = xStep * length * 0.5;
-			double yLength = yStep * length * 0.5;
+			length = Math.min(xStep,yStep) * length * 0.5;
+			//double yLength = yStep * length * 0.5;
 			
 			boolean funcOfJustY = func instanceof GeoFunction && ((GeoFunction)func).isFunctionOfY();
 
@@ -219,14 +224,13 @@ public class AlgoSlopeField extends AlgoElement {
 								al.add(new MyPoint(xx, yy, true));
 							} else {
 								// vertical line
-								al.add(new MyPoint(xx, yy - yLength, false));
-								al.add(new MyPoint(xx, yy + yLength, true));							
+								drawLine(0,1, length, xx, yy);							
 							}
 						} else {
 
 							// standard case
 							double gradient = numD / denD;
-							drawLine(gradient, xLength,yLength, xx, yy);
+							drawLine(1,gradient, length, xx, yy);
 						}
 					} else {
 						// non-quotient function like x y
@@ -239,7 +243,7 @@ public class AlgoSlopeField extends AlgoElement {
 							// standard case
 							gradient = func.evaluate(input1);
 						}
-						drawLine(gradient, xLength,yLength, xx, yy);
+						drawLine(1,gradient, length, xx, yy);
 
 					}
 
@@ -254,10 +258,14 @@ public class AlgoSlopeField extends AlgoElement {
 
 	}
 	
-	private void drawLine(double gradient, double xLength, double yLength, double xx, double yy) {
-		double theta = Math.atan(gradient);
-		double dx = xLength * Math.cos(theta);
-		double dy = yLength * Math.sin(theta);
+	private void drawLine(double dx, double dy, double length, double xx, double yy) {
+		/*double theta = Math.atan(gradient);
+		double dx = Math.cos(theta);
+		double dy = Math.sin(theta);*/
+		double dyScaled = dy *mainView.getScaleRatio();
+		double coeff = Math.sqrt(dx*dx+dyScaled*dyScaled);
+		dx *= length/coeff;
+		dy *= length/coeff;
 		al.add(new MyPoint(xx - dx, yy - dy, false));
 		al.add(new MyPoint(xx + dx, yy + dy, true));
 
