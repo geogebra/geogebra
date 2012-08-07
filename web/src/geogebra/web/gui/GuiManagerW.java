@@ -1,5 +1,6 @@
 package geogebra.web.gui;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -13,6 +14,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.main.MyError;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -29,12 +31,15 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManagerW extends GuiManager {
@@ -382,14 +387,6 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		return inputHelpPanel;
     }
 
-	public void openCommandHelp(String command) {
-	   App.debug("Implementation needed...");
-    }
-
-	public void openHelp(String wikiManual) {
-		App.debug("Implementation needed...");
-    }
-
 	public void setShowAuxiliaryObjects(boolean flag) {
 		// TODO: auto-generated method stub
 		if (!hasAlgebraView())
@@ -709,4 +706,88 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	    // TODO Auto-generated method stub
 	    
     }
+
+	@Override
+    protected void openHelp(String page, Help type) {
+		try {
+			String helpURL = getHelpURL(type, page);
+			Window.open(helpURL, "", "");
+		} catch (MyError e) {
+			app.showError(e);
+		} catch (Exception e) {
+			App.debug("openHelp error: " + e.toString() + " "
+					+ e.getMessage() + " " + page + " " + type);
+			app.showError(e.getMessage());
+			e.printStackTrace();
+		}   
+    }
+	
+	private String getHelpURL(Help type, String pageName) {
+		// try to get help for given language
+		// eg http://www.geogebra.org/help/en_GB/FitLogistic
+
+		StringBuilder urlSB = new StringBuilder();
+//		StringBuilder urlOffline = new StringBuilder();
+//
+//		urlOffline.append(AppD.getCodeBaseFolder());
+//		urlOffline.append("help/");
+//		urlOffline.append(((AppD)app).getLocale().getLanguage()); // eg en
+//		urlOffline.append('/');
+
+		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
+		urlSB.append("help/");
+		urlSB.append(((AppW)app).getLocaleStr()); // eg en_GB
+
+		switch (type) {
+		case COMMAND:
+			pageName = ((AppW)app).getEnglishCommand(pageName);
+//			String pageNameOffline = pageName.replace(":", "%3A").replace(" ",
+//					"_");
+			urlSB.append("/cmd/");
+			urlSB.append(pageName);
+
+//			urlOffline.append(pageNameOffline);
+//			urlOffline.append("_Command.html");
+			break;
+		case TOOL:
+//			pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
+			urlSB.append("/tool/");
+			urlSB.append(pageName);
+
+//			urlOffline.append(pageNameOffline);
+//			urlOffline.append("_Tool.html");
+			break;
+		case GENERIC:
+//			pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
+			urlSB.append("/article/");
+			urlSB.append(pageName);
+
+//			urlOffline.append(pageNameOffline);
+//			urlOffline.append(".html");
+			break;
+		default:
+			App.printStacktrace("Bad getHelpURL call");
+		}
+		try {
+			// Application.debug(urlOffline.toString());
+			// Application.debug(urlSB.toString());
+
+//			String offlineStr = urlOffline.toString();
+
+//			File file = new File(AppD.WINDOWS ? offlineStr.replaceAll(
+//					"[/\\\\]+", "\\" + "\\") : offlineStr); // replace slashes
+//															// with
+//															// backslashes
+//
+//			if (file.exists())
+//				return getEscapedUrl("file:///" + offlineStr);
+//			else
+//				return getEscapedUrl(urlSB.toString());
+			
+			return urlSB.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

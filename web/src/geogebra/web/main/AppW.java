@@ -98,6 +98,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -918,7 +919,7 @@ public class AppW extends App {
 		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
 		dialog.center();
 		
-		Button ok = new Button("OK");
+		Button ok = new Button(getPlain("OK"));
 		ok.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -1320,18 +1321,46 @@ public class AppW extends App {
 
 	@Override
 	public void showError(MyError e) {
-//		Window.alert(e.getLocalizedMessage());
-//		App.debug("showError: implementation needed with Show Online Help option "+e.toString());
-
-		String command = e.getcommandName();
+		final String command = e.getcommandName();
 		
 		//TODO
 		App.debug("TODO later: make sure splash screen not showing");
-		
-//		if (command == null) {
+	
+		final PopupPanel dialog = new PopupPanel(true);
+		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
+		dialog.center();
+		if (command == null) {
 			showErrorDialog(e.getLocalizedMessage());
-//			return;			
-//		}
+			return;			
+		}
+		
+		Button ok = new Button(getPlain("OK"));
+		ok.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialog.hide();
+			}
+		});
+		Button showHelp = new Button(getPlain("ShowOnlineHelp"));
+		showHelp.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				getGuiManager().openCommandHelp(command);
+				dialog.hide();
+			}
+		});		
+		
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.add(ok);
+		buttonPanel.add(showHelp);
+		
+		VerticalPanel panel = new VerticalPanel();
+		String[] lines = e.getLocalizedMessage().split("\n");
+		for(String item : lines ){
+			panel.add(new Label(item));
+		}
+		
+		panel.add(buttonPanel);
+		dialog.setWidget(panel);
+		dialog.show();
 		
 	}
 
@@ -2192,6 +2221,10 @@ public class AppW extends App {
 	@Override
     public void runScripts(GeoElement geo1, String string) {
 	    geo1.runScripts(string);
+    }
+
+	public String getEnglishCommand(String pageName) {
+		return pageName;
     }
 
 }

@@ -25,6 +25,10 @@ import java.util.ArrayList;
 
 public abstract class GuiManager {
 
+	public enum Help {
+		COMMAND, TOOL, GENERIC
+	}
+
 	private static final String ggbTube = "geogebratube.org/";
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String material = "/material/show/id/";
@@ -488,6 +492,23 @@ public abstract class GuiManager {
 	public abstract void detachSpreadsheetView();
 
 	public abstract void detachAlgebraView();
+
+	public void openCommandHelp(String command) {
+		String internalCmd = null;
+		if (command != null)
+			try { // convert eg uppersum to UpperSum
+				internalCmd = app.translateCommand(command);
+			} catch (Exception e) {
+			}
+	
+		openHelp(internalCmd, Help.COMMAND);
+	}
+
+	protected abstract void openHelp(String internalCmd, Help command);
+
+	public void openHelp(String page) {
+		openHelp(page, Help.GENERIC);
+	}
 
 	
 

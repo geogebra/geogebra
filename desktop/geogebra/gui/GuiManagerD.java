@@ -2266,21 +2266,6 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
-	public void openCommandHelp(String command) {
-		String internalCmd = null;
-		if (command != null)
-			try { // convert eg uppersum to UpperSum
-				internalCmd = app.translateCommand(command);
-			} catch (Exception e) {
-			}
-
-		openHelp(internalCmd, Help.COMMAND);
-	}
-
-	public void openHelp(String page) {
-		openHelp(page, Help.GENERIC);
-	}
-	
 	public void openToolHelp() {
 		openToolHelp(app.getKernel().getModeText(app.getMode()));
 	
@@ -2302,7 +2287,7 @@ public class GuiManagerD extends GuiManager {
 			openHelp(((AppD)app).getEnglishMenu(page), Help.TOOL);
 	}
 
-	private void openHelp(String page, Help type) {
+	public void openHelp(String page, Help type) {
 		try {
 			URL helpURL = getHelpURL(type, page);
 			showURLinBrowser(helpURL);
@@ -2324,10 +2309,6 @@ public class GuiManagerD extends GuiManager {
 			e.printStackTrace();
 		}
 	}
-
-	private enum Help {
-		COMMAND, TOOL, GENERIC
-	};
 
 	private URL getHelpURL(Help type, String pageName) {
 		// try to get help for given language

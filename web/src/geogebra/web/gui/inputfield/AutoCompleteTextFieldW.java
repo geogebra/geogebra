@@ -553,6 +553,9 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		      }
 		    }
 		    // can't work out anything better, just show "Invalid Input"
+		 //TODO
+		 //   e.printStackTrace();
+		 //   app.showError(app.getError("InvalidInput"));
 		    app.showError(e.getLocalizedMessage());
     }
 	
