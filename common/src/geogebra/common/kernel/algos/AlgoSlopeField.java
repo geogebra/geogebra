@@ -149,7 +149,11 @@ public class AlgoSlopeField extends AlgoElement {
 			ymax = maxY.getDouble();
 			xmin = minX.getDouble(); 
 			ymin = minY.getDouble();
-
+			mainView = kernel.getApplication().getEuclidianView1();
+			if (app.hasEuclidianView2() && app.getEuclidianView2().isVisibleInThisView(locus)
+					&& !mainView.isVisibleInThisView(locus)) {
+					mainView = app.getEuclidianView2();
+			}
 		} else {
 
 			// make sure it covers all of EV1 & EV2 if appropriate
