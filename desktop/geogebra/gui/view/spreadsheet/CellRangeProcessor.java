@@ -55,6 +55,10 @@ public class CellRangeProcessor {
 
 	}
 
+	private SpreadsheetView getView() {
+		return app.getGuiManager().getSpreadsheetView();
+	}
+
 	// ===============================================
 	// Validation
 	// ===============================================
@@ -210,26 +214,68 @@ public class CellRangeProcessor {
 		return false;
 	}
 
+	public boolean is1DRangeList(ArrayList<CellRange> rangeList) {
+
+		if (rangeList == null || rangeList.size() > 1) {
+			return false;
+		}
+
+		return rangeList.get(0).is1D();
+	}
+
 	// ====================================================
 	// Create Lists from Cells
 	// ====================================================
 
 	/**
-	 * Creates a GeoList of lists where each element is a list of cells in each
-	 * column spanned by the range list
+	 * Creates a GeoList of lists where each element is a GeoList of cells in
+	 * each column or row spanned by the given range list
 	 */
 	public GeoList createCollectionList(ArrayList<CellRange> rangeList,
-			boolean copyByValue, boolean addToConstruction) {
+			boolean copyByValue, boolean addToConstruction, boolean scanByColumn) {
 
 		GeoList tempGeo = new GeoList(cons);
 		boolean oldSuppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
+
+		CellRange tempRange = null;
+
 		for (CellRange cr : rangeList) {
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-				tempGeo.add(createListFromColumn(col, copyByValue, false,
-						false, GeoClass.NUMERIC, addToConstruction));
+			if (scanByColumn) {
+				for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+
+					if (cr.isColumn()) {
+						tempRange = new CellRange(app, col, -1);
+						tempRange.setActualRange();
+					} else {
+						tempRange = new CellRange(app, col, cr.getMinRow(),
+								col, cr.getMaxRow());
+					}
+					ArrayList<CellRange> tempList = new ArrayList<CellRange>();
+					tempList.add(tempRange);
+					tempGeo.add(createList(tempList, true, copyByValue, false,
+							false, null, addToConstruction));
+				}
+
+			} else {
+
+				for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
+
+					if (cr.isRow()) {
+						tempRange = new CellRange(app, -1, row);
+						tempRange.setActualRange();
+					} else {
+						tempRange = new CellRange(app, cr.getMinColumn(), row,
+								cr.getMaxColumn(), row);
+					}
+					ArrayList<CellRange> tempList = new ArrayList<CellRange>();
+					tempList.add(tempRange);
+					tempGeo.add(createList(tempList, true, copyByValue, false,
+							false, null, addToConstruction));
+				}
 			}
 		}
+
 		cons.setSuppressLabelCreation(oldSuppress);
 		return tempGeo;
 	}
@@ -489,9 +535,8 @@ public class CellRangeProcessor {
 		}
 
 		catch (Exception ex) {
-			App
-					.debug("Creating list of points expression failed with exception "
-							+ ex);
+			App.debug("Creating list of points expression failed with exception "
+					+ ex);
 		}
 
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
@@ -625,14 +670,12 @@ public class CellRangeProcessor {
 	}
 
 	/**
-	 * Creates a GeoList from the cells in an array of cellranges. Empty cells
+	 * Creates a GeoList from the cells in an array of CellRange. Empty cells
 	 * are ignored
 	 */
 	public GeoElement createList(ArrayList<CellRange> rangeList,
 			boolean scanByColumn, boolean copyByValue, boolean isSorted,
 			boolean doStoreUndo, GeoClass geoTypeFilter, boolean setLabel) {
-
-		// StringBuilder listString = new StringBuilder();
 
 		GeoList geoList = null;
 		ArrayList<GeoElement> list = null;
@@ -689,88 +732,20 @@ public class CellRangeProcessor {
 			}
 
 		} catch (Exception ex) {
-			App.debug("Creating list failed with exception "
-					+ ex);
+			App.debug("Creating list failed with exception " + ex);
 		}
 
 		if (doStoreUndo) {
 			app.storeUndoInfo();
 		}
-		
+
 		if (setLabel) {
 			geoList.setLabel(null);
 		}
-			
+
 		if (geoList != null) {
 			return geoList;
 		}
-		return null;
-	}
-
-	/**
-	 * Creates a GeoList from the cells in a frequency table. Empty and text
-	 * cells are ignored.
-	 * 
-	 * @param cr
-	 * @param scanByColumn
-	 * @param copyByValue
-	 * @param isSorted
-	 * @param doStoreUndo
-	 * @param geoTypeFilter
-	 * @param addToConstruction
-	 * @return
-	 */
-	public GeoElement createListFromFrequencyTable(CellRange cr,
-			boolean scanByColumn, boolean copyByValue, boolean isSorted,
-			boolean doStoreUndo, Integer geoTypeFilter,
-			boolean addToConstruction) {
-
-		int freq;
-
-		GeoElement valueGeo, freqGeo;
-		GeoList geoList = new GeoList(cons);
-
-		try {
-			int c = cr.getMinColumn();
-			for (int r = cr.getMinRow(); r <= cr.getMaxRow(); r++) {
-
-				valueGeo = RelativeCopy.getValue(app, c, r);
-				freqGeo = RelativeCopy.getValue(app, c + 1, r);
-
-				// validate (null or text geos)
-				// if (geo != null && (geoTypeFilter == null ||
-				// geo.getGeoClassType() == geoTypeFilter)){
-
-				freq = (int) ((GeoNumeric) freqGeo).getDouble();
-
-				for (int i = 0; i < freq; i++) {
-					geoList.add(valueGeo.copy());
-				}
-			}
-
-			if (isSorted) {
-				AlgoSort algo = new AlgoSort(cons, geoList);
-				cons.removeFromConstructionList(algo);
-				geoList = (GeoList) algo.getGeoElements()[0];
-			}
-
-		} catch (Exception ex) {
-			App
-					.debug("Creating list from frequency table failed with exception "
-							+ ex);
-		}
-
-		if (doStoreUndo) {
-			app.storeUndoInfo();
-		}
-			
-		if (addToConstruction) {
-			geoList.setLabel(null);
-		}
-			
-		if (geoList != null) {
-			return geoList;
-		} 
 		return null;
 	}
 
@@ -812,7 +787,8 @@ public class CellRangeProcessor {
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 				tempGeo = createListFromColumn(col, copyByValue, false, false,
 						GeoClass.NUMERIC, addToConstruction);
-				sb.append(tempGeo.getCommandDescription(StringTemplate.defaultTemplate));
+				sb.append(tempGeo
+						.getCommandDescription(StringTemplate.defaultTemplate));
 				sb.append(",");
 				tempGeo.remove();
 			}
@@ -999,7 +975,7 @@ public class CellRangeProcessor {
 		if (columns == column1 + 1) {
 			// last column: need to insert one more
 			tableModel.setColumnCount(tableModel.getColumnCount() + 1);
-			table.getView().getColumnHeader().revalidate();
+			getView().getColumnHeader().revalidate();
 			columns++;
 		}
 		int rows = tableModel.getRowCount();
@@ -1037,7 +1013,7 @@ public class CellRangeProcessor {
 		if (columns == column1 + 1) {
 			// last column: insert another on right
 			tableModel.setColumnCount(table.getColumnCount() + 1);
-			table.getView().getColumnHeader().revalidate();
+			getView().getColumnHeader().revalidate();
 			// can't be undone
 		} else {
 			succ = table.copyPasteCut.delete(columns - 1, 0, columns - 1,
@@ -1072,7 +1048,7 @@ public class CellRangeProcessor {
 		if (rows == row2 + 1) {
 			// last row: need to insert one more
 			tableModel.setRowCount(tableModel.getRowCount() + 1);
-			table.getView().getRowHeader().revalidate();
+			getView().getRowHeader().revalidate();
 			rows++;
 		}
 		boolean succ = table.copyPasteCut.delete(0, rows - 1, columns - 1,
@@ -1107,7 +1083,7 @@ public class CellRangeProcessor {
 		if (rows == row2 + 1) {
 			// last row: need to insert one more
 			tableModel.setRowCount(tableModel.getRowCount() + 1);
-			table.getView().getRowHeader().revalidate();
+			getView().getRowHeader().revalidate();
 			// can't be undone
 		} else {
 			succ = table.copyPasteCut
@@ -1209,9 +1185,7 @@ public class CellRangeProcessor {
 			}
 		}
 	}
-	
-	
-	
+
 	public String getCellRangeString(CellRange range) {
 		return getCellRangeString(range, true);
 	}
@@ -1235,7 +1209,7 @@ public class CellRangeProcessor {
 
 		} else if (range.isRow()) {
 			s = app.getCommand("Row") + " " + (range.getMinRow() + 1);
-			
+
 			if (!onlyFirstRowColumn && !range.is1D()) {
 				s += " : " + app.getCommand("Row") + " "
 						+ (range.getMaxRow() + 1);
@@ -1251,18 +1225,16 @@ public class CellRangeProcessor {
 
 		return s;
 	}
-	
-	public String getCellRangeString(ArrayList<CellRange> list){
+
+	public String getCellRangeString(ArrayList<CellRange> list) {
 		StringBuilder sb = new StringBuilder();
-		for(CellRange cr: list){
+		for (CellRange cr : list) {
 			sb.append(getCellRangeString(cr, false));
 			sb.append(", ");
 		}
 		sb.deleteCharAt(sb.lastIndexOf(", "));
-		
+
 		return sb.toString();
 	}
-	
-	
 
 }
