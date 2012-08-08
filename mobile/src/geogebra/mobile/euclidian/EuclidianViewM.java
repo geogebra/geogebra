@@ -17,8 +17,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.web.awt.GGraphics2DW;
-import geogebra.web.gui.app.GeoGebraAppFrame;
-
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;

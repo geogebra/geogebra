@@ -1,7 +1,6 @@
 package geogebra.mobile.gui;
 
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.main.App;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 

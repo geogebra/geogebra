@@ -1,6 +1,5 @@
 package geogebra.mobile;
 
-import geogebra.mobile.gui.IconTestGUI;
 import geogebra.mobile.gui.TabletGUI;
 
 import com.google.gwt.core.client.EntryPoint;
