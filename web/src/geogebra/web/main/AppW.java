@@ -912,7 +912,7 @@ public class AppW extends App {
 	}
 
 	public void showErrorDialog(final String msg) {
-		final PopupPanel dialog = new PopupPanel(true);
+		final PopupPanel dialog = new PopupPanel(false, true);
 		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
 		dialog.center();
 		
@@ -934,6 +934,8 @@ public class AppW extends App {
 		
 		dialog.setWidget(panel);
 		dialog.show();
+		ok.getElement().focus();
+		
 	}
 
 	@Override
@@ -1323,7 +1325,7 @@ public class AppW extends App {
 		//TODO
 		App.debug("TODO later: make sure splash screen not showing");
 	
-		final PopupPanel dialog = new PopupPanel(true);
+		final PopupPanel dialog = new PopupPanel(false, true);
 		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
 		dialog.center();
 		if (command == null) {
@@ -1357,6 +1359,7 @@ public class AppW extends App {
 		
 		panel.add(buttonPanel);
 		dialog.setWidget(panel);
+		ok.getElement().focus();
 		dialog.show();
 		
 	}
