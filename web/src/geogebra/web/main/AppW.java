@@ -914,7 +914,6 @@ public class AppW extends App {
 	public void showErrorDialog(final String msg) {
 		final PopupPanel dialog = new PopupPanel(false, true);
 		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
-		dialog.center();
 		
 		Button ok = new Button(getPlain("OK"));
 		ok.addClickHandler(new ClickHandler() {
@@ -933,6 +932,7 @@ public class AppW extends App {
 		panel.add(ok);
 		
 		dialog.setWidget(panel);
+		dialog.center();
 		dialog.show();
 		ok.getElement().focus();
 		
@@ -1331,7 +1331,6 @@ public class AppW extends App {
 		}
 
 		final PopupPanel dialog = new PopupPanel(false, true);
-		dialog.center();
 		
 		Button ok = new Button(getPlain("OK"));
 		ok.addClickHandler(new ClickHandler() {
@@ -1359,8 +1358,9 @@ public class AppW extends App {
 		
 		panel.add(buttonPanel);
 		dialog.setWidget(panel);
-		ok.getElement().focus();
+		dialog.center();
 		dialog.show();
+		ok.getElement().focus();
 		
 	}
 
