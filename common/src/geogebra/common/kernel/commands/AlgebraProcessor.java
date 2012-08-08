@@ -204,6 +204,7 @@ public class AlgebraProcessor {
 				// app.showError(e.getMessage());
 			}
 		} else {
+			casCell.notifyAdd();
 			casCell.updateCascade();
 		}
 	}

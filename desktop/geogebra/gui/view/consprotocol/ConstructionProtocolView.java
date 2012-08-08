@@ -1405,7 +1405,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		 ***********************/
 
 		public void add(GeoElement geo) {
-			if (!geo.isLabelSet()
+			if ((!geo.isLabelSet() && !geo.isGeoCasCell())
 					|| (kernel.getConstruction().showOnlyBreakpoints() && !geo
 							.isConsProtocolBreakpoint()))
 				return;
