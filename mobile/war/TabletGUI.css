@@ -1,6 +1,8 @@
 .euclidianview {
-	background-image:
-		url("http://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg");
+	position: absolute; 
+	top: 0px; 
+/* 	background-image: */
+/* 		url("http://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg"); */
 }
 
 .toolbar {
