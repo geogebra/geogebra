@@ -12,8 +12,8 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="32"
-   height="32"
+   width="512"
+   height="512"
    sodipodi:docname="delete_object.svg">
   <metadata
      id="metadata2991">
@@ -50,19 +50,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1422"
+     inkscape:window-width="1010"
      inkscape:window-height="821"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="14.4375"
-     inkscape:cx="16.450832"
-     inkscape:cy="10.625494"
-     inkscape:window-x="1511"
-     inkscape:window-y="80"
+     inkscape:zoom="0.90234375"
+     inkscape:cx="338.51857"
+     inkscape:cy="222.91634"
+     inkscape:window-x="1426"
+     inkscape:window-y="34"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3787">
+     id="g3787"
+     transform="matrix(27.576094,0,0,27.576094,-185.88657,-178.02183)">
     <rect
        transform="matrix(1,0,-0.38635257,0.92235117,0,0)"
        y="17.058798"
@@ -70,7 +71,7 @@
        height="7.7976856"
        width="7.1441069"
        id="rect2999"
-       style="fill:#dfdf9f;stroke:#444444;stroke-width:0.75594198999999984;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1;stroke-linejoin:round" />
+       style="fill:#dfdf9f;fill-opacity:1;stroke:#444444;stroke-width:0.75594199;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
        transform="matrix(1,0,-0.38635257,0.92235118,0,0)"
        y="9.236393"
@@ -78,7 +79,7 @@
        height="7.7976856"
        width="7.1441069"
        id="rect2999-4"
-       style="fill:#ffffff;fill-opacity:1;stroke:#444444;stroke-width:0.75594198999999984;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-linejoin:round;stroke-linecap:round" />
+       style="fill:#ffffff;fill-opacity:1;stroke:#444444;stroke-width:0.75594199;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        inkscape:connector-curvature="0"
        inkscape:original-d="m 17.192173,22.816929 6.962865,0"

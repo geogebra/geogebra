@@ -14,7 +14,7 @@
    inkscape:version="0.48.2 r9819"
    width="32"
    height="32"
-   sodipodi:docname="mode_keepinput_32.gif">
+   sodipodi:docname="keep_input.svg">
   <metadata
      id="metadata2991">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,30 +38,30 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="891"
-     inkscape:window-height="665"
+     inkscape:window-width="1280"
+     inkscape:window-height="1002"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="21.33901"
-     inkscape:cx="15.745748"
+     inkscape:zoom="15.088959"
+     inkscape:cx="14.58596"
      inkscape:cy="16.829793"
-     inkscape:window-x="1615"
-     inkscape:window-y="137"
-     inkscape:window-maximized="0"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3771">
+     id="g3754">
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path3767"
-       d="m 7.9040767,19.184652 c 1.8915223,1.714511 4.6486363,3.136812 4.6043163,5.678657"
-       style="fill:none;stroke:#000000;stroke-width:3.40000010000000020;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       d="m 7.3076141,19.052105 c 2.4217113,0.720406 5.3388239,3.679751 5.2007789,5.811204"
+       style="fill:none;stroke:#000000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path3769"
        d="M 12.710325,23.979263 C 15.819186,18.122181 18.405977,11.917052 24.451332,8.0176316"
-       style="fill:#000000;stroke:#000000;stroke-width:3.40000010000000020;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#000000;stroke:#000000;stroke-width:3.39999999999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
 </svg>

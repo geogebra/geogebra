@@ -13,9 +13,9 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="32"
-   height="32"
-   sodipodi:docname="object_properties.svg">
+   width="512"
+   height="512"
+   sodipodi:docname="advanced.svg">
   <metadata
      id="metadata2991">
     <rdf:RDF>
@@ -61,19 +61,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1028"
-     inkscape:window-height="732"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="7.375"
+     inkscape:zoom="0.65186407"
      inkscape:cx="26.271186"
      inkscape:cy="16"
-     inkscape:window-x="1693"
-     inkscape:window-y="110"
-     inkscape:window-maximized="0"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3762">
+     id="g3762"
+     transform="matrix(16.534209,0,0,16.534209,2.5012562,0.8037896)">
     <path
        sodipodi:nodetypes="ccccccccccccccccccccccccccccccccc"
        inkscape:connector-curvature="0"
@@ -82,13 +83,13 @@
        style="fill:url(#linearGradient2990);fill-opacity:1;stroke:#828282;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
     <path
        transform="matrix(0.98442974,0,0,0.90396693,-3.5964004,1.5104863)"
-       d="m 23.457626,15.728813 a 4.0677967,4.5423727 0 1 1 -8.135593,0 4.0677967,4.5423727 0 1 1 8.135593,0 z"
+       d="m 23.457626,15.728813 c 0,2.508683 -1.821214,4.542373 -4.067796,4.542373 -2.246582,0 -4.067797,-2.03369 -4.067797,-4.542373 0,-2.508683 1.821215,-4.542373 4.067797,-4.542373 2.246582,0 4.067796,2.03369 4.067796,4.542373 z"
        sodipodi:ry="4.5423727"
        sodipodi:rx="4.0677967"
        sodipodi:cy="15.728813"
        sodipodi:cx="19.38983"
        id="path3773"
-       style="fill:#ffffff;stroke:#828282;stroke-width:1.35399997000000010;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;stroke:#828282;stroke-width:1.35399997;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        sodipodi:type="arc" />
   </g>
 </svg>

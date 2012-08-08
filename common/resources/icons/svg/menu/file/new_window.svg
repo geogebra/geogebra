@@ -12,9 +12,9 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="16"
-   height="16"
-   sodipodi:docname="document-new.png">
+   width="512"
+   height="512"
+   sodipodi:docname="new_window.svg">
   <metadata
      id="metadata2991">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -42,22 +42,23 @@
      inkscape:window-height="892"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="1.7152864"
+     inkscape:zoom="0.8576432"
      inkscape:cx="10.393559"
-     inkscape:cy="8"
-     inkscape:window-x="1423"
-     inkscape:window-y="25"
+     inkscape:cy="241.19721"
+     inkscape:window-x="1441"
+     inkscape:window-y="75"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3805">
+     id="g3805"
+     transform="matrix(32.124885,0,0,32.124885,-0.47614506,15.687576)">
     <rect
        y="0.51529789"
        x="0.51529789"
        height="14.041868"
        width="13.371981"
        id="rect3781"
-       style="fill:none;stroke:#818181;stroke-opacity:1;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:round" />
+       style="fill:none;stroke:#818181;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
        y="2.0096619"
        x="2.0354269"
@@ -67,7 +68,7 @@
        style="fill:#eaeaea;fill-opacity:1;stroke:none" />
     <path
        transform="matrix(1.2813852,0,0,1.2938597,-4.0512234,-1.610758)"
-       d="m 15.587762,4.1223831 a 2.9758453,2.9371982 0 1 1 -5.9516908,0 2.9758453,2.9371982 0 1 1 5.9516908,0 z"
+       d="m 15.587762,4.1223831 c 0,1.6221698 -1.332331,2.9371982 -2.975845,2.9371982 -1.643514,0 -2.9758458,-1.3150284 -2.9758458,-2.9371982 0,-1.6221697 1.3323318,-2.9371981 2.9758458,-2.9371981 1.643514,0 2.975845,1.3150284 2.975845,2.9371981 z"
        sodipodi:ry="2.9371982"
        sodipodi:rx="2.9758453"
        sodipodi:cy="4.1223831"

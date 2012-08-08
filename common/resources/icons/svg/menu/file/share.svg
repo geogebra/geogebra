@@ -13,8 +13,8 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="32"
-   height="32"
+   width="512"
+   height="512"
    sodipodi:docname="share.svg">
   <metadata
      id="metadata2991">
@@ -79,19 +79,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1510"
-     inkscape:window-height="931"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="14.75"
+     inkscape:zoom="1.3037281"
      inkscape:cx="16.878203"
-     inkscape:cy="16"
-     inkscape:window-x="1416"
-     inkscape:window-y="5"
-     inkscape:window-maximized="0"
+     inkscape:cy="261.44995"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <g
-     id="g2991">
+     id="g2991"
+     transform="matrix(15.100159,0,0,15.100159,30.004267,8.4069371)">
     <path
        sodipodi:nodetypes="cssssssssssssssssssc"
        inkscape:connector-curvature="0"
@@ -100,7 +101,7 @@
        style="fill:url(#linearGradient2994);fill-opacity:1;stroke:none" />
     <path
        transform="matrix(1.5914383,0,0,1.0951807,9.9249575,0.27453545)"
-       d="m 7.8644067,14.101695 a 8.6101694,12 0 1 1 -17.2203388,0 8.6101694,12 0 1 1 17.2203388,0 z"
+       d="m 7.8644067,14.101695 c 0,6.627417 -3.8549041,12 -8.61016941,12 -4.75526529,0 -8.61016939,-5.372583 -8.61016939,-12 0,-6.6274169 3.8549041,-11.9999999 8.61016939,-11.9999999 4.75526531,0 8.61016941,5.372583 8.61016941,11.9999999 z"
        sodipodi:ry="12"
        sodipodi:rx="8.6101694"
        sodipodi:cy="14.101695"

@@ -12,9 +12,9 @@
    id="svg3886"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="16"
-   height="16"
-   sodipodi:docname="axes.gif">
+   width="512"
+   height="512"
+   sodipodi:docname="show_or_hide_the_axes.svg">
   <metadata
      id="metadata3892">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -51,28 +51,29 @@
      inkscape:window-height="783"
      id="namedview3888"
      showgrid="false"
-     inkscape:zoom="22.273864"
+     inkscape:zoom="0.69605825"
      inkscape:cx="8"
-     inkscape:cy="9.4877116"
+     inkscape:cy="296.81999"
      inkscape:window-x="1516"
      inkscape:window-y="55"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3886" />
   <g
-     id="g4429">
+     id="g4429"
+     transform="matrix(32.014081,0,0,32.014081,-1.0323857,-0.77813983)">
     <path
        inkscape:connector-curvature="0"
        inkscape:original-d="M 3.5145984,16.054281 3.4854018,-0.04634435"
        inkscape:path-effect="#path-effect3898"
        id="path3896"
        d="M 3.5145984,16.054281 3.4854018,-0.04634435"
-       style="fill:#000000;stroke:#000000;stroke-width:0.94619220000000004px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#000000;stroke:#000000;stroke-width:0.9461922px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        inkscape:connector-curvature="0"
        inkscape:original-d="M 0.02707958,12.508635 16.052286,12.475489"
        inkscape:path-effect="#path-effect3898-0"
        id="path3896-4"
        d="M 0.02707958,12.508635 16.052286,12.475489"
-       style="fill:none;stroke:#000000;stroke-width:1.00573814000000010px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke:#000000;stroke-width:1.00573814px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>

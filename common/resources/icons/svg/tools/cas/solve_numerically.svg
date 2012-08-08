@@ -12,9 +12,9 @@
    id="svg3004"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="32"
-   height="32"
-   sodipodi:docname="mode_nsolve_32.gif">
+   width="512"
+   height="512"
+   sodipodi:docname="solve_numerically.svg">
   <metadata
      id="metadata3010">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,23 +38,23 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="948"
-     inkscape:window-height="603"
+     inkscape:window-width="1280"
+     inkscape:window-height="1002"
      id="namedview3006"
      showgrid="false"
-     inkscape:zoom="10.429825"
-     inkscape:cx="5.4398651"
-     inkscape:cy="14.733327"
-     inkscape:window-x="1491"
-     inkscape:window-y="102"
-     inkscape:window-maximized="0"
+     inkscape:zoom="1.3037281"
+     inkscape:cx="390.98729"
+     inkscape:cy="229.50203"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg3004" />
   <g
-     id="g3822">
+     id="g3096">
     <g
        style="fill:none;stroke:#0000ff;stroke-opacity:1"
        id="g3785"
-       transform="matrix(0.63216193,0,0,1.2217667,13.142051,-7.7266547)">
+       transform="matrix(12.055087,0,0,23.298624,185.85041,-186.12049)">
       <g
          style="fill:none;stroke:#0000ff;stroke-opacity:1"
          transform="translate(0.01883426,-0.00645788)"
@@ -90,17 +90,14 @@
            sodipodi:nodetypes="cc" />
       </g>
     </g>
-    <text
-       transform="scale(1.0643032,0.93958186)"
-       sodipodi:linespacing="125%"
+    <g
        id="text3818"
-       y="21.341314"
-       x="3.1073465"
-       style="font-size:17.17887306px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
-       xml:space="preserve"><tspan
-         y="21.341314"
-         x="3.1073465"
-         id="tspan3820"
-         sodipodi:role="line">x</tspan></text>
+       style="font-size:327.59454346px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       transform="scale(1.0643032,0.93958188)">
+      <path
+         id="path3094"
+         style=""
+         d="m 204.98519,355.05811 -37.43023,0 -47.98748,-64.62315 -46.387903,64.62315 -34.550987,0 65.26298,-84.77789 -60.144315,-79.01939 37.430236,0 43.188729,58.54473 41.90907,-58.54473 34.23107,0 -60.78414,79.01939 z" />
+    </g>
   </g>
 </svg>

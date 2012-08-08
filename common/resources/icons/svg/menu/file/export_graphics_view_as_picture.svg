@@ -13,9 +13,9 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="16"
-   height="16"
-   sodipodi:docname="image-x-generic.png">
+   width="512"
+   height="512"
+   sodipodi:docname="export_graphics_view_as_picture.svg">
   <metadata
      id="metadata2991">
     <rdf:RDF>
@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -46,9 +46,10 @@
        inkscape:collect="always"
        id="filter3781"
        x="-0.11030947"
-       width="1.2206189"
+       width="1.2206188"
        y="-0.11297824"
-       height="1.2259565">
+       height="1.2259566"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="0.16500944"
@@ -60,7 +61,8 @@
        x="-0.12457143"
        width="1.2491429"
        y="-0.11575221"
-       height="1.2315044">
+       height="1.2315044"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="0.1540636"
@@ -89,15 +91,16 @@
      inkscape:window-height="988"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="35.375"
+     inkscape:zoom="1.1054688"
      inkscape:cx="2.5865724"
-     inkscape:cy="9.5991107"
+     inkscape:cy="226.70158"
      inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3825">
+     id="g3825"
+     transform="matrix(31.883406,0,0,31.883406,0.11481127,0.66584138)">
     <rect
        y="10.402827"
        x="2.9681978"
@@ -116,22 +119,22 @@
        inkscape:connector-curvature="0"
        id="path3767"
        d="m 9.1872792,11.646643 c 0.1978798,0 3.5901058,-0.02827 3.5901058,-0.02827 L 10.459364,8.1413428 z"
-       style="fill:#515151;stroke:#515151;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;fill-opacity:1;filter:url(#filter3781)" />
+       style="fill:#515151;fill-opacity:1;stroke:#515151;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;filter:url(#filter3781)" />
     <rect
        y="2.5219777"
        x="2.5219777"
        height="10.984313"
        width="10.956044"
        id="rect3765"
-       style="fill:url(#linearGradient3821);stroke:#374863;stroke-width:0.96061605000000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1" />
+       style="fill:url(#linearGradient3821);fill-opacity:1;stroke:#374863;stroke-width:0.96061605;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
-       d="m 7.6607776,5.7809186 a 1.4840989,1.5971731 0 1 1 -2.9681979,0 1.4840989,1.5971731 0 1 1 2.9681979,0 z"
+       d="m 7.6607776,5.7809186 c 0,0.8820943 -0.6644537,1.5971731 -1.4840989,1.5971731 -0.8196452,0 -1.484099,-0.7150788 -1.484099,-1.5971731 0,-0.8820943 0.6644538,-1.5971731 1.484099,-1.5971731 0.8196452,0 1.4840989,0.7150788 1.4840989,1.5971731 z"
        sodipodi:ry="1.5971731"
        sodipodi:rx="1.4840989"
        sodipodi:cy="5.7809186"
        sodipodi:cx="6.1766787"
        id="path3785"
-       style="fill:#e2ebbe;fill-opacity:1;stroke:none;stroke-width:1.00499999999999990;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3803)"
+       style="fill:#e2ebbe;fill-opacity:1;stroke:none;filter:url(#filter3803)"
        sodipodi:type="arc" />
   </g>
 </svg>

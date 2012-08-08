@@ -12,9 +12,9 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="22"
-   height="18"
-   sodipodi:docname="keyboard.png">
+   width="512"
+   height="512"
+   sodipodi:docname="keyboard.svg">
   <metadata
      id="metadata2991">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -42,15 +42,16 @@
      inkscape:window-height="988"
      id="namedview2987"
      showgrid="false"
-     inkscape:zoom="5.6568543"
-     inkscape:cx="18.871738"
-     inkscape:cy="5.282434"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="91.570538"
+     inkscape:cy="231.5566"
      inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3904">
+     id="g3904"
+     transform="matrix(23.295069,0,0,23.295069,-0.21349942,48.448409)">
     <rect
        y="0.51110125"
        x="0.51734364"
@@ -64,7 +65,7 @@
        height="0.16623855"
        width="19.131063"
        id="rect3783"
-       style="opacity:1;fill:#979797;fill-opacity:1;fill-rule:nonzero;stroke:#979797;stroke-width:0.82466441000000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#979797;fill-opacity:1;fill-rule:nonzero;stroke:#979797;stroke-width:0.82466441;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
        y="1.3564709"
        x="7.3541369"
@@ -81,7 +82,7 @@
        style="fill:#979797;fill-opacity:1;fill-rule:nonzero;stroke:#979797;stroke-width:0.6960963;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <g
        id="text3805"
-       style="font-size:8.48713397999999940px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#656565;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       style="font-size:8.48713398px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#656565;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
        transform="matrix(1.2448344,0,0,0.82307907,-0.42030606,-0.01876888)">
       <path
          style="fill:#656565;fill-opacity:1"

@@ -12,9 +12,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="32"
-   height="24"
-   sodipodi:docname="xy_segments.png">
+   width="512"
+   height="512"
+   sodipodi:docname="xy_segments.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,19 +38,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1858"
-     inkscape:window-height="1058"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="18.25"
-     inkscape:cx="16"
-     inkscape:cy="12"
-     inkscape:window-x="54"
+     inkscape:zoom="1.140625"
+     inkscape:cx="149.82251"
+     inkscape:cy="198.85991"
+     inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <g
-     id="g3048">
+     id="g3048"
+     transform="matrix(17.577574,0,0,17.577574,-0.87671233,30.4775)">
     <rect
        y="6.9713187"
        x="19.004705"
@@ -68,7 +69,7 @@
        style="fill:#ff0000;fill-opacity:1;stroke:none" />
     <path
        transform="translate(0.46494692,0.73616596)"
-       d="m 26.734448,6.6226087 a 2.7896814,2.8865454 0 1 1 -5.579362,0 2.7896814,2.8865454 0 1 1 5.579362,0 z"
+       d="m 26.734448,6.6226087 c 0,1.594195 -1.248982,2.8865454 -2.789681,2.8865454 -1.540699,0 -2.789681,-1.2923504 -2.789681,-2.8865454 0,-1.5941951 1.248982,-2.8865455 2.789681,-2.8865455 1.540699,0 2.789681,1.2923504 2.789681,2.8865455 z"
        sodipodi:ry="2.8865454"
        sodipodi:rx="2.7896814"
        sodipodi:cy="6.6226087"
@@ -78,7 +79,7 @@
        sodipodi:type="arc" />
     <path
        transform="matrix(0.7181208,0,0,0.7181208,7.2030366,2.6223144)"
-       d="m 26.734448,6.6226087 a 2.7896814,2.8865454 0 1 1 -5.579362,0 2.7896814,2.8865454 0 1 1 5.579362,0 z"
+       d="m 26.734448,6.6226087 c 0,1.594195 -1.248982,2.8865454 -2.789681,2.8865454 -1.540699,0 -2.789681,-1.2923504 -2.789681,-2.8865454 0,-1.5941951 1.248982,-2.8865455 2.789681,-2.8865455 1.540699,0 2.789681,1.2923504 2.789681,2.8865455 z"
        sodipodi:ry="2.8865454"
        sodipodi:rx="2.7896814"
        sodipodi:cy="6.6226087"

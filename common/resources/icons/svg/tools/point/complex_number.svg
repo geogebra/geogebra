@@ -12,9 +12,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="230"
-   height="232"
-   sodipodi:docname="new_point.svg">
+   width="512"
+   height="512"
+   sodipodi:docname="complex_number.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,55 +38,45 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="849"
-     inkscape:window-height="846"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview4"
      showgrid="false"
      inkscape:zoom="1.28"
      inkscape:cx="106.66243"
-     inkscape:cy="114.23901"
-     inkscape:window-x="1373"
-     inkscape:window-y="14"
-     inkscape:window-maximized="0"
+     inkscape:cy="239.23901"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <path
      inkscape:connector-curvature="0"
      id="path3003"
-     d="m 0.98305499,116.49153 0,-116.00000456 114.99999501,0 115,0 0,116.00000456 0,116 -115,0 -114.99999501,0 0,-116 z"
+     d="m 0.98305499,396.49153 0,-116 114.99999501,0 115,0 0,116 0,116 -115,0 -114.99999501,0 0,-116 z"
      style="fill:#fdfdfd" />
   <g
      id="g3860"
-     transform="translate(-10.9375,13.28125)">
+     transform="matrix(2.4074227,0,0,2.4074227,-100.4648,50.786786)" />
+  <g
+     id="g3005">
     <g
-       transform="translate(25.78125,-17.1875)"
-       id="g3837">
+       id="text3787"
+       style="font-size:97.22268676999999600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       transform="matrix(2.3920369,0,0,2.4229075,-70.777301,10.161786)">
       <path
-         sodipodi:type="arc"
-         style="fill:#0000ff;fill-opacity:1;stroke:none"
-         id="path2999"
-         sodipodi:cx="88.720337"
-         sodipodi:cy="150.16103"
-         sodipodi:rx="25.805084"
-         sodipodi:ry="27.279661"
-         d="m 114.52542,150.16103 a 25.805084,27.279661 0 1 1 -51.610167,0 25.805084,27.279661 0 1 1 51.610167,0 z"
-         transform="translate(-20.644067,11.910487)" />
-      <text
-         xml:space="preserve"
-         style="font-size:105.22057343px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
-         x="118.08941"
-         y="120.25562"
-         id="text3787"
-         sodipodi:linespacing="125%"
-         transform="scale(0.99360901,1.0064321)"><tspan
-           sodipodi:role="line"
-           id="tspan3789"
-           x="118.08941"
-           y="120.25562">Z</tspan></text>
+         inkscape:connector-curvature="0"
+         id="path3001"
+         d="m 199.93778,103.17797 -51.17483,0 0,-10.728675 39.49671,-50.984944 -37.50289,0 0,-8.450018 48.13663,0 0,10.633731 -39.40178,51.079888 40.44616,0 z" />
     </g>
     <path
-       style="fill:#07070c"
-       d="m 81.83035,171.00727 c -18.282137,-6.74039 -24.202973,-30.29614 -11.299651,-44.95509 6.909857,-7.85001 18.32984,-11.21366 28.265403,-8.32532 25.008538,7.27018 27.751198,41.24093 4.218308,52.24824 -5.601204,2.61992 -15.561302,3.10521 -21.18406,1.03217 z m 19.43549,-7.23734 c 15.47494,-7.71149 15.99363,-28.51699 0.94291,-37.82213 -15.340638,-9.48439 -35.654053,4.7954 -32.294695,22.70232 1.075413,5.73244 6.029566,12.34908 11.299918,15.09187 6.536532,3.40174 13.262728,3.41111 20.051867,0.0279 z"
-       id="path2989"
-       inkscape:connector-curvature="0" />
+       transform="matrix(0.78758407,0,0,0.76685818,34.9595,280.84212)"
+       d="m 178.71824,132.31961 a 42.570225,43.720772 0 1 1 -85.140455,0 42.570225,43.720772 0 1 1 85.140455,0 z"
+       sodipodi:ry="43.720772"
+       sodipodi:rx="42.570225"
+       sodipodi:cy="132.31961"
+       sodipodi:cx="136.14801"
+       id="path2990"
+       style="fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:16.65663528;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
   </g>
 </svg>

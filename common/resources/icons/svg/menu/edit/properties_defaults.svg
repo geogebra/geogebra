@@ -13,9 +13,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="24"
-   height="24"
-   sodipodi:docname="options-defaults224.png">
+   width="512"
+   height="512"
+   sodipodi:docname="properties_defaults.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -147,16 +147,16 @@
      inkscape:window-height="988"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="19.666667"
-     inkscape:cx="7.6416616"
-     inkscape:cy="11.840487"
+     inkscape:zoom="0.8691521"
+     inkscape:cx="219.09545"
+     inkscape:cy="234.0537"
      inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <g
      id="g3918"
-     transform="translate(0.93481914,0.10786375)">
+     transform="matrix(20.877705,0,0,20.877705,25.334427,3.8862003)">
     <rect
        transform="matrix(0.95773678,0.28764606,0,1,0,0)"
        y="2.9702797"

@@ -12,9 +12,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="32"
-   height="32"
-   sodipodi:docname="mode_showhidelabel_32.gif">
+   width="512"
+   height="512"
+   sodipodi:docname="show_hide_label.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,41 +38,42 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1218"
+     inkscape:window-width="1280"
      inkscape:window-height="1002"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="20.85965"
-     inkscape:cx="16"
-     inkscape:cy="16"
-     inkscape:window-x="54"
+     inkscape:zoom="0.921875"
+     inkscape:cx="233.89941"
+     inkscape:cy="277.20885"
+     inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <g
-     id="g3012">
+     id="g3760"
+     transform="matrix(0.93909784,0,0,0.93909784,16.081903,18.282394)">
     <text
        sodipodi:linespacing="125%"
        id="text2987"
-       y="21.980658"
-       x="2.5407906"
-       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       y="366.38745"
+       x="7.4239941"
+       style="font-size:246.04556274px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
        xml:space="preserve"><tspan
-         style="font-size:16px"
-         y="21.980658"
-         x="2.5407906"
+         style="font-size:302.82531738px"
+         y="366.38745"
+         x="7.4239941"
          id="tspan2989"
          sodipodi:role="line">A</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text2987-1"
-       y="21.953423"
-       x="17.634144"
-       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#8c8b8b;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       y="365.87198"
+       x="279.08957"
+       style="font-size:246.04556274px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#666666;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
        xml:space="preserve"><tspan
-         style="font-size:16px;fill:#8c8b8b;fill-opacity:1"
-         y="21.953423"
-         x="17.634144"
+         style="font-size:302.82531738px;fill:#666666;fill-opacity:1"
+         y="365.87198"
+         x="279.08957"
          id="tspan2989-7"
          sodipodi:role="line">A</tspan></text>
   </g>

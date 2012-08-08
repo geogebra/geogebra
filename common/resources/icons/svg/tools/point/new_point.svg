@@ -12,9 +12,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   width="230"
-   height="232"
-   sodipodi:docname="new_point.svg">
+   width="512"
+   height="512"
+   sodipodi:docname="complex_number.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,51 +38,48 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="849"
-     inkscape:window-height="846"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview4"
      showgrid="false"
      inkscape:zoom="1.28"
      inkscape:cx="106.66243"
-     inkscape:cy="114.23901"
-     inkscape:window-x="1373"
-     inkscape:window-y="14"
-     inkscape:window-maximized="0"
+     inkscape:cy="239.23901"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
-  <path
-     inkscape:connector-curvature="0"
-     id="path3003"
-     d="m 0.98305499,116.49153 0,-116.00000456 114.99999501,0 115,0 0,116.00000456 0,116 -115,0 -114.99999501,0 0,-116 z"
-     style="fill:#fdfdfd" />
   <g
-     id="g3827"
-     transform="translate(0,-2.34375)">
+     id="g3022">
     <path
-       transform="translate(-20.644067,14.254237)"
-       d="m 114.52542,150.16103 a 25.805084,27.279661 0 1 1 -51.610167,0 25.805084,27.279661 0 1 1 51.610167,0 z"
-       sodipodi:ry="27.279661"
-       sodipodi:rx="25.805084"
-       sodipodi:cy="150.16103"
-       sodipodi:cx="88.720337"
-       id="path2999"
-       style="fill:#0000ff;fill-opacity:1;stroke:none"
-       sodipodi:type="arc" />
-    <path
-       style="fill:#07070c"
-       d="M 58.746134,191.16829 C 40.463997,184.4279 34.543161,160.87215 47.446483,146.2132 c 6.909857,-7.85001 18.32984,-11.21366 28.265403,-8.32532 25.008534,7.27018 27.751194,41.24093 4.218305,52.24824 -5.601201,2.61992 -15.561299,3.10521 -21.184057,1.03217 z m 19.435485,-7.23734 c 15.47494,-7.71149 15.99363,-28.51699 0.942917,-37.82213 -15.34064,-9.48439 -35.654055,4.7954 -32.294697,22.70232 1.075413,5.73244 6.029566,12.34908 11.299918,15.09187 6.536532,3.40174 13.262728,3.41111 20.051862,0.0279 z"
-       id="path2989"
+       style="fill:#fdfdfd"
+       d="m 0.98305499,396.49153 0,-116 114.99999501,0 115,0 0,116 0,116 -115,0 -114.99999501,0 0,-116 z"
+       id="path3003"
        inkscape:connector-curvature="0" />
-    <text
-       transform="scale(0.99360901,1.0064321)"
-       sodipodi:linespacing="125%"
-       id="text3787"
-       y="122.5844"
-       x="118.08941"
-       style="font-size:105.22057343px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
-       xml:space="preserve"><tspan
-         y="122.5844"
-         x="118.08941"
-         id="tspan3789"
-         sodipodi:role="line">A</tspan></text>
+    <g
+       transform="matrix(2.4074227,0,0,2.4074227,-100.4648,50.786786)"
+       id="g3860" />
+    <g
+       id="g3005">
+      <path
+         sodipodi:type="arc"
+         style="fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:16.65663528;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="path2990"
+         sodipodi:cx="136.14801"
+         sodipodi:cy="132.31961"
+         sodipodi:rx="42.570225"
+         sodipodi:ry="43.720772"
+         d="m 178.71824,132.31961 a 42.570225,43.720772 0 1 1 -85.140455,0 42.570225,43.720772 0 1 1 85.140455,0 z"
+         transform="matrix(0.78758407,0,0,0.76685818,34.9595,280.84212)" />
+    </g>
+    <g
+       id="text3787-1"
+       style="font-size:234.05609131px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       transform="scale(0.99360901,1.0064321)">
+      <path
+         id="path3020"
+         style=""
+         d="m 435.84328,257.92798 -24.91417,0 -18.28564,-45.25694 -82.74248,0 -18.5142,45.25694 -24.22847,0 71.0854,-168.913528 25.59988,0 z m -53.02833,-65.14257 -32.22843,-77.9425 -31.54272,77.9425 z" />
+    </g>
   </g>
 </svg>
