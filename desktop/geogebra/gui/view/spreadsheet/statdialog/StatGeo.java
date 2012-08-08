@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoClasses;
 import geogebra.common.kernel.algos.AlgoDependentList;
@@ -65,10 +66,6 @@ public class StatGeo {
 	private double xMinData, xMaxData, yMinData, yMaxData;
 	private double[] dataBounds;
 
-	public static final int TABLE_ONE_VAR = 0;
-	public static final int TABLE_TWO_VAR = 1;
-	public static final int TABLE_REGRESSION = 2;
-
 	private boolean histogramRight;
 	private boolean removeFromConstruction = true;
 
@@ -82,36 +79,6 @@ public class StatGeo {
 		cons = kernel.getConstruction();
 
 	}
-
-	public GeoElement redefineGeoFromString(GeoElement geo, String newValue) {
-
-		try {
-
-			geo = kernel.getAlgebraProcessor()
-					.changeGeoElementNoExceptionHandling(geo, newValue, true,
-							false);
-
-			// set visibility
-			geo.setEuclidianVisible(true);
-			geo.setAuxiliaryObject(true);
-			geo.setLabelVisible(false);
-
-			return geo;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/*
-	 * private double evaluateExpression(String expr){
-	 * 
-	 * NumberValue nv; nv = kernel.getAlgebraProcessor().evaluateToNumeric(expr,
-	 * false);
-	 * 
-	 * return nv.getDouble(); }
-	 */
 
 	// =================================================
 	// Plots and Updates
@@ -211,10 +178,6 @@ public class StatGeo {
 			dataBounds[2] = ((GeoNumeric) minY.getGeoElements()[0]).getDouble();
 			dataBounds[3] = ((GeoNumeric) maxY.getGeoElements()[0]).getDouble();
 
-			// dataBounds[0] = this.evaluateExpression("Min[x(" + label + ")]");
-			// dataBounds[1] = this.evaluateExpression("Max[x(" + label + ")]");
-			// dataBounds[2] = this.evaluateExpression("Min[y(" + label + ")]");
-			// dataBounds[3] = this.evaluateExpression("Max[y(" + label + ")]");
 		} else {
 			AlgoListMax max = new AlgoListMax(cons, dataList);
 			AlgoListMin min = new AlgoListMin(cons, dataList);
@@ -223,8 +186,7 @@ public class StatGeo {
 
 			dataBounds[0] = ((GeoNumeric) min.getGeoElements()[0]).getDouble();
 			dataBounds[1] = ((GeoNumeric) max.getGeoElements()[0]).getDouble();
-			// dataBounds[0] = this.evaluateExpression("Min[" + label + "]");
-			// dataBounds[1] = this.evaluateExpression("Max[" + label + "]");
+
 		}
 
 		xMinData = dataBounds[0];
@@ -240,39 +202,64 @@ public class StatGeo {
 	public GeoElement createHistogram(GeoList dataList, int numClasses,
 			StatPanelSettings settings, boolean isFrequencyPolygon) {
 
-		GeoElement geo;
-		getDataBounds(dataList);
-		double classWidth = (xMaxData - xMinData) / (numClasses);
+		boolean isRawData = !dataList.isMatrix();
+		double classWidth;
+		AlgoElement al = null, al2 = null;
 		histogramRight = !settings.isLeftRule;
-
-		AlgoElement al, al2;
-		if (settings.useManualClasses) {
-			classWidth = settings.classWidth;
-			al = new AlgoClasses(cons, dataList, new GeoNumeric(cons,
-					settings.classStart), new GeoNumeric(cons,
-					settings.classWidth), null);
+		GeoElement geo;
+		
+		
+		if (isRawData) {
+			getDataBounds(dataList);
 		} else {
-			al = new AlgoClasses(cons, dataList, null, null, new GeoNumeric(
-					cons, numClasses));
+			getDataBounds((GeoList) dataList.get(1));		
+			numClasses = ((GeoList) dataList.get(0)).size();
 		}
-		removeFromConstructionList(al);
+
+		if(isRawData){
+			classWidth = (xMaxData - xMinData) / (numClasses);
+			
+
+			
+			if (settings.useManualClasses) {
+				classWidth = settings.classWidth;
+				al = new AlgoClasses(cons, dataList, new GeoNumeric(cons,
+						settings.classStart), new GeoNumeric(cons,
+								settings.classWidth), null);
+			} else {
+				al = new AlgoClasses(cons, dataList, null, null, new GeoNumeric(
+						cons, numClasses));
+			}
+			removeFromConstructionList(al);
+			
+		// handle grouped data	
+		} else {
+			
+			//find numClasses for grouped data
+			numClasses = ((GeoList) dataList.get(0)).size();
+			classWidth = (xMaxData - xMinData) / (numClasses);
+			
+		}
+		
+		
 		double density = -1;
 		if (settings.frequencyType == StatPanelSettings.TYPE_RELATIVE)
 			density = 1.0 * classWidth / dataList.size();
 		if (settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED)
 			density = 1.0 / dataList.size();
 
-		// if(isFrequencyPolygon)
-		// al2 = new AlgoFrequencyPolygon(cons, new GeoBoolean(cons,
-		// settings.isCumulative),
-		// (GeoList)al.getGeoElements()[0], dataList, new GeoBoolean(cons,
-		// true), new GeoNumeric(cons, density));
-		// else
+		if(isRawData){
 		al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
 				settings.isCumulative), (GeoList) al.getGeoElements()[0],
 				dataList, new GeoBoolean(cons, true), new GeoNumeric(cons,
 						density), histogramRight);
-
+		
+		} else {
+			al2 = new AlgoBarChart(cons,
+					((GeoList) dataList.get(0)),
+					((GeoList) dataList.get(1)));
+		}
+			
 		if (isFrequencyPolygon) {
 			AlgoPolyLine al3 = createFrequencyPolygon((AlgoHistogram) al2,
 					settings.isCumulative);
@@ -332,8 +319,6 @@ public class StatGeo {
 	public GeoElement createNormalCurveOverlay(GeoList dataList) {
 
 		GeoElement geo;
-		// String label = dataList.getLabel();
-		// String text = "Normal[Mean[" + label + "],SD[" + label + "],x]";
 
 		AlgoMean mean = new AlgoMean(cons, dataList);
 		AlgoStandardDeviation sd = new AlgoStandardDeviation(cons, dataList);
@@ -361,8 +346,6 @@ public class StatGeo {
 		Function f = new Function(normal, x);
 		geo = new GeoFunction(cons, f);
 
-		// Application.debug(text);
-		// geo = createGeoFromString(text);
 		geo.setObjColor(new geogebra.awt.GColorD(StatDialog.OVERLAY_COLOR));
 		geo.setLineThickness(StatDialog.thicknessCurve);
 

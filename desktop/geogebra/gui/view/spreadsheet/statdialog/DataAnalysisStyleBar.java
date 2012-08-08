@@ -31,7 +31,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
 	private JPopupMenu roundingPopup;
 	private MyTextField fldSource;
-	private JLabel lblDataSource;
+	private JButton btnDataSource;
 	private MyTextField fldDataSource;
 	private MyToggleButton btnExport;
 	private JButton btnSwapXY;
@@ -114,11 +114,12 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	private JPanel createDataSourcePanel() {
 
-		lblDataSource = new JLabel();
+		btnDataSource = new JButton();
+		btnDataSource.addActionListener(this);
 		fldDataSource = new MyTextField(app);
 
 		JPanel dataSourcePanel = new JPanel(new BorderLayout(5, 0));
-		dataSourcePanel.add(lblDataSource, BorderLayout.WEST);
+		dataSourcePanel.add(btnDataSource, BorderLayout.WEST);
 		dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
 
 		dataSourcePanel.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 5));
@@ -156,7 +157,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
 		btnPrint.setToolTipText(app.getMenu("Print"));
 
-		lblDataSource.setText("   " + app.getMenu("Data") + ": ");
+		btnDataSource.setText("   " + app.getMenu("Data") + ": ");
 		
 		String swapString = app.getMenu("Column.X") + " \u21C6 "
 				+ app.getMenu("Column.Y");
@@ -183,6 +184,10 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 		else if (source == btnSwapXY) {
 			statDialog.getStatDialogController().swapXY();
+		}
+		
+		else if (source == btnDataSource) {
+			statDialog.setShowDataOptionsDialog(true);
 		}
 		
 		else if (source == btnExport) {

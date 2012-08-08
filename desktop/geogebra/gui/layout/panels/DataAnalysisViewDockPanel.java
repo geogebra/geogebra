@@ -43,7 +43,6 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);

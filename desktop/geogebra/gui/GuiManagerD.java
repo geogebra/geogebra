@@ -2468,13 +2468,19 @@ public class GuiManagerD extends GuiManager {
 		if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
-
+			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+			if(app.getSelectedGeos() != null){
+				for(GeoElement geo : app.getSelectedGeos()){
+					temp.add(geo);
+				}
+			}
 			if (app.getGuiManager() != null) {
-				getDataAnalysisView().setDataAnalysisView(mode);
 				app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
+				getDataAnalysisView().setDataAnalysisView(mode);
 			}
 			// nothing more to do, so reset to move mode
-			// app.setMoveMode();
+			app.setMoveMode();
+			app.setSelectedGeos(temp);
 		}
 
 		setModeFinished = true;

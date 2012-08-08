@@ -115,6 +115,21 @@ public class StatTable extends JScrollPane {
 		}
 	}
 
+	/**
+	 * Sets the dimensions and header values for the table. This should only be
+	 * called once.
+	 * 
+	 * @param rows
+	 *            number of rows
+	 * @param rowNames
+	 *            array of row header strings, if null then a row header is not
+	 *            drawn
+	 * @param columns
+	 *            number of columns
+	 * @param columnNames
+	 *            array of column header strings, if null then a column header
+	 *            is not drawn
+	 */
 	public void setStatTable(int rows, String[] rowNames, int columns,
 			String[] columnNames) {
 
@@ -153,11 +168,14 @@ public class StatTable extends JScrollPane {
 
 	}
 
+	/**
+	 * Sets all cells values to the blank string " ". Does not change table
+	 * dimensions.
+	 */
 	public void clear() {
 		for (int r = 0; r < myTable.getRowCount(); r++)
 			for (int c = 0; c < myTable.getColumnCount(); c++)
 				myTable.setValueAt(" ", r, c);
-
 	}
 
 	/**

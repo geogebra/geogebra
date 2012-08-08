@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -144,7 +145,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	private JLabel lblTitleX, lblTitleY;
 	private MyTextField fldTitleX, fldTitleY;
-	private FrequencyTable frequencyTable;
+	private FrequencyTablePanel frequencyTable;
 	private JToggleButton btnExport;
 	private JTextField fldNumClasses;
 
@@ -288,7 +289,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				});
 		optionsPanel.setVisible(false);
 
-		frequencyTable = new FrequencyTable(app, statDialog);
+		frequencyTable = new FrequencyTablePanel(app, statDialog);
 
 		// =======================================
 		// put all the panels together
@@ -318,8 +319,8 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		createDisplayTypeComboBox();
 		sliderNumClasses.setToolTipText(app.getMenu("Classes"));
 		fldNumClasses.setToolTipText(app.getMenu("Classes"));
-		lblStart.setText(app.getMenu("Start") + ": ");
-		lblWidth.setText(app.getMenu("Width") + ": ");
+		lblStart.setText(app.getMenu(" Start") + ": ");
+		lblWidth.setText(app.getMenu(" Width") + ": ");
 		if (mode == StatDialog.MODE_REGRESSION) {
 			lblTitleX.setText(app.getMenu("Column.X") + ": ");
 			lblTitleY.setText(app.getMenu("Column.Y") + ": ");
@@ -351,8 +352,11 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
 			cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
 			cbDisplayType.addItem(plotMap.get(PLOT_DOTPLOT));
-			cbDisplayType.addItem(plotMap.get(PLOT_STEMPLOT));
-			cbDisplayType.addItem(plotMap.get(PLOT_NORMALQUANTILE));
+
+			if (statDialog.getSourceType() == StatDialog.SOURCE_FREQUENCY_CLASS) {
+				cbDisplayType.addItem(plotMap.get(PLOT_STEMPLOT));
+				cbDisplayType.addItem(plotMap.get(PLOT_NORMALQUANTILE));
+			}
 			break;
 
 		case StatDialog.MODE_REGRESSION:
@@ -628,9 +632,17 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			}
 
 			// update the frequency table
-			AlgoHistogram algo = (AlgoHistogram) histogram.getParentAlgorithm();
-			frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(),
-					settings);
+			if (statDialog.getSourceType() == StatDialog.SOURCE_VALUE) {
+				AlgoHistogram algo = (AlgoHistogram) histogram
+						.getParentAlgorithm();
+
+				frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(),
+						settings);
+
+			} else {
+				AlgoBarChart algo = (AlgoBarChart) histogram
+						.getParentAlgorithm();
+			}
 
 			// update settings
 			statGeo.getHistogramSettings(dataListSelected, histogram, settings);

@@ -20,7 +20,7 @@ import geogebra.main.AppD;
 import java.util.ArrayList;
 
 /**
- * Class to control data management for StatDialog.
+ * Class to control data management for the DataAnalysisView.
  * 
  * @author G. Sturr
  * 
@@ -50,8 +50,7 @@ public class StatDialogController {
 
 	private boolean leftToRight = true;
 	private boolean isValidData;
-	
-	
+
 	public boolean isValidData() {
 		return isValidData;
 	}
@@ -65,7 +64,6 @@ public class StatDialogController {
 	}
 
 	private GeoElement geoRegression;
-	
 
 	public GeoElement getRegressionModel() {
 		return geoRegression;
@@ -125,7 +123,7 @@ public class StatDialogController {
 				dataSource = geo;
 			} else {
 				ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
-				isValidData = isSpreadsheetDataOK(rangeList);
+				isValidData = isSpreadsheetDataOK(rangeList, mode());
 				if (isValidData) {
 					dataSource = rangeList.clone();
 					// rangeList.get(0).debug();
@@ -140,11 +138,11 @@ public class StatDialogController {
 		return;
 	}
 
-	protected boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList) {
+	protected boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList, int mode) {
 
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
 
-		switch (mode()) {
+		switch (mode) {
 		case StatDialog.MODE_ONEVAR:
 			return cr.isOneVarStatsPossible(rangeList);
 
@@ -154,10 +152,23 @@ public class StatDialogController {
 		case StatDialog.MODE_MULTIVAR:
 			return cr.isMultiVarStatsPossible(rangeList);
 		default:
-			App.error("data analysis test for spreadsheet data failed");
+			App.error("data analysis test for valid spreadsheet data failed");
 			return false;
 		}
 	}
+	
+	
+	protected boolean is1DSource() {
+
+		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
+		return(spreadsheetTable.getCellRangeProcessor().is1DRangeList(rangeList));
+
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Returns true if the current data source contains the specified GeoElement
@@ -190,8 +201,8 @@ public class StatDialogController {
 	}
 
 	/**
-	 * Loads references to GeoElements contained in the field dataSource into
-	 * the GeoList field dataListSelected and the ArrayList field dataArray.
+	 * Loads references to GeoElements contained in (Object) dataSource into
+	 * (GeoList) dataListSelected and (ArrayList) dataArray .
 	 */
 	protected void loadDataLists() {
 
@@ -219,13 +230,18 @@ public class StatDialogController {
 		} else {
 
 			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) dataSource;
+
 			switch (mode()) {
 
 			case StatDialog.MODE_ONEVAR:
-				dataSelected = (GeoList) crProcessor.createList(cellRangeList,
-						scanByColumn, copyByValue, isSorted, doStoreUndo,
-						GeoClass.NUMERIC, setLabel);
-
+				if (sd.getSourceType() == StatDialog.SOURCE_FREQUENCY_VALUE) {
+					dataSelected = crProcessor.createCollectionList(
+							cellRangeList, copyByValue, setLabel, scanByColumn);
+				} else {
+					dataSelected = (GeoList) crProcessor.createList(
+							cellRangeList, scanByColumn, copyByValue, isSorted,
+							doStoreUndo, GeoClass.NUMERIC, setLabel);
+				}
 				break;
 
 			case StatDialog.MODE_REGRESSION:
@@ -248,10 +264,8 @@ public class StatDialogController {
 				break;
 
 			case StatDialog.MODE_MULTIVAR:
-				cons.setSuppressLabelCreation(true);
-				dataSelected = crProcessor.createCollectionList(
-						(ArrayList<CellRange>) dataSource, true, false);
-				cons.setSuppressLabelCreation(false);
+				dataSelected = crProcessor.createCollectionList(cellRangeList,
+						copyByValue, setLabel, scanByColumn);
 				break;
 
 			case StatDialog.MODE_GROUPDATA:
@@ -461,8 +475,8 @@ public class StatDialogController {
 		if (doSetDataSource) {
 			setDataSource();
 		}
-	
-		if (isValidData) {	
+
+		if (isValidData) {
 			loadDataLists();
 		} else {
 			// TODO --- handle bad data

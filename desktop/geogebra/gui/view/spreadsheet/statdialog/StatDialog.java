@@ -13,6 +13,7 @@ import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -48,16 +49,28 @@ public class StatDialog extends JPanel implements View, Printable,
 	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
+	public static final int SOURCE_VALUE = 0;
+	public static final int SOURCE_FREQUENCY_VALUE = 1;
+	public static final int SOURCE_FREQUENCY_CLASS = 2;
+	private int sourceType = SOURCE_VALUE;
+	
+	
 	// flags
 	private boolean showDataPanel = false;
+
 	private boolean showStatPanel = false;
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
 	private boolean leftToRight = true;
+	private boolean isNumeric = true;
+	private boolean forceModeUpdate = false;
+
+	
+	private StatPanelSettings defaults;
 	
 
-	private boolean doSpecialNumberFormat = false;
 
+	private boolean doSpecialNumberFormat = false;
 
 	// colors
 	public static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
@@ -112,11 +125,17 @@ public class StatDialog extends JPanel implements View, Printable,
 	protected RegressionPanel regressionPanel;
 	protected StatComboPanel comboStatPanel, comboStatPanel2;
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
-	private JPanel buttonPanel;
+	private DataViewSettingsPanel dataTypePanel;
+	private JPanel mainPanel;
+
 	private int defaultDividerSize;
+
+	final static String MainCard = "Card with main panel";
+	final static String SourceCard = "Card with data type options";
 
 	// number format
 	private SpecialNumberFormat nf;
+	private DialogDataViewSettings dialogDataType;
 
 	/*************************************************
 	 * Construct the dialog
@@ -130,14 +149,17 @@ public class StatDialog extends JPanel implements View, Printable,
 		this.app = app;
 		this.kernel = app.getKernel();
 
+		defaults = new StatPanelSettings();
+		
 		nf = new SpecialNumberFormat(app, this);
 
 		sdc = new StatDialogController(app, this);
 
 		comboStatPanel = new StatComboPanel(this);
 		comboStatPanel2 = new StatComboPanel(this);
+		
 
-		setDataAnalysisView(mode);
+		setView(mode);
 		isIniting = false;
 
 	}
@@ -146,14 +168,27 @@ public class StatDialog extends JPanel implements View, Printable,
 	 * END StatDialog constructor
 	 */
 
-	public void setDataAnalysisView(int mode) {
+	public void setDataAnalysisView(int mode){
+		//App.printStacktrace("");
+		if (mode == MODE_ONEVAR) {
+			setView(mode);
+			//DialogDataViewSettings d = new DialogDataViewSettings(app, this, mode);
+			//d.setVisible(true);
+			//d.requestFocus();
+		}else{
+			setView(mode);
+		}
+	}
+	
+	
+	protected void setView(int mode) {
 
 		if (app.getSelectedGeos().size() == 0)
 			return;
-
+		
 		// reinit the GUI if mode is changed
-		if (this.mode != mode) {
-			
+		if (this.mode != mode || forceModeUpdate) {
+
 			this.mode = mode;
 			dataPanel = null;
 			buildStatisticsPanel();
@@ -228,8 +263,6 @@ public class StatDialog extends JPanel implements View, Printable,
 
 		}
 	}
-
-	
 
 	// Create DataPanel to display the current data set(s) and allow
 	// temporary editing.
@@ -318,18 +351,31 @@ public class StatDialog extends JPanel implements View, Printable,
 
 		// main panel
 		// ============================================
-		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
 
 		if (mode == MODE_REGRESSION) {
 			mainPanel.add(regressionPanel, BorderLayout.SOUTH);
 		}
 
-		this.setLayout(new BorderLayout());
-		add(mainPanel, BorderLayout.CENTER);
+		this.setLayout(new CardLayout());
+		add(mainPanel, MainCard);
+		//add(dataTypePanel, SourceCard);
+		showMainPanel();
 
 		setShowComboPanel2(showComboPanel2);
 		updateStatDataPanelVisibility();
+
+	}
+
+	public void showSourcePanel() {
+		CardLayout c = (CardLayout) this.getLayout();
+		c.show(this, SourceCard);
+	}
+
+	public void showMainPanel() {
+		CardLayout c = (CardLayout) this.getLayout();
+		c.show(this, MainCard);
 
 	}
 
@@ -367,19 +413,20 @@ public class StatDialog extends JPanel implements View, Printable,
 
 	/**
 	 * Converts double to formatted String
-	 *  
-	 * @param x	number to be converted 
-	 * @return	formatted  number string 
+	 * 
+	 * @param x
+	 *            number to be converted
+	 * @return formatted number string
 	 */
 	public String format(double x) {
 
 		// apply local numeric format
-		if(doSpecialNumberFormat){
+		if (doSpecialNumberFormat) {
 			return nf.format(x);
 		}
-		
+
 		// apply GeoGebra numeric format
-		return app.getKernel().format(x,StringTemplate.numericDefault);
+		return app.getKernel().format(x, StringTemplate.numericDefault);
 	}
 
 	public int getPrintDecimals() {
@@ -441,7 +488,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	public boolean isLeftToRight() {
 		return leftToRight;
 	}
-	
+
 	public void setLeftToRight(boolean leftToRight) {
 		sdc.setLeftToRight(leftToRight);
 	}
@@ -457,7 +504,49 @@ public class StatDialog extends JPanel implements View, Printable,
 	public void setDoSpecialNumberFormat(boolean doSpecialNumberFormat) {
 		this.doSpecialNumberFormat = doSpecialNumberFormat;
 	}
+
+	public void setShowDataOptionsDialog(boolean showDialog) {
+		// if (showDialog) {
+		// showSourcePanel();
+		// this.dataTypePanel.updatePanel();
+		// } else {
+		// showMainPanel();
+		// }
+		if (dialogDataType == null) {
+			dialogDataType = new DialogDataViewSettings(app, this,mode);
+		}
+		
+		if(showDialog){
+			//dialogDataType = new Dialog_DataAnalysisSettings(app, this);
+			dialogDataType.setVisible(showDialog);
+		}else if (dialogDataType == null) {
+			dialogDataType.setVisible(showDialog);
+		}
+
+	}
+
+	public boolean isNumeric() {
+		return isNumeric;
+	}
+
+	public void setNumeric(boolean isNumeric) {
+		this.isNumeric = isNumeric;
+	}
+
+	public int getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(int sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public StatPanelSettings getDefaults() {
+		return defaults;
+	}
+
 	
+
 	// =================================================
 	// Handlers for Component Visibility
 	// =================================================

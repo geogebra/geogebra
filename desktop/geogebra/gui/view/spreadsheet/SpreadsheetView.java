@@ -53,7 +53,7 @@ public class SpreadsheetView extends JPanel implements View, ComponentListener,
 	private Kernel kernel;
 
 	// spreadsheet table and row header
-	protected MyTableD table;
+	private MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
 	private SpreadsheetRowHeader rowHeader;
 	private JTableHeader tableHeader;
@@ -85,6 +85,7 @@ public class SpreadsheetView extends JPanel implements View, ComponentListener,
 	// file browser defaults
 	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
 	public static final int DEFAULT_MODE = FileBrowserPanel.MODE_FILE;
+	
 	// private int initialBrowserMode = DEFAULT_MODE;
 	// file browser settings
 	// private String initialURL = DEFAULT_URL;

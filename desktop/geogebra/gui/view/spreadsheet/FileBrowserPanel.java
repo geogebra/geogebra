@@ -110,7 +110,8 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		xmlParser = new QDParser();
 		handler = new MyFileTreeHandler();
 
-		setBackground(view.table.getBackground());
+		//TODO: use geogebra color constants for this
+		setBackground(((MyTableD) view.getTable()).getBackground());
 		setLayout(new BorderLayout());
 
 		// ======================================

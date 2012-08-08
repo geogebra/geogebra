@@ -453,7 +453,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// initialized
 		if (toolbarPanel != null) {
 			toolbarPanel.show(Integer.toString(id));
-			app.setMode(getToolbar(id).getSelectedMode());
+			//prevent data analysis view from setting mode twice (hack)
+			if(id != App.VIEW_DATA_ANALYSIS){
+				app.setMode(getToolbar(id).getSelectedMode());
+			}
 		}
 	}
 
