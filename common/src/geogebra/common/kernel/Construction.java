@@ -1556,7 +1556,9 @@ public class Construction {
 		kernel.setNotifyConstructionProtocolViewAboutAddRemoveActive(false);
 
 		if (s < step) {
-			for (int i = s + 1; i <= step; ++i) {
+			//we must go from high to low there as otherwise the CAS cells would 
+			//rearrange their numbers meanwhile
+			for (int i = step; i >= s+1; i--) {
 				ceList.get(i).notifyRemove();
 			}
 		} else {
