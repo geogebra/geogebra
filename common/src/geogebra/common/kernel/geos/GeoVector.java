@@ -36,7 +36,6 @@ import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -840,14 +839,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public String getTraceDialogAsValues(){
 		String name = getLabelTextOrHTML(false);
 	
-		StringBuilder sb = new StringBuilder();
-		sb.append("x(");
-		sb.append(name);
-		sb.append("), y(");
-		sb.append(name);
-		sb.append(")");
+		StringBuilder sbTrace = new StringBuilder();
+		sbTrace.append("x(");
+		sbTrace.append(name);
+		sbTrace.append("), y(");
+		sbTrace.append(name);
+		sbTrace.append(")");
 				
-		return sb.toString();
+		return sbTrace.toString();
 	}
 
 		

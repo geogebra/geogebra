@@ -310,6 +310,7 @@ public class GeoTextField extends GeoButton {
 		
 	}
 	
+	@Override
 	public void setSelected(boolean flag) {
 		super.setSelected(flag);
 

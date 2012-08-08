@@ -41,13 +41,21 @@ public class GeoTurtle extends GeoElement implements Animatable{
 
 	// turtle status fields
 	private GeoPointND startPoint = new GeoPoint(cons, 0d, 0d, 1d);
+	/** current position */
 	protected double[] position = { 0d, 0d, 1d };
+	/** current position as point */
 	protected GeoPointND currentPoint = new GeoPoint(cons, 0d, 0d, 1d);
+	/** pen color */
 	protected GColor penColor = GColor.BLACK;
+	/** pen thickness */
 	protected int penThickness = 1;
+	/** whether pen is down (active) */ 
 	protected boolean penDown = true;
+	/** direction angle (wrt positive x-axis) */
 	protected double turnAngle = 0d;
+	/** sine of current direction angle */
 	protected double sinAngle = 0d;
+	/** cosine of current direction angle */
 	protected double cosAngle = 1d;
 	private int turtleImageIndex = 1;
 
@@ -184,46 +192,68 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		return penDown;
 	}
 
+	/**
+	 * @return start point
+	 */
 	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
 
+	/**
+	 * @return list of turtle images
+	 */
 	public ArrayList<GImage> getTurtleImageList() {
 		return turtleImageList;
 	}
 
+	/**
+	 * Adds image to image list
+	 * @param image image
+	 */
 	public void addTurtleImage(GImage image) {
 		turtleImageList.add(image);
 	}
 
 	
-	public void setTurtleImageList(GImage image) {
-		
-		turtleImageList.add(image);
-	}
-	
-	
+	/**
+	 * @return image index
+	 */
 	public int getTurtle() {
 		return turtleImageIndex;
 	}
 
+	/**
+	 * @param index image index (may be arbitrary, %4 is done here)
+	 */
 	public void setTurtle(int index) {
 		int index1 = index % 4;
 		this.turtleImageIndex = index1;
 	}
 
+	/**
+	 * @return whether the turtle is repainted automatically after every command
+	 */
 	public boolean isAutoUpdate() {
 		return autoUpdate;
 	}
 
+	/**
+	 * @param autoUpdate whether the turtle is repainted automatically after every command
+	 */
 	public void setAutoUpdate(boolean autoUpdate) {
 		this.autoUpdate = autoUpdate;
 	}
 	
+	/**
+	 * @return speed of the turtle
+	 */
 	public double getSpeed() {
 		return speed;
 	}
 	
+	/**
+	 * @param s speed of the turtle
+	 */
 	public void setSpeed(double s) {
 		if (s < 0d) {
 			speed = 0d;
@@ -232,10 +262,16 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		}
 	}
 	
+	/**
+	 * @return number of completed commands
+	 */
 	public int getNumberOfCompletedCommands() {
 		return nCompletedCommands;
 	}
 	
+	/**
+	 * @return current progress (remaining commands)
+	 */
 	public double getCurrentCommandProgress() {
 		if (currentCommandProgress == 0d) {
 			return 0d;
@@ -243,12 +279,18 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		return currentCommandProgress/cmdList.get(nCompletedCommands).getTime();
 	}
 	
+	/**
+	 * Reset current progress to 0
+	 */
 	public void resetProgress() {
 		nCompletedCommands = 0;
 		currentCommandProgress = 0d;
 		doUpdate();
 	}
 	
+	/**
+	 * Do one step
+	 */
 	public void stepTurtle() {
 		stepTurtle(1d);
 	}
@@ -271,6 +313,9 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		return true;
 	}
 	
+	/**
+	 * @param nSteps do n steps
+	 */
 	public void stepTurtle(double nSteps) {
 		if (doStepTurtle(nSteps)) {
 			doUpdate();
@@ -443,13 +488,19 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		cmd.perform();
 		doUpdate();
 	}
-	
+	/** command types */
 	public enum CmdType {
+		/** forward */
 		FORWARD,
+		/** set_position*/
 		SET_POSITION,
+		/** turn (left / right)*/
 		TURN,
+		/** set_color*/
 		SET_COLOR,
+		/** set_pen*/
 		SET_PEN,
+		/** set_thickness*/
 		SET_THICKNESS
 	}
 	

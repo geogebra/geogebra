@@ -435,7 +435,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * Returns if this GeoCasCell has a twinGeo or not
 	 * 
-	 * @return
+	 * @return if this GeoCasCell has a twinGeo or not
 	 */
 	public boolean hasTwinGeo() {
 		if (twinGeo != null) {

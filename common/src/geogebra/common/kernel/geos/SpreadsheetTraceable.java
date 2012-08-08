@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * NumberValue extends SpreadsheetTraceable as all NumberValues can be traced to spreadsheet
  * 
  * default implementations in GeoElement
+ * TODO this interface should extend GeoElementND and should not be extended by NumberValue
  */
 public interface SpreadsheetTraceable extends ExpressionValue {
 	
@@ -33,6 +34,9 @@ public interface SpreadsheetTraceable extends ExpressionValue {
 	 * @return list of column headings
 	 */
 	public ArrayList<GeoText> getColumnHeadings();
+	/**
+	 * @return spreadsheet trace settings
+	 */
 	public SpreadsheetTraceSettings getTraceSettings();
 
 }
