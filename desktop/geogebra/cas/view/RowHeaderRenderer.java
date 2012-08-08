@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.AppD;
 
@@ -63,7 +64,10 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer {
 		numLabel.setText ((value == null) ? ""  : value.toString());
 		numLabel.setFont(casTable.getFont());
 		GeoCasCell ctr = casTable.getGeoCasCell(index);
-		
+		if(ctr==null){
+			App.warn("No cas cell"+index);
+			return this;
+		}
 		if(ctr.showOutput() && !ctr.isError()){
 			showHideControl.setIcon(ctr.hasTwinGeo() && ctr.getTwinGeo().isEuclidianVisible() 
 					&& ctr.getTwinGeo().isEuclidianShowable()?iconShown:iconHidden);
