@@ -9,6 +9,7 @@
 	<!-- Inherits Web Hopefully it inherits everything that is in it, and even
 	Common -->
 	<inherits name="geogebra.Common" />
+	<inherits name="geogebra.web" />
 
 	<!-- Other module inherits -->
 	<inherits name="com.google.gwt.http.HTTP" />
