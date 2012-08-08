@@ -587,6 +587,43 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  return mkset(solutions!!);" + " end;");
 
 		mpreduce1
+		.evaluate("procedure mysolve1(eqn);"
+				+ " begin scalar solutions!!, bool!!, vars!!;"
+				+ " if part(eqn,0)='sgreater then eqn:=part(eqn,0):='greaterp;"
+				+ " if part(eqn,0)='sgreaterequal then eqn:=part(eqn,0):='geq;"
+				+ " if part(eqn,0)='sless then eqn:=part(eqn,0):='lessp;"
+				+ " if part(eqn,0)='slessequal then eqn:=part(eqn,0):='leq;"
+				+ "  eqn:=mkdepthone({eqn});"
+				+ "  let solverules;"
+				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
+				+ "    eqn:=for each x in eqn collect"
+				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
+				+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
+				+ "  vars!! := mymainvars(eqn,length(eqn));" +
+				"  solutions!!:=solve(eqn,vars!!);"
+				+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
+				+ "	 if depth(solutions!!)<2 then"
+				+ "		solutions!!:=for each x in solutions!! collect {x};"
+				+ "	 solutions!!:=for each sol in solutions!! join <<"
+				+ "    bool!!:=1;"
+				+ "    for each solution!! in sol do"
+				+ "     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
+				+ "		   on rounded, roundall, numval, complex;"
+				+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
+				+ "		   off complex;"
+				+ "		   if numeric!!=0 then off rounded, roundall, numval"
+				+ "      >>"
+				+ "      else"
+				+ "	       bool!!:=2*bool!!;"
+				+ " 	   firstsol!!:=part(sol,1);"
+				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
+				+ "    else if bool!!=1 then" + "  	 {sol}"
+				+ "	   else if bool!!>1 then " + "  	 {{vars!!='?}}"
+				+ "    else " + "		 {} >>;"
+				+ "  clearrules solverules;"
+				+ "  return mkset(solutions!!);" + " end;");
+		
+		mpreduce1
 				.evaluate("procedure mycsolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
@@ -607,52 +644,30 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "        {{var='?}}" + "      >>;"
 						+ "  clearrules solverules;"
 						+ "  return mkset(solutions!!);" + " end;");
-
+		
 		mpreduce1
-				.evaluate("procedure mysolve1(eqn);"
-						+ " begin scalar solutions!!, bool!!;"
-						+ "  eqn:=mkdepthone({eqn});"
-						+ "  let solverules;"
-						+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
-						+ "    eqn:=for each x in eqn collect"
-						+ "      if freeof(x,=) then x else lhs(x)-rhs(x)"
-						+ "  else if freeof(eqn,=) then 1 else eqn:=lhs(eqn)-rhs(eqn);"
-						+ "  solutions!!:=solve(eqn);"
-						+ "	 if depth(solutions!!)<2 then"
-						+ "		solutions!!:=for each x in solutions!! collect {x};"
-						+ "	 solutions!!:=for each sol in solutions!! join <<"
-						+ "    bool!!:=1;"
-						+ "    for each solution!! in sol do"
-						+ "      if freeof(solution!!,'root_of) then <<"
-						+ "		   on rounded, roundall, numval, complex;"
-						+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
-						+ "		   off complex;"
-						+ "		   if numeric!!=0 then off rounded, roundall, numval"
-						+ "      >>" + "      else"
-						+ "	       bool!!:=2*bool!!;" + "    if bool!!=1 then"
-						+ "  	 {sol}" + "	   else if bool!!>1 then "
-						+ "  	 {{'?}}" + "    else " + "		 {} >>;"
-						+ "  clearrules solverules;"
-						+ "  return mkset(solutions!!);" + " end;");
-
-		mpreduce1.evaluate("procedure mycsolve1(eqn);"
-				+ " begin scalar solutions!!, bool!!;" + "  let solverules;"
+		.evaluate("procedure mycsolve1(eqn);"
+				+ " begin scalar solutions!!, bool!!;"
 				+ "  eqn:=mkdepthone({eqn});"
+				+ "  let solverules;"
 				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
 				+ "    eqn:=for each x in eqn collect"
-				+ "      if freeof(x,=) then x else lhs(x)-rhs(x)"
-				+ "  else if freeof(eqn,=) then 1 else eqn:=lhs(eqn)-rhs(eqn);"
-				+ "    solutions!!:=solve(eqn);"
+				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
+				+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
+				+ "    vars:=mymainvars(eqn,length(eqn));"
+				+ "    solutions!!:=solve(eqn,vars);"
 				+ "    if depth(solutions!!)<2 then"
 				+ "      solutions!!:=for each x in solutions!! collect {x};"
 				+ "    solutions!!:= for each sol in solutions!! join <<"
-				+ "      bool!!:=1;" + "      for each solution!! in sol do"
-				+ "        if freeof(solution!!,'root_of) then 1 else"
+				+ "      bool!!:=1;"
+				+ "      for each solution!! in sol do"
+				+ "        if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then 1 else"
 				+ "      		bool!!:=0;" + "      if bool!!=1 then"
 				+ "        {sol}" + "      else if bool!!=0 then"
-				+ "        {{var='?}}" + "      >>;"
-				+ "  clearrules solverules;" + "  return mkset(solutions!!);"
-				+ " end;");
+				+ "        {{vars='?}}" + "      >>;"
+				+ "  clearrules solverules;"
+				+ "  return mkset(solutions!!);" + " end;");
+
 
 		mpreduce1
 				.evaluate("procedure mydot(vec1,vec2); "
@@ -1043,25 +1058,45 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "    append(append(mysort(leftlist),eqlist),mysort(rightlist))"
 						+ " >> " + "end;");
 
-		mpreduce1.evaluate("procedure getkernels(a);"
-				+ "	for each element in a sum"
-				+ "	  if arglength(element)=-1 then" + "	    element"
-				+ "	  else" + "	    getkernels(part(element,0):=list);");
-
-		mpreduce1.evaluate("procedure mymainvaraux a;"
-				+ "if numberp(a) then currentx!! else a;");
-
-		mpreduce1.evaluate("procedure mymainvar a;"
-				+ "mainvar(mymainvaraux(getkernels(list(a))));");
-
-		mpreduce1
-				.evaluate("procedure myint(exp, var, from, upto);"
+		mpreduce1.evaluate("procedure myint(exp, var, from, upto);"
 						+ "begin scalar upper, lower;"
 						+ "antiderivative:=int(exp, var);"
 						+ "if upto=Infinity or upto=-Infinity then upper:=limit(antiderivative,var,upto) else upper:=sub(var=upto,antiderivative);"
 						+ "if from=Infinity or from=-Infinity then lower:=limit(antiderivative,var,from) else lower:=sub(var=from,antiderivative);"
 						+ "return if freeof(upper,'limit) and freeof(lower,'limit) then upper-lower else '?;"
 						+ "end;");
+		
+		mpreduce1.evaluate("procedure myfirst(l, n);" +
+				"for i:=1:n collect part(l,i);");
+		
+		mpreduce1.evaluate("procedure getkernels(a);" +
+				"for each element in a join" +
+				"  if arglength(element) = -1 then" +
+				"    if numberp(element) then" +
+				"      list()" +
+				"    else" +
+				"      list(element)" +
+				"  else" +
+				"    getkernels(part(element,0):=list);");
+		
+		mpreduce1.evaluate("procedure mymainvars(a,n);" +
+				"begin scalar variables!!;" +
+				" variables!!:=gvars(getkernels(list(a)));" +
+				" return" +
+				" if length(variables!!)<n then <<" +
+				"   write \"*** the expression \",a,\" has less than \",n,\" variables.\";" +
+						"   mymainvaraux(variables!!)" +
+						" >> else <<" +
+						"   myfirst(variables!!,n)" +
+						" >> end;");		
+		
+		mpreduce1.evaluate("procedure mymainvaraux a;"
+				+ "if a=list() then currentx!! else first(a);");
+		
+		mpreduce1.evaluate("procedure mymainvar a;"
+				+ "mymainvaraux(mymainvars(a,1));");
+		
+		
 	}
 
 	/**

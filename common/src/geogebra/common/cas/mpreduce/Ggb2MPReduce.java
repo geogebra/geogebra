@@ -272,7 +272,8 @@ public class Ggb2MPReduce {
 		p("Solutions.2",
 				"flattenlist(for each element!! in mysolve(%0,%1) collect map(rhs,element!!))");
 		p("Solve.1",
-				"<<begin scalar input!!; input!!:=(%0); return flattenlist(mysolve(input!!,mymainvar(%0))) end>>");
+				"<<begin scalar input!!; input!!:=(%0);" +
+				" return flattenlist(mysolve1(input!!)) end>>");
 		p("Solve.2",
 				"<< begin scalar equations!!; equations!!:=(%0); if arglength(equations!!)>-1 and part(equations!!,0)=\\'list then equations!!:=mkdepthone(equations!!); return flattenlist(mysolve(aeval(equations!!),%1)) end >>");
 		p("SolveODE.1",
