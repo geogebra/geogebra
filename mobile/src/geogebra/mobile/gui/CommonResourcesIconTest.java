@@ -8,7 +8,124 @@ import com.google.gwt.resources.client.ClientBundleWithLookup;
 
 public interface CommonResourcesIconTest extends ClientBundleWithLookup
 {
+
 	public static CommonResourcesIconTest INSTANCE = GWT.create(CommonResourcesIconTest.class);
+
+	@Source("icons/svg/point_standard.svg")
+	@Validated(validated = false)
+	SVGResource point_standard();
+
+	@Source("icons/svg/arrows/arrow-in.svg")
+	@Validated(validated = false)
+	SVGResource arrowIn();
+
+	@Source("icons/svg/arrows/arrow-out.svg")
+	@Validated(validated = false)
+	SVGResource arrowOut();
+
+	@Source("icons/svg/arrows/cursor_arrow.svg")
+	@Validated(validated = false)
+	SVGResource cursor_arrow();
+
+	@Source("icons/svg/arrows/dockbar-triangle-left.svg")
+	@Validated(validated = false)
+	SVGResource dockbarTriangleLeft();
+
+	@Source("icons/svg/arrows/dockbar-triangle-right.svg")
+	@Validated(validated = false)
+	SVGResource dockbarTriangleRight();
+
+	@Source("icons/svg/arrows/go-down.svg")
+	@Validated(validated = false)
+	SVGResource goDown();
+
+	@Source("icons/svg/arrows/go-last-gray.svg")
+	@Validated(validated = false)
+	SVGResource goLastGray();
+
+	@Source("icons/svg/arrows/go-next-gray.svg")
+	@Validated(validated = false)
+	SVGResource goNextGray();
+
+	@Source("icons/svg/arrows/go-next.svg")
+	@Validated(validated = false)
+	SVGResource goNext();
+
+	@Source("icons/svg/arrows/go-previous-gray.svg")
+	@Validated(validated = false)
+	SVGResource goPreviousGray();
+
+	@Source("icons/svg/arrows/go-previous.svg")
+	@Validated(validated = false)
+	SVGResource goPrevious();
+
+	@Source("icons/svg/arrows/go-previous24.svg")
+	@Validated(validated = false)
+	SVGResource goPrevious24();
+
+	@Source("icons/svg/arrows/go-up.svg")
+	@Validated(validated = false)
+	SVGResource goUp();
+
+	@Source("icons/svg/arrows/inputhelp-left.svg")
+	@Validated(validated = false)
+	SVGResource inputhelpLeft();
+
+	@Source("icons/svg/arrows/inputhelp-right.svg")
+	@Validated(validated = false)
+	SVGResource inputhelpRight();
+
+	@Source("icons/svg/arrows/nav_fastforward.svg")
+	@Validated(validated = false)
+	SVGResource nav_fastforward();
+
+	@Source("icons/svg/arrows/nav_rewind.svg")
+	@Validated(validated = false)
+	SVGResource nav_rewind();
+
+	@Source("icons/svg/arrows/nav_skipback.svg")
+	@Validated(validated = false)
+	SVGResource nav_skipback();
+
+	@Source("icons/svg/arrows/nav_skipforward.svg")
+	@Validated(validated = false)
+	SVGResource nav_skipforward();
+
+	@Source("icons/svg/arrows/triangle-down-rollover.svg")
+	@Validated(validated = false)
+	SVGResource triangleDownRollover();
+
+	@Source("icons/svg/arrows/triangle-down.svg")
+	@Validated(validated = false)
+	SVGResource triangleDown();
+
+	@Source("icons/svg/arrows/triangle-up-rollover.svg")
+	@Validated(validated = false)
+	SVGResource triangleUpRollover();
+
+	@Source("icons/svg/arrows/triangle-up.svg")
+	@Validated(validated = false)
+	SVGResource triangleUp();
+
+	@Source("icons/svg/contextmenu/edit_text.svg")
+	@Validated(validated = false)
+	SVGResource edit_text();
+
+	@Source("icons/svg/contextmenu/rename.svg")
+	@Validated(validated = false)
+	SVGResource rename();
+
+	@Source("icons/svg/contextmenu/trace_on.svg")
+	@Validated(validated = false)
+	SVGResource trace_on();
+
+	@Source("icons/svg/contextmenu/tree-close.svg")
+	@Validated(validated = false)
+	SVGResource treeClose();
+
+	@Source("icons/svg/general/geogebra_tube_writing.svg")
+	@Validated(validated = false)
+	SVGResource geogebra_tube_writing();
 
 	@Source("icons/svg/general/geogebra-logo.svg")
 	@Validated(validated = false)
@@ -610,21 +727,13 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource translate_object_by_vector();
 
-	@Source("icons/svg/unsorted/cas-keyboard.svg")
+	@Source("icons/svg/unsorted/apply.svg")
 	@Validated(validated = false)
-	SVGResource casKeyboard();
+	SVGResource apply();
 
-	@Source("icons/svg/unsorted/cas.svg")
+	@Source("icons/svg/unsorted/check.svg")
 	@Validated(validated = false)
-	SVGResource cas();
-
-	@Source("icons/svg/unsorted/cascopy-dynamic.svg")
-	@Validated(validated = false)
-	SVGResource cascopyDynamic();
-
-	@Source("icons/svg/unsorted/cascopy-static.svg")
-	@Validated(validated = false)
-	SVGResource cascopyStatic();
+	SVGResource check();
 
 	@Source("icons/svg/unsorted/corner1.svg")
 	@Validated(validated = false)
@@ -637,6 +746,46 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Source("icons/svg/unsorted/corner4.svg")
 	@Validated(validated = false)
 	SVGResource corner4();
+
+	@Source("icons/svg/unsorted/cumulative_distribution.svg")
+	@Validated(validated = false)
+	SVGResource cumulative_distribution();
+
+	@Source("icons/svg/unsorted/empty.svg")
+	@Validated(validated = false)
+	SVGResource empty();
+
+	@Source("icons/svg/unsorted/hidden.svg")
+	@Validated(validated = false)
+	SVGResource hidden();
+
+	@Source("icons/svg/unsorted/line_graph.svg")
+	@Validated(validated = false)
+	SVGResource line_graph();
+
+	@Source("icons/svg/unsorted/list-add.svg")
+	@Validated(validated = false)
+	SVGResource listAdd();
+
+	@Source("icons/svg/unsorted/perspective.svg")
+	@Validated(validated = false)
+	SVGResource perspective();
+
+	@Source("icons/svg/unsorted/shown.svg")
+	@Validated(validated = false)
+	SVGResource shown();
+
+	@Source("icons/svg/unsorted/text-x-generic.svg")
+	@Validated(validated = false)
+	SVGResource textXGeneric();
+
+	@Source("icons/svg/unsorted/tree-open.svg")
+	@Validated(validated = false)
+	SVGResource treeOpen();
+
+	@Source("icons/svg/unsorted/view_btn.svg")
+	@Validated(validated = false)
+	SVGResource view_btn();
 
 	@Source("icons/svg/unsorted/view-maximize.svg")
 	@Validated(validated = false)
@@ -653,5 +802,45 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Source("icons/svg/unsorted/xy_table.svg")
 	@Validated(validated = false)
 	SVGResource xy_table();
+
+	@Source("icons/svg/unsorted/cas/cas-keyboard.svg")
+	@Validated(validated = false)
+	SVGResource casKeyboard();
+
+	@Source("icons/svg/unsorted/cas/cas.svg")
+	@Validated(validated = false)
+	SVGResource cas();
+
+	@Source("icons/svg/unsorted/cas/cascopy-dynamic.svg")
+	@Validated(validated = false)
+	SVGResource cascopyDynamic();
+
+	@Source("icons/svg/unsorted/cas/cascopy-static.svg")
+	@Validated(validated = false)
+	SVGResource cascopyStatic();
+
+	@Source("icons/svg/unsorted/spreadsheet/header_column.svg")
+	@Validated(validated = false)
+	SVGResource header_column();
+
+	@Source("icons/svg/unsorted/spreadsheet/header_row.svg")
+	@Validated(validated = false)
+	SVGResource header_row();
+
+	@Source("icons/svg/unsorted/spreadsheet/spreadsheet_grid.svg")
+	@Validated(validated = false)
+	SVGResource spreadsheet_grid();
+
+	@Source("icons/svg/unsorted/view/view-close.svg")
+	@Validated(validated = false)
+	SVGResource viewClose();
+
+	@Source("icons/svg/unsorted/view/view-unwindow.svg")
+	@Validated(validated = false)
+	SVGResource viewUnwindow();
+
+	@Source("icons/svg/unsorted/view/view-window.svg")
+	@Validated(validated = false)
+	SVGResource viewWindow();
 
 }
