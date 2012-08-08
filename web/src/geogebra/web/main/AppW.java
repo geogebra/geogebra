@@ -1325,25 +1325,25 @@ public class AppW extends App {
 		//TODO
 		App.debug("TODO later: make sure splash screen not showing");
 	
-		final PopupPanel dialog = new PopupPanel(false, true);
-		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
-		dialog.center();
 		if (command == null) {
 			showErrorDialog(e.getLocalizedMessage());
 			return;			
 		}
+
+		final PopupPanel dialog = new PopupPanel(false, true);
+		dialog.center();
 		
 		Button ok = new Button(getPlain("OK"));
 		ok.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				dialog.hide();
+				dialog.removeFromParent();
 			}
 		});
 		Button showHelp = new Button(getPlain("ShowOnlineHelp"));
 		showHelp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				getGuiManager().openCommandHelp(command);
-				dialog.hide();
+				dialog.removeFromParent();
 			}
 		});		
 		
