@@ -156,9 +156,9 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		cons.setSuppressLabelCreation(true);
 
 		if(useDensity == null) {
-			algoHistogram = new AlgoHistogram(cons, null, list1, list2,right);
+			algoHistogram = new AlgoHistogram(cons, list1, list2,right);
 		} else {
-			algoHistogram = new AlgoHistogram(cons, null, isCumulative, list1,
+			algoHistogram = new AlgoHistogram(cons, isCumulative, list1,
 					list2, useDensity, density,right);
 		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);

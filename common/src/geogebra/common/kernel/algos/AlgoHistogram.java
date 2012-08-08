@@ -40,6 +40,11 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 		super(cons, label, list1, list2, right);		
 	}
 	
+	public AlgoHistogram(Construction cons,
+			   GeoList list1, GeoList list2,boolean right) {
+		super(cons, list1, list2, right);		
+	}
+	
 	private AlgoHistogram(Construction cons, double[]vals,double[]borders,int N) {
 		super(cons, vals, borders,N);		
 	}
@@ -81,6 +86,27 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 		super(cons, isCumulative, list1, list2, useDensity, density,right);		
 	}
 
+	
+	public AlgoHistogram(Construction cons,
+			GeoBoolean useFrequency,
+			GeoBoolean isCumulative,					   
+			GeoList list1, 
+			GeoList list2, 
+			GeoBoolean useDensity, 
+			GeoNumeric density, boolean right) {
+		super(cons, useFrequency, isCumulative, list1, list2, useDensity, density, right);		
+	}
+	
+	public AlgoHistogram(Construction cons, String label,
+			GeoBoolean useFrequency,
+			GeoBoolean isCumulative,					   
+			GeoList list1, 
+			GeoList list2, 
+			GeoBoolean useDensity, 
+			GeoNumeric density, boolean right) {
+		super(cons, label, useFrequency, isCumulative, list1, list2, useDensity, density, right);		
+	}
+	
 	@Override
 	public Algos getClassName() {
 		return isRight()?Algos.AlgoHistogramRight:Algos.AlgoHistogram;

@@ -6248,6 +6248,30 @@ public class Kernel {
 	}
 
 	/**
+	 * Histogram[ useFrequency, isCumulative, classList, frequencyList, useDensity]
+	 */
+	final public GeoNumeric Histogram(String label, GeoBoolean useFrequency, GeoBoolean isCumulative,
+			GeoList list1, GeoList list2, GeoBoolean useDensity, boolean right) {
+		AlgoHistogram algo = new AlgoHistogram(cons, label, useFrequency, isCumulative,
+				list1, list2, useDensity, null, right);
+		GeoNumeric sum = algo.getSum();
+		return sum;
+	}
+	
+	/**
+	 * Histogram[ useFrequency, isCumulative, classList, frequencyList, useDensity, density]
+	 */
+	final public GeoNumeric Histogram(String label, GeoBoolean useFrequency, GeoBoolean isCumulative,
+			GeoList list1, GeoList list2, GeoBoolean useDensity,
+			GeoNumeric density,  boolean right) {
+		AlgoHistogram algo = new AlgoHistogram(cons, label, useFrequency, isCumulative,
+				list1, list2, useDensity, density, right);
+		GeoNumeric sum = algo.getSum();
+		return sum;
+	}
+	
+	
+	/**
 	 * If-then-else construct.
 	 */
 	final public GeoElement If(String label, GeoBoolean condition,

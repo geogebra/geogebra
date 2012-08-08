@@ -90,6 +90,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	public static final int TYPE_HISTOGRAM = 21;
 	/** Histogram from(class boundaries, raw data) with given density **/
 	public static final int TYPE_HISTOGRAM_DENSITY = 22;
+	public static final int TYPE_HISTOGRAM_FREQUENCY_TABLE = 23;
 
 	/** barchart of a discrete probability distribution **/
 	public static final int TYPE_BARCHART_BINOMIAL = 40;
@@ -129,7 +130,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	private NumberValue d; // input: divider for Rectangle sum, 0..1
 	private GeoList list1, list2; // input
 	private GeoElement ageo, bgeo, ngeo, dgeo, widthGeo, densityGeo,
-			useDensityGeo, isCumulative, p1geo, p2geo, p3geo;
+			useDensityGeo, isCumulative, p1geo, p2geo, p3geo, useFrequencyGeo;
 
 	/**
 	 * @return the densityGeo
@@ -507,7 +508,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param list2
 	 * @param right
 	 */
-	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
 			GeoList list2, boolean right) {
 
 		super(cons);
@@ -520,10 +521,17 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
 		sum.setDrawable(true);
 	}
 
+	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
+			GeoList list2, boolean right) {
+
+		this(cons, list1, list2);
+
+		sum.setLabel(label);
+	}
+	
 	public AlgoFunctionAreaSums(Construction cons, double[] vals,
 			double[] borders, int N) {
 		super(cons, false);
@@ -579,6 +587,41 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum.setDrawable(true);
 	}
 
+	
+	public AlgoFunctionAreaSums(Construction cons,  GeoBoolean useFrequency, GeoBoolean isCumulative,
+			GeoList classList, GeoList frequencyList, GeoBoolean useDensity,
+			GeoNumeric density, boolean right) {
+
+		super(cons);
+		this.histogramRight = right;
+		type = TYPE_HISTOGRAM_FREQUENCY_TABLE;
+
+		this.isCumulative = isCumulative;
+		this.list1 = classList;
+		this.list2 = frequencyList;
+		this.density = density;
+		if (density != null)
+			densityGeo = density.toGeoElement();
+
+		this.useDensityGeo = useDensity;
+		this.useFrequencyGeo = useFrequency;
+
+		sum = new GeoNumeric(cons); // output
+		setInputOutput(); // for AlgoElement
+		compute();
+		sum.setDrawable(true);
+	}
+	
+	public AlgoFunctionAreaSums(Construction cons, String label, GeoBoolean useFrequency, GeoBoolean isCumulative,
+			GeoList classList, GeoList frequencyList, GeoBoolean useDensity,
+			GeoNumeric density,  boolean right) {
+
+		this(cons, useFrequency, isCumulative, classList, frequencyList, useDensity, density, right);
+
+		sum.setLabel(label);
+	}
+	
+	
 	public AlgoFunctionAreaSums(GeoBoolean isCumulative, GeoBoolean useDensity,
 			GeoNumeric density, double[] vals, double[] borders, int N) {
 		super(useDensity.getConstruction(), false);
@@ -594,6 +637,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		this.yval = vals;
 	}
 
+	
 	/**
 	 * Discrete distribution bar chart
 	 * 
@@ -719,6 +763,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			input[0] = list1;
 			input[1] = list2;
 			break;
+			
 		case TYPE_HISTOGRAM_DENSITY:
 			if (isCumulative == null) {
 				if (densityGeo == null) {
@@ -748,6 +793,28 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					input[3] = useDensityGeo;
 					input[4] = densityGeo;
 				}
+			}
+			break;
+			
+		case TYPE_HISTOGRAM_FREQUENCY_TABLE:
+
+			if (densityGeo == null) {
+				input = new GeoElement[5];
+				input[0] = useFrequencyGeo;
+				input[1] = isCumulative;
+				input[2] = list1;
+				input[3] = list2;
+				input[4] = useDensityGeo;
+				
+			} else {
+				input = new GeoElement[6];
+				input[0] = useFrequencyGeo;
+				input[1] = isCumulative;
+				input[2] = list1;
+				input[3] = list2;
+				input[4] = useDensityGeo;
+				input[5] = densityGeo;
+	
 			}
 			break;
 
@@ -1477,6 +1544,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 		case TYPE_HISTOGRAM:
 		case TYPE_HISTOGRAM_DENSITY:
+		case TYPE_HISTOGRAM_FREQUENCY_TABLE:
 			if (!list1.isDefined() || !list2.isDefined()) {
 				sum.setUndefined();
 				return;
@@ -1509,11 +1577,18 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			// list2 contains raw data
 			// eg
 			// Histogram[{1,1.5,2,4},{1.0,1.1,1.1,1.2,1.7,1.7,1.8,2.2,2.5,4.0}]
-			// problem: if N-1 = list2.size() then raw data is not assumed
+			// problem: if list2.size() = N-1 then raw data is not assumed
 			// fix for now is to check if other parameters are present, then it
 			// must be raw data
-			if (N - 1 != list2.size() || useDensityGeo != null
-					|| isCumulative != null) {
+
+			boolean useRawData = list2.size() != N - 1 || useDensityGeo != null
+					|| isCumulative != null;
+
+			if (useFrequencyGeo != null &&  ((GeoBoolean) useFrequencyGeo).getBoolean()) {
+				useRawData = false;
+			}
+
+			if (useRawData) {
 
 				if (yval == null || yval.length < N) {
 					yval = new double[N];
@@ -1607,43 +1682,20 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					}
 				}
 
-				// turn frequencies into frequency densities
-				// if densityFactor = -1 then do not convert frequency to
-				// density
-				if (densityFactor != -1) {
-					for (int i = 1; i < N; i++) {
-						yval[i - 1] = densityFactor * yval[i - 1]
-								/ (leftBorder[i] - leftBorder[i - 1]);
-					}
-				}
+				
+				// use frequency table, list2 = frequencies, 
+			} else {
 
-				// convert to cumulative frequencies if cumulative option is set
-				if (isCumulative != null
-						&& ((GeoBoolean) isCumulative).getBoolean()) {
-					for (int i = 1; i < N; i++) {
-						yval[i] += yval[i - 1];
-					}
-				}
-
-				// area of rectangles = total frequency * densityFactor
-				sum.setValue(Math.abs(list2.size() * densityFactor));
-
-				// find maximum frequency
-				// this is used by the stat dialogs
-				freqMax = 0.0;
-				for (int k = 0; k < yval.length; ++k) {
-					freqMax = Math.max(yval[k], freqMax);
-				}
-
-			} else { // list2 contains the heights
-
+				// create arrays for frequencies and class borders
 				if (yval == null || yval.length < N) {
 					yval = new double[N];
 					leftBorder = new double[N];
 				}
 
+				// fill the arrays
 				for (int i = 0; i < N - 1; i++) {
 
+					// get borders
 					geo = list1.get(i);
 					if (i == 0) {
 						if (geo.isNumberValue())
@@ -1660,6 +1712,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 						return;
 					}
 
+					// get frequencies
 					geo = list2.get(i);
 					if (geo.isGeoNumeric())
 						yval[i] = ((GeoNumeric) geo).getDouble();
@@ -1670,7 +1723,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 				}
 
-				yval[N - 1] = yval[N - 2];
+				// handle last array elements
+
+				//yval[N - 1] = yval[N - 2];
 
 				geo = list1.get(N - 1);
 				if (geo.isNumberValue()) {
@@ -1681,17 +1736,39 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				}
 				leftBorder[N - 1] = ((GeoNumeric) geo).getDouble();
 
-				cumSum = 0;
-				for (int i = 1; i < N; i++) {
-					cumSum += (leftBorder[i] - leftBorder[i - 1]) * yval[i - 1];
-				}
-
-				// area of rectangles
-				sum.setValue(cumSum);
+				
 			}
 
+			// turn frequencies into frequency densities
+			// if densityFactor = -1 then do not convert frequency to
+			// density
+			if (density != null && densityFactor != -1) {
+				for (int i = 1; i < N; i++) {
+					yval[i - 1] = densityFactor * yval[i - 1]
+							/ (leftBorder[i] - leftBorder[i - 1]);
+				}
+			}
+
+			// convert to cumulative frequencies if cumulative option is set
+			if (isCumulative != null
+					&& ((GeoBoolean) isCumulative).getBoolean()) {
+				for (int i = 1; i < N; i++) {
+					yval[i] += yval[i - 1];
+				}
+			}
+			yval[N - 1] = yval[N - 2];
+
+			// compute area sum
+			cumSum = 0;
+			for (int i = 1; i < N; i++) {
+				cumSum += (leftBorder[i] - leftBorder[i - 1]) * yval[i - 1];
+			}
+
+			// area of rectangles
+			sum.setValue(cumSum);
+			
 			// find maximum frequency
-			// this is used by the stat dialogs
+			// (used by DataAnalysisView)
 			freqMax = 0.0;
 			for (int k = 0; k < yval.length; ++k) {
 				freqMax = Math.max(yval[k], freqMax);
