@@ -29,15 +29,16 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.mobile.controller.MobileEuclidianController;
+import geogebra.mobile.euclidian.EuclidianViewM;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
+import geogebra.web.io.MyXMLio;
 
 /**
- * @deprecated Dummy App for the Kernel, will be removed as soon as App is
- *             separated from the Kernel
+ * 
  * @author Matthias Meisinger
  * 
  */
-@Deprecated
 public class MobileApp extends App
 {
 	private GeoGebraMobileGUI mobileGUI;
@@ -46,19 +47,45 @@ public class MobileApp extends App
 	{
 		super.initing = true;
 
+		intitFactories(); 
+		
 		this.mobileGUI = mobileGUI;
+		
 		this.settings = new Settings();
 	}
 
 	public void start()
 	{
-		// kernel = new Kernel(MobileApp.this);
+		
+		this.kernel = new Kernel(MobileApp.this);
 
-		// initEuclidianViews();
+//		initEuclidianViews();
 
-		// setUndoActive(true);
+		this.myXMLio = new MyXMLio(this.kernel, this.kernel.getConstruction());
 
+		setUndoActive(true);
+
+//		this.mobileGUI.getEuclidianViewPanel().setCanvas(((EuclidianViewM)getEuclidianView1()).getCanvas()); 
+		
+		MobileEuclidianController ec = new MobileEuclidianController();
+		ec.setKernel(this.kernel);
+		this.mobileGUI.initComponents(ec); 
+		
 		super.initing = false;
+	}
+
+	private static void intitFactories()
+  {
+		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
+		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
+	}
+	
+	@Override
+	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
+	{
+		MobileEuclidianController ec = new MobileEuclidianController();
+		ec.setKernel(this.kernel);
+		return new EuclidianViewM(ec, showAxes1, showGrid1, getSettings().getEuclidian(1));
 	}
 
 	@Override
@@ -379,19 +406,12 @@ public class MobileApp extends App
 	@Override
 	public GFont getPlainFontCommon()
 	{
-
-		return null;
+		//TODO
+		return new geogebra.web.awt.GFontW("normal");
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
-	{
-
-		return null;
-	}
-
-	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel1)
+	protected EuclidianController newEuclidianController(geogebra.common.kernel.Kernel kernel1)
 	{
 
 		return null;
@@ -405,7 +425,7 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public AnimationManager newAnimationManager(Kernel kernel2)
+	public AnimationManager newAnimationManager(geogebra.common.kernel.Kernel kernel2)
 	{
 
 		return null;
@@ -589,52 +609,44 @@ public class MobileApp extends App
 	@Override
 	public String getCountryFromGeoIP() throws Exception
 	{
-
 		return null;
 	}
 
 	@Override
 	public boolean loadXML(String xml) throws Exception
 	{
-
 		return false;
 	}
 
 	@Override
 	public void exportToLMS(boolean b)
 	{
-
 	}
 
 	@Override
 	public void copyGraphicsViewToClipboard()
 	{
-
 	}
 
 	@Override
 	public void exitAll()
 	{
-
 	}
 
 	@Override
 	public void addMenuItem(MenuInterface parentMenu, String filename, String name, boolean asHtml, MenuInterface subMenu)
 	{
-
 	}
 
 	@Override
 	public NormalizerMinimal getNormalizer()
 	{
-
 		return null;
 	}
 
 	@Override
 	public void runScripts(GeoElement geo1, String string)
 	{
-
 	}
 
 }

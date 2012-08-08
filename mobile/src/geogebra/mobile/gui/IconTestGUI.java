@@ -2,6 +2,7 @@ package geogebra.mobile.gui;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 import geogebra.mobile.gui.elements.toolbar.ToolButton;
@@ -52,4 +53,12 @@ public class IconTestGUI implements GeoGebraMobileGUI
 		return null;
 	}
 
+	@Override
+  public void initComponents(EuclidianController ec)
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
+
+	
 }

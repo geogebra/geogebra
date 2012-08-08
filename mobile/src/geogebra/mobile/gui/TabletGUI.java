@@ -1,5 +1,6 @@
 package geogebra.mobile.gui;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 import geogebra.mobile.gui.elements.TabletHeaderPanel;
@@ -11,17 +12,14 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 
 public class TabletGUI implements GeoGebraMobileGUI
 {
-	private RootPanel rootPanel;
-
-	private LayoutPanel euclidianViewPanel;
+	private EuclidianViewPanel euclidianViewPanel;
 	private TabletHeaderPanel headerPanel;
 	private TabletHeaderPanelLeft leftHeader; 
 	private TabletHeaderPanelRight rightHeader; 	
-	private LayoutPanel algebraViewPanel;
+	private AlgebraViewPanel algebraViewPanel;
 	private ToolBar toolBar;
 
 	public TabletGUI()
@@ -36,45 +34,47 @@ public class TabletGUI implements GeoGebraMobileGUI
 		MGWTStyle.injectStyleSheet("TabletGUI.css");
 
 		// Initialize GUI Elements
-		this.rootPanel = RootPanel.get();
 		this.headerPanel = new TabletHeaderPanel();
 		this.leftHeader = new TabletHeaderPanelLeft(); 
 		this.rightHeader = new TabletHeaderPanelRight(); 
 		this.toolBar = new ToolBar();
-
+		this.euclidianViewPanel = new EuclidianViewPanel();
+		this.algebraViewPanel = new AlgebraViewPanel();
+		
 		layout();
 	}
 
 	public void layout()
 	{
-		this.rootPanel = RootPanel.get();
-
-		this.headerPanel = new TabletHeaderPanel();
-		this.euclidianViewPanel = new EuclidianViewPanel();
-		this.algebraViewPanel = new AlgebraViewPanel();
-
-		this.euclidianViewPanel.add(this.headerPanel);
-		this.euclidianViewPanel.add(this.rightHeader);
-		this.euclidianViewPanel.add(this.leftHeader);
+		RootPanel.get().add(this.euclidianViewPanel);	
 		
-		this.euclidianViewPanel.add(this.algebraViewPanel);
-
+		RootPanel.get().add(this.headerPanel);
+		RootPanel.get().add(this.rightHeader);
+		RootPanel.get().add(this.leftHeader);
+				
 		this.toolBar.makeTabletToolBar();
-		this.euclidianViewPanel.add(this.toolBar);
-		this.rootPanel.add(this.euclidianViewPanel);
+		RootPanel.get().add(this.toolBar);
+					
+		RootPanel.get().add(this.algebraViewPanel);
 	}
 
 	@Override
   public EuclidianViewPanel getEuclidianViewPanel()
   {
-	  // TODO Auto-generated method stub
-	  return null;
+	  return this.euclidianViewPanel;
   }
 
 	@Override
   public AlgebraViewPanel getAlgebraViewPanel()
   {
-	  // TODO Auto-generated method stub
-	  return null;
+	  return this.algebraViewPanel;
+  }
+
+	@Override
+  public void initComponents(EuclidianController ec)
+  {
+		//TODO add other stuff
+	  this.euclidianViewPanel.initEuclidianView(ec); 
+	  
   }
 }

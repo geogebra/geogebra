@@ -17,9 +17,9 @@ public class MobileEntryPoint implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
-		// this.app = new MobileApp(new TabletGUI());
+		 this.app = new MobileApp(new TabletGUI());
 
-		this.app = new MobileApp(new IconTestGUI());
+//		this.app = new MobileApp(new IconTestGUI());
 		loadMobileAsync();
 	}
 
