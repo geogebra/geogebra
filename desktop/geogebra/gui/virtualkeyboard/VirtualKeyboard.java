@@ -400,7 +400,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	void updateAltGrButton() {
 		AltGrButton.setSize(new Dimension((int) (buttonSizeX),
 				(int) buttonSizeY));
-		AltGrButton.setLocation(new Point((int) (buttonSizeX * 19d / 2d),
+		AltGrButton.setLocation(new Point((int) (buttonSizeX * 9),
 				(int) (buttonSizeY * 4d)));
 
 		AltGrButton.setFont(getFont((int) (minButtonSize() / 2), false));
@@ -412,7 +412,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	private void updateMathButton() {
 		MathButton
 				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
-		MathButton.setLocation(new Point((int) (buttonSizeX * 21d / 2d),
+		MathButton.setLocation(new Point((int) (buttonSizeX * 10),
 				(int) (buttonSizeY * 4d)));
 
 		MathButton.setFont(getFont((int) (minButtonSize()), false));
@@ -424,7 +424,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		NumericButton
 				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
 		if(getKeyboardMode()!=KEYBOARD_NUMERIC){
-			NumericButton.setLocation(new Point((int) (buttonSizeX * 27d / 2d),
+			NumericButton.setLocation(new Point((int) (buttonSizeX * 13),
 				(int) (buttonSizeY * 4d)));
 		}else{
 			NumericButton.setLocation(new Point((int) (buttonSizeX * 17d / 2d),
@@ -447,7 +447,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		GreekButton.setSize(new Dimension((int) (buttonSizeX),
 				(int) buttonSizeY));
 		if(getKeyboardMode()!=KEYBOARD_NUMERIC){
-		GreekButton.setLocation(new Point((int) (buttonSizeX * 25d / 2d),
+		GreekButton.setLocation(new Point((int) (buttonSizeX * 12),
 				(int) (buttonSizeY * 4d)));
 		}
 		else{
@@ -464,7 +464,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		EnglishButton.setSize(new Dimension((int) (buttonSizeX),
 				(int) buttonSizeY));
 		if(getKeyboardMode()!=KEYBOARD_NUMERIC){
-		EnglishButton.setLocation(new Point((int) (buttonSizeX * 23d / 2d),
+		EnglishButton.setLocation(new Point((int) (buttonSizeX * 11),
 				(int) (buttonSizeY * 4d)));
 	}
 	else{
