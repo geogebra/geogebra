@@ -651,18 +651,20 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * Hide a dock panel identified by the view ID.
 	 * 
 	 * @param viewId
+	 * @return true if succeeded to hide the panel
 	 */
-	public void hide(int viewId, boolean isPermanent) {
-		hide(getPanel(viewId), isPermanent);
+	public boolean hide(int viewId, boolean isPermanent) {
+		return hide(getPanel(viewId), isPermanent);
 	}
 	
 	/**
 	 * Hide a dock panel permanently.
 	 * 
 	 * @param panel
+	 * @return true if succeeded to hide the panel
 	 */
-	public void hide(DockPanel panel) {
-		hide(panel, true);
+	public boolean hide(DockPanel panel) {
+		return hide(panel, true);
 	}
 
 	/**
@@ -680,15 +682,23 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param isPermanent says if the close is permanent
 	 */
 	public void closePanel(DockPanel panel, boolean isPermanent){
-		hide(panel, isPermanent);
-		getLayout().getApplication().updateMenubar();
-		
-		if(getFocusedPanel() == panel) {
-			setFocusedPanel(null);
+		if (hide(panel, isPermanent)){
+			getLayout().getApplication().updateMenubar();
+
+			if(getFocusedPanel() == panel) {
+				setFocusedPanel(null);
+			}
 		}
 	}
 	
-	
+
+	/**
+	 * 
+	 * @return true if the layout contains less than two panels
+	 */
+	private boolean containsLessThanTwoPanels(){
+		return (rootPane==null) || (rootPane.getLeftComponent()==null) || (rootPane.getRightComponent()==null);
+	}
 
 	
 	/**
@@ -696,13 +706,18 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 
 	 * @param panel
 	 * @param isPermanent If this change is permanent.
+	 * @return true if it succeeded to hide the panel
 	 */
-	public void hide(DockPanel panel, boolean isPermanent) {
+	public boolean hide(DockPanel panel, boolean isPermanent) {
 		if(!panel.isVisible()) {
 			// some views (especially CAS) will close so slowly that the user is able
 			// to issue another "close" call, therefore we quit quietly
-			return;
+			return false;
 		}
+		
+		//if panel is open in frame, check if it's not the last one
+		if (!panel.isOpenInFrame() && containsLessThanTwoPanels())
+			return false;
 		
 		panel.setHidden(!isPermanent);
 		
@@ -774,6 +789,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			app.updateToolBar();
 		}
+		
+		return true;
 	}
 	
 	/**

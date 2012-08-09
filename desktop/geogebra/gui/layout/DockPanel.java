@@ -896,25 +896,29 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * Display this panel in an external window.
 	 */
 	protected void windowPanel() {
-		// move the toolbar from the main window to the panel
-		if(hasToolbar()) {
-			if(toolbarContainer == null) {
-				toolbarContainer = new ToolbarContainer(app, false);
+
+		//try to hide the panel
+		if(dockManager.hide(this, false)){
+
+			// move the toolbar from the main window to the panel
+			if(hasToolbar()) {
+				if(toolbarContainer == null) {
+					toolbarContainer = new ToolbarContainer(app, false);
+				}
+
+				toolbarContainer.addToolbar(toolbar);
+				toolbarContainer.buildGui();
+				toolbarContainer.setActiveToolbar(getViewId());
+				toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
+
+				ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+				mainContainer.removeToolbar(toolbar);
+				mainContainer.updateToolbarPanel();
 			}
-			
-			toolbarContainer.addToolbar(toolbar);
-			toolbarContainer.buildGui();
-			toolbarContainer.setActiveToolbar(getViewId());
-			toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
-			
-			ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
-			mainContainer.removeToolbar(toolbar);
-			mainContainer.updateToolbarPanel();
+
+			setVisible(true);		
+			createFrame();
 		}
-		
-		dockManager.hide(this, false);
-		setVisible(true);		
-		createFrame();
 	}
 	
 	/**
@@ -923,18 +927,19 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	protected void unwindowPanel() {
 		// hide the frame
 		dockManager.hide(this, false);
-		
+
 		// don't display this panel in a frame the next time
 		setOpenInFrame(false);
-		
+
 		// show the panel in the main window
 		dockManager.show(this);
-		
+
 		// as this view already *had* focus and will retain focus DockManager::show()
 		// won't be able to update the active toolbar
 		if(hasToolbar()) {
 			app.getGuiManager().getToolbarPanel().setActiveToolbar(toolbar);
 		}
+
 	}
 	
 	/**

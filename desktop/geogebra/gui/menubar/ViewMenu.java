@@ -32,7 +32,7 @@ public class ViewMenu extends BaseMenu {
 
 	private JCheckBoxMenuItem cbShowKeyboard, cbShowKinect;
 
-	private AbstractAction[] showViews;
+	private ShowViewAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
 
 	private AbstractAction showLayoutOptionsAction;
@@ -333,10 +333,10 @@ public class ViewMenu extends BaseMenu {
 		}
 
 		// construct array with menu items
-		showViews = new AbstractAction[viewsInMenu];
+		showViews = new ShowViewAction[viewsInMenu];
 		{
 			int i = 0;
-			AbstractAction action;
+			ShowViewAction action;
 
 			for (DockPanel panel : dockPanels) {
 				// skip panels with negative order by design
@@ -344,17 +344,8 @@ public class ViewMenu extends BaseMenu {
 					continue;
 				}
 
-				final int viewId = panel.getViewId();
 
-				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
-
-					private static final long serialVersionUID = 1L;
-
-					public void actionPerformed(ActionEvent arg0) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(viewId), viewId);
-					}
-				};
+				action = new ShowViewAction(panel);
 
 				showViews[i] = action;
 				++i;
@@ -392,6 +383,7 @@ public class ViewMenu extends BaseMenu {
 				}
 
 				cb = new JCheckBoxMenuItem(showViews[i]);
+				showViews[i].setCheckBox(cb);
 				cb.setIcon(panel.getIcon());
 
 				if (panel.hasMenuShortcut()) {
@@ -429,6 +421,35 @@ public class ViewMenu extends BaseMenu {
 				++i;
 			}
 		}
+	}
+	
+	
+	private class ShowViewAction extends AbstractAction{
+
+		private DockPanel panel;
+		private int viewId;
+		private JCheckBoxMenuItem cb;
+		
+		public ShowViewAction(DockPanel panel){
+			super(app.getPlain(panel.getViewTitle()));
+			this.panel=panel;
+			viewId = panel.getViewId();
+		}
+		
+		public void setCheckBox(JCheckBoxMenuItem cb){
+			this.cb=cb;
+		}
+		
+		public void actionPerformed(ActionEvent arg0) {
+			
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(viewId), viewId);
+			
+			//ensure check box is correctly selected/unselected for case where hide aborted
+			cb.setSelected(panel.isVisible());
+			
+		}
+		
 	}
 
 }
