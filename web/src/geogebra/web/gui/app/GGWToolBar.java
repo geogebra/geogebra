@@ -367,9 +367,6 @@ public class GGWToolBar extends Composite {
 		case EuclidianConstants.MODE_PEN:
 			return myIconResourceBundle.mode_pen_32().getSafeUri().asString();
 
-		case EuclidianConstants.MODE_PENCIL:
-			return myIconResourceBundle.mode_pencil_32().getSafeUri().asString();
-
 		case EuclidianConstants.MODE_POINT:
 			return myIconResourceBundle.mode_point_32().getSafeUri().asString();
 

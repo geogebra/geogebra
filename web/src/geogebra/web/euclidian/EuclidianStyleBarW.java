@@ -1143,7 +1143,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			btnMode.setSelectedIndex(0);
 			break;
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			btnMode.setSelectedIndex(1);
 			break;
