@@ -485,6 +485,21 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						sbCASCommand.append(ch);
 						sbCASCommand.append(translation.charAt(i));
 					}
+				}else if (ch == '@') {
+					// get number after %
+					i++;
+					int pos = translation.charAt(i) - '0';
+					if (pos >= 0 && pos < args.size()) {
+						// success: insert argument(pos)
+						ExpressionValue ev = args.get(pos);
+						if(toString(ev, symbolic, tpl).matches("[^(),]*"))
+							sbCASCommand.append(toString(ev, symbolic, tpl));
+						else sbCASCommand.append("x");
+					} else {
+						// failed
+						sbCASCommand.append(ch);
+						sbCASCommand.append(translation.charAt(i));
+					}
 				} else {
 					sbCASCommand.append(ch);
 				}
