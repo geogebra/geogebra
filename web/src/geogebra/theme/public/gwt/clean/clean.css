@@ -1521,4 +1521,10 @@ body[dir=rtl] .undoPanel {
 	font-size: 80%;
 }
 
+.DialogButtonPanel {
+	text-align: right;
+}
 
+.DialogButtonPanel button{
+	margin: 1px;
+}

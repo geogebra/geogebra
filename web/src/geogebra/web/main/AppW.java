@@ -92,6 +92,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -929,7 +931,11 @@ public class AppW extends App {
 		for(String item : lines ){
 			panel.add(new Label(item));
 		}
-		panel.add(ok);
+		
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("DialogButtonPanel");
+		buttonPanel.add(ok);
+		panel.add(buttonPanel);
 		
 		dialog.setWidget(panel);
 		dialog.center();
@@ -1346,7 +1352,8 @@ public class AppW extends App {
 			}
 		});		
 		
-		HorizontalPanel buttonPanel = new HorizontalPanel();
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("DialogButtonPanel");
 		buttonPanel.add(ok);
 		buttonPanel.add(showHelp);
 		
