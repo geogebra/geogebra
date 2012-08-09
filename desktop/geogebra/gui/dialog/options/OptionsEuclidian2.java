@@ -1445,5 +1445,12 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 		// override this method to make the properties view apply modifications
 		// when panel changes
 	}
+	
+	
+
+	public void updateFont() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

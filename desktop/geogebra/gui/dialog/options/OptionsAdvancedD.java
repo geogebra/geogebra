@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -1001,7 +1002,7 @@ public class OptionsAdvancedD extends
 	}
 
 	public void revalidate() {
-		// TODO Auto-generated method stub
+		getWrappedPanel().revalidate();
 
 	}
 
@@ -1012,5 +1013,77 @@ public class OptionsAdvancedD extends
 	public void applyModifications() {
 		// override this method to make the properties view apply modifications
 		// when panel changes
+	}
+
+	public void updateFont() {
+		
+		Font font = app.getPlainFont();
+		
+		virtualKeyboardPanel.setFont(font);
+		keyboardLanguageLabel.setFont(font);
+		widthLabel.setFont(font);
+		heightLabel.setFont(font);
+		cbKeyboardShowAutomatic.setFont(font);
+		opacityLabel.setFont(font);
+
+		guiFontsizePanel.setFont(font);
+		guiFontSizeLabel.setFont(font);
+
+		tooltipPanel.setFont(font);
+		tooltipLanguageLabel.setFont(font);
+		tooltipTimeoutLabel.setFont(font);
+
+		languagePanel.setFont(font);
+		cbUseLocalDigits.setFont(font);
+		cbUseLocalLabels.setFont(font);
+
+		angleUnitPanel.setFont(font);
+		angleUnitRadioDegree.setFont(font);
+		angleUnitRadioRadian.setFont(font);
+
+		continuityPanel.setFont(font);
+		continuityRadioOn.setFont(font);
+		continuityRadioOff.setFont(font);
+
+		usePathAndRegionParametersPanel.setFont(font);
+		usePathAndRegionParametersRadioOn.setFont(font);
+		usePathAndRegionParametersRadioOff.setFont(font);
+
+		checkboxSizePanel.setFont(font);
+		checkboxSizeRadioRegular.setFont(font);
+		checkboxSizeRadioLarge.setFont(font);
+
+		rightAnglePanel.setFont(font);
+		rightAngleRadio1.setFont(font);
+		rightAngleRadio2.setFont(font);
+		rightAngleRadio3.setFont(font);
+		rightAngleRadio4.setFont(font);
+		rightAngleRadio4.setFont(font);
+
+		coordinatesPanel.setFont(font);
+		coordinatesRadio1.setFont(font);
+		coordinatesRadio2.setFont(font);
+		coordinatesRadio3.setFont(font);
+
+		perspectivesPanel.setFont(font);
+		cbIgnoreDocumentLayout.setFont(font);
+		cbShowTitleBar.setFont(font);
+		cbAllowStyleBar.setFont(font);
+
+		miscPanel.setFont(font);
+		cbEnableScripting.setFont(font);
+		cbUseJavaFonts.setFont(font);
+		cbUseJavaFonts.setFont(font);
+		cbReverseMouseWheel.setFont(font);
+		cbReverseMouseWheel.setFont(font);
+		cbReturnAngleInverseTrig.setFont(font);
+		cbReturnAngleInverseTrig.setFont(font);
+		
+		
+		
+		cbKeyboardLanguage.setFont(font);
+		cbTooltipLanguage.setFont(font); 
+		cbTooltipTimeout.setFont(font);
+		cbGUIFont.setFont(font);
 	}
 }

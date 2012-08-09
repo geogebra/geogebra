@@ -30,6 +30,7 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -1021,7 +1022,7 @@ public class OptionsEuclidianD extends
 	}
 
 	public void revalidate() {
-		// TODO Auto-generated method stub
+		getWrappedPanel().revalidate();
 
 	}
 
@@ -1032,6 +1033,73 @@ public class OptionsEuclidianD extends
 	public void applyModifications() {
 		// override this method to make the properties view apply modifications
 		// when panel changes
+	}
+	
+	
+
+	public void updateFont() {
+
+		Font font = app.getPlainFont();
+		
+		typePanel.setBorder(OptionsUtil.titleBorder(app.getPlain("GridType")));
+
+		cbGridType.setFont(font);
+
+		cbGridManualTick.setFont(font);
+		stylePanel.setFont(font);
+
+		// color
+		lblColor.setFont(font);
+		cbBoldGrid.setFont(font);
+
+
+		cbShowGrid.setFont(font);
+
+		// tab titles
+		tabbedPane.setFont(font);
+
+		// window dimension panel
+		for (int i=0; i<4; i++)
+			dimLabel[i].setFont(font);
+		axesRatioLabel.setFont(font);
+
+		backgroundColor.setFont(font);
+		cbShowMouseCoords.setFont(font);
+		tooltips.setFont(font);
+
+		color.setFont(font);
+		lineStyle.setFont(font);
+
+		cbTooltips.setFont(font);
+
+		dimPanel.setFont(font);
+		axesOptionsPanel.setFont(font);
+		miscPanel.setFont(font);
+		cbShowAxes.setFont(font);
+
+		cbShowMouseCoords.setFont(font);
+
+		// axis
+		xAxisPanel.updateFont();
+		yAxisPanel.updateFont();
+		
+		
+		cbAxesStyle.setFont(font); 
+		cbGridType.setFont(font); 
+		cbGridStyle.setFont(font); 
+		cbGridTickAngle.setFont(font); 
+		cbTooltips.setFont(font); 
+		
+		
+		tfAxesRatioX.setFont(font); 
+		tfAxesRatioY.setFont(font);
+
+
+		tfMinX.setFont(font);
+		tfMaxX.setFont(font);
+		tfMinY.setFont(font);
+		tfMaxY.setFont(font);
+		
 	}
 
 }

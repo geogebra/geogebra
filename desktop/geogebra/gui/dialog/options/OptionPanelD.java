@@ -37,4 +37,9 @@ public interface OptionPanelD {
 	 */
 	public void applyModifications();
 	
+	/**
+	 * update the font
+	 */
+	public void updateFont();
+	
 }

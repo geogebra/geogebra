@@ -41,6 +41,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * View for properties
@@ -99,6 +100,7 @@ public class PropertiesViewD extends
 		styleBar.getBtnOption().requestFocus();
 
 		setLabels();
+		
 		app.setDefaultCursor();// remove this if init object properties is
 								// faster
 	}
@@ -889,6 +891,9 @@ public class PropertiesViewD extends
 		return null;
 	}
 
+	/**
+	 * update fonts
+	 */
 	public void updateFonts() {
 
 		if (isIniting) {
@@ -897,6 +902,30 @@ public class PropertiesViewD extends
 
 		Font font = ((AppD) app).getPlainFont();
 		mainPanel.setFont(font);
+
+
+		
+		if (defaultsPanel != null)
+			defaultsPanel.updateFont();
+		if (euclidianPanel != null)
+			euclidianPanel.updateFont(); //
+		if (euclidianPanel2 != null)
+			euclidianPanel2.updateFont(); //
+		if (spreadsheetPanel != null)
+			spreadsheetPanel.updateFont();
+		if (casPanel != null)
+			casPanel.updateFont();
+		if (advancedPanel != null)
+			advancedPanel.updateFont(); //
+		if (objectPanel != null)
+			((OptionsObjectD) objectPanel).updateFont();
+		if (layoutPanel != null)
+			layoutPanel.updateFont(); //
+
+
+		
+		//SwingUtilities.updateComponentTreeUI(mainPanel);
+		
 
 	}
 

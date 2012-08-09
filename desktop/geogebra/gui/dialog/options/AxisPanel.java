@@ -8,6 +8,7 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.AppD;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -384,5 +385,30 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 					return Double.NaN;
 				return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);	
 			}	
+			
+			
+			public void updateFont() {
+				Font font = app.getPlainFont();
+				
+				setFont(font);
+				
+				cbShowAxis.setFont(font);	
+				cbAxisNumber.setFont(font);			
+				cbManualTicks.setFont(font);
+				axisTicks.setFont(font);
+				cbPositiveAxis.setFont(font);
+				axisLabel.setFont(font);
+				axisUnitLabel.setFont(font);
+				crossAt.setFont(font);
+				stickToEdge.setFont(font);
+				
+				ncbTickDist.setFont(font);
+				
+				cbTickStyle.setFont(font);
+				cbAxisLabel.setFont(font);
+				cbUnitLabel.setFont(font);
+				
+				tfCross.setFont(font);
+			}
 
 }

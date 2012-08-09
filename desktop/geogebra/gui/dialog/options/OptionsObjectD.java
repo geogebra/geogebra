@@ -289,7 +289,7 @@ public class OptionsObjectD extends
 	}
 
 	public void revalidate() {
-		// TODO Auto-generated method stub
+		getWrappedPanel().revalidate();
 
 	}
 
@@ -312,6 +312,12 @@ public class OptionsObjectD extends
 
 	public void applyModifications() {
 		propPanel.applyModifications();
+	}
+	
+
+	public void updateFont() {
+		// TODO Auto-generated method stub
+		
 	}
 
 } // PropertiesDialog

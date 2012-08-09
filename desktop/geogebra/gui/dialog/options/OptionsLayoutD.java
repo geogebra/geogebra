@@ -1,6 +1,7 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.Settings;
 import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;
@@ -8,6 +9,7 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -461,7 +463,7 @@ public class OptionsLayoutD extends
 	}
 
 	public void revalidate() {
-		// TODO Auto-generated method stub
+		getWrappedPanel().revalidate();
 
 	}
 
@@ -472,6 +474,41 @@ public class OptionsLayoutD extends
 	public void applyModifications() {
 		// override this method to make the properties view apply modifications
 		// when panel changes
+	}
+	
+
+	public void updateFont() {
+	
+		Font font = app.getPlainFont();
+
+		// input bar panel
+		inputBarPanel.setFont(font);
+		ckShowInputBar.setFont(font);
+		ckShowInputHelp.setFont(font);
+		lblInputBarPosition.setFont(font);
+
+		// tool bar panel
+		toolbarPanel.setFont(font);
+		ckShowToolbar.setFont(font);
+		ckShowToolHelp.setFont(font);
+
+		// perspectives panel
+		perspectivesPanel.setFont(font);
+		ckShowTitleBar.setFont(font);
+		ckAllowStyleBar.setFont(font);
+
+		// construction protocol panel
+		consProtocolPanel.setFont(font);
+		ckShowNavbar.setFont(font);
+		ckNavPlay.setFont(font);
+		ckOpenConsProtocol.setFont(font);
+
+		// menu bar panel
+		menuBarPanel.setFont(font);
+		ckShowMenuBar.setFont(font);
+	
+
+		
 	}
 
 }

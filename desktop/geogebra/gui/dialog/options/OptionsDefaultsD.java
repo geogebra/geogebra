@@ -380,7 +380,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	}
 
 	public void revalidate() {
-		// TODO Auto-generated method stub
+		getWrappedPanel().revalidate();
 
 	}
 
@@ -400,5 +400,12 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 			geo.updateRepaint();
 		}
 
+	}
+	
+	
+
+	public void updateFont() {
+		// TODO Auto-generated method stub
+		
 	}
 }

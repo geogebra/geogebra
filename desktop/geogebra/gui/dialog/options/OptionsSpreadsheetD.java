@@ -480,12 +480,18 @@ public class OptionsSpreadsheetD extends
 	}
 
 	public void revalidate() {
-		// TODO Auto-generated method stub
+		getWrappedPanel().revalidate();
 
 	}
 
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
+	}
+	
+
+	public void updateFont() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
