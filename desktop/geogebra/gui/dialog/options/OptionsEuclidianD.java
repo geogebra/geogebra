@@ -431,6 +431,26 @@ public class OptionsEuclidianD extends
 		tfMaxY.addActionListener(this);
 
 	}
+	
+	final public void updateBounds(){
+		updateMinMax();
+		
+
+		tfAxesRatioX.removeActionListener(this);
+		tfAxesRatioY.removeActionListener(this);
+		double xscale = view.getXscale();
+		double yscale = view.getYscale();
+		if (xscale >= yscale) {
+			tfAxesRatioX.setText("1");
+			tfAxesRatioY.setText(nfAxesRatio.format(xscale / yscale));
+		} else {
+			tfAxesRatioX.setText(nfAxesRatio.format(yscale / xscale));
+			tfAxesRatioY.setText("1");
+		}
+		tfAxesRatioX.addActionListener(this);
+		tfAxesRatioY.addActionListener(this);
+		
+	}
 
 	public void updateGUI() {
 
@@ -474,7 +494,7 @@ public class OptionsEuclidianD extends
 		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		cbLockRatio.setEnabled(view.isZoomable());
 
-		updateMinMax();
+		updateBounds();
 
 		cbGridType.removeActionListener(this);
 		cbGridType.setSelectedIndex(view.getGridType());
@@ -536,19 +556,6 @@ public class OptionsEuclidianD extends
 		ncbGridTickY.addItemListener(this);
 		cbGridTickAngle.addItemListener(this);
 
-		tfAxesRatioX.removeActionListener(this);
-		tfAxesRatioY.removeActionListener(this);
-		double xscale = view.getXscale();
-		double yscale = view.getYscale();
-		if (xscale >= yscale) {
-			tfAxesRatioX.setText("1");
-			tfAxesRatioY.setText(nfAxesRatio.format(xscale / yscale));
-		} else {
-			tfAxesRatioX.setText(nfAxesRatio.format(yscale / xscale));
-			tfAxesRatioY.setText("1");
-		}
-		tfAxesRatioX.addActionListener(this);
-		tfAxesRatioY.addActionListener(this);
 
 		xAxisPanel.updatePanel();
 		yAxisPanel.updatePanel();

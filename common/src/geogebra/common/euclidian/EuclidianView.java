@@ -1119,7 +1119,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		
 		//tell option panel
 		if (optionPanel!=null)
-			optionPanel.updateGUI();
+			optionPanel.updateBounds();
 
 	}
 

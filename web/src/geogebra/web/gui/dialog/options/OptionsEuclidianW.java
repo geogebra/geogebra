@@ -32,4 +32,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 	    
     }
 
+	@Override
+    public void updateBounds() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }
