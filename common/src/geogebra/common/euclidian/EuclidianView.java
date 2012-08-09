@@ -17,6 +17,7 @@ import geogebra.common.euclidian.DrawLine.PreviewType;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
+import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -1115,6 +1116,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			kernel.setEuclidianViewBounds(evNo, getXmin(), getXmax(),
 					getYmin(), getYmax(), getXscale(), getYscale());
 		}
+		
+		//tell option panel
+		if (optionPanel!=null)
+			optionPanel.updateGUI();
 
 	}
 
@@ -4897,6 +4902,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public static boolean isPenMode(int mode) {
 		return mode == EuclidianConstants.MODE_PEN
 				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
+	}
+	
+
+	private OptionsEuclidian optionPanel = null;
+	
+	/**
+	 * sets the option panel for gui update
+	 * @param optionPanel option panel
+	 */
+	public void setOptionPanel(OptionsEuclidian optionPanel){
+		this.optionPanel=optionPanel;
 	}
 
 }

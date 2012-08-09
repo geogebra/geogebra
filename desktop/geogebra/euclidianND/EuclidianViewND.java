@@ -10,6 +10,7 @@ import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidian.EuclidianViewTransferHandler;
 import geogebra.euclidian.MyZoomerD;
+import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.main.AppD;
 
 import java.awt.AWTEvent;
@@ -456,4 +457,6 @@ public abstract class EuclidianViewND extends EuclidianView{
 	public abstract EuclidianControllerD getEuclidianController();
 
 
+	
+	
 }

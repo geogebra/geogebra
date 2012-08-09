@@ -118,6 +118,8 @@ public class OptionsEuclidianD extends
 		this.app = app;
 		kernel = app.getKernel();
 		this.view = view;
+		
+		view.setOptionPanel(this);
 
 		wrappedPanel = new JPanel();
 		// build GUI
