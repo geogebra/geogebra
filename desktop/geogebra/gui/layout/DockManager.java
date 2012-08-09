@@ -608,7 +608,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 				newSplitPaneSize=newSplitPane.getHeight();
 			}
 			//check if panel size is not too large
-			if (size>newSplitPaneSize)
+			if (size+DockComponent.MIN_SIZE>newSplitPaneSize)
 				size = newSplitPaneSize/2;
 			//set the divider location
 			if(lastPos == 0 || lastPos == 3) {
@@ -687,6 +687,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 			setFocusedPanel(null);
 		}
 	}
+	
+	
+
 	
 	/**
 	 * Hide a dock panel.
