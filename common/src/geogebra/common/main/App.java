@@ -58,12 +58,14 @@ import geogebra.common.util.Unicode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Represents an application window, gives access to views and system stuff
+ */
 public abstract class App {
 	/** Script manager */
 	protected ScriptManagerCommon scriptManager = null;	
@@ -105,7 +107,6 @@ public abstract class App {
 	public static final int VIEW_DATA_ANALYSIS = 70;
 	/** id for function inspector */ 
 	public static final int VIEW_FUNCTION_INSPECTOR = 128;	
-	public static final int VIEW_INSPECTOR = 256;
 	/** id for 3D view */
 	public static final int VIEW_EUCLIDIAN3D = 512;
 	/** id for view created from plane; also 1025 to 2047 might be used for this purpose*/
@@ -120,6 +121,7 @@ public abstract class App {
 	public static final int VIEW_ASSIGNMENT = 8192;
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
+	/** id for Python view */
 	public static final int VIEW_PYTHON = 16384;
 	private boolean showResetIcon = false;
 	/**
@@ -211,11 +213,7 @@ public abstract class App {
 	public static char unicodeDecimalPoint = '.';
 	public static char unicodeComma = ','; // \u060c for Arabic comma
 	public static char unicodeZero = '0';
-
-	public enum CasType {
-		NO_CAS, MATHPIPER, MAXIMA, MPREDUCE
-	}
-
+	
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	public int maxLayerUsed = 0;
@@ -1401,7 +1399,9 @@ public abstract class App {
 	 * @return true if we have critically low free memory
 	 */
 	public abstract boolean freeMemoryIsCritical();
-
+	/**
+	 * @return Approximate amount of remaining memory in bytes
+	 */
 	public abstract long freeMemory();
 
 
@@ -1812,6 +1812,9 @@ public abstract class App {
 		}
 	}
 
+	/**
+	 * Initializes SingularWS
+	 */
 	public static void initializeSingularWS() {
 		singularWS = new SingularWebService();
 		singularWS.enable();
@@ -2632,6 +2635,12 @@ public abstract class App {
 		addSelectedGeo(geo, true, true);
 	}
 
+	/**
+	 * Adds geo to selection
+	 * @param geo geo to be added to selection
+	 * @param repaint whether repaint is needed
+	 * @param updateSelection whether selection update is needed
+	 */
 	public final void addSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
@@ -2647,7 +2656,11 @@ public abstract class App {
 			updateSelection();
 	
 	}
-
+	/**
+	 * Adds geos to selection
+	 * @param geos geos to be added to selection
+	 * @param repaint whether repaint is needed
+	 */
 	public final void addSelectedGeos(ArrayList<GeoElement> geos, boolean repaint) {
 	
 		selectedGeos.addAll(geos);
@@ -2716,7 +2729,9 @@ public abstract class App {
 	 * Switch current cursor to wait cursor
 	 */
 	public abstract void setWaitCursor();
-
+	/**
+	 * Update stylebars of all views
+	 */
 	public abstract void updateStyleBars();
 
 	/**
@@ -2810,6 +2825,9 @@ public abstract class App {
 	 */
 	abstract public CommandProcessor newCmdBarCode();
 
+	/**
+	 * @return number of selected geos
+	 */
 	public final int selectedGeosSize() {
 		return selectedGeos.size();
 	}
@@ -2843,6 +2861,9 @@ public abstract class App {
 	 */
 	public abstract boolean showAlgebraInput();
 
+	/**
+	 * @return global key dispatcher
+	 */
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
 	public abstract void evalPythonScript(App app, String string,
@@ -2850,6 +2871,11 @@ public abstract class App {
 
 	public abstract void callAppletJavaScript(String string, Object[] args);
  
+	/**
+	 * Inform current selection listener about newly (un)selected geo
+	 * @param geo (un)selected geo
+	 * @param addToSelection whether it should be added or removed from selection
+	 */
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (currentSelectionListener != null) {
 			currentSelectionListener.geoElementSelected(geo, addToSelection);
@@ -2857,12 +2883,16 @@ public abstract class App {
 	}
 
 	private PropertiesView propertiesView;
-
+	/** whether shift, drag and zoom features are enabled */
 	protected boolean shiftDragZoomEnabled = true;
 
-	// used when a secondary language is being used for tooltips.
+	/** used when a secondary language is being used for tooltips. */
 	protected boolean tooltipFlag = false;
 
+	/**
+	 * Links properties view to this application
+	 * @param propertiesView properties view
+	 */
 	public void setPropertiesView(PropertiesView propertiesView) {
 		this.propertiesView = propertiesView;
 	}
@@ -2870,6 +2900,7 @@ public abstract class App {
 	/**
 	 * Sets a mode where clicking on an object will notify the given selection
 	 * listener.
+	 * @param sl selection listener
 	 */
 	public void setSelectionListenerMode(GeoElementSelectionListener sl) {
 		currentSelectionListener = sl;
@@ -2880,10 +2911,17 @@ public abstract class App {
 		}
 	}
 	
+	/**
+	 * Update stylebars, menubar and properties view to match selection
+	 */
 	public void updateSelection() {
 		updateSelection(true);
 	}
 
+	/**
+	 * Update stylebars and menubar (and possibly properties view) to match selection
+	 * @param updatePropertiesView whether to update properties view
+	 */
 	public void updateSelection(boolean updatePropertiesView) {
 
 		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
@@ -2905,27 +2943,44 @@ public abstract class App {
 		}
 	}
 	
+	/**
+	 * @param type what properties pannel should be showing (object, defults, advanced, ...)
+	 */
 	public void setPropertiesViewPanel(OptionType type){
 		if (propertiesView != null)
 			propertiesView.setOptionPanel(type);
 	}
 	
 	
-	
-	
-	
+	/**
+	 * @param geo geo
+	 * @return whether given geo belongs to selection
+	 */
 	final public boolean containsSelectedGeo(GeoElement geo) {
 		return selectedGeos.contains(geo);
 	}
 	
+	/**
+	 * @param geos geos
+	 * @return whether given geos belongs to selection
+	 */
 	final public boolean containsSelectedGeos(ArrayList<GeoElement> geos) {
 		return selectedGeos.containsAll(geos);
 	}
 
+	/**
+	 * Removes geo from selection
+	 * @param geo geo to be removed
+	 */
 	final public void removeSelectedGeo(GeoElement geo) {
 		removeSelectedGeo(geo, true, true);
 	}
-
+	/**
+	 * Removes geo from selection
+	 * @param geo geo to be removed
+	 * @param repaint whether views must be repainted after
+	 * @param updateSelection whether update selection needs to be done after 
+	 */
 	final public void removeSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
 		if (geo == null) {
 			return;
@@ -3052,12 +3107,26 @@ public abstract class App {
 
 	public abstract void updateMenubar();
 
+	/**
+	 * @return general font size (used for EV and GUI)
+	 */
 	public int getFontSize() {
 		return appFontSize;
 	}
+	/**
+	 * Changes font size and resets fonts 
+	 * @see #resetFonts()
+	 * @param points font size
+	 */
 	public void setFontSize(int points) {
 		setFontSize(points, true);
 	}
+	/**
+	 * Changes font size and possibly resets fonts 
+	 * @param points font size
+	 * @param update whether fonts should be reset
+	 * @see #resetFonts()
+	 */
 	public void setFontSize(int points, boolean update) {
 		if (points == appFontSize) {
 			return;
@@ -3083,10 +3152,16 @@ public abstract class App {
 		updateFonts();
 	}
 
+	/**
+	 * @return font size for GUI; if not specified, general font size is returned
+	 */
 	public int getGUIFontSize() {
 		return guiFontSize == -1 ? getFontSize() : guiFontSize;
 	}
 
+	/**
+	 * @param size GUI font size
+	 */
 	public void setGUIFontSize(int size) {
 		guiFontSize = size;
 		//updateFonts();

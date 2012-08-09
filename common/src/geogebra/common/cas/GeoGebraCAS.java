@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.App;
-import geogebra.common.main.App.CasType;
+import geogebra.common.main.CasType;
 import geogebra.common.util.MaxSizeHashMap;
 
 import java.util.ArrayList;

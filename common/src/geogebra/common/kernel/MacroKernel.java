@@ -16,7 +16,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App.CasType;
+import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MaxSizeHashMap;
 

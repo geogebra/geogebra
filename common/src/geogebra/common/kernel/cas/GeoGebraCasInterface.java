@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App.CasType;
+import geogebra.common.main.CasType;
 
 import java.util.ArrayList;
 import java.util.Set;

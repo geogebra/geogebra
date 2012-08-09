@@ -118,7 +118,7 @@ import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.statistics.*;
 import geogebra.common.main.App;
-import geogebra.common.main.App.CasType;
+import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
