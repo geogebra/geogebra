@@ -1,5 +1,5 @@
 #!/bin/sh
-# Compiles GeoGebraWeb via command line.
+# Compiles GeoGebraWeb (or the mobile version) via command line.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 # Make sure that you run this script from its directory.
 
@@ -25,8 +25,9 @@ cleanup() {
 }
 
 # Sets the classpath. This must be fine tuned
-# and maybe tidied up a bit, FIXME
+# and maybe tidied up a "bit", FIXME
 classpath() {
+if [ "$PROJECT" = "web" ]; then
 CLASSPATH=\
 $GGDIR/web/src:\
 $GGDIR/common/src:\
@@ -34,15 +35,64 @@ $GGDIR/common/war/WEB-INF/lib:\
 $GGDIR/common/src/geogebra/jre:\
 $GGDIR/common/src/geogebra/webapache:\
 $GGDIR/common/src/geogebra/jung:\
-/web/test-classes:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GWTDIR/gwt-user.jar:\
 $GWTDIR/gwt-dev.jar:\
 $GWTDIR/validation-api-1.0.0.GA.jar:\
 $GWTDIR/validation-api-1.0.0.GA-sources.jar:\
 $GGDIR/common/test-classes:\
+$GGDIR/common/war/WEB-INF/classes
+fi
+
+if [ "$PROJECT" = "mobile" ]; then
+CLASSPATH=\
+$GGDIR/mobile/src:\
+$GGDIR/mobile/resources:\
+$GGDIR/common/src:\
+$GGDIR/common/war/WEB-INF/lib:\
+$GGDIR/common/src/geogebra/jre:\
+$GGDIR/common/src/geogebra/webapache:\
+$GGDIR/common/src/geogebra/jung:\
+$GGDIR/common/resources:\
+$GGDIR/web/src:\
+$GGDIR/mobile/test-classes:\
+$GGDIR/mobile/war/WEB-INF/classes:\
+$GGDIR/common/test-classes:\
 $GGDIR/common/war/WEB-INF/classes:\
-$GWTDIR/gwt-dev.jar
+$GWTDIR/gwt-user.jar:\
+$GWTDIR/gwt-dev.jar:\
+$GWTDIR/validation-api-1.0.0.GA-sources.jar:\
+$GWTDIR/validation-api-1.0.0.GA.jar:\
+$GGDIR/mobile/war/WEB-INF/lib/gwtphonegap-1.8.1.0.jar:\
+$GGDIR/mobile/war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar:\
+$GGDIR/mobile/war/WEB-INF/lib/mgwt-1.1.1.jar:\
+$GGDIR/web/war/WEB-INF/classes:\
+$GGDIR/web/lib/gwt-oauth2-0.2-alpha.jar:\
+$GGDIR/web/war/WEB-INF/lib/commons-logging-1.1.1.jar:\
+$GGDIR/web/war/WEB-INF/lib/jsr305-1.3.9.jar:\
+$GGDIR/web/war/WEB-INF/lib/gson-2.1.jar:\
+$GGDIR/web/war/WEB-INF/lib/guava-11.0.1.jar:\
+$GGDIR/web/war/WEB-INF/lib/httpclient-4.0.3.jar:\
+$GGDIR/web/war/WEB-INF/lib/httpcore-4.0.1.jar:\
+$GGDIR/web/war/WEB-INF/lib/jackson-core-asl-1.9.4.jar:\
+$GGDIR/web/war/WEB-INF/lib/xpp3-1.1.4c.jar:\
+$GGDIR/web/war/WEB-INF/lib/protobuf-java-2.2.0.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-http-client-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-oauth-client-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-api-client-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-api-client-android2-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-http-client-appengine-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/jdo2-api-2.3-eb.jar:\
+$GGDIR/web/war/WEB-INF/lib/transaction-api-1.1.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-oauth-client-servlet-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-oauth-client-appengine-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-api-client-servlet-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-api-client-appengine-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-http-client-android2-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-http-client-android3-1.9.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-api-services-drive-v1-1.5.0-beta.jar:\
+$GGDIR/web/war/WEB-INF/lib/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar
+fi
 
 export CLASSPATH
 }
@@ -80,6 +130,8 @@ STYLE=OBFUSCATED
 OTHEROPTS=""
 JAVAC_CLEANUP=""
 LOCALES=""
+PROJECT=web
+HEAPSIZE=2048m
 
 trap "cleanup" EXIT 2 9 15
 
@@ -100,6 +152,8 @@ while [ $# -gt 0 ]; do
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
    echo "  -l [locales]        Comma separated list of requested locales (NONE for nothing)"
    echo "  -nl, --no-locales   Remove locales (speeds up compilation), same as -l NONE"
+   echo "  -M                  Compile the mobile version"
+   echo "  --heap [size]       Use size of heap memory for GWT compilation ($HEAPSIZE)"
    echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
    echo "  -- [options]        Forward the rest options directly to the GWT Compiler"
    echo "  -H                  Show extra options for the GWT Compiler"
@@ -144,6 +198,10 @@ while [ $# -gt 0 ]; do
 
   -nl | --no-locales)
    LOCALES=NONE
+   ;;
+
+  -M)
+   PROJECT=mobile
    ;;
 
   -v | --verbose)
@@ -248,25 +306,34 @@ classpath
 if [ $VERBOSE = 1 ]; then
  echo "Classpath for GWT Compiler is $CLASSPATH"
  fi
-java -Xmx2048m com.google.gwt.dev.Compiler\
- -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web || exit 8
+
+PROJECT_UPCASE=`echo $PROJECT | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'`
+cd $WEBDIR/../$PROJECT/src/geogebra
+java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
+ -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS geogebra.$PROJECT_UPCASE || exit 8
 
 # 9. Done!
 example () {
  echo "Insert the following URLs into your browser to test it:"
- echo "file:///$INSTALLDIR/degenerateConics.html"
- echo "file:///$INSTALLDIR/ggbWebTools.html"
+ if [ "$PROJECT" = "web" ]; then
+  echo "file:///$INSTALLDIR/degenerateConics.html"
+  echo "file:///$INSTALLDIR/ggbWebTools.html"
+  echo "file:///$INSTALLDIR/app.html"
+  fi
+ if [ "$PROJECT" = "mobile" ]; then
+  echo "file:///$INSTALLDIR/Mobile.html"
+  fi
 }
 
 if [ "$INSTALLDIR" = "" ]; then
  echo "GeoGebraWeb compilation finished."
- INSTALLDIR=$WEBDIR/war
+ INSTALLDIR=$GGDIR/$PROJECT/war
  example
 else
  echo "Trying to remove and create $INSTALLDIR..."
  rm -fR $INSTALLDIR
  mkdir -p $INSTALLDIR || exit 9
- cp -a $WEBDIR/war/* $INSTALLDIR
+ cp -a $GGDIR/$PROJECT/war/* $INSTALLDIR
  find $INSTALLDIR -name .svn -or -name WEB-INF | xargs rm -fR
  echo "GeoGebraWeb compilation and installation finished."
  example
