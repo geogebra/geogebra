@@ -2048,7 +2048,7 @@ public class Kernel {
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
 			// see http://www.geogebra.org/trac/ticket/1051
-			return addCASVariablePrefix(label);
+			return addCASVariablePrefix(label.replace("$", ""));
 
 		default:
 			// standard case
