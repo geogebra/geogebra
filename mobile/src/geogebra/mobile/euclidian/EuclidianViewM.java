@@ -17,10 +17,15 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.web.awt.GGraphics2DW;
+
+import java.awt.Scrollbar;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 
 public class EuclidianViewM extends EuclidianView
 {
@@ -54,7 +59,16 @@ public class EuclidianViewM extends EuclidianView
 	{
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
-
+		
+		this.canvas.addClickHandler(new ClickHandler(){
+			@Override
+      public void onClick(ClickEvent event)
+      {
+				repaint(); 
+				System.out.println("x"); 
+      }			
+		});
+		
 		updateFonts();
 		initView(true);
 		attachView();
@@ -194,26 +208,15 @@ public class EuclidianViewM extends EuclidianView
 	public void updateSize()
 	{
 		// TODO
-//		 this.canvas.setSize("100%", "100%");
+		Window.enableScrolling(false); 
 		
-//		this.g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(100, Style.Unit.PCT); 
-//		System.out.println(this.g2p.getCanvas().getElement().getParentElement().getStyle().getWidth()); 
+		int width = Window.getClientWidth();
+		int height = Window.getClientHeight();
 		
-		int width = 1000;
-		int height = 500;
+		this.canvas.setSize(width + "px", height + "px"); 
 		
 		this.g2p.setCoordinateSpaceWidth(width);
 		this.g2p.setCoordinateSpaceHeight(height);
-		try
-		{
-			this.g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
-			this.g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
-		}
-		catch (Exception e)
-		{
-			App.debug("Problem with the parent element of the canvas");
-		}
-
 	}
 
 	@Override
