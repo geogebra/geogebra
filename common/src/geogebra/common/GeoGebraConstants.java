@@ -8,8 +8,10 @@ public interface GeoGebraConstants {
 	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
 	// as it is read by the build system
 	// update lines below when this is updated
-	public static final String BUILD_DATE = "04 August 2012";
-	public static final String VERSION_STRING = "4.9.36.0"; 
+	/** last build date */
+	public static final String BUILD_DATE = "09 August 2012";
+	/** complete version string */
+	public static final String VERSION_STRING = "4.9.37.0"; 
 	
 	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
 	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra42/version_check_allow = false
@@ -20,7 +22,7 @@ public interface GeoGebraConstants {
 	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
 	public static final boolean IS_FIVE_POINT_ZERO = VERSION_STRING
 			.startsWith("4.9") ? true : false;
-	
+	/** root preferences node */
 	public static final String PREFERENCES_ROOT = IS_FIVE_POINT_ZERO ? "/geogebra50" : "/geogebra42";
 	/** File format version */
 	public static final String XML_FILE_FORMAT = IS_FIVE_POINT_ZERO ? "5.0" : "4.2";
@@ -76,16 +78,18 @@ public interface GeoGebraConstants {
 	public static final String PROXY_SERVING_LOCATION = "proxy";
 	/** CSS class name for GeoGebraWeb &article> tag*/
 	public static final String GGM_CLASS_NAME = "geogebraweb";
+	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
 	
 	/** relative path to mathml*/
 	public static final String MATHML_URL = "js/mathml_concat.js";
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
-	
+	/** team page URL*/
 	public static final String GGW_ABOUT_TEAM_URL="http://www.geogebra.org/team";
 	//public static final String GGW_ABOUT_LICENSE_URL="http://dev.geogebra.org/trac/browser/trunk/geogebra/desktop/geogebra/gui/_license.txt";
 	//public static final String GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/download/license.txt";
+	/** license URL */
 	public static final String GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/info/?action=AboutLicense";
 	
 	 // //////////////////////////////////////////////////////////////////////////
@@ -95,8 +99,8 @@ public interface GeoGebraConstants {
 	/** google auth url */
 	public static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
 	
-	// This app's personal client ID assigned by the Google APIs Console
-	// (http://code.google.com/apis/console).
+	/** This app's personal client ID assigned by the Google APIs Console
+	 (http://code.google.com/apis/console). */
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
 
 	// The auth scope being requested. This scope will allow the application to
