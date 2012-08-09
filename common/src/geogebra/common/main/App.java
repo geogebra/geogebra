@@ -30,7 +30,6 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -39,13 +38,9 @@ import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
-import geogebra.common.kernel.discrete.AlgoShortestDistance;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -1568,7 +1563,7 @@ public abstract class App {
 	/**
 	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
 	 * 
-	 * Calls {@link #updateReverseLanguage(Locale)} to apply the change, but
+	 * Calls {@link #updateReverseLanguage(String)} to apply the change, but
 	 * just if the new flag differs from the current.
 	 * @param useLocalizedDigits whether localized digits should be used
 	 */
