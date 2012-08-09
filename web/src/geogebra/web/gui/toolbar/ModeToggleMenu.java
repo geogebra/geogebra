@@ -24,8 +24,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
-        ClickHandler {
+public class ModeToggleMenu extends MenuBar{
 
 	private static final long serialVersionUID = 1L;
 	ModeToggleButtonGroup bg;
@@ -69,18 +68,12 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		return size;
 	}
 
-//	public MyJToggleButton getJToggleButton() {
-//		return tbutton;
-//	}
-//
 	public boolean selectMode(int mode) {
 		String modeText = mode + "";
 
 		for (int i = 0; i < size; i++) {
 			MenuItem mi = menuItemList.get(i);
 			// found item for mode?
-			App.debug(mi.getElement().getAttribute("mode"));
-			//if (mi.getActionCommand().equals(modeText)) {
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectMenuItem(mi);
 				return true;
@@ -137,11 +130,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 
 	public void addMode(int mode) {
 		// add menu item to popup menu
-		Command tempCommand = new Command() {
-		      public void execute() {
-		          Window.alert("You selected a menu item.");
-		        }
-		      };
+		Command tempCommand = null;
 		MenuItem mi = new MenuItem(app.getToolName(mode), tempCommand);
 		//mi.setFont(app.getPlainFont());
 		//mi.setBackground(bgColor);
@@ -172,9 +161,6 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 			// tooltip: tool name and tool help
 			//tbutton.setToolTipText(app.getToolTooltipHTML(mode));
 			//tbutton.setText(app.getToolName(mode));
-			
-			// add button to button group
-			//bg.add(tbutton);
 		}
 	}
 	
@@ -202,7 +188,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		app.setMode(mode);
 	}
 
-	class MyJToggleButton extends MenuItem implements ClickHandler{
+	class MyJToggleButton extends MenuItem{
 
 		private static final long serialVersionUID = 1L;
 		
@@ -225,8 +211,6 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 			canvasForRedTriangle.setCoordinateSpaceWidth(40);
 			canvasForRedTriangle.setCoordinateSpaceHeight(8);
 			canvasForRedTriangle.setVisible(true);
-//			canvasForRedTriangle.addDoubleClickHandler(this);
-			canvasForRedTriangle.addClickHandler(this);
 			canvasForRedTriangle.addStyleName("red_triangle");
 			attachNativeHandler(canvasForRedTriangle.getElement());
 			
@@ -306,8 +290,6 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 			updateCanvas(mode);
 			
 			canvas.setVisible(true);
-//			canvas.addDoubleClickHandler(this);
-//			canvas.addClickHandler(this);
 			return canvas;
 			
 		}
@@ -343,80 +325,12 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 			//context.clearRect(0, 0, canvas.getOffsetWidth(), canvas.getOffsetHeight());
 			context.drawImage(imageElement, 0, 0);
 
-			//red triangle for popup menu
-			//color-settings for selected and unselected arrow
-//			if (selected) {
-//				context.setStrokeStyle(CssColor.make("black"));
-//				context.setFillStyle(CssColor.make("red"));
-//			} else {
-//				context.setStrokeStyle(arrowColor);
-//				context.setFillStyle(CssColor.make("white"));
-//			}
-//			
-//			context.setLineWidth(1);
-//			context.beginPath();
-//			context.moveTo(26,26);
-//			context.lineTo(32,26);
-//			context.lineTo(29,32);
-//			context.closePath();
-//			context.stroke();
-//			if (selected) context.fill();
 		}
 		
 		public void drawOnCanvas(boolean selected){
 			drawOnCanvas(imgElement, selected);
 		}
 
-		public void onClick(ClickEvent event) {
-			Window.alert("onclick!");
-	        
-        }
-		
-//		public boolean isSelected() {
-//			return isSelected;
-//		}
-//
-//		public void setSelected(boolean flag) {
-//			isSelected = flag;
-//		}
 	}
-
-	public void onClick(ClickEvent event) {
-		Window.alert("onclick");
-
-	}
-
-	public void onDoubleClick(DoubleClickEvent event) {
-		Window.alert("doubleclick");
-
-	}
-
-
-
-//	class MyMenuItem extends MenuItem{
-//
-//		/**
-//		 * 
-//		 */
-//		String actionCommand = "0";
-//
-//		/**
-//		 * @param text
-//		 * @param com
-//		 */
-//		public MyMenuItem(String text, Command com) {    
-//	        super(text, com);
-//			
-//        }
-//		
-//		public void setActionCommand(String text){
-//			actionCommand = text;
-//		}
-//		
-//		public String getActionCommand(){
-//			return actionCommand;
-//		}
-//		
-//	}
 
 }
