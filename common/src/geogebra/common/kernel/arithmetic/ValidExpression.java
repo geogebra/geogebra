@@ -217,9 +217,6 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @param tpl
 	 *            string template
-	 * @param delayedAssignment
-	 *            specifies if the assignment is a direct assignment (false) or
-	 *            a delayed assignment (true)
 	 * @return assignment in LaTeX
 	 */
 	public final String toAssignmentLaTeXString(StringTemplate tpl) {
