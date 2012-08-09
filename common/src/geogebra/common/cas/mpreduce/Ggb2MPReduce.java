@@ -285,7 +285,11 @@ public class Ggb2MPReduce {
 				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,list(x!!=xcoord(%1),y!!=ycoord(%1)))$" +
 				" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>");
 		p("SolveODE.3",
-				"<<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
+				"if myvecp(%2) then "
+				+		"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
+						"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,list(list(x!!=xcoord(%1),y!!=ycoord(%1)),list(x!!=xcoord(%2),df(y!!,x!!)=ycoord(%2))))$" +
+						" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>"+
+				" else <<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
 				"tmpret:=odesolve(sub(list(%1'=df(%1,%2),%1''=df(%1,%2,2)),tmpeqn),%1,%2)$" +
 				" nodepend %1,%2; korder varorder!!; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
 		p("SolveODE.4",
