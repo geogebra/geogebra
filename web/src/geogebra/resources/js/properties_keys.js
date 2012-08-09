@@ -1980,6 +1980,8 @@ var plainKeysVar = {
 	ExtremumOfA:'',
 	File_HTML:'',
 	File_SCORM:'',
+	File_epub:'',
+	File_iBook:'',
 	Filling:'',
 	Finish:'',
 	FirstAxisLengthOfA:'',

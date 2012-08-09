@@ -646,6 +646,12 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("File: SCORM")
     String File_SCORM();
 
+    @DefaultStringValue("File: epub")
+    String File_epub();
+
+    @DefaultStringValue("File: iBook")
+    String File_iBook();
+
     @DefaultStringValue("Filling")
     String Filling();
 
