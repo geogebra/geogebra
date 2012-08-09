@@ -309,7 +309,7 @@ public class Ggb2MPReduce {
 		p("Sum.1",
 				"<<begin scalar input!!; input!!:=(%0);return for i:=1:length(input!!) sum part(input!!,i) end>>");
 		p("Sum.4",
-				"<<begin scalar sb, sm!!; sb:=sum(%0,%1,%2,%3)$ sm!!:=if freeof(sb,'sum) and freeof(sb,'infinity) then sb else if %2=-infinity and %3=infinity then limit(limit(sum(%0,%1,k!!,m!!),k!!,-infinity),m!!,infinity) else if %2=-infinity then limit(sum(%0,%1,k!!,%3),k!!,-infinity) else if %3=infinity then limit(sum(%0,%1,%2,k!!),k!!,infinity) else sb; return sm!! end>>");
+				"<<begin scalar sb, sm!!; sb:=sum(%0,%1,%2,%3)$ sm!!:=if freeof(sb,\\'sum) and freeof(sb,\\'infinity) then sb else if %2=-infinity and %3=infinity then limit(limit(sum(%0,%1,k!!,m!!),k!!,-infinity),m!!,infinity) else if %2=-infinity then limit(sum(%0,%1,k!!,%3),k!!,-infinity) else if %3=infinity then limit(sum(%0,%1,%2,k!!),k!!,infinity) else sb; return sm!! end>>");
 		p("Tangent.2",
 				"if myvecp(%0) then mytangent(xcoord(%0),(%1)) else mytangent((%0),(%1))");
 		p("Take.3",
