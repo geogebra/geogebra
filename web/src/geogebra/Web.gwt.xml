@@ -94,10 +94,15 @@
   <extend-property name='locale' values='ne' />
   <extend-property name='locale' values='nl' />
   -->  
-  <!-- no_NN represents Norwegian Nynorsk, and no_NB represents Norwegian Bokmal --> 
+  
+  <!-- 
+    The GWT locale convention is not applicable to the Norwegian Nynorsk, nor to Norwegian Bokmal.
+    Hence we have changed the locale codes from no_NN and no_NB to nn and nb respectively. 
+  -->
+  <!-- nn represents Norwegian Nynorsk, and nb represents Norwegian Bokmal -->  
   <!--
-  <extend-property name='locale' values='no_NN' />
-  <extend-property name='locale' values='no_NB' />
+  <extend-property name='locale' values='nn' />
+  <extend-property name='locale' values='nb' />
   <extend-property name='locale' values='no' />
   <extend-property name='locale' values='pl' />
   <extend-property name='locale' values='pt_PT' />
