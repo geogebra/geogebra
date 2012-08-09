@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -37,6 +38,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 	private GeoList geoList, geoList2; // input
 	public GeoNumeric Truncate; // input
+	public GeoBoolean useFrequency; // input
 	public GeoNumeric result; // output
 
 	private int stat;
@@ -58,43 +60,59 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 	AlgoStats1D(Construction cons, String label, GeoList geoList,
 			GeoNumeric Truncate, int stat) {
-		this(cons, geoList, null, Truncate, stat);
+		this(cons, geoList, null, Truncate, null, stat);
 		result.setLabel(label);
 	}
 
 	public AlgoStats1D(Construction cons, GeoList geoList, int stat) {
-		this(cons, geoList, null, null, stat);
+		this(cons, geoList, null, null, null, stat);
 	}
 
 	public AlgoStats1D(Construction cons, String label, GeoList geoList,
 			GeoList geoList2, int stat) {
 		this(cons, label, geoList, geoList2, null, stat);
 	}
+	
 
 	AlgoStats1D(Construction cons, String label, GeoList geoList,
 			GeoList geoList2, GeoNumeric Truncate, int stat) {
-		this(cons, geoList, geoList2, Truncate, stat);
+		this(cons, geoList, geoList2, Truncate, null, stat);
 		result.setLabel(label);
 	}
 
 	public AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
 			int stat) {
-		this(cons, geoList, geoList2, null, stat);
+		this(cons, geoList, geoList2, null, null, stat);
 	}
 
-	AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
-			GeoNumeric Truncate, int stat) {
+	
+	
+	public AlgoStats1D(Construction cons, String label, GeoList geoList,
+			GeoList geoList2, GeoNumeric Truncate, GeoBoolean useFrequency,
+			int stat) {
+		this(cons, geoList, geoList2, Truncate, useFrequency, stat);
+		result.setLabel(label);
+	}
+	
+	AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2, 
+			GeoNumeric Truncate, GeoBoolean useFrequency, int stat) {
 		super(cons);
 		this.geoList = geoList;
 		this.geoList2 = geoList2;
 		this.stat = stat;
 		this.Truncate = Truncate;
+		
+		// useFrequency is used only with SIGMAXX to prevent a
+		// conflict with the 2D version of SIGMAXX
+		this.useFrequency = useFrequency;
 
 		if (geoList.size() > 0 && geoList.get(0).isAngle())
 			result = new GeoAngle(cons);
 		else
 			result = new GeoNumeric(cons);
 
+		
+		
 		setInputOutput();
 		compute();
 	}
@@ -111,6 +129,9 @@ public abstract class AlgoStats1D extends AlgoElement {
 		}
 		if (Truncate != null) {
 			inputList.add(Truncate);
+		}
+		if (useFrequency != null) {
+			inputList.add(useFrequency);
 		}
 		input = new GeoElement[inputList.size()];
 		inputList.toArray(input);
@@ -142,6 +163,11 @@ public abstract class AlgoStats1D extends AlgoElement {
 				result.setUndefined();
 				return;
 			}
+		}
+		
+		if(useFrequency != null && useFrequency.getBoolean() == false){
+			result.setUndefined();
+			return;
 		}
 
 		int truncate;

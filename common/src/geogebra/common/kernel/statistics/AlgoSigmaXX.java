@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
@@ -34,12 +35,12 @@ public class AlgoSigmaXX extends AlgoStats1D {
         super(cons,geoList,AlgoStats1D.STATS_SIGMAXX);
     }
 
-	public AlgoSigmaXX(Construction cons, String label, GeoList geoList, GeoList freq) {
-        super(cons,label,geoList,freq,AlgoStats1D.STATS_SIGMAXX);
+	public AlgoSigmaXX(Construction cons, String label, GeoList geoList, GeoList freq, GeoBoolean useFrequency) {
+        super(cons,label,geoList,freq, null, useFrequency, AlgoStats1D.STATS_SIGMAXX);
     }
 
-	public AlgoSigmaXX(Construction cons, GeoList geoList,GeoList freq) {
-        super(cons,geoList,freq,AlgoStats1D.STATS_SIGMAXX);
+	public AlgoSigmaXX(Construction cons, GeoList geoList,GeoList freq, GeoBoolean useFrequency) {
+        super(cons,geoList,freq,null, useFrequency, AlgoStats1D.STATS_SIGMAXX);
     }
 	
     @Override

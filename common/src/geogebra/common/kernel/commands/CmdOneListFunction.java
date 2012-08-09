@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -74,6 +75,12 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 								(GeoList) arg[0], (GeoList) arg[1]) };
         		return ret;             	     	 
         	}
+        	// two lists plus flag to indicate useFrequency (needed for SIGMAXX)
+        	else if(n==3 && arg[0].isGeoList() && arg[1].isGeoList() && arg[2].isGeoBoolean()){
+        		GeoElement[] ret = { doCommand(c.getLabel(),
+								(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean)arg[2]) };
+        		return ret;             	     	 
+        	}
         	
         	else if (arg[0].isNumberValue()) {
 	            // try to create list of numbers
@@ -104,7 +111,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
     abstract protected GeoElement doCommand(String label, GeoList list);     
     
     /**
-     * Perform the actual command with gropuped data
+     * Perform the actual command with frequency data
      * @param label label for output
      * @param list input list
      * @param list2 another list (data frequencies)
@@ -113,4 +120,18 @@ public abstract class CmdOneListFunction extends CommandProcessor {
     protected GeoElement doCommand(String label, GeoList list, GeoList list2){
     	return null;     
     }
+    
+    /**
+     *  Perform the actual command with frequency data and a flag
+     *  (needed for CmdSigmaXX)
+     * @param label
+     * @param list
+     * @param list2
+     * @param flag
+     * @return
+     */
+    protected GeoElement doCommand(String label, GeoList list, GeoList list2, GeoBoolean flag){
+    	return null;     
+    }
+    
 }

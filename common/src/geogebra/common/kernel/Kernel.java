@@ -8183,21 +8183,18 @@ public class Kernel {
 	}
 
 	/**
-	 * SigmaXX[list, list2, grouped]   G. Sturr 
+	 * SigmaXX[list, list2, useFrequency] G. Sturr
 	 * 
-	 * if grouped = true, returns 1D statistic for list with frequencies 
-	 * if grouped = false, returns 2D statistic for list of points
+	 * Because SIGMAXX[list, list2] exists to handle the 2D case, the flag
+	 * useFrequency is needed to specify the 1D case.
+	 * 
+	 * If useFrequency = true, the method returns 1D statistic for data with
+	 * frequencies. If useFrequency = false, returns undefined
 	 */
-	final public GeoNumeric SigmaXX(String label, GeoList list, GeoList list2, Boolean grouped) {
-		GeoNumeric num;
-		if(grouped){
-			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list, list2);
-			num = algo.getResult();
-		}else{
-			AlgoDoubleListSigmaXX algo = new AlgoDoubleListSigmaXX(cons, label,
-					list, list2);
-			num = algo.getResult();
-		}
+	final public GeoNumeric SigmaXX(String label, GeoList list, GeoList list2, GeoBoolean useFrequency) {
+
+			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list, list2, useFrequency);
+			GeoNumeric num = algo.getResult();
 
 		return num;
 	}

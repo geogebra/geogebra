@@ -128,7 +128,7 @@ public class AlgoMedian extends AlgoElement {
 		}
 
 		// ================================================
-		// CASE 2: data from list with associated frequency
+		// CASE 2: data from ungrouped list with associated frequency
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
@@ -207,8 +207,10 @@ public class AlgoMedian extends AlgoElement {
 
 				if (cf + f >= n / 2) {
 					double width = highBound - lowBound;
-					// apply grouped median formula
+					
+					// apply grouped median linear interpolation formula		
 					median.setValue(lowBound + width * (n / 2 - cf) / f);
+					
 					break;
 				}
 				cf += f;
