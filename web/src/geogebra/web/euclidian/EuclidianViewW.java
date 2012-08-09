@@ -55,6 +55,8 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	public geogebra.web.awt.GGraphics2DW g4copy = null;
 	public boolean isInFocus = false;
 
+	private AppW app = (AppW) super.app;
+	
 	protected static final long serialVersionUID = 1L;
 	
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
@@ -101,9 +103,9 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 				focusGained();
 			}
 		});
-		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
-		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
-		canvas.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
+		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 
 		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, ClickEvent.getType());
 		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
@@ -122,12 +124,12 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
 		
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
-//		euclidianViewPanel.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
-//		euclidianViewPanel.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
-//		euclidianViewPanel.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 		
 		if ((evNo == 1) || (evNo == 2)) {
-			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
+			EuclidianSettings es = this.app.getSettings().getEuclidian(evNo);
 			settingsChanged(es);
 			es.addListener(this);
 		}
@@ -286,12 +288,6 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		// resetMode();
     }
 
-    @Override
-    public AppW getApplication() {
-    	return (AppW)super.getApplication();
-    }
-
-	
 	private GGraphics2D g2dtemp;
 
 	private geogebra.common.awt.GColor backgroundColor = geogebra.web.awt.GColorW.white;
@@ -349,21 +345,21 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 
 	private ImageElement getResetImage() {
 		if (resetImage == null) {
-			resetImage = getApplication().getRefreshViewImage();
+			resetImage = this.app.getRefreshViewImage();
 		}
 		return resetImage;
 	}
 
 	private ImageElement getPlayImage() {
 		if (playImage == null) {
-			playImage = getApplication().getPlayImage();
+			playImage = this.app.getPlayImage();
 		}
 		return playImage;
 	}
 
 	private ImageElement getPauseImage() {
 		if (pauseImage == null) {
-			pauseImage = getApplication().getPauseImage();
+			pauseImage = this.app.getPauseImage();
 		}
 		return pauseImage;
 	}
@@ -421,28 +417,28 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		if (isInFocus) {
 			this.isInFocus = false;
 			GeoGebraFrame.useDataParamBorder(
-				getApplication().getArticleElement(),
-				getApplication().getGeoGebraFrame());
+				this.app.getArticleElement(),
+				this.app.getGeoGebraFrame());
 		}
 	}
 
 	public void focusGained() {
-		if (!isInFocus && !getApplication().isFullAppGui()) {
+		if (!isInFocus && !this.app.isFullAppGui()) {
 			this.isInFocus = true;
 			GeoGebraFrame.useFocusedBorder(
-				getApplication().getArticleElement(),
-				getApplication().getGeoGebraFrame());
+				this.app.getArticleElement(),
+				this.app.getGeoGebraFrame());
 		}
 	}
 
 	public void setDefaultCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_default");
     }
 
 	public void setHitCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_hit");
     }
@@ -526,9 +522,9 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	}
 
 	public void setDragCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
-		if (getApplication().useTransparentCursorWhenDragging) {
+		if (this.app.useTransparentCursorWhenDragging) {
 			g2p.getCanvas().addStyleName("cursor_transparent");
 		} else {
 			g2p.getCanvas().addStyleName("cursor_drag");
@@ -541,27 +537,27 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 	public void setResizeXAxisCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeXAxis");
     }
 
 	public void setResizeYAxisCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeYAxis");
     }
 	
 
 	public void setMoveCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_move");
     }
 
 	@Override
     public void setTransparentCursor() {
-		getApplication().resetCursor();
+		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_transparent");
     }
@@ -584,7 +580,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 
 	@Override
     public void add(GBox box) {
-	    getApplication().getEuclidianViewpanel().add(
+	    this.app.getEuclidianViewpanel().add(
 	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
@@ -593,7 +589,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	@Override
     public void remove(GBox box) {
 		App.debug("implementation needed - just finishing"); // TODO
-	    getApplication().getEuclidianViewpanel().remove(
+	    this.app.getEuclidianViewpanel().remove(
 	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box));
 	    
     }
@@ -703,10 +699,10 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		c4.setWidth(width+"px");
 		c4.setHeight(height+"px");
 		g4copy = new geogebra.web.awt.GGraphics2DW(c4);
-		getApplication().exporting = true;
+		this.app.exporting = true;
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
-		getApplication().exporting = false;
+		this.app.exporting = false;
 		return g4copy.getCanvas().toDataUrl();
 	}
 
