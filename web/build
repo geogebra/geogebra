@@ -158,7 +158,9 @@ while [ $# -gt 0 ]; do
    echo "  -- [options]        Forward the rest options directly to the GWT Compiler"
    echo "  -H                  Show extra options for the GWT Compiler"
    echo
-   echo "Example: ./build -X /usr/local/bin/xml -s PRETTY -u safari -l en,de -i /tmp/ggw -- -draftCompile"
+   echo "Examples:"
+   echo " ./build -X /usr/local/bin/xml -s PRETTY -u safari -l en,de -i /tmp/ggw -- -draftCompile"
+   echo " ./build -M -nl --heap 2560m -- -draftCompile"
    exit 0
    ;;
 
@@ -194,6 +196,11 @@ while [ $# -gt 0 ]; do
   -g)
    shift
    GWTDIR="$1"
+   ;;
+
+  --heap)
+   shift
+   HEAPSIZE="$1"
    ;;
 
   -nl | --no-locales)
