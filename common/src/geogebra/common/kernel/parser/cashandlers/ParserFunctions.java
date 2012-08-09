@@ -22,7 +22,7 @@ private final List<Map<String,Operation>> stringToOp = new ArrayList<Map<String,
 
 private final Set<String> RESERVED_FUNCTION_NAMES = new TreeSet<String>();
 
-private static final int MAX_ARGS = 3;
+private static final int MAX_ARGS = 4;
 
 /**
  * Initializes the string => operation map and reserved names set
@@ -209,6 +209,7 @@ private void reset(){
 	
 	put(2,"gGbInTeGrAl", Operation.INTEGRAL);
 	put(2,"gGbSuBsTiTuTiOn", Operation.SUBSTITUTION);
+	put(4,"gGbSuM", Operation.SUM);
 	
 	put(1,"arbint", Operation.ARBINT);
 	

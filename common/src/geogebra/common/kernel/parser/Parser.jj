@@ -221,6 +221,10 @@ public class Parser implements ParserInterface{
  	    //for beta regularized
  	    case 3:return new ExpressionNode(kernel,new MyNumberPair(kernel,list.getListElement(0),
  	    list.getListElement(1)),op,list.getListElement(2));
+ 	    //for sum (from CAS)
+ 	    case 4:return new ExpressionNode(kernel,new MyNumberPair(kernel,list.getListElement(0),
+ 	    list.getListElement(1)),op,new MyNumberPair(kernel,list.getListElement(2),
+ 	    list.getListElement(3)));
  	    default:return null;
  	  }
  	}

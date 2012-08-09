@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.plugin.Operation;
@@ -67,6 +68,7 @@ public class CommandDispatcherMPReduce {
 		mypower(Operation.POWER),
 		/** power*/
 		myround(Operation.ROUND),
+		sum(Operation.SUM),
 		impart(Operation.IMAGINARY),
 		repart(Operation.REAL),
 		myreal(Operation.REAL),
@@ -115,6 +117,15 @@ public class CommandDispatcherMPReduce {
 				ret = new ExpressionNode(kernel,args.getItem(0),Operation.INTEGRAL,args.getItem(1));
 			}
 			else switch (commands.valueOf(cmdName)) {
+			//Sum[sin(sin(a)),a,b,c]
+			case sum:
+				ret = new ExpressionNode(kernel,
+						new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),
+						Operation.SUM,
+						new MyNumberPair(kernel,args.getItem(2),args.getItem(3))
+						);
+				
+				break;
 			case ggbinterval:
 				int type = (int) args.getItem(3).evaluateNum().getDouble();
 				boolean leftClosed = type >1;

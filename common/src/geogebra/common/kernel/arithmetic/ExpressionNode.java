@@ -4286,6 +4286,35 @@ public class ExpressionNode extends ValidExpression implements
 				// AbstractApplication.debug(sb);
 			}
 			break;
+		case SUM:
+			if (STRING_TYPE == StringType.LATEX) {
+				sb.append("\\sum_{");
+				sb.append(((MyNumberPair)left).y.toString(tpl));
+				sb.append("=");
+				sb.append(((MyNumberPair)right).x.toString(tpl));
+				sb.append("}^{");
+				sb.append(((MyNumberPair)right).y.toString(tpl));
+				sb.append("}");
+				sb.append(((MyNumberPair)left).x.toString(tpl));
+			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
+				//TODO
+				sb.append("sum ");
+				sb.append(leftStr);
+				sb.append(" d");
+				sb.append(rightStr);
+			} else {
+				if (STRING_TYPE == StringType.MPREDUCE) {
+					sb.append("sum(");
+				} else {
+					sb.append("gGbSuM(");
+				}
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")");
+				// AbstractApplication.debug(sb);
+			}
+			break;	
 		case SUBSTITUTION:
 			if (STRING_TYPE == StringType.LATEX) {
 				sb.append("\\left.");

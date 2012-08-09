@@ -363,6 +363,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("load_package trigsimp;");
 		mpreduce1.evaluate("load_package polydiv;");
 		mpreduce1.evaluate("load_package myvector;");
+		mpreduce1.evaluate("load_package specfn;");
 
 		// Initialize MPReduce
 		mpreduce1.evaluate("off nat;");
