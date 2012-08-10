@@ -1,5 +1,6 @@
 package geogebra.cas.view;
 
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -68,7 +69,8 @@ public class CASOutputPanel extends JPanel {
 	 * @param isError whether outpput is error
 	 * @param c color
 	 */
-	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.GColor c){
+	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.GColor c,
+			App app){
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
 		latexPanel.setVisible(useLaTeXpanel);		
@@ -85,11 +87,11 @@ public class CASOutputPanel extends JPanel {
 		if (cmd.length() == 0) {
 			outputSign.setText(OUTPUT_PREFIX);
 		}
-		else if (cmd.equals("KeepInput")) {
+		else if (cmd.startsWith("KeepInput")) {
 			// show check character
 			outputSign.setText("\u2713");
 		} 
-		else if (cmd.equals("Numeric")) {
+		else if (cmd.startsWith("Numeric") || cmd.startsWith(app.getCommand("Numeric"))) {
 			// show approx character
 			outputSign.setText("\u2248");
 		}

@@ -171,7 +171,7 @@ public abstract class CASTableCell extends JPanel {
 			outputPanel.setOutput(
 					cellValue.getOutput(StringTemplate.defaultTemplate),
 					cellValue.getLaTeXOutput(), evalCmdLocal,
-					cellValue.isError(),cellValue.getAlgebraColor());
+					cellValue.isError(),cellValue.getAlgebraColor(),cellValue.getKernel().getApplication());
 		}
 	}
 
