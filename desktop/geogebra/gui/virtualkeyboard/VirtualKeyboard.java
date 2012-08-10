@@ -99,7 +99,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	private int buttonRows = 5;
 	private int buttonCols = 14;
 	private int buttonRowsNum = 4;
-	private int buttonColsNum = 10;
+	private int buttonColsNum = 11;
 	private double buttonSizeX, buttonSizeY;
 
 	private double horizontalMultiplier = 1;
@@ -265,7 +265,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (cpHeight == 0)
 			cpHeight = windowHeight;
 		if(getKeyboardMode()==KEYBOARD_NUMERIC){
-			buttonSizeX = 0.15 + cpWidth / (buttonColsNum - 0.5);
+			buttonSizeX = 0.15 + cpWidth / (buttonColsNum - 0.0);
 			buttonSizeY = 0.25 + cpHeight / (buttonRowsNum + 1.0);
 		}else{
 			buttonSizeX = 0.15 + (double) cpWidth / (double) (buttonCols);
@@ -290,15 +290,17 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	public void updateButtons() {
 		if(getKeyboardMode()==KEYBOARD_NUMERIC && !shrink){
 			shrink = true;
-			int baseWidth = (int) (windowWidth*buttonColsNum/(double)buttonCols);
+			windowResized();
+			/*int baseWidth = (int) (windowWidth*buttonColsNum/(double)buttonCols);
 			setSize(baseWidth,windowHeight);
-			setPreferredSize(new Dimension(baseWidth,windowHeight));
+			setPreferredSize(new Dimension(baseWidth,windowHeight));*/
 		}
 		if(getKeyboardMode()!=KEYBOARD_NUMERIC && shrink){
 			shrink = false;
-			int baseWidth = (int) (windowWidth*buttonCols/(double)buttonColsNum);
+			windowResized();
+			/*int baseWidth = (int) (windowWidth*buttonCols/(double)buttonColsNum);
 			setSize(baseWidth,windowHeight);
-			setPreferredSize(new Dimension(baseWidth,windowHeight));
+			setPreferredSize(new Dimension(baseWidth,windowHeight));*/
 		}
 		for (int i = 1; i <= buttonRows; i++)
 			for (int j = 0; j < buttonCols; j++)
@@ -427,7 +429,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			NumericButton.setLocation(new Point((int) (buttonSizeX * 13),
 				(int) (buttonSizeY * 4d)));
 		}else{
-			NumericButton.setLocation(new Point((int) (buttonSizeX * 17d / 2d),
+			NumericButton.setLocation(new Point((int) (buttonSizeX * 10),
 					(int) (buttonSizeY * 2d)));
 		}
 
@@ -451,7 +453,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				(int) (buttonSizeY * 4d)));
 		}
 		else{
-			GreekButton.setLocation(new Point((int) (buttonSizeX * 17d / 2d),
+			GreekButton.setLocation(new Point((int) (buttonSizeX * 10),
 					(int) (buttonSizeY * 1d)));
 		}
 		GreekButton.setFont(getFont((int) (minButtonSize()), false));
@@ -468,7 +470,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				(int) (buttonSizeY * 4d)));
 	}
 	else{
-		EnglishButton.setLocation(new Point((int) (buttonSizeX * 17d / 2d),
+		EnglishButton.setLocation(new Point((int) (buttonSizeX * 10),
 				(int) (buttonSizeY * 0d)));
 	}
 		EnglishButton.setFont(getFont((int) (minButtonSize()), false));
@@ -1039,14 +1041,16 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		int width = (int) buttonSizeX;
 		int xOffset = 0;
 		if(getKeyboardMode() == KEYBOARD_NUMERIC)
-			xOffset = (j>2?1:0) + (j>4?1:0) +(i==5 && j>0?5:0);
+			xOffset = (j>0 ?1:0)+(j>1 && i<5 ?1:0)+(j>2?1:0) +(j>2 && i<5?1:0)+ (j>4?1:0) +(i==5 && j>0?7:0);
 		// enter key: double height
 		if (i == 3 && j == 13)
 			Buttons[i][j].setVisible(getKeyboardMode() == KEYBOARD_MATH);
 		if (i == 2 && j == 13 && getKeyboardMode() != KEYBOARD_MATH)
 			height *= 2;
+		if (i < 5 && j < 3 && getKeyboardMode() == KEYBOARD_NUMERIC)
+			width *= 1.5;
 		if (i == 5 && j == 0 && getKeyboardMode() == KEYBOARD_NUMERIC)
-			width *= 3;
+			width *= 4.5;
 
 		Buttons[i][j]
 				.setBounds(new Rectangle((int) (0.5 + buttonSizeX * (j+0.5*xOffset)),
@@ -1087,8 +1091,13 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			int width2 = fm.stringWidth(Buttons[i][j].getText()); // wide arrow
 																	// <=>
 			int w2 = fm.stringWidth(wideChar + "");
+			if (i == 4 && j==0 && getKeyboardMode()==KEYBOARD_NUMERIC){
+				Buttons[i][j].setFont(getFont((int) (minButtonSize() * 1.5* w2 / width2),
+						false));	
+			}else{
 			Buttons[i][j].setFont(getFont((int) (minButtonSize() * w2 / width2),
 					false));
+			}
 		}
 
 	}
