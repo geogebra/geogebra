@@ -10,6 +10,7 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,6 +52,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	 * values can be assigned.
 	 */
 	private JTree tree;
+	
+	private DefaultTreeCellRenderer treeCellRenderer;
 
 	/**
 	 * The tree model.
@@ -135,7 +138,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		tree.addTreeSelectionListener(this);
 
 		// disable leaf icons
-		DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
+		treeCellRenderer = new DefaultTreeCellRenderer();
 		treeCellRenderer.setLeafIcon(null);
 		tree.setCellRenderer(treeCellRenderer);
 
@@ -402,11 +405,18 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 
 	}
 	
-	
+
 
 	public void updateFont() {
-		// TODO Auto-generated method stub
+		Font font = app.getPlainFont();
+
+		tree.setFont(font);
+		treeCellRenderer.setFont(font);
+
 		
+		defaultsButton.setFont(font);
+
+		//propPanel.setFont(font);
 	}
 	
 	

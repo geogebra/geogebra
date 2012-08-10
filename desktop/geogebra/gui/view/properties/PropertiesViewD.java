@@ -928,19 +928,19 @@ public class PropertiesViewD extends
 
 		
 		if (defaultsPanel != null)
-			defaultsPanel.updateFont();
+			defaultsPanel.updateFont(); //tree + button
 		if (euclidianPanel != null)
 			euclidianPanel.updateFont(); //
 		if (euclidianPanel2 != null)
 			euclidianPanel2.updateFont(); //
 		if (spreadsheetPanel != null)
-			spreadsheetPanel.updateFont();
+			spreadsheetPanel.updateFont(); //
 		if (casPanel != null)
-			casPanel.updateFont();
+			casPanel.updateFont(); //
 		if (advancedPanel != null)
 			advancedPanel.updateFont(); //
 		if (objectPanel != null)
-			((OptionsObjectD) objectPanel).updateFont();
+			((OptionsObjectD) objectPanel).updateFont(); //tree
 		if (layoutPanel != null)
 			layoutPanel.updateFont(); //
 

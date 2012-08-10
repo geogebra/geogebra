@@ -22,6 +22,7 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -490,7 +491,32 @@ public class OptionsSpreadsheetD extends
 	
 
 	public void updateFont() {
-		// TODO Auto-generated method stub
+		
+		Font font = app.getPlainFont();
+		
+		
+		
+		cbShowFormulaBar.setFont(font);
+		cbShowGrid.setFont(font);
+		cbShowColumnHeader.setFont(font);
+		cbShowRowHeader.setFont(font);
+		cbShowHScrollbar.setFont(font);
+		cbShowVScrollbar.setFont(font);
+		cbShowBrowser.setFont(font);
+		cbAllowSpecialEditor.setFont(font);
+		cbAllowToolTips.setFont(font);
+		cbPrependCommands.setFont(font);
+
+		locationPanel.setFont(font);
+		dirRadioButton.setFont(font);
+		urlRadioButton.setFont(font);
+		restoreButton.setFont(font);
+		setCurrentButton.setFont(font);
+
+		tabbedPane.setFont(font);
+		
+		dirField.setFont(font);
+		urlField.setFont(font);
 		
 	}
 	

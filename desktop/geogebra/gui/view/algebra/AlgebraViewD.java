@@ -251,11 +251,11 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 		*/
 	}
 
+	@Override
 	public void updateFonts() {
+		super.updateFonts();
 		Font font = app.getPlainFont();
-		setFont(font);
 		editor.setFont(font);
-		renderer.setFont(font);
 		editTF.setFont(font);
 		if (helperBar != null) {
 			helperBar.updateLabels();

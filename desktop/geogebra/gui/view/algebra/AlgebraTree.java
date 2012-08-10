@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.main.AppD;
 
+import java.awt.Font;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -500,5 +501,13 @@ public class AlgebraTree extends JTree {
 
 		}
 
+	}
+	
+	
+
+	public void updateFonts() {
+		Font font = app.getPlainFont();
+		setFont(font);
+		renderer.setFont(font);
 	}
 }

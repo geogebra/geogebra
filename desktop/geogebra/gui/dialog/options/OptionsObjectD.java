@@ -316,7 +316,9 @@ public class OptionsObjectD extends
 	
 
 	public void updateFont() {
-		// TODO Auto-generated method stub
+		
+
+		tree.updateFonts();
 		
 	}
 	
