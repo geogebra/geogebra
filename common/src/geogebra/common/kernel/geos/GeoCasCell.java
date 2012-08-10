@@ -1329,7 +1329,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param output
 	 *            output string (from CAS)
 	 */
-	public void setOutput(final String output) {
+	public void setOutput(final String output,boolean prependLabel) {
 		error = null;
 		latex = null;
 
@@ -1342,7 +1342,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// && !output.startsWith(assignmentVar);
 		if (nativeOutput) {
 			String res = output;
-			if (isFunctionDeclaration) {
+			if (isFunctionDeclaration && prependLabel) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(inputVE.getLabelForAssignment());
 
@@ -1629,7 +1629,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (success) {
 			if (prefix.length() == 0 && postfix.length() == 0) {
 				// no prefix, no postfix: just evaluation
-				setOutput(result);
+				setOutput(result,true);
 			} else {
 				// make sure that evaluation is put into parentheses
 				StringBuilder sb = new StringBuilder();
@@ -1638,7 +1638,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				sb.append(result);
 				sb.append(") ");
 				sb.append(postfix);
-				setOutput(sb.toString());
+				setOutput(sb.toString(),true);
 			}
 		} else {
 			if (ce == null) {

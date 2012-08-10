@@ -3613,10 +3613,10 @@ public class MyXMLHandler implements DocHandler {
 			if (error) {
 				geoCasCell.setError(output);
 			} else {
-				if(!nativeOutput)
+				if(!nativeOutput){
 					geoCasCell.computeOutput();
-				else
-					geoCasCell.setOutput(output);
+				}else
+					geoCasCell.setOutput(output,false);
 			}
 			
 
