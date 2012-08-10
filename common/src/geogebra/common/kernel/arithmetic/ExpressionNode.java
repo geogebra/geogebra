@@ -4297,11 +4297,14 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("}");
 				sb.append(((MyNumberPair)left).x.toString(tpl));
 			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
-				//TODO
-				sb.append("sum ");
-				sb.append(leftStr);
-				sb.append(" d");
-				sb.append(rightStr);
+				sb.append("sum from{");
+				sb.append(((MyNumberPair)left).y.toString(tpl));
+				sb.append("=");
+				sb.append(((MyNumberPair)right).x.toString(tpl));
+				sb.append("} to{");
+				sb.append(((MyNumberPair)right).y.toString(tpl));
+				sb.append("}");
+				sb.append(((MyNumberPair)left).x.toString(tpl));
 			} else {
 				if (STRING_TYPE == StringType.MPREDUCE) {
 					sb.append("sum(");
