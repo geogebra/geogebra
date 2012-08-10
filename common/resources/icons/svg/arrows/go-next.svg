@@ -51,7 +51,7 @@
        x2="0.83524108"
        y2="7.3089199"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(31.855164,0,0,32.06,382.94918,-0.05926943)" />
+       gradientTransform="matrix(29.850411,0,0,30.042356,375.72228,16.056977)" />
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -74,8 +74,8 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <path
-     style="fill:url(#linearGradient3763);fill-opacity:1;stroke:#417a0e;stroke-width:32.13471222px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-     d="m 16.046751,145.02305 0.789689,220.89788 163.45582,0 3.15845,129.98438 L 496.14883,254.7205 178.71289,15.789832 180.29226,145.02305 z"
+     style="fill:url(#linearGradient3763);fill-opacity:1;stroke:#417a0e;stroke-width:30.11236572px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
+     d="m 31.910262,152.00878 0.739991,206.99603 153.168987,0 2.95968,121.80402 L 481.79789,254.8026 184.33927,30.90864 l 1.47997,121.10014 z"
      id="path2987"
      inkscape:connector-curvature="0" />
 </svg>

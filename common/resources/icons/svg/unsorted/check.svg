@@ -42,36 +42,39 @@
      inkscape:window-height="988"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="1"
-     inkscape:cx="5"
-     inkscape:cy="284.63388"
+     inkscape:zoom="4"
+     inkscape:cx="185.96515"
+     inkscape:cy="114.63388"
      inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3007" />
+     inkscape:current-layer="g2987" />
   <g
      id="g3007"
      transform="translate(0.5,502.78125)"
      style="fill:#050804;fill-opacity:1">
     <g
-       id="g2984"
-       transform="matrix(55.871376,0,0,55.871376,4.923841,-480.88589)">
-      <rect
-         style="fill:#050804;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         id="rect2987"
-         width="3.2849233"
-         height="3.0261774"
-         x="1.2795922"
-         y="2.2101889"
-         transform="matrix(0.7844156,0.62023558,0,1,0,0)" />
-      <rect
-         style="fill:#050804;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         id="rect2987-1"
-         width="6.3131757"
-         height="3.0261774"
-         x="-11.405999"
-         y="8.6707287"
-         transform="matrix(-0.70228516,0.71189575,0,1,0,0)" />
+       id="g2987"
+       transform="translate(0,-2)">
+      <g
+         id="g2985">
+        <rect
+           transform="matrix(0.7844156,0.62023557,0,1,0,0)"
+           y="-361.29288"
+           x="77.769653"
+           height="169.07669"
+           width="183.53319"
+           id="rect2987"
+           style="fill:#050804;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+        <rect
+           transform="matrix(-0.70228516,0.71189575,0,1,0,0)"
+           y="8.2991648"
+           x="-644.10205"
+           height="169.07669"
+           width="352.7258"
+           id="rect2987-1"
+           style="fill:#050804;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      </g>
     </g>
   </g>
 </svg>

@@ -60,6 +60,36 @@
        id="linearGradient3020"
        xlink:href="#linearGradient3810"
        inkscape:collect="always" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3764"
+       id="linearGradient3776"
+       gradientUnits="userSpaceOnUse"
+       x1="25.620098"
+       y1="26.471169"
+       x2="20.028008"
+       y2="19.856335" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3764">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop3766" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:0;"
+         offset="1"
+         id="stop3768" />
+    </linearGradient>
+    <linearGradient
+       y2="19.856335"
+       x2="20.028008"
+       y1="26.471169"
+       x1="25.620098"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3013"
+       xlink:href="#linearGradient3764"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -82,13 +112,13 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <path
-     sodipodi:type="arc"
-     style="fill:url(#linearGradient3020);fill-opacity:1;stroke:#3e5f80;stroke-width:0.94609928;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-     id="path3014"
-     sodipodi:cx="22.169491"
-     sodipodi:cy="22.440678"
-     sodipodi:rx="4.0677967"
-     sodipodi:ry="4.4067798"
+     transform="matrix(39.160208,0,0,36.147884,-609.59905,-553.72151)"
      d="m 26.237288,22.440678 a 4.0677967,4.4067798 0 1 1 -8.135594,0 4.0677967,4.4067798 0 1 1 8.135594,0 z"
-     transform="matrix(38.469327,3.9743851,-3.7010274,35.823412,-512.60029,-636.35384)" />
+     sodipodi:ry="4.4067798"
+     sodipodi:rx="4.0677967"
+     sodipodi:cy="22.440678"
+     sodipodi:cx="22.169491"
+     id="path2995-77"
+     style="fill:url(#linearGradient3013);fill-opacity:1;stroke:#0000ff;stroke-width:0.83480084;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     sodipodi:type="arc" />
 </svg>

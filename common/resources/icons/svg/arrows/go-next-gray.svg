@@ -57,7 +57,7 @@
        x2="5.9661016"
        y1="-4"
        x1="-5.8305087"
-       gradientTransform="matrix(31.759348,0,0,31.959763,231.65839,384.51671)"
+       gradientTransform="matrix(29.85052,0,0,30.038889,234.00602,376.99257)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient3809"
        xlink:href="#linearGradient3772"
@@ -84,8 +84,8 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <path
-     style="fill:url(#linearGradient3809);fill-opacity:1;stroke:#636363;stroke-width:32.03614807px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-     d="m 16.014325,146.19957 0.787323,220.2077 162.964182,0 3.14893,129.57772 L 494.67237,255.55433 178.1912,17.370948 179.76583,146.19957 z"
+     style="fill:url(#linearGradient3809);fill-opacity:1;stroke:#636363;stroke-width:30.11068344px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
+     d="m 31.322779,152.99897 0.740002,206.97259 153.169569,0 2.95967,121.78972 L 481.2121,255.7812 183.75236,31.913323 185.23235,152.99897 z"
      id="path2987"
      inkscape:connector-curvature="0" />
 </svg>

@@ -48,33 +48,36 @@
      inkscape:window-x="1358"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="g3012" />
   <g
      id="g3012"
      transform="matrix(17.824519,0,0,17.824519,-32.117236,-32.481782)">
-    <text
-       sodipodi:linespacing="125%"
-       id="text2987"
-       y="21.980658"
-       x="2.5407906"
-       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
-       xml:space="preserve"><tspan
-         style="font-size:16px"
-         y="21.980658"
+    <g
+       id="g3754">
+      <text
+         xml:space="preserve"
+         style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
          x="2.5407906"
-         id="tspan2989"
-         sodipodi:role="line">A</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text2987-1"
-       y="21.953423"
-       x="17.634144"
-       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#8c8b8b;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
-       xml:space="preserve"><tspan
-         style="font-size:16px;fill:#8c8b8b;fill-opacity:1"
-         y="21.953423"
+         y="21.980658"
+         id="text2987"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan2989"
+           x="2.5407906"
+           y="21.980658"
+           style="font-size:16px">A</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#666666;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
          x="17.634144"
-         id="tspan2989-7"
-         sodipodi:role="line">A</tspan></text>
+         y="21.953423"
+         id="text2987-1"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan2989-7"
+           x="17.634144"
+           y="21.953423"
+           style="font-size:16px;fill:#666666;fill-opacity:1">A</tspan></text>
+    </g>
   </g>
 </svg>
