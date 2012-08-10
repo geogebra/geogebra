@@ -81,6 +81,7 @@ public class PropertiesDockPanel extends DockPanel implements
 		super.closePanel(isPermanent);		
 		getPropertiesView().applyModifications();
 	}
+	
 
 	@Override
 	public ImageIcon getIcon() {
@@ -178,6 +179,7 @@ public class PropertiesDockPanel extends DockPanel implements
 	public void setVisible(boolean isVisible){
 		super.setVisible(isVisible);
 		dockManager.getLayout().getApplication().updateMenubar();
+		getPropertiesView().setSelectedOptionPanelVisible(isVisible);
 	}
 
 }

@@ -369,9 +369,26 @@ public class PropertiesViewD extends
 	 * apply current panel modifications
 	 */
 	public void applyModifications() {
+		
 		if (selectedOptionPanel != null)
 			((OptionPanelD) selectedOptionPanel).applyModifications();
+		
+
 	}
+	
+	
+	/**
+	 * set the current panel selected/unselected
+	 * @param isVisible visible
+	 */
+	public void setSelectedOptionPanelVisible(boolean isVisible) {
+		
+		if (selectedOptionPanel != null)
+			((OptionPanelD) selectedOptionPanel).setSelected(isVisible);
+		
+
+	}
+
 
 	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 
@@ -404,7 +421,6 @@ public class PropertiesViewD extends
 			((OptionPanelD) selectedOptionPanel).applyModifications();
 			((OptionPanelD) selectedOptionPanel).setSelected(false);
 		}
-
 
 		if (!isIniting && selectedOptionType == type) {
 			updateTitleBar();
