@@ -151,6 +151,10 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		
 		getElement().setId("View_"+App.VIEW_ALGEBRA);
 
+		this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+
 		// tree's options
 		//setRootVisible(false);
 		// show lines from parent to children
@@ -327,7 +331,14 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 	//@Override
 	public void clearSelection() {
-		super.setSelectedItem(null);
+
+		// deselecting this causes a bug; it maybe fixed
+		// by changing the repaintView method too,
+		// adding setSelectedItem( some TreeItem ),
+		// but which TreeItem should be that if more are selected?
+		// that's why Arpad choosed to comment this out instead
+		//super.setSelectedItem(null);
+
 		for (int i = 0; i < getItemCount(); i++) {
 			if (!(getItem(i).getUserObject() instanceof GeoElement))
 				for (int j = 0; j < getItem(i).getChildCount(); j++) {

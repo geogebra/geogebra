@@ -134,7 +134,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
 		ihtml.getElement().appendChild(se2);
-		addOurKeyUp(ihtml.getElement());
 
 		String text = "";
 		if (geo.isIndependent()) {
@@ -401,6 +400,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.editing)
 			return;
 
+		/*
 		// Make sure this remains focused in browsers except Safari
 		// safari will need an input element instead of tabindex
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -418,7 +418,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					}
 				});
 			}
-		});
+		});*/
 
 		AppW app = (AppW)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
@@ -518,30 +518,5 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//} else {
 		//	se.setTitle("");
 		//}
-	}
-
-	public native void addOurKeyUp(Element inpel) /*-{
-		var thisclass = this;
-		inpel.setAttribute("tabindex", 0);
-		inpel.onkeyup = function(event) {
-			var code = 13;
-			if (event.keyCode) {
-				code = event.keyCode;
-			} else if (event.which) {
-				code = event.which;
-			}
-			thisclass.@geogebra.web.gui.view.algebra.RadioButtonTreeItem::ourKeyUp(IZZZ)(code, event.ctrlKey, event.shiftKey, event.altKey);
-			return false;
-		}
-	}-*/;
-
-	public void ourKeyUp(int keyCode, boolean ctrl, boolean shift, boolean alt) {
-		if (thisIsEdited)
-			return;
-
-		if (keyCode == 46) {
-			geo.remove();
-			kernel.notifyRepaint();
-		}
 	}
 }
