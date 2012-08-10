@@ -43,6 +43,8 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	protected MyToggleButton btnItalic;
 	/** use as text button */
 	protected MyToggleButton btnUseAsText;
+	/** use as text button */
+	protected MyToggleButton btnShowKeyboard;
 	/** height of buttons */
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
@@ -129,6 +131,25 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			applyTextSize(targetGeos);
 		} else if (source == btnUseAsText) {
 			applyUseAsText(targetGeos);
+		}else if (source == btnShowKeyboard) {
+			if(app.getGuiManager()!=null){
+				if (AppD.isVirtualKeyboardActive()
+						&& !app.getGuiManager().showVirtualKeyboard()) {
+
+					// if keyboard is active but hidden, just show it
+					app.getGuiManager().toggleKeyboard(true);
+					app.getGuiManager().getVirtualKeyboard().toggleNumeric(true);
+
+				} else {
+
+					AppD.setVirtualKeyboardActive(!AppD
+							.isVirtualKeyboardActive());
+					app.getGuiManager().toggleKeyboard(
+							AppD.isVirtualKeyboardActive());
+					app.getGuiManager().getVirtualKeyboard().toggleNumeric(
+							AppD.isVirtualKeyboardActive());
+				}
+			}
 		}
 		updateStyleBar();
 	}
@@ -242,9 +263,13 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		createTextButtons();
 
 		add(btnUseAsText);
-		add(btnTextColor); //TODO: Fix text color
+		add(btnTextColor);
 		add(btnBold);
 		add(btnItalic);
+		
+		btnShowKeyboard =       new MyToggleButton(app.getImageIcon("cas-keyboard.png"), iconHeight);    
+		btnShowKeyboard.addActionListener(this);
+		add(btnShowKeyboard);
 		//add(btnTextSize); //TODO: Fix text size
 
 		popupBtnList = newPopupBtnList();

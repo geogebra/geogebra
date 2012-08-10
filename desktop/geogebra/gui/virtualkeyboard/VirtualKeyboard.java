@@ -576,7 +576,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}
 		return MathButton;
 	}
-	
+	public void toggleNumeric(boolean numeric){
+		setMode(numeric ? KEYBOARD_NUMERIC : KEYBOARD_NORMAL, null);
+	}
 	private JToggleButton getNumericButton() {
 		if (NumericButton == null) {
 
