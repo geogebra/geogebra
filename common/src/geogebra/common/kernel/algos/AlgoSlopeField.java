@@ -201,7 +201,7 @@ public class AlgoSlopeField extends AlgoElement {
 				length = 0.5;
 			}
 			
-			length = Math.min(xStep,yStep) * length * 0.5;
+			length = Math.min(xStep,yStep*mainView.getScaleRatio()) * length * 0.5;
 			//double yLength = yStep * length * 0.5;
 			
 			boolean funcOfJustY = func instanceof GeoFunction && ((GeoFunction)func).isFunctionOfY();
