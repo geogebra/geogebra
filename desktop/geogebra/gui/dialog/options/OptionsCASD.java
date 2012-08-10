@@ -7,6 +7,7 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -149,8 +150,11 @@ public class OptionsCASD extends geogebra.common.gui.dialog.options.OptionsCAS
 	
 
 	public void updateFont() {
-		// TODO Auto-generated method stub
+		Font font = app.getPlainFont();
 		
+		timeoutLabel.setFont(font);
+		cbShowRoots.setFont(font);
+		cbTimeout.setFont(font);
 	}
 	
 
