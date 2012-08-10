@@ -1269,9 +1269,10 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	}
 
 	protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
-		if (isEditing())
+		//keys should move the geos in the EV
+		//if (isEditing())
 			return false;
-		return super.isKeyboardNavigationEnabled(ti);
+		//return super.isKeyboardNavigationEnabled(ti);
 	}
 
 	public void setUserObject(TreeItem ti, Object ob) {
