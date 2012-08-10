@@ -10,6 +10,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
+import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -53,6 +54,7 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
+import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.kernel.AnimationManagerW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.properties.ColorsConstants;
@@ -72,6 +74,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.Set;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -909,39 +914,23 @@ public class AppW extends App {
 	}
 
 	public void showMessage(final String message) {
-		// TODO: implement it better for GeoGebraWebGUI
-		Window.alert(message);
+		App.printStacktrace("showMessage: " + message);
+		GOptionPaneW.INSTANCE.showConfirmDialog(null, message,
+				getPlain("ApplicationName") + " - " + getMenu("Info"),
+				GOptionPane.DEFAULT_OPTION,
+				0);
 	}
 
 	public void showErrorDialog(final String msg) {
 		final PopupPanel dialog = new PopupPanel(false, true);
 		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
 		
-		Button ok = new Button(getPlain("OK"));
-		ok.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				dialog.hide();
-			}
-
-		});
-		
-		VerticalPanel panel = new VerticalPanel();
-		String[] lines = msg.split("\n");
-		for(String item : lines ){
-			panel.add(new Label(item));
-		}
-		
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("DialogButtonPanel");
-		buttonPanel.add(ok);
-		panel.add(buttonPanel);
-		
-		dialog.setWidget(panel);
-		dialog.center();
-		dialog.show();
-		ok.getElement().focus();
-		
+		GOptionPaneW.INSTANCE
+		.showConfirmDialog(null, msg,
+				getPlain("ApplicationName") + " - "
+						+ getError("Error"),
+				GOptionPane.DEFAULT_OPTION,
+				0);
 	}
 
 	@Override
@@ -2244,7 +2233,6 @@ public class AppW extends App {
 			}
 		}
 
-		//Window.alert(pageName);
 		String ret = englishCommands.get(pageName);
 		if (ret != null) return ret;
 		return pageName;
