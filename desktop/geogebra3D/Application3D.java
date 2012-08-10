@@ -267,9 +267,9 @@ public class Application3D extends AppD {
 	}
 
 	@Override
-	public void updateFonts() {
+	public void resetFonts() {
 
-		super.updateFonts();
+		super.resetFonts();
 
 		if (euclidianViewForPlane != null) {
 			euclidianViewForPlane.updateFonts();

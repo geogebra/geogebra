@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
+import geogebra.common.main.ProverSettings;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.util.Prover.ProverEngine;
@@ -83,21 +84,21 @@ public class AlgoProve extends AlgoElement {
 	
 	// Create and initialize the prover
 		Prover p = UtilFactory.prototype.newProver();
-        if ("OpenGeoProver".equalsIgnoreCase(App.proverEngine)) {
-        	if ("Wu".equalsIgnoreCase(App.proverMethod))
+        if ("OpenGeoProver".equalsIgnoreCase(ProverSettings.proverEngine)) {
+        	if ("Wu".equalsIgnoreCase(ProverSettings.proverMethod))
         		p.setProverEngine(ProverEngine.OPENGEOPROVER_WU);
-        	else if ("Area".equalsIgnoreCase(App.proverMethod))
+        	else if ("Area".equalsIgnoreCase(ProverSettings.proverMethod))
         		p.setProverEngine(ProverEngine.OPENGEOPROVER_AREA);
         }  	            
-        else if ("Botana".equalsIgnoreCase(App.proverEngine))
+        else if ("Botana".equalsIgnoreCase(ProverSettings.proverEngine))
             p.setProverEngine(ProverEngine.BOTANAS_PROVER);
-        else if ("Recio".equalsIgnoreCase(App.proverEngine))
+        else if ("Recio".equalsIgnoreCase(ProverSettings.proverEngine))
             p.setProverEngine(ProverEngine.RECIOS_PROVER);
-        else if ("PureSymbolic".equalsIgnoreCase(App.proverEngine))
+        else if ("PureSymbolic".equalsIgnoreCase(ProverSettings.proverEngine))
             p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
-        else if ("Auto".equalsIgnoreCase(App.proverEngine))
+        else if ("Auto".equalsIgnoreCase(ProverSettings.proverEngine))
             p.setProverEngine(ProverEngine.AUTO);
-        p.setTimeout(App.proverTimeout);
+        p.setTimeout(ProverSettings.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);
     	// Don't compute extra NDG's:

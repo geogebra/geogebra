@@ -2590,7 +2590,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// isSVGExtensions=g2.getClass().getName().endsWith("SVGExtensions");
 		int layer;
 
-		for (layer = 0; layer <= getApplication().maxLayerUsed; layer++) // only
+		for (layer = 0; layer <= getApplication().getMaxLayerUsed(); layer++) // only
 																			// draw
 																			// layers
 		// we need
@@ -3849,7 +3849,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		allDrawableList.clear();
 		bgImageList.clear();
 
-		for (int i = 0; i <= getApplication().maxLayerUsed; i++) {
+		for (int i = 0; i <= getApplication().getMaxLayerUsed(); i++) {
 			drawLayers[i].clear(); // Michael Borcherds 2008-02-29
 		}
 

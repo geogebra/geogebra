@@ -3,6 +3,7 @@ package geogebra.util;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.ProverSettings;
 import geogebra.kernel.prover.ProverReciosMethod;
 
 import java.util.Iterator;
@@ -41,7 +42,7 @@ public class Prover extends geogebra.common.util.Prover {
 	
 	@Override
 	public void compute() {
-		if (App.proverTimeout == 0) {
+		if (ProverSettings.proverTimeout == 0) {
 			// Do not create a thread if there is no timeout set:
 		    decideStatement();
 		    // This is especially useful for debugging in Eclipse.
@@ -98,8 +99,8 @@ public class Prover extends geogebra.common.util.Prover {
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
 		if (pe == ProverEngine.OPENGEOPROVER_AREA)
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
-		inputObject.setTimeOut(App.proverTimeout);
-		inputObject.setMaxTerms(App.maxTerms);
+		inputObject.setTimeOut(ProverSettings.proverTimeout);
+		inputObject.setMaxTerms(ProverSettings.maxTerms);
 		if (isReturnExtraNDGs())
 			inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
 		else

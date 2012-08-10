@@ -461,7 +461,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// ensure all new objects are in the top layer
 		if (app != null) {
-			layer = app.maxLayerUsed;
+			layer = app.getMaxLayerUsed();
 		}
 
 		viewFlags = new ArrayList<Integer>();

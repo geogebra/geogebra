@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.ProverSettings;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
 import geogebra.common.util.Prover.ProofResult;
@@ -247,10 +248,10 @@ public class ProverBotanasMethod {
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
-			if (App.freePointsNeverCollinear)
+			if (ProverSettings.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
 			HashMap<Variable,Integer> substitutions = null;
-			if (App.useFixCoordinates)
+			if (ProverSettings.useFixCoordinates)
 				substitutions = fixValues(prover);
 			int nHypotheses = 0;
 			int nNdgConditions = 0;

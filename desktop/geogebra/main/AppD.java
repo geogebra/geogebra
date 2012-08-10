@@ -47,6 +47,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.main.ProverSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.Base64;
@@ -644,23 +645,23 @@ public class AppD extends App implements
 					"  --prover=OPTIONS\tset options for the prover subsystem\n"
 					+ "    where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 					+ "      engine:ENGINE\tset engine (Auto|OpenGeoProver|Recio|Botana|PureSymbolic) [" 
-					+ App.proverEngine + "]\n"
+					+ ProverSettings.proverEngine + "]\n"
 					+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) [" 
-					+ App.proverTimeout + "]\n"
+					+ ProverSettings.proverTimeout + "]\n"
 					+ "      maxterms:NUMBER\tset the maximal number of terms ["
-					+ App.maxTerms + "] (OpenGeoProver only)\n"
+					+ ProverSettings.maxTerms + "] (OpenGeoProver only)\n"
 					+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
-					+ App.proverMethod + "] (OpenGeoProver only)\n"
+					+ ProverSettings.proverMethod + "] (OpenGeoProver only)\n"
 					+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear ["
-					+ App.freePointsNeverCollinear + "] (Botana only)\n"
+					+ ProverSettings.freePointsNeverCollinear + "] (Botana only)\n"
 					+ "      usefixcoords:BOOLEAN\tuse fix coordinates for the first points ["
-					+ App.useFixCoordinates + "] (Botana only)\n"
+					+ ProverSettings.useFixCoordinates + "] (Botana only)\n"
 					+ "      singularWS:BOOLEAN\tuse Singular WebService when possible ["
-					+ App.useSingularWebService + "]\n"
+					+ ProverSettings.useSingularWebService + "]\n"
 					+ "      singularWSremoteURL:URL\tset the remote server URL for Singular WebService ["
-					+ App.singularWebServiceRemoteURL + "]\n"
+					+ ProverSettings.singularWebServiceRemoteURL + "]\n"
 					+ "      singularWStimeout:SECS\tset the timeout for SingularWebService ["
-					+ App.singularWebServiceTimeout + "]\n\n"
+					+ ProverSettings.singularWebServiceTimeout + "]\n\n"
 					+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:false\n");
 					System.exit(0);
 		}
@@ -1385,48 +1386,48 @@ public class AppD extends App implements
                     || "PureSymbolic".equalsIgnoreCase(str[1])
                     || "Auto".equalsIgnoreCase(str[1])
                     ) {
-                proverEngine = str[1].toLowerCase();
+            	ProverSettings.proverEngine = str[1].toLowerCase();
                 return;
             }
             App.warn("Option not recognized: ".concat(option));
             return;
         }
         if ("timeout".equalsIgnoreCase(str[0])) {
-            proverTimeout = Integer.parseInt(str[1]);
+        	ProverSettings.proverTimeout = Integer.parseInt(str[1]);
             return;
         }
         if ("maxTerms".equalsIgnoreCase(str[0])) {
-            maxTerms = Integer.parseInt(str[1]);
+            ProverSettings.maxTerms = Integer.parseInt(str[1]);
             return;
         }
         if ("method".equalsIgnoreCase(str[0])) {
             if ("Groebner".equalsIgnoreCase(str[1]) 
                     || "Wu".equalsIgnoreCase(str[1])
                     || "Area".equalsIgnoreCase(str[1])) {
-                proverMethod = str[1].toLowerCase();
+            	ProverSettings.proverMethod = str[1].toLowerCase();
                 return;
             }
             App.warn("Method parameter not recognized: ".concat(option));
             return;
         }
         if ("fpnevercoll".equalsIgnoreCase(str[0])) {
-            freePointsNeverCollinear = Boolean.valueOf(str[1]).booleanValue();
+        	ProverSettings.freePointsNeverCollinear = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
         if ("usefixcoords".equalsIgnoreCase(str[0])) {
-            useFixCoordinates = Boolean.valueOf(str[1]).booleanValue();
+        	ProverSettings.useFixCoordinates = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
         if ("singularWS".equalsIgnoreCase(str[0])) {
-            useSingularWebService = Boolean.valueOf(str[1]).booleanValue();
+        	ProverSettings.useSingularWebService = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
         if ("singularWSremoteURL".equalsIgnoreCase(str[0])) {
-            singularWebServiceRemoteURL = str[1].toLowerCase();
+        	ProverSettings.singularWebServiceRemoteURL = str[1].toLowerCase();
             return;
         }
         if ("singularWStimeout".equalsIgnoreCase(str[0])) {
-            singularWebServiceTimeout = Integer.parseInt(str[1]);
+        	ProverSettings.singularWebServiceTimeout = Integer.parseInt(str[1]);
             return;
         }
         App.warn("Prover option not recognized: ".concat(option));
@@ -2135,10 +2136,7 @@ public class AppD extends App implements
 		return loc;
 	}
 
-	/*
-	 * used to force properties to be read from secondary (tooltip) language if
-	 * one has been selected
-	 */
+	
 	@Override
 	public void setTooltipFlag() {
 		if (tooltipLocale != null) {
@@ -2282,7 +2280,7 @@ public class AppD extends App implements
 			updateResourceBundles();
 		}
 
-		updateReverseLanguage(locale.getLanguage());
+		updateLanguageFlags(locale.getLanguage());
 		
 	}
 
@@ -2974,17 +2972,6 @@ public class AppD extends App implements
 		}
 		
 	}
-
-	@Override
-	public void resetFonts() {
-		getFontManager().setFontSize(getGUIFontSize());
-		updateFonts();
-	}
-
-	
-
-	
-
 	
 	private void setLabels() {
 		if (initing) {
