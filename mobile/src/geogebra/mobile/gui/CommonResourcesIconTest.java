@@ -119,10 +119,6 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource trace_on();
 
-	@Source("icons/svg/contextmenu/tree-close.svg")
-	@Validated(validated = false)
-	SVGResource treeClose();
-
 	@Source("icons/svg/general/geogebra_tube_writing.svg")
 	@Validated(validated = false)
 	SVGResource geogebra_tube_writing();
@@ -130,14 +126,6 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Source("icons/svg/general/geogebra-logo.svg")
 	@Validated(validated = false)
 	SVGResource geogebraLogo();
-
-	@Source("icons/svg/menu/edit/delete.svg")
-	@Validated(validated = false)
-	SVGResource delete();
-
-	@Source("icons/svg/menu/edit/object_properties.svg")
-	@Validated(validated = false)
-	SVGResource object_properties();
 
 	@Source("icons/svg/menu/edit/properties_advanced.svg")
 	@Validated(validated = false)
@@ -171,6 +159,14 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource close();
 
+	@Source("icons/svg/menu/file/document-print.svg")
+	@Validated(validated = false)
+	SVGResource documentPrint();
+
+	@Source("icons/svg/menu/file/document-print22.svg")
+	@Validated(validated = false)
+	SVGResource documentPrint22();
+
 	@Source("icons/svg/menu/file/export_dynamix_worksheet_as_webpage.svg")
 	@Validated(validated = false)
 	SVGResource export_dynamix_worksheet_as_webpage();
@@ -183,10 +179,6 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource export_graphics_view_to_clipboard();
 
-	@Source("icons/svg/menu/file/open_webpage.svg")
-	@Validated(validated = false)
-	SVGResource open_webpage();
-
 	@Source("icons/svg/menu/file/open.svg")
 	@Validated(validated = false)
 	SVGResource open();
@@ -194,10 +186,6 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Source("icons/svg/menu/file/print_preview.svg")
 	@Validated(validated = false)
 	SVGResource print_preview();
-
-	@Source("icons/svg/menu/file/save.svg")
-	@Validated(validated = false)
-	SVGResource save();
 
 	@Source("icons/svg/menu/file/share.svg")
 	@Validated(validated = false)
@@ -215,25 +203,17 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource help();
 
-	@Source("icons/svg/menu/options/advanced.svg")
-	@Validated(validated = false)
-	SVGResource advanced();
-
 	@Source("icons/svg/menu/options/font_size.svg")
 	@Validated(validated = false)
 	SVGResource font_size();
-
-	@Source("icons/svg/menu/options/labelling.svg")
-	@Validated(validated = false)
-	SVGResource labelling();
 
 	@Source("icons/svg/menu/options/point_capturing.svg")
 	@Validated(validated = false)
 	SVGResource point_capturing();
 
-	@Source("icons/svg/menu/options/save_settings.svg")
+	@Source("icons/svg/menu/options/save.svg")
 	@Validated(validated = false)
-	SVGResource save_settings();
+	SVGResource save();
 
 	@Source("icons/svg/menu/tools/create_new_tool.svg")
 	@Validated(validated = false)
@@ -267,17 +247,13 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource keyboard();
 
-	@Source("icons/svg/menu/view/layout.svg")
+	@Source("icons/svg/menu/view/properties.svg")
 	@Validated(validated = false)
-	SVGResource layout();
+	SVGResource properties();
 
 	@Source("icons/svg/menu/view/refresh_view.svg")
 	@Validated(validated = false)
 	SVGResource refresh_view();
-
-	@Source("icons/svg/menu/view/spreadsheet.svg")
-	@Validated(validated = false)
-	SVGResource spreadsheet();
 
 	@Source("icons/svg/menu/window/new_window.svg")
 	@Validated(validated = false)
@@ -298,6 +274,10 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Source("icons/svg/stylingbar/graphicsview/set_point_capture_style.svg")
 	@Validated(validated = false)
 	SVGResource set_point_capture_style();
+
+	@Source("icons/svg/stylingbar/graphicsview/show_hide_label.svg")
+	@Validated(validated = false)
+	SVGResource show_hide_label();
 
 	@Source("icons/svg/stylingbar/graphicsview/show_or_hide_the_axes.svg")
 	@Validated(validated = false)
@@ -467,17 +447,17 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource copy_visual_style();
 
-	@Source("icons/svg/tools/generaltools/delete_object.svg")
+	@Source("icons/svg/tools/generaltools/delete.svg")
 	@Validated(validated = false)
-	SVGResource delete_object();
+	SVGResource delete();
+
+	@Source("icons/svg/tools/generaltools/label.svg")
+	@Validated(validated = false)
+	SVGResource label();
 
 	@Source("icons/svg/tools/generaltools/move_graphics_view.svg")
 	@Validated(validated = false)
 	SVGResource move_graphics_view();
-
-	@Source("icons/svg/tools/generaltools/show_hide_label.svg")
-	@Validated(validated = false)
-	SVGResource show_hide_label();
 
 	@Source("icons/svg/tools/generaltools/show_hide_object.svg")
 	@Validated(validated = false)
@@ -727,9 +707,17 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource translate_object_by_vector();
 
+	@Source("icons/svg/unsorted/applications-graphics.svg")
+	@Validated(validated = false)
+	SVGResource applicationsGraphics();
+
 	@Source("icons/svg/unsorted/apply.svg")
 	@Validated(validated = false)
 	SVGResource apply();
+
+	@Source("icons/svg/unsorted/aux_folder.svg")
+	@Validated(validated = false)
+	SVGResource aux_folder();
 
 	@Source("icons/svg/unsorted/check.svg")
 	@Validated(validated = false)
@@ -755,6 +743,26 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource empty();
 
+	@Source("icons/svg/unsorted/euclidian.svg")
+	@Validated(validated = false)
+	SVGResource euclidian();
+
+	@Source("icons/svg/unsorted/folder.svg")
+	@Validated(validated = false)
+	SVGResource folder();
+
+	@Source("icons/svg/unsorted/format-text-bold.svg")
+	@Validated(validated = false)
+	SVGResource formatTextBold();
+
+	@Source("icons/svg/unsorted/format-text-italic.svg")
+	@Validated(validated = false)
+	SVGResource formatTextItalic();
+
+	@Source("icons/svg/unsorted/globe.svg")
+	@Validated(validated = false)
+	SVGResource globe();
+
 	@Source("icons/svg/unsorted/hidden.svg")
 	@Validated(validated = false)
 	SVGResource hidden();
@@ -767,33 +775,61 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource listAdd();
 
+	@Source("icons/svg/unsorted/lock.svg")
+	@Validated(validated = false)
+	SVGResource lock();
+
+	@Source("icons/svg/unsorted/options-defaults24.svg")
+	@Validated(validated = false)
+	SVGResource optionsDefaults24();
+
+	@Source("icons/svg/unsorted/osculating_circle.svg")
+	@Validated(validated = false)
+	SVGResource osculating_circle();
+
+	@Source("icons/svg/unsorted/paste.svg")
+	@Validated(validated = false)
+	SVGResource paste();
+
 	@Source("icons/svg/unsorted/perspective.svg")
 	@Validated(validated = false)
 	SVGResource perspective();
+
+	@Source("icons/svg/unsorted/right_angle.svg")
+	@Validated(validated = false)
+	SVGResource right_angle();
+
+	@Source("icons/svg/unsorted/separator.svg")
+	@Validated(validated = false)
+	SVGResource separator();
 
 	@Source("icons/svg/unsorted/shown.svg")
 	@Validated(validated = false)
 	SVGResource shown();
 
+	@Source("icons/svg/unsorted/tangent_line.svg")
+	@Validated(validated = false)
+	SVGResource tangent_line();
+
 	@Source("icons/svg/unsorted/text-x-generic.svg")
 	@Validated(validated = false)
 	SVGResource textXGeneric();
+
+	@Source("icons/svg/unsorted/tree-close.svg")
+	@Validated(validated = false)
+	SVGResource treeClose();
 
 	@Source("icons/svg/unsorted/tree-open.svg")
 	@Validated(validated = false)
 	SVGResource treeOpen();
 
-	@Source("icons/svg/unsorted/view_btn.svg")
+	@Source("icons/svg/unsorted/users.svg")
 	@Validated(validated = false)
-	SVGResource view_btn();
+	SVGResource users();
 
-	@Source("icons/svg/unsorted/view-maximize.svg")
+	@Source("icons/svg/unsorted/wiki.svg")
 	@Validated(validated = false)
-	SVGResource viewMaximize();
-
-	@Source("icons/svg/unsorted/view-unmaximize.svg")
-	@Validated(validated = false)
-	SVGResource viewUnmaximize();
+	SVGResource wiki();
 
 	@Source("icons/svg/unsorted/xy_segments.svg")
 	@Validated(validated = false)
@@ -802,6 +838,10 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Source("icons/svg/unsorted/xy_table.svg")
 	@Validated(validated = false)
 	SVGResource xy_table();
+
+	@Source("icons/svg/unsorted/zoom16.svg")
+	@Validated(validated = false)
+	SVGResource zoom16();
 
 	@Source("icons/svg/unsorted/cas/cas-keyboard.svg")
 	@Validated(validated = false)
@@ -819,6 +859,30 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource cascopyStatic();
 
+	@Source("icons/svg/unsorted/cursor/cursor_grab.svg")
+	@Validated(validated = false)
+	SVGResource cursor_grab();
+
+	@Source("icons/svg/unsorted/cursor/cursor_grabbing.svg")
+	@Validated(validated = false)
+	SVGResource cursor_grabbing();
+
+	@Source("icons/svg/unsorted/cursor/cursor_large_cross.svg")
+	@Validated(validated = false)
+	SVGResource cursor_large_cross();
+
+	@Source("icons/svg/unsorted/edit/edit-clear.svg")
+	@Validated(validated = false)
+	SVGResource editClear();
+
+	@Source("icons/svg/unsorted/edit/edit-cut.svg")
+	@Validated(validated = false)
+	SVGResource editCut();
+
+	@Source("icons/svg/unsorted/edit/edit-paste.svg")
+	@Validated(validated = false)
+	SVGResource editPaste();
+
 	@Source("icons/svg/unsorted/spreadsheet/header_column.svg")
 	@Validated(validated = false)
 	SVGResource header_column();
@@ -831,9 +895,29 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 	@Validated(validated = false)
 	SVGResource spreadsheet_grid();
 
+	@Source("icons/svg/unsorted/spreadsheet/spreadsheet.svg")
+	@Validated(validated = false)
+	SVGResource spreadsheet();
+
+	@Source("icons/svg/unsorted/view/view_btn.svg")
+	@Validated(validated = false)
+	SVGResource view_btn();
+
 	@Source("icons/svg/unsorted/view/view-close.svg")
 	@Validated(validated = false)
 	SVGResource viewClose();
+
+	@Source("icons/svg/unsorted/view/view-maximize.svg")
+	@Validated(validated = false)
+	SVGResource viewMaximize();
+
+	@Source("icons/svg/unsorted/view/view-move.svg")
+	@Validated(validated = false)
+	SVGResource viewMove();
+
+	@Source("icons/svg/unsorted/view/view-unmaximize.svg")
+	@Validated(validated = false)
+	SVGResource viewUnmaximize();
 
 	@Source("icons/svg/unsorted/view/view-unwindow.svg")
 	@Validated(validated = false)

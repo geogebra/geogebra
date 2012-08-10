@@ -127,7 +127,7 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource move_graphics_view();
 
-	@Source("icons/svg/tools/generaltools/show_hide_label.svg")
+	@Source("icons/svg/tools/generaltools/label.svg")
 	@Validated(validated = false)
 	SVGResource show_hide_label();
 
@@ -331,7 +331,7 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource translate_object_by_vector();
 
-	@Source("icons/svg/tools/generaltools/delete_object.svg")
+	@Source("icons/svg/tools/generaltools/delete.svg")
 	@Validated(validated = false)
 	SVGResource delete_object();
 
