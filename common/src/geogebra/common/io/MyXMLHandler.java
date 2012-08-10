@@ -2597,7 +2597,12 @@ public class MyXMLHandler implements DocHandler {
 					// := x^2
 					// and twinGeo is created
 					geoCasCell.computeOutput();
+					// a non-native cell may have dependant twin geo even if inputs are constants
 					geoCasCell.setLabelOfTwinGeo();
+					if(geoCasCell.hasTwinGeo() && !geoCasCell.getTwinGeo().isInConstructionList()){
+						if(!geoCasCell.getTwinGeo().getParentAlgorithm().isInConstructionList())
+							geoCasCell.getTwinGeo().getParentAlgorithm().addToConstructionList();
+					}
 				}
 				// otherwise keep loaded output and avoid unnecessary
 				// computation
