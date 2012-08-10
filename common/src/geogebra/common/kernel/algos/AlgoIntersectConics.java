@@ -152,7 +152,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	
     	if (list1!=null && list2!=null) {
     		for (int i = 0; i<list1.size(); i++) {
-    			if (list1.get(i).getIncidenceList().contains(B))
+    			if (list1.get(i).getIncidenceList() != null && list1.get(i).getIncidenceList().contains(B))
     				preexistPoints.add(list1.get(i));
     		}
     	}
@@ -231,10 +231,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 		
 		
 		if (permutation[3] == 0) {
-			App.debug("error");
+			App.error("error in AlgoIntersectConics");
 		}
 		/*
 		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))*/
+		
+		/*
 		{
 			App.debug("");
 			for (int i=0; i<4; i++) {
@@ -244,7 +246,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 			for (int i=0; i<4; i++) {
 			System.out.println(D[i].toString() + "\t" + P[i].toString() + "\t" + Q[i].toString());
 			}
-		}
+		}*/
 		
 		
     	// check if conics A and B are defined	   
