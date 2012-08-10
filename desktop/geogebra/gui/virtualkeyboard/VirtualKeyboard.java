@@ -265,8 +265,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (cpHeight == 0)
 			cpHeight = windowHeight;
 		if(getKeyboardMode()==KEYBOARD_NUMERIC){
-			buttonSizeX = 0.15 + (double) cpWidth / (double) (buttonColsNum);
-			buttonSizeY = 0.25 + (double) cpHeight / (double) (buttonRowsNum + 1);
+			buttonSizeX = 0.15 + cpWidth / (buttonColsNum - 0.5);
+			buttonSizeY = 0.25 + cpHeight / (buttonRowsNum + 1.0);
 		}else{
 			buttonSizeX = 0.15 + (double) cpWidth / (double) (buttonCols);
 			buttonSizeY = 0.25 + (double) cpHeight / (double) (buttonRows + 1);	
@@ -801,6 +801,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 		if (addchar.equals("<enter>"))
 			addchar = "\n";
+		if (addchar.equals("<E>"))
+			addchar = "E";
 
 		if (app != null)
 			app.getGuiManager().insertStringIntoTextfield(addchar,
@@ -983,11 +985,11 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	}
 
 	private String processSpecialKeys(String text) {
-
+		
 		// check first for speed
 		if (!text.startsWith("<"))
 			return text;
-
+		
 		if (text.equals("<enter>"))
 			return unicodeString('\u21b2', "");
 		if (text.equals("<backspace>"))
@@ -1002,7 +1004,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			return "\u2192";
 		if (text.equals("<down>"))
 			return "\u2193";
-
+		if (text.equals("<E>"))
+			return "\u00D710\u207F";
 		return text;
 	}
 
@@ -1062,29 +1065,17 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (len == 1) {
 
 			// make sure extra-wide characters fit (eg <=> \u21d4 )
-			Boolean oversize = characterIsTooWide.get(new Character(text
-					.charAt(0)));
-			if (oversize == null) {
-				/*
-				 * old code getDummyButton().setFont(getCurrentFont());
-				 * getDummyButton().setText(wideChar+""); Dimension buttonSize =
-				 * DummyButton.getPreferredSize();
-				 * getDummyButton().setText(text); Dimension buttonSize2 =
-				 * DummyButton.getPreferredSize(); oversize = new
-				 * Boolean((buttonSize2.getWidth() > buttonSize.getWidth()));
-				 * characterIsTooWide.put(new Character(text.charAt(0)),
-				 * oversize);//
-				 */
+
 
 				FontRenderContext frc = new FontRenderContext(null, true, true);
 				double wideCharWidth = getCurrentFont().getStringBounds(
 						wideChar + "", frc).getWidth();
 				double charWidth = getCurrentFont().getStringBounds(text, frc)
 						.getWidth();
-				oversize = new Boolean(charWidth > wideCharWidth);
-			}
+				boolean oversize = charWidth > wideCharWidth;
 
-			if (oversize.booleanValue()) {
+
+			if (oversize) {
 				Buttons[i][j].setFont(getFont((int) minButtonSize() * 10 / 12,
 						false));
 			} else {
