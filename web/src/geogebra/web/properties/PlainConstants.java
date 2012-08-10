@@ -259,7 +259,7 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("The name %0 is already in use and has been changed to %1")
     String CAS_AutomaticRename();
 
-    @DefaultStringValue("<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table><body></html>")
+    @DefaultStringValue("<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table><body></html>")
     String CASFieldHelp();
 
     @DefaultStringValue("CAS Initializing")
@@ -282,6 +282,9 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Cartesian Coordinates")
     String CartesianCoords();
+
+    @DefaultStringValue("CAS Cell")
+    String CasCell();
 
     @DefaultStringValue("CAS Timeout (in seconds)")
     String CasTimeout();

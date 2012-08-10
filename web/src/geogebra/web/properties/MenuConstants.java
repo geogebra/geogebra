@@ -1414,6 +1414,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Perspectives")
     String Perspectives();
 
+    @DefaultStringValue("px")
+    String Pixels_short();
+
     @DefaultStringValue("New Point")
     String Point();
 
