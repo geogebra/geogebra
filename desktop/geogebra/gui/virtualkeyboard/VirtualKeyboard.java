@@ -560,6 +560,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			MathButton = new JToggleButton("\u222b");
 			updateMathButton();
 			MathButton.setMargin(new Insets(0, 0, 0, 0));
+			MathButton.setToolTipText(app.getMenu("Keyboard.Math"));
 			MathButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 
@@ -582,7 +583,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	private JToggleButton getNumericButton() {
 		if (NumericButton == null) {
 
-			NumericButton = new JToggleButton("\u2460");
+			NumericButton = new JToggleButton();
+			NumericButton.setIcon(app.getImageIcon("cas-keyboard.png"));
+			NumericButton.setToolTipText(app.getMenu("Keyboard.Numeric"));
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));
 			NumericButton.addActionListener(new java.awt.event.ActionListener() {
@@ -612,6 +615,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			GreekButton = new JToggleButton("\u03b1");
 			updateGreekButton();
 			GreekButton.setMargin(new Insets(0, 0, 0, 0));
+			GreekButton.setToolTipText(app.getMenu("Keyboard.Greek"));
 			GreekButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					setMode(KEYBOARD_NORMAL, null);
@@ -637,6 +641,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 			EnglishButton = new JToggleButton("a");
 			updateEnglishButton();
+			EnglishButton.setToolTipText(app.getMenu("Keyboard.Standard"));
 			EnglishButton.setMargin(new Insets(0, 0, 0, 0));
 			EnglishButton
 					.addActionListener(new java.awt.event.ActionListener() {
@@ -867,7 +872,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	 * This method adds a char to the text-field
 	 * 
 	 */
-	private void insertKeyText(keys Keys) {
+	private void insertKeyText(KeyboardKeys Keys) {
 		if (Upper()) {
 			insertText(Keys.getUpperCase());
 		} else {
@@ -877,7 +882,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	private StringBuilder sb = new StringBuilder();
 
-	private keys getKey(int i, int j) {
+	private KeyboardKeys getKey(int i, int j) {
 
 		sb.setLength(0);
 		sb.append('B');
@@ -888,14 +893,14 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			sb.append('0'); // pad from "1" to "01"
 		sb.append(j + "");
 
-		keys ret1 = myKeys.get(sb.toString());
+		KeyboardKeys ret1 = myKeys.get(sb.toString());
 
 		if (ret1 == null)
 			App.debug("KB Error: " + sb.toString());
 
 		sb.append(getKeyboardMode()); // append 'A' for acute , ' ' for default etc
 
-		keys ret2 = myKeys.get(sb.toString());
+		KeyboardKeys ret2 = myKeys.get(sb.toString());
 
 		// check for AltGr (Q) code if no accent etc available
 		if (ret2 == null && getAltGrButton().isSelected()) {
@@ -909,7 +914,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	private JButton getButton(final int i, final int j) {
 		if (Buttons[i][j] == null) {
-			keys thisKeys = getKey(i, j);
+			KeyboardKeys thisKeys = getKey(i, j);
 			Buttons[i][j] = new JButton();
 			updateButton(i, j);
 			Insets Inset = new Insets(0, 0, 0, 0);
@@ -1024,7 +1029,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			200);
 
 	private void updateButton(int i, int j) {
-		keys k = getKey(i, j);
+		KeyboardKeys k = getKey(i, j);
 		if (Upper()) {
 			Buttons[i][j].setText(processSpecialKeys(k.getUpperCase()));
 		} else {
@@ -1035,7 +1040,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}else{
 			Buttons[i][j].setVisible(true);
 		}
-
+		setTooltip(i,j);
 		// skip a row (for spacebar etc)
 		int ii = (i == 5 && getKeyboardMode() != KEYBOARD_NUMERIC) ? 6 : i;
 
@@ -1093,7 +1098,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			int width2 = fm.stringWidth(Buttons[i][j].getText()); // wide arrow
 																	// <=>
 			int w2 = fm.stringWidth(wideChar + "");
-			if (i == 4 && j==0 && getKeyboardMode()==KEYBOARD_NUMERIC){
+			if (i == 4 && j==2 && getKeyboardMode()==KEYBOARD_NUMERIC){
 				Buttons[i][j].setFont(getFont((int) (minButtonSize() * 1.5* w2 / width2),
 						false));	
 			}else{
@@ -1102,6 +1107,31 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			}
 		}
 
+	}
+
+	private void setTooltip(int i, int j) {
+		String text = null;
+		if(getKeyboardMode()==KEYBOARD_NUMERIC){
+			String src = Buttons[i][j].getText();
+			if(":=".equals(src)){
+				text = "Assignment";
+			}
+			else if("$".equals(src)){
+				text = "DynamicReference";
+			}
+			else if("#".equals(src)){
+				text = "StaticReference";
+			}
+			else if("\u2297".equals(src)){
+				text = "VectorProduct";
+			}
+			
+			if(text!=null)
+				text = app.getMenu("Symbol."+text);
+		}
+		
+		Buttons[i][j].setToolTipText(text);
+		
 	}
 
 	private Font getCurrentFont() {
@@ -1160,7 +1190,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	}
 
-	private Hashtable<String, keys> myKeys = new Hashtable<String, keys>();
+	private Hashtable<String, KeyboardKeys> myKeys = new Hashtable<String, KeyboardKeys>();
 
 	private Locale kbLocale = null;
 
@@ -1209,7 +1239,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			String keyU = keys.nextElement();
 
 			if (keyU.endsWith("U")) {
-				keys keyItem = new keys();
+				KeyboardKeys keyItem = new KeyboardKeys();
 				String key = keyU.substring(0, keyU.length() - 1);
 
 				String valueU = rbKeyboard.getString(keyU);

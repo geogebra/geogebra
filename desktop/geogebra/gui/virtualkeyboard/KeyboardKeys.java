@@ -1,6 +1,6 @@
 package geogebra.gui.virtualkeyboard;
 
-public class keys {
+public class KeyboardKeys {
    private String UpperCase   = null;
    private String LowerCase   = null;
 
@@ -10,7 +10,7 @@ public class keys {
     *
     * @return keys
     */
-   public keys setKeys(String LowerCase, String UpperCase) {
+   public KeyboardKeys setKeys(String LowerCase, String UpperCase) {
       this.LowerCase = LowerCase;
       this.UpperCase = UpperCase;
       return this;
