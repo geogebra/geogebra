@@ -213,7 +213,7 @@ public class AlgebraProcessor {
 	 * decides if the ExperssionNode leaf could become a plotable function or not
 	 * eg. leaf = x^2+1 -> functionable f(x) = x^2+1
 	 * leaf = (a,1) -> not functionable f(x) != (a,1)
-	 * @param leaf
+	 * @param node node to be decided
 	 * @return if leaf not able to become a function
 	 */
 	public boolean isNotFunctionAble(ExpressionNode node){
@@ -221,7 +221,7 @@ public class AlgebraProcessor {
 		boolean result = false;
 		// command is leaf: process command
 		if (n.isLeaf()) {
-			result = result | isNotFunctionAbleEV((ExpressionValue)n.getLeft());
+			result = result | isNotFunctionAbleEV(n.getLeft());
 			return result;
 		}
 		result = result | isNotFunctionAble(n.getLeftTree());
@@ -233,7 +233,7 @@ public class AlgebraProcessor {
 	 * decides if the ExperssionValue leaf could become a plotable function or not
 	 * eg. leaf = x^2 -> functionable f(x) = x^2
 	 * leaf = (a,1) -> not functionable f(x) != (a,1)
-	 * @param leaf
+	 * @param leaf node to be decided
 	 * @return if leaf not able to become a function
 	 */
 	public boolean isNotFunctionAbleEV(ExpressionValue leaf){

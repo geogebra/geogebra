@@ -124,11 +124,11 @@ public abstract class CmdOneListFunction extends CommandProcessor {
     /**
      *  Perform the actual command with frequency data and a flag
      *  (needed for CmdSigmaXX)
-     * @param label
-     * @param list
-     * @param list2
-     * @param flag
-     * @return
+     * @param label label for result
+     * @param list input list
+     * @param list2 second list (frequencies)
+     * @param flag flag to distinguish between two syntaxes (eg SigmaXX) 
+     * @return resulting element
      */
     protected GeoElement doCommand(String label, GeoList list, GeoList list2, GeoBoolean flag){
     	return null;     
