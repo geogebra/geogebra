@@ -217,9 +217,6 @@ public class CASTableD extends JTable implements CASTable{
 		public void mouseReleased(MouseEvent e) {
 			if (getClickedRow() >= 0) {
 				setRightClick(AppD.isRightClick(e));
-				if (isRightClick()) {
-					return;
-				}		
 			
 				if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
 					GeoCasCell clickedCell = getTable().getGeoCasCell(
@@ -230,7 +227,9 @@ public class CASTableD extends JTable implements CASTable{
 						popupMenu.show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
-				
+				if(isRightClick()){
+					return;
+				}
 				/* set/unset euclidian visibility for CasCells
 				 * if there is no twinGeo which can be displayed, run the plot method
 				 * which creates a name and a twinGeo for the cell
