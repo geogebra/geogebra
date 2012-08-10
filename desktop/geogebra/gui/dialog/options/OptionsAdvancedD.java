@@ -1086,4 +1086,9 @@ public class OptionsAdvancedD extends
 		cbTooltipTimeout.setFont(font);
 		cbGUIFont.setFont(font);
 	}
+	
+	
+	public void setSelected(boolean flag){
+		//see OptionsEuclidianD for possible implementation
+	}
 }

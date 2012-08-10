@@ -319,5 +319,13 @@ public class OptionsObjectD extends
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+
+	private boolean isSelected = false;
+	
+	public void setSelected(boolean flag){
+		isSelected = flag;
+	}
 
 } // PropertiesDialog

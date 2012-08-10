@@ -493,5 +493,12 @@ public class OptionsSpreadsheetD extends
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+
+	public void setSelected(boolean flag){
+		//see OptionsEuclidianD for possible implementation
+	}
 
 }

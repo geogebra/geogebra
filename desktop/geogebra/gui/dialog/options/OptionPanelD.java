@@ -42,4 +42,10 @@ public interface OptionPanelD {
 	 */
 	public void updateFont();
 	
+	/**
+	 * set if this panel is selected or not (used for update)
+	 * @param flag selected or not
+	 */
+	public void setSelected(boolean flag);
+	
 }

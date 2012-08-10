@@ -1452,5 +1452,11 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+
+	public void setSelected(boolean flag){
+		//see OptionsEuclidianD for possible implementation
+	}
 
 }

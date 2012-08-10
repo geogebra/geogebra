@@ -399,7 +399,12 @@ public class PropertiesViewD extends
 
 		//App.printStacktrace("\ntype="+type);
 
-		applyModifications();
+
+		if (selectedOptionType != type && selectedOptionPanel != null){
+			((OptionPanelD) selectedOptionPanel).applyModifications();
+			((OptionPanelD) selectedOptionPanel).setSelected(false);
+		}
+
 
 		if (!isIniting && selectedOptionType == type) {
 			updateTitleBar();
@@ -418,6 +423,7 @@ public class PropertiesViewD extends
 
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+		((OptionPanelD) selectedOptionPanel).setSelected(true);
 		((OptionPanelD) selectedOptionPanel).updateGUI();
 		((OptionPanelD) selectedOptionPanel).revalidate();
 		updateStyleBar();

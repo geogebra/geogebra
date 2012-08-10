@@ -511,4 +511,10 @@ public class OptionsLayoutD extends
 		
 	}
 
+	
+	
+
+	public void setSelected(boolean flag){
+		//see OptionsEuclidianD for possible implementation
+	}
 }

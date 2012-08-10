@@ -18,6 +18,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
@@ -432,7 +433,13 @@ public class OptionsEuclidianD extends
 
 	}
 	
+
+	@Override
 	final public void updateBounds(){
+		
+		if(!isSelected)
+			return;
+		
 		updateMinMax();
 		
 
@@ -1111,4 +1118,11 @@ public class OptionsEuclidianD extends
 		
 	}
 
+	
+	private boolean isSelected = false;
+	
+	public void setSelected(boolean flag){
+		isSelected = flag;
+	}
+	
 }

@@ -152,4 +152,9 @@ public class OptionsCASD extends geogebra.common.gui.dialog.options.OptionsCAS
 		// TODO Auto-generated method stub
 		
 	}
+	
+
+	public void setSelected(boolean flag){
+		//see OptionsEuclidianD for possible implementation
+	}
 }
