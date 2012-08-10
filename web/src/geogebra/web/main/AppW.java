@@ -14,7 +14,6 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -1308,12 +1307,6 @@ public class AppW extends App {
 	}
 	
 	@Override
-	public void showRelation(GeoElement a, GeoElement b) {
-		//TODO: implement it better for GeoGebraWebGUI
-		Window.alert(new Relation(kernel).relation(a, b));
-	}
-
-	@Override
 	public void showError(MyError e) {
 		final String command = e.getcommandName();
 		
@@ -2237,6 +2230,12 @@ public class AppW extends App {
 		if (ret != null) return ret;
 		return pageName;
 				
+    }
+
+	@Override
+    protected Object getMainComponent() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 }

@@ -12,6 +12,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.factories.Factory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
@@ -22,11 +23,13 @@ import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
@@ -2292,14 +2295,6 @@ public abstract class App {
 		return false;
 	}
 
-	/**
-	 * Show relation message
-	 * @param geoElement first geo
-	 * @param geoElement2 second geo
-	 */
-	public abstract void showRelation(GeoElement geoElement,
-			GeoElement geoElement2);
-
 	public abstract void showError(MyError e);
 
 	/**
@@ -3944,5 +3939,16 @@ public abstract class App {
 	 * @param string parameter (for input box scripts)
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
+
+	public void showRelation(GeoElement a, GeoElement b) {
+		GOptionPane optionPane = Factory.prototype.newGOptionPane();
+		optionPane.showConfirmDialog(getMainComponent(),
+				new Relation(kernel).relation(a, b),
+				getPlain("ApplicationName") + " - " + getCommand("Relation"),
+				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE);
+
+	}
+
+	protected abstract Object getMainComponent();
 
 }

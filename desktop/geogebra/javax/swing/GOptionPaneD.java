@@ -15,7 +15,8 @@ public class GOptionPaneD implements GOptionPane{
 			return JOptionPane.showConfirmDialog((Component)parentComponent, message,
 					title, optionType, messageType);
 		}
-		App.debug("First parameter of GOptionPaneD.showConfirmDialog(...) must be a Component.");
+		App.debug("First parameter of GOptionPaneD.showConfirmDialog(...) must be a Component, but currently is a "
+				+ parentComponent.getClass().toString());
 		return -1;
 	}
 

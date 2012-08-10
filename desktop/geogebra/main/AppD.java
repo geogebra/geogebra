@@ -35,7 +35,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -2739,15 +2738,6 @@ public class AppD extends App implements
 	}
 
 	
-	@Override
-	public void showRelation(GeoElement a, GeoElement b) {
-		JOptionPane.showConfirmDialog(mainComp,
-				new Relation(kernel).relation(a, b),
-				getPlain("ApplicationName") + " - " + getCommand("Relation"),
-				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-	}
-
 	/**
 	 * Shows localized help message
 	 * @param key key (for plain) to be localized
