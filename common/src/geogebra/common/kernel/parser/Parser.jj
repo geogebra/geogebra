@@ -403,7 +403,6 @@ TOKEN: {
 |	< Y_FUNC:  ("y" | "ycoord")  + ("("|"[")> 
 |	< Z_FUNC:  ("z" | "zcoord")  + ("("|"[")>
 |	< MAT_FUNC:  "mat("  > // may be returned by MPReduce
-|	< FREEHAND_FUNC: ( "freehand" )+ ("("|"[") > 
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
 |  	< SQRT_SHORT: "\u221a" > 
@@ -1984,9 +1983,6 @@ ExpressionNode numberFunction():
 	 	        	undecided.add(ret);
 	 	        return ret;
 	 	        }          
-|
-     <FREEHAND_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.FREEHAND, null); }   
 |      <RANDOM_FUNC>
       {  
       	 Construction cons = kernel.getConstruction();
