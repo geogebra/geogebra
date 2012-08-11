@@ -589,11 +589,26 @@ public class ProbabilityManager {
 
 		
 		if(probMode == ProbabilityCalculator.PROB_LEFT)
+			
 			return probability(high, parms, distType, true);
-		else if(probMode == ProbabilityCalculator.PROB_RIGHT)
+		
+		else if(probMode == ProbabilityCalculator.PROB_RIGHT) {
+			
+			if (isDiscrete(distType)) {
+				return 1 - probability(low - 1, parms, distType, true);
+			} 
+			
 			return 1 - probability(low, parms, distType, true);
-		else {
+			
+		}
+		else { //ProbabilityCalculator.PROB_INTERVAL
+			
+			if (isDiscrete(distType)) {
+				return probability(high, parms, distType, true) - probability(low - 1, parms, distType, true);
+			}
+			
 			return probability(high, parms, distType, true) - probability(low, parms, distType, true);
+			
 		}
 		
 	}
