@@ -2207,24 +2207,11 @@ public class AppW extends App {
 	    geo1.runScripts(string);
     }
 
-	public String getEnglishCommand(String pageName) {
-		
-		if (englishCommands == null){
-			englishCommands = new HashMap<String, String>();
-			String properties = PropertiesResource.INSTANCE.commandProperties().getText();			
-			String[] lines = properties.split("[\n\r]");
-			for (String item : lines) {
-				item = item.trim();
-				String key = item.substring(0, item.indexOf("=")).trim();
-				String value = item.substring(item.indexOf("=")+1).trim();
-				englishCommands.put(key, value);			
-			}
-		}
-
-		String ret = englishCommands.get(pageName);
+	public String getEnglishCommand(String pageName) {	
+		initCommand();
+		String ret = commandConstants.getString(crossReferencingPropertiesKeys(pageName));
 		if (ret != null) return ret;
 		return pageName;
-				
     }
 
 	@Override
