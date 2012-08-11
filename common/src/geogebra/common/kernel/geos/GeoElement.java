@@ -4633,7 +4633,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		final String typeString = translatedTypeString();
 
 		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
-		if (!reverseOrder) {
+		if (!reverseOrder
+				// want "xAxis" not "Line xAxis"
+				&& !isAxis()) {
 			// standard order: "point A"
 			sbNameDescriptionHTML.append(typeString);
 			sbNameDescriptionHTML.append(' ');
@@ -4652,7 +4654,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbNameDescriptionHTML.append("</font></b>");
 		}
 
-		if (reverseOrder) {
+		if (reverseOrder
+				// want "xAxis" not "Line xAxis"
+				&& !isAxis()) {
 			// reverse order: "A point"
 			sbNameDescriptionHTML.append(' ');
 			// For Hungarian, the standard is to lowercase the type.
@@ -4664,6 +4668,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbNameDescriptionHTML.append("</html>");
 		}
 		return sbNameDescriptionHTML.toString();
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isAxis() {
+		return false;
 	}
 
 	/*

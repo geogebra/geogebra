@@ -184,5 +184,10 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return new Coords(0, 0, 1, 0);
 	}
 
+	@Override
+	public boolean isAxis() {
+		return true;
+	}
+
 
 }

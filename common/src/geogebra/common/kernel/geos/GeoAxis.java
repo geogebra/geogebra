@@ -191,4 +191,8 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 
 		return new Coords(0, 1, 0, 0);
 	}
+
+	public boolean isAxis() {
+		return true;
+	}
 }
