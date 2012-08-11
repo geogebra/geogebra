@@ -37,6 +37,9 @@ public interface ErrorConstants extends ConstantsWithLookup {
     @DefaultStringValue("Calculation took too long and was aborted")
     String CAS_TimeoutError();
 
+    @DefaultStringValue("Attempt to assign dynamic reference")
+    String CAS_VariableIsDynamicReference();
+
     @DefaultStringValue("Dependent objects may not be changed")
     String ChangeDependent();
 

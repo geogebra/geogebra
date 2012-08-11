@@ -1009,6 +1009,18 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Keeps and checks input")
     String KeepInput_Help();
 
+    @DefaultStringValue("Greek Keyboard")
+    String Keyboard_Greek();
+
+    @DefaultStringValue("Math Keyboard")
+    String Keyboard_Math();
+
+    @DefaultStringValue("Calculator")
+    String Keyboard_Numeric();
+
+    @DefaultStringValue("Standard Keyboard")
+    String Keyboard_Standard();
+
     @DefaultStringValue("Label Column")
     String LabelColumn();
 
@@ -2023,6 +2035,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Angle measure")
     String Symbol_AngleMeasure();
 
+    @DefaultStringValue("Assignment")
+    String Symbol_Assignment();
+
     @DefaultStringValue("Boolean equal")
     String Symbol_BooleanEqual();
 
@@ -2031,6 +2046,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Degree")
     String Symbol_Degree();
+
+    @DefaultStringValue("Dynamic Reference")
+    String Symbol_DynamicReference();
 
     @DefaultStringValue("Element")
     String Symbol_ElementOf();
@@ -2064,6 +2082,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Square")
     String Symbol_Square();
+
+    @DefaultStringValue("Static Reference")
+    String Symbol_StaticReference();
 
     @DefaultStringValue("Strict Subset")
     String Symbol_StrictSubset();

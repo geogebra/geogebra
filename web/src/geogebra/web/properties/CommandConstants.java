@@ -1120,7 +1120,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("KeepIf")
     String KeepIf();
 
-    @DefaultStringValue("[ <Condition>, <List> ]")
+    @DefaultStringValue("[ <Condition>, <List> ]\n[ <Condition>, <Variable>, <List> ]")
     String KeepIf_Syntax();
 
     @DefaultStringValue("LCM")
@@ -1270,7 +1270,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Mean")
     String Mean();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String Mean_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1291,7 +1291,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Median")
     String Median();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String Median_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1603,7 +1603,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Product")
     String Product();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>, <Number of Elements> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String Product_Syntax();
 
     @DefaultStringValue("[ <List of expressions> ]\n[ <Expression>, <variable>, <start index>, <end index> ]")
@@ -1813,7 +1813,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SD")
     String SD();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String SD_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1861,7 +1861,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SampleSD")
     String SampleSD();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String SampleSD_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1882,7 +1882,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SampleVariance")
     String SampleVariance();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String SampleVariance_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -2233,7 +2233,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Sum")
     String Sum();
 
-    @DefaultStringValue("[ <List> ]\n[ <List>, <Number of Elements> ]")
+    @DefaultStringValue("[ <List> ]\n[ <List>, <Number of Elements> ]\n[ <List>,  <List of Frequencies> ]")
     String Sum_Syntax();
 
     @DefaultStringValue("[ <List> ]\n[ <expression>, <variable>, <start value>, <end value> ]")
@@ -2524,7 +2524,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Variance")
     String Variance();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String Variance_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
