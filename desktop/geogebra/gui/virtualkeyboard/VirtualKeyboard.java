@@ -18,6 +18,7 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.Language;
+import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
 import geogebra.main.MyResourceBundle;
 
@@ -808,10 +809,17 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 			}
 
-		if (addchar.equals("<enter>"))
+		if (addchar.equals("<enter>")) {
 			addchar = "\n";
-		if (addchar.equals("<E>"))
+		} else if (addchar.equals("<E>")) {
 			addchar = "E";
+		} else if (addchar.equals("<multiply>")) {
+			addchar = "*";
+		} else if (addchar.equals("<divide>")) {
+			addchar = "/";
+		} else if (addchar.equals("<minus>")) {
+			addchar = "-";
+		}
 
 		if (app != null)
 			app.getGuiManager().insertStringIntoTextfield(addchar,
@@ -923,7 +931,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 					.getLowerCase();
 
 			Buttons[i][j].setText(processSpecialKeys(text));
-
+			
 			Buttons[i][j].addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
@@ -1014,7 +1022,13 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (text.equals("<down>"))
 			return "\u2193";
 		if (text.equals("<E>"))
-			return "\u00D710\u207F";
+			return "\u00D710\u207F"; // *10^n
+		if (text.equals("<multiply>"))
+			return Unicode.multiply+"";
+		if (text.equals("<divide>"))
+			return Unicode.divide;
+		if (text.equals("<minus>"))
+			return Unicode.minus+"";
 		return text;
 	}
 
