@@ -43,7 +43,7 @@ import javax.swing.ScrollPaneConstants;
 public class GeoGebraMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1736020764918189176L;
 
-	private BaseMenu fileMenu, editMenu, viewMenu, perspectivesMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
+	private BaseMenu fileMenu, editMenu, viewMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
 
 	private AppD app;
 	private LayoutD layout;
@@ -116,10 +116,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 			add(optionsMenu);			
 
 			// "Perspectives"
-			if(!app.isApplet()) {
-				perspectivesMenu = new PerspectivesMenu(app, layout);
-				add(perspectivesMenu);
-			}			
+			//if(!app.isApplet()) {
+			//	perspectivesMenu = new PerspectivesMenu(app, layout);
+			//	add(perspectivesMenu);
+			//}			
 
 			// "View"
 			viewMenu = new ViewMenu(app, layout);
@@ -148,10 +148,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 			add(viewMenu);
 
 			// "Perspectives"
-			if(!app.isApplet()) {
-				perspectivesMenu = new PerspectivesMenu(app, layout);
-				add(perspectivesMenu);
-			}
+			//if(!app.isApplet()) {
+			//	perspectivesMenu = new PerspectivesMenu(app, layout);
+			//	add(perspectivesMenu);
+			//}
 
 			// "Options"
 			optionsMenu = new OptionsMenuD(app);
@@ -234,8 +234,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 		viewMenu.update();
 		optionsMenu.update();
 		toolsMenu.update();
-		if (perspectivesMenu != null)
-			perspectivesMenu.update();
+		//if (perspectivesMenu != null)
+		//	perspectivesMenu.update();
 
 		if(!app.isApplet())
 			windowMenu.update();
