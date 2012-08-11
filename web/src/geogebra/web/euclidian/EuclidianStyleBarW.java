@@ -222,7 +222,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			boolean hasGeosInThisView = false;
 			for (GeoElement geo : ((AppW) ev.getApplication())
 					.getSelectedGeos()) {
-				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
+				if (isVisibleInThisView(geo) && geo.isEuclidianVisible() && !geo.isAxis()) {
 					hasGeosInThisView = true;
 					break;
 				}
