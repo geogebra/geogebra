@@ -13,7 +13,6 @@ package geogebra.common.kernel.statistics;
  */
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -93,14 +92,11 @@ public final class AlgoFitLogistic extends AlgoElement {
 	// private final static boolean DEBUG = false; //set false when finished
 
 	// Properties
-	private static App app = null;
-	private static Kernel k = null;
 	private static double a, b, c; // c/(1+a*exp(-bx))
 	private static double[] xd, yd; // datapoints
 	private static int size; // of xd and yd
 	private static int iterations; // LM iterations
 	private static boolean error = false; // general error flag
-	private static RegressionMath regMath = null; // pointer to det33
 
 	// Flags:
 	private static boolean allplus, allneg; // flags for y-values, set by
@@ -110,15 +106,23 @@ public final class AlgoFitLogistic extends AlgoElement {
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param geolist input points
+	 */
 	public AlgoFitLogistic(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
 	}// Constructor
 
+
+	/**
+	 * @param cons construction
+	 * @param geolist input points
+	 */
 	public AlgoFitLogistic(Construction cons, GeoList geolist) {
 		super(cons);
-		app = kernel.getApplication();
-		k = app.getKernel();
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
@@ -138,6 +142,9 @@ public final class AlgoFitLogistic extends AlgoElement {
 		setDependencies();
 	}// setInputOutput()
 
+	/**
+	 * @return resulting function
+	 */
 	public GeoFunction getFitLogistic() {
 		return geofunction;
 	}
@@ -184,13 +191,12 @@ public final class AlgoFitLogistic extends AlgoElement {
 
 	// / ============= IMPLEMENTATION
 	// =============================================================///
-	public final static void doReg() {
-		regMath = k.getRegressionMath();
+	private final static void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
 		Logistic_Reg(); // Run LM nonlinear iteration
 	}// doReg()
 
-	public final static void findParameters() {
+	private final static void findParameters() {
 		double err, err_old;
 		double lambda = 0.01d; //
 		int sign = 1;
@@ -268,7 +274,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 		}// 20.11:if one is undefined, everything is undefined
 	}// findParameters()
 
-	public final static void Logistic_Reg() {
+	private final static void Logistic_Reg() {
 
 		double lambda = 0.0d; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
@@ -404,8 +410,8 @@ public final class AlgoFitLogistic extends AlgoElement {
 	private static double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
 
 	/** Logistic function f(x)=c/(1+ae^(-bx)) */
-	private final static double f(double x, double a, double b, double c) {
-		return df_c(x, a, b) * c;
+	private final static double f(double x, double a1, double b1, double c1) {
+		return df_c(x, a1, b1) * c1;
 	}// f(x,a,b,c)
 
 	// Adjusted f, used in findParameters(), when a and c are calculated from
@@ -418,40 +424,40 @@ public final class AlgoFitLogistic extends AlgoElement {
 	}// f(x,k)
 
 	// df/dc=1/(1+ae^(-bx))
-	private final static double df_c(double x, double a, double b) {
-		return (1.0d / (1.0d + a * Math.exp(-b * x)));
+	private final static double df_c(double x, double a1, double b1) {
+		return (1.0d / (1.0d + a1 * Math.exp(-b1 * x)));
 	}// simple(x,a,b)
 
 	// df/da
-	private final static double df_a(double x, double a, double b, double c) {
-		double df_c = df_c(x, a, b);
-		return df_c * df_c * Math.exp(-b * x) * (-c);
+	private final static double df_a(double x, double a1, double b1, double c1) {
+		double df_c = df_c(x, a1, b1);
+		return df_c * df_c * Math.exp(-b1 * x) * (-c1);
 	}// df_a(x,a,b,c)
 
 	// df/db
-	private final static double df_b(double x, double a, double b, double c) {
-		double df_c = df_c(x, a, b);
-		return df_c * df_c * Math.exp(-b * x) * x * a * c;
+	private final static double df_b(double x, double a1, double b1, double c1) {
+		double df_c = df_c(x, a1, b1);
+		return df_c * df_c * Math.exp(-b1 * x) * x * a1 * c1;
 	}// df_b(x,a,b,c)
 
 	// / --- Error calculations --- ///
 	// beta = yd-f(xd,yd,a,b,c)
-	private final static double beta(double x, double y, double a, double b,
-			double c) {
-		return y - f(x, a, b, c);
+	private final static double beta(double x, double y, double a1, double b1,
+			double c1) {
+		return y - f(x, a1, b1, c1);
 	}// beta(x,y,a,b,c)
 
 	// beta = yd-f(x,b) for use in findParameters(). (a and c calculated)
-	public final static double beta(double x, double y, double b) {
-		return y - f(x, b);
+	private final static double beta(double x, double y, double b1) {
+		return y - f(x, b1);
 	}// bet(x,y,b)
 
 	// Sum of squared errors, using last a,b and c
-	public final static double beta2(double[] x, double[] y, double a,
-			double b, double c) {
+	private final static double beta2(double[] x, double[] y, double a1,
+			double b1, double c1) {
 		double sum = 0.0d, beta;
 		for (int i = 0; i < size; i++) {
-			beta = beta(x[i], y[i], a, b, c);
+			beta = beta(x[i], y[i], a1, b1, c1);
 			sum += beta * beta;
 		}// for all datapoints
 			// debug("Sum Squared Errors: "+sum);
@@ -460,10 +466,10 @@ public final class AlgoFitLogistic extends AlgoElement {
 
 	// Sum of squared errors, using b(=k). a and c are calculated from first and
 	// last datapoint.
-	private final static double beta2(double k) {
+	private final static double beta2(double k1) {
 		double beta = 0.0d, sum = 0.0d;
 		for (int i = 0; i < size; i++) {
-			beta = beta(xd[i], yd[i], k);
+			beta = beta(xd[i], yd[i], k1);
 			sum += beta * beta;
 		}// for all data
 		return sum;
@@ -471,17 +477,17 @@ public final class AlgoFitLogistic extends AlgoElement {
 
 	// / --- Bj�rn Ove Thue's trick --- ///
 	// c as function of first and last point
-	private final static double c(double x1, double y1, double x2, double y2,
-			double b) {
-		return y1 * y2 * (Math.exp(b * x1) - Math.exp(b * x2))
-				/ (y2 * Math.exp(b * x1) - y1 * Math.exp(b * x2));
+	private final static double c(double cx1, double cy1, double cx2, double cy2,
+			double cb) {
+		return cy1 * cy2 * (Math.exp(cb * cx1) - Math.exp(cb * cx2))
+				/ (cy2 * Math.exp(cb * cx1) - cy1 * Math.exp(cb * cx2));
 	}// c(x1,y1,x2,y2,k)
 
 	/** a as function of first and last point */
-	private final static double a(double x1, double y1, double x2, double y2,
-			double b) {
-		return Math.exp(b * (x1 + x2)) * (y1 - y2)
-				/ (y2 * Math.exp(b * x1) - y1 * Math.exp(b * x2));
+	private final static double a(double ax1, double ay1, double ax2, double ay2,
+			double ab) {
+		return Math.exp(ab * (ax1 + ax2)) * (ay1 - ay2)
+				/ (ay2 * Math.exp(ab * ax1) - ay1 * Math.exp(ab * ax2));
 	}// a(x1,y1,x2,y2,b)
 
 	private final void getPoints() {
@@ -490,28 +496,27 @@ public final class AlgoFitLogistic extends AlgoElement {
 		// newlist=k.Sort("tmp_{FitLogistic}",geolist);
 		double[] xlist = null, ylist = null;
 		double xy[] = new double[2];
-		GeoElement geoelement;
+		GeoPoint geoelement;
 		// This is code duplication of AlgoSort, but for the time being:
-		Class<? extends GeoElement> geoClass = geolist.get(0).getClass();
 		TreeSet<GeoPoint> sortedSet;
 		sortedSet = new TreeSet<GeoPoint>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
-			geoelement = geolist.get(i);
-			if (geoelement.getClass().equals(geoClass)) {
-				sortedSet.add((GeoPoint) geoelement);
+			if (geolist.get(i) instanceof GeoPoint) {
+				geoelement = (GeoPoint)geolist.get(i);
+				sortedSet.add(geoelement);
 			} else {
 				error = true;
 			}// if point
 		}// for all points
-		Iterator iter = sortedSet.iterator();
+		Iterator<GeoPoint> iter = sortedSet.iterator();
 		int i = 0;
 		allplus = true;
 		allneg = true; // Need sign info in findParameters()
 		xlist = new double[size];
 		ylist = new double[size];
 		while (iter.hasNext()) {
-			geoelement = (GeoElement) iter.next();
-			((GeoPoint) geoelement).getInhomCoords(xy);
+			geoelement = iter.next();
+			geoelement.getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
 			if (ylist[i] < 0) {
