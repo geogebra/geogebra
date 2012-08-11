@@ -7,6 +7,7 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -260,6 +261,13 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		btnCustomColor.setToolTipText(app.getMenu("AddCustomColor"));
 		lblCustom.setText(app.getMenu("Other") + ":");
 		lblRecent.setText(app.getMenu("RecentColor") + ":");
+	}
+	
+	public void updateFonts(){
+		Font font = app.getPlainFont();
+		btnCustomColor.setFont(font);
+		lblCustom.setFont(font);
+		lblRecent.setFont(font);
 	}
 
 	/**

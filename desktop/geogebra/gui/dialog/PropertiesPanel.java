@@ -564,6 +564,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			bgImagePanel.setLabels();
 			showConditionPanel.setLabels();
 			colorFunctionPanel.setLabels();
+			graphicsViewLocationPanel.setLabels();
 		}
 
 		// remember selected tab
@@ -598,6 +599,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		selectionAllowed.updateFonts();
 		showTrimmedIntersectionLines.updateFonts();
 		colorPanel.updateFonts();
+		colChooser.updateFonts();
 		coordPanel.updateFonts();
 		lineEqnPanel.updateFonts();
 		conicEqnPanel.updateFonts();
@@ -642,6 +644,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			bgImagePanel.updateFonts();
 			showConditionPanel.updateFonts();
 			colorFunctionPanel.updateFonts();
+			graphicsViewLocationPanel.updateFonts();
 		}
 		
 		
@@ -1190,14 +1193,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			opacitySlider.setPaintLabels(true);
 			opacitySlider.setSnapToTicks(true);
 
-			// set slider label font
-			Dictionary<?, ?> labelTable = opacitySlider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
+
+			updateSliderFonts();
 
 			rbtnForegroundColor = new JRadioButton();
 			rbtnBackgroundColor = new JRadioButton();
@@ -1563,11 +1560,26 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			Font font = app.getPlainFont();
 			
 			previewLabel.setFont(font);
+			currentColorLabel.setFont(font);
 			opacityPanel.setFont(font);
-			colChooser.setFont(font);
+			//colChooser.setFont(font);
 			rbtnBackgroundColor.setFont(font);
 			rbtnForegroundColor.setFont(font);
 			btnClearBackground.setFont(font);
+			
+			updateSliderFonts();
+			
+		}
+
+		private void updateSliderFonts() {
+			// set slider label font
+			Dictionary<?, ?> labelTable = opacitySlider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
 		}
 
 	} // ColorPanel
@@ -1968,6 +1980,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			Font font = app.getPlainFont();
 			
 			layerLabel.setFont(font);
+			layerModeCB.setFont(font);
 		}
 
 	} // LayersPanel
@@ -5346,6 +5359,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			btnOpenFile.setFont(font);
 			lblFillType.setFont(font);
 			cbFillType.setFont(font);
+			
+			lblFillInverse.setFont(font);
 		}
 
 	}
@@ -6969,8 +6984,11 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 	}
 
 	public void updateFonts() {
-		// TODO Auto-generated method stub
+		Font font = app.getPlainFont();
 		
+		setFont(font);
+		cbGraphicsView.setFont(font);
+		cbGraphicsView2.setFont(font);
 	}
 
 }
@@ -7249,9 +7267,9 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		defLabel.setFont(font);
 		captionLabel.setFont(font);
 		
-		inputPanelName.setFont(font);
-		inputPanelDef.setFont(font);
-		inputPanelCap.setFont(font);
+		inputPanelName.getTextComponent().setFont(font);
+		inputPanelDef.getTextComponent().setFont(font);
+		inputPanelCap.getTextComponent().setFont(font);
 		
 	}
 

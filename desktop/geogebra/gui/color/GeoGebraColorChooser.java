@@ -3,7 +3,6 @@ package geogebra.gui.color;
 import geogebra.main.AppD;
 
 import java.awt.Color;
-
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
@@ -74,6 +73,15 @@ public class GeoGebraColorChooser extends JColorChooser{
 		UIManager.put("ColorChooser.okText",app.getPlain("OK"));
 		UIManager.put("ColorChooser.cancelText", app.getPlain("Cancel"));
 		UIManager.put("ColorChooser.resetText", app.getMenu("Reset"));
+	}
+	
+	public void updateFonts(){
+		AbstractColorChooserPanel[] panels = getChooserPanels();
+		for(int i=0; i<panels.length; i++){
+			AbstractColorChooserPanel panel = panels[i];
+			if (panel instanceof GeoGebraColorChooserPanel)
+				((GeoGebraColorChooserPanel) panel).updateFonts();
+		}
 	}
 
 }
