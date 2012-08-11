@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -71,13 +72,13 @@ public abstract class CmdOneListFunction extends CommandProcessor {
         	
         	// two lists (e.g. grouped mean)
         	if(n==2 && arg[0].isGeoList() && arg[1].isGeoList()){
-        		GeoElement[] ret = { doCommand(c.getLabel(),
+        		GeoElement[] ret = { doCommand(c.getLabel(), c,
 								(GeoList) arg[0], (GeoList) arg[1]) };
         		return ret;             	     	 
         	}
         	// two lists plus flag to indicate useFrequency (needed for SIGMAXX)
         	else if(n==3 && arg[0].isGeoList() && arg[1].isGeoList() && arg[2].isGeoBoolean()){
-        		GeoElement[] ret = { doCommand(c.getLabel(),
+        		GeoElement[] ret = { doCommand(c.getLabel(), c,
 								(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean)arg[2]) };
         		return ret;             	     	 
         	}
@@ -117,8 +118,8 @@ public abstract class CmdOneListFunction extends CommandProcessor {
      * @param list2 another list (data frequencies)
      * @return resulting element
      */
-    protected GeoElement doCommand(String label, GeoList list, GeoList list2){
-    	return null;     
+    protected GeoElement doCommand(String label, Command c, GeoList list, GeoList list2){
+    	throw argNumErr(app, c.getName(), 2);
     }
     
     /**
@@ -130,8 +131,8 @@ public abstract class CmdOneListFunction extends CommandProcessor {
      * @param flag flag to distinguish between two syntaxes (eg SigmaXX) 
      * @return resulting element
      */
-    protected GeoElement doCommand(String label, GeoList list, GeoList list2, GeoBoolean flag){
-    	return null;     
+    protected GeoElement doCommand(String label, Command c, GeoList list, GeoList list2, GeoBoolean flag){
+    	throw argNumErr(app, c.getName(), 3);
     }
     
 }

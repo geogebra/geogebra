@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 
 /**
  * SigmaYY[ list ]
@@ -20,6 +21,7 @@ public class CmdSigmaYY extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
+		App.debug("XX");
 		return kernelA.SigmaYY(a, b);
 	}
 

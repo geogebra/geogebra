@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -25,12 +26,12 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	}
 	
 	@Override
-	protected GeoElement doCommand(String a, GeoList list, GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
 		return kernelA.SigmaXX(a, list, freq);
 	}
 	
 	@Override
-	protected GeoElement doCommand(String a, GeoList list, GeoList freq, GeoBoolean isGrouped) {
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq, GeoBoolean isGrouped) {
 		return kernelA.SigmaXX(a, list, freq, isGrouped);
 	}
 	

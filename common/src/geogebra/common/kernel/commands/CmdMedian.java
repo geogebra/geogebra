@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -26,7 +27,7 @@ public class CmdMedian extends CmdOneListFunction {
 	}
 	
 	@Override
-	final protected GeoElement doCommand(String a, GeoList list, GeoList freq)
+	final protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq)
 	{
 		return kernelA.Median(a, list, freq);
 	}
