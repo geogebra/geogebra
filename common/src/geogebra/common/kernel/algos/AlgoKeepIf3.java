@@ -100,12 +100,13 @@ public class AlgoKeepIf3 extends AlgoElement {
 		try {
 			for (int i=0 ; i<size ; i++) {
 				GeoElement geo = inputList.get(i);
-
-				ExpressionNode ex = (ExpressionNode) ((AlgoDependentBoolean)bool.getParentAlgorithm()).getExpression().deepCopy(kernel);
-				ex = ex.replace(var, geo.evaluate(StringTemplate.defaultTemplate)).wrap();
-				if (((MyBoolean)ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) {
+				var.set(geo);
+				this.setStopUpdateCascade(true);
+				var.getAlgoUpdateSet().updateAllUntil(bool.getParentAlgorithm());
+				if (bool.getBoolean()) {
 					outputList.add(geo.copyInternal(cons));
 				}
+				this.setStopUpdateCascade(false);   
 			}
 		} catch (MyError e) {
 			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3),1}]
