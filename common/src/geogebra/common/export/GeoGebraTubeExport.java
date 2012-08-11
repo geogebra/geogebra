@@ -120,19 +120,26 @@ public abstract class GeoGebraTubeExport {
 	protected StringBuffer getPostData() throws IOException {
 		Construction cons = app.getKernel().getConstruction();
 		
+		boolean isConstruction = (macros == null);
+		
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("data=");
-		stringBuffer.append(encode(macros == null ? getBase64String() : getBase64Tools(macros)));
+		stringBuffer.append(encode(isConstruction ? getBase64String() : getBase64Tools(macros)));
 
-		stringBuffer.append("&title=");
-		stringBuffer.append(encode(cons.getTitle()));
+		stringBuffer.append("&type=");
+		stringBuffer.append(isConstruction ? "ggb" : "ggt");
 		
-		stringBuffer.append("&pretext=");
-		stringBuffer.append(encode(cons.getWorksheetText(0)));
-		
-		stringBuffer.append("&posttext=");
-		stringBuffer.append(encode(cons.getWorksheetText(1)));
+		if(isConstruction) {
+			stringBuffer.append("&title=");
+			stringBuffer.append(encode(cons.getTitle()));
+			
+			stringBuffer.append("&pretext=");
+			stringBuffer.append(encode(cons.getWorksheetText(0)));
+			
+			stringBuffer.append("&posttext=");
+			stringBuffer.append(encode(cons.getWorksheetText(1)));
+		}
 		
 		stringBuffer.append("&version=");
 		stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
@@ -140,8 +147,6 @@ public abstract class GeoGebraTubeExport {
 		return stringBuffer;
 	}
 
-
-	
 	protected abstract String encode(String str);
 
 	protected abstract void setMaximum(int i);
