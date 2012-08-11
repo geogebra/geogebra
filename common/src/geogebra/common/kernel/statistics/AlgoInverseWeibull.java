@@ -26,11 +26,22 @@ import org.apache.commons.math.distribution.WeibullDistribution;
 public class AlgoInverseWeibull extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a shape
+     * @param b scale
+     * @param c variable value
+     */
     public AlgoInverseWeibull(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
-
+    /**
+     * @param cons construction
+     * @param a shape
+     * @param b scale
+     * @param c variable value
+     */
     public AlgoInverseWeibull(Construction cons, NumberValue a,
 			NumberValue b, NumberValue c) {
         super(cons, a, b, c, null);

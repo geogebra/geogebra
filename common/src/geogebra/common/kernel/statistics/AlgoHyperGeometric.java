@@ -25,12 +25,27 @@ import org.apache.commons.math.distribution.HypergeometricDistribution;
  */
 
 public class AlgoHyperGeometric extends AlgoDistribution {
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a population size
+	 * @param b number of successes
+	 * @param c sample size
+	 * @param d variable value
+	 * @param isCumulative flag for cumulative function
+     */
 	public AlgoHyperGeometric(Construction cons, String label, NumberValue a,
 			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
 		super(cons, label, a, b, c, d, isCumulative);
 	}
-
+	/**
+     * @param cons construction
+     * @param a population size
+	 * @param b number of successes
+	 * @param c sample size
+	 * @param d variable value
+	 * @param isCumulative flag for cumulative function
+     */
 	public AlgoHyperGeometric(Construction cons, NumberValue a, NumberValue b,
 			NumberValue c, NumberValue d, GeoBoolean isCumulative) {
 		super(cons, a, b, c, d, isCumulative);

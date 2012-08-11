@@ -26,11 +26,22 @@ import org.apache.commons.math.distribution.FDistribution;
 public class AlgoInverseFDistribution extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a degrees of freedom (numerator)
+     * @param b degrees of freedom (denominator)
+     * @param c variable value
+     */
     public AlgoInverseFDistribution(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
-
+    /**
+     * @param cons construction
+     * @param a degrees of freedom (numerator)
+     * @param b degrees of freedom (denominator)
+     * @param c variable value
+     */
     public AlgoInverseFDistribution(Construction cons, NumberValue a,
 			NumberValue b, NumberValue c) {
         super(cons, a, b, c, null);

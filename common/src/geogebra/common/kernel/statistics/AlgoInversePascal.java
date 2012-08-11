@@ -26,11 +26,22 @@ import org.apache.commons.math.distribution.PascalDistribution;
 public class AlgoInversePascal extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a number of successes
+     * @param b probability of success
+     * @param c variable value
+     */
     public AlgoInversePascal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
-
+    /**
+     * @param cons construction
+     * @param a number of successes
+     * @param b probability of success
+     * @param c variable value
+     */
     public AlgoInversePascal(Construction cons, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, a, b, c, null);
     }

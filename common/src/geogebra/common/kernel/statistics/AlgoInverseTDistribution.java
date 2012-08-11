@@ -26,11 +26,20 @@ import org.apache.commons.math.distribution.TDistribution;
 public class AlgoInverseTDistribution extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a degrees of freedom
+     * @param b variable value
+     */
     public AlgoInverseTDistribution(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);
     }
-
+    /**
+     * @param cons construction
+     * @param a degrees of freedom
+     * @param b variable value
+     */
     public AlgoInverseTDistribution(Construction cons, NumberValue a,
 			NumberValue b) {
         super(cons, a, b, null, null);

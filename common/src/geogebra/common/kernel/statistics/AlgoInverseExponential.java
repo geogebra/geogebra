@@ -26,11 +26,20 @@ import org.apache.commons.math.distribution.ExponentialDistribution;
 public class AlgoInverseExponential extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a mean
+     * @param b variable value
+     */
     public AlgoInverseExponential(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);
     }
-
+    /**
+     * @param cons construction
+     * @param a mean
+     * @param b variable value
+     */
     public AlgoInverseExponential(Construction cons, NumberValue a,
 			NumberValue b) {
         super(cons, a, b, null, null);

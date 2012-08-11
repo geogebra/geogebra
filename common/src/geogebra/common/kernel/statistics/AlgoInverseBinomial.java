@@ -26,11 +26,22 @@ import org.apache.commons.math.distribution.BinomialDistribution;
 public class AlgoInverseBinomial extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a number of trials
+     * @param b probability of success
+     * @param c variable value
+     */
     public AlgoInverseBinomial(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
-
+    /**
+     * @param cons construction
+     * @param a number of trials
+     * @param b probability of success
+     * @param c variable value
+     */
     public AlgoInverseBinomial(Construction cons, NumberValue a,
 			NumberValue b, NumberValue c) {
         super(cons, a, b, c, null);

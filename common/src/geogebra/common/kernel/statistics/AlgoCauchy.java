@@ -25,11 +25,24 @@ import org.apache.commons.math.distribution.CauchyDistribution;
 
 public class AlgoCauchy extends AlgoDistribution {
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param a median
+	 * @param b scale
+	 * @param c variable value
+	 */
 	public AlgoCauchy(Construction cons, String label, NumberValue a,
 			NumberValue b, NumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
+	/**
+	 * @param cons construction
+	 * @param a median
+	 * @param b scale
+	 * @param c variable value
+	 */
 	public AlgoCauchy(Construction cons, NumberValue a,
 			NumberValue b, NumberValue c) {
 		super(cons, a, b, c, null);

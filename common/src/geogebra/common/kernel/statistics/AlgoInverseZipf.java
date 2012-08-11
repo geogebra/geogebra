@@ -26,7 +26,13 @@ import org.apache.commons.math.distribution.ZipfDistribution;
 public class AlgoInverseZipf extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a number of elements
+     * @param b exponent
+     * @param c variable value
+     */
     public AlgoInverseZipf(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }

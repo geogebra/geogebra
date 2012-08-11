@@ -27,10 +27,23 @@ public class AlgoInverseNormal extends AlgoDistribution {
 
 	
     
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param a mean
+     * @param b standard deviation
+     * @param c variable value
+     */
     public AlgoInverseNormal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
 
+    /**
+     * @param cons construction
+     * @param a mean
+     * @param b standard deviation
+     * @param c variable value
+     */
     public AlgoInverseNormal(Construction cons, NumberValue a,
 			NumberValue b, NumberValue c) {
         super(cons, a, b, c, null);

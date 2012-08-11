@@ -27,10 +27,23 @@ public class AlgoInverseGamma extends AlgoDistribution {
 
 	
     
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param a alpha
+     * @param b beta
+     * @param c variable value
+     */
     public AlgoInverseGamma(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
 
+    /**
+     * @param cons construction
+     * @param a alpha
+     * @param b beta
+     * @param c variable value
+     */
     public AlgoInverseGamma(Construction cons, NumberValue a,
 			NumberValue b, NumberValue c) {
         super(cons, a, b, c, null);

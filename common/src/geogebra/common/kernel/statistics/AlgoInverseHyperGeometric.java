@@ -26,7 +26,14 @@ import org.apache.commons.math.distribution.HypergeometricDistribution;
 public class AlgoInverseHyperGeometric extends AlgoDistribution {
 
 	
-    
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param a population size
+	 * @param b number of successes
+	 * @param c sample size
+	 * @param d variable value
+     */
     public AlgoInverseHyperGeometric(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c, NumberValue d) {
         super(cons, label, a, b, c, d);
     }
