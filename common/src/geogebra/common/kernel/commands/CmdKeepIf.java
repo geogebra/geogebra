@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.main.MyError;
 
 /**
@@ -38,16 +39,19 @@ public class CmdKeepIf extends CommandProcessor {
 		case 3:
 			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3)}]
 			
+			// eg KeepIf[x(A)<3, A+B, {1,2,3}]
 			arg1Str = c.getArgument(1).toString(StringTemplate.defaultTemplate);
-			
 			try {
-				arg = resArgsLocalListVar(c, 1, 2);
-			} catch (MyError e) {
-				// eg KeepIf[x(A)<3, A+B, {1,2,3}]
-				// error not right for KeepIf[x(A), A, {1,2,3}], not sure how to catch that better
-				e.printStackTrace();
+				if(!arg1Str.equals(kernelA.getParser().parseLabel(arg1Str))){
+					throw argErr(app, c.getName(), new MyStringBuffer(kernelA, arg1Str));
+				}
+			} catch (ParseException e) {
 				throw argErr(app, c.getName(), new MyStringBuffer(kernelA, arg1Str));
 			}
+			
+			
+			arg = resArgsLocalListVar(c, 1, 2);
+						
 			
 			//App.debug(arg[0].getClassName()+" "+arg[1].getClassName()+" "+arg[2].getClassName()+" ");
 
