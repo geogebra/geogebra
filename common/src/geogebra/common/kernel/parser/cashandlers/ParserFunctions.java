@@ -263,6 +263,7 @@ private void reset(){
 	put(1,"FractionalPart", Operation.FRACTIONAL_PART);
 	
 	RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
+	RESERVED_FUNCTION_NAMES.add("freehand");
 	
 }
 
