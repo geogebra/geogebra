@@ -132,7 +132,7 @@ TRANSLATORS
     Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
     Alana Souza de Oliveira (Brazil)
   * Portuguese (Portugal): Jorge Geraldes, Antonio Ribeiro (Portugal)
-  * Russian: Anatoly Scherbakov, Beatrice Versichel (Russia)
+  * Russian: Anatoly Scherbakov, Beatrice Versichel, Bugaevsky Vladimir (Russia)
   * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia)
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
