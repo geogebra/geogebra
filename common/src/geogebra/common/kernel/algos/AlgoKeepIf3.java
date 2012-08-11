@@ -15,38 +15,40 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyBoolean;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.MyError;
 
 /**
  * Take objects from the middle of a list
+ * adapted from AlgoKeepIf
  * @author Michael Borcherds
  */
 
-public class AlgoKeepIf extends AlgoElement {
+public class AlgoKeepIf3 extends AlgoElement {
 
 	private GeoList inputList; //input
 	private GeoList outputList; //output	
-	private GeoFunction boolFun;     // input
+	private GeoBoolean bool;     // input
+	private GeoElement var;
 	private int size;
 
 	/**
 	 * @param cons construction
 	 * @param label label 
-	 * @param boolFun boolean filter
+	 * @param bool boolean filter (dependent on var)
+	 * @param var variable to be substituted
 	 * @param inputList list
 	 */
-	public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun, GeoList inputList) {
+	public AlgoKeepIf3(Construction cons, String label, GeoBoolean bool, GeoElement var, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
-		this.boolFun = boolFun;
+		this.var = var;
+		this.bool = bool;
 
 		outputList = new GeoList(cons);
 
@@ -57,14 +59,16 @@ public class AlgoKeepIf extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoKeepIf;
+		return Algos.AlgoKeepIf3;
 	}
 
 	@Override
 	protected void setInputOutput(){
-		input = new GeoElement[2];
-		input[0] = boolFun;
-		input[1] = inputList;
+
+		input = new GeoElement[3];
+		input[0] = bool;
+		input[1] = var;
+		input[2] = inputList;
 
 		super.setOutputLength(1);
 		super.setOutput(0, outputList);
@@ -92,36 +96,24 @@ public class AlgoKeepIf extends AlgoElement {
 		outputList.clear();
 
 		if (size == 0) return;
-		/*
-		 * If val is not numeric, we use the underlying Expression of the function and 
-		 * plug the list element as variable.
-		 * Deep copy is needed so that we can plug the value repeatedly.
-		 */
-		FunctionVariable var = boolFun.getFunction().getFunctionVariable();
-		try {
-			for (int i=0 ; i<size ; i++)
-			{
-				GeoElement geo = inputList.get(i);
-				if(geo.isGeoNumeric()){
-					if (boolFun.evaluateBoolean(((GeoNumeric)geo).getValue()) ) {
-						outputList.add(geo.copyInternal(cons));
-					}
-				} 
-				else {
-					ExpressionNode ex = (ExpressionNode)boolFun.getFunction().getExpression().deepCopy(kernel);
-					ex = ex.replace(var, geo.evaluate(StringTemplate.defaultTemplate)).wrap();
-					if (((MyBoolean)ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) {
-						outputList.add(geo.copyInternal(cons));
-					}
-				}
 
+		try {
+			for (int i=0 ; i<size ; i++) {
+				GeoElement geo = inputList.get(i);
+
+				ExpressionNode ex = (ExpressionNode) ((AlgoDependentBoolean)bool.getParentAlgorithm()).getExpression().deepCopy(kernel);
+				ex = ex.replace(var, geo.evaluate(StringTemplate.defaultTemplate)).wrap();
+				if (((MyBoolean)ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) {
+					outputList.add(geo.copyInternal(cons));
+				}
 			}
 		} catch (MyError e) {
-			// eg KeepIf[x<3,{1,2,(4,4)}]
+			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3),1}]
 			e.printStackTrace();
 			outputList.setUndefined();
 			return;
 		}
+
 	} 	
 
 	@Override

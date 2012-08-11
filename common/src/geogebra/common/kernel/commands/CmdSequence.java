@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -44,7 +45,8 @@ final public  GeoElement[] process(Command c) throws MyError {
     	}    	
     	throw argErr(app, c.getName(), arg[0]);
     	case 4 :
-            if ((ok[0] = arg[0].isGeoElement())
+			App.debug(arg[0].getClassName()+" "+arg[1].getClassName()+" "+arg[2].getClassName()+" ");
+           if ((ok[0] = arg[0].isGeoElement())
                	 && (ok[1] = arg[1].isGeoNumeric())
                	 && (ok[2] = arg[2].isNumberValue())
                	 && (ok[3] = arg[3].isNumberValue()))

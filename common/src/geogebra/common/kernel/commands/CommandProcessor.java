@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing.Replacer;
@@ -170,6 +171,64 @@ public abstract class CommandProcessor {
 
 		// set local variable as our varPos argument
 		c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
+
+		// resolve all command arguments including the local variable just
+		// created
+		GeoElement[] arg = resArgs(c);
+
+		// remove local variable name from kernel again
+		cmdCons.removeLocalVariable(localVarName);
+		return arg;
+	}
+
+	/**
+	 * Resolve arguments of a command that has a local variable at the
+	 * position varPos. Initializes the variable with the first element
+	 * of the list at listPos
+	 * 
+	 * @param c command
+	 * @param varPos position of variable
+	 * @param listPos position of list
+	 * @return Array of arguments
+	 */
+	protected final GeoElement[] resArgsLocalListVar(Command c, int varPos,
+			int listPos) {
+		// check if there is a local variable in arguments
+		String localVarName = c.getVariableName(varPos);
+		if (localVarName == null) {
+			throw argErr(app, c.getName(), c.getArgument(varPos));
+		}
+		// imaginary unit as local variable name
+		else if (localVarName.equals(Unicode.IMAGINARY)) {
+			// replace all imaginary unit objects in command arguments by a
+			// variable "i"object
+			localVarName = "i";
+			Variable localVar = new Variable(kernelA, localVarName);
+			c.traverse(Replacer.getReplacer(kernelA.getImaginaryUnit(), localVar));
+		}
+		// Euler constant as local variable name
+		else if (localVarName.equals(Unicode.EULER_STRING)) {
+			// replace all imaginary unit objects in command arguments by a
+			// variable "i"object
+			localVarName = "e";
+			Variable localVar = new Variable(kernelA, localVarName);
+			c.traverse(Replacer.getReplacer(MySpecialDouble.getEulerConstant(kernelA), localVar));
+		}
+
+		// add local variable name to construction
+		Construction cmdCons = c.getKernel().getConstruction();
+		//GeoNumeric num = new GeoNumeric(cmdCons);
+		//cmdCons.addLocalVariable(localVarName, num);
+
+		// initialize first value of local numeric variable from initPos
+		boolean oldval = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		GeoElement initValue = ((GeoList) resArg(c.getArgument(listPos))[0]).get(0).copyInternal(cmdCons);
+		cons.setSuppressLabelCreation(oldval);
+		cmdCons.addLocalVariable(localVarName, initValue);
+
+		// set local variable as our varPos argument
+		c.setArgument(varPos, new ExpressionNode(c.getKernel(), initValue));
 
 		// resolve all command arguments including the local variable just
 		// created

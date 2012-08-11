@@ -1,11 +1,15 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoKeepIf;
+import geogebra.common.kernel.algos.AlgoKeepIf3;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -28,19 +32,46 @@ public class CmdKeepIf extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		arg = resArgs(c);
-App.debug(n);
+		String arg1Str;
 		switch (n) {
+
+		case 3:
+			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3)}]
+			
+			arg1Str = c.getArgument(1).toString(StringTemplate.defaultTemplate);
+			
+			try {
+				arg = resArgsLocalListVar(c, 1, 2);
+			} catch (MyError e) {
+				// eg KeepIf[x(A)<3, A+B, {1,2,3}]
+				// error not right for KeepIf[x(A), A, {1,2,3}], not sure how to catch that better
+				e.printStackTrace();
+				throw argErr(app, c.getName(), new MyStringBuffer(kernelA, arg1Str));
+			}
+			
+			//App.debug(arg[0].getClassName()+" "+arg[1].getClassName()+" "+arg[2].getClassName()+" ");
+
+			if ((ok[0] = arg[0] instanceof GeoBoolean)&&(ok[2] = arg[2].isGeoList())) {
+
+				AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), (GeoBoolean)arg[0], arg[1], ((GeoList) arg[2]));
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+
+			ok[1] = true;
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+
 		case 2:
+			arg = resArgs(c);
 
 			if ((ok[0] = arg[0] instanceof GeoFunction)&&(ok[1] = arg[1].isGeoList())) {
 				GeoFunction booleanFun = (GeoFunction) arg[0];
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						&& (ok[1] = arg[1].isGeoList())) {
 
-					GeoElement[] ret = { kernelA.KeepIf(c.getLabel(),
-							booleanFun, ((GeoList) arg[1])) };
-					return ret;
+					AlgoKeepIf algo2 = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) arg[1]));
+					GeoElement[] ret2 = { algo2.getResult() };
+					return ret2;
 				}
 			}
 

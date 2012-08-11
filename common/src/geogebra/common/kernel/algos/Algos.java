@@ -303,6 +303,7 @@ public enum Algos {
 	AlgoRandomPoisson(Commands.RandomPoisson),
 	AlgoFractionText(Commands.FractionText),
 	AlgoKeepIf(Commands.KeepIf),
+	AlgoKeepIf3(Commands.KeepIf),
 	AlgoAxisStepX(Commands.AxisStepX),
 	AlgoAxisStepY(Commands.AxisStepY),
 	AlgoInvert(Commands.Invert),

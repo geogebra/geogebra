@@ -270,4 +270,8 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
 		// TODO Consider locusequability
 		return false;
 	}
+
+	public ExpressionNode getExpression() {
+		return root;
+	}
 }

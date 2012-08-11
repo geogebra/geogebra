@@ -7613,15 +7613,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Keep[boolean condition, list] Michael Borcherds
-	 */
-	final public GeoList KeepIf(String label, GeoFunction boolFun, GeoList list) {
-		AlgoKeepIf algo = new AlgoKeepIf(cons, label, boolFun, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
 	 * IsInteger[number] Michael Borcherds
 	 */
 	final public GeoBoolean IsInteger(String label, GeoNumeric geo) {
