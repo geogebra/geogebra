@@ -1,6 +1,6 @@
 <?php
 
-  if ($_SERVER['f']!="") {
+  if ($_GET['f']!="") {
     // This is a web call ("web applet mode") and test.php must be used:
     $dir=rtrim($_SERVER['SCRIPT_URL'],'index.php');
     $dir=rtrim($dir,"/");
