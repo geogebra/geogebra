@@ -493,12 +493,12 @@ public final class AlgoFitLogistic extends AlgoElement {
 		GeoElement geoelement;
 		// This is code duplication of AlgoSort, but for the time being:
 		Class<? extends GeoElement> geoClass = geolist.get(0).getClass();
-		TreeSet sortedSet;
-		sortedSet = new TreeSet(GeoPoint.getComparatorX());
+		TreeSet<GeoPoint> sortedSet;
+		sortedSet = new TreeSet<GeoPoint>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
 			if (geoelement.getClass().equals(geoClass)) {
-				sortedSet.add(geoelement);
+				sortedSet.add((GeoPoint) geoelement);
 			} else {
 				error = true;
 			}// if point
