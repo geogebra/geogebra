@@ -167,7 +167,7 @@ public class OptionsAdvancedD extends
 		panel.add(miscPanel);
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		JScrollPane scrollPane = new JScrollPane(panel);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(4);
 		// scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
