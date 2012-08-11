@@ -7035,48 +7035,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public static boolean isLaTeXneeded(final String latex2) {
 		
-		String latex = latex2;
-		// Unicode is fine to render these:
-		latex = latex.replace("\\leq", "");
-		latex = latex.replace("\\geq", "");
-
-		for (int i = 0; i < latex.length(); i++) {
-			final char ch = latex.charAt(i);
-			switch (ch) {
-			case '\\':
-				final char ch1 = i == (latex.length() - 1) ? ' ' : latex
-						.charAt(i + 1);
-				if ((ch1 != ';') && (ch1 != ',')) {
-					return true; // \; \, just spacing
-				}
-				break;
-			// we want to use LaTeX where the power is not an integer
-			// x^2 no LaTeX
-			// x^x use LaTeX
-			// exp(x) use LaTeX
-			case '^':
-				
-				if (latex.charAt(i+1) == '{') {
-					int closeBraceIndex = latex.indexOf('}', i);
-					if (closeBraceIndex > i + 2) {
-						for (int j = i+2 ; j < closeBraceIndex ; j++) {
-							char ch2 = latex.charAt(j);
-							if (!StringUtil.isDigit(ch2) && ch2 != '-') {
-								return true;
-							}
-						}
-						
-					}
-				}
-				
-				
-				break;
-			//	return true;
-			}
-		}
-
-		// no real latex string
-		return false;
+		// hack removed, now use LaTeX in many more cases in the Algebra View & CAS
+		// * looks better
+		// * speed shouldn't be too much of a problem as we have CompressedAlgebraView
+		
+		return true;
 	}
 
 	/**
