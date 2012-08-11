@@ -1,6 +1,7 @@
 package geogebra.gui.properties;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.UpdateFonts;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -12,6 +13,7 @@ import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -27,7 +29,7 @@ import javax.swing.JPanel;
  */
 public class AnimationStepPanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -160,5 +162,12 @@ public class AnimationStepPanel
 
 	public void focusLost(FocusEvent e) {
 		doActionPerformed();
+	}
+
+	public void updateFonts() {
+		Font font = ((AppD) kernel.getApplication()).getPlainFont();
+		
+		label.setFont(font);
+		tfAnimStep.setFont(font);
 	}
 }

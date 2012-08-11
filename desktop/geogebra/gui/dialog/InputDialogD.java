@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.UpdateFonts;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
@@ -28,6 +30,7 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -43,7 +46,7 @@ import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
 public class InputDialogD extends geogebra.common.gui.dialog.InputDialog implements ActionListener,
-		WindowFocusListener, VirtualKeyboardListener {
+		WindowFocusListener, VirtualKeyboardListener, UpdateFonts {
 
 	protected AppD app;
 
@@ -446,5 +449,24 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	public JDialog getWrappedDialog() {
 		return wrappedDialog;
 	}
+
+
+	public void updateFonts() {
+		
+		Font font = app.getPlainFont();
+		
+
+		wrappedDialog.setFont(font);
+
+		btOK.setFont(font);
+		btCancel.setFont(font);
+		btApply.setFont(font);
+		btProperties.setFont(font);
+		
+	}
+
+
+
+
 
 }

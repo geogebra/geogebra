@@ -319,6 +319,7 @@ public class OptionsObjectD extends
 		
 
 		tree.updateFonts();
+		propPanel.updateFonts();
 		
 	}
 	

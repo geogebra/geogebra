@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.UpdateFonts;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -136,7 +137,7 @@ import javax.swing.event.ChangeListener;
  * @see #update(Graphics) PropertiesPanel
  * @author Markus Hohenwarter
  */
-public class PropertiesPanel extends JPanel implements SetLabels {
+public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	private AppD app;
@@ -584,6 +585,68 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// tabs.setVisible(false);
 		}
 	}
+	
+	
+	public void updateFonts() {
+		
+		Font font = app.getPlainFont();
+		
+		tabs.setFont(font);
+
+		// update the labels of the panels
+		showObjectPanel.updateFonts();
+		selectionAllowed.updateFonts();
+		showTrimmedIntersectionLines.updateFonts();
+		colorPanel.updateFonts();
+		coordPanel.updateFonts();
+		lineEqnPanel.updateFonts();
+		conicEqnPanel.updateFonts();
+		pointSizePanel.updateFonts();
+		pointStylePanel.updateFonts();
+		textOptionsPanel.updateFonts();
+		arcSizePanel.updateFonts();
+		lineStylePanel.updateFonts();
+		ineqStylePanel.updateFonts();
+		lineStylePanelHidden.updateFonts();
+		decoSegmentPanel.updateFonts();
+		decoAnglePanel.updateFonts();
+		rightAnglePanel.updateFonts();
+		fillingPanel.updateFonts();
+		fadingPanel.updateFonts();
+		lodPanel.updateFonts();
+		checkBoxInterpolateImage.updateFonts();
+		tracePanel.updateFonts();
+		fixPanel.updateFonts();
+		checkBoxFixPanel.updateFonts();
+		allowOutlyingIntersectionsPanel.updateFonts();
+		auxPanel.updateFonts();
+		animStepPanel.updateFonts();
+		animSpeedPanel.updateFonts();
+		slopeTriangleSizePanel.updateFonts();
+		absScreenLocPanel.updateFonts();
+		comboBoxPanel.updateFonts();
+		// showView2D.updateFonts();
+		sliderPanel.updateFonts();
+
+		if (!isDefaults) {
+			allowReflexAnglePanel.updateFonts();
+			namePanel.updateFonts();
+			labelPanel.updateFonts();
+			tooltipPanel.updateFonts();
+			layerPanel.updateFonts();
+			animatingPanel.updateFonts();
+			scriptEditPanel.updateFonts();
+			textEditPanel.updateFonts();
+			startPointPanel.updateFonts();
+			cornerPointsPanel.updateFonts();
+			bgImagePanel.updateFonts();
+			showConditionPanel.updateFonts();
+			colorFunctionPanel.updateFonts();
+		}
+		
+		
+
+	}
 
 	/**
 	 * Update all tabs after new GeoElements were selected.
@@ -702,7 +765,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel with show/hide object checkbox
 	 */
 	private class ShowObjectPanel extends JPanel implements ItemListener,
-			UpdateablePropertiesPanel, SetLabels {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -793,13 +856,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			updateSelection(geos);
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			showObjectCB.setFont(font);
+			
+		}
+
 	} // ShowObjectPanel
 
 	/**
 	 * panel with show/hide object checkbox
 	 */
 	private class SelectionAllowedPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -874,13 +943,20 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			updateSelection(geos);
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			selectionAllowedCB.setFont(font);
+			
+		}
+
 	} // SelectionAllowedPanel
 
 	/**
 	 * panel with show/hide trimmed intersection lines
 	 */
 	private class ShowTrimmedIntersectionLines extends JPanel implements
-			ItemListener, SetLabels, UpdateablePropertiesPanel {
+			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -974,13 +1050,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			updateSelection(geos);
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			showTrimmedLinesCB.setFont(font);
+		}
+
 	} // ShowObjectPanel
 
 	/**
 	 * panel to fix checkbox (boolean object)
 	 */
 	private class CheckBoxFixPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -1059,13 +1141,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			updateSelection(geos);
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			checkboxFixCB.setFont(font);
+		}
+
 	} // CheckBoxFixPanel
 
 	/**
 	 * panel color chooser and preview panel
 	 */
 	private class ColorPanel extends JPanel implements ActionListener,
-			UpdateablePropertiesPanel, ChangeListener, SetLabels {
+			UpdateablePropertiesPanel, ChangeListener, SetLabels, UpdateFonts {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -1471,13 +1559,24 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			previewLabel.setFont(font);
+			opacityPanel.setFont(font);
+			colChooser.setFont(font);
+			rbtnBackgroundColor.setFont(font);
+			rbtnForegroundColor.setFont(font);
+			btnClearBackground.setFont(font);
+		}
+
 	} // ColorPanel
 
 	/**
 	 * panel with label properties
 	 */
 	private class LabelPanel extends JPanel implements ItemListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -1633,13 +1732,21 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			showLabelCB.setFont(font);
+			labelModeCB.setFont(font);
+
+		}
+
 	} // LabelPanel
 
 	/**
 	 * panel with label properties
 	 */
 	private class TooltipPanel extends JPanel implements ItemListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -1748,13 +1855,20 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			label.setFont(font);
+			tooltipModeCB.setFont(font);
+		}
+
 	} // TooltipPanel
 
 	/*
 	 * panel with layers properties Michael Borcherds
 	 */
 	private class LayerPanel extends JPanel implements ItemListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -1850,6 +1964,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			layerLabel.setFont(font);
+		}
+
 	} // LayersPanel
 
 	/**
@@ -1858,7 +1978,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class TracePanel extends JPanel implements ItemListener,
-			UpdateablePropertiesPanel, SetLabels {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -1934,6 +2054,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			showTraceCB.setFont(font);
+		}
 	}
 
 	/**
@@ -1942,7 +2068,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author adapted from TracePanel
 	 */
 	private class AnimatingPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2023,13 +2149,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					kernel.getAnimatonManager().startAnimation();
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			showAnimatingCB.setFont(font);
+		}
 	}
 
 	/**
 	 * panel to say if an image is to be interpolated
 	 */
 	private class CheckBoxInterpolateImage extends JPanel implements
-			ItemListener, SetLabels, UpdateablePropertiesPanel {
+			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -2103,6 +2235,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			updateSelection(geos);
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			checkbox.setFont(font);
+		}
+
 	} // CheckBoxInterpolateImage
 
 	/**
@@ -2110,7 +2248,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class FixPanel extends JPanel implements ItemListener, SetLabels,
+	private class FixPanel extends JPanel implements ItemListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel {
 		/**
 		 * 
@@ -2187,10 +2325,16 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			updateSelection(geos);
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			showFixCB.setFont(font);
+		}
 	}
 
 	private class IneqStylePanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2278,6 +2422,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			updateSelection(geos);
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			showOnAxis.setFont(font);
+		}
 	}
 
 	/**
@@ -2286,7 +2436,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class AbsoluteScreenLocationPanel extends JPanel implements
-			ItemListener, SetLabels, UpdateablePropertiesPanel {
+			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2398,6 +2548,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				updateSelection(geos);
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			cbAbsScreenLoc.setFont(font);
+		}
 	}
 
 	/**
@@ -2406,7 +2562,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Michael
 	 */
 	private class ListsAsComboBoxPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2496,6 +2652,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				updateSelection(geos);
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			cbComboBox.setFont(font);
+		}
 	}
 
 	/**
@@ -2504,7 +2666,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class AllowReflexAnglePanel extends JPanel implements
-			ActionListener, SetLabels, UpdateablePropertiesPanel {
+			ActionListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2623,6 +2785,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				intervalCombo.setSelectedIndex(index - 1);
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			intervalLabel.setFont(font);
+			intervalCombo.setFont(font);
+		}
+
 	}
 
 	/**
@@ -2632,7 +2801,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class AllowOutlyingIntersectionsPanel extends JPanel implements
-			ItemListener, SetLabels, UpdateablePropertiesPanel {
+			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2711,6 +2880,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			outlyingIntersectionsCB.setFont(font);
+		}
 	}
 
 	/**
@@ -2719,7 +2894,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class BackgroundImagePanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2792,6 +2967,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			isBGimage.setFont(font);
+		}
 	}
 
 	/**
@@ -2800,7 +2981,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class AuxiliaryObjectPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2874,13 +3055,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			auxCB.setFont(font);
+		}
 	}
 
 	/**
 	 * panel for location of vectors and text
 	 */
 	private class StartPointPanel extends JPanel implements ActionListener,
-			FocusListener, SetLabels, UpdateablePropertiesPanel {
+			FocusListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3011,13 +3198,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		public void focusLost(FocusEvent e) {
 			doActionPerformed();
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			label.setFont(font);
+		}
 	}
 
 	/**
 	 * panel for three corner points of an image (A, B and D)
 	 */
 	private class CornerPointsPanel extends JPanel implements ActionListener,
-			FocusListener, UpdateablePropertiesPanel, SetLabels {
+			FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -3181,13 +3374,21 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		public void focusLost(FocusEvent e) {
 			doActionPerformed(e.getSource());
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			for (int i = 0; i < 3; i++) {
+				labelLocation[i].setFont(font);
+			}
+		}
 	}
 
 	/**
 	 * panel for text editing
 	 */
 	public class TextEditPanel extends JPanel implements ActionListener,
-			UpdateablePropertiesPanel, SetLabels {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -3253,13 +3454,20 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// if (e.getSource() == btEdit)
 			// app.showTextDialog((GeoText) geos[0]);
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			editPanel.setFont(font);		
+			td.updateFonts();
+		}
 	}
 
 	/**
 	 * panel for script editing
 	 */
 	private class ScriptEditPanel extends JPanel implements ActionListener,
-			UpdateablePropertiesPanel, SetLabels {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
@@ -3373,6 +3581,22 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// if (e.getSource() == btEdit)
 			// app.showTextDialog((GeoText) geos[0]);
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			
+			tabbedPane.setFont(font);
+			clickScriptPanel.setFont(font);
+			updateScriptPanel.setFont(font);
+			globalScriptPanel.setFont(font);
+			
+			clickDialog.updateFonts();
+			updateDialog.updateFonts();
+			globalDialog.updateFonts();
+			
+			
+		}
 	}
 
 	/**
@@ -3382,7 +3606,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class CoordPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3505,6 +3729,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			coordLabel.setFont(font);
+			coordCB.setFont(font);
+		}
 	}
 
 	/**
@@ -3513,7 +3744,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class LineEqnPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3636,6 +3867,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			eqnLabel.setFont(font);
+			eqnCB.setFont(font);
+		}
 	}
 
 	/**
@@ -3644,7 +3882,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class ConicEqnPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3795,6 +4033,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			eqnLabel.setFont(font);
+		}
 	}
 
 	/**
@@ -3803,7 +4047,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class PointSizePanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -3831,16 +4075,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			 * slider.setPreferredSize(dim);
 			 */
 
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
-
-			slider.setFont(app.getSmallFont());
+			updateSliderFonts();
+			
 			slider.addChangeListener(this);
 
 			add(slider);
@@ -3895,6 +4131,28 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+
+			setFont(font);
+			
+			updateSliderFonts();
+		}
+		
+		private void updateSliderFonts() {
+
+			// set label font
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+
+			slider.setFont(app.getSmallFont());
+		}
 	}
 
 	/**
@@ -3904,7 +4162,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @version 2008-07-17
 	 */
 	private class PointStylePanel extends JPanel implements
-			UpdateablePropertiesPanel, SetLabels, ActionListener {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 		private JComboBox cbStyle; // G.Sturr 2010-1-24
@@ -4026,6 +4284,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				point.updateRepaint();
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			setFont(font);
+		}
 	}
 
 	/**
@@ -4034,7 +4298,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class TextOptionsPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 
@@ -4353,6 +4617,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					textEditPanel.td.handleDocumentEvent();
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			cbSize.setFont(font);
+
+			btItalic.setFont(font);
+			btBold.setFont(font);
+
+			decimalLabel.setFont(font);
+			
+			editPanel.setFont(font);
+		}
 	}
 
 	/**
@@ -4361,7 +4638,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class SlopeTriangleSizePanel extends JPanel implements
-			ChangeListener, UpdateablePropertiesPanel, SetLabels {
+			ChangeListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 		/**
 		 * 
@@ -4387,14 +4664,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			 * slider.setPreferredSize(dim);
 			 */
 
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
+			updateSliderFonts();
 
 			// slider.setFont(app.getSmallFont());
 			slider.addChangeListener(this);
@@ -4457,6 +4727,28 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			setFont(font);
+			
+			updateSliderFonts();
+			
+		}
+
+		private void updateSliderFonts() {
+
+
+			// set label font
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+		}
 	}
 
 	/**
@@ -4465,7 +4757,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class ArcSizePanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -4491,14 +4783,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			 * slider.setPreferredSize(dim);
 			 */
 
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
+			updateSliderFonts();
 
 			/*
 			 * //slider.setFont(app.getSmallFont());
@@ -4585,6 +4870,25 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			setFont(font);
+			
+			updateSliderFonts();
+		}
+
+		private void updateSliderFonts() {
+			// set label font
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+		}
 	}
 
 	/**
@@ -4593,7 +4897,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class FillingPanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateablePropertiesPanel, ActionListener {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, ActionListener {
 
 		/**
 		 * 
@@ -5031,6 +5335,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			transparencyPanel.setFont(font);
+			anglePanel.setFont(font);
+			distancePanel.setFont(font);
+			imagePanel.setFont(font);
+
+			btnOpenFile.setFont(font);
+			lblFillType.setFont(font);
+			cbFillType.setFont(font);
+		}
+
 	}
 
 	/**
@@ -5039,7 +5356,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class LineStylePanel extends JPanel implements ChangeListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 		/**
 		 * 
@@ -5066,15 +5383,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			 * slider.setPreferredSize(dim);
 			 */
 
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
-			// slider.setFont(app.getSmallFont());
+			updateSliderFonts();
+			
 			slider.addChangeListener(this);
 
 			// line style combobox (dashing)
@@ -5228,6 +5538,29 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			thicknessPanel.setFont(font);
+			dashLabel.setFont(font);
+			
+			updateSliderFonts();
+		}
+
+		public void updateSliderFonts() {
+			// set label font
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+			
+
+			// slider.setFont(app.getSmallFont());
+		}
 	}
 
 	/**
@@ -5237,7 +5570,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * 
 	 */
 	private class LineStyleHiddenPanel extends JPanel implements
-			UpdateablePropertiesPanel, SetLabels, ActionListener {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 		private JRadioButton[] buttons;
@@ -5324,6 +5657,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				geo.updateRepaint();
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			setFont(font);
+		}
 	}
 
 	/**
@@ -5332,7 +5671,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author mathieu
 	 */
 	private class FadingPanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -5351,16 +5690,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			slider.setPaintLabels(true);
 			slider.setSnapToTicks(true);
 
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
-
-			slider.setFont(app.getSmallFont());
+			updateSliderFonts();
+			
 			slider.addChangeListener(this);
 
 			add(slider);
@@ -5412,6 +5743,28 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			setFont(font);
+			
+			updateSliderFonts();
+		}
+
+		public void updateSliderFonts() {
+
+			// set label font
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+
+			slider.setFont(app.getSmallFont());
+		}
 	}
 
 	/**
@@ -5419,7 +5772,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * 
 	 * @author mathieu
 	 */
-	private class LodPanel extends JPanel implements ChangeListener, SetLabels,
+	private class LodPanel extends JPanel implements ChangeListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel {
 
 		/**
@@ -5439,16 +5792,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			slider.setPaintLabels(true);
 			slider.setSnapToTicks(true);
 
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
+			updateSliderFonts();
 
-			slider.setFont(app.getSmallFont());
 			slider.addChangeListener(this);
 
 			add(slider);
@@ -5500,6 +5845,28 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			setFont(font);
+			
+			updateSliderFonts();
+		}
+
+		public void updateSliderFonts() {
+
+			// set label font
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+
+			slider.setFont(app.getSmallFont());
+		}
 	}
 
 	/**
@@ -5507,7 +5874,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * 
 	 * @author mathieu
 	 */
-	private class ShowView2D extends JPanel implements ItemListener, SetLabels,
+	private class ShowView2D extends JPanel implements ItemListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel {
 		/**
 		 * 
@@ -5587,6 +5954,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				updateSelection(geos);
 			}
 		}
+
+		public void updateFonts() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	/**
@@ -5595,7 +5967,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Loic
 	 */
 	private class DecoSegmentPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		private static final long serialVersionUID = 1L;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
@@ -5661,10 +6033,16 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			decoLabel.setFont(font);
+		}
 	}
 
 	private class DecoAnglePanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
 		private Object[] geos;
@@ -5731,11 +6109,17 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			decoLabel.setFont(font);
+		}
 	}
 
 	// added 3/11/06
 	private class RightAnglePanel extends JPanel implements ActionListener,
-			SetLabels, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 		private JCheckBox emphasizeRightAngle;
 		private Object[] geos;
 
@@ -5793,6 +6177,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			
+			emphasizeRightAngle.setFont(font);
+		}
+
 	}
 
 	/**
@@ -5828,7 +6218,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
  * @author Michael
  */
 class TextfieldSizePanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 	private static final long serialVersionUID = 1L;
 
@@ -5932,6 +6322,11 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 	public void focusLost(FocusEvent e) {
 		doActionPerformed();
 	}
+
+	public void updateFonts() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 /**
@@ -5940,7 +6335,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
  * @author Markus Hohenwarter
  */
 class ShowConditionPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 	private static final long serialVersionUID = 1L;
 
@@ -6073,6 +6468,13 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 		if (!processed)
 			doActionPerformed();
 	}
+
+	public void updateFonts() {
+		Font font = ((AppD) kernel.getApplication()).getPlainFont();
+		
+		setFont(font);
+		tfCondition.setFont(font);
+	}
 }
 
 /**
@@ -6081,7 +6483,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
  * @author Michael Borcherds 2008-04-01
  */
 class ColorFunctionPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 	private static final long serialVersionUID = 1L;
 
@@ -6430,6 +6832,27 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		if (!processed)
 			doActionPerformed();
 	}
+
+	public void updateFonts() {
+		Font font = ((AppD) kernel.getApplication()).getPlainFont();
+		
+		setFont(font);
+
+
+		cbColorSpace.setFont(font);
+
+		nameLabelR.setFont(font);
+		nameLabelG.setFont(font);
+		nameLabelB.setFont(font);
+		nameLabelA.setFont(font);
+
+		btRemove.setFont(font);
+		
+		tfRed.setFont(font);
+		tfGreen.setFont(font);
+		tfBlue.setFont(font);
+		tfAlpha.setFont(font);
+	}
 }
 
 /**
@@ -6438,7 +6861,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
  * @author G.Sturr
  */
 class GraphicsViewLocationPanel extends JPanel implements ActionListener,
-		UpdateablePropertiesPanel, SetLabels {
+		UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 	private static final long serialVersionUID = 1L;
 
@@ -6545,6 +6968,11 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	}
 
+	public void updateFonts() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 /**
@@ -6553,7 +6981,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
  * @author Markus Hohenwarter
  */
 class NamePanel extends JPanel implements ActionListener, FocusListener,
-		UpdateablePropertiesPanel, SetLabels {
+		UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 
 	private static final long serialVersionUID = 1L;
 
@@ -6812,6 +7240,19 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		 * geo.getCommandDescription();
 		 */
 		return geo.getRedefineString(false, true);
+	}
+
+	public void updateFonts() {
+		Font font = app.getPlainFont();
+
+		nameLabel.setFont(font);
+		defLabel.setFont(font);
+		captionLabel.setFont(font);
+		
+		inputPanelName.setFont(font);
+		inputPanelDef.setFont(font);
+		inputPanelCap.setFont(font);
+		
 	}
 
 }

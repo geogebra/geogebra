@@ -1,6 +1,7 @@
 package geogebra.gui.properties;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.UpdateFonts;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -17,6 +18,7 @@ import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -39,7 +41,7 @@ import javax.swing.SwingConstants;
  * @author Markus Hohenwarter
  */
 public class SliderPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 	/**
 	 * 
 	 */
@@ -406,5 +408,27 @@ public class SliderPanel extends JPanel implements ActionListener,
 		if (!actionPerforming) {
 			doTextFieldActionPerformed((JTextField) e.getSource());
 		}
+	}
+
+	public void updateFonts() {
+		Font font = app.getPlainFont();
+		
+		cbSliderFixed.setFont(font);
+		cbRandom.setFont(font);
+		coSliderHorizontal.setFont(font);
+
+
+		for (int i = 0; i < tLabels.length; ++i) {
+			tLabels[i].setFont(font);
+		}
+		
+		tfMin.setFont(font);
+		tfMax.setFont(font);
+		tfWidth.setFont(font);
+		
+		for (int i = 0; i < tfields.length; ++i) 
+			tfields[i].setFont(font);
+		
+		
 	}
 }
