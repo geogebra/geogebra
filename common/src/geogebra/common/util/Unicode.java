@@ -126,6 +126,7 @@ public class Unicode {
 	final public static String fraction3_4 = "\u00be";
 	final public static String fraction7_8 = "\u215e";
 	public static final char multiply = '\u00d7'; // multiply cross
+	public static final String divide = "\u00f7"; 
 	
 	// various characters which hang down below the line
 	// gjy with/without accents
