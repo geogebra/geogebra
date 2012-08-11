@@ -32,7 +32,8 @@ public class CmdKeepIf extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-		GeoElement[] arg;
+		GeoElement arg;
+		GeoElement[] args;
 		String arg1Str;
 		switch (n) {
 
@@ -49,37 +50,37 @@ public class CmdKeepIf extends CommandProcessor {
 				throw argErr(app, c.getName(), new MyStringBuffer(kernelA, arg1Str));
 			}
 			
-			
-			arg = resArgsLocalListVar(c, 1, 2);
+			GeoElement[] vars = new GeoElement[1];
+			GeoList[] over = new GeoList[1];
+			arg = resArgsForZip(c, vars, over);
 						
 			
 			//App.debug(arg[0].getClassName()+" "+arg[1].getClassName()+" "+arg[2].getClassName()+" ");
 
-			if ((ok[0] = arg[0] instanceof GeoBoolean)&&(ok[2] = arg[2].isGeoList())) {
+			if (arg instanceof GeoBoolean) {
 
-				AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), (GeoBoolean)arg[0], arg[1], ((GeoList) arg[2]));
+				AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), (GeoBoolean)arg, vars[0], over[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 
-			ok[1] = true;
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), arg);
 
 		case 2:
-			arg = resArgs(c);
+			args = resArgs(c);
 
-			if ((ok[0] = arg[0] instanceof GeoFunction)&&(ok[1] = arg[1].isGeoList())) {
-				GeoFunction booleanFun = (GeoFunction) arg[0];
+			if ((ok[0] = args[0] instanceof GeoFunction)&&(ok[1] = args[1].isGeoList())) {
+				GeoFunction booleanFun = (GeoFunction) args[0];
 				if ((ok[0] = booleanFun.isBooleanFunction())
-						&& (ok[1] = arg[1].isGeoList())) {
+						&& (ok[1] = args[1].isGeoList())) {
 
-					AlgoKeepIf algo2 = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) arg[1]));
+					AlgoKeepIf algo2 = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) args[1]));
 					GeoElement[] ret2 = { algo2.getResult() };
 					return ret2;
 				}
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok,args));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
