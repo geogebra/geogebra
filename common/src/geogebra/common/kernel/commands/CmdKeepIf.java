@@ -52,7 +52,13 @@ public class CmdKeepIf extends CommandProcessor {
 			
 			GeoElement[] vars = new GeoElement[1];
 			GeoList[] over = new GeoList[1];
-			arg = resArgsForZip(c, vars, over);
+			boolean oldval = cons.isSuppressLabelsActive();
+			try{
+				cons.setSuppressLabelCreation(true);	
+				arg = resArgsForZip(c,vars,over);
+			}finally{
+				cons.setSuppressLabelCreation(oldval);
+			}
 						
 			
 			//App.debug(arg[0].getClassName()+" "+arg[1].getClassName()+" "+arg[2].getClassName()+" ");
