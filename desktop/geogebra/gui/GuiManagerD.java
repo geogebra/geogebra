@@ -120,7 +120,7 @@ import javax.swing.SwingUtilities;
 public class GuiManagerD extends GuiManager {
 	
 	private static boolean USE_COMPRESSED_VIEW = true;
-	private static int CV_UPDATES_PER_SECOND = 10;
+	private static int CV_UPDATES_PER_SECOND = 3;
 
 	protected Kernel kernel;
 
