@@ -730,6 +730,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("fractionalPart")
     String Function_fractionalPart();
 
+    @DefaultStringValue("freehand")
+    String Function_freehand();
+
     @DefaultStringValue("imaginary")
     String Function_imaginary();
 
@@ -1197,6 +1200,9 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Pause")
     String Pause();
+
+    @DefaultStringValue("PenStroke")
+    String PenStroke();
 
     @DefaultStringValue("Pentagon")
     String Pentagon();
