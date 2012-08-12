@@ -195,7 +195,7 @@ public class AlgoZip extends AlgoElement {
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
 					App
-							.debug("AlgoSequence aborted: free memory reached "
+							.debug("AlgoZip aborted: free memory reached "
 									+ mem);
 					return;
 				}
@@ -303,7 +303,7 @@ public class AlgoZip extends AlgoElement {
 				long mem = app.freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				App.debug("AlgoSequence aborted: free memory reached "
+				App.debug("AlgoZip aborted: free memory reached "
 						+ mem);
 				return;
 			}
