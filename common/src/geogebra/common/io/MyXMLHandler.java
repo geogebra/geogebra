@@ -983,8 +983,8 @@ public class MyXMLHandler implements DocHandler {
 			String strAxes = attrs.get("axes");
 			if (strAxes != null) {
 				boolean showAxes = parseBoolean(strAxes);
-				// ev.showAxes(showAxes, showAxes);
-				ev.setShowAxes(showAxes, true);
+				// #2534
+				ev.setShowAxes(showAxes, showAxes);
 			}
 
 			ev.showGrid(parseBoolean(attrs.get("grid")));
