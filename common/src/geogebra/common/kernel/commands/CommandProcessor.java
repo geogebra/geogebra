@@ -214,7 +214,17 @@ public abstract class CommandProcessor {
 		
 			GeoList gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
 			
-			num = gl.size()==0?new GeoNumeric(cons):gl.get(0).copyInternal(cons);
+			if (gl.size() == 0) {
+				if (gl.getTypeStringForXML() != null) {
+					num = kernelA.createGeoElement(cons, gl.getTypeStringForXML());
+				} else {
+					// guess
+					num = new GeoNumeric(cons);
+				}
+			} else {
+				// list not zero length
+				num = gl.get(0).copyInternal(cons);
+			}
 
 			cmdCons.addLocalVariable(localVarName, num);
 			// set local variable as our varPos argument
