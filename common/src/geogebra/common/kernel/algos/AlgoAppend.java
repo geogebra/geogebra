@@ -67,7 +67,11 @@ public class AlgoAppend extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[2];
+
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+        
+    	input = new GeoElement[2];
         
         if (order == ADD_OBJECT_AT_END) {
 	        input[0] = inputList;

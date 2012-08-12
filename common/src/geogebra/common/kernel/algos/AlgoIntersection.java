@@ -45,7 +45,11 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
   
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[2];
+
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+        
+    	input = new GeoElement[2];
         
 	    input[0] = inputList;
 	    input[1] = inputList2;

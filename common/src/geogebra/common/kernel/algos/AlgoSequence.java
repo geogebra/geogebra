@@ -136,6 +136,10 @@ public class AlgoSequence extends AlgoElement {
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
+    	
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+    	list.setTypeStringForXML(expression.getXMLtypeString());  	
+    	
     	if(isSimple){
     		input = new GeoElement[1];
     		input[0]=var_to_geo;

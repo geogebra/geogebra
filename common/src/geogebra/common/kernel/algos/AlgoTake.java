@@ -57,6 +57,10 @@ public class AlgoTake extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
+    	
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+
     	if(n != null){
     		input = new GeoElement[3];
     		input[2] = n;

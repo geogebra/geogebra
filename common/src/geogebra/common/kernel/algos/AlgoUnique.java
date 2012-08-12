@@ -59,7 +59,10 @@ public class AlgoUnique extends AlgoElement {
 	@Override
 	protected void setInputOutput(){
 
-		input = new GeoElement[1];
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+		uniqueList.setTypeStringForXML(dataList.getTypeStringForXML());  	
+
+    	input = new GeoElement[1];
 		input[0] = dataList;
 
 		super.setOutputLength(1);

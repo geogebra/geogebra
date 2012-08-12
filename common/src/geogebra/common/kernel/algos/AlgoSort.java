@@ -94,7 +94,11 @@ public class AlgoSort extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[valueList==null?1:2];
+
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+
+    	input = new GeoElement[valueList==null?1:2];
         if(valueList!=null) {
         	input[0] = valueList;
         	input[1] = inputList;

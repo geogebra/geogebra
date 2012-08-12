@@ -48,7 +48,11 @@ public class AlgoInsert extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[3];
+
+    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
+    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+
+    	input = new GeoElement[3];
         
 	    input[0] = inputGeo;
 	    input[1] = inputList;
