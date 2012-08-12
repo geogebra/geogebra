@@ -559,7 +559,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"return ret; end;");
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
-						+ " begin scalar solutions!!, bool!!;"
+						+ " begin scalar solutions!!, bool!!, isineq;" +
+						"isineq:=0;"
 						+ " if part(eqn,0)='sgreater then <<eqn:=part(eqn,0):='greaterp; isineq:=1>>;"
 						+ " if part(eqn,0)='sgreaterequal then <<eqn:=part(eqn,0):='geq; isineq:=1>>;"
 						+ " if part(eqn,0)='sless then <<eqn:=part(eqn,0):='lessp; isineq:=1>>;"
