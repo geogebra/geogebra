@@ -527,7 +527,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1
 				.evaluate("procedure flattenlist a;"
-						+ "if 1=for each elem!! in a product length(elem!!) then for each elem!! in a join elem!! else a;");
+						+ "if part(a,0)='list and 1=for each elem!! in a product length(elem!!) then for each elem!! in a join elem!! else a;");
 
 		mpreduce1
 				.evaluate("procedure depth a; if arglength(a)>0 and part(a,0)='list then 1+depth(part(a,1)) else 0;");
@@ -552,12 +552,18 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
 		mpreduce1
+		.evaluate("procedure listtodisjunction(v,lst);" +
+				"begin scalar ret;" +
+				"ret:=part(lst,1);"+
+				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
+				"return ret; end;");
+		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
-						+ " if part(eqn,0)='sgreater then eqn:=part(eqn,0):='greaterp;"
-						+ " if part(eqn,0)='sgreaterequal then eqn:=part(eqn,0):='geq;"
-						+ " if part(eqn,0)='sless then eqn:=part(eqn,0):='lessp;"
-						+ " if part(eqn,0)='slessequal then eqn:=part(eqn,0):='leq;"
+						+ " if part(eqn,0)='sgreater then <<eqn:=part(eqn,0):='greaterp; isineq:=1>>;"
+						+ " if part(eqn,0)='sgreaterequal then <<eqn:=part(eqn,0):='geq; isineq:=1>>;"
+						+ " if part(eqn,0)='sless then <<eqn:=part(eqn,0):='lessp; isineq:=1>>;"
+						+ " if part(eqn,0)='slessequal then <<eqn:=part(eqn,0):='leq; isineq:=1>>;"
 						+ "  eqn:=mkdepthone({eqn});"
 						+ "  let solverules;"
 						+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
@@ -585,15 +591,16 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "	   else if bool!!>1 then " + "  	 {{var='?}}"
 						+ "    else " + "		 {} >>;"
 						+ "  clearrules solverules;"
-						+ "  return mkset(solutions!!);" + " end;");
-
+						+ "  return if isineq then listtodisjunction(var,flattenlist(mkset(solutions!!))) else mkset(solutions!!);" + " end;");
+		
 		mpreduce1
 		.evaluate("procedure mysolve1(eqn);"
-				+ " begin scalar solutions!!, bool!!, vars!!;"
-				+ " if part(eqn,0)='sgreater then eqn:=part(eqn,0):='greaterp;"
-				+ " if part(eqn,0)='sgreaterequal then eqn:=part(eqn,0):='geq;"
-				+ " if part(eqn,0)='sless then eqn:=part(eqn,0):='lessp;"
-				+ " if part(eqn,0)='slessequal then eqn:=part(eqn,0):='leq;"
+				+ " begin scalar solutions!!, bool!!, vars!!, isineq;" +
+				"isineq:=0;"
+				+ " if part(eqn,0)='sgreater then <<eqn:=part(eqn,0):='greaterp; isineq:=1>>;"
+				+ " if part(eqn,0)='sgreaterequal then <<eqn:=part(eqn,0):='geq; isineq:=1>>;"
+				+ " if part(eqn,0)='sless then <<eqn:=part(eqn,0):='lessp; isineq:=1>>;"
+				+ " if part(eqn,0)='slessequal then <<eqn:=part(eqn,0):='leq; isineq:=1>>;"
 				+ "  eqn:=mkdepthone({eqn});"
 				+ "  let solverules;"
 				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
@@ -617,12 +624,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "      else"
 				+ "	       bool!!:=2*bool!!;"
 				+ " 	   firstsol!!:=part(sol,1);"
-				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
+				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(mymainvar(eqn),part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
 				+ "    else if bool!!=1 then" + "  	 {sol}"
 				+ "	   else if bool!!>1 then " + "  	 {{vars!!='?}}"
 				+ "    else " + "		 {} >>;"
 				+ "  clearrules solverules;"
-				+ "  return mkset(solutions!!);" + " end;");
+				+ "  return if isineq then listtodisjunction(mymainvar(eqn),flattenlist(mkset(solutions!!))) else mkset(solutions!!);" + " end;");
 		
 		mpreduce1
 				.evaluate("procedure mycsolve(eqn, var);"
