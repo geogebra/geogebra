@@ -660,6 +660,8 @@ public class MyList extends ValidExpression implements ListValue,
 				sb.append("[");
 		} else if (tpl.hasType(StringType.MPREDUCE)) {
 				sb.append("listofliststomat(list(");
+		} else if (tpl.hasType(StringType.LATEX)) {
+			sb.append("\\{");
 		} else
 			sb.append("{");
 
@@ -685,6 +687,8 @@ public class MyList extends ValidExpression implements ListValue,
 		} else if (tpl.hasType(StringType.MPREDUCE)) {
 			sb.append(')');
 			sb.append(')');
+		}else if (tpl.hasType(StringType.LATEX)) {
+			sb.append("\\}");
 		} else
 			sb.append("}");
 		return sb.toString();
