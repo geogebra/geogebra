@@ -6982,7 +6982,7 @@ public abstract class EuclidianController {
 				moveMode = MOVE_FREEHAND;
 				movedGeoFunction = (GeoFunction) movedGeoElement;
 				
-			} else {
+			} else if(movedGeoElement.isIndependent()) {
 				moveMode = MOVE_FUNCTION;
 
 				movedGeoFunction = (GeoFunction) movedGeoElement;
