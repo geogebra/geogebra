@@ -3951,4 +3951,12 @@ public abstract class App {
 
 	protected abstract Object getMainComponent();
 
+	private GeoElement geoForCopyStyle;
+	public GeoElement getGeoForCopyStyle() {
+		return geoForCopyStyle;
+	}
+	public void setGeoForCopyStyle(GeoElement geo){
+		geoForCopyStyle = geo;
+	}
+
 }

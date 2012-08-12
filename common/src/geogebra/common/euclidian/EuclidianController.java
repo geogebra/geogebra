@@ -2987,16 +2987,16 @@ public abstract class EuclidianController {
 		if (geo == null) {
 			return false;
 		}
-	
+
 		// movedGeoElement is the active geo
-		if (movedGeoElement == null) {
-			movedGeoElement = geo;
+		if (app.getGeoForCopyStyle() == null) {
+			app.setGeoForCopyStyle(geo);
 			Hits oldhits = new Hits();
 			oldhits.addAll(app.getSelectedGeos());
 			for (int i = oldhits.size() - 1; i >= 0; i--) {
 				GeoElement oldgeo = oldhits.get(i);
 				//if (!(movedGeoElement.getClass().isInstance(oldgeo))) {
-				if (!(Test.getSpecificTest(movedGeoElement).check(oldgeo))) {
+				if (!(Test.getSpecificTest(app.getGeoForCopyStyle()).check(oldgeo))) {
 					oldhits.remove(i);
 				}
 			}
@@ -3006,7 +3006,7 @@ public abstract class EuclidianController {
 				// standard case: copy visual properties
 				for (int i = 0; i < oldhits.size(); i++) {
 					GeoElement oldgeo = oldhits.get(i);
-					oldgeo.setAdvancedVisualStyle(movedGeoElement);
+					oldgeo.setAdvancedVisualStyle(app.getGeoForCopyStyle());
 					oldgeo.updateRepaint();
 				}
 				clearSelections();
@@ -3016,17 +3016,17 @@ public abstract class EuclidianController {
 			// set movedGeoElement
 			app.addSelectedGeo(geo);
 		} else {
-			if (geo == movedGeoElement) {
+			if (geo == app.getGeoForCopyStyle()) {
 				// deselect
 				app.removeSelectedGeo(geo);
-				movedGeoElement = null;
+				app.setGeoForCopyStyle(null);
 				if (toggleModeChangedKernel) {
 					app.storeUndoInfo();
 				}
 				toggleModeChangedKernel = false;
 			} else {
 				// standard case: copy visual properties
-				geo.setAdvancedVisualStyle(movedGeoElement);
+				geo.setAdvancedVisualStyle(app.getGeoForCopyStyle());
 				geo.updateRepaint();
 				return true;
 			}
@@ -9069,7 +9069,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			movedGeoElement = null; // this will be the active geo template
+			app.setGeoForCopyStyle(null); // this will be the active geo template
 			break;
 	
 		case EuclidianConstants.MODE_MOVE_ROTATE:
