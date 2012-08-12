@@ -50,10 +50,14 @@ public  class TextValue extends JTextField implements KeyListener {
 		
 	}
 	public void keyPressed(KeyEvent e){
+		//
 	}
 	
 	
-	public void keyReleased(KeyEvent e){}
+	public void keyReleased(KeyEvent e){
+		//
+	}
+	@Override
 	public String toString(){
 		return actionCommand; 
 	}

@@ -110,16 +110,20 @@ public class PstricksFrame extends ExportFrame{
 		setVisible(true);
 	}
 	//end changes.
+	@Override
 	protected boolean isBeamer() {
 		if (comboFormat.getSelectedIndex()==1) return true;
 		return false;
 	}
+	@Override
 	protected boolean isLaTeX(){
 		return true;
 	}
+	@Override
 	protected boolean isPlainTeX(){
 		return false;
 	}
+	@Override
 	protected boolean isConTeXt(){
 		return false;
 	}

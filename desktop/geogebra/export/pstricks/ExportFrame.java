@@ -155,39 +155,37 @@ abstract public class ExportFrame extends JFrame{
 		                "TeX " + app.getMenu("Files"), true, false);
 		        if (currentFile == null)
 		            return;
-		        else {
-		        	try{
-		        		
-		        		FileOutputStream f = new FileOutputStream(currentFile);
-		        		BufferedOutputStream b = new BufferedOutputStream(f);
+				try{
+					
+					FileOutputStream f = new FileOutputStream(currentFile);
+					BufferedOutputStream b = new BufferedOutputStream(f);
 /*		        		java.util.Enumeration en=System.getProperties().keys();
-		        		while(en.hasMoreElements()){
-		        			String s=en.nextElement().toString();
-		        			System.out.println(s+" "+System.getProperty(s));
-		        		}*/
-		        		OutputStreamWriter osw = new  OutputStreamWriter(b, "UTF-8" );
-		        		StringBuilder sb=new StringBuilder(textarea.getText());
-		        		if (isLaTeX()){
-		        			int id=sb.indexOf("\\usepackage{");
-		        			if (id!=-1){
-		        				sb.insert(id,"\\usepackage[utf8]{inputenc}\n");
-		        			}
-		        		}
-		        		else if (isConTeXt()){
-		        			int id=sb.indexOf("\\usemodule[");
-		        			if (id!=-1){
-		        				sb.insert(id,"\\enableregime[utf]\n");
-		        			}
-		        		}
-		        		osw.write(sb.toString());
-		        		osw.close();
-		        		b.close();
-		        		f.close();
-		        	}
-		        	catch(FileNotFoundException e1){}
-		        	catch(UnsupportedEncodingException e2){}
-		        	catch(IOException e3){}
-		        }
+					while(en.hasMoreElements()){
+						String s=en.nextElement().toString();
+						System.out.println(s+" "+System.getProperty(s));
+					}*/
+					OutputStreamWriter osw = new  OutputStreamWriter(b, "UTF-8" );
+					StringBuilder sb=new StringBuilder(textarea.getText());
+					if (isLaTeX()){
+						int id=sb.indexOf("\\usepackage{");
+						if (id!=-1){
+							sb.insert(id,"\\usepackage[utf8]{inputenc}\n");
+						}
+					}
+					else if (isConTeXt()){
+						int id=sb.indexOf("\\usemodule[");
+						if (id!=-1){
+							sb.insert(id,"\\enableregime[utf]\n");
+						}
+					}
+					osw.write(sb.toString());
+					osw.close();
+					b.close();
+					f.close();
+				}
+				catch(FileNotFoundException e1){}
+				catch(UnsupportedEncodingException e2){}
+				catch(IOException e3){}
 			}
 		});
 	}
@@ -351,6 +349,7 @@ abstract public class ExportFrame extends JFrame{
 		ListenKey(ExportFrame ef){
 			this.ef=ef;
 		}
+		@Override
 		public void keyReleased(KeyEvent e){
 			String cmd=e.getSource().toString();
 			if (cmd.equals(TEXT_XUNIT)){

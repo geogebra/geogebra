@@ -71,7 +71,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	super(app);
     }
  
-    public void generateAllCode() {
+    @Override
+	public void generateAllCode() {
 
 		format=frame.getFormat();
        	forceGnuplot=((PgfFrame)frame).getGnuplot();
@@ -204,7 +205,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	}	    	
     
-    protected void drawLocus(GeoLocus g){
+    @Override
+	protected void drawLocus(GeoLocus g){
     	ArrayList<MyPoint> ll=g.getPoints();
     	Iterator<MyPoint> it=ll.iterator();
 		startBeamer(code);
@@ -239,7 +241,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(";\n");
 		endBeamer(code);
     }
-    protected void drawBoxPlot(GeoNumeric geo){
+    @Override
+	protected void drawBoxPlot(GeoNumeric geo){
     	AlgoBoxPlot algo=((AlgoBoxPlot)geo.getParentAlgorithm());
     	double y=algo.getA().getDouble();
     	double height=algo.getB().getDouble();
@@ -289,7 +292,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	codeFilledObject.append(";\n");
 		endBeamer(codeFilledObject);
     }
-    protected void drawHistogram(GeoNumeric geo){
+    @Override
+	protected void drawHistogram(GeoNumeric geo){
     	AlgoFunctionAreaSums algo=(AlgoFunctionAreaSums)geo.getParentAlgorithm();
         double[] y=algo.getValues();
         double[] x=algo.getLeftBorder();
@@ -306,7 +310,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(codeFilledObject);
     }
     
-    protected void drawSumTrapezoidal(GeoNumeric geo){
+    @Override
+	protected void drawSumTrapezoidal(GeoNumeric geo){
        	AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums)geo.getParentAlgorithm();
     	int n=algo.getIntervals();
         double[] y=algo.getValues();
@@ -330,7 +335,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	}
 		endBeamer(codeFilledObject);
     }
-    protected void drawSumUpperLower(GeoNumeric geo){
+    @Override
+	protected void drawSumUpperLower(GeoNumeric geo){
     	AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums)geo.getParentAlgorithm();
     	int n=algo.getIntervals();
         double step=algo.getStep();
@@ -349,7 +355,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
         }
 		endBeamer(codeFilledObject);
     }
-    protected void drawIntegralFunctions(GeoNumeric geo){
+    @Override
+	protected void drawIntegralFunctions(GeoNumeric geo){
 // command: \draw[option]{[domain=a:b,samples=..] plot(\x,{f(\x)}) }--(b,g(b)) -- {[domain=b:a,samples=..] plot(\x,{g(\x)}) }--(a,f(a)) --cycle; 
    	AlgoIntegralFunctions algo = (AlgoIntegralFunctions) geo.getParentAlgorithm();
 
@@ -448,7 +455,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	endBeamer(codeFilledObject);
     }
     
-    protected void drawIntegral(GeoNumeric geo){
+    @Override
+	protected void drawIntegral(GeoNumeric geo){
 // command: \plot[option] plot[domain]{\pstplot{a}{b}{f(x)}\lineto(b,0)\lineto(a,0)\closepath} 
     	AlgoIntegralDefinite algo = (AlgoIntegralDefinite) geo.getParentAlgorithm();
     	// function f
@@ -505,7 +513,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	codeFilledObject.append(" -- cycle;\n");
 		endBeamer(codeFilledObject);
     }
-    protected void drawSlope(GeoNumeric geo){
+    @Override
+	protected void drawSlope(GeoNumeric geo){
        	int slopeTriangleSize = geo.getSlopeTriangleSize();
         double rwHeight = geo.getValue() * slopeTriangleSize;
         double height =  euclidianView.getYscale() * rwHeight;
@@ -546,7 +555,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		codePoint.append("};\n");
 		endBeamer(codeFilledObject);
     }
-    protected void drawAngle(GeoAngle geo){
+    @Override
+	protected void drawAngle(GeoAngle geo){
     	int arcSize=geo.getArcSize();
     	AlgoElement algo=geo.getParentAlgorithm();
     	GeoPointND vertex,point;
@@ -741,7 +751,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
     }
     
-    protected void drawArrowArc(GeoAngle geo,double[] vertex,double angSt, double angEnd,double r, boolean anticlockwise){
+    @Override
+	protected void drawArrowArc(GeoAngle geo,double[] vertex,double angSt, double angEnd,double r, boolean anticlockwise){
 		double angStDeg = Math.toDegrees(angSt) % 360;
 		double angEndDeg = Math.toDegrees(angEnd) % 360;
 		if (angStDeg > angEndDeg)
@@ -772,7 +783,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(");\n");
 	}
     
-    protected void drawArc(GeoAngle geo,double[] vertex,double angSt, double angEnd,double r ){
+    @Override
+	protected void drawArc(GeoAngle geo,double[] vertex,double angSt, double angEnd,double r ){
 		double angStDeg = Math.toDegrees(angSt) % 360;
 		double angEndDeg = Math.toDegrees(angEnd) % 360;
 		if (angStDeg > angEndDeg)
@@ -801,6 +813,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(");\n");
 	}
     
+	@Override
 	protected void drawTick(GeoAngle geo,double[] vertex,double angle){
 		angle = -angle;
 		double radius = geo.getArcSize();
@@ -827,7 +840,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(";\n");
 	}
 	
-    protected void drawSlider(GeoNumeric geo){
+    @Override
+	protected void drawSlider(GeoNumeric geo){
     	boolean horizontal=geo.isSliderHorizontal();
     	double max=geo.getIntervalMax();
     	double min=geo.getIntervalMin();
@@ -890,7 +904,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
     }
     
     
-    protected void drawPolygon(GeoPolygon geo){
+    @Override
+	protected void drawPolygon(GeoPolygon geo){
 		// command: \pspolygon[par](x0,y0)....(xn,yn)
 		float alpha = geo.getAlphaValue();
 		if (alpha == 0.0f && geo.getFillType() != GeoElement.FILL_HATCH)
@@ -915,6 +930,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(codeFilledObject);
     }
     
+	@Override
 	protected void drawText(GeoText geo){
 		boolean isLatex = geo.isLaTeX();
 		String st = geo.getTextString();
@@ -958,7 +974,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 			writePoint(x, y, code);
 			code.append(" node[anchor=north west] {");
-			addText(st, isLatex, style, size);
+			addText(st, isLatex, style);
 			code.append("};\n");
 			endBeamer(code);
 		}
@@ -990,13 +1006,13 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append("\\parbox{");
 			code.append(format(width*(xmax-xmin)*xunit/euclidianView.getWidth()+1));
 			code.append(" cm}{");
-			addText(new String(sb),isLatex,style,size);			
+			addText(new String(sb),isLatex,style);			
 			code.append("}};\n");	
 			endBeamer(code);
 		}
 	}
 	
-	private void addText(String st, boolean isLatex, int style, int size) {
+	private void addText(String st, boolean isLatex, int style) {
 		if (format == FORMAT_LATEX) {
 			if (isLatex)
 				code.append("$");
@@ -1089,6 +1105,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 	
+	@Override
 	protected void drawGeoConicPart(GeoConicPart geo){
 		double r1=geo.getHalfAxes()[0];
 		double r2=geo.getHalfAxes()[1];
@@ -1251,6 +1268,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		
 		
 	}
+	@Override
 	protected void drawCurveCartesian (GeoCurveCartesian geo){
 		drawCurveCartesian(geo,code);
 	}
@@ -1297,6 +1315,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}
 	
 
+	@Override
 	protected void drawFunction(GeoFunction geo){
 		drawFunction(geo,code);
 	}
@@ -1425,7 +1444,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double y=f.evaluate(x);
 			if (Double.isNaN(y)){
 				if (step<PRECISION_XRANGE_FUNCTION) return x-step;
-				else return maxDefinedValue(f,x-step,x);
+				return maxDefinedValue(f,x-step,x);
 			}
 			x+=step;
 		}
@@ -1447,6 +1466,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		return b;
 	}
 	
+	@Override
 	protected void drawGeoVector(GeoVector geo){
 		GeoPoint pointStart=geo.getStartPoint();
 		double x1,y1;
@@ -1524,6 +1544,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 	
+	@Override
 	protected void drawGeoConic(GeoConic geo){	
 		switch(geo.getType()){
 		// if conic is a circle
@@ -1685,6 +1706,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * into the StringBuilder PointCode
 	 * @param gp The choosen GeoPoint
 	 */		
+	@Override
 	protected void drawGeoPoint(GeoPoint gp){
 		if (frame.getExportPointSymbol()){
 			double x=gp.getX();
@@ -1990,6 +2012,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * Generate the PGF/tikZ code to draw an infinite line
 	 */
 	
+	@Override
 	protected void drawGeoLine(GeoLine geo){
 		double a=geo.getX();
 		double b=geo.getY();
@@ -2047,6 +2070,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * @param geo The choosen GeoPoint
 	 */
 	
+	@Override
 	protected void drawGeoSegment(GeoSegment geo){
 		double[] A=new double[2];
 		double[] B=new double[2];
@@ -2067,6 +2091,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		if (deco!=GeoElement.DECORATION_NONE) mark(A,B,deco,geo);
 		endBeamer(code);
 	}
+	@Override
 	protected void drawLine(double x1,double y1,double x2,double y2,GeoElement geo){	
 		if (isBeamer) code.append("  ");
 		code.append("\\draw ");
@@ -2079,6 +2104,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(";\n");
 	}
 
+	@Override
 	protected void drawGeoRay(GeoRay geo){
 		GeoPoint pointStart=geo.getStartPoint();
 		double x1=pointStart.getX();
@@ -2133,6 +2159,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(code);
 	}
     
+	@Override
 	protected void drawLabel(GeoElement geo,DrawableND drawGeo){
 		try{
 			if (geo.isLabelVisible()){
@@ -2471,6 +2498,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
  * @param c The Choosen color
  * @param sb  The StringBuilder where the color has to be added
  */
+	@Override
 	protected void ColorCode(geogebra.common.awt.GColor c,StringBuilder sb){
 		if (frame.isGrayscale()){
 			if (c.equals(GColor.BLACK)) {sb.append("black");return;}
@@ -2507,7 +2535,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				}
 			}
 			if (c.equals(GColor.BLACK)) {sb.append("black");return;}
-			else sb.append(colorname);
+			sb.append(colorname);
 		}
 		else {
 			if (c.equals(GColor.BLACK)) {sb.append("black");return;}
@@ -2541,6 +2569,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 
+	@Override
 	protected void createFrame() {
 		frame = new PgfFrame(this);
 	}
@@ -2548,6 +2577,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	/**
 	 * Export Implicit plot for polynom degree greater than 2
 	 */
+	@Override
 	protected void drawImplicitPoly(GeoImplicitPoly geo) {
 		code.append("\n%WARNING: PGF/Tikz and Gnuplot don't support implicit curves\n");
 		code.append("%Rather try PSTricks export\n");
@@ -2556,6 +2586,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append("\n\n");
 	}
 
+	@Override
 	protected void drawPolyLine(GeoPolyLine geo) {
 		GeoPointND[] path = geo.getPoints();
 		if (path.length < 2)
@@ -2583,6 +2614,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		// TODO Auto-generated method stub
 	}
 	
+	@Override
 	protected StringTemplate getStringTemplate(){
     	return StringTemplate.get(StringType.PGF);
     }

@@ -141,24 +141,29 @@ public class AsymptoteFrame extends ExportFrame {
     }
 
     // end changes.
-    protected boolean isBeamer() {
+    @Override
+	protected boolean isBeamer() {
         // if (comboFormat.getSelectedIndex()==1) return true;
         return false;
     }
 
-    protected boolean isLaTeX() {
+    @Override
+	protected boolean isLaTeX() {
         return true;
     }
 
-    protected boolean isPlainTeX() {
+    @Override
+	protected boolean isPlainTeX() {
         return false;
     }
 
-    protected boolean isConTeXt() {
+    @Override
+	protected boolean isConTeXt() {
         return false;
     }
 
-    public int getFontSize() {
+    @Override
+	public int getFontSize() {
         // overwrite to start at a minimum font of 7
         return comboFontSizeMore.getSelectedIndex()
                 + Integer.parseInt(fontsizelist[0]);

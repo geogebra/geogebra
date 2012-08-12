@@ -925,7 +925,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             if(!compact)
                 code.append("\n");
             code.append("label(\"");
-            addText(st,isLatex,style,size,geocolor);
+            addText(st,isLatex,style);
             code.append("\",");
             addPoint(format(x),format(y),code);
             code.append(",SE*");
@@ -971,7 +971,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             code.append("\\parbox{");
             code.append(format(width*(xmax-xmin)*xunit/euclidianView.getWidth()+1));
             code.append(" cm}{");
-            addText(new String(sb),isLatex,style,size,geocolor);
+            addText(new String(sb),isLatex,style);
             code.append("}$\",");
             addPoint(format(x),format(y),code);
             code.append(",SE*");
@@ -1243,7 +1243,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             double y = f.evaluate(x);
             if (Double.isNaN(y)){
                 if (step < PRECISION_XRANGE_FUNCTION) return x-step;
-                else return maxDefinedValue(f, x - step, x);
+				return maxDefinedValue(f, x - step, x);
             }
             x += step;
         }
@@ -2424,7 +2424,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             packSpaceBetween(codeBeginPic, "xmin,", "xmax"); // non-fixed axes?
                                                              // TODO: remove if !compact? priority: minor
             // axis pen style
-            if(axisColor != geogebra.awt.GColorD.BLACK) {
+            if(axisColor != GColor.BLACK) {
                 codeBeginPic.append(",");
                 // catch for other options not changing.
                 if(compactcse5)
@@ -2485,7 +2485,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             packSpaceBetween(codeBeginPic, "ymin,", "ymax"); // non-fixed axes?
             
             // axis pen style
-            if(axisColor != geogebra.awt.GColorD.BLACK) {
+            if(axisColor != GColor.BLACK) {
                 if(compactcse5)
                     codeBeginPic.append(",pathpen+");
                 else
@@ -2914,7 +2914,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }*/
 //  private void defineTransparency(){} 
     
-    private void addText(String st,boolean isLatex,int style,int size,geogebra.common.awt.GColor geocolor){
+    private void addText(String st,boolean isLatex,int style){
         if (isLatex) code.append("$");
         if (isLatex && st.charAt(0) == '$') st = st.substring(1);
         

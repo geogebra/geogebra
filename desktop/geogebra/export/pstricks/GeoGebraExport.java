@@ -373,6 +373,7 @@ public abstract class GeoGebraExport  {
 					drawLabel(lines[0], drawLines[0]);
 					drawLabel(lines[1], drawLines[1]);
 				} else if (isEmpty(g)) {
+					//
 				} else {
 					drawGeoConic((GeoConic) g);
 					drawLabel(g, null);
@@ -427,8 +428,7 @@ public abstract class GeoGebraExport  {
 		int tmp = (int) Math.round(ratio * size);
 		if (tmp != 0)
 			return tmp;
-		else
-			return 1;
+		return 1;
 	}
 
 	/**

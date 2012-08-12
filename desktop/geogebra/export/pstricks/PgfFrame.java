@@ -126,20 +126,24 @@ public class PgfFrame extends ExportFrame{
 	protected boolean getGnuplot(){
 		return forceGnuplot.isSelected();
 	}
+	@Override
 	protected boolean isBeamer() {
 		if (comboFormat.getSelectedIndex()==3) return true;
 		return false;
 	}
+	@Override
 	protected boolean isLaTeX(){
 		int id=comboFormat.getSelectedIndex();
 		if (id==0||id==3) return true;
 		return false;
 	}
+	@Override
 	protected boolean isPlainTeX(){
 		int id=comboFormat.getSelectedIndex();
 		if (id==1) return true;
 		return false;
 	}
+	@Override
 	protected boolean isConTeXt(){
 		int id=comboFormat.getSelectedIndex();
 		if (id==2) return true;
