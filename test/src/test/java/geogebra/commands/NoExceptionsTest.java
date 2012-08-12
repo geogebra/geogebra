@@ -364,6 +364,8 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdClosestPoint() {
 		t("ClosestPoint[ c1, Pt1 ]");
+		t("ClosestPoint[ poly1, Pt1 ]");
+		t("ClosestPoint[ xAxis, yAxis ]");
 	}
 
 	@Test
@@ -540,6 +542,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdDistance() {
 		t("Distance[ Pt1, obj ]");
+		t("Distance[ xAxis,yAxis ]");
 	}
 
 	@Test
@@ -1048,6 +1051,9 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdKeepIf() {
 		t("KeepIf[ bf1(x), list1 ]");
+		t("KeepIf[ bf1(A),A, list1 ]");
+		syntaxes++;
+		t("KeepIf[ Distance[A,(0,0)]>4,A, {(1,1)} ]");
 	}
 
 	@Test
@@ -1175,6 +1181,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdMean() {
 		t("Mean[ list1 ]");
+		t("Mean[ list1, list1 ]");
 
 	}
 
@@ -1191,6 +1198,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdMedian() {
 		t("Median[ list1 ]");
+		t("Median[ list1, list1 ]");
 	}
 
 	@Test
@@ -1628,12 +1636,14 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSampleVariance() {
 		t("SampleVariance[ list1 ]");
+		t("SampleVariance[ list1, list1 ]");
 
 	}
 
 	@Test
 	public void cmdSD() {
 		t("SD[ list1 ]");
+		t("SD[ list1, list1 ]");
 
 	}
 
@@ -2157,6 +2167,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdVariance() {
 		t("Variance[ list1 ]");
+		t("Variance[ list1, list1 ]");
 
 	}
 
