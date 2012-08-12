@@ -58,7 +58,7 @@ public class PrintScalePanel extends JPanel {
 
 		al = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fireTextFieldUpdate((JTextField) e.getSource());
+				fireTextFieldUpdate();
 			}
 		};
 		tfScale1.addActionListener(al);
@@ -66,9 +66,10 @@ public class PrintScalePanel extends JPanel {
 		
 		FocusListener flst = new FocusListener() {
 			public void focusLost(FocusEvent e) {
-				fireTextFieldUpdate((JTextField) e.getSource());
+				fireTextFieldUpdate();
 			}
 			public void focusGained(FocusEvent e) {
+				//
 			}
 		};
 		tfScale1.addFocusListener(flst);
@@ -96,8 +97,7 @@ public class PrintScalePanel extends JPanel {
 		tfScale2.addActionListener(al);
 	}
 
-	private void fireTextFieldUpdate(JTextField tf) {
-		//String text = tf.getText();
+	private void fireTextFieldUpdate() {
 		boolean viewChanged = false;
 		
 		try {

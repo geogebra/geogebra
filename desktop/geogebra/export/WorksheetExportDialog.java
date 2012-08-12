@@ -203,6 +203,7 @@ public class WorksheetExportDialog extends JDialog {
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						setVisible(false);
 						if (kernelChanged)
@@ -233,28 +234,28 @@ public class WorksheetExportDialog extends JDialog {
 											.showURLinBrowser(
 											"http://code.google.com/apis/gadgets/docs/tools.html#GGE");
 										}
-									} catch (Exception e) {
+									} catch (Exception e1) {
 										app.showError("SaveFileFailed");
-										App.debug(e.toString());
+										App.debug(e1.toString());
 									}
 									break;
 
 							case TYPE_SINGLE_FILE_TABS:
 								try {
 									exportAllOpenFilesToHTMLasTabs();
-								} catch (Exception e) {
+								} catch (Exception e1) {
 									app.showError("SaveFileFailed");
-									e.printStackTrace();
-									App.debug(e.toString());
+									e1.printStackTrace();
+									App.debug(e1.toString());
 								}
 								break;
 							case TYPE_MULTIPLE_FILES:
 								try {
 									exportAllOpenFilesToHTML();
-								} catch (Exception e) {
+								} catch (Exception e1) {
 									app.showError("SaveFileFailed");
-									e.printStackTrace();
-									App.debug(e.toString());
+									e1.printStackTrace();
+									App.debug(e1.toString());
 								}
 								break;
 							}
@@ -483,7 +484,9 @@ public class WorksheetExportDialog extends JDialog {
 				kernelChanged = true;
 			}
 			
-			public void focusGained(FocusEvent e) {}
+			public void focusGained(FocusEvent e) {
+				//
+			}
 		});
 		
 		JPanel p = new JPanel(new BorderLayout(5, 5));
@@ -755,6 +758,7 @@ public class WorksheetExportDialog extends JDialog {
 		return tab;
 	}
 
+	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
 			checkEuclidianView();
@@ -784,7 +788,7 @@ public class WorksheetExportDialog extends JDialog {
 		setLocationRelativeTo(app.getMainComponent());
 	}
 
-	private void exportToClipboard(int type) throws IOException {
+	private void exportToClipboard(int type) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
 		StringSelection stringSelection = null;
@@ -810,7 +814,7 @@ public class WorksheetExportDialog extends JDialog {
 			appletHeight = sizePanel.getSelectedHeight();
 
 
-			stringSelection = new StringSelection(getAppletTag(app, null,
+			stringSelection = new StringSelection(getAppletTag(app,
 					appletWidth, appletHeight, false, removeLineBreaks,
 					cbIncludeHTML5.isSelected(), false));
 			break;
@@ -866,6 +870,7 @@ public class WorksheetExportDialog extends JDialog {
 			final File HTMLfile = htmlFile;
 			// copy files and open browser
 			Thread runner = new Thread() {
+				@Override
 				public void run() {
 					try {
 
@@ -1023,7 +1028,7 @@ public class WorksheetExportDialog extends JDialog {
 			// appendWithLineBreak(sb,"<p>Tab 1 content.</p>");
 			sb.append("<p>");
 
-			sb.append(getAppletTag(application, null, sizePanel.getSelectedWidth(),
+			sb.append(getAppletTag(application, sizePanel.getSelectedWidth(),
 					sizePanel.getSelectedHeight(), false, removeLineBreaks,
 					cbIncludeHTML5.isSelected(), true));
 			sb.append("</p>");
@@ -1059,6 +1064,7 @@ public class WorksheetExportDialog extends JDialog {
 		final File HTMLfile = htmlFile;
 		// open browser
 		Thread runner = new Thread() {
+			@Override
 			public void run() {
 				try {
 
@@ -1134,6 +1140,7 @@ public class WorksheetExportDialog extends JDialog {
 		final File HTMLfile = new File(fileBase + "1.html");
 		// open browser
 		Thread runner = new Thread() {
+			@Override
 			public void run() {
 				try {
 
@@ -1253,7 +1260,7 @@ public class WorksheetExportDialog extends JDialog {
 	 * "true" showToolBarHelp = "true" showAlgebraInput = "false" /> for insertion
 	 * into MediaWiki
 	 */
-	private String getMediaWiki() throws IOException {
+	private String getMediaWiki() {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<ggb_applet width=\"");
@@ -1378,7 +1385,7 @@ public class WorksheetExportDialog extends JDialog {
 	 * }
 	 */
 
-	private String getGoogleGadget() throws IOException {
+	private String getGoogleGadget() {
 		StringBuilder sb = new StringBuilder();
 
 		appendWithLineBreak(sb, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
@@ -1408,7 +1415,7 @@ public class WorksheetExportDialog extends JDialog {
 		appendWithLineBreak(sb, "<![CDATA[");
 		appendWithLineBreak(sb, "<div id='ggbapplet'>");
 
-		sb.append(getAppletTag(app, null, sizePanel.getSelectedWidth(),
+		sb.append(getAppletTag(app, sizePanel.getSelectedWidth(),
 				sizePanel.getSelectedHeight(), true, removeLineBreaks,
 				cbIncludeHTML5.isSelected(), true));
 
@@ -1498,7 +1505,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		// include applet tag
 		appendWithLineBreak(sb, "");
-		sb.append(getAppletTag(app2, ggbFile, appletWidth, appletHeight, true,
+		sb.append(getAppletTag(app2, appletWidth, appletHeight, true,
 				removeLineBreaks, cbIncludeHTML5.isSelected(), true));
 		appendWithLineBreak(sb, "");
 
@@ -1617,7 +1624,7 @@ public class WorksheetExportDialog extends JDialog {
 		return sb.toString();
 	}
 
-	public String getAppletTag(AppD app, File ggbFile, int width,
+	public String getAppletTag(AppD app, int width,
 			int height, boolean mayscript, boolean RemoveLineBreaks,
 			boolean includeHTML5, boolean includeNoJavaMessage) {
 

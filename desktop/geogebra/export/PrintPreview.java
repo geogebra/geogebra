@@ -120,6 +120,7 @@ public class PrintPreview extends JDialog {
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						try {
 							PrinterJob prnJob = PrinterJob.getPrinterJob();
@@ -153,6 +154,7 @@ public class PrintPreview extends JDialog {
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						setCursor(Cursor
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -187,6 +189,7 @@ public class PrintPreview extends JDialog {
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						setCursor(Cursor
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -222,6 +225,7 @@ public class PrintPreview extends JDialog {
 		ActionListener lst_view = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						setCursor(Cursor
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -299,6 +303,7 @@ public class PrintPreview extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				kernelChanged = true;
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						setCursor(Cursor
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -460,6 +465,7 @@ public class PrintPreview extends JDialog {
 				Boolean.toString(app.isPrintScaleString()));
 	}
 
+	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
 			// note: preferences loaded in initPreview
@@ -615,6 +621,7 @@ public class PrintPreview extends JDialog {
 		protected int H_GAP = 16;
 		protected int V_GAP = 10;
 
+		@Override
 		public Dimension getPreferredSize() {
 			int n = getComponentCount();
 			if (n == 0)
@@ -637,14 +644,17 @@ public class PrintPreview extends JDialog {
 					+ ins.bottom);
 		}
 
+		@Override
 		public Dimension getMaximumSize() {
 			return getPreferredSize();
 		}
 
+		@Override
 		public Dimension getMinimumSize() {
 			return getPreferredSize();
 		}
 
+		@Override
 		public void doLayout() {
 			Insets ins = getInsets();
 			int x = ins.left + H_GAP;
@@ -747,16 +757,19 @@ public class PrintPreview extends JDialog {
 			}
 		}
 
+		@Override
 		public Dimension getPreferredSize() {
 			Insets ins = getInsets();
 			return new Dimension(m_w + ins.left + ins.right, m_h + ins.top
 					+ ins.bottom);
 		}
 
+		@Override
 		public Dimension getMaximumSize() {
 			return getPreferredSize();
 		}
 
+		@Override
 		public Dimension getMinimumSize() {
 			return getPreferredSize();
 		}
@@ -785,6 +798,7 @@ public class PrintPreview extends JDialog {
 			repaint();
 		}
 
+		@Override
 		public void paint(Graphics g) {
 			g.setColor(getBackground());
 			g.fillRect(0, 0, getWidth(), getHeight());

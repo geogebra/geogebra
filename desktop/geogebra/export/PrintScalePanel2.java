@@ -17,13 +17,11 @@ import javax.swing.event.ChangeListener;
 
 public class PrintScalePanel2 extends JPanel {
 
-	private ScalingPrintGridable ev;
 	private NumberFormat nf;
 	private static final int maxFracDigits = 5;
 	private ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
 	
 	PrintScalePanel2(AppD app, ScalingPrintGridable ev) {
-		this.ev = ev;
 		nf = NumberFormat.getInstance(Locale.ENGLISH);
 		nf.setMaximumFractionDigits(maxFracDigits);
 		nf.setGroupingUsed(false);

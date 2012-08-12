@@ -144,6 +144,7 @@ public class GraphicSizePanel extends JPanel implements ActionListener,
     }
 
     public void focusGained(FocusEvent ev) {
+    	//
     }
 
     public void focusLost(FocusEvent ev) {

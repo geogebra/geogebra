@@ -50,7 +50,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	private JCheckBox cbColor;
 	private JCheckBox cbIcons;
 	private GraphicSizePanel sizePanel;
-	private boolean kernelChanged = false;
+	boolean kernelChanged = false;
 	private ConstructionProtocolView prot;
 	private AppD app;
 
@@ -153,12 +153,12 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						dispose();
 						if (kernelChanged)
 							app.storeUndoInfo();
 						exportHTML(cbDrawingPadPicture.isSelected(),
-								sizePanel.getSelectedWidth(),
 								cbScreenshotPicture.isSelected(),
 								cbColor.isSelected(), cbIcons.isSelected());
 					}
@@ -171,6 +171,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		clipboardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						dispose();
 						if (kernelChanged)
@@ -180,9 +181,9 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 							Clipboard clipboard = toolkit.getSystemClipboard();
 							StringSelection stringSelection = new StringSelection(prot.getHTML(null, null));
 							clipboard.setContents(stringSelection, null);
-						} catch (Exception e) {
+						} catch (Exception ex) {
 							app.showError("SaveFileFailed");
-							App.debug(e.toString());
+							App.debug(ex.toString());
 						}	
 					}
 				};
@@ -224,10 +225,11 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	}
 
 	public void keyReleased(KeyEvent e) {
+		//
 	}
 
 	public void keyTyped(KeyEvent e) {
-
+		//
 	}
 
 	/* *******************
@@ -245,9 +247,9 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	 *            : states whether a picture of the algebraWindow should be
 	 *            exported with the html output file
 	 */
-	private void exportHTML(boolean includePicture, int width,
+	private void exportHTML(boolean includePicture,
 			boolean includeAlgebraPicture, boolean useColors, boolean addIcons) {
-		File file, pngFile = null;
+	File file, pngFile = null;
 		File dir = null;
 		prot.setUseColors(useColors);
 		dir = app.getGuiManager().showSaveDialog("", null,
@@ -284,7 +286,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	        // open browser
 			final File HTMLfile = file;
 	        Thread runner = new Thread() {
-	        public void run() {    
+	        @Override
+			public void run() {    
 	                try {
 	                        // open html file in browser
 	                        app.getGuiManager().showURLinBrowser(HTMLfile.toURI().toURL());

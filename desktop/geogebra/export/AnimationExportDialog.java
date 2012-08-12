@@ -65,7 +65,7 @@ public class AnimationExportDialog extends JDialog {
 	/**
 	 * Construct dialog.
 	 * 
-	 * @param app
+	 * @param app App instance
 	 */
 	public AnimationExportDialog(AppD app) {
 		super(app.getFrame(), false);
@@ -196,7 +196,7 @@ public class AnimationExportDialog extends JDialog {
 		
 		double val;
 		
-		double step, time;
+		double step;
 		int n;
 		
 
@@ -206,7 +206,6 @@ public class AnimationExportDialog extends JDialog {
 			n = (int) ((max - min) / -step);
 			if (Kernel.isZero(((max - min) / -step) - n)) n++;
 			if (n == 0) n = 1;
-			time = 13000 / n;
 			val = max;
 			break;
 		case GeoElement.ANIMATION_OSCILLATING:
@@ -214,7 +213,6 @@ public class AnimationExportDialog extends JDialog {
 			n = (int) ((max - min) / step) * 2;
 			if (Kernel.isZero(((max - min) / step * 2) - n)) n++;
 			if (n == 0) n = 1;
-			time = 2 * 13000 / n;	
 			val = min;
 			break;
 		default: //GeoElement.ANIMATION_INCREASING:
@@ -223,7 +221,6 @@ public class AnimationExportDialog extends JDialog {
 			n = (int) ((max - min) / step);
 			if (Kernel.isZero(((max - min) / step) - n)) n++;
 			if (n == 0) n = 1;
-			time = 13000 / n;
 			val = min;
 		}
 		

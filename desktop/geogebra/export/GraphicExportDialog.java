@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.export;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
@@ -514,7 +514,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
 
 		File file;
-		OutputStream os;
 		if (exportToClipboard) {
 			final String tempDir = DownloadManager.getTempDir(); 
 			//os = new ByteArrayOutputStream();
@@ -754,10 +753,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
+		//
 	}
 
 	public void keyTyped(KeyEvent e) {
-
+		//
 	}
 
 	// Michael Borcherds 2008-03-02 BEGIN
@@ -925,7 +925,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		try {
 			g = new geogebra.export.epsgraphics.EpsGraphics(
 					app.getPlain("ApplicationName") + ", "
-							+ GeoGebra.GEOGEBRA_WEBSITE, new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
+							+ GeoGebraConstants.GEOGEBRA_WEBSITE, new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
 							ColorMode.COLOR_RGB);
 			// draw to epsGraphics2D
 			ev.exportPaint(g, exportScale);

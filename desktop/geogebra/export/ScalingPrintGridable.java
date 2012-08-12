@@ -21,6 +21,7 @@ public class ScalingPrintGridable extends PrintGridable {
 		scale = 1;
 	}
 	
+	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
 
