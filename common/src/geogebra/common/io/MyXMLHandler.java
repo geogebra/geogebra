@@ -3069,6 +3069,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("length".equals(eName)) {
 				ok = handleLength(attrs);
 				break;
+			} else if ("listType".equals(eName)) {
+				ok = handleListType(attrs);
+				break;
 			}
 
 		case 'm':
@@ -4265,6 +4268,20 @@ public class MyXMLHandler implements DocHandler {
 
 		if (geo instanceof GeoTextField) {
 			((GeoTextField) geo).setLength(Integer.parseInt(val));
+		} else {
+			throw new MyError(app, "handleLength: " + geo.getClassName());
+		}
+
+		return true;
+	}
+
+	private boolean handleListType(LinkedHashMap<String, String> attrs) {
+
+		// name of geo type, eg "point"
+		String val = attrs.get("val");
+
+		if (geo instanceof GeoList) {
+			((GeoList) geo).setTypeStringForXML(val);
 		} else {
 			throw new MyError(app, "handleLength: " + geo.getClassName());
 		}

@@ -562,6 +562,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	public final void add(final GeoElement geo) {
 		// add geo to end of list
 		geoList.add(geo);
+		
+		if (geoList.size() == 1) {
+			setTypeStringForXML(geo.getXMLtypeString());
+		}
 
 		/*
 		 * // needed for Corner[Element[text // together with swapping these
@@ -825,6 +829,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
+		
+		if (size() == 0 && getTypeStringForXML() != null) {
+			sb.append("<listType val=\"");
+			sb.append(getTypeStringForXML());
+			sb.append("\"/>\n");
+		}
 
 		if (selectedIndex != 0) {
 			sb.append("\t<selectedIndex val=\"");
@@ -866,6 +876,30 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 		sb.append("</element>\n");
 
+	}
+	
+	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list
+	// The Element command needs to know in advance what type of geo the list will hold
+	private String typeStringForXML = null;
+
+	/**
+	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
+	 * The Element/Cell/Object command needs to know in advance what type of geo the list will hold
+	 * 
+	 * @return type, eg "point"
+	 */
+	public String getTypeStringForXML() {
+		return typeStringForXML;
+	}
+
+	/**
+	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
+	 * The Element/Cell/Object command needs to know in advance what type of geo the list will hold
+	 *
+	 * @param type eg "point"
+	 */
+	public void setTypeStringForXML(String type) {
+		typeStringForXML = type;
 	}
 
 	/**
@@ -1058,7 +1092,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 	public void setPointSize(final int size) {
 		pointSize = size;
-
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
 		}

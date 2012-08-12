@@ -75,6 +75,13 @@ public class AlgoListElement extends AlgoElement {
 			element = geoList.get(0).copyInternal(cons);
 		}
 
+		// desperate case: empty list 
+		else if (geoList.getTypeStringForXML() != null) {
+			// if the list was non-empty at some point before saving, get the same type of geo
+			// saved in XML from 4.1.131.0
+			element = kernel.createGeoElement(cons, geoList.getTypeStringForXML());
+		}
+
 		// desperate case: empty list
 		else {
 			// saved in XML from 4.0.18.0
