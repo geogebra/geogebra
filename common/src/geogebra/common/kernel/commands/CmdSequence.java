@@ -44,15 +44,15 @@ final public  GeoElement[] process(Command c) throws MyError {
     	}    	
     	throw argErr(app, c.getName(), arg[0]);
     	case 4 :
-    		
-    		// make sure Sequence[i,i,i,i] gives an error
-    		if (arg[2].isChildOrEqual(arg[1])) {
-    			throw argErr(app, c.getName(), arg[2]);	
+    		if(!kernelA.getConstruction().isFileLoading()){
+	    		// make sure Sequence[i,i,i,i] gives an error
+	    		if (arg[2].isChildOrEqual(arg[1])) {
+	    			throw argErr(app, c.getName(), arg[2]);	
+	    		}
+	    		if (arg[3].isChildOrEqual(arg[1])) {
+	    			throw argErr(app, c.getName(), arg[3]);	
+	    		}
     		}
-    		if (arg[3].isChildOrEqual(arg[1])) {
-    			throw argErr(app, c.getName(), arg[3]);	
-    		}
-    		
            if ((ok[0] = arg[0].isGeoElement())
                	 && (ok[1] = arg[1].isGeoNumeric())
                	 && (ok[2] = arg[2].isNumberValue())
@@ -69,18 +69,18 @@ final public  GeoElement[] process(Command c) throws MyError {
                	               
     		    		
         case 5 :        	        	                           
-    		
-        	// make sure Sequence[i,i,i,i,i] gives an error
-    		if (arg[2].isChildOrEqual(arg[1])) {
-    			throw argErr(app, c.getName(), arg[2]);	
-    		}
-    		if (arg[3].isChildOrEqual(arg[1])) {
-    			throw argErr(app, c.getName(), arg[3]);	
-    		}
-    		if (arg[4].isChildOrEqual(arg[1])) {
-    			throw argErr(app, c.getName(), arg[4]);	
-    		}
-
+        	if(!kernelA.getConstruction().isFileLoading()){
+	        	// make sure Sequence[i,i,i,i,i] gives an error
+	    		if (arg[2].isChildOrEqual(arg[1])) {
+	    			throw argErr(app, c.getName(), arg[2]);	
+	    		}
+	    		if (arg[3].isChildOrEqual(arg[1])) {
+	    			throw argErr(app, c.getName(), arg[3]);	
+	    		}
+	    		if (arg[4].isChildOrEqual(arg[1])) {
+	    			throw argErr(app, c.getName(), arg[4]);	
+	    		}
+        	}
     		if ((ok[0] = arg[0].isGeoElement())
             	 && (ok[1] = arg[1].isGeoNumeric())
             	 && (ok[2] = arg[2].isNumberValue())

@@ -2778,6 +2778,12 @@ public class Construction {
 		fileLoading = b;	
 	}
 
+	/**
+	 * @return whether we are just loading a file
+	 */
+	public boolean isFileLoading(){
+		return fileLoading;
+	}
 	// update all indices >= pos
 
 	/**
