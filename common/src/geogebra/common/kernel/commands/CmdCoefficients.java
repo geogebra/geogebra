@@ -1,7 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoConicCoefficients;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.cas.AlgoCoefficients;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -31,12 +33,16 @@ public class CmdCoefficients extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0].isGeoFunction())) {
-				GeoElement[] ret = { kernelA.Coefficients(c.getLabel(),
-						(GeoFunction) arg[0]) };
+				
+				AlgoCoefficients algo = new AlgoCoefficients(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((arg[0].isGeoConic())) {
-				GeoElement[] ret = { kernelA.Coefficients(c.getLabel(),
-						(GeoConic) arg[0]) };
+				
+				AlgoConicCoefficients algo = new AlgoConicCoefficients(cons, c.getLabel(),
+						(GeoConic) arg[0]);
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);

@@ -3,6 +3,8 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoDoubleListCovariance;
+import geogebra.common.kernel.statistics.AlgoListCovariance;
 
 /**
  * Covariance[ &lt;list1>, <&lt;list2> ]
@@ -23,13 +25,17 @@ public class CmdCovariance extends CmdOneOrTwoListsFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.Covariance(a, b);
+		AlgoListCovariance algo = new AlgoListCovariance(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
-		return kernelA.Covariance(a, b, c);
+		AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance(cons,
+				a, b, c);
+
+		return algo.getResult();
 	}
 
 

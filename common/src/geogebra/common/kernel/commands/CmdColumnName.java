@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoColumnName;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -30,8 +31,9 @@ public class CmdColumnName extends CommandProcessor {
 		case 1:
 
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0]))
-{
-				GeoElement[] ret = { kernelA.ColumnName(c.getLabel(), arg[0]) };
+			{
+				AlgoColumnName algo = new AlgoColumnName(cons, c.getLabel(), arg[0]);
+				GeoElement[] ret = { algo.getGeoText() };
 
 				return ret;
 			}

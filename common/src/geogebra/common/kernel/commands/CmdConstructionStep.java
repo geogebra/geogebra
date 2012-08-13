@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoConstructionStep;
+import geogebra.common.kernel.algos.AlgoStepObject;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
@@ -28,20 +30,19 @@ public class CmdConstructionStep extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		
+
 		switch (n) {
 		case 0:
-
-			GeoElement[] ret = { 
-					kernelA.ConstructionStep(c.getLabel() ) };
+			
+			AlgoConstructionStep algo = new AlgoConstructionStep(cons, c.getLabel());
+			GeoElement[] ret = {algo.getResult() };
 			return ret;
-	
+
 		case 1:
-			GeoElement[] ret3 = { 
-					kernelA.ConstructionStep(c.getLabel(), arg[0] ) };
-			//kernel.Step(c.getLabel() ) };
-			return ret3;
-	
+			AlgoStepObject algo2 = new AlgoStepObject(cons, c.getLabel(), arg[0]);
+			GeoElement[] ret2 = {  algo2.getResult() };
+			return ret2;
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCurvatureVector;
+import geogebra.common.kernel.algos.AlgoCurvatureVectorCurve;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -35,13 +37,19 @@ public class CmdCurvatureVector extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				GeoElement[] ret = { kernelA.CurvatureVector(c.getLabel(),
-						(GeoPoint) arg[0], (GeoFunction) arg[1]) };
+				
+				AlgoCurvatureVector algo = new AlgoCurvatureVector(cons,c.getLabel(),
+						(GeoPoint) arg[0], (GeoFunction) arg[1]);
+
+				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
-				GeoElement[] ret = { kernelA.CurvatureVectorCurve(c.getLabel(),
-						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]) };
+				
+				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(cons,
+						c.getLabel(),
+						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]);
+				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else {
 				if (!ok[0])
