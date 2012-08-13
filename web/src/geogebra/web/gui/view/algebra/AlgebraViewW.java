@@ -26,6 +26,7 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Tree;
@@ -1296,6 +1297,22 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 	@Override
 	public void onBrowserEvent(Event event) {
+		// as arrow keys are prevented in super.onBrowserEvent,
+		// we need to handle arrow key events before that
+		switch (DOM.eventGetType(event)) {
+			case Event.ONKEYUP:
+				switch (DOM.eventGetKeyCode(event)) {
+					case KeyCodes.KEY_UP:
+					case KeyCodes.KEY_DOWN:
+					case KeyCodes.KEY_LEFT:
+					case KeyCodes.KEY_RIGHT:
+					// this may be enough for Safari too, because it is not onkeypress
+						app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(event);
+						event.stopPropagation();
+						event.preventDefault();
+						return;
+				}
+		}
 		if (!editing)
 			super.onBrowserEvent(event);
 	}

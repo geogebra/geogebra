@@ -6,12 +6,14 @@ import geogebra.common.main.KeyCodes;
 
 import java.util.ArrayList;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+
 /**
  * Handles keyboard events.
  */
@@ -85,6 +87,15 @@ public class GlobalKeyDispatcherW extends
 			ArrayList<GeoElement> geos) {
 		
 		return handleSelectedGeosKeys(KeyCodes.translateGWTcode(event.getNativeKeyCode()), geos, event.isShiftKeyDown(), event.isControlKeyDown(), event.isAltKeyDown(), false);
+	}
+
+	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
+		return handleSelectedGeosKeys(
+			geogebra.common.main.KeyCodes.translateGWTcode(event.getKeyCode()),
+			app.getSelectedGeos(),
+			event.getShiftKey(),
+			event.getCtrlKey(),
+			event.getAltKey(), false);
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
