@@ -40,14 +40,11 @@ public class CmdCurveCartesian extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isNumberValue())
 					&& (ok[4] = arg[4].isNumberValue())) {
-				if(!kernelA.getConstruction().isFileLoading()){
-					if (arg[3].isChildOrEqual(arg[2])) {
-		    			throw argErr(app, c.getName(), arg[3]);	
-		    		}
-		    		if (arg[4].isChildOrEqual(arg[2])) {
-		    			throw argErr(app, c.getName(), arg[4]);
-					}
-	    		}
+				
+				// make sure Curve[i,i,i,i,i] gives an error
+				checkDependency(arg, c.getName(), 3, 2);
+				checkDependency(arg, c.getName(), 4, 2);
+				
 				GeoElement[] ret = new GeoElement[1];
 				ret[0] = kernelA.CurveCartesian(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],

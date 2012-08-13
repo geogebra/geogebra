@@ -5263,13 +5263,6 @@ public class Kernel {
 		return ret;
 	}
 
-	final public GeoNumeric ChiSquared(String label, NumberValue a,
-			NumberValue b) {
-		AlgoChiSquared algo = new AlgoChiSquared(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
 	/**
 	 * Cartesian curve command: Curve[ <expression x-coord>, <expression
 	 * x-coord>, <number-var>, <from>, <to> ]

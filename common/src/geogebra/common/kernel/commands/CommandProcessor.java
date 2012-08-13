@@ -512,5 +512,25 @@ public abstract class CommandProcessor {
 		return list;
 	}
 
+	/**
+	 *  see #2552
+	 *  
+	 * @param arg
+	 * @param name
+	 * @param i
+	 * @param j
+	 */
+	protected void checkDependency(GeoElement[] arg, String name, int i, int j) {
+		if (arg[i].isChildOrEqual(arg[j])) {
+			if (kernelA.getConstruction().isFileLoading()) {
+				// make sure old files can be loaded (and fixed)
+				App.warn("wrong dependency in "+name);
+			} else {
+				throw argErr(app, name, arg[i]);	
+			}
+		}
+
+	}
+
 
 }
