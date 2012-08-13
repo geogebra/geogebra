@@ -477,6 +477,10 @@ public abstract class AlgoElement extends ConstructionElement implements
 		//overriden in subclasses
 	}
 
+	/**
+	 * @return whether this algo has NEAR-TO relations
+	 * (ie ambiguous output => we pick the nearest possibility to last output)
+	 */
 	public boolean isNearToAlgorithm() {
 		return false;
 	}
@@ -1365,16 +1369,16 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return sb.toString();
 	}
 
-	final public static String getXMLtypeString(GeoElement geo) {
-		return StringUtil.toLowerCase(geo.getClassName().substring(3));
-	}
+	/**
+	 * @return class identificator (may not be unique)
+	 */
 	public abstract Algos getClassName();
 
 	/**
 	 * Sets whether the output of this command should be labeled. This setting
 	 * is used for getXML().
 	 * 
-	 * @param flag
+	 * @param flag whether the output of this command should be labeled
 	 */
 	public void setPrintedInXML(boolean flag) {
 		isPrintedInXML = flag;
@@ -1385,6 +1389,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 	}
 
+	/**
+	 * @return whether the output of this command should be labeled (for GetXML)
+	 */
 	protected boolean isPrintedInXML() {
 		return isPrintedInXML;
 	}
@@ -1402,8 +1409,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return stopUpdateCascade;
 	}
 
-	public final void setStopUpdateCascade(boolean stopUpdateCascade) {// package
-																		// private
+	protected final void setStopUpdateCascade(boolean stopUpdateCascade) {
 		this.stopUpdateCascade = stopUpdateCascade;
 	}
 
@@ -1413,9 +1419,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	/**
 	 * Makes sure that this algorithm will be updated after the given
-	 * parentAlgorithm.
+	 * algorithm.
 	 * 
-	 * @param updateAfterAlgo
+	 * @param updateAfterAlgo algo after which this should be updated
 	 * @see #getUpdateAfterAlgo()
 	 */
 	final public void setUpdateAfterAlgo(AlgoElement updateAfterAlgo) {

@@ -1612,7 +1612,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 		final GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
-			App.debug("TODO: " + geo.getClassName()
+			App.debug("TODO: " + geo.getGeoClassType()
 					+ " should implement PathOrPoint interface");
 			return;
 		}

@@ -71,7 +71,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 						((GeoFunctionNVar) arg[0])) };
 				return ret;
 			} else {
-				App.debug(arg[0] + ": " + arg[0].getClassName()
+				App.debug(arg[0] + ": " + arg[0].getGeoClassType()
 						+ "; " + arg[0].getClass());
 				throw argErr(app, c.getName(), arg[0]);
 			}

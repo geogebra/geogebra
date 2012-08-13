@@ -4128,7 +4128,7 @@ public class MyXMLHandler implements DocHandler {
 		if (!(geo instanceof LimitedPath)) {
 			App
 					.debug("wrong element type for <outlyingIntersections>: "
-							+ geo.getClassName());
+							+ geo.getGeoClassType());
 			return false;
 		}
 
@@ -4269,7 +4269,7 @@ public class MyXMLHandler implements DocHandler {
 		if (geo instanceof GeoTextField) {
 			((GeoTextField) geo).setLength(Integer.parseInt(val));
 		} else {
-			throw new MyError(app, "handleLength: " + geo.getClassName());
+			throw new MyError(app, "handleLength: " + geo.getGeoClassType());
 		}
 
 		return true;
@@ -4283,7 +4283,7 @@ public class MyXMLHandler implements DocHandler {
 		if (geo instanceof GeoList) {
 			((GeoList) geo).setTypeStringForXML(val);
 		} else {
-			throw new MyError(app, "handleLength: " + geo.getClassName());
+			throw new MyError(app, "handleLength: " + geo.getGeoClassType());
 		}
 
 		return true;

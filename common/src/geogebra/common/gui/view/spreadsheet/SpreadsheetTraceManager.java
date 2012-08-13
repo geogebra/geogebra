@@ -588,7 +588,7 @@ public class SpreadsheetTraceManager {
 
 			} else {
 				App.warn("not SpreadsheetTraceable "
-						+ geos[i].getClassName());
+						+ geos[i].getGeoClassType());
 
 			}
 		}
