@@ -195,13 +195,13 @@ public class Ggb2MPReduce {
 				"<<on pri; (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2)))>>");
 		p("nPr.2", "factorial(%0)/factorial(%0-%1)");
 		p("NSolve.1",
-				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return num\\_solve(input!!,mymainvar(input!!), iterations=10000) end>>");
+				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!))))) end>>");
 		p("NSolve.2",
-				"<<on rounded, numval, roundall$ num\\_solve(%0,%1, iterations=10000) >>");
+				"<<on rounded, numval, roundall$ mynumsolve(%0,%1, iterations=10000) >>");
 		p("NSolutions.1",
-				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return map(rhs,num\\_solve(input!!,mymainvar(input!!), iterations=10000)) end>>");
+				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return map(rhs,mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!)))), iterations=10000)) end>>");
 		p("NSolutions.2",
-				"<<on rounded, numval, roundall$ map(rhs,num\\_solve(%0,%1, iterations=10000)) >>");
+				"<<on rounded, numval, roundall$ map(rhs,mynumsolve(%0,%1, iterations=10000)) >>");
 		p("Numerator.1", "num(%0)");
 		p("Numeric.1",
 				"<<numeric!!:=1; on rounded, roundall, numval$ if printprecision!!<=16 then <<print\\_precision(printprecision!!)$ %0>> else <<precision(printprecision!!)$ print\\_precision(printprecision!!)$ %0 >> >>");

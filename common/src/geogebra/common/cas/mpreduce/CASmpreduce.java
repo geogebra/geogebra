@@ -552,6 +552,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
 		mpreduce1
+		.evaluate("procedure mynumsolve(a,b);num_solve(a,b,iterations=10000);");
+		mpreduce1
 		.evaluate("procedure listtodisjunction(v,lst);" +
 				"begin scalar ret;" +
 				"ret:=part(lst,1);"+
