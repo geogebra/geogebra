@@ -5376,16 +5376,6 @@ public class Kernel {
 	}
 
 	/**
-	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
-	 */
-	final public GeoNumeric CountIf(String label, GeoFunction boolFun,
-			GeoList list) {
-
-		AlgoCountIf algo = new AlgoCountIf(cons, label, boolFun, list);
-		return algo.getResult();
-	}
-
-	/**
 	 * Calculate Curvature for function: k(x) = f''/T^3, T = sqrt(1+(f')^2)
 	 */
 
