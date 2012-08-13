@@ -39,6 +39,8 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -60,7 +62,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class RadioButtonTreeItem extends HorizontalPanel
-	implements DoubleClickHandler, ClickHandler, MouseMoveHandler {
+	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler {
 
 	GeoElement geo;
 	Kernel kernel;
@@ -128,6 +130,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.addDoubleClickHandler(this);
 		ihtml.addClickHandler(this);
 		ihtml.addMouseMoveHandler(this);
+		ihtml.addMouseDownHandler(this);
 		add(ihtml);
 		ihtml.getElement().appendChild(se);
 
@@ -393,32 +396,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (geo != null && !evt.isControlKeyDown()) {
 			app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
 		}
+
+		evt.stopPropagation();
+		evt.preventDefault();
+	}
+
+	public void onMouseDown(MouseDownEvent evt) {
+		if (av.editing)
+			return;
+
+		evt.preventDefault();
+		evt.stopPropagation();
 	}
 
 	public void onClick(ClickEvent evt) {
 
 		if (av.editing)
 			return;
-
-		/*
-		// Make sure this remains focused in browsers except Safari
-		// safari will need an input element instead of tabindex
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				if (av.editing)
-					return;
-
-				ihtml.getElement().focus();
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					public void execute() {
-						if (av.editing)
-							return;
-
-						ihtml.getElement().focus();
-					}
-				});
-			}
-		});*/
 
 		AppW app = (AppW)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
@@ -495,6 +489,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 
 		app.getActiveEuclidianView().mouseMovedOver(null);
+		evt.preventDefault();
+		evt.stopPropagation();
 	}
 
 	public void onMouseMove(MouseMoveEvent evt) {
@@ -518,5 +514,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//} else {
 		//	se.setTitle("");
 		//}
+		evt.stopPropagation();
+		evt.preventDefault();
 	}
 }
