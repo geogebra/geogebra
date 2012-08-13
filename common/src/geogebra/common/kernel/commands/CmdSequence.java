@@ -5,7 +5,6 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -47,10 +46,10 @@ final public  GeoElement[] process(Command c) throws MyError {
     	case 4 :
     		
     		// make sure Sequence[i,i,i,i] gives an error
-    		if (arg[2].contains(arg[1])) {
+    		if (arg[2].isChildOrEqual(arg[1])) {
     			throw argErr(app, c.getName(), arg[2]);	
     		}
-    		if (arg[3].contains(arg[1])) {
+    		if (arg[3].isChildOrEqual(arg[1])) {
     			throw argErr(app, c.getName(), arg[3]);	
     		}
     		
@@ -72,13 +71,13 @@ final public  GeoElement[] process(Command c) throws MyError {
         case 5 :        	        	                           
     		
         	// make sure Sequence[i,i,i,i,i] gives an error
-    		if (arg[2].contains(arg[1])) {
+    		if (arg[2].isChildOrEqual(arg[1])) {
     			throw argErr(app, c.getName(), arg[2]);	
     		}
-    		if (arg[3].contains(arg[1])) {
+    		if (arg[3].isChildOrEqual(arg[1])) {
     			throw argErr(app, c.getName(), arg[3]);	
     		}
-    		if (arg[4].contains(arg[1])) {
+    		if (arg[4].isChildOrEqual(arg[1])) {
     			throw argErr(app, c.getName(), arg[4]);	
     		}
 
