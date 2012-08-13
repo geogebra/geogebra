@@ -1328,6 +1328,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * @param output
 	 *            output string (from CAS)
+	 * @param prependLabel 
+	 * 				whether f(x):= must be prepended to output before evaluation
 	 */
 	public void setOutput(final String output,boolean prependLabel) {
 		error = null;

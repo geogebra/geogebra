@@ -4671,7 +4671,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @return
+	 * @return whether this is GeoAxisND
 	 */
 	public boolean isAxis() {
 		return false;
