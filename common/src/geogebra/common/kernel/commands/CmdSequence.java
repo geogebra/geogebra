@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -44,6 +45,15 @@ final public  GeoElement[] process(Command c) throws MyError {
     	}    	
     	throw argErr(app, c.getName(), arg[0]);
     	case 4 :
+    		
+    		// make sure Sequence[i,i,i,i] gives an error
+    		if (arg[2].contains(arg[1])) {
+    			throw argErr(app, c.getName(), arg[2]);	
+    		}
+    		if (arg[3].contains(arg[1])) {
+    			throw argErr(app, c.getName(), arg[3]);	
+    		}
+    		
            if ((ok[0] = arg[0].isGeoElement())
                	 && (ok[1] = arg[1].isGeoNumeric())
                	 && (ok[2] = arg[2].isNumberValue())
@@ -60,7 +70,19 @@ final public  GeoElement[] process(Command c) throws MyError {
                	               
     		    		
         case 5 :        	        	                           
-            if ((ok[0] = arg[0].isGeoElement())
+    		
+        	// make sure Sequence[i,i,i,i,i] gives an error
+    		if (arg[2].contains(arg[1])) {
+    			throw argErr(app, c.getName(), arg[2]);	
+    		}
+    		if (arg[3].contains(arg[1])) {
+    			throw argErr(app, c.getName(), arg[3]);	
+    		}
+    		if (arg[4].contains(arg[1])) {
+    			throw argErr(app, c.getName(), arg[4]);	
+    		}
+
+    		if ((ok[0] = arg[0].isGeoElement())
             	 && (ok[1] = arg[1].isGeoNumeric())
             	 && (ok[2] = arg[2].isNumberValue())
             	 && (ok[3] = arg[3].isNumberValue())

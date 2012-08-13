@@ -24,8 +24,10 @@ import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -1349,5 +1351,18 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	public boolean isPinnable() {
 		return false;
 	}
+	
+	@Override
+	public boolean contains(final ExpressionValue ev) {
+		
+		if (getParentAlgorithm() instanceof AlgoDependentNumber) {
+			// needed in eg CmdSequence, see #2552
+			AlgoDependentNumber algo = (AlgoDependentNumber)getParentAlgorithm();
+			return algo.getExpression().contains(ev);
+		}
+		return ev == this;
+	}
+
+
 
 }
