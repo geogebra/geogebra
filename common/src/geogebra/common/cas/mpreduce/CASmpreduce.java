@@ -438,7 +438,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate("procedure mycoeff(p,x);"
 				+ " begin scalar coefflist, bool!!;"
+				+ " on ratarg;"
 				+ " coefflist:=coeff(p,x);"
+				+ " off ratarg;"
 				+ " if 1=for each elem!! in coefflist product"
 				+ "   if freeof(elem!!,x) then 1 else 0 then"
 				+ "   return reverse(coefflist)" + " else" + "   return '?"
@@ -552,7 +554,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
 		mpreduce1
-		.evaluate("procedure mynumsolve(a,b);num_solve(a,b,iterations=10000);");
+		.evaluate("procedure mynumsolve(a,b); " +
+				" begin;scalar eqn;" +
+				" a:=mkdepthone(list(a));"+
+				" b:=mkdepthone(list(b));"+
+				" if length(a)=1 then eqn:=lhs(part(a,1))-rhs(part(a,1));"+
+				" return if length(a)=1 and not(mycoeff(eqn,part(b,1))='?)" +
+				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) then list(r) else list())" +
+				" else num_solve(a,b,iterations=10000);" +
+				" end;");
 		mpreduce1
 		.evaluate("procedure listtodisjunction(v,lst);" +
 				"begin scalar ret;" +
