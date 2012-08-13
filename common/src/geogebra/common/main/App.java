@@ -1645,6 +1645,8 @@ public abstract class App {
 	 */
 	protected void updateLanguageFlags(String lang) {
 
+		// force update
+		fontSizeStrings = null;
 		
 		// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
 		// 2008-03-31
