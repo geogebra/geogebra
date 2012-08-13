@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoKeepIf;
 import geogebra.common.kernel.algos.AlgoKeepIf3;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -14,7 +15,7 @@ import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.main.MyError;
 
 /**
- *KeepIf
+ *KeepIf (also see CmdCountIf)
  */
 public class CmdKeepIf extends CommandProcessor {
 
@@ -65,8 +66,7 @@ public class CmdKeepIf extends CommandProcessor {
 
 			if (arg instanceof GeoBoolean) {
 
-				AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), (GeoBoolean)arg, vars[0], over[0]);
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = getResult3(c, (GeoBoolean) arg, vars, over);
 				return ret;
 			}
 
@@ -80,8 +80,7 @@ public class CmdKeepIf extends CommandProcessor {
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						&& (ok[1] = args[1].isGeoList())) {
 
-					AlgoKeepIf algo2 = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) args[1]));
-					GeoElement[] ret2 = { algo2.getResult() };
+					GeoElement[] ret2 = getResult2(c, booleanFun, args);
 					return ret2;
 				}
 			}
@@ -91,5 +90,19 @@ public class CmdKeepIf extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	protected GeoElement[] getResult2(ValidExpression c, GeoFunction booleanFun, GeoElement[] args) {
+		AlgoKeepIf algo = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) args[1]));
+		GeoElement[] ret = { algo.getResult() };
+		
+		return ret;
+	}
+
+	protected GeoElement[] getResult3(ValidExpression c, GeoBoolean arg, GeoElement[] vars, GeoList[] over) {
+		AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), arg, vars[0], over[0]);
+		GeoElement[] ret = { algo.getResult() };
+		
+		return ret;
 	}
 }
