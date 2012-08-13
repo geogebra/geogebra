@@ -349,7 +349,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("CountIf")
     String CountIf();
 
-    @DefaultStringValue("[ <Condition>, <List> ]")
+    @DefaultStringValue("CountIf[ <Condition>, <List> ]\nCountIf[ <Condition>, <Variable>, <List> ]")
     String CountIf_Syntax();
 
     @DefaultStringValue("Covariance")
