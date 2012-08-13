@@ -4634,7 +4634,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void updateFonts() {
 			Font font = app.getPlainFont();
 			
-			cbSize.setFont(font);
+			cbFont.setFont(font);
+ 			cbSize.setFont(font);
+			cbDecimalPlaces.setFont(font);
 
 			btItalic.setFont(font);
 			btBold.setFont(font);

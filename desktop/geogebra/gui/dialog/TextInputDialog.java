@@ -37,6 +37,7 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -790,6 +791,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener {
 					insertString("$  $");
 					setRelativeCaretPosition(-2);
 				}
+				
+				editOccurred = true;
 
 			}
 
@@ -895,12 +898,34 @@ public class TextInputDialog extends InputDialogD implements DocumentListener {
 	}
 
 	public void updateFonts() {
-		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
-		buildInsertGeoButton();
-		updateInsertLaTeXButtonLabels();
+
+		super.updateFonts();
+
+		Font font = app.getPlainFont();
+		
+		if (isBtnInsertLatexLoaded){
+			buildInsertLaTeXButton();
+			btInsertLaTeX.setVisible(cbLaTeX.isSelected());
+		}
+		
+		btInsertLaTeX.setFont(font);
+		
+
+
+		btInsertUnicode.setFont(font);
 		buildInsertUnicodeButton();
+
+
+		btInsertGeo.setFont(font);
+		geoList.setFont(font);
+
+		cbLaTeX.setFont(font);
+
+		
+		previewHeader.setFont(font);
 		textPreviewer.updateFonts();
-		wrappedDialog.pack();
+
+
 	}
 
 	// =============================================================
