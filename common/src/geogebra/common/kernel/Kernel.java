@@ -5270,65 +5270,6 @@ public class Kernel {
 		return num;
 	}
 
-	final public GeoElement CompleteSquare(String label, GeoFunction func) {
-		AlgoCompleteSquare algo = new AlgoCompleteSquare(cons, label, func);
-		return algo.getResult();
-	}
-
-	/**
-	 * all Complex Roots of polynomial f (works only for polynomials)
-	 */
-	final public GeoPoint[] ComplexRoot(String[] labels, GeoFunction f) {
-		// allow functions that can be simplified to factors of polynomials
-		if (!f.isPolynomialFunction(true))
-			return null;
-
-		AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(cons,
-				labels, f);
-		GeoPoint[] g = algo.getRootPoints();
-		return g;
-	}
-
-	/**
-	 * Column of geo.
-	 */
-	final public GeoNumeric Column(String label, GeoElement geo) {
-		AlgoColumn algo = new AlgoColumn(cons, label, geo);
-		GeoNumeric ret = algo.getResult();
-		return ret;
-	}
-
-	/**
-	 * Creates a list object for a range of cells in the spreadsheet. e.g. A1:B2
-	 */
-	final public GeoList CellRange(String label, GeoElement startCell,
-			GeoElement endCell) {
-		AlgoCellRange algo = new AlgoCellRange(cons, label, startCell, endCell);
-		return algo.getList();
-	}
-
-	/**
-	 * Classes[dataList, start, width] G. Sturr
-	 */
-	final public GeoList Classes(String label, GeoList dataList,
-			GeoNumeric start, GeoNumeric width) {
-		AlgoClasses algo = new AlgoClasses(cons, label, dataList, start, width,
-				null);
-		GeoList list = algo.getResult();
-		return list;
-	}
-
-	/**
-	 * Classes[dataList, number of classes] G. Sturr
-	 */
-	final public GeoList Classes(String label, GeoList dataList,
-			GeoNumeric numClasses) {
-		AlgoClasses algo = new AlgoClasses(cons, label, dataList, null, null,
-				numClasses);
-		GeoList list = algo.getResult();
-		return list;
-	}
-
 	/**
 	 * Cartesian curve command: Curve[ <expression x-coord>, <expression
 	 * x-coord>, <number-var>, <from>, <to> ]

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoClasses;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -32,8 +33,11 @@ public class CmdClasses extends CommandProcessor {
 
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.Classes(c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1]) };
+				AlgoClasses algo = new AlgoClasses(cons, c.getLabel(),
+						(GeoList) arg[0], null, null,
+						(GeoNumeric) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			}
@@ -42,9 +46,12 @@ public class CmdClasses extends CommandProcessor {
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.Classes(c.getLabel(),
+				AlgoClasses algo = new AlgoClasses(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2]) };
+						(GeoNumeric) arg[2],
+						null);
+				
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			}

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCompleteSquare;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -32,8 +33,9 @@ public class CmdCompleteSquare extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoFunction()) {
-				GeoElement[] ret = { kernelA.CompleteSquare(c.getLabel(),
-						(GeoFunction) arg[0]) };
+				AlgoCompleteSquare algo = new AlgoCompleteSquare(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

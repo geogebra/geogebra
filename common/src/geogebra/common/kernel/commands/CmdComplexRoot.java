@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoComplexRootsPolynomial;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
 
@@ -31,8 +33,17 @@ public class CmdComplexRoot extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				return kernelA.ComplexRoot(c.getLabels(),
-						((GeoFunctionable) arg[0]).getGeoFunction());
+				
+				GeoFunction f = ((GeoFunctionable) arg[0]).getGeoFunction();
+				
+				// allow functions that can be simplified to factors of polynomials
+				if (!f.isPolynomialFunction(true))
+					return null;
+
+				AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(cons,
+						c.getLabels(), f);
+
+				return algo.getRootPoints();
 			}
 			throw argErr(app, c.getName(), arg[0]);
 

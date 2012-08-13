@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCellRange;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -33,8 +34,8 @@ public class CmdCellRange extends CommandProcessor {
 			if ((ok[0] = GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) &&
 				(ok[1] = GeoElementSpreadsheet.hasSpreadsheetLabel(arg[1]))) 
 			{
-				GeoElement[] ret = { 
-						kernelA.CellRange(c.getLabel(), arg[0], arg[1]) };
+				AlgoCellRange algo = new AlgoCellRange(cons, c.getLabel(), arg[0], arg[1]);
+				GeoElement[] ret = { algo.getList() };
 				return ret;
 				
 			}  
