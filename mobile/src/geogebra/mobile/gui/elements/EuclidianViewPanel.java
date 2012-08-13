@@ -1,6 +1,6 @@
 package geogebra.mobile.gui.elements;
 
-import geogebra.common.euclidian.EuclidianController;
+import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.mobile.euclidian.EuclidianViewM;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -17,10 +17,10 @@ public class EuclidianViewPanel extends LayoutPanel
 		this.canvas = Canvas.createIfSupported(); 
 	}
 	
-	public void initEuclidianView(EuclidianController ec){
+	public void initEuclidianView(MobileEuclidianController ec){
 		this.euclidianView = new EuclidianViewM(ec); 
 		this.euclidianView.initCanvas(this.canvas); 
-	
+
 		add(this.canvas); 		
 	}
 }

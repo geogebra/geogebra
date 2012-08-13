@@ -2,10 +2,20 @@ package geogebra.mobile.controller;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
-public class MobileEuclidianController extends EuclidianController
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
+
+public class MobileEuclidianController extends EuclidianController implements TouchStartHandler, TouchEndHandler, TouchMoveHandler, ClickHandler
 {
 
 	@Override
@@ -28,6 +38,35 @@ public class MobileEuclidianController extends EuclidianController
 	@Override
 	protected void resetToolTipManager()
 	{
+	}
+
+	@Override
+	public void onTouchMove(TouchMoveEvent event)
+	{
+		
+	}
+
+	@Override
+	public void onTouchEnd(TouchEndEvent event)
+	{
+		
+	}
+
+	@Override
+	public void onTouchStart(TouchStartEvent event)
+	{
+		
+	}
+
+	@Override
+	public void onClick(ClickEvent event)
+	{
+		// TODO
+		// Test
+		GeoPoint P = this.kernel.Point(null, 7.0, 3.0);
+		GeoPoint Q = this.kernel.Point(null, 5.0, 1.0);
+		this.kernel.Point("R", 10.0, -2.0);
+		this.kernel.Line("g", P, Q);
 	}
 
 }

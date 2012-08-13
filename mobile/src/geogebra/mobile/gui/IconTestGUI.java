@@ -1,11 +1,11 @@
 package geogebra.mobile.gui;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
-import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.kernel.Kernel;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 import geogebra.mobile.gui.elements.toolbar.ToolButton;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -42,23 +42,18 @@ public class IconTestGUI implements GeoGebraMobileGUI
 	@Override
 	public EuclidianViewPanel getEuclidianViewPanel()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public AlgebraViewPanel getAlgebraViewPanel()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-  public void initComponents(EuclidianController ec)
+  public void initComponents(Kernel kernel)
   {
-	  // TODO Auto-generated method stub
-	  
   }
-
 	
 }

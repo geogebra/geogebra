@@ -20,6 +20,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
+import geogebra.common.main.FontManager;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -33,6 +34,10 @@ import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.mobile.euclidian.EuclidianViewM;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 import geogebra.web.io.MyXMLio;
+import geogebra.web.main.AppW;
+import geogebra.web.main.FontManagerW;
+
+import com.google.gwt.i18n.client.LocaleInfo;
 
 /**
  * 
@@ -43,43 +48,47 @@ public class MobileApp extends App
 {
 	private GeoGebraMobileGUI mobileGUI;
 
+	private FontManagerW fontManager;
+
 	public MobileApp(GeoGebraMobileGUI mobileGUI)
 	{
 		super.initing = true;
 
-		intitFactories(); 
-		
+		intitFactories();
+
+		this.fontManager = new FontManagerW();
 		this.mobileGUI = mobileGUI;
-		
 		this.settings = new Settings();
 	}
 
 	public void start()
 	{
-		
+
 		this.kernel = new Kernel(MobileApp.this);
 
-//		initEuclidianViews();
+		// initEuclidianViews();
 
 		this.myXMLio = new MyXMLio(this.kernel, this.kernel.getConstruction());
 
 		setUndoActive(true);
 
-//		this.mobileGUI.getEuclidianViewPanel().setCanvas(((EuclidianViewM)getEuclidianView1()).getCanvas()); 
-		
-		MobileEuclidianController ec = new MobileEuclidianController();
-		ec.setKernel(this.kernel);
-		this.mobileGUI.initComponents(ec); 
-		
+		this.mobileGUI.initComponents(this.kernel);
+
 		super.initing = false;
 	}
 
 	private static void intitFactories()
-  {
+	{
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
 	}
-	
+
+	@Override
+protected FontManager getFontManager()
+	{
+		return this.fontManager;
+	}
+
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
 	{
@@ -156,20 +165,6 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public String getSymbol(int key)
-	{
-
-		return null;
-	}
-
-	@Override
-	public String getSymbolTooltip(int key)
-	{
-
-		return null;
-	}
-
-	@Override
 	public void setTooltipFlag()
 	{
 
@@ -205,8 +200,8 @@ public class MobileApp extends App
 	@Override
 	public String getLanguage()
 	{
-
-		return null;
+		// TODO
+		return getLocaleStr().substring(0, 2);
 	}
 
 	@Override
@@ -279,13 +274,6 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public GuiManager getGuiManager()
-	{
-
-		return null;
-	}
-
-	@Override
 	public DialogManager getDialogManager()
 	{
 
@@ -302,13 +290,6 @@ public class MobileApp extends App
 	public void evalJavaScript(App app, String script, String arg)
 	{
 
-	}
-
-	@Override
-	public EuclidianView createEuclidianView()
-	{
-
-		return null;
 	}
 
 	@Override
@@ -406,7 +387,7 @@ public class MobileApp extends App
 	@Override
 	public GFont getPlainFontCommon()
 	{
-		//TODO
+		// TODO
 		return new geogebra.web.awt.GFontW("normal");
 	}
 
@@ -492,13 +473,6 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public GlobalKeyDispatcher getGlobalKeyDispatcher()
-	{
-
-		return null;
-	}
-
-	@Override
 	public void evalPythonScript(App app, String string, String arg)
 	{
 
@@ -572,8 +546,15 @@ public class MobileApp extends App
 	@Override
 	public String getLocaleStr()
 	{
+		// TODO
+		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+		App.debug("Current Locale: " + localeName);
 
-		return null;
+		if (localeName.toLowerCase().equals(AppW.DEFAULT_LOCALE))
+		{
+			return AppW.DEFAULT_LANGUAGE;
+		}
+		return localeName.substring(0, 2);
 	}
 
 	@Override
@@ -604,12 +585,6 @@ public class MobileApp extends App
 	public void fileNew()
 	{
 
-	}
-
-	@Override
-	public String getCountryFromGeoIP() throws Exception
-	{
-		return null;
 	}
 
 	@Override
@@ -648,5 +623,47 @@ public class MobileApp extends App
 	public void runScripts(GeoElement geo1, String string)
 	{
 	}
+
+	@Override
+	protected Object getMainComponent()
+	{
+		return null;
+	}
+
+	@Override
+  public String getSymbol(int key)
+  {
+	  return null;
+  }
+
+	@Override
+  public String getSymbolTooltip(int key)
+  {
+	  return null;
+  }
+
+	@Override
+  public GuiManager getGuiManager()
+  {
+	  return null;
+  }
+
+	@Override
+  public EuclidianView createEuclidianView()
+  {
+	  return null;
+  }
+
+	@Override
+  public GlobalKeyDispatcher getGlobalKeyDispatcher()
+  {
+	  return null;
+  }
+
+	@Override
+  public String getCountryFromGeoIP() throws Exception
+  {
+	  return null;
+  }
 
 }

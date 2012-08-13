@@ -1,6 +1,6 @@
 package geogebra.mobile.gui;
 
-import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.kernel.Kernel;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 
@@ -10,5 +10,5 @@ public interface GeoGebraMobileGUI
 
 	public AlgebraViewPanel getAlgebraViewPanel();
 	
-	public void initComponents(EuclidianController ec); 
+	public void initComponents(Kernel kernel); 
 }

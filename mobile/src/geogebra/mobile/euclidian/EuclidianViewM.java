@@ -13,38 +13,41 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
+import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.web.awt.GGraphics2DW;
 
-import java.awt.Scrollbar;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 
 public class EuclidianViewM extends EuclidianView
 {
 
 	// set in setCanvas
-	private geogebra.web.awt.GGraphics2DW g2p = null;
+	private GGraphics2DW g2p = null;
 	private Canvas canvas;
 
 	private GColor backgroundColor = GColor.white;
-	
-	public EuclidianViewM(EuclidianController ec)
+	private GGraphics2D g2dtemp;
+
+	public EuclidianViewM(MobileEuclidianController ec)
 	{
 		this(ec, new boolean[] { true, true }, true, new Settings().getEuclidian(1));
 	}
 
-	public EuclidianViewM(EuclidianController euclidiancontroller, boolean[] showAxes, boolean showGrid, EuclidianSettings settings)
+	public EuclidianViewM(MobileEuclidianController euclidiancontroller, boolean[] showAxes, boolean showGrid, EuclidianSettings settings)
 	{
-		// super(euclidiancontroller, settings);
-
 		super(euclidiancontroller, settings);
 	}
 
@@ -59,15 +62,42 @@ public class EuclidianViewM extends EuclidianView
 	{
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
-		
+
+		this.canvas.addTouchStartHandler(new TouchStartHandler()
+		{
+			@Override
+			public void onTouchStart(TouchStartEvent event)
+			{
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event);
+			}
+		});
+
+		this.canvas.addTouchMoveHandler(new TouchMoveHandler()
+		{
+			@Override
+			public void onTouchMove(TouchMoveEvent event)
+			{
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event);
+			}
+		});
+
+		this.canvas.addTouchEndHandler(new TouchEndHandler()
+		{
+			@Override
+      public void onTouchEnd(TouchEndEvent event)
+      {
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event);
+      }			
+		});
+
 		this.canvas.addClickHandler(new ClickHandler(){
 			@Override
       public void onClick(ClickEvent event)
       {
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onClick(event);
 				repaint(); 
-				System.out.println("x"); 
       }			
-		});
+		}); 
 		
 		updateFonts();
 		initView(true);
@@ -164,7 +194,8 @@ public class EuclidianViewM extends EuclidianView
 	@Override
 	public EuclidianController getEuclidianController()
 	{
-		return null;
+		//TODO
+		return this.euclidianController;
 	}
 
 	@Override
@@ -175,7 +206,11 @@ public class EuclidianViewM extends EuclidianView
 	@Override
 	public GGraphics2D getTempGraphics2D(GFont fontForGraphics)
 	{
-		return null;
+		//TODO
+		if(this.g2dtemp==null)
+	    	this.g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
+	    this.g2dtemp.setFont(fontForGraphics);
+	    return this.g2dtemp;
 	}
 
 	@Override
@@ -208,13 +243,13 @@ public class EuclidianViewM extends EuclidianView
 	public void updateSize()
 	{
 		// TODO
-		Window.enableScrolling(false); 
-		
+		Window.enableScrolling(false);
+
 		int width = Window.getClientWidth();
 		int height = Window.getClientHeight();
-		
-		this.canvas.setSize(width + "px", height + "px"); 
-		
+
+		this.canvas.setSize(width + "px", height + "px");
+
 		this.g2p.setCoordinateSpaceWidth(width);
 		this.g2p.setCoordinateSpaceHeight(height);
 	}

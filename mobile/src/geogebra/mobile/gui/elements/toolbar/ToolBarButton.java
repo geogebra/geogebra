@@ -1,5 +1,6 @@
 package geogebra.mobile.gui.elements.toolbar;
 
+import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
@@ -18,21 +19,21 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 {
 
 	ToolBarCommand[] menuEntries;
-	ToolBarInterface parent;
+	GuiModel model;
 
 	/**
 	 * 
 	 * @param menu
 	 *          : the button to be placed
-	 * @param parent
+	 * @param guiModel
 	 *          : the ToolBar it is placed on
 	 */
-	public ToolBarButton(ToolBarMenu menu, ToolBarInterface parent)
+	public ToolBarButton(ToolBarMenu menu, GuiModel guiModel)
 	{
 		super(menu.getCommand());
 
 		this.menuEntries = menu.getEntries();
-		this.parent = parent;
+		this.model = guiModel;
 
 		this.addTapHandler(new TapHandler()
 		{
@@ -48,20 +49,20 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	@Override
 	public void optionClicked(ToolBarCommand cmd)
 	{
-		this.parent.closeOptions();
 		super.setCmd(cmd); 
+		this.model.buttonClicked(this); 
 	}
 	
 	public void showOptions()
 	{
-		this.parent.closeOptions();
+		this.model.closeOptions();
 		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
-		this.parent.setOptions(options);
+		this.model.setOptions(options);
 		RootPanel.get().add(options);
 	}
 
 	public void getActive(){
-		this.parent.setActive(this); 
+		this.model.setActive(this); 
 	}
 	
 }
