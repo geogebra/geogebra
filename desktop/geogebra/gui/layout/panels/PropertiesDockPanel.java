@@ -38,7 +38,6 @@ public class PropertiesDockPanel extends DockPanel implements
 
 		this.app = app;
 		this.setOpenInFrame(true);
-		// this.setShowStyleBar(true);
 		super.setDialog(true);
 
 	}
