@@ -36,6 +36,7 @@ import javax.swing.PopupFactory;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
 /**
  *
@@ -477,5 +478,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	public Point getMousePoint() {
 		return mousePoint;
 	}
+	
+	
 
 }

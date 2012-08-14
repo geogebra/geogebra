@@ -458,7 +458,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 
 		wrappedDialog.setFont(font);
 		
-		inputPanel.getTextComponent().setFont(font);
+		inputPanel.updateFonts();
 
 		btOK.setFont(font);
 		btCancel.setFont(font);

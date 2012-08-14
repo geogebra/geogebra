@@ -23,6 +23,7 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
@@ -349,6 +350,19 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 
 		editOccurred = true;
 
+	}
+
+
+	@Override
+	public void updateFonts() {
+
+		super.updateFonts();
+
+		Font font = app.getPlainFont();
+		languageSelector.setFont(font);
+		
+		
+		
 	}
 
 }

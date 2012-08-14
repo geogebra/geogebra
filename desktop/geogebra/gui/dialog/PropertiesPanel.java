@@ -7094,6 +7094,16 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			add(inputPanelCap);
 		}
 
+	
+		this.rows=rows;
+		setLayout();
+				
+	}
+	
+	private int rows;
+	
+
+	private void setLayout(){
 		// Lay out the panel
 		setLayout(new SpringLayout());
 		SpringUtilities.makeCompactGrid(this, rows, 2, // rows, cols
@@ -7269,9 +7279,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		defLabel.setFont(font);
 		captionLabel.setFont(font);
 		
-		inputPanelName.getTextComponent().setFont(font);
-		inputPanelDef.getTextComponent().setFont(font);
-		inputPanelCap.getTextComponent().setFont(font);
+		inputPanelName.updateFonts();
+		inputPanelDef.updateFonts();
+		inputPanelCap.updateFonts();
+		
+		setLayout();
 		
 	}
 

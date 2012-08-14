@@ -16,6 +16,7 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -239,5 +240,14 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 				}
 	} 
 	/** end history list cell renderer **/	
+	
+	
+	public void updateFonts(){
+		
+		Font font = app.getPlainFont();
+		
+		textComponent.setFont(font);
+		//tfPanel.setFont(font);
+	}
 }
 
