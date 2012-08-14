@@ -23,4 +23,8 @@ public class EuclidianViewPanel extends LayoutPanel
 
 		add(this.canvas); 		
 	}
+	
+	public EuclidianViewM getEuclidianView(){
+		return this.euclidianView; 
+	}
 }

@@ -1,7 +1,6 @@
 package geogebra.mobile.gui;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
@@ -13,12 +12,9 @@ import geogebra.mobile.gui.elements.TabletHeaderPanelRight;
 import geogebra.mobile.gui.elements.toolbar.ToolBar;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
-import com.googlecode.mgwt.ui.client.widget.Button;
 
 public class TabletGUI implements GeoGebraMobileGUI
 {
@@ -56,8 +52,10 @@ public class TabletGUI implements GeoGebraMobileGUI
 		RootPanel.get().add(this.euclidianViewPanel);
 
 		RootPanel.get().add(this.headerPanel);
-		RootPanel.get().add(this.rightHeader);
-		RootPanel.get().add(this.leftHeader);
+		
+		//TODO: add again
+//		RootPanel.get().add(this.rightHeader);
+//		RootPanel.get().add(this.leftHeader);
 
 		this.toolBar.makeTabletToolBar(new GuiModel());
 		RootPanel.get().add(this.toolBar);

@@ -84,13 +84,13 @@
 }
 
 .algebraview {
+	background-color: white; 
 	position: relative;
 	height: 80%;
 	width: 15%;
 	left: 0px;
 /* 	background-image: */
 /* 		url("http://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg"); */
-	background-color: scrollbar;
 	box-shadow: 5px 5px 10px #333333;
 	-webkit-border-radius: 0em 1em 1em 0em;
 }

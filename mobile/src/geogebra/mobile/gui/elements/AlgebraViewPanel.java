@@ -12,13 +12,11 @@ import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndEvent;
 import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndHandler;
 import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEvent.DIRECTION;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
 public class AlgebraViewPanel extends LayoutPanel
 {
 
-	private ScrollPanel scrollPanel;
 	private AlgebraView algebraView;
 	
 	boolean small = false; 
@@ -27,11 +25,6 @@ public class AlgebraViewPanel extends LayoutPanel
 	{
 		this.addStyleName("algebraview");
 
-//		this.scrollPanel = new ScrollPanel();
-//		this.scrollPanel.setSize("100%", "100%");
-//		add(this.scrollPanel);
-//		this.scrollPanel.add((Widget) this.algebraView); 
-		
 		TouchDelegate touchDelegate = new TouchDelegate(this);
 
 		touchDelegate.addTapHandler(new TapHandler(){
@@ -50,7 +43,6 @@ public class AlgebraViewPanel extends LayoutPanel
 			@Override
 			public void onSwipeEnd(SwipeEndEvent event)
 			{
-				// AlgebraViewPanel.this.add(new HTML("swipe end detected"));
 				if (event.getDirection() == DIRECTION.LEFT_TO_RIGHT)
 				{
 					AlgebraViewPanel.this.setWidth("15%");
@@ -60,7 +52,6 @@ public class AlgebraViewPanel extends LayoutPanel
 					AlgebraViewPanel.this.setWidth("5%");
 					AlgebraViewPanel.this.small = true; 
 				}
-
 			}
 		});
 	}

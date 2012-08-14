@@ -146,8 +146,8 @@ protected FontManager getFontManager()
 	@Override
 	public String getPlain(String key)
 	{
-
-		return null;
+		//TODO
+		return key;
 	}
 
 	@Override
@@ -241,15 +241,15 @@ protected FontManager getFontManager()
 	@Override
 	public AlgebraView getAlgebraView()
 	{
-
-		return null;
+		// TODO: will not be used!  
+		return null; 
 	}
 
 	@Override
 	public EuclidianViewInterfaceCommon getActiveEuclidianView()
 	{
-
-		return null;
+		// TODO
+		return this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
 	}
 
 	@Override

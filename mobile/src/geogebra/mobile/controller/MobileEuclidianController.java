@@ -1,6 +1,7 @@
 package geogebra.mobile.controller;
 
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -17,7 +18,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 
 public class MobileEuclidianController extends EuclidianController implements TouchStartHandler, TouchEndHandler, TouchMoveHandler, ClickHandler
 {
-
+	
 	@Override
 	public void setApplication(App app)
 	{
@@ -63,10 +64,16 @@ public class MobileEuclidianController extends EuclidianController implements To
 	{
 		// TODO
 		// Test
-		GeoPoint P = this.kernel.Point(null, 7.0, 3.0);
-		GeoPoint Q = this.kernel.Point(null, 5.0, 1.0);
-		this.kernel.Point("R", 10.0, -2.0);
-		this.kernel.Line("g", P, Q);
+		this.kernel.clearConstruction(); 
+		
+		this.xRW = 7.0; 
+		this.yRW = 3.0; 
+		this.createNewPoint(false, false); 
+		
+//		GeoPoint P = this.kernel.Point(null, 7.0, 3.0);
+//		GeoPoint Q = this.kernel.Point(null, 5.0, 1.0);
+//		this.kernel.Point("R", 10.0, -2.0);
+//		this.kernel.Line("g", P, Q);
 	}
 
 }

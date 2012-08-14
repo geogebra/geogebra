@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.mobile.controller.MobileEuclidianController;
+import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
 
 import java.util.List;
@@ -84,21 +85,21 @@ public class EuclidianViewM extends EuclidianView
 		this.canvas.addTouchEndHandler(new TouchEndHandler()
 		{
 			@Override
-      public void onTouchEnd(TouchEndEvent event)
-      {
+			public void onTouchEnd(TouchEndEvent event)
+			{
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event);
-      }			
+			}
 		});
 
-		this.canvas.addClickHandler(new ClickHandler(){
+		this.canvas.addClickHandler(new ClickHandler()
+		{
 			@Override
-      public void onClick(ClickEvent event)
-      {
+			public void onClick(ClickEvent event)
+			{
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onClick(event);
-				repaint(); 
-      }			
-		}); 
-		
+			}
+		});
+
 		updateFonts();
 		initView(true);
 		attachView();
@@ -109,6 +110,9 @@ public class EuclidianViewM extends EuclidianView
 	public void repaint()
 	{
 		// TODO
+		updateSize();
+		this.firstPaint = false;
+		((GFontW) this.g2p.getFont()).setFontSize(12); 
 		paint(this.g2p);
 	}
 
@@ -194,23 +198,25 @@ public class EuclidianViewM extends EuclidianView
 	@Override
 	public EuclidianController getEuclidianController()
 	{
-		//TODO
+		// TODO
 		return this.euclidianController;
 	}
 
 	@Override
 	public void clearView()
 	{
+		resetLists();
+		updateBackgroundImage();
 	}
 
 	@Override
 	public GGraphics2D getTempGraphics2D(GFont fontForGraphics)
 	{
-		//TODO
-		if(this.g2dtemp==null)
-	    	this.g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
-	    this.g2dtemp.setFont(fontForGraphics);
-	    return this.g2dtemp;
+		// TODO
+		if (this.g2dtemp == null)
+			this.g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
+		this.g2dtemp.setFont(fontForGraphics);
+		return this.g2dtemp;
 	}
 
 	@Override
@@ -275,6 +281,7 @@ public class EuclidianViewM extends EuclidianView
 	@Override
 	protected void setAntialiasing(GGraphics2D g2)
 	{
+		// TODO
 	}
 
 	@Override
