@@ -197,11 +197,11 @@ public class Ggb2MPReduce {
 		p("NSolve.1",
 				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!))))) end>>");
 		p("NSolve.2",
-				"<<on rounded, numval, roundall$ mynumsolve(%0,%1, iterations=10000) >>");
+				"<<on rounded, numval, roundall$ mynumsolve(%0,%1) >>");
 		p("NSolutions.1",
 				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return map(rhs,mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!)))), iterations=10000)) end>>");
 		p("NSolutions.2",
-				"<<on rounded, numval, roundall$ map(rhs,mynumsolve(%0,%1, iterations=10000)) >>");
+				"<<on rounded, numval, roundall$ map(rhs,mynumsolve(%0,%1)) >>");
 		p("Numerator.1", "num(%0)");
 		p("Numeric.1",
 				"<<numeric!!:=1; on rounded, roundall, numval$ if printprecision!!<=16 then <<print\\_precision(printprecision!!)$ %0>> else <<precision(printprecision!!)$ print\\_precision(printprecision!!)$ %0 >> >>");
