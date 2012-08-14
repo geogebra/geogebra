@@ -1,6 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.main.App;
+import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
 import geogebra.main.AppD;
 
@@ -11,7 +12,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.MenuElement;
 import javax.swing.SwingConstants;
@@ -26,15 +26,20 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 	private static final long serialVersionUID = 1L;
 	
 	private AppD app;
+	
 	/** probabililty calculator*/
 	ProbabilityCalculator probCalc;
+	
 	/** icon height in pixels */
 	protected int iconHeight = 18;
+	
 	/** rounding button*/
 	JButton btnRounding;
-	private JToggleButton btnCumulative, btnLineGraph, btnGrid;
+
 	/** rounding popup menu*/
 	JPopupMenu roundingPopup;
+
+	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph, btnBarGraph;
 
 	/**
 	 * @param app application
@@ -56,7 +61,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		buildOptionsButton();
 		
 		
-		btnCumulative = new JToggleButton(app.getImageIcon("cumulative_distribution.png"));
+		btnCumulative = new MyToggleButton(app.getImageIcon("cumulative_distribution.png"), iconHeight);
 		btnCumulative.setSelected(probCalc.isCumulative());
 		btnCumulative.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -65,17 +70,24 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		});
 		
 		
-		btnLineGraph = new JToggleButton(app.getImageIcon("line_graph.png"));
-		btnLineGraph.setSelected(probCalc.isLineGraph());
-		btnLineGraph.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				probCalc.setLineGraph(!probCalc.isLineGraph());
-				probCalc.updateAll();
-			}
-		});
+		
+		btnLineGraph = new MyToggleButton(app.getImageIcon("line_graph.png"), iconHeight);	
+		btnLineGraph.addActionListener(this);
 		
 		
-		btnGrid = new JToggleButton(app.getImageIcon("grid.gif"));
+		btnStepGraph = new MyToggleButton(app.getImageIcon("step_graph.png"), iconHeight);
+		btnStepGraph.addActionListener(this);
+		
+		btnBarGraph = new MyToggleButton(app.getImageIcon("bar_graph.png"), iconHeight);
+		btnBarGraph.addActionListener(this);
+		
+		ButtonGroup gp = new ButtonGroup();
+		gp.add(btnBarGraph);
+		gp.add(btnLineGraph);
+		gp.add(btnStepGraph);
+		
+		
+		btnGrid = new MyToggleButton(app.getImageIcon("grid.gif"), iconHeight);
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
 		btnGrid.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -88,8 +100,12 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 			
 		
 		add(btnRounding); 
-		add(btnCumulative); 
+		addSeparator();
+		add(btnCumulative);
+		addSeparator();
 		add(btnLineGraph); 
+		add(btnStepGraph); 
+		add(btnBarGraph); 
 		//add(btnGrid);  (grid doesn't work well with discrete graphs and point capturing)
 		
 	}
@@ -98,10 +114,22 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 	 * Updates the GUI
 	 */
 	public void updateGUI(){
-		if(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()))
-			btnLineGraph.setVisible(true);
-		else
-			btnLineGraph.setVisible(false);
+		
+			btnLineGraph.setVisible(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()));
+			btnStepGraph.setVisible(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()));
+			btnBarGraph.setVisible(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()));
+		
+			btnLineGraph.removeActionListener(this);   
+			btnStepGraph.removeActionListener(this);   
+			btnBarGraph.removeActionListener(this);   
+			
+			btnLineGraph.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_LINE);
+			btnStepGraph.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_STEP);
+			btnBarGraph.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_BAR);
+			
+			btnLineGraph.addActionListener(this);   
+			btnStepGraph.addActionListener(this);   
+			btnBarGraph.addActionListener(this); 
 	}
 	
 	/**
@@ -237,6 +265,24 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 				app.showError(e.toString());
 			}
 		}
+		
+		else if(e.getSource() == btnLineGraph ){
+			if(btnLineGraph.isSelected())
+				probCalc.setGraphType(ProbabilityCalculator.GRAPH_LINE);
+		}
+		
+		else if(e.getSource() == btnBarGraph){
+			if(btnBarGraph.isSelected())
+			probCalc.setGraphType(ProbabilityCalculator.GRAPH_BAR);
+		}
+		
+		else if(e.getSource() == btnStepGraph){
+			if(btnStepGraph.isSelected())
+			probCalc.setGraphType(ProbabilityCalculator.GRAPH_STEP);
+		}
+				
 	}
-
+	
+	
+	
 }

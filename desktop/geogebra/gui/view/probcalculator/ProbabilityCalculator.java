@@ -15,12 +15,14 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoExponentialDF;
 import geogebra.common.kernel.algos.AlgoFDistributionDF;
 import geogebra.common.kernel.algos.AlgoGammaDF;
+import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoLogNormalDF;
 import geogebra.common.kernel.algos.AlgoLogisticDF;
 import geogebra.common.kernel.algos.AlgoNormalDF;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
 import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.algos.AlgoTDistributionDF;
@@ -42,6 +44,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.statistics.AlgoBinomialDist;
 import geogebra.common.kernel.statistics.AlgoHyperGeometric;
 import geogebra.common.kernel.statistics.AlgoInversePascal;
@@ -128,7 +131,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 													// distribution
 	private double[] parameters;
 	private boolean isCumulative = false;
-	private boolean isLineGraph = false;
+
 
 	// maps for the distribution ComboBox
 	private HashMap<DIST, String> distributionMap;
@@ -201,6 +204,16 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private boolean removeFromConstruction = true;
 
 	private static final double nearlyOne = 1 - 1E-6;
+	
+	
+	// discrete graph types
+	protected static final int GRAPH_BAR = 0;
+	protected static final int GRAPH_LINE = 1;
+	protected static final int GRAPH_STEP = 2;
+	private int graphTypePDF = GRAPH_BAR;
+	private int graphTypeCDF = GRAPH_STEP;
+	private int graphType = GRAPH_BAR;
+	
 
 	/*************************************************
 	 * Construct the dialog
@@ -300,22 +313,36 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// make sure left-sided is still selected when reverting to
 			// non-cumulative mode
 			comboProbType.setSelectedIndex(PROB_LEFT);
+		
+		if (isCumulative){
+			graphType = graphTypeCDF;
+		}else{
+			graphType = graphTypePDF;
+		}
 		updateAll();
 
 	}
 
-	public boolean isLineGraph() {
-		return isLineGraph;
-	}
+	
+	public void setGraphType(int type) {
 
-	public void setLineGraph(boolean isLineGraph) {
-		if (this.isLineGraph == isLineGraph)
+		if(graphType == type)
 			return;
 
-		this.isLineGraph = isLineGraph;
+		graphType = type;
+		if (isCumulative) 
+			graphTypeCDF = type;
+		else 
+			graphTypePDF = type;
+
 		updateAll();
 	}
+	
+	public int getGraphType(){
+		return graphType;
+	}
 
+	
 	public int getPrintDecimals() {
 		return printDecimals;
 	}
@@ -621,7 +648,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// ============================
 
 			AlgoBarChart algoBarChart;
-			if (isLineGraph) {
+			AlgoPolyLine algoPolyLine;
+			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
 				NumberValue zeroWidth = new GeoNumeric(cons, 0);
 				algoBarChart = new AlgoBarChart(cons, discreteValueList,
 						discreteProbList, zeroWidth);
@@ -629,9 +657,16 @@ public class ProbabilityCalculator extends JPanel implements View,
 				algoBarChart = new AlgoBarChart(cons, discreteValueList,
 						discreteProbList);
 			}
+			
+			algoPolyLine = createPolyLine(algoBarChart);
+			
 			cons.removeFromConstructionList(algoBarChart);
-
-			discreteGraph = algoBarChart.getGeoElements()[0];
+			cons.removeFromConstructionList(algoPolyLine);
+			if (graphType == GRAPH_STEP){
+				discreteGraph = algoPolyLine.getGeoElements()[0];
+			}else{
+				discreteGraph = algoBarChart.getGeoElements()[0];
+			}
 			discreteGraph.setObjColor(new geogebra.awt.GColorD(COLOR_PDF));
 			discreteGraph.setAlphaValue(opacityDiscrete);
 			discreteGraph.setLineThickness(thicknessBarChart);
@@ -687,8 +722,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 			intervalProbList = (GeoList) take2.getGeoElements()[0];
 
 			AlgoBarChart barChart;
-			if (isLineGraph) {
-				NumberValue zeroWidth2 = new GeoNumeric(cons, 0.1d);
+			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP){
+				NumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
 				barChart = new AlgoBarChart(cons, intervalValueList,
 						intervalProbList, zeroWidth2);
 			} else {
@@ -699,8 +734,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			discreteIntervalGraph = barChart.getGeoElements()[0];
 
-			// System.out.println(text);
-			if (isLineGraph) {
+			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP){
 				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
 						ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setLineThickness(thicknessBarChart + 2);
@@ -855,6 +889,53 @@ public class ProbabilityCalculator extends JPanel implements View,
 		hideToolTips();
 
 	}
+	
+	
+	/**
+	 * Creates a FrequencyPolygon algo using AlgoPolyLine instead of
+	 * AlgoFrequencyPolygon This is needed until FrequencyPolygonRight is
+	 * implemented
+	 * 
+	 * @param histogram
+	 * @param doCumulative
+	 * @return
+	 */
+	private AlgoPolyLine createPolyLine(AlgoBarChart histogram) {
+
+		double[] leftBorder = histogram.getLeftBorder();
+		double yValue[] = histogram.getYValue();
+		int n = yValue.length;
+		GeoPointND[] points = new GeoPoint[n];
+
+		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		
+		// first point
+		points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0); 
+		//System.out.println(" 0: (" + leftBorder[0] + " , " + yValue[0] + ")" );
+		// middle points (two for each border value)
+		int i = 1;
+		while(i < n-1) {
+				points[i] = new GeoPoint(cons, null, leftBorder[i],
+						yValue[i-1], 1.0);
+				points[i+1] = new GeoPoint(cons, null, leftBorder[i],
+						yValue[i+1], 1.0);
+				i += 2;
+				//System.out.println(i + ": (" + leftBorder[i] + " , " + yValue[i] + ")  " + i + "  : " + n);
+		}
+		
+		// last point
+		points[n - 1] = new GeoPoint(cons, null, leftBorder[n-1], 1, 1.0);
+		
+		cons.setSuppressLabelCreation(suppressLabelCreation);
+
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points, false);
+
+		return polyLine;
+	}
+	
+	
+	
 
 	/**
 	 * Calculates and sets the plot dimensions, the axes intervals and the point
@@ -2213,7 +2294,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				GeoElement discreteValueListCopy = discreteValueList.copy();
 				newGeoList.add(discreteValueList);
 
-				if (isLineGraph)
+				if (graphType == GRAPH_LINE)
 					expr = "BarChart["
 							+ discreteValueListCopy
 									.getLabel(StringTemplate.maxPrecision)
@@ -2253,7 +2334,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 						expr, false);
 				newGeoList.add(intervalValueList);
 
-				if (isLineGraph)
+				if (graphType == GRAPH_LINE)
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
 							+ intervalProbList.getLabel(tpl) + ",0.1]";
 				else
