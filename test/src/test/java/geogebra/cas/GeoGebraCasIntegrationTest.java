@@ -2438,7 +2438,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Sum_2() {
 		t("Sum[r^i, i, 0, n]", "(r^(n + 1) - 1) / (r - 1)",
-				"(r * r^(n) - 1) / (r - 1)");
+				"(r^(n) * r - 1) / (r - 1)");
 	}
 
 	@Test
@@ -2590,7 +2590,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitPerpendicularVector_1() {
 		t("UnitPerpendicularVector[(a, b)]",
-				"(-b * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)), a * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)))");
+				"((-sqrt(a^(2) + b^(2)) * b) / (a^(2) + b^(2)), (sqrt(a^(2) + b^(2)) * a) / (a^(2) + b^(2)))");
 	}
 
 	/* UnitVector */
@@ -2603,7 +2603,8 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitVector_1() {
 		t("UnitVector[(a, b)]",
-				"(a * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)), b * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)))");
+				"(a * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)), b * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)))",
+				"((sqrt(a^(2) + b^(2)) * a) / (a^(2) + b^(2)), (sqrt(a^(2) + b^(2)) *b) / (a^(2) + b^(2)))");
 	}
 
 	@Test
@@ -2696,7 +2697,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Ticket_Ticket1274_0() {
-		t("Derivative[ℯ^(2 * x)]", "2 * (ℯ^(x))^(2)");
+		t("Derivative[ℯ^(2 * x)]", "2 * (ℯ^(x))^(2)", "2 * ℯ^(2 * x)");
 	}
 
 	/* Ticket 1336: Support for brackets with built-in functions */

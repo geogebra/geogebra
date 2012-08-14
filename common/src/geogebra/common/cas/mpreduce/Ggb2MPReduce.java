@@ -315,9 +315,9 @@ public class Ggb2MPReduce {
 		p("Take.3",
 				"<<begin scalar tmpret, list!!; list!!:=(%0); tmpret:=list()$ for i:=(%1):%2 do tmpret:=part(list!!,i).tmpret$ return reverse(tmpret) end>>");
 		p("TaylorSeries.3",
-				"<< begin scalar tmpret; korder list(); tmpret:=taylor(%0,currentx!!,%1,%2); korder varorder!!; return if taylortostd =1 then taylortostandard(tmpret) else tmpret end>>");
+				"<< begin scalar tmpret; korder list(); off pri; tmpret:=taylor(%0,currentx!!,%1,%2); korder varorder!!; return if taylortostd =1 then taylortostandard(tmpret) else tmpret end>>");
 		p("TaylorSeries.4",
-				"<< begin scalar tmpret; korder list(); tmpret:=taylor(%0,%1,%2,%3); korder varorder!!; return if taylortostd =1 then taylortostandard(tmpret) else tmpret end>>");
+				"<< begin scalar tmpret; korder list(); off pri; tmpret:=taylor(%0,%1,%2,%3); korder varorder!!; return if taylortostd =1 then taylortostandard(tmpret) else tmpret end>>");
 		p("TDistribution.2",
 				"<<begin scalar t!!,n!!; n!!:=(%0); t!!:=(%1) ;beta!Regularized(((t!!+sqrt(t!!^2+n!!)/(2*sqrt(t!!^2+n!!)),n!!/2,n!!/2)");
 		p("ToComplex.1",
