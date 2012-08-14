@@ -396,9 +396,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (geo != null && !evt.isControlKeyDown()) {
 			app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
 		}
-
-		evt.stopPropagation();
-		evt.preventDefault();
 	}
 
 	public void onMouseDown(MouseDownEvent evt) {
@@ -489,8 +486,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 
 		app.getActiveEuclidianView().mouseMovedOver(null);
-		evt.preventDefault();
-		evt.stopPropagation();
+		av.setFocus(true);
 	}
 
 	public void onMouseMove(MouseMoveEvent evt) {
@@ -514,7 +510,5 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//} else {
 		//	se.setTitle("");
 		//}
-		evt.stopPropagation();
-		evt.preventDefault();
 	}
 }

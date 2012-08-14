@@ -156,6 +156,8 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 
+		this.setFocus(true);
+
 		// tree's options
 		//setRootVisible(false);
 		// show lines from parent to children
