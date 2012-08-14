@@ -349,7 +349,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("CountIf")
     String CountIf();
 
-    @DefaultStringValue("CountIf[ <Condition>, <List> ]\nCountIf[ <Condition>, <Variable>, <List> ]")
+    @DefaultStringValue("[ <Condition>, <List> ]\n[ <Condition>, <Variable>, <List> ]")
     String CountIf_Syntax();
 
     @DefaultStringValue("Covariance")
@@ -2125,7 +2125,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SigmaXX")
     String SigmaXX();
 
-    @DefaultStringValue("[ <List of Points> ]\n[ <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Points> ]\n[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
     String SigmaXX_Syntax();
 
     @DefaultStringValue("SigmaXY")
@@ -2562,6 +2562,54 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Shape>, <Scale>, <Variable Value> ]")
     String Weibull_SyntaxCAS();
+
+    @DefaultStringValue("ZMean2Estimate")
+    String ZMean2Estimate();
+
+    @DefaultStringValue("[ <List of Sample Data 1>, <List of Sample Data 2>, < Sigma 1>, < Sigma 2>, <Level> ]\n[ <Sample Mean 1>, <Sigma 1>, <Sample Size 1>, <Sample Mean2>, <Sigma 2>, <Sample Size 2>, <Level> ]")
+    String ZMean2Estimate_Syntax();
+
+    @DefaultStringValue("ZMean2Test")
+    String ZMean2Test();
+
+    @DefaultStringValue("[ <List of Sample Data 1>, <Sigma 1>,  <List of Sample Data 2>, <Sigma 2>, <Tail>]\n[ <Sample Mean 1>, <Sigma 1>, <Sample Size 1>, <Sample Mean 2>, <Sigma 2>, <Sample Size 2>, <Tail> ]")
+    String ZMean2Test_Syntax();
+
+    @DefaultStringValue("ZMeanEstimate")
+    String ZMeanEstimate();
+
+    @DefaultStringValue("[ <List of Sample Data>, < Sigma >, <Level> ]\n[ <Sample Mean>, <Sigma>, <Sample Size>, <Level> ]")
+    String ZMeanEstimate_Syntax();
+
+    @DefaultStringValue("ZMeanTest")
+    String ZMeanTest();
+
+    @DefaultStringValue("[ <List of Sample Data>, <Sigma>, <Hypothesized Mean>, <Tail> ]\n[ <Sample Mean>, <Sigma>, <Sample Size>, <Hypothesized Mean>, <Tail> ]")
+    String ZMeanTest_Syntax();
+
+    @DefaultStringValue("ZProportion2Estimate")
+    String ZProportion2Estimate();
+
+    @DefaultStringValue("[ <Sample Proportion 1>,  <Sample Size 1>, <Sample Proportion 2>, <Sample Size 2>, <Level> ]")
+    String ZProportion2Estimate_Syntax();
+
+    @DefaultStringValue("ZProportion2Test")
+    String ZProportion2Test();
+
+    @DefaultStringValue("[ <Sample Proportion 1 >, <Sample Size 1>, <Sample\nProportion 2 >, <Sample Size 2>,<Hypothesized Proportion>, <Tail> ]")
+    String ZProportion2Test_Syntax();
+
+    @DefaultStringValue("ZProportionEstimate")
+    String ZProportionEstimate();
+
+    @DefaultStringValue("[ <Sample Proportion >,  <Sample Size >, <Level> ]")
+    String ZProportionEstimate_Syntax();
+
+    @DefaultStringValue("ZProportionTest")
+    String ZProportionTest();
+
+    @DefaultStringValue("[ <Sample Proportion>, <Sample Size>, <Hypothesized Proportion>, <Tail> ]")
+    String ZProportionTest_Syntax();
 
     @DefaultStringValue("Zip")
     String Zip();
