@@ -192,7 +192,7 @@ public class Ggb2MPReduce {
 		p("NIntegral.4",
 				"<<on numval, roundall$ num\\_int(%0,%1=((%2) .. (%3))) >>");
 		p("Normal.3",
-				"<<on pri; (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2)))>>");
+				"<<on pri; off rationalize; (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2)))>>");
 		p("nPr.2", "factorial(%0)/factorial(%0-%1)");
 		p("NSolve.1",
 				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!))))) end>>");

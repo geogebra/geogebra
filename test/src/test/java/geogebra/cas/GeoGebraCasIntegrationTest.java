@@ -285,7 +285,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void SimplificationOfTerms_PolynomialDivision_1() {
-		t("(7x^3-14 x^2)/(6x-12)", "7 * x^(2) / 6");
+		t("(7x^3-14 x^2)/(6x-12)", "7 * x^(2) / 6", "(7 * x^(2)) / 6");
 	}
 
 	@Test
@@ -2109,7 +2109,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void SampleSD_1() {
 		// TODO Result unchecked.
-		t("SampleSD[{1, 2, a}]", "sqrt(a^(2) - 3 * a + 3) / sqrt(3)");
+		t("SampleSD[{1, 2, a}]", "(sqrt(a^(2) - 3 * a + 3) * sqrt(3)) / 3");
 	}
 
 	/* SampleVariance */
@@ -2590,7 +2590,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitPerpendicularVector_1() {
 		t("UnitPerpendicularVector[(a, b)]",
-				"((-b) / sqrt(a^(2) + b^(2)), a / sqrt(a^(2) + b^(2)))");
+				"(-b * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)), (a * sqrt(a^(2) + b^(2))) / (a^(2) + b^(2)))");
 	}
 
 	/* UnitVector */
