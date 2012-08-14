@@ -29,7 +29,10 @@ import com.google.gwt.core.client.JsArray;
 public abstract class DedicatedWorkerEntryPoint implements EntryPoint {
   private DedicatedWorkerGlobalScope scope;
 
-  public final void close() {
+ /**
+ * Close
+ */
+public final void close() {
     getGlobalScope().close();
   }
 
