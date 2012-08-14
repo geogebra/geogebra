@@ -119,6 +119,9 @@ public abstract class CASView implements View{
 		case EuclidianConstants.MODE_CAS_EXPAND:
 		case EuclidianConstants.MODE_CAS_FACTOR:
 		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
+		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
+		case EuclidianConstants.MODE_CAS_SOLVE:
+			
 			// no parameters
 			processInput(command, null);
 			break;
@@ -130,9 +133,7 @@ public abstract class CASView implements View{
 				getConsoleTable().getApplication().storeUndoInfo();
 			break;
 
-		case EuclidianConstants.MODE_CAS_SOLVE:
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
-		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
 		case EuclidianConstants.MODE_CAS_INTEGRAL:
 			// use first variable in expression as parameter
 			processInput(command, new String[] { "%0" });

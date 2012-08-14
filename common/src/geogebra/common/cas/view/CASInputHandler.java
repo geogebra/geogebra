@@ -6,7 +6,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
-import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
@@ -38,34 +37,11 @@ public class CASInputHandler {
 		// get editor
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
-		if (ggbcmd.equalsIgnoreCase("Solve")
-				|| ggbcmd.equalsIgnoreCase("NSolve")) {
-			if (casView.getRowHeader().getSelectedIndices().length > 1) {
-				processMultipleRows(ggbcmd, params);
-				return;
-			}
-
-			String cellText = cellEditor.getInput();
-			int depth = 0;
-			boolean mSolveNecessary = false;
-			for (int j = 0; j < cellText.length(); j++) {
-				switch (cellText.charAt(j)) {
-				case '{':
-					depth++;
-					break;
-				case '}':
-					depth--;
-					break;
-				case ',':
-					if (depth == 1)
-						mSolveNecessary = true;
-					break;
-				}
-			}
-			if (mSolveNecessary) {
-				processMultipleRows(ggbcmd, params);
-				return;
-			}
+		if ((ggbcmd.equalsIgnoreCase("Solve") || 
+				ggbcmd.equalsIgnoreCase("NSolve"))
+				&& (casView.getRowHeader().getSelectedIndices().length > 1)) {
+			processMultipleRows(ggbcmd, params);
+			return;
 		}
 
 		// get possibly selected text
@@ -290,12 +266,11 @@ public class CASInputHandler {
 		int selRow = consoleTable.getSelectedRow();
 		if (selRow < 0)
 			selRow = consoleTable.getRowCount() - 1;
-		boolean oneRowOnly = false;
+
 		int currentRow = selRow;
 
 		int[] selectedIndices = casView.getRowHeader().getSelectedIndices();
 		int nrEquations;
-		int lastRowSelected;
 
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<Integer>();
@@ -308,14 +283,12 @@ public class CASInputHandler {
 			selectedIndices[i] = l.get(i);
 		}
 
-		if (selectedIndices.length <= 1) {
+		boolean oneRowOnly = false;
+		if (selectedIndices.length == 1) {
 			oneRowOnly = true;
 			nrEquations = 1;
-			lastRowSelected = selectedIndices[nrEquations - 1];
 		} else {
 			nrEquations = selectedIndices.length;
-			lastRowSelected = selectedIndices[nrEquations - 1];
-			currentRow = 1 + (lastRowSelected);
 		}
 
 		GeoCasCell cellValue;
@@ -329,47 +302,19 @@ public class CASInputHandler {
 		if (cellValue != null) {
 			if (!cellValue.isEmpty() && !oneRowOnly) {
 				cellValue = new GeoCasCell(kernel.getConstruction());
-				// kernel.getConstruction().setCasCellRow(cellValue,
-				// lastRowSelected+1);
-				consoleTable.insertRow(lastRowSelected + 1, cellValue, true);
+				currentRow = consoleTable.getRowCount() - 1;
+				consoleTable.insertRow(cellValue, false);
 			}
 		} else {
 			cellValue = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().setCasCellRow(cellValue,
-					lastRowSelected + 1);
-			consoleTable.insertRow(lastRowSelected + 1, cellValue, true);
-		}
-
-		// gets the number of equations
-		for (int i = 0; i < selectedIndices.length; i++) {
-			String cellText;
-			GeoCasCell selCellValue = consoleTable
-					.getGeoCasCell(selectedIndices[i]);
-			cellText = selCellValue.getInputVE().toString(tpl);
-			cellText = resolveCASrowReferences(cellText, selectedIndices[i],
-					GeoCasCell.ROW_REFERENCE_STATIC, false);
-			int depth = 0;
-			for (int j = 0; j < cellText.length(); j++) {
-				switch (cellText.charAt(j)) {
-				case '{':
-					depth++;
-					break;
-				case '}':
-					depth--;
-					break;
-				case ',':
-					if (depth == 1)
-						nrEquations++;
-					break;
-				}
-			}
+			currentRow = consoleTable.getRowCount() - 1;
+			consoleTable.insertRow(cellValue, false);
 		}
 
 		// generates an array of references (e.g. $1,a,...) and
 		// an array of equations
 		int counter = 0;
 		String[] references = new String[nrEquations];
-		String[] equations = new String[nrEquations];
 		for (int i = 0; i < selectedIndices.length; i++) {
 			GeoCasCell selCellValue = consoleTable
 					.getGeoCasCell(selectedIndices[i]);
@@ -377,153 +322,54 @@ public class CASInputHandler {
 			String assignedVariable = selCellValue.getAssignmentVariable();
 			boolean inTheSelectedRow = currentRow == selectedIndices[i];
 			if (assignedVariable != null) {
-				references[counter] = assignedVariable;
-				equations[counter++] = resolveCASrowReferences(selCellValue
-						.getInputVE().toString(tpl), selectedIndices[i],
-						GeoCasCell.ROW_REFERENCE_STATIC, false);
+				references[i] = assignedVariable;
 			} else {
 				cellText = selCellValue.getInputVE().toString(tpl);
 				cellText = resolveCASrowReferences(cellText,
 						selectedIndices[i], GeoCasCell.ROW_REFERENCE_STATIC,
 						false);
 				if (!inTheSelectedRow)
-					references[counter] = "$" + (selectedIndices[i] + 1);
-				if (!cellText.startsWith("{")) {
-					if (inTheSelectedRow)
-						references[counter] = cellText;
-					equations[counter++] = cellText;
-				} else {
-					int depth = 0;
-					int leftIndex = 1;
-					for (int j = 0; j < cellText.length(); j++) {
-						switch (cellText.charAt(j)) {
-						case '{':
-							depth++;
-							break;
-						case '}':
-							depth--;
-							if (depth == 0) {
-								if (inTheSelectedRow)
-									references[counter] = cellText.substring(
-											leftIndex, j).replace(" ", "");
-								equations[counter++] = cellText.substring(
-										leftIndex, j).replace(" ", "");
-							}
-							break;
-						case ',':
-							if (depth == 1) {
-								if (inTheSelectedRow)
-									references[counter] = cellText.substring(
-											leftIndex, j).replace(" ", "");
-								equations[counter++] = cellText.substring(
-										leftIndex, j).replace(" ", "");
-								leftIndex = j + 1;
-							}
-							break;
-						}
-					}
+					references[i] = "$" + (selectedIndices[i] + 1);
+				else {
+					assert (false) : "this should not be possible";
+					references[counter] = cellText;
 				}
 			}
 		}
 
-		// The equations have to be dereferenced further and a CASTableCellValue
-		// is generated to obtain the parameters (the variables) for the solve
-		// function.
-		StringBuilder equationsVariablesResolved = new StringBuilder("{");
-		for (int i = 0; i < equations.length; i++) {
-			equations[i] = resolveCASrowReferences(equations[i], currentRow,
-					GeoCasCell.ROW_REFERENCE_DYNAMIC, false);
-			equations[i] = resolveCASrowReferences(equations[i], currentRow,
-					GeoCasCell.ROW_REFERENCE_STATIC, false);
-			GeoCasCell v = new GeoCasCell(kernel.getConstruction());
-			if (equations[i].startsWith("(")) {
-				equations[i] = equations[i].substring(1,
-						equations[i].lastIndexOf(")"));
-			}
-			v.setInput(equations[i]);
-			if (v.getAssignmentVariable() != null) {
-				references[i] = v.getAssignmentVariable();
-			}
-			equations[i] = v.getInputVE().toString(tpl);
-			GeoElement geoVar = kernel.lookupLabel(equations[i]);
-			if (geoVar != null) {
-				equationsVariablesResolved.append(", "
-						+ geoVar.toValueString(tpl));
-			} else {
-				equationsVariablesResolved.append(", " + equations[i]);
-			}
-		}
-
-		equationsVariablesResolved.append("}");
-		GeoCasCell cellToObtainParameters = new GeoCasCell(
-				kernel.getConstruction());
-
-		String prefix, evalText, postfix;
-
-		prefix = "";
-		postfix = "";
-
-		cellToObtainParameters.setInput(evalText = equationsVariablesResolved
-				.toString().replaceFirst(", ", ""));
+		String evalText;
 
 		StringBuilder cellText = new StringBuilder("{");
 		for (int i = 0; i < nrEquations; i++) {
-			cellText.append(", ");
+			if (i != 0)
+				cellText.append(", ");
 			cellText.append(references[i]);
 		}
 		cellText.append("}");
-		String cellTextS = cellText.toString();
-		cellTextS = cellTextS.replaceFirst(", ", "");
-
-		if (params.length == 1) {
-			if (params[0].indexOf("%0") != -1) {
-				String[] b = new String[nrEquations];
-				for (int i = 0; i < nrEquations; i++) {
-					b[i] = ("%" + i);
-				}
-				params = b;
-			}
-		}
-
-		// save the edited value into the table model
-		consoleTable.stopEditing();
 
 		// FIX common INPUT ERRORS in evalText
 		if ((ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
-			String fixedInput = fixInputErrors(cellTextS);
-			if (!fixedInput.equals(cellTextS)) {
+			String fixedInput = fixInputErrors(cellText.toString());
+			if (!fixedInput.equals(cellText.toString())) {
 				evalText = fixedInput;
 			}
 		}
 
-		// standard case: build eval command
-		String paramString = null;
-		// CASTableCellValue cellValueTmp=cellValue;
-		cellValue.setInput(cellTextS);
+		cellValue.setInput(cellText.toString());
 
 		// prepare evalText as ggbcmd[ evalText, parameters ... ]
 		StringBuilder sb = new StringBuilder();
 		sb.append(ggbcmd);
 		sb.append("[");
-		sb.append(cellTextS);
-		sb.append(", {");
-
-		StringBuilder paramSB = new StringBuilder();
-		for (int i = 0; i < params.length; i++) {
-			paramSB.append(", ");
-			paramSB.append(resolveButtonParameter(params[i],
-					cellToObtainParameters));
-		}
-		paramString = paramSB.substring(2);
-		sb.append(paramSB.substring(2));
-		sb.append("}");
-
+		sb.append(cellText);
 		sb.append("]");
 		evalText = sb.toString();
 
 		// remember evalText and selection for future calls of processRow()
-		cellValue.setProcessingInformation(prefix, evalText, postfix);
-		cellValue.setEvalComment(paramString);
+		cellValue.setProcessingInformation("", evalText, "");
+
+		// TODO: write some evaluation comment
+		// cellValue.setEvalComment(paramString);
 
 		// process given row and below, then start editing
 		processRowThenEdit(currentRow, true);
