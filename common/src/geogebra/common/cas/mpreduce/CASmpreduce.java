@@ -186,7 +186,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		// set default switches
 		// (note: off factor turns on exp, so off exp must be placed later)
 
-		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ off complex, rounded, numval, factor, div, combinelogs, expandlogs, pri,combineexpt$ on rationalize$ currentx!!:= ");
+		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ off revpri, complex, rounded, numval, factor, div, combinelogs, expandlogs, pri,combineexpt$ on rationalize$ currentx!!:= ");
 
 		// sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
 		if (arbconst == null || arbconst.isCAS()) {
