@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 /**
@@ -23,7 +24,10 @@ public class CmdDelauneyTriangulation extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.DelauneyTriangulation(a, b);
+		
+		AlgoDelauneyTriangulation algo = new AlgoDelauneyTriangulation(cons,
+				a, b);
+		return algo.getResult();
 	}
 
 }

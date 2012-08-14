@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.discrete.AlgoVoronoi;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 /**
@@ -19,7 +20,8 @@ public class CmdVoronoi extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.Voronoi(a, b);
+		AlgoVoronoi algo = new AlgoVoronoi(cons, a, b);
+		return algo.getResult();
 	}
 
 }

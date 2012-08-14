@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.discrete.AlgoConvexHull;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 /**
@@ -23,7 +24,8 @@ public class CmdConvexHull extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.ConvexHull(a, b);
+		AlgoConvexHull algo = new AlgoConvexHull(cons, a, b);
+		return algo.getResult();
 	}
 
 }

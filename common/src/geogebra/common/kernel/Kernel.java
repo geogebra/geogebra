@@ -58,13 +58,6 @@ import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
-import geogebra.common.kernel.discrete.AlgoConvexHull;
-import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;
-import geogebra.common.kernel.discrete.AlgoHull;
-import geogebra.common.kernel.discrete.AlgoMinimumSpanningTree;
-import geogebra.common.kernel.discrete.AlgoShortestDistance;
-import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
-import geogebra.common.kernel.discrete.AlgoVoronoi;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
@@ -9765,51 +9758,6 @@ public class Kernel {
 		GeoElement poly = algo.getResult();
 
 		return poly;
-	}
-
-	final public GeoLocus Voronoi(String label, GeoList list) {
-		AlgoVoronoi algo = new AlgoVoronoi(cons, label, list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	final public GeoLocus DelauneyTriangulation(String label, GeoList list) {
-		AlgoDelauneyTriangulation algo = new AlgoDelauneyTriangulation(cons,
-				label, list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	final public GeoLocus Hull(String label, GeoList list, GeoNumeric percent) {
-		AlgoHull algo = new AlgoHull(cons, label, list, percent);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	final public GeoLocus TravelingSalesman(String label, GeoList list) {
-		AlgoTravelingSalesman algo = new AlgoTravelingSalesman(cons, label,
-				list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	final public GeoLocus ConvexHull(String label, GeoList list) {
-		AlgoConvexHull algo = new AlgoConvexHull(cons, label, list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	final public GeoLocus MinimumSpanningTree(String label, GeoList list) {
-		AlgoMinimumSpanningTree algo = new AlgoMinimumSpanningTree(cons, label,
-				list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	final public GeoLocus ShortestDistance(String label, GeoList list,
-			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		return  new AlgoShortestDistance(cons, label, list, start,
-				end, weighted).getResult();
 	}
 
 	/***********************************

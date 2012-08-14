@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 /**
@@ -20,7 +21,9 @@ public class CmdTravelingSalesman extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.TravelingSalesman(a, b);
+		AlgoTravelingSalesman algo = new AlgoTravelingSalesman(cons, a,
+				b);
+		return algo.getResult();
 	}
 
 }
