@@ -555,12 +555,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
 		mpreduce1
 		.evaluate("procedure mynumsolve(a,b); " +
-				" begin;scalar eqn;" +
+				" begin;scalar eqn, denumer;" +
 				" a:=mkdepthone(list(a));"+
 				" b:=mkdepthone(list(b));"+
-				" if length(a)=1 then eqn:=lhs(part(a,1))-rhs(part(a,1));"+
+				" if length(a)=1 then <<eqn:=num(lhs(part(a,1))-rhs(part(a,1)));denumer:=den(lhs(part(a,1))-rhs(part(a,1)))>>;"+
 				" return if length(a)=1 and not(mycoeff(eqn,part(b,1))='?)" +
-				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) then list(r) else list())" +
+				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and sub(r,denumer) then list(r) else list())" +
 				" else num_solve(a,b,iterations=10000);" +
 				" end;");
 		mpreduce1
