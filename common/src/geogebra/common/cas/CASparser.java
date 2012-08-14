@@ -17,6 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -392,19 +393,22 @@ public class CASparser implements CASParserInterface{
 					t.printStackTrace();
 				}
 			}
+			
 			// handle assignments
-			String label = ve.getLabel();
-			if (label != null) { // is an assignment or a function declaration
+			if(ve.getAssignmentType() == AssignmentType.DEFAULT || ve.getAssignmentType() == AssignmentType.DELAYED) {
+				// is an assignment or a function declaration
+				String label = ve.getLabel();
 				// make sure to escape labels to avoid problems with reserved
 				// CAS labels
 				label = kernel.printVariableName(casStringType.getStringType(), label);
-				if (ve instanceof FunctionNVar) {
-					FunctionNVar fun = (FunctionNVar) ve;
+				if(ve instanceof FunctionNVar) {
+					FunctionNVar funVar = (FunctionNVar) ve;
 					return cas.translateFunctionDeclaration(label,
-							fun.getVarString(casStringType), body);
+							funVar.getVarString(casStringType), body);
 				}
 				return cas.translateAssignment(label, body);
 			}
+
 			return body;
 		} finally {
 			//do nothing
