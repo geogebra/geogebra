@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoInversePascal;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,9 +34,12 @@ public class CmdInversePascal extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernelA.InversePascal(c.getLabel(),
+				
+				AlgoInversePascal algo = new AlgoInversePascal(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2]) };
+						(NumberValue) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

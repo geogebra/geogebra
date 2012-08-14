@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.statistics.AlgoTTest;
 import geogebra.common.main.MyError;
 
 /**
@@ -35,8 +36,11 @@ public class CmdTTest extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList()) 
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoText())) {
-				GeoElement[] ret = { kernelA.TTest(c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoText) arg[2]) };
+				
+				AlgoTTest algo = new AlgoTTest(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoText) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoANOVA;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -39,7 +40,7 @@ public class CmdANOVA extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]);
 
 				if (list.get(0).isGeoList()) { 
-					GeoElement[] ret = { kernelA.ANOVATest(c.getLabel(),
+					GeoElement[] ret = { ANOVATest(c.getLabel(),
 							(GeoList) arg[0]) };
 					return ret;
 
@@ -50,7 +51,7 @@ public class CmdANOVA extends CommandProcessor {
 		default:
 			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
-				GeoElement[] ret = { kernelA.ANOVATest(c.getLabel(), list) };
+				GeoElement[] ret = { ANOVATest(c.getLabel(), list) };
 				return ret;
 			}
 			// null ret should mean that an arg is not a GeoList
@@ -63,4 +64,12 @@ public class CmdANOVA extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 		}
 	}
+	
+	final private GeoList ANOVATest(String label, GeoList dataArrayList) {
+		AlgoANOVA algo = new AlgoANOVA(cons, label, dataArrayList);
+		GeoList result = algo.getResult();
+		return result;
+	}
+
+
 }

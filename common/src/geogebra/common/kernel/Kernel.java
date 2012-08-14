@@ -91,36 +91,16 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.AlgoANOVA;
-import geogebra.common.kernel.statistics.AlgoBernoulliBarChart;
-import geogebra.common.kernel.statistics.AlgoBinomialDist;
-import geogebra.common.kernel.statistics.AlgoBinomialDistBarChart;
 import geogebra.common.kernel.statistics.AlgoChiSquareTest;
 import geogebra.common.kernel.statistics.AlgoFitLineY;
 import geogebra.common.kernel.statistics.AlgoGeometricMean;
 import geogebra.common.kernel.statistics.AlgoHarmonicMean;
-import geogebra.common.kernel.statistics.AlgoHyperGeometric;
-import geogebra.common.kernel.statistics.AlgoHyperGeometricBarChart;
-import geogebra.common.kernel.statistics.AlgoInverseBinomial;
-import geogebra.common.kernel.statistics.AlgoInverseCauchy;
-import geogebra.common.kernel.statistics.AlgoInverseExponential;
-import geogebra.common.kernel.statistics.AlgoInverseFDistribution;
-import geogebra.common.kernel.statistics.AlgoInverseGamma;
-import geogebra.common.kernel.statistics.AlgoInverseHyperGeometric;
-import geogebra.common.kernel.statistics.AlgoInversePascal;
-import geogebra.common.kernel.statistics.AlgoInversePoisson;
-import geogebra.common.kernel.statistics.AlgoInverseWeibull;
-import geogebra.common.kernel.statistics.AlgoInverseZipf;
 import geogebra.common.kernel.statistics.AlgoListSigmaXX;
 import geogebra.common.kernel.statistics.AlgoMean;
 import geogebra.common.kernel.statistics.AlgoMedian;
 import geogebra.common.kernel.statistics.AlgoMode;
 import geogebra.common.kernel.statistics.AlgoOrdinalRank;
-import geogebra.common.kernel.statistics.AlgoPascal;
-import geogebra.common.kernel.statistics.AlgoPascalBarChart;
 import geogebra.common.kernel.statistics.AlgoPercentile;
-import geogebra.common.kernel.statistics.AlgoPoisson;
-import geogebra.common.kernel.statistics.AlgoPoissonBarChart;
 import geogebra.common.kernel.statistics.AlgoProduct;
 import geogebra.common.kernel.statistics.AlgoQ1;
 import geogebra.common.kernel.statistics.AlgoQ3;
@@ -139,9 +119,6 @@ import geogebra.common.kernel.statistics.AlgoTTest2;
 import geogebra.common.kernel.statistics.AlgoTTestPaired;
 import geogebra.common.kernel.statistics.AlgoTiedRank;
 import geogebra.common.kernel.statistics.AlgoVariance;
-import geogebra.common.kernel.statistics.AlgoWeibull;
-import geogebra.common.kernel.statistics.AlgoZipf;
-import geogebra.common.kernel.statistics.AlgoZipfBarChart;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -6468,224 +6445,7 @@ public class Kernel {
 		return function;
 	}
 
-	final public GeoNumeric InverseExponential(String label, NumberValue a,
-			NumberValue b) {
-		AlgoInverseExponential algo = new AlgoInverseExponential(cons, label,
-				a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric InverseFDistribution(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseFDistribution algo = new AlgoInverseFDistribution(cons,
-				label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric InverseGamma(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseGamma algo = new AlgoInverseGamma(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric InverseCauchy(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseCauchy algo = new AlgoInverseCauchy(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric Weibull(String label, NumberValue a, NumberValue b,
-			NumberValue c) {
-		AlgoWeibull algo = new AlgoWeibull(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric InverseWeibull(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseWeibull algo = new AlgoInverseWeibull(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric Zipf(String label, NumberValue a, NumberValue b,
-			NumberValue c, GeoBoolean isCumulative) {
-		AlgoZipf algo = new AlgoZipf(cons, label, a, b, c, isCumulative);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric Zipf(String label, NumberValue a, NumberValue b) {
-		AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, label, a, b);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	final public GeoNumeric Zipf(String label, NumberValue a, NumberValue b,
-			GeoBoolean cumulative) {
-		AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, label, a, b,
-				cumulative);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	final public GeoNumeric InverseZipf(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseZipf algo = new AlgoInverseZipf(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** Pascal[] probability */
-	final public GeoNumeric Pascal(String label, NumberValue a, NumberValue b,
-			NumberValue c, GeoBoolean isCumulative) {
-		AlgoPascal algo = new AlgoPascal(cons, label, a, b, c, isCumulative);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** Pascal[] bar chart */
-	final public GeoNumeric Pascal(String label, NumberValue a, NumberValue b) {
-		AlgoPascalBarChart algo = new AlgoPascalBarChart(cons, label, a, b);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	/** Pascal[] bar chart with cumulative option */
-	final public GeoNumeric Pascal(String label, NumberValue a, NumberValue b,
-			GeoBoolean isCumulative) {
-		AlgoPascalBarChart algo = new AlgoPascalBarChart(cons, label, a, b,
-				isCumulative);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	final public GeoNumeric InversePascal(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInversePascal algo = new AlgoInversePascal(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** Poisson[] probability */
-	final public GeoNumeric Poisson(String label, NumberValue a, NumberValue b,
-			GeoBoolean isCumulative) {
-		AlgoPoisson algo = new AlgoPoisson(cons, label, a, b, isCumulative);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** Poisson[] bar chart */
-	final public GeoNumeric Poisson(String label, NumberValue a) {
-		AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons, label, a);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	/** Poisson[] bar chart with cumulative option */
-	final public GeoNumeric Poisson(String label, NumberValue a,
-			GeoBoolean isCumulative) {
-		AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons, label, a,
-				isCumulative);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	final public GeoNumeric InversePoisson(String label, NumberValue a,
-			NumberValue b) {
-		AlgoInversePoisson algo = new AlgoInversePoisson(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** HyperGeometric[] probability */
-	final public GeoNumeric HyperGeometric(String label, NumberValue a,
-			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
-		AlgoHyperGeometric algo = new AlgoHyperGeometric(cons, label, a, b, c,
-				d, isCumulative);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** HyperGeometric[] bar chart */
-	final public GeoNumeric HyperGeometric(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(cons,
-				label, a, b, c);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	/** HyperGeometric[] bar chart with cumulative option */
-	final public GeoNumeric HyperGeometric(String label, NumberValue a,
-			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
-		AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(cons,
-				label, a, b, c, isCumulative);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	final public GeoNumeric InverseHyperGeometric(String label, NumberValue a,
-			NumberValue b, NumberValue c, NumberValue d) {
-		AlgoInverseHyperGeometric algo = new AlgoInverseHyperGeometric(cons,
-				label, a, b, c, d);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** Binomial[] probability */
-	final public GeoNumeric BinomialDist(String label, NumberValue a,
-			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
-		AlgoBinomialDist algo = new AlgoBinomialDist(cons, label, a, b, c,
-				isCumulative);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	public GeoNumeric Bernoulli(String label, NumberValue probability,
-			GeoBoolean cumulative) {
-		AlgoBernoulliBarChart algo = new AlgoBernoulliBarChart(cons, label,
-				probability, cumulative);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	/** Binomial[] bar chart */
-	final public GeoNumeric BinomialDist(String label, NumberValue a,
-			NumberValue b) {
-		AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(cons,
-				label, a, b);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	/** Binomial[] bar chart with cumulative option */
-	final public GeoNumeric BinomialDist(String label, NumberValue a,
-			NumberValue b, GeoBoolean isCumulative) {
-		AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(cons,
-				label, a, b, isCumulative);
-		GeoNumeric num = algo.getSum();
-		return num;
-	}
-
-	final public GeoNumeric InverseBinomial(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseBinomial algo = new AlgoInverseBinomial(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
 	/** ANOVATest[] */
-	final public GeoList ANOVATest(String label, GeoList dataArrayList) {
-		AlgoANOVA algo = new AlgoANOVA(cons, label, dataArrayList);
-		GeoList result = algo.getResult();
-		return result;
-	}
-
 	/** TTest[] with sample data */
 	final public GeoList TTest(String label, GeoList sampleList,
 			GeoNumeric hypMean, GeoText tail) {

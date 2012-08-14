@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoInverseExponential;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,8 +33,11 @@ public class CmdInverseExponential extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernelA.InverseExponential(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoInverseExponential algo = new AlgoInverseExponential(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

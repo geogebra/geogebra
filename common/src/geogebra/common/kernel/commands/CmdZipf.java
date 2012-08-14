@@ -5,6 +5,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoZipf;
+import geogebra.common.kernel.statistics.AlgoZipfBarChart;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,9 +35,11 @@ public class CmdZipf extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = {kernelA.Zipf(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]
-						) };
+				
+				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 				}
 				else if (!ok[0])
@@ -47,9 +51,12 @@ public class CmdZipf extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())					
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Zipf(c.getLabel(),
+				
+				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(GeoBoolean) arg[2]) };
+						(GeoBoolean) arg[2]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -67,9 +74,12 @@ public class CmdZipf extends CommandProcessor {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Zipf(c.getLabel(),
+				
+				AlgoZipf algo = new AlgoZipf(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (GeoBoolean) arg[3]) };
+						(NumberValue) arg[2], (GeoBoolean) arg[3]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

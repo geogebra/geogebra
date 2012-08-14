@@ -5,6 +5,9 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoBernoulliBarChart;
+import geogebra.common.kernel.statistics.AlgoBinomialDist;
+import geogebra.common.kernel.statistics.AlgoBinomialDistBarChart;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,8 +37,11 @@ public class CmdBernoulli extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Bernoulli(c.getLabel(),
-						(NumberValue) arg[0], (GeoBoolean) arg[1]) };
+				
+				AlgoBernoulliBarChart algo = new AlgoBernoulliBarChart(cons, c.getLabel(),
+						(NumberValue) arg[0], (GeoBoolean) arg[1]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -49,8 +55,12 @@ public class CmdBernoulli extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]) };
+				
+				AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(cons,
+						c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -67,9 +77,11 @@ public class CmdBernoulli extends CommandProcessor {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[2] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
+				AlgoBinomialDist algo = new AlgoBinomialDist(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (GeoBoolean) arg[3]) };
+						(NumberValue) arg[2], (GeoBoolean) arg[3]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

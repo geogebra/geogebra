@@ -5,6 +5,9 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoPascal;
+import geogebra.common.kernel.statistics.AlgoPascalBarChart;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,8 +37,11 @@ public class CmdPascal extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernelA.Pascal(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoPascalBarChart algo = new AlgoPascalBarChart(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -49,8 +55,11 @@ public class CmdPascal extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Pascal(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]) };
+				
+				AlgoPascalBarChart algo = new AlgoPascalBarChart(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -66,9 +75,12 @@ public class CmdPascal extends CommandProcessor {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Pascal(c.getLabel(),
+				
+				AlgoPascal algo = new AlgoPascal(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (GeoBoolean) arg[3]) };
+						(NumberValue) arg[2], (GeoBoolean) arg[3]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

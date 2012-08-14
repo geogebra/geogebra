@@ -5,6 +5,9 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoPoisson;
+import geogebra.common.kernel.statistics.AlgoPoissonBarChart;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,8 +36,11 @@ public class CmdPoisson extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if ((arg[0].isNumberValue())) {
-				GeoElement[] ret = { kernelA.Poisson(c.getLabel(),
-						(NumberValue) arg[0]) };
+				
+				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons, c.getLabel(),
+						(NumberValue) arg[0]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -44,8 +50,11 @@ public class CmdPoisson extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Poisson(c.getLabel(),
-						(NumberValue) arg[0], (GeoBoolean)arg[1]) };
+				
+				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons, c.getLabel(),
+						(NumberValue) arg[0], (GeoBoolean)arg[1]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -58,9 +67,12 @@ public class CmdPoisson extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Poisson(c.getLabel(),
+				
+				AlgoPoisson algo = new AlgoPoisson(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(GeoBoolean) arg[2]) };
+						(GeoBoolean) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

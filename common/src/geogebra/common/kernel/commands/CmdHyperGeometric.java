@@ -5,6 +5,9 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoHyperGeometric;
+import geogebra.common.kernel.statistics.AlgoHyperGeometricBarChart;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,8 +37,12 @@ public class CmdHyperGeometric extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernelA.HyperGeometric(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
+				
+				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(cons,
+						c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -52,8 +59,12 @@ public class CmdHyperGeometric extends CommandProcessor {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.HyperGeometric(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2], (GeoBoolean)arg[3]) };
+				
+				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(cons,
+						c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2], (GeoBoolean)arg[3]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
 			} else if (!ok[0])
@@ -73,10 +84,13 @@ public class CmdHyperGeometric extends CommandProcessor {
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isNumberValue())
 					&& (ok[4] = arg[4].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.HyperGeometric(c.getLabel(),
+				
+				AlgoHyperGeometric algo = new AlgoHyperGeometric(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2], (NumberValue) arg[3],
-						(GeoBoolean) arg[4]) };
+						(GeoBoolean) arg[4]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])
