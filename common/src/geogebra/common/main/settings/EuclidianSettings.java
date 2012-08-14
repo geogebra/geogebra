@@ -98,6 +98,7 @@ public class EuclidianSettings extends AbstractSettings {
 		axisCross[1] = 0;
 		positiveAxes[0] = false;
 		positiveAxes[1] = false;
+		settingChanged();
 	}
 
 	/**
@@ -379,6 +380,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
 		showAxesNumbers[axis] = showAxisNumbers;
+		settingChanged();
 	}
 
 	public boolean[] getShowAxisNumbers() {
@@ -491,6 +493,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setXminObject(NumberValue xminObjectNew, boolean callsc) {
 		this.xminObject = xminObjectNew;
+		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -511,6 +514,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setXmaxObject(NumberValue xmaxObjectNew, boolean callsc) {
 		this.xmaxObject = xmaxObjectNew;
+		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -531,6 +535,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setYminObject(NumberValue yminObjectNew, boolean callsc) {
 		this.yminObject = yminObjectNew;
+		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -551,6 +556,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setYmaxObject(NumberValue ymaxObjectNew, boolean callsc) {
 		this.ymaxObject = ymaxObjectNew;
+		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -585,7 +591,10 @@ public class EuclidianSettings extends AbstractSettings {
 	public double getYscale() {
 		return yscale;
 	}
-
+	private boolean dynamicBounds;
+	public boolean hasDynamicBounds(){
+		return dynamicBounds;
+	}
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
 		if (Double.isNaN(xscale)
@@ -603,18 +612,8 @@ public class EuclidianSettings extends AbstractSettings {
 		this.yZero = yZero;
 		this.xscale = xscale;
 		this.yscale = yscale;
-
-		// set transform for my coord system:
-		// ( xscale 0 xZero )
-		// ( 0 -yscale yZero )
-		// ( 0 0 1 )
-		// not needed in Settings
-		// coordTransform.setTransform(xscale, 0.0d, 0.0d, -yscale, xZero,
-		// yZero);
-
-		// real world values
-		// not needed in Settings
-		// setRealWorldBounds();
+		dynamicBounds = false;
+		settingChanged();
 
 	}
 
@@ -624,7 +623,7 @@ public class EuclidianSettings extends AbstractSettings {
 		} else {
 			setAxisNumberingDistanceY(tickDist);
 		}
-
+		settingChanged();
 	}
 
 	public void setPreferredSize(GDimension dimension) {
@@ -638,9 +637,9 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setShowAxes(boolean x, boolean y) {
-		showAxes[0] = x;
-		showAxes[1] = y;
-		settingChanged();
+		this.setShowAxis(0, x);
+		this.setShowAxis(1, x);
+		//settingChanged() is called from those above
 
 	}
 
@@ -731,7 +730,10 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setDrawBorderAxes(int axis, boolean value) {
 		if ((axis == 0) || (axis == 1)) {
+			if(drawBorderAxes[axis] == value)
+				return;
 			drawBorderAxes[axis] = value;
+			settingChanged();
 		}
 	}
 
@@ -740,13 +742,14 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setLockedAxesRatio(double ratio) {
+		if(lockedAxesRatio == ratio)
+			return;
 		lockedAxesRatio = ratio;
-		
+		settingChanged();
 	}
 	
 	public Double getLockedAxesRatio(){
 		return lockedAxesRatio;
 	}
-
 	// TODO add more settings here
 }

@@ -3759,17 +3759,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		synchronizeMenuBarAndEuclidianStyleBar(evs);
 
-		// removed, stops axes settings being loaded for EV1
-		// if (evs.getXmaxObject() == null) {
-		setCoordSystem(evs.getXZero(), evs.getYZero(), evs.getXscale(),
-				evs.getYscale(), true);
-		evs.setXminObject(xminObject, false);
-		evs.setXmaxObject(xmaxObject, false);
-		evs.setYminObject(yminObject, false);
-		evs.setYmaxObject(ymaxObject, false);
-		// } else {
-		// updateBounds();
-		// }
+		
+		if (!evs.hasDynamicBounds()) {
+			// the xmin, xmax, ... we read from Settings are nulls; 
+			// use the double values instead
+			setCoordSystem(evs.getXZero(), evs.getYZero(), evs.getXscale(),
+					evs.getYscale(), true);
+			evs.setXminObject(xminObject, false);
+			evs.setXmaxObject(xmaxObject, false);
+			evs.setYminObject(yminObject, false);
+			evs.setYmaxObject(ymaxObject, false);
+		} 
+		else {
+			// xmin, ... are OK; just update bounds
+			updateBounds();
+		}
 
 		// let's do this after other updates because this might override e.g.
 		// xmin

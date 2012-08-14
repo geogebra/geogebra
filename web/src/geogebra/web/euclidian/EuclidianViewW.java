@@ -17,7 +17,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.gui.app.EuclidianPanel;
@@ -49,7 +48,7 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 
-public class EuclidianViewW extends EuclidianView implements SettingListener{
+public class EuclidianViewW extends EuclidianView {
 	
 	public geogebra.web.awt.GGraphics2DW g2p = null;
 	public geogebra.web.awt.GGraphics2DW g4copy = null;

@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.SettingListener;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * Interface for n-dimensional Euclidian view
  *
  */
-public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim {
+public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim, SettingListener {
 
 	/** reference to x axis*/
 	public static final int AXIS_X = 0; 
