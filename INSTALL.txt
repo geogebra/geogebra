@@ -1,14 +1,22 @@
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org/
 
-This directory contains the "desktop" and the "web" versions of GeoGebra.
-The "common" directory contains the common parts for the two interfaces.
+This directory definitely contains the "desktop" and the "web" versions
+of GeoGebra. The "common" directory contains the common parts for the
+two interfaces. Also the "mobile" version takes place in the "mobile"
+folder, but it is based on the "web" and the "common" projects. The
+"iwb" folder contains the sources for the Smart Interactive Whiteboard
+version, based on the "desktop" version. The folders "jogl1" and "jogl2"
+contain source files for the OpenGL subsystem for the "desktop" version
+(for GeoGebra 5.0).
 
 For compiling, running and installing the "desktop" version, please read
 http://www.geogebra.org/trac/wiki/SetUp.
 
 To compile and run the "web" version, please read
 http://www.geogebra.org/trac/wiki/Web#Compilation.
+
+To compile the "mobile" version, please read the file mobile/README.txt.
 
 The "app" directory contains wrapper applications for various platforms.
 
