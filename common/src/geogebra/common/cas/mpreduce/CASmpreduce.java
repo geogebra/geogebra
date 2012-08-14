@@ -1092,7 +1092,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		
 		mpreduce1.evaluate("procedure getkernels(a);" +
 				"for each element in a join" +
-				"  if arglength(element) = -1 then" +
+				"  if arglength(element) = -1 or numberp(element) then" +
 				"    if numberp(element) then" +
 				"      list()" +
 				"    else" +
