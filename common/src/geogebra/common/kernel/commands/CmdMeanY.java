@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoListMeanY;
 import geogebra.common.main.MyError;
 /**
  * MeanX[ &lt;Number of points> ]
@@ -30,20 +31,22 @@ public class CmdMeanY extends CmdOneOrTwoListsFunction {
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
 						doCommand(c.getLabel(),
-						(GeoList) arg[0]) };
+								(GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-		
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
 
-		@Override
-		final protected GeoElement doCommand(String a, GeoList b)
+	@Override
+	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.MeanY(a, b);
+
+		AlgoListMeanY algo = new AlgoListMeanY(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override

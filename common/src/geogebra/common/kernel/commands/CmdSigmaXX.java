@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoDoubleListSigmaXX;
 
 /**
  * SigmaXX[ list ]
@@ -26,8 +27,10 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	}
 	
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
-		return kernelA.SigmaXX(a, list, freq);
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList list2) {
+		AlgoDoubleListSigmaXX algo = new AlgoDoubleListSigmaXX(cons, a,
+				list, list2);
+		return algo.getResult();
 	}
 	
 	@Override

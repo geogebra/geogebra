@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoListMeanX;
 import geogebra.common.main.MyError;
 /**
  * MeanX[ &lt;Number of points> ]
@@ -43,7 +44,9 @@ public class CmdMeanX extends CmdOneOrTwoListsFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.MeanX(a, b);
+		
+		AlgoListMeanX algo = new AlgoListMeanX(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override

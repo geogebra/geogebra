@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoInverseLogNormal;
 import geogebra.common.main.MyError;
 
 /**
@@ -36,9 +37,10 @@ public class CmdInverseLogNormal extends CommandProcessor {
 				(ok[1] = arg[1].isNumberValue()) &&
 				(ok[2] = arg[2].isNumberValue())) 
 			{
-				GeoElement[] ret = { 
-						kernelA.InverseLogistic(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
+				AlgoInverseLogNormal algo = new AlgoInverseLogNormal(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]);
+
+				GeoElement[] ret = {algo.getResult() };
 				return ret;
 				
 			}

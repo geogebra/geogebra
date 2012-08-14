@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoFitLogistic;
 
 /** 
  * FitLogistic[<List of points>]
@@ -22,7 +23,8 @@ public class CmdFitLogistic extends CmdOneListFunction{
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.FitLogistic(a, b);
+		AlgoFitLogistic algo = new AlgoFitLogistic(cons, a, b);
+		return algo.getFitLogistic();
 	}
 
 }// class CmdFitLogistic

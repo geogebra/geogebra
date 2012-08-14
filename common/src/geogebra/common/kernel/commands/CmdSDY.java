@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoListSDY;
 /**
  * SDY[List of points]
  * SDY[List of numbers, list of numbers]
@@ -19,7 +20,9 @@ public class CmdSDY extends CmdOneOrTwoListsFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.SDY(a, b);
+		
+		AlgoListSDY algo = new AlgoListSDY(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override

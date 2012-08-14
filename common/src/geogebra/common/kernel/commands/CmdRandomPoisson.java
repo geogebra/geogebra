@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoRandomPoisson;
 import geogebra.common.main.MyError;
 
 /**
@@ -31,8 +32,11 @@ public class CmdRandomPoisson extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernelA.RandomPoisson(c.getLabel(),
-						(GeoNumeric) arg[0]) };
+				
+				AlgoRandomPoisson algo = new AlgoRandomPoisson(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} 
 			throw argErr(app, c.getName(), arg[0]);

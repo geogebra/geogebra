@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoExponential;
 import geogebra.common.main.MyError;
 
 /**
@@ -57,8 +58,11 @@ public class CmdExponential extends CommandProcessor {
 
 
 				} else if (arg[1].isNumberValue()) {
-					GeoElement[] ret = { kernelA.Exponential(c.getLabel(),
-							(NumberValue) arg[0], (NumberValue) arg[1]) };
+					
+					AlgoExponential algo = new AlgoExponential(cons, c.getLabel(),
+							(NumberValue) arg[0], (NumberValue) arg[1]);
+
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else
 					throw argErr(app, c.getName(), arg[1]);

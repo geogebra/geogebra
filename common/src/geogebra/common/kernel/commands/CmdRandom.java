@@ -5,6 +5,8 @@ import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoRandom;
+import geogebra.common.kernel.statistics.AlgoRandomFixed;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,7 +35,10 @@ public class CmdRandom extends CommandProcessor {
 				
 				if (((BooleanValue) arg[2]).getBoolean()) {
 					// don't pass (BooleanValue)arg[2] (dummy variable, always true)
-					GeoElement[] ret = kernelA.RandomFixed(c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+					
+					AlgoRandomFixed algo = new AlgoRandomFixed(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+					GeoElement[] ret = { algo.getResult() };
+
 					return ret;					
 				} 
 				//else fall through to case 2:
@@ -50,7 +55,10 @@ public class CmdRandom extends CommandProcessor {
 			if ((arg[0].isNumberValue()) &&
 				(arg[1].isNumberValue())) 
 			{
-				GeoElement[] ret = kernelA.Random(c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+				
+				AlgoRandom algo = new AlgoRandom(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+				GeoElement[] ret = { algo.getResult() };
+
 				return ret;
 				
 			}

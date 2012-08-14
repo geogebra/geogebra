@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoRSquare;
 import geogebra.common.main.MyError;
 
 /** 
@@ -38,8 +39,10 @@ public class CmdRSquare extends CommandProcessor{
         switch(n) {
             case 2:
             	if(  (ok[0]=arg[0].isGeoList() )&& (ok[1]=arg[1].isGeoFunctionable())  ){ 
+            		
+            		AlgoRSquare algo = new AlgoRSquare(cons, c.getLabel(),(GeoList)arg[0],(GeoFunctionable) arg[1]);
             		GeoElement[] ret={
-            				kernelA.RSquare(c.getLabel(),(GeoList)arg[0],(GeoFunctionable) arg[1]) 
+            				 algo.getRSquare()
             				};
                     return ret;
             	}

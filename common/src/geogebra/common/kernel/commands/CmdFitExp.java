@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoFitExp;
 
 /** 
  * FitExp[<List of points>]
@@ -18,12 +19,13 @@ public class CmdFitExp extends CmdOneListFunction{
 	 * @param kernel
 	 *            kernel
 	 */
-    public CmdFitExp(Kernel kernel) {super(kernel);}
-    
+	public CmdFitExp(Kernel kernel) {super(kernel);}
+
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.FitExp(a, b);
+		AlgoFitExp algo = new AlgoFitExp(cons, a, b);
+		return algo.getFitExp();
 	}
 
 }// class CmdFitExp

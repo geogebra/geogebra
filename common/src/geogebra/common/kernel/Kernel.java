@@ -27,7 +27,6 @@ import geogebra.common.kernel.barycentric.AlgoTriangleCurve;
 import geogebra.common.kernel.barycentric.AlgoTrilinear;
 import geogebra.common.kernel.cas.AlgoCasBase;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
-import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.cas.AlgoIntegral;
 import geogebra.common.kernel.cas.AlgoLimit;
 import geogebra.common.kernel.cas.AlgoLimitAbove;
@@ -92,7 +91,58 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.*;
+import geogebra.common.kernel.statistics.AlgoANOVA;
+import geogebra.common.kernel.statistics.AlgoBernoulliBarChart;
+import geogebra.common.kernel.statistics.AlgoBinomialDist;
+import geogebra.common.kernel.statistics.AlgoBinomialDistBarChart;
+import geogebra.common.kernel.statistics.AlgoChiSquareTest;
+import geogebra.common.kernel.statistics.AlgoFitLineY;
+import geogebra.common.kernel.statistics.AlgoGeometricMean;
+import geogebra.common.kernel.statistics.AlgoHarmonicMean;
+import geogebra.common.kernel.statistics.AlgoHyperGeometric;
+import geogebra.common.kernel.statistics.AlgoHyperGeometricBarChart;
+import geogebra.common.kernel.statistics.AlgoInverseBinomial;
+import geogebra.common.kernel.statistics.AlgoInverseCauchy;
+import geogebra.common.kernel.statistics.AlgoInverseExponential;
+import geogebra.common.kernel.statistics.AlgoInverseFDistribution;
+import geogebra.common.kernel.statistics.AlgoInverseGamma;
+import geogebra.common.kernel.statistics.AlgoInverseHyperGeometric;
+import geogebra.common.kernel.statistics.AlgoInversePascal;
+import geogebra.common.kernel.statistics.AlgoInversePoisson;
+import geogebra.common.kernel.statistics.AlgoInverseWeibull;
+import geogebra.common.kernel.statistics.AlgoInverseZipf;
+import geogebra.common.kernel.statistics.AlgoListSigmaXX;
+import geogebra.common.kernel.statistics.AlgoMean;
+import geogebra.common.kernel.statistics.AlgoMedian;
+import geogebra.common.kernel.statistics.AlgoMode;
+import geogebra.common.kernel.statistics.AlgoOrdinalRank;
+import geogebra.common.kernel.statistics.AlgoPascal;
+import geogebra.common.kernel.statistics.AlgoPascalBarChart;
+import geogebra.common.kernel.statistics.AlgoPercentile;
+import geogebra.common.kernel.statistics.AlgoPoisson;
+import geogebra.common.kernel.statistics.AlgoPoissonBarChart;
+import geogebra.common.kernel.statistics.AlgoProduct;
+import geogebra.common.kernel.statistics.AlgoQ1;
+import geogebra.common.kernel.statistics.AlgoQ3;
+import geogebra.common.kernel.statistics.AlgoRootMeanSquare;
+import geogebra.common.kernel.statistics.AlgoSample;
+import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
+import geogebra.common.kernel.statistics.AlgoSampleVariance;
+import geogebra.common.kernel.statistics.AlgoShuffle;
+import geogebra.common.kernel.statistics.AlgoSigmaXX;
+import geogebra.common.kernel.statistics.AlgoStandardDeviation;
+import geogebra.common.kernel.statistics.AlgoSum;
+import geogebra.common.kernel.statistics.AlgoTMean2Estimate;
+import geogebra.common.kernel.statistics.AlgoTMeanEstimate;
+import geogebra.common.kernel.statistics.AlgoTTest;
+import geogebra.common.kernel.statistics.AlgoTTest2;
+import geogebra.common.kernel.statistics.AlgoTTestPaired;
+import geogebra.common.kernel.statistics.AlgoTiedRank;
+import geogebra.common.kernel.statistics.AlgoVariance;
+import geogebra.common.kernel.statistics.AlgoWeibull;
+import geogebra.common.kernel.statistics.AlgoZipf;
+import geogebra.common.kernel.statistics.AlgoZipfBarChart;
+import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
@@ -5223,13 +5273,6 @@ public class Kernel {
 		return t.transform(Q, label);
 	}
 
-	final public GeoNumeric Cauchy(String label, NumberValue a, NumberValue b,
-			NumberValue c) {
-		AlgoCauchy algo = new AlgoCauchy(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
 	/**
 	 * Spreadsheet Object from coords
 	 */
@@ -5274,127 +5317,6 @@ public class Kernel {
 		AlgoCircumferenceConic algo = new AlgoCircumferenceConic(cons, label,
 				conic);
 		return algo.getCircumference();
-	}
-
-	/**
-	 * PMCC[list] Michael Borcherds
-	 */
-	final public GeoNumeric PMCC(String label, GeoList list) {
-		AlgoListPMCC algo = new AlgoListPMCC(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * PMCC[list,list] Michael Borcherds
-	 */
-	final public GeoNumeric PMCC(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListPMCC algo = new AlgoDoubleListPMCC(cons, label, listX,
-				listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * MeanX[list] Michael Borcherds
-	 */
-	final public GeoNumeric MeanX(String label, GeoList list) {
-		AlgoListMeanX algo = new AlgoListMeanX(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * MeanY[list] Michael Borcherds
-	 */
-	final public GeoNumeric MeanY(String label, GeoList list) {
-		AlgoListMeanY algo = new AlgoListMeanY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric SDY(String label, GeoList list) {
-		AlgoListSDY algo = new AlgoListSDY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric SDX(String label, GeoList list) {
-		AlgoListSDX algo = new AlgoListSDX(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SampleSDX[list] G. Sturr
-	 */
-	final public GeoNumeric SampleSDX(String label, GeoList list) {
-		AlgoListSampleSDX algo = new AlgoListSampleSDX(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SampleSDY[list] G. Sturr
-	 */
-	final public GeoNumeric SampleSDY(String label, GeoList list) {
-		AlgoListSampleSDY algo = new AlgoListSampleSDY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SXX[list,list] Michael Borcherds
-	 */
-	final public GeoNumeric SXX(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSXX algo = new AlgoDoubleListSXX(cons, label, listX,
-				listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SXY[list,list] Michael Borcherds
-	 */
-	final public GeoNumeric SXY(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSXY algo = new AlgoDoubleListSXY(cons, label, listX,
-				listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SXY[list] Michael Borcherds
-	 */
-	final public GeoNumeric SXY(String label, GeoList list) {
-		AlgoListSXY algo = new AlgoListSXY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SYY[list] Michael Borcherds
-	 */
-	final public GeoNumeric SYY(String label, GeoList list) {
-		AlgoListSYY algo = new AlgoListSYY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SXX[list] Michael Borcherds
-	 */
-	final public GeoNumeric SXX(String label, GeoList list) {
-		GeoNumeric num;
-		GeoElement geo = list.get(0);
-		if (geo.isNumberValue()) { // list of numbers
-			AlgoSXX algo = new AlgoSXX(cons, label, list);
-			num = algo.getResult();
-		} else { // (probably) list of points
-			AlgoListSXX algo = new AlgoListSXX(cons, label, list);
-			num = algo.getResult();
-		}
-		return num;
 	}
 
 	/**
@@ -5521,13 +5443,6 @@ public class Kernel {
 		return linearEccentricity;
 	}
 
-	final public GeoNumeric Exponential(String label, NumberValue a,
-			NumberValue b) {
-		AlgoExponential algo = new AlgoExponential(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
 	/**
 	 * all Extrema of function f (works only for polynomials)
 	 */
@@ -5556,13 +5471,6 @@ public class Kernel {
 				num);
 		GeoList list2 = algo.getResult();
 		return list2;
-	}
-
-	final public GeoNumeric FDistribution(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoFDistribution algo = new AlgoFDistribution(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
 	}
 
 	/**
@@ -5670,54 +5578,6 @@ public class Kernel {
 	 */
 	final public GeoNumeric Binomial(String label, NumberValue a, NumberValue b) {
 		AlgoBinomial algo = new AlgoBinomial(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * RandomNormal[mean,variance] Michael Borcherds
-	 */
-	final public GeoNumeric RandomNormal(String label, NumberValue a,
-			NumberValue b) {
-		AlgoRandomNormal algo = new AlgoRandomNormal(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * RandomBetween[max,min] Michael Borcherds
-	 */
-	final public GeoElement[] Random(String label, NumberValue a, NumberValue b) {
-		AlgoRandom algo = new AlgoRandom(cons, label, a, b);
-		GeoElement[] num = { algo.getResult() };
-		return num;
-	}
-
-	/**
-	 * RandomBetween[max,min, true] Michael Borcherds
-	 */
-	final public GeoElement[] RandomFixed(String label, NumberValue a, NumberValue b) {
-		AlgoRandomFixed algo = new AlgoRandomFixed(cons, label, a, b);
-		GeoElement[] num = { algo.getResult() };
-		return num;
-	}
-
-	/**
-	 * RandomUniform[max,min] Michael Borcherds
-	 */
-	final public GeoNumeric RandomUniform(String label, NumberValue a,
-			NumberValue b) {
-		AlgoRandomUniform algo = new AlgoRandomUniform(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * RandomBinomial[n,p] Michael Borcherds
-	 */
-	final public GeoNumeric RandomBinomial(String label, NumberValue a,
-			NumberValue b) {
-		AlgoRandomBinomial algo = new AlgoRandomBinomial(cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -5878,13 +5738,6 @@ public class Kernel {
 		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, label, f);
 		GeoFunction g = algo.getFunction();
 		return g;
-	}
-
-	final public GeoNumeric Gamma(String label, NumberValue a, NumberValue b,
-			NumberValue c) {
-		AlgoGamma algo = new AlgoGamma(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
 	}
 
 	/**
@@ -6399,28 +6252,6 @@ public class Kernel {
 	}
 
 	/**
-	 * SumSquaredErrors[<List of Points>,<Function>] Hans-Petter Ulven
-	 * 2010-02-22
-	 */
-	final public GeoNumeric SumSquaredErrors(String label, GeoList list,
-			GeoFunctionable function) {
-		AlgoSumSquaredErrors algo = new AlgoSumSquaredErrors(cons, label, list,
-				function);
-		GeoNumeric sse = algo.getsse();
-		return sse;
-	}
-
-	/**
-	 * RSquare[<List of Points>,<Function>]
-	 */
-	final public GeoNumeric RSquare(String label, GeoList list,
-			GeoFunctionable function) {
-		AlgoRSquare algo = new AlgoRSquare(cons, label, list, function);
-		GeoNumeric r2 = algo.getRSquare();
-		return r2;
-	}
-
-	/**
 	 * ResidualPlot[<List of Points>,<Function>]
 	 */
 	final public GeoList ResidualPlot(String label, GeoList list,
@@ -6599,71 +6430,6 @@ public class Kernel {
 		return num;
 	}
 
-	/**
-	 * SigmaXY[list] Michael Borcherds
-	 */
-	final public GeoNumeric SigmaXY(String label, GeoList list) {
-		AlgoListSigmaXY algo = new AlgoListSigmaXY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SigmaYY[list] Michael Borcherds
-	 */
-	final public GeoNumeric SigmaYY(String label, GeoList list) {
-		AlgoListSigmaYY algo = new AlgoListSigmaYY(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Spearman[list] G. Sturr
-	 */
-	final public GeoNumeric Spearman(String label, GeoList list) {
-		AlgoSpearman algo = new AlgoSpearman(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Spearman[list, list] G. Sturr
-	 */
-	final public GeoNumeric Spearman(String label, GeoList list, GeoList list2) {
-		AlgoSpearman algo = new AlgoSpearman(cons, label, list, list2);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SigmaXY[list,list] Michael Borcherds
-	 */
-	final public GeoNumeric SigmaXY(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSigmaXY algo = new AlgoDoubleListSigmaXY(cons, label,
-				listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SigmaXX[list,list] Michael Borcherds
-	 */
-	final public GeoNumeric SigmaXX(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSigmaXX algo = new AlgoDoubleListSigmaXX(cons, label,
-				listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SigmaYY[list,list] Michael Borcherds
-	 */
-	final public GeoNumeric SigmaYY(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSigmaYY algo = new AlgoDoubleListSigmaYY(cons, label,
-				listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
 
 	/**
 	 * FitLineY[list of coords] Michael Borcherds
@@ -6675,39 +6441,12 @@ public class Kernel {
 	}
 
 	/**
-	 * FitLineX[list of coords] Michael Borcherds
-	 */
-	final public GeoLine FitLineX(String label, GeoList list) {
-		AlgoFitLineX algo = new AlgoFitLineX(cons, label, list);
-		GeoLine line = algo.getFitLineX();
-		return line;
-	}
-
-	/**
 	 * FitPoly[list of coords,degree] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitPoly(String label, GeoList list,
 			NumberValue degree) {
 		AlgoFitPoly algo = new AlgoFitPoly(cons, label, list, degree);
 		GeoFunction function = algo.getFitPoly();
-		return function;
-	}
-
-	/**
-	 * FitExp[list of coords] Hans-Petter Ulven
-	 */
-	final public GeoFunction FitExp(String label, GeoList list) {
-		AlgoFitExp algo = new AlgoFitExp(cons, label, list);
-		GeoFunction function = algo.getFitExp();
-		return function;
-	}
-
-	/**
-	 * FitLog[list of coords] Hans-Petter Ulven
-	 */
-	final public GeoFunction FitLog(String label, GeoList list) {
-		AlgoFitLog algo = new AlgoFitLog(cons, label, list);
-		GeoFunction function = algo.getFitLog();
 		return function;
 	}
 
@@ -6727,119 +6466,6 @@ public class Kernel {
 		AlgoFitSin algo = new AlgoFitSin(cons, label, list);
 		GeoFunction function = algo.getFitSin();
 		return function;
-	}
-
-	/**
-	 * FitLogistic[list of coords] Hans-Petter Ulven
-	 */
-	final public GeoFunction FitLogistic(String label, GeoList list) {
-		AlgoFitLogistic algo = new AlgoFitLogistic(cons, label, list);
-		GeoFunction function = algo.getFitLogistic();
-		return function;
-	}
-
-	/**
-	 * Fit[list of points,list of functions] Hans-Petter Ulven
-	 */
-	final public GeoFunction Fit(String label, GeoList ptslist, GeoList funclist) {
-		AlgoFit algo = new AlgoFit(cons, label, ptslist, funclist);
-		GeoFunction function = algo.getFit();
-		return function;
-	}
-
-	/**
-	 * Fit[list of points,function] NonLinear case, one function with glider
-	 * parameters Hans-Petter Ulven
-	 */
-	final public GeoFunction Fit(String label, GeoList ptslist,
-			GeoFunction function) {
-		AlgoFitNL algo = new AlgoFitNL(cons, label, ptslist, function);
-		GeoFunction geofunction = algo.getFitNL();
-		return geofunction;
-	}
-
-	/**
-	 * 'FitGrowth[<List of Points>] Hans-Petter Ulven
-	 */
-	final public GeoFunction FitGrowth(String label, GeoList list) {
-		AlgoFitGrowth algo = new AlgoFitGrowth(cons, label, list);
-		GeoFunction function = algo.getFitGrowth();
-		return function;
-	}
-
-	/**
-	 * RandomPoisson[lambda] Michael Borcherds
-	 */
-	final public GeoNumeric RandomPoisson(String label, NumberValue a) {
-		AlgoRandomPoisson algo = new AlgoRandomPoisson(cons, label, a);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * InverseNormal[mean,variance,x] Michael Borcherds
-	 */
-	final public GeoNumeric InverseNormal(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseNormal algo = new AlgoInverseNormal(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * InverseLogNormal[mean,variance,x] Michael Borcherds
-	 */
-	final public GeoNumeric InverseLogNormal(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseLogNormal algo = new AlgoInverseLogNormal(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * InverseLogistic[mean,variance,x] Michael Borcherds
-	 */
-	final public GeoNumeric InverseLogistic(String label, NumberValue a,
-			NumberValue b, NumberValue c) {
-		AlgoInverseLogistic algo = new AlgoInverseLogistic(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Normal[mean,variance,x] Michael Borcherds
-	 */
-	final public GeoNumeric Normal(String label, NumberValue a, NumberValue b,
-			NumberValue c) {
-		AlgoNormal algo = new AlgoNormal(cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * TDistribution[degrees of freedom,x] Michael Borcherds
-	 */
-	final public GeoNumeric TDistribution(String label, NumberValue a,
-			NumberValue b) {
-		AlgoTDistribution algo = new AlgoTDistribution(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric InverseTDistribution(String label, NumberValue a,
-			NumberValue b) {
-		AlgoInverseTDistribution algo = new AlgoInverseTDistribution(cons,
-				label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoNumeric InverseChiSquared(String label, NumberValue a,
-			NumberValue b) {
-		AlgoInverseChiSquared algo = new AlgoInverseChiSquared(cons, label, a,
-				b);
-		GeoNumeric num = algo.getResult();
-		return num;
 	}
 
 	final public GeoNumeric InverseExponential(String label, NumberValue a,
@@ -9856,12 +9482,6 @@ public class Kernel {
 	public GeoElement Division(String label, NumberValue dividend,
 			NumberValue divisor) {
 		AlgoDivision algo = new AlgoDivision(cons,label,dividend,divisor);
-		return algo.getResult();
-	}
-
-	public GeoFunction RandomPolynomial(String label, NumberValue degree,
-			NumberValue min, NumberValue max) {
-		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons,label,degree, min,max);
 		return algo.getResult();
 	}
 	

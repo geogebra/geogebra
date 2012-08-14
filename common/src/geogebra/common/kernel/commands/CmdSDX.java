@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoListSDX;
 /**
  * SDX[List of points]
  * SDX[List of numbers, list of numbers]
@@ -20,7 +21,8 @@ public class CmdSDX extends CmdOneOrTwoListsFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.SDX(a, b);
+		AlgoListSDX algo = new AlgoListSDX(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override

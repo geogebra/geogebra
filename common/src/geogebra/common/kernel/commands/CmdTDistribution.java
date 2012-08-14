@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoTDistribution;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
@@ -56,8 +57,11 @@ public class CmdTDistribution extends CommandProcessor {
 					return algo.getGeoElements();
 
 				} else if (arg[1].isNumberValue()) {
-					GeoElement[] ret = { kernelA.TDistribution(c.getLabel(),
-							(NumberValue) arg[0], (NumberValue) arg[1]) };
+					
+					AlgoTDistribution algo = new AlgoTDistribution(cons, c.getLabel(),
+							(NumberValue) arg[0], (NumberValue) arg[1]);
+
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else
 					throw argErr(app, c.getName(), arg[1]);

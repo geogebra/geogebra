@@ -16,6 +16,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoFit;
+import geogebra.common.kernel.statistics.AlgoFitNL;
 import geogebra.common.main.MyError;
 
 /** 
@@ -41,10 +43,16 @@ public class CmdFit extends CommandProcessor{
         switch(n) {
             case 2:
                     if(  (arg[0].isGeoList() )&& (arg[1].isGeoList())  ){ 
-                        GeoElement[] ret={kernelA.Fit(c.getLabel(),(GeoList)arg[0],(GeoList) arg[1]) };
+                    	
+                		AlgoFit algo = new AlgoFit(cons, c.getLabel(),(GeoList)arg[0],(GeoList) arg[1]);
+
+                        GeoElement[] ret={ algo.getFit() };
                         return ret;
                     }else if(  (arg[0].isGeoList() )&& (arg[1].isGeoFunction())  ){
-                    	GeoElement[] ret={kernelA.Fit(c.getLabel(),(GeoList)arg[0],(GeoFunction) arg[1])  };
+                    	
+                		AlgoFitNL algo = new AlgoFitNL(cons, c.getLabel(),(GeoList)arg[0],(GeoFunction) arg[1]);
+
+                    	GeoElement[] ret={ algo.getFitNL() };
                     	return ret;
                     }else{
                         throw argErr(app,c.getName(),arg[0]);

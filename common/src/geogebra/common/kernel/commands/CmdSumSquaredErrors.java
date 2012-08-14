@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
 import geogebra.common.main.MyError;
 
 /** 
@@ -39,9 +40,10 @@ public class CmdSumSquaredErrors extends CommandProcessor{
             case 2:
             	if(  (ok[0] = arg[0].isGeoList() )&& 
             			(ok[1] = arg[1].isGeoFunctionable())  ){ 
-            		GeoElement[] ret={
-            				kernelA.SumSquaredErrors(c.getLabel(),(GeoList)arg[0],(GeoFunctionable) arg[1]) 
-            				};
+            		
+            		AlgoSumSquaredErrors algo = new AlgoSumSquaredErrors(cons, c.getLabel(),(GeoList)arg[0],(GeoFunctionable) arg[1]);
+            		
+            		GeoElement[] ret={ algo.getsse() };
                     return ret;
             	}
 			throw argErr(app,c.getName(),getBadArg(ok,arg));

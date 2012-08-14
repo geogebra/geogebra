@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoRandomPolynomial;
 import geogebra.common.main.MyError;
 /**
  * RandomPolynomial[degree, min, max]
@@ -28,7 +29,8 @@ public class CmdRandomPolynomial extends CommandProcessor {
 			if(!args[i].isNumberValue())
 				throw argErr(app,c.getName(),args[i]);
 		}
-		return new GeoElement[]{kernelA.RandomPolynomial(c.getLabel(),(NumberValue)args[0],(NumberValue)args[1],(NumberValue)args[2])};
+		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons,c.getLabel(),(NumberValue)args[0],(NumberValue)args[1],(NumberValue)args[2]);
+		return new GeoElement[] { algo.getResult()} ;
 	}
 
 }

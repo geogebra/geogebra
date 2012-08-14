@@ -3,6 +3,8 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoDoubleListPMCC;
+import geogebra.common.kernel.statistics.AlgoListPMCC;
 /**
  * 
  * CorrelationCoefficient[&lt;List of points>]
@@ -22,13 +24,17 @@ public class CmdPMCC extends CmdOneOrTwoListsFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.PMCC(a, b);
+		AlgoListPMCC algo = new AlgoListPMCC(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
-		return kernelA.PMCC(a, b, c);
+		
+		AlgoDoubleListPMCC algo = new AlgoDoubleListPMCC(cons, a, b,
+				c);
+		return algo.getResult();
 	}
 
 

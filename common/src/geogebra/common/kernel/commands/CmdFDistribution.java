@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoFDistribution;
 import geogebra.common.main.MyError;
 
 	/**
@@ -56,9 +57,12 @@ import geogebra.common.main.MyError;
 
 
 					} else if (arg[2].isNumberValue()) {
-						GeoElement[] ret = { kernelA.FDistribution(c.getLabel(),
+						
+						AlgoFDistribution algo = new AlgoFDistribution(cons, c.getLabel(),
 								(NumberValue) arg[0], (NumberValue) arg[1],
-								(NumberValue) arg[2]) };
+								(NumberValue) arg[2]);
+
+						GeoElement[] ret = { algo.getResult() };
 						return ret;
 					} else
 						throw argErr(app, c.getName(), arg[2]);

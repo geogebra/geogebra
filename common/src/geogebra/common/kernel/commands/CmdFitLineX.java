@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoFitLineX;
 
 /**
  * 
@@ -23,7 +24,8 @@ public class CmdFitLineX extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.FitLineX(a, b);
+		AlgoFitLineX algo = new AlgoFitLineX(cons, a, b);
+		return algo.getFitLineX();
 	}
 
 

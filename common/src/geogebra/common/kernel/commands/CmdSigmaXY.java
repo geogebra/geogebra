@@ -3,6 +3,8 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoDoubleListSigmaXY;
+import geogebra.common.kernel.statistics.AlgoListSigmaXY;
 /**
  * SigmaXY[ list ]
  */
@@ -18,13 +20,16 @@ public class CmdSigmaXY extends CmdOneOrTwoListsFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.SigmaXY(a, b);
+		AlgoListSigmaXY algo = new AlgoListSigmaXY(cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
-		return kernelA.SigmaXY(a, b, c);
+		AlgoDoubleListSigmaXY algo = new AlgoDoubleListSigmaXY(cons, a,
+				b, c);
+		return algo.getResult();
 	}
 
 

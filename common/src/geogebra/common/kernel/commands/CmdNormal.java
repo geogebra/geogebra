@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoNormal;
 import geogebra.common.main.MyError;
 
 /**
@@ -54,9 +55,10 @@ public class CmdNormal extends CommandProcessor {
 
 				} else if (arg[2].isNumberValue()) {
 					
-					GeoElement[] ret = { 
-							kernelA.Normal(c.getLabel(),
-									(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
+					AlgoNormal algo = new AlgoNormal(cons, c.getLabel(),
+							(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]);
+					
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 
 				}  else
