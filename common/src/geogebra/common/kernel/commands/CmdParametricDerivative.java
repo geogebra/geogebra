@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.cas.AlgoParametricDerivative;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
@@ -32,7 +33,10 @@ public class CmdParametricDerivative extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoCurveCartesian()) {
 				GeoCurveCartesian f = (GeoCurveCartesian) arg[0];
-				GeoElement[] ret = { kernelA.ParametricDerivative(label, f) };
+				
+				AlgoParametricDerivative algo = new AlgoParametricDerivative(cons, label, f);
+
+				GeoElement[] ret = { algo.getParametricDerivative() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

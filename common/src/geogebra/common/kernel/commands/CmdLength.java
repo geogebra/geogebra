@@ -3,6 +3,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.cas.AlgoLengthCurve;
+import geogebra.common.kernel.cas.AlgoLengthCurve2Points;
+import geogebra.common.kernel.cas.AlgoLengthFunction;
+import geogebra.common.kernel.cas.AlgoLengthFunction2Points;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -80,29 +84,37 @@ public class CmdLength extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
-				GeoElement[] ret = { kernelA.FunctionLength(c.getLabel(),
+				
+				AlgoLengthFunction algo = new AlgoLengthFunction(cons, c.getLabel(),
 						(GeoFunction) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2]) };
+						(GeoNumeric) arg[2]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			}
 
 			else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-
-				GeoElement[] ret = { kernelA.FunctionLength2Points(c.getLabel(),
+				
+				AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(cons,
+						c.getLabel(),
 						(GeoFunction) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2]) };
+						(GeoPoint) arg[2]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			}
 
 			else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
-
-				GeoElement[] ret = { kernelA.CurveLength(c.getLabel(),
+				
+				AlgoLengthCurve algo = new AlgoLengthCurve(cons, c.getLabel(),
 						(GeoCurveCartesian) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2]) };
+						(GeoNumeric) arg[2]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 
 			}
@@ -110,10 +122,12 @@ public class CmdLength extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-
-				GeoElement[] ret = { kernelA.CurveLength2Points(c.getLabel(),
+				
+				AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(cons, c.getLabel(),
 						(GeoCurveCartesian) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2]) };
+						(GeoPoint) arg[2]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			}
 

@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -55,9 +56,16 @@ public class CmdTangent extends CommandProcessor {
 						(GeoConic) arg[1]);
 			else if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
+				
+				AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(cons,
+						c.getLabel(),
 						(NumberValue) arg[0], ((GeoFunctionable) arg[1])
-								.getGeoFunction()) };
+								.getGeoFunction());
+				GeoLine t = algo.getTangent();
+				t.setToExplicit();
+				t.update();
+
+				GeoElement[] ret = {t};
 				return ret;
 			}
 

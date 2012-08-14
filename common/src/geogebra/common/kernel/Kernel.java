@@ -26,33 +26,16 @@ import geogebra.common.kernel.barycentric.AlgoKimberling;
 import geogebra.common.kernel.barycentric.AlgoTriangleCurve;
 import geogebra.common.kernel.barycentric.AlgoTrilinear;
 import geogebra.common.kernel.cas.AlgoCasBase;
-import geogebra.common.kernel.cas.AlgoCoefficients;
-import geogebra.common.kernel.cas.AlgoDegree;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.AlgoDerivative;
-import geogebra.common.kernel.cas.AlgoExpand;
-import geogebra.common.kernel.cas.AlgoFactor;
-import geogebra.common.kernel.cas.AlgoFactors;
-import geogebra.common.kernel.cas.AlgoImplicitDerivative;
 import geogebra.common.kernel.cas.AlgoIntegral;
-import geogebra.common.kernel.cas.AlgoIntegralDefinite;
-import geogebra.common.kernel.cas.AlgoLengthCurve;
-import geogebra.common.kernel.cas.AlgoLengthCurve2Points;
-import geogebra.common.kernel.cas.AlgoLengthFunction;
-import geogebra.common.kernel.cas.AlgoLengthFunction2Points;
 import geogebra.common.kernel.cas.AlgoLimit;
 import geogebra.common.kernel.cas.AlgoLimitAbove;
 import geogebra.common.kernel.cas.AlgoLimitBelow;
-import geogebra.common.kernel.cas.AlgoNextPreviousPrime;
-import geogebra.common.kernel.cas.AlgoParametricDerivative;
 import geogebra.common.kernel.cas.AlgoPartialFractions;
-import geogebra.common.kernel.cas.AlgoPolynomialDiv;
-import geogebra.common.kernel.cas.AlgoPolynomialDivision;
-import geogebra.common.kernel.cas.AlgoPolynomialMod;
 import geogebra.common.kernel.cas.AlgoSimplify;
 import geogebra.common.kernel.cas.AlgoSolveODECas;
 import geogebra.common.kernel.cas.AlgoTangentCurve;
-import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
@@ -5415,14 +5398,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Degree Michael Borcherds
-	 */
-	final public GeoNumeric Degree(String label, GeoFunction func) {
-		AlgoDegree algo = new AlgoDegree(cons, label, func);
-		return algo.getResult();
-	}
-
-	/**
 	 * Defined[object] Michael Borcherds
 	 */
 	final public GeoBoolean Defined(String label, GeoElement geo) {
@@ -5437,31 +5412,6 @@ public class Kernel {
 	final public GeoElement Denominator(String label, FunctionalNVar func) {
 		AlgoDenominator algo = new AlgoDenominator(cons, label, func);
 		return algo.getResult();
-	}
-
-	/**
-	 * n-th derivative of multivariate function f
-	 */
-	final public GeoElement Derivative(String label, CasEvaluableFunction f,
-			GeoNumeric var, NumberValue n) {
-
-		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n);
-		return algo.getResult();
-	}
-
-	/**
-	 * #1497 ParametricDerivative[(f (t), g (t))] should return ( f(t), g'(t) / f'(t) )
-	 * 
-	 * @param label
-	 * @param f
-	 * @param var
-	 * @param n
-	 * @return
-	 */
-	final public GeoElement ParametricDerivative(String label, GeoCurveCartesian f) {
-
-		AlgoParametricDerivative algo = new AlgoParametricDerivative(cons, label, f);
-		return algo.getParametricDerivative();
 	}
 
 	/**
@@ -5528,15 +5478,6 @@ public class Kernel {
 		return num;
 	}
 
-	/**
-	 * Div[a, b] Polynomial Division
-	 */
-	final public GeoFunction Div(String label, GeoFunction a, GeoFunction b) {
-		AlgoPolynomialDiv algo = new AlgoPolynomialDiv(cons, label, a, b);
-		GeoFunction f = algo.getResult();
-		return f;
-	}
-
 	final public GeoElement DynamicCoordinates(String label,
 			GeoPoint geoPoint, NumberValue num1, NumberValue num2) {
 		AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(cons, label,
@@ -5580,11 +5521,6 @@ public class Kernel {
 		return linearEccentricity;
 	}
 
-	final public GeoElement Expand(String label, CasEvaluableFunction func) {
-		AlgoExpand algo = new AlgoExpand(cons, label, func);
-		return algo.getResult();
-	}
-
 	final public GeoNumeric Exponential(String label, NumberValue a,
 			NumberValue b) {
 		AlgoExponential algo = new AlgoExponential(cons, label, a, b);
@@ -5614,19 +5550,6 @@ public class Kernel {
 														// array...
 		return gpts;
 	}// Extremum(label,geofunction,numbervalue,numbervalue)
-
-	final public GeoElement Factor(String label, CasEvaluableFunction func) {
-		AlgoFactor algo = new AlgoFactor(cons, label, func);
-		return algo.getResult();
-	}
-
-	/**
-	 * Factors Michael Borcherds
-	 */
-	final public GeoList Factors(String label, GeoFunction func) {
-		AlgoFactors algo = new AlgoFactors(cons, label, func);
-		return algo.getResult();
-	}
 
 	final public GeoList PrimeFactorisation(String label, NumberValue num) {
 		AlgoPrimeFactorization algo = new AlgoPrimeFactorization(cons, label,
@@ -6598,15 +6521,6 @@ public class Kernel {
 		AlgoMod algo = new AlgoMod(cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
-	}
-
-	/**
-	 * Mod[a, b] Polynomial remainder
-	 */
-	final public GeoFunction Mod(String label, GeoFunction a, GeoFunction b) {
-		AlgoPolynomialMod algo = new AlgoPolynomialMod(cons, label, a, b);
-		GeoFunction f = algo.getResult();
-		return f;
 	}
 
 	/**
@@ -9163,18 +9077,6 @@ public class Kernel {
 		return tangents;
 	}
 
-	/**
-	 * tangent to f in x = a
-	 */
-	final public GeoLine Tangent(String label, NumberValue a, GeoFunction f) {
-		AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(cons,
-				label, a, f);
-		GeoLine t = algo.getTangent();
-		t.setToExplicit();
-		t.update();
-		//notifyUpdate(t);
-		return t;
-	}
 
 	/**
 	 * tangent to f in x = x(P)
@@ -9482,29 +9384,6 @@ public class Kernel {
 	}
 
 	/**
-	 * definite Integral of function f from x=a to x=b
-	 */
-	final public GeoNumeric Integral(String label, GeoFunction f,
-			NumberValue a, NumberValue b,boolean numeric) {
-		AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons, label, f, a,
-				b,numeric);
-		GeoNumeric n = algo.getIntegral();
-		return n;
-	}
-
-	/**
-	 * definite Integral of function f from x=a to x=b with option to evaluate
-	 * (evaluate == false allows shade-only drawing)
-	 */
-	final public GeoNumeric Integral(String label, GeoFunction f,
-			NumberValue a, NumberValue b, GeoBoolean evaluate) {
-		AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons, label, f, a,
-				b, evaluate);
-		GeoNumeric n = algo.getIntegral();
-		return n;
-	}
-
-	/**
 	 * definite integral of function (f - g) in interval [a, b]
 	 */
 	final public GeoNumeric Integral(String label, GeoFunction f,
@@ -9647,62 +9526,6 @@ public class Kernel {
 		GeoConic circle = algo.getCircle();
 		return circle;
 
-	}
-
-	/**
-	 * Calculate Function Length between the numbers A and B: integral from A to
-	 * B on T = sqrt(1+(f')^2)
-	 */
-
-	final public GeoNumeric FunctionLength(String label, GeoFunction f,
-			GeoNumeric A, GeoNumeric B) {
-
-		AlgoLengthFunction algo = new AlgoLengthFunction(cons, label, f, A, B);
-		GeoNumeric length = algo.getLength();
-		return length;
-
-	}
-
-	/**
-	 * Calculate Function Length between the points A and B: integral from A to
-	 * B on T = sqrt(1+(f')^2)
-	 */
-
-	final public GeoNumeric FunctionLength2Points(String label, GeoFunction f,
-			GeoPoint A, GeoPoint B) {
-
-		AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(cons,
-				label, f, A, B);
-		GeoNumeric length = algo.getLength();
-		return length;
-
-	}
-
-	/**
-	 * 
-	 * Calculate Curve Length between the parameters t0 and t1: integral from t0
-	 * to t1 on T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-
-	final public GeoNumeric CurveLength(String label, GeoCurveCartesian c,
-			GeoNumeric t0, GeoNumeric t1) {
-
-		AlgoLengthCurve algo = new AlgoLengthCurve(cons, label, c, t0, t1);
-		GeoNumeric length = algo.getLength();
-		return length;
-
-	}
-
-	/**
-	 * Calculate Curve Length between the points A and B: integral from t0 to t1
-	 * on T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-	final public GeoNumeric CurveLength2Points(String label,
-			GeoCurveCartesian c, GeoPoint A, GeoPoint B) {
-		AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(cons, label,
-				c, A, B);
-		GeoNumeric length = algo.getLength();
-		return length;
 	}
 
 	/**
@@ -10008,11 +9831,6 @@ public class Kernel {
 		return algo.getResult();
 	}
 	
-	public GeoNumeric NextPreviousPrime(String label, NumberValue number,boolean next) {
-		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons,label,number,next);
-		return algo.getResult();
-	}
-	
 	public GeoElement Dimension(String label, GeoList geoList) {
 		AlgoDimension algo = new AlgoDimension(cons,label,geoList);
 		return algo.getResult();
@@ -10041,21 +9859,9 @@ public class Kernel {
 		return algo.getResult();
 	}
 
-	public GeoElement Division(String label, GeoFunction dividend,
-			GeoFunction divisor) {
-		AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,label,dividend,divisor);
-		return algo.getResult();
-	}
-
 	public GeoFunction RandomPolynomial(String label, NumberValue degree,
 			NumberValue min, NumberValue max) {
 		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons,label,degree, min,max);
-		return algo.getResult();
-	}
-
-	public GeoElement ImplicitDerivative(String label,
-			FunctionalNVar functional) {
-		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,label,functional);
 		return algo.getResult();
 	}
 	
@@ -10064,4 +9870,5 @@ public class Kernel {
 		GeoTurtle turtle = algo.getTurtle();
 		return turtle;
 	}
+
 }

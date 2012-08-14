@@ -5,6 +5,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -40,7 +41,7 @@ public class CmdDerivative extends CommandProcessor {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
 				if (label == null)
 					label = getDerivLabel(f.toGeoElement(), 1);
-				GeoElement[] ret = { kernelA.Derivative(label, f, null, null) };
+				GeoElement[] ret = { Derivative(label, f, null, null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -73,7 +74,7 @@ public class CmdDerivative extends CommandProcessor {
 						int iorder = (int) Math.round(order);
 						label = getDerivLabel(f.toGeoElement(), iorder);
 					}
-					GeoElement[] ret = { kernelA.Derivative(label, f, null,
+					GeoElement[] ret = { Derivative(label, f, null,
 							(NumberValue) arg[1]) };
 					return ret;
 
@@ -106,7 +107,7 @@ public class CmdDerivative extends CommandProcessor {
 					}
 
 					if (ok) {
-						GeoElement[] ret = { kernelA.Derivative(label,
+						GeoElement[] ret = { Derivative(label,
 								(CasEvaluableFunction) arg2[0], // function
 								(GeoNumeric) arg2[1], null) }; // var
 						return ret;
@@ -123,7 +124,7 @@ public class CmdDerivative extends CommandProcessor {
 					&& arg[1].isGeoFunction()) {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1].toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { kernelA.Derivative(label,
+				GeoElement[] ret = { Derivative(label,
 						(CasEvaluableFunction) arg[0], // function
 						var, null) }; // var
 				return ret;
@@ -138,7 +139,7 @@ public class CmdDerivative extends CommandProcessor {
 				arg = resArgsLocalNumVar(c, 1, 1);
 				if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()
 						&& arg[2].isNumberValue()) {
-					GeoElement[] ret = { kernelA.Derivative(label,
+					GeoElement[] ret = { Derivative(label,
 							(CasEvaluableFunction) arg[0], // function
 							(GeoNumeric) arg[1], (NumberValue) arg[2]) }; // var
 					return ret;
@@ -153,7 +154,7 @@ public class CmdDerivative extends CommandProcessor {
 					&& arg[2].isNumberValue()) {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1].toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { kernelA.Derivative(label,
+				GeoElement[] ret = { Derivative(label,
 						(GeoFunctionNVar) arg[0], // function
 						var, (NumberValue) arg[2]) }; // var
 				return ret;
@@ -178,4 +179,11 @@ public class CmdDerivative extends CommandProcessor {
 
 		return geo.getFreeLabel(label);
 	}
+	
+	public GeoElement Derivative(String label, CasEvaluableFunction f,
+			GeoNumeric var, NumberValue n) {
+		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n);
+		return algo.getResult();
+	}
+
 }

@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.cas.AlgoFactors;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -33,8 +34,11 @@ public class CmdFactors extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoFunction()) {
-				GeoElement[] ret = { kernelA.Factors(c.getLabel(),
-						(GeoFunction) arg[0]) };
+				
+				AlgoFactors algo = new AlgoFactors(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else	if (arg[0].isGeoNumeric()) {
 					GeoElement[] ret = { kernelA.PrimeFactorisation(c.getLabel(),

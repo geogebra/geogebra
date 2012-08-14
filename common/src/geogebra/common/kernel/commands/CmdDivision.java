@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoPolynomialDivision;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -38,8 +39,11 @@ public class CmdDivision extends CommandProcessor {
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunction()))
 					&& (ok[1] = (arg[1].isGeoFunction()))) {
-				GeoElement[] ret = { kernelA.Division(c.getLabel(),
-						(GeoFunction) arg[0], (GeoFunction) arg[1]) };
+				
+				AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,c.getLabel(),
+						(GeoFunction) arg[0], (GeoFunction) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {
 				if (!ok[0])

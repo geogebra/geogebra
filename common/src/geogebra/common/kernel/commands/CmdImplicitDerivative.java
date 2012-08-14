@@ -4,6 +4,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.cas.AlgoImplicitDerivative;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 /**
@@ -26,7 +27,10 @@ public class CmdImplicitDerivative extends CommandProcessor {
 			throw argNumErr(app,c.getName(),args.length);
 		if(!(args[0] instanceof FunctionalNVar))
 			throw argErr(app,c.getName(),args[0]);
-		return new GeoElement[] {kernelA.ImplicitDerivative(c.getLabel(),(FunctionalNVar)args[0])};
+		
+		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons, c.getLabel(), (FunctionalNVar)args[0]);
+
+		return new GeoElement[] { algo.getResult() };
 	}
 
 }
