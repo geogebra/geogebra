@@ -13,7 +13,6 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -38,25 +37,15 @@ import javax.swing.ToolTipManager;
  * 
  * Created on 16. October 2001, 15:41
  */
-public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianController implements MouseListener, MouseMotionListener,
-		MouseWheelListener, ComponentListener{
-
-	
-
-	
-	
+public class EuclidianControllerD extends
+		geogebra.common.euclidian.EuclidianController implements MouseListener,
+		MouseMotionListener, MouseWheelListener, ComponentListener {
 
 	// protected GeoVec2D b;
 
-	
-
 	// protected GeoSegment movedGeoSegment;
 
-	
-
 	// protected MyPopupMenu popupMenu;
-
-	
 
 	// boolean polygonRigid = false;
 
@@ -79,6 +68,7 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 		this.app = app;
 	}
 
+	@Override
 	public AppD getApplication() {
 		return (AppD) app;
 	}
@@ -87,8 +77,6 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 		// void setView(EuclidianView view) {
 		this.view = view;
 	}
-
-
 
 	public void mouseClicked(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
@@ -100,11 +88,6 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMousePressed(event);
 		event.release();
-	}
-
-	private EuclidianViewInterfaceCommon setShowMouseCoords(boolean b) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -124,11 +107,11 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 		wrapMouseMoved(event);
 		event.release();
 	}
-	
+
 	public void mouseEntered(MouseEvent e) {
 		wrapMouseEntered();
 	}
-	
+
 	public void mouseExited(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseExited(event);
@@ -157,12 +140,6 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 
 	/* ****************************************************** */
 
-	
-
-	
-
-	
-
 	/*
 	 * final protected void transformCoords(boolean usePointCapturing) { // calc
 	 * real world coords calcRWcoords();
@@ -187,16 +164,6 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 	 * default: // point capturing off } } }
 	 */
 
-	
-
-	
-
-	
-
-	
-
-	
-
 	// fetch the two selected points
 	/*
 	 * protected void join(){ GeoPoint[] points = getSelectedPoints(); GeoLine
@@ -215,17 +182,17 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 	}
 
 	public void componentShown(ComponentEvent e) {
-		//do nothing
+		// do nothing
 	}
 
 	public void componentHidden(ComponentEvent e) {
-		//do nothing
+		// do nothing
 	}
 
 	public void componentMoved(ComponentEvent e) {
-		//do nothing
+		// do nothing
 	}
-	
+
 	/**
 	 * Zooms in or out using mouse wheel
 	 */
@@ -234,9 +201,5 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 		wrapMouseWheelMoved(event);
 		event.release();
 	}
-
-
-
-	
 
 }
