@@ -16,9 +16,14 @@
  */
 package org.apache.commons.collections15.list;
 
-import org.apache.commons.collections15.OrderedIterator;
+import java.util.AbstractList;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
-import java.util.*;
+import org.apache.commons.collections15.OrderedIterator;
 
 /**
  * A <code>List</code> implementation that is optimised for fast insertions and

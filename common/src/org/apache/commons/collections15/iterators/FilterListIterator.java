@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.iterators;
 
-import org.apache.commons.collections15.Predicate;
-
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.Predicate;
 
 /**
  * A proxy {@link ListIterator ListIterator} which

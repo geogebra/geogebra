@@ -21,11 +21,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.exception.MathUnsupportedOperationException;
-import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 

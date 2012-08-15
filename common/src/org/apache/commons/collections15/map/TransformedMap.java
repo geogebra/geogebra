@@ -16,14 +16,14 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Decorates another <code>Map</code> to transform objects that are added.

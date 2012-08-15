@@ -1,8 +1,5 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.geos.GeoElement;
-
-import java.util.ArrayList;
 
 /**
  * Style bar for Euclidian view

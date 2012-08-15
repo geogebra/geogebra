@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.list;
 
-import org.apache.commons.collections15.Factory;
-
 import java.util.List;
+
+import org.apache.commons.collections15.Factory;
 
 /**
  * Decorates another <code>List</code> to create objects in the list on demand.

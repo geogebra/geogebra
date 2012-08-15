@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Predicate;
-
 import java.io.Serializable;
 import java.util.Collection;
+
+import org.apache.commons.collections15.Predicate;
 
 /**
  * Predicate implementation that returns true if all the predicates return true.

@@ -16,10 +16,6 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.keyvalue.AbstractMapEntry;
-import org.apache.commons.collections15.list.UnmodifiableList;
-import org.apache.commons.collections15.set.UnmodifiableSet;
-
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -27,7 +23,17 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.apache.commons.collections15.keyvalue.AbstractMapEntry;
+import org.apache.commons.collections15.list.UnmodifiableList;
+import org.apache.commons.collections15.set.UnmodifiableSet;
 
 /**
  * An implementation of Map for JavaBeans which uses introspection to

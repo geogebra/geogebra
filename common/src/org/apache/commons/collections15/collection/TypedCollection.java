@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.collection;
 
-import org.apache.commons.collections15.functors.InstanceofPredicate;
-
 import java.util.Collection;
+
+import org.apache.commons.collections15.functors.InstanceofPredicate;
 
 /**
  * Decorates a <code>Collection</code> to validate that elements added are of a specific type.

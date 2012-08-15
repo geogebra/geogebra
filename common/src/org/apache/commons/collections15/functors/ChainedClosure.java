@@ -16,11 +16,11 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Closure;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections15.Closure;
 
 /**
  * Closure implementation that chains the specified closures together.

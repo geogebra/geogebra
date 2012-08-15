@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.set;
 
+import java.util.Set;
+
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.collection.TransformedCollection;
-
-import java.util.Set;
 
 /**
  * Decorates another <code>Set</code> to transform objects that are added.

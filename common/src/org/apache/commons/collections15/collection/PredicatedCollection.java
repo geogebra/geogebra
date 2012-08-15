@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.collection;
 
-import org.apache.commons.collections15.Predicate;
-
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections15.Predicate;
 
 /**
  * Decorates another <code>Collection</code> to validate that additions

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.keyvalue;
 
-import org.apache.commons.collections15.KeyValue;
-
 import java.util.Map;
+
+import org.apache.commons.collections15.KeyValue;
 
 /**
  * A restricted implementation of {@link java.util.Map.Entry} that prevents

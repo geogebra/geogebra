@@ -16,11 +16,42 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.iterators.*;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+import org.apache.commons.collections15.iterators.ArrayIterator;
+import org.apache.commons.collections15.iterators.ArrayListIterator;
+import org.apache.commons.collections15.iterators.CollatingIterator;
+import org.apache.commons.collections15.iterators.EmptyIterator;
+import org.apache.commons.collections15.iterators.EmptyListIterator;
+import org.apache.commons.collections15.iterators.EmptyMapIterator;
+import org.apache.commons.collections15.iterators.EmptyOrderedIterator;
+import org.apache.commons.collections15.iterators.EmptyOrderedMapIterator;
+import org.apache.commons.collections15.iterators.EnumerationIterator;
+import org.apache.commons.collections15.iterators.FilterIterator;
+import org.apache.commons.collections15.iterators.FilterListIterator;
+import org.apache.commons.collections15.iterators.IteratorChain;
+import org.apache.commons.collections15.iterators.IteratorEnumeration;
+import org.apache.commons.collections15.iterators.ListIteratorWrapper;
+import org.apache.commons.collections15.iterators.LoopingIterator;
+import org.apache.commons.collections15.iterators.ObjectArrayIterator;
+import org.apache.commons.collections15.iterators.ObjectArrayListIterator;
+import org.apache.commons.collections15.iterators.ObjectGraphIterator;
+import org.apache.commons.collections15.iterators.SingletonIterator;
+import org.apache.commons.collections15.iterators.SingletonListIterator;
+import org.apache.commons.collections15.iterators.TransformIterator;
+import org.apache.commons.collections15.iterators.UnmodifiableIterator;
+import org.apache.commons.collections15.iterators.UnmodifiableListIterator;
+import org.apache.commons.collections15.iterators.UnmodifiableMapIterator;
 
 /**
  * Provides static utility methods and decorators for {@link Iterator}

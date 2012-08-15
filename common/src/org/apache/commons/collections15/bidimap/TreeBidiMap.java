@@ -16,11 +16,21 @@
  */
 package org.apache.commons.collections15.bidimap;
 
-import org.apache.commons.collections15.*;
+import java.util.AbstractSet;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.apache.commons.collections15.BidiMap;
+import org.apache.commons.collections15.KeyValue;
+import org.apache.commons.collections15.MapIterator;
+import org.apache.commons.collections15.OrderedBidiMap;
+import org.apache.commons.collections15.OrderedIterator;
+import org.apache.commons.collections15.OrderedMapIterator;
 import org.apache.commons.collections15.iterators.EmptyOrderedMapIterator;
 import org.apache.commons.collections15.keyvalue.UnmodifiableMapEntry;
-
-import java.util.*;
 
 /**
  * Red-Black tree-based implementation of BidiMap where all objects added

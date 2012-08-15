@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.set;
 
+import java.util.Set;
+
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.collection.PredicatedCollection;
-
-import java.util.Set;
 
 /**
  * Decorates another <code>Set</code> to validate that all additions

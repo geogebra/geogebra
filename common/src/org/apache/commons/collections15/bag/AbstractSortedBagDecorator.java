@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.bag;
 
-import org.apache.commons.collections15.SortedBag;
-
 import java.util.Comparator;
+
+import org.apache.commons.collections15.SortedBag;
 
 /**
  * Decorates another <code>SortedBag</code> to provide additional behaviour.

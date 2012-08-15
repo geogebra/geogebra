@@ -16,12 +16,12 @@
  */
 package org.apache.commons.collections15.bag;
 
+import java.util.Set;
+
 import org.apache.commons.collections15.Bag;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.collection.TransformedCollection;
 import org.apache.commons.collections15.set.TransformedSet;
-
-import java.util.Set;
 
 /**
  * Decorates another <code>Bag</code> to transform objects that are added.

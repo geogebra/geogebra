@@ -18,6 +18,7 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
+
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;

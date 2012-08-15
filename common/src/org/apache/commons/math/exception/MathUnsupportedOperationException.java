@@ -19,9 +19,9 @@ package org.apache.commons.math.exception;
 import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
-import org.apache.commons.math.exception.util.MessageFactory;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.MessageFactory;
 
 /**
  * Base class for all unsupported features.

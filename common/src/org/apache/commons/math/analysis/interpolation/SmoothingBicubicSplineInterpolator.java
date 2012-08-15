@@ -17,14 +17,14 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.DimensionMismatchException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.util.MathUtils.OrderDirection;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathUtils.OrderDirection;
 
 /**
  * Generates a bicubic interpolation function.

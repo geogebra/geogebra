@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**

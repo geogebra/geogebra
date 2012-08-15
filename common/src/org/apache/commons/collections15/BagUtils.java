@@ -16,7 +16,18 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.bag.*;
+import org.apache.commons.collections15.bag.HashBag;
+import org.apache.commons.collections15.bag.PredicatedBag;
+import org.apache.commons.collections15.bag.PredicatedSortedBag;
+import org.apache.commons.collections15.bag.SynchronizedBag;
+import org.apache.commons.collections15.bag.SynchronizedSortedBag;
+import org.apache.commons.collections15.bag.TransformedBag;
+import org.apache.commons.collections15.bag.TransformedSortedBag;
+import org.apache.commons.collections15.bag.TreeBag;
+import org.apache.commons.collections15.bag.TypedBag;
+import org.apache.commons.collections15.bag.TypedSortedBag;
+import org.apache.commons.collections15.bag.UnmodifiableBag;
+import org.apache.commons.collections15.bag.UnmodifiableSortedBag;
 
 /**
  * Provides utility methods and decorators for

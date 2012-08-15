@@ -16,7 +16,11 @@
  */
 package org.apache.commons.collections15.comparators;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A Comparator which imposes a specific order on a specific set of Objects.

@@ -18,7 +18,6 @@
 package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;

@@ -22,8 +22,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.util.FastMath;
 
 /**

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.list;
 
-import org.apache.commons.collections15.functors.InstanceofPredicate;
-
 import java.util.List;
+
+import org.apache.commons.collections15.functors.InstanceofPredicate;
 
 /**
  * Decorates another <code>List</code> to validate that elements

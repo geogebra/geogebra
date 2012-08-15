@@ -16,13 +16,13 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.fitting.PolynomialFitter;
-import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Generates a bicubic interpolation function.

@@ -16,14 +16,14 @@
  */
 package org.apache.commons.collections15.bag;
 
-import org.apache.commons.collections15.Bag;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+
+import org.apache.commons.collections15.Bag;
 
 /**
  * Implements <code>Bag</code>, using a <code>HashMap</code> to provide the

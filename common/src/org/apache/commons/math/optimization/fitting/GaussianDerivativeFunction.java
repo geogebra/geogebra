@@ -21,9 +21,9 @@ import java.io.Serializable;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * The derivative of {@link GaussianFunction}.  Specifically:

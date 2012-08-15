@@ -16,11 +16,11 @@
  */
 package org.apache.commons.collections15.bag;
 
+import java.util.Set;
+
 import org.apache.commons.collections15.Bag;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.collection.PredicatedCollection;
-
-import java.util.Set;
 
 /**
  * Decorates another <code>Bag</code> to validate that additions

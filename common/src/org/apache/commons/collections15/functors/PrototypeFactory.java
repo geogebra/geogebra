@@ -16,12 +16,17 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Factory;
-import org.apache.commons.collections15.FunctorException;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.apache.commons.collections15.Factory;
+import org.apache.commons.collections15.FunctorException;
 
 /**
  * Factory implementation that creates a new instance each time based on a prototype.

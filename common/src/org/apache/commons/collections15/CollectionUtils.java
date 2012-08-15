@@ -16,10 +16,24 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.collection.*;
-
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.collections15.collection.PredicatedCollection;
+import org.apache.commons.collections15.collection.SynchronizedCollection;
+import org.apache.commons.collections15.collection.TransformedCollection;
+import org.apache.commons.collections15.collection.TypedCollection;
+import org.apache.commons.collections15.collection.UnmodifiableBoundedCollection;
+import org.apache.commons.collections15.collection.UnmodifiableCollection;
 
 /**
  * Provides utility methods and decorators for {@link Collection} instances.

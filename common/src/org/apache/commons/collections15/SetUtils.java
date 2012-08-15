@@ -16,9 +16,24 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.set.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import java.util.*;
+import org.apache.commons.collections15.set.ListOrderedSet;
+import org.apache.commons.collections15.set.PredicatedSet;
+import org.apache.commons.collections15.set.PredicatedSortedSet;
+import org.apache.commons.collections15.set.SynchronizedSet;
+import org.apache.commons.collections15.set.SynchronizedSortedSet;
+import org.apache.commons.collections15.set.TransformedSet;
+import org.apache.commons.collections15.set.TransformedSortedSet;
+import org.apache.commons.collections15.set.TypedSet;
+import org.apache.commons.collections15.set.TypedSortedSet;
+import org.apache.commons.collections15.set.UnmodifiableSet;
+import org.apache.commons.collections15.set.UnmodifiableSortedSet;
 
 /**
  * Provides utility methods and decorators for

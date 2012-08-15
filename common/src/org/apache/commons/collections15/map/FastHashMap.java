@@ -16,7 +16,12 @@
  */
 package org.apache.commons.collections15.map;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>A customized implementation of <code>java.util.HashMap</code> designed

@@ -16,8 +16,8 @@
 package com.google.gwt.webworker.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.core.client.JsArray;
 
 /**
  * HTML 5 Web Worker API for Dedicated Workers.

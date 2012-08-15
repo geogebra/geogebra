@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.functors;
 
+import java.io.Serializable;
+
 import org.apache.commons.collections15.FunctorException;
 import org.apache.commons.collections15.Predicate;
-
-import java.io.Serializable;
 
 /**
  * Predicate implementation that throws an exception if the input is null.

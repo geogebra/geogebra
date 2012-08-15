@@ -16,13 +16,17 @@
  */
 package org.apache.commons.collections15.bidimap;
 
-import org.apache.commons.collections15.*;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.collections15.BidiMap;
+import org.apache.commons.collections15.MapIterator;
+import org.apache.commons.collections15.OrderedBidiMap;
+import org.apache.commons.collections15.OrderedMapIterator;
+import org.apache.commons.collections15.Unmodifiable;
 import org.apache.commons.collections15.iterators.UnmodifiableOrderedMapIterator;
 import org.apache.commons.collections15.map.UnmodifiableEntrySet;
 import org.apache.commons.collections15.set.UnmodifiableSet;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Decorates another <code>OrderedBidiMap</code> to ensure it can't be altered.

@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.functors;
 
+import java.io.Serializable;
+
 import org.apache.commons.collections15.Closure;
 import org.apache.commons.collections15.Predicate;
-
-import java.io.Serializable;
 
 /**
  * Closure implementation that executes a closure repeatedly until a condition is met,

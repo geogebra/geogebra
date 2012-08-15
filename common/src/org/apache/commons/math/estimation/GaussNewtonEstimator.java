@@ -20,12 +20,12 @@ package org.apache.commons.math.estimation;
 import java.io.Serializable;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.util.FastMath;
 
 /**

@@ -16,10 +16,15 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.comparators.*;
-
 import java.util.Collection;
 import java.util.Comparator;
+
+import org.apache.commons.collections15.comparators.BooleanComparator;
+import org.apache.commons.collections15.comparators.ComparableComparator;
+import org.apache.commons.collections15.comparators.ComparatorChain;
+import org.apache.commons.collections15.comparators.NullComparator;
+import org.apache.commons.collections15.comparators.ReverseComparator;
+import org.apache.commons.collections15.comparators.TransformingComparator;
 
 /**
  * Provides convenient static utility methods for <Code>Comparator</Code>

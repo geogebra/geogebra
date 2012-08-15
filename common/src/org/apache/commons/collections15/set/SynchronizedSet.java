@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.set;
 
-import org.apache.commons.collections15.collection.SynchronizedCollection;
-
 import java.util.Set;
+
+import org.apache.commons.collections15.collection.SynchronizedCollection;
 
 /**
  * Decorates another <code>Set</code> to synchronize its behaviour for a

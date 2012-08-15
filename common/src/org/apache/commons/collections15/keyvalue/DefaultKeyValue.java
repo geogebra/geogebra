@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.keyvalue;
 
-import org.apache.commons.collections15.KeyValue;
-
 import java.util.Map;
+
+import org.apache.commons.collections15.KeyValue;
 
 /**
  * A mutable KeyValue pair that does not implement MapEntry.

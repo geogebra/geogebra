@@ -16,11 +16,11 @@
  */
 package org.apache.commons.collections15.list;
 
-import org.apache.commons.collections15.collection.SynchronizedCollection;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.apache.commons.collections15.collection.SynchronizedCollection;
 
 /**
  * Decorates another <code>List</code> to synchronize its behaviour

@@ -17,9 +17,9 @@
 package org.apache.commons.math.analysis.polynomials;
 
 import org.apache.commons.math.DuplicateSampleAbscissaException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 

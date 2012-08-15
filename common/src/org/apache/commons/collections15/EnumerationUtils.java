@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.iterators.EnumerationIterator;
-
 import java.util.Enumeration;
 import java.util.List;
+
+import org.apache.commons.collections15.iterators.EnumerationIterator;
 
 /**
  * Provides utility methods for {@link Enumeration} instances.

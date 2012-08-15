@@ -17,7 +17,6 @@
 
 package org.apache.commons.math;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;

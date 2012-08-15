@@ -16,7 +16,10 @@
  */
 package org.apache.commons.collections15;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Defines a map that holds a collection of values against each key.

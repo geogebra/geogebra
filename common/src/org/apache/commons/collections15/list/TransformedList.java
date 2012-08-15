@@ -16,13 +16,13 @@
  */
 package org.apache.commons.collections15.list;
 
-import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.collection.TransformedCollection;
-import org.apache.commons.collections15.iterators.AbstractListIteratorDecorator;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.apache.commons.collections15.Transformer;
+import org.apache.commons.collections15.collection.TransformedCollection;
+import org.apache.commons.collections15.iterators.AbstractListIteratorDecorator;
 
 /**
  * Decorates another <code>List</code> to transform objects that are added.

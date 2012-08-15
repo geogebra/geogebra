@@ -16,7 +16,12 @@
  */
 package org.apache.commons.collections15.list;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * <p>A customized implementation of <code>java.util.ArrayList</code> designed

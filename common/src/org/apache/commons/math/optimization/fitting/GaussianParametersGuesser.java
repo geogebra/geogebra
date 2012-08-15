@@ -20,11 +20,11 @@ package org.apache.commons.math.optimization.fitting;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
-import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Guesses the parameters ({@code a}, {@code b}, {@code c}, and {@code d})

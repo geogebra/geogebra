@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.iterators;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.util.Iterator;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Decorates an iterator such that each element returned is transformed.

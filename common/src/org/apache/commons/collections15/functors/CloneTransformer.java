@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.io.Serializable;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Transformer implementation that returns a clone of the input object.

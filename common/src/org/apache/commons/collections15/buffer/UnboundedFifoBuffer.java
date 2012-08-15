@@ -16,9 +16,6 @@
  */
 package org.apache.commons.collections15.buffer;
 
-import org.apache.commons.collections15.Buffer;
-import org.apache.commons.collections15.BufferUnderflowException;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,6 +23,9 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.Buffer;
+import org.apache.commons.collections15.BufferUnderflowException;
 
 /**
  * UnboundedFifoBuffer is a very efficient buffer implementation.

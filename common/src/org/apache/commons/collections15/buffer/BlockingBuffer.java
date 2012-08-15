@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.buffer;
 
+import java.util.Collection;
+
 import org.apache.commons.collections15.Buffer;
 import org.apache.commons.collections15.BufferUnderflowException;
-
-import java.util.Collection;
 
 /**
  * Decorates another <code>Buffer</code> to make {@link #get()} and

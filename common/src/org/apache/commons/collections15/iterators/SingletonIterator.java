@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.iterators;
 
-import org.apache.commons.collections15.ResettableIterator;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.ResettableIterator;
 
 /**
  * <code>SingletonIterator</code> is an {@link Iterator} over a single

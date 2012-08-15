@@ -32,8 +32,8 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math.util.ResizableDoubleArray;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.ResizableDoubleArray;
 
 
 /**

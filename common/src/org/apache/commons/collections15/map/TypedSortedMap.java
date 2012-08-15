@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.functors.InstanceofPredicate;
-
 import java.util.SortedMap;
+
+import org.apache.commons.collections15.functors.InstanceofPredicate;
 
 /**
  * Decorates another <code>SortedMap</code> to validate that elements added

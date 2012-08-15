@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.set;
 
-import org.apache.commons.collections15.collection.SynchronizedCollection;
-
 import java.util.Comparator;
 import java.util.SortedSet;
+
+import org.apache.commons.collections15.collection.SynchronizedCollection;
 
 /**
  * Decorates another <code>SortedSet</code> to synchronize its behaviour

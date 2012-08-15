@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.bidimap;
 
-import org.apache.commons.collections15.SortedBidiMap;
-
 import java.util.Comparator;
 import java.util.SortedMap;
+
+import org.apache.commons.collections15.SortedBidiMap;
 
 /**
  * Provides a base decorator that enables additional functionality to be added

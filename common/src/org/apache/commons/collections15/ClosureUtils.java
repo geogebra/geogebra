@@ -16,11 +16,20 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.functors.*;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.commons.collections15.functors.ChainedClosure;
+import org.apache.commons.collections15.functors.EqualPredicate;
+import org.apache.commons.collections15.functors.ExceptionClosure;
+import org.apache.commons.collections15.functors.ForClosure;
+import org.apache.commons.collections15.functors.IfClosure;
+import org.apache.commons.collections15.functors.InvokerTransformer;
+import org.apache.commons.collections15.functors.NOPClosure;
+import org.apache.commons.collections15.functors.SwitchClosure;
+import org.apache.commons.collections15.functors.TransformerClosure;
+import org.apache.commons.collections15.functors.WhileClosure;
 
 /**
  * <code>ClosureUtils</code> provides reference implementations and utilities

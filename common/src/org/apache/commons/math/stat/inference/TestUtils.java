@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.inference;
 
 import java.util.Collection;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 

@@ -16,17 +16,23 @@
  */
 package org.apache.commons.collections15.map;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.AbstractCollection;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 import org.apache.commons.collections15.IterableMap;
 import org.apache.commons.collections15.MapIterator;
 import org.apache.commons.collections15.ResettableIterator;
 import org.apache.commons.collections15.iterators.EmptyIterator;
 import org.apache.commons.collections15.iterators.EmptyMapIterator;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * A <code>Map</code> implementation that stores data in simple fields until

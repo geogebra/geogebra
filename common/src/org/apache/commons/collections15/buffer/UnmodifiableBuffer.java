@@ -16,16 +16,16 @@
  */
 package org.apache.commons.collections15.buffer;
 
-import org.apache.commons.collections15.Buffer;
-import org.apache.commons.collections15.Unmodifiable;
-import org.apache.commons.collections15.iterators.UnmodifiableIterator;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections15.Buffer;
+import org.apache.commons.collections15.Unmodifiable;
+import org.apache.commons.collections15.iterators.UnmodifiableIterator;
 
 /**
  * Decorates another <code>Buffer</code> to ensure it can't be altered.

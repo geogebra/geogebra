@@ -16,12 +16,12 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Closure;
-import org.apache.commons.collections15.Predicate;
-
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.commons.collections15.Closure;
+import org.apache.commons.collections15.Predicate;
 
 /**
  * Closure implementation calls the closure whose predicate returns true,

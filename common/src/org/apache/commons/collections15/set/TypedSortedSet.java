@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.set;
 
-import org.apache.commons.collections15.functors.InstanceofPredicate;
-
 import java.util.SortedSet;
+
+import org.apache.commons.collections15.functors.InstanceofPredicate;
 
 /**
  * Decorates another <code>SortedSet</code> to validate that elements

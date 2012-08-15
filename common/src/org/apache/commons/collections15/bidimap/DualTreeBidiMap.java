@@ -16,14 +16,25 @@
  */
 package org.apache.commons.collections15.bidimap;
 
-import org.apache.commons.collections15.*;
-import org.apache.commons.collections15.map.AbstractSortedMapDecorator;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import org.apache.commons.collections15.BidiMap;
+import org.apache.commons.collections15.OrderedBidiMap;
+import org.apache.commons.collections15.OrderedMap;
+import org.apache.commons.collections15.OrderedMapIterator;
+import org.apache.commons.collections15.ResettableIterator;
+import org.apache.commons.collections15.SortedBidiMap;
+import org.apache.commons.collections15.map.AbstractSortedMapDecorator;
 
 /**
  * Implementation of <code>BidiMap</code> that uses two <code>TreeMap</code> instances.

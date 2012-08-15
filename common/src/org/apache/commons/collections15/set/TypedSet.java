@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.set;
 
-import org.apache.commons.collections15.functors.InstanceofPredicate;
-
 import java.util.Set;
+
+import org.apache.commons.collections15.functors.InstanceofPredicate;
 
 /**
  * Decorates another <code>Set</code> to validate that elements

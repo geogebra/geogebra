@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.keyvalue;
 
+import java.util.Map;
+
 import org.apache.commons.collections15.KeyValue;
 import org.apache.commons.collections15.Unmodifiable;
-
-import java.util.Map;
 
 /**
  * A {@link java.util.Map.Entry} that throws UnsupportedOperationException

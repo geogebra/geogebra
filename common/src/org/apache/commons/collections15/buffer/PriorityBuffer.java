@@ -16,13 +16,13 @@
  */
 package org.apache.commons.collections15.buffer;
 
-import org.apache.commons.collections15.Buffer;
-import org.apache.commons.collections15.BufferUnderflowException;
-
 import java.util.AbstractCollection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.Buffer;
+import org.apache.commons.collections15.BufferUnderflowException;
 
 /**
  * Binary heap implementation of <code>Buffer</code> that provides for

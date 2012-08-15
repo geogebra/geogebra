@@ -18,8 +18,8 @@
 package org.apache.commons.math.util;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.OutOfRangeException;
 
 /**
  * Converter between unidimensional storage structure and multidimensional

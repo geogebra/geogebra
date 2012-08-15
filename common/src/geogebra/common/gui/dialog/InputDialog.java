@@ -1,9 +1,9 @@
 package geogebra.common.gui.dialog;
 
-import java.util.ArrayList;
-
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.geos.GeoElement;
+
+import java.util.ArrayList;
 
 public abstract class InputDialog {
 

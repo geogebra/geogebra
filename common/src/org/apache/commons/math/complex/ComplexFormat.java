@@ -24,9 +24,9 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
-import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can

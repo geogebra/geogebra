@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.comparators;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.util.Comparator;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Decorates another Comparator with transformation behavior. That is, the

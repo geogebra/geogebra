@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.functors;
 
+import java.io.Serializable;
+
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.FunctorException;
-
-import java.io.Serializable;
 
 /**
  * Factory implementation that always throws an exception.

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Predicate;
-
 import java.io.Serializable;
+
+import org.apache.commons.collections15.Predicate;
 
 /**
  * Predicate implementation that always returns true.

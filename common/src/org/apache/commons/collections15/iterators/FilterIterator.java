@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.iterators;
 
-import org.apache.commons.collections15.Predicate;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.Predicate;
 
 /**
  * Decorates an iterator such that only elements matching a predicate filter

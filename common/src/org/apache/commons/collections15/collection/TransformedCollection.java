@@ -16,12 +16,12 @@
  */
 package org.apache.commons.collections15.collection;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Decorates another <code>Collection</code> to transform objects that are added.

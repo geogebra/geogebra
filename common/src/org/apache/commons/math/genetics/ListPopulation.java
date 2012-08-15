@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Population of chromosomes represented by a {@link List}.

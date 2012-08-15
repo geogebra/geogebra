@@ -19,10 +19,10 @@ package org.apache.commons.math.analysis.polynomials;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**

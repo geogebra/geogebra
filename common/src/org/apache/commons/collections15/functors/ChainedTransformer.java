@@ -16,11 +16,11 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Transformer implementation that chains the specified transformers together.

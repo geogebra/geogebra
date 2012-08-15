@@ -18,7 +18,6 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.linear.MatrixVisitorException;
 
 /**
  * Default implementation of the {@link FieldMatrixPreservingVisitor} interface.

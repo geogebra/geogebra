@@ -22,8 +22,8 @@ import java.util.Iterator;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * This class implements the {@link RealVector} interface with a double array.

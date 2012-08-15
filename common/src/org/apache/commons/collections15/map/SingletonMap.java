@@ -16,12 +16,23 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.*;
+import java.io.Serializable;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.apache.commons.collections15.BoundedMap;
+import org.apache.commons.collections15.KeyValue;
+import org.apache.commons.collections15.MapIterator;
+import org.apache.commons.collections15.OrderedMap;
+import org.apache.commons.collections15.OrderedMapIterator;
+import org.apache.commons.collections15.ResettableIterator;
 import org.apache.commons.collections15.iterators.SingletonIterator;
 import org.apache.commons.collections15.keyvalue.TiedMapEntry;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * A <code>Map</code> implementation that holds a single item and is fixed size.

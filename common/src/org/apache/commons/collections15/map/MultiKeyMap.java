@@ -16,15 +16,15 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.IterableMap;
-import org.apache.commons.collections15.MapIterator;
-import org.apache.commons.collections15.keyvalue.MultiKey;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.collections15.IterableMap;
+import org.apache.commons.collections15.MapIterator;
+import org.apache.commons.collections15.keyvalue.MultiKey;
 
 /**
  * A <code>Map</code> implementation that uses multiple keys to map the value.

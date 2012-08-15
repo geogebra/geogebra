@@ -16,9 +16,19 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.list.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
-import java.util.*;
+import org.apache.commons.collections15.list.FixedSizeList;
+import org.apache.commons.collections15.list.LazyList;
+import org.apache.commons.collections15.list.PredicatedList;
+import org.apache.commons.collections15.list.SynchronizedList;
+import org.apache.commons.collections15.list.TransformedList;
+import org.apache.commons.collections15.list.TypedList;
+import org.apache.commons.collections15.list.UnmodifiableList;
 
 /**
  * Provides utility methods and decorators for {@link List} instances.

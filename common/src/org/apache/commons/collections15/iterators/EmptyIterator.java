@@ -16,9 +16,9 @@
  */
 package org.apache.commons.collections15.iterators;
 
-import org.apache.commons.collections15.ResettableIterator;
-
 import java.util.Iterator;
+
+import org.apache.commons.collections15.ResettableIterator;
 
 /**
  * Provides an implementation of an empty iterator.

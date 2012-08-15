@@ -16,14 +16,14 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.CollectionUtils;
-import org.apache.commons.collections15.collection.CompositeCollection;
-import org.apache.commons.collections15.set.CompositeSet;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.collections15.CollectionUtils;
+import org.apache.commons.collections15.collection.CompositeCollection;
+import org.apache.commons.collections15.set.CompositeSet;
 
 /**
  * Decorates a map of other maps to provide a single unified view.

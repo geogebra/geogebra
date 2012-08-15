@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.random;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 

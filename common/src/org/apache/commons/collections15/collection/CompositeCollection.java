@@ -16,15 +16,15 @@
  */
 package org.apache.commons.collections15.collection;
 
-import org.apache.commons.collections15.iterators.EmptyIterator;
-import org.apache.commons.collections15.iterators.IteratorChain;
-import org.apache.commons.collections15.list.UnmodifiableList;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections15.iterators.EmptyIterator;
+import org.apache.commons.collections15.iterators.IteratorChain;
+import org.apache.commons.collections15.list.UnmodifiableList;
 
 /**
  * Decorates a collection of other collections15 to provide a single unified view.

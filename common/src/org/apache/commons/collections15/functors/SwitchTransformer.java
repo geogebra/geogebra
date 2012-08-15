@@ -16,12 +16,12 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.Predicate;
-import org.apache.commons.collections15.Transformer;
-
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.commons.collections15.Predicate;
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Transformer implementation calls the transformer whose predicate returns true,

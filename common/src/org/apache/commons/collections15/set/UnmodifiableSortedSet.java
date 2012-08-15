@@ -16,9 +16,6 @@
  */
 package org.apache.commons.collections15.set;
 
-import org.apache.commons.collections15.Unmodifiable;
-import org.apache.commons.collections15.iterators.UnmodifiableIterator;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,6 +23,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedSet;
+
+import org.apache.commons.collections15.Unmodifiable;
+import org.apache.commons.collections15.iterators.UnmodifiableIterator;
 
 /**
  * Decorates another <code>SortedSet</code> to ensure it can't be altered.

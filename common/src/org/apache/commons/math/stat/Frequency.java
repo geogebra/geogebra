@@ -18,8 +18,8 @@ package org.apache.commons.math.stat;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.util.Iterator;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.commons.math.MathRuntimeException;

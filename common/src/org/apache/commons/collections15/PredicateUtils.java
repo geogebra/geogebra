@@ -16,9 +16,30 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.functors.*;
-
 import java.util.Collection;
+
+import org.apache.commons.collections15.functors.AllPredicate;
+import org.apache.commons.collections15.functors.AndPredicate;
+import org.apache.commons.collections15.functors.AnyPredicate;
+import org.apache.commons.collections15.functors.EqualPredicate;
+import org.apache.commons.collections15.functors.ExceptionPredicate;
+import org.apache.commons.collections15.functors.FalsePredicate;
+import org.apache.commons.collections15.functors.IdentityPredicate;
+import org.apache.commons.collections15.functors.InstanceofPredicate;
+import org.apache.commons.collections15.functors.InvokerTransformer;
+import org.apache.commons.collections15.functors.NonePredicate;
+import org.apache.commons.collections15.functors.NotNullPredicate;
+import org.apache.commons.collections15.functors.NotPredicate;
+import org.apache.commons.collections15.functors.NullIsExceptionPredicate;
+import org.apache.commons.collections15.functors.NullIsFalsePredicate;
+import org.apache.commons.collections15.functors.NullIsTruePredicate;
+import org.apache.commons.collections15.functors.NullPredicate;
+import org.apache.commons.collections15.functors.OnePredicate;
+import org.apache.commons.collections15.functors.OrPredicate;
+import org.apache.commons.collections15.functors.TransformedPredicate;
+import org.apache.commons.collections15.functors.TransformerPredicate;
+import org.apache.commons.collections15.functors.TruePredicate;
+import org.apache.commons.collections15.functors.UniquePredicate;
 
 /**
  * <code>PredicateUtils</code> provides reference implementations and utilities

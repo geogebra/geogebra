@@ -16,12 +16,12 @@
  */
 package org.apache.commons.collections15.set;
 
-import org.apache.commons.collections15.CollectionUtils;
-import org.apache.commons.collections15.collection.CompositeCollection;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.apache.commons.collections15.CollectionUtils;
+import org.apache.commons.collections15.collection.CompositeCollection;
 
 /**
  * Decorates a set of other sets to provide a single unified view.

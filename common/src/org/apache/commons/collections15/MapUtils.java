@@ -16,12 +16,32 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.map.*;
-
 import java.io.PrintStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import org.apache.commons.collections15.map.FixedSizeMap;
+import org.apache.commons.collections15.map.FixedSizeSortedMap;
+import org.apache.commons.collections15.map.LazyMap;
+import org.apache.commons.collections15.map.LazySortedMap;
+import org.apache.commons.collections15.map.ListOrderedMap;
+import org.apache.commons.collections15.map.PredicatedMap;
+import org.apache.commons.collections15.map.PredicatedSortedMap;
+import org.apache.commons.collections15.map.TransformedMap;
+import org.apache.commons.collections15.map.TransformedSortedMap;
+import org.apache.commons.collections15.map.TypedMap;
+import org.apache.commons.collections15.map.TypedSortedMap;
+import org.apache.commons.collections15.map.UnmodifiableMap;
+import org.apache.commons.collections15.map.UnmodifiableSortedMap;
 
 /**
  * Provides utility methods and decorators for

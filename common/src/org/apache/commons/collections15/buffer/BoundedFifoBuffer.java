@@ -16,16 +16,20 @@
  */
 package org.apache.commons.collections15.buffer;
 
-import org.apache.commons.collections15.BoundedCollection;
-import org.apache.commons.collections15.Buffer;
-import org.apache.commons.collections15.BufferOverflowException;
-import org.apache.commons.collections15.BufferUnderflowException;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.AbstractCollection;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.BoundedCollection;
+import org.apache.commons.collections15.Buffer;
+import org.apache.commons.collections15.BufferOverflowException;
+import org.apache.commons.collections15.BufferUnderflowException;
 
 /**
  * The BoundedFifoBuffer is a very efficient implementation of

@@ -16,11 +16,6 @@
  */
 package org.apache.commons.collections15.bag;
 
-import org.apache.commons.collections15.SortedBag;
-import org.apache.commons.collections15.Unmodifiable;
-import org.apache.commons.collections15.iterators.UnmodifiableIterator;
-import org.apache.commons.collections15.set.UnmodifiableSet;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,6 +23,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.apache.commons.collections15.SortedBag;
+import org.apache.commons.collections15.Unmodifiable;
+import org.apache.commons.collections15.iterators.UnmodifiableIterator;
+import org.apache.commons.collections15.set.UnmodifiableSet;
 
 /**
  * Decorates another <code>SortedBag</code> to ensure it can't be altered.

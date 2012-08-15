@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.genetics;
 
-import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
+import org.apache.commons.math.random.RandomGenerator;
 
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation

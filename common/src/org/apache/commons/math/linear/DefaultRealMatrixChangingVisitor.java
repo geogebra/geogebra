@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.linear.MatrixVisitorException;
 
 /**
  * Default implementation of the {@link RealMatrixChangingVisitor} interface.

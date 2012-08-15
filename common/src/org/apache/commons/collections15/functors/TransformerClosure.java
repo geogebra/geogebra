@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.functors;
 
+import java.io.Serializable;
+
 import org.apache.commons.collections15.Closure;
 import org.apache.commons.collections15.Transformer;
-
-import java.io.Serializable;
 
 /**
  * Closure implementation that calls a Transformer using the input object

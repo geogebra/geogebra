@@ -16,7 +16,12 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.buffer.*;
+import org.apache.commons.collections15.buffer.BlockingBuffer;
+import org.apache.commons.collections15.buffer.PredicatedBuffer;
+import org.apache.commons.collections15.buffer.SynchronizedBuffer;
+import org.apache.commons.collections15.buffer.TransformedBuffer;
+import org.apache.commons.collections15.buffer.TypedBuffer;
+import org.apache.commons.collections15.buffer.UnmodifiableBuffer;
 
 /**
  * Provides utility methods and decorators for {@link Buffer} instances.

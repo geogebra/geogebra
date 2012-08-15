@@ -17,12 +17,12 @@
  */
 package org.apache.commons.collections15.iterators;
 
-import org.apache.commons.collections15.list.UnmodifiableList;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.collections15.list.UnmodifiableList;
 
 /**
  * An IteratorChain is an Iterator that wraps a number of Iterators.

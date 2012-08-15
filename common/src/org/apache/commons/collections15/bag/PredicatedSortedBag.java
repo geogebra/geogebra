@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.bag;
 
+import java.util.Comparator;
+
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.SortedBag;
-
-import java.util.Comparator;
 
 /**
  * Decorates another <code>SortedBag</code> to validate that additions

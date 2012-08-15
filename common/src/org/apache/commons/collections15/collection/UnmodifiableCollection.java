@@ -16,11 +16,11 @@
  */
 package org.apache.commons.collections15.collection;
 
-import org.apache.commons.collections15.Unmodifiable;
-import org.apache.commons.collections15.iterators.UnmodifiableIterator;
-
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections15.Unmodifiable;
+import org.apache.commons.collections15.iterators.UnmodifiableIterator;
 
 /**
  * Decorates another <code>Collection</code> to ensure it can't be altered.

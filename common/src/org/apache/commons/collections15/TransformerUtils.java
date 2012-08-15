@@ -16,11 +16,24 @@
  */
 package org.apache.commons.collections15;
 
-import org.apache.commons.collections15.functors.*;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.commons.collections15.functors.ChainedTransformer;
+import org.apache.commons.collections15.functors.CloneTransformer;
+import org.apache.commons.collections15.functors.ClosureTransformer;
+import org.apache.commons.collections15.functors.ConstantTransformer;
+import org.apache.commons.collections15.functors.EqualPredicate;
+import org.apache.commons.collections15.functors.ExceptionTransformer;
+import org.apache.commons.collections15.functors.FactoryTransformer;
+import org.apache.commons.collections15.functors.InstantiateTransformer;
+import org.apache.commons.collections15.functors.InvokerTransformer;
+import org.apache.commons.collections15.functors.MapTransformer;
+import org.apache.commons.collections15.functors.NOPTransformer;
+import org.apache.commons.collections15.functors.PredicateTransformer;
+import org.apache.commons.collections15.functors.StringValueTransformer;
+import org.apache.commons.collections15.functors.SwitchTransformer;
 
 /**
  * <code>TransformerUtils</code> provides reference implementations and

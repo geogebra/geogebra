@@ -20,9 +20,9 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
-import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements the {@link RealVector} interface with a {@link OpenIntToDoubleHashMap} backing store.

@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.functors;
 
+import java.io.Serializable;
+
 import org.apache.commons.collections15.FunctorException;
 import org.apache.commons.collections15.Transformer;
-
-import java.io.Serializable;
 
 /**
  * Transformer implementation that always throws an exception.

@@ -16,14 +16,18 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.*;
-import org.apache.commons.collections15.iterators.EmptyOrderedIterator;
-import org.apache.commons.collections15.iterators.EmptyOrderedMapIterator;
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.collections15.MapIterator;
+import org.apache.commons.collections15.OrderedIterator;
+import org.apache.commons.collections15.OrderedMap;
+import org.apache.commons.collections15.OrderedMapIterator;
+import org.apache.commons.collections15.ResettableIterator;
+import org.apache.commons.collections15.iterators.EmptyOrderedIterator;
+import org.apache.commons.collections15.iterators.EmptyOrderedMapIterator;
 
 /**
  * An abstract implementation of a hash-based map that links entries to create an

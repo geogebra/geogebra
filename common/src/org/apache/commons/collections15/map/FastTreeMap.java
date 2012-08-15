@@ -16,7 +16,14 @@
  */
 package org.apache.commons.collections15.map;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * <p>A customized implementation of <code>java.util.TreeMap</code> designed

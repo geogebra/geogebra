@@ -16,11 +16,17 @@
  */
 package org.apache.commons.collections15.list;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+
 import org.apache.commons.collections15.iterators.AbstractIteratorDecorator;
 import org.apache.commons.collections15.iterators.AbstractListIteratorDecorator;
 import org.apache.commons.collections15.set.UnmodifiableSet;
-
-import java.util.*;
 
 /**
  * Decorates a <code>List</code> to ensure that no duplicates are present

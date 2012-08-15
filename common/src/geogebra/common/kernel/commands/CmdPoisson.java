@@ -5,7 +5,6 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoPoisson;
 import geogebra.common.kernel.statistics.AlgoPoissonBarChart;
 import geogebra.common.main.MyError;

@@ -16,13 +16,20 @@
  */
 package org.apache.commons.collections15.multimap;
 
-import org.apache.commons.collections15.iterators.EmptyIterator;
-import org.apache.commons.collections15.MultiMap;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.apache.commons.collections15.MultiMap;
+import org.apache.commons.collections15.iterators.EmptyIterator;
 
 /**
  * <code>MultiHashMap</code> is the default implementation of the

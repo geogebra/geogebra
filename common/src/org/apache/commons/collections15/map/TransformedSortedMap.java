@@ -16,10 +16,10 @@
  */
 package org.apache.commons.collections15.map;
 
-import org.apache.commons.collections15.Transformer;
-
 import java.util.Comparator;
 import java.util.SortedMap;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Decorates another <code>SortedMap </code> to transform objects that are added.

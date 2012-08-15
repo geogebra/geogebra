@@ -16,12 +16,12 @@
  */
 package org.apache.commons.collections15.functors;
 
-import org.apache.commons.collections15.FunctorException;
-import org.apache.commons.collections15.Transformer;
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.apache.commons.collections15.FunctorException;
+import org.apache.commons.collections15.Transformer;
 
 /**
  * Transformer implementation that creates a new object instance by reflection.
