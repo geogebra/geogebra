@@ -569,6 +569,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"ret:=part(lst,1);"+
 				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
 				"return ret; end;");
+		App.debug(mpreduce1.evaluate("procedure exptolin(lst);begin;" +
+				" off combinelogs; on expandlogs; " +
+				"return for each eqn in lst collect "+
+			    "     <<write \"*** eqn:\",log(part(eqn,1))-log(-part(eqn,2)); if arglength(eqn)>-1 part(eqn,0)='plus then (log(part(eqn,1))-log(-part(eqn,2))) else eqn; >> end;" 
+				 ));//if (arglength(eqn)>-1 and part(eqn,0)='-) then  else
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq;" +
@@ -583,7 +588,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "    eqn:=for each x in eqn collect"
 						+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
 						+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
-						+ "  solutions!!:=solve(eqn,var);"
+						+ "  solutions!!:=solve(eqn,var);" 
+						+ "  if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
+						+ "    solutions!!:=solve(exptolin(eqn),var); "
 						+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
 						+ "	 if depth(solutions!!)<2 then"
 						+ "		solutions!!:=for each x in solutions!! collect {x};"
