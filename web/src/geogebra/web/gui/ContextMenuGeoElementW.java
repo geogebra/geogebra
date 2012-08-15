@@ -24,7 +24,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;

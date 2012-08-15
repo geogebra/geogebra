@@ -14,6 +14,12 @@
 
 package geogebra.server;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
 import com.google.api.client.extensions.appengine.auth.oauth2.AppEngineCredentialStore;
@@ -28,12 +34,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Object that manages credentials associated with this Drive application and

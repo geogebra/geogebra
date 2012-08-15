@@ -1,13 +1,12 @@
 package geogebra.server;
 
-import java.io.IOException;
-
 import geogebra.server.HandleOAuth2ServiceImpl.GetCredentialsException.CodeExchangeException;
 import geogebra.server.HandleOAuth2ServiceImpl.GetCredentialsException.NoRefreshTokenException;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
 
+import java.io.IOException;
+
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**

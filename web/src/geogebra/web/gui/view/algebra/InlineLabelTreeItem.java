@@ -12,11 +12,9 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.main.AppW;
 
-import java.util.Iterator;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;

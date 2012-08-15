@@ -14,11 +14,11 @@
 
 package geogebra.server.fromclient;
 
+import java.io.Reader;
+
 import com.google.api.services.drive.model.File;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.io.Reader;
 
 /**
  * An object representing a File and its content, for use while interacting

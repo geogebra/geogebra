@@ -9,7 +9,6 @@ import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 

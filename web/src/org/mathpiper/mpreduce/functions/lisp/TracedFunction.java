@@ -35,9 +35,8 @@ package org.mathpiper.mpreduce.functions.lisp;
  * DAMAGE.                                                                *
  *************************************************************************/
 
-import org.mathpiper.mpreduce.LispObject;
-
 import org.mathpiper.mpreduce.Jlisp;
+import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
 import org.mathpiper.mpreduce.symbols.Symbol;
 

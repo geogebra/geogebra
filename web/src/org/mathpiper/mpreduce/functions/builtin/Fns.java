@@ -3,13 +3,13 @@ package org.mathpiper.mpreduce.functions.builtin;
 //
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.Jlisp;
 import org.mathpiper.mpreduce.LispObject;
+import org.mathpiper.mpreduce.Lit;
+import org.mathpiper.mpreduce.datatypes.Cons;
+import org.mathpiper.mpreduce.exceptions.ResourceException;
 import org.mathpiper.mpreduce.io.streams.LispOutputString;
 import org.mathpiper.mpreduce.io.streams.LispStream;
-import org.mathpiper.mpreduce.Lit;
-import org.mathpiper.mpreduce.exceptions.ResourceException;
 import org.mathpiper.mpreduce.special.Specfn;
 import org.mathpiper.mpreduce.symbols.Symbol;
 

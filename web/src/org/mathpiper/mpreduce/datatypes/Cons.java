@@ -40,14 +40,13 @@ package org.mathpiper.mpreduce.datatypes;
 // a bit like ('a * 'b)
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.functions.lisp.Macro;
-import org.mathpiper.mpreduce.exceptions.ProgEvent;
-import org.mathpiper.mpreduce.LispObject;
-import org.mathpiper.mpreduce.functions.builtin.Fns;
-
 import org.mathpiper.mpreduce.Jlisp;
+import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
+import org.mathpiper.mpreduce.exceptions.ProgEvent;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
+import org.mathpiper.mpreduce.functions.builtin.Fns;
+import org.mathpiper.mpreduce.functions.lisp.Macro;
 import org.mathpiper.mpreduce.special.Specfn;
 import org.mathpiper.mpreduce.symbols.Symbol;
 

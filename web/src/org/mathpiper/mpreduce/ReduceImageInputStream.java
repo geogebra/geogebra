@@ -3,10 +3,10 @@ package org.mathpiper.mpreduce;
 import geogebra.web.css.GuiResources;
 
 import java.io.IOException;
-import org.mathpiper.mpreduce.io.streams.InputStream;
-import org.mathpiper.mpreduce.base64.Base64;
 
-import com.google.gwt.core.client.GWT;
+import org.mathpiper.mpreduce.base64.Base64;
+import org.mathpiper.mpreduce.io.streams.InputStream;
+
 import com.google.gwt.core.client.JsArrayString;
 
 public class ReduceImageInputStream extends InputStream {

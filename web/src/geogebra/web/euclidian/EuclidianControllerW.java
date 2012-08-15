@@ -10,7 +10,6 @@ import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;
-import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 

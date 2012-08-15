@@ -31,8 +31,6 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;

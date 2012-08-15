@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.mathpiper.mpreduce.Interpreter.InterpreterInputStream;
 import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.datatypes.LispString;
 import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;

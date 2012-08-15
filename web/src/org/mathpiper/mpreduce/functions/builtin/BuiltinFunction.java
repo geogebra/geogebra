@@ -36,7 +36,6 @@ package org.mathpiper.mpreduce.functions.builtin;
  *************************************************************************/
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.Jlisp;
 import org.mathpiper.mpreduce.LispReader;
 import org.mathpiper.mpreduce.functions.lisp.LispFunction;
 

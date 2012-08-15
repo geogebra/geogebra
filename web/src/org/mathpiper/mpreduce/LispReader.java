@@ -4,17 +4,15 @@
  */
 package org.mathpiper.mpreduce;
 
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-
 import geogebra.common.main.App;
 
 import java.io.IOException;
-import org.mathpiper.mpreduce.io.streams.InputStream;
 import java.math.BigInteger;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
+
 import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.datatypes.LispEqualHash;
 import org.mathpiper.mpreduce.datatypes.LispHash;
@@ -39,6 +37,8 @@ import org.mathpiper.mpreduce.numbers.LispInteger;
 import org.mathpiper.mpreduce.special.SpecialFunction;
 import org.mathpiper.mpreduce.symbols.Gensym;
 import org.mathpiper.mpreduce.symbols.Symbol;
+
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 
 public class LispReader implements RepeatingCommand {
 

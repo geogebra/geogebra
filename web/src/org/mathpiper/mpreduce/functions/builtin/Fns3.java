@@ -46,36 +46,37 @@ package org.mathpiper.mpreduce.functions.builtin;
 
 import java.io.IOException;
 import java.util.HashMap;
+
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.functions.lisp.AutoLoad;
-import org.mathpiper.mpreduce.functions.functionwithenvironment.ByteOpt;
-import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
-import org.mathpiper.mpreduce.functions.lisp.CallAs;
-import org.mathpiper.mpreduce.datatypes.Cons;
-import org.mathpiper.mpreduce.exceptions.EOFException;
-import org.mathpiper.mpreduce.io.Fasl;
-import org.mathpiper.mpreduce.functions.functionwithenvironment.FnWithEnv;
-import org.mathpiper.mpreduce.functions.lisp.Interpreted;
 import org.mathpiper.mpreduce.Jlisp;
-import org.mathpiper.mpreduce.datatypes.LispEqualHash;
-import org.mathpiper.mpreduce.functions.lisp.LispFunction;
-import org.mathpiper.mpreduce.datatypes.LispHash;
-import org.mathpiper.mpreduce.numbers.LispInteger;
-import org.mathpiper.mpreduce.numbers.LispNumber;
 import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
-import org.mathpiper.mpreduce.numbers.LispSmallInteger;
-import org.mathpiper.mpreduce.io.streams.LispStream;
+import org.mathpiper.mpreduce.Lit;
+import org.mathpiper.mpreduce.datatypes.Cons;
+import org.mathpiper.mpreduce.datatypes.LispEqualHash;
+import org.mathpiper.mpreduce.datatypes.LispHash;
 import org.mathpiper.mpreduce.datatypes.LispString;
 import org.mathpiper.mpreduce.datatypes.LispVector;
-import org.mathpiper.mpreduce.Lit;
-import org.mathpiper.mpreduce.functions.lisp.Macro;
+import org.mathpiper.mpreduce.exceptions.EOFException;
 import org.mathpiper.mpreduce.exceptions.ProgEvent;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
-import org.mathpiper.mpreduce.special.Specfn;
-import org.mathpiper.mpreduce.symbols.Symbol;
+import org.mathpiper.mpreduce.functions.functionwithenvironment.ByteOpt;
+import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
+import org.mathpiper.mpreduce.functions.functionwithenvironment.FnWithEnv;
+import org.mathpiper.mpreduce.functions.lisp.AutoLoad;
+import org.mathpiper.mpreduce.functions.lisp.CallAs;
+import org.mathpiper.mpreduce.functions.lisp.Interpreted;
+import org.mathpiper.mpreduce.functions.lisp.LispFunction;
+import org.mathpiper.mpreduce.functions.lisp.Macro;
 import org.mathpiper.mpreduce.functions.lisp.TracedFunction;
 import org.mathpiper.mpreduce.functions.lisp.Undefined;
+import org.mathpiper.mpreduce.io.Fasl;
+import org.mathpiper.mpreduce.io.streams.LispStream;
+import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.numbers.LispNumber;
+import org.mathpiper.mpreduce.numbers.LispSmallInteger;
+import org.mathpiper.mpreduce.special.Specfn;
+import org.mathpiper.mpreduce.symbols.Symbol;
 
 public class Fns3
 {

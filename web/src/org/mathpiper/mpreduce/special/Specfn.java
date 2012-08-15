@@ -6,13 +6,13 @@ import org.mathpiper.mpreduce.Environment;
 import org.mathpiper.mpreduce.Jlisp;
 import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.Lit;
-import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
 import org.mathpiper.mpreduce.functions.lisp.Interpreted;
 import org.mathpiper.mpreduce.functions.lisp.Macro;
 import org.mathpiper.mpreduce.functions.lisp.Undefined;
 import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.symbols.Symbol;
 
 // This file is part of the Jlisp implementation of Standard Lisp
 // Copyright \u00a9 (C) Codemist Ltd, 1998-2000.

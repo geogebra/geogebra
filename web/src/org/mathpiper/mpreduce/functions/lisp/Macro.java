@@ -43,14 +43,13 @@ package org.mathpiper.mpreduce.functions.lisp;
 // has one essential argument and one optional one (which I never use!)
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.LispObject;
-import org.mathpiper.mpreduce.functions.builtin.Fns;
-
-import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.Jlisp;
+import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
 import org.mathpiper.mpreduce.Lit;
+import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
+import org.mathpiper.mpreduce.functions.builtin.Fns;
 
 public class Macro extends LispFunction
 {

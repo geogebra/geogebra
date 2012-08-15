@@ -36,8 +36,6 @@ package org.mathpiper.mpreduce.functions.lisp;
  *************************************************************************/
 
 
-import org.mathpiper.mpreduce.Jlisp;
-import org.mathpiper.mpreduce.LispReader;
 
 public class Undefined extends LispFunction
 {

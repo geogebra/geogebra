@@ -35,29 +35,27 @@ package org.mathpiper.mpreduce.io;
  * DAMAGE.                                                                *
  *************************************************************************/
 import java.io.IOException;
-import org.mathpiper.mpreduce.io.streams.InputStream;
 import java.io.PrintStream;
+
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.io.streams.WriterToLisp;
-import org.mathpiper.mpreduce.functions.functionwithenvironment.ByteOpt;
-import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
-import org.mathpiper.mpreduce.functions.lisp.CallAs;
-import org.mathpiper.mpreduce.exceptions.LispException;
-import org.mathpiper.mpreduce.io.streams.LispStream;
-import org.mathpiper.mpreduce.datatypes.LispVector;
-import org.mathpiper.mpreduce.datatypes.LispString;
-import org.mathpiper.mpreduce.numbers.LispInteger;
-import org.mathpiper.mpreduce.functions.lisp.LispFunction;
-import org.mathpiper.mpreduce.packagedatastore.PDSInputStream;
-import org.mathpiper.mpreduce.functions.builtin.Fns;
-
-
-
 import org.mathpiper.mpreduce.Jlisp;
 import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
 import org.mathpiper.mpreduce.Lit;
 import org.mathpiper.mpreduce.Spid;
+import org.mathpiper.mpreduce.datatypes.LispString;
+import org.mathpiper.mpreduce.datatypes.LispVector;
+import org.mathpiper.mpreduce.exceptions.LispException;
+import org.mathpiper.mpreduce.functions.builtin.Fns;
+import org.mathpiper.mpreduce.functions.functionwithenvironment.ByteOpt;
+import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
+import org.mathpiper.mpreduce.functions.lisp.CallAs;
+import org.mathpiper.mpreduce.functions.lisp.LispFunction;
+import org.mathpiper.mpreduce.io.streams.InputStream;
+import org.mathpiper.mpreduce.io.streams.LispStream;
+import org.mathpiper.mpreduce.io.streams.WriterToLisp;
+import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.packagedatastore.PDSInputStream;
 import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.zip.GZIPInputStream;
 

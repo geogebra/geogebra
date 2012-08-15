@@ -28,24 +28,16 @@
  *************************************************************************/
 package org.mathpiper.mpreduce;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-import com.google.gwt.webworker.client.DedicatedWorkerEntryPoint;
-
 import java.io.IOException;
-
-
-import org.mathpiper.mpreduce.io.streams.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.datatypes.LispString;
 import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
 import org.mathpiper.mpreduce.functions.lisp.LispFunction;
+import org.mathpiper.mpreduce.io.streams.InputStream;
 import org.mathpiper.mpreduce.io.streams.LispOutputString;
 import org.mathpiper.mpreduce.io.streams.LispStream;
 import org.mathpiper.mpreduce.numbers.LispSmallInteger;
@@ -54,6 +46,12 @@ import org.mathpiper.mpreduce.packagedatastore.PDSInputStream;
 import org.mathpiper.mpreduce.special.SpecialFunction;
 import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.zip.GZIPInputStream;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.webworker.client.DedicatedWorkerEntryPoint;
 
 public class Interpreter extends DedicatedWorkerEntryPoint implements Interpretable {
 

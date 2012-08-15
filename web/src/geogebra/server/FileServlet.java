@@ -14,6 +14,14 @@
 
 package geogebra.server;
 
+import geogebra.server.fromclient.ClientFile;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.ByteArrayContent;
@@ -22,14 +30,6 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.gson.Gson;
-
-import geogebra.server.fromclient.ClientFile;
-
-import java.io.IOException;
-import java.util.Scanner;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet providing a small API for the GeoGebraWeb JavaScript client to use in
