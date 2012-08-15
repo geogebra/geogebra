@@ -47,7 +47,7 @@ import java.util.TreeSet;
  * 
  * @author Markus
  */
-public class GeoNumeric extends GeoElement implements NumberValue,
+public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;

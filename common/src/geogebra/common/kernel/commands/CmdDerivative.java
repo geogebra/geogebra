@@ -180,6 +180,14 @@ public class CmdDerivative extends CommandProcessor {
 		return geo.getFreeLabel(label);
 	}
 	
+	/**
+	 * Computes n-th derivative of f
+	 * @param label label for output
+	 * @param f function
+	 * @param var variable
+	 * @param n derivative degree
+	 * @return derivaive
+	 */
 	public GeoElement Derivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, NumberValue n) {
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n);

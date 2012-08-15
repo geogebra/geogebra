@@ -35,7 +35,6 @@ import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.integration.EllipticArcLength;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -47,7 +46,7 @@ import geogebra.common.plugin.GeoClass;
  * @author Markus Hohenwarter
  * 
  */
-public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
+public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValue {
 
 	/** conic arc */
 	public static final int CONIC_PART_ARC = 1;

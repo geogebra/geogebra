@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.ToGeoElement;
 
 /**
@@ -26,7 +25,7 @@ import geogebra.common.kernel.geos.ToGeoElement;
  * and their counterparts from geogebra.common.kernel.arithmetic (MyDouble)
  * @author  Markus
  */
-public interface NumberValue extends SpreadsheetTraceable, ToGeoElement {
+public interface NumberValue extends ExpressionValue, ToGeoElement {
 	/**
 	 * @return MyDouble whose value equals #getDouble()
 	 */

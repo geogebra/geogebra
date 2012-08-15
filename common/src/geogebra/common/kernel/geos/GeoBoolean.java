@@ -19,7 +19,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import java.util.HashSet;
  * @author Markus
  */
 public class GeoBoolean extends GeoElement implements BooleanValue,
-		NumberValue, AbsoluteScreenLocateable {
+		GeoNumberValue, AbsoluteScreenLocateable {
 
 	private boolean value = false;
 	private boolean isDefined = true;

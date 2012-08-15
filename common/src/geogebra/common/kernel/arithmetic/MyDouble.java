@@ -23,17 +23,14 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
-import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -953,29 +950,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	@Override
 	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
-	}
-
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
-		// dummy implementation - never used
-		App.warn("shouldn't get here");
-	}
-
-	public ArrayList<GeoText> getColumnHeadings() {
-		// dummy implementation - never used
-		return null;
+		return (int) (val*1000);
 	}
 
 	public boolean isDefined() {
 		return !Double.isNaN(val);
 	}
 
-	public SpreadsheetTraceSettings getTraceSettings() {
-		// dummy implementation - never used
-		App.warn("shouldn't get here");
-		return null;
-	}
 	/**
 	 * @return fractional part using Wolfram's convention (fractionalPart(-0.6)=-0.6)
 	 */

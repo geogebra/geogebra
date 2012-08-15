@@ -33,7 +33,7 @@ import java.util.HashSet;
  * 
  * @author Michael Borcherds, adapted from GeoPolygon
  */
-public class GeoPolyLine extends GeoElement implements NumberValue, Path,
+public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		Traceable, LineProperties, Transformable, Mirrorable,
 		MatrixTransformable, PointRotateable, Translateable, Dilateable,
 		GeoPoly {

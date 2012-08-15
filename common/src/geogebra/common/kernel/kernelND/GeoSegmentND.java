@@ -1,9 +1,9 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.LimitedPath;
 
 /**
@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.LimitedPath;
  * @author ggb3D
  *
  */
-public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue, FromMeta {
+public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, FromMeta {
 
 
 	

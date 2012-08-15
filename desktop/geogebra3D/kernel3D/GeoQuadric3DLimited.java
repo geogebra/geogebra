@@ -7,6 +7,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -20,7 +21,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
+public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;

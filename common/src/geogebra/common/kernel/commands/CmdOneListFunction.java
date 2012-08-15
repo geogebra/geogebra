@@ -113,6 +113,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
     /**
      * Perform the actual command with frequency data
      * @param label label for output
+     * @param c command being processed (needed for error message)
      * @param list input list
      * @param list2 another list (data frequencies)
      * @return resulting element
@@ -125,6 +126,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
      *  Perform the actual command with frequency data and a flag
      *  (needed for CmdSigmaXX)
      * @param label label for result
+     * @param c command being processed (needed for error message)
      * @param list input list
      * @param list2 second list (frequencies)
      * @param flag flag to distinguish between two syntaxes (eg SigmaXX) 

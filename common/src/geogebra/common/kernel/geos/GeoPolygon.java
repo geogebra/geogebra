@@ -50,7 +50,7 @@ import java.util.HashSet;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoPolygon extends GeoElement implements NumberValue, Path,
+public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
 		Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
 		GeoPoly, Transformable, SymbolicParametersBotanaAlgo {
