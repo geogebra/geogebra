@@ -102,6 +102,7 @@ public class PerspectivePanel extends JPopupMenu {
 		
 		add(Box.createVerticalStrut(10));
 		JLabel title = new JLabel(app.getMenu("Perspectives"));
+		title.setIcon(app.getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		title.setFont(app.getBoldFont());
 		add(title);
