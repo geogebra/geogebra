@@ -122,7 +122,10 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 			// do nothing on uninitializedValue		
 			success=false;
 		}
-		if (finished) hide();
-		else show();
+		if (finished) {
+			hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
+		} else
+			show();
 	}
 }

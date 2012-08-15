@@ -70,7 +70,7 @@ public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 									var fileName = fileToHandle.name;
 									var loc = dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::location;
 									appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, loc);
-									dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::hide()();
+									dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::hideAndFocus()();
 								}
 							}
 							reader2.readAsBinaryString(fileToHandle);
@@ -85,7 +85,12 @@ public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 
 	public void onClick(ClickEvent event) {
 	    if (event.getSource() == btCancel) {
-	    	hide();
+	    	hideAndFocus();
 	    }
     }
+
+	public void hideAndFocus() {
+    	hide();
+		app.getActiveEuclidianView().requestFocusInWindow();
+	}
 }

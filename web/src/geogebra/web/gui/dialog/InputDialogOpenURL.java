@@ -25,17 +25,20 @@ public class InputDialogOpenURL extends InputDialogW{
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				if(processInput()) wrappedPopup.hide();
+				app.getActiveEuclidianView().requestFocusInWindow();
 //			} else if (source == btApply) {
 //				processInput();
 				// app.setDefaultCursor();
 			} else if (source == btCancel) {
 				wrappedPopup.hide();
+				app.getActiveEuclidianView().requestFocusInWindow();
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		
 			ex.printStackTrace();
 			setVisible(false);
 			app.setDefaultCursor();
+			app.getActiveEuclidianView().requestFocusInWindow();
 		}
 		
     }

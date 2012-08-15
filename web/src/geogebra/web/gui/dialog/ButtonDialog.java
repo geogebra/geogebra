@@ -228,12 +228,14 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //
 //			geoResult = button;		
 			hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
 //			
 			app.storeUndoInfo();
 		} 
 		else if (source == btCancel) {
 //			geoResult = null;
 			hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
 		} 
 		
 		

@@ -206,11 +206,13 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
 
 			hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
 
 			app.storeUndoInfo();
 			app.getKernel().notifyRepaint();
 		} else if (target == btCancel.getElement()) {
 			hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
 		}
 	}
 

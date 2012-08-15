@@ -127,8 +127,10 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 	    	if (video != null)
 	    		app.urlDropHappened(shotcapture(video),0,0);
 	    	hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
 	    } else if (event.getSource() == btCancel) {
 	    	hide();
+			app.getActiveEuclidianView().requestFocusInWindow();
 	    }
     }
 
