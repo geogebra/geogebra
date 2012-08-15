@@ -14,7 +14,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAreParallel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.main.MyError;
@@ -48,7 +50,10 @@ public class CmdAreParallel extends CommandProcessor {
 			if (!(arg[1] instanceof GeoLine )){
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			GeoElement[] ret = {kernelA.AreParallel(c.getLabel(), (GeoLine) arg[0],(GeoLine) arg[1])};
+			
+			AlgoAreParallel algo = new AlgoAreParallel(cons, c.getLabel(), (GeoLine) arg[0],(GeoLine) arg[1]);
+
+			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);

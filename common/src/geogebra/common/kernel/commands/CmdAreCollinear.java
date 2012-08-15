@@ -14,7 +14,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAreCollinear;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
@@ -48,7 +50,10 @@ public class CmdAreCollinear extends CommandProcessor {
 			if (!(arg[2] instanceof GeoPoint )){
 				throw argErr(app, c.getName(), arg[2]);
 			}
-			GeoElement[] ret = {kernelA.AreCollinear(c.getLabel(), (GeoPoint) arg[0],(GeoPoint) arg[1],(GeoPoint) arg[2])};
+			
+			AlgoAreCollinear algo = new AlgoAreCollinear(cons, c.getLabel(), (GeoPoint) arg[0],(GeoPoint) arg[1],(GeoPoint) arg[2]);
+
+			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);

@@ -14,7 +14,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAreEqual;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
@@ -41,7 +43,10 @@ public class CmdAreEqual extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n==2) {
-			GeoElement[] ret = {kernelA.AreEqual(c.getLabel(), arg[0], arg[1])};
+			
+			AlgoAreEqual algo = new AlgoAreEqual(cons, c.getLabel(), arg[0], arg[1]);
+
+			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);

@@ -14,7 +14,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAreConcyclic;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
@@ -51,7 +53,10 @@ public class CmdAreConcyclic extends CommandProcessor {
 			if (!(arg[3] instanceof GeoPoint )){
 				throw argErr(app, c.getName(), arg[3]);
 			}
-			GeoElement[] ret = {kernelA.AreConcyclic(c.getLabel(), (GeoPoint) arg[0],(GeoPoint) arg[1],(GeoPoint) arg[2],(GeoPoint) arg[3])};
+			
+			AlgoAreConcyclic algo = new AlgoAreConcyclic(cons, c.getLabel(), (GeoPoint) arg[0],(GeoPoint) arg[1],(GeoPoint) arg[2],(GeoPoint) arg[3]);
+
+			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);

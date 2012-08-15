@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -69,7 +70,7 @@ public class CmdSum extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (allNumbers) {
-				GeoElement[] ret = { kernelA.Sum(c.getLabel(), list) };
+				GeoElement[] ret = { Sum(c.getLabel(), list) };
 				return ret;
 			} else if (allNumbersVectorsPoints) {
 				GeoElement[] ret = { kernelA.SumPoints(c.getLabel(), list) };
@@ -88,9 +89,10 @@ public class CmdSum extends CommandProcessor {
 			if (arg[1].isGeoNumeric()) {
 
 				if (allNumbers) {
+					AlgoSum algo = new AlgoSum(cons, c.getLabel(), list,
+							(GeoNumeric) arg[1]);
 
-					GeoElement[] ret = { kernelA.Sum(c.getLabel(), list,
-							(GeoNumeric) arg[1]) };
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else if (allFunctions) {
 					GeoElement[] ret = { kernelA.SumFunctions(c.getLabel(),
@@ -112,8 +114,10 @@ public class CmdSum extends CommandProcessor {
 			else if(arg[1].isGeoList()){
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
-					GeoElement[] ret = { 
-							kernelA.Sum(c.getLabel(),list,(GeoList)arg[1]) };
+					
+					AlgoSum algo = new AlgoSum(cons, c.getLabel(),list,(GeoList)arg[1]);
+
+					GeoElement[] ret = {algo.getResult() };
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);
@@ -126,7 +130,7 @@ public class CmdSum extends CommandProcessor {
 				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (wrapList != null) {
-					GeoElement[] ret = { kernelA.Sum(c.getLabel(), wrapList) };
+					GeoElement[] ret = { Sum(c.getLabel(), wrapList) };
 					return ret;
 				}
 			} else if (arg[0].isVectorValue()) {
@@ -151,5 +155,12 @@ public class CmdSum extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	final public GeoElement Sum(String label, GeoList list) {
+		AlgoSum algo = new AlgoSum(cons, label, list);
+		GeoElement ret = algo.getResult();
+		return ret;
+	}
+
 
 }

@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoRootMeanSquare;
 
 /**
  * RootMeanSquare[ list ]
@@ -19,7 +20,8 @@ public class CmdRootMeanSquare extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.RootMeanSquare(a, b);
+		AlgoRootMeanSquare algo = new AlgoRootMeanSquare(cons, a, b);
+		return algo.getResult();
 	}
 
 

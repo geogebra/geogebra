@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
 
 /**
  * SampleSD[ list ]
@@ -23,12 +24,16 @@ public class CmdSampleSD extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.SampleStandardDeviation(a, b);
+		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
+				cons, a, b);
+		return algo.getResult();
 	}
 
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
-		return kernelA.SampleStandardDeviation(a, list, freq);
+		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
+				cons, a, list, freq);
+		return algo.getResult();
 	}
 
 }

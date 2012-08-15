@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoTMean2Estimate;
 import geogebra.common.main.MyError;
 
 /**
@@ -36,8 +37,11 @@ public class CmdTMean2Estimate extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.TMean2Estimate(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoNumeric) arg[2], (GeoBoolean) arg[3]) };
+				
+				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1], (GeoNumeric) arg[2], (GeoBoolean) arg[3]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])
@@ -59,7 +63,8 @@ public class CmdTMean2Estimate extends CommandProcessor {
 					&& (ok[6] = arg[6].isGeoNumeric())
 					&& (ok[7] = arg[7].isGeoBoolean()))
 			{
-				GeoElement[] ret = { kernelA.TMean2Estimate(c.getLabel(),
+				
+				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons, c.getLabel(),
 						(GeoNumeric) arg[0], 
 						(GeoNumeric) arg[1],
 						(GeoNumeric) arg[2],
@@ -67,7 +72,9 @@ public class CmdTMean2Estimate extends CommandProcessor {
 						(GeoNumeric) arg[4],
 						(GeoNumeric) arg[5],
 						(GeoNumeric) arg[6],
-						(GeoBoolean) arg[7]) };
+						(GeoBoolean) arg[7]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

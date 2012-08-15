@@ -5,7 +5,10 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoDoubleListSigmaXX;
+import geogebra.common.kernel.statistics.AlgoListSigmaXX;
+import geogebra.common.kernel.statistics.AlgoSigmaXX;
 
 /**
  * SigmaXX[ list ]
@@ -21,9 +24,18 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
+	final protected GeoElement doCommand(String label, GeoList list)
 	{
-		return kernelA.SigmaXX(a, b);
+		GeoNumeric num;
+		GeoElement geo = list.get(0);
+		if (geo.isNumberValue()) { // list of numbers
+			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list);
+			num = algo.getResult();
+		} else { // (probably) list of points
+			AlgoListSigmaXX algo = new AlgoListSigmaXX(cons, label, list);
+			num = algo.getResult();
+		}
+		return num;
 	}
 	
 	@Override
@@ -35,7 +47,8 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq, GeoBoolean isGrouped) {
-		return kernelA.SigmaXX(a, list, freq, isGrouped);
+		AlgoSigmaXX algo = new AlgoSigmaXX(cons, a, list, freq, isGrouped);
+		return algo.getResult();
 	}
 	
 }

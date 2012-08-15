@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoProduct;
 import geogebra.common.main.MyError;
 
 /**
@@ -41,8 +42,9 @@ public class CmdProduct extends CommandProcessor{
 		case 1:
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
-					GeoElement[] ret = { 
-							kernelA.Product(c.getLabel(),list) };
+					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list);
+
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}
 			throw argErr(app, c.getName(), arg[0]);
@@ -52,8 +54,10 @@ public class CmdProduct extends CommandProcessor{
 
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
-					GeoElement[] ret = { 
-							kernelA.Product(c.getLabel(),list,(GeoNumeric)arg[1]) };
+					
+					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoNumeric)arg[1]);
+
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);
@@ -62,8 +66,10 @@ public class CmdProduct extends CommandProcessor{
 			else if (arg[1].isGeoList()){
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
-					GeoElement[] ret = { 
-							kernelA.Product(c.getLabel(),list,(GeoList)arg[1]) };
+					
+					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoList)arg[1]);
+
+					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);

@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoTiedRank;
 
 /**
  * TiedRank[ <List> ]
@@ -19,7 +20,8 @@ public class CmdTiedRank extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.TiedRank(a, b);
+		AlgoTiedRank algo = new AlgoTiedRank(cons, a, b);
+		return algo.getResult();
 	}
 
 

@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.statistics.AlgoTTestPaired;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,8 +35,11 @@ public class CmdTTestPaired extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList()) 
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoText())) {
-				GeoElement[] ret = { kernelA.TTestPaired(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2]) };
+				
+				AlgoTTestPaired algo = new AlgoTTestPaired(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

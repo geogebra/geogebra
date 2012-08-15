@@ -84,34 +84,6 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.AlgoChiSquareTest;
-import geogebra.common.kernel.statistics.AlgoFitLineY;
-import geogebra.common.kernel.statistics.AlgoGeometricMean;
-import geogebra.common.kernel.statistics.AlgoHarmonicMean;
-import geogebra.common.kernel.statistics.AlgoListSigmaXX;
-import geogebra.common.kernel.statistics.AlgoMean;
-import geogebra.common.kernel.statistics.AlgoMedian;
-import geogebra.common.kernel.statistics.AlgoMode;
-import geogebra.common.kernel.statistics.AlgoOrdinalRank;
-import geogebra.common.kernel.statistics.AlgoPercentile;
-import geogebra.common.kernel.statistics.AlgoProduct;
-import geogebra.common.kernel.statistics.AlgoQ1;
-import geogebra.common.kernel.statistics.AlgoQ3;
-import geogebra.common.kernel.statistics.AlgoRootMeanSquare;
-import geogebra.common.kernel.statistics.AlgoSample;
-import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
-import geogebra.common.kernel.statistics.AlgoSampleVariance;
-import geogebra.common.kernel.statistics.AlgoShuffle;
-import geogebra.common.kernel.statistics.AlgoSigmaXX;
-import geogebra.common.kernel.statistics.AlgoStandardDeviation;
-import geogebra.common.kernel.statistics.AlgoSum;
-import geogebra.common.kernel.statistics.AlgoTMean2Estimate;
-import geogebra.common.kernel.statistics.AlgoTMeanEstimate;
-import geogebra.common.kernel.statistics.AlgoTTest;
-import geogebra.common.kernel.statistics.AlgoTTest2;
-import geogebra.common.kernel.statistics.AlgoTTestPaired;
-import geogebra.common.kernel.statistics.AlgoTiedRank;
-import geogebra.common.kernel.statistics.AlgoVariance;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -3725,18 +3697,6 @@ public class Kernel {
 		AlgoDependentBoolean algo = new AlgoDependentBoolean(cons, label, root);
 		return algo.getGeoBoolean();
 	}
-	
-	final public GeoBoolean Prove(String label, GeoElement arg) {
-		AlgoProve algo = new AlgoProve(cons, label, arg);
-		GeoBoolean bool = algo.getGeoBoolean();
-		return bool;
-	}	
-
-	final public GeoList ProveDetails(String label, GeoElement arg) {
-		AlgoProveDetails algo = new AlgoProveDetails(cons, label, arg);
-		GeoList list = algo.getGeoList();
-		return list;
-	}	
 
 	/** Point on path with cartesian coordinates (x,y) */
 	final public GeoPoint Point(String label, Path path, double x, double y,
@@ -6380,15 +6340,6 @@ public class Kernel {
 
 
 	/**
-	 * FitLineY[list of coords] Michael Borcherds
-	 */
-	final public GeoLine FitLineY(String label, GeoList list) {
-		AlgoFitLineY algo = new AlgoFitLineY(cons, label, list);
-		GeoLine line = algo.getFitLineY();
-		return line;
-	}
-
-	/**
 	 * FitPoly[list of coords,degree] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitPoly(String label, GeoList list,
@@ -6415,104 +6366,6 @@ public class Kernel {
 		GeoFunction function = algo.getFitSin();
 		return function;
 	}
-
-	/** ANOVATest[] */
-	/** TTest[] with sample data */
-	final public GeoList TTest(String label, GeoList sampleList,
-			GeoNumeric hypMean, GeoText tail) {
-		AlgoTTest algo = new AlgoTTest(cons, label, sampleList, hypMean, tail);
-		GeoList result = algo.getResult();
-		return result;
-	}
-
-	/** TTest[] with sample statistics */
-	final public GeoList TTest(String label, GeoNumeric mean, GeoNumeric sd,
-			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
-		AlgoTTest algo = new AlgoTTest(cons, label, mean, sd, n, hypMean, tail);
-		GeoList result = algo.getResult();
-		return result;
-	}
-
-	/** TTestPaired[] */
-	final public GeoList TTestPaired(String label, GeoList sampleList1,
-			GeoList sampleList2, GeoText tail) {
-		AlgoTTestPaired algo = new AlgoTTestPaired(cons, label, sampleList1,
-				sampleList2, tail);
-		GeoList result = algo.getResult();
-		return result;
-	}
-
-	/** TTest2[] with sample data */
-	final public GeoList TTest2(String label, GeoList sampleList1,
-			GeoList sampleList2, GeoText tail, GeoBoolean pooled) {
-		AlgoTTest2 algo = new AlgoTTest2(cons, label, sampleList1, sampleList2,
-				tail, pooled);
-		GeoList result = algo.getResult();
-		return result;
-	}
-
-	/** TTest2[] with sample statistics */
-	final public GeoList TTest2(String label, GeoNumeric mean1, GeoNumeric sd1,
-			GeoNumeric n1, GeoNumeric mean2, GeoNumeric sd2, GeoNumeric n2,
-			GeoText tail, GeoBoolean pooled) {
-		AlgoTTest2 algo = new AlgoTTest2(cons, label, mean1, mean2, sd1, sd2,
-				n1, n2, tail, pooled);
-		GeoList result = algo.getResult();
-		return result;
-	}
-
-	/** TMeanEstimate[] with sample data */
-	final public GeoList TMeanEstimate(String label, GeoList sampleList,
-			GeoNumeric level) {
-		AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons, label, sampleList,
-				level);
-		GeoList resultList = algo.getResult();
-		return resultList;
-	}
-
-	/** TMeanEstimate[] with sample statistics */
-	final public GeoList TMeanEstimate(String label, GeoNumeric mean,
-			GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
-		AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons, label, mean, sd,
-				n, level);
-		GeoList resultList = algo.getResult();
-		return resultList;
-	}
-
-	/** TMean2Estimate[] with sample data */
-	final public GeoList TMean2Estimate(String label, GeoList sampleList1,
-			GeoList sampleList2, GeoNumeric level, GeoBoolean pooled) {
-		AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons, label,
-				sampleList1, sampleList2, level, pooled);
-		GeoList resultList = algo.getResult();
-		return resultList;
-	}
-
-	/** TMean2Estimate[] with sample statistics */
-	final public GeoList TMean2Estimate(String label, GeoNumeric mean1,
-			GeoNumeric sd1, GeoNumeric n1, GeoNumeric mean2, GeoNumeric sd2,
-			GeoNumeric n2, GeoNumeric level, GeoBoolean pooled) {
-		AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons, label, mean1,
-				sd1, n1, mean2, sd2, n2, level, pooled);
-		GeoList resultList = algo.getResult();
-		return resultList;
-	}
-
-	/** ChiSquareTest[] with observed and expected lists */
-	final public GeoList ChiSquareTest(String label, GeoList observedList,
-			GeoList expectedList) {
-		AlgoChiSquareTest algo = new AlgoChiSquareTest(cons, label, observedList, expectedList);
-		GeoList result = algo.getResult();
-		return result;
-	}
-	
-	/** ChiSquareTest[] with observed list only */
-	final public GeoList ChiSquareTest(String label, GeoList observedList) {
-		AlgoChiSquareTest algo = new AlgoChiSquareTest(cons, label, observedList);
-		GeoList result = algo.getResult();
-		return result;
-	}
-	
 	
 	
 	/**
@@ -6520,43 +6373,6 @@ public class Kernel {
 	 */
 	final public GeoList Sort(String label, GeoList list) {
 		AlgoSort algo = new AlgoSort(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * OrdinalRank[list] Michael Borcherds
-	 */
-	final public GeoList OrdinalRank(String label, GeoList list) {
-		AlgoOrdinalRank algo = new AlgoOrdinalRank(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * TiedRank[list]
-	 */
-	final public GeoList TiedRank(String label, GeoList list) {
-		AlgoTiedRank algo = new AlgoTiedRank(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * Percentile[list, value] G. Sturr
-	 */
-	final public GeoNumeric Percentile(String label, GeoList list,
-			GeoNumeric value) {
-		AlgoPercentile algo = new AlgoPercentile(cons, label, list, value);
-		GeoNumeric result = algo.getResult();
-		return result;
-	}
-
-	/**
-	 * Shuffle[list] Michael Borcherds
-	 */
-	final public GeoList Shuffle(String label, GeoList list) {
-		AlgoShuffle algo = new AlgoShuffle(cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -6672,14 +6488,6 @@ public class Kernel {
 		return result;
 	}
 
-	/**
-	 * Mode[list] Michael Borcherds
-	 */
-	final public GeoList Mode(String label, GeoList list) {
-		AlgoMode algo = new AlgoMode(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
 
 	/**
 	 * PrimeFactors[list] Michael Borcherds
@@ -6745,61 +6553,6 @@ public class Kernel {
 		return list2;
 	}
 
-	/**
-	 * Product[list] Michael Borcherds
-	 */
-	final public GeoNumeric Product(String label, GeoList list) {
-		AlgoProduct algo = new AlgoProduct(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Product[list, freq] G. Sturr
-	 */
-	final public GeoNumeric Product(String label, GeoList list, GeoList freq) {
-		AlgoProduct algo = new AlgoProduct(cons, label, list, freq);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	
-	/**
-	 * Product[list,n] Zbynek Konecny
-	 */
-	final public GeoNumeric Product(String label, GeoList list, GeoNumeric n) {
-		AlgoProduct algo = new AlgoProduct(cons, label, list, n);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Sum[list] Michael Borcherds
-	 */
-	final public GeoElement Sum(String label, GeoList list) {
-		AlgoSum algo = new AlgoSum(cons, label, list);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
-
-	/**
-	 * Sum[list, freq] G. Sturr 
-	 */
-	final public GeoElement Sum(String label, GeoList list, GeoList freq) {
-		AlgoSum algo = new AlgoSum(cons, label, list, freq);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
-
-	
-	/**
-	 * Sum[list,n] Michael Borcherds
-	 */
-	final public GeoElement Sum(String label, GeoList list, GeoNumeric n) {
-		AlgoSum algo = new AlgoSum(cons, label, list, n);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
 
 	/**
 	 * Sum[list of functions] Michael Borcherds
@@ -6853,25 +6606,6 @@ public class Kernel {
 	final public GeoElement SumText(String label, GeoList list, GeoNumeric num) {
 		AlgoSumText algo = new AlgoSumText(cons, label, list, num);
 		GeoText ret = algo.getResult();
-		return ret;
-	}
-
-	/**
-	 * Sample[list,n] Michael Borcherds
-	 */
-	final public GeoElement Sample(String label, GeoList list, NumberValue n) {
-		AlgoSample algo = new AlgoSample(cons, label, list, n, null);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
-
-	/**
-	 * Sample[list,n, withReplacement] Michael Borcherds
-	 */
-	final public GeoElement Sample(String label, GeoList list, NumberValue n,
-			GeoBoolean withReplacement) {
-		AlgoSample algo = new AlgoSample(cons, label, list, n, withReplacement);
-		GeoElement ret = algo.getResult();
 		return ret;
 	}
 
@@ -7100,24 +6834,6 @@ public class Kernel {
 		return text;
 	}
 
-	/**
-	 * Mean[list] Michael Borcherds
-	 */
-	final public GeoNumeric Mean(String label, GeoList list) {
-		AlgoMean algo = new AlgoMean(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/**
-	 * Mean[list,list] Kamalaruban Parameswaran
-	 */
-	final public GeoNumeric Mean(String label, GeoList list, GeoList list2) {
-		AlgoMean algo = new AlgoMean((Construction) cons, label, list, list2);
-		GeoNumeric num = algo.getResult(); 
-		return num;
-	}
-
 	final public GeoText VerticalText(String label, GeoText args) {
 		AlgoVerticalText algo = new AlgoVerticalText(cons, label, args);
 		GeoText text = algo.getResult();
@@ -7128,183 +6844,6 @@ public class Kernel {
 		AlgoRotateText algo = new AlgoRotateText(cons, label, args, angle);
 		GeoText text = algo.getResult();
 		return text;
-	}
-
-	/**
-	 * Variance[list] Michael Borcherds
-	 */
-	final public GeoNumeric Variance(String label, GeoList list) {
-		AlgoVariance algo = new AlgoVariance(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Variance[list, freq] G. Sturr
-	 */
-	final public GeoNumeric Variance(String label, GeoList list, GeoList freq) {
-		AlgoVariance algo = new AlgoVariance(cons, label, list, freq);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/**
-	 * SampleVariance[list] Michael Borcherds
-	 */
-	final public GeoNumeric SampleVariance(String label, GeoList list) {
-		AlgoSampleVariance algo = new AlgoSampleVariance(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SampleVariance[list, freq] G. Sturr 
-	 */
-	final public GeoNumeric SampleVariance(String label, GeoList list, GeoList freq) {
-		AlgoSampleVariance algo = new AlgoSampleVariance(cons, label, list, freq);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/**
-	 * SD[list] Michael Borcherds
-	 */
-	final public GeoNumeric StandardDeviation(String label, GeoList list) {
-		AlgoStandardDeviation algo = new AlgoStandardDeviation(cons, label,
-				list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SD[list, freq] G. Sturr 
-	 */
-	final public GeoNumeric StandardDeviation(String label, GeoList list, GeoList freq) {
-		AlgoStandardDeviation algo = new AlgoStandardDeviation(cons, label,
-				list, freq);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	
-	
-	/**
-	 * SampleSD[list] Michael Borcherds
-	 */
-	final public GeoNumeric SampleStandardDeviation(String label, GeoList list) {
-		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
-				cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * SampleSD[list, freq] G. Sturr 
-	 */
-	final public GeoNumeric SampleStandardDeviation(String label, GeoList list, GeoList freq) {
-		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
-				cons, label, list, freq);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/**
-	 * SigmaXX[list] Michael Borcherds
-	 */
-	final public GeoNumeric SigmaXX(String label, GeoList list) {
-		GeoNumeric num;
-		GeoElement geo = list.get(0);
-		if (geo.isNumberValue()) { // list of numbers
-			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list);
-			num = algo.getResult();
-		} else { // (probably) list of points
-			AlgoListSigmaXX algo = new AlgoListSigmaXX(cons, label, list);
-			num = algo.getResult();
-		}
-		return num;
-	}
-
-	/**
-	 * SigmaXX[list, list2, useFrequency] G. Sturr
-	 * 
-	 * Because SIGMAXX[list, list2] exists to handle the 2D case, the flag
-	 * useFrequency is needed to specify the 1D case.
-	 * 
-	 * If useFrequency = true, the method returns 1D statistic for data with
-	 * frequencies. If useFrequency = false, returns undefined
-	 */
-	final public GeoNumeric SigmaXX(String label, GeoList list, GeoList list2, GeoBoolean useFrequency) {
-
-			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list, list2, useFrequency);
-			GeoNumeric num = algo.getResult();
-
-		return num;
-	}
-	
-	/**
-	 * Median[list] Michael Borcherds
-	 */
-	final public GeoNumeric Median(String label, GeoList list) {
-		AlgoMedian algo = new AlgoMedian(cons, label, list);
-		GeoNumeric num = algo.getMedian();
-		return num;
-	}
-	
-	/**
-	 * Median[list, freq] G. Sturr
-	 */
-	final public GeoNumeric Median(String label, GeoList list, GeoList freq) {
-		AlgoMedian algo = new AlgoMedian(cons, label, list, freq);
-		GeoNumeric num = algo.getMedian();
-		return num;
-	}
-
-	/**
-	 * Q1[list] lower quartile Michael Borcherds
-	 */
-	final public GeoNumeric Q1(String label, GeoList list) {
-		AlgoQ1 algo = new AlgoQ1(cons, label, list);
-		GeoNumeric num = algo.getQ1();
-		return num;
-	}
-
-	/**
-	 * Q3[list] upper quartile Michael Borcherds
-	 */
-	final public GeoNumeric Q3(String label, GeoList list) {
-		AlgoQ3 algo = new AlgoQ3(cons, label, list);
-		GeoNumeric num = algo.getQ3();
-		return num;
-	}
-
-	/**
-	 * GeometricMean[list] G. Sturr
-	 */
-	final public GeoNumeric GeometricMean(String label, GeoList list) {
-		AlgoGeometricMean algo = new AlgoGeometricMean(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * HarmonicMean[list] G. Sturr
-	 */
-	final public GeoNumeric HarmonicMean(String label, GeoList list) {
-		AlgoHarmonicMean algo = new AlgoHarmonicMean(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * 
-	 * @param label
-	 * @param list
-	 * @return
-	 */
-	final public GeoNumeric RootMeanSquare(String label, GeoList list) {
-		AlgoRootMeanSquare algo = new AlgoRootMeanSquare(cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
 	}
 
 	/**
@@ -8977,51 +8516,6 @@ public class Kernel {
 		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
-	}
-
-	final public GeoBoolean AreCollinear(String label, GeoPoint point1,
-			GeoPoint point2, GeoPoint point3) {
-		AlgoAreCollinear algo = new AlgoAreCollinear(cons, label, point1, point2,
-				point3);
-		GeoBoolean bool = algo.getResult();
-		return bool;
-	}
-	
-	final public GeoBoolean AreConcurrent(String label, GeoLine line1,
-			GeoLine line2, GeoLine line3) {
-		AlgoAreConcurrent algo = new AlgoAreConcurrent(cons, label, line1,
-				line2, line3);
-		GeoBoolean bool = algo.getResult();
-		return bool;
-	}
-	
-	final public GeoBoolean AreConcyclic(String label, GeoPoint point1,
-			GeoPoint point2, GeoPoint point3, GeoPoint point4) {
-		AlgoAreConcyclic algo = new AlgoAreConcyclic(cons, label, point1, point2,
-				point3, point4);
-		GeoBoolean bool = algo.getResult();
-		return bool;
-	}
-	
-	final public GeoBoolean AreEqual(String label, GeoElement geoElement1,
-			GeoElement geoElement2) {
-		AlgoAreEqual algo = new AlgoAreEqual(cons, label, geoElement1, geoElement2);
-		GeoBoolean bool = algo.getResult();
-		return bool;
-	}
-	
-	final public GeoBoolean AreParallel(String label, GeoLine geoLine1,
-			GeoLine geoLine2) {
-		AlgoAreParallel algo = new AlgoAreParallel(cons, label, geoLine1, geoLine2);
-		GeoBoolean bool = algo.getResult();
-		return bool;
-	}
-	
-	final public GeoBoolean ArePerpendicular(String label, GeoLine geoLine1,
-			GeoLine geoLine2) {
-		AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, label, geoLine1, geoLine2);
-		GeoBoolean bool = algo.getResult();
-		return bool;
 	}
 	
 	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {

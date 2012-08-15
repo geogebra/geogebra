@@ -80,6 +80,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.statistics.AlgoFitLineY;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -3895,7 +3896,7 @@ public abstract class EuclidianController {
 		if (selLists() > 0) {
 			list = getSelectedLists()[0];
 			if (list != null) {
-				ret[0] = kernel.FitLineY(null, list);
+				ret[0] = FitLineY(null, list);
 				return ret;
 			}
 		} else {
@@ -3907,13 +3908,24 @@ public abstract class EuclidianController {
 						.wrapInList(kernel, points, points.length,
 								GeoClass.POINT);
 				if (list != null) {
-					ret[0] = kernel.FitLineY(null, list);
+					ret[0] = FitLineY(null, list);
 					return ret;
 				}
 			}
 		}
 		return null;
 	}
+	
+	/**
+	 * FitLineY[list of coords] Michael Borcherds
+	 */
+	final public GeoLine FitLineY(String label, GeoList list) {
+		AlgoFitLineY algo = new AlgoFitLineY(kernel.getConstruction(), label, list);
+		GeoLine line = algo.getFitLineY();
+		return line;
+	}
+
+
 
 	protected final GeoElement[] createList(Hits hits) {
 		GeoList list;

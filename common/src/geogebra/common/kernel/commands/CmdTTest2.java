@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.statistics.AlgoTTest2;
 import geogebra.common.main.MyError;
 
 /**
@@ -37,8 +38,11 @@ public class CmdTTest2 extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoText())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.TTest2(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2], (GeoBoolean) arg[3]) };
+				
+				AlgoTTest2 algo = new AlgoTTest2(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2], (GeoBoolean) arg[3]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])
@@ -60,7 +64,8 @@ public class CmdTTest2 extends CommandProcessor {
 					&& (ok[6] = arg[6].isGeoText())
 					&& (ok[7] = arg[7].isGeoBoolean())
 			) {
-				GeoElement[] ret = { kernelA.TTest2(c.getLabel(),
+				
+				AlgoTTest2 algo = new AlgoTTest2(cons, c.getLabel(),
 						(GeoNumeric) arg[0], 
 						(GeoNumeric) arg[1],
 						(GeoNumeric) arg[2],
@@ -68,7 +73,9 @@ public class CmdTTest2 extends CommandProcessor {
 						(GeoNumeric) arg[4], 
 						(GeoNumeric) arg[5],
 						(GeoText) arg[6],
-						(GeoBoolean) arg[7]) };
+						(GeoBoolean) arg[7]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoPercentile;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,8 +34,11 @@ public class CmdPercentile extends CommandProcessor {
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) 
 					&& (ok[1] = arg[1].isGeoNumeric())) {
+				
+				AlgoPercentile algo = new AlgoPercentile(cons, c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1]);
+
 				GeoElement[] ret = 
-				{ kernelA.Percentile(c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1] ) };
+				{ algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

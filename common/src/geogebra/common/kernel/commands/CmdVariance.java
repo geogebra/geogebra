@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoVariance;
 
 /**
  * Variance[ list ] or Variance[ list, frequency ] 
@@ -21,12 +22,14 @@ public class CmdVariance extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.Variance(a, b);
+		AlgoVariance algo = new AlgoVariance(cons, a, b);
+		return algo.getResult();
 	}
 	
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
-		return kernelA.Variance(a, list, freq);
+		AlgoVariance algo = new AlgoVariance(cons, a, list, freq);
+		return algo.getResult();
 	}
 
 }

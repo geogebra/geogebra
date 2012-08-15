@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoProveDetails;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,7 +31,10 @@ public class CmdProveDetails extends CommandProcessor {
 		switch(n) {
 		case 1:
 			if (arg[0].isBooleanValue()) {
-				GeoElement[] ret = { kernelA.ProveDetails(c.getLabel(), arg[0]) };
+				
+				AlgoProveDetails algo = new AlgoProveDetails(cons, c.getLabel(), arg[0]);
+
+				GeoElement[] ret = { algo.getGeoList() };
 				return ret;
 				}
 			throw argErr(app, c.getName(), arg[0]);

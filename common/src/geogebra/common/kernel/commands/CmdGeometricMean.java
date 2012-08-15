@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoGeometricMean;
 
 /**
  * GeometricMean[ list ]
@@ -22,7 +23,8 @@ public class CmdGeometricMean extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.GeometricMean(a, b);
+		AlgoGeometricMean algo = new AlgoGeometricMean(cons, a, b);
+		return algo.getResult();
 	}
 
 

@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoSample;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,7 +35,7 @@ public class CmdSample extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernelA.Sample(c.getLabel(),
+				GeoElement[] ret = { Sample(c.getLabel(),
 						(GeoList) arg[0], (NumberValue) arg[1], null) };
 				return ret;
 
@@ -46,7 +47,7 @@ public class CmdSample extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.Sample(c.getLabel(),
+				GeoElement[] ret = { Sample(c.getLabel(),
 						(GeoList) arg[0], (NumberValue) arg[1],
 						(GeoBoolean) arg[2]) };
 				return ret;
@@ -58,4 +59,16 @@ public class CmdSample extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	/**
+	 * Sample[list,n, withReplacement] Michael Borcherds
+	 */
+	final public GeoElement Sample(String label, GeoList list, NumberValue n,
+			GeoBoolean withReplacement) {
+		AlgoSample algo = new AlgoSample(cons, label, list, n, withReplacement);
+		GeoElement ret = algo.getResult();
+		return ret;
+	}
+
+
 }

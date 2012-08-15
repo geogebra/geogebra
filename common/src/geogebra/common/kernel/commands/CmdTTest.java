@@ -57,12 +57,15 @@ public class CmdTTest extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoText())
 			) {
-				GeoElement[] ret = { kernelA.TTest(c.getLabel(),
+				
+				AlgoTTest algo = new AlgoTTest(cons, c.getLabel(),
 						(GeoNumeric) arg[0], 
 						(GeoNumeric) arg[1],
 						(GeoNumeric) arg[2],
 						(GeoNumeric) arg[3],
-						(GeoText) arg[4]) };
+						(GeoText) arg[4]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])
