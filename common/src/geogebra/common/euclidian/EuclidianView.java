@@ -3759,7 +3759,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		synchronizeMenuBarAndEuclidianStyleBar(evs);
 
-		App.debug("READING"+evs.hasDynamicBounds());
 		if (!evs.hasDynamicBounds()) {
 			// the xmin, xmax, ... we read from Settings are nulls; 
 			// use the double values instead
