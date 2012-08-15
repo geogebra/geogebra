@@ -538,13 +538,20 @@ public class ProbabilityManager {
 			break;
 
 		case LOGNORMAL:
-			mean = parms[0];
-			sigma = parms[1];
-			double var = (Math.exp(sigma * sigma) - 1)
-					* Math.exp(2 * mean + sigma * sigma);
-			mode = Math.exp(mean - sigma * sigma);
+			double meanParm = parms[0];
+			double sdParm = parms[1];
+			double varParm = sdParm * sdParm;
+
+			mean = Math.exp(meanParm + varParm / 2);
+
+			double var = (Math.exp(varParm) - 1)
+					* Math.exp(2 * meanParm + varParm);
+			sigma = Math.sqrt(var);
+
+			mode = Math.exp(meanParm - varParm);
 			xMin = 0;
-			xMax = mean + 5 * Math.sqrt(var);
+			xMax = mean + 5 * sigma;
+
 			yMin = 0;
 			yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(mode);
 			break;
@@ -588,6 +595,158 @@ public class ProbabilityManager {
 			yMax = 1.2;
 		}
 		double[] d = { xMin, xMax, yMin, yMax };
+		return d;
+	}
+
+	/**
+	 * Returns numerical measures of the given distribution
+	 * 
+	 * @param selectedDist
+	 *            distribution
+	 * @param parms
+	 *            parameter values
+	 * @return {mean, sigma} Note: if a values is undefined, array with null
+	 *         element(s) is returned
+	 */
+	protected Double[] getDistributionMeasures(DIST selectedDist, double[] parms) {
+
+		// in the future, would be nice to return median and mode
+		// median can be evaluated numerically with inverseCDF(.5)
+		// see
+		// http://blogs.sas.com/content/iml/2011/11/09/on-the-median-of-the-chi-square-distribution/
+		// for interesting discussion
+
+		Double mean = null, sigma = null;
+		double v, v2, k, median, scale, shape, mode, n, N, p, pop, sd, variance, r;
+
+		switch (selectedDist) {
+
+		case NORMAL:
+			mean = parms[0];
+			sigma = parms[1];
+			break;
+
+		case STUDENT:
+			mean = 0d;
+			v = parms[0];
+			if (v > 2) {
+				sigma = Math.sqrt(v / (v - 2));
+			} else {
+				sigma = null; // infinity?
+			}
+
+			break;
+
+		case CHISQUARE:
+			k = parms[0];
+			mean = k;
+			sigma = Math.sqrt(2 * k);
+			break;
+
+		case F:
+			v = parms[0];
+			v2 = parms[1];
+			if (v2 > 2) {
+				mean = v2 / (v2 - 2);
+			}
+
+			mode = (v - 2) / v * v2 / (v2 + 2);
+
+			if (v2 > 4) {
+				variance = 2 * v * v * (v + v2 - 2)
+						/ (v2 * (v - 2) * (v - 2) * (v - 4));
+				sigma = Math.sqrt(variance);
+			}
+
+			break;
+
+		case CAUCHY:
+			median = parms[0];
+			scale = parms[1];
+			// mean and median are undefined
+			break;
+
+		case EXPONENTIAL:
+			double lambda = parms[0];
+			mean = 1 / lambda;
+			sigma = 1 / lambda;
+			break;
+
+		case GAMMA:
+			double alpha = parms[0]; // (shape)
+			double beta = parms[1]; // (scale)
+			mode = (alpha - 1) * beta;
+			mean = alpha * beta;
+			sigma = Math.sqrt(alpha) * beta;
+			break;
+
+		case WEIBULL:
+			shape = parms[0];
+			scale = parms[1];
+			median = scale * Math.pow(Math.log(2), 1 / shape);
+
+			// mean = scale * Gamma(1 + 1/shape);
+			// variance = scale*scale*Gamma(1 + 2/shape) - mean*mean
+			// sigma = Math.sqrt(variance);
+
+			break;
+
+		case LOGNORMAL:
+
+			// TODO: may not be correct
+			double meanParm = parms[0];
+			double sdParm = parms[1];
+			double varParm = sdParm * sdParm;
+
+			mean = Math.exp(meanParm + varParm / 2);
+
+			double var = (Math.exp(varParm) - 1)
+					* Math.exp(2 * meanParm + varParm);
+			sigma = Math.sqrt(var);
+
+			mode = Math.exp(meanParm - varParm);
+			break;
+
+		case LOGISTIC:
+			mean = parms[0];
+			scale = parms[1];
+			sigma = Math.PI * scale / Math.sqrt(3);
+			break;
+
+		case PASCAL:
+			r = parms[0];
+			p = parms[1];
+			mean = p * r / (1 - p);
+			var = p * r / ((1 - p) * (1 - p));
+			sigma = Math.sqrt(var);
+			break;
+
+		case POISSON:
+			mean = parms[0];
+			sigma = mean;
+			break;
+
+		case BINOMIAL:
+			n = parms[0];
+			p = parms[1];
+			mean = n * p;
+			var = n* p * (1 - p) ;
+			sigma = Math.sqrt(var);
+			break;
+
+		case HYPERGEOMETRIC:
+			N = parms[0];
+			k = parms[1];
+			n = parms[2];
+
+			mean = n * k / N;
+			var = n * k * (N - k) * (N - n) / (N * N * (N - 1));
+			sigma = Math.sqrt(var);
+			break;
+
+		}
+
+		Double[] d = { mean, sigma };
 		return d;
 	}
 

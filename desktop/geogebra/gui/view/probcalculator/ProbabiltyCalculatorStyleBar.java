@@ -12,6 +12,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.MenuElement;
 import javax.swing.SwingConstants;
@@ -42,7 +43,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 	JPopupMenu roundingPopup;
 
 	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph,
-			btnBarGraph;
+			btnBarGraph, btnExport;
 
 	/**
 	 * @param app
@@ -102,13 +103,21 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 			}
 		});
 
-		add(btnRounding);
-		addSeparator();
-		add(btnCumulative);
-		addSeparator();
+		// create export button
+				btnExport = new MyToggleButton(app.getImageIcon("export16.png"),iconHeight);
+				btnExport.setFocusable(false);
+				btnExport.addActionListener(this);
+
+				
+		//add(btnRounding);
+		//addSeparator();
+		//add(btnCumulative);
+		//addSeparator();
 		add(btnLineGraph);
 		add(btnStepGraph);
 		add(btnBarGraph);
+		addSeparator();
+		add(btnExport);
 		// add(btnGrid); (grid doesn't work well with discrete graphs and point
 		// capturing)
 
@@ -286,6 +295,13 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 		else if (e.getSource() == btnStepGraph) {
 			if (btnStepGraph.isSelected())
 				probCalc.setGraphType(ProbabilityCalculator.GRAPH_STEP);
+		}
+		
+		else if (e.getSource() == btnExport) {
+			JPopupMenu menu = probCalc.getPlotPanel().getContextMenu();
+			menu.show(btnExport,
+					-menu.getPreferredSize().width + btnExport.getWidth(),
+					btnExport.getHeight());
 		}
 
 	}
