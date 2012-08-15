@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.barycentric.AlgoBarycenter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
@@ -35,8 +36,11 @@ public class CmdBarycenter extends CommandProcessor
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList()) &&
 					(ok[1] = arg[1].isGeoList())) {
-				GeoElement[] ret = { kernelA.Barycenter(c.getLabel(),
-						(GeoList)arg[0], (GeoList)arg[1])} ;
+				
+				AlgoBarycenter algo = new AlgoBarycenter(cons, c.getLabel(),
+						(GeoList)arg[0], (GeoList)arg[1]);
+
+				GeoElement[] ret = { algo.getResult() } ;
 				return ret;
 				
 			}

@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.barycentric.AlgoTrilinear;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
@@ -38,9 +39,12 @@ public class CmdTrilinear extends CommandProcessor {
 					(ok[3] = arg[3].isNumberValue()) &&
 					(ok[4] = arg[5].isNumberValue()) &&
 					(ok[5] = arg[5].isNumberValue())) {
-				GeoElement[] ret = { kernelA.Trilinear(c.getLabel(),
+				
+				AlgoTrilinear algo = new AlgoTrilinear(cons, c.getLabel(),
 						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
-						(NumberValue) arg[3], (NumberValue) arg[4], (NumberValue) arg[5])} ;
+						(NumberValue) arg[3], (NumberValue) arg[4], (NumberValue) arg[5]);
+
+				GeoElement[] ret = { algo.getResult() } ;
 				return ret;
 				
 			} 

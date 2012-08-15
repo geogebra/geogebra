@@ -3,11 +3,13 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoLocus;
+import geogebra.common.kernel.algos.AlgoLocusEquation;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 
 
@@ -60,6 +62,21 @@ public class CmdLocusEquation extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 		
-		return new GeoElement[] { kernelA.LocusEquation(c.getLabel(), locusPoint, movingPoint) };
+		return new GeoElement[] { LocusEquation(c.getLabel(), locusPoint, movingPoint) };
 	}
+	
+	/**
+	 * locus equation for Q dependent on P.
+	 */
+	final public GeoImplicitPoly LocusEquation(String label, GeoPoint locusPoint, GeoPoint movingPoint) {
+		if (movingPoint.getPath() == null || locusPoint.getPath() != null || !movingPoint.isParentOf(locusPoint))
+			return null;
+		AlgoLocusEquation algo = new AlgoLocusEquation(cons, locusPoint, movingPoint);
+		GeoImplicitPoly poly = algo.getPoly();
+		
+		poly.setLabel(label);
+		return poly;
+	}
+
+
 }

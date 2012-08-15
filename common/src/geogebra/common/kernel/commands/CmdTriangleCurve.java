@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.barycentric.AlgoTriangleCurve;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -50,10 +51,11 @@ public class CmdTriangleCurve extends CommandProcessor {
 					(ok[2] = arg[2].isGeoPoint()) &&
 					(ok[3] = arg[3].isGeoImplicitPoly())) {
 				
-				
-				GeoElement[] ret = { kernelA.Cubic(c.getLabel(),
+				AlgoTriangleCurve algo = new AlgoTriangleCurve(cons, c.getLabel(),
 						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
-						(GeoImplicitPoly) arg[3],ta,tb,tc)} ;
+						(GeoImplicitPoly) arg[3],ta,tb,tc);
+				
+				GeoElement[] ret = { algo.getResult() } ;
 				cons.removeLocalVariable("A");
 				cons.removeLocalVariable("B");
 				cons.removeLocalVariable("C");

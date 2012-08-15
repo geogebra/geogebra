@@ -20,11 +20,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.Variable;
-import geogebra.common.kernel.barycentric.AlgoBarycenter;
-import geogebra.common.kernel.barycentric.AlgoCubic;
-import geogebra.common.kernel.barycentric.AlgoKimberling;
-import geogebra.common.kernel.barycentric.AlgoTriangleCurve;
-import geogebra.common.kernel.barycentric.AlgoTrilinear;
 import geogebra.common.kernel.cas.AlgoCasBase;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.AlgoIntegral;
@@ -74,8 +69,6 @@ import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
-import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
 import geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
 import geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
@@ -3724,19 +3717,6 @@ public class Kernel {
 		return conic;
 	}
 
-	/** Implicit Polynomial */
-	final public GeoImplicitPoly ImplicitPoly(String label, Polynomial poly) {
-		GeoImplicitPoly implicitPoly = new GeoImplicitPoly(cons, label, poly);
-		return implicitPoly;
-	}
-
-	final public GeoElement DependentImplicitPoly(String label, Equation equ) {
-		AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(cons,
-				label, equ);
-		GeoElement geo = algo.getGeo();
-		return geo;
-	}
-
 	/**
 	 * Text dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. c = a & b
@@ -5184,15 +5164,6 @@ public class Kernel {
 	final public GeoList AsymptoteFunction(String label, GeoFunction func) {
 		AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons, label,
 				func);
-		return algo.getResult();
-	}
-
-	/**
-	 * Asymptotes to ImplicitPoly Michael Borcherds
-	 */
-	final public GeoList AsymptoteImplicitpoly(String label, GeoImplicitPoly ip) {
-		AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(cons,
-				label, ip);
 		return algo.getResult();
 	}
 
@@ -7830,19 +7801,6 @@ public class Kernel {
 	}
 
 	/**
-	 * locus equation for Q dependent on P.
-	 */
-	final public GeoImplicitPoly LocusEquation(String label, GeoPoint locusPoint, GeoPoint movingPoint) {
-		if (movingPoint.getPath() == null || locusPoint.getPath() != null || !movingPoint.isParentOf(locusPoint))
-			return null;
-		AlgoLocusEquation algo = new AlgoLocusEquation(cons, locusPoint, movingPoint);
-		GeoImplicitPoly poly = algo.getPoly();
-		
-		poly.setLabel(label);
-		return poly;
-	}
-
-	/**
 	 * locus line for Q dependent on P. Note: P must be a visible slider
 	 */
 	final public GeoLocus Locus(String label, GeoPoint Q, GeoNumeric P) {
@@ -8926,48 +8884,6 @@ public class Kernel {
 		return t;
 	}
 
-	/**
-	 * Victor Franco Espino 18-04-2007: End new commands
-	 */
-
-	// /////
-
-	final public GeoPoint Kimberling(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, NumberValue v) {
-		AlgoKimberling algo = new AlgoKimberling(cons, label, A, B, C, v);
-		GeoPoint P = algo.getResult();
-		return P;
-	}
-
-	final public GeoPoint Barycenter(String label, GeoList A, GeoList B) {
-		AlgoBarycenter algo = new AlgoBarycenter(cons, label, A, B);
-		GeoPoint P = algo.getResult();
-		return P;
-	}
-
-	final public GeoPoint Trilinear(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, NumberValue a, NumberValue b, NumberValue c) {
-		AlgoTrilinear algo = new AlgoTrilinear(cons, label, A, B, C, a, b, c);
-		GeoPoint P = algo.getResult();
-		return P;
-	}
-
-	final public GeoImplicitPoly Cubic(String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, NumberValue v) {
-		AlgoCubic algo = new AlgoCubic(cons, label, A, B, C, v);
-		GeoImplicitPoly poly = algo.getResult();
-		return poly;
-	}
-
-	final public GeoElement Cubic(String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, GeoImplicitPoly v, GeoNumeric a,
-			GeoNumeric b, GeoNumeric c) {
-		AlgoTriangleCurve algo = new AlgoTriangleCurve(cons, label, A, B, C, v,
-				a, b, c);
-		GeoElement poly = algo.getResult();
-
-		return poly;
-	}
 
 	/***********************************
 	 * CALCULUS

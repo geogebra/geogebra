@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 
@@ -42,8 +43,12 @@ public class CmdAsymptote extends CommandProcessor {
 				return ret;
 			}
 			else if (arg[0].isGeoImplicitPoly()) {
-				GeoElement[] ret =  {kernelA.AsymptoteImplicitpoly(c.getLabel(),
-						(GeoImplicitPoly) arg[0])} ;
+				
+				AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(cons,
+						c.getLabel(),
+						(GeoImplicitPoly) arg[0]);
+
+				GeoElement[] ret =  { algo.getResult() } ;
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

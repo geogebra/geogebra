@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.barycentric.AlgoCubic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
@@ -37,9 +38,12 @@ public class CmdCubic extends CommandProcessor {
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
 					(ok[3] = arg[3].isNumberValue())) {
-				GeoElement[] ret = { kernelA.Cubic(c.getLabel(),
+				
+				AlgoCubic algo = new AlgoCubic(cons, c.getLabel(),
 						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
-						(NumberValue) arg[3])} ;
+						(NumberValue) arg[3]);
+
+				GeoElement[] ret = { algo.getResult() } ;
 				return ret;
 				
 			}

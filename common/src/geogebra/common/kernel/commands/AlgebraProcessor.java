@@ -54,6 +54,7 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1463,11 +1464,14 @@ public class AlgebraProcessor {
 		GeoImplicitPoly poly;
 		GeoElement geo = null;
 		if (isIndependent) {
-			poly = kernel.ImplicitPoly(label, lhs);
+			poly = new GeoImplicitPoly(cons, label, lhs);
 			poly.setUserInput(equ);
 			geo = poly;
 		} else {
-			geo = kernel.DependentImplicitPoly(label, equ); // might also return
+			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(cons,
+					label, equ);
+
+			geo = algo.getGeo(); // might also return
 															// Line or Conic
 			if (geo instanceof GeoUserInputElement) {
 				((GeoUserInputElement) geo).setUserInput(equ);
