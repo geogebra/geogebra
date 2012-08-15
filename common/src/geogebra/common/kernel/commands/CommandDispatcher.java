@@ -1123,6 +1123,8 @@ public class CommandDispatcher {
 				return new CmdTurtleLeft(kernel);
 			case TurtleRight:
 				return new CmdTurtleRight(kernel);
+			case ZProportionTest:
+				return new CmdZProportionTest(kernel);
 			default:
 				App.debug("missing case in CommandDispatcher");
 				return null;

@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.util.Unicode;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummaryValues;
@@ -111,7 +112,7 @@ public class AlgoTTest extends AlgoElement {
 
 		// two sided test
 		if(tail.getTextString().equals("!=") 
-				|| tail.getTextString().equals("≠")) 
+				|| tail.getTextString().equals(Unicode.NOTEQUAL)) 
 			return p;
 
 		// one sided test
@@ -130,7 +131,7 @@ public class AlgoTTest extends AlgoElement {
 		if(!(tail.getTextString().equals("<") 
 				|| tail.getTextString().equals(">") 
 				|| tail.getTextString().equals("!=")
-				|| tail.getTextString().equals("≠"))){
+				|| tail.getTextString().equals(Unicode.NOTEQUAL))){
 			result.setUndefined();
 			return;
 		}
