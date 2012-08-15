@@ -139,7 +139,6 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private double[] parameters;
 	private boolean isCumulative = false;
 
-
 	// maps for the distribution ComboBox
 	private HashMap<DIST, String> distributionMap;
 	private HashMap<String, DIST> reverseDistributionMap;
@@ -160,7 +159,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private JTextField fldLow, fldHigh, fldResult;
 	private JLabel[] lblParameterArray;
 	private JLabel lblBetween, lblProbOf, lblEndProbOf, lblProb, lblDist;
-	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween, btnIntervalRight;
+	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
+			btnIntervalRight;
 
 	private JSlider[] sliderArray;
 	private ListSeparatorRenderer comboRenderer;
@@ -212,8 +212,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private boolean removeFromConstruction = true;
 
 	private static final double nearlyOne = 1 - 1E-6;
-	
-	
+
 	// discrete graph types
 	protected static final int GRAPH_BAR = 0;
 	protected static final int GRAPH_LINE = 1;
@@ -223,11 +222,6 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private int graphType = GRAPH_BAR;
 
 	private JToggleButton btnExport;
-
-	
-
-	
-	
 
 	/*************************************************
 	 * Construct the dialog
@@ -327,36 +321,34 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// make sure left-sided is still selected when reverting to
 			// non-cumulative mode
 			comboProbType.setSelectedIndex(PROB_LEFT);
-		
-		if (isCumulative){
+
+		if (isCumulative) {
 			graphType = graphTypeCDF;
-		}else{
+		} else {
 			graphType = graphTypePDF;
 		}
 		updateAll();
 
 	}
 
-	
 	public void setGraphType(int type) {
 
-		if(graphType == type)
+		if (graphType == type)
 			return;
 
 		graphType = type;
-		if (isCumulative) 
+		if (isCumulative)
 			graphTypeCDF = type;
-		else 
+		else
 			graphTypePDF = type;
 
 		updateAll();
 	}
-	
-	public int getGraphType(){
+
+	public int getGraphType() {
 		return graphType;
 	}
 
-	
 	public int getPrintDecimals() {
 		return printDecimals;
 	}
@@ -385,10 +377,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// ======================================================
 			distPanel = this.createDistributionPanel();
 			probPanel = this.createProbabilityPanel();
-			
+
 			Box vBox = Box.createVerticalBox();
-			//vBox.add(distPanel);
-			//vBox.add(probPanel);
+			// vBox.add(distPanel);
+			// vBox.add(probPanel);
 
 			controlPanel = new JPanel(new BorderLayout());
 			controlPanel.add(distPanel, BorderLayout.NORTH);
@@ -481,7 +473,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		btnCumulative = new JToggleButton(
 				app.getImageIcon("cumulative_distribution.png"));
-	
+
 		btnIntervalLeft = new JToggleButton(
 				app.getImageIcon("interval-left.png"));
 		btnIntervalBetween = new JToggleButton(
@@ -493,26 +485,23 @@ public class ProbabilityCalculator extends JPanel implements View,
 		btnIntervalLeft.addActionListener(this);
 		btnIntervalBetween.addActionListener(this);
 		btnIntervalRight.addActionListener(this);
-		
+
 		btnCumulative.setFocusable(false);
 		btnIntervalLeft.setFocusable(false);
 		btnIntervalBetween.setFocusable(false);
 		btnIntervalRight.setFocusable(false);
-		
+
 		ButtonGroup gp = new ButtonGroup();
 		gp.add(btnIntervalLeft);
 		gp.add(btnIntervalBetween);
 		gp.add(btnIntervalRight);
-		
-		
+
 		// create export button
 		btnExport = new JToggleButton();
 		btnExport.setIcon(app.getImageIcon("export16.png"));
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
-				
-				
-		
+
 		JToolBar tb = new JToolBar();
 		tb.setFloatable(false);
 		tb.add(btnCumulative);
@@ -521,7 +510,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		tb.add(btnIntervalBetween);
 		tb.add(btnIntervalRight);
 		tb.addSeparator();
-		//tb.add(btnExport);
+		// tb.add(btnExport);
 		// OptionsUtil.flowPanel(40,
 		// btnIntervalLeft,btnIntervalBetween,btnIntervalRight);
 
@@ -529,24 +518,20 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		cbPanel.add(comboDistribution, BorderLayout.WEST);
 		cbPanel.add(tb, BorderLayout.EAST);
-	
 
-		
-		
 		JPanel distPanel = new JPanel(new BorderLayout());
 		distPanel.add(cbPanel, BorderLayout.NORTH);
-		//distPanel.add(parameterPanel, BorderLayout.CENTER);
-
+		// distPanel.add(parameterPanel, BorderLayout.CENTER);
 
 		return distPanel;
 	}
 
 	private JPanel createProbabilityPanel() {
-		
-		
+
 		// create parameter panel
-		JPanel parameterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
-		
+		JPanel parameterPanel = new JPanel(
+				new FlowLayout(FlowLayout.LEFT, 8, 0));
+
 		lblParameterArray = new JLabel[maxParameterCount];
 		fldParameterArray = new JTextField[maxParameterCount];
 
@@ -556,13 +541,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 			fldParameterArray[i].setColumns(5);
 			fldParameterArray[i].addActionListener(this);
 			fldParameterArray[i].addFocusListener(this);
-			
+
 			parameterPanel.add(lblParameterArray[i]);
 			parameterPanel.add(fldParameterArray[i]);
 		}
-		
-		
-		
 
 		// create probability mode JComboBox and put it in a JPanel
 		comboProbType = new JComboBox();
@@ -593,19 +575,19 @@ public class ProbabilityCalculator extends JPanel implements View,
 		fldResult.addFocusListener(this);
 
 		// create panel to hold the entry fields
-		//JPanel fieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		// JPanel fieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
-		
-		fieldPanel.add(OptionsUtil.flowPanel(4,10,20, parameterPanel));
-		
-		fieldPanel.add(OptionsUtil.flowPanel(4,10,20, lblProbOf,fldLow,lblBetween,fldHigh,lblEndProbOf, fldResult));
-		
-	
+
+		fieldPanel.add(OptionsUtil.flowPanel(4, 10, 20, parameterPanel));
+
+		fieldPanel.add(OptionsUtil.flowPanel(4, 10, 20, lblProbOf, fldLow,
+				lblBetween, fldHigh, lblEndProbOf, fldResult));
+
 		JPanel probPanel = new JPanel();
 		probPanel.setLayout(new BorderLayout());
-		//probPanel.add(cbPanel);
+		// probPanel.add(cbPanel);
 		probPanel.add(fieldPanel, BorderLayout.CENTER);
 
 		return probPanel;
@@ -643,8 +625,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// create high point
 
-		AlgoPointOnPath algoHigh = new AlgoPointOnPath(cons, path, 0d,
-				0d);
+		AlgoPointOnPath algoHigh = new AlgoPointOnPath(cons, path, 0d, 0d);
 		cons.removeFromConstructionList(algoHigh);
 
 		highPoint = (GeoPoint) algoHigh.getGeoElements()[0];
@@ -685,14 +666,14 @@ public class ProbabilityCalculator extends JPanel implements View,
 				algoBarChart = new AlgoBarChart(cons, discreteValueList,
 						discreteProbList);
 			}
-			
+
 			algoPolyLine = createPolyLine(algoBarChart);
-			
+
 			cons.removeFromConstructionList(algoBarChart);
 			cons.removeFromConstructionList(algoPolyLine);
-			if (graphType == GRAPH_STEP){
+			if (graphType == GRAPH_STEP) {
 				discreteGraph = algoPolyLine.getGeoElements()[0];
-			}else{
+			} else {
 				discreteGraph = algoBarChart.getGeoElements()[0];
 			}
 			discreteGraph.setObjColor(new geogebra.awt.GColorD(COLOR_PDF));
@@ -750,7 +731,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			intervalProbList = (GeoList) take2.getGeoElements()[0];
 
 			AlgoBarChart barChart;
-			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP){
+			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
 				NumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
 				barChart = new AlgoBarChart(cons, intervalValueList,
 						intervalProbList, zeroWidth2);
@@ -762,7 +743,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			discreteIntervalGraph = barChart.getGeoElements()[0];
 
-			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP){
+			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
 				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
 						ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setLineThickness(thicknessBarChart + 2);
@@ -917,8 +898,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		hideToolTips();
 
 	}
-	
-	
+
 	/**
 	 * Creates a FrequencyPolygon algo using AlgoPolyLine instead of
 	 * AlgoFrequencyPolygon This is needed until FrequencyPolygonRight is
@@ -937,33 +917,32 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		
+
 		// first point
-		points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0); 
-		//System.out.println(" 0: (" + leftBorder[0] + " , " + yValue[0] + ")" );
+		points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
+		// System.out.println(" 0: (" + leftBorder[0] + " , " + yValue[0] + ")"
+		// );
 		// middle points (two for each border value)
 		int i = 1;
-		while(i < n-1) {
-				points[i] = new GeoPoint(cons, null, leftBorder[i],
-						yValue[i-1], 1.0);
-				points[i+1] = new GeoPoint(cons, null, leftBorder[i],
-						yValue[i+1], 1.0);
-				i += 2;
-				//System.out.println(i + ": (" + leftBorder[i] + " , " + yValue[i] + ")  " + i + "  : " + n);
+		while (i < n - 1) {
+			points[i] = new GeoPoint(cons, null, leftBorder[i], yValue[i - 1],
+					1.0);
+			points[i + 1] = new GeoPoint(cons, null, leftBorder[i],
+					yValue[i + 1], 1.0);
+			i += 2;
+			// System.out.println(i + ": (" + leftBorder[i] + " , " + yValue[i]
+			// + ")  " + i + "  : " + n);
 		}
-		
+
 		// last point
-		points[n - 1] = new GeoPoint(cons, null, leftBorder[n-1], 1, 1.0);
-		
+		points[n - 1] = new GeoPoint(cons, null, leftBorder[n - 1], 1, 1.0);
+
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points, false);
 
 		return polyLine;
 	}
-	
-	
-	
 
 	/**
 	 * Calculates and sets the plot dimensions, the axes intervals and the point
@@ -1241,18 +1220,18 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		else if (source == btnCumulative) {
 			setCumulative(btnCumulative.isSelected());
-			
+
 		} else if (source == btnIntervalLeft || source == btnIntervalBetween
 				|| source == btnIntervalRight) {
-			
+
 			btnIntervalLeft.removeActionListener(this);
 			btnIntervalBetween.removeActionListener(this);
 			btnIntervalRight.removeActionListener(this);
 
-			if(!isCumulative){
+			if (!isCumulative) {
 				updateProbabilityType();
 			}
-			
+
 			btnIntervalLeft.addActionListener(this);
 			btnIntervalBetween.addActionListener(this);
 			btnIntervalRight.addActionListener(this);
@@ -1264,7 +1243,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 					-menu.getPreferredSize().width + btnExport.getWidth(),
 					btnExport.getHeight());
 		}
-		
+
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -1418,21 +1397,20 @@ public class ProbabilityCalculator extends JPanel implements View,
 			comboDistribution
 					.setSelectedItem(distributionMap.get(selectedDist));
 		comboDistribution.addActionListener(this);
-		
-		
+
 		btnIntervalLeft.removeActionListener(this);
 		btnIntervalBetween.removeActionListener(this);
 		btnIntervalRight.removeActionListener(this);
-		
+
 		btnCumulative.setSelected(isCumulative);
 		btnIntervalLeft.setSelected(probMode == PROB_LEFT);
 		btnIntervalBetween.setSelected(probMode == PROB_INTERVAL);
 		btnIntervalRight.setSelected(probMode == PROB_RIGHT);
-		
+
 		btnIntervalLeft.addActionListener(this);
 		btnIntervalBetween.addActionListener(this);
 		btnIntervalRight.addActionListener(this);
-		
+
 	}
 
 	private void updateIntervalProbability() {
@@ -1671,11 +1649,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		//distPanel.setBorder(BorderFactory.createTitledBorder(app
-			//	.getMenu("Distribution")));
-		//probPanel.setBorder(BorderFactory.createTitledBorder(app
-			//	.getMenu("Probability")));
-		
+		// distPanel.setBorder(BorderFactory.createTitledBorder(app
+		// .getMenu("Distribution")));
+		// probPanel.setBorder(BorderFactory.createTitledBorder(app
+		// .getMenu("Probability")));
+
 		// probPanel.setBorder(BorderFactory.createEtchedBorder());
 		setLabelArrays();
 
@@ -1850,8 +1828,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 					isCumulative));
 			break;
 		case CHISQUARE:
-			ret = new AlgoChiSquaredDF(cons, param1,
-					new GeoBoolean(cons, isCumulative));
+			ret = new AlgoChiSquaredDF(cons, param1, new GeoBoolean(cons,
+					isCumulative));
 			break;
 		case F:
 			ret = new AlgoFDistributionDF(cons, param1, param2, new GeoBoolean(
@@ -2074,8 +2052,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			k = new GeoNumeric(cons);
 			k2 = new GeoNumeric(cons);
 
-			algoSeq = new AlgoSequence(cons, k, k, lowGeo,
-					highGeo, null);
+			algoSeq = new AlgoSequence(cons, k, k, lowGeo, highGeo, null);
 			removeFromAlgorithmList(algoSeq);
 			discreteValueList = (GeoList) algoSeq.getGeoElements()[0];
 
@@ -2103,7 +2080,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		discreteProbList.setLabelVisible(false);
 		discreteProbList.setFixed(true);
 		discreteProbList.setSelectionAllowed(false);
-		
+
 		return;
 	}
 
@@ -2341,8 +2318,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			// create low point
 			expr = "Point[" + app.getPlain("xAxis") + "]";
-			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr,
-					false);
+			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr, false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);
 			lowPointCopy.setCoords(low, 0, 1);
@@ -2350,8 +2326,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			newGeoList.add(lowPointCopy);
 
 			// create high point
-			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr,
-					false);
+			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr, false);
 			highPointCopy.setVisualStyle(lowPoint);
 			highPointCopy.setLabelVisible(false);
 			highPointCopy.setCoords(high, 0, 1);
@@ -2399,15 +2374,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 				expr = "Take[" + discreteProbListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElement intervalProbList = createGeoFromString(
-						expr, false);
+				GeoElement intervalProbList = createGeoFromString(expr, false);
 				newGeoList.add(intervalProbList);
 
 				expr = "Take[" + discreteValueListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElement intervalValueList = createGeoFromString(
-						expr, false);
+				GeoElement intervalValueList = createGeoFromString(expr, false);
 				newGeoList.add(intervalValueList);
 
 				if (graphType == GRAPH_LINE)
@@ -2463,8 +2436,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// set the window dimensions of the target EV to match the prob calc
 			// dimensions
 
-			EuclidianView ev = (EuclidianView) app
-					.getView(euclidianViewID);
+			EuclidianView ev = (EuclidianView) app.getView(euclidianViewID);
 
 			ev.setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax,
 					plotSettings.yMin, plotSettings.yMax);

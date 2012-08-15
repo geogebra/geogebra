@@ -18,34 +18,39 @@ import javax.swing.SwingConstants;
 
 /**
  * StyleBar for the ProbabilityCalculator view
+ * 
  * @author G. Sturr
- *
+ * 
  */
-public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionListener{
+public class ProbabiltyCalculatorStyleBar extends JToolBar implements
+		ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
-	
-	/** probabililty calculator*/
+
+	/** probabililty calculator */
 	ProbabilityCalculator probCalc;
-	
+
 	/** icon height in pixels */
 	protected int iconHeight = 18;
-	
-	/** rounding button*/
+
+	/** rounding button */
 	JButton btnRounding;
 
-	/** rounding popup menu*/
+	/** rounding popup menu */
 	JPopupMenu roundingPopup;
 
-	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph, btnBarGraph;
+	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph,
+			btnBarGraph;
 
 	/**
-	 * @param app application
-	 * @param probCalc probability calculator
+	 * @param app
+	 *            application
+	 * @param probCalc
+	 *            probability calculator
 	 */
-	public ProbabiltyCalculatorStyleBar(AppD app, ProbabilityCalculator probCalc){
+	public ProbabiltyCalculatorStyleBar(AppD app, ProbabilityCalculator probCalc) {
 
 		this.probCalc = probCalc;
 		this.app = app;
@@ -56,40 +61,39 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 
 	}
 
-	private void createGUI(){
-		this.removeAll();	
+	private void createGUI() {
+		this.removeAll();
 		buildOptionsButton();
-		
-		
-		btnCumulative = new MyToggleButton(app.getImageIcon("cumulative_distribution.png"), iconHeight);
+
+		btnCumulative = new MyToggleButton(
+				app.getImageIcon("cumulative_distribution.png"), iconHeight);
 		btnCumulative.setSelected(probCalc.isCumulative());
-		btnCumulative.addActionListener(new ActionListener(){
+		btnCumulative.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				probCalc.setCumulative(!probCalc.isCumulative());
 			}
 		});
-		
-		
-		
-		btnLineGraph = new MyToggleButton(app.getImageIcon("line_graph.png"), iconHeight);	
+
+		btnLineGraph = new MyToggleButton(app.getImageIcon("line_graph.png"),
+				iconHeight);
 		btnLineGraph.addActionListener(this);
-		
-		
-		btnStepGraph = new MyToggleButton(app.getImageIcon("step_graph.png"), iconHeight);
+
+		btnStepGraph = new MyToggleButton(app.getImageIcon("step_graph.png"),
+				iconHeight);
 		btnStepGraph.addActionListener(this);
-		
-		btnBarGraph = new MyToggleButton(app.getImageIcon("bar_graph.png"), iconHeight);
+
+		btnBarGraph = new MyToggleButton(app.getImageIcon("bar_graph.png"),
+				iconHeight);
 		btnBarGraph.addActionListener(this);
-		
+
 		ButtonGroup gp = new ButtonGroup();
 		gp.add(btnBarGraph);
 		gp.add(btnLineGraph);
 		gp.add(btnStepGraph);
-		
-		
+
 		btnGrid = new MyToggleButton(app.getImageIcon("grid.gif"), iconHeight);
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
-		btnGrid.addActionListener(new ActionListener(){
+		btnGrid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PlotSettings ps = probCalc.getPlotSettings();
 				ps.showGrid = !ps.showGrid;
@@ -97,72 +101,77 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 				probCalc.updatePlotSettings();
 			}
 		});
-			
-		
-		add(btnRounding); 
+
+		add(btnRounding);
 		addSeparator();
 		add(btnCumulative);
 		addSeparator();
-		add(btnLineGraph); 
-		add(btnStepGraph); 
-		add(btnBarGraph); 
-		//add(btnGrid);  (grid doesn't work well with discrete graphs and point capturing)
-		
+		add(btnLineGraph);
+		add(btnStepGraph);
+		add(btnBarGraph);
+		// add(btnGrid); (grid doesn't work well with discrete graphs and point
+		// capturing)
+
 	}
-	
+
 	/**
 	 * Updates the GUI
 	 */
-	public void updateGUI(){
-		
-			btnLineGraph.setVisible(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()));
-			btnStepGraph.setVisible(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()));
-			btnBarGraph.setVisible(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()));
-		
-			btnLineGraph.removeActionListener(this);   
-			btnStepGraph.removeActionListener(this);   
-			btnBarGraph.removeActionListener(this);   
-			
-			btnLineGraph.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_LINE);
-			btnStepGraph.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_STEP);
-			btnBarGraph.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_BAR);
-			
-			btnLineGraph.addActionListener(this);   
-			btnStepGraph.addActionListener(this);   
-			btnBarGraph.addActionListener(this); 
+	public void updateGUI() {
+
+		btnLineGraph.setVisible(probCalc.getProbManager().isDiscrete(
+				probCalc.getSelectedDist()));
+		btnStepGraph.setVisible(probCalc.getProbManager().isDiscrete(
+				probCalc.getSelectedDist()));
+		btnBarGraph.setVisible(probCalc.getProbManager().isDiscrete(
+				probCalc.getSelectedDist()));
+
+		btnLineGraph.removeActionListener(this);
+		btnStepGraph.removeActionListener(this);
+		btnBarGraph.removeActionListener(this);
+
+		btnLineGraph
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_LINE);
+		btnStepGraph
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_STEP);
+		btnBarGraph
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_BAR);
+
+		btnLineGraph.addActionListener(this);
+		btnStepGraph.addActionListener(this);
+		btnBarGraph.addActionListener(this);
 	}
-	
+
 	/**
 	 * Updates localized labels
 	 */
-	public void setLabels(){
+	public void setLabels() {
 		btnRounding.setText(app.getMenu("Rounding"));
-		btnLineGraph.setToolTipText(app.getPlain("Lines"));	
+		btnLineGraph.setToolTipText(app.getPlain("Lines"));
 		btnCumulative.setToolTipText(app.getMenu("Cumulative"));
 	}
 
-
-	/** 
-	 * Builds popup button with options menu items 
+	/**
+	 * Builds popup button with options menu items
 	 */
-	private void buildOptionsButton(){
+	private void buildOptionsButton() {
 
-		btnRounding = new JButton(app.getImageIcon("triangle-down.png"));	
-		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT); 
+		btnRounding = new JButton(app.getImageIcon("triangle-down.png"));
+		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
 		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
 		roundingPopup = createRoundingPopup();
-		
-		btnRounding.addActionListener(new ActionListener(){
+
+		btnRounding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// popup appears below the button
-				roundingPopup.show(getParent(), btnRounding.getLocation().x,btnRounding.getLocation().y + btnRounding.getHeight());
+				roundingPopup.show(getParent(), btnRounding.getLocation().x,
+						btnRounding.getLocation().y + btnRounding.getHeight());
 			}
 		});
-	
-		updateMenuDecimalPlaces(roundingPopup);
-	
-	}
 
+		updateMenuDecimalPlaces(roundingPopup);
+
+	}
 
 	/**
 	 * Update the menu with the current number format.
@@ -185,25 +194,23 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 
 		try {
 			MenuElement[] m = menu.getSubElements();
-			((JRadioButtonMenuItem)m[pos]).setSelected(true);
+			((JRadioButtonMenuItem) m[pos]).setSelected(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-		
-	private JPopupMenu createRoundingPopup(){
+	private JPopupMenu createRoundingPopup() {
 		JPopupMenu menu = new JPopupMenu();
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
-		addRadioButtonMenuItems(menu, this,
-				strDecimalSpaces, App.strDecimalSpacesAC, 0);
+		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
+				App.strDecimalSpacesAC, 0);
 
 		return menu;
 	}
-	
-	
+
 	/**
 	 * Create a set of radio buttons automatically.
 	 * 
@@ -235,7 +242,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 			}
 		}
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
@@ -258,31 +265,29 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 			try {
 				String decStr = cmd.substring(0, 2).trim();
 				int figures = Integer.parseInt(decStr);
-				//	 Application.debug("figures " + figures);
+				// Application.debug("figures " + figures);
 				probCalc.updatePrintFormat(-1, figures);
 
 			} catch (Exception ex) {
 				app.showError(e.toString());
 			}
 		}
-		
-		else if(e.getSource() == btnLineGraph ){
-			if(btnLineGraph.isSelected())
+
+		else if (e.getSource() == btnLineGraph) {
+			if (btnLineGraph.isSelected())
 				probCalc.setGraphType(ProbabilityCalculator.GRAPH_LINE);
 		}
-		
-		else if(e.getSource() == btnBarGraph){
-			if(btnBarGraph.isSelected())
-			probCalc.setGraphType(ProbabilityCalculator.GRAPH_BAR);
+
+		else if (e.getSource() == btnBarGraph) {
+			if (btnBarGraph.isSelected())
+				probCalc.setGraphType(ProbabilityCalculator.GRAPH_BAR);
 		}
-		
-		else if(e.getSource() == btnStepGraph){
-			if(btnStepGraph.isSelected())
-			probCalc.setGraphType(ProbabilityCalculator.GRAPH_STEP);
+
+		else if (e.getSource() == btnStepGraph) {
+			if (btnStepGraph.isSelected())
+				probCalc.setGraphType(ProbabilityCalculator.GRAPH_STEP);
 		}
-				
+
 	}
-	
-	
-	
+
 }
