@@ -60,6 +60,7 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
@@ -71,6 +72,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,15 +85,20 @@ import java.util.TreeSet;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -153,6 +160,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private JTextField fldLow, fldHigh, fldResult;
 	private JLabel[] lblParameterArray;
 	private JLabel lblBetween, lblProbOf, lblEndProbOf, lblProb, lblDist;
+	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween, btnIntervalRight;
 
 	private JSlider[] sliderArray;
 	private ListSeparatorRenderer comboRenderer;
@@ -213,6 +221,12 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private int graphTypePDF = GRAPH_BAR;
 	private int graphTypeCDF = GRAPH_STEP;
 	private int graphType = GRAPH_BAR;
+
+	private JToggleButton btnExport;
+
+	
+
+	
 	
 
 	/*************************************************
@@ -371,20 +385,14 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// ======================================================
 			distPanel = this.createDistributionPanel();
 			probPanel = this.createProbabilityPanel();
-			// distPanel.setBorder(BorderFactory.createEtchedBorder());
-			// probPanel.setBorder(BorderFactory.createEtchedBorder());
-
-			// probPanel.setBorder(BorderFactory.createCompoundBorder(
-			// BorderFactory.createEmptyBorder(2, 2, 2, 2),
-			// BorderFactory.createEtchedBorder()));
-			// distPanel.setBorder(probPanel.getBorder());
-
+			
 			Box vBox = Box.createVerticalBox();
-			vBox.add(distPanel);
-			vBox.add(probPanel);
+			//vBox.add(distPanel);
+			//vBox.add(probPanel);
 
 			controlPanel = new JPanel(new BorderLayout());
-			controlPanel.add(vBox, BorderLayout.NORTH);
+			controlPanel.add(distPanel, BorderLayout.NORTH);
+			controlPanel.add(probPanel, BorderLayout.CENTER);
 			controlPanel.setBorder(BorderFactory.createEmptyBorder());
 
 			controlPanel.setMinimumSize(controlPanel.getPreferredSize());
@@ -471,58 +479,90 @@ public class ProbabilityCalculator extends JPanel implements View,
 		comboDistribution.addActionListener(this);
 		lblDist = new JLabel();
 
-		JPanel cbPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		// cbPanel.add(lblDist);
-		cbPanel.add(comboDistribution);
+		btnCumulative = new JToggleButton(
+				app.getImageIcon("cumulative_distribution.png"));
+	
+		btnIntervalLeft = new JToggleButton(
+				app.getImageIcon("interval-left.png"));
+		btnIntervalBetween = new JToggleButton(
+				app.getImageIcon("interval-between.png"));
+		btnIntervalRight = new JToggleButton(
+				app.getImageIcon("interval-right.png"));
 
-		// create parameter panel
-		JPanel parameterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		// parameterPanel.setAlignmentX(0.0f);
-		// parameterPanel.add(comboDistribution);
+		btnCumulative.addActionListener(this);
+		btnIntervalLeft.addActionListener(this);
+		btnIntervalBetween.addActionListener(this);
+		btnIntervalRight.addActionListener(this);
+		
+		btnCumulative.setFocusable(false);
+		btnIntervalLeft.setFocusable(false);
+		btnIntervalBetween.setFocusable(false);
+		btnIntervalRight.setFocusable(false);
+		
+		ButtonGroup gp = new ButtonGroup();
+		gp.add(btnIntervalLeft);
+		gp.add(btnIntervalBetween);
+		gp.add(btnIntervalRight);
+		
+		
+		// create export button
+		btnExport = new JToggleButton();
+		btnExport.setIcon(app.getImageIcon("export16.png"));
+		btnExport.setFocusable(false);
+		btnExport.addActionListener(this);
+				
+				
+		
+		JToolBar tb = new JToolBar();
+		tb.setFloatable(false);
+		tb.add(btnCumulative);
+		tb.addSeparator();
+		tb.add(btnIntervalLeft);
+		tb.add(btnIntervalBetween);
+		tb.add(btnIntervalRight);
+		tb.addSeparator();
+		//tb.add(btnExport);
+		// OptionsUtil.flowPanel(40,
+		// btnIntervalLeft,btnIntervalBetween,btnIntervalRight);
 
-		lblParameterArray = new JLabel[maxParameterCount];
-		fldParameterArray = new JTextField[maxParameterCount];
-		// sliderArray = new JSlider[maxParameterCount];
+		JPanel cbPanel = new JPanel(new BorderLayout());
 
-		for (int i = 0; i < maxParameterCount; ++i) {
-			lblParameterArray[i] = new JLabel();
-			fldParameterArray[i] = new MyTextField(app);
-			fldParameterArray[i].setColumns(6);
-			fldParameterArray[i].addActionListener(this);
-			fldParameterArray[i].addFocusListener(this);
-			// sliderArray[i] = new JSlider();
-			// sliderArray[i].setPreferredSize(fldParameterArray[i].getPreferredSize());
-			// sliderArray[i].addChangeListener(this);
+		cbPanel.add(comboDistribution, BorderLayout.WEST);
+		cbPanel.add(tb, BorderLayout.EAST);
+	
 
-			Box hBox = Box.createHorizontalBox();
-			hBox.add(Box.createRigidArea(new Dimension(3, 0)));
-			hBox.add(lblParameterArray[i]);
-			hBox.add(Box.createRigidArea(new Dimension(3, 0)));
-			JPanel labelPanel = new JPanel(new BorderLayout());
-			labelPanel.add(hBox, BorderLayout.NORTH);
-
-			JPanel fldSliderPanel = new JPanel(new BorderLayout());
-			fldSliderPanel.add(fldParameterArray[i], BorderLayout.NORTH);
-			// fldSliderPanel.add(sliderArray[i], BorderLayout.SOUTH);
-
-			JPanel fullParmPanel = new JPanel(new BorderLayout());
-			fullParmPanel.add(labelPanel, BorderLayout.WEST);
-			fullParmPanel.add(fldSliderPanel, BorderLayout.EAST);
-
-			parameterPanel.add(fullParmPanel);
-
-		}
-
-		// put the parameter panel in WEST of a new JPanel and return the result
+		
+		
 		JPanel distPanel = new JPanel(new BorderLayout());
-		distPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		distPanel.add(cbPanel);
-		distPanel.add(parameterPanel);
+		distPanel.add(cbPanel, BorderLayout.NORTH);
+		//distPanel.add(parameterPanel, BorderLayout.CENTER);
+
 
 		return distPanel;
 	}
 
 	private JPanel createProbabilityPanel() {
+		
+		
+		// create parameter panel
+		JPanel parameterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
+		
+		lblParameterArray = new JLabel[maxParameterCount];
+		fldParameterArray = new JTextField[maxParameterCount];
+
+		for (int i = 0; i < maxParameterCount; ++i) {
+			lblParameterArray[i] = new JLabel();
+			fldParameterArray[i] = new MyTextField(app);
+			fldParameterArray[i].setColumns(5);
+			fldParameterArray[i].addActionListener(this);
+			fldParameterArray[i].addFocusListener(this);
+			
+			parameterPanel.add(lblParameterArray[i]);
+			parameterPanel.add(fldParameterArray[i]);
+		}
+		
+		
+		
 
 		// create probability mode JComboBox and put it in a JPanel
 		comboProbType = new JComboBox();
@@ -538,7 +578,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		lblBetween = new JLabel(); // <= X <=
 		lblEndProbOf = new JLabel();
 		fldLow = new MyTextField(app);
-		fldLow.setColumns(6);
+		fldLow.setColumns(5);
 		fldLow.addActionListener(this);
 		fldLow.addFocusListener(this);
 
@@ -553,32 +593,20 @@ public class ProbabilityCalculator extends JPanel implements View,
 		fldResult.addFocusListener(this);
 
 		// create panel to hold the entry fields
-		JPanel fieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		//JPanel fieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		// fieldPanel.add(cbPanel);
-
-		Box hBox = Box.createHorizontalBox();
-		hBox.add(lblProbOf);
-		hBox.add(Box.createRigidArea(new Dimension(3, 0)));
-		hBox.add(fldLow);
-		hBox.add(Box.createRigidArea(new Dimension(3, 0)));
-		hBox.add(lblBetween);
-		hBox.add(Box.createRigidArea(new Dimension(3, 0)));
-		hBox.add(fldHigh);
-		hBox.add(Box.createRigidArea(new Dimension(3, 0)));
-		hBox.add(lblEndProbOf);
-		fieldPanel.add(hBox);
-		fieldPanel.add(fldResult);
-
-		// put all sub-panels together and return the result
-		// JPanel probPanel = new JPanel(new BorderLayout());
-		// probPanel.add(fieldPanel,BorderLayout.CENTER);
-		// probPanel.add(cbPanel,BorderLayout.WEST);
-
+		JPanel fieldPanel = new JPanel();
+		fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
+		
+		fieldPanel.add(OptionsUtil.flowPanel(4,10,20, parameterPanel));
+		
+		fieldPanel.add(OptionsUtil.flowPanel(4,10,20, lblProbOf,fldLow,lblBetween,fldHigh,lblEndProbOf, fldResult));
+		
+	
 		JPanel probPanel = new JPanel();
-		probPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		probPanel.add(cbPanel);
-		probPanel.add(fieldPanel);
+		probPanel.setLayout(new BorderLayout());
+		//probPanel.add(cbPanel);
+		probPanel.add(fieldPanel, BorderLayout.CENTER);
 
 		return probPanel;
 
@@ -1211,7 +1239,32 @@ public class ProbabilityCalculator extends JPanel implements View,
 			updateProbabilityType();
 		}
 
-		// btnClose.requestFocus();
+		else if (source == btnCumulative) {
+			setCumulative(btnCumulative.isSelected());
+			
+		} else if (source == btnIntervalLeft || source == btnIntervalBetween
+				|| source == btnIntervalRight) {
+			
+			btnIntervalLeft.removeActionListener(this);
+			btnIntervalBetween.removeActionListener(this);
+			btnIntervalRight.removeActionListener(this);
+
+			if(!isCumulative){
+				updateProbabilityType();
+			}
+			
+			btnIntervalLeft.addActionListener(this);
+			btnIntervalBetween.addActionListener(this);
+			btnIntervalRight.addActionListener(this);
+		}
+
+		else if (source == btnExport) {
+			JPopupMenu menu = plotPanel.getContextMenu();
+			menu.show(btnExport,
+					-menu.getPreferredSize().width + btnExport.getWidth(),
+					btnExport.getHeight());
+		}
+		
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -1365,7 +1418,21 @@ public class ProbabilityCalculator extends JPanel implements View,
 			comboDistribution
 					.setSelectedItem(distributionMap.get(selectedDist));
 		comboDistribution.addActionListener(this);
-
+		
+		
+		btnIntervalLeft.removeActionListener(this);
+		btnIntervalBetween.removeActionListener(this);
+		btnIntervalRight.removeActionListener(this);
+		
+		btnCumulative.setSelected(isCumulative);
+		btnIntervalLeft.setSelected(probMode == PROB_LEFT);
+		btnIntervalBetween.setSelected(probMode == PROB_INTERVAL);
+		btnIntervalRight.setSelected(probMode == PROB_RIGHT);
+		
+		btnIntervalLeft.addActionListener(this);
+		btnIntervalBetween.addActionListener(this);
+		btnIntervalRight.addActionListener(this);
+		
 	}
 
 	private void updateIntervalProbability() {
@@ -1383,10 +1450,17 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		boolean isDiscrete = probManager.isDiscrete(selectedDist);
 
-		if (isCumulative)
+		if (isCumulative) {
 			probMode = PROB_LEFT;
-		else
-			probMode = comboProbType.getSelectedIndex();
+		} else {
+			if (btnIntervalLeft.isSelected()) {
+				probMode = this.PROB_LEFT;
+			} else if (btnIntervalBetween.isSelected()) {
+				probMode = this.PROB_INTERVAL;
+			} else {
+				probMode = this.PROB_RIGHT;
+			}
+		}
 		this.getPlotDimensions();
 
 		if (probMode == PROB_INTERVAL) {
@@ -1597,10 +1671,12 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		distPanel.setBorder(BorderFactory.createTitledBorder(app
-				.getMenu("Distribution")));
-		probPanel.setBorder(BorderFactory.createTitledBorder(app
-				.getMenu("Probability")));
+		//distPanel.setBorder(BorderFactory.createTitledBorder(app
+			//	.getMenu("Distribution")));
+		//probPanel.setBorder(BorderFactory.createTitledBorder(app
+			//	.getMenu("Probability")));
+		
+		// probPanel.setBorder(BorderFactory.createEtchedBorder());
 		setLabelArrays();
 
 		lblDist.setText(app.getMenu("Distribution") + ": ");
