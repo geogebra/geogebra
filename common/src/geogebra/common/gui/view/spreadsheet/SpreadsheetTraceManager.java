@@ -55,7 +55,6 @@ public class SpreadsheetTraceManager {
 	// misc variables
 	private boolean doShiftCellsUp = true;
 	private double[] coords = new double[3];
-	private ArrayList<Double> currentTrace = new ArrayList<Double>();
 
 	public SpreadsheetTraceManager(App app) {
 
@@ -430,9 +429,8 @@ public class SpreadsheetTraceManager {
 
 		// get the current trace for this geo 
 		// TRACE ALSO IF EQUAL TO LAST TRACE
-		getCurrentTrace(geo);
-
-		t.lastTrace = (ArrayList<Double>) currentTrace.clone();
+		if (!t.doTraceGeoCopy) //t.lastTrace is used only when copy values
+			getCurrentTrace(geo, t.lastTrace);
 
 		// if only collecting traces, then record this geo for later tracing and
 		// exit.
@@ -534,7 +532,7 @@ public class SpreadsheetTraceManager {
 			int traceIndex = 0;
 			for (int column = t.traceColumn1; column <= t.traceColumn2; column++) {
 				updateTraceListCell(cons, geo, column, t.traceRow1,
-						t.lastTrace.get(traceIndex));
+						t.lastTrace,traceIndex);
 				++traceIndex;
 			}
 		}
@@ -713,7 +711,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	private void updateTraceListCell(Construction cons, GeoElement geo,
-			int column, int row, Object value) {
+			int column, int row, ArrayList<Double> values, int index) {
 
 		GeoElement cell = RelativeCopy.getValue(app, column, row);
 		if (cell == null || !cell.isGeoList())
@@ -726,7 +724,7 @@ public class SpreadsheetTraceManager {
 
 		} else {
 			// add the numeric value of the trace
-			((GeoList) cell).add(new GeoNumeric(cons, (Double) value));
+			((GeoList) cell).add(new GeoNumeric(cons, values.get(index)));
 		}
 
 		cell.updateCascade();
@@ -735,17 +733,17 @@ public class SpreadsheetTraceManager {
 	// End List Tracing
 	// ======================================
 
-	private void getCurrentTrace(GeoElement geo) {
+	private void getCurrentTrace(GeoElement geo, ArrayList<Double> trace) {
 
-		currentTrace.clear();
+		trace.clear();
 		Construction cons = app.getKernel().getConstruction();
 
 		if (geo.isGeoList()) {
 			for (int elem = 0; elem < ((GeoList) geo).size(); elem++) {
-				addElementTrace(((GeoList) geo).get(elem), cons, currentTrace);
+				addElementTrace(((GeoList) geo).get(elem), cons, trace);
 			}
 		} else {
-			addElementTrace(geo, cons, currentTrace);
+			addElementTrace(geo, cons, trace);
 		}
 	}
 

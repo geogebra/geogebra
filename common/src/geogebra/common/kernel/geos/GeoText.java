@@ -1068,7 +1068,7 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 	
 	
-	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
+	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
 	private ExpressionValue spreadsheetTraceableValue;
 	private ExpressionNode spreadsheetTraceableLeftTree;
 	
@@ -1105,11 +1105,20 @@ public class GeoText extends GeoElement implements Locateable,
 				((AlgoDependentText) algo).setSpreadsheetTraceableText();
 				if (spreadsheetTraceableLeftTree!=null){
 					spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
+					//if no traceable value, only copy possible
+					if (spreadsheetTraceableValue==null)
+						traceModes = TraceModesEnum.ONLY_COPY;
+					else
+						traceModes = TraceModesEnum.ONE_VALUE_OR_COPY;
+					App.debug("\n"+this+","+traceModes+","+spreadsheetTraceableValue);
 					return true;
 				}
 			}
-			spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
-			return false;
+			//spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
+			//return false;
+			spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
+			traceModes = TraceModesEnum.ONLY_COPY;
+			return true;
 		default:
 			return false;
 		}
@@ -1136,10 +1145,11 @@ public class GeoText extends GeoElement implements Locateable,
 
 	}
 	
+	private TraceModesEnum traceModes;
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		return TraceModesEnum.ONE_VALUE_OR_COPY;
+		return traceModes;
 	}
 	
 	/**

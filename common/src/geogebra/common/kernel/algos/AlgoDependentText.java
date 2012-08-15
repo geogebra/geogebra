@@ -191,6 +191,7 @@ public class AlgoDependentText extends AlgoElement {
 
 		
 		//  find first NumberValue in expression and replace
+		numToTraceSet = false;
 		ExpressionNode copy = getSpecialCopy(root);
 		
 		//AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
@@ -255,12 +256,12 @@ public class AlgoDependentText extends AlgoElement {
 
 		ExpressionValue ret = null;
 		// Application.debug("copy ExpressionValue input: " + ev);
-		if (numToTrace == null && ev.isNumberValue()) {
+		if (ev.isNumberValue()) {
 			//************
 			// replace first encountered NumberValue, eg x(A) with empty string
 			// and make note 
 			// ************
-			numToTrace = ev;
+			setNumToTrace(ev);
 			ret = new MyStringBuffer(kernel, " ... ");
 		} else if (ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
@@ -280,7 +281,7 @@ public class AlgoDependentText extends AlgoElement {
 			if (algo != null) {
 				GeoElement geo2 = algo.getInput()[0];
 				if (geo2.isNumberValue()) {
-					numToTrace = geo2;
+					setNumToTrace(geo2);
 					ret = new MyStringBuffer(kernel, " ... ");
 				} else {
 					ret = ev;
@@ -293,6 +294,16 @@ public class AlgoDependentText extends AlgoElement {
 		}
 		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
+	}
+	
+	private boolean numToTraceSet;
+	
+	private void setNumToTrace(ExpressionValue ev){
+		if (!numToTraceSet){
+			numToTrace = ev;
+			numToTraceSet = true;
+		}else
+			numToTrace = null;
 	}
 
 	@Override

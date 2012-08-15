@@ -25,6 +25,7 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -473,7 +474,7 @@ implements
 		
 	}
 	
-	StringBuilder sb = new StringBuilder();
+	private StringBuilder sb = new StringBuilder();
 	
 	private void setTraceModeLabels(){
 		
@@ -487,6 +488,7 @@ implements
 			sb.append(app.getPlain("ValueOfA",geo.getTraceDialogAsValues()));  
 			break;
 		case SEVERAL_VALUES:
+		case ONLY_COPY: //button disabled
 			sb.append(app.getPlain("ValuesOfA",geo.getTraceDialogAsValues()));  
 			break;
 			
@@ -505,8 +507,20 @@ implements
 		
 		if (traceModes == TraceModesEnum.ONE_VALUE_ONLY){
 			traceModeCopy.setEnabled(false);
-		}else
+			traceModeCopy.setForeground(Color.GRAY);
+			traceModeValues.setEnabled(true);
+			traceModeValues.setForeground(Color.BLACK);
+		}else{
 			traceModeCopy.setEnabled(true);
+			traceModeCopy.setForeground(Color.BLACK);
+			if (traceModes == TraceModesEnum.ONLY_COPY){
+				traceModeValues.setEnabled(false);
+				traceModeValues.setForeground(Color.GRAY);
+			}else{
+				traceModeValues.setEnabled(true);
+				traceModeValues.setForeground(Color.BLACK);
+			}
+		}
 		
 	}
 	

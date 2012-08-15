@@ -6154,9 +6154,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return spreadsheet trace settings
 	 */
 	public SpreadsheetTraceSettings getTraceSettings() {
-
+		
 		if (traceSettings == null) {
 			traceSettings = new SpreadsheetTraceSettings();
+			//if only copy is possible, set it immediately
+			if (getTraceModes()==TraceModesEnum.ONLY_COPY){
+				traceSettings.doTraceGeoCopy = true;
+			}
 		}
 
 		return traceSettings;
