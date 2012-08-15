@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.cas.AlgoSolveODECas;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -35,16 +36,22 @@ public class CmdSolveODE extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0] instanceof CasEvaluableFunction)) {
-				GeoElement[] ret = { kernelA.SolveODE(c.getLabel(),
-						(CasEvaluableFunction) arg[0]) };
+				
+				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
+						(CasEvaluableFunction) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app,c.getName(),arg[0]);
 		case 2:
 			if ((ok[0]=arg[0] instanceof CasEvaluableFunction)&&
 					(ok[1]=arg[1] instanceof GeoPointND)) {
-				GeoElement[] ret = { kernelA.SolveODE(c.getLabel(),
-						(CasEvaluableFunction) arg[0],(GeoPointND)arg[1]) };
+				
+				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
+						(CasEvaluableFunction) arg[0],(GeoPointND)arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app,c.getName(),getBadArg(ok,arg));

@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoLimit;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -32,8 +33,11 @@ public class CmdLimit extends CommandProcessor {
 		switch (n) {
 		case 2:
 			if ((ok = arg[0].isGeoFunction()) && (arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernelA.Limit(c.getLabel(),
-						(GeoFunction) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoLimit algo = new AlgoLimit(cons, c.getLabel(),
+						(GeoFunction) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);

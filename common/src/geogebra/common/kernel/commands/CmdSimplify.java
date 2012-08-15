@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.cas.AlgoSimplify;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -31,8 +32,11 @@ public class CmdSimplify extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0].isCasEvaluableObject())) {
-				GeoElement[] ret = { kernelA.Simplify(c.getLabel(),
-						(CasEvaluableFunction) arg[0]) };
+				
+				AlgoSimplify algo = new AlgoSimplify(cons, c.getLabel(),
+						(CasEvaluableFunction) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((arg[0].isGeoText())) {
 				GeoElement[] ret = { kernelA.Simplify(c.getLabel(),

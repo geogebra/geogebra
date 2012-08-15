@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoIntegral;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -43,7 +44,7 @@ public class CmdIntegral extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
+				GeoElement[] ret = { Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(), null) };
 				return ret;
 			} 
@@ -53,7 +54,7 @@ public class CmdIntegral extends CommandProcessor {
 			// Integral[ f(x,y), x]
 			arg = resArgsLocalNumVar(c, 1, 1);
 			if ((ok[0]=arg[0] instanceof CasEvaluableFunction) && (ok[1]=arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
+				GeoElement[] ret = { Integral(c.getLabel(),
 						(CasEvaluableFunction) arg[0], // function
 						(GeoNumeric) arg[1]) }; // var
 				return ret;
@@ -127,5 +128,15 @@ public class CmdIntegral extends CommandProcessor {
 		default:
 			throw argNumErr(app, internalCommandName, n);
 		}
+	}
+	
+
+	/**
+	 * Integral of function f
+	 */
+	final public GeoElement Integral(String label, CasEvaluableFunction f,
+			GeoNumeric var) {
+		AlgoIntegral algo = new AlgoIntegral(cons, label, f, var);
+		return algo.getResult();
 	}
 }

@@ -22,20 +22,12 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.cas.AlgoCasBase;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
-import geogebra.common.kernel.cas.AlgoIntegral;
-import geogebra.common.kernel.cas.AlgoLimit;
-import geogebra.common.kernel.cas.AlgoLimitAbove;
-import geogebra.common.kernel.cas.AlgoLimitBelow;
-import geogebra.common.kernel.cas.AlgoPartialFractions;
-import geogebra.common.kernel.cas.AlgoSimplify;
-import geogebra.common.kernel.cas.AlgoSolveODECas;
 import geogebra.common.kernel.cas.AlgoTangentCurve;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
-import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -8169,21 +8161,6 @@ public class Kernel {
 		return algo.getPolynomial();
 	}
 
-	final public GeoElement Simplify(String label, CasEvaluableFunction func) {
-		AlgoSimplify algo = new AlgoSimplify(cons, label, func);
-		return algo.getResult();
-	}
-
-	final public GeoElement SolveODE(String label, CasEvaluableFunction func) {
-		AlgoSolveODECas algo = new AlgoSolveODECas(cons, label, func);
-		return algo.getResult();
-	}
-	
-	final public GeoElement SolveODE(String label, CasEvaluableFunction func,GeoPointND pt) {
-		AlgoSolveODECas algo = new AlgoSolveODECas(cons, label, func,pt);
-		return algo.getResult();
-	}
-
 	/**
 	 * Simplify text, eg "+-x" to "-x"
 	 * 
@@ -8203,42 +8180,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Limit Michael Borcherds
-	 */
-	final public GeoNumeric Limit(String label, GeoFunction func,
-			NumberValue num) {
-		AlgoLimit algo = new AlgoLimit(cons, label, func, num);
-		return algo.getResult();
-	}
-
-	/**
-	 * LimitBelow Michael Borcherds
-	 */
-	final public GeoNumeric LimitBelow(String label, GeoFunction func,
-			NumberValue num) {
-		AlgoLimitBelow algo = new AlgoLimitBelow(cons, label, func, num);
-		return algo.getResult();
-	}
-
-	/**
-	 * LimitAbove Michael Borcherds
-	 */
-	final public GeoNumeric LimitAbove(String label, GeoFunction func,
-			NumberValue num) {
-		AlgoLimitAbove algo = new AlgoLimitAbove(cons, label, func, num);
-		return algo.getResult();
-	}
-
-	/**
-	 * Partial Fractions Michael Borcherds
-	 */
-	final public GeoElement PartialFractions(String label,
-			CasEvaluableFunction func) {
-		AlgoPartialFractions algo = new AlgoPartialFractions(cons, label, func);
-		return algo.getResult();
-	}
-
-	/**
 	 * Taylor series of function f about point x=a of order n
 	 */
 	final public GeoFunction TaylorSeries(String label, GeoFunction f,
@@ -8248,14 +8189,6 @@ public class Kernel {
 		return algo.getPolynomial();
 	}
 
-	/**
-	 * Integral of function f
-	 */
-	final public GeoElement Integral(String label, CasEvaluableFunction f,
-			GeoNumeric var) {
-		AlgoIntegral algo = new AlgoIntegral(cons, label, f, var);
-		return algo.getResult();
-	}
 
 	/**
 	 * Integral of function f
