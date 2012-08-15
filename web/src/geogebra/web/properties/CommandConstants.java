@@ -2566,25 +2566,25 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("ZMean2Estimate")
     String ZMean2Estimate();
 
-    @DefaultStringValue("[ <List of Sample Data 1>, <List of Sample Data 2>, < Sigma 1>, < Sigma 2>, <Level> ]\n[ <Sample Mean 1>, <Sigma 1>, <Sample Size 1>, <Sample Mean2>, <Sigma 2>, <Sample Size 2>, <Level> ]")
+    @DefaultStringValue("[ <List of Sample Data 1>, <List of Sample Data 2>, <σ1>, <σ2>, <Level> ]\n[ <Sample Mean 1>, <σ1>, <Sample Size 1>, <Sample Mean 2>, <σ2>, <Sample Size 2>, <Level> ]")
     String ZMean2Estimate_Syntax();
 
     @DefaultStringValue("ZMean2Test")
     String ZMean2Test();
 
-    @DefaultStringValue("[ <List of Sample Data 1>, <Sigma 1>,  <List of Sample Data 2>, <Sigma 2>, <Tail>]\n[ <Sample Mean 1>, <Sigma 1>, <Sample Size 1>, <Sample Mean 2>, <Sigma 2>, <Sample Size 2>, <Tail> ]")
+    @DefaultStringValue("[ <List of Sample Data 1>, <σ1>, <List of Sample Data 2>, <σ2>, <Tail> ]\n[ <Sample Mean 1>, <σ1>, <Sample Size 1>, <Sample Mean 2>, <σ2>, <Sample Size 2>, <Tail> ]")
     String ZMean2Test_Syntax();
 
     @DefaultStringValue("ZMeanEstimate")
     String ZMeanEstimate();
 
-    @DefaultStringValue("[ <List of Sample Data>, < Sigma >, <Level> ]\n[ <Sample Mean>, <Sigma>, <Sample Size>, <Level> ]")
+    @DefaultStringValue("[ <List of Sample Data>, <σ>, <Level> ]\n[ <Sample Mean>, <σ>, <Sample Size>, <Level> ]")
     String ZMeanEstimate_Syntax();
 
     @DefaultStringValue("ZMeanTest")
     String ZMeanTest();
 
-    @DefaultStringValue("[ <List of Sample Data>, <Sigma>, <Hypothesized Mean>, <Tail> ]\n[ <Sample Mean>, <Sigma>, <Sample Size>, <Hypothesized Mean>, <Tail> ]")
+    @DefaultStringValue("[ <List of Sample Data>, <σ>, <Hypothesized Mean>, <Tail> ]\n[ <Sample Mean>, <σ>, <Sample Size>, <Hypothesized Mean>, <Tail> ]")
     String ZMeanTest_Syntax();
 
     @DefaultStringValue("ZProportion2Estimate")
@@ -2596,13 +2596,13 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("ZProportion2Test")
     String ZProportion2Test();
 
-    @DefaultStringValue("[ <Sample Proportion 1 >, <Sample Size 1>, <Sample\nProportion 2 >, <Sample Size 2>,<Hypothesized Proportion>, <Tail> ]")
+    @DefaultStringValue("[ <Sample Proportion 1 >, <Sample Size 1>, <Sample Proportion 2 >, <Sample Size 2>, <Tail> ]")
     String ZProportion2Test_Syntax();
 
     @DefaultStringValue("ZProportionEstimate")
     String ZProportionEstimate();
 
-    @DefaultStringValue("[ <Sample Proportion >,  <Sample Size >, <Level> ]")
+    @DefaultStringValue("[ <Sample Proportion>, <Sample Size>, <Level> ]")
     String ZProportionEstimate_Syntax();
 
     @DefaultStringValue("ZProportionTest")
