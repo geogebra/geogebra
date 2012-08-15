@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoTurtle;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;
@@ -31,7 +32,9 @@ public class CmdTurtle extends CommandProcessor {
 		if (n > 0) {
 			throw argNumErr(app, c.getName(), n);
 		}
-		GeoTurtle turtle = kernelA.Turtle(c.getLabel());
+		AlgoTurtle algo = new AlgoTurtle(cons, c.getLabel());
+		GeoTurtle turtle = algo.getTurtle();
+
 		turtle.setAnimating(true);
 		GeoElement[] ret = { turtle };
 		return ret;
