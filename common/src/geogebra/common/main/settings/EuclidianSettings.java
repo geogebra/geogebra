@@ -5,6 +5,7 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 
@@ -66,7 +67,12 @@ public class EuclidianSettings extends AbstractSettings {
 		gridDistances = null;
 		axisNumberingDistanceX = Double.NaN;
 		axisNumberingDistanceY = Double.NaN;
-
+		
+		xminObject = null;
+		xmaxObject = null;
+		yminObject = null;
+		ymaxObject = null;
+		
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(GColor.black); // Michael Borcherds 2008-01-26 was darkgray
@@ -493,7 +499,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setXminObject(NumberValue xminObjectNew, boolean callsc) {
 		this.xminObject = xminObjectNew;
-		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -514,7 +519,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setXmaxObject(NumberValue xmaxObjectNew, boolean callsc) {
 		this.xmaxObject = xmaxObjectNew;
-		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -535,7 +539,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setYminObject(NumberValue yminObjectNew, boolean callsc) {
 		this.yminObject = yminObjectNew;
-		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -556,7 +559,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setYmaxObject(NumberValue ymaxObjectNew, boolean callsc) {
 		this.ymaxObject = ymaxObjectNew;
-		dynamicBounds = true;
 		if (callsc) {
 			settingChanged();
 		}
@@ -591,9 +593,9 @@ public class EuclidianSettings extends AbstractSettings {
 	public double getYscale() {
 		return yscale;
 	}
-	private boolean dynamicBounds;
+
 	public boolean hasDynamicBounds(){
-		return dynamicBounds;
+		return xminObject!=null && yminObject!=null && xmaxObject!=null && ymaxObject!=null;
 	}
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
@@ -612,7 +614,6 @@ public class EuclidianSettings extends AbstractSettings {
 		this.yZero = yZero;
 		this.xscale = xscale;
 		this.yscale = yscale;
-		dynamicBounds = false;
 		settingChanged();
 
 	}
@@ -751,5 +752,5 @@ public class EuclidianSettings extends AbstractSettings {
 	public Double getLockedAxesRatio(){
 		return lockedAxesRatio;
 	}
-	// TODO add more settings here
+
 }
