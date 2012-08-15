@@ -974,7 +974,7 @@ public class Construction {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		GeoElement dummyGeo = xAxis;
 		kernel.startCollectingNotifyUpdate(dummyGeo);
-		
+		updateConstructionRunning = true;
 		try {			
 			// G.Sturr 2010-5-28: turned this off so that random numbers can be
 			// traced
@@ -1032,6 +1032,7 @@ public class Construction {
 		}
 		finally {
 			kernel.stopCollectingNotifyUpdate(dummyGeo);
+			updateConstructionRunning = false;
 		}
 	}
 
@@ -2767,6 +2768,7 @@ public class Construction {
 		return null;
 	}
 	private boolean fileLoading;
+	private boolean updateConstructionRunning;
 	
 	/**
 	 * Let construction know about file being loaded.
@@ -2785,6 +2787,10 @@ public class Construction {
 		return fileLoading;
 	}
 	// update all indices >= pos
+
+	public boolean isUpdateConstructionRunning() {
+		return updateConstructionRunning;
+	}
 
 	/**
 	 * TODO place this JavaDoc to the correct spot Build a set with all

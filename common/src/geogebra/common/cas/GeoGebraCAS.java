@@ -536,6 +536,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public final String toAssignment(final GeoElement ge,
 			final StringTemplate tpl) {
 		String body = ge.getCASString(tpl, false);
+		App.debug(body);
 		String casLabel = ge.getLabel(tpl);
 		if (ge instanceof FunctionalNVar) {
 			String params = ((FunctionalNVar) ge).getFunction().getVarString(

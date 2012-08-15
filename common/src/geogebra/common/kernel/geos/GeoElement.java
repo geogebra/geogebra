@@ -798,7 +798,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Sets this object to zero (number = 0, points = (0,0), etc.)
 	 */
 	public void setZero() {
-		// TODO ?
+		// overriden where needed
 	}
 
 	/**
@@ -3372,7 +3372,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 		}
 
-		if (correspondingCasCell != null) {
+		if (!cons.isUpdateConstructionRunning() && correspondingCasCell != null) {
 			correspondingCasCell.setInputFromTwinGeo();
 		}
 
@@ -6666,20 +6666,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		viewFlags.addAll(flags);
 		// Collections.copy(list, viewFlags);
 	}
-
-	// public boolean isVisibleInView(int view){
-	// // if no views are set, add geo to both by default
-	// if(viewSet.isEmpty()){
-	// EuclidianViewInterface ev = app.getActiveEuclidianView();
-	// viewSet.add(ev.getViewID());
-	// // if ev isn't Graphics or Graphics 2, then also add 1st 2D euclidian
-	// view
-	// if (!(ev.isDefault2D()))
-	// viewSet.add(Application.VIEW_EUCLIDIAN);
-	//
-	// }
-	// return viewSet.contains(view);
-	// }
 
 	/**
 	 * @return set of views in which this is visible
