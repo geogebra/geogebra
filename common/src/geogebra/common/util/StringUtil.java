@@ -806,4 +806,24 @@ public class StringUtil {
 		-64,-1,2147483647,486341884,0,
 	};
 
+	/**
+	 * @param str String
+	 * @return true if str matches one of "!=", "<>", Unicode.NOTEQUAL
+	 */
+	public static boolean isNotEqual(String str) {
+		return "!=".equals(str) ||
+				"<>".equals(str) ||
+				Unicode.NOTEQUAL.equals(str);
+	}
+
+	/**
+	 * @param str String
+	 * @return true if str matches one of "<", ">", "!=", "<>", Unicode.NOTEQUAL
+	 */
+	public static boolean isInequality(String str) {
+		return "<".equals(str) ||
+				">".equals(str) ||
+				isNotEqual(str);
+	}
+
 }

@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import org.apache.commons.math.MathException;
@@ -80,8 +81,7 @@ public class AlgoTTestPaired extends AlgoElement {
 	private double adjustedPValue(double p, double testStatistic){
 
 		// two sided test
-		if(tail.getTextString().equals("!=") 
-				|| tail.getTextString().equals(Unicode.NOTEQUAL)) 
+		if (StringUtil.isNotEqual(tail.getTextString())) 
 			return p;
 
 		// one sided test
@@ -97,10 +97,7 @@ public class AlgoTTestPaired extends AlgoElement {
 	public final void compute() {
 
 
-		if(!(tail.getTextString().equals("<") 
-				|| tail.getTextString().equals(">") 
-				|| tail.getTextString().equals("!=")
-				|| tail.getTextString().equals(Unicode.NOTEQUAL))){
+		if (!(StringUtil.isInequality(tail.getTextString()))) {
 			result.setUndefined();
 			return;
 		}

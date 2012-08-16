@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
@@ -94,7 +95,7 @@ public class AlgoZProportionTest extends AlgoElement {
 			testType = "left";
 		} else if (tail.getTextString().equals(">")) {
 			testType = "right";
-		} else if (tail.getTextString().equals("!=") || tail.getTextString().equals(Unicode.NOTEQUAL)) {
+		} else if (StringUtil.isNotEqual(tail.getTextString())) {
 			testType = "two";
 		} else {
 			result.setUndefined();

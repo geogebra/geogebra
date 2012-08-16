@@ -32,29 +32,52 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  * 
  * @author G. Sturr
  */
-public class AlgoZProportion2Test extends AlgoElement {
+public class AlgoZMeanTest extends AlgoElement {
 
 
-	private GeoNumeric proportion, n, proportion2, n_2; //input
+	private GeoNumeric hypMean, mean, sd, n; //input
+	private GeoList list; // input
 	private GeoText tail; //input
 	private GeoList  result;     // output   
-	
+
 	/**
 	 * @param cons
 	 * @param label
-	 * @param proportion
+	 * @param mean
+	 * @param sd 
 	 * @param n
-	 * @param proportion2 
-	 * @param n_2 
+	 * @param hypMean
 	 * @param tail
 	 */
-	public AlgoZProportion2Test(Construction cons, String label, GeoNumeric proportion, GeoNumeric n,GeoNumeric proportion2, GeoNumeric n_2, GeoText tail) {
+	public AlgoZMeanTest(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
+		this.hypMean = hypMean;
 		this.tail = tail;
-		this.proportion = proportion;
+		this.mean = mean;
+		this.sd = sd;
 		this.n = n;
-		this.proportion2 = proportion2;
-		this.n_2 = n_2;
+		result = new GeoList(cons); 
+		setInputOutput(); // for AlgoElement
+
+		compute();      
+		result.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 * @param label
+	 * @param mean
+	 * @param sd 
+	 * @param n
+	 * @param hypMean
+	 * @param tail
+	 */
+	public AlgoZMeanTest(Construction cons, String label, GeoList list, GeoNumeric sd, GeoNumeric hypMean, GeoText tail) {
+		super(cons);
+		this.hypMean = hypMean;
+		this.tail = tail;
+		this.list = list;
+		this.sd = sd;
 		result = new GeoList(cons); 
 		setInputOutput(); // for AlgoElement
 
@@ -65,18 +88,27 @@ public class AlgoZProportion2Test extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoZProportionTest;
+		return Algos.AlgoZMeanTest;
 	}
 
 	@Override
 	protected void setInputOutput(){
 
-		input = new GeoElement[5];
-		input[0] = proportion;
-		input[1] = n;
-		input[2] = proportion2;
-		input[3] = n_2;
-		input[4] = tail;			
+		if (list == null) {
+			input = new GeoElement[5];
+			input[0] = mean;
+			input[1] = sd;
+			input[2] = n;
+			input[3] = hypMean;
+			input[4] = tail;	
+		} else {
+			input = new GeoElement[4];
+			input[0] = list;
+			input[1] = sd;
+			input[2] = hypMean;
+			input[3] = tail;	
+
+		}
 
 
 		setOnlyOutput(result);
@@ -105,16 +137,22 @@ public class AlgoZProportion2Test extends AlgoElement {
 			return;			
 		}
 
-		double n1 = n.getDouble();		
-		double phat1 = proportion.getDouble();
-		double n2 = n_2.getDouble();		
-		double phat2 = proportion2.getDouble();
+		double mean1;
+		double n1;	
 
-		double x1 = phat1 * n1;
-		double x2 = phat2 * n2;
-		double phatTotal = (x1 + x2) / (n1 + n2);
-		double se = Math.sqrt(phatTotal * (1 - phatTotal) * (1 / n1 + 1 / n2));
-		double testStatistic = (phat1 - phat2) / se;
+		if (list == null) {
+			mean1 = mean.getDouble();
+			n1 = n.getDouble();	
+		} else {
+			mean1 = list.mean();
+			n1 = list.size();
+		}
+		
+		double hyp = hypMean.getDouble();
+		double sd1 = sd.getDouble();
+
+		double se = sd1 / Math.sqrt(n1);
+		double testStatistic = (mean1 - hyp) / se;
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
 		double P=0;
@@ -124,7 +162,6 @@ public class AlgoZProportion2Test extends AlgoElement {
 			result.setUndefined();
 			return;
 		}
-
 
 		if ("right".equals(testType)) {
 			P = 1 - P;
