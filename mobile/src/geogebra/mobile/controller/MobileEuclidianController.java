@@ -24,7 +24,7 @@ public class MobileEuclidianController extends EuclidianController implements To
 
 	private GuiModel guiModel;
 	ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
-	private ToolBarCommand lastCmd; 
+	private ToolBarCommand lastCmd;
 
 	@Override
 	public void setApplication(App app)
@@ -66,48 +66,50 @@ public class MobileEuclidianController extends EuclidianController implements To
 	@Override
 	public void onClick(ClickEvent event)
 	{
-		this.guiModel.closeOptions(); 
-		
+		this.guiModel.closeOptions();
+
 		ToolBarCommand cmd = this.guiModel.getCommand();
-		if(this.lastCmd != cmd){
-			this.oldPoints = new ArrayList<GeoPointND>(); 
-			this.lastCmd = cmd; 
+		if (this.lastCmd != cmd)
+		{
+			this.oldPoints = new ArrayList<GeoPointND>();
+			this.lastCmd = cmd;
 		}
-			
+
+		boolean draw = true;
+
 		switch (cmd)
 		{
+
+		// commands that need one point
+
 		case NewPoint:
-		{
 			createNewPoint(false, false);
 			break;
-		}
+
+		// commands that need two points
+
 		case LineThroughTwoPoints:
-		{
-			if (this.oldPoints.size() == 1)
-			{
-				GeoPointND point = createNewPoint(false, false);
-				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) point);
-				this.oldPoints = new ArrayList<GeoPointND>(); 
-			}
-			else{
-			this.oldPoints.add(createNewPoint(false, false));
-			}
-			break;
-		}
-		case SegmentBetweenTwoPoints: 
-			if (this.oldPoints.size() == 1)
-			{
-				GeoPointND point = createNewPoint(false, false);
-				this.kernel.Segment(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) point);
-				this.oldPoints = new ArrayList<GeoPointND>(); 
-			}
-			else{
-			this.oldPoints.add(createNewPoint(false, false));
-			}
+		case SegmentBetweenTwoPoints:
+			recordPoint();
+			draw = this.oldPoints.size() == 2;
 			break;
 		default:
-		{
 		}
+
+		if (draw)
+		{
+			switch (cmd)
+			{
+			case LineThroughTwoPoints:
+				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) this.oldPoints.get(1));
+				break;
+			case SegmentBetweenTwoPoints:
+				this.kernel.Segment(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) this.oldPoints.get(1));
+				break;
+			default:
+			}//switch
+			
+			this.oldPoints = new ArrayList<GeoPointND>(); 
 		}
 
 		// TODO
@@ -127,5 +129,10 @@ public class MobileEuclidianController extends EuclidianController implements To
 	public void setGuiModel(GuiModel model)
 	{
 		this.guiModel = model;
+	}
+
+	protected void recordPoint()
+	{
+		this.oldPoints.add(createNewPoint(false, false));
 	}
 }

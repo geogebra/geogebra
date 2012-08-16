@@ -40,7 +40,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 			@Override
 			public void onTap(TapEvent event)
 			{
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd())
+				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd() && ToolBarButton.this.model.optionsShown())
 				{
 					ToolBarButton.this.model.closeOptions();
 				}
@@ -66,6 +66,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 		this.model.setOptions(options);
 		RootPanel.get().add(options);
 		options.show(); 
+		this.model.setOptionsShown(true); 
 		
 		this.model.setActive(this);
 	}

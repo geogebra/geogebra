@@ -12,6 +12,8 @@ public class GuiModel
 	private ToolBarButton activeButton; 
 	private OptionsBarBackground optionsBackground;
 
+	private boolean optionsShown = false; 
+	
 	public ToolBarCommand getCommand()
 	{
 		return this.activeButton == null ? null : this.activeButton.getCmd(); 
@@ -27,9 +29,10 @@ public class GuiModel
 		if (this.optionsBackground != null)
 		{
 			RootPanel.get().remove(this.optionsBackground);
+			this.optionsShown = false; 
 		} 
   }
-
+	
 	public void setActive(ToolBarButton toolBarButton)
   {
 		if(this.activeButton != null){
@@ -43,4 +46,12 @@ public class GuiModel
   {
 		this.optionsBackground = options;
   }
+	
+	public void setOptionsShown(boolean open){
+		this.optionsShown = open; 
+	}
+	
+	public boolean optionsShown(){
+		return this.optionsShown; 
+	}
 }
