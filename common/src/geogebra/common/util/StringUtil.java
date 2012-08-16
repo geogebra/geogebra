@@ -860,17 +860,21 @@ public class StringUtil {
 				case '[':
 					square++;
 					lastSquare=i;
+					break;
 				case ']':	
 					square--;
 					if(square<0)
 						return i;
+					break;
 				case '(':
 					round++;
 					lastRound=i;
+					break;
 				case ')':	
 					round--;
 					if(round<0)
-						return i;	
+						return i;
+					break;	
 			}
 		}
 		if(curly>0)
