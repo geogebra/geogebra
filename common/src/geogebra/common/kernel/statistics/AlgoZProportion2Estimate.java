@@ -100,7 +100,7 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 		double critZ = 0;
 
 		try {
-			critZ = normalDist.inverseCumulativeProbability(1 - cLevel);
+			critZ = normalDist.inverseCumulativeProbability((1 - cLevel) / 2);
 		} catch (Exception e) {
 			result.setUndefined();
 			return;
@@ -108,7 +108,7 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 
 		double stat = phat1 - phat2;
 		double se = Math.sqrt(phat1 * (1 - phat1) / n1 + phat2 * (1 - phat2) / n2);
-		double z = Math.abs(critZ / 2);
+		double z = Math.abs(critZ);
 		double me = z * se;
 
 		// put these results into the output list

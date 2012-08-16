@@ -29,22 +29,30 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  * 
  * @author G. Sturr
  */
-public class AlgoZProportionEstimate extends AlgoElement {
+public class AlgoZMean2Estimate extends AlgoElement {
 
 
-	private GeoNumeric proportion, n, level; //input
+	private GeoNumeric  mean, sd, n, mean_2, sd_2, n_2, level; //input
 	private GeoList  result;     // output   
 	/**
 	 * @param cons
 	 * @param label
-	 * @param proportion
+	 * @param mean 
+	 * @param sd 
 	 * @param n
+	 * @param mean_2 
+	 * @param sd_2 
+	 * @param n_2 
 	 * @param level 
 	 */
-	public AlgoZProportionEstimate(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
+	public AlgoZMean2Estimate(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoNumeric level) {
 		super(cons);
-		this.proportion = proportion;
+		this.mean = mean;
+		this.sd = sd;
 		this.n = n;
+		this.mean_2 = mean_2;
+		this.sd_2 = sd_2;
+		this.n_2 = n_2;
 		this.level = level;
 		result = new GeoList(cons); 
 		setInputOutput(); // for AlgoElement
@@ -56,16 +64,20 @@ public class AlgoZProportionEstimate extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoZProportionEstimate;
+		return Algos.AlgoZMean2Estimate;
 	}
 
 	@Override
 	protected void setInputOutput(){
 
-		input = new GeoElement[3];
-		input[0] = proportion;
-		input[1] = n;
-		input[2] = level;
+		input = new GeoElement[7];
+		input[0] = mean;
+		input[1] = sd;
+		input[2] = n;
+		input[3] = mean_2;
+		input[4] = sd_2;
+		input[5] = n_2;
+		input[6] = level;
 
 
 		setOnlyOutput(result);
@@ -84,7 +96,11 @@ public class AlgoZProportionEstimate extends AlgoElement {
 
 
 		double n1 = n.getDouble();		
-		double phat = proportion.getDouble();
+		double n2 = n_2.getDouble();		
+		double sd1 = sd.getDouble();		
+		double sd2 = sd_2.getDouble();		
+		double mean1 = mean.getDouble();
+		double mean2 = mean_2.getDouble();
 		double cLevel = level.getDouble();
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
@@ -98,14 +114,15 @@ public class AlgoZProportionEstimate extends AlgoElement {
 			return;
 		}
 
-		double se = Math.sqrt(phat * (1 - phat) / n1);
+		double stat = mean1 - mean2;
+		double se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
 		double z = Math.abs(critZ);
 		double me = z * se;
 
 		// put these results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, phat - me));
-		result.add(new GeoNumeric(cons, phat + me));
+		result.add(new GeoNumeric(cons, stat - me));
+		result.add(new GeoNumeric(cons, stat + me));
 
 	}
 
