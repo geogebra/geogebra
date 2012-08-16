@@ -494,7 +494,7 @@ public class AlgebraProcessor {
 		ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);			
-		} catch (Exception e) {// TODO: put back ParseException
+		} catch (Exception e) {
 
 			e.printStackTrace();
 			if (allowErrorDialog) {
@@ -509,7 +509,7 @@ public class AlgebraProcessor {
 				app.showError(e.getLocalizedMessage());
 				return null;
 			}
-			throw new Exception(e.getLocalizedMessage());
+			throw new MyException(e,MyException.IMBALANCED_BRACKETS);
 		} catch (Error e) {
 			e.printStackTrace();
 			if (allowErrorDialog) {

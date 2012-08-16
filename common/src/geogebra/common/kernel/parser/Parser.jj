@@ -59,10 +59,10 @@ import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.MyError;
 import geogebra.common.main.MyParseError;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.parser.cashandlers.CommandDispatcherMPReduce;
-import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
@@ -87,7 +87,10 @@ public class Parser implements ParserInterface{
     }   
     
     // reset for new parsing
-    public void myReInit(String parseString) {
+    public void myReInit(String parseString) throws ParseException {
+        if(StringUtil.checkBrackets(parseString)>=0){
+          throw new MyParseError(app,new String[]          {            app.getError("ImbalancedBrackets"),parseString          }          );
+        }
     	ReInit(new java.io.StringReader(parseString));    	
     	GeoGebraCASParsing = false;
     	ExternalCASParsing = false;

@@ -826,4 +826,59 @@ public class StringUtil {
 				isNotEqual(str);
 	}
 
+	public static int checkBrackets(String parseString) {
+		int curly = 0;
+		int square = 0; 
+		int round = 0;
+		int lastCurly = -1;
+		int lastSquare = -1; 
+		int lastRound = -1;
+		boolean comment = false;
+		boolean index = false;
+		boolean underscore = false;
+		for(int i=0;i<parseString.length();i++){
+			char ch = parseString.charAt(i);
+			if(comment && ch!='"')
+				continue;
+			if(index && ch!='}')
+				continue;
+			switch(ch){
+				case '_': 
+					underscore = true; 
+					break;
+				case '{': 
+					if(underscore) index = true; 
+					lastCurly = i; 
+					curly++;
+					break;
+				case '}': 
+					if(index) index = false; 
+					curly--;
+					if(curly<0)
+						return i;
+					break;
+				case '[':
+					square++;
+					lastSquare=i;
+				case ']':	
+					square--;
+					if(square<0)
+						return i;
+				case '(':
+					round++;
+					lastRound=i;
+				case ')':	
+					round--;
+					if(round<0)
+						return i;	
+			}
+		}
+		if(curly>0)
+			return lastCurly;
+		if(square>0)
+			return lastSquare;
+		if(round>0)
+			return lastRound;
+		return -1;
+	}
 }
