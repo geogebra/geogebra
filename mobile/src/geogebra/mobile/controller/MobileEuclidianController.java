@@ -1,7 +1,6 @@
 package geogebra.mobile.controller;
 
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -67,13 +66,13 @@ public class MobileEuclidianController extends EuclidianController implements To
 		this.kernel.clearConstruction(); 
 		
 		this.xRW = 7.0; 
-		this.yRW = 3.0; 
+		this.yRW = 2.0; 
 		this.createNewPoint(false, false); 
 		
-//		GeoPoint P = this.kernel.Point(null, 7.0, 3.0);
-//		GeoPoint Q = this.kernel.Point(null, 5.0, 1.0);
-//		this.kernel.Point("R", 10.0, -2.0);
-//		this.kernel.Line("g", P, Q);
+		GeoPoint P = this.kernel.Point(null, 8.5, 4.5);
+		GeoPoint Q = this.kernel.Point(null, 5.0, 1.0);
+		this.kernel.Point("R", 10.0, -2.0);
+		this.kernel.Line("g", P, Q);
 	}
 
 }
