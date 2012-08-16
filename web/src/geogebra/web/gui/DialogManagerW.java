@@ -1,13 +1,13 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -23,6 +23,7 @@ import geogebra.web.gui.dialog.ButtonDialog;
 import geogebra.web.gui.dialog.InputDialogAngleFixed;
 import geogebra.web.gui.dialog.InputDialogRotate;
 import geogebra.web.gui.dialog.SliderDialog;
+import geogebra.web.gui.dialog.TextInputDialogW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
@@ -35,6 +36,12 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerW extends DialogManager {
+
+	/**
+	 * Dialog for styling text objects.
+	 */
+	private TextInputDialogW textInputDialog;
+
 
 	public DialogManagerW(App app) {
 	    super(app);
@@ -125,43 +132,61 @@ public class DialogManagerW extends DialogManager {
     }
 
 	@Override
-	protected void showTextDialog(GeoText geo, GeoPointND startPoint) {
+	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
+	
+		app.setWaitCursor();
+
+//		if (textInputDialog == null) {
+			textInputDialog = createTextDialog(text, startPoint);
+//		} else {
+//			textInputDialog.reInitEditor(text, startPoint);
+//		}
+
+		textInputDialog.setVisible(true);
+		app.setDefaultCursor();
 		
-		String inputValue = prompt("Enter text", "");
+//		String inputValue = prompt("Enter text", "");
+//
+//		if ((inputValue != null) ? !"".equals(inputValue) : false) {
+//			
+//			if (inputValue.indexOf('\"') == -1) {
+//				inputValue = "\"" + inputValue + "\"";
+//			}
+//
+//			GeoElement[] ret = app.getKernel().getAlgebraProcessor()
+//					.processAlgebraCommand(inputValue, false);
+//			if (ret != null && ret[0].isTextValue()) {
+//				GeoText t = (GeoText) ret[0];
+//
+//				if (startPoint.isLabelSet()) {
+//					try {
+//						t.setStartPoint(startPoint);
+//					} catch (Exception e) {
+//					}
+//				} else {
+//
+//					Coords coords = startPoint.getInhomCoordsInD(3);
+//					t.setRealWorldLoc(coords.getX(), coords.getY());
+//					t.setAbsoluteScreenLocActive(false);
+//				}
+//
+//				// make sure (only) the output of the text tool is selected
+//				app.getActiveEuclidianView()
+//						.getEuclidianController()
+//						.memorizeJustCreatedGeos(ret);
+//
+//				t.updateRepaint();
+//				app.storeUndoInfo();
+//			}
+//		}
 
-		if ((inputValue != null) ? !"".equals(inputValue) : false) {
-			
-			if (inputValue.indexOf('\"') == -1) {
-				inputValue = "\"" + inputValue + "\"";
-			}
-
-			GeoElement[] ret = app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommand(inputValue, false);
-			if (ret != null && ret[0].isTextValue()) {
-				GeoText t = (GeoText) ret[0];
-
-				if (startPoint.isLabelSet()) {
-					try {
-						t.setStartPoint(startPoint);
-					} catch (Exception e) {
-					}
-				} else {
-
-					Coords coords = startPoint.getInhomCoordsInD(3);
-					t.setRealWorldLoc(coords.getX(), coords.getY());
-					t.setAbsoluteScreenLocActive(false);
-				}
-
-				// make sure (only) the output of the text tool is selected
-				app.getActiveEuclidianView()
-						.getEuclidianController()
-						.memorizeJustCreatedGeos(ret);
-
-				t.updateRepaint();
-				app.storeUndoInfo();
-			}
-		}
-
+	}
+	
+	public TextInputDialogW createTextDialog(GeoText text, GeoPointND startPoint) {
+		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
+		TextInputDialogW id = new TextInputDialogW(((AppW) app),
+				app.getPlain("Text"), text, startPoint, 30, 6, isTextMode);
+		return id;
 	}
 
 	@Override

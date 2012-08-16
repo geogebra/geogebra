@@ -4,7 +4,9 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.main.App;
+import geogebra.web.cas.mpreduce.CASmpreduceW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
@@ -138,6 +140,9 @@ public class GeoGebraAppFrame extends Composite {
 		//Debugging purposes
 		AppW.displaySupportedLocales();
 		AppW.displayLocaleCookie();
+		
+		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
+	    CASmpreduceW.getStaticInterpreter(casMPReduce);
     }
 	
 	/**

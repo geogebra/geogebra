@@ -158,6 +158,8 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	    	tempArrayList.clear();
 	    	tempArrayList.add(geo);
 	    	app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, tempArrayList);
+	    } else if (source == btCancel) {
+	    	wrappedPopup.hide();
 	    }
     }
 	

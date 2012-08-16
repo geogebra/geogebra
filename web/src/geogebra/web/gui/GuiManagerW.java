@@ -64,7 +64,6 @@ public class GuiManagerW extends GuiManager {
 	public GuiManagerW(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
-		
 		//AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
