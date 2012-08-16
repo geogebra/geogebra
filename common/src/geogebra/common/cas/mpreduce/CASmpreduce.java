@@ -108,7 +108,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		exp = sb.toString();
 
-		App.debug("eval with MPReduce: " + exp);
+		App.printStacktrace("eval with MPReduce: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -866,8 +866,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1
 				.evaluate("procedure pointlist(lista);"
-						+ "for each a in lista collect if(arglength(part(a,1))>-1 and part(part(a,1),0)='equal) then "
-						+ "<<begin tmp!!:=map(rhs,a); return listtomyvect(tmp!!); end>> else listtomyvect(a);");
+						+ "if arglength(part(lista,1))>-1 and part(part(lista,1),0)='list then " +
+						"<<for each a in lista collect if(arglength(part(a,1))>-1 and part(part(a,1),0)='equal) then "
+						+ "<<begin tmp!!:=map(rhs,a); return listtomyvect(tmp!!); end>> else listtomyvect(a); >> else rootlist(lista);");
 		mpreduce1
 				.evaluate("procedure rootlist(lista);"
 						+ "for each a in lista collect if (arglength(a)>-1 and part(a,0)='equal) then "
