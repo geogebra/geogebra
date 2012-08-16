@@ -21,14 +21,9 @@ public class OptionButton extends ToolButton
 			@Override
 			public void onTap(TapEvent event)
 			{
-				getClicked();
+				OptionButton.this.ancestor.optionClicked(OptionButton.this.getCmd());
 			}
 		});
-	}
-
-	void getClicked()
-	{
-		this.ancestor.optionClicked(super.getCmd());
 	}
 
 }

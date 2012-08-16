@@ -40,8 +40,14 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 			@Override
 			public void onTap(TapEvent event)
 			{
-				showOptions();
-				getActive(); 
+				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd())
+				{
+					ToolBarButton.this.model.closeOptions();
+				}
+				else
+				{
+					showOptions();
+				}
 			}
 		});
 	}
@@ -49,20 +55,19 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	@Override
 	public void optionClicked(ToolBarCommand cmd)
 	{
-		super.setCmd(cmd); 
-		this.model.buttonClicked(this); 
+		super.setCmd(cmd);
+		this.model.buttonClicked(this);
 	}
-	
-	public void showOptions()
+
+	protected void showOptions()
 	{
 		this.model.closeOptions();
 		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
 		this.model.setOptions(options);
 		RootPanel.get().add(options);
+		options.show(); 
+		
+		this.model.setActive(this);
 	}
 
-	public void getActive(){
-		this.model.setActive(this); 
-	}
-	
 }

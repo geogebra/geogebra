@@ -27,16 +27,6 @@ public class ToolButton extends ButtonBarButtonBase
 
 		this.cmd = cmd;
 		super.getElement().getStyle().setBackgroundImage(cmd.getIconUrlAsString());
-
-		// this.addTapHandler(new TapHandler()
-		// {
-		// @Override
-		// public void onTap(TapEvent event)
-		// {
-		// Window.alert("Mode: " + cmd.getMode());
-		// }
-		// });
-
 	}
 
 	public ToolButton(SVGResource icon)

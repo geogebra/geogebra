@@ -1,10 +1,10 @@
 package geogebra.mobile.gui.elements;
 
-import com.google.gwt.user.client.ui.RootPanel;
-
 import geogebra.mobile.gui.elements.toolbar.OptionsBarBackground;
 import geogebra.mobile.gui.elements.toolbar.ToolBarButton;
 import geogebra.mobile.utils.ToolBarCommand;
+
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class GuiModel
 {
