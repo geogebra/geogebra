@@ -920,7 +920,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points, false);
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points, false);
 
 		return polyLine;
 	}

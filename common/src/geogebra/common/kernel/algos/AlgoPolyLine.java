@@ -57,6 +57,10 @@ public class AlgoPolyLine extends AlgoElement {
     	this(cons, labels, points, null, penStroke);
     }
  
+    public AlgoPolyLine(Construction cons, GeoPointND [] points, boolean penStroke) {
+    	this(cons, points, null, penStroke);
+    }
+ 
     /**
      * @param cons the construction
      * @param labels names of the polygon
