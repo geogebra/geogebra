@@ -18,8 +18,10 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.util.StringUtil;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
@@ -29,10 +31,11 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  * 
  * @author G. Sturr
  */
-public class AlgoZMean2Estimate extends AlgoElement {
+public class AlgoZMean2Test extends AlgoElement {
 
 
-	private GeoNumeric  mean, sd, n, mean_2, sd_2, n_2, level; //input
+	private GeoNumeric  mean, sd, n, mean_2, sd_2, n_2; //input
+	private GeoText tail;
 	private GeoList list, list2;
 	private GeoList  result;     // output   
 	
@@ -45,9 +48,9 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	 * @param mean_2 
 	 * @param sd_2 
 	 * @param n_2 
-	 * @param level 
+	 * @param tail 
 	 */
-	public AlgoZMean2Estimate(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoNumeric level) {
+	public AlgoZMean2Test(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoText tail) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
@@ -55,7 +58,7 @@ public class AlgoZMean2Estimate extends AlgoElement {
 		this.mean_2 = mean_2;
 		this.sd_2 = sd_2;
 		this.n_2 = n_2;
-		this.level = level;
+		this.tail = tail;
 		result = new GeoList(cons); 
 		setInputOutput(); // for AlgoElement
 
@@ -72,18 +75,18 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	 * @param sd_2
 	 * @param level
 	 */
-	public AlgoZMean2Estimate(Construction cons, String label,
+	public AlgoZMean2Test(Construction cons, String label,
 			GeoList list,
-			GeoList list2,
 			GeoNumeric sd,
-			GeoNumeric sd_2, GeoNumeric level) {
+			GeoList list2,
+			GeoNumeric sd_2, GeoText tail) {
 		super(cons);
 
 		this.list = list;
 		this.sd = sd;
 		this.list2 = list2;
 		this.sd_2 = sd_2;
-		this.level = level;
+		this.tail = tail;
 		result = new GeoList(cons); 
 		setInputOutput(); // for AlgoElement
 
@@ -94,7 +97,7 @@ public class AlgoZMean2Estimate extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoZMean2Estimate;
+		return Algos.AlgoZMean2Test;
 	}
 
 	@Override
@@ -108,14 +111,14 @@ public class AlgoZMean2Estimate extends AlgoElement {
 			input[3] = mean_2;
 			input[4] = sd_2;
 			input[5] = n_2;
-			input[6] = level;
+			input[6] = tail;
 		} else {
 			input = new GeoElement[5];
 			input[0] = list;
 			input[1] = sd;
 			input[2] = list2;
 			input[3] = sd_2;
-			input[4] = level;			
+			input[4] = tail;			
 		}
 
 
@@ -133,63 +136,64 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	@Override
 	public final void compute() {
 		
-		if (!sd.isDefined() || !sd_2.isDefined() || !level.isDefined()) {
+		String testType;
+		if (tail.getTextString().equals("<")) {
+			testType = "left";
+		} else if (tail.getTextString().equals(">")) {
+			testType = "right";
+		} else if (StringUtil.isNotEqual(tail.getTextString())) {
+			testType = "two";
+		} else {
 			result.setUndefined();
 			return;			
 		}
 
-		double n1, n2, mean1, mean2;
-		double sd1 = sd.getDouble();		
-		double sd2 = sd_2.getDouble();		
-		double cLevel = level.getDouble();
+		double mean1, mean2;
+		double n1, n2;	
+		
+		double sd1 = sd.getDouble();
+		double sd2 = sd_2.getDouble();
 
 		if (list == null) {
-			
-			if (!n.isDefined() || !n_2.isDefined() || !mean.isDefined() || !mean_2.isDefined()) {
-				result.setUndefined();
-				return;
-			}
-
-			n1 = n.getDouble();		
-			n2 = n_2.getDouble();		
 			mean1 = mean.getDouble();
 			mean2 = mean_2.getDouble();
-
+			n1 = n.getDouble();	
+			n2 = n_2.getDouble();	
 		} else {
-			
-			if (!list.isDefined() || !list2.isDefined()) {
-				result.setUndefined();
-				return;
-			}
-			
-			n1 = list.size();
-			n2 = list2.size();
-
 			mean1 = list.mean();
+			n1 = list.size();
 			mean2 = list2.mean();
+			n2 = list2.size();
 		}
-
+		
+		double se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
+		double testStatistic = (mean1 - mean2) / se;
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
-
-		double critZ = 0;
-
+		double P=0;
 		try {
-			critZ = normalDist.inverseCumulativeProbability((1 - cLevel) / 2);
+			P = normalDist.cumulativeProbability(testStatistic);
 		} catch (Exception e) {
 			result.setUndefined();
 			return;
 		}
 
-		double stat = mean1 - mean2;
-		double se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
-		double z = Math.abs(critZ);
-		double me = z * se;
+		if ("right".equals(testType)) {
+			P = 1 - P;
+		} else if ("two".equals(testType)) {
+			if (testStatistic < 0) { 
+				P = 2 * P; 
+			} 
+			else if (testStatistic > 0) { 
+				P = 2 * ( 1 - P);
+			}
+		}
 
 		// put these results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, stat - me));
-		result.add(new GeoNumeric(cons, stat + me));
+		result.add(new GeoNumeric(cons, P));
+		result.add(new GeoNumeric(cons, testStatistic));
+
 
 	}
 

@@ -322,6 +322,7 @@ public enum Algos {
 	AlgoTTest(Commands.TTest),
 	AlgoZProportionTest(Commands.ZProportionTest),
 	AlgoZMeanTest(Commands.ZMeanTest),
+	AlgoZMean2Test(Commands.ZMean2Test),
 	AlgoZProportion2Test(Commands.ZProportion2Test),
 	AlgoZProportionEstimate(Commands.ZProportionEstimate),
 	AlgoZProportion2Estimate(Commands.ZProportion2Estimate),
