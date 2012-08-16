@@ -1129,6 +1129,8 @@ public class CommandDispatcher {
 				return new CmdZProportion2Test(kernel);
 			case ZProportionEstimate:
 				return new CmdZProportionEstimate(kernel);
+			case ZProportion2Estimate:
+				return new CmdZProportion2Estimate(kernel);
 			default:
 				App.error("missing case in CommandDispatcher "+cmdName);
 				return null;
