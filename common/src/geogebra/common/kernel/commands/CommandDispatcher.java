@@ -1131,8 +1131,10 @@ public class CommandDispatcher {
 				return new CmdZProportionEstimate(kernel);
 			case ZProportion2Estimate:
 				return new CmdZProportion2Estimate(kernel);
+			case ZMeanEstimate:
+				return new CmdZMeanEstimate(kernel);
 			case ZMean2Estimate:
-				return new CmdZProportion2Estimate(kernel);
+				return new CmdZMean2Estimate(kernel);
 			default:
 				App.error("missing case in CommandDispatcher "+cmdName);
 				return null;
