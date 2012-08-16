@@ -13,10 +13,8 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.mobile.controller.MobileEuclidianController;
-import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
 
 import java.util.List;
@@ -44,12 +42,7 @@ public class EuclidianViewM extends EuclidianView
 
 	public EuclidianViewM(MobileEuclidianController ec)
 	{
-		this(ec, new boolean[] { true, true }, true, new Settings().getEuclidian(1));
-	}
-
-	public EuclidianViewM(MobileEuclidianController euclidiancontroller, boolean[] showAxes, boolean showGrid, EuclidianSettings settings)
-	{
-		super(euclidiancontroller, settings);
+		super(ec, new Settings().getEuclidian(1)); 
 	}
 
 	/**
@@ -96,6 +89,8 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				EuclidianViewM.this.getEuclidianController().xRW = toRealWorldCoordX(event.getX()); 
+				EuclidianViewM.this.getEuclidianController().yRW = toRealWorldCoordY(event.getY()); 
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onClick(event);
 			}
 		});
