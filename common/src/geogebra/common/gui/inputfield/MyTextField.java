@@ -115,7 +115,13 @@ public abstract class MyTextField {
 		return result;
 	
 	}
-
+	
+	/**
+	 * Since a_{{{{{{{5}=2 is correct expression, we 
+	 * replace the index by Xs to obtain a_{XXXXXXX}=2 
+	 * @param text text
+	 * @return text with replaced {s
+	 */
 	private static String ignoreIndices(String text) {
 		StringBuilder sb = new StringBuilder(80);
 		boolean ignore = false;
