@@ -3,6 +3,7 @@ package geogebra.common.gui.inputfield;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * @author gabor
@@ -13,14 +14,11 @@ import java.util.List;
  */
 public abstract class MyTextField {
 
-	private boolean showSymbolTableIcon = false;
-
-	
 	/**
 	 * Locates bracket positions in a given string with given caret position.
 	 */
-	public static int[] getBracketPositions(String text, int caret) {
-	
+	public static int[] getBracketPositions(String inputText, int caret) {
+		String text = inputText;
 		// position to the left of the caret if a bracket exists
 		int bracketPos0 = -1;
 		// position of matching bracket if it exists
@@ -31,7 +29,7 @@ public abstract class MyTextField {
 	
 		char bracketToMatch = ' ';
 		char oppositeBracketToMatch = ' ';
-	
+		
 		if (caret > 0 && caret <= text.length()) {
 	
 			// get the character just to the left of the caret
@@ -52,6 +50,7 @@ public abstract class MyTextField {
 				searchEnd = text.length();
 				oppositeBracketToMatch = '{';
 				bracketToMatch = '}';
+				text = ignoreIndices(text);
 				break;
 			case '[':
 				searchDirection = +1;
@@ -70,6 +69,7 @@ public abstract class MyTextField {
 				searchEnd = -1;
 				oppositeBracketToMatch = '}';
 				bracketToMatch = '{';
+				text = ignoreIndices(text);
 				break;
 			case ']':
 				searchDirection = -1;
@@ -85,6 +85,7 @@ public abstract class MyTextField {
 			}
 	
 		}
+		
 	
 		// search the text for a matching bracket
 	
@@ -113,6 +114,31 @@ public abstract class MyTextField {
 	
 		return result;
 	
+	}
+
+	private static String ignoreIndices(String text) {
+		StringBuilder sb = new StringBuilder(80);
+		boolean ignore = false;
+		boolean underscore = false;
+		for(int i=0;i<text.length();i++){
+			if(ignore && text.charAt(i)=='}'){
+				ignore = false;
+			}
+			
+			if(!ignore)
+				sb.append(text.charAt(i));
+			else
+				sb.append('X');
+			
+			if(underscore && text.charAt(i)=='{'){
+				ignore = true;
+			}
+			else if(!ignore){
+				underscore = text.charAt(i)=='_';
+			}
+			
+		}
+		return sb.toString();
 	}
 
 	public static boolean isCloseBracketOrWhitespace(char c) {
@@ -461,6 +487,8 @@ public abstract class MyTextField {
 	    ret.sb = sb.toString();
 		return ret;
 	}
+
+	private boolean showSymbolTableIcon;
 
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
