@@ -108,7 +108,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		exp = sb.toString();
 
-		App.printStacktrace("eval with MPReduce: " + exp);
+		App.debug("eval with MPReduce: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
