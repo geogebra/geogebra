@@ -41,7 +41,8 @@ public class DialogManagerW extends DialogManager {
 	 * Dialog for styling text objects.
 	 */
 	private TextInputDialogW textInputDialog;
-
+	private int tempX=1;
+	private int tempY=1;
 
 	public DialogManagerW(App app) {
 	    super(app);
@@ -132,53 +133,17 @@ public class DialogManagerW extends DialogManager {
     }
 
 	@Override
-	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
-	
+	protected void showTextDialog(GeoText text, GeoPointND startPoint) {		
 		app.setWaitCursor();
 
-//		if (textInputDialog == null) {
+		if (textInputDialog == null) {
 			textInputDialog = createTextDialog(text, startPoint);
-//		} else {
-//			textInputDialog.reInitEditor(text, startPoint);
-//		}
+		} else {
+			textInputDialog.reInitEditor(text, startPoint);
+		}
 
 		textInputDialog.setVisible(true);
 		app.setDefaultCursor();
-		
-//		String inputValue = prompt("Enter text", "");
-//
-//		if ((inputValue != null) ? !"".equals(inputValue) : false) {
-//			
-//			if (inputValue.indexOf('\"') == -1) {
-//				inputValue = "\"" + inputValue + "\"";
-//			}
-//
-//			GeoElement[] ret = app.getKernel().getAlgebraProcessor()
-//					.processAlgebraCommand(inputValue, false);
-//			if (ret != null && ret[0].isTextValue()) {
-//				GeoText t = (GeoText) ret[0];
-//
-//				if (startPoint.isLabelSet()) {
-//					try {
-//						t.setStartPoint(startPoint);
-//					} catch (Exception e) {
-//					}
-//				} else {
-//
-//					Coords coords = startPoint.getInhomCoordsInD(3);
-//					t.setRealWorldLoc(coords.getX(), coords.getY());
-//					t.setAbsoluteScreenLocActive(false);
-//				}
-//
-//				// make sure (only) the output of the text tool is selected
-//				app.getActiveEuclidianView()
-//						.getEuclidianController()
-//						.memorizeJustCreatedGeos(ret);
-//
-//				t.updateRepaint();
-//				app.storeUndoInfo();
-//			}
-//		}
 
 	}
 	
