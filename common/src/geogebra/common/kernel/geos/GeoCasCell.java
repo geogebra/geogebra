@@ -2184,6 +2184,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
 			outputVE.setAssignmentType(AssignmentType.DEFAULT);
+			if(isFunctionAble){
+				inputVE = new Function(inputVE.wrap());
+			}
 			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
 			input = inputVE.toAssignmentString(StringTemplate.defaultTemplate);
