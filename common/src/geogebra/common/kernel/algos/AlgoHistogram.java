@@ -28,7 +28,8 @@ import geogebra.common.util.Cloner;
 public class AlgoHistogram extends AlgoFunctionAreaSums {
 		
 	/**
-	 * Creates histogram
+	 * Creates histogram from class boundaries and heights or data (has label)
+	 * 
 	 * @param cons construction
 	 * @param label label for the histogram
 	 * @param list1 list of boundaries
@@ -40,33 +41,31 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 		super(cons, label, list1, list2, right);		
 	}
 	
-	public AlgoHistogram(Construction cons,
-			   GeoList list1, GeoList list2,boolean right) {
-		super(cons, list1, list2, right);		
-	}
-	
 	private AlgoHistogram(Construction cons, double[]vals,double[]borders,int N) {
 		super(cons, vals, borders,N);		
 	}
 
 	/**
-	 * Creates histogram with density scaling factor 
+	 * Creates histogram from data. Provides with optional features (has label)
+	 *  
 	 * @param cons construction
 	 * @param label label for the histogram
-	 * @param isCumulative 
+	 * @param isCumulative flag
 	 * @param list1 list of boundaries
-	 * @param list2 list of heights or raw data
+	 * @param list2 list of data
+	 * @param list3 list of frequencies
 	 * @param useDensity flag  
 	 * @param density density scaling factor 
-	 * @param right 
+	 * @param right flag
 	 */
 	public AlgoHistogram(Construction cons, String label,
 			GeoBoolean isCumulative,					   
 			GeoList list1, 
 			GeoList list2, 
+			GeoList list3, 
 			GeoBoolean useDensity, 
-			GeoNumeric density,boolean right) {
-		super(cons, label, isCumulative, list1, list2, useDensity, density,right);		
+			GeoNumeric density, boolean right) {
+		super(cons, label, isCumulative, list1, list2, list3, useDensity, density,right);		
 	}
 	
 	private AlgoHistogram(
@@ -77,36 +76,29 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	}
 	
 	
+	/**
+	 Creates histogram from data. Provides with optional features (no label)
+	 *  
+	 *  
+	 * @param cons construction
+	 * @param isCumulative flag
+	 * @param list1 list of boundaries
+	 * @param list2 list of data
+	 * @param list3 list of frequencies
+	 * @param useDensity flag  
+	 * @param density density scaling factor 
+	 * @param right flag
+	 */
 	public AlgoHistogram(Construction cons,
 			GeoBoolean isCumulative,					   
 			GeoList list1, 
 			GeoList list2, 
+			GeoList list3, 
 			GeoBoolean useDensity, 
 			GeoNumeric density,boolean right) {
-		super(cons, isCumulative, list1, list2, useDensity, density,right);		
+		super(cons, isCumulative, list1, list2, list3, useDensity, density,right);		
 	}
 
-	
-	public AlgoHistogram(Construction cons,
-			GeoBoolean useFrequency,
-			GeoBoolean isCumulative,					   
-			GeoList list1, 
-			GeoList list2, 
-			GeoBoolean useDensity, 
-			GeoNumeric density, boolean right) {
-		super(cons, useFrequency, isCumulative, list1, list2, useDensity, density, right);		
-	}
-	
-	public AlgoHistogram(Construction cons, String label,
-			GeoBoolean useFrequency,
-			GeoBoolean isCumulative,					   
-			GeoList list1, 
-			GeoList list2, 
-			GeoBoolean useDensity, 
-			GeoNumeric density, boolean right) {
-		super(cons, label, useFrequency, isCumulative, list1, list2, useDensity, density, right);		
-	}
-	
 	@Override
 	public Algos getClassName() {
 		return isRight()?Algos.AlgoHistogramRight:Algos.AlgoHistogram;

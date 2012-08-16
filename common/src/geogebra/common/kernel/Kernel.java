@@ -5590,7 +5590,7 @@ public class Kernel {
 	final public GeoPolyLine FrequencyPolygon(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label, null,
-				list1, list2, useDensity, density);
+				list1, list2, null,useDensity, density);
 		GeoPolyLine result = algo.getResult();
 		return result;
 	}
@@ -5602,19 +5602,46 @@ public class Kernel {
 			GeoBoolean isCumulative, GeoList list1, GeoList list2,
 			GeoBoolean useDensity) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				isCumulative, list1, list2, useDensity, null);
+				isCumulative, list1, list2, null, useDensity, null);
 		GeoPolyLine result = algo.getResult();
 		return result;
 	}
 
 	/**
-	 * FrequencyPolygon with density scale factor and cumulative parameter
+	 * FrequencyPolygon with density scale factor, cumulative parameter and density
 	 */
 	final public GeoPolyLine FrequencyPolygon(String label,
 			GeoBoolean isCumulative, GeoList list1, GeoList list2,
 			GeoBoolean useDensity, GeoNumeric density) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				isCumulative, list1, list2, useDensity, density);
+				isCumulative, list1, list2, null, useDensity, density);
+		GeoPolyLine result = algo.getResult();
+		return result;
+	}
+
+	
+	/**
+	 * FrequencyPolygon with density scale factor and cumulative parameter,
+	 * frequency list
+	 */
+	final public GeoPolyLine FrequencyPolygon(String label,
+			GeoBoolean isCumulative, GeoList list1, GeoList list2,
+			GeoList list3, GeoBoolean useDensity) {
+		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
+				isCumulative, list1, list2, list3, useDensity, null);
+		GeoPolyLine result = algo.getResult();
+		return result;
+	}
+
+	/**
+	 * FrequencyPolygon with density scale factor, cumulative parameter,
+	 * density, frequency list
+	 */
+	final public GeoPolyLine FrequencyPolygon(String label,
+			GeoBoolean isCumulative, GeoList list1, GeoList list2,
+			GeoList list3, GeoBoolean useDensity, GeoNumeric density) {
+		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
+				isCumulative, list1, list2, list3, useDensity, density);
 		GeoPolyLine result = algo.getResult();
 		return result;
 	}
@@ -5673,7 +5700,7 @@ public class Kernel {
 	final public GeoNumeric Histogram(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
 			boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2,
+		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2, null, 
 				useDensity, density, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -5685,7 +5712,7 @@ public class Kernel {
 	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoBoolean useDensity, boolean right) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, useDensity, null, right);
+				list1, list2, null, useDensity, null, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}
@@ -5697,30 +5724,30 @@ public class Kernel {
 			GeoList list1, GeoList list2, GeoBoolean useDensity,
 			GeoNumeric density, boolean right) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, useDensity, density, right);
+				list1, list2, null, useDensity, density, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}
 
 	/**
-	 * Histogram[ useFrequency, isCumulative, classList, frequencyList, useDensity]
+	 * Histogram[ isCumulative, classList, dataList, frequencyList, useDensity]
 	 */
-	final public GeoNumeric Histogram(String label, GeoBoolean useFrequency, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoBoolean useDensity, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, useFrequency, isCumulative,
-				list1, list2, useDensity, null, right);
+	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
+			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity, boolean right) {
+		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
+				list1, list2, list3, useDensity, null, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}
 	
 	/**
-	 * Histogram[ useFrequency, isCumulative, classList, frequencyList, useDensity, density]
+	 * Histogram[ isCumulative, classList, dataList, frequencyList, useDensity, density]
 	 */
-	final public GeoNumeric Histogram(String label, GeoBoolean useFrequency, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoBoolean useDensity,
+	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
+			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity,
 			GeoNumeric density,  boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, useFrequency, isCumulative,
-				list1, list2, useDensity, density, right);
+		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
+				list1, list2, list3, useDensity, density, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}

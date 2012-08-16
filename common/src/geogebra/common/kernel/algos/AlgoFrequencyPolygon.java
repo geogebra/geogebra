@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -36,7 +38,7 @@ import geogebra.common.kernel.locusequ.EquationScope;
 
 public class AlgoFrequencyPolygon extends AlgoElement {
 
-	private GeoList list1, list2; //input
+	private GeoList list1, list2, list3; //input
 	private GeoBoolean isCumulative, useDensity; //input
 	private GeoNumeric density;
 	private GeoPolyLine outputPolyLine; //output
@@ -54,7 +56,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	 */
 	public AlgoFrequencyPolygon(Construction cons, String label,
 			GeoList list1, GeoList list2) {
-		this(cons, label, null, list1, list2, null, null);		
+		this(cons, label, null, list1, list2, null, null, null);		
 	}
 
 
@@ -74,10 +76,11 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 			GeoBoolean isCumulative,					   
 			GeoList list1, 
 			GeoList list2, 
+			GeoList list3, 
 			GeoBoolean useDensity, 
 			GeoNumeric density) {
 
-		this(cons, isCumulative, list1, list2, useDensity, density);
+		this(cons, isCumulative, list1, list2, list3, useDensity, density);
 		outputPolyLine.setLabel(label);
 	}
 
@@ -85,11 +88,13 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 			GeoBoolean isCumulative,					   
 			GeoList list1, 
 			GeoList list2, 
+			GeoList list3, 
 			GeoBoolean useDensity, 
 			GeoNumeric density) {
 		super(cons);
 		this.list1 = list1;
 		this.list2 = list2;
+		this.list3 = list3; // optional frequencies
 		this.isCumulative = isCumulative;
 		this.useDensity = useDensity;
 		this.density = density;
@@ -108,59 +113,34 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		
-		// handle simple case: input is only two lists when default density is used 
-		if(useDensity == null) {
-			input = new GeoElement[2];
-			input[0] = list1;
-			input[1] = list2;
-			
-		// handle other cases	
-		} else {
-			
-			// standard counts, non-cumulative
-			if(isCumulative == null) {
-				if(density == null){
-					input = new GeoElement[3];
-					input[0] = list1;		
-					input[1] = list2;
-					input[2] = useDensity;
-				} else {
-					input = new GeoElement[4];
-					input[0] = list1;		
-					input[1] = list2;
-					input[2] = useDensity;
-					input[3] = density;
-				}
-				
-			// cumulative counts	
-			} else {
-				if(density == null) {
-					input = new GeoElement[4];
-					input[0] = isCumulative;
-					input[1] = list1;		
-					input[2] = list2;
-					input[3] = useDensity;
-				} else {
-					input = new GeoElement[5];
-					input[0] = isCumulative;
-					input[1] = list1;		
-					input[2] = list2;
-					input[3] = useDensity;
-					input[4] = density;
-				}
-			}
+		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+		
+		if(isCumulative != null) {
+			tempList.add(isCumulative);
 		}
+		tempList.add(list1);
+		tempList.add(list2);
+		if(list3 != null){
+			tempList.add(list3);
+		}
+		if(useDensity != null){
+			tempList.add(useDensity);
+		}
+		if(density != null){
+			tempList.add(density);
+		}
+		input = new GeoElement[tempList.size()];
+		input = tempList.toArray(input);
+						
+		
 		
 		
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		if(useDensity == null) {
-			algoHistogram = new AlgoHistogram(cons, list1, list2,right);
-		} else {
-			algoHistogram = new AlgoHistogram(cons, isCumulative, list1,
-					list2, useDensity, density,right);
-		}
+		algoHistogram = new AlgoHistogram(cons, isCumulative, list1,
+					list2, list3, useDensity, density, right);
+		
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
 		
