@@ -274,7 +274,7 @@ TOKEN :  {
   | < AND:		("&&" | "\u2227" ) >
   | < IMPLICATION:		("->" | "\u2192") >
   | < EQUAL_BOOLEAN: ("==" | "\u225f" ) >
-  | < NOT_EQUAL: ("!=" | "\u2260" ) >
+  | < NOT_EQUAL: ("!=" | "\u2260" | "<>" ) >
   | < IS_ELEMENT_OF: "\u2208" >
   | < IS_SUBSET_OF: "\u2286" >
   | < IS_SUBSET_OF_STRICT: "\u2282" >
