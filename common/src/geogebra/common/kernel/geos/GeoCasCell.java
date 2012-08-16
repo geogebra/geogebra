@@ -562,14 +562,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * 
 	 * @param prefix
 	 *            beginning part that should NOT be evaluated, e.g. "25a +"
-	 * @param eval
+	 * @param evaluate
 	 *            part of the input that needs to be evaluated, e.g.
 	 *            "Expand[(a+b)^2]"
 	 * @param postfix
 	 *            end part that should NOT be evaluated, e.g. " + "5 (c+d)"
 	 */
 	public void setProcessingInformation(final String prefix,
-			final String eval, final String postfix) {
+			final String evaluate, final String postfix) {
+		String eval = evaluate;
 		String postfix1 = postfix;
 		String prefix1 = prefix;
 		setEvalCommand("");
@@ -583,10 +584,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// stop if input is assignment
 		if (isAssignmentVariableDefined()) {
-			if (eval.startsWith("KeepInput")) {
-				setEvalCommand("KeepInput");
-			}
-			return;
+			eval = prefix1 + eval + postfix1;
+			prefix1 = "";
+			postfix1 = "";
 		}
 
 		// commented since this causes mode changes to evaluate to be ignored
