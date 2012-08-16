@@ -66,9 +66,10 @@ public class HelpMenuW extends MenuBar {
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.info().getSafeUri().asString(),
 	    		app.getMenu("AboutLicense")),true,new Command() {
 			public void execute() {
-				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL + "&version=" +
-						GeoGebraConstants.VERSION_STRING + "&date=" +
-						GeoGebraConstants.BUILD_DATE, "_blank",
+				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +
+						/* "&version=" + GeoGebraConstants.VERSION_STRING + */ 
+						"&date=" + GeoGebraConstants.BUILD_DATE,
+						"_blank",
 						"width=720,height=600,scrollbars=no,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
