@@ -110,8 +110,7 @@ public class EuclidianViewM extends EuclidianView
 	public void repaint()
 	{
 		// TODO
-		updateSize();
-		this.firstPaint = false;
+//		updateSize();
 		((GFontW) this.g2p.getFont()).setFontSize(12); 
 		paint(this.g2p);
 	}
