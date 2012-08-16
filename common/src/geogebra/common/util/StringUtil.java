@@ -3,7 +3,10 @@ package geogebra.common.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 
 public class StringUtil {
 
@@ -856,14 +859,12 @@ public class StringUtil {
 		}
 		return sb.toString();
 	}
-	
+	private static Stack<Integer> closingBrackets = new Stack<Integer>();
 	public static int checkBracketsBackward(String parseString) {
 		int curly = 0;
 		int square = 0; 
 		int round = 0;
-		int lastCurly = -1;
-		int lastSquare = -1; 
-		int lastRound = -1;
+		closingBrackets.clear();
 		boolean comment = false;
 		for(int i=parseString.length()-1;i>=0;i--){
 			char ch = parseString.charAt(i);
@@ -874,40 +875,39 @@ public class StringUtil {
 					comment=!comment;
 					break;
 				case '}': 
-					lastCurly = i; 
+					closingBrackets.add(i); 
 					curly++;
 					break;
 				case '{': 
 					curly--;
 					if(curly<0)
 						return i;
+					closingBrackets.pop();
 					break;
 				case ']':
 					square++;
-					lastSquare=i;
+					closingBrackets.add(i);
 					break;
 				case '[':	
 					square--;
 					if(square<0)
 						return i;
+					closingBrackets.pop();
 					break;
 				case ')':
 					round++;
-					lastRound=i;
+					closingBrackets.add(i);
 					break;
 				case '(':	
 					round--;
 					if(round<0)
 						return i;
+					closingBrackets.pop();
 					break;	
 			}
 		}
-		if(curly>0)
-			return lastCurly;
-		if(square>0)
-			return lastSquare;
-		if(round>0)
-			return lastRound;
+		if(!closingBrackets.isEmpty())
+			return closingBrackets.pop();
 		return -1;
 	}
 }

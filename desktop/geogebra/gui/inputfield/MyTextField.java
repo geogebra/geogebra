@@ -366,9 +366,9 @@ public class MyTextField extends JTextField implements ActionListener,
 			caretPos = pos;
 
 		// get the bracket positions
-		text = StringUtil.ignoreIndices(text);
-		int[] brkPos = geogebra.common.gui.inputfield.MyTextField.getBracketPositions(text, caret);
-		int wrong = geogebra.common.util.StringUtil.checkBracketsBackward(text);
+		String text2 = StringUtil.ignoreIndices(text);
+		int[] brkPos = geogebra.common.gui.inputfield.MyTextField.getBracketPositions(text2, caret);
+		int wrong = geogebra.common.util.StringUtil.checkBracketsBackward(text2);
 		int bracket1pos = brkPos[0];
 		int bracket2pos = brkPos[1];
 
