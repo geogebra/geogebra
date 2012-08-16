@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoZMean2Estimate;
 import geogebra.common.main.MyError;
@@ -30,6 +31,29 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 
 		switch (n) {
 
+		case 5:
+			if ((ok[0] = arg[0].isGeoList()) 
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoNumeric())
+					&& (ok[3] = arg[3].isGeoNumeric())
+					&& (ok[4] = arg[4].isGeoNumeric())
+			) {
+				
+				AlgoZMean2Estimate algo = new AlgoZMean2Estimate(cons, c.getLabel(),
+						(GeoList) arg[0], 
+						(GeoList) arg[1],
+						(GeoNumeric) arg[2],
+						(GeoNumeric) arg[3],
+						(GeoNumeric) arg[4]
+								);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+
+			} 
+			
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			
 		case 7:
 			if ((ok[0] = arg[0].isGeoNumeric()) 
 					&& (ok[1] = arg[1].isGeoNumeric())

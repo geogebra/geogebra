@@ -33,6 +33,7 @@ public class AlgoZMean2Estimate extends AlgoElement {
 
 
 	private GeoNumeric  mean, sd, n, mean_2, sd_2, n_2, level; //input
+	GeoList list, list2;
 	private GeoList  result;     // output   
 	/**
 	 * @param cons
@@ -62,6 +63,35 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	}
 
 
+	/**
+	 * @param cons
+	 * @param label
+	 * @param list
+	 * @param list2
+	 * @param sd
+	 * @param sd_2
+	 * @param level
+	 */
+	public AlgoZMean2Estimate(Construction cons, String label,
+			GeoList list,
+			GeoList list2,
+			GeoNumeric sd,
+			GeoNumeric sd_2, GeoNumeric level) {
+		super(cons);
+
+		this.list = list;
+		this.sd = sd;
+		this.list2 = list2;
+		this.sd_2 = sd_2;
+		this.level = level;
+		result = new GeoList(cons); 
+		setInputOutput(); // for AlgoElement
+
+		compute();      
+		result.setLabel(label);
+	}
+
+
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoZMean2Estimate;
@@ -70,14 +100,23 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	@Override
 	protected void setInputOutput(){
 
-		input = new GeoElement[7];
-		input[0] = mean;
-		input[1] = sd;
-		input[2] = n;
-		input[3] = mean_2;
-		input[4] = sd_2;
-		input[5] = n_2;
-		input[6] = level;
+		if (list == null) {
+			input = new GeoElement[7];
+			input[0] = mean;
+			input[1] = sd;
+			input[2] = n;
+			input[3] = mean_2;
+			input[4] = sd_2;
+			input[5] = n_2;
+			input[6] = level;
+		} else {
+			input = new GeoElement[5];
+			input[0] = list;
+			input[1] = sd;
+			input[2] = list2;
+			input[3] = sd_2;
+			input[4] = level;			
+		}
 
 
 		setOnlyOutput(result);
@@ -93,15 +132,43 @@ public class AlgoZMean2Estimate extends AlgoElement {
 
 	@Override
 	public final void compute() {
+		
+		if (!sd.isDefined() || !sd_2.isDefined() || !level.isDefined()) {
+			result.setUndefined();
+			return;			
+		}
 
-
-		double n1 = n.getDouble();		
-		double n2 = n_2.getDouble();		
+		double n1, n2, mean1, mean2;
 		double sd1 = sd.getDouble();		
 		double sd2 = sd_2.getDouble();		
-		double mean1 = mean.getDouble();
-		double mean2 = mean_2.getDouble();
 		double cLevel = level.getDouble();
+
+		if (list == null) {
+			
+			if (!n.isDefined() || !n_2.isDefined() || !mean.isDefined() || !mean_2.isDefined()) {
+				result.setUndefined();
+				return;
+			}
+
+			n1 = n.getDouble();		
+			n2 = n_2.getDouble();		
+			mean1 = mean.getDouble();
+			mean2 = mean_2.getDouble();
+
+		} else {
+			
+			if (!list.isDefined() || !list2.isDefined()) {
+				result.setUndefined();
+				return;
+			}
+			
+			n1 = list.size();
+			n2 = list2.size();
+
+			mean1 = list.mean();
+			mean2 = list2.mean();
+		}
+
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
 

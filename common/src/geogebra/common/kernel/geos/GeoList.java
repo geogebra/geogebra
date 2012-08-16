@@ -2145,5 +2145,31 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		return get(i);
 	}
 
+	/**
+	 * attempts to calculate mean of the list
+	 * if any non-numeric elements are found, Double.NAN will be returned
+	 * @return mean or Double.NAN
+	 */
+	public double mean() {
+		
+		if (size() == 0) {
+			return Double.NaN;
+		}
+		
+		double sum = 0;
+		for (int i = 0 ; i < size() ; i++) {
+			GeoElement geo = get(i);
+			if (geo.isNumberValue()) {
+				sum += ((NumberValue)geo).getDouble();
+			} else {
+				return Double.NaN;
+			}
+		}
+		
+		return sum / size();
+		
+		
+	}
+
 
 }
