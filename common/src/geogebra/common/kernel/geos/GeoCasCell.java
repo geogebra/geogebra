@@ -2159,7 +2159,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		// if output is just one number -> do not make a function, make a
 		// constant
-		if (outputVE.isLeaf()) {
+		if (outputVE.isConstant()) {
 			if ((((ExpressionNode) outputVE).getLeft()).isConstant()) {
 				isFunctionAble = false;
 			}
