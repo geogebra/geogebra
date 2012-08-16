@@ -84,7 +84,7 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getImageIcon("view-properties24.png");
+		return app.getImageIcon("view-properties22.png");
 	}
 
 	@Override

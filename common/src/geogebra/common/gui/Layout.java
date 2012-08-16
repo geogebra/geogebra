@@ -62,7 +62,7 @@ public abstract class Layout {
 		
 		// geometry - like basic geometry but with less toolbar entries
 		defaultPerspectives[2] = new Perspective("Geometry", spData, dpData, defToolbar, true, false, false, false, true, false);
-		defaultPerspectives[2].setIconString("view-graphics24.png");
+		defaultPerspectives[2].setIconString("perspective-geometry22.png");
 		
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];

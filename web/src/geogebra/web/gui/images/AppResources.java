@@ -334,9 +334,6 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/options-defaults224.png")
 	ImageResource options_defaults224();
 	
-	@Source("geogebra/web/gui/images/options-defaults24.png")
-	ImageResource options_defaults24();
-	
 	@Source("geogebra/web/gui/images/options-large.png")
 	ImageResource options_large();
 	
@@ -444,9 +441,6 @@ public interface AppResources extends ClientBundleWithLookup {
 	
 	@Source("geogebra/web/gui/images/view-move.png")
 	ImageResource view_move();
-	
-	@Source("geogebra/web/gui/images/view-properties24.png")
-	ImageResource view_properties24();
 	
 	@Source("geogebra/web/gui/images/view-refresh.png")
 	ImageResource view_refresh();
