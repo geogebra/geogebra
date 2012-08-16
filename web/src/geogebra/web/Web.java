@@ -212,6 +212,11 @@ public class Web implements EntryPoint {
 	
 	
 	private static native boolean checkWorkerSupport(String workerpath) /*-{
+		
+		// Worker support in Firefox is incompatible at the moment:
+		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1)
+			return false;
+		
 	    try {
 	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 	    } catch (e) {
