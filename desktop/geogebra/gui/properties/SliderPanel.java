@@ -182,6 +182,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 		for (int i = 0; i < tLabels.length; ++i) {
 			tLabels[i].setText(labels[i]);
 		}
+		
+		stepPanel.setLabels();
+		speedPanel.setLabels();
 	}
 
 	public JPanel update(Object[] geos) {
@@ -429,6 +432,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 		for (int i = 0; i < tfields.length; ++i) 
 			tfields[i].setFont(font);
 		
+
+		stepPanel.updateFonts();
+		speedPanel.updateFonts();
 		
 	}
 }
