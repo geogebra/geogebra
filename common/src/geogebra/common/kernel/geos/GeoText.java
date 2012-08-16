@@ -1110,7 +1110,6 @@ public class GeoText extends GeoElement implements Locateable,
 						traceModes = TraceModesEnum.ONLY_COPY;
 					else
 						traceModes = TraceModesEnum.ONE_VALUE_OR_COPY;
-					App.debug("\n"+this+","+traceModes+","+spreadsheetTraceableValue);
 					return true;
 				}
 			}

@@ -832,7 +832,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		return TraceModesEnum.SEVERAL_VALUES;
+		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
 	
 	@Override

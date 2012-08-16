@@ -7100,7 +7100,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		/** one value / no copy (e.g. segment) */
 		ONE_VALUE_ONLY, 
 		/** at least two values (e.g. point) */
-		SEVERAL_VALUES}
+		SEVERAL_VALUES_OR_COPY,
+		/** at least two values (e.g. point) */
+		SEVERAL_VALUES_ONLY,
+		/** not traceable */
+		NOT_TRACEABLE
+	}
 	
 	
 	/**

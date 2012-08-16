@@ -1994,7 +1994,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		return TraceModesEnum.SEVERAL_VALUES;
+		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
 	
 	

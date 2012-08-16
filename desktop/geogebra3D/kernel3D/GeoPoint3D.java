@@ -1126,7 +1126,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		return TraceModesEnum.SEVERAL_VALUES;
+		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
 	
 

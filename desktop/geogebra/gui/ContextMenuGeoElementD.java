@@ -18,7 +18,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -530,29 +532,27 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			
 			// G.Sturr 2010-5-12 
 			// modified to use SpreadsheetTrace Dialog
-			
+
 			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
-				
-				boolean showRecordToSpreadsheet = true;
-				//check if other geos are recordable
-				for (int i=1; i<geos.size() && showRecordToSpreadsheet; i++)
-					showRecordToSpreadsheet &= geos.get(i).isSpreadsheetTraceable();
 
-				
-				if (showRecordToSpreadsheet){
-					cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
-					cbItem.setIcon(((AppD) app).getImageIcon("spreadsheettrace.gif"));
-					cbItem.setSelected(geo.getSpreadsheetTrace());
+				//if GeoList, check if really traceable
+				if (!(geo.isGeoList() && geo.getTraceModes()==TraceModesEnum.NOT_TRACEABLE)){
 
-					cbItem.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							recordToSpreadSheetCmd();
-						}
-					});
-					addItem(cbItem);
+					//if multiple geos selected, check if recordable as a list
+					if (geos.size()==1 || GeoList.getTraceModes(geos)!=TraceModesEnum.NOT_TRACEABLE){
+						cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
+						cbItem.setIcon(((AppD) app).getImageIcon("spreadsheettrace.gif"));
+						cbItem.setSelected(geo.getSpreadsheetTrace());
+
+						cbItem.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								recordToSpreadSheetCmd();
+							}
+						});
+						addItem(cbItem);
+					}
+
 				}
-
-				
 			}
 			
 			/* ------------ OLD CODE ---------------------

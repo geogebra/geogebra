@@ -1913,12 +1913,82 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 	}
 	
+	
+	private TraceModesEnum traceModes = null;
+	
+	
+	/**
+	 * @param geos list of geos
+	 * @return available trace to spreadsheet mode (values/copy) for the geos list
+	 */
+	final static public TraceModesEnum getTraceModes(ArrayList<GeoElement> geos){
+		
+		TraceModesEnum traceModes = null;
+		
+
+		for (GeoElement geo: geos){
+			
+			if (!geo.isSpreadsheetTraceable()){
+				traceModes = TraceModesEnum.NOT_TRACEABLE;
+				return traceModes;
+			}
+			
+			TraceModesEnum geoMode = geo.getTraceModes();
+			if (traceModes == null){
+				traceModes = geoMode;
+				if (geoMode==TraceModesEnum.NOT_TRACEABLE)
+					return traceModes;
+			}else{
+				switch(geoMode){
+				case NOT_TRACEABLE:
+					traceModes = TraceModesEnum.NOT_TRACEABLE;
+					return traceModes;
+				case ONE_VALUE_ONLY:
+				case SEVERAL_VALUES_ONLY:
+					if (traceModes == TraceModesEnum.ONLY_COPY){
+						traceModes = TraceModesEnum.NOT_TRACEABLE;
+						return traceModes;
+					}
+
+					traceModes = TraceModesEnum.SEVERAL_VALUES_ONLY;
+					break;
+					
+				case ONE_VALUE_OR_COPY:
+				case SEVERAL_VALUES_OR_COPY:
+					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY)
+						traceModes = TraceModesEnum.SEVERAL_VALUES_ONLY;
+					else if (traceModes == TraceModesEnum.ONE_VALUE_OR_COPY)
+						traceModes = TraceModesEnum.SEVERAL_VALUES_OR_COPY;
+					break;
+				
+				case ONLY_COPY:
+					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY 
+					|| traceModes == TraceModesEnum.SEVERAL_VALUES_ONLY){
+						traceModes = TraceModesEnum.NOT_TRACEABLE;
+						return traceModes;
+					}
+
+					traceModes = TraceModesEnum.ONLY_COPY;
+					break;
+					
+				}
+			}
+		}
+		
+		
+		return traceModes;
+		
+	}
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		if (geoList.size()==1)
-			return TraceModesEnum.ONE_VALUE_OR_COPY;
-		return TraceModesEnum.SEVERAL_VALUES;
+		
+		if (traceModes != null)
+			return traceModes;
+		
+		traceModes = getTraceModes(geoList);
+		
+		return traceModes;
 	}
 
 

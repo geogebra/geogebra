@@ -520,7 +520,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		return TraceModesEnum.SEVERAL_VALUES;
+		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
 	
 	@Override

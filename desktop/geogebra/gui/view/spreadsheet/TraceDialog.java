@@ -487,7 +487,8 @@ implements
 		case ONE_VALUE_ONLY:
 			sb.append(app.getPlain("ValueOfA",geo.getTraceDialogAsValues()));  
 			break;
-		case SEVERAL_VALUES:
+		case SEVERAL_VALUES_OR_COPY:
+		case SEVERAL_VALUES_ONLY:
 		case ONLY_COPY: //button disabled
 			sb.append(app.getPlain("ValuesOfA",geo.getTraceDialogAsValues()));  
 			break;
@@ -505,7 +506,7 @@ implements
 		sb.append("</html>");
 		traceModeCopy.setText(sb.toString());
 		
-		if (traceModes == TraceModesEnum.ONE_VALUE_ONLY){
+		if (traceModes == TraceModesEnum.ONE_VALUE_ONLY || traceModes == TraceModesEnum.SEVERAL_VALUES_ONLY){
 			traceModeCopy.setEnabled(false);
 			traceModeCopy.setForeground(Color.GRAY);
 			traceModeValues.setEnabled(true);
