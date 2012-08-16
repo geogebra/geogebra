@@ -826,7 +826,38 @@ public class StringUtil {
 				isNotEqual(str);
 	}
 
-	public static int checkBrackets(String parseString) {
+	/**
+	 * Since a_{{{{{{{5}=2 is correct expression, we 
+	 * replace the index by Xs to obtain a_{XXXXXXX}=2 
+	 * @param text text
+	 * @return text with replaced {s
+	 */
+	public static String ignoreIndices(String text) {
+		StringBuilder sb = new StringBuilder(80);
+		boolean ignore = false;
+		boolean underscore = false;
+		for(int i=0;i<text.length();i++){
+			if(ignore && text.charAt(i)=='}'){
+				ignore = false;
+			}
+			
+			if(!ignore)
+				sb.append(text.charAt(i));
+			else
+				sb.append('X');
+			
+			if(underscore && text.charAt(i)=='{'){
+				ignore = true;
+			}
+			else if(!ignore){
+				underscore = text.charAt(i)=='_';
+			}
+			
+		}
+		return sb.toString();
+	}
+	
+	public static int checkBracketsBackward(String parseString) {
 		int curly = 0;
 		int square = 0; 
 		int round = 0;
@@ -834,53 +865,40 @@ public class StringUtil {
 		int lastSquare = -1; 
 		int lastRound = -1;
 		boolean comment = false;
-		boolean index = false;
-		boolean underscore = false;
-		for(int i=0;i<parseString.length();i++){
+		for(int i=parseString.length()-1;i>=0;i--){
 			char ch = parseString.charAt(i);
 			if(comment && ch!='"')
 				continue;
-			if(index && ch!='}')
-				continue;			
 			switch(ch){
-				case '_': 
-					underscore = true; 
-					break;
-				case '{': 
-					if(underscore)
-						index = true; 
-					lastCurly = i; 
-					curly++;
-					underscore = false;
+				case '"':
+					comment=!comment;
 					break;
 				case '}': 
-					if(index) index = false; 
+					lastCurly = i; 
+					curly++;
+					break;
+				case '{': 
 					curly--;
 					if(curly<0)
 						return i;
-					underscore = false;
 					break;
-				case '[':
+				case ']':
 					square++;
 					lastSquare=i;
-					underscore = false;
 					break;
-				case ']':	
+				case '[':	
 					square--;
 					if(square<0)
 						return i;
-					underscore = false;
 					break;
-				case '(':
+				case ')':
 					round++;
 					lastRound=i;
-					underscore = false;
 					break;
-				case ')':	
+				case '(':	
 					round--;
 					if(round<0)
 						return i;
-					underscore = false;
 					break;	
 			}
 		}

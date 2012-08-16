@@ -3,7 +3,6 @@ package geogebra.common.gui.inputfield;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 /**
  * @author gabor
@@ -50,7 +49,6 @@ public abstract class MyTextField {
 				searchEnd = text.length();
 				oppositeBracketToMatch = '{';
 				bracketToMatch = '}';
-				text = ignoreIndices(text);
 				break;
 			case '[':
 				searchDirection = +1;
@@ -69,7 +67,6 @@ public abstract class MyTextField {
 				searchEnd = -1;
 				oppositeBracketToMatch = '}';
 				bracketToMatch = '{';
-				text = ignoreIndices(text);
 				break;
 			case ']':
 				searchDirection = -1;
@@ -114,37 +111,6 @@ public abstract class MyTextField {
 	
 		return result;
 	
-	}
-	
-	/**
-	 * Since a_{{{{{{{5}=2 is correct expression, we 
-	 * replace the index by Xs to obtain a_{XXXXXXX}=2 
-	 * @param text text
-	 * @return text with replaced {s
-	 */
-	private static String ignoreIndices(String text) {
-		StringBuilder sb = new StringBuilder(80);
-		boolean ignore = false;
-		boolean underscore = false;
-		for(int i=0;i<text.length();i++){
-			if(ignore && text.charAt(i)=='}'){
-				ignore = false;
-			}
-			
-			if(!ignore)
-				sb.append(text.charAt(i));
-			else
-				sb.append('X');
-			
-			if(underscore && text.charAt(i)=='{'){
-				ignore = true;
-			}
-			else if(!ignore){
-				underscore = text.charAt(i)=='_';
-			}
-			
-		}
-		return sb.toString();
 	}
 
 	public static boolean isCloseBracketOrWhitespace(char c) {

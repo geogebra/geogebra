@@ -88,7 +88,7 @@ public class Parser implements ParserInterface{
     
     // reset for new parsing
     public void myReInit(String parseString) throws ParseException {
-        if(StringUtil.checkBrackets(parseString)>=0){
+        if(StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
           throw new MyParseError(app,new String[]          {            app.getError("UnbalancedBrackets"),parseString          }          );
         }
     	ReInit(new java.io.StringReader(parseString));    	

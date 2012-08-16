@@ -5,7 +5,7 @@ import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
-import geogebra.util.StringUtil;
+import geogebra.common.util.StringUtil;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -366,8 +366,9 @@ public class MyTextField extends JTextField implements ActionListener,
 			caretPos = pos;
 
 		// get the bracket positions
+		text = StringUtil.ignoreIndices(text);
 		int[] brkPos = geogebra.common.gui.inputfield.MyTextField.getBracketPositions(text, caret);
-		int wrong = geogebra.common.util.StringUtil.checkBrackets(text);
+		int wrong = geogebra.common.util.StringUtil.checkBracketsBackward(text);
 		int bracket1pos = brkPos[0];
 		int bracket2pos = brkPos[1];
 
