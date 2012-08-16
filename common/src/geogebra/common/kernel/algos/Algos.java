@@ -321,6 +321,7 @@ public enum Algos {
 	AlgoSurdTextPoint(Commands.SurdText),
 	AlgoTTest(Commands.TTest),
 	AlgoZProportionTest(Commands.ZProportionTest),
+	AlgoZProportion2Test(Commands.ZProportion2Test),
 	AlgoTTestPaired(Commands.TTestPaired),
 	AlgoTTest2(Commands.TTest2),
 	AlgoTMeanEstimate(Commands.TMeanEstimate),

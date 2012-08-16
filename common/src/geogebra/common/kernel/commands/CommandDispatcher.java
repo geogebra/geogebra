@@ -1125,13 +1125,14 @@ public class CommandDispatcher {
 				return new CmdTurtleRight(kernel);
 			case ZProportionTest:
 				return new CmdZProportionTest(kernel);
+			case ZProportion2Test:
+				return new CmdZProportion2Test(kernel);
 			default:
-				App.debug("missing case in CommandDispatcher");
+				App.error("missing case in CommandDispatcher "+cmdName);
 				return null;
 			}
 		} catch (Exception e) {
-			App
-					.debug("Warning: command not found / CAS command called:"
+			App.warn("command not found / CAS command called:"
 							+ cmdName);
 		}
 		return null;
