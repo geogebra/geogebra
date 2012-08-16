@@ -1032,6 +1032,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	private void resolveMinMax() {
+		double oldValue = value;
 		if (intervalMin == null || intervalMax == null)
 			return;
 		boolean okMin = !Double.isNaN(getIntervalMin())
@@ -1045,8 +1046,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			setValue(isDefined() ? value : 1.0);
 		else if (okMin && okMax)
 			setUndefined();
-
-		updateCascade();
+		if(oldValue!=value)
+			updateCascade();
 	}
 
 	/**
