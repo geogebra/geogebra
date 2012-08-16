@@ -1403,14 +1403,19 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			int NN = 2 * N - 1;
 
-			if (list2.size() + 1 != N || N < 3) {
+			if (list2.size() + 1 != N || N < 2) {
 				sum.setUndefined();
 				return;
 			}
 
 			start = ((GeoNumeric) (list1.get(0))).getDouble();
 			end = ((GeoNumeric) (list1.get(N - 2))).getDouble();
-			step = ((GeoNumeric) (list1.get(1))).getDouble() - start;
+			if(N == 2){
+				// special case, one bar 
+				step = 1;
+			}else{
+				step = ((GeoNumeric) (list1.get(1))).getDouble() - start;
+			}
 			double colWidth = width.getDouble();
 
 			// Application.debug("N = "+N+" start = "+start+" end = "+end+" colWidth = "+colWidth);
