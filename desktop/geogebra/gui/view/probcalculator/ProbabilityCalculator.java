@@ -15,7 +15,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoExponentialDF;
 import geogebra.common.kernel.algos.AlgoFDistributionDF;
 import geogebra.common.kernel.algos.AlgoGammaDF;
-import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoLogNormalDF;
@@ -70,7 +69,6 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
@@ -98,9 +96,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -148,8 +146,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 	// GeoElements
 	private ArrayList<GeoElement> plotGeoList;
 	private GeoPoint lowPoint, highPoint, curvePoint;
-	private GeoElement densityCurve, integral, ySegment, xSegment;
-	private GeoElement discreteGraph, discreteIntervalGraph;
+	private GeoElement densityCurve, integral, ySegment, xSegment,
+			discreteGraph, discreteIntervalGraph, normalOverlay;
 	private GeoList discreteValueList, discreteProbList, intervalProbList,
 			intervalValueList;
 	// private GeoList parmList;
@@ -229,6 +227,12 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	private JPanel plotPanelPlus;
 
+	private JPanel probCalcPanel;
+
+	private JTabbedPane tabbedPane;
+
+	private boolean showProbGeos = false;
+
 	/*************************************************
 	 * Construct the dialog
 	 */
@@ -248,10 +252,18 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		createGUIElements();
 		createLayoutPanels();
-		buildLayout();
+		buildProbCalcPanel();
 		isIniting = false;
 
-		// setProbabilityCalculator(selectedDist, null, isCumulative);
+		tabbedPane = new JTabbedPane();
+		tabbedPane.addTab(app.getMenu("Distribution"), probCalcPanel);
+		tabbedPane.addTab(app.getMenu("Statistics"), new StatisticsCalculator(
+				app));
+
+		this.setLayout(new BorderLayout());
+		this.add(tabbedPane, BorderLayout.CENTER);
+
+		setLabels();
 
 		attachView();
 		settingsChanged(app.getSettings().getProbCalcSettings());
@@ -395,7 +407,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// plot label panel
 			JPanel plotLabelPanel = OptionsUtil.flowPanelRight(0, 0, 0,
 					lblMeanSigma, Box.createHorizontalStrut(10));
-			plotLabelPanel.setBorder(BorderFactory.createEmptyBorder(4,0,4,0));
+			plotLabelPanel.setBorder(BorderFactory
+					.createEmptyBorder(4, 0, 4, 0));
 			plotLabelPanel.setBackground(Color.white);
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
@@ -414,7 +427,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		}
 	}
 
-	private void buildLayout() {
+	private void buildProbCalcPanel() {
 
 		this.removeAll();
 
@@ -433,11 +446,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 		mainSplitPane.setResizeWeight(1);
 		mainSplitPane.setBorder(BorderFactory.createEmptyBorder());
 
-		this.setLayout(new BorderLayout());
-		this.add(mainSplitPane, BorderLayout.CENTER);
-		this.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 2));
+		probCalcPanel = new JPanel(new BorderLayout());
+		probCalcPanel.add(mainSplitPane, BorderLayout.CENTER);
+		probCalcPanel.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 2));
 
-		setLabels();
 	}
 
 	private void addRemoveTable(boolean showTable) {
@@ -559,7 +571,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		// tb.addSeparator();
 
 		JPanel p = new JPanel(new BorderLayout(0, 0));
-		p.add(OptionsUtil.flowPanel(0, 0, 0, btnCumulative, cbPanel),
+		p.add(OptionsUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
 				BorderLayout.WEST);
 		p.add(OptionsUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
 				Box.createHorizontalStrut(10)), BorderLayout.EAST);
@@ -634,29 +646,30 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// create discrete bar graph and associated lists
 			createDiscreteLists();
 
-			// create interval bar chart
+			// create discrete graph
 			// ============================
 
-			AlgoBarChart algoBarChart;
-			AlgoPolyLine algoPolyLine;
-			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
-				NumberValue zeroWidth = new GeoNumeric(cons, 0);
-				algoBarChart = new AlgoBarChart(cons, discreteValueList,
-						discreteProbList, zeroWidth);
-			} else {
-				algoBarChart = new AlgoBarChart(cons, discreteValueList,
-						discreteProbList);
-			}
-
-			algoPolyLine = createPolyLine(algoBarChart);
-
-			cons.removeFromConstructionList(algoBarChart);
-			cons.removeFromConstructionList(algoPolyLine);
 			if (graphType == GRAPH_STEP) {
+				AlgoPolyLine algoPolyLine = createStepFunction(
+						discreteValueList, discreteProbList);
+				cons.removeFromConstructionList(algoPolyLine);
 				discreteGraph = algoPolyLine.getGeoElements()[0];
+
 			} else {
-				discreteGraph = algoBarChart.getGeoElements()[0];
+				AlgoBarChart algoBarChart;
+				if (graphType == GRAPH_LINE) {
+					NumberValue zeroWidth = new GeoNumeric(cons, 0);
+					algoBarChart = new AlgoBarChart(cons, discreteValueList,
+							discreteProbList, zeroWidth);
+				} else {
+					algoBarChart = new AlgoBarChart(cons, discreteValueList,
+							discreteProbList);
+					cons.removeFromConstructionList(algoBarChart);
+					discreteGraph = algoBarChart.getGeoElements()[0];
+				}
+
 			}
+
 			discreteGraph.setObjColor(new geogebra.awt.GColorD(COLOR_PDF));
 			discreteGraph.setAlphaValue(opacityDiscrete);
 			discreteGraph.setLineThickness(thicknessBarChart);
@@ -666,7 +679,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 			discreteGraph.setEuclidianVisible(true);
 			plotGeoList.add(discreteGraph);
 
-			// create discrete interval bar graph and associated lists
+			// ============================
+			// create lists for the discrete interval graph
 
 			// Use Take[] to create a subset of the full discrete graph:
 			// Take[discreteList, x(lowPoint) + offset, x(highPoint) + offset]
@@ -711,18 +725,26 @@ public class ProbabilityCalculator extends JPanel implements View,
 			cons.removeFromConstructionList(take2);
 			intervalProbList = (GeoList) take2.getGeoElements()[0];
 
-			AlgoBarChart barChart;
-			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
-				NumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
-				barChart = new AlgoBarChart(cons, intervalValueList,
-						intervalProbList, zeroWidth2);
-			} else {
-				barChart = new AlgoBarChart(cons, intervalValueList,
-						intervalProbList);
-			}
-			cons.removeFromConstructionList(barChart);
+			// ============================
+			// create the interval graph
+			if (graphType == GRAPH_STEP) {
+				AlgoPolyLine algoPolyLine2 = createStepFunction(
+						intervalValueList, intervalProbList);
+				cons.removeFromConstructionList(algoPolyLine2);
+				discreteIntervalGraph = algoPolyLine2.getGeoElements()[0];
 
-			discreteIntervalGraph = barChart.getGeoElements()[0];
+			} else {
+				AlgoBarChart barChart;
+				if (graphType == GRAPH_LINE) {
+					NumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
+					barChart = new AlgoBarChart(cons, intervalValueList,
+							intervalProbList, zeroWidth2);
+				} else {
+					barChart = new AlgoBarChart(cons, intervalValueList,
+							intervalProbList);
+				}
+				cons.removeFromConstructionList(barChart);
+			}
 
 			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
 				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
@@ -735,7 +757,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				discreteIntervalGraph.setLineThickness(thicknessBarChart);
 			}
 
-			discreteIntervalGraph.setEuclidianVisible(true);
+			discreteIntervalGraph.setEuclidianVisible(showProbGeos);
 			discreteIntervalGraph.setLayer(discreteGraph.getLayer() + 1);
 			discreteIntervalGraph.setFixed(true);
 			discreteIntervalGraph.setSelectionAllowed(false);
@@ -792,7 +814,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				integral = algoIntegral.getGeoElements()[0];
 				integral.setObjColor(new geogebra.awt.GColorD(COLOR_PDF_FILL));
 				integral.setAlphaValue(opacityIntegral);
-				integral.setEuclidianVisible(true);
+				integral.setEuclidianVisible(showProbGeos);
 				// make sure doesn't interfere with dragging of point
 				integral.setSelectionAllowed(false);
 				plotGeoList.add(integral);
@@ -843,7 +865,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				xSegment.setObjColor(new geogebra.awt.GColorD(Color.blue));
 				xSegment.setLineThickness(3);
 				xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-				xSegment.setEuclidianVisible(true);
+				xSegment.setEuclidianVisible(showProbGeos);
 				xSegment.setFixed(true);
 				xSegment.setSelectionAllowed(false);
 				plotGeoList.add(xSegment);
@@ -866,7 +888,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				ySegment.setObjColor(new geogebra.awt.GColorD(Color.red));
 				ySegment.setLineThickness(3);
 				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
-				ySegment.setEuclidianVisible(true);
+				ySegment.setEuclidianVisible(showProbGeos);
 				ySegment.setFixed(true);
 				ySegment.setSelectionAllowed(false);
 				plotGeoList.add(ySegment);
@@ -881,44 +903,53 @@ public class ProbabilityCalculator extends JPanel implements View,
 	}
 
 	/**
-	 * Creates a FrequencyPolygon algo using AlgoPolyLine instead of
-	 * AlgoFrequencyPolygon This is needed until FrequencyPolygonRight is
-	 * implemented
+	 * Creates a step function for a discrete distribution.
 	 * 
-	 * @param histogram
-	 * @param doCumulative
-	 * @return
+	 * @param xList
+	 *            list with x values
+	 * @param probList
+	 *            list with y = P(x) values
+	 * @return AlgoPolyLine implementation of a step function
 	 */
-	private AlgoPolyLine createPolyLine(AlgoBarChart histogram) {
+	public AlgoPolyLine createStepFunction(GeoList xList, GeoList probList) {
 
-		double[] leftBorder = histogram.getLeftBorder();
-		double yValue[] = histogram.getYValue();
-		int n = yValue.length;
-		GeoPointND[] points = new GeoPoint[n];
+		// Extract x/y coordinates from the lists.
+		double[] xCoords = new double[xList.size()];
+		double yCoords[] = new double[probList.size()];
+		int n = yCoords.length;
+		for (int i = 0; i < n; i++) {
+			xCoords[i] = ((GeoNumeric) xList.get(i)).getDouble();
+			yCoords[i] = ((GeoNumeric) probList.get(i)).getDouble();
+		}
 
+		// Create the PolyLine as:
+		// (x0, P(x0)),
+		// (x1, P(x0)), (x1, P(x1)),
+		// (x2, P(x1)), (x2, P(x2)),
+		// ...
+		// (xn-1, P(xn-2), (xn-1, P(xn-1))
+
+		GeoPointND[] points = new GeoPoint[2 * n - 1];
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		// first point
-		points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
-		// System.out.println(" 0: (" + leftBorder[0] + " , " + yValue[0] + ")"
-		// );
-		// middle points (two for each border value)
-		int i = 1;
-		while (i < n - 1) {
-			points[i] = new GeoPoint(cons, null, leftBorder[i], yValue[i - 1],
+		// first point is special
+		points[0] = new GeoPoint(cons, null, xCoords[0], yCoords[0], 1.0);
+
+		// remaining points
+		for (int i = 1; i < n; i++) {
+			points[2 * i - 1] = new GeoPoint(cons, null, xCoords[i],
+					yCoords[i - 1], 1.0);
+			points[2 * i] = new GeoPoint(cons, null, xCoords[i], yCoords[i],
 					1.0);
-			points[i + 1] = new GeoPoint(cons, null, leftBorder[i],
-					yValue[i + 1], 1.0);
-			i += 2;
-			// System.out.println(i + ": (" + leftBorder[i] + " , " + yValue[i]
-			// + ")  " + i + "  : " + n);
 		}
 
-		// last point
-		points[n - 1] = new GeoPoint(cons, null, leftBorder[n - 1], 1, 1.0);
-
 		cons.setSuppressLabelCreation(suppressLabelCreation);
+
+		// System.out.println("===============================================");
+		// System.out.println("left border: " + Arrays.toString(xCoords));
+		// System.out.println("yval: " + Arrays.toString(yCoords));
+		// System.out.println("polyline points: " + Arrays.toString(points));
 
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points, false);
 
@@ -1409,8 +1440,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 		this.getPlotDimensions();
 
 		if (probMode == PROB_INTERVAL) {
-			lowPoint.setEuclidianVisible(true);
-			highPoint.setEuclidianVisible(true);
+			lowPoint.setEuclidianVisible(showProbGeos);
+			highPoint.setEuclidianVisible(showProbGeos);
 			fldLow.setVisible(true);
 			fldHigh.setVisible(true);
 			lblBetween.setText(app.getMenu("XBetween"));
@@ -1424,7 +1455,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		else if (probMode == PROB_LEFT) {
 			lowPoint.setEuclidianVisible(false);
-			highPoint.setEuclidianVisible(true);
+			highPoint.setEuclidianVisible(showProbGeos);
 			fldLow.setVisible(false);
 			fldHigh.setVisible(true);
 			lblBetween.setText(app.getMenu("XLessThanOrEqual"));
@@ -1440,7 +1471,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		}
 
 		else if (probMode == PROB_RIGHT) {
-			lowPoint.setEuclidianVisible(true);
+			lowPoint.setEuclidianVisible(showProbGeos);
 			highPoint.setEuclidianVisible(false);
 			fldLow.setVisible(true);
 			fldHigh.setVisible(false);
@@ -1653,12 +1684,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		// distPanel.setBorder(BorderFactory.createTitledBorder(app
-		// .getMenu("Distribution")));
-		// probPanel.setBorder(BorderFactory.createTitledBorder(app
-		// .getMenu("Probability")));
+		tabbedPane.setTitleAt(0, app.getMenu("Distribution"));
+		tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
 
-		// probPanel.setBorder(BorderFactory.createEtchedBorder());
 		setLabelArrays();
 
 		lblDist.setText(app.getMenu("Distribution") + ": ");
