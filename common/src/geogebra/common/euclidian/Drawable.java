@@ -482,10 +482,11 @@ public abstract class Drawable extends DrawableND {
 		// stop spurious numbers after undo
 		if (view.getKernel().isViewReiniting())
 			return;
+
 		Construction cons = view.getKernel().getConstruction();
-		if (cons.getApplication().isUsingFullGui())
-			cons.getApplication()
-					.traceToSpreadsheet(traceGeo);
+		if (cons.getApplication().isUsingFullGui() ||
+			cons.getApplication().isFullAppGui())// may be unnecessary
+			cons.getApplication().traceToSpreadsheet(traceGeo);
 	}
 
 	/**

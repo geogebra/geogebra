@@ -42,6 +42,7 @@ import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -156,6 +157,8 @@ public class AppW extends App {
 	private String ORIGINAL_BODY_CLASSNAME = "";
 	
 	private HashMap<String, String> englishCommands = null;
+
+	private SpreadsheetTableModelW tableModel;
 	
 	// convenience method
 	public AppW(ArticleElement ae, GeoGebraFrame gf) {
@@ -863,18 +866,6 @@ public class AppW extends App {
 	}
 
 	@Override
-	public void traceToSpreadsheet(GeoElement o) {
-		App.debug("traceToSpreadsheet: implementation needed"); // TODO Auto-generated
-
-	}
-
-	@Override
-	public void resetTraceColumn(GeoElement o) {
-		App.debug("resetTraceColumn: implementation needed"); // TODO Auto-generated
-
-	}
-
-	@Override
 	public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
 		
@@ -1133,6 +1124,7 @@ public class AppW extends App {
 
 	private void attachViews() {
 	    getGuiManager().attachView(VIEW_ALGEBRA);
+	    getSpreadsheetTableModel();// its constructor calls attachView as a side-effect
 	    // Attached only on first click getGuiManager().attachView(VIEW_PROPERTIES);
 	    
     }
@@ -1543,8 +1535,10 @@ public class AppW extends App {
 
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
-		App.debug("getSpreadsheetTableModel: implementation needed"); // TODO Auto-generated
-		return null;
+		if(tableModel == null){
+			tableModel = new SpreadsheetTableModelW(this,SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
+		}
+		return tableModel;
 	}
 
 	@Override
