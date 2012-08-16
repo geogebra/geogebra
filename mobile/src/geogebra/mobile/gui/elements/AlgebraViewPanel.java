@@ -17,7 +17,7 @@ import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 public class AlgebraViewPanel extends LayoutPanel
 {
 
-	private AlgebraView algebraView;
+	protected AlgebraView algebraView;
 	
 	boolean small = false; 
 	
@@ -32,7 +32,7 @@ public class AlgebraViewPanel extends LayoutPanel
       public void onTap(TapEvent event)
       {
 				if(AlgebraViewPanel.this.small){
-					AlgebraViewPanel.this.setWidth("15%");
+					extend(); 
 				}
       }			
 		});
@@ -45,17 +45,23 @@ public class AlgebraViewPanel extends LayoutPanel
 			{
 				if (event.getDirection() == DIRECTION.LEFT_TO_RIGHT)
 				{
-					AlgebraViewPanel.this.setWidth("15%");
+					extend(); 
 				}
 				else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
 				{
 					AlgebraViewPanel.this.setWidth("5%");
 					AlgebraViewPanel.this.small = true; 
+					AlgebraViewPanel.this.remove((Widget) AlgebraViewPanel.this.algebraView); 
 				}
 			}
 		});
 	}
 
+	protected void extend(){
+		AlgebraViewPanel.this.setWidth("15%");
+		add((Widget) this.algebraView); 
+	}
+	
 	public void initAlgebraView(MobileAlgebraController ac, Kernel kernel)
 	{
 		this.algebraView = new AlgebraViewM(ac);

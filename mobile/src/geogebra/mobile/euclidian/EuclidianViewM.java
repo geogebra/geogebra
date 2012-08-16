@@ -111,7 +111,7 @@ public class EuclidianViewM extends EuclidianView
 	{
 		// TODO
 //		updateSize();
-		((GFontW) this.g2p.getFont()).setFontSize(12); 
+//		((GFontW) this.g2p.getFont()).setFontSize(12); 
 		paint(this.g2p);
 	}
 

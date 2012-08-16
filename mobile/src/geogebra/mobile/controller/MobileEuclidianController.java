@@ -65,13 +65,13 @@ public class MobileEuclidianController extends EuclidianController implements To
 		// Test
 		this.kernel.clearConstruction(); 
 		
-		this.xRW = 7.0; 
+		this.xRW = 4.0; 
 		this.yRW = 2.0; 
 		this.createNewPoint(false, false); 
 		
-		GeoPoint P = this.kernel.Point(null, 8.5, 4.5);
-		GeoPoint Q = this.kernel.Point(null, 5.0, 1.0);
-		this.kernel.Point("R", 10.0, -2.0);
+		GeoPoint P = this.kernel.Point(null, 6.0, 4.5);
+		GeoPoint Q = this.kernel.Point(null, 11.0, 1.0);
+		this.kernel.Point("R", 7.0, -2.0);
 		this.kernel.Line("g", P, Q);
 	}
 

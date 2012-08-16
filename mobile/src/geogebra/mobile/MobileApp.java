@@ -55,10 +55,12 @@ public class MobileApp extends App
 		super.initing = true;
 
 		intitFactories();
-
+		
 		this.fontManager = new FontManagerW();
 		this.mobileGUI = mobileGUI;
 		this.settings = new Settings();
+		
+		setFontSize(12); 
 	}
 
 	public void start()
