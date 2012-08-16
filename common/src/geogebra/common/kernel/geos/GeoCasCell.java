@@ -2186,6 +2186,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
+			input = inputVE.toAssignmentString(StringTemplate.defaultTemplate);
+			updateLocalizedInput(StringTemplate.defaultTemplate);
 			outputVE.setLabel(assignmentVar);
 			latex = null;
 		} else {
