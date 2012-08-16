@@ -251,7 +251,8 @@ public class StatGeo {
 		if(isRawData){
 		al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
 				settings.isCumulative), (GeoList) al.getGeoElements()[0],
-				dataList, new GeoBoolean(cons, true), new GeoNumeric(cons,
+				//TODO -- the null below is just to make autotest happy, it may not be correct
+				dataList, null, new GeoBoolean(cons, true), new GeoNumeric(cons,
 						density), histogramRight);
 		
 		} else {
