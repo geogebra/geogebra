@@ -92,16 +92,6 @@ public class AlgoFirstString extends AlgoElement {
 			outputText.setTextString(str.substring(0, outsize));
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }

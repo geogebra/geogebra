@@ -129,19 +129,10 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
     	return a11*a22-a12*a21;
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
     
 }

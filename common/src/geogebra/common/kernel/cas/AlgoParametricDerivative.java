@@ -77,17 +77,7 @@ public class AlgoParametricDerivative extends AlgoElement {
 		paramDeriv.setParametricDerivative(curve);
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 	
 	@Override
 	final public String toString(StringTemplate tpl) {

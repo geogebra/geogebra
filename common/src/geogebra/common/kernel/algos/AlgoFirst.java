@@ -101,16 +101,6 @@ public class AlgoFirst extends AlgoElement {
     		outputList.add(((GeoList)inputList).get(i).copyInternal(cons));
    }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
   
 }

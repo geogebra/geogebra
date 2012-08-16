@@ -187,17 +187,7 @@ public class AlgoFitNL extends AlgoElement {
 		App.debug(s);
 	}// errorMsg(String)
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }// class AlgoFitNL
 

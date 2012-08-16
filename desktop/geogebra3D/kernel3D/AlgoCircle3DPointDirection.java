@@ -160,17 +160,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	 */
     
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
     
 }

@@ -100,14 +100,6 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     	// to the label like $A$1
     	return origGeoNode.toString(tpl);
     }
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	
+	// TODO Consider locusequability
 }

@@ -67,16 +67,6 @@ public class AlgoIsInteger extends AlgoElement {
         outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
   
 }

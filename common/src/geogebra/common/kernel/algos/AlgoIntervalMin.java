@@ -35,16 +35,6 @@ public class AlgoIntervalMin extends AlgoIntervalAbstract {
     	result.setValue(interval.getMin());
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
     
 }

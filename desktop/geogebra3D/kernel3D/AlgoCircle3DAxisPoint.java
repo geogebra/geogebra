@@ -107,15 +107,5 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
     	return app.getPlain("CircleOfAxisAThroughB",((GeoElement) axis).getLabel(tpl),point.getLabel(tpl));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

@@ -188,18 +188,11 @@ public class AlgoLocusEquation extends AlgoElement {
 	/* (non-Javadoc)
 	 * @see geogebra.common.kernel.algos.AlgoElement#buildEquationElementForGeo(geogebra.common.kernel.geos.GeoElement, geogebra.common.kernel.locusequ.EquationScope)
 	 */
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see geogebra.common.kernel.algos.ConstructionElement#isLocusEquable()
 	 */
-	@Override
-	public boolean isLocusEquable() {
-		return false;
-	}
+	
 
 }

@@ -86,15 +86,5 @@ public class AlgoLengthVector3D extends AlgoElement {
         return app.getPlain("LengthOfA",((GeoElement)v).getLabel(tpl));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

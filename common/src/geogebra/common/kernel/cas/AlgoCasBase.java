@@ -102,17 +102,8 @@ public abstract class AlgoCasBase extends AlgoElement {
 		return getCommandDescription(tpl);
 	}
 	
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }

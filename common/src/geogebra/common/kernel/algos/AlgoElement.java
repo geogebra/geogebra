@@ -1495,5 +1495,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @param scope the scope containing the points.
 	 * @return a new EquationElement.
 	 */
-	public abstract EquationElement buildEquationElementForGeo(GeoElement element, EquationScope scope);
+	public EquationElement buildEquationElementForGeo(GeoElement element, EquationScope scope) {
+		return null;
+	}
+	
+	@Override
+	public boolean isLocusEquable() {
+		return false;
+	}
+
 }

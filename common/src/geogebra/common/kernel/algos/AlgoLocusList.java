@@ -301,16 +301,6 @@ public class AlgoLocusList extends AlgoElement {
 		locus.insertPoint(x, y, lineTo);
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }

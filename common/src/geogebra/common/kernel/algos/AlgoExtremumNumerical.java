@@ -267,17 +267,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 				+ f.evaluate(r);
 	}// info()
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 	// */ //--- SNIP end ---------------------------------------
 

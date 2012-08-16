@@ -78,15 +78,5 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 	 * treated differently than points.
 	 */
     
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}     
+	// TODO Consider locusequability     
 }

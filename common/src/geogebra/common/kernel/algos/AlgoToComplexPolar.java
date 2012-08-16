@@ -81,18 +81,9 @@ public class AlgoToComplexPolar extends AlgoElement {
 		}
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	/**
 	 * @return resulting point/vector

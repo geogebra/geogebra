@@ -245,9 +245,5 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 		return new EquationLinePointLine(element, scope);
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

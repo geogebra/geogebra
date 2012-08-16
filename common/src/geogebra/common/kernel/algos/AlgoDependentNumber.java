@@ -108,14 +108,6 @@ public class AlgoDependentNumber extends AlgoElement {
 	final public String toRealString(StringTemplate tpl) {        
         return root.toRealString(tpl);
     }
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	
+	// TODO Consider locusequability
 }

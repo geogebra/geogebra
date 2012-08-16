@@ -85,19 +85,10 @@ public class AlgoClosestPoint3D extends AlgoElement3D {
     	}
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
     
 }

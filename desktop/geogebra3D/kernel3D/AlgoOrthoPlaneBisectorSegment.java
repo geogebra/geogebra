@@ -63,16 +63,6 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
     	return segment.getPointInD(3, 0.5);
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }

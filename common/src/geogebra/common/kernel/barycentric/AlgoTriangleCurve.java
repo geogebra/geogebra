@@ -157,17 +157,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 	
 	

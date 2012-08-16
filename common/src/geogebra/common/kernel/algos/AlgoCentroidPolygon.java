@@ -67,15 +67,5 @@ public class AlgoCentroidPolygon extends AlgoElement {
         return app.getPlain("CentroidOfA",p.getLabel(tpl));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

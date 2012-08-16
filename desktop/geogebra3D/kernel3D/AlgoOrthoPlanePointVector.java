@@ -51,17 +51,7 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
     	return ((GeoVectorND) getSecondInput()).getCoordsInD(3);
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 
 }

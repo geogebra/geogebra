@@ -123,15 +123,5 @@ public class AlgoRotateVector extends AlgoElement {
     	return app.getPlain("ARotatedByAngleB",A.getLabel(tpl),angle.getLabel(tpl));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

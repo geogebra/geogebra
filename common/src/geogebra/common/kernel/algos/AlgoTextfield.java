@@ -79,16 +79,6 @@ public class AlgoTextfield extends AlgoElement {
     	return EuclidianConstants.MODE_TEXTFIELD_ACTION;
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
   
 }

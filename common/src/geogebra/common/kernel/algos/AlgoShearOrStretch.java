@@ -195,17 +195,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
  	   return posOrientation ^ (num.getDouble()<0);
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }
 

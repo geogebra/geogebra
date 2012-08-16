@@ -65,16 +65,6 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
     	return point1.getInhomCoordsInD(3).add(point2.getInhomCoordsInD(3)).mul(0.5);
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }

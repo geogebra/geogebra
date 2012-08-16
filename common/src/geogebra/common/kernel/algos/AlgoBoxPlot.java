@@ -311,16 +311,8 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	}
 
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
+	
 
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

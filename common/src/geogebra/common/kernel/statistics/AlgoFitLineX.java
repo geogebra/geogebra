@@ -109,16 +109,6 @@ public class AlgoFitLineX extends AlgoElement {
 		g.z=size*sigmay*sigmaxy-size*sigmayy*sigmax; // (g.x)x + (g.y)y + g.z = 0
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
     
 }

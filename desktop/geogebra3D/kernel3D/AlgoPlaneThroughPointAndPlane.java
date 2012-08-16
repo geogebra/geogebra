@@ -84,15 +84,5 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
     	return (GeoElement) cs;
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

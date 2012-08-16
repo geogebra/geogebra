@@ -76,16 +76,6 @@ public class AlgoTranspose extends AlgoElement {
    		matrix.getGeoList(outputList, cons);    
     }        
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
      
 }

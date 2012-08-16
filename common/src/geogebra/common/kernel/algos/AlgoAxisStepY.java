@@ -77,15 +77,5 @@ public class AlgoAxisStepY extends AlgoElement {
     	num.setValue(axisSteps[1]);
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}         
+	// TODO Consider locusequability         
 }

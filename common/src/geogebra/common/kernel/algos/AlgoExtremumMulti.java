@@ -326,17 +326,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		}// for
 	}// listPoints(GeoPoint[])
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 	// */ //--- SNIP end ---------------------------------------
 

@@ -36,16 +36,6 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
     	result.setValue(interval.getMidPoint());
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
     
 }

@@ -132,15 +132,5 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 			T.setCoords(feval[0], feval[1], 1.0);
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

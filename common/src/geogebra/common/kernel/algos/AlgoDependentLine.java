@@ -131,16 +131,6 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint {
 		return P.x *mat0 + P.y * mat1 + P.z * mat2;
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
     
 }

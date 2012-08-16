@@ -99,15 +99,5 @@ public class AlgoAxisSecond extends AlgoElement {
         return app.getPlain("SecondAxisOfA",c.getLabel(tpl));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }

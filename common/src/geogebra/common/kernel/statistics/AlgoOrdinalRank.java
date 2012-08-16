@@ -152,16 +152,6 @@ public class AlgoOrdinalRank extends AlgoElement {
 	}
 	private static Comparator comparator;
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }

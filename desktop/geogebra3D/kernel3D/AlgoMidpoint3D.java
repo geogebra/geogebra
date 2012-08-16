@@ -92,16 +92,6 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
     	getPoint().setCoords(getP().getInhomCoordsInD(3).add(getQ().getInhomCoordsInD(3)).mul(0.5));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }

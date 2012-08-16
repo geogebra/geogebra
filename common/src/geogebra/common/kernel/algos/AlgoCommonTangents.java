@@ -273,17 +273,7 @@ public class AlgoCommonTangents extends AlgoElement {
         return app.getPlain("CommonTangentOfCirclesAandB", c.getLabel(tpl), c2.getLabel(tpl));
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 }
 
 // Local Variables:

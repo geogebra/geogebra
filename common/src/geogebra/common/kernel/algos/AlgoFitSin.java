@@ -668,16 +668,6 @@ public class AlgoFitSin extends AlgoElement {
 	 * beta2(xd,yd,a,b,c,d);}
 	 */// SNIP END--------------------------------------
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 }// class AlgoFitSin

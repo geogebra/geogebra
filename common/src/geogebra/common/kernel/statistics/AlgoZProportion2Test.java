@@ -144,15 +144,8 @@ public class AlgoZProportion2Test extends AlgoElement {
 
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
+	
 
-	@Override
-	public boolean isLocusEquable() {
-		return false;
-	}
+	
 
 }

@@ -76,16 +76,6 @@ public class AlgoAreaPoints extends AlgoElement {
         area.setValue(GeoPolygon.calcArea(P)); 
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}       
+	// TODO Consider locusequability       
     
 }

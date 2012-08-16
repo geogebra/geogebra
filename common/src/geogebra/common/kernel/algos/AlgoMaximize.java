@@ -51,17 +51,7 @@ public class AlgoMaximize extends AlgoOptimize{
     	return Algos.AlgoMaximize;
     }//getClassName()    
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 	
 

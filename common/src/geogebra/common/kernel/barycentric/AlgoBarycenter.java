@@ -97,17 +97,7 @@ public class AlgoBarycenter extends AlgoElement {
 		point.setCoords(x/sum, y/sum, 1);
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 	
 	
 	

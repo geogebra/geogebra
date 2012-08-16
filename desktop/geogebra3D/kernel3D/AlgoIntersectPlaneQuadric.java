@@ -166,17 +166,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 		//segment.setObjColor(Color.orange);
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
  
 

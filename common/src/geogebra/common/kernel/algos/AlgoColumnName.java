@@ -77,15 +77,5 @@ public class AlgoColumnName extends AlgoElement {
     	else text.setTextString(col);	    	
     }
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}         
+	// TODO Consider locusequability         
 }

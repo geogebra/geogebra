@@ -119,17 +119,7 @@ public class AlgoPercentile extends AlgoElement {
 		result.setValue(percentile.evaluate(val));
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return null;
-	}
-
-	@Override
-	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
-	}
+	// TODO Consider locusequability
 
 
 }
