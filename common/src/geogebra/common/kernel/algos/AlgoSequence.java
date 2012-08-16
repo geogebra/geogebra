@@ -295,6 +295,10 @@ public class AlgoSequence extends AlgoElement {
 
 		if (!isEmpty) {
 			// needed capacity
+			if(Double.isInfinite((to - from) / step)){
+				list.setUndefined();
+				return;
+			}
 			int n = (int) Math.ceil((to - from) / step) + 1;
 			list.ensureCapacity(n);
 
