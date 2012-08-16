@@ -186,10 +186,10 @@ SUPPORTING PARTNERS
   * Austrian Academy of Sciences
     2004-2006: DOC scholarship for Markus Hohenwarter
   * Department of Mathematics, University of Salzburg
-    2002-2009: hosting the GeoGebra website                                                                
+    2002-2009: hosting the GeoGebra website
 
 
-                                             
+
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org/
 
@@ -294,8 +294,8 @@ Note for Commercial Users (e.g. publishers or online schools)
         installation packages that let you install the GeoGebra 
         application and/or documentation files on your system 
         (MS Windows, Mac OS, Linux, Chrome, Android, iOS, etc.) 
-		including GeoGebra WebStart.
-		
+        including GeoGebra WebStart.
+
 ------------------------------------------------------------------------
 
 4) GeoGebra Web Services including GeoGebraTube:   

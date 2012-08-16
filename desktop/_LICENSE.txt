@@ -102,7 +102,7 @@ Note for Commercial Users (e.g. publishers or online schools)
         installation packages that let you install the GeoGebra 
         application and/or documentation files on your system 
         (MS Windows, Mac OS, Linux, Chrome, Android, iOS, etc.) 
-		including GeoGebra WebStart.
+        including GeoGebra WebStart.
 		
 ------------------------------------------------------------------------
 
@@ -115,6 +115,5 @@ Note for Commercial Users (e.g. publishers or online schools)
     * Attribution. You must attribute our web services
         (i.e. by linking to our website and mentioning GeoGebra)
     * Non-commercial. You may not use our web services or link to our
-	    websites for commercial purposes (unless you have explicit 
-		permission from office@geogebra.org).
-
+        websites for commercial purposes (unless you have explicit 
+        permission from office@geogebra.org).
