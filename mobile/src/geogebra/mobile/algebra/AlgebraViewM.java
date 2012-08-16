@@ -22,14 +22,12 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
-//private AlgebraController algebraController;
-//
-//public AlgebraViewM(MobileAlgebraController ac)
-//{
-//this.algebraController = ac;
-//this.algebraController.setView(this);
-//}
-
+/**
+ * AlgebraView with tree for free and dependent objects.
+ * 
+ * taken from the web-project
+ * 
+ */
 public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView {
 
 	protected App app; // parent appame
@@ -229,7 +227,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		getStyleElement().getStyle().setFontWeight(Style.FontWeight.valueOf(font.isBold()?"BOLD":"NORMAL"));
 	}
 
-	//@Override
 	public void clearSelection() {
 
 		// deselecting this causes a bug; it maybe fixed
@@ -316,25 +313,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		setLabels();
 	}
 
-	/**
-	 * @return The helper bar for this view.
-	 */
-	/*public AlgebraHelperBar getHelperBar() {
-		if (helperBar == null) {
-			helperBar = newAlgebraHelperBar();
-		}
-
-		return helperBar;
-	}*/
-
-	/**
-	 * 
-	 * @return new algebra helper bar
-	 */
-	/*protected AlgebraHelperBar newAlgebraHelperBar() {
-		return new AlgebraHelperBar(this, app);
-	}*/
-
 	@Override
   public Object getPathForLocation(int x, int y) {
 		// TODO: auto-generated method stub
@@ -373,7 +351,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 				if (geo.isFixed()) {
 					//TODO
 //					app.showMessage(app.getError("AssignmentToFixed"));
-					System.out.println("x"); 
 				} else if (geo.isRedefineable()) {
 					this.app.getDialogManager().showRedefineDialog(geo, true);
 				}
@@ -641,7 +618,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		// binary search for geo's label
 		while (left <= right) {
 			int middle = (left + right) / 2;
-			TreeItem node = (TreeItem) parent.getChild(middle);
+			TreeItem node = parent.getChild(middle);
 			String nodeLabel = ((GeoElement) node.getUserObject()).getLabelSimple();
 
 			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
@@ -667,7 +644,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			return -1;
 		int childCount = parent.getChildCount();
 		for (int i = 0; i < childCount; i++) {
-			TreeItem node = (TreeItem) parent.getChild(i);
+			TreeItem node = parent.getChild(i);
 			GeoElement g = (GeoElement) node.getUserObject();
 			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate)))
 				return i;
@@ -854,228 +831,31 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		add(geo);
 	}
 
-	/**
-	 * Returns true if rendering is done with LaTeX
-	 * 
-	 * @return
-	 */
-	public boolean isRenderLaTeX() {
-		return renderLaTeX;
-	}
-
-
-
-	/**
-	 * inner class MyEditor handles editing of tree nodes
-	 * 
-	 * Created on 28. September 2001, 12:36
-	 */
-	/*private class MyDefaultTreeCellEditor extends DefaultTreeCellEditor
-	implements CellEditorListener {
-
-		public MyDefaultTreeCellEditor(AlgebraView tree,
-				DefaultTreeCellRenderer renderer, DefaultCellEditor editor) {
-			super(tree, renderer, editor);
-			// editor container that expands to fill the width of the tree's enclosing panel
-			editingContainer = new WideEditorContainer();
-		}*/
-
-		/*
-		 * CellEditorListener implementation
-		 */
-		/*public void editingCanceled(ChangeEvent event) {
-		}
-
-		public void editingStopped(ChangeEvent event) {
-
-			// get the entered String
-			String newValue = getCellEditorValue().toString();
-
-			// the userObject was changed to this String
-			// reset it to the old userObject, which we stored
-			// in selectedGeoElement (see valueChanged())
-			// only nodes with a GeoElement as userObject can be edited!
-			selectedNode.setUserObject(selectedGeoElement);
-
-			// change this GeoElement in the Kernel
-
-			// allow shift-double-click on a PointonPath in Algebra View to
-			// change without redefine
-			boolean redefine = !selectedGeoElement.isPointOnPath();
-
-			GeoElement geo = kernel.getAlgebraProcessor().changeGeoElement(
-					selectedGeoElement, newValue, redefine, true);
-			if (geo != null) {
-				selectedGeoElement = geo;
-				selectedNode.setUserObject(selectedGeoElement);
-			}
-
-			((DefaultTreeModel) getModel()).nodeChanged(selectedNode); // refresh
-			// display
-		}*/
-
-		/*
-		 * OVERWRITE SOME METHODS TO ONLY ALLOW EDITING OF GeoElements
-		 */
-
-		/*@Override
-		public boolean isCellEditable(EventObject event) {
-
-			if (event == null)
-				return true;
-
-			return false;
-		}*/
-
-		//
-		// TreeSelectionListener
-		//
-
-		/**
-		 * Resets lastPath.
-		 */
-		/*@Override
-		public void valueChanged(TreeSelectionEvent e) {
-			if (tree != null) {
-				if (tree.getSelectionCount() == 1)
-					lastPath = tree.getSelectionPath();
-				else
-					lastPath = null;*/
-				/***** ADDED by Markus Hohenwarter ***********/
-				/*storeSelection(lastPath);*/
-				/********************************************/
-			/*}
-			if (timer != null) {
-				timer.stop();
-			}
-		}*/
-
-		/**
-		 * stores currently selected GeoElement and node. selectedNode,
-		 * selectedGeoElement are private members of AlgebraView
-		 */
-		/*private void storeSelection(TreePath tp) {
-			if (tp == null)
-				return;
-
-			Object ob;
-			selectedNode = (DefaultMutableTreeNode) tp.getLastPathComponent();
-			if (selectedNode != null
-					&& (ob = selectedNode.getUserObject()) instanceof GeoElement) {
-				selectedGeoElement = (GeoElement) ob;
-			} else {
-				selectedGeoElement = null;
-			}
-		}*/
-
-
-		/**
-		 * Overrides getTreeCellEditor so that a custom
-		 * DefaultTreeCellEditor.EditorContainer class can be called to adjust
-		 * the container width.
-		 */
-		/*@Override
-		public Component getTreeCellEditorComponent(JTree tree, Object value,
-				boolean isSelected, boolean expanded, boolean leaf, int row) {
-
-			Component c = super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
-			((WideEditorContainer) editingContainer).updateContainer(tree,
-					lastPath, offset, editingComponent);
-			return c;
-
-		}*/
-
-
-		/**
-		 * Extends DefaultTreeCellEditor.EditorContainer to allow full-width editor fields.
-		 */
-		/*class WideEditorContainer extends DefaultTreeCellEditor.EditorContainer {
-
-			private static final long serialVersionUID = 1L;
-
-			JTree tree;
-			TreePath lastPath;
-			int offset;
-			Component editingComponent;*/
-
-
-			/**
-			 * Overrides doLayout so that the editor component width is resized
-			 * to extend the full width of the tree's enclosing panel
-			 */
-			/*@Override
-			public void doLayout() {
-				if (editingComponent != null) {
-					// get component preferred size
-					Dimension eSize = editingComponent.getPreferredSize();
-
-					// expand component width to extend to the enclosing container bounds
-					int n = lastPath.getPathCount();
-					Rectangle r = new Rectangle();
-					r = tree.getParent().getBounds();
-					eSize.width = r.width - (offset * n);
-
-					// only show the symbol table icon if the editor is wide enough
-					((MathTextField)editingComponent).setShowSymbolTableIcon(eSize.width > 100);
-
-					// set the component size and location
-					editingComponent.setSize(eSize);
-					editingComponent.setLocation(offset, 0);
-					editingComponent.setBounds(offset, 0, eSize.width, eSize.height);
-					setSize(new Dimension(eSize.width + offset, eSize.height));
-				}
-			}*/
-
-			/**
-			 * Overrides getPreferredSize to prevent extra large heights when
-			 * other tree nodes contain tall LaTeX images
-			 */
-			/*@Override
-			public Dimension getPreferredSize(){
-				Dimension d = super.getPreferredSize();
-				if(editingComponent != null)
-					d.height = editingComponent.getHeight();
-				return d;
-			}
-
-			void updateContainer(JTree tree, TreePath lastPath, int offset,
-					Component editingComponent) {
-				this.tree = tree;
-				this.lastPath = lastPath;
-				this.offset = offset;
-				this.editingComponent = editingComponent;
-			}
-		}
-
-
-	} // MyDefaultTreeCellEditor*/
-
-
-
+	// TODO
+//	/**
+//	 * Returns true if rendering is done with LaTeX
+//	 * 
+//	 * @return
+//	 */
+//	public boolean isRenderLaTeX() {
+//		return renderLaTeX;
+//	}
 
 	@Override
   public int getViewID() {
 		return App.VIEW_ALGEBRA;
 	}
 
-	public App getApplication() {
-		return this.app;
-	}
+	// TODO
+//	public App getApplication() {
+//		return this.app;
+//	}
 
 	public int[] getGridColwidths() {
 		return new int[] { getElement().getOffsetWidth() };
 	}
 
 	public int[] getGridRowHeights() {
-		// Object root=model.getRoot();
-		// ArrayList<Integer> heights=new ArrayList<Integer>();
-		// for (int i=0;i<model.getChildCount(root);i++){
-		// Object folder=model.getChild(root, i);
-		// if (model.)
-		// }
-		// // m.getChildCount(root);
-		//
-		// return new int[]{getHeight()};
 		int[] heights = new int[getItemCount()];
 		for (int i = 0; i < heights.length; i++) {
 			heights[i] = getItem(i).getElement().getOffsetHeight();
@@ -1083,11 +863,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		heights[0] += 2;
 		return heights;
 	}
-
-	/*public Component[][] getPrintComponents() {
-		return null;
-		//return new Component[][] { { this } };
-	}*/
 
 	@Override
   public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
@@ -1105,19 +880,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			
 		}
 	}
-
-	
-	
-	/**
-	 * returns settings in XML format
-	 * 
-	 * public void getXML(StringBuilder sb) {
-	 * 
-	 * sb.append("<algebraView>\n"); sb.append("\t<useLaTeX ");
-	 * sb.append(" value=\""); sb.append(isRenderLaTeX()); sb.append("\"");
-	 * sb.append("/>\n"); sb.append("</algebraView>\n"); }
-	 */
-
 
 	// temporary proxies for the temporary implementation of AlgebraController in common
 	@Override
@@ -1189,4 +951,4 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	    App.debug("unimplemented");
 	    return false;
     }
-} // AlgebraView
+} 

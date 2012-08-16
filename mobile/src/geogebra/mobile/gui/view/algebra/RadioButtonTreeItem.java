@@ -260,7 +260,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		// }
 	}
 
-	public String inputLatexCosmetics(String eqstring)
+	public static String inputLatexCosmetics(String eqstring)
 	{
 		// make sure eg FractionText[] works (surrounds with {} which doesn't draw
 		// well in MathQuill)
@@ -522,27 +522,5 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 	public void onMouseMove(MouseMoveEvent evt)
 	{
 		// TODO: not required
-		// if (av.isEditing())
-		// return;
-		//
-		// // tell EuclidianView to handle mouse over
-		// EuclidianViewInterfaceCommon ev =
-		// geo.getKernel().getApplication().getActiveEuclidianView();
-		// ev.mouseMovedOver(geo);
-		//
-		// // highlight the geos
-		// // getElement().getStyle().setBackgroundColor("rgb(200,200,245)");
-		//
-		// // implemented by HTML title attribute on the label
-		// // FIXME: geo.getLongDescription() doesn't work
-		// // if (geo != null) {
-		// // geo.getKernel().getApplication().setTooltipFlag();
-		// // se.setTitle(geo.getLongDescription());
-		// // geo.getKernel().getApplication().clearTooltipFlag();
-		// // } else {
-		// // se.setTitle("");
-		// // }
-		// evt.stopPropagation();
-		// evt.preventDefault();
 	}
 }

@@ -30,8 +30,6 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
-import geogebra.mobile.controller.MobileEuclidianController;
-import geogebra.mobile.euclidian.EuclidianViewM;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.main.AppW;
@@ -94,9 +92,10 @@ protected FontManager getFontManager()
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
 	{
-		MobileEuclidianController ec = new MobileEuclidianController();
-		ec.setKernel(this.kernel);
-		return new EuclidianViewM(ec, showAxes1, showGrid1, getSettings().getEuclidian(1));
+//		MobileEuclidianController ec = new MobileEuclidianController();
+//		ec.setKernel(this.kernel);
+//		return new EuclidianViewM(ec, showAxes1, showGrid1, getSettings().getEuclidian(1));
+		return null; 
 	}
 
 	@Override

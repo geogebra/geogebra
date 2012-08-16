@@ -24,6 +24,8 @@ public class TabletGUI implements GeoGebraMobileGUI
 	private TabletHeaderPanelRight rightHeader;
 	private AlgebraViewPanel algebraViewPanel;
 	private ToolBar toolBar;
+	
+	private GuiModel guiModel; 
 
 	public TabletGUI()
 	{
@@ -57,7 +59,8 @@ public class TabletGUI implements GeoGebraMobileGUI
 //		RootPanel.get().add(this.rightHeader);
 //		RootPanel.get().add(this.leftHeader);
 
-		this.toolBar.makeTabletToolBar(new GuiModel());
+		this.guiModel = new GuiModel(); 
+		this.toolBar.makeTabletToolBar(this.guiModel);
 		RootPanel.get().add(this.toolBar);
 
 		RootPanel.get().add(this.algebraViewPanel);
@@ -81,6 +84,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		// TODO add other stuff
 		MobileEuclidianController ec = new MobileEuclidianController();
 		ec.setKernel(kernel);
+		ec.setGuiModel(this.guiModel); 
 		this.euclidianViewPanel.initEuclidianView(ec);
 
 		MobileAlgebraController ac = new MobileAlgebraController(kernel);
