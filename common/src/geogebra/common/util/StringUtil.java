@@ -841,39 +841,46 @@ public class StringUtil {
 			if(comment && ch!='"')
 				continue;
 			if(index && ch!='}')
-				continue;
+				continue;			
 			switch(ch){
 				case '_': 
 					underscore = true; 
 					break;
 				case '{': 
-					if(underscore) index = true; 
+					if(underscore)
+						index = true; 
 					lastCurly = i; 
 					curly++;
+					underscore = false;
 					break;
 				case '}': 
 					if(index) index = false; 
 					curly--;
 					if(curly<0)
 						return i;
+					underscore = false;
 					break;
 				case '[':
 					square++;
 					lastSquare=i;
+					underscore = false;
 					break;
 				case ']':	
 					square--;
 					if(square<0)
 						return i;
+					underscore = false;
 					break;
 				case '(':
 					round++;
 					lastRound=i;
+					underscore = false;
 					break;
 				case ')':	
 					round--;
 					if(round<0)
 						return i;
+					underscore = false;
 					break;	
 			}
 		}
