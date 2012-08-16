@@ -859,12 +859,12 @@ public class StringUtil {
 		}
 		return sb.toString();
 	}
-	private static Stack<Integer> closingBrackets = new Stack<Integer>();
+	
 	public static int checkBracketsBackward(String parseString) {
 		int curly = 0;
 		int square = 0; 
 		int round = 0;
-		closingBrackets.clear();
+		Stack<Integer> closingBrackets = new Stack<Integer>();
 		boolean comment = false;
 		for(int i=parseString.length()-1;i>=0;i--){
 			char ch = parseString.charAt(i);
