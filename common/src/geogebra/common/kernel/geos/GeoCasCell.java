@@ -2183,7 +2183,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
-			setEvalComment(app.getMenu("CASPlot"));
 			outputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
