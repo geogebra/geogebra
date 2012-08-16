@@ -2145,6 +2145,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					|| (topLevel.getName()).equals("Solutions")) {
 				Command c = new Command(kernel, "PointList", true);
 				c.addArgument(evalVE.wrap());
+				this.setEvalCommand("PointList");
 				evalVE = c.wrap();
 			}
 		}
