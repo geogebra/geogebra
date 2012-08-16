@@ -21,8 +21,10 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.distribution.NormalDistributionImpl;
 
 
 /**
@@ -109,8 +111,16 @@ public class AlgoZProportionTest extends AlgoElement {
 
 		double se = Math.sqrt(hyp*(1-hyp)/n1);
 		double testStatistic = (phat - hyp)/se;
-		double P = MyMath.poz(testStatistic);
-		
+
+		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
+        double P=0;
+        try {
+            P = normalDist.cumulativeProbability(testStatistic);
+        } catch (MathException e) {
+            result.setUndefined();
+            return;
+        }
+        
 		if ("right".equals(testType)) {
 			P = 1 - P;
 		} else if ("two".equals(testType)) {
