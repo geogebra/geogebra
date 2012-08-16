@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
@@ -30,6 +31,7 @@ import java.math.BigDecimal;
 public class MySpecialDouble extends MyDouble {
 
 	private String strToString;
+	private final String originalString;
 	private boolean keepOriginalString;
 	private boolean isLetterConstant; // for Pi, Euler, or Degree constant
 	private boolean scientificNotation = false;
@@ -43,6 +45,7 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str) {
 		super(kernel, val);
+		originalString = str;
 		strToString = str;
 		if(strToString == null)
 			strToString = "0";
@@ -79,6 +82,7 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
+		originalString = sd.strToString;
 		strToString = sd.strToString;
 		keepOriginalString = sd.keepOriginalString;
 		isLetterConstant = sd.isLetterConstant; // for Pi, Euler, or Degree
@@ -124,7 +128,13 @@ public class MySpecialDouble extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		App.debug(originalString + tpl.allowMoreDigits());
 		if (!isLetterConstant) {
+			//serializing to CAS -- simply print input
+			if(tpl.hasType(StringType.MPREDUCE))
+				return originalString;
+			//if we are printing result of numeric and user didn't force us to use significant digits
+			//print the original string
 			if (keepOriginalString || (!tpl.useScientific(kernel.useSignificantFigures) && !strToString.contains("."))
 					|| tpl.allowMoreDigits()) {
 				if (scientificNotation) {
