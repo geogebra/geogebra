@@ -18,12 +18,12 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.util.Unicode;
+import geogebra.common.main.App;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
 
@@ -32,29 +32,23 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  * 
  * @author G. Sturr
  */
-public class AlgoZProportion2Test extends AlgoElement {
+public class AlgoZProportionEstimate extends AlgoElement {
 
 
-	private GeoNumeric proportion, n, proportion2, n_2; //input
-	private GeoText tail; //input
+	private GeoNumeric proportion, n, level; //input
 	private GeoList  result;     // output   
-	
 	/**
 	 * @param cons
 	 * @param label
 	 * @param proportion
 	 * @param n
-	 * @param proportion2 
-	 * @param n_2 
-	 * @param tail
+	 * @param level 
 	 */
-	public AlgoZProportion2Test(Construction cons, String label, GeoNumeric proportion, GeoNumeric n,GeoNumeric proportion2, GeoNumeric n_2, GeoText tail) {
+	public AlgoZProportionEstimate(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
 		super(cons);
-		this.tail = tail;
 		this.proportion = proportion;
 		this.n = n;
-		this.proportion2 = proportion2;
-		this.n_2 = n_2;
+		this.level = level;
 		result = new GeoList(cons); 
 		setInputOutput(); // for AlgoElement
 
@@ -65,18 +59,16 @@ public class AlgoZProportion2Test extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoZProportionTest;
+		return Algos.AlgoZProportionEstimate;
 	}
 
 	@Override
 	protected void setInputOutput(){
 
-		input = new GeoElement[5];
+		input = new GeoElement[3];
 		input[0] = proportion;
 		input[1] = n;
-		input[2] = proportion2;
-		input[3] = n_2;
-		input[4] = tail;			
+		input[2] = level;
 
 
 		setOnlyOutput(result);
@@ -84,7 +76,7 @@ public class AlgoZProportion2Test extends AlgoElement {
 	}
 
 	/**
-	 * @return {P value, Z test statistic}
+	 * @return {lower confidence limit, upper confidence limit}.
 	 */
 	public GeoList getResult() {
 		return result;
@@ -93,54 +85,30 @@ public class AlgoZProportion2Test extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		String testType;
-		if (tail.getTextString().equals("<")) {
-			testType = "left";
-		} else if (tail.getTextString().equals(">")) {
-			testType = "right";
-		} else if (tail.getTextString().equals("!=") || tail.getTextString().equals(Unicode.NOTEQUAL)) {
-			testType = "two";
-		} else {
-			result.setUndefined();
-			return;			
-		}
 
 		double n1 = n.getDouble();		
-		double phat1 = proportion.getDouble();
-		double n2 = n_2.getDouble();		
-		double phat2 = proportion2.getDouble();
-
-		double x1 = phat1 * n1;
-		double x2 = phat2 * n2;
-		double phatTotal = (x1 + x2) / (n1 + n2);
-		double se = Math.sqrt(phatTotal * (1 - phatTotal) * (1 / n1 + 1 / n2));
-		double testStatistic = (phat1 - phat2) / se;
+		double phat = proportion.getDouble();
+		double cLevel = level.getDouble();
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
-		double P=0;
+
+		double critZ = 0;
+
 		try {
-			P = normalDist.cumulativeProbability(testStatistic);
+			critZ = normalDist.inverseCumulativeProbability(1 - cLevel);
 		} catch (Exception e) {
 			result.setUndefined();
 			return;
 		}
 
-
-		if ("right".equals(testType)) {
-			P = 1 - P;
-		} else if ("two".equals(testType)) {
-			if (testStatistic < 0) { 
-				P = 2 * P; 
-			} 
-			else if (testStatistic > 0) { 
-				P = 2 * ( 1 - P);
-			}
-		}
+		double se = Math.sqrt(phat * (1 - phat) / n1);
+		double z = Math.abs(critZ / 2);
+		double me = z * se;
 
 		// put these results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, P));
-		result.add(new GeoNumeric(cons,testStatistic));
+		result.add(new GeoNumeric(cons, phat - me));
+		result.add(new GeoNumeric(cons, phat + me));
 
 	}
 
@@ -154,5 +122,4 @@ public class AlgoZProportion2Test extends AlgoElement {
 	public boolean isLocusEquable() {
 		return false;
 	}
-
 }

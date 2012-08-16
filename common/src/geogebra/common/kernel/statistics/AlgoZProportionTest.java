@@ -38,14 +38,11 @@ public class AlgoZProportionTest extends AlgoElement {
 	private GeoNumeric hypPropertion, proportion, n; //input
 	private GeoText tail; //input
 	private GeoList  result;     // output   
-	private double[] val;
-	private double p, testStat;
-
+	
 	/**
 	 * @param cons
 	 * @param label
 	 * @param proportion
-	 * @param sd
 	 * @param n
 	 * @param hypPropertion
 	 * @param tail
@@ -116,7 +113,7 @@ public class AlgoZProportionTest extends AlgoElement {
         double P=0;
         try {
             P = normalDist.cumulativeProbability(testStatistic);
-        } catch (MathException e) {
+        } catch (Exception e) {
             result.setUndefined();
             return;
         }
