@@ -35,6 +35,14 @@ public abstract class ViewContext implements ViewFactory {
      * The font to use
      */
     public Font tokenFont;
+    
+    
+    /**
+     * @param font	Font to be set
+     */
+    public void setTokenFont(Font font){
+    	tokenFont = font;
+    }
 
     /**
      * Contains the attributes (underline or stroke) of the different tokens

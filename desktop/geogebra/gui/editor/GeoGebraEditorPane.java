@@ -139,6 +139,10 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		this.rowHeight = getFontMetrics(getFont()).getHeight();
 	}
 
+	public void updateFont(Font f){
+		super.setFont(f);
+		((ViewContext)getEditorKit().getViewFactory()).setTokenFont(f);
+	}
 	
 	// =================================================================
 	//

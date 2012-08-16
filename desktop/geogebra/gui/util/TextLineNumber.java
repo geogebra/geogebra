@@ -62,7 +62,7 @@ public class TextLineNumber extends JPanel implements CaretListener,
 
 	// Properties that can be changed
 
-	private boolean updateFont;
+	private boolean updateFont =  true;
 	private int borderGap;
 	private Color currentLineForeground;
 	private float digitAlignment;
