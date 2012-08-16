@@ -202,7 +202,9 @@ public class Web implements EntryPoint {
 	private static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
 		if ($wnd.zip.useWebWorkers === false) {
 			//we set this explicitly in arraybuffer.js
-			@geogebra.web.main.AppW::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
+			// We don't have @geogebra.web.main.AppW::debug(Ljava/lang/String;) here,
+			// so we have to use $wnd.console.log instead:
+			$wnd.console.log("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
 			return true;;
 		}
 		return false;
@@ -213,11 +215,11 @@ public class Web implements EntryPoint {
 	    try {
 	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 	    } catch (e) {
-	    	@geogebra.web.main.AppW::debug(Ljava/lang/String;)("INIT: worker not supported, fallback for simple js");
+	    	$wnd.console.log("INIT: worker not supported, fallback for simple js");
 	    	
 	    	return false;
 	    }
-	    @geogebra.web.main.AppW::debug(Ljava/lang/String;)("INIT: workers are supported");
+	    $wnd.console.log("INIT: workers are supported");
 	    	
 	    worker.terminate();
 	    return true;
