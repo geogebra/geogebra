@@ -261,8 +261,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(app.getMenu("Distribution"), probCalcPanel);
-		tabbedPane.addTab(app.getMenu("Statistics"), new StatisticsCalculator(
-				app));
+		//tabbedPane.addTab(app.getMenu("Statistics"), new StatisticsCalculator(
+		//		app));
 
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
