@@ -12,11 +12,12 @@ import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndEvent;
 import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndHandler;
 import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEvent.DIRECTION;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
+import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
 public class AlgebraViewPanel extends LayoutPanel
 {
-
+	protected ScrollPanel scrollPanel; 
 	protected AlgebraView algebraView;
 	
 	boolean small = false; 
@@ -51,7 +52,7 @@ public class AlgebraViewPanel extends LayoutPanel
 				{
 					AlgebraViewPanel.this.setWidth("5%");
 					AlgebraViewPanel.this.small = true; 
-					AlgebraViewPanel.this.remove((Widget) AlgebraViewPanel.this.algebraView); 
+					AlgebraViewPanel.this.scrollPanel.setVisible(false); 
 				}
 			}
 		});
@@ -59,14 +60,18 @@ public class AlgebraViewPanel extends LayoutPanel
 
 	protected void extend(){
 		AlgebraViewPanel.this.setWidth("15%");
-		add((Widget) this.algebraView); 
+		AlgebraViewPanel.this.scrollPanel.setVisible(true); 
 	}
 	
 	public void initAlgebraView(MobileAlgebraController ac, Kernel kernel)
 	{
+		this.scrollPanel = new ScrollPanel(); 
+		
 		this.algebraView = new AlgebraViewM(ac);
 		kernel.attach(this.algebraView); 
-		add((Widget) this.algebraView); 
+		
+		this.scrollPanel.add((Widget) this.algebraView); 
+		add(this.scrollPanel); 
 	}
 
 }

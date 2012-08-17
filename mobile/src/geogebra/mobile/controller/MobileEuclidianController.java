@@ -1,7 +1,5 @@
 package geogebra.mobile.controller;
 
-import java.util.ArrayList;
-
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -9,6 +7,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,6 +26,8 @@ public class MobileEuclidianController extends EuclidianController implements To
 	private GuiModel guiModel;
 	ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
 	private ToolBarCommand lastCmd;
+
+	private final double MAX_DISTANCE_TO_SELECT = 0.5;
 
 	@Override
 	public void setApplication(App app)
@@ -107,23 +110,10 @@ public class MobileEuclidianController extends EuclidianController implements To
 				this.kernel.Segment(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) this.oldPoints.get(1));
 				break;
 			default:
-			}//switch
-			
-			this.oldPoints = new ArrayList<GeoPointND>(); 
-		}
+			}// switch
 
-		// TODO
-		// Test
-		// this.kernel.clearConstruction();
-		//
-		// this.xRW = 4.0;
-		// this.yRW = 2.0;
-		// createNewPoint(false, false);
-		//
-		// GeoPoint P = this.kernel.Point(null, 6.0, 4.5);
-		// GeoPoint Q = this.kernel.Point(null, 11.0, 1.0);
-		// this.kernel.Point("R", 7.0, -2.0);
-		// this.kernel.Line("g", P, Q);
+			this.oldPoints = new ArrayList<GeoPointND>();
+		}
 	}
 
 	public void setGuiModel(GuiModel model)
@@ -133,6 +123,35 @@ public class MobileEuclidianController extends EuclidianController implements To
 
 	protected void recordPoint()
 	{
-		this.oldPoints.add(createNewPoint(false, false));
+		GeoPointND point = getNearestPoint();
+		if (point != null)
+		{
+			this.oldPoints.add(point);
+		}
+		else
+		{
+			this.oldPoints.add(createNewPoint(false, false));
+		}
+	}
+
+	private GeoPoint getNearestPoint()
+	{
+		Set<GeoElement> point = this.kernel.getPointSet();
+		if (point.size() == 0)
+		{
+			return null;
+		}
+		GeoPoint nearest = null;
+		double distNearestSquare = 0.0;
+		for (GeoElement p : point)
+		{
+			double distanceSquare = Math.pow((((GeoPoint) p).getX() - this.xRW), 2) + Math.pow((((GeoPoint) p).getY() - this.yRW), 2);
+			if (nearest == null || distanceSquare < distNearestSquare)
+			{
+				nearest = (GeoPoint) p;
+				distNearestSquare = distanceSquare;
+			}
+		}
+		return Math.sqrt(distNearestSquare) <= this.MAX_DISTANCE_TO_SELECT ? nearest : null;
 	}
 }
