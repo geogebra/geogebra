@@ -212,10 +212,15 @@ public class Web implements EntryPoint {
 	
 	
 	private static native boolean checkWorkerSupport(String workerpath) /*-{
-		
-		// Worker support in Firefox is incompatible at the moment:
+		// Worker support in Firefox is incompatible at the moment for zip.js,
+		// see http://gildas-lormeau.github.com/zip.js/ for details:
 		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
 			$wnd.console.log("INIT: worker not supported in Firefox, fallback for simple js");
+			return false;
+		}
+		if (navigator.userAgent.toLowerCase().indexOf("safari") != -1
+			&& navigator.userAgent.toLowerCase().indexOf("chrome") == -1) {
+			$wnd.console.log("INIT: worker not supported in Safari, fallback for simple js");
 			return false;
 		}
 		

@@ -4598,7 +4598,7 @@ public class AppD extends App implements
             // log file max size 10K, 1 file, append-on-open
             Handler fileHandler;
             try {
-                    fileHandler = new FileHandler(logFile.toString(), 10000, 1, false);
+                    fileHandler = new FileHandler(logFile.toString(), logger.LOGFILE_MAXLENGTH, 1, false);
             } catch (Exception e) {
                     logFile = null;
                     return;

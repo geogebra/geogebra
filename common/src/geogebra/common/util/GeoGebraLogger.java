@@ -53,6 +53,8 @@ public abstract class GeoGebraLogger {
 	public final Level INFO = new Level(7, "INFO");
 	public final Level DEBUG = new Level(8, "DEBUG");
 	public final Level TRACE = new Level(9, "TRACE");
+
+	public static final int LOGFILE_MAXLENGTH = 10000;
 	
 	private final StringBuilder memoryLog = new StringBuilder();
 	
@@ -217,7 +219,12 @@ public abstract class GeoGebraLogger {
 				}
 			String logEntry = timeInfo + level.text + ": " + caller + message;
 			print(logEntry, level);
-			memoryLog.append(logEntry + "\n");
+			// In desktop logging, preserve the entire log in memory as well:
+			if (logDestination != LogDestination.WEB_CONSOLE) {
+				if (memoryLog.length() > LOGFILE_MAXLENGTH)
+					memoryLog.setLength(0);
+				memoryLog.append(logEntry + "\n");
+			}
 		}
 	}
 	
