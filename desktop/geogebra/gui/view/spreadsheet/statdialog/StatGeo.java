@@ -392,7 +392,7 @@ public class StatGeo {
 		// geo = createGeoFromString(text);
 
 		AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons, new MyDouble(kernel, 1d),
-				new MyDouble(kernel, 0.5), dataList);
+				new MyDouble(kernel, 0.5), dataList, new GeoBoolean(cons, true));
 		removeFromConstructionList(boxPlot);
 		geo = boxPlot.getGeoElements()[0];
 
@@ -439,7 +439,7 @@ public class StatGeo {
 		for (int i = 0; i < length; i++) {
 			AlgoBoxPlot bp = new AlgoBoxPlot(cons, new GeoNumeric(cons, i + 1),
 					new GeoNumeric(cons, 1d / 3d),
-					(GeoList) dataList.get((length - 1) - i));
+					(GeoList) dataList.get((length - 1) - i), new GeoBoolean(cons, true));
 			cons.removeFromAlgorithmList(bp);
 			ret[i] = bp.getGeoElements()[0];
 			ret[i].setObjColor(new geogebra.awt.GColorD(
