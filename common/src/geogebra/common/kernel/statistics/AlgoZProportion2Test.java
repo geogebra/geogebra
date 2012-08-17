@@ -19,10 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.Unicode;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 

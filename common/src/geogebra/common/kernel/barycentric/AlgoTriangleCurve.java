@@ -14,8 +14,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 

@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.locusequ.EquationAuxiliarSymbolicPoint;
-import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationHelpers;
 import geogebra.common.kernel.locusequ.EquationList;
 import geogebra.common.kernel.locusequ.EquationPoint;

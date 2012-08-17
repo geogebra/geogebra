@@ -3,8 +3,6 @@ package geogebra.common.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
 

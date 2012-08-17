@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -22,8 +20,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
+
+import java.util.ArrayList;
 
 /**
  * Creates a frequency polygon.
