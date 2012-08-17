@@ -22,7 +22,6 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.web.gui.AngleTextFieldW;
-import geogebra.web.gui.DialogManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;

@@ -1,4 +1,4 @@
-package geogebra.web.gui;
+package geogebra.web.gui.dialog;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.InputHandler;
@@ -15,12 +15,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.main.App;
-import geogebra.web.gui.dialog.AngleInputDialog;
-import geogebra.web.gui.dialog.ButtonDialog;
-import geogebra.web.gui.dialog.InputDialogAngleFixed;
-import geogebra.web.gui.dialog.InputDialogRotate;
-import geogebra.web.gui.dialog.SliderDialog;
-import geogebra.web.gui.dialog.TextInputDialogW;
+import geogebra.web.gui.InputDialogW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;

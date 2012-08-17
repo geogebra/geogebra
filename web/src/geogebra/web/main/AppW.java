@@ -39,13 +39,13 @@ import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
@@ -1815,7 +1815,7 @@ public class AppW extends App {
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
-	private geogebra.web.gui.DialogManagerW dialogManager;
+	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
 	public SplashDialog splash;
 
 	public String getUniqueId() {
