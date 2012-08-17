@@ -14,13 +14,17 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoMedian;
 import geogebra.common.kernel.statistics.AlgoQ1;
 import geogebra.common.kernel.statistics.AlgoQ3;
+import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
+
+import java.util.ArrayList;
 
 /**
  * Boxplot algorithm. See AlgoFunctionAreaSums for implementation.
@@ -43,8 +47,9 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	private GeoElement Q3geo;
 	private GeoElement maxGeo;
 	private GeoNumeric sum;
+	private GeoBoolean useOutliersGeo;
 	private GeoList list1;
-	private GeoList tempList;
+	private ArrayList<Double> tempList;
 	private int N;
 	private double[] yval;
 	private double[] leftBorder;
@@ -107,14 +112,14 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	 * @param list1
 	 *            rawData
 	 */
-	public AlgoBoxPlot(Construction cons, String label,NumberValue a, NumberValue b, GeoList list1) {
+	public AlgoBoxPlot(Construction cons, String label,NumberValue a, NumberValue b, GeoList list1, GeoBoolean useOutliers) {
 
-		this(cons, a, b, list1);
+		this(cons, a, b, list1, useOutliers);
 		
 		sum.setLabel(label);
 	}
 
-	public AlgoBoxPlot(Construction cons, NumberValue a, NumberValue b, GeoList list1) {
+	public AlgoBoxPlot(Construction cons, NumberValue a, NumberValue b, GeoList list1, GeoBoolean useOutliers) {
 
 		super(cons);
 
@@ -125,6 +130,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 		this.list1 = list1;
+		this.useOutliersGeo = useOutliers;
 
 		sum = new GeoNumeric(cons); // output
 		// sum.setLabelVisible(false);
@@ -167,29 +173,79 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 	@Override
 	public void compute() {
+		
+		
+		boolean useOutliers = false;
+		
+		if (useOutliersGeo != null && useOutliersGeo.getBoolean()) {
+			useOutliers = true;
+		}
+		
+		outliers = null;
+		if (tempList == null) {
+			tempList = new ArrayList<Double>();
+		}
+		tempList.clear();
+		
 		if (type == TYPE_RAW) {
 			
 			// list1 = rawData
-			if (tempList == null)
-				tempList = new GeoList(cons);
-			tempList.clear();
 			
-			AlgoListMin min2 = new AlgoListMin(cons, list1);
-			cons.removeFromConstructionList(min2);
-			tempList.add(min2.getMin());
-			AlgoQ1 Q1 = new AlgoQ1(cons, list1);
-			cons.removeFromConstructionList(Q1);
-			tempList.add(Q1.getQ1());
-			AlgoMedian median = new AlgoMedian(cons, list1);
-			cons.removeFromConstructionList(median);
-			tempList.add(median.getMedian());
-			AlgoQ3 Q3 = new AlgoQ3(cons, list1);
-			cons.removeFromConstructionList(Q3);
-			tempList.add(Q3.getQ3());
-			AlgoListMax max = new AlgoListMax(cons, list1);
-			cons.removeFromConstructionList(max);
-			tempList.add(max.getMax());
+			AlgoQ1 Q1Algo = new AlgoQ1(cons, list1);
+			cons.removeFromConstructionList(Q1Algo);
+			AlgoMedian medianAlgo = new AlgoMedian(cons, list1);
+			cons.removeFromConstructionList(medianAlgo);
+			AlgoQ3 Q3Algo = new AlgoQ3(cons, list1);
+			cons.removeFromConstructionList(Q3Algo);
+			
+			double median = medianAlgo.getMedian().getDouble();
+			double Q1 = Q1Algo.getQ1().getDouble();
+			double Q3 = Q3Algo.getQ3().getDouble();
+			
+			double min = Double.MAX_VALUE;
+			double max = -Double.MAX_VALUE;
+			
+			
+			for (int i = 0 ; i < list1.size() ; i++) {
+				double x = list1.get(i).evaluateNum().getDouble();
+				
+				boolean updateMaxMin = true;
+				
+				if (useOutliers) {
 
+					if (x > median + 1.5 * (Q3 - Q1)) {
+						addOutlier(x);
+						updateMaxMin = false;
+					}
+					
+					if (x < median - 1.5 * (Q3 - Q1)) {
+						addOutlier(x);
+						updateMaxMin = false;
+					}
+					
+				}
+				
+				// need to adjust max/min (ie exclude outliers)
+				if (updateMaxMin) {
+				
+					if (x < min) {
+						min = x;
+					}
+					// no else (think!)
+					if (x > max) {
+						max = x;
+					}
+				}
+
+				
+			}
+			
+			
+			tempList.add(min);
+			tempList.add(Q1);
+			tempList.add(median);
+			tempList.add(Q3);
+			tempList.add(max);
 			N = 5;
 
 			calcBoxPlot();
@@ -198,14 +254,11 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 		else {// TYPE_QUARTILES:
 
-			if (tempList == null)
-				tempList = new GeoList(cons);
-			tempList.clear();
-			tempList.add(minGeo);
-			tempList.add(Q1geo);
-			tempList.add(medianGeo);
-			tempList.add(Q3geo);
-			tempList.add(maxGeo);
+			tempList.add(minGeo.evaluateNum().getDouble());
+			tempList.add(Q1geo.evaluateNum().getDouble());
+			tempList.add(medianGeo.evaluateNum().getDouble());
+			tempList.add(Q3geo.evaluateNum().getDouble());
+			tempList.add(maxGeo.evaluateNum().getDouble());
 
 			N = 5;
 
@@ -223,10 +276,10 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 		for (int i = 0; i < N; i++) {
 
-			GeoElement geo = tempList.get(i);
+			double x = tempList.get(i);
 
-			if (geo.isGeoNumeric())
-				leftBorder[i] = ((GeoNumeric) geo).getDouble();
+			if (!Double.isNaN(x))
+				leftBorder[i] = x;
 			else {
 				sum.setUndefined();
 				return;
@@ -308,9 +361,26 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 		return leftBorder;
 	}
 
+	private ArrayList<Double> outliers;
+
+	public ArrayList<Double> getOutliers() {
+		return outliers;
+	}
+	
+	private void addOutlier(double x) {
+		
+		App.debug("outlier "+x);
+		
+		if (outliers == null) {
+			outliers = new ArrayList<Double>();
+		}
+		
+		outliers.add(x);
+		
+	}
+
 
 	
 
 
-	// TODO Consider locusequability
 }

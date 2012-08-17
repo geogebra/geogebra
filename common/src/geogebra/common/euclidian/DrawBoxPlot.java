@@ -1,5 +1,8 @@
 package geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -17,6 +20,7 @@ public class DrawBoxPlot extends Drawable {
 	private GeoNumeric sum;
 	private AlgoBoxPlot algo;
 	private NumberValue a, b;
+	private double OUTLIER_SIZE = 4;
 
 	/**
 	 * @param view view
@@ -196,6 +200,25 @@ public class DrawBoxPlot extends Drawable {
 		coords[1] = -yScale + yOff;
 		view.toScreenCoords(coords);
 		gp.lineTo(coords[0], coords[1]);
+		
+		ArrayList<Double> outliers = algo.getOutliers();
+		
+		
+		if (outliers != null) {
+			Iterator<Double> it = outliers.iterator();
+
+			while (it.hasNext()) {
+				coords[0] = it.next().doubleValue();
+				coords[1] = yOff;
+				view.toScreenCoords(coords);
+				
+				// draw cross
+				gp.moveTo(coords[0] - OUTLIER_SIZE , coords[1] - OUTLIER_SIZE);
+				gp.lineTo(coords[0] + OUTLIER_SIZE, coords[1] + OUTLIER_SIZE);
+				gp.moveTo(coords[0] - OUTLIER_SIZE , coords[1] + OUTLIER_SIZE);
+				gp.lineTo(coords[0] + OUTLIER_SIZE, coords[1] - OUTLIER_SIZE);
+			}
+		}
 
 		// gp on screen?
 		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {

@@ -5481,46 +5481,6 @@ public class Kernel {
 		return num;
 	}
 
-	/**
-	 * BoxPlot
-	 */
-	final public GeoNumeric BoxPlot(String label, NumberValue a, NumberValue b,
-			NumberValue min, NumberValue Q1, NumberValue median,
-			NumberValue Q3, NumberValue max) {
-		AlgoBoxPlot algo = new AlgoBoxPlot(cons, label, a, b, min, Q1, median,
-				Q3, max);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * BoxPlot
-	 */
-	final public GeoNumeric BoxPlot(String label, NumberValue a, NumberValue b,
-			GeoList rawData) {
-
-		/*
-		 * AlgoListMin min = new AlgoListMin(cons,rawData);
-		 * cons.removeFromConstructionList(min); AlgoQ1 Q1 = new
-		 * AlgoQ1(cons,rawData); cons.removeFromConstructionList(Q1); AlgoMedian
-		 * median = new AlgoMedian(cons,rawData);
-		 * cons.removeFromConstructionList(median); AlgoQ3 Q3 = new
-		 * AlgoQ3(cons,rawData); cons.removeFromConstructionList(Q3);
-		 * AlgoListMax max = new AlgoListMax(cons,rawData);
-		 * cons.removeFromConstructionList(max);
-		 * 
-		 * AlgoBoxPlot algo = new AlgoBoxPlot(cons, label, a, b,
-		 * (NumberValue)(min.getMin()), (NumberValue)(Q1.getQ1()),
-		 * (NumberValue)(median.getMedian()), (NumberValue)(Q3.getQ3()),
-		 * (NumberValue)(max.getMax()));
-		 */
-
-		AlgoBoxPlot algo = new AlgoBoxPlot(cons, label, a, b, rawData);
-
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
 	/** Point P + v */
 	final public GeoPoint Point(String label, GeoPoint P, GeoVector v) {
 		AlgoPointVector algo = new AlgoPointVector(cons, label, P, v);
