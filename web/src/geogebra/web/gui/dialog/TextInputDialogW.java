@@ -1,28 +1,28 @@
 package geogebra.web.gui.dialog;
 
-import com.google.gwt.user.client.Window;
-
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.web.gui.InputDialogW;
 import geogebra.web.main.AppW;
 
-public class TextInputDialogW extends InputDialogW{
+public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	private GeoText editGeo;
 	private GeoPointND startPoint;
 
-	public TextInputDialogW(AppW appW, String title, GeoText editGeo,
+	public TextInputDialogW(App app2, String title, GeoText editGeo,
             GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
 	    // TODO Auto-generated constructor stub
 		super(false);
-		this.app = appW;
+		this.app = (AppW) app2;
 		this.startPoint = startPoint;
 //		this.isTextMode = isTextMode;
 //		this.editGeo = editGeo;
@@ -161,7 +161,7 @@ public class TextInputDialogW extends InputDialogW{
 		setGeoText(text);
 //		textPreviewer.updatePreviewText(text,
 //				editor.buildGeoGebraString(isLaTeX), isLaTeX);
-//		editor.requestFocus();
+		inputPanel.getTextComponent().getTextField().getElement().focus(); //editor.requestFocus();
     }
 	
 	public void setGeoText(GeoText geo) {

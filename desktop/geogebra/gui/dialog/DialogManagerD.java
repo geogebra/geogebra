@@ -67,11 +67,6 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 	private FunctionInspector functionInspector;
 
 	/**
-	 * Dialog for styling text objects.
-	 */
-	private TextInputDialog textInputDialog;
-
-	/**
 	 * Dialog to select new files, either for loading or saving. Various file
 	 * types are supported.
 	 */
@@ -100,7 +95,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 			functionInspector.updateFonts();
 
 		if (textInputDialog != null)
-			textInputDialog.updateFonts();
+			((TextInputDialog) textInputDialog).updateFonts();
 
 		if (optionsDialog != null) {
 			GuiManagerD.setFontRecursive(optionsDialog,
@@ -126,7 +121,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 			functionInspector.setLabels();
 
 		if (textInputDialog != null)
-			textInputDialog.setLabels();
+			((TextInputDialog) textInputDialog).setLabels();
 
 		if (fileChooser != null)
 			updateJavaUILanguage();
@@ -589,7 +584,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 	}
 
 	public TextInputDialog getTextInputDialog() {
-		return textInputDialog;
+		return (TextInputDialog) textInputDialog;
 	}
 
 	public OptionsDialog.Factory getOptionsDialogFactory() {

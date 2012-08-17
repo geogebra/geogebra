@@ -12,7 +12,9 @@ the Free Software Foundation.
 package geogebra.common.gui.dialog;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.factories.Factory;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -43,6 +45,11 @@ public abstract class DialogManager {
 	protected App app;
 
 	private Object oldString;
+
+	/**
+	 * Dialog for styling text objects.
+	 */
+	protected TextInputDialog textInputDialog;
 
 	public DialogManager() {
 	}
@@ -412,33 +419,28 @@ public abstract class DialogManager {
 	}
 	
 	
-	/**
-	 * this method is always overridden (except when using DialogManagerMinimal, just for testing currently)
-	 * @param geo
-	 * @param startPoint
-	 */
-	protected void showTextDialog(GeoText geo, GeoPointND startPoint) {
-		String inputValue = prompt("Enter text", "");
+	public abstract void openToolHelp();
 
-		if (!"".equals(inputValue)) {
-
-			GeoElement[] ret = geo.getKernel().getAlgebraProcessor()
-					.processAlgebraCommand(inputValue, false);
-			if (ret != null && ret[0].isTextValue()) {
-				GeoText t = (GeoText) ret[0];
-
-				if (startPoint.isLabelSet()) {
-					try {
-						t.setStartPoint(startPoint);
-					} catch (Exception e) {
-					}
-				}
-			}
+	protected void showTextDialog(GeoText text, GeoPointND startPoint) {		
+		app.setWaitCursor();
+	
+		if (textInputDialog == null) {
+			textInputDialog = createTextDialog(text, startPoint);
+		} else {
+			textInputDialog.reInitEditor(text, startPoint);
 		}
-
+	
+		textInputDialog.setVisible(true);
+		app.setDefaultCursor();
+	
 	}
 
-	public abstract void openToolHelp();
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
+		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
+		TextInputDialog id = Factory.prototype.newTextInputDialog(app,
+				app.getPlain("Text"), text, startPoint, 30, 6, isTextMode);
+		return id;
+	}
 
 
 

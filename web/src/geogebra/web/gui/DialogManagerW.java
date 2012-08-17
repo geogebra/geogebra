@@ -1,7 +1,6 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
@@ -15,8 +14,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.web.gui.dialog.AngleInputDialog;
 import geogebra.web.gui.dialog.ButtonDialog;
@@ -36,13 +33,6 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerW extends DialogManager {
-
-	/**
-	 * Dialog for styling text objects.
-	 */
-	private TextInputDialogW textInputDialog;
-	private int tempX=1;
-	private int tempY=1;
 
 	public DialogManagerW(App app) {
 	    super(app);
@@ -131,28 +121,6 @@ public class DialogManagerW extends DialogManager {
 		
 		id.setVisible(true);
     }
-
-	@Override
-	protected void showTextDialog(GeoText text, GeoPointND startPoint) {		
-		app.setWaitCursor();
-
-		if (textInputDialog == null) {
-			textInputDialog = createTextDialog(text, startPoint);
-		} else {
-			textInputDialog.reInitEditor(text, startPoint);
-		}
-
-		textInputDialog.setVisible(true);
-		app.setDefaultCursor();
-
-	}
-	
-	public TextInputDialogW createTextDialog(GeoText text, GeoPointND startPoint) {
-		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		TextInputDialogW id = new TextInputDialogW(((AppW) app),
-				app.getPlain("Text"), text, startPoint, 30, 6, isTextMode);
-		return id;
-	}
 
 	@Override
     public void showOptionsDialog(int tabEuclidian) {

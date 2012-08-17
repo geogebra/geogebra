@@ -26,7 +26,6 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.DynamicTextInputPane.DynamicTextField;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
@@ -84,7 +83,7 @@ import javax.swing.undo.UndoManager;
  * 
  * @author hohenwarter
  */
-public class TextInputDialog extends InputDialogD implements DocumentListener {
+public class TextInputDialog extends InputDialogD implements DocumentListener, geogebra.common.gui.dialog.TextInputDialog {
 
 	// editor and preview panels
 	private DynamicTextInputPane editor;
@@ -123,7 +122,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener {
 	/**
 	 * Input Dialog for a GeoText object
 	 * 
-	 * @param app
+	 * @param app2
 	 * @param title
 	 * @param editGeo
 	 * @param startPoint
@@ -131,11 +130,11 @@ public class TextInputDialog extends InputDialogD implements DocumentListener {
 	 * @param rows
 	 * @param isTextMode
 	 */
-	public TextInputDialog(AppD app, String title, GeoText editGeo,
+	public TextInputDialog(App app2, String title, GeoText editGeo,
 			GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
 
-		super(app.getFrame(), false);
-		this.app = app;
+		super(((AppD)app2).getFrame(), false);
+		this.app = (AppD)app2;
 		this.startPoint = startPoint;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
@@ -148,7 +147,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener {
 				DialogType.DynamicText);
 		addHelpButton(App.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
-		textPreviewer = new TextPreviewPanel(app.getKernel());
+		textPreviewer = new TextPreviewPanel(app2.getKernel());
 
 		// build the rest of the GUI
 		createAdditionalGUI();

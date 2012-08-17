@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -120,7 +121,8 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 //		btApply.addActionListener(this);
 
 		// create button panel
-		HorizontalPanel btPanel = new HorizontalPanel();
+		FlowPanel btPanel = new FlowPanel();
+		btPanel.addStyleName("DialogButtonPanel");
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
 		//just tmp.
