@@ -222,7 +222,10 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				sbToString.append(toString(args.get(i), symbolic, LaTeX,tpl));
 				sbToString.append(',');
 			}
-			sbToString.setCharAt(sbToString.length() - 1, ']');
+			if(size>0)
+				sbToString.setCharAt(sbToString.length() - 1, ']');
+			else
+				sbToString.append(']');
 			return sbToString.toString();
 		}
 
