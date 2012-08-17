@@ -227,7 +227,7 @@ public class Web implements EntryPoint {
 	    try {
 	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 	    } catch (e) {
-	    	$wnd.console.log("INIT: worker not supported, fallback for simple js");
+	    	$wnd.console.log("INIT: worker not supported (no worker at " + workerpath + "), fallback for simple js");
 	    	
 	    	return false;
 	    }
