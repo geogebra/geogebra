@@ -571,8 +571,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"return ret; end;");
 		App.debug(mpreduce1.evaluate("procedure exptolin(lst);begin;" +
 				" off combinelogs; on expandlogs; " +
-				"return for each eqn in lst collect "+
-			    "     <<write \"*** eqn:\",log(part(eqn,1))-log(-part(eqn,2)); if arglength(eqn)>-1 part(eqn,0)='plus then (log(part(eqn,1))-log(-part(eqn,2))) else eqn; >> end;" 
+				" return for each eqn in lst collect "+
+			    "     if arglength(eqn)>-1 and part(eqn,0)='plus then (log(part(eqn,1))-log(-part(eqn,2))) else eqn;" +
+			    " end;" 
 				 ));//if (arglength(eqn)>-1 and part(eqn,0)='-) then  else
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
