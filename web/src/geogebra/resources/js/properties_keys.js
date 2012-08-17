@@ -975,6 +975,7 @@ var errorKeysVar = {
 	Tool_InputNotNeeded:'',
 	Tool_OutputNotDependent:'',
 	URLnotFound:'',
+	UnbalancedBrackets:'',
 	UndefinedVariable:'',
 	UnknownCommand:'',
 	UnsupportedLAF:'',

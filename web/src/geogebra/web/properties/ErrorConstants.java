@@ -178,6 +178,9 @@ public interface ErrorConstants extends ConstantsWithLookup {
     @DefaultStringValue("Opening URL failed")
     String URLnotFound();
 
+    @DefaultStringValue("Unbalanced brackets")
+    String UnbalancedBrackets();
+
     @DefaultStringValue("Undefined variable")
     String UndefinedVariable();
 
