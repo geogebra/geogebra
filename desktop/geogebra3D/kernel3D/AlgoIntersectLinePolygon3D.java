@@ -11,8 +11,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 
 import java.util.TreeMap;
 

@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
-import java.awt.print.PrinterException;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;

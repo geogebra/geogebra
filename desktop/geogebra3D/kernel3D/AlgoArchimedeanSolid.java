@@ -8,8 +8,6 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra3D.archimedean.support.IFace;

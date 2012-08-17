@@ -1,18 +1,18 @@
 package geogebra.kernel.prover;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 import geogebra.common.util.Prover.ProofResult;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class can prove a statement by a bounded number of checks. In this

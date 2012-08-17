@@ -43,7 +43,6 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.EuclidianStyleConstants;

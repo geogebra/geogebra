@@ -6,8 +6,6 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Create a plane containing a 2D coord sys

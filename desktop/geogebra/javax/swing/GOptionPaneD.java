@@ -1,10 +1,11 @@
 package geogebra.javax.swing;
 
-import javax.swing.JOptionPane;
-
-import java.awt.Component;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
+
+import java.awt.Component;
+
+import javax.swing.JOptionPane;
 
 public class GOptionPaneD implements GOptionPane{
 

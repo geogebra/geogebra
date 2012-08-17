@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
-import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.view.algebra.DialogType;

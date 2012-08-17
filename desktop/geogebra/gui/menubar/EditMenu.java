@@ -14,7 +14,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 /**
  * The "Edit" menu.

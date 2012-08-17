@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
-import javax.swing.event.MenuListener;
 
 /**
  * The "Help" menu.

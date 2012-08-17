@@ -13,7 +13,6 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
-import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;

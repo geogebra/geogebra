@@ -1,6 +1,5 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;

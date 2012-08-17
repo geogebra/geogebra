@@ -3,6 +3,7 @@ package geogebra.gui.color;
 import geogebra.main.AppD;
 
 import java.awt.Color;
+
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.UIManager;

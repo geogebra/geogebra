@@ -2,10 +2,10 @@ package geogebra.gui.inputfield;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.util.StringUtil;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
-import geogebra.common.util.StringUtil;
 
 import java.awt.Color;
 import java.awt.Font;

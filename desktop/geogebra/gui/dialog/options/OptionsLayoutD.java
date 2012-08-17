@@ -1,7 +1,6 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.Settings;
 import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;

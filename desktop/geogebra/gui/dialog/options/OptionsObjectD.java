@@ -14,7 +14,6 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.view.algebra.AlgebraTree;

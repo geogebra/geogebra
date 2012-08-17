@@ -12,7 +12,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.MenuElement;
 import javax.swing.SwingConstants;

@@ -29,7 +29,6 @@ import geogebra.gui.dialog.options.OptionsSpreadsheetD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -41,7 +40,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * View for properties
