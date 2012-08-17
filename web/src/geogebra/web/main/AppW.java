@@ -181,6 +181,9 @@ public class AppW extends App {
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
 		startLogger();
+		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
+				+ GeoGebraConstants.BUILD_DATE + " "
+				+ Window.Navigator.getUserAgent());
 		initCommonObjects();
 
 		euclidianViewPanel = new EuclidianPanel();
