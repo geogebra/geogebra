@@ -257,27 +257,6 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 		id.setVisible(true);
 	}
 
-	@Override
-	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
-		app.setWaitCursor();
-
-		if (textInputDialog == null) {
-			textInputDialog = createTextDialog(text, startPoint);
-		} else {
-			textInputDialog.reInitEditor(text, startPoint);
-		}
-
-		textInputDialog.setVisible(true);
-		app.setDefaultCursor();
-	}
-
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
-		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		TextInputDialog id = new TextInputDialog(((AppD) app),
-				app.getPlain("Text"), text, startPoint, 30, 6, isTextMode);
-		return id;
-	}
-
 	/**
 	 * Shows the function inspector dialog. If none exists, a new inspector is
 	 * created.
