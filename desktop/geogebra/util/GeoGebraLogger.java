@@ -38,12 +38,6 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	
 	@Override
 	public String getMemoryInfo() {
-		// TODO: Not really sure why this is needed 4 times:
-		System.gc();
-		System.gc();
-		System.gc();
-		System.gc();
-
 		long usedK = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
 				.freeMemory()) / 1024;
 		return ("\n free memory: ") + Runtime.getRuntime().freeMemory()

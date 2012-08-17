@@ -52,7 +52,18 @@ public abstract class GeoGebraLogger {
 	public final Level NOTICE = new Level(5, "NOTICE");
 	public final Level INFO = new Level(7, "INFO");
 	public final Level DEBUG = new Level(8, "DEBUG");
-	public final Level TRACE = new Level(9, "TRACE"); 
+	public final Level TRACE = new Level(9, "TRACE");
+	
+	private final StringBuilder memoryLog = new StringBuilder();
+	
+	/**
+	 * The entire log since starting the application.
+	 * @return the entire log
+	 */
+	public StringBuilder getEntireLog() {
+		return memoryLog;
+	}
+	
 	/**
 	 * Logging destinations
 	 */
@@ -206,6 +217,7 @@ public abstract class GeoGebraLogger {
 				}
 			String logEntry = timeInfo + level.text + ": " + caller + message;
 			print(logEntry, level);
+			memoryLog.append(logEntry + "\n");
 		}
 	}
 	

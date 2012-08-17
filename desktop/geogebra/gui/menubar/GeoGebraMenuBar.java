@@ -484,22 +484,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(App.getCASVersionString());
 		sb.append("\n\n");
 
-		// copy log file to systemInfo
-		if (app.logFile != null) {
-			String NL = System.getProperty("line.separator");
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(new File(app.logFile.toString()));
-				while (scanner.hasNextLine()){
-					sb.append(scanner.nextLine() + NL);
-				}
-			} catch (FileNotFoundException e) {
-
-			}
-			finally{
-				if (scanner != null) scanner.close();
-			}
-		}
+		// copy the entire log to systemInfo
+		sb.append(App.logger.getEntireLog());
+		sb.append("\n");
 
 		// append ggb file (except images)
 		sb.append(app.getXML());
