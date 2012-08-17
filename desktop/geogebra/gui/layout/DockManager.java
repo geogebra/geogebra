@@ -209,8 +209,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 						currentParent = (DockSplitPane)currentParent.getRightComponent();
 					}
 				}
-
-				if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
+				if(currentParent==null){
+					App.error("Invalid perspective");
+					
+				}
+				else if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
 					currentParent.setLeftComponent(panel);
 				} else {
 					currentParent.setRightComponent(panel);
