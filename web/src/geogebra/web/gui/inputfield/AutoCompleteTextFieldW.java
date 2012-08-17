@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -37,6 +39,8 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -46,6 +50,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -136,23 +141,36 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    textField.addStyleName("TextField");
 		    textField.getElement().setId(id);
 		    
-		    showSymbolButton = new ToggleButton();
+		    showSymbolButton = new ToggleButton() {
+		    	public void onBrowserEvent(Event event) {
+		    		if (event.getTypeInt() == Event.ONMOUSEDOWN) {
+						if (showSymbolButton.isDown()) {
+							// when it is still down, it will be changed to up
+							getTablePopup().hide();
+						} else {
+							// when it is still up, it will be changed to down
+							getTablePopup().showRelativeTo(showSymbolButton);
+						}
+						// set it as focused anyway, because it is needed
+						// before the real focus and blur events take place
+			    		showSymbolButton.addStyleName("ShowSymbolButtonFocused");
+		    		}
+		    		super.onBrowserEvent(event);
+		    	}
+		    };
 		    showSymbolButton.getElement().setId(id+"_SymbolButton");
 		    showSymbolButton.getElement().setAttribute("style", "display: none");
 		    showSymbolButton.setText(Unicode.alpha);
 		    showSymbolButton.addStyleName("SymbolToggleButton");
-		    showSymbolButton.addClickHandler(new ClickHandler() {
-				
-				public void onClick(ClickEvent event) {
-					if (showSymbolButton.isDown()) {
-						getTablePopup().showRelativeTo(showSymbolButton);
-					} else {
-						getTablePopup().hide();
-					}
+		    showSymbolButton.addBlurHandler(new BlurHandler() {
+				public void onBlur(BlurEvent event) {
+		    		showSymbolButton.removeStyleName("ShowSymbolButtonFocused");
+		    		// TODO: make it disappear when blurred
+		    		// to a place else than the textfield?
 				}
 			});
-		    
-		    add(textField);
+		    showSymbolButton.setFocus(false);
+  		    add(textField);
 		    add(showSymbolButton);
 
 		    this.app = app;
@@ -1131,8 +1149,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 				if (id!=null){
 					Element element = DOM.getElementById(id+"_SymbolButton");
 					if (element != null){
-						String display = (show)? "block" : "none";
-						element.setAttribute("style", "display: "+display);
+						if (show || element.getClassName().indexOf("ShowSymbolButtonFocused") < 0) {
+							String display = (show)? "block" : "none";
+							element.setAttribute("style", "display: "+display);
+						}
+						// if the button will be focused, don't hide it
 					}
 				}
 			}
