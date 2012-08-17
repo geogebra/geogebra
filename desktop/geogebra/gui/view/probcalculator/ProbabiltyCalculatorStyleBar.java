@@ -43,7 +43,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 	JPopupMenu roundingPopup;
 
 	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph,
-			btnBarGraph, btnExport;
+			btnBarGraph, btnExport, btnNormalOverlay;
 
 	/**
 	 * @param app
@@ -104,18 +104,28 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 		});
 
 		// create export button
-				btnExport = new MyToggleButton(app.getImageIcon("export16.png"),iconHeight);
-				btnExport.setFocusable(false);
-				btnExport.addActionListener(this);
+		btnExport = new MyToggleButton(app.getImageIcon("export16.png"),
+				iconHeight);
+		btnExport.setFocusable(false);
+		btnExport.addActionListener(this);
+		
+		// create normal overlay button
+		btnNormalOverlay = new MyToggleButton(app.getImageIcon("normal-overlay.png"),
+				iconHeight);
+		btnNormalOverlay.setFocusable(false);
+		btnNormalOverlay.addActionListener(this);
 
-				
-		//add(btnRounding);
-		//addSeparator();
-		//add(btnCumulative);
-		//addSeparator();
+		// add(btnRounding);
+		// addSeparator();
+		// add(btnCumulative);
+		// addSeparator();
 		add(btnLineGraph);
 		add(btnStepGraph);
-		add(btnBarGraph);
+		add(btnBarGraph)
+		;
+		addSeparator();
+		add(btnNormalOverlay);
+		
 		addSeparator();
 		add(btnExport);
 		// add(btnGrid); (grid doesn't work well with discrete graphs and point
@@ -138,17 +148,21 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 		btnLineGraph.removeActionListener(this);
 		btnStepGraph.removeActionListener(this);
 		btnBarGraph.removeActionListener(this);
-
+		btnNormalOverlay.removeActionListener(this);
+		
 		btnLineGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_LINE);
 		btnStepGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_STEP);
 		btnBarGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_BAR);
+		
+		btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
 
 		btnLineGraph.addActionListener(this);
 		btnStepGraph.addActionListener(this);
 		btnBarGraph.addActionListener(this);
+		btnNormalOverlay.addActionListener(this);
 	}
 
 	/**
@@ -156,8 +170,15 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 	 */
 	public void setLabels() {
 		btnRounding.setText(app.getMenu("Rounding"));
-		btnLineGraph.setToolTipText(app.getPlain("Lines"));
-		btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+		
+		btnLineGraph.setToolTipText(app.getMenu("LineGraph"));
+		btnStepGraph.setToolTipText(app.getMenu("StepGraph"));
+		btnBarGraph.setToolTipText(app.getMenu("BarChart"));
+		
+		btnExport.setToolTipText(app.getMenu("Export"));
+		btnNormalOverlay.setToolTipText(app.getMenu("NormalOverlay"));
+		//btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+		
 	}
 
 	/**
@@ -295,6 +316,11 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 		else if (e.getSource() == btnStepGraph) {
 			if (btnStepGraph.isSelected())
 				probCalc.setGraphType(ProbabilityCalculator.GRAPH_STEP);
+		}
+
+		else if (e.getSource() == btnNormalOverlay) {
+				probCalc.setShowNormalOverlay(btnNormalOverlay.isSelected());
+				probCalc.updateAll();
 		}
 		
 		else if (e.getSource() == btnExport) {

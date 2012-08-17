@@ -723,7 +723,7 @@ public class ProbabilityManager {
 
 		case POISSON:
 			mean = parms[0];
-			sigma = mean;
+			sigma = Math.sqrt(mean);
 			break;
 
 		case BINOMIAL:

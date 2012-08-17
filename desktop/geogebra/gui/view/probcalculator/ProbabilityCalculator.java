@@ -30,6 +30,8 @@ import geogebra.common.kernel.algos.AlgoWeibullDF;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -192,12 +194,16 @@ public class ProbabilityCalculator extends JPanel implements View,
 	// rounding
 	private int printDecimals = 4, printFigures = -1;
 
-	// valid prob interval flag
-	boolean validProb;
+	// flags
+	private boolean validProb;
+	private boolean showProbGeos = false;
+	private boolean showNormalOverlay = false;
 
 	// colors
 	private static final Color COLOR_PDF = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.DARKBLUE);
+	private static final Color COLOR_NORMALOVERLAY = geogebra.awt.GColorD
+			.getAwtColor(GeoGebraColorConstants.RED);
 	private static final Color COLOR_PDF_FILL = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.BLUE);
 	private static final Color COLOR_POINT = Color.BLACK;
@@ -230,8 +236,6 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private JPanel probCalcPanel;
 
 	private JTabbedPane tabbedPane;
-
-	private boolean showProbGeos = false;
 
 	/*************************************************
 	 * Construct the dialog
@@ -382,6 +386,14 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setPlotSettings(PlotSettings plotSettings) {
 		this.plotSettings = plotSettings;
+	}
+
+	public boolean isShowNormalOverlay() {
+		return showNormalOverlay;
+	}
+
+	public void setShowNormalOverlay(boolean showNormalOverlay) {
+		this.showNormalOverlay = showNormalOverlay;
 	}
 
 	// =================================================
@@ -652,6 +664,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			if (graphType == GRAPH_STEP) {
 				AlgoPolyLine algoPolyLine = createStepFunction(
 						discreteValueList, discreteProbList);
+
 				cons.removeFromConstructionList(algoPolyLine);
 				discreteGraph = algoPolyLine.getGeoElements()[0];
 
@@ -664,9 +677,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 				} else {
 					algoBarChart = new AlgoBarChart(cons, discreteValueList,
 							discreteProbList);
-					cons.removeFromConstructionList(algoBarChart);
-					discreteGraph = algoBarChart.getGeoElements()[0];
 				}
+				cons.removeFromConstructionList(algoBarChart);
+				discreteGraph = algoBarChart.getGeoElements()[0];
 
 			}
 
@@ -743,6 +756,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 					barChart = new AlgoBarChart(cons, intervalValueList,
 							intervalProbList);
 				}
+				discreteIntervalGraph = barChart.getGeoElements()[0];
 				cons.removeFromConstructionList(barChart);
 			}
 
@@ -896,6 +910,15 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		}
 
+		if (showNormalOverlay) {
+			Double[] m = probManager.getDistributionMeasures(selectedDist,
+					parameters);
+			if (m[0] != null && m[1] != null) {
+				normalOverlay = this.createNormalCurveOverlay(m[0], m[1]);
+				plotGeoList.add(normalOverlay);
+			}
+		}
+
 		hideAllGeosFromViews();
 		// labelAllGeos();
 		hideToolTips();
@@ -954,6 +977,51 @@ public class ProbabilityCalculator extends JPanel implements View,
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points, false);
 
 		return polyLine;
+	}
+
+	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
+
+		GeoElement geo;
+
+		GeoElement meanGeo = new GeoNumeric(cons, mean);
+		GeoElement sdGeo = new GeoNumeric(cons, sigma);
+
+		ExpressionNode normal;
+
+		FunctionVariable x = new FunctionVariable(kernel);
+		if (isCumulative) {
+			normal = new ExpressionNode(kernel, x, Operation.MINUS, meanGeo);
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
+			normal = new ExpressionNode(kernel, normal, Operation.POWER,
+					new MyDouble(kernel, 2.0));
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
+					new MyDouble(kernel, -2.0));
+			normal = new ExpressionNode(kernel, normal, Operation.EXP, null);
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
+					new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
+		} else {
+
+			// TODO convert to CDF version
+			normal = new ExpressionNode(kernel, x, Operation.MINUS, meanGeo);
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
+			normal = new ExpressionNode(kernel, normal, Operation.POWER,
+					new MyDouble(kernel, 2.0));
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
+					new MyDouble(kernel, -2.0));
+			normal = new ExpressionNode(kernel, normal, Operation.EXP, null);
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
+					new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
+			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
+		}
+
+		Function f = new Function(normal, x);
+		geo = new GeoFunction(cons, f);
+
+		geo.setObjColor(new geogebra.awt.GColorD(COLOR_NORMALOVERLAY));
+		geo.setLineThickness(thicknessCurve - 1);
+		geo.setEuclidianVisible(true);
+		return geo;
 	}
 
 	/**
@@ -1704,6 +1772,12 @@ public class ProbabilityCalculator extends JPanel implements View,
 			table.setLabels();
 		if (styleBar != null)
 			styleBar.setLabels();
+
+		btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+
+		btnIntervalLeft.setToolTipText(app.getMenu("LeftProb"));
+		btnIntervalRight.setToolTipText(app.getMenu("RightProb"));
+		btnIntervalBetween.setToolTipText(app.getMenu("IntervalProb"));
 
 	}
 
