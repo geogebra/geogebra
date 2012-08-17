@@ -242,12 +242,16 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	/** end history list cell renderer **/	
 	
 	
-	public void updateFonts(){
-		
+	public void updateFonts() {
+
 		Font font = app.getPlainFont();
-		
-		textComponent.setFont(font);
-		//tfPanel.setFont(font);
+
+		if (textComponent instanceof GeoGebraEditorPane) {
+			((GeoGebraEditorPane) textComponent).updateFont(font);
+		} else {
+			textComponent.setFont(font);
+		}
+		// tfPanel.setFont(font);
 	}
 }
 
