@@ -369,7 +369,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	
 	private void addOutlier(double x) {
 		
-		App.debug("outlier "+x);
+		//App.debug("outlier "+x);
 		
 		if (outliers == null) {
 			outliers = new ArrayList<Double>();
