@@ -210,8 +210,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				GeoNumeric num = kernel.getDefaultNumber(isAngle());
 				// make sure the slider value is not fixed
 				setFixed(false);
-				if (!intervalMinActive && !(intervalMin instanceof GeoNumeric)) {
-					if (!intervalMaxActive
+				if (!isIntervalMinActive() && !(intervalMin instanceof GeoNumeric)) {
+					if (!isIntervalMaxActive()
 							&& !(intervalMax instanceof GeoNumeric)) {
 						// set both to default
 						double min = Math.min(num.getIntervalMin(),
@@ -227,7 +227,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 						setIntervalMin(new MyDouble(kernel, min));
 					}
 				} else { // min exists
-					if (!intervalMaxActive
+					if (!isIntervalMaxActive()
 							&& !(intervalMax instanceof GeoNumeric)) {
 						// min is available but no max
 						double max = Math.max(num.getIntervalMax(),
@@ -301,7 +301,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean showInEuclidianView() {
 		return isDrawable()
 				&& isDefined()
-				&& (intervalMin == null || intervalMax == null || (intervalMinActive && intervalMaxActive));
+				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()));
 	}
 
 	@Override
@@ -413,9 +413,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void setValue(double x, boolean changeAnimationValue) {
 		if (Double.isNaN(x))
 			value = Double.NaN;
-		else if (intervalMinActive && x < getIntervalMin())
+		else if (isIntervalMinActive() && x < getIntervalMin())
 			value = getIntervalMin();
-		else if (intervalMaxActive && x > getIntervalMax())
+		else if (isIntervalMaxActive() && x > getIntervalMax())
 			value = getIntervalMax();
 		else
 			value = x;
@@ -563,7 +563,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @return true iff slider is possible
 	 */
 	protected boolean isSliderable() {
-		return isIndependent() && (intervalMinActive || intervalMaxActive);
+		return isIndependent() && (isIntervalMinActive() || isIntervalMaxActive());
 	}
 
 	@Override
@@ -584,13 +584,13 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sb.append("\t<slider");
-		if (intervalMinActive) {
+		if (isIntervalMinActive()) {
 			sb.append(" min=\"");
 			StringUtil
 					.encodeXML(sb, getIntervalMinObject().getLabel(tpl));
 			sb.append("\"");
 		}
-		if (intervalMaxActive) {
+		if (isIntervalMaxActive()) {
 			sb.append(" max=\"");
 			StringUtil
 					.encodeXML(sb, getIntervalMaxObject().getLabel(tpl));
@@ -669,7 +669,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			((GeoNumeric) intervalMax).unregisterMinMaxListener(this);
 		}
 		intervalMax = max;
-		intervalMaxActive = !Double.isNaN(max.getDouble());
+		setIntervalMaxActive(!Double.isNaN(max.getDouble()));
 		if (max instanceof GeoNumeric) {
 			((GeoNumeric) max).registerMinMaxListener(this);
 		}
@@ -687,7 +687,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			((GeoNumeric) intervalMin).unregisterMinMaxListener(this);
 		}
 		intervalMin = min;
-		intervalMinActive = !Double.isNaN(min.getDouble());
+		setIntervalMinActive(!Double.isNaN(min.getDouble()));
 		if (min instanceof GeoNumeric) {
 			((GeoNumeric) min).registerMinMaxListener(this);
 		}
@@ -783,22 +783,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	public final boolean isIntervalMinActive() {
 		return intervalMinActive;
-	}
-
-	/**
-	 * Disables slider max value
-	 */
-	public final void setIntervalMaxInactive() {
-		intervalMaxActive = false;
-		setEuclidianVisible(false);
-	}
-
-	/**
-	 * Disables slider min value
-	 */
-	public final void setIntervalMinInactive() {
-		intervalMinActive = false;
-		setEuclidianVisible(false);
 	}
 
 	/**
@@ -1040,8 +1024,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		boolean okMax = !Double.isNaN(getIntervalMax())
 				&& !Double.isInfinite(getIntervalMax());
 		boolean ok = (getIntervalMin() <= getIntervalMax());
-		intervalMinActive = ok && okMin;
-		intervalMaxActive = ok && okMax;
+		setIntervalMinActive(ok && okMin);
+		setIntervalMaxActive(ok && okMax);
 		if (ok && okMin && okMax)
 			setValue(isDefined() ? value : 1.0);
 		else if (okMin && okMax)
@@ -1056,7 +1040,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public boolean isAnimatable() {
-		return isIndependent() && intervalMinActive && intervalMaxActive;
+		return isIndependent() && isIntervalMinActive() && isIntervalMaxActive();
 	}
 
 	/**
@@ -1076,7 +1060,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	final public synchronized boolean doAnimationStep(double frameRate) {
 		// check that we have valid min and max values
-		if (!intervalMinActive || !intervalMaxActive)
+		if (!isIntervalMinActive() || !isIntervalMaxActive())
 			return false;
 
 		// special case for random slider
@@ -1362,6 +1346,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			return algo.getExpression().contains(ev);
 		}
 		return ev == this;
+	}
+	private void setIntervalMinActive(boolean intervalMinActive) {
+		this.intervalMinActive = intervalMinActive;
+	}
+	private void setIntervalMaxActive(boolean intervalMaxActive) {
+		this.intervalMaxActive = intervalMaxActive;
 	}
 
 
