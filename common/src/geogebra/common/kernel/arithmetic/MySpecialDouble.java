@@ -15,7 +15,6 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
@@ -128,7 +127,6 @@ public class MySpecialDouble extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		App.debug(originalString + tpl.allowMoreDigits());
 		if (!isLetterConstant) {
 			//serializing to CAS -- simply print input
 			if(tpl.hasType(StringType.MPREDUCE))
