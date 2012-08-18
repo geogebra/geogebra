@@ -569,12 +569,17 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"ret:=part(lst,1);"+
 				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
 				"return ret; end;");
-		App.debug(mpreduce1.evaluate("procedure exptolin(lst);begin;" +
+		App.debug(mpreduce1.evaluate("procedure logof(a);"
+				+" if (arglength(a)>-1) and (part(a,0)='minus )then 1/2*pi*i*logof(part(a,1)) else "
+				+" if (arglength(a)>-1) and (part(a,0)='expt )then logof(part(a,1))*part(a,2) else "
+		+" if (arglength(a)>-1) and (part(a,0)='times)then logof(part(a,1))+logof(part(a,2)) else "
+		+" if (arglength(a)>-1) and (part(a,0)='quotient )then logof(part(a,1))-logof(part(a,2)) else log(a);"));
+		mpreduce1.evaluate("procedure exptolin(lst);begin;" +
 				" off combinelogs; on expandlogs; " +
 				" return for each eqn in lst collect "+
-			    "     if arglength(eqn)>-1 and part(eqn,0)='plus then (log(part(eqn,1))-log(-part(eqn,2))) else eqn;" +
+			    "     if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(part(eqn,1))-logof(-part(eqn,2))) else eqn;" +
 			    " end;" 
-				 ));//if (arglength(eqn)>-1 and part(eqn,0)='-) then  else
+				 );
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq;" +
