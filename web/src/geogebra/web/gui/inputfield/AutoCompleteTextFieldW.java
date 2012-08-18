@@ -1071,6 +1071,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	 */
 	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
 		this.showSymbolTableIcon = showSymbolTableIcon;
+		
+		//temp
+		//TODO: don't fix the popup button here, but it should appear if mouse clicked into the textfield.
+		String display = (showSymbolTableIcon) ? "block" : "none";
+		showSymbolButton.getElement().setAttribute("style", "display: "+display);
 	}
 
 	private SymbolTablePopupW getTablePopup() {
