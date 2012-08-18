@@ -64,6 +64,23 @@ public class CmdBoxPlot extends CommandProcessor {
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
+		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of Frequencies>, <Boolean Outliers> ]
+			arg = resArgs(c);
+			if ((ok[0] = (arg[0].isNumberValue()))
+					&& (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[2] = (arg[2].isGeoList()))
+					&& (ok[3] = (arg[3].isGeoList()))
+					&& (ok[4] = (arg[4].isGeoBoolean()))) {
+				
+				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1],
+						(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4]);
+
+				GeoElement[] ret = { algo.getSum() };
+				return ret;
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
 		case 7:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())

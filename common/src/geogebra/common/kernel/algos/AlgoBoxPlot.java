@@ -36,6 +36,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 	private static final int TYPE_QUARTILES = 0;
 	private static final int TYPE_RAW = 1;
+	private static final int TYPE_FREQUENCY = 2;
 	private int type;
 	private NumberValue a;
 	private NumberValue b;
@@ -49,6 +50,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	private GeoNumeric sum;
 	private GeoBoolean useOutliersGeo;
 	private GeoList list1;
+	private GeoList freqList;
 	private ArrayList<Double> tempList;
 	private int N;
 	private double[] yval;
@@ -111,12 +113,49 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	 *            y-scale
 	 * @param list1
 	 *            rawData
+	 * @param useOutliers whether to plot outliers separately
 	 */
 	public AlgoBoxPlot(Construction cons, String label,NumberValue a, NumberValue b, GeoList list1, GeoBoolean useOutliers) {
 
 		this(cons, a, b, list1, useOutliers);
 		
 		sum.setLabel(label);
+	}
+
+	/**
+	 * Creates boxplot from frequency table
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param a
+	 *            y-offset
+	 * @param b
+	 *            y-scale
+	 * @param list1
+	 *            rawData
+	 * @param useOutliers whether to plot outliers separately
+	 */
+	public AlgoBoxPlot(Construction cons, String label,NumberValue a, NumberValue b, GeoList list1, GeoList freqList, GeoBoolean useOutliers) {
+
+		super(cons);
+
+		type = TYPE_FREQUENCY;
+
+		this.a = a;
+		this.b = b;
+		ageo = a.toGeoElement();
+		bgeo = b.toGeoElement();
+		this.list1 = list1;
+		this.freqList = freqList;
+		this.useOutliersGeo = useOutliers;
+
+		sum = new GeoNumeric(cons); // output
+		// sum.setLabelVisible(false);
+		setInputOutput(); // for AlgoElement
+		compute();
+		sum.setDrawable(true);
 	}
 
 	public AlgoBoxPlot(Construction cons, NumberValue a, NumberValue b, GeoList list1, GeoBoolean useOutliers) {
@@ -187,15 +226,39 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 		}
 		tempList.clear();
 		
+		GeoList rawData = null;
 		if (type == TYPE_RAW) {
+			rawData = list1;
+		} else if (type == TYPE_FREQUENCY) {
 			
-			// list1 = rawData
+			if (list1.size() == 0 || list1.size() != freqList.size()) {
+				sum.setUndefined();
+				return;
+			}
 			
-			AlgoQ1 Q1Algo = new AlgoQ1(cons, list1);
+			// construct raw data from frequency table
+			rawData = new GeoList(cons);
+			GeoNumeric num;
+			
+			for (int i = 0 ; i < list1.size() ; i++) {
+				int f = (int) freqList.get(i).evaluateNum().getDouble();
+				if (f > 0) {
+					num = new GeoNumeric(cons, list1.get(i).evaluateNum().getDouble());
+					for (int j = 0 ; j < f ; j++) {
+						rawData.add(num);
+					}
+				}
+			}
+			
+		}
+		
+		if (type == TYPE_RAW || type == TYPE_FREQUENCY) {
+			
+			AlgoQ1 Q1Algo = new AlgoQ1(cons, rawData);
 			cons.removeFromConstructionList(Q1Algo);
-			AlgoMedian medianAlgo = new AlgoMedian(cons, list1);
+			AlgoMedian medianAlgo = new AlgoMedian(cons, rawData);
 			cons.removeFromConstructionList(medianAlgo);
-			AlgoQ3 Q3Algo = new AlgoQ3(cons, list1);
+			AlgoQ3 Q3Algo = new AlgoQ3(cons, rawData);
 			cons.removeFromConstructionList(Q3Algo);
 			
 			double median = medianAlgo.getMedian().getDouble();
@@ -206,13 +269,14 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 			double max = -Double.MAX_VALUE;
 			
 			
-			for (int i = 0 ; i < list1.size() ; i++) {
-				double x = list1.get(i).evaluateNum().getDouble();
+			for (int i = 0 ; i < rawData.size() ; i++) {
+				double x = rawData.get(i).evaluateNum().getDouble();
 				
 				boolean updateMaxMin = true;
 				
 				if (useOutliers) {
 
+					// outlier = more than 1.5 * IQR from median
 					if (x > median + 1.5 * (Q3 - Q1)) {
 						addOutlier(x);
 						updateMaxMin = false;
@@ -239,6 +303,8 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 				
 			}
+			
+			//App.debug(min+" "+Q1+" "+median+" "+Q3+" "+max);
 			
 			
 			tempList.add(min);
@@ -294,7 +360,9 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 	@Override
 	protected void setInputOutput() {
-		if (type == TYPE_QUARTILES) {
+		
+		switch (type) {
+		case TYPE_QUARTILES:
 			input = new GeoElement[7];
 			input[0] = ageo;
 			input[1] = bgeo;
@@ -302,13 +370,36 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 			input[3] = Q1geo;
 			input[4] = medianGeo;
 			input[5] = Q3geo;
-			input[6] = maxGeo;
-		} else { // TYPE_RAW
-			input = new GeoElement[3];
+			input[6] = maxGeo;			
+			break;
+			
+		case TYPE_RAW:
+			input = new GeoElement[3 + (useOutliersGeo == null ? 0:1)];
 			input[0] = ageo;
 			input[1] = bgeo;
 			input[2] = list1;
+			
+			if (useOutliersGeo != null) {
+				input[3] = useOutliersGeo;
+			}
+			
+			break;
+			
+		case TYPE_FREQUENCY:
+			input = new GeoElement[4 + (useOutliersGeo == null ? 0:1)];
+			input[0] = ageo;
+			input[1] = bgeo;
+			input[2] = list1;
+			input[3] = freqList;
+			
+			if (useOutliersGeo != null) {
+				input[4] = useOutliersGeo;
+			}
+			
+			break;
+				
 		}
+
 		setOutputLength(1);
 		setOutput(0, sum);
 		setDependencies();
