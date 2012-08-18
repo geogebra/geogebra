@@ -46,10 +46,20 @@ public class CASInputHandler {
 
 		// get possibly selected text
 		String selectedText = cellEditor.getInputSelectedText();
+	
 		int selStart = cellEditor.getInputSelectionStart();
 		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
-
+		if(selRowInput!=null && selRowInput.startsWith("@")){
+			try {
+				String s = kernel.getGeoGebraCAS().evaluateRaw(selRowInput.substring(1));
+				kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling("casOutput=\""+s+"\"", false, false, false);
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		}
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
