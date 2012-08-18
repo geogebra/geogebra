@@ -171,6 +171,7 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 public class AppD extends App implements
@@ -708,6 +709,9 @@ public class AppD extends App implements
 		guiManager.setLayout(new geogebra.gui.layout.LayoutD());
 		guiManager.initialize();
 		setDefaultCursor();
+		
+		// make sure mouse events are NOT consumed when a popup menu is closed, see #2574
+		UIManager.put("PopupMenu.consumeEventOnClose", Boolean.FALSE);
 	}
 
 	protected GuiManagerD newGuiManager() {
