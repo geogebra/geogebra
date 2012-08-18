@@ -278,12 +278,11 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 	public void showPopup() {
 	//	if (!popup.isVisible()) {
 			popup = new PerspectivePanel(app);
-			popup.setPopupSize(popup.getPreferredSize().width,
-					getMinimumPanel().getHeight() - 4);
+		//	popup.setPopupSize(popup.getPreferredSize().width,
+			//		getMinimumPanel().getHeight() - 4);
 						
-			popup.show(this, -popup.getPreferredSize().width
-					+ getMinimumPanel().getWidth(), 2);
-	//	}
+			popup.show(this, -popup.getPreferredSize().width, (app.getFrame().getHeight() - popup.getPreferredSize().height)/2);
+	//	}app.
 	}
 
 	protected void hidePopup() {

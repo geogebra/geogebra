@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * Handle the change of the language.
  */
-class LanguageActionListener implements ActionListener {
+public class LanguageActionListener implements ActionListener {
 
 	private AppD app;
 
