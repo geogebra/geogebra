@@ -151,11 +151,7 @@ public class DialogManagerMinimal extends DialogManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	@Override
 	public void openToolHelp() {
 		// TODO Auto-generated method stub
