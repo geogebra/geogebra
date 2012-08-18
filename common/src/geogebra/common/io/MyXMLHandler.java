@@ -186,7 +186,7 @@ public class MyXMLHandler implements DocHandler {
 	private LinkedList<GeoExpPair> animationSpeedList = new LinkedList<GeoExpPair>();
 	private LinkedList<GeoExpPair> animationStepList = new LinkedList<GeoExpPair>();
 	private LinkedList<GeoElement> animatingList = new LinkedList<GeoElement>();
-	private LinkedList<GeoExpPair> minMaxList = new LinkedList<GeoExpPair>();
+	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<GeoNumericMinMax>();
 
 	private class GeoExpPair {
 		private GeoElement geoElement;
@@ -195,6 +195,26 @@ public class MyXMLHandler implements DocHandler {
 		GeoExpPair(GeoElement g, String exp) {
 			setGeo(g);
 			this.exp = exp;
+		}
+
+		GeoElement getGeo() {
+			return geoElement;
+		}
+
+		void setGeo(GeoElement geo) {
+			this.geoElement = geo;
+		}
+	}
+	
+	private class GeoNumericMinMax {
+		private GeoElement geoElement;
+		String min;
+		String max;
+
+		GeoNumericMinMax(GeoElement g, String min,String max) {
+			setGeo(g);
+			this.min = min;
+			this.max = max;
 		}
 
 		GeoElement getGeo() {
@@ -3688,14 +3708,14 @@ public class MyXMLHandler implements DocHandler {
 
 			GeoNumeric num = (GeoNumeric) geo;
 
-			String str = attrs.get("min");
-			if (str != null) {
-				minMaxList.add(new GeoExpPair(geo, str));
-				String str2 = attrs.get("max");
-				minMaxList.add(new GeoExpPair(geo, str2));
+			//make sure 
+			String strMin = attrs.get("min");
+			String strMax = attrs.get("max");
+			if (strMin != null || strMax !=null) {
+				minMaxList.add(new GeoNumericMinMax(geo, strMin,strMax));
 			}
 
-			str = attrs.get("absoluteScreenLocation");
+			String str = attrs.get("absoluteScreenLocation");
 			if (str != null) {
 				num.setAbsoluteScreenLocActive(parseBoolean(str));
 			} else {
@@ -4404,21 +4424,26 @@ public class MyXMLHandler implements DocHandler {
 
 	private void processMinMaxList() {
 		try {
-			Iterator<GeoExpPair> it = minMaxList.iterator();
+			Iterator<GeoNumericMinMax> it = minMaxList.iterator();
 			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
 
 			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
+				GeoNumericMinMax pair = it.next();
 				// the setIntervalMin and setIntervalMax methods might turn ?
 				// into defined
 				// this is intentional, but when loading a file we must override
 				// it for 3.2 compatibility
 				boolean wasDefined = pair.getGeo().isDefined();
-				NumberValue num = algProc.evaluateToNumeric(pair.exp, false);
-				((GeoNumeric) pair.getGeo()).setIntervalMin(num);
-				GeoExpPair pair2 = it.next();
-				NumberValue num2 = algProc.evaluateToNumeric(pair2.exp, false);
-				((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
+				if(pair.min!=null){
+					NumberValue num = algProc.evaluateToNumeric(pair.min, false);
+					((GeoNumeric) pair.getGeo()).setIntervalMin(num);
+				}
+				
+				if(pair.max!=null){
+					NumberValue num2 = algProc.evaluateToNumeric(pair.max, false);
+					((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
+				}
+				
 				if (!wasDefined)
 					pair.getGeo().setUndefined();
 			}
