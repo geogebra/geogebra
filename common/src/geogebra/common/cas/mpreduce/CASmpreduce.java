@@ -574,12 +574,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+" if (arglength(a)>-1) and (part(a,0)='expt )then logof(part(a,1))*part(a,2) else "
 		+" if (arglength(a)>-1) and (part(a,0)='times)then logof(part(a,1))+logof(part(a,2)) else "
 		+" if (arglength(a)>-1) and (part(a,0)='quotient )then logof(part(a,1))-logof(part(a,2)) else log(a);"));
-		mpreduce1.evaluate("procedure exptolin(lst);begin;" +
-				" off combinelogs; on expandlogs; " +
-				" return for each eqn in lst collect "+
-			    "     if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(part(eqn,1))-logof(-part(eqn,2))) else eqn;" +
-			    " end;" 
-				 );
+		//exptolin({7^(2*x-5)* 5^x = 9^(x+1)})
+		App.debug(mpreduce1.evaluate("procedure exptolin(eqn);" +
+				" if arglength(eqn)>-1 and part(eqn,0)='quotient and numberp(part(eqn,2)) then  exptolin(part(eqn,1)) else " +
+			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(part(eqn,1))-logof(-part(eqn,2))) " +
+			    " else eqn;"
+				 ));
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq;" +
@@ -596,7 +596,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
 						+ "  solutions!!:=solve(eqn,var);" 
 						+ "  if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
-						+ "    solutions!!:=solve(exptolin(eqn),var); "
+						+ "    solutions!!:=solve(map(exptolin(~r),eqn),var); "
 						+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
 						+ "	 if depth(solutions!!)<2 then"
 						+ "		solutions!!:=for each x in solutions!! collect {x};"
