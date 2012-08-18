@@ -826,10 +826,7 @@ public class CASTableD extends JTable implements CASTable{
 
 				Rectangle r = getCellRect(rollOverRow, CASTable.COL_CAS_CELLS,
 						true);
-				
-				//do not highlight the showHideControl
-				r.width = r.width -10;
-				
+							
 				if (isOutputRollOver) {
 					r.y = r.y + offset;
 					r.height = r.height - offset;
