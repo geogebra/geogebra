@@ -570,9 +570,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
 				"return ret; end;");
 		App.debug(mpreduce1.evaluate("procedure logof(a);"
-				+" if (arglength(a)>-1) and (part(a,0)='minus )then 1/2*pi*i*logof(part(a,1)) else "
+				+" if (arglength(a)>-1) and (part(a,0)='minus )then pi*i*logof(part(a,1)) else "
 				+" if (arglength(a)>-1) and (part(a,0)='expt )then logof(part(a,1))*part(a,2) else "
-		+" if (arglength(a)>-1) and (part(a,0)='times)then logof(part(a,1))+logof(part(a,2)) else "
+		+" if (arglength(a)>-1) and (part(a,0)='times)then for k:=1:arglength(a) sum logof(part(a,k)) else "
 		+" if (arglength(a)>-1) and (part(a,0)='quotient )then logof(part(a,1))-logof(part(a,2)) else log(a);"));
 		//exptolin({7^(2*x-5)* 5^x = 9^(x+1)})
 		App.debug(mpreduce1.evaluate("procedure exptolin(eqn);" +
