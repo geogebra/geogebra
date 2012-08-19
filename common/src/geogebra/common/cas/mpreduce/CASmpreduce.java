@@ -577,7 +577,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		//exptolin({7^(2*x-5)* 5^x = 9^(x+1)})
 		App.debug(mpreduce1.evaluate("procedure exptolin(eqn);" +
 				" if arglength(eqn)>-1 and part(eqn,0)='quotient and numberp(part(eqn,2)) then  exptolin(part(eqn,1)) else " +
-			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(part(eqn,1))-logof(-part(eqn,2))) " +
+			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(for k:=2:arglength(eqn) sum part(eqn,k))-logof(-part(eqn,1))) " +
 			    " else eqn;"
 				 ));
 		mpreduce1
