@@ -1171,18 +1171,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @return 1 if first is greater (or same but sooner in construction), -1
 	 *         otherwise
 	 */
-	public static Comparator<NumberValue> getComparator() {
+	public static Comparator<GeoNumberValue> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<NumberValue>() {
-				public int compare(NumberValue itemA, NumberValue itemB) {
+			comparator = new Comparator<GeoNumberValue>() {
+				public int compare(GeoNumberValue itemA, GeoNumberValue itemB) {
 
 					double comp = itemA.getDouble() - itemB.getDouble();
 					if (Kernel.isZero(comp)) {
 						// don't return 0 for equal objects, otherwise the
 						// TreeSet deletes duplicates
-						if (!itemA.isGeoElement() || !itemB.isGeoElement())
-							return 1;
-						return ((GeoElement) itemA).getConstructionIndex() > ((GeoElement) itemB)
+						return itemA.getConstructionIndex() > itemB
 								.getConstructionIndex() ? -1 : 1;
 					}
 					return comp < 0 ? -1 : +1;
@@ -1193,7 +1191,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return comparator;
 	}
 
-	private static Comparator<NumberValue> comparator;
+	private static Comparator<GeoNumberValue> comparator;
 
 	// protected void setRandomNumber(boolean flag) {
 	// isRandomNumber = flag;

@@ -175,4 +175,10 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return animation step as double
 	 */
 	public double getAnimationStep();
+	
+	
+	/**
+	 * @return construction index
+	 */
+	int getConstructionIndex();
 }
