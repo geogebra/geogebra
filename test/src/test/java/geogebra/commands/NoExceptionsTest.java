@@ -439,6 +439,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdCountIf() {
 		t("CountIf[ bf1(x), list1 ]");
+		t("CountIf[ bf1(A),A, list1 ]");
 	}
 
 	@Test
@@ -1619,6 +1620,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSampleSD() {
 		t("SampleSD[ list1 ]");
+		t("SampleSD[ list1, list1 ]");
 
 	}
 
@@ -1840,6 +1842,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSigmaXX() {
 		t("SigmaXX[ list1 ]");
+		t("SigmaXX[ list1, list1 ]");
 		t("SigmaXX[ ptlist1 ]");
 	}
 
@@ -2441,5 +2444,43 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdTurtleRight(){
 		t("TurtleRight[turtle1, 3.14]");
+	}
+	
+	public void cmdZProportionTest(){
+		t("ZProportionTest[ n1, n1, n2, \">\" ]");
+	}
+	
+	public void cmdZMeanTest(){
+		t("ZMeanTest[ list1, n1, n2, \">\" ]");
+		t("ZMeanTest[ n1, n1, n2, \">\" ]");
+		
+	}
+	
+	public void cmdZMean2Test(){
+		t("ZMean2Test[ list1, n1, list1,n3,n4, \">\" ]");
+		t("ZMean2Test[ n1, n1, n2, n3,n4,\">\" ]");
+		
+	}
+	
+	public void cmdZProportion2Test(){
+		t("ZProportion2Test[ n3,n4,n1, n1, n2, \">\" ]");
+	}
+	
+	public void cmdZProportionEstimate(){
+		t("ZproportionEstimate[n1,n2,n3]");
+	}
+	
+	public void cmdZProportion2Estimate(){
+		t("ZproportionEstimate[n1,n2,n3,n1,n2]");
+	}
+	
+	public void cmdZMeanEstimate(){
+		t("ZMeanEstimate[ list1, n1, n4, n1 ]");
+		t("ZMeanEstimate[ n1, n3,n4,n1 ]");
+	}
+	
+	public void cmdZMean2Estimate(){
+		t("ZMean2Estimate[ list1, n1, list1,n3,n4, n1 ]");
+		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1 ]");
 	}
 }
