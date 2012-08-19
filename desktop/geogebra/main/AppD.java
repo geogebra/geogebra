@@ -80,7 +80,7 @@ import geogebra.kernel.UndoManagerD;
 import geogebra.kernel.commands.CmdBarCode;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.plugin.CallJavaScript;
-import geogebra.plugin.GgbAPI;
+import geogebra.plugin.GgbAPID;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManager;
 import geogebra.plugin.jython.AppletPythonBridge;
@@ -367,7 +367,7 @@ public class AppD extends App implements
 
 	
 
-	private GgbAPI ggbapi = null;
+	private GgbAPID ggbapi = null;
 	private PluginManager pluginmanager = null;
 	private PythonBridge pythonBridge = null;
 
@@ -3942,9 +3942,9 @@ public class AppD extends App implements
 	 * PluginManager gets API with this H-P Ulven 2008-04-16
 	 */
 	@Override
-	public GgbAPI getGgbApi() {
+	public GgbAPID getGgbApi() {
 		if (ggbapi == null) {
-			ggbapi = new GgbAPI(this);
+			ggbapi = new GgbAPID(this);
 		}
 
 		return ggbapi;

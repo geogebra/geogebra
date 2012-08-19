@@ -124,7 +124,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 	}
 
 	public static void initStandardObjects(AppD app, Scriptable scope, String arg, boolean sealed) {
-		geogebra.plugin.GgbAPI ggbApi = app.getGgbApi();
+		geogebra.plugin.GgbAPID ggbApi = app.getGgbApi();
 		Object wrappedOut = Context.javaToJS(ggbApi, scope);
 		ScriptableObject.putProperty(scope, "ggbApplet", wrappedOut);
 

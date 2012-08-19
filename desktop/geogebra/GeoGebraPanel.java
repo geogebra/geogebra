@@ -3,7 +3,7 @@ package geogebra;
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
-import geogebra.plugin.GgbAPI;
+import geogebra.plugin.GgbAPID;
 
 import java.awt.BorderLayout;
 import java.net.URL;
@@ -212,7 +212,7 @@ public class GeoGebraPanel extends JPanel {
 	 * Returns the GeoGebraAPI object that lets you interact
 	 * with the GeoGebra construction.
 	 */
-	public synchronized GgbAPI getGeoGebraAPI() {
+	public synchronized GgbAPID getGeoGebraAPI() {
 		return app.getGgbApi();
 	}
 

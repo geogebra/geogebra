@@ -39,7 +39,7 @@ public interface PlugLetIF {
      *  @param api The API the plugin can use
      *  @param args The args given in plugin.properties
      */
-    public void init(GgbAPI api,String args);
+    public void init(GgbAPID api,String args);
     
     /** The method to run the plugin program
      *  Called by choosing in menu.

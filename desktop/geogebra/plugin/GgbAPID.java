@@ -60,7 +60,7 @@ import javax.swing.JOptionPane;
     Tranferred applet interface methods (the relevant ones) from GeoGebraAppletBase
 */
 
-public class GgbAPI extends geogebra.common.plugin.GgbAPI {
+public class GgbAPID extends geogebra.common.plugin.GgbAPI {
 
    
    /** Constructor:
@@ -68,7 +68,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
     *  Called from GeoGebra.
     *  @param app Application
     */
-    public GgbAPI(AppD app) {
+    public GgbAPID(AppD app) {
         this.app=app;
         kernel=app.getKernel();
         algebraprocessor=kernel.getAlgebraProcessor();
@@ -257,7 +257,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 */
 	public synchronized void reset() {
 		
-		//rewrite in this context
+		App.warn("unimplemented");
 	}
 	
 	/**

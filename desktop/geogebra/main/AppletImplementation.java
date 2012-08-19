@@ -21,7 +21,7 @@ import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.plugin.GgbAPI;
+import geogebra.plugin.GgbAPID;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -88,7 +88,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	// private JavaScriptMethodHandler javaScriptMethodHandler;
 	// private boolean javascriptLoadFile=false, javascriptReset=false;
 	// private String javascriptLoadFileName="";
-	private GgbAPI ggbApi = null; // Ulven 29.05.08
+	private GgbAPID ggbApi = null; // Ulven 29.05.08
 
 	public String ggbOnInitParam = null;
 
