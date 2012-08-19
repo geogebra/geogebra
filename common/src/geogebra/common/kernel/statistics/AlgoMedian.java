@@ -137,6 +137,23 @@ public class AlgoMedian extends AlgoElement {
 				median.setUndefined();
 				return;
 			}
+
+			for (int i = 0; i < freqList.size(); i++) {
+				GeoElement geo = inputList.get(i);
+				if (!freqList.get(i).isNumberValue()) {
+					median.setUndefined();
+					return;
+				}
+			}	
+			
+			for (int i = 0; i < inputList.size(); i++) {
+				GeoElement geo = inputList.get(i);
+				if (!inputList.get(i).isNumberValue()) {
+					median.setUndefined();
+					return;
+				}
+			}	
+			
 			
 			// extract value and frequency arrays
 			Object[] obj = convertValueFreqListToArrays(inputList, freqList);
@@ -223,12 +240,14 @@ public class AlgoMedian extends AlgoElement {
 		int freq;
 		TreeMap<Double, Integer> tm = new TreeMap<Double, Integer>();
 		for (int i = 0; i < freqList.size(); i++) {
+			
 			val = ((NumberValue) inputList.get(i)).getDouble();
 			freq = (int) ((NumberValue) freqList.get(i)).getDouble();
 			// handle repeated values
 			if (tm.containsKey(val)) {
 				freq += tm.get(val);
 			}
+			
 			tm.put(val, freq);
 		}
 

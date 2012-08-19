@@ -159,6 +159,22 @@ public class AlgoQ1 extends AlgoElement {
 				return;
 			}
 
+			for (int i = 0; i < freqList.size(); i++) {
+				GeoElement geo = inputList.get(i);
+				if (!freqList.get(i).isNumberValue()) {
+					Q1.setUndefined();
+					return;
+				}
+			}	
+			
+			for (int i = 0; i < inputList.size(); i++) {
+				GeoElement geo = inputList.get(i);
+				if (!inputList.get(i).isNumberValue()) {
+					Q1.setUndefined();
+					return;
+				}
+			}	
+			
 			// extract value and frequency arrays
 			Object[] obj = AlgoMedian.convertValueFreqListToArrays(inputList,
 					freqList);

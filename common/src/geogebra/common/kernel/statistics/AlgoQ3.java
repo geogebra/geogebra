@@ -149,18 +149,35 @@ public class AlgoQ3 extends AlgoElement {
     			return;
     		}
 
+    		for (int i = 0; i < freqList.size(); i++) {
+				GeoElement geo = inputList.get(i);
+				if (!freqList.get(i).isNumberValue()) {
+					Q3.setUndefined();
+					return;
+				}
+			}	
+			
+			for (int i = 0; i < inputList.size(); i++) {
+				GeoElement geo = inputList.get(i);
+				if (!inputList.get(i).isNumberValue()) {
+					Q3.setUndefined();
+					return;
+				}
+			}	
+			
     		// extract value and frequency arrays
     		Object[] obj = AlgoMedian.convertValueFreqListToArrays(inputList,
     				freqList);
     		Double[] v = (Double[]) obj[0];
     		Integer[] f = (Integer[]) obj[1];
     		int n = (Integer) obj[2];
-System.out.println(Arrays.toString(v));
-System.out.println(Arrays.toString(f));
-System.out.println(n);
-for(int i = 0; i < n; i++){
-	System.out.println(i + ": " + AlgoMedian.getValueAt(i, v, f));
-}
+    		
+    		//System.out.println(Arrays.toString(v));
+    		//System.out.println(Arrays.toString(f));
+    		//System.out.println(n);
+    		//for(int i = 0; i < n; i++){
+    			//System.out.println(i + ": " + AlgoMedian.getValueAt(i, v, f));
+    		//}
 
     		switch (n % 4) {
     		case 0:
