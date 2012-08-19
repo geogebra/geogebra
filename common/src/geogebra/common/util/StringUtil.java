@@ -834,6 +834,8 @@ public class StringUtil {
 	 * @return text with replaced {s
 	 */
 	public static String ignoreIndices(String text) {
+		if(text==null)
+			return null;
 		StringBuilder sb = new StringBuilder(80);
 		boolean ignore = false;
 		boolean underscore = false;
