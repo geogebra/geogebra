@@ -584,13 +584,13 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sb.append("\t<slider");
-		if (isIntervalMinActive()) {
+		if (isIntervalMinActive() || intervalMin instanceof GeoNumeric) {
 			sb.append(" min=\"");
 			StringUtil
 					.encodeXML(sb, getIntervalMinObject().getLabel(tpl));
 			sb.append("\"");
 		}
-		if (isIntervalMaxActive()) {
+		if (isIntervalMaxActive() || intervalMax instanceof GeoNumeric) {
 			sb.append(" max=\"");
 			StringUtil
 					.encodeXML(sb, getIntervalMaxObject().getLabel(tpl));
