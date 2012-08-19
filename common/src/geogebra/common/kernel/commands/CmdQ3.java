@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoQ1;
 import geogebra.common.kernel.statistics.AlgoQ3;
 
 /**
@@ -26,5 +28,11 @@ public class CmdQ3 extends CmdOneListFunction {
 		return algo.getQ3();
 	}
 
+	@Override
+	final protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq)
+	{
+		AlgoQ3 algo = new AlgoQ3(cons, a, list, freq);
+		return algo.getQ3();
+	}
 
 }

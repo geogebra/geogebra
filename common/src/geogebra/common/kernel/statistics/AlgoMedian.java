@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 import java.util.Arrays;
+import java.util.TreeMap;
 
 
 /**
@@ -126,7 +127,7 @@ public class AlgoMedian extends AlgoElement {
 		}
 
 		// ================================================
-		// CASE 2: data from ungrouped list with associated frequency
+		// CASE 2: data from value/frequency lists
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
@@ -136,50 +137,25 @@ public class AlgoMedian extends AlgoElement {
 				median.setUndefined();
 				return;
 			}
-
-			// get data size n
-			int n = 0;
-			for (int i = 0; i < freqList.size(); i++) {
-				n += ((NumberValue) freqList.get(i)).getDouble();
-			}
 			
-			int cf = 0;
-			double value;
+			// extract value and frequency arrays
+			Object[] obj = convertValueFreqListToArrays(inputList, freqList);
+			Double[] v = (Double[]) obj[0];
+			Integer[] f = (Integer[]) obj[1];
+			int n = (Integer) obj[2];
+			
 
-			// even size: median = average of values at position n/2 and n/2 + 1
-			if ((Math.floor((double) n / 2) == n / 2.0)) {
-				for (int i = 0; i < freqList.size(); i++) {
-					value = ((NumberValue) inputList.get(i)).getDouble();
-					cf += (int) ((NumberValue) freqList.get(i+1)).getDouble();
-					if(cf >= n/2){
-						// n/2 and n/2 + 1  values are different
-						if (cf == n / 2) {
-							median.setValue((value + ((NumberValue) inputList
-									.get(i + 1)).getDouble()) / 2);
-						} else {
-							median.setValue(value);
-						}
-						break;
-					}
-				}
-			}
-
-			// odd size: median = value at (n+1)/2 position
-			else {
-				for (int i = 0; i < freqList.size(); i++) {
-					value = ((NumberValue) inputList.get(i)).getDouble();
-					cf += (int) ((NumberValue) freqList.get(i)).getDouble();
-					
-					if (cf >= (n + 1) / 2) {
-						median.setValue(value);
-						break;
-					}	
-				}
+			// find the median
+			if (Math.floor((double) n / 2) == n / 2.0) {
+				median.setValue((getValueAt(n / 2, v, f) + getValueAt(
+						n / 2 - 1, v, f)) / 2);
+			} else {
+				median.setValue(getValueAt((n - 1) / 2, v, f));
 			}
 		}
 
 		// ============================================
-		// CASE 3: data grouped by classes and frequency
+		// CASE 3: data grouped by class and frequency
 		// ============================================
 
 		else {
@@ -191,6 +167,7 @@ public class AlgoMedian extends AlgoElement {
 				return;
 			}
 
+			// TODO ok to assume classes are valid? (sorted no gaps)
 			double n = 0;
 			for (int i = 0; i < freqList.size(); i++) {
 				n += ((NumberValue) freqList.get(i)).getDouble();
@@ -215,6 +192,60 @@ public class AlgoMedian extends AlgoElement {
 			}
 		}
 	}
+	
+	/**
+	 * Returns the value at an index position in a list of data
+	 * constructed from a sorted list of values and frequencies
+	 * 
+	 * @param index
+	 * @param val
+	 * @param freq
+	 * @return
+	 */
+	public static Double getValueAt(int index, Double[] val, Integer[] freq) {
 
+		int cf = 0; // cumulative frequency
+		for (int i = 0; i < val.length; i++) {
+			cf += freq[i];
+			if (index < cf) {
+				return val[i];
+			}
+		}
+		return null;
+	}
+
+	
+	public static Object[] convertValueFreqListToArrays(GeoList inputList,
+			GeoList freqList) {
+		
+		// create a tree map to sort the value/frequency pairs
+		double val;
+		int freq;
+		TreeMap<Double, Integer> tm = new TreeMap<Double, Integer>();
+		for (int i = 0; i < freqList.size(); i++) {
+			val = ((NumberValue) inputList.get(i)).getDouble();
+			freq = (int) ((NumberValue) freqList.get(i)).getDouble();
+			// handle repeated values
+			if (tm.containsKey(val)) {
+				freq += tm.get(val);
+			}
+			tm.put(val, freq);
+		}
+
+		// extract value and frequency arrays
+		Double[] v = tm.keySet().toArray(new Double[tm.size()]);
+		Integer[] f = tm.values().toArray(new Integer[tm.size()]);
+
+		// get data size n
+		int n = 0;
+		for (int i = 0; i < f.length; i++) {
+			n += f[i]; // add the frequency for this value
+		}
+					
+		// return the arrays in an Object array
+		Object[] obj = { v, f, n };
+		return obj;
+	}
+	
 	// TODO Consider locusequability
 }

@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoMedian;
 import geogebra.common.kernel.statistics.AlgoQ1;
 import geogebra.common.kernel.statistics.AlgoQ3;
-import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
 
 import java.util.ArrayList;
@@ -225,52 +224,44 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 			tempList = new ArrayList<Double>();
 		}
 		tempList.clear();
-		
-		GeoList rawData = null;
-		if (type == TYPE_RAW) {
-			rawData = list1;
-		} else if (type == TYPE_FREQUENCY) {
-			
+
+		if (type == TYPE_FREQUENCY) {
 			if (list1.size() == 0 || list1.size() != freqList.size()) {
 				sum.setUndefined();
 				return;
 			}
+		}	
 			
-			// construct raw data from frequency table
-			rawData = new GeoList(cons);
-			GeoNumeric num;
-			
-			for (int i = 0 ; i < list1.size() ; i++) {
-				int f = (int) freqList.get(i).evaluateNum().getDouble();
-				if (f > 0) {
-					num = new GeoNumeric(cons, list1.get(i).evaluateNum().getDouble());
-					for (int j = 0 ; j < f ; j++) {
-						rawData.add(num);
-					}
-				}
-			}
-			
-		}
 		
 		if (type == TYPE_RAW || type == TYPE_FREQUENCY) {
 			
-			AlgoQ1 Q1Algo = new AlgoQ1(cons, rawData);
-			cons.removeFromConstructionList(Q1Algo);
-			AlgoMedian medianAlgo = new AlgoMedian(cons, rawData);
-			cons.removeFromConstructionList(medianAlgo);
-			AlgoQ3 Q3Algo = new AlgoQ3(cons, rawData);
-			cons.removeFromConstructionList(Q3Algo);
+			AlgoQ1 Q1Algo;
+			AlgoQ3 Q3Algo;
+			AlgoMedian medianAlgo;
 			
+			if(type == TYPE_RAW ){
+				Q1Algo = new AlgoQ1(cons, list1);				
+				medianAlgo = new AlgoMedian(cons, list1);			
+				Q3Algo = new AlgoQ3(cons, list1);
+			}else{
+				Q1Algo = new AlgoQ1(cons, list1, freqList);
+				medianAlgo = new AlgoMedian(cons, list1, freqList);		
+				Q3Algo = new AlgoQ3(cons, list1, freqList);
+			}
+			cons.removeFromConstructionList(Q1Algo);
+			cons.removeFromConstructionList(Q3Algo);
+			cons.removeFromConstructionList(medianAlgo);
+			
+
 			double median = medianAlgo.getMedian().getDouble();
 			double Q1 = Q1Algo.getQ1().getDouble();
 			double Q3 = Q3Algo.getQ3().getDouble();
-			
 			double min = Double.MAX_VALUE;
 			double max = -Double.MAX_VALUE;
 			
 			
-			for (int i = 0 ; i < rawData.size() ; i++) {
-				double x = rawData.get(i).evaluateNum().getDouble();
+			for (int i = 0 ; i < list1.size() ; i++) {
+				double x = list1.get(i).evaluateNum().getDouble();
 				
 				boolean updateMaxMin = true;
 				
