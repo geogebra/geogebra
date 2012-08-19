@@ -89,6 +89,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		degX=-1;
 		degY=-1;
 		coeffSquarefree=new double[0][0];
+		coeff=new double[0][0];
 		locus=new GeoLocus(c);
 		locus.setDefined(true);
 		calcPath=true;
