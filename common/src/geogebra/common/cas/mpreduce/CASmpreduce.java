@@ -621,42 +621,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		
 		mpreduce1
 		.evaluate("procedure mysolve1(eqn);"
-				+ " begin scalar solutions!!, bool!!, vars!!, isineq;" +
-				"isineq:=0;"
-				+ " if part(eqn,0)='sgreater then <<eqn:=part(eqn,0):='greaterp; isineq:=1>>;"
-				+ " if part(eqn,0)='sgreaterequal then <<eqn:=part(eqn,0):='geq; isineq:=1>>;"
-				+ " if part(eqn,0)='sless then <<eqn:=part(eqn,0):='lessp; isineq:=1>>;"
-				+ " if part(eqn,0)='slessequal then <<eqn:=part(eqn,0):='leq; isineq:=1>>;"
-				+ "  eqn:=mkdepthone({eqn});"
-				+ "  let solverules;"
-				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
-				+ "    eqn:=for each x in eqn collect"
-				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
-				+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
-				+ "  vars!! := mymainvars(eqn,length(eqn));" +
-				"  solutions!!:=solve(eqn,vars!!);"
-				+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
-				+ "	 if depth(solutions!!)<2 then"
-				+ "		solutions!!:=for each x in solutions!! collect {x};"
-				+ "	 solutions!!:=for each sol in solutions!! join <<"
-				+ "    bool!!:=1;"
-				+ "    for each solution!! in sol do"
-				+ "     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
-				+ "		   on rounded, roundall, numval, complex;"
-				+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
-				+ "		   off complex;"
-				+ "		   if numeric!!=0 then off rounded, roundall, numval"
-				+ "      >>"
-				+ "      else"
-				+ "	       bool!!:=2*bool!!;"
-				+ " 	   firstsol!!:=part(sol,1);"
-				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(mymainvar(eqn),part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
-				+ "    else if bool!!=1 then" + "  	 {sol}"
-				+ "	   else if bool!!>1 then " + "  	 {{vars!!='?}}"
-				+ "    else " + "		 {} >>;"
-				+ "  clearrules solverules;"
-				+ "  return if isineq then listtodisjunction(mymainvar(eqn),flattenlist(mkset(solutions!!))) else mkset(solutions!!);" + " end;");
-		
+				+ " mysolve(eqn,mymainvars(eqn,length(mkdepthone({eqn}))));");
 		mpreduce1
 				.evaluate("procedure mycsolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
@@ -681,26 +646,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		
 		mpreduce1
 		.evaluate("procedure mycsolve1(eqn);"
-				+ " begin scalar solutions!!, bool!!;"
-				+ "  eqn:=mkdepthone({eqn});"
-				+ "  let solverules;"
-				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
-				+ "    eqn:=for each x in eqn collect"
-				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
-				+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
-				+ "    vars:=mymainvars(eqn,length(eqn));"
-				+ "    solutions!!:=solve(eqn,vars);"
-				+ "    if depth(solutions!!)<2 then"
-				+ "      solutions!!:=for each x in solutions!! collect {x};"
-				+ "    solutions!!:= for each sol in solutions!! join <<"
-				+ "      bool!!:=1;"
-				+ "      for each solution!! in sol do"
-				+ "        if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then 1 else"
-				+ "      		bool!!:=0;" + "      if bool!!=1 then"
-				+ "        {sol}" + "      else if bool!!=0 then"
-				+ "        {{vars='?}}" + "      >>;"
-				+ "  clearrules solverules;"
-				+ "  return mkset(solutions!!);" + " end;");
+				+ " mycsolve(eqn,mymainvars(eqn,length(mkdepthone({eqn}))));");
 
 
 		mpreduce1
