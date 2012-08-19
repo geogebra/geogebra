@@ -133,7 +133,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("BoxPlot")
     String BoxPlot();
 
-    @DefaultStringValue("[ <yOffset>, <yScale>, <List of Raw Data> ]\n[ <yOffset>, <yScale>, <Start Value>, <Q1>, <Median>, <Q3>, <End Value> ]")
+    @DefaultStringValue("[ <yOffset>, <yScale>, <List of Raw Data> ]\n[ <yOffset>, <yScale>, <List of Raw Data>, <Boolean Outliers> ]\n[ <yOffset>, <yScale>, <List of Data>, <List of Frequencies>, <Boolean Outliers> ]\n[ <yOffset>, <yScale>, <Start Value>, <Q1>, <Median>, <Q3>, <End Value> ]")
     String BoxPlot_Syntax();
 
     @DefaultStringValue("Button")
@@ -1270,7 +1270,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Mean")
     String Mean();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String Mean_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1291,7 +1291,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Median")
     String Median();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String Median_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1603,7 +1603,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Product")
     String Product();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String Product_Syntax();
 
     @DefaultStringValue("[ <List of expressions> ]\n[ <Expression>, <variable>, <start index>, <end index> ]")
@@ -1612,13 +1612,13 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Q1")
     String Q1();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[<List of Raw Data> ]\n[<List of Numbers>, <List of Frequencies> ]")
     String Q1_Syntax();
 
     @DefaultStringValue("Q3")
     String Q3();
 
-    @DefaultStringValue("[ <List of Numbers> ]")
+    @DefaultStringValue("[<List of Raw Data> ]\n[<List of Numbers>, <List of Frequencies> ]")
     String Q3_Syntax();
 
     @DefaultStringValue("RSquare")
@@ -1813,7 +1813,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SD")
     String SD();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String SD_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1861,7 +1861,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SampleSD")
     String SampleSD();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String SampleSD_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -1882,7 +1882,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SampleVariance")
     String SampleVariance();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String SampleVariance_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -2125,7 +2125,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SigmaXX")
     String SigmaXX();
 
-    @DefaultStringValue("[ <List of Points> ]\n[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Points> ]\n[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String SigmaXX_Syntax();
 
     @DefaultStringValue("SigmaXY")
@@ -2233,7 +2233,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Sum")
     String Sum();
 
-    @DefaultStringValue("[ <List> ]\n[ <List>, <Number of Elements> ]\n[ <List>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List> ]\n[ <List>, <Number of Elements> ]\n[ <List>, <List of Frequencies> ]")
     String Sum_Syntax();
 
     @DefaultStringValue("[ <List> ]\n[ <expression>, <variable>, <start value>, <end value> ]")
@@ -2524,7 +2524,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Variance")
     String Variance();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>,  <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String Variance_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
@@ -2590,7 +2590,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("ZProportion2Estimate")
     String ZProportion2Estimate();
 
-    @DefaultStringValue("[ <Sample Proportion 1>,  <Sample Size 1>, <Sample Proportion 2>, <Sample Size 2>, <Level> ]")
+    @DefaultStringValue("[ <Sample Proportion 1>, <Sample Size 1>, <Sample Proportion 2>, <Sample Size 2>, <Level> ]")
     String ZProportion2Estimate_Syntax();
 
     @DefaultStringValue("ZProportion2Test")
