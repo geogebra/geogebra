@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
-import geogebra.web.gui.InputDialogW;
 import geogebra.web.main.AppW;
 
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{

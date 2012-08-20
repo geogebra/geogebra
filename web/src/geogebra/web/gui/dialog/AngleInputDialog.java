@@ -14,7 +14,6 @@ package geogebra.web.gui.dialog;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
-import geogebra.web.gui.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 

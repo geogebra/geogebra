@@ -1,4 +1,4 @@
-package geogebra.web.gui;
+package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;

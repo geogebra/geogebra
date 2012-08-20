@@ -1,7 +1,6 @@
 package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.web.gui.InputDialogW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
