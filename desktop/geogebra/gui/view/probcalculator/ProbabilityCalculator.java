@@ -1755,10 +1755,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		//statCalculator.setLabels();
 		
 		tabbedPane.setTitleAt(0, app.getMenu("Distribution"));
-		tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
+
+		//statCalculator.setLabels();
+		//tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
 
 		setLabelArrays();
 
