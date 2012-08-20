@@ -1153,7 +1153,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Equation> ]")
     String LeftSide_Syntax();
 
-    @DefaultStringValue("[ <Equation> ]\n[ <List of Equations> ]")
+    @DefaultStringValue("[ <Equation> ]\n[ <List of Equations> ]\n[ <List of Equations>, <Index> ]")
     String LeftSide_SyntaxCAS();
 
     @DefaultStringValue("LeftSum")
@@ -1603,10 +1603,10 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Product")
     String Product();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>, <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String Product_Syntax();
 
-    @DefaultStringValue("[ <List of expressions> ]\n[ <Expression>, <variable>, <start index>, <end index> ]")
+    @DefaultStringValue("[ <List of Expressions> ]\n[ <Expression>, <Variable>, <Start Index>, <End Index> ]")
     String Product_SyntaxCAS();
 
     @DefaultStringValue("Q1")
@@ -1756,7 +1756,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Equation> ]")
     String RightSide_Syntax();
 
-    @DefaultStringValue("[ <Equation> ]\n[ <List of Equations> ]")
+    @DefaultStringValue("[ <Equation> ]\n[ <List of Equations> ]\n[ <List of Equations>, <Index> ]")
     String RightSide_SyntaxCAS();
 
     @DefaultStringValue("RigidPolygon")
@@ -1813,7 +1813,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SD")
     String SD();
 
-    @DefaultStringValue("[ <List of Numbers> ]\n[ <List of Numbers>, <List of Frequencies> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]")
     String SD_Syntax();
 
     @DefaultStringValue("[ <List of Numbers> ]")
