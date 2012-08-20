@@ -14,6 +14,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
+import geogebra.main.SpreadsheetTableModelD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

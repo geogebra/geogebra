@@ -73,7 +73,6 @@ import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraViewD;
-import geogebra.gui.view.spreadsheet.SpreadsheetTableModelD;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
