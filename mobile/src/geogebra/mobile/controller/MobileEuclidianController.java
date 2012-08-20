@@ -29,14 +29,13 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  * @author Thomas Krismayer
  * 
  */
-public class MobileEuclidianController extends EuclidianController implements TouchStartHandler, TouchEndHandler, TouchMoveHandler, ClickHandler
+public class MobileEuclidianController extends EuclidianController implements
+		TouchStartHandler, TouchEndHandler, TouchMoveHandler, ClickHandler
 {
 
 	private GuiModel guiModel;
 	ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
 	private ToolBarCommand lastCmd;
-
-	private final double MAX_DISTANCE_TO_SELECT = 0.5;
 
 	@Override
 	public void setKernel(Kernel k)
@@ -88,6 +87,7 @@ public class MobileEuclidianController extends EuclidianController implements To
 		this.guiModel.closeOptions();
 
 		ToolBarCommand cmd = this.guiModel.getCommand();
+
 		if (this.lastCmd != cmd)
 		{
 			this.oldPoints = new ArrayList<GeoPointND>();
@@ -97,17 +97,19 @@ public class MobileEuclidianController extends EuclidianController implements To
 		boolean draw = false;
 
 		this.mouseLoc = new GPoint(event.getX(), event.getY());
-		this.view.setHits(this.mouseLoc);
-		Hits hits = this.view.getHits();
+		this.mode = this.guiModel.getCommand().getMode();
 
+		switchModeForMousePressed(null);
+		this.view.setShowMouseCoords(false); 
+
+		Hits hits = this.view.getHits();
+		
 		switch (cmd)
 		{
 
-		// commands that need one point
+		// commands that need one point - nothing to do anymore
 
 		case NewPoint:
-			createNewPointForModePoint(hits, false);
-			// createNewPoint(false, false);
 			break;
 
 		// commands that need two points
@@ -125,10 +127,12 @@ public class MobileEuclidianController extends EuclidianController implements To
 			switch (cmd)
 			{
 			case LineThroughTwoPoints:
-				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) this.oldPoints.get(1));
+				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1));
 				break;
 			case SegmentBetweenTwoPoints:
-				this.kernel.Segment(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) this.oldPoints.get(1));
+				this.kernel.Segment(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1));
 				break;
 			default:
 			}// switch
@@ -145,12 +149,12 @@ public class MobileEuclidianController extends EuclidianController implements To
 	protected void recordPoint(Hits hits)
 	{
 		hits.removePolygons();
-		if(hits.containsGeoPoint()){
-			this.oldPoints.add(getNearestPoint(hits));
-		}
-		else
+		if (hits.containsGeoPoint())
 		{
-			createNewPointForModeOther(hits);
+			GeoPoint point = getNearestPoint(hits);
+			this.oldPoints.add(point);
+		} else
+		{
 			this.oldPoints.add((GeoPointND) this.movedGeoElement);
 		}
 	}
@@ -167,7 +171,9 @@ public class MobileEuclidianController extends EuclidianController implements To
 		{
 			if (e instanceof GeoPointND)
 			{
-				double distanceSquare = Math.pow((((GeoPoint) e).getX() - this.xRW), 2) + Math.pow((((GeoPoint) e).getY() - this.yRW), 2);
+				double distanceSquare = Math.pow(
+						(((GeoPoint) e).getX() - this.xRW), 2)
+						+ Math.pow((((GeoPoint) e).getY() - this.yRW), 2);
 				if (nearest == null || distanceSquare < distNearestSquare)
 				{
 					nearest = (GeoPoint) e;
@@ -176,7 +182,7 @@ public class MobileEuclidianController extends EuclidianController implements To
 			}
 			e = iterator.hasNext() ? iterator.next() : null;
 		}
-		return Math.sqrt(distNearestSquare) <= this.MAX_DISTANCE_TO_SELECT ? nearest : null;
+		return  nearest;
 	}
 
 	public void setView(EuclidianView euclidianView)

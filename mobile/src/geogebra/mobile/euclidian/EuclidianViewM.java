@@ -42,14 +42,14 @@ public class EuclidianViewM extends EuclidianView
 
 	public EuclidianViewM(MobileEuclidianController ec)
 	{
-		super(ec, new Settings().getEuclidian(1)); 
+		super(ec, new Settings().getEuclidian(1));
 	}
 
 	/**
 	 * This method has to be called before using g2p
 	 * 
 	 * @param c
-	 *          : a new Canvas
+	 *            : a new Canvas
 	 * 
 	 */
 	public void initCanvas(Canvas c)
@@ -62,7 +62,8 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onTouchStart(TouchStartEvent event)
 			{
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event);
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onTouchStart(event);
 			}
 		});
 
@@ -71,7 +72,8 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onTouchMove(TouchMoveEvent event)
 			{
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event);
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onTouchMove(event);
 			}
 		});
 
@@ -80,7 +82,8 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onTouchEnd(TouchEndEvent event)
 			{
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event);
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onTouchEnd(event);
 			}
 		});
 
@@ -89,9 +92,9 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				EuclidianViewM.this.getEuclidianController().xRW = toRealWorldCoordX(event.getX()); 
-				EuclidianViewM.this.getEuclidianController().yRW = toRealWorldCoordY(event.getY()); 
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onClick(event);
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onClick(event);
+				EuclidianViewM.this.repaint();
 			}
 		});
 
@@ -105,8 +108,8 @@ public class EuclidianViewM extends EuclidianView
 	public void repaint()
 	{
 		// TODO
-//		updateSize();
-//		((GFontW) this.g2p.getFont()).setFontSize(12); 
+		// updateSize();
+		// ((GFontW) this.g2p.getFont()).setFontSize(12);
 		paint(this.g2p);
 	}
 
@@ -208,7 +211,8 @@ public class EuclidianViewM extends EuclidianView
 	{
 		// TODO
 		if (this.g2dtemp == null)
-			this.g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
+			this.g2dtemp = new geogebra.web.awt.GGraphics2DW(
+					Canvas.createIfSupported());
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;
 	}
@@ -264,7 +268,8 @@ public class EuclidianViewM extends EuclidianView
 	public void paintBackground(GGraphics2D g2)
 	{
 		// TODO
-		((GGraphics2DW) g2).drawGraphics((GGraphics2DW) this.bgGraphics, 0, 0, null);
+		((GGraphics2DW) g2).drawGraphics((GGraphics2DW) this.bgGraphics, 0, 0,
+				null);
 	}
 
 	@Override
@@ -283,7 +288,9 @@ public class EuclidianViewM extends EuclidianView
 	{
 		if (bgColor != null)
 		{
-			this.backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
+			this.backgroundColor = AwtFactory.prototype.newColor(
+					bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(),
+					bgColor.getAlpha());
 		}
 	}
 
@@ -293,7 +300,8 @@ public class EuclidianViewM extends EuclidianView
 	}
 
 	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2, GColor penColor, int penLineStyle, int penSize)
+	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
+			GColor penColor, int penLineStyle, int penSize)
 	{
 	}
 
