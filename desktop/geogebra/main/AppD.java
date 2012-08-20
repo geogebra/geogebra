@@ -27,6 +27,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -71,7 +72,6 @@ import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.util.ImageSelection;
-import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -1908,11 +1908,11 @@ public class AppD extends App implements
 	}
 
 	@Override
-	public AlgebraViewD getAlgebraView() {
+	public AlgebraView getAlgebraView() {
 		if (guiManager == null) {
 			return null;
 		}
-		return (AlgebraViewD)guiManager.getAlgebraView();
+		return (AlgebraView) guiManager.getAlgebraView();
 	}
 	
 	
