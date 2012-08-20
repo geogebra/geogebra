@@ -67,11 +67,6 @@ import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
-import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.inputbar.AlgebraInput;
-import geogebra.gui.layout.DockBar;
-import geogebra.gui.toolbar.Toolbar;
-import geogebra.gui.util.ImageSelection;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -375,9 +370,9 @@ public class AppD extends App implements
 
 	
 	
-	private DockBar dockBar;
+	private geogebra.gui.layout.DockBar dockBar;
 
-	public DockBar getDockBar() {
+	public geogebra.gui.layout.DockBar getDockBar() {
 		return dockBar;
 	}
 
@@ -552,7 +547,7 @@ public class AppD extends App implements
 		}
 		
 		if(isUsingFullGui() && ggtloading) {
-			getGuiManager().setToolBarDefinition(Toolbar.getAllTools(this));
+			getGuiManager().setToolBarDefinition(geogebra.gui.toolbar.Toolbar.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);
@@ -811,7 +806,7 @@ public class AppD extends App implements
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			AlgebraInput ai = (AlgebraInput) (getGuiManagerD().getAlgebraInput());
+			geogebra.gui.inputbar.AlgebraInput ai = (geogebra.gui.inputbar.AlgebraInput) (getGuiManagerD().getAlgebraInput());
 			ai.clear();
 		}
 
@@ -961,7 +956,7 @@ public class AppD extends App implements
 			}
 			
 			if (dockBar == null) {
-				dockBar = new DockBar(this);
+				dockBar = new geogebra.gui.layout.DockBar(this);
 			}
 			
 			// clear the panels
@@ -1137,7 +1132,7 @@ public class AppD extends App implements
 				southPanel.add(getGuiManagerD().getAlgebraInput(),
 						BorderLayout.SOUTH);
 			}
-			((AlgebraInput)getGuiManagerD().getAlgebraInput()).updateOrientation(showInputTop);
+			((geogebra.gui.inputbar.AlgebraInput)getGuiManagerD().getAlgebraInput()).updateOrientation(showInputTop);
 		}
 
 		// initialize toolbar panel even if it's not used (hack)
@@ -1508,7 +1503,7 @@ public class AppD extends App implements
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						String[] argsNew = { fileArgument };
-						GeoGebraFrame.createNewWindow(new CommandLineArguments(
+						geogebra.gui.app.GeoGebraFrame.createNewWindow(new CommandLineArguments(
 								argsNew));
 					}
 				});
@@ -4389,7 +4384,7 @@ public class AppD extends App implements
 
 		// copy drawing pad to the system clipboard
 		Image img = ev.getExportImage(scale);
-		ImageSelection imgSel = new ImageSelection(img);
+		geogebra.gui.util.ImageSelection imgSel = new geogebra.gui.util.ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(imgSel, null);
 	}
