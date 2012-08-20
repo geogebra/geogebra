@@ -363,7 +363,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			CommandLineArguments args, Macro macro, GeoGebraFrame wnd) {
 		// set Application's size, position and font size
 
-		AppD app = wnd.createApplication(args, wnd);
+		final AppD app = wnd.createApplication(args, wnd);
 
 		if (macro != null)
 			app.openMacro(macro);
@@ -428,6 +428,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 		
 		checkCommandLineExport(app);
+		
+		// open the sidebar popup once the GUI has initialized
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				app.getDockBar().showPopup();
+			}
+		});
 
 		return wnd;
 	}
@@ -449,10 +456,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			// init file chooser
 			this.app.getGuiManager().getDialogManager().initFileChooser();
-			
-			// open sidebar perspectives panel
-			app.getDockBar().showPopup();
-			
+						
 			// init CAS
 			// avoid hanging animation,
 			// see http://www.geogebra.org/trac/ticket/1565
