@@ -196,8 +196,8 @@ public class MyTextField extends JTextField implements ActionListener,
 			borderBtn.setIconVisible(0, true);
 		thisField.repaint();
 
-		if (app.getGuiManager() != null)
-			app.getGuiManager().setCurrentTextfield(
+		if (app.getGuiManagerD() != null)
+			app.getGuiManagerD().setCurrentTextfield(
 					this, false);
 	}
 
@@ -207,8 +207,8 @@ public class MyTextField extends JTextField implements ActionListener,
 			borderBtn.setIconVisible(0, false);
 		thisField.repaint();
 
-		if (app.getGuiManager() != null)
-			app.getGuiManager().setCurrentTextfield(null,
+		if (app.getGuiManagerD() != null)
+			app.getGuiManagerD().setCurrentTextfield(null,
 					!(e.getOppositeComponent() instanceof VirtualKeyboard));
 	}
 

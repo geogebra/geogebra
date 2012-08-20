@@ -412,7 +412,7 @@ KeyListener, SpecialNumberFormatInterface {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						app.getGuiManager().openHelp("Function_Inspector_Tool");
+						app.getGuiManagerD().openHelp("Function_Inspector_Tool");
 					}
 				};
 				runner.start();
@@ -1481,7 +1481,7 @@ KeyListener, SpecialNumberFormatInterface {
 			//if(app.getMode() == EuclidianConstants.MODE_FUNCTION_INSPECTOR)
 			//app.setSelectionListenerMode(sl);
 		}
-		app.getGuiManager().setCurrentTextfield(this, true);
+		app.getGuiManagerD().setCurrentTextfield(this, true);
 	}
 
 
@@ -1562,7 +1562,7 @@ KeyListener, SpecialNumberFormatInterface {
 				doCopyToSpreadsheet();
 			}
 		});
-		mi.setEnabled(app.getGuiManager().hasSpreadsheetView());
+		mi.setEnabled(app.getGuiManagerD().hasSpreadsheetView());
 		btnOptions.addPopupMenuItem(mi);
 
 
@@ -1576,7 +1576,7 @@ KeyListener, SpecialNumberFormatInterface {
 
 	private void doCopyToSpreadsheet(){
 
-		SpreadsheetView sp = app.getGuiManager().getSpreadsheetView();
+		SpreadsheetView sp = app.getGuiManagerD().getSpreadsheetView();
 		if(sp == null) return;
 
 		Construction cons = app.getKernel().getConstruction();
@@ -1644,6 +1644,17 @@ KeyListener, SpecialNumberFormatInterface {
 
 	public boolean hasFocus() {
 		return wrappedDialog.hasFocus();
+	}
+
+
+	public void repaint() {
+	    App.debug("unimplemented");
+	}
+
+
+	public boolean isShowing() {
+	    App.debug("unimplemented");
+		return false;
 	}
 	
 	

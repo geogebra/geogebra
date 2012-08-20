@@ -206,7 +206,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().save();
+				app.getGuiManagerD().save();
 			}
 		};
 
@@ -215,7 +215,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().saveAs();
+				app.getGuiManagerD().saveAs();
 			}
 		};
 
@@ -278,7 +278,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().openFile();
+				app.getGuiManagerD().openFile();
 			}
 		};
 
@@ -287,7 +287,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().openURL();
+				app.getGuiManagerD().openURL();
 			}
 		};
 
@@ -336,7 +336,7 @@ class FileMenu extends BaseMenu {
 							app.setWaitCursor();
 							try {
 								
-								app.getGuiManager().showGraphicExport();
+								app.getGuiManagerD().showGraphicExport();
 
 							} catch (Exception e1) {
 								App

@@ -173,7 +173,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 		// make sure the spreadsheet gets the view focus in case first click is here
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
+			app.getGuiManagerD().getLayout().getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// select the upper left corner cell if nothing is selected
 		if(table.isSelectNone()){

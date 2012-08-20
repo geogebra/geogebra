@@ -510,6 +510,88 @@ public abstract class GuiManager {
 		openHelp(page, Help.GENERIC);
 	}
 
+	public abstract void setLayout(Layout layout);
+
+	public abstract void initialize();
+
+	public abstract void resetSpreadsheet();
+
+	public abstract void setScrollToShow(boolean b);
+
+	public abstract void setShowConstructionProtocolNavigation(boolean show,
+			boolean playButton, double playDelay, boolean showProtButton);
+
+	public abstract void showURLinBrowser(String strURL);
+
+	public abstract void updateMenuWindow();
+
+	public abstract void updateMenuFile();
+
+	public void exitAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean saveCurrentFile() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void updateToolbar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean hasEuclidianView2() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void allowGUIToRefresh() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateFrameTitle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setLabels() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setShowToolBarHelp(boolean showToolBarHelp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setShowConstructionProtocolNavigation(boolean flag) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public View getEuclidianView2() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean hasEuclidianView2EitherShowingOrNot() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public View getAlgebraView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateFrameSize() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 

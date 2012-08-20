@@ -55,9 +55,9 @@ public class ViewButton extends DockButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof ViewButton) {
 			if (!panel.isAlone()) {
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(viewId), viewId, false);
-				app.getGuiManager().updateMenubar();
+				app.getGuiManagerD().setShowView(
+						!app.getGuiManagerD().showView(viewId), viewId, false);
+				app.getGuiManagerD().updateMenubar();
 			}
 		}
 	}

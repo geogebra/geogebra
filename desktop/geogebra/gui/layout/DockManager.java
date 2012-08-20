@@ -131,7 +131,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					
 					// detach views which were visible, but are not in the new perspective
 					if(panel.isVisible() && !dpData[i].isVisible()) {
-						app.getGuiManager().detachView(panel.getViewId());
+						app.getGuiManagerD().detachView(panel.getViewId());
 					}
 					
 					panel.setVisible(dpData[i].isVisible());
@@ -185,7 +185,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					continue;
 				
 				// attach view to kernel (being attached multiple times is ignored)
-				app.getGuiManager().attachView(panel.getViewId());
+				app.getGuiManagerD().attachView(panel.getViewId());
 				
 				if(dpData[i].isOpenInFrame()) {
 					show(panel);
@@ -223,7 +223,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 				
 				// move toolbar to main container
 				if(panel.hasToolbar()) {
-					ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+					ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
 					mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
 				}
 			}
@@ -413,7 +413,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		// add toolbar to main toolbar container if necessary
 		if(source.hasToolbar()) {
-			ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+			ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
 			mainContainer.addToolbar(source.getToolbar());
 			mainContainer.updateToolbarPanel();
 		}
@@ -483,7 +483,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			undoMaximize(false);
 		
 		// TODO causes any problems?
-		app.getGuiManager().attachView(panel.getViewId());
+		app.getGuiManagerD().attachView(panel.getViewId());
 		
 		if(panel.isOpenInFrame()) {
 			panel.createFrame();
@@ -638,7 +638,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
 		if(!panel.isOpenInFrame() && panel.hasToolbar()) {
-			ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+			ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
 			mainContainer.addToolbar(panel.getToolbar());
 			mainContainer.updateToolbarPanel();
 		}
@@ -728,7 +728,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		setFocusedPanel(null);
 		
 		if(isPermanent) {
-			app.getGuiManager().detachView(panel.getViewId());
+			app.getGuiManagerD().detachView(panel.getViewId());
 		}
 		
 		if(panel.isOpenInFrame()) {
@@ -785,7 +785,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			markAlonePanel();
 
 			if(panel.hasToolbar()) {
-				ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+				ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
 				mainContainer.removeToolbar(panel.getToolbar());
 				mainContainer.updateToolbarPanel();
 			}
@@ -894,7 +894,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			focusedDockPanel.setFocus(true, updatePropertiesView);
 		}
 		
-		app.getGuiManager().updateMenubarSelection();
+		app.getGuiManagerD().updateMenubarSelection();
 		
 	}
 	

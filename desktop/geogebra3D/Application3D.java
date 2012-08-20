@@ -196,7 +196,7 @@ public class Application3D extends AppD {
 		// create dock panel
 		EuclidianDockPanelForPlane panel = new EuclidianDockPanelForPlane(this,
 				euclidianViewForPlane);
-		getGuiManager().getLayout().registerPanel(panel);
+		getGuiManagerD().getLayout().registerPanel(panel);
 
 		// panel.setToolbarString(dpInfo[i].getToolbarString());
 		panel.setFrameBounds(new Rectangle(600, 400));
@@ -207,7 +207,7 @@ public class Application3D extends AppD {
 		panel.setVisible(true);
 		panel.toggleStyleBar();
 
-		getGuiManager().getLayout().getDockManager().show(panel);
+		getGuiManagerD().getLayout().getDockManager().show(panel);
 
 		return euclidianViewForPlane;
 	}

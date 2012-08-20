@@ -87,4 +87,15 @@ public class LayoutW extends Layout implements SettingListener {
 		//this.dockManager = new DockManager(this);
     }
 
+	@Override
+    public void getXml(StringBuilder sb, boolean asPreference) {
+		App.debug("unimplemented");
+	}
+
+	@Override
+    public boolean isOnlyVisible(int viewEuclidian) {
+		App.debug("unimplemented");
+	    return false;
+    }
+
 }

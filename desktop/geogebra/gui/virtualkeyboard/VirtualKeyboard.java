@@ -177,7 +177,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				// System.out.println("Window Closing");
 				// if closed with the X, stop it auto-opening
 				AppD.setVirtualKeyboardActive(false);
-				app.getGuiManager().updateMenubar();
+				app.getGuiManagerD().updateMenubar();
 			}
 
 			public void windowDeactivated(WindowEvent arg0) {
@@ -799,7 +799,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 					updateAltButton();
 
 					// type Unicode char
-					app.getGuiManager().insertStringIntoTextfield(c + "",
+					app.getGuiManagerD().insertStringIntoTextfield(c + "",
 							false, false, false);
 
 					asb.setLength(0);
@@ -822,7 +822,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}
 
 		if (app != null)
-			app.getGuiManager().insertStringIntoTextfield(addchar,
+			app.getGuiManagerD().insertStringIntoTextfield(addchar,
 					getAltButton().isSelected(), getCtrlButton().isSelected(),
 					getCapsLockButton().isSelected());
 		else
@@ -1342,7 +1342,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	}
 
 	private void insertAutoRepeatString() {
-		app.getGuiManager().insertStringIntoTextfield(timerInsertStr,
+		app.getGuiManagerD().insertStringIntoTextfield(timerInsertStr,
 				getAltButton().isSelected(), getCtrlButton().isSelected(),
 				getCapsLockButton().isSelected());
 	}

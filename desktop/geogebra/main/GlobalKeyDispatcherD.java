@@ -202,16 +202,16 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected boolean handleEnter() {
-		if (((AppD)app).isUsingFullGui() && ((AppD)app).getGuiManager().noMenusOpen()) {
+		if (((AppD)app).isUsingFullGui() && ((AppD)app).getGuiManagerD().noMenusOpen()) {
 			if (app.showAlgebraInput()
-					&& !((AppD)app).getGuiManager().getAlgebraInput()
+					&& !((AppD)app).getGuiManagerD().getAlgebraInput()
 					.hasFocus()) {
 				// focus this frame (needed for external view windows)
 				if (!app.isApplet() && ((AppD)app).getFrame() != null) {
 					((AppD)app).getFrame().toFront();
 				}
 
-				((AppD)app).getGuiManager().getAlgebraInput().requestFocus();
+				((AppD)app).getGuiManagerD().getAlgebraInput().requestFocus();
 
 				return true;
 			}
@@ -224,14 +224,14 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown && app.isUsingFullGui()) {
 
-			GuiManager gui = ((AppD)app).getGuiManager();
+			GuiManager gui = ((AppD)app).getGuiManagerD();
 			((LayoutD)gui.getLayout()).getDockManager()
 			.moveFocus(!isShiftDown);
 
 			return true;
 
 		} 
-							boolean useTab = app.getActiveEuclidianView().hasFocus()|| ((AppD)app).getGuiManager().getAlgebraView().hasFocus();
+							boolean useTab = app.getActiveEuclidianView().hasFocus()|| ((AppD)app).getGuiManagerD().getAlgebraView().hasFocus();
 							
 							// make sure TAB works in Input Boxes but also in Spreadsheet, Input Bar
 							Component owner = ((AppD) app).getFrame().getFocusOwner();
@@ -250,9 +250,9 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected void handleCtrlC() {
-		if (!(((AppD)app).getGuiManager().getSpreadsheetView()
+		if (!(((AppD)app).getGuiManagerD().getSpreadsheetView()
 				.hasFocus())
-				&& !(((AlgebraInput) ((AppD)app).getGuiManager()
+				&& !(((AlgebraInput) ((AppD)app).getGuiManagerD()
 						.getAlgebraInput()).getTextField()
 						.hasFocus())) {
 
@@ -263,9 +263,9 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected void handleCtrlV() {
-		if (!(((AppD)app).getGuiManager().getSpreadsheetView()
+		if (!(((AppD)app).getGuiManagerD().getSpreadsheetView()
 				.hasFocus())
-				&& !(((AlgebraInput) ((AppD)app).getGuiManager()
+				&& !(((AlgebraInput) ((AppD)app).getGuiManagerD()
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
 			super.handleCtrlV();
@@ -293,7 +293,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 				// folder
 				if (((AppD)app).getCurrentFile() == null) {
 					if (options.length > 0) {
-						((AppD)app).getGuiManager().loadFile(options[0],
+						((AppD)app).getGuiManagerD().loadFile(options[0],
 								false);
 						return true;
 					}
@@ -322,7 +322,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 					}
 				}
 
-				((AppD)app).getGuiManager().loadFile(fileToLoad, false);
+				((AppD)app).getGuiManagerD().loadFile(fileToLoad, false);
 
 				return true;
 			}

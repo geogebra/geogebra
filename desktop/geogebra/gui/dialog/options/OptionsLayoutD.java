@@ -287,9 +287,9 @@ public class OptionsLayoutD extends
 		rbInputBarSouth.setEnabled(ckShowInputBar.isSelected());
 
 		ckShowNavbar.setSelected(app.showConsProtNavigation());
-		ckNavPlay.setSelected(app.getGuiManager()
+		ckNavPlay.setSelected(app.getGuiManagerD()
 				.isConsProtNavigationPlayButtonVisible());
-		ckOpenConsProtocol.setSelected(app.getGuiManager()
+		ckOpenConsProtocol.setSelected(app.getGuiManagerD()
 				.isConsProtNavigationProtButtonVisible());
 
 		ckNavPlay.setEnabled(app.showConsProtNavigation());
@@ -324,7 +324,7 @@ public class OptionsLayoutD extends
 
 		public void actionPerformed(ActionEvent e) {
 			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app
-					.getGuiManager().getConstructionProtocolNavigation();
+					.getGuiManagerD().getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn);
@@ -338,7 +338,7 @@ public class OptionsLayoutD extends
 
 		public void actionPerformed(ActionEvent e) {
 			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app
-					.getGuiManager().getConstructionProtocolNavigation();
+					.getGuiManagerD().getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn);
@@ -374,7 +374,7 @@ public class OptionsLayoutD extends
 					ckShowToolHelp.isSelected());
 			app.updateApplicationLayout();
 			app.updateToolBarLayout();
-			app.getGuiManager().updateToolbar();
+			app.getGuiManagerD().updateToolbar();
 		} else if (source == rbToolbarNorth) {
 			app.setToolbarPosition(SwingConstants.NORTH, true);
 		} else if (source == rbToolbarSouth) {
@@ -399,7 +399,7 @@ public class OptionsLayoutD extends
 		// menubar settings
 		else if (source == ckShowMenuBar) {
 			app.setShowMenuBar(ckShowMenuBar.isSelected());
-			app.getGuiManager().updateMenuBarLayout();
+			app.getGuiManagerD().updateMenuBarLayout();
 		}
 
 		wrappedPanel.requestFocus();

@@ -33,12 +33,12 @@ public class SpreadsheetDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getSpreadsheetView().getSpreadsheetStyleBar();
+		return app.getGuiManagerD().getSpreadsheetView().getSpreadsheetStyleBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManager().getSpreadsheetView();
+		return app.getGuiManagerD().getSpreadsheetView();
 	}
 	
 	@Override

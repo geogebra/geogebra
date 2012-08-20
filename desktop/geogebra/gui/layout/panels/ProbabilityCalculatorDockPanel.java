@@ -30,12 +30,12 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManager().getProbabilityCalculator();
+		return app.getGuiManagerD().getProbabilityCalculator();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getProbabilityCalculator().getStyleBar();
+		return app.getGuiManagerD().getProbabilityCalculator().getStyleBar();
 	}
 
 }

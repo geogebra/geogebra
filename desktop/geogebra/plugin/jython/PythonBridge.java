@@ -213,8 +213,16 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * @return the JMenuBar for the python window
 	 */
 	public JMenuBar getMenuBar() {
-		// TODO Auto-generated method stub
 		return pyInterface.getMenuBar();
+	}
+
+	public void repaint() {
+	    App.debug("unimplemented");
+	}
+
+	public boolean isShowing() {
+	    App.debug("unimplemented");
+		return false;
 	}
 }
 

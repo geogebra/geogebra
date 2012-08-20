@@ -5340,7 +5340,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// handle load image file
 			else if (source == btnOpenFile) {
-				String fileName = app.getGuiManager().getImageFromFile();
+				String fileName = app.getGuiManagerD().getImageFromFile();
 				if (fileName != null)
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoElement) geos[i];

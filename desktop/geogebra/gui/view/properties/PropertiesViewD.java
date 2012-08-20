@@ -260,7 +260,7 @@ public class PropertiesViewD extends
 		if (stayInCurrentPanel())
 			return;
 
-		int focusedViewId = ((AppD) app).getGuiManager().getLayout()
+		int focusedViewId = ((AppD) app).getGuiManagerD().getLayout()
 				.getDockManager().getFocusedViewId();
 
 		if (viewMap.get(focusedViewId) != null) {
@@ -526,7 +526,7 @@ public class PropertiesViewD extends
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
-						((AppD) app).getGuiManager().getSpreadsheetView());
+						((AppD) app).getGuiManagerD().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
@@ -610,7 +610,7 @@ public class PropertiesViewD extends
 
 	@Override
 	protected void updateTitleBar() {
-		((AppD) app).getGuiManager().getLayout().getDockManager()
+		((AppD) app).getGuiManagerD().getLayout().getDockManager()
 				.getPanel(App.VIEW_PROPERTIES).updateTitleBar();
 	}
 
@@ -947,6 +947,19 @@ public class PropertiesViewD extends
 		//SwingUtilities.updateComponentTreeUI(mainPanel);
 		
 
+	}
+
+
+
+	public void repaint() {
+	    App.debug("unimplemented");
+	}
+
+
+
+	public boolean isShowing() {
+	    App.debug("unimplemented");
+		return false;
 	}
 
 }

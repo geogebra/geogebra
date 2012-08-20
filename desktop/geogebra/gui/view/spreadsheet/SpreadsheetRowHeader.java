@@ -222,7 +222,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 		int y = e.getY();
 
 		if (!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager()
+			app.getGuiManagerD().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// Update resizingRow. If nonnegative, then mouse is over a boundary

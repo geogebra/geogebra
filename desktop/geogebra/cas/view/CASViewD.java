@@ -126,7 +126,7 @@ public class CASViewD  extends CASView implements Gridable {
 			@Override
 			public void run() {
 				getCAS().initCurrentCAS();
-				GuiManagerD gm = app.getGuiManager();
+				GuiManagerD gm = app.getGuiManagerD();
 				if (gm != null && gm.hasInputHelpPanel()) {
 					gm.reInitHelpPanel();
 				}
@@ -313,6 +313,14 @@ public class CASViewD  extends CASView implements Gridable {
 
 	public boolean hasFocus() {
 	    App.debug("unimplemented");
+		return false;
+	}
+
+	public void repaint() {
+	}
+
+	public boolean isShowing() {
+		App.debug("unimplemented");
 		return false;
 	}
 }

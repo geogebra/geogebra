@@ -911,7 +911,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 				toolbarContainer.setActiveToolbar(getViewId());
 				toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
 
-				ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+				ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
 				mainContainer.removeToolbar(toolbar);
 				mainContainer.updateToolbarPanel();
 			}
@@ -937,7 +937,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		// as this view already *had* focus and will retain focus DockManager::show()
 		// won't be able to update the active toolbar
 		if(hasToolbar()) {
-			app.getGuiManager().getToolbarPanel().setActiveToolbar(toolbar);
+			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(toolbar);
 		}
 
 	}
@@ -1211,7 +1211,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
 		
 		if (hasFocus && updatePropertiesView){
-			app.getGuiManager().updatePropertiesView();
+			app.getGuiManagerD().updatePropertiesView();
 		}
 		
 		setFocus(hasFocus);
@@ -1277,14 +1277,14 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 */
 	protected void setActiveToolBar(){
 		if(hasToolbar()) {
-			app.getGuiManager().getToolbarPanel().setActiveToolbar(toolbar);
+			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(toolbar);
 		} else {
-			app.getGuiManager().getToolbarPanel().setActiveToolbar(-1);
+			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(-1);
 		}
 		//switching the view may cause shrinking of help panel, 
 		//we need an update here
-		app.getGuiManager().getToolbarPanel().validate();
-		app.getGuiManager().getToolbarPanel().updateHelpText();
+		app.getGuiManagerD().getToolbarPanel().validate();
+		app.getGuiManagerD().getToolbarPanel().updateHelpText();
 	}
 	
 	

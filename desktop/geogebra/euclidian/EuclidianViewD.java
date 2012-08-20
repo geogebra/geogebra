@@ -590,16 +590,16 @@ public class EuclidianViewD extends EuclidianViewND implements
 	protected boolean drawPlayButtonInThisView() {
 
 		// just one view
-		if ( getApplication().getGuiManager() == null) {
+		if ( getApplication().getGuiManagerD() == null) {
 			return true;
 		}
 		// eg ev1 just closed
-		 GetViewId evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
+		 GetViewId evp = getApplication().getGuiManagerD().getLayout().getDockManager().getFocusedEuclidianPanel();
 		if (evp == null) {
 			return true;
 		}
 
-		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
+		return !((getApplication().getGuiManagerD() != null) && (this.getViewID() != evp
 				.getViewId()));
 	}
 

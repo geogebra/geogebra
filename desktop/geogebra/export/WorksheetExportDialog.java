@@ -139,7 +139,7 @@ public class WorksheetExportDialog extends JDialog {
 		kernel = app.getKernel();
 
 		ggbPref = GeoGebraPreferencesD.getPref();
-		guiManager = app.getGuiManager();
+		guiManager = app.getGuiManagerD();
 
 		initGUI();
 	}
@@ -230,7 +230,7 @@ public class WorksheetExportDialog extends JDialog {
 
 										if (type == TYPE_GOOGLEGADGET) {
 											// open Google Gadgets Editor
-											app.getGuiManager()
+											app.getGuiManagerD()
 											.showURLinBrowser(
 											"http://code.google.com/apis/gadgets/docs/tools.html#GGE");
 										}

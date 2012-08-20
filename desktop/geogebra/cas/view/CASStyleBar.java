@@ -132,21 +132,21 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		} else if (source == btnUseAsText) {
 			applyUseAsText(targetGeos);
 		}else if (source == btnShowKeyboard) {
-			if(app.getGuiManager()!=null){
+			if(app.getGuiManagerD()!=null){
 				if (AppD.isVirtualKeyboardActive()
-						&& !app.getGuiManager().showVirtualKeyboard()) {
+						&& !app.getGuiManagerD().showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					app.getGuiManager().toggleKeyboard(true);
-					app.getGuiManager().getVirtualKeyboard().toggleNumeric(true);
+					app.getGuiManagerD().toggleKeyboard(true);
+					app.getGuiManagerD().getVirtualKeyboard().toggleNumeric(true);
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					app.getGuiManager().toggleKeyboard(
+					app.getGuiManagerD().toggleKeyboard(
 							AppD.isVirtualKeyboardActive());
-					app.getGuiManager().getVirtualKeyboard().toggleNumeric(
+					app.getGuiManagerD().getVirtualKeyboard().toggleNumeric(
 							AppD.isVirtualKeyboardActive());
 				}
 			}

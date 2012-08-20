@@ -90,7 +90,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, BorderLayout.WEST);
-		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+		if (app.getGuiManagerD().showView(App.VIEW_ALGEBRA)) {
 			picPanel.add(cbScreenshotPicture, BorderLayout.SOUTH);
 		}
 
@@ -252,7 +252,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	File file, pngFile = null;
 		File dir = null;
 		prot.setUseColors(useColors);
-		dir = app.getGuiManager().showSaveDialog("", null,
+		dir = app.getGuiManagerD().showSaveDialog("", null,
 				app.getPlain("Directories"), false, true);
 		if (dir == null)
 			return;
@@ -290,7 +290,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			public void run() {    
 	                try {
 	                        // open html file in browser
-	                        app.getGuiManager().showURLinBrowser(HTMLfile.toURI().toURL());
+	                        app.getGuiManagerD().showURLinBrowser(HTMLfile.toURI().toURL());
 	                } catch (Exception ex) {                        
 	                        app.showError("SaveFileFailed");
 	                        App.debug(ex.toString());

@@ -31,7 +31,7 @@ public class PerspectivePanel extends JPopupMenu {
 	public PerspectivePanel(AppD app) {
 
 		this.app = app;
-		this.layout = app.getGuiManager().getLayout();
+		this.layout = app.getGuiManagerD().getLayout();
 		setupFlagLabel();
 		initActions();
 		initItems();

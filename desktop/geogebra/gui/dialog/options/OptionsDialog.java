@@ -293,7 +293,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	protected void createTabs() {
 		defaultsPanel = new OptionsDefaultsD(app);
 		euclidianPanel = new OptionsEuclidianD(app, app.getActiveEuclidianView());
-		spreadsheetPanel = new OptionsSpreadsheetD(app, app.getGuiManager()
+		spreadsheetPanel = new OptionsSpreadsheetD(app, app.getGuiManagerD()
 				.getSpreadsheetView());
 		casPanel = new OptionsCASD(app);
 		advancedPanel = new OptionsAdvancedD(app);

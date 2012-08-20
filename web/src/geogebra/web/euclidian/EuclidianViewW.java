@@ -733,4 +733,10 @@ public class EuclidianViewW extends EuclidianView {
 	    App.debug("unimplemented");
     }
 
+
+	public boolean isShowing() {
+		App.debug("unimplemented");
+	    return false;
+    }
+
 }

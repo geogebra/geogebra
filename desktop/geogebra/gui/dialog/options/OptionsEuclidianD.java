@@ -662,7 +662,7 @@ public class OptionsEuclidianD extends
 				app.getSettings()
 						.getEuclidian(1)
 						.setBackground(
-								new geogebra.awt.GColorD(app.getGuiManager()
+								new geogebra.awt.GColorD(app.getGuiManagerD()
 										.showColorChooser(
 												app.getSettings()
 														.getEuclidian(1)
@@ -673,7 +673,7 @@ public class OptionsEuclidianD extends
 				app.getSettings()
 						.getEuclidian(2)
 						.setBackground(
-								new geogebra.awt.GColorD(app.getGuiManager()
+								new geogebra.awt.GColorD(app.getGuiManagerD()
 										.showColorChooser(
 												app.getSettings()
 														.getEuclidian(2)
@@ -683,7 +683,7 @@ public class OptionsEuclidianD extends
 			}
 		} else if (source == btAxesColor) {
 			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(app
-					.getGuiManager().showColorChooser(view.getAxesColor()));
+					.getGuiManagerD().showColorChooser(view.getAxesColor()));
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAxesColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
@@ -695,7 +695,7 @@ public class OptionsEuclidianD extends
 			}
 		} else if (source == btGridColor) {
 			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(app
-					.getGuiManager().showColorChooser(view.getGridColor()));
+					.getGuiManagerD().showColorChooser(view.getGridColor()));
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setGridColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
@@ -936,7 +936,7 @@ public class OptionsEuclidianD extends
 		if (index == 0)
 			setView(app.getEuclidianView1());
 		else
-			setView(app.getGuiManager().getEuclidianView2());
+			setView(app.getGuiManagerD().getEuclidianView2());
 
 	}
 

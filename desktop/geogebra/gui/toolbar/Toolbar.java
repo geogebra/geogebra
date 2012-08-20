@@ -172,7 +172,7 @@ public class Toolbar extends JToolBar {
 			if (dockPanel != null) {
 				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 			} else {
-				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
+				toolbarVec = ToolBar.parseToolbarString(app.getGuiManagerD()
 						.getToolbarDefinition());
 			}
 		} catch (Exception e) {
@@ -181,7 +181,7 @@ public class Toolbar extends JToolBar {
 						+ dockPanel.getToolbarString());
 			} else {
 				App.debug("invalid toolbar string: "
-						+ app.getGuiManager().getToolbarDefinition());
+						+ app.getGuiManagerD().getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
@@ -241,7 +241,7 @@ public class Toolbar extends JToolBar {
 		if (dockPanel != null) {
 			toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 		} else {
-			toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
+			toolbarVec = ToolBar.parseToolbarString(app.getGuiManagerD()
 					.getToolbarDefinition());
 		}
 		for(int i=0;i<toolbarVec.size();i++){

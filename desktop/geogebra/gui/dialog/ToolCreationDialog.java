@@ -235,7 +235,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		if (newTool.isShowInToolBar()) {
 			int mode = kernel.getMacroID(newTool)
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			appToSave.getGuiManager().addToToolbarDefinition(mode);
+			appToSave.getGuiManagerD().addToToolbarDefinition(mode);
 			appToSave.updateToolBar();
 			appToSave.setMode(mode);
 		}

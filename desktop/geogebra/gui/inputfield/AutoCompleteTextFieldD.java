@@ -409,11 +409,11 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 							options[0]); // default button title
 
 					if (n == 1)
-						app.getGuiManager().openHelp(helpURL);
+						app.getGuiManagerD().openHelp(helpURL);
 
 				}
 			} else
-				app.getGuiManager().openHelp(helpURL);
+				app.getGuiManagerD().openHelp(helpURL);
 
 			e.consume();
 			break;
@@ -889,7 +889,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 			app.showError(new MyError(app, app.getPlain("Syntax") + ":\n"
 					+ help, cmd));
 		} else {
-			app.getGuiManager().openCommandHelp(null);
+			app.getGuiManagerD().openCommandHelp(null);
 		}
 	}
 

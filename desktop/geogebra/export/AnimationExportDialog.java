@@ -182,7 +182,7 @@ public class AnimationExportDialog extends JDialog {
 		app.getKernel().getAnimatonManager().stopAnimation();
 		
 		File file =
-			app.getGuiManager().showSaveDialog(
+			app.getGuiManagerD().showSaveDialog(
 					"gif", // change to Application.FILE_EXT_GIF
 					null,
 					app.getPlain("gif") + " " + app.getMenu("Files"), true, false);

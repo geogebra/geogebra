@@ -36,12 +36,12 @@ public class AlgebraDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getAlgebraView().getHelperBar();
+		return app.getGuiManagerD().getAlgebraView().getHelperBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {	
-		JScrollPane scrollPane = new JScrollPane(app.getGuiManager().getAlgebraView());
+		JScrollPane scrollPane = new JScrollPane(app.getGuiManagerD().getAlgebraView());
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setBackground(Color.white);
 		
@@ -53,9 +53,9 @@ public class AlgebraDockPanel extends DockPanel {
 	protected void setActiveToolBar(){
 		//use the focused euclidian view for active toolbar
 		if(dockManager.getFocusedEuclidianPanel()==null || !dockManager.getFocusedEuclidianPanel().hasToolbar()) {
-			app.getGuiManager().getToolbarPanel().setActiveToolbar(-1);
+			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(-1);
 		} else {
-			app.getGuiManager().getToolbarPanel().setActiveToolbar(dockManager.getFocusedEuclidianPanel().getToolbar());
+			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(dockManager.getFocusedEuclidianPanel().getToolbar());
 		}
 	}
 	

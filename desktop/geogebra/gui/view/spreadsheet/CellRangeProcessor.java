@@ -56,7 +56,7 @@ public class CellRangeProcessor {
 	}
 
 	private SpreadsheetView getView() {
-		return app.getGuiManager().getSpreadsheetView();
+		return app.getGuiManagerD().getSpreadsheetView();
 	}
 
 	// ===============================================

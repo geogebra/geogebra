@@ -54,7 +54,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		JComboBox switcher = new JComboBox();
 		switcher.addItem(new KeyValue(-1, app.getPlain("General")));
 		
-		DockPanel[] panels = app.getGuiManager().getLayout().getDockManager().getPanels();
+		DockPanel[] panels = app.getGuiManagerD().getLayout().getDockManager().getPanels();
 		
 		for(DockPanel panel : panels) {
 			if(panel.hasToolbar()) {
@@ -175,9 +175,9 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		int id = ((KeyValue)((JComboBox)e.getSource()).getSelectedItem()).getKey();
 		
 		if(id == -1) {
-			confPanel.setToolbar(null, app.getGuiManager().getToolbarDefinition());
+			confPanel.setToolbar(null, app.getGuiManagerD().getToolbarDefinition());
 		} else {
-			DockPanel panel = app.getGuiManager().getLayout().getDockManager().getPanel(id);
+			DockPanel panel = app.getGuiManagerD().getLayout().getDockManager().getPanel(id);
 			confPanel.setToolbar(panel, panel.getToolbarString());
 		}
 	}

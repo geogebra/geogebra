@@ -124,7 +124,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 		}
 
 		// handle potential ggb file drop
-		app.getGuiManager().handleGGBFileDrop(t);
+		app.getGuiManagerD().handleGGBFileDrop(t);
 
 		return false;
 	}

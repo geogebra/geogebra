@@ -185,11 +185,11 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	}		
 	
 	public void focusGained(FocusEvent e) {
-		app.getGuiManager().setCurrentTextfield(this, true);
+		app.getGuiManagerD().setCurrentTextfield(this, true);
 	}
 
 	public void focusLost(FocusEvent e) {
-		app.getGuiManager().setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
+		app.getGuiManagerD().setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
 	}
 	
 	//TODO  Hide/show popup button options

@@ -72,7 +72,7 @@ public class ViewMenu extends BaseMenu {
 			KeyboardSettings kbs = app.getSettings().getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
-				VirtualKeyboard vk = app.getGuiManager().getVirtualKeyboard();
+				VirtualKeyboard vk = app.getGuiManagerD().getVirtualKeyboard();
 				vk.setVisible(true);
 			}
 			add(cbShowKeyboard);
@@ -149,17 +149,17 @@ public class ViewMenu extends BaseMenu {
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
-						&& !app.getGuiManager().showVirtualKeyboard()) {
+						&& !app.getGuiManagerD().showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					app.getGuiManager().toggleKeyboard(true);
+					app.getGuiManagerD().toggleKeyboard(true);
 					update();
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					app.getGuiManager().toggleKeyboard(
+					app.getGuiManagerD().toggleKeyboard(
 							AppD.isVirtualKeyboardActive());
 					update();
 				}
@@ -294,7 +294,7 @@ public class ViewMenu extends BaseMenu {
 			return;
 		}
 
-		GuiManager guiMananager = app.getGuiManager();
+		GuiManager guiMananager = app.getGuiManagerD();
 
 		updateViews();
 
@@ -416,7 +416,7 @@ public class ViewMenu extends BaseMenu {
 					continue;
 				}
 
-				cbViews[i].setSelected(app.getGuiManager().showView(
+				cbViews[i].setSelected(app.getGuiManagerD().showView(
 						panel.getViewId()));
 				++i;
 			}
@@ -442,8 +442,8 @@ public class ViewMenu extends BaseMenu {
 		
 		public void actionPerformed(ActionEvent arg0) {
 			
-			app.getGuiManager().setShowView(
-					!app.getGuiManager().showView(viewId), viewId);
+			app.getGuiManagerD().setShowView(
+					!app.getGuiManagerD().showView(viewId), viewId);
 			
 			//ensure check box is correctly selected/unselected for case where hide aborted
 			cb.setSelected(panel.isVisible());

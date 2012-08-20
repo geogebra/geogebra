@@ -569,7 +569,7 @@ public class OptionsAdvancedD extends
 		cbKeyboardLanguage.addActionListener(this);
 
 		// avoid blanking it out
-		app.getGuiManager().toggleKeyboard(false);
+		app.getGuiManagerD().toggleKeyboard(false);
 
 		updateGUIFont();
 	}

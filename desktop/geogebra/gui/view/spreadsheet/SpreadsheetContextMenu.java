@@ -189,7 +189,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 								geoRecordToSpreadSheet.setAuxiliaryObject(true);
 							}
 
-							app.getGuiManager()
+							app.getGuiManagerD()
 									.getSpreadsheetView()
 									.showTraceDialog(geoRecordToSpreadSheet,
 											null);
@@ -392,7 +392,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			item.setIcon(app.getImageIcon("document-open.png"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					File dataFile = app.getGuiManager().getDataFile();
+					File dataFile = app.getGuiManagerD().getDataFile();
 					if (dataFile != null)
 						table.getView().loadSpreadsheetFromURL(dataFile);
 				}
@@ -425,8 +425,8 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 					app.getImageIcon("view-properties16.png"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-			    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-			    	app.getGuiManager().setFocusedPanel(App.VIEW_SPREADSHEET, true);
+			    	app.getGuiManagerD().setShowView(true, App.VIEW_PROPERTIES);
+			    	app.getGuiManagerD().setFocusedPanel(App.VIEW_SPREADSHEET, true);
 				}
 			});
 			addItem(item);

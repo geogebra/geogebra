@@ -18,14 +18,14 @@
 -outjars build/temp
 
 # libraries
--libraryjars <java.home>/lib/rt.jar
+#-libraryjars <java.home>/lib/rt.jar
 -libraryjars lib/build/lib_jsobject.jar
 -libraryjars lib/build/lib_mac_extensions.jar
 -libraryjars lib/build/jogl1/jar/jogl.jar
 -libraryjars lib/build/jogl1/jar/gluegen-rt.jar
 -libraryjars lib/jython.jar
 -libraryjars lib/OpenGeoProver.jar
-#-libraryjars ../java150-rt.jar
+-libraryjars ../java150-rt.jar
 
 # Rhino Javascript is not obfuscated
 -libraryjars build/geogebra_javascript.jar

@@ -541,7 +541,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				item.setIcon(app.getImageIcon("help.png"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						app.getGuiManager().openCommandHelp(rollOverCommand);
+						app.getGuiManagerD().openCommandHelp(rollOverCommand);
 					}
 				});
 
@@ -783,11 +783,11 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		else if (e.getSource() == btnOnlineHelp) {
 			if (selectedCommand != null) {
-				app.getGuiManager().openCommandHelp(selectedCommand);
+				app.getGuiManagerD().openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null)
-				app.getGuiManager().openHelp(App.WIKI_OPERATORS);
+				app.getGuiManagerD().openHelp(App.WIKI_OPERATORS);
 			else
-				app.getGuiManager().openHelp("InputBar");
+				app.getGuiManagerD().openHelp("InputBar");
 		}
 
 		else if (e.getSource() == btnPaste) {
@@ -798,12 +798,12 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private void doPaste() {
 
 		if (selectedFunction != null) {
-			((AlgebraInput) app.getGuiManager().getAlgebraInput())
+			((AlgebraInput) app.getGuiManagerD().getAlgebraInput())
 					.insertString(selectedFunction);
 		}
 
 		if (selectedCommand != null) {
-			((AlgebraInput) app.getGuiManager().getAlgebraInput())
+			((AlgebraInput) app.getGuiManagerD().getAlgebraInput())
 					.insertCommand(selectedCommand);
 		}
 	}

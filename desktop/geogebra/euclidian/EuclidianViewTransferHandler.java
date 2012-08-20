@@ -159,7 +159,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		
 		
 		// try to get an image
-		boolean imageDropped = ev.getApplication().getGuiManager()
+		boolean imageDropped = ev.getApplication().getGuiManagerD()
 				.loadImage(t, false);
 		if (imageDropped)
 			return true;
@@ -218,7 +218,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				
 
 		// check for ggb file drop
-		boolean ggbFileDropped = app.getGuiManager().handleGGBFileDrop(t);
+		boolean ggbFileDropped = app.getGuiManagerD().handleGGBFileDrop(t);
 		if (ggbFileDropped)
 			return true;
 
@@ -340,10 +340,10 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	 */
 	private void requestViewFocus() {
 		if (ev.equals(app.getEuclidianView1()))
-			app.getGuiManager().getLayout().getDockManager()
+			app.getGuiManagerD().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_EUCLIDIAN);
 		else
-			app.getGuiManager().getLayout().getDockManager()
+			app.getGuiManagerD().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_EUCLIDIAN2);
 	}
 

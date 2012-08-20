@@ -149,7 +149,7 @@ public class GeoGebraPanel extends JPanel {
 	 * method to update the panel's structure.
 	 */
 	public synchronized void setShowAlgebraView(boolean show) {
-		app.getGuiManager().setShowView(show, App.VIEW_ALGEBRA);	
+		app.getGuiManagerD().setShowView(show, App.VIEW_ALGEBRA);	
 	}
 	
 	/**
@@ -158,7 +158,7 @@ public class GeoGebraPanel extends JPanel {
 	 * method to update the panel's structure.
 	 */
 	public synchronized void setShowSpreadsheetView(boolean show) {
-		app.getGuiManager().setShowView(show, App.VIEW_SPREADSHEET);	
+		app.getGuiManagerD().setShowView(show, App.VIEW_SPREADSHEET);	
 	}
 	
 	/**

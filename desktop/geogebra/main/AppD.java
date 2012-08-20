@@ -24,6 +24,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
@@ -65,7 +66,6 @@ import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
@@ -306,7 +306,7 @@ public class AppD extends App implements
 	private static AppletImplementation appletImpl;
 	private final FontManagerD fontManager;
 	/** GUI manager */
-	protected GuiManagerD guiManager;
+	protected GuiManager guiManager;
 	
 	/** main component */
 	Component mainComp;
@@ -712,16 +712,23 @@ public class AppD extends App implements
 		UIManager.put("PopupMenu.consumeEventOnClose", Boolean.FALSE);
 	}
 
-	protected GuiManagerD newGuiManager() {
-		return new GuiManagerD(AppD.this);
+	protected GuiManager newGuiManager() {
+		return new geogebra.gui.GuiManagerD(AppD.this);
 	}
 
 	/**
 	 * @return this application's GUI manager.
 	 */
 	@Override
-	final public synchronized GuiManagerD getGuiManager() {
+	final public synchronized GuiManager getGuiManager() {
 		return guiManager;
+	}
+
+	/**
+	 * @return this application's GUI manager.
+	 */
+	final public synchronized geogebra.gui.GuiManagerD getGuiManagerD() {
+		return (geogebra.gui.GuiManagerD) guiManager;
 	}
 
 
@@ -804,7 +811,7 @@ public class AppD extends App implements
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			AlgebraInput ai = (AlgebraInput) (getGuiManager().getAlgebraInput());
+			AlgebraInput ai = (AlgebraInput) (getGuiManagerD().getAlgebraInput());
 			ai.clear();
 		}
 
@@ -1012,7 +1019,7 @@ public class AppD extends App implements
 			// menubar manually to the north
 			if (showMenuBar() && (mainComp instanceof JPanel)) {
 				JPanel menuBarPanel = new JPanel(new BorderLayout());
-				menuBarPanel.add(getGuiManager().getMenuBar(),
+				menuBarPanel.add(getGuiManagerD().getMenuBar(),
 						BorderLayout.NORTH);
 				menuBarPanel.add(applicationPanel, BorderLayout.CENTER);
 				return menuBarPanel;
@@ -1079,12 +1086,12 @@ public class AppD extends App implements
 	 */
 	public void setShowInputHelpPanel(boolean isVisible) {
 		if (isVisible) {
-			applicationSplitPane.setRightComponent(getGuiManager()
+			applicationSplitPane.setRightComponent(getGuiManagerD()
 					.getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane
 						.setLastDividerLocation(applicationSplitPane.getWidth()
-								- getGuiManager().getInputHelpPanel()
+								- getGuiManagerD().getInputHelpPanel()
 										.getMinimumSize().width);
 			}
 			applicationSplitPane.setDividerLocation(applicationSplitPane
@@ -1124,23 +1131,23 @@ public class AppD extends App implements
 		// handle input bar
 		if (showAlgebraInput) {
 			if (showInputTop) {
-				northPanel.add(getGuiManager().getAlgebraInput(),
+				northPanel.add(getGuiManagerD().getAlgebraInput(),
 						BorderLayout.SOUTH);
 			} else {
-				southPanel.add(getGuiManager().getAlgebraInput(),
+				southPanel.add(getGuiManagerD().getAlgebraInput(),
 						BorderLayout.SOUTH);
 			}
-			((AlgebraInput)getGuiManager().getAlgebraInput()).updateOrientation(showInputTop);
+			((AlgebraInput)getGuiManagerD().getAlgebraInput()).updateOrientation(showInputTop);
 		}
 
 		// initialize toolbar panel even if it's not used (hack)
-		getGuiManager().getToolbarPanelContainer();
+		getGuiManagerD().getToolbarPanelContainer();
 
 		
 		
 		if (showToolBar) {
 			
-			geogebra.gui.toolbar.ToolbarContainer toolBarContainer = (geogebra.gui.toolbar.ToolbarContainer) getGuiManager()
+			geogebra.gui.toolbar.ToolbarContainer toolBarContainer = (geogebra.gui.toolbar.ToolbarContainer) getGuiManagerD()
 					.getToolbarPanelContainer();
 			JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 			toolBarContainer.setOrientation(toolbarPosition);
@@ -1150,10 +1157,10 @@ public class AppD extends App implements
 			
 			showToolBarTop = false;
 			if (showToolBarTop) {
-				northPanel.add(getGuiManager().getToolbarPanelContainer(),
+				northPanel.add(getGuiManagerD().getToolbarPanelContainer(),
 						BorderLayout.NORTH);
 			} else {
-				southPanel.add(getGuiManager().getToolbarPanelContainer(),
+				southPanel.add(getGuiManagerD().getToolbarPanelContainer(),
 						BorderLayout.NORTH);
 			}
 
@@ -1241,7 +1248,7 @@ public class AppD extends App implements
 		centerPanel.removeAll();
 
 		if (isUsingFullGui()) {
-			centerPanel.add(getGuiManager().getLayout().getRootComponent(),
+			centerPanel.add(getGuiManagerD().getLayout().getRootComponent(),
 					BorderLayout.CENTER);
 		} else {
 			centerPanel.add(getEuclidianView1().getJPanel(), BorderLayout.CENTER);
@@ -1316,7 +1323,7 @@ public class AppD extends App implements
 			boolean primary = args.getBooleanValue("primary", false);
 			if (primary) {
 
-				getGuiManager().getLayout().applyPerspective("BasicGeometry");
+				getGuiManagerD().getLayout().applyPerspective("BasicGeometry");
 				GlobalKeyDispatcherD.changeFontsAndGeoElements(this, 20, false);
 				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 				getEuclidianView1().setCapturingThreshold(10);
@@ -1783,7 +1790,7 @@ public class AppD extends App implements
 		if (appletImpl != null) {
 			appletImpl.reset();
 		} else if (currentFile != null) {
-			getGuiManager().loadFile(currentFile, false);
+			getGuiManagerD().loadFile(currentFile, false);
 		} else {
 			clearConstruction();
 		}
@@ -1826,7 +1833,7 @@ public class AppD extends App implements
 
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
-			frame = getGuiManager().createFrame();
+			frame = getGuiManagerD().createFrame();
 		}
 
 		return frame;
@@ -1905,7 +1912,7 @@ public class AppD extends App implements
 		if (guiManager == null) {
 			return null;
 		}
-		return guiManager.getAlgebraView();
+		return (AlgebraViewD)guiManager.getAlgebraView();
 	}
 	
 	
@@ -1913,7 +1920,7 @@ public class AppD extends App implements
 
 	@Override
 	public EuclidianViewD getEuclidianView2() {
-		return getGuiManager().getEuclidianView2();
+		return (EuclidianViewD) getGuiManager().getEuclidianView2();
 	}
 
 	@Override
@@ -2875,7 +2882,7 @@ public class AppD extends App implements
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
 		}
 		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
-			guiManager.getEuclidianView2().setCursor(Cursor.getDefaultCursor());
+			((geogebra.gui.GuiManagerD)guiManager).getEuclidianView2().setCursor(Cursor.getDefaultCursor());
 		}
 
 	}
@@ -3506,7 +3513,7 @@ public class AppD extends App implements
 	@Override
 	public void setActiveView(int view) {
 		if (getGuiManager() != null) {
-			getGuiManager().getLayout().getDockManager().setFocusedPanel(view);
+			getGuiManagerD().getLayout().getDockManager().setFocusedPanel(view);
 		}
 	}
 
@@ -3845,7 +3852,7 @@ public class AppD extends App implements
 		Component mainPane = SwingUtilities.getRootPane(mainComp);
 		if ((eventPane != mainPane)
 				// no layout in applets
-				&& (isApplet() || !getGuiManager().getLayout().inExternalWindow(eventPane))) {
+				&& (isApplet() || !getGuiManagerD().getLayout().inExternalWindow(eventPane))) {
 			// ESC from dialog: close it
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				Component rootComp = SwingUtilities.getRoot(e.getComponent());

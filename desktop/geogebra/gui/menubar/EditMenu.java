@@ -74,9 +74,9 @@ public class EditMenu extends BaseMenu {
 		JMenuItem mi;
 		
 		if (app.isUndoActive()) {
-			mi = add(app.getGuiManager().getUndoAction());
+			mi = add(app.getGuiManagerD().getUndoAction());
 			setMenuShortCutAccelerator(mi, 'Z');
-			mi = add(app.getGuiManager().getRedoAction());
+			mi = add(app.getGuiManagerD().getRedoAction());
 			if (AppD.MAC_OS)
 				// Command-Shift-Z
 				setMenuShortCutShiftAccelerator(mi, 'Z');
@@ -280,7 +280,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				app.getGuiManager().loadImage(null, true);
+				app.getGuiManagerD().loadImage(null, true);
 				app.setDefaultCursor();
 			}
 		};
@@ -292,7 +292,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				app.getGuiManager().loadImage(null, false);
+				app.getGuiManagerD().loadImage(null, false);
 				app.setDefaultCursor();
 			}
 		};
@@ -379,7 +379,7 @@ public class EditMenu extends BaseMenu {
 		if (!e.getSource().equals(this)) { // ie submenu opened
 					
 			// check if there's an image on the clipboard
-			String[] fileName = app.getGuiManager().getImageFromTransferable(null);
+			String[] fileName = app.getGuiManagerD().getImageFromTransferable(null);
 			clipboardMenu.setEnabled(fileName.length > 0);
 		}
 		

@@ -632,7 +632,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 	@Override
 	public void openToolHelp() {
 		// TODO: move openToolHelp() into DialogManager
-		((AppD) app).getGuiManager().openToolHelp();
+		((AppD) app).getGuiManagerD().openToolHelp();
 
 	}
 

@@ -1323,4 +1323,13 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	    App.debug("unimplemented");
 	    return false;
     }
+
+	public void repaint() {
+		App.debug("unimplemented");
+    }
+
+	public boolean isShowing() {
+		App.debug("unimplemented");
+	    return false;
+    }
 } // AlgebraView

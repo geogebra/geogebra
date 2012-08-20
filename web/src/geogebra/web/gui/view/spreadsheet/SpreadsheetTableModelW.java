@@ -107,4 +107,13 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		return false;
 	}
 
+	public void repaint() {
+		App.debug("unimplemented");
+    }
+
+	public boolean isShowing() {
+		App.debug("unimplemented");
+	    return false;
+    }
+
 }

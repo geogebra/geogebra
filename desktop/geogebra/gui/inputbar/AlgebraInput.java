@@ -184,9 +184,9 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.setPopupsFont(app.getPlainFont());
 		
 		//update the help panel
-		if (app.getGuiManager().hasInputHelpPanel())
+		if (app.getGuiManagerD().hasInputHelpPanel())
 		{
-			InputBarHelpPanel helpPanel = (InputBarHelpPanel) app.getGuiManager().getInputHelpPanel();
+			InputBarHelpPanel helpPanel = (InputBarHelpPanel) app.getGuiManagerD().getInputHelpPanel();
 			helpPanel.updateFonts();
 		}
 	}    
@@ -259,7 +259,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			
 			if (btnHelpToggle.isSelected()) {
 				InputBarHelpPanel helpPanel = (InputBarHelpPanel) app
-						.getGuiManager().getInputHelpPanel();
+						.getGuiManagerD().getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();
 				app.setShowInputHelpPanel(true);

@@ -306,7 +306,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 
 			if (app.getGuiManager() != null)
 				// if there is a ConstructionProtocolView, then update its navigation bars
-				((AppD)app).getGuiManager().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
+				((AppD)app).getGuiManagerD().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
 			else
 				// otherwise this is not needed 
 				app.getKernel().getConstruction().setStep(handler.getConsStep());
@@ -648,8 +648,8 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		//app.getGuiManager().getAlgebraViewXML(sb);
 		
 		// save ProbabilityCalculator settings
-		if (app.isUsingFullGui() && app.getGuiManager().hasProbabilityCalculator()){
-			app.getGuiManager().getProbabilityCalculatorXML(sb);
+		if (app.isUsingFullGui() && app.getGuiManagerD().hasProbabilityCalculator()){
+			app.getGuiManagerD().getProbabilityCalculatorXML(sb);
 		}
 
 		sb.append("</geogebra>");

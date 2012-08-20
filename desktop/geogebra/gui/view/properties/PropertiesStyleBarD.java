@@ -132,19 +132,19 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		buttonMap.get(seltype).setSelected(true);
 		
 		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
-				app.getGuiManager()
+				app.getGuiManagerD()
 						.showView(App.VIEW_EUCLIDIAN));
 		
 		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
-				app.getGuiManager()
+				app.getGuiManagerD()
 						.showView(App.VIEW_EUCLIDIAN2));
 		
 		buttonMap.get(OptionType.SPREADSHEET).setVisible(
-				app.getGuiManager()
+				app.getGuiManagerD()
 						.showView(App.VIEW_SPREADSHEET));
 		
 		buttonMap.get(OptionType.CAS).setVisible(
-				app.getGuiManager()
+				app.getGuiManagerD()
 						.showView(App.VIEW_CAS));
 	}
 

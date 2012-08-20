@@ -443,7 +443,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setShiftDragZoomEnabled(enableShiftDragZoom);
 		if ((customToolBar != null) && (customToolBar.length() > 0)
 				&& showToolBar) {
-			app.getGuiManager().setToolBarDefinition(customToolBar);
+			app.getGuiManagerD().setToolBarDefinition(customToolBar);
 		}
 		app.setShowResetIcon(showResetIcon);
 		app.setMaxIconSize(maxIconSize);
@@ -529,13 +529,13 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setRightClickEnabled(true);
 
 		if ((customToolBar != null) && (customToolBar.length() > 0)) {
-			app.getGuiManager().setToolBarDefinition(customToolBar);
+			app.getGuiManagerD().setToolBarDefinition(customToolBar);
 		}
 
 		// just update layout if the layout was already visible
 		// (which isn't the case in button-only mode), see ticket #217
 		if (app.isUsingFullGui()) {
-			app.getGuiManager().updateLayout();
+			app.getGuiManagerD().updateLayout();
 		}
 
 		app.updateContentPane();
@@ -569,7 +569,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setApplet(this);
 
 		if (app.isUsingFullGui()) {
-			app.getGuiManager().updateLayout();
+			app.getGuiManagerD().updateLayout();
 		}
 
 		initGUI();

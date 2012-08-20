@@ -43,7 +43,7 @@ public class PropertiesDockPanel extends DockPanel implements
 	}
 
 	private PropertiesViewD getPropertiesView() {
-		return (PropertiesViewD) app.getGuiManager().getPropertiesView();
+		return (PropertiesViewD) app.getGuiManagerD().getPropertiesView();
 	}
 
 	@Override

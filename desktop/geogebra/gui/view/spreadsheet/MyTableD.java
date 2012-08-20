@@ -1361,7 +1361,7 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 
 	public void focusGained(FocusEvent e) {
 		if (AppD.isVirtualKeyboardActive())
-			app.getGuiManager().toggleKeyboard(true);
+			app.getGuiManagerD().toggleKeyboard(true);
 
 	}
 
@@ -1370,7 +1370,7 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		if (e.getOppositeComponent() instanceof VirtualKeyboard)
 			return;
 		if (AppD.isVirtualKeyboardActive())
-			app.getGuiManager().toggleKeyboard(false);
+			app.getGuiManagerD().toggleKeyboard(false);
 
 	}
 

@@ -145,4 +145,8 @@ public abstract class Layout {
 
 	abstract protected void applyPerspective(Perspective perspective);
 
+	public abstract void getXml(StringBuilder sb, boolean asPreference);
+
+	public abstract boolean isOnlyVisible(int viewEuclidian);
+
 }

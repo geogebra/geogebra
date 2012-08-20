@@ -202,12 +202,12 @@ public class CASTableD extends JTable implements CASTable{
 			// for some reason this is not working out of the box as
 			// DockManager.eventDispatched()
 			// sometimes things that this click comes from the EuclidianView
-			DockManager dockManager = app.getGuiManager().getLayout()
+			DockManager dockManager = app.getGuiManagerD().getLayout()
 					.getDockManager();
 			DockPanel panel = dockManager.getFocusedPanel();
 			if (panel == null
 					|| panel.getViewId() != App.VIEW_CAS)
-				app.getGuiManager().getLayout().getDockManager()
+				app.getGuiManagerD().getLayout().getDockManager()
 						.setFocusedPanel(App.VIEW_CAS);
 		
 			e.consume();

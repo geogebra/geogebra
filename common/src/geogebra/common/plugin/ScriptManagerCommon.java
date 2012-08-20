@@ -402,6 +402,13 @@ public abstract class ScriptManagerCommon {
 			return false;
 		}
 
+		public void repaint() {
+		}
+
+		public boolean isShowing() {
+			return false;
+		}
+
 	}
 
 	public abstract void notifyDraw(String labelSimple, double[] x, double[] y);

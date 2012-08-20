@@ -34,12 +34,12 @@ public class CasDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return appCas.getGuiManager().getCasView().getCASStyleBar();
+		return appCas.getGuiManagerD().getCasView().getCASStyleBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {
-		return appCas.getGuiManager().getCasView().getCASViewComponent();
+		return appCas.getGuiManagerD().getCasView().getCASViewComponent();
 	}
 	
 	private static String getDefaultToolbar() {
@@ -52,9 +52,9 @@ public class CasDockPanel extends DockPanel {
 	 */
 	@Override
 	protected void setActiveToolBar(){		
-		appCas.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(true);
+		appCas.getGuiManagerD().getCasView().setToolbarIsUpdatedByDockPanel(true);
 		super.setActiveToolBar();
-		appCas.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(false);
+		appCas.getGuiManagerD().getCasView().setToolbarIsUpdatedByDockPanel(false);
 	}
 	
 	@Override

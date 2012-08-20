@@ -370,13 +370,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			app.openMacro(macro);
 		// app.getApplicationGUImanager().setMenubar(new
 		// geogebra.gui.menubar.GeoGebraMenuBar(app));
-		app.getGuiManager().initMenubar();
+		app.getGuiManagerD().initMenubar();
 
 		// init GUI
 		wnd.app = app;
 		wnd.getContentPane().add(app.buildApplicationPanel());
 		dropTargetListener = new geogebra.gui.FileDropTargetListener(app);
-		wnd.setGlassPane(app.getGuiManager().getLayout().getDockManager()
+		wnd.setGlassPane(app.getGuiManagerD().getLayout().getDockManager()
 				.getGlassPane());
 		wnd.setDropTarget(new DropTarget(wnd, dropTargetListener));
 		wnd.addWindowFocusListener(wnd);
@@ -387,20 +387,20 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			if (args.containsArg("showAlgebraWindow")) {
 				boolean showAlgebraWindow = args.getBooleanValue(
 						"showAlgebraWindow", true);
-				app.getGuiManager().setShowView(showAlgebraWindow,
+				app.getGuiManagerD().setShowView(showAlgebraWindow,
 						App.VIEW_ALGEBRA);
 			}
 
 			else if (args.containsArg("showSpreadsheet")) {
 				boolean showSpreadsheet = args.getBooleanValue(
 						"showSpreadsheet", true);
-				app.getGuiManager().setShowView(showSpreadsheet,
+				app.getGuiManagerD().setShowView(showSpreadsheet,
 						App.VIEW_SPREADSHEET);
 			}
 
 			else if (args.containsArg("showCAS")) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
-				app.getGuiManager().setShowView(showCAS,
+				app.getGuiManagerD().setShowView(showCAS,
 						App.VIEW_CAS);
 			}
 		}
@@ -456,7 +456,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		public void run() {
 
 			// init file chooser
-			((DialogManagerD) this.app.getGuiManager().getDialogManager()).initFileChooser();
+			((DialogManagerD) this.app.getGuiManagerD().getDialogManager()).initFileChooser();
 						
 			// init CAS
 			// avoid hanging animation,
@@ -547,7 +547,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						GeoGebraPreferencesD.getPref().savePreference(
 								GeoGebraPreferencesD.VERSION_LAST_CHECK, nowLS);
 						if (returnVal == 1) {
-							app.getGuiManager()
+							app.getGuiManagerD()
 									.showURLinBrowser(INSTALLERS_URL);
 						}
 					}

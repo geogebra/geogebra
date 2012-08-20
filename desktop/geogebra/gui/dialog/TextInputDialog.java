@@ -566,7 +566,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 
 	public JToolBar createRecentSymbolTable() {
 
-		recentSymbolList = app.getGuiManager().getRecentSymbolList();
+		recentSymbolList = app.getGuiManagerD().getRecentSymbolList();
 
 		recentSymbolTable = new SelectionTable(app, recentSymbolList.toArray(),
 				1, recentSymbolList.size(), new Dimension(24, 24),

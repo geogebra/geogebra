@@ -118,7 +118,7 @@ public class LayoutD extends Layout implements SettingListener {
 			ev.setLockedAxesRatio(perspective.isUnitAxesRatio()?1.0:null);
 		}
 		
-		app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
+		app.getGuiManagerD().setToolBarDefinition(perspective.getToolbarDefinition());
 		
 		app.setShowToolBarNoUpdate(perspective.getShowToolBar());
 		app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
@@ -206,7 +206,7 @@ public class LayoutD extends Layout implements SettingListener {
 		
 		perspective.setDockPanelData(dockPanelInfo);
 
-		perspective.setToolbarDefinition(app.getGuiManager().getToolbarDefinition());
+		perspective.setToolbarDefinition(app.getGuiManagerD().getToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());

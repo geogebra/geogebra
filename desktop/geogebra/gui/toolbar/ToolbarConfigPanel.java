@@ -86,7 +86,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		toolListModel = new DefaultListModel();
 		toolList = new JList(toolListModel);
 		
-		setToolbar(null, app.getGuiManager().getToolbarDefinition());	
+		setToolbar(null, app.getGuiManagerD().getToolbarDefinition());	
 		
 		configScrollPane = new JScrollPane(tree);
 		configScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -355,7 +355,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		if(dockPanel != null) {
 			dockPanel.setToolbarString(getToolBarString());
 		} else {
-			app.getGuiManager().setToolBarDefinition(getToolBarString());
+			app.getGuiManagerD().setToolBarDefinition(getToolBarString());
 		}
 	}
 	
@@ -366,7 +366,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		if(dockPanel != null) {
 			setToolbar(dockPanel, dockPanel.getDefaultToolbarString());
 		} else {
-			setToolbar(null, app.getGuiManager().getDefaultToolbarString());
+			setToolbar(null, app.getGuiManagerD().getDefaultToolbarString());
 		}
 	}
 	

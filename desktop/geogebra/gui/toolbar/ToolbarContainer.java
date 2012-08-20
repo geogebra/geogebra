@@ -291,7 +291,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private JPanel getGridButtonPanel() {
 
 		// undo button
-		MySmallJButton btnUndo = new MySmallJButton(app.getGuiManager()
+		MySmallJButton btnUndo = new MySmallJButton(app.getGuiManagerD()
 				.getUndoAction(), 7);
 		String text = app.getMenuTooltip("Undo");
 		btnUndo.setText(null);
@@ -299,7 +299,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// redo button
-		MySmallJButton btnRedo = new MySmallJButton(app.getGuiManager()
+		MySmallJButton btnRedo = new MySmallJButton(app.getGuiManagerD()
 				.getRedoAction(), 7);
 		text = app.getMenuTooltip("Redo");
 		btnRedo.setText(null);
@@ -343,7 +343,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().openToolHelp();
+				app.getGuiManagerD().openToolHelp();
 
 			}
 		});
@@ -592,7 +592,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() >= 1) {
-						app.getGuiManager().openToolHelp(modeName);
+						app.getGuiManagerD().openToolHelp(modeName);
 					}
 				}
 
@@ -816,7 +816,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					continue;
 				}
 				String menuText = PropertiesView.getTypeStringSimple(app,type);
-				ImageIcon ic = ((PropertiesViewD) app.getGuiManager()
+				ImageIcon ic = ((PropertiesViewD) app.getGuiManagerD()
 						.getPropertiesView()).getTypeIcon(type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 				
@@ -831,7 +831,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					}
 				});
 				add(item);
-				item.setVisible(((PropertiesView) app.getGuiManager()
+				item.setVisible(((PropertiesView) app.getGuiManagerD()
 						.getPropertiesView()).isOptionPanelAvailable(type));
 			}
 
@@ -839,9 +839,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		protected void openPropertiesView(OptionType type) {
 			int viewId = App.VIEW_PROPERTIES;
-			((PropertiesView) app.getGuiManager().getPropertiesView())
+			((PropertiesView) app.getGuiManagerD().getPropertiesView())
 					.setOptionPanel(type);
-			app.getGuiManager().setShowView(true, viewId, false);
+			app.getGuiManagerD().setShowView(true, viewId, false);
 		}
 
 	}

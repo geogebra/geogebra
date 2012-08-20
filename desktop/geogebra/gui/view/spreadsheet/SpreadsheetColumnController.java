@@ -95,7 +95,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		boolean rightClick = AppD.isRightClick(e);
 
 		if (!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager()
+			app.getGuiManagerD().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		if (!rightClick) {

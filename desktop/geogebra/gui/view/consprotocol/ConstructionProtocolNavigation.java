@@ -203,8 +203,8 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		btOpenWindow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//app.getGuiManager().showConstructionProtocol();
-				if(!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
-					app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
+				if(!app.getGuiManagerD().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
+					app.getGuiManagerD().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
 			}				
 		});
 		

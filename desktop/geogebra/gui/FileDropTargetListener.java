@@ -110,7 +110,7 @@ public class FileDropTargetListener implements DropTargetListener {
 			File [] files = new File[al.size()];
 			for (int i = 0 ; i < al.size() ; i++)
 				files[i] = al.get(i);
-			app.getGuiManager().doOpenFiles(files, true);			
+			app.getGuiManagerD().doOpenFiles(files, true);			
 			return true;			
 		}			
 		return false;
@@ -166,7 +166,7 @@ public class FileDropTargetListener implements DropTargetListener {
 				while (st.hasMoreTokens ( )) {
 					String uriString = st.nextToken( );
 					if(uriString.startsWith("http://") && isGGBFile(uriString)){
-						app.getGuiManager().loadURL(uriString, true);
+						app.getGuiManagerD().loadURL(uriString, true);
 					}else{
 						URI uri = new URI(uriString);
 						al.add(new File(uri));

@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.Layout;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
@@ -338,8 +339,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	    
     }
 	
-	public void setLayout(LayoutW layout) {
-		this.layout = layout;
+	public void setLayout(Layout layout) {
+		this.layout = (LayoutW) layout;
 	}
 
 	public LayoutW getLayout() {
@@ -516,7 +517,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
 	public void showPropertiesViewSliderTab(){
-		// TODO Auto-generated method stub
+		App.debug("unimplemented");
 	}
 
 	@Override
@@ -533,14 +534,12 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	
 	@Override
     protected boolean loadURL_base64(String url){
-    	// TODO Auto-generated method stub
 		App.debug("implementation needed");  
 		return true;
 	}
 
 	@Override
     protected boolean loadFromApplet(String url) throws Exception {
-	    // TODO Auto-generated method stub
 		App.debug("implementation needed");
 	    return false;
     }
@@ -594,7 +593,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public boolean hasPropertiesView() {
-	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
 	    return false;
     }
 
@@ -606,26 +605,22 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public void attachCasView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void attachConstructionProtocolView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void attachProbabilityCalculatorView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void attachAssignmentView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
@@ -653,56 +648,49 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public View getDataAnalysisView() {
-	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
 	    return null;
     }
 
 	@Override
     public void attachDataAnalysisView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void detachDataAnalysisView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public boolean hasDataAnalysisView() {
-	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
 	    return false;
     }
 
 	@Override
     public void detachAssignmentView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void detachProbabilityCalculatorView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void detachCasView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void detachConstructionProtocolView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
     public void detachSpreadsheetView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
     }
 
 	@Override
@@ -788,4 +776,33 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		}
 		return null;
 	}
+
+	@Override
+    public void resetSpreadsheet() {
+		App.debug("unimplemented");
+    }
+
+	@Override
+    public void setScrollToShow(boolean b) {
+		App.debug("unimplemented");
+    }
+
+	@Override
+    public void setShowConstructionProtocolNavigation(boolean show,
+            boolean playButton, double playDelay, boolean showProtButton) {
+		App.debug("unimplemented");
+    }
+
+	@Override
+    public void showURLinBrowser(String strURL) {
+		App.debug("unimplemented");
+    }
+
+	@Override
+    public void updateMenuWindow() {
+    }
+
+	@Override
+    public void updateMenuFile() {
+    }
 }

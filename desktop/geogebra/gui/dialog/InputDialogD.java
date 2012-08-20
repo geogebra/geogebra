@@ -437,11 +437,11 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		if (!wrappedDialog.isModal()) {
 			app.setSelectionListenerMode(sl);
 		}
-		app.getGuiManager().setCurrentTextfield(this, true);
+		app.getGuiManagerD().setCurrentTextfield(this, true);
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
-		app.getGuiManager().setCurrentTextfield(null,
+		app.getGuiManagerD().setCurrentTextfield(null,
 				!(arg0.getOppositeWindow() instanceof VirtualKeyboard));
 	}
 	

@@ -438,7 +438,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (!geo.hasValueStringChangeableRegardingView())
 			return;
 
-		DockPanel panel = ((AppD)app).getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
+		DockPanel panel = ((AppD)app).getGuiManagerD().getLayout().getDockManager().getFocusedEuclidianPanel();
 		if (panel==null)
 			return;
 		
@@ -832,7 +832,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 			
-		((AppD)app).getGuiManager().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
+		((AppD)app).getGuiManagerD().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
 	}       	
 	
 

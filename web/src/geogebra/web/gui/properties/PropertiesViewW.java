@@ -271,7 +271,15 @@ public class PropertiesViewW extends
 
 	@Override
     public void updatePropertiesView() {
-	    // TODO Auto-generated method stub
-	    
+		App.debug("unimplemented");
+    }
+
+	public void repaint() {
+		App.debug("unimplemented");
+    }
+
+	public boolean isShowing() {
+		App.debug("unimplemented");
+	    return false;
     }
 }

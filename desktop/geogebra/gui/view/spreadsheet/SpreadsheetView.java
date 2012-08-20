@@ -1229,9 +1229,9 @@ public class SpreadsheetView extends JPanel implements View, ComponentListener,
 	protected boolean hasViewFocus() {
 		boolean hasFocus = false;
 		try {
-			if (app.getGuiManager().getLayout().getDockManager()
+			if (app.getGuiManagerD().getLayout().getDockManager()
 					.getFocusedPanel() != null)
-				hasFocus = app.getGuiManager().getLayout().getDockManager()
+				hasFocus = app.getGuiManagerD().getLayout().getDockManager()
 						.getFocusedPanel().isAncestorOf(this);
 		} catch (Exception e) {
 			e.printStackTrace();

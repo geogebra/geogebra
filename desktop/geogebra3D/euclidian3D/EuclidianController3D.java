@@ -1919,7 +1919,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	@Override
 	public void showDrawingPadPopup(geogebra.common.awt.GPoint mouseLoc){
-		((GuiManager3D) ((AppD)app).getGuiManager()).showDrawingPadPopup3D(view, mouseLoc);
+		((GuiManager3D) ((AppD)app).getGuiManagerD()).showDrawingPadPopup3D(view, mouseLoc);
 	}
 	
 	///////////////////////////////////////////

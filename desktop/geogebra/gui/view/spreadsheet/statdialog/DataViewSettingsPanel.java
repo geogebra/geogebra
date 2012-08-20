@@ -327,7 +327,7 @@ app.error("set source table rowCount: " + rowCount);
 		}
 
 		// source is spreadsheet range
-		MyTableD spreadsheetTable = (MyTableD) app.getGuiManager()
+		MyTableD spreadsheetTable = (MyTableD) app.getGuiManagerD()
 				.getSpreadsheetView().getTable();
 		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
 
@@ -354,7 +354,7 @@ app.error("set source table rowCount: " + rowCount);
 
 		String[][] s = new String[2][];
 
-		MyTableD spreadsheetTable = (MyTableD) app.getGuiManager()
+		MyTableD spreadsheetTable = (MyTableD) app.getGuiManagerD()
 				.getSpreadsheetView().getTable();
 		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();

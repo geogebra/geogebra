@@ -108,7 +108,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		plotSettings = new PlotSettings();
 
 		// get viewID from GuiManager
-		viewID = ((AppD) kernel.getApplication()).getGuiManager()
+		viewID = ((AppD) kernel.getApplication()).getGuiManagerD()
 				.assignPlotPanelID(this);
 
 		// create cursors for DnD

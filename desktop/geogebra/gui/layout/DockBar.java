@@ -79,7 +79,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 	public DockBar(AppD app) {
 
 		this.app = app;
-		this.layout = app.getGuiManager().getLayout();
+		this.layout = app.getGuiManagerD().getLayout();
 		setBorder(BorderFactory.createEmptyBorder());
 		initActions();
 		initGUI();
@@ -157,7 +157,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 				app.getImageIcon("document-open22.png"));
 		btnFileOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().openFile();
+				app.getGuiManagerD().openFile();
 			}
 		});
 
@@ -166,7 +166,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 				app.getImageIcon("document-save22.png"));
 		btnFileSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().save();
+				app.getGuiManagerD().save();
 			}
 		});
 
@@ -300,7 +300,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		updateViewButtons();
 		btnKeyboard.setSelected(AppD.isVirtualKeyboardActive());
 		btnProperties.removeActionListener(this);
-		btnProperties.setSelected(app.getGuiManager().showView(
+		btnProperties.setSelected(app.getGuiManagerD().showView(
 				App.VIEW_PROPERTIES));
 		btnProperties.addActionListener(this);
 	}
@@ -455,17 +455,17 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
-						&& !app.getGuiManager().showVirtualKeyboard()) {
+						&& !app.getGuiManagerD().showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					app.getGuiManager().toggleKeyboard(true);
+					app.getGuiManagerD().toggleKeyboard(true);
 					update();
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					app.getGuiManager().toggleKeyboard(
+					app.getGuiManagerD().toggleKeyboard(
 							AppD.isVirtualKeyboardActive());
 					update();
 				}
@@ -539,11 +539,11 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnProperties) {
-			((PropertiesView) app.getGuiManager().getPropertiesView())
+			((PropertiesView) app.getGuiManagerD().getPropertiesView())
 					.setOptionPanel(OptionType.LAYOUT);
 			int viewId = App.VIEW_PROPERTIES;
-			app.getGuiManager().setShowView(
-					!app.getGuiManager().showView(viewId), viewId, false);
+			app.getGuiManagerD().setShowView(
+					!app.getGuiManagerD().showView(viewId), viewId, false);
 		}
 	}
 

@@ -8,6 +8,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.Layout;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.dialog.DialogManager;
@@ -715,8 +716,8 @@ public class GuiManagerD extends GuiManager {
 		return dialogManager;
 	}
 
-	public void setLayout(LayoutD layout) {
-		this.layout = layout;
+	public void setLayout(Layout layout) {
+		this.layout = (LayoutD) layout;
 	}
 
 	public LayoutD getLayout() {
@@ -2448,7 +2449,7 @@ public class GuiManagerD extends GuiManager {
 			if (app.getGuiManager() != null) {
 				if (app.getGuiManager().showView(
 						App.VIEW_PROBABILITY_CALCULATOR)) {
-					((AppD)app).getGuiManager()
+					((AppD)app).getGuiManagerD()
 							.getLayout()
 							.getDockManager()
 							.setFocusedPanel(

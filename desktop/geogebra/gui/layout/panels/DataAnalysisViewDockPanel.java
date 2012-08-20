@@ -32,12 +32,12 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 	
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManager().getDataAnalysisView();
+		return app.getGuiManagerD().getDataAnalysisView();
 	}
 	
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getDataAnalysisView().getStyleBar();
+		return app.getGuiManagerD().getDataAnalysisView().getStyleBar();
 	}
 
 	private static String getDefaultToolbar() {

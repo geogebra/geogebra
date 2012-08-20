@@ -520,7 +520,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// NB pasting into WordPad *won't* work with this method
 			file = new File(tempDir + "geogebra.eps");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EPS,
+			file = app.getGuiManagerD().showSaveDialog(AppD.FILE_EXT_EPS,
 					null, app.getPlain("eps") + " " + app.getMenu("Files"),
 					true, false);
 			
@@ -557,7 +557,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.emf");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EMF,
+			file = app.getGuiManagerD().showSaveDialog(AppD.FILE_EXT_EMF,
 					null, app.getPlain("emf") + " " + app.getMenu("Files"),
 					true, false);
 			// Michael Borcherds 2008-03-02 END
@@ -596,7 +596,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.pdf");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PDF,
+			file = app.getGuiManagerD().showSaveDialog(AppD.FILE_EXT_PDF,
 					null, app.getPlain("pdf") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -647,7 +647,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_SVG,
+			file = app.getGuiManagerD().showSaveDialog(AppD.FILE_EXT_SVG,
 					null, app.getPlain("svg") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -693,7 +693,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.png");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PNG,
+			file = app.getGuiManagerD().showSaveDialog(AppD.FILE_EXT_PNG,
 					null, app.getPlain("png") + " " + app.getMenu("Files"),
 					true, false);
 		}

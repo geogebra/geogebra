@@ -28,12 +28,12 @@ public class AssignmentDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManager().getAssignmentView();
+		return app.getGuiManagerD().getAssignmentView();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getAssignmentView().getStyleBar();
+		return app.getGuiManagerD().getAssignmentView().getStyleBar();
 	}
 
 
