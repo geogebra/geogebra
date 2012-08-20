@@ -162,6 +162,8 @@ public class Ggb2MPReduce {
 				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=lcm(%0,%1); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end>>");
 		p("LeftSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(lhs,input!!) else lhs(input!!) end>>");
+		p("LeftSide.2",
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then lhs(part(input!!,%1)) else \\'? end>>");
 		p("Length.1",
 				"mylength(%0)");
 		p("Length.3",
@@ -244,6 +246,8 @@ public class Ggb2MPReduce {
 		p("Reverse.1","reverse(%0)");
 		p("RightSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(rhs,input!!) else rhs(input!!) end>>");
+		p("RightSide.2",
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then rhs(part(input!!,%1)) else \\'? end>>");
 		p("Root.1",
 				"<<begin scalar input!!; input!!:=(%0); return flattenlist(mysolve(input!!,mymainvar(input!!))) end>>");
 		p("ReducedRowEchelonForm.1",
