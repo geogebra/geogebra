@@ -5,6 +5,12 @@ import geogebra.mobile.utils.ToolBarCommand;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 
+/**
+ * Buttons of the options-menu
+ * 
+ * @author Thomas Krismayer
+ *
+ */
 public class OptionButton extends ToolButton
 {
 

@@ -21,6 +21,8 @@ public class EuclidianViewPanel extends LayoutPanel
 		this.euclidianView = new EuclidianViewM(ec); 
 		this.euclidianView.initCanvas(this.canvas); 
 
+		ec.setView(this.euclidianView); 
+		
 		add(this.canvas); 		
 	}
 	

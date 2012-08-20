@@ -6,6 +6,11 @@ import com.googlecode.mgwt.mvp.client.Animation;
 import com.googlecode.mgwt.ui.client.animation.AnimationHelper;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
+/**
+ * 
+ * @author Thomas Krismayer
+ *
+ */
 public class OptionsBarBackground extends ButtonBar
 {
 

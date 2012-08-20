@@ -1,6 +1,10 @@
 package geogebra.mobile.controller;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Hits;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -9,7 +13,7 @@ import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Iterator;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,6 +24,11 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
+/**
+ * 
+ * @author Thomas Krismayer
+ * 
+ */
 public class MobileEuclidianController extends EuclidianController implements TouchStartHandler, TouchEndHandler, TouchMoveHandler, ClickHandler
 {
 
@@ -30,9 +39,16 @@ public class MobileEuclidianController extends EuclidianController implements To
 	private final double MAX_DISTANCE_TO_SELECT = 0.5;
 
 	@Override
+	public void setKernel(Kernel k)
+	{
+		// TODO
+		this.kernel = k;
+		this.app = this.kernel.getApplication();
+	}
+
+	@Override
 	public void setApplication(App app)
 	{
-		this.app = app;
 	}
 
 	@Override
@@ -78,7 +94,11 @@ public class MobileEuclidianController extends EuclidianController implements To
 			this.lastCmd = cmd;
 		}
 
-		boolean draw = true;
+		boolean draw = false;
+
+		this.mouseLoc = new GPoint(event.getX(), event.getY());
+		this.view.setHits(this.mouseLoc);
+		Hits hits = this.view.getHits();
 
 		switch (cmd)
 		{
@@ -86,14 +106,15 @@ public class MobileEuclidianController extends EuclidianController implements To
 		// commands that need one point
 
 		case NewPoint:
-			createNewPoint(false, false);
+			createNewPointForModePoint(hits, false);
+			// createNewPoint(false, false);
 			break;
 
 		// commands that need two points
 
 		case LineThroughTwoPoints:
 		case SegmentBetweenTwoPoints:
-			recordPoint();
+			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
 		default:
@@ -121,37 +142,45 @@ public class MobileEuclidianController extends EuclidianController implements To
 		this.guiModel = model;
 	}
 
-	protected void recordPoint()
+	protected void recordPoint(Hits hits)
 	{
-		GeoPointND point = getNearestPoint();
-		if (point != null)
-		{
-			this.oldPoints.add(point);
+		hits.removePolygons();
+		if(hits.containsGeoPoint()){
+			this.oldPoints.add(getNearestPoint(hits));
 		}
 		else
 		{
-			this.oldPoints.add(createNewPoint(false, false));
+			createNewPointForModeOther(hits);
+			this.oldPoints.add((GeoPointND) this.movedGeoElement);
 		}
 	}
 
-	private GeoPoint getNearestPoint()
+	private GeoPoint getNearestPoint(Hits hits)
 	{
-		Set<GeoElement> point = this.kernel.getPointSet();
-		if (point.size() == 0)
-		{
-			return null;
-		}
 		GeoPoint nearest = null;
 		double distNearestSquare = 0.0;
-		for (GeoElement p : point)
+
+		Iterator<GeoElement> iterator = hits.iterator();
+		GeoElement e = iterator.next();
+
+		while (e != null)
 		{
-			double distanceSquare = Math.pow((((GeoPoint) p).getX() - this.xRW), 2) + Math.pow((((GeoPoint) p).getY() - this.yRW), 2);
-			if (nearest == null || distanceSquare < distNearestSquare)
+			if (e instanceof GeoPointND)
 			{
-				nearest = (GeoPoint) p;
-				distNearestSquare = distanceSquare;
+				double distanceSquare = Math.pow((((GeoPoint) e).getX() - this.xRW), 2) + Math.pow((((GeoPoint) e).getY() - this.yRW), 2);
+				if (nearest == null || distanceSquare < distNearestSquare)
+				{
+					nearest = (GeoPoint) e;
+					distNearestSquare = distanceSquare;
+				}
 			}
+			e = iterator.hasNext() ? iterator.next() : null;
 		}
 		return Math.sqrt(distNearestSquare) <= this.MAX_DISTANCE_TO_SELECT ? nearest : null;
+	}
+
+	public void setView(EuclidianView euclidianView)
+	{
+		this.view = euclidianView;
 	}
 }
