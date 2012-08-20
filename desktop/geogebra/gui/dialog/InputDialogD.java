@@ -21,6 +21,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.StringUtil;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanelD;
@@ -437,11 +438,11 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		if (!wrappedDialog.isModal()) {
 			app.setSelectionListenerMode(sl);
 		}
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
-		app.getGuiManagerD().setCurrentTextfield(null,
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(null,
 				!(arg0.getOppositeWindow() instanceof VirtualKeyboard));
 	}
 	

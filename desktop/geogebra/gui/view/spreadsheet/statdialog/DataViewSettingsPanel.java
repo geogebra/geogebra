@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
@@ -327,7 +328,7 @@ app.error("set source table rowCount: " + rowCount);
 		}
 
 		// source is spreadsheet range
-		MyTableD spreadsheetTable = (MyTableD) app.getGuiManagerD()
+		MyTableD spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
 				.getSpreadsheetView().getTable();
 		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
 
@@ -354,7 +355,7 @@ app.error("set source table rowCount: " + rowCount);
 
 		String[][] s = new String[2][];
 
-		MyTableD spreadsheetTable = (MyTableD) app.getGuiManagerD()
+		MyTableD spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
 				.getSpreadsheetView().getTable();
 		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();

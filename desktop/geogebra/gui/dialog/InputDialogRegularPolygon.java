@@ -3,6 +3,7 @@ package geogebra.gui.dialog;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -70,6 +71,6 @@ public class InputDialogRegularPolygon extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 }

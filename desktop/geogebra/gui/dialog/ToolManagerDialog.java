@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
@@ -123,7 +124,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			if (!macro.isUsed()) {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
-				app.getGuiManagerD().removeFromToolbarDefinition(
+				((GuiManagerD)app.getGuiManager()).removeFromToolbarDefinition(
 						kernel.getMacroID(macro)
 								+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 				kernel.removeMacro(macro);
@@ -440,7 +441,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		if (sel == null || sel.length == 0)
 			return;
 
-		File file = app.getGuiManagerD().showSaveDialog(
+		File file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(
 				AppD.FILE_EXT_GEOGEBRA_TOOL, null,
 				app.getPlain("ApplicationName") + " " + app.getMenu("Tools"),
 				true, false);

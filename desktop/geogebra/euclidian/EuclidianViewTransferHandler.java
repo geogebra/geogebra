@@ -4,6 +4,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.GuiManagerD;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
@@ -159,7 +161,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		
 		
 		// try to get an image
-		boolean imageDropped = ev.getApplication().getGuiManagerD()
+		boolean imageDropped = ((GuiManagerD)ev.getApplication().getGuiManager())
 				.loadImage(t, false);
 		if (imageDropped)
 			return true;
@@ -218,7 +220,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				
 
 		// check for ggb file drop
-		boolean ggbFileDropped = app.getGuiManagerD().handleGGBFileDrop(t);
+		boolean ggbFileDropped = ((GuiManagerD)app.getGuiManager()).handleGGBFileDrop(t);
 		if (ggbFileDropped)
 			return true;
 
@@ -340,10 +342,10 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	 */
 	private void requestViewFocus() {
 		if (ev.equals(app.getEuclidianView1()))
-			app.getGuiManagerD().getLayout().getDockManager()
+			((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_EUCLIDIAN);
 		else
-			app.getGuiManagerD().getLayout().getDockManager()
+			((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_EUCLIDIAN2);
 	}
 

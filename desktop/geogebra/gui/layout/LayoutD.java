@@ -9,6 +9,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
@@ -118,7 +119,7 @@ public class LayoutD extends Layout implements SettingListener {
 			ev.setLockedAxesRatio(perspective.isUnitAxesRatio()?1.0:null);
 		}
 		
-		app.getGuiManagerD().setToolBarDefinition(perspective.getToolbarDefinition());
+		app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
 		
 		app.setShowToolBarNoUpdate(perspective.getShowToolBar());
 		app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
@@ -206,7 +207,7 @@ public class LayoutD extends Layout implements SettingListener {
 		
 		perspective.setDockPanelData(dockPanelInfo);
 
-		perspective.setToolbarDefinition(app.getGuiManagerD().getToolbarDefinition());
+		perspective.setToolbarDefinition(((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());

@@ -3,6 +3,7 @@ package geogebra.gui.inputfield;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.util.StringUtil;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
@@ -196,8 +197,8 @@ public class MyTextField extends JTextField implements ActionListener,
 			borderBtn.setIconVisible(0, true);
 		thisField.repaint();
 
-		if (app.getGuiManagerD() != null)
-			app.getGuiManagerD().setCurrentTextfield(
+		if (app.getGuiManager() != null)
+			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(
 					this, false);
 	}
 
@@ -207,8 +208,8 @@ public class MyTextField extends JTextField implements ActionListener,
 			borderBtn.setIconVisible(0, false);
 		thisField.repaint();
 
-		if (app.getGuiManagerD() != null)
-			app.getGuiManagerD().setCurrentTextfield(null,
+		if (app.getGuiManager() != null)
+			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
 					!(e.getOppositeComponent() instanceof VirtualKeyboard));
 	}
 

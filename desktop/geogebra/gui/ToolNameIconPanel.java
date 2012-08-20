@@ -148,7 +148,7 @@ public class ToolNameIconPanel extends JPanel {
 		btIconFile.setText(app.getMenu("Icon") + " ...");
 		ActionListener ac = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String fileName = app.getGuiManagerD().getImageFromFile(); // Michael Borcherds 2008-05-10
+				String fileName = ((GuiManagerD)app.getGuiManager()).getImageFromFile(); // Michael Borcherds 2008-05-10
 				if (fileName != null) {
 					setIconFileName(fileName);}
 			}				
@@ -170,7 +170,7 @@ public class ToolNameIconPanel extends JPanel {
 				
 				// perhaps the method below is not the fastest
 				if (editHappens) {
-					app.getGuiManagerD().setToolBarDefinition(Toolbar.getAllTools(app));
+					((GuiManagerD)app.getGuiManager()).setToolBarDefinition(Toolbar.getAllTools(app));
 					app.updateToolBar();
 					app.updateMenubar();
 					// app.updateContentPane();// this may not be needed

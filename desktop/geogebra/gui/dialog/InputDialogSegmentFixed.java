@@ -6,6 +6,7 @@ import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -70,6 +71,6 @@ public class InputDialogSegmentFixed extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 }

@@ -7,6 +7,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.LowerCaseDictionary;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.SelectionTable;
 import geogebra.main.AppD;
@@ -541,7 +542,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				item.setIcon(app.getImageIcon("help.png"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						app.getGuiManagerD().openCommandHelp(rollOverCommand);
+						((GuiManagerD)app.getGuiManager()).openCommandHelp(rollOverCommand);
 					}
 				});
 
@@ -783,11 +784,11 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		else if (e.getSource() == btnOnlineHelp) {
 			if (selectedCommand != null) {
-				app.getGuiManagerD().openCommandHelp(selectedCommand);
+				((GuiManagerD)app.getGuiManager()).openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null)
-				app.getGuiManagerD().openHelp(App.WIKI_OPERATORS);
+				((GuiManagerD)app.getGuiManager()).openHelp(App.WIKI_OPERATORS);
 			else
-				app.getGuiManagerD().openHelp("InputBar");
+				((GuiManagerD)app.getGuiManager()).openHelp("InputBar");
 		}
 
 		else if (e.getSource() == btnPaste) {
@@ -798,12 +799,12 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private void doPaste() {
 
 		if (selectedFunction != null) {
-			((AlgebraInput) app.getGuiManagerD().getAlgebraInput())
+			((AlgebraInput) ((GuiManagerD)app.getGuiManager()).getAlgebraInput())
 					.insertString(selectedFunction);
 		}
 
 		if (selectedCommand != null) {
-			((AlgebraInput) app.getGuiManagerD().getAlgebraInput())
+			((AlgebraInput) ((GuiManagerD)app.getGuiManager()).getAlgebraInput())
 					.insertCommand(selectedCommand);
 		}
 	}
@@ -813,13 +814,13 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	 * //((AlgebraInput)app.getGuiManager
 	 * ().getAlgebraInput()).getInputPanel().insertString(cmd);
 	 * //((AlgebraInput)
-	 * app.getGuiManager().getAlgebraInput()).insertString(cmd);
-	 * //app.getGuiManager().insertStringIntoTextfield(cmd, false,false,false);
+	 * ((GuiManagerD)app.getGuiManager()).getAlgebraInput()).insertString(cmd);
+	 * //((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(cmd, false,false,false);
 	 * 
 	 * 
-	 * if(app.getGuiManager().getCurrentKeyboardListener() != null){
+	 * if(((GuiManagerD)app.getGuiManager()).getCurrentKeyboardListener() != null){
 	 * VirtualKeyboardListener tf =
-	 * app.getGuiManager().getCurrentKeyboardListener(); tf.insertString(cmd); }
+	 * ((GuiManagerD)app.getGuiManager()).getCurrentKeyboardListener(); tf.insertString(cmd); }
 	 * 
 	 * 
 	 * }

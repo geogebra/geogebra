@@ -4,8 +4,10 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.export.ScalingPrintGridable;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
+import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 
@@ -328,11 +330,11 @@ public class GeoGebraMenuBar extends JMenuBar {
 						// constructor.newInstance(args);
 						/* old code
 						boolean printCAS=false;
-						if (app.getGuiManager().hasCasView()){	
-							DockManager dm=app.getGuiManager().getLayout().getDockManager();
+						if (((GuiManagerD)app.getGuiManager()).hasCasView()){	
+							DockManager dm=((GuiManagerD)app.getGuiManager()).getLayout().getDockManager();
 							//if CAS-view has Focus, print CAS
 							if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_CAS)){
-								new geogebra.export.PrintPreview(app, app.getGuiManager().getCasView(), PageFormat.LANDSCAPE);
+								new geogebra.export.PrintPreview(app, ((GuiManagerD)app.getGuiManager()).getCasView(), PageFormat.LANDSCAPE);
 								printCAS=true;
 							}
 						}			
@@ -344,23 +346,23 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 						 */					
 
-						DockManager dm=app.getGuiManagerD().getLayout().getDockManager();
+						DockManager dm=((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager();
 						geogebra.export.PrintPreview pre;
 						if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_CAS))
 							// TODO I think "new ScalingPrintGridable" here is not so nice. Maybe the constructor of PrintPreview should be changed
-							pre = new geogebra.export.PrintPreview(app, new ScalingPrintGridable(app.getGuiManagerD().getCasView()), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, new ScalingPrintGridable((Gridable) ((GuiManagerD)app.getGuiManager()).getCasView()), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_CONSTRUCTION_PROTOCOL))
-							pre = new geogebra.export.PrintPreview(app, app.getGuiManagerD().getConstructionProtocolView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, ((GuiManagerD)app.getGuiManager()).getConstructionProtocolView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_SPREADSHEET))
-							pre = new geogebra.export.PrintPreview(app, app.getGuiManagerD().getSpreadsheetView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, ((GuiManagerD)app.getGuiManager()).getSpreadsheetView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_EUCLIDIAN2))
 							pre = new geogebra.export.PrintPreview(app, app.getEuclidianView2(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_ALGEBRA))
-							pre = new geogebra.export.PrintPreview(app, app.getGuiManagerD().getAlgebraView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, ((GuiManagerD)app.getGuiManager()).getAlgebraView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_EUCLIDIAN))
 							pre = new geogebra.export.PrintPreview(app, app.getEuclidianView1(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_DATA_ANALYSIS))
-							pre = new geogebra.export.PrintPreview(app, app.getGuiManagerD().getDataAnalysisView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, ((GuiManagerD)app.getGuiManager()).getDataAnalysisView(), PageFormat.LANDSCAPE);
 						//if there is no view in focus (e.g. just closed the focused view),
 						// it prints the GeoGebra main window
 						else //if (dm.getFocusedPanel()==null)

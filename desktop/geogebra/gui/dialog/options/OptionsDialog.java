@@ -3,6 +3,7 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.IconTabbedPane;
+import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 
@@ -293,7 +294,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	protected void createTabs() {
 		defaultsPanel = new OptionsDefaultsD(app);
 		euclidianPanel = new OptionsEuclidianD(app, app.getActiveEuclidianView());
-		spreadsheetPanel = new OptionsSpreadsheetD(app, app.getGuiManagerD()
+		spreadsheetPanel = new OptionsSpreadsheetD(app, (SpreadsheetView) app.getGuiManager()
 				.getSpreadsheetView());
 		casPanel = new OptionsCASD(app);
 		advancedPanel = new OptionsAdvancedD(app);

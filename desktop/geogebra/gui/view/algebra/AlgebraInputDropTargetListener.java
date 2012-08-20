@@ -1,6 +1,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
@@ -117,7 +118,7 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 
 			// handle ggb file drop
 			else if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				app.getGuiManagerD().handleGGBFileDrop(t);
+				((GuiManagerD)app.getGuiManager()).handleGGBFileDrop(t);
 			}
 
 		} catch (UnsupportedFlavorException ignored) {

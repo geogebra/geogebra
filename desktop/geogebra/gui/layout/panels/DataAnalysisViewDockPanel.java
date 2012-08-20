@@ -2,6 +2,7 @@ package geogebra.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -32,12 +33,12 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 	
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManagerD().getDataAnalysisView();
+		return (JComponent) app.getGuiManager().getDataAnalysisView();
 	}
 	
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManagerD().getDataAnalysisView().getStyleBar();
+		return ((GuiManagerD) app.getGuiManager()).getDataAnalysisView().getStyleBar();
 	}
 
 	private static String getDefaultToolbar() {

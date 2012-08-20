@@ -166,7 +166,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 			return;
 
 		// get PropertiesView
-		PropertiesView pv = (PropertiesView) app.getGuiManager()
+		PropertiesView pv = (PropertiesView) ((GuiManagerD)app.getGuiManager())
 				.getPropertiesView();
 
 		// select geos
@@ -178,7 +178,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
 					&& geos.get(0) instanceof GeoNumeric)
 				// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
-				app.getGuiManager().showPropertiesViewSliderTab();
+				((GuiManagerD)app.getGuiManager()).showPropertiesViewSliderTab();
 		}
 
 		// set properties option type
@@ -187,7 +187,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 		}
 
 		// show the view
-		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		((GuiManagerD)app.getGuiManager()).setShowView(true, App.VIEW_PROPERTIES);
 	}
 
 	/**
@@ -632,7 +632,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 	@Override
 	public void openToolHelp() {
 		// TODO: move openToolHelp() into DialogManager
-		((AppD) app).getGuiManagerD().openToolHelp();
+		((GuiManagerD)app.getGuiManager()).openToolHelp();
 
 	}
 

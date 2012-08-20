@@ -11,7 +11,9 @@ the Free Software Foundation.
 */
 
 package geogebra.gui.toolbar;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -54,7 +56,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		JComboBox switcher = new JComboBox();
 		switcher.addItem(new KeyValue(-1, app.getPlain("General")));
 		
-		DockPanel[] panels = app.getGuiManagerD().getLayout().getDockManager().getPanels();
+		DockPanel[] panels = ((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager().getPanels();
 		
 		for(DockPanel panel : panels) {
 			if(panel.hasToolbar()) {
@@ -175,9 +177,9 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		int id = ((KeyValue)((JComboBox)e.getSource()).getSelectedItem()).getKey();
 		
 		if(id == -1) {
-			confPanel.setToolbar(null, app.getGuiManagerD().getToolbarDefinition());
+			confPanel.setToolbar(null, ((GuiManagerD)app.getGuiManager()).getToolbarDefinition());
 		} else {
-			DockPanel panel = app.getGuiManagerD().getLayout().getDockManager().getPanel(id);
+			DockPanel panel = ((GuiManagerD)app.getGuiManager()).getLayout().getDockManager().getPanel(id);
 			confPanel.setToolbar(panel, panel.getToolbarString());
 		}
 	}

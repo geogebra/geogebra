@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.gui.inputfield.MathTextField;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -76,7 +77,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	public CASSubDialog(CASViewD casView, String prefix, String evalText,
 			String postfix, int editRow) {
 		//do not dock the substitution dialog to the main frame: ticket 1832
-		super((JFrame) casView.getApp().getGuiManagerD().getLayout().getDockManager().getPanel(App.VIEW_CAS).getFrame());
+		super((JFrame) ((LayoutD) casView.getApp().getGuiManager().getLayout()).getDockManager().getPanel(App.VIEW_CAS).getFrame());
 		
 		setModal(false);
 

@@ -33,6 +33,7 @@ import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -438,7 +439,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (!geo.hasValueStringChangeableRegardingView())
 			return;
 
-		DockPanel panel = ((AppD)app).getGuiManagerD().getLayout().getDockManager().getFocusedEuclidianPanel();
+		DockPanel panel = ((LayoutD) app.getGuiManager().getLayout()).getDockManager().getFocusedEuclidianPanel();
 		if (panel==null)
 			return;
 		
@@ -819,8 +820,8 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 	public void showValueStringRegardingACmd() {
 		geo.setViewForValueString(app.getActiveEuclidianView());
 		geo.update();
-		((AppD)app).getGuiManager().getAlgebraView().remove(geo);
-		((AppD)app).getGuiManager().getAlgebraView().add(geo);
+		app.getGuiManager().getAlgebraView().remove(geo);
+		app.getGuiManager().getAlgebraView().add(geo);
 	}
 
 	public void recordToSpreadSheetCmd() {
@@ -832,7 +833,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 			
-		((AppD)app).getGuiManagerD().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
+		((GuiManagerD) app.getGuiManager()).getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
 	}       	
 	
 

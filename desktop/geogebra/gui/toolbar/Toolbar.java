@@ -20,6 +20,7 @@ import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
@@ -172,7 +173,7 @@ public class Toolbar extends JToolBar {
 			if (dockPanel != null) {
 				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 			} else {
-				toolbarVec = ToolBar.parseToolbarString(app.getGuiManagerD()
+				toolbarVec = ToolBar.parseToolbarString(((GuiManagerD)app.getGuiManager())
 						.getToolbarDefinition());
 			}
 		} catch (Exception e) {
@@ -181,7 +182,7 @@ public class Toolbar extends JToolBar {
 						+ dockPanel.getToolbarString());
 			} else {
 				App.debug("invalid toolbar string: "
-						+ app.getGuiManagerD().getToolbarDefinition());
+						+ ((GuiManagerD)app.getGuiManager()).getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
@@ -241,7 +242,7 @@ public class Toolbar extends JToolBar {
 		if (dockPanel != null) {
 			toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 		} else {
-			toolbarVec = ToolBar.parseToolbarString(app.getGuiManagerD()
+			toolbarVec = ToolBar.parseToolbarString(((GuiManagerD)app.getGuiManager())
 					.getToolbarDefinition());
 		}
 		for(int i=0;i<toolbarVec.size();i++){

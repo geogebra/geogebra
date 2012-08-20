@@ -26,6 +26,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.DynamicTextInputPane.DynamicTextField;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
@@ -566,7 +567,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 
 	public JToolBar createRecentSymbolTable() {
 
-		recentSymbolList = app.getGuiManagerD().getRecentSymbolList();
+		recentSymbolList = ((GuiManagerD) app.getGuiManager()).getRecentSymbolList();
 
 		recentSymbolTable = new SelectionTable(app, recentSymbolList.toArray(),
 				1, recentSymbolList.size(), new Dimension(24, 24),

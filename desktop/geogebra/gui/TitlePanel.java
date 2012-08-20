@@ -60,7 +60,7 @@ public class TitlePanel extends JPanel {
 		setLayout(new BorderLayout(5, 5));
 		titleField = new MyTextField(app);
 		authorField = new MyTextField(app);
-		dateField = new MyFormattedTextField(app.getGuiManagerD(),DateFormat
+		dateField = new MyFormattedTextField((GuiManagerD) app.getGuiManager(),DateFormat
 				.getDateInstance(DateFormat.LONG));
 		dateField.setColumns(12);
 		dateField.setFocusLostBehavior(JFormattedTextField.PERSIST);

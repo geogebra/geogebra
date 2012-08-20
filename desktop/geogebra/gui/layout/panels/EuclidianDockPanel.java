@@ -3,6 +3,7 @@ package geogebra.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 
@@ -65,7 +66,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 			
 			panel.add(app.getEuclidianView1().getJPanel(), BorderLayout.CENTER);
 			
-			consProtNav = app.getGuiManagerD().getConstructionProtocolNavigation();
+			consProtNav = ((GuiManagerD)app.getGuiManager()).getConstructionProtocolNavigation();
 
 			ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 			((ConstructionProtocolNavigation) consProtNav).settingsChanged(cps);

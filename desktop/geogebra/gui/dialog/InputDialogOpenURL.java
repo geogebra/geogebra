@@ -65,7 +65,7 @@ public class InputDialogOpenURL extends InputDialogD {
 	}
 
 	private boolean processInput() {
-		return app.getGuiManagerD().loadURL(inputPanel.getText());
+		return app.getGuiManager().loadURL(inputPanel.getText());
 	}
 
 }

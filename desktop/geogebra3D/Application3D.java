@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.GlobalKeyDispatcherD;
@@ -196,7 +197,7 @@ public class Application3D extends AppD {
 		// create dock panel
 		EuclidianDockPanelForPlane panel = new EuclidianDockPanelForPlane(this,
 				euclidianViewForPlane);
-		getGuiManagerD().getLayout().registerPanel(panel);
+		((LayoutD) getGuiManager().getLayout()).registerPanel(panel);
 
 		// panel.setToolbarString(dpInfo[i].getToolbarString());
 		panel.setFrameBounds(new Rectangle(600, 400));
@@ -207,7 +208,7 @@ public class Application3D extends AppD {
 		panel.setVisible(true);
 		panel.toggleStyleBar();
 
-		getGuiManagerD().getLayout().getDockManager().show(panel);
+		((LayoutD) getGuiManager().getLayout()).getDockManager().show(panel);
 
 		return euclidianViewForPlane;
 	}

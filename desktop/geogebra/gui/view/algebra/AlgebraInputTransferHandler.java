@@ -2,6 +2,7 @@ package geogebra.gui.view.algebra;
 
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
@@ -124,7 +125,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 		}
 
 		// handle potential ggb file drop
-		app.getGuiManagerD().handleGGBFileDrop(t);
+		((GuiManagerD)app.getGuiManager()).handleGGBFileDrop(t);
 
 		return false;
 	}

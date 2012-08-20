@@ -126,7 +126,7 @@ public class CASViewD  extends CASView implements Gridable {
 			@Override
 			public void run() {
 				getCAS().initCurrentCAS();
-				GuiManagerD gm = app.getGuiManagerD();
+				GuiManagerD gm = (GuiManagerD) app.getGuiManager();
 				if (gm != null && gm.hasInputHelpPanel()) {
 					gm.reInitHelpPanel();
 				}

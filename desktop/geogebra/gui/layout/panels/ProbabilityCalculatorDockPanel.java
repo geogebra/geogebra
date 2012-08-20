@@ -1,6 +1,7 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -30,12 +31,12 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManagerD().getProbabilityCalculator();
+		return (JComponent) app.getGuiManager().getProbabilityCalculator();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManagerD().getProbabilityCalculator().getStyleBar();
+		return ((GuiManagerD) app.getGuiManager()).getProbabilityCalculator().getStyleBar();
 	}
 
 }

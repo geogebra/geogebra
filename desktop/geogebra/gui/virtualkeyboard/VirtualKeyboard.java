@@ -19,6 +19,7 @@ import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 import geogebra.main.MyResourceBundle;
 
@@ -177,7 +178,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				// System.out.println("Window Closing");
 				// if closed with the X, stop it auto-opening
 				AppD.setVirtualKeyboardActive(false);
-				app.getGuiManagerD().updateMenubar();
+				((GuiManagerD)app.getGuiManager()).updateMenubar();
 			}
 
 			public void windowDeactivated(WindowEvent arg0) {
@@ -799,7 +800,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 					updateAltButton();
 
 					// type Unicode char
-					app.getGuiManagerD().insertStringIntoTextfield(c + "",
+					((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(c + "",
 							false, false, false);
 
 					asb.setLength(0);
@@ -822,7 +823,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}
 
 		if (app != null)
-			app.getGuiManagerD().insertStringIntoTextfield(addchar,
+			((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(addchar,
 					getAltButton().isSelected(), getCtrlButton().isSelected(),
 					getCapsLockButton().isSelected());
 		else
@@ -1342,7 +1343,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	}
 
 	private void insertAutoRepeatString() {
-		app.getGuiManagerD().insertStringIntoTextfield(timerInsertStr,
+		((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(timerInsertStr,
 				getAltButton().isSelected(), getCtrlButton().isSelected(),
 				getCapsLockButton().isSelected());
 	}

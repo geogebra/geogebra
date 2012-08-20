@@ -6,6 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -92,6 +93,6 @@ public abstract class InputDialogRadius extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 }

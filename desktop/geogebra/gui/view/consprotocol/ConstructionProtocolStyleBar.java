@@ -169,7 +169,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						app.getGuiManagerD().openHelp("Construction_Protocol");
+						app.getGuiManager().openHelp("Construction_Protocol");
 					}
 				};
 				runner.start();

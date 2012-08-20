@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
@@ -184,9 +185,9 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.setPopupsFont(app.getPlainFont());
 		
 		//update the help panel
-		if (app.getGuiManagerD().hasInputHelpPanel())
+		if (((GuiManagerD) app.getGuiManager()).hasInputHelpPanel())
 		{
-			InputBarHelpPanel helpPanel = (InputBarHelpPanel) app.getGuiManagerD().getInputHelpPanel();
+			InputBarHelpPanel helpPanel = (InputBarHelpPanel) ((GuiManagerD) app.getGuiManager()).getInputHelpPanel();
 			helpPanel.updateFonts();
 		}
 	}    
@@ -258,8 +259,8 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			// =========================================
 			
 			if (btnHelpToggle.isSelected()) {
-				InputBarHelpPanel helpPanel = (InputBarHelpPanel) app
-						.getGuiManagerD().getInputHelpPanel();
+				InputBarHelpPanel helpPanel = (InputBarHelpPanel) ((GuiManagerD) app
+						.getGuiManager()).getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();
 				app.setShowInputHelpPanel(true);

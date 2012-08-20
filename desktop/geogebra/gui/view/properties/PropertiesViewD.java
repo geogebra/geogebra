@@ -29,6 +29,7 @@ import geogebra.gui.dialog.options.OptionsSpreadsheetD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
+import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -260,7 +261,7 @@ public class PropertiesViewD extends
 		if (stayInCurrentPanel())
 			return;
 
-		int focusedViewId = ((AppD) app).getGuiManagerD().getLayout()
+		int focusedViewId = ((LayoutD) app.getGuiManager().getLayout())
 				.getDockManager().getFocusedViewId();
 
 		if (viewMap.get(focusedViewId) != null) {
@@ -526,7 +527,7 @@ public class PropertiesViewD extends
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
-						((AppD) app).getGuiManagerD().getSpreadsheetView());
+						(SpreadsheetView) app.getGuiManager().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
@@ -610,7 +611,7 @@ public class PropertiesViewD extends
 
 	@Override
 	protected void updateTitleBar() {
-		((AppD) app).getGuiManagerD().getLayout().getDockManager()
+		((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 				.getPanel(App.VIEW_PROPERTIES).updateTitleBar();
 	}
 

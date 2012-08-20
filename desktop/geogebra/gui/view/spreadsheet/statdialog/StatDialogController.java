@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
@@ -85,7 +86,7 @@ public class StatDialogController {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
-		this.spreadsheetTable = (MyTableD) app.getGuiManagerD()
+		this.spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
 				.getSpreadsheetView().getTable();
 		this.sd = statDialog;
 		this.statGeo = sd.getStatGeo();

@@ -2,6 +2,7 @@ package geogebra.gui.layout;
 
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
@@ -911,7 +912,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 				toolbarContainer.setActiveToolbar(getViewId());
 				toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
 
-				ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
+				ToolbarContainer mainContainer = ((GuiManagerD)app.getGuiManager()).getToolbarPanel();
 				mainContainer.removeToolbar(toolbar);
 				mainContainer.updateToolbarPanel();
 			}
@@ -937,7 +938,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		// as this view already *had* focus and will retain focus DockManager::show()
 		// won't be able to update the active toolbar
 		if(hasToolbar()) {
-			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(toolbar);
+			((GuiManagerD)app.getGuiManager()).getToolbarPanel().setActiveToolbar(toolbar);
 		}
 
 	}
@@ -1211,7 +1212,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
 		
 		if (hasFocus && updatePropertiesView){
-			app.getGuiManagerD().updatePropertiesView();
+			((GuiManagerD)app.getGuiManager()).updatePropertiesView();
 		}
 		
 		setFocus(hasFocus);
@@ -1277,14 +1278,14 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 */
 	protected void setActiveToolBar(){
 		if(hasToolbar()) {
-			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(toolbar);
+			((GuiManagerD)app.getGuiManager()).getToolbarPanel().setActiveToolbar(toolbar);
 		} else {
-			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(-1);
+			((GuiManagerD)app.getGuiManager()).getToolbarPanel().setActiveToolbar(-1);
 		}
 		//switching the view may cause shrinking of help panel, 
 		//we need an update here
-		app.getGuiManagerD().getToolbarPanel().validate();
-		app.getGuiManagerD().getToolbarPanel().updateHelpText();
+		((GuiManagerD)app.getGuiManager()).getToolbarPanel().validate();
+		((GuiManagerD)app.getGuiManager()).getToolbarPanel().updateHelpText();
 	}
 	
 	

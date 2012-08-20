@@ -8,6 +8,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -115,7 +116,7 @@ public class InputDialogDilate extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void keyTyped(KeyEvent e) {

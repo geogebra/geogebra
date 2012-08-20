@@ -27,7 +27,7 @@ public class ViewButtonBar extends JToolBar {
 	public ViewButtonBar(AppD app) {
 
 		this.app = app;
-		this.layout = app.getGuiManagerD().getLayout();
+		this.layout = (LayoutD) app.getGuiManager().getLayout();
 		this.setOpaque(false);
 		this.setBorder(BorderFactory.createEmptyBorder());
 		buildToolBar();
@@ -82,7 +82,7 @@ public class ViewButtonBar extends JToolBar {
 		for (ViewButton btn : viewButtons) {
 			DockPanel panel = btn.getPanel();
 
-				btn.setSelected(app.getGuiManagerD().showView(btn.getViewId()));
+				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 
 				if (panel.getViewId() != App.VIEW_PROPERTIES 
 						&& panel.getViewId() != App.VIEW_ASSIGNMENT ) 
@@ -95,7 +95,7 @@ public class ViewButtonBar extends JToolBar {
 		// add properties view button
 		//add(viewButtons.get(0));
 		
-		viewButtons.get(0).setSelected(app.getGuiManagerD().showView(viewButtons.get(0).getViewId()));
+		viewButtons.get(0).setSelected(app.getGuiManager().showView(viewButtons.get(0).getViewId()));
 	}
 
 }

@@ -1,10 +1,13 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -36,12 +39,12 @@ public class AlgebraDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManagerD().getAlgebraView().getHelperBar();
+		return ((AlgebraViewD) app.getGuiManager().getAlgebraView()).getHelperBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {	
-		JScrollPane scrollPane = new JScrollPane(app.getGuiManagerD().getAlgebraView());
+		JScrollPane scrollPane = new JScrollPane((Component) app.getGuiManager().getAlgebraView());
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setBackground(Color.white);
 		
@@ -53,9 +56,9 @@ public class AlgebraDockPanel extends DockPanel {
 	protected void setActiveToolBar(){
 		//use the focused euclidian view for active toolbar
 		if(dockManager.getFocusedEuclidianPanel()==null || !dockManager.getFocusedEuclidianPanel().hasToolbar()) {
-			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(-1);
+			((GuiManagerD) app.getGuiManager()).getToolbarPanel().setActiveToolbar(-1);
 		} else {
-			app.getGuiManagerD().getToolbarPanel().setActiveToolbar(dockManager.getFocusedEuclidianPanel().getToolbar());
+			((GuiManagerD) app.getGuiManager()).getToolbarPanel().setActiveToolbar(dockManager.getFocusedEuclidianPanel().getToolbar());
 		}
 	}
 	

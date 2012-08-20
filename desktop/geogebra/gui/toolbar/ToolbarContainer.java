@@ -4,6 +4,7 @@ import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.MySmallJButton;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.GeoGebraIcon;
@@ -291,7 +292,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private JPanel getGridButtonPanel() {
 
 		// undo button
-		MySmallJButton btnUndo = new MySmallJButton(app.getGuiManagerD()
+		MySmallJButton btnUndo = new MySmallJButton(((GuiManagerD)app.getGuiManager())
 				.getUndoAction(), 7);
 		String text = app.getMenuTooltip("Undo");
 		btnUndo.setText(null);
@@ -299,7 +300,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// redo button
-		MySmallJButton btnRedo = new MySmallJButton(app.getGuiManagerD()
+		MySmallJButton btnRedo = new MySmallJButton(((GuiManagerD)app.getGuiManager())
 				.getRedoAction(), 7);
 		text = app.getMenuTooltip("Redo");
 		btnRedo.setText(null);
@@ -343,7 +344,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManagerD().openToolHelp();
+				((GuiManagerD)app.getGuiManager()).openToolHelp();
 
 			}
 		});
@@ -592,7 +593,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() >= 1) {
-						app.getGuiManagerD().openToolHelp(modeName);
+						((GuiManagerD)app.getGuiManager()).openToolHelp(modeName);
 					}
 				}
 
@@ -816,7 +817,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					continue;
 				}
 				String menuText = PropertiesView.getTypeStringSimple(app,type);
-				ImageIcon ic = ((PropertiesViewD) app.getGuiManagerD()
+				ImageIcon ic = ((PropertiesViewD) ((GuiManagerD)app.getGuiManager())
 						.getPropertiesView()).getTypeIcon(type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 				
@@ -831,7 +832,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					}
 				});
 				add(item);
-				item.setVisible(((PropertiesView) app.getGuiManagerD()
+				item.setVisible(((PropertiesView) ((GuiManagerD)app.getGuiManager())
 						.getPropertiesView()).isOptionPanelAvailable(type));
 			}
 
@@ -839,9 +840,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		protected void openPropertiesView(OptionType type) {
 			int viewId = App.VIEW_PROPERTIES;
-			((PropertiesView) app.getGuiManagerD().getPropertiesView())
+			((PropertiesView) ((GuiManagerD)app.getGuiManager()).getPropertiesView())
 					.setOptionPanel(type);
-			app.getGuiManagerD().setShowView(true, viewId, false);
+			((GuiManagerD)app.getGuiManager()).setShowView(true, viewId, false);
 		}
 
 	}

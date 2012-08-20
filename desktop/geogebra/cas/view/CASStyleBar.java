@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
@@ -132,21 +133,21 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		} else if (source == btnUseAsText) {
 			applyUseAsText(targetGeos);
 		}else if (source == btnShowKeyboard) {
-			if(app.getGuiManagerD()!=null){
+			if(((GuiManagerD)app.getGuiManager())!=null){
 				if (AppD.isVirtualKeyboardActive()
-						&& !app.getGuiManagerD().showVirtualKeyboard()) {
+						&& !((GuiManagerD)app.getGuiManager()).showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					app.getGuiManagerD().toggleKeyboard(true);
-					app.getGuiManagerD().getVirtualKeyboard().toggleNumeric(true);
+					((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
+					((GuiManagerD)app.getGuiManager()).getVirtualKeyboard().toggleNumeric(true);
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					app.getGuiManagerD().toggleKeyboard(
+					((GuiManagerD)app.getGuiManager()).toggleKeyboard(
 							AppD.isVirtualKeyboardActive());
-					app.getGuiManagerD().getVirtualKeyboard().toggleNumeric(
+					((GuiManagerD)app.getGuiManager()).getVirtualKeyboard().toggleNumeric(
 							AppD.isVirtualKeyboardActive());
 				}
 			}

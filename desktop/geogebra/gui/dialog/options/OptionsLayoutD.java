@@ -2,6 +2,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.settings.Settings;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
@@ -287,9 +288,9 @@ public class OptionsLayoutD extends
 		rbInputBarSouth.setEnabled(ckShowInputBar.isSelected());
 
 		ckShowNavbar.setSelected(app.showConsProtNavigation());
-		ckNavPlay.setSelected(app.getGuiManagerD()
+		ckNavPlay.setSelected(((GuiManagerD)app.getGuiManager())
 				.isConsProtNavigationPlayButtonVisible());
-		ckOpenConsProtocol.setSelected(app.getGuiManagerD()
+		ckOpenConsProtocol.setSelected(((GuiManagerD)app.getGuiManager())
 				.isConsProtNavigationProtButtonVisible());
 
 		ckNavPlay.setEnabled(app.showConsProtNavigation());
@@ -323,8 +324,7 @@ public class OptionsLayoutD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app
-					.getGuiManagerD().getConstructionProtocolNavigation();
+			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD)app.getGuiManager()).getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn);
@@ -337,8 +337,7 @@ public class OptionsLayoutD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app
-					.getGuiManagerD().getConstructionProtocolNavigation();
+			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD)app.getGuiManager()).getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn);
@@ -374,7 +373,7 @@ public class OptionsLayoutD extends
 					ckShowToolHelp.isSelected());
 			app.updateApplicationLayout();
 			app.updateToolBarLayout();
-			app.getGuiManagerD().updateToolbar();
+			((GuiManagerD)app.getGuiManager()).updateToolbar();
 		} else if (source == rbToolbarNorth) {
 			app.setToolbarPosition(SwingConstants.NORTH, true);
 		} else if (source == rbToolbarSouth) {
@@ -399,7 +398,7 @@ public class OptionsLayoutD extends
 		// menubar settings
 		else if (source == ckShowMenuBar) {
 			app.setShowMenuBar(ckShowMenuBar.isSelected());
-			app.getGuiManagerD().updateMenuBarLayout();
+			((GuiManagerD)app.getGuiManager()).updateMenuBarLayout();
 		}
 
 		wrappedPanel.requestFocus();

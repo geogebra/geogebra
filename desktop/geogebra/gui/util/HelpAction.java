@@ -36,7 +36,7 @@ public class HelpAction extends AbstractAction {
 		Thread runner = new Thread() {
 			@Override
 			public void run() {
-				app.getGuiManagerD().openHelp(articleName);
+				app.getGuiManager().openHelp(articleName);
 			}
 		};
 		runner.start();

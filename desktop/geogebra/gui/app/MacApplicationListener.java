@@ -1,6 +1,7 @@
 package geogebra.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 	public synchronized void handleAbout(com.apple.eawt.ApplicationEvent event) {
 		 event.setHandled(true);
          AppD app = getGGBInstance().getApplication();	
-         app.getGuiManagerD().showAboutDialog();
+         ((GuiManagerD)app.getGuiManager()).showAboutDialog();
      }
 
 	public synchronized void handleOpenFile(com.apple.eawt.ApplicationEvent ev) {	
@@ -60,7 +61,7 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 				File [] files = { openFile };
 				// #1541
 				boolean openInThisWindow = app.isSaved();
-				app.getGuiManagerD().doOpenFiles(files, openInThisWindow);
+				((GuiManagerD)app.getGuiManager()).doOpenFiles(files, openInThisWindow);
 				
 				// make sure window is visible
 				if (openInThisWindow)
@@ -73,7 +74,7 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 		App.debug("handlePrintFile event, filename: " + event.getFilename());
 		
 		handleOpenFile(event);
-		getGGBInstance().getApplication().getGuiManagerD().showPrintPreview();
+		((GuiManagerD) getGGBInstance().getApplication().getGuiManager()).showPrintPreview();
 	}
 
 	public synchronized void handleOpenApplication(com.apple.eawt.ApplicationEvent ev) {

@@ -14,6 +14,7 @@ package geogebra.export;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.main.AppD;
@@ -90,7 +91,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, BorderLayout.WEST);
-		if (app.getGuiManagerD().showView(App.VIEW_ALGEBRA)) {
+		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
 			picPanel.add(cbScreenshotPicture, BorderLayout.SOUTH);
 		}
 
@@ -252,7 +253,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	File file, pngFile = null;
 		File dir = null;
 		prot.setUseColors(useColors);
-		dir = app.getGuiManagerD().showSaveDialog("", null,
+		dir = ((GuiManagerD)app.getGuiManager()).showSaveDialog("", null,
 				app.getPlain("Directories"), false, true);
 		if (dir == null)
 			return;
@@ -290,7 +291,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			public void run() {    
 	                try {
 	                        // open html file in browser
-	                        app.getGuiManagerD().showURLinBrowser(HTMLfile.toURI().toURL());
+	                        ((GuiManagerD)app.getGuiManager()).showURLinBrowser(HTMLfile.toURI().toURL());
 	                } catch (Exception ex) {                        
 	                        app.showError("SaveFileFailed");
 	                        App.debug(ex.toString());

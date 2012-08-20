@@ -232,7 +232,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		case KeyEvent.VK_Z: //undo
 			if (ctrlDown) {
 				//Application.debug("undo");
-				app.getGuiManagerD().undo();
+				app.getGuiManager().undo();
 				e.consume();
 			}
 			else letterOrDigitTyped();
@@ -242,7 +242,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		case KeyEvent.VK_Y: //redo
 			if (ctrlDown) {
 				//Application.debug("redo");
-				app.getGuiManagerD().redo();
+				app.getGuiManager().redo();
 				e.consume();
 			}
 			else letterOrDigitTyped();

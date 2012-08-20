@@ -29,6 +29,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -590,16 +591,16 @@ public class EuclidianViewD extends EuclidianViewND implements
 	protected boolean drawPlayButtonInThisView() {
 
 		// just one view
-		if ( getApplication().getGuiManagerD() == null) {
+		if ( getApplication().getGuiManager() == null) {
 			return true;
 		}
 		// eg ev1 just closed
-		 GetViewId evp = getApplication().getGuiManagerD().getLayout().getDockManager().getFocusedEuclidianPanel();
+		 GetViewId evp = ((LayoutD) getApplication().getGuiManager().getLayout()).getDockManager().getFocusedEuclidianPanel();
 		if (evp == null) {
 			return true;
 		}
 
-		return !((getApplication().getGuiManagerD() != null) && (this.getViewID() != evp
+		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
 				.getViewId()));
 	}
 

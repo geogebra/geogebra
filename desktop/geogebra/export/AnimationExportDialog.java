@@ -3,6 +3,7 @@ package geogebra.export;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
 
@@ -182,7 +183,7 @@ public class AnimationExportDialog extends JDialog {
 		app.getKernel().getAnimatonManager().stopAnimation();
 		
 		File file =
-			app.getGuiManagerD().showSaveDialog(
+			((GuiManagerD)app.getGuiManager()).showSaveDialog(
 					"gif", // change to Application.FILE_EXT_GIF
 					null,
 					app.getPlain("gif") + " " + app.getMenu("Files"), true, false);

@@ -25,6 +25,7 @@ import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.StringUtil;
 import geogebra.export.WorksheetExportDialog;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
@@ -560,7 +561,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 					GeoElement geo = data.getGeoElement(row);
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
-					app.getGuiManagerD().showPopupMenu(temp, table, mouseCoords);
+					((GuiManagerD)app.getGuiManager()).showPopupMenu(temp, table, mouseCoords);
 				} else { // left click
 
 					if (e.getClickCount() == 1) {
@@ -1029,7 +1030,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			// shown
 			// in app
 			if (title.equals("Value")
-					&& !app.getGuiManagerD().showView(App.VIEW_ALGEBRA))
+					&& !((GuiManagerD)app.getGuiManager()).showView(App.VIEW_ALGEBRA))
 				return false;
 
 			return initShow;
@@ -1902,7 +1903,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		sb.append("</table>\n");
 
 		// footer
-		sb.append(app.getGuiManagerD().getCreatedWithHTML(false));
+		sb.append(((GuiManagerD)app.getGuiManager()).getCreatedWithHTML(false));
 		
 		// append base64 string so that file can be reloaded with File -> Open
 		sb.append("\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");

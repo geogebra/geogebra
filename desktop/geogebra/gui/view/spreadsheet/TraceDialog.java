@@ -119,7 +119,7 @@ implements
 		super(app.getFrame());
 		
 		this.app = app;
-		this.view = app.getGuiManagerD().getSpreadsheetView();	
+		this.view = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();	
 		geo = selectedGeo;
 		traceManager = app.getTraceManager();
 		traceGeoList = new JList();

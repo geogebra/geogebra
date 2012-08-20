@@ -412,7 +412,7 @@ KeyListener, SpecialNumberFormatInterface {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						app.getGuiManagerD().openHelp("Function_Inspector_Tool");
+						((GuiManagerD)app.getGuiManager()).openHelp("Function_Inspector_Tool");
 					}
 				};
 				runner.start();
@@ -1481,7 +1481,7 @@ KeyListener, SpecialNumberFormatInterface {
 			//if(app.getMode() == EuclidianConstants.MODE_FUNCTION_INSPECTOR)
 			//app.setSelectionListenerMode(sl);
 		}
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 
@@ -1562,7 +1562,7 @@ KeyListener, SpecialNumberFormatInterface {
 				doCopyToSpreadsheet();
 			}
 		});
-		mi.setEnabled(app.getGuiManagerD().hasSpreadsheetView());
+		mi.setEnabled(((GuiManagerD)app.getGuiManager()).hasSpreadsheetView());
 		btnOptions.addPopupMenuItem(mi);
 
 
@@ -1576,7 +1576,7 @@ KeyListener, SpecialNumberFormatInterface {
 
 	private void doCopyToSpreadsheet(){
 
-		SpreadsheetView sp = app.getGuiManagerD().getSpreadsheetView();
+		SpreadsheetView sp = ((GuiManagerD)app.getGuiManager()).getSpreadsheetView();
 		if(sp == null) return;
 
 		Construction cons = app.getKernel().getConstruction();

@@ -10,6 +10,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.Rectangle;
@@ -176,7 +177,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 	public void mousePressed(MouseEvent e) {
 
 		if (!view.hasViewFocus())
-			app.getGuiManagerD().getLayout().getDockManager()
+			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		boolean rightClick = AppD.isRightClick(e);

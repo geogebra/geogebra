@@ -6,6 +6,7 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.Cursor;
@@ -108,7 +109,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		plotSettings = new PlotSettings();
 
 		// get viewID from GuiManager
-		viewID = ((AppD) kernel.getApplication()).getGuiManagerD()
+		viewID = ((GuiManagerD) kernel.getApplication().getGuiManager())
 				.assignPlotPanelID(this);
 
 		// create cursors for DnD

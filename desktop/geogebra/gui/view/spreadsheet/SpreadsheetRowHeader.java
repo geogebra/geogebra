@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.main.App;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -222,7 +223,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 		int y = e.getY();
 
 		if (!view.hasViewFocus())
-			app.getGuiManagerD().getLayout().getDockManager()
+			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// Update resizingRow. If nonnegative, then mouse is over a boundary

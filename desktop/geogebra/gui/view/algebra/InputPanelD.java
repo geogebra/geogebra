@@ -6,6 +6,7 @@ import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
@@ -185,11 +186,11 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	}		
 	
 	public void focusGained(FocusEvent e) {
-		app.getGuiManagerD().setCurrentTextfield(this, true);
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void focusLost(FocusEvent e) {
-		app.getGuiManagerD().setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
 	}
 	
 	//TODO  Hide/show popup button options

@@ -20,7 +20,7 @@ public class AppD2 {
 
 	public static void initToolbar(AppD app, int toolbarPosition, boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel, JPanel southPanel, JPanel westPanel) {
 		
-		GuiManagerD guiManager = app.getGuiManagerD();
+		GuiManagerD guiManager = (GuiManagerD) app.getGuiManager();
 		
 		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager.getToolbarPanelContainer();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();

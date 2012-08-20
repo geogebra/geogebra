@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.toolbar;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -86,7 +87,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		toolListModel = new DefaultListModel();
 		toolList = new JList(toolListModel);
 		
-		setToolbar(null, app.getGuiManagerD().getToolbarDefinition());	
+		setToolbar(null, ((GuiManagerD)app.getGuiManager()).getToolbarDefinition());	
 		
 		configScrollPane = new JScrollPane(tree);
 		configScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -355,7 +356,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		if(dockPanel != null) {
 			dockPanel.setToolbarString(getToolBarString());
 		} else {
-			app.getGuiManagerD().setToolBarDefinition(getToolBarString());
+			((GuiManagerD)app.getGuiManager()).setToolBarDefinition(getToolBarString());
 		}
 	}
 	
@@ -366,7 +367,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		if(dockPanel != null) {
 			setToolbar(dockPanel, dockPanel.getDefaultToolbarString());
 		} else {
-			setToolbar(null, app.getGuiManagerD().getDefaultToolbarString());
+			setToolbar(null, ((GuiManagerD)app.getGuiManager()).getDefaultToolbarString());
 		}
 	}
 	

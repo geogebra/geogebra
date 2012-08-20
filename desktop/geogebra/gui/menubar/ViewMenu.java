@@ -3,6 +3,7 @@ package geogebra.gui.menubar;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -72,7 +73,7 @@ public class ViewMenu extends BaseMenu {
 			KeyboardSettings kbs = app.getSettings().getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
-				VirtualKeyboard vk = app.getGuiManagerD().getVirtualKeyboard();
+				VirtualKeyboard vk = ((GuiManagerD)app.getGuiManager()).getVirtualKeyboard();
 				vk.setVisible(true);
 			}
 			add(cbShowKeyboard);
@@ -149,17 +150,17 @@ public class ViewMenu extends BaseMenu {
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
-						&& !app.getGuiManagerD().showVirtualKeyboard()) {
+						&& !((GuiManagerD)app.getGuiManager()).showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					app.getGuiManagerD().toggleKeyboard(true);
+					((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
 					update();
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					app.getGuiManagerD().toggleKeyboard(
+					((GuiManagerD)app.getGuiManager()).toggleKeyboard(
 							AppD.isVirtualKeyboardActive());
 					update();
 				}
@@ -205,16 +206,16 @@ public class ViewMenu extends BaseMenu {
 		 * public void actionPerformed(ActionEvent e) {
 		 * 
 		 * if (Application.isHandwritingRecognitionActive() &&
-		 * !app.getGuiManager().showHandwritingRecognition()) {
+		 * !((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
 		 * 
 		 * // if handwriting is active but hidden, just show it
-		 * app.getGuiManager().toggleHandwriting(true); update();
+		 * ((GuiManagerD)app.getGuiManager()).toggleHandwriting(true); update();
 		 * 
 		 * } else {
 		 * 
 		 * Application.setHandwritingRecognitionActive(!Application.
 		 * isHandwritingRecognitionActive());
-		 * app.getGuiManager().toggleHandwriting
+		 * ((GuiManagerD)app.getGuiManager()).toggleHandwriting
 		 * (Application.isHandwritingRecognitionActive()); update(); }
 		 * 
 		 * } };
@@ -230,9 +231,9 @@ public class ViewMenu extends BaseMenu {
 		 * Application.isHandwritingRecognitionTimedAdd()) {
 		 * Application.setHandwritingRecognitionTimedAdd
 		 * (!Application.isHandwritingRecognitionTimedAdd());
-		 * app.getGuiManager().updateMenubar(); } if
-		 * (app.getGuiManager().showHandwritingRecognition()) {
-		 * app.getGuiManager().getHandwriting().repaint(); } } };
+		 * ((GuiManagerD)app.getGuiManager()).updateMenubar(); } if
+		 * (((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
+		 * ((GuiManagerD)app.getGuiManager()).getHandwriting().repaint(); } } };
 		 * 
 		 * showHandwritingTimedAddAction = new
 		 * AbstractAction(app.getPlain("TimedAdd")) { private static final long
@@ -245,9 +246,9 @@ public class ViewMenu extends BaseMenu {
 		 * Application.isHandwritingRecognitionAutoAdd()) {
 		 * Application.setHandwritingRecognitionAutoAdd
 		 * (!Application.isHandwritingRecognitionAutoAdd());
-		 * app.getGuiManager().updateMenubar(); } if
-		 * (app.getGuiManager().showHandwritingRecognition()) {
-		 * app.getGuiManager().getHandwriting().repaint(); } } };
+		 * ((GuiManagerD)app.getGuiManager()).updateMenubar(); } if
+		 * (((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
+		 * ((GuiManagerD)app.getGuiManager()).getHandwriting().repaint(); } } };
 		 * 
 		 * showHandwritingTimedRecogniseAction = new
 		 * AbstractAction(app.getPlain("TimedRecognise")) { private static final
@@ -256,8 +257,8 @@ public class ViewMenu extends BaseMenu {
 		 * public void actionPerformed(ActionEvent e) {
 		 * Application.setHandwritingRecognitionTimedRecognise
 		 * (!Application.isHandwritingRecognitionTimedRecognise()); if
-		 * (app.getGuiManager().showHandwritingRecognition()) {
-		 * app.getGuiManager().getHandwriting().repaint(); } } };
+		 * (((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
+		 * ((GuiManagerD)app.getGuiManager()).getHandwriting().repaint(); } } };
 		 */
 
 		refreshAction = new AbstractAction(app.getMenu("Refresh"),
@@ -294,7 +295,7 @@ public class ViewMenu extends BaseMenu {
 			return;
 		}
 
-		GuiManager guiMananager = app.getGuiManagerD();
+		GuiManager guiMananager = ((GuiManagerD)app.getGuiManager());
 
 		updateViews();
 
@@ -416,7 +417,7 @@ public class ViewMenu extends BaseMenu {
 					continue;
 				}
 
-				cbViews[i].setSelected(app.getGuiManagerD().showView(
+				cbViews[i].setSelected(((GuiManagerD)app.getGuiManager()).showView(
 						panel.getViewId()));
 				++i;
 			}
@@ -442,8 +443,8 @@ public class ViewMenu extends BaseMenu {
 		
 		public void actionPerformed(ActionEvent arg0) {
 			
-			app.getGuiManagerD().setShowView(
-					!app.getGuiManagerD().showView(viewId), viewId);
+			((GuiManagerD)app.getGuiManager()).setShowView(
+					!((GuiManagerD)app.getGuiManager()).showView(viewId), viewId);
 			
 			//ensure check box is correctly selected/unselected for case where hide aborted
 			cb.setSelected(panel.isVisible());

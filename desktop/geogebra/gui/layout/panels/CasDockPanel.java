@@ -1,6 +1,7 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -34,12 +35,12 @@ public class CasDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return appCas.getGuiManagerD().getCasView().getCASStyleBar();
+		return ((GuiManagerD)appCas.getGuiManager()).getCasView().getCASStyleBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {
-		return appCas.getGuiManagerD().getCasView().getCASViewComponent();
+		return ((GuiManagerD)appCas.getGuiManager()).getCasView().getCASViewComponent();
 	}
 	
 	private static String getDefaultToolbar() {
@@ -52,9 +53,9 @@ public class CasDockPanel extends DockPanel {
 	 */
 	@Override
 	protected void setActiveToolBar(){		
-		appCas.getGuiManagerD().getCasView().setToolbarIsUpdatedByDockPanel(true);
+		((GuiManagerD)appCas.getGuiManager()).getCasView().setToolbarIsUpdatedByDockPanel(true);
 		super.setActiveToolBar();
-		appCas.getGuiManagerD().getCasView().setToolbarIsUpdatedByDockPanel(false);
+		((GuiManagerD)appCas.getGuiManager()).getCasView().setToolbarIsUpdatedByDockPanel(false);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -30,12 +31,12 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManagerD().getConstructionProtocolView();
+		return ((GuiManagerD)app.getGuiManager()).getConstructionProtocolView();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManagerD().getConstructionProtocolView().getStyleBar();
+		return ((GuiManagerD)app.getGuiManager()).getConstructionProtocolView().getStyleBar();
 	}
 	
 	@Override

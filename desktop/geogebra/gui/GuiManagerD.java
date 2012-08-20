@@ -2449,8 +2449,8 @@ public class GuiManagerD extends GuiManager {
 			if (app.getGuiManager() != null) {
 				if (app.getGuiManager().showView(
 						App.VIEW_PROBABILITY_CALCULATOR)) {
-					((AppD)app).getGuiManagerD()
-							.getLayout()
+					((LayoutD) app.getGuiManager()
+							.getLayout())
 							.getDockManager()
 							.setFocusedPanel(
 									App.VIEW_PROBABILITY_CALCULATOR);

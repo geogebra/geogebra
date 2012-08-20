@@ -6,6 +6,7 @@ import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewJPanel;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
@@ -131,7 +132,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					
 					// detach views which were visible, but are not in the new perspective
 					if(panel.isVisible() && !dpData[i].isVisible()) {
-						app.getGuiManagerD().detachView(panel.getViewId());
+						app.getGuiManager().detachView(panel.getViewId());
 					}
 					
 					panel.setVisible(dpData[i].isVisible());
@@ -185,7 +186,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					continue;
 				
 				// attach view to kernel (being attached multiple times is ignored)
-				app.getGuiManagerD().attachView(panel.getViewId());
+				app.getGuiManager().attachView(panel.getViewId());
 				
 				if(dpData[i].isOpenInFrame()) {
 					show(panel);
@@ -223,7 +224,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 				
 				// move toolbar to main container
 				if(panel.hasToolbar()) {
-					ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
+					ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 					mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
 				}
 			}
@@ -413,7 +414,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		// add toolbar to main toolbar container if necessary
 		if(source.hasToolbar()) {
-			ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
+			ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 			mainContainer.addToolbar(source.getToolbar());
 			mainContainer.updateToolbarPanel();
 		}
@@ -483,7 +484,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			undoMaximize(false);
 		
 		// TODO causes any problems?
-		app.getGuiManagerD().attachView(panel.getViewId());
+		app.getGuiManager().attachView(panel.getViewId());
 		
 		if(panel.isOpenInFrame()) {
 			panel.createFrame();
@@ -638,7 +639,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
 		if(!panel.isOpenInFrame() && panel.hasToolbar()) {
-			ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
+			ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 			mainContainer.addToolbar(panel.getToolbar());
 			mainContainer.updateToolbarPanel();
 		}
@@ -728,7 +729,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		setFocusedPanel(null);
 		
 		if(isPermanent) {
-			app.getGuiManagerD().detachView(panel.getViewId());
+			app.getGuiManager().detachView(panel.getViewId());
 		}
 		
 		if(panel.isOpenInFrame()) {
@@ -785,7 +786,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			markAlonePanel();
 
 			if(panel.hasToolbar()) {
-				ToolbarContainer mainContainer = app.getGuiManagerD().getToolbarPanel();
+				ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 				mainContainer.removeToolbar(panel.getToolbar());
 				mainContainer.updateToolbarPanel();
 			}
@@ -894,7 +895,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			focusedDockPanel.setFocus(true, updatePropertiesView);
 		}
 		
-		app.getGuiManagerD().updateMenubarSelection();
+		app.getGuiManager().updateMenubarSelection();
 		
 	}
 	

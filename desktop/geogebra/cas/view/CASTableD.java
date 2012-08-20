@@ -10,6 +10,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
@@ -202,12 +203,12 @@ public class CASTableD extends JTable implements CASTable{
 			// for some reason this is not working out of the box as
 			// DockManager.eventDispatched()
 			// sometimes things that this click comes from the EuclidianView
-			DockManager dockManager = app.getGuiManagerD().getLayout()
+			DockManager dockManager = ((LayoutD) app.getGuiManager().getLayout())
 					.getDockManager();
 			DockPanel panel = dockManager.getFocusedPanel();
 			if (panel == null
 					|| panel.getViewId() != App.VIEW_CAS)
-				app.getGuiManagerD().getLayout().getDockManager()
+				((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 						.setFocusedPanel(App.VIEW_CAS);
 		
 			e.consume();

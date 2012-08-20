@@ -20,6 +20,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.main.AppD;
@@ -235,7 +236,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		if (newTool.isShowInToolBar()) {
 			int mode = kernel.getMacroID(newTool)
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			appToSave.getGuiManagerD().addToToolbarDefinition(mode);
+			((GuiManagerD)appToSave.getGuiManager()).addToToolbarDefinition(mode);
 			appToSave.updateToolBar();
 			appToSave.setMode(mode);
 		}

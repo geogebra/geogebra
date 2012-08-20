@@ -10,6 +10,7 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Language;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.AppD;
 
@@ -569,7 +570,7 @@ public class OptionsAdvancedD extends
 		cbKeyboardLanguage.addActionListener(this);
 
 		// avoid blanking it out
-		app.getGuiManagerD().toggleKeyboard(false);
+		((GuiManagerD)app.getGuiManager()).toggleKeyboard(false);
 
 		updateGUIFont();
 	}

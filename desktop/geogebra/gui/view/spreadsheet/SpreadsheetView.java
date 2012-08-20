@@ -12,6 +12,7 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
 import geogebra.main.SpreadsheetTableModelD;
@@ -1229,9 +1230,9 @@ public class SpreadsheetView extends JPanel implements View, ComponentListener,
 	protected boolean hasViewFocus() {
 		boolean hasFocus = false;
 		try {
-			if (app.getGuiManagerD().getLayout().getDockManager()
+			if (((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.getFocusedPanel() != null)
-				hasFocus = app.getGuiManagerD().getLayout().getDockManager()
+				hasFocus = ((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 						.getFocusedPanel().isAncestorOf(this);
 		} catch (Exception e) {
 			e.printStackTrace();

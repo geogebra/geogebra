@@ -137,13 +137,13 @@ implements ActionListener {
     protected void addAxesAndGridCheckBoxes(){
 
         // checkboxes for axes and grid        
-        JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(((AppD)app).getGuiManagerD().getShowAxesAction());
+        JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(((GuiManagerD)app.getGuiManager()).getShowAxesAction());
         //cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
         ((AppD) app).setShowAxesSelected(cbShowAxes);
         cbShowAxes.setBackground(wrappedPopup.getBackground());
         wrappedPopup.add(cbShowAxes);
         
-        JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(((AppD)app).getGuiManagerD().getShowGridAction());
+        JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(((GuiManagerD) app.getGuiManager()).getShowGridAction());
         //cbShowGrid.setSelected(ev.getShowGrid());
         ((AppD) app).setShowGridSelected(cbShowGrid);
         cbShowGrid.setBackground(wrappedPopup.getBackground());
@@ -166,7 +166,7 @@ implements ActionListener {
     
     protected void showOptionsDialog(){
     	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-    	((AppD)app).getGuiManagerD().setFocusedPanel(app.getActiveEuclidianView().getViewID(), true);
+    	((GuiManagerD)app.getGuiManager()).setFocusedPanel(app.getActiveEuclidianView().getViewID(), true);
     	//app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
 		//app.getGuiManager().showDrawingPadPropertiesDialog();
     }

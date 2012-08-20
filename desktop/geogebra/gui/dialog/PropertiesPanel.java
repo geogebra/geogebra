@@ -61,6 +61,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.GeoGebraComboBoxEditor;
@@ -5340,7 +5341,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// handle load image file
 			else if (source == btnOpenFile) {
-				String fileName = app.getGuiManagerD().getImageFromFile();
+				String fileName = ((GuiManagerD) app.getGuiManager()).getImageFromFile();
 				if (fileName != null)
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoElement) geos[i];

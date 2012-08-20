@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
 
@@ -1361,7 +1362,7 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 
 	public void focusGained(FocusEvent e) {
 		if (AppD.isVirtualKeyboardActive())
-			app.getGuiManagerD().toggleKeyboard(true);
+			((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
 
 	}
 
@@ -1370,7 +1371,7 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 		if (e.getOppositeComponent() instanceof VirtualKeyboard)
 			return;
 		if (AppD.isVirtualKeyboardActive())
-			app.getGuiManagerD().toggleKeyboard(false);
+			((GuiManagerD)app.getGuiManager()).toggleKeyboard(false);
 
 	}
 

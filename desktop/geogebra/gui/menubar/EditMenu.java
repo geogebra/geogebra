@@ -3,6 +3,7 @@ package geogebra.gui.menubar;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.util.CopyPaste;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -74,9 +75,9 @@ public class EditMenu extends BaseMenu {
 		JMenuItem mi;
 		
 		if (app.isUndoActive()) {
-			mi = add(app.getGuiManagerD().getUndoAction());
+			mi = add(((GuiManagerD) app.getGuiManager()).getUndoAction());
 			setMenuShortCutAccelerator(mi, 'Z');
-			mi = add(app.getGuiManagerD().getRedoAction());
+			mi = add(((GuiManagerD) app.getGuiManager()).getRedoAction());
 			if (AppD.MAC_OS)
 				// Command-Shift-Z
 				setMenuShortCutShiftAccelerator(mi, 'Z');
@@ -280,7 +281,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				app.getGuiManagerD().loadImage(null, true);
+				((GuiManagerD)app.getGuiManager()).loadImage(null, true);
 				app.setDefaultCursor();
 			}
 		};
@@ -292,7 +293,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				app.getGuiManagerD().loadImage(null, false);
+				((GuiManagerD)app.getGuiManager()).loadImage(null, false);
 				app.setDefaultCursor();
 			}
 		};
@@ -379,7 +380,7 @@ public class EditMenu extends BaseMenu {
 		if (!e.getSource().equals(this)) { // ie submenu opened
 					
 			// check if there's an image on the clipboard
-			String[] fileName = app.getGuiManagerD().getImageFromTransferable(null);
+			String[] fileName = ((GuiManagerD) app.getGuiManager()).getImageFromTransferable(null);
 			clipboardMenu.setEnabled(fileName.length > 0);
 		}
 		

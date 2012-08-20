@@ -76,7 +76,7 @@ class HelpMenu extends BaseMenu {
 	
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
-					app.getGuiManagerD().showURLinBrowser(
+					app.getGuiManager().showURLinBrowser(
 							GeoGebraConstants.GEOGEBRA_REPORT_BUG_DESKTOP);
 				}
 			};
@@ -85,7 +85,7 @@ class HelpMenu extends BaseMenu {
 				private static final long serialVersionUID = 1L;
 	
 				public void actionPerformed(ActionEvent e) {
-					app.getGuiManagerD().showURLinBrowser(
+					app.getGuiManager().showURLinBrowser(
 							GeoGebraConstants.GEOGEBRATUBE_WEBSITE);
 				}
 			};

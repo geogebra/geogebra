@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
 
@@ -24,7 +25,7 @@ public class LoadFileListener implements ActionListener {
     			if (inst == null) {        
     				if (app.isSaved() || app.saveCurrentFile()) {
     					// open file in application window		        				
-    					app.getGuiManagerD().loadFile(file, false);
+    					((GuiManagerD)app.getGuiManager()).loadFile(file, false);
     				}
     			} else {		        				    				
     				// there is an instance with this file opened
