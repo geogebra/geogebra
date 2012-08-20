@@ -144,16 +144,16 @@ private void reset(){
 	put(1,"Arctanh", Operation.ATANH);
 	put(1,"ArcTanh", Operation.ATANH);
 
-	put(1,"atan2", Operation.ARCTAN2);
-	put(1,"Atan2", Operation.ARCTAN2);
-	put(1,"artan2", Operation.ARCTAN2);
-	put(1,"arctan2", Operation.ARCTAN2);
-	put(1,"Arctan2", Operation.ARCTAN2);
-	put(1,"aTan2", Operation.ARCTAN2);
-	put(1,"ATan2", Operation.ARCTAN2);
-	put(1,"arTan2", Operation.ARCTAN2);
-	put(1,"arcTan2", Operation.ARCTAN2);
-	put(1,"ArcTan2", Operation.ARCTAN2);
+	put(2,"atan2", Operation.ARCTAN2);
+	put(2,"Atan2", Operation.ARCTAN2);
+	put(2,"artan2", Operation.ARCTAN2);
+	put(2,"arctan2", Operation.ARCTAN2);
+	put(2,"Arctan2", Operation.ARCTAN2);
+	put(2,"aTan2", Operation.ARCTAN2);
+	put(2,"ATan2", Operation.ARCTAN2);
+	put(2,"arTan2", Operation.ARCTAN2);
+	put(2,"arcTan2", Operation.ARCTAN2);
+	put(2,"ArcTan2", Operation.ARCTAN2);
 
 	put(1,"erf", Operation.ERF);
 	put(1,"Erf", Operation.ERF);
