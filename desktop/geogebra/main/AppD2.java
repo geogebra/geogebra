@@ -1,9 +1,12 @@
 package geogebra.main;
 
+import geogebra.common.gui.GuiManager;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.toolbar.ToolbarContainer;
 
 import java.awt.BorderLayout;
+import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -22,6 +25,9 @@ public class AppD2 {
 		
 		GuiManagerD guiManager = (GuiManagerD) app.getGuiManager();
 		
+		// initialize toolbar panel even if it's not used (hack)
+		((GuiManagerD) app.getGuiManager()).getToolbarPanelContainer();
+
 		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager.getToolbarPanelContainer();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 		toolBarContainer.setOrientation(toolbarPosition);
@@ -64,6 +70,33 @@ public class AppD2 {
 		westPanel.revalidate();
 		eastPanel.revalidate();
 		toolBarContainer.buildGui();
+	}
+
+	public static void initInputBar(AppD app, boolean showInputTop, JPanel northPanel, JPanel southPanel) {
+		if (showInputTop) {
+			northPanel.add(( (GuiManagerD) app.getGuiManager()).getAlgebraInput(),
+					BorderLayout.SOUTH);
+		} else {
+			southPanel.add(( (GuiManagerD) app.getGuiManager()).getAlgebraInput(),
+					BorderLayout.SOUTH);
+		}
+		((AlgebraInput)( (GuiManagerD) app.getGuiManager()).getAlgebraInput()).updateOrientation(showInputTop);
+	}
+
+	public static JPanel getMenuBarPanel(AppD appD, JPanel applicationPanel) {
+		JPanel menuBarPanel = new JPanel(new BorderLayout());
+		menuBarPanel.add(( (GuiManagerD) appD.getGuiManager()).getMenuBar(),
+				BorderLayout.NORTH);
+		menuBarPanel.add(applicationPanel, BorderLayout.CENTER);
+		return menuBarPanel;
+	}
+
+	public static GuiManager newGuiManager(AppD appD) {
+		return new GuiManagerD(appD);
+	}
+
+	public static void loadFile(AppD app, File currentFile, boolean b) {
+		((GuiManagerD) app.getGuiManager()).loadFile(currentFile, false);
 	}
 
 }

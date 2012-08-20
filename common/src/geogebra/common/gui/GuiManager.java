@@ -21,6 +21,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 
+import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
 
 public abstract class GuiManager {
@@ -591,6 +593,14 @@ public abstract class GuiManager {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public abstract void clearInputbar();
+
+	public abstract Object createFrame();
+
+	public abstract Object getInputHelpPanel();
+
+	public abstract int getInputHelpPanelMinimumWidth();
 
 	
 

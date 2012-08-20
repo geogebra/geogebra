@@ -805,4 +805,20 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	@Override
     public void updateMenuFile() {
     }
+
+	@Override
+    public void clearInputbar() {
+		App.debug("unimplemented");
+   }
+
+	@Override
+    public Object createFrame() {
+	    return null;
+    }
+
+	@Override
+    public int getInputHelpPanelMinimumWidth() {
+		App.debug("unimplemented");
+	    return 0;
+    }
 }

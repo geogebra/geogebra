@@ -709,7 +709,7 @@ public class AppD extends App implements
 	}
 
 	protected GuiManager newGuiManager() {
-		return new geogebra.gui.GuiManagerD(AppD.this);
+		return AppD2.newGuiManager(this);
 	}
 
 	/**
@@ -798,8 +798,7 @@ public class AppD extends App implements
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			geogebra.gui.inputbar.AlgebraInput ai = (geogebra.gui.inputbar.AlgebraInput) (((geogebra.gui.GuiManagerD) getGuiManager()).getAlgebraInput());
-			ai.clear();
+			getGuiManager().clearInputbar();
 		}
 
 		// reset spreadsheet columns, reset trace columns
@@ -1005,11 +1004,7 @@ public class AppD extends App implements
 			// If the main component is a JPanel, we need to add the
 			// menubar manually to the north
 			if (showMenuBar() && (mainComp instanceof JPanel)) {
-				JPanel menuBarPanel = new JPanel(new BorderLayout());
-				menuBarPanel.add(((geogebra.gui.GuiManagerD) getGuiManager()).getMenuBar(),
-						BorderLayout.NORTH);
-				menuBarPanel.add(applicationPanel, BorderLayout.CENTER);
-				return menuBarPanel;
+				return AppD2.getMenuBarPanel(this, applicationPanel);
 			}
 			
 			// Standard case: return application panel
@@ -1073,13 +1068,12 @@ public class AppD extends App implements
 	 */
 	public void setShowInputHelpPanel(boolean isVisible) {
 		if (isVisible) {
-			applicationSplitPane.setRightComponent(((geogebra.gui.GuiManagerD) getGuiManager())
+			applicationSplitPane.setRightComponent((Component) ( getGuiManager())
 					.getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane
 						.setLastDividerLocation(applicationSplitPane.getWidth()
-								- ((geogebra.gui.GuiManagerD) getGuiManager()).getInputHelpPanel()
-										.getMinimumSize().width);
+								- ( getGuiManager()).getInputHelpPanelMinimumWidth());
 			}
 			applicationSplitPane.setDividerLocation(applicationSplitPane
 					.getLastDividerLocation());
@@ -1117,21 +1111,9 @@ public class AppD extends App implements
 
 		// handle input bar
 		if (showAlgebraInput) {
-			if (showInputTop) {
-				northPanel.add(((geogebra.gui.GuiManagerD) getGuiManager()).getAlgebraInput(),
-						BorderLayout.SOUTH);
-			} else {
-				southPanel.add(((geogebra.gui.GuiManagerD) getGuiManager()).getAlgebraInput(),
-						BorderLayout.SOUTH);
-			}
-			((geogebra.gui.inputbar.AlgebraInput)((geogebra.gui.GuiManagerD) getGuiManager()).getAlgebraInput()).updateOrientation(showInputTop);
+			AppD2.initInputBar(this, showInputTop, northPanel, southPanel);
 		}
 
-		// initialize toolbar panel even if it's not used (hack)
-		((geogebra.gui.GuiManagerD) getGuiManager()).getToolbarPanelContainer();
-
-		
-		
 		if (showToolBar) {
 		
 			AppD2.initToolbar(this, toolbarPosition, showToolBarHelp, northPanel, eastPanel, southPanel, westPanel);
@@ -1736,7 +1718,7 @@ public class AppD extends App implements
 		if (appletImpl != null) {
 			appletImpl.reset();
 		} else if (currentFile != null) {
-			((geogebra.gui.GuiManagerD) getGuiManager()).loadFile(currentFile, false);
+			AppD2.loadFile(this, currentFile, false);
 		} else {
 			clearConstruction();
 		}
@@ -1779,7 +1761,7 @@ public class AppD extends App implements
 
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
-			frame = ((geogebra.gui.GuiManagerD) getGuiManager()).createFrame();
+			frame = (JFrame) getGuiManager().createFrame();
 		}
 
 		return frame;
@@ -2828,7 +2810,7 @@ public class AppD extends App implements
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
 		}
 		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
-			((geogebra.gui.GuiManagerD)guiManager).getEuclidianView2().setCursor(Cursor.getDefaultCursor());
+			((EuclidianViewND)guiManager.getEuclidianView2()).setDefaultCursor();
 		}
 
 	}

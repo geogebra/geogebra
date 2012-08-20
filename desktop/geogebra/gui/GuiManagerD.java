@@ -2550,7 +2550,7 @@ public class GuiManagerD extends GuiManager {
 		frame.setTitle(sb.toString());
 	}
 
-	public JFrame createFrame() {
+	public Object createFrame() {
 		GeoGebraFrame wnd = new GeoGebraFrame();
 		wnd.setGlassPane(layout.getDockManager().getGlassPane());
 		wnd.setApplication((AppD)app);
@@ -2936,5 +2936,15 @@ public class GuiManagerD extends GuiManager {
 				(AppD) app);
 
 		d.setVisible(true);
+	}
+
+	@Override
+	public void clearInputbar() {
+		((AlgebraInput) getAlgebraInput()).clear();
+	}
+
+	@Override
+	public int getInputHelpPanelMinimumWidth() {
+		return getInputHelpPanel().getMinimumSize().width;
 	}
 }
