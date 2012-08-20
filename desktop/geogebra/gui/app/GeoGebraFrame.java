@@ -27,6 +27,7 @@ import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
 import geogebra.gui.FileDropTargetListener;
+import geogebra.gui.dialog.DialogManagerD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.Util;
@@ -455,7 +456,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		public void run() {
 
 			// init file chooser
-			this.app.getGuiManager().getDialogManager().initFileChooser();
+			((DialogManagerD) this.app.getGuiManager().getDialogManager()).initFileChooser();
 						
 			// init CAS
 			// avoid hanging animation,

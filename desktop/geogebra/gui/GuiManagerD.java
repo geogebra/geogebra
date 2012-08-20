@@ -10,6 +10,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -710,7 +711,7 @@ public class GuiManagerD extends GuiManager {
 	 * use Application.getDialogManager() instead
 	 */
 	@Deprecated
-	public DialogManagerD getDialogManager() {
+	public DialogManager getDialogManager() {
 		return dialogManager;
 	}
 
@@ -1488,8 +1489,8 @@ public class GuiManagerD extends GuiManager {
 			// else
 			{
 				if (imageFile == null) {
-					getDialogManager().initFileChooser();
-					GeoGebraFileChooser fileChooser = getDialogManager()
+					((DialogManagerD) getDialogManager()).initFileChooser();
+					GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
 							.getFileChooser();
 
 					fileChooser.setMode(GeoGebraFileChooser.MODE_IMAGES);
@@ -1559,8 +1560,8 @@ public class GuiManagerD extends GuiManager {
 		try {
 			app.setWaitCursor();
 
-			getDialogManager().initFileChooser();
-			GeoGebraFileChooser fileChooser = getDialogManager()
+			((DialogManagerD) getDialogManager()).initFileChooser();
+			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
 					.getFileChooser();
 
 			fileChooser.setMode(GeoGebraFileChooser.MODE_DATA);
@@ -1719,8 +1720,8 @@ public class GuiManagerD extends GuiManager {
 		}
 		String fileExtension = fileExtensions[0];
 
-		getDialogManager().initFileChooser();
-		GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
+		((DialogManagerD) getDialogManager()).initFileChooser();
+		GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager()).getFileChooser();
 
 		fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA_SAVE);
 		fileChooser.setCurrentDirectory(((AppD)app).getCurrentPath());
@@ -1859,8 +1860,8 @@ public class GuiManagerD extends GuiManager {
 			app.setWaitCursor();
 			File oldCurrentFile = ((AppD)app).getCurrentFile();
 
-			getDialogManager().initFileChooser();
-			GeoGebraFileChooser fileChooser = getDialogManager()
+			((DialogManagerD) getDialogManager()).initFileChooser();
+			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
 					.getFileChooser();
 
 			fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA);

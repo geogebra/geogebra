@@ -70,7 +70,6 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.io.MyXMLio;
@@ -1137,15 +1136,15 @@ public class AppD extends App implements
 		// initialize toolbar panel even if it's not used (hack)
 		getGuiManager().getToolbarPanelContainer();
 
-		ToolbarContainer toolBarContainer = (ToolbarContainer) getGuiManager()
-				.getToolbarPanelContainer();
-		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
-		toolBarContainer.setOrientation(toolbarPosition);
-
 		
 		
 		if (showToolBar) {
 			
+			geogebra.gui.toolbar.ToolbarContainer toolBarContainer = (geogebra.gui.toolbar.ToolbarContainer) getGuiManager()
+					.getToolbarPanelContainer();
+			JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
+			toolBarContainer.setOrientation(toolbarPosition);
+
 			// TODO handle xml for new field toolbarPosition vs. old showToolBarTop 
 			
 			
@@ -1179,13 +1178,13 @@ public class AppD extends App implements
 				break;
 			}
 
+			northPanel.revalidate();
+			southPanel.revalidate();
+			westPanel.revalidate();
+			eastPanel.revalidate();
+			toolBarContainer.buildGui();
 		}
 
-		northPanel.revalidate();
-		southPanel.revalidate();
-		westPanel.revalidate();
-		eastPanel.revalidate();
-		toolBarContainer.buildGui();
 	}
 
 	private String regressionFileName = null;

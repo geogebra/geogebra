@@ -323,7 +323,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		 */
 
 		try {
-			if (AppD.MAC_OS || AppD.WINDOWS) {
+			if (app.isMacOS() || app.isWindows()) {
 				UIManager.setLookAndFeel(UIManager
 						.getSystemLookAndFeelClassName());
 			} else {
