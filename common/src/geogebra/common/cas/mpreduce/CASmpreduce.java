@@ -554,32 +554,36 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
 		mpreduce1
+		.evaluate("procedure isnonzero(a);if a=0 or not freeof(a,i) then 0 else 1;");
+		App.debug(mpreduce1
 		.evaluate("procedure mynumsolve(a,b); " +
-				" begin;scalar eqn, denumer;" +
+				" begin;scalar eqn, denumer,var;" +
 				" a:=mkdepthone(list(a));"+
 				" b:=mkdepthone(list(b));"+
+				" var:=part(b,1);" +
+				" if arglength(var)>-1 and part(var,0)='equal then var:=part(var,1);"+
 				" if length(a)=1 then <<eqn:=num(lhs(part(a,1))-rhs(part(a,1)));denumer:=den(lhs(part(a,1))-rhs(part(a,1)))>>;"+
-				" return if length(a)=1 and not(mycoeff(eqn,part(b,1))='?)" +
-				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and sub(r,denumer) then list(r) else list())" +
+				" return if length(a)=1 and not(mycoeff(eqn,var)='?)" +
+				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and isnonzero(sub(r,denumer))=1 then list(r) else list())" +
 				" else num_solve(a,b,iterations=10000);" +
-				" end;");
+				" end;"));
 		mpreduce1
 		.evaluate("procedure listtodisjunction(v,lst);" +
 				"begin scalar ret;" +
 				"ret:=part(lst,1);"+
 				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
 				"return ret; end;");
-		App.debug(mpreduce1.evaluate("procedure logof(a);"
+		mpreduce1.evaluate("procedure logof(a);"
 				+" if (arglength(a)>-1) and (part(a,0)='minus )then pi*i*logof(part(a,1)) else "
 				+" if (arglength(a)>-1) and (part(a,0)='expt )then logof(part(a,1))*part(a,2) else "
 		+" if (arglength(a)>-1) and (part(a,0)='times)then for k:=1:arglength(a) sum logof(part(a,k)) else "
-		+" if (arglength(a)>-1) and (part(a,0)='quotient )then logof(part(a,1))-logof(part(a,2)) else log(a);"));
+		+" if (arglength(a)>-1) and (part(a,0)='quotient )then logof(part(a,1))-logof(part(a,2)) else log(a);");
 		//exptolin({7^(2*x-5)* 5^x = 9^(x+1)})
-		App.debug(mpreduce1.evaluate("procedure exptolin(eqn);" +
+		mpreduce1.evaluate("procedure exptolin(eqn);" +
 				" if arglength(eqn)>-1 and part(eqn,0)='quotient and numberp(part(eqn,2)) then  exptolin(part(eqn,1)) else " +
 			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(for k:=2:arglength(eqn) sum part(eqn,k))-logof(-part(eqn,1))) " +
 			    " else eqn;"
-				 ));
+				 );
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq;" +
