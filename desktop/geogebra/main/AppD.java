@@ -1141,50 +1141,9 @@ public class AppD extends App implements
 		
 		
 		if (showToolBar) {
-			
-			geogebra.gui.toolbar.ToolbarContainer toolBarContainer = (geogebra.gui.toolbar.ToolbarContainer) getGuiManagerD()
-					.getToolbarPanelContainer();
-			JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
-			toolBarContainer.setOrientation(toolbarPosition);
-
-			// TODO handle xml for new field toolbarPosition vs. old showToolBarTop 
-			
-			
-			showToolBarTop = false;
-			if (showToolBarTop) {
-				northPanel.add(getGuiManagerD().getToolbarPanelContainer(),
-						BorderLayout.NORTH);
-			} else {
-				southPanel.add(getGuiManagerD().getToolbarPanelContainer(),
-						BorderLayout.NORTH);
-			}
-
-			switch (toolbarPosition) {
-			case SwingConstants.NORTH:
-				northPanel.add(toolBarContainer, BorderLayout.NORTH);
-				break;
-			case SwingConstants.SOUTH:
-				southPanel.add(toolBarContainer, BorderLayout.NORTH);
-				break;
-			case SwingConstants.EAST:
-				eastPanel.add(toolBarContainer, BorderLayout.EAST);
-				if (showToolBarHelp && helpPanel != null) {
-					northPanel.add(helpPanel, BorderLayout.NORTH);
-				}
-				break;
-			case SwingConstants.WEST:
-				westPanel.add(toolBarContainer, BorderLayout.WEST);
-				if (showToolBarHelp && helpPanel != null) {
-					northPanel.add(helpPanel, BorderLayout.NORTH);
-				}
-				break;
-			}
-
-			northPanel.revalidate();
-			southPanel.revalidate();
-			westPanel.revalidate();
-			eastPanel.revalidate();
-			toolBarContainer.buildGui();
+		
+			AppD2.initToolbar(this, toolbarPosition, showToolBarHelp, northPanel, eastPanel, southPanel, westPanel);
+		
 		}
 
 	}
