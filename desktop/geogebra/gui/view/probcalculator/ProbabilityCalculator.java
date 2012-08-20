@@ -237,7 +237,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	private JTabbedPane tabbedPane;
 
-	private StatisticsCalculator statCalculator;
+	//private StatisticsCalculator statCalculator;
 
 	/*************************************************
 	 * Construct the dialog
@@ -261,11 +261,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 		buildProbCalcPanel();
 		isIniting = false;
 
-		statCalculator = new StatisticsCalculator(app);
+		//statCalculator = new StatisticsCalculator(app);
 		
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(app.getMenu("Distribution"), probCalcPanel);
-		tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
+		//tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
 
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
@@ -1755,7 +1755,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		statCalculator.setLabels();
+		//statCalculator.setLabels();
 		
 		tabbedPane.setTitleAt(0, app.getMenu("Distribution"));
 		tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
