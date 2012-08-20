@@ -12,6 +12,9 @@ the Free Software Foundation.
 package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.view.algebra.DialogType;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.web.gui.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
@@ -24,33 +27,26 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class AngleInputDialog extends PopupPanel implements ClickHandler {
+public class AngleInputDialog extends InputDialogW implements ClickHandler {
 	
 	private static final long serialVersionUID = 1L;
 
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
-	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }
 
 	protected RadioButton rbCounterClockWise, rbClockWise;
-	Button btOK, btCancel;
 
 	public boolean success = true;
 	protected String inputText = null;
-
-	protected AppW app;
-	protected String initString;
-	protected InputPanelW inputPanel;
-	protected InputHandler inputHandler;
 
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
 	public AngleInputDialog(AppW app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {
-		super(false, true);
-		//super(app.getFrame(), modal);
+		super(modal);
 		this.app = app;
 		inputHandler = handler;
 		this.initString = initString;
@@ -61,41 +57,26 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 		rbClockWise = new RadioButton(id, app.getPlain("clockwise"));
 		rbCounterClockWise.setChecked(true);
 
-		//createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
-
-		// Create components to be displayed
-		inputPanel = new InputPanelW(initString, app, DEFAULT_COLUMNS, true);
+		VerticalPanel rbPanel = new VerticalPanel();
+		rbPanel.add(rbCounterClockWise);
+		rbPanel.add(rbClockWise);
+		
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
 
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(inputPanel);
-		centerPanel.add(rbCounterClockWise);
-		centerPanel.add(rbClockWise);
-
-		HorizontalPanel btPanel = new HorizontalPanel();
-		centerPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		centerPanel.add(btPanel);
-
-		btOK = new Button(app.getPlain("OK"));
-		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
-		btOK.addClickHandler(this);
-		btCancel = new Button(app.getPlain("Cancel"));
-		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
-		btCancel.addClickHandler(this);
-		//btApply = new Button("Apply");
-		//btApply.addActionListener(this);
-
-		btPanel.add(btOK);
-		btPanel.add(btCancel);
-
-		setWidget(centerPanel);
-		center();
+		centerPanel.add(rbPanel);
+		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
+		
+		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
+		
 	}
 
 	public boolean isCounterClockWise() {
 		return rbCounterClockWise.getValue();
 	}
-
+	
 	public void onClick(ClickEvent e) {
 		Object source = e.getSource();
 
@@ -123,9 +104,9 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 			success=false;
 		}
 		if (finished) {
-			hide();
+			wrappedPopup.hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		} else
-			show();
+			wrappedPopup.show();
 	}
 }

@@ -31,7 +31,7 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	protected Button btApply, btProperties, btCancel, btOK, btHelp;
 	protected PopupPanel wrappedPopup;
 
-	private GeoElement geo;
+	protected GeoElement geo;
 
 	private CheckBox checkBox;
 

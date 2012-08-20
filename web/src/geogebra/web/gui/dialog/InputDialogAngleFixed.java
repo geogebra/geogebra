@@ -49,10 +49,10 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				if (!processInput()) {
-					show();
+					wrappedPopup.show();
 					inputPanel.getTextComponent().hideTablePopup();
 				} else {
-					hide();
+					wrappedPopup.hide();
 					inputPanel.getTextComponent().hideTablePopup();
 					app.getActiveEuclidianView().requestFocusInWindow();
 				}
@@ -61,14 +61,14 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 			//	processInput();
 			} else if (source == btCancel) {
 				//setVisibleForTools(false);
-				hide();
+				wrappedPopup.hide();
 				inputPanel.getTextComponent().hideTablePopup();
 				app.getActiveEuclidianView().requestFocusInWindow();
 			} 
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		
 			//setVisibleForTools(false);
-			hide();
+			wrappedPopup.hide();
 			inputPanel.getTextComponent().hideTablePopup();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}

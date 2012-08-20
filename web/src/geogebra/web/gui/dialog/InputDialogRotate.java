@@ -52,10 +52,10 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				//FIXME setVisibleForTools(!processInput());
 				if (!processInput()) {
-					show();
+					wrappedPopup.show();
 					inputPanel.getTextComponent().hideTablePopup();
 				} else {
-					hide();
+					wrappedPopup.hide();
 					inputPanel.getTextComponent().hideTablePopup();
 					app.getActiveEuclidianView().requestFocusInWindow();
 				}
@@ -63,14 +63,14 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 			//	processInput();
 			} else if (source == btCancel) {
 				//FIXME setVisibleForTools(false);
-				hide();
+				wrappedPopup.hide();
 				inputPanel.getTextComponent().hideTablePopup();
 				app.getActiveEuclidianView().requestFocusInWindow();
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
 			//FIXME setVisibleForTools(false);
-			hide();
+			wrappedPopup.hide();
 			inputPanel.getTextComponent().hideTablePopup();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
