@@ -157,7 +157,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * CasParserToolsImpl('b')); }
 	 */
 
-	private synchronized CASmpreduce getMPReduce() {
+	public synchronized CASmpreduce getMPReduce() {
 		if (casMPReduce == null)
 			casMPReduce = geogebra.common.factories.CASFactory.prototype
 					.newMPReduce(casParser, new CasParserToolsImpl('e'),
