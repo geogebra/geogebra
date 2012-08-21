@@ -22,6 +22,10 @@ import java.util.List;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -87,6 +91,23 @@ public class EuclidianViewM extends EuclidianView
 			}
 		});
 
+		this.canvas.addMouseDownHandler(new MouseDownHandler(){
+			@Override
+			public void onMouseDown(MouseDownEvent event){
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onMouseDown(event);
+			}
+		}); 
+		
+		this.canvas.addMouseMoveHandler(new MouseMoveHandler(){
+			@Override
+			public void onMouseMove(MouseMoveEvent event)
+			{
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onMouseMove(event);
+			}
+		});
+		
 		this.canvas.addClickHandler(new ClickHandler()
 		{
 			@Override
@@ -335,6 +356,12 @@ public class EuclidianViewM extends EuclidianView
 	public GGraphics2D getGraphicsForPen()
 	{
 		return null;
+	}
+
+	@Override
+	public boolean isShowing()
+	{
+		return false;
 	}
 
 }

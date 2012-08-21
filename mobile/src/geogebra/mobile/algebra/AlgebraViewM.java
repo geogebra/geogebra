@@ -1066,4 +1066,15 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		App.debug("unimplemented");
 		return false;
 	}
+
+	@Override
+	public void repaint()
+	{
+	}
+
+	@Override
+	public boolean isShowing()
+	{
+		return false;
+	}
 }
