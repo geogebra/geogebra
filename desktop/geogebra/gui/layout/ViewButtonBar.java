@@ -53,7 +53,7 @@ public class ViewButtonBar extends JToolBar {
 		// get the PropertiesView dock panel first
 		for (DockPanel panel : dockPanels) {
 			if (panel.getViewId() == AppD.VIEW_PROPERTIES) {
-				viewButtons.add(new ViewButton(app, panel));
+				//viewButtons.add(new ViewButton(app, panel));
 			}
 		}
 					
@@ -85,7 +85,8 @@ public class ViewButtonBar extends JToolBar {
 				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 
 				if (panel.getViewId() != App.VIEW_PROPERTIES 
-						&& panel.getViewId() != App.VIEW_ASSIGNMENT ) 
+						&& panel.getViewId() != App.VIEW_ASSIGNMENT
+						&& panel.getViewId() != App.VIEW_PYTHON) 
 					add(btn);
 		}
 		

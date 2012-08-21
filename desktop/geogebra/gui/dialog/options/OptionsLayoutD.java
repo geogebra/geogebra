@@ -24,6 +24,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
@@ -41,19 +42,24 @@ public class OptionsLayoutD extends
 	private Settings settings;
 
 	/** */
-	private JPanel inputBarPanel, toolbarPanel, navbarPanel, perspectivesPanel,
-			consProtocolPanel;
+	private JPanel sideBarPanel, inputBarPanel, toolbarPanel, navbarPanel,
+			perspectivesPanel, consProtocolPanel;
 
 	/**	 */
 	private JCheckBox ckShowInputHelp, ckIgnoreDocumentLayout, ckShowTitleBar,
 			ckAllowStyleBar, ckShowInputBar, ckShowToolbar, ckShowToolHelp,
-			ckShowNavbar, ckNavPlay, ckOpenConsProtocol, ckShowMenuBar;
+			ckShowNavbar, ckNavPlay, ckOpenConsProtocol, ckShowMenuBar,
+			ckShowSideBar;
 
 	private JToggleButton rbToolbarNorth, rbToolbarSouth, rbToolbarEast,
-			rbToolbarWest;
+			rbToolbarWest, rbSidebarWest, rbSidebarEast;
+	
+	private JRadioButton rbPespectiveSidebar,
+	rbButtonSidebar;
+	
 	private JToggleButton rbInputBarSouth, rbInputBarNorth;
 
-	private JLabel lblInputBarPosition;
+	private JLabel lblInputBarPosition, lblSidebarPosition;
 
 	/** */
 	private ButtonGroup inputbarPosGroup, toolBarPosGroup;
@@ -93,6 +99,7 @@ public class OptionsLayoutD extends
 		initToolBarPanel();
 		initConsProtocolPanel();
 		initMenuBarPanel();
+		initSideBarPanel();
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FullWidthLayout());
@@ -100,7 +107,8 @@ public class OptionsLayoutD extends
 		panel.add(toolbarPanel);
 		panel.add(perspectivesPanel);
 		panel.add(consProtocolPanel);
-		panel.add(menuBarPanel);
+		//panel.add(menuBarPanel);
+		panel.add(sideBarPanel);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 
@@ -171,12 +179,13 @@ public class OptionsLayoutD extends
 
 		inputbarPosGroup = new ButtonGroup();
 
-		rbInputBarNorth = new JToggleButton(app.getImageIcon("border_top.png"));
+		rbInputBarNorth = new JToggleButton(
+				app.getImageIcon("layout_north.png"));
 		rbInputBarNorth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarNorth);
 
 		rbInputBarSouth = new JToggleButton(
-				app.getImageIcon("border_bottom.png"));
+				app.getImageIcon("layout_south.png"));
 		rbInputBarSouth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarSouth);
 
@@ -191,6 +200,45 @@ public class OptionsLayoutD extends
 		ckShowInputHelp.addActionListener(this);
 		inputBarPanel.add(OptionsUtil.flowPanel(tab, ckShowInputHelp));
 
+	}
+
+	/**
+	 * Initialize the input bar panel.
+	 */
+	private void initSideBarPanel() {
+
+		sideBarPanel = new JPanel();
+		sideBarPanel.setLayout(new BoxLayout(sideBarPanel, BoxLayout.Y_AXIS));
+
+		ckShowSideBar = new JCheckBox();
+		ckShowSideBar.addActionListener(this);
+
+		int tab = 20;
+
+		ButtonGroup grp = new ButtonGroup();
+		rbSidebarWest = new JToggleButton(app.getImageIcon("layout_west.png"));
+		rbSidebarWest.addActionListener(this);
+		grp.add(rbSidebarWest);
+		rbSidebarEast = new JToggleButton(app.getImageIcon("layout_east.png"));
+		rbSidebarEast.setSelected(true);
+		rbSidebarEast.addActionListener(this);
+		grp.add(rbSidebarEast);
+
+		ButtonGroup grp2 = new ButtonGroup();
+		rbPespectiveSidebar = new JRadioButton();
+		rbPespectiveSidebar.addActionListener(this);
+		rbPespectiveSidebar.setSelected(true);
+		grp2.add(rbPespectiveSidebar);
+		rbButtonSidebar = new JRadioButton();
+		rbButtonSidebar.addActionListener(this);
+		grp2.add(rbButtonSidebar);
+
+		lblSidebarPosition = new JLabel();
+
+		sideBarPanel.add(OptionsUtil.flowPanel(ckShowSideBar,
+				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
+		sideBarPanel.add(OptionsUtil.flowPanel(tab, rbPespectiveSidebar,
+				rbButtonSidebar));
 	}
 
 	/**
@@ -227,20 +275,19 @@ public class OptionsLayoutD extends
 
 		toolBarPosGroup = new ButtonGroup();
 
-		rbToolbarNorth = new JToggleButton(app.getImageIcon("border_top.png"));
+		rbToolbarNorth = new JToggleButton(app.getImageIcon("layout_north.png"));
 		rbToolbarNorth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarNorth);
 
-		rbToolbarSouth = new JToggleButton(
-				app.getImageIcon("border_bottom.png"));
+		rbToolbarSouth = new JToggleButton(app.getImageIcon("layout_south.png"));
 		rbToolbarSouth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarSouth);
 
-		rbToolbarEast = new JToggleButton(app.getImageIcon("border_right.png"));
+		rbToolbarEast = new JToggleButton(app.getImageIcon("layout_east.png"));
 		rbToolbarEast.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarEast);
 
-		rbToolbarWest = new JToggleButton(app.getImageIcon("border_left.png"));
+		rbToolbarWest = new JToggleButton(app.getImageIcon("layout_west.png"));
 		rbToolbarWest.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarWest);
 
@@ -288,9 +335,9 @@ public class OptionsLayoutD extends
 		rbInputBarSouth.setEnabled(ckShowInputBar.isSelected());
 
 		ckShowNavbar.setSelected(app.showConsProtNavigation());
-		ckNavPlay.setSelected(((GuiManagerD)app.getGuiManager())
+		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
 				.isConsProtNavigationPlayButtonVisible());
-		ckOpenConsProtocol.setSelected(((GuiManagerD)app.getGuiManager())
+		ckOpenConsProtocol.setSelected(((GuiManagerD) app.getGuiManager())
 				.isConsProtNavigationProtButtonVisible());
 
 		ckNavPlay.setEnabled(app.showConsProtNavigation());
@@ -303,6 +350,23 @@ public class OptionsLayoutD extends
 
 		ckShowMenuBar.setSelected(app.showMenuBar());
 
+		ckShowSideBar.removeActionListener(this);
+		ckShowSideBar.setSelected(app.isShowDockBar());
+		ckShowSideBar.addActionListener(this);
+
+		rbSidebarEast.removeActionListener(this);
+		rbSidebarWest.removeActionListener(this);
+		rbButtonSidebar.removeActionListener(this);
+		rbPespectiveSidebar.removeActionListener(this);
+		
+		rbSidebarEast.setSelected(app.getDockBar().isEastOrientation());
+		rbButtonSidebar.setSelected(app.getDockBar().isShowButtonBar());
+
+		rbSidebarEast.addActionListener(this);
+		rbSidebarWest.addActionListener(this);
+		rbButtonSidebar.addActionListener(this);
+		rbPespectiveSidebar.addActionListener(this);
+		
 		revalidate();
 
 	}
@@ -324,7 +388,8 @@ public class OptionsLayoutD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD)app.getGuiManager()).getConstructionProtocolNavigation();
+			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD) app
+					.getGuiManager()).getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn);
@@ -337,7 +402,8 @@ public class OptionsLayoutD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD)app.getGuiManager()).getConstructionProtocolNavigation();
+			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD) app
+					.getGuiManager()).getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn);
@@ -373,7 +439,7 @@ public class OptionsLayoutD extends
 					ckShowToolHelp.isSelected());
 			app.updateApplicationLayout();
 			app.updateToolBarLayout();
-			((GuiManagerD)app.getGuiManager()).updateToolbar();
+			((GuiManagerD) app.getGuiManager()).updateToolbar();
 		} else if (source == rbToolbarNorth) {
 			app.setToolbarPosition(SwingConstants.NORTH, true);
 		} else if (source == rbToolbarSouth) {
@@ -398,8 +464,22 @@ public class OptionsLayoutD extends
 		// menubar settings
 		else if (source == ckShowMenuBar) {
 			app.setShowMenuBar(ckShowMenuBar.isSelected());
-			((GuiManagerD)app.getGuiManager()).updateMenuBarLayout();
+			((GuiManagerD) app.getGuiManager()).updateMenuBarLayout();
 		}
+
+		// sidebar settings
+		else if (source == ckShowSideBar) {
+			app.setShowDockBar(ckShowSideBar.isSelected());
+		}
+		else if (source == rbButtonSidebar || source == rbPespectiveSidebar) {
+			app.getDockBar().setShowButtonBar(rbButtonSidebar.isSelected());
+		}
+		else if (source == rbSidebarEast || source == rbSidebarWest) {
+			app.getDockBar().setEastOrientation(rbSidebarEast.isSelected());
+			app.setShowDockBar(ckShowSideBar.isSelected());
+		}
+		
+		
 
 		wrappedPanel.requestFocus();
 		updateGUI();
@@ -454,6 +534,13 @@ public class OptionsLayoutD extends
 		menuBarPanel.setTitle(app.getPlain("Miscellaneous"));
 		ckShowMenuBar.setText(app.getMenu("ShowMenuBar"));
 
+		// side bar panel
+		sideBarPanel
+				.setBorder(OptionsUtil.titleBorder(app.getPlain("Sidebar")));
+		ckShowSideBar.setText(app.getMenu("ShowSideBar"));
+		rbPespectiveSidebar.setText("PerspectivePanel");
+		rbButtonSidebar.setText("ViewButtonPanel");
+
 	}
 
 	public JPanel getWrappedPanel() {
@@ -473,10 +560,9 @@ public class OptionsLayoutD extends
 		// override this method to make the properties view apply modifications
 		// when panel changes
 	}
-	
 
 	public void updateFont() {
-	
+
 		Font font = app.getPlainFont();
 
 		// input bar panel
@@ -504,15 +590,14 @@ public class OptionsLayoutD extends
 		// menu bar panel
 		menuBarPanel.setFont(font);
 		ckShowMenuBar.setFont(font);
-	
 
-		
+		// sidebar panel
+		sideBarPanel.setFont(font);
+		ckShowSideBar.setFont(font);
+
 	}
 
-	
-	
-
-	public void setSelected(boolean flag){
-		//see OptionsEuclidianD for possible implementation
+	public void setSelected(boolean flag) {
+		// see OptionsEuclidianD for possible implementation
 	}
 }

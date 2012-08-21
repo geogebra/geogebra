@@ -379,11 +379,15 @@ public class AppD extends App implements
 
 	private boolean showDockBar = true;
 	
-	public void openDockBar() {
-		if (dockBar != null) {
-			dockBar.openDockBar();
-		}
+	public boolean isShowDockBar() {
+		return showDockBar;
 	}
+	public void setShowDockBar(boolean showDockBar) {
+		this.showDockBar = showDockBar;
+		updateContentPane();
+	}
+	
+	
 
 	private SpreadsheetTableModelD tableModel;
 
@@ -882,10 +886,7 @@ public class AppD extends App implements
 
 		// update layout
 		if (updateComponentTreeUI) {
-			// --- this is not needed because the comp. tree UI was
-			// updated by the call to buildApplicationPanel() above
-
-			//updateComponentTreeUI();
+			updateComponentTreeUI();
 		}
 
 		// reset mode and focus
@@ -988,11 +989,15 @@ public class AppD extends App implements
 			mainCardPanel.add(backPanel, "backPanel");
 			
 			applicationPanel.add(mainCardPanel, BorderLayout.CENTER);
-			
+
 			if (showDockBar && !isApplet()) {
-				applicationPanel.add(dockBar, BorderLayout.EAST);
+				if (dockBar.isEastOrientation())
+					applicationPanel.add(dockBar, BorderLayout.EAST);
+				else {
+					applicationPanel.add(dockBar, BorderLayout.WEST);
+				}
 			}
-			
+
 			// configure the panel components (adds toolbar, input bar, dockbar)
 			updateApplicationLayout();
 

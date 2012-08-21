@@ -11,12 +11,9 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,18 +22,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 /**
  * Toolbar to hold launching buttons for minimized views.
@@ -48,32 +41,24 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	AppD app;
+	private AppD app;
 	private LayoutD layout;
 
-	private JPopupMenu popup;
-
-	private JPanel fullPanel;
-
-	protected JPanel minimumPanel;
+	private PerspectivePanel popup;
+	private JPanel buttonPanel, slimSidebarPanel;
 	private ViewButtonBar viewButtonBar;
+	private JLabel lblIcon;
 
-	protected boolean enablePopup = false;
+	private boolean isEastOrientation = true;
+	private boolean showButtonBar = false;
+
+	private DockButton btnFileOpen, btnFileSave, btnPrint, btnKeyboard,
+			btnPerspectives, btnProperties;
 
 	private AbstractAction showKeyboardAction;
 
-	/**
-	 * flag to determine if dockbar is in a minimized state
-	 */
-	protected boolean isMinimized = true;
-
-	private DockButton btnFileOpen, btnFileSave, btnPrint, btnKeyboard,
-			btnRefresh, btnLayout;
-
-	private DockButton btnProperties;
-
-	/**
-	 * Constructs a DockBar
+	/***************************************************
+	 * Constructor
 	 * 
 	 * @param app
 	 */
@@ -87,62 +72,65 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 	}
 
+	// ==============================
+	// GUI
+	// ==============================
+
 	private void initGUI() {
 
+		JLabel lblArrow = new JLabel(
+				app.getImageIcon("dockbar-triangle-right.png"));
+
+		buildButtonPanel();
+		buildSlimSidebarPanel();
+		slimSidebarPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0,
+				SystemColor.controlShadow));
+		buttonPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1,
+				SystemColor.controlShadow));
+
+		registerListeners();
 		setLayout(new BorderLayout());
+		updateLayout();
+	}
+
+	private void registerListeners() {
+		SidebarMouseListener l = new SidebarMouseListener();
+		slimSidebarPanel.addMouseListener(l);
+	}
+
+	private void buildButtonPanel() {
 
 		viewButtonBar = new ViewButtonBar(app);
 		viewButtonBar.setOrientation(JToolBar.VERTICAL);
 
-		JLabel lblArrow = new JLabel(app.getImageIcon("dockbar-triangle-right.png"));
-		// wrap viewButtonBar to be vertically centered
-		JPanel gluePanel = new JPanel();
-		gluePanel.setLayout(new BoxLayout(gluePanel, BoxLayout.Y_AXIS));
-		gluePanel.add(Box.createVerticalGlue());
-		//gluePanel.add(viewButtonBar);
-		
-		gluePanel.add(new PerspectivePanel(app));
-		// gluePanel.add(Box.createVerticalStrut(30));
-		getGridButtonPanel();
-		//gluePanel.add(getGridButtonPanel());
-		gluePanel.add(Box.createVerticalGlue());
-		gluePanel.setBackground(SystemColor.control);
+		JPanel northButtonPanel = new JPanel();
+		northButtonPanel.setLayout(new BoxLayout(northButtonPanel,
+				BoxLayout.Y_AXIS));
+		northButtonPanel.add(Box.createVerticalStrut(50));
+		northButtonPanel.add(buildExtraButtonToolBar());
+		northButtonPanel.add(Box.createVerticalStrut(50));
+		northButtonPanel.setBackground(SystemColor.control);
 
-		fullPanel = new JPanel(new BorderLayout());
-		fullPanel.add(Box.createVerticalStrut(20), BorderLayout.NORTH);
-		fullPanel.add(gluePanel, BorderLayout.CENTER);
-		//fullPanel.add(lblArrow, BorderLayout.EAST);
-		fullPanel.setBackground(SystemColor.control);
-		fullPanel.setOpaque(true);
+		buttonPanel = new JPanel(new BorderLayout());
+		buttonPanel.add(northButtonPanel, BorderLayout.NORTH);
+		buttonPanel.add(viewButtonBar, BorderLayout.CENTER);
+		buttonPanel.setBackground(SystemColor.control);
+		buttonPanel.setOpaque(true);
 
-		getMinimumPanel();
-
-		
-		setLabels();
-		//updateLayout();
-		registerListeners();
-
-		isMinimized = false;
-		toggleMinimumFullPanel();
 	}
 
-	private void registerListeners() {
+	private JToolBar buildExtraButtonToolBar() {
 
-		if (enablePopup) {
-			RollOverPopupListener ml = new RollOverPopupListener();
-			viewButtonBar.addMouseListener(ml);
-			popup.addMouseListener(ml);
-
-			addListenerToAllComponents(this, ml);
-
-		} else {
-			ToggleListener l = new ToggleListener();
-			minimumPanel.addMouseListener(l);
-			fullPanel.addMouseListener(l);
-		}
-	}
-
-	private JToolBar getGridButtonPanel() {
+		// perspectives button
+		btnPerspectives = new DockButton(app,
+				app.getImageIcon("options-layout24.png"));
+		btnPerspectives.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				popup = new PerspectivePanel(app);
+				popup.show(btnPerspectives, -popup.getPreferredSize().width, 0);
+				btnPerspectives.setSelected(false);
+			}
+		});
 
 		// properties button
 		btnProperties = new DockButton(app,
@@ -188,102 +176,74 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 		// TODO: better help action ?
 		btnHelp.addActionListener(new HelpAction(app, app
-				.getImageIcon("help.png"), app.getMenu("Help"),
-				App.WIKI_MANUAL));
+				.getImageIcon("help.png"), app.getMenu("Help"), App.WIKI_MANUAL));
 
-		//
-		// ====== Button Panel ===================================
-
-		JToolBar buttonPanel = new JToolBar();
-		buttonPanel.setFloatable(false);
-		buttonPanel.setOrientation(JToolBar.VERTICAL);
-		buttonPanel.setOpaque(true);
-		buttonPanel.setBackground(SystemColor.control);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder());
+		JToolBar extraButtonPanel = new JToolBar();
+		extraButtonPanel.setFloatable(false);
+		extraButtonPanel.setOrientation(JToolBar.VERTICAL);
+		extraButtonPanel.setOpaque(true);
+		extraButtonPanel.setBackground(SystemColor.control);
+		extraButtonPanel.setBorder(BorderFactory.createEmptyBorder());
 
 		// buttonPanel.add(btnKeyboard);
-		buttonPanel.add(Box.createVerticalStrut(30));
-		buttonPanel.add(btnProperties);
+		extraButtonPanel.add(Box.createVerticalStrut(30));
+		// buttonPanel.add(btnPrint);
+		// buttonPanel.add(btnFileSave);
+		// buttonPanel.add(btnFileOpen);
+		// buttonPanel.add(btnProperties);
 
-		return buttonPanel;
+		extraButtonPanel.add(btnPerspectives);
+
+		return extraButtonPanel;
 	}
 
-	Border normalBorder = BorderFactory.createMatteBorder(1, 1, 0, 1,
-			SystemColor.controlShadow);
-	JLabel lblIcon;
-
 	/**
-	 * Returns minimumPanel, a slim vertical bar that acts a button to open the
-	 * dockbar. When clicked it restores the dockBar to full size.
+	 * Creates sidebarButtonPanel, a slim vertical bar that acts a button to
+	 * open the perspective popup.
 	 * 
 	 */
-	private JPanel getMinimumPanel() {
+	private JPanel buildSlimSidebarPanel() {
 
-		if (minimumPanel == null) {
-			minimumPanel = new JPanel(new BorderLayout(0, 0));
+		if (slimSidebarPanel == null) {
+			slimSidebarPanel = new JPanel(new BorderLayout(0, 0));
 
 			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle-left.png"));
 			lblIcon.setPreferredSize(new Dimension(10, 0));
-			minimumPanel.add(lblIcon, BorderLayout.CENTER);
+			slimSidebarPanel.add(lblIcon, BorderLayout.CENTER);
 
-			minimumPanel.setBackground(null);
-			minimumPanel.setBorder(normalBorder);
+			slimSidebarPanel.setBackground(null);
+
 		}
 
-		return minimumPanel;
+		return slimSidebarPanel;
 	}
 
+	// ==============================
+	// Event Handlers
+	// ==============================
+
 	/**
-	 * Updates the layout. If minimized, minimumPanel is shown Otherwise, either
-	 * the popup or the full panel is shown
+	 * Updates the layout to display either (1) a minimized panel that acts as a
+	 * button (slimSidebarPanel) or (2) a panel with buttons to hide/show views
+	 * (buttonPanel)
 	 */
 	protected void updateLayout() {
 
-		if (true || enablePopup) {
-			popup.removeAll();
-			popup.add(fullPanel);
-			fullPanel.setBorder(BorderFactory.createEmptyBorder());
-		} else {
-			Border highlightBorder = BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(1, 1, 0, 0,
-							SystemColor.controlShadow), BorderFactory
-							.createMatteBorder(0, 1, 0, 0,
-									SystemColor.controlLtHighlight));
-			fullPanel.setBorder(BorderFactory.createCompoundBorder(
-					highlightBorder,
-					BorderFactory.createEmptyBorder(0, 0, 0, 1)));
-		}
-	}
-
-	/**
-	 * Toggles the dockbar layout between a minimized panel that acts as a
-	 * button and the full panel with all buttons visible
-	 */
-	protected void toggleMinimumFullPanel() {
-
-		isMinimized = !isMinimized;
 		removeAll();
 
-		if (true || isMinimized) {
-			add(minimumPanel, BorderLayout.CENTER);
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
+		if (showButtonBar) {
+			add(buttonPanel, BorderLayout.CENTER);
 		} else {
-			add(fullPanel, BorderLayout.CENTER);
-			//add(minimumPanel, BorderLayout.EAST);
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
+			add(slimSidebarPanel, BorderLayout.CENTER);
 		}
-		this.revalidate();
-		this.repaint();
+		revalidate();
 	}
 
 	public void showPopup() {
-	//	if (!popup.isVisible()) {
-			popup = new PerspectivePanel(app);
-		//	popup.setPopupSize(popup.getPreferredSize().width,
-			//		getMinimumPanel().getHeight() - 4);
-						
-			popup.show(this, -popup.getPreferredSize().width, (app.getFrame().getHeight() - popup.getPreferredSize().height)/2);
-	//	}app.
+
+		popup = new PerspectivePanel(app);
+		popup.show(this, -popup.getPreferredSize().width, (app.getFrame()
+				.getHeight() - popup.getPreferredSize().height) / 2);
 	}
 
 	protected void hidePopup() {
@@ -292,134 +252,91 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		}
 	}
 
-	public void openDockBar() {
-		isMinimized = false;
-		//updateLayout();
-	}
-
 	public void update() {
 		updateViewButtons();
-		btnKeyboard.setSelected(AppD.isVirtualKeyboardActive());
-		btnProperties.removeActionListener(this);
-		btnProperties.setSelected(app.getGuiManager().showView(
-				App.VIEW_PROPERTIES));
-		btnProperties.addActionListener(this);
+		// btnKeyboard.setSelected(AppD.isVirtualKeyboardActive());
+		// btnProperties.removeActionListener(this);
+		// btnProperties.setSelected(app.getGuiManager().showView(
+		// App.VIEW_PROPERTIES));
+		// btnProperties.addActionListener(this);
 	}
 
 	public void updateViewButtons() {
 		viewButtonBar.updateViewButtons();
 	}
 
-	/**
-	 * Mouse listener to handle showing the popup.
-	 */
-	private class RollOverPopupListener extends MouseAdapter {
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (!(e.getSource() instanceof AbstractButton)) {
-				hidePopup();
-			}
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			showPopup();
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// Application.printStacktrace("exit"
-			// +e.getSource().getClass().getName());
-
-			Component source = (Component) e.getSource();
-			Point p = e.getPoint();
-			SwingUtilities.convertPointToScreen(p, source);
-			Rectangle r = new Rectangle(popup.getLocationOnScreen());
-			r.width = popup.getWidth();
-			r.height = popup.getHeight();
-
-			if (!r.contains(p) && e.getPoint().x < app.getFrame().getWidth()) {
-				hidePopup();
-				// System.out.println(mainPanel.getBounds().contains(e.getPoint()));
-			}
-
-			// lblIcon.setIcon(app.getImageIcon("dockbar-triangle.png"));
-			// minimumPanel.setBackground(null);
-			// minimumPanel.setBorder(normalBorder);
-		}
-	}
-
-	public static void addListenerToAllComponents(JComponent c, MouseAdapter l) {
-
-		c.addMouseListener(l);
-
-		for (Component cc : c.getComponents())
-			if (cc instanceof JComponent) {
-				addListenerToAllComponents((JComponent) cc, l);
-			}
-	}
-
-	/**
-	 * Mouse listener to handle toggling between minimum and full panels.
-	 */
-	public class ToggleListener extends MouseAdapter {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() > 0) {
-				showPopup();
-				if (!enablePopup) {
-					//toggleMinimumFullPanel();
-					//minimumPanel.setBackground(null);
-				}
-				
-			}
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-
-			if (enablePopup) {
-				showPopup();
-			}
-			if (e.getSource() == minimumPanel) {
-				if (isMinimized) {
-					lblIcon.setIcon(app
-							.getImageIcon("dockbar-triangle-left-rollover.png"));
-				} else {
-					lblIcon.setIcon(app
-							.getImageIcon("dockbar-triangle-right-rollover.png"));
-				}
-				minimumPanel.setBackground(Color.LIGHT_GRAY);
-			}
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			if (e.getSource() == minimumPanel) {
-				if (isMinimized) {
-					lblIcon.setIcon(app
-							.getImageIcon("dockbar-triangle-left.png"));
-				} else {
-					lblIcon.setIcon(app
-							.getImageIcon("dockbar-triangle-right.png"));
-				}
-				minimumPanel.setBackground(null);
-			}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnProperties) {
+			((PropertiesView) app.getGuiManager().getPropertiesView())
+					.setOptionPanel(OptionType.LAYOUT);
+			int viewId = App.VIEW_PROPERTIES;
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(viewId), viewId, false);
 		}
 	}
 
 	public void setLabels() {
 
-		btnProperties.setToolTipText(app.getMenu("Layout"));
-		btnKeyboard.setToolTipText(app.getPlain("Keyboard"));
+		// btnProperties.setToolTipText(app.getMenu("Layout"));
+		// btnKeyboard.setToolTipText(app.getPlain("Keyboard"));
 
-		btnPrint.setToolTipText(app.getMenu("Print"));
-		btnFileSave.setToolTipText(app.getMenu("Save"));
-		btnFileOpen.setToolTipText(app.getMenu("Load"));
+		// btnPrint.setToolTipText(app.getMenu("Print"));
+		// btnFileSave.setToolTipText(app.getMenu("Save"));
+		// btnFileOpen.setToolTipText(app.getMenu("Load"));
 
 		updateViewButtons();
-		
+
+	}
+
+	// ==============================
+	// Listeners
+	// ==============================
+
+	/**
+	 * Mouse listener to handle mouse events for the sidebar.
+	 */
+	public class SidebarMouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount() > 0) {
+				showPopup();
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			if (e.getSource() == slimSidebarPanel) {
+				slimSidebarPanel.setBackground(Color.LIGHT_GRAY);
+			}
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			if (e.getSource() == slimSidebarPanel) {
+				slimSidebarPanel.setBackground(null);
+			}
+		}
+	}
+
+	// ==============================
+	// Getters/Setters
+	// ==============================
+
+	public boolean isShowButtonBar() {
+		return showButtonBar;
+	}
+
+	public void setShowButtonBar(boolean showButtonBar) {
+		this.showButtonBar = showButtonBar;
+		updateLayout();
+	}
+
+	public boolean isEastOrientation() {
+		return isEastOrientation;
+	}
+
+	public void setEastOrientation(boolean isEastOrientation) {
+		this.isEastOrientation = isEastOrientation;
 	}
 
 	/***********************************************
@@ -456,7 +373,8 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
-						&& !((GuiManagerD) app.getGuiManager()).showVirtualKeyboard()) {
+						&& !((GuiManagerD) app.getGuiManager())
+								.showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
 					((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
@@ -466,8 +384,8 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					((GuiManagerD) app.getGuiManager()).toggleKeyboard(
-							AppD.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD
+							.isVirtualKeyboardActive());
 					update();
 				}
 
@@ -476,10 +394,10 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 	}
 
-	// ============================================
+	// ==============================================================
 	// Full screen button
 	// (experimental code)
-	// ===========================================
+	// ==============================================================
 	private boolean fullScreen = false;
 
 	private void toggleFullScreen() {
@@ -536,16 +454,6 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 			// gs.setFullScreenWindow(null);
 		}
 
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnProperties) {
-			((PropertiesView) app.getGuiManager().getPropertiesView())
-					.setOptionPanel(OptionType.LAYOUT);
-			int viewId = App.VIEW_PROPERTIES;
-			app.getGuiManager().setShowView(
-					!app.getGuiManager().showView(viewId), viewId, false);
-		}
 	}
 
 }
