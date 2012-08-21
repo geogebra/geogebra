@@ -642,6 +642,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(for k:=2:arglength(eqn) sum part(eqn,k))-logof(-part(eqn,1))) " +
 			    " else eqn;"
 				 );
+		App.debug(mpreduce1.evaluate("procedure bigexponents(eqn);" +
+				" if arglength(eqn) = -1 or numberp(eqn) then 0 else if part(eqn,0)='expt " +
+				" and numberp(part(eqn,2)) and part(eqn,2)> 16 then  1 else " +
+			    " for k:=1:arglength(eqn) sum bigexponents(part(eqn,k));"
+				 ));
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq;" +
@@ -656,7 +661,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "    eqn:=for each x in eqn collect"
 						+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
 						+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
-						+ "  solutions!!:=solve(eqn,var);" 
+						+ "  solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);" 
 						+ "  if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
 						+ "    solutions!!:=solve(map(exptolin(~r),eqn),var); "
 						+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
