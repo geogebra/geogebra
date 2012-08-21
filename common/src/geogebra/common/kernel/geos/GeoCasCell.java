@@ -438,10 +438,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return if this GeoCasCell has a twinGeo or not
 	 */
 	public boolean hasTwinGeo() {
-		if (twinGeo != null) {
-			return true;
-		}
-		return false;
+		return twinGeo != null;
 	}
 
 	/**
@@ -2104,13 +2101,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 					&& twinGeo.isEuclidianShowable();
 		} else {
 			// creates a new twinGeo, if not possible return
-			if (!plot()) {
+			if (outputVE==null || !plot()) {
 				return;
 			}
-			visible = twinGeo.isEuclidianShowable();
+			visible = hasTwinGeo() && twinGeo.isEuclidianShowable();
 		}
-		twinGeo.setEuclidianVisible(visible);
-		twinGeo.updateVisualStyle();
+		if(hasTwinGeo()){
+			twinGeo.setEuclidianVisible(visible);
+			twinGeo.updateVisualStyle();
+		}
 		app.storeUndoInfo();
 		kernel.notifyRepaint();
 	}
@@ -2126,6 +2125,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return false;
 		}
 		String oldEvalComment = evalComment;
+		ValidExpression oldEvalVE = evalVE;
 		// there is already a twinGeo, this means this cell is plotable,
 		// therefore return true
 		if (hasTwinGeo()) {
@@ -2181,7 +2181,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		if(twinGeo!=null)
 			twinGeo.setLabel(null);
-		if (twinGeo!=null && twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()) {
+		if (twinGeo!=null && twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()
+				&& !dependsOnDummy(twinGeo)) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
 			outputVE.setAssignmentType(AssignmentType.DEFAULT);
@@ -2195,13 +2196,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE.setLabel(assignmentVar);
 			latex = null;
 		} else {
+			App.debug("Fail"+oldEvalComment);
 			// plot failed, undo assignment
 			assignmentVar = null;
 			outputVE.setAssignmentType(AssignmentType.NONE);
 			inputVE.setAssignmentType(AssignmentType.NONE);
 			this.firstComputeOutput = true;
-			setEvalComment(oldEvalComment);
+			evalComment = oldEvalComment;
+			evalVE = oldEvalVE;
 			this.computeOutput(true);
+			return false;
 		}
 		return true;
 	}
