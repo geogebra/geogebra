@@ -67,7 +67,6 @@ import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
-import geogebra.gui.layout.LayoutD;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -371,9 +370,9 @@ public class AppD extends App implements
 
 	
 	
-	private geogebra.gui.layout.DockBar dockBar;
+	private DockBarInterface dockBar;
 
-	public geogebra.gui.layout.DockBar getDockBar() {
+	public DockBarInterface getDockBar() {
 		return dockBar;
 	}
 
@@ -587,7 +586,14 @@ public class AppD extends App implements
 		geogebra.common.factories.AwtFactory.prototype = new AwtFactoryD();
 		geogebra.common.factories.FormatFactory.prototype = new FormatFactoryD();
 		geogebra.common.factories.LaTeXFactory.prototype = new LaTeXFactoryD();
-		geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
+
+		// make sure minimal applets work with cas jar missing
+		try {
+			geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
+		} catch (java.lang.NoClassDefFoundError e) {
+			e.printStackTrace();
+			App.error("Error initializing CAS - missing JAR?");
+		}
 		geogebra.common.factories.SwingFactory.prototype = new SwingFactoryD();
 		geogebra.common.factories.UtilFactory.prototype = new UtilFactoryD();
 		geogebra.common.factories.Factory.prototype = new FactoryD();
@@ -704,7 +710,10 @@ public class AppD extends App implements
 	final protected void initGuiManager() {
 		setWaitCursor();
 		guiManager = newGuiManager();
-		guiManager.setLayout(new geogebra.gui.layout.LayoutD());
+		
+		AppD2.newLayout(this);
+		//guiManager.setLayout(new geogebra.gui.layout.LayoutD());
+		
 		guiManager.initialize();
 		setDefaultCursor();
 		
@@ -948,7 +957,7 @@ public class AppD extends App implements
 			}
 			
 			if (dockBar == null) {
-				dockBar = new geogebra.gui.layout.DockBar(this);
+				dockBar = AppD2.newDockBar(this);
 			}
 			
 			// clear the panels
@@ -992,9 +1001,9 @@ public class AppD extends App implements
 
 			if (showDockBar && !isApplet()) {
 				if (dockBar.isEastOrientation())
-					applicationPanel.add(dockBar, BorderLayout.EAST);
+					applicationPanel.add((Component) dockBar, BorderLayout.EAST);
 				else {
-					applicationPanel.add(dockBar, BorderLayout.WEST);
+					applicationPanel.add((Component) dockBar, BorderLayout.WEST);
 				}
 			}
 
@@ -1181,7 +1190,7 @@ public class AppD extends App implements
 		centerPanel.removeAll();
 
 		if (isUsingFullGui()) {
-			centerPanel.add(((LayoutD) getGuiManager().getLayout()).getRootComponent(),
+			centerPanel.add(AppD2.getRootComponent(this),
 					BorderLayout.CENTER);
 		} else {
 			centerPanel.add(getEuclidianView1().getJPanel(), BorderLayout.CENTER);
@@ -1256,7 +1265,7 @@ public class AppD extends App implements
 			boolean primary = args.getBooleanValue("primary", false);
 			if (primary) {
 
-				((LayoutD)getGuiManager().getLayout()).applyPerspective("BasicGeometry");
+				getGuiManager().getLayout().applyPerspective("BasicGeometry");
 				GlobalKeyDispatcherD.changeFontsAndGeoElements(this, 20, false);
 				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 				getEuclidianView1().setCapturingThreshold(10);
@@ -3445,8 +3454,8 @@ public class AppD extends App implements
 
 	@Override
 	public void setActiveView(int view) {
-		if (getGuiManager() != null) {
-			((LayoutD) getGuiManager().getLayout()).getDockManager().setFocusedPanel(view);
+		if (getGuiManager() != null) {	
+			AppD2.setActiveView(this, view);
 		}
 	}
 
@@ -3785,7 +3794,7 @@ public class AppD extends App implements
 		Component mainPane = SwingUtilities.getRootPane(mainComp);
 		if ((eventPane != mainPane)
 				// no layout in applets
-				&& (isApplet() || !((LayoutD) getGuiManager().getLayout()).inExternalWindow(eventPane))) {
+				&& (isApplet() || !AppD2.inExternalWindow(this, eventPane))) {
 			// ESC from dialog: close it
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				Component rootComp = SwingUtilities.getRoot(e.getComponent());

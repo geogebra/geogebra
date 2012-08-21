@@ -8,6 +8,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.gui.util.HelpAction;
 import geogebra.main.AppD;
+import geogebra.main.DockBarInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,7 +38,7 @@ import javax.swing.JToolBar;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements SetLabels, ActionListener {
+public class DockBar extends JPanel implements SetLabels, ActionListener, DockBarInterface {
 
 	private static final long serialVersionUID = 1L;
 

@@ -3,9 +3,12 @@ package geogebra.main;
 import geogebra.common.gui.GuiManager;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputbar.AlgebraInput;
+import geogebra.gui.layout.DockBar;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.toolbar.ToolbarContainer;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.io.File;
 
 import javax.swing.JComponent;
@@ -97,6 +100,26 @@ public class AppD2 {
 
 	public static void loadFile(AppD app, File currentFile, boolean b) {
 		((GuiManagerD) app.getGuiManager()).loadFile(currentFile, false);
+	}
+
+	public static void setActiveView(AppD app, int view) {
+		((LayoutD) app.getGuiManager().getLayout()).getDockManager().setFocusedPanel(view);
+	}
+
+	public static boolean inExternalWindow(AppD app, Component eventPane) {
+		return ((LayoutD) app.getGuiManager().getLayout()).inExternalWindow(eventPane);
+	}
+
+	public static Component getRootComponent(AppD app) {
+		return ((LayoutD) app.getGuiManager().getLayout()).getRootComponent();
+	}
+
+	public static void newLayout(AppD app) {
+		app.guiManager.setLayout(new geogebra.gui.layout.LayoutD());
+	}
+
+	public static DockBarInterface newDockBar(AppD app) {
+		return new DockBar(app);
 	}
 
 }

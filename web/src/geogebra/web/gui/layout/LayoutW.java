@@ -98,4 +98,9 @@ public class LayoutW extends Layout implements SettingListener {
 	    return false;
     }
 
+	@Override
+    public void applyPerspective(String string) {
+		App.debug("unimplemented");
+    }
+
 }

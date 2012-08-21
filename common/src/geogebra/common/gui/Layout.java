@@ -149,4 +149,6 @@ public abstract class Layout {
 
 	public abstract boolean isOnlyVisible(int viewEuclidian);
 
+	public abstract void applyPerspective(String string);
+
 }
