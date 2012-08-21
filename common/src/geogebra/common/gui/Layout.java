@@ -46,7 +46,7 @@ public abstract class Layout {
 		defToolbar = ToolBar.getAllToolsNoMacros(showAllTools, html5);
 	
 		defaultPerspectives[0] = new Perspective("AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
-		defaultPerspectives[0].setIconString("view-algebra24.png");
+		defaultPerspectives[0].setIconString("menu_view_algebra.png");
 		
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[5];
@@ -58,11 +58,11 @@ public abstract class Layout {
 		
 		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
-		defaultPerspectives[1].setIconString("view-graphics24.png");
+		defaultPerspectives[1].setIconString("menu_view_geometry.png");
 		
 		// geometry - like basic geometry but with less toolbar entries
 		defaultPerspectives[2] = new Perspective("Geometry", spData, dpData, defToolbar, true, false, false, false, true, false);
-		defaultPerspectives[2].setIconString("perspective-geometry22.png");
+		defaultPerspectives[2].setIconString("menu_view_graphics.png");
 		
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
@@ -76,7 +76,7 @@ public abstract class Layout {
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
 		
 		defaultPerspectives[3] = new Perspective("TableAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
-		defaultPerspectives[3].setIconString("view-spreadsheet24.png");
+		defaultPerspectives[3].setIconString("menu_view_spreadsheet.png");
 		
 		// CAS & Graphics - cas and euclidian view
 		dpData = new DockPanelData[5];
@@ -87,7 +87,7 @@ public abstract class Layout {
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
 		
 		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
-		defaultPerspectives[4].setIconString("view-cas24.png");
+		defaultPerspectives[4].setIconString("menu_view_cas.png");
 		
 //		// Python Scripting & Graphocs ** Doesn't work **
 //		dpData = new DockPanelData[6];
