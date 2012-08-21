@@ -2125,7 +2125,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (inputVE == null || input.equals("")) {
 			return false;
 		}
-
+		String oldEvalComment = evalComment;
 		// there is already a twinGeo, this means this cell is plotable,
 		// therefore return true
 		if (hasTwinGeo()) {
@@ -2179,9 +2179,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			this.firstComputeOutput = true;
 			this.computeOutput(true);
 		}
-
-		twinGeo.setLabel(null);
-		if (twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()) {
+		if(twinGeo!=null)
+			twinGeo.setLabel(null);
+		if (twinGeo!=null && twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
 			outputVE.setAssignmentType(AssignmentType.DEFAULT);
@@ -2200,6 +2200,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE.setAssignmentType(AssignmentType.NONE);
 			inputVE.setAssignmentType(AssignmentType.NONE);
 			this.firstComputeOutput = true;
+			setEvalComment(oldEvalComment);
 			this.computeOutput(true);
 		}
 		return true;
