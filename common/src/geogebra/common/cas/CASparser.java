@@ -350,49 +350,9 @@ public class CASparser implements CASParserInterface{
 		Kernel kernel = ve.getKernel();
 
 		try {
-			ExpressionNode tmp = null;
-			if (!ve.isExpressionNode())
-				tmp = new ExpressionNode(kernel, ve);
-			else tmp = ((ExpressionNode)ve);
-			String body = tmp.getCASstring(casStringType,
+			String body = ve.wrap().getCASstring(casStringType,
 					true);
-			DerivativeCollector col = DerivativeCollector.getCollector();
-			tmp.traverse(col);
-			List<GeoElement> derivativeFunctions= col.getFunctions();
-			List<Integer> derivativeDegrees= col.getDegrees();
-			StringTemplate casTpl = StringTemplate.casTemplate;
-			for(int i=0;i<derivativeDegrees.size();i++){
-				GeoElement ge = derivativeFunctions.get(i);
-				VarString f = (VarString)ge;
-				StringBuilder sb = new StringBuilder(80);
-				//procedure f'(ggbcasvarx); return sub(locvarx=ggbcasvarx,df(f(locvarx),locvarx,1);
-				sb.append("<<procedure ");
-				sb.append(ge.getLabel(casTpl));
-				int deg = derivativeDegrees.get(i);
-				for(int j=0;j<deg;j++)
-					sb.append("'");
-				sb.append("(");
-				sb.append(f.getVarString(casTpl));
-				sb.append("); sub(");
-				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
-				sb.append("=");
-				sb.append(f.getVarString(casTpl));
-				sb.append(",df(");
-				sb.append(ge.getLabel(casTpl));
-				sb.append("(");
-				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
-				sb.append(")");
-				sb.append(",");
-				sb.append(f.getVarString(casTpl).replaceAll("ggbcas", "loc"));
-				sb.append(",");
-				sb.append(deg);
-				sb.append("));>>");
-				try{
-					cas.evaluateRaw(sb.toString());
-				}catch(Throwable t){
-					t.printStackTrace();
-				}
-			}
+			
 			
 			// handle assignments
 			if(ve.getAssignmentType() == AssignmentType.DEFAULT || ve.getAssignmentType() == AssignmentType.DELAYED) {

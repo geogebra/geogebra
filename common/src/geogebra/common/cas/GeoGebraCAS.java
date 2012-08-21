@@ -7,11 +7,13 @@ import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
@@ -25,6 +27,7 @@ import geogebra.common.util.MaxSizeHashMap;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -199,6 +202,30 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		String result = null;
 		CASException exception = null;
 		try {
+			DerivativeCollector col = DerivativeCollector.getCollector();
+			casInput.traverse(col);
+			List<GeoElement> derivativeFunctions= col.getFunctions();
+			List<Integer> derivativeDegrees= col.getDegrees();
+			StringTemplate casTpl = StringTemplate.defaultTemplate;
+			StringBuilder sb = new StringBuilder(100);
+			for(int i=0;i<derivativeDegrees.size();i++){
+				sb.setLength(0);
+				sb.append(derivativeFunctions.get(i).getLabel(casTpl));
+				for(int j=0;j<derivativeDegrees.get(i);j++)
+					sb.append("'");
+				sb.append("(");
+				sb.append(((VarString)derivativeFunctions.get(i)).getVarString(casTpl));
+				sb.append("):=Derivative[");
+				sb.append(derivativeFunctions.get(i).getLabel(casTpl));
+				sb.append("(");
+				sb.append(((VarString)derivativeFunctions.get(i)).getVarString(casTpl));
+				sb.append("),");
+				sb.append(((VarString)derivativeFunctions.get(i)).getVarString(casTpl));
+				sb.append(",");
+				sb.append(derivativeDegrees.get(i));
+				sb.append("]");
+				evaluateGeoGebraCAS(sb.toString(), arbconst);
+			}
 			result = getCurrentCAS().evaluateGeoGebraCAS(casInput, arbconst,
 					tpl);
 		} catch (CASException ce) {
