@@ -293,6 +293,7 @@ cp $GWTXML $GWTXML.orig
 cat $GWTXML | \
  $XML ed -u "/module/set-property[@name='user.agent']/@value" -v "$USERAGENTS" > $GWTXML-b
  
+# 7/1. Localization
 if [ "$LOCALES" != "" ]; then
  cat $GWTXML-b |\
   $XML ed -d "/module/extend-property[@name='locale']" |\
@@ -302,7 +303,15 @@ if [ "$LOCALES" != "" ]; then
    $XML ed -s /module -t elem -n extend-property -v "" |\
    $XML ed -i "/module/extend-property" -t attr -n name -v locale |\
    $XML ed -i "/module/extend-property[@name='locale']" -t attr -n values -v "$LOCALES" > $GWTXML-b
-  mv $GWTXML-b $GWTXML  
+  mv $GWTXML-b $GWTXML
+  LOCALES_SPLIT=`echo $LOCALES | tr , " "`
+  echo "Disabling locales first..."
+  LANGUAGE_JAVA=$WEBDIR/../common/src/geogebra/common/util/Language.java
+  sed -i s/", [truefalse]*, [truefalse]*, \""/", false, false, \""/ $LANGUAGE_JAVA
+  for i in $LOCALES_SPLIT; do
+   echo "Enabling localization for $i..."
+   sed -i s/",[ ]*[truefalse]*,[ ]*[truefalse]*,[ ]*\"\([a-z_]*\)\",[ ]*\"$i\""/", true, true, \"\1\", \"$i\""/ $LANGUAGE_JAVA
+   done
   fi # $LOCALES != NONE
 else
  mv $GWTXML-b $GWTXML # Using the defaults from the .gwt.xml file (default, $LOCALES is empty)
