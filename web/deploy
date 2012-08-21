@@ -79,11 +79,8 @@ fi
 if [ $UPDATEGAE = 1 ]; then
 echo "Uploading to Google App Engine"
 cd $WORKDIR
-echo "Removing symbolMaps and classes..."
+echo "Removing symbolMaps"
 rm -fR war/WEB-INF/deploy/web/symbolMaps
-rm -fR war/WEB-INF/classes
-echo "Cloning app.html into index.html"
-cp war/app.html war/index.html
 cd $GAEDIR/bin
 sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
 fi
