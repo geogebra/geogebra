@@ -3,10 +3,12 @@ package geogebra.common.cas;
 import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -539,10 +541,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		App.debug(body);
 		String casLabel = ge.getLabel(tpl);
 		if (ge instanceof FunctionalNVar) {
-			String params = ((FunctionalNVar) ge).getFunction().getVarString(
-					tpl);
+			FunctionVariable[] funVariables = ((FunctionalNVar) ge)
+					.getFunction().getFunctionVariables();
+			String[] variables = new String[funVariables.length];
+			for (int i = 0; i < funVariables.length; i++) {
+				variables[i] = funVariables[i].toString(tpl);
+			}
+			AssignmentType assignmentType = ((FunctionalNVar) ge).getFunction().getAssignmentType();
+
 			return getCurrentCAS().translateFunctionDeclaration(casLabel,
-					params, body);
+					variables, body, assignmentType);
 		}
 		return getCurrentCAS().translateAssignment(casLabel, body);
 	}

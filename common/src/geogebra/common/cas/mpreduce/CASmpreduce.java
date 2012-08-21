@@ -5,6 +5,7 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -242,15 +243,72 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return toGeoGebraString(result, arbconst, tpl);
 	}
 
+	/**
+	 * Creates an input string for reduce which defines a function. The body is
+	 * first evaluated and the result is then used as function body. E.g. the
+	 * parameters (f,x,df(x^3,x)) will set f(y):=3*y^2 and NOT f(y):=df(y^3,y).
+	 * 
+	 * @param label
+	 *            The name of the function
+	 * @param parameters
+	 *            The list of the parameters of the function
+	 * @param body
+	 *            The function body
+	 * @return an input string for reduce which defines the function
+	 */
+
 	public String translateFunctionDeclaration(final String label,
-			final String parameters, final String body) {
+			final String[] parameters, final String body, AssignmentType type) {
+		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" procedure ");
+		
+		if (type==AssignmentType.DELAYED){
+
+			sb.append("procedure ");
+			sb.append(label);
+			sb.append('(');
+			for (int i = 0; i < parameters.length; i++) {
+				if (i != 0) {
+					sb.append(',');
+				}
+				sb.append(parameters[i]);
+
+			}
+			sb.append("); begin return ");
+			sb.append(body);
+			sb.append(" end ");
+			
+			return sb.toString();
+		}
+		
+		StringBuilder parameterstmp = new StringBuilder();
+		StringBuilder replacements = new StringBuilder("list(");
+		for (int i = 0; i < parameters.length; i++) {
+			if (i != 0) {
+				parameterstmp.append(',');
+				replacements.append(',');
+			}
+			parameterstmp.append(parameters[i]);
+			parameterstmp.append("tmp");
+			replacements.append(parameters[i]);
+			replacements.append(" => ");
+			replacements.append(parameters[i]);
+			replacements.append("tmp");
+		}
+		replacements.append(')');
+
+		sb.append(label);
+		sb.append("functionbody := ");
+		sb.append(body);
+		sb.append("$ procedure ");
 		sb.append(label);
 		sb.append("(");
-		sb.append(parameters);
-		sb.append("); begin return ");
-		sb.append(body);
+		sb.append(parameterstmp);
+		sb.append("); begin return sub(");
+		sb.append(replacements);
+		sb.append(',');
+		sb.append(label);
+		sb.append("functionbody)");
 		sb.append(" end ");
 
 		return sb.toString();

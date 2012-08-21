@@ -403,8 +403,13 @@ public class CASparser implements CASParserInterface{
 				label = kernel.printVariableName(casStringType.getStringType(), label);
 				if(ve instanceof FunctionNVar) {
 					FunctionNVar funVar = (FunctionNVar) ve;
+					FunctionVariable[] funVariables = funVar.getFunctionVariables();
+					String[] variables=new String[funVariables.length];
+					for (int i=0;i<funVariables.length;i++){
+						variables[i] = funVariables[i].toString(casStringType);
+					}
 					return cas.translateFunctionDeclaration(label,
-							funVar.getVarString(casStringType), body);
+							variables, body, funVar.getAssignmentType());
 				}
 				return cas.translateAssignment(label, body);
 			}

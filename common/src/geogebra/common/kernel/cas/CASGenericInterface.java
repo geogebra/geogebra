@@ -2,6 +2,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.settings.SettingListener;
@@ -87,10 +88,11 @@ public interface CASGenericInterface extends SettingListener {
 	 *            "x, y"
 	 * @param body
 	 *            the body of the function.
+	 * @param type the assignment type
 	 * @return String in CAS format.
 	 */
 	public abstract String translateFunctionDeclaration(final String label,
-			final String parameters, final String body);
+			final String[] parameters, final String body, AssignmentType type);
 
 	/**
 	 * Sets the number of signficiant figures (digits) that should be used as
