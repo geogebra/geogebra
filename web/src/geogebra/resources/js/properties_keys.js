@@ -167,8 +167,6 @@ var commandKeysVar = {
 	CurvatureVector_Syntax:'',
 	CurveCartesian:'',
 	CurveCartesian_Syntax:'',
-	Decimal:'',
-	Decimal_SyntaxCAS:'',
 	Defined:'',
 	Defined_Syntax:'',
 	Degree:'',

@@ -397,12 +397,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Expression>, <Expression>, <Parameter Variable>, <Start Value>, <End Value> ]")
     String CurveCartesian_Syntax();
 
-    @DefaultStringValue("Decimal")
-    String Decimal();
-
-    @DefaultStringValue("[ <Expression> ]")
-    String Decimal_SyntaxCAS();
-
     @DefaultStringValue("IsDefined")
     String Defined();
 
