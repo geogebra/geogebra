@@ -36,7 +36,6 @@ public class CASTableCellRenderer extends CASTableCell implements
 				setFont(view.getCASViewComponent().getFont()
 						.deriveFont(((GeoCasCell) value).getFontStyle(),(float)(12*((GeoCasCell) value).getFontSizeMultiplier())));// ,
 																			// ((GeoCasCell)
-				App.debug(((GeoCasCell) value).getFontColor().getBlue());
 				setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
 				dummyField.setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
 				this.getInputArea().setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));

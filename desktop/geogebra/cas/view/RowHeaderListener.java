@@ -90,13 +90,15 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		// handle right click
 		
 
-		if (rightClick && rowHeader.getSelectedIndices().length>0) {
+		if (rightClick) {
 			if(!rowHeader.isSelectedIndex(releasedRow)){
 				rowHeader.setSelectedIndex(releasedRow);
 			}
-			RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader,
+			if(rowHeader.getSelectedIndices().length>0){
+				RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader,
 					table);
-			popupMenu.show(e.getComponent(), e.getX(), e.getY());
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			}
 		}
 	}
 
