@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
-import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
 import geogebra.util.Validation;

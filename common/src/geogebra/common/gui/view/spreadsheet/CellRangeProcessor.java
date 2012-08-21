@@ -1,9 +1,6 @@
-package geogebra.gui.view.spreadsheet;
+package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.view.spreadsheet.CellRange;
-import geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -23,7 +20,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
-import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,22 +37,22 @@ import com.google.gwt.regexp.shared.MatchResult;
  */
 public class CellRangeProcessor {
 
-	private MyTableD table;
-	private AppD app;
+	private MyTable table;
+	private App app;
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
 
-	public CellRangeProcessor(MyTableD table) {
+	public CellRangeProcessor(MyTable table) {
 
 		this.table = table;
-		app = (AppD) table.kernel.getApplication();
+		app = table.getKernel().getApplication();
 		tableModel = app.getSpreadsheetTableModel();
-		cons = table.kernel.getConstruction();
+		cons = table.getKernel().getConstruction();
 
 	}
 
-	private SpreadsheetView getView() {
-		return (SpreadsheetView) app.getGuiManager().getSpreadsheetView();
+	private SpreadsheetViewInterface getView() {
+		return (SpreadsheetViewInterface) app.getGuiManager().getSpreadsheetView();
 	}
 
 	// ===============================================
@@ -975,11 +971,11 @@ public class CellRangeProcessor {
 		if (columns == column1 + 1) {
 			// last column: need to insert one more
 			tableModel.setColumnCount(tableModel.getColumnCount() + 1);
-			getView().getColumnHeader().revalidate();
+			getView().columnHeaderRevalidate();
 			columns++;
 		}
 		int rows = tableModel.getRowCount();
-		boolean succ = table.copyPasteCut.delete(columns - 1, 0, columns - 1,
+		boolean succ = table.getCopyPasteCut().delete(columns - 1, 0, columns - 1,
 				rows - 1);
 		for (int x = columns - 2; x >= column1; --x) {
 			for (int y = 0; y < rows; ++y) {
@@ -1013,10 +1009,10 @@ public class CellRangeProcessor {
 		if (columns == column1 + 1) {
 			// last column: insert another on right
 			tableModel.setColumnCount(table.getColumnCount() + 1);
-			getView().getColumnHeader().revalidate();
+			getView().columnHeaderRevalidate();
 			// can't be undone
 		} else {
-			succ = table.copyPasteCut.delete(columns - 1, 0, columns - 1,
+			succ = table.getCopyPasteCut().delete(columns - 1, 0, columns - 1,
 					rows - 1);
 			for (int x = columns - 2; x >= column2 + 1; --x) {
 				for (int y = 0; y < rows; ++y) {
@@ -1048,10 +1044,10 @@ public class CellRangeProcessor {
 		if (rows == row2 + 1) {
 			// last row: need to insert one more
 			tableModel.setRowCount(tableModel.getRowCount() + 1);
-			getView().getRowHeader().revalidate();
+			getView().rowHeaderRevalidate();
 			rows++;
 		}
-		boolean succ = table.copyPasteCut.delete(0, rows - 1, columns - 1,
+		boolean succ = table.getCopyPasteCut().delete(0, rows - 1, columns - 1,
 				rows - 1);
 		for (int y = rows - 2; y >= row1; --y) {
 			for (int x = 0; x < columns; ++x) {
@@ -1083,10 +1079,10 @@ public class CellRangeProcessor {
 		if (rows == row2 + 1) {
 			// last row: need to insert one more
 			tableModel.setRowCount(tableModel.getRowCount() + 1);
-			getView().getRowHeader().revalidate();
+			getView().rowHeaderRevalidate();
 			// can't be undone
 		} else {
-			succ = table.copyPasteCut
+			succ = table.getCopyPasteCut()
 					.delete(0, rows - 1, columns - 1, rows - 1);
 			for (int y = rows - 2; y >= row2 + 1; --y) {
 				for (int x = 0; x < columns; ++x) {

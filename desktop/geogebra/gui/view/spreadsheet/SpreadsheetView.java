@@ -45,8 +45,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class SpreadsheetView extends JPanel implements View, ComponentListener,
-		FocusListener, Gridable, SettingListener, SpreadsheetViewInterface {
+public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface, ComponentListener,
+		FocusListener, Gridable, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -241,8 +241,16 @@ public class SpreadsheetView extends JPanel implements View, ComponentListener,
 		return spreadsheet.getRowHeader();
 	}
 
+	public void rowHeaderRevalidate() {
+		spreadsheet.getRowHeader().revalidate();
+	}
+
 	public JViewport getColumnHeader() {
 		return spreadsheet.getColumnHeader();
+	}
+
+	public void columnHeaderRevalidate() {
+		spreadsheet.getColumnHeader().revalidate();
 	}
 
 	public JTableHeader getTableHeader() {

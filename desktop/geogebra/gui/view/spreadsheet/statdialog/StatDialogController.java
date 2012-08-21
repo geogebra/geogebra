@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -14,7 +15,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
 

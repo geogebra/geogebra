@@ -1,7 +1,12 @@
 package geogebra.common.gui.view.spreadsheet;
 
-public interface SpreadsheetViewInterface {
+import geogebra.common.kernel.View;
+
+public interface SpreadsheetViewInterface extends View {
 
 	public MyTableInterface getTable();
 
+
+	public void rowHeaderRevalidate();
+	public void columnHeaderRevalidate();
 }

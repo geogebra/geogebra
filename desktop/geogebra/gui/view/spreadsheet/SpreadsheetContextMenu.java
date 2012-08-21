@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;

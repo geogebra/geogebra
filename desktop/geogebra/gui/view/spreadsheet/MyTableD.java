@@ -5,8 +5,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -52,7 +53,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-public class MyTableD extends JTable implements FocusListener, MyTableInterface {
+public class MyTableD extends JTable implements FocusListener, MyTable {
 	private static final long serialVersionUID = 1L;
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
@@ -297,6 +298,24 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 	/**
 	 * End table constructor
 	 ******************************************************************/
+
+	/**
+	 * Simple getter method
+	 * 
+	 * @return CopyPasteCut
+	 */
+	public CopyPasteCut getCopyPasteCut() {
+		return copyPasteCut;
+	}
+
+	/**
+	 * Simple getter method
+	 * 
+	 * @return Kernel
+	 */
+	public Kernel getKernel() {
+		return kernel;
+	}
 
 	/**
 	 * Returns parent SpreadsheetView for this table

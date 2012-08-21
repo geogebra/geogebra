@@ -1021,7 +1021,11 @@ public abstract class App {
 	 */
 	public abstract void showError(String s);
 
-
+	/**
+	 * Shows error dialog with a given text
+	 * @param s
+	 */
+	public abstract void showErrorDialog(String s);
 
 	private boolean useBrowserForJavaScript = true;
 
