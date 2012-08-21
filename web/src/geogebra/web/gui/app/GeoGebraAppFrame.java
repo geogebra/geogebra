@@ -141,8 +141,8 @@ public class GeoGebraAppFrame extends Composite {
 		AppW.displaySupportedLocales();
 		AppW.displayLocaleCookie();
 		
-		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
-	    CASmpreduceW.getStaticInterpreter(casMPReduce);
+//		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
+//	    CASmpreduceW.getStaticInterpreter(casMPReduce);
     }
 	
 	/**
