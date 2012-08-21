@@ -1469,7 +1469,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// silent evaluation of output in GeoGebra
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE);
-		if (lastOutputEvaluationGeo != null) {
+		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			twinGeo.set(lastOutputEvaluationGeo);
 		} else {
 			twinGeo.setUndefined();
