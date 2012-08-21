@@ -1429,7 +1429,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		arbconst.reset();
 		outputVE.traverse(repl);
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
-		if (newTwinGeo != null) {
+		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
 		}
 	}
