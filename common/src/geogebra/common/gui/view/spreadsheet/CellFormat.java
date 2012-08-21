@@ -1,16 +1,14 @@
-package geogebra.gui.view.spreadsheet;
+package geogebra.common.gui.view.spreadsheet;
 
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
-import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import javax.swing.SwingConstants;
 
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
@@ -28,7 +26,7 @@ import javax.swing.SwingConstants;
  */
 public class CellFormat implements CellFormatInterface {
 
-	MyTableD table;
+	MyTable table;
 
 	// Array of format tables
 	private MyHashMap[] formatMapArray;
@@ -43,15 +41,15 @@ public class CellFormat implements CellFormatInterface {
 	private int formatCount = 5;
 
 	// Alignment constants
-	public static final int ALIGN_LEFT = SwingConstants.LEFT;
-	public static final int ALIGN_CENTER = SwingConstants.CENTER;
-	public static final int ALIGN_RIGHT = SwingConstants.RIGHT;
+	public static final int ALIGN_LEFT = 2;//SwingConstants.LEFT;
+	public static final int ALIGN_CENTER = 0;//SwingConstants.CENTER;
+	public static final int ALIGN_RIGHT = 4;//SwingConstants.RIGHT;
 
 	// Font syle constants
-	public static final int STYLE_PLAIN = Font.PLAIN;
-	public static final int STYLE_BOLD = Font.BOLD;
-	public static final int STYLE_ITALIC = Font.ITALIC;
-	public static final int STYLE_BOLD_ITALIC = Font.BOLD + Font.ITALIC;
+	public static final int STYLE_PLAIN = GFont.PLAIN;//Font.PLAIN;
+	public static final int STYLE_BOLD = GFont.BOLD;//Font.BOLD;
+	public static final int STYLE_ITALIC = GFont.ITALIC;//Font.ITALIC;
+	public static final int STYLE_BOLD_ITALIC = GFont.BOLD + GFont.ITALIC;
 
 	// Border style constants used by stylebar.
 	// Keep this order, they are indices to the border popup button menu
@@ -95,7 +93,7 @@ public class CellFormat implements CellFormatInterface {
 	 * 
 	 * @param table
 	 */
-	public CellFormat(MyTableD table) {
+	public CellFormat(MyTable table) {
 
 		this.table = table;
 		// Create instances of the format hash maps
@@ -218,7 +216,7 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	public void setFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<CellRange> crList = new ArrayList<CellRange>();
-		crList.add(new CellRange(table.app, cell.x, cell.y));
+		crList.add(new CellRange(table.getApplication(), cell.x, cell.y));
 		setFormat(crList, formatType, formatValue);
 	}
 
@@ -377,21 +375,21 @@ public class CellFormat implements CellFormatInterface {
 
 			case BORDER_STYLE_INSIDE:
 				setFormat(
-						new CellRange(table.app, -1, cr.getMinRow(), -1,
+						new CellRange(table.getApplication(), -1, cr.getMinRow(), -1,
 								cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
 				if (cr.getMinRow() < cr.getMaxRow()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new CellRange(table.app, -1, cr.getMinRow() + 1,
+					setFormat(new CellRange(table.getApplication(), -1, cr.getMinRow() + 1,
 							-1, cr.getMaxRow()), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
 				setFormat(
-						new CellRange(table.app, -1, cr.getMinRow(), -1,
+						new CellRange(table.getApplication(), -1, cr.getMinRow(), -1,
 								cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
 				setFormat(
-						new CellRange(table.app, -1, cr.getMaxRow(), -1,
+						new CellRange(table.getApplication(), -1, cr.getMaxRow(), -1,
 								cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
 				break;
 			}
@@ -427,23 +425,23 @@ public class CellFormat implements CellFormatInterface {
 
 			case BORDER_STYLE_INSIDE:
 				setFormat(
-						new CellRange(table.app, cr.getMinColumn(), -1,
+						new CellRange(table.getApplication(), cr.getMinColumn(), -1,
 								cr.getMinColumn(), -1), FORMAT_BORDER,
 						BORDER_TOP);
 				if (cr.getMinColumn() < cr.getMaxColumn()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new CellRange(table.app, cr.getMinColumn() + 1,
+					setFormat(new CellRange(table.getApplication(), cr.getMinColumn() + 1,
 							-1, cr.getMaxColumn(), -1), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
 				setFormat(
-						new CellRange(table.app, cr.getMinColumn(), -1,
+						new CellRange(table.getApplication(), cr.getMinColumn(), -1,
 								cr.getMinColumn(), -1), FORMAT_BORDER,
 						BORDER_LEFT);
 				setFormat(
-						new CellRange(table.app, cr.getMaxColumn(), -1,
+						new CellRange(table.getApplication(), cr.getMaxColumn(), -1,
 								cr.getMaxColumn(), -1), FORMAT_BORDER,
 						BORDER_RIGHT);
 				break;
@@ -690,7 +688,7 @@ public class CellFormat implements CellFormatInterface {
 				sb.append(border);
 			}
 
-			Color bgColor = (Color) formatMapArray[FORMAT_BGCOLOR].get(cell);
+			GColor bgColor = (GColor) formatMapArray[FORMAT_BGCOLOR].get(cell);
 			if (bgColor != null) {
 				sb.append(formatDelimiter);
 				sb.append(bgColorToken);
@@ -753,7 +751,7 @@ public class CellFormat implements CellFormatInterface {
 			formatType = formatTokenMap.get(f[i]);
 			formatValue = Integer.parseInt(f[i + 1]);
 			if (formatType == FORMAT_BGCOLOR)
-				formatValue = new Color((Integer) formatValue);
+				formatValue = AwtFactory.prototype.newColor((Integer)formatValue);
 			else if (formatType == FORMAT_BORDER) {
 				int b = (Integer) formatValue;
 				formatValue = (byte) b;

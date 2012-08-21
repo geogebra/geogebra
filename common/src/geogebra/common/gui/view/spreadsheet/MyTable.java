@@ -1,6 +1,7 @@
 package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 
 public interface MyTable extends MyTableInterface {
 
@@ -14,7 +15,11 @@ public interface MyTable extends MyTableInterface {
 	public static final int TABLE_MODE_DROP = 2;
 
 	// e.g. for CellRangeProcessor
-	public abstract Kernel getKernel();
-	public abstract CopyPasteCut getCopyPasteCut();
-	public abstract int getColumnCount();
+	public Kernel getKernel();
+	public App getApplication();
+	public SpreadsheetViewInterface getView();
+	public CopyPasteCut getCopyPasteCut();
+	public int getColumnCount();
+	public int getRowCount();
+	public boolean isSelectAll();
 }

@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.color.ColorPopupMenuButton;
@@ -221,7 +222,11 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 			Color bgCol = geogebra.awt.GColorD.getAwtColor(btnBgColor
 					.getSelectedColor());
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR,
-					bgCol);
+
+				// could simply be btnBgColor.getSelectedColor(), not sure...
+				bgCol == null ? null : new geogebra.awt.GColorD(bgCol)
+
+			);
 
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {

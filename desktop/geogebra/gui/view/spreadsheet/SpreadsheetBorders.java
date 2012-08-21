@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.BasicStroke;

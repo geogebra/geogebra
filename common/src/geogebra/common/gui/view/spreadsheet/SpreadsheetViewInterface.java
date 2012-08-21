@@ -9,4 +9,5 @@ public interface SpreadsheetViewInterface extends View {
 
 	public void rowHeaderRevalidate();
 	public void columnHeaderRevalidate();
+	public void updateCellFormat(String s);
 }

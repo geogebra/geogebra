@@ -108,4 +108,20 @@ public abstract class GColor implements GPaint{
 	public static String getColorString(GColor fillColor){
 		return "rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")";
 	}
+
+	public int getRGB() {
+		int red = getRed();
+		if (red > 255) red = 255;
+		if (red < 0) red = 0;
+		int green = getGreen();
+		if (green > 255) green = 255;
+		if (green < 0) green = 0;
+		int blue = getBlue();
+		if (blue > 255) blue = 255;
+		if (blue < 0) blue = 0;
+		int alpha = getAlpha();
+		if (alpha > 255) alpha = 255;
+		if (alpha < 0) alpha = 0;
+		return ((alpha*256+red)*256+green)*256+blue;
+	}
 }

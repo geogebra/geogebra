@@ -1094,7 +1094,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 
 	boolean allowSettingUpate = true;
 
-	protected void updateCellFormat(String cellFormat) {
+	public void updateCellFormat(String cellFormat) {
 		if (!allowSettingUpate)
 			return;
 

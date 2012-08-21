@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -119,8 +120,10 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		bgColor = (Color) formatHandler.getCellFormat(cellPoint,
-				CellFormat.FORMAT_BGCOLOR);
+		bgColor = geogebra.awt.GColorD.getAwtColor(
+				(geogebra.awt.GColorD)
+				formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_BGCOLOR));
 		if (bgColor == null) {
 			isCustomBGColor = false;
 			bgColor = table.getBackground();
