@@ -81,7 +81,7 @@ echo "Uploading to Google App Engine"
 cd $WORKDIR
 echo "Removing symbolMaps and classes..."
 rm -fR war/WEB-INF/deploy/web/symbolMaps
-rm -fR war/WEB_INF/classes
+rm -fR war/WEB-INF/classes
 cd $GAEDIR/bin
 sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
 fi
