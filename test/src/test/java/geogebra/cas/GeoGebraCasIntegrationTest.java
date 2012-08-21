@@ -401,6 +401,7 @@ public class GeoGebraCasIntegrationTest {
 
 		t("(a x^2 + b x + c = 0) / a", expectedResult.toString());
 	}
+	
 
 	/* Absolute Value */
 
@@ -432,6 +433,7 @@ public class GeoGebraCasIntegrationTest {
 	public void AbsoluteValues_Variables_1() {
 		t("Abs(-x)", "abs(x)");
 	}
+	
 
 	/* Binomial Coefficient (alias Binomial) */
 
@@ -485,6 +487,7 @@ public class GeoGebraCasIntegrationTest {
 		t("BinomialCoefficient[154, 53]",
 				"766790648099833656282026107194109056868560");
 	}
+	
 
 	/* BinomialDist */
 
@@ -514,6 +517,7 @@ public class GeoGebraCasIntegrationTest {
 	public void BinomialDist_NonCumulative_4() {
 		t("BinomialDist[3, 0.9, 4, false]", "0");
 	}
+	
 
 	/* Cumulative */
 
@@ -541,6 +545,7 @@ public class GeoGebraCasIntegrationTest {
 	public void BinomialDist_Cumulative_4() {
 		t("BinomialDist[3, 0.9, 4, true]", "1");
 	}
+	
 
 	/* Complex Numbers */
 
@@ -550,6 +555,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ComplexNumbers() {
 		t("(5 + 3 ί) + Conjugate(5 + 3 ί)", "10");
 	}
+	
 
 	/* Cauchy */
 
@@ -557,6 +563,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Cauchy_0() {
 		t("Cauchy[1, 2, 3]", "3 / 4");
 	}
+	
 
 	/* CFactor */
 
@@ -576,7 +583,6 @@ public class GeoGebraCasIntegrationTest {
 		t("CFactor[a^2 + x^2, x]", "(x + a * ί) * (x - a * ί)",
 				"(x + ί * a) * (x - ί * a)");
 	}
-	
 
 
 	/* ChiSquared */
@@ -589,12 +595,12 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	/* Numeric Evaluation */
-
 	
 	@Test
 	public void ChiSquared_Numeric_0() {
 		t("Numeric[ChiSquared[4, 3], 3]", "0.442");
 	}
+	
 
 	/* CommonDenomiator */
 
@@ -613,6 +619,7 @@ public class GeoGebraCasIntegrationTest {
 		t("CommonDenominator[3 / (2 x + 1), 3 / (4 x^2 + 4 x + 1)]",
 				"4 * x^(2) + 4 * x + 1");
 	}
+	
 
 	/* Covariance */
 
@@ -625,6 +632,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Covariance_1() {
 		t("Covariance[{(1, 1), (2, 3), (3, 7)}]", "2");
 	}
+	
 
 	/* Cross */
 
@@ -668,27 +676,33 @@ public class GeoGebraCasIntegrationTest {
 				"-2");
 	}
 	
+	
 	/* CSolutions */
 
+	/* One Equation and one Variable */
+
 	@Test
-	public void CSolutions_0() {
+	public void CSolutions_OneVariable_0() {
 		t("CSolutions[x^2 = -1]", "{ί, -ί}");
 	}
 
 	@Test
-	public void CSolutions_1() {
+	public void CSolutions_OneVariable_1() {
+		t("CSolutions[x^2 + 1 = 0]", "{ί, -ί}");
+	}
+
+	@Test
+	public void CSolutions_OneVariable_2() {
 		t("CSolutions[a^2 = -1, a]", "{ί, -ί}");
 	}
 
-	// FIXME commented out because of #1865
-
+	/* Several Equations and Variables */
 
 	@Test
-	public void CSolutions_2() {
+	public void CSolutions_Several_0() {
 		t("CSolutions[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]",
 				"{{1 + 2 * ί, 1 + ί}, {1 - 2 * ί, 1 - ί}}");
 	}
-
 
 
 	/* CSolve */
@@ -697,12 +711,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CSolve_OneVariable_0() {
-		t("CSolve[x^2 + 1 = 0, x]", "{x = ί, x = -ί}");
+		t("CSolve[x^2 = -1]", "{x = ί, x = -ί}");
 	}
 
 	@Test
 	public void CSolve_OneVariable_1() {
-		t("CSolve[x^2 = -1]", "{x = ί, x = -ί}");
+		t("CSolve[x^2 + 1 = 0, x]", "{x = ί, x = -ί}");
 	}
 
 	@Test
@@ -712,24 +726,18 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Several Equations and Variables */
 
-
-
 	@Test
 	public void CSolve_Several_0() {
 		t("CSolve[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]",
 				"{{x = 1 + 2 * ί, y = 1 + ί}, {x = 1 - 2 * ί, y = 1 - ί}}");
 	}
-	
 
 
 	/* Degree */
 
-
-
 	 @Test public void Degree_0() {
 		 t("Degree[x^4 + 2 x^2]", "4"); 
 	}
-	 
 
 	@Test
 	public void Degree_1() {
@@ -741,8 +749,8 @@ public class GeoGebraCasIntegrationTest {
 		t("Degree[a x^4 + 2 x^2, a]", "1");
 	}
 
+	
 	/* Delete */
-
 	
 	@Test
 	public void Delete_0() {
@@ -771,6 +779,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Denominator_1() {
 		t("Denominator[5 / (x^2 + 2)]", "x^(2) + 2");
 	}
+	
 
 	/* Derivative */
 
@@ -803,6 +812,7 @@ public class GeoGebraCasIntegrationTest {
 		}
 		t("Derivative[a x^3, x, 2]", "6 * x * a", "6 * a * x");
 	}
+	
 
 	/* Determinant */
 
@@ -815,6 +825,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Determinant_1() {
 		t("Determinant[{{1, a}, {b, 4}}]", "-a * b + 4");
 	}
+	
 
 	/* Dimension */
 
@@ -832,6 +843,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Dimension_2() {
 		t("Dimension[{{a, b}, {c, d}, {e, f}}]", "{3, 2}");
 	}
+	
 
 	/* Div */
 
@@ -844,6 +856,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Div_1() {
 		t("Div[x^2 + 3 x + 1, x - 1]", "x + 4");
 	}
+	
 
 	/* Division */
 
@@ -856,6 +869,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Division_1() {
 		t("Division[x^2 + 3 x + 1, x - 1]", "{x + 4, 5}");
 	}
+	
 
 	/* Divisors */
 
@@ -863,6 +877,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Divisiors_0() {
 		t("Divisors[15]", "4");
 	}
+	
 
 	/* DivisorsList */
 
@@ -870,6 +885,7 @@ public class GeoGebraCasIntegrationTest {
 	public void DivisorsList_0() {
 		t("DivisorsList[15]", "{1, 3, 5, 15}");
 	}
+	
 
 	/* DivisorsSum */
 
@@ -877,6 +893,7 @@ public class GeoGebraCasIntegrationTest {
 	public void DivisorsSum_0() {
 		t("DivisorsSum[15]", "24");
 	}
+	
 
 	/* Dot */
 
@@ -889,6 +906,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Dot_1() {
 		t("(1,2) * (a,b)","a+2*b");
 	}
+	
 
 	/* Element */
 
@@ -903,6 +921,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Element_ListSD_1() {
 		t("Element[{a, b, c}, 2]", "b");
 	}
+	
 
 	/* Matrix */
 
@@ -923,6 +942,7 @@ public class GeoGebraCasIntegrationTest {
 	 * multidimensional lists, Geogebra CAS does not.
 	 */
 
+	
 	/* Expand */
 
 	@Test
@@ -935,7 +955,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Expand[((a + b) / (c + d))^2]",
 				"(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
 	}
-
 
 	@Test
 	public void Expand_2() {
@@ -977,6 +996,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Exponential_0() {
 		t("Exponential[2, 1]", "(ℯ^(2) - 1) / ℯ^(2)");
 	}
+	
 
 	/* Factor */
 
@@ -1103,10 +1123,12 @@ public class GeoGebraCasIntegrationTest {
 		t("Factors[x^8 - 1]",
 				"{{x^(4) + 1, 1}, {x^(2) + 1, 1}, {x + 1, 1}, {x - 1, 1}}");
 	}
+	
 
 	/* FDistribution */
 
 	// FIXME #1869
+	
 
 	/* First */
 
@@ -1133,6 +1155,7 @@ public class GeoGebraCasIntegrationTest {
 	public void First_Variables_1() {
 		t("First[{a, b, c, d}, 2]", "{a, b}");
 	}
+	
 
 	/* Fit Pow */
 
@@ -1144,6 +1167,7 @@ public class GeoGebraCasIntegrationTest {
 
 	// TODO Abstract, as well?
 
+	
 	/* FractionalPart */
 
 	@Test
@@ -1160,6 +1184,7 @@ public class GeoGebraCasIntegrationTest {
 	public void FractionalPart_2() {
 		t("FractionalPart[-14/5]", "(-4) / 5");
 	}
+	
 
 	/* GCD */
 
@@ -1187,6 +1212,7 @@ public class GeoGebraCasIntegrationTest {
 		t("GCD[{x^2 + 4 * x + 4, x^2 - x - 6, x^3 - 4 * x^2 - 3 * x + 18}]",
 				"x + 2");
 	}
+	
 
 	/* HyperGeometric */
 
@@ -1233,6 +1259,7 @@ public class GeoGebraCasIntegrationTest {
 	public void HyperGeometric_Cumulative_3() {
 		t("HyperGeometric[10, 2, 2, 3, true]", "1");
 	}
+	
 
 	/* Imaginary */
 
@@ -1240,6 +1267,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Imaginary_0() {
 		t("Imaginary[17 + 3 ί]", "3");
 	}
+	
 
 	/* ImplicitDerivative */
 
@@ -1252,6 +1280,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ImplicitDerivative_1() {
 		t("ImplicitDerivative[x^2 + y^2, x, y]", "(-x) / y");
 	}
+	
 
 	/* IntegerPart */
 
@@ -1264,12 +1293,11 @@ public class GeoGebraCasIntegrationTest {
 	public void IntegerPart_1() {
 		t("IntegerPart[1/5 + 3/2 + 2]", "3");
 	}
+	
 
 	/* Integral */
 
 	/* Indefinite Integral */
-
-
 	
 	@Test
 	public void Integral_Indefinite_0() {
@@ -1285,8 +1313,6 @@ public class GeoGebraCasIntegrationTest {
 	public void Integral_Indefinite_2() {
 		s("Integral[-x^3 + x^2]", "(x^(3) * (-3 * x + 4)) / 12 + c_INDEX");
 	}
-	
-
 
 	/* Definite Integral */
 
@@ -1299,6 +1325,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Integral_Definite_1() {
 		t("Integral[cos(t), t, a, b]", "-sin(a) + sin(b)");
 	}
+	
 
 	/* IntegralBetween */
 
@@ -1312,6 +1339,7 @@ public class GeoGebraCasIntegrationTest {
 		t("IntegralBetween[a * sin(t), a * cos(t), t, π / 4, π * 5 / 4]",
 				"2 * sqrt(2) * a", "2 * a * sqrt(2)");
 	}
+	
 
 	/* Invert */
 
@@ -1329,6 +1357,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Invert[{{a, b}, {c, d}}]",
 				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
 	}
+	
 
 	/* IsPrime */
 
@@ -1376,6 +1405,7 @@ public class GeoGebraCasIntegrationTest {
 	public void IsPrime_8() {
 		t("IsPrime[11]", "true");
 	}
+	
 
 	/* Last */
 
@@ -1402,6 +1432,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Last_Variables_1() {
 		t("Last[{a, b, c, d}, 2]", "{c, d}");
 	}
+	
 
 	/* LeftSide */
 
@@ -1415,6 +1446,7 @@ public class GeoGebraCasIntegrationTest {
 		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3x + 1}]",
 				"{a^(2) + b^(2), x + 2}");
 	}
+	
 
 	/* Length */
 
@@ -1427,6 +1459,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Length_1() {
 		t("Length[2a, a, 0, 1]", "sqrt(5)");
 	}
+	
 
 	/* Limits */
 
@@ -1465,6 +1498,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Limits_LimitBelow_1() {
 		t("LimitBelow[1 / a, a, 0]", "-Infinity");
 	}
+	
 
 	/* MatrixRank */
 
@@ -1482,6 +1516,7 @@ public class GeoGebraCasIntegrationTest {
 	public void MatrixRank_2() {
 		t("MatrixRank[{{1, 2}, {3, 4}}]", "2");
 	}
+	
 
 	/* Max */
 
@@ -1494,6 +1529,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Max_1() {
 		t("Max[{-2, 12, -23, 17, 15}]", "17");
 	}
+	
 
 	/* Mean */
 
@@ -1506,6 +1542,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Mean_1() {
 		t("Mean[{1, 8}]", "9 / 2");
 	}
+	
 
 	/* Median */
 
@@ -1518,6 +1555,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Median_1() {
 		t("Median[{1, 1, 8, 8}]", "9 / 2");
 	}
+	
 
 	/* Min */
 
@@ -1530,6 +1568,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Min_1() {
 		t("Min[{-2, 12, -23, 17, 15}]", "-23");
 	}
+	
 
 	/* MixedNumber */
 
@@ -1552,6 +1591,7 @@ public class GeoGebraCasIntegrationTest {
 	public void MixedNumber_3() {
 		t("MixedNumber[12 / 14]", "6 / 7");
 	}
+	
 
 	/* Mod */
 
@@ -1564,6 +1604,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Mod_1() {
 		t("Mod[x^3 + x^2 + x + 6, x^2 - 3]", "4 * x + 9");
 	}
+	
 
 	/* NIntegral */
 
@@ -1576,6 +1617,7 @@ public class GeoGebraCasIntegrationTest {
 	public void NIntegral_1() {
 		t("NIntegral[ℯ^(-a^2), a, 0, 1]", "0.746824132812427");
 	}
+	
 
 	/* NRoot */
 
@@ -1588,6 +1630,7 @@ public class GeoGebraCasIntegrationTest {
 	public void NRoot_1() {
 		t("NRoot[x^8, 2]", "abs(x)^(4)");
 	}
+	
 
 	/* NextPrime */
 
@@ -1600,6 +1643,7 @@ public class GeoGebraCasIntegrationTest {
 	public void NextPrime_1() {
 		t("NextPrime[10000]", "10007");
 	}
+	
 
 	/* Normal */
 
@@ -1607,6 +1651,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Normal_0() {
 		t("Normal[2, 0.5, 1]", "sqrt(2) / (sqrt(π) * ℯ^(2))");
 	}
+	
 
 	/* Numerator */
 
@@ -1619,6 +1664,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Numerator_1() {
 		t("Numerator[2/3 + 1/15]", "11");
 	}
+	
 
 	/* Numeric Evaluation */
 
@@ -1684,7 +1730,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Numeric[10 + 22/7, 6]", "13.1429");
 	}
 
-
 	@Test
 	public void NumericEvaluation_Precision_1() {
 		t("Numeric[2 a - a/3, 2]", "1.7 * a");
@@ -1708,6 +1753,7 @@ public class GeoGebraCasIntegrationTest {
 		t("PartialFractions[a^2 / (a^2 - 2a + 1), a]",
 				"1 + 2 / (a - 1) + 1 / (a-1)^(2)");
 	}
+	
 
 	/* PerpendicularVector */
 
@@ -1726,6 +1772,7 @@ public class GeoGebraCasIntegrationTest {
 		}
 		t("PerpendicularVector[(a, b)]", "(-b, a)");
 	}
+	
 
 	/* PreviousPrime */
 
@@ -1768,6 +1815,7 @@ public class GeoGebraCasIntegrationTest {
 	public void PreviousPrime_7() {
 		t("PreviousPrime[10000]", "9973");
 	}
+	
 
 	/* Product */
 
@@ -1780,6 +1828,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Product_1() {
 		t("Product[x + 1, x, 2, 3]", "12");
 	}
+	
 
 	/* Root */
 
@@ -1787,6 +1836,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Root_0() {
 		t("Root[x^3 - 3 * x^2 - 4 * x + 12]", "{x = 3, x = 2, x = -2}");
 	}
+	
 
 	/* RandomBinomial */
 
@@ -1794,6 +1844,7 @@ public class GeoGebraCasIntegrationTest {
 	public void RandomBinomial_0() {
 		r("RandomBinomial[3, 0.1]", "[0123]", "Any one of {0, 1, 2, 3}.");
 	}
+	
 
 	/* RandomElement */
 
@@ -1802,6 +1853,7 @@ public class GeoGebraCasIntegrationTest {
 		r("RandomElement[{3, 2, -4, 7}]", "([237]|-4)",
 				"Any one of {-4, 2, 3, 7}.");
 	}
+	
 
 	/* RandomNormal */
 
@@ -1810,6 +1862,7 @@ public class GeoGebraCasIntegrationTest {
 		// TODO Currently extremely weak test.
 		s("RandomNormal[3, 0.1]", "\\d+\\.\\d+");
 	}
+	
 
 	/* RandomPoisson */
 
@@ -1818,6 +1871,7 @@ public class GeoGebraCasIntegrationTest {
 		// TODO Currently weak test.
 		s("RandomPoisson[3]", "\\d+");
 	}
+	
 
 	/* RandomPolynomial */
 
@@ -1857,6 +1911,7 @@ public class GeoGebraCasIntegrationTest {
 					" A polynomial in a of degree 2 with all coefficients from {1, 2}.");
 		}
 	}
+	
 
 	/* Rationalize */
 
@@ -1879,6 +1934,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Rationalize_3() {
 		t("Rationalize[3.5]", "7 / 2");
 	}
+	
 
 	/* Real */
 
@@ -1886,6 +1942,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Real_0() {
 		t("Real[17 + 3 ί]", "17");
 	}
+	
 
 	/* ReducedRowEchelonForm */
 
@@ -1909,6 +1966,7 @@ public class GeoGebraCasIntegrationTest {
 		t("ReducedRowEchelonForm[{{1, 6, 4}, {2, 8, 9}, {4, 5, 6}}]",
 				"{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
 	}
+	
 
 	/* RightSide */
 	@Test
@@ -1920,6 +1978,7 @@ public class GeoGebraCasIntegrationTest {
 	public void LeftSide_1a() {
 		t("RightSide[{a^2 + b^2 = c^2, x + 2 = 3x + 1}]", "{c^(2), 3 * x + 1}");
 	}
+	
 
 	/* Rounding */
 
@@ -2048,6 +2107,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Rounding_Ceil_7() {
 		t("Ceil(5.5)", "6");
 	}
+	
 
 	/* SD */
 
@@ -2055,6 +2115,7 @@ public class GeoGebraCasIntegrationTest {
 	public void SD_0() {
 		t("SD[{1, 2, 3, 4, 5}]", "sqrt(2)");
 	}
+	
 
 	/* Sample */
 
@@ -2097,6 +2158,7 @@ public class GeoGebraCasIntegrationTest {
 					"A list containing three elements out of {{1, 2, 3}, 4, 5, 6, 7, 8}, where each element may be contained only once.");
 		}
 	}
+	
 
 	/* SampleSD */
 
@@ -2111,6 +2173,7 @@ public class GeoGebraCasIntegrationTest {
 		// TODO Result unchecked.
 		t("SampleSD[{1, 2, a}]", "(sqrt(a^(2) - 3 * a + 3) * sqrt(3)) / 3");
 	}
+	
 
 	/* SampleVariance */
 
@@ -2120,6 +2183,7 @@ public class GeoGebraCasIntegrationTest {
 		t("SampleVariance[{x, y, z}]",
 				"(x^(2) + x * (-y - z) + y^(2) - y * z + z^(2)) / 3");
 	}
+	
 
 	/* Sequence */
 
@@ -2138,6 +2202,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Sequence_2() {
 		t("Sequence[x^i, i, 1, 10, 2]", "{x, x^(3), x^(5), x^(7), x^(9)}");
 	}
+	
 
 	/* Shuffle */
 
@@ -2148,6 +2213,7 @@ public class GeoGebraCasIntegrationTest {
 		r("Shuffle[{3, 5, 1, 7, 3}]", "\\{([1357],\\s){4}[1357]\\}",
 				"An arbitrary permutation of the list {1, 3, 3, 5, 7}.");
 	}
+	
 
 	/* Simplify */
 
@@ -2155,6 +2221,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Simplify_0() {
 		t("Simplify[3 * x + 4 * x + a * x]", "x * a + 7 * x", "a * x + 7 * x");
 	}
+	
 
 	/* Solutions */
 
@@ -2181,6 +2248,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Solutions[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]",
 				"{{0, 3}, {-3, 6}}");
 	}
+	
 
 	/* Solve */
 
@@ -2305,8 +2373,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[a = b^c, a]", "{a = b^(c)}");
 	}
 
-	// FIXME commented out because of #1873
-
 	@Test
 	public void Solve_OneVariableVC_6() {
 		t("Solve[a = b^c, b]", "{b = a^(1 / c)}");
@@ -2333,9 +2399,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = (10 * log(2)) / 3}",
 				"{t = 10 * log(cbrt(2))}");
 	}
-
-	// FIXME commented out because of #1871
-
 	
 	@Test
 	public void Solve_Trig_0() {
@@ -2347,8 +2410,6 @@ public class GeoGebraCasIntegrationTest {
 		s("Solve[2*cos(x)^2+sqrt(2)*cos(x)-2,x]",
 				"{x = (8 * k_INDEX * π + π) / 4, x = (8 * k_INDEX * π - π) / 4}");
 	}
-	
-
 
 	/* Several Equations and Variables */
 
@@ -2367,21 +2428,20 @@ public class GeoGebraCasIntegrationTest {
 	public void Solve_Several_2() {
 		t("Solve[{2a^2 + 5a + 3 = b, a + b = 3, a = b}, {a, b}]", "{}");
 	}
+	
 
 	/* SolveODE */
-
-
-
+	
 	@Test
 	public void SolveODE_0() {
 		s("SolveODE[y / x]", "y = x * c_INDEX");
 	}
-	
 
 	@Test
 	public void SolveODE_1() {
 		s("SolveODE[y / x, y, x]", "y = x * c_INDEX");
 	}
+	
 
 	/* Substitute */
 
@@ -2422,7 +2482,6 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
-
 	/* Sum */
 
 	@Test
@@ -2445,6 +2504,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Sum_3() {
 		t("Sum[(1/3)^i, i, 0, Infinity]", "3 / 2");
 	}
+	
 
 	/* Take */
 
@@ -2452,6 +2512,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Take_0() {
 		t("Take[{1, 2, a, 4, 5}, 2, 4]", "{2, a, 4}");
 	}
+	
 
 	/* TaylorPolynomial (alias TaylorSeries) */
 
@@ -2528,6 +2589,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ToComplex_0() {
 		t("ToComplex[(3, 2)]", "3 + 2 * ί", "2 * ί + 3");
 	}
+	
 
 	/* ToExponential */
 
@@ -2535,6 +2597,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ToExponential_0() {
 		t("ToExponential[1 + ί]", "sqrt(2) * ℯ^((ί * π) / 4)");
 	}
+	
 
 	/* ToPoint */
 
@@ -2542,6 +2605,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ToPoint_0() {
 		t("ToPoint[3 + 2ί]", "(3, 2)");
 	}
+	
 
 	/* ToPolar */
 
@@ -2554,6 +2618,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ToPolar_1() {
 		t("ToPolar[1 + sqrt(3) * ί]", "(2; π / 3)");
 	}
+	
 
 	/* Transpose */
 
@@ -2567,6 +2632,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Transpose_1() {
 		t("Transpose[{{a, b}, {c, d}}]", "{{a, c}, {b, d}}");
 	}
+	
 
 	/* Unique */
 
@@ -2579,6 +2645,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Unique_1() {
 		t("Unique[{1, x, x, 1, a}]", "{1, x, a}");
 	}
+	
 
 	/* UnitPerpendicularVector (alias UnitOrthogonalVector) */
 
@@ -2592,6 +2659,7 @@ public class GeoGebraCasIntegrationTest {
 		t("UnitPerpendicularVector[(a, b)]",
 				"((-sqrt(a^(2) + b^(2)) * b) / (a^(2) + b^(2)), (sqrt(a^(2) + b^(2)) * a) / (a^(2) + b^(2)))");
 	}
+	
 
 	/* UnitVector */
 
@@ -2611,6 +2679,7 @@ public class GeoGebraCasIntegrationTest {
 	public void UnitVector_2() {
 		t("UnitVector[(2, 4, 4)]", "(1 / 3, 2 / 3, 2 / 3)");
 	}
+	
 
 	/* Variance */
 
@@ -2623,6 +2692,8 @@ public class GeoGebraCasIntegrationTest {
 	public void Variance_1() {
 		t("Variance[{1, 2, a}]", "(2 * a^(2) - 6 * a + 6) / 9");
 	}
+	
+	// TODO Find out what the following is about.
 	
 	//MyVector Package
 	
@@ -2691,6 +2762,7 @@ public class GeoGebraCasIntegrationTest {
 		t("(a,b)*{{1,2},{3,4}}","(a+3*b,2*a+4*b)");
 	}
 	
+	
 	/* Ticket */
 
 	/* Ticket 1274: Derivative of exp(2x) wrong */
@@ -2701,8 +2773,6 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	/* Ticket 1336: Support for brackets with built-in functions */
-
-	// FIXME commented out because of #1336
 
 	@Test
 	public void Ticket_Ticket1336_0() {
@@ -2729,19 +2799,15 @@ public class GeoGebraCasIntegrationTest {
 		t("(5 + 3 ί) + Conjugate[5 + 3 ί]", "10");
 	}
 
-
-	/* Ticket 1477: e gets E in CAS */
+	/* Ticket 1477: e becomes E in CAS */
 
 	@Test
 	public void Ticket_Ticket1477() {
 		t("e", "e");
 	}
 	
-	/* Ticket 1899: Solve[2^x = 8] gives unwanted result */
+	/* Ticket 1899: Solve[2^x = 8] yields unwanted result */
 	
-	/**
-	 * Test from Ticket 1899
-	 */
 	@Test
 	public void Ticket_Ticket1899() {
 		t("Solve[2^x = 8]", "{x = 3}", "{x = log(8) / log(2)}");
