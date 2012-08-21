@@ -413,10 +413,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void setValue(double x, boolean changeAnimationValue) {
 		if (Double.isNaN(x))
 			value = Double.NaN;
-		else if (isIntervalMinActive() && x < getIntervalMin())
+		else if (isIntervalMinActive() && x < getIntervalMin()){
 			value = getIntervalMin();
-		else if (isIntervalMaxActive() && x > getIntervalMax())
+			if(getCorrespondingCasCell()!=null)
+				getCorrespondingCasCell().setInputFromTwinGeo(true);
+		}
+		else if (isIntervalMaxActive() && x > getIntervalMax()){
 			value = getIntervalMax();
+			if(getCorrespondingCasCell()!=null)
+				getCorrespondingCasCell().setInputFromTwinGeo(true);
+		}
 		else
 			value = x;
 

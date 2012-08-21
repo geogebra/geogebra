@@ -3373,7 +3373,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (!cons.isUpdateConstructionRunning() && correspondingCasCell != null) {
-			correspondingCasCell.setInputFromTwinGeo();
+			correspondingCasCell.setInputFromTwinGeo(false);
 		}
 
 

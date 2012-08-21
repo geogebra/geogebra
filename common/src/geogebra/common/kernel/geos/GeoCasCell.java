@@ -444,8 +444,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * Sets the input of this row using the current casTwinGeo.
 	 */
-	public void setInputFromTwinGeo() {
-		if (ignoreTwinGeoUpdate)
+	public void setInputFromTwinGeo(boolean force) {
+		if (ignoreTwinGeoUpdate && !force) 
 			return;
 
 		if (twinGeo != null && twinGeo.isIndependent() && twinGeo.isLabelSet()) {
