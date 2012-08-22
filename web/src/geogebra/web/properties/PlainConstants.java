@@ -124,7 +124,7 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Allow Offline Use")
     String AllowOfflineUse();
 
-    @DefaultStringValue("Style Bar is Allowed")
+    @DefaultStringValue("Allow Style Bar")
     String AllowStyleBar();
 
     @DefaultStringValue("Alt")

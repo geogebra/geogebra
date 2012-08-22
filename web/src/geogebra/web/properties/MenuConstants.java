@@ -487,6 +487,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Data Title")
     String DataTitle();
 
+    @DefaultStringValue("Data Type")
+    String DataType();
+
     @DefaultStringValue("Decimal Places")
     String DecimalPlaces();
 
@@ -780,6 +783,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Sketch either a function or a geometric object by dragging")
     String FreehandShape_Help();
+
+    @DefaultStringValue("Frequencies")
+    String Frequencies();
 
     @DefaultStringValue("Frequency")
     String Frequency();
@@ -1290,6 +1296,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Null")
     String NullHypothesis_short();
+
+    @DefaultStringValue("Number")
+    String Number();
 
     @DefaultStringValue("Numeric")
     String Numeric();
@@ -1909,6 +1918,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Sort by")
     String SortBy();
 
+    @DefaultStringValue("Source")
+    String Source();
+
     @DefaultStringValue("Space")
     String Space();
 
@@ -2340,6 +2352,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Values")
     String Values();
+
+    @DefaultStringValue("Values and Frequency")
+    String ValuesAndFrequency();
 
     @DefaultStringValue("Vector between Two Points")
     String Vector();
