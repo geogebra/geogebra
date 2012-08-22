@@ -53,12 +53,12 @@ public class MobileApp extends App
 		super.initing = true;
 
 		intitFactories();
-		
+
 		this.fontManager = new FontManagerW();
 		this.mobileGUI = mobileGUI;
 		this.settings = new Settings();
-		
-		setFontSize(12); 
+
+		setFontSize(12);
 	}
 
 	public void start()
@@ -84,18 +84,20 @@ public class MobileApp extends App
 	}
 
 	@Override
-protected FontManager getFontManager()
+	protected FontManager getFontManager()
 	{
 		return this.fontManager;
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
+	protected EuclidianView newEuclidianView(boolean[] showAxes1,
+			boolean showGrid1)
 	{
-//		MobileEuclidianController ec = new MobileEuclidianController();
-//		ec.setKernel(this.kernel);
-//		return new EuclidianViewM(ec, showAxes1, showGrid1, getSettings().getEuclidian(1));
-		return null; 
+		// MobileEuclidianController ec = new MobileEuclidianController();
+		// ec.setKernel(this.kernel);
+		// return new EuclidianViewM(ec, showAxes1, showGrid1,
+		// getSettings().getEuclidian(1));
+		return null;
 	}
 
 	@Override
@@ -147,7 +149,7 @@ protected FontManager getFontManager()
 	@Override
 	public String getPlain(String key)
 	{
-		//TODO
+		// TODO
 		return key;
 	}
 
@@ -242,8 +244,8 @@ protected FontManager getFontManager()
 	@Override
 	public AlgebraView getAlgebraView()
 	{
-		// TODO: will not be used!  
-		return null; 
+		// TODO: will not be used!
+		return null;
 	}
 
 	@Override
@@ -366,7 +368,8 @@ protected FontManager getFontManager()
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean show, boolean playButton, double playDelay, boolean showProtButton)
+	public void setShowConstructionProtocolNavigation(boolean show,
+			boolean playButton, double playDelay, boolean showProtButton)
 	{
 
 	}
@@ -393,7 +396,8 @@ protected FontManager getFontManager()
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(geogebra.common.kernel.Kernel kernel1)
+	protected EuclidianController newEuclidianController(
+			geogebra.common.kernel.Kernel kernel1)
 	{
 
 		return null;
@@ -407,7 +411,8 @@ protected FontManager getFontManager()
 	}
 
 	@Override
-	public AnimationManager newAnimationManager(geogebra.common.kernel.Kernel kernel2)
+	public AnimationManager newAnimationManager(
+			geogebra.common.kernel.Kernel kernel2)
 	{
 
 		return null;
@@ -610,7 +615,8 @@ protected FontManager getFontManager()
 	}
 
 	@Override
-	public void addMenuItem(MenuInterface parentMenu, String filename, String name, boolean asHtml, MenuInterface subMenu)
+	public void addMenuItem(MenuInterface parentMenu, String filename,
+			String name, boolean asHtml, MenuInterface subMenu)
 	{
 	}
 
@@ -632,39 +638,44 @@ protected FontManager getFontManager()
 	}
 
 	@Override
-  public String getSymbol(int key)
-  {
-	  return null;
-  }
+	public String getSymbol(int key)
+	{
+		return null;
+	}
 
 	@Override
-  public String getSymbolTooltip(int key)
-  {
-	  return null;
-  }
+	public String getSymbolTooltip(int key)
+	{
+		return null;
+	}
 
 	@Override
-  public GuiManager getGuiManager()
-  {
-	  return null;
-  }
+	public GuiManager getGuiManager()
+	{
+		return null;
+	}
 
 	@Override
-  public EuclidianView createEuclidianView()
-  {
-	  return null;
-  }
+	public EuclidianView createEuclidianView()
+	{
+		return null;
+	}
 
 	@Override
-  public GlobalKeyDispatcher getGlobalKeyDispatcher()
-  {
-	  return null;
-  }
+	public GlobalKeyDispatcher getGlobalKeyDispatcher()
+	{
+		return null;
+	}
 
 	@Override
-  public String getCountryFromGeoIP() throws Exception
-  {
-	  return null;
-  }
+	public String getCountryFromGeoIP() throws Exception
+	{
+		return null;
+	}
+
+	@Override
+	public void showErrorDialog(String s)
+	{
+	}
 
 }

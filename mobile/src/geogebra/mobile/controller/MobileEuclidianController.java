@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.mobile.gui.CommonResources;
+import geogebra.mobile.euclidian.MouseEvent;
 import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 
@@ -23,6 +23,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -31,23 +33,30 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 /**
+ * receives the events from the canvas and sends the orders to the kernel
  * 
  * @author Thomas Krismayer
  * 
  */
 public class MobileEuclidianController extends EuclidianController implements
 		TouchStartHandler, TouchEndHandler, TouchMoveHandler, MouseDownHandler,
-		MouseMoveHandler, ClickHandler
+		MouseMoveHandler, MouseUpHandler, ClickHandler
 {
 
 	private GuiModel guiModel;
 	ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
 	private ToolBarCommand lastCmd;
+	private GPoint origin;
+	private boolean moving;
+
+	public MobileEuclidianController()
+	{
+		this.mode = -1;
+	}
 
 	@Override
 	public void setKernel(Kernel k)
 	{
-		// TODO
 		this.kernel = k;
 		this.app = this.kernel.getApplication();
 	}
@@ -91,27 +100,57 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onMouseDown(MouseDownEvent event)
 	{
-		this.mouseLoc = new GPoint(event.getX(), event.getY());		
+		this.guiModel.closeOptions();
+
+		this.origin = new GPoint(event.getX(), event.getY());
+
+		this.mouseLoc = new GPoint(event.getX(), event.getY());
+		this.view.setHits(this.mouseLoc);
 		Hits hits = this.view.getHits();
-		
-		if(hits.getImageCount() == 0){
-			this.mode = EuclidianConstants.MODE_TRANSLATEVIEW; 
+
+		if (hits.isEmpty())
+		{
+			this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
+		} else
+		{
+			this.mode = EuclidianConstants.MODE_MOVE;
 		}
-		else{
-			this.mode = EuclidianConstants.MODE_MOVE; 
-		}		
 	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
-		
+		if (this.moving
+				|| ((this.mode == EuclidianConstants.MODE_TRANSLATEVIEW || this.mode == EuclidianConstants.MODE_MOVE) && (Math
+						.abs(event.getX() - this.origin.getX()) > 10 || Math
+						.abs(event.getY() - this.origin.getY()) > 10)))
+		{
+			this.moving = true;
+
+			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
+
+			MouseEvent mEvent = new MouseEvent(event.getX(), event.getY());
+			handleMousePressedForMoveMode(mEvent, false);
+
+			this.xRW = this.view.toRealWorldCoordX(event.getX());
+			this.yRW = this.view.toRealWorldCoordY(event.getY());
+
+			handleMouseDragged(true, mEvent);
+
+			this.origin = new GPoint(event.getX(), event.getY());
+		}
 	}
 
-	
 	@Override
-	public void onClick(ClickEvent event)
+	public void onMouseUp(MouseUpEvent event)
 	{
+		if (this.moving)
+		{
+			this.moving = false;
+			this.mode = this.guiModel.getCommand().getMode();
+			return;
+		}
+
 		this.guiModel.closeOptions();
 
 		ToolBarCommand cmd = this.guiModel.getCommand();
@@ -129,7 +168,9 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// draw the new point
 		switchModeForMousePressed(null);
-		this.view.setShowMouseCoords(false);
+
+		// this.view.setShowMouseCoords(false);
+		// this.view.repaint();
 
 		Hits hits = this.view.getHits();
 
@@ -168,6 +209,11 @@ public class MobileEuclidianController extends EuclidianController implements
 
 			this.oldPoints = new ArrayList<GeoPointND>();
 		}
+	}
+
+	@Override
+	public void onClick(ClickEvent event)
+	{
 	}
 
 	public void setGuiModel(GuiModel model)
@@ -219,6 +265,4 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.view = euclidianView;
 	}
 
-	
-	
 }

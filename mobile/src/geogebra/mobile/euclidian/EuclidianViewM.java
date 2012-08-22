@@ -26,6 +26,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -34,9 +36,13 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 
+/**
+ * 
+ * @author Thomas Krismayer
+ * 
+ */
 public class EuclidianViewM extends EuclidianView
 {
-
 	// set in setCanvas
 	private GGraphics2DW g2p = null;
 	private Canvas canvas;
@@ -47,6 +53,8 @@ public class EuclidianViewM extends EuclidianView
 	public EuclidianViewM(MobileEuclidianController ec)
 	{
 		super(ec, new Settings().getEuclidian(1));
+
+		this.setAllowShowMouseCoords(false);
 	}
 
 	/**
@@ -91,15 +99,18 @@ public class EuclidianViewM extends EuclidianView
 			}
 		});
 
-		this.canvas.addMouseDownHandler(new MouseDownHandler(){
+		this.canvas.addMouseDownHandler(new MouseDownHandler()
+		{
 			@Override
-			public void onMouseDown(MouseDownEvent event){
+			public void onMouseDown(MouseDownEvent event)
+			{
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseDown(event);
 			}
-		}); 
-		
-		this.canvas.addMouseMoveHandler(new MouseMoveHandler(){
+		});
+
+		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
+		{
 			@Override
 			public void onMouseMove(MouseMoveEvent event)
 			{
@@ -107,7 +118,17 @@ public class EuclidianViewM extends EuclidianView
 						.getEuclidianController()).onMouseMove(event);
 			}
 		});
-		
+
+		this.canvas.addMouseUpHandler(new MouseUpHandler()
+		{
+			@Override
+			public void onMouseUp(MouseUpEvent event)
+			{
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onMouseUp(event);
+			}
+		});
+
 		this.canvas.addClickHandler(new ClickHandler()
 		{
 			@Override
@@ -115,7 +136,6 @@ public class EuclidianViewM extends EuclidianView
 			{
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onClick(event);
-				EuclidianViewM.this.repaint();
 			}
 		});
 
