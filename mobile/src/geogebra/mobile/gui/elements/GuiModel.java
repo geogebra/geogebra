@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 
 /**
- * Organizes the visibility of the additional {@link OptionsBarBackground toolbar} according to
+ * Organizes the visibility of the additional {@link OptionsBarBackground toolBar} according to
  * the {@link ToolBarButton active button}.
  */
 public class GuiModel

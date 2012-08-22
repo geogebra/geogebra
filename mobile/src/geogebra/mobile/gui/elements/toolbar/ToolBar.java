@@ -23,6 +23,12 @@ public class ToolBar extends ButtonBar
 		this.addStyleName("toolbar");
 	}
 
+	/**
+	 * Fill the toolBar with the default {@link ToolBarButton ToolBarButtons} and 
+	 * sets the default button to active.
+	 * @param model GuiModel
+	 * @see GuiModel
+	 */
 	public void makeTabletToolBar(GuiModel model)
 	{
 		this.b = new ToolBarButton[10];

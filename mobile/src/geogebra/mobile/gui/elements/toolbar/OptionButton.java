@@ -16,6 +16,12 @@ public class OptionButton extends ToolButton
 
 	OptionsClickedListener ancestor;
 
+	/**
+	 * Initializes the button and adds a {@link TapHandler}.
+	 * @param cmd ToolBarCommand
+	 * @param ancestor OptionsClickedListener
+	 * @see geogebra.mobile.gui.elements.toolbar.ToolButton ToolButton
+	 */
 	public OptionButton(ToolBarCommand cmd, OptionsClickedListener ancestor)
 	{
 		super(cmd);

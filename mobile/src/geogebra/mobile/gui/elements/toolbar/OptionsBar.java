@@ -4,7 +4,7 @@ import geogebra.mobile.utils.ToolBarCommand;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 /**
- * The base of the submenu
+ * The base of the submenu.
  * 
  * @author Thomas Krismayer
  * 

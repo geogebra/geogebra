@@ -18,11 +18,11 @@ import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 public class ToolBarButton extends ToolButton implements OptionsClickedListener
 {
 
-	ToolBarCommand[] menuEntries;
-	GuiModel model;
+	protected ToolBarCommand[] menuEntries;
+	protected GuiModel model;
 
 	/**
-	 * 
+	 * Each ToolBarButton belongs to a {@link ToolBarMenu}
 	 * @param menu
 	 *          : the button to be placed
 	 * @param guiModel
