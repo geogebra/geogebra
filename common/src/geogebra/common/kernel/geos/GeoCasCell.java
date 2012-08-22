@@ -1465,6 +1465,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// silent evaluation of output in GeoGebra
+		App.debug(inputVE);
+		App.debug(outputVE);
+		App.debug(evalVE);
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE);
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			twinGeo.set(lastOutputEvaluationGeo);
@@ -2126,6 +2129,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		String oldEvalComment = evalComment;
 		ValidExpression oldEvalVE = evalVE;
+		ValidExpression oldInputVE = inputVE;
 		// there is already a twinGeo, this means this cell is plotable,
 		// therefore return true
 		if (hasTwinGeo()) {
@@ -2167,33 +2171,26 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		if (isFunctionAble) {
-			if (!outputVE.isExpressionNode()) {
-				outputVE = new ExpressionNode(kernel, outputVE,
-						Operation.NO_OPERATION, null);
-			}
-			outputVE = new Function((ExpressionNode) outputVE);
-			outputVE.setAssignmentType(inputVE.getAssignmentType());
-			this.firstComputeOutput = true;
-			this.updateTwinGeo();
-		} else {
-			this.firstComputeOutput = true;
-			this.computeOutput(true);
+			inputVE = new Function(inputVE.wrap());
+			((Function)inputVE).initFunction();	
 		}
+		
+		this.firstComputeOutput = true;
+		this.computeOutput(true);
 		if(twinGeo!=null)
 			twinGeo.setLabel(null);
 		if (twinGeo!=null && twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()
 				&& !dependsOnDummy(twinGeo)) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
-			outputVE.setAssignmentType(AssignmentType.DEFAULT);
-			if(isFunctionAble){
-				inputVE = new Function(inputVE.wrap());
-			}
 			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
-			input = inputVE.toAssignmentString(StringTemplate.defaultTemplate);
-			updateLocalizedInput(StringTemplate.defaultTemplate);
-			outputVE.setLabel(assignmentVar);
+			/** set input and recalculate
+			 * i think it is safer than changing evalVE & co by hand
+			 */
+			setInput(inputVE.toAssignmentString(StringTemplate.defaultTemplate));
+			computeOutput(false);
+			this.update();
 			latex = null;
 		} else {
 			App.debug("Fail"+oldEvalComment);
@@ -2204,6 +2201,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			this.firstComputeOutput = true;
 			evalComment = oldEvalComment;
 			evalVE = oldEvalVE;
+			inputVE = oldInputVE;
 			this.computeOutput(true);
 			return false;
 		}
