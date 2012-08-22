@@ -33,10 +33,8 @@ public class CmdZMeanEstimate extends CommandProcessor {
 
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())
 			) {
 				
 				AlgoZMeanEstimate algo = new AlgoZMeanEstimate(cons, c.getLabel(),
