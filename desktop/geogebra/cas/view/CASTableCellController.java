@@ -27,12 +27,15 @@ public class CASTableCellController implements KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		Object src = e.getSource();		
+		boolean consumed = e.isConsumed();
 		if (src == tableCellEditor.getInputArea())
-			handleKeyPressedInputTextField(e);
+			consumed = handleKeyPressedInputTextField(e);
+		if(!consumed)
+			view.getApplication().getGlobalKeyDispatcher().handleGeneralKeys(e);
 	}
 
-	private void handleKeyPressedInputTextField(final KeyEvent e) {
-		if (e.isConsumed()) return;
+	private boolean handleKeyPressedInputTextField(final KeyEvent e) {
+		if (e.isConsumed()) return true;
 		
 		boolean consumeEvent = false;
 		boolean needUndo = false;
@@ -82,6 +85,7 @@ public class CASTableCellController implements KeyListener {
 			// store undo info
 			view.getApp().storeUndoInfo();
 		}
+		return consumeEvent;
 	}
 	
 	/**
