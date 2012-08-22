@@ -211,6 +211,7 @@ public class TableSymbols {
 		" cosIntegral(x) ",
 		" expIntegral(x) ",
 		" random() ",
+		" zeta(x) ",
 	};
 
 
