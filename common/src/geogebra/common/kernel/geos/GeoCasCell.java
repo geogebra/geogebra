@@ -1766,7 +1766,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// inputCell
-		if (!isInputEmpty()) {
+		if (!isInputEmpty() || useAsText || (input!=null && input.length()>0)) {
 			sb.append("\t\t");
 			sb.append("<inputCell>\n");
 			sb.append("\t\t\t");
