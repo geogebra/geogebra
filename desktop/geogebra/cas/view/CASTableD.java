@@ -45,10 +45,10 @@ import javax.swing.table.TableCellRenderer;
  * @author Quan
  * 
  */
-public class CASTableD extends JTable implements CASTable{
+public class CASTableD extends JTable implements CASTable {
 
 	private static final long serialVersionUID = 1L;
-		
+
 	private CASTableModel tableModel;
 	private Kernel kernel;
 	/** application */
@@ -61,13 +61,14 @@ public class CASTableD extends JTable implements CASTable{
 	private int currentWidth;
 	private boolean rightClick = false;
 	private int clickedRow;
-	/** row that was last rolled over or -1 if mouse exited CAS view*/
+	/** row that was last rolled over or -1 if mouse exited CAS view */
 	protected int rollOverRow = -1;
-	/** whether the mouse is hovering over output*/
+	/** whether the mouse is hovering over output */
 	protected boolean isOutputRollOver;
-	/** whether current cell input/output should be highlighted*/
+	/** whether current cell input/output should be highlighted */
 	protected boolean highlight = false;
-
+	/** whether Alt key is down */
+	protected boolean isAltDown;
 
 	/**
 	 * Constructs a <code>CASTable</code> that displays CAS cells
@@ -105,24 +106,19 @@ public class CASTableD extends JTable implements CASTable{
 		 * javax.swing.plaf.basic.BasicTableUI$Handler.mousePressed(Unknown
 		 * Source)
 		 */
-		
+
 		for (MouseListener ml : getMouseListeners()) {
 			removeMouseListener(ml);
 		}
 
-		
 		// listen to mouse pressed on table cells, make sure to start editing
 		addMouseListener(new MyMouseListener());
-		
-				
+
 		// add listener for mouse roll over
 		RollOverListener rollOverListener = new RollOverListener();
 		addMouseMotionListener(rollOverListener);
 		addMouseListener(rollOverListener);
-				
-		
 
-	
 		// keep editor value after changing width
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -179,18 +175,16 @@ public class CASTableD extends JTable implements CASTable{
 
 		// this.sizeColumnsToFit(0);
 		// this.setSurrendersFocusOnKeystroke(true);
-		
-		this.getSelectionModel().addListSelectionListener(new SelectionListener(this));
 
+		this.getSelectionModel().addListSelectionListener(
+				new SelectionListener(this));
 
-		
 		this.setFont(app.getPlainFont());
 	}
-	
 
 	/**
 	 * listen to mouse pressed on table cells, make sure to start editing
-	 *
+	 * 
 	 */
 	protected class MyMouseListener extends MouseAdapter {
 
@@ -203,72 +197,71 @@ public class CASTableD extends JTable implements CASTable{
 			// for some reason this is not working out of the box as
 			// DockManager.eventDispatched()
 			// sometimes things that this click comes from the EuclidianView
-			DockManager dockManager = ((LayoutD) app.getGuiManager().getLayout())
-					.getDockManager();
+			DockManager dockManager = ((LayoutD) app.getGuiManager()
+					.getLayout()).getDockManager();
 			DockPanel panel = dockManager.getFocusedPanel();
-			if (panel == null
-					|| panel.getViewId() != App.VIEW_CAS)
+			if (panel == null || panel.getViewId() != App.VIEW_CAS)
 				((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 						.setFocusedPanel(App.VIEW_CAS);
-		
+
 			e.consume();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (getClickedRow() >= 0) {
-				setRightClick(AppD.isRightClick(e));
-			
-				if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
-					GeoCasCell clickedCell = getTable().getGeoCasCell(
-							getClickedRow());
-					if (!clickedCell.isEmpty() && !clickedCell.isError()) {
-						RowContentPopupMenu popupMenu = new RowContentPopupMenu(
-								clickedCell, getTable());
-						popupMenu.show(e.getComponent(), e.getX(), e.getY());
-					}
+			if (getClickedRow() < 0) {
+				e.consume();
+				return;
+			}
+			setRightClick(AppD.isRightClick(e));
+			GeoCasCell clickedCell = getTable().getGeoCasCell(getClickedRow());
+
+			if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
+
+				if (!clickedCell.isEmpty() && !clickedCell.isError()) {
+					RowContentPopupMenu popupMenu = new RowContentPopupMenu(
+							clickedCell, getTable());
+					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
-				if(isRightClick()){
+			}
+			e.consume();
+			if (isRightClick()) {
+				return;
+			}
+			/*
+			 * set/unset euclidian visibility for CasCells if there is no
+			 * twinGeo which can be displayed, run the plot method which creates
+			 * a name and a twinGeo for the cell
+			 */
+			if (isEditing() && getEditor().getEditingRow() != getClickedRow()) {
+				if (e.isAltDown()) {
+					getEditor().insertText("$" + (getClickedRow() + 1));
+				}
+				// output panel click
+				else if (isOutputPanelClicked(e.getPoint())) {
+					if (!clickedCell.isError())
+						getEditor().insertText(
+								view.getRowOutputValue(getClickedRow()));
+				} else {
+					getSelectionModel().setSelectionInterval(getClickedRow(),
+							getClickedRow());
+					startEditingRow(getClickedRow());
 					return;
 				}
-				/* set/unset euclidian visibility for CasCells
-				 * if there is no twinGeo which can be displayed, run the plot method
-				 * which creates a name and a twinGeo for the cell
-				 */
-				if (isEditing()
-							&& getEditor().getEditingRow() != getClickedRow()) {
-						if(e.isAltDown()){
-							getEditor().insertText("$" + (getClickedRow()+1));
-						}
-						// output panel click
-						else if (isOutputPanelClicked(e.getPoint())){
-							getEditor().insertText(view.getRowOutputValue(getClickedRow()));
-						}else{
-									getSelectionModel().setSelectionInterval(getClickedRow(),
-											getClickedRow());
-									startEditingRow(getClickedRow());
-									return;
-						}
-						
-						
-						view.styleBar.updateStyleBar();
-						repaint();
-						// set clickedRow selected
-					} else {
-		
-						getSelectionModel().setSelectionInterval(getClickedRow(),
-								getClickedRow());
-						startEditingRow(getClickedRow());
-					}
-				
 
+				view.styleBar.updateStyleBar();
+				repaint();
 				
-			}	
-			e.consume();
+				// set clickedRow selected
+			} else {
+
+				getSelectionModel().setSelectionInterval(getClickedRow(),
+						getClickedRow());
+				startEditingRow(getClickedRow());
+			}
 		}
 	}
-	
-	
+
 	/**
 	 * Handles mouse over events
 	 */
@@ -277,47 +270,50 @@ public class CASTableD extends JTable implements CASTable{
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			int row = rowAtPoint(e.getPoint());
-			if (row != getOpenRow() && 
-					(row != rollOverRow  || isOutputRollOver != isOutputPanelClicked(e.getPoint())) ) {
+			if (row != getOpenRow()
+					&& (row != rollOverRow
+							|| isOutputRollOver != isOutputPanelClicked(e
+									.getPoint()) || isAltDown != e.isAltDown())) {
 				rollOverRow = row;
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
+				isAltDown = e.isAltDown();
 				repaint();
 			}
-			highlight = e.isAltDown() || 
-					(isOutputRollOver && getGeoCasCell(row).getLaTeXOutput()!=null &&
-					getGeoCasCell(row).getLaTeXOutput().length()>0);
-				
+			highlight = e.isAltDown()
+					|| (isOutputRollOver
+							&& getGeoCasCell(row).getLaTeXOutput() != null && getGeoCasCell(
+							row).getLaTeXOutput().length() > 0);
+
 		}
-		
+
 		@Override
 		public void mouseExited(MouseEvent e) {
 			rollOverRow = -1;
 			repaint();
 		}
 	}
-	
-	
+
 	/**
-	 * Selection listener to repaint selection frame when selection changes 
+	 * Selection listener to repaint selection frame when selection changes
 	 */
 	public class SelectionListener implements ListSelectionListener {
-	    private JTable table;
-	    /**
-	     * @param table CAS table to be listened to
-	     */
-	    SelectionListener(JTable table) {
-	        this.table = table;
-	    }
-	    
-	    public void valueChanged(ListSelectionEvent e) {
-	        if (!e.getValueIsAdjusting()) {
-	           table.repaint();
-	        }
-	    }
+		private JTable table;
+
+		/**
+		 * @param table
+		 *            CAS table to be listened to
+		 */
+		SelectionListener(JTable table) {
+			this.table = table;
+		}
+
+		public void valueChanged(ListSelectionEvent e) {
+			if (!e.getValueIsAdjusting()) {
+				table.repaint();
+			}
+		}
 	}
 
-	
-	
 	/**
 	 * Returns the CAS view which uses this table
 	 * 
@@ -355,7 +351,7 @@ public class CASTableD extends JTable implements CASTable{
 		boolean outputClicked = p.y > rowHeightsAbove + inputAreaHeight;
 		return outputClicked;
 	}
-	
+
 	@Override
 	public boolean isEditing() {
 		return editor != null && editor.isEditing();
@@ -549,7 +545,7 @@ public class CASTableD extends JTable implements CASTable{
 	 * @return CAS cell on given row
 	 */
 	public GeoCasCell getGeoCasCell(int row) {
-		if(! (tableModel.getValueAt(row, COL_CAS_CELLS)instanceof GeoCasCell)){
+		if (!(tableModel.getValueAt(row, COL_CAS_CELLS) instanceof GeoCasCell)) {
 			return null;
 		}
 		return (GeoCasCell) tableModel.getValueAt(row, COL_CAS_CELLS);
@@ -593,26 +589,6 @@ public class CASTableD extends JTable implements CASTable{
 		}
 	}
 
-	// /**
-	// * Changes all dynamic references in rows according to the row number
-	// change.
-	// * @param fromRow
-	// * @param toRow
-	// */
-	// private void changeRowNumberChanged(int fromRow, int toRow) {
-	// int rowCount = tableModel.getRowCount();
-	// if (rowCount == 0) return;
-	//
-	// String oldRef = "\\" + CASInputHandler.ROW_REFERENCE_DYNAMIC +
-	// Integer.toString(fromRow-1);
-	// String newRef = "\\" + CASInputHandler.ROW_REFERENCE_DYNAMIC +
-	// Integer.toString(toRow-1);
-	// for (int i=0; i < rowCount; i++) {
-	// CASTableCellValue cellValue = getCASTableCellValue(i);
-	// cellValue.replaceRowReferences(oldRef, newRef);
-	// }
-	// }
-
 	/**
 	 * Set the focus on the specified row
 	 * 
@@ -620,7 +596,7 @@ public class CASTableD extends JTable implements CASTable{
 	 *            row number (starting from 0)
 	 */
 	public void startEditingRow(final int editRow) {
-		
+
 		rollOverRow = -1;
 		if (editRow >= tableModel.getRowCount()) {
 			// insert new row, this starts editing
@@ -645,8 +621,8 @@ public class CASTableD extends JTable implements CASTable{
 	@Override
 	public void setFont(Font ft) {
 		super.setFont(ft);
-		if (editor != null){
-			if(isEditing()){
+		if (editor != null) {
+			if (isEditing()) {
 				editor.stopCellEditing();
 			}
 			editor.setFont(getFont());
@@ -764,17 +740,17 @@ public class CASTableD extends JTable implements CASTable{
 	public void setCurrentWidth(int currentWidth) {
 		this.currentWidth = currentWidth;
 	}
-	
-	
+
 	/**
 	 * @return currently open row
 	 */
-	public int getOpenRow(){
-		if(getEditingRow() >= 0){
+	public int getOpenRow() {
+		if (getEditingRow() >= 0) {
 			return getEditingRow();
 		}
-		return(getRowCount()-1);
+		return (getRowCount() - 1);
 	}
+
 	/** dash pattern for selection */
 	final static float dash1[] = { 2f, 1f };
 	/** dashed stroke for selection */
@@ -805,46 +781,42 @@ public class CASTableD extends JTable implements CASTable{
 				// g2.drawRect(r.x+2,r.y+2,r.width-6,r.height-6);;
 			}
 
-		}	
-		
+		}
+
 		CASTableCell rollOverCell = null;
 
 		{
-			
+
 			// shade the all rows except the editing row
-			
+
 			g2.setColor(new Color(0, 100, 100, 15));
-			
-			
+
 			if (rollOverRow >= 0 && highlight) {
-			
+
 				rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
 						CASTable.COL_CAS_CELLS).getTableCellRendererComponent(
 						this, null, false, false, rollOverRow,
 						CASTable.COL_CAS_CELLS);
-				
+
 				int offset = rollOverCell.outputPanel.getY();
 
 				Rectangle r = getCellRect(rollOverRow, CASTable.COL_CAS_CELLS,
 						true);
-							
-				if (isOutputRollOver) {
+
+				if (!isAltDown) {
 					r.y = r.y + offset;
 					r.height = r.height - offset;
-				} else {
-					r.height = offset;
 				}
-		
-		
-					g2.setColor(new Color(0, 0, 200, 40));
-					g2.fillRect(r.x+2,r.y+2,r.width-6,r.height-6);
-					g2.setColor(Color.GRAY);
+
+				g2.setColor(new Color(0, 0, 200, 40));
+				g2.fillRect(r.x + 2, r.y + 2, r.width - 6, r.height - 6);
+				g2.setColor(Color.GRAY);
 				g2.setStroke(dashed);
 				g2.drawRect(r.x + 1, r.y + 1, r.width - 4, r.height - 4);
 			}
-			
+
 		}
-		
+
 	}
 
 	public App getApplication() {
