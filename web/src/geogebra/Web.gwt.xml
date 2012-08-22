@@ -19,10 +19,7 @@
  <set-configuration-property name='locale.cookie' value='locale' />
  <set-configuration-property name='locale.useragent' value='Y' />
  <set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' />
- 
    
-   
-
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.    -->
@@ -46,15 +43,28 @@
   <source path='web'/>
   <super-source path='/common/src/geogebra/jre' />
   
-  <!-- support of other languages -->
-  <!-- This will be commented to reduce compilation time -->
-
+  <!-- Feel free to edit these values if you want to reduce compilation
+       time or want to compile more permutations for more languages.
+       Language codes can be entered in one extend-property as well,
+       by using a comma separated list. This part of the XML file
+       will be automatically edited by the build script in the web
+       platform when using the "-l" option. Please note that all
+       compiled languages must be registered in common/util/Language.java
+       as well.
+       
+       For more information, please read
+       http://dev.geogebra.org/trac/wiki/GWTCompilation -->
+  
   <extend-property name='locale' values='ar' />
   <extend-property name='locale' values='en' />
   <extend-property name='locale' values='de' />
   <extend-property name='locale' values='es' />
   <extend-property name='locale' values='fr' />
   <extend-property name='locale' values='pt' />
+
+  <!-- support of other languages -->
+  <!-- This will be commented to reduce compilation time -->
+
   
   <!--<extend-property name='locale' values='bg' />
   <extend-property name='locale' values='bs' />
