@@ -2124,6 +2124,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (inputVE == null || input.equals("")) {
 			return false;
 		}
+		Boolean keepInput = false;
 		String oldEvalComment = evalComment;
 		ValidExpression oldEvalVE = evalVE;
 		ValidExpression oldInputVE = inputVE;
@@ -2148,6 +2149,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				c.addArgument(evalVE.wrap());
 				this.setEvalCommand("PointList");
 				evalVE = c.wrap();
+				keepInput = true;
 			}
 		}
 
@@ -2182,11 +2184,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
 			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
-			/** set input and recalculate
-			 * i think it is safer than changing evalVE & co by hand
+			/** set output (if input has been not changed), or set input and recalculate
 			 */
-			setInput(inputVE.toAssignmentString(StringTemplate.defaultTemplate));
-			computeOutput(false);
+			if(keepInput){
+				outputVE.setAssignmentType(AssignmentType.DEFAULT); 
+                updateLocalizedInput(StringTemplate.defaultTemplate); 
+                outputVE.setLabel(assignmentVar); 
+			} else {
+				setInput(inputVE.toAssignmentString(StringTemplate.defaultTemplate));			
+			}
+			computeOutput(false);			
 			this.update();
 			latex = null;
 		} else {
