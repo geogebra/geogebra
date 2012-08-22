@@ -315,10 +315,12 @@ public class MyMath2 {
 	
 	/**
 	 * Rieman zeta function
-	 * @param val
-	 * @return
+	 * @param val argument
+	 * @return rieman zeta of val
 	 */
 	public static double zeta(double val) {
+		if(val<0 && Kernel.isInteger(val/2))
+			return 0;
 		if(val<1/2){
 			return Math.pow(Math.PI,val-1)*Math.pow(2,val)*Math.sin(val*Math.PI/2)*gamma(1-val)*zeta(1-val);
 		}
