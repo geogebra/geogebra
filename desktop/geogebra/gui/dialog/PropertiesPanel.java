@@ -520,6 +520,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		showObjectPanel.setLabels();
 		selectionAllowed.setLabels();
 		showTrimmedIntersectionLines.setLabels();
+		colChooser.setLabels();
 		colorPanel.setLabels();
 		coordPanel.setLabels();
 		lineEqnPanel.setLabels();
@@ -1171,6 +1172,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JPanel previewMetaPanel;
 		private boolean allFillable = false;
 		private boolean hasBackground = false;
+		
+		private Color selectedColor;
 
 		public ColorPanel(GeoGebraColorChooser colChooser) {
 
@@ -1328,6 +1331,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			rbtnBackgroundColor.setText(app.getMenu("BackgroundColor"));
 			rbtnForegroundColor.setText(app.getMenu("ForegroundColor"));
 			btnClearBackground.setToolTipText(app.getPlain("Remove"));
+			
+			updateToolTipText();
 		}
 
 		public JPanel update(Object[] geos) {
@@ -1393,7 +1398,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			}
 
 			// initialize selected color and opacity
-			Color selectedColor = null;
+			selectedColor = null;
 			Color selectedBGColor = null;
 			float alpha = 1;
 
@@ -1418,13 +1423,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				}
 			}
 
-			// set the preview tool tip and color label text for the chosen
-			// color
-			if (selectedColor == null)
-				previewPanel.setToolTipText("");
-			else
-				previewPanel.setToolTipText(getToolTipText(selectedColor));
-			currentColorLabel.setText(previewPanel.getToolTipText());
+			updateToolTipText();
 
 			// set the chooser color
 			colChooser.getSelectionModel().removeChangeListener(this);
@@ -1460,6 +1459,17 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			return this;
 		}
+
+		private void updateToolTipText(){
+			// set the preview tool tip and color label text for the chosen
+			// color
+			if (selectedColor == null)
+				previewPanel.setToolTipText("");
+			else
+				previewPanel.setToolTipText(getToolTipText(selectedColor));
+			currentColorLabel.setText(previewPanel.getToolTipText());
+		}
+
 
 		/**
 		 * Sets the tooltip string for a given color
