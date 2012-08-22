@@ -1195,6 +1195,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				str = new String[]{ "IllegalArgument", "atanh", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
+		case ZETA:
+			// tanh(number)
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().zeta();
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
+				lt = ((Polynomial) lt).getConstantCoefficient();
+				return new Polynomial(kernel, new Term(
+						new ExpressionNode(kernel, lt, Operation.ZETA, null),
+						""));
+			} else {
+				str = new String[]{ "IllegalArgument", "zeta", lt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
 		case CI:
 			// tanh(number)
 			if (lt.isNumberValue()) {

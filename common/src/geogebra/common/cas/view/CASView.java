@@ -227,7 +227,9 @@ public abstract class CASView implements View{
 	 * Handles updates of geo in CAS view.
 	 */
 	public void update(GeoElement geo) {
+		
 		if (geo instanceof GeoCasCell) {
+			App.error(geo+"");
 			GeoCasCell casCell = (GeoCasCell) geo;
 			getConsoleTable().setRow(casCell.getRowNumber(), casCell);
 		}

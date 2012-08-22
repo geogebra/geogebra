@@ -3034,6 +3034,22 @@ public class ExpressionNode extends ValidExpression implements
 			trig(leftStr,sb,"<todo/>","\\operatorname{fractionalPart}","","","fractionalPart","fractionalPart","fractionalPart",
 					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 		break;
+		case ZETA:
+			switch (STRING_TYPE) {
+			case LATEX:
+				sb.append("\\zeta\\left( ");
+				break;
+				
+			case LIBRE_OFFICE:
+				sb.append("func zeta left (");
+				break;
+				
+			default:
+				sb.append("zeta(");
+			}
+			sb.append(leftStr);
+			sb.append(rightBracket(STRING_TYPE));
+			break;
 		case CI:
 			switch (STRING_TYPE) {
 			case LATEX:

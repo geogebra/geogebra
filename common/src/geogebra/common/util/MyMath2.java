@@ -14,6 +14,8 @@ import org.apache.commons.math.special.Gamma;
  * important for minimal applets
  */
 public class MyMath2 {
+	private static final int MAX_ITERATIONS = 1000;
+
 	final public static double gammaIncomplete(double a, double x) {
 
 		try {
@@ -310,5 +312,24 @@ public class MyMath2 {
 	public static double erf(double d) {
 		return erf(0, 1, d);
 	}
-
+	
+	/**
+	 * Rieman zeta function
+	 * @param val
+	 * @return
+	 */
+	public static double zeta(double val) {
+		if(val<1/2){
+			return Math.pow(Math.PI,val-1)*Math.pow(2,val)*Math.sin(val*Math.PI/2)*gamma(1-val)*zeta(1-val);
+		}
+		double eta = 0;
+		int sgn = 1;
+		double add = 1;
+		for(int i=1;i<MAX_ITERATIONS && Math.abs(add) > Kernel.MAX_PRECISION;i++){
+			add = sgn / Math.pow(i,val);
+			eta += add;
+			sgn = -sgn;
+		}
+		return eta/ (1-Math.pow(2, 1 - val));
+	}
 }

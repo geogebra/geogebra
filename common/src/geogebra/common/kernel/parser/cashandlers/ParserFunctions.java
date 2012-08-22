@@ -179,6 +179,9 @@ private void reset(){
 	put(1,"lg", Operation.LOG10);
 	put(1,"log10", Operation.LOG10);
 	
+	put(1,"zeta", Operation.ZETA);
+	put(1,"Zeta", Operation.ZETA);
+	
 	put(2,"beta", Operation.BETA);
 	put(2,"Beta", Operation.BETA);
 	

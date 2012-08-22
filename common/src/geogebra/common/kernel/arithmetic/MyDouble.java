@@ -963,5 +963,11 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionValue fractionalPart() {
 		return new MyDouble(kernel,val>0?val-Math.floor(val):val-Math.ceil(val));
 	}
+	/**
+	 * @return rieman zeta of this number
+	 */
+	public ExpressionValue zeta() {
+		return new MyDouble(kernel,MyMath2.zeta(val));
+	}
 
 }
