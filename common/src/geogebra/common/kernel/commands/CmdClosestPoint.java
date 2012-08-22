@@ -2,8 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.algos.AlgoClosestPointLines;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -45,6 +47,13 @@ public class CmdClosestPoint extends CommandProcessor {
 					&& (ok[0] = (arg[0].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA.ClosestPoint(c.getLabel(),
 						(Path) arg[1], (GeoPoint) arg[0]) };
+				return ret;
+			}
+			
+			else if ((ok[1] = (arg[1] instanceof GeoLine))
+					&& (ok[0] = (arg[0] instanceof GeoLine))) {
+				GeoElement[] ret = { new AlgoClosestPointLines(kernelA.getConstruction(),c.getLabel(),
+						(GeoLine) arg[1], (GeoLine) arg[0]).getOutput(0) };
 				return ret;
 			}
 
