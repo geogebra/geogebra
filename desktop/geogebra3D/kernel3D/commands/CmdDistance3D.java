@@ -34,14 +34,18 @@ public  GeoElement[] process(Command c) throws MyError {
         case 2 :
         	arg = resArgs(c);
 
-        	if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
-        		
-        		return new GeoElement[] {
-        				((Kernel)kernelA).getManager3D().Distance(
-        				c.getLabel(),
-        				(GeoLineND)arg[0],
-        				(GeoLineND)arg[1])        		
-        		};
+        	if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
+
+
+        		if(arg[0].isGeoLine() && arg[1].isGeoLine()){
+
+        			return new GeoElement[] {
+        					((Kernel)kernelA).getManager3D().Distance(
+        							c.getLabel(),
+        							(GeoLineND)arg[0],
+        							(GeoLineND)arg[1])        		
+        			};
+        		}
         	}
         	
         
