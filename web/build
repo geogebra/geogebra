@@ -310,7 +310,7 @@ if [ "$LOCALES" != "" ]; then
   sed -i s/", [truefalse]*, [truefalse]*, \""/", false, false, \""/ $LANGUAGE_JAVA
   for i in $LOCALES_SPLIT; do
    echo "Enabling localization for $i..."
-   sed -i s/",[ ]*[truefalse]*,[ ]*[truefalse]*,[ ]*\"\([a-z_]*\)\",[ ]*\"$i\""/", true, true, \"\1\", \"$i\""/ $LANGUAGE_JAVA
+   sed -i s/",[ ]*[truefalse]*,[ ]*[truefalse]*,[ ]*\"\([a-zA-Z_]*\)\",[ ]*\"$i\""/", true, true, \"\1\", \"$i\""/ $LANGUAGE_JAVA
    done
   fi # $LOCALES != NONE
 else
