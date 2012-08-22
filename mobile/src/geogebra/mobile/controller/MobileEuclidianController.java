@@ -1,6 +1,7 @@
 package geogebra.mobile.controller;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -52,6 +53,11 @@ public class MobileEuclidianController extends EuclidianController implements
 	public MobileEuclidianController()
 	{
 		this.mode = -1;
+	}
+
+	public void setView(EuclidianView euclidianView)
+	{
+		this.view = euclidianView;
 	}
 
 	@Override
@@ -125,19 +131,27 @@ public class MobileEuclidianController extends EuclidianController implements
 						.abs(event.getX() - this.origin.getX()) > 10 || Math
 						.abs(event.getY() - this.origin.getY()) > 10)))
 		{
-			this.moving = true;
-
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 
 			MouseEvent mEvent = new MouseEvent(event.getX(), event.getY());
-			handleMousePressedForMoveMode(mEvent, false);
 
-			this.xRW = this.view.toRealWorldCoordX(event.getX());
-			this.yRW = this.view.toRealWorldCoordY(event.getY());
+			if (!this.moving)
+			{
+				this.moving = true;
 
-			handleMouseDragged(true, mEvent);
+				// get the mode and the object to move
+				handleMousePressedForMoveMode(mEvent, false);
+			}
+
+			this.startPoint = new GPoint2D.Double(
+					this.view.toRealWorldCoordX(this.origin.getX()),
+					this.view.toRealWorldCoordY(this.origin.getY()));
+
+			wrapMouseDragged(mEvent);
 
 			this.origin = new GPoint(event.getX(), event.getY());
+
+			removeSelection();
 		}
 	}
 
@@ -148,6 +162,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.moving = false;
 			this.mode = this.guiModel.getCommand().getMode();
+
 			return;
 		}
 
@@ -169,8 +184,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		// draw the new point
 		switchModeForMousePressed(null);
 
-		// this.view.setShowMouseCoords(false);
-		// this.view.repaint();
+		removeSelection();
 
 		Hits hits = this.view.getHits();
 
@@ -205,7 +219,7 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoPoint) this.oldPoints.get(1));
 				break;
 			default:
-			}// switch
+			}
 
 			this.oldPoints = new ArrayList<GeoPointND>();
 		}
@@ -260,9 +274,27 @@ public class MobileEuclidianController extends EuclidianController implements
 		return nearest;
 	}
 
-	public void setView(EuclidianView euclidianView)
+	private void removeSelection()
 	{
-		this.view = euclidianView;
-	}
+		boolean repaint = this.app.getSelectedGeos().size() > 0
+				|| this.movedGeoPoint != null;
 
+		for (GeoElement g : this.app.getSelectedGeos())
+		{
+			g.setSelected(false);
+			g.setHighlighted(false);
+		}
+
+		if (this.movedGeoPoint != null)
+		{
+			((GeoElement) this.movedGeoPoint).setSelected(false);
+			((GeoElement) this.movedGeoPoint).setHighlighted(false);
+		}
+
+		if (repaint)
+		{
+			this.app.setSelectedGeos(new ArrayList<GeoElement>());
+			this.kernel.notifyRepaint();
+		}
+	}
 }
