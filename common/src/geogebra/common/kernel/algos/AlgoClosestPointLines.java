@@ -9,7 +9,6 @@ public class AlgoClosestPointLines extends AlgoIntersectLines{
 			GeoLine h) {
 		super(cons, label, g, h);
 	}
-	@Override
 	public Algos getClassName(){
 		return Algos.AlgoClosestPoint;
 	}

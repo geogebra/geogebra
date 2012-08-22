@@ -2707,9 +2707,10 @@ public class MyXMLHandler implements DocHandler {
 		if ("FontStyle".equals(eName)) {
 				String style = attrs.get("value");
 				geoCasCell.setFontStyle(Integer.parseInt(style));	
-		} else if ("FontSize".equals(eName)) {
+		} else if ("FontSizeM".equals(eName)) {
 				String size = attrs.get("value");
-				geoCasCell.setFontSizeMultiplier(StringUtil.parseDouble(size));			
+				if(StringUtil.parseDouble(size)>0)
+					geoCasCell.setFontSizeMultiplier(StringUtil.parseDouble(size));			
 		} else if ("FontColor".equals(eName)) {
 			String r = attrs.get("r");
 			String b = attrs.get("b");

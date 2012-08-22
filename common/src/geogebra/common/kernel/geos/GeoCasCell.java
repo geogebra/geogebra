@@ -1749,7 +1749,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			sb.append("/>\n");
 
 			sb.append("\t\t\t");
-			sb.append("<FontSize");
+			sb.append("<FontSizeM");
 			sb.append(" value=\"");
 			sb.append(getFontSizeMultiplier());
 			sb.append("\" ");
