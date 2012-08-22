@@ -39,8 +39,7 @@ import geogebra.web.main.FontManagerW;
 import com.google.gwt.i18n.client.LocaleInfo;
 
 /**
- * Extends from class App.
- * @see geogebra.common.main.App App 
+ * Extends from class {@link App}.
  * @author Matthias Meisinger
  * 
  */
@@ -51,11 +50,10 @@ public class MobileApp extends App
 	private FontManagerW fontManager;
 
 	/**
-	 * Constructor of class MobileApp. Initializes the factories, font-manager
-	 * and settings.
+	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
 	 * @param mobileGUI
-	 * @see geogebra.web.main.FontManagerW FontManagerW
-	 * @see geogebra.common.main.settings.Settings Settings
+	 * @see geogebra.common.factories.FormatFactory FormatFactory
+	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
 	public MobileApp(GeoGebraMobileGUI mobileGUI)
 	{
@@ -71,11 +69,8 @@ public class MobileApp extends App
 	}
 
 	/**
-	 * Creates a new Kernel, a new instance of MyXMLio and initializes the components 
-	 * of the GeoGebraMobileGUI.
-	 * @see geogebra.common.kernel.Kernel Kernel
-	 * @see geogebra.web.io.MyXMLio MyXMLio
-	 * @see geogebra.mobile.gui.GeoGebraMobileGUI GeoGebraMobileGUI
+	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and initializes the components 
+	 * of the {@link GeoGebraMobileGUI}.
 	 */
 	public void start()
 	{

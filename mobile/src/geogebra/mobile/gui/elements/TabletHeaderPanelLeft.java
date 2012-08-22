@@ -4,7 +4,7 @@ import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 /**
- * ButtonBar for the buttons on the left side of the HeaderPanel
+ * ButtonBar for the buttons on the left side of the HeaderPanel.
  * 
  * @author Thomas Krismayer
  * 
@@ -12,6 +12,9 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 public class TabletHeaderPanelLeft extends ButtonBar
 {
 
+	/**
+	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
+	 */
 	public TabletHeaderPanelLeft()
 	{
 		this.addStyleName("leftHeader");

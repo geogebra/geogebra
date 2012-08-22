@@ -15,6 +15,12 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
+
+/**
+ * Extends from {@link LayoutPanel}.
+ * Holds the instances of the {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}. 
+ */
+
 public class AlgebraViewPanel extends LayoutPanel
 {
 	protected ScrollPanel scrollPanel; 
@@ -22,6 +28,10 @@ public class AlgebraViewPanel extends LayoutPanel
 	
 	boolean small = false; 
 	
+	/**
+	 * Adds a stylename, initializes the {@link TouchDelegate} and adds a
+	 * {@link TapHandler} and a {@link SwipeEndHandler}.
+	 */
 	public AlgebraViewPanel()
 	{
 		this.addStyleName("algebraview");
@@ -29,18 +39,29 @@ public class AlgebraViewPanel extends LayoutPanel
 		TouchDelegate touchDelegate = new TouchDelegate(this);
 
 		touchDelegate.addTapHandler(new TapHandler(){
+			
+			/**
+			 * If there is a tap on the AlgebraViewPanel and it is collapsed,
+			 * the panel gets extended.
+			 * @param event Event
+			 */
 			@Override
-      public void onTap(TapEvent event)
-      {
+			public void onTap(TapEvent event)
+			{
 				if(AlgebraViewPanel.this.small){
 					extend(); 
 				}
-      }			
+			}			
 		});
 
 		touchDelegate.addSwipeEndHandler(new SwipeEndHandler()
 		{
 
+			
+			/**
+			 * The AlgebraViewPanel extends if there is a swipe from left to right and
+			 * collapse if there is a swipe form right to left.
+			 */
 			@Override
 			public void onSwipeEnd(SwipeEndEvent event)
 			{
@@ -58,11 +79,20 @@ public class AlgebraViewPanel extends LayoutPanel
 		});
 	}
 
+	/**
+	 * Extends the AlgebraViewPanel.
+	 */
 	protected void extend(){
 		AlgebraViewPanel.this.setWidth("15%");
 		AlgebraViewPanel.this.scrollPanel.setVisible(true); 
 	}
 	
+	/**
+	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM algebraView} to it.
+	 * Attaches the {@link AlgebraViewM algebraView} to the {@link Kernel kernel}.
+	 * @param ac MobileAlgebraController
+	 * @param kernel Kernel
+	 */
 	public void initAlgebraView(MobileAlgebraController ac, Kernel kernel)
 	{
 		this.scrollPanel = new ScrollPanel(); 

@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * AlgebraView with tree for free and dependent objects.
  * 
- * taken from the web-project
+ * Taken from the web-project
  * 
  */
 public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView

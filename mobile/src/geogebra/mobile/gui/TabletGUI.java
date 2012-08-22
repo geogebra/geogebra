@@ -33,7 +33,6 @@ public class TabletGUI implements GeoGebraMobileGUI
 	private GuiModel guiModel; 
 
 	/**
-	 * Constructor of class TabletGUI.
 	 * Sets the viewport and other settings,
 	 * creates a link element at the end of the head,
 	 * appends the css file and initializes the GUI elements.
@@ -80,22 +79,12 @@ public class TabletGUI implements GeoGebraMobileGUI
 		RootPanel.get().add(this.algebraViewPanel);
 	}
 
-	
-	/**
-	 * @return The euclidianViewPanel
-	 * @see geogebra.mobile.gui.elements.EuclidianViewPanel EuclidianViewPanel
-	 */
 	@Override
 	public EuclidianViewPanel getEuclidianViewPanel()
 	{
 		return this.euclidianViewPanel;
 	}
 
-	
-	/**
-	 * @return The algebraViewPanel
-	 * @see geogebra.mobile.gui.elements.AlgebraViewPanel AlgebraViewPanel
-	 */
 	@Override
 	public AlgebraViewPanel getAlgebraViewPanel()
 	{
@@ -104,12 +93,10 @@ public class TabletGUI implements GeoGebraMobileGUI
 
 	
 	/**
-	 * Creates a new instance of MobileEuclidianController and MoblieAlgebraController
-	 * and initializes the euclidianViewPanel and algebraViewPanel according to these
-	 * instances.
+	 * Creates a new instance of {@link MobileEuclidianController} and {@link MoblieAlgebraController}
+	 * and initializes the {@link EuclidianViewPanel euclidianViewPanel} and 
+	 * {@link AlgebraViewPanel algebraViewPanel} according to these instances.
 	 * @param kernel Kernel
-	 * @see geogebra.mobile.controller.MobileEuclidianController MobileEuclidianController
-	 * @see geogebra.mobile.controller.MobileAlgebraController MobileAlgebraController
 	 */
 	@Override
 	public void initComponents(final Kernel kernel)
