@@ -313,7 +313,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		} else {
 			this.commentText.setTextString(input);
 			cons.addToConstructionList(this, true);
-		}		
+		}
 		suppressOutput = useAsText;
 		// recalc row height
 		update();
@@ -446,8 +446,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * Sets the input of this row using the current casTwinGeo.
 	 */
 	public void setInputFromTwinGeo(boolean force) {
-		if (ignoreTwinGeoUpdate && !force) 
+		if (ignoreTwinGeoUpdate && !force) {
 			return;
+		}
 
 		if (twinGeo != null && twinGeo.isIndependent() && twinGeo.isLabelSet()) {
 			// Update ASSIGNMENT of twin geo
@@ -702,6 +703,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		switch (inputVE.getAssignmentType()) {
 		case NONE:
+			setAssignmentVar(null);
 			break;
 		// do that only if the expression is an assignment
 		case DEFAULT:
@@ -882,8 +884,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 			cons.removeCasCellLabel(assignmentVar);
 		}
 
-		// make sure we are using an unused label
-		if (var == null || cons.isFreeLabel(var)) {
+		if (var == null) {
+			assignmentVar = var;
+
+			// make sure we are using an unused label
+		} else if (cons.isFreeLabel(var)) {
 			// check for invalid assignment variables like $, $$, $1, $2, ...,
 			// $1$, $2$, ... which are dynamic references
 			if (var.charAt(0) == ROW_REFERENCE_DYNAMIC) {
@@ -1326,10 +1331,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * @param output
 	 *            output string (from CAS)
-	 * @param prependLabel 
-	 * 				whether f(x):= must be prepended to output before evaluation
+	 * @param prependLabel
+	 *            whether f(x):= must be prepended to output before evaluation
 	 */
-	public void setOutput(final String output,boolean prependLabel) {
+	public void setOutput(final String output, boolean prependLabel) {
 		error = null;
 		latex = null;
 
@@ -1467,7 +1472,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// silent evaluation of output in GeoGebra
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE);
-		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
+		if (lastOutputEvaluationGeo != null
+				&& !dependsOnDummy(lastOutputEvaluationGeo)) {
 			twinGeo.set(lastOutputEvaluationGeo);
 		} else {
 			twinGeo.setUndefined();
@@ -1629,7 +1635,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (success) {
 			if (prefix.length() == 0 && postfix.length() == 0) {
 				// no prefix, no postfix: just evaluation
-				setOutput(result,true);
+				setOutput(result, true);
 			} else {
 				// make sure that evaluation is put into parentheses
 				StringBuilder sb = new StringBuilder();
@@ -1638,7 +1644,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				sb.append(result);
 				sb.append(") ");
 				sb.append(postfix);
-				setOutput(sb.toString(),true);
+				setOutput(sb.toString(), true);
 			}
 		} else {
 			if (ce == null) {
@@ -1767,7 +1773,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// inputCell
-		if (!isInputEmpty() || useAsText || (input!=null && input.length()>0)) {
+		if (!isInputEmpty() || useAsText
+				|| (input != null && input.length() > 0)) {
 			sb.append("\t\t");
 			sb.append("<inputCell>\n");
 			sb.append("\t\t\t");
@@ -2102,12 +2109,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 					&& twinGeo.isEuclidianShowable();
 		} else {
 			// creates a new twinGeo, if not possible return
-			if (outputVE==null || !plot()) {
+			if (outputVE == null || !plot()) {
 				return;
 			}
 			visible = hasTwinGeo() && twinGeo.isEuclidianShowable();
 		}
-		if(hasTwinGeo()){
+		if (hasTwinGeo()) {
 			twinGeo.setEuclidianVisible(visible);
 			twinGeo.updateVisualStyle();
 		}
@@ -2172,33 +2179,36 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		if (isFunctionAble) {
 			inputVE = new Function(inputVE.wrap());
-			((Function)inputVE).initFunction();	
+			((Function) inputVE).initFunction();
 		}
-		
+
 		this.firstComputeOutput = true;
 		this.computeOutput(true);
-		if(twinGeo!=null)
+		if (twinGeo != null)
 			twinGeo.setLabel(null);
-		if (twinGeo!=null && twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()
-				&& !dependsOnDummy(twinGeo)) {
+		if (twinGeo != null && twinGeo.getLabelSimple() != null
+				&& twinGeo.isEuclidianShowable() && !dependsOnDummy(twinGeo)) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
 			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
-			/** set output (if input has been not changed), or set input and recalculate
+			/**
+			 * set output (if input has been not changed), or set input and
+			 * recalculate
 			 */
-			if(keepInput){
-				outputVE.setAssignmentType(AssignmentType.DEFAULT); 
-                updateLocalizedInput(StringTemplate.defaultTemplate); 
-                outputVE.setLabel(assignmentVar); 
+			if (keepInput) {
+				outputVE.setAssignmentType(AssignmentType.DEFAULT);
+				updateLocalizedInput(StringTemplate.defaultTemplate);
+				outputVE.setLabel(assignmentVar);
 			} else {
-				setInput(inputVE.toAssignmentString(StringTemplate.defaultTemplate));			
+				setInput(inputVE
+						.toAssignmentString(StringTemplate.defaultTemplate));
 			}
-			computeOutput(false);			
+			computeOutput(false);
 			this.update();
 			latex = null;
 		} else {
-			App.debug("Fail"+oldEvalComment);
+			App.debug("Fail" + oldEvalComment);
 			// plot failed, undo assignment
 			assignmentVar = null;
 			outputVE.setAssignmentType(AssignmentType.NONE);
