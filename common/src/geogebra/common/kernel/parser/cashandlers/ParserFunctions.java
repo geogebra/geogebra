@@ -160,7 +160,9 @@ private void reset(){
 	
 	put(1,"psi", Operation.PSI);
 	
-	put(1,"polygamma", Operation.POLYGAMMA);
+	put(2,"polygamma", Operation.POLYGAMMA);
+	put(2,"polyGamma", Operation.POLYGAMMA);
+	put(2,"PolyGamma", Operation.POLYGAMMA);
 
 	put(1,"exp", Operation.EXP);
 	put(1,"Exp", Operation.EXP);
