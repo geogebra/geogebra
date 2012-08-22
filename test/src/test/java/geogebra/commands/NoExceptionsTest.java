@@ -117,7 +117,7 @@ public class NoExceptionsTest {
 		} catch (Throwable e) {
 			System.out.println("error occured:" + e.getClass().getName());
 			e.printStackTrace();
-			Assert.assertNull(e);
+			Assert.assertNull(e.getMessage(),e);
 		}finally{
 			syntaxes--;
 		}
@@ -2446,41 +2446,49 @@ public class NoExceptionsTest {
 		t("TurtleRight[turtle1, 3.14]");
 	}
 	
+	@Test
 	public void cmdZProportionTest(){
 		t("ZProportionTest[ n1, n1, n2, \">\" ]");
 	}
 	
+	@Test
 	public void cmdZMeanTest(){
 		t("ZMeanTest[ list1, n1, n2, \">\" ]");
-		t("ZMeanTest[ n1, n1, n2, \">\" ]");
+		t("ZMeanTest[ n1, n1, n2, n3, \">\" ]");
 		
 	}
 	
+	@Test
 	public void cmdZMean2Test(){
-		t("ZMean2Test[ list1, n1, list1,n3,n4, \">\" ]");
-		t("ZMean2Test[ n1, n1, n2, n3,n4,\">\" ]");
+		t("ZMean2Test[ list1, n1, list1,n3, \">\" ]");
+		t("ZMean2Test[ n1, n1, n2, n3,n1,n2,\">\" ]");
 		
 	}
 	
+	@Test
 	public void cmdZProportion2Test(){
-		t("ZProportion2Test[ n3,n4,n1, n1, n2, \">\" ]");
+		t("ZProportion2Test[ n3,n4,n1, n1, \">\" ]");
 	}
 	
+	@Test
 	public void cmdZProportionEstimate(){
 		t("ZproportionEstimate[n1,n2,n3]");
 	}
 	
+	@Test
 	public void cmdZProportion2Estimate(){
-		t("ZproportionEstimate[n1,n2,n3,n1,n2]");
+		t("Zproportion2Estimate[n1,n2,n3,n1,n2]");
 	}
 	
+	@Test
 	public void cmdZMeanEstimate(){
-		t("ZMeanEstimate[ list1, n1, n4, n1 ]");
+		t("ZMeanEstimate[ list1, n1, n1 ]");
 		t("ZMeanEstimate[ n1, n3,n4,n1 ]");
 	}
 	
+	@Test
 	public void cmdZMean2Estimate(){
-		t("ZMean2Estimate[ list1, n1, list1,n3,n4, n1 ]");
-		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1 ]");
+		t("ZMean2Estimate[ list1, list1, n3,n4, n1 ]");
+		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1,n2 ]");
 	}
 }
