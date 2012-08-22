@@ -6,6 +6,11 @@ import geogebra.mobile.euclidian.EuclidianViewM;
 import com.google.gwt.canvas.client.Canvas;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 
+/**
+ * Extends from {@link LayoutPanel}
+ *
+ */
+
 public class EuclidianViewPanel extends LayoutPanel
 {
 	private Canvas canvas; 	

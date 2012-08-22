@@ -16,6 +16,11 @@ import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
 
+/**
+ * Coordinates the GUI of the tablet.
+ *
+ */
+
 public class TabletGUI implements GeoGebraMobileGUI
 {
 	private EuclidianViewPanel euclidianViewPanel;
@@ -27,6 +32,12 @@ public class TabletGUI implements GeoGebraMobileGUI
 	
 	private GuiModel guiModel; 
 
+	/**
+	 * Constructor of class TabletGUI.
+	 * Sets the viewport and other settings,
+	 * creates a link element at the end of the head,
+	 * appends the css file and initializes the GUI elements.
+	 */
 	public TabletGUI()
 	{
 		// set viewport and other settings for mobile
@@ -49,6 +60,9 @@ public class TabletGUI implements GeoGebraMobileGUI
 		layout();
 	}
 
+	/**
+	 * Sets the layout of the whole tablet.
+	 */
 	public void layout()
 	{
 		RootPanel.get().add(this.euclidianViewPanel);
@@ -66,18 +80,37 @@ public class TabletGUI implements GeoGebraMobileGUI
 		RootPanel.get().add(this.algebraViewPanel);
 	}
 
+	
+	/**
+	 * @return The euclidianViewPanel
+	 * @see geogebra.mobile.gui.elements.EuclidianViewPanel EuclidianViewPanel
+	 */
 	@Override
 	public EuclidianViewPanel getEuclidianViewPanel()
 	{
 		return this.euclidianViewPanel;
 	}
 
+	
+	/**
+	 * @return The algebraViewPanel
+	 * @see geogebra.mobile.gui.elements.AlgebraViewPanel AlgebraViewPanel
+	 */
 	@Override
 	public AlgebraViewPanel getAlgebraViewPanel()
 	{
 		return this.algebraViewPanel;
 	}
 
+	
+	/**
+	 * Creates a new instance of MobileEuclidianController and MoblieAlgebraController
+	 * and initializes the euclidianViewPanel and algebraViewPanel according to these
+	 * instances.
+	 * @param kernel Kernel
+	 * @see geogebra.mobile.controller.MobileEuclidianController MobileEuclidianController
+	 * @see geogebra.mobile.controller.MobileAlgebraController MobileAlgebraController
+	 */
 	@Override
 	public void initComponents(final Kernel kernel)
 	{
