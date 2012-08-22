@@ -3633,6 +3633,8 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleCasCellOutput(LinkedHashMap<String, String> attrs) {
+		if(geoCasCell.isUseAsText())
+			return true;
 		try {
 			String output = attrs.get("value");
 			boolean error = parseBoolean(attrs.get("error"));
