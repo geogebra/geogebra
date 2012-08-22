@@ -3043,7 +3043,9 @@ public class ExpressionNode extends ValidExpression implements
 			case LIBRE_OFFICE:
 				sb.append("func zeta left (");
 				break;
-				
+			case MPREDUCE:
+				appendReduceFunction(sb, "zeta");
+				break;	
 			default:
 				sb.append("zeta(");
 			}
