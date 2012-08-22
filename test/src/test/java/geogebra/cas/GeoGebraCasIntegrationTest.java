@@ -2812,6 +2812,14 @@ public class GeoGebraCasIntegrationTest {
 	public void Ticket_Ticket1899() {
 		t("Solve[2^x = 8]", "{x = 3}", "{x = log(8) / log(2)}");
 	}
+	
+	/* Ticket 2481: NSolves gives wrong solution */
+	
+	@Test
+	public void Ticket_Ticket2481() {
+		t("NSolve[13^(x+1)-2*13^x=1/5*5^x,x]", "{x = -4.193914375465535}");
+	}
+	
 	@Test
 	public void FDistribution_0() {
 		t("Fdistribution[5,7,3]","betaRegularized(5/2,7/2,15/22)"); 
