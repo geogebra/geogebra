@@ -745,7 +745,7 @@ public class PropertiesViewD extends
 
 	@Override
 	public void updateSelection() {
-
+		
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		if (geos.size() == 0)
@@ -756,7 +756,7 @@ public class PropertiesViewD extends
 
 	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
-
+		
 		if (geos.size() > 0) {
 			if (!stayInCurrentPanel())
 				setObjectPanel(geos);
@@ -771,6 +771,7 @@ public class PropertiesViewD extends
 	 * panel, unless from stylebar buttons.
 	 */
 	private boolean stayInCurrentPanel() {
+		
 		return selectedOptionType == OptionType.DEFAULTS
 				|| selectedOptionType == OptionType.ADVANCED
 				|| selectedOptionType == OptionType.LAYOUT;
@@ -778,19 +779,20 @@ public class PropertiesViewD extends
 
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
-		
+
 		if (geos.size() == 0){
 			app.setFirstGeoSelectedForPropertiesView();
 
-		GeoElement geo = app.setFirstGeoSelectedForPropertiesView();
-		if (geo==null){ 
-			//if no first geo, close properties view if object panel visible
-			if (selectedOptionType==OptionType.OBJECTS)
-				((LayoutD) app.getGuiManager().getLayout()).getDockManager().closePanel(getViewID(), false);
-			
+			GeoElement geo = app.setFirstGeoSelectedForPropertiesView();
+			if (geo==null){ 
+				//if no first geo, close properties view if object panel visible
+				if (selectedOptionType==OptionType.OBJECTS)
+					((LayoutD) app.getGuiManager().getLayout()).getDockManager().closePanel(getViewID(), false);
+
+			}else if (selectedOptionType != OptionType.OBJECTS)
+				setOptionPanel(OptionType.OBJECTS);
 		}else if (selectedOptionType != OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
-		}
 		
 		//always update selection for object panel
 		updateObjectPanelSelection(geos);
