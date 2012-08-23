@@ -507,7 +507,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 				if (scanner != null)
 					scanner.close();
 			}
-			sb.append("\n\n");
+			sb.append("\n");
 		}
 		
 		// append ggb file (except images)
