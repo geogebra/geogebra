@@ -7,7 +7,7 @@ import geogebra.mobile.utils.ToolBarCommand;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 
 /**
- * A Button for the ToolBar, allowing an SVG graphic to be set as background <br>
+ * A Button for the {@link ToolBar}, allowing an SVG graphic to be set as background <br>
  * css-styling: {@code -webkit-background-size: 100%;} <br>
  * for the correct size of the SVG
  * 
