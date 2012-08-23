@@ -273,8 +273,8 @@ app.error("set source table rowCount: " + rowCount);
 		btnOK.setText(app.getMenu("OK"));
 
 		// classesPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Classes")));
-		lblStart.setText(app.getMenu(" Start") + ": ");
-		lblWidth.setText(app.getMenu(" Width") + ": ");
+		lblStart.setText(app.getMenu("Start") + ": ");
+		lblWidth.setText(app.getMenu("Width") + ": ");
 
 	}
 
