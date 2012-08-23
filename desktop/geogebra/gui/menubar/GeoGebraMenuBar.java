@@ -21,6 +21,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -471,7 +474,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(GeoGebraConstants.BUILD_DATE);
 		sb.append(")\nJava: ");
 		sb.append(System.getProperty("java.version"));
-		sb.append(")\nCodebase: ");
+		sb.append("\nCodebase: ");
 		sb.append(AppD.getCodeBase());
 		sb.append("\nOS: ");
 		sb.append(System.getProperty("os.name"));
@@ -483,11 +486,32 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(App.getCASVersionString());
 		sb.append("\n\n");
 
-		// copy the entire log to systemInfo
+		// copy the entire log to systemInfo (maybe not required at all)
+		sb.append("GeoGebraLogger log:\n");
 		sb.append(App.logger.getEntireLog());
 		sb.append("\n");
 
+		// copy file log
+		if (app.logFile != null) {
+			sb.append("File log from " + app.logFile.toString() + ":\n");
+			String NL = System.getProperty("line.separator");
+			Scanner scanner = null;
+			try {
+				scanner = new Scanner(new File(app.logFile.toString()));
+				while (scanner.hasNextLine()) {
+					sb.append(scanner.nextLine() + NL);
+				}
+			} catch (FileNotFoundException e) {
+				app.showMessage(app.getPlain("CannotOpenLogFile"));
+			} finally {
+				if (scanner != null)
+					scanner.close();
+			}
+			sb.append("\n\n");
+		}
+		
 		// append ggb file (except images)
+		sb.append("GGB file content:\n");
 		sb.append(app.getXML());
 		sb.append("\n\n");
 		sb.append(app.getMacroXML());
