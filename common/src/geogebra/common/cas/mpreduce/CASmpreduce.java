@@ -503,36 +503,35 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "   if freeof(elem!!,x) then 1 else 0 then"
 				+ "   return reverse(coefflist)" + " else" + "   return '?"
 				+ " end;");
-		mpreduce1
-				.evaluate("procedure myand (a,b); if a=true and b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sand(a,b)");
-		mpreduce1.evaluate("operator sand");
-		mpreduce1
-				.evaluate("procedure myor (a,b); if a=true or b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sor(a,b)");
-		mpreduce1.evaluate("operator sor");
-		mpreduce1
-				.evaluate("procedure myimplies (a,b); if a=false or b=true then true else  if (a=true or a=false) and (b=true or b=false) then false else simplies(a,b)");
-		mpreduce1.evaluate("operator simplies");
-		mpreduce1
-				.evaluate("procedure mynot a; if a=false then true else  if (a=true or a=false) then false else sand(a,b)");
-		mpreduce1.evaluate("operator snot");
+		
+		mpreduce1.evaluate("procedure myand (a,b); if a=true and b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sand(a,b);");
+		mpreduce1.evaluate("operator sand;");
+		
+		mpreduce1.evaluate("procedure myor (a,b); if a=true or b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sor(a,b);");
+		mpreduce1.evaluate("operator sor;");
+		
+		mpreduce1.evaluate("procedure myimplies (a,b); if a=false or b=true then true else  if (a=true or a=false) and (b=true or b=false) then false else simplies(a,b);");
+		mpreduce1.evaluate("operator simplies;");
+		
+		mpreduce1.evaluate("procedure mynot a; if a=false then true else  if (a=true or a=false) then false else snot(a);");
+		mpreduce1.evaluate("operator snot;");
 
-		mpreduce1
-				.evaluate("procedure mygreater (a,b); if numberp(a) and numberp(b) then"
-						+ "(if a>b then true else false) else sgreater(a,b)");
-		mpreduce1.evaluate("operator sgreater");
-		mpreduce1
-				.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then"
-						+ "(if a<b then true else false) else sless(a,b)");
-
-		mpreduce1.evaluate("operator sless");
-		mpreduce1
-				.evaluate("procedure mygreaterequal (a,b); if numberp(a) and numberp(b) then"
-						+ "(if a>=b then true else false) else sgreaterequal(a,b)");
-		mpreduce1.evaluate("operator sgreater");
-		mpreduce1
-				.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then"
-						+ "(if a<=b then true else false) else slessequal(a,b)");
-		mpreduce1.evaluate("operator slessequal");
+		mpreduce1.evaluate("procedure mygreater (a,b); if numberp(a) and numberp(b) then"
+						+ "(if a>b then true else false) else sgreater(a,b);");
+		mpreduce1.evaluate("operator sgreater;");
+		
+		mpreduce1.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then"
+						+ "(if a<b then true else false) else sless(a,b);");
+		mpreduce1.evaluate("operator sless;");
+		
+		mpreduce1.evaluate("procedure mygreaterequal (a,b); if numberp(a) and numberp(b) then"
+						+ "(if a>=b then true else false) else sgreaterequal(a,b);");
+		mpreduce1.evaluate("operator sgreaterequal;");
+		
+		mpreduce1.evaluate("procedure mylessequal (a,b);if numberp(a) and numberp(b) then"
+						+ "(if a<=b then true else false) else slessequal(a,b);");
+		mpreduce1.evaluate("operator slessequal;");
+		
 		mpreduce1.evaluate(" Degree := pi/180;");
 
 		mpreduce1
@@ -594,9 +593,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate("operator ggbinterval;");
 		mpreduce1
-				.evaluate("procedure mkinterval(var,eqn,a,b);"
+				.evaluate("procedure mkinterval(var,op,a,b);"
 						+ "begin scalar ineqtype;"
-						+ "ineqtype:= if part(eqn,0)= 'leq or part(eqn,0)= 'geq then 3 else 0;"
+						+ "ineqtype:= if op= 'slessequal or op= 'sgreaterequal then 3 else 0;"
 						+ "return ggbinterval(var,a,b,ineqtype);" + "end;");
 
 		mpreduce1
@@ -649,24 +648,68 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				 ));
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
-						+ " begin scalar solutions!!, bool!!, isineq;" +
-						"isineq:=0;"
-						+ " if part(eqn,0)='sgreater then <<eqn:=part(eqn,0):='greaterp; isineq:=1>>;"
-						+ " if part(eqn,0)='sgreaterequal then <<eqn:=part(eqn,0):='geq; isineq:=1>>;"
-						+ " if part(eqn,0)='sless then <<eqn:=part(eqn,0):='lessp; isineq:=1>>;"
-						+ " if part(eqn,0)='slessequal then <<eqn:=part(eqn,0):='leq; isineq:=1>>;"
-						+ "  eqn:=mkdepthone({eqn});"
+						+ " begin scalar solutions!!, bool!!, isineq,temp1!!,temp2!!, max;"
+						+ "isineq:=0; multi:={};temp1!!:={}; temp2!!:={};" 
+						+ " if part(eqn,0)='sgreater then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='greaterp; isineq:=1 >>;"
+						+ " if part(eqn,0)='sgreaterequal then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='geq; isineq:=1>>;"
+						+ " if part(eqn,0)='sless then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='lessp; isineq:=1>>;"
+						+ " if part(eqn,0)='slessequal then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='leq; isineq:=1>>;"
+						+ " if isineq then eqn:=lhs(ineq)=rhs(ineq);"
+						+ "  eqn:=mkdepthone({eqn});" 
 						+ "  let solverules;"
 						+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
 						+ "    eqn:=for each x in eqn collect"
 						+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
-						+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
-						+ "  solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);" 
+						+ "  else if freeof(eqn,=) then eqn else eqn:=subtraction(lhs(eqn),rhs(eqn));"
+						+ "  solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
+						+ " multi:=for j:=1:length(solutions!!) join {m=part(root_multiplicities,j)};"
+						
+						//single inequality solution begins"
+						+ "if isineq then <<"
+						//Clear non-real solutions"
+						+ " temp1!!:=for j:=1:length(solutions!!) join if freeof(part(solutions!!,j),'i) then {part(solutions!!,j)} else {};"
+						+ " temp2!!:=for j:=1:length(solutions!!) join if freeof(part(solutions!!,j),'i) then {part(multi,j)} else {};"
+						+ " solutions!!:=temp1!!; multi:=temp2!!;"
+						+ "  nroots:=length(solutions!!);"
+						+ "  if not (nroots=0) then << sol:=part(part(solutions!!,1),2);"
+						+ "     if not freeof(sol,'i) or (arglength(sol)>-1 and part(sol,0)='arbreal) then <<solutions!!:={}; nroots:=0>>; >>;"
+
+						//Case 1: the corresponding equation has no solution
+						+ "if nroots = 0 then  <<"
+						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={!*interval!*(-infinity,infinity)}"
+					    + "else if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={}"
+						+ "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={!*interval!*(-infinity,infinity)}"
+					    + "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={};"
+						+ ">> else " 			
+					   //Case 2: the corresponding equation has some solution
+						+ "<< max:=part(part(solutions!!,1),2);"
+						+ "solutionset:={infinity};" 
+						+ "for j:=1:nroots do <<"
+						+ "solutionset := append(solutionset,{part(part(solutions!!,j),2)});"
+						+ "if fixp(part(part(multi,j),2) / 2) then"
+						+ "  solutionset := append(solutionset,{part(part(solutions!!,j),2)});"
+						+">>;"	
+						+ "solutionset:=append(solutionset,{-infinity});" + 
+						"ineqsol:={};" 
+						+ "nmroots:=length(solutionset);"
+						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=1"
+						+ " else if (ineqop='sless or ineqop='slessequal) and sub({var=max+1},part(eqn,1)) > 0 then start:=2"
+						+ " else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) > 0 then start:=1"
+						+ " else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=2;"
+						+ "j:=start;"
+						+ "while j+1<=nmroots do << ineqsol:=append({var=!*interval!*(part(solutionset,j+1), part(solutionset,j))},ineqsol);"
+						+ "      j:=j+2; >>;"
+						+ "solutions!!:=ineqsol; >>;"
+						+ "if solutions!!={} then return {};"
+						+ " >>; "
+
+						// inequality solution ends
 						+ "  if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
 						+ "    solutions!!:=solve(map(exptolin(~r),eqn),var); "
 						+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
 						+ "	 if depth(solutions!!)<2 then"
 						+ "		solutions!!:=for each x in solutions!! collect {x};"
+						
 						+ "	 solutions!!:=for each sol in solutions!! join <<"
 						+ "    bool!!:=1;"
 						+ "    for each solution!! in sol do"
@@ -676,10 +719,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "		   off complex;"
 						+ "		   if numeric!!=0 then off rounded, roundall, numval"
 						+ "      >>"
+
 						+ "      else"
 						+ "	       bool!!:=2*bool!!;"
 						+ " 	   firstsol!!:=part(sol,1);"
-						+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
+						+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,ineqop,part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
 						+ "    else if bool!!=1 then" + "  	 {sol}"
 						+ "	   else if bool!!>1 then " + "  	 {{var='?}}"
 						+ "    else " + "		 {} >>;"
