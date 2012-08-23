@@ -455,8 +455,11 @@ public class AppD extends App implements
 		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
+		App.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar + " appletImpl=" + appletImpl);
 		if (!isApplet && runningFromJar) {
 			setUpLogging();
+		} else {
+			App.debug("Not setting up logging via LogManager");
 		}
 
 		// needed for JavaScript getCommandName(), getValueString() to work
@@ -3650,8 +3653,7 @@ public class AppD extends App implements
 			codebase = new URL(path);
 			hasFullPermissions = true;
 		} catch (Exception e) {
-			System.out
-					.println("GeoGebra is running with restricted permissions.");
+			App.info("GeoGebra is running with restricted permissions.");
 			hasFullPermissions = false;
 
 			// make sure temporary files not used
@@ -4519,8 +4521,10 @@ public class AppD extends App implements
      * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
      */
     private void setUpLogging() {
+    		App.debug("Setting up logging");
     		if (logger.getLogDestination() == LogDestination.FILE) {
     			// File logging already set up, don't override:
+    			App.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
     			return;
     		}
     	
