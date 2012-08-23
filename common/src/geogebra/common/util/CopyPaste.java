@@ -705,7 +705,10 @@ public class CopyPaste {
 				return;
 		}
 
-		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		//don't update selection
+		app.getActiveEuclidianView().getEuclidianController().clearSelections(true,false);
+		//don't update properties view
+		app.updateSelection(false);
 		app.getActiveEuclidianView().getEuclidianController()
 				.setPastePreviewSelected();
 

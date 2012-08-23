@@ -2330,6 +2330,16 @@ public abstract class App {
 	 *            whether all views need repainting afterwards
 	 */
 	public void clearSelectedGeos(boolean repaint) {
+
+		clearSelectedGeos(repaint,repaint);
+	}
+	
+	/**
+	 * Clear selection
+	 * @param repaint whether all views need repainting afterwards
+	 * @param updateSelection call (or not) updateSelection()
+	 */
+	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
 		int size = selectedGeos.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
@@ -2337,10 +2347,11 @@ public abstract class App {
 				geo.setSelected(false);
 			}
 			selectedGeos.clear();
-			if (repaint) {
+			if (repaint) 
 				kernel.notifyRepaint();
+			
+			if (updateSelection)
 				updateSelection();
-			}
 
 		}
 

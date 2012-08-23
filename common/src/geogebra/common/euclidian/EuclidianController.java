@@ -3546,7 +3546,16 @@ public abstract class EuclidianController {
 	}
 
 	public void clearSelections() {
-	
+		clearSelections(true,true);
+	}
+
+	/**
+	 * Clear selection
+	 * @param repaint whether all views need repainting afterwards
+	 * @param updateSelection call (or not) updateSelection()
+	 */
+	public void clearSelections(boolean repaint, boolean updateSelection) {
+
 		clearSelection(selectedNumbers, false);
 		clearSelection(selectedNumberValues, false);
 		clearSelection(selectedPoints, false);
@@ -3562,7 +3571,7 @@ public abstract class EuclidianController {
 		clearSelection(selectedPaths, false);
 		clearSelection(selectedRegions, false);
 	
-		app.clearSelectedGeos();
+		app.clearSelectedGeos(repaint,updateSelection);
 	
 		// if we clear selection and highlighting,
 		// we may want to clear justCreatedGeos also
