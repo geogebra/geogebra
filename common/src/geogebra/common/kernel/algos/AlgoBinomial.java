@@ -14,10 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.util.MyMath2;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import geogebra.common.util.MyMath;
 
 //import org.apache.commons.math.special.Gamma;
 
@@ -92,60 +89,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	  return binom;
 	}*/
 
-    private static double Binom(double n, double r) {
-		double INFINITY=Double.POSITIVE_INFINITY;
-    	try {
-    		if (n==0d && r==0d) return 1d;
-    		if (r > n/2) r = n - r;
-    		if (n<1d || r<0d || n<r) return 0d;
-    		if (Math.floor(n)!=n || Math.floor(r)!=r) return 0d;
-	    
-    		double ncr=BinomLog(n,r);
-    		if (ncr==INFINITY) return INFINITY; // check to stop needless slow calculations
 
-    		// BinomLog is not exact for some values
-    		// (determined by trial and error)
-    		if (n<=37) return ncr;
-    		//if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
-	    
-    		// BinomBig is more accurate but slower
-    		// (but cannot be exact if the answer has more than about 16 significant digits)
-    		return BinomBig(n,r);
-    	}
-    	catch (Exception e) {
-    		return INFINITY;
-    	}    
-    }
-    
-    private static double BinomBig(double n, double r) {
-	    if (r > n/2) r = n - r;
-	    BigInteger ncr=BigInteger.ONE,dd=BigInteger.ONE,nn,rr;
-//	    nn=BigInteger.valueOf((long)n);
-//	    rr=BigInteger.valueOf((long)r);
-	    
-	    // need a long-winded conversion in case n>10^18
-	    Double nnn=new Double(n);
-	    Double rrr=new Double(r);
-	    nn=(new BigDecimal(nnn.toString())).toBigInteger();
-	    rr=(new BigDecimal(rrr.toString())).toBigInteger();
-	    
-	    while (dd.compareTo(rr)<=0) {
-	    	ncr=ncr.multiply(nn);
-	    	ncr=ncr.divide(dd); // dd is guaranteed to divide exactly into ncr here
-	    	nn=nn.subtract(BigInteger.ONE);
-	    	dd=dd.add(BigInteger.ONE);
-	    }
-	    return ncr.doubleValue();
-	  }
-	
-	private static double BinomLog(double n, double r) {
-		// exact for n<=37
-		// also  if r<2.8+Math.exp((250-n)/100) && n<59000
-		// eg Binom2(38,19) is wrong
-		
-		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(r+1)-MyMath2.logGamma((n-r)+1)));
-		
-	}
 	
     public AlgoBinomial(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b); 
@@ -159,7 +103,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     @Override
 	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
-    		double nCr=Binom(a.getDouble(), b.getDouble());
+    		double nCr=MyMath.binomial(a.getDouble(), b.getDouble());
 			num.setValue(nCr);
     	}
     	else num.setUndefined();

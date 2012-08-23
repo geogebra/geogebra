@@ -20,6 +20,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.Riemann;
 
 /**
  * @author ggb3D
@@ -1196,7 +1197,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				throw new MyError(app, str);
 			}
 		case ZETA:
-			// tanh(number)
+			// zeta(number)
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().zeta();
 			} else if (lt.isPolynomialInstance()
@@ -1205,6 +1206,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new Polynomial(kernel, new Term(
 						new ExpressionNode(kernel, lt, Operation.ZETA, null),
 						""));
+			} else if (lt.isVectorValue()) {
+				vec = ((VectorValue) lt).getVector();
+
+				GeoVec2D.complexZeta(vec, vec);
+				
+				return vec;
+
 			} else {
 				str = new String[]{ "IllegalArgument", "zeta", lt.toString(errorTemplate) };
 				throw new MyError(app, str);

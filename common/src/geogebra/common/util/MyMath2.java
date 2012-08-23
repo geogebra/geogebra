@@ -314,24 +314,15 @@ public class MyMath2 {
 	}
 	
 	/**
-	 * Rieman zeta function
+	 * Rieman zeta function (for reals)
 	 * @param val argument
 	 * @return rieman zeta of val
 	 */
 	public static double zeta(double val) {
 		if(val<0 && Kernel.isInteger(val/2))
 			return 0;
-		if(val<1/2){
-			return Math.pow(Math.PI,val-1)*Math.pow(2,val)*Math.sin(val*Math.PI/2)*gamma(1-val)*zeta(1-val);
-		}
-		double eta = 0;
-		int sgn = 1;
-		double add = 1;
-		for(int i=1;i<MAX_ITERATIONS && Math.abs(add) > Kernel.MAX_PRECISION;i++){
-			add = sgn / Math.pow(i,val);
-			eta += add;
-			sgn = -sgn;
-		}
-		return eta/ (1-Math.pow(2, 1 - val));
+		
+		double[] s = {val, 0};
+		return Riemann.zeta(s)[0];
 	}
 }

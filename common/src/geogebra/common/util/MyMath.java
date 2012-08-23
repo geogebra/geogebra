@@ -17,6 +17,7 @@ package geogebra.common.util;
 import geogebra.common.kernel.Kernel;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * @author Markus Hohenwarter
@@ -211,5 +212,62 @@ public final class MyMath {
 			}
 		return result;
 	}
+	
+    public static double binomial(double n, double r) {
+		double INFINITY=Double.POSITIVE_INFINITY;
+    	try {
+    		if (n==0d && r==0d) return 1d;
+    		if (r > n/2) r = n - r;
+    		if (n<1d || r<0d || n<r) return 0d;
+    		if (Math.floor(n)!=n || Math.floor(r)!=r) return 0d;
+	    
+    		double ncr=binomLog(n,r);
+    		if (ncr==INFINITY) return INFINITY; // check to stop needless slow calculations
+
+    		// BinomLog is not exact for some values
+    		// (determined by trial and error)
+    		if (n<=37) return ncr;
+    		//if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
+	    
+    		// BinomBig is more accurate but slower
+    		// (but cannot be exact if the answer has more than about 16 significant digits)
+    		return binomBig(n,r);
+    	}
+    	catch (Exception e) {
+    		return INFINITY;
+    	}    
+    }
+    
+    private static double binomBig(double n, double r) {
+	    if (r > n/2) r = n - r;
+	    BigInteger ncr=BigInteger.ONE,dd=BigInteger.ONE,nn,rr;
+//	    nn=BigInteger.valueOf((long)n);
+//	    rr=BigInteger.valueOf((long)r);
+	    
+	    // need a long-winded conversion in case n>10^18
+	    Double nnn=new Double(n);
+	    Double rrr=new Double(r);
+	    nn=(new BigDecimal(nnn.toString())).toBigInteger();
+	    rr=(new BigDecimal(rrr.toString())).toBigInteger();
+	    
+	    while (dd.compareTo(rr)<=0) {
+	    	ncr=ncr.multiply(nn);
+	    	ncr=ncr.divide(dd); // dd is guaranteed to divide exactly into ncr here
+	    	nn=nn.subtract(BigInteger.ONE);
+	    	dd=dd.add(BigInteger.ONE);
+	    }
+	    return ncr.doubleValue();
+	  }
+	
+	private static double binomLog(double n, double r) {
+		// exact for n<=37
+		// also  if r<2.8+Math.exp((250-n)/100) && n<59000
+		// eg Binom2(38,19) is wrong
+		
+		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(r+1)-MyMath2.logGamma((n-r)+1)));
+		
+	}
+	
+	
 
 }

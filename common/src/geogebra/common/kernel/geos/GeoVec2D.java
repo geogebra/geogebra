@@ -30,6 +30,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
+import geogebra.common.util.Riemann;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
@@ -697,6 +698,22 @@ final public class GeoVec2D extends ValidExpression implements
 		out = out.sqrt();
 		c.x = out.getReal();
 		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = zeta(a) Michael Borcherds 2010-02-07
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexZeta(GeoVec2D a, GeoVec2D c) {
+		double[] s = {a.x, a.y};
+		s = Riemann.zeta(s);
+		c.x = s[0]; // real
+		c.y = s[1]; // imaginary
 		c.setMode(Kernel.COORD_COMPLEX);
 	}
 
