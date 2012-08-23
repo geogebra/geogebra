@@ -8,6 +8,13 @@ import java.util.ArrayList;
 
 public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
+	public interface ChangeListener {
+		public void dimensionChange();
+		public void valueChange();
+	}
+
+	ChangeListener listener = null;
+
 	// try with one-dimension ArrayList to represent two dimensions
 	private ArrayList<Object> defaultTableModel;
 
@@ -32,6 +39,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		defaultTableModel = new ArrayList(rows * columns);
 		for (int i = 0; i < rows * columns; i++)
 			defaultTableModel.add(null);
+		if (listener != null)
+			listener.dimensionChange();
 		attachView();
 		isIniting=false;
 	}
@@ -67,6 +76,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 				defaultTableModel.add(null);
 		}
 		rowNum = rowCount;
+		if (listener != null)
+			listener.dimensionChange();
 	}
 
 	@Override
@@ -86,6 +97,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 						defaultTableModel.add(i*colNum + j, null);
 		}
 		colNum = columnCount;
+		if (listener != null)
+			listener.dimensionChange();
 	}
 
 	@Override
@@ -100,6 +113,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 			setColumnCount(column + 1);
 		}
 		defaultTableModel.set(row*colNum+column, value);
+		if (listener != null)
+			listener.valueChange();
 	}
 
 	public boolean hasFocus() {
@@ -116,4 +131,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	    return false;
     }
 
+	public void setChangeListener(ChangeListener cl) {
+		listener = cl;
+	}
 }

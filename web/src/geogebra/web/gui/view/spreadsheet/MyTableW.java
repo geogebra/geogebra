@@ -67,6 +67,7 @@ import javax.swing.table.TableColumn;
 */
 
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.dom.client.Style;
 
 public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	private static final long serialVersionUID = 1L;
@@ -285,10 +286,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// getColumnModel().getSelectionModel().addListSelectionListener(new
 		// ColumnSelectionListener());
 		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
-
+*/
 		// add table model listener
-		tableModel.addTableModelListener(new MyTableModelListener());
-
+		((SpreadsheetTableModelW)tableModel).setChangeListener(new MyTableModelListener());
+/*
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
 		copyPasteCut = new CopyPasteCutD(app);
@@ -395,29 +396,32 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	/**
 	 * Appends columns to the table if table model column count is larger than
 	 * current number of table columns.
-	 *//*
+	 */
 	protected void updateColumnCount() {
 
 		if (tableModel.getColumnCount() <= this.getColumnCount())
 			return;
 
 		// ensure that auto-create is off
-		if (this.getAutoCreateColumnsFromModel()) {
-			throw new IllegalStateException();
-		}
+		//if (this.getAutoCreateColumnsFromModel()) {
+		//	throw new IllegalStateException();
+		//}
+
+		resizeColumns(tableModel.getColumnCount());
 
 		// add new columns to table
 		for (int i = this.getColumnCount(); i < tableModel.getColumnCount(); ++i) {
-			TableColumn col = new TableColumn(i);
-			col.setHeaderRenderer(headerRenderer);
-			col.setPreferredWidth(preferredColumnWidth);
-			addColumn(col);
+			getColumnFormatter().getElement(i).getStyle().setWidth(preferredColumnWidth, Style.Unit.PX);
+		//	TableColumn col = new TableColumn(i);
+		//TODO//	col.setHeaderRenderer(headerRenderer);
+		//	col.setPreferredWidth(preferredColumnWidth);
+		//	addColumn(col);
 		}
 
 		// addColumn destroys custom row heights, so we must reset them
-		resetRowHeights();
+		//TODO//resetRowHeights();
 
-	}
+	}/*
 
 	@Override
 	public TableCellEditor getCellEditor(int row, int column) {
@@ -465,21 +469,18 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		this.preferredColumnWidth = preferredColumnWidth;
 	}
 
-	/*public class MyTableModelListener implements TableModelListener {
+	public class MyTableModelListener implements SpreadsheetTableModelW.ChangeListener {
 
-		public void tableChanged(TableModelEvent e) {
-			// force rowHeader redraw when a new row is added (after drag
-			// down or arrow down)
-			if (e.getType() == TableModelEvent.INSERT) {
-				getView().updateRowHeader();
-			}
-			// update table column model if new columns added
-			if (e.getType() == TableModelEvent.UPDATE) {
-				updateColumnCount();
-			}
-
+		public void dimensionChange() {
+			// TODO: comment them out to imitate the Desktop behaviour
+			//getView().updateRowHeader();
+			updateColumnCount();
 		}
-	}*/
+
+		public void valueChange() {
+			
+		}
+	}
 
 	// ===============================================================
 	// Selection
