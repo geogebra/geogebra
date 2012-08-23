@@ -6545,7 +6545,8 @@ public abstract class EuclidianController {
 				return;
 			}
 	
-			app.clearSelectedGeos();
+			app.clearSelectedGeos(true,false);
+			app.updateSelection(false);
 			// hits = view.getTopHits(mouseLoc);
 			view.setHits(mouseLoc);
 			hits = view.getHits().getTopHits();

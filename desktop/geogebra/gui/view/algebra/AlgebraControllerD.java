@@ -63,7 +63,8 @@ implements DragGestureListener, DragSourceListener {
 		//EuclidianView ev = app.getEuclidianView();
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		if (clicks == 2) {										
-			app.clearSelectedGeos();
+			app.clearSelectedGeos(true,false);
+			app.updateSelection(false);
 			ev.resetMode();
 			if (geo != null && !AppD.isControlDown(e)) {
 				view.startEditing(geo, e.isShiftDown());						
