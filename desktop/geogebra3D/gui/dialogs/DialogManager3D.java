@@ -8,7 +8,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.gui.OptionsDialog3D;
 
@@ -19,11 +19,11 @@ public class DialogManager3D extends DialogManagerD {
 	/**
 	 * Construct 3D dialog manager.
 	 * 
-	 * Use {@link Application3D} instead of {@link AppD}
+	 * Use {@link App3D} instead of {@link AppD}
 	 * 
 	 * @param app Instance of the 3d application object
 	 */
-	public DialogManager3D(Application3D app) {
+	public DialogManager3D(App3D app) {
 		super(app);
 	}
 	
@@ -64,11 +64,11 @@ public class DialogManager3D extends DialogManagerD {
 	public static class Factory extends DialogManagerD.Factory {
 		@Override
 		public DialogManagerD create(AppD app) {
-			if(!(app instanceof Application3D)) {
+			if(!(app instanceof App3D)) {
 				throw new IllegalArgumentException();
 			}
 			
-			DialogManager3D dialogManager = new DialogManager3D((Application3D)app);
+			DialogManager3D dialogManager = new DialogManager3D((App3D)app);
 			dialogManager.setOptionsDialogFactory(new OptionsDialog3D.Factory());
 			return dialogManager;
 		}

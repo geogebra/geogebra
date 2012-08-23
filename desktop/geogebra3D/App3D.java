@@ -50,7 +50,7 @@ import java.io.File;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 
-public class Application3D extends AppD {
+public class App3D extends AppD {
 
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
@@ -58,17 +58,17 @@ public class Application3D extends AppD {
 
 	private EuclidianViewForPlane euclidianViewForPlane;
 
-	public Application3D(CommandLineArguments args, JFrame frame,
+	public App3D(CommandLineArguments args, JFrame frame,
 			boolean undoActive) {
 		this(args, frame, null, undoActive);
 	}
 
-	public Application3D(CommandLineArguments args,
+	public App3D(CommandLineArguments args,
 			AppletImplementation applet, boolean undoActive) {
 		this(args, null, applet, undoActive);
 	}
 
-	private Application3D(CommandLineArguments args, JFrame frame,
+	private App3D(CommandLineArguments args, JFrame frame,
 			AppletImplementation applet, boolean undoActive) {
 
 		super(args, frame, applet, null, undoActive);

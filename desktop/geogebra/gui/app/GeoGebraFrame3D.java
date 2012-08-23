@@ -2,7 +2,7 @@ package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 
 import javax.swing.JFrame;
 
@@ -22,7 +22,7 @@ public class GeoGebraFrame3D extends GeoGebraFrame {
 	
 	@Override
 	protected AppD createApplication(CommandLineArguments args, JFrame frame){	
-		return new Application3D(args, frame, true);
+		return new App3D(args, frame, true);
 	}
 
 }

@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraViewD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 
 import java.util.HashMap;
 
@@ -59,7 +59,7 @@ public class AlgebraView3D extends AlgebraViewD {
 		EuclidianViewInterfaceCommon view = (EuclidianViewInterfaceCommon)geo.getViewForValueString();
 		if (view==null){
 			if (geo.isGeoElement3D())
-				view = ((Application3D) app).getEuclidianView3D();
+				view = ((App3D) app).getEuclidianView3D();
 			else
 				view = app.getActiveEuclidianView();
 		}

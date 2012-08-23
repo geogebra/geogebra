@@ -10,7 +10,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
@@ -77,7 +77,7 @@ public class GuiManager3D extends GuiManagerD {
 
 			public void actionPerformed(ActionEvent e) {
 				// toggle axes
-				((Application3D) app).toggleAxis3D();
+				((App3D) app).toggleAxis3D();
 				//app.getEuclidianView().repaint();
 				app.storeUndoInfo();
 				app.updateMenubar();
@@ -91,7 +91,7 @@ public class GuiManager3D extends GuiManagerD {
 
 			public void actionPerformed(ActionEvent e) {
 				// toggle grid
-				((Application3D) app).toggleGrid3D();
+				((App3D) app).toggleGrid3D();
 				//app.getEuclidianView().repaint();
 				app.storeUndoInfo();
 				app.updateMenubar();
@@ -105,7 +105,7 @@ public class GuiManager3D extends GuiManagerD {
 
 			public void actionPerformed(ActionEvent e) {
 				// toggle plane
-				((Application3D) app).togglePlane();
+				((App3D) app).togglePlane();
 				app.storeUndoInfo();
 				app.updateMenubar();
 			}
@@ -159,7 +159,7 @@ public class GuiManager3D extends GuiManagerD {
 	 */
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, geogebra.common.awt.GPoint p) {
 		// clear highlighting and selections in views		
-		((Application3D) app).getEuclidianView3D().resetMode();
+		((App3D) app).getEuclidianView3D().resetMode();
 		
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(

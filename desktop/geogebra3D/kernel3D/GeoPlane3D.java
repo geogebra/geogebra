@@ -15,7 +15,7 @@ import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
@@ -484,10 +484,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private EuclidianViewForPlane euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = ((Application3D) app)
+		euclidianViewForPlane = ((App3D) app)
 				.createEuclidianViewForPlane(this);
-		updateViewForPlaneDirection(((Application3D) app).getEuclidianView3D()
-				.getViewDirection(), ((Application3D) app).getEuclidianView3D()
+		updateViewForPlaneDirection(((App3D) app).getEuclidianView3D()
+				.getViewDirection(), ((App3D) app).getEuclidianView3D()
 				.getToScreenMatrix());
 
 

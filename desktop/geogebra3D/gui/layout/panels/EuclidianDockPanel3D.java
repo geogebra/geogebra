@@ -5,7 +5,7 @@ import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 
 import javax.swing.JComponent;
 
@@ -33,16 +33,16 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 
 	@Override
 	protected JComponent loadComponent() {
-		return ((Application3D)app).getEuclidianView3D().getJPanel();
+		return ((App3D)app).getEuclidianView3D().getJPanel();
 	}
 	
 	@Override
 	protected JComponent loadStyleBar() {
-		return (JComponent)  ((Application3D)app).getEuclidianView3D().getStyleBar();
+		return (JComponent)  ((App3D)app).getEuclidianView3D().getStyleBar();
 	}
 	
 	@Override
 	public EuclidianViewND getEuclidianView() {
-		return ((Application3D)app).getEuclidianView3D();
+		return ((App3D)app).getEuclidianView3D();
 	}
 }

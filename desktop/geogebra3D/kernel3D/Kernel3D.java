@@ -35,7 +35,7 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.io.MyXMLHandler3D;
 import geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
 import geogebra3D.kernel3D.commands.AlgebraProcessor3D;
@@ -78,9 +78,9 @@ import java.util.TreeSet;
 
 public class Kernel3D extends Kernel {
 
-	protected Application3D app3D;
+	protected App3D app3D;
 
-	public Kernel3D(Application3D app) {
+	public Kernel3D(App3D app) {
 
 		super(app);
 		this.app3D = app;
@@ -205,7 +205,7 @@ public class Kernel3D extends Kernel {
 		return new ExpressionNodeEvaluator3D();
 	}
 
-	public Application3D getApplication3D() {
+	public App3D getApplication3D() {
 		return app3D;
 	}
 

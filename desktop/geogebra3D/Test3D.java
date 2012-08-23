@@ -41,11 +41,11 @@ public class Test3D{
 	Construction cons;
 	Kernel3D kernel3D;
 	EuclidianView view2D;
-	Application3D app;
+	App3D app;
 		
 	GeoPlane3D xOyPlane;
 
-	public Test3D(Kernel3D kernel3D, EuclidianView view2D, EuclidianView3D view3D, Application3D app){
+	public Test3D(Kernel3D kernel3D, EuclidianView view2D, EuclidianView3D view3D, App3D app){
 		
 		this.kernel3D=kernel3D;
 		cons=kernel3D.getConstruction();

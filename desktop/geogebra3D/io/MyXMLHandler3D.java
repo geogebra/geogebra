@@ -11,7 +11,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
@@ -47,7 +47,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	protected void startEuclidianView3DElement(String eName, LinkedHashMap<String, String> attrs) {
 		
 		boolean ok = true;
-		EuclidianView3D ev = ((Application3D) app).getEuclidianView3D();
+		EuclidianView3D ev = ((App3D) app).getEuclidianView3D();
 
 		switch (eName.charAt(0)) {
 		

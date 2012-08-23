@@ -6,7 +6,7 @@ import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -85,7 +85,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		
 		if (source.equals(btnShowPlane)) {
-			((Application3D) app).togglePlane();
+			((App3D) app).togglePlane();
 		}else if (source.equals(btnRotateView)) {
 			if (btnRotateView.getMySlider().isShowing()){//if slider is showing, start rotation
 				((EuclidianView3D) ev).setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);

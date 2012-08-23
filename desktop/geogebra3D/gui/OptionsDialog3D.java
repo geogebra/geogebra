@@ -2,7 +2,7 @@ package geogebra3D.gui;
 
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,7 +20,7 @@ public class OptionsDialog3D extends OptionsDialog {
 	@Override
 	protected void createTabs(){
 		//super.createTabs();
-		euclidianPanel3D = new OptionsEuclidian3D((Application3D) app);
+		euclidianPanel3D = new OptionsEuclidian3D((App3D) app);
 		
 	}
 	

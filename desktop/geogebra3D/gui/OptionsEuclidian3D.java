@@ -2,7 +2,7 @@ package geogebra3D.gui;
 
 import geogebra.gui.dialog.options.OptionsEuclidian2;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 
@@ -29,7 +29,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 
 	private JRadioButton radioClippingSmall, radioClippingMedium, radioClippingLarge;
 	
-	public OptionsEuclidian3D(Application3D app) {
+	public OptionsEuclidian3D(App3D app) {
 		super(app, app.getEuclidianView3D());
 		
 

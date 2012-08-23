@@ -16,7 +16,7 @@ import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
-import geogebra3D.Application3D;
+import geogebra3D.App3D;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
@@ -598,7 +598,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	private EuclidianViewForPlane euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = ((Application3D) app).createEuclidianViewForPlane(this);
+		euclidianViewForPlane = ((App3D) app).createEuclidianViewForPlane(this);
 	}
 	
 	public boolean hasView2DVisible(){
