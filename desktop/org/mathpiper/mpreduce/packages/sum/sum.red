@@ -43,7 +43,7 @@ symbolic procedure freeof!-df(u, v);
     else freeof!-dfl(cdr u,v);
 
 symbolic procedure freeof!-dfl(u, v);
-   if null u then t else freeof!-df(car u,v) and freeof!-dfl(cdr u,v);
+   if null u or atom u then t else freeof!-df(car u,v) and freeof!-dfl(cdr u,v);
 
 symbolic procedure simp!-sum u;
    %ARGUMENT  CAR U: expression of prefix form.
