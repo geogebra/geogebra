@@ -11,7 +11,7 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 
 	public static CommonResourcesIconTest INSTANCE = GWT.create(CommonResourcesIconTest.class);
 
-	@Source("icons/svg/point_standard.svg")
+	/*@Source("icons/svg/point_standard.svg")
 	@Validated(validated = false)
 	SVGResource point_standard();
 
@@ -925,6 +925,6 @@ public interface CommonResourcesIconTest extends ClientBundleWithLookup
 
 	@Source("icons/svg/unsorted/view/view-window.svg")
 	@Validated(validated = false)
-	SVGResource viewWindow();
+	SVGResource viewWindow();*/
 
 }

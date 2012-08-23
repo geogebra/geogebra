@@ -30,9 +30,10 @@ import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Taken from the web-project. 
- *
+ * 
  */
-public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler
+public class RadioButtonTreeItem extends HorizontalPanel implements
+		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler
 {
 
 	GeoElement geo;
@@ -70,13 +71,18 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 				// Part of AlgebraController.mouseClicked in Desktop
 				if (Element.is(event.getEventTarget()))
 				{
-					if (Element.as(event.getEventTarget()) == getElement().getFirstChild())
+					if (Element.as(event.getEventTarget()) == getElement()
+							.getFirstChild())
 					{
 						setChecked(RadioButtonTreeItem.this.previouslyChecked = !RadioButtonTreeItem.this.previouslyChecked);
-						RadioButtonTreeItem.this.geo.setEuclidianVisible(!RadioButtonTreeItem.this.geo.isSetEuclidianVisible());
+						RadioButtonTreeItem.this.geo
+								.setEuclidianVisible(!RadioButtonTreeItem.this.geo
+										.isSetEuclidianVisible());
 						RadioButtonTreeItem.this.geo.update();
-						RadioButtonTreeItem.this.geo.getKernel().getApplication().storeUndoInfo();
-						RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
+						RadioButtonTreeItem.this.geo.getKernel()
+								.getApplication().storeUndoInfo();
+						RadioButtonTreeItem.this.geo.getKernel()
+								.notifyRepaint();
 						return;
 					}
 				}
@@ -97,13 +103,15 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 
 		this.radio = new RadioButtonHandy();
 		this.radio.setEnabled(ge.isEuclidianShowable());
-		this.radio.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge.isEuclidianVisible());
+		this.radio.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
+				.isEuclidianVisible());
 		add(this.radio);
 
 		SpanElement se = DOM.createSpan().cast();
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
+		se.getStyle().setColor(
+				GColor.getColorString(this.geo.getAlgebraColor()));
 		this.ihtml = new InlineHTML();
 		this.ihtml.addDoubleClickHandler(this);
 		this.ihtml.addClickHandler(this);
@@ -120,8 +128,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		if (this.geo.isIndependent())
 		{
 			text = this.geo.getAlgebraDescriptionTextOrHTMLDefault();
-		}
-		else
+		} else
 		{
 			switch (this.kernel.getAlgebraStyle())
 			{
@@ -130,11 +137,14 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = this.geo.addLabelTextOrHTML(this.geo.getDefinitionDescription(StringTemplate.defaultTemplate));
+				text = this.geo
+						.addLabelTextOrHTML(this.geo
+								.getDefinitionDescription(StringTemplate.defaultTemplate));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
-				text = this.geo.addLabelTextOrHTML(this.geo.getCommandDescription(StringTemplate.defaultTemplate));
+				text = this.geo.addLabelTextOrHTML(this.geo
+						.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
 			}
 		}
@@ -142,21 +152,24 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		// if enabled, render with LaTeX
 		if (/* TODO av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
-			String latexStr = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
-			if ((latexStr != null) && this.geo.isLaTeXDrawableGeo(latexStr) && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
+			String latexStr = this.geo.getLaTeXAlgebraDescription(true,
+					StringTemplate.latexTemplate);
+			if ((latexStr != null)
+					&& this.geo.isLaTeXDrawableGeo(latexStr)
+					&& (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix()
+							: true))
 			{
 				latexStr = inputLatexCosmetics(latexStr);
 				this.seMayLatex = se;
-				DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, latexStr, this.geo.getAlgebraColor(), GColor.white);
+				DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex,
+						latexStr, this.geo.getAlgebraColor(), GColor.white);
 				this.LaTeX = true;
-			}
-			else
+			} else
 			{
 				this.seNoLatex = se;
 				this.seNoLatex.setInnerHTML(text);
 			}
-		}
-		else
+		} else
 		{
 			this.seNoLatex = se;
 			this.seNoLatex.setInnerHTML(text);
@@ -174,8 +187,12 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		String text = null;
 		if (/* TODO av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
-			text = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
-			if ((text != null) && this.geo.isLaTeXDrawableGeo(text) && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
+			text = this.geo.getLaTeXAlgebraDescription(true,
+					StringTemplate.latexTemplate);
+			if ((text != null)
+					&& this.geo.isLaTeXDrawableGeo(text)
+					&& (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix()
+							: true))
 			{
 				newLaTeX = true;
 			}
@@ -186,8 +203,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 			if (this.geo.isIndependent())
 			{
 				text = this.geo.getAlgebraDescriptionTextOrHTMLDefault();
-			}
-			else
+			} else
 			{
 				switch (this.kernel.getAlgebraStyle())
 				{
@@ -196,11 +212,17 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					text = this.geo.addLabelTextOrHTML(this.geo.getDefinitionDescription(StringTemplate.defaultTemplate));
+					text = this.geo
+							.addLabelTextOrHTML(this.geo
+									.getDefinitionDescription(StringTemplate.defaultTemplate));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = this.geo.addLabelTextOrHTML(this.geo.getCommandDescription(StringTemplate.defaultTemplate));
+					text = this.geo
+							.addLabelTextOrHTML(this.geo
+									.getCommandDescription(StringTemplate.defaultTemplate));
+					break;
+				default:
 					break;
 				}
 			}
@@ -211,29 +233,29 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		{
 			text = inputLatexCosmetics(text);
 			DrawEquationWeb.updateEquationMathQuill(text, this.seMayLatex);
-		}
-		else if (!this.LaTeX && !newLaTeX)
+		} else if (!this.LaTeX && !newLaTeX)
 		{
 			this.seNoLatex.setInnerHTML(text);
-		}
-		else if (newLaTeX)
+		} else if (newLaTeX)
 		{
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
+			se.getStyle().setColor(
+					GColor.getColorString(this.geo.getAlgebraColor()));
 			this.ihtml.getElement().replaceChild(se, this.seNoLatex);
 			text = inputLatexCosmetics(text);
 			this.seMayLatex = se;
-			DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, text, this.geo.getAlgebraColor(), GColor.white);
+			DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, text,
+					this.geo.getAlgebraColor(), GColor.white);
 			this.LaTeX = true;
-		}
-		else
+		} else
 		{
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
+			se.getStyle().setColor(
+					GColor.getColorString(this.geo.getAlgebraColor()));
 			this.ihtml.getElement().replaceChild(se, this.seMayLatex);
 			this.seNoLatex = se;
 			this.seNoLatex.setInnerHTML(text);
@@ -260,7 +282,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 
 	public static String inputLatexCosmetics(String eqstring)
 	{
-		// make sure eg FractionText[] works (surrounds with {} which doesn't draw
+		// make sure eg FractionText[] works (surrounds with {} which doesn't
+		// draw
 		// well in MathQuill)
 		if (eqstring.length() >= 2)
 			if (eqstring.startsWith("{") && eqstring.endsWith("}"))
@@ -347,7 +370,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		if (newValue != null)
 		{
 			boolean redefine = !this.geo.isPointOnPath();
-			GeoElement geo2 = this.kernel.getAlgebraProcessor().changeGeoElement(this.geo, newValue, redefine, true);
+			GeoElement geo2 = this.kernel.getAlgebraProcessor()
+					.changeGeoElement(this.geo, newValue, redefine, true);
 			if (geo2 != null)
 			{
 				this.geo = geo2;
@@ -384,7 +408,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 
 			// Formula Hacks ended.
 			boolean redefine = !this.geo.isPointOnPath();
-			GeoElement geo2 = this.kernel.getAlgebraProcessor().changeGeoElement(this.geo, newValue, redefine, true);
+			GeoElement geo2 = this.kernel.getAlgebraProcessor()
+					.changeGeoElement(this.geo, newValue, redefine, true);
 			if (geo2 != null)
 			{
 				this.geo = geo2;
@@ -407,7 +432,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		ev.resetMode();
 		if (this.geo != null && !evt.isControlKeyDown())
 		{
-			this.app.getAlgebraView().startEditing(this.geo, evt.isShiftKeyDown());
+			this.app.getAlgebraView().startEditing(this.geo,
+					evt.isShiftKeyDown());
 		}
 
 		evt.stopPropagation();
@@ -458,15 +484,18 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		// Iterator<GeoElement> it =
 		// geo.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
 		// boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-		// compareTo(av.lastSelectedGeo.getLabel(StringTemplate.defaultTemplate)) <
+		// compareTo(av.lastSelectedGeo.getLabel(StringTemplate.defaultTemplate))
+		// <
 		// 0;
 		//
 		// while (it.hasNext()) {
 		// GeoElement geo2 = it.next();
 		// if ((geo2.isAuxiliaryObject() == aux && aux)
-		// || (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
+		// || (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind))
+		// {
 		//
-		// if (direction && geo2.equals(av.lastSelectedGeo)) selecting = !selecting;
+		// if (direction && geo2.equals(av.lastSelectedGeo)) selecting =
+		// !selecting;
 		// if (!direction && geo2.equals(geo)) selecting = !selecting;
 		//
 		// if (selecting) {
@@ -508,7 +537,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements DoubleClickH
 		// // Alt click: copy definition to input field
 		// if (geo != null && evt.isAltKeyDown() && app.showAlgebraInput()) {
 		// // F3 key: copy definition to input bar
-		// app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);
+		// app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
+		// geo);
 		// }
 		//
 		// app.getActiveEuclidianView().mouseMovedOver(null);
