@@ -71,24 +71,30 @@ import java.util.TreeSet;
  */
 public abstract class App {
 	/** Script manager */
-	protected ScriptManagerCommon scriptManager = null;	
-	/** True when we are running standalone app or signed applet, false for unsigned applet*/
+	protected ScriptManagerCommon scriptManager = null;
+	/**
+	 * True when we are running standalone app or signed applet, false for
+	 * unsigned applet
+	 */
 	protected static boolean hasFullPermissions = false;
-	/** whether current construction was saved after last changes*/
+	/** whether current construction was saved after last changes */
 	protected boolean isSaved = true;
-	/** Url for wiki article about functions*/
+	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
-	/** Url for main page of manual*/
+	/** Url for main page of manual */
 	public static final String WIKI_MANUAL = "Manual:Main Page";
-	/** Url for wiki article about CAS*/
+	/** Url for wiki article about CAS */
 	public static final String WIKI_CAS_VIEW = "CAS_View";
-	/** Url for wiki tutorials*/
+	/** Url for wiki tutorials */
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
-	/** Url for wiki article about exporting to HTML*/
+	/** Url for wiki article about exporting to HTML */
 	public static final String WIKI_EXPORT_WORKSHEET = "Export_Worksheet_Dialog";
-	/** Url for wiki article about advanced features (layers, cond. visibility etc.)*/
+	/**
+	 * Url for wiki article about advanced features (layers, cond. visibility
+	 * etc.)
+	 */
 	public static final String WIKI_ADVANCED = "Advanced Features";
-	/** Url for wiki article about functions*/
+	/** Url for wiki article about functions */
 	public static final String WIKI_TEXT_TOOL = "Insert Text Tool";
 
 	/** id for dummy view */
@@ -97,7 +103,7 @@ public abstract class App {
 	public static final int VIEW_EUCLIDIAN = 1;
 	/** id for algebra view */
 	public static final int VIEW_ALGEBRA = 2;
-	/** id for Spreadsheet view*/
+	/** id for Spreadsheet view */
 	public static final int VIEW_SPREADSHEET = 4;
 	/** id for CAS view */
 	public static final int VIEW_CAS = 8;
@@ -105,24 +111,27 @@ public abstract class App {
 	public static final int VIEW_EUCLIDIAN2 = 16;
 	/** id for construction protocol view */
 	public static final int VIEW_CONSTRUCTION_PROTOCOL = 32;
-	/** id for probability calculator view*/
+	/** id for probability calculator view */
 	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
-	/** id for data analysis view, ie multi/single/two variable analysisis tools*/
+	/** id for data analysis view, ie multi/single/two variable analysisis tools */
 	public static final int VIEW_DATA_ANALYSIS = 70;
-	/** id for function inspector */ 
-	public static final int VIEW_FUNCTION_INSPECTOR = 128;	
+	/** id for function inspector */
+	public static final int VIEW_FUNCTION_INSPECTOR = 128;
 	/** id for 3D view */
 	public static final int VIEW_EUCLIDIAN3D = 512;
-	/** id for view created from plane; also 1025 to 2047 might be used for this purpose*/
+	/**
+	 * id for view created from plane; also 1025 to 2047 might be used for this
+	 * purpose
+	 */
 	public static final int VIEW_EUCLIDIAN_FOR_PLANE = 1024;
-	//please let 1024 to 2047 empty
+	// please let 1024 to 2047 empty
 	/** id for plot panels (small EVs eg in regression analysis tool) */
 	public static final int VIEW_PLOT_PANEL = 2048;
 	/** id for text preview in text tool */
 	public static final int VIEW_TEXT_PREVIEW = 4096;
 	/** id for properties view */
 	public static final int VIEW_PROPERTIES = 4097;
-	/** id for assignment view*/
+	/** id for assignment view */
 	public static final int VIEW_ASSIGNMENT = 8192;
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
@@ -130,25 +139,25 @@ public abstract class App {
 	public static final int VIEW_PYTHON = 16384;
 	private boolean showResetIcon = false;
 	/**
-	 * Whether we are running applet in frame. Not possible with 4.2+
-	 * (we need this to hide reset icon from EV)
+	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
+	 * this to hide reset icon from EV)
 	 */
-	public boolean runningInFrame = false; 
+	public boolean runningInFrame = false;
 	private ParserFunctions pf = new ParserFunctions();
-	
+
 	private SpreadsheetTraceManager traceManager;
 
 	/**
-	 *  object is hit if mouse is within this many pixels
-	 *  (more for points, see geogebra.common.euclidian.DrawPoint)
+	 * object is hit if mouse is within this many pixels (more for points, see
+	 * geogebra.common.euclidian.DrawPoint)
 	 */
 	public int capturingThreshold = 3;
-	
+
 	/**
 	 * Whether inputbar should be shown on top
 	 */
 	protected boolean showInputTop = false;
-	
+
 	/**
 	 * Whether input bar should be visible
 	 */
@@ -159,9 +168,9 @@ public abstract class App {
 	protected boolean showInputHelpToggle = true;
 
 	/**
-	 * Whether AV should show auxiliary objects
-	 * stored here rather than in algebra view so that it can be set without
-	 * creating an AV (compatibility with 3.2)
+	 * Whether AV should show auxiliary objects stored here rather than in
+	 * algebra view so that it can be set without creating an AV (compatibility
+	 * with 3.2)
 	 */
 	public boolean showAuxiliaryObjects = false;
 	/** whether righ click is enabled */
@@ -173,7 +182,8 @@ public abstract class App {
 	private static String CASVersionString = "";
 
 	/**
-	 * @param string CAS version string
+	 * @param string
+	 *            CAS version string
 	 */
 	public static final void setCASVersionString(String string) {
 		CASVersionString = string;
@@ -201,19 +211,21 @@ public abstract class App {
 	// note: It is not necessary to use powers of 2 for view IDs
 
 	// For eg Hebrew and Arabic.
-	/** decimal point (different in eg Arabic)*/
+	/** decimal point (different in eg Arabic) */
 	public static char unicodeDecimalPoint = '.';
-	/** comma (different in Arabic)*/
+	/** comma (different in Arabic) */
 	public static char unicodeComma = ','; // \u060c for Arabic comma
-	/** zero (different in eg Arabic)*/
+	/** zero (different in eg Arabic) */
 	public static char unicodeZero = '0';
-	
+
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	private int maxLayerUsed = 0;
-	/** size of checkboxes*/
+	/** size of checkboxes */
 	public int booleanSize = 13;
-	/** right angle style
+	/**
+	 * right angle style
+	 * 
 	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_SQUARE
 	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_DOT
 	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_L
@@ -222,7 +234,7 @@ public abstract class App {
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 	/** whether Java fonts shall be used in LaTeX formulas */
 	public boolean useJavaFontsForLaTeX = false;
-	/** list of selected geos*/
+	/** list of selected geos */
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 	/** kernel */
 	protected Kernel kernel;
@@ -230,32 +242,39 @@ public abstract class App {
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */
 	protected Settings settings;
+
 	/**
-	 * @return whether Java fonts shall be used by JLatexMath (no effect in Web) 
+	 * @return whether Java fonts shall be used by JLatexMath (no effect in Web)
 	 * */
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
 
 	}
+
 	/** whether we should use antialisaing in EV */
 	protected boolean antialiasing = true;
-	/** whether axes should be visible when EV is created 
-	 * first element of this array is for x-axis, second for y-axis*/
+	/**
+	 * whether axes should be visible when EV is created first element of this
+	 * array is for x-axis, second for y-axis
+	 */
 	protected final boolean[] showAxes = { true, true };
 	/** whether grid should be visible when EV is created */
 	protected boolean showGrid = false;
-	/** this flag is true during initialization phase (until GUI is built and command line args handled, incl. file loading)
-	 *  or when we are opening a file */
+	/**
+	 * this flag is true during initialization phase (until GUI is built and
+	 * command line args handled, incl. file loading) or when we are opening a
+	 * file
+	 */
 	protected boolean initing = false;
-	
+
 	private boolean labelDragsEnabled = true;
 	/** initial number of columns for spreadsheet */
 	public static final int SPREADSHEET_INI_COLS = 26;
 	/** initial number of rows for spreadsheet */
 	public static final int SPREADSHEET_INI_ROWS = 100;
-	
+
 	private HashMap<String, String> translateCommandTable,
-	translateCommandTableScripting;
+			translateCommandTableScripting;
 	// command dictionary
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary commandDictCAS;
@@ -269,7 +288,7 @@ public abstract class App {
 	protected boolean showMenuBar = true;
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
-	
+
 	private String oldScriptLanguage = null;
 
 	private String scriptingLanguage;
@@ -293,8 +312,7 @@ public abstract class App {
 
 		translateCommandTableScripting.clear();
 
-
-		for (Commands comm:Commands.values()) {
+		for (Commands comm : Commands.values()) {
 			String internal = comm.toString();
 			if (tableVisible(comm.getTable())) {
 				String local = getScriptingCommand(internal);
@@ -302,8 +320,8 @@ public abstract class App {
 					local = local.trim();
 					// case is ignored in translating local command names to
 					// internal names!
-					translateCommandTableScripting.put(StringUtil.toLowerCase(local),
-							internal);
+					translateCommandTableScripting.put(
+							StringUtil.toLowerCase(local), internal);
 					debug(StringUtil.toLowerCase(local));
 
 				}
@@ -311,38 +329,45 @@ public abstract class App {
 		}
 
 	}
+
 	/**
 	 * @return whether language of command bundle changed since we last updated
-	 *  translation table and directories
+	 *         translation table and directories
 	 */
 	protected abstract boolean isCommandChanged();
+
 	/**
-	 * @param b whether language of command bundle changed since we last updated 
-	 * translation table and directories
+	 * @param b
+	 *            whether language of command bundle changed since we last
+	 *            updated translation table and directories
 	 */
 	protected abstract void setCommandChanged(boolean b);
+
 	/**
 	 * @return whether command translation bundle is null
 	 */
 	protected abstract boolean isCommandNull();
+
 	/** CAS syntax suffix for keys in command bundle */
 	public final static String syntaxCAS = ".SyntaxCAS";
 	/** 3D syntax suffix for keys in command bundle */
 	public final static String syntax3D = ".Syntax3D";
 	/** syntax suffix for keys in command bundle */
 	public final static String syntaxStr = ".Syntax";
-	
+
 	/**
-	 * We need this method so that we can override it using more powerful normalizer
+	 * We need this method so that we can override it using more powerful
+	 * normalizer
+	 * 
 	 * @return new lowercase dictionary
 	 */
-	protected LowerCaseDictionary newLowerCaseDictionary(){
+	protected LowerCaseDictionary newLowerCaseDictionary() {
 		return new LowerCaseDictionary(new NormalizerMinimal());
 	}
-	
+
 	/**
-	 * Fills CAS command dictionary and translation table.
-	 * Must be called before we start using CAS view. 
+	 * Fills CAS command dictionary and translation table. Must be called before
+	 * we start using CAS view.
 	 */
 	public void fillCasCommandDict() {
 		// this method might get called during initialization, when we're not
@@ -353,7 +378,7 @@ public abstract class App {
 		if (!isCommandChanged()
 				&& ((commandDictCAS != null) || isCommandNull())) {
 			return;
-		}		
+		}
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 		if (cas == null) {
 			return;
@@ -362,6 +387,19 @@ public abstract class App {
 
 		commandDictCAS = newLowerCaseDictionary();
 		subCommandDict[CommandsConstants.TABLE_CAS].clear();
+
+		// get all commands from the commandDict and write them to the
+		// commandDictCAS
+
+		// the keySet contains all commands of the dictionary; see
+		// LowerCaseDictionary.addEntry(String s) for more
+		Set<String> commandDictContent = commandDict.keySet();
+
+		// write them to the commandDictCAS
+		for (String cmd : commandDictContent) {
+			commandDictCAS.addEntry(cmd);
+		}
+
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
@@ -369,24 +407,22 @@ public abstract class App {
 			try {
 				String local = getCommand(cmd);
 				if (local != null) {
-					translateCommandTable.put(StringUtil.toLowerCase(local), cmd);
+					translateCommandTable.put(StringUtil.toLowerCase(local),
+							cmd);
 					commandDictCAS.addEntry(local);
-					subCommandDict[CommandsConstants.TABLE_CAS]
-							.addEntry(local);
+					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
 				} else {
 					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandsConstants.TABLE_CAS]
-							.addEntry(cmd);
+					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
 				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandsConstants.TABLE_CAS]
-						.addEntry(cmd);
+				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
 			}
 		}
 
 	}
-	
+
 	/**
 	 * @return command dictionary for CAS
 	 */
@@ -395,10 +431,11 @@ public abstract class App {
 		fillCasCommandDict();
 		return commandDictCAS;
 	}
-	
+
 	/**
 	 * Returns an array of command dictionaries corresponding to the categorized
 	 * sub command sets created in CommandDispatcher.
+	 * 
 	 * @return command dictionaries corresponding to the categories
 	 */
 	public final LowerCaseDictionary[] getSubCommandDictionary() {
@@ -406,12 +443,12 @@ public abstract class App {
 		if (subCommandDict == null) {
 			initTranslatedCommands();
 		}
-		if(isCommandChanged())
+		if (isCommandChanged())
 			updateCommandDictionary();
 
 		return subCommandDict;
 	}
-	
+
 	/**
 	 * Initializes the translated command names for this application. Note: this
 	 * will load the properties files first.
@@ -423,6 +460,7 @@ public abstract class App {
 			kernel.updateLocalAxesNames();
 		}
 	}
+
 	/**
 	 * @return command dictionary
 	 */
@@ -430,16 +468,15 @@ public abstract class App {
 		fillCommandDict();
 		return commandDict;
 	}
-	
+
 	/**
-	 * Initialize the command bundle 
-	 * (not needed in Web)
+	 * Initialize the command bundle (not needed in Web)
 	 */
 	public abstract void initCommand();
-	
+
 	/**
-	 * Fill command dictionary and translation table.
-	 * Must be called before we start using Input Bar.
+	 * Fill command dictionary and translation table. Must be called before we
+	 * start using Input Bar.
 	 */
 	protected void fillCommandDict() {
 		initCommand();
@@ -447,7 +484,6 @@ public abstract class App {
 		if (!isCommandChanged()) {
 			return;
 		}
-		
 
 		// translation table for all command names in command.properties
 		if (translateCommandTable == null) {
@@ -466,13 +502,12 @@ public abstract class App {
 
 		translateCommandTable.clear();
 
-
 		Set<String> publicCommandNames = kernel.getAlgebraProcessor()
 				.getPublicCommandSet();
 
 		// =====================================
 		// init sub command dictionaries
-		
+
 		if (subCommandDict == null) {
 			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
 			for (int i = 0; i < subCommandDict.length; i++) {
@@ -486,21 +521,24 @@ public abstract class App {
 
 		for (Commands comm : Commands.values()) {
 			String internal = comm.name();
-			if(!tableVisible(comm.getTable())){
-				if(comm.getTable()==CommandsConstants.TABLE_ENGLISH)
-				translateCommandTable.put(StringUtil.toLowerCase(internal), 
-						Commands.englishToInternal(comm).name());
-				continue;			
+			if (!tableVisible(comm.getTable())) {
+				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
+					translateCommandTable.put(StringUtil.toLowerCase(internal),
+							Commands.englishToInternal(comm).name());
+				}
+				continue;
 			}
-			translateCommandTable.put(StringUtil.toLowerCase(internal), internal);
+			translateCommandTable.put(StringUtil.toLowerCase(internal),
+					internal);
 			// App.debug(internal);
 			String local = getCommand(internal);
-			
+
 			if (local != null) {
 				local = local.trim();
 				// case is ignored in translating local command names to
 				// internal names!
-				translateCommandTable.put(StringUtil.toLowerCase(local), internal);
+				translateCommandTable.put(StringUtil.toLowerCase(local),
+						internal);
 
 				// only add public commands to the command dictionary
 				if (publicCommandNames.contains(internal)) {
@@ -509,10 +547,9 @@ public abstract class App {
 
 				// add public commands to the sub-command dictionaries
 				subCommandDict[comm.getTable()].addEntry(local);
-				
 
 			}
-			
+
 		}
 		getParserFunctions().updateLocale(this);
 		// get CAS Commands
@@ -522,20 +559,25 @@ public abstract class App {
 		addMacroCommands();
 		setCommandChanged(false);
 	}
+
 	/**
 	 * return true if commands of this table should be visible in input bar help
 	 * and autocomplete
-	 * @param table table number, see CommandConstants.TABLE_*
+	 * 
+	 * @param table
+	 *            table number, see CommandConstants.TABLE_*
 	 * @return true for visible tables
 	 */
 	protected boolean tableVisible(int table) {
-		return !(table==CommandsConstants.TABLE_3D || table ==CommandsConstants.TABLE_ENGLISH);
+		return !(table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_ENGLISH);
 	}
 
 	/**
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
-	 * @param localname local name
+	 * 
+	 * @param localname
+	 *            local name
 	 * @return internal name
 	 */
 	final public String translateCommand(String localname) {
@@ -545,7 +587,7 @@ public abstract class App {
 		if (translateCommandTable == null) {
 			return localname;
 		}
-		debug(localname+":"+getScriptingLanguage());
+		debug(localname + ":" + getScriptingLanguage());
 		// note: lookup lower case of command name!
 		String value = translateCommandTable.get(localname.toLowerCase());
 		if (value == null) {
@@ -561,7 +603,6 @@ public abstract class App {
 		return value;
 	}
 
-	
 	/**
 	 * Updates command dictionary
 	 */
@@ -569,7 +610,7 @@ public abstract class App {
 		// make sure all macro commands are in dictionary
 		fillCommandDict();
 	}
-	
+
 	/**
 	 * Adds macro commands to the dictionary
 	 */
@@ -586,7 +627,6 @@ public abstract class App {
 			}
 		}
 	}
-	
 
 	/**
 	 * Remove macros from command dictionary
@@ -603,25 +643,24 @@ public abstract class App {
 		}
 	}
 
-	
-
-	
 	public abstract void initScriptingBundle();
-
 
 	public abstract String getScriptingCommand(String internal);
 
-
 	/**
 	 * Gets translation from "command" bundle
-	 * @param key key
+	 * 
+	 * @param key
+	 *            key
 	 * @return translation of given key
 	 */
 	public abstract String getCommand(String key);
 
 	/**
 	 * Gets translation from "plain" bundle
-	 * @param key key
+	 * 
+	 * @param key
+	 *            key
 	 * @return translation of given key
 	 */
 	public abstract String getPlain(String key);
@@ -629,22 +668,24 @@ public abstract class App {
 	/**
 	 * 
 	 * 
-	 * only letters, numbers and _ allowed in label names
-	 * check for other characters in the properties, and remove them
-	 * @param key eg "poly" -> "Name.poly" -> poly -> poly1 as a label
+	 * only letters, numbers and _ allowed in label names check for other
+	 * characters in the properties, and remove them
+	 * 
+	 * @param key
+	 *            eg "poly" -> "Name.poly" -> poly -> poly1 as a label
 	 * @return "poly" (the suffix is added later)
 	 */
 	final public String getPlainLabel(String key) {
 
-		String ret = getPlain("Name."+key);
+		String ret = getPlain("Name." + key);
 
-		for (int i = ret.length() - 1 ; i >= 0 ; i--) {
+		for (int i = ret.length() - 1; i >= 0; i--) {
 			if (!StringUtil.isLetterOrDigitOrUnderscore(ret.charAt(i))) {
 
-				App.warn("Bad character in key: "+key+"="+ret);
+				App.warn("Bad character in key: " + key + "=" + ret);
 
 				// remove bad character
-				ret = ret.substring(0,  i) + ret.substring(i+1);
+				ret = ret.substring(0, i) + ret.substring(i + 1);
 
 			}
 		}
@@ -655,30 +696,42 @@ public abstract class App {
 
 	/**
 	 * Returns translation of given key from the "menu" bundle
-	 * @param key key
+	 * 
+	 * @param key
+	 *            key
 	 * @return translation for key
 	 */
 	public abstract String getMenu(String key);
 
 	/**
 	 * Returns translation of given key from the "error" bundle
-	 * @param key key
+	 * 
+	 * @param key
+	 *            key
 	 * @return translation for key
 	 */
 	public abstract String getError(String key);
+
 	/**
 	 * Returns translation of given key from the "symbol" bundle
-	 * @param key key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ... for tooltips)
+	 * 
+	 * @param key
+	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
+	 *            for tooltips)
 	 * @return translation for key
 	 */
 	public abstract String getSymbol(int key);
+
 	/**
-	 * Returns translation of given key from the "symbol" bundle in tooltip language
-	 * @param key key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ... for tooltips)
+	 * Returns translation of given key from the "symbol" bundle in tooltip
+	 * language
+	 * 
+	 * @param key
+	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
+	 *            for tooltips)
 	 * @return translation for key in tooltip language
 	 */
 	public abstract String getSymbolTooltip(int key);
-
 
 	/**
 	 * used to force properties to be read from secondary (tooltip) language if
@@ -694,25 +747,28 @@ public abstract class App {
 	public abstract void storeUndoInfo();
 
 	/**
-	 * @return true if we have access to complete gui (menubar, toolbar);
-	 * false for minimal applets (just one EV, no gui)
+	 * @return true if we have access to complete gui (menubar, toolbar); false
+	 *         for minimal applets (just one EV, no gui)
 	 */
 	public abstract boolean isUsingFullGui();
+
 	/**
 	 * 
-	 * @param view view ID
+	 * @param view
+	 *            view ID
 	 * @return whether view with given ID is visible
 	 */
 	public abstract boolean showView(int view);
 
-	/** 
-	 *  
-	 * @return 2 letter language name, eg "en" 
-	 */ 
+	/**
+	 * 
+	 * @return 2 letter language name, eg "en"
+	 */
 	public abstract String getLanguage();
 
 	/**
-	 * @param lang two letter language name
+	 * @param lang
+	 *            two letter language name
 	 * @return whether we are currently using given language
 	 */
 	public boolean languageIs(String lang) {
@@ -730,7 +786,6 @@ public abstract class App {
 	public boolean letRedefine() {
 		return true;
 	}
-
 
 	/**
 	 * In some languages, a properties file cannot completely describe
@@ -760,7 +815,7 @@ public abstract class App {
 	 */
 
 	private static String translationFixHu(String inputText) {
-		String text=inputText;
+		String text = inputText;
 		// Fixing affixes.
 
 		// We assume that object names are usual object names like "P", "O_1"
@@ -843,7 +898,7 @@ public abstract class App {
 
 		return text;
 	}
-	
+
 	/**
 	 * Gets the previous "pronounced" characters from text before the match
 	 * position for the given length. The returned text will be lowercased.
@@ -858,8 +913,8 @@ public abstract class App {
 	 *            required length for the output
 	 * @return lowercased output
 	 */
-	private static String translationFixPronouncedPrevChars(String text, int match,
-			int length) {
+	private static String translationFixPronouncedPrevChars(String text,
+			int match, int length) {
 		int pos = match;
 		String rettext = "";
 		int rettextlen = 0;
@@ -877,7 +932,6 @@ public abstract class App {
 		return rettext;
 	}
 
-	
 	/**
 	 * Changes a set of possible affixes to the right one
 	 * 
@@ -892,8 +946,8 @@ public abstract class App {
 	 * @param prevChars
 	 * @return the corrected text
 	 */
-	private static String translationFixHuAffixChange(String inputText, int match,
-			String affixes, String affixForm, String prevChars) {
+	private static String translationFixHuAffixChange(String inputText,
+			int match, String affixes, String affixForm, String prevChars) {
 		String text = inputText;
 		String replace = "";
 
@@ -1005,24 +1059,28 @@ public abstract class App {
 
 	private boolean blockUpdateScripts = false;
 
-
 	/**
-	 * Translates localized command name into internal
-	 * TODO check whether this differs from translateCommand somehow and either document it
-	 * or remove this method
-	 * @param s localized command name
+	 * Translates localized command name into internal TODO check whether this
+	 * differs from translateCommand somehow and either document it or remove
+	 * this method
+	 * 
+	 * @param s
+	 *            localized command name
 	 * @return internal command name
 	 */
 	public abstract String getInternalCommand(String s);
 
 	/**
 	 * Show error dialog wiith given text
-	 * @param s error message
+	 * 
+	 * @param s
+	 *            error message
 	 */
 	public abstract void showError(String s);
 
 	/**
 	 * Shows error dialog with a given text
+	 * 
 	 * @param s
 	 */
 	public abstract void showErrorDialog(String s);
@@ -1030,16 +1088,19 @@ public abstract class App {
 	private boolean useBrowserForJavaScript = true;
 
 	/**
-	 * @param useBrowserForJavaScript desktop: determines whether Rhino will be used (false) or the browser (true)
-	 * web: determines whether JS scripting allowed (true) or not (false)
+	 * @param useBrowserForJavaScript
+	 *            desktop: determines whether Rhino will be used (false) or the
+	 *            browser (true) web: determines whether JS scripting allowed
+	 *            (true) or not (false)
 	 */
 	public void setUseBrowserForJavaScript(boolean useBrowserForJavaScript) {
 		this.useBrowserForJavaScript = useBrowserForJavaScript;
 	}
 
 	/**
-	 * @return desktop: determines whether Rhino will be used (false) or the browser (true)
-	 * web: determines whether JS scripting allowed (true) or not (false)
+	 * @return desktop: determines whether Rhino will be used (false) or the
+	 *         browser (true) web: determines whether JS scripting allowed
+	 *         (true) or not (false)
 	 */
 	public boolean useBrowserForJavaScript() {
 		return useBrowserForJavaScript;
@@ -1054,18 +1115,21 @@ public abstract class App {
 	 */
 	public abstract ScriptManagerCommon getScriptManager();
 
-	//TODO: move following methods somewhere else
+	// TODO: move following methods somewhere else
 	/**
-	 * @param ge geo
+	 * @param ge
+	 *            geo
 	 * @return trace-related XML elements
 	 */
 	final public String getTraceXML(GeoElement ge) {
 		return getTraceManager().getTraceXML(ge);
 	}
-	
+
 	/**
 	 * Start tracing geo to spreadsheet
-	 * @param ge geo
+	 * 
+	 * @param ge
+	 *            geo
 	 * 
 	 */
 	public void traceToSpreadsheet(GeoElement ge) {
@@ -1074,7 +1138,9 @@ public abstract class App {
 
 	/**
 	 * Reset tracing column for given geo
-	 * @param ge geo
+	 * 
+	 * @param ge
+	 *            geo
 	 */
 	public void resetTraceColumn(GeoElement ge) {
 		getTraceManager().setNeedsColumnReset(ge, true);
@@ -1082,10 +1148,12 @@ public abstract class App {
 
 	/**
 	 * Updates the counter of used layers
-	 * @param layer layer to which last element was added
+	 * 
+	 * @param layer
+	 *            layer to which last element was added
 	 */
 	public void updateMaxLayerUsed(int layer) {
-		int newLayer=layer;
+		int newLayer = layer;
 		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
 			newLayer = EuclidianStyleConstants.MAX_LAYERS;
 		}
@@ -1093,15 +1161,15 @@ public abstract class App {
 			maxLayerUsed = newLayer;
 		}
 	}
-	
+
 	/**
 	 * @return whether this is a 3D app or not
 	 */
 	public boolean is3D() {
 		return false;
 	}
-	
-	private	String[] fontSizeStrings = null;
+
+	private String[] fontSizeStrings = null;
 
 	/**
 	 * @return localized strings describing font sizes (very small, smaall, ...)
@@ -1116,7 +1184,7 @@ public abstract class App {
 
 		return fontSizeStrings;
 	}
-	
+
 	/* selection handling */
 
 	/**
@@ -1125,149 +1193,154 @@ public abstract class App {
 	final public GeoElement getLastCreatedGeoElement() {
 		return kernel.getConstruction().getLastGeoElement();
 	}
-	
+
 	// used by PropertyDialogGeoElement and MenuBarImpl
-		// for the Rounding Menus
-		final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
-				-1, 3, 5, 10, 15 };
-		final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-				-1, 6, -1, -1, -1, -1, 7 };
-		final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-				-1, -1, 11, -1, -1, -1, -1, 12 };
+	// for the Rounding Menus
+	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
+			-1, 3, 5, 10, 15 };
+	final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
+			-1, 6, -1, -1, -1, -1, 7 };
+	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
+			-1, -1, 11, -1, -1, -1, -1, 12 };
 
-		public String[] getRoundingMenu() {
-			String[] strDecimalSpaces = {
-					getPlain("ADecimalPlaces", "0"),
-					getPlain("ADecimalPlace", "1"),
-					getPlain("ADecimalPlaces", "2"),
-					getPlain("ADecimalPlaces", "3"),
-					getPlain("ADecimalPlaces", "4"),
-					getPlain("ADecimalPlaces", "5"),
-					getPlain("ADecimalPlaces", "10"),
-					getPlain("ADecimalPlaces", "15"),
-					"---", // separator
-					getPlain("ASignificantFigures", "3"),
-					getPlain("ASignificantFigures", "5"),
-					getPlain("ASignificantFigures", "10"),
-					getPlain("ASignificantFigures", "15") };
+	public String[] getRoundingMenu() {
+		String[] strDecimalSpaces = {
+				getPlain("ADecimalPlaces", "0"),
+				getPlain("ADecimalPlace", "1"),
+				getPlain("ADecimalPlaces", "2"),
+				getPlain("ADecimalPlaces", "3"),
+				getPlain("ADecimalPlaces", "4"),
+				getPlain("ADecimalPlaces", "5"),
+				getPlain("ADecimalPlaces", "10"),
+				getPlain("ADecimalPlaces", "15"),
+				"---", // separator
+				getPlain("ASignificantFigures", "3"),
+				getPlain("ASignificantFigures", "5"),
+				getPlain("ASignificantFigures", "10"),
+				getPlain("ASignificantFigures", "15") };
 
-			// zero is singular in eg French
-			if (!isZeroPlural(getLanguage())) {
-				strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
-			}
-
-			return strDecimalSpaces;
-		}
-		
-		/**
-		 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
-		 * @param lang language code
-		 * @return whether 0 is plural
-		 */
-		public boolean isZeroPlural(String lang) {
-			if (lang.startsWith("fr")) {
-				return false;
-			}
-			return true;
-		}
-		
-		
-
-		/**
-		 * Rounding menu options (not internationalized)
-		 */
-		final public static String[] strDecimalSpacesAC = { "0 decimals",
-				"1 decimals", "2 decimals", "3 decimals", "4 decimals",
-				"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-				"5 figures", "10 figures", "15 figures" };
-
-		// Rounding Menus end
-
-		/**
-		 * Deletes selected objects
-		 */
-		public void deleteSelectedObjects() {
-			if (letDelete()) {
-				Object[] geos = getSelectedGeos().toArray();
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = (GeoElement) geos[i];
-					if (!geo.isFixed()) {
-						geo.removeOrSetUndefinedIfHasFixedDescendent();
-					}
-				}
-
-				// also delete just created geos if possible
-				ArrayList<GeoElement> geos2 = getActiveEuclidianView()
-						.getEuclidianController().getJustCreatedGeos();
-				for (int j = 0; j < geos2.size(); j++) {
-					GeoElement geo = geos2.get(j);
-					if (!geo.isFixed()) {
-						geo.removeOrSetUndefinedIfHasFixedDescendent();
-					}
-				}
-				getActiveEuclidianView().getEuclidianController()
-						.clearJustCreatedGeos();
-				getActiveEuclidianView().getEuclidianController().clearSelections();
-				storeUndoInfo();
-			}
-
+		// zero is singular in eg French
+		if (!isZeroPlural(getLanguage())) {
+			strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
 		}
 
+		return strDecimalSpaces;
+	}
 
-		/**
-		 * Clears selction and selects given geos.
-		 * 
-		 * @param geos geos
-		 */
-		final public void setSelectedGeos(ArrayList<GeoElement> geos) {
-			setSelectedGeos(geos, true);
-		}
-		/**
-		 * Clears selction and selects given geos.
-		 * 
-		 * @param geos geos
-		 * @param updateSelection says if selection has to be updated
-		 */
-		final public void setSelectedGeos(ArrayList<GeoElement> geos, boolean updateSelection) {
-			clearSelectedGeos(false);
-			if (geos != null) {
-				for (int i = 0; i < geos.size(); i++) {
-					GeoElement geo = geos.get(i);
-					addSelectedGeo(geo, false, false);
-				}
-			}
-			kernel.notifyRepaint();
-			if (updateSelection)
-				updateSelection();
-		}
-	
 	/**
-	 * Selects the first geo in the construction.
-	 * Previous selected geos are unselected (used e.g. for xAxis).
+	 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
+	 * 
+	 * @param lang
+	 *            language code
+	 * @return whether 0 is plural
+	 */
+	public boolean isZeroPlural(String lang) {
+		if (lang.startsWith("fr")) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Rounding menu options (not internationalized)
+	 */
+	final public static String[] strDecimalSpacesAC = { "0 decimals",
+			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
+			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
+			"5 figures", "10 figures", "15 figures" };
+
+	// Rounding Menus end
+
+	/**
+	 * Deletes selected objects
+	 */
+	public void deleteSelectedObjects() {
+		if (letDelete()) {
+			Object[] geos = getSelectedGeos().toArray();
+			for (int i = 0; i < geos.length; i++) {
+				GeoElement geo = (GeoElement) geos[i];
+				if (!geo.isFixed()) {
+					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
+			}
+
+			// also delete just created geos if possible
+			ArrayList<GeoElement> geos2 = getActiveEuclidianView()
+					.getEuclidianController().getJustCreatedGeos();
+			for (int j = 0; j < geos2.size(); j++) {
+				GeoElement geo = geos2.get(j);
+				if (!geo.isFixed()) {
+					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
+			}
+			getActiveEuclidianView().getEuclidianController()
+					.clearJustCreatedGeos();
+			getActiveEuclidianView().getEuclidianController().clearSelections();
+			storeUndoInfo();
+		}
+
+	}
+
+	/**
+	 * Clears selction and selects given geos.
+	 * 
+	 * @param geos
+	 *            geos
+	 */
+	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
+		setSelectedGeos(geos, true);
+	}
+
+	/**
+	 * Clears selction and selects given geos.
+	 * 
+	 * @param geos
+	 *            geos
+	 * @param updateSelection
+	 *            says if selection has to be updated
+	 */
+	final public void setSelectedGeos(ArrayList<GeoElement> geos,
+			boolean updateSelection) {
+		clearSelectedGeos(false);
+		if (geos != null) {
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				addSelectedGeo(geo, false, false);
+			}
+		}
+		kernel.notifyRepaint();
+		if (updateSelection)
+			updateSelection();
+	}
+
+	/**
+	 * Selects the first geo in the construction. Previous selected geos are
+	 * unselected (used e.g. for xAxis).
+	 * 
 	 * @return first geo or null
 	 */
-	final public GeoElement setFirstGeoSelectedForPropertiesView(){
+	final public GeoElement setFirstGeoSelectedForPropertiesView() {
 		GeoElement geo = getKernel().getFirstGeo();
-		if (geo==null)
-			return null; 
-		
+		if (geo == null)
+			return null;
+
 		clearSelectedGeos(false);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 		kernel.notifyRepaint();
-		
+
 		updateSelection(false);
-		
+
 		return geo;
-		
+
 	}
 
 	/**
 	 * Michael Borcherds 2008-03-03
 	 * 
-	 * @return -1 if nothing selected return -2 if
-	 * objects from more than one layer selected return layer number if objects
-	 * from exactly one layer are selected
+	 * @return -1 if nothing selected return -2 if objects from more than one
+	 *         layer selected return layer number if objects from exactly one
+	 *         layer are selected
 	 */
 	public int getSelectedLayer() {
 		Object[] geos = getSelectedGeos().toArray();
@@ -1283,11 +1356,13 @@ public abstract class App {
 		}
 		return layer;
 	}
-	
+
 	/**
 	 * Selects all geos in given layer
-	 * @param layer 0 - 9 for particular layer, -1 for all layers
-	 * (Michael Borcherds, 2008-03-03)
+	 * 
+	 * @param layer
+	 *            0 - 9 for particular layer, -1 for all layers (Michael
+	 *            Borcherds, 2008-03-03)
 	 */
 	final public void selectAll(int layer) {
 		clearSelectedGeos(false);
@@ -1391,10 +1466,12 @@ public abstract class App {
 		kernel.notifyRepaint();
 		updateSelection();
 	}
-	
+
 	/**
 	 * Append XML describing the keyboard to given string builder
-	 * @param sb string builder
+	 * 
+	 * @param sb
+	 *            string builder
 	 */
 	public void getKeyboardXML(StringBuilder sb) {
 		sb.append("<keyboard width=\"");
@@ -1414,11 +1491,11 @@ public abstract class App {
 	 * @return true if we have critically low free memory
 	 */
 	public abstract boolean freeMemoryIsCritical();
+
 	/**
 	 * @return Approximate amount of remaining memory in bytes
 	 */
 	public abstract long freeMemory();
-
 
 	/**
 	 * given 1, return eg 1st, 1e, 1:e according to the language
@@ -1431,13 +1508,16 @@ public abstract class App {
 	 * given 1, return eg 1st, 1e, 1:e according to the language
 	 * 
 	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 * @param n number
+	 * 
+	 * @param n
+	 *            number
 	 * @return corresponding ordinal number
 	 */
 	public String getOrdinalNumber(int n) {
 		String lang = getLanguage();
-		
-		if ("en".equals(lang)) return getOrdinalNumberEn(n);
+
+		if ("en".equals(lang))
+			return getOrdinalNumberEn(n);
 
 		// check here for languages where 1st = 1
 		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
@@ -1475,23 +1555,34 @@ public abstract class App {
 			sbOrdinal.append(":s");
 		} else if ("el".equals(lang)) {
 			sbOrdinal.append('\u03b7');
-		} else if ("ro".equals(lang) || "es".equals(lang)
-				|| "it".equals(lang) || "pt".equals(lang)) {
+		} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang)
+				|| "pt".equals(lang)) {
 			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
 		} else if ("bs".equals(lang) || "sl".equals(lang)) {
 			sbOrdinal.append("-ti");
 		} else if ("ca".equals(lang)) {
-			
+
 			switch (n) {
 			// Catalan (masculine)
-			case 0 : break; // just "0", not "0e" etc
-			case 1 : sbOrdinal.append("r"); break;
-			case 2 : sbOrdinal.append("n"); break;
-			case 3 : sbOrdinal.append("r"); break;
-			case 4 : sbOrdinal.append("t"); break;
-			default: sbOrdinal.append("e"); break;
+			case 0:
+				break; // just "0", not "0e" etc
+			case 1:
+				sbOrdinal.append("r");
+				break;
+			case 2:
+				sbOrdinal.append("n");
+				break;
+			case 3:
+				sbOrdinal.append("r");
+				break;
+			case 4:
+				sbOrdinal.append("t");
+				break;
+			default:
+				sbOrdinal.append("e");
+				break;
 			}
-			
+
 		} else if ("sq".equals(lang)) {
 			sbOrdinal.append("-te");
 		} else if ("gl".equals(lang)) {
@@ -1517,28 +1608,28 @@ public abstract class App {
 			} else {
 				sbOrdinal.append(":e");
 			}
-		} 
+		}
 
 		return sbOrdinal.toString();
 
 	}
 
-	
 	/**
 	 * given 1, return eg 1st (English only)
 	 * 
 	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 * @param n number
+	 * 
+	 * @param n
+	 *            number
 	 * @return english ordinal number
 	 */
 	public String getOrdinalNumberEn(int n) {
 		/*
-		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the
-		 * tens digit of a number is 1, then write "th" after the number.
-		 * For example: 13th, 19th, 112th, 9,311th. If the tens digit is not
-		 * equal to 1, then use the following table: If the units digit is:
-		 * 0 1 2 3 4 5 6 7 8 9 write this after the number th st nd rd th th
-		 * th th th th
+		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens
+		 * digit of a number is 1, then write "th" after the number. For
+		 * example: 13th, 19th, 112th, 9,311th. If the tens digit is not equal
+		 * to 1, then use the following table: If the units digit is: 0 1 2 3 4
+		 * 5 6 7 8 9 write this after the number th st nd rd th th th th th th
 		 */
 
 		int tensDigit = (n / 10) % 10;
@@ -1561,7 +1652,7 @@ public abstract class App {
 		}
 
 	}
-	
+
 	/**
 	 * Use localized digits.
 	 */
@@ -1578,9 +1669,11 @@ public abstract class App {
 	/**
 	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
 	 * 
-	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but
-	 * just if the new flag differs from the current.
-	 * @param useLocalizedDigits whether localized digits should be used
+	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
+	 * if the new flag differs from the current.
+	 * 
+	 * @param useLocalizedDigits
+	 *            whether localized digits should be used
 	 */
 	public void setUseLocalizedDigits(boolean useLocalizedDigits) {
 		if (this.useLocalizedDigits == useLocalizedDigits) {
@@ -1597,61 +1690,70 @@ public abstract class App {
 		}
 	}
 
-		private boolean reverseNameDescription = false;
-		private boolean isAutoCompletePossible = true;
-
-		/**
-		 * For Basque and Hungarian you have to say "A point" instead of "point A"
-		 * @return whether current alnguage needs revverse order of type and name
-		 */
-		final public boolean isReverseNameDescriptionLanguage() {
-			// for Basque and Hungarian
-			return reverseNameDescription;
-		}
-
-		/**
-		 * Returns whether autocomplete should be used at all. Certain languages
-		 * make problems with auto complete turned on (e.g. Korean).
-		 * @return whether autocomplete should be used at all, depending on language
-		 */
-		final public boolean isAutoCompletePossible() {
-			return isAutoCompletePossible;
-		}
-
-		// For Hebrew and Arabic. Guy Hed, 25.8.2008
-		private boolean rightToLeftReadingOrder = false;
-
-		/**
-		 * @return whether current language uses RTL orientation
-		 */
-		final public boolean isRightToLeftReadingOrder() {
-			return rightToLeftReadingOrder;
-		}
-
-		// For Persian and Arabic.
-		private boolean rightToLeftDigits = false;
-		/**
-		 * Returns  whether current language uses RTL orientation for numbers for given template.
-		 * We don't want RTL digits in XML
-		 * @param tpl string templates
-		 * @return whether current language uses RTL orientation for numbers for given template
-		 */
-		final public boolean isRightToLeftDigits(StringTemplate tpl) {
-			if (!tpl.internationalizeDigits()) {
-				return false;
-			}
-			return rightToLeftDigits;
-		}
+	private boolean reverseNameDescription = false;
+	private boolean isAutoCompletePossible = true;
 
 	/**
-	 * Updates language flags (RTL, RTL for numbers, reverse word order, autocomplete possible)	
-	 * @param lang language
+	 * For Basque and Hungarian you have to say "A point" instead of "point A"
+	 * 
+	 * @return whether current alnguage needs revverse order of type and name
+	 */
+	final public boolean isReverseNameDescriptionLanguage() {
+		// for Basque and Hungarian
+		return reverseNameDescription;
+	}
+
+	/**
+	 * Returns whether autocomplete should be used at all. Certain languages
+	 * make problems with auto complete turned on (e.g. Korean).
+	 * 
+	 * @return whether autocomplete should be used at all, depending on language
+	 */
+	final public boolean isAutoCompletePossible() {
+		return isAutoCompletePossible;
+	}
+
+	// For Hebrew and Arabic. Guy Hed, 25.8.2008
+	private boolean rightToLeftReadingOrder = false;
+
+	/**
+	 * @return whether current language uses RTL orientation
+	 */
+	final public boolean isRightToLeftReadingOrder() {
+		return rightToLeftReadingOrder;
+	}
+
+	// For Persian and Arabic.
+	private boolean rightToLeftDigits = false;
+
+	/**
+	 * Returns whether current language uses RTL orientation for numbers for
+	 * given template. We don't want RTL digits in XML
+	 * 
+	 * @param tpl
+	 *            string templates
+	 * @return whether current language uses RTL orientation for numbers for
+	 *         given template
+	 */
+	final public boolean isRightToLeftDigits(StringTemplate tpl) {
+		if (!tpl.internationalizeDigits()) {
+			return false;
+		}
+		return rightToLeftDigits;
+	}
+
+	/**
+	 * Updates language flags (RTL, RTL for numbers, reverse word order,
+	 * autocomplete possible)
+	 * 
+	 * @param lang
+	 *            language
 	 */
 	protected void updateLanguageFlags(String lang) {
 
 		// force update
 		fontSizeStrings = null;
-		
+
 		// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
 		// 2008-03-31
 		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
@@ -1714,18 +1816,18 @@ public abstract class App {
 	}
 
 	/**
-	 * Update right angle style to match current locale 
+	 * Update right angle style to match current locale
 	 */
 	public void updateRightAngleStyle() {
 		if (rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
-			if (getLanguage().equals("de")
-					|| getLanguage().equals("hu")) {
+			if (getLanguage().equals("de") || getLanguage().equals("hu")) {
 				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
 			} else {
 				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 			}
 		}
 	}
+
 	/**
 	 * @return the maximal currently used layer
 	 */
@@ -1733,10 +1835,11 @@ public abstract class App {
 		return maxLayerUsed;
 	}
 
-	
 	/**
-	 * @param min real world x min
-	 * @param max real world x max
+	 * @param min
+	 *            real world x min
+	 * @param max
+	 *            real world x max
 	 * @return number of pixels in EV1 between given x coordinates
 	 */
 	public double countPixels(double min, double max) {
@@ -1744,21 +1847,19 @@ public abstract class App {
 		return ev.toScreenCoordXd(max) - ev.toScreenCoordXd(min);
 	}
 
-
 	/**
 	 * @return algebra view
 	 */
 	public abstract AlgebraView getAlgebraView();
 
-	
 	/**
 	 * @return EV1
 	 */
-	public EuclidianView getEuclidianView1(){
+	public EuclidianView getEuclidianView1() {
 		notice("AbstrEuclView");
 		return euclidianView;
 	}
-	
+
 	/**
 	 * Resets the maximal used llayer to 0
 	 */
@@ -1771,19 +1872,21 @@ public abstract class App {
 	 */
 	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();
 
-
 	/**
 	 * XML settings for both EVs
-	 * @param sb string builder
-	 * @param asPreference whether we need this for preference XML
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param asPreference
+	 *            whether we need this for preference XML
 	 */
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		getEuclidianView1().getXML(sb, asPreference);
-		if(hasEuclidianView2EitherShowingOrNot()){
+		if (hasEuclidianView2EitherShowingOrNot()) {
 			getEuclidianView2().getXML(sb, asPreference);
 		}
 	}
-	
+
 	/**
 	 * @return whether 3D view was initialized
 	 */
@@ -1812,12 +1915,12 @@ public abstract class App {
 	 * @return image manager
 	 */
 	public abstract AbstractImageManager getImageManager();
-	
+
 	/**
 	 * @return gui manager (it's null in minimal applets)
 	 */
 	public abstract GuiManager getGuiManager();
-	
+
 	/**
 	 * @return dialog manager
 	 */
@@ -1830,8 +1933,10 @@ public abstract class App {
 
 	/**
 	 * Prints a stacktrace (used for debugging)
+	 * 
 	 * @author Michael Borcherds
-	 * @param message message to appear on top of the stacktrace
+	 * @param message
+	 *            message to appear on top of the stacktrace
 	 */
 	public static void printStacktrace(String message) {
 		try {
@@ -1851,18 +1956,21 @@ public abstract class App {
 			info("SingularWS is available at " + singularWS.getConnectionSite());
 			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
 		} else {
-			info("No SingularWS is available at " + singularWS.getConnectionSite() + " (yet)");
-			}
+			info("No SingularWS is available at "
+					+ singularWS.getConnectionSite() + " (yet)");
+		}
 	}
-	
+
 	/**
-	 * Prints debugging message, level DEBUG
-	 * Special debugging format is used for expression values
-	 * @param s object to be printed
+	 * Prints debugging message, level DEBUG Special debugging format is used
+	 * for expression values
+	 * 
+	 * @param s
+	 *            object to be printed
 	 */
 	public static void debug(Object s) {
-		if(s instanceof ExpressionValue){
-			debug(ValidExpression.debugString((ExpressionValue)s));
+		if (s instanceof ExpressionValue) {
+			debug(ValidExpression.debugString((ExpressionValue) s));
 			return;
 		}
 		if (s == null) {
@@ -1874,7 +1982,9 @@ public abstract class App {
 
 	/**
 	 * Prints debugging message, level DEBUG
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void debug(String message) {
 		if (logger != null) {
@@ -1884,77 +1994,100 @@ public abstract class App {
 
 	/**
 	 * Prints debugging message, level NOTICE
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void notice(String message) {
 		if (logger != null) {
 			logger.log(logger.NOTICE, message);
-			}
+		}
 	}
+
 	/**
 	 * Prints debugging message, level INFO
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void info(String message) {
 		if (logger != null) {
 			logger.log(logger.INFO, message);
-			}
+		}
 	}
+
 	/**
 	 * Prints debugging message, level ERROR
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void error(String message) {
 		if (logger != null) {
 			logger.log(logger.ERROR, message);
-			}
+		}
 	}
+
 	/**
 	 * Prints debugging message, level WARN
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void warn(String message) {
 		if (logger != null) {
 			logger.log(logger.WARN, message);
-			}
+		}
 	}
+
 	/**
 	 * Prints debugging message, level EMERGENCY
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void emergency(String message) {
 		if (logger != null) {
 			logger.log(logger.EMERGENCY, message);
-			}
+		}
 	}
 
 	/**
 	 * Prints debugging message, level ALERT
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void alert(String message) {
 		if (logger != null) {
 			logger.log(logger.ALERT, message);
-			}
+		}
 	}
+
 	/**
 	 * Prints debugging message, level TRACE
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void trace(String message) {
 		if (logger != null) {
 			logger.log(logger.TRACE, message);
-			}
+		}
 	}
+
 	/**
 	 * Prints debugging message, level CRITICAL
-	 * @param message message to be printed
+	 * 
+	 * @param message
+	 *            message to be printed
 	 */
 	public static void critical(String message) {
 		if (logger != null) {
 			logger.log(logger.CRITICAL, message);
-			}
+		}
 	}
+
 	/** logger */
 	public static GeoGebraLogger logger;
 	/** Singular web service (CAS) */
@@ -1962,6 +2095,7 @@ public abstract class App {
 
 	/**
 	 * Whether we are running on Mac
+	 * 
 	 * @return whether we are running on Mac
 	 */
 	public boolean isMacOS() {
@@ -1970,19 +2104,22 @@ public abstract class App {
 
 	/**
 	 * Whether we are running on Windows
+	 * 
 	 * @return whether we are running on Windows
 	 */
 	public boolean isWindows() {
 		return false;
 	}
+
 	/**
 	 * Whether we are running on Windows Vista or later
+	 * 
 	 * @return whether we are running on Windows Vista or later
 	 */
 	public boolean isWindowsVistaOrLater() {
 		return false;
 	}
-				
+
 	/**
 	 * @return the scriptingLanguage
 	 */
@@ -1993,7 +2130,7 @@ public abstract class App {
 		}
 		return scriptingLanguage;
 	}
-	
+
 	/**
 	 * @param scriptingLanguage
 	 *            the scriptingLanguage to set
@@ -2009,17 +2146,21 @@ public abstract class App {
 
 	/**
 	 * Runs JavaScript
-	 * @param app application
-	 * @param script JS method name
-	 * @param arg arguments
+	 * 
+	 * @param app
+	 *            application
+	 * @param script
+	 *            JS method name
+	 * @param arg
+	 *            arguments
 	 */
-	public abstract void evalJavaScript(App app, String script,
-			String arg);
+	public abstract void evalJavaScript(App app, String script, String arg);
 
 	private int[] version = null;
-	
+
 	/**
-	 * @param v version parts
+	 * @param v
+	 *            version parts
 	 * @return whether given version is newer than this code
 	 */
 	public boolean fileVersionBefore(int[] v) {
@@ -2045,7 +2186,9 @@ public abstract class App {
 
 	/**
 	 * Sets version of currently loaded file
-	 * @param version version string
+	 * 
+	 * @param version
+	 *            version string
 	 */
 	public void setFileVersion(String version) {
 
@@ -2060,7 +2203,8 @@ public abstract class App {
 	}
 
 	/**
-	 * @param version string version, eg 4.9.38.0
+	 * @param version
+	 *            string version, eg 4.9.38.0
 	 * @return version as list of ints, eg [4,9,38,0]
 	 */
 	static final public int[] getSubValues(String version) {
@@ -2073,14 +2217,14 @@ public abstract class App {
 		return ret;
 	}
 
-	
 	/**
 	 * @return euclidian view; if not present yet, new one is created
 	 */
 	public abstract EuclidianView createEuclidianView();
-	
+
 	/**
 	 * Returns current mode (tool number)
+	 * 
 	 * @return current mode
 	 */
 	final public int getMode() {
@@ -2089,7 +2233,9 @@ public abstract class App {
 
 	/**
 	 * Returns labeling style for newly created geos
-	 * @return labeling style; AUTOMATIC is resovled either to US_DEFAULTS or OFF depending on visibility of AV 
+	 * 
+	 * @return labeling style; AUTOMATIC is resovled either to US_DEFAULTS or
+	 *         OFF depending on visibility of AV
 	 */
 	public int getCurrentLabelingStyle() {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
@@ -2106,24 +2252,29 @@ public abstract class App {
 		return getLabelingStyle();
 	}
 
-
 	/**
-	 * @param colorName localized color name
+	 * @param colorName
+	 *            localized color name
 	 * @return internal color name
 	 */
 	public abstract String reverseGetColor(String colorName);
 
 	/**
 	 * Returns translation of a key in colors bundle
-	 * @param key key (color name)
+	 * 
+	 * @param key
+	 *            key (color name)
 	 * @return localized color name
 	 */
 	public abstract String getColor(String key);
 
 	/**
-	 * This is needed for handling paths to images inside .ggb archive 
-	 * TODO probably we should replace this methodby something else as images are different in web  
-	 * @param fullPath path to image
+	 * This is needed for handling paths to images inside .ggb archive TODO
+	 * probably we should replace this methodby something else as images are
+	 * different in web
+	 * 
+	 * @param fullPath
+	 *            path to image
 	 * @return legth of MD5 hash output
 	 */
 	public int getMD5folderLength(String fullPath) {
@@ -2131,30 +2282,31 @@ public abstract class App {
 	}
 
 	/**
-	 * @param filename filename
-	 * @return image wrapped in GBufferedImage 
+	 * @param filename
+	 *            filename
+	 * @return image wrapped in GBufferedImage
 	 */
 	public abstract GBufferedImage getExternalImageAdapter(String filename);
 
 	/**
-	 * @return syntaxStr or syntax3D, depending on whether 3d is active 
+	 * @return syntaxStr or syntax3D, depending on whether 3d is active
 	 */
 	protected abstract String getSyntaxString();
-	
+
 	/**
-	 * @param key command name
-	 * @return command syntax
-	 * TODO check whether getSyntaxString works here
+	 * @param key
+	 *            command name
+	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	public String getCommandSyntax(String key) {
 
 		String command = getCommand(key);
 
 		String syntaxString = getSyntaxString();
-		
+
 		String syntax = null;
 
-		if(syntaxString != null) {
+		if (syntaxString != null) {
 
 			syntax = getCommand(key + syntaxString);
 
@@ -2163,7 +2315,6 @@ public abstract class App {
 
 		return syntax;
 	}
-
 
 	/**
 	 * Clears selection and repaints all views
@@ -2174,7 +2325,9 @@ public abstract class App {
 
 	/**
 	 * Clear selection
-	 * @param repaint whether all views need repainting afterwards
+	 * 
+	 * @param repaint
+	 *            whether all views need repainting afterwards
 	 */
 	public void clearSelectedGeos(boolean repaint) {
 		int size = selectedGeos.size();
@@ -2188,11 +2341,9 @@ public abstract class App {
 				kernel.notifyRepaint();
 				updateSelection();
 			}
-			
-			
-				
+
 		}
-		
+
 	}
 
 	/**
@@ -2205,14 +2356,16 @@ public abstract class App {
 	/**
 	 * Enables or disables label dragging in this application. This is useful
 	 * for applets.
-	 * @param flag true to allow label dragging
+	 * 
+	 * @param flag
+	 *            true to allow label dragging
 	 */
 	public void setLabelDragsEnabled(boolean flag) {
 		labelDragsEnabled = flag;
 	}
 
 	/**
-	 * @param b  
+	 * @param b
 	 */
 	public void setScrollToShow(boolean b) {
 		// TODO Auto-generated method stub
@@ -2223,15 +2376,18 @@ public abstract class App {
 		// TODO Auto-generated method stub
 
 	}
+
 	/**
 	 * Makes given view active
-	 * @param evID view id
+	 * 
+	 * @param evID
+	 *            view id
 	 */
 	public void setActiveView(int evID) {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void refreshViews() {
 		getEuclidianView1().updateBackground();
 		if (hasEuclidianView2()) {
@@ -2239,7 +2395,7 @@ public abstract class App {
 		}
 		kernel.notifyRepaint();
 	}
-	
+
 	/**
 	 * Switches the application to macro editing mode
 	 * 
@@ -2262,7 +2418,7 @@ public abstract class App {
 		this.macro = editMacro;
 		setXML(newXml, true);
 	}
-	
+
 	private Macro macro;
 
 	/**
@@ -2275,7 +2431,8 @@ public abstract class App {
 	}
 
 	/**
-	 * @return XML for all macros; if there are none, XML header+footer are returned
+	 * @return XML for all macros; if there are none, XML header+footer are
+	 *         returned
 	 */
 	public String getMacroXML() {
 		ArrayList<Macro> macros = kernel.getAllMacros();
@@ -2305,6 +2462,7 @@ public abstract class App {
 
 	/**
 	 * FKH
+	 * 
 	 * @version 20040826
 	 * @return full xml for GUI and construction
 	 */
@@ -2315,7 +2473,8 @@ public abstract class App {
 	public abstract void showError(String string, String str);
 
 	/**
-	 * @param viewID view id
+	 * @param viewID
+	 *            view id
 	 * @return view with given ID
 	 */
 	public View getView(int viewID) {
@@ -2367,9 +2526,9 @@ public abstract class App {
 		return null;
 	}
 
-
 	/**
-	 * @param asPreference true if we need this for prefs XML
+	 * @param asPreference
+	 *            true if we need this for prefs XML
 	 * @return XML for user interface (EVs, spreadsheet, kernel settings)
 	 */
 	public String getCompleteUserInterfaceXML(boolean asPreference) {
@@ -2385,10 +2544,12 @@ public abstract class App {
 		if (hasEuclidianView2()) {
 			getEuclidianView2().getXML(sb, asPreference);
 		} else if (asPreference && (getGuiManager() != null)) {
-			//TODO: After the implementing of getEuclidianView2() on web remove the nullcheck from here 
-			//getEuclidianView2().getXML(sb, true);
+			// TODO: After the implementing of getEuclidianView2() on web remove
+			// the nullcheck from here
+			// getEuclidianView2().getXML(sb, true);
 			EuclidianView ev2 = getEuclidianView2();
-			if (ev2 != null) ev2.getXML(sb,  true);
+			if (ev2 != null)
+				ev2.getXML(sb, true);
 		}
 
 		if (getGuiManager() != null) {
@@ -2445,16 +2606,15 @@ public abstract class App {
 		return settings;
 	}
 
-
-
 	public abstract String getUniqueId();
+
 	public abstract void setUniqueId(String uniqueId);
+
 	public abstract void resetUniqueId();
 
-
-
 	/**
-	 * @param auxiliaryObjects true to show Auxiliary objects 
+	 * @param auxiliaryObjects
+	 *            true to show Auxiliary objects
 	 */
 	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
 		// TODO Auto-generated method stub
@@ -2462,22 +2622,25 @@ public abstract class App {
 
 		if (getGuiManager() != null) {
 			getGuiManager().setShowAuxiliaryObjects(auxiliaryObjects);
-			//updateMenubar();
+			// updateMenubar();
 		}
 	}
 
 	/**
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
-	 * @param labelingStyle labeling style for new objects
+	 * 
+	 * @param labelingStyle
+	 *            labeling style for new objects
 	 */
 	public void setLabelingStyle(int labelingStyle) {
 		this.labelingStyle = labelingStyle;
 	}
-	
+
 	/**
 	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
+	 * 
 	 * @return labeling style for new objects
 	 */
 	public int getLabelingStyle() {
@@ -2501,9 +2664,8 @@ public abstract class App {
 
 	private boolean scriptingDisabled = false;
 
-
-
-	// default changed for ggb42 (consistent with the rest of the sotfware world)
+	// default changed for ggb42 (consistent with the rest of the sotfware
+	// world)
 	private boolean reverseMouseWheel = true;
 
 	/**
@@ -2514,21 +2676,21 @@ public abstract class App {
 	}
 
 	/**
-	 * @param b true for normal scrolling (scrol up = zoom in), false for oposite setting
+	 * @param b
+	 *            true for normal scrolling (scrol up = zoom in), false for
+	 *            oposite setting
 	 */
 	public void reverseMouseWheel(boolean b) {
 		reverseMouseWheel = b;
 	}
 
-
-	
-
 	/**
-	 * @param size preferred size 
+	 * @param size
+	 *            preferred size
 	 */
 	public void setPreferredSize(GDimension size) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -2553,38 +2715,43 @@ public abstract class App {
 
 	/**
 	 * Use localized labels for certain languages.
-	 * @param useLocalizedLabels true to make labels of new geos localized
+	 * 
+	 * @param useLocalizedLabels
+	 *            true to make labels of new geos localized
 	 */
 	public void setUseLocalizedLabels(boolean useLocalizedLabels) {
 		this.useLocalizedLabels = useLocalizedLabels;
 	}
 
 	/**
-	 * @param ttl tooltip language 
+	 * @param ttl
+	 *            tooltip language
 	 */
 	public void setTooltipLanguage(String ttl) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public abstract DrawEquationInterface getDrawEquation();
 
 	/**
 	 * 
-	 * @param show true to show navigation bar
+	 * @param show
+	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
 
 	/**
 	 * Save all perspectives included in a document into an array with temporary
 	 * perspectives.
 	 * 
-	 * @param perspectives array of perspetctives in the document
+	 * @param perspectives
+	 *            array of perspetctives in the document
 	 */
 	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
 		tmpPerspectives = perspectives;
@@ -2594,27 +2761,29 @@ public abstract class App {
 		return tmpPerspectives;
 	}
 
-
 	/**
-	 * @param show whether navigation bar should be visible
-	 * @param playButton whether play button should be visible
-	 * @param playDelay delay between phases (in seconds)
-	 * @param showProtButton whether button to show construction protocol should be visible
+	 * @param show
+	 *            whether navigation bar should be visible
+	 * @param playButton
+	 *            whether play button should be visible
+	 * @param playDelay
+	 *            delay between phases (in seconds)
+	 * @param showProtButton
+	 *            whether button to show construction protocol should be visible
 	 */
 	public abstract void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton);
 
-	
 	/**
 	 * Sets tooltip timeout (in seconds)
-	 * @param ttt tooltip timeout
+	 * 
+	 * @param ttt
+	 *            tooltip timeout
 	 */
 	public void setTooltipTimeout(int ttt) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	
+	}
 
 	/**
 	 * @return EV2
@@ -2625,21 +2794,25 @@ public abstract class App {
 	}
 
 	/**
-	 * @return width of the whole application (central panel)
-	 * This is needed for Corner[6]
+	 * @return width of the whole application (central panel) This is needed for
+	 *         Corner[6]
 	 */
 	public abstract double getWidth();
+
 	/**
-	 * @return height of the whole application (central panel)
-	 * This is needed for Corner[6]
+	 * @return height of the whole application (central panel) This is needed
+	 *         for Corner[6]
 	 */
 	public abstract double getHeight();
 
 	/**
 	 * 
-	 * @param serif serif
-	 * @param style font style
-	 * @param size font size
+	 * @param serif
+	 *            serif
+	 * @param style
+	 *            font style
+	 * @param size
+	 *            font size
 	 * @return font with given parameters
 	 */
 	public GFont getFontCommon(boolean serif, int style, int size) {
@@ -2660,18 +2833,19 @@ public abstract class App {
 	public final ArrayList<GeoElement> getSelectedGeos() {
 		return selectedGeos;
 	}
-	
+
 	/** whether toolbar should be visible */
 	protected boolean showToolBar = true;
-	
+
 	public void setShowToolBarNoUpdate(boolean toolbar) {
 		showToolBar = toolbar;
 	}
-	
 
 	/**
 	 * Adds given geo to selection
-	 * @param geo geo
+	 * 
+	 * @param geo
+	 *            geo
 	 */
 	public final void addSelectedGeo(GeoElement geo) {
 		addSelectedGeo(geo, true, true);
@@ -2679,32 +2853,42 @@ public abstract class App {
 
 	/**
 	 * Adds geo to selection
-	 * @param geo geo to be added to selection
-	 * @param repaint whether repaint is needed
-	 * @param updateSelection whether selection update is needed
+	 * 
+	 * @param geo
+	 *            geo to be added to selection
+	 * @param repaint
+	 *            whether repaint is needed
+	 * @param updateSelection
+	 *            whether selection update is needed
 	 */
-	public final void addSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
+	public final void addSelectedGeo(GeoElement geo, boolean repaint,
+			boolean updateSelection) {
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
 		}
-	
+
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
-		
+
 		if (updateSelection)
 			updateSelection();
-	
+
 	}
+
 	/**
 	 * Adds geos to selection
-	 * @param geos geos to be added to selection
-	 * @param repaint whether repaint is needed
+	 * 
+	 * @param geos
+	 *            geos to be added to selection
+	 * @param repaint
+	 *            whether repaint is needed
 	 */
-	public final void addSelectedGeos(ArrayList<GeoElement> geos, boolean repaint) {
-	
+	public final void addSelectedGeos(ArrayList<GeoElement> geos,
+			boolean repaint) {
+
 		selectedGeos.addAll(geos);
 		for (int i = 0; i < geos.size(); i++) {
 			geos.get(i).setSelected(true);
@@ -2714,7 +2898,7 @@ public abstract class App {
 		}
 		updateSelection();
 	}
-	
+
 	/**
 	 * init the kernel (used for 3D)
 	 */
@@ -2727,40 +2911,50 @@ public abstract class App {
 	 */
 	public void initEuclidianViews() {
 
-		euclidianController = newEuclidianController( kernel);
+		euclidianController = newEuclidianController(kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
 	}
-	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,boolean showGrid1);
+
+	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,
+			boolean showGrid1);
+
 	abstract protected EuclidianController newEuclidianController(Kernel kernel1);
-	
+
 	/**
 	 * Returns undo manager
-	 * @param cons construction
+	 * 
+	 * @param cons
+	 *            construction
 	 * @return undo manager
 	 */
 	public abstract UndoManager getUndoManager(Construction cons);
 
 	/**
-	 * TODO refactor to remove this method
-	 * Creates new animation manager
-	 * @param kernel2 kernel
+	 * TODO refactor to remove this method Creates new animation manager
+	 * 
+	 * @param kernel2
+	 *            kernel
 	 * @return animation manager
 	 */
 	public abstract AnimationManager newAnimationManager(Kernel kernel2);
 
 	/**
-	 * TODO maybe we should create another factory for internal classes like this
+	 * TODO maybe we should create another factory for internal classes like
+	 * this
+	 * 
 	 * @return new graphics adapter for geo
 	 */
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
+
 	/**
 	 * Repaints the spreadsheet view
 	 */
 	public void repaintSpreadsheet() {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	/**
 	 * @return whether on the fly point creation is active
 	 */
@@ -2782,13 +2976,14 @@ public abstract class App {
 	 */
 	public void setDefaultCursor() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
 	 * Switch current cursor to wait cursor
 	 */
 	public abstract void setWaitCursor();
+
 	/**
 	 * Update stylebars of all views
 	 */
@@ -2796,15 +2991,21 @@ public abstract class App {
 
 	/**
 	 * Removes or adds given geo to selection and repaints views
-	 * @param geo geo to be added / removed
+	 * 
+	 * @param geo
+	 *            geo to be added / removed
 	 */
 	final public void toggleSelectedGeo(GeoElement geo) {
 		toggleSelectedGeo(geo, true);
 	}
+
 	/**
 	 * Removes or adds given geo to selection
-	 * @param geo geo to be added / removed
-	 * @param repaint whether we want to repaint afterwards
+	 * 
+	 * @param geo
+	 *            geo to be added / removed
+	 * @param repaint
+	 *            whether we want to repaint afterwards
 	 */
 	final public void toggleSelectedGeo(GeoElement geo, boolean repaint) {
 		if (geo == null) {
@@ -2826,7 +3027,6 @@ public abstract class App {
 		updateSelection();
 	}
 
-
 	/**
 	 * Changes current mode to move mode
 	 */
@@ -2834,16 +3034,16 @@ public abstract class App {
 		setMode(EuclidianConstants.MODE_MOVE);
 	}
 
-	
-	
 	/**
 	 * @return spreadsheet table model
 	 */
 	public abstract SpreadsheetTableModel getSpreadsheetTableModel();
-	
+
 	/**
 	 * Changes current mode (tool number)
-	 * @param mode new mode
+	 * 
+	 * @param mode
+	 *            new mode
 	 */
 	public void setMode(int mode) {
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
@@ -2857,29 +3057,33 @@ public abstract class App {
 		}
 	}
 
-
 	/**
 	 * Adds geo to Euclidian view (EV1)
-	 * @param geo geo
+	 * 
+	 * @param geo
+	 *            geo
 	 */
 	public void addToEuclidianView(GeoElement geo) {
 		geo.addView(App.VIEW_EUCLIDIAN);
 		getEuclidianView1().add(geo);
 	}
+
 	/**
 	 * Removes geo from Euclidian view (EV1)
-	 * @param geo geo
+	 * 
+	 * @param geo
+	 *            geo
 	 */
 	public void removeFromEuclidianView(GeoElement geo) {
 		geo.removeView(App.VIEW_EUCLIDIAN);
 		getEuclidianView1().remove(geo);
 	}
 
-
-
 	public abstract void setXML(String string, boolean b);
+
 	/**
 	 * Returns API that can be used from external applications
+	 * 
 	 * @return GeoGebra API
 	 */
 	public abstract GgbAPI getGgbApi();
@@ -2909,23 +3113,27 @@ public abstract class App {
 	}
 
 	/**
-	 * @param e event
-	 * @return whether right mouse button was clicked or click + ctrl appeared on Mac
+	 * @param e
+	 *            event
+	 * @return whether right mouse button was clicked or click + ctrl appeared
+	 *         on Mac
 	 */
 	public boolean isRightClick(AbstractEvent e) {
 		return e.isRightClick();
 	}
-	
+
 	/**
-	 * @param e event
+	 * @param e
+	 *            event
 	 * @return whether Ctrl on Win/Linux or Meta on Mac was pressed
 	 */
 	public boolean isControlDown(AbstractEvent e) {
 		return e.isControlDown();
 	}
-	
+
 	/**
-	 * @param e event
+	 * @param e
+	 *            event
 	 * @return whether middle button was clicked once
 	 */
 	public boolean isMiddleClick(AbstractEvent e) {
@@ -2942,15 +3150,17 @@ public abstract class App {
 	 */
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
-	public abstract void evalPythonScript(App app, String string,
-			String arg);
+	public abstract void evalPythonScript(App app, String string, String arg);
 
 	public abstract void callAppletJavaScript(String string, Object[] args);
- 
+
 	/**
 	 * Inform current selection listener about newly (un)selected geo
-	 * @param geo (un)selected geo
-	 * @param addToSelection whether it should be added or removed from selection
+	 * 
+	 * @param geo
+	 *            (un)selected geo
+	 * @param addToSelection
+	 *            whether it should be added or removed from selection
 	 */
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (currentSelectionListener != null) {
@@ -2967,7 +3177,9 @@ public abstract class App {
 
 	/**
 	 * Links properties view to this application
-	 * @param propertiesView properties view
+	 * 
+	 * @param propertiesView
+	 *            properties view
 	 */
 	public void setPropertiesView(PropertiesView propertiesView) {
 		this.propertiesView = propertiesView;
@@ -2976,7 +3188,9 @@ public abstract class App {
 	/**
 	 * Sets a mode where clicking on an object will notify the given selection
 	 * listener.
-	 * @param sl selection listener
+	 * 
+	 * @param sl
+	 *            selection listener
 	 */
 	public void setSelectionListenerMode(GeoElementSelectionListener sl) {
 		currentSelectionListener = sl;
@@ -2986,7 +3200,7 @@ public abstract class App {
 			setMoveMode();
 		}
 	}
-	
+
 	/**
 	 * Update stylebars, menubar and properties view to match selection
 	 */
@@ -2995,8 +3209,11 @@ public abstract class App {
 	}
 
 	/**
-	 * Update stylebars and menubar (and possibly properties view) to match selection
-	 * @param updatePropertiesView whether to update properties view
+	 * Update stylebars and menubar (and possibly properties view) to match
+	 * selection
+	 * 
+	 * @param updatePropertiesView
+	 *            whether to update properties view
 	 */
 	public void updateSelection(boolean updatePropertiesView) {
 
@@ -3018,26 +3235,29 @@ public abstract class App {
 			propertiesView.updateSelection();
 		}
 	}
-	
+
 	/**
-	 * @param type what properties pannel should be showing (object, defults, advanced, ...)
+	 * @param type
+	 *            what properties pannel should be showing (object, defults,
+	 *            advanced, ...)
 	 */
-	public void setPropertiesViewPanel(OptionType type){
+	public void setPropertiesViewPanel(OptionType type) {
 		if (propertiesView != null)
 			propertiesView.setOptionPanel(type);
 	}
-	
-	
+
 	/**
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return whether given geo belongs to selection
 	 */
 	final public boolean containsSelectedGeo(GeoElement geo) {
 		return selectedGeos.contains(geo);
 	}
-	
+
 	/**
-	 * @param geos geos
+	 * @param geos
+	 *            geos
 	 * @return whether given geos belongs to selection
 	 */
 	final public boolean containsSelectedGeos(ArrayList<GeoElement> geos) {
@@ -3046,37 +3266,45 @@ public abstract class App {
 
 	/**
 	 * Removes geo from selection
-	 * @param geo geo to be removed
+	 * 
+	 * @param geo
+	 *            geo to be removed
 	 */
 	final public void removeSelectedGeo(GeoElement geo) {
 		removeSelectedGeo(geo, true, true);
 	}
+
 	/**
 	 * Removes geo from selection
-	 * @param geo geo to be removed
-	 * @param repaint whether views must be repainted after
-	 * @param updateSelection whether update selection needs to be done after 
+	 * 
+	 * @param geo
+	 *            geo to be removed
+	 * @param repaint
+	 *            whether views must be repainted after
+	 * @param updateSelection
+	 *            whether update selection needs to be done after
 	 */
-	final public void removeSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
+	final public void removeSelectedGeo(GeoElement geo, boolean repaint,
+			boolean updateSelection) {
 		if (geo == null) {
 			return;
 		}
 
-		if(selectedGeos.remove(geo)){ 
-			//update only if selectedGeos contained geo
+		if (selectedGeos.remove(geo)) {
+			// update only if selectedGeos contained geo
 			geo.setSelected(false);
 			if (updateSelection)
 				updateSelection();
 			if (repaint) {
 				kernel.notifyRepaint();
 			}
-			
+
 		}
 	}
 
 	/**
-	 * Select geo next to the selected one in construction order.
-	 * If none is selected before, first geo is selected.
+	 * Select geo next to the selected one in construction order. If none is
+	 * selected before, first geo is selected.
 	 */
 	final public void selectNextGeo() {
 
@@ -3191,7 +3419,8 @@ public abstract class App {
 	}
 
 	/**
-	 * @param shiftDragZoomEnabled whether shift, drag and zoom features are enabled
+	 * @param shiftDragZoomEnabled
+	 *            whether shift, drag and zoom features are enabled
 	 */
 	public final void setShiftDragZoomEnabled(boolean shiftDragZoomEnabled) {
 		this.shiftDragZoomEnabled = shiftDragZoomEnabled;
@@ -3208,18 +3437,25 @@ public abstract class App {
 	public int getFontSize() {
 		return appFontSize;
 	}
+
 	/**
-	 * Changes font size and resets fonts 
+	 * Changes font size and resets fonts
+	 * 
 	 * @see #resetFonts()
-	 * @param points font size
+	 * @param points
+	 *            font size
 	 */
 	public void setFontSize(int points) {
 		setFontSize(points, true);
 	}
+
 	/**
-	 * Changes font size and possibly resets fonts 
-	 * @param points font size
-	 * @param update whether fonts should be reset
+	 * Changes font size and possibly resets fonts
+	 * 
+	 * @param points
+	 *            font size
+	 * @param update
+	 *            whether fonts should be reset
 	 * @see #resetFonts()
 	 */
 	public void setFontSize(int points, boolean update) {
@@ -3227,27 +3463,28 @@ public abstract class App {
 			return;
 		}
 		appFontSize = points;
-		//isSaved = false;
+		// isSaved = false;
 		if (!update) {
 			return;
 		}
 
 		resetFonts();
 
-		//updateUI();
+		// updateUI();
 	}
+
 	/**
 	 * Recursively update all components with current look and feel
 	 */
 	public abstract void updateUI();
-	
+
 	/**
 	 * Stop forcing usage of tooltip locale for translations
 	 */
 	public void clearTooltipFlag() {
 		tooltipFlag = false;
 	}
-	
+
 	/**
 	 * Update font sizes of all components to match current GUI font size
 	 */
@@ -3266,28 +3503,30 @@ public abstract class App {
 	}
 
 	/**
-	 * @return font size for GUI; if not specified, general font size is returned
+	 * @return font size for GUI; if not specified, general font size is
+	 *         returned
 	 */
 	public int getGUIFontSize() {
 		return guiFontSize == -1 ? getFontSize() : guiFontSize;
 	}
 
 	/**
-	 * @param size GUI font size
+	 * @param size
+	 *            GUI font size
 	 */
 	public void setGUIFontSize(int size) {
 		guiFontSize = size;
-		//updateFonts();
-		//isSaved = false;
+		// updateFonts();
+		// isSaved = false;
 
 		resetFonts();
 
 		updateUI();
 	}
 
-
 	/**
 	 * Returns font manager
+	 * 
 	 * @return null unless overridden
 	 */
 	protected FontManager getFontManager() {
@@ -3295,10 +3534,12 @@ public abstract class App {
 		return null;
 	}
 
-	
 	/**
-	 * Returns a font that can display testString in plain sans-serif font and current font size.
-	 * @param testString test string
+	 * Returns a font that can display testString in plain sans-serif font and
+	 * current font size.
+	 * 
+	 * @param testString
+	 *            test string
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString) {
@@ -3306,9 +3547,13 @@ public abstract class App {
 	}
 
 	/**
-	 * Returns a font that can display testString in given font style, sans-serif and current font size.
-	 * @param testString test string
-	 * @param fontStyle font style
+	 * Returns a font that can display testString in given font style,
+	 * sans-serif and current font size.
+	 * 
+	 * @param testString
+	 *            test string
+	 * @param fontStyle
+	 *            font style
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, int fontStyle) {
@@ -3317,10 +3562,15 @@ public abstract class App {
 
 	/**
 	 * Returns a font that can display testString and given font size.
-	 * @param testString test string
-	 * @param serif true=serif, false=sans-serif
-	 * @param fontStyle font style
-	 * @param fontSize font size
+	 * 
+	 * @param testString
+	 *            test string
+	 * @param serif
+	 *            true=serif, false=sans-serif
+	 * @param fontStyle
+	 *            font style
+	 * @param fontSize
+	 *            font size
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
@@ -3328,17 +3578,19 @@ public abstract class App {
 		return getFontManager().getFontCanDisplay(testString, serif, fontStyle,
 				fontSize);
 	}
-	
+
 	/**
 	 * Returns gui settings in XML format
-	 * @param asPreference whether this is for preferences file
+	 * 
+	 * @param asPreference
+	 *            whether this is for preferences file
 	 * @return gui settings in XML format
 	 */
 	public String getGuiXML(boolean asPreference) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<gui>\n");
 
-		getWindowLayoutXML(sb,asPreference);
+		getWindowLayoutXML(sb, asPreference);
 		// just save mouse settings as preference
 		if (asPreference) {
 			sb.append("\t<mouse reverseWheel=\"");
@@ -3383,42 +3635,49 @@ public abstract class App {
 
 		return sb.toString();
 	}
+
 	/**
 	 * Appends construction protocol view settings in XML format
-	 * @param sb string builder
+	 * 
+	 * @param sb
+	 *            string builder
 	 */
 	public void getConsProtocolXML(StringBuilder sb) {
 		if (getGuiManager() == null) {
 			return;
 		}
 
-		
-
 		// construction protocol
 		if (getGuiManager().isUsingConstructionProtocol()) {
 			getGuiManager().getConsProtocolXML(sb);
 		}
 	}
+
 	/**
 	 * @return tooltip language
 	 */
 	public abstract String getTooltipLanguageString();
-	
+
 	/**
 	 * Appends layout settings in XML format to given builder
-	 * @param sb string builder
-	 * @param asPreference whether this is for preferences
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param asPreference
+	 *            whether this is for preferences
 	 */
-	protected abstract void getWindowLayoutXML(StringBuilder sb, boolean asPreference);
+	protected abstract void getWindowLayoutXML(StringBuilder sb,
+			boolean asPreference);
 
 	public abstract void reset();
 
 	public abstract PythonBridge getPythonBridge();
-	
-	//public abstract String getCurrentPythonScript();
-	
+
+	// public abstract String getCurrentPythonScript();
+
 	/**
-	 * @param string key
+	 * @param string
+	 *            key
 	 * @return translation of key from plain bundle in tooltip language
 	 */
 	public abstract String getPlainTooltip(String string);
@@ -3431,13 +3690,16 @@ public abstract class App {
 	}
 
 	/**
-	 * @param sl selection listener
+	 * @param sl
+	 *            selection listener
 	 */
 	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
 		currentSelectionListener = sl;
 	}
+
 	/**
-	 * @param flag whether reset icon should be visible (in applets)
+	 * @param flag
+	 *            whether reset icon should be visible (in applets)
 	 */
 	public void setShowResetIcon(boolean flag) {
 		if (flag != showResetIcon) {
@@ -3465,22 +3727,24 @@ public abstract class App {
 	 */
 	public abstract boolean isHTML5Applet();
 
-	
 	/**
-	 * @param isOnTheFlyPointCreationActive Whether points can be created on the fly
+	 * @param isOnTheFlyPointCreationActive
+	 *            Whether points can be created on the fly
 	 */
 	public final void setOnTheFlyPointCreationActive(
 			boolean isOnTheFlyPointCreationActive) {
 		this.isOnTheFlyPointCreationActive = isOnTheFlyPointCreationActive;
 	}
+
 	/** whether transparent cursor should be used while dragging */
 	public boolean useTransparentCursorWhenDragging = false;
 	protected int dataParamWidth = 0;
 	protected int dataParamHeight = 0;
 	protected boolean useFullGui = false;
-	
+
 	/**
-	 * @param useTransparentCursorWhenDragging whether transparent cursor should be used while dragging
+	 * @param useTransparentCursorWhenDragging
+	 *            whether transparent cursor should be used while dragging
 	 */
 	public void setUseTransparentCursorWhenDragging(
 			boolean useTransparentCursorWhenDragging) {
@@ -3488,8 +3752,9 @@ public abstract class App {
 	}
 
 	/**
-	 * eg StringType.LATEX for desktop (JLaTeXMath)
-	 * StringType.MATHML for web (canvasmath)
+	 * eg StringType.LATEX for desktop (JLaTeXMath) StringType.MATHML for web
+	 * (canvasmath)
+	 * 
 	 * @return string type ffor fomulas (LATEX, MATHML)
 	 */
 	public abstract StringType getFormulaRenderingType();
@@ -3507,7 +3772,9 @@ public abstract class App {
 
 	/**
 	 * Opens browser with given URL
-	 * @param string URL
+	 * 
+	 * @param string
+	 *            URL
 	 */
 	public abstract void showURLinBrowser(String string);
 
@@ -3521,13 +3788,13 @@ public abstract class App {
 	}
 
 	public void setDataParamHeight(int height) {
-	    this.dataParamHeight = height;
+		this.dataParamHeight = height;
 	}
 
 	public int getDataParamWidth() {
 		return dataParamWidth;
 	}
-	
+
 	public int getDataParamHeight() {
 		return dataParamHeight;
 	}
@@ -3535,7 +3802,7 @@ public abstract class App {
 	public boolean getUseFullGui() {
 		return useFullGui;
 	}
-	
+
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
 		// don't allow undo when running with restricted permissions
@@ -3558,21 +3825,21 @@ public abstract class App {
 
 		isSaved = true;
 	}
-	
+
 	// Michael Borcherds 2008-03-25
 	// replace "%0" by arg0
 	final public String getPlain(String key, String arg0) {
 		String[] ss = { arg0 };
 		return getPlain(key, ss);
 	}
-	
+
 	// Michael Borcherds 2008-03-25
 	// replace "%0" by arg0, "%1" by arg1
 	final public String getPlain(String key, String arg0, String arg1) {
 		String[] ss = { arg0, arg1 };
 		return getPlain(key, ss);
 	}
-	
+
 	// Michael Borcherds 2008-03-30
 	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2
 	final public String getPlain(String key, String arg0, String arg1,
@@ -3580,7 +3847,7 @@ public abstract class App {
 		String[] ss = { arg0, arg1, arg2 };
 		return getPlain(key, ss);
 	}
-	
+
 	// Michael Borcherds 2008-03-30
 	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3
 	final public String getPlain(String key, String arg0, String arg1,
@@ -3597,16 +3864,19 @@ public abstract class App {
 		String[] ss = { arg0, arg1, arg2, arg3, arg4 };
 		return getPlain(key, ss);
 	}
-	
+
 	private final StringBuilder sbPlain = new StringBuilder();
 	protected static boolean useFullAppGui = false;
-	
-	/**  
+
+	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
+	 * 
 	 * @version 2008-09-18
 	 * @author Michael Borcherds, Markus Hohenwarter
-	 * @param key key
-	 * @param args arguments for replacement
+	 * @param key
+	 *            key
+	 * @param args
+	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
 	final public String getPlain(String key, String[] args) {
@@ -3635,9 +3905,9 @@ public abstract class App {
 	}
 
 	public static boolean isFullAppGui() {
-	    return useFullAppGui;
+		return useFullAppGui;
 	}
-	
+
 	protected int appCanvasHeight;
 	protected int appCanvasWidth;
 
@@ -3652,24 +3922,28 @@ public abstract class App {
 	/**
 	 * Returns image with given filename
 	 * 
-	 * @param filename filename 
+	 * @param filename
+	 *            filename
 	 * @return null unless overriden
 	 */
 	public GImage getInternalImageAdapter(String filename) {
 		return null;
 	}
-	
+
 	/**
 	 * @return whether input bar should be on top
 	 */
 	public boolean showInputTop() {
 		return showInputTop;
 	}
-	
+
 	/**
 	 * Changes input position between bottom and top
-	 * @param flag whether input should be on top
-	 * @param update whether layout update is needed afterwards
+	 * 
+	 * @param flag
+	 *            whether input should be on top
+	 * @param update
+	 *            whether layout update is needed afterwards
 	 */
 	public void setShowInputTop(boolean flag, boolean update) {
 		if (flag == showInputTop) {
@@ -3682,17 +3956,19 @@ public abstract class App {
 			updateApplicationLayout();
 		}
 	}
-	
+
 	/**
 	 * @return whether innput help toggle button should be visible
 	 */
 	public boolean showInputHelpToggle() {
 		return showInputHelpToggle;
 	}
-	
+
 	/**
 	 * Shows / hides input help toggle button
-	 * @param flag whether innput help toggle button should be visible
+	 * 
+	 * @param flag
+	 *            whether innput help toggle button should be visible
 	 */
 	public void setShowInputHelpToggle(boolean flag) {
 		if (showInputHelpToggle == flag) {
@@ -3704,7 +3980,6 @@ public abstract class App {
 		updateMenubar();
 	}
 
-	
 	/**
 	 * Updates application layout
 	 */
@@ -3712,14 +3987,17 @@ public abstract class App {
 
 	/**
 	 * Returns name or help for given tool
-	 * @param mode mode number
-	 * @param toolName true for name, false for help
+	 * 
+	 * @param mode
+	 *            mode number
+	 * @param toolName
+	 *            true for name, false for help
 	 * @return tool name or help
 	 */
 	private String getToolNameOrHelp(int mode, boolean toolName) {
 		// macro
 		String ret;
-	
+
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			// MACRO
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
@@ -3739,9 +4017,8 @@ public abstract class App {
 					}
 				}
 			} catch (Exception e) {
-				App
-						.debug("Application.getModeText(): macro does not exist: ID = "
-								+ macroID);
+				App.debug("Application.getModeText(): macro does not exist: ID = "
+						+ macroID);
 				// e.printStackTrace();
 				return "";
 			}
@@ -3756,7 +4033,7 @@ public abstract class App {
 				ret = getMenu(modeText + ".Help");
 			}
 		}
-	
+
 		return ret;
 	}
 
@@ -3776,24 +4053,28 @@ public abstract class App {
 	 * 
 	 * @param mode
 	 *            number
-	 * @return  the tool help text for the given tool.
+	 * @return the tool help text for the given tool.
 	 */
 	public String getToolHelp(int mode) {
 		return getToolNameOrHelp(mode, false);
 	}
+
 	/**
-	 * Translates function name for which plain bundle contains corresponding Function.* key
-	 * @param string english function name   
+	 * Translates function name for which plain bundle contains corresponding
+	 * Function.* key
+	 * 
+	 * @param string
+	 *            english function name
 	 * @return localized function name
 	 */
 	public String getFunction(String string) {
-		return getPlain("Function."+string);
+		return getPlain("Function." + string);
 	}
-	
+
 	/**
 	 * @return parser extension for functions
 	 */
-	public ParserFunctions getParserFunctions(){
+	public ParserFunctions getParserFunctions() {
 		return pf;
 	}
 
@@ -3801,12 +4082,13 @@ public abstract class App {
 	 * Clears construction
 	 */
 	public abstract void clearConstruction();
-	
+
 	public abstract void fileNew();
 
 	/**
 	 * @return country nme from GeoIP service
-	 * @throws Exception when GeoIP can't be reached
+	 * @throws Exception
+	 *             when GeoIP can't be reached
 	 */
 	public abstract String getCountryFromGeoIP() throws Exception;
 
@@ -3820,11 +4102,14 @@ public abstract class App {
 	public double getRandomNumber() {
 		return random.nextDouble();
 	}
-	
+
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
-	 * @param low least possible value of result 
-	 * @param high highest possible value of result
+	 * 
+	 * @param low
+	 *            least possible value of result
+	 * @param high
+	 *            highest possible value of result
 	 * 
 	 * @return random integer between a and b inclusive
 	 * 
@@ -3833,23 +4118,25 @@ public abstract class App {
 		// make sure 4.000000001 is not rounded up to 5
 		double a = Kernel.checkInteger(low);
 		double b = Kernel.checkInteger(high);
-		
+
 		// Math.floor/ceil to make sure
 		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
-		int min = (int)Math.ceil(Math.min(a, b));
-		int max = (int)Math.floor(Math.max(a, b));
+		int min = (int) Math.ceil(Math.min(a, b));
+		int max = (int) Math.floor(Math.max(a, b));
 
-		return  random.nextInt(max - min + 1) + min;
+		return random.nextInt(max - min + 1) + min;
 	}
-	
+
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
-	 * @param seed new seed 
+	 * 
+	 * @param seed
+	 *            new seed
 	 */
 	public void setRandomSeed(int seed) {
 		random = new Random(seed);
 	}
-	
+
 	public abstract boolean loadXML(String xml) throws Exception;
 
 	public abstract void exportToLMS(boolean b);
@@ -3860,52 +4147,53 @@ public abstract class App {
 	 * Resets active EV to standard
 	 */
 	public final void setStandardView() {
-		getActiveEuclidianView()
-				.setStandardView(true);
+		getActiveEuclidianView().setStandardView(true);
 	}
 
 	public abstract void exitAll();
 
-	public abstract void addMenuItem(MenuInterface parentMenu, String filename, String name,
-	        boolean asHtml, MenuInterface subMenu);
-	
+	public abstract void addMenuItem(MenuInterface parentMenu, String filename,
+			String name, boolean asHtml, MenuInterface subMenu);
+
 	public String getVersionString() {
 		return GeoGebraConstants.VERSION_STRING;
 	}
-	
+
 	public abstract NormalizerMinimal getNormalizer();
 
-	public String getEmptyIconFileName(){
+	public String getEmptyIconFileName() {
 		return "empty.gif";
 	}
-	
+
 	public final void zoom(double px, double py, double zoomFactor) {
-		getGuiManager().getActiveEuclidianView().zoom(px, py,
-				zoomFactor, 15, true);
+		getGuiManager().getActiveEuclidianView().zoom(px, py, zoomFactor, 15,
+				true);
 	}
-	
+
 	/**
 	 * Sets the ratio between the scales of y-axis and x-axis, i.e. ratio =
 	 * yscale / xscale;
-	 * @param axesratio axes scale ratio
+	 * 
+	 * @param axesratio
+	 *            axes scale ratio
 	 */
 	public final void zoomAxesRatio(double axesratio) {
-		getGuiManager().getActiveEuclidianView()
-				.zoomAxesRatio(axesratio, true);
+		getGuiManager().getActiveEuclidianView().zoomAxesRatio(axesratio, true);
 	}
 
 	/**
 	 * Zooms and pans active EV to show all objects
 	 */
 	public final void setViewShowAllObjects() {
-		getGuiManager().getActiveEuclidianView()
-				.setViewShowAllObjects(true);
+		getGuiManager().getActiveEuclidianView().setViewShowAllObjects(true);
 	}
-	
+
 	/**
 	 * Enables or disables right clicking in this application. This is useful
 	 * for applets.
-	 * @param flag whether right click features should be enabled
+	 * 
+	 * @param flag
+	 *            whether right click features should be enabled
 	 */
 	public void setRightClickEnabled(boolean flag) {
 		rightClickEnabled = flag;
@@ -3918,7 +4206,6 @@ public abstract class App {
 		return rightClickEnabled;
 	}
 
-	
 	/**
 	 * @return whether context menu is enabled
 	 */
@@ -3941,8 +4228,10 @@ public abstract class App {
 	}
 
 	/**
-	 * @param geo1 geo
-	 * @param string parameter (for input box scripts)
+	 * @param geo1
+	 *            geo
+	 * @param string
+	 *            parameter (for input box scripts)
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
 
@@ -3958,10 +4247,12 @@ public abstract class App {
 	protected abstract Object getMainComponent();
 
 	private GeoElement geoForCopyStyle;
+
 	public GeoElement getGeoForCopyStyle() {
 		return geoForCopyStyle;
 	}
-	public void setGeoForCopyStyle(GeoElement geo){
+
+	public void setGeoForCopyStyle(GeoElement geo) {
 		geoForCopyStyle = geo;
 	}
 
