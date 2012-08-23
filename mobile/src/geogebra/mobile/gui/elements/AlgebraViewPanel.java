@@ -29,7 +29,7 @@ public class AlgebraViewPanel extends LayoutPanel
 	boolean small = false; 
 	
 	/**
-	 * Adds a stylename, initializes the {@link TouchDelegate} and adds a
+	 * Initializes the {@link TouchDelegate} and adds a
 	 * {@link TapHandler} and a {@link SwipeEndHandler}.
 	 */
 	public AlgebraViewPanel()
@@ -41,7 +41,7 @@ public class AlgebraViewPanel extends LayoutPanel
 		touchDelegate.addTapHandler(new TapHandler(){
 			
 			/**
-			 * If there is a tap on the AlgebraViewPanel and it is collapsed,
+			 * If there is a tap on the {@link AlgebraViewPanel} and it is collapsed,
 			 * the panel gets extended.
 			 * @param event Event
 			 */
@@ -59,8 +59,8 @@ public class AlgebraViewPanel extends LayoutPanel
 
 			
 			/**
-			 * The AlgebraViewPanel extends if there is a swipe from left to right and
-			 * collapse if there is a swipe form right to left.
+			 * The {@link AlgebraViewPanel} extends if there is a swipe from left to right and
+			 * collapses if there is a swipe form right to left.
 			 */
 			@Override
 			public void onSwipeEnd(SwipeEndEvent event)
@@ -80,7 +80,7 @@ public class AlgebraViewPanel extends LayoutPanel
 	}
 
 	/**
-	 * Extends the AlgebraViewPanel.
+	 * Extends the {@link AlgebraViewPanel}.
 	 */
 	protected void extend(){
 		AlgebraViewPanel.this.setWidth("15%");

@@ -34,9 +34,10 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 /**
- * receives the events from the canvas and sends the orders to the kernel
+ * Receives the events from the canvas and sends the orders to the kernel.
  * 
  * @author Thomas Krismayer
+ * @see geogebra.common.euclidian.EuclidianController EuclidianController
  * 
  */
 public class MobileEuclidianController extends EuclidianController implements

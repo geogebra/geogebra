@@ -10,7 +10,7 @@ import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 
 /**
  * 
- * A button for the main-toolBar
+ * A button for the main-toolBar.
  * 
  * @author Thomas Krismayer
  * 
@@ -22,7 +22,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	protected GuiModel model;
 
 	/**
-	 * Each ToolBarButton belongs to a {@link ToolBarMenu}
+	 * Each ToolBarButton belongs to a {@link ToolBarMenu}.
 	 * @param menu
 	 *          : the button to be placed
 	 * @param guiModel

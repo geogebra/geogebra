@@ -2,7 +2,7 @@ package geogebra.mobile.utils;
 
 /**
  * 
- *  Merging ToolBarCommands of the buttons from the main-toolBar with the ToolBarCommands of all the buttons in the submenu 
+ * Merging {@link ToolBarCommand ToolBarCommands} of the buttons from the main-toolBar with the ToolBarCommands of all the buttons in the submenu. 
  * 
  * @author Thomas Krismayer 
  *

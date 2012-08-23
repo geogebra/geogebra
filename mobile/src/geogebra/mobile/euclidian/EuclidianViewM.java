@@ -58,7 +58,7 @@ public class EuclidianViewM extends EuclidianView
 	}
 
 	/**
-	 * This method has to be called before using g2p
+	 * This method has to be called before using g2p.
 	 * 
 	 * @param c
 	 *            : a new Canvas

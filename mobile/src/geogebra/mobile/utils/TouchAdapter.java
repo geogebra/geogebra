@@ -7,7 +7,7 @@ import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
 import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
 
 /**
- * Adapter class with empty methods for {@link TouchHandler}
+ * Adapter class with empty methods for {@link TouchHandler}.
  * @author Matthias Meisinger
  *
  */

@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 /**
  * 
  * @author Thomas Krismayer
+ * @see geogebra.common.gui.view.algebra.AlgebraController AlgebraController
  *
  */
 public class MobileAlgebraController extends AlgebraController

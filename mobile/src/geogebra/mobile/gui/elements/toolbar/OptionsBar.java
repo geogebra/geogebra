@@ -7,13 +7,14 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
  * The base of the submenu.
  * 
  * @author Thomas Krismayer
+ * @see ButtonBar
  * 
  */
 public class OptionsBar extends ButtonBar
 {
 
 	/**
-	 * 
+	 * Initializes the OptionsBar.
 	 * @param entries
 	 *          : the buttons in the submenu
 	 * @param ancestor

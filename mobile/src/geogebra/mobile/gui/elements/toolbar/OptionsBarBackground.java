@@ -9,7 +9,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 /**
  * Each {@link ToolBarButton ToolBarButton} has its own options. 
  * @author Thomas Krismayer
- *
+ * @see ButtonBar
  */
 public class OptionsBarBackground extends ButtonBar
 {

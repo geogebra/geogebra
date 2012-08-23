@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * AlgebraView with tree for free and dependent objects.
  * 
- * Taken from the web-project
+ * Taken from the web-project.
  * 
  */
 public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView
@@ -38,7 +38,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
 
 	/**
-	 * Nodes for tree mode MODE_DEPENDENCY
+	 * Nodes for tree mode MODE_DEPENDENCY.
 	 */
 	private TreeItem depNode, indNode;
 
@@ -50,7 +50,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	private TreeItem rootType;
 
 	/**
-	 * Nodes for tree mode MODE_TYPE
+	 * Nodes for tree mode MODE_TYPE.
 	 */
 	private HashMap<String, TreeItem> typeNodesMap;
 
@@ -62,7 +62,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	private HashMap<Integer, TreeItem> layerNodesMap;
 
 	/**
-	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
+	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE.
 	 */
 	protected SortMode treeMode;
 
@@ -79,12 +79,12 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	}
 
 	/**
-	 * Flag for LaTeX rendering
+	 * Flag for LaTeX rendering.
 	 */
 	final private static boolean renderLaTeX = true;
 
 	/**
-	 * Creates new AlgebraView
+	 * Creates new AlgebraView.
 	 * 
 	 * @param algCtrl
 	 *          : AlgebraController

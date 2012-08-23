@@ -6,7 +6,7 @@ import geogebra.mobile.gui.CommonResources;
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 /**
- * Merging Modes from {@link EuclidianConstants} with their icon from {@link CommonResources} to one Enum ToolBarCommand 
+ * Merging Modes from {@link EuclidianConstants} with their icon from {@link CommonResources} to one Enum ToolBarCommand.
  * @author Matthias Meisinger
  *
  */

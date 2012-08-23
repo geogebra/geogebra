@@ -4,7 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
 
 /**
- * Base implementation of AbstractEvent
+ * Base implementation of AbstractEvent.
  * 
  * @author Thomas Krismayer
  *

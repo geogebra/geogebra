@@ -6,10 +6,10 @@ import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 
 /**
- * Buttons of the options-menu
+ * Buttons of the options-menu.
  * 
  * @author Thomas Krismayer
- *
+ * @see geogebra.mobile.gui.elements.toolbar.ToolButton ToolButton
  */
 public class OptionButton extends ToolButton
 {
@@ -17,10 +17,9 @@ public class OptionButton extends ToolButton
 	OptionsClickedListener ancestor;
 
 	/**
-	 * Initializes the button and adds a {@link TapHandler}.
+	 * Initializes the button of the options-menu and adds a {@link TapHandler}.
 	 * @param cmd ToolBarCommand
 	 * @param ancestor OptionsClickedListener
-	 * @see geogebra.mobile.gui.elements.toolbar.ToolButton ToolButton
 	 */
 	public OptionButton(ToolBarCommand cmd, OptionsClickedListener ancestor)
 	{

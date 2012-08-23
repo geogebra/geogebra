@@ -17,7 +17,8 @@ public class EuclidianViewPanel extends LayoutPanel
 	private EuclidianViewM euclidianView; 
 	
 	/**
-	 * Adds a stylename and creates the canvas.
+	 * Creates the canvas.
+	 * @see com.google.gwt.canvas.client.Canvas Canvas
 	 */
 	public EuclidianViewPanel()
 	{

@@ -38,6 +38,12 @@ public class InlineLabelTreeItem extends InlineLabel
 	TreeItem par;
 	App application;
 
+	/**
+	 * 
+	 * @param app Application
+	 * @param parent TreeItem
+	 * @param strlab String
+	 */
 	public InlineLabelTreeItem(App app, TreeItem parent, String strlab) {
 		super(strlab);
 		this.application = app;
@@ -48,7 +54,7 @@ public class InlineLabelTreeItem extends InlineLabel
 	}
 
 	@Override
-  public void onClick(ClickEvent evt) {
+	public void onClick(ClickEvent evt) {
 		Object uo;
 		ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
 		for (int i = 0; i < this.par.getChildCount(); i++) {
@@ -68,7 +74,7 @@ public class InlineLabelTreeItem extends InlineLabel
 	}
 
 	@Override
-  public void onMouseOver(MouseOverEvent evt) {
+	public void onMouseOver(MouseOverEvent evt) {
 		for (int i = 0; i < this.par.getChildCount(); i++)
 			if (this.par.getChild(i).getUserObject() instanceof GeoElement)
 				//((GeoElement)par.getChild(i).getUserObject()).setHighlighted(true);
@@ -76,7 +82,7 @@ public class InlineLabelTreeItem extends InlineLabel
 	}
 
 	@Override
-  public void onMouseOut(MouseOutEvent evt) {
+	public void onMouseOut(MouseOutEvent evt) {
 		for (int i = 0; i < this.par.getChildCount(); i++)
 			if (this.par.getChild(i).getUserObject() instanceof GeoElement)
 				//((GeoElement)par.getChild(i).getUserObject()).setHighlighted(false);
