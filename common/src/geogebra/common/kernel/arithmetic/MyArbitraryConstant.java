@@ -28,9 +28,7 @@ public class MyArbitraryConstant  {
 
 	
 	private ArrayList<GeoNumeric> consts= new ArrayList<GeoNumeric>(), ints= new ArrayList<GeoNumeric>(), complexNumbers = new ArrayList<GeoNumeric>();
-	private Map<Integer,GeoNumeric> constsM= new TreeMap<Integer,GeoNumeric>(), 
-			intsM= new TreeMap<Integer,GeoNumeric>(), 
-			complexNumbersM = new TreeMap<Integer,GeoNumeric>();
+	
 	private ConstructionElement ce;
 	/**
 	 * Creates new arbitrary constant handler
@@ -53,21 +51,21 @@ public class MyArbitraryConstant  {
 	 * @return real constant
 	 */
 	public ExpressionValue nextConst(MyDouble myDouble) {
-		return nextConst(consts,constsM,"c",myDouble);
+		return nextConst(consts,ce.getConstruction().constsM,"c",myDouble);
 	}
 	/**
 	 * @param myDouble constant index (global)
 	 * @return integer constant
 	 */
 	public ExpressionValue nextInt(MyDouble myDouble) {
-		return nextConst(ints,intsM,"k",myDouble);
+		return nextConst(ints,ce.getConstruction().intsM,"k",myDouble);
 	}
 	/**
 	 * @param myDouble constant index (global)
 	 * @return complex constant
 	 */
 	public ExpressionValue nextComplex(MyDouble myDouble) {
-		return nextConst(complexNumbers,complexNumbersM,"c",myDouble);
+		return nextConst(complexNumbers,ce.getConstruction().complexNumbersM,"c",myDouble);
 	}
 	
 	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,Map<Integer, GeoNumeric> map, String prefix, MyDouble myDouble) {
@@ -101,10 +99,7 @@ public class MyArbitraryConstant  {
 	 * in each update of the CAS algo that is creating arbconsts
 	 */
 	public void reset(){
-		position=0;
-		constsM.clear();
-		complexNumbersM.clear();
-		intsM.clear();
+		position=0;		
 	}
 	
 	/**

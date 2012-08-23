@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -92,6 +94,10 @@ public class Construction {
 		initGeoTables();
 	}
 
+	public Map<Integer,GeoNumeric> constsM= new TreeMap<Integer,GeoNumeric>(), 
+			intsM= new TreeMap<Integer,GeoNumeric>(), 
+			complexNumbersM = new TreeMap<Integer,GeoNumeric>();
+	
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
@@ -2483,7 +2489,9 @@ public class Construction {
 		geoTable.clear();
 		geoCasCellTable = null;
 		localVariableTable = null;
-
+		constsM.clear();
+		complexNumbersM.clear();
+		intsM.clear();
 		// add axes labels both in English and current language
 		geoTable.put("xAxis", xAxis);
 		geoTable.put("yAxis", yAxis);
@@ -2629,7 +2637,9 @@ public class Construction {
 	 */
 	public void clearConstruction() {
 		kernel.resetGeoGebraCAS();
-
+		constsM.clear();
+		complexNumbersM.clear();
+		intsM.clear();
 		ceList.clear();
 		algoList.clear();
 
