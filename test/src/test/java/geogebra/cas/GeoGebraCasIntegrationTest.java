@@ -2817,7 +2817,22 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Ticket_Ticket2481() {
-		t("NSolve[13^(x+1)-2*13^x=1/5*5^x,x]", "{x = -4.193914375465535}");
+		t("Numeric[NSolve[13^(x+1)-2*13^x=1/5*5^x,x], 11]", "{x = -4.1939143755}");
+		
+		/*
+		 * Autotest and offline evaluation results differ in this test case.
+		 * 
+		 * Since minor differences are to be expected with numeric algorithms,
+		 * this is not considered an error. Therefore the number of significant
+		 * figures of this test has been decreased artificially.
+		 * 
+		 * The original test was
+		 * 		t("[NSolve[13^(x+1)-2*13^x=1/5*5^x,x]", "{x = -4.193914375465535}");.
+		 * The result from autotest was
+		 * 		{x = -4.193914375476052}.
+		 * The exact result is
+		 * 		{x = (-ln(55)) / (ln(13) - ln(5))}.
+		 */
 	}
 	
 	@Test
