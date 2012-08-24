@@ -2655,14 +2655,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			cons.addToConstructionList(this, true);
 		}
 
-		/*
-		 * if (!cons.isFreeLabel(label)) { try { throw new
-		 * Exception("SET LABEL: label: " + label + ", type: " +
-		 * this.getTypeString()); } catch (Exception e) { e.printStackTrace(); }
-		 * } else { Application.debug("SET LABEL: " + label + ", type: " +
-		 * this.getTypeString()); }
-		 */
-
 		this.label = newLabel; // set new label
 		labelSet = true;
 		labelWanted = false; // got a label, no longer wanted
@@ -2672,6 +2664,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		updateSpreadsheetCoordinates();
 
 		notifyAdd();
+		if(cons.getCASdummies().contains(newLabel)){
+			cons.getCASdummies().remove(newLabel);
+			for(int i=0;cons.getCasCell(i)!=null;i++){
+				kernel.getAlgebraProcessor().processCasCell(cons.getCasCell(i));
+			}
+		}
 	}
 
 	private void updateSpreadsheetCoordinates() {
