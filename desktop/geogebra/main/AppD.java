@@ -4069,29 +4069,47 @@ public class AppD extends App implements
 			fakeRightClick = true;
 		}
 
+
 		/*
-		 * debug("isMetaDown = "+e.isMetaDown()); debug("isControlDown =
-		 * "+e.isControlDown()); debug("isShiftDown = "+e.isShiftDown());
-		 * debug("isAltDown = "+e.isAltDown()); debug("isAltGrDown =
-		 * "+e.isAltGraphDown()); debug("isPopupTrigger = "+e.isPopupTrigger());
-		 * debug("fakeRightClick = "+fakeRightClick);
-		 */
+		debug("MAC_OS = "+MAC_OS); 
+		debug("isMetaDown = "+e.isMetaDown()); 
+		debug("isControlDown ="+e.isControlDown()); 
+		debug("isShiftDown = "+e.isShiftDown());
+		debug("isAltDown = "+e.isAltDown()); 
+		debug("isAltGrDown ="+e.isAltGraphDown()); 
+		debug("isPopupTrigger = "+e.isPopupTrigger());
+		debug("fakeRightClick = "+fakeRightClick);
+		*/
 
 		if (fakeRightClick) {
 			return true;
 		}
 
 		boolean ret =
-		// e.isPopupTrigger() ||
-		(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
+				// e.isPopupTrigger() ||
+				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
 				|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click = meta
 		// click
 
-		// debug("ret = " + ret);
+		//debug("ret = " + ret);
 		return ret;
 		// return e.isMetaDown();
+
 	}
 
+	public static boolean isRightClickForceMetaDown(MouseEvent e) {
+		
+		boolean ret =
+		// e.isPopupTrigger() ||
+		(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
+				|| (e.isMetaDown()); // non-Mac: right click = meta
+		// click
+
+		//debug("ret = " + ret);
+		return ret;
+		// return e.isMetaDown();
+		
+	}
 	
 	/**
 	 * stores an image in the application's imageManager.

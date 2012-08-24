@@ -213,7 +213,7 @@ public class CASTableD extends JTable implements CASTable {
 				e.consume();
 				return;
 			}
-			setRightClick(AppD.isRightClick(e));
+			setRightClick(AppD.isRightClickForceMetaDown(e));
 			GeoCasCell clickedCell = getTable().getGeoCasCell(getClickedRow());
 
 			if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
