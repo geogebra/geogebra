@@ -86,9 +86,15 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 		getInputArea().setSelectionStart(pos);
 	}
 	
-	public void setInputSelectionEnd(int pos) {	
+	public void setInputSelectionEnd(int pos) {
 		getInputArea().setSelectionEnd(pos);
 	}	
+	public int getCaretPosition(){
+		return getInputArea().getCaretPosition();
+	}
+	public void setCaretPosition(int i){
+		getInputArea().setCaretPosition(i);
+	}
 	
 	/**
 	 * Replaces selection with given text

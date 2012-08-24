@@ -1,5 +1,6 @@
 package geogebra.cas.view;
 
+import geogebra.common.cas.view.CASTable;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -131,7 +132,11 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		} else if (source == btnTextSize) {
 			applyTextSize(targetGeos);
 		} else if (source == btnUseAsText) {
+			int i = casView.getConsoleTable().getEditingRow();
+			int pos = ((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTable.COL_CAS_CELLS)).getCaretPosition();
 			applyUseAsText(targetGeos);
+			casView.getConsoleTable().startEditingRow(i);
+			((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTable.COL_CAS_CELLS)).setCaretPosition(pos);
 		}else if (source == btnShowKeyboard) {
 			if(((GuiManagerD)app.getGuiManager())!=null){
 				if (AppD.isVirtualKeyboardActive()

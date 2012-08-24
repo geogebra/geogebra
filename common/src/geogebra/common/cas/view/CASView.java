@@ -165,8 +165,7 @@ public abstract class CASView implements View{
 	private void ensureOneEmptyRow() {
 		int rows = getRowCount();
 		// add an empty one when we have no rows or last one is not empty
-		// if (rows == 0 || !getConsoleTable().isRowEmpty(rows-1)) {
-		if (rows == 0) {
+		 if (rows == 0 || !getConsoleTable().isRowEmpty(rows-1)) {
 			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
 			getConsoleTable().insertRow(rows, casCell, false);
 		}
@@ -211,6 +210,7 @@ public abstract class CASView implements View{
 	 */
 	public void add(GeoElement geo) {
 		update(geo);
+		ensureOneEmptyRow();
 	}
 
 	/**
@@ -229,10 +229,10 @@ public abstract class CASView implements View{
 	public void update(GeoElement geo) {
 		
 		if (geo instanceof GeoCasCell) {
-			App.error(geo+"");
 			GeoCasCell casCell = (GeoCasCell) geo;
 			getConsoleTable().setRow(casCell.getRowNumber(), casCell);
 		}
+		
 	}
 
 	final public void updateVisualStyle(GeoElement geo) {

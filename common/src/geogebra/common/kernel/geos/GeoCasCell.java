@@ -313,6 +313,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		} else {
 			this.commentText.setTextString(input);
 			cons.addToConstructionList(this, true);
+			kernel.notifyAdd(this);
 		}
 		suppressOutput = useAsText;
 		// recalc row height
