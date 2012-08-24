@@ -176,6 +176,11 @@ public class AppD extends App implements
 	// jar file names
 	public final static String CAS_JAR_NAME = "geogebra_cas.jar";
 	public final static String JAVASCRIPT_JAR_NAME = "geogebra_javascript.jar";
+	/**
+	 * Possible alternative names for geogebra.jar. Used for 3D webstart at the moment.
+	 */
+	public final static String[] GEOGEBRA_JAR_ALT = { "geogebra-jogl1.jar",
+		"geogebra-jogl2.jar" };
 	public static final String[] JAR_FILES = { "geogebra.jar",
 			"geogebra_main.jar", "geogebra_gui.jar", CAS_JAR_NAME,
 			"geogebra_algos.jar", "geogebra_export.jar", JAVASCRIPT_JAR_NAME, // don't
@@ -3647,8 +3652,16 @@ public class AppD extends App implements
 			if (path.endsWith(JAR_FILES[0])) {
 				runningFromJar = true;
 				path = path.substring(0, path.length() - JAR_FILES[0].length());
-
 			}
+
+			// Forcing 3D webstart alternative JAR name to detect:
+			for (int i=0; i<GEOGEBRA_JAR_ALT.length; ++i) {
+				if (path.endsWith(GEOGEBRA_JAR_ALT[i])) {
+					runningFromJar = true;
+					path = path.substring(0, path.length() - GEOGEBRA_JAR_ALT[i].length());
+				}
+			}
+			
 			// set codebase
 			codebase = new URL(path);
 			hasFullPermissions = true;
