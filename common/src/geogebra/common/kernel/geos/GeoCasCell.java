@@ -751,6 +751,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 			}
 		}
+		cons.getCASdummies().addAll(invars);
 	}
 
 	private static String getFunctionVariable(final ValidExpression ve) {

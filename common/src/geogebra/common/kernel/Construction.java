@@ -1953,7 +1953,7 @@ public class Construction {
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
 	public boolean isFreeLabel(String label) {
-		return isFreeLabel(label, true);
+		return isFreeLabel(label, true, false);
 	}
 
 	/**
@@ -1965,7 +1965,7 @@ public class Construction {
 	 *            whether GeoCasCell labels should be checked too
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
-	private boolean isFreeLabel(String label, boolean includeCASvariables) {
+	public boolean isFreeLabel(String label, boolean includeCASvariables, boolean includeDummies) {
 		if (label == null) {
 			return false;
 		}
@@ -1979,6 +1979,10 @@ public class Construction {
 		// optional: also check CAS variable table
 		if (includeCASvariables && geoCasCellTable != null
 				&& geoCasCellTable.containsKey(label)) {
+			return false;
+		}
+		
+		if (includeDummies && casDummies.contains(label)) {
 			return false;
 		}
 
@@ -2800,6 +2804,10 @@ public class Construction {
 
 	public boolean isUpdateConstructionRunning() {
 		return updateConstructionRunning;
+	}
+	private TreeSet<String> casDummies = new TreeSet<String>();
+	public TreeSet<String> getCASdummies() {
+		return casDummies;
 	}
 
 	/**

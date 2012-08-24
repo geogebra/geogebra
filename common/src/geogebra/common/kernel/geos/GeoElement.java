@@ -3048,7 +3048,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		int counter = 0, q, r;
 		final StringBuilder sbDefaultLabel = new StringBuilder();
 		sbDefaultLabel.append(chars[0]);
-		while (!cons.isFreeLabel(sbDefaultLabel.toString())) {
+		while (!cons.isFreeLabel(sbDefaultLabel.toString(),true,true)) {
 			sbDefaultLabel.setLength(0);
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
