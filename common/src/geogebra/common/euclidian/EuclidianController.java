@@ -8378,13 +8378,15 @@ public abstract class EuclidianController {
 	
 		default:
 			// STANDARD CASE
-			app.setSelectedGeos(hits);
+			app.setSelectedGeos(hits,false);
+			app.updateSelection((hits != null) && (hits.size() > 0));
 	
 			// if alt pressed, create list of objects as string and copy to
 			// input bar
 			if ((hits != null) && (hits.size() > 0) && (e != null)
 					&& e.isAltDown() && app.isUsingFullGui()
 					&& app.showAlgebraInput()) {
+				
 	
 				geogebra.common.javax.swing.GTextComponent textComponent = app.getGuiManager()
 						.getAlgebraInputTextField();
