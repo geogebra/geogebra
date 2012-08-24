@@ -115,8 +115,6 @@ public class LispReader implements RepeatingCommand {
         // it needs. It controls this stack using a finite-state control. The states
         // are identified here as constants S_xxx.
 
-
-
         for (;;) {
             if (sp >= istacklimit - 2) // grow integer stack if needbe.
             {

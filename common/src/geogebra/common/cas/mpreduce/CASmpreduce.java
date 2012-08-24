@@ -109,7 +109,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		exp = sb.toString();
 
-		App.debug("eval with MPReduce: " + exp);
+		App.debug("CASmpreduce.evaluateRaw: eval with MPReduce: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -145,7 +145,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
 		// TODO: remove
-		App.debug("   result: " + result);
+		App.debug("CASmpreduce.evaluateRaw: result: " + result);
 		return result;
 	}
 
@@ -409,21 +409,17 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 */
 	protected static final void initStaticMyMPReduceFunctions(Evaluate mpreduce1)
 			throws Throwable {
-		mpreduce1.evaluate("load_package rsolve;");
-		mpreduce1.evaluate("load_package numeric;");
-		mpreduce1.evaluate("load_package specfn;");
-		mpreduce1.evaluate("load_package odesolve;");
-		mpreduce1.evaluate("load_package defint;");
-		mpreduce1.evaluate("load_package linalg;");
-		mpreduce1.evaluate("load_package reset;");
-		mpreduce1.evaluate("load_package taylor;");
-		mpreduce1.evaluate("load_package groebner;");
-		mpreduce1.evaluate("load_package trigsimp;");
-		mpreduce1.evaluate("load_package polydiv;");
-		mpreduce1.evaluate("load_package myvector;");
-		mpreduce1.evaluate("load_package specfn;");
+		App.debug("Loading packages...");
+		String[] packages = { "rsolve", "numeric", "odesolve",
+				"defint", "linalg", "reset", "taylor", "groebner", "trigsimp",
+				"polydiv", "myvector", "specfn"};
+		for (String p : packages) {
+			mpreduce1.evaluate("load_package " + p + ";");
+			App.debug("Reduce package " + p + " loaded");
+		}
 
 		// Initialize MPReduce
+		App.debug("Defining initial procedures in Reduce...");
 		mpreduce1.evaluate("off nat;");
 		mpreduce1.evaluate("off pri;");
 
@@ -1191,6 +1187,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("procedure mymainvar a;"
 				+ "mymainvaraux(mymainvars(a,1));");
 		
+		App.debug("Initial procedures in Reduce have been defined");
 		
 	}
 
@@ -1207,7 +1204,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {
 
 		if (CASmpreduce.mpreduce != mpreduce1) {
-			initStaticMyMPReduceFunctions(mpreduce1);
+			initStaticMyMPReduceFunctions(mpreduce1); // SLOW in web
 		}
 		CASmpreduce.mpreduce = mpreduce1;
 
@@ -1234,8 +1231,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "procedure ggbcasvarz(a); third(a);";
 		// make sure to use current kernel's variable prefix
 		xyzCoordFunctions = xyzCoordFunctions.replace("ggbcasvar", casPrefix);
-		mpreduce1.evaluate(xyzCoordFunctions);
-
+		mpreduce1.evaluate(xyzCoordFunctions);	
 	}
 
 	/**

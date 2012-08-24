@@ -133,7 +133,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 		//} catch (TimeoutException toe) {
 		//	throw new Error(toe.getMessage());
 		} catch (Throwable e) {
-			System.err.println("evaluateMPReduce: " + e.getMessage());
+			App.debug("evaluateMPReduce: " + e.getMessage());
 			return "?";
 		}
 	}
@@ -163,10 +163,9 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 			getMPReduce().evaluate(sb.toString());
 
 			// TODO: remove
-			System.out.println("Cleared variable: " + sb.toString());
+			App.debug("Cleared variable: " + sb.toString());
 		} catch (Throwable e) {
-			System.err
-					.println("Failed to clear variable from MPReduce: " + var);
+			App.error("Failed to clear variable from MPReduce: " + var);
 		}
 	}
 
@@ -176,6 +175,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	 * @see geogebra.common.kernel.cas.CASGenericInterface#initCAS()
 	 */
 	public void initCAS() {
+		App.debug("initCAS() called");
 		try {
 	        initDependentMyMPReduceFunctions(this);
         } catch (Throwable e) {
@@ -242,9 +242,10 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	 */
 	public void lispImageLoaded() {
 		//now we have REAL cas
+		App.debug("LISP image loaded");
 		mpreduce_static = InterpreterJs.getInstance();
 		mpreduce = mpreduce_static;
-		//2; Second callback: when Lips image loaded :-)
+		//2; Second callback: when LISP image loaded :-)
 		try {
 	        initDependentMyMPReduceFunctions(mpreduce);
         } catch (Throwable e) {
