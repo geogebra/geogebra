@@ -150,6 +150,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 				text = this.geo.addLabelTextOrHTML(this.geo
 						.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
+			default:
+				break;
 			}
 		}
 

@@ -142,6 +142,8 @@ public class MobileEuclidianController extends EuclidianController implements
 
 				// get the mode and the object to move
 				handleMousePressedForMoveMode(mEvent, false);
+				
+				removeSelection(); 
 			}
 
 			this.startPoint = new GPoint2D.Double(
@@ -152,7 +154,6 @@ public class MobileEuclidianController extends EuclidianController implements
 
 			this.origin = new GPoint(event.getX(), event.getY());
 
-			removeSelection();
 		}
 	}
 
@@ -296,6 +297,6 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.app.setSelectedGeos(new ArrayList<GeoElement>());
 			this.kernel.notifyRepaint();
-		}
+		}		
 	}
 }

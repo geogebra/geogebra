@@ -34,7 +34,7 @@ public class AlgebraViewPanel extends LayoutPanel
 	public AlgebraViewPanel()
 	{
 		this.addStyleName("algebraview");
-		setWidth("15%");
+		this.addStyleName("algebraView-extended");
 
 		TouchDelegate touchDelegate = new TouchDelegate(this);
 
@@ -74,7 +74,8 @@ public class AlgebraViewPanel extends LayoutPanel
 					extend();
 				} else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
 				{
-					AlgebraViewPanel.this.setWidth("5%");
+					AlgebraViewPanel.this.removeStyleName("algebraView-extended"); 
+					AlgebraViewPanel.this.addStyleName("algebraView-notExtended"); 
 					AlgebraViewPanel.this.small = true;
 					AlgebraViewPanel.this.scrollPanel.setVisible(false);
 				}
@@ -88,7 +89,8 @@ public class AlgebraViewPanel extends LayoutPanel
 	 */
 	protected void extend()
 	{
-		AlgebraViewPanel.this.setWidth("15%");
+		AlgebraViewPanel.this.removeStyleName("algebraView-notExtended"); 
+		AlgebraViewPanel.this.addStyleName("algebraView-extended"); 
 		this.scrollPanel.setVisible(true);
 	}
 
