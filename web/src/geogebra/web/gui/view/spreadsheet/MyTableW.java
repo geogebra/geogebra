@@ -227,11 +227,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		headerRenderer.setPreferredSize(new Dimension(preferredColumnWidth,
 				SpreadsheetSettings.TABLE_CELL_HEIGHT));
+		*/
 		for (int i = 0; i < getColumnCount(); ++i) {
-			getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-			getColumnModel().getColumn(i).setPreferredWidth(
-					preferredColumnWidth);
-		}*/
+			//TODO//getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+			getColumnFormatter().getElement(i).getStyle().setWidth(preferredColumnWidth, Style.Unit.PX);
+		}
 
 		// set visual appearance
 		setBorderWidth(1);//setShowGrid(true);
@@ -246,12 +246,14 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		editor = new MyCellEditor(kernel);
 		setDefaultEditor(Object.class, editor);
 
+		*/
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<CellRange>();
 		selectedCellRanges.add(new CellRange(app));
-		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		setCellSelectionEnabled(true);
-		*/
+		
+		//TODO//setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		//TODO//setCellSelectionEnabled(true);
+
 
 		/*
 		// add mouse and key listeners
@@ -289,9 +291,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 */
 		// add table model listener
 		((SpreadsheetTableModelW)tableModel).setChangeListener(new MyTableModelListener());
-/*
+
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
+/*
 		copyPasteCut = new CopyPasteCutD(app);
 
 		// - see ticket #135
@@ -414,7 +417,6 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			getColumnFormatter().getElement(i).getStyle().setWidth(preferredColumnWidth, Style.Unit.PX);
 		//	TableColumn col = new TableColumn(i);
 		//TODO//	col.setHeaderRenderer(headerRenderer);
-		//	col.setPreferredWidth(preferredColumnWidth);
 		//	addColumn(col);
 		}
 
@@ -473,7 +475,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		public void dimensionChange() {
 			// TODO: comment them out to imitate the Desktop behaviour
-			//getView().updateRowHeader();
+			//TODO//getView().updateRowHeader();
 			updateColumnCount();
 		}
 
@@ -533,10 +535,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 */
 	public void selectionChanged() {
 		//TODO: implementation needed
-/*
+
 		// create a cell range object to store
 		// the current table selection
-
+/*
 		CellRange newSelection = new CellRange(app);
 
 		if (view.isTraceDialogVisible()) {
