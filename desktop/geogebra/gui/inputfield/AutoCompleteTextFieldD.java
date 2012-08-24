@@ -1037,7 +1037,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	public void requestFocus() {
 		super.requestFocus();
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
-			app.clearSelectedGeos();
+			app.clearSelectedGeos(false);
 			app.addSelectedGeo(geoUsedForInputBox);
 		}
 	}

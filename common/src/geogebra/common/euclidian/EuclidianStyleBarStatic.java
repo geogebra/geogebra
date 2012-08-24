@@ -41,7 +41,7 @@ public class EuclidianStyleBarStatic {
 		
 		// workaround to make sure pin icon disappears
 		// see applyFixPosition() called with a geo with label not set below
-		app.clearSelectedGeos();
+		app.clearSelectedGeos(false);
 
 		for (int i = 0; i < geos.size() ; i++) {
 			GeoElement geo = geos.get(i);

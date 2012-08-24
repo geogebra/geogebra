@@ -27,18 +27,27 @@ public class CmdSelectObjects extends CmdScripting {
 
 		
 
-		app.clearSelectedGeos();
+		app.clearSelectedGeos(false);
 
 		if (n > 0) {
 			arg = resArgs(c);
 			for (int i = 0; i < n; i++) {
 				if ((arg[i].isGeoElement())) {
 					GeoElement geo = arg[i];
-					app.addSelectedGeo(geo, true, true);
+					app.addSelectedGeo(geo,false,false);
 				}
 			}
+			
+			kernelA.notifyRepaint();
 
+		}else{
+			kernelA.notifyRepaint();
+			app.updateSelection(false);
 		}
+			
+		
+		
+		
 		return;
 
 	}

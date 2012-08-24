@@ -4291,7 +4291,8 @@ public class AppD extends App implements
 
 	public void copyGraphicsViewToClipboard(final EuclidianViewD ev) {
 
-		clearSelectedGeos();
+		clearSelectedGeos(true,false);
+		updateSelection(false);
 
 
 		Thread runner = new Thread() {
@@ -4642,7 +4643,8 @@ public class AppD extends App implements
 	}
 
 	public void exportToLMS(boolean ggbWeb) {
-		clearSelectedGeos();
+		clearSelectedGeos(true,false);
+		updateSelection(false);
 		WorksheetExportDialog d = new WorksheetExportDialog(this);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();

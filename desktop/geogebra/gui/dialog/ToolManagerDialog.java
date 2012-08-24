@@ -392,7 +392,8 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			public void run() {
 				app.setWaitCursor();
 				try {
-					app.clearSelectedGeos();
+					app.clearSelectedGeos(true,false);
+					app.updateSelection(false);
 					
 
 					Object[] sel = toolList.getSelectedValues();

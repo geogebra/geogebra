@@ -499,7 +499,8 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 					public void run() {
 						getApplication().setWaitCursor();
 						try {
-							getApplication().clearSelectedGeos();
+							getApplication().clearSelectedGeos(true,false);
+							getApplication().updateSelection(false);
 
 							// use reflection for
 							JDialog d = new geogebra.export.GraphicExportDialog(
@@ -531,7 +532,8 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			getApplication().clearSelectedGeos();
+			getApplication().clearSelectedGeos(true,false);
+			getApplication().updateSelection(false);
 
 			Thread runner = new Thread() {
 				@Override

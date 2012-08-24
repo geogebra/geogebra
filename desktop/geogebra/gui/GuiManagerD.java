@@ -2914,7 +2914,8 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void showGraphicExport() {
-		app.clearSelectedGeos();
+		app.clearSelectedGeos(true,false);
+		app.updateSelection(false);
 
 		JDialog d = new geogebra.export.GraphicExportDialog((AppD) app);
 
@@ -2931,7 +2932,8 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void showWebpageExport() {
-		app.clearSelectedGeos();
+		app.clearSelectedGeos(true,false);
+		app.updateSelection(false);
 		geogebra.export.WorksheetExportDialog d = new geogebra.export.WorksheetExportDialog(
 				(AppD) app);
 

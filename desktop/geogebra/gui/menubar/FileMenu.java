@@ -298,7 +298,8 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.clearSelectedGeos();
+				app.clearSelectedGeos(true,false);
+				app.updateSelection(false);
 
 				Thread runner = new Thread() {
 					@Override
@@ -442,7 +443,8 @@ class FileMenu extends BaseMenu {
 						public void run() {
 							app.setWaitCursor();
 							try {
-								app.clearSelectedGeos();
+								app.clearSelectedGeos(true,false);
+								app.updateSelection(false);
 								geogebra.export.WorksheetExportDialog d = new geogebra.export.WorksheetExportDialog(
 										app);
 
@@ -479,7 +481,8 @@ class FileMenu extends BaseMenu {
 						public void run() {
 							app.setWaitCursor();
 							try {
-								app.clearSelectedGeos();
+								app.clearSelectedGeos(true,false);
+								app.updateSelection(false);
 								
 								// create new exporter
 								geogebra.export.GeoGebraTubeExportDesktop exporter

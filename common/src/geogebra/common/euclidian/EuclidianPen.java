@@ -671,7 +671,7 @@ public class EuclidianPen {
 		poly.setObjColor(penColor);
 		poly.setLayer(1);
 		
-		app.clearSelectedGeos();
+		app.clearSelectedGeos(false);
 		app.addSelectedGeo(poly);
 		
 		//app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]", false);
