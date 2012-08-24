@@ -1175,7 +1175,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  public void requestFocus() {
 		  textField.setFocus(true);
 		  if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
-			  app.clearSelectedGeos();
+			  app.clearSelectedGeos(false);
 			  app.addSelectedGeo(geoUsedForInputBox);
 		  }
 	  }
