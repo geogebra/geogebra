@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * Taken from the web-project. 
+ * Taken from the web-project.
  * 
  */
 public class RadioButtonTreeItem extends HorizontalPanel implements
@@ -74,19 +74,23 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 					if (Element.as(event.getEventTarget()) == getElement()
 							.getFirstChild())
 					{
-						setChecked(RadioButtonTreeItem.this.previouslyChecked = !RadioButtonTreeItem.this.previouslyChecked);
-						RadioButtonTreeItem.this.geo
-								.setEuclidianVisible(!RadioButtonTreeItem.this.geo
-										.isSetEuclidianVisible());
-						RadioButtonTreeItem.this.geo.update();
-						RadioButtonTreeItem.this.geo.getKernel()
-								.getApplication().storeUndoInfo();
-						RadioButtonTreeItem.this.geo.getKernel()
-								.notifyRepaint();
-						return;
+						getClicked();
 					}
 				}
 			}
+		}
+
+		protected void getClicked()
+		{
+			setChecked(RadioButtonTreeItem.this.previouslyChecked = !RadioButtonTreeItem.this.previouslyChecked);
+			RadioButtonTreeItem.this.geo
+					.setEuclidianVisible(!RadioButtonTreeItem.this.geo
+							.isSetEuclidianVisible());
+			RadioButtonTreeItem.this.geo.update();
+			RadioButtonTreeItem.this.geo.getKernel().getApplication()
+					.storeUndoInfo();
+			RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
+			return;
 		}
 	}
 
@@ -453,97 +457,8 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-
 		// TODO
-		// if (av.isEditing())
-		// return;
-		//
-		// App app = geo.getKernel().getApplication();
-		// int mode = app.getActiveEuclidianView().getMode();
-		// if (//!skipSelection &&
-		// (mode == EuclidianConstants.MODE_MOVE || mode ==
-		// EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
-		// // update selection
-		// if (geo == null){
-		// app.clearSelectedGeos();
-		// }
-		// else {
-		// // handle selecting geo
-		// if (evt.isControlKeyDown()) {
-		// app.toggleSelectedGeo(geo);
-		// if (app.getSelectedGeos().contains(geo)) av.lastSelectedGeo = geo;
-		// } else if (evt.isShiftKeyDown() && av.lastSelectedGeo != null) {
-		// boolean nowSelecting = true;
-		// boolean selecting = false;
-		// boolean aux = geo.isAuxiliaryObject();
-		// boolean ind = geo.isIndependent();
-		// boolean aux2 = av.lastSelectedGeo.isAuxiliaryObject();
-		// boolean ind2 = av.lastSelectedGeo.isIndependent();
-		//
-		// if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-		// Iterator<GeoElement> it =
-		// geo.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
-		// boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-		// compareTo(av.lastSelectedGeo.getLabel(StringTemplate.defaultTemplate))
-		// <
-		// 0;
-		//
-		// while (it.hasNext()) {
-		// GeoElement geo2 = it.next();
-		// if ((geo2.isAuxiliaryObject() == aux && aux)
-		// || (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind))
-		// {
-		//
-		// if (direction && geo2.equals(av.lastSelectedGeo)) selecting =
-		// !selecting;
-		// if (!direction && geo2.equals(geo)) selecting = !selecting;
-		//
-		// if (selecting) {
-		// app.toggleSelectedGeo(geo2);
-		// nowSelecting = app.getSelectedGeos().contains(geo2);
-		// }
-		// if (!direction && geo2.equals(av.lastSelectedGeo)) selecting =
-		// !selecting;
-		// if (direction && geo2.equals(geo)) selecting = !selecting;
-		// }
-		// }
-		// }
-		//
-		// if (nowSelecting) {
-		// app.addSelectedGeo(geo);
-		// av.lastSelectedGeo = geo;
-		// } else {
-		// app.removeSelectedGeo(av.lastSelectedGeo);
-		// av.lastSelectedGeo = null;
-		// }
-		// } else {
-		// app.clearSelectedGeos(false); //repaint will be done next step
-		// app.addSelectedGeo(geo);
-		// av.lastSelectedGeo = geo;
-		// }
-		// }
-		// }
-		// else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-		// // let euclidianView know about the click
-		// AbstractEvent event2 =
-		// MouseEvent.wrapEvent(evt.getNativeEvent(),ZeroOffset.instance);
-		// app.getActiveEuclidianView().clickedGeo(geo, event2);
-		// //event.release();
-		// } else
-		// // tell selection listener about click
-		// app.geoElementSelected(geo, false);
-		//
-		//
-		// // Alt click: copy definition to input field
-		// if (geo != null && evt.isAltKeyDown() && app.showAlgebraInput()) {
-		// // F3 key: copy definition to input bar
-		// app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
-		// geo);
-		// }
-		//
-		// app.getActiveEuclidianView().mouseMovedOver(null);
-		// evt.preventDefault();
-		// evt.stopPropagation();
+		this.radio.getClicked(); 
 	}
 
 	@Override

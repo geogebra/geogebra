@@ -927,8 +927,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 				// descriptions
 				// node.setSelected(true);
 				// ensureSelectedItemVisible();
-
-				// TODO
 				((RadioButtonTreeItem) node.getWidget()).update();
 			} catch (Exception e)
 			{
