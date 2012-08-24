@@ -8299,7 +8299,8 @@ public abstract class EuclidianController {
 				}
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
-				app.setSelectedGeos(hits);
+				app.setSelectedGeos(hits,false);
+				app.updateSelection(hits!=null && hits.size()>0);
 			}
 
 	protected void processSelectionRectangle(AbstractEvent e) {
