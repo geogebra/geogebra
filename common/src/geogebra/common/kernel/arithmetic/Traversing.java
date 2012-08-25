@@ -63,7 +63,7 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof Command){
 				Command c= (Command)ev;
-				String cmdName = app.translateCommand(c.getName());
+				String cmdName = app.getReverseCommand(c.getName());
 				Throwable t = null;
 				try{
 					Commands.valueOf(cmdName);

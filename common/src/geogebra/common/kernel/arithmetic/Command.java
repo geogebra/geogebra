@@ -86,7 +86,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 		if (translateName && !kernel.isUsingInternalCommandNames()) {
 			// translate command name to internal name
-			this.name = app.translateCommand(name);
+			this.name = app.getReverseCommand(name);
 		} else {
 			this.name = name;
 		}

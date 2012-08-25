@@ -580,28 +580,7 @@ public abstract class App {
 	 *            local name
 	 * @return internal name
 	 */
-	final public String translateCommand(String localname) {
-		if (localname == null) {
-			return null;
-		}
-		if (translateCommandTable == null) {
-			return localname;
-		}
-		debug(localname + ":" + getScriptingLanguage());
-		// note: lookup lower case of command name!
-		String value = translateCommandTable.get(localname.toLowerCase());
-		if (value == null) {
-			fillCommandDictScripting();
-			if (translateCommandTableScripting != null) {
-				value = translateCommandTableScripting.get(localname
-						.toLowerCase());
-			}
-		}
-		if (value == null) {
-			return localname;
-		}
-		return value;
-	}
+	public abstract String getReverseCommand(String command);
 
 	/**
 	 * Updates command dictionary

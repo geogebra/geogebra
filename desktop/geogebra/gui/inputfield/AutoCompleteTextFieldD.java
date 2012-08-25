@@ -910,7 +910,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 
 		// translate command to internal name and get syntax description
 		// note: the translation ignores the case of command
-		String internalCmd = app.translateCommand(command);
+		String internalCmd = app.getReverseCommand(command);
 		// String key = internalCmd + "Syntax";
 		// String syntax = app.getCommand(key);
 		String syntax;

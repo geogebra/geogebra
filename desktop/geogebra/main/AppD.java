@@ -2572,8 +2572,11 @@ public class AppD extends App implements
 		return null;
 	}
 
+	@Override
 	final public String getReverseCommand(String command) {
 		initTranslatedCommands();
+		
+		debug(command);
 
 		String key =StringUtil.toLowerCase(command);
 		try {
@@ -2586,6 +2589,7 @@ public class AppD extends App implements
 				String s = enume.nextElement();
 
 				if (StringUtil.toLowerCase(rbcommand.getString(s)).equals(key)) {
+					debug("returning "+s);
 					return s;
 				}
 
@@ -2598,13 +2602,16 @@ public class AppD extends App implements
 				String s = enume.nextElement();
 
 				if (StringUtil.toLowerCase(s).equals(key)) {
+					debug("returning2 "+s);
 					return s;
 				}
 
 			}
 
+			debug("returning null");
 			return null;
 		} catch (Exception e) {
+			debug("returning null");
 			return null;
 		}
 	}

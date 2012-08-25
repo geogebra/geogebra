@@ -528,7 +528,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				String cmd = (String) nodeInfo;
 				rollOverCommand = cmd;
 				StringBuilder sb = new StringBuilder();
-				cmd = app.translateCommand(cmd); // internal name
+				cmd = app.getReverseCommand(cmd); // internal name
 				CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
 
 				JTextArea t = new JTextArea(sb.toString());
@@ -606,7 +606,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 						String cmd = (String) nodeInfo;
 						rollOverCommand = cmd;
 						StringBuilder sb = new StringBuilder();
-						cmd = app.translateCommand(cmd); // internal name
+						cmd = app.getReverseCommand(cmd); // internal name
 						// CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
 						sb.append(app.getCommandSyntax(cmd));
 						// helpTextArea.setText(sb.toString());
@@ -631,7 +631,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private void showSelectedSyntax() {
 
-		String cmd = app.translateCommand(selectedCommand); // internal name
+		String cmd = app.getReverseCommand(selectedCommand); // internal name
 		// String s = "Syntax:\n" + app.getCommandSyntax(cmd);
 		String description = app.getCommandSyntax(cmd);
 		String descriptionCAS = app.getCommandSyntaxCAS(cmd);

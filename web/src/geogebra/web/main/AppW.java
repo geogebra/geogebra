@@ -626,7 +626,8 @@ public class AppW extends App {
 	 * @param command: a value that should be in the command properties files (part of Internationalization)
 	 * @return the value "command" after verifying its existence.
 	 */
-	final public String getReverseCommand(String command) {
+	@Override
+    final public String getReverseCommand(String command) {
 		initTranslatedCommands();
 
 		String aCommand = StringUtil.toLowerCase(command);

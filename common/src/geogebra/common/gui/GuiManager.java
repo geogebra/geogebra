@@ -499,7 +499,7 @@ public abstract class GuiManager {
 		String internalCmd = null;
 		if (command != null)
 			try { // convert eg uppersum to UpperSum
-				internalCmd = app.translateCommand(command);
+				internalCmd = app.getReverseCommand(command);
 			} catch (Exception e) {
 			}
 	
