@@ -673,9 +673,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 						//Case 1: the corresponding equation has no solution
 						+ "if nroots = 0 then  <<"
-						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={!*interval!*(-infinity,infinity)}"
+						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={ggbinterval(var,-infinity,infinity,0)}"
 					    + "else if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={}"
-						+ "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={!*interval!*(-infinity,infinity)}"
+						+ "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={ggbinterval(var,-infinity,infinity,0)}"
 					    + "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={};"
 						+ ">> else " 			
 					   //Case 2: the corresponding equation has some solution
