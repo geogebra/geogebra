@@ -1318,9 +1318,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("One Variable")
     String OneVariable();
 
-    @DefaultStringValue("One Variable Inference")
-    String OneVariableInference();
-
     @DefaultStringValue("One Variable Statistics")
     String OneVariableStatistics();
 
@@ -1590,9 +1587,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Regression Analysis")
     String RegressionAnalysis();
-
-    @DefaultStringValue("Regression Inference")
-    String RegressionInference();
 
     @DefaultStringValue("Regression Model")
     String RegressionModel();
@@ -2253,9 +2247,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Two Variable")
     String TwoVariable();
-
-    @DefaultStringValue("Two Variable Inference")
-    String TwoVariableInference();
 
     @DefaultStringValue("Algebra")
     String Type_Algebra();
