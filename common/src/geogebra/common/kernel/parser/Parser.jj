@@ -2028,13 +2028,18 @@ ExpressionNode numberFunction():
       		while (index >= 0) {
       			label = funcName.substring(0, index+1);
       			geo = kernel.lookupLabel(label);
-      			// stop if f' is defined but f is not defined, see #1444
-      			if (geo != null && !(label.endsWith("\'") && (kernel.lookupLabel(label.substring(0, label.length()-1)) != null)))
+      			
+      			if (c.image.charAt(index) != '\'') {
       				break;
-      			if (c.image.charAt(index) == '\'') {
-      				order++;
-      				index--;
-      			} else break;
+      			}
+      			// stop if f' is defined but f is not defined, see #1444
+      			if (geo != null) {      				GeoElement prevGeo = kernel.lookupLabel(label.substring(0, label.length()-1)); 		   
+      				if(prevGeo == null || !(prevGeo.isGeoFunction() || prevGeo.isGeoCurveCartesian()))
+      					break;
+      			}
+      				
+      			order++;
+      			index--;
       		}
       		GeoElement cell = kernel.lookupCasCellLabel(label);
       		//f(t)=t(t+1)
