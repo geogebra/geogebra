@@ -688,10 +688,13 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "solutionset:=append(solutionset,{-infinity});" + 
 						"ineqsol:={};" 
 						+ "nmroots:=length(solutionset);"
-						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=1"
-						+ " else if (ineqop='sless or ineqop='slessequal) and sub({var=max+1},part(eqn,1)) > 0 then start:=2"
-						+ " else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) > 0 then start:=1"
-						+ " else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=2;"
+						//we turn numeric temporarily on so that sub returns number for var=sqrt(2)
+						+ " on rounded, roundall, numval;"
+						+ " if (ineqop='sless or ineqop='slessequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=1"
+						+ "  else if (ineqop='sless or ineqop='slessequal) and sub({var=max+1},part(eqn,1)) > 0 then start:=2"
+						+ "  else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) > 0 then start:=1"
+						+ "  else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=2;"
+						+ " if numeric!!=0 then off rounded, roundall, numval; "
 						+ "j:=start;"
 						+ "while j+1<=nmroots do << ineqsol:=append({var=!*interval!*(part(solutionset,j+1), part(solutionset,j))},ineqsol);"
 						+ "      j:=j+2; >>;"
