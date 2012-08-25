@@ -64,8 +64,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		ActionListener, FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
-	
-	private AppD app;
+	/** application */
+	AppD app;
 	private InputBarHelpPanel thisPanel;
 	private Color bgColor = Color.WHITE;
 

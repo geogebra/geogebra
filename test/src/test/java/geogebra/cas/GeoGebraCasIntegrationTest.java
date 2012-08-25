@@ -193,6 +193,7 @@ public class GeoGebraCasIntegrationTest {
 		// function call meaning, not their character-class box meaning!
 		newPattern = newPattern.replaceAll("([^\\\\].|^.)\\+", "$1\\\\+");
 		newPattern = newPattern.replaceAll("([^\\\\].|^.)\\*", "$1\\\\*");
+		newPattern = newPattern.replaceAll("([^\\\\].|^.)\\^", "$1\\\\^");
 		newPattern = newPattern.replaceAll("INDEX", "\\\\{?\\\\d+\\\\}?");
 		newPattern = newPattern.replace(" ", "\\s*"); // make whitespace
 														// optional
@@ -1311,7 +1312,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Integral_Indefinite_2() {
-		s("Integral[-x^3 + x^2]", "(x^(3) * (-3 * x + 4)) / 12 + c_INDEX");
+		s("Integral[-x^3 + x^2]", "(-3 * x^(4) + 4 * x^(3)) / 12 + c_INDEX");
 	}
 
 	/* Definite Integral */
@@ -2181,7 +2182,7 @@ public class GeoGebraCasIntegrationTest {
 	public void SampleVariance_0() {
 		// TODO Result unchecked.
 		t("SampleVariance[{x, y, z}]",
-				"(x^(2) + x * (-y - z) + y^(2) - y * z + z^(2)) / 3");
+				"(x^(2) - x * y - x * z + y^(2) - y * z + z^(2)) / 3");
 	}
 	
 

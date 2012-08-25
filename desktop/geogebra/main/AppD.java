@@ -39,6 +39,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -2595,13 +2596,10 @@ public class AppD extends App implements
 			enume = rbcommand.getKeys();
 			
 			// if that fails check internal commands
-			while (enume.hasMoreElements()) {
-				String s = enume.nextElement();
-
-				if (StringUtil.toLowerCase(s).equals(key)) {
-					return s;
+			for (Commands c:Commands.values()) {
+				if (StringUtil.toLowerCase(c.name()).equals(key)) {
+					return Commands.englishToInternal(c).name();
 				}
-
 			}
 
 			return null;

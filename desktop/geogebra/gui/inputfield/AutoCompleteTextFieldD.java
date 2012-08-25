@@ -936,24 +936,13 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		return sb.toString();
 	}
 
-	/*
-	 * attempt to give Syntax help for when eg "Radius[ <Conic> ]" is typed see
-	 * CommandProcessor.argErr() for similar error
+	/**
+	 * Syntax help is shown elsewhere.  
+	 * @param e exception
 	 */
 	public void showError(Exception e) {
-		if (e instanceof MyException) {
-			updateCurrentWord(true);
+		if (e instanceof MyException) {			
 			int err = ((MyException) e).getErrorType();
-			if (err == MyException.INVALID_INPUT) {
-				String command = app.getReverseCommand(getCurrentWord());
-				if (command != null) {
-
-					app.showError(new MyError(app, app.getError("InvalidInput")
-							+ "\n\n" + app.getPlain("Syntax") + ":\n"
-							+ app.getCommandSyntax(command), getCurrentWord()));
-					return;
-				}
-			}
 			if (err == MyException.IMBALANCED_BRACKETS) {
 				app.showError((MyError)e.getCause());
 					return;
@@ -966,9 +955,10 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 
 	}
 
-	/*
+	/**
 	 * just show syntax error (already correctly formulated by
 	 * CommandProcessor.argErr())
+	 * @param e error
 	 */
 	public void showError(MyError e) {
 		app.showError(e);

@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -65,7 +66,7 @@ public class HelpOnKeywordPanel extends JPanel {
 			instance = new HelpOnKeywordPanel();
 		}
 
-		String help = app.getCommand(app.getReverseCommand(command) + AppD.syntaxStr);
+		String help = app.getCommand(app.getReverseCommand(command) + App.syntaxStr);
 		String[] lines = help.split("\n");
 		int cols = 1;
 		for (int i = 0; i < lines.length; i++) {
