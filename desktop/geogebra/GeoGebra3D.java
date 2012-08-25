@@ -56,7 +56,7 @@ public class GeoGebra3D extends GeoGebra
     	
     	if (showSplash) {
     	  // Show splash screen
-		  URL imageURL = GeoGebra.class.getResource("/geogebra3D/splash.png");
+		  URL imageURL = GeoGebra.class.getResource("/geogebra3D/splash5beta.png");
 		  if (imageURL != null) {
 		      splashFrame = SplashWindow.splash(
 		          Toolkit.getDefaultToolkit().createImage(imageURL)
