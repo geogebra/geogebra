@@ -6775,7 +6775,7 @@ public abstract class EuclidianController {
 			}
 	
 			// init move dependent mode if we have something to move ;-)
-			if (translateableGeos != null) {
+			if (translateableGeos != null && translateableGeos.size() > 0) {
 				moveMode = MOVE_DEPENDENT;
 	
 				if (translateableGeos.get(0) instanceof GeoPoint) {
