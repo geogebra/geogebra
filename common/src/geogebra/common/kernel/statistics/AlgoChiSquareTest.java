@@ -129,6 +129,10 @@ public class AlgoChiSquareTest extends AlgoElement {
 		// store observed and expected values in arrays
 
 		if (!geoList.isMatrix()) { // number list: GOF test
+			if (geoList2 == null) {
+					result.setUndefined();
+					return;
+			}
 			columns = 1;
 			df = rows - 1;
 			observed = new double[rows][columns];

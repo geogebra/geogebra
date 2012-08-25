@@ -279,6 +279,8 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdBoxPlot() {
 		t("BoxPlot[ n2, n4, list2 ]");
+		t("BoxPlot[ n2, n4, list2, true ]");
+		t("BoxPlot[ n2, n4, list2, list1, false ]");
 		t("BoxPlot[ n4, n1, n1, n2, n1, n3, n4 ]");
 	}
 
@@ -1465,11 +1467,13 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdQ1() {
 		t("Q1[ list1 ]");
+		t("Q1[ list1, list1 ]");
 	}
 
 	@Test
 	public void cmdQ3() {
 		t("Q3[ list1 ]");
+		t("Q3[ list1, list1 ]");
 
 	}
 
