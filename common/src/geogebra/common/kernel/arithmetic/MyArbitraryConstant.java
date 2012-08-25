@@ -12,7 +12,6 @@ import geogebra.common.kernel.locusequ.EquationScope;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Arbitrary constant comming from reduce

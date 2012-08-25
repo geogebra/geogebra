@@ -20,7 +20,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.Riemann;
 
 /**
  * @author ggb3D

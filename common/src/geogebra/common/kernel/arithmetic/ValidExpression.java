@@ -334,6 +334,19 @@ public abstract class ValidExpression implements ExpressionValue {
 			return "ExNode(" + debugString(((ExpressionNode) s).getLeft())
 					+ "," + ((ExpressionNode) s).getOperation() + ","
 					+ debugString(((ExpressionNode) s).getRight()) + ")";
+		if (s instanceof Equation)
+			return "Eq(" + debugString(((Equation) s).getLHS())
+					+ ",=,"
+					+ debugString(((Equation) s).getRHS()) + ")";
+		if (s instanceof MyList){
+			StringBuilder sb = new StringBuilder("MyList(");
+			for(int i=0;i<((MyList)s).size();i++){
+				if(i>0)
+					sb.append(",");
+				sb.append(debugString(((MyList)s).getListElement(i)));
+			}
+			return sb.toString();
+		}
 		return s.getClass().getName()
 				.replaceAll("geogebra.common.kernel.arithmetic.", "")
 				+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";

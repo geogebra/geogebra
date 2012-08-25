@@ -5168,7 +5168,7 @@ public class ExpressionNode extends ValidExpression implements
 					setOperation(Operation.CBRT);
 					hit = true;
 				}
-				else if (rightLeaf.getRight().isNumberValue() &&
+				else if (!rightLeaf.getRight().unwrap().isExpressionNode() && rightLeaf.getRight().isNumberValue() &&
 						Kernel.isInteger(((NumberValue)rightLeaf.getRight()).getDouble())) {
 					App.debug(((NumberValue)rightLeaf.getRight()).getDouble());
 					setOperation(Operation.NROOT);
