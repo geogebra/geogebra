@@ -662,6 +662,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						
 						//single inequality solution begins"
 						+ "if isineq then <<"
+						+ " if arglength(var)>-1 and part(var,0)='list then var := part(var,1);"
 						//Clear non-real solutions"
 						+ " temp1!!:=for j:=1:length(solutions!!) join if freeof(part(solutions!!,j),'i) then {part(solutions!!,j)} else {};"
 						+ " temp2!!:=for j:=1:length(solutions!!) join if freeof(part(solutions!!,j),'i) then {part(multi,j)} else {};"
