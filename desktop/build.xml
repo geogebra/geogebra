@@ -305,8 +305,7 @@ office@geogebra.org
 		</exec>
 	</target>
 
-	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
-	<target name="ggb-main-jar" depends="clean" description="create unsigned geogebra_main.jar">
+	<target name="copy-common-files" description="copy common files to the right place">
 		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
 		<mkdir dir="${src.dir}/geogebra/common"/>
 		<copy todir="${src.dir}/geogebra/common" failonerror="false">
@@ -325,6 +324,10 @@ office@geogebra.org
                         </fileset>
 		</copy>
 		
+	</target>
+	
+	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
+	<target name="ggb-main-jar" depends="clean, copy-common-files" description="create unsigned geogebra_main.jar">
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
@@ -346,6 +349,12 @@ office@geogebra.org
 					jasymca/**,		
 					geogebra3D/**,			
 					3D/**,	
+			geogebra/common/kernel/barycentric/**,
+			geogebra/common/kernel/discrete/**,
+			geogebra/common/kernel/statistics/**,
+			geogebra/common/kernel/cas/**,
+			geogebra/common/kernel/locusequ/**,
+			bin/**,
 					org/**,
 					org/mathpiper/**,
 					org/mozilla/**,
@@ -367,8 +376,6 @@ office@geogebra.org
 					meta-inf/**"		
 		/>
 
-		<!--symlink action="delete" link="${src.dir}/geogebra/common"/-->
-		<delete dir="${src.dir}/geogebra/common"/>
 	</target>
 
 	<target name="ggb-export-jar" depends="clean" description="create unsigned geogebra_export.jar">
@@ -402,13 +409,15 @@ office@geogebra.org
 		/>
 	</target>
 
-	<target name="ggb-cas-jar" depends="clean" description="create unsigned geogebra_cas.jar">
+	<target name="ggb-cas-jar" depends="clean, copy-common-files" description="create unsigned geogebra_cas.jar">
 		<jar jarfile="${build.dir}/geogebra_cas.jar"
 			basedir="${src.dir}"
 			includes="geogebra/cas/**,
 					org/apache/log4j/**,
 					org/mathpiper/mpreduce/**/*.class,
 			geogebra/kernel/cas/**,
+			geogebra/common/kernel/cas/**,
+			geogebra/common/kernel/locusequ/**,
 					default.img"
 			excludes="**/*.java,
 			geogebra/cas/maxima/**,
@@ -417,7 +426,7 @@ office@geogebra.org
 		/>
 	</target>
 
-	<target name="ggb-algos-jar" depends="clean" description="create unsigned geogebra_algos.jar">
+	<target name="ggb-algos-jar" depends="clean, copy-common-files" description="create unsigned geogebra_algos.jar">
 		<copy todir="${src.dir}/org/apache" failonerror="false">
 			<fileset dir="${src.dir}/../common/src/org/apache">
 				<include name="**/*.class" />
@@ -441,6 +450,9 @@ office@geogebra.org
 					edu/uci/**,
 					com/google/zxing/**,
 					org/jfugue/**,
+			geogebra/common/kernel/barycentric/**,
+			geogebra/common/kernel/discrete/**,
+			geogebra/common/kernel/statistics/**,
 					org/apache/**"
 			excludes="**/*.java,
 			**/*.html,

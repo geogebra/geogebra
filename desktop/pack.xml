@@ -97,6 +97,7 @@ office@geogebra.org
 
 	<target name="finish">
 		<delete dir="${propertiestemp.dir}"/>
+		<delete dir="${src.dir}/geogebra/common"/>
 	</target>
 
 	<!-- put jar files into subdirectories signed and unsigned -->
