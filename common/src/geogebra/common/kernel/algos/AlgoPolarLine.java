@@ -25,9 +25,6 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.elements.EquationPolarLine;
 
 
 /**
@@ -95,12 +92,6 @@ public class AlgoPolarLine extends AlgoElement {
         return app.getPlain("PolarLineOfARelativeToB",P.getLabel(tpl),c.getLabel(tpl));
 
     }
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationPolarLine(element, scope);
-	}
 
 	@Override
 	public boolean isLocusEquable() {

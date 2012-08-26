@@ -268,12 +268,6 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 	}
 
 	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationJoinPointsSegment(element, scope);
-	}
-
-	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}

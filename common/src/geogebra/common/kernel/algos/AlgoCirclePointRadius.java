@@ -94,12 +94,6 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements Al
 	}
 
 	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationCirclePointRadius(element, scope);
-	}
-
-	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}

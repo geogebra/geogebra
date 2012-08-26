@@ -1,4 +1,4 @@
-package geogebra.common.kernel.locusequ;
+package geogebra.common.kernel;
 
 /**
  * Only to be included in Algos such that:

@@ -24,16 +24,13 @@ import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PointPair;
 import geogebra.common.kernel.PointPairList;
+import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.SystemOfEquationsSolver;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
-import geogebra.common.kernel.locusequ.elements.EquationIntersectConicsRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -1374,12 +1371,6 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 			
 		}
 		throw new NoSymbolicParametersException();
-	}
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationIntersectConicsRestriction(element, this, scope);
 	}
 
 	@Override

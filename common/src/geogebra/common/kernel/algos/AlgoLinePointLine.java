@@ -239,11 +239,5 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 		throw new NoSymbolicParametersException();
 	}
 
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationLinePointLine(element, scope);
-	}
-
 	// TODO Consider locusequability
 }

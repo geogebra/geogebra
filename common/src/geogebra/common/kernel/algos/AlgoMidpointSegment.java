@@ -20,14 +20,11 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
-import geogebra.common.kernel.locusequ.elements.EquationMidpointSegmentRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -219,12 +216,6 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P,Q,botanaVars);
 		return botanaPolynomials;
 		
-	}
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationMidpointSegmentRestriction(element, this, scope);
 	}
 
 	@Override

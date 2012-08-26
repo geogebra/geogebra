@@ -19,13 +19,13 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.locusequ.elements.EquationMidpointRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -185,12 +185,6 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P,Q,botanaVars);
 		return botanaPolynomials;
 		
-	}
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationMidpointRestriction(element, this, scope);
 	}
 
 	@Override

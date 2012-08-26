@@ -1,13 +1,13 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.locusequ.elements.EquationIntersectSingleRestriction;
 
 import java.util.ArrayList;
@@ -232,12 +232,6 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		}
 		return app.getPlain("IntersectionPointOfABNearC", input[0].getLabel(tpl),
 				input[1].getLabel(tpl), input[2].getLabel(tpl));
-	}
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationIntersectSingleRestriction(element, this, scope);
 	}
 
 	@Override

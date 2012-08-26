@@ -161,18 +161,6 @@ public class MyArbitraryConstant  {
 		public Algos getClassName() {
 			return Algos.AlgoDependentNumber;
 		}
-
-		@Override
-		public EquationElement buildEquationElementForGeo(GeoElement element,
-				EquationScope scope) {
-			return null;
-		}
-
-		@Override
-		public boolean isLocusEquable() {
-			// TODO Consider locusequability
-			return false;
-		}
 		
 	}
 

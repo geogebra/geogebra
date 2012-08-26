@@ -23,9 +23,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.elements.EquationPolygonRegular;
 
 import java.util.ArrayList;
 
@@ -427,12 +424,6 @@ public class AlgoPolygonRegular extends AlgoElement {
 		for (int i = 0; i < outputPoints.size(); i++)
 			ret[2 + i] = outputPoints.getElement(i);
 		return ret;
-	}
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationPolygonRegular(element, scope);
 	}
 
 	@Override

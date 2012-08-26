@@ -26,9 +26,6 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorPoints;
 import geogebra.common.util.MyMath;
 
 
@@ -238,12 +235,6 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
         return app.getPlain("AngleBisectorOfABC",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl));
 
     }
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationAngularBisectorPoints(element, scope);
-	}
 
 	@Override
 	public boolean isLocusEquable() {

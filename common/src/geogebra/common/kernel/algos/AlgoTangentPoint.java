@@ -217,12 +217,6 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
     }
 
 	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationTangentPoint(element, scope);
-	}
-
-	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}

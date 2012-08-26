@@ -144,12 +144,6 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
     }
 
 	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationHyperbolaFociPoint(element, scope);
-	}
-
-	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}

@@ -18,6 +18,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
@@ -25,10 +26,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
-import geogebra.common.kernel.locusequ.elements.EquationPointOnPathRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -282,12 +279,6 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 
 	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
-	}
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationPointOnPathRestriction(element, this, scope);
 	}
 
 	@Override

@@ -25,9 +25,6 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.elements.EquationDiameterLine;
 
 
 /**
@@ -104,12 +101,6 @@ public class AlgoDiameterLine extends AlgoElement {
         // simplified to allow better Chinese translation
         return app.getPlain("DiameterOfAConjugateToB",c.getLabel(tpl),g.getLabel(tpl));
     }
-
-	@Override
-	public EquationElement buildEquationElementForGeo(GeoElement element,
-			EquationScope scope) {
-		return new EquationDiameterLine(element, scope);
-	}
 
 	@Override
 	public boolean isLocusEquable() {
