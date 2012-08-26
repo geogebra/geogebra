@@ -432,7 +432,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("intrules!!:={"
 						+ "int(asin(~x-1),~x) => -x * asin(1 - x) + asin(1 - x) + sqrt(2 * x - x^(2)),"
-						+ "int(acos(~x-1),~x) => x * acos(-1 + x) - acos(-1 + x) - sqrt(2 * a * x - x^(2)),"
+						+ "int(acos(~x-1),~x) => x * acos( x-1) - acos(x-1) - sqrt(2 * x - x^(2)),"
 						+ "int(atan(~x-1),~x) =>(-2 * x * atan(1 - x) + 2 * atan(1 - x) - log(2 - 2  * x + x^(2))) / 2,"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
 						+ "int(~w/(~x+~a),~x) => w*log(abs(x+a)) when freeof(w,x) and freeof(a,x),"
