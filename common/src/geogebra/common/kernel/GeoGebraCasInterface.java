@@ -1,12 +1,14 @@
-package geogebra.common.kernel.cas;
+package geogebra.common.kernel;
 
 import geogebra.common.cas.CASException;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.cas.AsynchronousCommand;
+import geogebra.common.kernel.cas.CASGenericInterface;
+import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.CasType;
 

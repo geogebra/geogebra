@@ -1,6 +1,7 @@
 package geogebra.common.cas;
 
 import geogebra.common.cas.mpreduce.CASmpreduce;
+import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
@@ -16,7 +17,6 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;

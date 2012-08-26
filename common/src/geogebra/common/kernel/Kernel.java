@@ -25,7 +25,6 @@ import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.AlgoTangentCurve;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.cas.AsynchronousCommand;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoAngle;
