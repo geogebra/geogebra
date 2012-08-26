@@ -6,6 +6,7 @@ package geogebra.web.gui.app;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.main.App;
+import geogebra.web.Web;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
@@ -141,9 +142,32 @@ public class GeoGebraAppFrame extends Composite {
 		AppW.displaySupportedLocales();
 		AppW.displayLocaleCookie();
 		
-//		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
-//	    CASmpreduceW.getStaticInterpreter(casMPReduce);
+		if (Web.webWorkerSupported)
+			loadCASWithWorker(GWT.getModuleBaseURL(), this);
     }
+	
+	private native void loadCASWithWorker(String baseUrl, GeoGebraAppFrame ggbAF) /*-{
+		var worker = new Worker(baseUrl+"js/loadCAS.js");		
+		console.log(baseUrl+"js/loadCAS.js");
+		worker.onmessage = function(e) {
+		  console.log("worker says: " + e.data);
+		};
+		
+	   window.loadCAS =
+	      //$entry(ggbAF.@geogebra.web.gui.app.GeoGebraAppFrame::loadCAS());
+	      function() {ggbAF.@geogebra.web.gui.app.GeoGebraAppFrame::loadCAS()()};
+		
+		//worker.postMessage("{'fnname' : 'loadCAS'}");
+		//worker.postMessage(JSON.stringify(window.loadCAS));
+		worker.postMessage();
+		worker.terminate();
+	}-*/;
+	
+	private void loadCAS(){
+		App.debug("loadCAS started");
+		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
+		CASmpreduceW.getStaticInterpreter(casMPReduce);		
+	}
 	
 	/**
 	 * @return int computed width of the canvas
