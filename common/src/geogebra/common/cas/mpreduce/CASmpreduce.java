@@ -648,7 +648,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
-						+ " begin scalar solutions!!, bool!!, isineq,temp1!!,temp2!!, max;"
+						+ " begin scalar solutions!!, bool!!, isineq,temp1!!,temp2!!, max, other!!;"
 						+ "isineq:=0; multi:={};temp1!!:={}; temp2!!:={};" 
 						+ " if part(eqn,0)='sgreater then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='greaterp; isineq:=1 >>;"
 						+ " if part(eqn,0)='sgreaterequal then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='geq; isineq:=1>>;"
@@ -708,12 +708,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ " >>; "
 
 						// inequality solution ends
-						//+ "if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
-						//+ "    solutions!!:=solve(map(exptolin(~r),eqn),var); "
 					+ "  solutions!! := solvepostprocess(solutions!!,var);" +
+					" other!!:=list(0);" +
 					" if not (part(solutions!!,1)=1) then " +
-					" solutions!!:=solvepostprocess(solve(map(exptolin(~r),eqn),var),var);" +
-					" return part(solutions!!,2);" +
+					" other!!:=solvepostprocess(solve(map(exptolin(~r),eqn),var),var);" +
+					//may happen that other!! is "we don't know" and solutions!! is "no answer" 
+					" return if part(other!!,1)=1 then part(other!!,2) else part(solutions!!,2);" +
 					" end;");
 		
 		App.debug(mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
@@ -726,7 +726,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "	 solutions!!:=for each sol in solutions!! join <<"
 				+ "    bool!!:=1;"
 				+ "    for each solution!! in sol do"
-				+ "     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
+				+ "     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) and arglength(lhs(solution!!))=-1 then <<"
 				+ "		   on rounded, roundall, numval, complex;"
 				+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
 				+ "		   off complex;"
@@ -738,7 +738,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ " 	   firstsol!!:=part(sol,1);"
 				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,ineqop,part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
 				+ "    else if bool!!=1 then" + "  	 {sol}"
-				+ "	   else if bool!!>1 then " + "  	 {{var='?}}"
+				+ "	   else if bool!!>1 then" + "  	 {{var='?}}"
 				+ "    else " + "		 {} >>;"
 				+ "  clearrules solverules;"
 				+ "  if solutions!!=list() then bool!!:=0;"
