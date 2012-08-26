@@ -67,6 +67,7 @@ import geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3347,13 +3348,13 @@ public class Kernel {
 	}
 	
 	private HashSet<GeoElement> collectNotifyUpdateSet = new HashSet<GeoElement>();
-	private GeoElement collectNotifyUpdateStartingGeo;
+	private GeoElementND collectNotifyUpdateStartingGeo;
 	
 	/**
 	 * Starts collecting all calls of notifyUpdate(). The views will NOT be notified about updates by geos until stopCollectingNotifyUpdate() is called.
 	 * @param startGeo: initiating GeoElement. Note: use the same geo for stopCollectingNotifyUpdate
 	 */
-	public final void startCollectingNotifyUpdate(GeoElement startGeo) {
+	public final void startCollectingNotifyUpdate(GeoElementND startGeo) {
 		// make sure we only start once
 		if (collectNotifyUpdateStartingGeo != null) return;
 		
@@ -3369,7 +3370,7 @@ public class Kernel {
 	 * Stops collecting calls of notifyUpdate(). The views are notified about all updates by geos since startCollectingNotifyUpdate() was called.
 	 * @param startGeo: initiating GeoElement. Note: this must be the same geo as used in startCollectingNotifyUpdate
 	 */
-	public final void stopCollectingNotifyUpdate(GeoElement startGeo) {
+	public final void stopCollectingNotifyUpdate(GeoElementND startGeo) {
 		if (collectNotifyUpdateStartingGeo != startGeo) return;
 							
 		readingCollectNotifyUpdateSet = true;

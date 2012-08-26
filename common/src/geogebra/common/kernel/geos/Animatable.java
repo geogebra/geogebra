@@ -11,12 +11,14 @@ the Free Software Foundation.
 */
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.kernelND.GeoElementND;
+
 /**
  * Geos that can be animated
  * @author Markus
  *
  */
-public interface Animatable {
+public interface Animatable extends GeoElementND {
 	
 	/**
 	 * Performs the next animation step for this GeoElement. This may

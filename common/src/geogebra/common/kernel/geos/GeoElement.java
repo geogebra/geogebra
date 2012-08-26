@@ -3471,6 +3471,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
+	public boolean hasAlgoUpdateSet(){
+		return algoUpdateSet != null;
+	}
 	/**
 	 * If the flag updateCascadeAll is false, this algorithm updates all
 	 * GeoElements in the given ArrayList and all algorithms that depend on free
@@ -3491,17 +3494,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param updateCascadeAll true to update cascade
 	 */
 	final static public synchronized void updateCascade(
-			final ArrayList<?> geos,
+			final ArrayList<? extends GeoElementND> geos,
 			final TreeSet<AlgoElement> tempSet1,
 			final boolean updateCascadeAll) 
 	{		
 	
 		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
-			final ConstructionElement ce = (ConstructionElement) geos.get(0);
-			if (ce.isGeoElement()) {
-				((GeoElement) ce).updateCascade();
-			}
+			final GeoElementND ce = geos.get(0);
+			ce.updateCascade();
 			return;
 		}
 
@@ -3509,28 +3510,25 @@ public abstract class GeoElement extends ConstructionElement implements
 		// clear temp set
 		tempSet1.clear();
 		
-		GeoElement firstGeo = null;
+		GeoElementND firstGeo = null;
 		try {
 			final int size = geos.size();
 			for (int i = 0; i < size; i++) {
-				final ConstructionElement ce = (ConstructionElement) geos.get(i);
-				if (ce.isGeoElement()) {
-					final GeoElement geo = (GeoElement) geos.get(i);
-					
-					if (firstGeo == null) {
-						firstGeo = geo;
-						// start collecting notify updates as locateables can cause multiple updates, see #2462			
-						firstGeo.getKernel().startCollectingNotifyUpdate(firstGeo);										
-					}
-					
-					geo.update();								
-	
-					if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
-							&& (geo.algoUpdateSet != null)) {
-						// add all dependent algos of geo to the overall algorithm
-						// set
-						geo.algoUpdateSet.addAllToCollection(tempSet1);
-					}
+				final GeoElementND geo = geos.get(i);
+				
+				if (firstGeo == null) {
+					firstGeo = geo;
+					// start collecting notify updates as locateables can cause multiple updates, see #2462			
+					firstGeo.getKernel().startCollectingNotifyUpdate(firstGeo);										
+				}
+				
+				geo.update();								
+
+				if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
+						&& (geo.hasAlgoUpdateSet())) {
+					// add all dependent algos of geo to the overall algorithm
+					// set
+					geo.getAlgoUpdateSet().addAllToCollection(tempSet1);
 				}
 			}
 	

@@ -15,6 +15,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.ToGeoElement;
@@ -181,4 +182,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return construction index
 	 */
 	int getConstructionIndex();
+	AlgorithmSet getAlgoUpdateSet();
+	boolean hasAlgoUpdateSet();
 }
