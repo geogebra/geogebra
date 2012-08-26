@@ -626,15 +626,18 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"ret:=part(lst,1);"+
 				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
 				"return ret; end;");
+		App.debug(mpreduce1.evaluate("procedure logofstd(a);begin scalar r;r:=mycoeff(logof(a),logminusone);return if length(r)=1 then part(r,1) else" +
+				" part(r,2)+(if(fixp(part(r,1)/2)) then 0 else i * pi); end;"));
+		
 		mpreduce1.evaluate("procedure logof(a);"
-				+" if (arglength(a)>-1) and (part(a,0)='minus )then pi*i+logof(part(a,1)) else "
+				+" if (arglength(a)>-1) and (part(a,0)='minus )then logminusone+logof(part(a,1)) else "
 				+" if (arglength(a)>-1) and (part(a,0)='expt )then logof(part(a,1))*part(a,2) else "
 		+" if (arglength(a)>-1) and (part(a,0)='times)then for k:=1:arglength(a) sum logof(part(a,k)) else "
 		+" if (arglength(a)>-1) and (part(a,0)='quotient )then logof(part(a,1))-logof(part(a,2)) else log(a);");
 		//exptolin({7^(2*x-5)* 5^x = 9^(x+1)})
 		mpreduce1.evaluate("procedure exptolin(eqn);" +
 				" if arglength(eqn)>-1 and part(eqn,0)='quotient and numberp(part(eqn,2)) then  exptolin(part(eqn,1)) else " +
-			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logof(for k:=2:arglength(eqn) sum part(eqn,k))-logof(-part(eqn,1))) " +
+			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logofstd(for k:=2:arglength(eqn) sum part(eqn,k))-logofstd(-part(eqn,1))) " +
 			    " else eqn;"
 				 );
 		App.debug(mpreduce1.evaluate("procedure bigexponents(eqn);" +
