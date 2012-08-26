@@ -1,4 +1,4 @@
-package au.com.bytecode.opencsv;
+package geogebra.gui.view.opencsv;
 /**
  Copyright 2005 Bytecode Pty Ltd.
 

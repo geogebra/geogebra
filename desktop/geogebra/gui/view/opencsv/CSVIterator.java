@@ -1,4 +1,4 @@
-package au.com.bytecode.opencsv;
+package geogebra.gui.view.opencsv;
 
 import java.io.IOException;
 import java.util.Iterator;

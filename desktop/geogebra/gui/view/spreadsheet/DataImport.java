@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.main.App;
+import geogebra.gui.view.opencsv.CSVParser;
 import geogebra.main.AppD;
 
 import java.awt.datatransfer.DataFlavor;
@@ -17,7 +18,6 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
-import au.com.bytecode.opencsv.CSVParser;
 
 /**
  * Utility class with methods to handle importing data into the spreadsheet.
