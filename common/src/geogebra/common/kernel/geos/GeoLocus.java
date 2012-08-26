@@ -21,6 +21,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -339,12 +340,12 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 
 		// check n and n+1 are in a sensible range
 		// might occur if locus has changed no of segments/points
-		if (n + 1 >= myPointList.size() || n < 0) {
-			n = (n < 0) ? 0 : myPointList.size() - 2;
+		if (n >= myPointList.size() || n < 0) {
+			n = (n < 0) ? 0 : myPointList.size() - 1;
 		}
 
 		MyPoint locusPoint = myPointList.get(n);
-		MyPoint locusPoint2 = myPointList.get(n + 1);
+		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
 
 		P.x = (1 - t) * locusPoint.x + t * locusPoint2.x;
 		P.y = (1 - t) * locusPoint.y + t * locusPoint2.y;
