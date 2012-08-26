@@ -84,7 +84,7 @@ public class DrawRay extends Drawable implements Previewable {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			labelVisible = showLabel && geo.isLabelVisible();
-			updateStrokes((GeoElement) ray);
+			updateStrokes(ray);
 
 			// calc direction vector of ray in screen coords
 			Coords equation = ray.getCartesianEquationVector(view.getMatrix());

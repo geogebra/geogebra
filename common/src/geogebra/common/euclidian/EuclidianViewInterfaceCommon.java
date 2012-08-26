@@ -736,7 +736,9 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param storeUndo true to store undo info
 	 */
 	public void setStandardView(boolean storeUndo);
-
+	/**
+	 * Request focus for this view
+	 */
 	public void requestFocus();
 
 

@@ -81,7 +81,7 @@ public class DrawVector extends Drawable implements Previewable {
 			return;
 		labelVisible = geo.isLabelVisible();
 
-		updateStrokes((GeoElement) v);
+		updateStrokes(v);
 
 		Coords coords;
 
