@@ -25,8 +25,6 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, Furniture {			
 
-	private boolean buttonFixed = false;
-	
 	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
 
@@ -164,8 +162,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 
 	public void setAbsoluteScreenLoc(int x, int y) {		
-		if (buttonFixed) return;
-		
 		labelOffsetX = x;
 		labelOffsetY = y;		
 	}
@@ -184,19 +180,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	public void setRealWorldLoc(double x, double y){
 		//do nothing
-	}
-	/**
-	 * @return true for fixed buttons
-	 */
-	public final boolean isButtonFixed() {
-		return buttonFixed;
-	}
-
-	/**
-	 * @param buttonFixed true to make button fixed
-	 */
-	public final void setButtonFixed(boolean buttonFixed) {
-		this.buttonFixed = buttonFixed;
 	}
 	/**
 	 * @return true for textfields, false for buttons
