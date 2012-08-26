@@ -1,6 +1,6 @@
 package geogebra.common.kernel.cas;
 
-import geogebra.common.cas.CASException;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;

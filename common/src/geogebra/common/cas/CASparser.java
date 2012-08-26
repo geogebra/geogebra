@@ -13,6 +13,7 @@
 package geogebra.common.cas;
 
 import geogebra.common.cas.mpreduce.Ggb2MPReduce;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;

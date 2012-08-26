@@ -2,7 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.cas.CASException;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;

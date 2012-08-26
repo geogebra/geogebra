@@ -1,9 +1,9 @@
 package geogebra.common.cas.mpreduce;
 
-import geogebra.common.cas.CASException;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;

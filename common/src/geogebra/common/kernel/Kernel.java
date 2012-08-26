@@ -1,7 +1,6 @@
 package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.cas.CASException;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;

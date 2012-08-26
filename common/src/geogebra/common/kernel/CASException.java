@@ -1,4 +1,6 @@
-package geogebra.common.cas;
+package geogebra.common.kernel;
+
+import geogebra.common.cas.GeoGebraCAS;
 
 //TODO add import for GeoGebraCAS as soon as it is in common
 /**

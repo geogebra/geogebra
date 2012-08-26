@@ -1,6 +1,5 @@
 package geogebra.common.kernel;
 
-import geogebra.common.cas.CASException;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.algos.AlgoDependentNumber;

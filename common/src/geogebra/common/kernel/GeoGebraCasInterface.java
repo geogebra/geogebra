@@ -1,6 +1,5 @@
 package geogebra.common.kernel;
 
-import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
