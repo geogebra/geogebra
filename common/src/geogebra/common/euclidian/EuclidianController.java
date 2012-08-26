@@ -7544,7 +7544,7 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseDragged(AbstractEvent event) {
 		sliderValue = null;
-		if (textfieldHasFocus) {
+		if (textfieldHasFocus && moveMode != MOVE_BUTTON) {
 			return;
 		}
 		if(pressedButton!=null){
