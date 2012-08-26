@@ -1289,6 +1289,16 @@ public class Construction {
 			oldGeo.updateRepaint();
 			return;
 		}
+		App.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
+		if(oldGeo.getCommandDescription(StringTemplate.maxPrecision).equals(
+				newGeo.getCommandDescription(StringTemplate.maxPrecision)) &&
+				oldGeo.getParentAlgorithm()!=null){
+			ArrayList<AlgoElement> ae = new ArrayList<AlgoElement>();
+			ae.add(oldGeo.getParentAlgorithm());
+			AlgoElement.updateCascadeAlgos(ae);
+			return;
+		}
+			
 		// if oldGeo does not have any children, we can simply
 		// delete oldGeo and give newGeo the name of oldGeo
 		if (!oldGeo.hasChildren()) {
