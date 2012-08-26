@@ -26,7 +26,7 @@ import geogebra.common.main.App;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoDependentFunctionNVar extends AlgoElement {
+public class AlgoDependentFunctionNVar extends AlgoElement implements AlgoDependent {
 
 	private FunctionNVar fun;
     private GeoFunctionNVar f; // output         

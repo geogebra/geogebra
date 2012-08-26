@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
  * @author  Markus
  * @version 
  */
-public class AlgoDependentPoint extends AlgoElement {
+public class AlgoDependentPoint extends AlgoElement implements AlgoDependent {
 
     private ExpressionNode root;  // input
     private GeoPoint P;     // output         

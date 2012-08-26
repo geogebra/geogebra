@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoVector;
  * @author Markus
  * @version
  */
-public class AlgoDependentVector extends AlgoElement {
+public class AlgoDependentVector extends AlgoElement implements AlgoDependent {
 
 	private ExpressionNode root; // input
 	private GeoVector v; // output

@@ -955,7 +955,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			freeInputPoints = new ArrayList<GeoPoint>(input.length);
 
 			// don't use free points from dependent algos with expression trees
-			if (!getClassName().name().startsWith("AlgoDependent")) {
+			if (this instanceof AlgoDependent) {
 				for (int i = 0; i < input.length; i++) {
 					if (input[i].isGeoPoint() && input[i].isIndependent()) {
 						freeInputPoints.add((GeoPoint) input[i]);

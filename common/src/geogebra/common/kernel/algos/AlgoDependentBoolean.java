@@ -35,7 +35,7 @@ import java.util.HashSet;
  * @version 
  */
 public class AlgoDependentBoolean extends AlgoElement implements SymbolicParametersAlgo, 
-	SymbolicParametersBotanaAlgoAre {
+	SymbolicParametersBotanaAlgoAre, AlgoDependent {
 
     private ExpressionNode root;  // input
     private GeoBoolean bool;     // output              

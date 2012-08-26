@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 /**
  * Creates a dependent copy of the given GeoElement.
  */
-public class AlgoDependentGeoCopy extends AlgoElement {
+public class AlgoDependentGeoCopy extends AlgoElement implements AlgoDependent {
 
 	private ExpressionNode origGeoNode;
     private GeoElement origGeo, copyGeo;     // input, ouput              

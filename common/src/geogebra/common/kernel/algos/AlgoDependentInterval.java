@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoInterval;
  * Algorithm for dependent intervals, eg a<x<a+1
  *
  */
-public class AlgoDependentInterval extends AlgoDependentFunction {
+public class AlgoDependentInterval extends AlgoDependentFunction implements AlgoDependent {
 
 
 	/**

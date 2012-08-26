@@ -42,7 +42,7 @@ import geogebra.common.main.App;
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7}
  * such an expression could be L1 + L2
  */
-public class AlgoDependentListExpression extends AlgoElement {
+public class AlgoDependentListExpression extends AlgoElement implements AlgoDependent {
    
 	private ExpressionNode root;  // input
     private GeoList list;     // output              
