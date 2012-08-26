@@ -333,7 +333,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException {
 		ExpressionValue ve = casParser.parseMPReduce(mpreduceString);
-		// replace rational exponents by roots or vice versa
+		//replace rational exponents by roots or vice versa
 
 		if (ve != null) {
 			boolean toRoot = ve.getKernel().getApplication().getSettings()
@@ -642,6 +642,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				" and numberp(part(eqn,2)) and part(eqn,2)> 16 then  1 else " +
 			    " for k:=1:arglength(eqn) sum bigexponents(part(eqn,k));"
 				 ));
+		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq,temp1!!,temp2!!, max;"
@@ -704,31 +705,41 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ " >>; "
 
 						// inequality solution ends
-						+ "  if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
-						+ "    solutions!!:=solve(map(exptolin(~r),eqn),var); "
-						+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
-						+ "	 if depth(solutions!!)<2 then"
-						+ "		solutions!!:=for each x in solutions!! collect {x};"
-						
-						+ "	 solutions!!:=for each sol in solutions!! join <<"
-						+ "    bool!!:=1;"
-						+ "    for each solution!! in sol do"
-						+ "     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
-						+ "		   on rounded, roundall, numval, complex;"
-						+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
-						+ "		   off complex;"
-						+ "		   if numeric!!=0 then off rounded, roundall, numval"
-						+ "      >>"
+						//+ "if solutions!!=list() or (arglength(solutions!!)>-1 and not freeof(solutions!!,'root_of)) then"
+						//+ "    solutions!!:=solve(map(exptolin(~r),eqn),var); "
+					+ "  solutions!! := solvepostprocess(solutions!!,var);" +
+					" if not (part(solutions!!,1)=1) then " +
+					" solutions!!:=solvepostprocess(solve(map(exptolin(~r),eqn),var),var);" +
+					" return part(solutions!!,2);" +
+					" end;");
+		
+		App.debug(mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
+				+ " begin scalar bool!!, isineq,temp1!!,temp2!!, max, noofstdsolutions;"
+				
+				+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
+				+ "	 if depth(solutions!!)<2 then"
+				+ "		solutions!!:=for each x in solutions!! collect {x};"
+				
+				+ "	 solutions!!:=for each sol in solutions!! join <<"
+				+ "    bool!!:=1;"
+				+ "    for each solution!! in sol do"
+				+ "     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
+				+ "		   on rounded, roundall, numval, complex;"
+				+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
+				+ "		   off complex;"
+				+ "		   if numeric!!=0 then off rounded, roundall, numval"
+				+ "      >>"
 
-						+ "      else"
-						+ "	       bool!!:=2*bool!!;"
-						+ " 	   firstsol!!:=part(sol,1);"
-						+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,ineqop,part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
-						+ "    else if bool!!=1 then" + "  	 {sol}"
-						+ "	   else if bool!!>1 then " + "  	 {{var='?}}"
-						+ "    else " + "		 {} >>;"
-						+ "  clearrules solverules;"
-						+ "  return if isineq then listtodisjunction(var,flattenlist(mkset(solutions!!))) else mkset(solutions!!);" + " end;");
+				+ "      else"
+				+ "	       bool!!:=2*bool!!;"
+				+ " 	   firstsol!!:=part(sol,1);"
+				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,ineqop,part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
+				+ "    else if bool!!=1 then" + "  	 {sol}"
+				+ "	   else if bool!!>1 then " + "  	 {{var='?}}"
+				+ "    else " + "		 {} >>;"
+				+ "  clearrules solverules;"
+				+ "  if solutions!!=list() then bool!!:=0;"
+				+ "  return if isineq then list(1,listtodisjunction(var,flattenlist(mkset(solutions!!)))) else list(bool!!,mkset(solutions!!));" + " end;"));
 		
 		mpreduce1
 		.evaluate("procedure mysolve1(eqn);"
