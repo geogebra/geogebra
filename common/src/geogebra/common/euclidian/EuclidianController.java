@@ -6771,6 +6771,8 @@ public abstract class EuclidianController {
 						translateableGeos.clear();
 					translateableGeos.addAll(movedGeoElement
 							.getFreeInputPoints(view));
+					if(movedGeoElement.isGeoList())
+						translateableGeos.add(movedGeoElement);
 				}
 			}
 	
@@ -8286,7 +8288,11 @@ public abstract class EuclidianController {
 				view.toRealWorldCoordY(rect.getMinY()), 15, true);
 		return true;
 	}
-
+	/**
+	 * Removes geos that don't match given test from geos and updates selection
+	 * @param hits srt of its geos, may not be null
+	 * @param test test to filter specific object types
+	 */
 	protected void processSelectionRectangleForTransformations(Hits hits,
 			Test test) {
 				for (int i = 0; i < hits.size(); i++) {
@@ -8300,7 +8306,7 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				app.setSelectedGeos(hits,false);
-				app.updateSelection(hits!=null && hits.size()>0);
+				app.updateSelection(hits.size()>0);
 			}
 
 	protected void processSelectionRectangle(AbstractEvent e) {
