@@ -1788,7 +1788,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 			if (geo.isGeoPoint()) {
 				final GeoPoint p = (GeoPoint) geo;
-				if (p.isMoveable() && !al.contains(p) && p.isLabelSet()) {
+				if (p.isMoveable() && !al.contains(p)) {
 					al.add(p);
 				}
 

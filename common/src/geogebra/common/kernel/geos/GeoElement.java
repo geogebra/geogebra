@@ -3515,7 +3515,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final int size = geos.size();
 			for (int i = 0; i < size; i++) {
 				final GeoElementND geo = geos.get(i);
-				
+
 				if (firstGeo == null) {
 					firstGeo = geo;
 					// start collecting notify updates as locateables can cause multiple updates, see #2462			
@@ -5703,7 +5703,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = geos.get(i);
-
+			if(geo.isGeoList()){
+				moveObjectsUpdateList.add(geo);
+				continue;
+			}
 			/*
 			 * Michael Borcherds check for isGeoPoint() as it makes the mouse
 			 * jump to the position of the point when dragging eg Image with one
