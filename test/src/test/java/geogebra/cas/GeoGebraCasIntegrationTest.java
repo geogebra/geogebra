@@ -15,7 +15,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 
