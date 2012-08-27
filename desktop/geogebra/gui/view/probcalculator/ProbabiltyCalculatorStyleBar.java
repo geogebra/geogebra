@@ -169,13 +169,13 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 	 */
 	public void setLabels() {
 		btnRounding.setText(app.getMenu("Rounding"));
-		
-		btnLineGraph.setToolTipText(app.getMenu("LineGraph"));
-		btnStepGraph.setToolTipText(app.getMenu("StepGraph"));
-		btnBarGraph.setToolTipText(app.getMenu("BarChart"));
-		
 		btnExport.setToolTipText(app.getMenu("Export"));
-		btnNormalOverlay.setToolTipText(app.getMenu("NormalOverlay"));
+		btnLineGraph.setToolTipText(app.getMenu("LineGraph"));
+		
+		btnStepGraph.setToolTipText(app.getMenu("StepGraph"));
+		btnBarGraph.setToolTipText(app.getMenu("BarGraph"));
+		btnNormalOverlay.setToolTipText(app.getMenu("OverlayNormalCurve"));
+		
 		//btnCumulative.setToolTipText(app.getMenu("Cumulative"));
 		
 	}
