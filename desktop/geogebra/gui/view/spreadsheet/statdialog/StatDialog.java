@@ -8,6 +8,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.main.AppD;
@@ -49,12 +50,12 @@ public class StatDialog extends JPanel implements View, Printable,
 	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
-	public static final int SOURCE_VALUE = 0;
-	public static final int SOURCE_FREQUENCY_VALUE = 1;
-	public static final int SOURCE_FREQUENCY_CLASS = 2;
-	private int sourceType = SOURCE_VALUE;
-	
-	
+	public static final int SOURCE_RAWDATA = 0;
+	public static final int SOURCE_VALUE_FREQUENCY = 1;
+	public static final int SOURCE_CLASS_FREQUENCY = 2;
+	public static final int SOURCE_POINTLIST = 3;
+	private int sourceType = SOURCE_RAWDATA;
+
 	// flags
 	private boolean showDataPanel = false;
 
@@ -63,12 +64,9 @@ public class StatDialog extends JPanel implements View, Printable,
 	protected boolean isIniting = true;
 	private boolean leftToRight = true;
 	private boolean isNumeric = true;
-	private boolean forceModeUpdate = false;
 
-	
+	// TODO: this may not be needed
 	private StatPanelSettings defaults;
-	
-
 
 	private boolean doSpecialNumberFormat = false;
 
@@ -135,7 +133,7 @@ public class StatDialog extends JPanel implements View, Printable,
 
 	// number format
 	private SpecialNumberFormat nf;
-	private DialogDataViewSettings dialogDataType;
+	
 
 	/*************************************************
 	 * Construct the dialog
@@ -150,16 +148,15 @@ public class StatDialog extends JPanel implements View, Printable,
 		this.kernel = app.getKernel();
 
 		defaults = new StatPanelSettings();
-		
+
 		nf = new SpecialNumberFormat(app, this);
 
 		sdc = new StatDialogController(app, this);
 
 		comboStatPanel = new StatComboPanel(this);
 		comboStatPanel2 = new StatComboPanel(this);
-		
 
-		setView(mode);
+		setView(null, mode, true);
 		isIniting = false;
 
 	}
@@ -168,37 +165,33 @@ public class StatDialog extends JPanel implements View, Printable,
 	 * END StatDialog constructor
 	 */
 
-	public void setDataAnalysisView(int mode){
-		//App.printStacktrace("");
-		if (mode == MODE_ONEVAR) {
-			setView(mode);
-			//DialogDataViewSettings d = new DialogDataViewSettings(app, this, mode);
-			//d.setVisible(true);
-			//d.requestFocus();
-		}else{
-			setView(mode);
-		}
-	}
-	
-	
-	protected void setView(int mode) {
+	protected void setView(DataSource dataSource, int mode,
+			boolean forceModeUpdate) {
 
-		if (app.getSelectedGeos().size() == 0)
-			return;
+		sdc.setDataSource(dataSource);
 		
+		if (dataSource == null) {
+			sdc.setValidData(false);
+		} else {
+			sdc.setValidData(true);
+		}
+
 		// reinit the GUI if mode is changed
 		if (this.mode != mode || forceModeUpdate) {
 
 			this.mode = mode;
 			dataPanel = null;
 			buildStatisticsPanel();
-			sdc.updateDataSource(true);
+			sdc.updateDataLists();
 			setComboPanels();
 			updateLayout();
+			
+			// TODO: why do this here?
+			sdc.updateDataAnalysisView();
 
 		} else {
 			// just update data source
-			sdc.updateDataAnalysisView(true);
+			sdc.updateDataAnalysisView();
 		}
 
 		// TODO is this needed?
@@ -352,15 +345,20 @@ public class StatDialog extends JPanel implements View, Printable,
 		// main panel
 		// ============================================
 		mainPanel = new JPanel(new BorderLayout());
+		mainPanel.add(getStyleBar(), BorderLayout.NORTH);
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
 
 		if (mode == MODE_REGRESSION) {
 			mainPanel.add(regressionPanel, BorderLayout.SOUTH);
 		}
 
+	//	dataTypePanel = new DataViewSettingsPanel(app, StatDialog.MODE_ONEVAR);
+		JPanel p = new JPanel(new FullWidthLayout());
+	//	p.add(dataTypePanel);
+
 		this.setLayout(new CardLayout());
 		add(mainPanel, MainCard);
-		//add(dataTypePanel, SourceCard);
+		add(p, SourceCard);
 		showMainPanel();
 
 		setShowComboPanel2(showComboPanel2);
@@ -382,6 +380,15 @@ public class StatDialog extends JPanel implements View, Printable,
 	// ======================================
 	// Getters/setters
 	// ======================================
+
+	/**
+	 * Component representation of this view
+	 * 
+	 * @return reference to self
+	 */
+	public JComponent getDataAnalysisViewComponent() {
+		return this;
+	}
 
 	public boolean showComboPanel2() {
 		return showComboPanel2;
@@ -508,20 +515,12 @@ public class StatDialog extends JPanel implements View, Printable,
 	public void setShowDataOptionsDialog(boolean showDialog) {
 		// if (showDialog) {
 		// showSourcePanel();
-		// this.dataTypePanel.updatePanel();
+		// this.dataTypePanel;
 		// } else {
 		// showMainPanel();
 		// }
-		if (dialogDataType == null) {
-			dialogDataType = new DialogDataViewSettings(app, this,mode);
-		}
-		
-		if(showDialog){
-			//dialogDataType = new Dialog_DataAnalysisSettings(app, this);
-			dialogDataType.setVisible(showDialog);
-		}else if (dialogDataType == null) {
-			dialogDataType.setVisible(showDialog);
-		}
+
+		app.getDialogManager().showDataSourceDialog(mode, false);
 
 	}
 
@@ -544,8 +543,6 @@ public class StatDialog extends JPanel implements View, Printable,
 	public StatPanelSettings getDefaults() {
 		return defaults;
 	}
-
-	
 
 	// =================================================
 	// Handlers for Component Visibility
@@ -646,7 +643,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	 * Updates the dialog when the number format options have been changed
 	 */
 	public void changedNumberFormat() {
-		sdc.updateDataAnalysisView(false);
+		sdc.updateDataAnalysisView();
 	}
 
 	public void updateGUI() {
@@ -721,7 +718,7 @@ public class StatDialog extends JPanel implements View, Printable,
 
 		if (!isIniting && sdc.isInDataSource(geo)) {
 			// App.error("updated geo:" + geo.toString());
-			sdc.updateDataAnalysisView(false);
+			sdc.updateDataAnalysisView();
 		}
 	}
 

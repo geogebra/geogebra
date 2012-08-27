@@ -8,6 +8,8 @@ public class StatPanelSettings extends PlotSettings{
 	public static final int TYPE_NORMALIZED = 2;
 	public int frequencyType = TYPE_COUNT;
 
+	public int sourceType = StatDialog.SOURCE_RAWDATA;
+	
 	// histogram options
 	public boolean isCumulative = false;
 	public boolean useManualClasses = false;
@@ -19,6 +21,9 @@ public class StatPanelSettings extends PlotSettings{
 
 	public double classStart = 0;
 	public double classWidth = 5;
+	public int numClasses = 5;
+	
+	public double[] classBorders;
 	public boolean isLeftRule = true;
 
 

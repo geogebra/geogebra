@@ -64,7 +64,6 @@ public class StatGeo {
 	private Construction cons;
 
 	private double xMinData, xMaxData, yMinData, yMaxData;
-	private double[] dataBounds;
 
 	private boolean histogramRight;
 	private boolean removeFromConstruction = true;
@@ -101,7 +100,7 @@ public class StatGeo {
 		removeFromConstruction = true;
 
 		// String label = dataList.getLabel();
-		dataBounds = new double[4];
+		double[] dataBounds = new double[4];
 
 		if (isMatrix) {
 
@@ -199,68 +198,83 @@ public class StatGeo {
 
 	}
 
-	public GeoElement createHistogram(GeoList dataList, int numClasses,
+	public GeoElement createHistogram(GeoList dataList,
 			StatPanelSettings settings, boolean isFrequencyPolygon) {
 
-		boolean isRawData = !dataList.isMatrix();
-		double classWidth;
 		AlgoElement al = null, al2 = null;
 		histogramRight = !settings.isLeftRule;
 		GeoElement geo;
-		
-		
-		if (isRawData) {
+
+		// determine min/max X values
+		if (settings.sourceType == StatDialog.SOURCE_RAWDATA) {
 			getDataBounds(dataList);
-		} else {
-			getDataBounds((GeoList) dataList.get(1));		
-			numClasses = ((GeoList) dataList.get(0)).size();
+		} else if (settings.sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+			getDataBounds((GeoList) dataList.get(0));
+		} else if (settings.sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+			// settings.numClasses = ((GeoList) dataList.get(0)).size();
 		}
 
-		if(isRawData){
-			classWidth = (xMaxData - xMinData) / (numClasses);
-			
+		// determine class borders
+		if (settings.useManualClasses
+				|| settings.sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+			// generate class borders using given start and width
+			al = new AlgoClasses(cons, dataList, new GeoNumeric(cons,
+					settings.classStart), new GeoNumeric(cons,
+					settings.classWidth), null);
+		} else {
 
-			
-			if (settings.useManualClasses) {
-				classWidth = settings.classWidth;
-				al = new AlgoClasses(cons, dataList, new GeoNumeric(cons,
-						settings.classStart), new GeoNumeric(cons,
-								settings.classWidth), null);
-			} else {
-				al = new AlgoClasses(cons, dataList, null, null, new GeoNumeric(
-						cons, numClasses));
+			// generate class borders from data using given number of classes
+			settings.classWidth = (xMaxData - xMinData) / (settings.numClasses);
+			if (settings.sourceType == StatDialog.SOURCE_RAWDATA) {
+				al = new AlgoClasses(cons, dataList, null, null,
+						new GeoNumeric(cons, settings.numClasses));
+
+			} else if (settings.sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+				al = new AlgoClasses(cons, (GeoList) dataList.get(0), null,
+						null, new GeoNumeric(cons, settings.numClasses));
 			}
-			removeFromConstructionList(al);
-			
-		// handle grouped data	
-		} else {
-			
-			//find numClasses for grouped data
-			numClasses = ((GeoList) dataList.get(0)).size();
-			classWidth = (xMaxData - xMinData) / (numClasses);
-			
 		}
-		
-		
+		removeFromConstructionList(al);
+
+		// set the density
 		double density = -1;
+		int dataSize = dataList.size();
+
 		if (settings.frequencyType == StatPanelSettings.TYPE_RELATIVE)
-			density = 1.0 * classWidth / dataList.size();
+			density = 1.0 * settings.classWidth / dataList.size();
 		if (settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED)
 			density = 1.0 / dataList.size();
 
-		if(isRawData){
-		al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
-				settings.isCumulative), (GeoList) al.getGeoElements()[0],
-				//TODO -- the null below is just to make autotest happy, it may not be correct
-				dataList, null, new GeoBoolean(cons, true), new GeoNumeric(cons,
-						density), histogramRight);
-		
-		} else {
-			al2 = new AlgoBarChart(cons,
-					((GeoList) dataList.get(0)),
-					((GeoList) dataList.get(1)));
+		// ==================
+		// create a histogram and (possibly) a frequency polygon
+
+		if (settings.sourceType == StatDialog.SOURCE_RAWDATA) {
+			// histogram constructed from data values
+			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
+					settings.isCumulative), (GeoList) al.getGeoElements()[0],
+					dataList, null, new GeoBoolean(cons, true), new GeoNumeric(
+							cons, density), histogramRight);
+
+		} else if (settings.sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+
+			// histogram constructed from frequencies
+			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
+					settings.isCumulative), (GeoList) al.getGeoElements()[0],
+					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
+					new GeoBoolean(cons, true), new GeoNumeric(cons, density),
+					histogramRight);
+
+		} else if (settings.sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+
+			// histogram constructed from frequencies
+			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
+					settings.isCumulative), (GeoList) al.getGeoElements()[0],
+					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
+					new GeoBoolean(cons, true), new GeoNumeric(cons, density),
+					histogramRight);
+
 		}
-			
+
 		if (isFrequencyPolygon) {
 			AlgoPolyLine al3 = createFrequencyPolygon((AlgoHistogram) al2,
 					settings.isCumulative);
@@ -356,12 +370,17 @@ public class StatGeo {
 	public void getHistogramSettings(GeoList dataList, GeoElement histogram,
 			StatPanelSettings settings) {
 
-		getDataBounds(dataList);
+		// get the data bounds
+		if (settings.sourceType == StatDialog.SOURCE_RAWDATA) {
+			getDataBounds(dataList);
+		} else if (settings.sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+			getDataBounds((GeoList) dataList.get(0));
+		} else if (settings.sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+			// settings.numClasses = ((GeoList) dataList.get(0)).size();
+		}
 
 		double freqMax = ((AlgoFunctionAreaSums) histogram.getParentAlgorithm())
 				.getFreqMax();
-		// if(settings.type == StatPanelSettings.TYPE_RELATIVE)
-		// freqMax = 1.0;
 
 		if (settings.useManualClasses) {
 			double[] leftBorder = ((AlgoFunctionAreaSums) histogram
@@ -383,18 +402,25 @@ public class StatGeo {
 
 	}
 
-	public GeoElement createBoxPlot(GeoList dataList) {
+	public GeoElement createBoxPlot(GeoList dataList, StatPanelSettings settings) {
 
-		// String label = dataList.getLabel();
-		GeoElement geo;
+		GeoElement geo = null;
 
-		// String text = "BoxPlot[1,0.5," + label + "]";
-		// geo = createGeoFromString(text);
+		if (settings.sourceType == StatDialog.SOURCE_RAWDATA) {
+			AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons,
+					new MyDouble(kernel, 1d), new MyDouble(kernel, 0.5),
+					dataList, new GeoBoolean(cons, true));
+			removeFromConstructionList(boxPlot);
+			geo = boxPlot.getGeoElements()[0];
 
-		AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons, new MyDouble(kernel, 1d),
-				new MyDouble(kernel, 0.5), dataList, new GeoBoolean(cons, true));
-		removeFromConstructionList(boxPlot);
-		geo = boxPlot.getGeoElements()[0];
+		} else if (settings.sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+			AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons,
+					new MyDouble(kernel, 1d), new MyDouble(kernel, 0.5),
+					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
+					new GeoBoolean(cons, true));
+			removeFromConstructionList(boxPlot);
+			geo = boxPlot.getGeoElements()[0];
+		}
 
 		geo.setObjColor(new geogebra.awt.GColorD(StatDialog.BOXPLOT_COLOR));
 		geo.setAlphaValue(StatDialog.opacityBarChart);
@@ -402,8 +428,13 @@ public class StatGeo {
 	}
 
 	public void getBoxPlotSettings(GeoList dataList, StatPanelSettings settings) {
-
-		getDataBounds(dataList);
+		if (settings.sourceType == StatDialog.SOURCE_RAWDATA) {
+			getDataBounds(dataList);
+		} else {
+			if (settings.sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+				getDataBounds((GeoList) dataList.get(0));
+			}
+		}
 		if (settings.isAutomaticWindow) {
 			double buffer = .25 * (xMaxData - xMinData);
 			settings.xMin = xMinData - buffer;
@@ -439,7 +470,8 @@ public class StatGeo {
 		for (int i = 0; i < length; i++) {
 			AlgoBoxPlot bp = new AlgoBoxPlot(cons, new GeoNumeric(cons, i + 1),
 					new GeoNumeric(cons, 1d / 3d),
-					(GeoList) dataList.get((length - 1) - i), new GeoBoolean(cons, true));
+					(GeoList) dataList.get((length - 1) - i), new GeoBoolean(
+							cons, true));
 			cons.removeFromAlgorithmList(bp);
 			ret[i] = bp.getGeoElements()[0];
 			ret[i].setObjColor(new geogebra.awt.GColorD(

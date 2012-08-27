@@ -1114,16 +1114,16 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		
 		if(toggleStyleBarButton != null) {
 			if(showStyleBar) {
-				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-up.png"));
-				toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-up-rollover.png"));
-			} else {
 				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-down.png"));
-				toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-down-rollover.png"));
+				//toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-up-rollover.png"));
+			} else {
+				toggleStyleBarButton.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
+				//toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-down-rollover.png"));
 			}
 		}
 		if (toggleStyleBarButton2 != null) {
 			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
-			toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
+			//toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
 		}
 		
 	}

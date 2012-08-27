@@ -35,7 +35,7 @@ public class StatDialogController {
 	private StatDialog sd;
 	private StatGeo statGeo;
 
-	private Object dataSource;
+	private DataSource dataSource;
 
 	private ArrayList<GeoElement> dataArray;
 
@@ -50,7 +50,7 @@ public class StatDialogController {
 	}
 
 	private boolean leftToRight = true;
-	private boolean isValidData;
+	private boolean isValidData = true;
 
 	public boolean isValidData() {
 		return isValidData;
@@ -121,12 +121,12 @@ public class StatDialogController {
 			GeoElement geo = app.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
 				// TODO: handle validation for a geoList source
-				dataSource = geo;
+				// dataSource = geo;
 			} else {
 				ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
 				isValidData = isSpreadsheetDataOK(rangeList, mode());
 				if (isValidData) {
-					dataSource = rangeList.clone();
+					// dataSource = rangeList.clone();
 					// rangeList.get(0).debug();
 				}
 			}
@@ -139,7 +139,12 @@ public class StatDialogController {
 		return;
 	}
 
-	protected boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList, int mode) {
+	protected void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	protected boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList,
+			int mode) {
 
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
 
@@ -157,48 +162,23 @@ public class StatDialogController {
 			return false;
 		}
 	}
-	
-	
+
 	protected boolean is1DSource() {
 
 		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
-		return(spreadsheetTable.getCellRangeProcessor().is1DRangeList(rangeList));
+		return (spreadsheetTable.getCellRangeProcessor()
+				.is1DRangeList(rangeList));
 
 	}
-	
-	
-	
-	
-	
 
 	/**
 	 * Returns true if the current data source contains the specified GeoElement
 	 */
 	protected boolean isInDataSource(GeoElement geo) {
-
-		if (dataSource == null)
+		if (dataSource == null) {
 			return false;
-
-		// TODO handle case of GeoList data source
-		if (dataSource instanceof GeoList) {
-			return geo.equals(dataSource);
 		}
-
-		GPoint location = geo.getSpreadsheetCoords();
-		boolean isCell = (location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
-
-		if (isCell) {
-			// Application.debug("---------> is cell:" + geo.toString());
-			for (CellRange cr : (ArrayList<CellRange>) dataSource)
-				if (cr.contains(geo))
-					return true;
-
-			// Application.debug("---------> is not in data source:" +
-			// geo.toString());
-		}
-
-		return false;
+		return dataSource.isInDataSource(geo);
 	}
 
 	/**
@@ -207,76 +187,36 @@ public class StatDialogController {
 	 */
 	protected void loadDataLists() {
 
-		if (dataSource == null)
-			return;
-
-		CellRangeProcessor crProcessor = spreadsheetTable
-				.getCellRangeProcessor();
-
-		boolean scanByColumn = true;
-		boolean copyByValue = false;
-		boolean doStoreUndo = false;
-		boolean isSorted = false;
-		boolean doCreateFreePoints = false;
-		boolean setLabel = false;
-
-		// =======================================
-		// create/update dataListAll
 		if (dataSelected != null)
 			dataSelected.remove();
 
-		// TODO: handle dataSource of type geoList
-		if (dataSource instanceof GeoList) {
-			// TODO
+		if (dataSource == null) {
+			this.setValidData(false);
+			return;
+		}
+
+		ArrayList<GeoList> list = dataSource.loadDataLists(mode(),
+				sd.getSourceType());
+
+		if (list == null) {
+			this.setValidData(false);
+			return;
+		}
+
+		if (list.size() == 1) {
+			dataSelected = list.get(0);
 		} else {
-
-			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) dataSource;
-
-			switch (mode()) {
-
-			case StatDialog.MODE_ONEVAR:
-				if (sd.getSourceType() == StatDialog.SOURCE_FREQUENCY_VALUE) {
-					dataSelected = crProcessor.createCollectionList(
-							cellRangeList, copyByValue, setLabel, scanByColumn);
-				} else {
-					dataSelected = (GeoList) crProcessor.createList(
-							cellRangeList, scanByColumn, copyByValue, isSorted,
-							doStoreUndo, GeoClass.NUMERIC, setLabel);
-				}
-				break;
-
-			case StatDialog.MODE_REGRESSION:
-
-				// data is a cell range of points
-				if (cellRangeList.size() == 1
-						&& cellRangeList.get(0).isPointList()) {
-					dataSelected = (GeoList) crProcessor.createList(
-							cellRangeList, scanByColumn, copyByValue, isSorted,
-							doStoreUndo, GeoClass.POINT, setLabel);
-				}
-
-				// data is from two cell ranges of numbers that must be
-				// converted to points
-				else {
-					dataSelected = crProcessor.createPointGeoList(
-							cellRangeList, copyByValue, leftToRight, isSorted,
-							doStoreUndo, doCreateFreePoints);
-				}
-				break;
-
-			case StatDialog.MODE_MULTIVAR:
-				dataSelected = crProcessor.createCollectionList(cellRangeList,
-						copyByValue, setLabel, scanByColumn);
-				break;
-
-			case StatDialog.MODE_GROUPDATA:
-				dataSelected = (GeoList) crProcessor.createList(cellRangeList,
-						scanByColumn, copyByValue, isSorted, doStoreUndo,
-						GeoClass.NUMERIC, setLabel);
-
-				break;
+			dataSelected = new GeoList(cons);
+			for (GeoList geoList : list) {
+				// TODO: suppress label creation!!!!
+				dataSelected.add(geoList);
 			}
 		}
+
+		loadDataArray();
+	}
+
+	private void loadDataArray() {
 
 		// create and update dataArray (list of all geos contained in
 		// dataSelected)
@@ -289,6 +229,8 @@ public class StatDialogController {
 			dataArray.clear();
 			for (int i = 0; i < dataSelected.size(); i++) {
 				dataArray.add(i, dataSelected.get(i));
+				// App.error(dataSelected.get(i).toOutputValueString(
+				// StringTemplate.defaultTemplate));
 			}
 
 			// load dataPanel with dataArray
@@ -329,128 +271,22 @@ public class StatDialogController {
 	 * @return String array of data titles
 	 */
 	public String[] getDataTitles() {
-
-		if (dataSource == null)
-			return null;
-
-		CellRangeProcessor cellRangeProc = spreadsheetTable
-				.getCellRangeProcessor();
-		String[] title = null;
-
-		switch (mode()) {
-
-		case StatDialog.MODE_ONEVAR:
-
-			title = new String[1];
-			StringTemplate tpl = StringTemplate.defaultTemplate;
-
-			if (dataSource instanceof GeoList) {
-				title[0] = ((GeoList) dataSource).getLabel(tpl);
-
-			} else {
-				CellRange range = ((ArrayList<CellRange>) dataSource).get(0);
-				if (range.isColumn()) {
-					GeoElement geo = RelativeCopy.getValue(app,
-							range.getMinColumn(), range.getMinRow());
-					if (geo != null && geo.isGeoText())
-						title[0] = geo.toDefinedValueString(tpl);
-					else
-						title[0] = app.getCommand("Column")
-								+ " "
-								+ GeoElementSpreadsheet
-										.getSpreadsheetColumnName(range
-												.getMinColumn());
-
-				} else {
-					title[0] = app.getMenu("Untitled");
-				}
-			}
-
-			break;
-
-		case StatDialog.MODE_REGRESSION:
-			if (dataSource instanceof GeoList) {
-				// TODO -- handle geolist data source titles
-				// title[0] = ((GeoList) dataSource).getLabel();
-			} else {
-				title = cellRangeProc.getPointListTitles(
-						(ArrayList<CellRange>) dataSource, leftToRight);
-			}
-			break;
-
-		case StatDialog.MODE_MULTIVAR:
-			if (dataSource instanceof GeoList) {
-				// TODO -- handle geolist data source titles
-				// title[0] = ((GeoList) dataSource).getLabel();
-			} else {
-
-				// data is in a single cell range
-				if (((ArrayList<CellRange>) dataSource).size() == 1) {
-					CellRange cr = ((ArrayList<CellRange>) dataSource).get(0);
-					title = new String[cr.getMaxColumn() - cr.getMinColumn()
-							+ 1];
-					for (int i = 0; i < title.length; i++) {
-						CellRange cr2 = new CellRange(app, cr.getMinColumn()
-								+ i, cr.getMinRow(), cr.getMinColumn() + i,
-								cr.getMaxRow());
-
-						title[i] = cellRangeProc.getCellRangeString(cr2);
-					}
-				}
-
-				// data is in columns
-				else {
-					title = cellRangeProc
-							.getColumnTitles((ArrayList<CellRange>) dataSource);
-				}
-			}
-			break;
-
-		}
-
-		return title;
-	}
-
-	/**
-	 * Returns a description of the data source.
-	 * 
-	 * @return either a spreadsheet cell range name or a GeoList label
-	 */
-	public String getSourceString() {
-
-		if (dataSource == null)
-			return null;
-
-		String title = null;
-
-		if (dataSource instanceof GeoList) {
-			title = ((GeoList) dataSource)
-					.getLabel(StringTemplate.defaultTemplate);
-
-		} else {
-			title = spreadsheetTable.getCellRangeProcessor()
-					.getCellRangeString((ArrayList<CellRange>) dataSource);
-		}
-
-		return title;
+		return dataSource.getDataTitles(mode());
 	}
 
 	public void swapXY() {
 		leftToRight = !leftToRight;
-		updateDataAnalysisView(false);
+		updateDataAnalysisView();
 		sd.regressionPanel.clearPredictionPanel();
 	}
 
 	/**
 	 * Updates the view to reflect the current values of the GeoElements in the
-	 * data source, or values from a new data source.
-	 * 
-	 * @param doSetDataSource
-	 *            true = set the data source to a new collection of GeoElements
+	 * data source.
 	 */
-	public void updateDataAnalysisView(boolean doSetDataSource) {
+	public void updateDataAnalysisView() {
 
-		updateDataSource(doSetDataSource);
+		updateDataLists();
 
 		if (isValidData) {
 			if (mode() == StatDialog.MODE_REGRESSION) {
@@ -469,30 +305,20 @@ public class StatDialogController {
 
 	}
 
-	public void updateDataSource(boolean doSetDataSource) {
+	public void updateDataLists() {
 
 		removeStatGeos();
-
-		if (doSetDataSource) {
-			setDataSource();
-		}
-
-		if (isValidData) {
-			loadDataLists();
-		} else {
-			// TODO --- handle bad data
-			App.error("error in updateDataSource");
-		}
-
+		loadDataLists();
 		return;
 	}
 
 	public void updateAllStatPanels(boolean doCreateGeo) {
-
+		App.error("updateAllStatPanel --- start");
 		sd.comboStatPanel.updatePlot(doCreateGeo);
 		if (sd.comboStatPanel2 != null)
 			sd.comboStatPanel2.updatePlot(doCreateGeo);
 		if (sd.statisticsPanel != null) {
+			App.error("updateAllStatPanel --- statPANEL");
 			sd.statisticsPanel.updatePanel();
 		}
 
@@ -504,8 +330,9 @@ public class StatDialogController {
 		if (isInDataSource(geo)) {
 			// System.out.println("stat dialog removed: " + geo.toString());
 			// removeStatGeos();
-			dataSource = null;
-			updateDataAnalysisView(false);
+			dataSource.clear();
+			this.setValidData(false);
+			updateDataAnalysisView();
 		}
 
 	}

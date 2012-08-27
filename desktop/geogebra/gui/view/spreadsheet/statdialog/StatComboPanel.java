@@ -122,7 +122,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private JToggleButton btnOptions;
 
 	// numClasses panel
-	private int numClasses = 6;
+//	private int numClasses = 6;
 	private JPanel numClassesPanel;
 	private JSlider sliderNumClasses;
 
@@ -353,7 +353,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
 			cbDisplayType.addItem(plotMap.get(PLOT_DOTPLOT));
 
-			if (statDialog.getSourceType() == StatDialog.SOURCE_FREQUENCY_CLASS) {
+			if (statDialog.getSourceType() == StatDialog.SOURCE_RAWDATA) {
 				cbDisplayType.addItem(plotMap.get(PLOT_STEMPLOT));
 				cbDisplayType.addItem(plotMap.get(PLOT_NORMALQUANTILE));
 			}
@@ -440,7 +440,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private void createNumClassesPanel() {
 
 		lblNumClasses = new JLabel();
-		fldNumClasses = new JTextField("" + numClasses);
+		fldNumClasses = new JTextField("" + settings.numClasses);
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setOpaque(true);
 		fldNumClasses.setColumns(2);
@@ -450,7 +450,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		fldNumClasses.setVisible(false);
 
 		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20,
-				numClasses);
+				settings.numClasses);
 		Dimension d = sliderNumClasses.getPreferredSize();
 		d.width = 80;
 		sliderNumClasses.setPreferredSize(d);
@@ -461,8 +461,8 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		sliderNumClasses.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent evt) {
 				JSlider slider = (JSlider) evt.getSource();
-				numClasses = slider.getValue();
-				fldNumClasses.setText(("" + numClasses));
+				settings.numClasses = slider.getValue();
+				fldNumClasses.setText(("" + settings.numClasses));
 				updatePlot(true);
 			}
 		});
@@ -605,21 +605,23 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			return;
 		}
 
+		settings.sourceType = statDialog.getSourceType();
+		
 		switch (selectedPlot) {
 
 		case PLOT_HISTOGRAM:
+			
 			if (doCreate) {
 				if (histogram != null)
 					histogram.remove();
-				histogram = statGeo.createHistogram(dataListSelected,
-						numClasses, settings, false);
+				histogram = statGeo.createHistogram(dataListSelected, settings, false);
 				plotGeoList.add(histogram);
 
 				if (frequencyPolygon != null)
 					frequencyPolygon.remove();
 				if (settings.hasOverlayPolygon) {
 					frequencyPolygon = statGeo.createHistogram(
-							dataListSelected, numClasses, settings, true);
+							dataListSelected, settings, true);
 					plotGeoList.add(frequencyPolygon);
 				}
 				if (normalCurve != null)
@@ -632,17 +634,12 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			}
 
 			// update the frequency table
-			if (statDialog.getSourceType() == StatDialog.SOURCE_VALUE) {
-				AlgoHistogram algo = (AlgoHistogram) histogram
-						.getParentAlgorithm();
 
-				frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(),
-						settings);
+			AlgoHistogram algo = (AlgoHistogram) histogram
+					.getParentAlgorithm();
+			frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(),
+					settings);
 
-			} else {
-				AlgoBarChart algo = (AlgoBarChart) histogram
-						.getParentAlgorithm();
-			}
 
 			// update settings
 			statGeo.getHistogramSettings(dataListSelected, histogram, settings);
@@ -664,7 +661,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			if (doCreate) {
 				if (boxPlot != null)
 					boxPlot.remove();
-				boxPlot = statGeo.createBoxPlot(dataListSelected);
+				boxPlot = statGeo.createBoxPlot(dataListSelected, settings);
 				plotGeoList.add(boxPlot);
 			}
 			statGeo.getBoxPlotSettings(dataListSelected, settings);

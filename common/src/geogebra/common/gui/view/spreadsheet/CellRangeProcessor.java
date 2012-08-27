@@ -52,14 +52,35 @@ public class CellRangeProcessor {
 	}
 
 	private SpreadsheetViewInterface getView() {
-		return (SpreadsheetViewInterface) app.getGuiManager().getSpreadsheetView();
+		return (SpreadsheetViewInterface) app.getGuiManager()
+				.getSpreadsheetView();
+	}
+
+	/**
+	 * @param rangeList
+	 *            cell range list to be cloned
+	 * @return copy of given cell range list
+	 */
+	public static ArrayList<CellRange> clone(ArrayList<CellRange> rangeList) {
+		ArrayList<CellRange> newList = new ArrayList<CellRange>();
+		for (CellRange cr : rangeList) {
+			newList.add(cr.clone());
+		}
+		return newList;
 	}
 
 	// ===============================================
 	// Validation
 	// ===============================================
 
-	public boolean isCreatePointListPossible(ArrayList<CellRange> rangeList) {
+	/**
+	 * @param rangeList
+	 *            given list of spreadsheet cell ranges
+	 * @return true if the shapes of the given cell ranges support creating a
+	 *         point list, does not test the cell contents
+	 */
+	public static boolean isCreatePointListPossible(
+			ArrayList<CellRange> rangeList) {
 
 		// two adjacent rows or columns?
 		if (rangeList.size() == 1 && rangeList.get(0).is2D())
@@ -975,8 +996,8 @@ public class CellRangeProcessor {
 			columns++;
 		}
 		int rows = tableModel.getRowCount();
-		boolean succ = table.getCopyPasteCut().delete(columns - 1, 0, columns - 1,
-				rows - 1);
+		boolean succ = table.getCopyPasteCut().delete(columns - 1, 0,
+				columns - 1, rows - 1);
 		for (int x = columns - 2; x >= column1; --x) {
 			for (int y = 0; y < rows; ++y) {
 				GeoElement geo = RelativeCopy.getValue(app, x, y);
@@ -1082,8 +1103,8 @@ public class CellRangeProcessor {
 			getView().rowHeaderRevalidate();
 			// can't be undone
 		} else {
-			succ = table.getCopyPasteCut()
-					.delete(0, rows - 1, columns - 1, rows - 1);
+			succ = table.getCopyPasteCut().delete(0, rows - 1, columns - 1,
+					rows - 1);
 			for (int y = rows - 2; y >= row2 + 1; --y) {
 				for (int x = 0; x < columns; ++x) {
 					GeoElement geo = RelativeCopy.getValue(app, x, y);

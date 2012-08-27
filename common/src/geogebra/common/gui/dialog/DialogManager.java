@@ -61,7 +61,8 @@ public abstract class DialogManager {
 
 	public abstract boolean showFunctionInspector(GeoFunction geoFunction);
 
-
+	public abstract void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos);
+	
 	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
 		
 		/* TODO

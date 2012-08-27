@@ -30,7 +30,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
 	private JPopupMenu roundingPopup;
 	private MyTextField fldSource;
-	private JButton btnDataSource;
+	private MyToggleButton btnDataSource;
 	private MyTextField fldDataSource;
 	private MyToggleButton btnExport;
 	private JButton btnSwapXY;
@@ -88,13 +88,16 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		
 		
 		buildRoundingButton();
-
+		createDataSourcePanel();
+		
 		// add(btnRounding);
+		add(btnDataSource);
+		addSeparator();
 		add(btnShowStatistics);
 		add(btnShowData);
 		add(btnShowPlot2);
 		add(btnSwapXY);
-		add(createDataSourcePanel());
+		//add(createDataSourcePanel());
 
 	}
 
@@ -103,8 +106,8 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowStatistics.setSelected(statDialog.showStatPanel());
 		btnShowData.setSelected(statDialog.showDataPanel());
 		btnShowPlot2.setSelected(statDialog.showComboPanel2());
-		fldDataSource.setText(statDialog.getStatDialogController()
-				.getSourceString());
+	//	fldDataSource.setText(statDialog.getStatDialogController()
+		//		.getSourceString());
 		fldDataSource.revalidate();
 		
 		btnSwapXY.setVisible(statDialog.getMode() == StatDialog.MODE_REGRESSION);
@@ -113,13 +116,14 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	private JPanel createDataSourcePanel() {
 
-		btnDataSource = new JButton();
+		btnDataSource = new MyToggleButton(app.getImageIcon("cursor_grabbing.gif"), iconHeight);   //app.getImageIcon("go-previous.png"));
+		
 		btnDataSource.addActionListener(this);
 		fldDataSource = new MyTextField(app);
 
 		JPanel dataSourcePanel = new JPanel(new BorderLayout(5, 0));
-		dataSourcePanel.add(btnDataSource, BorderLayout.WEST);
-		dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
+		//dataSourcePanel.add(btnDataSource, BorderLayout.WEST);
+		//dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
 
 		dataSourcePanel.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 5));
 
@@ -155,8 +159,6 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowData.setToolTipText(app.getMenu("ShowData"));
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
 		btnPrint.setToolTipText(app.getMenu("Print"));
-
-		btnDataSource.setText("   " + app.getMenu("Data") + ": ");
 		
 		String swapString = app.getMenu("Column.X") + " \u21C6 "
 				+ app.getMenu("Column.Y");
@@ -186,6 +188,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		}
 		
 		else if (source == btnDataSource) {
+			btnDataSource.setSelected(false);
 			statDialog.setShowDataOptionsDialog(true);
 		}
 		

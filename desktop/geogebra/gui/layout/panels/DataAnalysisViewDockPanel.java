@@ -22,12 +22,14 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 		super(App.VIEW_DATA_ANALYSIS, 	// view id
 				"DataAnalysis", 		// view title phrase
 				getDefaultToolbar(), 	// toolbar string
-				true, 					// style bar?
+				false, 					// style bar?
 				-1, 					// menu order
 				'D' 					// menu shortcut
 		);
 
 		this.app = app;
+		this.setOpenInFrame(true);
+		this.setDialog(true);
 	}
 
 	
@@ -44,6 +46,8 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		
+		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);

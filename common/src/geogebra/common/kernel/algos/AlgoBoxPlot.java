@@ -121,6 +121,14 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 		sum.setLabel(label);
 	}
 
+	
+	
+	public AlgoBoxPlot(Construction cons, String label,NumberValue a, NumberValue b, GeoList list1, GeoList freqList, GeoBoolean useOutliers) {
+
+		this(cons, a, b, list1, freqList, useOutliers);
+		sum.setLabel(label);
+	}
+		
 	/**
 	 * Creates boxplot from frequency table
 	 * 
@@ -136,7 +144,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	 *            rawData
 	 * @param useOutliers whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, String label,NumberValue a, NumberValue b, GeoList list1, GeoList freqList, GeoBoolean useOutliers) {
+	public AlgoBoxPlot(Construction cons, NumberValue a, NumberValue b, GeoList list1, GeoList freqList, GeoBoolean useOutliers) {
 
 		super(cons);
 

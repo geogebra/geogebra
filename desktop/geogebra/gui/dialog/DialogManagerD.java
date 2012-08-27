@@ -27,6 +27,7 @@ import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
+import geogebra.gui.view.spreadsheet.statdialog.DialogDataViewSettings;
 import geogebra.main.AppD;
 import geogebra.main.MyResourceBundle;
 
@@ -71,6 +72,8 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	private GeoGebraFileChooser fileChooser;
 
+	private DialogDataViewSettings dataSourceDialog;
+	
 	/**
 	 * Properties for translation of file chooser UI in languages Java doesn't
 	 * support.
@@ -106,6 +109,10 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 			fileChooser.setFont(((AppD) app).getPlainFont());
 			SwingUtilities.updateComponentTreeUI(fileChooser);
 		}
+		
+		if (dataSourceDialog != null) {
+			dataSourceDialog.updateFonts(((AppD) app).getPlainFont());
+		}
 	}
 
 	/**
@@ -124,6 +131,10 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		if (fileChooser != null)
 			updateJavaUILanguage();
+		
+		if (dataSourceDialog != null)
+			dataSourceDialog.setLabels();
+		
 	}
 
 	/**
@@ -280,6 +291,20 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 		return success;
 	}
 
+	/**
+	 * Creates a new data source dialog 
+	 */
+	@Override
+	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {		
+		if(dataSourceDialog == null){
+			dataSourceDialog = new DialogDataViewSettings(((AppD) app), mode);
+		}else{
+			dataSourceDialog.updateDialog(mode, doAutoLoadSelectedGeos);
+		}
+		 dataSourceDialog.setVisible(true);
+	}
+	
+	
 	/**
 	 * Creates a new checkbox at given startPoint
 	 */
@@ -567,6 +592,10 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 	public OptionsDialog.Factory getOptionsDialogFactory() {
 		return optionsDialogFactory;
+	}
+	
+	public DialogDataViewSettings getDataSourceDialog() {
+		return dataSourceDialog;
 	}
 
 	public void setOptionsDialogFactory(
