@@ -27,6 +27,7 @@ import geogebra.main.AppD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -77,6 +78,20 @@ implements ActionListener {
         
         addAxesAndGridCheckBoxes();
         
+        
+        AbstractAction showConstructionStep = new AbstractAction(app.getPlain("ConstructionProtocol"),app.getEmptyIcon()) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				toggleShowConstructionProtocolNavigation();
+
+			}
+		};
+        JCheckBoxMenuItem cbShowConstructionStep = new JCheckBoxMenuItem(showConstructionStep);
+        cbShowConstructionStep.setSelected(app.showConsProtNavigation());
+        cbShowConstructionStep.setBackground(wrappedPopup.getBackground());
+        wrappedPopup.add(cbShowConstructionStep);
+        
         wrappedPopup.addSeparator();
         
         // zoom for both axes
@@ -123,6 +138,10 @@ implements ActionListener {
    
         addMiProperties();
          
+    }
+    
+    void toggleShowConstructionProtocolNavigation(){
+    	((AppD) app).toggleShowConstructionProtocolNavigation();
     }
     
     protected void addMiProperties(){

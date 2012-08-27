@@ -2155,6 +2155,12 @@ public class GuiManagerD extends GuiManager {
 
 		return true;
 	}
+	
+	
+	public void updateCheckBoxesForShowConstructinProtocolNavigation(){
+		if (propertiesView!=null)
+			propertiesView.updateEuclidianPanelsGUI();
+	}
 
 	public void updateActions() {
 		if (undoAction != null) {

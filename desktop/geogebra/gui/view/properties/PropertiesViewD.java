@@ -453,12 +453,9 @@ public class PropertiesViewD extends
 		if (defaultsPanel != null) {
 			defaultsPanel.updateGUI();
 		}
-		if (euclidianPanel != null) {
-			euclidianPanel.updateGUI();
-		}
-		if (euclidianPanel2 != null) {
-			euclidianPanel2.updateGUI();
-		}
+		
+		updateEuclidianPanelsGUI();
+		
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.updateGUI();
 		}
@@ -478,6 +475,19 @@ public class PropertiesViewD extends
 
 		setLabels();
 
+	}
+
+
+	/**
+	 * update euclidian panels GUI
+	 */
+	public void updateEuclidianPanelsGUI(){
+		if (euclidianPanel != null) {
+			euclidianPanel.updateGUI();
+		}
+		if (euclidianPanel2 != null) {
+			euclidianPanel2.updateGUI();
+		}
 	}
 
 	/**

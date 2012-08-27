@@ -68,6 +68,7 @@ import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
+import geogebra.gui.GuiManagerD;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -3106,6 +3107,18 @@ public class AppD extends App implements
 		} else {
 			showConstProtNavigationNeedsUpdate = true;
 		}
+	}
+	
+	public void toggleShowConstructionProtocolNavigation(){
+		
+		setShowConstructionProtocolNavigation(!showConsProtNavigation());
+		setUnsaved();
+		updateCenterPanel(true);
+		updateMenubar();
+		
+		if (getGuiManager() != null)
+			((GuiManagerD) getGuiManager()).updateCheckBoxesForShowConstructinProtocolNavigation();
+		
 	}
 
 	public boolean showConsProtNavigation() {

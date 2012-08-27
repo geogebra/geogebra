@@ -27,6 +27,7 @@ import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
+import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -41,6 +42,8 @@ import java.awt.event.ItemListener;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -52,6 +55,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 /**
@@ -77,13 +81,13 @@ public class OptionsEuclidianD extends
 	// GUI containers
 	protected AxisPanel xAxisPanel, yAxisPanel;
 	protected JTabbedPane tabbedPane;
-	private JPanel dimPanel, stylePanel, typePanel, axesOptionsPanel,
+	private JPanel dimPanel, stylePanel, typePanel, axesOptionsPanel, consProtocolPanel,
 			miscPanel, selectViewPanel;
 
 	// GUI elements
 	private JButton btBackgroundColor, btAxesColor, btGridColor;
 	private JCheckBox cbShowAxes, cbShowGrid, cbBoldGrid, cbGridManualTick,
-			cbShowMouseCoords;
+			cbShowMouseCoords, ckShowNavbar, ckNavPlay, ckOpenConsProtocol;
 	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
 			cbTooltips;
 
@@ -149,6 +153,10 @@ public class OptionsEuclidianD extends
 		nfAxesRatio.setMaximumFractionDigits(5);
 		nfAxesRatio.setGroupingUsed(false);
 
+
+		// init cons protocol panel
+		initConsProtocolPanel();
+		
 		// create panels for the axes
 		initAxisPanels();
 
@@ -307,6 +315,7 @@ public class OptionsEuclidianD extends
 		basicPanel.setLayout(new FullWidthLayout());
 		basicPanel.add(dimPanel);
 		basicPanel.add(axesOptionsPanel);
+		basicPanel.add(consProtocolPanel);		
 		basicPanel.add(miscPanel);
 
 		return basicPanel;
@@ -566,6 +575,17 @@ public class OptionsEuclidianD extends
 
 		xAxisPanel.updatePanel();
 		yAxisPanel.updatePanel();
+		
+
+		//cons protocol panel
+		ckShowNavbar.setSelected(app.showConsProtNavigation());
+		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
+				.isConsProtNavigationPlayButtonVisible());
+		ckOpenConsProtocol.setSelected(((GuiManagerD) app.getGuiManager())
+				.isConsProtNavigationProtButtonVisible());
+
+		ckNavPlay.setEnabled(app.showConsProtNavigation());
+		ckOpenConsProtocol.setEnabled(app.showConsProtNavigation());
 	}
 
 	public void setLabels() {
@@ -609,6 +629,14 @@ public class OptionsEuclidianD extends
 		// axis
 		xAxisPanel.setLabels();
 		yAxisPanel.setLabels();
+		
+
+		// construction protocol panel
+		consProtocolPanel.setBorder(OptionsUtil.titleBorder(app
+				.getPlain("ConstructionProtocolNavigation")));
+		ckShowNavbar.setText(app.getPlain("Show"));
+		ckNavPlay.setText(app.getPlain("PlayButton"));
+		ckOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
 
 		/*
 		 * if (!app.isApplet())
@@ -1114,6 +1142,13 @@ public class OptionsEuclidianD extends
 		tfMinY.setFont(font);
 		tfMaxY.setFont(font);
 		
+
+		// construction protocol panel
+		consProtocolPanel.setFont(font);
+		ckShowNavbar.setFont(font);
+		ckNavPlay.setFont(font);
+		ckOpenConsProtocol.setFont(font);
+		
 	}
 
 	
@@ -1122,5 +1157,69 @@ public class OptionsEuclidianD extends
 	public void setSelected(boolean flag){
 		isSelected = flag;
 	}
+	
+	
+
+	/**
+	 * Initialize the construction protocol panel.
+	 */
+	private void initConsProtocolPanel() {
+
+		consProtocolPanel = new JPanel();
+		consProtocolPanel.setLayout(new BoxLayout(consProtocolPanel,
+				BoxLayout.Y_AXIS));
+
+		ckShowNavbar = new JCheckBox();
+		ckShowNavbar.addActionListener(showConsProtNavigationAction);
+		consProtocolPanel.add(OptionsUtil.flowPanel(ckShowNavbar));
+
+		int tab = 20;
+		ckNavPlay = new JCheckBox();
+		ckNavPlay.addActionListener(showConsProtNavigationPlayAction);
+		consProtocolPanel.add(OptionsUtil.flowPanel(tab, ckNavPlay));
+
+		ckOpenConsProtocol = new JCheckBox();
+		ckOpenConsProtocol
+				.addActionListener(showConsProtNavigationOpenProtAction);
+		consProtocolPanel.add(OptionsUtil.flowPanel(tab, ckOpenConsProtocol));
+
+	}
+	
+
+	Action showConsProtNavigationAction = new AbstractAction() {
+		private static final long serialVersionUID = 1L;
+
+		public void actionPerformed(ActionEvent e) {
+			app.toggleShowConstructionProtocolNavigation();
+		}
+	};
+
+	Action showConsProtNavigationPlayAction = new AbstractAction() {
+		private static final long serialVersionUID = 1L;
+
+		public void actionPerformed(ActionEvent e) {
+			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD) app
+					.getGuiManager()).getConstructionProtocolNavigation();
+			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
+			// cpn.initGUI();
+			SwingUtilities.updateComponentTreeUI(cpn);
+			app.setUnsaved();
+			updateGUI();
+		}
+	};
+
+	Action showConsProtNavigationOpenProtAction = new AbstractAction() {
+		private static final long serialVersionUID = 1L;
+
+		public void actionPerformed(ActionEvent e) {
+			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD) app
+					.getGuiManager()).getConstructionProtocolNavigation();
+			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
+			// cpn.initGUI();
+			SwingUtilities.updateComponentTreeUI(cpn);
+			app.setUnsaved();
+			updateGUI();
+		}
+	};
 	
 }

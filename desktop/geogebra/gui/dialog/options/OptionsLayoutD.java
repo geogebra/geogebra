@@ -43,12 +43,12 @@ public class OptionsLayoutD extends
 
 	/** */
 	private JPanel sideBarPanel, inputBarPanel, toolbarPanel, navbarPanel,
-			perspectivesPanel, consProtocolPanel;
+			perspectivesPanel;
 
 	/**	 */
 	private JCheckBox ckShowInputHelp, ckIgnoreDocumentLayout, ckShowTitleBar,
 			ckAllowStyleBar, ckShowInputBar, ckShowToolbar, ckShowToolHelp,
-			ckShowNavbar, ckNavPlay, ckOpenConsProtocol, ckShowMenuBar,
+			ckShowMenuBar,
 			ckShowSideBar;
 
 	private JToggleButton rbToolbarNorth, rbToolbarSouth, rbToolbarEast,
@@ -97,7 +97,6 @@ public class OptionsLayoutD extends
 		initInputbarPanel();
 		initPerspectivesPanel();
 		initToolBarPanel();
-		initConsProtocolPanel();
 		initMenuBarPanel();
 		initSideBarPanel();
 
@@ -106,7 +105,6 @@ public class OptionsLayoutD extends
 		panel.add(inputBarPanel);
 		panel.add(toolbarPanel);
 		panel.add(perspectivesPanel);
-		panel.add(consProtocolPanel);
 		//panel.add(menuBarPanel);
 		panel.add(sideBarPanel);
 
@@ -139,30 +137,6 @@ public class OptionsLayoutD extends
 
 	}
 
-	/**
-	 * Initialize the construction protocol panel.
-	 */
-	private void initConsProtocolPanel() {
-
-		consProtocolPanel = new JPanel();
-		consProtocolPanel.setLayout(new BoxLayout(consProtocolPanel,
-				BoxLayout.Y_AXIS));
-
-		ckShowNavbar = new JCheckBox();
-		ckShowNavbar.addActionListener(showConsProtNavigationAction);
-		consProtocolPanel.add(OptionsUtil.flowPanel(ckShowNavbar));
-
-		int tab = 20;
-		ckNavPlay = new JCheckBox();
-		ckNavPlay.addActionListener(showConsProtNavigationPlayAction);
-		consProtocolPanel.add(OptionsUtil.flowPanel(tab, ckNavPlay));
-
-		ckOpenConsProtocol = new JCheckBox();
-		ckOpenConsProtocol
-				.addActionListener(showConsProtNavigationOpenProtAction);
-		consProtocolPanel.add(OptionsUtil.flowPanel(tab, ckOpenConsProtocol));
-
-	}
 
 	/**
 	 * Initialize the input bar panel.
@@ -334,14 +308,6 @@ public class OptionsLayoutD extends
 		rbInputBarNorth.setEnabled(ckShowInputBar.isSelected());
 		rbInputBarSouth.setEnabled(ckShowInputBar.isSelected());
 
-		ckShowNavbar.setSelected(app.showConsProtNavigation());
-		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
-				.isConsProtNavigationPlayButtonVisible());
-		ckOpenConsProtocol.setSelected(((GuiManagerD) app.getGuiManager())
-				.isConsProtNavigationProtButtonVisible());
-
-		ckNavPlay.setEnabled(app.showConsProtNavigation());
-		ckOpenConsProtocol.setEnabled(app.showConsProtNavigation());
 
 		// ckIgnoreDocumentLayout.setSelected(settings.getLayout()
 		// .isIgnoringDocumentLayout());
@@ -371,46 +337,6 @@ public class OptionsLayoutD extends
 
 	}
 
-	Action showConsProtNavigationAction = new AbstractAction() {
-		private static final long serialVersionUID = 1L;
-
-		public void actionPerformed(ActionEvent e) {
-			app.setShowConstructionProtocolNavigation(!app
-					.showConsProtNavigation());
-			app.setUnsaved();
-			app.updateCenterPanel(true);
-			app.updateMenubar();
-			updateGUI();
-		}
-	};
-
-	Action showConsProtNavigationPlayAction = new AbstractAction() {
-		private static final long serialVersionUID = 1L;
-
-		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD) app
-					.getGuiManager()).getConstructionProtocolNavigation();
-			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
-			// cpn.initGUI();
-			SwingUtilities.updateComponentTreeUI(cpn);
-			app.setUnsaved();
-			updateGUI();
-		}
-	};
-
-	Action showConsProtNavigationOpenProtAction = new AbstractAction() {
-		private static final long serialVersionUID = 1L;
-
-		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) ((GuiManagerD) app
-					.getGuiManager()).getConstructionProtocolNavigation();
-			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
-			// cpn.initGUI();
-			SwingUtilities.updateComponentTreeUI(cpn);
-			app.setUnsaved();
-			updateGUI();
-		}
-	};
 
 	// needed updating things on the reset defaults button
 	public void updateAfterReset() {
@@ -523,12 +449,6 @@ public class OptionsLayoutD extends
 		ckShowTitleBar.setText(app.getPlain("ShowTitleBar"));
 		ckAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
 
-		// construction protocol panel
-		consProtocolPanel.setBorder(OptionsUtil.titleBorder(app
-				.getPlain("ConstructionProtocolNavigation")));
-		ckShowNavbar.setText(app.getPlain("Show"));
-		ckNavPlay.setText(app.getPlain("PlayButton"));
-		ckOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
 
 		// menu bar panel
 		menuBarPanel.setTitle(app.getPlain("Miscellaneous"));
@@ -581,11 +501,6 @@ public class OptionsLayoutD extends
 		ckShowTitleBar.setFont(font);
 		ckAllowStyleBar.setFont(font);
 
-		// construction protocol panel
-		consProtocolPanel.setFont(font);
-		ckShowNavbar.setFont(font);
-		ckNavPlay.setFont(font);
-		ckOpenConsProtocol.setFont(font);
 
 		// menu bar panel
 		menuBarPanel.setFont(font);
