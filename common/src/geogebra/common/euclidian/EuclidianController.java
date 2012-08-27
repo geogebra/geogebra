@@ -5009,7 +5009,7 @@ public abstract class EuclidianController {
 						intersectPossible, true, complex);
 			}
 
-	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible, boolean doSingleHighlighting, boolean complex) {
 			
 				if (!allowPointCreation()) {
