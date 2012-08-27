@@ -984,46 +984,16 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
 
-		GeoElement geo;
-
-		GeoElement meanGeo = new GeoNumeric(cons, mean);
-		GeoElement sdGeo = new GeoNumeric(cons, sigma);
-
-		ExpressionNode normal;
-
-		FunctionVariable x = new FunctionVariable(kernel);
-		if (isCumulative) {
-			normal = new ExpressionNode(kernel, x, Operation.MINUS, meanGeo);
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
-			normal = new ExpressionNode(kernel, normal, Operation.POWER,
-					new MyDouble(kernel, 2.0));
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
-					new MyDouble(kernel, -2.0));
-			normal = new ExpressionNode(kernel, normal, Operation.EXP, null);
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
-					new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
-		} else {
-
-			// TODO convert to CDF version
-			normal = new ExpressionNode(kernel, x, Operation.MINUS, meanGeo);
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
-			normal = new ExpressionNode(kernel, normal, Operation.POWER,
-					new MyDouble(kernel, 2.0));
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
-					new MyDouble(kernel, -2.0));
-			normal = new ExpressionNode(kernel, normal, Operation.EXP, null);
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE,
-					new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
-			normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
-		}
-
-		Function f = new Function(normal, x);
-		geo = new GeoFunction(cons, f);
+		AlgoNormalDF algo = new AlgoNormalDF(cons, new GeoNumeric(cons, mean), new GeoNumeric(cons, sigma), new GeoBoolean(cons, isCumulative));
+		cons.removeFromConstructionList(algo);
+		
+		GeoElement geo = algo.getResult();
 
 		geo.setObjColor(new geogebra.awt.GColorD(COLOR_NORMALOVERLAY));
 		geo.setLineThickness(thicknessCurve - 1);
 		geo.setEuclidianVisible(true);
+		geo.setFixed(true);
+		geo.setSelectionAllowed(false);
 		return geo;
 	}
 
