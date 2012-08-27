@@ -1481,6 +1481,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		} else {
 			twinGeo.setUndefined();
 		}
+		twinGeo.update();
 	}
 
 	@Override
