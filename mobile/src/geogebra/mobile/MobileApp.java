@@ -15,7 +15,6 @@ import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -40,6 +39,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 
 /**
  * Extends from class {@link App}.
+ * 
  * @author Matthias Meisinger
  * 
  */
@@ -51,7 +51,9 @@ public class MobileApp extends App
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
+	 * 
 	 * @param mobileGUI
+	 *            graphic user interface
 	 * @see geogebra.common.factories.FormatFactory FormatFactory
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
@@ -69,8 +71,8 @@ public class MobileApp extends App
 	}
 
 	/**
-	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and initializes the components 
-	 * of the {@link GeoGebraMobileGUI}.
+	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
+	 * initializes the components of the {@link GeoGebraMobileGUI}.
 	 */
 	public void start()
 	{
@@ -687,6 +689,12 @@ public class MobileApp extends App
 	@Override
 	public void showErrorDialog(String s)
 	{
+	}
+
+	@Override
+	public String getReverseCommand(String command)
+	{
+		return null;
 	}
 
 }
