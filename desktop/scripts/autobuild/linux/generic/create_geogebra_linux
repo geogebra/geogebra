@@ -60,7 +60,7 @@ LINUX_TGZ_FINAL=GeoGebra-Unixlike-Installer-$VERSION_STRING.tar.gz
 mv $LINUX_TGZ $LINUX_TGZ_FINAL
 
 # 5. Copying to Google Code:
-$SVNDIR/geogebra/desktop/scripts/autobuild/gcallow $MYVER && if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $VERSION_STRING for Linux, Solaris, FreeBSD and other POSIX" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $LINUX_TGZ_FINAL
  fi

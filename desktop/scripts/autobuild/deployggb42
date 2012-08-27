@@ -119,7 +119,7 @@ cd $SVNDIR/geogebra/desktop/scripts/autobuild/linux/portable
 ./create_geogebra_portable
 
 # 8. Copying the Mac OS X and the Windows installer version to Google Code:
-$SVNDIR/geogebra/desktop/scripts/autobuild/gcallow $MYVER && if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  cd $SVNDIR/geogebra/desktop/build/installer
  MACOSX_ZIP=GeoGebra_`echo $MYVER | tr . -`.zip
  # GeoGebra_3-9-209-0.zip -> GeoGebra-MacOS-Installer-3-9-209-0.zip (GeoGebra for Mac OSX)

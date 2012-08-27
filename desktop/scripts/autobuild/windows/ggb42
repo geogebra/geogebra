@@ -67,12 +67,11 @@ WINDOWS_ZIP_FINAL=GeoGebra-Windows-Portable-`echo $VERSION_STRING | tr . -`.zip
 mv "$DIRNAME.zip" $WINDOWS_ZIP_FINAL
 cp $WINDOWS_ZIP_FINAL $TARGET_DIR
 
-# TEMPORARILY DISABLED
 # 3. Copying to Google Code:
-# if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
-#   $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Windows" \
-#    -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_ZIP_FINAL
-#  fi
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Windows" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_ZIP_FINAL
+ fi
 
 # 4. Cleanup:
 rm -fR "$DIRNAME" $WINDOWS_ZIP_FINAL # removing current working directory and file
