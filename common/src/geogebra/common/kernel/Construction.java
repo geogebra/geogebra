@@ -1303,8 +1303,10 @@ public class Construction {
 		if (!oldGeo.hasChildren()) {
 			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
+			isRemovingGeoToReplaceIt=true;
 			oldGeo.remove();
-
+			isRemovingGeoToReplaceIt=false;
+			
 			if (newGeo.isIndependent())
 				addToConstructionList(newGeo, true);
 			else {
@@ -1405,6 +1407,18 @@ public class Construction {
 			app.getActiveEuclidianView().getEuclidianController()
 					.handleMovedElement(selGeo, false);
 		}
+	}
+	
+	
+	private boolean isRemovingGeoToReplaceIt = false;
+	
+	/**
+	 * 
+	 * @return true if construction is removing an old geo to replace it 
+	 * (used to prevent closing of object properties when replacing a single geo)
+	 */
+	public boolean isRemovingGeoToReplaceIt(){
+		return isRemovingGeoToReplaceIt;
 	}
 
 	/**
