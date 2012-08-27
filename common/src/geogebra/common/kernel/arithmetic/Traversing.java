@@ -354,7 +354,7 @@ public interface Traversing {
 			}
 			if(geo instanceof GeoFunctionNVar){
 					return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION_NVAR,
-							((GeoCasCell)geo).getFunctionVariableList());
+							((GeoFunctionNVar)geo).getFunctionVariableList());
 			}
 			return geo;	
 		}

@@ -370,16 +370,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	final private static String toString(final ExpressionValue ev,
 			final boolean symbolic, StringTemplate tpl) {
-		if (ev.isExpressionNode() && ev.isLeaf()) {
-			ExpressionValue lft = ((ExpressionNode) ev).getLeft();
-			if (lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
-				return ((GeoElement) lft).getAssignmentLHS(tpl);
-			if (lft instanceof GeoCasCell) {
-				if (((GeoCasCell) lft).getVarString(tpl).length() > 0)
-					return ((GeoElement) lft).getLabel(tpl) + "("
-							+ ((GeoCasCell) lft).getVarString(tpl) + ")";
-			}
-		}
+		/* previously this method also replaced f by f(x), but FunctionExpander takes care of that now */
 		if (symbolic) {
 			return ev.toString(tpl);
 		}
