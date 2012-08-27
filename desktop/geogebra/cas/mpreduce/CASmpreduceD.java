@@ -28,7 +28,7 @@ public class CASmpreduceD extends CASmpreduce {
 	// using static CAS instance as a workaround for the MPReduce deadlock with
 	// multiple application windows
 	// see http://www.geogebra.org/trac/ticket/1415
-	private static Interpreter2 mpreduce_static;
+	public static Interpreter2 mpreduce_static;
 	private Interpreter2 mpreduce;
 
 	/**

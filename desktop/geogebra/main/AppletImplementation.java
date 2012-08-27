@@ -186,6 +186,14 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	private void init() {
+		
+		// see #2604
+		try {
+			geogebra.cas.mpreduce.CASmpreduceD.mpreduce_static = null;
+		} catch (java.lang.NoClassDefFoundError e) {
+			App.warn("CAS jar missing");
+		} 
+
 		// codeBase=this.getCodeBase();
 		// documentBase=this.getDocumentBase();
 
