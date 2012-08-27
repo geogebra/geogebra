@@ -487,7 +487,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		
 		// button to show/hide styling bar and the title panel buttons
 		toggleStyleBarButton = new JButton(
-				app.getImageIcon("triangle-down.png"));
+				app.getImageIcon("triangle-right.png"));
 		toggleStyleBarButton.addActionListener(this);
 		toggleStyleBarButton.setFocusPainted(false);
 		toggleStyleBarButton.setBorderPainted(false);
@@ -497,7 +497,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 
 		// button to show/hide styling bar if the title panel is invisible
 		toggleStyleBarButton2 = new JButton(
-				app.getImageIcon("triangle-down.png"));
+				app.getImageIcon("triangle-right.png"));
 		toggleStyleBarButton2.setFocusPainted(false);
 		toggleStyleBarButton2.setBorderPainted(false);
 		toggleStyleBarButton2.setContentAreaFilled(false);
@@ -1115,10 +1115,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		if(toggleStyleBarButton != null) {
 			if(showStyleBar) {
 				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-down.png"));
-				//toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-up-rollover.png"));
-			} else {
-				toggleStyleBarButton.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
 				//toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-down-rollover.png"));
+			} else {
+				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-right.png"));
+				//toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-right-rollover.png"));
 			}
 		}
 		if (toggleStyleBarButton2 != null) {
