@@ -823,6 +823,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				
 				// not available if no objects yet
 				if (type==OptionType.OBJECTS && app.getKernel().isEmpty()) {
+					item.setDisabledIcon(app.getEmptyIcon());
 					item.setEnabled(false);
 				}
 	
