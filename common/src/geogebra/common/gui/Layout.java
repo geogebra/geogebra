@@ -58,11 +58,11 @@ public abstract class Layout {
 		
 		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
-		defaultPerspectives[1].setIconString("menu_view_geometry.png");
+		defaultPerspectives[1].setIconString("menu_view_graphics.png");
 		
 		// geometry - like basic geometry but with less toolbar entries
 		defaultPerspectives[2] = new Perspective("Geometry", spData, dpData, defToolbar, true, false, false, false, true, false);
-		defaultPerspectives[2].setIconString("menu_view_graphics.png");
+		defaultPerspectives[2].setIconString("menu_view_geometry.png");
 		
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
