@@ -215,15 +215,16 @@ public class CASTableD extends JTable implements CASTable {
 			}
 			setRightClick(AppD.isRightClickForceMetaDown(e));
 			GeoCasCell clickedCell = getTable().getGeoCasCell(getClickedRow());
-
+			
 			if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
-
 				if (!clickedCell.isEmpty() && !clickedCell.isError()) {
-					RowContentPopupMenu popupMenu = new RowContentPopupMenu(
-							clickedCell, getTable());
+					RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
+							clickedCell, getEditor(), getTable() , RowContentPopupMenu.Panel.OUTPUT);
 					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
+
+			
 			e.consume();
 			if (isRightClick()) {
 				return;
@@ -351,6 +352,7 @@ public class CASTableD extends JTable implements CASTable {
 		boolean outputClicked = p.y > rowHeightsAbove + inputAreaHeight;
 		return outputClicked;
 	}
+
 
 	@Override
 	public boolean isEditing() {

@@ -234,6 +234,7 @@ public class CASViewD  extends CASView implements Gridable {
 
 		CASTableCellController inputListener = new CASTableCellController(this);
 		getConsoleTable().getEditor().getInputArea().addKeyListener(inputListener);
+		getConsoleTable().getEditor().getInputArea().addMouseListener(inputListener);
 	}
 
 	@Override

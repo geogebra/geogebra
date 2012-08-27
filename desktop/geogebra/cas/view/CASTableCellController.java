@@ -1,26 +1,32 @@
 package geogebra.cas.view;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Controller for CAS cell
  *
  */
-public class CASTableCellController implements KeyListener {
+public class CASTableCellController implements KeyListener, MouseListener{
 	
 	private CASViewD view;
 	private CASTableD table;
+	private AppD app;
 	private CASTableCellEditorD tableCellEditor;
-
+	private boolean rightClick = false;
+	
 	/**
 	 * @param view CAS view
 	 */
 	public CASTableCellController(CASViewD view) {		
 		this.view = view;
+		this.app = view.getApplication();
 		table = view.getConsoleTable();
 		tableCellEditor = table.getEditor();		
 	}
@@ -133,6 +139,31 @@ public class CASTableCellController implements KeyListener {
 		}	
 	}
 
+	/**
+	 * @return the rightClick
+	 */
+	public boolean isRightClick() {
+		return rightClick;
+	}
+
+	/**
+	 * @param rightClick
+	 *            the rightClick to set
+	 */
+	public void setRightClick(boolean rightClick) {
+		this.rightClick = rightClick;
+	}
+
+
+	public void mouseReleased(MouseEvent e) {
+		setRightClick(AppD.isRightClickForceMetaDown(e));	
+		if (isRightClick()) {
+				RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
+						(GeoCasCell)tableCellEditor.getCellEditorValue(), tableCellEditor, table, RowContentPopupMenu.Panel.INPUT);
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+		}
+	}
+	
 	public void keyReleased(KeyEvent arg0) {
 		//do nothing; we use keyPressed
 	}
@@ -140,5 +171,27 @@ public class CASTableCellController implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 		//do nothing; we use keyPressed
 	}
+
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
 
 }
