@@ -96,7 +96,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
 	//protected SpreadsheetColumnController.ColumnHeaderRenderer headerRenderer;
-	protected SpreadsheetViewInterface view;
+	protected SpreadsheetView view;
 	protected SpreadsheetTableModel tableModel;
 	private CellRangeProcessor crProcessor;
 	//private MyTableColumnModelListener columnModelListener;
@@ -191,7 +191,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	/*******************************************************************
 	 * Construct table
 	 */
-	public MyTableW(SpreadsheetViewInterface view, SpreadsheetTableModel tableModel) {
+	public MyTableW(SpreadsheetView view, SpreadsheetTableModel tableModel) {
 		super(tableModel.getRowCount(), tableModel.getColumnCount());
 
 		cellResizeHeightSet = new HashSet<GPoint>();
@@ -1418,12 +1418,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	}*/
 
 	// Keep row heights of table and rowHeader in sync
-	/*@Override
 	public void setRowHeight(int row, int rowHeight) {
-		super.setRowHeight(row, rowHeight);
+		getRowFormatter().getElement(row).getStyle().setHeight(rowHeight, Style.Unit.PX);
 		try {
 			if (view != null) {
-				view.updateRowHeader();
+				//TODO//view.updateRowHeader();
 				if (doRecordRowHeights)
 					adjustedRowHeights.add(new GPoint(row, rowHeight));
 				view.updateRowHeightSetting(row, rowHeight);
@@ -1431,30 +1430,30 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
-	/*@Override
 	public void setRowHeight(int rowHeight) {
-		super.setRowHeight(rowHeight);
+		for (int i = 0; i < getRowCount(); i++)
+			getRowFormatter().getElement(i).getStyle().setHeight(rowHeight, Style.Unit.PX);
 		try {
 			if (view != null) {
-				view.updateRowHeader();
+				//TODO//view.updateRowHeader();
 				view.updatePreferredRowHeight(rowHeight);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 
 	// Reset the row heights --- used after addColumn destroys the row heights
-	/*public void resetRowHeights() {
+	public void resetRowHeights() {
 		doRecordRowHeights = false;
 		for (GPoint p : adjustedRowHeights) {
 			setRowHeight(p.x, p.y);
 		}
 		doRecordRowHeights = true;
-	}*/
+	}
 
 	// ==================================================
 	// Table row and column size adjustment methods
