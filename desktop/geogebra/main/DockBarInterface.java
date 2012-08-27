@@ -24,4 +24,6 @@ public interface DockBarInterface {
 
 	void setShowButtonBar(boolean selected);
 
+	void hidePopup();
+
 }

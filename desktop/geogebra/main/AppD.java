@@ -3403,6 +3403,8 @@ public class AppD extends App implements
 			setCurrentFile(null);
 			// command list may have changed due to macros
 			updateCommandDictionary();
+			
+			hideDockBarPopup();
 
 			return true;
 		} catch (Exception err) {
@@ -3428,6 +3430,8 @@ public class AppD extends App implements
 			setCurrentFile(null);
 			// command list may have changed due to macros
 			updateCommandDictionary();
+			
+			hideDockBarPopup();
 
 			return true;
 		} catch (Exception err) {
@@ -3464,12 +3468,32 @@ public class AppD extends App implements
 			// command list may have changed due to macros
 			updateCommandDictionary();
 
+			hideDockBarPopup();
+			
 			return true;
 		} catch (MyError err) {
 			setCurrentFile(null);
 			showError(err);
 			return false;
 		}
+	}
+	
+	private boolean dontShowDockBarPopup = false;
+	
+	private void hideDockBarPopup(){
+		if (getDockBar()!=null)
+			getDockBar().hidePopup();
+		else
+			//prevent next automatic popup
+			dontShowDockBarPopup=true;
+			
+	}
+	
+	public void showDockBarPopup(){
+		if (dontShowDockBarPopup)
+			dontShowDockBarPopup=false;
+		else
+			getDockBar().showPopup();
 	}
 
 	@Override
