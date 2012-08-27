@@ -6793,24 +6793,6 @@ public class Kernel {
 		return text;
 	}
 
-	/**
-	 * SurdText[number] Kai Chung Tam
-	 */
-	final public GeoText SurdText(String label, GeoNumeric num) {
-		AlgoSurdText algo = new AlgoSurdText(cons, label, num);
-		GeoText text = algo.getResult();
-		return text;
-	}
-
-	/**
-	 * SurdText[Point]
-	 */
-	final public GeoText SurdText(String label, GeoPoint p) {
-		AlgoSurdTextPoint algo = new AlgoSurdTextPoint(cons, label, p);
-		GeoText text = algo.getResult();
-		return text;
-	}
-
 	final public GeoText VerticalText(String label, GeoText args) {
 		AlgoVerticalText algo = new AlgoVerticalText(cons, label, args);
 		GeoText text = algo.getResult();

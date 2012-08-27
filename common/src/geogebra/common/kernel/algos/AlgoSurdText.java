@@ -17,8 +17,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.util.MyMathExact.MyDecimal;
 import geogebra.common.util.MyMathExact.MyDecimalMatrix;
 import geogebra.common.util.Unicode;
@@ -40,18 +42,20 @@ public class AlgoSurdText extends AlgoElement {
 	int lessScale = 16;
 
 	private GeoNumeric num; //input
+	private GeoList list; //input
     private GeoText text; //output	
     
     protected StringBuilder sb = new StringBuilder();
     
-    public AlgoSurdText(Construction cons, String label, GeoNumeric num) {
-    	this(cons, num);
+    public AlgoSurdText(Construction cons, String label, GeoNumeric num, GeoList list) {
+    	this(cons, num, list);
         text.setLabel(label);
     }
 
-    AlgoSurdText(Construction cons, GeoNumeric num) {
+    AlgoSurdText(Construction cons, GeoNumeric num, GeoList list) {
         super(cons);
         this.num = num;
+        this.list = list;
                
         text = new GeoText(cons);
 		text.setLaTeX(true, false);
@@ -78,8 +82,11 @@ public class AlgoSurdText extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[1];
+        input = new GeoElement[list == null ? 1 : 2];
         input[0] = num;
+        if (list != null) {
+        	input[1] = list;
+        }
 
         setOutputLength(1);
         setOutput(0, text);
@@ -152,43 +159,22 @@ public class AlgoSurdText extends AlgoElement {
      * @param tpl
      */
     protected void PSLQappendGeneral(StringBuilder sb, double num,StringTemplate tpl) {
-
-    	StringBuilder sbToCAS = new StringBuilder();
-    	
-
-    	
-		int[] coeffs0;
-		
-		//double[] constValue = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.PI, Math.E};
-		//String[] constName = new String[] {"sqrt(2)", "sqrt(3)", "pi", "exp(1)"}; // e
-		
-		int numOfConsts = 2;
-		double[] constValue = new double[] {Math.sqrt(2.0), Math.sqrt(3.0)};
-		String[] constName = new String[] {"sqrt(2)", "sqrt(3)"}; //e
-		
-		/*
-		int numOfConsts = 1;
-		double[] constValue = new double[] {Math.sqrt(2.0)};
-	
-		String[] constName = new String[] {"sqrt(2)"}; // e
-		*/
-		
 		
 		//Zero Test: Is num 0?
-		if (kernel.isZero(num)) {
+		if (Kernel.isZero(num)) {
 			sb.append(kernel.format(0, tpl));
 			return;
 		}
 		
 		
 		//Rational Number Test. num is not 0. Is num rational (with small denominator <= 1000) ?
-		AlgebraicFit fitter = new AlgebraicFit(0, 0, null, null, AlgebraicFittingType.RATIONAL_NUMBER, tpl);
+		AlgebraicFit fitter = new AlgebraicFit(null, null, AlgebraicFittingType.RATIONAL_NUMBER, tpl);
 		fitter.setCoeffBound(1000);
 		fitter.compute(num);
 
 		ValidExpression ve = sbToCAS(fitter.formalSolution);
 		
-		if (fitter.formalSolution.length()>0 && kernel.isEqual(ve.evaluateNum().getDouble(),num)) {
+		if (fitter.formalSolution.length()>0 && Kernel.isEqual(ve.evaluateNum().getDouble(),num)) {
 			sb.append(
 			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve, null,tpl)
 			);
@@ -196,262 +182,137 @@ public class AlgoSurdText extends AlgoElement {
 		}
 		
 		
-		//algebraic constant tests. Given that num is not rational with small denominator. Is num some linear combination of some specified constants,
-		// with rational coefficients where denominators and numerators no greater than 100?
-		//int numOfConsts0 = 4;
-		//int numOfRadicals0 = 2;
-		//double[] constValue0 = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.PI, Math.E };
-		//String[] constName0 = new String[] {"sqrt(2)", "sqrt(3)", "pi", Unicode.EULER_STRING}; // e
-		double[] constValues;
-		String[] constNames;
+		double[] testValues;
+		String[] testNames;
 		
-		/*
-		final double[] quadraticRootValues = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0)};
-		final String[] quadraticRootNames = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)"};
-		final int totalNumOfQRadicals = quadraticRootValues.length;
-		*/
-		
-		int numOfQuadLists = 5;
-		final double[][] quadraticRootValues = new double[numOfQuadLists][];
-		final String[][] quadraticRootNames = new String[numOfQuadLists][];
-		
-		quadraticRootValues[0] = new double[] {Math.sqrt(2.0)};
-		quadraticRootNames[0] = new String[] {"sqrt(2)"};
-		quadraticRootValues[1] = new double[] {Math.sqrt(3.0)};
-		quadraticRootNames[1] = new String[] {"sqrt(3)"};
-		quadraticRootValues[2] = new double[] {Math.sqrt(5.0)};
-		quadraticRootNames[2] = new String[] {"sqrt(5)"};
-		quadraticRootValues[3] = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0)};
-		quadraticRootNames[3] = new String[] {"sqrt(2)", "sqrt(3)", "sqrt(5)"};
-		quadraticRootValues[4] = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0)};
-		quadraticRootNames[4] = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)"};
-		final int totalNumOfQRadicals = quadraticRootValues[4].length;
-		
-		final double[] cubicRootValues = new double[] {Math.pow(2.0,1.0/3), Math.pow(4.0,1.0/3), Math.pow(3.0,1.0/3), Math.pow(9.0,1.0/3)};
-		final String[] cubicRootNames = new String[] {"2^(1/3)", "4^(1/3)", "3^(1/3)", "9^(1/3)"};
-		
-		final double[] piValues = new double[] {Math.PI, Math.PI*Math.PI, Math.sqrt(Math.PI), 1/Math.PI};
-		final String[] piNames = new String[] {"pi", "pi^2", "sqrt(pi)", "1/pi"};
-		
-		final double[] eValues = new double[] {Math.E, Math.E*Math.E, Math.sqrt(Math.E), 1/Math.E};
-		final String[] eNames = new String[] {Unicode.EULER_STRING, Unicode.EULER_STRING+"^2", "sqrt("+Unicode.EULER_STRING+")", "1/"+Unicode.EULER_STRING};
-		
-		final double[] logValues = new double[] {Math.log(2), Math.log(10), Math.log10(2), Math.log10(Math.E), Math.log(10)/Math.log(2), Math.log(Math.E)/Math.log(2)};
-		final String[] logNames = new String[] {"log(2)/log("+Unicode.EULER_STRING+")", "log(10)/log("+Unicode.EULER_STRING+")", "log(2)/log(10)", "log("+Unicode.EULER_STRING+")/log(10)", "log(10)/log(2)", "log("+Unicode.EULER_STRING+")/log(2)"};
-		//if there are K constants, then it requires (K+1) dimensions in the integer relation finding. For the best results,
-		// we now only keep K<=4 to have nice results.
-		//we loop over all combinations of K=1 or 2 or 3 constants, excluding the co-appearance of both e and pi.
-
-		boolean success;
-		
-		boolean testSpeed = true; //debug
-		
-		long t1 = System.currentTimeMillis();
-		long t2;
-		int timeCount=0;
-		
-		for (int i=0; i<numOfQuadLists-1; i++) {
-			success = fitLinearComb(num, quadraticRootNames[i].length, quadraticRootNames[i].length, quadraticRootNames[i], quadraticRootValues[i], 100, sb, tpl);
+		if (list != null) {
 			
-
-			if (testSpeed) {
-			t2 = System.currentTimeMillis();
-			System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms, where i = " + i);
-			timeCount++;
-			t1=t2;
-			}
+			ArrayList<Double> values = new ArrayList<Double>();
+			ArrayList<String> names = new ArrayList<String>();
 			
-			if (success)
-				return;
-		}
-		
-		
-		/*
-		success = fitLinearComb(num, 4, 4, cubicRootNames, cubicRootValues, 10, sb, tpl);
-		
-		if (testSpeed) {
-		t2 = System.currentTimeMillis();
-		System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms.");
-		timeCount++;
-		t1=t2;
-		}
-		
-		if (success)
-			return;
-			*/
-		
-		t2 = System.currentTimeMillis();
-		System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms.");
-		timeCount++;
-		t1=t2;
-		
-		
-		success = fitLinearComb(num, 4, 0, piNames, piValues, 10, sb, tpl);
-		if (testSpeed) {
-		t2 = System.currentTimeMillis();
-		System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms.");
-		timeCount++;
-		t1=t2;
-		}
-		
-		
-		if (success)
-			return;
-		
-		success = fitLinearComb(num, 4, 0, eNames, eValues, 10, sb, tpl);
-		if (success)
-			return;
-		
-		success = fitLinearComb(num, totalNumOfQRadicals, totalNumOfQRadicals, quadraticRootNames[4], quadraticRootValues[4], 20, sb, tpl);
-		if (success)
-			return;
-		
-		success = fitLinearComb(num, 6, 0, logNames, logValues, 10, sb, tpl);
-		if (success)
-			return;
-		
-		/*
-		 * Rational combination test. Given that num is not simple linear combination, we assume that it is a quotient of it.
-		 * however, we do not want to mix up different types of constants for now.
-		 */ 
-		//TODO
-		
-		
-		
-		//quadratic test
-		//if there are K constants, then it requires (3K+3) dimensions in the integer relation finding. For now, keep K<=2 to have nice results.
-		//we loop over all combinations of K=1 or 2 constants, excluding the co-appearance of e, pi, or log.
-		
-		int numOfRadicals;
-		numOfConsts = 0;
-		numOfRadicals = 0;
-		AlgebraicFit fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, null, null, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
-		fitter2.setCoeffBound(100);
-		fitter2.compute(num);
-		
-		ValidExpression ve2 = sbToCAS(fitter2.formalSolution);
-		
-		if (fitter2.formalSolution.length()>0 && kernel.isEqual(ve2.evaluateNum().getDouble(),num)) {
-			sb.append(
-			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve2, null,tpl)
-			);
-			return;
-		}
-		
-		numOfConsts = 1;
-		constValues = new double[numOfConsts];
-		constNames = new String[numOfConsts];
-		for (int i = 0; i<totalNumOfQRadicals; i++) {
-			
-			numOfRadicals = 1;
-			constValues[0] = quadraticRootValues[numOfQuadLists-1][i];
-			constNames[0] = quadraticRootNames[numOfQuadLists-1][i];
-			
-			fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
-			fitter2.setCoeffBound(10);
-			fitter2.compute(num);
-			
-			ve2 = sbToCAS(fitter2.formalSolution);
-			
-			if (fitter2.formalSolution.length()>0 && kernel.isEqual(ve2.evaluateNum().getDouble(),num)) {
-				sb.append(
-				kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve2, null,tpl)
-				);
-				return;
-			}
-		}
-		
-		
-		numOfConsts = 2;
-		constValues = new double[numOfConsts];
-		constNames = new String[numOfConsts];
-		for (int i0=0; i0<totalNumOfQRadicals-1; i0++) {
-			for (int i1 = i0+1; i1<totalNumOfQRadicals; i1++) {
+			for (int i = 0 ; i < list.size() ; i++) {
+				double x = list.get(i).evaluateNum().getDouble();
 				
-				numOfRadicals = 2;
-				constValues[0] = quadraticRootValues[numOfQuadLists-1][i0];
-				constNames[0] = quadraticRootNames[numOfQuadLists-1][i0];
-				
-				constValues[1] = quadraticRootValues[numOfQuadLists-1][i1];
-				constNames[1] = quadraticRootNames[numOfQuadLists-1][i1];
-
-				fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
-				fitter2.setCoeffBound(10);
-				fitter2.compute(num);
-				
-				ve2 = sbToCAS(fitter2.formalSolution);
-				
-				if (fitter2.formalSolution.length()>0 && kernel.isEqual(ve2.evaluateNum().getDouble(),num)) {
-					sb.append(
-					kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve2, null,tpl)
-					);
-					return;
+				if (Kernel.isEqual(x, Math.PI)) {
+					values.add(Math.PI);
+					names.add("pi");
+				} else if (Kernel.isEqual(x, 1/Math.PI)) {
+					values.add(1/Math.PI);
+					names.add("1/pi");
+				} else if (Kernel.isEqual(x, Math.PI*Math.PI)) {
+					values.add(Math.PI*Math.PI);
+					names.add("pi^2");
+				} else if (Kernel.isEqual(x, Math.sqrt(Math.PI))) {
+					values.add(Math.sqrt(Math.PI));
+					names.add("sqrt(pi)");
+				} else if (Kernel.isEqual(x, Math.E)) {
+					values.add(Math.E);
+					names.add(Unicode.EULER_STRING);
+				} else if (Kernel.isEqual(x, 1/Math.E)) {
+					values.add(1/Math.E);
+					names.add("1/"+Unicode.EULER_STRING);
+				} else if (Kernel.isEqual(x, Math.E*Math.E)) {
+					values.add(Math.E*Math.PI);
+					names.add(Unicode.EULER_STRING+"^2");
+				} else if (Kernel.isEqual(x, Math.sqrt(Math.E))) {
+					values.add(Math.sqrt(Math.E));
+					names.add("sqrt("+Unicode.EULER_STRING+")");
+				} else {
+					int j;
+					for (j = 2 ; j < 100 ; j++) {
+						double sqrt = Math.sqrt(j);
+						if (!Kernel.isInteger(sqrt) && Kernel.isEqual(x,  sqrt)) {
+							values.add(sqrt);
+							names.add("sqrt("+j+")");
+							break;
+						}
+						
+						double ln = Math.log(j);
+						if (Kernel.isEqual(x,  ln)) {
+							values.add(ln);
+							names.add("ln("+j+")");
+							break;
+						}
+					}
 				}
 			}
-		}
+			
+			testValues = new double[values.size()];
+			testNames = new String[values.size()];
+			
+			for (int i = 0 ; i < values.size() ; i++) {
+				testValues[i] = values.get(i);
+				testNames[i] = names.get(i);
 				
+				App.debug(testNames[i]);
+			}
+			
+		} else {
+			
+			// default constants if none supplied
+			testValues = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0), Math.PI};
+			testNames = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)", "pi"};
+		}
+		
+		boolean success = fitLinearComb(num, testNames, testValues, 100, sb, tpl);
+		
+		if (success) {
+			return;
+		}
+		
 		
 		appendUndefined();
 		
 	}
 			
 	
-    private boolean fitLinearComb(double y, int numOfConsts,
-			int numOfRadicals, String[] constNameSet,
+    private boolean fitLinearComb(double y, String[] constNameSet,
 			double[] constValueSet, int coeffBound, StringBuilder sb1, StringTemplate tpl) {
     	
 	
-		double[] constValues = new double[numOfConsts];
-		String[] constNames = new String[numOfConsts];
-		for (int i1 = 0; i1< numOfConsts; i1++ ) {
-			constValues[i1] = constValueSet[i1];
-			constNames[i1] = constNameSet[i1];
-		}
-	
-		long t1= System.currentTimeMillis();
-		long t2;
+		//long t1= System.currentTimeMillis();
+		//long t2;
 		
-		AlgebraicFit fitter0 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.LINEAR_COMBINATION, tpl);
+		AlgebraicFit fitter0 = new AlgebraicFit(constNameSet, constValueSet, AlgebraicFittingType.LINEAR_COMBINATION, tpl);
 		fitter0.setCoeffBound(coeffBound);
 		fitter0.compute(y);
 		
-		t2 = System.currentTimeMillis();
-		System.out.println("time of algebraic fit compute: " + (t2-t1));
-		t1 = t2;
+		//t2 = System.currentTimeMillis();
+		//System.out.println("time of algebraic fit compute: " + (t2-t1));
+		//t1 = t2;
 		
 		ValidExpression ve0 = sbToCAS(fitter0.formalSolution);
 		
-		t2 = System.currentTimeMillis();
-		System.out.println("time of sb to ve: " + (t2-t1));
-		t1 = t2;
+		//t2 = System.currentTimeMillis();
+		//System.out.println("time of sb to ve: " + (t2-t1));
+		//t1 = t2;
 		
-		if (fitter0.formalSolution.length()>0 && kernel.isEqual(ve0.evaluateNum().getDouble(),y)) {
+		if (fitter0.formalSolution.length()>0 && Kernel.isEqual(ve0.evaluateNum().getDouble(),y)) {
 			sb1.append(
 			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,tpl)
 			);
 			
 			
 
-			t2 = System.currentTimeMillis();
-			System.out.println("time of ve to CAS: " + (t2-t1));
-			t1 = t2;
+			//t2 = System.currentTimeMillis();
+			//System.out.println("time of ve to CAS: " + (t2-t1));
+			//t1 = t2;
 			
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 		
 	}
 
 	private ValidExpression sbToCAS(StringBuilder sb) {
-    	if (sb!=null)
+    	if (sb!=null) {
     		return kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(sb.toString());
-    	else
-    		return null;
+    	}
+		return null;
 	}
 
 	// returns the sum of constValue[j] * coeffs[offset+j*step] over j
-    private static double evaluateCombination(int n, double[] constValue, int[] coeffs, int offset, int step) {
+    static double evaluateCombination(int n, double[] constValue, int[] coeffs, int offset, int step) {
     	double sum = 0;
     	
     	for (int j=0; j<n; j++) {
@@ -462,6 +323,15 @@ public class AlgoSurdText extends AlgoElement {
 	}
 
 	//append a linear combination coeffs[offset + j*step] * vars[j] to the StringBuilder sb 
+    /**
+     * @param sbToCAS
+     * @param numOfTerms
+     * @param vars
+     * @param coeffs
+     * @param offset
+     * @param step
+     * @param tpl
+     */
     public void appendCombination(StringBuilder sbToCAS, int numOfTerms, String[] vars, int[] coeffs, int offset, int step, StringTemplate tpl) {
 	
     	int numOfAllTerms = vars.length;
@@ -503,23 +373,25 @@ public class AlgoSurdText extends AlgoElement {
 
 	private void appendUndefined(StringBuilder sb1) {
 		
-    	sb1.append("\\text{"+app.getPlain("close form not found!")+"}");
+    	sb1.append("\\text{");
+    	sb1.append(app.getPlain("undefined"));
+    	sb1.append("}");
 	}
 	
 	/**
      * Goal: modifies a StringBuilder object sb to be a radical up to quartic roots
      * The precision is adapted, according to setting
      * @param sb
-     * @param num
+     * @param num1
      * @param tpl
      */
-    protected void PSLQappendQuartic(StringBuilder sb, double num,StringTemplate tpl) {
+    protected void PSLQappendQuartic(StringBuilder sb, double num1,StringTemplate tpl) {
 		double[] numPowers = new double[5];
 		double temp = 1.0;
 		
 		for (int i=4; i>=0; i--) {
 			numPowers[i] = temp;
-			temp *=num;
+			temp *=num1;
 		}
 		
 		int[] coeffs = PSLQ(numPowers,getKernel().getEpsilon(),10);
@@ -527,7 +399,7 @@ public class AlgoSurdText extends AlgoElement {
 		if (coeffs[0] == 0 && coeffs[1] ==0) {
 
 			if (coeffs[2] == 0 && coeffs[3] == 0 && coeffs[4] == 0 ) {
-				sb.append("\\text{"+app.getPlain("undefined")+"}");
+				appendUndefined(sb);
 			} else if (coeffs[2] == 0) {
 				//coeffs[1]: denominator;  coeffs[2]: numerator
 				int denom = coeffs[3];
@@ -545,7 +417,7 @@ public class AlgoSurdText extends AlgoElement {
 				int c = 2*coeffs[2];
 
 				if (b2 <= 0) { //should not happen!
-					sb.append("\\text{"+app.getPlain("undefined")+"}");
+					appendUndefined(sb);
 					return;
 				}
 				
@@ -566,7 +438,7 @@ public class AlgoSurdText extends AlgoElement {
 				}
 				
 				boolean positive;
-				if (num > (a+0.0)/c) {
+				if (num1 > (a+0.0)/c) {
 					positive=true;
 					if (b2==1) {
 						a+=b1;
@@ -645,21 +517,21 @@ public class AlgoSurdText extends AlgoElement {
     /**
      * Quadratic Case. modifies a StringBuilder object sb to be the quadratic-radical expression of num, within certain precision.
      * @param sb
-     * @param num
+     * @param num1
      * @param tpl
      */
-    protected void PSLQappendQuadratic(StringBuilder sb, double num,StringTemplate tpl) {
+    protected void PSLQappendQuadratic(StringBuilder sb, double num1,StringTemplate tpl) {
     	
-    	if (Kernel.isZero(num)) {
+    	if (Kernel.isZero(num1)) {
     		sb.append('0');
     		return;
     	}
     	
-		double[] numPowers = {num * num, num, 1.0};
+		double[] numPowers = {num1 * num1, num1, 1.0};
 		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
 		
 		if (coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0 ) {
-			sb.append("\\text{"+app.getPlain("undefined")+"}");
+			appendUndefined(sb);
 		} else if (coeffs[0] == 0) {
 			//coeffs[1]: denominator;  coeffs[2]: numerator
 			int denom = coeffs[1];
@@ -677,7 +549,7 @@ public class AlgoSurdText extends AlgoElement {
 			int c = 2*coeffs[0];
 
 			if (b2 <= 0) { //should not happen!
-				sb.append("\\text{"+app.getPlain("undefined")+"}");
+				appendUndefined(sb);
 				return;
 			}
 			
@@ -698,7 +570,7 @@ public class AlgoSurdText extends AlgoElement {
 			}
 			
 			boolean positive;
-			if (num > (a+0.0)/c) {
+			if (num1 > (a+0.0)/c) {
 				positive=true;
 				if (b2==1) {
 					a+=b1;
@@ -751,6 +623,13 @@ public class AlgoSurdText extends AlgoElement {
 
     }
   
+    /**
+     * @param n
+     * @param x
+     * @param AccuracyFactor
+     * @param bound
+     * @return
+     */
     int[][] mPSLQ(int n, double[] x, double AccuracyFactor, int bound) {
     	
     	
@@ -790,7 +669,6 @@ public class AlgoSurdText extends AlgoElement {
     	
     	//r2 stores all possible results. Numbers are initialized here because we need the correct field.
     	r2 = new MyDecimalMatrix (m.getBMatrix().getScale(),n,n);
-    	MyDecimal ZERO = new MyDecimal(m.getBMatrix().getScale(), 0);
     	
     	result2 = m.getBSolMatrix();
     	if (result2 != null)
@@ -804,14 +682,14 @@ public class AlgoSurdText extends AlgoElement {
 				r2.setEntry(i, rCols, result2.getEntry(i, j));
 			}
 			if (rCols == n-1)
-				System.out.println("There should not be that many solutions.");
+				App.warn("There should not be that many solutions.");
 			rCols++;
 		}
 		
 		p=0;
 		for (int j = 0; j < oldp; j++) {
 			if (m.orthoIndices[j] == 0) {
-				x[p++] = new Double(m.xB.getEntry(0, j).toString());
+				x[p++] = new Double(m.xB1.getEntry(0, j).toString());
 			}
 		}
     	
@@ -856,8 +734,9 @@ public class AlgoSurdText extends AlgoElement {
     			for (int i=0; i<n; i++) {
     				r2.setEntry(i, rCols, result2.getEntry(i, j));
     			}
-    			if (rCols == n-1)
-    				System.out.println("There should not be that many solutions.");
+    			if (rCols == n-1) {
+    				App.warn("There should not be that many solutions.");
+    			}
     			rCols++;
     		}
     		
@@ -865,7 +744,7 @@ public class AlgoSurdText extends AlgoElement {
     		p =0;
     		for (int j = 0; j < oldp; j++) {
     			if (m.orthoIndices[j] == 0) {
-    				x[p++] = new Double(m.xB.getEntry(0, j).toString());
+    				x[p++] = new Double(m.xB1.getEntry(0, j).toString());
     			}
     		}
     		
@@ -1269,20 +1148,6 @@ public class AlgoSurdText extends AlgoElement {
 
 	
 	
-	private static double frobNormSq(double[][] matrix, int m, int n) {
-		//m is number of rows; n is number of columns
-		double ret = 0;
-		
-		if (m==0 || n==0)
-			return ret;
-		
-		for (int i=0; i<m; i++)
-			for (int j=0; j<n; j++)
-				ret += matrix[i][j] * matrix[i][j];
-		
-		return ret;
-	}
-
 	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
@@ -1338,12 +1203,12 @@ public class AlgoSurdText extends AlgoElement {
 		//constants (defined later)
 		private MyDecimal ZERO;
 		private MyDecimal ONE;
-		private MyDecimal ZERO_LESS;
+		MyDecimal ZERO_LESS;
 		private MyDecimal ONE_LESS;
 		
 		//parameters
 		private double tau, rho, gamma;
-		private double err; //error bound for x
+		double err; //error bound for x
 		private double M; //norm bound;
 		
 		//input
@@ -1354,8 +1219,8 @@ public class AlgoSurdText extends AlgoElement {
 		
 		
 		//working variables
-		private int fullScale;
-		private int lessScale;
+		private int fullScale1;
+		private int lessScale1;
 		private MyDecimal xNorm;
 		private MyDecimalMatrix H_full;
 		private MyDecimalMatrix H;
@@ -1366,7 +1231,7 @@ public class AlgoSurdText extends AlgoElement {
 		//private Array2DRowFieldMatrix<Dfp> B_comp; //B_comp: *= new B_rest (B_rest is in IntRelation class)
 		private MyDecimalMatrix xB;
 		
-		private MyDecimal a,b,l,d;
+		private MyDecimal b,l,d;
 		private int r;
 		
 		
@@ -1377,8 +1242,8 @@ public class AlgoSurdText extends AlgoElement {
 		//PSLQ with initialization for exact calculation
 		IntRelationFinder(int n, double[]x, int fullScale_input, int lessScale_input, double err, double bound) { 
 
-			this.fullScale = fullScale_input;
-			this.lessScale = lessScale_input;
+			this.fullScale1 = fullScale_input;
+			this.lessScale1 = lessScale_input;
 			this.n=n;
 			this.err = err;
 			this.M = bound;
@@ -1387,8 +1252,8 @@ public class AlgoSurdText extends AlgoElement {
 			int digitsNeeded = (int) Math.ceil(-Math.log10(err));
 			//int digitsAllocated = lessScale;
 			
-			lessScale = digitsNeeded;
-			fullScale = digitsNeeded * n;
+			lessScale1 = digitsNeeded;
+			fullScale1 = digitsNeeded * n;
 			/*
 			boolean needSizeChange = false;
 			while (digitsAllocated <= digitsNeeded) {
@@ -1412,10 +1277,10 @@ public class AlgoSurdText extends AlgoElement {
 			*/
 			
 			
-			ZERO = new MyDecimal(fullScale, BigDecimal.ZERO);
-			ONE = new MyDecimal(fullScale, BigDecimal.ONE);
-			ZERO_LESS = new MyDecimal(lessScale, BigDecimal.ZERO);
-			ONE_LESS = new MyDecimal(lessScale, BigDecimal.ONE);
+			ZERO = new MyDecimal(fullScale1, BigDecimal.ZERO);
+			ONE = new MyDecimal(fullScale1, BigDecimal.ONE);
+			ZERO_LESS = new MyDecimal(lessScale1, BigDecimal.ZERO);
+			ONE_LESS = new MyDecimal(lessScale1, BigDecimal.ONE);
 			
 			
 	    	if (n<1) {
@@ -1429,9 +1294,9 @@ public class AlgoSurdText extends AlgoElement {
 	    			return;
 	    		}
 	    		
-	    		B = new MyDecimalMatrix(lessScale,1,1);
+	    		B = new MyDecimalMatrix(lessScale1,1,1);
 	    		B.setEntry(0, 0, ONE_LESS);
-	    		xB = new MyDecimalMatrix(lessScale,1,1);
+	    		xB = new MyDecimalMatrix(lessScale1,1,1);
 	    		xB.setEntry(0, 0, ZERO_LESS);
 	    		IntRelation m = new IntRelation(n, B, xB, 1);
 				result.add(m);
@@ -1447,7 +1312,7 @@ public class AlgoSurdText extends AlgoElement {
 			
 			for (int i=0; i<n; i++) {
 				this.x[i] = x[i];
-				this.x_full[i] = new MyDecimal(fullScale, x[i]);
+				this.x_full[i] = new MyDecimal(fullScale1, x[i]);
 			}
 			
 			rho = 2;
@@ -1455,10 +1320,10 @@ public class AlgoSurdText extends AlgoElement {
 			gamma = 1/Math.sqrt(1/tau/tau - 1/rho/rho);
 			
 			initialize_full();
-			a = new MyDecimal(lessScale);
-			b = new MyDecimal(lessScale);
-			l = new MyDecimal(lessScale);
-			d = new MyDecimal(lessScale);
+			new MyDecimal(lessScale1);
+			b = new MyDecimal(lessScale1);
+			l = new MyDecimal(lessScale1);
+			d = new MyDecimal(lessScale1);
 			
 			boolean loopTillExhausted = true;
 			int iterCount = 0;
@@ -1481,7 +1346,7 @@ public class AlgoSurdText extends AlgoElement {
 				}
 
 				if (r<n-2) { //for r=n-2 we don't need to define these. Also l will be undefined
-					a = H.getEntry(r, r);
+					H.getEntry(r, r);
 					b = H.getEntry(r+1, r);
 					l = H.getEntry(r+1, r+1);
 					d = b.multiply(b).add(l.multiply(l)).sqrt();
@@ -1520,7 +1385,7 @@ public class AlgoSurdText extends AlgoElement {
 				for (int j=0; j<n-1; j++) {
 					if (H.getEntry(j, j).abs().doubleValue() < Math.pow(10, -Math.min(H.getScale(),5))) {
 						relationExhausted = true;
-						System.out.println("relation pre-Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
+						App.warn("relation pre-Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
 					}
 				}
 				
@@ -1535,7 +1400,7 @@ public class AlgoSurdText extends AlgoElement {
 				for (int j=0; j<n-1; j++) {
 					if (H.getEntry(j, j).abs().doubleValue() < Math.pow(10, -Math.min(H.getScale(),5))) {
 						relationExhausted = true;
-						System.out.println("relation Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
+						App.warn("relation Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
 					}
 				}
 						
@@ -1570,7 +1435,7 @@ public class AlgoSurdText extends AlgoElement {
 		
 		void initialize_full() {
 
-			xNorm = new MyDecimal(lessScale);
+			xNorm = new MyDecimal(lessScale1);
 			
 			//normalize x
 			for (int i=0; i<n; i++) {
@@ -1583,7 +1448,7 @@ public class AlgoSurdText extends AlgoElement {
 			
 			for (int i=0; i<n; i++) {
 				x_full[i] = x_full[i].divide(xNorm);
-				x_double[i] = new MyDecimal(lessScale, x_full[i]);
+				x_double[i] = new MyDecimal(lessScale1, x_full[i]);
 			}
 			
 			
@@ -1592,7 +1457,7 @@ public class AlgoSurdText extends AlgoElement {
 			//partial sums of squares
 			MyDecimal[] ss = new MyDecimal[n];
 			for (int i=0; i<n; i++) {
-				ss[i] = new MyDecimal(fullScale);
+				ss[i] = new MyDecimal(fullScale1);
 			}
 			
 			ss[n-1]= x_full[n-1].multiply(x_full[n-1]);
@@ -1608,11 +1473,11 @@ public class AlgoSurdText extends AlgoElement {
 			//pre-calculate ss[j]*ss[j+1]
 			MyDecimal[] Pss = new MyDecimal[n-1];
 			for (int i=0; i<n-1; i++) {
-				Pss[i] = new MyDecimal(fullScale, ss[i].multiply(ss[i+1]));
+				Pss[i] = new MyDecimal(fullScale1, ss[i].multiply(ss[i+1]));
 			}
 			
 			//initialize Matrix H (lower trapezoidal
-			H_full = new MyDecimalMatrix(fullScale, n,n-1);
+			H_full = new MyDecimalMatrix(fullScale1, n,n-1);
 			
 			for (int i = 0; i<n; i++) {
 				for (int j=0; j<i; j++) {
@@ -1669,10 +1534,10 @@ public class AlgoSurdText extends AlgoElement {
 					);
 			*/
 			
-			H = new MyDecimalMatrix(lessScale, n,n-1);
+			H = new MyDecimalMatrix(lessScale1, n,n-1);
 			for (int i=0; i<n; i++) {
 				for (int j=0; j<n-1; j++) {
-					H.setEntry(i, j, new MyDecimal(lessScale, H_full.getEntry(i, j)));
+					H.setEntry(i, j, new MyDecimal(lessScale1, H_full.getEntry(i, j)));
 				}
 			}
 			
@@ -1710,7 +1575,7 @@ public class AlgoSurdText extends AlgoElement {
 				B[i][i]=1;
 			*/
 			
-			I = new MyDecimalMatrix(lessScale, n,n);
+			I = new MyDecimalMatrix(lessScale1, n,n);
 			for (int i=0; i<n; i++) {
 				for (int j=0; j<n; j++) {
 					if(i==j)
@@ -1723,7 +1588,7 @@ public class AlgoSurdText extends AlgoElement {
 			
 			A = I.copy();
 			B = I.copy();
-			xB = new MyDecimalMatrix(lessScale, 1,n);
+			xB = new MyDecimalMatrix(lessScale1, 1,n);
 			for (int i=0; i<n; i++) {
 				xB.setEntry(0, i,x_double[i]);
 			}
@@ -1737,7 +1602,7 @@ public class AlgoSurdText extends AlgoElement {
 			for (int i=1; i<n; i++) {
 				for (int j=i-1; j>=0; j--) {
 					//MyDecimal q = new MyDecimal(H.getEntry(i, j).divide(H.getEntry(j, j)).divide(ONE, 0, BigDecimal.ROUND_DOWN));
-					MyDecimal q = new MyDecimal(lessScale, Math.rint(H.getEntry(i, j).doubleValue() / H.getEntry(j, j).doubleValue()));
+					MyDecimal q = new MyDecimal(lessScale1, Math.rint(H.getEntry(i, j).doubleValue() / H.getEntry(j, j).doubleValue()));
 					for (int k=0; k<=j; k++) {
 						H.setEntry(i, k, H.getEntry(i, k).subtract(q.multiply(H.getEntry(j, k))));
 					}
@@ -1765,8 +1630,8 @@ public class AlgoSurdText extends AlgoElement {
 			//these are all copied from IntRelationFinder
 
 			private int nilDim; //dimension of the nil-subspace corresponding to vector m, that is, the # cols of B_sol
-			private MyDecimalMatrix B, B_sol, B_rest;
-			MyDecimalMatrix xB;
+			private MyDecimalMatrix B1, B_sol, B_rest;
+			MyDecimalMatrix xB1;
 			int[] orthoIndices;
 
 			
@@ -1775,8 +1640,8 @@ public class AlgoSurdText extends AlgoElement {
 				if (n==0)
 					return;
 				this.size = n;
-				this.B = B.copy();
-				this.xB = xB.copy();
+				this.B1 = B.copy();
+				this.xB1 = xB.copy();
 				this.sig = sig;
 				
 				orthoIndices = new int[n];
@@ -1829,21 +1694,21 @@ public class AlgoSurdText extends AlgoElement {
 			}
 			
 			public MyDecimalMatrix getBMatrix() {
-				return B.copy();
+				return B1.copy();
 			}
 
 			public MyDecimalMatrix getBSolMatrix() {
-				if (B_sol!=null)
+				if (B_sol!=null) {
 					return B_sol.copy();
-				else
-					return null;
+				}
+				return null;
 			}
 			
 			public MyDecimalMatrix getBRestMatrix() {
-				if (B_rest!=null)
+				if (B_rest!=null) {
 					return B_rest.copy();
-				else
-					return null;
+				}
+				return null;
 			}
 			
 			public int compareTo(IntRelation m2) {
@@ -1868,6 +1733,10 @@ public class AlgoSurdText extends AlgoElement {
 		
 	}
 	
+	/**
+	 * @author tam
+	 *
+	 */
 	public enum AlgebraicFittingType {
 		/**
 		 * Given x, we search for the form x = A/B where A,B are integers.
@@ -1918,14 +1787,13 @@ public class AlgoSurdText extends AlgoElement {
 	private class AlgebraicFit  {
 
 		//input
-		private double num;
+		private double num1;
 		
 		//parameters
 		private int numOfConsts;
 		private int numOfRadicals;
 		private double[] constValues;
 		private String[] constStrings;
-		private int deg; //acceptable degree of fitting polynomial 
 		private int coeffBound;   //largest acceptable absolute value of coefficients
 		private double err;
 		private AlgebraicFittingType aft;
@@ -1943,9 +1811,6 @@ public class AlgoSurdText extends AlgoElement {
 		private int maxCoeff;
 		private int sumCoeffs;
 		private boolean isOneUsed;
-		private boolean isRational;
-		private boolean isAlgebraic;
-		
 		private int bestIndex;
 		private int[] bestRelation;
 		
@@ -1955,21 +1820,20 @@ public class AlgoSurdText extends AlgoElement {
 
 		//default constructor: deg=2, no constants added, precision = 8 decimal digits
 		private AlgebraicFit() {
-			deg = 2;
 			numOfConsts=0;
 			err = 10E-8;
 		}
 		
 		/**
-		 * @param numOfConstants  number of constants
-		 * @param numOfRadicals number of "radicals"
-		 * @param ConstStrings the strings of the constants
-		 * @param ConstValues the double value of them
+		 * @param constStrings the strings of the constants
+		 * @param constValues the double value of them
+		 * @param aft 
+		 * @param tpl 
 		 */
-		public AlgebraicFit(int numOfConstants, int numOfRadicals, String[] constStrings, double[] constValues,
+		public AlgebraicFit(String[] constStrings, double[] constValues,
 				AlgebraicFittingType aft, StringTemplate tpl) {
-			this.numOfConsts = numOfConstants;
-			this.numOfRadicals = numOfRadicals;
+			this.numOfConsts = constValues == null ? 0 : constValues.length;
+			this.numOfRadicals = this.numOfConsts;
 			//this.constValues = constValues.clone();  //not available in GWT
 			if (constValues!=null) {
 				this.constValues = new double[constValues.length];
@@ -1987,7 +1851,8 @@ public class AlgoSurdText extends AlgoElement {
 			this.aft = aft;
 			this.tpl = tpl;
 			
-			err = Math.min(getKernel().MAX_PRECISION, getKernel().getEpsilon());
+			getKernel();
+			err = Math.min(getKernel().MAX_PRECISION, Kernel.getEpsilon());
 			coeffBound = 100;
 			formalSolution = new StringBuilder();
 			formalSolution.setLength(0);
@@ -2013,7 +1878,7 @@ public class AlgoSurdText extends AlgoElement {
 				computeQuadratic(number);
 				return;
 			case FUNCTION_OF_RATIONAL_NUMBER:
-				computeFunctionRationalNumber(number);
+				// TODO
 				return;
 			case FUNCTION_OF_LINEAR_COMBINATION:
 				//TODO
@@ -2029,7 +1894,7 @@ public class AlgoSurdText extends AlgoElement {
 		
 		private void computeQuadratic(double number) {
 
-			num = number;
+			num1 = number;
 			
 			numList = new double[(1+numOfConsts)*3]; //(numOfConsts+1)(degree+1)
 			
@@ -2038,7 +1903,7 @@ public class AlgoSurdText extends AlgoElement {
 				temp = constValues[j];
 				for (int i=0; i<3; i++) {
 					numList[j*3+i] = temp;
-					temp *=num;
+					temp *=num1;
 				}
 			}
 			
@@ -2046,7 +1911,7 @@ public class AlgoSurdText extends AlgoElement {
 			//Note: it turns out to be better to put the 1 term at the end instead of in the front 
 			for (int i=0; i<3; i++) {
 				numList[numOfConsts*3+i] = temp;
-				temp *=num;
+				temp *=num1;
 				}
 			
 
@@ -2141,11 +2006,11 @@ public class AlgoSurdText extends AlgoElement {
 				}
 				
 				
-				boolean isOneUsed = false;
+				boolean isOneUsed1 = false;
 				for (int b=0; b<3; b++) {	
-					isOneUsed = isOneUsed || coeffs[numOfConsts*3+b][j]!=0;
+					isOneUsed1 = isOneUsed1 || coeffs[numOfConsts*3+b][j]!=0;
 				}
-				penalties[5][j]= isOneUsed? 1:0;
+				penalties[5][j]= isOneUsed1? 1:0;
 
 				penalties[6][j]=-j;
 			}
@@ -2168,35 +2033,26 @@ public class AlgoSurdText extends AlgoElement {
 			//Suppose A+Bx+Cx^2 = 0, where A,B,C are linear combinations of 1 and values in constValueboolean isAZero = true;
 			boolean isAZero = true;
 			boolean isARational = true;
-			int numOfTermsInA = 0;
-			
 			boolean isBZero = true;
 			boolean isBRational = true;
-			int numOfTermsInB = 0;
-			
 			boolean isCZero = true;
 			boolean isCRational = true;
-			int numOfTermsInC = 0;
-
-			if (bestRelation[numOfConsts*3]!=0)	{isAZero = false; numOfTermsInA++;}
-			if (bestRelation[numOfConsts*3+1]!=0)	{isBZero = false; numOfTermsInB++;}
-			if (bestRelation[numOfConsts*3+2]!=0)	{isCZero = false; numOfTermsInC++;}
+			if (bestRelation[numOfConsts*3]!=0)	{isAZero = false;}
+			if (bestRelation[numOfConsts*3+1]!=0)	{isBZero = false;}
+			if (bestRelation[numOfConsts*3+2]!=0)	{isCZero = false;}
 			
 			for (int j = 0; j<numOfConsts; j++) {
 				if (bestRelation[j*3]!=0) {
 					isAZero = false;
 					isARational = false;
-					numOfTermsInA++;
 				}
 				if (bestRelation[j*3+1]!=0) {
 					isBZero = false;
 					isBRational = false;
-					numOfTermsInB++;
 				}
 				if (bestRelation[j*3+2]!=0) {
 					isCZero = false;
 					isCRational = false;
-					numOfTermsInC++;
 				}
 			}
 			
@@ -2274,7 +2130,7 @@ public class AlgoSurdText extends AlgoElement {
 				formalSolution.append(")");
 				
 				if (!Kernel.isZero(discr)) {
-					if (num * 2 * Cvalue + Bvalue >= 0 ) {
+					if (num1 * 2 * Cvalue + Bvalue >= 0 ) {
 						formalSolution.append("+");
 					} else
 						formalSolution.append("-");
@@ -2306,10 +2162,6 @@ public class AlgoSurdText extends AlgoElement {
 
 		}
 
-		private void computeFunctionRationalNumber(double number) {
-			// TODO Auto-generated method stub
-			
-		}
 
 		/**
 		 * Assume that number = A/B, then we need to find relation (B,-A) to the vector (number,1)
@@ -2389,9 +2241,6 @@ public class AlgoSurdText extends AlgoElement {
 				numOfConstsUsed = numOfRadicalsUsed + numOfOthersUsed;
 				
 				isOneUsed = coeffs[numOfConsts][j]==1;
-				isRational = numOfConstsUsed == 0;
-				isAlgebraic = numOfOthersUsed == 0;
-				
 				maxCoeff=0;
 				sumCoeffs=0;
 				for (int i=0; i<numOfConsts+1; i++) {
@@ -2453,7 +2302,7 @@ public class AlgoSurdText extends AlgoElement {
 			boolean[] candidates = new boolean[s];
 		
 			//find the best index
-			int bestIndex = -1;
+			int bestIndex1 = -1;
 			
 			for (int j=0; j<s; j++) {
 				candidates[j]=true;
@@ -2476,12 +2325,12 @@ public class AlgoSurdText extends AlgoElement {
 						if (penalties[k][j] > minPenalty) {
 							candidates[j] = false;
 						} else {
-							bestIndex = j;
+							bestIndex1 = j;
 						}
 					}
 				}
 			}
-			return bestIndex;
+			return bestIndex1;
 		}
 
 		/*
