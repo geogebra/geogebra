@@ -39,7 +39,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
@@ -410,7 +409,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 					public void tableChanged(TableModelEvent e) {
 						if (e.getType() == TableModelEvent.UPDATE) {
-							// System.out.println("insert " + e.getFirstRow());
+							// App.debug("insert " + e.getFirstRow());
 						}
 
 					}
@@ -422,7 +421,6 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 	private void updateSourceTableStructure() {
 
-		int rowCount = 50;
 		int columnCount = 1;
 
 		ArrayList<String> columnNameList = new ArrayList<String>();
@@ -683,7 +681,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		if (!(source instanceof JTextField)) {
 			return;
 		}
-		String inputText = ((JTextField) source).getText().trim();
+		((JTextField) source).getText().trim();
 
 		if (source == fldStart) {
 			classStart = Validation.validateDouble(fldStart, classStart);
@@ -792,7 +790,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 			// The index of the column whose header was clicked
 			int vColIndex = colModel.getColumnIndexAtX(evt.getX());
-			int mColIndex = table.convertColumnIndexToModel(vColIndex);
+			table.convertColumnIndexToModel(vColIndex);
 
 			// Return if not clicked on the column header button
 			if (vColIndex != btnHoverColumn) {
@@ -811,10 +809,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 				// Mouse was clicked between column heads
 				// vColIndex is the column head closest to the click
 
-				// vLeftColIndex is the column head to the left of the click
-				int vLeftColIndex = vColIndex;
 				if (evt.getX() < headerRect.x) {
-					vLeftColIndex--;
 				}
 			}
 
@@ -932,12 +927,12 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		public boolean isOverTraceButton(int colIndex, Point loc, Object value) {
 
 			try {
-				Component c = getTableCellRendererComponent(table(), value,
+				getTableCellRendererComponent(table(), value,
 						false, false, -1, colIndex);
 
 				btnSelect.getBounds(rect);
 				rect.y += lblTitle.getHeight();
-				// System.out.println(loc.toString() + "  :  " +
+				// App.debug(loc.toString() + "  :  " +
 				// rect.toString());
 				return rect.contains(loc);
 			} catch (Exception e) {
@@ -961,7 +956,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 		@Override
 		public boolean stopCellEditing() {
-			System.out.println("stop cell edit");
+			//App.debug("stop cell edit");
 			return super.stopCellEditing();
 		}
 
@@ -969,8 +964,6 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 	private void buildOptionsPopup() {
 
-		JMenuItem item;
-		JCheckBoxMenuItem ckItem;
 		JMenu subMenu;
 
 		if (optionsPopup == null) {
@@ -1016,7 +1009,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			// source type
 
 			final JCheckBoxMenuItem itmSourceRawData = new JCheckBoxMenuItem(
-					"RawData");
+					app.getMenu("RawData"));
 			itmSourceRawData
 					.setSelected(sourceType == StatDialog.SOURCE_RAWDATA);
 			itmSourceRawData.addActionListener(new ActionListener() {
@@ -1030,7 +1023,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			});
 
 			final JCheckBoxMenuItem itmSourceDataFrequency = new JCheckBoxMenuItem(
-					"DataWithFrequency");
+					app.getMenu("DataWithFrequency"));
 			itmSourceDataFrequency
 					.setSelected(sourceType == StatDialog.SOURCE_VALUE_FREQUENCY);
 			itmSourceDataFrequency.addActionListener(new ActionListener() {
@@ -1044,7 +1037,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			});
 
 			final JCheckBoxMenuItem itmSourceClassFrequency = new JCheckBoxMenuItem(
-					"ClassWithFrequency");
+					app.getMenu("ClassWithFrequency"));
 			itmSourceClassFrequency
 					.setSelected(sourceType == StatDialog.SOURCE_CLASS_FREQUENCY);
 			itmSourceClassFrequency.addActionListener(new ActionListener() {
@@ -1109,7 +1102,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		// header as title
 
 		final JCheckBoxMenuItem itmHeader = new JCheckBoxMenuItem(
-				"UseHeaderAsTitle");
+				app.getMenu("UseHeaderAsTitle"));
 		itmHeader.setSelected(dataSource.enableHeader());
 		itmHeader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
