@@ -38,42 +38,43 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1061"
-     inkscape:window-height="897"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview2987"
      showgrid="false"
      inkscape:zoom="0.8576432"
-     inkscape:cx="151.84244"
+     inkscape:cx="10.393559"
      inkscape:cy="241.19721"
-     inkscape:window-x="1492"
-     inkscape:window-y="43"
-     inkscape:window-maximized="0"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2985" />
   <g
-     id="g3756">
+     id="g3805"
+     transform="matrix(29.925935,0,0,29.925935,19.379257,40.659401)">
     <rect
-       y="32.241463"
-       x="16.07774"
-       height="451.09341"
-       width="429.57333"
+       y="0.51529789"
+       x="0.51529789"
+       height="14.041868"
+       width="13.371981"
        id="rect3781"
-       style="fill:none;stroke:#818181;stroke-width:32.12488556;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:none;stroke:#818181;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
-       y="80.247734"
-       x="64.911705"
-       height="351.77008"
-       width="321.14539"
+       y="2.0096619"
+       x="2.0354269"
+       height="10.950081"
+       width="9.9967794"
        id="rect3783"
        style="fill:#eaeaea;fill-opacity:1;stroke:none" />
     <path
-       transform="matrix(41.164352,0,0,41.565094,-130.62123,-36.05784)"
-       d="m 15.587762,4.1223831 a 2.9758453,2.9371982 0 1 1 -5.9516908,0 2.9758453,2.9371982 0 1 1 5.9516908,0 z"
+       transform="matrix(1.2813852,0,0,1.2938597,-4.0512234,-1.610758)"
+       d="m 15.587762,4.1223831 c 0,1.6221698 -1.332331,2.9371982 -2.975845,2.9371982 -1.643514,0 -2.9758458,-1.3150284 -2.9758458,-2.9371982 0,-1.6221697 1.3323318,-2.9371981 2.9758458,-2.9371981 1.643514,0 2.975845,1.3150284 2.975845,2.9371981 z"
        sodipodi:ry="2.9371982"
        sodipodi:rx="2.9758453"
        sodipodi:cy="4.1223831"
        sodipodi:cx="12.611917"
        id="path2995"
-       style="fill:#f6e131;fill-opacity:1;stroke:none"
+       style="fill:#fbf345;fill-opacity:1;stroke:none"
        sodipodi:type="arc" />
   </g>
 </svg>
