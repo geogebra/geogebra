@@ -79,7 +79,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
-import java.util.Vector;
 
 /**
  * 
@@ -3081,20 +3080,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			//is label reserved
 			repeat = !cons.isFreeLabel(sbDefaultLabel.toString(),true,true);
 			
-			//appears label in current cell: prevent case like  a: a+b=0
-			//see ticket 2599
-			if(this.isGeoCasCell()){
-				HashSet<GeoElement> vars = ((GeoCasCell)this).getInputVE().getVariables();
-				if (vars != null) {
-					Iterator<GeoElement> iter = vars.iterator();
-					while (iter.hasNext()) {
-						GeoElement var = iter.next();
-						String nextVar = var.getLabel(StringTemplate.defaultTemplate);
-						if(nextVar.equals(sbDefaultLabel.toString()))
-							repeat = true;
-					}
-				} 
-			}
 		}
 		return sbDefaultLabel.toString();
 	}

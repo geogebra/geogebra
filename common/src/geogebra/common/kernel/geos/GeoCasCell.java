@@ -23,7 +23,6 @@ import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
-import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
@@ -727,6 +726,23 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// check for function
 		boolean isFunction = ve instanceof FunctionNVar;
 
+		// get input vars. Do this *before* we set the assignment variable to avoid name clash,
+		// see #2599
+		HashSet<GeoElement> geoVars = ve.getVariables();
+		if (geoVars != null) {
+			for (GeoElement geo : geoVars) {
+				String var = geo.getLabel(StringTemplate.defaultTemplate);
+				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
+					// function variable, e.g. k in f(k) := k^2 + 3
+					getFunctionVars().add(var);
+				} else {
+					// input variable, e.g. b in a + 3 b
+					getInVars().add(var);
+					cons.getCASdummies().addAll(invars);
+				}
+			}
+		}
+				
 		switch (inputVE.getAssignmentType()) {
 		case NONE:
 			setAssignmentVar(null);
@@ -741,20 +757,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			break;
 		}
 
-		// get input vars:
-		HashSet<GeoElement> geoVars = ve.getVariables();
-		if (geoVars != null) {
-			for (GeoElement geo : geoVars) {
-				String var = geo.getLabel(StringTemplate.defaultTemplate);
-				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
-					// function variable, e.g. k in f(k) := k^2 + 3
-					getFunctionVars().add(var);
-				} else {
-					// input variable, e.g. b in a + 3 b
-					getInVars().add(var);
-				}
-			}
-		}
+		
 		if (ve.getLabel() != null && getFunctionVars().isEmpty()) {
 			String var = getFunctionVariable(ve);
 			if (var != null)
@@ -777,8 +780,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 			}
 		}
-		if(invars!=null)
-			cons.getCASdummies().addAll(invars);
+		
 	}
 
 	private static String getFunctionVariable(final ValidExpression ve) {
