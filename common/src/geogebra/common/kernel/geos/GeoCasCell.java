@@ -200,6 +200,31 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	/**
+	 * Returns the output of this row without any definitions.
+	 * where getOutput returns g: x+y=1, this returns only x+y=1
+	 * 
+	 * @param tpl
+	 *            string template
+	 * @return output string
+	 */
+	public String getOutputRHS(StringTemplate tpl){
+		if (error != null) {
+			if (tpl.isPrintLocalizedCommandNames()) {
+				return kernel.getApplication().getError(error);
+			}
+			return error;
+		}
+
+		if (outputVE == null) {
+			return "";
+		}
+		if (tpl == StringTemplate.xmlTemplate) {
+			App.debug(outputVE.toAssignmentString(tpl));
+		}
+		return outputVE.toString(tpl);
+	}
+	
+	/**
 	 * @return prefix
 	 */
 	public String getPrefix() {
