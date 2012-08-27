@@ -1,5 +1,7 @@
 package geogebra.mobile.gui.elements.toolbar;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
@@ -23,10 +25,11 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	/**
 	 * Each ToolBarButton belongs to a {@link ToolBarMenu}.
+	 * 
 	 * @param menu
-	 *          : the button to be placed
+	 *            : the button to be placed
 	 * @param guiModel
-	 *          : the ToolBar it is placed on
+	 *            : the ToolBar it is placed on
 	 */
 	public ToolBarButton(ToolBarMenu menu, GuiModel guiModel)
 	{
@@ -40,16 +43,22 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 			@Override
 			public void onTap(TapEvent event)
 			{
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd() && ToolBarButton.this.model.optionsShown())
+				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
+						.getCmd() && ToolBarButton.this.model.optionsShown())
 				{
 					ToolBarButton.this.model.closeOptions();
-				}
-				else
+				} else
 				{
 					showOptions();
 				}
 			}
 		});
+	}
+
+	public ToolBarButton(SVGResource svg, GuiModel guiModel)
+	{
+		super(svg);
+		this.model = guiModel;
 	}
 
 	@Override
@@ -62,12 +71,13 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	protected void showOptions()
 	{
 		this.model.closeOptions();
-		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
+		OptionsBarBackground options = new OptionsBarBackground(
+				this.menuEntries, this);
 		this.model.setOptions(options);
 		RootPanel.get().add(options);
-		options.show(); 
-		this.model.setOptionsShown(true); 
-		
+		options.show();
+		this.model.setOptionsShown(true);
+
 		this.model.setActive(this);
 	}
 

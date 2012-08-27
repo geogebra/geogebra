@@ -7,13 +7,11 @@ import geogebra.mobile.gui.elements.EuclidianViewPanel;
 /**
  * An Interface for geogebra.mobile.gui.GeoGebraMobileGUI.
  */
-
-
 public interface GeoGebraMobileGUI
 {
 	public EuclidianViewPanel getEuclidianViewPanel();
 
 	public AlgebraViewPanel getAlgebraViewPanel();
-	
-	public void initComponents(Kernel kernel); 
+
+	public void initComponents(Kernel kernel);
 }

@@ -56,6 +56,15 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.mode = -1;
 	}
 
+	@Override
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+			boolean inRegionPossible, boolean intersectPossible,
+			boolean doSingleHighlighting, boolean complex)
+	{
+		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
+				intersectPossible, false, complex);
+	}
+
 	public void setView(EuclidianView euclidianView)
 	{
 		this.view = euclidianView;
@@ -111,18 +120,6 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.guiModel.closeOptions();
 
 		this.origin = new GPoint(event.getX(), event.getY());
-
-		this.mouseLoc = new GPoint(event.getX(), event.getY());
-		this.view.setHits(this.mouseLoc);
-		Hits hits = this.view.getHits();
-
-		if (hits.isEmpty())
-		{
-			this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
-		} else
-		{
-			this.mode = EuclidianConstants.MODE_MOVE;
-		}
 	}
 
 	@Override
@@ -130,9 +127,9 @@ public class MobileEuclidianController extends EuclidianController implements
 	{
 		event.preventDefault();
 		if (this.moving
-				|| ((this.mode == EuclidianConstants.MODE_TRANSLATEVIEW || this.mode == EuclidianConstants.MODE_MOVE) && (Math
-						.abs(event.getX() - this.origin.getX()) > 10 || Math
-						.abs(event.getY() - this.origin.getY()) > 10)))
+				|| (this.origin != null && (Math.abs(event.getX()
+						- this.origin.getX()) > 10 || Math.abs(event.getY()
+						- this.origin.getY()) > 10)))
 		{
 
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
@@ -141,6 +138,15 @@ public class MobileEuclidianController extends EuclidianController implements
 
 			if (!this.moving)
 			{
+				this.view.setHits(this.origin);
+				if (this.view.getHits().isEmpty())
+				{
+					this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
+				} else
+				{
+					this.mode = EuclidianConstants.MODE_MOVE;
+				}
+
 				this.moving = true;
 
 				// get the mode and the object to move
@@ -165,18 +171,21 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onMouseUp(MouseUpEvent event)
 	{
+
 		event.preventDefault();
+
+		this.origin = null;
+
 		if (this.moving)
 		{
 			this.moving = false;
 			this.mode = this.guiModel.getCommand().getMode();
+
 			// object that was moved loses selection
 			removeSelection();
 
 			return;
 		}
-
-		this.guiModel.closeOptions();
 
 		ToolBarCommand cmd = this.guiModel.getCommand();
 
@@ -193,26 +202,20 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// draw the new point
 		switchModeForMousePressed(null);
-		
-		removeSelection();
 
-		Hits hits = this.view.getHits();
+		removeSelection();
 
 		switch (cmd)
 		{
-
-		// commands that need one point - nothing to do anymore
-
-		case NewPoint:
-			break;
-
 		// commands that need two points
-
 		case LineThroughTwoPoints:
 		case SegmentBetweenTwoPoints:
+			Hits hits = this.view.getHits();
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
+
+		// commands that need one point - nothing to do anymore
 		default:
 		}
 
@@ -233,6 +236,7 @@ public class MobileEuclidianController extends EuclidianController implements
 
 			this.oldPoints = new ArrayList<GeoPointND>();
 		}
+
 	}
 
 	@Override
@@ -304,7 +308,6 @@ public class MobileEuclidianController extends EuclidianController implements
 		if (repaint)
 		{
 			this.app.setSelectedGeos(new ArrayList<GeoElement>());
-			this.kernel.notifyRepaint();
 		}
 	}
 }

@@ -11,6 +11,10 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
+	@Source("icons/svg/stylingbar_spreadsheetview_show_input_bar.svg")
+	@Validated(validated = false)
+	SVGResource show_input_bar();
+
 	@Source("icons/svg/tools_actionobject_checkbox_show_hide_objects.svg")
 	@Validated(validated = false)
 	SVGResource checkbox_to_show_hide_objects();
