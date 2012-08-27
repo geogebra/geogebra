@@ -31,6 +31,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Add Custom Color")
     String AddCustomColor();
 
+    @DefaultStringValue("Add Selection")
+    String AddSelection();
+
     @DefaultStringValue("Add object to the trace list")
     String AddTrace();
 
@@ -60,6 +63,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Alternative")
     String AlternativeHypothesis_short();
+
+    @DefaultStringValue("Analyze")
+    String Analyze();
 
     @DefaultStringValue("Angle")
     String Angle();
@@ -111,6 +117,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Background Color")
     String BackgroundColor();
+
+    @DefaultStringValue("Bar Chart")
+    String BarChart();
 
     @DefaultStringValue("Line Tools")
     String BasicLineTools();
@@ -249,6 +258,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Class Rule")
     String ClassRule();
+
+    @DefaultStringValue("Class with Frequency")
+    String ClassWithFrequency ();
 
     @DefaultStringValue("Classes")
     String Classes();
@@ -478,17 +490,26 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Data")
     String Data();
 
+    @DefaultStringValue("Data Analysis")
+    String DataAnalysis();
+
     @DefaultStringValue("Data Column")
     String DataColumn();
 
     @DefaultStringValue("Data Column Name")
     String DataColumnName();
 
+    @DefaultStringValue("Data Source")
+    String DataSource();
+
     @DefaultStringValue("Data Title")
     String DataTitle();
 
     @DefaultStringValue("Data Type")
     String DataType();
+
+    @DefaultStringValue("Data with Frequency")
+    String DataWithFrequency();
 
     @DefaultStringValue("Decimal Places")
     String DecimalPlaces();
@@ -1429,6 +1450,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Whiteboard")
     String Perspective_Whiteboard();
 
+    @DefaultStringValue("Perspective Panel")
+    String PerspectivePanel();
+
     @DefaultStringValue("Perspectives")
     String Perspectives();
 
@@ -1536,6 +1560,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Radians")
     String Radiant();
+
+    @DefaultStringValue("Raw Data")
+    String RawData();
 
     @DefaultStringValue("Ray through Two Points")
     String Ray();
@@ -1849,6 +1876,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Show Row Header")
     String ShowRowHeader();
 
+    @DefaultStringValue("Show Sidebar")
+    String ShowSidebar();
+
     @DefaultStringValue("Show Statistics")
     String ShowStatistics();
 
@@ -1860,6 +1890,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Show Vertical Scrollbars")
     String ShowVerticalScrollbars();
+
+    @DefaultStringValue("Sidebar")
+    String Sidebar();
 
     @DefaultStringValue("Sin")
     String Sin();
@@ -1989,6 +2022,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Step")
     String Step();
+
+    @DefaultStringValue("Step Graph")
+    String StepGraph();
 
     @DefaultStringValue("Substitute")
     String Substitute();
@@ -2329,6 +2365,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Use Buttons and Checkboxes")
     String UseButtonsAndCheckboxes();
 
+    @DefaultStringValue("Use Header as Title")
+    String UseHeaderAsTitle();
+
     @DefaultStringValue("Use Header Row")
     String UseHeaderRow();
 
@@ -2373,6 +2412,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("View")
     String View();
+
+    @DefaultStringValue("View Panel")
+    String ViewPanel();
 
     @DefaultStringValue("Visual Style")
     String VisualStyle();
