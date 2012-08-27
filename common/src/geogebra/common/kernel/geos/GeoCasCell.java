@@ -1662,6 +1662,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (doTwinGeoUpdate) {
 			updateTwinGeo();
 		}
+		App.debug((outputVE != null) +","+ doTwinGeoUpdate +","+ (twinGeo == null));
 		if (outputVE != null && (!doTwinGeoUpdate || twinGeo == null)) {
 			ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 			arbconst.reset();
@@ -1669,20 +1670,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// Bugfix for ticket: 2468
 			// if outputVE is only a constant -> insert branch otherwise
 			// traverse did not work correct
-			if (outputVE.isExpressionNode()) {
-				ExpressionNode en = (ExpressionNode) outputVE;
-				if (en.getOperation() == Operation.ARBINT
-						|| en.getOperation() == Operation.ARBCONST
-						|| en.getOperation() == Operation.ARBCOMPLEX) {
-					outputVE = new ExpressionNode(kernel, outputVE,
-							Operation.NO_OPERATION, null);
-				}
-			}
-
-			outputVE.traverse(repl);
+			outputVE = (ValidExpression) outputVE.traverse(repl);
 		}
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
+		//invalidate latex
+		latex = null;
 
 	}
 
