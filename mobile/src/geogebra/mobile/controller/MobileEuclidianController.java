@@ -107,6 +107,7 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onMouseDown(MouseDownEvent event)
 	{
+		event.preventDefault();
 		this.guiModel.closeOptions();
 
 		this.origin = new GPoint(event.getX(), event.getY());
@@ -127,11 +128,13 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
+		event.preventDefault();
 		if (this.moving
 				|| ((this.mode == EuclidianConstants.MODE_TRANSLATEVIEW || this.mode == EuclidianConstants.MODE_MOVE) && (Math
 						.abs(event.getX() - this.origin.getX()) > 10 || Math
 						.abs(event.getY() - this.origin.getY()) > 10)))
 		{
+
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 
 			MouseEvent mEvent = new MouseEvent(event.getX(), event.getY());
@@ -156,18 +159,17 @@ public class MobileEuclidianController extends EuclidianController implements
 			wrapMouseDragged(mEvent);
 
 			this.origin = new GPoint(event.getX(), event.getY());
-
 		}
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent event)
 	{
+		event.preventDefault();
 		if (this.moving)
 		{
 			this.moving = false;
 			this.mode = this.guiModel.getCommand().getMode();
-
 			// object that was moved loses selection
 			removeSelection();
 
@@ -191,7 +193,7 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// draw the new point
 		switchModeForMousePressed(null);
-
+		
 		removeSelection();
 
 		Hits hits = this.view.getHits();
