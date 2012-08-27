@@ -456,10 +456,10 @@ public class OptionsLayoutD extends
 
 		// side bar panel
 		sideBarPanel
-				.setBorder(OptionsUtil.titleBorder(app.getPlain("Sidebar")));
-		ckShowSideBar.setText(app.getMenu("ShowSideBar"));
-		rbPespectiveSidebar.setText("PerspectivePanel");
-		rbButtonSidebar.setText("ViewButtonPanel");
+				.setBorder(OptionsUtil.titleBorder(app.getMenu("Sidebar")));
+		ckShowSideBar.setText(app.getMenu("ShowSidebar"));
+		rbPespectiveSidebar.setText(app.getMenu("PerspectivePanel"));
+		rbButtonSidebar.setText(app.getMenu("ViewPanel"));
 
 	}
 
