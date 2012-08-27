@@ -1082,7 +1082,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (ve == null) {
 			return ve;
 		}
-
+		AssignmentType assign = ve.getAssignmentType();
 		ValidExpression ret;
 
 		// make sure we have an expression node
@@ -1134,7 +1134,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				useGeoGebraFallback = false;
 			}
 		}
-
+		ret.setAssignmentType(assign);
 		return ret;
 	}
 
