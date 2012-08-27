@@ -228,4 +228,9 @@ public class DialogManagerW extends DialogManager {
     public void openToolHelp() {
 	    App.debug("openToolHelp: unimplemented");
     }
+
+	@Override
+    public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
+	    App.debug("showDataSourceDialog: unimplemented");
+    }
 }
