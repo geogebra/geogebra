@@ -8649,7 +8649,8 @@ public abstract class EuclidianController {
 						// no selected geos: choose geo and show popup menu				
 						if (app.isUsingFullGui() && app.getGuiManager() != null) {
 							//if (geo != null) {
-							    GeoElement geo = chooseGeo(hits, false);
+							
+							    GeoElement geo = chooseGeo(hits, true);
 								ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 								geos.add(geo);
 								showPopupMenuChooseGeo(geos,hits);
