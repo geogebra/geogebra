@@ -15,9 +15,12 @@ the Free Software Foundation.
  *
  */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoDistributionDF;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -25,31 +28,49 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
- * algorithm for Normal[0,1,x]
+ * algorithm for LogNormal[0,1,x]
  * @author  Michael
  */
-public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
+public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue mean, sd;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunction ret;     // output           
+	private GeoFunctionConditional ret;     // output           
+
+	private GeoFunction ifFun, elseFun, condFun;           
         
     @SuppressWarnings("javadoc")
-	public AlgoNormalDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
+	public AlgoLogNormalDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
   	  	this(cons, mean, sd, cumulative);
         ret.setLabel(label);
       }   
     
     @SuppressWarnings("javadoc")
-	public AlgoNormalDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoLogNormalDF(Construction cons, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
   	  super(cons); 
-        this.mean = a;
-        this.sd = b;
+        this.mean = mean;
+        this.sd = sd;
         this.cumulative = cumulative;
-        ret = new GeoFunction(cons); 
-        setInputOutput(); // for AlgoElement
+        ret = new GeoFunctionConditional(cons); 
+
+        // make function x<=0
+		FunctionVariable fv = new FunctionVariable(kernel);	
+		ExpressionNode en = new ExpressionNode(kernel,fv);
+		Function tempFun = new Function(en.lessThanEqual(0),fv);
+		condFun = new GeoFunction(cons, tempFun);
+		ret.setConditionalFunction(condFun);
+		
+        // make function x=0
+		fv = new FunctionVariable(kernel);	
+		en = new ExpressionNode(kernel,0);
+		tempFun = new Function(en,fv);
+		ifFun = new GeoFunction(cons, tempFun);
+		ret.setIfFunction(ifFun);
+
+		setInputOutput(); // for AlgoElement
         
         // compute angle
         compute();     
@@ -57,7 +78,7 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
     
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoNormalDF;
+        return Algos.AlgoLogNormalDF;
     }
     
     // for AlgoElement
@@ -93,44 +114,45 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
     @Override
 	public void compute() {
 		FunctionVariable fv = new FunctionVariable(kernel);
-		ExpressionNode en = new ExpressionNode(kernel, fv);
-		ExpressionNode div = new ExpressionNode(kernel, sd);
-
+		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
+		//ExpressionNode meanEn = new ExpressionNode(kernel, mean);
+		ExpressionNode sdEn = new ExpressionNode(kernel, sd);
+		ExpressionNode en = fvEn.ln().subtract(mean);
+		
 		if (cumulative != null && cumulative.getBoolean()) {
 
+			ExpressionNode sqrt2 = (new ExpressionNode(kernel, 2.0)).sqrt();
+			ExpressionNode div = sdEn.abs().multiply(sqrt2);
 
-			ExpressionNode sqrt2 = (new ExpressionNode(kernel, 2)).sqrt();
-			div = sqrt2.multiply(div.abs());
+			en = en.divide(div).erf().multiply(0.5).plus(0.5);
 
-			en = en.subtract(mean).divide(div).erf().plus(1).divide(2);
-
-
-			// old hack from CmdNormal:
-			//return kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1)/2", true );
-
-		} else {
-
-			ExpressionNode div2 = new ExpressionNode(kernel, sd);
-			div2 = div2.square().multiply(2);
-
-			ExpressionNode sqrt2pi = (new ExpressionNode(kernel, Math.PI)).multiply(2).sqrt();
-
-			div = sqrt2pi.multiply(div.abs());
-
-			en = en.subtract(mean).square().reverseSign().divide(div2).exp().divide(div);
 
 			// old hack:
-			//return kernelA.getAlgebraProcessor().processAlgebraCommand( "exp(-((x-("+mean+"))/("+sd+"))^2/2)/(sqrt(2*pi)*abs("+sd+"))", true );					
+			//processAlgebraCommand( "If[x<0,0,1/2 erf((ln(x)-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2]", true );
+			
+
+
+		} else {
+			
+			ExpressionNode sqrt2pi = (new ExpressionNode(kernel, 2.0).multiply(Math.PI)).sqrt();
+			
+			ExpressionNode prod = fvEn.multiply(sqrt2pi).multiply(sdEn.abs());
+
+			en = en.square().divide(sdEn.square().multiply(2)).reverseSign().exp().divide(prod);
+			
+			// old hack:
+			//processAlgebraCommand( "If[x<0,0,1/(x sqrt(2 * pi) * abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]", true );
 		}
 		
 		Function tempFun = new Function(en, fv);
 		tempFun.initFunction();
 		
-		ret.setFunction(tempFun);
+		elseFun = new GeoFunction(cons, tempFun);
+		
+		ret.setElseFunction(elseFun);
 
 
     }
 
 	// TODO Consider locusequability
-	
 }

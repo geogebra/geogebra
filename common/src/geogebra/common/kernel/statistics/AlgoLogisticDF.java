@@ -15,9 +15,12 @@ the Free Software Foundation.
  *
  */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoDistributionDF;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -25,57 +28,38 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
- * algorithm for FDistribution[0,1,x]
+ * algorithm for Logistic[0,1,x]
  * @author  Michael
  */
-public class AlgoErlangDF extends AlgoElement {
+public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 
-	private NumberValue k, l;  // input
+	private NumberValue mean, scale;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
-
-	private GeoFunction ifFun, elseFun, condFun;           
+	private GeoFunction ret;     // output           
         
     @SuppressWarnings("javadoc")
-	public AlgoErlangDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
-  	  	this(cons, mean, sd, cumulative);
+	public AlgoLogisticDF(Construction cons, String label, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
+  	  	this(cons, mean, scale, cumulative);
         ret.setLabel(label);
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoErlangDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoLogisticDF(Construction cons, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
   	  super(cons); 
-        this.k = a;
-        this.l = b;
+        this.mean = mean;
+        this.scale = scale;
         this.cumulative = cumulative;
-        ret = new GeoFunctionConditional(cons); 
-
-        // make function x<0
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(0),fv);
-		condFun = new GeoFunction(cons, tempFun);
-		ret.setConditionalFunction(condFun);
-		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel, 0);
-		tempFun = new Function(en,fv);
-		ifFun = new GeoFunction(cons, tempFun);
-		ret.setIfFunction(ifFun);
-
-		setInputOutput(); // for AlgoElement
+        ret = new GeoFunction(cons); 
+        setInputOutput(); // for AlgoElement
         
-        // compute angle
         compute();     
       }   
     
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoErlangDF;
+        return Algos.AlgoLogsticDF;
     }
     
     // for AlgoElement
@@ -91,8 +75,8 @@ public class AlgoErlangDF extends AlgoElement {
 		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
     	
         input =  new GeoElement[cumulative == null ? 3 : 4];
-        input[0] = k.toGeoElement();
-        input[1] = l.toGeoElement();
+        input[0] = mean.toGeoElement();
+        input[1] = scale.toGeoElement();
         input[2] = dummyFun;
         if (cumulative != null) {
         	input[3] = (GeoElement) cumulative;
@@ -111,37 +95,34 @@ public class AlgoErlangDF extends AlgoElement {
     @Override
 	public void compute() {
 		FunctionVariable fv = new FunctionVariable(kernel);
-		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
-		ExpressionNode kEn = new ExpressionNode(kernel, k);
-		ExpressionNode lEn = new ExpressionNode(kernel, l);
+		ExpressionNode en = new ExpressionNode(kernel, fv);
+		ExpressionNode absS = (new ExpressionNode(kernel, scale)).abs();
 		
+		en = en.subtract(mean).divide(absS).reverseSign().exp();
 
-		ExpressionNode en;
-		
 		if (cumulative != null && cumulative.getBoolean()) {
 
 
-			en = kEn.gammaIncomplete(fvEn.multiply(lEn)).divide(kEn.subtract(1).factorial());
+			en = en.plus(1).reciprocate();
+			
+			// old hack
+			//processAlgebraCommand( "1/(1+exp(-(x-("+m+"))/abs("+s+")))", true );
+			
 
-
-			// old hack:
-			//command = "If[x<0,0,gamma("+k+",("+l+")x)/("+k+"-1)!]";
 
 		} else {
 
-			en = lEn.power(k).multiply(fvEn.power(kEn.subtract(1))).multiply(lEn.multiply(fv).reverseSign().exp()).divide(kEn.subtract(1).factorial());
-					
-			
+			en = en.divide(absS.multiply(en.plus(1).square()));
+
+
 			// old hack:
-			//command = "If[x<0,0,(("+l+")^("+k+")x^("+k+"-1)exp(-("+l+")x))/("+k+"-1)!]";
+			//processAlgebraCommand( "exp(-(x-("+m+"))/abs("+s+"))/(abs("+s+")*(1+exp(-(x-("+m+"))/abs("+s+")))^2)", true );
 		}
 		
 		Function tempFun = new Function(en, fv);
 		tempFun.initFunction();
 		
-		elseFun = new GeoFunction(cons, tempFun);
-		
-		ret.setElseFunction(elseFun);
+		ret.setFunction(tempFun);
 
 
     }

@@ -15,9 +15,12 @@ the Free Software Foundation.
  *
  */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoDistributionDF;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -27,36 +30,37 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
 /**
- * algorithm for Logistic[0,1,x]
+ * algorithm for Cauchy[0,1,x]
  * @author  Michael
  */
-public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
+public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 
-	private NumberValue mean, scale;  // input
+	private NumberValue a, b;  // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret;     // output           
         
     @SuppressWarnings("javadoc")
-	public AlgoLogisticDF(Construction cons, String label, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
-  	  	this(cons, mean, scale, cumulative);
+	public AlgoCauchyDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
+  	  	this(cons, mean, sd, cumulative);
         ret.setLabel(label);
       }   
     
     @SuppressWarnings("javadoc")
-	public AlgoLogisticDF(Construction cons, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
+	public AlgoCauchyDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
   	  super(cons); 
-        this.mean = mean;
-        this.scale = scale;
+        this.a = a;
+        this.b = b;
         this.cumulative = cumulative;
         ret = new GeoFunction(cons); 
         setInputOutput(); // for AlgoElement
         
+        // compute angle
         compute();     
       }   
     
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoLogsticDF;
+        return Algos.AlgoNormalDF;
     }
     
     // for AlgoElement
@@ -72,8 +76,8 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
     	
         input =  new GeoElement[cumulative == null ? 3 : 4];
-        input[0] = mean.toGeoElement();
-        input[1] = scale.toGeoElement();
+        input[0] = a.toGeoElement();
+        input[1] = b.toGeoElement();
         input[2] = dummyFun;
         if (cumulative != null) {
         	input[3] = (GeoElement) cumulative;
@@ -92,28 +96,24 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
     @Override
 	public void compute() {
 		FunctionVariable fv = new FunctionVariable(kernel);
+		ExpressionNode x0 = new ExpressionNode(kernel, a);
+		ExpressionNode g = new ExpressionNode(kernel, b);
 		ExpressionNode en = new ExpressionNode(kernel, fv);
-		ExpressionNode absS = (new ExpressionNode(kernel, scale)).abs();
 		
-		en = en.subtract(mean).divide(absS).reverseSign().exp();
-
 		if (cumulative != null && cumulative.getBoolean()) {
 
-
-			en = en.plus(1).reciprocate();
 			
-			// old hack
-			//processAlgebraCommand( "1/(1+exp(-(x-("+m+"))/abs("+s+")))", true );
-			
+			en = en.subtract(x0).divide(g.abs()).atan().divide(Math.PI).plus(0.5);
 
+			// old hack:
+			//command = "1/pi atan((x-("+x0+"))/abs("+g+"))+0.5";
 
 		} else {
 
-			en = en.divide(absS.multiply(en.plus(1).square()));
-
+			en = g.abs().divide(g.square().plus(en.subtract(x0).square()).multiply(Math.PI));
 
 			// old hack:
-			//processAlgebraCommand( "exp(-(x-("+m+"))/abs("+s+"))/(abs("+s+")*(1+exp(-(x-("+m+"))/abs("+s+")))^2)", true );
+			//command = "1/pi abs("+g+")/(("+g+")^2+(x-("+x0+"))^2)";
 		}
 		
 		Function tempFun = new Function(en, fv);
@@ -125,6 +125,5 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
     }
 
 	// TODO Consider locusequability
-
 	
 }
