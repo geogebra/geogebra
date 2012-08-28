@@ -1,10 +1,10 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
-import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.main.DialogManager;
 import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;

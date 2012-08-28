@@ -9,13 +9,13 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.common.gui.dialog;
+package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.Factory;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -32,7 +32,6 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;

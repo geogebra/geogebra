@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,15 +26,6 @@ import java.util.HashMap;
  * 
  */
 public abstract class PropertiesView implements View {
-	/**
-	 * Option panel types
-	 */
-	public enum OptionType {
-		// Order matters for the selection menu. A separator is placed after
-		// OBJECTS and SPREADSHEET to isolate the view options
-		OBJECTS, EUCLIDIAN, EUCLIDIAN2, CAS, SPREADSHEET, LAYOUT, DEFAULTS, ADVANCED
-	}
-
 	protected static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
 	// map to match view ID with OptionType
 	static {

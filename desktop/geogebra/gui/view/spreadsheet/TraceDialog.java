@@ -14,12 +14,12 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.main.SpreadsheetTraceManager;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;

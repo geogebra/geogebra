@@ -15,11 +15,11 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 
 import java.awt.Dimension;
 import java.io.File;

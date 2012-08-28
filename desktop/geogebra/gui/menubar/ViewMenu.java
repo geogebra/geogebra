@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.gui.GuiManager;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.common.main.OptionType;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;

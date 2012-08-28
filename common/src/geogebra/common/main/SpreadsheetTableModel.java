@@ -1,10 +1,9 @@
-package geogebra.common.gui.view.spreadsheet;
+package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 
 /**
  * Abstract class for managing spreadsheet GeoElement cells in a table model

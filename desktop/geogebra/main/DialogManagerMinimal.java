@@ -2,8 +2,6 @@ package geogebra.main;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.gui.dialog.DialogManager;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -14,6 +12,8 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
+import geogebra.common.main.OptionType;
 
 import java.util.ArrayList;
 

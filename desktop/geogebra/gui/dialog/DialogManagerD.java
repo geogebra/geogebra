@@ -7,7 +7,6 @@ import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -20,6 +19,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
@@ -49,7 +49,7 @@ import javax.swing.UIManager;
  * GeoGebra. Supports (explicit) lazy initialization so that dialogs have to be
  * created manually if needed.
  */
-public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
+public class DialogManagerD extends geogebra.common.main.DialogManager {
 	/**
 	 * The option dialog where the user can change all application settings.
 	 */

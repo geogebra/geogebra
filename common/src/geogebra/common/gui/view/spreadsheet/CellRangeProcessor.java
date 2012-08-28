@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 

@@ -1,5 +1,8 @@
-package geogebra.common.gui.view.spreadsheet;
+package geogebra.common.main;
 
+import geogebra.common.gui.view.spreadsheet.CopyPasteCut;
+import geogebra.common.gui.view.spreadsheet.MyTable;
+import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -9,7 +12,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
 

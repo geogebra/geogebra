@@ -4,7 +4,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -18,6 +17,7 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 
 import java.util.ArrayList;
 

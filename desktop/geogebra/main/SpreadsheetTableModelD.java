@@ -1,7 +1,7 @@
 package geogebra.main;
 
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.main.App;
+import geogebra.common.main.SpreadsheetTableModel;
 
 import javax.swing.table.DefaultTableModel;
 

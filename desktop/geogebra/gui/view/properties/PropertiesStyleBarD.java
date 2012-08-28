@@ -1,8 +1,8 @@
 package geogebra.gui.view.properties;
 
 import geogebra.common.gui.view.properties.PropertiesView;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 

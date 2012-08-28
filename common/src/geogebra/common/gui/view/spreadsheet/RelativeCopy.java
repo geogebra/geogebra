@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 

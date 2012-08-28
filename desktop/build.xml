@@ -158,7 +158,7 @@ office@geogebra.org
 	</target>
 
 	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
-	<target name="ggb-jar" depends="clean" description="create unsigned geogebra.jar">
+	<target name="ggb-jar" depends="clean, copy-common-files" description="create unsigned geogebra.jar">
 		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest.mf" >
 			<fileset dir="${src.dir}"		   
 				includes="geogebra/*"			
@@ -169,14 +169,14 @@ office@geogebra.org
 	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
 	<target name="ggb-jar3D" depends="ggb-jar3D-jogl1, ggb-jar3D-jogl2" description="create unsigned geogebra.jar"/>
 
-	<target name="ggb-jar3D-jogl1" depends="clean" description="create unsigned geogebra.jar (jogl1)" if="usejogl1">
+	<target name="ggb-jar3D-jogl1" depends="clean, copy-common-files" description="create unsigned geogebra.jar (jogl1)" if="usejogl1">
 		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl1.mf" >
 			<fileset dir="${src.dir}"		   
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
 		</jar>
 	</target>
-	<target name="ggb-jar3D-jogl2" depends="clean" description="create unsigned geogebra.jar (jogl2)" if="usejogl2">
+	<target name="ggb-jar3D-jogl2" depends="clean, copy-common-files" description="create unsigned geogebra.jar (jogl2)" if="usejogl2">
 		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl2.mf" >
 			<fileset dir="${src.dir}"		   
 				includes="geogebra/*"			
@@ -354,6 +354,7 @@ office@geogebra.org
 			geogebra/common/kernel/statistics/**,
 			geogebra/common/kernel/cas/**,
 			geogebra/common/kernel/locusequ/**,
+			geogebra/common/gui/**,
 			bin/**,
 					org/**,
 					org/mathpiper/**,
@@ -461,10 +462,11 @@ office@geogebra.org
 		/>
 	</target>
 
-	<target name="ggb-gui-jar" depends="clean" description="create unsigned geogebra_gui.jar">
+	<target name="ggb-gui-jar" depends="clean, copy-common-files" description="create unsigned geogebra_gui.jar">
 		<jar jarfile="${build.dir}/geogebra_gui.jar"
 			basedir="${src.dir}"
-			includes="geogebra/gui/**"
+			includes="geogebra/gui/**,
+			geogebra/common/gui/**"
 			excludes="**/*.java" 
 		/>
 	</target>

@@ -1,8 +1,8 @@
 package geogebra.gui.toolbar;
 
 import geogebra.common.gui.view.properties.PropertiesView;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.MySmallJButton;

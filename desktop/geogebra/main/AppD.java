@@ -25,10 +25,8 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.GuiManager;
-import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -44,8 +42,10 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.Base64;
@@ -604,9 +604,25 @@ public class AppD extends App implements
 			e.printStackTrace();
 			App.error("Error initializing CAS - missing JAR?");
 		}
-		geogebra.common.factories.SwingFactory.prototype = new SwingFactoryD();
+
+		// make sure minimal applets work with gui jar missing
+		try {
+			geogebra.common.factories.SwingFactory.prototype = new SwingFactoryD();	
+		} catch (java.lang.NoClassDefFoundError e) {
+			e.printStackTrace();
+			App.error("Error initializing GUI - missing JAR?");
+		}
+
 		geogebra.common.factories.UtilFactory.prototype = new UtilFactoryD();
-		geogebra.common.factories.Factory.prototype = new FactoryD();
+
+		// make sure minimal applets work with gui jar missing
+		try {
+			geogebra.common.factories.Factory.prototype = new FactoryD();
+		} catch (java.lang.NoClassDefFoundError e) {
+			e.printStackTrace();
+			App.error("Error initializing GUI - missing JAR?");
+		}
+		
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandlerD();

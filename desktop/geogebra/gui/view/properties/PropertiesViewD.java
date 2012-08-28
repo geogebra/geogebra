@@ -18,6 +18,7 @@ import geogebra.common.gui.view.properties.PropertiesStyleBar;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.gui.dialog.options.OptionPanelD;
 import geogebra.gui.dialog.options.OptionsAdvancedD;
 import geogebra.gui.dialog.options.OptionsCASD;
