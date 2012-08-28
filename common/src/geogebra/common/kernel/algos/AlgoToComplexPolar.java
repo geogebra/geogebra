@@ -60,14 +60,16 @@ public class AlgoToComplexPolar extends AlgoElement {
 	public void compute() {
 		if(inPoint!=null){
 			outPoint.set((GeoElement)inPoint);
+			outPoint.setMode(coordStyle);
 			return;
 		}
 		if(inVector!=null){
 			outVector.set(inVector);
+			outVector.setMode(coordStyle);
 			return;
 		}
 		outPoint.setCoords(((NumberValue)inList.get(0)).getDouble(),((NumberValue)inList.get(1)).getDouble(),1);
-
+		outPoint.setMode(coordStyle);
 	}
 
 	@Override
