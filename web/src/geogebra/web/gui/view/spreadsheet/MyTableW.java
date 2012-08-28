@@ -1487,8 +1487,8 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 	/**
 	 * Enlarge the row and/or column of a cell to fit the cell's preferred size.
-	 */
-	/*public void setPreferredCellSize(int row, int col, boolean adjustWidth,
+	 *//*
+	public void setPreferredCellSize(int row, int col, boolean adjustWidth,
 			boolean adjustHeight) {
 
 		Dimension prefSize = this
