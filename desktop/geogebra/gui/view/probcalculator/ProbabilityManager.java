@@ -39,6 +39,7 @@ import geogebra.common.kernel.statistics.AlgoWeibull;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import geogebra.common.util.MyMath2;
 import geogebra.main.AppD;
 
 import java.util.HashMap;
@@ -685,9 +686,10 @@ public class ProbabilityManager {
 			scale = parms[1];
 			median = scale * Math.pow(Math.log(2), 1 / shape);
 
-			// mean = scale * Gamma(1 + 1/shape);
-			// variance = scale*scale*Gamma(1 + 2/shape) - mean*mean
-			// sigma = Math.sqrt(variance);
+			mean = scale * MyMath2.gamma(1 + 1 / shape);
+			variance = scale * scale * MyMath2.gamma(1 + 2 / shape) - mean
+					* mean;
+			sigma = Math.sqrt(variance);
 
 			break;
 
@@ -730,7 +732,7 @@ public class ProbabilityManager {
 			n = parms[0];
 			p = parms[1];
 			mean = n * p;
-			var = n* p * (1 - p) ;
+			var = n * p * (1 - p);
 			sigma = Math.sqrt(var);
 			break;
 
