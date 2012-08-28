@@ -210,6 +210,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		// commands that need two points
 		case LineThroughTwoPoints:
 		case SegmentBetweenTwoPoints:
+		case RayThroughTwoPoints:
 			Hits hits = this.view.getHits();
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
@@ -229,6 +230,10 @@ public class MobileEuclidianController extends EuclidianController implements
 				break;
 			case SegmentBetweenTwoPoints:
 				this.kernel.Segment(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1));
+				break;
+			case RayThroughTwoPoints:
+				this.kernel.Ray(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoPoint) this.oldPoints.get(1));
 				break;
 			default:
