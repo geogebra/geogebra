@@ -430,6 +430,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Parametric Curve")
     String CurveCartesian();
 
+    @DefaultStringValue("Data Analysis")
+    String DataAnalysis();
+
     @DefaultStringValue("Date")
     String Date();
 

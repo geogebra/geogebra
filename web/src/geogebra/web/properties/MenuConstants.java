@@ -260,7 +260,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     String ClassRule();
 
     @DefaultStringValue("Class with Frequency")
-    String ClassWithFrequency ();
+    String ClassWithFrequency();
 
     @DefaultStringValue("Classes")
     String Classes();
@@ -489,9 +489,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Data")
     String Data();
-
-    @DefaultStringValue("Data Analysis")
-    String DataAnalysis();
 
     @DefaultStringValue("Data Column")
     String DataColumn();
