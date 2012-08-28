@@ -1626,6 +1626,12 @@ public class ProbabilityCalculator extends JPanel implements View,
 		Double[] val = probManager.getDistributionMeasures(selectedDist,
 				parameters);
 
+		// mean/sigma are undefined for the Cauchy distribution 
+		if(selectedDist == DIST.CAUCHY){
+			lblMeanSigma.setText("");
+			return;
+		}
+		
 		String distStr = distributionMap.get(selectedDist) + "(";
 		for (int i = 0; i < parameters.length; i++) {
 			distStr += format(parameters[i]);
