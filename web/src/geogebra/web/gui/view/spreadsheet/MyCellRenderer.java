@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 /*
 import java.awt.Color;
@@ -111,32 +112,32 @@ public class MyCellRenderer {
 		//?//cbModel = new DefaultComboBoxModel();
 		//?//comboBox.setModel(cbModel);
 	}
-/*
-	@Override
-	public Widget getTableCellRendererWidget(JTable table, Object value,
+
+	public Widget getTableCellRendererWidget(Grid table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
-		setBorder(cellPadding);
+		Widget retwidget = new Widget();
+
+		//TODO//setBorder(cellPadding);
 		cellPoint.setLocation(column, row);
-		setIcon(emptyIcon);
-		setIconTextGap(0);
+		//?//setIcon(emptyIcon);
+		//?//setIconTextGap(0);
 
 		// Set visible formats ... do this before exit with null geo
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		bgColor = geogebra.awt.GColorD.getAwtColor(
-				(geogebra.awt.GColorD)
-				formatHandler.getCellFormat(cellPoint,
-				CellFormat.FORMAT_BGCOLOR));
+		bgColor = (GColor)formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_BGCOLOR);
 		if (bgColor == null) {
 			isCustomBGColor = false;
-			bgColor = table.getBackground();
+			//TODO//bgColor = table.getBackground();
 		} else {
 			isCustomBGColor = true;
 		}
-		setBackground(bgColor);
+		retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 
+/*
 		// Get the cell geo, exit if null
 		// ==================================================
 		if (value != null) {
@@ -299,8 +300,10 @@ public class MyCellRenderer {
 		}
 
 		return this;
-	}
 */
+		return retwidget;
+	}
+
 
 	// ======================================================
 	// ComboBox Cell Renderer

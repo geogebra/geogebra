@@ -1,14 +1,14 @@
 package geogebra.web.awt;
 
 public class GColorW extends geogebra.common.awt.GColor {
-	
-		private int r;
-		private int g;
-		private int b;
-		private int alpha;
-		
-		private static final double FACTOR = 0.7;
-	
+
+	private int r;
+	private int g;
+	private int b;
+	private int alpha;
+
+	private static final double FACTOR = 0.7;
+
 	public GColorW(GColorW col) {
 		setRed(col.getRed());
 		setGreen(col.getGreen());
@@ -139,6 +139,11 @@ public class GColorW extends geogebra.common.awt.GColor {
 				 Math.min((int)(getGreen()/FACTOR), 255),
 				 Math.min((int)(getBlue() /FACTOR), 255));
 	}
-	
 
+	// this could have been in GColor,
+	// but is its default toString needed somewhere?
+	@Override
+	public String toString() {
+		return getColorString(this);
+	}
 }
