@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: rlsched.red 1263 2011-08-14 12:05:18Z thomas-sturm $
+% $Id: rlsched.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(rl_sched_rcsid!* rl_sched_copyright!*);
    rl_sched_rcsid!* :=
-      "$Id: rlsched.red 1263 2011-08-14 12:05:18Z thomas-sturm $";
+      "$Id: rlsched.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    rl_sched_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -86,7 +86,7 @@ rl_mkserv('lqe,'(rl_simp rl_a2s!-atl rl_a2s!-pt),nil,nil,'rl_s2a!-gqe,T);
 
 rl_mkserv('aqe,'(rl_simp rl_a2s!-atl rl_a2s!-aqepoints),nil,nil,'rl_s2a!-gqe,T);
 
-rl_mkserv('qe,'(rl_simp),'(rl_a2s!-atl),'((list)),'rl_s2a!-simpl,T);
+rl_mkserv('qe,'(rl_simp),'(rl_a2s!-atl),'((list)),'rl_s2a!-qe,T);
 
 rl_mkserv('posqe,'(rl_simp),'(rl_a2s!-atl),'((list)),'rl_s2a!-simpl,T);
 
@@ -250,6 +250,8 @@ sl_mkserv('pnf,'(sl_simp),nil,nil,'sl_mk!*slp,t);
 sl_mkserv('unstraightify,'(sl_simp),nil,nil,'rl_mk!*fof,t);
 sl_alias('unsfy,'unstraightify);
 
+rl_mkserv('dfgprint,'(rl_simp),'(reval),'(nil),'aeval,t);
+
 % Black box scheduler.
 
 rl_mkbb('rl_simplat1,2);
@@ -375,6 +377,10 @@ rl_mkbb('rl_simpat,1);
 rl_mkbb('rl_rxffn,1);
 
 rl_mkbb('rl_mkequation,2);
+
+rl_mkbb('rl_dfgPrintV,1);
+
+rl_mkbb('rl_dfgPrintAt,1);
 
 endmodule;  % [rlsched]
 

@@ -1826,6 +1826,73 @@ Zeta of 32 is zeta(32)
 Zeta of 34 is zeta(34)
 
 
+for k := 1 step 2 until 31 do 
+   do!*one!*zeta(-k);
+
+
+                - 1
+Zeta of -1 is ------
+                12
+
+                1
+Zeta of -3 is -----
+               120
+
+                - 1
+Zeta of -5 is ------
+               252
+
+                1
+Zeta of -7 is -----
+               240
+
+                - 1
+Zeta of -9 is ------
+               132
+
+                 691
+Zeta of -11 is -------
+                32760
+
+                 - 1
+Zeta of -13 is ------
+                 12
+
+                3617
+Zeta of -15 is ------
+                8160
+
+                 - 43867
+Zeta of -17 is ----------
+                 14364
+
+                174611
+Zeta of -19 is --------
+                 6600
+
+                 - 77683
+Zeta of -21 is ----------
+                  276
+
+                236364091
+Zeta of -23 is -----------
+                  65520
+
+                 - 657931
+Zeta of -25 is -----------
+                   12
+
+                3392780147
+Zeta of -27 is ------------
+                   3480
+
+                 - 1723168255201
+Zeta of -29 is ------------------
+                     85932
+
+Zeta of -31 is zeta(-31)
+
+
 do!*one!*zeta(-17/3);
 
 
@@ -6784,8 +6851,3 @@ Bessel test complete.
 
 end;
 
-Tested on x86_64-w64-windows CSL
-Time (counter 1): 1289 ms  plus GC time: 46 ms
-real	0m2.016s
-user	0m0.046s
-sys	0m0.122s

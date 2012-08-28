@@ -46,7 +46,7 @@ package org.mathpiper.mpreduce;
  *************************************************************************/
 
 
-import geogebra.common.main.App;
+//import geogebra.common.main.App;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -517,7 +517,7 @@ public class Jlisp extends Environment
 		// custom Lisp bytecoded stuff I build a table of all the functions
 		// that I have built into this Lisp.
 		//
-		App.debug("Loading builtins");
+		//App.debug("Loading builtins");
 		builtinFunctions = new HashMap();
 		builtinSpecials  = new HashMap();
 		for (i=0; i<fns1.builtins.length; i++)
@@ -525,25 +525,25 @@ public class Jlisp extends Environment
 			        (String)fns1.builtins[i][0];
 			builtinFunctions.put(fns1.builtins[i][0], fns1.builtins[i][1]);
 		}
-		App.debug("fns1 loaded");
+		//App.debug("fns1 loaded");
 		for (i=0; i<fns2.builtins.length; i++)
 		{   ((LispFunction)fns2.builtins[i][1]).name =
 			        (String)fns2.builtins[i][0];
 			builtinFunctions.put(fns2.builtins[i][0], fns2.builtins[i][1]);
 		}
-		App.debug("fns2 loaded");
+		//App.debug("fns2 loaded");
 		for (i=0; i<fns3.builtins.length; i++)
 		{   ((LispFunction)fns3.builtins[i][1]).name =
 			        (String)fns3.builtins[i][0];
 			builtinFunctions.put(fns3.builtins[i][0], fns3.builtins[i][1]);
 		}
-		App.debug("fns3 loaded");
+		//App.debug("fns3 loaded");
 		for (i=0; i<mpreduceFunctions.builtins.length; i++)
 		{   ((LispFunction)mpreduceFunctions.builtins[i][1]).name =
 			        (String)mpreduceFunctions.builtins[i][0];
 			builtinFunctions.put(mpreduceFunctions.builtins[i][0], mpreduceFunctions.builtins[i][1]);
 		}
-		App.debug("mpreduceFunctions loaded");
+		//App.debug("mpreduceFunctions loaded");
 
 		/*for (i=0; i<fns4.builtins.length; i++)
 		{   ((LispFunction)fns4.builtins[i][1]).name =
@@ -555,10 +555,10 @@ public class Jlisp extends Environment
 			        (String)specfn.specials[i][0];
 			builtinSpecials.put(specfn.specials[i][0], specfn.specials[i][1]);
 		}
-		App.debug("specfn loaded");
+		//App.debug("specfn loaded");
 
 		Bytecode.setupBuiltins();
-		App.debug("setupBuiltins done");
+		//App.debug("setupBuiltins done");
 
 
 		// I open all the image files that the user had mentioned...
@@ -600,7 +600,7 @@ public class Jlisp extends Environment
 			}
 		}
 
-		App.debug("Image to be loaded has been defined");
+		//App.debug("Image to be loaded has been defined");
 		
 		// The next stage is either to create an initial Lisp heap or to
 		// re-load one that had been saved from a previous session. Things are
@@ -699,7 +699,7 @@ public class Jlisp extends Environment
 					return;
 				}
 			}
-			App.debug("Image (if any) has been loaded");
+			//App.debug("Image (if any) has been loaded");
 			
 			// If no image file was available I will fall back to a cold start. This is
 			// probably not what is wanted in the long run but will be useful while
@@ -796,10 +796,16 @@ public class Jlisp extends Environment
 						restarting = false;
 						break;
 					case ProgEvent.PRESERVE:
-						Cons w = (Cons)e.details;
-						preserve(w.car, w.cdr);
+						Cons www1 = (Cons)e.details;
+                        preserve(www1.car, www1.cdr);
 						restarting = false;
 						break;
+					case ProgEvent.PRESERVERESTART:
+                        Cons www2 = (Cons)e.details;
+                        preserve(www2.car, www2.cdr);
+                        e.details = lispTrue;
+                        lispErr.println("PRESERVERESTART GOT CALLED");
+                        // Drop through to restart.
 					case ProgEvent.RESTART:
 						println();
 						println("Restart Lisp...");
@@ -886,6 +892,12 @@ public class Jlisp extends Environment
 								i = inputCount;
 								restarting = false;
 								break;
+							case ProgEvent.PRESERVERESTART:
+	                            Cons www2 = (Cons)e.details;
+	                            preserve(www2.car, www2.cdr);
+	                            e.details = lispTrue;
+	                            lispErr.println("Preserverestart was called");
+	                            // Drop through to restart.
 							case ProgEvent.RESTART:
 								println();
 								println("Restart Lisp...");
@@ -955,7 +967,7 @@ public class Jlisp extends Environment
 
 		lispIO.close();
 		
-		App.debug("end of startup1");
+		//App.debug("end of startup1");
 
 	}
 
@@ -1250,6 +1262,8 @@ public class Jlisp extends Environment
 					{   ProgEvent ep = (ProgEvent)e;
 						switch (ep.type)
 						{
+						case ProgEvent.PRESERVERESTART:
+							lispErr.println("Preserverestart was called");
 						case ProgEvent.STOP:
 						case ProgEvent.PRESERVE:
 						case ProgEvent.RESTART:

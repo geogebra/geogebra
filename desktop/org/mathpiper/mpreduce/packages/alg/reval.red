@@ -42,9 +42,10 @@ symbolic procedure aeval u;
    reval1(u,nil);
 
 symbolic procedure aeval!* u;
-   % This version rebinds alglist!* to avoid invalid computation in
+   % This version clears alglist!* to avoid invalid computation in
    % loops.
-   begin scalar alglist!*;
+   begin % scalar alglist!*; rebinding is not enough.
+      alglist!* := nil . nil;
       return reval1(u,nil)
    end;
 

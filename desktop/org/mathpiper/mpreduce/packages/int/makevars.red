@@ -86,6 +86,12 @@ scan: if null vl then return zl;
                  or (((car v) eq 'expt) and fixp caddr v)
              then
                  zl:=findzvars(cdr v,zl,var,flg)
+         else if car v eq 'expt and eqcar(caddr v,'times)
+                  and fixp cadr caddr v
+          then << v := (if null cdddr caddr v
+                          then {'expt,cadr v, caddr caddr v}
+                         else {'expt,cadr v, 'times . cddr caddr v}) . cdr v;
+                  zl := findzvars(v,zl,var,flg) >>
          else if flg and car v eq 'df
           then <<!*purerisch := t;  % printc "Pure set";
                  return zl>> % try and stop it

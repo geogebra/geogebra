@@ -55,7 +55,7 @@ symbolic procedure comblog x;
    if atom x or car x memq domainlist!* then x
    else if car x eq 'plus
      or car x eq 'times and
-         ((not domainp y and eqcar(mvar y,'log10))
+         ((not domainp y and eqcar(mvar y,'log))
            where y=numr simp!* x)
        then prepsq!* clogsq simp!* x
    else (comblog car x) . comblog cdr x;
@@ -65,7 +65,7 @@ symbolic procedure clogsq x; clogf numr x ./ clogf denr x;
 symbolic procedure clogf u;
    begin scalar x,y;
       x := kernels u;
-      for each j in x do if eqcar(j,'log10) then y := j . y;
+      for each j in x do if eqcar(j,'log) then y := j . y;
       if null y then return u;
       x := setdiff(x,y);
       x := setkorder nconc(x,y);
@@ -76,7 +76,7 @@ symbolic procedure clogf u;
 
 symbolic procedure clogf1 x;
    if domainp x then x
-    else if eqcar(mvar x,'log10) then clogf2 x
+    else if eqcar(mvar x,'log) then clogf2 x
     else addf(multpf(lpow x,clogf1 lc x),clogf1 red x);
 %   else ((if null z then x else
 %          addf(if atom y then list lt x else numr simp!* comblog y,z))
@@ -86,17 +86,17 @@ symbolic procedure clogf2 x; % does actual log combining.
    begin scalar y,z,r,s,g,a,b,c,d,w,xx; integer k;
       xx := x;
   st: if domainp x then <<w := addf(w,x); go to ret>>
-       else if not eqcar(mvar x,'log10) or ldeg x neq 1
+       else if not eqcar(mvar x,'log) or ldeg x neq 1
         then <<w := addf(w,list lt x); x := red x; go to st>>;
       y := list lt x;
       if not domainp(z := red x) then go to lp;
      % g := coefgcd(c := lc y,0); a := quotf(c,g);
-     % y := multf(a,numr simp!* list('log10,logarg(cadr mvar y,g)));
+     % y := multf(a,numr simp!* list('log,logarg(cadr mvar y,g)));
       go to ret;
      % in this loop, y is a log term, r is a term, and z the reductum.
   lp: if domainp z then go to ret;
       r := list lt z; z := red z;
-      if eqcar(mvar r,'log10) and ldeg r=1 then go to a2;
+      if eqcar(mvar r,'log) and ldeg r=1 then go to a2;
   a1: s := addf(r,s); go to lp;
   a2: b := coefgcd(a := lc r,0); a := quotf(a,b);
       d := coefgcd(c := lc y,0); c := quotf(c,d);
@@ -122,7 +122,7 @@ symbolic procedure clogf2 x; % does actual log combining.
   a4: a := prepsq simp!* a;
       y := numr simp!* list('times,k,
          if eqcar(a,'quotient) and cadr a=1
-            then list('minus,list('log10,caddr a)) else list('log10,a),
+            then list('minus,list('log,caddr a)) else list('log,a),
          prepsq g);
       go to lp;
  ret: return addf(w,addf(y,addf(z,clogf1 s))) end;

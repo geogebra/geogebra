@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfmisc.red 1256 2011-08-14 12:04:31Z thomas-sturm $
+% $Id: ofsfmisc.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_misc_rcsid!* ofsf_misc_copyright!*);
    ofsf_misc_rcsid!* :=
-      "$Id: ofsfmisc.red 1256 2011-08-14 12:04:31Z thomas-sturm $";
+      "$Id: ofsfmisc.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    ofsf_misc_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -121,14 +121,14 @@ procedure ofsf_ordatp(a1,a2);
    begin scalar lhs1,lhs2;
       lhs1 := ofsf_arg2l a1;
       lhs2 := ofsf_arg2l a2;
-      if lhs1 neq lhs2 then return ordp(lhs1,lhs2);
+      if lhs1 neq lhs2 then return not ordp(lhs1,lhs2);
       return ofsf_ordrelp(ofsf_op a1,ofsf_op a2)
    end;
 
 procedure ofsf_ordrelp(r1,r2);
    % Ordered field standard form relation order predicate.
    % [r1] and [r2] are ofsf-relations. Returns a [T] iff $[r1] < [r2]$.
-   not not (r2 memq (r1 memq '(equal neq leq lessp geq greaterp)));
+   r2 memq cdr (r1 memq '(equal neq leq lessp geq greaterp));
 
 procedure ofsf_a2cdl(atml);
    % Ordered field standard form atomic to case distinction list.
@@ -453,6 +453,70 @@ algebraic operator tn;
 
 procedure ofsf_mktan2(phi);
    {'tan,{'quotient,phi,2}};
+
+
+declare ofsf_dfgPrintV: (id) -> id;
+
+procedure ofsf_dfgPrintV(v);
+   % DFG print variable.
+   <<
+      prin2 v;
+      prin2 ":Real"
+   >>;
+
+procedure ofsf_dfgPrintAt(f);
+   begin scalar opal,op,lhs,w;
+      op := rl_op f;
+      lhs := prepf ofsf_arg2l f;
+      if op eq 'neq then
+      	 cl_dfgPrintQff rl_mk1('not,ofsf_0mk2('equal,lhs))
+      else <<
+      	 opal := '((lessp . ls) (leq . le) (greaterp . gs) (geq . ge));
+      	 prin2(if w := atsoc(op,opal) then cdr w else op);
+      	 prin2 "(";
+      	 ofsf_dfgPrintT lhs;
+      	 prin2 ",";
+      	 prin2 "0)"
+      >>
+   end;
+
+procedure ofsf_dfgPrintT(u);
+   if numberp u or idp u then
+      prin2 u
+   else
+      ofsf_dfgPrintT1(car u,cdr u);
+
+procedure ofsf_dfgPrintT1(op,argl);
+   if op eq 'minus then <<
+      prin2 "minus(";
+      prin2 "0";
+      prin2 ",";
+      ofsf_dfgPrintT car argl;
+      prin2 ")"
+   >> else if op eq 'difference then <<
+      prin2 "minus(";
+      ofsf_dfgPrintT car argl;
+      prin2 ",";
+      ofsf_dfgPrintT cadr argl;
+      prin2 ")"
+   >> else if op eq 'expt then <<
+      prin2 "pow(";
+      ofsf_dfgPrintT car argl;
+      prin2 ",";
+      ofsf_dfgPrintT cadr argl;
+      prin2 ")"
+   >> else <<  % op is plus or times
+      if not cdr argl then
+	 ofsf_dfgPrintT car argl
+      else <<
+	 prin2 if op eq 'times then "mult" else op;
+	 prin2 "(";
+	 ofsf_dfgPrintT car argl;
+	 prin2 ",";
+	 ofsf_dfgPrintT1(op,cdr argl);
+	 prin2 ")"
+      >>
+   >>;
 
 endmodule;  % [ofsfmisc]
 

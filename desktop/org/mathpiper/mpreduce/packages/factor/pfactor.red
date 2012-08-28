@@ -42,7 +42,8 @@ symbolic procedure pfactor(q,p);
 %   set!-time();
     if not numberp p then typerr(p,"number")
      else if not primep p then typerr(p,"prime")
-     else if p>largest!-small!-modulus
+     else if p>largest!-small!-modulus and
+             not memq('csl, lispsystem!*)
       then rederr {p,"too large a modulus for factorization"};
     user!-prime:=p;
     set!-modulus p;

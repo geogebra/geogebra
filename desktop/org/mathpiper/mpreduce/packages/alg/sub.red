@@ -178,7 +178,7 @@ symbolic procedure subf1(u,l);
           else if dmode!* eq car u and
                   not flagp(dmode!*, 'resimplify) then !*d2q u
           else simp prepf u
-    else begin integer n; scalar kern,l1,m,varstack!*,v,w,x,xexp,y,y1,z;
+    else begin integer n; scalar kern,l1,m,varstack!*,v,w,x,x1,xexp,y,y1,z;
         % Leaving varstack!* unchanged can make the simplifier think
         % there is a loop.
         z := nil ./ 1;
@@ -223,8 +223,11 @@ symbolic procedure subf1(u,l);
         % Needed in case substitution variable is in XEXP.
         if null l and kernp x and mvar numr x eq kern then go to f
          else if null numr x then go to e;   %Substitution of 0;
+        x1 := x;
         for each j in y do
          <<m := cdar j;
+           if m memq frlis!*
+            then <<x := simpexpt list(prepsq x1,m); m := 1>>;
            w := multsq(subs2 exptsq(x,m-n),w);
            n := m;
            z := addsq(multsq(w,subf1(cdr j,l)),z)>>;

@@ -36,9 +36,29 @@ flag('(on),'eval);
 
 on force;
 
+!#if (greaterp (length (explode (expt 10 100))) 100)
+
+% The conditional compilation here is so that on a system that does
+% not support bignums there is no waste of effort tabulating
+% meaningless overflowed values. I have also adjusted this code so that
+% it displays the values that it computes at build-time so that especially
+% if anything goes wrong it will be possible to observe the progress that
+% has been made. The vsl bignum arithmetic is REALLY SLOW so in that case
+% I only pre-compute the first 100 not the first 300.
+
+!#if (memq 'vsl lispsystem!*)
 symbolic macro procedure mk!-bernoulli u;
-   <<for i := 1:300 do retrieve!*bern i;
+   <<for i := 1:100 do print list(i, retrieve!*bern i);
      list('quote, bernoulli!-alist) >>;
+!#else
+symbolic macro procedure mk!-bernoulli u;
+   <<for i := 1:300 do print list(i, retrieve!*bern i);
+     list('quote, bernoulli!-alist) >>;
+!#endif
+!#else
+symbolic macro procedure mk!-bernoulli u;
+   nil;
+!#endif
 
 % When I read in save!-bernoulli the macro mk!-bernoulli() will get
 % expanded.  This is because of the RLISP flag "*force".  The effect

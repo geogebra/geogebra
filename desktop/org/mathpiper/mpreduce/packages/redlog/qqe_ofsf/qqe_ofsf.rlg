@@ -45,7 +45,17 @@ ex({x,y},x <> y and ladd(y,ladd(x,qp)) == radd(y,radd(x,qp))))$
 rlqe p2;
 
 
-(ltail(ltail(ltail(ltail(rtail(rtail(q))))))
+(rtail(ltail(ltail(rtail(rtail(q))))) == qepsilon
+
+ and ltail(ltail(rtail(rtail(q)))) <<>> qepsilon and 
+
+lhead(ltail(ltail(rtail(rtail(q))))) - rhead(ltail(ltail(rtail(rtail(q))))) = 0
+
+ and rhead(ltail(rtail(rtail(q)))) - 1 = 0 and rhead(rtail(rtail(q))) - 1 = 0
+
+ and lhead(rtail(q)) = 0 and lhead(q) = 0) or (
+
+ltail(ltail(ltail(ltail(rtail(rtail(q))))))
 
  == rtail(rtail(ltail(ltail(rtail(rtail(q))))))
 
@@ -63,23 +73,10 @@ and rhead(ltail(ltail(ltail(rtail(rtail(q))))))
 
  and rhead(ltail(rtail(rtail(q)))) - 1 = 0 and rhead(rtail(rtail(q))) - 1 = 0
 
- and lhead(rtail(q)) = 0 and lhead(q) = 0) or (
-
-rtail(ltail(ltail(rtail(rtail(q))))) == qepsilon
-
- and ltail(ltail(rtail(rtail(q)))) <<>> qepsilon and 
-
-lhead(ltail(ltail(rtail(rtail(q))))) - rhead(ltail(ltail(rtail(rtail(q))))) = 0
-
- and rhead(ltail(rtail(rtail(q)))) - 1 = 0 and rhead(rtail(rtail(q))) - 1 = 0
-
  and lhead(rtail(q)) = 0 and lhead(q) = 0)
 
 
 end;
 
-Tested on x86_64-w64-windows CSL
-Time (counter 1): 28 ms  plus GC time: 2 ms
-real	0m0.527s
-user	0m0.015s
-sys	0m0.152s
+Tested on x86_64-mac_10.7_lion-darwin11.4.0 CSL
+Time (counter 1): 30 ms

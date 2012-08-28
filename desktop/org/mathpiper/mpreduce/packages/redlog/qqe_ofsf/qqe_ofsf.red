@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: qqe_ofsf.red 633 2010-05-21 07:42:06Z thomas-sturm $
+% $Id: qqe_ofsf.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2005-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(qqe_ofsf_rcsid!* qqe_ofsf_copyright!*);
    qqe_ofsf_rcsid!* :=
-      "$Id: qqe_ofsf.red 633 2010-05-21 07:42:06Z thomas-sturm $";
+      "$Id: qqe_ofsf.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    qqe_ofsf_copyright!* := "Copyright (c) 2005-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -343,25 +343,19 @@ procedure qqe_ofsf_varlterm(term, list);
 
 
 procedure qqe_ofsf_ordatp(a1,a2);
-   % QQE Ordered field standard form atomic formula predicate. [a1] and
+   % Ordered field standard form atomic formula predicate. [a1] and
    % [a2] are atomic formulas. Returns [t] iff [a1] is less than [a2].
-%%    begin scalar op_a1, op_a2;
-%%       op_a1 := qqe_op a1; op_a2 := qqe_op a2;
-%%       if qqe_rqopp op_a1 and qqe_rqopp op_a2
-%%       then
-%%       <<
-%%          if cdr a1 neq cdr a2 then ordp(cdr a1,cdr a2)
-%%          else if op_a1 eq 'qequal then return t
-%%          else return nil;
-%%       >>
-%%          % else %mixed case!!!
-%%       else if qqe_op a1 and not qqe_op a2 then
-%%          << prin2t "special case"; return ofsf_ordatp(a1,a2);>>
-%%       else if qqe_op a2 and not qqe_op a1 then
-%%          << prin2t "special case"; return ofsf_ordatp(a1,a2);>>
-%%       else return ofsf_ordatp(a1,a2);
-%%    end;
-   ofsf_ordatp(a1,a2);
+   begin scalar lhs1,lhs2;
+      lhs1 := ofsf_arg2l a1;
+      lhs2 := ofsf_arg2l a2;
+      if lhs1 neq lhs2 then return not ordp(lhs1,lhs2);
+      return qqe_ofsf_ordrelp(ofsf_op a1,ofsf_op a2)
+   end;
+
+procedure qqe_ofsf_ordrelp(r1,r2);
+   % Ordered field standard form relation order predicate.
+   % [r1] and [r2] are ofsf-relations. Returns a [T] iff $[r1] < [r2]$.
+   r2 memq cdr (r1 memq '(equal neq leq lessp geq greaterp qequal qneq));
 
 procedure qqe_ofsf_varlat(atform);
    % later

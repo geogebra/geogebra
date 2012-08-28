@@ -46,7 +46,7 @@ Comment Some general purpose hashing functions;
 
 flag('(array),'eval);      % Declared again for bootstrapping purposes.
 
-!#if (memq 'csl lispsystem!*)
+!#if (and (memq 'csl lispsystem!*) (not (memq 'vsl lispsystem!*)))
 
 % Use the CSL hash tables...
 

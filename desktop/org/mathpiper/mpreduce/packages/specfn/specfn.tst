@@ -355,6 +355,9 @@ do!*one!*zeta(0);
 for k := 4 step 2 until 35 do 
    do!*one!*zeta(k);
 
+for k := 1 step 2 until 31 do 
+   do!*one!*zeta(-k);
+
 do!*one!*zeta(-17/3);
 do!*one!*zeta(190);
 do!*one!*zeta(300);

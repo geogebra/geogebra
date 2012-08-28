@@ -123,10 +123,15 @@ pf(((2*w**2+2*h**2*l**2*t**2+2*h**2*l**2*qst**2)*z**2-8*h**2*l**2*qst
   ((qst  + t )*(z  + 1) - 4*qst*t*z + (z  + 1)*h )*(h *l  + w )
 
 
+% example requiring simplification of 2nd parameter
+
+pf(x/(x^2-1),mainvar(x/(x^2-1)));
+
+
+      1           1
+{-----------,-----------}
+  2*(x + 1)   2*(x - 1)
+
+
 end;
 
-Tested on x86_64-w64-windows CSL
-Time (counter 1): 41 ms  plus GC time: 6 ms
-real	0m0.736s
-user	0m0.015s
-sys	0m0.045s

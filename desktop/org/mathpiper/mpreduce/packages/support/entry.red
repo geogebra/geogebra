@@ -377,6 +377,8 @@ defautoload(pf,pf,expr,2);
 
 symbolic operator pf;
 
+flag('(pf),'noval);
+
 
 % Sum entry points.
 

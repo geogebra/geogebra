@@ -9,6 +9,7 @@ rlqe phi;
 rlgqe phi;
 rlqea phi;
 rlgqea phi;
+rllqe(phi,{},{b=1});
 rlposqe phi;
 rlposqea phi;
 rlcad phi;

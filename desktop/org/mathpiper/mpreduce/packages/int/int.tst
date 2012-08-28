@@ -331,6 +331,10 @@ testint(x*a**x/(1+b*x)**2,x);
 testint(x*e**(a*x)/(1+a*x)**2,x);
 testint(x*k**(x**2),x);
 testint(e**(x**2),x);
+testint(2**(x**2),x);
+testint(2**(2*x**2),x);
+testint(e**(a*x**2),x);
+testint(e**(a**2*x**2),x);
 testint(x*e**(x**2),x);
 testint((x+1)*e**(1/x)/x**4,x);
 testint((2*x**3+x)*(e**(x**2))**2*e**(1-x*e**(x**2))/(1-x*e**(x**2))**2,

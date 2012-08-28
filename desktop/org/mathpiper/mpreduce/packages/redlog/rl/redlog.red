@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: redlog.red 1402 2011-09-15 10:07:12Z thomas-sturm $
+% $Id: redlog.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann and T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(rl_rcsid!* rl_copyright!*);
-   rl_rcsid!* := "$Id: redlog.red 1402 2011-09-15 10:07:12Z thomas-sturm $";
+   rl_rcsid!* := "$Id: redlog.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    rl_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -62,8 +62,8 @@ fluid '(rl_cid!* rl_argl!* rl_usedcname!* rl_deflang!* rl_ocswitches!*
 fluid '(fancy!-line!* fancy!-pos!*);
 
 switch rlsism,rlsichk,rlsiidem,rlsiatadv,rlsipd,rlsiexpl,rlsiexpla,rlsiso,
-   rlsipw,rlsipo,rltabib,rlverbose,rlrealtime,rlidentify,rlgssub,rlgsrad,
-   rlgsred,rlgsprod,rlqepnf,rlqedfs,rlparallel,rlopt1s,rlbrop,
+   rlsisocx,rlsipw,rlsipo,rltabib,rlverbose,rlrealtime,rlidentify,rlgssub,
+   rlgsrad,rlgsred,rlgsprod,rlqepnf,rlqedfs,rlparallel,rlopt1s,rlbrop,
    rlbnfsm,rlsimpl,rlsifac,rlqegsd,rlgserf,rlbnfsac,rlgsvb,rlqesr,rlqeheu,
    rldavgcd,rlsitsqspl,rlgsbnf,rlgsutord,rlqegenct,rltnft,rlnzden,rlposden,
    rladdcond,rlqevarsel,rlqeqsc,rlqesqsc,rlsusi,rlsusimult,rlsusigs,rlsusiadd,
@@ -77,19 +77,21 @@ switch rlsism,rlsichk,rlsiidem,rlsiatadv,rlsipd,rlsiexpl,rlsiexpla,rlsiso,
    rlhqetfcfast,rlhqevb,rlhqevarsel,rlhqevarselx,rlhqedim0,rlhqetheory,
    rlhqegbred,rlhqeconnect,rlhqestrconst,rlhqegbdimmin,rlresi,rlqeasri,
    rlqeaprecise,rlqefilterbounds,rlsifaco,rlqelog,rlqeprecise,rlqevarseltry,
-   rlsid,rlsiplugtheo,rlenffac,rlenffacne,rlplsimpl,rlbrkcxk;
+   rlsid,rlsiplugtheo,rlenffac,rlenffacne,rlplsimpl,rlbrkcxk,rlqeidentify,
+   rlqedyn,rlqesubf,rlqevb,rlqevbold;
 
 on1 'rlbrop;
 off1 'rlbnfsm;
 on1 'rlbnfsac;
 on1 'rlqepnf;
 on1 'rlsiso;
+off1 'rlsisocx;
 on1 'rlsiidem;
 off1 'rlidentify;
 off1 'rlrealtime;
 off1 'rlparallel;
 off1 'rlopt1s;
-off1 'rlqedfs;
+on1 'rlqedfs;
 off1 'rlverbose;
 on1 'rlsichk;
 on1 'rlsism;
@@ -109,7 +111,7 @@ on1 'rlsiexpl;
 on1 'rlsiexpla;
 on1 'rlsifac;
 off1 'rlqesr;
-on1 'rlqeheu;
+off1 'rlqeheu;
 off1 'rlqegsd;
 on1 'rldavgcd;
 on1 'rlsitsqspl;
@@ -192,6 +194,11 @@ off1 'rlenffac;         % For dcfsf.
 on1 'rlenffacne;        % For dcfsf.
 on1 'rlplsimpl;         % For dcfsf.
 off1 'rlbrkcxk;         % Break complex kernels.
+off1 'rlqeidentify;
+on1 'rlqedyn;
+off1 'rlqesubf;
+on1 'rlqevb;
+off1 'rlqevbold;
 
 put('rlidentify,'simpfg,
    '((t (rl_identifyonoff t)) (nil (rl_identifyonoff nil))));

@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: rltools.red 1275 2011-08-16 14:47:01Z thomas-sturm $
+% $Id: rltools.red 1587 2012-03-02 08:03:58Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(rltools_rcsid!* rltools_copyright!*);
-   rltools_rcsid!* := "$Id: rltools.red 1275 2011-08-16 14:47:01Z thomas-sturm $";
+   rltools_rcsid!* := "$Id: rltools.red 1587 2012-03-02 08:03:58Z thomas-sturm $";
    rltools_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -190,7 +190,7 @@ procedure meminfocomma(n,comma);
 
 !#if (memq 'csl lispsystem!*)
    procedure rltools_trunk();
-      rltools_dotdotx(!@srcdir,2);
+      compress('!" . append(explodec !@reduce, '(!/ !")));
 !#endif
 
 procedure rltools_dotdotx(s,n);

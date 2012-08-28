@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: dcfsf.red 1275 2011-08-16 14:47:01Z thomas-sturm $
+% $Id: dcfsf.red 1608 2012-04-26 12:01:48Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2004-2009 A. Dolzmann, 2004-2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(dcfsf_rcsid!* dcfsf_copyright!*);
-   dcfsf_rcsid!* := "$Id: dcfsf.red 1275 2011-08-16 14:47:01Z thomas-sturm $";
+   dcfsf_rcsid!* := "$Id: dcfsf.red 1608 2012-04-26 12:01:48Z thomas-sturm $";
    dcfsf_copyright!* := "(c) 2004-2009 A. Dolzmann, 2004-2010 T. Sturm"
 >>;
 
@@ -42,6 +42,7 @@ module dcfsf;
 
 create!-package('(dcfsf dcfsfmisc dcfsfqe dcfsfsism dcfsfkacem),nil);
 
+load!-package 'redlog;
 loadtime load!-package 'rltools;
 loadtime load!-package 'cl;
 loadtime load!-package 'cgb;

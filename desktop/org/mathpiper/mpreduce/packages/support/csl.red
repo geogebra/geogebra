@@ -82,6 +82,8 @@ symbolic procedure CSL_normbf x;
       return make!:ibf(mt,ep)
    end;
 
+!#if (not (memq 'vsl lispsystem!*))
+
 symbolic smacro procedure normbf x; CSL_normbf x;
 
 symbolic procedure CSL_timbf(u, v);
@@ -97,6 +99,8 @@ symbolic procedure CSL_timbf(u, v);
 
 symbolic smacro procedure timbf(u, v); CSL_timbf(u, v);
 
+!#endif
+
 symbolic procedure fl2bf x;
   begin scalar u;
     u := frexp x;
@@ -106,7 +110,11 @@ symbolic procedure fl2bf x;
     return normbf make!:ibf(x,u-!!nbfpd)
   end;
 
+!#if (memq 'vsl lispsystem!*)
+flag ('(fl2bf msd!: fix2), 'lose);
+!#else
 flag ('(fl2bf msd!: fix2 rndpwr timbf), 'lose);
+!#endif
 
 set!-print!-precision 6;
 

@@ -29,17 +29,17 @@ true
 rlqea rlex sec;
 
 
-{{true,{n = 1,b = 1,a = 0}},
+{{true,{n = 2,b = 3,a = 1}},
 
- {true,{n = 2,b = 3,a = 1}}}
+ {true,{n = 1,b = 1,a = 0}}}
 
 
 rlqe ex(n,sec);
 
 
-(3*a - b + 1 = 0 and a + b #2# 0 and a - b < 0)
+(3*a - b = 0 and a + b ~2~ 0 and a - b < 0)
 
- or (3*a - b = 0 and a + b ~2~ 0 and a - b < 0)
+ or (3*a - b + 1 = 0 and a + b #2# 0 and a - b < 0)
 
 
 % Information Flow Control, Nonlinear Variant
@@ -58,13 +58,13 @@ rlwqe phi;
 bex g0020 [ - a  + 2*a*b - b  - 2 <= g0020 <= a  - 2*a*b + b  + 2] (a - b < 0
 
                   2
- and a - b + g0020  = 0 and a + b #2# 0 and a + b - 2*g0020 + 1 = 0) or bex 
+ and a - b + g0020  = 0 and a + b ~2~ 0 and a + b - 2*g0020 = 0) or bex g0019 [
 
-           2            2                  2            2
-g0019 [ - a  + 2*a*b - b  - 2 <= g0019 <= a  - 2*a*b + b  + 2] (a - b < 0
+    2            2                  2            2
+ - a  + 2*a*b - b  - 2 <= g0019 <= a  - 2*a*b + b  + 2] (a - b < 0
 
                   2
- and a - b + g0019  = 0 and a + b ~2~ 0 and a + b - 2*g0019 = 0)
+ and a - b + g0019  = 0 and a + b #2# 0 and a + b - 2*g0019 + 1 = 0)
 
 
 % Integer Roots
@@ -244,8 +244,5 @@ z - 3 > 0
 
 end;
 
-Tested on x86_64-unknown-ubuntu11.04 CSL
-Time (counter 1): 5569 ms  plus GC time: 100 ms
-real	0m5.947s
-user	0m5.870s
-sys	0m0.020s
+Tested on x86_64-mac_10.7_lion-darwin11.4.0 CSL
+Time (counter 1): 6859 ms  plus GC time: 220 ms

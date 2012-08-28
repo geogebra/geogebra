@@ -24,8 +24,6 @@ df (f(r),u);
 
 df(f(r,r^2),x);
 
-df(f(r,cos y),x);
-
 df(f(r,cos(x)),x);
 
 df(f(r,cos y),x);
@@ -77,6 +75,42 @@ df(df(int(g(v),v),A1),v);
 off expanddf;
 operator y;
 depend ux,x;
+
+comment
+ Since ux depends on x, derivatives w.r.t. x can be expressed via
+ the chain through derivatives w.r.t. uxi, if the switch expanddf
+ is set to on ;
+
+df(y(x),x);
+
+df(y(ux),x);
+
+df(y(x),x,ux);
+
+df(y(x),ux,x);
+
+df(y(ux),x,ux);
+
+df(y(ux),ux,x);
+
+on expanddf;
+
+df(y(x),x);
+
+df(y(ux),x);
+
+df(y(x),x,ux);
+
+df(y(x),ux,x);
+
+df(y(ux),x,ux);
+
+df(y(ux),ux,x);
+
+off expanddf;
+
+comment 
+ Now do the same, but with an explicit value for the derivative of ux w.r.t. x;
 
 let df(ux,x) = 1/e**x;
 
@@ -177,5 +211,23 @@ df(h(u1),v1);
 on expanddf;
 
 df(h(u1),v1);
+
+df(f(g(u),h(u)),u);
+
+on allowdfint;
+
+depend xx,vv;
+
+df(int(exp(vv*xx^3)/xx,xx),vv);
+
+% test differentiation of parameter integral;
+
+df(int(f(vv,xx),xx),vv);
+
+on allowdfint,dfint;
+
+% this used to return int(df(f(vv,xx),vv),xx)
+% which is wrong since xx, the upper limit of the integration depends on vv
+df(int(f(vv,xx),xx),vv);
 
 end;

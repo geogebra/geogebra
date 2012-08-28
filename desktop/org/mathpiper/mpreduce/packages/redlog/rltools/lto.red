@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: lto.red 979 2010-12-02 15:20:33Z thomas-sturm $
+% $Id: lto.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(lto_rcsid!* lto_copyright!*);
-   lto_rcsid!* := "$Id: lto.red 979 2010-12-02 15:20:33Z thomas-sturm $";
+   lto_rcsid!* := "$Id: lto.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    lto_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -420,6 +420,54 @@ procedure lto_cartprod1(s);
       w := lto_cartprod1 cdr s;
       return for each m in car s join
       	 for each y in w collect m . y
+   end;
+
+procedure lto_hmember(item,hl,hfn);
+   lto_hmember1(item,hl,apply(hfn,{item}));
+
+procedure lto_hmember1(item,hl,keyl);
+   begin scalar w;
+      if not keyl then
+	 return member(item,hl);
+      w := assoc(car keyl,hl);
+      if not w then
+	 return nil;
+      return lto_hmember1(item,cdr w,cdr keyl)
+   end;
+
+procedure lto_hinsert(item,hl,hfn);
+   lto_hinsert1(item,hl,apply(hfn,{item}));
+
+procedure lto_hinsert1(item,hl,keyl);
+   begin scalar key,w;
+      if not keyl then
+	 return item . hl;
+      key := car keyl;
+      w := assoc(key,hl);
+      if not w then
+	 return lto_hentry(key,cdr keyl,item) . hl;
+      cdr w := lto_hinsert1(item,cdr w,cdr keyl);
+      return hl
+   end;
+
+procedure lto_hentry(key,keyl,item);
+   if not keyl then
+      key . {item}
+   else
+      key . {lto_hentry(car keyl,cdr keyl,item)};
+
+procedure lto_hdelete(item,hl,hfn);
+   lto_hdelete1(item,hl,apply(hfn,{item}));
+
+procedure lto_hdelete1(item,hl,keyl);
+   begin scalar w,key;
+      if not keyl then
+      	 return deletip(item,hl);
+      key := car keyl;
+      w := assoc(key,hl);
+      if w then
+	 cdr w := lto_hdelete1(item,cdr w,cdr keyl);
+      return hl
    end;
 
 endmodule;  % [lto]

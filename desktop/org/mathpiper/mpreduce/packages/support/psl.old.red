@@ -61,36 +61,21 @@ compiletime
 % The following macros assume that on 64 bit machines floathighorder
 % and floatloworder both load the full 64 bit floating point number.
 
-% The version here has been adjusted by ACN who was simultaneously
-% working on the corresponding code within CSL - the aim is that the
-% two Lisp systems behave identically. And the adjusted code here
-% will be able to use machine floating point arithmetic in a number of cases
-% that the previous version of the code could not.
-
 compiletime
 <<
   define!-constant(ieeeshift,12 - bitsperword);  % 32 bits:-20
   define!-constant(signshift,1 - bitsperword);   % 32 bits:-31
   define!-constant(ieeebias,1023);
   define!-constant(ieeemask,2047);
-  define!-constant(ieeemaxexp,1024);
-  define!-constant(ieeeminexp,-1023);
   ds(floathiword,x(),floathighorder inf x);
   ds(floatloword,x(),floatloworder inf x);
 
   if bitsperword=32 then
   <<
-% ACN worries about "-0.0" here ...
     ds(ieeezerop,u(), weq(0,floathiword u) and weq(0,floatloword u));
-% Again is "+0.0" equal to "-0.0" and is "NaN" equal to "NaN"? Doing
-% a bit-pattern comparison could be held to be dangerous, but provided
-% the user is aware of these issues I do not mind.
     ds(ieeeequal,u(v),
            weq(floathiword u,floathiword v)
        and weq(floatloword u,floatloword v));
-% In the newer code in this file and the implemention of safe!-fp!-XX
-% the mantissa is never needed. But perhaps somewhere else it will be
-% useful.
     ds(ieeemant,f(),
        (lor(lshift(
                wor(wshift(wand (floathiword f, 1048575), % 16#FFFFF
@@ -102,12 +87,11 @@ compiletime
    >>
    else if bitsperword=64 then
    <<
-% Again the issues of "-0.0" and "NaN" arise...
     ds(ieeezerop,u(), weq(0,floathiword u));
     ds(ieeeequal,u(v), weq(floathiword u,floathiword v));
     ds(ieeemant,f(), wand (floathiword f,
                            4503599627370495)); % 16#FFFFFFFFFFFFF
-   >>
+ >>
    else error(99,"#### unknown bit size");
 
   ds(ieeeexpt,u(),
@@ -117,90 +101,72 @@ compiletime
   ds(ieeesign,u(),wshift(floathiword u,signshift));
      % ieeemant is the mantissa part of the upper 32 bit group.
 
-%  define!-constant(!!plumaxexp,1018);
-%  define!-constant(!!pluminexp,-979);
-%  define!-constant(!!timmaxexp,509);
-%  define!-constant(!!timminexp,-510);
-%  define!-constant(!!fleps1exp,-40)
+  define!-constant(!!plumaxexp,1018);
+  define!-constant(!!pluminexp,-979);
+  define!-constant(!!timmaxexp,509);
+  define!-constant(!!timminexp,-510);
+  define!-constant(!!fleps1exp,-40)
 >>;
 
 symbolic procedure safe!-fp!-plus(x,y);
-  begin
-    scalar ex,ey,sx,sy,z,ez;
-    if ieeezerop x then return y
-    else if ieeezerop y then return x;
-% "-0.0" will merely drop down into the general case... that is not
-% a disaster.
-    ex := ieeeexpt x;
-    ey := ieeeexpt y;
-    if ex = ieeemaxexp or ey = ieeemaxexp then return nil;
-    if (sx := ieeesign x) eq (sy := ieeesign y) then <<
-      if ex eq isub1 ieeemaxexp or
-         ey eq isub1 ieeemaxexp then return nil >>
-    else if ilessp(ex, iplus2(ieeeminexp, 54)) and
-            ilessp(ey, iplus2(ieeeminexp, 54)) then <<
-% -0.0 has a tiny exponent but adding it to a number (even if that
-% number is also very small) can not hurt.
-      if ieeezerop floatminus x then return y
-      else if ieeezerop floatminus y then return x
-      else return nil>> ;
-% The code in arith/rounded.red checks if there has been leading-digit
-% cancellation to an extent controlled by !!fleps1, and if so it
-% forces the answer returned to be zero. I believe that the code
-% here is simpler, faster and more accurate. But the discussions that
-% led to !!fleps1 lie in the past (around 2001 I believe) - I hope they
-% were mainly concerned with delivering more consistent results when
-% one could not be confident of having IEEE arithmetic...
-    z := floatplus2(x, y);
-    ez := ieeeexpt z;
-    if ilessp(ez, idifference(ex,44)) then return 0.0
-    else return z;
-  end;
+   if ieeezerop x then y
+    else if ieeezerop y then x
+    else begin scalar u,ex,ey,sx,sy;
+            ex := ieeeexpt x;
+            ey := ieeeexpt y;
+            if (sx := ieeesign x) eq (sy := ieeesign y)
+              then if ilessp(ex,!!plumaxexp) and ilessp(ey,!!plumaxexp)
+                    then go to ret else return nil;
+            if ilessp(ex,!!pluminexp) and ilessp(ey,!!pluminexp)
+              then return nil;
+          ret:
+            u := floatplus2(x,y);
+        return
+            if sx eq sy or ieeezerop u then u
+             else if ilessp(ieeeexpt u,iplus2(ex,!!fleps1exp)) then 0.0
+             else u
+         end;
 
 symbolic procedure safe!-fp!-times(x,y);
-  begin
-    scalar u,v,w;
-    if ieeezerop x or ieeezerop y then return 0.0
-    else if ieeeequal(x,1.0) then return y
-    else if ieeeequal(y,1.0) then return x;
-    u := ieeeexpt x;
-    v := ieeeexpt y;
-% filter out infinities and NaNs
-    if u = ieeemaxexp or u = ieeemaxexp then return nil;
-% filter out zero and denorms
-    if u = ieeeminexp or u = ieeeminexp then <<
-% Spot and handle -0.0
-      if ieeezerop floatminus x or ieeezerop floatminus y then return 0.0
-      else return nil >>;
-% I can estimate the magnitude of the result from the sum of exponents of
-% the input.
-    w := iplus2(u, v);
-    if ilessp(w, iplus2(ieeeminexp,3)) or
-       igreaterp(w, idifference(ieeemaxexp,3)) then return nil
-    else return floattimes2(x,y)
-  end;
+   if ieeezerop x or ieeezerop y then 0.0
+    else if ieeeequal(x,1.0) then y
+    else if ieeeequal(y,1.0) then x
+    else begin scalar u,v;
+            u := ieeeexpt x;
+            v := ieeeexpt y;
+            if igreaterp(u,!!timmaxexp)
+              then if ilessp(v,0) then go to ret else return nil;
+            if igreaterp(u,0)
+              then if ilessp(v,!!timmaxexp) then go to ret
+                    else return nil;
+            if igreaterp(u,!!timminexp)
+              then if igreaterp(v,!!timminexp) then go to ret
+                    else return nil;
+            if ilessp(v,0) then return nil;
+          ret:
+            return floattimes2(x,y)
+         end;
 
 symbolic procedure safe!-fp!-quot(x,y);
-  begin
-    scalar u,v,w;
-    if ieeezerop y then rdqoterr()
-    else if ieeezerop x then return 0.0
-    else if ieeeequal(y,1.0) then return x;
-    u := ieeeexpt x;
-    v := ieeeexpt y;
-% filter out infinities and NaNs
-    if u = ieeemaxexp or u = ieeemaxexp then return nil;
-% filter out zero and denorms
-    if u = ieeeminexp or u = ieeeminexp then <<
-% Spot and handle -0.0
-      if ieeezerop floatminus x then return 0.0
-      else if ieeezerop floatminus y then rdqoterr()
-      else return nil >>;
-    w := idifference(u, v);
-    if ilessp(w, iplus2(ieeeminexp,3)) or
-       igreaterp(w, idifference(ieeemaxexp,3)) then return nil
-    else return floatquotient(x,y)
-  end;
+   if ieeezerop y then rdqoterr()
+    else if ieeezerop x then 0.0
+    else if ieeeequal(y,1.0) then x
+    else begin scalar u,v;
+            u := ieeeexpt x;
+            v := ieeeexpt y;
+            if igreaterp(u,!!timmaxexp)
+              then if igreaterp(v,0) then go to ret
+                    else return nil;
+            if igreaterp(u,0)
+              then if igreaterp(v,!!timminexp) then go to ret
+                    else return nil;
+            if igreaterp(u,!!timminexp)
+              then if ilessp(v,!!timmaxexp) then go to ret
+                    else return nil;
+            if igreaterp(v,0) then return nil;
+          ret:
+            return floatquotient(x,y)
+         end;
 
 compiletime
  if 'ieee member lispsystem!* then

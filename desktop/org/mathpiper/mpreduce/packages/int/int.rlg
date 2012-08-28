@@ -1881,6 +1881,34 @@ testint(e**(x**2),x);
 ------------------------
            2
 
+testint(2**(x**2),x);
+
+
+  - sqrt(pi)*erf(sqrt(log(2))*i*x)*i
+-------------------------------------
+           2*sqrt(log(2))
+
+testint(2**(2*x**2),x);
+
+
+  - sqrt(pi)*erf(sqrt(log(2))*sqrt(2)*i*x)*i
+---------------------------------------------
+           2*sqrt(log(2))*sqrt(2)
+
+testint(e**(a*x**2),x);
+
+
+  - sqrt(pi)*erf(sqrt(a)*i*x)*i
+--------------------------------
+           2*sqrt(a)
+
+testint(e**(a**2*x**2),x);
+
+
+  - sqrt(pi)*erf(abs(a)*i*x)*i
+-------------------------------
+           2*abs(a)
+
 testint(x*e**(x**2),x);
 
 
@@ -2717,8 +2745,10 @@ asin(x)*x + sqrt( - x  + 1)
 testint(x**2*asin x,x);
 
 
-             2
-int(asin(x)*x ,x)
+            3            2       2              2
+ 3*asin(x)*x  + sqrt( - x  + 1)*x  + 2*sqrt( - x  + 1)
+-------------------------------------------------------
+                           9
 
 testint(sec x**2/(1+sec x**2-3*tan x),x);
 
@@ -2996,12 +3026,12 @@ symbolic summarize!-integral!-test();
 
                 *****     SUMMARY OF INTEGRAL TESTS     *****
 
-Number of integrals tested: 276
+Number of integrals tested: 280
 
 
 Number of incorrect integrals: 0
 
-Number of unevaluated integrals: 19
+Number of unevaluated integrals: 18
 
 Integrands of unevaluated integrals are:
 
@@ -3081,10 +3111,6 @@ sqrt( - cos(x) + 1)
        x  + 2
 
 
-         2
-asin(x)*x
-
-
              2     5           2     4           2     3           2     2
 ( - 1)/(log(x  + 1)  - 10*log(x  + 1)  + 40*log(x  + 1)  - 80*log(x  + 1)
 
@@ -3103,8 +3129,3 @@ erf(a + x)
 
 end;
 
-Tested on x86_64-w64-windows CSL
-Time (counter 1): 668 ms  plus GC time: 14 ms
-real	0m2.021s
-user	0m0.046s
-sys	0m0.138s

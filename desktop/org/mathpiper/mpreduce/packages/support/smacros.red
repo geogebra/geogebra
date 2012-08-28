@@ -557,10 +557,6 @@ symbolic smacro procedure chkrn!* u; if !*!*roundbf then u else bf2flck u;
 symbolic smacro procedure choose(x,n); quotient(perm(x,n),factorial x);
 
 
-symbolic smacro procedure clear_source_database; 
-   <<setq(!*where_defined!*,mkhash(10,2,1.5)); nil>>;
-
-
 symbolic smacro procedure clfarg; setq(farglist!*,nil);
 
 
@@ -714,10 +710,6 @@ symbolic smacro procedure deg2rad!: x;
 
 
 symbolic smacro procedure delcp u; flagp(u,'delchar);
-
-
-symbolic smacro procedure delete_from_alglist(key,l); 
-   if null l then nil else <<remhash(key,l); l>>;
 
 
 symbolic smacro procedure den u; mk!*sq cons(cdr simp!* u,1);
@@ -1506,9 +1498,6 @@ symbolic smacro procedure printcl x; <<princl x; terpri(); x>>;
 
 
 symbolic smacro procedure printl x; <<prinl x; terpri(); x>>;
-
-
-symbolic smacro procedure printprompt u; nil;
 
 
 symbolic smacro procedure printsf u; 

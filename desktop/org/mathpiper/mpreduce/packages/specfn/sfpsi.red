@@ -281,7 +281,7 @@ algebraic (zeta!*rules := {
       when numberp x and impart x = 0 and x > 0
                and (x/2) = floor (x/2) and x < 31,
 
-   zeta(~x)  =>  - (bernoulli!*calc (1-x)) / (2*x)
+   zeta(~x)  =>  - (bernoulli!*calc (1-x)) / (1-x)
       when numberp x and impart x = 0 and x < 0
                and x = floor x and x > -31,
 

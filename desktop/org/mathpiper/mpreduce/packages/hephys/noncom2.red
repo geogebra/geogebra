@@ -379,9 +379,9 @@ smacro procedure noncomp2 u; % changed
 
 symbolic procedure noncom u; %new
   begin scalar y,liste;
-    if not listp u then rederr(u, "invalid argument to noncom");
+    if not listp u then rederr list(u, "invalid argument to noncom");
     for each x in u do <<
-      if not idp x then rederr(x, "invalid argument to noncom");
+      if not idp x then rederr list(x, "invalid argument to noncom");
       noncom1 x;
       liste:=get(x,'noncommutes);
       y := delete(x,u);

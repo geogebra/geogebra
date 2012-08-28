@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: clmisc.red 1264 2011-08-14 12:05:23Z thomas-sturm $
+% $Id: clmisc.red 1607 2012-04-26 11:58:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(cl_misc_rcsid!* cl_misc_copyright!*);
    cl_misc_rcsid!* :=
-      "$Id: clmisc.red 1264 2011-08-14 12:05:23Z thomas-sturm $";
+      "$Id: clmisc.red 1607 2012-04-26 11:58:38Z thomas-sturm $";
    cl_misc_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -615,6 +615,95 @@ procedure cl_divide(f);
 
 procedure cl_qbopcompat(q,bop);
    (q eq 'ex and bop eq 'or) or (q eq 'all and bop eq 'and);
+
+procedure cl_dfgPrint(f,fname);
+   % Prefix print.
+   <<
+      if fname then
+      	 out fname;
+      prin2 "formula(";
+      cl_dfgPrint1 f;
+      prin2 ")";
+      terpri();
+      if fname then
+      	 shut fname
+   >>;
+
+procedure cl_dfgPrint1(f);
+   % Prefix print.
+   begin scalar ql,vll,vl;
+      {ql,vll,f,vl} := cl_split f;
+      for each q in ql do <<
+	 vl := pop vll;
+	 prin2 if q eq 'ex then "exists" else "forall";
+	 prin2 "(";
+	 cl_dfgPrintVl vl;
+	 prin2 ","
+      >>;
+      cl_dfgPrintQff f;
+      for each q in ql do
+	 prin2 ")"
+   end;
+
+procedure cl_dfgPrintVl(vl);
+   <<
+      prin2 "[";
+      for each rvl on vl do <<
+	 rl_dfgPrintV car rvl;
+	 if cdr rvl then prin2  ","
+      >>;
+      prin2 "]"
+   >>;
+
+procedure cl_dfgPrintQff(f);
+   begin scalar op,l,r;
+      op := rl_op f;
+      if op eq 'impl then
+	 cl_dfgPrintQff rl_mk2('or,rl_mk1('not,rl_arg2l f),rl_arg2r f)
+      else if op eq 'repl then
+	 cl_dfgPrintQff rl_mk2('or,rl_arg2l f,rl_mk1('not,rl_arg2r f))
+      else if op eq 'equiv then <<
+	 l := rl_arg2l f;
+	 r := rl_arg2r f;
+	 cl_dfgPrint1 rl_mkn('and,{rl_mk2('impl,l,r),rl_mk2('repl,l,r)})
+      >> else if op eq 'not then <<
+	 prin2 "not";
+	 prin2 "(";
+	 cl_dfgPrint1 rl_arg1 f;
+	 prin2 ")"
+      >> else if rl_tvalp op then
+	 prin2 f
+      else if rl_junctp op then
+	 cl_dfgPrintJ(op,rl_argn f)
+      else  % atomic formula
+	 rl_dfgPrintAt f
+   end;
+
+procedure cl_dfgPrintJ(op,argl);
+   if not cdr argl then
+      cl_dfgPrint1 car argl
+   else <<
+      prin2 op;
+      prin2 "(";
+      for each rargl on argl do <<
+      	 cl_dfgPrint1 car rargl;
+	 if cdr rargl then
+      	    prin2 ","
+      >>;
+      prin2 ")"
+   >>;
+
+procedure cl_dfgPrintJ2(op,argl);
+   if not cdr argl then
+      cl_dfgPrint1 car argl
+   else <<
+      prin2 op;
+      prin2 "(";
+      cl_dfgPrint1 car argl;
+      prin2 ",";
+      cl_dfgPrintJ(op,cdr argl);
+      prin2 ")"
+   >>;
 
 endmodule;  % [clmisc]
 

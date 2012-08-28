@@ -50,8 +50,8 @@ symbolic procedure invbase u;
    vars := invsysvars!* or gvarlis sys;
    readsys('list.sys,'list.vars);
    invbase!*();
-   r:= for each p in gg collect
-     'plus . for each m in getv(gv,car p) collect
+   r:= for each p in gg!* collect
+     'plus . for each m in getv(gv!*,car p) collect
         prepsq !*di2q(list m,vars);
   return 'list . r;
  end;
@@ -70,8 +70,8 @@ symbolic procedure invlex u;
    vars := invsysvars!* or gvarlis sys;
    readsys('list.sys,'list.vars);
    invlex!*();
-   (r:= for each p in gg collect
-     'plus . for each m in getv(gv,car p) collect
+   (r:= for each p in gg!* collect
+     'plus . for each m in getv(gv!*,car p) collect
         prepsq !*di2q(list m,vars)) where ordering='lex;
   return 'list . r;
  end;

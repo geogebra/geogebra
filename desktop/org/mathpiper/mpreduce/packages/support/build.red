@@ -88,8 +88,8 @@ symbolic procedure concat(u,v);
 symbolic procedure module2!-to!-file(u,v);
    % Converts the module u in package directory v to a fully rooted file
    % name.
-   if memq('test, lispsystem!*) then
-     concat("$reduce/test-packages/",concat(mkfil v,
+   if memq('vsl, lispsystem!*) then
+     concat("../packages/",concat(mkfil v,
             concat("/",concat(mkfil u,".red"))))
    else
      concat("$reduce/packages/",concat(mkfil v,

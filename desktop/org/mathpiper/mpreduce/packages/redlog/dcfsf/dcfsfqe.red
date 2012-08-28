@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: dcfsfqe.red 981 2010-12-02 21:40:09Z thomas-sturm $
+% $Id: dcfsfqe.red 1608 2012-04-26 12:01:48Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2004-2009 A. Dolzmann, 2004-2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(dcfsf_qe_rcsid!* dcfsf_qe_copyright!*);
    dcfsf_qe_rcsid!* :=
-      "$Id: dcfsfqe.red 981 2010-12-02 21:40:09Z thomas-sturm $";
+      "$Id: dcfsfqe.red 1608 2012-04-26 12:01:48Z thomas-sturm $";
    dcfsf_qe_copyright!* := "(c) 2004-2009 A. Dolzmann, 2004-2010 T. Sturm"
 >>;
 
@@ -1101,7 +1101,7 @@ procedure dcfsf_enf1(pll,v,theo);
 	       apll := pl_factorize dcfsf_enf1c2(i,r,s,veql,vnel,oeql,onel,v);
 	       pll := pll_ins(apll,pll)
 	    >>;
-	    % Case 3: initial <> 0 and separant <> 0
+    	    % Case 3: initial <> 0 and separant <> 0 and further equations
 	    if veql1_ then <<
 	       apll := pl_factorize
  		  dcfsf_enf1c3(i,s,veq1,veql1_,vnel,oeql,onel,v);
@@ -1194,7 +1194,7 @@ procedure dcfsf_reducene(fl,ofl,g,v);
       return vfl . ofl
    end;
 
-procedure dcfsf_reduce(fl,g,v);
+procedure dcfsf_reduce_old(fl,g,v);
    begin scalar of,df,og,dg,g1,w,vfl,ofl;
       og . dg := dcfsf_orddegf(g,v);
       w := for each f in fl collect <<
@@ -1205,8 +1205,29 @@ procedure dcfsf_reduce(fl,g,v);
 	    cdr qremf(multf(f,exptf(lc g,df-dg+1)),g)
 	 else <<  % we know of > og
 	    g1 := dcfsf_derivationf(g,of-og,nil);
+	    % After differntiating at least once, the degree of g1 is 1.
 	    cdr qremf(multf(f,exptf(lc g1,df)),g1)
 	 >>
+      >>;
+      return w
+   end;
+
+procedure dcfsf_reduce(fl,g,v);
+   begin scalar of,df,og,dg,g1,w,vfl,ofl;
+      og . dg := dcfsf_orddegf(g,v);
+      w := for each f in fl collect <<
+      	 of . df := dcfsf_orddegf(f,v);
+	 while of > og or (of = og and df >= dg) do <<
+ 	    if eqn(of,og) then  % we know df >= dg
+	       f := cdr qremf(multf(f,exptf(lc g,df-dg+1)),g)
+	    else <<  % we know of > og
+	       g1 := dcfsf_derivationf(g,of-og,nil);
+	       % After differentiating at least once, the degree of g1 is 1.
+	       f := cdr qremf(multf(f,exptf(lc g1,df)),g1)
+	    >>;
+      	    of . df := dcfsf_orddegf(f,v)
+	 >>;
+	 f
       >>;
       return w
    end;

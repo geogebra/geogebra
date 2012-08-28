@@ -36,11 +36,11 @@ module invbase; % Computing involutive basis of polynomial system.
 
 create!-package('(invbase invbint invbcomp),'(contrib invbase));
 
-fluid '(CONDS GV HV BV NG GG VARLIST VJETS NC);            % globals
-fluid '(ORDERING REDTAILS);                                % modes
-fluid '(PATH TRED STARS);                                  % tracing
-fluid '(REDUCTIONS NFORMS ZEROS MAXORD TITLE);             % statistics
-fluid '(invsysvars!* !*trinvbase alfa beta shortway thirdway
+fluid '(conds!* gv!* bv!* ng!* gg!* varlist!* vjets!* nc!*); % globals
+fluid '(ordering redtails);                                % modes
+fluid '(path tred stars);                                  % tracing
+fluid '(reductions!* nforms!* zeros!* maxord!* title!*);   % statistics
+fluid '(invsysvars!* !*trinvbase alfa!* beta!* shortway!* thirdway!*
          invtempbasis);
 
 share invtempbasis;
@@ -49,8 +49,8 @@ ordering := 'grev;
 
 switch trinvbase;
 
-gv:=mkvect(1000)$  % p o l y n o m i a l s
-bv:=mkvect(1000)$  % f l a g  (n e w  p r o l o n g a t i o n s)
+gv!*:=mkvect(1000)$  % p o l y n o m i a l s
+bv!*:=mkvect(1000)$  % f l a g  (n e w  p r o l o n g a t i o n s)
 
 endmodule;
 

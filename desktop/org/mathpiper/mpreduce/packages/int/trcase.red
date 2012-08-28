@@ -236,6 +236,7 @@ symbolic
                 if !*trint then printc "Resetting....";
                 result:=nil ./ 1;
                 dfun := integrand; badpart:=dfun >>;
+%%% RmS: Can the call to simpint1 commented out since return value is unused?
           if rootcheckp(unintegrand,svar) then
                 return simpint1(integrand . svar.nil) . (nil ./ 1)
           else if !*purerisch or allowedfns zlist then
@@ -280,6 +281,8 @@ symbolic
                                 oorder:=cdr oorder >>;
                           if wrongway or (n=0) then <<
                                if !*trint then printc "Still backwards";
+           %%% RmS: at this point result may already be nonzero, reset it
+                               result := nil ./ 1;
                                dfun := nil ./ 1;
                                badpart := integrand>>>>>>
                      else <<badpart := dfun; dfun := nil ./ 1 >>>>>>;

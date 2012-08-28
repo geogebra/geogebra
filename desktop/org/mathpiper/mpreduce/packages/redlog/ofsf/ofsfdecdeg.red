@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfdecdeg.red 1259 2011-08-14 12:04:54Z thomas-sturm $
+% $Id: ofsfdecdeg.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_decdeg_rcsid!* ofsf_decdeg_copyright!*);
    ofsf_decdeg_rcsid!* :=
-      "$Id: ofsfdecdeg.red 1259 2011-08-14 12:04:54Z thomas-sturm $";
+      "$Id: ofsfdecdeg.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    ofsf_decdeg_copyright!* :=
       "(c) 1995-2009 A. Dolzmann T. Sturm, 2010-2011 T. Sturm"
 >>;
@@ -181,7 +181,8 @@ procedure ofsf_transform(f,v);
       dgcd := ofsf_decdeg2(f,v);
       if dgcd = 1 then
 	 return f . nil;
-      if !*rlverbose then ioto_prin2 {"(",v,"^",dgcd,")"};
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 {"(",v,"^",dgcd,")"};
       f := ofsf_decdeg3(f,v,dgcd);
       if evenp dgcd then
 	 f := rl_mkn('and,{ofsf_0mk2('geq,numr simp v),f});

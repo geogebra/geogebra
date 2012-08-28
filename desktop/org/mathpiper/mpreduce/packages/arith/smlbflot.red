@@ -76,8 +76,8 @@ symbolic procedure fl2bf x;
      % convert x to an integer equivalent;
       r := normbf read!:num x;
       d := ep!: r+msd!: mt!: r;
-      x := x*2.0**-d; x := x + 0.5/2**!:bprec!:;
-      x := fix(x*2**!:bprec!:);
+      x := x*2.0**-d; x := x + 0.5/2.0**!:bprec!:;
+      x := fix(x*2.0**!:bprec!:);
       return make!:ibf (if s then -x else x, d - !:bprec!:) end)
         where !:bprec!:=!!nbfpd;
 
@@ -535,7 +535,9 @@ macro procedure min!: x; expand(cdr x,'min2!:);
 symbolic procedure greaterp!:(a,b);
 % this function calculates the a > b, but avoids
 % generating large numbers if magnitude difference is large.
-     if ep!: a=ep!: b then mt!: a>mt!: b else
+    if mt!: a=0 then mt!: b<0
+     else if mt!: b=0 then mt!: a>0
+     else if ep!: a=ep!: b then mt!: a>mt!: b else
        (((if d=0 then ma>mb else
           ((if d>p2 then ma>0 else if d<-p2 then mb<0
             else if d>0 then ashift(ma,d)>mb

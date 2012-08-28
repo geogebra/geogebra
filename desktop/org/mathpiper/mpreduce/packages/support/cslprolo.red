@@ -90,7 +90,37 @@ flag('(copyd), 'lose);
 % The following are built into CSL and so any definition found within
 % the REDUCE sources should be viewed as "portability" but should be ignored.
 
-flag('(atsoc copy eqcar gcdn geq lastpair leq mkquote neq reversip
+if memq('vsl, lispsystem!*) then
+   flag('(atsoc copy eqcar gcdn geq lastpair leq mkquote neq reversip
+       rplacw iplus itimes iplus2 itimes2 iadd1 isub1 iminus iminusp
+       idifference iquotient iremainder ilessp igreaterp ileq igeq
+       izerop ionep apply1 apply2 apply3
+% modular!-difference
+% modular!-minus modular!-number modular!-plus modular!-quotient
+% modular!-reciprocal modular!-times modular!-expt set!-small!-modulus
+% acos acosd acosh acot acotd acoth acsc acscd acsch asec asecd
+% asech asin asind asinh atan atand atan2 atan2d atanh cbrt
+       cos
+% cosd cosh cot cotd coth csc cscd csch
+       exp expt
+% hypot ln
+       log
+% logb log10 sec secd sech
+       sin
+% sind sinh
+       sqrt
+% tan tand tanh
+       fix
+       ceiling floor round clrhash puthash gethash remhash
+% princ!-upcase princ!-downcase
+       union intersection
+% safe!-fp!-plus safe!-fp!-times safe!-fp!-quot
+       threevectorp
+       sort
+% stable!-sort stable!-sortip
+       lengthc prin2 princ),'lose)
+else
+   flag('(atsoc copy eqcar gcdn geq lastpair leq mkquote neq reversip
        rplacw iplus itimes iplus2 itimes2 iadd1 isub1 iminus iminusp
        idifference iquotient iremainder ilessp igreaterp ileq igeq
        izerop ionep apply1 apply2 apply3 modular!-difference
@@ -103,7 +133,7 @@ flag('(atsoc copy eqcar gcdn geq lastpair leq mkquote neq reversip
        ceiling floor round clrhash puthash gethash remhash
        princ!-upcase princ!-downcase union intersection
        safe!-fp!-plus safe!-fp!-times safe!-fp!-quot threevectorp
-       sort stable!-sort stable!-sortip lengthc),'lose);
+       sort stable!-sort stable!-sortip lengthc prin2 princ),'lose);
 
 % substq has only been built into CSL since July 2011 so I will be cautious
 % here for when this file is used with a legacy version of CSL.

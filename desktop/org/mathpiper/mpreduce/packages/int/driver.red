@@ -388,12 +388,52 @@ symbolic procedure look_for_substitute(integrand, var, zz);
 begin
   scalar res;
   if atom zz then return nil
+  else if (res := look_for_exponential(integrand, var, zz)) then return res
   else if (res := look_for_rational(integrand, var, zz)) then return res
   else if (res := look_for_quad(integrand, var, zz)) then return res
   else if (res := look_for_substitute(integrand, var, car zz))
    then return res
   else return look_for_substitute(integrand, var, cdr zz)
 end;
+
+symbolic procedure look_for_exponential(integrand, var, zz);
+% Look for a form a^(b/(c*x^n)) in the field descriptor and transform
+% the integral if it is found.
+   if not eqcar(zz:=car zz,'expt) or depends(cadr zz,var) then nil
+    else begin scalar b,c,klis,newvar; integer n;
+        zz := caddr zz;
+          if eqcar(zz,'quotient) and not depends(cadr zz,var)
+          then <<
+            b := cadr zz; zz:= caddr zz;
+            if zz=var % case b/x
+              then n := -1
+             else if eqcar(zz,'expt) and cadr zz=var and fixp caddr zz
+              then n := -caddr zz
+             else if not eqcar(zz,'times) then return nil
+             else <<for each fctr in cdr zz do
+                       if not depends(fctr,var) then c := fctr . c
+                        else klis := fctr . klis;
+                    if cdr klis then return nil;
+		    zz := car klis;
+                    b := {'quotient,b,retimes c};
+                    if zz=var then n := -1
+                     else if eqcar(zz,'expt) and cadr zz=var and fixp caddr zz
+                      % case b/(c*x^n)
+                      then n := - caddr zz
+                     else return nil>>
+               >>
+         else return nil;
+        newvar := gensym();
+        % b*x^n => y, i.e. x => (y/b)^(1/n) and dx => (y/b)^(1/n)/(n*y) dy
+	return subst!-and!-int(integrand,var,newvar,
+                               s,
+			       retimes {b,{'expt,var,n}},
+			       simp {'quotient,s,{'times,n,newvar}},
+			       t)
+                   where s := {'expt,
+                               if b=1 then newvar else {'quotient,newvar,b},
+                               if n=-1 then -1 else {'quotient,1,n}};
+    end;
 
 symbolic procedure look_for_rational(integrand, var, zz);
 % Look for a form x^(n/m) in the field descriptor, and transform
@@ -431,6 +471,12 @@ begin
           then <<if !*trint then printc "Substituted integral FAILED!";
                  return nil>>
          else res := car res;
+        if not null numr cdr res then <<
+           % cdr res is the badpart
+           % check whether it can be integrated by, e.g. pattern matching
+           (if x freeof 'int then res := addsq(car res,x) . (nil ./ 1))
+             where x := simpint1 {cdr res,newvar};
+        >>;
         ss := list(newvar . list('expt,var, list('quotient, 1, m)));
         res := subsq(car res, ss) .
                subsq(quotsq(cdr res, mn2m!-1), ss);
@@ -662,6 +708,53 @@ begin
     return res
 end;
 
+symbolic procedure subst!-and!-int(integrand,var,nvar,sbst,bcksbst,fct,nobad);
+   % substitute in integrand, a sq,
+   % old var is to be replaced by prefix form sbst, a function of newvar
+   % back substitution is prefix from bcksbst, a function of var
+   % fct is the jacobian in s.q. form
+   % nobad is a boolean flag indicating that the substitution is considered
+   %  a failure if there is still unintegrable badpart
+   begin scalar res,x;
+     integrand := subsq(integrand, {var . sbst});
+     integrand := multsq(integrand,fct);
+     if !*trint then <<
+           prin2 "Integrand is transformed by substitution to ";           
+           printsq integrand;                                              
+           prin2 "using substitution "; prin2 var; prin2 " -> ";           
+           printsq simp sbst;
+     >>;
+     res := errorset!*({'integratesq,mkquote integrand,mkquote nvar,nil,nil},
+                       !*backtrace);
+     if null res or errorp res
+       then <<if !*trint then printc "Substituted integral FAILED";
+              return nil>>
+      else res := car res;
+%%% RmS: leave out call to simpint1 for now
+%%%     if not null numr cdr res then <<
+%%%        % cdr res is the badpart
+%%%       % check whether it can be integrated by, e.g. pattern matching
+%%%        x := simpint1 {cdr res,nvar};
+%%%        if x freeof 'int then res := addsq(car res,x) . (nil ./ 1)
+%%%         else if nobad or null numr car res then <<
+     if not null numr cdr res and nobad then <<
+             if !*trint then <<
+                princ "Returning because still a bad part of ";
+                printsq cdr res;
+             >>;
+             return nil;
+     >>;
+     bcksbst := {nvar . bcksbst};
+     res := subsq(car res, bcksbst) . subsq(quotsq(cdr res,fct), bcksbst);
+     if !*trint then <<
+         printc "Transforming back...";
+         printsq car res;
+         prin2 " plus a bad part of ";
+         printsq cdr res
+     >>;
+     return res
+   end;
+
 symbolic procedure simpint1 u;
    % Varstack* rebound, since FORMLNR use can create recursive
    % evaluations.  (E.g., with int(cos(x)/x**2,x)).
@@ -853,7 +946,42 @@ intrules :=
    int(1/log(~x/~a+~b),x) => ei(log(x/a+b))/b when a freeof x and b freeof x, % FJW
    int(~x/log(~x),x) => ei(2*log(x)),
    int(~x^~n/log(x),x) => ei((n+1)*log(x)) when fixp n,
-   int(1/(~x^~n*log(x)),x) => ei((-n+1)*log(x)) when fixp n};
+   int(1/(~x^~n*log(x)),x) => ei((-n+1)*log(x)) when fixp n,
+
+   int(asin(~~a*~x+~~b),~x) => 1/a*((a*x+b)*asin(a*x+b)+sqrt(1-(a*x+b)^2))
+                                 when a freeof x and b freeof x,
+   int(~x^~~n*asin(~~a*~x+~~b),~x) =>
+       x^(n+1)/(n+1)*asin(a*x+b)-a/(n+1)*int(x^(n+1)*sqrt(1-(a*x+b)^2)/(1-(a*x+b)^2),x)
+                                 when fixp n and n>0 and a freeof x and b freeof x,
+   int(asin(~~a*~x+~~b)/~x^~n,x) =>
+       x^(1-n)/(1-n)*asin(a*x+b)-a/(1-n)*int(x^(1-n)*sqrt(1-(a*x+b)^2)/(1-(a*x+b)^2),x)
+                                 when fixp n and n>1 and a freeof x and b freeof x,
+   int(acos(~~a*~x+~~b),~x) => 1/a*((a*x+b)*acos(a*x+b)-sqrt(1-(a*x+b)^2))
+                                 when a freeof x and b freeof x,
+   int(~x^~~n*acos(~~a*~x+~~b),~x) =>
+       x^(n+1)/(n+1)*acos(a*x+b)+a/(n+1)*int(x^(n+1)*sqrt(1-(a*x+b)^2)/(1-(a*x+b)^2),x)
+                                 when fixp n and n>0 and a freeof x and b freeof x,
+   int(acos(~~a*~x+~~b)/~x^~n,x) =>
+       x^(1-n)/(1-n)*acos(a*x+b)+a/(1-n)*int(x^(1-n)*sqrt(1-(a*x+b)^2)/(1-(a*x+b)^2),x)
+                                 when fixp n and n>1 and a freeof x and b freeof x,
+   int(asinh(~~a*~x+~~b),~x) => 1/a*((a*x+b)*asinh(a*x+b)-sqrt(1+(a*x+b)^2))
+                                 when a freeof x and b freeof x,
+   int(~x^~~n*asinh(~~a*~x+~~b),~x) =>
+       x^(n+1)/(n+1)*asinh(a*x+b)-a/(n+1)*int(x^(n+1)*sqrt(1+(a*x+b)^2)/(1+(a*x+b)^2),x)
+                                 when fixp n and n>0 and a freeof x and b freeof x,
+   int(asinh(~~a*~x+~~b)/~x^~n,x) =>
+       x^(1-n)/(1-n)*asinh(a*x+b)-a/(1-n)*int(x^(1-n)*sqrt(1+(a*x+b)^2)/(1+(a*x+b)^2),x)
+                                 when fixp n and n>1 and a freeof x and b freeof x,
+   int(acosh(~~a*~x+~~b),~x) => 1/a*((a*x+b)*acosh(a*x+b)-sqrt((a*x+b)^2-1))
+                                 when a freeof x and b freeof x,
+   int(~x^~~n*acosh(~~a*~x+~~b),~x) =>
+       x^(n+1)/(n+1)*acosh(a*x+b)+a/(n+1)*int(x^(n+1)*sqrt((a*x+b)^2-1)/(1-(a*x+b)^2),x)
+                                 when fixp n and n>0 and a freeof x and b freeof x,
+   int(acosh(~~a*~x+~~b)/~x^~n,x) =>
+       x^(1-n)/(1-n)*acosh(a*x+b)-a/(1-n)*int(x^(1-n)*sqrt((a*x+b)^2-1)/(1-(a*x+b)^2),x)
+                                 when fixp n and n>1 and a freeof x and b freeof x
+
+};
 
 % We can't set intrules if modular (and possibly another mode) is on.
 

@@ -1229,36 +1229,52 @@ class RestartFn extends BuiltinFunction
     }
 }
 
-// (preserve [restartfn [initmsg]])
+// (preserve [restartfn [initmsg [continuep]]])
 //                 dumps all state to a file specifed
 //                 as "-o xxx.img" on the initial command-line.
+//                 if continuep is non-nil reload the dumped image.
 
 class PreserveFn extends BuiltinFunction
 {
     public LispObject op0() throws Exception
     { 
-        return op2(Environment.nil, Environment.nil); 
+    	return op3(Jlisp.nil, Jlisp.nil, Jlisp.nil); 
     }
 
     public LispObject op1(LispObject arg1) throws Exception
     {
-        return op2(arg1, Environment.nil);
+    	return op3(arg1, Jlisp.nil, Jlisp.nil);
     }
 
-    public LispObject op2(LispObject arg1, LispObject arg2) throws Exception
-    {
+	public LispObject op2(LispObject arg1, LispObject arg2)
+			throws Exception {
+		return op3(arg1, arg2, Jlisp.nil);
+	}
+
+	public LispObject opn(LispObject[] args) throws Exception {
+		if (args.length != 3)
+			return error("preserve called with " + args.length
+					+ "args when 1 to 3 expected");
+		return op3(args[0], args[1], args[2]);
+	}
+
+	LispObject op3(LispObject arg1, LispObject arg2, LispObject arg3)
+			throws Exception {
 // Following the tradition from CSL when the user calls PRESERVE the
 // system stops. This makes more sense than one might have thought since
 // in the process of unwinding (via the ProgEvent you see here) all fluid
 // variables are put back to their top level values. If I checkpointed
 // the system more directly various local bindings might be captured, and
-// I think that would be undesirable.
+// I think that would be undesirable. Aha but of arg3 is non-nil the
+// system should restart using the new image it has just made...
         if (Jlisp.outputImagePos < 0)
             return Jlisp.error("No output image available");
         Jlisp.backtrace = false;
-        throw new ProgEvent(ProgEvent.PRESERVE,
-            new Cons(arg1, arg2),
-            "preserve");
+		throw new ProgEvent(
+				(arg3 == Jlisp.nil ? ProgEvent.PRESERVE :
+									 ProgEvent.PRESERVERESTART),
+				new Cons(arg1, arg2),
+				"preserve");
     }
 }
 

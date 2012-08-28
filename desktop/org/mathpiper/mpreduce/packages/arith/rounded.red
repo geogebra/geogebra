@@ -85,7 +85,7 @@ symbolic procedure logfp x;
     where p=(preci!: x - 1) where m=mt!: x;
 
 symbolic procedure roundconstants;
-   <<!!plumax := float(2**(!!maxbflexp -1));
+   <<!!plumax := 2.0**(!!maxbflexp -1);
      !!minflbf := invbf(!!maxflbf := make!:ibf (1,!!maxbflexp));
     % plumin must be large enough to avoid underflow from difference.
      !!plumin := 10.0**!!flprec/!!plumax;
@@ -199,7 +199,7 @@ symbolic procedure precision1(n,bool);
       rd!-tolerance!* := make!:ibf(1, 6-!:bprec!:);
       cr!-tolerance!* := make!:ibf(1, 2*(6-!:bprec!:));
 %     if !!rdprec <= !!flprec then
-%        <<!!fleps1 := 1.0/float(2**(!:bprec!: - 2));
+%        <<!!fleps1 := 1.0/float(2.0**(!:bprec!: - 2));
 %          !!fleps2 := !!fleps1**2>>;
       !*!*roundbf := !!rdprec > !!flprec or !*roundbf;
       return oldprec end;
@@ -262,7 +262,7 @@ minprec!# := min(6,!!flprec-2);
 
 precision1(!!flprec,nil);        % Initial value = effective float prec.
 
-%!!fleps1 := 1.0/float(2**(!:bprec!: - 6));
+%!!fleps1 := 1.0/float(2.0**(!:bprec!: - 6));
 !!fleps1 := 2.0**(6 - !:bprec!:);
 !!fleps2 := !!fleps1**2;
 

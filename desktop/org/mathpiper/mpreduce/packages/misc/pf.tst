@@ -28,5 +28,9 @@ pf(((2*w**2+2*h**2*l**2*t**2+2*h**2*l**2*qst**2)*z**2-8*h**2*l**2*qst
    -2*h**2/((w**2+h**4*l**2)*((t**2+qst**2+h**2)*z**2-4*qst*t*z+t**2
       +qst**2+h**2)),z);
 
+% example requiring simplification of 2nd parameter
+
+pf(x/(x^2-1),mainvar(x/(x^2-1)));
+
 end;
 

@@ -156,8 +156,8 @@ symbolic procedure upd!-fasl1(u,v,w);
 symbolic procedure module2!-to!-file(u,v);
    % Converts the module u in package directory v to a fully rooted file
    % name.
-   if memq('test, lispsystem!*) then
-     concat2("$reduce/test-packages/",concat2(mkfil v,
+   if memq('vsl, lispsystem!*) then
+     concat2("../packages/",concat2(mkfil v,
             concat2("/",concat2(mkfil u,".red"))))
    else
      concat2("$reduce/packages/",concat2(mkfil v,

@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: rlami.red 1402 2011-09-15 10:07:12Z thomas-sturm $
+% $Id: rlami.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(rl_ami_rcsid!* rl_ami_copyright!*);
    rl_ami_rcsid!* :=
-      "$Id: rlami.red 1402 2011-09-15 10:07:12Z thomas-sturm $";
+      "$Id: rlami.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    rl_ami_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -650,10 +650,10 @@ procedure rl_s2a!-simpl(f);
       rl_mk!*fof f;
 
 procedure rl_s2a!-qe(res);
-   if rl_exceptionp res and cdr red eq 'inctheo then
+   if rl_exceptionp res and cdr res eq 'inctheo then
       rederr "inconsistent theory"
    else
-      rl_mk!*fof f;
+      rl_mk!*fof res;
 
 procedure rl_s2a!-gqe(res);
    if rl_exceptionp res and cdr res eq 'inctheo then

@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfqe.red 1404 2011-09-16 18:05:31Z schoepf $
+% $Id: ofsfqe.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_qe_rcsid!* ofsf_qe_copyright!*);
    ofsf_qe_rcsid!* :=
-      "$Id: ofsfqe.red 1404 2011-09-16 18:05:31Z schoepf $";
+      "$Id: ofsfqe.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    ofsf_qe_copyright!* := "(c) 1995-2009 A. Dolzmann T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -122,10 +122,12 @@ procedure ofsf_varsel!-try(f,vl,theo);
       candvl := for each a in vl join
 	 if ofsf_pseudp(terml,a,2) then {a};
       if candvl then return candvl;
-      if !*rlverbose then ioto_prin2 "(SVF";
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 "(SVF";
       ifacl := for each x in atl join
 	 for each p in cdr fctrf ofsf_arg2l x collect car p;
-      if !*rlverbose then ioto_prin2 ")";
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 ")";
       candvl := for each a in vl join
 	 if ofsf_pseudp(ifacl,a,1) then {a};
       if candvl then return candvl;
@@ -170,10 +172,12 @@ procedure ofsf_varsel!-classic(f,vl,theo);
 	 if ofsf_pseudp(terml,a,2) then v := a
       >>;
       if v then return v;
-      if !*rlverbose then ioto_prin2 "(SVF";
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 "(SVF";
       ifacl := for each x in atl join
 	 for each p in cdr fctrf ofsf_arg2l x collect car p;
-      if !*rlverbose then ioto_prin2 ")";
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 ")";
       scvl := vl;
       while scvl and not v do <<
 	 a := car scvl;
@@ -442,7 +446,10 @@ procedure ofsf_qesubqat(atf,v,u);
    % [u] is nonzero.
    begin scalar w,op,dd;
       if not (v memq ofsf_varlat atf) then return atf;
-      w := subf(ofsf_arg2l atf,{v . prepsq u});
+      w := if !*rlqesubf then
+	 subf(ofsf_arg2l atf,{v . prepsq u})
+      else
+ 	 ofsf_subf(ofsf_arg2l atf,v,u);
       op := ofsf_op atf;
       if !*rlqelocal then
 	 return ofsf_qesubqat!-local(op,w);
@@ -455,6 +462,19 @@ procedure ofsf_qesubqat(atf,v,u);
 	 return ofsf_0mk2(op,numr w);
       return ofsf_0mk2(op,multf(numr w,dd))
    end;
+
+procedure ofsf_subf(f,v,u);
+   begin scalar nred;
+      if domainp f then
+      	 return !*f2q f;
+      nred := ofsf_subf(red f,v,u);
+      if mvar f eq v then
+      	 return addsq(multsq(!*f2q lc f,exptsq(u,ldeg f)),nred);
+      return addsq(multsq(ofsf_subf(lc f,v,u),ofsf_pow2q(mvar f,ldeg f)),nred);
+   end;
+
+procedure ofsf_pow2q(v,d);
+   !*f2q(v .** d .* 1 .+ nil);
 
 procedure ofsf_qesubqat!-local(op,w);
    <<
@@ -734,7 +754,8 @@ procedure ofsf_subsimpl(bvl,f,th);
 	 if ofsf_op atf='equal and ofsf_valassp(bvl,ofsf_arg2l atf) then
 	    {ofsf_0mk2('neq,ofsf_arg2l atf)};
       if nth then <<
-	 if !*rlverbose then ioto_prin2 "!";
+	 if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	    ioto_prin2 "!";
       	 return nth . cl_simpl(f,append(nth,th),-1)
       >>;
       return nil . f
@@ -1001,7 +1022,8 @@ procedure ofsf_mktriplel(u,v);
 	 return nil . {ofsf_reotrip ofsf_mktriple u}
       >>;
       % Try to factorize.
-      if !*rlverbose then ioto_prin2{"."};
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2{"."};
       fl := cdr fctrf u;
       while fl do <<
 	 a := car fl;
@@ -1047,13 +1069,12 @@ procedure ofsf_mksol1(m,b);
    quotsq(!*f2q negf b,!*f2q m);
 
 procedure ofsf_mksol2(a,b,c);
-   % Orderd field standard form make solution quadratic case. [a],
-   % [b], and [c] are SF's. Returns either ['failed] or a pair $(k .
-   % f)$. $k$ is one of ['onequot], ['tworoot]. If $k$ is ['onequot]
-   % then $[b]^2-4[a][c]=0$ and $f$ is the SQ $-[b]/2[a]$. If $k$ is
-   % ['tworoot] then $f$ is a pair $(\delta . l)$ where $\delta$ is
-   % the discriminante of $a x^2+b x+c$ and $l$ is a list of the two
-   % root expressions coding $(-[b]\pm\sqrt{[b]^2-4[a][c]})/2[a]$.
+   % Orderd field standard form make solution quadratic case. [a], [b], and [c]
+   % are SF's. Returns either ['failed] or a pair $(k . f)$. $k$ is one of
+   % ['onequot], ['tworoot]. If $k$ is ['onequot] then $[b]^2-4[a][c]=0$ and $f$
+   % is the SQ $-[b]/2[a]$. If $k$ is ['tworoot] then $f$ is a pair $(\delta .
+   % l)$ where $\delta$ is the discriminant of $a x^2+b x+c$ and $l$ is a list
+   % of the two root expressions coding $(-[b]\pm\sqrt{[b]^2-4[a][c]})/2[a]$.
    begin scalar disc,w,c,ww;
       disc := addf(exptf(b,2),negf multf(4,multf(a,c)));
       if domainp disc and minusf disc then
@@ -1127,12 +1148,14 @@ procedure ofsf_elimset(v,alp);
       % Treat some special cases.
       w := ofsf_elimsetscq(atfal);
       if w then <<
-	 if !*rlverbose then ioto_prin2 "#q";
+	 if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	    ioto_prin2 "#q";
 	 return w
       >>;
       w := ofsf_elimsetscl(atfal);
       if w then <<
-	 if !*rlverbose then ioto_prin2 "#l";
+	 if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	    ioto_prin2 "#l";
 	 return w
       >>;
       w := ofsf_elimsetlin1s(atfal);
@@ -1311,7 +1334,8 @@ procedure ofsf_elimsetlin1s(atfal);
 procedure ofsf_filterbounds(l);
    for each x in l join <<
       if ofsf_surep(rl_mk1('not,car x),nil) then
-	 (if !*rlverbose then ioto_prin2 "(FB)")
+	 (if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	    ioto_prin2 "(FB)")
       else
 	 {x}
    >>;
@@ -1393,7 +1417,8 @@ procedure ofsf_elimsetneq(atfal,ple);
       if neqn < wbn then
 	 return {esubcq .
  	    nconc(neq1,neq21q),esubcr1 . neq21r,esubcr2 . neq22r};
-      if !*rlverbose then ioto_prin2 {"(ANEQ:",neqn,"|",wbn,")"};
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 {"(ANEQ:",neqn,"|",wbn,")"};
       return {esubcq . lto_nconcn{wb1,wo1,wo21q},esubcr1 . wo21r,
 	 esubcr2 . wo22r}
    end;
@@ -1812,7 +1837,7 @@ procedure ofsf_sqsc(f,vl,theo,ans,bvl);
       >>;
       if not at then
  	 return 'failed;
-      if !*rlverbose then
+      if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
 	 ioto_prin2 "#Q";
       vl := delq(a,vl);
       f := cl_simpl(ofsf_sqsc1(f,at,a,theo),theo,-1);

@@ -293,6 +293,35 @@ symbolic procedure diffp(u,v);
                  % Generally must re-evaluate the integral (carefully!)
                  w := 'df . reval{'int, mk!*sq w, caddr cadr u} . cddr u;
                  go to j >>;  % derivative absorbed
+           %
+           % Try chain rule for nested derivatives:
+           % (df (df v x y z ...) a) where v depends on a
+           %
+           if !*expanddf and depends(cadr u,v)
+              and (not (x := atsoc(cadr u,powlis!*)) or not depends(cadddr x,v))
+             then <<
+                if not smember(v, cadr u)
+                 then <<
+                  % first check for declared dependency of kernel cadr u on v
+                  x := assoc(cadr u, depl!*);
+                  % then if cadr u is not a simple symbol,
+                  %  check whether anything in cdr cadr u has an explicit
+                  %  dependency on v by collecting all kernels in cdr cadr u
+                  y := (not atom cadr u and cdr cadr u and get!-all!-kernels cdr cadr u);
+                  % but take care to exclude the kernel v when checking dependencies
+		  if x and y and ldepends(delete(v,y),v) then <<
+               	  % possible inconsistent dependencies, do not apply chain rule
+%                   msgpri("Possible inconsistent dependencies in",u,
+%                         nil,nil,nil);
+                    nil >>
+                   else if x and not(v memq (x:=cdr x))
+                    % declared indirect dependency, 
+                    then << w := df!-chain!-rule(u, v, x); go to e>>
+                   else if y and not smember(v,y)
+                    % possible indirect dependency of kernel arglist on v
+                    then << w := df!-chain!-rule(u, v, y); go to e>>
+                  >>
+              >>;
            if (x := find_sub_df(w:= cadr u . merge!-ind!-vars(u,v),
                                            get('df,'kvalue)))
                           then <<w := simp car x;
@@ -375,22 +404,35 @@ symbolic procedure dfform_int(u, v, n);
    % It does not necessarily need to use this hook, but it needs to be
    % called as an alternative to diffp so that the linearity of
    % differentiation has already been applied.
-   begin scalar result, x, y;
+   begin scalar result, x, y, dx!/dv;
       y := simp!* cadr u;  % SQ form integrand
       x := caddr u;  % kernel
       result :=
       if v eq x then y
+         % Special case -- just differentiate the integral:
          % df(int(y,x), x) -> y  replacing the let rule in INT.RED
       else if not !*intflag!* and       % not in the integrator
          % If used in the integrator it can cause infinite loops,
          % e.g. in df(int(int(f,x),y),x) and df(int(int(f,x),y),y)
          !*allowdfint and               % must be on for dfint to work
-            << y := diffsq(y, v);  !*dfint or not_df_p y >>
-               % it has simplified
-      then simp{'int, mk!*sq y, x}  % MUST re-simplify it!!!
-         % i.e. differentiate under the integral sign
-         % df(int(y, x), v) -> int(df(y, v), x).
-         % (Perhaps I should use prepsq - kernels are normally true prefix?)
+         <<
+            % Compute PARTIAL df(y, v), where y must depend on x, so
+            % if x depends on v, temporarily replace x:
+            result := if numr(dx!/dv:=diffp(x.**1,v)) then
+               %% (Subst OK because all kernels.)
+               subst(x, xx, diffsq(subst(xx, x, y), v)) where
+                  xx = gensym()
+            else diffsq(y, v);
+            !*dfint or not_df_p result
+         >>
+      then
+         % Differentiate under the integral sign:
+         % df(int(y,x), v) -> df(x,v)*y + int(df(y,v), x)
+         addsq(
+            multsq(dx!/dv, y),
+            simp{'int, mk!*sq result, x})  % MUST re-simplify it!!!
+            % (Perhaps I should use prepsq -
+            % kernels are normally true prefix?)
       else !*kk2q{'df, u, v};  % remain unchanged
       if not(n=1) then
          result := multsq( (((u .** (n-1)) .* n) .+ nil) ./ 1, result);
@@ -451,9 +493,6 @@ symbolic procedure merge!-ind!-vars(u,v);
    % i.e. if a in (v b c d ...)
    if !*nocommutedf or
       (not !*commutedf and (cadr u memq (v . cddr u)))
-% I believe the previous line is incorrect, but the follwoing change
-%  messes up a lot of existing code - RmS 2011-09-10
-%      (not !*commutedf and dependsl(cadr u,(v . cddr u)))
    then derad!*(v,cddr u) else derad(v,cddr u);
 
 symbolic procedure derad!*(u,v);        % Non-commuting derad

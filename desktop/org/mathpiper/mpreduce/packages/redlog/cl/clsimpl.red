@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: clsimpl.red 1046 2010-12-27 09:27:55Z thomas-sturm $
+% $Id: clsimpl.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(cl_simpl_rcsid!* cl_simpl_copyright!*);
    cl_simpl_rcsid!* :=
-      "$Id: clsimpl.red 1046 2010-12-27 09:27:55Z thomas-sturm $";
+      "$Id: clsimpl.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    cl_simpl_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -341,10 +341,10 @@ procedure cl_smsimpl!-junct1(op,atl,col,knowl,newknowl,n,break);
    end;
 
 procedure cl_smsimpl!-junct2(op,sicol,knowl,newknowl,n,break);
-   % Common logic smart simplify. [op] is one of [and], [or]; [col] is
-   % a list of complex formulas; [knowl] and [newknowl] are IRL's; [n]
-   % is an integer; [break] is one of [true], [false] corresponding to
-   % [op]. Returns a list of formulas.
+   % Common logic smart simplify. [op] is one of [and], [or]; [sicol] is a list
+   % of complex formulas; [knowl] and [newknowl] are IRL's; [n] is an integer;
+   % [break] is one of [true], [false] corresponding to [op]. Returns a list of
+   % formulas.
    begin scalar atl,w;
       atl := rl_smmkatl(op,knowl,newknowl,n);
       if !*rlsichk then <<
@@ -353,11 +353,54 @@ procedure cl_smsimpl!-junct2(op,sicol,knowl,newknowl,n,break);
 	 for each x in w do sicol := lto_insert(x,sicol)
       >> else
 	 sicol := reversip sicol;
-      if !*rlsiso then atl := sort(atl,'rl_ordatp);
+      if !*rlsiso then <<
+	 atl := sort(atl,'rl_ordatp);
+	 if !*rlsisocx then
+	    sicol := sort(sicol,'cl_sordp)
+      >>;
       w := nconc(atl,sicol);
       if w then return w;
       return {cl_flip break}
    end;
+
+procedure cl_sordp(f1,f2);
+   % This is a strict ordering.
+   begin scalar op1,op2;
+      op1 := rl_op f1;
+      op2 := rl_op f2;
+      if not rl_cxp op1 and not rl_cxp op2 then
+	 return rl_ordatp(f1,f2);
+      if not rl_cxp op1 and rl_cxp op2 then
+      	 return t;
+      if rl_cxp op1 and not rl_cxp op2 then
+      	 return nil;
+      % Both [op1] and [op2] are non-atomic now.
+      if op1 neq op2 then
+	 return cl_ordopp(op1,op2);
+      if rl_tvalp op1 then
+	 return t;
+      if rl_quap op1 then
+	 if rl_var f1 neq rl_var f2 then
+	    return not(ordp(rl_var f1,rl_var f2) and rl_var f1 neq rl_var f2)
+	 else
+	    return cl_sordp(rl_mat f1,rl_mat f2);
+      return cl_sordpl(rl_argn f1,rl_argn f2)
+   end;
+
+procedure cl_sordpl(fl1,fl2);
+   if not fl2 then
+      nil
+   else if not fl1 then
+      t
+   else if car fl1 neq car fl2 then
+      cl_sordp(car fl1,car fl2)
+   else
+      cl_sordpl(cdr fl1,cdr fl2);
+
+procedure cl_ordopp(op1,op2);
+   % Operator less predicate. [op1] and [op2] are first-order operators. Returns
+   % [t] iff $[op1] < [op2]$.
+   op2 memq cdr (op1 memq '(and or not impl repl equiv ex all true false));
 
 procedure cl_smsimpl!-imprep(prem,concl,knowl,n);
    % Common logic smart simplify implication/replication. [prem] and
@@ -491,13 +534,18 @@ procedure cl_simplat(atf,sop);
    else
       cl_apply2ats(rl_simplat1(atf,sop),'cl_identifyat);
 
+procedure cl_identifyathfn(atf);
+   {rl_op atf,cl_varl1 atf};
+
 procedure cl_identifyat(atf);
    % Common logic identify atomic formula. [atf] is an atomic formula.
    % Returns an atomic formula equal to [atf].
    begin scalar w;
       if rl_tvalp atf then return atf;
-      if (w := atf member cl_identify!-atl!*) then return car w;
-      cl_identify!-atl!* := atf . cl_identify!-atl!*;
+      if (w := lto_hmember(atf,cl_identify!-atl!*,'cl_identifyathfn)) then
+ 	 return car w;
+      cl_identify!-atl!* :=
+	 lto_hinsert(atf,cl_identify!-atl!*,'cl_identifyathfn);
       return atf
    end;
 

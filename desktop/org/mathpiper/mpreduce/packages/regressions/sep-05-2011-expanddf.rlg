@@ -65,12 +65,6 @@ df(f(r,r^2),x);
 df(f(r,r ),r)*df(r,x)
 
 
-df(f(r,cos y),x);
-
-
-df(f(r,cos(y)),r)*df(r,x)
-
-
 df(f(r,cos(x)),x);
 
 
@@ -197,6 +191,96 @@ operator y;
 
 depend ux,x;
 
+
+
+comment
+ Since ux depends on x, derivatives w.r.t. x can be expressed via
+ the chain through derivatives w.r.t. uxi, if the switch expanddf
+ is set to on ;
+
+
+df(y(x),x);
+
+
+df(y(x),x)
+
+
+df(y(ux),x);
+
+
+df(y(ux),x)
+
+
+df(y(x),x,ux);
+
+
+0
+
+
+df(y(x),ux,x);
+
+
+0
+
+
+df(y(ux),x,ux);
+
+
+df(y(ux),ux,x)
+
+
+df(y(ux),ux,x);
+
+
+df(y(ux),ux,x)
+
+
+on expanddf;
+
+
+
+df(y(x),x);
+
+
+df(y(x),x)
+
+
+df(y(ux),x);
+
+
+df(y(ux),ux)*df(ux,x)
+
+
+df(y(x),x,ux);
+
+
+0
+
+
+df(y(x),ux,x);
+
+
+0
+
+
+df(y(ux),x,ux);
+
+
+df(y(ux),ux,2)*df(ux,x) + df(y(ux),ux)*df(ux,x,ux)
+
+
+df(y(ux),ux,x);
+
+
+df(y(ux),ux,2)*df(ux,x)
+
+
+off expanddf;
+
+
+
+comment 
+ Now do the same, but with an explicit value for the derivative of ux w.r.t. x;
 
 
 let df(ux,x) = 1/e**x;
@@ -464,6 +548,50 @@ df(h(u1),v1);
 *** Possible inconsistent dependencies in h(u1) 
 
 df(h(u1),v1)
+
+
+df(f(g(u),h(u)),u);
+
+
+df(f(g(u),h(u)),u)
+
+
+on allowdfint;
+
+
+
+depend xx,vv;
+
+
+
+df(int(exp(vv*xx^3)/xx,xx),vv);
+
+
+       3
+  vv*xx
+ e      *(3*df(xx,vv)*vv + xx)
+-------------------------------
+            3*vv*xx
+
+
+% test differentiation of parameter integral;
+
+df(int(f(vv,xx),xx),vv);
+
+
+df(int(f(vv,xx),xx),vv)
+
+
+on allowdfint,dfint;
+
+
+
+% this used to return int(df(f(vv,xx),vv),xx)
+% which is wrong since xx, the upper limit of the integration depends on vv
+df(int(f(vv,xx),xx),vv);
+
+
+df(xx,vv)*f(vv,xx) + int(df(f(vv,xx),vv),xx)
 
 
 end;

@@ -1477,7 +1477,9 @@ load!-module 'remake;
 << initreduce();
    date!* := "Bootstrap version";
    !@reduce := symbol!-value gensym();
-   checkpoint('begin, "REDUCE") >>;
+   preserve('begin, "REDUCE", t) >>;
+   
+symbolic;
 
 !#if (and (not (memq 'embedded lispsystem!*)) (not !*savedef))
 load!-module 'user;
@@ -1610,12 +1612,11 @@ symbolic restart!-csl nil;
 (fluid '(!*native_code))
 (setq !*native_code nil)   % Try T if you are VERY keen...
 
-%(checkpoint 'begin (bldmsg "%w, %w ..." version!* date!*))
-(checkpoint 'begin (bldmsg ""))
+(preserve 'begin (bldmsg "") t)
+% Note that (preserve) here arranges to reload the image that it
+% creates, and it then runs (begin) the start-up function. This will
+% leave us running Reduce in algebraic mode...
 
-(setq no_init_file t)
-
-(begin)
 
 %
 % See the fairly length comments given a bit earlier about the
@@ -1631,6 +1632,7 @@ get_configuration_data();
 build_reduce_modules reduce_extra_modules;
 
 symbolic;
+no_init_file := t;
 
 "**** **** REDUCE FULLY REBUILD **** ****";
 

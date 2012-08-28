@@ -44,6 +44,7 @@ symbolic procedure pf(u,var);
    begin scalar !*exp,!*gcd,kord!*,!*limitedfactors,polypart,rfactor,
                 u1,u2,u3,u4,var,x,xx,y;
       !*exp := !*gcd := t;
+      var := !*a2kwoweight var;
       xx := updkorder var;         % Make var the main variable.
       x := subs2 resimp simp!* u;  % To allow for OFF EXP forms.
       u1 := denr x;

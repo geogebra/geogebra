@@ -96,14 +96,14 @@ symbolic procedure reduce(u,v);
          if null(x := red!-ratios1(u,v)) then return u;
          x := mv!-domainlist!-!-(mv!-domainlist!-!*(car x,u),
                                       mv!-domainlist!-!*(cdr x,v));
-         return if zeros u >= zeros x then u
+         return if reddom_zeros u >= reddom_zeros x then u
                  else reduce!-ratios(x,v)
       end;
 
-      symbolic procedure zeros u;
+      symbolic procedure reddom_zeros u;
          if null u then 0
-          else if car u = 0 then 1+zeros cdr u
-          else zeros cdr u;
+          else if car u = 0 then 1+reddom_zeros cdr u
+          else reddom_zeros cdr u;
 
       symbolic procedure red!-ratios1(u,v);
          u and (red!-ratios2(cdr u,cdr v,car u,car v)

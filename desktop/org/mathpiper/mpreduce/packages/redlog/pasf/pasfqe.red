@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasfqe.red 1404 2011-09-16 18:05:31Z schoepf $
+% $Id: pasfqe.red 1713 2012-06-22 07:42:38Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2002-2009 A. Dolzmann, A. Seidl, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(pasf_qe_rcsid!* pasf_qe_copyright!*);
    pasf_qe_rcsid!* :=
-      "$Id: pasfqe.red 1404 2011-09-16 18:05:31Z schoepf $";
+      "$Id: pasfqe.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
    pasf_qe_copyright!* :=
       "(c) 2002-2009 A. Dolzmann, A. Seidl, T. Sturm, 2010 T. Sturm"
 >>;
@@ -217,15 +217,8 @@ procedure pasf_qeblock(theta,varl,psi,theo,answ,p);
    % an equivalent quantifier-free formula or a pair $(\psi . a)$ where
    % $a$ is an answer.
    begin scalar res;integer dpth,vlv;
-      if !*rlverbose then <<
+      if !*rlverbose then
 	 ioto_tprin2 {"---- ",theta . reverse varl};
-	 dpth := length varl;
-      	 if !*rlqedfs then <<  % should not happen by now
-	    vlv :=  dpth / 4;
-	    ioto_prin2t {" [DFS: depth ",dpth,", watching ",dpth - vlv,"]"}
-      	 >> else
-	    ioto_prin2t {" [BFS: depth ",dpth,"]"}
-      >>;
       if theta eq 'ex then
       	 res := pasf_qeexblock(varl,psi,dpth,vlv,theo,answ,p)
       else <<
@@ -248,52 +241,78 @@ procedure pasf_qeexblock(varl,psi,dpth,vlv,theo,answ,p);
    % required; [p] is the probability for PQE. Returns an equivalent
    % quantifier-free formula or a pair $(\psi . a)$ where $a$ is an
    % answer.
-   begin scalar co,cvl,w,coe,f,newj,v,ans; integer c,delc,oldcol,count;
+   begin
+      scalar co,cvl,w,coe,f,newj,v,ans,ww;
+      integer c,vlv,dpth,delc,oldcol,count,comax,comaxn;
+      if !*rlverbose then <<
+      	 if !*rlqedfs then <<
+	    ioto_prin2 {" [DFS"};
+	    if !*rlqedyn then
+	       ioto_prin2 {" DYN"};
+	    if !*rlqevbold then  <<
+	       dpth := length varl;
+	       vlv :=  dpth / 4;
+	       ioto_prin2t {": depth ",dpth,", watching ",dpth - vlv,"]"}
+	    >> else
+	       ioto_prin2t {"]"}
+      	 >> else
+	    ioto_prin2t {" [BFS: depth ",dpth,"]"}
+      >>;
       cvl := varl;
+      co := co_new();
       if rl_op psi eq 'or then
 	 for each x in rl_argn psi do
-	    co := cl_save(co,{cl_mkCE(cvl,x,answ,nil)})
+	    co := co_save(co,{ce_mk(cvl,x,answ,nil)})
       else
-      	 co := cl_save(co,{cl_mkCE(cvl,psi,answ,nil)});
-      while co do <<
-	 w := cl_get co;
-	 co := cdr w;
-	 coe := car w;
-    	 cvl := cl_covl coe;
-	 f := cl_cof coe;
+      	 co := co_save(co,{ce_mk(cvl,psi,answ,nil)});
+      while co_data co do <<
+	 if !*rlverbose and not !*rlqevbold then
+   	    if !*rlqedfs then <<
+	       ww := car co_stat co;
+	       if comax = 0 or car ww < comax or
+ 		  (car ww = comax and cdr ww < comaxn)
+	       then <<
+		  comax := car ww;
+		  comaxn := cdr ww;
+		  ioto_prin2 {"[",comax,":",comaxn,"] "}
+	       >>
+	    >>;
+	 coe . co := co_get co;
+    	 cvl := ce_vl coe;
 	 count := count + 1;
-	 if !*rlverbose then
-	    if !*rlqedfs then <<
-	       if vlv = length cvl then
-	       	  ioto_tprin2t {"-- crossing: ",dpth - vlv};
-	       ioto_prin2 {"[",dpth - length cvl}
-	    >> else <<
+         if !*rlverbose then
+   	    if !*rlqedfs then
+ 	       (if !*rlqevbold then <<
+ 	       	  if vlv = length cvl then
+	       	     ioto_tprin2t {"-- crossing: ",dpth - vlv};
+	       	  ioto_prin2 {"[",dpth - length cvl}
+	       >>)
+	    else <<
 	       if c=0 then <<
 	       	  ioto_tprin2t {"-- left: ",length cvl};
-		  c := cl_colength co + 1
+		  c := co_length(co) + 1
 	       >>;
 	       ioto_nterpri(length explode c + 4);
 	       ioto_prin2 {"[",c};
 	       c := c - 1
 	    >>;
 	 % Variable selection
-	 v := car cvl;
-	 cvl := cdr cvl;
+	 v := pop cvl;
 	 % Eliminating the selected variable
-	 ans := pasf_qeex(f,v,theo,cl_coA coe,cvl,p);
+	 ans := pasf_qeex(ce_f coe,v,theo,ce_ans coe,cvl,p);
 	 if cvl then <<
-	    if !*rlverbose then oldcol := cl_colength(co);
-	    co := cl_save(co,ans);
+	    if !*rlverbose then oldcol := co_length(co);
+	    co := co_save(co,ans);
 	    if !*rlverbose then
-	       delc := delc + oldcol + length ans - cl_colength(co)
+	       delc := delc + oldcol + length ans - co_length co
 	 >> else <<
 	    if answ then
 	       for each an in ans do
-		  newj := lto_insert(cl_coA an,newj)
+		  newj := lto_insert(ce_ans an,newj)
 	    else
-	       for each an in ans do newj := lto_insert(cl_cof an,newj)
+	       for each an in ans do newj := lto_insert(ce_f an,newj)
 	 >>;
-	 if !*rlverbose then <<
+	 if !*rlverbose and (not !*rlqedfs or !*rlqevbold) then <<
 	    ioto_prin2 "] ";
 	    if !*rlqedfs and null cvl then ioto_prin2 ". "
       	 >>
@@ -315,25 +334,29 @@ procedure pasf_qeex(psi,x,theo,answ,cvlm,p);
       psi := pasf_pnf psi;
       if not (x memq cl_fvarl1 psi) then <<
       	 % The formula does not contain the quantified variable
-	 if !*rlverbose then ioto_prin2 "*";
-	 return {cl_mkCE(cvlm,psi,answ_new(psi,nil,
+	 if !*rlverbose  and (not !*rlqedfs or !*rlqevbold) then
+ 	    ioto_prin2 "*";
+	 return {ce_mk(cvlm,psi,answ_new(psi,nil,
 	    if answ then
 	       pasf_mk2('equal,numr simp x,simp 0) . answ_tl answ else nil),nil)}
       >>;
-      if !*rlverbose then ioto_prin2 "e";
+      if !*rlverbose and (not !*rlqedfs or !*rlqevbold) then
+ 	 ioto_prin2 "e";
       % Computing a gauss decomposition of the input formula
       dec := if !*rlpasfgauss then
 	 pasf_gaussdec(psi,x,theo)
       else
 	 (nil . psi);
-      if !*rlverbose and car dec then ioto_prin2 "g";
+      if !*rlverbose and (not !*rlqedfs or !*rlqevbold) and car dec then
+ 	 ioto_prin2 "g";
       % f is the formula resulting from psi by replacing all gauss subformulas
       % by false
       f := cl_simpl(cdr dec,theo,-1);
       if not (x memq cl_fvarl1 f) then <<
  	 % The non-gauss part of the formula does not contain the quantified
  	 % variable or is even possibly trivial
-	 if !*rlverbose then ioto_prin2 "#"
+	 if !*rlverbose and (not !*rlqedfs or !*rlqevbold) then
+ 	    ioto_prin2 "#"
       >> else
       	 % Computing the elimination set of the input without gauss-formulas
       	 eset := pasf_elimset(f,x,theo,p);
@@ -358,7 +381,7 @@ procedure pasf_qeex(psi,x,theo,answ,cvlm,p);
 	       pcc := pcc + cdr tmp;
 	       car tmp
 	    >> else psi,x,elimpt));
-      if !*rlverbose and pcc > 0 then <<
+      if !*rlverbose and (not !*rlqedfs or !*rlqevbold) and pcc > 0 then <<
 	 ioto_prin2 "c";
 	 ioto_prin2 pcc
       >>;
@@ -368,7 +391,7 @@ procedure pasf_qeex(psi,x,theo,answ,cvlm,p);
 	    cl_simpl(answ_f rs,theo,-1) else answ_f rs,answ_bl rs,answ_tl rs);
       % Answers represent directly the output disjunction
       return for each an in res collect
-	 cl_mkCE(cvlm,answ_f an,answ_backsubst(an,answ),nil)
+	 ce_mk(cvlm,answ_f an,answ_backsubst(an,answ),nil)
    end;
 
 % ---- Virtual substitution --------------------------------------------------
@@ -622,12 +645,15 @@ procedure pasf_elimset(f,x,theo,p);
    % probability for PQE. Returns an ELIMPT list.
    begin scalar reprl,reprls,m,tempm,pdp,rl,res,vl,tz,toc;
       % Probabilistic mode is on
-      if !*rlverbose and p neq simp 1 then ioto_prin2 "p";
+      if !*rlverbose and (not !*rlqedfs or !*rlqevbold) and p neq simp 1 then
+ 	 ioto_prin2 "p";
       reprls := pasf_rep(f,x);
       % Create all new variables. This prevents running out of variables:
       vl := for i := 1 : length fdec_bvl car reprls + 1 collect
 	 pasf_newvar(nil);
-      if !*rlverbose and length cdr reprls > 1 then <<
+      if !*rlverbose and (not !*rlqedfs or !*rlqevbold)
+ 	 and length cdr reprls > 1
+      then <<
 	 ioto_prin2 "s";
 	 ioto_prin2 length cdr reprls
       >>;
@@ -671,7 +697,9 @@ procedure pasf_elimset(f,x,theo,p);
       >>;
       tz := length res;
       res := if !*rlpasfconf then pasf_conflate res else res;
-      if !*rlverbose and !*rlpasfconf and tz-length res > 0 then <<
+      if !*rlverbose and (not !*rlqedfs or !*rlqevbold) and
+ 	 !*rlpasfconf and tz-length res > 0
+      then <<
 	 ioto_prin2 "t";
 	 ioto_prin2 (tz-length res)
       >>;
@@ -885,8 +913,8 @@ procedure pasf_bapprox(b,term,v,l,n_j);
 	 if pasf_leqp(tm,tmin) then tmin := tm;
 	 if pasf_leqp(tmax,tm) then tmax := tm
       >>;
-      if n_j < 0 then n_j := -n_j;
-      if l < 0 then l := -l;
+      if minusf n_j then n_j := negf n_j;
+      if minusf l then l := negf l;
       res := pasf_mkrng(numr simp v,
 	 addf(tmin,negf multf(n_j,l)),
 	 addf(tmax,multf(n_j,l)));

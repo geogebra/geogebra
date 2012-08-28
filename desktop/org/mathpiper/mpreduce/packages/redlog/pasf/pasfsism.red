@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasfsism.red 313 2009-05-19 07:26:52Z thomas-sturm $
+% $Id: pasfsism.red 1740 2012-07-30 14:08:52Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2003-2009 A. Dolzmann, A. Seidl, and T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(pasf_sism_rcsid!* pasf_sism_copyright!*);
    pasf_sism_rcsid!* :=
-      "$Id: pasfsism.red 313 2009-05-19 07:26:52Z thomas-sturm $";
+      "$Id: pasfsism.red 1740 2012-07-30 14:08:52Z thomas-sturm $";
    pasf_sism_copyright!* :=
       "Copyright (c) 2003-2009 A. Dolzmann. A. Seidl and T. Sturm"
 >>;
@@ -197,7 +197,7 @@ procedure pasf_susibineqcong(u,oop,nop,level);
 	    ('add . (pasf_0mk2(pasf_mkop('cong,lcm(m,n)),u) . level))};
       % Old formula is a congruence and new is a incongruence
       if car oop eq 'cong and car nop eq 'ncong then <<
-	 if m = 2*n then
+	 if (nil and m = 2*n) then
 	    return{'(delete . T),('delete . nil),('add .
 	       (pasf_0mk2(pasf_mkop('ncong,m),addf(u,negf n)) . level))}
 	 else <<
@@ -218,7 +218,7 @@ procedure pasf_susibineqcong(u,oop,nop,level);
       >>;	    
       % Old formula is an incongruence and new is a congurence
       if car oop eq 'ncong and car nop eq 'cong then <<
-	 if n = 2*m then
+	 if (nil and n = 2*m) then
 	    return{'(delete . nil),'(delete . T),('add .
 	       (pasf_0mk2(pasf_mkop('ncong,n),addf(u,negf m)) . level))}
 	 else <<

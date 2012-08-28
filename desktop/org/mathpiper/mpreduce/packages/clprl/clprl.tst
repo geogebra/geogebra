@@ -51,7 +51,7 @@ wi := {
 
 wi1 := clp(wi, false :- wilk(x,0) & -20 <= x <= -10);
 wi2 := clp(wi, false :- wilk(x,2^-23) & -20 <= x <= -10);
-realroots(part(wi2,1,1));
+realroots(part(wi2,3,1));
 rlqe rlex wi2;
 
 
