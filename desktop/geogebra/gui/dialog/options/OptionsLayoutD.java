@@ -5,7 +5,6 @@ import geogebra.common.main.settings.Settings;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;
-import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -15,8 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,7 +25,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 /**
@@ -177,7 +173,7 @@ public class OptionsLayoutD extends
 	}
 
 	/**
-	 * Initialize the input bar panel.
+	 * Initialize the sidebar panel.
 	 */
 	private void initSideBarPanel() {
 
@@ -211,8 +207,10 @@ public class OptionsLayoutD extends
 
 		sideBarPanel.add(OptionsUtil.flowPanel(ckShowSideBar,
 				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
-		sideBarPanel.add(OptionsUtil.flowPanel(tab, rbPespectiveSidebar,
-				rbButtonSidebar));
+	
+		// Don't show perspective/viewButton option (saved for 5.0 development)
+		//sideBarPanel.add(OptionsUtil.flowPanel(tab, rbPespectiveSidebar,
+			//	rbButtonSidebar));
 	}
 
 	/**
