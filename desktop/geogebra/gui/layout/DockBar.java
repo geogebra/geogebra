@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.awt.Component;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
@@ -13,6 +14,7 @@ import geogebra.main.DockBarInterface;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.SystemColor;
@@ -21,6 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -48,7 +52,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 	private PerspectivePanel popup;
 	private JPanel buttonPanel, slimSidebarPanel;
 	private ViewButtonBar viewButtonBar;
-	private JLabel lblIcon;
+	private JLabel lblIcon, lblIconRight;
 
 	private boolean isEastOrientation = true;
 	private boolean showButtonBar = false;
@@ -119,6 +123,14 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 		buttonPanel.setOpaque(true);
 
 	}
+	
+	/**
+	 * 
+	 * @return a new perspective panel
+	 */
+	PerspectivePanel newPerspectivePanel(){
+		return new PerspectivePanel(app,this);
+	}
 
 	private JToolBar buildExtraButtonToolBar() {
 
@@ -127,7 +139,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 				app.getImageIcon("options-layout24.png"));
 		btnPerspectives.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				popup = new PerspectivePanel(app);
+				popup = newPerspectivePanel();
 				popup.show(btnPerspectives, -popup.getPreferredSize().width, 0);
 				btnPerspectives.setSelected(false);
 			}
@@ -210,13 +222,34 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 
 			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle-left.png"));
 			lblIcon.setPreferredSize(new Dimension(10, 0));
+			
 			slimSidebarPanel.add(lblIcon, BorderLayout.CENTER);
-
+			
 			slimSidebarPanel.setBackground(null);
+			
+
 
 		}
 
 		return slimSidebarPanel;
+	}
+	
+	
+	/**
+	 * set sidebar triangle orientation
+	 * @param popupIsVisible right if true, left if false
+	 */
+	public void setSidebarTriangle(boolean popupIsVisible){
+		
+		if (popupIsVisible ^ !isEastOrientation()){
+			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
+		}else{
+			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
+		}
+		
+		slimSidebarPanel.repaint();
+		
+		
 	}
 
 	// ==============================
@@ -242,15 +275,31 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 
 	public void showPopup() {
 
-		popup = new PerspectivePanel(app);
-		popup.show(this, -popup.getPreferredSize().width, (app.getFrame()
+		popup = newPerspectivePanel();
+		int horizontal;
+		if (isEastOrientation())
+			horizontal = -popup.getPreferredSize().width;
+		else
+			horizontal = slimSidebarPanel.getPreferredSize().width;
+		
+		popup.show(this, horizontal, (app.getFrame()
 				.getHeight() - popup.getPreferredSize().height) / 2);
+		if (!popup.isVisible()) //setVisible() may have not worked if sidebar has mouse
+			popup.superSetVisible(true);
 	}
 
 	public void hidePopup() {
 		if (popup.isVisible()) {
-			popup.setVisible(false);
+			popup.superSetVisible(false);
 		}
+	}
+
+	void togglePopup(){
+		if (popup==null || !popup.isVisible()) 
+			showPopup();
+		else
+			popup.superSetVisible(false);
+		
 	}
 
 	public void update() {
@@ -288,6 +337,21 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 		updateViewButtons();
 
 	}
+	
+	
+	private boolean sideBarHasMouse = false;
+	
+	void setSideBarHasMouse(boolean flag){
+		sideBarHasMouse = flag;
+	}
+	
+	/**
+	 * 
+	 * @return true if side bar has mouse
+	 */
+	public boolean sideBarHasMouse(){
+		return sideBarHasMouse;
+	}
 
 	// ==============================
 	// Listeners
@@ -296,18 +360,20 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 	/**
 	 * Mouse listener to handle mouse events for the sidebar.
 	 */
-	public class SidebarMouseListener extends MouseAdapter {
+	public class SidebarMouseListener extends MouseAdapter{
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() > 0) {
-				showPopup();
+				togglePopup();
 			}
 		}
+		
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			if (e.getSource() == slimSidebarPanel) {
 				slimSidebarPanel.setBackground(Color.LIGHT_GRAY);
+				setSideBarHasMouse(true);
 			}
 		}
 
@@ -315,8 +381,11 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 		public void mouseExited(MouseEvent e) {
 			if (e.getSource() == slimSidebarPanel) {
 				slimSidebarPanel.setBackground(null);
+				setSideBarHasMouse(false);
 			}
 		}
+		
+		
 	}
 
 	// ==============================
@@ -338,6 +407,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 
 	public void setEastOrientation(boolean isEastOrientation) {
 		this.isEastOrientation = isEastOrientation;
+		setSidebarTriangle(popup!=null && popup.isVisible());
 	}
 
 	/***********************************************

@@ -2,6 +2,7 @@ package geogebra.gui.layout;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.main.App;
 import geogebra.gui.menubar.LanguageActionListener;
 import geogebra.gui.menubar.OptionsMenuD;
 import geogebra.gui.util.GeoGebraIcon;
@@ -30,16 +31,18 @@ public class PerspectivePanel extends JPopupMenu
 
 	private AppD app;
 	private LayoutD layout;
+	private DockBar dockBar;
 
 	private JPanel btnPanel;
 
 	private AbstractAction changePerspectiveAction, managePerspectivesAction,
 			savePerspectiveAction;
 
-	public PerspectivePanel(AppD app) {
+	public PerspectivePanel(AppD app, DockBar dockBar) {
 
 		this.app = app;
 		this.layout = (LayoutD) app.getGuiManager().getLayout();
+		this.dockBar = dockBar;
 		setupFlagLabel();
 		initActions();
 		initItems();
@@ -58,15 +61,28 @@ public class PerspectivePanel extends JPopupMenu
 	}
 
 	protected void hidePopup() {
-		this.setVisible(false);
+		superSetVisible(false);
 	}
 
 	boolean flag = true;
 	private AbstractAction setLanguageAction;
 
 	public void setVisible(boolean b) {
-		super.setVisible(b);
+
+		// prevent call from javax.swing.JPopupMenu.menuSelectionChanged()
+		if (!dockBar.sideBarHasMouse())
+			superSetVisible(b);
 		// super.setVisible(b || flag);
+	}
+	
+	/**
+	 * call super.setVisible()
+	 * @param b flag
+	 */
+	public void superSetVisible(boolean b) {
+		super.setVisible(b);
+		dockBar.setSidebarTriangle(b);
+		
 	}
 
 	/**
