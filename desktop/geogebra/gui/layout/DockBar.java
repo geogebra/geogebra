@@ -42,7 +42,8 @@ import javax.swing.JToolBar;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements SetLabels, ActionListener, DockBarInterface {
+public class DockBar extends JPanel implements SetLabels, ActionListener,
+		DockBarInterface {
 
 	private static final long serialVersionUID = 1L;
 
@@ -123,13 +124,13 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 		buttonPanel.setOpaque(true);
 
 	}
-	
+
 	/**
 	 * 
 	 * @return a new perspective panel
 	 */
-	PerspectivePanel newPerspectivePanel(){
-		return new PerspectivePanel(app,this);
+	PerspectivePanel newPerspectivePanel() {
+		return new PerspectivePanel(app, this);
 	}
 
 	private JToolBar buildExtraButtonToolBar() {
@@ -222,34 +223,32 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 
 			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle-left.png"));
 			lblIcon.setPreferredSize(new Dimension(10, 0));
-			
-			slimSidebarPanel.add(lblIcon, BorderLayout.CENTER);
-			
-			slimSidebarPanel.setBackground(null);
-			
 
+			slimSidebarPanel.add(lblIcon, BorderLayout.CENTER);
+
+			slimSidebarPanel.setBackground(null);
 
 		}
 
 		return slimSidebarPanel;
 	}
-	
-	
+
 	/**
 	 * set sidebar triangle orientation
-	 * @param popupIsVisible right if true, left if false
+	 * 
+	 * @param popupIsVisible
+	 *            right if true, left if false
 	 */
-	public void setSidebarTriangle(boolean popupIsVisible){
-		
-		if (popupIsVisible ^ !isEastOrientation()){
+	public void setSidebarTriangle(boolean popupIsVisible) {
+
+		if (popupIsVisible ^ !isEastOrientation()) {
 			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
-		}else{
+		} else {
 			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
 		}
-		
+
 		slimSidebarPanel.repaint();
-		
-		
+
 	}
 
 	// ==============================
@@ -281,10 +280,13 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 			horizontal = -popup.getPreferredSize().width;
 		else
 			horizontal = slimSidebarPanel.getPreferredSize().width;
-		
-		popup.show(this, horizontal, (app.getFrame()
-				.getHeight() - popup.getPreferredSize().height) / 2);
-		if (!popup.isVisible()) //setVisible() may have not worked if sidebar has mouse
+
+		int y = (slimSidebarPanel.getHeight() - popup.getPreferredSize().height) / 2;
+
+		popup.show(this, horizontal, y);
+
+		if (!popup.isVisible()) // setVisible() may have not worked if sidebar
+								// has mouse
 			popup.superSetVisible(true);
 	}
 
@@ -294,12 +296,12 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 		}
 	}
 
-	void togglePopup(){
-		if (popup==null || !popup.isVisible()) 
+	void togglePopup() {
+		if (popup == null || !popup.isVisible())
 			showPopup();
 		else
 			popup.superSetVisible(false);
-		
+
 	}
 
 	public void update() {
@@ -337,19 +339,18 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 		updateViewButtons();
 
 	}
-	
-	
+
 	private boolean sideBarHasMouse = false;
-	
-	void setSideBarHasMouse(boolean flag){
+
+	void setSideBarHasMouse(boolean flag) {
 		sideBarHasMouse = flag;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if side bar has mouse
 	 */
-	public boolean sideBarHasMouse(){
+	public boolean sideBarHasMouse() {
 		return sideBarHasMouse;
 	}
 
@@ -360,14 +361,13 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 	/**
 	 * Mouse listener to handle mouse events for the sidebar.
 	 */
-	public class SidebarMouseListener extends MouseAdapter{
+	public class SidebarMouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() > 0) {
 				togglePopup();
 			}
 		}
-		
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
@@ -384,8 +384,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 				setSideBarHasMouse(false);
 			}
 		}
-		
-		
+
 	}
 
 	// ==============================
@@ -407,7 +406,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener, DockBa
 
 	public void setEastOrientation(boolean isEastOrientation) {
 		this.isEastOrientation = isEastOrientation;
-		setSidebarTriangle(popup!=null && popup.isVisible());
+		setSidebarTriangle(popup != null && popup.isVisible());
 	}
 
 	/***********************************************

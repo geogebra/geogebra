@@ -1,33 +1,26 @@
 package geogebra.gui.layout;
 
-import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.main.App;
 import geogebra.gui.menubar.LanguageActionListener;
 import geogebra.gui.menubar.OptionsMenuD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 
-public class PerspectivePanel extends JPopupMenu 
-{
+public class PerspectivePanel extends JPopupMenu {
 
 	private AppD app;
 	private LayoutD layout;
@@ -74,15 +67,17 @@ public class PerspectivePanel extends JPopupMenu
 			superSetVisible(b);
 		// super.setVisible(b || flag);
 	}
-	
+
 	/**
 	 * call super.setVisible()
-	 * @param b flag
+	 * 
+	 * @param b
+	 *            flag
 	 */
 	public void superSetVisible(boolean b) {
 		super.setVisible(b);
 		dockBar.setSidebarTriangle(b);
-		
+
 	}
 
 	/**
@@ -92,16 +87,16 @@ public class PerspectivePanel extends JPopupMenu
 
 		this.removeAll();
 		
-		// add(Box.createVerticalStrut(10));
-		JLabel title = new JLabel(app.getMenu("Perspectives"));
-		title.setIcon(app.getEmptyIcon());
-		title.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+		JMenuItem title = new JMenuItem("<html><font color = black>"
+				+ app.getMenu("Perspectives") + "</font></html>");
+		title.setIcon(GeoGebraIcon.createEmptyIcon(32, 32));
 		title.setFont(app.getBoldFont());
+		title.setEnabled(false);
 
-		add(Box.createVerticalStrut(10));
+		//add(Box.createVerticalStrut(10));
 		add(title);
-		add(Box.createVerticalStrut(10));
-		//addSeparator();
+		//add(Box.createVerticalStrut(10));
+		// addSeparator();
 		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
@@ -109,23 +104,21 @@ public class PerspectivePanel extends JPopupMenu
 			tmpItem.setText(app.getMenu("Perspective."
 					+ defaultPerspectives[i].getId()));
 			tmpItem.setActionCommand("d" + i);
-			
+
 			Icon ic;
-			if (defaultPerspectives[i].getIconString() != null){
-				ic = app.getImageIcon(defaultPerspectives[i]
-						.getIconString());
-				//GeoGebraIcon.ensureIconSize((ImageIcon) ic, new Dimension(40,40));
-			}else{
+			if (defaultPerspectives[i].getIconString() != null) {
+				ic = app.getImageIcon(defaultPerspectives[i].getIconString());
+				// GeoGebraIcon.ensureIconSize((ImageIcon) ic, new
+				// Dimension(40,40));
+			} else {
 				ic = app.getEmptyIcon();
 			}
 			tmpItem.setIcon(ic);
-			
 
 			Dimension d = tmpItem.getMaximumSize();
 			d.height = tmpItem.getPreferredSize().height;
 			tmpItem.setMaximumSize(d);
-			
-		
+
 			add(tmpItem);
 		}
 
