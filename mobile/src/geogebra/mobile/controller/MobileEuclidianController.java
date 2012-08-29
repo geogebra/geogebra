@@ -223,7 +223,7 @@ public class MobileEuclidianController extends EuclidianController implements
 			draw = this.oldPoints.size() == 2;
 			break;
 		// commands that need one point and one line
-		//case PerpendicularLine:
+		case PerpendicularLine:
 		case ParallelLine:
 			recordPoint(hits);
 			if (hits.size() > 0 && hits.get(0) instanceof GeoLineND)
@@ -256,9 +256,10 @@ public class MobileEuclidianController extends EuclidianController implements
 				this.kernel.Vector(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoPoint) this.oldPoints.get(1));
 				break;
-			//case PerpendicularLine:
-			//	this.kernel.Line
-			//	break;
+			case PerpendicularLine:
+				this.kernel.OrthogonalLine(null, (GeoPoint) this.oldPoints.get(1),
+						(GeoLine) this.oldLines.get(0)); 
+				break;
 			case ParallelLine:
 				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(this.oldPoints.size()-1), 
 						(GeoLine) this.oldLines.get(this.oldLines.size()-1));
