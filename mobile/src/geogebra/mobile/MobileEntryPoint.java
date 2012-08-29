@@ -1,7 +1,6 @@
 package geogebra.mobile;
 
 import geogebra.mobile.gui.TabletGUI;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -16,9 +15,9 @@ public class MobileEntryPoint implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
-		 this.app = new MobileApp(new TabletGUI());
+		this.app = new MobileApp(new TabletGUI());
 
-//		this.app = new MobileApp(new IconTestGUI());
+		// this.app = new MobileApp(new IconTestGUI());
 		loadMobileAsync();
 	}
 

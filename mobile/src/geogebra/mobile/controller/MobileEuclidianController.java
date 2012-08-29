@@ -8,7 +8,9 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.mobile.euclidian.MouseEvent;
@@ -47,6 +49,7 @@ public class MobileEuclidianController extends EuclidianController implements
 
 	private GuiModel guiModel;
 	ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
+	ArrayList<GeoLineND> oldLines = new ArrayList<GeoLineND>(); //meli
 	private ToolBarCommand lastCmd;
 	private GPoint origin;
 	private boolean moving;
@@ -147,6 +150,8 @@ public class MobileEuclidianController extends EuclidianController implements
 					this.mode = EuclidianConstants.MODE_MOVE;
 				}
 
+				
+				
 				this.moving = true;
 
 				// get the mode and the object to move
@@ -192,6 +197,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		if (this.lastCmd != cmd)
 		{
 			this.oldPoints = new ArrayList<GeoPointND>();
+			this.oldLines =  new ArrayList<GeoLineND>(); //maybe there are more lines needed...
 			this.lastCmd = cmd;
 		}
 
@@ -202,20 +208,30 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// draw the new point
 		switchModeForMousePressed(null);
-
+		
+		Hits hits = this.view.getHits();
+		
 		removeSelection();
-
 		switch (cmd)
 		{
 		// commands that need two points
 		case LineThroughTwoPoints:
 		case SegmentBetweenTwoPoints:
 		case RayThroughTwoPoints:
-			Hits hits = this.view.getHits();
+		case VectorBetweenTwoPoints:
+		case PerpendicularLine:
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
-
+		// commands that need one point and one line
+		case ParallelLine:
+			recordPoint(hits);
+			if (hits.size() > 0 && hits.get(0) instanceof GeoLineND)
+			{
+				this.oldLines.add((GeoLineND) hits.get(0));
+			}
+			draw = this.oldPoints.size() == 2;
+			break;
 		// commands that need one point - nothing to do anymore
 		default:
 		}
@@ -236,10 +252,22 @@ public class MobileEuclidianController extends EuclidianController implements
 				this.kernel.Ray(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoPoint) this.oldPoints.get(1));
 				break;
+			case VectorBetweenTwoPoints:
+				this.kernel.Vector(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1));
+				break;
+			//case PerpendicularLine:
+			//	this.kernel.Line
+			//	break;
+			case ParallelLine:
+				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(this.oldPoints.size()-1), 
+						(GeoLine) this.oldLines.get(this.oldLines.size()-1));
+				break;
 			default:
 			}
 
 			this.oldPoints = new ArrayList<GeoPointND>();
+			this.oldLines = new ArrayList<GeoLineND>();
 		}
 
 	}

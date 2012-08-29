@@ -7,10 +7,9 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.GuiManager;
-import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.main.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -23,6 +22,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.ScriptManagerCommon;
@@ -290,13 +290,6 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public DialogManager getDialogManager()
-	{
-
-		return null;
-	}
-
-	@Override
 	protected void initGuiManager()
 	{
 
@@ -448,13 +441,6 @@ public class MobileApp extends App
 	public void updateStyleBars()
 	{
 
-	}
-
-	@Override
-	public SpreadsheetTableModel getSpreadsheetTableModel()
-	{
-
-		return null;
 	}
 
 	@Override
@@ -696,5 +682,19 @@ public class MobileApp extends App
 	{
 		return null;
 	}
+
+	@Override
+  public DialogManager getDialogManager()
+  {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public SpreadsheetTableModel getSpreadsheetTableModel()
+  {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
 
 }
