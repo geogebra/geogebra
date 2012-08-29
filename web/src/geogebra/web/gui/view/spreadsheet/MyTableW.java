@@ -211,7 +211,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		//		.getImage(), true);
 
 		// set row height
-		//setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
+		setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
 
 		/*
 		// prepare column headers
@@ -425,7 +425,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		}
 
 		// addColumn destroys custom row heights, so we must reset them
-		//TODO//resetRowHeights();
+		resetRowHeights();
 
 	}/*
 
