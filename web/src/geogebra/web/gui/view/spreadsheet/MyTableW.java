@@ -996,7 +996,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		selectionRectangleColor = color;
 	}
 
-	/*protected GPoint getPixel(int column, int row, boolean min) {
+	protected GPoint getPixel(int column, int row, boolean min) {
 		if (column < 0 || row < 0) {
 			return null;
 		}
@@ -1004,27 +1004,28 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			return new GPoint(0, 0);
 		}
 
-		Rectangle cellRect = getCellRect(row, column, false);
+		Widget wt = getWidget(row, column);
 		if (min) {
-			return new GPoint(cellRect.x, cellRect.y);
+			return new GPoint(wt.getAbsoluteLeft(), wt.getAbsoluteTop());
 		}
-		return new GPoint(cellRect.x + cellRect.width, cellRect.y
-				+ cellRect.height);
-	}*/
+		return new GPoint(
+			wt.getAbsoluteLeft() + wt.getOffsetWidth(),
+			wt.getAbsoluteTop() + wt.getOffsetHeight());
+	}
 
-	/*protected GPoint getMinSelectionPixel() {
+	protected GPoint getMinSelectionPixel() {
 		return getPixel(minSelectionColumn, minSelectionRow, true);
 	}
 
 	protected GPoint getMaxSelectionPixel() {
 		return getPixel(maxSelectionColumn, maxSelectionRow, false);
-	}*/
+	}
 
 	/**
 	 * Returns Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
 	 */
-	/*public GPoint getIndexFromPixel(int x, int y) {
+	public GPoint getIndexFromPixel(int x, int y) {
 		if (x < 0 || y < 0)
 			return null;
 		int indexX = -1;
@@ -1050,7 +1051,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			return null;
 		}
 		return new GPoint(indexX, indexY);
-	}*/
+	}
 
 	/*public Rectangle getCellBlockRect(int column1, int row1, int column2,
 			int row2, boolean includeSpacing) {
