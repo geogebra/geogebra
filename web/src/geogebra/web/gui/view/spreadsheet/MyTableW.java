@@ -1506,7 +1506,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			int resultWidth = Math.max(tableColumn.getOffsetWidth(),
 					(int) prefWidget.getOffsetWidth());
 			tableColumn.getStyle()
-				.setWidth(resultWidth + 1 /*TODO//this.getIntercellSpacing().width*/
+				.setWidth(resultWidth + 1 /*TODO this.getIntercellSpacing().width*/
 				,Style.Unit.PX);
 		}
 
@@ -1542,14 +1542,14 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// set the new column width
 		if (tempWidth == -1) {
 			// column is empty
-			prefWidth = preferredColumnWidth - 1 /*TODO//getIntercellSpacing().width*/;
+			prefWidth = preferredColumnWidth - 1 /*TODO getIntercellSpacing().width*/;
 		} else {
-			prefWidth = Math.max(prefWidth, 15 /*TODO//tableColumn.getMinWidth()*/);
+			prefWidth = Math.max(prefWidth, 15 /*TODO tableColumn.getMinWidth()*/);
 		}
 		// note: the table might have its header set to null,
 		// so we get the actual header from view
 		//TODO//view.getTableHeader().setResizingColumn(tableColumn);
-		tableColumn.getStyle().setWidth(prefWidth + 1 /*TODO//getIntercellSpacing().width*/
+		tableColumn.getStyle().setWidth(prefWidth + 1 /*TODO getIntercellSpacing().width*/
 			, Style.Unit.PX);
 	}
 
