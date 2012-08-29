@@ -66,8 +66,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 */
 
-import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	private static final long serialVersionUID = 1L;
@@ -100,6 +102,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	protected SpreadsheetTableModel tableModel;
 	private CellRangeProcessor crProcessor;
 	//private MyTableColumnModelListener columnModelListener;
+	MyCellRenderer defaultTableCellRenderer;
 
 	private CellFormatInterface formatHandler;
 
@@ -239,13 +242,14 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		//TODO//setSelectionBackground(SELECTED_BACKGROUND_COLOR);
 		//TODO//setSelectionForeground(Color.BLACK);
 
-		/* :NEXT:Grid.setCellFormatter
+
 		// add cell renderer & editors
-		setDefaultRenderer(Object.class, new MyCellRenderer(app, view,
-				(CellFormat) this.getCellFormatHandler()));
+		defaultTableCellRenderer = new MyCellRenderer(app, view,
+			(CellFormat) this.getCellFormatHandler());
+
+		/* :NEXT:Grid.setCellFormatter
 		editor = new MyCellEditor(kernel);
 		setDefaultEditor(Object.class, editor);
-
 		*/
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<CellRange>();
@@ -1465,7 +1469,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * cellResizeWidthSet. Currently, this is only done after a geo is added to
 	 * a cell and the row needs to be widened to fit the LaTeX image.
 	 * 
-	 *//*
+	 */
 	public void resizeMarkedCells() {
 
 		if (!cellResizeHeightSet.isEmpty()) {
@@ -1483,37 +1487,37 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			}
 			cellResizeWidthSet.clear();
 		}
-	}*/
+	}
 
 	/**
 	 * Enlarge the row and/or column of a cell to fit the cell's preferred size.
-	 *//*
+	 */
 	public void setPreferredCellSize(int row, int col, boolean adjustWidth,
 			boolean adjustHeight) {
 
-		Dimension prefSize = this
-				.getCellRenderer(row, col)
-				.getTableCellRendererComponent(this, this.getValueAt(row, col),
-						false, false, row, col).getPreferredSize();
+		Widget prefWidget = defaultTableCellRenderer
+				.getTableCellRendererWidget(this, tableModel.getValueAt(row, col),
+						false, false, row, col);
 
 		if (adjustWidth) {
 
-			TableColumn tableColumn = this.getColumnModel().getColumn(col);
+			Element tableColumn = getColumnFormatter().getElement(col);
 
-			int resultWidth = Math.max(tableColumn.getWidth(),
-					(int) prefSize.getWidth());
-			tableColumn
-					.setWidth(resultWidth + this.getIntercellSpacing().width);
+			int resultWidth = Math.max(tableColumn.getOffsetWidth(),
+					(int) prefWidget.getOffsetWidth());
+			tableColumn.getStyle()
+				.setWidth(resultWidth + 1 /*TODO//this.getIntercellSpacing().width*/
+				,Style.Unit.PX);
 		}
 
 		if (adjustHeight) {
 
-			int resultHeight = Math.max(getRowHeight(row),
-					(int) prefSize.getHeight());
+			int resultHeight = Math.max(getRowFormatter().getElement(row).getOffsetHeight(),
+					(int) prefWidget.getOffsetHeight());
 			setRowHeight(row, resultHeight);
 		}
 
-	}*/
+	}
 
 	/**
 	 * Adjust the width of a column to fit the maximum preferred width of its
