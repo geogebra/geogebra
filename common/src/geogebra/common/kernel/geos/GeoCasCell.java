@@ -2160,6 +2160,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		String oldEvalComment = evalComment;
 		ValidExpression oldEvalVE = evalVE;
 		ValidExpression oldInputVE = inputVE;
+		String oldAssignmentVar = assignmentVar;
+		AssignmentType oldOVEAssignmentType = outputVE.getAssignmentType();
+		AssignmentType oldIVEAssignmentType = inputVE.getAssignmentType();
 		// there is already a twinGeo, this means this cell is plotable,
 		// therefore return true
 		if (hasTwinGeo()) {
@@ -2236,9 +2239,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		} else {
 			App.debug("Fail" + oldEvalComment);
 			// plot failed, undo assignment
-			assignmentVar = null;
-			outputVE.setAssignmentType(AssignmentType.NONE);
-			inputVE.setAssignmentType(AssignmentType.NONE);
+			assignmentVar = oldAssignmentVar;
+			outputVE.setAssignmentType(oldOVEAssignmentType);
+			inputVE.setAssignmentType(oldIVEAssignmentType);
 			this.firstComputeOutput = true;
 			evalComment = oldEvalComment;
 			evalVE = oldEvalVE;
