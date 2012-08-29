@@ -10,6 +10,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -232,6 +233,19 @@ public class MobileEuclidianController extends EuclidianController implements
 			}
 			draw = this.oldPoints.size() == 2;
 			break;
+		// commands that need two points or one segment
+		case PerpendicularBisector:
+			recordPoint(hits);
+			if (hits.size() > 0 && hits.get(0).getClassName() == "GeoSegment")
+			{
+				this.oldLines.add((GeoLineND) hits.get(0));
+				draw = true;
+			}
+			else if (this.oldPoints.size() == 2)
+			{
+				draw = true;
+			}
+			break;
 		// commands that need one point - nothing to do anymore
 		default:
 		}
@@ -257,12 +271,20 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoPoint) this.oldPoints.get(1));
 				break;
 			case PerpendicularLine:
-				this.kernel.OrthogonalLine(null, (GeoPoint) this.oldPoints.get(1),
-						(GeoLine) this.oldLines.get(0)); 
+				this.kernel.OrthogonalLine(null, (GeoPoint) this.oldPoints.get(1), (GeoLine) this.oldLines.get(0));
 				break;
 			case ParallelLine:
-				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(this.oldPoints.size()-1), 
-						(GeoLine) this.oldLines.get(this.oldLines.size()-1));
+				this.kernel.Line(null, (GeoPoint) this.oldPoints.get(this.oldPoints.size() - 1), (GeoLine) this.oldLines.get(this.oldLines.size() - 1));
+				break;
+			case PerpendicularBisector:
+				if (this.oldLines.size() > 0)
+				{
+					this.kernel.LineBisector(null, (GeoSegment) this.oldLines.get(0));
+				}
+				else if (this.oldPoints.size() == 2)
+				{
+					this.kernel.LineBisector(null, (GeoPoint) this.oldPoints.get(0), (GeoPoint) this.oldPoints.get(1));
+				}
 				break;
 			default:
 			}
