@@ -52,7 +52,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	//ButtonListener bl;
 	private InputFieldListener ifListener;
 	private InputFieldKeyListener ifKeyListener;
-	private GBox box = SwingFactory.prototype.createHorizontalBox();
+	private GBox box = geo.getKernel().getApplication().getSwingFactory().createHorizontalBox();
 
 	/**
 	 * @param view view
@@ -71,7 +71,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
-		label = SwingFactory.prototype.newJLabel("Label");
+		label = geo.getKernel().getApplication().getSwingFactory().newJLabel("Label");
 		
 		//label.setLabelFor(textField); <- next row
 		textField.setLabel(label);

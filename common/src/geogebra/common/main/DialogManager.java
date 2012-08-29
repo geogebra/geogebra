@@ -437,7 +437,7 @@ public abstract class DialogManager {
 
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
 		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		TextInputDialog id = Factory.prototype.newTextInputDialog(app,
+		TextInputDialog id = app.getFactory().newTextInputDialog(app,
 				app.getPlain("Text"), text, startPoint, 30, 6, isTextMode);
 		return id;
 	}

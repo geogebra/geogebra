@@ -12,7 +12,9 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
+import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -4222,7 +4224,7 @@ public abstract class App {
 	public abstract void runScripts(GeoElement geo1, String string);
 
 	public void showRelation(GeoElement a, GeoElement b) {
-		GOptionPane optionPane = Factory.prototype.newGOptionPane();
+		GOptionPane optionPane = getFactory().newGOptionPane();
 		optionPane.showConfirmDialog(getMainComponent(),
 				new Relation(kernel).relation(a, b),
 				getPlain("ApplicationName") + " - " + getCommand("Relation"),
@@ -4241,5 +4243,11 @@ public abstract class App {
 	public void setGeoForCopyStyle(GeoElement geo) {
 		geoForCopyStyle = geo;
 	}
+
+	public abstract CASFactory getCASFactory();
+
+	public abstract SwingFactory getSwingFactory();
+	
+	public abstract Factory getFactory();
 
 }

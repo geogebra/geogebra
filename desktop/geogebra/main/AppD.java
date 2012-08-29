@@ -24,6 +24,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.factories.CASFactory;
+import geogebra.common.factories.Factory;
+import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -597,31 +600,16 @@ public class AppD extends App implements
 		geogebra.common.factories.FormatFactory.prototype = new FormatFactoryD();
 		geogebra.common.factories.LaTeXFactory.prototype = new LaTeXFactoryD();
 
-		// make sure minimal applets work with cas jar missing
-		try {
-			geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
-		} catch (java.lang.NoClassDefFoundError e) {
-			e.printStackTrace();
-			App.error("Error initializing CAS - missing JAR?");
-		}
+		// moved to getCASFactory() so that applets load quicker
+		//	geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
 
-		// make sure minimal applets work with gui jar missing
-		try {
-			geogebra.common.factories.SwingFactory.prototype = new SwingFactoryD();	
-		} catch (java.lang.NoClassDefFoundError e) {
-			e.printStackTrace();
-			App.error("Error initializing GUI - missing JAR?");
-		}
+		// moved to getCASFactory() so that applets load quicker
+		// geogebra.common.factories.SwingFactory.prototype = new SwingFactoryD();	
 
 		geogebra.common.factories.UtilFactory.prototype = new UtilFactoryD();
 
-		// make sure minimal applets work with gui jar missing
-		try {
-			geogebra.common.factories.Factory.prototype = new FactoryD();
-		} catch (java.lang.NoClassDefFoundError e) {
-			e.printStackTrace();
-			App.error("Error initializing GUI - missing JAR?");
-		}
+		// moved to getFactory() so that applets load quicker
+		// geogebra.common.factories.Factory.prototype = new FactoryD();
 		
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		
@@ -5278,6 +5266,45 @@ public class AppD extends App implements
 				geo1.runScripts(string);
 			}
 		});
+	}
+	
+	@Override
+	public CASFactory getCASFactory() {
+		CASFactory ret = CASFactory.getPrototype();
+		
+		if (ret == null) {
+			ret = new CASFactoryD();
+			CASFactory.setPrototype(ret);
+		}
+		
+		return ret;
+		
+	}
+	
+	@Override
+	public SwingFactory getSwingFactory() {
+		SwingFactory ret = SwingFactory.getPrototype();
+		
+		if (ret == null) {
+			ret = new SwingFactoryD();
+			SwingFactory.setPrototype(ret);
+		}
+		
+		return ret;
+		
+	}
+	
+	@Override
+	public Factory getFactory() {
+		Factory ret = Factory.getPrototype();
+		
+		if (ret == null) {
+			ret = new FactoryD();
+			Factory.setPrototype(ret);
+		}
+		
+		return ret;
+		
 	}
 	
 }

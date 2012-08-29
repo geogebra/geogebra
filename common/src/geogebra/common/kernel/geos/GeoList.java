@@ -2114,7 +2114,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	private AbstractJComboBox buildComboBox() {
-		return buildComboBox(SwingFactory.prototype.newJComboBox());
+		return buildComboBox(app.getSwingFactory().newJComboBox());
 	}
 	/**
 	 * Rebuilds combobox if some items changed

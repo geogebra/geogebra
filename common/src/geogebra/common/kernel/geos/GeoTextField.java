@@ -281,7 +281,7 @@ public class GeoTextField extends GeoButton {
 	public AutoCompleteTextField getTextField(int viewID, DrawTextField drawTextField) {
 		
 		if (textField == null) {
-			textField = SwingFactory.prototype.newAutoCompleteTextField(getLength(), app, drawTextField);
+			textField = app.getSwingFactory().newAutoCompleteTextField(getLength(), app, drawTextField);
 			textField.showPopupSymbolButton(true);
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);		
@@ -296,7 +296,7 @@ public class GeoTextField extends GeoButton {
 		}
 		
 		if (textField2 == null) {
-			textField2 = SwingFactory.prototype.newAutoCompleteTextField(getLength(), app, drawTextField);
+			textField2 = app.getSwingFactory().newAutoCompleteTextField(getLength(), app, drawTextField);
 			textField2.showPopupSymbolButton(true);
 			textField2.setAutoComplete(false);
 			textField2.enableColoring(false);		

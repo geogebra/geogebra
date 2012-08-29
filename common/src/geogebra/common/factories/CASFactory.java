@@ -6,6 +6,16 @@ import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.Kernel;
 
 public abstract class CASFactory {
-	public static CASFactory prototype;
+	private static CASFactory prototype;
+	/**
+	 * @return might return null. Use App.getCASFactory()
+	 */
+	public static CASFactory getPrototype() {
+		return prototype;
+	}
+	
+	public static void setPrototype(CASFactory factory) {
+		prototype = factory;
+	}
 	public abstract CASmpreduce newMPReduce(CASparser p,CasParserTools t,Kernel kernel);
 }

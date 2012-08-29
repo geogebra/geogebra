@@ -8,7 +8,7 @@ import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
 
 public abstract class SwingFactory {
-	public static SwingFactory prototype = null;
+	private static SwingFactory prototype = null;
 
 	// TODO: find another place for this function
 	public abstract AutoCompleteTextField newAutoCompleteTextField(int length,
@@ -19,5 +19,17 @@ public abstract class SwingFactory {
 	public abstract AbstractJComboBox newJComboBox();
 
 	public abstract GBox createHorizontalBox();
+
+	/**
+	 * @return might return null. Use App.getSwingFactory()
+	 */
+	public static SwingFactory getPrototype() {
+		return prototype;
+	}
+
+	public static void setPrototype(SwingFactory ret) {
+		prototype = ret;
+		
+	}
 
 }

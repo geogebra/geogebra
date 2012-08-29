@@ -163,7 +163,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	public synchronized CASmpreduce getMPReduce() {
 		if (casMPReduce == null)
-			casMPReduce = geogebra.common.factories.CASFactory.prototype
+			casMPReduce = app.getCASFactory()
 					.newMPReduce(casParser, new CasParserToolsImpl('e'),
 							app.getKernel());
 		return casMPReduce;

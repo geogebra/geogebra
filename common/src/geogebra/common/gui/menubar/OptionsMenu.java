@@ -104,7 +104,7 @@ public abstract class OptionsMenu {
 	 * @param menu "Algebra description menu will be added for this
 	 */
 	public static void addAlgebraDescriptionMenu(MenuInterface menu){	
-		menuAlgebraStyle = Factory.prototype.newRadioButtonMenuBar(app);
+		menuAlgebraStyle = app.getFactory().newRadioButtonMenuBar(app);
 		
 		String[] strDescription = { app.getPlain("Value"), 
 				app.getPlain("Definition"), 
@@ -162,7 +162,7 @@ public abstract class OptionsMenu {
 	}
 	
 	public static void addDecimalPlacesMenu(MenuInterface menu){
-		menuDecimalPlaces = Factory.prototype.newRadioButtonMenuBar(app);
+		menuDecimalPlaces = app.getFactory().newRadioButtonMenuBar(app);
 
 		/*
 		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
@@ -182,7 +182,7 @@ public abstract class OptionsMenu {
 	
 	
 	public static void addLabelingMenu(MenuInterface menu){	
-		menuLabeling = Factory.prototype.newRadioButtonMenuBar(app);
+		menuLabeling = app.getFactory().newRadioButtonMenuBar(app);
 		
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
 				"Labeling.pointsOnly" };
@@ -207,7 +207,7 @@ public abstract class OptionsMenu {
 	}
 	
 	public static void addPointCapturingMenu(MenuInterface menu){		
-		menuPointCapturing = Factory.prototype.newRadioButtonMenuBar(app);
+		menuPointCapturing = app.getFactory().newRadioButtonMenuBar(app);
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
 				app.getMenu("FixedToGrid"), app.getMenu("off") };
 		String[] strPointCapturingAC = { "3 PointCapturing",
@@ -231,7 +231,7 @@ public abstract class OptionsMenu {
 	}
 	
 	public static void addFontSizeMenu(MenuInterface menu){
-		RadioButtonMenuBar submenu = Factory.prototype.newRadioButtonMenuBar(app);
+		RadioButtonMenuBar submenu = app.getFactory().newRadioButtonMenuBar(app);
 		
 		//String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt", "24 pt",
 		//		"28 pt", "32 pt" };
