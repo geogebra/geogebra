@@ -1523,18 +1523,18 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * Adjust the width of a column to fit the maximum preferred width of its
 	 * cell contents.
 	 */
-	/*public void fitColumn(int column) {
+	public void fitColumn(int column) {
 
-		TableColumn tableColumn = getColumnModel().getColumn(column);
+		Element tableColumn = getColumnFormatter().getElement(column);
 
 		int prefWidth = 0;
 		int tempWidth = -1;
 		for (int row = 0; row < getRowCount(); row++) {
-			if (getValueAt(row, column) != null) {
-				tempWidth = (int) getCellRenderer(row, column)
-						.getTableCellRendererComponent(this,
-								getValueAt(row, column), false, false, row,
-								column).getPreferredSize().getWidth();
+			if (tableModel.getValueAt(row, column) != null) {
+				tempWidth = defaultTableCellRenderer
+						.getTableCellRendererWidget(this,
+								tableModel.getValueAt(row, column), false, false, row,
+								column).getOffsetWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
 		}
@@ -1542,32 +1542,32 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// set the new column width
 		if (tempWidth == -1) {
 			// column is empty
-			prefWidth = preferredColumnWidth - getIntercellSpacing().width;
+			prefWidth = preferredColumnWidth - 1 /*TODO//getIntercellSpacing().width*/;
 		} else {
-			prefWidth = Math.max(prefWidth, tableColumn.getMinWidth());
+			prefWidth = Math.max(prefWidth, 15 /*TODO//tableColumn.getMinWidth()*/);
 		}
 		// note: the table might have its header set to null,
 		// so we get the actual header from view
-		view.getTableHeader().setResizingColumn(tableColumn);
-		tableColumn.setWidth(prefWidth + getIntercellSpacing().width);
-
-	}*/
+		//TODO//view.getTableHeader().setResizingColumn(tableColumn);
+		tableColumn.getStyle().setWidth(prefWidth + 1 /*TODO//getIntercellSpacing().width*/
+			, Style.Unit.PX);
+	}
 
 	/**
 	 * Adjust the height of a row to fit the maximum preferred height of the its
 	 * cell contents.
 	 */
-	/*public void fitRow(int row) {
+	public void fitRow(int row) {
 
-		int prefHeight = this.getRowHeight();
+		int prefHeight = getRowFormatter().getElement(row).getOffsetHeight();
+		//int prefHeight = this.getRowHeight();
 		int tempHeight = 0;
 		for (int column = 0; column < this.getColumnCount(); column++) {
 
-			tempHeight = (int) this
-					.getCellRenderer(row, column)
-					.getTableCellRendererComponent(this,
-							getValueAt(row, column), false, false, row, column)
-					.getPreferredSize().getHeight();
+			tempHeight = defaultTableCellRenderer
+					.getTableCellRendererWidget(this,
+						tableModel.getValueAt(row, column), false, false, row, column)
+					.getOffsetHeight();
 
 			prefHeight = Math.max(prefHeight, tempHeight);
 
@@ -1575,14 +1575,14 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		// set the new row height
 		this.setRowHeight(row, prefHeight);
-	}*/
+	}
 
 	/**
 	 * Adjust all rows/columns to fit the maximum preferred height/width of
 	 * their cell contents.
 	 * 
 	 */
-	/*public void fitAll(boolean doRows, boolean doColumns) {
+	public void fitAll(boolean doRows, boolean doColumns) {
 		if (doRows) {
 			for (int row = 0; row < getRowCount(); row++) {
 				fitRow(row);
@@ -1590,10 +1590,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		}
 		if (doColumns) {
 			for (int column = 0; column < getColumnCount(); column++) {
-				fitRow(column);
+				//?//fitRow(column);
+				fitColumn(column);
 			}
 		}
-	}*/
+	}
 
 	/**
 	 * Column model listener --- used to reset the preferred column width when
