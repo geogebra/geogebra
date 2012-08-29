@@ -169,7 +169,15 @@ public class CASInputHandler {
 			boolean isEvaluate = ggbcmd.equals("Evaluate");
 			boolean isNumeric = ggbcmd.equals("Numeric");
 			boolean isKeepInput = ggbcmd.equals("KeepInput");
-
+			
+			
+			// Substitute dialog
+			if (ggbcmd.equals("Substitute")) {
+				// show substitute dialog
+				casView.showSubstituteDialog(prefix, evalText, postfix, selRow);
+				return;
+			}
+			
 			// assignments are processed immediately, the ggbcmd creates a new
 			// row below
 			if (isAssignment) {
@@ -198,12 +206,7 @@ public class CASInputHandler {
 				return;
 			}
 
-			// Substitute dialog
-			if (ggbcmd.equals("Substitute")) {
-				// show substitute dialog
-				casView.showSubstituteDialog(prefix, evalText, postfix, selRow);
-				return;
-			}
+
 
 			// standard case: build eval command
 			String paramString = null;
