@@ -219,11 +219,11 @@ public class MobileEuclidianController extends EuclidianController implements
 		case SegmentBetweenTwoPoints:
 		case RayThroughTwoPoints:
 		case VectorBetweenTwoPoints:
-		case PerpendicularLine:
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
 		// commands that need one point and one line
+		//case PerpendicularLine:
 		case ParallelLine:
 			recordPoint(hits);
 			if (hits.size() > 0 && hits.get(0) instanceof GeoLineND)
