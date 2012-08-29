@@ -173,6 +173,12 @@ public class CASInputHandler {
 			
 			// Substitute dialog
 			if (ggbcmd.equals("Substitute")) {
+				//if cell has assignment and nothing other is selected -> use input without defnition
+				//eg. a:=b+c
+				//use only b+c
+				if(isAssignment && !hasSelectedText){
+					evalText = cellValue.getInputVE().toString(StringTemplate.defaultTemplate);
+				}
 				// show substitute dialog
 				casView.showSubstituteDialog(prefix, evalText, postfix, selRow);
 				return;
