@@ -2176,7 +2176,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (evalVE.isTopLevelCommand()) {
 			Command topLevel = evalVE.getTopLevelCommand();
 			if ((topLevel.getName()).equals("Solve")
-					|| (topLevel.getName()).equals("Solutions")) {
+					|| (topLevel.getName()).equals("Solutions")
+					|| (topLevel.getName()).equals("CSolve")
+					|| (topLevel.getName()).equals("CSolutions")) {
 				Command c = new Command(kernel, "PointList", true);
 				c.addArgument(evalVE.wrap());
 				this.setEvalCommand("PointList");
