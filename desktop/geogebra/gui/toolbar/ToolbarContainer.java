@@ -315,7 +315,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
-		btnProperties.setToolTipText(app.getPlainTooltip("GeoGebraProperties"));
+		btnProperties.setToolTipText(app.getMenuTooltip("Preferences"));
 		btnProperties.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
