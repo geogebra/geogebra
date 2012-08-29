@@ -10,6 +10,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.dialog.PropertiesPanel;
@@ -62,6 +63,8 @@ public class SliderPanel extends JPanel implements ActionListener,
 	private JPanel intervalPanel, sliderPanel, animationPanel;
 	private boolean useTabbedPane, includeRandom;
 	private boolean actionPerforming;
+	
+	private boolean widthUnit = false;
 
 	public SliderPanel(AppD app, PropertiesPanel propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
@@ -176,12 +179,11 @@ public class SliderPanel extends JPanel implements ActionListener,
 		coSliderHorizontal.setSelectedIndex(selectedIndex);
 		coSliderHorizontal.addActionListener(this);
 
-		String[] labels = { app.getPlain("min") + ":",
-				app.getPlain("max") + ":", app.getPlain("Width") + ":" };
-
-		for (int i = 0; i < tLabels.length; ++i) {
-			tLabels[i].setText(labels[i]);
-		}
+		
+		tLabels[0].setText(app.getPlain("min") + ":");
+		tLabels[1].setText(app.getPlain("max") + ":");
+		setLabelForWidth();
+		
 		
 		stepPanel.setLabels();
 		speedPanel.setLabels();
@@ -211,6 +213,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 		boolean random = true;
 		boolean equalSliderHorizontal = true;
 		boolean onlyAngles = true;
+		boolean equalPinned = true;
 
 		for (int i = 0; i < geos.length; i++) {
 			temp = (GeoNumeric) geos[i];
@@ -235,6 +238,8 @@ public class SliderPanel extends JPanel implements ActionListener,
 				random = false;
 			if (num0.isSliderHorizontal() != temp.isSliderHorizontal())
 				equalSliderHorizontal = false;
+			if (num0.isPinned() != temp.isPinned())
+				equalPinned = false;
 
 			if (!(temp instanceof GeoAngle))
 				onlyAngles = false;
@@ -268,15 +273,21 @@ public class SliderPanel extends JPanel implements ActionListener,
 		} else {
 			tfMax.setText("");
 		}
-
-		if (equalWidth) {
-			tfWidth.setText(kernel.format(num0.getSliderWidth(), highPrecision));
+		
+		widthUnit=false;
+		if (equalWidth && equalPinned) {
+			tfWidth.setText(kernel.format(num0.getSliderWidth(), highPrecision));		
+			if (num0.isPinned())
+				widthUnit=true;
 		} else {
 			tfMax.setText("");
 		}
+		
+		setLabelForWidth();
 
-		if (equalSliderFixed)
+		if (equalSliderFixed){
 			cbSliderFixed.setSelected(num0.isSliderFixed());
+		}
 
 		if (random)
 			cbRandom.setSelected(num0.isRandom());
@@ -296,6 +307,13 @@ public class SliderPanel extends JPanel implements ActionListener,
 		cbRandom.addActionListener(this);
 
 		return this;
+	}
+	
+	private void setLabelForWidth(){
+		if (widthUnit)
+			tLabels[2].setText(app.getPlain("WidthInPixel") + ":");
+		else
+			tLabels[2].setText(app.getPlain("Width") + ":");
 	}
 
 	private static boolean checkGeos(Object[] geos) {
