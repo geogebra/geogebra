@@ -1,5 +1,6 @@
 package geogebra.mobile.gui.elements.toolbar;
 
+import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
@@ -25,6 +26,7 @@ public class ToolBar extends ButtonBar
 
 	private OptionsClickedListener[] b;
 	private ToolBarCommand activeCmd;
+	TextBox inputBar;
 
 	public ToolBar()
 	{
@@ -38,8 +40,12 @@ public class ToolBar extends ButtonBar
 	 * @param model
 	 *            GuiModel
 	 * @see GuiModel
+	 * 
+	 * @param algebraController
+	 *            AlgebraController responsible for handling the events
 	 */
-	public void makeTabletToolBar(GuiModel model)
+	public void makeTabletToolBar(GuiModel model,
+			final MobileAlgebraController algebraController)
 	{
 		this.b = new ToolBarButton[11];
 
@@ -67,7 +73,8 @@ public class ToolBar extends ButtonBar
 
 				RoundPanel roundPanel = new RoundPanel();
 
-				roundPanel.add(new TextBox());
+				ToolBar.this.inputBar = new TextBox();
+				roundPanel.add(ToolBar.this.inputBar);
 
 				Button button = new Button("ok");
 				button.addTapHandler(new TapHandler()
@@ -75,6 +82,8 @@ public class ToolBar extends ButtonBar
 					@Override
 					public void onTap(TapEvent e)
 					{
+						algebraController.newInput(ToolBar.this.inputBar
+								.getText());
 						dialog.hide();
 					}
 				});

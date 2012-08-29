@@ -17,6 +17,20 @@ public class MobileAlgebraController extends AlgebraController
 		super(kernel);
 	}
 
+	public void newInput(String text)
+	{
+		try
+		{
+//			this.app.getKernel()
+//					.getAlgebraProcessor()
+//					.processAlgebraCommandNoExceptionHandling(text, true,
+//							false, true);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	// TODO:
 	// add event handler
 

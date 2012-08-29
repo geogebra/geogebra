@@ -7,7 +7,6 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.GuiManager;
-import geogebra.common.main.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.AnimationManager;
@@ -19,6 +18,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
@@ -94,6 +94,7 @@ public class MobileApp extends App
 	{
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
 	}
 
 	@Override
@@ -427,8 +428,8 @@ public class MobileApp extends App
 	@Override
 	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter()
 	{
-
-		return null;
+		// TODO
+		return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
 	}
 
 	@Override
@@ -684,17 +685,15 @@ public class MobileApp extends App
 	}
 
 	@Override
-  public DialogManager getDialogManager()
-  {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
+	public DialogManager getDialogManager()
+	{
+		return null;
+	}
 
 	@Override
-  public SpreadsheetTableModel getSpreadsheetTableModel()
-  {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
+	public SpreadsheetTableModel getSpreadsheetTableModel()
+	{
+		return null;
+	}
 
 }
