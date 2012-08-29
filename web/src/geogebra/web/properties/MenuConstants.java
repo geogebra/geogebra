@@ -1288,6 +1288,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Name & Icon")
     String NameIcon();
 
+    @DefaultStringValue("Navigation Bar")
+    String NavigationBar();
+
     @DefaultStringValue("New")
     String New();
 
@@ -1515,6 +1518,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Power")
     String Power();
+
+    @DefaultStringValue("Preferences")
+    String Preferences();
 
     @DefaultStringValue("Preview")
     String Preview();
