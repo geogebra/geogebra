@@ -2,6 +2,7 @@ package geogebra.web.gui.properties;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.web.gui.dialog.options.OptionPanelW;
 import geogebra.web.gui.dialog.options.OptionsAdvancedW;
 import geogebra.web.gui.dialog.options.OptionsCASW;

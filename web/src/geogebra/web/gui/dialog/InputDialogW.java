@@ -3,7 +3,7 @@ package geogebra.web.gui.dialog;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.common.main.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;

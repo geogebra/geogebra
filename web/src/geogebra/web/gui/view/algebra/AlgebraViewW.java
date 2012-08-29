@@ -20,6 +20,7 @@ import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.AppW;
 

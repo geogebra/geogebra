@@ -1,6 +1,6 @@
 package geogebra.web.gui.properties;
 
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.common.main.OptionType;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;

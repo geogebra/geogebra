@@ -2,10 +2,10 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.InputHandler;
-import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.main.DialogManager;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.common.main.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;

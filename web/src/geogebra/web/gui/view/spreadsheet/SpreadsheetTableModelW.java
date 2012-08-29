@@ -1,6 +1,6 @@
 package geogebra.web.gui.view.spreadsheet;
 
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 

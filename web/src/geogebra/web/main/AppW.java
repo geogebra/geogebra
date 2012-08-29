@@ -9,7 +9,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
@@ -1936,7 +1936,7 @@ public class AppW extends App {
 	}-*/;
 
 	@Override
-	public geogebra.common.gui.dialog.DialogManager getDialogManager() {
+	public geogebra.common.main.DialogManager getDialogManager() {
 		if (dialogManager == null) {
 			dialogManager = new DialogManagerW(this);
 		}
