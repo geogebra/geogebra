@@ -207,7 +207,7 @@ instructions.
 	<!-- Please change the date in ../web/kickstart.xml when the default.img file is changing! -->
 	<target name="mpreduce-geogebra">
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-20120823"
+	    src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-20120829"
 	    dest="default.img" usetimestamp="true"/> <!-- Please set this back to false if you revert to an older version! -->
 	</target>
 	
