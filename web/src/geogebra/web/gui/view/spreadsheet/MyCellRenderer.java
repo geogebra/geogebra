@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
@@ -13,8 +14,11 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
+
 /*
 import java.awt.Color;
 import java.awt.Component;
@@ -116,7 +120,7 @@ public class MyCellRenderer {
 	public Widget getTableCellRendererWidget(Grid table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
-		Widget retwidget = new Widget();
+		Widget retwidget = new InlineLabel();
 
 		//TODO//setBorder(cellPadding);
 		cellPoint.setLocation(column, row);
@@ -137,20 +141,20 @@ public class MyCellRenderer {
 		}
 		retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 
-/*
+
 		// Get the cell geo, exit if null
 		// ==================================================
 		if (value != null) {
 			geo = (GeoElement) value;
 		} else {
-			setText("");
-			return this;
+			((InlineLabel)retwidget).setText("");
+			return retwidget;
 		}
 
 		// use special rendering for buttons, booleans and lists
 		// =======================================================
 
-		if (view.allowSpecialEditor()
+		/*if (view.allowSpecialEditor()
 				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
 			if (geo.isGeoBoolean()) {
@@ -185,7 +189,7 @@ public class MyCellRenderer {
 
 				return comboBox;
 			}
-		}
+		}*/
 
 		// ===============================================
 		// (end special rendering)
@@ -220,18 +224,22 @@ public class MyCellRenderer {
 		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
 				CellFormat.FORMAT_FONTSTYLE);
 		if (fontStyle == null)
-			fontStyle = Font.PLAIN;
+			fontStyle = GFont.PLAIN;
 
-		setText(text);
-		setFont(app.getFontCanDisplayAwt(text, fontStyle));
+		((InlineLabel)retwidget).setText(text);
+		GFont gf = app.getFontCanDisplay(text, fontStyle);
+		((InlineLabel)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
+		((InlineLabel)retwidget).getElement().getStyle().setFontStyle(
+			gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
+		((InlineLabel)retwidget).getElement().getStyle().setFontWeight(
+			gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);
 
 		// Set foreground and background color
 		// ===============================================
 
 		// use geo bgColor if there is no format bgColor
 		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
-			bgColor = geogebra.awt.GColorD
-					.getAwtColor(geo.getBackgroundColor());
+			bgColor = geo.getBackgroundColor();
 			isCustomBGColor = true;
 		}
 
@@ -240,34 +248,35 @@ public class MyCellRenderer {
 			if (isCustomBGColor) {
 				bgColor = bgColor.darker();
 			} else {
-				bgColor = MyTableD.SELECTED_BACKGROUND_COLOR;
+				bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
 			}
 		}
-		setBackground(bgColor);
-		setForeground(geogebra.awt.GColorD.getAwtColor(geo.getLabelColor()));
+		((InlineLabel)retwidget).getElement().getStyle().setBackgroundColor(bgColor.toString());
+		((InlineLabel)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
 
 		// Set horizontal alignment
 		// ===============================================
 		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
 				CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
-			setHorizontalAlignment(alignment);
+			((InlineLabel)retwidget).getElement().getStyle().setProperty("text-align",
+				alignment == 2 ? "left" : (alignment == 4 ? "right" : "center"));
 		} else if (geo.isGeoText()) {
-			setHorizontalAlignment(SwingConstants.LEFT);
+			((InlineLabel)retwidget).getElement().getStyle().setProperty("text-align", "left");
 		} else {
-			setHorizontalAlignment(SwingConstants.RIGHT);
+			((InlineLabel)retwidget).getElement().getStyle().setProperty("text-align", "right");
 		}
 
 		// Set icons for LaTeX and images
 		// ===============================================
-		if (geo.isGeoImage()) {
+		/*if (geo.isGeoImage()) {
 			latexIcon.setImage(geogebra.awt.GBufferedImageD
 					.getAwtBufferedImage(((GeoImage) geo).getFillImage()));
 			setIcon(latexIcon);
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setText("");
 
-		} else {
+		} else {*/
 
 			boolean isSerif = false;
 			if (geo.isDefined()
@@ -276,7 +285,7 @@ public class MyCellRenderer {
 				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
 						true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {
-					try {
+					/*TODO//try {//Widget will be custom
 						if (geo.isGeoText())
 							isSerif = ((GeoText) geo).isSerifFont();
 						// System.out.println(latexStr);
@@ -293,14 +302,12 @@ public class MyCellRenderer {
 
 					} catch (Exception e) {
 						App.debug("error in drawing latex" + e);
-					}
+					}*/
 				}
 			}
 
-		}
+		/*}*/
 
-		return this;
-*/
 		return retwidget;
 	}
 
