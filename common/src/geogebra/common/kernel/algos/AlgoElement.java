@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.statistics.AlgoCell;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -955,7 +956,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			freeInputPoints = new ArrayList<GeoPoint>(input.length);
 
 			// don't use free points from dependent algos with expression trees
-			if (!(this instanceof AlgoDependent)) {
+			if (!(this instanceof DependentAlgo)) {
 				for (int i = 0; i < input.length; i++) {
 					if (input[i].isGeoPoint() && input[i].isIndependent()) {
 						freeInputPoints.add((GeoPoint) input[i]);

@@ -14,9 +14,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoAreEqual;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.AlgoAreEqual;
 import geogebra.common.main.MyError;
 
 /**

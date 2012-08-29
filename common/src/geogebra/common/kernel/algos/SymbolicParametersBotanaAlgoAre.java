@@ -3,6 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
+
 /**
  * This interface describes the symbolic parameters of algorithms
  * for the Botana method, where the algorithm checks a statement

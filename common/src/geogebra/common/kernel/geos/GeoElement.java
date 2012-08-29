@@ -38,7 +38,7 @@ import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntegralODE;
 import geogebra.common.kernel.algos.AlgoName;
@@ -5809,8 +5809,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			// point
 			if (isGeoPoint()) {
 
-				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
-					final GeoPoint p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
+				if (getParentAlgorithm() instanceof AlgoDynamicCoordinates) {
+					final GeoPoint p = ((AlgoDynamicCoordinates) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
 					geo = p;

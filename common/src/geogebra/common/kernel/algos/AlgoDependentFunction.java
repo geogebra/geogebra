@@ -35,7 +35,7 @@ import geogebra.common.util.StringUtil;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoDependentFunction extends AlgoElement implements AlgoDependent {
+public class AlgoDependentFunction extends AlgoElement implements DependentAlgo {
 	/** input */
 	protected Function fun;
 	/** output */

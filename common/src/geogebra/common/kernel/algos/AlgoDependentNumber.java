@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * @author Markus Hohenwarter
  * @version 
  */
-public class AlgoDependentNumber extends AlgoElement implements AlgoDependent {
+public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 
 	private ExpressionNode root;  // input
     private GeoNumeric number;     // output              

@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.kernel.algos.AlgoBarChart;
-import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoBarChart;
+import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.main.App;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;

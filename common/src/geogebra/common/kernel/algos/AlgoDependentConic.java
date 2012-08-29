@@ -33,7 +33,7 @@ import geogebra.common.main.App;
  * @author  Markus
  * @version 
  */
-public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint, AlgoDependent {
+public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint, DependentAlgo {
 
     private Equation equation;
     private ExpressionValue [] ev = new ExpressionValue[6];  // input

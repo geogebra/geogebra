@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author  Markus Hohenwarter
  * @version 
  */
-public class AlgoDependentList extends AlgoElement implements AlgoDependent {
+public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
 	private ArrayList<GeoElement> listItems; //input GeoElements
     private GeoList geoList;     // output    

@@ -33,7 +33,7 @@ import geogebra.common.plugin.Operation;
  * 
  * @author Markus
  */
-public class AlgoDependentText extends AlgoElement implements AlgoDependent {
+public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	private ExpressionNode root; // input
 	private GeoText text; // output

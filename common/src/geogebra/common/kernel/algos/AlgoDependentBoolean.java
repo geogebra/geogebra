@@ -20,6 +20,9 @@ import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.prover.AlgoAreEqual;
+import geogebra.common.kernel.prover.AlgoAreParallel;
+import geogebra.common.kernel.prover.AlgoArePerpendicular;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -35,7 +38,7 @@ import java.util.HashSet;
  * @version 
  */
 public class AlgoDependentBoolean extends AlgoElement implements SymbolicParametersAlgo, 
-	SymbolicParametersBotanaAlgoAre, AlgoDependent {
+	SymbolicParametersBotanaAlgoAre, DependentAlgo {
 
     private ExpressionNode root;  // input
     private GeoBoolean bool;     // output              

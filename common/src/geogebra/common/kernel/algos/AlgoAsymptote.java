@@ -33,7 +33,7 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
  * @author  Markus
  * @version 
  */
-public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface{
+public class AlgoAsymptote extends AlgoElement {
 
     private GeoConic c; // input
     private GeoLine[] asymptotes; // output          
