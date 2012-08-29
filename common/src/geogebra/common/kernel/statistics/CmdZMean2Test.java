@@ -1,12 +1,12 @@
-package geogebra.common.kernel.commands;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.statistics.AlgoZMean2Test;
 import geogebra.common.main.MyError;
 
 /**

@@ -1,24 +1,24 @@
-package geogebra.common.kernel.commands;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.statistics.AlgoZMeanEstimate;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
  * ZProportionTest
  */
-public class CmdZMeanEstimate extends CommandProcessor {
+public class CmdZProportion2Test extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdZMeanEstimate(Kernel kernel) {
+	public CmdZProportion2Test(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -31,38 +31,20 @@ public class CmdZMeanEstimate extends CommandProcessor {
 
 		switch (n) {
 
-		case 3:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-			) {
-				
-				AlgoZMeanEstimate algo = new AlgoZMeanEstimate(cons, c.getLabel(),
-						(GeoList) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2]
-								);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-
-			} 
-			
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
-			
-		case 4:
+		case 5:
 			if ((ok[0] = arg[0].isGeoNumeric()) 
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
+					&& (ok[4] = arg[4].isGeoText())
 			) {
 				
-				AlgoZMeanEstimate algo = new AlgoZMeanEstimate(cons, c.getLabel(),
+				AlgoZProportion2Test algo = new AlgoZProportion2Test(cons, c.getLabel(),
 						(GeoNumeric) arg[0], 
 						(GeoNumeric) arg[1],
 						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3]
-								);
+						(GeoNumeric) arg[3],
+						(GeoText) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
@@ -70,6 +52,7 @@ public class CmdZMeanEstimate extends CommandProcessor {
 			} 
 			
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			
 
 		default:
 			throw argNumErr(app, c.getName(), n);

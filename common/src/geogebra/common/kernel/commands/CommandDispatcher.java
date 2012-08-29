@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.CmdZProportionTest;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
@@ -1124,21 +1125,14 @@ public class CommandDispatcher {
 			case TurtleRight:
 				return new CmdTurtleRight(kernel);
 			case ZProportionTest:
-				return new CmdZProportionTest(kernel);
 			case ZProportion2Test:
-				return new CmdZProportion2Test(kernel);
 			case ZProportionEstimate:
-				return new CmdZProportionEstimate(kernel);
 			case ZProportion2Estimate:
-				return new CmdZProportion2Estimate(kernel);
 			case ZMeanEstimate:
-				return new CmdZMeanEstimate(kernel);
 			case ZMean2Estimate:
-				return new CmdZMean2Estimate(kernel);
 			case ZMeanTest:
-				return new CmdZMeanTest(kernel);
 			case ZMean2Test:
-				return new CmdZMean2Test(kernel);
+				return getStatsDispatcher().dispatch(Commands.valueOf(cmdName),kernel);
 			default:
 				App.error("missing case in CommandDispatcher "+cmdName);
 				return null;
@@ -1148,5 +1142,11 @@ public class CommandDispatcher {
 							+ cmdName);
 		}
 		return null;
+	}
+	private CmdDispatcherStats statsDispatcher = null;
+	private CmdDispatcherStats getStatsDispatcher() {
+		if(statsDispatcher==null)
+			statsDispatcher = new CmdDispatcherStats();
+		return statsDispatcher;
 	}
 }

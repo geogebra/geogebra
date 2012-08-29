@@ -1,23 +1,24 @@
-package geogebra.common.kernel.commands;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.statistics.AlgoZProportion2Estimate;
 import geogebra.common.main.MyError;
 
 /**
- * ZProportion2Estimate[ <Sample Proportion 1 >, <Sample Size 1>, <Sample Proportion 2 >, <Sample Size 2>, <Level> ]
+ * ZProportionTest
  */
-public class CmdZProportion2Estimate extends CommandProcessor {
+public class CmdZMeanEstimate extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdZProportion2Estimate(Kernel kernel) {
+	public CmdZMeanEstimate(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -30,20 +31,37 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 
 		switch (n) {
 
-		case 5:
+		case 3:
+			if ((ok[0] = arg[0].isGeoList()) 
+					&& (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = arg[2].isGeoNumeric())
+			) {
+				
+				AlgoZMeanEstimate algo = new AlgoZMeanEstimate(cons, c.getLabel(),
+						(GeoList) arg[0], 
+						(GeoNumeric) arg[1],
+						(GeoNumeric) arg[2]
+								);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+
+			} 
+			
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			
+		case 4:
 			if ((ok[0] = arg[0].isGeoNumeric()) 
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())
 			) {
 				
-				AlgoZProportion2Estimate algo = new AlgoZProportion2Estimate(cons, c.getLabel(),
+				AlgoZMeanEstimate algo = new AlgoZMeanEstimate(cons, c.getLabel(),
 						(GeoNumeric) arg[0], 
 						(GeoNumeric) arg[1],
 						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3],
-						(GeoNumeric) arg[4]
+						(GeoNumeric) arg[3]
 								);
 
 				GeoElement[] ret = { algo.getResult() };
