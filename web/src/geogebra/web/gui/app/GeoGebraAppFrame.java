@@ -148,19 +148,19 @@ public class GeoGebraAppFrame extends Composite {
 	
 	private native void loadCASWithWorker(String baseUrl, GeoGebraAppFrame ggbAF) /*-{
 		var worker = new Worker(baseUrl+"js/loadCAS.js");		
-		console.log(baseUrl+"js/loadCAS.js");
-		worker.onmessage = function(e) {
-		  console.log("worker says: " + e.data);
-		};
+		$wnd.console.log(baseUrl+"js/loadCAS.js");
+		worker.addEventListener("message", function(e) {
+		  $wnd.console.log("worker says: " + e.data);
+		});
 		
-	   window.loadCAS =
+	   $wnd.loadCAS =
 	      //$entry(ggbAF.@geogebra.web.gui.app.GeoGebraAppFrame::loadCAS());
 	      function() {ggbAF.@geogebra.web.gui.app.GeoGebraAppFrame::loadCAS()()};
 		
 		//worker.postMessage("{'fnname' : 'loadCAS'}");
 		//worker.postMessage(JSON.stringify(window.loadCAS));
-		worker.postMessage();
-		worker.terminate();
+		worker.postMessage("msg from outside of worker");
+		//worker.terminate();
 	}-*/;
 	
 	private void loadCAS(){
