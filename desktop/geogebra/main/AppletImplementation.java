@@ -22,6 +22,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.app.GeoGebraFrame;
 import geogebra.plugin.GgbAPID;
 import geogebra.util.Util;
 
@@ -47,7 +48,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import netscape.javascript.JSObject;
 
@@ -331,17 +331,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		 * CustomApplication(args, this, undoActive); }
 		 */
 
-		try {
-			if (app.isMacOS() || app.isWindows()) {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
-			} else {
-				UIManager.setLookAndFeel(UIManager
-						.getCrossPlatformLookAndFeelClassName());
-			}
-		} catch (Exception e) {
-			App.debug(e + "");
-		}
+		GeoGebraFrame.setLAF(AppD.MAC_OS || AppD.WINDOWS);
 
 		if (fileStr == null) {
 			app = buildApplication(null, undoActive);
