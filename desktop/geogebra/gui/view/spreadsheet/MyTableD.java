@@ -1574,9 +1574,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			}
 		}
 		if (doColumns) {
-			for (int column = 0; column < getColumnCount(); column++) {
-				fitRow(column);
-			}
+			App.debug("MyTableD.fitAll is only partly implemented");
+			//for (int column = 0; column < getColumnCount(); column++) {
+				//TODO:test//fitColumn(column);
+			//}
 		}
 	}
 
