@@ -1,6 +1,8 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -29,6 +31,7 @@ public class GGWSpreadsheetView extends Composite {
 	 * 
 	 */
 	@UiField AbsolutePanel tempsheet;
+	SpreadsheetView spreadsheet = null;
 
 	/**
 	 * 	Wrapper for the two EuclidianView (one is active only)
@@ -39,6 +42,10 @@ public class GGWSpreadsheetView extends Composite {
 
 	public void attachApp(App app) {
 	   this.application = app;
-	   //eview1.attachApp(app);
+
+	   // get the spreadsheet from the app
+	   spreadsheet = ((AppW)app).getGuiManager().getSpreadsheetView();
+
+	   tempsheet.add(spreadsheet);
 	}
 }

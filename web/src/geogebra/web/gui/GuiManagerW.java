@@ -30,6 +30,7 @@ import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
@@ -55,6 +56,7 @@ public class GuiManagerW extends GuiManager {
 
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
+	private SpreadsheetView spreadsheetView;
 
 	private AbsolutePanel main;
 
@@ -281,10 +283,13 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-	public View getSpreadsheetView() {
-		App.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return null;
+	public SpreadsheetView getSpreadsheetView() {
+		// init spreadsheet view
+		if (spreadsheetView == null) {
+			spreadsheetView = new SpreadsheetView((AppW)app);
+		}
+
+		return spreadsheetView;
 	}
 
 	@Override
