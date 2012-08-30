@@ -98,7 +98,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	/**
 	 * If this panel should be opened in a frame the next time it's visible.
 	 */
-	private boolean openInFrame = true;
+	private boolean openInFrame = false;
 	
 	/**
 	 * If there is a style bar associated with this panel.
