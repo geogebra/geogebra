@@ -1178,32 +1178,32 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("procedure myfirst(l, n);" +
 				"for i:=1:n collect part(l,i);");
 		
-		mpreduce1.evaluate("procedure getkernels(a);" +
-				"for each element in a join" +
-				"  if arglength(element) = -1 or numberp(element) then" +
-				"    if numberp(element) then" +
-				"      list()" +
-				"    else" +
-				"      list(element)" +
-				"  else" +
-				"    getkernels(part(element,0):=list);");
-		
-		mpreduce1.evaluate("procedure mymainvars(a,n);" +
-				"begin scalar variables!!;" +
-				" variables!!:=gvars(getkernels(list(a)));" +
-				" return" +
-				" if length(variables!!)<n then <<" +
-				"   write \"*** the expression \",a,\" has less than \",n,\" variables.\";" +
-						"   mymainvaraux(variables!!)" +
-						" >> else <<" +
-						"   myfirst(variables!!,n)" +
-						" >> end;");		
-		
+		mpreduce1.evaluate("procedure getkernels(a);"
+				+ "for each element in a join"
+				+ "  if arglength(element) = -1 or numberp(element) then"
+				+ "    if numberp(element) then" + "      list()" + "    else"
+				+ "      list(element)" + "  else"
+				+ "    getkernels(part(element,0):=list);");
+
+		mpreduce1
+				.evaluate("procedure mymainvars(a,n);"
+						+ "begin scalar variables!!, result!!;"
+						+ " variables!!:=gvars(getkernels(list(a)));"
+						+ " result!!:="
+						+ " if length(variables!!)<n then <<"
+						+ "   write \"*** the expression \",a,\" has less than \",n,\" variables.\";"
+						+ "   list(mymainvaraux(variables!!))"
+						+ " >> else <<"
+						+ "   myfirst(variables!!,n)"
+						+ " >>;"
+						+ " write \"***chosen variables: \",result!!;"
+						+ " return result!! end;");
+
 		mpreduce1.evaluate("procedure mymainvaraux a;"
 				+ "if a=list() then currentx!! else first(a);");
-		
+
 		mpreduce1.evaluate("procedure mymainvar a;"
-				+ "mymainvaraux(mymainvars(a,1));");
+				+ "first(mymainvars(a,1));");
 		
 		App.debug("Initial procedures in Reduce have been defined");
 		
