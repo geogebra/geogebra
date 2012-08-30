@@ -122,8 +122,11 @@ public class PerspectivePanel extends JPopupMenu {
 
 		// user perspectives
 		Perspective[] perspectives = layout.getPerspectives();
-
-		if (perspectives.length != 0) {
+		
+		// don't allow user perspectives in 4.2 (maybe in 5.0)
+		boolean showUserPerpectives  = false;
+		
+		if (showUserPerpectives && perspectives.length != 0) {
 			addSeparator();
 			for (int i = 0; i < perspectives.length; ++i) {
 				JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
