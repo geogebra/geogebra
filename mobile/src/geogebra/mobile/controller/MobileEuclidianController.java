@@ -222,7 +222,6 @@ public class MobileEuclidianController extends EuclidianController implements
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
-
 		// commands that need one point and one line
 		case PerpendicularLine:
 		case ParallelLine:
@@ -234,7 +233,8 @@ public class MobileEuclidianController extends EuclidianController implements
 		// commands that need two points or one segment
 		case PerpendicularBisector:
 			recordPoint(hits);
-			if (hits.size() > 0 && hits.get(0).getClassName() == "GeoSegment")
+			//if (hits.size() > 0 && hits.get(0).getClassName() == "GeoSegment")
+			if (hits.size() > 0 && hits.get(0) instanceof GeoSegment)
 			{
 				this.oldLines.add((GeoLineND) hits.get(0));
 				draw = true;
@@ -304,11 +304,6 @@ public class MobileEuclidianController extends EuclidianController implements
 						.get(this.oldPoints.size() - 1),
 						(GeoLine) this.oldLines.get(this.oldLines.size() - 1));
 				break;
-			case Parabola:
-				this.kernel.Parabola(null, (GeoPoint) this.oldPoints
-						.get(this.oldPoints.size() - 1),
-						(GeoLine) this.oldLines.get(this.oldLines.size() - 1));
-				break;
 			case PerpendicularBisector:
 				if (this.oldLines.size() > 0)
 				{
@@ -320,6 +315,10 @@ public class MobileEuclidianController extends EuclidianController implements
 							(GeoPoint) this.oldPoints.get(0),
 							(GeoPoint) this.oldPoints.get(1));
 				}
+				break;
+			case Parabola:
+				this.kernel.Parabola(null, (GeoPoint) this.oldPoints.get(1),
+						(GeoLine) this.oldLines.get(0));
 				break;
 			case CircleThroughThreePoints:
 				this.kernel.Circle(null, (GeoPoint) this.oldPoints.get(0),
