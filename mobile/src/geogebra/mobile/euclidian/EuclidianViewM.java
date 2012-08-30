@@ -28,12 +28,6 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -69,35 +63,35 @@ public class EuclidianViewM extends EuclidianView
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
 
-		this.canvas.addTouchStartHandler(new TouchStartHandler()
-		{
-			@Override
-			public void onTouchStart(TouchStartEvent event)
-			{
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchStart(event);
-			}
-		});
-
-		this.canvas.addTouchMoveHandler(new TouchMoveHandler()
-		{
-			@Override
-			public void onTouchMove(TouchMoveEvent event)
-			{
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchMove(event);
-			}
-		});
-
-		this.canvas.addTouchEndHandler(new TouchEndHandler()
-		{
-			@Override
-			public void onTouchEnd(TouchEndEvent event)
-			{
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchEnd(event);
-			}
-		});
+		// this.canvas.addTouchStartHandler(new TouchStartHandler()
+		// {
+		// @Override
+		// public void onTouchStart(TouchStartEvent event)
+		// {
+		// ((MobileEuclidianController) EuclidianViewM.this
+		// .getEuclidianController()).onTouchStart(event);
+		// }
+		// });
+		//
+		// this.canvas.addTouchMoveHandler(new TouchMoveHandler()
+		// {
+		// @Override
+		// public void onTouchMove(TouchMoveEvent event)
+		// {
+		// ((MobileEuclidianController) EuclidianViewM.this
+		// .getEuclidianController()).onTouchMove(event);
+		// }
+		// });
+		//
+		// this.canvas.addTouchEndHandler(new TouchEndHandler()
+		// {
+		// @Override
+		// public void onTouchEnd(TouchEndEvent event)
+		// {
+		// ((MobileEuclidianController) EuclidianViewM.this
+		// .getEuclidianController()).onTouchEnd(event);
+		// }
+		// });
 
 		this.canvas.addMouseDownHandler(new MouseDownHandler()
 		{

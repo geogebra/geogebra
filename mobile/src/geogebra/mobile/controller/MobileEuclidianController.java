@@ -218,6 +218,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		case RayThroughTwoPoints:
 		case VectorBetweenTwoPoints:
 		case CircleWithCenterThroughPoint:
+		case Semicircle:
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
@@ -226,11 +227,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		case PerpendicularLine:
 		case ParallelLine:
 		case Parabola:
-			recordPoint(hits);
-			if (hits.size() > 0 && hits.get(0) instanceof GeoLineND)
-			{
-				this.oldLines.add((GeoLineND) hits.get(0));
-			}
+			recordElement(hits);
 			draw = this.oldPoints.size() >= 1 && this.oldLines.size() >= 1;
 			break;
 
@@ -249,6 +246,10 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// commands that need tree points
 		case CircleThroughThreePoints:
+		case CircularArcWithCenterBetweenTwoPoints:
+		case CircularSectorWithCenterBetweenTwoPoints:
+		case CircumCirculuarArcThroughThreePoints:
+		case CircumCircularSectorThroughThreePoints:
 		case Ellipse:
 		case Hyperbola:
 			recordPoint(hits);
@@ -289,6 +290,10 @@ public class MobileEuclidianController extends EuclidianController implements
 				this.kernel.Circle(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoPoint) this.oldPoints.get(1));
 				break;
+			case Semicircle:
+				this.kernel.Semicircle(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1));
+				break;
 			case PerpendicularLine:
 				this.kernel.OrthogonalLine(null,
 						(GeoPoint) this.oldPoints.get(1),
@@ -318,6 +323,29 @@ public class MobileEuclidianController extends EuclidianController implements
 				break;
 			case CircleThroughThreePoints:
 				this.kernel.Circle(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1),
+						(GeoPoint) this.oldPoints.get(2));
+				break;
+			case CircularArcWithCenterBetweenTwoPoints:
+				this.kernel.CircleArc(null, (GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1),
+						(GeoPoint) this.oldPoints.get(2));
+				break;
+			case CircularSectorWithCenterBetweenTwoPoints:
+				this.kernel.CircleSector(null,
+						(GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1),
+						(GeoPoint) this.oldPoints.get(2));
+				break;
+			case CircumCirculuarArcThroughThreePoints:
+				this.kernel.CircumcircleArc(null,
+						(GeoPoint) this.oldPoints.get(0),
+						(GeoPoint) this.oldPoints.get(1),
+						(GeoPoint) this.oldPoints.get(2));
+				break;
+			case CircumCircularSectorThroughThreePoints:
+				this.kernel.CircumcircleSector(null,
+						(GeoPoint) this.oldPoints.get(0),
 						(GeoPoint) this.oldPoints.get(1),
 						(GeoPoint) this.oldPoints.get(2));
 				break;
@@ -369,6 +397,32 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.oldPoints.add((GeoPointND) this.movedGeoElement);
 		}
+	}
+
+	protected void recordElement(Hits hits)
+	{
+		if (hits.containsGeoPoint())
+		{
+			GeoPoint point = getNearestPoint(hits);
+			this.oldPoints.add(point);
+			return;
+		}
+
+		// no points, but other objects
+		if (hits.size() > 0)
+		{
+			for (int i = 0; i < hits.size(); i++)
+			{
+				if (hits.get(i) instanceof GeoLineND)
+				{
+					this.oldLines.add((GeoLineND) hits.get(i));
+					return;
+				}
+			}
+		}
+
+		// no point and no line found
+		this.oldPoints.add((GeoPointND) this.movedGeoElement);
 	}
 
 	private GeoPoint getNearestPoint(Hits hits)

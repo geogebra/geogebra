@@ -6,6 +6,9 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.factories.CASFactory;
+import geogebra.common.factories.Factory;
+import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -692,6 +695,24 @@ public class MobileApp extends App
 
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel()
+	{
+		return null;
+	}
+
+	@Override
+	public CASFactory getCASFactory()
+	{
+		return null;
+	}
+
+	@Override
+	public SwingFactory getSwingFactory()
+	{
+		return null;
+	}
+
+	@Override
+	public Factory getFactory()
 	{
 		return null;
 	}
