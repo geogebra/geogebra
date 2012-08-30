@@ -98,6 +98,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseDown(MouseDownEvent event)
 			{
+				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseDown(event);
 			}
@@ -108,6 +109,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseMove(MouseMoveEvent event)
 			{
+				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseMove(event);
 			}
@@ -118,6 +120,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseUp(MouseUpEvent event)
 			{
+				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseUp(event);
 			}
@@ -128,6 +131,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onClick(event);
 			}

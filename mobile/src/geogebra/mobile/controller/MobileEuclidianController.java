@@ -105,16 +105,22 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onTouchMove(TouchMoveEvent event)
 	{
+		event.preventDefault();
+
 	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event)
 	{
+		event.preventDefault();
+
 	}
 
 	@Override
 	public void onTouchStart(TouchStartEvent event)
 	{
+		event.preventDefault();
+
 	}
 
 	@Override
@@ -378,6 +384,8 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onClick(ClickEvent event)
 	{
+		event.preventDefault();
+
 	}
 
 	public void setGuiModel(GuiModel model)
