@@ -202,6 +202,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		if (this.lastCmd != cmd)
 		{
 			this.oldPoints = new ArrayList<GeoPointND>();
+			this.oldLines = new ArrayList<GeoLineND>();
 			this.lastCmd = cmd;
 		}
 
@@ -215,7 +216,11 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		Hits hits = this.view.getHits();
 
-		removeSelection();
+		if (!cmd.equals(ToolBarCommand.Select))
+		{
+			removeSelection();
+		}
+
 		switch (cmd)
 		{
 		// commands that need two points
@@ -228,6 +233,7 @@ public class MobileEuclidianController extends EuclidianController implements
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 2;
 			break;
+
 		// commands that need one point and one line
 		case PerpendicularLine:
 		case ParallelLine:
@@ -239,7 +245,6 @@ public class MobileEuclidianController extends EuclidianController implements
 		// commands that need two points or one segment
 		case PerpendicularBisector:
 			recordPoint(hits);
-			//if (hits.size() > 0 && hits.get(0).getClassName() == "GeoSegment")
 			if (hits.size() > 0 && hits.get(0) instanceof GeoSegment)
 			{
 				this.oldLines.add((GeoLineND) hits.get(0));
@@ -266,6 +271,36 @@ public class MobileEuclidianController extends EuclidianController implements
 		case ConicThroughFivePoints:
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 5;
+			break;
+
+		// other commands
+		case DeleteObject:
+			// this.oldPoints = new ArrayList<GeoPointND>();
+			// this.oldLines = new ArrayList<GeoLineND>();
+			this.view.setHits(this.mouseLoc);
+			hits = this.view.getHits();
+			recordElement(hits);
+			if (this.oldPoints.size() > 0)
+			{
+				this.oldPoints.get(0).remove();
+			}
+			if (this.oldLines.size() > 0)
+			{
+				this.oldLines.get(0).remove();
+			}
+			break;
+		case Select:
+			this.view.setHits(this.mouseLoc);
+			hits = this.view.getHits();
+
+			for (GeoElement geo : hits)
+			{
+				this.app.getSelectedGeos().add(geo);
+				geo.setSelected(true);
+			}
+
+			this.kernel.notifyRepaint();
+
 			break;
 
 		// commands that need one point - nothing to do anymore
@@ -323,7 +358,7 @@ public class MobileEuclidianController extends EuclidianController implements
 				}
 				break;
 			case Parabola:
-				this.kernel.Parabola(null, (GeoPoint) this.oldPoints.get(1),
+				this.kernel.Parabola(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoLine) this.oldLines.get(0));
 				break;
 			case CircleThroughThreePoints:
@@ -385,7 +420,6 @@ public class MobileEuclidianController extends EuclidianController implements
 	public void onClick(ClickEvent event)
 	{
 		event.preventDefault();
-
 	}
 
 	public void setGuiModel(GuiModel model)

@@ -10,7 +10,11 @@ public interface CommonResources extends ClientBundle
 {
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
-	
+
+	@Source("icons/svg/arrow_cursor_grab.svg")
+	@Validated(validated = false)
+	SVGResource arrow_cursor_grab();
+
 	@Source("icons/svg/stylingbar_spreadsheetview_show_input_bar.svg")
 	@Validated(validated = false)
 	SVGResource show_input_bar();

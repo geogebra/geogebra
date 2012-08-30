@@ -105,8 +105,11 @@ public enum ToolBarCommand
 	ShowHideLabel(EuclidianConstants.MODE_SHOW_HIDE_LABEL, CommonResources.INSTANCE.show_hide_label()),
 	ShowHideObject(EuclidianConstants.MODE_SHOW_HIDE_OBJECT, CommonResources.INSTANCE.show_hide_object()),
 	ZoomIn(EuclidianConstants.MODE_ZOOM_IN, CommonResources.INSTANCE.zoom_in()),
-	ZoomOut(EuclidianConstants.MODE_ZOOM_OUT, CommonResources.INSTANCE.zoom_out());
+	ZoomOut(EuclidianConstants.MODE_ZOOM_OUT, CommonResources.INSTANCE.zoom_out()),
 
+	// others
+	Select(-1, CommonResources.INSTANCE.arrow_cursor_grab());
+	
 	int mode;
 	SVGResource icon;
 

@@ -24,9 +24,9 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 public class ToolBar extends ButtonBar
 {
 
-	private OptionsClickedListener[] b;
+	protected OptionsClickedListener[] b;
 	private ToolBarCommand activeCmd;
-	TextBox inputBar;
+	protected TextBox inputBar;
 
 	public ToolBar()
 	{
@@ -47,7 +47,7 @@ public class ToolBar extends ButtonBar
 	public void makeTabletToolBar(GuiModel model,
 			final MobileAlgebraController algebraController)
 	{
-		this.b = new ToolBarButton[11];
+		this.b = new ToolBarButton[12];
 
 		this.b[0] = new ToolBarButton(ToolBarMenu.Point, model);
 		this.b[1] = new ToolBarButton(ToolBarMenu.Line, model);
@@ -59,10 +59,12 @@ public class ToolBar extends ButtonBar
 		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, model);
 		this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, model);
 		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, model);
+		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, model);
 
-		this.b[10] = new ToolBarButton(
+		// inputBar
+		this.b[11] = new ToolBarButton(
 				CommonResources.INSTANCE.show_input_bar(), model);
-		((ToolBarButton) this.b[10]).addTapHandler(new TapHandler()
+		((ToolBarButton) this.b[11]).addTapHandler(new TapHandler()
 		{
 			@Override
 			public void onTap(TapEvent event)
@@ -95,7 +97,7 @@ public class ToolBar extends ButtonBar
 			}
 		});
 
-		((ToolBarButton) this.b[10]).addStyleName("rightButton");
+		((ToolBarButton) this.b[11]).addStyleName("rightButton");
 
 		for (int i = 0; i < this.b.length; i++)
 		{
