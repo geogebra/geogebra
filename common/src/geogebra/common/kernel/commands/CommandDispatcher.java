@@ -598,8 +598,6 @@ public class CommandDispatcher {
 				return new CmdRandomElement(kernel);
 			case Unique:
 				return new CmdUnique(kernel);
-			case Classes:
-				return new CmdClasses(kernel);
 			case Zip:
 				return new CmdZip(kernel);
 			case Intersection:
@@ -907,6 +905,7 @@ public class CommandDispatcher {
 			case CellRange:
 			case ChiSquareTest:
 			case ChiSquared:
+			case Classes:
 			case Column:
 			case ColumnName:
 			case CorrelationCoefficient:

@@ -13,6 +13,8 @@ import geogebra.common.kernel.statistics.CmdZProportionTest;
 public class CommandDispatcherStats {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
+		case Classes:
+			return new CmdClasses(kernel);
 		case OrdinalRank:
 			return new CmdOrdinalRank(kernel);
 		case TiedRank:
