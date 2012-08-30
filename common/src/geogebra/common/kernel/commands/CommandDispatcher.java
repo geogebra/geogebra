@@ -895,130 +895,130 @@ public class CommandDispatcher {
 				
 				// ************** STATS ***************
 				
-			case OrdinalRank:
-			case TiedRank:
+			case ANOVA:
 			case BarChart:
+			case Bernoulli:
+			case Binomial:
+			case BinomialCoefficient:
+			case BinomialDist:
 			case BoxPlot:
+			case Cauchy:
+			case Cell:
+			case CellRange:
+			case ChiSquareTest:
+			case ChiSquared:
+			case Column:
+			case ColumnName:
+			case CorrelationCoefficient:
+			case Covariance:
+			case DotPlot:
+			case Erlang:
+			case Exponential:
+			case FDistribution:
+			case FillCells:
+			case FillColumn:
+			case FillRow:
+			case Fit:
+			case FitExp:
+			case FitGrowth:
+			case FitLine:
+			case FitLineX:
+			case FitLineY:
+			case FitLog:
+			case FitLogistic:
+			case FitPoly:
+			case FitPow:
+			case FitSin:
+			case Frequency:
+			case FrequencyPolygon:
+			case FrequencyTable:
+			case Gamma:
+			case GeometricMean:
+			case HarmonicMean:
 			case Histogram:
 			case HistogramRight:
-			case DotPlot:
-			case StemPlot:
-			case ResidualPlot:
-			case FrequencyPolygon:
-			case NormalQuantilePlot:
-			case FrequencyTable:
-			case Sum:
+			case HyperGeometric:
+			case InverseBinomial:
+			case InverseCauchy:
+			case InverseChiSquared:
+			case InverseExponential:
+			case InverseFDistribution:
+			case InverseGamma:
+			case InverseHyperGeometric:
+			case InverseLogNormal:
+			case InverseLogistic:
+			case InverseNormal:
+			case InversePascal:
+			case InversePoisson:
+			case InverseTDistribution:
+			case InverseWeibull:
+			case InverseZipf:
+			case LogNormal:
+			case Logistic:
 			case Mean:
-			case Variance:
-			case SD:
-			case SampleVariance:
-			case SampleSD:
+			case MeanX:
+			case MeanY:
 			case Median:
+			case Mode:
+			case Normal:
+			case NormalQuantilePlot:
+			case OrdinalRank:
+			case PMCC:
+			case Pascal:
+			case Percentile:
+			case Poisson:
+			case Product:
 			case Q1:
 			case Q3:
-			case Mode:
+			case RSquare:
+			case Random:
+			case RandomBinomial:
+			case RandomNormal:
+			case RandomPoisson:
+			case RandomUniform:
+			case ResidualPlot:
+			case RootMeanSquare:
+			case Row:
+			case SD:
+			case SDX:
+			case SDY:
+			case SXX:
+			case SXY:
+			case SYY:
+			case Sample:
+			case SampleSD:
+			case SampleSDX:
+			case SampleSDY:
+			case SampleVariance:
+			case Shuffle:
 			case SigmaXX:
 			case SigmaXY:
 			case SigmaYY:
-			case Covariance:
-			case SXY:
-			case SXX:
-			case SYY:
-			case MeanX:
-			case MeanY:
-			case PMCC:
-			case SampleSDX:
-			case SampleSDY:
-			case SDX:
-			case SDY:
-			case FitLineY:
-			case FitLineX:
-			case FitPoly:
-			case FitExp:
-			case FitLog:
-			case FitPow:
-			case Fit:
-			case FitGrowth:
-			case FitSin:
-			case FitLogistic:
-			case SumSquaredErrors:
-			case RSquare:
-			case Sample:
-			case Shuffle:
+			case Sort:
 			case Spearman:
+			case StemPlot:
+			case Sum:
+			case SumSquaredErrors:
+			case TDistribution:
+			case TMean2Estimate:
+			case TMeanEstimate:
+			case TTest2:
 			case TTest:
 			case TTestPaired:
-			case TTest2:
-			case TMeanEstimate:
-			case TMean2Estimate:
-			case ChiSquareTest:
-			case ANOVA:
-			case Percentile:
-			case GeometricMean:
-			case HarmonicMean:
-			case RootMeanSquare:
-			case Random:
-			case RandomNormal:
-			case RandomUniform:
-			case RandomBinomial:
-			case RandomPoisson:
-			case Normal:
-			case LogNormal:
-			case InverseLogNormal:
-			case Logistic:
-			case InverseLogistic:
-			case InverseNormal:
-			case Binomial:
-			case BinomialDist:
-			case Bernoulli:
-			case InverseBinomial:
-			case TDistribution:
-			case InverseTDistribution:
-			case FDistribution:
-			case InverseFDistribution:
-			case Gamma:
-			case InverseGamma:
-			case Cauchy:
-			case InverseCauchy:
-			case ChiSquared:
-			case InverseChiSquared:
-			case Exponential:
-			case InverseExponential:
-			case HyperGeometric:
-			case InverseHyperGeometric:
-			case Pascal:
-			case InversePascal:
-			case Poisson:
-			case InversePoisson:
-			case Weibull:
-			case InverseWeibull:
-			case Zipf:
-			case InverseZipf:
+			case TiedRank:
 			case Triangular:
 			case Uniform:
-			case Erlang:
-			case CellRange:
-			case Row:
-			case Column:
-			case ColumnName:
-			case FillRow:
-			case FillColumn:
-			case FillCells:
-			case Cell:
-			case CorrelationCoefficient:
-			case FitLine:
-			case BinomialCoefficient:
-			case Product:
-			case Frequency:
-			case Sort:
-			case ZProportionTest:
+			case Variance:
+			case Weibull:
+			case ZMean2Estimate:
+			case ZMean2Test:
+			case ZMeanEstimate:
+			case ZMeanTest:
+			case ZProportion2Estimate:
 			case ZProportion2Test:
 			case ZProportionEstimate:
-			case ZProportion2Estimate:
-			case ZMeanEstimate:
-			case ZMean2Estimate:
-			case ZMeanTest:
-			case ZMean2Test:
+			case ZProportionTest:
+			case Zipf:
 				return getStatsDispatcher().dispatch(command,kernel);
 			default:
 				App.error("missing case in CommandDispatcher "+cmdName);
