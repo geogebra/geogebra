@@ -85,6 +85,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	 * browser, right panel holds spreadsheet.
 	 */
 	public SpreadsheetView(AppW app) {
+		super();
 
 		this.app = app;
 		kernel = app.getKernel();
