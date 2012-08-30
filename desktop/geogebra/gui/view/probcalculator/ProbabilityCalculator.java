@@ -2315,7 +2315,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		sb.append("\t<distribution");
 
 		sb.append(" type=\"");
-		sb.append(selectedDist);
+		sb.append(selectedDist.ordinal());
 		sb.append("\"");
 
 		sb.append(" isCumulative=\"");

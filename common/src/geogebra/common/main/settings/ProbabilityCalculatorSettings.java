@@ -68,6 +68,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * Sets the  distribution type
 	 */
 	public void setDistributionType(DIST distributionType) {
+		if(distributionType == null){
+			distributionType = DIST.NORMAL; // default guard
+		}
 		this.distributionType = distributionType;
 			settingChanged();
 	}
