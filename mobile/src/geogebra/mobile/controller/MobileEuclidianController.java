@@ -49,8 +49,9 @@ public class MobileEuclidianController extends EuclidianController implements
 {
 
 	private GuiModel guiModel;
-	ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
-	ArrayList<GeoLineND> oldLines = new ArrayList<GeoLineND>(); // meli
+	private ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
+	private ArrayList<GeoLineND> oldLines = new ArrayList<GeoLineND>(); // meli
+	private ArrayList<GeoElement> oldElements = new ArrayList<GeoElement>();
 	private ToolBarCommand lastCmd;
 	private GPoint origin;
 	private boolean moving;
@@ -203,6 +204,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.oldPoints = new ArrayList<GeoPointND>();
 			this.oldLines = new ArrayList<GeoLineND>();
+			this.oldElements = new ArrayList<GeoElement>();
 			this.lastCmd = cmd;
 		}
 
@@ -255,6 +257,12 @@ public class MobileEuclidianController extends EuclidianController implements
 			}
 			break;
 
+		// commands that need any two objects
+		case IntersectTwoObjects:
+			recordAnyObject(hits);
+			draw = this.oldElements.size() == 2;
+			break;
+
 		// commands that need tree points
 		case CircleThroughThreePoints:
 		case CircularArcWithCenterBetweenTwoPoints:
@@ -271,6 +279,13 @@ public class MobileEuclidianController extends EuclidianController implements
 		case ConicThroughFivePoints:
 			recordPoint(hits);
 			draw = this.oldPoints.size() == 5;
+			break;
+
+		// commands that need an unknown number of points
+		case Polygon:
+			recordPoint(hits);
+			draw = (this.oldPoints.size() > 1)
+					&& hits.contains(this.oldPoints.get(0));
 			break;
 
 		// other commands
@@ -357,6 +372,10 @@ public class MobileEuclidianController extends EuclidianController implements
 							(GeoPoint) this.oldPoints.get(1));
 				}
 				break;
+			// TODO
+			// case IntersectTwoObjects:
+			// this.kernel.intersect ???
+			// break;
 			case Parabola:
 				this.kernel.Parabola(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoLine) this.oldLines.get(0));
@@ -407,11 +426,17 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoPoint) this.oldPoints.get(3),
 						(GeoPoint) this.oldPoints.get(4) });
 				break;
+			case Polygon:
+				this.oldPoints.remove(this.oldPoints.size() - 1);
+				this.kernel.Polygon(null, this.oldPoints
+						.toArray(new GeoPointND[this.oldPoints.size() - 1]));
+				break;
 			default:
 			}
 
 			this.oldPoints = new ArrayList<GeoPointND>();
 			this.oldLines = new ArrayList<GeoLineND>();
+			this.oldElements = new ArrayList<GeoElement>();
 		}
 
 	}
@@ -427,7 +452,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.guiModel = model;
 	}
 
-	protected void recordPoint(Hits hits)
+	private void recordPoint(Hits hits)
 	{
 		hits.removePolygons();
 		if (hits.containsGeoPoint())
@@ -440,13 +465,18 @@ public class MobileEuclidianController extends EuclidianController implements
 		}
 	}
 
-	protected void recordElement(Hits hits)
+	/**
+	 * 
+	 * @param hits
+	 * @return the hit element; null in case no element was hit
+	 */
+	private GeoElement recordElement(Hits hits)
 	{
 		if (hits.containsGeoPoint())
 		{
 			GeoPoint point = getNearestPoint(hits);
 			this.oldPoints.add(point);
-			return;
+			return point;
 		}
 
 		// no points, but other objects
@@ -454,16 +484,33 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			for (int i = 0; i < hits.size(); i++)
 			{
-				if (hits.get(i) instanceof GeoLineND)
+				if (hits.get(i) instanceof GeoLineND
+						&& !this.oldLines.contains(hits.get(i)))
 				{
 					this.oldLines.add((GeoLineND) hits.get(i));
-					return;
+					return hits.get(i);
 				}
 			}
 		}
 
 		// no point and no line found
 		this.oldPoints.add((GeoPointND) this.movedGeoElement);
+		return null;
+	}
+
+	private void recordAnyObject(Hits hits)
+	{
+		if (hits.size() > 0)
+		{
+			this.oldElements.add(hits.get(0));
+			if (hits.size() > 1)
+			{
+				this.oldElements.add(hits.get(1));
+			}
+		} else
+		{
+			this.oldElements.add(this.movedGeoElement);
+		}
 	}
 
 	private GeoPoint getNearestPoint(Hits hits)
