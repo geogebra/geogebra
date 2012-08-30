@@ -135,8 +135,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		tableModel = (SpreadsheetTableModelW) app.getSpreadsheetTableModel();
 		table = new MyTableW(this, tableModel);
 
-		spreadsheet = new ScrollPanel();
-		spreadsheet.add(table);
+		spreadsheet = new ScrollPanel(table);
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
