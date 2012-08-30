@@ -1,71 +1,70 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.Perspective;
-import geogebra.gui.menubar.LanguageActionListener;
-import geogebra.gui.menubar.OptionsMenuD;
+import geogebra.gui.dialog.LanguageDialog;
+import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.Icon;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 
+/**
+ * JPopupMenu to offer Perspective choices
+ * 
+ * @author G.Sturr
+ * 
+ */
 public class PerspectivePanel extends JPopupMenu {
 
+	private static final long serialVersionUID = 1L;
+
 	private AppD app;
-	private LayoutD layout;
+
+	/* Layout manager */
+	protected LayoutD layout;
+
 	private DockBar dockBar;
+	private JButton btnLanguage;
 
-	private JPanel btnPanel;
+	private AbstractAction setLanguageAction, changePerspectiveAction,
+			managePerspectivesAction, savePerspectiveAction;
 
-	private AbstractAction changePerspectiveAction, managePerspectivesAction,
-			savePerspectiveAction;
-
+	/****************************************************
+	 * Constructs a PerspectivePanel
+	 * 
+	 * @param app
+	 * @param dockBar
+	 */
 	public PerspectivePanel(AppD app, DockBar dockBar) {
 
 		this.app = app;
 		this.layout = (LayoutD) app.getGuiManager().getLayout();
 		this.dockBar = dockBar;
-		setupFlagLabel();
+
 		initActions();
 		initItems();
 		Border b = this.getBorder();
 		Border empty = BorderFactory.createEmptyBorder(0, 0, 10, 0);
 		this.setBorder(BorderFactory.createCompoundBorder(b, empty));
-		// registerListeners();
+
 	}
 
-	private void registerListeners() {
-		this.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent e) {
-				hidePopup();
-			}
-		});
-	}
-
-	protected void hidePopup() {
-		superSetVisible(false);
-	}
-
-	boolean flag = true;
-	private AbstractAction setLanguageAction;
-
+	@Override
 	public void setVisible(boolean b) {
-
 		// prevent call from javax.swing.JPopupMenu.menuSelectionChanged()
 		if (!dockBar.sideBarHasMouse())
 			superSetVisible(b);
-		// super.setVisible(b || flag);
 	}
 
 	/**
@@ -77,7 +76,6 @@ public class PerspectivePanel extends JPopupMenu {
 	public void superSetVisible(boolean b) {
 		super.setVisible(b);
 		dockBar.setSidebarTriangle(b);
-
 	}
 
 	/**
@@ -86,17 +84,17 @@ public class PerspectivePanel extends JPopupMenu {
 	private void initItems() {
 
 		this.removeAll();
-		
+
 		JMenuItem title = new JMenuItem("<html><font color = black>"
 				+ app.getMenu("Perspectives") + "</font></html>");
 		title.setIcon(GeoGebraIcon.createEmptyIcon(32, 32));
 		title.setFont(app.getBoldFont());
 		title.setEnabled(false);
 
-		//add(Box.createVerticalStrut(10));
+		add(Box.createVerticalStrut(5));
 		add(title);
-		//add(Box.createVerticalStrut(10));
-		// addSeparator();
+		add(Box.createVerticalStrut(5));
+
 		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
@@ -143,42 +141,14 @@ public class PerspectivePanel extends JPopupMenu {
 			}
 		}
 
-		// JMenu subMenu = new JMenu(app.getMenuTooltip("Language"));
-		// subMenu.setIcon(app.getFlagIcon(flagName));
-		// subMenu.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		// OptionsMenuD.addLanguageMenuItems(app, subMenu,
-		// new LanguageActionListener(app));
+		btnLanguage = new JButton(setLanguageAction);
+		btnLanguage.setMargin(new Insets(2, 2, 2, 2));
+		btnLanguage.setToolTipText(app.getMenu("Language"));
 
-		// add(subMenu);
+		add(Box.createVerticalStrut(10));
+		add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
+				Box.createHorizontalStrut(20)));
 
-		// add(Box.createVerticalGlue());
-
-	}
-
-	String flagName;
-
-	JLabel languageLabel;
-
-	private void setupFlagLabel() {
-
-		flagName = app.getFlagName(false);
-
-		languageLabel = new JLabel(app.getFlagIcon(flagName));
-		languageLabel
-				.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-		AbstractAction setLanguageAction;
-		languageLabel.setToolTipText(app.getMenuTooltip("Language"));
-		languageLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JPopupMenu myPopup = new JPopupMenu();
-				OptionsMenuD.addLanguageMenuItems(app, myPopup,
-						new LanguageActionListener(app));
-				myPopup.setVisible(true);
-				myPopup.show(languageLabel, 0, languageLabel.getHeight());
-			}
-		});
 	}
 
 	/**
@@ -188,17 +158,19 @@ public class PerspectivePanel extends JPopupMenu {
 
 		final String flagName = app.getFlagName(false);
 
-		setLanguageAction = new AbstractAction(app.getMenuTooltip("Language"),
-				app.getFlagIcon(flagName)) {
+		setLanguageAction = new AbstractAction(null, app.getFlagIcon(flagName)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				layout.showSaveDialog();
+				LanguageDialog d = new LanguageDialog(app);
+				d.setVisible(true);
+
 			}
 		};
 
 		savePerspectiveAction = new AbstractAction(
 				app.getMenu("SaveCurrentPerspective"), app.getEmptyIcon()) {
+
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -208,6 +180,7 @@ public class PerspectivePanel extends JPopupMenu {
 
 		managePerspectivesAction = new AbstractAction(
 				app.getMenu("ManagePerspectives"), app.getEmptyIcon()) {
+
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -216,7 +189,8 @@ public class PerspectivePanel extends JPopupMenu {
 		};
 
 		changePerspectiveAction = new AbstractAction() {
-			public static final long serialVersionUID = 1L;
+
+			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				// default perspectives start with a "d"
@@ -231,6 +205,7 @@ public class PerspectivePanel extends JPopupMenu {
 
 			}
 		};
+
 	}
 
 }
