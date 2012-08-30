@@ -18,7 +18,6 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.FocusEvent;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;

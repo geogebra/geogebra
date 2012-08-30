@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoInsert;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -32,8 +33,11 @@ public class CmdInsert extends CommandProcessor {
 		case 3:
 
 			if ((ok[0]=arg[1].isGeoList()) && (ok[1]=arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.Insert(c.getLabel(), arg[0],
-						(GeoList) arg[1], (GeoNumeric) arg[2]) };
+				
+				AlgoInsert algo = new AlgoInsert(cons, c.getLabel(), arg[0],
+						(GeoList) arg[1], (GeoNumeric) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));

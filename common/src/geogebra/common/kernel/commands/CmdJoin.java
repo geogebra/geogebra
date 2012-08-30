@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoJoin;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -35,8 +36,7 @@ public class CmdJoin extends CommandProcessor {
 			ok[0] = arg[0].isGeoList();
 
 			if (ok[0]) {
-				GeoElement[] ret = { kernelA
-						.Join(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = { Join(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else
 
@@ -50,10 +50,21 @@ public class CmdJoin extends CommandProcessor {
 			GeoList list = wrapInList(kernelA, arg, arg.length,
 					GeoClass.LIST);
 			if (list != null) {
-				GeoElement[] ret = { kernelA.Join(c.getLabel(), list) };
+				GeoElement[] ret = { Join(c.getLabel(), list) };
 				return ret;
 			}
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	/**
+	 * Join[list,list] Michael Borcherds
+	 */
+	final private GeoList Join(String label, GeoList list) {
+		AlgoJoin algo = new AlgoJoin(cons, label, list);
+		GeoList list2 = algo.getResult();
+		return list2;
+	}
+
+
 }

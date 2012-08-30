@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoReducedRowEchelonForm;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -20,7 +21,9 @@ public class CmdReducedRowEchelonForm extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.ReducedRowEchelonForm(a, b);
+		AlgoReducedRowEchelonForm algo = new AlgoReducedRowEchelonForm(cons,
+				a, b);
+		return algo.getResult();
 	}
 
 }

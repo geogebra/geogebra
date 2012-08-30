@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIsInteger;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -31,8 +32,11 @@ public class CmdIsInteger extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernelA.IsInteger(c.getLabel(),
-						(GeoNumeric) arg[0]) };
+				
+				AlgoIsInteger algo = new AlgoIsInteger(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

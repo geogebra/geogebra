@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoUnion;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -32,8 +33,11 @@ public class CmdUnion extends CommandProcessor {
 		case 2:
 
 			if (arg[0].isGeoList() && arg[1].isGeoList()) {
-				GeoElement[] ret = { kernelA.Union(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1]) };
+				
+				AlgoUnion algo = new AlgoUnion(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 				if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {

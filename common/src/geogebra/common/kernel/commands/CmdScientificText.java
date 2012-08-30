@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoScientificText;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
@@ -31,7 +33,7 @@ public class CmdScientificText extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernelA.ScientificText(c.getLabel(),
+				GeoElement[] ret = { ScientificText(c.getLabel(),
 						(GeoNumeric) arg[0], null) };
 				return ret;
 			} 
@@ -40,7 +42,7 @@ public class CmdScientificText extends CommandProcessor {
 		case 2:
 
 			if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { kernelA.ScientificText(c.getLabel(),
+				GeoElement[] ret = { ScientificText(c.getLabel(),
 						(GeoNumeric) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
 			} 
@@ -50,5 +52,14 @@ public class CmdScientificText extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * ScientificText[number] 
+	 */
+	final private GeoText ScientificText(String label, GeoNumeric num, GeoNumeric prec) {
+		AlgoScientificText algo = new AlgoScientificText(cons, label, num, prec);
+		GeoText text = algo.getResult();
+		return text;
 	}
 }

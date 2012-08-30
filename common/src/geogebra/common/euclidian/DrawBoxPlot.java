@@ -1,14 +1,14 @@
 package geogebra.common.euclidian;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoBoxPlot;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 /**
  * Drawable representation of box plots
  *

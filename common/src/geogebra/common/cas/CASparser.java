@@ -17,7 +17,6 @@ import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -25,7 +24,6 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASGenericInterface;
@@ -38,7 +36,6 @@ import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
-import java.util.List;
 import java.util.Map;
 
 /**

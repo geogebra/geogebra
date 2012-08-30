@@ -7,8 +7,6 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 
 import java.util.ArrayList;
 import java.util.Map;

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoTake;
 import geogebra.common.kernel.algos.AlgoTakeString;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -35,7 +36,7 @@ public class CmdTake extends CommandProcessor {
 
 			if ( (ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric()) ) {
 				GeoElement[] ret = { 
-						kernelA.Take(c.getLabel(),
+						Take(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1], null) };
 				return ret;
 			} else if ( (ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoNumeric())  ) {
@@ -50,7 +51,7 @@ public class CmdTake extends CommandProcessor {
 
 			if ( (ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = arg[2].isGeoNumeric()) ) {
 				GeoElement[] ret = { 
-						kernelA.Take(c.getLabel(),
+						Take(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2] ) };
 				return ret;
 			} else if ( (ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = arg[2].isGeoNumeric()) ) {
@@ -75,5 +76,16 @@ public class CmdTake extends CommandProcessor {
 		GeoText list2 = algo.getResult();
 		return list2;
 	}
+
+	/**
+	 * Take[list,m,n] Michael Borcherds
+	 */
+	final private GeoList Take(String label, GeoList list, GeoNumeric m,
+			GeoNumeric n) {
+		AlgoTake algo = new AlgoTake(cons, label, list, m, n);
+		GeoList list2 = algo.getResult();
+		return list2;
+	}
+
 
 }

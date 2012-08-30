@@ -21,7 +21,6 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.DrawTextField;
-import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;

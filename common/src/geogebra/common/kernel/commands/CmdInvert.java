@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFunctionInvert;
+import geogebra.common.kernel.algos.AlgoInvert;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -33,13 +35,19 @@ public class CmdInvert extends CommandProcessor {
 			arg = resArgs(c);
 
 			if (arg[0].isGeoFunction()) {
-				GeoElement[] ret = { kernelA.Invert(c.getLabel(),
-						(GeoFunction) arg[0]) };
+				
+				AlgoFunctionInvert algo = new AlgoFunctionInvert(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernelA.Invert(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoInvert algo = new AlgoInvert(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			}

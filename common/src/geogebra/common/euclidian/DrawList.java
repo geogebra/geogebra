@@ -22,7 +22,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.ActionEvent;
 import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

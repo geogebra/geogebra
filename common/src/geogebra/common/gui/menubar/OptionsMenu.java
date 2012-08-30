@@ -1,6 +1,5 @@
 package geogebra.common.gui.menubar;
 
-import geogebra.common.factories.Factory;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDeterminant;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -22,7 +23,8 @@ public class CmdDeterminant extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.Determinant(a, b);
+		AlgoDeterminant algo = new AlgoDeterminant(cons, a, b);
+		return algo.getResult();
 	}
 
 }

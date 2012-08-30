@@ -6,6 +6,8 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.common.main.MyError;
 
 /**
@@ -39,7 +41,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 
@@ -51,7 +53,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 
 			//  arg[0] = is cumulative,  arg[1] = data list,
 			if ((arg[0].isGeoBoolean()) && (arg[1].isGeoList())) {
-				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1]) };
 				return ret;
 			}
@@ -59,7 +61,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 			// arg[0] = class list, arg[1] = data list
 			else if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
 				if (arg[1].isGeoList()) {
-					GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
+					GeoElement[] ret = { FrequencyTable(c.getLabel(),
 							(GeoList) arg[0], (GeoList) arg[1]) };
 					return ret;
 				}
@@ -75,8 +77,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list
 			if ((ok[0] = arg[0].isGeoBoolean()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoList())) {
-				GeoElement[] ret = { kernelA
-						.FrequencyTable(c.getLabel(), (GeoBoolean) arg[0],
+				GeoElement[] ret = { FrequencyTable(c.getLabel(), (GeoBoolean) arg[0],
 								(GeoList) arg[1], (GeoList) arg[2]) };
 				return ret;
 
@@ -85,7 +86,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 			else if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { FrequencyTable(c.getLabel(), (GeoList) arg[0],
 								(GeoList) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 
@@ -104,7 +105,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], (GeoNumeric) arg[3]) };
 				return ret;
@@ -115,7 +116,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
@@ -140,7 +141,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoBoolean())
 					&& (ok[4] = arg[4].isGeoNumeric())) 
 			{
-				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(), 
+				GeoElement[] ret = { FrequencyTable(c.getLabel(), 
 								(GeoBoolean) arg[0],
 								(GeoList) arg[1], 
 								(GeoList) arg[2], 
@@ -164,5 +165,96 @@ public class CmdFrequencyTable extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * FrequencyTable[dataList] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoList dataList) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+				null, dataList);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[isCumulative, dataList] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
+			GeoList dataList) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+				isCumulative, null, dataList);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[classList, dataList] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoList classList,
+			GeoList dataList) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+				classList, dataList);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[classList, dataList, useDensity] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoList classList,
+			GeoList dataList, GeoBoolean useDensity) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+				classList, dataList, useDensity, null);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[classList, dataList, useDensity, scaleFactor] Zbynek
+	 * Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoList classList,
+			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+				classList, dataList, useDensity, scaleFactor);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[isCumulative, classList, dataList] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
+			GeoList classList, GeoList dataList) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+				isCumulative, classList, dataList, null, null);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[isCumulative, classList, dataList, useDensity] Zbynek
+	 * Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
+			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+				isCumulative, classList, dataList, useDensity, null);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+	/**
+	 * FrequencyTable[isCumulative, classList, dataList, useDensity,
+	 * scaleFactor] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
+			GeoList classList, GeoList dataList, GeoBoolean useDensity,
+			GeoNumeric scaleFactor) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+				isCumulative, classList, dataList, useDensity, scaleFactor);
+		GeoText table = algo.getResult();
+		return table;
 	}
 }

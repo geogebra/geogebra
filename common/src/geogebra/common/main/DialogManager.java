@@ -14,7 +14,6 @@ package geogebra.common.main;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.factories.Factory;
 import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;

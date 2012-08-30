@@ -15,7 +15,6 @@ package geogebra.common.kernel.geos;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.factories.SwingFactory;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;

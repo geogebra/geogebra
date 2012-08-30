@@ -4,7 +4,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.gui.view.spreadsheet.MyTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

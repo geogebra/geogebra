@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoVerticalText;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -30,8 +31,11 @@ public class CmdVerticalText extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoText()) {
-				GeoElement[] ret = { kernelA.VerticalText(c.getLabel(),
-						(GeoText) arg[0]) };
+				
+				AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(),
+						(GeoText) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

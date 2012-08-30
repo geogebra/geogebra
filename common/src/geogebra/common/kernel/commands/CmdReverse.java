@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoReverse;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -20,7 +21,8 @@ public class CmdReverse extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.Reverse(a, b);
+		AlgoReverse algo = new AlgoReverse(cons, a, b);
+		return algo.getResult();
 	}
 
 

@@ -5,7 +5,6 @@ import geogebra.common.kernel.algos.AlgoUnicodeToLetter;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIntersection;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -31,9 +32,11 @@ public  GeoElement[] process(Command c) throws MyError {
         case 2 :
             arg = resArgs(c);
             if (arg[0].isGeoList() && arg[1].isGeoList() ) {
-				GeoElement[] ret = { 
-						kernelA.Intersection(c.getLabel(),
-						(GeoList) arg[0], (GeoList)arg[1] ) };
+            	
+        		AlgoIntersection algo = new AlgoIntersection(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList)arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} 
             

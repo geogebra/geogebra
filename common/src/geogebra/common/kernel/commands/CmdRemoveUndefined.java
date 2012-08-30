@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoRemoveUndefined;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -30,9 +31,11 @@ public class CmdRemoveUndefined extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						kernelA.RemoveUndefined(c.getLabel(),
-						(GeoList) arg[0] ) };
+				
+				AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

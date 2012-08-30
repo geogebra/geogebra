@@ -21,8 +21,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 
-import java.awt.Dimension;
-import java.io.File;
 import java.util.ArrayList;
 
 public abstract class GuiManager {
