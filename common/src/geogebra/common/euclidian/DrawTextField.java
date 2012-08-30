@@ -52,7 +52,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	//ButtonListener bl;
 	private InputFieldListener ifListener;
 	private InputFieldKeyListener ifKeyListener;
-	private GBox box = geo.getKernel().getApplication().getSwingFactory().createHorizontalBox();
+	private GBox box;
 
 	/**
 	 * @param view view
@@ -62,7 +62,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
-
+		box = geo.getKernel().getApplication().getSwingFactory().createHorizontalBox();
 		// action listener for checkBox
 		//bl = new ButtonListener();
 		ifListener = new InputFieldListener();
