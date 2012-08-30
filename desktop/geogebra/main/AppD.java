@@ -5307,4 +5307,34 @@ public class AppD extends App implements
 		
 	}
 	
+	/**
+	 * Sets the look and feel.
+	 * 
+	 * @param isSystemLAF
+	 *            true => set system LAF, false => set cross-platform LAF
+	 */
+	public static void setLAF(boolean isSystemLAF) {
+		try {
+			if (isSystemLAF) {
+				UIManager.setLookAndFeel(UIManager
+						.getSystemLookAndFeelClassName());				
+			} else {
+				UIManager.setLookAndFeel(UIManager
+						.getCrossPlatformLookAndFeelClassName());
+			}
+		} catch (Exception e) {
+			App.debug(e + "");
+		}
+	}
+				
+	/**
+	 * Toggles between the system LAF and the cross-platform LAF
+	 */
+	public static void toggleCrossPlatformLAF() {
+		setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel()); 
+	}
+	
+	
+
+	
 }

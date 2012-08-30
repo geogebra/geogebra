@@ -239,10 +239,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		// set look and feel
 		if (args.containsArg("laf")) {
-			setLAF(args.getStringValue("laf").equals("system"));
+			AppD.setLAF(args.getStringValue("laf").equals("system"));
 		} else {
 			// system LAF for Windows and Mac; cross-platform for LINUX, others
-			setLAF(AppD.MAC_OS || AppD.WINDOWS);
+			AppD.setLAF(AppD.MAC_OS || AppD.WINDOWS);
 		}
 
 		if (args.containsArg("resetSettings")) {
@@ -262,34 +262,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		createNewWindow(args, wnd);
 	}
 
-	/**
-	 * Sets the look and feel.
-	 * 
-	 * @param isSystemLAF
-	 *            true => set system LAF, false => set cross-platform LAF
-	 */
-	public static void setLAF(boolean isSystemLAF) {
-		try {
-			if (isSystemLAF) {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());				
-			} else {
-				UIManager.setLookAndFeel(UIManager
-						.getCrossPlatformLookAndFeelClassName());
-			}
-		} catch (Exception e) {
-			App.debug(e + "");
-		}
-	}
-				
-	/**
-	 * Toggles between the system LAF and the cross-platform LAF
-	 */
-	public static void toggleCrossPlatformLAF() {
-		setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel()); 
-	}
-	
-	
 	/**
 	 * Returns the active GeoGebra window.
 	 * 

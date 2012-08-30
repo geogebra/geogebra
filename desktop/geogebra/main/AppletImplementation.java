@@ -331,7 +331,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		 * CustomApplication(args, this, undoActive); }
 		 */
 
-		GeoGebraFrame.setLAF(AppD.MAC_OS || AppD.WINDOWS);
+		AppD.setLAF(AppD.MAC_OS || AppD.WINDOWS);
 
 		if (fileStr == null) {
 			app = buildApplication(null, undoActive);
