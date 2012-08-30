@@ -1014,7 +1014,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ " if(dim a = 3) then ret:=myand(ret,myequal(zvcoord(a),zvcoord(b)))>>"
 						+ " else if arglength(a)>-1 and arglength(b)>-1 and part(a,0)='list and part(b,0)='list"
 						+ " then <<if length(a)=length(b) then ret:=equallists(a,b) else ret:=false>>"
-						+ " else ret:=if subtraction(a,b)=0 or trigsimp(subtraction(a,b),combine)=0 then true else false;"
+						+ " else ret:=if subtraction(a,b)=0 or trigsimp(subtraction(a,b),combine)=0 then true else " +
+						" if numberp(subtraction(a,b)) or numberp(trigsimp(subtraction(a,b),combine)) then false else sequal(a,b);"
 						+ " return ret; end;");
 		mpreduce1.evaluate("procedure equallists(a,b);begin;scalar ret,k; "
 				+ "ret:=true;" + "k:=1;"

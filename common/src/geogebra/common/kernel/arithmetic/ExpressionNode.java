@@ -1778,6 +1778,8 @@ public class ExpressionNode extends ValidExpression implements
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
+					sb.append("\\stackrel{\\small ?}{=}");
+					break;
 				case LIBRE_OFFICE:
 				case MATH_PIPER:
 				case JASYMCA:

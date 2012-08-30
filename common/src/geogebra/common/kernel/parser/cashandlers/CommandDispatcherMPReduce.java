@@ -73,6 +73,7 @@ public class CommandDispatcherMPReduce {
 		repart(Operation.REAL),
 		myreal(Operation.REAL),
 		
+		sequal(Operation.EQUAL_BOOLEAN),
 		sand(Operation.AND),
 		sor(Operation.OR),
 		simplies(Operation.IMPLICATION),
@@ -194,6 +195,7 @@ public class CommandDispatcherMPReduce {
 			case simplies:
 			case sgreater:
 			case sless:
+			case sequal:
 			case sgreaterequal:
 			case slessequal:
 			case mypower:
