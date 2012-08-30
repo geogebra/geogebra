@@ -21,6 +21,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener {
@@ -53,6 +54,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 	// fields for split panel, fileBrowser and stylebar
 	//private JScrollPane spreadsheet;
+	private ScrollPanel spreadsheet;
 	//private FileBrowserPanel fileBrowser;
 	private int defaultDividerLocation = 150;
 	//private SpreadsheetStyleBar styleBar;
@@ -111,6 +113,9 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 		setBorder(BorderFactory.createEmptyBorder());
 		addFocusListener(this);*/
+
+		add(spreadsheet);
+
 		updateFonts();
 		attachView();
 
@@ -128,6 +133,9 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		// Create the spreadsheet table model and the table
 		tableModel = (SpreadsheetTableModelW) app.getSpreadsheetTableModel();
 		table = new MyTableW(this, tableModel);
+
+		spreadsheet = new ScrollPanel();
+		spreadsheet.add(table);
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
