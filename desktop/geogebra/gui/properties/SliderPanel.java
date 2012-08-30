@@ -52,6 +52,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 	private JTextField tfWidth;
 	private JTextField[] tfields;
 	private JLabel[] tLabels;
+	private JLabel lbWidthUnit;
 	private JCheckBox cbSliderFixed, cbRandom;
 	private JComboBox coSliderHorizontal;
 
@@ -93,6 +94,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 		tfMin = new AngleTextField(6, app);
 		tfMax = new AngleTextField(6, app);
 		tfWidth = new MyTextField(app, 4);
+		lbWidthUnit = new JLabel("");
 		tfields = new MyTextField[3];
 		tLabels = new JLabel[3];
 		tfields[0] = tfMin;
@@ -110,6 +112,8 @@ public class SliderPanel extends JPanel implements ActionListener,
 			textField.addActionListener(this);
 			textField.addFocusListener(this);
 			p.add(textField);
+			if (i==2) //width
+				p.add(lbWidthUnit);
 			p.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 			if (i < 2) {
@@ -182,7 +186,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 		
 		tLabels[0].setText(app.getPlain("min") + ":");
 		tLabels[1].setText(app.getPlain("max") + ":");
-		setLabelForWidth();
+		tLabels[2].setText(app.getPlain("Width") + ":"); 
+		
+		setLabelForWidthUnit();
 		
 		
 		stepPanel.setLabels();
@@ -283,7 +289,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 			tfMax.setText("");
 		}
 		
-		setLabelForWidth();
+		setLabelForWidthUnit();
 
 		if (equalSliderFixed){
 			cbSliderFixed.setSelected(num0.isSliderFixed());
@@ -309,11 +315,11 @@ public class SliderPanel extends JPanel implements ActionListener,
 		return this;
 	}
 	
-	private void setLabelForWidth(){
+	private void setLabelForWidthUnit(){
 		if (widthUnit)
-			tLabels[2].setText(app.getPlain("WidthInPixel") + ":");
+			lbWidthUnit.setText(app.getMenu("Pixels.short"));
 		else
-			tLabels[2].setText(app.getPlain("Width") + ":");
+			lbWidthUnit.setText("");
 	}
 
 	private static boolean checkGeos(Object[] geos) {
