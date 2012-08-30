@@ -2192,7 +2192,7 @@ public class MyXMLHandler implements DocHandler {
 	private static boolean handleMouse(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			app.reverseMouseWheel(!attrs.get("reverseWheel").equals("true"));
+			app.reverseMouseWheel(attrs.get("reverseWheel").equals("true"));
 
 			return true;
 		} catch (Exception e) {
