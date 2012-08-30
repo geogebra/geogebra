@@ -17,7 +17,7 @@ cd $REVDIR/$REVISION || exit 1 # Build problem
 test -r geogebra.jar || exit 2 # Non-existing JAR
 
 
-xvfb-run timeout -k $SIMPLETESTTIMEOUT $SIMPLETESTTIMEOUT \
+xvfb-run --auto-servernum timeout -k $SIMPLETESTTIMEOUT $SIMPLETESTTIMEOUT \
  $JAVA_HOME/bin/java -jar geogebra.jar --regressionFile=simpletest.out --logFile=simpletest.log $MYDIR/simpletest.ggb \
   >simpletest.stdout 2>simpletest.stderr
 

@@ -15,7 +15,7 @@ cd $TESTDIR
 
 RETVAL=0
 sleep 3 # Dirty hack to ensure xvfb can run properly
-xvfb-run -w 3 ./run-junit-tests || RETVAL=1 # Problem running the tests
+xvfb-run --auto-servernum -w 3 ./run-junit-tests || RETVAL=1 # Problem running the tests
 ./junit2sqlite # Copying XML data into an SQL database
 ./warnings > .warnings
 
