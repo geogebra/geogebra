@@ -61,7 +61,7 @@ public abstract class CopyPasteCut {
 
 	private MyTableInterface getTable() {
 		if (table == null) {
-			table = getView().getTable();
+			table = getView().getSpreadsheetTable();
 		}
 
 		return table;

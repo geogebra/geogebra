@@ -5,7 +5,7 @@ import geogebra.common.main.App;
 
 public interface SpreadsheetViewInterface extends View {
 
-	public MyTableInterface getTable();
+	public MyTableInterface getSpreadsheetTable();
 
 
 	public void rowHeaderRevalidate();

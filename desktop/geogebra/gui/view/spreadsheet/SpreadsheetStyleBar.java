@@ -46,7 +46,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 		this.view = view;
 		this.app = view.getApplication();
-		this.table = (MyTableD) view.getTable();
+		this.table = (MyTableD) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
 		this.selectedCells = table.selectedCellRanges;
 
@@ -254,8 +254,8 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		else if (source == btnFormulaBar) {
 			app.getSettings().getSpreadsheet()
 					.setShowFormulaBar(btnFormulaBar.isSelected());
-			if (view.getTable().isSelectNone())
-				view.getTable().setSelection(0, 0);
+			if (view.getSpreadsheetTable().isSelectNone())
+				view.getSpreadsheetTable().setSelection(0, 0);
 			view.updateFormulaBar();
 		}
 

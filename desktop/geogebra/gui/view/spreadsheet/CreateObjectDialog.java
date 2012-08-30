@@ -101,7 +101,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		this.app = app;
 		this.view = view;
 		this.objectType = objectType;
-		this.table = (MyTableD) view.getTable();
+		this.table = (MyTableD) view.getSpreadsheetTable();
 		cp = table.getCellRangeProcessor();
 		selectionType = table.getSelectionType();
 		selectedCellRanges = table.selectedCellRanges;

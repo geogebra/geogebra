@@ -20,36 +20,9 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
 import java.util.HashMap;
 
-/*
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.SystemColor;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JViewport;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-*/
-
-public class SpreadsheetView implements SpreadsheetViewInterface, /*ComponentListener,
+public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener {
 
 	private static final long serialVersionUID = 1L;
@@ -237,7 +210,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface, /*ComponentLis
 		return app;
 	}
 
-	public MyTableInterface getTable() {
+	public MyTableInterface getSpreadsheetTable() {
 		return table;
 	}
 

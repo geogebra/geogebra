@@ -191,7 +191,7 @@ public class DataSource {
 	private MyTableD spreadsheetTable() {
 		if (spreadsheetTable == null) {
 			spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
-					.getSpreadsheetView().getTable();
+					.getSpreadsheetView().getSpreadsheetTable();
 		}
 		return spreadsheetTable;
 	}

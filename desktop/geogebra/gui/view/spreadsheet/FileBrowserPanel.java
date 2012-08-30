@@ -111,7 +111,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		handler = new MyFileTreeHandler();
 
 		//TODO: use geogebra color constants for this
-		setBackground(((MyTableD) view.getTable()).getBackground());
+		setBackground(((MyTableD) view.getSpreadsheetTable()).getBackground());
 		setLayout(new BorderLayout());
 
 		// ======================================

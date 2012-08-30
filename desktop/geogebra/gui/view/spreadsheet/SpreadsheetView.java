@@ -233,7 +233,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		return app;
 	}
 
-	public MyTableInterface getTable() {
+	public MyTableInterface getSpreadsheetTable() {
 		return table;
 	}
 
@@ -1213,7 +1213,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		setRowHeightsFromSettings();
 
 		// cell format
-		getTable().getCellFormatHandler().processXMLString(
+		getSpreadsheetTable().getCellFormatHandler().processXMLString(
 				settings().cellFormat());
 
 		// preferredSize
@@ -1275,7 +1275,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 	}
 
 	public void focusLost(FocusEvent arg0) {
-		getTable().repaint();
+		getSpreadsheetTable().repaint();
 
 	}
 

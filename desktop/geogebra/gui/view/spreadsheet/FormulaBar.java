@@ -50,7 +50,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 		this.app = app;
 		this.view = view;
-		this.table = (MyTableD) view.getTable();
+		this.table = (MyTableD) view.getSpreadsheetTable();
 
 		this.editor = table.editor;
 
@@ -114,7 +114,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		}
 		private void updateCellEditor(DocumentEvent documentEvent) {
 
-			view.getTable().updateEditor(fldFormula.getText());
+			view.getSpreadsheetTable().updateEditor(fldFormula.getText());
 		}
 	};
 
@@ -185,8 +185,8 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		// start cell editing in the currently selected cell
 		// TODO: should these be an anchor cell?
 		table.setAllowEditing(true);
-		view.getTable().editCellAt(table.getSelectedRow(), table.getSelectedColumn());
-		view.getTable().repaint();
+		view.getSpreadsheetTable().editCellAt(table.getSelectedRow(), table.getSelectedColumn());
+		view.getSpreadsheetTable().repaint();
 
 	}
 

@@ -87,7 +87,7 @@ public class StatDialogController {
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
 		this.spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
-				.getSpreadsheetView().getTable();
+				.getSpreadsheetView().getSpreadsheetTable();
 		this.sd = statDialog;
 		this.statGeo = sd.getStatGeo();
 

@@ -24,7 +24,7 @@ public class SpreadsheetToolbarManager {
 
 		this.app = app;
 		this.view = view;
-		this.table = (MyTableD) view.getTable();
+		this.table = (MyTableD) view.getSpreadsheetTable();
 	}
 
 

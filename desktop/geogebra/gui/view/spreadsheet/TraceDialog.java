@@ -209,7 +209,7 @@ implements
 			//clear the selection rectangle and switch back to normal mode
 			traceGeoList.clearSelection();
 			setMode(MODE_NORMAL);
-			view.getTable().selectionChanged();
+			view.getSpreadsheetTable().selectionChanged();
 			view.setTraceDialogMode(false);	
 			app.setSelectionListenerMode(null);	
 		}		
@@ -550,7 +550,7 @@ implements
 			//traceGeoList.setEnabled(false);
 			
 			//tabbedPane.setEnabled(false);
-			view.getTable().selectionChanged();
+			view.getSpreadsheetTable().selectionChanged();
 			
 			getContentPane().remove(splitPane);
 			getContentPane().add(promptPanel,BorderLayout.CENTER);
@@ -575,7 +575,7 @@ implements
 			//traceGeoList.setEnabled(true);
 			//tabbedPane.setEnabled(true);
 			
-			view.getTable().selectionChanged();
+			view.getSpreadsheetTable().selectionChanged();
 			
 			getContentPane().remove(promptPanel);
 			getContentPane().add(splitPane,BorderLayout.CENTER);
@@ -914,7 +914,7 @@ implements
 		case MODE_ADD:			
 			app.setMoveMode(); 
 			app.setSelectionListenerMode(this);		
-			view.getTable().selectionChanged();
+			view.getSpreadsheetTable().selectionChanged();
 			break;
 			
 		case MODE_LOCATE:
