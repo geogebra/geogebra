@@ -145,9 +145,9 @@ public class PerspectivePanel extends JPopupMenu {
 		btnLanguage.setMargin(new Insets(2, 2, 2, 2));
 		btnLanguage.setToolTipText(app.getMenu("Language"));
 
-		add(Box.createVerticalStrut(10));
-		add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
-				Box.createHorizontalStrut(20)));
+		add(Box.createVerticalStrut(20));
+		//add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
+			//	Box.createHorizontalStrut(20)));
 
 	}
 
