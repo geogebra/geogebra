@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoObject;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -31,8 +32,10 @@ public class CmdObject extends CommandProcessor {
 		case 1:
 			ok[0] = arg[0].isGeoText();
 			if (ok[0]) {
-				GeoElement[] ret = { kernelA.Object(c.getLabel(),
-						(GeoText) arg[0]) };
+				AlgoObject algo = new AlgoObject(cons, c.getLabel(),
+						(GeoText) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

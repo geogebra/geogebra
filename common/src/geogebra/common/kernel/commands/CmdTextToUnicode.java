@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoTextToUnicode;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
@@ -28,9 +30,11 @@ public class CmdTextToUnicode extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoText()) {
-				GeoElement[] ret = { 
-						kernelA.TextToUnicode(c.getLabel(),
-						(GeoText) arg[0] ) };
+				
+				AlgoTextToUnicode algo = new AlgoTextToUnicode(cons, c.getLabel(),
+						(GeoText) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

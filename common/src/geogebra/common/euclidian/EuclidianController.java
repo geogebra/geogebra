@@ -26,9 +26,11 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoArcLength;
+import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
+import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
@@ -4541,7 +4543,7 @@ public abstract class EuclidianController {
 					(GeoPointND) points[1]);
 	
 			// set startpoint of text to midpoint of two points
-			GeoPoint midPoint = kernel.Midpoint(points[0], points[1]);
+			GeoPoint midPoint = Midpoint(points[0], points[1]);
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText(points[0], points[1], midPoint, length);
 			return ret;
@@ -4583,8 +4585,8 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			// set startpoint of text to midpoint between point and line
-			GeoPoint midPoint = kernel.Midpoint(points[0],
-					kernel.ClosestPoint(points[0], lines[0]));
+			GeoPoint midPoint = Midpoint(points[0],
+					ClosestPoint(points[0], lines[0]));
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText(points[0], lines[0], midPoint, length);
 			return ret;
@@ -4651,6 +4653,34 @@ public abstract class EuclidianController {
 		}
 	
 		return null;
+	}
+
+	/**
+	 * Creates Midpoint M = (P + Q)/2 without label (for use as e.g. start
+	 * point)
+	 */
+	final private GeoPoint Midpoint(GeoPoint P, GeoPoint Q) {
+		
+		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), P, Q);
+
+		return algo.getPoint();
+	}
+
+
+	/**
+	 * Returns the projected point of P on line g (or nearest for a Segment)
+	 */
+	final private GeoPoint ClosestPoint(GeoPoint P, GeoLine g) {
+		
+		Construction cons = kernel.getConstruction();
+		
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		AlgoClosestPoint cp = new AlgoClosestPoint(cons, g, P);
+
+		cons.setSuppressLabelCreation(oldMacroMode);
+		return cp.getP();
 	}
 
 	protected final boolean showCheckBox() {

@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoUnicodeToLetter;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,9 +31,10 @@ public class CmdUnicodeToLetter extends CommandProcessor {
 			arg = resArgs(c);
 			if ( arg[0].isNumberValue()) 
 			{
-				GeoElement[] ret = { 
-						kernelA.UnicodeToLetter(c.getLabel(),
-						(NumberValue) arg[0] ) };
+				AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter(cons, c.getLabel(),
+						(NumberValue) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 						
 			}

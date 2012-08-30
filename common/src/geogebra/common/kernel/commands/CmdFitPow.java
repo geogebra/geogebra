@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoFitPow;
 
 /** 
  * FitPow[<List of points>]
@@ -22,7 +23,8 @@ public class CmdFitPow extends CmdOneListFunction{
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.FitPow(a, b);
+		AlgoFitPow algo = new AlgoFitPow(cons, a, b);
+		return algo.getFitPow();
 	}
 
 }// class CmdFitPow

@@ -2,10 +2,12 @@ package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIntervalMidpoint;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoInterval;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.main.MyError;
@@ -43,8 +45,10 @@ public class CmdMidpoint extends CommandProcessor {
 						(GeoSegment) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
-				GeoElement[] ret = { kernelA.Midpoint(c.getLabel(),
-						(GeoInterval) arg[0]) };
+				AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons, c.getLabel(),
+						(GeoInterval) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);

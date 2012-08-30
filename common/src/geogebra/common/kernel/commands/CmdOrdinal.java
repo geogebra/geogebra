@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoOrdinal;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
@@ -30,9 +32,10 @@ public class CmdOrdinal extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoNumeric()) 
 			{
-				GeoElement[] ret = { 
-						kernelA.Ordinal(c.getLabel(),
-						(GeoNumeric) arg[0] ) };
+				AlgoOrdinal algo = new AlgoOrdinal(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
+
+				GeoElement[] ret = {algo.getResult() };
 				return ret;
 						
 			} 

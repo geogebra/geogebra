@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoUnitVectorLine;
+import geogebra.common.kernel.algos.AlgoUnitVectorVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -32,12 +34,18 @@ public class CmdUnitVector extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
-				GeoElement[] ret = { kernelA.UnitVector(c.getLabel(),
-						(GeoLine) arg[0]) };
+				
+				AlgoUnitVectorLine algo = new AlgoUnitVectorLine(cons, c.getLabel(),
+						(GeoLine) arg[0]);
+
+				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else if (arg[0].isGeoVector()) {
-				GeoElement[] ret = { kernelA.UnitVector(c.getLabel(),
-						(GeoVector) arg[0]) };
+				
+				AlgoUnitVectorVector algo = new AlgoUnitVectorVector(cons, c.getLabel(),
+						(GeoVector) arg[0]);
+
+				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);

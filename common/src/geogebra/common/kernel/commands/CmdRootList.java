@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoRootList;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -19,7 +20,8 @@ public class CmdRootList extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.RootList(a, b);
+		AlgoRootList algo = new AlgoRootList(cons, a, b);
+		return algo.getResult();
 	}
 
 

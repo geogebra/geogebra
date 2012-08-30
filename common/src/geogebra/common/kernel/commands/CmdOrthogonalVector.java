@@ -2,6 +2,8 @@ package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoOrthoVectorLine;
+import geogebra.common.kernel.algos.AlgoOrthoVectorVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -31,18 +33,17 @@ public class CmdOrthogonalVector extends CommandProcessor {
 			case 1 :
 				arg = resArgs(c);
 				if (arg[0] .isGeoLine()) {
-					GeoElement[] ret =
-					{
-							kernelA.OrthogonalVector(
-									c.getLabel(),
-									(GeoLine) arg[0])};
+					
+					AlgoOrthoVectorLine algo = new AlgoOrthoVectorLine(cons, c.getLabel(),
+							(GeoLine) arg[0]);
+
+					GeoElement[] ret = { algo.getVector() };
 					return ret;
 				} else if (arg[0] .isGeoVector()) {
-					GeoElement[] ret =
-					{
-							kernelA.OrthogonalVector(
-									c.getLabel(),
-									(GeoVector) arg[0])};
+					AlgoOrthoVectorVector algo = new AlgoOrthoVectorVector(cons, c.getLabel(),
+							(GeoVector) arg[0]);
+
+					GeoElement[] ret = { algo.getVector() };
 					return ret;
 				} else {
 						throw argErr(app, c.getName(), arg[0]);

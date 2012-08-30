@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoName;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
@@ -28,8 +29,11 @@ public class CmdName extends CommandProcessor {
 		case 1:
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);			
-			GeoElement[] ret = { kernelA.Name(c.getLabel(),
-								arg[0]) };
+			
+			AlgoName algo = new AlgoName(cons, c.getLabel(),
+					arg[0]);
+
+			GeoElement[] ret = { algo.getGeoText() };
 			return ret;
 
 

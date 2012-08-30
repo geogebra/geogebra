@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoRow;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
@@ -28,8 +30,10 @@ public class CmdRow extends CommandProcessor {
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);			
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
-				GeoElement[] ret = { kernelA.Row(c.getLabel(),
-						arg[0]) };
+				AlgoRow algo = new AlgoRow(cons, c.getLabel(),
+						arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

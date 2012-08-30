@@ -1,12 +1,18 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFunctionMax;
+import geogebra.common.kernel.algos.AlgoIntervalMax;
+import geogebra.common.kernel.algos.AlgoListMax;
+import geogebra.common.kernel.algos.AlgoMax;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,14 +39,18 @@ public class CmdMax extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						kernelA.Max(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoListMax algo = new AlgoListMax(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getMax() };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
-				GeoElement[] ret = { 
-						kernelA.Max(c.getLabel(),
-						(GeoInterval) arg[0]) };
+				
+				AlgoIntervalMax algo = new AlgoIntervalMax(cons, c.getLabel(),
+						(GeoInterval) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
@@ -50,9 +60,10 @@ public class CmdMax extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue()) &&
 				(ok[1] = arg[1].isNumberValue())) 
 			{
-				GeoElement[] ret = { 
-						kernelA.Max(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				AlgoMax algo = new AlgoMax(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 				
 			}
@@ -64,12 +75,13 @@ public class CmdMax extends CommandProcessor {
 			    (ok[1]=arg[1].isNumberValue())     &&
 			    (ok[2]=arg[2].isNumberValue())  )
 			{
-				GeoElement[] ret= {
-						kernelA.Max(c.getLabel(),
+				
+				AlgoFunctionMax algo = new AlgoFunctionMax(cons, c.getLabel(),
 						(GeoFunction) arg[0],
 						(NumberValue) arg[1],
-						(NumberValue) arg[2])
-				};//array
+						(NumberValue) arg[2]);
+
+				GeoElement[] ret= { algo.getPoint() };
 				return ret;
 			}
 				throw argErr(app,c.getName(),getBadArg(ok,arg));

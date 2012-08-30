@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -54,13 +55,15 @@ public class CmdSequence extends CommandProcessor {
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isNumberValue()))
 			{
-				return  kernelA.Sequence(
-						c.getLabel(),
+				
+				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
 						arg[0],
 						(GeoNumeric) arg[1],
 						(NumberValue) arg[2],
 						(NumberValue) arg[3],
 						null);
+
+				return  algo.getOutput();
 			} throw argErr(app, c.getName(), getBadArg(ok,arg));	
 
 
@@ -76,13 +79,15 @@ public class CmdSequence extends CommandProcessor {
 					&& (ok[3] = arg[3].isNumberValue())
 					&& (ok[4] = arg[4].isNumberValue()) )
 			{
-				return kernelA.Sequence(
-						c.getLabel(),
+				
+				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
 						arg[0],
 						(GeoNumeric) arg[1],
 						(NumberValue) arg[2],
 						(NumberValue) arg[3],
 						(NumberValue) arg[4]);
+				return algo.getOutput();
+
 			} 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));	
 

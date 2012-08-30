@@ -1,10 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoLCM;
+import geogebra.common.kernel.algos.AlgoListLCM;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,9 +37,11 @@ public class CmdLCM extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						kernelA.LCM(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoListLCM algo = new AlgoListLCM(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getLCM() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -46,9 +51,11 @@ public class CmdLCM extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue()) &&
 				(ok[1] = arg[1].isNumberValue())) 
 			{
-				GeoElement[] ret = { 
-						kernelA.LCM(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoLCM algo = new AlgoLCM(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 				
 			}

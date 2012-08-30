@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDotPlot;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -21,7 +22,8 @@ public class CmdDotPlot extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		return kernelA.DotPlot(a, b);
+		AlgoDotPlot algo = new AlgoDotPlot(cons, a, b);
+		return algo.getResult();
 	}
 
 }

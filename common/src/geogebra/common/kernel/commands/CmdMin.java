@@ -1,12 +1,18 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFunctionMin;
+import geogebra.common.kernel.algos.AlgoIntervalMin;
+import geogebra.common.kernel.algos.AlgoListMin;
+import geogebra.common.kernel.algos.AlgoMin;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,14 +39,17 @@ public class CmdMin extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						kernelA.Min(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoListMin algo = new AlgoListMin(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getMin() };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
-				GeoElement[] ret = { 
-						kernelA.Min(c.getLabel(),
-						(GeoInterval) arg[0]) };
+				AlgoIntervalMin algo = new AlgoIntervalMin(cons, c.getLabel(),
+						(GeoInterval) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
@@ -50,9 +59,11 @@ public class CmdMin extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue()) &&
 				(ok[1] = arg[1].isNumberValue())) 
 			{
-				GeoElement[] ret = { 
-						kernelA.Min(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoMin algo = new AlgoMin(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 				
 			}
@@ -64,12 +75,13 @@ public class CmdMin extends CommandProcessor {
 			    (ok[1]=arg[1].isNumberValue())     &&
 			    (ok[2]=arg[2].isNumberValue())  )
 			{
-				GeoElement[] ret= {
-						kernelA.Min(c.getLabel(),
+				
+				AlgoFunctionMin algo = new AlgoFunctionMin(cons, c.getLabel(),
 						(GeoFunction) arg[0],
 						(NumberValue) arg[1],
-						(NumberValue) arg[2])
-				};//array
+						(NumberValue) arg[2]);
+
+				GeoElement[] ret= { algo.getPoint() };
 				return ret;
 			}
 			throw argErr(app,c.getName(),getBadArg(ok,arg));

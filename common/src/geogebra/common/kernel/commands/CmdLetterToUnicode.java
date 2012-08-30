@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoLetterToUnicode;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -30,9 +31,10 @@ public class CmdLetterToUnicode extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoText()) {
-				GeoElement[] ret = { 
-						kernelA.LetterToUnicode(c.getLabel(),
-						(GeoText) arg[0] ) };
+				AlgoLetterToUnicode algo = new AlgoLetterToUnicode(cons, c.getLabel(),
+						(GeoText) arg[0]);
+
+				GeoElement[] ret = {algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

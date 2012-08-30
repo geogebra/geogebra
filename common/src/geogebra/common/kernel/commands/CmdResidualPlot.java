@@ -12,6 +12,7 @@ package geogebra.common.kernel.commands;
 
  */
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoResidualPlot;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -42,8 +43,10 @@ public class CmdResidualPlot extends CommandProcessor {
 		switch (n) {
 		case 2:
 			if ((arg[0].isGeoList()) && (arg[1].isGeoFunctionable())) {
-				GeoElement[] ret = { kernelA.ResidualPlot(c.getLabel(),
-						(GeoList) arg[0], (GeoFunctionable) arg[1]) };
+				AlgoResidualPlot algo = new AlgoResidualPlot(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoFunctionable) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoLastString;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -40,7 +41,7 @@ public class CmdLast extends CommandProcessor {
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = { 
-						kernelA.Last(c.getLabel(),
+						Last(c.getLabel(),
 						(GeoText) arg[0], null ) };
 				return ret;
 			} else
@@ -56,7 +57,7 @@ public class CmdLast extends CommandProcessor {
 				return ret;
 			} else if ( text && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernelA.Last(c.getLabel(),
+						Last(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else
@@ -66,5 +67,16 @@ public class CmdLast extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	/**
+	 * Last[string,n] Michael Borcherds
+	 */
+	final private GeoText Last(String label, GeoText list, GeoNumeric n) {
+		AlgoLastString algo = new AlgoLastString(cons, label, list, n);
+		GeoText list2 = algo.getResult();
+		return list2;
+	}
+
+
 
 }

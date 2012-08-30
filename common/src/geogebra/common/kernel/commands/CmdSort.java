@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.statistics.AlgoSort;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -32,7 +33,7 @@ public class CmdSort extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
-						kernelA.Sort(c.getLabel(),
+						Sort(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 			}
@@ -58,12 +59,23 @@ public class CmdSort extends CommandProcessor {
                 // try to create list of points (eg FitExp[])
               	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
                    if (list != null) {
-                  	 GeoElement[] ret = { kernelA.Sort(c.getLabel(), list)};
+                  	 GeoElement[] ret = { Sort(c.getLabel(), list)};
                        return ret;             	     	 
                    } 		
         	
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	
+	
+	/**
+	 * Sort[list] Michael Borcherds
+	 */
+	final private GeoList Sort(String label, GeoList list) {
+		AlgoSort algo = new AlgoSort(cons, label, list);
+		GeoList list2 = algo.getResult();
+		return list2;
 	}
 
 }

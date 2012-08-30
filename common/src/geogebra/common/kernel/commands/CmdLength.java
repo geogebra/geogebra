@@ -2,6 +2,9 @@ package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoArcLength;
+import geogebra.common.kernel.algos.AlgoLengthSegment;
+import geogebra.common.kernel.algos.AlgoLengthVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.cas.AlgoLengthCurve;
 import geogebra.common.kernel.cas.AlgoLengthCurve2Points;
@@ -48,8 +51,11 @@ public class CmdLength extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoVector() || arg[0].isGeoPoint()) {
-				GeoElement[] ret = { kernelA.Length(c.getLabel(),
-						(GeoVec3D) arg[0]) };
+				
+				AlgoLengthVector algo = new AlgoLengthVector(cons, c.getLabel(),
+						(GeoVec3D) arg[0]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			} else if (arg[0].isGeoList()) {
 				GeoElement[] ret = { kernelA.Length(c.getLabel(),
@@ -64,14 +70,20 @@ public class CmdLength extends CommandProcessor {
 						(GeoLocus) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {
-				GeoElement[] ret = { kernelA.Length(c.getLabel(),
-						(GeoSegmentND) arg[0]) };
+				
+				AlgoLengthSegment algo = new AlgoLengthSegment(cons, c.getLabel(),
+						(GeoSegmentND) arg[0]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			
 			} else if (arg[0].isGeoConicPart()) {
 				// Arc length
-				GeoElement[] ret = { kernelA.Length(c.getLabel(),
-						(GeoConicPart) arg[0]) };
+				
+				AlgoArcLength algo = new AlgoArcLength(cons, c.getLabel(),
+						(GeoConicPart) arg[0]);
+
+				GeoElement[] ret = { algo.getArcLength() };
 				return ret;
 			
 			} else {
