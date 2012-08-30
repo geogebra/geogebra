@@ -10,9 +10,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	private GGWGraphicsView ggwGraphicView;
 	private GGWViewWrapper ggwViewWrapper;
-
-	//remove the comment to show the spreadsheet too (1)
-	//TODO//private GGWSpreadsheetView ggwSpreadsheetView;
+	private GGWSpreadsheetView ggwSpreadsheetView = null;
 
 	private App application;
 
@@ -20,7 +18,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 		super();
 		addWest(ggwViewWrapper = new GGWViewWrapper(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
 
-		//remove the comment to show the spreadsheet too (2)
+		//remove the comment to show the spreadsheet too
 		//TODO//addEast(ggwSpreadsheetView = new GGWSpreadsheetView(), 400);
 
 		add(ggwGraphicView = new GGWGraphicsView());
@@ -47,6 +45,9 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	   this.application = app;
 	   ggwViewWrapper.attachApp(app);
 	   ggwGraphicView.attachApp(app);
+
+	   if (ggwSpreadsheetView != null)
+		   ggwSpreadsheetView.attachApp(app);
     }
 
 }

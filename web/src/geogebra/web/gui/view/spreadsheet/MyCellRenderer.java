@@ -139,8 +139,6 @@ public class MyCellRenderer {
 		} else {
 			isCustomBGColor = true;
 		}
-		retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
-
 
 		// Get the cell geo, exit if null
 		// ==================================================
@@ -148,6 +146,8 @@ public class MyCellRenderer {
 			geo = (GeoElement) value;
 		} else {
 			((InlineLabel)retwidget).setText("");
+			if (bgColor != null)
+				retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 			return retwidget;
 		}
 
@@ -227,6 +227,8 @@ public class MyCellRenderer {
 			fontStyle = GFont.PLAIN;
 
 		((InlineLabel)retwidget).setText(text);
+		if (bgColor != null)
+			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 		GFont gf = app.getFontCanDisplay(text, fontStyle);
 		((InlineLabel)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
 		((InlineLabel)retwidget).getElement().getStyle().setFontStyle(

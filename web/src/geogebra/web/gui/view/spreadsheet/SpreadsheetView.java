@@ -273,26 +273,26 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	}
 
 	public void add(GeoElement geo) {
-		/*TODO
+
 		// Application.debug(new Date() + " ADD: " + geo);
 
 		update(geo);
 		GPoint location = geo.getSpreadsheetCoords();
 
 		// autoscroll to new cell's location
-		if (scrollToShow && location != null)
+		/*TODO if (scrollToShow && location != null)
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 					true));
-*/
+		*/
 	}
 
 	public void remove(GeoElement geo) {
 		// Application.debug(new Date() + " REMOVE: " + geo);
-/*TODO
+
 		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
-			if (isTraceDialogVisible())
-				traceDialog.updateTraceDialog();
+			//TODO if (isTraceDialogVisible())
+			//TODO	traceDialog.updateTraceDialog();
 		}
 
 		GPoint location = geo.getSpreadsheetCoords();
@@ -302,7 +302,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		case BUTTON:
 		case LIST:
 			table.oneClickEditMap.remove(geo);
-		}*/
+		}
 	}
 
 	public void rename(GeoElement geo) {
@@ -356,11 +356,11 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	 * Clear table and set to default layout. This method is called on startup
 	 * or when new window is called
 	 */
-	/*public void restart() {
+	public void restart() {
 
 		clearView();
 		tableModel.clearView();
-		updateColumnWidths();
+		//TODO//updateColumnWidths();
 		updateFonts();
 
 		app.getTraceManager().loadTraceGeoCollection();
@@ -370,7 +370,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		// clear the formats and call settingsChanged
 		settings().setCellFormat(null);
 
-	}*/
+	}
 
 	/** Resets spreadsheet after undo/redo call. */
 	public void reset() {
@@ -379,7 +379,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	}
 
 	public void update(GeoElement geo) {
-		/*TODO
+
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
@@ -389,15 +389,15 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 			if (location.y >= tableModel.getRowCount()) {
 				// tableModel.setRowCount(location.y + 1);
-				spreadsheet.getRowHeader().revalidate();
+				//TODO//spreadsheet.getRowHeader().revalidate();
 			}
 			if (location.x >= tableModel.getColumnCount()) {
 				tableModel.setColumnCount(location.x + 1);
-				JViewport cH = spreadsheet.getColumnHeader();
+				//TODO//JViewport cH = spreadsheet.getColumnHeader();
 
 				// bugfix: double-click to load ggb file gives cH = null
-				if (cH != null)
-					cH.revalidate();
+				//TODO//if (cH != null)
+				//TODO	cH.revalidate();
 			}
 
 			// Mark this cell to be resized by height
@@ -408,7 +408,6 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 				table.oneClickEditMap.put(location, geo);
 			}
 		}
-		*/
 	}
 
 	final public void updateVisualStyle(GeoElement geo) {
@@ -697,11 +696,11 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		// column.
 	}*/
 
-	/*public void setRowHeight(int row, int height) {
+	public void setRowHeight(int row, int height) {
 		table.setRowHeight(row, height);
-	}*/
+	}
 
-	/*public void updateColumnWidths() {
+	/*TODO public void updateColumnWidths() {
 		Font font = app.getPlainFont();
 
 		int size = font.getSize();
@@ -732,7 +731,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		}
 	}*/
 
-	/*public void setRowHeightsFromSettings() {
+	public void setRowHeightsFromSettings() {
 		HashMap<Integer, Integer> heightMap = app.getSettings()
 				.getSpreadsheet().getHeightMap();
 		table.setRowHeight(app.getSettings().getSpreadsheet()
@@ -742,7 +741,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 				table.setRowHeight(r, heightMap.get(r));
 			}
 		}
-	}*/
+	}
 
 	/*public void updateRowHeader() {
 		if (rowHeader != null) {

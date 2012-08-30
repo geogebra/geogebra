@@ -283,6 +283,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// click
 		// changeSelection(0, 0, false, false);
 */
+		renderCells();
 	}
 
 	/**
@@ -941,7 +942,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		return columns;
 	}
 
-	/*@Override
+	//@Override
 	public int[] getSelectedColumns() {
 
 		ArrayList<Integer> columns = getSelectedColumnsList();
@@ -950,7 +951,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			ret[c] = columns.get(c);
 
 		return ret;
-	}*/
+	}
 
 	// ===============================================================
 	// Selection Utilities
@@ -1922,6 +1923,18 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	}*/
 
 	public void repaint() {
+		//renderCells();
 		//TODO: implementation needed
+	}
+
+	public void renderCells() {
+		for (int i = 0; i < getRowCount(); i++) {
+			for (int j = 0; j < getColumnCount(); j++) {
+				setWidget(i, j,
+					defaultTableCellRenderer.getTableCellRendererWidget(
+						this, tableModel.getValueAt(i, j), false, false, i, j)
+				);
+			}
+		}
 	}
 }
