@@ -637,16 +637,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// set dpi to 72
 		exportScale = (printingScale * 72) / 2.54 / ev.getXscale();
-		//exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
-		
-		App.debug("exportScale = " + exportScale + ", printingScale = " + printingScale + ", ev.getXscale = " + ev.getXscale());
-		
-		//exportScale = (printingScale * 72) / 2.54;
+
 		// ... and update bounding box accordingly
 		pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
 		pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
-		
-		App.debug(pixelWidth + " <- " + ev.getExportWidth() + " * " + exportScale);
 
 		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
@@ -666,49 +660,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		ev.setTemporaryCoordSystemForExport(); // allow clipping with Export_1
 												// and 2 Points
 		try {
-
-			// export text as shapes or plaintext
-			// shapes: better representation
-			// text: smaller file size, but some unicode symbols don't export eg
-			// Upsilon
-			UserProperties props = (UserProperties) SVGGraphics2D
-					.getDefaultProperties();
-			props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
-			props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES,
-					textAsShapes);
-			SVGGraphics2D.setDefaultProperties(props);
-
-			// Michael Borcherds 2008-03-01
-			// added SVGExtensions to support grouped objects in layers
-			SVGExtensions g = new SVGExtensions(file, new Dimension(pixelWidth,
-					pixelHeight));
-			// VectorGraphics g = new SVGGraphics2D(file, new
-			// Dimension(pixelWidth, pixelHeight));
-
-			// make sure LaTeX exported at hi res
-			app.exporting = true;
-
-			g.startExport();
-			ev.exportPaintPre(new geogebra.awt.GGraphics2DD(g), exportScale);
-
-			g.startGroup("misc");
-			ev.drawActionObjects(new geogebra.awt.GGraphics2DD(g));
-			g.endGroup("misc");
-
-			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
-																			// only
-																			// layers
-																			// we
-																			// need
-			{
-				g.startGroup("layer" + layer);
-				ev.drawLayers[layer].drawAll(new geogebra.awt.GGraphics2DD(g));
-				g.endGroup("layer" + layer);
-			}
-
-			g.endExport();
-			app.exporting = false;
-	//		exportSVG(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, printingScale);
+			exportSVG(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, exportScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
