@@ -3682,12 +3682,21 @@ public class AppD extends App implements
 
 	private static URL codebase;
 	private static boolean runningFromJar = false;
+	final private static String packgz = ".pack.gz";
 
 	private static void initCodeBase() {
 		try {
 			// application codebase
 			String path = GeoGebra.class.getProtectionDomain().getCodeSource()
 					.getLocation().toExternalForm();
+			
+			// remove .pack.gz from end
+			// not sure why we've started getting this (maybe when using the mirror servers?)
+			// eg Codebase: http://jars.geogebra.org/webstart/4.2/jnlp/geogebra.jar.pack.gz
+			if (path.endsWith(packgz)) {
+				path = path.substring(0, path.length() - packgz.length());
+			}
+			
 			// remove "geogebra.jar" from end of codebase string
 			if (path.endsWith(JAR_FILES[0])) {
 				runningFromJar = true;
