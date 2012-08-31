@@ -50,8 +50,7 @@ public class MobileEuclidianController extends EuclidianController implements
 
 	private GuiModel guiModel;
 	private ArrayList<GeoPointND> oldPoints = new ArrayList<GeoPointND>();
-	private ArrayList<GeoLineND> oldLines = new ArrayList<GeoLineND>(); // meli
-	private ArrayList<GeoElement> oldElements = new ArrayList<GeoElement>();
+	private ArrayList<GeoLineND> oldLines = new ArrayList<GeoLineND>();
 	private ToolBarCommand lastCmd;
 	private GPoint origin;
 	private boolean moving;
@@ -204,8 +203,8 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.oldPoints = new ArrayList<GeoPointND>();
 			this.oldLines = new ArrayList<GeoLineND>();
-			this.oldElements = new ArrayList<GeoElement>();
 			this.lastCmd = cmd;
+			resetSelection();
 		}
 
 		boolean draw = false;
@@ -216,12 +215,8 @@ public class MobileEuclidianController extends EuclidianController implements
 		// draw the new point
 		switchModeForMousePressed(null);
 
+		this.view.setHits(this.mouseLoc);
 		Hits hits = this.view.getHits();
-
-		if (!cmd.equals(ToolBarCommand.Select))
-		{
-			removeSelection();
-		}
 
 		switch (cmd)
 		{
@@ -259,8 +254,7 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// commands that need any two objects
 		case IntersectTwoObjects:
-			recordAnyObject(hits);
-			draw = this.oldElements.size() == 2;
+			intersect(hits);
 			break;
 
 		// commands that need tree points
@@ -290,32 +284,21 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		// other commands
 		case DeleteObject:
-			// this.oldPoints = new ArrayList<GeoPointND>();
-			// this.oldLines = new ArrayList<GeoLineND>();
-			this.view.setHits(this.mouseLoc);
-			hits = this.view.getHits();
-			recordElement(hits);
-			if (this.oldPoints.size() > 0)
+			for (int i = 0; i < hits.size(); i++)
 			{
-				this.oldPoints.get(0).remove();
-			}
-			if (this.oldLines.size() > 0)
-			{
-				this.oldLines.get(0).remove();
+				hits.get(i).remove();
 			}
 			break;
 		case Select:
-			this.view.setHits(this.mouseLoc);
-			hits = this.view.getHits();
 
 			for (GeoElement geo : hits)
 			{
 				this.app.getSelectedGeos().add(geo);
+				this.selectedGeos.add(geo);
 				geo.setSelected(true);
 			}
 
 			this.kernel.notifyRepaint();
-
 			break;
 
 		// commands that need one point - nothing to do anymore
@@ -372,10 +355,6 @@ public class MobileEuclidianController extends EuclidianController implements
 							(GeoPoint) this.oldPoints.get(1));
 				}
 				break;
-			// TODO
-			// case IntersectTwoObjects:
-			// this.kernel.intersect ???
-			// break;
 			case Parabola:
 				this.kernel.Parabola(null, (GeoPoint) this.oldPoints.get(0),
 						(GeoLine) this.oldLines.get(0));
@@ -436,7 +415,6 @@ public class MobileEuclidianController extends EuclidianController implements
 
 			this.oldPoints = new ArrayList<GeoPointND>();
 			this.oldLines = new ArrayList<GeoLineND>();
-			this.oldElements = new ArrayList<GeoElement>();
 		}
 
 	}
@@ -497,22 +475,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.oldPoints.add((GeoPointND) this.movedGeoElement);
 		return null;
 	}
-
-	private void recordAnyObject(Hits hits)
-	{
-		if (hits.size() > 0)
-		{
-			this.oldElements.add(hits.get(0));
-			if (hits.size() > 1)
-			{
-				this.oldElements.add(hits.get(1));
-			}
-		} else
-		{
-			this.oldElements.add(this.movedGeoElement);
-		}
-	}
-
+	
 	private GeoPoint getNearestPoint(Hits hits)
 	{
 		GeoPoint nearest = null;
@@ -559,6 +522,42 @@ public class MobileEuclidianController extends EuclidianController implements
 		if (repaint)
 		{
 			this.app.setSelectedGeos(new ArrayList<GeoElement>());
+			this.kernel.notifyRepaint();
 		}
+	}
+
+	/**
+	 * @see EuclidianView#clearSelections(boolean repaint, boolean
+	 *      updateSelection)
+	 * 
+	 *      prevent repaint for every list
+	 */
+	private void resetSelection()
+	{
+		this.selectedGeos.clear();
+
+		this.selectedNumbers.clear();
+		this.selectedNumberValues.clear();
+		this.selectedPoints.clear();
+		this.selectedLines.clear();
+		this.selectedSegments.clear();
+		this.selectedConicsND.clear();
+		this.selectedVectors.clear();
+		this.selectedPolygons.clear();
+		this.selectedGeos.clear();
+		this.selectedFunctions.clear();
+		this.selectedCurves.clear();
+		this.selectedLists.clear();
+		this.selectedPaths.clear();
+		this.selectedRegions.clear();
+
+		this.app.clearSelectedGeos(true, false);
+
+		// if we clear selection and highlighting,
+		// we may want to clear justCreatedGeos also
+		clearJustCreatedGeos();
+
+		// clear highlighting
+		refreshHighlighting(null, null);
 	}
 }
