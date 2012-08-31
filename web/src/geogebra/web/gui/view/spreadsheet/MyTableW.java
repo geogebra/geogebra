@@ -1930,10 +1930,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	public void renderCells() {
 		for (int i = 0; i < getRowCount(); i++) {
 			for (int j = 0; j < getColumnCount(); j++) {
-				setWidget(i, j,
-					defaultTableCellRenderer.getTableCellRendererWidget(
-						this, tableModel.getValueAt(i, j), false, false, i, j)
-				);
+				//if (tableModel.getValueAt(i, j) != null)
+					setWidget(i, j,
+						defaultTableCellRenderer.getTableCellRendererWidget(
+							this, tableModel.getValueAt(i, j), false, false, i, j)
+					);
 			}
 		}
 	}

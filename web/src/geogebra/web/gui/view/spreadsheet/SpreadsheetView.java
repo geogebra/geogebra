@@ -284,6 +284,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 					true));
 		*/
+
+		//table.renderCells();//infinite loop?
 	}
 
 	public void remove(GeoElement geo) {
@@ -388,7 +390,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 			// changes should be handled by a table model listener
 
 			if (location.y >= tableModel.getRowCount()) {
-				// tableModel.setRowCount(location.y + 1);
+				tableModel.setRowCount(location.y + 1);
 				//TODO//spreadsheet.getRowHeader().revalidate();
 			}
 			if (location.x >= tableModel.getColumnCount()) {
