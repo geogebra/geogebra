@@ -285,7 +285,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 					true));
 		*/
 
-		//table.renderCells();//infinite loop changed to simple freeze
+		//TODO//table.renderCells();//why does this not work?
 	}
 
 	public void remove(GeoElement geo) {

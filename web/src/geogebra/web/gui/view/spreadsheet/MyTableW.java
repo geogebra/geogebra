@@ -450,10 +450,16 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			// TODO: comment them out to imitate the Desktop behaviour
 			//TODO//getView().updateRowHeader();
 			updateColumnCount();
+
+			// web-specific solution
+			if (tableModel.getRowCount() <= getRowCount())
+				return;
+
+			resizeRows(tableModel.getRowCount());
 		}
 
 		public void valueChange() {
-			
+
 		}
 	}
 
