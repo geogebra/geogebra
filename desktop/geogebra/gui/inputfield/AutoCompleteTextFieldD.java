@@ -945,8 +945,8 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 			int err = ((MyException) e).getErrorType();
 			if (err == MyException.IMBALANCED_BRACKETS) {
 				app.showError((MyError)e.getCause());
-					return;
-				
+				return;
+
 			}
 		}
 		// can't work out anything better, just show "Invalid Input"
