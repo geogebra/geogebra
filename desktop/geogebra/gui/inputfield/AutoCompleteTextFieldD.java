@@ -36,7 +36,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class AutoCompleteTextFieldD extends MathTextField implements
-		AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
+AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -306,7 +306,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			break;
 
-		// process input
+			// process input
 
 		case KeyEvent.VK_ESCAPE:
 			if (!handleEscapeKey) {
@@ -322,9 +322,9 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 			setText(null);
 			break;
 
-		// removed - what is this for?
-		// case KeyEvent.VK_LEFT_PARENTHESIS:
-		// break;
+			// removed - what is this for?
+			// case KeyEvent.VK_LEFT_PARENTHESIS:
+			// break;
 
 		case KeyEvent.VK_UP:
 			if (!handleEscapeKey) {
@@ -387,7 +387,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 					String closest = dict.lookup(lowerCurWord);
 
 					if (closest != null) {// &&
-											// lowerCurWord.equals(closest.toLowerCase()))
+						// lowerCurWord.equals(closest.toLowerCase()))
 						showCommandHelp(app.getInternalCommand(closest),
 								isCASInput);
 						commandFound = true;
@@ -400,13 +400,13 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 							app.getMainComponent(),
 							app.getPlain(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
-							app.getPlain("ApplicationName") + " - "
-									+ app.getMenu("Help"),
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, // do not use a
-																// custom Icon
-							options, // the titles of buttons
-							options[0]); // default button title
+									app.getPlain("ApplicationName") + " - "
+											+ app.getMenu("Help"),
+											JOptionPane.YES_NO_OPTION,
+											JOptionPane.QUESTION_MESSAGE, null, // do not use a
+											// custom Icon
+											options, // the titles of buttons
+											options[0]); // default button title
 
 					if (n == 1)
 						app.getGuiManager().openHelp(helpURL);
@@ -584,7 +584,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		// auto-close parentheses
 		if (caretPos == text.length()
 				|| geogebra.common.gui.inputfield.MyTextField
-						.isCloseBracketOrWhitespace(text.charAt(caretPos))) {
+				.isCloseBracketOrWhitespace(text.charAt(caretPos))) {
 			switch (ch) {
 			case '(':
 				// opening parentheses: insert closing parenthesis automatically
@@ -641,7 +641,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		// search to the left
 		curWordStart = caretPos - 1;
 		while (curWordStart >= 0 &&
-		// isLetterOrDigitOrOpenBracket so that F1 works
+				// isLetterOrDigitOrOpenBracket so that F1 works
 				StringUtil.isLetterOrDigitOrUnderscore(text
 						.charAt(curWordStart))) {
 			--curWordStart;
@@ -831,6 +831,11 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 
 		setCaretPosition(curWordStart + bracketIndex);
 		moveToNextArgument(false);
+
+		// make sure seg<enter><enter> gives syntax
+		curWord.setLength(0);
+		curWord.append(command.substring(0,  command.indexOf('[')));
+		
 		return true;
 	}
 
@@ -943,7 +948,18 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	public void showError(Exception e) {
 		if (e instanceof MyException) {			
 			int err = ((MyException) e).getErrorType();
-			if (err == MyException.IMBALANCED_BRACKETS) {
+			if (err == MyException.INVALID_INPUT) { 
+				// eg type
+				// seg<enter><enter> to show syntax for Segment
+				String command = app.getReverseCommand(getCurrentWord()); 
+				if (command != null) { 
+
+					app.showError(new MyError(app, app.getError("InvalidInput") 
+							+ "\n\n" + app.getPlain("Syntax") + ":\n" 
+							+ app.getCommandSyntax(command), getCurrentWord())); 
+					return; 
+				} 
+			} else if (err == MyException.IMBALANCED_BRACKETS) {
 				app.showError((MyError)e.getCause());
 				return;
 
