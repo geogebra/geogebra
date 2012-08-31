@@ -240,6 +240,7 @@ public class MobileEuclidianController extends EuclidianController implements
 			break;
 
 		// commands that need two points or one segment
+		case MidpointOrCenter:
 		case PerpendicularBisector:
 			recordPoint(hits);
 			if (hits.size() > 0 && hits.get(0) instanceof GeoSegment)
@@ -276,10 +277,18 @@ public class MobileEuclidianController extends EuclidianController implements
 			break;
 
 		// commands that need an unknown number of points
+		// case PolylineBetweenPoints:
+		// case Polygon:
+		// recordPoint(hits);
+		// draw = (this.oldPoints.size() > 1)
+		// && hits.contains(this.oldPoints.get(0));
+		// break;
+
+		case PolylineBetweenPoints:
+			polyline(hits);
+			break;
 		case Polygon:
-			recordPoint(hits);
-			draw = (this.oldPoints.size() > 1)
-					&& hits.contains(this.oldPoints.get(0));
+			polygon(hits);
 			break;
 
 		// other commands
@@ -290,7 +299,6 @@ public class MobileEuclidianController extends EuclidianController implements
 			}
 			break;
 		case Select:
-
 			for (GeoElement geo : hits)
 			{
 				this.app.getSelectedGeos().add(geo);
@@ -305,6 +313,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		default:
 		}
 
+		// draw anything other than a point
 		if (draw)
 		{
 			switch (cmd)
@@ -335,7 +344,7 @@ public class MobileEuclidianController extends EuclidianController implements
 				break;
 			case PerpendicularLine:
 				this.kernel.OrthogonalLine(null,
-						(GeoPoint) this.oldPoints.get(1),
+						(GeoPoint) this.oldPoints.get(0),
 						(GeoLine) this.oldLines.get(0));
 				break;
 			case ParallelLine:
@@ -343,12 +352,24 @@ public class MobileEuclidianController extends EuclidianController implements
 						.get(this.oldPoints.size() - 1),
 						(GeoLine) this.oldLines.get(this.oldLines.size() - 1));
 				break;
+			case MidpointOrCenter:
+				if (this.oldLines.size() > 0)
+				{
+					this.kernel.Midpoint(null,
+							(GeoSegment) this.oldLines.get(0));
+				} else if (this.oldPoints.size() >= 2)
+				{
+					this.kernel.Midpoint(null,
+							(GeoPoint) this.oldPoints.get(0),
+							(GeoPoint) this.oldPoints.get(1));
+				}
+				break;
 			case PerpendicularBisector:
 				if (this.oldLines.size() > 0)
 				{
 					this.kernel.LineBisector(null,
 							(GeoSegment) this.oldLines.get(0));
-				} else if (this.oldPoints.size() == 2)
+				} else if (this.oldPoints.size() >= 2)
 				{
 					this.kernel.LineBisector(null,
 							(GeoPoint) this.oldPoints.get(0),
@@ -405,11 +426,16 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoPoint) this.oldPoints.get(3),
 						(GeoPoint) this.oldPoints.get(4) });
 				break;
-			case Polygon:
-				this.oldPoints.remove(this.oldPoints.size() - 1);
-				this.kernel.Polygon(null, this.oldPoints
-						.toArray(new GeoPointND[this.oldPoints.size() - 1]));
-				break;
+			// case PolylineBetweenPoints:
+			// this.oldPoints.remove(this.oldPoints.size() - 1);
+			// this.kernel.PolyLineND(null, this.oldPoints
+			// .toArray(new GeoPointND[this.oldPoints.size() - 1]));
+			// break;
+			// case Polygon:
+			// this.oldPoints.remove(this.oldPoints.size() - 1);
+			// this.kernel.PolygonND(null, this.oldPoints
+			// .toArray(new GeoPointND[this.oldPoints.size() - 1]));
+			// break;
 			default:
 			}
 
@@ -475,7 +501,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.oldPoints.add((GeoPointND) this.movedGeoElement);
 		return null;
 	}
-	
+
 	private GeoPoint getNearestPoint(Hits hits)
 	{
 		GeoPoint nearest = null;
