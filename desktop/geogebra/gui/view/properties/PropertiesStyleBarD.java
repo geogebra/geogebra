@@ -214,7 +214,7 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	private ImageIcon getTypeIcon(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getImageIcon("properties_defaults_2.png");
+			return app.getImageIcon("properties_defaults_3.png");
 		case SPREADSHEET:
 			return app.getImageIcon("view-spreadsheet24.png");
 		case EUCLIDIAN:
