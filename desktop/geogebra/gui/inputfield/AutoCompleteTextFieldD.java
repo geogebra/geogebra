@@ -832,10 +832,6 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		setCaretPosition(curWordStart + bracketIndex);
 		moveToNextArgument(false);
 
-		// make sure seg<enter><enter> gives syntax
-		curWord.setLength(0);
-		curWord.append(command.substring(0,  command.indexOf('[')));
-		
 		return true;
 	}
 
@@ -949,6 +945,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		if (e instanceof MyException) {			
 			int err = ((MyException) e).getErrorType();
 			if (err == MyException.INVALID_INPUT) { 
+				updateCurrentWord(true);
 				// eg type
 				// seg<enter><enter> to show syntax for Segment
 				String command = app.getReverseCommand(getCurrentWord()); 
