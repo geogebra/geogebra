@@ -1928,13 +1928,13 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	}
 
 	public void renderCells() {
-		for (int i = 0; i < getRowCount(); i++) {
-			for (int j = 0; j < getColumnCount(); j++) {
-				//if (tableModel.getValueAt(i, j) != null)
-					setWidget(i, j,
-						defaultTableCellRenderer.getTableCellRendererWidget(
-							this, tableModel.getValueAt(i, j), false, false, i, j)
-					);
+
+		for (int i = getColumnCount() - 1; i >= 0; i--) {
+			for (int j = getRowCount() - 1; j >= 0; j--) {
+				setWidget(j, i,
+					defaultTableCellRenderer.getTableCellRendererWidget(
+						this, tableModel.getValueAt(j, i), false, false, j, i)
+				);
 			}
 		}
 	}
