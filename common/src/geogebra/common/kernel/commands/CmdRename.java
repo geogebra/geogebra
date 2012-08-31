@@ -1,7 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.LabelManager;
@@ -29,7 +32,29 @@ public class CmdRename extends CmdScripting {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			// adapted from resArgs()
+
+			boolean oldMacroMode = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			ExpressionNode[] args = c.getArguments();
+			arg = new GeoElement[args.length];
+
+			// resolve first argument
+			args[0].resolveVariables(args[0].getLeft() instanceof Equation);
+			arg[0] = resArg(args[0])[0];
+
+			try {
+				// resolve second argument
+				args[1].resolveVariables(args[1].getLeft() instanceof Equation);
+				arg[1] = resArg(args[1])[0];
+			} catch (Error e) {
+				// if there's a problem with the second argument, just wrap in quotes in case it's a color
+				// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+				arg[1] = new GeoText(cons, args[1].toString(StringTemplate.defaultTemplate));
+			}
+			cons.setSuppressLabelCreation(oldMacroMode);
+
+
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
@@ -38,7 +63,7 @@ public class CmdRename extends CmdScripting {
 					geo.rename(((GeoText) arg[1]).getTextString());
 					geo.updateRepaint();
 
-					
+
 					return;
 				}
 				throw argErr(app, c.getName(), arg[1]);
