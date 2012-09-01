@@ -1,6 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFirst;
+import geogebra.common.kernel.algos.AlgoFirstLocus;
+import geogebra.common.kernel.algos.AlgoFirstString;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -36,12 +39,12 @@ public class CmdFirst extends CommandProcessor {
 
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
-						kernelA.First(c.getLabel(),
+						First(c.getLabel(),
 						(GeoList) arg[0], null ) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = { 
-						kernelA.First(c.getLabel(),
+						First(c.getLabel(),
 						(GeoText) arg[0], null ) };
 				return ret;
 			} else
@@ -52,18 +55,20 @@ public class CmdFirst extends CommandProcessor {
 			boolean locus = arg[0].isGeoLocus();
 			if ( list && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernelA.First(c.getLabel(),
+						First(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else if ( string && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernelA.First(c.getLabel(),
+						First(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else if ( locus && arg[1].isGeoNumeric() ) {
-				GeoElement[] ret = { 
-						kernelA.FirstLocus(c.getLabel(),
-						(GeoLocus) arg[0], (GeoNumeric) arg[1] ) };
+				
+				AlgoFirstLocus algo = new AlgoFirstLocus(cons, c.getLabel(),
+						(GeoLocus) arg[0], (GeoNumeric) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), (list && string) ? arg[1] : arg[0]);
@@ -72,6 +77,25 @@ public class CmdFirst extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * First[string,n] Michael Borcherds
+	 */
+	final private GeoText First(String label, GeoText list, GeoNumeric n) {
+		AlgoFirstString algo = new AlgoFirstString(cons, label, list, n);
+		GeoText list2 = algo.getResult();
+		return list2;
+	}
+	
+
+	/**
+	 * First[list,n] Michael Borcherds
+	 */
+	final private GeoList First(String label, GeoList list, GeoNumeric n) {
+		AlgoFirst algo = new AlgoFirst(cons, label, list, n);
+		GeoList list2 = algo.getResult();
+		return list2;
 	}
 
 }

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,9 +35,12 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint() && arg[0].isMoveable()))
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernelA.DynamicCoordinates(c.getLabel(),
+				
+				AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(cons, c.getLabel(),
 						(GeoPoint) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2]) };
+						(NumberValue) arg[2]);
+
+				GeoElement[] ret = { algo.getPoint() };
 				return ret;
 			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);

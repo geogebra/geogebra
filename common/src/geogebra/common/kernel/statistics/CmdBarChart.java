@@ -57,9 +57,12 @@ public class CmdBarChart extends CommandProcessor {
 			if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isGeoList()))) {
-				GeoElement[] ret = { kernelA.BarChart(c.getLabel(),
+				
+				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(GeoList) arg[2]) };
+						(GeoList) arg[2]);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoExcentricity;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -32,8 +33,11 @@ public class CmdExcentricity extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernelA.Excentricity(c.getLabel(),
-						(GeoConic) arg[0]) };
+				
+				AlgoExcentricity algo = new AlgoExcentricity(cons, c.getLabel(),
+						(GeoConic) arg[0]);
+
+				GeoElement[] ret = { algo.getLinearEccentricity() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

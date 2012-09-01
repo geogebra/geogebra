@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Transform;
+import geogebra.common.kernel.TransformDilate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
@@ -42,7 +44,7 @@ public class CmdDilate extends CommandProcessor {
 					.isGeoList()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
 				NumberValue phi = (NumberValue) arg[1];
-				ret = kernelA.Dilate(label, arg[0], phi);
+				ret = Dilate(label, arg[0], phi);
 				return ret;
 			}
 			if (!ok[0])
@@ -69,5 +71,15 @@ public class CmdDilate extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+
+	/**
+	 * dilate geoRot by r from origin
+	 */
+	final private GeoElement[] Dilate(String label, GeoElement geoDil,
+			NumberValue r) {
+		Transform t = new TransformDilate(cons, r);
+		return t.transform(geoDil, label);
 	}
 }

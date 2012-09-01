@@ -4812,14 +4812,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Denominator Michael Borcherds
-	 */
-	final public GeoElement Denominator(String label, FunctionalNVar func) {
-		AlgoDenominator algo = new AlgoDenominator(cons, label, func);
-		return algo.getResult();
-	}
-
-	/**
 	 * dilate geoRot by r from S
 	 */
 	final public GeoElement[] Dilate(String label, GeoElement geoDil,
@@ -4828,23 +4820,6 @@ public class Kernel {
 		return t.transform(geoDil, label);
 	}
 
-	/**
-	 * dilate geoRot by r from origin
-	 */
-	final public GeoElement[] Dilate(String label, GeoElement geoDil,
-			NumberValue r) {
-		Transform t = new TransformDilate(cons, r);
-		return t.transform(geoDil, label);
-	}
-
-	/**
-	 * directrix of c
-	 */
-	final public GeoLine Directrix(String label, GeoConic c) {
-		AlgoDirectrix algo = new AlgoDirectrix(cons, label, c);
-		GeoLine directrix = algo.getDirectrix();
-		return directrix;
-	}
 
 	/**
 	 * Distance named label between points P and Q
@@ -4872,143 +4847,6 @@ public class Kernel {
 		AlgoDistanceLineLine algo = new AlgoDistanceLineLine(cons, label, (GeoLine)g, (GeoLine)h);
 		GeoNumeric num = algo.getDistance();
 		return num;
-	}
-	
-	/**
-	 * Div[a, b]
-	 */
-	final public GeoNumeric Div(String label, NumberValue a, NumberValue b) {
-		AlgoDiv algo = new AlgoDiv(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	final public GeoElement DynamicCoordinates(String label,
-			GeoPoint geoPoint, NumberValue num1, NumberValue num2) {
-		AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(cons, label,
-				geoPoint, num1, num2);
-		return algo.getPoint();
-	}
-
-	/**
-	 * eccentricity of c
-	 */
-	final public GeoNumeric Eccentricity(String label, GeoConic c) {
-		AlgoEccentricity algo = new AlgoEccentricity(cons, label, c);
-		GeoNumeric eccentricity = algo.getEccentricity();
-		return eccentricity;
-	}
-
-	/**
-	 * Element[list, number]
-	 */
-	final public GeoElement Element(String label, GeoList list, NumberValue n) {
-		AlgoListElement algo = new AlgoListElement(cons, label, list, n);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}
-
-	/**
-	 * Element[list, number, number]
-	 */
-	final public GeoElement Element(String label, GeoList list, NumberValue[] n) {
-		AlgoListElement algo = new AlgoListElement(cons, label, list, n);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}
-
-	/**
-	 * linear eccentricity of c
-	 */
-	final public GeoNumeric Excentricity(String label, GeoConic c) {
-		AlgoExcentricity algo = new AlgoExcentricity(cons, label, c);
-		GeoNumeric linearEccentricity = algo.getLinearEccentricity();
-		return linearEccentricity;
-	}
-
-	/**
-	 * all Extrema of function f (works only for polynomials)
-	 */
-	final public GeoPoint[] Extremum(String[] labels, GeoFunction f) {
-		// check if this is a polynomial at the moment
-		if (!f.isPolynomialFunction(true))
-			return null;
-
-		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons, labels,
-				f);
-		GeoPoint[] g = algo.getRootPoints();
-		return g;
-	}
-
-	final public GeoPoint[] Extremum(String[] labels, GeoFunction f,
-			NumberValue left, NumberValue right) {
-		AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, labels, f, left,
-				right);
-		GeoPoint[] gpts = algo.getExtremumPoints(); // All variants return
-														// array...
-		return gpts;
-	}// Extremum(label,geofunction,numbervalue,numbervalue)
-
-	final public GeoList PrimeFactorisation(String label, NumberValue num) {
-		AlgoPrimeFactorization algo = new AlgoPrimeFactorization(cons, label,
-				num);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * First[list,n] Michael Borcherds
-	 */
-	final public GeoList First(String label, GeoList list, GeoNumeric n) {
-		AlgoFirst algo = new AlgoFirst(cons, label, list, n);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * First[string,n] Michael Borcherds
-	 */
-	final public GeoText First(String label, GeoText list, GeoNumeric n) {
-		AlgoFirstString algo = new AlgoFirstString(cons, label, list, n);
-		GeoText list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * FirstLocus[locus,n] Michael Borcherds
-	 */
-	final public GeoList FirstLocus(String label, GeoLocus locus, GeoNumeric n) {
-		AlgoFirstLocus algo = new AlgoFirstLocus(cons, label, locus, n);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * first axis of c
-	 */
-	final public GeoLine FirstAxis(String label, GeoConic c) {
-		AlgoAxisFirst algo = new AlgoAxisFirst(cons, label, c);
-		GeoLine axis = algo.getAxis();
-		return axis;
-	}
-
-	/**
-	 * first axis' length of c
-	 */
-	final public GeoNumeric FirstAxisLength(String label, GeoConic c) {
-		AlgoAxisFirstLength algo = new AlgoAxisFirstLength(cons, label, c);
-		GeoNumeric length = algo.getLength();
-		return length;
-	}
-
-	/**
-	 * BarChart
-	 */
-	final public GeoNumeric BarChart(String label, NumberValue a,
-			NumberValue b, GeoList list) {
-		AlgoBarChart algo = new AlgoBarChart(cons, label, a, b, list);
-		GeoNumeric sum = algo.getSum();
-		return sum;
 	}
 
 	final public GeoImplicitPoly ImplicitPoly(String label, GeoFunctionNVar func) {
