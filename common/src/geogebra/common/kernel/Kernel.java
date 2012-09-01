@@ -40,7 +40,6 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
@@ -79,8 +78,6 @@ import geogebra.common.kernel.statistics.AlgoBinomial;
 import geogebra.common.kernel.statistics.AlgoCell;
 import geogebra.common.kernel.statistics.AlgoFrequencyPolygon;
 import geogebra.common.kernel.statistics.AlgoHistogram;
-import geogebra.common.kernel.statistics.AlgoSort;
-import geogebra.common.kernel.statistics.AlgoStemPlot;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -6849,32 +6846,5 @@ public class Kernel {
 
 		GeoElement.updateCascade(al, new TreeSet<AlgoElement>(), true);
 	}
-
-	/**
-	 * StemPlot[list] Michael Borcherds
-	 */
-	final public GeoText StemPlot(String label, GeoList list) {
-		AlgoStemPlot algo = new AlgoStemPlot(cons, label, list, null);
-		GeoText text = algo.getResult();
-		return text;
-	}
-
-	/**
-	 * StemPlot[list, number] Michael Borcherds
-	 */
-	final public GeoText StemPlot(String label, GeoList list, GeoNumeric num) {
-		AlgoStemPlot algo = new AlgoStemPlot(cons, label, list, num);
-		GeoText text = algo.getResult();
-		return text;
-	}
 	
-	public GeoElement Sort(String label, GeoList valueList, GeoList inputList) {
-		AlgoSort algo = new AlgoSort(cons, label, valueList, inputList);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-
-
-
 }
