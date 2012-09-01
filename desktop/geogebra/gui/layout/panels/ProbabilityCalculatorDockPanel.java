@@ -27,6 +27,8 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 		);
 
 		this.app = app;
+		this.setOpenInFrame(true);
+		
 	}
 
 	@Override
