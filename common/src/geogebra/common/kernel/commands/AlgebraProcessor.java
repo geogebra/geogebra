@@ -16,6 +16,16 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentBoolean;
+import geogebra.common.kernel.algos.AlgoDependentConic;
+import geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
+import geogebra.common.kernel.algos.AlgoDependentGeoCopy;
+import geogebra.common.kernel.algos.AlgoDependentInterval;
+import geogebra.common.kernel.algos.AlgoDependentLine;
+import geogebra.common.kernel.algos.AlgoDependentListExpression;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoDependentPoint;
+import geogebra.common.kernel.algos.AlgoDependentText;
+import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
@@ -1246,7 +1256,7 @@ public class AlgebraProcessor {
 					if (isIndependent) {
 						f = new GeoInterval(cons, label, fun);
 					} else {
-						f = kernel.DependentInterval(label, fun);
+						f = DependentInterval(label, fun);
 					}
 					ret[0] = f;
 					return ret;
@@ -1267,7 +1277,7 @@ public class AlgebraProcessor {
 			//the isConstant() here makes difference between f(1) and f(x), see #2155
 			if (left.isLeaf() && left.isGeoElement() && right.isLeaf()
 					&& right.isNumberValue() && !right.isConstant() && !isIndependent) {
-				f = (GeoFunction) kernel.DependentGeoCopy(label,
+				f = (GeoFunction) DependentGeoCopy(label,
 						((GeoFunctionable)left).getGeoFunction());
 				ret[0] = f;
 				return ret;
@@ -1283,6 +1293,24 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+
+
+	/**
+	 * Interval dependent on coefficients of arithmetic expressions with
+	 * variables, represented by trees. e.g. x > a && x < b
+	 */
+	final private GeoFunction DependentInterval(String label, Function fun) {
+		AlgoDependentInterval algo = new AlgoDependentInterval(cons, label, fun);
+		GeoFunction f = algo.getFunction();
+		return f;
+	}
+	
+	final private GeoElement DependentGeoCopy(String label,
+			GeoElement origGeoNode) {
+		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
+				origGeoNode);
+		return algo.getGeo();
+	}
 	/**
 	 * Wraps given functionNVar into GeoFunctionNVar, if dependent,
 	 * AlgoDependentFunctionNVar is created. 
@@ -1301,11 +1329,23 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			ret[0] = new GeoFunctionNVar(cons, label, fun);
 		} else {
-			ret[0] = kernel.DependentFunctionNVar(label, fun);
+			ret[0] = DependentFunctionNVar(label, fun);
 		}
 		return ret;
 	}
 
+	/**
+	 * Multivariate Function depending on coefficients of arithmetic expressions
+	 * with variables, e.g. f(x,y) = a x^2 + b y^2
+	 */
+	final private GeoFunctionNVar DependentFunctionNVar(String label,
+			FunctionNVar fun) {
+		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
+				label, fun);
+		GeoFunctionNVar f = algo.getFunction();
+		return f;
+	}
+	
 	/**
 	 * @param equ equation
 	 * @return line, conic, implicit poly or plane
@@ -1406,7 +1446,7 @@ public class AlgebraProcessor {
 			c = lhs.getCoeffValue("");
 			line = new GeoLine(cons, label, a, b, c);
 		} else
-			line = kernel.DependentLine(label, equ);
+			line = DependentLine(label, equ);
 
 		if (isExplicit) {
 			line.setToExplicit();
@@ -1416,6 +1456,16 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+
+	/**
+	 * Line dependent on coefficients of arithmetic expressions with variables,
+	 * represented by trees. e.g. y = k x + d
+	 */
+	final private GeoLine DependentLine(String label, Equation equ) {
+		AlgoDependentLine algo = new AlgoDependentLine(cons, label, equ);
+		GeoLine line = algo.getLine();
+		return line;
+	}
 	/**
 	 * @param equ equation
 	 * @return resulting conic
@@ -1443,7 +1493,7 @@ public class AlgebraProcessor {
 			double[] coeffs = { a, b, c, d, e, f };
 			conic = new GeoConic(cons, label, coeffs);
 		} else
-			conic = kernel.DependentConic(label, equ);
+			conic = DependentConic(label, equ);
 		if (isExplicit) {
 			conic.setToExplicit();
 			conic.updateRepaint();
@@ -1455,6 +1505,18 @@ public class AlgebraProcessor {
 		ret[0] = conic;
 		return ret;
 	}
+
+
+	/**
+	 * Conic dependent on coefficients of arithmetic expressions with variables,
+	 * represented by trees. e.g. y��� = 2 p x
+	 */
+	final private GeoConic DependentConic(String label, Equation equ) {
+		AlgoDependentConic algo = new AlgoDependentConic(cons, label, equ);
+		GeoConic conic = algo.getConic();
+		return conic;
+	}
+
 
 	/**
 	 * @param equ equation
@@ -1682,7 +1744,7 @@ public class AlgebraProcessor {
 			else
 				ret[0] = new GeoNumeric(cons, label, value);
 		} else {
-			ret[0] = kernel.DependentNumber(label, n, isAngle);
+			ret[0] = DependentNumber(label, n, isAngle);
 		}
 
 		if (n.isForcedFunction()) {
@@ -1692,6 +1754,19 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+
+	/**
+	 * Number dependent on arithmetic expression with variables, represented by
+	 * a tree. e.g. t = 6z - 2
+	 */
+	final private GeoNumeric DependentNumber(String label, ExpressionNode root,
+			boolean isAngle) {
+		AlgoDependentNumber algo = new AlgoDependentNumber(cons, label, root,
+				isAngle);
+		GeoNumeric number = algo.getNumber();
+		return number;
+	}
+	
 	private GeoElement[] processList(ExpressionNode n, MyList evalList) {
 		String label = n.getLabel();
 
@@ -1730,12 +1805,23 @@ public class AlgebraProcessor {
 		// operations and variables are present
 		// e.g. {3, 2, 1} + {a, b, 2}
 		else {
-			ret[0] = kernel.ListExpression(label, n);
+			ret[0] = ListExpression(label, n);
 		}
 
 		return ret;
 	}
 
+
+	/**
+	 * Creates a dependent list object with the given label, e.g. {3, 2, 1} +
+	 * {a, b, 2}
+	 */
+	final public GeoList ListExpression(String label, ExpressionNode root) {
+		AlgoDependentListExpression algo = new AlgoDependentListExpression(
+				cons, label, root);
+		return algo.getList();
+	}
+	
 	private GeoElement[] processText(ExpressionNode n, ExpressionValue evaluate) {
 		GeoElement[] ret = new GeoElement[1];
 		String label = n.getLabel();
@@ -1746,10 +1832,21 @@ public class AlgebraProcessor {
 			MyStringBuffer val = ((TextValue) evaluate).getText();
 			ret[0] = Text(label, val.toValueString(StringTemplate.defaultTemplate));
 		} else
-			ret[0] = kernel.DependentText(label, n);
+			ret[0] = DependentText(label, n);
 		return ret;
 	}
 
+
+	/**
+	 * Text dependent on coefficients of arithmetic expressions with variables,
+	 * represented by trees. e.g. text = "Radius: " + r
+	 */
+	final private GeoText DependentText(String label, ExpressionNode root) {
+		AlgoDependentText algo = new AlgoDependentText(cons, label, root);
+		GeoText t = algo.getGeoText();
+		return t;
+	}
+	
 	final public GeoText Text(String label, String text) {
 		GeoText t = new GeoText(cons);
 		t.setTextString(text);
@@ -1816,9 +1913,9 @@ public class AlgebraProcessor {
 				ret[0] = kernel.Point(label, x, y, complex);
 		} else {
 			if (isVector)
-				ret[0] = kernel.DependentVector(label, n);
+				ret[0] = DependentVector(label, n);
 			else
-				ret[0] = kernel.DependentPoint(label, n, complex);
+				ret[0] = DependentPoint(label, n, complex);
 		}
 		if (polar) {
 			ret[0].setMode(Kernel.COORD_POLAR);
@@ -1830,6 +1927,29 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+
+
+	/**
+	 * Point dependent on arithmetic expression with variables, represented by a
+	 * tree. e.g. P = (4t, 2s)
+	 */
+	final private GeoPoint DependentPoint(String label, ExpressionNode root,
+			boolean complex) {
+		AlgoDependentPoint algo = new AlgoDependentPoint(cons, label, root,
+				complex);
+		GeoPoint P = algo.getPoint();
+		return P;
+	}
+	
+	/**
+	 * Vector dependent on arithmetic expression with variables, represented by
+	 * a tree. e.g. v = u + 3 w
+	 */
+	final private GeoVector DependentVector(String label, ExpressionNode root) {
+		AlgoDependentVector algo = new AlgoDependentVector(cons, label, root);
+		GeoVector v = algo.getVector();
+		return v;
+	}
 	/**
 	 * empty method in 2D : see AlgebraProcessor3D to see implementation in 3D
 	 * 
@@ -1849,10 +1969,20 @@ public class AlgebraProcessor {
 	private GeoElement[] processGeoCopy(String copyLabel,
 			ExpressionNode origGeoNode) {
 		GeoElement[] ret = new GeoElement[1];
-		ret[0] = kernel.DependentGeoCopy(copyLabel, origGeoNode);
+		ret[0] = DependentGeoCopy(copyLabel, origGeoNode);
 		return ret;
 	}
 
+
+	/**
+	 * Creates a dependent copy of origGeo with label
+	 */
+	final private GeoElement DependentGeoCopy(String label,
+			ExpressionNode origGeoNode) {
+		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
+				origGeoNode);
+		return algo.getGeo();
+	}
 	/** Enables CAS specific behaviour */
 	public void enableCAS() {
 		cmdDispatcher.initCASCommands();

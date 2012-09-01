@@ -1,9 +1,12 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFractionText;
+import geogebra.common.kernel.algos.AlgoFractionTextPoint;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -32,12 +35,18 @@ public class CmdFractionText extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernelA.FractionText(c.getLabel(),
-						(GeoNumeric) arg[0]) };
+				
+				AlgoFractionText algo = new AlgoFractionText(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = { kernelA.FractionText(c.getLabel(),
-						(GeoPointND) arg[0]) };
+				
+				AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons, c.getLabel(),
+						(GeoPointND) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

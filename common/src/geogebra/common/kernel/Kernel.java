@@ -3930,15 +3930,6 @@ public class Kernel {
 		return algoList.getGeoList();
 	}
 
-	/**
-	 * Creates a dependent list object with the given label, e.g. {3, 2, 1} +
-	 * {a, b, 2}
-	 */
-	final public GeoList ListExpression(String label, ExpressionNode root) {
-		AlgoDependentListExpression algo = new AlgoDependentListExpression(
-				cons, label, root);
-		return algo.getList();
-	}
 
 	/**
 	 * GeoCasCell dependent on other variables, e.g. m := c + 3
@@ -3951,60 +3942,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Number dependent on arithmetic expression with variables, represented by
-	 * a tree. e.g. t = 6z - 2
-	 */
-	final public GeoNumeric DependentNumber(String label, ExpressionNode root,
-			boolean isAngle) {
-		AlgoDependentNumber algo = new AlgoDependentNumber(cons, label, root,
-				isAngle);
-		GeoNumeric number = algo.getNumber();
-		return number;
-	}
-
-	/**
-	 * Point dependent on arithmetic expression with variables, represented by a
-	 * tree. e.g. P = (4t, 2s)
-	 */
-	final public GeoPoint DependentPoint(String label, ExpressionNode root,
-			boolean complex) {
-		AlgoDependentPoint algo = new AlgoDependentPoint(cons, label, root,
-				complex);
-		GeoPoint P = algo.getPoint();
-		return P;
-	}
-
-	/**
-	 * Vector dependent on arithmetic expression with variables, represented by
-	 * a tree. e.g. v = u + 3 w
-	 */
-	final public GeoVector DependentVector(String label, ExpressionNode root) {
-		AlgoDependentVector algo = new AlgoDependentVector(cons, label, root);
-		GeoVector v = algo.getVector();
-		return v;
-	}
-
-	/**
-	 * Line dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. y = k x + d
-	 */
-	final public GeoLine DependentLine(String label, Equation equ) {
-		AlgoDependentLine algo = new AlgoDependentLine(cons, label, equ);
-		GeoLine line = algo.getLine();
-		return line;
-	}
-
-	/**
-	 * Conic dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. y��� = 2 p x
-	 */
-	final public GeoConic DependentConic(String label, Equation equ) {
-		AlgoDependentConic algo = new AlgoDependentConic(cons, label, equ);
-		GeoConic conic = algo.getConic();
-		return conic;
-	}
-
-	/**
 	 * Function dependent on coefficients of arithmetic expressions with
 	 * variables, represented by trees. e.g. f(x) = a x��� + b x���
 	 */
@@ -4012,55 +3949,6 @@ public class Kernel {
 		AlgoDependentFunction algo = new AlgoDependentFunction(cons, label, fun);
 		GeoFunction f = algo.getFunction();
 		return f;
-	}
-
-	/**
-	 * Multivariate Function depending on coefficients of arithmetic expressions
-	 * with variables, e.g. f(x,y) = a x^2 + b y^2
-	 */
-	final public GeoFunctionNVar DependentFunctionNVar(String label,
-			FunctionNVar fun) {
-		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
-				label, fun);
-		GeoFunctionNVar f = algo.getFunction();
-		return f;
-	}
-
-	/**
-	 * Interval dependent on coefficients of arithmetic expressions with
-	 * variables, represented by trees. e.g. x > a && x < b
-	 */
-	final public GeoFunction DependentInterval(String label, Function fun) {
-		AlgoDependentInterval algo = new AlgoDependentInterval(cons, label, fun);
-		GeoFunction f = algo.getFunction();
-		return f;
-	}
-
-	/**
-	 * Text dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. text = "Radius: " + r
-	 */
-	final public GeoText DependentText(String label, ExpressionNode root) {
-		AlgoDependentText algo = new AlgoDependentText(cons, label, root);
-		GeoText t = algo.getGeoText();
-		return t;
-	}
-
-	/**
-	 * Creates a dependent copy of origGeo with label
-	 */
-	final public GeoElement DependentGeoCopy(String label,
-			ExpressionNode origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
-				origGeoNode);
-		return algo.getGeo();
-	}
-
-	final public GeoElement DependentGeoCopy(String label,
-			GeoElement origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
-				origGeoNode);
-		return algo.getGeo();
 	}
 
 	public GeoTextField textfield(String label, GeoElement geoElement) {
@@ -4110,14 +3998,6 @@ public class Kernel {
 		return ret;
 	}
 
-	/**
-	 * Creates a new point C by rotating B around A using angle alpha and a new
-	 * angle BAC. The labels[0] is for the angle, labels[1] for the new point
-	 */
-	final public GeoElement[] Angle(String[] labels, GeoPoint B, GeoPoint A,
-			NumberValue alpha) {
-		return Angle(labels, B, A, alpha, true);
-	}
 
 	/**
 	 * Creates a new point C by rotating B around A using angle alpha and a new
@@ -4175,15 +4055,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Angle named label for a point or a vector
-	 */
-	final public GeoAngle Angle(String label, GeoVec3D v) {
-		AlgoAngleVector algo = new AlgoAngleVector(cons, label, v);
-		GeoAngle angle = algo.getAngle();
-		return angle;
-	}
-
-	/**
 	 * Angle named label between three points
 	 */
 	final public GeoAngle Angle(String label, GeoPoint A, GeoPoint B,
@@ -4226,59 +4097,6 @@ public class Kernel {
 	}
 
 	/**
-	 * incircle with vertex points A, B, C dsun48 [6/26/2011]
-	 */
-	final public GeoConic Incircle(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C) {
-		AlgoIncircle algo = new AlgoIncircle(cons, label, A, B, C);
-		GeoConic circle = (GeoConic) algo.getCircle();
-		circle.setToSpecific();
-		circle.update();
-		//notifyUpdate(circle);
-		return circle;
-	}
-
-	/**
-	 * conic arc from conic and parameters
-	 */
-	final public GeoConicPart ConicArc(String label, GeoConic conic,
-			NumberValue a, NumberValue b) {
-		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
-				cons, label, conic, a, b, GeoConicPart.CONIC_PART_ARC);
-		return algo.getConicPart();
-	}
-
-	/**
-	 * conic sector from conic and points
-	 */
-	final public GeoConicPart ConicArc(String label, GeoConic conic,
-			GeoPoint P, GeoPoint Q) {
-		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
-				label, conic, P, Q, GeoConicPart.CONIC_PART_ARC);
-		return algo.getConicPart();
-	}
-
-	/**
-	 * conic sector from conic and parameters
-	 */
-	final public GeoConicPart ConicSector(String label, GeoConic conic,
-			NumberValue a, NumberValue b) {
-		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
-				cons, label, conic, a, b, GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
-	}
-
-	/**
-	 * conic sector from conic and points
-	 */
-	final public GeoConicPart ConicSector(String label, GeoConic conic,
-			GeoPoint P, GeoPoint Q) {
-		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
-				label, conic, P, Q, GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
-	}
-
-	/**
 	 * circle arc from three points
 	 */
 	final public GeoConicPart CircumcircleArc(String label, GeoPoint A,
@@ -4316,15 +4134,6 @@ public class Kernel {
 		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B,
 				C, GeoConicPart.CONIC_PART_SECTOR);
 		return algo.getConicPart();
-	}
-
-	/**
-	 * Focuses of conic. returns 2 GeoPoints
-	 */
-	final public GeoPoint[] Focus(String[] labels, GeoConic c) {
-		AlgoFocus algo = new AlgoFocus(cons, labels, c);
-		GeoPoint[] focus = algo.getFocus();
-		return focus;
 	}
 
 	/**
@@ -5202,331 +5011,6 @@ public class Kernel {
 		return sum;
 	}
 
-	/**
-	 * BarChart
-	 */
-	final public GeoNumeric BarChart(String label, GeoList list1, GeoList list2) {
-		AlgoBarChart algo = new AlgoBarChart(cons, label, list1, list2);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * BarChart
-	 */
-	final public GeoNumeric BarChart(String label, GeoList list1,
-			GeoList list2, NumberValue width) {
-		AlgoBarChart algo = new AlgoBarChart(cons, label, list1, list2, width);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * BarChart
-	 */
-	final public GeoNumeric BarChart(String label, GeoList list, GeoNumeric a) {
-		AlgoBarChart algo = new AlgoBarChart(cons, label, list, a);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * BarChart
-	 */
-	final public GeoNumeric BarChart(String label, NumberValue a,
-			NumberValue b, GeoElement expression, GeoNumeric localVar,
-			NumberValue from, NumberValue to, NumberValue step) {
-
-		AlgoSequence seq = new AlgoSequence(cons, expression, localVar, from,
-				to, step);
-		cons.removeFromConstructionList(seq);
-
-		AlgoBarChart algo = new AlgoBarChart(cons, label, a, b,
-				(GeoList) seq.getOutput()[0]);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * Binomial[n,r] Michael Borcherds
-	 */
-	final public GeoNumeric Binomial(String label, NumberValue a, NumberValue b) {
-		AlgoBinomial algo = new AlgoBinomial(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/** Point P + v */
-	final public GeoPoint Point(String label, GeoPoint P, GeoVector v) {
-		AlgoPointVector algo = new AlgoPointVector(cons, label, P, v);
-		GeoPoint p = algo.getQ();
-		return p;
-	}
-
-	/**
-		 * 
-		 */
-	final public GeoPoint[] PointsFromList(String[] labels, GeoList list) {
-
-		AlgoPointsFromList algo = new AlgoPointsFromList(cons, labels, true,
-				list);
-		GeoPoint[] g = algo.getPoints();
-		return g;
-	}
-
-	/**
-	 * Flatten[list] Simon Weitzhofer
-	 */
-
-	final public GeoList Flatten(String label, GeoList list) {
-		AlgoFlatten algo = new AlgoFlatten(cons, label, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * FractionText[number] Michael Borcherds
-	 */
-	final public GeoText FractionText(String label, GeoNumeric num) {
-		AlgoFractionText algo = new AlgoFractionText(cons, label, num);
-		GeoText text = algo.getResult();
-		return text;
-	}
-	
-	/**
-	 * FractionText[Point] Michael Borcherds
-	 */
-	final public GeoText FractionText(String label, GeoPointND p) {
-		AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons, label, p);
-		GeoText text = algo.getResult();
-		return text;
-	}
-	
-	final public GeoText ContinuedFraction(String label, NumberValue num,NumberValue level,GeoBoolean shortHand) {
-		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num,level,shortHand);
-		GeoText text = algo.getResult();
-		return text;
-	}
-
-	/**
-	 * FrequencyPolygon with list of class boundaries and list of heights
-	 */
-	final public GeoPolyLine FrequencyPolygon(String label, GeoList list1,
-			GeoList list2) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				list1, list2);
-		GeoPolyLine result = algo.getResult();
-		return result;
-	}
-
-	/**
-	 * FrequencyPolygon with density scale factor (no cumulative parameter)
-	 */
-	final public GeoPolyLine FrequencyPolygon(String label, GeoList list1,
-			GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label, null,
-				list1, list2, null,useDensity, density);
-		GeoPolyLine result = algo.getResult();
-		return result;
-	}
-
-	/**
-	 * FrequencyPolygon with density scale factor and cumulative parameter
-	 */
-	final public GeoPolyLine FrequencyPolygon(String label,
-			GeoBoolean isCumulative, GeoList list1, GeoList list2,
-			GeoBoolean useDensity) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				isCumulative, list1, list2, null, useDensity, null);
-		GeoPolyLine result = algo.getResult();
-		return result;
-	}
-
-	/**
-	 * FrequencyPolygon with density scale factor, cumulative parameter and density
-	 */
-	final public GeoPolyLine FrequencyPolygon(String label,
-			GeoBoolean isCumulative, GeoList list1, GeoList list2,
-			GeoBoolean useDensity, GeoNumeric density) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				isCumulative, list1, list2, null, useDensity, density);
-		GeoPolyLine result = algo.getResult();
-		return result;
-	}
-
-	
-	/**
-	 * FrequencyPolygon with density scale factor and cumulative parameter,
-	 * frequency list
-	 */
-	final public GeoPolyLine FrequencyPolygon(String label,
-			GeoBoolean isCumulative, GeoList list1, GeoList list2,
-			GeoList list3, GeoBoolean useDensity) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				isCumulative, list1, list2, list3, useDensity, null);
-		GeoPolyLine result = algo.getResult();
-		return result;
-	}
-
-	/**
-	 * FrequencyPolygon with density scale factor, cumulative parameter,
-	 * density, frequency list
-	 */
-	final public GeoPolyLine FrequencyPolygon(String label,
-			GeoBoolean isCumulative, GeoList list1, GeoList list2,
-			GeoList list3, GeoBoolean useDensity, GeoNumeric density) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label,
-				isCumulative, list1, list2, list3, useDensity, density);
-		GeoPolyLine result = algo.getResult();
-		return result;
-	}
-
-	/**
-	 * function limited to interval [a, b]
-	 */
-	final public GeoFunction Function(String label, GeoFunction f,
-			NumberValue a, NumberValue b) {
-		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, label, f, a,
-				b);
-		GeoFunction g = algo.getFunction();
-		return g;
-	}
-
-	/*
-	 * freehand function defined by list
-	 */
-	final public GeoFunction Function(String label, GeoList f) {
-		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, label, f);
-		GeoFunction g = algo.getFunction();
-		return g;
-	}
-
-	/**
-	 * GCD[list] Michael Borcherds
-	 */
-	final public GeoNumeric GCD(String label, GeoList list) {
-		AlgoListGCD algo = new AlgoListGCD(cons, label, list);
-		GeoNumeric num = algo.getGCD();
-		return num;
-	}
-
-	/**
-	 * GCD[a, b] Michael Borcherds
-	 */
-	final public GeoNumeric GCD(String label, NumberValue a, NumberValue b) {
-		AlgoGCD algo = new AlgoGCD(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * Histogram[classList, dataList]
-	 */
-	final public GeoNumeric Histogram(String label, GeoList list1,
-			GeoList list2, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, list1, list2, right);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * Histogram[classList, dataList, useDensity, density]
-	 */
-	final public GeoNumeric Histogram(String label, GeoList list1,
-			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
-			boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2, null, 
-				useDensity, density, right);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * Histogram[isCumulative, classList, dataList, useDensity]
-	 */
-	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoBoolean useDensity, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, null, useDensity, null, right);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * Histogram[isCumulative, classList, dataList, useDensity, density]
-	 */
-	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoBoolean useDensity,
-			GeoNumeric density, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, null, useDensity, density, right);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-
-	/**
-	 * Histogram[ isCumulative, classList, dataList, frequencyList, useDensity]
-	 */
-	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, list3, useDensity, null, right);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/**
-	 * Histogram[ isCumulative, classList, dataList, frequencyList, useDensity, density]
-	 */
-	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity,
-			GeoNumeric density,  boolean right) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, list3, useDensity, density, right);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	
-	/**
-	 * If-then-else construct.
-	 */
-	final public GeoElement If(String label, GeoBoolean condition,
-			GeoElement geoIf, GeoElement geoElse) {
-
-		// check if geoIf and geoElse are of same type
-		/*
-		 * if (geoElse == null || geoIf.isNumberValue() &&
-		 * geoElse.isNumberValue() ||
-		 * geoIf.getTypeString().equals(geoElse.getTypeString())) {
-		 */
-		AlgoIf algo = new AlgoIf(cons, label, condition, geoIf, geoElse);
-		return algo.getGeoElement();
-		/*
-		 * } else { // incompatible types Application.debug("if incompatible: "
-		 * + geoIf + ", " + geoElse); return null; }
-		 */
-	}
-
-	/**
-	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
-	 */
-	final public GeoFunction If(String label, GeoFunction boolFun,
-			GeoFunction ifFun, GeoFunction elseFun) {
-
-		AlgoIfFunction algo = new AlgoIfFunction(cons, label, boolFun, ifFun,
-				elseFun);
-		return algo.getGeoFunction();
-	}
-
-	/** Implicit Polynomial through points */
-	final public GeoImplicitPoly ImplicitPoly(String label, GeoList points) {
-		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
-				cons, label, points);
-		GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
-		return implicitPoly;
-	}
-
 	final public GeoImplicitPoly ImplicitPoly(String label, GeoFunctionNVar func) {
 		AlgoImplicitPolyFunction algo = new AlgoImplicitPolyFunction(cons,
 				label, func);
@@ -5534,44 +5018,6 @@ public class Kernel {
 		return implicitPoly;
 	}
 
-	/**
-	 * IndexOf[text,text]
-	 */
-	final public GeoNumeric IndexOf(String label, GeoText needle,
-			GeoText haystack) {
-		AlgoIndexOf algo = new AlgoIndexOf(cons, label, needle, haystack);
-		GeoNumeric index = algo.getResult();
-		return index;
-	}
-
-	/**
-	 * IndexOf[text,text,start]
-	 */
-	final public GeoNumeric IndexOf(String label, GeoText needle,
-			GeoText haystack, NumberValue start) {
-		AlgoIndexOf algo = new AlgoIndexOf(cons, label, needle, haystack, start);
-		GeoNumeric index = algo.getResult();
-		return index;
-	}
-
-	/**
-	 * IndexOf[object,list]
-	 */
-	final public GeoNumeric IndexOf(String label, GeoElement geo, GeoList list) {
-		AlgoIndexOf algo = new AlgoIndexOf(cons, label, geo, list);
-		GeoNumeric index = algo.getResult();
-		return index;
-	}
-
-	/**
-	 * IndexOf[object,list,start]
-	 */
-	final public GeoNumeric IndexOf(String label, GeoElement geo, GeoList list,
-			NumberValue nv) {
-		AlgoIndexOf algo = new AlgoIndexOf(cons, label, geo, list, nv);
-		GeoNumeric index = algo.getResult();
-		return index;
-	}
 
 	/********************
 	 * ALGORITHMIC PART *

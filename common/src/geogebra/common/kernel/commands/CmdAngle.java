@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoAngleConic;
 import geogebra.common.kernel.algos.AlgoAngleNumeric;
+import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -89,8 +90,11 @@ public class CmdAngle extends CommandProcessor {
 			}
 			// angle from number
 			else if (arg[0].isGeoPoint() || arg[0].isGeoVector()) {
-				GeoElement[] ret = { kernelA.Angle(c.getLabel(),
-						(GeoVec3D) arg[0]) };
+				
+				AlgoAngleVector algo = new AlgoAngleVector(cons, c.getLabel(),
+						(GeoVec3D) arg[0]);
+
+				GeoElement[] ret = { algo.getAngle() };
 				return ret;
 			}
 			// angle of conic or polygon
@@ -151,7 +155,7 @@ public class CmdAngle extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
 				return kernelA.Angle(c.getLabels(), (GeoPoint) arg[0],
-						(GeoPoint) arg[1], (NumberValue) arg[2]);
+						(GeoPoint) arg[1], (NumberValue) arg[2], true);
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}

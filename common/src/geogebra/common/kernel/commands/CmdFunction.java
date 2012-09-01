@@ -2,6 +2,8 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
+import geogebra.common.kernel.algos.AlgoFunctionInterval;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -36,8 +38,11 @@ public class CmdFunction extends CommandProcessor {
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernelA.Function(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getFunction() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -77,7 +82,7 @@ public class CmdFunction extends CommandProcessor {
 					c.getArgument(0).resolveVariables(false);
 
 					kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
-					return new GeoElement[] { kernelA.Function(c.getLabel(),
+					return new GeoElement[] { Function(c.getLabel(),
 							condFun, (NumberValue) low, (NumberValue) high) };
 				}
 			}
@@ -85,7 +90,7 @@ public class CmdFunction extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.Function(c.getLabel(),
+				GeoElement[] ret = { Function(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
@@ -95,5 +100,17 @@ public class CmdFunction extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+
+	/**
+	 * function limited to interval [a, b]
+	 */
+	final private GeoFunction Function(String label, GeoFunction f,
+			NumberValue a, NumberValue b) {
+		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, label, f, a,
+				b);
+		GeoFunction g = algo.getFunction();
+		return g;
 	}
 }

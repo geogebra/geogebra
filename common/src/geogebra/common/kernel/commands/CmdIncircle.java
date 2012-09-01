@@ -1,7 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIncircle;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
@@ -34,9 +36,15 @@ public class CmdIncircle extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Incircle(c.getLabel(),
+				
+				AlgoIncircle algo = new AlgoIncircle(cons, c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2]) };
+						(GeoPoint) arg[2]);
+				GeoConic circle = (GeoConic) algo.getCircle();
+				circle.setToSpecific();
+				circle.update();
+
+				GeoElement[] ret = { circle };
 				return ret;
 			} 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));

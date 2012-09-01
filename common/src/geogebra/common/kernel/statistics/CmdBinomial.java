@@ -23,6 +23,7 @@ public class CmdBinomial extends CmdTwoNumFunction {
 	@Override
 	final protected GeoElement doCommand(String a, NumberValue b, NumberValue c)
 	{
-		return kernelA.Binomial(a, b, c);
+		AlgoBinomial algo = new AlgoBinomial(cons, a, b, c);
+		return algo.getResult();
 	}
 }

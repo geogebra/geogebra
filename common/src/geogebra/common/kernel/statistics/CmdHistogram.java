@@ -46,8 +46,11 @@ public class CmdHistogram extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
-				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1],right) };
+				
+				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1], right);
+
+				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
@@ -60,7 +63,7 @@ public class CmdHistogram extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
-				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
+				GeoElement[] ret = { Histogram(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], null,right) };
 				return ret;
@@ -78,7 +81,7 @@ public class CmdHistogram extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
+				GeoElement[] ret = { Histogram(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], (GeoNumeric) arg[3],right) };
 				return ret;
@@ -88,9 +91,12 @@ public class CmdHistogram extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
+				
+				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
-						(GeoList) arg[2], (GeoBoolean) arg[3],right) };
+						(GeoList) arg[2], null, (GeoBoolean) arg[3], null, right);
+
+				GeoElement[] ret = {  algo.getSum() };
 				return ret;
 			}
 			
@@ -110,7 +116,7 @@ public class CmdHistogram extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
-				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
+				GeoElement[] ret = { Histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3], (GeoNumeric) arg[4],right) };
 				return ret;
@@ -120,9 +126,12 @@ public class CmdHistogram extends CommandProcessor {
 						&& (ok[2] = (arg[2].isGeoList()))
 						&& (ok[3] = (arg[3].isGeoList()))
 						&& (ok[4] = (arg[4].isGeoBoolean()))) {
-					GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
-							(GeoBoolean) arg[0], (GeoList) arg[1],
-							(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4],right) };
+				
+				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
+						(GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4], null, right);
+
+					GeoElement[] ret = { algo.getSum() };
 					return ret;
 					
 			} else if (!ok[0])
@@ -143,7 +152,7 @@ public class CmdHistogram extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
-				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
+				GeoElement[] ret = { Histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3], (GeoNumeric) arg[4],right) };
 				return ret;
@@ -154,10 +163,13 @@ public class CmdHistogram extends CommandProcessor {
 						&& (ok[3] = (arg[3].isGeoList()))
 						&& (ok[4] = (arg[4].isGeoBoolean()))
 						&& (ok[4] = (arg[5].isGeoNumeric()))) {
-					GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
-							(GeoBoolean) arg[0], (GeoList) arg[1],
-							(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4], 
-							(GeoNumeric) arg[5], right) };
+				
+				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
+						(GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4], 
+						(GeoNumeric) arg[5], right);
+
+					GeoElement[] ret = { algo.getSum() };
 					return ret;
 					
 			} else if (!ok[0])
@@ -178,5 +190,31 @@ public class CmdHistogram extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 
+	}
+	
+
+	/**
+	 * Histogram[isCumulative, classList, dataList, useDensity, density]
+	 */
+	final private GeoNumeric Histogram(String label, GeoBoolean isCumulative,
+			GeoList list1, GeoList list2, GeoBoolean useDensity,
+			GeoNumeric density, boolean right) {
+		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
+				list1, list2, null, useDensity, density, right);
+		GeoNumeric sum = algo.getSum();
+		return sum;
+	}
+	
+
+	/**
+	 * Histogram[classList, dataList, useDensity, density]
+	 */
+	final private GeoNumeric Histogram(String label, GeoList list1,
+			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
+			boolean right) {
+		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2, null, 
+				useDensity, density, right);
+		GeoNumeric sum = algo.getSum();
+		return sum;
 	}
 }

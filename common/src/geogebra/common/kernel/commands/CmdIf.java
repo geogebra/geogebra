@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIf;
+import geogebra.common.kernel.algos.AlgoIfFunction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -54,7 +56,7 @@ public class CmdIf extends CommandProcessor {
 				GeoFunction ifFun = resolveFunction(c,1,fv);
 				GeoFunction condFun = resolveFunction(c,0,fv);
 				kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
-				return new GeoElement[]{kernelA.If(c.getLabel(), 
+				return new GeoElement[]{If(c.getLabel(), 
 						condFun,ifFun, elseFun)};
 			}
 			}
@@ -62,8 +64,11 @@ public class CmdIf extends CommandProcessor {
 			GeoElement geoElse = n == 3 ? arg[2] : null;
 			// standard case: simple boolean condition
 			if (arg[0].isGeoBoolean()) {
-				GeoElement[] ret = { kernelA.If(c.getLabel(),
-						(GeoBoolean) arg[0], arg[1], geoElse) };
+				
+				AlgoIf algo = new AlgoIf(cons, c.getLabel(),
+						(GeoBoolean) arg[0], arg[1], geoElse);
+
+				GeoElement[] ret = { algo.getGeoElement() };
 				return ret;
 			}
 
@@ -81,7 +86,7 @@ public class CmdIf extends CommandProcessor {
 					GeoFunction elseFun = geoElse == null ? null
 							: ((GeoFunctionable) geoElse).getGeoFunction();
 
-					GeoElement[] ret = { kernelA.If(c.getLabel(),
+					GeoElement[] ret = { If(c.getLabel(),
 							booleanFun,
 							((GeoFunctionable) arg[1]).getGeoFunction(),
 							elseFun) };
@@ -101,5 +106,17 @@ public class CmdIf extends CommandProcessor {
 		if(  c.getArgument(i).getLeft() instanceof GeoFunctionConditional)
 				return (GeoFunction)c.getArgument(i).getLeft();
 		return (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(i),fv))[0];
+	}
+	
+
+	/**
+	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
+	 */
+	final private GeoFunction If(String label, GeoFunction boolFun,
+			GeoFunction ifFun, GeoFunction elseFun) {
+
+		AlgoIfFunction algo = new AlgoIfFunction(cons, label, boolFun, ifFun,
+				elseFun);
+		return algo.getGeoFunction();
 	}
 }

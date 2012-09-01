@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFocus;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,8 +31,12 @@ public class CmdFocus extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoConic())
-				return kernelA.Focus(c.getLabels(), (GeoConic) arg[0]);
+			if (arg[0].isGeoConic()) {
+				
+				AlgoFocus algo = new AlgoFocus(cons, c.getLabels(), (GeoConic) arg[0]);
+				return algo.getFocus();
+
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 		default:

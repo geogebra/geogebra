@@ -1,10 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoGCD;
+import geogebra.common.kernel.algos.AlgoListGCD;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,9 +36,11 @@ public class CmdGCD extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						kernelA.GCD(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoListGCD algo = new AlgoListGCD(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getGCD() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -45,9 +50,11 @@ public class CmdGCD extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue()) &&
 				(ok[1] = arg[1].isNumberValue())) 
 			{
-				GeoElement[] ret = { 
-						kernelA.GCD(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoGCD algo = new AlgoGCD(cons, c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 				
 			}

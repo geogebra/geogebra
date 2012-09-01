@@ -3,6 +3,8 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.algos.AlgoPointVector;
+import geogebra.common.kernel.algos.AlgoPointsFromList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -36,7 +38,10 @@ public  GeoElement[] process(Command c) throws MyError {
             // need to check isGeoList first as {1,2} can be a Path but we want Point[{1,2}] to create a point
             if ((arg[0].isGeoList() && 
             		((GeoList)arg[0]).getGeoElementForPropertiesDialog().isGeoNumeric())) {
-                GeoElement[] ret = kernelA.PointsFromList(c.getLabels(), (GeoList) arg[0]);
+            	
+        		AlgoPointsFromList algo = new AlgoPointsFromList(cons, c.getLabels(), true, (GeoList) arg[0]);
+
+                GeoElement[] ret = algo.getPoints();
             
                 return ret;
             } else if (arg[0].isPath()) {
@@ -60,12 +65,13 @@ public  GeoElement[] process(Command c) throws MyError {
                 }
             else if ((ok[0] = (arg[0] .isGeoPoint()))
                 && (ok[1] = (arg[1] .isGeoVector()))) {
+            	
+        		AlgoPointVector algo = new AlgoPointVector(cons, c.getLabel(),
+                        (GeoPoint) arg[0],
+                        (GeoVector) arg[1]);
+
                 GeoElement[] ret =
-                    {
-                         kernelA.Point(
-                            c.getLabel(),
-                            (GeoPoint) arg[0],
-                            (GeoVector) arg[1])};
+                    {algo.getQ()};
                 return ret;
             } else {                
                 if (!ok[0])

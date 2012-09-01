@@ -1,10 +1,12 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoContinuedFraction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,19 +34,19 @@ public class CmdContinuedFraction extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isNumberValue()) {
-				GeoElement[] ret = { kernelA.ContinuedFraction(c.getLabel(),
+				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
 						(NumberValue) arg[0],null,null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			if ((ok[0]=arg[0].isNumberValue())&&(ok[1]=arg[1].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.ContinuedFraction(c.getLabel(),
+				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
 						(NumberValue) arg[0],null,(GeoBoolean) arg[1]) };
 				return ret;
 			}
 			if ((ok[0]=arg[0].isNumberValue())&&(ok[1]=arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernelA.ContinuedFraction(c.getLabel(),
+				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
 						(NumberValue) arg[0],(NumberValue) arg[1],null) };
 				return ret;
 			}
@@ -54,7 +56,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 
 			
 			if ((ok[0]=arg[0].isNumberValue())&&(ok[1]=arg[1].isNumberValue())&&(ok[2]=arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernelA.ContinuedFraction(c.getLabel(),
+				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
 						(NumberValue) arg[0],(NumberValue) arg[1],(GeoBoolean) arg[2]) };
 				return ret;
 			}
@@ -63,5 +65,12 @@ public class CmdContinuedFraction extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	
+	final private GeoText ContinuedFraction(String label, NumberValue num,NumberValue level,GeoBoolean shortHand) {
+		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num,level,shortHand);
+		GeoText text = algo.getResult();
+		return text;
 	}
 }

@@ -8,6 +8,8 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -41,7 +43,9 @@ public class CmdImplicitPoly extends CommandProcessor {
 			}
 		}
 
-		GeoElement ret = kernelA.ImplicitPoly(a, b);
+		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
+				cons, a, b);
+		GeoElement ret = algo.getImplicitPoly();
 
 		return ret;
 	}
