@@ -120,8 +120,8 @@ public class CommandDispatcherStats {
 			return new CmdTMeanEstimate(kernel);
 		case TMean2Estimate:
 			return new CmdTMean2Estimate(kernel);
-		case ChiSquareTest:
-			return new CmdChiSquareTest(kernel);
+		case ChiSquaredTest:
+			return new CmdChiSquaredTest(kernel);
 		case ANOVA:
 			return new CmdANOVA(kernel);
 		case Percentile:

@@ -127,7 +127,7 @@ public enum Commands implements CommandsConstants{
    	ZProportionTest(TABLE_STATISTICS), ZProportion2Test(TABLE_STATISTICS), ZProportionEstimate(TABLE_STATISTICS), ZProportion2Estimate(TABLE_STATISTICS),
    	ZMeanEstimate(TABLE_STATISTICS), ZMean2Estimate(TABLE_STATISTICS), ZMeanTest(TABLE_STATISTICS), ZMean2Test(TABLE_STATISTICS),
    	TTestPaired(TABLE_STATISTICS), TTest2(TABLE_STATISTICS), TMeanEstimate(TABLE_STATISTICS), TMean2Estimate(TABLE_STATISTICS),
-   	ChiSquareTest(TABLE_STATISTICS),ANOVA(TABLE_STATISTICS), Percentile(TABLE_STATISTICS), GeometricMean(TABLE_STATISTICS), HarmonicMean(TABLE_STATISTICS),
+   	ChiSquaredTest(TABLE_STATISTICS),ANOVA(TABLE_STATISTICS), Percentile(TABLE_STATISTICS), GeometricMean(TABLE_STATISTICS), HarmonicMean(TABLE_STATISTICS),
    	RootMeanSquare(TABLE_STATISTICS),
    	 
 	//=============================================================

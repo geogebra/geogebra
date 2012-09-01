@@ -2299,9 +2299,9 @@ public class NoExceptionsTest {
 	}
 	
 	@Test
-	public void cmdChiSquareTest() {
-		t("ChiSquareTest[list1]");
-		t("ChiSquareTest[list1,list1]");
+	public void cmdChiSquaredTest() {
+		t("ChiSquaredTest[list1]");
+		t("ChiSquaredTest[list1,list1]");
 	}
 
 	@Test

@@ -31,30 +31,30 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  * 
  * @author G. Sturr
  */
-public class AlgoChiSquareTest extends AlgoElement {
+public class AlgoChiSquaredTest extends AlgoElement {
 
-	private GeoList geoList, geoList2; // input
+	private GeoList geoList1, geoList2; // input
 	private GeoList result; // output
 	private TTestImpl tTestImpl;
 	private double[] val;
 	private double p, testStat;
 	private ChiSquaredDistribution chisquared = null;
 
-	public AlgoChiSquareTest(Construction cons, String label, GeoList geoList) {
+	public AlgoChiSquaredTest(Construction cons, String label, GeoList geoList) {
 		this(cons, geoList, null);
 		result.setLabel(label);
 	}
 
-	public AlgoChiSquareTest(Construction cons, String label, GeoList geoList,
+	public AlgoChiSquaredTest(Construction cons, String label, GeoList geoList,
 			GeoList geoList2) {
 		this(cons, geoList, geoList2);
 		result.setLabel(label);
 	}
 
-	public AlgoChiSquareTest(Construction cons, GeoList geoList,
+	public AlgoChiSquaredTest(Construction cons, GeoList geoList,
 			GeoList geoList2) {
 		super(cons);
-		this.geoList = geoList;
+		this.geoList1 = geoList;
 		this.geoList2 = geoList2;
 		result = new GeoList(cons);
 
@@ -73,11 +73,11 @@ public class AlgoChiSquareTest extends AlgoElement {
 
 		if (geoList2 == null) {
 			input = new GeoElement[1];
-			input[0] = geoList;
+			input[0] = geoList1;
 
 		} else {
 			input = new GeoElement[2];
-			input[0] = geoList;
+			input[0] = geoList1;
 			input[1] = geoList2;
 		}
 
@@ -106,11 +106,10 @@ public class AlgoChiSquareTest extends AlgoElement {
 	public final void compute() {
 
 		int df;
-		int rows = geoList.size();
+		int rows = geoList1.size();
 		int columns = 0;
 
-		
-		if (!geoList.isDefined() || rows < 2) {
+		if (!geoList1.isDefined() || rows < 2) {
 			result.setUndefined();
 			return;
 		}
@@ -128,18 +127,26 @@ public class AlgoChiSquareTest extends AlgoElement {
 
 		// store observed and expected values in arrays
 
-		if (!geoList.isMatrix()) { // number list: GOF test
+		// Three cases must be handled:
+		// 1) <List of Observed, List of Expected>  (the GOF test)
+		// 2) <Matrix of Observed, Matrix of Expected>
+		// 3) <Matrix of Observed>, here we compute the expected counts based on
+		// the hypothesis of independence:
+		// expected count = row sum * column sum / grand total)
+
+		// if list1 is not a matrix, then we have the two list case
+		if (!geoList1.isMatrix()) {
 			if (geoList2 == null) {
-					result.setUndefined();
-					return;
+				result.setUndefined();
+				return;
 			}
 			columns = 1;
 			df = rows - 1;
 			observed = new double[rows][columns];
 			expected = new double[rows][columns];
-			
+
 			for (int i = 0; i < rows; i++) {
-				GeoElement geo = geoList.get(i);
+				GeoElement geo = geoList1.get(i);
 				GeoElement geo2 = geoList2.get(i);
 				if (geo.isNumberValue() && geo2.isNumberValue()) {
 					observed[i][0] = ((NumberValue) geo).getDouble();
@@ -151,9 +158,9 @@ public class AlgoChiSquareTest extends AlgoElement {
 			}
 		}
 
-		else { // matrix: test of independence
+		else { // list1 is matrix
 
-			columns = ((GeoList) geoList.get(0)).size();
+			columns = ((GeoList) geoList1.get(0)).size();
 			observed = new double[rows][columns];
 			expected = new double[rows][columns];
 			df = (columns - 1) * (rows - 1);
@@ -162,7 +169,7 @@ public class AlgoChiSquareTest extends AlgoElement {
 				for (int j = 0; j < columns; j++) {
 
 					// get observed values
-					GeoElement geo = ((GeoList) geoList.get(i)).get(j);
+					GeoElement geo = ((GeoList) geoList1.get(i)).get(j);
 					if (geo.isNumberValue()) {
 						observed[i][j] = ((NumberValue) geo).getDouble();
 					} else {
@@ -170,7 +177,7 @@ public class AlgoChiSquareTest extends AlgoElement {
 						return;
 					}
 
-					// get expected values
+					// get expected values if list2 exists (it must be a matrix)
 					if (geoList2 != null) {
 						GeoElement geo2 = ((GeoList) geoList2.get(i)).get(j);
 						if (geo2.isNumberValue()) {
@@ -183,15 +190,15 @@ public class AlgoChiSquareTest extends AlgoElement {
 				}
 			}
 
-			// compute expected values if not given
+			// compute expected values if list2 is not given
 			if (geoList2 == null) {
 
-				int[] columnSum = new int[rows];
+				int[] columnSum = new int[columns];
 				for (int j = 0; j < columns; j++) {
 					columnSum[j] = 0;
 				}
 
-				int[] rowSum = new int[columns];
+				int[] rowSum = new int[rows];
 				for (int i = 0; i < rows; i++) {
 					rowSum[i] = 0;
 				}
@@ -214,6 +221,7 @@ public class AlgoChiSquareTest extends AlgoElement {
 
 		// compute test statistic and chi-square contributions
 		diff = new double[rows][columns];
+		testStat = 0;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				diff[i][j] = (observed[i][j] - expected[i][j])
@@ -223,21 +231,21 @@ public class AlgoChiSquareTest extends AlgoElement {
 		}
 
 		try {
-
-			// get p
-			p = 1 - getChiSquaredDistribution(df).cumulativeProbability(
-					testStat);
-
-			// put results into the output list
-			result.clear();
-			result.add(new GeoNumeric(cons, p));
-			result.add(new GeoNumeric(cons, testStat));
-
+			double leftArea = getChiSquaredDistribution(df)
+					.cumulativeProbability(testStat);
+			p = 1 - leftArea;
 		} catch (IllegalArgumentException e) {
+			result.setUndefined();
 			e.printStackTrace();
 		} catch (MathException e) {
+			result.setUndefined();
 			e.printStackTrace();
 		}
+
+		// put results into the output list
+		result.clear();
+		result.add(new GeoNumeric(cons, p));
+		result.add(new GeoNumeric(cons, testStat));
 
 	}
 

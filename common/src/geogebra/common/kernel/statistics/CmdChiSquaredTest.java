@@ -8,16 +8,16 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- * TTest (t test of a sample mean)
+ * ChiSquaredTest of independence and goodness of fit
  */
-public class CmdChiSquareTest extends CommandProcessor {
+public class CmdChiSquaredTest extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdChiSquareTest(Kernel kernel) {
+	public CmdChiSquaredTest(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -31,9 +31,8 @@ public class CmdChiSquareTest extends CommandProcessor {
 		switch (n) {
 
 		case 1:
-			if (arg[0].isGeoList()) {
-				
-				AlgoChiSquareTest algo = new AlgoChiSquareTest(cons, c.getLabel(),
+			if (arg[0].isGeoList() && ((GeoList)arg[0]).isMatrix()) {
+				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons, c.getLabel(),
 						(GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
@@ -46,7 +45,7 @@ public class CmdChiSquareTest extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoList())
 					) {
 				
-				AlgoChiSquareTest algo = new AlgoChiSquareTest(cons, c.getLabel(),
+				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons, c.getLabel(),
 						(GeoList) arg[0], 
 						(GeoList) arg[1]);
 

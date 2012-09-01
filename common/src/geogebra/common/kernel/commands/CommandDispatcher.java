@@ -903,7 +903,7 @@ public class CommandDispatcher {
 			case Cauchy:
 			case Cell:
 			case CellRange:
-			case ChiSquareTest:
+			case ChiSquaredTest:
 			case ChiSquared:
 			case Classes:
 			case Column:
