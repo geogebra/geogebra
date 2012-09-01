@@ -6,14 +6,97 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.io.MyXMLHandler;
-import geogebra.common.kernel.algos.*;
-import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.algos.AlgoAngleLines;
+import geogebra.common.kernel.algos.AlgoAnglePoints;
+import geogebra.common.kernel.algos.AlgoAnglePolygon;
+import geogebra.common.kernel.algos.AlgoAngleVectors;
+import geogebra.common.kernel.algos.AlgoAngularBisectorLines;
+import geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
+import geogebra.common.kernel.algos.AlgoAreaConic;
+import geogebra.common.kernel.algos.AlgoCenterConic;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
+import geogebra.common.kernel.algos.AlgoCircumferenceConic;
+import geogebra.common.kernel.algos.AlgoCommonTangents;
+import geogebra.common.kernel.algos.AlgoConicFivePoints;
+import geogebra.common.kernel.algos.AlgoConicPartCircle;
+import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.common.kernel.algos.AlgoDependentFunction;
+import geogebra.common.kernel.algos.AlgoDependentList;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoDiameterLine;
+import geogebra.common.kernel.algos.AlgoDiameterVector;
+import geogebra.common.kernel.algos.AlgoDirection;
+import geogebra.common.kernel.algos.AlgoDistanceLineLine;
+import geogebra.common.kernel.algos.AlgoDistancePointObject;
+import geogebra.common.kernel.algos.AlgoDistancePoints;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoEllipseFociLength;
+import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
+import geogebra.common.kernel.algos.AlgoHyperbolaFociLength;
+import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoIntersectAbstract;
+import geogebra.common.kernel.algos.AlgoIntersectConics;
+import geogebra.common.kernel.algos.AlgoIntersectFunctionLineNewton;
+import geogebra.common.kernel.algos.AlgoIntersectFunctionsNewton;
+import geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import geogebra.common.kernel.algos.AlgoIntersectLineCurve;
+import geogebra.common.kernel.algos.AlgoIntersectLinePolyLine;
+import geogebra.common.kernel.algos.AlgoIntersectLines;
+import geogebra.common.kernel.algos.AlgoIntersectPolynomialConic;
+import geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
+import geogebra.common.kernel.algos.AlgoIntersectPolynomials;
+import geogebra.common.kernel.algos.AlgoIntersectSingle;
+import geogebra.common.kernel.algos.AlgoIteration;
+import geogebra.common.kernel.algos.AlgoIterationList;
+import geogebra.common.kernel.algos.AlgoJoinPoints;
+import geogebra.common.kernel.algos.AlgoJoinPointsRay;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoLengthLocus;
+import geogebra.common.kernel.algos.AlgoLineBisector;
+import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
+import geogebra.common.kernel.algos.AlgoLinePointLine;
+import geogebra.common.kernel.algos.AlgoLinePointVector;
+import geogebra.common.kernel.algos.AlgoListLength;
+import geogebra.common.kernel.algos.AlgoLocus;
+import geogebra.common.kernel.algos.AlgoLocusList;
+import geogebra.common.kernel.algos.AlgoLocusSlider;
+import geogebra.common.kernel.algos.AlgoMacro;
+import geogebra.common.kernel.algos.AlgoMidpoint;
+import geogebra.common.kernel.algos.AlgoMidpointSegment;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointVector;
+import geogebra.common.kernel.algos.AlgoParabolaPointLine;
+import geogebra.common.kernel.algos.AlgoPathParameter;
+import geogebra.common.kernel.algos.AlgoPerimeterPoly;
+import geogebra.common.kernel.algos.AlgoPointInRegion;
+import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.AlgoPolarLine;
+import geogebra.common.kernel.algos.AlgoPolyLine;
+import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.AlgoPolygonIntersection;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.algos.AlgoPolygonUnion;
+import geogebra.common.kernel.algos.AlgoRandomElement;
+import geogebra.common.kernel.algos.AlgoRayPointVector;
+import geogebra.common.kernel.algos.AlgoRotateText;
+import geogebra.common.kernel.algos.AlgoSelectedElement;
+import geogebra.common.kernel.algos.AlgoSelectedIndex;
+import geogebra.common.kernel.algos.AlgoSemicircle;
+import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoTangentLine;
+import geogebra.common.kernel.algos.AlgoTangentPoint;
+import geogebra.common.kernel.algos.AlgoTextElement;
+import geogebra.common.kernel.algos.AlgoTextLength;
+import geogebra.common.kernel.algos.AlgoTextfield;
+import geogebra.common.kernel.algos.AlgoVector;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
+import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionNVar;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -57,7 +140,6 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
-import geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
 import geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
 import geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
@@ -72,11 +154,6 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.AlgoBarChart;
-import geogebra.common.kernel.statistics.AlgoBinomial;
-import geogebra.common.kernel.statistics.AlgoCell;
-import geogebra.common.kernel.statistics.AlgoFrequencyPolygon;
-import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -4658,123 +4735,12 @@ public class Kernel {
 	}
 
 	/**
-	 * returns the current x-axis step Michael Borcherds
-	 */
-	final public GeoNumeric AxisStepX(String label) {
-		AlgoAxisStepX algo = new AlgoAxisStepX(cons, label);
-		GeoNumeric t = algo.getResult();
-		return t;
-	}
-
-	/**
-	 * returns the current y-axis step Michael Borcherds
-	 */
-	final public GeoNumeric AxisStepY(String label) {
-		AlgoAxisStepY algo = new AlgoAxisStepY(cons, label);
-		GeoNumeric t = algo.getResult();
-		return t;
-	}
-
-	/**
-	 * asymptotes to c
-	 */
-	final public GeoLine[] Asymptote(String[] labels, GeoConic c) {
-		AlgoAsymptote algo = new AlgoAsymptote(cons, labels, c);
-		GeoLine[] asymptotes = algo.getAsymptotes();
-		return asymptotes;
-	}
-
-	/**
-	 * axes of c
-	 */
-	final public GeoLine[] Axes(String[] labels, GeoConic c) {
-		AlgoAxes algo = new AlgoAxes(cons, labels, c);
-		GeoLine[] axes = algo.getAxes();
-		return axes;
-	}
-
-	/**
-	 * Asymptotes Michael Borcherds
-	 */
-	final public GeoList AsymptoteFunction(String label, GeoFunction func) {
-		AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons, label,
-				func);
-		return algo.getResult();
-	}
-
-	/**
-	 * Area named label of P[0], ..., P[n]
-	 */
-	final public GeoNumeric Area(String label, GeoPoint[] P) {
-		AlgoAreaPoints algo = new AlgoAreaPoints(cons, label, P);
-		GeoNumeric num = algo.getArea();
-		return num;
-	}
-
-	/**
 	 * Area named label of conic
 	 */
 	final public GeoNumeric Area(String label, GeoConic c) {
 		AlgoAreaConic algo = new AlgoAreaConic(cons, label, c);
 		GeoNumeric num = algo.getArea();
 		return num;
-	}
-
-	/**
-	 * Area named label of polygon
-	 */
-	final public GeoNumeric Area(String label, GeoPolygon p) {
-		AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, label, p);
-		GeoNumeric num = algo.getArea();
-		return num;
-	}
-
-	/**
-	 * Append[list,object] Michael Borcherds
-	 */
-	final public GeoList Append(String label, GeoList list, GeoElement geo) {
-		AlgoAppend algo = new AlgoAppend(cons, label, list, geo);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * Append[object,list] Michael Borcherds
-	 */
-	final public GeoList Append(String label, GeoElement geo, GeoList list) {
-		AlgoAppend algo = new AlgoAppend(cons, label, geo, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-
-	/**
-	 * apply matrix Michael Borcherds 2010-05-27
-	 */
-	final public GeoElement[] ApplyMatrix(String label, GeoElement Q,
-			GeoList matrix) {
-		Transform t = new TransformApplyMatrix(cons, matrix);
-		return t.transform(Q, label);
-	}
-
-	/**
-	 * Spreadsheet Object from coords
-	 */
-	final public GeoElement Cell(String label, NumberValue a, NumberValue b) {
-		AlgoCell algo = new AlgoCell(cons, label, a, b);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
-
-	/**
-	 * Cartesian curve command: Curve[ <expression x-coord>, <expression
-	 * x-coord>, <number-var>, <from>, <to> ]
-	 */
-	final public GeoCurveCartesian CurveCartesian(String label,
-			NumberValue xcoord, NumberValue ycoord, GeoNumeric localVar,
-			NumberValue from, NumberValue to) {
-		AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, label,
-				new NumberValue[] { xcoord, ycoord }, localVar, from, to);
-		return (GeoCurveCartesian) algo.getCurve();
 	}
 
 	/**
@@ -4786,29 +4752,12 @@ public class Kernel {
 	}
 
 	/**
-	 * Perimeter of Locus
-	 */
-	final public GeoNumeric Perimeter(String label, GeoLocus locus) {
-		AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons, label, locus);
-		return algo.getResult();
-	}
-
-	/**
 	 * Circumference named label of GeoConic
 	 */
 	final public GeoNumeric Circumference(String label, GeoConic conic) {
 		AlgoCircumferenceConic algo = new AlgoCircumferenceConic(cons, label,
 				conic);
 		return algo.getCircumference();
-	}
-
-	/**
-	 * Defined[object] Michael Borcherds
-	 */
-	final public GeoBoolean Defined(String label, GeoElement geo) {
-		AlgoDefined algo = new AlgoDefined(cons, label, geo);
-		GeoBoolean result = algo.getResult();
-		return result;
 	}
 
 	/**

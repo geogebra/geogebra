@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoPerimeterLocus;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -47,8 +48,11 @@ public class CmdPerimeter extends CommandProcessor {
 
 			} else if ( (arg[0].isGeoLocus())) {
 				//Perimeter[locus]
-				GeoElement[] ret = { kernelA.Perimeter(c.getLabel(),
-						(GeoLocus) arg[0]) };
+				
+				AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons, c.getLabel(),
+						(GeoLocus) arg[0]);
+
+				GeoElement[] ret = {  algo.getResult() };
 				return ret;
 
 			} else

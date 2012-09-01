@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAxes;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.main.MyError;
 
 /**
@@ -31,8 +33,12 @@ public class CmdAxes extends CommandProcessor {
 			arg = resArgs(c);
 
 			// asymptotes to conic
-			if (arg[0].isGeoConic())
-				return kernelA.Axes(c.getLabels(), (GeoConic) arg[0]);
+			if (arg[0].isGeoConic()) {
+				
+				AlgoAxes algo = new AlgoAxes(cons, c.getLabels(), (GeoConic) arg[0]);
+				return algo.getAxes();
+
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 		default:

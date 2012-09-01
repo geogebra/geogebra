@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAppend;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -31,12 +32,18 @@ public class CmdAppend extends CommandProcessor {
 		case 2:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernelA.Append(c.getLabel(),
-						(GeoList) arg[0], arg[1]) };
+				
+				AlgoAppend algo = new AlgoAppend(cons, c.getLabel(),
+						(GeoList) arg[0], arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[1].isGeoList()) {
-				GeoElement[] ret = { kernelA.Append(c.getLabel(), arg[0],
-						(GeoList) arg[1]) };
+				
+				AlgoAppend algo = new AlgoAppend(cons, c.getLabel(), arg[0],
+						(GeoList) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
 

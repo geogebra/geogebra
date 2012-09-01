@@ -1,10 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAsymptote;
+import geogebra.common.kernel.algos.AlgoAsymptoteFunction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
@@ -34,12 +37,18 @@ public class CmdAsymptote extends CommandProcessor {
 			arg = resArgs(c);
 
 			// asymptotes to conic
-			if (arg[0].isGeoConic())
-				return kernelA.Asymptote(c.getLabels(), (GeoConic) arg[0]);
-			else if (arg[0].isGeoFunction())
+			if (arg[0].isGeoConic()) {
+				
+				AlgoAsymptote algo = new AlgoAsymptote(cons, c.getLabels(), (GeoConic) arg[0]);
+				return algo.getAsymptotes();
+
+			} else if (arg[0].isGeoFunction())
 			{
-				GeoElement[] ret = { kernelA.AsymptoteFunction(c.getLabel(),
-						(GeoFunction) arg[0]) };
+				
+				AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			else if (arg[0].isGeoImplicitPoly()) {

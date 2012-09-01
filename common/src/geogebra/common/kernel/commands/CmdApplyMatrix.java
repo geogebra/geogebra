@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Transform;
+import geogebra.common.kernel.TransformApplyMatrix;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -37,7 +39,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 
 				if (arg[1].isMatrixTransformable() || arg[1].isGeoFunction()
 						|| arg[1].isGeoPolygon() || arg[1].isGeoPolyLine()|| arg[1].isGeoList()) {
-					ret = kernelA.ApplyMatrix(label, arg[1], (GeoList) arg[0]);
+					ret = ApplyMatrix(label, arg[1], (GeoList) arg[0]);
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[1]);
@@ -47,5 +49,14 @@ public class CmdApplyMatrix extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * apply matrix Michael Borcherds 2010-05-27
+	 */
+	final private GeoElement[] ApplyMatrix(String label, GeoElement Q,
+			GeoList matrix) {
+		Transform t = new TransformApplyMatrix(cons, matrix);
+		return t.transform(Q, label);
 	}
 }

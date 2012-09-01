@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCurveCartesian;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
@@ -45,11 +47,12 @@ public class CmdCurveCartesian extends CommandProcessor {
 				checkDependency(arg, c.getName(), 3, 2);
 				checkDependency(arg, c.getName(), 4, 2);
 				
-				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernelA.CurveCartesian(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
+				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, c.getLabel(),
+						new NumberValue[] {(NumberValue) arg[0], (NumberValue) arg[1]},
 						(GeoNumeric) arg[2], (NumberValue) arg[3],
 						(NumberValue) arg[4]);
+				GeoElement[] ret = { algo.getCurve() };
+
 				return ret;
 			}
 			for (int i = 0; i < n; i++) {

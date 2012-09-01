@@ -1,9 +1,12 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAreaPoints;
+import geogebra.common.kernel.algos.AlgoAreaPolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
@@ -40,8 +43,11 @@ public class CmdArea extends CommandProcessor {
 			}
 			// area of polygon = polygon variable
 			else if (arg[0].isGeoPolygon()) {
-				GeoElement[] ret = { kernelA.Area(c.getLabel(),
-						(GeoPolygon) arg[0]) };
+				
+				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, c.getLabel(),
+						(GeoPolygon) arg[0]);
+
+				GeoElement[] ret = { algo.getArea() };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
@@ -60,7 +66,10 @@ public class CmdArea extends CommandProcessor {
 				points[i] = (GeoPoint) arg[i];
 			}
 			// everything ok
-			GeoElement[] ret = { kernelA.Area(c.getLabel(), points) };
+			
+			AlgoAreaPoints algo = new AlgoAreaPoints(cons, c.getLabel(), points);
+
+			GeoElement[] ret = { algo.getArea() };
 			return ret;
 		} else {
 			throw argNumErr(app, c.getName(), n);

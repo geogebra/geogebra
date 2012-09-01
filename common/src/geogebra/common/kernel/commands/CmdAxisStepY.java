@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAxisStepY;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
@@ -27,7 +29,9 @@ public class CmdAxisStepY extends CommandProcessor {
 		switch (n) {
 		case 0:
 
-			GeoElement[] ret = { kernelA.AxisStepY(c.getLabel()) };
+			AlgoAxisStepY algo = new AlgoAxisStepY(cons, c.getLabel());
+
+			GeoElement[] ret = { algo.getResult() };
 			return ret;
 
 		default:

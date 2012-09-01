@@ -1,7 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDefined;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
@@ -30,10 +32,11 @@ public class CmdDefined extends CommandProcessor {
 		
 		switch (n) {
 		case 1:
+			
+			AlgoDefined algo = new AlgoDefined(cons, c.getLabel(),
+					 arg[0]);
 
-				GeoElement[] ret = { 
-						kernelA.Defined(c.getLabel(),
-						 arg[0] ) };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 		
 		default:
