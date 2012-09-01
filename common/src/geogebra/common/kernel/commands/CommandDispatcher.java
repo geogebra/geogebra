@@ -296,10 +296,17 @@ public class CommandDispatcher {
 	 */
 	public CommandProcessor commandTableSwitch(String cmdName) {
 		try {
-			
+
 			Commands command = Commands.valueOf(cmdName);
-			
+
 			switch (command) {
+
+			
+
+				
+				
+				
+				
 			case Mod:
 				return new CmdMod(kernel);
 			case Div:
@@ -312,12 +319,6 @@ public class CommandDispatcher {
 				return new CmdLCM(kernel);
 			case GCD:
 				return new CmdGCD(kernel);
-			case Expand:
-				return new CmdExpand(kernel);
-			case Factor:
-				return new CmdFactor(kernel);
-			case Simplify:
-				return new CmdSimplify(kernel);
 			case PrimeFactors:
 				return new CmdPrimeFactors(kernel);
 			case CompleteSquare:
@@ -330,8 +331,6 @@ public class CommandDispatcher {
 				return new CmdAngularBisector(kernel);
 			case OrthogonalLine:
 				return new CmdOrthogonalLine(kernel);
-			case Tangent:
-				return new CmdTangent(kernel);
 			case Segment:
 				return new CmdSegment(kernel);
 			case Slope:
@@ -352,8 +351,6 @@ public class CommandDispatcher {
 				return new CmdIntersectRegion(kernel);
 			case Distance:
 				return new CmdDistance(kernel);
-			case Length:
-				return new CmdLength(kernel);
 			case Radius:
 				return new CmdRadius(kernel);
 			case CircleArc:
@@ -382,20 +379,8 @@ public class CommandDispatcher {
 				return new CmdPerimeter(kernel);
 			case Locus:
 				return new CmdLocus(kernel);
-			case LocusEquation:
-				return new CmdLocusEquation(kernel);
 			case Centroid:
 				return new CmdCentroid(kernel);
-			case TriangleCenter:
-				return new CmdKimberling(kernel);
-			case Barycenter:
-				return new CmdBarycenter(kernel);
-			case Trilinear:
-				return new CmdTrilinear(kernel);
-			case Cubic:
-				return new CmdCubic(kernel);
-			case TriangleCurve:
-				return new CmdTriangleCurve(kernel);
 			case Vertex:
 				return new CmdVertex(kernel);
 			case PolyLine:
@@ -422,8 +407,6 @@ public class CommandDispatcher {
 				return new CmdUnicodeToLetter(kernel);
 			case FractionText:
 				return new CmdFractionText(kernel);
-			case SurdText:
-				return new CmdSurdText(kernel);
 			case ScientificText:
 				return new CmdScientificText(kernel);
 			case TableText:
@@ -462,16 +445,7 @@ public class CommandDispatcher {
 				return new CmdExtremum(kernel);
 			case CurveCartesian:
 				return new CmdCurveCartesian(kernel);
-			case ParametricDerivative:
-				return new CmdParametricDerivative(kernel);
-			case Derivative:
-				return new CmdDerivative(kernel);
-			case Integral:
-				return new CmdIntegral(kernel, Commands.Integral);
-			case IntegralBetween:
-				return new CmdIntegral(kernel, Commands.IntegralBetween);
-			case NIntegral:
-				return new CmdIntegral(kernel, Commands.NIntegral);
+
 			case LowerSum:
 				return new CmdLowerSum(kernel);
 			case LeftSum:
@@ -484,28 +458,12 @@ public class CommandDispatcher {
 				return new CmdUpperSum(kernel);
 			case TrapezoidalSum:
 				return new CmdTrapezoidalSum(kernel);
-			case Limit:
-				return new CmdLimit(kernel);
-			case LimitBelow:
-				return new CmdLimitBelow(kernel);
-			case LimitAbove:
-				return new CmdLimitAbove(kernel);
-			case Factors:
-				return new CmdFactors(kernel);
-			case Degree:
-				return new CmdDegree(kernel);
-			case Coefficients:
-				return new CmdCoefficients(kernel);
-			case PartialFractions:
-				return new CmdPartialFractions(kernel);
 			case Numerator:
 				return new CmdNumerator(kernel);
 			case Denominator:
 				return new CmdDenominator(kernel);
 			case ComplexRoot:
 				return new CmdComplexRoot(kernel);
-			case SolveODE:
-				return new CmdSolveODE(kernel);
 			case SlopeField:
 				return new CmdSlopeField(kernel);
 			case Iteration:
@@ -726,20 +684,6 @@ public class CommandDispatcher {
 				return new CmdShowAxes(kernel);
 			case ShowGrid:
 				return new CmdShowGrid(kernel);
-			case Voronoi:
-				return new CmdVoronoi(kernel);
-			case Hull:
-				return new CmdHull(kernel);
-			case ConvexHull:
-				return new CmdConvexHull(kernel);
-			case MinimumSpanningTree:
-				return new CmdMinimumSpanningTree(kernel);
-			case DelauneyTriangulation:
-				return new CmdDelauneyTriangulation(kernel);
-			case TravelingSalesman:
-				return new CmdTravelingSalesman(kernel);
-			case ShortestDistance:
-				return new CmdShortestDistance(kernel);
 			case Corner:
 				return new CmdCorner(kernel);
 			case AxisStepX:
@@ -830,8 +774,6 @@ public class CommandDispatcher {
 				return new CmdDimension(kernel);
 			case DivisorsList:
 				return new CmdDivisorsList(kernel);
-			case ImplicitDerivative:
-				return new CmdImplicitDerivative(kernel);
 			case RandomPolynomial:
 				return new CmdRandomPolynomial(kernel);
 			case IsPrime:
@@ -846,11 +788,7 @@ public class CommandDispatcher {
 				return new CmdDivision(kernel);
 			case MatrixRank:
 				return new CmdMatrixRank(kernel);
-			case NextPrime:
-				return new CmdNextPreviousPrime(kernel,true);
-			case PreviousPrime:
-				return new CmdNextPreviousPrime(kernel,false);
-		
+
 			case CFactor:
 			case CSolutions:
 			case CSolve:
@@ -873,12 +811,6 @@ public class CommandDispatcher {
 				return new CmdToComplexPolar(kernel,Kernel.COORD_COMPLEX);
 			case ToPolar:
 				return new CmdToComplexPolar(kernel,Kernel.COORD_POLAR);
-			case TrigExpand:
-				return new CmdTrigExpand(kernel);
-			case TrigSimplify:
-				return new CmdTrigSimplify(kernel);
-			case TrigCombine:
-				return new CmdTrigCombine(kernel);
 			case Turtle: 
 				return new CmdTurtle(kernel);
 			case TurtleForward:
@@ -889,10 +821,10 @@ public class CommandDispatcher {
 				return new CmdTurtleLeft(kernel);
 			case TurtleRight:
 				return new CmdTurtleRight(kernel);
-				
-				
+
+
 				// ************** STATS ***************
-				
+
 			case ANOVA:
 			case BarChart:
 			case Bernoulli:
@@ -1019,20 +951,83 @@ public class CommandDispatcher {
 			case ZProportionTest:
 			case Zipf:
 				return getStatsDispatcher().dispatch(command,kernel);
+
+			case TriangleCenter:
+			case Barycenter:
+			case Trilinear:
+			case Cubic:
+			case TriangleCurve:
+
+			case Voronoi:
+			case Hull:
+			case ConvexHull:
+			case MinimumSpanningTree:
+			case DelauneyTriangulation:
+			case TravelingSalesman:
+			case ShortestDistance:
+				return getDiscreteDispatcher().dispatch(command,kernel);
+				
+			case LocusEquation:
+			case Expand:
+			case Factor:
+			case Simplify:
+			case SurdText:
+			case Tangent:
+			case ParametricDerivative:
+			case Derivative:
+			case Integral:
+			case IntegralBetween:
+			case NIntegral:
+			case TrigExpand:
+			case TrigSimplify:
+			case TrigCombine:
+			case Length:
+			case Limit:
+			case LimitBelow:
+			case LimitAbove:
+			case Factors:
+			case Degree:
+			case Coefficients:
+			case PartialFractions:
+			case SolveODE:
+			case ImplicitDerivative:
+			case NextPrime:
+			case PreviousPrime:
+				return getCASDispatcher().dispatch(command,kernel);
+
 			default:
 				App.error("missing case in CommandDispatcher "+cmdName);
 				return null;
 			}
 		} catch (Exception e) {
 			App.warn("command not found / CAS command called:"
-							+ cmdName);
+					+ cmdName);
 		}
 		return null;
 	}
+	
 	private CommandDispatcherStats statsDispatcher = null;
 	private CommandDispatcherStats getStatsDispatcher() {
-		if(statsDispatcher==null)
+		if(statsDispatcher == null) {
 			statsDispatcher = new CommandDispatcherStats();
+		}
 		return statsDispatcher;
 	}
+
+	private CommandDispatcherDiscrete discreteDispatcher = null;
+	private CommandDispatcherDiscrete getDiscreteDispatcher() {
+		if(discreteDispatcher == null) {
+			discreteDispatcher = new CommandDispatcherDiscrete();
+		}
+		return discreteDispatcher;
+	}
+	
+	private CommandDispatcherCAS casDispatcher = null;
+	private CommandDispatcherCAS getCASDispatcher() {
+		if(casDispatcher == null) {
+			casDispatcher = new CommandDispatcherCAS();
+		}
+		return casDispatcher;
+	}
+
 }
