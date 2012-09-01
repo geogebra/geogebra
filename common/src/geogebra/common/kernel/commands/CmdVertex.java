@@ -1,12 +1,14 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
@@ -43,7 +45,7 @@ public class CmdVertex extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionNVar)
 				return kernelA.Vertex(c.getLabels(), (GeoFunctionNVar) arg[0]);
 			else if (arg[0].isNumberValue()) {
-				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
+				GeoElement[] ret = { CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[0], null) };
 				return ret;
 			} else
@@ -73,7 +75,7 @@ public class CmdVertex extends CommandProcessor {
 				// Michael Borcherds 2007-11-26 END
 			} else if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
+				GeoElement[] ret = { CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[1], (NumberValue) arg[0]) };
 				return ret;
 				
@@ -84,5 +86,16 @@ public class CmdVertex extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+
+	/**
+	 * Corner of Drawing Pad Michael Borcherds 2008-05-10
+	 */
+	final private GeoPoint CornerOfDrawingPad(String label, NumberValue number,
+			NumberValue ev) {
+		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner(cons, label,
+				number, ev);
+		return algo.getCorner();
 	}
 }

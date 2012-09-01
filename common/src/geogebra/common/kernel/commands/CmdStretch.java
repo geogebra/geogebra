@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Transform;
+import geogebra.common.kernel.TransformShearOrStretch;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -41,7 +43,7 @@ public class CmdStretch extends CommandProcessor {
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoList()) {
 
-					ret = kernelA.Stretch(label, arg[0], (GeoVec3D) arg[1],
+					ret = Stretch(label, arg[0], (GeoVec3D) arg[1],
 							null);
 					return ret;
 
@@ -57,7 +59,7 @@ public class CmdStretch extends CommandProcessor {
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoList()) {
 
-					ret = kernelA.Stretch(label, arg[0], (GeoVec3D) arg[1],
+					ret = Stretch(label, arg[0], (GeoVec3D) arg[1],
 							(GeoNumeric) arg[2]);
 					return ret;
 
@@ -71,5 +73,15 @@ public class CmdStretch extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+
+	/**
+	 * apply matrix Michael Borcherds 2010-05-27
+	 */
+	final private GeoElement[] Stretch(String label, GeoElement Q, GeoVec3D l,
+			GeoNumeric num) {
+		Transform t = new TransformShearOrStretch(cons, l, num, false);
+		return t.transform(Q, label);
 	}
 }

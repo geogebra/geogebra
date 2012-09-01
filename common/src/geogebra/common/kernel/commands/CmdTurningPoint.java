@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoTurningPointPolynomial;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,9 +31,14 @@ public class CmdTurningPoint extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoFunctionable())
-				return kernelA.TurningPoint(c.getLabels(),
+			if (arg[0].isGeoFunctionable()) {
+				
+				AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(cons,
+						c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
+
+				return algo.getRootPoints();
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 		default:

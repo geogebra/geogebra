@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIsPrime;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 /**
@@ -19,7 +20,8 @@ public class CmdIsPrime extends CmdOneNumber {
 
 	@Override
 	protected GeoElement getResult(NumberValue num,String label){
-		return kernelA.IsPrime(label, num);
+		AlgoIsPrime algo = new AlgoIsPrime(cons,label,num);
+		return algo.getResult();
 	}
 
 }

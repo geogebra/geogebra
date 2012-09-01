@@ -1,10 +1,12 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoRoots;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -35,9 +37,12 @@ public class CmdRoots extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = kernelA.Roots(c.getLabels(),
+				
+				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]);
+
+				GeoElement[] ret = algo.getRootPoints();
 				return ret;
 			} 
 			throw argErr(app,c.getName(),getBadArg(ok,arg));

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDivisorsSum;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -24,7 +25,8 @@ public class CmdDivisorsOrDivisorsSum extends CmdOneNumber {
 
 	@Override
 	protected GeoElement getResult(NumberValue num,String label){
-		return kernelA.DivisorsOrDivisorsSum(label, num,sum);
+		AlgoDivisorsSum algo = new AlgoDivisorsSum(cons, label,num , sum);
+		return algo.getResult();
 	}
 
 }

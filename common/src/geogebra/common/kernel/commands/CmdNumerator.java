@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoNumerator;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
@@ -31,8 +32,11 @@ public class CmdNumerator extends CommandProcessor {
 			arg = resArgs(c);
 
 			if (arg[0] instanceof FunctionalNVar) {
-				GeoElement[] ret = { kernelA.Numerator(c.getLabel(),
-						(FunctionalNVar) arg[0]) };
+				
+				AlgoNumerator algo = new AlgoNumerator(cons, c.getLabel(),
+						(FunctionalNVar) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			}

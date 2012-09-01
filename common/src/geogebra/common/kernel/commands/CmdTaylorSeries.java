@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoTaylorSeries;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,9 +35,12 @@ public class CmdTaylorSeries extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.TaylorSeries(c.getLabel(),
+				
+				AlgoTaylorSeries algo = new AlgoTaylorSeries(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2]) };
+						(NumberValue) arg[1], (NumberValue) arg[2]);
+
+				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), null);

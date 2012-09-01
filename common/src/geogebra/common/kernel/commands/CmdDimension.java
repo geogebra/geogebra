@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDimension;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -30,15 +31,19 @@ public class CmdDimension extends CommandProcessor {
 		
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						kernelA.Dimension(c.getLabel(),
-								(GeoList) arg[0]) };
+				
+				AlgoDimension algo = new AlgoDimension(cons,c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			if (arg[0] instanceof GeoPointND || arg[0] instanceof GeoVectorND) {
-				GeoElement[] ret = { 
-						kernelA.Dimension(c.getLabel(),
-								arg[0]) };
+				
+				AlgoDimension algo = new AlgoDimension(cons,c.getLabel(),
+						arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app,c.getName(),arg[0]);

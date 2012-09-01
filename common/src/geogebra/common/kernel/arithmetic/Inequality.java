@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -223,7 +224,7 @@ public class Inequality {
 		//funBorder for inequality f(x)>g(x) is function f(x)-g(x)
 		funBorder = new GeoFunction(cons);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));		
-		zeros = Kernel.RootMultiple(funBorder);
+		zeros = RootMultiple(funBorder);
 		/*for(int i=0;i<zeros.length;i++){
 			Application.debug(zeros[i]);
 		}*/
@@ -235,6 +236,17 @@ public class Inequality {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 
 	}
+
+	final private static GeoPoint[] RootMultiple(GeoFunction f) {
+		// allow functions that can be simplified to factors of polynomials
+		if (!f.isPolynomialFunction(true))
+			return null;
+
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(f);
+		GeoPoint[] g = algo.getRootPoints();
+		return g;
+	}
+
 
 	/**
 	 * Updates the coefficient k in y<k*f(x) for parametric, for implicit runs

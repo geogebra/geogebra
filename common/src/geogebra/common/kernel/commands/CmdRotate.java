@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Transform;
+import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -45,7 +47,7 @@ public class CmdRotate extends CommandProcessor {
 			if ((ok[0] = true) && (ok[1] = (arg[1].isNumberValue()))) {
 				NumberValue phi = (NumberValue) arg[1];
 
-				ret = kernelA.Rotate(label, arg[0], phi);
+				ret = Rotate(label, arg[0], phi);
 				return ret;
 			}
 
@@ -76,4 +78,15 @@ public class CmdRotate extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+
+	/**
+	 * rotate geoRot by angle phi around (0,0)
+	 */
+	final private GeoElement[] Rotate(String label, GeoElement geoRot,
+			NumberValue phi) {
+		Transform t = new TransformRotate(cons, phi);
+		return t.transform(geoRot, label);
+	}
+
+
 }

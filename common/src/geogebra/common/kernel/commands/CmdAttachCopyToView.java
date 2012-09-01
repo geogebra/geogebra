@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -79,8 +80,11 @@ public class CmdAttachCopyToView extends CommandProcessor {
 				
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoPolyLine() || arg[0].isGeoList()) {
-					ret = new GeoElement[] {kernelA.AttachCopyToView(label, arg[0], (NumberValue)arg[1],
-							corner1, corner3, screenCorner1,screenCorner3)};
+					
+					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,arg[0], (NumberValue)arg[1],
+							corner1, corner3, screenCorner1,screenCorner3);
+
+					ret = new GeoElement[] { algo.getResult() };
 					if(n==2 && ev!=app.getActiveEuclidianView()){
 						ret[0].addView(ev.getViewID());
 						ret[0].removeView(app.getActiveEuclidianView().getViewID());

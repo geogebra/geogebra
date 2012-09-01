@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoParabolaParameter;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,8 +34,11 @@ public class CmdParameter extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernelA.Parameter(c.getLabel(),
-						(GeoConic) arg[0]) };
+				
+				AlgoParabolaParameter algo = new AlgoParabolaParameter(cons, c.getLabel(),
+						(GeoConic) arg[0]);
+
+				GeoElement[] ret = { algo.getParameter() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

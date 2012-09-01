@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoMatrixRank;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -29,7 +30,10 @@ public class CmdMatrixRank extends CommandProcessor {
 			throw argNumErr(app, c.getName(), args.length);
 		if (!args[0].isGeoList())
 			throw argErr(app, c.getName(), args[0]);
-		return new GeoElement[] { kernelA.MatrixRank(c.getLabel(), (GeoList) args[0]) };
+		
+		AlgoMatrixRank algo = new AlgoMatrixRank(cons,c.getLabel(), (GeoList) args[0]);
+
+		return new GeoElement[] { algo.getResult() };
 	}
 
 }

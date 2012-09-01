@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoLeftRightSide;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,7 +35,10 @@ public class CmdLeftRightSide extends CommandProcessor {
 		if(!args[0].isGeoImplicitPoly() &&
 				!(args[0] instanceof GeoConic) && !(args[0] instanceof GeoLine))
 		throw argErr(app,c.getName(),args[0]);
-		return new GeoElement[]{kernelA.LeftRightSide(c.getLabel(),args[0], left)};
+		
+		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons,c.getLabel(),args[0], left);
+
+		return new GeoElement[]{algo.getResult()};
 	}
 
 }

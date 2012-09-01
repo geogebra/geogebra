@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Transform;
+import geogebra.common.kernel.TransformShearOrStretch;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -39,7 +41,7 @@ public class CmdShear extends CommandProcessor {
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoList()) {
 
-					ret = kernelA.Shear(label, arg[0], (GeoVec3D) arg[1],
+					ret = Shear(label, arg[0], (GeoVec3D) arg[1],
 							(GeoNumeric) arg[2]);
 					return ret;
 
@@ -53,5 +55,14 @@ public class CmdShear extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	/**
+	 * shear
+	 */
+	final private GeoElement[] Shear(String label, GeoElement Q, GeoVec3D l,
+			GeoNumeric num) {
+		Transform t = new TransformShearOrStretch(cons, l, num, true);
+		return t.transform(Q, label);
 	}
 }

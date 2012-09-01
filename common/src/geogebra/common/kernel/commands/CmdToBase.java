@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoToBase;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,8 +34,11 @@ public class CmdToBase extends CommandProcessor{
 				arg = resArgs(c);
 				if ((ok[0] = (arg[0].isNumberValue()))
 						&& (ok[1] = (arg[1].isNumberValue()))) {
-					GeoElement[] ret = { kernelA.ToBase(c.getLabel(),
-							(NumberValue) arg[0], (NumberValue) arg[1]) };
+					
+					AlgoToBase toBase = new AlgoToBase(cons,c.getLabel(),
+							(NumberValue) arg[0], (NumberValue) arg[1]);
+
+					GeoElement[] ret = { toBase.getResult() };
 					return ret;
 				}
 				if (!ok[0])

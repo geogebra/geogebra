@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoFromBase;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -60,8 +61,10 @@ public class CmdFromBase extends CommandProcessor{
 				
 				cons.setSuppressLabelCreation(oldMacroMode);
 				
-				GeoElement[] ret = { kernelA.FromBase(c.getLabel(),
-							 (GeoText) arg[0],(NumberValue) arg[1]) };
+				AlgoFromBase fromBase = new AlgoFromBase(cons, c.getLabel(),
+						 (GeoText) arg[0],(NumberValue) arg[1]);
+
+				GeoElement[] ret = { fromBase.getResult() };
 				return ret;
 				
 

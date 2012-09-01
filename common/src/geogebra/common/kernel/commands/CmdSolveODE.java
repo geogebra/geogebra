@@ -1,12 +1,15 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoSolveODE;
+import geogebra.common.kernel.algos.AlgoSolveODE2;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.AlgoSolveODECas;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
@@ -61,7 +64,7 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.SolveODE(c.getLabel(),
+				GeoElement[] ret = { SolveODE(c.getLabel(),
 						(FunctionalNVar) arg[0], null, (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4]) };
@@ -75,7 +78,7 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.SolveODE(c.getLabel(),
+				GeoElement[] ret = { SolveODE(c.getLabel(),
 						(FunctionalNVar) arg[0], (FunctionalNVar) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5]) };
@@ -92,11 +95,14 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[5] = arg[5].isGeoNumeric())
 					&& (ok[6] = arg[6].isGeoNumeric())
 					&& (ok[7] = arg[7].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.SolveODE2(c.getLabel(),
+				
+				AlgoSolveODE2 algo = new AlgoSolveODE2(cons, c.getLabel(),
 						(GeoFunctionable) arg[0], (GeoFunctionable) arg[1],
 						(GeoFunctionable) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
-						(GeoNumeric) arg[6], (GeoNumeric) arg[7]) };
+						(GeoNumeric) arg[6], (GeoNumeric) arg[7]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -106,4 +112,14 @@ public class CmdSolveODE extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+
+
+	final private GeoLocus SolveODE(String label, FunctionalNVar f,
+			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
+			GeoNumeric step) {
+		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end, step);
+		return algo.getResult();
+	}
+
 }

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegral;
@@ -84,10 +85,13 @@ public class CmdIntegral extends CommandProcessor {
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue() && !arg[3]
 							.isBooleanValue()))) {
-				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
+				
+				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(NumberValue) arg[2], (NumberValue) arg[3]) };
+						(NumberValue) arg[2], (NumberValue) arg[3]);
+
+				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
 
 			}
@@ -117,11 +121,14 @@ public class CmdIntegral extends CommandProcessor {
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue())
 							&& (ok[4] = (arg[4].isGeoBoolean())))) {
-				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
+				
+				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
 						(NumberValue) arg[2], (NumberValue) arg[3],
-						(GeoBoolean) arg[4]) };
+						(GeoBoolean) arg[4]);
+				
+				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
 			}
 			throw argErr(app, internalCommandName, getBadArg(ok,arg));

@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoSlopeField;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -33,7 +35,7 @@ public class CmdSlopeField extends CommandProcessor {
 		case 1:
 			if (arg[0] instanceof FunctionalNVar)
 					 {
-				GeoElement[] ret = { kernelA.SlopeField(c.getLabel(),
+				GeoElement[] ret = { SlopeField(c.getLabel(),
 						(FunctionalNVar) arg[0], null, null, null, null, null, null) };
 				return ret;
 			}
@@ -42,7 +44,7 @@ public class CmdSlopeField extends CommandProcessor {
 		case 2:
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.SlopeField(c.getLabel(),
+				GeoElement[] ret = { SlopeField(c.getLabel(),
 						(FunctionalNVar) arg[0], (GeoNumeric) arg[1], null, null, null, null, null) };
 				return ret;
 			}
@@ -52,7 +54,7 @@ public class CmdSlopeField extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.SlopeField(c.getLabel(),
+				GeoElement[] ret = { SlopeField(c.getLabel(),
 						(FunctionalNVar) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2], null, null, null, null) };
 				return ret;
 			}
@@ -66,7 +68,7 @@ public class CmdSlopeField extends CommandProcessor {
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())
 					&& (ok[6] = arg[6].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.SlopeField(c.getLabel(),
+				GeoElement[] ret = { SlopeField(c.getLabel(),
 						(FunctionalNVar) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoNumeric) arg[6]) };
@@ -77,5 +79,11 @@ public class CmdSlopeField extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	final private GeoLocus SlopeField(String label, FunctionalNVar func, GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX, GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
+		
+		AlgoSlopeField algo = new AlgoSlopeField(cons, label, func,n, lengthRatio, minX, minY, maxX, maxY);
+		return algo.getResult();
 	}
 }
