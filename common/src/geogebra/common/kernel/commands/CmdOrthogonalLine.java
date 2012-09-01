@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointConic;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -63,13 +64,12 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoPoint()))
 					&& (ok[1] = (arg[1] .isGeoConic()))) {
-				GeoElement[] ret =
 				
-						kernelA.OrthogonalLineToConic(
-								c.getLabel(),
-								(GeoPoint) arg[0],
-								(GeoConic) arg[1]);
-				return ret;
+				AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons, c.getLabel(),
+						(GeoPoint) arg[0],
+						(GeoConic) arg[1]);
+
+				return algo.getOutput();
 			}
 
 			// syntax error

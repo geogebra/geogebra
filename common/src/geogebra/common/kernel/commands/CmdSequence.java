@@ -41,7 +41,9 @@ public class CmdSequence extends CommandProcessor {
 			arg = resArgs(c);
 		switch (n) {
 		case 1:if (arg[0].isGeoNumeric()){
-			return  kernelA.Sequence(c.getLabel(),(GeoNumeric) arg[0]);    		
+			
+			AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),(GeoNumeric) arg[0]);
+			return algo.getOutput();
 		}    	
 		throw argErr(app, c.getName(), arg[0]);
 		case 4 :

@@ -26,6 +26,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoArcLength;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -34,8 +35,10 @@ import geogebra.common.kernel.algos.AlgoIntersect;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -4814,7 +4817,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				// three points: center, distance between two points
-				GeoElement circle = kernel.CircleCompasses(null, centerPoint,
+				GeoElement circle = CircleCompasses(null, centerPoint,
 						points[0], points[1]);
 				GeoElement[] ret = { circle };
 				clearSelections();
@@ -4840,7 +4843,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				// center point and circle which defines radius
-				GeoElement circlel = kernel.Circle(null, centerPoint,
+				GeoElement circlel = Circle(null, centerPoint,
 						circle);
 				GeoElement ret[] = { circlel };
 				clearSelections();
@@ -4892,6 +4895,51 @@ public abstract class EuclidianController {
 		return null;
 	}
 
+
+	/**
+	 * circle with midpoint A and radius the same as circle Michael Borcherds
+	 * 2008-03-14
+	 */
+	final private GeoConic Circle(
+	// this is actually a macro
+			String label, GeoPoint A, GeoConic c) {
+
+		Construction cons = kernel.getConstruction();
+		
+		AlgoRadius radius = new AlgoRadius(cons, c);
+		cons.removeFromConstructionList(radius);
+
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
+				radius.getRadius());
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		//notifyUpdate(circle);
+		return circle;
+	}
+	
+	/**
+	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
+	 */
+	final private GeoConic CircleCompasses(
+	// this is actually a macro
+			String label, GeoPoint A, GeoPoint B, GeoPoint C) {
+
+		Construction cons = kernel.getConstruction();
+
+		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, B,
+				C, null);
+		cons.removeFromConstructionList(algoSegment);
+
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
+				algoSegment.getSegment(), true);
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		//notifyUpdate(circle);
+		return circle;
+	}
+	
 	protected final GeoElement[] vectorFromPoint(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;

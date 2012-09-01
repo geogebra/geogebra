@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoConicFromCoeffList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -31,7 +32,7 @@ public class CmdConic extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoList())
-				return kernelA.Conic(c.getLabel(), (GeoList) arg[0]);
+				return Conic(c.getLabel(), (GeoList) arg[0]);
 		case 5:
 			for (int i=0;i<5;i++){
 				if (!arg[i].isGeoPoint()){
@@ -48,11 +49,26 @@ public class CmdConic extends CommandProcessor {
 				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
-					ret = kernelA.Conic(c.getLabel(), list);
+					ret = Conic(c.getLabel(), list);
 					return ret;
 				}
 			}
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+
+	/**
+	 * conic from coefficients
+	 * 
+	 * @param coeffList
+	 * @return
+	 */
+	final private GeoElement[] Conic(String label, GeoList coeffList) {
+		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label,
+				coeffList);
+
+		return new GeoElement[] { algo.getConic() };
+
 	}
 }

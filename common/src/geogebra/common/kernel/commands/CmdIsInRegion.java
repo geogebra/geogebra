@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.algos.AlgoIsInRegion;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,9 +35,10 @@ public class CmdIsInRegion extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 		if (!arg[1].isRegion())
 			throw argErr(app, c.getName(), arg[1]);
-
-		GeoBoolean slider = kernelA.isInRegion(c.getLabel(),
+		
+		AlgoIsInRegion algo = new AlgoIsInRegion(cons, c.getLabel(),
 				(GeoPointND) arg[0], (Region) arg[1]);
-		return new GeoElement[] { slider };
+
+		return new GeoElement[] { algo.getResult() };
 	}
 }

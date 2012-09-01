@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoZip;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -40,8 +41,10 @@ public class CmdZip extends CommandProcessor {
 		}finally{
 			cons.setSuppressLabelCreation(oldval);
 		}
-		return kernelA.Zip(c.getLabel(), arg, vars, over);
 		
+		AlgoZip algo = new AlgoZip(cons, c.getLabel(), arg, vars, over);
+		return algo.getOutput();
+
 	}
 
 	

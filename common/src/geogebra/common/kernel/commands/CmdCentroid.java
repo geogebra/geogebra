@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCentroidPolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
 
@@ -32,8 +34,11 @@ public class CmdCentroid extends CommandProcessor {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoPolygon();
 			if (ok[0]) {
-				GeoElement[] ret = { kernelA.Centroid(c.getLabel(),
-						(GeoPolygon) arg[0]) };
+				
+				AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons, c.getLabel(),
+						(GeoPolygon) arg[0]);
+
+				GeoElement[] ret = { algo.getPoint() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

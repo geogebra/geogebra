@@ -47,7 +47,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
@@ -3627,14 +3626,7 @@ public class Kernel {
 	 * FACTORY METHODS FOR GeoElements
 	 ***********************************/
 
-	/** Point label with cartesian coordinates (x,y) */
-	final public GeoPoint Point(String label, double x, double y) {
-		GeoPoint p = new GeoPoint(cons);
-		p.setCoords(x, y, 1.0);
-		p.setMode(COORD_CARTESIAN);
-		p.setLabel(label); // invokes add()
-		return p;
-	}
+
 
 	/** Point label with cartesian coordinates (x,y) */
 	final public GeoPoint Point(String label, double x, double y,
@@ -4336,43 +4328,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Vertices of conic. returns 4 GeoPoints
-	 */
-	final public GeoPoint[] Vertex(String[] labels, GeoConic c) {
-		AlgoVertex algo = new AlgoVertex(cons, labels, c);
-		GeoPoint[] vertex = algo.getVertex();
-		return vertex;
-	}
-
-	/**
-	 * Vertices of polygon. returns 3+ GeoPoints
-	 */
-	final public GeoElement[] Vertex(String[] labels, GeoPoly p) {
-		AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, labels, p);
-		GeoElement[] vertex = algo.getVertex();
-		return vertex;
-	}
-	
-	/**
-	 * Vertices of inequality. returns 1+ GeoPoints
-	 */
-	final public GeoElement[] Vertex(String[] labels, GeoFunctionNVar p) {
-		AlgoVertexIneq algo = new AlgoVertexIneq(cons,labels,p);
-		GeoElement[] vertex = algo.getVertex();
-		return vertex;
-	}
-
-	/**
-	 * Vertex of polygon. returns a GeoPoint
-	 */
-	final public GeoPoint Vertex(String label, GeoPoly p,
-			NumberValue v) {
-		AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, label, p, v);
-		GeoPoint vertex = algo.getOneVertex();
-		return vertex;
-	}
-
-	/**
 	 * Center of conic
 	 */
 	final public GeoPoint Center(String label, GeoConic c) {
@@ -4381,30 +4336,6 @@ public class Kernel {
 		return midpoint;
 	}
 
-	/**
-	 * Centroid of a
-	 */
-	final public GeoPoint Centroid(String label, GeoPolygon p) {
-		AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons, label, p);
-		GeoPoint centroid = algo.getPoint();
-		return centroid;
-	}
-
-	/**
-	 * Corner of image
-	 */
-	final public GeoPoint Corner(String label, GeoImage img, NumberValue number) {
-		AlgoImageCorner algo = new AlgoImageCorner(cons, label, img, number);
-		return algo.getCorner();
-	}
-
-	/**
-	 * Corner of text Michael Borcherds 2007-11-26
-	 */
-	final public GeoPoint Corner(String label, GeoText txt, NumberValue number) {
-		AlgoTextCorner algo = new AlgoTextCorner(cons, label, txt, number);
-		return algo.getCorner();
-	}
 
 	/*********************************************
 	 * CONIC PART
@@ -4423,45 +4354,8 @@ public class Kernel {
 		return circle;
 	}
 
-	/**
-	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
-	 */
-	final public GeoConic CircleCompasses(
-	// this is actually a macro
-			String label, GeoPoint A, GeoPoint B, GeoPoint C) {
 
-		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, B,
-				C, null);
-		cons.removeFromConstructionList(algoSegment);
 
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
-				algoSegment.getSegment(), true);
-		GeoConic circle = algo.getCircle();
-		circle.setToSpecific();
-		circle.update();
-		//notifyUpdate(circle);
-		return circle;
-	}
-
-	/**
-	 * circle with midpoint A and radius the same as circle Michael Borcherds
-	 * 2008-03-14
-	 */
-	final public GeoConic Circle(
-	// this is actually a macro
-			String label, GeoPoint A, GeoConic c) {
-
-		AlgoRadius radius = new AlgoRadius(cons, c);
-		cons.removeFromConstructionList(radius);
-
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
-				radius.getRadius());
-		GeoConic circle = algo.getCircle();
-		circle.setToSpecific();
-		circle.update();
-		//notifyUpdate(circle);
-		return circle;
-	}
 
 	/**
 	 * circle with midpoint M and radius segment Michael Borcherds 2008-03-15
@@ -4560,19 +4454,6 @@ public class Kernel {
 		return conic;
 	}
 
-	/**
-	 * conic from coefficients
-	 * 
-	 * @param coeffList
-	 * @return
-	 */
-	final public GeoElement[] Conic(String label, GeoList coeffList) {
-		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label,
-				coeffList);
-
-		return new GeoElement[] { algo.getConic() };
-
-	}
 
 	/**
 	 * polar line to P relativ to c
@@ -4599,39 +4480,6 @@ public class Kernel {
 		AlgoDiameterVector algo = new AlgoDiameterVector(cons, label, c, v);
 		GeoLine diameter = algo.getDiameter();
 		return diameter;
-	}
-
-	/**
-	 * Determine whether point is inregion
-	 * 
-	 * @param label
-	 * @param pi
-	 * @param region
-	 * @return GeoBoolean which is true iff point is in region
-	 */
-	public GeoBoolean isInRegion(String label, GeoPointND pi, Region region) {
-		AlgoIsInRegion algo = new AlgoIsInRegion(cons, label, pi, region);
-		return algo.getResult();
-	}
-
-	public GeoElement[] Sequence(String label, GeoNumeric upTo) {
-		AlgoSequence algo = new AlgoSequence(cons, label, upTo);
-		return algo.getOutput();
-	}
-
-	public GeoElement[] Zip(String label, GeoElement expression,
-			GeoElement[] vars, GeoList[] over) {
-		// Application.debug("expr:"+expression+"label:"+label+"var:"+vars+"over:"+over);
-		AlgoZip algo = new AlgoZip(cons, label, expression, vars, over);
-		return algo.getOutput();
-	}
-
-	public GeoElement[] OrthogonalLineToConic(String label, GeoPoint geoPoint,
-			GeoConic conic) {
-		AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons, label,
-				geoPoint, conic);
-		GeoElement[] lines = algo.getOutput();
-		return lines;
 	}
 
 	private GeoVec2D imaginaryUnit;

@@ -2,6 +2,11 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDrawingPadCorner;
+import geogebra.common.kernel.algos.AlgoImageCorner;
+import geogebra.common.kernel.algos.AlgoTextCorner;
+import geogebra.common.kernel.algos.AlgoVertex;
+import geogebra.common.kernel.algos.AlgoVertexIneq;
+import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
@@ -38,39 +43,61 @@ public class CmdVertex extends CommandProcessor {
 		// Vertex[ <GeoConic> ]
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoConic())
-				return kernelA.Vertex(c.getLabels(), (GeoConic) arg[0]);
-			if (arg[0] instanceof GeoPoly)
-				return kernelA.Vertex(c.getLabels(), (GeoPoly) arg[0]);
-			if (arg[0] instanceof GeoFunctionNVar)
-				return kernelA.Vertex(c.getLabels(), (GeoFunctionNVar) arg[0]);
+			if (arg[0].isGeoConic()) {
+				
+				AlgoVertex algo = new AlgoVertex(cons, c.getLabels(), (GeoConic) arg[0]);
+
+				return algo.getVertex();
+			}
+			if (arg[0] instanceof GeoPoly) {
+				
+				AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
+
+				return algo.getVertex();
+			}
+			if (arg[0] instanceof GeoFunctionNVar) {
+				
+				AlgoVertexIneq algo = new AlgoVertexIneq(cons,c.getLabels(), (GeoFunctionNVar) arg[0]);
+
+				return algo.getVertex();
+			}
 			else if (arg[0].isNumberValue()) {
 				GeoElement[] ret = { CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[0], null) };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c.getName(), arg[0]);
+			}
 
 			// Corner[ <Image>, <number> ]
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoPoly))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.Vertex(c.getLabel(),
-						(GeoPoly) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, c.getLabel(),
+						(GeoPoly) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getOneVertex() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.Corner(c.getLabel(),
-						(GeoImage) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoImageCorner algo = new AlgoImageCorner(cons, c.getLabel(),
+						(GeoImage) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getCorner() };
 				return ret;
 			}
 			// Michael Borcherds 2007-11-26 BEGIN Corner[] for textboxes
 			// Corner[ <Text>, <number> ]
 			else if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.Corner(c.getLabel(),
-						(GeoText) arg[0], (NumberValue) arg[1]) };
+				
+				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
+						(GeoText) arg[0], (NumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getCorner() };
 				return ret;
 				// Michael Borcherds 2007-11-26 END
 			} else if ((ok[0] = (arg[0].isNumberValue()))
