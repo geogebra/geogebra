@@ -22,7 +22,7 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 		super(App.VIEW_DATA_ANALYSIS, 	// view id
 				"DataAnalysis", 		// view title phrase
 				getDefaultToolbar(), 	// toolbar string
-				false, 					// style bar?
+				true, 					// style bar?
 				-1, 					// menu order
 				'D' 					// menu shortcut
 		);

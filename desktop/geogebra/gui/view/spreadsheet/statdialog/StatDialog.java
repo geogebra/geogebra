@@ -345,7 +345,7 @@ public class StatDialog extends JPanel implements View, Printable,
 		// main panel
 		// ============================================
 		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.add(getStyleBar(), BorderLayout.NORTH);
+		//mainPanel.add(getStyleBar(), BorderLayout.NORTH);
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
 
 		if (mode == MODE_REGRESSION) {
