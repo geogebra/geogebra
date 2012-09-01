@@ -1,8 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAngleConic;
+import geogebra.common.kernel.algos.AlgoAngleNumeric;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -77,8 +80,11 @@ public class CmdAngle extends CommandProcessor {
 			}
 			// angle from number
 			else if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernelA.Angle(c.getLabel(),
-						(GeoNumeric) arg[0]) };
+				
+				AlgoAngleNumeric algo = new AlgoAngleNumeric(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
+
+				GeoElement[] ret = { algo.getAngle() };
 				return ret;
 			}
 			// angle from number
@@ -90,8 +96,11 @@ public class CmdAngle extends CommandProcessor {
 			// angle of conic or polygon
 			else {
 				if (arg[0].isGeoConic()) {
-					GeoElement[] ret = { kernelA.Angle(c.getLabel(),
-							(GeoConic) arg[0]) };
+					
+					AlgoAngleConic algo = new AlgoAngleConic(cons, c.getLabel(),
+							(GeoConic) arg[0]);
+
+					GeoElement[] ret = { algo.getAngle() };
 					return ret;
 				} else if (arg[0].isGeoPolygon()) {
 					return kernelA.Angles(c.getLabels(), (GeoPolygon) arg[0]);

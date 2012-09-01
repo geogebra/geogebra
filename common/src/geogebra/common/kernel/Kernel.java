@@ -3675,25 +3675,6 @@ public class Kernel {
 		return v;
 	}
 
-	/**
-	 * Conic label with equation ax��� + bxy + cy��� + dx + ey + f =
-	 * 0
-	 */
-	final public GeoConic Conic(String label, double a, double b, double c,
-			double d, double e, double f) {
-		double[] coeffs = { a, b, c, d, e, f };
-		GeoConic conic = new GeoConic(cons, label, coeffs);
-		return conic;
-	}
-
-	/**
-	 * Text dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. c = a & b
-	 */
-	final public GeoBoolean DependentBoolean(String label, ExpressionNode root) {
-		AlgoDependentBoolean algo = new AlgoDependentBoolean(cons, label, root);
-		return algo.getGeoBoolean();
-	}
 
 	/** Point on path with cartesian coordinates (x,y) */
 	final public GeoPoint Point(String label, Path path, double x, double y,
@@ -3745,83 +3726,7 @@ public class Kernel {
 	/********************
 	 * ALGORITHMIC PART *
 	 ********************/
-	/** Point anywhere on path with */
-	final public GeoPoint ClosestPoint(String label, Path path, GeoPoint p) {
-		AlgoClosestPoint algo = new AlgoClosestPoint(cons, label, path, p);
-		return algo.getP();
-	}
 
-	public GeoElement Point(String label, Path path) {
-
-		return Point(label, path, null);
-	}
-
-	/** Line a x + b y + c = 0 named label */
-	final public GeoLine Line(String label, double a, double b, double c) {
-		GeoLine line = new GeoLine(cons, label, a, b, c);
-		return line;
-	}
-
-	/** Converts number to angle */
-	final public GeoAngle Angle(String label, GeoNumeric num) {
-		AlgoAngleNumeric algo = new AlgoAngleNumeric(cons, label, num);
-		GeoAngle angle = algo.getAngle();
-		return angle;
-	}
-
-	/**
-	 * angle of c (angle between first eigenvector and (1,0))
-	 */
-	final public GeoAngle Angle(String label, GeoConic c) {
-		AlgoAngleConic algo = new AlgoAngleConic(cons, label, c);
-		GeoAngle angle = algo.getAngle();
-		return angle;
-	}
-
-	/**
-	 * Victor Franco Espino 18-04-2007: New commands
-	 * 
-	 * Calculate affine ratio: (A,B,C) = (t(C)-t(A)) : (t(C)-t(B))
-	 */
-
-	final public GeoNumeric AffineRatio(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C) {
-		AlgoAffineRatio affine = new AlgoAffineRatio(cons, label, A, B, C);
-		GeoNumeric M = affine.getResult();
-		return M;
-
-	}
-
-	/**
-	 * Function in x, e.g. f(x) = 4 x��� + 3 x���
-	 */
-	final public GeoFunction Function(String label, Function fun) {
-		GeoFunction f = new GeoFunction(cons, label, fun);
-		return f;
-	}
-
-	/**
-	 * Function in multiple variables, e.g. f(x,y) = 4 x^2 + 3 y^2
-	 */
-	final public GeoFunctionNVar FunctionNVar(String label, FunctionNVar fun) {
-		GeoFunctionNVar f = new GeoFunctionNVar(cons, label, fun);
-		return f;
-	}
-
-	/**
-	 * Interval in x, e.g. x > 3 && x < 6
-	 */
-	final public GeoInterval Interval(String label, Function fun) {
-		GeoInterval f = new GeoInterval(cons, label, fun);
-		return f;
-	}
-
-	final public GeoText Text(String label, String text) {
-		GeoText t = new GeoText(cons);
-		t.setTextString(text);
-		t.setLabel(label);
-		return t;
-	}
 
 	/**
 	 * Line named label through Points P and Q
@@ -3840,9 +3745,6 @@ public class Kernel {
 		return algo.getRay();
 	}
 
-	public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
-		return Ray(label, (GeoPoint) P, (GeoPoint) Q);
-	}
 
 	/**
 	 * Ray named label through Point P with direction of vector v
@@ -3879,14 +3781,6 @@ public class Kernel {
 				P, l);
 		GeoLine g = algo.getLine();
 		return g;
-	}
-
-	/**
-	 * @param direction
-	 */
-	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
-			GeoDirectionND direction) {
-		return OrthogonalLine(label, (GeoPoint) P, (GeoLine) l);
 	}
 
 	/**
@@ -3971,13 +3865,43 @@ public class Kernel {
 		return slope;
 	}
 
-	final public GeoBoolean Boolean(String label, boolean value) {
-		GeoBoolean b = new GeoBoolean(cons);
-		b.setValue(value);
-		b.setLabel(label);
-		return b;
+	/**
+	 * over-ridden in Kernel3D
+	 * 
+	 * @param transformedLabel
+	 * @param geoPointND
+	 * @param geoPointND2
+	 * @return
+	 */
+	public GeoRayND RayND(String transformedLabel, GeoPointND geoPointND,
+			GeoPointND geoPointND2) {
+		return Ray(transformedLabel, (GeoPoint)geoPointND,
+			(GeoPoint)geoPointND2);
+	}
+	
+	/**
+	 * over-ridden in Kernel3D
+	 * 
+	 * @param label
+	 * @param P
+	 * @param l
+	 * @param direction
+	 * @return
+	 */
+	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
+			GeoDirectionND direction) {
+		return OrthogonalLine(label, (GeoPoint) P, (GeoLine) l);
 	}
 
+	
+	/**
+	 * over-ridden in Kernel3D
+	 * 
+	 * @param label
+	 * @param P
+	 * @param Q
+	 * @return
+	 */
 	public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		return Segment(label, (GeoPoint) P, (GeoPoint) Q);
@@ -7605,5 +7529,7 @@ public class Kernel {
 		AlgoDivision algo = new AlgoDivision(cons,label,dividend,divisor);
 		return algo.getResult();
 	}
+
+
 
 }

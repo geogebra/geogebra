@@ -15,6 +15,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDependentBoolean;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
@@ -44,6 +45,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -1242,7 +1244,7 @@ public class AlgebraProcessor {
 				// opposite directions -> OK
 				if (leftDir * rightDir < 0) {
 					if (isIndependent) {
-						f = kernel.Interval(label, fun);
+						f = new GeoInterval(cons, label, fun);
 					} else {
 						f = kernel.DependentInterval(label, fun);
 					}
@@ -1273,7 +1275,7 @@ public class AlgebraProcessor {
 		}
 
 		if (isIndependent) {
-			f = kernel.Function(label, fun);
+			f = new GeoFunction(cons, label, fun);
 		} else {
 			f = kernel.DependentFunction(label, fun);
 		}
@@ -1297,7 +1299,7 @@ public class AlgebraProcessor {
 		boolean isIndependent = (vars == null || vars.length == 0);
 
 		if (isIndependent) {
-			ret[0] = kernel.FunctionNVar(label, fun);
+			ret[0] = new GeoFunctionNVar(cons, label, fun);
 		} else {
 			ret[0] = kernel.DependentFunctionNVar(label, fun);
 		}
@@ -1402,7 +1404,7 @@ public class AlgebraProcessor {
 			a = lhs.getCoeffValue("x");
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("");
-			line = kernel.Line(label, a, b, c);
+			line = new GeoLine(cons, label, a, b, c);
 		} else
 			line = kernel.DependentLine(label, equ);
 
@@ -1437,7 +1439,9 @@ public class AlgebraProcessor {
 			d = lhs.getCoeffValue("x");
 			e = lhs.getCoeffValue("y");
 			f = lhs.getCoeffValue("");
-			conic = kernel.Conic(label, a, b, c, d, e, f);
+			
+			double[] coeffs = { a, b, c, d, e, f };
+			conic = new GeoConic(cons, label, coeffs);
 		} else
 			conic = kernel.DependentConic(label, equ);
 		if (isExplicit) {
@@ -1740,10 +1744,17 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			MyStringBuffer val = ((TextValue) evaluate).getText();
-			ret[0] = kernel.Text(label, val.toValueString(StringTemplate.defaultTemplate));
+			ret[0] = Text(label, val.toValueString(StringTemplate.defaultTemplate));
 		} else
 			ret[0] = kernel.DependentText(label, n);
 		return ret;
+	}
+
+	final public GeoText Text(String label, String text) {
+		GeoText t = new GeoText(cons);
+		t.setTextString(text);
+		t.setLabel(label);
+		return t;
 	}
 
 	private GeoElement[] processBoolean(ExpressionNode n,
@@ -1754,10 +1765,14 @@ public class AlgebraProcessor {
 		boolean isIndependent = n.isConstant();
 
 		if (isIndependent) {
-			ret[0] = kernel.Boolean(label,
-					((BooleanValue) evaluate).getBoolean());
-		} else
-			ret[0] = kernel.DependentBoolean(label, n);
+			
+			ret[0] = new GeoBoolean(cons);
+			((GeoBoolean)ret[0]).setValue(((BooleanValue) evaluate).getBoolean());
+			ret[0].setLabel(label);
+
+		} else {
+			ret[0] = (new AlgoDependentBoolean(cons, label, n)).getGeoBoolean();
+		}
 		return ret;
 	}
 

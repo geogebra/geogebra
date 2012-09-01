@@ -41,7 +41,7 @@ public  GeoElement[] process(Command c) throws MyError {
                 return ret;
             } else if (arg[0].isPath()) {
                 GeoElement[] ret =
-                    { kernelA.Point(c.getLabel(), (Path) arg[0])};
+                    { kernelA.Point(c.getLabel(), (Path) arg[0], null)};
                 return ret;
             } else 
 				throw argErr(app, c.getName(), arg[0]);

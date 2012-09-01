@@ -1240,7 +1240,7 @@ public class PythonFlatAPI {
 	 * @return new Geo text
 	 */
 	public GeoText geoText(String text) {
-		return kernel.Text(null, text);
+		return kernel.getAlgebraProcessor().Text(null, text);
 	}
 
 	/**

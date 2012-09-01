@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoClosestPointLines;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -37,7 +38,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			// distance between two points
 			if ((ok[0] = (arg[0] instanceof Path))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.ClosestPoint(c.getLabel(),
+				GeoElement[] ret = { ClosestPoint(c.getLabel(),
 						(Path) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			}
@@ -45,7 +46,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			// distance between point and line
 			else if ((ok[1] = (arg[1] instanceof Path))
 					&& (ok[0] = (arg[0].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.ClosestPoint(c.getLabel(),
+				GeoElement[] ret = { ClosestPoint(c.getLabel(),
 						(Path) arg[1], (GeoPoint) arg[0]) };
 				return ret;
 			}
@@ -67,5 +68,11 @@ public class CmdClosestPoint extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/** Point anywhere on path with */
+	final private GeoPoint ClosestPoint(String label, Path path, GeoPoint p) {
+		AlgoClosestPoint algo = new AlgoClosestPoint(cons, label, path, p);
+		return algo.getP();
 	}
 }

@@ -866,7 +866,7 @@ public class PythonAPI {
 	 * @return new Geo text
 	 */
 	public Geo geoText(String text) {
-		return new Geo(kernel.Text(null, text));
+		return new Geo(kernel.getAlgebraProcessor().Text(null, text));
 	}
 
 	/**
