@@ -1138,7 +1138,16 @@ public class PythonFlatAPI {
 	 * @return new Geo point with coordinates (x, y)
 	 */
 	public GeoPoint geoPoint(double x, double y) {
-		return kernel.Point(null, x, y);
+		return Point(null, x, y);
+	}
+	
+	/** Point label with cartesian coordinates (x,y) */
+	final private GeoPoint Point(String label, double x, double y) {
+		GeoPoint p = new GeoPoint(cons);
+		p.setCoords(x, y, 1.0);
+		p.setMode(Kernel.COORD_CARTESIAN);
+		p.setLabel(label); // invokes add()
+		return p;
 	}
 
 	/**
