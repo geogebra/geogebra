@@ -127,7 +127,7 @@ public class DialogDataViewSettings extends JDialog implements ActionListener,
 		lblTitle.setIcon(app.getModeIcon(mode));
 
 		btnCancel.setText(app.getMenu("Cancel"));
-		btnOK.setText(app.getMenu("OK"));
+		btnOK.setText(app.getMenu("Analyze"));
 		dataSourcePanel.setLabels();
 	}
 
