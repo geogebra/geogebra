@@ -106,6 +106,8 @@ var commandKeysVar = {
 	ChiSquared:'',
 	ChiSquared_Syntax:'',
 	ChiSquared_SyntaxCAS:'',
+	ChiSquaredTest:'',
+	ChiSquaredTest_Syntax:'',
 	Circle:'',
 	Circle_Syntax:'',
 	CircleArc:'',

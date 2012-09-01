@@ -214,6 +214,12 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Degrees of Freedom>, <Variable> ]")
     String ChiSquared_SyntaxCAS();
 
+    @DefaultStringValue("ChiSquaredTest")
+    String ChiSquaredTest();
+
+    @DefaultStringValue("[ <Matrix> ]\n[ <List>, <List> ]\n[ <Matrix>, <Matrix> ]")
+    String ChiSquaredTest_Syntax();
+
     @DefaultStringValue("Circle")
     String Circle();
 
