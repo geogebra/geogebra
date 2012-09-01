@@ -486,8 +486,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	private void createButtons() {
 		
 		// button to show/hide styling bar and the title panel buttons
-		toggleStyleBarButton = new JButton(
-				app.getImageIcon("triangle-right.png"));
+		toggleStyleBarButton = new JButton();
 		toggleStyleBarButton.addActionListener(this);
 		toggleStyleBarButton.setFocusPainted(false);
 		toggleStyleBarButton.setBorderPainted(false);
@@ -496,14 +495,16 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		toggleStyleBarButton.setRolloverEnabled(true);
 
 		// button to show/hide styling bar if the title panel is invisible
-		toggleStyleBarButton2 = new JButton(
-				app.getImageIcon("triangle-right.png"));
+		toggleStyleBarButton2 = new JButton();
 		toggleStyleBarButton2.setFocusPainted(false);
 		toggleStyleBarButton2.setBorderPainted(false);
 		toggleStyleBarButton2.setContentAreaFilled(false);
 		toggleStyleBarButton2.setPreferredSize(new Dimension(12, 12));
 		toggleStyleBarButton2.addActionListener(this);
 		toggleStyleBarButton2.setRolloverEnabled(true);
+		
+		
+		updateToggleStyleBarButtons();
 
 		// button to insert the view in the main window
 		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
@@ -1112,6 +1113,11 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
 		
+		updateToggleStyleBarButtons();
+		
+	}
+	
+	private void updateToggleStyleBarButtons(){
 		if(toggleStyleBarButton != null) {
 			if(showStyleBar) {
 				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-down.png"));
@@ -1125,7 +1131,6 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
 			//toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
 		}
-		
 	}
 	
 	/**

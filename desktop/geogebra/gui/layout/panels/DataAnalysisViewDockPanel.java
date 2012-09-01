@@ -30,7 +30,10 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 		this.app = app;
 		this.setOpenInFrame(true);
 		this.setDialog(true);
+		this.setShowStyleBar(true);
+		
 	}
+	
 
 	
 	@Override
