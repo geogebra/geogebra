@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.dialog.options.OptionsUtil;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -63,14 +63,14 @@ public class DialogDataViewSettings extends JDialog implements ActionListener,
 		btnCancel = new JButton();
 		btnCancel.addActionListener(this);
 
-		JPanel titlePanel = OptionsUtil.flowPanel(lblTitle);
+		JPanel titlePanel = LayoutUtil.flowPanel(lblTitle);
 		//titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 		mainPanel.add(dataSourcePanel, BorderLayout.CENTER);
 		mainPanel.add(
-				OptionsUtil.flowPanelRight(5, 0, 0, btnCancel, btnOK),
+				LayoutUtil.flowPanelRight(5, 0, 0, btnCancel, btnOK),
 				BorderLayout.SOUTH);
 		
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));

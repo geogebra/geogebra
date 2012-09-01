@@ -5,9 +5,9 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
 import geogebra.main.AppD;
 
@@ -96,8 +96,8 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		// regression combo panel
 		JPanel cbPanel = new JPanel();
 		cbPanel.setLayout(new BoxLayout(cbPanel, BoxLayout.Y_AXIS));
-		cbPanel.add(OptionsUtil.flowPanel(cbRegression));
-		cbPanel.add(OptionsUtil.flowPanel(cbPolyOrder));
+		cbPanel.add(LayoutUtil.flowPanel(cbRegression));
+		cbPanel.add(LayoutUtil.flowPanel(cbPolyOrder));
 
 		// regression label panel
 		JPanel eqnPanel = new JPanel(new BorderLayout());

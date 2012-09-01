@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.spreadsheet.statdialog.StatTable;
 import geogebra.gui.view.spreadsheet.statdialog.StatisticsPanel;
 import geogebra.main.AppD;
@@ -125,9 +125,9 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	private void createControlPanel() {
 
 		controlPanel = new JPanel(new BorderLayout());
-		controlPanel.add(OptionsUtil.flowPanel(cbProcedure), BorderLayout.WEST);
+		controlPanel.add(LayoutUtil.flowPanel(cbProcedure), BorderLayout.WEST);
 		controlPanel
-				.add(OptionsUtil.flowPanel(btnCalculate), BorderLayout.EAST);
+				.add(LayoutUtil.flowPanel(btnCalculate), BorderLayout.EAST);
 
 	}
 
@@ -136,8 +136,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		testPanel = new JPanel();
 		testPanel.setLayout(new BoxLayout(testPanel, BoxLayout.Y_AXIS));
 
-		testPanel.add(OptionsUtil.flowPanel(lblNull, fldNullHyp));
-		testPanel.add(OptionsUtil.flowPanel(lblTailType, btnLeft, btnRight,
+		testPanel.add(LayoutUtil.flowPanel(lblNull, fldNullHyp));
+		testPanel.add(LayoutUtil.flowPanel(lblTailType, btnLeft, btnRight,
 				btnTwo));
 
 	}
@@ -147,7 +147,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		estimatePanel = new JPanel();
 		estimatePanel.setLayout(new BoxLayout(estimatePanel, BoxLayout.Y_AXIS));
 
-		estimatePanel.add(OptionsUtil.flowPanel(lblConfLevel, fldConfLevel));
+		estimatePanel.add(LayoutUtil.flowPanel(lblConfLevel, fldConfLevel));
 
 	}
 
@@ -156,9 +156,9 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		JPanel p1 = new JPanel();
 
 		p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-		p1.add(OptionsUtil.flowPanelRight(0, 0, 0, lblSampleHeader1));
+		p1.add(LayoutUtil.flowPanelRight(0, 0, 0, lblSampleHeader1));
 		for (int i = 0; i < lblSampleStat1.length; i++) {
-			p1.add(OptionsUtil.flowPanelRight(4, 0, 0, lblSampleStat1[i],
+			p1.add(LayoutUtil.flowPanelRight(4, 0, 0, lblSampleStat1[i],
 					fldSampleStat1[i]));
 		}
 

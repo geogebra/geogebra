@@ -1,7 +1,7 @@
 package geogebra.gui.color;
 
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.gui.dialog.options.OptionsUtil;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -198,7 +198,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		customPanel = new JPanel(new BorderLayout());
 		customPanel.add(lblCustom, BorderLayout.NORTH);
 		customPanel.add(customSwatchPanel, BorderLayout.CENTER);
-		customPanel.add(OptionsUtil.flowPanel(0, 2, 0, btnCustomColor),
+		customPanel.add(LayoutUtil.flowPanel(0, 2, 0, btnCustomColor),
 				BorderLayout.SOUTH);
 		customPanel.setMaximumSize(getPreferredSize());
 

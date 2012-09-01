@@ -6,6 +6,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.Font;
@@ -69,22 +70,22 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				setLayout(new FullWidthLayout());
 				
 				String strAxisEn = getString();		
-				this.setBorder(OptionsUtil.titleBorder(app.getPlain(strAxisEn)));	
+				this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));	
 										
 				// show axis
 				cbShowAxis = new JCheckBox(app.getPlain("Show"+strAxisEn));	
 				cbShowAxis.addActionListener(this);		
-				JPanel showAxisPanel = OptionsUtil.flowPanel(cbShowAxis);
+				JPanel showAxisPanel = LayoutUtil.flowPanel(cbShowAxis);
 				
 				// show numbers
 				cbAxisNumber = new JCheckBox(app.getPlain("ShowAxisNumbers"));	
 				cbAxisNumber.addActionListener(this);
-				JPanel numberPanel = OptionsUtil.flowPanel(cbAxisNumber);
+				JPanel numberPanel = LayoutUtil.flowPanel(cbAxisNumber);
 				
 				// show positive axis only
 				cbPositiveAxis = new JCheckBox(app.getPlain("PositiveDirectionOnly"));
 				cbPositiveAxis.addActionListener(this);
-				JPanel showPosPanel = OptionsUtil.flowPanel(cbPositiveAxis);
+				JPanel showPosPanel = LayoutUtil.flowPanel(cbPositiveAxis);
 				
 				// ticks	
 				axisTicks = new JLabel(app.getPlain("AxisTicks") + ":");
@@ -96,14 +97,14 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				cbTickStyle.addItem(""); // no ticks
 				cbTickStyle.addActionListener(this);
 				cbTickStyle.setEditable(false);
-				JPanel showTicksPanel = OptionsUtil.flowPanel(axisTicks,cbTickStyle);
+				JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks,cbTickStyle);
 										
 				// distance
 				cbManualTicks = new JCheckBox(app.getPlain("TickDistance") + ":");
 				cbManualTicks.addActionListener(this);
 				ncbTickDist = new NumberComboBox(app);
 				ncbTickDist.addItemListener(this);
-				JPanel distancePanel = OptionsUtil.flowPanel(cbManualTicks,ncbTickDist);
+				JPanel distancePanel = LayoutUtil.flowPanel(cbManualTicks,ncbTickDist);
 				
 				// axis and unit label
 				cbAxisLabel = new JComboBox();
@@ -129,7 +130,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				cbUnitLabel.addItem("km");
 				cbUnitLabel.addActionListener(this);
 				
-				JPanel labelPanel = OptionsUtil.flowPanel(axisLabel, cbAxisLabel, axisUnitLabel,cbUnitLabel);
+				JPanel labelPanel = LayoutUtil.flowPanel(axisLabel, cbAxisLabel, axisUnitLabel,cbUnitLabel);
 				
 				// cross at and stick to edge
 				tfCross = new MyTextField(app,6);
@@ -139,7 +140,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				cbDrawAtBorder.addActionListener(this);
 				stickToEdge = new JLabel(app.getPlain("StickToEdge"));
 				
-				JPanel crossPanel  = OptionsUtil.flowPanel(crossAt, tfCross,cbDrawAtBorder,stickToEdge);
+				JPanel crossPanel  = LayoutUtil.flowPanel(crossAt, tfCross,cbDrawAtBorder,stickToEdge);
 				
 							
 				// add all panels
@@ -366,8 +367,8 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 
 			public void setLabels() {
 				String strAxisEn = getString();		
-				this.setBorder(OptionsUtil.titleBorder(app.getPlain(strAxisEn)));	
-				this.setBorder(OptionsUtil.titleBorder(null));
+				this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));	
+				this.setBorder(LayoutUtil.titleBorder(null));
 				cbShowAxis.setText(app.getPlain("Show"+strAxisEn));		
 				cbAxisNumber.setText(app.getPlain("ShowAxisNumbers"));					
 				cbManualTicks.setText(app.getPlain("TickDistance") + ":");

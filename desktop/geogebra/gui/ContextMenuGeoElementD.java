@@ -31,9 +31,9 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -788,7 +788,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		title.setBorder(BorderFactory.createEmptyBorder(5, 0, 2, 15)); 
 		
 		// wrap title JLabel in a panel to prevent unneeded spacing
-		wrappedPopup.add(OptionsUtil.flowPanel(0,0,0,title));
+		wrappedPopup.add(LayoutUtil.flowPanel(0,0,0,title));
 		wrappedPopup.addSeparator();   
 
 		title.addMouseListener(new MouseAdapter() {

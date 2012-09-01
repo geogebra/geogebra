@@ -6,6 +6,7 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -179,7 +180,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 
 		// add components
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
-		wrappedPanel.add(OptionsUtil.flowPanel(0, 0, 20, defaultsButton),
+		wrappedPanel.add(LayoutUtil.flowPanel(0, 0, 20, defaultsButton),
 				BorderLayout.SOUTH);
 	}
 

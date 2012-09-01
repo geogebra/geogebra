@@ -1,4 +1,4 @@
-package geogebra.gui.dialog.options;
+package geogebra.gui.util;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-public class OptionsUtil {
+public class LayoutUtil {
 
 	private static int defaultHgap = 2;
 	private static int defaultVgap = 3;

@@ -27,6 +27,7 @@ import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 
@@ -237,13 +238,13 @@ public class OptionsEuclidianD extends
 		dimPanel = new JPanel();
 		dimPanel.setLayout(new BoxLayout(dimPanel, BoxLayout.Y_AXIS));
 
-		dimPanel.add(OptionsUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1],
+		dimPanel.add(LayoutUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1],
 				tfMaxX));
-		dimPanel.add(OptionsUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3],
+		dimPanel.add(LayoutUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3],
 				tfMaxY));
 
-		dimPanel.add(OptionsUtil.flowPanel(axesRatioLabel));
-		dimPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),
+		dimPanel.add(LayoutUtil.flowPanel(axesRatioLabel));
+		dimPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
 				tfAxesRatioX, new JLabel(" : "), tfAxesRatioY, cbLockRatio));
 	}
 
@@ -273,8 +274,8 @@ public class OptionsEuclidianD extends
 		axesOptionsPanel = new JPanel();
 		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel,
 				BoxLayout.Y_AXIS));
-		axesOptionsPanel.add(OptionsUtil.flowPanel(cbShowAxes));
-		axesOptionsPanel.add(OptionsUtil.flowPanel(color, btAxesColor,
+		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes));
+		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
 				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
 	}
 
@@ -299,9 +300,9 @@ public class OptionsEuclidianD extends
 		miscPanel = new JPanel();
 		miscPanel.setLayout(new BoxLayout(miscPanel, BoxLayout.Y_AXIS));
 		miscPanel
-				.add(OptionsUtil.flowPanel(backgroundColor, btBackgroundColor));
-		miscPanel.add(OptionsUtil.flowPanel(tooltips, cbTooltips));
-		miscPanel.add(OptionsUtil.flowPanel(cbShowMouseCoords));
+				.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
+		miscPanel.add(LayoutUtil.flowPanel(tooltips, cbTooltips));
+		miscPanel.add(LayoutUtil.flowPanel(cbShowMouseCoords));
 
 	}
 
@@ -358,14 +359,14 @@ public class OptionsEuclidianD extends
 		gridLabel3 = new JLabel("\u03B8" + ":"); // Theta
 		gridLabel3.setLabelFor(cbGridTickAngle);
 
-		JPanel tickPanel = OptionsUtil.flowPanel(cbGridManualTick, gridLabel1,
+		JPanel tickPanel = LayoutUtil.flowPanel(cbGridManualTick, gridLabel1,
 				ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
 				cbGridTickAngle);
 		typePanel = new JPanel();
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.Y_AXIS));
-		typePanel.add(OptionsUtil.flowPanel(cbGridType));
-		typePanel.add(OptionsUtil.flowPanel(cbGridManualTick));
-		typePanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),
+		typePanel.add(LayoutUtil.flowPanel(cbGridType));
+		typePanel.add(LayoutUtil.flowPanel(cbGridManualTick));
+		typePanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
 				gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
 				cbGridTickAngle));
 
@@ -392,9 +393,9 @@ public class OptionsEuclidianD extends
 		stylePanel = new JPanel();
 		stylePanel.setLayout(new BoxLayout(stylePanel, BoxLayout.Y_AXIS));
 
-		stylePanel.add(OptionsUtil.flowPanel(cbGridStyle));
+		stylePanel.add(LayoutUtil.flowPanel(cbGridStyle));
 		stylePanel
-				.add(OptionsUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
+				.add(LayoutUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
 
 	}
 
@@ -407,7 +408,7 @@ public class OptionsEuclidianD extends
 		// show grid
 		cbShowGrid = new JCheckBox(app.getPlain("ShowGrid"));
 		cbShowGrid.addActionListener(this);
-		JPanel showGridPanel = OptionsUtil.flowPanel(cbShowGrid);
+		JPanel showGridPanel = LayoutUtil.flowPanel(cbShowGrid);
 
 		initGridTypePanel();
 		initGridStylePanel();
@@ -589,7 +590,7 @@ public class OptionsEuclidianD extends
 	}
 
 	public void setLabels() {
-		typePanel.setBorder(OptionsUtil.titleBorder(app.getPlain("GridType")));
+		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
 
 		int index = cbGridType.getSelectedIndex();
 		cbGridType.removeActionListener(this);
@@ -602,7 +603,7 @@ public class OptionsEuclidianD extends
 
 		cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
 		stylePanel
-				.setBorder(OptionsUtil.titleBorder(app.getPlain("LineStyle")));
+				.setBorder(LayoutUtil.titleBorder(app.getPlain("LineStyle")));
 
 		// color
 		lblColor.setText(app.getPlain("Color") + ":");
@@ -632,7 +633,7 @@ public class OptionsEuclidianD extends
 		
 
 		// construction protocol panel
-		consProtocolPanel.setBorder(OptionsUtil.titleBorder(app
+		consProtocolPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("ConstructionProtocolNavigation")));
 		ckShowNavbar.setText(app.getPlain("Show"));
 		ckNavPlay.setText(app.getPlain("PlayButton"));
@@ -672,10 +673,10 @@ public class OptionsEuclidianD extends
 		cbTooltips.setSelectedIndex(index);
 		cbTooltips.addActionListener(this);
 
-		dimPanel.setBorder(OptionsUtil.titleBorder(app.getPlain("Dimensions")));
+		dimPanel.setBorder(LayoutUtil.titleBorder(app.getPlain("Dimensions")));
 		axesOptionsPanel
-				.setBorder(OptionsUtil.titleBorder(app.getMenu("Axes")));
-		miscPanel.setBorder(OptionsUtil.titleBorder(app
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("Axes")));
+		miscPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Miscellaneous")));
 
 		cbShowAxes.setText(app.getPlain("ShowAxes"));
@@ -1083,7 +1084,7 @@ public class OptionsEuclidianD extends
 
 		Font font = app.getPlainFont();
 		
-		typePanel.setBorder(OptionsUtil.titleBorder(app.getPlain("GridType")));
+		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
 
 		cbGridType.setFont(font);
 
@@ -1171,17 +1172,17 @@ public class OptionsEuclidianD extends
 
 		ckShowNavbar = new JCheckBox();
 		ckShowNavbar.addActionListener(showConsProtNavigationAction);
-		consProtocolPanel.add(OptionsUtil.flowPanel(ckShowNavbar));
+		consProtocolPanel.add(LayoutUtil.flowPanel(ckShowNavbar));
 
 		int tab = 20;
 		ckNavPlay = new JCheckBox();
 		ckNavPlay.addActionListener(showConsProtNavigationPlayAction);
-		consProtocolPanel.add(OptionsUtil.flowPanel(tab, ckNavPlay));
+		consProtocolPanel.add(LayoutUtil.flowPanel(tab, ckNavPlay));
 
 		ckOpenConsProtocol = new JCheckBox();
 		ckOpenConsProtocol
 				.addActionListener(showConsProtNavigationOpenProtAction);
-		consProtocolPanel.add(OptionsUtil.flowPanel(tab, ckOpenConsProtocol));
+		consProtocolPanel.add(LayoutUtil.flowPanel(tab, ckOpenConsProtocol));
 
 	}
 	

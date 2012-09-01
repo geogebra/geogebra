@@ -2,8 +2,8 @@ package geogebra.gui.dialog;
 
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.menubar.LanguageActionListener;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -173,7 +173,7 @@ public class LanguageDialog extends JDialog {
 
 			bg.add(mi);
 
-			JPanel item = OptionsUtil.flowPanel(2, 0, 10, lbl, mi);
+			JPanel item = LayoutUtil.flowPanel(2, 0, 10, lbl, mi);
 			item.setBackground(Color.white);
 			item.setOpaque(true);
 			// item.setBorder(BorderFactory.createEmptyBorder(2, 20, 2, 2));

@@ -5,8 +5,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 import geogebra.util.Validation;
 
@@ -249,11 +249,11 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		sourceControlPanel.removeAll();
 		if (mode == StatDialog.MODE_MULTIVAR) {
 			sourceControlPanel.add(
-					OptionsUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
+					LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
 					BorderLayout.WEST);
 		}
 		sourceControlPanel.add(
-				OptionsUtil.flowPanel(0, 0, 0, btnClear, btnOptions),
+				LayoutUtil.flowPanel(0, 0, 0, btnClear, btnOptions),
 				BorderLayout.EAST);
 
 	}
@@ -272,16 +272,16 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 		if (mode == StatDialog.MODE_ONEVAR) {
 
-			dataTypePanel.add(OptionsUtil.flowPanel(tab, cbDataType));
-			dataTypePanel.add(OptionsUtil.flowPanel(tab, cbSourceType));
+			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbDataType));
+			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbSourceType));
 
 		} else if (mode == StatDialog.MODE_REGRESSION) {
-			dataTypePanel.add(OptionsUtil.flowPanel(tab, cbDataType));
+			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbDataType));
 		} else {
-			dataTypePanel.add(OptionsUtil.flowPanel(tab, cbSourceType));
+			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbSourceType));
 		}
 
-		dataTypePanel.add(OptionsUtil.flowPanel(tab, ckHeader));
+		dataTypePanel.add(LayoutUtil.flowPanel(tab, ckHeader));
 		// dataTypePanel.add(OptionsUtil.flowPanel(tab, btnOptions));
 
 		// controlPanel.add(OptionsUtil.flowPanel(lblTitle), BorderLayout.WEST);
@@ -298,9 +298,9 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		classesPanel = new JPanel();
 		classesPanel.setLayout(new BoxLayout(classesPanel, BoxLayout.Y_AXIS));
 
-		classesPanel.add(OptionsUtil.flowPanelRight(0, 0, 20, lblStart,
+		classesPanel.add(LayoutUtil.flowPanelRight(0, 0, 20, lblStart,
 				fldStart));
-		classesPanel.add(OptionsUtil.flowPanelRight(0, 0, 20, lblWidth,
+		classesPanel.add(LayoutUtil.flowPanelRight(0, 0, 20, lblWidth,
 				fldWidth));
 	}
 

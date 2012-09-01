@@ -3,8 +3,9 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.settings.Settings;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;
+import geogebra.gui.util.LayoutUtil;
+import geogebra.gui.util.LayoutUtil.TitlePanel;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -125,11 +126,11 @@ public class OptionsLayoutD extends
 
 		ckShowTitleBar = new JCheckBox();
 		ckShowTitleBar.addActionListener(this);
-		perspectivesPanel.add(OptionsUtil.flowPanel(ckShowTitleBar));
+		perspectivesPanel.add(LayoutUtil.flowPanel(ckShowTitleBar));
 
 		ckAllowStyleBar = new JCheckBox();
 		ckAllowStyleBar.addActionListener(this);
-		perspectivesPanel.add(OptionsUtil.flowPanel(ckAllowStyleBar));
+		perspectivesPanel.add(LayoutUtil.flowPanel(ckAllowStyleBar));
 
 	}
 
@@ -162,13 +163,13 @@ public class OptionsLayoutD extends
 		lblInputBarPosition = new JLabel();
 
 		inputBarPanel
-				.add(OptionsUtil.flowPanel(ckShowInputBar,
+				.add(LayoutUtil.flowPanel(ckShowInputBar,
 						Box.createHorizontalStrut(5), rbInputBarNorth,
 						rbInputBarSouth));
 
 		ckShowInputHelp = new JCheckBox();
 		ckShowInputHelp.addActionListener(this);
-		inputBarPanel.add(OptionsUtil.flowPanel(tab, ckShowInputHelp));
+		inputBarPanel.add(LayoutUtil.flowPanel(tab, ckShowInputHelp));
 
 	}
 
@@ -205,7 +206,7 @@ public class OptionsLayoutD extends
 
 		lblSidebarPosition = new JLabel();
 
-		sideBarPanel.add(OptionsUtil.flowPanel(ckShowSideBar,
+		sideBarPanel.add(LayoutUtil.flowPanel(ckShowSideBar,
 				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
 	
 		// Don't show perspective/viewButton option (saved for 5.0 development)
@@ -218,11 +219,11 @@ public class OptionsLayoutD extends
 	 */
 	private void initMenuBarPanel() {
 
-		menuBarPanel = new OptionsUtil.TitlePanel();
+		menuBarPanel = new LayoutUtil.TitlePanel();
 
 		ckShowMenuBar = new JCheckBox();
 		ckShowMenuBar.addActionListener(this);
-		menuBarPanel.add(OptionsUtil.flowPanel(ckShowMenuBar));
+		menuBarPanel.add(LayoutUtil.flowPanel(ckShowMenuBar));
 	}
 
 	/**
@@ -264,12 +265,12 @@ public class OptionsLayoutD extends
 		toolBarPosGroup.add(rbToolbarWest);
 
 		lblInputBarPosition = new JLabel();
-		toolbarPanel.add(OptionsUtil.flowPanel(ckShowToolbar,
+		toolbarPanel.add(LayoutUtil.flowPanel(ckShowToolbar,
 				Box.createHorizontalStrut(5), rbToolbarNorth,
 				Box.createHorizontalStrut(5), rbToolbarSouth,
 				Box.createHorizontalStrut(5), rbToolbarWest,
 				Box.createHorizontalStrut(5), rbToolbarEast));
-		toolbarPanel.add(OptionsUtil.flowPanel(tab, ckShowToolHelp));
+		toolbarPanel.add(LayoutUtil.flowPanel(tab, ckShowToolHelp));
 
 	}
 
@@ -429,20 +430,20 @@ public class OptionsLayoutD extends
 	public void setLabels() {
 
 		// input bar panel
-		inputBarPanel.setBorder(OptionsUtil.titleBorder(app
+		inputBarPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("InputField")));
 		ckShowInputBar.setText(app.getMenu("Show"));
 		ckShowInputHelp.setText(app.getMenu("CmdList"));
 		lblInputBarPosition.setText(app.getMenu("Position"));
 
 		// tool bar panel
-		toolbarPanel.setBorder(OptionsUtil.titleBorder(app.getMenu("Toolbar")));
+		toolbarPanel.setBorder(LayoutUtil.titleBorder(app.getMenu("Toolbar")));
 		ckShowToolbar.setText(app.getMenu("Show"));
 		ckShowToolHelp.setText(app.getMenu("ShowToolBarHelp"));
 
 		// perspectives panel
 		perspectivesPanel
-				.setBorder(OptionsUtil.titleBorder(app.getMenu("View")));
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("View")));
 		// ckIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
 		ckShowTitleBar.setText(app.getPlain("ShowTitleBar"));
 		ckAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
@@ -454,7 +455,7 @@ public class OptionsLayoutD extends
 
 		// side bar panel
 		sideBarPanel
-				.setBorder(OptionsUtil.titleBorder(app.getMenu("Sidebar")));
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("Sidebar")));
 		ckShowSideBar.setText(app.getMenu("ShowSidebar"));
 		rbPespectiveSidebar.setText(app.getMenu("PerspectivePanel"));
 		rbButtonSidebar.setText(app.getMenu("ViewPanel"));

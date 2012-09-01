@@ -62,8 +62,8 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
 import geogebra.main.AppD;
@@ -420,7 +420,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			plotPanel.setBorder(BorderFactory.createEmptyBorder());
 
 			// plot label panel
-			JPanel plotLabelPanel = OptionsUtil.flowPanelRight(0, 0, 0,
+			JPanel plotLabelPanel = LayoutUtil.flowPanelRight(0, 0, 0,
 					lblMeanSigma, Box.createHorizontalStrut(10));
 			plotLabelPanel.setBorder(BorderFactory
 					.createEmptyBorder(4, 0, 4, 0));
@@ -577,7 +577,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// interval panel
 
-		JPanel tb = OptionsUtil.flowPanel(0, 0, 0, btnIntervalLeft,
+		JPanel tb = LayoutUtil.flowPanel(0, 0, 0, btnIntervalLeft,
 				btnIntervalBetween, btnIntervalRight);
 		// tb.setFloatable(false);
 		// tb.add(btnIntervalLeft);
@@ -586,18 +586,18 @@ public class ProbabilityCalculator extends JPanel implements View,
 		// tb.addSeparator();
 
 		JPanel p = new JPanel(new BorderLayout(0, 0));
-		p.add(OptionsUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
+		p.add(LayoutUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
 				BorderLayout.WEST);
-		p.add(OptionsUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
+		p.add(LayoutUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
 				Box.createHorizontalStrut(10)), BorderLayout.EAST);
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 		controlPanel
-				.add(OptionsUtil.flowPanel(0, 0, 0, btnCumulative, cbPanel));
-		controlPanel.add(OptionsUtil.flowPanel(4, 5, 20, parameterPanel));
-		controlPanel.add(OptionsUtil.flowPanel(2, 5, 0, tb));
-		controlPanel.add(OptionsUtil.flowPanel(4, 5, 20, lblProbOf, fldLow,
+				.add(LayoutUtil.flowPanel(0, 0, 0, btnCumulative, cbPanel));
+		controlPanel.add(LayoutUtil.flowPanel(4, 5, 20, parameterPanel));
+		controlPanel.add(LayoutUtil.flowPanel(2, 5, 0, tb));
+		controlPanel.add(LayoutUtil.flowPanel(4, 5, 20, lblProbOf, fldLow,
 				lblBetween, fldHigh, lblEndProbOf, fldResult));
 
 	}

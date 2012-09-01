@@ -12,6 +12,7 @@ import geogebra.common.util.Language;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FullWidthLayout;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -185,10 +186,10 @@ public class OptionsAdvancedD extends
 				BoxLayout.Y_AXIS));
 
 		keyboardLanguageLabel = new JLabel();
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(keyboardLanguageLabel));
+		virtualKeyboardPanel.add(LayoutUtil.flowPanel(keyboardLanguageLabel));
 		cbKeyboardLanguage = new JComboBox();
 		// listener to this combo box is added in setLabels()
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(
+		virtualKeyboardPanel.add(LayoutUtil.flowPanel(
 				Box.createHorizontalStrut(20), cbKeyboardLanguage));
 
 		widthLabel = new JLabel();
@@ -198,7 +199,7 @@ public class OptionsAdvancedD extends
 		tfKeyboardHeight = new JTextField(3);
 		tfKeyboardHeight.addFocusListener(this);
 
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(widthLabel,
+		virtualKeyboardPanel.add(LayoutUtil.flowPanel(widthLabel,
 				tfKeyboardWidth, new JLabel("px"),
 				Box.createHorizontalStrut(10), heightLabel, tfKeyboardHeight,
 				new JLabel("px")));
@@ -211,7 +212,7 @@ public class OptionsAdvancedD extends
 				.getPreferredSize().getHeight()));
 		// listener added in updateGUI()
 		opacityLabel.setLabelFor(slOpacity);
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(cbKeyboardShowAutomatic,
+		virtualKeyboardPanel.add(LayoutUtil.flowPanel(cbKeyboardShowAutomatic,
 				opacityLabel, slOpacity));
 
 	}
@@ -260,11 +261,11 @@ public class OptionsAdvancedD extends
 		tooltipPanel.setLayout(new BoxLayout(tooltipPanel, BoxLayout.Y_AXIS));
 
 		tooltipLanguageLabel = new JLabel();
-		tooltipPanel.add(OptionsUtil.flowPanel(tooltipLanguageLabel));
+		tooltipPanel.add(LayoutUtil.flowPanel(tooltipLanguageLabel));
 		cbTooltipLanguage = new JComboBox();
 		cbTooltipLanguage.setRenderer(new LanguageRenderer(app));
 		// listener to this combo box is added in setLabels()
-		tooltipPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),
+		tooltipPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
 				cbTooltipLanguage));
 
 		tooltipTimeoutLabel = new JLabel();
@@ -277,7 +278,7 @@ public class OptionsAdvancedD extends
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
 
-		tooltipPanel.add(OptionsUtil.flowPanel(tooltipTimeoutLabel,
+		tooltipPanel.add(LayoutUtil.flowPanel(tooltipTimeoutLabel,
 				cbTooltipTimeout));
 	}
 
@@ -297,7 +298,7 @@ public class OptionsAdvancedD extends
 
 		cbIgnoreDocumentLayout = new JCheckBox();
 		cbIgnoreDocumentLayout.addActionListener(this);
-		perspectivesPanel.add(OptionsUtil.flowPanel(cbIgnoreDocumentLayout));
+		perspectivesPanel.add(LayoutUtil.flowPanel(cbIgnoreDocumentLayout));
 
 	}
 
@@ -802,7 +803,7 @@ public class OptionsAdvancedD extends
 	 * Update the language of the user interface.
 	 */
 	public void setLabels() {
-		virtualKeyboardPanel.setBorder(OptionsUtil.titleBorder(app
+		virtualKeyboardPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("VirtualKeyboard")));
 		keyboardLanguageLabel.setText(app.getPlain("VirtualKeyboardLanguage")
 				+ ":");
@@ -811,41 +812,41 @@ public class OptionsAdvancedD extends
 		cbKeyboardShowAutomatic.setText(app.getPlain("ShowAutomatically"));
 		opacityLabel.setText(app.getMenu("Opacity") + ":");
 
-		guiFontsizePanel.setBorder(OptionsUtil.titleBorder(app
+		guiFontsizePanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("FontSize")));
 		guiFontSizeLabel.setText(app.getMenu("GUIFontSize") + ":");
 
 		tooltipPanel
-				.setBorder(OptionsUtil.titleBorder(app.getPlain("Tooltips")));
+				.setBorder(LayoutUtil.titleBorder(app.getPlain("Tooltips")));
 		tooltipLanguageLabel.setText(app.getPlain("TooltipLanguage") + ":");
 		tooltipTimeoutLabel.setText(app.getPlain("TooltipTimeout") + ":");
 
 		languagePanel
-				.setBorder(OptionsUtil.titleBorder(app.getMenu("Language")));
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("Language")));
 		cbUseLocalDigits.setText(app.getPlain("LocalizedDigits"));
 		cbUseLocalLabels.setText(app.getPlain("LocalizedLabels"));
 
-		angleUnitPanel.setBorder(OptionsUtil.titleBorder(app
+		angleUnitPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("AngleUnit")));
 		angleUnitRadioDegree.setText(app.getMenu("Degree"));
 		angleUnitRadioRadian.setText(app.getMenu("Radiant"));
 
-		continuityPanel.setBorder(OptionsUtil.titleBorder(app
+		continuityPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("Continuity")));
 		continuityRadioOn.setText(app.getMenu("on"));
 		continuityRadioOff.setText(app.getMenu("off"));
 
-		usePathAndRegionParametersPanel.setBorder(OptionsUtil.titleBorder(app
+		usePathAndRegionParametersPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("UsePathAndRegionParameters")));
 		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
 
-		checkboxSizePanel.setBorder(OptionsUtil.titleBorder(app
+		checkboxSizePanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("CheckboxSize")));
 		checkboxSizeRadioRegular.setText(app.getMenu("CheckboxSize.Regular"));
 		checkboxSizeRadioLarge.setText(app.getMenu("CheckboxSize.Large"));
 
-		rightAnglePanel.setBorder(OptionsUtil.titleBorder(app
+		rightAnglePanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("RightAngleStyle")));
 		rightAngleRadio1.setText(app.getMenu(app.getPlain("off")));
 		rightAngleRadio2.setText("\u25a1");
@@ -853,19 +854,19 @@ public class OptionsAdvancedD extends
 		rightAngleRadio4.setText("\u2335");
 		rightAngleRadio4.setFont(app.getFontCanDisplayAwt("\u2335"));
 
-		coordinatesPanel.setBorder(OptionsUtil.titleBorder(app
+		coordinatesPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Coordinates")));
 		coordinatesRadio1.setText(app.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(app.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(app.getMenu("A: (x, y)"));
 
-		perspectivesPanel.setBorder(OptionsUtil.titleBorder(app
+		perspectivesPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("Perspectives")));
 		cbIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
 		cbShowTitleBar.setText(app.getPlain("ShowTitleBar"));
 		cbAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
 
-		miscPanel.setBorder(OptionsUtil.titleBorder(app
+		miscPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Miscellaneous")));
 		cbEnableScripting.setText(app.getPlain("EnableScripting"));
 		// cbEnableScripting.setSelected(b)
