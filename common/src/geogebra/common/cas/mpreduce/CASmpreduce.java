@@ -462,6 +462,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "df(acos(~x),x) => -1/sqrt(1-x^2),"
 				+ "df(ifelsefun(~a,~b,~c),~x) => ifelsefun(a,df(b,x),df(c,x)),"
 				+ "df(iffun(~a,~b,~c),~x) => iffun(a,df(b,x),df(c,x))};");
+		
+		mpreduce1.evaluate("let { limit(~x^~n,~n,infinity) => infinity when numberp(~x) and ~x > 1,"
+				+ "  limit(~x^~n,~n,infinity) => 0 when numberp(~x) and abs(~x) < 1,"
+				+ "  limit(~x^~n,~n,-infinity) => 1 when numberp(~x) and ~x > 1,"
+				+ "  limit(~x^~n,~n,-infinity) => infinity when numberp(~x) and ~x > 0 and ~x < 1};");
 
 		mpreduce1
 				.evaluate("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
