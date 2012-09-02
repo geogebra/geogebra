@@ -14,6 +14,10 @@ import geogebra.common.kernel.discrete.CmdShortestDistance;
 import geogebra.common.kernel.discrete.CmdTravelingSalesman;
 import geogebra.common.kernel.discrete.CmdVoronoi;
 
+/**
+ * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ *
+ */
 public class CommandDispatcherDiscrete {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){

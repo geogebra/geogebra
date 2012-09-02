@@ -3,6 +3,10 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.statistics.*;
 
+/**
+ * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ *
+ */
 public class CommandDispatcherStats {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){

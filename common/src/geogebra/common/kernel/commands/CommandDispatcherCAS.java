@@ -24,6 +24,10 @@ import geogebra.common.kernel.cas.CmdTrigExpand;
 import geogebra.common.kernel.cas.CmdTrigSimplify;
 import geogebra.common.kernel.locusequ.CmdLocusEquation;
 
+/**
+ * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ *
+ */
 public class CommandDispatcherCAS {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
