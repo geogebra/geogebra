@@ -14,6 +14,7 @@ package geogebra.common.kernel.discrete;
 
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.GraphAlgo;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.discrete;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.GraphAlgo;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;

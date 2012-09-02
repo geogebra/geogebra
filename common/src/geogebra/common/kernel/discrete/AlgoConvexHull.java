@@ -15,6 +15,7 @@ package geogebra.common.kernel.discrete;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GPoint2D.Double;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.GraphAlgo;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
