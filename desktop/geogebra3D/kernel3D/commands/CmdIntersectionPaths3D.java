@@ -3,8 +3,8 @@ package geogebra3D.kernel3D.commands;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.advanced.CmdIntersectionPaths;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdIntersectionPaths;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;

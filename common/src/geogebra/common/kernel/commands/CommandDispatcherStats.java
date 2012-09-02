@@ -6,6 +6,10 @@ import geogebra.common.kernel.statistics.*;
 public class CommandDispatcherStats {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
+		case RandomElement:
+			return new CmdRandomElement(kernel);
+		case RandomPolynomial:
+			return new CmdRandomPolynomial(kernel);
 		case Classes:
 			return new CmdClasses(kernel);
 		case OrdinalRank:
@@ -70,8 +74,11 @@ public class CommandDispatcherStats {
 			return new CmdMeanX(kernel);
 		case MeanY:
 			return new CmdMeanY(kernel);
+
+		case CorrelationCoefficient:
 		case PMCC:
 			return new CmdPMCC(kernel);
+		
 		case SampleSDX:
 			return new CmdSampleSDX(kernel);
 		case SampleSDY:
@@ -80,8 +87,11 @@ public class CommandDispatcherStats {
 			return new CmdSDX(kernel);
 		case SDY:
 			return new CmdSDY(kernel);
+
+		case FitLine:
 		case FitLineY:
 			return new CmdFitLineY(kernel);
+		
 		case FitLineX:
 			return new CmdFitLineX(kernel);
 		case FitPoly:
@@ -132,8 +142,6 @@ public class CommandDispatcherStats {
 			return new CmdHarmonicMean(kernel);
 		case RootMeanSquare:
 			return new CmdRootMeanSquare(kernel);
-		case Random:
-			return new CmdRandom(kernel);
 		case RandomNormal:
 			return new CmdRandomNormal(kernel);
 		case RandomUniform:
@@ -154,8 +162,6 @@ public class CommandDispatcherStats {
 			return new CmdInverseLogistic(kernel);
 		case InverseNormal:
 			return new CmdInverseNormal(kernel);
-		case Binomial:
-			return new CmdBinomial(kernel);
 		case BinomialDist:
 			return new CmdBinomialDist(kernel);
 		case Bernoulli:
@@ -229,12 +235,11 @@ public class CommandDispatcherStats {
 			return new CmdFillCells(kernel);
 		case Cell:
 			return new CmdCell(kernel);			
-		case CorrelationCoefficient:
-			return new CmdPMCC(kernel);
-		case FitLine:
-			return new CmdFitLineY(kernel);
+			
+		case Binomial:
 		case BinomialCoefficient:
 			return new CmdBinomial(kernel);
+			
 		case Product:
 			return new CmdProduct(kernel);
 		case Frequency:

@@ -16,8 +16,55 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.advanced.*;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.scripting.CmdButton;
+import geogebra.common.kernel.scripting.CmdCenterView;
+import geogebra.common.kernel.scripting.CmdCheckbox;
+import geogebra.common.kernel.scripting.CmdDelete;
+import geogebra.common.kernel.scripting.CmdHideLayer;
+import geogebra.common.kernel.scripting.CmdLineStyle;
+import geogebra.common.kernel.scripting.CmdPan;
+import geogebra.common.kernel.scripting.CmdParseToFunction;
+import geogebra.common.kernel.scripting.CmdParseToNumber;
+import geogebra.common.kernel.scripting.CmdPlaySound;
+import geogebra.common.kernel.scripting.CmdRelation;
+import geogebra.common.kernel.scripting.CmdRename;
+import geogebra.common.kernel.scripting.CmdRigidPolygon;
+import geogebra.common.kernel.scripting.CmdSelectObjects;
+import geogebra.common.kernel.scripting.CmdSetActiveView;
+import geogebra.common.kernel.scripting.CmdSetAxesRatio;
+import geogebra.common.kernel.scripting.CmdSetBackgroundColor;
+import geogebra.common.kernel.scripting.CmdSetCaption;
+import geogebra.common.kernel.scripting.CmdSetColor;
+import geogebra.common.kernel.scripting.CmdSetConditionToShowObject;
+import geogebra.common.kernel.scripting.CmdSetCoords;
+import geogebra.common.kernel.scripting.CmdSetDynamicColor;
+import geogebra.common.kernel.scripting.CmdSetFilling;
+import geogebra.common.kernel.scripting.CmdSetFixed;
+import geogebra.common.kernel.scripting.CmdSetLabelMode;
+import geogebra.common.kernel.scripting.CmdSetLayer;
+import geogebra.common.kernel.scripting.CmdSetLineThickness;
+import geogebra.common.kernel.scripting.CmdSetPointSize;
+import geogebra.common.kernel.scripting.CmdSetPointStyle;
+import geogebra.common.kernel.scripting.CmdSetSeed;
+import geogebra.common.kernel.scripting.CmdSetTooltipMode;
+import geogebra.common.kernel.scripting.CmdSetTrace;
+import geogebra.common.kernel.scripting.CmdSetValue;
+import geogebra.common.kernel.scripting.CmdSetVisibleInView;
+import geogebra.common.kernel.scripting.CmdShowAxes;
+import geogebra.common.kernel.scripting.CmdShowGrid;
+import geogebra.common.kernel.scripting.CmdShowLabel;
+import geogebra.common.kernel.scripting.CmdShowLayer;
+import geogebra.common.kernel.scripting.CmdSlider;
+import geogebra.common.kernel.scripting.CmdSlowPlot;
+import geogebra.common.kernel.scripting.CmdStartAnimation;
+import geogebra.common.kernel.scripting.CmdTextfield;
+import geogebra.common.kernel.scripting.CmdToolImage;
+import geogebra.common.kernel.scripting.CmdUpdateConstruction;
+import geogebra.common.kernel.scripting.CmdZoomIn;
+import geogebra.common.kernel.scripting.CmdZoomOut;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
@@ -302,298 +349,11 @@ public class CommandDispatcher {
 			switch (command) {
 
 			
-
-				
-				
-				
-				
-			case Mod:
-				return new CmdMod(kernel);
-			case Div:
-				return new CmdDiv(kernel);
-			case Min:
-				return new CmdMin(kernel);
-			case Max:
-				return new CmdMax(kernel);
-			case LCM:
-				return new CmdLCM(kernel);
-			case GCD:
-				return new CmdGCD(kernel);
-			case PrimeFactors:
-				return new CmdPrimeFactors(kernel);
-			case CompleteSquare:
-				return new CmdCompleteSquare(kernel);
-			case Line:
-				return new CmdLine(kernel);
-			case Ray:
-				return new CmdRay(kernel);
-			case AngularBisector:
-				return new CmdAngularBisector(kernel);
-			case OrthogonalLine:
-				return new CmdOrthogonalLine(kernel);
-			case Segment:
-				return new CmdSegment(kernel);
-			case Slope:
-				return new CmdSlope(kernel);
-			case Angle:
-				return new CmdAngle(kernel);
-			case Direction:
-				return new CmdDirection(kernel);
-			case Point:
-				return new CmdPoint(kernel);
-			case Midpoint:
-				return new CmdMidpoint(kernel);
-			case LineBisector:
-				return new CmdLineBisector(kernel);
-			case Intersect:
-				return new CmdIntersect(kernel);
-			case IntersectRegion:
-				return new CmdIntersectRegion(kernel);
-			case Distance:
-				return new CmdDistance(kernel);
-			case Radius:
-				return new CmdRadius(kernel);
-			case CircleArc:
-				return new CmdCircleArc(kernel);
-			case Arc:
-				return new CmdArc(kernel);
-			case Sector:
-				return new CmdSector(kernel);
-			case CircleSector:
-				return new CmdCircleSector(kernel);
-			case CircumcircleSector:
-				return new CmdCircumcircleSector(kernel);
-			case CircumcircleArc:
-				return new CmdCircumcircleArc(kernel);
-			case Polygon:
-				return new CmdPolygon(kernel);
+// scripting
 			case RigidPolygon:
 				return new CmdRigidPolygon(kernel);
-			case Area:
-				return new CmdArea(kernel);
-			case Union:
-				return new CmdUnion(kernel);
-			case Circumference:
-				return new CmdCircumference(kernel);
-			case Perimeter:
-				return new CmdPerimeter(kernel);
-			case Locus:
-				return new CmdLocus(kernel);
-			case Centroid:
-				return new CmdCentroid(kernel);
-			case Vertex:
-				return new CmdVertex(kernel);
-			case PolyLine:
-				return new CmdPolyLine(kernel);
-			case PointIn:
-				return new CmdPointIn(kernel);
-			case AffineRatio:
-				return new CmdAffineRatio(kernel);
-			case CrossRatio:
-				return new CmdCrossRatio(kernel);
-			case ClosestPoint:
-				return new CmdClosestPoint(kernel);
-			case Text:
-				return new CmdText(kernel);
-			case LaTeX:
-				return new CmdLaTeX(kernel);
-			case LetterToUnicode:
-				return new CmdLetterToUnicode(kernel);
-			case TextToUnicode:
-				return new CmdTextToUnicode(kernel);
-			case UnicodeToText:
-				return new CmdUnicodeToText(kernel);
-			case UnicodeToLetter:
-				return new CmdUnicodeToLetter(kernel);
-			case FractionText:
-				return new CmdFractionText(kernel);
-			case ScientificText:
-				return new CmdScientificText(kernel);
-			case TableText:
-				return new CmdTableText(kernel);
-			case VerticalText:
-				return new CmdVerticalText(kernel);
-			case RotateText:
-				return new CmdRotateText(kernel);
-			case Ordinal:
-				return new CmdOrdinal(kernel);
-			case If:
-				return new CmdIf(kernel);
-			case CountIf:
-				return new CmdCountIf(kernel);
-			case IsInteger:
-				return new CmdIsInteger(kernel);
-			case KeepIf:
-				return new CmdKeepIf(kernel);
 			case Relation:
 				return new CmdRelation(kernel);
-			case Defined:
-				return new CmdDefined(kernel);
-			case IsInRegion:
-				return new CmdIsInRegion(kernel);
-			case Root:
-				return new CmdRoot(kernel);
-			case Roots:
-				return new CmdRoots(kernel);
-			case TurningPoint:
-				return new CmdTurningPoint(kernel);
-			case Polynomial:
-				return new CmdPolynomial(kernel);
-			case Function:
-				return new CmdFunction(kernel);
-			case Extremum:
-				return new CmdExtremum(kernel);
-			case CurveCartesian:
-				return new CmdCurveCartesian(kernel);
-
-			case LowerSum:
-				return new CmdLowerSum(kernel);
-			case LeftSum:
-				return new CmdLeftSum(kernel);
-			case RectangleSum:
-				return new CmdRectangleSum(kernel);
-			case TaylorSeries:
-				return new CmdTaylorSeries(kernel);
-			case UpperSum:
-				return new CmdUpperSum(kernel);
-			case TrapezoidalSum:
-				return new CmdTrapezoidalSum(kernel);
-			case Numerator:
-				return new CmdNumerator(kernel);
-			case Denominator:
-				return new CmdDenominator(kernel);
-			case ComplexRoot:
-				return new CmdComplexRoot(kernel);
-			case SlopeField:
-				return new CmdSlopeField(kernel);
-			case Iteration:
-				return new CmdIteration(kernel);
-			case PathParameter:
-				return new CmdPathParameter(kernel);
-			case Asymptote:
-				return new CmdAsymptote(kernel);
-			case CurvatureVector:
-				return new CmdCurvatureVector(kernel);
-			case Curvature:
-				return new CmdCurvature(kernel);
-			case OsculatingCircle:
-				return new CmdOsculatingCircle(kernel);
-			case IterationList:
-				return new CmdIterationList(kernel);
-			case RootList:
-				return new CmdRootList(kernel);
-			case ImplicitCurve:
-				return new CmdImplicitPoly(kernel);
-			case Ellipse:
-				return new CmdEllipse(kernel);
-			case Hyperbola:
-				return new CmdHyperbola(kernel);
-			case SecondAxisLength:
-				return new CmdSecondAxisLength(kernel);
-			case SecondAxis:
-				return new CmdSecondAxis(kernel);
-			case Directrix:
-				return new CmdDirectrix(kernel);
-			case Diameter:
-				return new CmdDiameter(kernel);
-			case Conic:
-				return new CmdConic(kernel);
-			case FirstAxis:
-				return new CmdFirstAxis(kernel);
-			case Circle:
-				return new CmdCircle(kernel);
-			case Incircle:
-				return new CmdIncircle(kernel);
-			case Semicircle:
-				return new CmdSemicircle(kernel);
-			case FirstAxisLength:
-				return new CmdFirstAxisLength(kernel);
-			case Parabola:
-				return new CmdParabola(kernel);
-			case Focus:
-				return new CmdFocus(kernel);
-			case Parameter:
-				return new CmdParameter(kernel);
-			case Center:
-				return new CmdCenter(kernel);
-			case Polar:
-				return new CmdPolar(kernel);
-			case Excentricity:
-				return new CmdExcentricity(kernel);
-			case Eccentricity:
-				return new CmdEccentricity(kernel);
-			case Axes:
-				return new CmdAxes(kernel);
-			case First:
-				return new CmdFirst(kernel);
-			case Last:
-				return new CmdLast(kernel);
-			case Take:
-				return new CmdTake(kernel);
-			case RemoveUndefined:
-				return new CmdRemoveUndefined(kernel);
-			case Reverse:
-				return new CmdReverse(kernel);
-			case Element:
-				return new CmdElement(kernel);
-			case IndexOf:
-				return new CmdIndexOf(kernel);
-			case Append:
-				return new CmdAppend(kernel);
-			case Join:
-				return new CmdJoin(kernel);
-			case Flatten:
-				return new CmdFlatten(kernel);
-			case Insert:
-				return new CmdInsert(kernel);
-			case Sequence:
-				return new CmdSequence(kernel);
-			case SelectedElement:
-				return new CmdSelectedElement(kernel);
-			case SelectedIndex:
-				return new CmdSelectedIndex(kernel);
-			case RandomElement:
-				return new CmdRandomElement(kernel);
-			case Unique:
-				return new CmdUnique(kernel);
-			case Zip:
-				return new CmdZip(kernel);
-			case Intersection:
-				return new CmdIntersection(kernel);
-			case PointList:
-				return new CmdPointList(kernel);
-			case ApplyMatrix:
-				return new CmdApplyMatrix(kernel);
-			case UnitVector:
-				return new CmdUnitVector(kernel);
-			case Vector:
-				return new CmdVector(kernel);
-			case UnitOrthogonalVector:
-				return new CmdUnitOrthogonalVector(kernel);
-			case OrthogonalVector:
-				return new CmdOrthogonalVector(kernel);
-			case Invert:
-				return new CmdInvert(kernel);
-			case Transpose:
-				return new CmdTranspose(kernel);
-			case ReducedRowEchelonForm:
-				return new CmdReducedRowEchelonForm(kernel);
-			case Determinant:
-				return new CmdDeterminant(kernel);
-			case Identity:
-				return new CmdIdentity(kernel);
-			case Mirror:
-				return new CmdMirror(kernel);
-			case Dilate:
-				return new CmdDilate(kernel);
-			case Rotate:
-				return new CmdRotate(kernel);
-			case Translate:
-				return new CmdTranslate(kernel);
-			case Shear:
-				return new CmdShear(kernel);
-			case Stretch:
-				return new CmdStretch(kernel);
 			case CopyFreeObject:
 				return new CmdCopyFreeObject(kernel);
 			case SetColor:
@@ -684,8 +444,141 @@ public class CommandDispatcher {
 				return new CmdShowAxes(kernel);
 			case ShowGrid:
 				return new CmdShowGrid(kernel);
-			case Corner:
-				return new CmdCorner(kernel);
+			case SlowPlot:
+				return new CmdSlowPlot(kernel);
+			case ToolImage:
+				return new CmdToolImage(kernel);
+				
+				
+				
+				
+				
+				
+				// advanced
+			case Text:
+				return new CmdText(kernel);
+			case FormulaText:
+			case LaTeX:
+				return new CmdLaTeX(kernel);
+			case SecondAxis:
+			case MinorAxis:
+				return new CmdSecondAxis(kernel);
+				
+			case SemiMinorAxisLength:
+			case SecondAxisLength:
+				return new CmdSecondAxisLength(kernel);
+				
+			case Directrix:
+				return new CmdDirectrix(kernel);
+			case Numerator:
+				return new CmdNumerator(kernel);
+			case Denominator:
+				return new CmdDenominator(kernel);
+			case ComplexRoot:
+				return new CmdComplexRoot(kernel);
+			case SlopeField:
+				return new CmdSlopeField(kernel);
+			case Iteration:
+				return new CmdIteration(kernel);
+			case PathParameter:
+				return new CmdPathParameter(kernel);
+			case Asymptote:
+				return new CmdAsymptote(kernel);
+			case CurvatureVector:
+				return new CmdCurvatureVector(kernel);
+			case Curvature:
+				return new CmdCurvature(kernel);
+			case OsculatingCircle:
+				return new CmdOsculatingCircle(kernel);
+			case IterationList:
+				return new CmdIterationList(kernel);
+			case RootList:
+				return new CmdRootList(kernel);
+			case ImplicitCurve:
+				return new CmdImplicitPoly(kernel);
+			case Roots:
+				return new CmdRoots(kernel);
+			case AffineRatio:
+				return new CmdAffineRatio(kernel);
+			case CrossRatio:
+				return new CmdCrossRatio(kernel);
+			case ClosestPoint:
+				return new CmdClosestPoint(kernel);
+			case CountIf:
+				return new CmdCountIf(kernel);
+			case IsInteger:
+				return new CmdIsInteger(kernel);
+			case KeepIf:
+				return new CmdKeepIf(kernel);
+			case IsInRegion:
+				return new CmdIsInRegion(kernel);
+			case PrimeFactors:
+				return new CmdPrimeFactors(kernel);
+			case CompleteSquare:
+				return new CmdCompleteSquare(kernel);
+			case Union:
+				return new CmdUnion(kernel);
+			case LetterToUnicode:
+				return new CmdLetterToUnicode(kernel);
+			case TextToUnicode:
+				return new CmdTextToUnicode(kernel);
+			case UnicodeToText:
+				return new CmdUnicodeToText(kernel);
+			case UnicodeToLetter:
+				return new CmdUnicodeToLetter(kernel);
+			case FractionText:
+				return new CmdFractionText(kernel);
+			case ScientificText:
+				return new CmdScientificText(kernel);
+			case TableText:
+				return new CmdTableText(kernel);
+			case VerticalText:
+				return new CmdVerticalText(kernel);
+			case RotateText:
+				return new CmdRotateText(kernel);
+			case Ordinal:
+				return new CmdOrdinal(kernel);
+			case Parameter:
+				return new CmdParameter(kernel);
+			case Incircle:
+				return new CmdIncircle(kernel);
+			case SelectedElement:
+				return new CmdSelectedElement(kernel);
+			case SelectedIndex:
+				return new CmdSelectedIndex(kernel);
+			case Unique:
+				return new CmdUnique(kernel);
+			case Zip:
+				return new CmdZip(kernel);
+			case Intersection:
+				return new CmdIntersection(kernel);
+			case PointList:
+				return new CmdPointList(kernel);
+			case ApplyMatrix:
+				return new CmdApplyMatrix(kernel);
+			case UnitVector:
+				return new CmdUnitVector(kernel);
+			case Invert:
+				return new CmdInvert(kernel);
+			case Transpose:
+				return new CmdTranspose(kernel);
+			case ReducedRowEchelonForm:
+				return new CmdReducedRowEchelonForm(kernel);
+			case Determinant:
+				return new CmdDeterminant(kernel);
+			case Identity:
+				return new CmdIdentity(kernel);
+			case Centroid:
+				return new CmdCentroid(kernel);
+
+			case MajorAxis:
+			case FirstAxis:
+				return new CmdFirstAxis(kernel);
+			
+			case SemiMajorAxisLength:
+			case FirstAxisLength:
+				return new CmdFirstAxisLength(kernel);
+				
 			case AxisStepX:
 				return new CmdAxisStepX(kernel);
 			case AxisStepY:
@@ -694,14 +587,37 @@ public class CommandDispatcher {
 				return new CmdConstructionStep(kernel);
 			case Object:
 				return new CmdObject(kernel);
-			case Name:
-				return new CmdName(kernel);
-			case SlowPlot:
-				return new CmdSlowPlot(kernel);
-			case ToolImage:
-				return new CmdToolImage(kernel);
-			case BarCode:
-				return kernel.getApplication().newCmdBarCode();
+			case Polar:
+				return new CmdPolar(kernel);
+			
+			case LinearEccentricity:
+			case Excentricity:
+				return new CmdExcentricity(kernel);
+
+			case Eccentricity:
+				return new CmdEccentricity(kernel);
+			case Axes:
+				return new CmdAxes(kernel);
+			case First:
+				return new CmdFirst(kernel);
+			case Last:
+				return new CmdLast(kernel);
+			case Take:
+				return new CmdTake(kernel);
+			case RemoveUndefined:
+				return new CmdRemoveUndefined(kernel);
+			case Reverse:
+				return new CmdReverse(kernel);
+			case IndexOf:
+				return new CmdIndexOf(kernel);
+			case Append:
+				return new CmdAppend(kernel);
+			case Join:
+				return new CmdJoin(kernel);
+			case Flatten:
+				return new CmdFlatten(kernel);
+			case Insert:
+				return new CmdInsert(kernel);
 			case Prove:
 				return new CmdProve(kernel);
 			case ProveDetails:
@@ -712,34 +628,6 @@ public class CommandDispatcher {
 				return new CmdMaximize(kernel);
 			case Minimize:
 				return new CmdMinimize(kernel);
-			case Curve:
-				return new CmdCurveCartesian(kernel);
-			case FormulaText:
-				return new CmdLaTeX(kernel);
-			case IsDefined:
-				return new CmdDefined(kernel);
-			case ConjugateDiameter:
-				return new CmdDiameter(kernel);
-			case LinearEccentricity:
-				return new CmdExcentricity(kernel);
-			case MajorAxis:
-				return new CmdFirstAxis(kernel);
-			case SemiMajorAxisLength:
-				return new CmdFirstAxisLength(kernel);
-			case PerpendicularBisector:
-				return new CmdLineBisector(kernel);
-			case PerpendicularLine:
-				return new CmdOrthogonalLine(kernel);
-			case PerpendicularVector:
-				return new CmdOrthogonalVector(kernel);
-			case MinorAxis:
-				return new CmdSecondAxis(kernel);
-			case SemiMinorAxisLength:
-				return new CmdSecondAxisLength(kernel);
-			case UnitPerpendicularVector:
-				return new CmdUnitOrthogonalVector(kernel);
-			case RandomBetween:
-				return new CmdRandom(kernel);
 			case AreCollinear:
 				return new CmdAreCollinear(kernel);
 			case AreParallel:
@@ -760,12 +648,6 @@ public class CommandDispatcher {
 				return new CmdContinuedFraction(kernel);
 			case AttachCopyToView:
 				return new CmdAttachCopyToView(kernel);
-			case Dot:
-				return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
-			case Cross:
-				return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
-			case IntegerPart:
-				return new CmdCAStoOperation(kernel,Operation.FLOOR);
 			case Divisors:
 				return new CmdDivisorsOrDivisorsSum(kernel,false);
 			case DivisorsSum:
@@ -774,8 +656,6 @@ public class CommandDispatcher {
 				return new CmdDimension(kernel);
 			case DivisorsList:
 				return new CmdDivisorsList(kernel);
-			case RandomPolynomial:
-				return new CmdRandomPolynomial(kernel);
 			case IsPrime:
 				return new CmdIsPrime(kernel);
 			case LeftSide:
@@ -787,22 +667,7 @@ public class CommandDispatcher {
 			case Division:
 				return new CmdDivision(kernel);
 			case MatrixRank:
-				return new CmdMatrixRank(kernel);
-
-			case CFactor:
-			case CSolutions:
-			case CSolve:
-			case Groebner:
-			case NSolve:
-			case NSolutions:
-			case Numeric:
-			case MixedNumber:
-			case Rationalize:
-			case Solutions:
-			case Solve:
-			case Substitute:
-			case ToExponential:		
-				return new CAScmdProcessor(kernel);
+				return new CmdMatrixRank(kernel);				
 			case CommonDenominator:
 				return new CmdCommonDenominator(kernel);
 			case ToPoint:
@@ -821,6 +686,204 @@ public class CommandDispatcher {
 				return new CmdTurtleLeft(kernel);
 			case TurtleRight:
 				return new CmdTurtleRight(kernel);
+	
+				
+				
+				
+				
+				
+				
+			case Vector:
+				return new CmdVector(kernel);
+			case BarCode:
+				return kernel.getApplication().newCmdBarCode();
+			case Dot:
+				return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
+			case Cross:
+				return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
+			case IntegerPart:
+				return new CmdCAStoOperation(kernel,Operation.FLOOR);
+			case PolyLine:
+				return new CmdPolyLine(kernel);
+			case PointIn:
+				return new CmdPointIn(kernel);
+			case Mod:
+				return new CmdMod(kernel);
+			case Div:
+				return new CmdDiv(kernel);
+			case Min:
+				return new CmdMin(kernel);
+			case Max:
+				return new CmdMax(kernel);
+			case LCM:
+				return new CmdLCM(kernel);
+			case GCD:
+				return new CmdGCD(kernel);
+			case Line:
+				return new CmdLine(kernel);
+			case Ray:
+				return new CmdRay(kernel);
+			case AngularBisector:
+				return new CmdAngularBisector(kernel);
+			case Segment:
+				return new CmdSegment(kernel);
+			case Slope:
+				return new CmdSlope(kernel);
+			case Angle:
+				return new CmdAngle(kernel);
+			case Direction:
+				return new CmdDirection(kernel);
+			case Point:
+				return new CmdPoint(kernel);
+			case Midpoint:
+				return new CmdMidpoint(kernel);
+			case Intersect:
+				return new CmdIntersect(kernel);
+			case IntersectRegion:
+				return new CmdIntersectRegion(kernel);
+			case Distance:
+				return new CmdDistance(kernel);
+			case Radius:
+				return new CmdRadius(kernel);
+			case CircleArc:
+				return new CmdCircleArc(kernel);
+			case Arc:
+				return new CmdArc(kernel);
+			case Sector:
+				return new CmdSector(kernel);
+			case CircleSector:
+				return new CmdCircleSector(kernel);
+			case CircumcircleSector:
+				return new CmdCircumcircleSector(kernel);
+			case CircumcircleArc:
+				return new CmdCircumcircleArc(kernel);
+			case Polygon:
+				return new CmdPolygon(kernel);
+			case Area:
+				return new CmdArea(kernel);
+			case Circumference:
+				return new CmdCircumference(kernel);
+			case Perimeter:
+				return new CmdPerimeter(kernel);
+			case Locus:
+				return new CmdLocus(kernel);
+			case Vertex:
+				return new CmdVertex(kernel);
+			case If:
+				return new CmdIf(kernel);
+			case Root:
+				return new CmdRoot(kernel);
+			case TurningPoint:
+				return new CmdTurningPoint(kernel);
+			case Polynomial:
+				return new CmdPolynomial(kernel);
+			case Function:
+				return new CmdFunction(kernel);
+			case Extremum:
+				return new CmdExtremum(kernel);
+
+			case Curve:
+			case CurveCartesian:
+				return new CmdCurveCartesian(kernel);
+			
+			case LowerSum:
+				return new CmdLowerSum(kernel);
+			case LeftSum:
+				return new CmdLeftSum(kernel);
+			case RectangleSum:
+				return new CmdRectangleSum(kernel);
+				
+			case TaylorPolynomial:
+			case TaylorSeries:
+				return new CmdTaylorSeries(kernel);
+				
+			case UpperSum:
+				return new CmdUpperSum(kernel);
+			case TrapezoidalSum:
+				return new CmdTrapezoidalSum(kernel);
+			case Ellipse:
+				return new CmdEllipse(kernel);
+			case Hyperbola:
+				return new CmdHyperbola(kernel);
+			case Conic:
+				return new CmdConic(kernel);
+			case Circle:
+				return new CmdCircle(kernel);
+			case Semicircle:
+				return new CmdSemicircle(kernel);
+			case Parabola:
+				return new CmdParabola(kernel);
+			case Focus:
+				return new CmdFocus(kernel);
+			case Center:
+				return new CmdCenter(kernel);
+			case Element:
+				return new CmdElement(kernel);
+			case Sequence:
+				return new CmdSequence(kernel);
+			case Mirror:
+				return new CmdMirror(kernel);
+			case Dilate:
+				return new CmdDilate(kernel);
+			case Rotate:
+				return new CmdRotate(kernel);
+			case Translate:
+				return new CmdTranslate(kernel);
+			case Shear:
+				return new CmdShear(kernel);
+			case Stretch:
+				return new CmdStretch(kernel);
+
+			case Corner:
+				return new CmdCorner(kernel);
+			case Name:
+				return new CmdName(kernel);
+
+			case Defined:
+			case IsDefined:
+				return new CmdDefined(kernel);
+			
+			case Diameter:
+			case ConjugateDiameter:
+				return new CmdDiameter(kernel);
+				
+			case LineBisector:
+			case PerpendicularBisector:
+				return new CmdLineBisector(kernel);
+				
+			case OrthogonalLine:
+			case PerpendicularLine:
+				return new CmdOrthogonalLine(kernel);
+
+			case UnitPerpendicularVector:
+			case UnitOrthogonalVector:
+				return new CmdUnitOrthogonalVector(kernel);
+				
+			case OrthogonalVector:
+			case PerpendicularVector:
+				return new CmdOrthogonalVector(kernel);
+				
+			case Random:
+				return new CmdRandom(kernel);
+			case RandomBetween:
+				return new CmdRandom(kernel);
+
+
+			case CFactor:
+			case CSolutions:
+			case CSolve:
+			case Groebner:
+			case NSolve:
+			case NSolutions:
+			case Numeric:
+			case MixedNumber:
+			case Rationalize:
+			case Solutions:
+			case Solve:
+			case Substitute:
+			case ToExponential:		
+				return new CAScmdProcessor(kernel);
+				
 
 
 				// ************** STATS ***************
@@ -902,7 +965,8 @@ public class CommandDispatcher {
 			case Q1:
 			case Q3:
 			case RSquare:
-			case Random:
+			case RandomElement:
+			case RandomPolynomial:
 			case RandomBinomial:
 			case RandomNormal:
 			case RandomPoisson:
