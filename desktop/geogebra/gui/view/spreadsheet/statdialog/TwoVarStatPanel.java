@@ -25,7 +25,7 @@ public class TwoVarStatPanel extends StatTable implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	protected AppD app;
 	private Kernel kernel;
-	protected StatDialog statDialog;
+	protected DataAnalysisViewD statDialog;
 	protected MyTable statTable;
 
 	private Integer[] selectedDataIndex = { 0, 1 };
@@ -36,7 +36,7 @@ public class TwoVarStatPanel extends StatTable implements ActionListener {
 	private double mean1, mean2, sd1, sd2, sdDifference, meanDifference;
 	private long n1, n2;
 
-	public TwoVarStatPanel(AppD app, StatDialog statDialog,
+	public TwoVarStatPanel(AppD app, DataAnalysisViewD statDialog,
 			boolean isPairedData, ActionListener parentActionListener) {
 		super(app);
 
@@ -168,12 +168,12 @@ public class TwoVarStatPanel extends StatTable implements ActionListener {
 		try {
 			// get the sample data
 
-			GeoList dataCollection = statDialog.getStatDialogController()
+			GeoList dataCollection = statDialog.getController()
 					.getDataSelected();
 
 			GeoList dataList1 = (GeoList) dataCollection
 					.get(selectedDataIndex[0]);
-			double[] sample1 = statDialog.getStatDialogController()
+			double[] sample1 = statDialog.getController()
 					.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
 			for (int i = 0; i < sample1.length; i++) {
@@ -182,7 +182,7 @@ public class TwoVarStatPanel extends StatTable implements ActionListener {
 
 			GeoList dataList2 = (GeoList) dataCollection
 					.get(selectedDataIndex[1]);
-			double[] sample2 = statDialog.getStatDialogController()
+			double[] sample2 = statDialog.getController()
 					.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
 			for (int i = 0; i < sample2.length; i++) {
@@ -211,12 +211,12 @@ public class TwoVarStatPanel extends StatTable implements ActionListener {
 
 		try {
 			// get the sample data
-			GeoList dataCollection = statDialog.getStatDialogController()
+			GeoList dataCollection = statDialog.getController()
 					.getDataSelected();
 
 			GeoList dataList1 = (GeoList) dataCollection
 					.get(selectedDataIndex[0]);
-			double[] sample1 = statDialog.getStatDialogController()
+			double[] sample1 = statDialog.getController()
 					.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
 			for (int i = 0; i < sample1.length; i++) {
@@ -225,7 +225,7 @@ public class TwoVarStatPanel extends StatTable implements ActionListener {
 
 			GeoList dataList2 = (GeoList) dataCollection
 					.get(selectedDataIndex[1]);
-			double[] sample2 = statDialog.getStatDialogController()
+			double[] sample2 = statDialog.getController()
 					.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
 			for (int i = 0; i < sample2.length; i++) {

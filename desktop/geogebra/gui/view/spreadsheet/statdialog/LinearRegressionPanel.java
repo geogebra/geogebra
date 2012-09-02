@@ -28,11 +28,11 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 	private Kernel kernel;
 	private JList dataSourceList;
 	private DefaultTableModel model;
-	private StatDialog statDialog;
+	private DataAnalysisViewD statDialog;
 	private DefaultListModel headerModel;
 	
 
-	public LinearRegressionPanel(AppD app, StatDialog statDialog){
+	public LinearRegressionPanel(AppD app, DataAnalysisViewD statDialog){
 
 		this.app = app;
 		kernel = app.getKernel();

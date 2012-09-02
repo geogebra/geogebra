@@ -64,7 +64,7 @@ import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
+import geogebra.gui.view.spreadsheet.statdialog.DataAnalysisViewD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.main.AppD;
@@ -148,7 +148,7 @@ public class GuiManagerD extends GuiManager {
 
 	private ProbabilityCalculator probCalculator;
 
-	private StatDialog dataView;
+	private DataAnalysisViewD dataView;
 	
 	public static DataFlavor urlFlavor, uriListFlavor;
 	static {
@@ -440,9 +440,9 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	@Override
-	public StatDialog getDataAnalysisView() {
+	public DataAnalysisViewD getDataAnalysisView() {
 		if (dataView == null)
-			dataView = new StatDialog((AppD)app,StatDialog.MODE_ONEVAR);
+			dataView = new DataAnalysisViewD((AppD)app,DataAnalysisViewD.MODE_ONEVAR);
 		return dataView;
 	}
 

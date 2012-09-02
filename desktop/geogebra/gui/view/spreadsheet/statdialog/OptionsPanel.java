@@ -41,7 +41,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private StatDialog statDialog;
+	private DataAnalysisViewD statDialog;
 	private StatPanelSettings settings;
 
 	// histogram  panel components
@@ -76,7 +76,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 	private JLabel lblClassRule;
 
 
-	public OptionsPanel(AppD app, StatDialog statDialog, StatPanelSettings settings){
+	public OptionsPanel(AppD app, DataAnalysisViewD statDialog, StatPanelSettings settings){
 
 		this.app = app;
 		this.statDialog = statDialog;
@@ -115,23 +115,23 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 
 		this.plotType = plotType;
 		tabbedPane.removeAll();
-		String tabTitle = StatComboPanel.plotMap.get(plotType);
+		String tabTitle = DataDisplayPanel.plotMap.get(plotType);
 		tabbedPane.insertTab(tabTitle, null, new JScrollPane(mainPanel),null, 0);
 		tabbedPane.addTab(app.getMenu("Graph"), new JScrollPane(graphPanel));
 		showYSettings = true;
 		
 		switch(plotType){
 		
-		case StatComboPanel.PLOT_HISTOGRAM:
+		case DataDisplayPanel.PLOT_HISTOGRAM:
 			classesPanel.setVisible(true);
 			histogramPanel.setVisible(true);
 			graphPanel.setVisible(true);
 			scatterplotPanel.setVisible(false);		
 			break;
 			
-		case StatComboPanel.PLOT_DOTPLOT:
-		case StatComboPanel.PLOT_BOXPLOT:
-		case StatComboPanel.PLOT_NORMALQUANTILE:
+		case DataDisplayPanel.PLOT_DOTPLOT:
+		case DataDisplayPanel.PLOT_BOXPLOT:
+		case DataDisplayPanel.PLOT_NORMALQUANTILE:
 			tabbedPane.removeTabAt(0);
 			showYSettings = true;
 			classesPanel.setVisible(false);
@@ -140,7 +140,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 			scatterplotPanel.setVisible(false);
 			break;
 			
-		case StatComboPanel.PLOT_SCATTERPLOT:	
+		case DataDisplayPanel.PLOT_SCATTERPLOT:	
 			showYSettings = true;
 			classesPanel.setVisible(false);
 			histogramPanel.setVisible(false);
@@ -148,7 +148,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 			scatterplotPanel.setVisible(true);
 			break;
 			
-		case StatComboPanel.PLOT_RESIDUAL:
+		case DataDisplayPanel.PLOT_RESIDUAL:
 			tabbedPane.removeTabAt(0);
 			showYSettings = true;
 			classesPanel.setVisible(false);

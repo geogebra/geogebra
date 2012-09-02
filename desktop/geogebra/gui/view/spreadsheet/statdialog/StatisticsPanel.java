@@ -65,7 +65,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	private JPanel inferencePanel;
 
 	// ggb fields
-	private StatDialog statDialog;
+	private DataAnalysisViewD statDialog;
 	private AppD app;
 
 
@@ -75,7 +75,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	 * @param app
 	 * @param statDialog
 	 */
-	public StatisticsPanel(AppD app, StatDialog statDialog)  {
+	public StatisticsPanel(AppD app, DataAnalysisViewD statDialog)  {
 
 		this.app = app;
 		this.statDialog = statDialog;
@@ -102,13 +102,13 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	 */
 	private void createStatTable(){
 		// create a statTable according to dialog type
-		if(statDialog.getMode() == StatDialog.MODE_ONEVAR){
+		if(statDialog.getMode() == DataAnalysisViewD.MODE_ONEVAR){
 			statTable = new BasicStatTable(app, statDialog, statDialog.getMode());
 		}
-		else if(statDialog.getMode() == StatDialog.MODE_REGRESSION){
+		else if(statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION){
 			statTable = new BasicStatTable(app, statDialog, statDialog.getMode());
 		}
-		else if(statDialog.getMode() == StatDialog.MODE_MULTIVAR){
+		else if(statDialog.getMode() == DataAnalysisViewD.MODE_MULTIVAR){
 			statTable = new MultiVarStatPanel(app, statDialog);
 		}
 	}
@@ -218,7 +218,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 
 		switch(statDialog.getMode()){
 
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
 			cbInferenceMode.addItem(labelMap.get(INFER_ZTEST));
 			cbInferenceMode.addItem(labelMap.get(INFER_TTEST));
@@ -227,11 +227,11 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 			cbInferenceMode.addItem(labelMap.get(INFER_TINT));
 			break;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
 			break;
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
 			cbInferenceMode.addItem(labelMap.get(INFER_ANOVA));
 			cbInferenceMode.addItem(labelMap.get(INFER_TTEST_2MEANS));

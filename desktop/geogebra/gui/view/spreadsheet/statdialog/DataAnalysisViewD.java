@@ -31,15 +31,22 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 
-public class StatDialog extends JPanel implements View, Printable,
+/**
+ * View to display plots and statistical analysis of data.
+ * 
+ * @author G. Sturr
+ *
+ */
+public class DataAnalysisViewD extends JPanel implements View, Printable,
 		SpecialNumberFormatInterface {
 
 	private static final long serialVersionUID = 1L;
+	
 	// ggb
 	private AppD app;
 	private Kernel kernel;
 	private StatGeo statGeo;
-	private StatDialogController sdc;
+	private DataAnalysisControllerD daCtrl;
 
 	private DataAnalysisStyleBar stylebar;
 
@@ -121,9 +128,9 @@ public class StatDialog extends JPanel implements View, Printable,
 	protected DataPanel dataPanel;
 	protected StatisticsPanel statisticsPanel;
 	protected RegressionPanel regressionPanel;
-	protected StatComboPanel comboStatPanel, comboStatPanel2;
+	protected DataDisplayPanel comboStatPanel, comboStatPanel2;
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
-	private DataViewSettingsPanel dataTypePanel;
+	private DataSourcePanel dataTypePanel;
 	private JPanel mainPanel;
 
 	private int defaultDividerSize;
@@ -136,12 +143,12 @@ public class StatDialog extends JPanel implements View, Printable,
 	
 
 	/*************************************************
-	 * Construct the dialog
+	 * Constructs the view.
 	 * 
 	 * @param app
 	 * @param mode
 	 */
-	public StatDialog(AppD app, int mode) {
+	public DataAnalysisViewD(AppD app, int mode) {
 
 		isIniting = true;
 		this.app = app;
@@ -151,10 +158,10 @@ public class StatDialog extends JPanel implements View, Printable,
 
 		nf = new SpecialNumberFormat(app, this);
 
-		sdc = new StatDialogController(app, this);
+		daCtrl = new DataAnalysisControllerD(app, this);
 
-		comboStatPanel = new StatComboPanel(this);
-		comboStatPanel2 = new StatComboPanel(this);
+		comboStatPanel = new DataDisplayPanel(this);
+		comboStatPanel2 = new DataDisplayPanel(this);
 
 		setView(null, mode, true);
 		isIniting = false;
@@ -162,18 +169,18 @@ public class StatDialog extends JPanel implements View, Printable,
 	}
 
 	/*************************************************
-	 * END StatDialog constructor
+	 * END constructor
 	 */
 
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
-		sdc.setDataSource(dataSource);
+		daCtrl.setDataSource(dataSource);
 		
 		if (dataSource == null) {
-			sdc.setValidData(false);
+			daCtrl.setValidData(false);
 		} else {
-			sdc.setValidData(true);
+			daCtrl.setValidData(true);
 		}
 
 		// reinit the GUI if mode is changed
@@ -182,16 +189,16 @@ public class StatDialog extends JPanel implements View, Printable,
 			this.mode = mode;
 			dataPanel = null;
 			buildStatisticsPanel();
-			sdc.updateDataLists();
+			daCtrl.updateDataLists();
 			setComboPanels();
 			updateLayout();
 			
 			// TODO: why do this here?
-			sdc.updateDataAnalysisView();
+			daCtrl.updateDataAnalysisView();
 
 		} else {
 			// just update data source
-			sdc.updateDataAnalysisView();
+			daCtrl.updateDataAnalysisView();
 		}
 
 		// TODO is this needed?
@@ -235,22 +242,22 @@ public class StatDialog extends JPanel implements View, Printable,
 		switch (mode) {
 
 		case MODE_ONEVAR:
-			comboStatPanel.setPanel(StatComboPanel.PLOT_HISTOGRAM, mode);
-			comboStatPanel2.setPanel(StatComboPanel.PLOT_BOXPLOT, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
+			comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
 			break;
 
 		case MODE_REGRESSION:
-			comboStatPanel.setPanel(StatComboPanel.PLOT_SCATTERPLOT, mode);
-			comboStatPanel2.setPanel(StatComboPanel.PLOT_RESIDUAL, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PLOT_SCATTERPLOT, mode);
+			comboStatPanel2.setPanel(DataDisplayPanel.PLOT_RESIDUAL, mode);
 			break;
 
 		case MODE_MULTIVAR:
-			comboStatPanel.setPanel(StatComboPanel.PLOT_MULTIBOXPLOT, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PLOT_MULTIBOXPLOT, mode);
 			showComboPanel2 = false;
 			break;
 
 		case MODE_GROUPDATA:
-			comboStatPanel.setPanel(StatComboPanel.PLOT_HISTOGRAM, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
 			showComboPanel2 = false;
 			break;
 
@@ -265,7 +272,7 @@ public class StatDialog extends JPanel implements View, Printable,
 			// TODO handle any orphaned data panel geos
 			dataPanel = null;
 		}
-		if (mode != MODE_MULTIVAR && mode != StatDialog.MODE_GROUPDATA) {
+		if (mode != MODE_MULTIVAR && mode != DataAnalysisViewD.MODE_GROUPDATA) {
 			dataPanel = new DataPanel(app, this);
 			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		}
@@ -444,12 +451,12 @@ public class StatDialog extends JPanel implements View, Printable,
 		return nf.getPrintFigures();
 	}
 
-	public StatDialogController getStatDialogController() {
-		return sdc;
+	public DataAnalysisControllerD getController() {
+		return daCtrl;
 	}
 
 	public GeoElement getRegressionModel() {
-		return sdc.getRegressionModel();
+		return daCtrl.getRegressionModel();
 	}
 
 	public StatGeo getStatGeo() {
@@ -468,8 +475,8 @@ public class StatDialog extends JPanel implements View, Printable,
 			if (l.ordinal() == regressionMode) {
 				this.regressionMode = l;
 
-				sdc.setRegressionGeo();
-				sdc.updateAllStatPanels(true);
+				daCtrl.setRegressionGeo();
+				daCtrl.updateAllStatPanels(true);
 
 				return;
 			}
@@ -497,7 +504,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	}
 
 	public void setLeftToRight(boolean leftToRight) {
-		sdc.setLeftToRight(leftToRight);
+		daCtrl.setLeftToRight(leftToRight);
 	}
 
 	public int getMode() {
@@ -643,7 +650,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	 * Updates the dialog when the number format options have been changed
 	 */
 	public void changedNumberFormat() {
-		sdc.updateDataAnalysisView();
+		daCtrl.updateDataAnalysisView();
 	}
 
 	public void updateGUI() {
@@ -711,14 +718,14 @@ public class StatDialog extends JPanel implements View, Printable,
 
 	public void remove(GeoElement geo) {
 		// Application.debug("removed geo: " + geo.toString());
-		sdc.handleRemovedDataGeo(geo);
+		daCtrl.handleRemovedDataGeo(geo);
 	}
 
 	public void update(GeoElement geo) {
 
-		if (!isIniting && sdc.isInDataSource(geo)) {
+		if (!isIniting && daCtrl.isInDataSource(geo)) {
 			// App.error("updated geo:" + geo.toString());
-			sdc.updateDataAnalysisView();
+			daCtrl.updateDataAnalysisView();
 		}
 	}
 
@@ -770,7 +777,7 @@ public class StatDialog extends JPanel implements View, Printable,
 		comboStatPanel.detachView();
 		if (comboStatPanel2 != null)
 			comboStatPanel2.detachView();
-		sdc.removeStatGeos();
+		daCtrl.removeStatGeos();
 
 		kernel.detach(this);
 
@@ -779,7 +786,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	}
 
 	public String[] getDataTitles() {
-		return sdc.getDataTitles();
+		return daCtrl.getDataTitles();
 	}
 
 	public void updateSelection() {

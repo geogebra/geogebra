@@ -29,7 +29,7 @@ import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
+import geogebra.gui.view.spreadsheet.statdialog.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -43,7 +43,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	// ggb
 	protected AppD app;
 	private Kernel kernel;
-	protected StatDialog statDialog;
+	protected DataAnalysisViewD statDialog;
 	private int mode;
 	protected StatTable statTable;
 	private String[][] statMap;
@@ -51,7 +51,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	/*************************************************
 	 * Construct the panel
 	 */
-	public BasicStatTable(AppD app, StatDialog statDialog, int mode) {
+	public BasicStatTable(AppD app, DataAnalysisViewD statDialog, int mode) {
 
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -100,7 +100,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	// =======================================================
 
 	private String[][] getStatMap() {
-		if (mode == StatDialog.MODE_ONEVAR) {
+		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
 			return createOneVarStatMap();
 		}
 		return createTwoVarStatMap();
@@ -151,7 +151,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	 */
 	public void updatePanel() {
 		// App.printStacktrace("update stat panel");
-		GeoList dataList = statDialog.getStatDialogController()
+		GeoList dataList = statDialog.getController()
 				.getDataSelected();
 
 		GeoElement geoRegression = statDialog.getRegressionModel();
@@ -168,7 +168,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 			for (int column = 0; column < 1; column++) {
 				if (statMap[row].length == 2) {
 					if (statMap[row][1] != null
-							&& statDialog.getStatDialogController()
+							&& statDialog.getController()
 									.isValidData()) {
 						AlgoElement algo = getStatMapAlgo(statMap[row][1],
 								dataList, geoRegression);
@@ -183,7 +183,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 				} else if (statMap[row].length == 3) {
 					if (statMap[row][1] != null
 							&& geoRegression != null
-							&& statDialog.getStatDialogController()
+							&& statDialog.getController()
 									.isValidData()) {
 						AlgoElement algo = getStatMapAlgo(statMap[row][1],
 								dataList, geoRegression);

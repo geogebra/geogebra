@@ -26,13 +26,13 @@ import java.util.ArrayList;
  * @author G. Sturr
  * 
  */
-public class StatDialogController {
+public class DataAnalysisControllerD {
 
 	private AppD app;
 	private Kernel kernel;
 	private Construction cons;
 	private MyTableD spreadsheetTable;
-	private StatDialog sd;
+	private DataAnalysisViewD view;
 	private StatGeo statGeo;
 
 	private DataSource dataSource;
@@ -81,20 +81,20 @@ public class StatDialogController {
 	 * @param spView
 	 * @param statDialog
 	 */
-	public StatDialogController(AppD app, StatDialog statDialog) {
+	public DataAnalysisControllerD(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
 		this.spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
 				.getSpreadsheetView().getSpreadsheetTable();
-		this.sd = statDialog;
-		this.statGeo = sd.getStatGeo();
+		this.view = statDialog;
+		this.statGeo = view.getStatGeo();
 
 	}
 
 	private int mode() {
-		return sd.getMode();
+		return view.getMode();
 	}
 
 	/**
@@ -149,13 +149,13 @@ public class StatDialogController {
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
 
 		switch (mode) {
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 			return cr.isOneVarStatsPossible(rangeList);
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			return cr.isCreatePointListPossible(rangeList);
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			return cr.isMultiVarStatsPossible(rangeList);
 		default:
 			App.error("data analysis test for valid spreadsheet data failed");
@@ -196,7 +196,7 @@ public class StatDialogController {
 		}
 
 		ArrayList<GeoList> list = dataSource.loadDataLists(mode(),
-				sd.getSourceType());
+				view.getSourceType());
 
 		if (list == null) {
 			this.setValidData(false);
@@ -234,9 +234,9 @@ public class StatDialogController {
 			}
 
 			// load dataPanel with dataArray
-			if (mode() != StatDialog.MODE_MULTIVAR
-					&& mode() != StatDialog.MODE_GROUPDATA) {
-				sd.getDataPanel().loadDataTable(dataArray);
+			if (mode() != DataAnalysisViewD.MODE_MULTIVAR
+					&& mode() != DataAnalysisViewD.MODE_GROUPDATA) {
+				view.getDataPanel().loadDataTable(dataArray);
 			}
 		} else {
 			App.error("null dataSelected, mode = " + mode());
@@ -259,8 +259,8 @@ public class StatDialogController {
 
 		dataSelected.updateCascade();
 		updateAllStatPanels(false);
-		if (sd.regressionPanel != null)
-			sd.regressionPanel.updateRegressionPanel();
+		if (view.regressionPanel != null)
+			view.regressionPanel.updateRegressionPanel();
 		// Application.debug("updateSelectedList: " + index + doAdd);
 
 	}
@@ -277,7 +277,7 @@ public class StatDialogController {
 	public void swapXY() {
 		leftToRight = !leftToRight;
 		updateDataAnalysisView();
-		sd.regressionPanel.clearPredictionPanel();
+		view.regressionPanel.clearPredictionPanel();
 	}
 
 	/**
@@ -289,7 +289,7 @@ public class StatDialogController {
 		updateDataLists();
 
 		if (isValidData) {
-			if (mode() == StatDialog.MODE_REGRESSION) {
+			if (mode() == DataAnalysisViewD.MODE_REGRESSION) {
 				setRegressionGeo();
 			}
 
@@ -299,9 +299,9 @@ public class StatDialogController {
 		}
 
 		updateAllStatPanels(true);
-		sd.updateGUI();
-		sd.revalidate();
-		sd.repaint();
+		view.updateGUI();
+		view.revalidate();
+		view.repaint();
 
 	}
 
@@ -314,12 +314,12 @@ public class StatDialogController {
 
 	public void updateAllStatPanels(boolean doCreateGeo) {
 		App.error("updateAllStatPanel --- start");
-		sd.comboStatPanel.updatePlot(doCreateGeo);
-		if (sd.comboStatPanel2 != null)
-			sd.comboStatPanel2.updatePlot(doCreateGeo);
-		if (sd.statisticsPanel != null) {
+		view.comboStatPanel.updatePlot(doCreateGeo);
+		if (view.comboStatPanel2 != null)
+			view.comboStatPanel2.updatePlot(doCreateGeo);
+		if (view.statisticsPanel != null) {
 			App.error("updateAllStatPanel --- statPANEL");
-			sd.statisticsPanel.updatePanel();
+			view.statisticsPanel.updatePanel();
 		}
 
 	}
@@ -342,10 +342,10 @@ public class StatDialogController {
 		removeRegressionGeo();
 
 		geoRegression = statGeo.createRegressionPlot(dataSelected,
-				sd.getRegressionMode(), sd.getRegressionOrder(), false);
+				view.getRegressionMode(), view.getRegressionOrder(), false);
 
-		if (sd.regressionPanel != null)
-			sd.regressionPanel.updateRegressionPanel();
+		if (view.regressionPanel != null)
+			view.regressionPanel.updateRegressionPanel();
 	}
 
 	public void removeRegressionGeo() {
@@ -372,12 +372,12 @@ public class StatDialogController {
 
 		removeRegressionGeo();
 
-		if (sd.comboStatPanel != null) {
-			sd.comboStatPanel.removeGeos();
+		if (view.comboStatPanel != null) {
+			view.comboStatPanel.removeGeos();
 		}
 
-		if (sd.comboStatPanel2 != null) {
-			sd.comboStatPanel2.removeGeos();
+		if (view.comboStatPanel2 != null) {
+			view.comboStatPanel2.removeGeos();
 		}
 	}
 

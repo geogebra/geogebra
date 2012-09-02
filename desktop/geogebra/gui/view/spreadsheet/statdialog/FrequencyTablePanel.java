@@ -17,7 +17,7 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface{
 
 	protected AppD app;
 	private Kernel kernel; 
-	protected StatDialog statDialog;
+	protected DataAnalysisViewD statDialog;
 	private int mode;
 	protected StatTable statTable;
 
@@ -25,7 +25,7 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface{
 
 
 
-	public FrequencyTablePanel(AppD app, StatDialog statDialog){
+	public FrequencyTablePanel(AppD app, DataAnalysisViewD statDialog){
 		this.app = app;	
 		this.kernel = app.getKernel();				
 		this.statDialog = statDialog;

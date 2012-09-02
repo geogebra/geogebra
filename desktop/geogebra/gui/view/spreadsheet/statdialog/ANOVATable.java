@@ -21,7 +21,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 public class ANOVATable extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
 
-	public ANOVATable(AppD app, StatDialog statDialog) {
+	public ANOVATable(AppD app, DataAnalysisViewD statDialog) {
 		super(app, statDialog, -1);
 		this.setMinimumSize(this.getPreferredSize());
 	}
@@ -57,7 +57,7 @@ public class ANOVATable extends BasicStatTable {
 	@Override
 	public void updatePanel() {
 
-		GeoList dataList = statDialog.getStatDialogController()
+		GeoList dataList = statDialog.getController()
 				.getDataSelected();
 		DefaultTableModel model = statTable.getModel();
 

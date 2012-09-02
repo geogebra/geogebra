@@ -24,7 +24,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private AppD app;
-	private StatDialog statDialog;
+	private DataAnalysisViewD statDialog;
 	protected int iconHeight = 18;
 	private JButton btnRounding, btnPrint;
 	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
@@ -35,7 +35,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private MyToggleButton btnExport;
 	private JButton btnSwapXY;
 
-	public DataAnalysisStyleBar(AppD app, StatDialog statDialog) {
+	public DataAnalysisStyleBar(AppD app, DataAnalysisViewD statDialog) {
 
 		this.statDialog = statDialog;
 		this.app = app;
@@ -110,7 +110,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		//		.getSourceString());
 		fldDataSource.revalidate();
 		
-		btnSwapXY.setVisible(statDialog.getMode() == StatDialog.MODE_REGRESSION);
+		btnSwapXY.setVisible(statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION);
 		btnSwapXY.setSelected(!statDialog.isLeftToRight());
 	}
 
@@ -185,7 +185,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		}
 
 		else if (source == btnSwapXY) {
-			statDialog.getStatDialogController().swapXY();
+			statDialog.getController().swapXY();
 		}
 		
 		else if (source == btnDataSource) {

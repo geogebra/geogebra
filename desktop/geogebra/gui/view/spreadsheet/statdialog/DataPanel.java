@@ -46,8 +46,8 @@ public class DataPanel extends JPanel implements ActionListener,
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private StatDialog statDialog;
-	private StatDialogController statController;
+	private DataAnalysisViewD statDialog;
+	private DataAnalysisControllerD statController;
 
 	private JTable dataTable;
 	private JButton btnEnableAll;
@@ -63,16 +63,16 @@ public class DataPanel extends JPanel implements ActionListener,
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
-	private static final Color TABLE_GRID_COLOR = StatDialog.TABLE_GRID_COLOR;
-	private static final Color TABLE_HEADER_COLOR = StatDialog.TABLE_HEADER_COLOR;
+	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
+	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
 
 	/*************************************************
 	 * Construct a DataPanel
 	 */
-	public DataPanel(AppD app, StatDialog statDialog) {
+	public DataPanel(AppD app, DataAnalysisViewD statDialog) {
 		this.app = app;
 		this.statDialog = statDialog;
-		this.statController = statDialog.getStatDialogController();
+		this.statController = statDialog.getController();
 
 		buildDataTable();
 		populateDataTable(statController.getDataArray());
@@ -207,7 +207,7 @@ public class DataPanel extends JPanel implements ActionListener,
 
 		switch (statDialog.getMode()) {
 
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 
 			dataModel = new DefaultTableModel(dataArray.size(), 1);
 			for (int row = 0; row < dataArray.size(); ++row) {
@@ -223,7 +223,7 @@ public class DataPanel extends JPanel implements ActionListener,
 
 			break;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 
 			dataModel = new DefaultTableModel(dataArray.size(), 2);
 			for (int row = 0; row < dataArray.size(); ++row) {

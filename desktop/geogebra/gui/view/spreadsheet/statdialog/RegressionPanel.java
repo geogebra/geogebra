@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
+import geogebra.gui.view.spreadsheet.statdialog.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -38,7 +38,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private StatDialog statDialog;
+	private DataAnalysisViewD statDialog;
 
 	// regression panel objects
 	private JLabel lblRegEquation, lblEqn;
@@ -61,7 +61,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	 * @param statDialog
 	 *            invoking instance of DataAnalysisView
 	 */
-	public RegressionPanel(AppD app, StatDialog statDialog) {
+	public RegressionPanel(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		this.statDialog = statDialog;
@@ -158,7 +158,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	 */
 	public void updateRegressionPanel() {
 
-		if (statDialog.getStatDialogController().isValidData()) {
+		if (statDialog.getController().isValidData()) {
 			setRegressionEquationLabel();
 			doTextFieldActionPerformed(fldInputX);
 		} else {
@@ -315,7 +315,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 		else if (source == cbPolyOrder) {
 			statDialog.setRegressionOrder(cbPolyOrder.getSelectedIndex() + 2);
-			statDialog.getStatDialogController().setRegressionGeo();
+			statDialog.getController().setRegressionGeo();
 			setRegressionEquationLabel();
 		}
 

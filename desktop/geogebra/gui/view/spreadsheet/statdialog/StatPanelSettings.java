@@ -8,7 +8,7 @@ public class StatPanelSettings extends PlotSettings{
 	public static final int TYPE_NORMALIZED = 2;
 	public int frequencyType = TYPE_COUNT;
 
-	public int sourceType = StatDialog.SOURCE_RAWDATA;
+	public int sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
 	
 	// histogram options
 	public boolean isCumulative = false;

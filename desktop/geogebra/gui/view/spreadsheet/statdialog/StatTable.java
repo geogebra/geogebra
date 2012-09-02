@@ -38,14 +38,15 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 public class StatTable extends JScrollPane {
+
 	private static final long serialVersionUID = 1L;
 	private MyTable myTable;
 	private MyRowHeader rowHeader;
 	boolean isRowHeaderPainted = true;
 
 	// layout
-	private static final Color TABLE_GRID_COLOR = StatDialog.TABLE_GRID_COLOR;
-	private static final Color TABLE_HEADER_COLOR = StatDialog.TABLE_HEADER_COLOR;
+	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
+	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
 	private static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 
@@ -368,21 +369,21 @@ public class StatTable extends JScrollPane {
 		table.setRowHeight(prefHeight);
 	}
 
-	
-	private int alignment = SwingConstants.LEFT; 
+	private int alignment = SwingConstants.LEFT;
+
 	public void setHorizontalAlignment(int alignment) {
 		this.alignment = alignment;
-		
-		TableCellRenderer renderer = myTable.getTableHeader().getDefaultRenderer();
-		JLabel label = (JLabel)renderer;
+
+		TableCellRenderer renderer = myTable.getTableHeader()
+				.getDefaultRenderer();
+		JLabel label = (JLabel) renderer;
 		label.setHorizontalAlignment(alignment);
 	}
 
 	public int getHorizontalAlignment() {
 		return alignment;
 	}
-	
-	
+
 	// ======================================================
 	// Table Cell Renderer
 	// ======================================================
@@ -390,7 +391,7 @@ public class StatTable extends JScrollPane {
 	private static class MyCellRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 		private StatTable statTable;
-		
+
 		public MyCellRenderer(StatTable statTable) {
 			// cell padding
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
@@ -412,7 +413,7 @@ public class StatTable extends JScrollPane {
 
 			return this;
 		}
-		
+
 	}
 
 	// ======================================================
@@ -423,16 +424,15 @@ public class StatTable extends JScrollPane {
 		private static final long serialVersionUID = 1L;
 		JTable table;
 		private StatTable statTable;
-		
+
 		public MyRowHeader(JTable table, String[] rowNames, StatTable statTable) {
 			super(rowNames);
 			this.table = table;
 			this.statTable = statTable;
 			setCellRenderer(new RowHeaderRenderer(table));
 			setFixedCellHeight(table.getRowHeight());
-			
-		}
 
+		}
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 			private static final long serialVersionUID = 1L;
@@ -455,7 +455,7 @@ public class StatTable extends JScrollPane {
 				}
 
 				setFont(table.getFont());
-				
+
 			}
 
 			public Component getListCellRendererComponent(JList list,
@@ -464,7 +464,7 @@ public class StatTable extends JScrollPane {
 
 				setFont(table.getFont());
 				setText((String) value);
-				//setHorizontalAlignment(statTable.getHorizontalAlignment());
+				// setHorizontalAlignment(statTable.getHorizontalAlignment());
 				return this;
 			}
 		}
@@ -552,13 +552,8 @@ public class StatTable extends JScrollPane {
 
 	}
 
-	
-
-	
-	
 	private boolean allowCellEdit = true;
-		
-	
+
 	// ======================================================
 	// MyTable
 	// ======================================================
@@ -569,10 +564,10 @@ public class StatTable extends JScrollPane {
 		@Override
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 
-			if(allowCellEdit = true){
+			if (allowCellEdit = true) {
 				return true;
 			}
-			
+
 			if (comboBoxEditorMap == null)
 				return false;
 

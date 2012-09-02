@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class MultiVarStatPanel extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
 
-	public MultiVarStatPanel(AppD app, StatDialog statDialog) {
+	public MultiVarStatPanel(AppD app, DataAnalysisViewD statDialog) {
 		super(app, statDialog, -1);
 	}
 
@@ -49,7 +49,7 @@ public class MultiVarStatPanel extends BasicStatTable {
 
 	@Override
 	public void updatePanel() {
-		GeoList dataList = statDialog.getStatDialogController()
+		GeoList dataList = statDialog.getController()
 				.getDataSelected();
 		DefaultTableModel model = statTable.getModel();
 		String[] titles = statDialog.getDataTitles();

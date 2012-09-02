@@ -329,26 +329,26 @@ public class DataSource {
 
 		switch (mode) {
 
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 
-			if (sourceType == StatDialog.SOURCE_RAWDATA) {
+			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
 				list.add(rangeList);
 
-			} else if (sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
 
 				add1DCellRanges(rangeList);
 
 				// TODO handle class/frequency source
-			} else if (sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
 				list.add(rangeList);
 			}
 			break;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			add1DCellRanges(rangeList);
 			break;
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			ArrayList<CellRange> r;
 			for (CellRange cr : rangeList) {
 				if (cr.isRow() || cr.isPartialRow()) {
@@ -425,13 +425,13 @@ public class DataSource {
 	private boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList, int mode) {
 
 		switch (mode) {
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 			return crProcessor().isOneVarStatsPossible(rangeList);
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			return CellRangeProcessor.isCreatePointListPossible(rangeList);
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			return crProcessor().isMultiVarStatsPossible(rangeList);
 
 		default:
@@ -513,20 +513,20 @@ public class DataSource {
 
 		switch (mode) {
 
-		case StatDialog.MODE_ONEVAR:
-			if (sourceType == StatDialog.SOURCE_RAWDATA) {
+		case DataAnalysisViewD.MODE_ONEVAR:
+			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
 				return list.size() == 1;
-			} else if (sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
 				return list.size() == 2;
-			} else if (sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
 				return (list.size() == 2 || list.size() == 3);
 			}
 			return false;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			return (list.size() == 2);
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			return list.size() > 0;
 		}
 
@@ -598,7 +598,7 @@ public class DataSource {
 
 		switch (mode) {
 
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 
 			title = new String[1];
 			StringTemplate tpl = StringTemplate.defaultTemplate;
@@ -627,7 +627,7 @@ public class DataSource {
 
 			break;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			if (dataSource instanceof GeoList) {
 				// TODO -- handle geolist data source titles
 				// title[0] = ((GeoList) dataSource).getLabel();
@@ -637,7 +637,7 @@ public class DataSource {
 			}
 			break;
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			if (dataSource instanceof GeoList) {
 				// TODO -- handle geolist data source titles
 				// title[0] = ((GeoList) dataSource).getLabel();
@@ -772,7 +772,7 @@ public class DataSource {
 		boolean doCreateFreePoints = false;
 		boolean setLabel = false;
 
-		if (mode == StatDialog.MODE_REGRESSION && size() == 1) {
+		if (mode == DataAnalysisViewD.MODE_REGRESSION && size() == 1) {
 
 			// ============================================
 			// case 1: list of points
@@ -796,7 +796,7 @@ public class DataSource {
 				return null;
 			}
 
-		} else if (mode == StatDialog.MODE_REGRESSION && size() == 2) {
+		} else if (mode == DataAnalysisViewD.MODE_REGRESSION && size() == 2) {
 
 			// ============================================
 			// case 2: two number lists converted to list of points
@@ -894,14 +894,14 @@ public class DataSource {
 
 			switch (mode) {
 
-			case StatDialog.MODE_ONEVAR:
-				if (sourceType == StatDialog.SOURCE_RAWDATA) {
+			case DataAnalysisViewD.MODE_ONEVAR:
+				if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
 					dataSelected = (GeoList) crProcessor.createList(
 							cellRangeList, scanByColumn, copyByValue, isSorted,
 							doStoreUndo, GeoClass.NUMERIC, setLabel);
 				}
 
-				else if (sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+				else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
 					dataSelected = crProcessor.createCollectionList(
 							cellRangeList, copyByValue, setLabel, scanByColumn);
 				} else {
@@ -911,7 +911,7 @@ public class DataSource {
 				}
 				break;
 
-			case StatDialog.MODE_REGRESSION:
+			case DataAnalysisViewD.MODE_REGRESSION:
 
 				// data is a cell range of points
 				if (cellRangeList.size() == 1
@@ -930,7 +930,7 @@ public class DataSource {
 				}
 				break;
 
-			case StatDialog.MODE_MULTIVAR:
+			case DataAnalysisViewD.MODE_MULTIVAR:
 				dataSelected = crProcessor.createCollectionList(cellRangeList,
 						copyByValue, setLabel, scanByColumn);
 				break;

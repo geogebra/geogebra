@@ -56,20 +56,22 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
+ * Panel to manage data sources for the DataAnalysisView
+ * 
  * @author G. Sturr
  * 
  */
 
-public class DataViewSettingsPanel extends JPanel implements ActionListener,
+public class DataSourcePanel extends JPanel implements ActionListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private StatDialog dataView;
+	private DataAnalysisViewD dataView;
 
 	private int mode;
-	protected int sourceType = StatDialog.SOURCE_RAWDATA;
+	protected int sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
 
 	// data source and table
 	private DataSource dataSource;
@@ -108,7 +110,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 	 * @param app
 	 * @param mode
 	 */
-	public DataViewSettingsPanel(AppD app, JDialog invoker, int mode) {
+	public DataSourcePanel(AppD app, JDialog invoker, int mode) {
 
 		this.app = app;
 		this.invoker = invoker;
@@ -247,7 +249,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		}
 
 		sourceControlPanel.removeAll();
-		if (mode == StatDialog.MODE_MULTIVAR) {
+		if (mode == DataAnalysisViewD.MODE_MULTIVAR) {
 			sourceControlPanel.add(
 					LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
 					BorderLayout.WEST);
@@ -270,12 +272,12 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		dataTypePanel.removeAll();
 		int tab = 15;
 
-		if (mode == StatDialog.MODE_ONEVAR) {
+		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
 
 			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbDataType));
 			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbSourceType));
 
-		} else if (mode == StatDialog.MODE_REGRESSION) {
+		} else if (mode == DataAnalysisViewD.MODE_REGRESSION) {
 			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbDataType));
 		} else {
 			dataTypePanel.add(LayoutUtil.flowPanel(tab, cbSourceType));
@@ -298,10 +300,10 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		classesPanel = new JPanel();
 		classesPanel.setLayout(new BoxLayout(classesPanel, BoxLayout.Y_AXIS));
 
-		classesPanel.add(LayoutUtil.flowPanelRight(0, 0, 20, lblStart,
-				fldStart));
-		classesPanel.add(LayoutUtil.flowPanelRight(0, 0, 20, lblWidth,
-				fldWidth));
+		classesPanel.add(LayoutUtil
+				.flowPanelRight(0, 0, 20, lblStart, fldStart));
+		classesPanel.add(LayoutUtil
+				.flowPanelRight(0, 0, 20, lblWidth, fldWidth));
 	}
 
 	// ====================================================
@@ -358,11 +360,11 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 	}
 
 	private String[] getDataTypeLabels() {
-		if (mode == StatDialog.MODE_ONEVAR) {
+		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
 			String[] dataTypeLabels = { app.getMenu("Number"),
 					app.getMenu("Text") };
 			return dataTypeLabels;
-		} else if (mode == StatDialog.MODE_REGRESSION) {
+		} else if (mode == DataAnalysisViewD.MODE_REGRESSION) {
 			String[] dataTypeLabels = { app.getMenu("Numbers"),
 					app.getMenu("Points") };
 			return dataTypeLabels;
@@ -427,28 +429,28 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 		switch (mode) {
 
-		case StatDialog.MODE_ONEVAR:
-			if (sourceType == StatDialog.SOURCE_RAWDATA) {
+		case DataAnalysisViewD.MODE_ONEVAR:
+			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
 				columnCount = 1;
 				columnNameList.add(app.getMenu("Data"));
-			} else if (sourceType == StatDialog.SOURCE_VALUE_FREQUENCY) {
+			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
 				columnCount = 2;
 				columnNameList.add(app.getMenu("Data"));
 				columnNameList.add(app.getMenu("Frequency"));
-			} else if (sourceType == StatDialog.SOURCE_CLASS_FREQUENCY) {
+			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
 				columnCount = 2;
 				columnNameList.add(app.getMenu("Classes"));
 				columnNameList.add(app.getMenu("Frequency"));
 			}
 			break;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			columnCount = 2;
 			columnNameList.add(app.getMenu("Column.X"));
 			columnNameList.add(app.getMenu("Column.Y"));
 			break;
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 
 			if (dataSource.size() > 2) {
 				columnCount = dataSource.size();
@@ -628,13 +630,13 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		} else if (source == cbSourceType) {
 
 			if (cbSourceType.getSelectedItem().equals(app.getMenu("Raw Data"))) {
-				sourceType = StatDialog.SOURCE_RAWDATA;
+				sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
 			} else if (cbSourceType.getSelectedItem().equals(
 					app.getMenu("Data with Frequency"))) {
-				sourceType = StatDialog.SOURCE_VALUE_FREQUENCY;
+				sourceType = DataAnalysisViewD.SOURCE_VALUE_FREQUENCY;
 			} else if (cbSourceType.getSelectedItem().equals(
 					app.getMenu("Class with Frequency"))) {
-				sourceType = StatDialog.SOURCE_CLASS_FREQUENCY;
+				sourceType = DataAnalysisViewD.SOURCE_CLASS_FREQUENCY;
 			}
 
 		} else if (source == btnNumeric || source == btnCategorical) {
@@ -650,7 +652,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		} else if (source == btnAdd) {
 
 			dataSource.addEmpty();
-			updatePanel(StatDialog.MODE_MULTIVAR, false);
+			updatePanel(DataAnalysisViewD.MODE_MULTIVAR, false);
 		} else if (source == btnClear) {
 			int n = dataSource.size();
 			dataSource.clear();
@@ -710,7 +712,8 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 	public void applySettings() {
 
 		if (dataView == null) {
-			dataView = (StatDialog) app.getGuiManager().getDataAnalysisView();
+			dataView = (DataAnalysisViewD) app.getGuiManager()
+					.getDataAnalysisView();
 		}
 		dataView.setNumeric(isNumericData);
 		dataView.setSourceType(sourceType);
@@ -862,7 +865,8 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			btnSelect.setContentAreaFilled(false);
 
 			selectIcon = app.getImageIcon("arrow_cursor_grabbing.png");
-			rolloverSelectIcon = app.getImageIcon("arrow_cursor_grabbing_rollover.png");
+			rolloverSelectIcon = app
+					.getImageIcon("arrow_cursor_grabbing_rollover.png");
 
 		}
 
@@ -927,8 +931,8 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		public boolean isOverTraceButton(int colIndex, Point loc, Object value) {
 
 			try {
-				getTableCellRendererComponent(table(), value,
-						false, false, -1, colIndex);
+				getTableCellRendererComponent(table(), value, false, false, -1,
+						colIndex);
 
 				btnSelect.getBounds(rect);
 				rect.y += lblTitle.getHeight();
@@ -956,7 +960,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 		@Override
 		public boolean stopCellEditing() {
-			//App.debug("stop cell edit");
+			// App.debug("stop cell edit");
 			return super.stopCellEditing();
 		}
 
@@ -971,7 +975,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 		}
 		optionsPopup.removeAll();
 
-		if (mode == StatDialog.MODE_ONEVAR) {
+		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
 
 			// ==========================
 			// one var data type
@@ -1011,12 +1015,12 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			final JCheckBoxMenuItem itmSourceRawData = new JCheckBoxMenuItem(
 					app.getMenu("RawData"));
 			itmSourceRawData
-					.setSelected(sourceType == StatDialog.SOURCE_RAWDATA);
+					.setSelected(sourceType == DataAnalysisViewD.SOURCE_RAWDATA);
 			itmSourceRawData.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmSourceRawData.isSelected()
-							&& sourceType != StatDialog.SOURCE_RAWDATA) {
-						sourceType = StatDialog.SOURCE_RAWDATA;
+							&& sourceType != DataAnalysisViewD.SOURCE_RAWDATA) {
+						sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
 						updateGUI();
 					}
 				}
@@ -1025,12 +1029,12 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			final JCheckBoxMenuItem itmSourceDataFrequency = new JCheckBoxMenuItem(
 					app.getMenu("DataWithFrequency"));
 			itmSourceDataFrequency
-					.setSelected(sourceType == StatDialog.SOURCE_VALUE_FREQUENCY);
+					.setSelected(sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY);
 			itmSourceDataFrequency.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmSourceDataFrequency.isSelected()
-							&& sourceType != StatDialog.SOURCE_VALUE_FREQUENCY) {
-						sourceType = StatDialog.SOURCE_VALUE_FREQUENCY;
+							&& sourceType != DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+						sourceType = DataAnalysisViewD.SOURCE_VALUE_FREQUENCY;
 						updateGUI();
 					}
 				}
@@ -1039,12 +1043,12 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 			final JCheckBoxMenuItem itmSourceClassFrequency = new JCheckBoxMenuItem(
 					app.getMenu("ClassWithFrequency"));
 			itmSourceClassFrequency
-					.setSelected(sourceType == StatDialog.SOURCE_CLASS_FREQUENCY);
+					.setSelected(sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY);
 			itmSourceClassFrequency.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmSourceClassFrequency.isSelected()
-							&& sourceType != StatDialog.SOURCE_CLASS_FREQUENCY) {
-						sourceType = StatDialog.SOURCE_CLASS_FREQUENCY;
+							&& sourceType != DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+						sourceType = DataAnalysisViewD.SOURCE_CLASS_FREQUENCY;
 						updateGUI();
 					}
 				}
@@ -1062,7 +1066,7 @@ public class DataViewSettingsPanel extends JPanel implements ActionListener,
 
 		}
 
-		if (mode == StatDialog.MODE_REGRESSION) {
+		if (mode == DataAnalysisViewD.MODE_REGRESSION) {
 
 			// ==========================
 			// two var data type

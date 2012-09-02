@@ -27,7 +27,7 @@ import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
-import geogebra.gui.view.spreadsheet.statdialog.DialogDataViewSettings;
+import geogebra.gui.view.spreadsheet.statdialog.DataSourceDialog;
 import geogebra.main.AppD;
 import geogebra.main.MyResourceBundle;
 
@@ -72,7 +72,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	 */
 	private GeoGebraFileChooser fileChooser;
 
-	private DialogDataViewSettings dataSourceDialog;
+	private DataSourceDialog dataSourceDialog;
 	
 	/**
 	 * Properties for translation of file chooser UI in languages Java doesn't
@@ -297,7 +297,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {		
 		if(dataSourceDialog == null){
-			dataSourceDialog = new DialogDataViewSettings(((AppD) app), mode);
+			dataSourceDialog = new DataSourceDialog(((AppD) app), mode);
 		}else{
 			dataSourceDialog.updateDialog(mode, doAutoLoadSelectedGeos);
 		}
@@ -594,7 +594,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		return optionsDialogFactory;
 	}
 	
-	public DialogDataViewSettings getDataSourceDialog() {
+	public DataSourceDialog getDataSourceDialog() {
 		return dataSourceDialog;
 	}
 

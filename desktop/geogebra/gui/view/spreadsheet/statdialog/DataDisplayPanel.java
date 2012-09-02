@@ -9,7 +9,7 @@ import geogebra.common.main.App;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
+import geogebra.gui.view.spreadsheet.statdialog.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
 import geogebra.util.Validation;
 
@@ -57,20 +57,20 @@ import javax.swing.event.ChangeListener;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
- * StatDialog class.
+ * DataAnalysisView.
  * 
  * @author G.Sturr
  * 
  */
-public class StatComboPanel extends JPanel implements ActionListener,
+public class DataDisplayPanel extends JPanel implements ActionListener,
 		FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private AppD app;
-	private StatDialog statDialog;
+	private DataAnalysisViewD daView;
 	private StatGeo statGeo;
 
-	// stat dialog mode
+	// data view mode
 	private int mode;
 
 	// one variable plot types
@@ -152,11 +152,11 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	/*****************************************
 	 * Constructs a ComboStatPanel
 	 */
-	public StatComboPanel(StatDialog statDialog) {
+	public DataDisplayPanel(DataAnalysisViewD view) {
 
-		this.statDialog = statDialog;
-		this.app = statDialog.getApp();
-		this.statGeo = statDialog.getStatGeo();
+		this.daView = view;
+		this.app = view.getApp();
+		this.statGeo = view.getStatGeo();
 		plotGeoList = new ArrayList<GeoElement>();
 
 		createPlotMap();
@@ -280,7 +280,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		displayCardPanel.add("imagePanel", new JScrollPane(imagePanel));
 
 		// create options panel
-		optionsPanel = new OptionsPanel(app, statDialog, settings);
+		optionsPanel = new OptionsPanel(app, daView, settings);
 		optionsPanel.addPropertyChangeListener("settings",
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent evt) {
@@ -289,7 +289,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				});
 		optionsPanel.setVisible(false);
 
-		frequencyTable = new FrequencyTablePanel(app, statDialog);
+		frequencyTable = new FrequencyTablePanel(app, daView);
 
 		// =======================================
 		// put all the panels together
@@ -321,7 +321,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		fldNumClasses.setToolTipText(app.getMenu("Classes"));
 		lblStart.setText(app.getMenu(" Start") + ": ");
 		lblWidth.setText(app.getMenu(" Width") + ": ");
-		if (mode == StatDialog.MODE_REGRESSION) {
+		if (mode == DataAnalysisViewD.MODE_REGRESSION) {
 			lblTitleX.setText(app.getMenu("Column.X") + ": ");
 			lblTitleY.setText(app.getMenu("Column.Y") + ": ");
 		}
@@ -348,23 +348,23 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		switch (mode) {
 
-		case StatDialog.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_ONEVAR:
 			cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
 			cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
 			cbDisplayType.addItem(plotMap.get(PLOT_DOTPLOT));
 
-			if (statDialog.getSourceType() == StatDialog.SOURCE_RAWDATA) {
+			if (daView.getSourceType() == DataAnalysisViewD.SOURCE_RAWDATA) {
 				cbDisplayType.addItem(plotMap.get(PLOT_STEMPLOT));
 				cbDisplayType.addItem(plotMap.get(PLOT_NORMALQUANTILE));
 			}
 			break;
 
-		case StatDialog.MODE_REGRESSION:
+		case DataAnalysisViewD.MODE_REGRESSION:
 			cbDisplayType.addItem(plotMap.get(PLOT_SCATTERPLOT));
 			cbDisplayType.addItem(plotMap.get(PLOT_RESIDUAL));
 			break;
 
-		case StatDialog.MODE_MULTIVAR:
+		case DataAnalysisViewD.MODE_MULTIVAR:
 			cbDisplayType.addItem(plotMap.get(PLOT_MULTIBOXPLOT));
 			break;
 		}
@@ -387,7 +387,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		plotPanelNorth.removeAll();
 		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
-		if (selectedPlot == StatComboPanel.PLOT_SCATTERPLOT) {
+		if (selectedPlot == DataDisplayPanel.PLOT_SCATTERPLOT) {
 			plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			plotPanelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
 			plotPanelSouth.add(lblTitleX);
@@ -399,7 +399,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 		}
 
-		else if (selectedPlot == StatComboPanel.PLOT_HISTOGRAM) {
+		else if (selectedPlot == DataDisplayPanel.PLOT_HISTOGRAM) {
 
 			// plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			// plotPanelNorth.add(lblTitleY);
@@ -581,7 +581,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	public void updatePlot(boolean doCreate) {
 
-		GeoList dataListSelected = statDialog.getStatDialogController()
+		GeoList dataListSelected = daView.getController()
 				.getDataSelected();
 
 		GeoElement geo;
@@ -598,14 +598,14 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		updatePlotPanelLayout();
 
 		// if invalid data, show blank plot and exit
-		if (!statDialog.getStatDialogController().isValidData()) {
+		if (!daView.getController().isValidData()) {
 			imageContainer.setIcon(null);
 			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
 					"imagePanel");
 			return;
 		}
 
-		settings.sourceType = statDialog.getSourceType();
+		settings.sourceType = daView.getSourceType();
 		
 		switch (selectedPlot) {
 
@@ -716,10 +716,10 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				scatterPlot = statGeo.createScatterPlot(dataListSelected);
 				plotGeoList.add(scatterPlot);
 
-				if (statDialog.getRegressionModel() != null
-						&& !statDialog.getRegressionMode().equals(
+				if (daView.getRegressionModel() != null
+						&& !daView.getRegressionMode().equals(
 								Regression.NONE)) {
-					plotGeoList.add(statDialog.getRegressionModel());
+					plotGeoList.add(daView.getRegressionModel());
 				}
 
 				if (settings.showScatterplotLine) {
@@ -730,8 +730,8 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			}
 
 			// update xy title fields
-			fldTitleX.setText(statDialog.getDataTitles()[0]);
-			fldTitleY.setText(statDialog.getDataTitles()[1]);
+			fldTitleX.setText(daView.getDataTitles()[0]);
+			fldTitleY.setText(daView.getDataTitles()[1]);
 
 			// update settings
 			statGeo.getScatterPlotSettings(dataListSelected, settings);
@@ -744,10 +744,10 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		case PLOT_RESIDUAL:
 			if (doCreate) {
-				if (!statDialog.getRegressionMode().equals(Regression.NONE)) {
+				if (!daView.getRegressionMode().equals(Regression.NONE)) {
 					residualPlot = statGeo.createRegressionPlot(
-							dataListSelected, statDialog.getRegressionMode(),
-							statDialog.getRegressionOrder(), true);
+							dataListSelected, daView.getRegressionMode(),
+							daView.getRegressionOrder(), true);
 					plotGeoList.add(residualPlot);
 					statGeo.getResidualPlotSettings(dataListSelected,
 							residualPlot, settings);
@@ -772,7 +772,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 			statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
 			plotPanel.updateSettings(settings);
-			boxPlotTitles = statGeo.createBoxPlotTitles(statDialog, settings);
+			boxPlotTitles = statGeo.createBoxPlotTitles(daView, settings);
 			for (int i = 0; i < boxPlotTitles.length; i++)
 				plotGeoList.add(boxPlotTitles[i]);
 
@@ -1054,14 +1054,14 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				prepareGeoForEV(geo, euclidianViewID);
 			}
 
-			// the regression geo is maintained by StatDialog, so we create a
+			// the regression geo is maintained by the da view, so we create a
 			// copy and prepare this for the EV
-			if (statDialog.getMode() == StatDialog.MODE_REGRESSION
-					&& !statDialog.getRegressionMode().equals(Regression.NONE)) {
+			if (daView.getMode() == DataAnalysisViewD.MODE_REGRESSION
+					&& !daView.getRegressionMode().equals(Regression.NONE)) {
 
 				regressionCopy = statGeo.createRegressionPlot(
-						(GeoList) scatterPlot, statDialog.getRegressionMode(),
-						statDialog.getRegressionOrder(), false);
+						(GeoList) scatterPlot, daView.getRegressionMode(),
+						daView.getRegressionOrder(), false);
 				prepareGeoForEV(regressionCopy, euclidianViewID);
 			}
 
@@ -1100,8 +1100,8 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			nqPlot = null;
 			boxPlot = null;
 
-			statDialog.getStatDialogController().removeRegressionGeo();
-			statDialog.getStatDialogController().disposeDataListSelected();
+			daView.getController().removeRegressionGeo();
+			daView.getController().disposeDataListSelected();
 			plotGeoList.clear();
 
 			// =================================================================
@@ -1110,7 +1110,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			// in the construction list.
 			// =================================================================
 
-			statDialog.getStatDialogController().loadDataLists();
+			daView.getController().loadDataLists();
 			statGeo.setRemoveFromConstruction(true);
 			updatePlot(true);
 

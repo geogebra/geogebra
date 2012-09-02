@@ -48,7 +48,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	// ggb fields
 	private AppD app;
 	private Kernel kernel;
-	private StatDialog statDialog;
+	private DataAnalysisViewD statDialog;
 	private StatTable resultTable;
 	
 	// GUI
@@ -87,7 +87,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	/***************************************
 	 * Construct a OneVarInference panel
 	 */
-	public OneVarInferencePanel(AppD app, StatDialog statDialog){
+	public OneVarInferencePanel(AppD app, DataAnalysisViewD statDialog){
 
 		isIniting = true;
 		this.app = app;
@@ -495,8 +495,8 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	private void evaluate(){
 
-		GeoList dataList = statDialog.getStatDialogController().getDataSelected();
-		double[] sample = statDialog.getStatDialogController().getValueArray(dataList);
+		GeoList dataList = statDialog.getController().getDataSelected();
+		double[] sample = statDialog.getController().getValueArray(dataList);
 
 		mean = StatUtils.mean(sample);
 		N = sample.length;
