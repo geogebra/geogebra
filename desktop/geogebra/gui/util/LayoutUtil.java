@@ -1,5 +1,7 @@
 package geogebra.gui.util;
 
+import geogebra.common.main.App;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -26,6 +28,23 @@ public class LayoutUtil {
 		return p;
 	}
 
+	// testing left-right support
+	public static JPanel flowPanel2(App app, Component... comps) {
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, defaultHgap,
+				defaultVgap));
+
+		if (!app.isRightToLeftReadingOrder()) {
+			for (int i = 0; i < comps.length; i++) {
+				p.add(comps[i]);
+			}
+		} else {
+			for (int i = comps.length - 1; i >= 0; i--) {
+				p.add(comps[i]);
+			}
+		}
+		return p;
+	}
+
 	public static JPanel flowPanel(int tab, Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, defaultHgap,
 				defaultVgap));
@@ -46,7 +65,6 @@ public class LayoutUtil {
 		return p;
 	}
 
-	
 	public static JPanel flowPanelCenter(int hgap, int vgap, int tab,
 			Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, hgap, vgap));
@@ -56,9 +74,9 @@ public class LayoutUtil {
 		}
 		return p;
 	}
-	
-	public static JPanel flowPanelCenter(int hgap, int vgap, int tab, Color bgColor,
-			Component... comps) {
+
+	public static JPanel flowPanelCenter(int hgap, int vgap, int tab,
+			Color bgColor, Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, hgap, vgap));
 		p.add(Box.createHorizontalStrut(tab));
 		for (Component comp : comps) {
@@ -67,9 +85,7 @@ public class LayoutUtil {
 		p.setBackground(bgColor);
 		return p;
 	}
-	
-	
-	
+
 	public static JPanel flowPanelRight(int hgap, int vgap, int tab,
 			Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, hgap, vgap));
@@ -79,15 +95,15 @@ public class LayoutUtil {
 		}
 		return p;
 	}
-	
-	
+
 	public static Border titleBorder(String title) {
-		Border lineBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight),
-				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
-		
-		Border outsideBorder = BorderFactory.createTitledBorder(lineBorder,title,
-				TitledBorder.LEADING, TitledBorder.TOP); //,f,SystemColor.DARK_GRAY);
+		Border lineBorder = BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight),
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						SystemColor.controlShadow));
+
+		Border outsideBorder = BorderFactory.createTitledBorder(lineBorder,
+				title, TitledBorder.LEADING, TitledBorder.TOP); // ,f,SystemColor.DARK_GRAY);
 		Border insideBorder = BorderFactory.createEmptyBorder(0, 40, 0, 0);
 		return BorderFactory.createCompoundBorder(outsideBorder, insideBorder);
 	}
@@ -99,7 +115,7 @@ public class LayoutUtil {
 		public TitlePanel() {
 			this("");
 		}
-		
+
 		public TitlePanel(String title) {
 			setLayout((new BoxLayout(this, BoxLayout.Y_AXIS)));
 			setBorder(titleBorder(title));
