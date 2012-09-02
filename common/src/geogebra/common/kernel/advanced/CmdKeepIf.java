@@ -2,8 +2,6 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoKeepIf;
-import geogebra.common.kernel.algos.AlgoKeepIf3;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.ValidExpression;

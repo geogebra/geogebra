@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -49,7 +49,7 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
         return Algos.AlgoBernoulliBarChart;
     }
 
-	public AlgoDrawInformation copy() {		
+	public DrawInformationAlgo copy() {		
 		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
 		if(b!=null)b=(GeoBoolean)b.copy();
 		

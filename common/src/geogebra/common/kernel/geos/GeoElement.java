@@ -35,16 +35,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAttachCopyToView;
+import geogebra.common.kernel.advanced.AlgoAttachCopyToView;
+import geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
+import geogebra.common.kernel.advanced.AlgoIntegralODE;
+import geogebra.common.kernel.advanced.AlgoName;
+import geogebra.common.kernel.advanced.AlgoSlopeField;
+import geogebra.common.kernel.advanced.AlgoSolveODE;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDependentText;
-import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
+import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoIntegralODE;
-import geogebra.common.kernel.algos.AlgoName;
-import geogebra.common.kernel.algos.AlgoSlopeField;
-import geogebra.common.kernel.algos.AlgoSolveODE;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -1868,7 +1868,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @param algorithm algorithm responsible for drawing this 
 	 */
-	public void setDrawAlgorithm(final AlgoDrawInformation algorithm) {
+	public void setDrawAlgorithm(final DrawInformationAlgo algorithm) {
 		if (algorithm instanceof AlgoElement) {
 			algoDraw = (AlgoElement) algorithm;
 		}

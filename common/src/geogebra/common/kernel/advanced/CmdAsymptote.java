@@ -1,8 +1,7 @@
 package geogebra.common.kernel.advanced;
 
+import geogebra.common.cas.AlgoAsymptoteFunction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoAsymptote;
-import geogebra.common.kernel.algos.AlgoAsymptoteFunction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;

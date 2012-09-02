@@ -369,9 +369,9 @@ public class AlgoSequence extends AlgoElement {
 			listElement.set(expression);
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
-					&& drawAlgo instanceof AlgoDrawInformation) {
+					&& drawAlgo instanceof DrawInformationAlgo) {
 				App.debug(expression.getDrawAlgorithm().getClass().getName());
-				listElement.setDrawAlgorithm(((AlgoDrawInformation) drawAlgo)
+				listElement.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
 						.copy());
 				listElement.setEuclidianVisible(true);
 			}
@@ -444,8 +444,8 @@ public class AlgoSequence extends AlgoElement {
 			else
 				listElement.setUndefined();
 			if (listElement instanceof GeoNumeric
-					&& listElement.getDrawAlgorithm() instanceof AlgoDrawInformation) {
-				listElement.setDrawAlgorithm(((AlgoDrawInformation) expression
+					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
+				listElement.setDrawAlgorithm(((DrawInformationAlgo) expression
 						.getDrawAlgorithm()).copy());
 				listElement.setEuclidianVisible(true);
 			}

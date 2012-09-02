@@ -15,8 +15,8 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.common.kernel.algos.AlgoFunctionFreehand;
+import geogebra.common.kernel.advanced.AlgoFunctionFreehand;
+import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -38,7 +38,7 @@ import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
  * @author Markus Hohenwarter
  */
 public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
-		AlgoDrawInformation, AlgoIntegralDefiniteInterface {
+		DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 
 	private GeoFunction f; // input
 	private NumberValue a, b; // input
@@ -402,7 +402,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 				ageo.getLabel(tpl), bgeo.getLabel(tpl));
 	}
 
-	public AlgoDrawInformation copy() {
+	public DrawInformationAlgo copy() {
 		if (evaluate != null)
 			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 					(NumberValue) a.deepCopy(kernel),

@@ -2,8 +2,8 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.advanced.AlgoPrimeFactorization;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoPrimeFactorization;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;

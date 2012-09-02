@@ -1,8 +1,6 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoOsculatingCircle;
-import geogebra.common.kernel.algos.AlgoOsculatingCircleCurve;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;

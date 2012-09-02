@@ -1,8 +1,6 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoCountIf;
-import geogebra.common.kernel.algos.AlgoCountIf3;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;

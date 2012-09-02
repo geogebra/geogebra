@@ -1,11 +1,11 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoNpR;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.statistics.AlgoNpR;
 import geogebra.common.main.MyError;
 /**
  * nPr[number,number]

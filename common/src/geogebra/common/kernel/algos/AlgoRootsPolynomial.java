@@ -41,7 +41,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private static final int MULTIPLE_ROOTS = 3;
 	private int mode;
 
-	GeoFunction f, g; // input (g for intersection of polynomials)
+	protected GeoFunction f; // input (g for intersection of polynomials)
+	GeoFunction g;
 	private GeoLine line; // input (for intersection of polynomial with line)
 	protected GeoPoint[] rootPoints; // output, inherited from AlgoIntersect
 	// private int rootPointsLength;
@@ -50,10 +51,10 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private boolean initLabels;
 	protected boolean setLabels;
 	protected EquationSolverInterface eqnSolver;
-	double[] curRoots = new double[30]; // current roots
-	int curRealRoots;
+	protected double[] curRoots = new double[30]; // current roots
+	protected int curRealRoots;
 
-	Function yValFunction;
+	protected Function yValFunction;
 	// used for AlgoExtremumPolynomial, see setRootPoints()
 	private Function diffFunction; // used for intersection of f and g
 	private GeoPoint tempPoint;

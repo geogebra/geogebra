@@ -29,7 +29,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInformation{
+public class AlgoIntegralFunctions extends AlgoElement  implements DrawInformationAlgo{
 
 	private GeoFunction f, g; // input
 	private NumberValue a, b; //input

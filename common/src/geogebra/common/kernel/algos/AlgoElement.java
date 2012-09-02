@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.advanced.AlgoObject;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -722,7 +723,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 	}
 
-	protected boolean protectedInput = false;
+	public boolean protectedInput = false;
 	
 	/**
 	 * sets if the "not labeled" inputs are protected from remove

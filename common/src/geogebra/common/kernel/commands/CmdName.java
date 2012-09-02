@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoName;
+import geogebra.common.kernel.advanced.AlgoName;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;

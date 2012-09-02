@@ -34,7 +34,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @version
  */
 public class AlgoAnglePoints extends AlgoElement implements
-		AlgoDrawInformation, AngleAlgo {
+		DrawInformationAlgo, AngleAlgo {
 
 	private GeoPointND An, Bn, Cn; // input
 	private GeoAngle angle; // output

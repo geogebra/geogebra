@@ -1,8 +1,6 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoExtremumMulti;
-import geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;

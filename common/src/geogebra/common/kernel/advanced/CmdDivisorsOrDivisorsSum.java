@@ -1,7 +1,6 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoDivisorsSum;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdOneNumber;
 import geogebra.common.kernel.geos.GeoElement;

@@ -42,7 +42,7 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
  * intervals
  */
 public abstract class AlgoFunctionAreaSums extends AlgoElement implements
-		AlgoDrawInformation {
+		DrawInformationAlgo {
 
 	// largest possible number of rectangles
 	private static final int MAX_RECTANGLES = 10000;

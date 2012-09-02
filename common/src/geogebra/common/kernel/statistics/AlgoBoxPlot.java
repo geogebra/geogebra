@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * @author George Sturr
  * 
  */
-public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
+public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	private static final int TYPE_QUARTILES = 0;
 	private static final int TYPE_RAW = 1;

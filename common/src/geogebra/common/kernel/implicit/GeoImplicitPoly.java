@@ -26,7 +26,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoClosestPoint;
+import geogebra.common.kernel.advanced.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;

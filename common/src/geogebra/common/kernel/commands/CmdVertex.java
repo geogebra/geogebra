@@ -1,12 +1,12 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoDrawingPadCorner;
-import geogebra.common.kernel.algos.AlgoImageCorner;
-import geogebra.common.kernel.algos.AlgoTextCorner;
-import geogebra.common.kernel.algos.AlgoVertex;
-import geogebra.common.kernel.algos.AlgoVertexIneq;
-import geogebra.common.kernel.algos.AlgoVertexPolygon;
+import geogebra.common.kernel.advanced.AlgoDrawingPadCorner;
+import geogebra.common.kernel.advanced.AlgoImageCorner;
+import geogebra.common.kernel.advanced.AlgoTextCorner;
+import geogebra.common.kernel.advanced.AlgoVertex;
+import geogebra.common.kernel.advanced.AlgoVertexIneq;
+import geogebra.common.kernel.advanced.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;

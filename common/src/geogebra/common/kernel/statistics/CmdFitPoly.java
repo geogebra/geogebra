@@ -11,7 +11,7 @@ the Free Software Foundation.
 
 */
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoFunctionFreehand;
+import geogebra.common.kernel.advanced.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;

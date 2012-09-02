@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoLine;
  * @author  Markus
  * @version 
  */
-public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation, AngleAlgo{
+public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo, AngleAlgo{
 
     private GeoLine g, h; // input
     private GeoAngle angle; // output           

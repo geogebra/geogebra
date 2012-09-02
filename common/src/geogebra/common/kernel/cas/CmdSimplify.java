@@ -1,7 +1,7 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoSimplifyText;
+import geogebra.common.kernel.advanced.AlgoSimplifyText;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.CasEvaluableFunction;

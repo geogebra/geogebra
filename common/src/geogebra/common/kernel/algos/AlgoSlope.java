@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * @author  Markus
  * @version 
  */
-public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
+public class AlgoSlope extends AlgoElement implements DrawInformationAlgo{
 
     private GeoLine g; // input
     private GeoNumeric slope; // output       
@@ -112,7 +112,7 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     	return app.getPlain("SlopeOfA",g.getLabel(tpl));
     }
 
-	public AlgoDrawInformation copy() {		
+	public DrawInformationAlgo copy() {		
 		return new AlgoSlope((GeoLine)g.copy());
 	}
 

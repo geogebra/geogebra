@@ -195,9 +195,9 @@ implements AlgoMacroInterface {
 			if(macroGeo.isDefined()){
 				algoGeo.set(macroGeo);	
 				AlgoElement drawAlgo = macroGeo.getParentAlgorithm();
-				if(drawAlgo instanceof AlgoDrawInformation){
+				if(drawAlgo instanceof DrawInformationAlgo){
 					((GeoNumeric) algoGeo).setDrawable(true);
-					algoGeo.setDrawAlgorithm(((AlgoDrawInformation)drawAlgo).copy());
+					algoGeo.setDrawAlgorithm(((DrawInformationAlgo)drawAlgo).copy());
 				}
 
 			}
@@ -224,9 +224,9 @@ implements AlgoMacroInterface {
 			}
 			out.setLayer(layer);
 			AlgoElement drawAlgo = macroOutput[i].getParentAlgorithm();
-			if(drawAlgo instanceof AlgoDrawInformation){
+			if(drawAlgo instanceof DrawInformationAlgo){
 				((GeoNumeric) out).setDrawable(true);
-				out.setDrawAlgorithm(((AlgoDrawInformation)drawAlgo).copy());
+				out.setDrawAlgorithm(((DrawInformationAlgo)drawAlgo).copy());
 			}
 			
 			out.setAlgoMacroOutput(true);

@@ -39,7 +39,7 @@ import geogebra.common.main.App;
 
 public abstract class AlgoOptimize extends AlgoElement{
 	/** optimization types */
-	protected enum OptimizationType {
+	public enum OptimizationType {
 	/** minimize */
 	MINIMIZE,
 	/** maximize */

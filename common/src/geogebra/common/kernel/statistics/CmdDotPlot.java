@@ -1,7 +1,6 @@
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoDotPlot;
 import geogebra.common.kernel.commands.CmdOneListFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

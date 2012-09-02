@@ -22,6 +22,7 @@ import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.advanced.AlgoLocusSliderInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
