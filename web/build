@@ -152,6 +152,7 @@ while [ $# -gt 0 ]; do
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
    echo "  -l [locales]        Comma separated list of requested locales (NONE for nothing)"
    echo "  -nl, --no-locales   Remove locales (speeds up compilation), same as -l NONE"
+   echo "  -al, --all-locales  Compile all locales"
    echo "  -M                  Compile the mobile version"
    echo "  --heap [size]       Use size of heap memory for GWT compilation ($HEAPSIZE)"
    echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
@@ -205,6 +206,13 @@ while [ $# -gt 0 ]; do
 
   -nl | --no-locales)
    LOCALES=NONE
+   ;;
+
+  -al | --all-locales)
+   # TODO: Maybe there is a better way to list gather languages than this one:
+   LOCALES=ar,en,de,es,fr,pt,bg,bs,ca,cs,cy,da,de_AT,el,en_AU,en_GB,et,eu,fa,fi,gl,hi,hr,hu,hy,ia,in,is,it,iw,ja,ji
+   LOCALES=$LOCALES,ka,kk,ko,lt,mk,ml,mn,mr,ms,ne,nl,nn,nb,no,pl,pt_PT,ro,ru,si,sk,sl,sq,sr,sv,ta,tg,th,tr,ty,uk,vi
+   LOCALES=$LOCALES,zh_CN,zh_TW,zh
    ;;
 
   -M)
