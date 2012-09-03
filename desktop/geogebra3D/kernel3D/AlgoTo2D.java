@@ -54,7 +54,7 @@ public class AlgoTo2D extends AlgoElement3D {
     		P2.setCoords(1,0,1);
 
     		kernel.setSilentMode(true);
-    		out = kernel.Segment(null, P1, P2);
+    		out = kernel.getAlgoDispatcher().Segment(null, P1, P2);
     		kernel.setSilentMode(false);
     		
     		break;

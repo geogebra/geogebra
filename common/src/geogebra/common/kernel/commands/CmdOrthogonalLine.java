@@ -42,7 +42,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoVector()))) {
 				GeoElement[] ret =
 				{
-						kernelA.OrthogonalLine(
+						getAlgoDispatcher().OrthogonalLine(
 								c.getLabel(),
 								(GeoPoint) arg[0],
 								(GeoVector) arg[1])};
@@ -55,7 +55,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoLine()))) {
 				GeoElement[] ret =
 				{
-						kernelA.OrthogonalLine(
+						getAlgoDispatcher().OrthogonalLine(
 								c.getLabel(),
 								(GeoPoint) arg[0],
 								(GeoLine) arg[1])};

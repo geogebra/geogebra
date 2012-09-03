@@ -107,7 +107,7 @@ public class CmdAngle extends CommandProcessor {
 					GeoElement[] ret = { algo.getAngle() };
 					return ret;
 				} else if (arg[0].isGeoPolygon()) {
-					return kernelA.Angles(c.getLabels(), (GeoPolygon) arg[0]);
+					return getAlgoDispatcher().Angles(c.getLabels(), (GeoPolygon) arg[0]);
 				}
 			}
 
@@ -119,14 +119,14 @@ public class CmdAngle extends CommandProcessor {
 			// angle between vectors
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoVector()))) {
-				GeoElement[] ret = { kernelA.Angle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Angle(c.getLabel(),
 						(GeoVector) arg[0], (GeoVector) arg[1]) };
 				return ret;
 			}
 			// angle between lines
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { kernelA.Angle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Angle(c.getLabel(),
 						(GeoLine) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			}
@@ -145,7 +145,7 @@ public class CmdAngle extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Angle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Angle(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoPoint) arg[2]) };
 				return ret;
@@ -154,7 +154,7 @@ public class CmdAngle extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				return kernelA.Angle(c.getLabels(), (GeoPoint) arg[0],
+				return getAlgoDispatcher().Angle(c.getLabels(), (GeoPoint) arg[0],
 						(GeoPoint) arg[1], (NumberValue) arg[2], true);
 			} else {
 				throw argErr(app, c.getName(), arg[0]);

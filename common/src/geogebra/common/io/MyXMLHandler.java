@@ -24,6 +24,7 @@ import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.KernelCAS;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernel;
@@ -2628,7 +2629,7 @@ public class MyXMLHandler implements DocHandler {
 				// this also creates twinGeo if necessary
 				// output is not computed again, see AlgoDependenCasCell
 				// constructor
-				Kernel.DependentCasCell(geoCasCell);
+				KernelCAS.DependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
 			System.err.println("error when processing <cellpair>: "

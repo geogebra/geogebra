@@ -37,7 +37,7 @@ public class CmdRay extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
 				GeoElement[] ret =
 				{
-						kernelA.Ray(
+						getAlgoDispatcher().Ray(
 								c.getLabel(),
 								(GeoPoint) arg[0],
 								(GeoPoint) arg[1])};
@@ -50,7 +50,7 @@ public class CmdRay extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoVector()))) {
 				GeoElement[] ret =
 				{
-						kernelA.Ray(
+						getAlgoDispatcher().Ray(
 								c.getLabel(),
 								(GeoPoint) arg[0],
 								(GeoVector) arg[1])};

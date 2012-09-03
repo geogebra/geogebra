@@ -275,7 +275,7 @@ public class ButtonDialog extends JDialog
 		App.debug(tfScript.getText());				
 		if (source == btApply) {		
 			Construction cons = app.getKernel().getConstruction();
-			button = textField ? app.getKernel().textfield(null, linkedGeo) : new GeoButton(cons);
+			button = textField ? app.getKernel().getAlgoDispatcher().textfield(null, linkedGeo) : new GeoButton(cons);
 			button.setEuclidianVisible(true);
 			button.setAbsoluteScreenLoc(x, y);
 

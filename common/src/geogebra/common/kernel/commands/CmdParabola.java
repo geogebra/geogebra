@@ -33,7 +33,7 @@ public class CmdParabola extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { kernelA.Parabola(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Parabola(c.getLabel(),
 						(GeoPoint) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			} 

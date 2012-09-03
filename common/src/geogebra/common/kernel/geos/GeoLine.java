@@ -1259,7 +1259,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			// don't create a label for the new dependent function
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			ret = kernel.DependentFunction(null, fun);
+			ret = kernel.getAlgoDispatcher().DependentFunction(null, fun);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else {
 			ret = new GeoFunction(cons);

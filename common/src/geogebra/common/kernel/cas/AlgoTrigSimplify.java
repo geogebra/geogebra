@@ -1,5 +1,6 @@
 package geogebra.common.kernel.cas;
 
+import geogebra.common.kernel.AlgoCasBase;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;

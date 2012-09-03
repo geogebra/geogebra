@@ -829,7 +829,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (geos.size()==1)
 			geoRecordToSpreadSheet = geo;
 		else{
-			geoRecordToSpreadSheet = app.getKernel().List(null, geos, false);
+			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher().List(null, geos, false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 			

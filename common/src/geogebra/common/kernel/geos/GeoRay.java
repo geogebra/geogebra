@@ -277,7 +277,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				
 				// ray through transformed point with direction of transformed line
-				GeoElement ray = kernel.Ray(transformedLabel, (GeoPoint) points[0], direction);
+				GeoElement ray = kernel.getAlgoDispatcher().Ray(transformedLabel, (GeoPoint) points[0], direction);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
 				return geos;

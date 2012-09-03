@@ -1,6 +1,7 @@
 package geogebra.plugin.jython;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.kernel.AlgoDispatcher;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -1092,7 +1093,11 @@ public class PythonFlatAPI {
 	 * @return new vector Geo with coordinates (x, y)
 	 */
 	public GeoVector geoVector(double x, double y) {
-		return kernel.Vector(x, y);
+		return getAlgoDispatcher().Vector(x, y);
+	}
+
+	private AlgoDispatcher getAlgoDispatcher() {
+		return kernel.getAlgoDispatcher();
 	}
 
 	/**
@@ -1102,7 +1107,7 @@ public class PythonFlatAPI {
 	 * @return new vector Geo from start to end
 	 */
 	public GeoVector geoVector(GeoPoint start, GeoPoint end) {
-		return kernel.Vector(null, start, end);
+		return getAlgoDispatcher().Vector(null, start, end);
 	}
 
 	/**
@@ -1111,7 +1116,7 @@ public class PythonFlatAPI {
 	 * @return new vector Geo from O to pos
 	 */
 	public GeoVector geoVector(GeoPoint pos) {
-		return kernel.Vector(null, pos);
+		return getAlgoDispatcher().Vector(null, pos);
 	}
 
 	/**
@@ -1160,7 +1165,7 @@ public class PythonFlatAPI {
 	 * @return new Geo on path
 	 */
 	public GeoPoint geoPointOnPath(Path path, NumberValue param) {
-		return kernel.Point(null, path, param);
+		return getAlgoDispatcher().Point(null, path, param);
 	}
 
 	/**
@@ -1170,7 +1175,7 @@ public class PythonFlatAPI {
 	 * @return new Geo line
 	 */
 	public GeoLine geoLinePP(GeoPoint p, GeoPoint q) {
-		return kernel.Line(null, p, q);
+		return getAlgoDispatcher().Line(null, p, q);
 	}
 
 	/**
@@ -1180,7 +1185,7 @@ public class PythonFlatAPI {
 	 * @return new Geo line
 	 */
 	public GeoLine geoLinePV(GeoPoint p, GeoVector q) {
-		return kernel.Line(null, p, q);
+		return getAlgoDispatcher().Line(null, p, q);
 	}
 
 	/**
@@ -1190,7 +1195,7 @@ public class PythonFlatAPI {
 	 * @return new Geo line
 	 */
 	public GeoLine geoLinePL(GeoPoint p, GeoLine l) {
-		return kernel.Line(null, p, l);
+		return getAlgoDispatcher().Line(null, p, l);
 	}
 
 	/**
@@ -1200,7 +1205,7 @@ public class PythonFlatAPI {
 	 * @return new Geo segment
 	 */
 	public GeoSegment geoSegment(GeoPoint p, GeoPoint q) {
-		return kernel.Segment(null, p, q);
+		return getAlgoDispatcher().Segment(null, p, q);
 	}
 
 	/**
@@ -1210,7 +1215,7 @@ public class PythonFlatAPI {
 	 * @return new Geo ray
 	 */
 	public GeoRay geoRayPP(GeoPoint p, GeoPoint q) {
-		return kernel.Ray(null, p, q);
+		return getAlgoDispatcher().Ray(null, p, q);
 	}
 
 	/**
@@ -1261,7 +1266,7 @@ public class PythonFlatAPI {
 	 * @return the new Geo conic
 	 */
 	public GeoConic geoConic(GeoPoint[] points) {
-		return kernel.Conic(null, points);
+		return getAlgoDispatcher().Conic(null, points);
 	}
 
 	/**
@@ -1271,7 +1276,7 @@ public class PythonFlatAPI {
 	 * @return new Geo circle
 	 */
 	public GeoConic geoCircleCP(GeoPoint center, GeoPoint point) {
-		return kernel.Circle(null, center, point);
+		return getAlgoDispatcher().Circle(null, center, point);
 	}
 
 	/**
@@ -1282,7 +1287,7 @@ public class PythonFlatAPI {
 	 * @return new Geo circle
 	 */
 	public GeoConic geoCirclePPP(GeoPoint p, GeoPoint q, GeoPoint r) {
-		return kernel.Circle(null, p, q, r);
+		return getAlgoDispatcher().Circle(null, p, q, r);
 	}
 
 	/**
@@ -1292,7 +1297,7 @@ public class PythonFlatAPI {
 	 * @return new Geo circle
 	 */
 	public GeoConic geoCircleCS(GeoPoint c, GeoSegment s) {
-		return kernel.Circle(null, c, s);
+		return getAlgoDispatcher().Circle(null, c, s);
 	}
 
 	/**
@@ -1302,7 +1307,7 @@ public class PythonFlatAPI {
 	 * @return new Geo circle
 	 */
 	public GeoConic geoCircleCR(GeoPoint c, NumberValue r) {
-		return kernel.Circle(null, c, r);
+		return getAlgoDispatcher().Circle(null, c, r);
 	}
 
 	/**
@@ -1313,7 +1318,7 @@ public class PythonFlatAPI {
 	 * @return new Geo ellipse
 	 */
 	public GeoConic geoEllipseFFP(GeoPoint s1, GeoPoint s2, GeoPoint p) {
-		return kernel.Ellipse(null, s1, s2, p);
+		return getAlgoDispatcher().Ellipse(null, s1, s2, p);
 	}
 
 	/**
@@ -1324,7 +1329,7 @@ public class PythonFlatAPI {
 	 * @return new Geo ellipse
 	 */
 	public GeoConic geoEllipseFFA(GeoPoint s1, GeoPoint s2, NumberValue a) {
-		return kernel.Ellipse(null, s1, s2, a);
+		return getAlgoDispatcher().Ellipse(null, s1, s2, a);
 	}
 
 
@@ -1336,7 +1341,7 @@ public class PythonFlatAPI {
 	 * @return new Geo hyperbola
 	 */
 	public GeoConic geoHyperbolaFFP(GeoPoint s1, GeoPoint s2, GeoPoint p) {
-		return kernel.Hyperbola(null, s1, s2, p);
+		return getAlgoDispatcher().Hyperbola(null, s1, s2, p);
 	}
 
 	/**
@@ -1347,7 +1352,7 @@ public class PythonFlatAPI {
 	 * @return new Geo hyperbola
 	 */
 	public GeoConic geoHyperbolaFFA(GeoPoint s1, GeoPoint s2, NumberValue a) {
-		return kernel.Hyperbola(null, s1, s2, a);
+		return getAlgoDispatcher().Hyperbola(null, s1, s2, a);
 	}
 
 	/**
@@ -1357,7 +1362,7 @@ public class PythonFlatAPI {
 	 * @return new Geo parabola
 	 */
 	public GeoConic geoParabola(GeoPoint s, GeoLine l) {
-		return kernel.Parabola(null, s, l);
+		return getAlgoDispatcher().Parabola(null, s, l);
 	}
 	
 	/* Lists */
@@ -1368,7 +1373,7 @@ public class PythonFlatAPI {
 	 */
 	public GeoList geoList(GeoElement[] geos) {
 		ArrayList<GeoElement> geoslist = new ArrayList<GeoElement>(Arrays.asList(geos));
-		return kernel.List(null, geoslist, true);
+		return getAlgoDispatcher().List(null, geoslist, true);
 	}
 	
 	/* Turtles */

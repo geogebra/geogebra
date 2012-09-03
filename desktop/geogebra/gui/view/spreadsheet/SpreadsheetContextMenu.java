@@ -186,7 +186,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 							if (geos.size() == 1)
 								geoRecordToSpreadSheet = geo;
 							else {
-								geoRecordToSpreadSheet = app.getKernel().List(
+								geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher().List(
 										null, geos, false);
 								geoRecordToSpreadSheet.setAuxiliaryObject(true);
 							}

@@ -207,7 +207,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		if (source == btApply) {	
 			Construction cons = app.getKernel().getConstruction();
 			//button = textField ? app.getKernel().textfield(null, linkedGeo) : new GeoButton(cons);
-			button = app.getKernel().textfield(null, linkedGeo); //temp - instead of previous row
+			button = app.getKernel().getAlgoDispatcher().textfield(null, linkedGeo); //temp - instead of previous row
 			button.setEuclidianVisible(true);
 			button.setAbsoluteScreenLoc(x, y);
 //

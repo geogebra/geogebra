@@ -32,7 +32,7 @@ public class CmdVector extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0] .isGeoPoint()) {
 				GeoElement[] ret =
-				{ kernelA.Vector(c.getLabel(), (GeoPointND) arg[0])};
+				{ getAlgoDispatcher().Vector(c.getLabel(), (GeoPointND) arg[0])};
 				return ret;
 			}
 
@@ -64,7 +64,7 @@ public class CmdVector extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
 				GeoElement[] ret =
 				{
-						kernelA.Vector(
+						getAlgoDispatcher().Vector(
 								c.getLabel(),
 								(GeoPoint) arg[0],
 								(GeoPoint) arg[1])};

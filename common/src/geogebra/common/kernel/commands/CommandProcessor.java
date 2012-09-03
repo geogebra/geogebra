@@ -12,6 +12,7 @@
 
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AlgoDispatcher;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -465,7 +466,7 @@ public abstract class CommandProcessor {
 		if (correctType) {
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			list = kernel.List(null, geoElementList, false);
+			list = kernel.getAlgoDispatcher().List(null, geoElementList, false);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
@@ -506,7 +507,7 @@ public abstract class CommandProcessor {
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		list = kernelA.List(null, geoElementList, false);
+		list = kernelA.getAlgoDispatcher().List(null, geoElementList, false);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		return list;
@@ -532,5 +533,8 @@ public abstract class CommandProcessor {
 
 	}
 
+	protected AlgoDispatcher getAlgoDispatcher() {
+		return kernelA.getAlgoDispatcher();
+	}
 
 }

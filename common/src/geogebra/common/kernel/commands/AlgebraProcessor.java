@@ -14,6 +14,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.KernelCAS;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentBoolean;
 import geogebra.common.kernel.algos.AlgoDependentConic;
@@ -184,7 +185,7 @@ public class AlgebraProcessor {
 				if (casCell.isOutputEmpty() && !casCell.hasChildren()) {
 					// this is a new casCell
 					cons.removeFromConstructionList(casCell);
-					Kernel.DependentCasCell(casCell);
+					KernelCAS.DependentCasCell(casCell);
 					needsRedefinition = false;
 				} else {
 					// existing casCell with possible twinGeo
@@ -1287,7 +1288,7 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			f = new GeoFunction(cons, label, fun);
 		} else {
-			f = kernel.DependentFunction(label, fun);
+			f = kernel.getAlgoDispatcher().DependentFunction(label, fun);
 		}
 		ret[0] = f;
 		return ret;
@@ -1590,7 +1591,7 @@ public class AlgebraProcessor {
 		}
 		// dependent line
 		else {
-			line = kernel.Line(par.getLabel(), P, v);
+			line = kernel.getAlgoDispatcher().Line(par.getLabel(), P, v);
 		}
 		line.setToParametric(par.getParameter());
 		line.updateRepaint();
@@ -1799,7 +1800,7 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 
 			// Create GeoList object
-			ret[0] = kernel.List(label, geoElements, isIndependent);
+			ret[0] = kernel.getAlgoDispatcher().List(label, geoElements, isIndependent);
 		}
 
 		// operations and variables are present
@@ -1908,9 +1909,9 @@ public class AlgebraProcessor {
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector)
-				ret[0] = kernel.Vector(label, x, y);
+				ret[0] = kernel.getAlgoDispatcher().Vector(label, x, y);
 			else
-				ret[0] = kernel.Point(label, x, y, complex);
+				ret[0] = kernel.getAlgoDispatcher().Point(label, x, y, complex);
 		} else {
 			if (isVector)
 				ret[0] = DependentVector(label, n);

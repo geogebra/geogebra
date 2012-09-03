@@ -41,7 +41,7 @@ public GeoElement[] process(Command c) throws MyError {
                 && (ok[1] = (arg[1] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernelA.Line(
+                		getAlgoDispatcher().Line(
                             c.getLabel(),
                             (GeoPoint) arg[0],
                             (GeoPoint) arg[1])};
@@ -54,7 +54,7 @@ public GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoVector()))) {
                 GeoElement[] ret =
                     {
-                         kernelA.Line(
+                		getAlgoDispatcher().Line(
                             c.getLabel(),
                             (GeoPoint) arg[0],
                             (GeoVector) arg[1])};
@@ -67,7 +67,7 @@ public GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoLine()))) {
                 GeoElement[] ret =
                     {
-                         kernelA.Line(
+                		getAlgoDispatcher().Line(
                             c.getLabel(),
                             (GeoPoint) arg[0],
                             (GeoLine) arg[1])};
@@ -83,4 +83,5 @@ public GeoElement[] process(Command c) throws MyError {
             throw argNumErr(app, c.getName(), n);
     }
 }
+
 }

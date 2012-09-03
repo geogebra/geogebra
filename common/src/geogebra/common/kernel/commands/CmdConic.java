@@ -41,7 +41,7 @@ public class CmdConic extends CommandProcessor {
 			}
 			GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
 					(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
-			GeoElement[] ret = { kernelA.Conic(c.getLabel(), points) };
+			GeoElement[] ret = { getAlgoDispatcher().Conic(c.getLabel(), points) };
 			return ret;
 		default:
 			if (arg[0].isNumberValue()) {

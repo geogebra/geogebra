@@ -32,7 +32,7 @@ public class InputDialogCirclePointRadius extends InputDialogRadius {
 
 	@Override
 	protected GeoElement createOutput(NumberValue num) {
-		return kernel.Circle(null, geoPoint1, num);
+		return kernel.getAlgoDispatcher().Circle(null, geoPoint1, num);
 	}
 
 }

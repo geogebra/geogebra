@@ -815,10 +815,10 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
-				semCirc = kernel.Semicircle(transformedLabel,
+				semCirc = kernel.getAlgoDispatcher().Semicircle(transformedLabel,
 						(GeoPoint) points[1], (GeoPoint) points[0]);
 			} else if (t.isSimilar()) {
-				semCirc = kernel.Semicircle(transformedLabel,
+				semCirc = kernel.getAlgoDispatcher().Semicircle(transformedLabel,
 						(GeoPoint) points[0], (GeoPoint) points[1]);
 			} else {
 

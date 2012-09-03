@@ -36,7 +36,7 @@ public class CmdMidpoint extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernelA.Center(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Center(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {

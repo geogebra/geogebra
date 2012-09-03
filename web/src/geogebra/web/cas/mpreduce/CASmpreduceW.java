@@ -4,10 +4,10 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.CASmpreduce;
+import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.App;
 
 import org.mathpiper.mpreduce.Interpretable;

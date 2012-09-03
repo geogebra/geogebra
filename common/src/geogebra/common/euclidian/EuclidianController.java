@@ -17,6 +17,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.AlgoDispatcher;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -1032,7 +1033,7 @@ public abstract class EuclidianController {
 		
 		checkZooming(forPreviewable); 
 		
-		GeoPointND ret = kernel.Point(null,
+		GeoPointND ret = getAlgoDispatcher().Point(null,
 				Kernel.checkDecimalFraction(xRW),
 				Kernel.checkDecimalFraction(yRW), complex);
 		return ret;
@@ -1054,7 +1055,7 @@ public abstract class EuclidianController {
 			double y, boolean complex) {
 		checkZooming(forPreviewable); 
 		
-				return kernel.Point(null, path, x, y, !forPreviewable, complex);
+				return getAlgoDispatcher().Point(null, path, x, y, !forPreviewable, complex);
 			}
 
 	protected final GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
@@ -1823,7 +1824,7 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
 					points[1]);
 		} else {
-			ret[0] = getKernel().Line(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().Line(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -1841,7 +1842,7 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D().Ray3D(null,
 					points[0], points[1]).toGeoElement();
 		} else {
-			ret[0] = getKernel().Ray(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().Ray(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -1873,7 +1874,7 @@ public abstract class EuclidianController {
 			ret[0] = (GeoElement) getKernel().getManager3D().Segment3D(null,
 					points[0], points[1]);
 		} else {
-			ret[0] = getKernel().Segment(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().Segment(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -1902,7 +1903,7 @@ public abstract class EuclidianController {
 				|| ((GeoElement) b).isGeoElement3D()) {
 			return kernel.getManager3D().Vector3D(null, a, b);
 		}
-		return kernel.Vector(null, (GeoPoint) a, (GeoPoint) b);
+		return getAlgoDispatcher().Vector(null, (GeoPoint) a, (GeoPoint) b);
 	}
 
 	protected final GeoElement[] ray(Hits hits) {
@@ -2449,7 +2450,7 @@ public abstract class EuclidianController {
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
 							null, points[0], vectors[0]);
 				} else {
-					ret[0] = kernel.Line(null, (GeoPoint) points[0],
+					ret[0] = getAlgoDispatcher().Line(null, (GeoPoint) points[0],
 							(GeoVector) vectors[0]);
 				}
 				return ret;
@@ -2463,7 +2464,7 @@ public abstract class EuclidianController {
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
 							null, points[0], lines[0]);
 				} else {
-					ret[0] = getKernel().Line(null, (GeoPoint) points[0],
+					ret[0] = getAlgoDispatcher().Line(null, (GeoPoint) points[0],
 							(GeoLine) lines[0]);
 				}
 				return ret;
@@ -2491,7 +2492,7 @@ public abstract class EuclidianController {
 				GeoElement[] ret = { null };
 				checkZooming(); 
 				
-				ret[0] = kernel.Parabola(null, points[0], lines[0]);
+				ret[0] = getAlgoDispatcher().Parabola(null, points[0], lines[0]);
 				return ret;
 			}
 		}
@@ -2534,7 +2535,7 @@ public abstract class EuclidianController {
 				}
 				checkZooming(); 
 				
-				ret[0] = kernel.OrthogonalLine(null, (GeoPoint) points[0],
+				ret[0] = getAlgoDispatcher().OrthogonalLine(null, (GeoPoint) points[0],
 						(GeoVector) vectors[0]);
 				return ret;
 	
@@ -2562,7 +2563,7 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] orthogonal2D(GeoPointND point, GeoLineND line) {
-		return new GeoElement[] { getKernel().OrthogonalLine(null,
+		return new GeoElement[] { getAlgoDispatcher().OrthogonalLine(null,
 				(GeoPoint) point, (GeoLine) line) };
 	}
 
@@ -2613,7 +2614,7 @@ public abstract class EuclidianController {
 			GeoConic[] conics = getSelectedConics();
 			checkZooming(); 
 			
-			ret[0] = kernel.Center(null, conics[0]);
+			ret[0] = getAlgoDispatcher().Center(null, conics[0]);
 			return ret;
 		}
 		return null;
@@ -2656,14 +2657,14 @@ public abstract class EuclidianController {
 			GeoPoint[] points = getSelectedPoints();
 			checkZooming(); 
 			
-			ret[0] = kernel.LineBisector(null, points[0], points[1]);
+			ret[0] = getAlgoDispatcher().LineBisector(null, points[0], points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
 			GeoSegment[] segments = getSelectedSegments();
 			checkZooming(); 
 			
-			ret[0] = kernel.LineBisector(null, segments[0]);
+			ret[0] = getAlgoDispatcher().LineBisector(null, segments[0]);
 			return ret;
 		}
 		return null;
@@ -2688,7 +2689,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = kernel.AngularBisector(null, points[0], points[1],
+			ret[0] = getAlgoDispatcher().AngularBisector(null, points[0], points[1],
 					points[2]);
 			return ret;
 		} else if (selLines() == 2) {
@@ -2696,7 +2697,7 @@ public abstract class EuclidianController {
 			GeoLine[] lines = getSelectedLines();
 			checkZooming(); 
 			
-			return kernel.AngularBisector(null, lines[0], lines[1]);
+			return getAlgoDispatcher().AngularBisector(null, lines[0], lines[1]);
 		}
 		return null;
 	}
@@ -2729,7 +2730,7 @@ public abstract class EuclidianController {
 				ret[0] = kernel.getManager3D().Circle3D(null, points[0],
 						points[1], points[2]);
 			} else {
-				ret[0] = kernel.Circle(null, (GeoPoint) points[0],
+				ret[0] = getAlgoDispatcher().Circle(null, (GeoPoint) points[0],
 						(GeoPoint) points[1], (GeoPoint) points[2]);
 			}
 			break;
@@ -2737,42 +2738,42 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = kernel.Ellipse(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().Ellipse(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = kernel.Hyperbola(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().Hyperbola(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = kernel.CircumcircleArc(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = kernel.CircumcircleSector(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = kernel.CircleArc(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().CircleArc(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = kernel.CircleSector(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().CircleSector(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
@@ -2846,7 +2847,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = kernel.Conic(null, points);
+			ret[0] = getAlgoDispatcher().Conic(null, points);
 			return ret;
 		}
 		return null;
@@ -2883,7 +2884,7 @@ public abstract class EuclidianController {
 	
 			checkZooming(); 
 			
-			slope = kernel.Slope(label, line);
+			slope = getAlgoDispatcher().Slope(label, line);
 	
 			// show value
 			if (slope.isLabelVisible()) {
@@ -3040,7 +3041,7 @@ public abstract class EuclidianController {
 				// create new line
 				checkZooming(); 
 				
-				ret[0] = kernel.DiameterLine(null, lines[0], conics[0]);
+				ret[0] = getAlgoDispatcher().DiameterLine(null, lines[0], conics[0]);
 				return ret;
 			} else if (selVectors() == 1) {
 				GeoConic[] conics = getSelectedConics();
@@ -3048,7 +3049,7 @@ public abstract class EuclidianController {
 				// create new line
 				checkZooming(); 
 				
-				ret[0] = kernel.DiameterLine(null, vecs[0], conics[0]);
+				ret[0] = getAlgoDispatcher().DiameterLine(null, vecs[0], conics[0]);
 				return ret;
 			}
 		}
@@ -3269,7 +3270,7 @@ public abstract class EuclidianController {
 				|| ((GeoElement) p1).isGeoElement3D()) {
 			return createCircle2ForPoints3D(p0, p1);
 		}
-		return new GeoElement[] { kernel.Circle(null, (GeoPoint) p0,
+		return new GeoElement[] { getAlgoDispatcher().Circle(null, (GeoPoint) p0,
 				(GeoPoint) p1) };
 	}
 
@@ -3278,7 +3279,7 @@ public abstract class EuclidianController {
 		
 		GeoPointND[] points = getSelectedPointsND();
 		if (sphereMode == EuclidianConstants.MODE_SEMICIRCLE) {
-			return new GeoElement[] { kernel.Semicircle(null,
+			return new GeoElement[] { getAlgoDispatcher().Semicircle(null,
 					(GeoPoint) points[0], (GeoPoint) points[1]) };
 		}
 		return createCircle2(points[0], points[1]);
@@ -3703,7 +3704,7 @@ public abstract class EuclidianController {
 			cons.setSuppressLabelCreation(true);
 			checkZooming(); 
 			
-			GeoPoint newPoint = kernel.Point(null, path,
+			GeoPoint newPoint = getAlgoDispatcher().Point(null, path,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
 					false, false);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
@@ -4055,7 +4056,7 @@ public abstract class EuclidianController {
 		if (!selectionPreview && (hits.size() > 1)) {
 			checkZooming(); 
 			
-			list = kernel.List(null, hits, false);
+			list = getAlgoDispatcher().List(null, hits, false);
 			if (list != null) {
 				ret[0] = list;
 				return ret;
@@ -4293,7 +4294,7 @@ public abstract class EuclidianController {
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
 		checkZooming(); 
 		
-		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
+		return getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 
 	protected GeoAngle createLineAngle(GeoLine[] lines) {
@@ -4314,22 +4315,30 @@ public abstract class EuclidianController {
 			GeoPoint b2 = b.getEndPoint();
 	
 			if (a1 == b1) {
-				angle = kernel.Angle(null, a2, a1, b2);
+				angle = getAlgoDispatcher().Angle(null, a2, a1, b2);
 			} else if (a1 == b2) {
-				angle = kernel.Angle(null, a2, a1, b1);
+				angle = getAlgoDispatcher().Angle(null, a2, a1, b1);
 			} else if (a2 == b1) {
-				angle = kernel.Angle(null, a1, a2, b2);
+				angle = getAlgoDispatcher().Angle(null, a1, a2, b2);
 			} else if (a2 == b2) {
-				angle = kernel.Angle(null, a1, a2, b1);
+				angle = getAlgoDispatcher().Angle(null, a1, a2, b1);
 			}
 		}
 	
 		if (angle == null) {
-			angle = kernel.Angle(null, lines[0], lines[1]);
+			angle = getAlgoDispatcher().Angle(null, lines[0], lines[1]);
 		}
 	
 		return angle;
 	}
+
+	private AlgoDispatcher getAlgoDispatcher() {
+		return kernel.getAlgoDispatcher();
+	}
+
+
+
+
 
 	protected String removeUnderscores(String label) {
 		// remove all indices
@@ -4580,7 +4589,7 @@ public abstract class EuclidianController {
 			GeoVector[] vecs = getSelectedVectors();
 			checkZooming(); 
 			
-			angle = kernel.Angle(null, vecs[0], vecs[1]);
+			angle = getAlgoDispatcher().Angle(null, vecs[0], vecs[1]);
 		} else if (selLines() == 2) {
 			GeoLine[] lines = getSelectedLines();
 			checkZooming(); 
@@ -4589,7 +4598,7 @@ public abstract class EuclidianController {
 		} else if (polyFound && (selGeos() == 1)) {
 			checkZooming(); 
 			
-			angles = kernel.Angles(null, (GeoPolygon) getSelectedGeos()[0]);
+			angles = getAlgoDispatcher().Angles(null, (GeoPolygon) getSelectedGeos()[0]);
 		}
 	
 		if (angle != null) {
@@ -4879,7 +4888,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				// center point and segment
-				GeoElement circlel = kernel.Circle(null, centerPoint,
+				GeoElement circlel = getAlgoDispatcher().Circle(null, centerPoint,
 						segment);
 				GeoElement[] ret = { circlel };
 				clearSelections();
@@ -4972,7 +4981,7 @@ public abstract class EuclidianController {
 			GeoPoint endPoint = (GeoPoint) kernel.Translate(null, points[0],
 					vecs[0])[0];
 			GeoElement[] ret = { null };
-			ret[0] = kernel.Vector(null, points[0], endPoint);
+			ret[0] = getAlgoDispatcher().Vector(null, points[0], endPoint);
 			return ret;
 		}
 		return null;
@@ -5668,7 +5677,7 @@ public abstract class EuclidianController {
 	protected void processModeLock(Path path) {
 		checkZooming();
 		
-		GeoPoint p = kernel.Point(null, path, xRW, yRW, false, false);
+		GeoPoint p = getAlgoDispatcher().Point(null, path, xRW, yRW, false, false);
 		p.update();
 		xRW = p.inhomX;
 		yRW = p.inhomY;
@@ -7766,7 +7775,7 @@ public abstract class EuclidianController {
 						GeoPoint q = algo.getInputPoints().get(1);
 						checkZooming(); 
 						
-						GeoVector vec = kernel.Vector(null, 0, 0);
+						GeoVector vec = getAlgoDispatcher().Vector(null, 0, 0);
 						vec.setEuclidianVisible(false);
 						vec.setAuxiliaryObject(true);
 						GeoElement[] pp = kernel.Translate(null, p, vec);
@@ -7813,11 +7822,11 @@ public abstract class EuclidianController {
 					if (topHit instanceof GeoPoly) {
 						// for polygons, we need a labelled vector so that all
 						// the vertices move together
-						vec = kernel.Vector(null, 0, 0);
+						vec = getAlgoDispatcher().Vector(null, 0, 0);
 						vec.setEuclidianVisible(false);
 						vec.setAuxiliaryObject(true);
 					} else {
-						vec = kernel.Vector(0, 0);
+						vec = getAlgoDispatcher().Vector(0, 0);
 					}
 					kernel.Translate(null, hits.get(0), vec);
 					transformCoordsOffset[0] = xRW;

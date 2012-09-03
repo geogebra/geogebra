@@ -127,7 +127,7 @@ public class AnimationSpeedPanel
         
         if (equalSpeed) {
         	GeoElement speedObj = geo0.getAnimationSpeedObject();
-        	GeoNumeric num = kernel.getDefaultNumber(geo0.isAngle());
+        	GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(geo0.isAngle());
 			tfAnimSpeed.setText(speedObj == null ? num.getAnimationSpeedObject().getLabel(highPrecision) : speedObj.getLabel(highPrecision));
         } else
 			tfAnimSpeed.setText("");

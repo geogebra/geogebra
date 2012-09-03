@@ -43,7 +43,7 @@ public GeoElement[] process(Command c) throws MyError {
         if (arg[0].isGeoPoint() && 
 	        arg[1].isGeoPoint() &&
 	        arg[2].isNumberValue())
-				return kernelA.RegularPolygon(c.getLabels(), (GeoPoint) arg[0], (GeoPoint) arg[1], (NumberValue) arg[2]);		
+				return getAlgoDispatcher().RegularPolygon(c.getLabels(), (GeoPoint) arg[0], (GeoPoint) arg[1], (NumberValue) arg[2]);		
         
         default:
 			// polygon for given points

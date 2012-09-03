@@ -9,7 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
-package geogebra.common.kernel.cas;
+package geogebra.common.kernel;
 
 /**
  * Interface for classes that can call CAS asynchronously and receive callbacks

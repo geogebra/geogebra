@@ -65,7 +65,7 @@ public class CmdRotate extends CommandProcessor {
 				NumberValue phi = (NumberValue) arg[1];
 				GeoPoint Q = (GeoPoint) arg[2];
 
-				ret = kernelA.Rotate(label, arg[0], phi, Q);
+				ret = getAlgoDispatcher().Rotate(label, arg[0], phi, Q);
 				return ret;
 			}
 

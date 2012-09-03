@@ -36,7 +36,7 @@ public class CmdAngularBisector extends CommandProcessor {
 			// angular bisector of 2 lines
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				return kernelA.AngularBisector(c.getLabels(), (GeoLine) arg[0],
+				return getAlgoDispatcher().AngularBisector(c.getLabels(), (GeoLine) arg[0],
 						(GeoLine) arg[1]);
 			}
 			if (!ok[0]) {
@@ -51,7 +51,7 @@ public class CmdAngularBisector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.AngularBisector(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().AngularBisector(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoPoint) arg[2]) };
 				return ret;

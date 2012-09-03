@@ -109,9 +109,9 @@ public abstract class DialogManager {
 		GeoAngle angle;
 		
 		if (points.length == 2) {
-			angle = (GeoAngle) kernel.Angle(null, points[0], points[1], num, !clockWise)[0];			
+			angle = (GeoAngle) kernel.getAlgoDispatcher().Angle(null, points[0], points[1], num, !clockWise)[0];			
 		} else {
-			angle = (GeoAngle) kernel.Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !clockWise)[0];
+			angle = (GeoAngle) kernel.getAlgoDispatcher().Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !clockWise)[0];
 		}			
 
 		// make sure that we show angle value
@@ -200,7 +200,7 @@ public abstract class DialogManager {
 		
 		NumberValue num = getNumber(kernel, menu, "");
 		
-		GeoConic circle = geoPointND.getKernel().Circle(null, (GeoPoint) geoPointND, num);
+		GeoConic circle = geoPointND.getKernel().getAlgoDispatcher().Circle(null, (GeoPoint) geoPointND, num);
 		
 		GeoElement[] geos = { circle };
 		app.storeUndoInfo();
@@ -257,7 +257,7 @@ public abstract class DialogManager {
 
 			if (polys.length == 1) {
 
-				GeoElement[] geos = kernel.Rotate(null, polys[0], num,
+				GeoElement[] geos = kernel.getAlgoDispatcher().Rotate(null, polys[0], num,
 						points[0]);
 				if (geos != null) {
 					app.storeUndoInfo();
@@ -271,10 +271,10 @@ public abstract class DialogManager {
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != points[0]) {
 					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(kernel.Rotate(null,
+						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
 								selGeos[i], num, points[0])));
 					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(kernel.Rotate(null,
+						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
 								selGeos[i], num, points[0])));
 					}
 				}
@@ -314,7 +314,7 @@ public abstract class DialogManager {
 		}
 
 
-		GeoElement[] geos = kernel.RegularPolygon(null, geoPoint1, geoPoint2, (NumberValue) result[0]);
+		GeoElement[] geos = kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, (NumberValue) result[0]);
 		GeoElement[] onlypoly = { null };
 		if (geos != null) {
 			onlypoly[0] = geos[0];
@@ -344,7 +344,7 @@ public abstract class DialogManager {
 	protected abstract String prompt(String message, String def);
 
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
-		GeoNumeric defaultNum = num.getKernel().getDefaultNumber(isAngle);		
+		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);		
 		num.setSliderFixed(defaultNum.isSliderFixed());		
 		num.setEuclidianVisible(true);
 		num.setIntervalMin((GeoNumeric)defaultNum.getIntervalMinObject());
@@ -394,7 +394,7 @@ public abstract class DialogManager {
 	}
 	
 	public static void doSegmentFixed(Kernel kernel, GeoPoint geoPoint1, NumberValue num) {
-		GeoElement[] segment = kernel.Segment(null, geoPoint1, num);
+		GeoElement[] segment = kernel.getAlgoDispatcher().Segment(null, geoPoint1, num);
 		GeoElement[] onlysegment = { null };
 		if (segment != null) {
 			onlysegment[0] = segment[0];

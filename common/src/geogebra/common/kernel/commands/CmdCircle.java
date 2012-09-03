@@ -33,12 +33,12 @@ public class CmdCircle extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernelA.Circle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Circle(c.getLabel(),
 						(GeoPoint) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Circle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Circle(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			} else {
@@ -52,7 +52,7 @@ public class CmdCircle extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Circle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Circle(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoPoint) arg[2]) };
 				return ret;

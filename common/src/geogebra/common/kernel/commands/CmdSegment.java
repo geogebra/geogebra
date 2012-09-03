@@ -36,7 +36,7 @@ public class CmdSegment extends CommandProcessor {
 	                && (ok[1] = (arg[1] .isGeoPoint()))) {
 	                GeoElement[] ret =
 	                    {
-	                         kernelA.Segment(
+	                		getAlgoDispatcher().Segment(
 	                            c.getLabel(),
 	                            (GeoPoint) arg[0],
 	                            (GeoPoint) arg[1])};
@@ -47,7 +47,7 @@ public class CmdSegment extends CommandProcessor {
 	            else if ((ok[0] = (arg[0] .isGeoPoint()))
 	                && (ok[1] = (arg[1] .isNumberValue())))
 					return
-	                         kernelA.Segment(
+							getAlgoDispatcher().Segment(
 	                            c.getLabels(),
 	                            (GeoPoint) arg[0],
 	                            (NumberValue) arg[1]);

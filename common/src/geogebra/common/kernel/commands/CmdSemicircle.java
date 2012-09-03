@@ -32,7 +32,7 @@ public class CmdSemicircle extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Semicircle(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Semicircle(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			} 

@@ -207,7 +207,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		// number with given min and max
 		if (isIndependent()) {
 			if (visible) { // TODO: Remove cast from GeoNumeric
-				GeoNumeric num = kernel.getDefaultNumber(isAngle());
+				GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isAngle());
 				// make sure the slider value is not fixed
 				setFixed(false);
 				if (!isIntervalMinActive() && !(intervalMin instanceof GeoNumeric)) {
@@ -376,7 +376,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public double getAnimationStep() {
 		if (getAnimationStepObject() == null) {
-			GeoNumeric num = kernel.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());
 		}
 		return super.getAnimationStep();
@@ -385,7 +385,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public double getAnimationSpeed() {
 		if (getAnimationSpeedObject() == null) {
-			GeoNumeric num = kernel.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
 			setAnimationSpeed(num.getAnimationSpeed());
 		}
 		return super.getAnimationSpeed();
@@ -902,7 +902,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			// TODO remove cast
-			ret = kernel.DependentFunction(null, fun);
+			ret = kernel.getAlgoDispatcher().DependentFunction(null, fun);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else {
 			ret = new GeoFunction(cons);

@@ -36,7 +36,7 @@ public class CmdDiameter extends CommandProcessor {
 			// diameter line conjugate to vector relative to conic
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { kernelA.DiameterLine(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().DiameterLine(c.getLabel(),
 						(GeoVector) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}
@@ -44,7 +44,7 @@ public class CmdDiameter extends CommandProcessor {
 			// diameter line conjugate to line relative to conic
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { kernelA.DiameterLine(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().DiameterLine(c.getLabel(),
 						(GeoLine) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}

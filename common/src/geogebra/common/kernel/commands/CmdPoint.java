@@ -46,7 +46,7 @@ public  GeoElement[] process(Command c) throws MyError {
                 return ret;
             } else if (arg[0].isPath()) {
                 GeoElement[] ret =
-                    { kernelA.Point(c.getLabel(), (Path) arg[0], null)};
+                    { getAlgoDispatcher().Point(c.getLabel(), (Path) arg[0], null)};
                 return ret;
             } else 
 				throw argErr(app, c.getName(), arg[0]);
@@ -57,7 +57,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1].isNumberValue()))) {
                     GeoElement[] ret =
                         {
-                             kernelA.Point(
+                    		getAlgoDispatcher().Point(
                                 c.getLabel(),
                                 (Path) arg[0],
                                 (NumberValue) arg[1])};

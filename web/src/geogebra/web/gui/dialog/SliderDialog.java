@@ -222,7 +222,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			number.setIntervalMin(1);
 			number.setIntervalMax(30);
 		} else if (vc.getSource() == rbNumber) {
-			GeoNumeric num = app.getKernel().getDefaultNumber(false);
+			GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
 			number.setAnimationStep(num.getAnimationStep());
 			number.setIntervalMin(num.getIntervalMin());
 			number.setIntervalMax(num.getIntervalMax());

@@ -35,7 +35,7 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 			return kernel.getManager3D().Angle3D(null, A, B, C);
 		}
 			
-		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
+		return kernel.getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 		
 	}
 	
