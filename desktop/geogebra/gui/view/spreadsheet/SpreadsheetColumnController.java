@@ -469,6 +469,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			if (overTraceButtonColumn == colIndex) {
 				btnTrace.setIcon(traceRollOverIcon);
+				setToolTipText(app.getMenuTooltip("TraceToSpreadsheet"));
 			} else
 				btnTrace.setIcon(traceIcon);
 
@@ -500,7 +501,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 			if (!app.getTraceManager().isTraceColumn(colIndex)) {
 				return false;
 			}
-				
+
 			try {
 				Component c = getTableCellRendererComponent(table, value,
 						false, false, -1, colIndex);
