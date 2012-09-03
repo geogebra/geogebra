@@ -40,6 +40,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.MyMath2;
+import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
 
 import java.util.HashMap;
@@ -150,7 +151,7 @@ public class ProbabilityManager {
 				.getMenu("DegreesOfFreedom2.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL
-				.ordinal()][0] = app.getMenu("Lambda.short");
+				.ordinal()][0] = Unicode.lambda;
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = app
 				.getMenu("Median");
