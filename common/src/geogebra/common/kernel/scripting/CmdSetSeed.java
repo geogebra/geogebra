@@ -1,5 +1,6 @@
 package geogebra.common.kernel.scripting;
 
+import geogebra.common.kernel.CmdScripting;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;

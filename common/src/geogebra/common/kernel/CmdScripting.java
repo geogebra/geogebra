@@ -1,7 +1,5 @@
-package geogebra.common.kernel.scripting;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -16,7 +14,7 @@ import geogebra.common.main.MyError;
  */
 public abstract class CmdScripting extends CommandProcessor {
 	/** array of arguments */
-	GeoElement[] arg;
+	protected GeoElement[] arg;
 	/**
 	 * Create new command processor
 	 * 

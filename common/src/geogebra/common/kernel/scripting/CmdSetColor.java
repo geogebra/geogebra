@@ -2,6 +2,7 @@ package geogebra.common.kernel.scripting;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.CmdScripting;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
