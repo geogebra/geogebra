@@ -207,23 +207,27 @@ public class AppW extends App {
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
-		final AppW this_app = this;
 		initing = true;
-
-		// try to async loading of kernel, maybe we got quicker...
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				initCoreObjects(undoActive, this_app);
-				frame.finishAsyncLoading(articleElement, frame, this_app);
-				initing = false;
-			}
-
-			public void onFailure(Throwable reason) {
-				App.debug("onFailure " + reason);
-			}
-		});
+		initCoreObjects(undoActive, this);
 	}
+
+	private void afterCoreObjectsInited() {
+		if (appFrame != null) {
+			initGuiManager();
+			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+
+			getSettings().getEuclidian(1).setPreferredSize(
+			        geogebra.common.factories.AwtFactory.prototype.newDimension(
+			                appCanvasWidth, appCanvasHeight));
+			getEuclidianView1().setDisableRepaint(false);
+			getEuclidianView1().synCanvasSize();
+			getEuclidianView1().repaintView();
+			appFrame.finishAsyncLoading(articleElement, appFrame, this);
+		} else if (frame != null) {
+			frame.finishAsyncLoading(articleElement, frame, this);
+			initing = false;
+		}
+    }
 
 	// This is called for the full GUI based GeoGebraWeb --- Zoltan
 	public AppW(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
@@ -244,16 +248,7 @@ public class AppW extends App {
 
 		initCoreObjects(undoActive, this);
 
-		initGuiManager();
-		getGuiManager().getLayout().setPerspectives(tmpPerspectives);
-
-		getSettings().getEuclidian(1).setPreferredSize(
-		        geogebra.common.factories.AwtFactory.prototype.newDimension(
-		                appCanvasWidth, appCanvasHeight));
-		getEuclidianView1().setDisableRepaint(false);
-		getEuclidianView1().synCanvasSize();
-		getEuclidianView1().repaintView();
-		appFrame.finishAsyncLoading(article, geoGebraAppFrame, this);
+		
 		// initing = true;
 	}
 
@@ -2091,31 +2086,74 @@ public class AppW extends App {
 	 *            Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 */
 	void initCoreObjects(final boolean undoActive, final App this_app) {
-		kernel = new Kernel(this_app);
+		GWT.runAsync(Kernel.class, new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				kernel = new Kernel(this_app);
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Loading Kernel faliled");
+			}
+		});
+		GWT.runAsync(Settings.class, new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				// init settings
+				settings = new Settings();
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Loading Settings faliled");
+			}
+		});
+		
+		GWT.runAsync(MyXMLio.class, new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Loading MyXmlIo failed");
+			}
+		});
+		
+		GWT.runAsync(FontManager.class, new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				fontManager = new FontManagerW();
+				setFontSize(12);
+				initEuclidianViews();
 
-		// init settings
-		settings = new Settings();
+				initImageManager();
 
-		initEuclidianViews();
+				
 
-		initImageManager();
+				
+				setFontSize(12);
+				// setLabelDragsEnabled(false);
+				capturingThreshold = 20;
 
-		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+				// make sure undo allowed
+				hasFullPermissions = true;
 
-		fontManager = new FontManagerW();
-		setFontSize(12);
-		// setLabelDragsEnabled(false);
-		capturingThreshold = 20;
+				getScriptManager();// .ggbOnInit();//this is not called here because we
+								   // have to delay it
+				                   // until the canvas is first drawn
 
-		// make sure undo allowed
-		hasFullPermissions = true;
+				setUndoActive(undoActive);
+				registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
+				afterCoreObjectsInited();
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Loading FontManager failed");
+			}
+		});
+			
 
-		getScriptManager();// .ggbOnInit();//this is not called here because we
-						   // have to delay it
-		                   // until the canvas is first drawn
-
-		setUndoActive(undoActive);
-		registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
+		
 	}
 
 	/**
