@@ -32,6 +32,9 @@ if [ $RESULT = 3 ]; then
   LOG=`cat $TEMPFILE | awk '{printf("%s\\\n",$0);}'`
  else
   LOG=`cat $REVDIR/$REVISION/simpletest.stdout | awk '{printf("%s\\\n",$0);}'`
+  ERRLOG=`cat $REVDIR/$REVISION/simpletest.stderr | awk '{printf("%s\\\n",$0);}'`
+  LOG="$LOG
+$ERRLOG"
   fi
  fi
 
