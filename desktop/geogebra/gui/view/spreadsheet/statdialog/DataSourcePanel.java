@@ -932,14 +932,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		public boolean isOverTraceButton(int colIndex, Point loc, Object value) {
 
 			try {
-				getTableCellRendererComponent(table(), value, false, false, -1,
-						colIndex);
-
-				btnSelect.getBounds(rect);
-				rect.y += lblTitle.getHeight();
-				// App.debug(loc.toString() + "  :  " +
-				// rect.toString());
-				return rect.contains(loc);
+				return loc.x < btnSelect.getWidth();
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}
