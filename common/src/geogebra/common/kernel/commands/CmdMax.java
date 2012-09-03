@@ -1,12 +1,12 @@
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoFunctionMin;
-import geogebra.common.kernel.advanced.AlgoIntervalMin;
-import geogebra.common.kernel.advanced.AlgoListMin;
+import geogebra.common.kernel.advanced.AlgoFunctionMax;
+import geogebra.common.kernel.advanced.AlgoIntervalMax;
+import geogebra.common.kernel.advanced.AlgoListMax;
+import geogebra.common.kernel.algos.AlgoMax;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoInterval;
@@ -14,16 +14,16 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- * Min[ <Number>, <Number> ]
+ * Max[ <Number>, <Number> ]
  */
-public class CmdMin extends CommandProcessor {
+public class CmdMax extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdMin(Kernel kernel) {
+	public CmdMax(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -38,13 +38,14 @@ public class CmdMin extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				
-				AlgoListMin algo = new AlgoListMin(cons, c.getLabel(),
+				AlgoListMax algo = new AlgoListMax(cons, c.getLabel(),
 						(GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getMin() };
+				GeoElement[] ret = { algo.getMax() };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
-				AlgoIntervalMin algo = new AlgoIntervalMin(cons, c.getLabel(),
+				
+				AlgoIntervalMax algo = new AlgoIntervalMax(cons, c.getLabel(),
 						(GeoInterval) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
@@ -57,24 +58,23 @@ public class CmdMin extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue()) &&
 				(ok[1] = arg[1].isNumberValue())) 
 			{
-				
-				AlgoMin algo = new AlgoMin(cons, c.getLabel(),
+				AlgoMax algo = new AlgoMax(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 				
 			}
-			throw argErr(app, c.getName(), arg[0]);
-		
-		case 3:		//Min[f,a,b]
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+
+		case 3:		//Max[f,a,b]
 			arg=resArgs(c);
 			if( (ok[0]=arg[0].isGeoFunction()) &&
 			    (ok[1]=arg[1].isNumberValue())     &&
 			    (ok[2]=arg[2].isNumberValue())  )
 			{
 				
-				AlgoFunctionMin algo = new AlgoFunctionMin(cons, c.getLabel(),
+				AlgoFunctionMax algo = new AlgoFunctionMax(cons, c.getLabel(),
 						(GeoFunction) arg[0],
 						(NumberValue) arg[1],
 						(NumberValue) arg[2]);
@@ -82,8 +82,9 @@ public class CmdMin extends CommandProcessor {
 				GeoElement[] ret= { algo.getPoint() };
 				return ret;
 			}
-			throw argErr(app,c.getName(),getBadArg(ok,arg));
-
+				throw argErr(app,c.getName(),getBadArg(ok,arg));
+			
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

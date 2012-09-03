@@ -1,27 +1,30 @@
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.advanced.AlgoFirstLocus;
+import geogebra.common.kernel.advanced.AlgoFirstString;
+import geogebra.common.kernel.algos.AlgoFirst;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- * Last[ <List>,n ]
- * @author Michael Borcherds
- * @version 2008-03-04
+ * First[ <List>,n ]
+ * Michael Borcherds
+ * 2008-03-04
  */
-public class CmdLast extends CommandProcessor {
+public class CmdFirst extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLast(Kernel kernel) {
+	public CmdFirst(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -36,32 +39,40 @@ public class CmdLast extends CommandProcessor {
 
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
-						Last(c.getLabel(),
+						First(c.getLabel(),
 						(GeoList) arg[0], null ) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = { 
-						Last(c.getLabel(),
+						First(c.getLabel(),
 						(GeoText) arg[0], null ) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
-		
 		case 2:
 			boolean list = arg[0].isGeoList();
-			boolean text = arg[0].isGeoText();
+			boolean string = arg[0].isGeoText();
+			boolean locus = arg[0].isGeoLocus();
 			if ( list && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						Last(c.getLabel(),
+						First(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
-			} else if ( text && arg[1].isGeoNumeric() ) {
+			} else if ( string && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						Last(c.getLabel(),
+						First(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
+			} else if ( locus && arg[1].isGeoNumeric() ) {
+				
+				AlgoFirstLocus algo = new AlgoFirstLocus(cons, c.getLabel(),
+						(GeoLocus) arg[0], (GeoNumeric) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
 			} else
-				throw argErr(app, c.getName(), (list && text) ? arg[1] : arg[0]);
+				throw argErr(app, c.getName(), (list && string) ? arg[1] : arg[0]);
+			
 		
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -69,23 +80,22 @@ public class CmdLast extends CommandProcessor {
 	}
 	
 	/**
-	 * Last[string,n] Michael Borcherds
+	 * First[string,n] Michael Borcherds
 	 */
-	final private GeoText Last(String label, GeoText list, GeoNumeric n) {
-		AlgoLastString algo = new AlgoLastString(cons, label, list, n);
+	final private GeoText First(String label, GeoText list, GeoNumeric n) {
+		AlgoFirstString algo = new AlgoFirstString(cons, label, list, n);
 		GeoText list2 = algo.getResult();
 		return list2;
 	}
+	
 
 	/**
-	 * Last[list,n] Michael Borcherds
+	 * First[list,n] Michael Borcherds
 	 */
-	final private GeoList Last(String label, GeoList list, GeoNumeric n) {
-		AlgoLast algo = new AlgoLast(cons, label, list, n);
+	final private GeoList First(String label, GeoList list, GeoNumeric n) {
+		AlgoFirst algo = new AlgoFirst(cons, label, list, n);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
-
-
 
 }

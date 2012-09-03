@@ -94,23 +94,6 @@ import geogebra.common.kernel.advanced.CmdUnitOrthogonalVector;
 import geogebra.common.kernel.advanced.CmdUnitVector;
 import geogebra.common.kernel.advanced.CmdVerticalText;
 import geogebra.common.kernel.advanced.CmdZip;
-import geogebra.common.kernel.algos.CmdAppend;
-import geogebra.common.kernel.algos.CmdDefined;
-import geogebra.common.kernel.algos.CmdDiv;
-import geogebra.common.kernel.algos.CmdFirst;
-import geogebra.common.kernel.algos.CmdIsInteger;
-import geogebra.common.kernel.algos.CmdKeepIf;
-import geogebra.common.kernel.algos.CmdLaTeX;
-import geogebra.common.kernel.algos.CmdLast;
-import geogebra.common.kernel.algos.CmdMax;
-import geogebra.common.kernel.algos.CmdMin;
-import geogebra.common.kernel.algos.CmdMod;
-import geogebra.common.kernel.algos.CmdRemoveUndefined;
-import geogebra.common.kernel.algos.CmdReverse;
-import geogebra.common.kernel.algos.CmdTableText;
-import geogebra.common.kernel.algos.CmdTake;
-import geogebra.common.kernel.algos.CmdTextToUnicode;
-import geogebra.common.kernel.algos.CmdUnicodeToText;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)

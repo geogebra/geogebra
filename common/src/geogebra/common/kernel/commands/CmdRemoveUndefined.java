@@ -1,21 +1,23 @@
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoRemoveUndefined;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- * TextToUnicode[text]
+ * Clean[ <List> ]
+ * @author Michael Borcherds
+ * @version 2008-03-06
  */
-public class CmdTextToUnicode extends CommandProcessor {
+public class CmdRemoveUndefined extends CommandProcessor {
 	/**
 	 * Creates new command processor
 	 * @param kernel kernel
 	 */
-	public CmdTextToUnicode(Kernel kernel) {
+	public CmdRemoveUndefined(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -28,16 +30,15 @@ public class CmdTextToUnicode extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].isGeoText()) {
+			if (arg[0].isGeoList()) {
 				
-				AlgoTextToUnicode algo = new AlgoTextToUnicode(cons, c.getLabel(),
-						(GeoText) arg[0]);
+				AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons, c.getLabel(),
+						(GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-		
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

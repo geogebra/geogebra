@@ -1,8 +1,8 @@
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoBinomial;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.CmdTwoNumFunction;
 import geogebra.common.kernel.geos.GeoElement;
 
 /**
