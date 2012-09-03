@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.CmdBinomial;
+import geogebra.common.kernel.algos.CmdSum;
 import geogebra.common.kernel.statistics.*;
 
 /**
