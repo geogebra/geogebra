@@ -45,7 +45,7 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 			return kernel.getManager3D().Translate3D(null, geo, vec);
 		}
 			
-		return kernel.Translate(null, geo, (GeoVector) vec);
+		return kernel.getAlgoDispatcher().Translate(null, geo, (GeoVector) vec);
 		
 	}
 	

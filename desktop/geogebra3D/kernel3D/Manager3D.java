@@ -808,7 +808,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	private AlgoIntersectLineConic3D getIntersectionAlgorithm(GeoLineND g,
 			GeoConicND c) {
-		AlgoElement existingAlgo = kernel.findExistingIntersectionAlgorithm(
+		AlgoElement existingAlgo = kernel.getAlgoDispatcher().findExistingIntersectionAlgorithm(
 				(GeoElement) g, c);
 		if (existingAlgo != null)
 			return (AlgoIntersectLineConic3D) existingAlgo;
@@ -816,7 +816,7 @@ public class Manager3D implements Manager3DInterface {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectLineConic3D algo = new AlgoIntersectLineConic3D(cons, g, c);
 		algo.setPrintedInXML(false);
-		kernel.addIntersectionAlgorithm(algo); // remember this algorithm
+		kernel.getAlgoDispatcher().addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -898,7 +898,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	private AlgoIntersectConics3D getIntersectionAlgorithm(GeoConicND A,
 			GeoConicND B) {
-		AlgoElement existingAlgo = kernel.findExistingIntersectionAlgorithm(A,
+		AlgoElement existingAlgo = kernel.getAlgoDispatcher().findExistingIntersectionAlgorithm(A,
 				B);
 		if (existingAlgo != null)
 			return (AlgoIntersectConics3D) existingAlgo;
@@ -906,7 +906,7 @@ public class Manager3D implements Manager3DInterface {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectConics3D algo = new AlgoIntersectConics3D(cons, A, B);
 		algo.setPrintedInXML(false);
-		kernel.addIntersectionAlgorithm(algo); // remember this algorithm
+		kernel.getAlgoDispatcher().addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -970,7 +970,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	private AlgoIntersectLineQuadric3D getIntersectionAlgorithm(GeoLineND A,
 			GeoQuadricND B) {
-		AlgoElement existingAlgo = kernel.findExistingIntersectionAlgorithm(
+		AlgoElement existingAlgo = kernel.getAlgoDispatcher().findExistingIntersectionAlgorithm(
 				(GeoElement) A, B);
 		if (existingAlgo != null)
 			return (AlgoIntersectLineQuadric3D) existingAlgo;
@@ -979,7 +979,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectLineQuadric3D algo = new AlgoIntersectLineQuadric3D(cons,
 				A, B);
 		algo.setPrintedInXML(false);
-		kernel.addIntersectionAlgorithm(algo); // remember this algorithm
+		kernel.getAlgoDispatcher().addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1059,7 +1059,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	private AlgoIntersectPlaneConic getIntersectionAlgorithm(GeoCoordSys2D A,
 			GeoConicND B) {
-		AlgoElement existingAlgo = kernel.findExistingIntersectionAlgorithm(
+		AlgoElement existingAlgo = kernel.getAlgoDispatcher().findExistingIntersectionAlgorithm(
 				(GeoElement) A, B);
 		if (existingAlgo != null)
 			return (AlgoIntersectPlaneConic) existingAlgo;
@@ -1067,7 +1067,7 @@ public class Manager3D implements Manager3DInterface {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPlaneConic algo = new AlgoIntersectPlaneConic(cons, A, B);
 		algo.setPrintedInXML(false);
-		kernel.addIntersectionAlgorithm(algo); // remember this algorithm
+		kernel.getAlgoDispatcher().addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 

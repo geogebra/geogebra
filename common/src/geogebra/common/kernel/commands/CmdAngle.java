@@ -6,7 +6,6 @@ import geogebra.common.kernel.algos.AlgoAngleNumeric;
 import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;

@@ -18,8 +18,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
-import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;

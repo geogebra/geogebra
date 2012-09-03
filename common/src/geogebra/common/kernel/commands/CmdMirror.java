@@ -59,7 +59,7 @@ public class CmdMirror extends CommandProcessor {
 						|| arg[0] instanceof GeoFunction
 						|| arg[0] instanceof GeoList
 						|| arg[0] instanceof GeoImplicitPoly) {
-					ret = kernelA.Mirror(label, arg[0], conic1);
+					ret = getAlgoDispatcher().Mirror(label, arg[0], conic1);
 					return ret;
 				}
 
@@ -75,14 +75,14 @@ public class CmdMirror extends CommandProcessor {
 
 					GeoPoint Q = (GeoPoint) arg[1];
 
-					ret = kernelA.Mirror(label, arg[0], Q);
+					ret = getAlgoDispatcher().Mirror(label, arg[0], Q);
 					return ret;
 				}
 				// mirror is line
 				else if (arg[1].isGeoLine()) {
 					GeoLine line = (GeoLine) arg[1];
 
-					ret = kernelA.Mirror(label, arg[0], line);
+					ret = getAlgoDispatcher().Mirror(label, arg[0], line);
 					return ret;
 				}
 			}

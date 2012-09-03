@@ -652,7 +652,7 @@ public abstract class EuclidianController {
 		if (a.isGeoLine()) {
 			if (b.isGeoLine()) {
 				if (!((GeoLine) a).linDep((GeoLine) b)) {
-					return kernel
+					return getAlgoDispatcher()
 							.IntersectLines(null, (GeoLine) a, (GeoLine) b);
 				}
 				return null;
@@ -669,7 +669,7 @@ public abstract class EuclidianController {
 				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				return kernel.IntersectFunctionLine(null, f, (GeoLine) a,
+				return getAlgoDispatcher().IntersectFunctionLine(null, f, (GeoLine) a,
 						initPoint);
 			} else {
 				return null;
@@ -681,7 +681,7 @@ public abstract class EuclidianController {
 				return IntersectLineConicSingle(null, (GeoLine) b,
 						(GeoConic) a, xRW, yRW);
 			} else if (b.isGeoConic() && !a.isEqual(b)) {
-				return kernel.IntersectConicsSingle(null, (GeoConic) a,
+				return getAlgoDispatcher().IntersectConicsSingle(null, (GeoConic) a,
 						(GeoConic) b, xRW, yRW);
 			} else {
 				return null;
@@ -699,19 +699,19 @@ public abstract class EuclidianController {
 				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				return kernel.IntersectFunctionLine(null, aFun,
+				return getAlgoDispatcher().IntersectFunctionLine(null, aFun,
 						(GeoLine) b, initPoint);
 			} else if (b.isGeoFunctionable()) {
 				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
 				if (aFun.isPolynomialFunction(false)
 						&& bFun.isPolynomialFunction(false)) {
-					return kernel.IntersectPolynomialsSingle(null, aFun, bFun,
+					return getAlgoDispatcher().IntersectPolynomialsSingle(null, aFun, bFun,
 							xRW, yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				return kernel.IntersectFunctions(null, aFun, bFun,
+				return getAlgoDispatcher().IntersectFunctions(null, aFun, bFun,
 						initPoint);
 			} else {
 				return null;
@@ -2154,7 +2154,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = (GeoElement) kernel.IntersectLines(null, lines[0],
+			ret[0] = (GeoElement) getAlgoDispatcher().IntersectLines(null, lines[0],
 					lines[1]);
 			return ret;
 		}
@@ -2165,10 +2165,10 @@ public abstract class EuclidianController {
 			if (singlePointWanted) {
 				checkZooming(); 
 				
-				ret[0] = kernel.IntersectConicsSingle(null,
+				ret[0] = getAlgoDispatcher().IntersectConicsSingle(null,
 						(GeoConic) conics[0], (GeoConic) conics[1], xRW, yRW);
 			} else {
-				ret = (GeoElement[]) kernel.IntersectConics(null, conics[0],
+				ret = (GeoElement[]) getAlgoDispatcher().IntersectConics(null, conics[0],
 						conics[1]);
 			}
 			return ret;
@@ -2181,18 +2181,18 @@ public abstract class EuclidianController {
 				initPoint.setCoords(xRW, yRW, 1.0);
 				checkZooming(); 
 				
-				return new GeoElement[] { kernel.IntersectFunctions(null,
+				return new GeoElement[] { getAlgoDispatcher().IntersectFunctions(null,
 						fun[0], fun[1], initPoint) };
 			}
 			// polynomials
 			if (singlePointWanted) {
 				checkZooming(); 
 				
-				return new GeoElement[] { kernel
+				return new GeoElement[] { getAlgoDispatcher()
 						.IntersectPolynomialsSingle(null, fun[0], fun[1],
 								xRW, yRW) };
 			}
-			return kernel.IntersectPolynomials(null, fun[0], fun[1]);
+			return getAlgoDispatcher().IntersectPolynomials(null, fun[0], fun[1]);
 		}
 		// one line and one conic
 		else if ((selLines() >= 1) && (selConics() >= 1)) {
@@ -2205,7 +2205,7 @@ public abstract class EuclidianController {
 				ret[0] = IntersectLineConicSingle(null, line[0],
 						conic[0], xRW, yRW);
 			} else {
-				ret = kernel.IntersectLineConic(null, line[0], conic[0]);
+				ret = getAlgoDispatcher().IntersectLineConic(null, line[0], conic[0]);
 			}
 	
 			return ret;
@@ -2217,7 +2217,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret = kernel.IntersectLinePolyLine(new String[] { null }, line,
+			ret = getAlgoDispatcher().IntersectLinePolyLine(new String[] { null }, line,
 					polyLine);
 			return ret;
 		}
@@ -2228,7 +2228,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret = kernel.IntersectLineCurve(new String[] { null }, line,
+			ret = getAlgoDispatcher().IntersectLineCurve(new String[] { null }, line,
 					curve);
 			return ret;
 		}
@@ -2239,7 +2239,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret = kernel.IntersectLinePolygon(new String[] { null }, line,
+			ret = getAlgoDispatcher().IntersectLinePolygon(new String[] { null }, line,
 					polygon);
 			return ret;
 		}
@@ -2255,12 +2255,12 @@ public abstract class EuclidianController {
 					ret[0] = IntersectPolynomialLineSingle(null, fun[0],
 							line[0], xRW, yRW);
 				} else {
-					ret = kernel.IntersectPolynomialLine(null, fun[0], line[0]);
+					ret = getAlgoDispatcher().IntersectPolynomialLine(null, fun[0], line[0]);
 				}
 			} else {
 				GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				ret[0] = kernel.IntersectFunctionLine(null, fun[0], line[0],
+				ret[0] = getAlgoDispatcher().IntersectFunctionLine(null, fun[0], line[0],
 						initPoint);
 			}
 			return ret;
@@ -2275,7 +2275,7 @@ public abstract class EuclidianController {
 				return new GeoElement[] { IntersectPolynomialConicSingle(null, fun[0], conic[0],
 								xRW, yRW) };
 			}
-			return kernel.IntersectPolynomialConic(null, fun[0], conic[0]);
+			return getAlgoDispatcher().IntersectPolynomialConic(null, fun[0], conic[0]);
 			// }
 		} else if (selImplicitpoly() >= 1) {
 			if (selFunctions() >= 1) {
@@ -2288,7 +2288,7 @@ public abstract class EuclidianController {
 					return new GeoElement[] { IntersectImplicitpolyPolynomialSingle(null, p,
 									fun, xRW, yRW) };
 				}
-				return kernel.IntersectImplicitpolyPolynomial(null, p, fun);
+				return getAlgoDispatcher().IntersectImplicitpolyPolynomial(null, p, fun);
 				// }else
 				// return null;
 			} else if (selLines() >= 1) {
@@ -2300,7 +2300,7 @@ public abstract class EuclidianController {
 					return new GeoElement[] { IntersectImplicitpolyLineSingle(null, p, l, xRW,
 									yRW) };
 				}
-				return kernel.IntersectImplicitpolyLine(null, p, l);
+				return getAlgoDispatcher().IntersectImplicitpolyLine(null, p, l);
 			} else if (selConics() >= 1) {
 				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
 				GeoConic c = getSelectedConics()[0];
@@ -2310,7 +2310,7 @@ public abstract class EuclidianController {
 					return new GeoElement[] { IntersectImplicitpolyConicSingle(null, p, c, xRW,
 									yRW) };
 				}
-				return kernel.IntersectImplicitpolyConic(null, p, c);
+				return getAlgoDispatcher().IntersectImplicitpolyConic(null, p, c);
 			} else if (selImplicitpoly() >= 2) {
 				GeoImplicitPoly[] p = getSelectedImplicitpoly();
 				checkZooming(); 
@@ -2319,7 +2319,7 @@ public abstract class EuclidianController {
 					return new GeoElement[] { IntersectImplicitpolysSingle(null, p[0], p[1],
 									xRW, yRW) };
 				}
-				return kernel.IntersectImplicitpolys(null, p[0], p[1]);
+				return getAlgoDispatcher().IntersectImplicitpolys(null, p[0], p[1]);
 			}
 		}
 		return null;
@@ -2335,7 +2335,7 @@ public abstract class EuclidianController {
 		if (!f.isPolynomialFunction(false))
 			return null;
 
-		AlgoIntersectPolynomialLine algo = kernel.getIntersectionAlgorithm(f, l);
+		AlgoIntersectPolynomialLine algo = getAlgoDispatcher().getIntersectionAlgorithm(f, l);
 		int index = algo.getClosestPointIndex(xRW, yRW);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, index);
 		GeoPoint point = salgo.getPoint();
@@ -2343,7 +2343,7 @@ public abstract class EuclidianController {
 	}
 	final private GeoPoint IntersectPolynomialConicSingle(String label,
 			GeoFunction f, GeoConic c, double x, double y) {
-		AlgoIntersect algo = kernel.getIntersectionAlgorithm(f, c);
+		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(f, c);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();
@@ -2358,7 +2358,7 @@ public abstract class EuclidianController {
 	 */
 	final private GeoPoint IntersectLineConicSingle(String label, GeoLine g,
 			GeoConic c, double xRW, double yRW) {
-		AlgoIntersectLineConic algo = kernel.getIntersectionAlgorithm(g, c);
+		AlgoIntersectLineConic algo = getAlgoDispatcher().getIntersectionAlgorithm(g, c);
 		int index = algo.getClosestPointIndex(xRW, yRW);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, index);
 		GeoPoint point = salgo.getPoint();
@@ -2371,7 +2371,7 @@ public abstract class EuclidianController {
 	 */
 	final private GeoPoint IntersectImplicitpolyLineSingle(String label,
 			GeoImplicitPoly p, GeoLine l, double x, double y) {
-		AlgoIntersect algo = kernel.getIntersectionAlgorithm(p, l);
+		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(p, l);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();
@@ -2385,7 +2385,7 @@ public abstract class EuclidianController {
 			GeoImplicitPoly p, GeoFunction f, double x, double y) {
 		if (!f.isPolynomialFunction(false))
 			return null;
-		AlgoIntersect algo = kernel.getIntersectionAlgorithm(p, f);
+		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(p, f);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();
@@ -2400,7 +2400,7 @@ public abstract class EuclidianController {
 	 */
 	final public GeoPoint IntersectImplicitpolyConicSingle(String label,
 			GeoImplicitPoly p1, GeoConic c1, double x, double y) {
-		AlgoIntersectImplicitpolys algo = kernel.getIntersectionAlgorithm(p1, c1);
+		AlgoIntersectImplicitpolys algo = getAlgoDispatcher().getIntersectionAlgorithm(p1, c1);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();
@@ -2415,7 +2415,7 @@ public abstract class EuclidianController {
 	 */
 	final private GeoPoint IntersectImplicitpolysSingle(String label,
 			GeoImplicitPoly p1, GeoImplicitPoly p2, double x, double y) {
-		AlgoIntersectImplicitpolys algo = kernel.getIntersectionAlgorithm(p1, p2);
+		AlgoIntersectImplicitpolys algo = getAlgoDispatcher().getIntersectionAlgorithm(p1, p2);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();
@@ -2933,21 +2933,21 @@ public abstract class EuclidianController {
 				// create new tangents
 				checkZooming(); 
 				
-				return kernel.Tangent(null, points[0], conics[0]);
+				return getAlgoDispatcher().Tangent(null, points[0], conics[0]);
 			} else if (selLines() == 1) {
 				GeoConic[] conics = getSelectedConics();
 				GeoLine[] lines = getSelectedLines();
 				// create new line
 				checkZooming(); 
 				
-				return kernel.Tangent(null, lines[0], conics[0]);
+				return getAlgoDispatcher().Tangent(null, lines[0], conics[0]);
 			}
 		} else if (selConics() == 2) {
 			GeoConic[] conics = getSelectedConics();
 			// create new tangents
 			checkZooming(); 
 			
-			return kernel.CommonTangents(null, conics[0], conics[1]);
+			return getAlgoDispatcher().CommonTangents(null, conics[0], conics[1]);
 		} else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
 				GeoFunction[] functions = getSelectedFunctions();
@@ -2956,7 +2956,7 @@ public abstract class EuclidianController {
 				GeoElement[] ret = { null };
 				checkZooming(); 
 				
-				ret[0] = kernel.Tangent(null, points[0], functions[0]);
+				ret[0] = getAlgoDispatcher().Tangent(null, points[0], functions[0]);
 				return ret;
 			}
 		} else if (selCurves() == 1) {
@@ -2977,14 +2977,14 @@ public abstract class EuclidianController {
 				// create new tangents
 				checkZooming(); 
 				
-				return kernel.Tangent(null, points[0], implicitPoly);
+				return getAlgoDispatcher().Tangent(null, points[0], implicitPoly);
 			} else if (selLines() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
 				GeoLine[] lines = getSelectedLines();
 				// create new line
 				checkZooming(); 
 				
-				return kernel.Tangent(null, lines[0], implicitPoly);
+				return getAlgoDispatcher().Tangent(null, lines[0], implicitPoly);
 			}
 		}
 		return null;
@@ -3452,7 +3452,7 @@ public abstract class EuclidianController {
 				GeoPoint[] points = getSelectedPoints();
 				checkZooming(); 
 				
-				return kernel.Mirror(null, polys[0], points[0]);
+				return getAlgoDispatcher().Mirror(null, polys[0], points[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3463,10 +3463,10 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != point) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
+							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
 									geos[i], point)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
+							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
 									geos[i], point)));
 						}
 					}
@@ -3511,7 +3511,7 @@ public abstract class EuclidianController {
 				GeoLine[] lines = getSelectedLines();
 				checkZooming(); 
 
-				return kernel.Mirror(null, polys[0], lines[0]);
+				return getAlgoDispatcher().Mirror(null, polys[0], lines[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3522,10 +3522,10 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
+							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
 									geos[i], line)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
+							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
 									geos[i], line)));
 						}
 					}
@@ -3567,7 +3567,7 @@ public abstract class EuclidianController {
 				GeoConic[] lines = getSelectedCircles();
 				checkZooming(); 
 				
-				return kernel.Mirror(null, polys[0], lines[0]);
+				return getAlgoDispatcher().Mirror(null, polys[0], lines[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3578,10 +3578,10 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
+							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
 									geos[i], line)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
+							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
 									geos[i], line)));
 						}
 					}
@@ -3833,7 +3833,7 @@ public abstract class EuclidianController {
 	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
 		checkZooming(); 
 		
-		return kernel.Translate(null, geo, (GeoVector) vec);
+		return getAlgoDispatcher().Translate(null, geo, (GeoVector) vec);
 	}
 
 	protected final GeoElement[] translateByVector(Hits hits) {
@@ -4691,7 +4691,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = kernel.Distance(null, lines[0], lines[1]);
+			ret[0] = getAlgoDispatcher().Distance(null, lines[0], lines[1]);
 			return ret; // return this not null because the kernel has changed
 		}
 	
@@ -4978,7 +4978,7 @@ public abstract class EuclidianController {
 			GeoPoint[] points = getSelectedPoints();
 			checkZooming(); 
 			
-			GeoPoint endPoint = (GeoPoint) kernel.Translate(null, points[0],
+			GeoPoint endPoint = (GeoPoint) getAlgoDispatcher().Translate(null, points[0],
 					vecs[0])[0];
 			GeoElement[] ret = { null };
 			ret[0] = getAlgoDispatcher().Vector(null, points[0], endPoint);
@@ -7778,8 +7778,8 @@ public abstract class EuclidianController {
 						GeoVector vec = getAlgoDispatcher().Vector(null, 0, 0);
 						vec.setEuclidianVisible(false);
 						vec.setAuxiliaryObject(true);
-						GeoElement[] pp = kernel.Translate(null, p, vec);
-						GeoElement[] qq = kernel.Translate(null, q, vec);
+						GeoElement[] pp = getAlgoDispatcher().Translate(null, p, vec);
+						GeoElement[] qq = getAlgoDispatcher().Translate(null, q, vec);
 						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
 								(GeoPointND) pp[0], (GeoPointND) qq[0]);
 						transformCoordsOffset[0] = xRW;
@@ -7828,7 +7828,7 @@ public abstract class EuclidianController {
 					} else {
 						vec = getAlgoDispatcher().Vector(0, 0);
 					}
-					kernel.Translate(null, hits.get(0), vec);
+					getAlgoDispatcher().Translate(null, hits.get(0), vec);
 					transformCoordsOffset[0] = xRW;
 					transformCoordsOffset[1] = yRW;
 	

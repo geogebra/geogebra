@@ -60,7 +60,7 @@ public class CmdTranslate extends CommandProcessor {
 					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoVector() || arg[1].isGeoPoint()))) {
 				GeoVec3D v = (GeoVec3D) arg[1];
-				ret = kernelA.Translate(label, arg[0], v);
+				ret = getAlgoDispatcher().Translate(label, arg[0], v);
 				return ret;
 			}
 

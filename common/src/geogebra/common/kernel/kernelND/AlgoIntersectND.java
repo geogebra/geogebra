@@ -82,7 +82,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
         if (numberOfUsers == 0 && !isPrintedInXML()) {
             //  this algorithm has no users and no labeled output   
             super.remove();
-            	kernel.removeIntersectionAlgorithm(this);
+            	kernel.getAlgoDispatcher().removeIntersectionAlgorithm(this);
         }
     }
 	/** @return array of all intersection points*/
@@ -173,7 +173,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
         if (numberOfUsers == 0) {
             //  this algorithm has no users and no labeled output       
             super.remove();
-            	kernel.removeIntersectionAlgorithm(this);
+            	kernel.getAlgoDispatcher().removeIntersectionAlgorithm(this);
         } else {
             // there are users of this algorithm, so we keep it
             // remove only output

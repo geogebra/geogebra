@@ -59,7 +59,7 @@ public class CmdDistance extends CommandProcessor {
 			// distance between line and line
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Distance(c.getLabel(),
 						(GeoLine) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			}

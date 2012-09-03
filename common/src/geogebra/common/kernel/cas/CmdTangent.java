@@ -44,15 +44,15 @@ public class CmdTangent extends CommandProcessor {
 			// tangents through point
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic())))
-				return kernelA.Tangent(c.getLabels(), (GeoPoint) arg[0],
+				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoPoint) arg[0],
 						(GeoConic) arg[1]);
 			else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoPoint())))
-				return kernelA.Tangent(c.getLabels(), (GeoPoint) arg[1],
+				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoPoint) arg[1],
 						(GeoConic) arg[0]);
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic())))
-				return kernelA.Tangent(c.getLabels(), (GeoLine) arg[0],
+				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoLine) arg[0],
 						(GeoConic) arg[1]);
 			else if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
@@ -72,13 +72,13 @@ public class CmdTangent extends CommandProcessor {
 			// tangents of function at x = x(Point P)
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Tangent(c.getLabel(),
 						(GeoPoint) arg[0], ((GeoFunctionable) arg[1])
 								.getGeoFunction()) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Tangent(c.getLabel(),
 						(GeoPoint) arg[1], ((GeoFunctionable) arg[0])
 								.getGeoFunction()) };
 				return ret;
@@ -94,22 +94,22 @@ public class CmdTangent extends CommandProcessor {
 			// Victor Franco 11-02-2007: end for curve's
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
-				GeoElement[] ret = kernelA.Tangent(c.getLabels(),
+				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
 						(GeoPoint) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
 			} else if ((ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[0] = (arg[0].isGeoImplicitPoly()))) {
-				GeoElement[] ret = kernelA.Tangent(c.getLabels(),
+				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
 						(GeoPoint) arg[1], (GeoImplicitPoly) arg[0]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
-				GeoElement[] ret = kernelA.Tangent(c.getLabels(),
+				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
 						(GeoLine) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				return kernelA.CommonTangents(c.getLabels(), (GeoConic) arg[0], (GeoConic) arg[1]);
+				return getAlgoDispatcher().CommonTangents(c.getLabels(), (GeoConic) arg[0], (GeoConic) arg[1]);
 			}
 
 			// syntax error

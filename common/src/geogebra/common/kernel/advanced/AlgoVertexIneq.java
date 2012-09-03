@@ -11,8 +11,6 @@ import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomialConic;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomials;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
-import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -229,7 +227,7 @@ public class AlgoVertexIneq extends AlgoElement {
 
 		if (helpers[i][j] == null) {
 			if (a.getFunBorder().isPolynomialFunction(false)) {
-				setHelper(i, j, kernel.getIntersectionAlgorithm(
+				setHelper(i, j, kernel.getAlgoDispatcher().getIntersectionAlgorithm(
 						a.getFunBorder(), helperLine));
 			} else {
 				setHelper(
@@ -268,7 +266,7 @@ public class AlgoVertexIneq extends AlgoElement {
 				setHelper(
 						i,
 						j,
-						kernel.getIntersectionAlgorithm(a.getFunBorder(),
+						kernel.getAlgoDispatcher().getIntersectionAlgorithm(a.getFunBorder(),
 								b.getLineBorder()));
 			} else {
 				setHelper(
@@ -358,7 +356,7 @@ public class AlgoVertexIneq extends AlgoElement {
 				setHelper(
 						i,
 						j,
-						kernel.getIntersectionAlgorithm(a.getFunBorder(),
+						kernel.getAlgoDispatcher().getIntersectionAlgorithm(a.getFunBorder(),
 								b.getLineBorder()));
 			} else {
 				setHelper(
@@ -392,7 +390,7 @@ public class AlgoVertexIneq extends AlgoElement {
 				setHelper(
 						i,
 						j,
-						kernel.getIntersectionAlgorithm(helperFunction,
+						kernel.getAlgoDispatcher().getIntersectionAlgorithm(helperFunction,
 								helperLine));
 			} else {
 				setHelper(

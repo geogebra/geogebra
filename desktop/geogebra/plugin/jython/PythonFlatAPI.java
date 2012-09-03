@@ -1540,7 +1540,7 @@ public class PythonFlatAPI {
 	 * @return intersection point
 	 */
 	public GeoPointND intersectLines(GeoLineND l1, GeoLineND l2) {
-		return kernel.IntersectLines(null, l1, l2);
+		return getAlgoDispatcher().IntersectLines(null, l1, l2);
 	}
 
 
@@ -1554,7 +1554,7 @@ public class PythonFlatAPI {
 	 * @return intersection points of l and c
 	 */
 	public GeoPoint[] intersectLineConic(GeoLine l, GeoConic c) {
-		return kernel.IntersectLineConic(null, l, c);
+		return getAlgoDispatcher().IntersectLineConic(null, l, c);
 	}
 
 	/**
@@ -1567,7 +1567,7 @@ public class PythonFlatAPI {
 	 * @return intersection points of conics
 	 */
 	public GeoPointND[] intersectConics(GeoConicND c1, GeoConicND c2) {
-		return kernel.IntersectConics(null, c1, c2);
+		return getAlgoDispatcher().IntersectConics(null, c1, c2);
 	}
 	
 	/*
