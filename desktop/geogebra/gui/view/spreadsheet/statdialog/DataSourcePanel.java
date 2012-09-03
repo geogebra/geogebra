@@ -399,7 +399,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		sourceTable.setStatTable(rowCount, null, columnCount, columnNames);
 		sourceTable.getTable().setColumnSelectionAllowed(true);
 		sourceTable.getTable().setRowSelectionAllowed(true);
-
+		sourceTable.setAllowCellEdit(true);
+		
 		// sourceTable.getTable().setShowHorizontalLines(false);
 
 		sourceTable.clear();

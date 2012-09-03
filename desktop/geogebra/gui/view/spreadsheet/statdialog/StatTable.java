@@ -552,19 +552,34 @@ public class StatTable extends JScrollPane {
 
 	}
 
-	private boolean allowCellEdit = true;
+	/**
+	 * @param allowCellEdit true if table cell can be edited
+	 */
+	public void setAllowCellEdit(boolean allowCellEdit) {
+		myTable.setAllowCellEdit(allowCellEdit);
+	}
+	
 
 	// ======================================================
 	// MyTable
 	// ======================================================
 	public class MyTable extends JTable {
 		private static final long serialVersionUID = 1L;
+		
+		private boolean allowCellEdit = false;
+		
+		/**
+		 * @param allowCellEdit true if table cell can be edited
+		 */
+		public void setAllowCellEdit(boolean allowCellEdit) {
+			this.allowCellEdit = allowCellEdit;
+		}
 
 		// disable cell editing
 		@Override
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 
-			if (allowCellEdit = true) {
+			if (allowCellEdit == true) {
 				return true;
 			}
 

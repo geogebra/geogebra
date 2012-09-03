@@ -237,7 +237,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	private JTabbedPane tabbedPane;
 
-	//private StatisticsCalculator statCalculator;
+	// private StatisticsCalculator statCalculator;
 
 	/*************************************************
 	 * Construct the dialog
@@ -261,11 +261,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 		buildProbCalcPanel();
 		isIniting = false;
 
-		//statCalculator = new StatisticsCalculator(app);
-		
+		// statCalculator = new StatisticsCalculator(app);
+
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(app.getMenu("Distribution"), probCalcPanel);
-		//tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
+		// tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
 
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
@@ -593,8 +593,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
-		controlPanel
-				.add(LayoutUtil.flowPanel(0, 0, 0, btnCumulative, cbPanel));
+		controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnCumulative, cbPanel));
 		controlPanel.add(LayoutUtil.flowPanel(4, 5, 20, parameterPanel));
 		controlPanel.add(LayoutUtil.flowPanel(2, 5, 0, tb));
 		controlPanel.add(LayoutUtil.flowPanel(4, 5, 20, lblProbOf, fldLow,
@@ -917,7 +916,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			Double[] m = probManager.getDistributionMeasures(selectedDist,
 					parameters);
 			if (m[0] != null && m[1] != null) {
-				normalOverlay = this.createNormalCurveOverlay(m[0], m[1]);
+				normalOverlay = createNormalCurveOverlay(m[0], m[1]);
 				plotGeoList.add(normalOverlay);
 			}
 		}
@@ -982,11 +981,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 		return polyLine;
 	}
 
+
 	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
 
-		AlgoNormalDF algo = new AlgoNormalDF(cons, new GeoNumeric(cons, mean), new GeoNumeric(cons, sigma), new GeoBoolean(cons, isCumulative));
+		AlgoNormalDF algo = new AlgoNormalDF(cons, new GeoNumeric(cons, mean),
+				new GeoNumeric(cons, sigma), new GeoBoolean(cons, isCumulative));
 		cons.removeFromConstructionList(algo);
-		
+
 		GeoElement geo = algo.getResult();
 
 		geo.setObjColor(new geogebra.awt.GColorD(COLOR_NORMALOVERLAY));
@@ -1626,12 +1627,12 @@ public class ProbabilityCalculator extends JPanel implements View,
 		Double[] val = probManager.getDistributionMeasures(selectedDist,
 				parameters);
 
-		// mean/sigma are undefined for the Cauchy distribution 
-		if(selectedDist == DIST.CAUCHY){
+		// mean/sigma are undefined for the Cauchy distribution
+		if (selectedDist == DIST.CAUCHY) {
 			lblMeanSigma.setText("");
 			return;
 		}
-		
+
 		String distStr = distributionMap.get(selectedDist) + "(";
 		for (int i = 0; i < parameters.length; i++) {
 			distStr += format(parameters[i]);
@@ -1731,11 +1732,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		
 		tabbedPane.setTitleAt(0, app.getMenu("Distribution"));
 
-		//statCalculator.setLabels();
-		//tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
+		// statCalculator.setLabels();
+		// tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
 
 		setLabelArrays();
 
@@ -2433,7 +2433,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				GeoElement discreteValueListCopy = discreteValueList.copy();
 				newGeoList.add(discreteValueList);
 
-				if (graphType == GRAPH_LINE)
+				if (graphType == GRAPH_LINE) {
 					expr = "BarChart["
 							+ discreteValueListCopy
 									.getLabel(StringTemplate.maxPrecision)
@@ -2441,7 +2441,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 							+ discreteProbListCopy
 									.getLabel(StringTemplate.maxPrecision)
 							+ ",0.1]";
-				else
+				} else if (graphType == GRAPH_BAR) {
 					expr = "BarChart["
 							+ discreteValueListCopy
 									.getLabel(StringTemplate.maxPrecision)
@@ -2449,6 +2449,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 							+ discreteProbListCopy
 									.getLabel(StringTemplate.maxPrecision)
 							+ "]";
+				} else if (graphType == GRAPH_STEP) {
+					//TODO: polyline
+				}
 
 				GeoElement discreteGraphCopy = createGeoFromString(expr, false);
 				discreteGraphCopy.setLabel(null);

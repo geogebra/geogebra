@@ -850,8 +850,8 @@ public class DataSource {
 								copyByValue, isSorted, doStoreUndo,
 								GeoClass.NUMERIC, setLabel);
 						sourceList.add(geoList);
-						App.error(geoList
-								.toOutputValueString(StringTemplate.defaultTemplate));
+						//App.error(geoList
+							//	.toOutputValueString(StringTemplate.defaultTemplate));
 					} catch (Exception e) {
 						e.printStackTrace();
 						return null;
