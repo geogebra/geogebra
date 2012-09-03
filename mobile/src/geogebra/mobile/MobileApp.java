@@ -33,6 +33,8 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.mobile.controller.MobileEuclidianController;
+import geogebra.mobile.euclidian.EuclidianViewM;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.main.AppW;
@@ -661,7 +663,14 @@ public class MobileApp extends App
 	@Override
 	public EuclidianView createEuclidianView()
 	{
-		return null;
+		// TODO
+		if (this.euclidianView == null)
+		{
+			this.euclidianView = new EuclidianViewM(
+					this.euclidianController == null ? new MobileEuclidianController()
+							: (MobileEuclidianController) this.euclidianController);
+		}
+		return this.euclidianView;
 	}
 
 	@Override
