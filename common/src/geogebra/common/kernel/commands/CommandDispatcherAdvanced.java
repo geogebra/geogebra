@@ -103,14 +103,10 @@ public class CommandDispatcherAdvanced {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
 		// advanced
-		case Mod:
-			return new CmdMod(kernel);
-		case Div:
-			return new CmdDiv(kernel);
-		case Min:
-			return new CmdMin(kernel);
-		case Max:
-			return new CmdMax(kernel);
+
+			
+			
+			
 		case LCM:
 			return new CmdLCM(kernel);
 		case GCD:
@@ -124,17 +120,11 @@ public class CommandDispatcherAdvanced {
 		case TaylorPolynomial:
 		case TaylorSeries:
 			return new CmdTaylorSeries(kernel);
-		case Defined:
-		case IsDefined:
-			return new CmdDefined(kernel);
 		case UnitPerpendicularVector:
 		case UnitOrthogonalVector:
 			return new CmdUnitOrthogonalVector(kernel);
 		case Text:
 			return new CmdText(kernel);
-		case FormulaText:
-		case LaTeX:
-			return new CmdLaTeX(kernel);
 		case SecondAxis:
 		case MinorAxis:
 			return new CmdSecondAxis(kernel);
@@ -181,10 +171,6 @@ public class CommandDispatcherAdvanced {
 			return new CmdClosestPoint(kernel);
 		case CountIf:
 			return new CmdCountIf(kernel);
-		case IsInteger:
-			return new CmdIsInteger(kernel);
-		case KeepIf:
-			return new CmdKeepIf(kernel);
 		case IsInRegion:
 			return new CmdIsInRegion(kernel);
 		case PrimeFactors:
@@ -195,18 +181,10 @@ public class CommandDispatcherAdvanced {
 			return new CmdUnion(kernel);
 		case LetterToUnicode:
 			return new CmdLetterToUnicode(kernel);
-		case TextToUnicode:
-			return new CmdTextToUnicode(kernel);
-		case UnicodeToText:
-			return new CmdUnicodeToText(kernel);
 		case UnicodeToLetter:
 			return new CmdUnicodeToLetter(kernel);
-		case FractionText:
-			return new CmdFractionText(kernel);
 		case ScientificText:
 			return new CmdScientificText(kernel);
-		case TableText:
-			return new CmdTableText(kernel);
 		case VerticalText:
 			return new CmdVerticalText(kernel);
 		case RotateText:
@@ -273,20 +251,8 @@ public class CommandDispatcherAdvanced {
 			return new CmdEccentricity(kernel);
 		case Axes:
 			return new CmdAxes(kernel);
-		case First:
-			return new CmdFirst(kernel);
-		case Last:
-			return new CmdLast(kernel);
-		case Take:
-			return new CmdTake(kernel);
-		case RemoveUndefined:
-			return new CmdRemoveUndefined(kernel);
-		case Reverse:
-			return new CmdReverse(kernel);
 		case IndexOf:
 			return new CmdIndexOf(kernel);
-		case Append:
-			return new CmdAppend(kernel);
 		case Join:
 			return new CmdJoin(kernel);
 		case Flatten:

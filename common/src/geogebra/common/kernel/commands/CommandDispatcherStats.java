@@ -40,8 +40,6 @@ public class CommandDispatcherStats {
 			return new CmdNormalQuantilePlot(kernel);
 		case FrequencyTable:
 			return new CmdFrequencyTable(kernel);
-		case Sum:
-			return new CmdSum(kernel);
 		case Mean:
 			return new CmdMean(kernel);
 		case Variance:
@@ -239,10 +237,6 @@ public class CommandDispatcherStats {
 			return new CmdFillCells(kernel);
 		case Cell:
 			return new CmdCell(kernel);			
-			
-		case Binomial:
-		case BinomialCoefficient:
-			return new CmdBinomial(kernel);
 			
 		case Product:
 			return new CmdProduct(kernel);

@@ -364,10 +364,6 @@ public class CommandDispatcher {
 				
 				
 				// advanced
-			case Mod:
-			case Div:
-			case Min:
-			case Max:
 			case LCM:
 			case GCD:
 			case IntersectRegion:
@@ -377,15 +373,10 @@ public class CommandDispatcher {
 			case TaylorPolynomial:
 			case TaylorSeries:
 
-			case Defined:
-			case IsDefined:
-			
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
 				
 			case Text:
-			case FormulaText:
-			case LaTeX:
 
 			case SecondAxis:
 			case MinorAxis:
@@ -412,19 +403,13 @@ public class CommandDispatcher {
 			case CrossRatio:
 			case ClosestPoint:
 			case CountIf:
-			case IsInteger:
-			case KeepIf:
 			case IsInRegion:
 			case PrimeFactors:
 			case CompleteSquare:
 			case Union:
 			case LetterToUnicode:
-			case TextToUnicode:
-			case UnicodeToText:
 			case UnicodeToLetter:
-			case FractionText:
 			case ScientificText:
-			case TableText:
 			case VerticalText:
 			case RotateText:
 			case Ordinal:
@@ -462,13 +447,7 @@ public class CommandDispatcher {
 			
 			case Eccentricity:
 			case Axes:
-			case First:
-			case Last:
-			case Take:
-			case RemoveUndefined:
-			case Reverse:
 			case IndexOf:
-			case Append:
 			case Join:
 			case Flatten:
 			case Insert:
@@ -505,155 +484,114 @@ public class CommandDispatcher {
 				
 				
 				
-				
+				// basic
 				
 			case Vector:
-				return new CmdVector(kernel);
 			case BarCode:
-				return kernel.getApplication().newCmdBarCode();
 			case Dot:
-				return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
 			case Cross:
-				return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
 			case IntegerPart:
-				return new CmdCAStoOperation(kernel,Operation.FLOOR);
 			case PolyLine:
-				return new CmdPolyLine(kernel);
 			case PointIn:
-				return new CmdPointIn(kernel);
 			case Line:
-				return new CmdLine(kernel);
 			case Ray:
-				return new CmdRay(kernel);
 			case AngularBisector:
-				return new CmdAngularBisector(kernel);
 			case Segment:
-				return new CmdSegment(kernel);
 			case Slope:
-				return new CmdSlope(kernel);
 			case Angle:
-				return new CmdAngle(kernel);
 			case Point:
-				return new CmdPoint(kernel);
 			case Midpoint:
-				return new CmdMidpoint(kernel);
 			case Intersect:
-				return new CmdIntersect(kernel);
 			case Distance:
-				return new CmdDistance(kernel);
 			case Radius:
-				return new CmdRadius(kernel);
 			case CircleArc:
-				return new CmdCircleArc(kernel);
 			case Arc:
-				return new CmdArc(kernel);
 			case Sector:
-				return new CmdSector(kernel);
 			case CircleSector:
-				return new CmdCircleSector(kernel);
 			case CircumcircleSector:
-				return new CmdCircumcircleSector(kernel);
 			case CircumcircleArc:
-				return new CmdCircumcircleArc(kernel);
 			case Polygon:
-				return new CmdPolygon(kernel);
 			case Area:
-				return new CmdArea(kernel);
 			case Circumference:
-				return new CmdCircumference(kernel);
 			case Perimeter:
-				return new CmdPerimeter(kernel);
 			case Locus:
-				return new CmdLocus(kernel);
 			case Vertex:
-				return new CmdVertex(kernel);
 			case If:
-				return new CmdIf(kernel);
 			case Root:
-				return new CmdRoot(kernel);
 			case TurningPoint:
-				return new CmdTurningPoint(kernel);
 			case Polynomial:
-				return new CmdPolynomial(kernel);
 			case Function:
-				return new CmdFunction(kernel);
-
 			case Curve:
 			case CurveCartesian:
-				return new CmdCurveCartesian(kernel);
-			
 			case LowerSum:
-				return new CmdLowerSum(kernel);
 			case LeftSum:
-				return new CmdLeftSum(kernel);
 			case RectangleSum:
-				return new CmdRectangleSum(kernel);
-				
-				
 			case UpperSum:
-				return new CmdUpperSum(kernel);
 			case TrapezoidalSum:
-				return new CmdTrapezoidalSum(kernel);
 			case Ellipse:
-				return new CmdEllipse(kernel);
 			case Hyperbola:
-				return new CmdHyperbola(kernel);
 			case Conic:
-				return new CmdConic(kernel);
 			case Circle:
-				return new CmdCircle(kernel);
 			case Semicircle:
-				return new CmdSemicircle(kernel);
 			case Parabola:
-				return new CmdParabola(kernel);
 			case Focus:
-				return new CmdFocus(kernel);
 			case Center:
-				return new CmdCenter(kernel);
 			case Element:
-				return new CmdElement(kernel);
 			case Sequence:
-				return new CmdSequence(kernel);
 			case Mirror:
-				return new CmdMirror(kernel);
 			case Dilate:
-				return new CmdDilate(kernel);
 			case Rotate:
-				return new CmdRotate(kernel);
 			case Translate:
-				return new CmdTranslate(kernel);
 			case Shear:
-				return new CmdShear(kernel);
 			case Stretch:
-				return new CmdStretch(kernel);
 
 			case Corner:
-				return new CmdCorner(kernel);
 			case Name:
-				return new CmdName(kernel);
 
 			
 			case Diameter:
 			case ConjugateDiameter:
-				return new CmdDiameter(kernel);
 				
 			case LineBisector:
 			case PerpendicularBisector:
-				return new CmdLineBisector(kernel);
 				
 			case OrthogonalLine:
 			case PerpendicularLine:
-				return new CmdOrthogonalLine(kernel);
 
 			case OrthogonalVector:
 			case PerpendicularVector:
-				return new CmdOrthogonalVector(kernel);
 				
 			case Random:
-				return new CmdRandom(kernel);
 			case RandomBetween:
-				return new CmdRandom(kernel);
 
+			case Sum:
+
+			case Binomial:
+			case BinomialCoefficient:
+				
+			case Mod:
+			case Div:
+			case Min:
+			case Max:
+			case Append:
+			case First:
+			case Last:
+			case RemoveUndefined:
+			case Reverse:
+			case TableText:
+			case Take:
+			case TextToUnicode:
+			case UnicodeToText:
+			case FractionText:
+			case KeepIf:
+			case IsInteger:
+			
+			case Defined:
+			case IsDefined:
+
+			case FormulaText:
+			case LaTeX:
+				return getBasicDispatcher().dispatch(command,kernel);
 
 			case CFactor:
 			case CSolutions:
@@ -677,8 +615,6 @@ public class CommandDispatcher {
 			case ANOVA:
 			case BarChart:
 			case Bernoulli:
-			case Binomial:
-			case BinomialCoefficient:
 			case BinomialDist:
 			case BoxPlot:
 			case Cauchy:
@@ -778,7 +714,6 @@ public class CommandDispatcher {
 			case Sort:
 			case Spearman:
 			case StemPlot:
-			case Sum:
 			case SumSquaredErrors:
 			case TDistribution:
 			case TMean2Estimate:
@@ -894,6 +829,14 @@ public class CommandDispatcher {
 			advancedDispatcher = new CommandDispatcherAdvanced();
 		}
 		return advancedDispatcher;
+	}
+
+	private CommandDispatcherBasic basicDispatcher = null;
+	private CommandDispatcherBasic getBasicDispatcher() {
+		if(basicDispatcher == null) {
+			basicDispatcher = new CommandDispatcherBasic();
+		}
+		return basicDispatcher;
 	}
 
 }
