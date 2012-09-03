@@ -1,27 +1,27 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- * Turn turtle anticlockwise
+ * Make turtle move back
  * @author arno
- * TurtleLeft[ <Turtle>, <Angle in radians>]
+ * TurtleBack[ <Turtle>, <distance> ]
  */
-public class CmdTurtleLeft extends CmdTurtleCommand {
+public class CmdTurtleBack extends CmdTurtleCommand {
 
 	/**
 	 * @param kernel the kernel
 	 */
-	public CmdTurtleLeft(Kernel kernel) {
+	public CmdTurtleBack(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
 	protected void performTurtleCommand(String cname, GeoElement[] args)
 			throws MyError {
-		getTurtle(args).turn(getNumArg(cname, args)*180/Math.PI);
+		getTurtle(args).forward(-getNumArg(cname, args));
 	}
 
 }

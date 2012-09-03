@@ -1,7 +1,8 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.advanced.AlgoTurtle;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;

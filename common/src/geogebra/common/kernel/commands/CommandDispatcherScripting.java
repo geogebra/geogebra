@@ -44,6 +44,11 @@ import geogebra.common.kernel.scripting.CmdSlowPlot;
 import geogebra.common.kernel.scripting.CmdStartAnimation;
 import geogebra.common.kernel.scripting.CmdTextfield;
 import geogebra.common.kernel.scripting.CmdToolImage;
+import geogebra.common.kernel.scripting.CmdTurtle;
+import geogebra.common.kernel.scripting.CmdTurtleBack;
+import geogebra.common.kernel.scripting.CmdTurtleForward;
+import geogebra.common.kernel.scripting.CmdTurtleLeft;
+import geogebra.common.kernel.scripting.CmdTurtleRight;
 import geogebra.common.kernel.scripting.CmdUpdateConstruction;
 import geogebra.common.kernel.scripting.CmdZoomIn;
 import geogebra.common.kernel.scripting.CmdZoomOut;
@@ -154,6 +159,16 @@ public class CommandDispatcherScripting {
 						return new CmdSlowPlot(kernel);
 					case ToolImage:
 						return new CmdToolImage(kernel);		
+					case Turtle: 
+						return new CmdTurtle(kernel);
+					case TurtleForward:
+						return new CmdTurtleForward(kernel);
+					case TurtleBack:
+						return new CmdTurtleBack(kernel);
+					case TurtleLeft:
+						return new CmdTurtleLeft(kernel);
+					case TurtleRight:
+						return new CmdTurtleRight(kernel);		
 		}
 		return null;
 	}

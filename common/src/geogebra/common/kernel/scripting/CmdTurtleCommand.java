@@ -1,11 +1,10 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;
-import geogebra.common.kernel.scripting.CmdScripting;
 import geogebra.common.main.MyError;
 
 /**

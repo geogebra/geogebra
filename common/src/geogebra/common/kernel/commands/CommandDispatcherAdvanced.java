@@ -259,16 +259,6 @@ public class CommandDispatcherAdvanced {
 			return new CmdToComplexPolar(kernel,Kernel.COORD_COMPLEX);
 		case ToPolar:
 			return new CmdToComplexPolar(kernel,Kernel.COORD_POLAR);
-		case Turtle: 
-			return new CmdTurtle(kernel);
-		case TurtleForward:
-			return new CmdTurtleForward(kernel);
-		case TurtleBack:
-			return new CmdTurtleBack(kernel);
-		case TurtleLeft:
-			return new CmdTurtleLeft(kernel);
-		case TurtleRight:
-			return new CmdTurtleRight(kernel);		
 		}
 		return null;
 	}

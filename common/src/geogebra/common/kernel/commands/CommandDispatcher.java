@@ -352,6 +352,11 @@ public class CommandDispatcher {
 			case ShowGrid:
 			case SlowPlot:
 			case ToolImage:
+			case Turtle: 
+			case TurtleForward:
+			case TurtleBack:
+			case TurtleLeft:
+			case TurtleRight:
 				return getScriptingDispatcher().dispatch(command,kernel);
 	
 				
@@ -496,11 +501,6 @@ public class CommandDispatcher {
 			case ToPoint:
 			case ToComplex:
 			case ToPolar:
-			case Turtle: 
-			case TurtleForward:
-			case TurtleBack:
-			case TurtleLeft:
-			case TurtleRight:
 				return getAdvancedDispatcher().dispatch(command,kernel);
 				
 				
