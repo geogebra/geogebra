@@ -1062,7 +1062,7 @@ public abstract class EuclidianController {
 			double y, boolean complex) {
 		checkZooming(forPreviewable); 
 		
-				GeoPointND ret = kernel.PointIn(null, region, x, y, !forPreviewable, complex);
+				GeoPointND ret = getAlgoDispatcher().PointIn(null, region, x, y, !forPreviewable, complex);
 				return ret;
 			}
 
@@ -2593,7 +2593,7 @@ public abstract class EuclidianController {
 				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
 						points[0], points[1]);
 			} else {
-				ret[0] = kernel.Midpoint(null, (GeoPoint) points[0],
+				ret[0] = getAlgoDispatcher().Midpoint(null, (GeoPoint) points[0],
 						(GeoPoint) points[1]);
 			}
 			return ret;
@@ -2606,7 +2606,7 @@ public abstract class EuclidianController {
 				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
 						segments[0]);
 			} else {
-				ret[0] = kernel.Midpoint(null, (GeoSegment) segments[0]);
+				ret[0] = getAlgoDispatcher().Midpoint(null, (GeoSegment) segments[0]);
 			}
 			return ret;
 		} else if (selConics() == 1) {
@@ -2815,9 +2815,9 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			if (points[0].getPath() == null) {
-				locus = kernel.Locus(null, points[0], points[1]);
+				locus = getAlgoDispatcher().Locus(null, points[0], points[1]);
 			} else {
-				locus = kernel.Locus(null, points[1], points[0]);
+				locus = getAlgoDispatcher().Locus(null, points[1], points[0]);
 			}
 			GeoElement[] ret = { null };
 			ret[0] = locus;
@@ -2827,7 +2827,7 @@ public abstract class EuclidianController {
 			GeoNumeric[] numbers = getSelectedNumbers();
 			checkZooming(); 
 			
-			GeoLocus locus = kernel.Locus(null, points[0], numbers[0]);
+			GeoLocus locus = getAlgoDispatcher().Locus(null, points[0], numbers[0]);
 			GeoElement[] ret = { locus };
 			return ret;
 		}
@@ -3727,7 +3727,7 @@ public abstract class EuclidianController {
 			cons.setSuppressLabelCreation(true);
 			checkZooming(); 
 			
-			GeoPoint newPoint = kernel.PointIn(null, region,
+			GeoPoint newPoint = getAlgoDispatcher().PointIn(null, region,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
 					false, false);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
@@ -4467,7 +4467,7 @@ public abstract class EuclidianController {
 			// standard case: conic
 			checkZooming(); 
 			
-			GeoNumeric area = kernel.Area(null, conic);
+			GeoNumeric area = getAlgoDispatcher().Area(null, conic);
 	
 			// text
 			GeoText text = createDynamicText("AreaOfA", conic, area,
@@ -4658,7 +4658,7 @@ public abstract class EuclidianController {
 			GeoPoint[] points = getSelectedPoints();
 			checkZooming(); 
 			
-			GeoNumeric length = kernel.Distance(null, (GeoPointND) points[0],
+			GeoNumeric length = getAlgoDispatcher().Distance(null, (GeoPointND) points[0],
 					(GeoPointND) points[1]);
 	
 			// set startpoint of text to midpoint of two points
@@ -4699,7 +4699,7 @@ public abstract class EuclidianController {
 		else if ((selPoints() == 1) && (selLines() == 1)) {
 			GeoPoint[] points = getSelectedPoints();
 			GeoLine[] lines = getSelectedLines();
-			GeoNumeric length = kernel.Distance(null, points[0], lines[0]);
+			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0], lines[0]);
 	
 			checkZooming(); 
 			
@@ -4734,7 +4734,7 @@ public abstract class EuclidianController {
 			// standard case: conic
 			checkZooming(); 
 			
-			GeoNumeric circumFerence = kernel.Circumference(null, conic);
+			GeoNumeric circumFerence = getAlgoDispatcher().Circumference(null, conic);
 	
 			// text
 			GeoText text = createDynamicText("CircumferenceOfA", conic,
@@ -4755,7 +4755,7 @@ public abstract class EuclidianController {
 			GeoPolygon[] poly = getSelectedPolygons();
 			checkZooming(); 
 			
-			GeoNumeric perimeter = kernel.Perimeter(null, poly[0]);
+			GeoNumeric perimeter = getAlgoDispatcher().Perimeter(null, poly[0]);
 	
 			// text
 			GeoText text = createDynamicText("PerimeterOfA", poly[0],

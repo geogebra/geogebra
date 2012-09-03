@@ -40,7 +40,7 @@ public class CmdMidpoint extends CommandProcessor {
 						(GeoConic) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {
-				GeoElement[] ret = { kernelA.Midpoint(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Midpoint(c.getLabel(),
 						(GeoSegment) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
@@ -56,7 +56,7 @@ public class CmdMidpoint extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.Midpoint(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Midpoint(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			}

@@ -32,7 +32,7 @@ public class CmdIntersectRegion extends CommandProcessor {
 		switch (n) {
 			case 2:		
 				if ((ok[0]=arg[0].isGeoPolygon()) && arg[1].isGeoPolygon() ) {
-					GeoElement[] ret =  kernelA.IntersectPolygons(c.getLabels(),
+					GeoElement[] ret =  getAlgoDispatcher().IntersectPolygons(c.getLabels(),
 					(GeoPolygon) arg[0], (GeoPolygon)arg[1] ) ;
 					return ret;
 				}

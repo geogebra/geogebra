@@ -61,7 +61,7 @@ public class CmdDilate extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				NumberValue phi = (NumberValue) arg[1];
 				GeoPoint Q = (GeoPoint) arg[2];
-				ret = kernelA.Dilate(label, arg[0], phi, Q);
+				ret = getAlgoDispatcher().Dilate(label, arg[0], phi, Q);
 				return ret;
 			}
 			if (!ok[0])

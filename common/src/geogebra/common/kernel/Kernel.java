@@ -7,16 +7,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.advanced.AlgoDistanceLineLine;
-import geogebra.common.kernel.advanced.AlgoDistancePointObject;
-import geogebra.common.kernel.advanced.AlgoDistancePoints;
-import geogebra.common.kernel.advanced.AlgoLocus;
-import geogebra.common.kernel.advanced.AlgoLocusList;
-import geogebra.common.kernel.advanced.AlgoLocusSlider;
-import geogebra.common.kernel.advanced.AlgoPointInRegion;
-import geogebra.common.kernel.advanced.AlgoPolyLine;
-import geogebra.common.kernel.advanced.AlgoPolygonIntersection;
-import geogebra.common.kernel.advanced.AlgoPolygonRegular;
-import geogebra.common.kernel.advanced.AlgoPolygonUnion;
 import geogebra.common.kernel.algos.AlgoAreaConic;
 import geogebra.common.kernel.algos.AlgoCircumferenceConic;
 import geogebra.common.kernel.algos.AlgoCommonTangents;
@@ -4018,169 +4008,7 @@ public class Kernel {
 		return regMath;
 	}
 
-	/**
-	 * Area named label of conic
-	 */
-	final public GeoNumeric Area(String label, GeoConic c) {
-		AlgoAreaConic algo = new AlgoAreaConic(cons, label, c);
-		GeoNumeric num = algo.getArea();
-		return num;
-	}
 
-	/**
-	 * Perimeter named label of GeoPolygon
-	 */
-	final public GeoNumeric Perimeter(String label, GeoPolygon polygon) {
-		AlgoPerimeterPoly algo = new AlgoPerimeterPoly(cons, label, polygon);
-		return algo.getCircumference();
-	}
-
-	/**
-	 * Circumference named label of GeoConic
-	 */
-	final public GeoNumeric Circumference(String label, GeoConic conic) {
-		AlgoCircumferenceConic algo = new AlgoCircumferenceConic(cons, label,
-				conic);
-		return algo.getCircumference();
-	}
-
-	/**
-	 * dilate geoRot by r from S
-	 */
-	final public GeoElement[] Dilate(String label, GeoElement geoDil,
-			NumberValue r, GeoPoint S) {
-		Transform t = new TransformDilate(cons, r, S);
-		return t.transform(geoDil, label);
-	}
-
-
-	/**
-	 * Distance named label between points P and Q
-	 */
-	final public GeoNumeric Distance(String label, GeoPointND P, GeoPointND Q) {
-		AlgoDistancePoints algo = new AlgoDistancePoints(cons, label, P, Q);
-		GeoNumeric num = algo.getDistance();
-		return num;
-	}
-
-	/**
-	 * Distance named label between point P and line g
-	 */
-	final public GeoNumeric Distance(String label, GeoPoint P, GeoElement g) {
-		AlgoDistancePointObject algo = new AlgoDistancePointObject(cons, label,
-				P, g);
-		GeoNumeric num = algo.getDistance();
-		return num;
-	}
-
-	/**
-	 * Distance named label between line g and line h
-	 */
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
-		AlgoDistanceLineLine algo = new AlgoDistanceLineLine(cons, label, (GeoLine)g, (GeoLine)h);
-		GeoNumeric num = algo.getDistance();
-		return num;
-	}
-
-	final public GeoImplicitPoly ImplicitPoly(String label, GeoFunctionNVar func) {
-		AlgoImplicitPolyFunction algo = new AlgoImplicitPolyFunction(cons,
-				label, func);
-		GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
-		return implicitPoly;
-	}
-
-
-	/********************
-	 * ALGORITHMIC PART *
-	 ********************/
-
-
-	/** Point in region with cartesian coordinates (x,y) */
-	final public GeoPoint PointIn(String label, Region region, double x,
-			double y, boolean addToConstruction, boolean complex) {
-		boolean oldMacroMode = false;
-		if (!addToConstruction) {
-			oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-
-		}
-		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
-				y);
-		// Application.debug("PointIn - \n x="+x+"\n y="+y);
-		GeoPoint p = algo.getP();
-		if (complex) {
-			p.setMode(COORD_COMPLEX);
-		}
-		if (!addToConstruction) {
-			cons.setSuppressLabelCreation(oldMacroMode);
-		}
-		return p;
-	}
-
-
-	/**
-	 * Midpoint M = (P + Q)/2
-	 */
-	final public GeoPoint Midpoint(String label, GeoPoint P, GeoPoint Q) {
-		AlgoMidpoint algo = new AlgoMidpoint(cons, label, P, Q);
-		GeoPoint M = algo.getPoint();
-		return M;
-	}
-
-	/**
-	 * Midpoint of segment
-	 */
-	final public GeoPoint Midpoint(String label, GeoSegment s) {
-		AlgoMidpointSegment algo = new AlgoMidpointSegment(cons, label, s);
-		GeoPoint M = algo.getPoint();
-		return M;
-	}
-
-	/**
-	 * Length[list]
-	 */
-	final public GeoNumeric Length(String label, GeoList list) {
-		AlgoListLength algo = new AlgoListLength(cons, label, list);
-		return algo.getLength();
-	}
-
-	/**
-	 * Length[locus]
-	 */
-	final public GeoNumeric Length(String label, GeoLocus locus) {
-		AlgoLengthLocus algo = new AlgoLengthLocus(cons, label, locus);
-		return algo.getLength();
-	}
-
-	/**
-	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
-	 * segments
-	 */
-	final public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
-		AlgoPolygon algo = new AlgoPolygon(cons, labels, P);
-		return algo.getOutput();
-	}
-
-	// G.Sturr 2010-3-14
-	/**
-	 * Polygon with vertices from geolist Only the polygon is labeled, segments
-	 * are not labeled
-	 */
-	final public GeoElement[] Polygon(String[] labels, GeoList pointList) {
-		AlgoPolygon algo = new AlgoPolygon(cons, labels, pointList);
-		return algo.getOutput();
-	}
-
-	// END G.Sturr
-
-	/**
-	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
-	 * segments
-	 */
-	final public GeoElement[] PolyLine(String[] labels, GeoPointND[] P, boolean penStroke) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, P, penStroke);
-		return algo.getOutput();
-	}
 
 
 	final public GeoElement[] VectorPolygon(String[] labels, GeoPoint[] points) {
@@ -4234,7 +4062,7 @@ public class Kernel {
 		}
 		points[0].update();
 
-		return Polygon(labels, points);
+		return getAlgoDispatcher().Polygon(labels, points);
 
 	}
 
@@ -4412,7 +4240,7 @@ public class Kernel {
 
 		points[0].update();
 
-		return Polygon(labels, points);
+		return getAlgoDispatcher().Polygon(labels, points);
 
 	}
 
@@ -4483,31 +4311,6 @@ public class Kernel {
 		return S;
 	}
 
-
-	/**
-	 * locus line for Q dependent on P. Note: P must be a point on a path.
-	 */
-	final public GeoLocus Locus(String label, GeoPoint Q, GeoPoint P) {
-		if (P.getPath() == null || Q.getPath() != null || !P.isParentOf(Q))
-			return null;
-		if (P.getPath() instanceof GeoList)
-			return (new AlgoLocusList(cons, label, Q, P)).getLocus();
-		return (new AlgoLocus(cons, label, Q, P)).getLocus();
-	}
-
-	/**
-	 * locus line for Q dependent on P. Note: P must be a visible slider
-	 */
-	final public GeoLocus Locus(String label, GeoPoint Q, GeoNumeric P) {
-		if (!P.isSlider() || !P.isDefined() || !P.isAnimatable() || // !P.isSliderable()
-																	// ||
-																	// !P.isDrawable()
-																	// ||
-				Q.getPath() != null || !P.isParentOf(Q))
-			return null;
-		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, Q, P);
-		return algo.getLocus();
-	}
 
 	/**
 	 * IntersectLineConic yields intersection points named label1, label2 of
@@ -4995,26 +4798,7 @@ public class Kernel {
 		return new MacroKernel(this);
 	}
 
-	/**
-	 * Intersect[polygon,polygon] G. Sturr
-	 */
-	final public GeoElement[] IntersectPolygons(String[] labels,
-			GeoPolygon poly0, GeoPolygon poly1) {
-		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
-				labels, poly0, poly1);
-		GeoElement[] polygon = algo.getOutput();
-		return polygon;
-	}
 
-	/**
-	 * Union[polygon,polygon] G. Sturr
-	 */
-	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
-			GeoPolygon poly1) {
-		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1);
-		GeoElement[] polygon = algo.getOutput();
-		return polygon;
-	}
 	
 	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {
 		app.updateMaxLayerUsed(layer2);
@@ -5087,11 +4871,11 @@ public class Kernel {
 	}
 	
 	public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
-		return Polygon(labels, P);
+		return getAlgoDispatcher().Polygon(labels, P);
 	}
 
 	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
-		return PolyLine(labels, P, false);
+		return getAlgoDispatcher().PolyLine(labels, P, false);
 	}
 	
 	/**
@@ -5121,6 +4905,17 @@ public class Kernel {
 			GeoDirectionND direction) {
 		return getAlgoDispatcher().OrthogonalLine(label, (GeoPoint) P, (GeoLine) l);
 	}
+	
+	/**
+	 * Distance named label between line g and line h
+	 */
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+		AlgoDistanceLineLine algo = new AlgoDistanceLineLine(cons, label, (GeoLine)g, (GeoLine)h);
+		GeoNumeric num = algo.getDistance();
+		return num;
+	}
+
+
 
 	
 	/**
@@ -5151,6 +4946,14 @@ public class Kernel {
 
 	public GeoSegmentND Segment(String label, GeoPoint p, GeoPoint q) {
 		return getAlgoDispatcher().Segment(label,  p,  q);
+	}
+
+	public GeoElement[] Polygon(String[] labels, GeoPointND[] p) {
+		return getAlgoDispatcher().Polygon(labels, p);
+	}
+
+	public GeoElement[] PolyLine(String[] labels, GeoPointND[] p, boolean b) {
+		return getAlgoDispatcher().PolyLine(labels, p, b);
 	}
 	
 }

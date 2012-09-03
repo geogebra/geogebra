@@ -56,7 +56,7 @@ public class CmdLength extends CommandProcessor {
 				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			} else if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernelA.Length(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Length(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
@@ -67,7 +67,7 @@ public class CmdLength extends CommandProcessor {
 				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			} else if (arg[0].isGeoLocus()) {
-				GeoElement[] ret = { kernelA.Length(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Length(c.getLabel(),
 						(GeoLocus) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {

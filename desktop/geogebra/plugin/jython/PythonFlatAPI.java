@@ -1248,7 +1248,7 @@ public class PythonFlatAPI {
 	 * @return new Geo implicit curve representing f(x, y) = 0
 	 */
 	public GeoImplicitPoly geoImplicitPoly(GeoFunctionNVar f) {
-		return kernel.ImplicitPoly(null, f);
+		return getAlgoDispatcher().ImplicitPoly(null, f);
 	}
 
 	/**

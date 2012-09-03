@@ -35,7 +35,7 @@ public GeoElement[] process(Command c) throws MyError {
     	//G.Sturr 2010-3-14
 		case 1:
 		if (arg[0].isGeoList())
-			return kernelA.Polygon(c.getLabels(), (GeoList) arg[0]);
+			return getAlgoDispatcher().Polygon(c.getLabels(), (GeoList) arg[0]);
 		//END G.Sturr
 		
     	case 3:        

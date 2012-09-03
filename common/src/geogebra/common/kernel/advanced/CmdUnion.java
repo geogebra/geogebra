@@ -41,7 +41,7 @@ public class CmdUnion extends CommandProcessor {
 				return ret;
 			} else
 				if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {
-					GeoElement[] ret = kernelA.Union(c.getLabels(), (GeoPolygon) arg[0],
+					GeoElement[] ret = getAlgoDispatcher().Union(c.getLabels(), (GeoPolygon) arg[0],
 							(GeoPolygon) arg[1]);
 					return ret;
 				} else

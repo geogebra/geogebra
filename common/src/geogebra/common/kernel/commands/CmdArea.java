@@ -37,7 +37,7 @@ public class CmdArea extends CommandProcessor {
 
 			// area of conic
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernelA.Area(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().Area(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 			}

@@ -381,7 +381,7 @@ public abstract class DialogManager {
 			for (int i=0; i < selGeos.length; i++) {				
 				if (selGeos[i] != point) {
 					if ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
-						ret.addAll(Arrays.asList(kernel.Dilate(null,  selGeos[i], num, point)));
+						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Dilate(null,  selGeos[i], num, point)));
 				}
 			}
 			if (!ret.isEmpty()) {
