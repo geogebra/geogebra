@@ -147,8 +147,9 @@ public class EuclidianViewM extends EuclidianView
 	public void repaint()
 	{
 		// TODO
-		// updateSize();
-		// ((GFontW) this.g2p.getFont()).setFontSize(12);
+		if(getAxesColor() == null){
+			setAxesColor(geogebra.common.awt.GColor.black);
+		}
 		paint(this.g2p);
 	}
 

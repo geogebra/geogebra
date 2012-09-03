@@ -14,8 +14,9 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.mobile.euclidian.MouseEvent;
+import geogebra.mobile.euclidian.MobileMouseEvent;
 import geogebra.mobile.gui.elements.GuiModel;
+import geogebra.mobile.utils.Swipeables;
 import geogebra.mobile.utils.ToolBarCommand;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
+import com.google.gwt.event.dom.client.MouseEvent;
+
 /**
  * Receives the events from the canvas and sends the orders to the kernel.
  * 
@@ -54,6 +57,7 @@ public class MobileEuclidianController extends EuclidianController implements
 	private ToolBarCommand lastCmd;
 	private GPoint origin;
 	private boolean moving;
+	private boolean clicked = false;
 
 	public MobileEuclidianController()
 	{
@@ -130,21 +134,22 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.guiModel.closeOptions();
 
 		this.origin = new GPoint(event.getX(), event.getY());
+
+		this.clicked = true;
+
+		handleEvent(event);
 	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
 		event.preventDefault();
-		if (this.moving
-				|| (this.origin != null && (Math.abs(event.getX()
-						- this.origin.getX()) > 10 || Math.abs(event.getY()
-						- this.origin.getY()) > 10)))
+		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move)
 		{
 
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-
-			MouseEvent mEvent = new MouseEvent(event.getX(), event.getY());
+			MobileMouseEvent mEvent = new MobileMouseEvent(event.getX(),
+					event.getY());
 
 			if (!this.moving)
 			{
@@ -171,9 +176,7 @@ public class MobileEuclidianController extends EuclidianController implements
 			this.startPoint = new GPoint2D.Double(
 					this.view.toRealWorldCoordX(this.origin.getX()),
 					this.view.toRealWorldCoordY(this.origin.getY()));
-
 			wrapMouseDragged(mEvent);
-
 			this.origin = new GPoint(event.getX(), event.getY());
 		}
 	}
@@ -181,10 +184,9 @@ public class MobileEuclidianController extends EuclidianController implements
 	@Override
 	public void onMouseUp(MouseUpEvent event)
 	{
-
 		event.preventDefault();
 
-		this.origin = null;
+		this.clicked = false;
 
 		if (this.moving)
 		{
@@ -197,6 +199,23 @@ public class MobileEuclidianController extends EuclidianController implements
 			return;
 		}
 
+		if (Swipeables.isSwipeable(this.guiModel.getCommand())
+				&& this.oldPoints.size() == 1
+				&& (Math.abs(this.origin.getX() - event.getX()) > 10 || Math
+						.abs(this.origin.getY() - event.getY()) > 10))
+		{
+			handleEvent(event);
+		}
+	}
+
+	@Override
+	public void onClick(ClickEvent event)
+	{
+		event.preventDefault();
+	}
+
+	private void handleEvent(MouseEvent<?> event)
+	{
 		ToolBarCommand cmd = this.guiModel.getCommand();
 
 		if (this.lastCmd != cmd)
@@ -213,13 +232,19 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.mode = this.guiModel.getCommand().getMode();
 
 		// draw the new point
-		switchModeForMousePressed(null);
+		switchModeForMousePressed(new MobileMouseEvent(event.getX(),
+				event.getY()));
 
 		this.view.setHits(this.mouseLoc);
 		Hits hits = this.view.getHits();
 
 		switch (cmd)
 		{
+		// commands that need one point or a point and an element
+		case AttachDetachPoint:
+			attachDetach(hits);
+			break;
+
 		// commands that need two points
 		case LineThroughTwoPoints:
 		case SegmentBetweenTwoPoints:
@@ -442,13 +467,6 @@ public class MobileEuclidianController extends EuclidianController implements
 			this.oldPoints = new ArrayList<GeoPointND>();
 			this.oldLines = new ArrayList<GeoLineND>();
 		}
-
-	}
-
-	@Override
-	public void onClick(ClickEvent event)
-	{
-		event.preventDefault();
 	}
 
 	public void setGuiModel(GuiModel model)

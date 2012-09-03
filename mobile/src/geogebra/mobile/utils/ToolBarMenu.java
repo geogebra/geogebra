@@ -10,6 +10,8 @@ package geogebra.mobile.utils;
  */
 public enum ToolBarMenu
 {
+	Move(ToolBarCommand.Move, new ToolBarCommand[0]), 
+	
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
 			ToolBarCommand.NewPoint, ToolBarCommand.AttachDetachPoint,
 			ToolBarCommand.ComplexNumbers, ToolBarCommand.IntersectTwoObjects,

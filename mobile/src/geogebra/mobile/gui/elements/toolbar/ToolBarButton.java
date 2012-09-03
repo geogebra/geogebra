@@ -45,12 +45,25 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 		this.model = guiModel;
 
 		/*
-		this.addTapHandler(new TapHandler()
+		 * this.addTapHandler(new TapHandler() {
+		 * 
+		 * @Override public void onTap(TapEvent event) {
+		 * System.out.println("onTap"); if
+		 * (ToolBarButton.this.model.getCommand() == ToolBarButton.this
+		 * .getCmd() && ToolBarButton.this.model.optionsShown()) {
+		 * ToolBarButton.this.model.closeOptions(); } else { showOptions(); } }
+		 * });
+		 */
+
+		// test another EventHandler
+		this.addTouchHandler(new TouchHandler()
 		{
+
 			@Override
-			public void onTap(TapEvent event)
+			public void onTouchStart(TouchStartEvent event)
 			{
-				System.out.println("onTap");
+				event.preventDefault();
+				// ToolBarButton.this.addStyleName("button-active");
 				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
 						.getCmd() && ToolBarButton.this.model.optionsShown())
 				{
@@ -60,53 +73,32 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 					showOptions();
 				}
 			}
-		});
-		*/
-
-		// test another EventHandler
-		this.addTouchHandler(new TouchHandler()
-		{
 
 			@Override
-      public void onTouchStart(TouchStartEvent event)
-      {
+			public void onTouchMove(TouchMoveEvent event)
+			{
 				event.preventDefault();
-				//ToolBarButton.this.addStyleName("button-active");
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
-						.getCmd() && ToolBarButton.this.model.optionsShown())
-				{
-					ToolBarButton.this.model.closeOptions();
-				} else
-				{
-					showOptions();
-				}
-      }
+
+			}
 
 			@Override
-      public void onTouchMove(TouchMoveEvent event)
-      {
-	      event.preventDefault();
-	      
-      }
+			public void onTouchEnd(TouchEndEvent event)
+			{
+				event.preventDefault();
+
+			}
 
 			@Override
-      public void onTouchEnd(TouchEndEvent event)
-      {
-	      event.preventDefault();
-	      
-      }
+			public void onTouchCanceled(TouchCancelEvent event)
+			{
+				event.preventDefault();
 
-			@Override
-      public void onTouchCanceled(TouchCancelEvent event)
-      {
-	      event.preventDefault();
-	      
-      }
+			}
 		});
 	}
+
 	// end test another EventHandler
-	
-	
+
 	public ToolBarButton(SVGResource svg, GuiModel guiModel)
 	{
 		super(svg);
@@ -123,12 +115,19 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	protected void showOptions()
 	{
 		this.model.closeOptions();
-		OptionsBarBackground options = new OptionsBarBackground(
-				this.menuEntries, this);
-		this.model.setOptions(options);
-		RootPanel.get().add(options);
-		options.show();
-		this.model.setOptionsShown(true);
+
+		
+			OptionsBarBackground options = new OptionsBarBackground(
+					this.menuEntries, this);
+			this.model.setOptions(options);
+			
+			RootPanel.get().add(options);
+			if (this.menuEntries.length != 0)
+			{
+			options.show();
+			}
+			this.model.setOptionsShown(true);
+		
 
 		this.model.setActive(this);
 	}

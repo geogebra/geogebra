@@ -9,12 +9,12 @@ import geogebra.common.euclidian.event.AbstractEvent;
  * @author Thomas Krismayer
  *
  */
-public class MouseEvent extends AbstractEvent
+public class MobileMouseEvent extends AbstractEvent
 {
 
 	private GPoint point = new GPoint(0,0); 
 
-	public MouseEvent(int x, int y)
+	public MobileMouseEvent(int x, int y)
 	{
 		this.point = new GPoint(x, y); 
 	}

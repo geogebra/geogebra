@@ -23,10 +23,12 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
+import com.googlecode.mgwt.ui.client.widget.MCheckBox;
 
 /**
  * Taken from the web-project.
@@ -35,6 +37,9 @@ import com.google.gwt.user.client.ui.TextBox;
 public class RadioButtonTreeItem extends HorizontalPanel implements
 		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler
 {
+
+	MCheckBox checkBox;
+	CheckBox check;
 
 	GeoElement geo;
 	Kernel kernel;
@@ -48,51 +53,52 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	SpanElement seMayLatex;
 	SpanElement seNoLatex;
 
-	RadioButtonHandy radio;
+	// RadioButtonHandy radio;
 	InlineHTML ihtml;
 	TextBox tb;
 
-	private class RadioButtonHandy extends RadioButton
-	{
-		public RadioButtonHandy()
-		{
-			super(DOM.createUniqueId());
-		}
-
-		@Override
-		public void onBrowserEvent(Event event)
-		{
-
-			if (RadioButtonTreeItem.this.av.isEditing())
-				return;
-
-			if (event.getTypeInt() == Event.ONCLICK)
-			{
-				// Part of AlgebraController.mouseClicked in Desktop
-				if (Element.is(event.getEventTarget()))
-				{
-					if (Element.as(event.getEventTarget()) == getElement()
-							.getFirstChild())
-					{
-						getClicked();
-					}
-				}
-			}
-		}
-
-		protected void getClicked()
-		{
-			setChecked(RadioButtonTreeItem.this.previouslyChecked = !RadioButtonTreeItem.this.previouslyChecked);
-			RadioButtonTreeItem.this.geo
-					.setEuclidianVisible(!RadioButtonTreeItem.this.geo
-							.isSetEuclidianVisible());
-			RadioButtonTreeItem.this.geo.update();
-			RadioButtonTreeItem.this.geo.getKernel().getApplication()
-					.storeUndoInfo();
-			RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
-			return;
-		}
-	}
+	// private class RadioButtonHandy extends RadioButton
+	// {
+	// public RadioButtonHandy()
+	// {
+	// super(DOM.createUniqueId());
+	// }
+	//
+	// @Override
+	// public void onBrowserEvent(Event event)
+	// {
+	//
+	// if (RadioButtonTreeItem.this.av.isEditing())
+	// return;
+	//
+	// if (event.getTypeInt() == Event.ONCLICK)
+	// {
+	// // Part of AlgebraController.mouseClicked in Desktop
+	// if (Element.is(event.getEventTarget()))
+	// {
+	// if (Element.as(event.getEventTarget()) == getElement()
+	// .getFirstChild())
+	// {
+	// getClicked();
+	// }
+	// }
+	// }
+	// }
+	//
+	// protected void getClicked()
+	// {
+	// setChecked(RadioButtonTreeItem.this.previouslyChecked =
+	// !RadioButtonTreeItem.this.previouslyChecked);
+	// RadioButtonTreeItem.this.geo
+	// .setEuclidianVisible(!RadioButtonTreeItem.this.geo
+	// .isSetEuclidianVisible());
+	// RadioButtonTreeItem.this.geo.update();
+	// RadioButtonTreeItem.this.geo.getKernel().getApplication()
+	// .storeUndoInfo();
+	// RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
+	// return;
+	// }
+	// }
 
 	public RadioButtonTreeItem(GeoElement ge, AlgebraView algebraView)
 	{
@@ -105,11 +111,37 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 
-		this.radio = new RadioButtonHandy();
-		this.radio.setEnabled(ge.isEuclidianShowable());
-		this.radio.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
+		// this.radio = new RadioButtonHandy();
+		// this.radio.setEnabled(ge.isEuclidianShowable());
+		// this.radio.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
+		// .isEuclidianVisible());
+		// add(this.radio);
+
+		// TODO
+		// this.checkBox = new MCheckBox();
+		// this.checkBox.setImportant(true);
+		// add(this.checkBox);
+
+		this.check = new CheckBox();
+		check.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
 				.isEuclidianVisible());
-		add(this.radio);
+		this.check.addClickHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				RadioButtonTreeItem.this.check
+						.setChecked(RadioButtonTreeItem.this.previouslyChecked = !RadioButtonTreeItem.this.previouslyChecked);
+				RadioButtonTreeItem.this.geo
+						.setEuclidianVisible(!RadioButtonTreeItem.this.geo
+								.isSetEuclidianVisible());
+				RadioButtonTreeItem.this.geo.update();
+				RadioButtonTreeItem.this.geo.getKernel().getApplication()
+						.storeUndoInfo();
+				RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
+			}
+		});
+		add(this.check);
 
 		SpanElement se = DOM.createSpan().cast();
 		se.getStyle().setProperty("display", "-moz-inline-box");
@@ -460,7 +492,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	public void onClick(ClickEvent evt)
 	{
 		// TODO
-		this.radio.getClicked(); 
+		// this.radio.getClicked();
 	}
 
 	@Override
