@@ -141,7 +141,7 @@ public class AlgoFDistributionDF extends AlgoElement implements AlgoDistribution
 			
 			mult = fvEn.multiply(d1).power(halfd1).multiply(mult);
 
-			ExpressionNode div = fvEn.multiply(d1).plus(d2).power(d1En.plus(halfd2)).multiply(fv).multiply(beta);
+			ExpressionNode div = fvEn.multiply(d1).plus(d2).power(halfd1.plus(halfd2)).multiply(fv).multiply(beta);
 			
 			en = mult.divide(div);
 			
