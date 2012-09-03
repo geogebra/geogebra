@@ -41,15 +41,16 @@ public class PropertiesDockPanel extends DockPanel implements
 		super.setDialog(true);
 
 	}
+	
 
-	private PropertiesViewD getPropertiesView() {
-		return (PropertiesViewD) app.getGuiManager().getPropertiesView();
+	private void getPropertiesView() {
+		view = (PropertiesViewD) app.getGuiManager().getPropertiesView();
 	}
 
 	@Override
 	protected JComponent loadComponent() {
 
-		view = getPropertiesView();
+		getPropertiesView();
 
 		if (isOpenInFrame())
 			view.windowPanel();
@@ -60,25 +61,29 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((PropertiesStyleBarD)getPropertiesView().getStyleBar()).getWrappedPanel();
+		getPropertiesView();
+		return ((PropertiesStyleBarD) view.getStyleBar()).getWrappedPanel();
 	}
 
 	@Override
 	protected void windowPanel() {
 		super.windowPanel();
-		getPropertiesView().windowPanel();
+		getPropertiesView();
+		view.windowPanel();
 	}
 
 	@Override
 	protected void unwindowPanel() {
 		super.unwindowPanel();
-		getPropertiesView().unwindowPanel();
+		getPropertiesView();
+		view.unwindowPanel();
 	}
 	
 	@Override
 	protected void closePanel(boolean isPermanent) {
 		super.closePanel(isPermanent);		
-		getPropertiesView().applyModifications();
+		getPropertiesView();
+		view.applyModifications();
 	}
 	
 
@@ -139,7 +144,8 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		getPropertiesView().applyModifications();
+		getPropertiesView();
+		view.applyModifications();
 		closeDialog();
 	}
 
@@ -177,8 +183,11 @@ public class PropertiesDockPanel extends DockPanel implements
 	@Override
 	public void setVisible(boolean isVisible){
 		super.setVisible(isVisible);
-		dockManager.getLayout().getApplication().updateMenubar();
-		getPropertiesView().setSelectedOptionPanelVisible(isVisible);
+		if (isVisible || (view!=null)){
+			dockManager.getLayout().getApplication().updateMenubar();
+			getPropertiesView();
+			view.setSelectedOptionPanelVisible(isVisible);
+		}
 	}
 
 }
