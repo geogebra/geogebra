@@ -150,7 +150,7 @@ public class ProbabilityManager {
 				.getMenu("DegreesOfFreedom2.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL
-				.ordinal()][0] = app.getMenu("Mean.short");
+				.ordinal()][0] = app.getMenu("Lambda.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = app
 				.getMenu("Median");
@@ -472,25 +472,22 @@ public class ProbabilityManager {
 			v = parms[0];
 			v2 = parms[1];
 			mean = v2 > 2 ? v2 / (v2 - 2) : 1;
-			mode = ((v - 2) * v2) / (v*(v2 + 2));
+			mode = ((v - 2) * v2) / (v * (v2 + 2));
 			// TODO variance only valid for v2 > 4, need to handle v2<4
 			variance = 2 * v2 * v2 * (v + v2 - 2)
 					/ (v * (v2 - 2) * (v2 - 2) * (v2 - 4));
 			xMin = 0;
-			if(v2 > 2){
-			xMax = mean + 5 * Math.sqrt(variance);
-			}else{
-				xMax = 2;
-			}
+
+			xMax = getContXMax((GeoFunction) densityCurve, 1,.2,-1);
+			
 			yMin = 0;
-			if (v > 2)
+			if (v > 2) {
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(mode);
-			else
-				//yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
-			yMax = 2.5;
-			//System.out.println("FMode: " + mode);
-			//System.out.println("xMax: " + xMax);
-			//System.out.println("yMax: " + yMax);
+			} else {
+				// yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
+				yMax = 2.5;
+			}
+
 			break;
 
 		case CAUCHY:
@@ -508,7 +505,8 @@ public class ProbabilityManager {
 		case EXPONENTIAL:
 			double lambda = parms[0];
 			xMin = 0;
-			xMax = 4 * (1 / lambda); // st dev = 1/lambda
+			//xMax = 4 * (1 / lambda); // st dev = 1/lambda
+			xMax = getContXMax((GeoFunction) densityCurve, 1,.2,-1);
 			yMin = 0;
 			yMax = 1.2 * lambda;
 			break;
@@ -604,6 +602,22 @@ public class ProbabilityManager {
 		}
 		double[] d = { xMin, xMax, yMin, yMax };
 		return d;
+	}
+
+	private static double getContXMax(GeoFunction densityCurve, double startX,
+			double stepX, double yMinimum) {
+		
+		double defaultYMin = 0.005;
+		
+		double yMin = (yMinimum < 0)? defaultYMin: yMinimum;
+		
+		double x = startX;
+		double test = densityCurve.evaluate(x);
+		while (test > yMin) {
+			test = densityCurve.evaluate(x);
+			x += stepX;
+		}
+		return x;
 	}
 
 	/**
