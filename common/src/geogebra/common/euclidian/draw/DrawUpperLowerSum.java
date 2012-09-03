@@ -10,8 +10,11 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;

@@ -16,9 +16,12 @@ the Free Software Foundation.
  * Created on 11. Oktober 2001, 23:59
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.euclidian.event.ActionEvent;
 import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.factories.AwtFactory;
@@ -219,6 +222,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
+	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (!geoList.drawAsComboBox()) {
 

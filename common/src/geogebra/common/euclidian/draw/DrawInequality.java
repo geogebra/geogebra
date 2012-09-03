@@ -1,7 +1,11 @@
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.DrawParametricCurve.Gap;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.draw.DrawParametricCurve.Gap;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;

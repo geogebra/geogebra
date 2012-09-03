@@ -10,11 +10,15 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GShape;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -1026,6 +1030,7 @@ public class DrawParametricCurve extends Drawable {
 
 
 	@Override
+	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(geo
 				.getObjectColor());

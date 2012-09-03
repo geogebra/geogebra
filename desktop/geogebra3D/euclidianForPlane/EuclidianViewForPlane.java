@@ -1,6 +1,6 @@
 package geogebra3D.euclidianForPlane;
 
-import geogebra.common.euclidian.DrawAngle;
+import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;

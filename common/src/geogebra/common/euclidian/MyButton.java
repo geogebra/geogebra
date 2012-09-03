@@ -55,7 +55,7 @@ public class MyButton {
 	 * @param g
 	 *            graphics
 	 */
-	protected void paintComponent(geogebra.common.awt.GGraphics2D g) {
+	public void paintComponent(geogebra.common.awt.GGraphics2D g) {
 
 		// Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g);
 

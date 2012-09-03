@@ -10,11 +10,15 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GShape;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -288,6 +292,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
+	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:

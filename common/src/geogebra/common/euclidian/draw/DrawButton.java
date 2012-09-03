@@ -10,9 +10,13 @@
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GRectangle;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.MyButton;
+import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +36,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 
 	private String oldCaption;
 	/** button "component" */
-	MyButton myButton;
+	public MyButton myButton;
 
 
 	/**

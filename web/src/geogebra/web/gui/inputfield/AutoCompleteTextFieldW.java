@@ -2,8 +2,8 @@ package geogebra.web.gui.inputfield;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.AltKeys;

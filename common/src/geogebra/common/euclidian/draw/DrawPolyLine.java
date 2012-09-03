@@ -10,8 +10,13 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -92,6 +97,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	@Override
+	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(geo.getObjectColor());

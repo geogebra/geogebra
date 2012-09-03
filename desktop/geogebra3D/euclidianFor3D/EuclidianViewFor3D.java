@@ -28,7 +28,7 @@ public class EuclidianViewFor3D extends EuclidianViewD {
 	}
 
 	@Override
-	protected DrawableND newDrawable(GeoElement geo) {
+	public DrawableND newDrawable(GeoElement geo) {
 
 		// first try super method
 		DrawableND d = super.newDrawable(geo);

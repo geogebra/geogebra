@@ -1,6 +1,6 @@
 package geogebra.common.euclidian.event;
 
-import geogebra.common.euclidian.DrawTextField;
+import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.main.App;
 
 public class KeyListener {

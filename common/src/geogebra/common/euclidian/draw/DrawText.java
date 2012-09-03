@@ -10,8 +10,10 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;

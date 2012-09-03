@@ -1,5 +1,7 @@
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
+import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;

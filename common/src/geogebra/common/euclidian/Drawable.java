@@ -450,7 +450,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @param fromGeo geo whose style should be used for the update
 	 */
-	final void updateStrokesJustLineThickness(GeoElement fromGeo) {
+	public final void updateStrokesJustLineThickness(GeoElement fromGeo) {
 		strokedShape = null;
 		strokedShape2 = null;
 
@@ -570,8 +570,8 @@ public abstract class Drawable extends DrawableND {
 	}
 	/** draw trace of this geo into given Graphics2D 
 	 * @param g2 graphics*/
-	void drawTrace(geogebra.common.awt.GGraphics2D g2){
-		//do nothing, overriden in drawbles
+	protected void drawTrace(GGraphics2D g2) {
+		// do nothing, overridden where needed
 	}
 
 }

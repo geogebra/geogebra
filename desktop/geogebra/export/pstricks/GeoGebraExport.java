@@ -1,9 +1,9 @@
 package geogebra.export.pstricks;
 
-import geogebra.common.euclidian.DrawAngle;
-import geogebra.common.euclidian.DrawLine;
-import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.draw.DrawAngle;
+import geogebra.common.euclidian.draw.DrawLine;
+import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;

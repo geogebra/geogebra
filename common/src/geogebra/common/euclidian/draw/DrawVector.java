@@ -16,10 +16,14 @@ the Free Software Foundation.
  * Created on 16. Oktober 2001, 15:13
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GLine2D;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -263,6 +267,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
+	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(((GeoElement) v)
 				.getObjectColor());

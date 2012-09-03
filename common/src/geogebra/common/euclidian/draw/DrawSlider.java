@@ -14,9 +14,11 @@ the Free Software Foundation.
  * DrawSlider: draws a slider to change a number continously
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GLine2D;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;

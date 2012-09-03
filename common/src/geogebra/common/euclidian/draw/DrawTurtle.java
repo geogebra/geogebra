@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GBasicStroke;
@@ -20,6 +20,9 @@ import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GImage;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;

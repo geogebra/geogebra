@@ -10,7 +10,7 @@
  
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GEllipse2DDouble;
@@ -18,6 +18,9 @@ import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;

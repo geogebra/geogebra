@@ -10,11 +10,16 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
-import geogebra.common.euclidian.DrawParametricCurve.Gap;
-import geogebra.common.kernel.algos.AlgoIntegralFunctions;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.draw.DrawParametricCurve.Gap;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -24,22 +29,21 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Markus Hohenwarter
  */
-public class DrawIntegralFunctions extends Drawable {
+public class DrawIntegral extends Drawable {
 
 	private GeoNumeric n;
-	private GeoFunction f, g;
+	private GeoFunction f;
 	private NumberValue a, b;
-
 	private GeneralPathClipped gp;
 	private boolean isVisible, labelVisible;
 
 	/**
-	 * Creates drawable for integral between two functions
+	 * Creates new drawable for integral
 	 * 
 	 * @param view view
-	 * @param n integral between functions
+	 * @param n integral
 	 */
-	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n) {
+	public DrawIntegral(EuclidianView view, GeoNumeric n) {
 		this.view = view;
 		this.n = n;
 		geo = n;
@@ -47,15 +51,12 @@ public class DrawIntegralFunctions extends Drawable {
 		n.setDrawable(true);
 
 		init();
-
 		update();
 	}
 
 	private void init() {
-		AlgoIntegralFunctions algo = (AlgoIntegralFunctions) n
-				.getDrawAlgorithm();
-		f = algo.getF();
-		g = algo.getG();
+		AlgoIntegralDefinite algo = (AlgoIntegralDefinite) n.getDrawAlgorithm();
+		f = algo.getFunction();
 		a = algo.getA();
 		b = algo.getB();
 	}
@@ -67,9 +68,13 @@ public class DrawIntegralFunctions extends Drawable {
 			return;
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(n);
-
-		if (n.isAlgoMacroOutput())
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
 			init();
+
+		if (gp == null)
+			gp = new GeneralPathClipped(view);
+		else
+			gp.reset();
 
 		// init gp
 		double aRW = a.getDouble();
@@ -86,20 +91,24 @@ public class DrawIntegralFunctions extends Drawable {
 		if (bRW < view.getXmin() - EuclidianStatic.CLIP_DISTANCE)
 			return;
 
-		// init first point of gp as (ax, ay)
-		double ax = view.toClippedScreenCoordX(aRW);
-		double ay = view.toClippedScreenCoordY(f.evaluate(aRW));
+		double ax = view.toScreenCoordXd(aRW);
+		double bx = view.toScreenCoordXd(bRW);
+		float y0 = (float) view.getyZero();
 
-		// plot area between f and g
-		if (gp == null)
-			gp = new GeneralPathClipped(view);
-		gp.reset();
-		gp.moveTo(ax, ay);
+		// plot definite integral
+
+		if (Kernel.isEqual(aRW, bRW)) {
+			gp.moveTo(ax, y0);
+			gp.lineTo(ax, view.toScreenCoordYd(f.evaluate(aRW)));
+			gp.lineTo(ax, y0);
+			return;
+		}
+
+		gp.moveTo(ax, y0);
 		DrawParametricCurve.plotCurve(f, aRW, bRW, view, gp, false,
 				Gap.LINE_TO);
-		DrawParametricCurve.plotCurve(g, bRW, aRW, view, gp, false,
-				Gap.LINE_TO);
-		gp.closePath();
+		gp.lineTo(bx, y0);
+		gp.lineTo(ax, y0);
 
 		// gp on screen?
 		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
@@ -109,11 +118,8 @@ public class DrawIntegralFunctions extends Drawable {
 		}
 
 		if (labelVisible) {
-			int bx = view.toClippedScreenCoordX(bRW);
-			xLabel = (int) Math.round((ax + bx) / 2);
-			aRW = view.toRealWorldCoordX(xLabel);
-			double y = (f.evaluate(aRW) + g.evaluate(aRW)) / 2;
-			yLabel = view.toClippedScreenCoordY(y);
+			xLabel = (int) Math.round((ax + bx) / 2) - 6;
+			yLabel = (int) view.getyZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
@@ -131,9 +137,11 @@ public class DrawIntegralFunctions extends Drawable {
 			fill(g2, gp, true); // fill using default/hatching/image as
 								// appropriate
 
-			g2.setPaint(n.getObjectColor());
-			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			if (geo.lineThickness > 0) {
+				g2.setPaint(n.getObjectColor());
+				g2.setStroke(objStroke);
+				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			}
 
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());

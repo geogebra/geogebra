@@ -15,8 +15,9 @@ the Free Software Foundation.
  *
  * Created on 03. June 2010, 12:21
  */
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 
 /**

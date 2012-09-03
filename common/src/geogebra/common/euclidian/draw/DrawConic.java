@@ -16,16 +16,23 @@ the Free Software Foundation.
  * Created on 16. Oktober 2001, 15:13
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GArea;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GGeneralPath;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangularShape;
 import geogebra.common.awt.GShape;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -1036,7 +1043,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	final public void drawTrace(GGraphics2D g2) {
 		g2.setColor(conic.getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:

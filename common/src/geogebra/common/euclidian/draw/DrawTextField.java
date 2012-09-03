@@ -10,11 +10,15 @@
 
  */
 
-package geogebra.common.euclidian;
+package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.euclidian.event.FocusEvent;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.factories.AwtFactory;

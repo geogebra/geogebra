@@ -1,8 +1,8 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
