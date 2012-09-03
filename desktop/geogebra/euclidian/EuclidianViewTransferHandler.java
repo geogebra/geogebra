@@ -6,7 +6,7 @@ import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
+import geogebra.gui.view.data.PlotPanelEuclidianView;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 import geogebra.util.CASTransferHandler;
