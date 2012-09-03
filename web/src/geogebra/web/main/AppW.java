@@ -1704,9 +1704,42 @@ public class AppW extends App {
 
 	@Override
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
-		App.debug("getWindowLayoutXML: implementation needed for GUI"); // TODO
-																		// Auto-generated
+		// save the dimensions of the current window
+		sb.append("\t<window width=\"");
 
+		if (getEuclidianView1().getWidth() > 1) {
+			//double ratio = 800.0 * (getEuclidianView1().getHeight() + 170) / 600.0;
+			//sb.append((int)ratio);
+			// so it seems GeoGebraTube doesn't add anything to the following:
+			sb.append(getEuclidianView1().getWidth());
+		} else {
+			sb.append(800);
+		}
+
+		sb.append("\" height=\"");
+
+		if (getEuclidianView1().getHeight() > 1) {
+			// 170 is a GeoGebraTube hack
+			sb.append(getEuclidianView1().getHeight() + 170);
+		} else {
+			sb.append(600);
+		}
+
+		sb.append("\" />\n");
+
+		if (guiManager == null) {
+			initGuiManager();
+		}
+		getGuiManager().getLayout().getXml(sb, asPreference);//TODO implementation needed
+
+		// labeling style
+		// default changed so we need to always save this now
+		// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+		sb.append("\t<labelingStyle ");
+		sb.append(" val=\"");
+		sb.append(getLabelingStyle());
+		sb.append("\"/>\n");
+		// }
 	}
 
 	public Map<String, String> getCurrentFile() {
