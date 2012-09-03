@@ -64,8 +64,8 @@ import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
-import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
+import geogebra.gui.view.data.PlotPanelEuclidianView;
+import geogebra.gui.view.data.PlotSettings;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

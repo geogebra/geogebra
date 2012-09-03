@@ -472,18 +472,25 @@ public class ProbabilityManager {
 			v = parms[0];
 			v2 = parms[1];
 			mean = v2 > 2 ? v2 / (v2 - 2) : 1;
-			mode = (v - 2) / v * v2 / (v2 + 2);
+			mode = ((v - 2) * v2) / (v*(v2 + 2));
 			// TODO variance only valid for v2 > 4, need to handle v2<4
-			variance = 2 * v * v * (v + v2 - 2)
-					/ (v2 * (v - 2) * (v - 2) * (v - 4));
+			variance = 2 * v2 * v2 * (v + v2 - 2)
+					/ (v * (v2 - 2) * (v2 - 2) * (v2 - 4));
 			xMin = 0;
+			if(v2 > 2){
 			xMax = mean + 5 * Math.sqrt(variance);
+			}else{
+				xMax = 2;
+			}
 			yMin = 0;
 			if (v > 2)
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(mode);
 			else
-				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
-			// System.out.println("F ymax: " + yMax);
+				//yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
+			yMax = 2.5;
+			//System.out.println("FMode: " + mode);
+			//System.out.println("xMax: " + xMax);
+			//System.out.println("yMax: " + yMax);
 			break;
 
 		case CAUCHY:
@@ -651,11 +658,9 @@ public class ProbabilityManager {
 				mean = v2 / (v2 - 2);
 			}
 
-			mode = (v - 2) / v * v2 / (v2 + 2);
-
 			if (v2 > 4) {
-				variance = 2 * v * v * (v + v2 - 2)
-						/ (v2 * (v - 2) * (v - 2) * (v - 4));
+				variance = 2 * v2 * v2 * (v + v2 - 2)
+						/ (v * (v2 - 2) * (v2 - 2) * (v2 - 4));
 				sigma = Math.sqrt(variance);
 			}
 

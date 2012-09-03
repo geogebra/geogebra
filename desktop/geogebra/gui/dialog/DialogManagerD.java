@@ -26,8 +26,8 @@ import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
+import geogebra.gui.view.data.DataSourceDialog;
 import geogebra.gui.view.functioninspector.FunctionInspector;
-import geogebra.gui.view.spreadsheet.statdialog.DataSourceDialog;
 import geogebra.main.AppD;
 import geogebra.main.MyResourceBundle;
 

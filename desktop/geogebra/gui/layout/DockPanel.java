@@ -482,8 +482,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 		titlePanel.add(createFocusPanel(), app.borderWest());
 		titlePanel.add(buttonPanel, app.borderEast());
-		titlePanel.addMouseListener(this); // drags and double-click for
-											// stylebar
+		titlePanel.addMouseListener(this); // dragging to reconfigure 
 		titlePanel.addMouseListener(new MyButtonHider());
 
 		// create toolbar panel

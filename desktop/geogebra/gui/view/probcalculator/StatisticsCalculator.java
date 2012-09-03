@@ -13,8 +13,8 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.spreadsheet.statdialog.StatTable;
-import geogebra.gui.view.spreadsheet.statdialog.StatisticsPanel;
+import geogebra.gui.view.data.StatTable;
+import geogebra.gui.view.data.StatisticsPanel;
 import geogebra.main.AppD;
 
 import javax.swing.BorderFactory;

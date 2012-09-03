@@ -1,7 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
-import geogebra.gui.view.spreadsheet.statdialog.StatTable;
+import geogebra.gui.view.data.StatTable;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

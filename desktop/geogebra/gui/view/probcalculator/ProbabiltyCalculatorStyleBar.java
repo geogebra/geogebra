@@ -2,7 +2,7 @@ package geogebra.gui.view.probcalculator;
 
 import geogebra.common.main.App;
 import geogebra.gui.util.MyToggleButton;
-import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
+import geogebra.gui.view.data.PlotSettings;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
