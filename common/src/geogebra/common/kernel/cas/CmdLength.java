@@ -2,10 +2,10 @@ package geogebra.common.kernel.cas;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.advanced.AlgoTextLength;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoLengthSegment;
 import geogebra.common.kernel.algos.AlgoLengthVector;
-import geogebra.common.kernel.algos.AlgoTextLength;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConicPart;

@@ -11,19 +11,22 @@ the Free Software Foundation.
 */
 
 /*
- * AlgoDistancePoints.java
+ * AlgoDistancePointLine.java
  *
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.advanced;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -31,20 +34,23 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  Markus
  * @version 
  */
-public class AlgoDistancePoints extends AlgoElement {
+public class AlgoDistancePointObject extends AlgoElement {
 
-    private GeoPointND P, Q; // input
+    private GeoPoint P; // input
+    private GeoElement g; // input
     private GeoNumeric dist; // output       
-
-    public AlgoDistancePoints(
+    private AlgoClosestPoint closePt;
+    public AlgoDistancePointObject(
         Construction cons,
         String label,
-        GeoPointND P,
-        GeoPointND Q) {
+        GeoPoint P,
+        GeoElement g) {
         super(cons);
         this.P = P;
-        this.Q = Q;
+        this.g = g;
         dist = new GeoNumeric(cons);
+        closePt = new AlgoClosestPoint(cons, (Path)g, P);
+        cons.removeFromConstructionList(closePt);
         setInputOutput(); // for AlgoElement
 
         // compute length
@@ -54,51 +60,50 @@ public class AlgoDistancePoints extends AlgoElement {
 
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoDistancePoints;
+        return Algos.AlgoDistancePointObject;
     }
-    
+
     @Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_DISTANCE;
     }
     
-
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = (GeoElement) P;
-        input[1] = (GeoElement) Q;
+        input[0] = P;
+        input[1] = g;
 
-        super.setOutputLength(1);
-        super.setOutput(0, dist);
+        setOutputLength(1);
+        setOutput(0,dist);
         setDependencies(); // done by AlgoElement
     }
 
     public GeoNumeric getDistance() {
         return dist;
     }
-    /*
     GeoPoint getP() {
         return P;
     }
-    GeoPoint getQ() {
-        return Q;
+    GeoElement getg() {
+        return g;
     }
-    */
 
     // calc length of vector v   
     @Override
 	public final void compute() {
-        dist.setValue(P.distance(Q));
+    	if(closePt!=null)
+    		dist.setValue(closePt.getP().distance(P));
+    	else
+    		dist.setValue(g.distance(P));
     }
 
     @Override
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("DistanceOfAandB",P.getLabel(tpl),Q.getLabel(tpl));
-
+        return app.getPlain("DistanceOfAandB",P.getLabel(tpl),g.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

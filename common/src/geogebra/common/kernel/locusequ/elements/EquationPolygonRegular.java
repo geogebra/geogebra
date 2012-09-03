@@ -3,7 +3,7 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
-import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.advanced.AlgoPolygonRegular;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.locusequ.EquationScope;

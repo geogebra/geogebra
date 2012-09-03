@@ -4,7 +4,7 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoPolyLine;
+import geogebra.common.kernel.advanced.AlgoPolyLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;

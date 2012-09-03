@@ -2,7 +2,7 @@ package geogebra.common.kernel.locusequ;
 
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoLocus;
+import geogebra.common.kernel.advanced.AlgoLocus;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 //
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.advanced;
 
 import geogebra.common.awt.GArea;
 import geogebra.common.awt.GPathIterator;
@@ -20,6 +20,8 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;

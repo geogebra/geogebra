@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.advanced;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
@@ -20,6 +20,11 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;

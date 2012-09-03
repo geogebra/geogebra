@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.advanced.AlgoFunctionInterval;
 import geogebra.common.kernel.advanced.AlgoObject;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;

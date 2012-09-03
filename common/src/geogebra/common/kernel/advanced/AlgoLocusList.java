@@ -10,13 +10,15 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.advanced;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
