@@ -37,6 +37,7 @@ import geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
+import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoTranslate;
@@ -3031,7 +3032,7 @@ public abstract class EuclidianController {
 				// create new tangents
 				checkZooming(); 
 				
-				ret[0] = kernel.PolarLine(null, points[0], conics[0]);
+				ret[0] = PolarLine(null, points[0], conics[0]);
 				return ret;
 			} else if (selLines() == 1) {
 				GeoConic[] conics = getSelectedConics();
@@ -3053,6 +3054,16 @@ public abstract class EuclidianController {
 		}
 		return null;
 	}
+
+	/**
+	 * polar line to P relativ to c
+	 */
+	final private GeoLine PolarLine(String label, GeoPoint P, GeoConic c) {
+		AlgoPolarLine algo = new AlgoPolarLine(kernel.getConstruction(), label, c, P);
+		GeoLine polar = algo.getLine();
+		return polar;
+	}
+
 
 	protected final boolean showHideLabel(Hits hits) {
 		if (hits.isEmpty()) {

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoSelectedElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,8 +35,11 @@ public class CmdSelectedElement extends CommandProcessor {
 			if (arg[0].isGeoList())
 
 			{
-				GeoElement[] ret = { kernelA.SelectedElement(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoSelectedElement algo = new AlgoSelectedElement(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getElement() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

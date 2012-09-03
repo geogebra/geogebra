@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,7 +34,7 @@ public class CmdPolyLine extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList())
-				return kernelA.PolyLine(c.getLabels(), (GeoList) arg[0]);
+				return PolyLine(c.getLabels(), (GeoList) arg[0]);
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
@@ -44,7 +45,7 @@ public class CmdPolyLine extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
-			return kernelA.PolyLine(c.getLabels(), (GeoList) arg[0]);
+			return PolyLine(c.getLabels(), (GeoList) arg[0]);
 
 
 		default:
@@ -71,5 +72,11 @@ public class CmdPolyLine extends CommandProcessor {
 				return kernelA.PolyLine(c.getLabels(), points, penStroke);
 			
 		}
+	}
+	
+
+	final private GeoElement[] PolyLine(String[] labels, GeoList pointList) {
+		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList);
+		return algo.getOutput();
 	}
 }

@@ -21,7 +21,8 @@ public class CmdRandomElement extends CmdOneListFunction {
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
-		return kernelA.RandomElement(a, b);
+		AlgoRandomElement algo = new AlgoRandomElement(cons, a, b);
+		return algo.getElement();
 	}
 
 

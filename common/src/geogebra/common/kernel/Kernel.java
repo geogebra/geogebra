@@ -27,7 +27,6 @@ import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDiameterLine;
 import geogebra.common.kernel.algos.AlgoDiameterVector;
-import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoDistanceLineLine;
 import geogebra.common.kernel.algos.AlgoDistancePointObject;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
@@ -48,8 +47,6 @@ import geogebra.common.kernel.algos.AlgoIntersectPolynomialConic;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomials;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
-import geogebra.common.kernel.algos.AlgoIteration;
-import geogebra.common.kernel.algos.AlgoIterationList;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -68,26 +65,19 @@ import geogebra.common.kernel.algos.AlgoMidpointSegment;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointVector;
 import geogebra.common.kernel.algos.AlgoParabolaPointLine;
-import geogebra.common.kernel.algos.AlgoPathParameter;
 import geogebra.common.kernel.algos.AlgoPerimeterPoly;
 import geogebra.common.kernel.algos.AlgoPointInRegion;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
-import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonIntersection;
 import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.algos.AlgoPolygonUnion;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
-import geogebra.common.kernel.algos.AlgoRotateText;
-import geogebra.common.kernel.algos.AlgoSelectedElement;
-import geogebra.common.kernel.algos.AlgoSelectedIndex;
 import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTangentLine;
 import geogebra.common.kernel.algos.AlgoTangentPoint;
-import geogebra.common.kernel.algos.AlgoTextElement;
-import geogebra.common.kernel.algos.AlgoTextLength;
 import geogebra.common.kernel.algos.AlgoTextfield;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -153,7 +143,6 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.AlgoRandomElement;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -3914,15 +3903,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Direction vector of line g
-	 */
-	final public GeoVector Direction(String label, GeoLine g) {
-		AlgoDirection algo = new AlgoDirection(cons, label, g);
-		GeoVector v = algo.getVector();
-		return v;
-	}
-
-	/**
 	 * Slope of line g
 	 */
 	final public GeoNumeric Slope(String label, GeoLine g) {
@@ -4340,15 +4320,6 @@ public class Kernel {
 		return conic;
 	}
 
-
-	/**
-	 * polar line to P relativ to c
-	 */
-	final public GeoLine PolarLine(String label, GeoPoint P, GeoConic c) {
-		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
-		GeoLine polar = algo.getLine();
-		return polar;
-	}
 
 	/**
 	 * diameter line conjugate to direction of g relative to c
@@ -4852,58 +4823,6 @@ public class Kernel {
 		return M;
 	}
 
-	final public GeoText RotateText(String label, GeoText args, GeoNumeric angle) {
-		AlgoRotateText algo = new AlgoRotateText(cons, label, args, angle);
-		GeoText text = algo.getResult();
-		return text;
-	}
-
-	/**
-	 * Iteration[ f(x), x0, n ]
-	 */
-	final public GeoNumeric Iteration(String label, GeoFunction f,
-			NumberValue start, NumberValue n) {
-		AlgoIteration algo = new AlgoIteration(cons, label, f, start, n);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-
-	/**
-	 * IterationList[ f(x), x0, n ]
-	 */
-	final public GeoList IterationList(String label, GeoFunction f,
-			NumberValue start, NumberValue n) {
-		AlgoIterationList algo = new AlgoIterationList(cons, label, f, start, n);
-		return algo.getResult();
-	}
-
-	/**
-	 * RandomElement[list]
-	 */
-	final public GeoElement RandomElement(String label, GeoList list) {
-		AlgoRandomElement algo = new AlgoRandomElement(cons, label, list);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}
-
-	/**
-	 * SelectedElement[list]
-	 */
-	final public GeoElement SelectedElement(String label, GeoList list) {
-		AlgoSelectedElement algo = new AlgoSelectedElement(cons, label, list);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}
-
-	/**
-	 * SelectedElement[list]
-	 */
-	final public GeoElement SelectedIndex(String label, GeoList list) {
-		AlgoSelectedIndex algo = new AlgoSelectedIndex(cons, label, list);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}
-
 	/**
 	 * Length[list]
 	 */
@@ -4919,35 +4838,6 @@ public class Kernel {
 		AlgoLengthLocus algo = new AlgoLengthLocus(cons, label, locus);
 		return algo.getLength();
 	}
-
-	/**
-	 * Element[text, number]
-	 */
-	final public GeoElement Element(String label, GeoText text, NumberValue n) {
-		AlgoTextElement algo = new AlgoTextElement(cons, label, text, n);
-		GeoElement geo = algo.getText();
-		return geo;
-	}
-
-	/**
-	 * Length[text]
-	 */
-	final public GeoNumeric Length(String label, GeoText text) {
-		AlgoTextLength algo = new AlgoTextLength(cons, label, text);
-		return algo.getLength();
-	}
-
-	// PhilippWeissenbacher 2007-04-10
-
-	/**
-	 * Path Parameter for eg point on circle
-	 */
-	final public GeoNumeric PathParameter(String label, GeoPoint p) {
-		AlgoPathParameter algo = new AlgoPathParameter(cons, label, p);
-		return algo.getResult();
-	}
-
-	// PhilippWeissenbacher 2007-04-10
 
 	/**
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
@@ -4979,15 +4869,6 @@ public class Kernel {
 		return algo.getOutput();
 	}
 
-	final public GeoElement[] PolyLine(String[] labels, GeoList pointList) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList);
-		return algo.getOutput();
-	}
-
-	final public GeoElement[] PenStroke(String[] labels, GeoList pointList) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList, true);
-		return algo.getOutput();
-	}
 
 	/**
 	 * makes a copy of a polygon that can be dragged and rotated but stays congruent to original

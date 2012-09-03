@@ -1,10 +1,12 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
 
 /**
@@ -31,7 +33,7 @@ public class CmdDirection extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
-				GeoElement[] ret = { kernelA.Direction(c.getLabel(),
+				GeoElement[] ret = { Direction(c.getLabel(),
 						(GeoLine) arg[0]) };
 				return ret;
 			}
@@ -40,5 +42,15 @@ public class CmdDirection extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+
+	/**
+	 * Direction vector of line g
+	 */
+	final private GeoVector Direction(String label, GeoLine g) {
+		AlgoDirection algo = new AlgoDirection(cons, label, g);
+		GeoVector v = algo.getVector();
+		return v;
 	}
 }

@@ -1,10 +1,12 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -36,7 +38,7 @@ public class CmdPolar extends CommandProcessor {
 			// polar line to point relative to conic
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { kernelA.PolarLine(c.getLabel(),
+				GeoElement[] ret = { PolarLine(c.getLabel(),
 						(GeoPoint) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}
@@ -46,4 +48,15 @@ public class CmdPolar extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	/**
+	 * polar line to P relativ to c
+	 */
+	final private GeoLine PolarLine(String label, GeoPoint P, GeoConic c) {
+		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
+		GeoLine polar = algo.getLine();
+		return polar;
+	}
+
+
 }

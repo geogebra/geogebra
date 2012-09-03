@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIterationList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -36,11 +37,12 @@ final public  GeoElement[] process(Command c) throws MyError {
                	 && (ok[1] = arg[1].isNumberValue())
                	 && (ok[2] = arg[2].isNumberValue()))
                {
-            	GeoElement[] ret = {  kernelA.IterationList(
-                                c.getLabel(),
-                                (GeoFunction) arg[0],
-                                (NumberValue) arg[1],
-                                (NumberValue) arg[2]) };
+        		AlgoIterationList algo = new AlgoIterationList(cons, c.getLabel(),
+                        (GeoFunction) arg[0],
+                        (NumberValue) arg[1],
+                        (NumberValue) arg[2]);
+
+            	GeoElement[] ret = { algo.getResult() };
                    return ret; 
                } 
                throw argErr(app, c.getName(), getBadArg(ok,arg));	

@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoLengthSegment;
 import geogebra.common.kernel.algos.AlgoLengthVector;
+import geogebra.common.kernel.algos.AlgoTextLength;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConicPart;
@@ -59,8 +60,11 @@ public class CmdLength extends CommandProcessor {
 						(GeoList) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = { kernelA.Length(c.getLabel(),
-						(GeoText) arg[0]) };
+				
+				AlgoTextLength algo = new AlgoTextLength(cons, c.getLabel(),
+						(GeoText) arg[0]);
+
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			} else if (arg[0].isGeoLocus()) {
 				GeoElement[] ret = { kernelA.Length(c.getLabel(),

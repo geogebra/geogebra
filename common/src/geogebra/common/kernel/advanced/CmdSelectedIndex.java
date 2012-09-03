@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoSelectedIndex;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,8 +34,11 @@ public class CmdSelectedIndex extends CommandProcessor {
 			if (arg[0].isGeoList())
 
 			{
-				GeoElement[] ret = { kernelA.SelectedIndex(c.getLabel(),
-						(GeoList) arg[0]) };
+				
+				AlgoSelectedIndex algo = new AlgoSelectedIndex(cons, c.getLabel(),
+						(GeoList) arg[0]);
+
+				GeoElement[] ret = { algo.getElement() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

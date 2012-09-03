@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoRotateText;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,8 +34,11 @@ public class CmdRotateText extends CommandProcessor {
 		case 2:
 			if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { kernelA.RotateText(c.getLabel(),
-						(GeoText) arg[0], (GeoNumeric) arg[1]) };
+				
+				AlgoRotateText algo = new AlgoRotateText(cons, c.getLabel(),
+						(GeoText) arg[0], (GeoNumeric) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), ok[0] ? arg[1] : arg[0]);

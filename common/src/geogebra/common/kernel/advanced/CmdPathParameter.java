@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoPathParameter;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -30,9 +31,11 @@ public class CmdPathParameter extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if ((arg[0].isGeoPoint())) {
+				
+				AlgoPathParameter algo = new AlgoPathParameter(cons, c.getLabel(),
+						(GeoPoint) arg[0]);
 
-				GeoElement[] ret = { kernelA.PathParameter(c.getLabel(),
-						(GeoPoint) arg[0]) };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			}

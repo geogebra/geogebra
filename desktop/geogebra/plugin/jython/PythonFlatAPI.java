@@ -10,6 +10,7 @@ import geogebra.common.kernel.advanced.AlgoTurtle;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1118,9 +1119,11 @@ public class PythonFlatAPI {
 	 * @return the direction of the line
 	 */
 	public GeoVector geoLineDirection(GeoLine line) {
-		return kernel.Direction(null, line);
+		AlgoDirection algo = new AlgoDirection(cons, null, line);
+		GeoVector v = algo.getVector();
+		return v;
 	}
-
+	
 	/**
 	 * Create a new point from an expression
 	 * @param expr expression giving the coordinates of the point
