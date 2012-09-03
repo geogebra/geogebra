@@ -1101,9 +1101,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 		return probManager.inverseProbability(selectedDist, prob, parameters);
 	}
 
-	private boolean isValidInterval(double xLow, double xHigh) {
+	private boolean isValidInterval(int probMode, double xLow, double xHigh) {
 
-		if (xHigh < xLow)
+		if (probMode == PROB_INTERVAL && xHigh < xLow)
 			return false;
 
 		// don't allow non-integer bounds for discrete dist.
@@ -1137,7 +1137,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			break;
 
 		}
-
+		
 		return isValid;
 
 	}
@@ -1314,7 +1314,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			double value = nv.getDouble();
 
 			if (source == fldLow) {
-				if (isValidInterval(value, high)) {
+				if (isValidInterval(probMode, value, high)) {
 					low = value;
 					setXAxisPoints();
 				} else {
@@ -1324,7 +1324,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			}
 
 			else if (source == fldHigh) {
-				if (isValidInterval(low, value)) {
+				if (isValidInterval(probMode, low, value)) {
 					high = value;
 					setXAxisPoints();
 				} else {
@@ -1688,7 +1688,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	public void update(GeoElement geo) {
 		if (!isSettingAxisPoints && !isIniting) {
 			if (geo.equals(lowPoint)) {
-				if (isValidInterval(lowPoint.getInhomX(), high)) {
+				if (isValidInterval(probMode, lowPoint.getInhomX(), high)) {
 					low = lowPoint.getInhomX();
 					updateIntervalProbability();
 					updateGUI();
@@ -1699,7 +1699,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				}
 			}
 			if (geo.equals(highPoint)) {
-				if (isValidInterval(low, highPoint.getInhomX())) {
+				if (isValidInterval(probMode, low, highPoint.getInhomX())) {
 					high = highPoint.getInhomX();
 					updateIntervalProbability();
 					updateGUI();
@@ -2510,6 +2510,14 @@ public class ProbabilityCalculator extends JPanel implements View,
 				}
 			}
 
+			// normal overlay
+			if(showNormalOverlay){
+				GeoElement normalOverlayCopy = normalOverlay.copyInternal(cons);
+				normalOverlayCopy.setLabel(null);
+				normalOverlayCopy.setVisualStyle(normalOverlay);
+				newGeoList.add(normalOverlayCopy);
+			}
+			
 			// set the EV location and auxiliary = false for all of the new geos
 			for (GeoElement geo : newGeoList) {
 				geo.setAuxiliaryObject(false);
