@@ -12,6 +12,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.io.StringReader;
 import java.util.EnumMap;
@@ -80,7 +81,9 @@ public class SMARTEventListener implements SBSDKListener{
 		}else if (iType==SBSDK_GESTURE_TYPE.SB_GT_RIGHT_CLICK){
 			EuclidianControllerD ec=app.getActiveEuclidianView().getEuclidianController();
 			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-			ec.mousePressed(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3));
+			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
+			dispatchEvent(me);
+//			ec.mousePressed(me);
 		}
 	}
 
@@ -110,7 +113,9 @@ public class SMARTEventListener implements SBSDKListener{
 		}else if (iType==SBSDK_GESTURE_TYPE.SB_GT_RIGHT_CLICK){
 			EuclidianControllerD ec=app.getActiveEuclidianView().getEuclidianController();
 			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-			ec.mouseDragged(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3));
+			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
+//			ec.mouseDragged(me);
+			dispatchEvent(me);
 		}
 	}
 
@@ -122,8 +127,12 @@ public class SMARTEventListener implements SBSDKListener{
 		if (iType==SBSDK_GESTURE_TYPE.SB_GT_RIGHT_CLICK){
 			EuclidianControllerD ec=app.getActiveEuclidianView().getEuclidianController();
 			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-			ec.mouseReleased(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3));
-			ec.mouseClicked(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3));
+			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
+//			ec.mouseReleased(me);
+			dispatchEvent(me);
+			me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
+//			ec.mouseClicked(me);
+			dispatchEvent(me);
 		}
 	}
 
@@ -288,7 +297,9 @@ public class SMARTEventListener implements SBSDKListener{
 //		if (board.getToolType(iPointerID)==SBSDK_TOOL_TYPE.SB_PEN){
 			EuclidianControllerD ec=app.getActiveEuclidianView().getEuclidianController();
 			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-			ec.mousePressed(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_PRESSED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1));
+			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_PRESSED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
+			dispatchEvent(me);
+//			ec.mousePressed(me);
 //		}
 //		((EuclidianViewJPanel)euclViewPanel).processMouseEventImpl(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_PRESSED, 0, 0, x, y, 1, false));
 	}
@@ -303,7 +314,9 @@ public class SMARTEventListener implements SBSDKListener{
 				lastMoveY=y;
 				EuclidianControllerD ec=app.getActiveEuclidianView().getEuclidianController();
 				JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-				ec.mouseDragged(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1));
+				MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
+				dispatchEvent(me);
+//				ec.mouseDragged(me);
 		}
 	}
 	
@@ -313,8 +326,12 @@ public class SMARTEventListener implements SBSDKListener{
 				Integer.toString(iPointerID));
 		EuclidianControllerD ec=app.getActiveEuclidianView().getEuclidianController();
 		JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-		ec.mouseReleased(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1));
-		ec.mouseClicked(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1));
+		MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
+		dispatchEvent(me);
+//		ec.mouseReleased(me);
+		me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
+		dispatchEvent(me);
+//		ec.mouseClicked(me);
 //		((EuclidianViewJPanel)euclViewPanel).processMouseEventImpl(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false));
 //		((EuclidianViewJPanel)euclViewPanel).processMouseEventImpl(new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false));
 	}
@@ -357,6 +374,11 @@ public class SMARTEventListener implements SBSDKListener{
 	}
 	
 	private enum ToolEventType{ TAKE_PEN, TAKE_ERASER, USE_PEN,USE_FINGER,USE_ERASER, PUT_AWAY_ALL};
+	
+	private void dispatchEvent(MouseEvent me){
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(me);
+//		app.getFrame().
+	}
 	
 	private class ToolXMLHandler implements DocHandler{
 
