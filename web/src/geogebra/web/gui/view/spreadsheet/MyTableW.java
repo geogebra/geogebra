@@ -1935,13 +1935,33 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 	public void renderCells() {
 
-		for (int i = getColumnCount() - 1; i >= 0; i--) {
-			for (int j = getRowCount() - 1; j >= 0; j--) {
-				setWidget(j, i,
-					defaultTableCellRenderer.getTableCellRendererWidget(
-						this, tableModel.getValueAt(j, i), false, false, j, i)
-				);
-			}
+		Widget prob = null;
+		Object gva = null;
+
+		if (getColumnCount() != tableModel.getColumnCount()) {
+			updateColumnCount();
+			if (getColumnCount() != tableModel.getColumnCount())
+				resizeColumns(tableModel.getColumnCount());
 		}
+
+		if (getRowCount() != tableModel.getRowCount()) {
+			resizeRows(tableModel.getRowCount());
+		}
+
+		//App.debug("renderCells loop begins");
+
+		int colCount = getColumnCount();
+		int rowCount = getRowCount();
+		for (int i = colCount - 1; i >= 0; i--) {
+			for (int j = rowCount - 1; j >= 0; j--) {
+				gva = tableModel.getValueAt(j, i);
+				prob = defaultTableCellRenderer.getTableCellRendererWidget(
+					this, gva, false, false, j, i);
+
+				setWidget(j, i, prob);
+			}
+			//App.debug("loop."+i+".");
+		}
+		//App.debug("renderCells ends");
 	}
 }

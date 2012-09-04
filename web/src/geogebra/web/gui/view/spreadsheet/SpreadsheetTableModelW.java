@@ -109,9 +109,13 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	@Override
 	public void setValueAt(Object value, int row, int column) {
 		// update column count if needed
-		if (column >= getColumnCount()) {
+		if (column >= getColumnCount())
 			setColumnCount(column + 1);
-		}
+
+		// then why not update row count too?
+		if (row >= getRowCount())
+			setRowCount(row + 1);
+
 		defaultTableModel.set(row*colNum+column, value);
 		if (listener != null)
 			listener.valueChange();

@@ -253,8 +253,11 @@ public class MyCellRenderer {
 				bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
 			}
 		}
-		((InlineLabel)retwidget).getElement().getStyle().setBackgroundColor(bgColor.toString());
-		((InlineLabel)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
+		if (bgColor != null)// here was an exception
+			((InlineLabel)retwidget).getElement().getStyle().setBackgroundColor(bgColor.toString());
+
+		if (geo.getLabelColor() != null)
+			((InlineLabel)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
 
 		// Set horizontal alignment
 		// ===============================================
