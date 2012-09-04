@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -34,6 +35,8 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
@@ -71,50 +74,106 @@ public class EuclidianViewM extends EuclidianView
 	{
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
-
-		this.canvas.addMouseDownHandler(new MouseDownHandler()
+		
+		/// try with addDomHandler
+		this.canvas.addDomHandler(new ClickHandler()
 		{
-			@Override
-			public void onMouseDown(MouseDownEvent event)
-			{
-				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onMouseDown(event);
-			}
-		});
 
-		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
-		{
 			@Override
-			public void onMouseMove(MouseMoveEvent event)
-			{
-				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onMouseMove(event);
-			}
-		});
-
-		this.canvas.addMouseUpHandler(new MouseUpHandler()
-		{
-			@Override
-			public void onMouseUp(MouseUpEvent event)
-			{
-				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onMouseUp(event);
-			}
-		});
-
-		this.canvas.addClickHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
+      public void onClick(ClickEvent event)
+      {
 				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onClick(event);
-			}
-		});
+      }
+			
+		}, ClickEvent.getType());
+		
+		this.canvas.addDomHandler(new MouseDownHandler()
+		{
+
+			@Override
+      public void onMouseDown(MouseDownEvent event)
+      {
+				event.preventDefault();
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onMouseDown(event);
+      }
+			
+		}, MouseDownEvent.getType());
+		
+		this.canvas.addDomHandler(new MouseMoveHandler()
+		{
+
+			@Override
+      public void onMouseMove(MouseMoveEvent event)
+      {
+				event.preventDefault();
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onMouseMove(event);
+      }
+			
+		}, MouseMoveEvent.getType());
+		
+		
+		this.canvas.addDomHandler(new MouseUpHandler()
+		{
+
+			@Override
+      public void onMouseUp(MouseUpEvent event)
+      {
+				event.preventDefault();
+				((MobileEuclidianController) EuclidianViewM.this
+						.getEuclidianController()).onMouseUp(event);
+      }
+			
+		}, MouseUpEvent.getType());
+		//// end try with addDomHandler
+		
+		
+//		this.canvas.addMouseDownHandler(new MouseDownHandler()
+//		{
+//			@Override
+//			public void onMouseDown(MouseDownEvent event)
+//			{
+//				event.preventDefault();
+//				((MobileEuclidianController) EuclidianViewM.this
+//						.getEuclidianController()).onMouseDown(event);
+//			}
+//		});
+//
+//		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
+//		{
+//			@Override
+//			public void onMouseMove(MouseMoveEvent event)
+//			{
+//				event.preventDefault();
+//				((MobileEuclidianController) EuclidianViewM.this
+//						.getEuclidianController()).onMouseMove(event);
+//			}
+//		});
+//
+//		this.canvas.addMouseUpHandler(new MouseUpHandler()
+//		{
+//			@Override
+//			public void onMouseUp(MouseUpEvent event)
+//			{
+//				event.preventDefault();
+//				((MobileEuclidianController) EuclidianViewM.this
+//						.getEuclidianController()).onMouseUp(event);
+//			}
+//		});
+//
+//		this.canvas.addClickHandler(new ClickHandler()
+//		{
+//			@Override
+//			public void onClick(ClickEvent event)
+//			{
+//				event.preventDefault();
+//				((MobileEuclidianController) EuclidianViewM.this
+//						.getEuclidianController()).onClick(event);
+//			}
+//		});
 		
 		updateFonts();
 		initView(true);
