@@ -161,7 +161,6 @@ public class MobileEuclidianController extends EuclidianController implements
 
 				// get the mode and the object to move
 				handleMousePressedForMoveMode(mEvent, false);
-
 				// if added again, moved objects are not selected (while they
 				// are moved)
 				// -> moving objects becomes a lot slower
@@ -187,7 +186,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.moving = false;
 			this.mode = this.guiModel.getCommand().getMode();
-
+			
 			// object that was moved loses selection
 			removeSelection();
 
@@ -331,38 +330,38 @@ public class MobileEuclidianController extends EuclidianController implements
 			switch (cmd)
 			{
 			case LineThroughTwoPoints:
-				this.kernel.Line(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case SegmentBetweenTwoPoints:
-				this.kernel.Segment(null,
+				this.kernel.getAlgoDispatcher().Segment(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case RayThroughTwoPoints:
-				this.kernel.Ray(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Ray(null, (GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case VectorBetweenTwoPoints:
-				this.kernel.Vector(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Vector(null, (GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case CircleWithCenterThroughPoint:
-				this.kernel.Circle(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case Semicircle:
-				this.kernel.Semicircle(null,
+				this.kernel.getAlgoDispatcher().Semicircle(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case PerpendicularLine:
-				this.kernel.OrthogonalLine(null,
+				this.kernel.getAlgoDispatcher().OrthogonalLine(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoLine) this.selectedLines.get(0));
 				break;
 			case ParallelLine:
-				this.kernel.Line(null, (GeoPoint) this.selectedPoints
+				this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) this.selectedPoints
 						.get(this.selectedPoints.size() - 1),
 						(GeoLine) this.selectedLines.get(this.selectedLines
 								.size() - 1));
@@ -370,11 +369,11 @@ public class MobileEuclidianController extends EuclidianController implements
 			case MidpointOrCenter:
 				if (this.selectedLines.size() > 0)
 				{
-					this.kernel.Midpoint(null,
+					this.kernel.getAlgoDispatcher().Midpoint(null,
 							(GeoSegment) this.selectedLines.get(0));
 				} else if (this.selectedPoints.size() >= 2)
 				{
-					this.kernel.Midpoint(null,
+					this.kernel.getAlgoDispatcher().Midpoint(null,
 							(GeoPoint) this.selectedPoints.get(0),
 							(GeoPoint) this.selectedPoints.get(1));
 				}
@@ -382,63 +381,63 @@ public class MobileEuclidianController extends EuclidianController implements
 			case PerpendicularBisector:
 				if (this.selectedLines.size() > 0)
 				{
-					this.kernel.LineBisector(null,
+					this.kernel.getAlgoDispatcher().LineBisector(null,
 							(GeoSegment) this.selectedLines.get(0));
 				} else if (this.selectedPoints.size() >= 2)
 				{
-					this.kernel.LineBisector(null,
+					this.kernel.getAlgoDispatcher().LineBisector(null,
 							(GeoPoint) this.selectedPoints.get(0),
 							(GeoPoint) this.selectedPoints.get(1));
 				}
 				break;
 			case Parabola:
-				this.kernel.Parabola(null,
+				this.kernel.getAlgoDispatcher().Parabola(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoLine) this.selectedLines.get(0));
 				break;
 			case CircleThroughThreePoints:
-				this.kernel.Circle(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case CircularArcWithCenterBetweenTwoPoints:
-				this.kernel.CircleArc(null,
+				this.kernel.getAlgoDispatcher().CircleArc(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case CircularSectorWithCenterBetweenTwoPoints:
-				this.kernel.CircleSector(null,
+				this.kernel.getAlgoDispatcher().CircleSector(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case CircumCirculuarArcThroughThreePoints:
-				this.kernel.CircumcircleArc(null,
+				this.kernel.getAlgoDispatcher().CircumcircleArc(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case CircumCircularSectorThroughThreePoints:
-				this.kernel.CircumcircleSector(null,
+				this.kernel.getAlgoDispatcher().CircumcircleSector(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case Ellipse:
-				this.kernel.Ellipse(null,
+				this.kernel.getAlgoDispatcher().Ellipse(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case Hyperbola:
-				this.kernel.Hyperbola(null,
+				this.kernel.getAlgoDispatcher().Hyperbola(null,
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case ConicThroughFivePoints:
-				this.kernel.Conic(null, new GeoPoint[] {
+				this.kernel.getAlgoDispatcher().Conic(null, new GeoPoint[] {
 						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2),
