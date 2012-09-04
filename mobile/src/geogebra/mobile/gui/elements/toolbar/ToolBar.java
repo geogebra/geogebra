@@ -47,27 +47,25 @@ public class ToolBar extends ButtonBar
 	public void makeTabletToolBar(final GuiModel model,
 			final MobileAlgebraController algebraController)
 	{
-		this.b = new ToolBarButton[13];
+		this.b = new ToolBarButton[12];
 
-		this.b[0] = new ToolBarButton(ToolBarMenu.Move, model);
-
-		this.b[1] = new ToolBarButton(ToolBarMenu.Point, model);
-		this.b[2] = new ToolBarButton(ToolBarMenu.Line, model);
-		this.b[3] = new ToolBarButton(ToolBarMenu.SpecialLine, model);
-		this.b[4] = new ToolBarButton(ToolBarMenu.Polygon, model);
-		this.b[5] = new ToolBarButton(ToolBarMenu.CircleAndArc, model);
-		this.b[6] = new ToolBarButton(ToolBarMenu.ConicSection, model);
-		this.b[7] = new ToolBarButton(ToolBarMenu.Mesurement, model);
-		this.b[8] = new ToolBarButton(ToolBarMenu.Transformation, model);
-		this.b[9] = new ToolBarButton(ToolBarMenu.SpecialObject, model);
-		this.b[10] = new ToolBarButton(ToolBarMenu.ActionObject, model);
-		this.b[11] = new ToolBarButton(ToolBarMenu.ManipulateObjects, model);
+		this.b[0] = new ToolBarButton(ToolBarMenu.Point, model);
+		this.b[1] = new ToolBarButton(ToolBarMenu.Line, model);
+		this.b[2] = new ToolBarButton(ToolBarMenu.SpecialLine, model);
+		this.b[3] = new ToolBarButton(ToolBarMenu.Polygon, model);
+		this.b[4] = new ToolBarButton(ToolBarMenu.CircleAndArc, model);
+		this.b[5] = new ToolBarButton(ToolBarMenu.ConicSection, model);
+		this.b[6] = new ToolBarButton(ToolBarMenu.Mesurement, model);
+		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, model);
+		this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, model);
+		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, model);
+		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, model);
 
 		// inputBar
-		this.b[12] = new ToolBarButton(
+		this.b[11] = new ToolBarButton(
 				CommonResources.INSTANCE.show_input_bar(), model);
-		((ToolBarButton) this.b[12]).addStyleName("rightButton");
-		((ToolBarButton) this.b[12]).addTapHandler(new TapHandler()
+		((ToolBarButton) this.b[11]).addStyleName("rightButton");
+		((ToolBarButton) this.b[11]).addTapHandler(new TapHandler()
 		{
 			@Override
 			public void onTap(TapEvent event)

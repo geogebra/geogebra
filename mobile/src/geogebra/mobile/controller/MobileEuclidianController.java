@@ -288,13 +288,13 @@ public class MobileEuclidianController extends EuclidianController implements
 		case CircumCircularSectorThroughThreePoints:
 		case Ellipse:
 		case Hyperbola:
-			addSelectedPoint(hits, 2, false);
+			addSelectedPoint(hits, 3, false);
 			draw = this.selectedPoints.size() >= 3;
 			break;
 
 		// commands that need five points
 		case ConicThroughFivePoints:
-			addSelectedPoint(hits, 2, false);
+			addSelectedPoint(hits, 5, false);
 			draw = this.selectedPoints.size() >= 5;
 			break;
 
