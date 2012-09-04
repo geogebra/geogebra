@@ -539,6 +539,96 @@ symbolic procedure begin;
 
 flag('(begin),'go);
 
+% ====================== Implements a REP for MPReduceJS.
+remflag('(beginmpreduce),'go);
+
+symbolic procedure beginmpreduce;
+begin
+   scalar w,!*redefmsg;
+   !*echo := not !*int;
+   !*extraecho := t;
+   if modulep 'tmprint then <<
+      w := verbos 0;
+      load!-module 'tmprint;
+      verbos w;
+      if outputhandler!* = 'fancy!-output then fmp!-switch nil >>;
+% If invoked from texmacs do something special...
+   if getd 'fmp!-switch and member('texmacs, lispsystem!*) then <<
+       w := verbos 0;
+       fmp!-switch t;
+       off1 'promptnumbers;
+       verbos w >>
+% If the tmprint module is loaded and I have a window that can support it
+% I will display things in a "fancy" way within the CSL world.
+   else if getd 'fmp!-switch then <<
+      if member('showmath, lispsystem!*) then fmp!-switch t
+      else if outputhandler!* = 'fancy!-output then fmp!-switch nil >>;
+   ifl!* := ipl!* := ofl!* := nil;
+   if date!* then <<
+      verbos nil;
+% The linelength may need to be adjusted if we are running in a window.
+% To cope with this, CSL allows (linelength t) to set a "default" line
+% length that can even vary as window sizes are changed. An attempt
+% will be made to ensure that it is 80 at the start of a run, but
+% (linelength nil) can return varying values as the user re-sizes the
+% main window (in some versions of CSL). However this is still not
+% perfect! The protocol
+%   old := linelength nil;
+%   <do something, possibly changing linelength as you go>
+%   linelength old;
+% can not restore the variability characteristic. However I make
+%   old := linelength n; % n numeric or T
+%   ...
+%   linelength old;
+% preserve things by returning T from (linelength n) in relevant cases.
+      linelength t;
+% The next four lines have been migrated into the C code in "restart.c"
+% so that some sort of information gets back to the user nice and early.
+%       prin2 version!*;
+%       prin2 ", ";
+%       prin2 date!*;
+%       prin2t " ...";
+      if getd 'addsq then <<
+% I assume here that this is an algebra system if ADDSQ is defined, and
+% in that case process an initialisation file. Starting up without ADDSQ
+% defined means I either have just RLISP built or I am in the middle of
+% some bootstrap process. Also if a variable no_init_file is set to TRUE
+% then I avoid init file processing.
+         !*mode := 'algebraic;
+         if null no!_init!_file then begin
+            scalar name;
+            name := assoc('shortname, lispsystem!*);
+            if atom name then name := "reduce"
+            else name := list!-to!-string explode2lc cdr name;
+            erfg!* := nil;
+            read!-init!-file name end >>
+      else !*mode := 'symbolic;
+      % date!* := nil;
+      >>;
+% % If there is a patches module that is later than one that I currently
+% % have installed then load it up now.
+%      if version!* neq "REDUCE Development Version"
+%        then load!-patches!-file();
+   w := assoc('opsys, lispsystem!*);
+   if not atom w then w := cdr w;
+% For MOST systems I will let ^G (bell) be the escape character, but
+% under win32 I use that as an interrupt character, and so there I go
+% back and use ESC instead.  I do the check at BEGIN time rather than
+% further out so that common checkpoint images can be used across
+% systems.
+   esc!*:= compress list('!!,
+              special!-char (if w = 'win32 then 10 else 9));
+
+end;
+
+flag('(beginmpreduce),'go);
+
+
+symbolic procedure mpreduceeval; errorset('(begin1), !*backtrace, !*backtrace) ;
+
+% ==================
+
+
 % The following function is used in some CSL-specific operations. It is
 % also defined in util/rprint, but is repeated here to avoid loading
 % that module unnecessarily, and because the definition given there is
