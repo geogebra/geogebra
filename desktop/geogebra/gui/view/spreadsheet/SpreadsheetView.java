@@ -218,6 +218,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		setShowHScrollBar(true);
 		setShowFileBrowser(false);
 		setAllowSpecialEditor(false);
+		setEnableAutoComplete(false);
 	}
 
 	public void setDefaultSelection() {
@@ -605,6 +606,10 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		sb.append(settings().equalsRequired() ? "true" : "false");
 		sb.append("\"");
 
+		sb.append(" autoComplete=\"");
+		sb.append(settings().isEnableAutoComplete() ? "true" : "false");
+		sb.append("\"");
+		
 		sb.append("/>\n");
 
 		// ---- end layout
@@ -986,6 +991,10 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 	// Spreadsheet Settings
 	// ================================================
 
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+			table.setEnableAutoComplete(enableAutoComplete);
+	}
+	
 	public void setShowRowHeader(boolean showRowHeader) {
 		if (showRowHeader) {
 			spreadsheet.setRowHeaderView(rowHeader);
@@ -1191,6 +1200,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		setColumnSelect(settings().isColumnSelect());
 		setAllowSpecialEditor(settings().allowSpecialEditor());
 		setEqualsRequired(settings().equalsRequired());
+		setEnableAutoComplete(settings().isEnableAutoComplete());
 
 		// browser panel
 		if (AppD.hasFullPermissions()) {

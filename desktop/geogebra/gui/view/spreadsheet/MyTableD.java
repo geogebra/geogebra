@@ -433,6 +433,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return editor;
 	}
 
+	public boolean isEnableAutoComplete() {
+		return editor.isEnableAutoComplete();
+	}
+
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+		editor.setEnableAutoComplete(enableAutoComplete);
+	}
+
 	/**
 	 * sets requirement that commands entered into cells must start with "="
 	 */
@@ -1392,7 +1400,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	public void focusGained(FocusEvent e) {
 		if (AppD.isVirtualKeyboardActive())
-			((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
+			((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
 
 	}
 
@@ -1401,7 +1409,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (e.getOppositeComponent() instanceof VirtualKeyboard)
 			return;
 		if (AppD.isVirtualKeyboardActive())
-			((GuiManagerD)app.getGuiManager()).toggleKeyboard(false);
+			((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);
 
 	}
 
@@ -1459,16 +1467,16 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		if (!cellResizeHeightSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeHeightSet) {
-				setPreferredCellSize(cellPoint.getY(),
-						cellPoint.getX(), false, true);
+				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), false,
+						true);
 			}
 			cellResizeHeightSet.clear();
 		}
 
 		if (!cellResizeWidthSet.isEmpty()) {
 			for (GPoint cellPoint : cellResizeWidthSet) {
-				setPreferredCellSize(cellPoint.getY(),
-						cellPoint.getX(), true, false);
+				setPreferredCellSize(cellPoint.getY(), cellPoint.getX(), true,
+						false);
 			}
 			cellResizeWidthSet.clear();
 		}
@@ -1575,9 +1583,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 		if (doColumns) {
 			App.debug("MyTableD.fitAll is only partly implemented");
-			//for (int column = 0; column < getColumnCount(); column++) {
-				//TODO:test//fitColumn(column);
-			//}
+			// for (int column = 0; column < getColumnCount(); column++) {
+			// TODO:test//fitColumn(column);
+			// }
 		}
 	}
 

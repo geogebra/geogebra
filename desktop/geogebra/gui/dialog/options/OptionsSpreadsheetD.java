@@ -57,7 +57,7 @@ public class OptionsSpreadsheetD extends
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
 			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
 			cbShowBrowser, cbAllowSpecialEditor, cbAllowToolTips,
-			cbPrependCommands;
+			cbPrependCommands, cbEnableAutoComplete;
 
 	private JTextField dirField, urlField;
 	private JButton browseButton, restoreButton, setCurrentButton;
@@ -150,6 +150,11 @@ public class OptionsSpreadsheetD extends
 		cbPrependCommands.addActionListener(this);
 		layoutOptions.add(cbPrependCommands);
 
+		cbEnableAutoComplete = new JCheckBox();
+		cbEnableAutoComplete.addActionListener(this);
+		layoutOptions.add(cbEnableAutoComplete);
+
+		
 		return layoutOptions;
 	}
 
@@ -267,7 +272,7 @@ public class OptionsSpreadsheetD extends
 		cbAllowSpecialEditor.setText(app.getMenu("UseButtonsAndCheckboxes"));
 		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
-
+		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
 		locationPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("HomeDirectory")));
 		dirRadioButton.setText(app.getMenu("FileSystem") + ":");
@@ -327,6 +332,10 @@ public class OptionsSpreadsheetD extends
 		cbPrependCommands.removeActionListener(this);
 		cbPrependCommands.setSelected(settings().equalsRequired());
 		cbPrependCommands.addActionListener(this);
+		
+		cbEnableAutoComplete.removeActionListener(this);
+		cbEnableAutoComplete.setSelected(settings().isEnableAutoComplete());
+		cbEnableAutoComplete.addActionListener(this);
 
 		// ======================================
 		// browser tab GUI
@@ -413,6 +422,10 @@ public class OptionsSpreadsheetD extends
 			settings().setEqualsRequired(cbPrependCommands.isSelected());
 		}
 
+		else if (source == cbEnableAutoComplete) {
+			settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected());
+		}
+		
 		// ========================================
 		// browser options
 
@@ -506,7 +519,8 @@ public class OptionsSpreadsheetD extends
 		cbAllowSpecialEditor.setFont(font);
 		cbAllowToolTips.setFont(font);
 		cbPrependCommands.setFont(font);
-
+		cbEnableAutoComplete.setFont(font);
+		
 		locationPanel.setFont(font);
 		dirRadioButton.setFont(font);
 		urlRadioButton.setFont(font);

@@ -20,10 +20,10 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
 /**
- * Default cell editor for the spreadsheet, extends DefaultCellEditor(JTextField)
- *
+ * Default cell editor for the spreadsheet, extends
+ * DefaultCellEditor(JTextField)
+ * 
  */
 public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
@@ -40,54 +40,66 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	private boolean editing = false;
 	private boolean errorOnStopEditing = false;
 
-
 	private boolean allowProcessGeo = false;
+
 	public boolean allowProcessGeo() {
 		return allowProcessGeo;
 	}
+
 	public void setAllowProcessGeo(boolean allowProcessGeo) {
 		this.allowProcessGeo = allowProcessGeo;
 	}
 
+	private boolean enableAutoComplete = false;
 
+	public boolean isEnableAutoComplete() {
+		return enableAutoComplete;
+	}
+
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+		this.enableAutoComplete = enableAutoComplete;
+		textField.setAutoComplete(enableAutoComplete);
+	}
 
 	public MyCellEditor(Kernel kernel) {
 
-		super(new AutoCompleteTextFieldD(0, (AppD)kernel.getApplication(), false));
+		super(new AutoCompleteTextFieldD(0, (AppD) kernel.getApplication(),
+				false));
 		this.kernel = kernel;
-		app = (AppD)kernel.getApplication();
+		app = (AppD) kernel.getApplication();
 		textField = (AutoCompleteTextFieldD) editorComponent;
+		textField.setAutoComplete(enableAutoComplete);
 
-		editorComponent.addKeyListener(new SpreadsheetCellEditorKeyListener(false));		
+		editorComponent.addKeyListener(new SpreadsheetCellEditorKeyListener(
+				false));
 		editorComponent.addFocusListener(this);
-
-
-
 
 		DocumentListener documentListener = new DocumentListener() {
 			public void changedUpdate(DocumentEvent documentEvent) {
 				// do nothing
 			}
+
 			public void insertUpdate(DocumentEvent documentEvent) {
 				updateFormulaBar(documentEvent);
 			}
+
 			public void removeUpdate(DocumentEvent documentEvent) {
 				updateFormulaBar(documentEvent);
 			}
+
 			private void updateFormulaBar(DocumentEvent documentEvent) {
-				if(table.view.getShowFormulaBar() && (textField.hasFocus() || table.isDragging2))
-					table.view.getFormulaBar().setEditorText(textField.getText());
+				if (table.view.getShowFormulaBar()
+						&& (textField.hasFocus() || table.isDragging2))
+					table.view.getFormulaBar().setEditorText(
+							textField.getText());
 			}
 		};
 		textField.getDocument().addDocumentListener(documentListener);
 
-
 	}
 
-
-
-	public void setText(String text){
-		if(!textField.hasFocus() && !table.isDragging2)
+	public void setText(String text) {
+		if (!textField.hasFocus() && !table.isDragging2)
 			textField.setText(text);
 
 	}
@@ -108,7 +120,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		row = row0;
 		String text = "";
 
-		if (value != null) {		
+		if (value != null) {
 			text = getEditorInitString(value);
 			int index = text.indexOf("=");
 			if ((!value.isGeoText())) {
@@ -122,31 +134,29 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		Component component = getComponent();
 		component.setFont(app.getFontCanDisplayAwt(text));
 
-		editing = true;	
+		editing = true;
 
 		return component;
 	}
 
 	/**
-	 * set flag to require text start with "="
-	 * to activate autocomplete
+	 * set flag to require text start with "=" to activate autocomplete
 	 */
-	public void setEqualsRequired(boolean equalsRequired){
+	public void setEqualsRequired(boolean equalsRequired) {
 		textField.setEqualsRequired(equalsRequired);
 	}
 
 	/**
-	 * returns flag that requires text start with "="
-	 * to activate autocomplete
+	 * returns flag that requires text start with "=" to activate autocomplete
 	 */
-	public boolean isEqualsRequired(){
+	public boolean isEqualsRequired() {
 		return textField.isEqualsRequired();
 	}
 
 	public void setLabels() {
-		textField.setDictionary(app.getCommandDictionary());	
+		textField.setDictionary(app.getCommandDictionary());
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the completion popup is open
@@ -155,14 +165,13 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		return textField.getCompletions() != null;
 	}
 
-	//=======================================================
-	//             In-cell Editing Methods
-	//=======================================================
-
+	// =======================================================
+	// In-cell Editing Methods
+	// =======================================================
 
 	/**
-	 * Returns the definition of geo used to init the editor
-	 * when editing is started.
+	 * Returns the definition of geo used to init the editor when editing is
+	 * started.
 	 * 
 	 * @param geo
 	 */
@@ -170,27 +179,22 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		return geo.getRedefineString(true, false);
 	}
 
-
 	public boolean isEditing() {
 		return editing;
 	}
-
-
 
 	public int getCaretPosition() {
 		return textField.getCaretPosition();
 	}
 
-
 	/** Insert a geo label into current editor string. */
 	public void addLabel(String label) {
 		if (!editing)
 			return;
-		//String text = (String) delegate.getCellEditorValue();			
-		//delegate.setValue(text + label);
+		// String text = (String) delegate.getCellEditorValue();
+		// delegate.setValue(text + label);
 		textField.replaceSelection(" " + label + " ");
 	}
-
 
 	public void setLabel(String text) {
 		if (!editing)
@@ -207,53 +211,46 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		return value;
 	}
 
-
-
-
-
-
-	//=======================================================
-	//             Stop/Cancel Editing
-	//=======================================================
-
+	// =======================================================
+	// Stop/Cancel Editing
+	// =======================================================
 
 	@Override
 	public void cancelCellEditing() {
 		editing = false;
 		errorOnStopEditing = false;
 
-		super.cancelCellEditing();	
-		
+		super.cancelCellEditing();
+
 		// give the table the focus in case the formula bar is the editor
-		if(table.getView().getFormulaBar().editorHasFocus()){
-			//Application.debug("give focus to table");
+		if (table.getView().getFormulaBar().editorHasFocus()) {
+			// Application.debug("give focus to table");
 			table.requestFocus();
 		}
 	}
 
-
 	@Override
 	public boolean stopCellEditing() {
 
-		errorOnStopEditing = true; //flag to handle column resizing during editing (see focusLost method)
+		errorOnStopEditing = true; // flag to handle column resizing during
+									// editing (see focusLost method)
 
-
-		// try to redefine or create the cell geo  with the current editing string 
-		if(!processGeo())
+		// try to redefine or create the cell geo with the current editing
+		// string
+		if (!processGeo())
 			return false;
 
 		errorOnStopEditing = false;
 		editing = false;
 		boolean success = super.stopCellEditing();
-		
+
 		// give the table the focus in case the formula bar is the editor
-		if(table.getView().getFormulaBar().editorHasFocus()){
-			//Application.debug("give focus to table");
+		if (table.getView().getFormulaBar().editorHasFocus()) {
+			// Application.debug("give focus to table");
 			table.requestFocus();
 		}
 		return success;
 	}
-
 
 	boolean stopCellEditing(int colOff, int rowOff) {
 		allowProcessGeo = true;
@@ -263,35 +260,38 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		return success;
 	}
 
-
 	private void moveSelectedCell(int colOff, int rowOff) {
-		int nextRow = Math.min(row + rowOff, table.getRowCount()-1);
-		int nextColumn = Math.min(column + colOff, table.getColumnCount()-1);
+		int nextRow = Math.min(row + rowOff, table.getRowCount() - 1);
+		int nextColumn = Math.min(column + colOff, table.getColumnCount() - 1);
 		table.setSelection(nextColumn, nextRow);
 	}
 
-
 	/**
-	 * Attempts to create or redefine the cell geo using the current editing string	
+	 * Attempts to create or redefine the cell geo using the current editing
+	 * string
+	 * 
 	 * @return
 	 */
-	private boolean processGeo(){
+	private boolean processGeo() {
 
 		try {
 
-			if(allowProcessGeo){
-				String text = (String) delegate.getCellEditorValue();	
+			if (allowProcessGeo) {
+				String text = (String) delegate.getCellEditorValue();
 				// get GeoElement of current cell
-				value = kernel.lookupLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row), false);
+				value = kernel.lookupLabel(GeoElementSpreadsheet
+						.getSpreadsheetCellName(column, row), false);
 
 				if (text.equals("")) {
-					if (value != null){
+					if (value != null) {
 						value.removeOrSetUndefinedIfHasFixedDescendent();
-						value = null;	
+						value = null;
 					}
 
 				} else {
-					GeoElement newVal = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, app, text, value, column, row);
+					GeoElement newVal = RelativeCopy
+							.prepareAddingValueToTableNoStoringUndoInfo(kernel,
+									app, text, value, column, row);
 					if (newVal == null) {
 						return false;
 					}
@@ -313,10 +313,9 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		return true;
 	}
 
-
-	//=======================================================
-	//             Key and Focus Listeners
-	//=======================================================
+	// =======================================================
+	// Key and Focus Listeners
+	// =======================================================
 
 	// keep track of when <tab> was first pressed
 	// so we can return to that column when <enter> pressed
@@ -324,22 +323,20 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	public class SpreadsheetCellEditorKeyListener implements KeyListener {
 
-
-	//	boolean escape = false;
+		// boolean escape = false;
 		boolean isFormulaBarListener;
 
-
-		public SpreadsheetCellEditorKeyListener(boolean isFormulaBarListener){
+		public SpreadsheetCellEditorKeyListener(boolean isFormulaBarListener) {
 			this.isFormulaBarListener = isFormulaBarListener;
 		}
 
-		public void keyTyped(KeyEvent e) {	
+		public void keyTyped(KeyEvent e) {
 		}
 
 		public void keyPressed(KeyEvent e) {
 			checkCursorKeys(e);
 			int keyCode = e.getKeyCode();
-			
+
 			switch (keyCode) {
 			case KeyEvent.VK_ESCAPE:
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
@@ -348,7 +345,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 				// restore old text in spreadsheet
 				table.getModel().setValueAt(oldGeo, row, column);
 
-				//stopCellEditing(0,0);
+				// stopCellEditing(0,0);
 				// force nice redraw
 				table.setSelection(column, row);
 
@@ -357,101 +354,101 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 				break;
 
-			}	
+			}
 		}
 
 		public void keyReleased(KeyEvent e) {
 
 		}
 
-
 		public void checkCursorKeys(KeyEvent e) {
 
 			String text = (String) delegate.getCellEditorValue();
 
 			int keyCode = e.getKeyCode();
-			//Application.debug(e+"");
+			// Application.debug(e+"");
 			switch (keyCode) {
 			case KeyEvent.VK_UP:
-				if(isFormulaBarListener) return;
+				if (isFormulaBarListener)
+					return;
 
-				//Application.debug("UP");
-				stopCellEditing(0,-1);		
+				// Application.debug("UP");
+				stopCellEditing(0, -1);
 				editing = false;
 				e.consume();
 				tabReturnCol = -1;
 				break;
 
-
 			case KeyEvent.VK_TAB:
-				if(isFormulaBarListener) return;
+				if (isFormulaBarListener)
+					return;
 				App.debug(" tab");
-				//Application.debug("RIGHT");
+				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right
-				if (tabReturnCol == -1) tabReturnCol = column;
-				stopCellEditing(e.isShiftDown() ? -1 : 1,0);		
+				if (tabReturnCol == -1)
+					tabReturnCol = column;
+				stopCellEditing(e.isShiftDown() ? -1 : 1, 0);
 				editing = false;
 
 				break;
 
-			case KeyEvent.VK_ENTER:				
-				// if incomplete command entered, want to move the cursor to between []
+			case KeyEvent.VK_ENTER:
+				// if incomplete command entered, want to move the cursor to
+				// between []
 				int bracketsIndex = text.indexOf("[]");
 				if (bracketsIndex == -1) {
 
 					if (tabReturnCol != -1) {
 						int colOffset = tabReturnCol - column;
-						stopCellEditing(colOffset,1);		
+						stopCellEditing(colOffset, 1);
 						editing = false;
-					}else{
-						stopCellEditing(0,1);	
+					} else {
+						stopCellEditing(0, 1);
 					}
 				} else {
 					textField.setCaretPosition(bracketsIndex + 1);
 					e.consume();
-				}				
+				}
 
 				tabReturnCol = -1;
 				break;
 
 			case KeyEvent.VK_DOWN:
-				if(isFormulaBarListener){
+				if (isFormulaBarListener) {
 					e.consume();
 					return;
 				}
-				//Application.debug("DOWN");
-				stopCellEditing(0,1);		
+				// Application.debug("DOWN");
+				stopCellEditing(0, 1);
 				editing = false;
 				tabReturnCol = -1;
 				break;
-
 
 			case KeyEvent.VK_LEFT:
-				if(isFormulaBarListener) return;
-				//Application.debug("LEFT");
+				if (isFormulaBarListener)
+					return;
+				// Application.debug("LEFT");
 				// Allow left/right keys to exit cell for easier data entry
-				if(getCaretPosition()==0)
-				{
+				if (getCaretPosition() == 0) {
 					stopCellEditing(-1, 0);
-					editing=false;
+					editing = false;
 				}
 				editing = false;
 				tabReturnCol = -1;
 				break;
 
-
 			case KeyEvent.VK_RIGHT:
-				if(isFormulaBarListener) return;
-				//Application.debug("RIGHT");	
+				if (isFormulaBarListener)
+					return;
+				// Application.debug("RIGHT");
 				// Allow left/right keys to exit cell for easier data entry
-				if(getCaretPosition()==text.length())
-				{
+				if (getCaretPosition() == text.length()) {
 					stopCellEditing(1, 0);
-					editing=false;
+					editing = false;
 				}
 
-				editing = false;	
+				editing = false;
 				tabReturnCol = -1;
 				break;
 
@@ -461,11 +458,11 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 				tabReturnCol = -1;
 				break;
 
-				// An F1 keypress causes the focus to be lost, so we
-				// need to set 'editing' to false to prevent the focusLost() 
-				// method from calling stopCellEditing()
+			// An F1 keypress causes the focus to be lost, so we
+			// need to set 'editing' to false to prevent the focusLost()
+			// method from calling stopCellEditing()
 			case KeyEvent.VK_F1:
-				editing = false;	
+				editing = false;
 				break;
 
 			}
@@ -474,13 +471,11 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	}
 
-
-
 	public void focusGained(FocusEvent arg0) {
 		editing = true;
 	}
 
-	public void focusLost(FocusEvent arg0) {	
+	public void focusLost(FocusEvent arg0) {
 
 		// VirtualKeyboard gets the focus very briefly when opened
 		// so ignore this!
@@ -490,13 +485,13 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		// only needed if eg columns resized
 		if (editing == true) {
 			if (!errorOnStopEditing) {
-				// this stops editing but does not process geos ... needed for formula bar sync
-				stopCellEditing();				
+				// this stops editing but does not process geos ... needed for
+				// formula bar sync
+				stopCellEditing();
 			} else if (!app.isErrorDialogShowing()) {
 				cancelCellEditing();
 			}
 		}
 	}
-
 
 }

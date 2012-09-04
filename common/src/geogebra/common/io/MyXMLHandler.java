@@ -1211,6 +1211,7 @@ public class MyXMLHandler implements DocHandler {
 					.get("allowSpecialEditor")));
 			settings.setAllowToolTips(parseBoolean(attrs.get("allowToolTips")));
 			settings.setEqualsRequired(parseBoolean(attrs.get("equalsRequired")));
+			settings.setEnableAutoComplete(parseBoolean(attrs.get("autoComplete")));
 			return true;
 
 		} catch (Exception e) {
