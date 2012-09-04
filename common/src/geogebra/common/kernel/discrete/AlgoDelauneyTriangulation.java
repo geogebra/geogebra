@@ -1,21 +1,19 @@
 package geogebra.common.kernel.discrete;
 
 import geogebra.common.awt.GPoint2D;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiAlgorithm;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.RepresentationFactory;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.simpletriangulation.SimpleTriangulationRepresentation;
+import geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
+import geogebra.common.kernel.discrete.delaunay.Point_dt;
+import geogebra.common.kernel.discrete.delaunay.Triangle_dt;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.simpletriangulation.VTriangle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -40,54 +38,66 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
     		return;
     	} 
     	
-        if (vl == null) vl = new ArrayList<VPoint>();
-        else vl.clear();
+        //if (vl == null) vl = new ArrayList<VPoint>();
+        //else vl.clear();
    	
 		double inhom[] = new double[2];
+		
+		Point_dt[] points = new Point_dt[size];
    	
         
-        AbstractRepresentation representation;
-        representation = RepresentationFactory.createSimpleTriangulationRepresentation();
 
         for (int i = 0 ; i < size ; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isDefined() && geo.isGeoPoint()) {
 				GeoPointND p = (GeoPointND)geo;
 				p.getInhomCoords(inhom);
-				vl.add( representation.createPoint(inhom[0], inhom[1]) );			
+				
+				points[i] = new Point_dt(inhom[0], inhom[1]);
+				
+				//vl.add( representation.createPoint(inhom[0], inhom[1]) );			
 			}
 		}
 
-        representation = RepresentationFactory.createSimpleTriangulationRepresentation();
+        Delaunay_Triangulation dt = new Delaunay_Triangulation(points);
         
-        SimpleTriangulationRepresentation trianglarrep = (SimpleTriangulationRepresentation) representation;
-        
-        TestRepresentationWrapper representationwrapper = new TestRepresentationWrapper();
-        representationwrapper.innerrepresentation = representation;
-        
-        VoronoiAlgorithm.generateVoronoi(representationwrapper, vl);
-        
-        if (al == null) al = new ArrayList<MyPoint>();
-        else al.clear();
-        
-        TreeSet<MyLine> tree = new TreeSet<MyLine>(getComparator());
-        
-        for ( VTriangle triangle : trianglarrep.triangles ) {
-        	
-        	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(triangle.p1.x , triangle.p1.y), AwtFactory.prototype.newPoint2D(triangle.p2.x , triangle.p2.y)));
-        	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(triangle.p2.x , triangle.p2.y), AwtFactory.prototype.newPoint2D(triangle.p3.x , triangle.p3.y)));
-        	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(triangle.p3.x , triangle.p3.y), AwtFactory.prototype.newPoint2D(triangle.p1.x , triangle.p1.y)));
-        	
+        if (dt.allCollinear) {
+        	locus.setUndefined();
+        	return;
         }
         
-        Iterator<MyLine> it = tree.iterator();
+        Iterator<Triangle_dt> it = dt.trianglesIterator();
+        
+		if (al == null) {
+			al = new ArrayList<MyPoint>();
+		} else {
+			al.clear();
+		}
+		
+		// add to TreeSet to remove duplicates (from touching triangles)
+        TreeSet<MyLine> tree = new TreeSet<MyLine>(getComparator());
         
         while (it.hasNext()) {
-        	MyLine line = it.next();
+        	Triangle_dt triangle = it.next();
+        	
+        	tree.add(new MyLine(new GPoint2D.Double(triangle.p1().x() , triangle.p1().y()), new GPoint2D.Double(triangle.p2().x() , triangle.p2().y())));
+        	if (triangle.p3() != null) {
+	        	tree.add(new MyLine(new GPoint2D.Double(triangle.p2().x() , triangle.p2().y()), new GPoint2D.Double(triangle.p3().x() , triangle.p3().y())));
+	        	tree.add(new MyLine(new GPoint2D.Double(triangle.p3().x() , triangle.p3().y()), new GPoint2D.Double(triangle.p1().x() , triangle.p1().y())));
+        	}
+
+        }
+
+        
+        Iterator<MyLine> it2 = tree.iterator();
+        
+        while (it2.hasNext()) {
+        	MyLine line = it2.next();
         	al.add(new MyPoint(line.p1.getX() , line.p1.getY(), false));
         	al.add(new MyPoint(line.p2.getX() , line.p2.getY(), true));
         }
 
+        
 
 		locus.setPoints(al);
 		locus.setDefined(true);
