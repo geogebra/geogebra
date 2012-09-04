@@ -22,10 +22,9 @@ import geogebra.mobile.utils.ToolBarCommand;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -37,8 +36,6 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
-import com.google.gwt.event.dom.client.MouseEvent;
-
 /**
  * Receives the events from the canvas and sends the orders to the kernel.
  * 
@@ -48,7 +45,7 @@ import com.google.gwt.event.dom.client.MouseEvent;
  */
 public class MobileEuclidianController extends EuclidianController implements
 		TouchStartHandler, TouchEndHandler, TouchMoveHandler, MouseDownHandler,
-		MouseMoveHandler, MouseUpHandler, ClickHandler
+		MouseMoveHandler, MouseUpHandler
 {
 
 	private GuiModel guiModel;
@@ -194,12 +191,6 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			handleEvent(event);
 		}
-	}
-
-	@Override
-	public void onClick(ClickEvent event)
-	{
-		event.preventDefault();
 	}
 
 	private void handleEvent(MouseEvent<?> event)

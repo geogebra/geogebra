@@ -1,7 +1,6 @@
 package geogebra.mobile.gui.view.algebra;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -10,23 +9,18 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.web.main.DrawEquationWeb;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.googlecode.mgwt.ui.client.widget.MCheckBox;
 
@@ -35,7 +29,7 @@ import com.googlecode.mgwt.ui.client.widget.MCheckBox;
  * 
  */
 public class RadioButtonTreeItem extends HorizontalPanel implements
-		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler
+		ClickHandler, MouseMoveHandler, MouseDownHandler
 {
 
 	MCheckBox checkBox;
@@ -57,49 +51,6 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	InlineHTML ihtml;
 	TextBox tb;
 
-	// private class RadioButtonHandy extends RadioButton
-	// {
-	// public RadioButtonHandy()
-	// {
-	// super(DOM.createUniqueId());
-	// }
-	//
-	// @Override
-	// public void onBrowserEvent(Event event)
-	// {
-	//
-	// if (RadioButtonTreeItem.this.av.isEditing())
-	// return;
-	//
-	// if (event.getTypeInt() == Event.ONCLICK)
-	// {
-	// // Part of AlgebraController.mouseClicked in Desktop
-	// if (Element.is(event.getEventTarget()))
-	// {
-	// if (Element.as(event.getEventTarget()) == getElement()
-	// .getFirstChild())
-	// {
-	// getClicked();
-	// }
-	// }
-	// }
-	// }
-	//
-	// protected void getClicked()
-	// {
-	// setChecked(RadioButtonTreeItem.this.previouslyChecked =
-	// !RadioButtonTreeItem.this.previouslyChecked);
-	// RadioButtonTreeItem.this.geo
-	// .setEuclidianVisible(!RadioButtonTreeItem.this.geo
-	// .isSetEuclidianVisible());
-	// RadioButtonTreeItem.this.geo.update();
-	// RadioButtonTreeItem.this.geo.getKernel().getApplication()
-	// .storeUndoInfo();
-	// RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
-	// return;
-	// }
-	// }
-
 	public RadioButtonTreeItem(GeoElement ge, AlgebraView algebraView)
 	{
 		super();
@@ -110,17 +61,6 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
-
-		// this.radio = new RadioButtonHandy();
-		// this.radio.setEnabled(ge.isEuclidianShowable());
-		// this.radio.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
-		// .isEuclidianVisible());
-		// add(this.radio);
-
-		// TODO
-		// this.checkBox = new MCheckBox();
-		// this.checkBox.setImportant(true);
-		// add(this.checkBox);
 
 		this.check = new CheckBox();
 		check.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
@@ -149,7 +89,6 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 		se.getStyle().setColor(
 				GColor.getColorString(this.geo.getAlgebraColor()));
 		this.ihtml = new InlineHTML();
-		this.ihtml.addDoubleClickHandler(this);
 		this.ihtml.addClickHandler(this);
 		this.ihtml.addMouseMoveHandler(this);
 		this.ihtml.addMouseDownHandler(this);
@@ -456,26 +395,6 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 
 		// maybe it's possible to enter something which is non-LaTeX
 		update();
-	}
-
-	@Override
-	public void onDoubleClick(DoubleClickEvent evt)
-	{
-
-		if (this.av.isEditing())
-			return;
-
-		EuclidianViewInterfaceCommon ev = this.app.getActiveEuclidianView();
-		this.app.clearSelectedGeos();
-		ev.resetMode();
-		if (this.geo != null && !evt.isControlKeyDown())
-		{
-			this.app.getAlgebraView().startEditing(this.geo,
-					evt.isShiftKeyDown());
-		}
-
-		evt.stopPropagation();
-		evt.preventDefault();
 	}
 
 	@Override

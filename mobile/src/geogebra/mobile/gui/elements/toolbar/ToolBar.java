@@ -3,17 +3,12 @@ package geogebra.mobile.gui.elements.toolbar;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.GuiModel;
+import geogebra.mobile.gui.elements.InputDialog;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.TextBox;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
-import com.googlecode.mgwt.ui.client.widget.Button;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 /**
@@ -27,7 +22,7 @@ public class ToolBar extends ButtonBar
 
 	protected ToolBarButton[] b;
 	private ToolBarCommand activeCmd;
-	protected TextBox inputBar;
+	protected InputDialog input;
 
 	public ToolBar()
 	{
@@ -69,33 +64,17 @@ public class ToolBar extends ButtonBar
 		this.b[11].addDomHandler(new ClickHandler()
 		{
 			@Override
-      public void onClick(ClickEvent event)
+			public void onClick(ClickEvent event)
 			{
-				final PopinDialog dialog = new PopinDialog();
-				dialog.setHideOnBackgroundClick(true);
-				dialog.setCenterContent(true);
-
-				RoundPanel roundPanel = new RoundPanel();
-
-				ToolBar.this.inputBar = new TextBox();
-				roundPanel.add(ToolBar.this.inputBar);
-
-				Button button = new Button("ok");
-				button.addTapHandler(new TapHandler()
+				ToolBar.this.input = new InputDialog(new ClickHandler()
 				{
 					@Override
-					public void onTap(TapEvent e)
+					public void onClick(ClickEvent e)
 					{
-						algebraController.newInput(ToolBar.this.inputBar
-								.getText());
-						dialog.hide();
+						algebraController.newInput(ToolBar.this.input.getText());
+						ToolBar.this.input.hide();
 					}
 				});
-				button.addStyleName("popinButton");
-				roundPanel.add(button);
-
-				dialog.add(roundPanel);
-				dialog.show();
 			}
 		}, ClickEvent.getType());
 

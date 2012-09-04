@@ -9,7 +9,6 @@ import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.mobile.gui.view.algebra.InlineLabelTreeItem;
 import geogebra.mobile.gui.view.algebra.RadioButtonTreeItem;
 
