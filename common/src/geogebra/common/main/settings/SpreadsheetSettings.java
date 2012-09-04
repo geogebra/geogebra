@@ -462,4 +462,14 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
+	public void setEnableAutoComplete(boolean parseBoolean) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isEnableAutoComplete() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
