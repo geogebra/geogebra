@@ -13,6 +13,6 @@ public class TabletHeaderPanel extends HeaderPanel
 	 */
 	public TabletHeaderPanel()
 	{
-		this.setCenter("Title");
+		this.setCenter("GeoGebra");
 	}
 }
