@@ -149,18 +149,11 @@ public class MobileEuclidianController extends EuclidianController implements
 			if (!this.moving)
 			{
 				this.view.setHits(this.origin);
-				if (this.view.getHits().isEmpty())
-				{
-					this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
-				} else
-				{
-					this.mode = EuclidianConstants.MODE_MOVE;
-				}
-
 				this.moving = true;
 
 				// get the mode and the object to move
-				handleMousePressedForMoveMode(mEvent, false);
+				// handleMousePressedForMoveMode(mEvent, false);
+
 				// if added again, moved objects are not selected (while they
 				// are moved)
 				// -> moving objects becomes a lot slower
@@ -173,6 +166,7 @@ public class MobileEuclidianController extends EuclidianController implements
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(event.getX(), event.getY());
 		}
+
 	}
 
 	@Override
@@ -186,7 +180,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		{
 			this.moving = false;
 			this.mode = this.guiModel.getCommand().getMode();
-			
+
 			// object that was moved loses selection
 			removeSelection();
 
@@ -222,6 +216,16 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		this.mouseLoc = new GPoint(event.getX(), event.getY());
 		this.mode = this.guiModel.getCommand().getMode();
+
+		if (cmd == ToolBarCommand.Move)
+		{
+			this.view.setHits(this.mouseLoc);
+			Hits h = this.view.getHits();
+			if (h.size() == 0)
+			{
+				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
+			}
+		}
 
 		// draw the new point
 		switchModeForMousePressed(new MobileMouseEvent(event.getX(),
@@ -330,7 +334,8 @@ public class MobileEuclidianController extends EuclidianController implements
 			switch (cmd)
 			{
 			case LineThroughTwoPoints:
-				this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Line(null,
+						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case SegmentBetweenTwoPoints:
@@ -339,15 +344,18 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case RayThroughTwoPoints:
-				this.kernel.getAlgoDispatcher().Ray(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Ray(null,
+						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case VectorBetweenTwoPoints:
-				this.kernel.getAlgoDispatcher().Vector(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Vector(null,
+						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case CircleWithCenterThroughPoint:
-				this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Circle(null,
+						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1));
 				break;
 			case Semicircle:
@@ -361,8 +369,10 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoLine) this.selectedLines.get(0));
 				break;
 			case ParallelLine:
-				this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) this.selectedPoints
-						.get(this.selectedPoints.size() - 1),
+				this.kernel.getAlgoDispatcher().Line(
+						null,
+						(GeoPoint) this.selectedPoints.get(this.selectedPoints
+								.size() - 1),
 						(GeoLine) this.selectedLines.get(this.selectedLines
 								.size() - 1));
 				break;
@@ -396,7 +406,8 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoLine) this.selectedLines.get(0));
 				break;
 			case CircleThroughThreePoints:
-				this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.selectedPoints.get(0),
+				this.kernel.getAlgoDispatcher().Circle(null,
+						(GeoPoint) this.selectedPoints.get(0),
 						(GeoPoint) this.selectedPoints.get(1),
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
@@ -437,12 +448,13 @@ public class MobileEuclidianController extends EuclidianController implements
 						(GeoPoint) this.selectedPoints.get(2));
 				break;
 			case ConicThroughFivePoints:
-				this.kernel.getAlgoDispatcher().Conic(null, new GeoPoint[] {
-						(GeoPoint) this.selectedPoints.get(0),
-						(GeoPoint) this.selectedPoints.get(1),
-						(GeoPoint) this.selectedPoints.get(2),
-						(GeoPoint) this.selectedPoints.get(3),
-						(GeoPoint) this.selectedPoints.get(4) });
+				this.kernel.getAlgoDispatcher().Conic(
+						null,
+						new GeoPoint[] { (GeoPoint) this.selectedPoints.get(0),
+								(GeoPoint) this.selectedPoints.get(1),
+								(GeoPoint) this.selectedPoints.get(2),
+								(GeoPoint) this.selectedPoints.get(3),
+								(GeoPoint) this.selectedPoints.get(4) });
 				break;
 			default:
 			}
