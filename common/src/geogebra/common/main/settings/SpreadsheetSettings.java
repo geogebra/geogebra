@@ -26,7 +26,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private boolean allowSpecialEditor = false;
 	private boolean allowToolTips = true;
 	private boolean equalsRequired; 
-
+	private boolean enableAutoComplete;
+	
 	// file browser settings
 	private String defaultFile; 
 	private String initialURL;
@@ -462,14 +463,22 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-	public void setEnableAutoComplete(boolean parseBoolean) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * @param enableAutoComplete	flag to allow auto-complete in the editor
+	 */
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+		if(this.enableAutoComplete != enableAutoComplete) {
+			this.enableAutoComplete = enableAutoComplete;
+			settingChanged();
+		}
+	}
+	
+	/**
+	 * @return	is auto-complete allowed in the editor
+	 */
+	public boolean isEnableAutoComplete() {
+		return enableAutoComplete;
 	}
 
-	public boolean isEnableAutoComplete() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
