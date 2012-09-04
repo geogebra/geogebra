@@ -383,11 +383,4 @@ public class ScriptManager extends ScriptManagerCommon {
 		// void debug(String string)
 	}-*/;
 
-	@Override
-    public void notifyDraw(String labelSimple, double[] x, double[] y) {
-	    App.warn("notifyDraw() unimplemented");
-	    
-    }
-	
-
 }

@@ -396,7 +396,6 @@ public abstract class ScriptManagerCommon {
 
 	}
 
-	public abstract void notifyDraw(String labelSimple, double[] x, double[] y);
 }
 
 

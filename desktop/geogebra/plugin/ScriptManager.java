@@ -102,27 +102,5 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 		return usb;
 	}
 
-	public void notifyDraw(String label, double[] x, double[] y) {			
-		if (!listenersEnabled || penListeners == null || penListeners.size() ==0) 
-			return;
-		int n = x.length;
-		StringBuilder params = new StringBuilder("(\"");
-		params.append(label);
-		params.append("\",new Array(");
-		for(int i =0;i<n;i++)
-			params.append(x[i]+(i!=n-1?",":"),new Array("));
-		for(int i =0;i<n;i++)
-				params.append(y[i]+(i!=n-1?",":"))"));
-		
-		int size = penListeners.size();
-		for (int i=0; i < size; i++) {							
-			CallJavaScript.evalScript(app, (String) penListeners.get(i)+ 
-					params.toString(),null);
-			
-		}		
-		
-		
-	}
-
 
 }
