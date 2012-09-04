@@ -1,16 +1,18 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Matrix.CoordMatrixUtil;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.main.App;
 
 
 
-public class AlgoIntersectPlaneConic extends AlgoIntersectLineConic3D {
+public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	
-	private GeoCoordSys2D plane;
 
 
 	public AlgoIntersectPlaneConic(Construction cons, String[] labels,
@@ -25,30 +27,47 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectLineConic3D {
 	}
 	
 	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane, GeoConicND c) {		
-		super(cons, AlgoIntersectCS2D2D.getIntersectPlanePlane(cons, plane.getCoordSys(), c.getCoordSys()),
-				c);
-		this.plane = plane;
-		input = new GeoElement[2];
-        input[0] = (GeoElement)plane;
-        input[1] = c;
-        input[0].addAlgorithm(this);
-        input[1].addAlgorithm(this);
+		super(cons, (GeoElement) plane, c);
 	}
-
 	
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-    	input = new GeoElement[0]; //set input in constructor
-        setOutput(P);            
-        noUndefinedPointsInAlgebraView();
-        setDependencies(); // done by AlgoElement
-    }    
-    
+	private Coords[] intersection;
+
+	@Override
+	public void compute() {
+		
+		//calc intersection line of the plane and the plane including the conic
+		intersection = CoordMatrixUtil.intersectPlanes(
+    			((GeoCoordSys2D) getFirtGeo()).getCoordSys().getMatrixOrthonormal(),
+    			c.getCoordSys().getMatrixOrthonormal());
+		
+		super.compute();
+		
+	}
+	
 
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoIntersectPlaneConic;
+	}
+
+	@Override
+	protected Coords getFirstGeoStartInhomCoords() {
+		return intersection[0];
+	}
+
+	@Override
+	protected Coords getFirstGeoDirectionInD3() {
+		return intersection[1];
+	}
+
+	@Override
+	protected boolean getFirstGeoRespectLimitedPath(Coords p) {
+		return true;
+	}
+
+	@Override
+	protected void checkIsOnFirstGeo(GeoPoint3D p) {
+		//nothing to do here
 	}
 	
 }
