@@ -799,8 +799,8 @@ public class CommandDispatcher {
 		return statsDispatcher;
 	}
 
-	private CommandDispatcherDiscrete discreteDispatcher = null;
-	private CommandDispatcherDiscrete getDiscreteDispatcher() {
+	protected CommandDispatcherInterface discreteDispatcher = null;
+	protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
 			discreteDispatcher = new CommandDispatcherDiscrete();
 		}

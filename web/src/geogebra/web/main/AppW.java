@@ -60,6 +60,7 @@ import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.kernel.AnimationManagerW;
+import geogebra.web.kernel.KernelW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
@@ -2089,7 +2090,7 @@ public class AppW extends App {
 		GWT.runAsync(Kernel.class, new RunAsyncCallback() {
 			
 			public void onSuccess() {
-				kernel = new Kernel(this_app);
+				kernel = new KernelW(this_app);
 			}
 			
 			public void onFailure(Throwable reason) {
