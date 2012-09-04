@@ -20,7 +20,6 @@ public abstract class ScriptManagerCommon {
 	protected ArrayList<String>	renameListeners  = new ArrayList<String>();
 	protected ArrayList<String>	updateListeners  = new ArrayList<String>();
 	protected ArrayList<String>	clearListeners  = new ArrayList<String>();
-	protected ArrayList<String>	penListeners  = new ArrayList<String>();
 	protected JavaToJavaScriptView javaToJavaScriptView;
 
 	public void disableListeners() {
@@ -55,9 +54,6 @@ public abstract class ScriptManagerCommon {
 			clearListeners.clear();
 		}
 
-		if (penListeners != null) {
-			penListeners.clear();
-		}
 	}
 	
 	/**
@@ -175,17 +171,6 @@ public abstract class ScriptManagerCommon {
 		if (updateListeners != null) {
 			updateListeners.remove(JSFunctionName);
 			App.debug("unregisterUpdateListener: " + JSFunctionName);
-		}	
-	}
-	
-	public synchronized void registerPenListener(String JSFunctionName) {
-		registerGlobalListener(penListeners,JSFunctionName,"registerPenListener");
-	}
-	
-	public synchronized void unregisterPenListener(String JSFunctionName) {
-		if (penListeners != null) {
-			penListeners.remove(JSFunctionName);
-			App.debug("unregisterPenListener: " + JSFunctionName);
 		}	
 	}
 	
