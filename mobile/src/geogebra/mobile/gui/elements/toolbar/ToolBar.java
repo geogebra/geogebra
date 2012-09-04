@@ -6,8 +6,9 @@ import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
@@ -24,7 +25,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 public class ToolBar extends ButtonBar
 {
 
-	protected OptionsClickedListener[] b;
+	protected ToolBarButton[] b;
 	private ToolBarCommand activeCmd;
 	protected TextBox inputBar;
 
@@ -64,11 +65,11 @@ public class ToolBar extends ButtonBar
 		// inputBar
 		this.b[11] = new ToolBarButton(
 				CommonResources.INSTANCE.show_input_bar(), model);
-		((ToolBarButton) this.b[11]).addStyleName("rightButton");
-		((ToolBarButton) this.b[11]).addTapHandler(new TapHandler()
+		this.b[11].addStyleName("rightButton");
+		this.b[11].addDomHandler(new ClickHandler()
 		{
 			@Override
-			public void onTap(TapEvent event)
+      public void onClick(ClickEvent event)
 			{
 				final PopinDialog dialog = new PopinDialog();
 				dialog.setHideOnBackgroundClick(true);
@@ -96,14 +97,14 @@ public class ToolBar extends ButtonBar
 				dialog.add(roundPanel);
 				dialog.show();
 			}
-		});
+		}, ClickEvent.getType());
 
 		for (int i = 0; i < this.b.length; i++)
 		{
-			this.add((Widget) this.b[i]);
+			this.add(this.b[i]);
 		}
 
-		model.setActive((ToolBarButton) this.b[0]);
+		model.setActive(this.b[0]);
 	}
 
 	public ToolBarCommand getCommand()

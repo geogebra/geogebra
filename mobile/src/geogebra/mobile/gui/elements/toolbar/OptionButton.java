@@ -2,7 +2,8 @@ package geogebra.mobile.gui.elements.toolbar;
 
 import geogebra.mobile.utils.ToolBarCommand;
 
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 
 /**
@@ -26,15 +27,26 @@ public class OptionButton extends ToolButton
 		super(cmd);
 
 		this.ancestor = ancestor;
-
-		this.addTapHandler(new TapHandler()
+		
+		this.addDomHandler(new ClickHandler()
 		{
 			@Override
-			public void onTap(TapEvent event)
+			public void onClick(ClickEvent event)
 			{
+				event.preventDefault();
 				OptionButton.this.ancestor.optionClicked(OptionButton.this.getCmd());
 			}
-		});
+		}, ClickEvent.getType());
+
+		//if addDomHandler works, this is not used
+//		this.addTapHandler(new TapHandler()
+//		{
+//			@Override
+//			public void onTap(TapEvent event)
+//			{
+//				OptionButton.this.ancestor.optionClicked(OptionButton.this.getCmd());
+//			}
+//		});
 	}
 
 }

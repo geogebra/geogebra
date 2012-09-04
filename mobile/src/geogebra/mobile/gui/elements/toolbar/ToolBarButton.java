@@ -5,16 +5,9 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
-import geogebra.web.euclidian.event.TouchEvent;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.dom.client.event.touch.TouchCancelEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchHandler;
-import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
 
 /**
  * 
@@ -43,27 +36,14 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 		this.menuEntries = menu.getEntries();
 		this.model = guiModel;
-
-		/*
-		 * this.addTapHandler(new TapHandler() {
-		 * 
-		 * @Override public void onTap(TapEvent event) {
-		 * System.out.println("onTap"); if
-		 * (ToolBarButton.this.model.getCommand() == ToolBarButton.this
-		 * .getCmd() && ToolBarButton.this.model.optionsShown()) {
-		 * ToolBarButton.this.model.closeOptions(); } else { showOptions(); } }
-		 * });
-		 */
-
-		// test another EventHandler
-		this.addTouchHandler(new TouchHandler()
+		 
+		this.addDomHandler(new ClickHandler()
 		{
 
 			@Override
-			public void onTouchStart(TouchStartEvent event)
+			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				// ToolBarButton.this.addStyleName("button-active");
 				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
 						.getCmd() && ToolBarButton.this.model.optionsShown())
 				{
@@ -73,31 +53,8 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 					showOptions();
 				}
 			}
-
-			@Override
-			public void onTouchMove(TouchMoveEvent event)
-			{
-				event.preventDefault();
-
-			}
-
-			@Override
-			public void onTouchEnd(TouchEndEvent event)
-			{
-				event.preventDefault();
-
-			}
-
-			@Override
-			public void onTouchCanceled(TouchCancelEvent event)
-			{
-				event.preventDefault();
-
-			}
-		});
+		}, ClickEvent.getType());
 	}
-
-	// end test another EventHandler
 
 	public ToolBarButton(SVGResource svg, GuiModel guiModel)
 	{
