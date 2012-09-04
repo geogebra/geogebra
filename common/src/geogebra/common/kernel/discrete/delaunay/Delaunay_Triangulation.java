@@ -628,6 +628,9 @@ public class Delaunay_Triangulation {
 			// get all neighbors of given corner point
 			Vector<Triangle_dt> neighbors = findTriangleNeighborhood(triangle, p);
 						
+			if (neighbors == null) {
+				return null;
+			}
 			Iterator<Triangle_dt> itn = neighbors.iterator();
 			Point_dt[] vertices = new Point_dt[neighbors.size()];
 			

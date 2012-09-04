@@ -38,9 +38,6 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
     		return;
     	} 
     	
-        //if (vl == null) vl = new ArrayList<VPoint>();
-        //else vl.clear();
-   	
 		double inhom[] = new double[2];
 		
 		Point_dt[] points = new Point_dt[size];
@@ -55,7 +52,6 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 				
 				points[i] = new Point_dt(inhom[0], inhom[1]);
 				
-				//vl.add( representation.createPoint(inhom[0], inhom[1]) );			
 			}
 		}
 
