@@ -61,7 +61,6 @@ import geogebra.common.kernel.advanced.CmdLetterToUnicode;
 import geogebra.common.kernel.advanced.CmdMatrixRank;
 import geogebra.common.kernel.advanced.CmdMaximize;
 import geogebra.common.kernel.advanced.CmdMinimize;
-import geogebra.common.kernel.advanced.CmdNpR;
 import geogebra.common.kernel.advanced.CmdNumerator;
 import geogebra.common.kernel.advanced.CmdObject;
 import geogebra.common.kernel.advanced.CmdOrdinal;
@@ -94,6 +93,7 @@ import geogebra.common.kernel.advanced.CmdUnitOrthogonalVector;
 import geogebra.common.kernel.advanced.CmdUnitVector;
 import geogebra.common.kernel.advanced.CmdVerticalText;
 import geogebra.common.kernel.advanced.CmdZip;
+import geogebra.common.kernel.statistics.CmdNpR;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)

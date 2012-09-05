@@ -1302,7 +1302,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		sb.append("<command name=\"");
 		sb.append(cmdname);
 		sb.append("\"");
-		if ((this instanceof AlgoListElement || this instanceof AlgoCell || this instanceof AlgoObject) && !getOutput()[0].isDefined()) {
+		if ((this instanceof AlgoListElement || this.getClassName().equals(Algos.AlgoCell) || this.getClassName().equals(Algos.AlgoObject)) && !getOutput()[0].isDefined()) {
 			// need to write the geo type in the XML if it's undefined 
 			// so that it's the same type when the file is loaded again
 			sb.append(" type=\"");
