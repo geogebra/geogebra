@@ -5807,7 +5807,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			// point
 			if (isGeoPoint()) {
 
-				if (getParentAlgorithm().getClassName().equals(Algos.AlgoDynamicCoordinates)) {
+				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
 					final GeoPoint p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
