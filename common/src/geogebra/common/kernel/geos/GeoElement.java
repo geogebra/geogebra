@@ -7274,6 +7274,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			return false;
 		}
 		
-		return getParentAlgorithm().getClassName().equals(Algos.AlgoAttachCopyToView);
+		return getParentAlgorithm() instanceof AlgoAttachCopyToView;
 	}
 }
