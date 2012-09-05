@@ -1,4 +1,4 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 public interface AlgoLocusSliderInterface {
 
