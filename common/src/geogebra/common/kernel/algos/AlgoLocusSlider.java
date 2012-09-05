@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle2D;
@@ -22,10 +22,6 @@ import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
-import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
