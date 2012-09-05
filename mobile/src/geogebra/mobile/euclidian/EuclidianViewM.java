@@ -20,6 +20,9 @@ import geogebra.web.awt.GGraphics2DW;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -27,6 +30,17 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
+import com.googlecode.mgwt.dom.client.event.mouse.TouchEndToMouseUpHandler;
+import com.googlecode.mgwt.dom.client.event.mouse.TouchMoveToMouseMoveHandler;
+import com.googlecode.mgwt.dom.client.event.mouse.TouchStartToMouseDownHandler;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
+import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
+import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
+import com.googlecode.mgwt.dom.client.event.touch.TouchEndHandler;
+import com.googlecode.mgwt.dom.client.event.touch.TouchMoveHandler;
+import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
+import com.googlecode.mgwt.dom.client.event.touch.TouchStartHandler;
 
 /**
  * 
@@ -75,14 +89,132 @@ public class EuclidianViewM extends EuclidianView
 		// }
 		//
 		// }, ClickEvent.getType());
+		
+	
+		// with 'translated' handlers
+		this.canvas.addMouseDownHandler(new TouchStartToMouseDownHandler(new TouchStartHandler()
+		{
+			@Override
+      public void onTouchStart(TouchStartEvent event)
+      {
+	      GWT.log("onTouchStart - with translated handler - EuclidianViewM");
+      }
+		}));
+		
+		this.canvas.addMouseMoveHandler(new TouchMoveToMouseMoveHandler(new TouchMoveHandler()
+		{
 
+			@Override
+      public void onTouchMove(TouchMoveEvent event)
+      {
+				event.preventDefault();
+	      GWT.log("onTouchMove - with translated handler - EuclidianViewM");
+      }
+			
+		}));
+		
+		this.canvas.addMouseUpHandler(new TouchEndToMouseUpHandler(new TouchEndHandler() 
+		{
+
+			@Override
+      public void onTouchEnd(TouchEndEvent event)
+      {
+				GWT.log("onTouchEnd - with translated handler - EuclidianViewM");
+      }
+			
+		}));
+		
+		//with addHandler
+		this.canvas.addHandler(new TouchStartHandler()
+		{
+
+			@Override
+      public void onTouchStart(TouchStartEvent event)
+      {
+				GWT.log("onTouchStart - mit addHanlder - EuclidianViewM");
+      }
+			
+		}, TouchStartEvent.getType());
+		
+		this.canvas.addHandler(new TouchMoveHandler()
+		{
+
+			@Override
+      public void onTouchMove(TouchMoveEvent event)
+      {
+				event.preventDefault();
+				GWT.log("onTouchMove - mit addHanlder - EuclidianViewM");
+      }
+			
+		}, TouchMoveEvent.getType());
+		
+		this.canvas.addHandler(new TouchEndHandler()
+		{
+
+			@Override
+      public void onTouchEnd(TouchEndEvent event)
+      {
+				GWT.log("onTouchEnd - mit addHanlder - EuclidianViewM");
+      }
+			
+		}, TouchEndEvent.getType());
+		
+		
+		// with tapHandler
+		this.canvas.addHandler(new TapHandler(){
+
+			@Override
+      public void onTap(TapEvent event)
+      {
+				GWT.log("onTap - mit addHanlder - EuclidianViewM");
+      }
+			
+		}, TapEvent.getType());
+		
+		// with domHandler and touch
+		this.canvas.addDomHandler(new TouchStartHandler()
+		{
+
+			@Override
+      public void onTouchStart(TouchStartEvent event)
+      {
+				GWT.log("onTouchStart - mit addDomHanlder - EuclidianViewM");
+      }
+			
+		}, TouchStartEvent.getType());
+		
+		this.canvas.addDomHandler(new TouchMoveHandler()
+		{
+
+			@Override
+      public void onTouchMove(TouchMoveEvent event)
+      {
+				event.preventDefault();
+				GWT.log("onTouchMove - mit addDomHanlder - EuclidianViewM");
+      }
+			
+		}, TouchMoveEvent.getType());
+		
+		this.canvas.addDomHandler(new TouchEndHandler()
+		{
+
+			@Override
+      public void onTouchEnd(TouchEndEvent event)
+      {
+				GWT.log("onTouchEnd - mit addDomHanlder - EuclidianViewM");
+      }
+			
+		}, TouchEndEvent.getType());
+		
+		
+		// with domHanlder
 		this.canvas.addDomHandler(new MouseDownHandler()
 		{
 
 			@Override
 			public void onMouseDown(MouseDownEvent event)
 			{
-				event.preventDefault();
+				GWT.log("onMouseDown - mit addDomHanlder - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseDown(event);
 			}
@@ -96,6 +228,7 @@ public class EuclidianViewM extends EuclidianView
 			public void onMouseMove(MouseMoveEvent event)
 			{
 				event.preventDefault();
+				GWT.log("onMouseMove - mit addDomHanlder - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseMove(event);
 			}
@@ -107,56 +240,86 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseUp(MouseUpEvent event)
 			{
-				event.preventDefault();
+				GWT.log("onMouseUp - mit addDomHanlder - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseUp(event);
 			}
 		}, MouseUpEvent.getType());
 		// // end try with addDomHandler
 
-		// this.canvas.addMouseDownHandler(new MouseDownHandler()
-		// {
-		// @Override
-		// public void onMouseDown(MouseDownEvent event)
-		// {
-		// event.preventDefault();
-		// ((MobileEuclidianController) EuclidianViewM.this
-		// .getEuclidianController()).onMouseDown(event);
-		// }
-		// });
-		//
-		// this.canvas.addMouseMoveHandler(new MouseMoveHandler()
-		// {
-		// @Override
-		// public void onMouseMove(MouseMoveEvent event)
-		// {
-		// event.preventDefault();
-		// ((MobileEuclidianController) EuclidianViewM.this
-		// .getEuclidianController()).onMouseMove(event);
-		// }
-		// });
-		//
-		// this.canvas.addMouseUpHandler(new MouseUpHandler()
-		// {
-		// @Override
-		// public void onMouseUp(MouseUpEvent event)
-		// {
-		// event.preventDefault();
-		// ((MobileEuclidianController) EuclidianViewM.this
-		// .getEuclidianController()).onMouseUp(event);
-		// }
-		// });
-		//
-		// this.canvas.addClickHandler(new ClickHandler()
-		// {
-		// @Override
-		// public void onClick(ClickEvent event)
-		// {
-		// event.preventDefault();
-		// ((MobileEuclidianController) EuclidianViewM.this
-		// .getEuclidianController()).onClick(event);
-		// }
-		// });
+		
+		// mouseHandler
+		this.canvas.addMouseDownHandler(new MouseDownHandler()
+		{
+			@Override
+			public void onMouseDown(MouseDownEvent event)
+			{
+				GWT.log("onMouseDown - direkt - EuclidianViewM");
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onMouseDown(event);
+			}
+		});
+
+		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
+		{
+			@Override
+			public void onMouseMove(MouseMoveEvent event)
+			{
+				event.preventDefault();
+				GWT.log("onMouseMove - direkt - EuclidianViewM");
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onMouseMove(event);
+			}
+		});
+
+		this.canvas.addMouseUpHandler(new MouseUpHandler()
+		{
+			@Override
+			public void onMouseUp(MouseUpEvent event)
+			{
+				GWT.log("onMouseUp - direkt - EuclidianViewM");
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onMouseUp(event);
+			}
+		});
+
+		
+		//TouchHandler - direkt
+		this.canvas.addTouchStartHandler(new com.google.gwt.event.dom.client.TouchStartHandler()
+		{
+			@Override
+      public void onTouchStart(com.google.gwt.event.dom.client.TouchStartEvent event)
+      {
+				GWT.log("onTouchStart - direkt - EuclidianViewM");	      
+      }			
+		});
+		
+		this.canvas.addTouchEndHandler(new com.google.gwt.event.dom.client.TouchEndHandler()
+		{
+			@Override
+      public void onTouchEnd(com.google.gwt.event.dom.client.TouchEndEvent event)
+      {
+				GWT.log("onTouchEnd - direkt - EuclidianViewM");	 
+      }			
+		});
+		
+		this.canvas.addTouchMoveHandler(new com.google.gwt.event.dom.client.TouchMoveHandler()
+		{
+			@Override
+      public void onTouchMove(com.google.gwt.event.dom.client.TouchMoveEvent event)
+      {
+				event.preventDefault();
+				GWT.log("onTouchMove - direkt - EuclidianViewM");	      	      
+      }			
+		});
+		
+		// clickHandler
+		this.canvas.addClickHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				GWT.log("onClick - direkt - EuclidianViewM");
+				//((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onClick(event);
+			}
+		});
 
 		updateFonts();
 		initView(true);
