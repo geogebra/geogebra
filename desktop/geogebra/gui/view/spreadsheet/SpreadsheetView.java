@@ -45,8 +45,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface, ComponentListener,
-		FocusListener, Gridable, SettingListener {
+public class SpreadsheetView extends JPanel implements
+		SpreadsheetViewInterface, ComponentListener, FocusListener, Gridable,
+		SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,7 +88,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 	// file browser defaults
 	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
 	public static final int DEFAULT_MODE = FileBrowserPanel.MODE_FILE;
-	
+
 	// private int initialBrowserMode = DEFAULT_MODE;
 	// file browser settings
 	// private String initialURL = DEFAULT_URL;
@@ -346,7 +347,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		// Application.debug(new Date() + " CLEAR VIEW");
 
 		// clear the table model
-		setDefaultLayout();
+		// setDefaultLayout();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
 
@@ -609,7 +610,7 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		sb.append(" autoComplete=\"");
 		sb.append(settings().isEnableAutoComplete() ? "true" : "false");
 		sb.append("\"");
-		
+
 		sb.append("/>\n");
 
 		// ---- end layout
@@ -992,9 +993,9 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 	// ================================================
 
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
-			table.setEnableAutoComplete(enableAutoComplete);
+		table.setEnableAutoComplete(enableAutoComplete);
 	}
-	
+
 	public void setShowRowHeader(boolean showRowHeader) {
 		if (showRowHeader) {
 			spreadsheet.setRowHeaderView(rowHeader);
@@ -1250,8 +1251,8 @@ public class SpreadsheetView extends JPanel implements SpreadsheetViewInterface,
 		try {
 			if (((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.getFocusedPanel() != null)
-				hasFocus = ((LayoutD) app.getGuiManager().getLayout()).getDockManager()
-						.getFocusedPanel().isAncestorOf(this);
+				hasFocus = ((LayoutD) app.getGuiManager().getLayout())
+						.getDockManager().getFocusedPanel().isAncestorOf(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
