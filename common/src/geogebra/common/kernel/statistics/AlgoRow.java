@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.statistics;
 
 
 

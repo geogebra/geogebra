@@ -2,8 +2,8 @@ package geogebra.common.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.io.MyXMLio;
-import geogebra.common.kernel.advanced.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;

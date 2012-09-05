@@ -2,7 +2,6 @@ package geogebra.common.kernel;
 
 import geogebra.common.kernel.advanced.AlgoDistanceLineLine;
 import geogebra.common.kernel.advanced.AlgoDistancePointObject;
-import geogebra.common.kernel.advanced.AlgoDistancePoints;
 import geogebra.common.kernel.advanced.AlgoLocus;
 import geogebra.common.kernel.advanced.AlgoLocusList;
 import geogebra.common.kernel.advanced.AlgoLocusSlider;
@@ -33,6 +32,7 @@ import geogebra.common.kernel.algos.AlgoDependentFunction;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDiameterLine;
 import geogebra.common.kernel.algos.AlgoDiameterVector;
+import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;

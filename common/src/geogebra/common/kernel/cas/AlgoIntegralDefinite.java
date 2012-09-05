@@ -15,7 +15,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.advanced.AlgoFunctionFreehand;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.arithmetic.NumberValue;

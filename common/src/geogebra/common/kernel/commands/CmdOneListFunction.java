@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoFunctionFreehand;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;

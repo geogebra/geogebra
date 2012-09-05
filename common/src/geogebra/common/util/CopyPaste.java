@@ -16,12 +16,11 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoPolyLine;
-import geogebra.common.kernel.advanced.AlgoPolygonRegular;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.algos.GetPointsAlgo;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -193,14 +192,14 @@ public class CopyPaste {
 					}
 				} else if (geo.getParentAlgorithm().getClassName()
 						.equals(Algos.AlgoPolygonRegular)) {
-					GeoElement[] pgeos = ((AlgoPolygonRegular) (geo
+					GeoElement[] pgeos = ((geo
 							.getParentAlgorithm())).getInput();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j]) && pgeos[j].isGeoPoint()) {
 							geos.add(pgeos[j]);
 						}
 					}
-					GeoElement[] ogeos = ((AlgoPolygonRegular) (geo
+					GeoElement[] ogeos = ((geo
 							.getParentAlgorithm())).getOutput();
 					for (int j = 0; j < ogeos.length; j++) {
 						if (!geos.contains(ogeos[j])
@@ -213,7 +212,7 @@ public class CopyPaste {
 			} else if (geo instanceof GeoPolyLine) {
 				if (geo.getParentAlgorithm().getClassName()
 						.equals(Algos.AlgoPolyLine)) {
-					GeoElement[] pgeos = ((AlgoPolyLine) (geo
+					GeoElement[] pgeos = ((GetPointsAlgo) (geo
 							.getParentAlgorithm())).getPoints();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j])) {

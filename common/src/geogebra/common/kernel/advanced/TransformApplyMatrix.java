@@ -1,6 +1,7 @@
-package geogebra.common.kernel;
+package geogebra.common.kernel.advanced;
 
-import geogebra.common.kernel.advanced.AlgoApplyMatrix;
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
