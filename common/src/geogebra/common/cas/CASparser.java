@@ -14,6 +14,8 @@ package geogebra.common.cas;
 
 import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.CASException;
+import geogebra.common.kernel.CASGenericInterface;
+import geogebra.common.kernel.CASParserInterface;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -26,8 +28,6 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;

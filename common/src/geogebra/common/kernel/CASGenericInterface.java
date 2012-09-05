@@ -1,8 +1,5 @@
-package geogebra.common.kernel.cas;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.AsynchronousCommand;
-import geogebra.common.kernel.CASException;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
