@@ -4,12 +4,12 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSum;
 import geogebra.common.kernel.algos.AlgoSumFunctions;
 import geogebra.common.kernel.algos.AlgoSumPoints;
+import geogebra.common.kernel.algos.AlgoSumText;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.statistics.AlgoSumText;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
