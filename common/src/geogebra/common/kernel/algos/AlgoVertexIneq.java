@@ -1,16 +1,8 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoIntersectConics;
-import geogebra.common.kernel.algos.AlgoIntersectFunctionLineNewton;
-import geogebra.common.kernel.algos.AlgoIntersectFunctionsNewton;
-import geogebra.common.kernel.algos.AlgoIntersectLineConic;
-import geogebra.common.kernel.algos.AlgoIntersectPolynomialConic;
-import geogebra.common.kernel.algos.AlgoIntersectPolynomials;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;

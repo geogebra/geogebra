@@ -1,8 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoTakeString;
 import geogebra.common.kernel.algos.AlgoTake;
+import geogebra.common.kernel.algos.AlgoTakeString;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

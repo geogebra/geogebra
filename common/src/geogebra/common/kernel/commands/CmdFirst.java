@@ -1,9 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoFirstLocus;
-import geogebra.common.kernel.advanced.AlgoFirstString;
 import geogebra.common.kernel.algos.AlgoFirst;
+import geogebra.common.kernel.algos.AlgoFirstLocus;
+import geogebra.common.kernel.algos.AlgoFirstString;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

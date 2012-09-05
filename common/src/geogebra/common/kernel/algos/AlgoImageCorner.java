@@ -10,56 +10,44 @@ the Free Software Foundation.
 
 */
 
-// adapted from AlgoImageCorner by Michael Borcherds 2007-11-26
-
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoText;
 
-public class AlgoTextCorner extends AlgoElement {
-
-	private GeoText txt;  // input
+public class AlgoImageCorner extends AlgoElement {
+    
+    private GeoImage img;  // input
     private GeoPoint corner;     // output    
     private NumberValue number;
     
-    public AlgoTextCorner(Construction cons, String label, GeoText txt, NumberValue number) {        
+    public AlgoImageCorner(Construction cons, String label, GeoImage img, NumberValue number) {        
         super(cons);
-        this.txt = txt;   
+        this.img = img;   
         this.number = number;
         
-        // make sure bounding box of text is kept up to date
-        // so we can use it in compute()
-        txt.setNeedsUpdatedBoundingBox(true);
-    	txt.update(); 
-
         corner = new GeoPoint(cons);                
-        setInputOutput(); // for AlgoElement  
-           	
+        setInputOutput(); // for AlgoElement                
         compute();              
-        corner.setLabel(label);     
-    
-        cons.registerEuclidianViewCE(this);
+        corner.setLabel(label);           
     }   
     
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoTextCorner;
+        return Algos.AlgoImageCorner;
     }
     
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = txt;        
+        input[0] = img;        
         input[1] = number.toGeoElement();
-        
+              
         super.setOutputLength(1);
         super.setOutput(0, corner);
         setDependencies(); // done by AlgoElement
@@ -68,23 +56,8 @@ public class AlgoTextCorner extends AlgoElement {
     public GeoPoint getCorner() { return corner; }        
     
     @Override
-	public final void compute() {  
-    	// determine bounding box size here
-		txt.calculateCornerPoint(corner, (int) number.getDouble());	    	
-    }    	   
-    
-    @Override
-	public boolean euclidianViewUpdate() {
-    	// update text to update it's bounding box
-    	kernel.notifyUpdate(txt);
-    	
-    	// now compute()
-    	compute();
-    	
-    	// update corner
-    	corner.update();  
-    	
-    	return true; //update cascade of dependent objects done in Construction
+	public final void compute() {         	
+		img.calculateCornerPoint(corner, (int) number.getDouble());	    	
     }
     
     @Override

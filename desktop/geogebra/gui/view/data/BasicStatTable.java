@@ -2,10 +2,10 @@ package geogebra.gui.view.data;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoListMax;
-import geogebra.common.kernel.advanced.AlgoListMin;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
+import geogebra.common.kernel.algos.AlgoListMax;
+import geogebra.common.kernel.algos.AlgoListMin;
 import geogebra.common.kernel.algos.AlgoMedian;
 import geogebra.common.kernel.algos.AlgoQ1;
 import geogebra.common.kernel.algos.AlgoQ3;

@@ -10,10 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoInterval;
 
 

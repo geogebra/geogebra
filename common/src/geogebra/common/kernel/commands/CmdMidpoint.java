@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoIntervalMidpoint;
+import geogebra.common.kernel.algos.AlgoIntervalMidpoint;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;

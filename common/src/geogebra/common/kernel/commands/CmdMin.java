@@ -1,9 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoFunctionMin;
-import geogebra.common.kernel.advanced.AlgoIntervalMin;
-import geogebra.common.kernel.advanced.AlgoListMin;
+import geogebra.common.kernel.algos.AlgoFunctionMin;
+import geogebra.common.kernel.algos.AlgoIntervalMin;
+import geogebra.common.kernel.algos.AlgoListMin;
 import geogebra.common.kernel.algos.AlgoMin;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
