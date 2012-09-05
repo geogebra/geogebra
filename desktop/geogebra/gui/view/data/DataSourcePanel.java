@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
@@ -26,6 +27,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -45,8 +47,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -75,7 +80,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	// data source and table
 	private DataSource dataSource;
-	private StatTable sourceTable;
+	protected StatTable sourceTable;
 
 	// GUI elements
 	private JPanel sourcePanel, dataTypePanel, classesPanel,
@@ -400,7 +405,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		sourceTable.getTable().setColumnSelectionAllowed(true);
 		sourceTable.getTable().setRowSelectionAllowed(true);
 		sourceTable.setAllowCellEdit(true);
-		
+
 		// sourceTable.getTable().setShowHorizontalLines(false);
 
 		sourceTable.clear();
@@ -412,13 +417,32 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 					public void tableChanged(TableModelEvent e) {
 						if (e.getType() == TableModelEvent.UPDATE) {
-							// App.debug("insert " + e.getFirstRow());
+							// updateTableEdit(e.getColumn());
 						}
 
 					}
 				});
 
 		setColumnHeaders(sourceTable.getTable());
+
+	}
+
+	protected void addEditedColumnToDataSource(int colIndex) {
+System.out.println("ADD EDITED COLUMN!!!!");
+		DefaultTableModel m = (DefaultTableModel) sourceTable.getTable()
+				.getModel();
+
+		String[] s = new String[m.getRowCount()];
+
+		for (int i = 0; i < m.getRowCount(); i++) {
+			s[i] = (String) m.getValueAt(i, colIndex);
+		}
+		System.out.println(Arrays.toString(s));
+		dataSource.addItem(colIndex, s);
+		//sourceTable.getTable().revalidate();
+		//sourceTable.getTable().repaint();
+		
+		loadSourceTableFromDataSource();
 
 	}
 
@@ -500,6 +524,12 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 				.addMouseListener(new ColumnHeaderMouseListener());
 		sourceTable.getTable().getTableHeader()
 				.addMouseMotionListener(new ColumnHeaderMouseMotionListener());
+
+		for (int i = 0; i < columnCount; i++) {
+			sourceTable.getTable().getColumnModel().getColumn(i)
+					.setCellEditor(new MyCellEditor(app));
+		}
+
 		this.revalidate();
 		this.repaint();
 
@@ -534,9 +564,11 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		DefaultTableModel model = sourceTable.getModel();
 
 		try {
-			if (dataSource.get(colIndex) instanceof GeoList) {
+			if (dataSource.get(colIndex).getType() == dataSource.ITEM_LIST) {
 
-				GeoList geoList = (GeoList) dataSource.get(colIndex);
+				GeoList geoList = (GeoList) dataSource.get(colIndex).getItem();
+
+				// ensure the table has enough rows
 				if (model.getRowCount() < geoList.size()) {
 					model.setRowCount(geoList.size());
 				}
@@ -545,7 +577,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 					if (i < geoList.size() && geoList.get(i) != null
 							&& geoList.get(i).isDefined()
-							&& geoList.get(i).isGeoNumeric()) {
+							&& isValidDataType(geoList.get(i))) {
 						model.setValueAt(geoList.get(i).getValueForInputBar(),
 								i, colIndex);
 					} else {
@@ -554,10 +586,10 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 				}
 			}
 
-			else {
+			else if (dataSource.get(colIndex).getType() == dataSource.ITEM_SPREADSHEET) {
 
 				ArrayList<CellRange> rangeList = (ArrayList<CellRange>) dataSource
-						.get(colIndex);
+						.get(colIndex).getItem();
 				int maxRow = 0;
 				int row = 0;
 				boolean skipFirstCell = dataSource.enableHeader();
@@ -579,7 +611,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 							continue;
 						}
 						if (list.get(i) != null && list.get(i).isDefined()
-								&& list.get(i).isGeoNumeric()) {
+								&& isValidDataType(list.get(i))) {
 							model.setValueAt(list.get(i).getValueForInputBar(),
 									row, colIndex);
 						} else {
@@ -589,7 +621,26 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 					}
 				}
 
+			} else if (dataSource.get(colIndex).getType() == dataSource.ITEM_INTERNAL) {
+
+				String[] str = (String[]) dataSource.get(colIndex).getItem();
+
+				// ensure the table has enough rows
+				if (model.getRowCount() < str.length) {
+					model.setRowCount(str.length);
+				}
+
+				// load the array into the column
+				for (int i = 0; i < model.getRowCount(); i++) {
+					if (i < str.length && str[i] != null) {
+						model.setValueAt(str[i], i, colIndex);
+					} else {
+						model.setValueAt(" ", i, colIndex);
+					}
+				}
+
 			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -601,6 +652,15 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	}
 
+	private boolean isValidDataType(GeoElement geo) {
+		System.out.println("isnumeric: " + dataSource.isNumericData() + "  " + geo.getValueForInputBar());
+		if(dataSource.isNumericData()){
+			return geo.isGeoNumeric();
+		}else{
+			return geo.isGeoText();
+		}
+	}
+
 	/**
 	 * Sets the dataSource field at the given index to refer to the currently
 	 * selected geos and fills the corresponding column in the data table with
@@ -608,7 +668,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	 * 
 	 */
 	void addDataToColumn(int colIndex) {
-		App.error("add data at position: " + colIndex);
+		// App.error("add data at position: " + colIndex);
 		dataSource.addCurrentGeoSelection(colIndex);
 		loadSourceTableFromDataSource();
 		updateGUI();
@@ -941,21 +1001,33 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	}
 
+	/**
+	 * @author gsturr
+	 * 
+	 */
 	public class MyCellEditor extends DefaultCellEditor {
 
-		public MyCellEditor(MyTextField tf) {
+		public MyCellEditor(MathTextField tf) {
 			super(tf);
-
 		}
 
 		public MyCellEditor(AppD app) {
-			this(new MyTextField(app));
+			this(new MathTextField(app));
 		}
 
 		@Override
 		public boolean stopCellEditing() {
-			// App.debug("stop cell edit");
-			return super.stopCellEditing();
+			
+			// get the edit column while it is still available 
+			int editColumn = sourceTable.getTable()
+					.getEditingColumn();
+			
+			// call super.stopCellEditing to update the table model
+			boolean result = super.stopCellEditing();
+			
+			// now add the edit into the data source and exit
+			addEditedColumnToDataSource(editColumn);
+			return result;
 		}
 
 	}
@@ -980,7 +1052,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			itemTypeNum.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					dataSource.setNumericData(itemTypeNum.isSelected());
-					// TODO: update action
+					updatePanel(mode, false);
 				}
 			});
 
@@ -989,8 +1061,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			itemTypeText.setSelected(!dataSource.isNumericData());
 			itemTypeText.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					dataSource.setNumericData(itemTypeText.isSelected());
-					// TODO: update action
+					dataSource.setNumericData(itemTypeNum.isSelected());
+					updatePanel(mode, false);
 				}
 			});
 
@@ -1071,7 +1143,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			itemTypeNum.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					dataSource.setNumericData(itemTypeNum.isSelected());
-					// TODO: update action
+					//updatePanel(mode, false);
 				}
 			});
 

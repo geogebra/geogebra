@@ -4,11 +4,13 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.gui.GuiManagerD;
@@ -29,7 +31,7 @@ public class DataSource {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private ArrayList<Object> list;
+	private ArrayList<DataItem> list;
 
 	private boolean enableHeader = false;
 
@@ -48,42 +50,12 @@ public class DataSource {
 	 */
 	public DataSource(AppD app) {
 		this.app = app;
-		list = new ArrayList<Object>();
+		list = new ArrayList<DataItem>();
 	}
 
 	// ====================================
-	// List wrapper methods
+	// Add/Remove
 	// ====================================
-
-	/**
-	 * Returns an object that can be used to reference data from the the
-	 * currently selected geos.
-	 * 
-	 * @return Either a spreadsheet cell range, a GeoList or null if the
-	 *         selected geos cannot be used for data analysis
-	 */
-	private Object getCurrentGeoSelection() {
-
-		if (app.getSelectedGeos() == null || app.getSelectedGeos().size() == 0) {
-			return null;
-		}
-
-		GeoElement geo = app.getSelectedGeos().get(0);
-
-		if (geo.isGeoList()) {
-			if (((GeoList) geo).getGeoElementForPropertiesDialog()
-					.isGeoNumeric()) {
-				return geo;
-			}
-			return null;
-		}
-
-		else if (geo.getSpreadsheetCoords() != null) {
-			return spreadsheetTable().getSelectedCellRanges().clone();
-		}
-
-		return null;
-	}
 
 	/**
 	 * Adds the currently selected geos to this data source
@@ -101,6 +73,37 @@ public class DataSource {
 		debug();
 	}
 
+	/**
+	 * Returns an object that can be used to reference data from the the
+	 * currently selected geos.
+	 * 
+	 * @return Either a spreadsheet cell range, a GeoList or null if the
+	 *         selected geos cannot be used for data analysis
+	 */
+	private DataItem getCurrentGeoSelection() {
+
+		if (app.getSelectedGeos() == null || app.getSelectedGeos().size() == 0) {
+			return null;
+		}
+
+		GeoElement geo = app.getSelectedGeos().get(0);
+
+		if (geo.isGeoList()) {
+			if (((GeoList) geo).getGeoElementForPropertiesDialog()
+					.isGeoNumeric()) {
+				return new DataItem(geo, ITEM_LIST);
+			}
+			return null;
+		}
+
+		else if (geo.getSpreadsheetCoords() != null) {
+			return new DataItem(spreadsheetTable().getSelectedCellRanges()
+					.clone(), ITEM_SPREADSHEET);
+		}
+
+		return null;
+	}
+
 	public void ensureSize(int size) {
 		while (size > list.size()) {
 			list.add(null);
@@ -109,14 +112,18 @@ public class DataSource {
 
 	/**
 	 * Adds a data source object to the end of the list if it passes the
-	 * validDataSourceObject test.
+	 * validDataItem test.
 	 * 
 	 * @param obj
 	 * @return true if valid data object
 	 */
-	public boolean add(Object obj) {
-		// app.printStacktrace("");
-		return list.add(validDataSourceObject(obj));
+	public void addItem(int index, Object obj) {
+
+		// ensure list is large enough
+		ensureSize(index + 1);
+
+		// add the new data source object
+		list.set(index, validDataItem(obj));
 	}
 
 	/**
@@ -129,7 +136,7 @@ public class DataSource {
 	private boolean addCellRange(CellRange cellRange) {
 		ArrayList<CellRange> rangeList = new ArrayList<CellRange>();
 		rangeList.add(cellRange);
-		return list.add(rangeList);
+		return list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 	}
 
 	/**
@@ -139,7 +146,7 @@ public class DataSource {
 		list.add(null);
 	}
 
-	public Object get(int index) {
+	public DataItem get(int index) {
 		return list.get(index);
 	}
 
@@ -225,7 +232,7 @@ public class DataSource {
 	 * @return the given obj if it is a 1D GeoList or spreadsheet cell range
 	 *         list; return null otherwise
 	 */
-	public Object validDataSourceObject(Object obj) {
+	public DataItem validDataItem(Object obj) {
 
 		if (obj == null) {
 			return null;
@@ -233,24 +240,29 @@ public class DataSource {
 
 		// 1D GeoList?
 		if (obj instanceof GeoList && !((GeoList) obj).isMatrix()) {
-			return obj;
-		}
+			return new DataItem(obj, ITEM_LIST);
 
-		// spreadsheet range list?
-		try {
-			ArrayList<CellRange> rangeList = (ArrayList<CellRange>) obj;
-			return obj;
+		} // internal String[] from source dialog?
+		else if (obj instanceof String[]) {
+			return new DataItem(obj, ITEM_INTERNAL);
+			
+		} else {
+			// spreadsheet range list?
+			try {
+				ArrayList<CellRange> rangeList = (ArrayList<CellRange>) obj;
+				return new DataItem(obj, ITEM_SPREADSHEET);
 
-		} catch (Exception e) {
-			App.error(e.getMessage());
-			return null;
+			} catch (Exception e) {
+				App.error(e.getMessage());
+				return null;
+			}
 		}
 
 	}
 
 	// TODO why this?
 	public boolean isGeoList(int index) {
-		return list.get(index) instanceof GeoList;
+		return list.get(index).getType() == ITEM_LIST;
 	}
 
 	// ====================================
@@ -305,7 +317,7 @@ public class DataSource {
 
 		for (GeoElement geo : app.getSelectedGeos()) {
 			if (geo.isGeoList() && !((GeoList) geo).isMatrix()) {
-				list.add(geo);
+				list.add(new DataItem(geo, ITEM_LIST));
 			} else {
 				return false;
 			}
@@ -332,7 +344,7 @@ public class DataSource {
 		case DataAnalysisViewD.MODE_ONEVAR:
 
 			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
-				list.add(rangeList);
+				list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 
 			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
 
@@ -340,7 +352,7 @@ public class DataSource {
 
 				// TODO handle class/frequency source
 			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
-				list.add(rangeList);
+				list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 			}
 			break;
 
@@ -733,15 +745,18 @@ public class DataSource {
 			return sourceString;
 		}
 
-		Object obj = get(index);
+		DataItem item = get(index);
 
-		if (obj instanceof GeoList) {
-			sourceString = ((GeoList) obj)
+		if (item.getType() == ITEM_LIST) {
+			sourceString = ((GeoList) item.getItem())
 					.getLabel(StringTemplate.defaultTemplate);
 
-		} else {
+		} else if (item.getType() == ITEM_SPREADSHEET) {
 			sourceString = spreadsheetTable().getCellRangeProcessor()
-					.getCellRangeString((ArrayList<CellRange>) obj);
+					.getCellRangeString((ArrayList<CellRange>) item.getItem());
+
+		} else if (item.getType() == ITEM_INTERNAL) {
+			sourceString = "Untitled";
 		}
 
 		return sourceString;
@@ -778,22 +793,24 @@ public class DataSource {
 			// case 1: list of points
 			// ============================================
 
-			if (get(0) instanceof GeoList) {
-				sourceList.add((GeoList) get(0));
+			if (get(0).getType() == ITEM_LIST) {
+				sourceList.add((GeoList) get(0).getItem());
 				return sourceList;
 			}
 
-			try {
-				GeoList geoList = (GeoList) crProcessor().createList(
-						(ArrayList<CellRange>) get(0), scanByColumn,
-						copyByValue, isSorted, doStoreUndo, GeoClass.NUMERIC,
-						setLabel);
-				sourceList.add(geoList);
-				return sourceList;
+			else if (get(0).getType() == ITEM_SPREADSHEET) {
+				try {
+					GeoList geoList = (GeoList) crProcessor().createList(
+							(ArrayList<CellRange>) get(0).getItem(),
+							scanByColumn, copyByValue, isSorted, doStoreUndo,
+							GeoClass.NUMERIC, setLabel);
+					sourceList.add(geoList);
+					return sourceList;
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
 			}
 
 		} else if (mode == DataAnalysisViewD.MODE_REGRESSION && size() == 2) {
@@ -806,32 +823,34 @@ public class DataSource {
 				return null;
 			}
 
-			if (get(0) instanceof GeoList) {
+			if (get(0).getType() == ITEM_LIST) {
 				// TODO handle this case
 				return null;
 			}
 
-			try {
+			else if (get(0).getType() == ITEM_SPREADSHEET) {
+				try {
 
-				CellRange xRange = ((ArrayList<CellRange>) list.get(0)).get(0)
-						.clone();
-				CellRange yRange = ((ArrayList<CellRange>) list.get(1)).get(0)
-						.clone();
+					CellRange xRange = ((ArrayList<CellRange>) list.get(0)
+							.getItem()).get(0).clone();
+					CellRange yRange = ((ArrayList<CellRange>) list.get(1)
+							.getItem()).get(0).clone();
 
-				ArrayList<CellRange> xyList = new ArrayList<CellRange>();
-				xyList.add(xRange);
-				xyList.add(yRange);
+					ArrayList<CellRange> xyList = new ArrayList<CellRange>();
+					xyList.add(xRange);
+					xyList.add(yRange);
 
-				GeoList geoList = crProcessor().createPointGeoList(xyList,
-						copyByValue, leftToRight, isSorted, doStoreUndo,
-						doCreateFreePoints);
+					GeoList geoList = crProcessor().createPointGeoList(xyList,
+							copyByValue, leftToRight, isSorted, doStoreUndo,
+							doCreateFreePoints);
 
-				sourceList.add(geoList);
-				return sourceList;
+					sourceList.add(geoList);
+					return sourceList;
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
 			}
 
 		} else {
@@ -840,105 +859,84 @@ public class DataSource {
 			// case 3: lists for other modes
 			// ============================================
 
-			for (Object obj : list) {
-				if (obj instanceof GeoList) {
-					sourceList.add((GeoList) obj);
-				} else {
+			for (DataItem item : list) {
+				if (item.getType() == ITEM_LIST) {
+					sourceList.add((GeoList) item.getItem());
+
+				} else if (item.getType() == ITEM_SPREADSHEET) {
 					try {
+						GeoClass geoClass;
+						if(isNumericData()){
+							 geoClass = GeoClass.NUMERIC;
+						}else{
+							 geoClass = GeoClass.TEXT;
+						}
 						GeoList geoList = (GeoList) crProcessor().createList(
-								(ArrayList<CellRange>) obj, scanByColumn,
-								copyByValue, isSorted, doStoreUndo,
-								GeoClass.NUMERIC, setLabel);
+								(ArrayList<CellRange>) item.getItem(),
+								scanByColumn, copyByValue, isSorted,
+								doStoreUndo, geoClass, setLabel);
 						sourceList.add(geoList);
-						//App.error(geoList
-							//	.toOutputValueString(StringTemplate.defaultTemplate));
+						// App.error(geoList
+						// .toOutputValueString(StringTemplate.defaultTemplate));
 					} catch (Exception e) {
 						e.printStackTrace();
 						return null;
 					}
+				} else if (item.getType() == ITEM_INTERNAL) {
+
+					Construction cons = app.getKernel().getConstruction();
+					String[] s = (String[]) item.getItem();
+
+					boolean oldSuppress = cons.isSuppressLabelsActive();
+					cons.setSuppressLabelCreation(true);
+
+					GeoList geoList = new GeoList(cons);
+					for (int i = 0; i < s.length; i++) {
+
+						try {
+							double num = Double.parseDouble(s[i]);
+							System.out.println(num);
+							GeoElement geo = new GeoNumeric(cons);
+							((GeoNumeric) geo).setValue(num);
+							geoList.add(geo);
+						} catch (Exception e) {
+							// e.printStackTrace();
+							app.error(e.getMessage());
+						}
+					}
+					cons.setSuppressLabelCreation(oldSuppress);
+					sourceList.add(geoList);
 				}
 			}
 			return sourceList;
 
 		}
 
+		return null;
 	}
 
-	/**
-	 * Loads references to GeoElements contained in (Object) dataSource into
-	 * (GeoList) dataListSelected and (ArrayList) dataArray .
-	 */
-	protected GeoList loadDataLists2(int mode, int sourceType) {
+	public final static int ITEM_SPREADSHEET = 0;
+	public final static int ITEM_LIST = 1;
+	public final static int ITEM_INTERNAL = 2;
 
-		boolean leftToRight = false;
+	public class DataItem {
 
-		GeoList dataSelected = null;
+		private int type;
+		private Object item;
 
-		CellRangeProcessor crProcessor = spreadsheetTable()
-				.getCellRangeProcessor();
-
-		boolean scanByColumn = true;
-		boolean copyByValue = false;
-		boolean doStoreUndo = false;
-		boolean isSorted = false;
-		boolean doCreateFreePoints = false;
-		boolean setLabel = false;
-
-		// =======================================
-		// create/update dataListAll
-
-		{
-
-			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) this
-					.get(0);
-
-			switch (mode) {
-
-			case DataAnalysisViewD.MODE_ONEVAR:
-				if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
-					dataSelected = (GeoList) crProcessor.createList(
-							cellRangeList, scanByColumn, copyByValue, isSorted,
-							doStoreUndo, GeoClass.NUMERIC, setLabel);
-				}
-
-				else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
-					dataSelected = crProcessor.createCollectionList(
-							cellRangeList, copyByValue, setLabel, scanByColumn);
-				} else {
-					dataSelected = (GeoList) crProcessor.createList(
-							cellRangeList, scanByColumn, copyByValue, isSorted,
-							doStoreUndo, GeoClass.NUMERIC, setLabel);
-				}
-				break;
-
-			case DataAnalysisViewD.MODE_REGRESSION:
-
-				// data is a cell range of points
-				if (cellRangeList.size() == 1
-						&& cellRangeList.get(0).isPointList()) {
-					dataSelected = (GeoList) crProcessor.createList(
-							cellRangeList, scanByColumn, copyByValue, isSorted,
-							doStoreUndo, GeoClass.POINT, setLabel);
-				}
-
-				// data is from two cell ranges of numbers that must be
-				// converted to points
-				else {
-					dataSelected = crProcessor.createPointGeoList(
-							cellRangeList, copyByValue, leftToRight, isSorted,
-							doStoreUndo, doCreateFreePoints);
-				}
-				break;
-
-			case DataAnalysisViewD.MODE_MULTIVAR:
-				dataSelected = crProcessor.createCollectionList(cellRangeList,
-						copyByValue, setLabel, scanByColumn);
-				break;
-
-			}
+		public DataItem(Object obj, int type) {
+			this.type = type;
+			this.item = obj;
 		}
 
-		return dataSelected;
+		public int getType() {
+			return type;
+		}
+
+		public Object getItem() {
+			return item;
+		}
+
 	}
 
 }
