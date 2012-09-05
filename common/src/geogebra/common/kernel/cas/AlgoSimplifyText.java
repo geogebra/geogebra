@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;

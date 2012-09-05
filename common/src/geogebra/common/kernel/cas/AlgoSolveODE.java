@@ -1,4 +1,4 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;

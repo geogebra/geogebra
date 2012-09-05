@@ -2,7 +2,6 @@ package geogebra.common.kernel;
 
 import geogebra.common.kernel.advanced.AlgoDistanceLineLine;
 import geogebra.common.kernel.advanced.AlgoDistancePointObject;
-import geogebra.common.kernel.advanced.AlgoLocus;
 import geogebra.common.kernel.advanced.AlgoLocusList;
 import geogebra.common.kernel.advanced.AlgoLocusSlider;
 import geogebra.common.kernel.advanced.AlgoPointInRegion;
@@ -56,6 +55,7 @@ import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
 import geogebra.common.kernel.algos.AlgoLinePointLine;
 import geogebra.common.kernel.algos.AlgoLinePointVector;
 import geogebra.common.kernel.algos.AlgoListLength;
+import geogebra.common.kernel.algos.AlgoLocus;
 import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoMidpointSegment;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;

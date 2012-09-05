@@ -2,7 +2,6 @@ package geogebra.common.kernel.cas;
 
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoTextLength;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoLengthSegment;
 import geogebra.common.kernel.algos.AlgoLengthVector;

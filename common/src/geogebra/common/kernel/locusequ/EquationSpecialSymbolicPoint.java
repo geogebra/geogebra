@@ -3,7 +3,7 @@
  */
 package geogebra.common.kernel.locusequ;
 
-import geogebra.common.kernel.advanced.AlgoLocus;
+import geogebra.common.kernel.algos.AlgoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationSpecialSymbolicValue;
 

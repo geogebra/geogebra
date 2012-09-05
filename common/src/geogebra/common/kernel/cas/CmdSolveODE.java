@@ -1,8 +1,6 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoSolveODE;
-import geogebra.common.kernel.advanced.AlgoSolveODE2;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.commands.CommandProcessor;
