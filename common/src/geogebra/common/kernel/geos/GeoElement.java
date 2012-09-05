@@ -35,6 +35,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -1731,7 +1732,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 
-		if (getParentAlgorithm().getClassName().equals(Algos.AlgoAttachCopyToView)) {
+		if (getParentAlgorithm() instanceof AlgoAttachCopyToView) {
 			return "";
 		}
 		
