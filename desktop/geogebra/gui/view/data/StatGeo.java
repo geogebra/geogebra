@@ -1,5 +1,6 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.kernel.AlgoBoxPlot;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.advanced.AlgoListMax;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.statistics.AlgoBarChart;
-import geogebra.common.kernel.statistics.AlgoBoxPlot;
 import geogebra.common.kernel.statistics.AlgoClasses;
 import geogebra.common.kernel.statistics.AlgoDotPlot;
 import geogebra.common.kernel.statistics.AlgoFitExp;

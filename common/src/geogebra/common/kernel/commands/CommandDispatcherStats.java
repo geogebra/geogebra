@@ -260,6 +260,8 @@ public class CommandDispatcherStats {
 			return new CmdZMeanTest(kernel);
 		case ZMean2Test:
 			return new CmdZMean2Test(kernel);
+		case nPr:
+			return new CmdNpR(kernel);
 		}
 		return null;
 	}

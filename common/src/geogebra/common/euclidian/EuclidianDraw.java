@@ -26,6 +26,7 @@ import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawTurtle;
 import geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import geogebra.common.euclidian.draw.DrawVector;
+import geogebra.common.kernel.AlgoBoxPlot;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
@@ -58,7 +59,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.kernel.statistics.AlgoBoxPlot;
 
 public class EuclidianDraw {
 

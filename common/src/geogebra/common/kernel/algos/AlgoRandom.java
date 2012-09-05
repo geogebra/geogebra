@@ -14,8 +14,8 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.SetRandomValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.statistics.SetRandomValue;
 
 /**
  * Computes RandomNormal[a, b]

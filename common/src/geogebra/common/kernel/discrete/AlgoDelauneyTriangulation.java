@@ -8,12 +8,10 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
 import geogebra.common.kernel.discrete.delaunay.Point_dt;
 import geogebra.common.kernel.discrete.delaunay.Triangle_dt;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.simpletriangulation.VTriangle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;

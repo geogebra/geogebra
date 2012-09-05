@@ -93,7 +93,6 @@ import geogebra.common.kernel.advanced.CmdUnitOrthogonalVector;
 import geogebra.common.kernel.advanced.CmdUnitVector;
 import geogebra.common.kernel.advanced.CmdVerticalText;
 import geogebra.common.kernel.advanced.CmdZip;
-import geogebra.common.kernel.statistics.CmdNpR;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
@@ -303,8 +302,6 @@ public class CommandDispatcherAdvanced {
 			return new CmdLeftRightSide(kernel,true);
 		case RightSide:
 			return new CmdLeftRightSide(kernel,false);
-		case nPr:
-			return new CmdNpR(kernel);
 		case Division:
 			return new CmdDivision(kernel);
 		case MatrixRank:

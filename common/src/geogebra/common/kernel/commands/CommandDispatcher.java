@@ -20,7 +20,6 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
-import geogebra.common.plugin.Operation;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -473,7 +472,6 @@ public class CommandDispatcher {
 			case IsPrime:
 			case LeftSide:
 			case RightSide:
-			case nPr:
 			case Division:
 			case MatrixRank:
 			case CommonDenominator:
@@ -678,6 +676,7 @@ public class CommandDispatcher {
 			case Mode:
 			case Normal:
 			case NormalQuantilePlot:
+			case nPr:
 			case OrdinalRank:
 			case PMCC:
 			case Pascal:

@@ -2,6 +2,7 @@ package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.CmdScripting;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.SetRandomValue;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -11,7 +12,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.statistics.SetRandomValue;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;

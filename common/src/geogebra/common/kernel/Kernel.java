@@ -62,7 +62,6 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
