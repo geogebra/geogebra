@@ -289,7 +289,11 @@ for i in $THIRDPARTYJARS; do
  unzip -o $WEBDIR/lib/$i
  done
 
-# 6/3. Running javac
+# 6/3. Applying patches
+# Arpad's hack for #2452 (only for GWT >=2.5.0)
+sed -i s/getModuleBaseURL/getModuleBaseForStaticFiles/ $WEBDIR/src/geogebra/web/Web.java
+
+# 6/4. Running javac
 cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
 
