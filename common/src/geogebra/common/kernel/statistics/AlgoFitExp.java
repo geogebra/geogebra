@@ -46,7 +46,7 @@ public class AlgoFitExp extends AlgoElement {
 	public AlgoFitExp(Construction cons, GeoList geolist) {
 		super(cons);
 
-		regMath = kernel.getRegressionMath();
+		regMath = new RegressionMath();
 
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);

@@ -76,7 +76,7 @@ public class AlgoFitLog extends AlgoElement {
 			geofunction.setUndefined();
 			return;
 		}
-		RegressionMath regMath = kernel.getRegressionMath();
+		RegressionMath regMath = new RegressionMath();
 		regok = regMath.doLog(geolist);
 		if (regok) {
 			a = regMath.getP1();

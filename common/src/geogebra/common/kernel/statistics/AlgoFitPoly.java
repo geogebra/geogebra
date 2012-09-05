@@ -85,7 +85,7 @@ public class AlgoFitPoly extends AlgoElement {
 			return;
 		}
 		// if error in parameters :
-		RegressionMath regMath = kernel.getRegressionMath();
+		RegressionMath regMath = new RegressionMath();
 		switch (par) {
 		case RegressionMath.LINEAR: // 24.04.08: moved up linear case from
 									// default

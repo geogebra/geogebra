@@ -106,7 +106,6 @@ public class Kernel {
 	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
 	// end G.Sturr
 	private MacroManager macroManager;
-	private RegressionMath regMath;
 	/**
 	 * Specifies whether possible line breaks are to be marked in the String
 	 * representation of {@link ExpressionNode ExpressionNodes}.
@@ -3961,15 +3960,6 @@ public class Kernel {
 		}
 		return new ExpressionNode(this, geo);
 	}
-
-	final public RegressionMath getRegressionMath() {
-		if (regMath == null)
-			regMath = new RegressionMath();
-		return regMath;
-	}
-
-
-
 
 	final public GeoElement[] VectorPolygon(String[] labels, GeoPoint[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();

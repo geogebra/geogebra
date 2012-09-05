@@ -48,7 +48,7 @@ public class AlgoFitGrowth extends AlgoElement {
 	public AlgoFitGrowth(Construction cons, GeoList geolist) {
 		super(cons);
 
-		regMath = kernel.getRegressionMath();
+		regMath = new RegressionMath();
 
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);

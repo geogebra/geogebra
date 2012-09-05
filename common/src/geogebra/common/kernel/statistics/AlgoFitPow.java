@@ -77,7 +77,7 @@ public class AlgoFitPow extends AlgoElement {
 			return;
 		}
 		// if error in parameters :
-		RegressionMath regMath = kernel.getRegressionMath();
+		RegressionMath regMath = new RegressionMath();
 		regok = regMath.doPow(geolist);
 		if (regok) {
 			a = regMath.getP1();
