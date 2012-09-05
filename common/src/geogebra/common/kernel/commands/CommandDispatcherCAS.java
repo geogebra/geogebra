@@ -1,7 +1,6 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.CmdFactors;
 import geogebra.common.kernel.cas.CmdCoefficients;
 import geogebra.common.kernel.cas.CmdDegree;
 import geogebra.common.kernel.cas.CmdExpand;
