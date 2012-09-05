@@ -3,8 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
-import geogebra.common.kernel.advanced.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationList;
 import geogebra.common.kernel.locusequ.EquationPoint;

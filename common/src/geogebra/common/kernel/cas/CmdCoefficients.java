@@ -1,7 +1,6 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoConicCoefficients;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;
