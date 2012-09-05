@@ -29,11 +29,10 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
-import geogebra.common.kernel.advanced.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFitLineY;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
@@ -43,6 +42,7 @@ import geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
+import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoTranslate;
@@ -6313,8 +6313,8 @@ public abstract class EuclidianController {
 		movedGeoPoint = (GeoPointND) geo;
 	
 		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
-		if ((algo != null) && (algo instanceof AlgoDynamicCoordinates)) {
-			movedGeoPoint = ((AlgoDynamicCoordinates) algo).getParentPoint();
+		if ((algo != null) && (algo instanceof AlgoDynamicCoordinatesInterface)) {
+			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo).getParentPoint();
 		}
 	
 		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());

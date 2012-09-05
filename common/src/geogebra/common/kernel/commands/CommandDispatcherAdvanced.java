@@ -37,6 +37,7 @@ import geogebra.common.kernel.advanced.CmdDynamicCoordinates;
 import geogebra.common.kernel.advanced.CmdEccentricity;
 import geogebra.common.kernel.advanced.CmdExcentricity;
 import geogebra.common.kernel.advanced.CmdExtremum;
+import geogebra.common.kernel.advanced.CmdFactors;
 import geogebra.common.kernel.advanced.CmdFirstAxis;
 import geogebra.common.kernel.advanced.CmdFirstAxisLength;
 import geogebra.common.kernel.advanced.CmdFlatten;
@@ -106,6 +107,8 @@ public class CommandDispatcherAdvanced {
 			
 			
 			
+		case Factors:
+			return new CmdFactors(kernel);
 		case LCM:
 			return new CmdLCM(kernel);
 		case GCD:

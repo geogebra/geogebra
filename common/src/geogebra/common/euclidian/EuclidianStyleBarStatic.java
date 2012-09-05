@@ -4,7 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.advanced.AlgoAttachCopyToView;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;

@@ -1,11 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.advanced.CmdFactors;
 import geogebra.common.kernel.cas.CmdCoefficients;
 import geogebra.common.kernel.cas.CmdDegree;
 import geogebra.common.kernel.cas.CmdExpand;
 import geogebra.common.kernel.cas.CmdFactor;
-import geogebra.common.kernel.cas.CmdFactors;
 import geogebra.common.kernel.cas.CmdImplicitDerivative;
 import geogebra.common.kernel.cas.CmdIntegral;
 import geogebra.common.kernel.cas.CmdLength;
@@ -68,8 +68,6 @@ public class CommandDispatcherCAS {
 			return new CmdLimitBelow(kernel);
 		case LimitAbove:
 			return new CmdLimitAbove(kernel);
-		case Factors:
-			return new CmdFactors(kernel);
 		case Degree:
 			return new CmdDegree(kernel);
 		case Coefficients:

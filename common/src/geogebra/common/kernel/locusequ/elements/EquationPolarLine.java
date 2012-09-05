@@ -3,7 +3,7 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
-import geogebra.common.kernel.advanced.AlgoPolarLine;
+import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;

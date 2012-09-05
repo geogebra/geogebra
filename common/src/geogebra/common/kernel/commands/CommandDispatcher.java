@@ -478,6 +478,7 @@ public class CommandDispatcher {
 			case ToPoint:
 			case ToComplex:
 			case ToPolar:
+			case Factors:
 				return getAdvancedDispatcher().dispatch(command,kernel);
 				
 				
@@ -769,7 +770,6 @@ public class CommandDispatcher {
 			case Limit:
 			case LimitBelow:
 			case LimitAbove:
-			case Factors:
 			case Degree:
 			case Coefficients:
 			case PartialFractions:

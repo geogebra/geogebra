@@ -16,13 +16,11 @@ the Free Software Foundation.
  * Created on 24. September 2001, 21:37
  */
 
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
-import geogebra.common.kernel.algos.AlgoTransformation;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;

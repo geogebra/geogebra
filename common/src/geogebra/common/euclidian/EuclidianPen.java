@@ -7,7 +7,7 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.advanced.AlgoAttachCopyToView;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
