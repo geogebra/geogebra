@@ -355,30 +355,27 @@ public class AppD extends App implements
 	// private int axesFontSize;
 	// private int euclidianFontSize;
 
-	/**
-	 * Panels to form the main content panel
-	 */
-	protected JPanel centerPanel, northPanel, southPanel, eastPanel, westPanel;
 	
 	
-	/**
-	 * Panels to hold different types of content:
-	 * (1) mainCardPanel holds application panels
-	 * (2) backPanel holds utility panels and the perspective startuo screen
-	 */
-	protected JPanel mainCardPanel, backPanel;
 
-	
 
 	private GgbAPID ggbapi = null;
 	private PluginManager pluginmanager = null;
 	private PythonBridge pythonBridge = null;
 
+	
+	/**
+	 * Panels to form the main content panel
+	 */
+	protected JPanel centerPanel, northPanel, southPanel, eastPanel, westPanel;
+	
+	private int toolbarPosition = SwingConstants.NORTH;
+
+	
 	// GUI elements to support a sidebar help panel for the input bar.
 	// The help panel slides open on a button press from the input bar.
 	private JSplitPane applicationSplitPane;
 
-	
 	
 	private DockBarInterface dockBar;
 
@@ -954,9 +951,7 @@ public class AppD extends App implements
 		if (isUsingFullGui()) {
 		
 			// create panels if empty
-			if (backPanel == null) {
-				backPanel = new JPanel(new BorderLayout());
-			}			
+						
 			if( northPanel == null){
 			northPanel = new JPanel(new BorderLayout(0,0));
 			}
@@ -1007,11 +1002,7 @@ public class AppD extends App implements
 			mainPanel.add(eastPanel, BorderLayout.EAST);
 			mainPanel.add(westPanel, BorderLayout.WEST);
 			
-			mainCardPanel = new JPanel(new CardLayout());
-			mainCardPanel.add(mainPanel, "mainPanel");
-			mainCardPanel.add(backPanel, "backPanel");
-			
-			applicationPanel.add(mainCardPanel, BorderLayout.CENTER);
+			applicationPanel.add(mainPanel, BorderLayout.CENTER);
 
 			if (showDockBar && !isApplet()) {
 				if (dockBar.isEastOrientation())
@@ -1046,45 +1037,6 @@ public class AppD extends App implements
 		
 	}
 
-	//==================================================
-	// Handle back panel
-	//==================================================
-
-	private boolean isMainPanelShowing = true;
-
-	private int toolbarPosition = SwingConstants.NORTH;
-
-	public boolean isMainPanelShowing(){
-		return isMainPanelShowing;
-	}
-	
-	public void toggleBackPanel(){
-		
-		CardLayout cl = (CardLayout) mainCardPanel.getLayout();
-		if(isMainPanelShowing)
-			showBackPanel();
-		else
-			showMainPanel();
-	}
-	
-	public void showMainPanel(){
-		CardLayout cl = (CardLayout) mainCardPanel.getLayout();
-		cl.show(mainCardPanel, "mainPanel");
-		dockBar.setVisible(true);
-		isMainPanelShowing = true;
-	}
-	
-	public void showBackPanel(){
-		CardLayout cl = (CardLayout) mainCardPanel.getLayout();
-		cl.show(mainCardPanel, "backPanel");
-		dockBar.setVisible(false);
-		isMainPanelShowing = false;
-	}
-	
-	public void setBackPanel(JComponent comp){
-		backPanel.removeAll();
-		backPanel.add(comp);
-	}
 	
 	
 	// ==================================================
