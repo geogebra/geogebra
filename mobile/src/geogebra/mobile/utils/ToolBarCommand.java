@@ -108,6 +108,7 @@ public enum ToolBarCommand
 	ZoomOut(EuclidianConstants.MODE_ZOOM_OUT, CommonResources.INSTANCE.zoom_out()),
 
 	// others
+	Move_Mobile(EuclidianConstants.MODE_MOVE, CommonResources.INSTANCE.arrow_cursor_finger()), 
 	Select(-1, CommonResources.INSTANCE.arrow_cursor_grab());
 	
 	int mode;

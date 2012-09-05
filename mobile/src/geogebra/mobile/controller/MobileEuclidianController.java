@@ -136,7 +136,7 @@ public class MobileEuclidianController extends EuclidianController implements
 	public void onMouseMove(MouseMoveEvent event)
 	{
 		event.preventDefault();
-		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move)
+		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
 
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
@@ -208,7 +208,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		this.mouseLoc = new GPoint(event.getX(), event.getY());
 		this.mode = this.guiModel.getCommand().getMode();
 
-		if (cmd == ToolBarCommand.Move)
+		if (cmd == ToolBarCommand.Move_Mobile)
 		{
 			this.view.setHits(this.mouseLoc);
 			Hits h = this.view.getHits();

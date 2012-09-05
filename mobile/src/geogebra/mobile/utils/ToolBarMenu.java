@@ -73,8 +73,8 @@ public enum ToolBarMenu
 			ToolBarCommand.InsertButton, ToolBarCommand.InsertInputBox,
 			ToolBarCommand.Slider }),
 
-	ManipulateObjects(ToolBarCommand.Move, new ToolBarCommand[] {
-			ToolBarCommand.Move, ToolBarCommand.Select,
+	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
+			ToolBarCommand.Move_Mobile, ToolBarCommand.Select,
 			ToolBarCommand.DeleteObject });
 
 	ToolBarCommand[] entry;

@@ -11,6 +11,10 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
+	@Source("icons/svg/arrow_cursor_finger.svg")
+	@Validated(validated = false)
+	SVGResource arrow_cursor_finger();
+	
 	@Source("icons/svg/arrow_cursor_grab.svg")
 	@Validated(validated = false)
 	SVGResource arrow_cursor_grab();
