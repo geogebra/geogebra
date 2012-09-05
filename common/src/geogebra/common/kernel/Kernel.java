@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.io.MyXMLHandler;
+import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacro;

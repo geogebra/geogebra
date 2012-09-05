@@ -1,7 +1,7 @@
 package geogebra.common.kernel.statistics;
 
-import geogebra.common.kernel.AlgoBoxPlot;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;

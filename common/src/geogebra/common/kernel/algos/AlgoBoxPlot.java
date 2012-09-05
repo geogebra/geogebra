@@ -10,19 +10,14 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.kernel;
+package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.algos.DrawInformationAlgo;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.statistics.AlgoMedian;
-import geogebra.common.kernel.statistics.AlgoQ1;
-import geogebra.common.kernel.statistics.AlgoQ3;
 import geogebra.common.util.Cloner;
 
 import java.util.ArrayList;

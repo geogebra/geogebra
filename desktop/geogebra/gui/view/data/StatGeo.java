@@ -1,11 +1,11 @@
 package geogebra.gui.view.data;
 
-import geogebra.common.kernel.AlgoBoxPlot;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.advanced.AlgoListMax;
 import geogebra.common.kernel.advanced.AlgoListMin;
 import geogebra.common.kernel.advanced.AlgoPolyLine;
+import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentListExpression;
 import geogebra.common.kernel.algos.AlgoElement;

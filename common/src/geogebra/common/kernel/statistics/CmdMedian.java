@@ -1,6 +1,7 @@
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoMedian;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOneListFunction;
 import geogebra.common.kernel.geos.GeoElement;
