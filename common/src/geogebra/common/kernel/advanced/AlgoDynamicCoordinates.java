@@ -14,6 +14,7 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -25,7 +26,7 @@ import geogebra.common.kernel.geos.GeoPoint;
  * @author  Michael
  * @version 
  */
-public class AlgoDynamicCoordinates extends AlgoElement {
+public class AlgoDynamicCoordinates extends AlgoElement implements AlgoDynamicCoordinatesInterface {
 
     private NumberValue x,y; // input
 	private GeoPoint P; // input

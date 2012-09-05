@@ -35,15 +35,12 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.advanced.AlgoAttachCopyToView;
-import geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
-import geogebra.common.kernel.advanced.AlgoName;
-import geogebra.common.kernel.advanced.AlgoSlopeField;
-import geogebra.common.kernel.advanced.AlgoSolveODE;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDependentText;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntegralODE;
+import geogebra.common.kernel.algos.AlgoName;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -1734,7 +1731,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 
-		if (getParentAlgorithm() instanceof AlgoAttachCopyToView) {
+		if (getParentAlgorithm().getClassName().equals(Algos.AlgoAttachCopyToView)) {
 			return "";
 		}
 		
@@ -3013,12 +3010,12 @@ public abstract class GeoElement extends ConstructionElement implements
 				return defaultNumberedLabel("picture"); // Name.picture
 			} else if (isGeoLocus()) {
 				
-				if (algoParent instanceof AlgoSolveODE
+				if (algoParent.getClassName().equals(Algos.AlgoSolveODE)
 						|| algoParent instanceof AlgoIntegralODE) {
 					
 					return defaultNumberedLabel("numericalIntegral"); // Name.numericalIntegral
 					
-				} else if (algoParent instanceof AlgoSlopeField) {
+				} else if (algoParent.getClassName().equals(Algos.AlgoSlopeField)) {
 					
 					return defaultNumberedLabel("slopefield"); // Name.slopefield
 				} else if (algoParent instanceof GraphAlgo) {
@@ -5809,8 +5806,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			// point
 			if (isGeoPoint()) {
 
-				if (getParentAlgorithm() instanceof AlgoDynamicCoordinates) {
-					final GeoPoint p = ((AlgoDynamicCoordinates) getParentAlgorithm())
+				if (getParentAlgorithm().getClassName().equals(Algos.AlgoDynamicCoordinates)) {
+					final GeoPoint p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
 					geo = p;
@@ -7276,6 +7273,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			return false;
 		}
 		
-		return getParentAlgorithm() instanceof AlgoAttachCopyToView;
+		return getParentAlgorithm().getClassName().equals(Algos.AlgoAttachCopyToView);
 	}
 }
