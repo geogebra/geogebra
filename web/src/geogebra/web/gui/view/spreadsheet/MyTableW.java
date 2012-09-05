@@ -1948,8 +1948,6 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			resizeRows(tableModel.getRowCount());
 		}
 
-		//App.debug("renderCells loop begins");
-
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
 		for (int i = colCount - 1; i >= 0; i--) {
@@ -1960,8 +1958,6 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 				setWidget(j, i, prob);
 			}
-			//App.debug("loop."+i+".");
 		}
-		//App.debug("renderCells ends");
 	}
 }

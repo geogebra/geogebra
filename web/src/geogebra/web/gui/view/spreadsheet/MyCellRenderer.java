@@ -19,26 +19,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
-/*
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.table.DefaultTableCellRenderer;
-*/
-
 public class MyCellRenderer {
 	private static final long serialVersionUID = 1L;
 
@@ -196,7 +176,7 @@ public class MyCellRenderer {
 
 		// Set text according to algebra style
 		// ===============================================
-		String text = null;
+		String text = "";
 		if (geo.isIndependent()) {
 			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
@@ -264,12 +244,12 @@ public class MyCellRenderer {
 		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
 				CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
-			((InlineLabel)retwidget).getElement().getStyle().setProperty("text-align",
+			((InlineLabel)retwidget).getElement().getStyle().setProperty("textAlign",
 				alignment == 2 ? "left" : (alignment == 4 ? "right" : "center"));
 		} else if (geo.isGeoText()) {
-			((InlineLabel)retwidget).getElement().getStyle().setProperty("text-align", "left");
+			((InlineLabel)retwidget).getElement().getStyle().setProperty("textAlign", "left");
 		} else {
-			((InlineLabel)retwidget).getElement().getStyle().setProperty("text-align", "right");
+			((InlineLabel)retwidget).getElement().getStyle().setProperty("textAlign", "right");
 		}
 
 		// Set icons for LaTeX and images

@@ -285,7 +285,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 					true));
 		*/
 
-		//table.renderCells();//why does this not work?
+		table.renderCells();
 	}
 
 	public void remove(GeoElement geo) {
@@ -305,6 +305,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		case LIST:
 			table.oneClickEditMap.remove(geo);
 		}
+
+		table.renderCells();
 	}
 
 	public void rename(GeoElement geo) {

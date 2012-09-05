@@ -19,7 +19,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 		addWest(ggwViewWrapper = new GGWViewWrapper(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
 
 		//remove the comment to show the spreadsheet too
-		//addEast(ggwSpreadsheetView = new GGWSpreadsheetView(), 400);
+		//TODO//addEast(ggwSpreadsheetView = new GGWSpreadsheetView(), 400);
 
 		add(ggwGraphicView = new GGWGraphicsView());
     }
