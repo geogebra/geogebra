@@ -17,7 +17,11 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoJoinPointsRay;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.GetPointsAlgo;
@@ -160,12 +164,9 @@ public class CopyPaste {
 				continue;
 			if ((geo.isGeoLine() && geo.getParentAlgorithm().getClassName()
 					.equals(Algos.AlgoJoinPoints))
-					|| (geo.isGeoSegment() && geo.getParentAlgorithm()
-							.getClassName().equals(Algos.AlgoJoinPointsSegment))
-					|| (geo.isGeoRay() && geo.getParentAlgorithm()
-							.getClassName().equals(Algos.AlgoJoinPointsRay))
-					|| (geo.isGeoVector() && geo.getParentAlgorithm()
-							.getClassName().equals(Algos.AlgoVector))) {
+					|| (geo.isGeoSegment() && geo.getParentAlgorithm() instanceof AlgoJoinPointsSegment)
+					|| (geo.isGeoRay() && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay)
+					|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector)) {
 
 				if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
 					geos.add(geo.getParentAlgorithm().getInput()[0]);
@@ -326,7 +327,7 @@ public class CopyPaste {
 			for (int j = 0; j < geoal.size(); j++) {
 				ale = geoal.get(j);
 
-				if (!ale.getClassName().equals(Algos.AlgoMacro)) {
+				if (!(ale instanceof AlgoMacro)) {
 
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
