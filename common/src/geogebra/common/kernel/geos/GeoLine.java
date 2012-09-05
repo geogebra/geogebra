@@ -621,7 +621,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		boolean isAsymptote = false;
 
 		AlgoElement ob = getParentAlgorithm();
-		if (ob.getClassName().equals(Algos.AlgoAsymptote)) {
+		if (ob != null && ob.getClassName().equals(Algos.AlgoAsymptote)) {
 			GeoElement[] input = ob.getInput();
 			for (int i = 0; i < input.length; i++) {
 				if (input[i] == c) {
