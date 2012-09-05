@@ -47,6 +47,7 @@ find -name .svn -or -name svnignore.txt | xargs rm -fR
 rm -fR web/web.devmode.js web/statictexts css/font
 find -name '*.cache.svg' -or -name '*.cache.ttf' -or -name '*.cache.woff' \
  -or -name '*.cache.eot' -or -name '*.cache.otf' | xargs rm
+rm -fR test favicon.ico index.jsp index.php test.php
 
 # 5. Adding license file and version
 cp $WEBDIR/../desktop/geogebra/gui/_license.txt LICENSE.txt
