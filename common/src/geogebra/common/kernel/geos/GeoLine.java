@@ -29,8 +29,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.advanced.AlgoAsymptote;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -620,9 +620,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	final public boolean isDefinedAsymptote(GeoConic c) {
 		boolean isAsymptote = false;
 
-		Object ob = getParentAlgorithm();
-		if (ob instanceof AlgoAsymptote) {
-			GeoElement[] input = ((AlgoElement) ob).getInput();
+		AlgoElement ob = getParentAlgorithm();
+		if (ob.getClassName().equals(Algos.AlgoAsymptote)) {
+			GeoElement[] input = ob.getInput();
 			for (int i = 0; i < input.length; i++) {
 				if (input[i] == c) {
 					isAsymptote = true;

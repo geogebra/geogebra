@@ -38,8 +38,8 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -299,7 +299,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
 		AlgoElement algo = getParentAlgorithm();
-		if (algo != null && algo instanceof AlgoDynamicCoordinates)
+		if (algo != null && algo instanceof AlgoDynamicCoordinatesInterface)
 			return true;
 
 		// make sure Point[circle, param] is not draggable
