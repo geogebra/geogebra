@@ -83,7 +83,6 @@ import geogebra.common.kernel.advanced.CmdSelectedElement;
 import geogebra.common.kernel.advanced.CmdSelectedIndex;
 import geogebra.common.kernel.advanced.CmdSlopeField;
 import geogebra.common.kernel.advanced.CmdTaylorSeries;
-import geogebra.common.kernel.advanced.CmdText;
 import geogebra.common.kernel.advanced.CmdToBase;
 import geogebra.common.kernel.advanced.CmdToComplexPolar;
 import geogebra.common.kernel.advanced.CmdTranspose;
@@ -125,8 +124,6 @@ public class CommandDispatcherAdvanced {
 		case UnitPerpendicularVector:
 		case UnitOrthogonalVector:
 			return new CmdUnitOrthogonalVector(kernel);
-		case Text:
-			return new CmdText(kernel);
 		case SecondAxis:
 		case MinorAxis:
 			return new CmdSecondAxis(kernel);

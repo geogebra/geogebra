@@ -375,8 +375,6 @@ public class CommandDispatcher {
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
 				
-			case Text:
-
 			case SecondAxis:
 			case MinorAxis:
 				
@@ -485,6 +483,7 @@ public class CommandDispatcher {
 				
 				// basic
 				
+			case Text:
 			case Vector:
 			case BarCode:
 			case Dot:
