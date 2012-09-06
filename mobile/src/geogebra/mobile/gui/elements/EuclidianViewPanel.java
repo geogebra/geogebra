@@ -26,6 +26,14 @@ public class EuclidianViewPanel extends LayoutPanel
 		this.canvas = Canvas.createIfSupported(); 
 	}
 	
+	//for tests only
+	public EuclidianViewM getEuclidianViewM()
+	{
+		return this.euclidianView;
+	}
+	//end
+	
+	
 	/**
 	 * Creates the {@link EuclidianViewM euclidianView} and initializes the canvas on it.
 	 * 

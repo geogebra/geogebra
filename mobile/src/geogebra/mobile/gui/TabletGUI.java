@@ -1,8 +1,12 @@
 package geogebra.mobile.gui;
 
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
+import geogebra.mobile.algebra.AlgebraViewM;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.controller.MobileEuclidianController;
+import geogebra.mobile.euclidian.EuclidianViewM;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 import geogebra.mobile.gui.elements.GuiModel;
@@ -29,7 +33,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	private TabletHeaderPanelRight rightHeader;
 	private AlgebraViewPanel algebraViewPanel;
 	private ToolBar toolBar;
-
+	
 	private GuiModel guiModel;
 
 	/**
@@ -55,7 +59,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		this.toolBar = new ToolBar();
 		this.euclidianViewPanel = new EuclidianViewPanel();
 		this.algebraViewPanel = new AlgebraViewPanel();
-
+		
 		layout();
 	}
 
@@ -74,7 +78,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 
 		RootPanel.get().add(this.toolBar);
 
-		RootPanel.get().add(this.algebraViewPanel);
+		RootPanel.get().add(this.algebraViewPanel);		
 	}
 
 	@Override
@@ -113,5 +117,11 @@ public class TabletGUI implements GeoGebraMobileGUI
 		this.algebraViewPanel.initAlgebraView(ac, kernel);
 		this.toolBar.makeTabletToolBar(this.guiModel, ac);
 
+		
+		AlgebraViewM algebraViewM = this.algebraViewPanel.getAlgebraViewM(); //for tests only
+		EuclidianViewM euclidianViewM = this.euclidianViewPanel.getEuclidianViewM(); //for tests only
+		System.out.println(algebraViewM.toString()); // for tests only
+		euclidianViewM.setAlgebraViewM(algebraViewM); //for tests only
+		
 	}
 }

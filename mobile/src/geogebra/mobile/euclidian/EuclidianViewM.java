@@ -11,9 +11,11 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.Settings;
+import geogebra.mobile.algebra.AlgebraViewM;
 import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.web.awt.GGraphics2DW;
 
@@ -62,7 +64,20 @@ public class EuclidianViewM extends EuclidianView
 
 		this.setAllowShowMouseCoords(false);
 	}
+	
+	//for tests only
+	private AlgebraViewM algebraView;
+	public void setAlgebraViewM(AlgebraViewM algebraView)
+	{
+		this.algebraView = algebraView;
+	}
 
+	void addEventToTree(String event)
+	{
+		this.algebraView.addEventName(event);
+	}
+	//end
+	
 	/**
 	 * This method has to be called before using g2p.
 	 * 
@@ -72,6 +87,7 @@ public class EuclidianViewM extends EuclidianView
 	 */
 	public void initCanvas(Canvas c)
 	{
+
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
 
@@ -97,6 +113,8 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchStart(TouchStartEvent event)
       {
+				addEventToTree("onTouchStart - with translated handler - EuclidianViewM");
+				//Window.alert("onTouchStart - with translated handler - EuclidianViewM");
 	      GWT.log("onTouchStart - with translated handler - EuclidianViewM");
       }
 		}));
@@ -108,6 +126,8 @@ public class EuclidianViewM extends EuclidianView
       public void onTouchMove(TouchMoveEvent event)
       {
 				event.preventDefault();
+				addEventToTree("onTouchMove - with translated handler - EuclidianViewM");
+				//Window.alert("onTouchMove - with translated handler - EuclidianViewM");
 	      GWT.log("onTouchMove - with translated handler - EuclidianViewM");
       }
 			
@@ -119,7 +139,9 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchEnd(TouchEndEvent event)
       {
+				addEventToTree("onTouchEnd - with translated handler - EuclidianViewM");
 				GWT.log("onTouchEnd - with translated handler - EuclidianViewM");
+				//Window.alert("onTouchEnd - with translated handler - EuclidianViewM");
       }
 			
 		}));
@@ -131,7 +153,9 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchStart(TouchStartEvent event)
       {
+				addEventToTree("onTouchStart - mit addHanlder - EuclidianViewM");
 				GWT.log("onTouchStart - mit addHanlder - EuclidianViewM");
+				//Window.alert("onTouchStart - mit addHanlder - EuclidianViewM");
       }
 			
 		}, TouchStartEvent.getType());
@@ -142,8 +166,10 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchMove(TouchMoveEvent event)
       {
+				addEventToTree("onTouchMove - mit addHanlder - EuclidianViewM");
 				event.preventDefault();
 				GWT.log("onTouchMove - mit addHanlder - EuclidianViewM");
+				//Window.alert("onTouchMove - mit addHanlder - EuclidianViewM");
       }
 			
 		}, TouchMoveEvent.getType());
@@ -154,7 +180,9 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchEnd(TouchEndEvent event)
       {
+				addEventToTree("onTouchEnd - mit addHanlder - EuclidianViewM");
 				GWT.log("onTouchEnd - mit addHanlder - EuclidianViewM");
+				//Window.alert("onTouchEnd - mit addHanlder - EuclidianViewM");
       }
 			
 		}, TouchEndEvent.getType());
@@ -166,7 +194,9 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTap(TapEvent event)
       {
+				addEventToTree("onTap - mit addHanlder - EuclidianViewM");
 				GWT.log("onTap - mit addHanlder - EuclidianViewM");
+				//Window.alert("onTap - mit addHanlder - EuclidianViewM");
       }
 			
 		}, TapEvent.getType());
@@ -178,7 +208,9 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchStart(TouchStartEvent event)
       {
+				addEventToTree("onTouchStart - mit addDomHanlder - EuclidianViewM");
 				GWT.log("onTouchStart - mit addDomHanlder - EuclidianViewM");
+				//Window.alert("onTouchStart - mit addDomHanlder - EuclidianViewM");
       }
 			
 		}, TouchStartEvent.getType());
@@ -190,7 +222,9 @@ public class EuclidianViewM extends EuclidianView
       public void onTouchMove(TouchMoveEvent event)
       {
 				event.preventDefault();
+				addEventToTree("onTouchMove - mit addDomHanlder - EuclidianViewM");
 				GWT.log("onTouchMove - mit addDomHanlder - EuclidianViewM");
+				//Window.alert("onTouchMove - mit addDomHanlder - EuclidianViewM");
       }
 			
 		}, TouchMoveEvent.getType());
@@ -201,6 +235,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchEnd(TouchEndEvent event)
       {
+				addEventToTree("onTouchEnd - mit addDomHanlder - EuclidianViewM");
 				GWT.log("onTouchEnd - mit addDomHanlder - EuclidianViewM");
       }
 			
@@ -214,6 +249,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseDown(MouseDownEvent event)
 			{
+				addEventToTree("onMouseDown - mit addDomHanlder - EuclidianViewM");
 				GWT.log("onMouseDown - mit addDomHanlder - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseDown(event);
@@ -228,6 +264,7 @@ public class EuclidianViewM extends EuclidianView
 			public void onMouseMove(MouseMoveEvent event)
 			{
 				event.preventDefault();
+				addEventToTree("onMouseMove - mit addDomHanlder - EuclidianViewM");
 				GWT.log("onMouseMove - mit addDomHanlder - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseMove(event);
@@ -240,6 +277,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseUp(MouseUpEvent event)
 			{
+				addEventToTree("onMouseUp - mit addDomHanlder - EuclidianViewM");
 				GWT.log("onMouseUp - mit addDomHanlder - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this
 						.getEuclidianController()).onMouseUp(event);
@@ -254,6 +292,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseDown(MouseDownEvent event)
 			{
+				addEventToTree("onMouseDown - direkt - EuclidianViewM");
 				GWT.log("onMouseDown - direkt - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onMouseDown(event);
 			}
@@ -265,6 +304,7 @@ public class EuclidianViewM extends EuclidianView
 			public void onMouseMove(MouseMoveEvent event)
 			{
 				event.preventDefault();
+				addEventToTree("onMouseMove - direkt - EuclidianViewM");
 				GWT.log("onMouseMove - direkt - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onMouseMove(event);
 			}
@@ -275,6 +315,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onMouseUp(MouseUpEvent event)
 			{
+				addEventToTree("onMouseUp - direkt - EuclidianViewM");
 				GWT.log("onMouseUp - direkt - EuclidianViewM");
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onMouseUp(event);
 			}
@@ -287,6 +328,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchStart(com.google.gwt.event.dom.client.TouchStartEvent event)
       {
+				addEventToTree("onTouchStart - direkt - EuclidianViewM");	
 				GWT.log("onTouchStart - direkt - EuclidianViewM");	      
       }			
 		});
@@ -296,6 +338,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
       public void onTouchEnd(com.google.gwt.event.dom.client.TouchEndEvent event)
       {
+				addEventToTree("onTouchEnd - direkt - EuclidianViewM");	 
 				GWT.log("onTouchEnd - direkt - EuclidianViewM");	 
       }			
 		});
@@ -306,6 +349,7 @@ public class EuclidianViewM extends EuclidianView
       public void onTouchMove(com.google.gwt.event.dom.client.TouchMoveEvent event)
       {
 				event.preventDefault();
+				addEventToTree("onTouchMove - direkt - EuclidianViewM");	   
 				GWT.log("onTouchMove - direkt - EuclidianViewM");	      	      
       }			
 		});
@@ -316,6 +360,7 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				addEventToTree("onClick - direkt - EuclidianViewM");
 				GWT.log("onClick - direkt - EuclidianViewM");
 				//((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onClick(event);
 			}
