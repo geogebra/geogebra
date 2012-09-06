@@ -25,8 +25,7 @@ public class InputDialog extends PopinDialog
 	 */
 	public InputDialog(ClickHandler handler)
 	{
-		this.inputBar = new TextBox();
-		initDialog(handler);
+		this(handler, ""); 
 	}
 	
 	/**
@@ -38,11 +37,7 @@ public class InputDialog extends PopinDialog
 	{
 		this.inputBar = new TextBox();
 		this.inputBar.setText(titel);
-		initDialog(handler);
-	}
-
-	private void initDialog(ClickHandler handler)
-	{
+		
 		setHideOnBackgroundClick(true);
 		setCenterContent(true);
 

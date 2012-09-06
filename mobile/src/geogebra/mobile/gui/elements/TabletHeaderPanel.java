@@ -35,7 +35,7 @@ public class TabletHeaderPanel extends HeaderPanel
 												.getText());
 								TabletHeaderPanel.this.dialog.hide();
 							}
-						});
+						}, TabletHeaderPanel.this.getElement().getInnerText());
 			}
 		}, ClickEvent.getType());
 	}

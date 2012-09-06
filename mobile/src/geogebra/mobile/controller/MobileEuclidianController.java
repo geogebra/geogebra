@@ -213,15 +213,20 @@ public class MobileEuclidianController extends EuclidianController
 		// commands that need two points or one segment
 		case MidpointOrCenter:
 		case PerpendicularBisector:
-			addSelectedPoint(hits, 2, false);
-			if (hits.size() > 0 && hits.get(0) instanceof GeoSegment)
+			if (addSelectedPoint(hits, 2, false) == 0)
 			{
-				this.selectedLines.add((GeoLineND) hits.get(0));
-				draw = true;
-			} else if (this.selectedPoints.size() >= 2)
-			{
-				draw = true;
+				addSelectedSegment(hits, 1, false);
 			}
+			draw = this.selectedSegments.size() >= 1
+					|| this.selectedPoints.size() >= 2;
+			// if (hits.size() > 0 && hits.get(0) instanceof GeoSegment)
+			// {
+			// this.selectedLines.add((GeoLineND) hits.get(0));
+			// draw = true;
+			// } else if (this.selectedPoints.size() >= 2)
+			// {
+			// draw = true;
+			// }
 			break;
 
 		// commands that need any two objects
@@ -326,10 +331,10 @@ public class MobileEuclidianController extends EuclidianController
 								.size() - 1));
 				break;
 			case MidpointOrCenter:
-				if (this.selectedLines.size() > 0)
+				if (this.selectedSegments.size() > 0)
 				{
 					this.kernel.getAlgoDispatcher().Midpoint(null,
-							(GeoSegment) this.selectedLines.get(0));
+							this.selectedSegments.get(0));
 				} else if (this.selectedPoints.size() >= 2)
 				{
 					this.kernel.getAlgoDispatcher().Midpoint(null,
@@ -338,10 +343,10 @@ public class MobileEuclidianController extends EuclidianController
 				}
 				break;
 			case PerpendicularBisector:
-				if (this.selectedLines.size() > 0)
+				if (this.selectedSegments.size() > 0)
 				{
 					this.kernel.getAlgoDispatcher().LineBisector(null,
-							(GeoSegment) this.selectedLines.get(0));
+							this.selectedSegments.get(0));
 				} else if (this.selectedPoints.size() >= 2)
 				{
 					this.kernel.getAlgoDispatcher().LineBisector(null,
@@ -410,6 +415,7 @@ public class MobileEuclidianController extends EuclidianController
 
 			this.selectedPoints = new ArrayList<GeoPointND>();
 			this.selectedLines = new ArrayList<GeoLineND>();
+			this.selectedSegments = new ArrayList<GeoSegment>(); 
 
 			removeSelection();
 		}
@@ -521,7 +527,6 @@ public class MobileEuclidianController extends EuclidianController
 		this.selectedConicsND.clear();
 		this.selectedVectors.clear();
 		this.selectedPolygons.clear();
-		this.selectedGeos.clear();
 		this.selectedFunctions.clear();
 		this.selectedCurves.clear();
 		this.selectedLists.clear();
