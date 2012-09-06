@@ -1,6 +1,8 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
+import geogebra.common.kernel.algos.CmdUnitVector;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -12,6 +14,13 @@ public class CommandDispatcherBasic {
 		switch(c){
 		// basic
 
+		case UnitVector:
+			return new CmdUnitVector(kernel);
+			
+		case UnitPerpendicularVector:
+		case UnitOrthogonalVector:
+			return new CmdUnitOrthogonalVector(kernel);
+			
 		case Text:
 			return new CmdText(kernel);
 		case Vector:

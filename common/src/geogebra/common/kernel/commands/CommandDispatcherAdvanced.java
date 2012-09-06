@@ -89,10 +89,10 @@ import geogebra.common.kernel.advanced.CmdTranspose;
 import geogebra.common.kernel.advanced.CmdUnicodeToLetter;
 import geogebra.common.kernel.advanced.CmdUnion;
 import geogebra.common.kernel.advanced.CmdUnique;
-import geogebra.common.kernel.advanced.CmdUnitOrthogonalVector;
-import geogebra.common.kernel.advanced.CmdUnitVector;
 import geogebra.common.kernel.advanced.CmdVerticalText;
 import geogebra.common.kernel.advanced.CmdZip;
+import geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
+import geogebra.common.kernel.algos.CmdUnitVector;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
@@ -121,9 +121,6 @@ public class CommandDispatcherAdvanced {
 		case TaylorPolynomial:
 		case TaylorSeries:
 			return new CmdTaylorSeries(kernel);
-		case UnitPerpendicularVector:
-		case UnitOrthogonalVector:
-			return new CmdUnitOrthogonalVector(kernel);
 		case SecondAxis:
 		case MinorAxis:
 			return new CmdSecondAxis(kernel);
@@ -208,8 +205,6 @@ public class CommandDispatcherAdvanced {
 			return new CmdPointList(kernel);
 		case ApplyMatrix:
 			return new CmdApplyMatrix(kernel);
-		case UnitVector:
-			return new CmdUnitVector(kernel);
 		case Invert:
 			return new CmdInvert(kernel);
 		case Transpose:

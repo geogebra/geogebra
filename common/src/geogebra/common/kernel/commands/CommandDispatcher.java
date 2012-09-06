@@ -372,8 +372,6 @@ public class CommandDispatcher {
 			case TaylorPolynomial:
 			case TaylorSeries:
 
-			case UnitPerpendicularVector:
-			case UnitOrthogonalVector:
 				
 			case SecondAxis:
 			case MinorAxis:
@@ -419,7 +417,6 @@ public class CommandDispatcher {
 			case Intersection:
 			case PointList:
 			case ApplyMatrix:
-			case UnitVector:
 			case Invert:
 			case Transpose:
 			case ReducedRowEchelonForm:
@@ -483,6 +480,10 @@ public class CommandDispatcher {
 				
 				// basic
 				
+			case UnitPerpendicularVector:
+			case UnitOrthogonalVector:
+				
+			case UnitVector:
 			case Text:
 			case Vector:
 			case BarCode:
