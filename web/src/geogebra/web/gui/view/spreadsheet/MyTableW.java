@@ -283,6 +283,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// click
 		// changeSelection(0, 0, false, false);
 */
+		setCellPadding(2);
+		setCellSpacing(0);
+		getElement().getStyle().setTableLayout(Style.TableLayout.FIXED);
+		getElement().getStyle().setWidth(100, Style.Unit.PCT);
+
 		renderCells();
 	}
 

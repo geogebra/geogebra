@@ -16,7 +16,7 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyCellRenderer {
@@ -100,7 +100,7 @@ public class MyCellRenderer {
 	public Widget getTableCellRendererWidget(Grid table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
-		Widget retwidget = new InlineLabel();
+		Widget retwidget = new Label();
 
 		//TODO//setBorder(cellPadding);
 		cellPoint.setLocation(column, row);
@@ -125,7 +125,7 @@ public class MyCellRenderer {
 		if (value != null) {
 			geo = (GeoElement) value;
 		} else {
-			((InlineLabel)retwidget).setText("");
+			((Label)retwidget).setText("");
 			if (bgColor != null)
 				retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 			return retwidget;
@@ -206,14 +206,14 @@ public class MyCellRenderer {
 		if (fontStyle == null)
 			fontStyle = GFont.PLAIN;
 
-		((InlineLabel)retwidget).setText(text);
+		((Label)retwidget).setText(text);
 		if (bgColor != null)
 			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 		GFont gf = app.getFontCanDisplay(text, fontStyle);
-		((InlineLabel)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
-		((InlineLabel)retwidget).getElement().getStyle().setFontStyle(
+		((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
+		((Label)retwidget).getElement().getStyle().setFontStyle(
 			gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
-		((InlineLabel)retwidget).getElement().getStyle().setFontWeight(
+		((Label)retwidget).getElement().getStyle().setFontWeight(
 			gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);
 
 		// Set foreground and background color
@@ -234,22 +234,22 @@ public class MyCellRenderer {
 			}
 		}
 		if (bgColor != null)// here was an exception
-			((InlineLabel)retwidget).getElement().getStyle().setBackgroundColor(bgColor.toString());
+			((Label)retwidget).getElement().getStyle().setBackgroundColor(bgColor.toString());
 
 		if (geo.getLabelColor() != null)
-			((InlineLabel)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
+			((Label)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
 
 		// Set horizontal alignment
 		// ===============================================
 		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
 				CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
-			((InlineLabel)retwidget).getElement().getStyle().setProperty("textAlign",
+			((Label)retwidget).getElement().getStyle().setProperty("textAlign",
 				alignment == 2 ? "left" : (alignment == 4 ? "right" : "center"));
 		} else if (geo.isGeoText()) {
-			((InlineLabel)retwidget).getElement().getStyle().setProperty("textAlign", "left");
+			((Label)retwidget).getElement().getStyle().setProperty("textAlign", "left");
 		} else {
-			((InlineLabel)retwidget).getElement().getStyle().setProperty("textAlign", "right");
+			((Label)retwidget).getElement().getStyle().setProperty("textAlign", "right");
 		}
 
 		// Set icons for LaTeX and images
