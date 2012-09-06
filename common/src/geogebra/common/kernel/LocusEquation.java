@@ -1,6 +1,17 @@
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel;
 
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoIntersectConics;
+import geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import geogebra.common.kernel.algos.AlgoIntersectLines;
+import geogebra.common.kernel.algos.AlgoIntersectSingle;
+import geogebra.common.kernel.algos.AlgoMidpoint;
+import geogebra.common.kernel.algos.AlgoMidpointSegment;
+import geogebra.common.kernel.algos.EquationElementInterface;
+import geogebra.common.kernel.algos.EquationScopeInterface;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.CmdLocusEquation;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorLines;
 import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorPoints;
@@ -42,7 +53,7 @@ import geogebra.common.kernel.locusequ.elements.EquationTangentPoint;
  * @author michael
  *
  */
-public class BuildEquationElement {
+public class LocusEquation {
 
 	/**
 	 * @param className className
@@ -160,6 +171,10 @@ public class BuildEquationElement {
 			default:
 				return null;
 		}
+	}
+
+	public static CommandProcessor newCmdLocusEquation(Kernel kernel) {
+		return  new CmdLocusEquation(kernel);
 	}
 
 }

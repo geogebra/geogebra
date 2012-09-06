@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.cas.CmdCoefficients;
 import geogebra.common.kernel.cas.CmdDegree;
 import geogebra.common.kernel.cas.CmdExpand;
@@ -21,7 +22,6 @@ import geogebra.common.kernel.cas.CmdTangent;
 import geogebra.common.kernel.cas.CmdTrigCombine;
 import geogebra.common.kernel.cas.CmdTrigExpand;
 import geogebra.common.kernel.cas.CmdTrigSimplify;
-import geogebra.common.kernel.locusequ.CmdLocusEquation;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
@@ -32,7 +32,7 @@ public class CommandDispatcherCAS {
 		switch(c){
 
 		case LocusEquation:
-			return new CmdLocusEquation(kernel);
+			return LocusEquation.newCmdLocusEquation(kernel);
 		case Expand:
 			return new CmdExpand(kernel);
 		case Factor:

@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -1494,7 +1495,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @return a new EquationElement.
 	 */
 	final public EquationElementInterface buildEquationElementForGeo(GeoElement element, EquationScopeInterface scope) {
-		return BuildEquationElement.buildEquationElementForGeo(this, element, scope);
+		return LocusEquation.buildEquationElementForGeo(this, element, scope);
 	}
 	
 	@Override
