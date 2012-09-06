@@ -6,8 +6,11 @@ import com.google.gwt.user.client.AsyncProxy.ConcreteType;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
+import geogebra.common.kernel.commands.CommandDispatcherAdvanced;
+import geogebra.common.kernel.commands.CommandDispatcherCAS;
 import geogebra.common.kernel.commands.CommandDispatcherDiscrete;
 import geogebra.common.kernel.commands.CommandDispatcherInterface;
+import geogebra.common.kernel.commands.CommandDispatcherScripting;
 
 public class CommandDispatcherW extends CommandDispatcher {
 
@@ -25,6 +28,43 @@ public class CommandDispatcherW extends CommandDispatcher {
 			discreteDispatcher = GWT.create(CommandDispatcherDiscrateProxy.class);
 		}
 		return discreteDispatcher;
+	}
+	
+	@ConcreteType(CommandDispatcherScripting.class)
+	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
+	interface CommandDispatcherScriptingProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
+	
+	
+	@Override
+    protected CommandDispatcherInterface getScriptingDispatcher() {
+		if(scriptingDispatcher == null) {
+			scriptingDispatcher = GWT.create(CommandDispatcherScripting.class);
+		}
+		return scriptingDispatcher;
+	}
+	
+	@ConcreteType(CommandDispatcherAdvanced.class)
+	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
+	interface CommandDispatcherAdvancedProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
+		
+	@Override
+    protected CommandDispatcherInterface getAdvancedDispatcher() {
+		if(advancedDispatcher == null) {
+			advancedDispatcher = GWT.create(CommandDispatcherAdvanced.class);
+		}
+		return advancedDispatcher;
+	}
+	
+	@ConcreteType(CommandDispatcherCAS.class)
+	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
+	interface CommandDispatcherCASProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
+	
+	@Override
+    protected CommandDispatcherCAS getCASDispatcher() {
+		if(casDispatcher == null) {
+			casDispatcher = GWT.create(CommandDispatcherCAS.class);
+		}
+		return casDispatcher;
 	}
 
 }

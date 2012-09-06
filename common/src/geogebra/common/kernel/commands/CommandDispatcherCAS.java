@@ -27,7 +27,7 @@ import geogebra.common.kernel.cas.CmdTrigSimplify;
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
  *
  */
-public class CommandDispatcherCAS {
+public class CommandDispatcherCAS implements CommandDispatcherInterface {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
 

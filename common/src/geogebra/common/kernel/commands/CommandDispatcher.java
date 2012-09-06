@@ -798,7 +798,7 @@ public class CommandDispatcher {
 		return statsDispatcher;
 	}
 
-	protected CommandDispatcherInterface discreteDispatcher = null;
+	protected CommandDispatcherDiscrete discreteDispatcher = null;
 	protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
 			discreteDispatcher = new CommandDispatcherDiscrete();
@@ -806,24 +806,24 @@ public class CommandDispatcher {
 		return discreteDispatcher;
 	}
 	
-	private CommandDispatcherCAS casDispatcher = null;
-	private CommandDispatcherCAS getCASDispatcher() {
+	protected CommandDispatcherCAS casDispatcher = null;
+	protected CommandDispatcherCAS getCASDispatcher() {
 		if(casDispatcher == null) {
 			casDispatcher = new CommandDispatcherCAS();
 		}
 		return casDispatcher;
 	}
 
-	private CommandDispatcherScripting scriptingDispatcher = null;
-	private CommandDispatcherScripting getScriptingDispatcher() {
+	protected CommandDispatcherScripting scriptingDispatcher = null;
+	protected CommandDispatcherInterface getScriptingDispatcher() {
 		if(scriptingDispatcher == null) {
 			scriptingDispatcher = new CommandDispatcherScripting();
 		}
 		return scriptingDispatcher;
 	}
 
-	private CommandDispatcherAdvanced advancedDispatcher = null;
-	private CommandDispatcherAdvanced getAdvancedDispatcher() {
+	protected CommandDispatcherAdvanced advancedDispatcher = null;
+	protected CommandDispatcherInterface getAdvancedDispatcher() {
 		if(advancedDispatcher == null) {
 			advancedDispatcher = new CommandDispatcherAdvanced();
 		}

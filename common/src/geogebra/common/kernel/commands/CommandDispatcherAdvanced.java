@@ -98,7 +98,7 @@ import geogebra.common.kernel.algos.CmdUnitVector;
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
  *
  */
-public class CommandDispatcherAdvanced {
+public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
 		// advanced
