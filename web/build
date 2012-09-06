@@ -209,7 +209,7 @@ while [ $# -gt 0 ]; do
    ;;
 
   -al | --all-locales)
-   # TODO: Maybe there is a better way to list gather languages than this one:
+   # TODO: Maybe there is a better way to gather languages than this one:
    LOCALES=ar,en,de,es,fr,pt,bg,bs,ca,cs,cy,da,de_AT,el,en_AU,en_GB,et,eu,fa,fi,gl,hi,hr,hu,hy,ia,in,is,it,iw,ja,ji
    LOCALES=$LOCALES,ka,kk,ko,lt,mk,ml,mn,mr,ms,ne,nl,nn,nb,no,pl,pt_PT,ro,ru,si,sk,sl,sq,sr,sv,ta,tg,th,tr,ty,uk,vi
    LOCALES=$LOCALES,zh_CN,zh_TW,zh
@@ -298,8 +298,9 @@ cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
 
 # 7. Preparing specific compilation
-cd ../web/src/geogebra
-GWTXML=Web.gwt.xml
+PROJECT_UPCASE=`echo $PROJECT | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'`
+cd ../$PROJECT/src/geogebra
+GWTXML=$PROJECT_UPCASE.gwt.xml
 cp $GWTXML $GWTXML.orig
 
 cat $GWTXML | \
@@ -335,7 +336,6 @@ if [ $VERBOSE = 1 ]; then
  echo "Classpath for GWT Compiler is $CLASSPATH"
  fi
 
-PROJECT_UPCASE=`echo $PROJECT | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'`
 cd $WEBDIR/../$PROJECT/src/geogebra
 java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS geogebra.$PROJECT_UPCASE || exit 8
