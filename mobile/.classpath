@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.5.0.rc1"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-1.1.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/web"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
