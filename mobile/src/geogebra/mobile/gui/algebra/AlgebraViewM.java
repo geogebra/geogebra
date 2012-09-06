@@ -1,4 +1,4 @@
-package geogebra.mobile.algebra;
+package geogebra.mobile.gui.algebra;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.gui.SetLabels;
@@ -9,8 +9,7 @@ import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.mobile.gui.view.algebra.InlineLabelTreeItem;
-import geogebra.mobile.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.web.euclidian.EuclidianViewW;
 
 import java.util.HashMap;
 

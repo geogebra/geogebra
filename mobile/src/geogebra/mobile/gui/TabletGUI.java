@@ -3,13 +3,13 @@ package geogebra.mobile.gui;
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.controller.MobileEuclidianController;
-import geogebra.mobile.gui.elements.AlgebraViewPanel;
-import geogebra.mobile.gui.elements.EuclidianViewPanel;
+import geogebra.mobile.gui.algebra.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.gui.elements.TabletHeaderPanel;
 import geogebra.mobile.gui.elements.TabletHeaderPanelLeft;
 import geogebra.mobile.gui.elements.TabletHeaderPanelRight;
 import geogebra.mobile.gui.elements.toolbar.ToolBar;
+import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;

@@ -14,8 +14,8 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.mobile.euclidian.MobileMouseEvent;
 import geogebra.mobile.gui.elements.GuiModel;
+import geogebra.mobile.gui.euclidian.MobileMouseEvent;
 import geogebra.mobile.utils.Swipeables;
 import geogebra.mobile.utils.ToolBarCommand;
 

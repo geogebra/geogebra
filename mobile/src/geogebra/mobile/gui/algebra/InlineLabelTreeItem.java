@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.mobile.gui.view.algebra;
+package geogebra.mobile.gui.algebra;
 
 import geogebra.common.main.App;
 

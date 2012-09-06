@@ -1,4 +1,4 @@
-package geogebra.mobile.gui.view.algebra;
+package geogebra.mobile.gui.algebra;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.gui.view.algebra.AlgebraView;

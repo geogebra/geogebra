@@ -1,9 +1,9 @@
 package geogebra.mobile.gui;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.mobile.gui.elements.AlgebraViewPanel;
-import geogebra.mobile.gui.elements.EuclidianViewPanel;
+import geogebra.mobile.gui.algebra.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.toolbar.ToolButton;
+import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 

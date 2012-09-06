@@ -1,8 +1,7 @@
-package geogebra.mobile.gui.elements;
+package geogebra.mobile.gui.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
-import geogebra.mobile.algebra.AlgebraViewM;
 import geogebra.mobile.controller.MobileAlgebraController;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -107,7 +106,7 @@ public class AlgebraViewPanel extends LayoutPanel
 		this.algebraView = new AlgebraViewM(ac);
 		kernel.attach(this.algebraView);
 
-		this.scrollPanel = new ScrollPanel((Widget) this.algebraView);
+		this.scrollPanel = new ScrollPanel(this.algebraView);
 		this.scrollPanel.addStyleName("algebraScrollPanel");
 		add(this.scrollPanel);
 	}

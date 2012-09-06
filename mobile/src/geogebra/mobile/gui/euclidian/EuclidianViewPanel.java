@@ -1,7 +1,6 @@
-package geogebra.mobile.gui.elements;
+package geogebra.mobile.gui.euclidian;
 
 import geogebra.mobile.controller.MobileEuclidianController;
-import geogebra.mobile.euclidian.EuclidianViewM;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
