@@ -27,8 +27,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
