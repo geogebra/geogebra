@@ -291,7 +291,7 @@ for i in $THIRDPARTYJARS; do
 
 # 6/3. Applying patches
 # Arpad's hack for #2452 (only for GWT >=2.5.0)
-sed -i s/getModuleBaseURL/getModuleBaseForStaticFiles/ $WEBDIR/src/geogebra/web/Web.java
+sed -i s/\+GWT\.getModuleBaseURL/\+GWT\.getModuleBaseForStaticFiles/ $WEBDIR/src/geogebra/web/Web.java
 
 # 6/4. Running javac
 cd $WEBDIR
@@ -299,8 +299,8 @@ $ANT $JAVAC_CLEANUP javac || exit 6
 
 # 7. Preparing specific compilation
 PROJECT_UPCASE=`echo $PROJECT | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'`
-cd ../$PROJECT/src/geogebra
-GWTXML=$PROJECT_UPCASE.gwt.xml
+cd src/geogebra
+GWTXML=Web.gwt.xml
 cp $GWTXML $GWTXML.orig
 
 cat $GWTXML | \
