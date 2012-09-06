@@ -8311,16 +8311,15 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
-			GeoElement tracegeo = hits.getFirstHit(Test.GEOPOINTND);
-			if (tracegeo == null) {
-				tracegeo = hits.getFirstHit(Test.GEOVECTOR);
+			
+			GeoElement tracegeo = null;
+			for (GeoElement geo : hits){
+				if (geo.hasSpreadsheetTraceModeTraceable()){
+					tracegeo = geo;
+					break;
+				}
 			}
-			if (tracegeo == null) {
-				tracegeo = hits.getFirstHit(Test.GEONUMERIC);
-			}
-			if (tracegeo == null) {
-				tracegeo = hits.getFirstHit(Test.GEOLIST);
-			}
+			
 			if (tracegeo != null) {
 				if (!app.getTraceManager().isTraceGeo(tracegeo)) {
 					app.getTraceManager().addSpreadsheetTraceGeo(tracegeo);

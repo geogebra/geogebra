@@ -6150,6 +6150,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isSpreadsheetTraceable() {
 		return this instanceof SpreadsheetTraceable;
 	}
+	
+	/**
+	 * Used by list to check if geos are compatible.
+	 * @return has spreadsheet mode that is a traceable mode
+	 */
+	public boolean hasSpreadsheetTraceModeTraceable(){
+		return isSpreadsheetTraceable();
+	}
 
 	private geogebra.common.util.SpreadsheetTraceSettings traceSettings;
 

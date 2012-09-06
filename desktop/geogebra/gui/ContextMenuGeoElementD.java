@@ -534,24 +534,21 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			// G.Sturr 2010-5-12 
 			// modified to use SpreadsheetTrace Dialog
 
-			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
+			if (app.getGuiManager().showView(App.VIEW_SPREADSHEET) && geo.hasSpreadsheetTraceModeTraceable()) {
 
-				//if GeoList, check if really traceable
-				if (!(geo.isGeoList() && geo.getTraceModes()==TraceModesEnum.NOT_TRACEABLE)){
+				//if multiple geos selected, check if recordable as a list
+				if (geos.size()==1 || GeoList.getTraceModes(geos)!=TraceModesEnum.NOT_TRACEABLE){
+					cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
+					cbItem.setIcon(((AppD) app).getImageIcon("spreadsheettrace.gif"));
+					cbItem.setSelected(geo.getSpreadsheetTrace());
 
-					//if multiple geos selected, check if recordable as a list
-					if (geos.size()==1 || GeoList.getTraceModes(geos)!=TraceModesEnum.NOT_TRACEABLE){
-						cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
-						cbItem.setIcon(((AppD) app).getImageIcon("spreadsheettrace.gif"));
-						cbItem.setSelected(geo.getSpreadsheetTrace());
+					cbItem.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							recordToSpreadSheetCmd();
+						}
+					});
+					addItem(cbItem);
 
-						cbItem.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								recordToSpreadSheetCmd();
-							}
-						});
-						addItem(cbItem);
-					}
 
 				}
 			}
