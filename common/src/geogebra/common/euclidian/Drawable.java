@@ -470,24 +470,7 @@ public abstract class Drawable extends DrawableND {
 
 
 	
-	// =================================================================
-	// G.Sturr 2010-5-14: new recordToSpreadsheet method
 
-	/**
-	 * Traces given geo to spreadsheet
-	 * @param traceGeo element to trace
-	 */
-	public void recordToSpreadsheet(GeoElement traceGeo) {
-
-		// stop spurious numbers after undo
-		if (view.getKernel().isViewReiniting())
-			return;
-
-		Construction cons = view.getKernel().getConstruction();
-		if (cons.getApplication().isUsingFullGui() ||
-			cons.getApplication().isFullAppGui())// may be unnecessary
-			cons.getApplication().traceToSpreadsheet(traceGeo);
-	}
 
 	/**
 	 * Fills given shape

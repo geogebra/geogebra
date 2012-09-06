@@ -194,8 +194,6 @@ public abstract class EuclidianController {
 
 	protected GeoElement movedGeoElement;
 
-	protected GeoElement recordObject = null;
-
 	protected MyDouble tempNum;
 
 	protected double rotStartAngle;
@@ -572,16 +570,6 @@ public abstract class EuclidianController {
 	protected void endOfMode(int endMode) {
 		switch (endMode) {
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			// just to be sure recordObject is set to null
-			// usually this is already done at mouseRelease
-			if (recordObject != null) {
-				if (app.getTraceManager()
-						.isTraceGeo(recordObject)) {
-					app.getTraceManager().removeSpreadsheetTraceGeo(recordObject);
-				}
-				recordObject.setSelected(false);
-				recordObject = null;
-			}
 			break;
 	
 		case EuclidianConstants.MODE_MOVE:
@@ -8334,11 +8322,8 @@ public abstract class EuclidianController {
 				tracegeo = hits.getFirstHit(Test.GEOLIST);
 			}
 			if (tracegeo != null) {
-				if (recordObject == null) {
-					if (!app.getTraceManager().isTraceGeo(tracegeo)) {
-						app.getTraceManager().addSpreadsheetTraceGeo(tracegeo);
-					}
-					recordObject = tracegeo;
+				if (!app.getTraceManager().isTraceGeo(tracegeo)) {
+					app.getTraceManager().addSpreadsheetTraceGeo(tracegeo);
 				}
 				handleMousePressedForMoveMode(e, false);
 				tracegeo.updateRepaint();
@@ -8978,13 +8963,9 @@ public abstract class EuclidianController {
 			view.setHitCursor();
 		}
 	
-		if ((mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-				&& (recordObject != null)) {
-			clearSelections();
-		} else {
-			// this is in the else branch to avoid running it twice
-			refreshHighlighting(null, event);
-		}
+
+		refreshHighlighting(null, event);
+
 	
 		// reinit vars
 		// view.setDrawMode(EuclidianConstants.DRAW_MODE_BACKGROUND_IMAGE);
@@ -9080,9 +9061,7 @@ public abstract class EuclidianController {
 		app.setUnsaved();
 	}
 
-	public GeoElement getRecordObject() {
-		return recordObject;
-	}
+
 
 	public void setLineEndPoint(geogebra.common.awt.GPoint2D p) {
 		if(p==null)
@@ -9306,15 +9285,6 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-	
-			// G.Sturr 2010-5-14
-			if (recordObject != null) {
-				app.getTraceManager().removeSpreadsheetTraceGeo(recordObject);
-				// END G.Sturr
-			}
-	
-			recordObject = null;
-	
 			break;
 	
 		default:

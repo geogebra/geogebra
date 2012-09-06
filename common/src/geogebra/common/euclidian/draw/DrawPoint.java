@@ -293,11 +293,7 @@ public final class DrawPoint extends Drawable {
 		circleSel.setFrame(xUL - SELECTION_OFFSET, yUL - SELECTION_OFFSET,
 				selDiameter, selDiameter);
 
-		// G.Sturr 2010-6-28 spreadsheet trace is now handled in
-		// GeoElement.update()
-		// if (P.getSpreadsheetTrace()) recordToSpreadsheet(P);
-		if (P == view.getEuclidianController().getRecordObject())
-			recordToSpreadsheet((GeoElement) P);
+
 
 		// draw trace
 		if (P.getTrace()) {

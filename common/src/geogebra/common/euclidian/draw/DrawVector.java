@@ -129,8 +129,7 @@ public class DrawVector extends Drawable implements Previewable {
 			addLabelOffset();
 		}
 
-		if (v == view.getEuclidianController().getRecordObject())
-			recordToSpreadsheet((GeoElement) v);
+
 
 		// draw trace
 		// a vector is a Locateable and it might
