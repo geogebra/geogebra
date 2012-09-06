@@ -189,5 +189,10 @@ public class PropertiesDockPanel extends DockPanel implements
 			view.setSelectedOptionPanelVisible(isVisible);
 		}
 	}
+	
+	@Override	
+	protected void setFocus(boolean hasFocus) {
+		//nothing to do for properties view
+	}
 
 }
