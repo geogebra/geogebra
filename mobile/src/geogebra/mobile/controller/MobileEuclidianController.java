@@ -22,20 +22,6 @@ import geogebra.mobile.utils.ToolBarCommand;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
-
 /**
  * Receives the events from the canvas and sends the orders to the kernel.
  * 
@@ -43,9 +29,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  * @see geogebra.common.euclidian.EuclidianController EuclidianController
  * 
  */
-public class MobileEuclidianController extends EuclidianController implements
-		TouchStartHandler, TouchEndHandler, TouchMoveHandler, MouseDownHandler,
-		MouseMoveHandler, MouseUpHandler
+public class MobileEuclidianController extends EuclidianController
 {
 
 	private GuiModel guiModel;
@@ -101,47 +85,25 @@ public class MobileEuclidianController extends EuclidianController implements
 	{
 	}
 
-	@Override
-	public void onTouchMove(TouchMoveEvent event)
+	public void onTouchStart(int x, int y)
 	{
-		event.preventDefault();
-	}
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event)
-	{
-		event.preventDefault();
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event)
-	{
-		event.preventDefault();
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event)
-	{
-		event.preventDefault();
 		this.guiModel.closeOptions();
 
-		this.origin = new GPoint(event.getX(), event.getY());
+		this.origin = new GPoint(x, y);
 
 		this.clicked = true;
 
-		handleEvent(event);
+		handleEvent(x, y);
 	}
 
-	@Override
-	public void onMouseMove(MouseMoveEvent event)
+	public void onTouchMove(int x, int y)
 	{
-		event.preventDefault();
-		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
+		if (this.clicked
+				&& this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
 
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-			MobileMouseEvent mEvent = new MobileMouseEvent(event.getX(),
-					event.getY());
+			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 
 			if (!this.moving)
 			{
@@ -161,16 +123,13 @@ public class MobileEuclidianController extends EuclidianController implements
 					this.view.toRealWorldCoordX(this.origin.getX()),
 					this.view.toRealWorldCoordY(this.origin.getY()));
 			wrapMouseDragged(mEvent);
-			this.origin = new GPoint(event.getX(), event.getY());
+			this.origin = new GPoint(x, y);
 		}
 
 	}
 
-	@Override
-	public void onMouseUp(MouseUpEvent event)
+	public void onTouchEnd(int x, int y)
 	{
-		event.preventDefault();
-
 		this.clicked = false;
 
 		if (this.moving)
@@ -186,14 +145,14 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		if (Swipeables.isSwipeable(this.guiModel.getCommand())
 				&& this.selectedPoints.size() == 1
-				&& (Math.abs(this.origin.getX() - event.getX()) > 10 || Math
-						.abs(this.origin.getY() - event.getY()) > 10))
+				&& (Math.abs(this.origin.getX() - x) > 10 || Math
+						.abs(this.origin.getY() - y) > 10))
 		{
-			handleEvent(event);
+			handleEvent(x, y);
 		}
 	}
 
-	private void handleEvent(MouseEvent<?> event)
+	private void handleEvent(int x, int y)
 	{
 		ToolBarCommand cmd = this.guiModel.getCommand();
 
@@ -205,7 +164,7 @@ public class MobileEuclidianController extends EuclidianController implements
 
 		boolean draw = false;
 
-		this.mouseLoc = new GPoint(event.getX(), event.getY());
+		this.mouseLoc = new GPoint(x, y);
 		this.mode = this.guiModel.getCommand().getMode();
 
 		if (cmd == ToolBarCommand.Move_Mobile)
@@ -219,8 +178,7 @@ public class MobileEuclidianController extends EuclidianController implements
 		}
 
 		// draw the new point
-		switchModeForMousePressed(new MobileMouseEvent(event.getX(),
-				event.getY()));
+		switchModeForMousePressed(new MobileMouseEvent(x, y));
 
 		this.view.setHits(this.mouseLoc);
 		Hits hits = this.view.getHits();
