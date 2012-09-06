@@ -18,6 +18,8 @@ import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.web.awt.GGraphics2DW;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Window;
@@ -42,12 +44,15 @@ public class EuclidianViewM extends EuclidianView
 
 	private GColor backgroundColor = GColor.white;
 	private GGraphics2D g2dtemp;
+	Logger logger;
 
 	public EuclidianViewM(MobileEuclidianController ec)
 	{
 		super(ec, new Settings().getEuclidian(1));
 
 		this.setAllowShowMouseCoords(false);
+
+		
 	}
 
 	/**
@@ -58,46 +63,54 @@ public class EuclidianViewM extends EuclidianView
 	 * 
 	 */
 	public void initCanvas(Canvas c)
-	{
+	{			
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
 
 		TouchDelegate touchDelegate = new TouchDelegate(this.canvas);
-		
+
 		touchDelegate.addTouchStartHandler(new TouchStartHandler()
 		{
-			
+
 			@Override
 			public void onTouchStart(TouchStartEvent event)
 			{
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getNativeEvent().getClientX(), event
 				    .getNativeEvent().getClientY());
+
+				EuclidianViewM.this.logger = Logger.getLogger("PopupLogHandler");		
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
 			}
 		});
-		
+
 		touchDelegate.addTouchMoveHandler(new TouchMoveHandler()
 		{
-			
+
 			@Override
 			public void onTouchMove(TouchMoveEvent event)
 			{
 				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getNativeEvent().getClientX(), event
 				    .getNativeEvent().getClientY());
+
+				EuclidianViewM.this.logger = Logger.getLogger("PopupLogHandler");		
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
 			}
 		});
-		
+
 		touchDelegate.addTouchEndHandler(new TouchEndHandler()
 		{
-			
+
 			@Override
 			public void onTouchEnd(TouchEndEvent event)
 			{
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getNativeEvent().getClientX(), event
-				    .getNativeEvent().getClientY());				
+				    .getNativeEvent().getClientY());
+
+				EuclidianViewM.this.logger = Logger.getLogger("PopupLogHandler");		
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
 			}
 		});
-		
 
 		updateFonts();
 		initView(true);

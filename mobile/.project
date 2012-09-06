@@ -26,11 +26,6 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.google.appengine.eclipse.core.projectValidator</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
 			<triggers>full,incremental,</triggers>
 			<arguments>
@@ -43,7 +38,6 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.google.appengine.eclipse.core.gaeNature</nature>
 		<nature>com.google.gwt.eclipse.core.gwtNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 	</natures>
