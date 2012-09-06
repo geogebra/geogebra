@@ -456,12 +456,31 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("operator iffun;");
 		mpreduce1.evaluate("operator ifelsefun;");
 		mpreduce1.evaluate("let {" + "abs(pi)=>pi,abs(e)=>e};");
-		mpreduce1.evaluate("let {" + "df(asin(~x),x) => 1/sqrt(1-x^2),"
-				+ "df(acosh(~x),x) => 1/(sqrt(x-1)*sqrt(x+1)),"
-				+ "df(asinh(~x),x) => 1/sqrt(1+x^2),"
-				+ "df(acos(~x),x) => -1/sqrt(1-x^2),"
-				+ "df(ifelsefun(~a,~b,~c),~x) => ifelsefun(a,df(b,x),df(c,x)),"
-				+ "df(iffun(~a,~b,~c),~x) => iffun(a,df(b,x),df(c,x))};");
+		mpreduce1.evaluate("let { limit(~x^~n,~n,infinity) => infinity when numberp(~x) and ~x>1,"
+				+ "	limit(~a*~x^~n,~n,infinity) => infinity when numberp(~x) and ~x>1 and numberp(~a) and ~a>0,"
+				+ "	limit(~a*~x^~n,~n,infinity) => -infinity when numberp(~x) and ~x>1 and numberp(~a) and ~a<0,"
+				+ "	limit(~x^~n/~b,~n,infinity) => infinity when numberp(~x) and ~x>1 and numberp(~b) and ~b>0,"
+				+ "	limit(~x^~n/~b,~n,infinity) => -infinity when numberp(~x) and ~x>1 and numberp(~b) and ~b<0,"
+				+ "	limit(~a*~x^~n/~b,~n,infinity) => infinity when numberp(~x) and ~x>1 and numberp(~a) and numberp(~b) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
+				+ "	limit(~a*~x^~n/~b,~n,infinity) => -infinity when numberp(~x) and ~x>1 and numberp(~a) and numberp(~b) and ((~a<0 and ~b>0) or (~a>0 and ~b<0)),"
+					
+				+ "	limit(~x^~n,~n,infinity) => 0 when numberp(~x) and abs(~x)<1,"
+				+ "	limit(~a*~x^~n,~n,infinity) => 0 when numberp(~x) and abs(~x)<1 and numberp(~a) and not(~a=infinity or ~a=-infinity),"
+				+ "	limit(~x^~n/~b,~n,infinity) => 0 when numberp(~x) and abs(~x)<1 and numberp(~b) and not(~b=0),"
+				+ "	limit(~a*~x^~n/~b,~n,infinity) => 0 when numberp(~x) and abs(~x)<1 and numberp(~a) and numberp(~b) and not(~a=infinity or ~a=-infinity) and not(~b=0),"
+					
+				+ "	limit(~x^~n,~n,-infinity) => 0 when numberp(~x) and abs(~x)>1,"
+				+ "	limit(~a*~x^~n,~n,-infinity) => 0 when numberp(~x) and abs(~x)>1 and numberp(~a) and not(~a=infinity or ~a=-infinity),"
+				+ "	limit(~x^~n/~b,~n,-infinity) => 0 when numberp(~x) and abs(~x)>1 and numberp(~b) and not(~b=0),"
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => 0 when numberp(~x) and abs(~x)>1 and numberp(~a) and numberp(~b) and not(~a=infinity or ~a=-infinity) and not(~b=0),"
+						
+				+ "	limit(~x^~n,~n,-infinity) => infinity when numberp(~x) and ~x<1 and ~x>0,"
+				+ "	limit(~a*~x^~n,~n,-infinity) => infinity when numberp(~x) and ~x<1 and ~x>0 and numberp(~a) and ~a>0,"
+				+ "	limit(~a*~x^~n,~n,-infinity) => -infinity when numberp(~x) and ~x<1 and ~x>0 and numberp(~a) and ~a<0,"
+				+ "	limit(~x^~n/~b,~n,-infinity) => infinity when numberp(~x) and ~x<1 and ~x>0 and numberp(~b) and ~b>0,"
+				+ "	limit(~x^~n/~b,~n,-infinity) => -infinity when numberp(~x) and ~x<1 and ~x>0 and numberp(~b) and ~b<0,"
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => infinity when numberp(~x) and ~x<1 and ~x>0 and numberp(~a) and numberp(~b) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when numberp(~x) and ~x<1 and ~x>0 and numberp(~a) and numberp(~b) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}");
 		
 		mpreduce1.evaluate("let { limit(~x^~n,~n,infinity) => infinity when numberp(~x) and ~x > 1,"
 				+ "  limit(~x^~n,~n,infinity) => 0 when numberp(~x) and abs(~x) < 1,"
