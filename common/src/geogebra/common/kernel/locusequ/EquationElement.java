@@ -1,5 +1,6 @@
 package geogebra.common.kernel.locusequ;
 
+import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -8,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPoint;
  * @author sergio
  *
  */
-public abstract class EquationElement {
+public abstract class EquationElement implements EquationElementInterface {
 
 	private GeoElement result;
 	private EquationScope scope;

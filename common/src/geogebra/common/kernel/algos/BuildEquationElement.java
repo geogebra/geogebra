@@ -1,7 +1,6 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorLines;
 import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorPoints;
@@ -51,8 +50,10 @@ public class BuildEquationElement {
 	 * @param scope scope
 	 * @return @return
 	 */
-	public static EquationElement buildEquationElementForGeo(
-			AlgoElement algo, GeoElement element, EquationScope scope) {
+	public static EquationElementInterface buildEquationElementForGeo(
+			AlgoElement algo, GeoElement element, EquationScopeInterface scopeI) {
+		
+		EquationScope scope = (EquationScope)scopeI;
 		
 		switch (algo.getClassName()) {
 		case AlgoPolygon: 

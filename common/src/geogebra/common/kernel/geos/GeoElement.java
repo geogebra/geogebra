@@ -46,6 +46,8 @@ import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
+import geogebra.common.kernel.algos.EquationElementInterface;
+import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -7245,7 +7247,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param scope given {@link EquationScope}
 	 * @return a new {@link EquationElement}
 	 */
-	public EquationElement createEquationElement(final EquationScope scope) {
+	public EquationElementInterface createEquationElement(final EquationScopeInterface scope) {
 		return this.getParentAlgorithm().buildEquationElementForGeo(this, scope);
 	}
 	

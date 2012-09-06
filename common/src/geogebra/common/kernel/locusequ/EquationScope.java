@@ -5,6 +5,7 @@ package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
@@ -18,7 +19,7 @@ import java.util.Set;
  * Represents the scope for a locus. It is basically a map
  * from points an elements to their symbolic representation.
  */
-public class EquationScope {
+public class EquationScope implements EquationScopeInterface {
 	
 	protected EquationPointMap pointMap;
     protected EquationElementMap elementsMap;

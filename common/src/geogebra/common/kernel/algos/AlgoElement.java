@@ -1495,7 +1495,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @param scope the scope containing the points.
 	 * @return a new EquationElement.
 	 */
-	final public EquationElement buildEquationElementForGeo(GeoElement element, EquationScope scope) {
+	final public EquationElementInterface buildEquationElementForGeo(GeoElement element, EquationScopeInterface scope) {
 		return BuildEquationElement.buildEquationElementForGeo(this, element, scope);
 	}
 	
