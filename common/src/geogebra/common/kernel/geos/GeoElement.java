@@ -58,8 +58,6 @@ import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
