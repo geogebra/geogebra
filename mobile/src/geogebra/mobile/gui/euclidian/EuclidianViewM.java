@@ -20,15 +20,14 @@ import geogebra.web.awt.GGraphics2DW;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.Window;
+import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
+import com.googlecode.mgwt.dom.client.event.touch.TouchEndHandler;
+import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
+import com.googlecode.mgwt.dom.client.event.touch.TouchMoveHandler;
+import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
+import com.googlecode.mgwt.dom.client.event.touch.TouchStartHandler;
+import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
 /**
  * 
@@ -55,7 +54,7 @@ public class EuclidianViewM extends EuclidianView
 	 * This method has to be called before using g2p.
 	 * 
 	 * @param c
-	 *            : a new Canvas
+	 *          : a new Canvas
 	 * 
 	 */
 	public void initCanvas(Canvas c)
@@ -63,82 +62,43 @@ public class EuclidianViewM extends EuclidianView
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
 
-//		this.canvas.addTouchStartHandler(new TouchStartHandler()
-//		{
-//			@Override
-//			public void onTouchStart(TouchStartEvent event)
-//			{
-//				((MobileEuclidianController) EuclidianViewM.this
-//						.getEuclidianController()).onTouchStart(event
-//						.getNativeEvent().getClientX(), event.getNativeEvent()
-//						.getClientY());
-//			}
-//		});
-
-		this.canvas.addTouchMoveHandler(new TouchMoveHandler()
+		TouchDelegate touchDelegate = new TouchDelegate(this.canvas);
+		
+		touchDelegate.addTouchStartHandler(new TouchStartHandler()
 		{
+			
+			@Override
+			public void onTouchStart(TouchStartEvent event)
+			{
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getNativeEvent().getClientX(), event
+				    .getNativeEvent().getClientY());
+			}
+		});
+		
+		touchDelegate.addTouchMoveHandler(new TouchMoveHandler()
+		{
+			
 			@Override
 			public void onTouchMove(TouchMoveEvent event)
 			{
 				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchMove(event
-						.getNativeEvent().getClientX(), event.getNativeEvent()
-						.getClientY());
-			}
-		});
-
-//		this.canvas.addTouchEndHandler(new TouchEndHandler()
-//		{
-//			@Override
-//			public void onTouchEnd(TouchEndEvent event)
-//			{
-//				((MobileEuclidianController) EuclidianViewM.this
-//						.getEuclidianController()).onTouchEnd(event
-//						.getNativeEvent().getClientX(), event.getNativeEvent()
-//						.getClientY());
-//			}
-//		});
-
-		// make it work on desktop
-		this.canvas.addMouseDownHandler(new MouseDownHandler()
-		{
-			@Override
-			public void onMouseDown(MouseDownEvent event)
-			{
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchStart(event
-						.getNativeEvent().getClientX(), event.getNativeEvent()
-						.getClientY());
-			}
-
-		});
-
-		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
-		{
-			@Override
-			public void onMouseMove(MouseMoveEvent event)
-			{
-				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchMove(event
-						.getNativeEvent().getClientX(), event.getNativeEvent()
-						.getClientY());
-			}
-		});
-
-		this.canvas.addMouseUpHandler(new MouseUpHandler()
-		{
-			@Override
-			public void onMouseUp(MouseUpEvent event)
-			{
-				((MobileEuclidianController) EuclidianViewM.this
-						.getEuclidianController()).onTouchEnd(event
-						.getNativeEvent().getClientX(), event.getNativeEvent()
-						.getClientY());
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getNativeEvent().getClientX(), event
+				    .getNativeEvent().getClientY());
 			}
 		});
 		
+		touchDelegate.addTouchEndHandler(new TouchEndHandler()
+		{
+			
+			@Override
+			public void onTouchEnd(TouchEndEvent event)
+			{
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getNativeEvent().getClientX(), event
+				    .getNativeEvent().getClientY());				
+			}
+		});
+		
+
 		updateFonts();
 		initView(true);
 		attachView();
@@ -253,8 +213,7 @@ public class EuclidianViewM extends EuclidianView
 	{
 		// TODO
 		if (this.g2dtemp == null)
-			this.g2dtemp = new geogebra.web.awt.GGraphics2DW(
-					Canvas.createIfSupported());
+			this.g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;
 	}
@@ -310,8 +269,7 @@ public class EuclidianViewM extends EuclidianView
 	public void paintBackground(GGraphics2D g2)
 	{
 		// TODO
-		((GGraphics2DW) g2).drawGraphics((GGraphics2DW) this.bgGraphics, 0, 0,
-				null);
+		((GGraphics2DW) g2).drawGraphics((GGraphics2DW) this.bgGraphics, 0, 0, null);
 	}
 
 	@Override
@@ -330,9 +288,7 @@ public class EuclidianViewM extends EuclidianView
 	{
 		if (bgColor != null)
 		{
-			this.backgroundColor = AwtFactory.prototype.newColor(
-					bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(),
-					bgColor.getAlpha());
+			this.backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 		}
 	}
 
@@ -342,8 +298,7 @@ public class EuclidianViewM extends EuclidianView
 	}
 
 	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			GColor penColor, int penLineStyle, int penSize)
+	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2, GColor penColor, int penLineStyle, int penSize)
 	{
 	}
 
