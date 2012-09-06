@@ -23,7 +23,6 @@ import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 public class AlgebraViewPanel extends LayoutPanel
 {
 	protected ScrollPanel scrollPanel;
-	// for tests only protected AlgebraView algebraView;
 	protected AlgebraViewM algebraView;
 
 	boolean small = false;
@@ -83,7 +82,7 @@ public class AlgebraViewPanel extends LayoutPanel
 		});
 
 	}
-	
+
 	/**
 	 * Extends the {@link AlgebraViewPanel}.
 	 */
@@ -112,11 +111,5 @@ public class AlgebraViewPanel extends LayoutPanel
 		this.scrollPanel.addStyleName("algebraScrollPanel");
 		add(this.scrollPanel);
 	}
-	
-	//for tests only
-	public AlgebraViewM getAlgebraViewM()
-	{
-		return this.algebraView;
-	}
-	//end
+
 }

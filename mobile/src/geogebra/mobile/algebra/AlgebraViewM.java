@@ -93,7 +93,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	 */
 	public AlgebraViewM(AlgebraController algCtrl)
 	{
-
 		super();
 
 		App.debug("creating Algebra View");
@@ -481,20 +480,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 		add(geo, -1);
 	}
 
-	/// for Tests only!!!!!!!! - BEGIN -
-	public void addEventName(String event)
-	{
-		//System.out.println(this.rootOrder);
-		//this.rootLayer.addTextItem(event);
-		this.addTextItem(event);
-		//this.indNode.addTextItem(event);
-		//this.rootType.addTextItem(event);
-	}
-	// -END-
-	
-	
-	
-	
 	private void add(GeoElement geo, int forceLayer)
 	{
 		cancelEditing();

@@ -24,21 +24,19 @@ public class TabletHeaderPanel extends HeaderPanel
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanel.this.dialog = new InputDialog(new ClickHandler()
-				{
-					@Override
-					public void onClick(ClickEvent e)
-					{
-						TabletHeaderPanel.this.setCenter(TabletHeaderPanel.this.dialog.getText());
-						TabletHeaderPanel.this.dialog.hide();
-					}
-				}, getHeaderTitle());
+				TabletHeaderPanel.this.dialog = new InputDialog(
+						new ClickHandler()
+						{
+							@Override
+							public void onClick(ClickEvent e)
+							{
+								TabletHeaderPanel.this
+										.setCenter(TabletHeaderPanel.this.dialog
+												.getText());
+								TabletHeaderPanel.this.dialog.hide();
+							}
+						});
 			}
 		}, ClickEvent.getType());
-	}
-	
-	protected String getHeaderTitle()
-	{
-		return this.getElement().getInnerText();
 	}
 }

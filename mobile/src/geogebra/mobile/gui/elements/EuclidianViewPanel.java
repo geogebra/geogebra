@@ -10,7 +10,6 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
  * Extends from {@link LayoutPanel}.
  * Holds the instances of the canvas and the euclidianView.
  */
-
 public class EuclidianViewPanel extends LayoutPanel
 {
 	private Canvas canvas; 	
@@ -25,14 +24,6 @@ public class EuclidianViewPanel extends LayoutPanel
 		this.addStyleName("euclidianview");		
 		this.canvas = Canvas.createIfSupported(); 
 	}
-	
-	//for tests only
-	public EuclidianViewM getEuclidianViewM()
-	{
-		return this.euclidianView;
-	}
-	//end
-	
 	
 	/**
 	 * Creates the {@link EuclidianViewM euclidianView} and initializes the canvas on it.
