@@ -8,7 +8,6 @@ import geogebra.common.kernel.cas.CmdExpand;
 import geogebra.common.kernel.cas.CmdFactor;
 import geogebra.common.kernel.cas.CmdImplicitDerivative;
 import geogebra.common.kernel.cas.CmdIntegral;
-import geogebra.common.kernel.cas.CmdLength;
 import geogebra.common.kernel.cas.CmdLimit;
 import geogebra.common.kernel.cas.CmdLimitAbove;
 import geogebra.common.kernel.cas.CmdLimitBelow;
@@ -18,7 +17,6 @@ import geogebra.common.kernel.cas.CmdPartialFractions;
 import geogebra.common.kernel.cas.CmdSimplify;
 import geogebra.common.kernel.cas.CmdSolveODE;
 import geogebra.common.kernel.cas.CmdSurdText;
-import geogebra.common.kernel.cas.CmdTangent;
 import geogebra.common.kernel.cas.CmdTrigCombine;
 import geogebra.common.kernel.cas.CmdTrigExpand;
 import geogebra.common.kernel.cas.CmdTrigSimplify;
@@ -59,8 +57,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdTrigSimplify(kernel);
 		case TrigCombine:
 			return new CmdTrigCombine(kernel);
-		case Length:
-			return new CmdLength(kernel);
 		case Limit:
 			return new CmdLimit(kernel);
 		case LimitBelow:

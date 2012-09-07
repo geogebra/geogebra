@@ -10,11 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.kernel.cas;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;

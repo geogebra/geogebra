@@ -291,6 +291,7 @@ public class CommandDispatcher {
 	 * 
 	 * @param cmdName
 	 *            String command name
+	 * @param c 
 	 * @return Processor for given command
 	 */
 	public CommandProcessor commandTableSwitch(String cmdName) {
@@ -474,6 +475,8 @@ public class CommandDispatcher {
 				
 				// basic
 				
+			case Tangent:
+			case Length:
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
 				
@@ -754,12 +757,12 @@ public class CommandDispatcher {
 			case ShortestDistance:
 				return getDiscreteDispatcher().dispatch(command,kernel);
 				
+				
 			case LocusEquation:
 			case Expand:
 			case Factor:
 			case Simplify:
 			case SurdText:
-			case Tangent:
 			case ParametricDerivative:
 			case Derivative:
 			case Integral:
@@ -768,7 +771,6 @@ public class CommandDispatcher {
 			case TrigExpand:
 			case TrigSimplify:
 			case TrigCombine:
-			case Length:
 			case Limit:
 			case LimitBelow:
 			case LimitAbove:

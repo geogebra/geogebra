@@ -14,6 +14,8 @@ public class CommandDispatcherBasic {
 		switch(c){
 		// basic
 
+		case Length:
+			return new CmdLength(kernel);
 		case Sort:
 			return new CmdSort(kernel);
 		case BarChart:

@@ -1,12 +1,16 @@
-package geogebra.common.kernel.cas;
+package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoLengthSegment;
 import geogebra.common.kernel.algos.AlgoLengthVector;
+import geogebra.common.kernel.algos.AlgoTextLength;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.cas.AlgoLengthCurve;
+import geogebra.common.kernel.cas.AlgoLengthCurve2Points;
+import geogebra.common.kernel.cas.AlgoLengthFunction;
+import geogebra.common.kernel.cas.AlgoLengthFunction2Points;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;

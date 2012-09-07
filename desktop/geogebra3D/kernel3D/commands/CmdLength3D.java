@@ -2,7 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.cas.CmdLength;
+import geogebra.common.kernel.commands.CmdLength;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra3D.kernel3D.GeoVector3D;
