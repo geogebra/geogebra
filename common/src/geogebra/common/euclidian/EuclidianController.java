@@ -7236,7 +7236,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_NUMERIC;
 	
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
-			if (d instanceof DrawSlider) {
+			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible() && mouseLoc != null) {
 				// should we move the slider
 				// or the point on the slider, i.e. change the number
 				DrawSlider ds = (DrawSlider) d;
