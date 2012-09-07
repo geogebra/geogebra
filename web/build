@@ -161,7 +161,7 @@ while [ $# -gt 0 ]; do
    echo
    echo "Examples:"
    echo " ./build -X /usr/local/bin/xml -s PRETTY -u safari -l en,de -i /tmp/ggw -- -draftCompile"
-   echo " ./build -M -nl --heap 2560m -- -draftCompile"
+   echo " ./build -M -l en --heap 2560m -- -draftCompile"
    exit 0
    ;;
 
