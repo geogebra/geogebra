@@ -77,11 +77,10 @@ public class EuclidianViewM extends EuclidianView
 			public void onTouchStart(TouchStartEvent event)
 			{
 				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getNativeEvent().getClientX(), event
-				    .getNativeEvent().getClientY());
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
 	
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getNativeEvent().getClientX() + "/" + event
-				    .getNativeEvent().getClientY() + ")");
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getTouches().get(0).getPageX() + "/" + event.getTouches().get(0).getPageY() + ")");
+			
 			
 			}
 		});
@@ -93,11 +92,10 @@ public class EuclidianViewM extends EuclidianView
 			public void onTouchMove(TouchMoveEvent event)
 			{
 				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getNativeEvent().getClientX(), event
-				    .getNativeEvent().getClientY());
-
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getNativeEvent().getClientX() + "/" + event
-				    .getNativeEvent().getClientY() + ")");
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
+	
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
+			
 			}
 		});
 
@@ -107,11 +105,9 @@ public class EuclidianViewM extends EuclidianView
 			public void onTouchEnd(TouchEndEvent event)
 			{
 				event.preventDefault();
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getNativeEvent().getClientX(), event
-				    .getNativeEvent().getClientY());
-
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getNativeEvent().getClientX() + "/" + event
-				    .getNativeEvent().getClientY() + ")");
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getChangedTouches().get(0).getPageX(),event.getChangedTouches().get(0).getPageY());
+	
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getChangedTouches().get(0).getPageX() + "/" + event.getChangedTouches().get(0).getPageY() + ")");
 			}
 		});
 
