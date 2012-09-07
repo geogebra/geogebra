@@ -6,7 +6,7 @@
     <vendor>International GeoGebra Institute</vendor>
     <homepage href="http://www.geogebra.org/"/>
     <description>Dynamic Mathematics for Everyone</description>
-    <icon href="../geogebra64.gif" width="64" height="64"/>
+    <icon href="http://www.geogebra.org/static/images/ggb-logo-64x64-white.png" width="64" height="64"/>
     <offline-allowed/>
     <shortcut online="true">
       <desktop/>
