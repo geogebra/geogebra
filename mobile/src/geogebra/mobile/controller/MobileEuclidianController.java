@@ -22,6 +22,9 @@ import geogebra.mobile.utils.ToolBarCommand;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.googlecode.mgwt.dom.client.recognizer.pinch.PinchEvent;
+
 /**
  * Receives the events from the canvas and sends the orders to the kernel.
  * 
@@ -487,5 +490,11 @@ public class MobileEuclidianController extends EuclidianController
 
 		// clear highlighting
 		refreshHighlighting(null, null);
+	}
+
+	public void onPinch(double scaleFactor)
+	{
+		// TODO Implement canvas scaling (simple rescaling the getContext2d doesn't do the trick...
+		// also mind all the other events that are fired beside pinch! (can we consume them somehow, if a pinch occures?)
 	}
 }

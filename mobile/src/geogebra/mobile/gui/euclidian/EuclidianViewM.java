@@ -29,6 +29,8 @@ import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
 import com.googlecode.mgwt.dom.client.event.touch.TouchMoveHandler;
 import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
 import com.googlecode.mgwt.dom.client.event.touch.TouchStartHandler;
+import com.googlecode.mgwt.dom.client.recognizer.pinch.PinchEvent;
+import com.googlecode.mgwt.dom.client.recognizer.pinch.PinchHandler;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
 /**
@@ -40,7 +42,7 @@ public class EuclidianViewM extends EuclidianView
 {
 	// set in setCanvas
 	private GGraphics2DW g2p = null;
-	private Canvas canvas;
+	Canvas canvas;
 
 	private GColor backgroundColor = GColor.white;
 	private GGraphics2D g2dtemp;
@@ -70,6 +72,18 @@ public class EuclidianViewM extends EuclidianView
 
 		TouchDelegate touchDelegate = new TouchDelegate(this.canvas);
 
+		touchDelegate.addPinchHandler(new PinchHandler()
+		{			
+			@Override
+			public void onPinch(PinchEvent event)
+			{							
+				// TODO Pinch Event Handling
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onPinch(event.getScaleFactor());
+				
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getScaleFactor() + ")");
+			}
+		});
+		
 		touchDelegate.addTouchStartHandler(new TouchStartHandler()
 		{
 
