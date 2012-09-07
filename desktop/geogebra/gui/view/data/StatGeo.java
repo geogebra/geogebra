@@ -44,6 +44,7 @@ import geogebra.common.kernel.statistics.AlgoNormalQuantilePlot;
 import geogebra.common.kernel.statistics.AlgoResidualPlot;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoStemPlot;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.gui.view.data.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
@@ -206,17 +207,17 @@ public class StatGeo {
 		GeoElement geo;
 
 		// determine min/max X values
-		if (settings.sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
 			getDataBounds(dataList);
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 			getDataBounds((GeoList) dataList.get(0));
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
 			// settings.numClasses = ((GeoList) dataList.get(0)).size();
 		}
 
 		// determine class borders
 		if (settings.useManualClasses
-				|| settings.sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+				|| settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
 			// generate class borders using given start and width
 			al = new AlgoClasses(cons, dataList, new GeoNumeric(cons,
 					settings.classStart), new GeoNumeric(cons,
@@ -225,11 +226,11 @@ public class StatGeo {
 
 			// generate class borders from data using given number of classes
 			settings.classWidth = (xMaxData - xMinData) / (settings.numClasses);
-			if (settings.sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+			if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
 				al = new AlgoClasses(cons, dataList, null, null,
 						new GeoNumeric(cons, settings.numClasses));
 
-			} else if (settings.sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+			} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 				al = new AlgoClasses(cons, (GeoList) dataList.get(0), null,
 						null, new GeoNumeric(cons, settings.numClasses));
 			}
@@ -248,14 +249,14 @@ public class StatGeo {
 		// ==================
 		// create a histogram and (possibly) a frequency polygon
 
-		if (settings.sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
 			// histogram constructed from data values
 			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
 					settings.isCumulative), (GeoList) al.getGeoElements()[0],
 					dataList, null, new GeoBoolean(cons, true), new GeoNumeric(
 							cons, density), histogramRight);
 
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 
 			// histogram constructed from frequencies
 			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
@@ -264,7 +265,7 @@ public class StatGeo {
 					new GeoBoolean(cons, true), new GeoNumeric(cons, density),
 					histogramRight);
 
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
 
 			// histogram constructed from frequencies
 			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
@@ -371,11 +372,11 @@ public class StatGeo {
 			StatPanelSettings settings) {
 
 		// get the data bounds
-		if (settings.sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
 			getDataBounds(dataList);
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 			getDataBounds((GeoList) dataList.get(0));
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
 			// settings.numClasses = ((GeoList) dataList.get(0)).size();
 		}
 
@@ -402,18 +403,73 @@ public class StatGeo {
 
 	}
 
+	
+	public GeoElement createBarChart(GeoList dataList, StatPanelSettings settings) {
+
+		GeoElement geo = null;
+		double barWidth = 0.5;
+		
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
+			AlgoBarChart barChart = null;
+			if(settings.isNumericData()){
+				barChart = new AlgoBarChart(cons, dataList, new GeoNumeric(
+					cons, barWidth));
+			}else{
+				//AlgoVerticalText t;
+				//AlgoUnique al = new AlgoUnique(cons, dataList);
+				//AlgoFrequency al2 = new AlgoFrequency(cons, null, null, dataList);
+			}
+			
+			removeFromConstructionList(barChart);
+			geo = barChart.getGeoElements()[0];
+
+		} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
+			AlgoBarChart barChart = new AlgoBarChart(cons, (GeoList)dataList.get(0), (GeoList)dataList.get(1));
+			
+			removeFromConstructionList(barChart);
+			geo = barChart.getGeoElements()[0];
+		}
+
+		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.BARCHART_COLOR));
+		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
+		return geo;
+	}
+	
+	public void getBarChartSettings(GeoList dataList, StatPanelSettings settings, GeoElement barChart) {
+		App.error("barChart setting");
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
+			getDataBounds(dataList);
+		} else {
+			if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
+				getDataBounds((GeoList) dataList.get(0));
+			}
+		}
+		
+		double freqMax = ((AlgoFunctionAreaSums) barChart.getParentAlgorithm())
+				.getFreqMax();
+
+		yMinData = 0.0;
+		yMaxData = freqMax;
+		setXYBounds(settings, .2, .1);
+
+		settings.showYAxis = true;
+		settings.forceXAxisBuffer = true;
+
+	}
+
+	
 	public GeoElement createBoxPlot(GeoList dataList, StatPanelSettings settings) {
 
 		GeoElement geo = null;
 
-		if (settings.sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
 			AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons,
 					new MyDouble(kernel, 1d), new MyDouble(kernel, 0.5),
 					dataList, new GeoBoolean(cons, true));
 			removeFromConstructionList(boxPlot);
 			geo = boxPlot.getGeoElements()[0];
 
-		} else if (settings.sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+		} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 			AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons,
 					new MyDouble(kernel, 1d), new MyDouble(kernel, 0.5),
 					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
@@ -428,10 +484,10 @@ public class StatGeo {
 	}
 
 	public void getBoxPlotSettings(GeoList dataList, StatPanelSettings settings) {
-		if (settings.sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
 			getDataBounds(dataList);
 		} else {
-			if (settings.sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+			if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 				getDataBounds((GeoList) dataList.get(0));
 			}
 		}

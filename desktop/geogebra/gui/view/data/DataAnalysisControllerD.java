@@ -38,41 +38,12 @@ public class DataAnalysisControllerD {
 	private DataSource dataSource;
 
 	private ArrayList<GeoElement> dataArray;
-
-	public ArrayList<GeoElement> getDataArray() {
-		return dataArray;
-	}
-
 	private GeoList dataSelected;
-
-	public GeoList getDataSelected() {
-		return dataSelected;
-	}
 
 	private boolean leftToRight = true;
 	private boolean isValidData = true;
 
-	public boolean isValidData() {
-		return isValidData;
-	}
-
-	public void setValidData(boolean isValidData) {
-		this.isValidData = isValidData;
-	}
-
-	public void setLeftToRight(boolean leftToRight) {
-		this.leftToRight = leftToRight;
-	}
-
 	private GeoElement geoRegression;
-
-	public GeoElement getRegressionModel() {
-		return geoRegression;
-	}
-
-	public void setRegressionModel(GeoFunction regressionModel) {
-		this.geoRegression = regressionModel;
-	}
 
 	/****************************************************
 	 * Constructs a StatDialogController
@@ -93,8 +64,48 @@ public class DataAnalysisControllerD {
 
 	}
 
+	// ==========================================
+	// Getters/Setters
+	// ==========================================
+
 	private int mode() {
 		return view.getMode();
+	}
+
+	public ArrayList<GeoElement> getDataArray() {
+		return dataArray;
+	}
+
+	public GeoList getDataSelected() {
+		return dataSelected;
+	}
+
+	public boolean isValidData() {
+		return isValidData;
+	}
+
+	public void setValidData(boolean isValidData) {
+		this.isValidData = isValidData;
+	}
+
+	public void setLeftToRight(boolean leftToRight) {
+		this.leftToRight = leftToRight;
+	}
+
+	public GeoElement getRegressionModel() {
+		return geoRegression;
+	}
+
+	public void setRegressionModel(GeoFunction regressionModel) {
+		this.geoRegression = regressionModel;
+	}
+
+	// ==========================================
+	// Data source
+	// ==========================================
+
+	public DataSource getDataSource() {
+		return dataSource;
 	}
 
 	/**
@@ -182,8 +193,8 @@ public class DataAnalysisControllerD {
 	}
 
 	/**
-	 * Loads references to GeoElements contained in (Object) dataSource into
-	 * (GeoList) dataListSelected and (ArrayList) dataArray .
+	 * Loads GeoElements from dataSource into (GeoList) dataListSelected and
+	 * (ArrayList) dataArray .
 	 */
 	protected void loadDataLists() {
 
@@ -195,8 +206,7 @@ public class DataAnalysisControllerD {
 			return;
 		}
 
-		ArrayList<GeoList> list = dataSource.loadDataLists(mode(),
-				view.getSourceType());
+		ArrayList<GeoList> list = dataSource.loadDataLists(mode());
 
 		if (list == null) {
 			this.setValidData(false);

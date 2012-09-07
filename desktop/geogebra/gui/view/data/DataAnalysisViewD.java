@@ -35,13 +35,13 @@ import javax.swing.JSplitPane;
  * View to display plots and statistical analysis of data.
  * 
  * @author G. Sturr
- *
+ * 
  */
 public class DataAnalysisViewD extends JPanel implements View, Printable,
 		SpecialNumberFormatInterface {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// ggb
 	private AppD app;
 	private Kernel kernel;
@@ -57,11 +57,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
-	public static final int SOURCE_RAWDATA = 0;
-	public static final int SOURCE_VALUE_FREQUENCY = 1;
-	public static final int SOURCE_CLASS_FREQUENCY = 2;
-	public static final int SOURCE_POINTLIST = 3;
-	private int sourceType = SOURCE_RAWDATA;
+	
+	//private int sourceType = DataSource.SOURCE_RAWDATA;
 
 	// flags
 	private boolean showDataPanel = false;
@@ -70,10 +67,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
 	private boolean leftToRight = true;
-	private boolean isNumeric = true;
-
-	// TODO: this may not be needed
-	private StatPanelSettings defaults;
+	
 
 	private boolean doSpecialNumberFormat = false;
 
@@ -85,6 +79,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			.getAwtColor(GeoGebraColorConstants.BLUE);
 	public static final Color BOXPLOT_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.CRIMSON);
+	public static final Color BARCHART_COLOR = geogebra.awt.GColorD
+			.getAwtColor(GeoGebraColorConstants.DARKGREEN);
+	
 	public static final Color DOTPLOT_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY5);
 	public static final Color NQPLOT_COLOR = geogebra.awt.GColorD
@@ -140,7 +137,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	// number format
 	private SpecialNumberFormat nf;
-	
 
 	/*************************************************
 	 * Constructs the view.
@@ -154,7 +150,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		this.app = app;
 		this.kernel = app.getKernel();
 
-		defaults = new StatPanelSettings();
 
 		nf = new SpecialNumberFormat(app, this);
 
@@ -176,7 +171,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			boolean forceModeUpdate) {
 
 		daCtrl.setDataSource(dataSource);
-		
+
 		if (dataSource == null) {
 			daCtrl.setValidData(false);
 		} else {
@@ -190,9 +185,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			dataPanel = null;
 			buildStatisticsPanel();
 			daCtrl.updateDataLists();
-			setComboPanels();
+			setDataPlotPanels();
 			updateLayout();
-			
+
 			// TODO: why do this here?
 			daCtrl.updateDataAnalysisView();
 
@@ -237,13 +232,30 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		}
 	}
 
-	public void setComboPanels() {
+	/**
+	 * set the data plot panels with default plots
+	 */
+	public void setDataPlotPanels() {
 
 		switch (mode) {
 
 		case MODE_ONEVAR:
-			comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
-			comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+			if (!isNumericData()) {
+				comboStatPanel.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
+
+			} else if (sourceType() == DataSource.SOURCE_RAWDATA) {
+				comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+
+			} else if (sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
+				comboStatPanel.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+				
+			} else if (sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
+				comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+			}
 			break;
 
 		case MODE_REGRESSION:
@@ -352,16 +364,17 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// main panel
 		// ============================================
 		mainPanel = new JPanel(new BorderLayout());
-		//mainPanel.add(getStyleBar(), BorderLayout.NORTH);
+		// mainPanel.add(getStyleBar(), BorderLayout.NORTH);
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
 
 		if (mode == MODE_REGRESSION) {
 			mainPanel.add(regressionPanel, BorderLayout.SOUTH);
 		}
 
-	//	dataTypePanel = new DataViewSettingsPanel(app, StatDialog.MODE_ONEVAR);
+		// dataTypePanel = new DataViewSettingsPanel(app,
+		// StatDialog.MODE_ONEVAR);
 		JPanel p = new JPanel(new FullWidthLayout());
-	//	p.add(dataTypePanel);
+		// p.add(dataTypePanel);
 
 		this.setLayout(new CardLayout());
 		add(mainPanel, MainCard);
@@ -388,6 +401,18 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// Getters/setters
 	// ======================================
 
+	public DataAnalysisControllerD getDaCtrl(){
+		return daCtrl;
+	}
+	
+	public DataSource getDataSource(){
+		return daCtrl.getDataSource();
+	}
+	
+	private int sourceType(){
+		return daCtrl.getDataSource().getSourceType();
+	}
+	
 	/**
 	 * Component representation of this view
 	 * 
@@ -531,26 +556,15 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	}
 
-	public boolean isNumeric() {
-		return isNumeric;
+	public boolean isNumericData() {
+		if(daCtrl.getDataSource() == null){
+			return false;
+		}
+		return daCtrl.getDataSource().isNumericData();
 	}
 
-	public void setNumeric(boolean isNumeric) {
-		this.isNumeric = isNumeric;
-	}
-
-	public int getSourceType() {
-		return sourceType;
-	}
-
-	public void setSourceType(int sourceType) {
-		this.sourceType = sourceType;
-	}
-
-	public StatPanelSettings getDefaults() {
-		return defaults;
-	}
-
+	
+	
 	// =================================================
 	// Handlers for Component Visibility
 	// =================================================
@@ -724,7 +738,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public void update(GeoElement geo) {
 
 		if (!isIniting && daCtrl.isInDataSource(geo)) {
-			// App.error("updated geo:" + geo.toString());
+			App.error("updated geo:" + geo.toString());
 			daCtrl.updateDataAnalysisView();
 		}
 	}

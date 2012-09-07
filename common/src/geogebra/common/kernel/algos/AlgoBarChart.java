@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -35,6 +37,11 @@ public class AlgoBarChart extends AlgoFunctionAreaSums {
 		super(cons, label, list1, a);		
 	}
 
+	public AlgoBarChart(Construction cons,
+			GeoList list1, GeoNumeric a) {
+		super(cons, list1, a);		
+	}
+	
 	public AlgoBarChart(Construction cons, String label,
 			GeoList list1, GeoList list2) {
 		super(cons, label, list1, list2);		

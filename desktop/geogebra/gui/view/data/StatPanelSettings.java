@@ -8,7 +8,23 @@ public class StatPanelSettings extends PlotSettings{
 	public static final int TYPE_NORMALIZED = 2;
 	public int frequencyType = TYPE_COUNT;
 
-	public int sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
+	public DataSource dataSource;
+	
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public int sourceType(){
+		return dataSource.getSourceType();
+	}
+	
+	public boolean isNumericData(){
+		return dataSource.isNumericData();
+	}
 	
 	// histogram options
 	public boolean isCumulative = false;

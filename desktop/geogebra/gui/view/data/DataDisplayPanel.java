@@ -79,6 +79,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	public static final int PLOT_DOTPLOT = 2;
 	public static final int PLOT_NORMALQUANTILE = 3;
 	public static final int PLOT_STEMPLOT = 5;
+	public static final int PLOT_BARCHART = 6;
 
 	// two variable plot types
 	public static final int PLOT_SCATTERPLOT = 30;
@@ -102,7 +103,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	private GeoElement[] boxPlotTitles;
 	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve,
-			scatterPlot, scatterPlotLine, residualPlot, nqPlot, boxPlot;
+			scatterPlot, scatterPlotLine, residualPlot, nqPlot, boxPlot, barChart;
 
 	// display panels
 	private JPanel displayCardPanel;
@@ -122,7 +123,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private JToggleButton btnOptions;
 
 	// numClasses panel
-//	private int numClasses = 6;
+	// private int numClasses = 6;
 	private JPanel numClassesPanel;
 	private JSlider sliderNumClasses;
 
@@ -152,11 +153,11 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	/*****************************************
 	 * Constructs a ComboStatPanel
 	 */
-	public DataDisplayPanel(DataAnalysisViewD view) {
+	public DataDisplayPanel(DataAnalysisViewD daView) {
 
-		this.daView = view;
-		this.app = view.getApp();
-		this.statGeo = view.getStatGeo();
+		this.daView = daView;
+		this.app = daView.getApp();
+		this.statGeo = daView.getStatGeo();
 		plotGeoList = new ArrayList<GeoElement>();
 
 		createPlotMap();
@@ -177,7 +178,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		this.mode = mode;
 		this.selectedPlot = plotIndex;
-
+		settings.setDataSource(daView.getDataSource());
 		setLabels();
 		updatePlot(true);
 		optionsPanel.setVisible(false);
@@ -193,6 +194,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		// create settings
 		settings = new StatPanelSettings();
+		settings.setDataSource(daView.getDataSource());
 
 		// create options button
 		btnOptions = new JToggleButton();
@@ -349,14 +351,29 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		switch (mode) {
 
 		case DataAnalysisViewD.MODE_ONEVAR:
-			cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
-			cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
-			cbDisplayType.addItem(plotMap.get(PLOT_DOTPLOT));
 
-			if (daView.getSourceType() == DataAnalysisViewD.SOURCE_RAWDATA) {
+			if (!daView.isNumericData()) {
+				cbDisplayType.addItem(plotMap.get(PLOT_BARCHART));
+			}
+
+			else if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
+				cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
+				cbDisplayType.addItem(plotMap.get(PLOT_BARCHART));
+				cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
+				cbDisplayType.addItem(plotMap.get(PLOT_DOTPLOT));
 				cbDisplayType.addItem(plotMap.get(PLOT_STEMPLOT));
 				cbDisplayType.addItem(plotMap.get(PLOT_NORMALQUANTILE));
 			}
+
+			else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
+				cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
+				cbDisplayType.addItem(plotMap.get(PLOT_BARCHART));
+				cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
+
+			} else if (settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
+				cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
+			}
+
 			break;
 
 		case DataAnalysisViewD.MODE_REGRESSION:
@@ -399,7 +416,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 		}
 
-		else if (selectedPlot == DataDisplayPanel.PLOT_HISTOGRAM) {
+		else if (selectedPlot == DataDisplayPanel.PLOT_HISTOGRAM
+				|| selectedPlot == DataDisplayPanel.PLOT_BARCHART) {
 
 			// plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			// plotPanelNorth.add(lblTitleY);
@@ -557,6 +575,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		plotMap.put(PLOT_DOTPLOT, app.getMenu("DotPlot"));
 		plotMap.put(PLOT_NORMALQUANTILE, app.getMenu("NormalQuantilePlot"));
 		plotMap.put(PLOT_STEMPLOT, app.getMenu("StemPlot"));
+		plotMap.put(PLOT_BARCHART, app.getMenu("BarChart"));
 
 		plotMap.put(PLOT_SCATTERPLOT, app.getMenu("Scatterplot"));
 		plotMap.put(PLOT_RESIDUAL, app.getMenu("ResidualPlot"));
@@ -581,8 +600,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	public void updatePlot(boolean doCreate) {
 
-		GeoList dataListSelected = daView.getController()
-				.getDataSelected();
+		GeoList dataListSelected = daView.getController().getDataSelected();
 
 		GeoElement geo;
 
@@ -605,16 +623,15 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			return;
 		}
 
-		settings.sourceType = daView.getSourceType();
-		
 		switch (selectedPlot) {
 
 		case PLOT_HISTOGRAM:
-			
+
 			if (doCreate) {
 				if (histogram != null)
 					histogram.remove();
-				histogram = statGeo.createHistogram(dataListSelected, settings, false);
+				histogram = statGeo.createHistogram(dataListSelected, settings,
+						false);
 				plotGeoList.add(histogram);
 
 				if (frequencyPolygon != null)
@@ -635,11 +652,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			// update the frequency table
 
-			AlgoHistogram algo = (AlgoHistogram) histogram
-					.getParentAlgorithm();
+			AlgoHistogram algo = (AlgoHistogram) histogram.getParentAlgorithm();
 			frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(),
 					settings);
-
 
 			// update settings
 			statGeo.getHistogramSettings(dataListSelected, histogram, settings);
@@ -665,6 +680,19 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				plotGeoList.add(boxPlot);
 			}
 			statGeo.getBoxPlotSettings(dataListSelected, settings);
+			plotPanel.updateSettings(settings);
+			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
+					"plotPanel");
+			break;
+
+		case PLOT_BARCHART:
+			if (doCreate) {
+				if (barChart != null)
+					barChart.remove();
+				barChart = statGeo.createBarChart(dataListSelected, settings);
+				plotGeoList.add(barChart);
+			}
+			statGeo.getBarChartSettings(dataListSelected, settings, barChart);
 			plotPanel.updateSettings(settings);
 			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
 					"plotPanel");
@@ -717,8 +745,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				plotGeoList.add(scatterPlot);
 
 				if (daView.getRegressionModel() != null
-						&& !daView.getRegressionMode().equals(
-								Regression.NONE)) {
+						&& !daView.getRegressionMode().equals(Regression.NONE)) {
 					plotGeoList.add(daView.getRegressionModel());
 				}
 
@@ -1099,6 +1126,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			scatterPlot = null;
 			nqPlot = null;
 			boxPlot = null;
+			barChart = null;
 
 			daView.getController().removeRegressionGeo();
 			daView.getController().disposeDataListSelected();

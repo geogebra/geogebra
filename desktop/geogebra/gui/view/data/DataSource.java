@@ -30,6 +30,13 @@ public class DataSource {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final int SOURCE_RAWDATA = 0;
+	public static final int SOURCE_VALUE_FREQUENCY = 1;
+	public static final int SOURCE_CLASS_FREQUENCY = 2;
+	public static final int SOURCE_POINTLIST = 3;
+	
+	
+	
 	private AppD app;
 	private ArrayList<DataItem> list;
 
@@ -37,6 +44,8 @@ public class DataSource {
 
 	private int mode;
 	private int sourceType;
+	
+
 	private boolean isNumericData = true;
 
 	private MyTableD spreadsheetTable;
@@ -191,6 +200,14 @@ public class DataSource {
 		this.isNumericData = isNumericData;
 	}
 
+	public int getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(int sourceType) {
+		this.sourceType = sourceType;
+	}
+	
 	// ====================================
 	// Utility methods
 	// ====================================
@@ -343,15 +360,15 @@ public class DataSource {
 
 		case DataAnalysisViewD.MODE_ONEVAR:
 
-			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+			if (sourceType == SOURCE_RAWDATA) {
 				list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 
-			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+			} else if (sourceType == SOURCE_VALUE_FREQUENCY) {
 
 				add1DCellRanges(rangeList);
 
 				// TODO handle class/frequency source
-			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+			} else if (sourceType == SOURCE_CLASS_FREQUENCY) {
 				list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 			}
 			break;
@@ -526,11 +543,11 @@ public class DataSource {
 		switch (mode) {
 
 		case DataAnalysisViewD.MODE_ONEVAR:
-			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+			if (sourceType == SOURCE_RAWDATA) {
 				return list.size() == 1;
-			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+			} else if (sourceType == SOURCE_VALUE_FREQUENCY) {
 				return list.size() == 2;
-			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+			} else if (sourceType == SOURCE_CLASS_FREQUENCY) {
 				return (list.size() == 2 || list.size() == 3);
 			}
 			return false;
@@ -567,10 +584,11 @@ public class DataSource {
 				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
 
 		if (isCell) {
-			// Application.debug("---------> is cell:" + geo.toString());
-			for (Object obj : list) {
+			App.debug(" is cell:" + geo.toString());
+			for (DataItem dataItem : list) {
+				if(dataItem.getType() == ITEM_SPREADSHEET)
 				try {
-					ArrayList<CellRange> rangeList = (ArrayList<CellRange>) obj;
+					ArrayList<CellRange> rangeList = (ArrayList<CellRange>) dataItem.getItem();
 					for (CellRange cr : (ArrayList<CellRange>) rangeList)
 						if (cr.contains(geo)) {
 							return true;
@@ -771,7 +789,7 @@ public class DataSource {
 	 * @param sourceType
 	 * @return
 	 */
-	protected ArrayList<GeoList> loadDataLists(int mode, int sourceType) {
+	protected ArrayList<GeoList> loadDataLists(int mode) {
 
 		if (list.size() == 0 || list.get(0) == null) {
 			return null;

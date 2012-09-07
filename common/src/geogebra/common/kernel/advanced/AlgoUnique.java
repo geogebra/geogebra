@@ -40,7 +40,7 @@ public class AlgoUnique extends AlgoElement {
 		uniqueList.setLabel(label);
 	}
 
-	AlgoUnique(Construction cons, GeoList dataList ) {
+	public AlgoUnique(Construction cons, GeoList dataList ) {
 		super(cons);
 		this.dataList = dataList;
 

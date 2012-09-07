@@ -478,6 +478,32 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	/**
+	 * BarChart [<list of data>, <width>]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param n
+	 */
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
+			GeoNumeric n) {
+
+		super(cons);
+
+		type = TYPE_BARCHART_RAWDATA;
+
+		this.list1 = list1;
+		this.n = n;
+		ngeo = n.toGeoElement();
+
+		sum = new GeoNumeric(cons); // output
+		setInputOutput(); // for AlgoElement
+		compute();
+		sum.setDrawable(true);
+	}
+	
+	
+	/**
 	 * Constructor for copying BarChart
 	 * 
 	 * @param n

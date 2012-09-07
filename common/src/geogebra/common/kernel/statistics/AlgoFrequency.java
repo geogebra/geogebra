@@ -45,7 +45,7 @@ public class AlgoFrequency extends AlgoElement {
 		this(cons, label, isCumulative, classList, dataList, null, null);	
 	}
 	
-	AlgoFrequency(Construction cons, GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
+	public AlgoFrequency(Construction cons, GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
 		this(cons, isCumulative, classList, dataList, null, null);	
 	}
 	

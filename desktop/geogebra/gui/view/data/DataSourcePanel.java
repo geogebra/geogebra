@@ -76,7 +76,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	private DataAnalysisViewD dataView;
 
 	private int mode;
-	protected int sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
+	protected int sourceType = DataSource.SOURCE_RAWDATA;
 
 	// data source and table
 	private DataSource dataSource;
@@ -455,14 +455,14 @@ System.out.println("ADD EDITED COLUMN!!!!");
 		switch (mode) {
 
 		case DataAnalysisViewD.MODE_ONEVAR:
-			if (sourceType == DataAnalysisViewD.SOURCE_RAWDATA) {
+			if (sourceType == DataSource.SOURCE_RAWDATA) {
 				columnCount = 1;
 				columnNameList.add(app.getMenu("Data"));
-			} else if (sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
+			} else if (sourceType == DataSource.SOURCE_VALUE_FREQUENCY) {
 				columnCount = 2;
 				columnNameList.add(app.getMenu("Data"));
 				columnNameList.add(app.getMenu("Frequency"));
-			} else if (sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
+			} else if (sourceType == DataSource.SOURCE_CLASS_FREQUENCY) {
 				columnCount = 2;
 				columnNameList.add(app.getMenu("Classes"));
 				columnNameList.add(app.getMenu("Frequency"));
@@ -691,13 +691,13 @@ System.out.println("ADD EDITED COLUMN!!!!");
 		} else if (source == cbSourceType) {
 
 			if (cbSourceType.getSelectedItem().equals(app.getMenu("Raw Data"))) {
-				sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
+				sourceType = DataSource.SOURCE_RAWDATA;
 			} else if (cbSourceType.getSelectedItem().equals(
 					app.getMenu("Data with Frequency"))) {
-				sourceType = DataAnalysisViewD.SOURCE_VALUE_FREQUENCY;
+				sourceType = DataSource.SOURCE_VALUE_FREQUENCY;
 			} else if (cbSourceType.getSelectedItem().equals(
 					app.getMenu("Class with Frequency"))) {
-				sourceType = DataAnalysisViewD.SOURCE_CLASS_FREQUENCY;
+				sourceType = DataSource.SOURCE_CLASS_FREQUENCY;
 			}
 
 		} else if (source == btnNumeric || source == btnCategorical) {
@@ -776,11 +776,10 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			dataView = (DataAnalysisViewD) app.getGuiManager()
 					.getDataAnalysisView();
 		}
-		dataView.setNumeric(isNumericData);
-		dataView.setSourceType(sourceType);
-		dataView.getDefaults().classStart = classStart;
-		dataView.getDefaults().classWidth = classWidth;
-
+		
+		//TODO: this should be set in the action listeners for source type:
+		dataSource.setSourceType(sourceType);
+		
 		dataView.setView(dataSource, mode, true);
 
 	}
@@ -1081,12 +1080,12 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			final JCheckBoxMenuItem itmSourceRawData = new JCheckBoxMenuItem(
 					app.getMenu("RawData"));
 			itmSourceRawData
-					.setSelected(sourceType == DataAnalysisViewD.SOURCE_RAWDATA);
+					.setSelected(sourceType == DataSource.SOURCE_RAWDATA);
 			itmSourceRawData.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmSourceRawData.isSelected()
-							&& sourceType != DataAnalysisViewD.SOURCE_RAWDATA) {
-						sourceType = DataAnalysisViewD.SOURCE_RAWDATA;
+							&& sourceType != DataSource.SOURCE_RAWDATA) {
+						sourceType = DataSource.SOURCE_RAWDATA;
 						updateGUI();
 					}
 				}
@@ -1095,12 +1094,12 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			final JCheckBoxMenuItem itmSourceDataFrequency = new JCheckBoxMenuItem(
 					app.getMenu("DataWithFrequency"));
 			itmSourceDataFrequency
-					.setSelected(sourceType == DataAnalysisViewD.SOURCE_VALUE_FREQUENCY);
+					.setSelected(sourceType == DataSource.SOURCE_VALUE_FREQUENCY);
 			itmSourceDataFrequency.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmSourceDataFrequency.isSelected()
-							&& sourceType != DataAnalysisViewD.SOURCE_VALUE_FREQUENCY) {
-						sourceType = DataAnalysisViewD.SOURCE_VALUE_FREQUENCY;
+							&& sourceType != DataSource.SOURCE_VALUE_FREQUENCY) {
+						sourceType = DataSource.SOURCE_VALUE_FREQUENCY;
 						updateGUI();
 					}
 				}
@@ -1109,12 +1108,12 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			final JCheckBoxMenuItem itmSourceClassFrequency = new JCheckBoxMenuItem(
 					app.getMenu("ClassWithFrequency"));
 			itmSourceClassFrequency
-					.setSelected(sourceType == DataAnalysisViewD.SOURCE_CLASS_FREQUENCY);
+					.setSelected(sourceType == DataSource.SOURCE_CLASS_FREQUENCY);
 			itmSourceClassFrequency.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmSourceClassFrequency.isSelected()
-							&& sourceType != DataAnalysisViewD.SOURCE_CLASS_FREQUENCY) {
-						sourceType = DataAnalysisViewD.SOURCE_CLASS_FREQUENCY;
+							&& sourceType != DataSource.SOURCE_CLASS_FREQUENCY) {
+						sourceType = DataSource.SOURCE_CLASS_FREQUENCY;
 						updateGUI();
 					}
 				}
