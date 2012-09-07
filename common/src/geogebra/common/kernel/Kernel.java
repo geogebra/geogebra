@@ -8,6 +8,7 @@ import geogebra.common.factories.FormatFactory;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolygon;

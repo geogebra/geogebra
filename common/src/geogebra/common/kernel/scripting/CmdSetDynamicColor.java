@@ -1,9 +1,9 @@
 package geogebra.common.kernel.scripting;
 
-import geogebra.common.kernel.CmdScripting;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;

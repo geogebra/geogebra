@@ -14,6 +14,28 @@ public class CommandDispatcherBasic {
 		switch(c){
 		// basic
 
+		case Sort:
+			return new CmdSort(kernel);
+		case BarChart:
+			return new CmdBarChart(kernel);
+		case Product:
+			return new CmdProduct(kernel);
+		case Extremum:
+			return new CmdExtremum(kernel);
+		case Join:
+			return new CmdJoin(kernel);
+		case LCM:
+			return new CmdLCM(kernel);
+		case GCD:
+			return new CmdGCD(kernel);
+		case Object:
+			return new CmdObject(kernel);
+		case LetterToUnicode:
+			return new CmdLetterToUnicode(kernel);
+		case UnicodeToLetter:
+			return new CmdUnicodeToLetter(kernel);
+		case CountIf:
+			return new CmdCountIf(kernel);
 		case UnitVector:
 			return new CmdUnitVector(kernel);
 			

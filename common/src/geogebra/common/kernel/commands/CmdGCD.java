@@ -1,27 +1,27 @@
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoGCD;
+import geogebra.common.kernel.algos.AlgoListGCD;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- * LCM[ <Number>, <Number> ]
- * LCM[list]
+ * GCD[ <Number>, <Number> ]
+ * GCD[list]
  * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
-public class CmdLCM extends CommandProcessor {
-
+public class CmdGCD extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLCM(Kernel kernel) {
+	public CmdGCD(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -36,10 +36,10 @@ public class CmdLCM extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				
-				AlgoListLCM algo = new AlgoListLCM(cons, c.getLabel(),
+				AlgoListGCD algo = new AlgoListGCD(cons, c.getLabel(),
 						(GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getLCM() };
+				GeoElement[] ret = { algo.getGCD() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -50,7 +50,7 @@ public class CmdLCM extends CommandProcessor {
 				(ok[1] = arg[1].isNumberValue())) 
 			{
 				
-				AlgoLCM algo = new AlgoLCM(cons, c.getLabel(),
+				AlgoGCD algo = new AlgoGCD(cons, c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };

@@ -10,31 +10,27 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.kernel.advanced;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoTwoNumFunction;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import java.math.BigInteger;
 
 /**
- * Computes LCM[a, b]
+ * Computes GCD[a, b]
  * @author  Michael Borcherds
  * @version 
  */
-public class AlgoLCM extends AlgoTwoNumFunction {        
-		
-        
-    public AlgoLCM(Construction cons, String label, NumberValue a, NumberValue b) {       
+public class AlgoGCD extends AlgoTwoNumFunction {  
+	
+    public AlgoGCD(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b); 
     }   
   
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoLCM;
+        return Algos.AlgoGCD;
     }
       
     @Override
@@ -46,21 +42,15 @@ public class AlgoLCM extends AlgoTwoNumFunction {
     			num.setUndefined();
     			return;
     		}
-    		//this is the only case whwn gcd == zero
-    		if(Kernel.isZero(a.getDouble()) && Kernel.isZero(b.getDouble())){
-    			num.setValue(0);
-    			return;
-    		}
+    		
     		if (a.getDouble() == Math.floor(a.getDouble()) && b.getDouble() == Math.floor(b.getDouble()))
     		{  
     			BigInteger i1 = BigInteger.valueOf((long)a.getDouble());
     			BigInteger i2 = BigInteger.valueOf((long)b.getDouble());
     			
-    			BigInteger gcd = i1.gcd(i2);
+    			i1 = i1.gcd(i2);
     			
-    			i1 = i1.divide(gcd);
-    			
-    			double result = Math.abs(i1.multiply(i2).doubleValue());
+    			double result = Math.abs(i1.doubleValue());
     			
     	    	// can't store integers greater than this in a double accurately
     	    	if (result > 1e15) {
@@ -72,6 +62,7 @@ public class AlgoLCM extends AlgoTwoNumFunction {
     		} else {
     			num.setUndefined();
     		}
+    			
     	} else
     		num.setUndefined();
     }       

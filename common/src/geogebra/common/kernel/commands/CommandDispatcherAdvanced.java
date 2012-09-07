@@ -21,7 +21,6 @@ import geogebra.common.kernel.advanced.CmdCompleteSquare;
 import geogebra.common.kernel.advanced.CmdComplexRoot;
 import geogebra.common.kernel.advanced.CmdConstructionStep;
 import geogebra.common.kernel.advanced.CmdContinuedFraction;
-import geogebra.common.kernel.advanced.CmdCountIf;
 import geogebra.common.kernel.advanced.CmdCrossRatio;
 import geogebra.common.kernel.advanced.CmdCurvature;
 import geogebra.common.kernel.advanced.CmdCurvatureVector;
@@ -36,13 +35,11 @@ import geogebra.common.kernel.advanced.CmdDivisorsOrDivisorsSum;
 import geogebra.common.kernel.advanced.CmdDynamicCoordinates;
 import geogebra.common.kernel.advanced.CmdEccentricity;
 import geogebra.common.kernel.advanced.CmdExcentricity;
-import geogebra.common.kernel.advanced.CmdExtremum;
 import geogebra.common.kernel.advanced.CmdFactors;
 import geogebra.common.kernel.advanced.CmdFirstAxis;
 import geogebra.common.kernel.advanced.CmdFirstAxisLength;
 import geogebra.common.kernel.advanced.CmdFlatten;
 import geogebra.common.kernel.advanced.CmdFromBase;
-import geogebra.common.kernel.advanced.CmdGCD;
 import geogebra.common.kernel.advanced.CmdIdentity;
 import geogebra.common.kernel.advanced.CmdImplicitPoly;
 import geogebra.common.kernel.advanced.CmdIncircle;
@@ -55,15 +52,11 @@ import geogebra.common.kernel.advanced.CmdIsInRegion;
 import geogebra.common.kernel.advanced.CmdIsPrime;
 import geogebra.common.kernel.advanced.CmdIteration;
 import geogebra.common.kernel.advanced.CmdIterationList;
-import geogebra.common.kernel.advanced.CmdJoin;
-import geogebra.common.kernel.advanced.CmdLCM;
 import geogebra.common.kernel.advanced.CmdLeftRightSide;
-import geogebra.common.kernel.advanced.CmdLetterToUnicode;
 import geogebra.common.kernel.advanced.CmdMatrixRank;
 import geogebra.common.kernel.advanced.CmdMaximize;
 import geogebra.common.kernel.advanced.CmdMinimize;
 import geogebra.common.kernel.advanced.CmdNumerator;
-import geogebra.common.kernel.advanced.CmdObject;
 import geogebra.common.kernel.advanced.CmdOrdinal;
 import geogebra.common.kernel.advanced.CmdOsculatingCircle;
 import geogebra.common.kernel.advanced.CmdParameter;
@@ -86,13 +79,10 @@ import geogebra.common.kernel.advanced.CmdTaylorSeries;
 import geogebra.common.kernel.advanced.CmdToBase;
 import geogebra.common.kernel.advanced.CmdToComplexPolar;
 import geogebra.common.kernel.advanced.CmdTranspose;
-import geogebra.common.kernel.advanced.CmdUnicodeToLetter;
 import geogebra.common.kernel.advanced.CmdUnion;
 import geogebra.common.kernel.advanced.CmdUnique;
 import geogebra.common.kernel.advanced.CmdVerticalText;
 import geogebra.common.kernel.advanced.CmdZip;
-import geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
-import geogebra.common.kernel.algos.CmdUnitVector;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
@@ -108,16 +98,10 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			
 		case Factors:
 			return new CmdFactors(kernel);
-		case LCM:
-			return new CmdLCM(kernel);
-		case GCD:
-			return new CmdGCD(kernel);
 		case IntersectRegion:
 			return new CmdIntersectRegion(kernel);
 		case Direction:
 			return new CmdDirection(kernel);
-		case Extremum:
-			return new CmdExtremum(kernel);
 		case TaylorPolynomial:
 		case TaylorSeries:
 			return new CmdTaylorSeries(kernel);
@@ -165,8 +149,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdCrossRatio(kernel);
 		case ClosestPoint:
 			return new CmdClosestPoint(kernel);
-		case CountIf:
-			return new CmdCountIf(kernel);
 		case IsInRegion:
 			return new CmdIsInRegion(kernel);
 		case PrimeFactors:
@@ -175,10 +157,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdCompleteSquare(kernel);
 		case Union:
 			return new CmdUnion(kernel);
-		case LetterToUnicode:
-			return new CmdLetterToUnicode(kernel);
-		case UnicodeToLetter:
-			return new CmdUnicodeToLetter(kernel);
 		case ScientificText:
 			return new CmdScientificText(kernel);
 		case VerticalText:
@@ -232,8 +210,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdAxisStepY(kernel);
 		case ConstructionStep:
 			return new CmdConstructionStep(kernel);
-		case Object:
-			return new CmdObject(kernel);
 		case Polar:
 			return new CmdPolar(kernel);
 
@@ -247,8 +223,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdAxes(kernel);
 		case IndexOf:
 			return new CmdIndexOf(kernel);
-		case Join:
-			return new CmdJoin(kernel);
 		case Flatten:
 			return new CmdFlatten(kernel);
 		case Insert:

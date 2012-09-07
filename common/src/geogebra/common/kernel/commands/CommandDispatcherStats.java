@@ -20,8 +20,6 @@ public class CommandDispatcherStats {
 			return new CmdOrdinalRank(kernel);
 		case TiedRank:
 			return new CmdTiedRank(kernel);
-		case BarChart:
-			return new CmdBarChart(kernel);
 		case BoxPlot:
 			return new CmdBoxPlot(kernel);
 		case Histogram:
@@ -238,12 +236,8 @@ public class CommandDispatcherStats {
 		case Cell:
 			return new CmdCell(kernel);			
 			
-		case Product:
-			return new CmdProduct(kernel);
 		case Frequency:
 			return new CmdFrequency(kernel);
-		case Sort:
-			return new CmdSort(kernel);
 		case ZProportionTest:
 			return new CmdZProportionTest(kernel);
 		case ZProportion2Test:

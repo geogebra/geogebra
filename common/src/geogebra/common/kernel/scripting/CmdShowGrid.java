@@ -12,11 +12,11 @@ the Free Software Foundation.
 package geogebra.common.kernel.scripting;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.kernel.CmdScripting;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.main.MyError;
 
 /**

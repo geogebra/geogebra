@@ -363,11 +363,10 @@ public class CommandDispatcher {
 				
 				
 				// advanced
-			case LCM:
-			case GCD:
+				
+				
 			case IntersectRegion:
 			case Direction:
-			case Extremum:
 
 			case TaylorPolynomial:
 			case TaylorSeries:
@@ -397,13 +396,10 @@ public class CommandDispatcher {
 			case AffineRatio:
 			case CrossRatio:
 			case ClosestPoint:
-			case CountIf:
 			case IsInRegion:
 			case PrimeFactors:
 			case CompleteSquare:
 			case Union:
-			case LetterToUnicode:
-			case UnicodeToLetter:
 			case ScientificText:
 			case VerticalText:
 			case RotateText:
@@ -433,7 +429,6 @@ public class CommandDispatcher {
 			case AxisStepX:
 			case AxisStepY:
 			case ConstructionStep:
-			case Object:
 			case Polar:
 			
 			case LinearEccentricity:
@@ -442,7 +437,6 @@ public class CommandDispatcher {
 			case Eccentricity:
 			case Axes:
 			case IndexOf:
-			case Join:
 			case Flatten:
 			case Insert:
 			case Prove:
@@ -483,6 +477,17 @@ public class CommandDispatcher {
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
 				
+			case Sort:
+			case BarChart:
+			case Product:
+			case Join:
+			case LCM:
+			case GCD:
+			case LetterToUnicode:
+			case UnicodeToLetter:
+			case Object:
+			case CountIf:
+			case Extremum:
 			case UnitVector:
 			case Text:
 			case Vector:
@@ -612,7 +617,6 @@ public class CommandDispatcher {
 				// ************** STATS ***************
 
 			case ANOVA:
-			case BarChart:
 			case Bernoulli:
 			case BinomialDist:
 			case BoxPlot:
@@ -683,7 +687,6 @@ public class CommandDispatcher {
 			case Pascal:
 			case Percentile:
 			case Poisson:
-			case Product:
 			case Q1:
 			case Q3:
 			case RSquare:
@@ -711,7 +714,6 @@ public class CommandDispatcher {
 			case SigmaXX:
 			case SigmaXY:
 			case SigmaYY:
-			case Sort:
 			case Spearman:
 			case StemPlot:
 			case SumSquaredErrors:

@@ -1,7 +1,6 @@
 package geogebra.plugin.jython;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.kernel.AlgoDispatcher;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -11,6 +10,7 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.AlgoDirection;
+import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
