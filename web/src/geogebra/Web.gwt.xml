@@ -139,9 +139,6 @@
   <!-- default internationalization language -->
   <set-property-fallback name="locale" value="en"/>
   
-  <!-- specifying initial load sequence -->
-  <extend-configuration-property name="compiler.splitpoint.initial.sequence"
-    value="geogebra.common.kernel.Kernel"/>
   <extend-configuration-property name="compiler.splitpoint.initial.sequence"
     value="geogebra.common.main.settings.Settings"/>
   <extend-configuration-property name="compiler.splitpoint.initial.sequence"

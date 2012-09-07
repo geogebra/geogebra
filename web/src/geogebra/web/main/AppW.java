@@ -18,6 +18,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.commands.CommandDispatcherCAS;
+import geogebra.common.kernel.commands.CommandDispatcherInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -61,6 +63,7 @@ import geogebra.web.io.MyXMLio;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.kernel.AnimationManagerW;
 import geogebra.web.kernel.KernelW;
+import geogebra.web.kernel.KernelWInterface;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
@@ -96,8 +99,10 @@ import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.AsyncProxy;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.AsyncProxy.ConcreteType;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -2086,17 +2091,16 @@ public class AppW extends App {
 	 * 
 	 *            Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 */
+	
+	@ConcreteType(KernelW.class)
+	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
+	interface KernelWProxy extends AsyncProxy<KernelWInterface>, KernelWInterface {}
+	
 	void initCoreObjects(final boolean undoActive, final App this_app) {
-		GWT.runAsync(Kernel.class, new RunAsyncCallback() {
+		
+		kernel = GWT.create(KernelW.class);
+		kernel.initAfterAsync(this_app);
 			
-			public void onSuccess() {
-				kernel = new KernelW(this_app);
-			}
-			
-			public void onFailure(Throwable reason) {
-				App.debug("Loading Kernel faliled");
-			}
-		});
 		GWT.runAsync(Settings.class, new RunAsyncCallback() {
 			
 			public void onSuccess() {

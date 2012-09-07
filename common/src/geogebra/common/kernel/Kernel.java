@@ -4404,5 +4404,14 @@ public class Kernel {
 			GeoConicND b) {
 		return getAlgoDispatcher().IntersectConics(labels,  a, b);
 	}
+
+	public void initAfterAsync(App app) {
+		this.app = app;
+
+		newConstruction();
+		getExpressionNodeEvaluator();
+
+		setManager3D(newManager3D(this));
+	}
 	
 }

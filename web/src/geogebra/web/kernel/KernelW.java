@@ -11,8 +11,12 @@ import geogebra.web.kernel.commands.CommandDispatcherW;
  * For GWT.runAsync calls
  *
  */
-public class KernelW extends Kernel {
+public class KernelW extends Kernel implements KernelWInterface {
 
+	public KernelW() {
+		super();
+	}
+	
 	public KernelW(App app) {
 	    super(app);
     }
