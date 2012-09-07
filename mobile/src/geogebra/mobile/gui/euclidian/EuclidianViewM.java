@@ -52,7 +52,8 @@ public class EuclidianViewM extends EuclidianView
 
 		this.setAllowShowMouseCoords(false);
 
-		
+
+		EuclidianViewM.this.logger = Logger.getLogger("");	
 	}
 
 	/**
@@ -75,11 +76,13 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onTouchStart(TouchStartEvent event)
 			{
+				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getNativeEvent().getClientX(), event
 				    .getNativeEvent().getClientY());
-
-				EuclidianViewM.this.logger = Logger.getLogger("PopupLogHandler");		
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
+	
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getNativeEvent().getClientX() + "/" + event
+				    .getNativeEvent().getClientY() + ")");
+			
 			}
 		});
 
@@ -93,22 +96,22 @@ public class EuclidianViewM extends EuclidianView
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getNativeEvent().getClientX(), event
 				    .getNativeEvent().getClientY());
 
-				EuclidianViewM.this.logger = Logger.getLogger("PopupLogHandler");		
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getNativeEvent().getClientX() + "/" + event
+				    .getNativeEvent().getClientY() + ")");
 			}
 		});
 
 		touchDelegate.addTouchEndHandler(new TouchEndHandler()
-		{
-
+		{			
 			@Override
 			public void onTouchEnd(TouchEndEvent event)
 			{
+				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getNativeEvent().getClientX(), event
 				    .getNativeEvent().getClientY());
 
-				EuclidianViewM.this.logger = Logger.getLogger("PopupLogHandler");		
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString());
+				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getNativeEvent().getClientX() + "/" + event
+				    .getNativeEvent().getClientY() + ")");
 			}
 		});
 

@@ -36,7 +36,7 @@
 	<set-property name="locale" value="en"/>
 
 	<!-- Compile only for one OS; values: iphone, retina (for iPhone 4 and 4S), ipad, desktop, android, android_tablet, blackberry -->
-	<set-property name="mgwt.os" value="ipad" />
-	<set-configuration-property name="mgwt.css"	value="pretty" />
+	<set-property name="mgwt.os" value="android" />
+<!-- 	<set-configuration-property name="mgwt.css"	value="pretty" /> -->
 
 </module>
