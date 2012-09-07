@@ -14,6 +14,8 @@ public class CommandDispatcherBasic {
 		switch(c){
 		// basic
 
+		case Tangent:
+			return new CmdTangent(kernel);
 		case Length:
 			return new CmdLength(kernel);
 		case Sort:

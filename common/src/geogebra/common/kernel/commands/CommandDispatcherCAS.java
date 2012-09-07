@@ -39,8 +39,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdSimplify(kernel);
 		case SurdText:
 			return new CmdSurdText(kernel);
-		case Tangent:
-			return new CmdTangent(kernel);
 		case ParametricDerivative:
 			return new CmdParametricDerivative(kernel);
 		case Derivative:
