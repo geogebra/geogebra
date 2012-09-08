@@ -1,5 +1,7 @@
 package geogebra.common.kernel.discrete.delaunay;
 
+import geogebra.common.main.App;
+
 import java.util.Comparator;
 
 /**
@@ -202,7 +204,7 @@ public class Point_dt {
 				return BEHINDB;
 			return ONSEGMENT;
 		}
-		System.out.println("Error, pointLineTest with a=b");
+		App.printStacktrace("Error, pointLineTest with a=b");
 		return ERROR;
 	}
 

@@ -2,6 +2,7 @@ package geogebra.common.kernel.discrete;
 
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
@@ -10,8 +11,10 @@ import geogebra.common.kernel.discrete.delaunay.Triangle_dt;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -36,19 +39,51 @@ public class AlgoVoronoi extends AlgoHull{
 
 		double inhom[] = new double[2];
 
-		Point_dt[] points = new Point_dt[size];
-
-
+		
+		ArrayList<Double> xcoords = new ArrayList<Double>();
+		ArrayList<Double> ycoords = new ArrayList<Double>();
+		
+		final double delta =  0.0000001;
+		
+		// add to TreeSet to remove duplicates (from touching triangles)
+		TreeSet<GPoint2D> pointTree = new TreeSet<GPoint2D>(getPointComparator());
 
 		for (int i = 0 ; i < size ; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isDefined() && geo.isGeoPoint()) {
 				GeoPointND p = (GeoPointND)geo;
 				p.getInhomCoords(inhom);
-
-				points[i] = new Point_dt(inhom[0], inhom[1]);
-
+				
+				pointTree.add(new GPoint2D.Double(inhom[0],  inhom[1]));
+				
 			}
+		}
+		
+		Point_dt[] points = new Point_dt[pointTree.size()];
+		int indx = 0;
+
+		
+		Iterator<GPoint2D> it3 = pointTree.iterator();
+		
+		while (it3.hasNext()) {
+			GPoint2D p = it3.next();
+			double x = p.getX();
+			double y = p.getY();
+					
+			
+			while (xcoords.contains(x)) {
+				x += delta;
+			}
+			while (ycoords.contains(y)) {
+				y += delta;
+			}
+			
+			// work around a bug in the algorithm for Points with an equal x or y coordinate 
+			xcoords.add(x);
+			ycoords.add(y);
+
+			points[indx++] = new Point_dt(x, y);
+
 		}
 
 		Delaunay_Triangulation dt = new Delaunay_Triangulation(points);
@@ -106,6 +141,39 @@ public class AlgoVoronoi extends AlgoHull{
 
 	}
 
+    /*
+     * comparator used to eliminate duplicate objects
+     * (TreeSet deletes duplicates ie those that return 0)
+     */
+	public static Comparator<GPoint2D> getPointComparator() {
+		if (pointComparator == null) {
+			pointComparator = new Comparator<GPoint2D>() {
+				public int compare(GPoint2D p1, GPoint2D p2) {
+		        
+					//double p1A = itemA.getX();
+					//double p1B = itemA.getY();
+					//double p2A = itemB.getX();
+					//double p2B = itemB.getY();
+					
+					// return 0 if endpoints the same
+					// so no duplicates in the TreeMap
+					if (Kernel.isEqual(p1.getX(), p2.getX()) && Kernel.isEqual(p1.getY(), p2.getY())) {
+						//Application.debug("equal2");
+						return 0;
+					}
+			
+					// need to return something sensible, otherwise tree doesn't work
+					return p1.getX() > p2.getX() ? -1 : 1;
+					
+				
+				}
+			};
+			
+			}
+		
+			return pointComparator;
+		}
+	  private static Comparator<GPoint2D> pointComparator;
 
 
 

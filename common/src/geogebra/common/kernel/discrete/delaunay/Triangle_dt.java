@@ -1,4 +1,7 @@
 package geogebra.common.kernel.discrete.delaunay;
+
+import geogebra.common.main.App;
+
 /**
  * This class represents a 3D triangle in a Triangulation! 
  *
@@ -28,9 +31,8 @@ public class Triangle_dt {
 			c=C;
 		}
 		else {  // RIGHT
-			System.out.println("Warning, ajTriangle(A,B,C) "+
-					"expects points in counterclockwise order.");
-			System.out.println(""+A+B+C);
+			App.warn("Warning, ajTriangle(A,B,C) "+
+					"expects points in counterclockwise order."+A+B+C);
 			b=C;
 			c=B;
 		}
