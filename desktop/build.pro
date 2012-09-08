@@ -21,8 +21,10 @@
 -libraryjars <java.home>/lib/rt.jar
 -libraryjars lib/build/lib_jsobject.jar
 -libraryjars lib/build/lib_mac_extensions.jar
--libraryjars lib/build/jogl1/jar/jogl.jar
--libraryjars lib/build/jogl1/jar/gluegen-rt.jar
+-libraryjars ../jogl1/lib/download/jar/jogl.jar
+-libraryjars ../jogl1/lib/download/jar/gluegen-rt.jar
+-libraryjars ../jogl2/lib/jogl.all.jar
+-libraryjars ../jogl2/lib/gluegen-rt
 -libraryjars lib/jython.jar
 -libraryjars lib/OpenGeoProver.jar
 #-libraryjars ../java150-rt.jar
