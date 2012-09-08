@@ -151,7 +151,7 @@ public class ProbabilityManager {
 				.getMenu("DegreesOfFreedom2.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL
-				.ordinal()][0] = Unicode.lambda;
+				.ordinal()][0] = Unicode.lambda+"";
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = app
 				.getMenu("Median");

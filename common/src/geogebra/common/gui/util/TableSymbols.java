@@ -17,43 +17,43 @@ public class TableSymbols {
 	public final static String[][] basicSymbolsMap(App app) {
 
 		String[][] array = {
-				{ Unicode.alpha , app.getPlain("GreekCharacterA", Unicode.alpha ) },  //lowercaseGreekALPHA
-				{ Unicode.beta , app.getPlain("GreekCharacterA", Unicode.beta ) },  //lowercaseGreekBETA
-				{ Unicode.gamma , app.getPlain("GreekCharacterA", Unicode.gamma ) },  //lowercaseGreekGAMMA
-				{ Unicode.delta , app.getPlain("GreekCharacterA", Unicode.delta ) },  //lowercaseGreekDELTA
-				{ Unicode.epsilon , app.getPlain("GreekCharacterA", Unicode.epsilon ) },  //lowercaseGreekEPSILON
-				{ Unicode.zeta , app.getPlain("GreekCharacterA", Unicode.zeta ) },  //lowercaseGreekZETA
-				{ Unicode.eta , app.getPlain("GreekCharacterA", Unicode.eta ) },  //lowercaseGreekETA
-				{ Unicode.theta , app.getPlain("GreekCharacterA", Unicode.theta ) },  //lowercaseGreekTHETA
+				{ Unicode.alpha+"" , app.getPlain("GreekCharacterA", Unicode.alpha+"" ) },  //lowercaseGreekALPHA
+				{ Unicode.beta+"" , app.getPlain("GreekCharacterA", Unicode.beta+"" ) },  //lowercaseGreekBETA
+				{ Unicode.gamma+"" , app.getPlain("GreekCharacterA", Unicode.gamma+"" ) },  //lowercaseGreekGAMMA
+				{ Unicode.delta+"" , app.getPlain("GreekCharacterA", Unicode.delta+"" ) },  //lowercaseGreekDELTA
+				{ Unicode.epsilon+"" , app.getPlain("GreekCharacterA", Unicode.epsilon+"" ) },  //lowercaseGreekEPSILON
+				{ Unicode.zeta+"" , app.getPlain("GreekCharacterA", Unicode.zeta+"" ) },  //lowercaseGreekZETA
+				{ Unicode.eta+"" , app.getPlain("GreekCharacterA", Unicode.eta+"" ) },  //lowercaseGreekETA
+				{ Unicode.theta+"" , app.getPlain("GreekCharacterA", Unicode.theta+"" ) },  //lowercaseGreekTHETA
 				//	{ "\u03B9" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +   "\u03B9"},  //lowercaseGreekIOTA
-				{ Unicode.kappa , app.getPlain("GreekCharacterA", Unicode.kappa ) },  //lowercaseGreekKAPPA
-				{  Unicode.lambda , app.getPlain("GreekCharacterA", Unicode.lambda) },  //lowercaseGreekLAMDA
-				{ Unicode.mu , app.getPlain("GreekCharacterA", Unicode.mu ) },  //lowercaseGreekMU
+				{ Unicode.kappa+"" , app.getPlain("GreekCharacterA", Unicode.kappa+"" ) },  //lowercaseGreekKAPPA
+				{  Unicode.lambda+"" , app.getPlain("GreekCharacterA", Unicode.lambda+"") },  //lowercaseGreekLAMDA
+				{ Unicode.mu+"" , app.getPlain("GreekCharacterA", Unicode.mu+"" ) },  //lowercaseGreekMU
 				//	{ "\u03BD" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +   "\u03BD"},  //lowercaseGreekNU
-				{ Unicode.xi , app.getPlain("GreekCharacterA", Unicode.xi ) },  //lowercaseGreekXI
+				{ Unicode.xi+"" , app.getPlain("GreekCharacterA", Unicode.xi+"" ) },  //lowercaseGreekXI
 				//	{ "\u03BF" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +   "\u03BF"},  //lowercaseGreekOMICRON
 				//	{ "\u03C0" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +   "\u03C0"},  //lowercaseGreekPI
-				{ Unicode.rho , app.getPlain("GreekCharacterA", Unicode.rho ) },  //lowercaseGreekRHO
+				{ Unicode.rho+"" , app.getPlain("GreekCharacterA", Unicode.rho+"" ) },  //lowercaseGreekRHO
 				//	{ "\u03C2" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +   "\u03C2"},  //lowercaseGreekFINALSIGMA
-				{ Unicode.sigma , app.getPlain("GreekCharacterA", Unicode.sigma ) },  //lowercaseGreekSIGMA
-				{ Unicode.tau , app.getPlain("GreekCharacterA", Unicode.tau ) },  //lowercaseGreekTAU
+				{ Unicode.sigma+"" , app.getPlain("GreekCharacterA", Unicode.sigma+"" ) },  //lowercaseGreekSIGMA
+				{ Unicode.tau+"" , app.getPlain("GreekCharacterA", Unicode.tau+"" ) },  //lowercaseGreekTAU
 				//	{ "\u03C5" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +   "\u03C5"},  //lowercaseGreekUPSILON
-				{ Unicode.phi , app.getPlain("GreekCharacterA", Unicode.phi ) },  //lowercaseGreekPHI (\varPhi the "loopy" phi)
-				{ Unicode.phi_symbol , app.getPlain("GreekCharacterA", Unicode.phi_symbol ) },  //lowercaseGreekPHI \phi the "straight" phi
-				{ Unicode.chi , app.getPlain("GreekCharacterA", Unicode.chi ) },  //lowercaseGreekCHI
-				{ Unicode.psi , app.getPlain("GreekCharacterA", Unicode.psi ) },  //lowercaseGreekPSI
-				{ Unicode.omega , app.getPlain("GreekCharacterA", Unicode.omega ) },  //lowercaseGreekOMEGA
-				{ Unicode.Gamma , app.getPlain("GreekCharacterA", Unicode.Gamma ) },  //uppercaseGreekGAMMA
-				{ Unicode.Delta , app.getPlain("GreekCharacterA", Unicode.Delta ) },  //uppercaseGreekDELTA
-				{ Unicode.Theta , app.getPlain("GreekCharacterA", Unicode.Theta ) },  //uppercaseGreekTHETA
+				{ Unicode.phi +"", app.getPlain("GreekCharacterA", Unicode.phi+"" ) },  //lowercaseGreekPHI (\varPhi the "loopy" phi)
+				{ Unicode.phi_symbol +"", app.getPlain("GreekCharacterA", Unicode.phi_symbol+"" ) },  //lowercaseGreekPHI \phi the "straight" phi
+				{ Unicode.chi+"" , app.getPlain("GreekCharacterA", Unicode.chi+"" ) },  //lowercaseGreekCHI
+				{ Unicode.psi+"" , app.getPlain("GreekCharacterA", Unicode.psi+"" ) },  //lowercaseGreekPSI
+				{ Unicode.omega+"" , app.getPlain("GreekCharacterA", Unicode.omega+"" ) },  //lowercaseGreekOMEGA
+				{ Unicode.Gamma+"" , app.getPlain("GreekCharacterA", Unicode.Gamma+"" ) },  //uppercaseGreekGAMMA
+				{ Unicode.Delta+"" , app.getPlain("GreekCharacterA", Unicode.Delta+"" ) },  //uppercaseGreekDELTA
+				{ Unicode.Theta+"" , app.getPlain("GreekCharacterA", Unicode.Theta+"" ) },  //uppercaseGreekTHETA
 				// removed - too similar to logical 'and'
 				//{ "\u039b" , app.getPlain("GreekCharacterA", "\u039b" ) },  //uppercaseGreekLAMBDA
 				//{ "\u039e" , app.getPlain("GreekCharacterA", "\u039e" ) },  //uppercaseGreekXI
-				{ Unicode.Pi , app.getPlain("GreekCharacterA", Unicode.Pi ) },  //uppercaseGreekPI
-				{ Unicode.Sigma , app.getPlain("GreekCharacterA", Unicode.Sigma ) },  //uppercaseGreekSIGMA
-				{ Unicode.Phi , app.getPlain("GreekCharacterA", Unicode.Phi ) },  //uppercaseGreekPHI
+				{ Unicode.Pi+"" , app.getPlain("GreekCharacterA", Unicode.Pi+"" ) },  //uppercaseGreekPI
+				{ Unicode.Sigma+"" , app.getPlain("GreekCharacterA", Unicode.Sigma+"" ) },  //uppercaseGreekSIGMA
+				{ Unicode.Phi+"" , app.getPlain("GreekCharacterA", Unicode.Phi+"" ) },  //uppercaseGreekPHI
 				//{ "\u03a8" , app.getPlain("GreekCharacterA", "\u03a8" ) },  //uppercaseGreekPSI
-				{ Unicode.Omega , app.getPlain("GreekCharacterA", Unicode.Omega ) },  //uppercaseGreekOMEGA
+				{ Unicode.Omega+"" , app.getPlain("GreekCharacterA", Unicode.Omega+"" ) },  //uppercaseGreekOMEGA
 				{ Unicode.Infinity+"" , app.getMenu("Symbol.Infinity" )},   
 				{ ExpressionNodeConstants.strVECTORPRODUCT , app.getMenu("Symbol.VectorProduct" )},   
 				{ ExpressionNodeConstants.strEQUAL_BOOLEAN , app.getMenu("Symbol.BooleanEqual" )},   

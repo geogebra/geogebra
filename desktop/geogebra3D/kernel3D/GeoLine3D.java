@@ -84,7 +84,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		
 		StringBuilder sbToString = getSbBuildValueString();
 		sbToString.setLength(0);
-		String parameter = Unicode.lambda;
+		String parameter = Unicode.lambda+"";
 		AlgoElement algo = getParentAlgorithm();
 		
 		if (algo instanceof AlgoLinePoint) {

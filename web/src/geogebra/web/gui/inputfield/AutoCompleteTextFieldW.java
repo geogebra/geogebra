@@ -160,7 +160,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    };
 		    showSymbolButton.getElement().setId(id+"_SymbolButton");
 		    showSymbolButton.getElement().setAttribute("style", "display: none");
-		    showSymbolButton.setText(Unicode.alpha);
+		    showSymbolButton.setText(Unicode.alpha+"");
 		    showSymbolButton.addStyleName("SymbolToggleButton");
 		    showSymbolButton.addBlurHandler(new BlurHandler() {
 				public void onBlur(BlurEvent event) {

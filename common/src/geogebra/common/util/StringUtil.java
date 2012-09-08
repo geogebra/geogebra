@@ -316,147 +316,203 @@ public class StringUtil {
 				} else {
 					switch (c) {
 					// greek letters
-					case '\u03b1':
+					case Unicode.alpha:
 						sbReplaceExp.append("\\alpha");
 						break;
 
-					case '\u03b2':
+					case Unicode.beta:
 						sbReplaceExp.append("\\beta");
 						break;
 
-					case '\u03b3':
+					case Unicode.gamma:
 						sbReplaceExp.append("\\gamma");
 						break;
 
-					case '\u03b4':
+					case Unicode.delta:
 						sbReplaceExp.append("\\delta");
 						break;
 
-					case '\u03b5':
+					case Unicode.epsilon:
 						sbReplaceExp.append("\\varepsilon");
 						break;
 
-					case '\u03b6':
+					case Unicode.zeta:
 						sbReplaceExp.append("\\zeta");
 						break;
 
-					case '\u03b7':
+					case Unicode.eta:
 						sbReplaceExp.append("\\eta");
 						break;
 
-					case '\u03b8':
+					case Unicode.theta:
 						sbReplaceExp.append("\\theta");
 						break;
 
-					case '\u03b9':
+					case Unicode.iota:
 						sbReplaceExp.append("\\iota");
 						break;
 
-					case '\u03ba':
+					case Unicode.kappa:
 						sbReplaceExp.append("\\kappa");
 						break;
 
-					case '\u03bb':
+					case Unicode.lambda:
 						sbReplaceExp.append("\\lambda");
 						break;
 
-					case '\u03bc':
+					case Unicode.mu:
 						sbReplaceExp.append("\\mu");
 						break;
 
-					case '\u03bd':
+					case Unicode.nu:
 						sbReplaceExp.append("\\nu");
 						break;
 
-					case '\u03be':
+					case Unicode.xi:
 						sbReplaceExp.append("\\xi");
 						break;
 
-					case '\u03bf':
-						sbReplaceExp.append("o");
+					case Unicode.omicron:
+						sbReplaceExp.append("\\omicron");
 						break;
 
-					case '\u03c0':
+					case Unicode.pi:
 						sbReplaceExp.append("\\pi");
 						break;
 
-					case '\u03c1':
+					case Unicode.rho:
 						sbReplaceExp.append("\\rho");
 						break;
 
-					case '\u03c3':
+					case Unicode.sigma:
 						sbReplaceExp.append("\\sigma");
 						break;
 
-					case '\u03c4':
+					case Unicode.tau:
 						sbReplaceExp.append("\\tau");
 						break;
 
-					case '\u03c5':
+					case Unicode.upsilon:
 						sbReplaceExp.append("\\upsilon");
 						break;
 
-					case '\u03c6':
+					case Unicode.phi_symbol:
 						sbReplaceExp.append("\\phi");
 						break;
 
-					case '\u03d5':
+					case Unicode.phi:
 						sbReplaceExp.append("\\varphi");
 						break;
 
-					case '\u03c7':
+					case Unicode.chi:
 						sbReplaceExp.append("\\chi");
 						break;
 
-					case '\u03c8':
+					case Unicode.psi:
 						sbReplaceExp.append("\\psi");
 						break;
 
-					case '\u03c9':
+					case Unicode.omega:
 						sbReplaceExp.append("\\omega");
 						break;
 
 						// GREEK upper case letters				
-					case '\u0393':
+
+					case Unicode.Alpha:
+						sbReplaceExp.append("\\Alpha");
+						break;
+
+					case Unicode.Beta:
+						sbReplaceExp.append("\\Beta");
+						break;
+
+					case Unicode.Gamma:
 						sbReplaceExp.append("\\Gamma");
 						break;
 
-					case '\u0394':
+					case Unicode.Delta:
 						sbReplaceExp.append("\\Delta");
 						break;
 
-					case '\u0398':
+					case Unicode.Epsilon:
+						sbReplaceExp.append("\\Epsilon");
+						break;
+
+					case Unicode.Zeta:
+						sbReplaceExp.append("\\Zeta");
+						break;
+
+					case Unicode.Eta:
+						sbReplaceExp.append("\\Eta");
+						break;
+
+					case Unicode.Theta:
 						sbReplaceExp.append("\\Theta");
 						break;
 
-					case '\u039b':
+					case Unicode.Iota:
+						sbReplaceExp.append("\\Iota");
+						break;
+
+					case Unicode.Kappa:
+						sbReplaceExp.append("\\Kappa");
+						break;
+
+					case Unicode.Lambda:
 						sbReplaceExp.append("\\Lambda");
 						break;
 
-					case '\u039e':
+					case Unicode.Mu:
+						sbReplaceExp.append("\\Mu");
+						break;
+
+					case Unicode.Nu:
+						sbReplaceExp.append("\\Nu");
+						break;
+
+					case Unicode.Xi:
 						sbReplaceExp.append("\\Xi");
 						break;
 
-					case '\u03a0':
+					case Unicode.Omicron:
+						sbReplaceExp.append("\\Omicron");
+						break;
+
+					case Unicode.Pi:
 						sbReplaceExp.append("\\Pi");
 						break;
 
-					case '\u03a3':
+					case Unicode.Rho:
+						sbReplaceExp.append("\\Rho");
+						break;
+
+					case Unicode.Sigma:
 						sbReplaceExp.append("\\Sigma");
 						break;
 
-					case '\u03a6':
+					case Unicode.Tau:
+						sbReplaceExp.append("\\Tau");
+						break;
+
+					case Unicode.Upsilon:
+						sbReplaceExp.append("\\Upsilon");
+						break;
+
+					case Unicode.Phi:
 						sbReplaceExp.append("\\Phi");
 						break;
 
-					case '\u03a8':
+					case Unicode.Chi:
+						sbReplaceExp.append("\\Chi");
+						break;
+
+					case Unicode.Psi:
 						sbReplaceExp.append("\\Psi");
 						break;
 
-					case '\u03a9':
+					case Unicode.Omega:
 						sbReplaceExp.append("\\Omega");
 						break;
-
 					default:
 						sbReplaceExp.append(c);
 					}
