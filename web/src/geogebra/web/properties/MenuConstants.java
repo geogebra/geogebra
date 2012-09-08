@@ -1744,7 +1744,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Select two points")
     String Segment_Help();
 
-    @DefaultStringValue("Segment with Given Length from Point")
+    @DefaultStringValue("Segment with Fixed Length")
     String SegmentFixed();
 
     @DefaultStringValue("Select point and enter segment length")
