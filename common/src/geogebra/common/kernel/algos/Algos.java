@@ -278,6 +278,7 @@ public enum Algos {
 	AlgoLetterToUnicode(Commands.LetterToUnicode),
 	AlgoBarChart(Commands.BarChart),
 	AlgoBoxPlot(Commands.BoxPlot),
+	AlgoBarGraph(Commands.BarGraph),
 	AlgoHistogram(Commands.Histogram),
 	AlgoHistogramRight(Commands.HistogramRight),
 	AlgoDotPlot(Commands.DotPlot),

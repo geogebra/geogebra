@@ -21,6 +21,7 @@ import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
 import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.draw.DrawSlope;
+import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.euclidian.draw.DrawText;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawTurtle;
@@ -32,6 +33,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoBarGraph;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -176,6 +178,8 @@ public class EuclidianDraw {
 				d = new DrawUpperLowerSum(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBoxPlot) {
 				d = new DrawBoxPlot(ev, (GeoNumeric) geo);
+			} else if (algo instanceof AlgoBarGraph) {
+				d = new DrawBarGraph(ev, (GeoNumeric) geo);
 			}
 			if (d != null) {
 				if (!geo.isColorSet()) {

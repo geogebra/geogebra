@@ -36,6 +36,8 @@ public class CommandDispatcherStats {
 			return new CmdFrequencyPolygon(kernel);
 		case NormalQuantilePlot:
 			return new CmdNormalQuantilePlot(kernel);
+		case BarGraph:
+			return new CmdBarGraph(kernel);
 		case FrequencyTable:
 			return new CmdFrequencyTable(kernel);
 		case Mean:

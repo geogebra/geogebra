@@ -1920,6 +1920,11 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdStickGraph() {
+		t("BarGraph[list1, list2],n1");
+	}
+	
+	@Test
 	public void cmdStretch() {
 		t("Stretch[ obj, l1, n2 ]");
 		t("Stretch[ obj, v1]");
