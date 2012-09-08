@@ -72,22 +72,22 @@ public abstract class PropertiesView implements View {
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getPlain("PropertiesOfA", app.getPlain("Defaults"));
+			return app.getPlain("PreferencesOfA", app.getPlain("Defaults"));
 		case SPREADSHEET:
-			return app.getPlain("PropertiesOfA", app.getPlain("Spreadsheet"));
+			return app.getPlain("PreferencesOfA", app.getPlain("Spreadsheet"));
 		case EUCLIDIAN:
-			return app.getPlain("PropertiesOfA", app.getPlain("DrawingPad"));
+			return app.getPlain("PreferencesOfA", app.getPlain("DrawingPad"));
 		case EUCLIDIAN2:
-			return app.getPlain("PropertiesOfA", app.getPlain("DrawingPad2"));
+			return app.getPlain("PreferencesOfA", app.getPlain("DrawingPad2"));
 		case CAS:
-			return app.getPlain("PropertiesOfA", app.getPlain("CAS"));
+			return app.getPlain("PreferencesOfA", app.getPlain("CAS"));
 		case ADVANCED:
-			return app.getPlain("PropertiesOfA", app.getMenu("Advanced"));
+			return app.getPlain("PreferencesOfA", app.getMenu("Advanced"));
 		case OBJECTS:
 			// return app.getMenu("Objects");
 			return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getPlain("PropertiesOfA", app.getMenu("Layout"));
+			return app.getPlain("PreferencesOfA", app.getMenu("Layout"));
 		}
 		return null;
 	}
@@ -97,7 +97,7 @@ public abstract class PropertiesView implements View {
 	 * @param type
 	 * @return short version of Option type string
 	 */
-	public static String getTypeStringSimple(App app, OptionType type) {
+	final public static String getTypeStringSimple(App app, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
 			return app.getPlain("Defaults");

@@ -29,7 +29,7 @@ public class PropertiesDockPanel extends DockPanel implements
 	 */
 	public PropertiesDockPanel(AppD app) {
 		super(App.VIEW_PROPERTIES, // view id
-				"GeoGebraProperties", // view title phrase
+				"Preferences", // view title phrase
 				null, // toolbar string
 				true, // style bar?
 				-1, // menu order
