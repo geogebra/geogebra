@@ -173,6 +173,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @return maximum frequency of a bar chart or histogram
 	 */
 	public double getFreqMax() {
+
+		freqMax = 0.0;
+		for (int k = 0; k < yval.length; ++k) {
+			freqMax = Math.max(yval[k], freqMax);
+		}
 		return freqMax;
 	}
 
@@ -1269,12 +1274,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			}
 
-			// find maximum frequency
-			// this is used by the stat dialogs
-			freqMax = 0.0;
-			for (int k = 0; k < yval.length; ++k) {
-				freqMax = Math.max(yval[k], freqMax);
-			}
+			
 
 			break;
 
@@ -1722,22 +1722,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			// area of rectangles
 			sum.setValue(totalArea);
 			
-			
-
-			// find maximum frequency
-			// this is used by the stat dialogs
-			freqMax = 0.0;
-			for (int k = 0; k < yval.length; ++k) {
-				freqMax = Math.max(yval[k], freqMax);
-			}
-
-			// find maximum frequency
-			// this is used by the stat dialogs
-			freqMax = 0.0;
-			for (int k = 0; k < yval.length; ++k) {
-				freqMax = Math.max(yval[k], freqMax);
-			}
-
 			break;
 
 		}
