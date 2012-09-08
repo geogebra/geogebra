@@ -1,6 +1,5 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.gui.GuiManager;
 import geogebra.common.main.OptionType;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.gui.GuiManagerD;
@@ -28,10 +27,10 @@ public class ViewMenu extends BaseMenu {
 	private static final long serialVersionUID = 1L;
 	private final LayoutD layout;
 
-	private AbstractAction showKeyboardAction,
+	private AbstractAction showKeyboardAction, showAlgebraInputAction,
 			showKinectAction, refreshAction, recomputeAllViews;
 
-	private JCheckBoxMenuItem cbShowKeyboard, cbShowKinect;
+	private JCheckBoxMenuItem cbShowKeyboard, cbShowKinect, cbShowInputBar;
 
 	private ShowViewAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
@@ -63,6 +62,8 @@ public class ViewMenu extends BaseMenu {
 			return;
 		}
 		initViewItems(this);
+		
+		addSeparator();
 
 		JMenuItem mi;
 
@@ -78,7 +79,10 @@ public class ViewMenu extends BaseMenu {
 			}
 			add(cbShowKeyboard);
 		}
-
+		
+		cbShowInputBar = new JCheckBoxMenuItem(showAlgebraInputAction);
+		add(cbShowInputBar);
+		
 		// show Kinect option in Eclipse & 5.0 Webstart only
 		// ie not 4.2
 		if (!AppD.isWebstart() || app.is3D()) {
@@ -167,6 +171,16 @@ public class ViewMenu extends BaseMenu {
 
 			}
 		};
+		
+		showAlgebraInputAction = new AbstractAction(app.getMenu("InputField")) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				app.setShowAlgebraInput(!app.showAlgebraInput(), true);
+				app.updateContentPane();
+			}
+		};
+
 
 		showKinectAction = new AbstractAction(app.getMenu("KinectWindow")) {
 
@@ -295,11 +309,9 @@ public class ViewMenu extends BaseMenu {
 			return;
 		}
 
-		GuiManager guiMananager = ((GuiManagerD)app.getGuiManager());
-
 		updateViews();
 
-		// cbShowAlgebraInput.setSelected(app.showAlgebraInput());
+		cbShowInputBar.setSelected(app.showAlgebraInput());
 
 		if (cbShowKeyboard != null) {
 			cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
