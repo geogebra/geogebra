@@ -2,6 +2,8 @@ package geogebra.gui.view.data;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.advanced.AlgoUnique;
+import geogebra.common.kernel.advanced.AlgoVerticalText;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoDependentList;
@@ -38,6 +40,7 @@ import geogebra.common.kernel.statistics.AlgoFitLogistic;
 import geogebra.common.kernel.statistics.AlgoFitPoly;
 import geogebra.common.kernel.statistics.AlgoFitPow;
 import geogebra.common.kernel.statistics.AlgoFitSin;
+import geogebra.common.kernel.statistics.AlgoFrequency;
 import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.kernel.statistics.AlgoMean;
 import geogebra.common.kernel.statistics.AlgoNormalQuantilePlot;
@@ -51,6 +54,7 @@ import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 
@@ -280,14 +284,16 @@ public class StatGeo {
 			AlgoPolyLine al3 = createFrequencyPolygon((AlgoHistogram) al2,
 					settings.isCumulative);
 			geo = al3.getGeoElements()[0];
-			geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.OVERLAY_COLOR));
+			geo.setObjColor(new geogebra.awt.GColorD(
+					DataAnalysisViewD.OVERLAY_COLOR));
 			geo.setLineThickness(DataAnalysisViewD.thicknessCurve);
 			removeFromConstructionList(al2);
 			removeFromConstructionList(al3);
 
 		} else {
 			geo = al2.getGeoElements()[0];
-			geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.HISTOGRAM_COLOR));
+			geo.setObjColor(new geogebra.awt.GColorD(
+					DataAnalysisViewD.HISTOGRAM_COLOR));
 			geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 			geo.setLineThickness(DataAnalysisViewD.thicknessBarChart);
 			removeFromConstructionList(al2);
@@ -362,7 +368,8 @@ public class StatGeo {
 		Function f = new Function(normal, x);
 		geo = new GeoFunction(cons, f);
 
-		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.OVERLAY_COLOR));
+		geo.setObjColor(new geogebra.awt.GColorD(
+				DataAnalysisViewD.OVERLAY_COLOR));
 		geo.setLineThickness(DataAnalysisViewD.thicknessCurve);
 
 		return geo;
@@ -403,61 +410,97 @@ public class StatGeo {
 
 	}
 
-	
-	public GeoElement createBarChart(GeoList dataList, StatPanelSettings settings) {
+	public GeoElement createBarChart(GeoList dataList,
+			StatPanelSettings settings) {
 
 		GeoElement geo = null;
 		double barWidth = 0.5;
-		
+
 		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
+
 			AlgoBarChart barChart = null;
-			if(settings.isNumericData()){
+			if (settings.isNumericData()) {
 				barChart = new AlgoBarChart(cons, dataList, new GeoNumeric(
-					cons, barWidth));
-			}else{
-				//AlgoVerticalText t;
-				//AlgoUnique al = new AlgoUnique(cons, dataList);
-				//AlgoFrequency al2 = new AlgoFrequency(cons, null, null, dataList);
+						cons, 0.05));
+				removeFromConstructionList(barChart);
+				geo = barChart.getGeoElements()[0];
+
+			} else {
+				// AlgoVerticalText t = new AlgoVerticalText(cons, new
+				// GeoText(cons,"red"));
+				// GeoText tt = (GeoText) t.getGeoElements()[0];
+				// System.out.println(tt.getBoundingBox().toString());
+
+				AlgoUnique al = new AlgoUnique(cons, dataList);
+				removeFromConstructionList(al);
+				GeoList nameList = (GeoList) al.getGeoElements()[0];
+
+				AlgoFrequency freqAlgo = new AlgoFrequency(cons, null, null,
+						dataList);
+				removeFromConstructionList(freqAlgo);
+				GeoList freqList = (GeoList) freqAlgo.getGeoElements()[0];
+
+				GeoList valueList = new GeoList(cons);
+				for (int i = 1; i <= freqList.size(); i++) {
+					valueList.add(new GeoNumeric(cons, i));
+				}
+
+				barChart = new AlgoBarChart(cons, valueList, freqList,
+						new GeoNumeric(cons, barWidth));
+				removeFromConstructionList(barChart);
+				geo = barChart.getGeoElements()[0];
+
 			}
-			
-			removeFromConstructionList(barChart);
-			geo = barChart.getGeoElements()[0];
 
 		} else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-			AlgoBarChart barChart = new AlgoBarChart(cons, (GeoList)dataList.get(0), (GeoList)dataList.get(1));
-			
-			removeFromConstructionList(barChart);
-			geo = barChart.getGeoElements()[0];
+
+			AlgoBarChart barChartAlgo = new AlgoBarChart(cons,
+					(GeoList) dataList.get(0), (GeoList) dataList.get(1), new GeoNumeric(
+							cons, 0.05)  );
+
+			removeFromConstructionList(barChartAlgo);
+			geo = barChartAlgo.getGeoElements()[0];
 		}
 
-		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.BARCHART_COLOR));
+		geo.setObjColor(new geogebra.awt.GColorD(
+				DataAnalysisViewD.BARCHART_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 		return geo;
 	}
-	
-	public void getBarChartSettings(GeoList dataList, StatPanelSettings settings, GeoElement barChart) {
-		App.error("barChart setting");
-		if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
-			getDataBounds(dataList);
-		} else {
-			if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-				getDataBounds((GeoList) dataList.get(0));
-			}
-		}
+
+	public void getBarChartSettings(GeoList dataList,
+			StatPanelSettings settings, GeoElement barChart) {
+
+		double[] leftBorder = ((AlgoBarChart) barChart.getParentAlgorithm())
+				.getLeftBorder();
+		xMinData = leftBorder[0];
+		xMaxData = leftBorder[leftBorder.length - 1];
+		//xMinData = 0;
+		//xMaxData = 10;
+				
 		
+		//System.out.println(Arrays.toString(leftBorder));
+
+
 		double freqMax = ((AlgoFunctionAreaSums) barChart.getParentAlgorithm())
 				.getFreqMax();
-
+		
+		
 		yMinData = 0.0;
 		yMaxData = freqMax;
 		setXYBounds(settings, .2, .1);
 
+		settings.isEdgeAxis[0] = false;
+		settings.isEdgeAxis[1] = true;
+		// settings.isPositiveOnly[1] = true;
+
 		settings.showYAxis = true;
 		settings.forceXAxisBuffer = true;
 
+		settings.debug();
+
 	}
 
-	
 	public GeoElement createBoxPlot(GeoList dataList, StatPanelSettings settings) {
 
 		GeoElement geo = null;
@@ -478,7 +521,8 @@ public class StatGeo {
 			geo = boxPlot.getGeoElements()[0];
 		}
 
-		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.BOXPLOT_COLOR));
+		geo.setObjColor(new geogebra.awt.GColorD(
+				DataAnalysisViewD.BOXPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 		return geo;
 	}
@@ -586,7 +630,8 @@ public class StatGeo {
 		removeFromConstructionList(dp);
 		GeoElement geo = dp.getGeoElements()[0];
 
-		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.DOTPLOT_COLOR));
+		geo.setObjColor(new geogebra.awt.GColorD(
+				DataAnalysisViewD.DOTPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 
 		return geo;
@@ -669,7 +714,8 @@ public class StatGeo {
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);
-		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.DOTPLOT_COLOR));
+		geo.setObjColor(new geogebra.awt.GColorD(
+				DataAnalysisViewD.DOTPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 
 		return geo;
@@ -691,7 +737,8 @@ public class StatGeo {
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);
-		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.DOTPLOT_COLOR));
+		geo.setObjColor(new geogebra.awt.GColorD(
+				DataAnalysisViewD.DOTPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 
 		return geo;
@@ -759,7 +806,8 @@ public class StatGeo {
 			AlgoResidualPlot algoRP = new AlgoResidualPlot(cons, dataList,
 					(GeoFunctionable) geo);
 			geo = algoRP.getGeoElements()[0];
-			geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.DOTPLOT_COLOR));
+			geo.setObjColor(new geogebra.awt.GColorD(
+					DataAnalysisViewD.DOTPLOT_COLOR));
 			geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 			geo.setLineThickness(DataAnalysisViewD.thicknessCurve);
 		} else {

@@ -57,4 +57,18 @@ public class PlotSettings {
 		this.forceXAxisBuffer = forceXAxisBuffer;
 		this.isEdgeAxis = isEdgeAxis;
 	}
+	
+	
+	public void debug(){
+		
+		System.out.println("=======================");
+		System.out.println("xMin: " + xMin);
+		System.out.println("xMax: " + xMax);
+		System.out.println("yMin: " + yMin);
+		System.out.println("yMax: " + yMax);
+		System.out.println("=======================");
+	}
+	
+	
+	
 }
