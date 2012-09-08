@@ -238,5 +238,16 @@ public class DrawBoxPlot extends Drawable {
 		}
 
 	}
+	
+	/**
+	 * Returns the bounding box of this Drawable in screen coordinates.
+	 */
+	@Override
+	final public geogebra.common.awt.GRectangle getBounds() {
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
+			return null;
+		}
+		return gp.getBounds();
+	}
 
 }
