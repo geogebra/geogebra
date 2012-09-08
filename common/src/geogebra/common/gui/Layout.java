@@ -56,7 +56,7 @@ public abstract class Layout {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
 		
-		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 | 16 | 51 | 10 , 24 20 , 21 | 36 46 , 38 49 | 30 29 , 32 33 | 26 17 62 | 25 | 40 41 42 , 6", true, false, false, false, false, false);
+		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 | 16 | 51 | 10 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26 17 62 | 25 | 40 41 42 , 6", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
 		defaultPerspectives[1].setIconString("menu_view_graphics.png");
 		
