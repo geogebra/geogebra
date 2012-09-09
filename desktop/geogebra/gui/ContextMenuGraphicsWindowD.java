@@ -79,7 +79,7 @@ implements ActionListener {
         addAxesAndGridCheckBoxes();
         
         
-        AbstractAction showConstructionStep = new AbstractAction(app.getMenu("NavigationBar"),app.getEmptyIcon()) {
+        AbstractAction showConstructionStep = new AbstractAction(app.getMenu("NavigationBar")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
