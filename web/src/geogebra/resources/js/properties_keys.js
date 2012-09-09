@@ -2235,6 +2235,7 @@ var plainKeysVar = {
 	PolyLine:'',
 	Polygon:'',
 	PositiveDirectionOnly:'',
+	PreferencesOfA:'',
 	PreviewUnavailable:'',
 	ProbabilityCalculator:'',
 	Properties:'',

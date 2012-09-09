@@ -1282,6 +1282,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Positive Direction Only")
     String PositiveDirectionOnly();
 
+    @DefaultStringValue("Preferences - %0")
+    String PreferencesOfA();
+
     @DefaultStringValue("Preview Unavailable")
     String PreviewUnavailable();
 
