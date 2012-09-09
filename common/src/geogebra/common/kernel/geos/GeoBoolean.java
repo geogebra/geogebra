@@ -426,9 +426,4 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		}
 	}
 	
-	@Override
-	public boolean isPinnable() {
-		return false;
-	}
-
 }

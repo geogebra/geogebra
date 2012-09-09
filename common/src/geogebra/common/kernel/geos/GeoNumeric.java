@@ -1337,11 +1337,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 	
 	@Override
-	public boolean isPinnable() {
-		return false;
-	}
-	
-	@Override
 	public boolean contains(final ExpressionValue ev) {
 		
 		if (getParentAlgorithm() instanceof AlgoDependentNumber) {
@@ -1358,6 +1353,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		this.intervalMaxActive = intervalMaxActive;
 	}
 
+	@Override
+	public boolean isPinnable() {
+		return isSlider();
+	}
 
 
 }

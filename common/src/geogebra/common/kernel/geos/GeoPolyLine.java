@@ -576,5 +576,5 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	public Path getBoundary() {
 		return this;
 	}
-
+	
 }

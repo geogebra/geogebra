@@ -3,6 +3,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -48,6 +49,11 @@ public class GeoPenStroke extends GeoPolyLine {
 		ret.set(this);
 
 		return ret;
+	}
+	
+	@Override
+	public boolean isPinnable() {
+		return true;
 	}
 	
 }

@@ -7253,6 +7253,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param scope given {@link EquationScope}
 	 * @return a new {@link EquationElement}
 	 */
+	@SuppressWarnings("javadoc")
 	public EquationElementInterface createEquationElement(final EquationScopeInterface scope) {
 		return this.getParentAlgorithm().buildEquationElementForGeo(this, scope);
 	}
@@ -7267,7 +7268,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether to show pin in stylebar/geo context menu
 	 */
 	public boolean isPinnable() {
-		return true;
+		return false;
 	}
 
 	/**

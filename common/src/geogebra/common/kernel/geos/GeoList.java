@@ -2211,11 +2211,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		return drawAsComboBox();
 	}
 
-	@Override
-	public boolean isPinnable() {
-		return !drawAsComboBox();
-	}
-
 	public ExpressionValue getListElement(int i) {
 		return get(i);
 	}
