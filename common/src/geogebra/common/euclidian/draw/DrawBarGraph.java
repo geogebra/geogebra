@@ -4,7 +4,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.kernel.algos.AlgoBarGraph;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
@@ -18,7 +18,7 @@ public class DrawBarGraph extends Drawable {
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
 	private GeoNumeric sum;
-	private AlgoBarGraph algo;
+	private AlgoBarChart algo;
 
 	private boolean isVertical = true;
 
@@ -40,7 +40,7 @@ public class DrawBarGraph extends Drawable {
 	}
 
 	private void init() {
-		algo = (AlgoBarGraph) geo.getDrawAlgorithm();
+		algo = (AlgoBarChart) geo.getDrawAlgorithm();
 	}
 
 	/**
@@ -131,17 +131,18 @@ public class DrawBarGraph extends Drawable {
 		// init gp
 		gp.reset();
 
-		double[] xVal = algo.getXVal();
-		double[] yVal = algo.getYVal();
+		double[] xVal = algo.getLeftBorder();
+		double[] yVal = algo.getValues();
 
 		
 		double width = algo.getWidth();
+		int N = algo.getIntervals();
 
 		if (isVertical) {
-			// draw vertical sticks
+			// draw vertical bars
 			if (width <= 0) {
 
-				for (int i = 0; i < xVal.length; i++) {
+				for (int i = 0; i < N; i++) {
 
 					coords[0] = xVal[i];
 					coords[1] = 0;
@@ -156,14 +157,14 @@ public class DrawBarGraph extends Drawable {
 
 			} else {
 
-				for (int i = 0; i < xVal.length; i++) {
+				for (int i = 0; i < N; i++) {
 
-					coords[0] = xVal[i] - width;
+					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
 					gp.moveTo(coords[0], coords[1]);
 
-					coords[0] = xVal[i] - width;
+					coords[0] = xVal[i] ;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
@@ -178,7 +179,7 @@ public class DrawBarGraph extends Drawable {
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 
-					coords[0] = xVal[i] - width;
+					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
@@ -186,12 +187,12 @@ public class DrawBarGraph extends Drawable {
 
 			}
 			
-			// horizontal sticks
+			// horizontal bars
 		} else {
 			
 			if (width <= 0) {
 
-				for (int i = 0; i < xVal.length; i++) {
+				for (int i = 0; i < N; i++) {
 
 					coords[0] = 0;
 					coords[1] = yVal[i];
@@ -206,15 +207,15 @@ public class DrawBarGraph extends Drawable {
 
 			} else {
 
-				for (int i = 0; i < xVal.length; i++) {
+				for (int i = 0; i < N; i++) {
 
 					coords[0] = 0; 
-					coords[1] = yVal[i] - width;
+					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.moveTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
-					coords[1] = yVal[i] - width;
+					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 
@@ -229,7 +230,7 @@ public class DrawBarGraph extends Drawable {
 					gp.lineTo(coords[0], coords[1]);
 
 					coords[0] = 0; 
-					coords[1] = yVal[i] - width;
+					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 				}

@@ -28,12 +28,12 @@ import geogebra.common.euclidian.draw.DrawTurtle;
 import geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import geogebra.common.euclidian.draw.DrawVector;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.algos.AlgoBarGraph;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -178,7 +178,7 @@ public class EuclidianDraw {
 				d = new DrawUpperLowerSum(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBoxPlot) {
 				d = new DrawBoxPlot(ev, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoBarGraph) {
+			} else if (algo instanceof AlgoBarChart) {
 				d = new DrawBarGraph(ev, (GeoNumeric) geo);
 			}
 			if (d != null) {

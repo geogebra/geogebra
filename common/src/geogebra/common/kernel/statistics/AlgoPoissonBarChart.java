@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -25,27 +25,27 @@ import geogebra.common.util.Cloner;
  * @version 2011-06-21
  */
 
-public class AlgoPoissonBarChart extends AlgoFunctionAreaSums {
+public class AlgoPoissonBarChart extends AlgoBarChart {
 
 	
 
 	public AlgoPoissonBarChart(Construction cons, String label, 
 			NumberValue mean) {
-        super(cons,label, mean, null, null, null, AlgoFunctionAreaSums.TYPE_BARCHART_POISSON);
+        super(cons,label, mean, null, null, null, AlgoBarChart.TYPE_BARCHART_POISSON);
         cons.registerEuclidianViewCE(this);
     }
 	
 	
 	public AlgoPoissonBarChart(Construction cons, String label, 
 			NumberValue mean, GeoBoolean isCumulative) {
-        super(cons,label, mean, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_POISSON);
+        super(cons,label, mean, null, null, isCumulative, AlgoBarChart.TYPE_BARCHART_POISSON);
         cons.registerEuclidianViewCE(this);
     }
 	
 	private AlgoPoissonBarChart( 
 			NumberValue mean, GeoBoolean isCumulative,NumberValue a,NumberValue b,double[]vals,
 			double[]borders,int N) {
-        super(mean, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_POISSON,a,b,vals,borders,N);
+        super(mean, null, null, isCumulative, AlgoBarChart.TYPE_BARCHART_POISSON,a,b,vals,borders,N);
     }
 
     @Override
@@ -53,6 +53,7 @@ public class AlgoPoissonBarChart extends AlgoFunctionAreaSums {
         return Algos.AlgoPoissonBarChart;
     }
 
+    /*
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
 		if(b!=null)b=(GeoBoolean)b.copy();
@@ -62,5 +63,6 @@ public class AlgoPoissonBarChart extends AlgoFunctionAreaSums {
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
 
 	}
+	*/
 }
 

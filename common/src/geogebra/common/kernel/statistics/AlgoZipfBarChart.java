@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -25,25 +25,25 @@ import geogebra.common.util.Cloner;
  * @version 2011-06-21
  */
 
-public class AlgoZipfBarChart extends AlgoFunctionAreaSums {
+public class AlgoZipfBarChart extends AlgoBarChart {
 
 	
 
 	public AlgoZipfBarChart(Construction cons, String label, 
 			NumberValue n, NumberValue p) {
-        super(cons,label, n, p, null, null, AlgoFunctionAreaSums.TYPE_BARCHART_ZIPF);
+        super(cons,label, n, p, null, null, AlgoBarChart.TYPE_BARCHART_ZIPF);
     }
 	
 	
 	public AlgoZipfBarChart(Construction cons, String label, 
 			NumberValue n, NumberValue p, GeoBoolean isCumulative) {
-        super(cons,label, n, p, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_ZIPF);
+        super(cons,label, n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF);
     }
 	
 	private AlgoZipfBarChart( 
 			NumberValue n, NumberValue p, GeoBoolean isCumulative,NumberValue a,NumberValue b,double[]vals,
 			double[]borders,int N) {
-        super(n, p, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_ZIPF,a,b,vals,borders,N);
+        super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF,a,b,vals,borders,N);
     }
 	
 
@@ -52,6 +52,7 @@ public class AlgoZipfBarChart extends AlgoFunctionAreaSums {
         return Algos.AlgoZipfBarChart;
     }
 
+    /*
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
 		if(b!=null)b=(GeoBoolean)b.copy();
@@ -61,5 +62,6 @@ public class AlgoZipfBarChart extends AlgoFunctionAreaSums {
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
 
 	}
+	*/
 }
 

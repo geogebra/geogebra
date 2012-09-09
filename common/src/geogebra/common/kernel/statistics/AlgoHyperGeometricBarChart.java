@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -25,26 +25,26 @@ import geogebra.common.util.Cloner;
  * @version 2011-06-21
  */
 
-public class AlgoHyperGeometricBarChart extends AlgoFunctionAreaSums {
+public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 
 	public AlgoHyperGeometricBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, NumberValue sampleSize) {
 		super(cons, label, n, p, sampleSize, null,
-				AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC);
+				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
 	}
 
 	public AlgoHyperGeometricBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, NumberValue sampleSize,
 			GeoBoolean isCumulative) {
 		super(cons, label, n, p, sampleSize, isCumulative,
-				AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC);
+				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
 	}
 
 	private AlgoHyperGeometricBarChart(NumberValue n, NumberValue p,
 			NumberValue sampleSize, GeoBoolean isCumulative, NumberValue a,
 			NumberValue b, double[] vals, double[] borders, int N) {
 		super(n, p, sampleSize, isCumulative,
-				AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC, a, b, vals,
+				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC, a, b, vals,
 				borders, N);
 	}
 
@@ -53,6 +53,7 @@ public class AlgoHyperGeometricBarChart extends AlgoFunctionAreaSums {
 		return Algos.AlgoHyperGeometricBarChart;
 	}
 
+	/*
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
 		if (b != null) {
@@ -65,4 +66,5 @@ public class AlgoHyperGeometricBarChart extends AlgoFunctionAreaSums {
 						.getB().deepCopy(kernel), Cloner.clone(getValues()),
 				Cloner.clone(getLeftBorder()), getIntervals());
 	}
+	*/
 }

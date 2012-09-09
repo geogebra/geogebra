@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -25,7 +25,7 @@ import geogebra.common.util.Cloner;
  * @version 2011-06-21
  */
 
-public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
+public class AlgoBinomialDistBarChart extends AlgoBarChart {
 
 	/**
 	 * @param cons construction
@@ -36,7 +36,7 @@ public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
 	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p) {
 		super(cons, label, n, p, null, null,
-				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
+				AlgoBarChart.TYPE_BARCHART_BINOMIAL);
 	}
 
 	/**
@@ -49,14 +49,14 @@ public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
 	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, GeoBoolean isCumulative) {
 		super(cons, label, n, p, null, isCumulative,
-				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
+				AlgoBarChart.TYPE_BARCHART_BINOMIAL);
 	}
 
 	private AlgoBinomialDistBarChart(NumberValue n, NumberValue p,
 			GeoBoolean isCumulative, NumberValue a, NumberValue b,
 			double[] vals, double[] borders, int N) {
 		super(n, p, null, isCumulative,
-				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL, a, b, vals,
+				AlgoBarChart.TYPE_BARCHART_BINOMIAL, a, b, vals,
 				borders, N);
 	}
 
@@ -65,6 +65,7 @@ public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
 		return Algos.AlgoBinomialDistBarChart;
 	}
 
+	/*
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
 		if (b != null) {
@@ -78,4 +79,5 @@ public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 				getIntervals());
 	}
+	*/
 }
