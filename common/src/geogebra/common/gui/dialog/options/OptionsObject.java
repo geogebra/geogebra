@@ -57,18 +57,17 @@ public abstract class OptionsObject {
 	 */
 	public String getSelectionDescription() {
 		if (selection == null || selection.size() == 0) {
-			App.error("This should not get called unless at least one object is selected");
-			return app.getPlain("Preferences");
+			return app.getPlain("Properties");
 		} else if (selection.size() == 1) {
 			GeoElement geo = selection.get(0);
 			sb.setLength(0);
 			sb.append("<html>");
-			sb.append(app.getPlain("PreferencesOfA",
+			sb.append(app.getPlain("PropertiesOfA",
 					geo.getNameDescriptionHTML(false, false)));
 			sb.append("</html>");
 			return sb.toString();
 		} else {
-			return app.getPlain("PreferencesOfA", app.getPlain("Selection"));
+			return app.getPlain("PropertiesOfA", app.getPlain("Selection"));
 		}
 	}
 
