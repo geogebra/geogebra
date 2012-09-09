@@ -1649,6 +1649,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			
 			} else { // list2 contains the heights
 
+				// make sure heights not rescaled #2579
+				densityFactor = -1;
+				
 				if (yval == null || yval.length < N) {
 					yval = new double[N];
 					leftBorder = new double[N];
@@ -1673,9 +1676,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					}
 
 					geo = list2.get(i);
-					if (geo.isGeoNumeric())
+					if (geo.isGeoNumeric()) {
 						yval[i] = ((GeoNumeric) geo).getDouble();
-					else {
+					} else {
 						sum.setUndefined();
 						return;
 					}
