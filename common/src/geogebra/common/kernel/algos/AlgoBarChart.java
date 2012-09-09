@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -36,7 +37,7 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
 /**
  * Bar chart algorithm.
  * 
- * @author M. Borcherds
+ * @author G. Sturr
  * 
  */
 public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
@@ -60,7 +61,6 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	public static final int TYPE_BARCHART_HYPERGEOMETRIC = 43;
 	public static final int TYPE_BARCHART_BERNOULLI = 44;
 	public static final int TYPE_BARCHART_ZIPF = 45;
-
 	private int type;
 
 	// largest possible number of rectangles
@@ -68,7 +68,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	private NumberValue a, b, n, p1, p2, p3; // input
 	private GeoList list1, list2; // input
-	private GeoElement ageo, bgeo, ngeo, dgeo, widthGeo, isCumulative, p1geo,
+	private GeoElement ageo, bgeo, ngeo, widthGeo, isCumulative, p1geo,
 			p2geo, p3geo;
 
 	private int N; // # of intervals
@@ -77,7 +77,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	private double barWidth;
 
 	private double freqMax;
-
+	
 	private GeoNumeric sum; // output sum
 
 	/******************************************************
@@ -428,9 +428,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		return Algos.AlgoBarChart;
 	}
 
-	/**
-	 * Returns the resulting sum
-	 * 
+	/** 
 	 * @return the resulting sum
 	 */
 	public GeoNumeric getSum() {
@@ -499,8 +497,6 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	/**
-	 * Returns n
-	 * 
 	 * @return n
 	 */
 	public GeoNumeric getN() {
@@ -540,6 +536,17 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	public NumberValue getP3() {
 		return p3;
 	}
+	
+	/**
+	 * @return the type of graph to draw
+	 */
+	public int getDrawType() {
+		if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()){
+			return DrawBarGraph.TYPE_STEP_GRAPH; 
+		}
+		return DrawBarGraph.TYPE_VERTICAL_BAR;	
+	}
+
 
 	// ======================================================
 	// Compute

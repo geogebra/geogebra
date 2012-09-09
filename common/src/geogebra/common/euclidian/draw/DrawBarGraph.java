@@ -14,15 +14,19 @@ import geogebra.common.main.App;
  * 
  */
 public class DrawBarGraph extends Drawable {
+
+	public static final int TYPE_VERTICAL_BAR = 0;
+	public static final int TYPE_HORIZONTAL_BAR = 1;
+	public static final int TYPE_STEP_GRAPH = 2;
+	private int drawType = TYPE_VERTICAL_BAR;
+
 	private boolean isVisible, labelVisible;
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
 	private GeoNumeric sum;
 	private AlgoBarChart algo;
 
-	private boolean isVertical = true;
-
-	/**
+	/*************************************************
 	 * @param view
 	 *            view
 	 * @param n
@@ -39,6 +43,21 @@ public class DrawBarGraph extends Drawable {
 		update();
 	}
 
+	/**
+	 * @return type of graph to draw
+	 */
+	public int getType() {
+		return drawType;
+	}
+
+	/**
+	 * @param type
+	 *            type of graph to draw
+	 */
+	public void setType(int type) {
+		this.drawType = type;
+	}
+
 	private void init() {
 		algo = (AlgoBarChart) geo.getDrawAlgorithm();
 	}
@@ -53,7 +72,7 @@ public class DrawBarGraph extends Drawable {
 		}
 		return gp.getBounds();
 	}
-	
+
 	@Override
 	public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
@@ -68,8 +87,11 @@ public class DrawBarGraph extends Drawable {
 			}
 
 			try {
-				fill(g2, gp, false); // fill using default/hatching/image as
-										// appropriate
+				if (algo.getDrawType() != TYPE_STEP_GRAPH) {
+					fill(g2, gp, false); // fill using default/hatching/image as
+											// appropriate
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -134,16 +156,17 @@ public class DrawBarGraph extends Drawable {
 		double[] xVal = algo.getLeftBorder();
 		double[] yVal = algo.getValues();
 
-		
 		double width = algo.getWidth();
 		int N = algo.getIntervals();
 
-		if (isVertical) {
-			// draw vertical bars
+		drawType = algo.getDrawType();
+
+		switch (drawType) {
+
+		case TYPE_VERTICAL_BAR:
+
 			if (width <= 0) {
-
 				for (int i = 0; i < N; i++) {
-
 					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
@@ -156,15 +179,13 @@ public class DrawBarGraph extends Drawable {
 				}
 
 			} else {
-
 				for (int i = 0; i < N; i++) {
-
 					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
 					gp.moveTo(coords[0], coords[1]);
 
-					coords[0] = xVal[i] ;
+					coords[0] = xVal[i];
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
@@ -184,16 +205,14 @@ public class DrawBarGraph extends Drawable {
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 				}
-
 			}
-			
-			// horizontal bars
-		} else {
-			
+
+			break;
+
+		case TYPE_HORIZONTAL_BAR:
+
 			if (width <= 0) {
-
 				for (int i = 0; i < N; i++) {
-
 					coords[0] = 0;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
@@ -206,10 +225,8 @@ public class DrawBarGraph extends Drawable {
 				}
 
 			} else {
-
 				for (int i = 0; i < N; i++) {
-
-					coords[0] = 0; 
+					coords[0] = 0;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.moveTo(coords[0], coords[1]);
@@ -224,26 +241,58 @@ public class DrawBarGraph extends Drawable {
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 
-					coords[0] = 0; 
+					coords[0] = 0;
 					coords[1] = yVal[i] + width;
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 
-					coords[0] = 0; 
+					coords[0] = 0;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp.lineTo(coords[0], coords[1]);
 				}
+			}
+			break;
 
+		case TYPE_STEP_GRAPH:
+
+			double halfWidth = width / 2;
+
+			for (int i = 0; i < N - 1; i++) {
+
+				// move to start point
+				coords[0] = xVal[i] + halfWidth;
+				coords[1] = yVal[i];
+				view.toScreenCoords(coords);
+				gp.moveTo(coords[0], coords[1]);
+
+				// across
+				coords[0] = xVal[i + 1] + halfWidth;
+				coords[1] = yVal[i];
+				view.toScreenCoords(coords);
+				gp.lineTo(coords[0], coords[1]);
+
+				// up
+				coords[0] = xVal[i + 1] + halfWidth;
+				coords[1] = yVal[i + 1];
+				view.toScreenCoords(coords);
+				gp.lineTo(coords[0], coords[1]);
 			}
 
+			// up to last point
+			coords[0] = xVal[N - 1] + halfWidth;
+			coords[1] = yVal[N - 1];
+			view.toScreenCoords(coords);
+			gp.lineTo(coords[0], coords[1]);
+
+			break;
 		}
 
 		// gp on screen?
 		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
-			// offscreen points too
+			// off screen points too
 		}
 
 		if (labelVisible) {
