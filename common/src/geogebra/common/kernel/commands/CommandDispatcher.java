@@ -719,7 +719,6 @@ public class CommandDispatcher {
 			case SigmaYY:
 			case Spearman:
 			case StemPlot:
-			case BarGraph:
 			case SumSquaredErrors:
 			case TDistribution:
 			case TMean2Estimate:
