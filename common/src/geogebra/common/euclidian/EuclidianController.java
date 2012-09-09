@@ -50,6 +50,7 @@ import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -6060,15 +6061,93 @@ public abstract class EuclidianController {
 	
 	}
 	
+	private double initxRW = Double.NaN;
+	private double initFactor = Double.NaN;
+	
 	
 	protected final void moveFunction(boolean repaint) {
 		
 		boolean quadratic = false;
 		
-		if (isAltDown() && !Double.isNaN(vertexX) && movedGeoFunction.isIndependent()) {
-			quadratic = true;
+		if (isAltDown()) {
+			if (!Double.isNaN(vertexX) && movedGeoFunction.isIndependent()) {
+				quadratic = true;
+			} else {
+				
+				// <Alt>drag eg sin(3x-4) to change frequency
+			
+				ExpressionNode en = movedGeoFunction.getFunction().getExpression();
+				
+				if (Operation.isSimpleFunction(en.getOperation())) {
+					ExpressionValue arg = en.getLeft();
+					
+					if (arg.isExpressionNode()) {
+						
+						ExpressionNode enArg = (ExpressionNode)arg;
+						
+						Operation op2 = enArg.getOperation();
+						
+						// check for sin(3x+2)
+						if (op2.equals(Operation.PLUS) || op2.equals(Operation.MINUS)) {
+							ExpressionValue left = enArg.getLeft();
+							ExpressionValue right = enArg.getRight();
+							
+							// eg sin(3-x)
+							// sin(3-1x) OK though
+							if (!(right.isExpressionNode()) && !(left.isExpressionNode())) {
+								return;
+							}
+							
+							if (left instanceof MyDouble) {
+								enArg = (ExpressionNode) right;
+								op2 = enArg.getOperation();
+							} else if (right instanceof MyDouble) {
+								enArg = (ExpressionNode) left;
+								op2 = enArg.getOperation();
+							} else {
+								
+								// not sin(linear expression)
+								return;
+							}
+							
+						}
+						
+						if (op2.equals(Operation.MULTIPLY)) {
+							ExpressionValue left = enArg.getLeft();
+							ExpressionValue right = enArg.getRight();
+							
+							// eg sin(x 4)
+							if (left instanceof FunctionVariable && right instanceof MyDouble) {
+								// swap left and right
+								ExpressionValue tmp = right;
+								right = left;
+								left = tmp;
+							}
+							
+							// eg sin(4 x)
+							if (right instanceof FunctionVariable && left instanceof MyDouble) {
+								
+								if (Double.isNaN(initxRW)) {
+									initxRW = xRW;
+									initFactor = ((MyDouble)left).getDouble();
+									return;
+								}
+								
+								((MyDouble)left).set(initxRW / xRW * initFactor);
+								movedGeoFunction.updateRepaint();
+							}
+							
+							
+						}
+					}
+					
+				}
+				
+			}
+			
+			return;
 		}
-		
+
 		
 		if (quadratic) {
 			double p = (yRW - vertexY) / ( (xRW - vertexX) * (xRW - vertexX) );
@@ -7197,6 +7276,9 @@ public abstract class EuclidianController {
 				movedGeoFunction = (GeoFunction) movedGeoElement;
 				vertexX = Double.NaN;
 				vertexY = Double.NaN;
+				
+				initxRW = Double.NaN;
+				initFactor = Double.NaN;
 
 				if (movedGeoFunction.getFunction().getSymbolicPolynomialFactors(false,true) != null) {
 					LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);

@@ -21,4 +21,45 @@ VEC_FUNCTION,DERIVATIVE,ELEMENT_OF,SUBSTITUTION,INTEGRAL,
 // spreadsheet absolute reference using $ signs
 $VAR_ROW,$VAR_COL,$VAR_ROW_COL,
 
-ARBCONST,ARBINT,ARBCOMPLEX, SUM, ZETA}
+ARBCONST,ARBINT,ARBCOMPLEX, SUM, ZETA;
+
+public static boolean isSimpleFunction(Operation op) {
+	switch (op) {
+	case SIN:
+	case COS:
+	case TAN:
+	case ARCSIN:
+	case ARCCOS:
+	case ARCTAN:
+	case SINH:
+	case COSH:
+	case TANH:
+	case ASINH:
+	case ACOSH:
+	case ATANH:
+	case CSC:
+	case SEC:
+	case COT:
+	case CSCH:
+	case SECH:
+	case COTH:
+		
+	case EXP:
+	case ZETA:
+	case LOG:
+	case LOG10:
+	case LOG2:
+	case SQRT:
+	case CBRT:
+	case ERF:
+	case ABS:
+	case CI:
+	case SI:
+	case EI:
+	case PSI:
+	case GAMMA:
+
+		return true;
+	}
+	return false;
+}}
