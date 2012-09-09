@@ -7,7 +7,9 @@ import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Drawable representation of a bar graph
@@ -26,11 +28,14 @@ public class DrawBarGraph extends Drawable {
 	private GeoNumeric sum;
 	private AlgoBarChart algo;
 
+	private GeoPoint[] pts;
+	private DrawPoint[] drawPoints;
+
 	/*************************************************
 	 * @param view
 	 *            view
 	 * @param n
-	 *            number (boxplot)
+	 *            number (bar chart)
 	 */
 	public DrawBarGraph(EuclidianView view, GeoNumeric n) {
 		this.view = view;
@@ -60,6 +65,8 @@ public class DrawBarGraph extends Drawable {
 
 	private void init() {
 		algo = (AlgoBarChart) geo.getDrawAlgorithm();
+
+		createPts();
 	}
 
 	/**
@@ -111,6 +118,13 @@ public class DrawBarGraph extends Drawable {
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}
+
+			// point
+			if (algo.hasPoints()) {
+				for (int i = 0; i < algo.getIntervals(); i++) {
+					drawPoints[i].draw(g2);
+				}
+			}
 		}
 	}
 
@@ -160,6 +174,14 @@ public class DrawBarGraph extends Drawable {
 		int N = algo.getIntervals();
 
 		drawType = algo.getDrawType();
+
+		for (int i = 0; i < N; i++) {
+			coords[0] = xVal[i];
+			coords[1] = yVal[i];
+			pts[i].setCoords(coords[0], coords[1], 1.0);
+			pts[i].setPointSize(2 + (geo.lineThickness + 1) / 3);
+			drawPoints[i].update();
+		}
 
 		switch (drawType) {
 
@@ -295,11 +317,29 @@ public class DrawBarGraph extends Drawable {
 			// off screen points too
 		}
 
+		// TODO: improve label position
 		if (labelVisible) {
 			xLabel = (int) coords[0];
 			yLabel = (int) coords[1] - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
+		}
+
+	}
+
+	private void createPts() {
+
+		pts = new GeoPoint[algo.getIntervals()];
+		drawPoints = new DrawPoint[algo.getIntervals()];
+
+		for (int i = 0; i < pts.length; i++) {
+			pts[i] = new GeoPoint(view.getKernel().getConstruction());
+			pts[i].setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
+			pts[i].setLabelVisible(false);
+			
+			drawPoints[i] = new DrawPoint(view, pts[i]);
+			drawPoints[i].setGeoElement(pts[i]);
+			
 		}
 
 	}

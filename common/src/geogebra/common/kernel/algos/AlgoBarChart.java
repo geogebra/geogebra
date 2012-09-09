@@ -105,7 +105,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setLabel(label);
-		sum.setDrawable(true);
+		sum.setDrawable(true); 
 	}
 
 	/******************************************************
@@ -547,6 +547,16 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		return DrawBarGraph.TYPE_VERTICAL_BAR;	
 	}
 
+	/**
+	 * @return the type of graph to draw
+	 */
+	public boolean hasPoints() {
+		if(this.widthGeo != null && ((GeoNumeric)widthGeo).getDouble() == 0){
+			return true; 
+		}
+		return false;	
+	}
+	
 
 	// ======================================================
 	// Compute
