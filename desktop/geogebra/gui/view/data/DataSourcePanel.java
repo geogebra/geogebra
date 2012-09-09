@@ -90,6 +90,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	private JCheckBox ckHeader;
 	private JRadioButton btnNumeric, btnCategorical, btnNumeric2, btnPoints;
 	private MyButton btnAdd, btnClear, btnDelete, btnOptions;
+
 	private MyTextField fldStart, fldWidth;
 
 	// flags and other fields
@@ -213,7 +214,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		d.height = fldStart.getPreferredSize().height;
 		fldStart.setMaximumSize(d);
 		fldStart.addActionListener(this);
-		fldStart.setText("");
+		fldStart.setText("" + classStart);
 		fldStart.addFocusListener(this);
 
 		fldWidth = new MyTextField(app, 4);
@@ -221,7 +222,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);
 		fldWidth.addActionListener(this);
-		fldWidth.setText("");
+		fldWidth.setText("" + classWidth);
 		fldWidth.addFocusListener(this);
 
 		createSourceTable();
@@ -235,14 +236,17 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		buildSourceControlPanel();
 
 		if (sourcePanel == null) {
-			sourcePanel = new JPanel(new BorderLayout(0, 0));
+			sourcePanel = new JPanel(new BorderLayout(0, 5));
 		}
 
 		sourcePanel.removeAll();
 
 		buildSourceControlPanel();
+		buildClassesPanel();
+
 		sourcePanel.add(sourceControlPanel, BorderLayout.NORTH);
 		sourcePanel.add(sourceTable, BorderLayout.CENTER);
+		sourcePanel.add(classesPanel, BorderLayout.SOUTH);
 
 	}
 
@@ -259,6 +263,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 					LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
 					BorderLayout.WEST);
 		}
+
 		sourceControlPanel.add(
 				LayoutUtil.flowPanel(0, 0, 0, btnClear, btnOptions),
 				BorderLayout.EAST);
@@ -301,14 +306,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	}
 
 	private void buildClassesPanel() {
-
-		classesPanel = new JPanel();
-		classesPanel.setLayout(new BoxLayout(classesPanel, BoxLayout.Y_AXIS));
-
-		classesPanel.add(LayoutUtil
-				.flowPanelRight(0, 0, 20, lblStart, fldStart));
-		classesPanel.add(LayoutUtil
-				.flowPanelRight(0, 0, 20, lblWidth, fldWidth));
+		classesPanel = LayoutUtil.flowPanel(4, 2, 0, lblStart, fldStart,
+				lblWidth, fldWidth);
 	}
 
 	// ====================================================
@@ -354,8 +353,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		// classesPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Classes")));
 
-		lblStart.setText(app.getMenu("Start") + ": ");
-		lblWidth.setText(app.getMenu("Width") + ": ");
+		lblStart.setText(app.getMenu("Start") + ":");
+		lblWidth.setText(app.getMenu("Width") + ":");
 
 		btnOptions.setToolTipText(app.getMenu("Options"));
 		btnClear.setToolTipText(app.getMenu("ClearColumns"));
@@ -384,6 +383,9 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		btnNumeric.setSelected(isNumericData);
 
 		ckHeader.setSelected(dataSource.enableHeader());
+
+		classesPanel
+				.setVisible(sourceType == DataSource.SOURCE_CLASS_FREQUENCY);
 
 		updateSourceTableStructure();
 		this.revalidate();
@@ -428,7 +430,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	}
 
 	protected void addEditedColumnToDataSource(int colIndex) {
-System.out.println("ADD EDITED COLUMN!!!!");
+		// System.out.println("ADD EDITED COLUMN!!!!");
 		DefaultTableModel m = (DefaultTableModel) sourceTable.getTable()
 				.getModel();
 
@@ -437,11 +439,11 @@ System.out.println("ADD EDITED COLUMN!!!!");
 		for (int i = 0; i < m.getRowCount(); i++) {
 			s[i] = (String) m.getValueAt(i, colIndex);
 		}
-		System.out.println(Arrays.toString(s));
-		dataSource.addItem(colIndex, s);
-		//sourceTable.getTable().revalidate();
-		//sourceTable.getTable().repaint();
-		
+		// System.out.println(Arrays.toString(s));
+		dataSource.addItem(colIndex, s, DataSource.ITEM_INTERNAL);
+		// sourceTable.getTable().revalidate();
+		// sourceTable.getTable().repaint();
+
 		loadSourceTableFromDataSource();
 
 	}
@@ -511,8 +513,8 @@ System.out.println("ADD EDITED COLUMN!!!!");
 		sourceTable.getTable().getTableHeader().setReorderingAllowed(false);
 
 		Dimension d = sourceTable.getPreferredSize();
-		d.width = 200;
-		d.height = 6 * sourceTable.getTable().getRowHeight();
+		d.width = 250;
+		d.height = 8 * sourceTable.getTable().getRowHeight();
 		// d.height = 200;
 		// sourceTable.setPreferredSize(d);
 		// sourceTable.getTable().setPreferredSize(d);
@@ -544,6 +546,7 @@ System.out.println("ADD EDITED COLUMN!!!!");
 		int numColumns = Math.min(dataSource.size(), sourceTable.getTable()
 				.getModel().getColumnCount());
 		for (int i = 0; i < numColumns; i++) {
+			System.out.println("seting column # " + i );
 			setTableColumn(i);
 		}
 
@@ -562,7 +565,7 @@ System.out.println("ADD EDITED COLUMN!!!!");
 		}
 
 		DefaultTableModel model = sourceTable.getModel();
-
+		System.out.println("column type: " + dataSource.get(colIndex).getType() );
 		try {
 			if (dataSource.get(colIndex).getType() == dataSource.ITEM_LIST) {
 
@@ -641,6 +644,28 @@ System.out.println("ADD EDITED COLUMN!!!!");
 
 			}
 
+			else if (dataSource.get(colIndex).getType() == dataSource.ITEM_CLASSES) {
+
+				Double[] leftBorder = (Double[]) dataSource.get(colIndex)
+						.getItem();
+				System.out.println("=====> " + Arrays.toString(leftBorder));
+				// ensure the table has enough rows
+				if (model.getRowCount() < leftBorder.length - 1) {
+					model.setRowCount(leftBorder.length - 1);
+				}
+
+				// load the array into the column
+				for (int i = 0; i < model.getRowCount(); i++) {
+					if (i < leftBorder.length && leftBorder[i] != null) {
+						String interval = leftBorder[i] + " - "
+								+ leftBorder[i + 1];
+						model.setValueAt(interval, i, colIndex);
+					} else {
+						model.setValueAt(" ", i, colIndex);
+					}
+				}
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -653,10 +678,11 @@ System.out.println("ADD EDITED COLUMN!!!!");
 	}
 
 	private boolean isValidDataType(GeoElement geo) {
-		System.out.println("isnumeric: " + dataSource.isNumericData() + "  " + geo.getValueForInputBar());
-		if(dataSource.isNumericData()){
+		System.out.println("isnumeric: " + dataSource.isNumericData() + "  "
+				+ geo.getValueForInputBar());
+		if (dataSource.isNumericData()) {
 			return geo.isGeoNumeric();
-		}else{
+		} else {
 			return geo.isGeoText();
 		}
 	}
@@ -669,10 +695,28 @@ System.out.println("ADD EDITED COLUMN!!!!");
 	 */
 	void addDataToColumn(int colIndex) {
 		// App.error("add data at position: " + colIndex);
+
+		// ignore attempts to load the Classes column
+		if (sourceType == DataSource.SOURCE_CLASS_FREQUENCY && colIndex == 0) {
+			return;
+		}
 		dataSource.addCurrentGeoSelection(colIndex);
 		loadSourceTableFromDataSource();
 		updateGUI();
 
+	}
+
+	private void updateClasses(int index, double classStart, double classWidth,
+			int numClasses) {
+
+		Double[] c = new Double[numClasses + 1];
+		c[0] = classStart;
+		for (int i = 1; i < numClasses; i++) {
+			c[i] = c[i - 1] + classWidth;
+		}
+		
+		System.out.println("========> classes:" + Arrays.toString(c) );
+		dataSource.addItem(index, c, DataSource.ITEM_CLASSES);
 	}
 
 	// ====================================================
@@ -741,6 +785,7 @@ System.out.println("ADD EDITED COLUMN!!!!");
 
 	private void doTextFieldActionPerformed(Object source) {
 
+		System.out.println("========> do textfield 1" );
 		if (!(source instanceof JTextField)) {
 			return;
 		}
@@ -748,11 +793,16 @@ System.out.println("ADD EDITED COLUMN!!!!");
 
 		if (source == fldStart) {
 			classStart = Validation.validateDouble(fldStart, classStart);
-			// updateStatTable();
+			updateClasses(0, classStart, classWidth, 5);
+			updatePanel(mode, false);
 
 		} else if (source == fldWidth) {
+			System.out.println("========> do textfield 2" );
 			classWidth = Validation
 					.validateDoublePositive(fldWidth, classWidth);
+			System.out.println("========> do textfield 3" + classWidth );
+			updateClasses(0, classStart, classWidth, 5);
+			updatePanel(mode, false);
 		}
 	}
 
@@ -776,10 +826,10 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			dataView = (DataAnalysisViewD) app.getGuiManager()
 					.getDataAnalysisView();
 		}
-		
-		//TODO: this should be set in the action listeners for source type:
+
+		// TODO: this should be set in the action listeners for source type:
 		dataSource.setSourceType(sourceType);
-		
+
 		dataView.setView(dataSource, mode, true);
 
 	}
@@ -954,14 +1004,17 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			JPanel p = new JPanel(new BorderLayout(10, 0));
 			p.add(lblTitle, BorderLayout.NORTH);
 			p.add(lblSource, BorderLayout.CENTER);
-			p.add(btnSelect, BorderLayout.WEST);
 
-			if (btnHoverColumn == vColIndex) {
-				btnSelect.setIcon(rolloverSelectIcon);
-				setToolTipText(app.getMenuTooltip("AddSelection"));
-			} else {
-				btnSelect.setIcon(selectIcon);
-				setToolTipText(null);
+			if (!lblTitle.getText().equals(app.getMenu("Classes"))) {
+				p.add(btnSelect, BorderLayout.WEST);
+
+				if (btnHoverColumn == vColIndex) {
+					btnSelect.setIcon(rolloverSelectIcon);
+					setToolTipText(app.getMenuTooltip("AddSelection"));
+				} else {
+					btnSelect.setIcon(selectIcon);
+					setToolTipText(null);
+				}
 			}
 
 			add(p, BorderLayout.CENTER);
@@ -1016,14 +1069,13 @@ System.out.println("ADD EDITED COLUMN!!!!");
 
 		@Override
 		public boolean stopCellEditing() {
-			
-			// get the edit column while it is still available 
-			int editColumn = sourceTable.getTable()
-					.getEditingColumn();
-			
+
+			// get the edit column while it is still available
+			int editColumn = sourceTable.getTable().getEditingColumn();
+
 			// call super.stopCellEditing to update the table model
 			boolean result = super.stopCellEditing();
-			
+
 			// now add the edit into the data source and exit
 			addEditedColumnToDataSource(editColumn);
 			return result;
@@ -1069,10 +1121,12 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			grp.add(itemTypeNum);
 			grp.add(itemTypeText);
 
-			subMenu = new JMenu(app.getMenu("DataType"));
-			optionsPopup.add(subMenu);
-			subMenu.add(itemTypeNum);
-			subMenu.add(itemTypeText);
+			// subMenu = new JMenu(app.getMenu("DataType"));
+			// optionsPopup.add(subMenu);
+			// subMenu.add(itemTypeNum);
+			// subMenu.add(itemTypeText);
+			optionsPopup.add(itemTypeNum);
+			optionsPopup.add(itemTypeText);
 
 			// ==========================
 			// source type
@@ -1142,7 +1196,7 @@ System.out.println("ADD EDITED COLUMN!!!!");
 			itemTypeNum.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					dataSource.setNumericData(itemTypeNum.isSelected());
-					//updatePanel(mode, false);
+					// updatePanel(mode, false);
 				}
 			});
 

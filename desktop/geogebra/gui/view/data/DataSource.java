@@ -34,9 +34,7 @@ public class DataSource {
 	public static final int SOURCE_VALUE_FREQUENCY = 1;
 	public static final int SOURCE_CLASS_FREQUENCY = 2;
 	public static final int SOURCE_POINTLIST = 3;
-	
-	
-	
+
 	private AppD app;
 	private ArrayList<DataItem> list;
 
@@ -44,9 +42,11 @@ public class DataSource {
 
 	private int mode;
 	private int sourceType;
-	
 
 	private boolean isNumericData = true;
+
+	public double classStart = 0;
+	public double classWidth = 5;
 
 	private MyTableD spreadsheetTable;
 	private CellRangeProcessor crp;
@@ -126,13 +126,15 @@ public class DataSource {
 	 * @param obj
 	 * @return true if valid data object
 	 */
-	public void addItem(int index, Object obj) {
+	public void addItem(int index, Object obj, int type) {
 
 		// ensure list is large enough
 		ensureSize(index + 1);
 
 		// add the new data source object
-		list.set(index, validDataItem(obj));
+		list.set(index, createDataItem(obj, type));
+		
+		debug();
 	}
 
 	/**
@@ -147,6 +149,8 @@ public class DataSource {
 		rangeList.add(cellRange);
 		return list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 	}
+
+	
 
 	/**
 	 * Adds an empty object to the source list
@@ -207,7 +211,23 @@ public class DataSource {
 	public void setSourceType(int sourceType) {
 		this.sourceType = sourceType;
 	}
-	
+
+	public double getClassStart() {
+		return classStart;
+	}
+
+	public void setClassStart(double classStart) {
+		this.classStart = classStart;
+	}
+
+	public double getClassWidth() {
+		return classWidth;
+	}
+
+	public void setClassWidth(double classWidth) {
+		this.classWidth = classWidth;
+	}
+
 	// ====================================
 	// Utility methods
 	// ====================================
@@ -244,26 +264,39 @@ public class DataSource {
 	// ====================================
 
 	/**
+	 * Creates new DataItem if given a valid object
+	 * 
 	 * @param obj
 	 *            object to be examined
-	 * @return the given obj if it is a 1D GeoList or spreadsheet cell range
-	 *         list; return null otherwise
+	 * @param type
+	 *            DataItem type to be checked
+	 * 
+	 * @return new DataItem if given object is appropriate for the given type;
+	 *         null otherwise
 	 */
-	public DataItem validDataItem(Object obj) {
+	public DataItem createDataItem(Object obj, int type) {
 
 		if (obj == null) {
 			return null;
 		}
 
-		// 1D GeoList?
-		if (obj instanceof GeoList && !((GeoList) obj).isMatrix()) {
-			return new DataItem(obj, ITEM_LIST);
+		switch (type) {
 
-		} // internal String[] from source dialog?
-		else if (obj instanceof String[]) {
-			return new DataItem(obj, ITEM_INTERNAL);
-			
-		} else {
+		case ITEM_LIST:
+			// 1D GeoList?
+			if (obj instanceof GeoList && !((GeoList) obj).isMatrix()) {
+				return new DataItem(obj, ITEM_LIST);
+			}
+			break;
+
+		case ITEM_INTERNAL:
+			// internal String[] from source dialog?
+			if (obj instanceof String[]) {
+				return new DataItem(obj, ITEM_INTERNAL);
+			}
+			break;
+
+		case ITEM_SPREADSHEET:
 			// spreadsheet range list?
 			try {
 				ArrayList<CellRange> rangeList = (ArrayList<CellRange>) obj;
@@ -273,8 +306,15 @@ public class DataSource {
 				App.error(e.getMessage());
 				return null;
 			}
+
+		case ITEM_CLASSES:
+			if (obj instanceof Double[]) {
+				return new DataItem(obj, ITEM_CLASSES);
+			}
+			break;
 		}
 
+		return null;
 	}
 
 	// TODO why this?
@@ -586,17 +626,18 @@ public class DataSource {
 		if (isCell) {
 			App.debug(" is cell:" + geo.toString());
 			for (DataItem dataItem : list) {
-				if(dataItem.getType() == ITEM_SPREADSHEET)
-				try {
-					ArrayList<CellRange> rangeList = (ArrayList<CellRange>) dataItem.getItem();
-					for (CellRange cr : (ArrayList<CellRange>) rangeList)
-						if (cr.contains(geo)) {
-							return true;
-						}
+				if (dataItem.getType() == ITEM_SPREADSHEET)
+					try {
+						ArrayList<CellRange> rangeList = (ArrayList<CellRange>) dataItem
+								.getItem();
+						for (CellRange cr : (ArrayList<CellRange>) rangeList)
+							if (cr.contains(geo)) {
+								return true;
+							}
 
-				} catch (Exception e) {
-					// e.printStackTrace();
-				}
+					} catch (Exception e) {
+						// e.printStackTrace();
+					}
 			}
 		}
 
@@ -884,10 +925,10 @@ public class DataSource {
 				} else if (item.getType() == ITEM_SPREADSHEET) {
 					try {
 						GeoClass geoClass;
-						if(isNumericData()){
-							 geoClass = GeoClass.NUMERIC;
-						}else{
-							 geoClass = GeoClass.TEXT;
+						if (isNumericData()) {
+							geoClass = GeoClass.NUMERIC;
+						} else {
+							geoClass = GeoClass.TEXT;
 						}
 						GeoList geoList = (GeoList) crProcessor().createList(
 								(ArrayList<CellRange>) item.getItem(),
@@ -936,6 +977,7 @@ public class DataSource {
 	public final static int ITEM_SPREADSHEET = 0;
 	public final static int ITEM_LIST = 1;
 	public final static int ITEM_INTERNAL = 2;
+	public final static int ITEM_CLASSES = 3;
 
 	public class DataItem {
 

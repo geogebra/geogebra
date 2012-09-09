@@ -482,7 +482,7 @@ public class StatGeo {
 		//System.out.println(Arrays.toString(leftBorder));
 
 
-		double freqMax = ((AlgoFunctionAreaSums) barChart.getParentAlgorithm())
+		double freqMax = ((AlgoBarChart) barChart.getParentAlgorithm())
 				.getFreqMax();
 		
 		
