@@ -66,6 +66,11 @@ public class PropertiesDockPanel extends DockPanel implements
 	}
 
 	@Override
+	protected void updateTitleBarIfNecessary(){
+		updateTitleBar();
+	}
+	
+	@Override
 	protected void windowPanel() {
 		super.windowPanel();
 		getPropertiesView();

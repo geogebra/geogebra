@@ -802,10 +802,20 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		}
 
 		// update the title bar if necessary
+		updateTitleBarIfNecessary();
+		
+	}
+	
+	/**
+	 * 
+	 */
+	protected void updateTitleBarIfNecessary(){
 		if (titlePanel.isVisible()) {
 			updateTitleBar();
 		}
 	}
+	
+	
 
 	protected JMenuBar loadMenuBar() {
 		return null;
