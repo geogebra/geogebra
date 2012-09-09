@@ -53,7 +53,7 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
         return Algos.AlgoPoissonBarChart;
     }
 
-    /*
+    
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
 		if(b!=null)b=(GeoBoolean)b.copy();
@@ -63,6 +63,6 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
 
 	}
-	*/
+	
 }
 

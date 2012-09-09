@@ -65,7 +65,7 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 		return Algos.AlgoBinomialDistBarChart;
 	}
 
-	/*
+	
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
 		if (b != null) {
@@ -79,5 +79,5 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 				getIntervals());
 	}
-	*/
+	
 }

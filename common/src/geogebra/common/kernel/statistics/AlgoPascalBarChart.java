@@ -54,7 +54,7 @@ public class AlgoPascalBarChart extends AlgoBarChart {
         return Algos.AlgoPascalBarChart;
     }
 
-    /*
+   
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
 		if(b!=null)b=(GeoBoolean)b.copy();
@@ -65,6 +65,6 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 
 	}
 	
-	*/
+	
 }
 

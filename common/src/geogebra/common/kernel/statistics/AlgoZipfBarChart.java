@@ -52,7 +52,7 @@ public class AlgoZipfBarChart extends AlgoBarChart {
         return Algos.AlgoZipfBarChart;
     }
 
-    /*
+    
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
 		if(b!=null)b=(GeoBoolean)b.copy();
@@ -62,6 +62,6 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
 
 	}
-	*/
+	
 }
 

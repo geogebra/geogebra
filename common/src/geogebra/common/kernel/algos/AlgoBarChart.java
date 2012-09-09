@@ -851,7 +851,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	// Copy
 	// ======================================================
 
-	public AlgoBarChart copy() {
+	public DrawInformationAlgo copy() {
 		int N = this.getIntervals();
 		switch (this.getType()) {
 		case TYPE_BARCHART_EXP:
