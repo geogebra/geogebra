@@ -1,8 +1,7 @@
+module myvector;
 % This is a simple vector package for vectors arbitrary dimension. The
 % methods are very similar to those in avector.
 % Author: Simon Weitzhofer
-
-module myvector;
 
 create!-package('(myvector),'(contrib myvector));
 

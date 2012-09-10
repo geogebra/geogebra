@@ -1559,6 +1559,8 @@ class Set_small_modulusFn extends BuiltinFunction
     public LispObject op1(LispObject arg1) throws Exception
     {
         int old = Jlisp.modulus;
+        if (! (arg1 instanceof LispSmallInteger))
+        	return error("arg of set-small-modulus is not a small integer"); 
         int n = ((LispSmallInteger)arg1).value;
         if (n <= 0) 
              return error("set-small-modulus needs a positive argument");

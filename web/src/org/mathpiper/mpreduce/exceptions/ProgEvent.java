@@ -44,6 +44,7 @@ public class ProgEvent extends LispException
     public static final int RESTART  = 3;
     public static final int THROW    = 4;
     public static final int PRESERVE = 5;
+    public static final int PRESERVERESTART = 6;
     
     public LispObject details;
     public LispObject extras;

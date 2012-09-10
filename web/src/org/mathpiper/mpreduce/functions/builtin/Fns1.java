@@ -80,6 +80,8 @@ import org.mathpiper.mpreduce.special.Specfn;
 import org.mathpiper.mpreduce.symbols.Gensym;
 import org.mathpiper.mpreduce.symbols.Symbol;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
 public class Fns1
 {
     public Object [][] builtins =
@@ -182,6 +184,7 @@ public class Fns1
         {"dated-name",                  new Dated_nameFn()},
         {"datelessp",                   new DatelesspFn()},
         {"datestamp",                   new DatestampFn()},
+        {"timeofday",                   new TimeofdayFn()},
         {"define-in-module",            new Define_in_moduleFn()},
         {"deflist",                     new DeflistFn()},
         {"deleq",                       new DeleqFn()},
@@ -201,6 +204,7 @@ public class Fns1
         {"egetv",                       new EgetvFn()},
         {"eject",                       new EjectFn()},
         {"enable-backtrace",            new Enable_backtraceFn()},
+        {"enable-errorset",             new Enable_errorsetFn()},
         {"endp",                        new EndpFn()},
         {"eputv",                       new EputvFn()},
         {"eq",                          new EqFn()},
@@ -296,6 +300,7 @@ public class Fns1
         {"list-modules",                new List_modulesFn()},
         {"list-to-string",              new List_to_stringFn()},
         {"list-to-symbol",              new List_to_symbolFn()},
+        {"list-to-vector",              new List_to_vectorFn()},
         {"list2",                       new List2Fn()},
         {"list2*",                      new List2StarFn()},
         {"list3",                       new List3Fn()},
@@ -1569,6 +1574,11 @@ class DateFn extends BuiltinFunction
         String s = now.toString();
         return new LispString(s);
     }
+    public LispObject op1(LispObject a1) throws Exception
+    {
+    	return error(name + ".op1 not yet implemented");
+    }
+
 }
 
 class Dated_nameFn extends BuiltinFunction
@@ -1609,6 +1619,17 @@ class DatestampFn extends BuiltinFunction
     {
         Date now = new Date();
         return LispInteger.valueOf(now.getTime());
+    }
+}
+
+class TimeofdayFn extends BuiltinFunction
+{
+    public LispObject op0() throws Exception
+    {
+        Date now = new Date();
+        long ms = now.getTime();
+        return new Cons(LispInteger.valueOf(ms/1000),
+                        LispInteger.valueOf(1000*(ms%1000)));
     }
 }
 
@@ -1805,6 +1826,17 @@ class Enable_backtraceFn extends BuiltinFunction
     }
 }
 
+class Enable_errorsetFn extends BuiltinFunction
+{
+	public LispObject op2(LispObject arg1, LispObject arg2) throws Exception
+    {
+// Not actually doing anything yet
+        //System.out.printf("enable-errorset called%n");
+        return new Cons(LispInteger.valueOf(1),
+                        LispInteger.valueOf(1));
+    }
+}
+
 class EndpFn extends BuiltinFunction
 {
     public LispObject op1(LispObject arg1) throws Exception
@@ -1969,6 +2001,7 @@ class ErrorsetFn extends BuiltinFunction
                     {
                 case ProgEvent.STOP:
                 case ProgEvent.PRESERVE:
+                case ProgEvent.PRESERVERESTART:
                 case ProgEvent.RESTART:
                 case ProgEvent.THROW:
                         throw e;
@@ -3256,6 +3289,26 @@ class List_to_symbolFn extends BuiltinFunction
             else return error("Illegal item in list handed to list-to-string");
         }
         return Symbol.intern(s.toString());
+    }
+}
+
+class List_to_vectorFn extends BuiltinFunction
+{
+    public LispObject op1(LispObject arg1) throws Exception
+    {
+        LispObject w = arg1;
+        int n = 0;
+        while (!w.atom)
+        {   n++;
+            w = w.cdr;
+        }
+        LispVector r = new LispVector(n);
+        n = 0;
+        while (!arg1.atom)
+        {   r.vec[n++] = arg1.car;
+            arg1 = arg1.cdr;   
+        }
+        return r;
     }
 }
 
