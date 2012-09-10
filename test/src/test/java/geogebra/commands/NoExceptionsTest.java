@@ -1921,7 +1921,12 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdStickGraph() {
-		t("BarGraph[list1, list2],n1");
+		t("StickGraph[list1, list2,n1]");
+	}
+	
+	@Test
+	public void cmdStepGraph() {
+		t("StepGraph[list1, list2,n1]");
 	}
 	
 	@Test
@@ -2305,8 +2310,9 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdChiSquaredTest() {
-		t("ChiSquaredTest[list1]");
+		t("ChiSquaredTest[{list1}]");
 		t("ChiSquaredTest[list1,list1]");
+		t("ChiSquaredTest[{list1},{list1}]");
 	}
 
 	@Test
