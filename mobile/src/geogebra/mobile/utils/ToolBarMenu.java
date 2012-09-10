@@ -11,70 +11,90 @@ package geogebra.mobile.utils;
 public enum ToolBarMenu
 {
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
-			ToolBarCommand.NewPoint, ToolBarCommand.AttachDetachPoint,
-			ToolBarCommand.ComplexNumbers, ToolBarCommand.IntersectTwoObjects,
-			ToolBarCommand.MidpointOrCenter, ToolBarCommand.PointOnObject }),
+			ToolBarCommand.NewPoint, 
+			ToolBarCommand.PointOnObject,
+			ToolBarCommand.AttachDetachPoint, 
+			ToolBarCommand.IntersectTwoObjects,
+			ToolBarCommand.MidpointOrCenter, 
+			ToolBarCommand.ComplexNumbers }),
 
 	Line(ToolBarCommand.LineThroughTwoPoints, new ToolBarCommand[] {
 			ToolBarCommand.LineThroughTwoPoints,
-			ToolBarCommand.PolylineBetweenPoints,
-			ToolBarCommand.RayThroughTwoPoints,
 			ToolBarCommand.SegmentBetweenTwoPoints,
 			ToolBarCommand.SegmentWithGivenLengthFromPoint,
+			ToolBarCommand.RayThroughTwoPoints,
+			ToolBarCommand.PolylineBetweenPoints,
 			ToolBarCommand.VectorBetweenTwoPoints,
 			ToolBarCommand.VectorFromPoint }),
 
 	SpecialLine(ToolBarCommand.PerpendicularLine, new ToolBarCommand[] {
-			ToolBarCommand.AngleBisector, ToolBarCommand.BestFitLine,
-			ToolBarCommand.Locus, ToolBarCommand.ParallelLine,
-			ToolBarCommand.PerpendicularBisector,
 			ToolBarCommand.PerpendicularLine,
-			ToolBarCommand.PolarOrDiameterLine, ToolBarCommand.Tangents }),
+			ToolBarCommand.ParallelLine,
+			ToolBarCommand.PerpendicularBisector,
+			ToolBarCommand.AngleBisector,
+			ToolBarCommand.Tangents,
+			ToolBarCommand.PolarOrDiameterLine,
+			ToolBarCommand.BestFitLine,
+			ToolBarCommand.Locus }),
 
 	Polygon(ToolBarCommand.Polygon, new ToolBarCommand[] {
-			ToolBarCommand.Polygon, ToolBarCommand.RegularPolygon,
-			ToolBarCommand.RigidPolygon, ToolBarCommand.VectorPolygon }),
+			ToolBarCommand.Polygon,
+			ToolBarCommand.RegularPolygon,
+			ToolBarCommand.RigidPolygon, 
+			ToolBarCommand.VectorPolygon }),
 
 	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint,
-			new ToolBarCommand[] { ToolBarCommand.CircleThroughThreePoints,
-					ToolBarCommand.CircleWithCenterAndRadius,
+			new ToolBarCommand[] {
 					ToolBarCommand.CircleWithCenterThroughPoint,
+					ToolBarCommand.CircleWithCenterAndRadius,
+					ToolBarCommand.Compasses,
+					ToolBarCommand.CircleThroughThreePoints,					
+					ToolBarCommand.Semicircle,
 					ToolBarCommand.CircularArcWithCenterBetweenTwoPoints,
-					ToolBarCommand.CircularSectorWithCenterBetweenTwoPoints,
 					ToolBarCommand.CircumCirculuarArcThroughThreePoints,
-					ToolBarCommand.CircumCircularSectorThroughThreePoints,
-					ToolBarCommand.Compasses, ToolBarCommand.Semicircle }),
+					ToolBarCommand.CircularSectorWithCenterBetweenTwoPoints,
+					ToolBarCommand.CircumCircularSectorThroughThreePoints }),
 
 	ConicSection(ToolBarCommand.Ellipse, new ToolBarCommand[] {
-			ToolBarCommand.ConicThroughFivePoints, ToolBarCommand.Ellipse,
-			ToolBarCommand.Hyperbola, ToolBarCommand.Parabola }),
+			ToolBarCommand.Parabola, 
+			ToolBarCommand.Ellipse,
+			ToolBarCommand.Hyperbola, 
+			ToolBarCommand.ConicThroughFivePoints }),
 
 	Mesurement(ToolBarCommand.Angle, new ToolBarCommand[] {
-			ToolBarCommand.Angle, ToolBarCommand.AngleWithGivenSize,
-			ToolBarCommand.Area, ToolBarCommand.CreateList,
-			ToolBarCommand.DistanceOrLength, ToolBarCommand.Slope }),
+			ToolBarCommand.Angle, 
+			ToolBarCommand.AngleWithGivenSize,
+			ToolBarCommand.DistanceOrLength,
+			ToolBarCommand.Area,
+			ToolBarCommand.Slope,
+			ToolBarCommand.CreateList }),
 
 	Transformation(ToolBarCommand.ReflectObjectAboutLine, new ToolBarCommand[] {
-			ToolBarCommand.DilateObjectFromPointByFactor,
-			ToolBarCommand.ReflectObjectAboutCircle,
 			ToolBarCommand.ReflectObjectAboutLine,
 			ToolBarCommand.ReflectObjectAboutPoint,
+			ToolBarCommand.ReflectObjectAboutCircle,
 			ToolBarCommand.RotateObjectAboutPointByAngle,
-			ToolBarCommand.TranslateObjectByVector }),
+			ToolBarCommand.TranslateObjectByVector,
+			ToolBarCommand.DilateObjectFromPointByFactor }),
 
 	SpecialObject(ToolBarCommand.InsertText, new ToolBarCommand[] {
-			ToolBarCommand.FreehandShape, ToolBarCommand.FunctionInspector,
-			ToolBarCommand.InsertImage, ToolBarCommand.InsertText,
-			ToolBarCommand.Pen, ToolBarCommand.ProbabilityCalculator,
-			ToolBarCommand.RelationBetweenTwoObjects }),
+			ToolBarCommand.InsertText,
+			ToolBarCommand.InsertImage,
+			ToolBarCommand.Pen,
+			ToolBarCommand.FreehandShape,
+			ToolBarCommand.RelationBetweenTwoObjects,
+			ToolBarCommand.ProbabilityCalculator,
+			ToolBarCommand.FunctionInspector }),
 
 	ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {
+			ToolBarCommand.Slider,
 			ToolBarCommand.CheckBoxToShowHideObjects,
-			ToolBarCommand.InsertButton, ToolBarCommand.InsertInputBox,
-			ToolBarCommand.Slider }),
+			ToolBarCommand.InsertButton, 
+			ToolBarCommand.InsertInputBox }),
 
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
-			ToolBarCommand.Move_Mobile, ToolBarCommand.Select,
+			ToolBarCommand.Move_Mobile, 
+			ToolBarCommand.Select,
 			ToolBarCommand.DeleteObject });
 
 	ToolBarCommand[] entry;
