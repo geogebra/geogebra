@@ -4071,8 +4071,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return localized type string for Algebra View
 	 */
 	public String translatedTypeStringForAlgebraView() {
-		App.debug(getTypeStringForAlgebraView());
-		App.debug(app.getPlain(getTypeStringForAlgebraView()));
+		//App.debug(getTypeStringForAlgebraView());
+		//App.debug(app.getPlain(getTypeStringForAlgebraView()));
 		return app.getPlain(getTypeStringForAlgebraView());
 	}
 
