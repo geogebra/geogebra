@@ -5,7 +5,7 @@ public enum GeoClass {
 	TURTLE("Turtle"),
 	CAS_CELL("CASCell"),
 
-	ANGLE3D("Angle3D"), POINT3D("Point3D"), VECTOR3D("Vector3D"), SEGMENT3D("Segment3D"), LINE3D("Line3D"), RAY3D("Ray3D"), CONIC3D("Conic3D"), AXIS3D("Axis3D"), CURVECARTESIAN3D("CurveCartesian3D"), POLYGON3D("Polygn3D"), PLANE3D("Plane3D"), QUADRIC("Quadric"), QUADRIC_PART("QuadricPart"), QUADRIC_LIMITED("QuadricLimited"), POLYLINE3D("PolyLine3D"), POLYHEDRON("Polyhedron"),
+	ANGLE3D("Angle3D"), POINT3D("Point3D"), VECTOR3D("Vector3D"), SEGMENT3D("Segment3D"), LINE3D("Line3D"), RAY3D("Ray3D"), CONIC3D("Conic3D"), AXIS3D("Axis3D"), CURVECARTESIAN3D("CurveCartesian3D"), POLYGON3D("Polygon3D"), PLANE3D("Plane3D"), QUADRIC("Quadric"), QUADRIC_PART("QuadricPart"), QUADRIC_LIMITED("QuadricLimited"), POLYLINE3D("PolyLine3D"), POLYHEDRON("Polyhedron"),
 
 	SURFACECARTESIAN3D("SurfaceCartesian3D"),
 	
