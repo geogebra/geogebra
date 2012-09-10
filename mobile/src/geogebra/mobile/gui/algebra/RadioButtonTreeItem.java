@@ -15,8 +15,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -27,9 +25,11 @@ import com.googlecode.mgwt.ui.client.widget.MCheckBox;
 /**
  * Taken from the web-project.
  * 
+ * @see geogebra.web.gui.view.algebra.RadioButtonTreeItem
+ * 
  */
 public class RadioButtonTreeItem extends HorizontalPanel implements
-		ClickHandler, MouseMoveHandler, MouseDownHandler
+		ClickHandler, MouseDownHandler
 {
 
 	MCheckBox checkBox;
@@ -90,7 +90,6 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 				GColor.getColorString(this.geo.getAlgebraColor()));
 		this.ihtml = new InlineHTML();
 		this.ihtml.addClickHandler(this);
-		this.ihtml.addMouseMoveHandler(this);
 		this.ihtml.addMouseDownHandler(this);
 		add(this.ihtml);
 		this.ihtml.getElement().appendChild(se);
@@ -127,7 +126,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 		}
 
 		// if enabled, render with LaTeX
-		if (/* TODO av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
+		if (/* TODO this.av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
 			String latexStr = this.geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
@@ -414,9 +413,4 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 		// this.radio.getClicked();
 	}
 
-	@Override
-	public void onMouseMove(MouseMoveEvent evt)
-	{
-		// TODO: not required
-	}
 }

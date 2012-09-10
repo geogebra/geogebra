@@ -79,7 +79,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	}
 
 	// /**
-	// * Flag for LaTeX rendering. 
+	// * Flag for LaTeX rendering.
 	// */
 	// final private static boolean renderLaTeX = true;
 
@@ -561,6 +561,8 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 				String transTypeString = geo
 						.translatedTypeStringForAlgebraView();
 				parent = new TreeItem(transTypeString);
+				parent.addStyleName("algebraView-heading");
+
 				setUserObject(parent, transTypeString);
 				this.typeNodesMap.put(typeString, parent);
 
@@ -644,10 +646,11 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	 * Gets the insert position for newGeo to insert it in alphabetical order in
 	 * parent node. Note: all children of parent must have instances of
 	 * GeoElement as user objects.
-	 * @param parent 
-	 * @param newGeo  
+	 * 
+	 * @param parent
+	 * @param newGeo
 	 * @param mode
-	 * @return 
+	 * @return
 	 */
 	final public static int getInsertPosition(TreeItem parent,
 			GeoElement newGeo, SortMode mode)
@@ -693,8 +696,9 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	 * Performs a binary search for geo among the children of parent. All
 	 * children of parent have to be instances of GeoElement sorted
 	 * alphabetically by their names.
-	 * @param parent 
-	 * @param geoLabel 
+	 * 
+	 * @param parent
+	 * @param geoLabel
 	 * 
 	 * @return -1 when not found
 	 */
@@ -727,8 +731,9 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 
 	/**
 	 * Performs a linear search for geo among the children of parent.
-	 * @param parent 
-	 * @param geoLabel 
+	 * 
+	 * @param parent
+	 * @param geoLabel
 	 * 
 	 * @return -1 when not found
 	 */

@@ -543,8 +543,8 @@ public class MobileApp extends App
 	@Override
 	public boolean isHTML5Applet()
 	{
-
-		return false;
+		// TODO
+		return true;
 	}
 
 	@Override
@@ -658,7 +658,7 @@ public class MobileApp extends App
 	public GuiManager getGuiManager()
 	{
 		// TODO
-		return null; 
+		return null;
 	}
 
 	@Override
