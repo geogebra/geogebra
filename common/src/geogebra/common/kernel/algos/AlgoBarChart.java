@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.statistics.AlgoFrequency;
 import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
@@ -224,7 +224,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2, NumberValue width, GeoBoolean isHorizontal,
-			GeoBoolean showJump, GeoText pointType, int type) {
+			GeoBoolean showJump, GeoNumeric pointType, int type) {
 
 		this(cons, list1, list2, width, isHorizontal, showJump, pointType, type);
 		sum.setLabel(label);
@@ -247,7 +247,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			NumberValue width, GeoBoolean isHorizontal, GeoBoolean showJump,
-			GeoText pointType, int type) {
+			GeoNumeric pointType, int type) {
 		super(cons);
 
 		this.type = type;
@@ -658,8 +658,16 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 		case TYPE_STICKGRAPH:
 		case TYPE_STEPGRAPH:
-			// TODO: handle point lists
-			computeFromValueFrequencyLists(list1, list2, 0.0);
+			if (list1 == null || !list1.isDefined()) {
+				sum.setUndefined();
+				return;
+			}
+
+			if (list1.getGeoElementForPropertiesDialog().isGeoPoint()) {
+				computeFromPointList(list1);
+			} else {
+				computeFromValueFrequencyLists(list1, list2, 0.0);
+			}
 			break;
 
 		case TYPE_BARCHART_EXPRESSION:
@@ -831,6 +839,46 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			}
 
 			double y = list2.get(i).evaluateNum().getDouble();
+			if (!Double.isNaN(y)) {
+				yval[i] = y;
+				ySum += y;
+			} else {
+				sum.setUndefined();
+				return;
+			}
+		}
+
+		// set the sum to the total area
+		sum.setValue(ySum * barWidth * yval.length);
+	}
+
+	private void computeFromPointList(GeoList list1) {
+
+		 // no width (for now)
+		double width = 0.0;
+		
+		
+		N = list1.size();
+		if (yval == null || yval.length < N) {
+			yval = new double[N];
+			leftBorder = new double[N];
+		}
+
+		int ySum = 0;
+
+		for (int i = 0; i < N; i++) {
+
+			GeoElement geo = list1.get(i);
+
+			double x = ((GeoPoint) geo).getX();
+			if (!Double.isNaN(x)) {
+				leftBorder[i] = x - barWidth / 2;
+			} else {
+				sum.setUndefined();
+				return;
+			}
+
+			double y = ((GeoPoint) geo).getY();
 			if (!Double.isNaN(y)) {
 				yval[i] = y;
 				ySum += y;

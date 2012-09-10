@@ -11,6 +11,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 
 /**
@@ -20,6 +21,53 @@ import geogebra.common.kernel.geos.GeoText;
  * 
  */
 public class AlgoStepGraph extends AlgoBarChart {
+
+	/******************************************************
+	 * StepGraph[<list of points>]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 */
+	public AlgoStepGraph(Construction cons, String label, GeoList list1) {
+
+		super(cons, label, list1, null, null, null, null, null,
+				AlgoBarChart.TYPE_STEPGRAPH);
+	}
+
+	/******************************************************
+	 * StepGraph[<list of points>, <boolean hasJump>]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param hasJump 
+	 * @param list2
+	 */
+	public AlgoStepGraph(Construction cons, String label, GeoList list1,
+			GeoBoolean hasJump) {
+
+		super(cons, label, list1, null, null, null, hasJump, null,
+				AlgoBarChart.TYPE_STEPGRAPH);
+	}
+
+	/******************************************************
+	 * StepGraph[<list of points>, <boolean hasJump>, < point style]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param hasJump 
+	 * @param pointStyle 
+	 * @param list2
+	 */
+	public AlgoStepGraph(Construction cons, String label, GeoList list1,
+			GeoBoolean hasJump, GeoNumeric pointStyle) {
+
+		super(cons, label, list1, null, null, null, hasJump, pointStyle,
+				AlgoBarChart.TYPE_STEPGRAPH);
+	}
 
 	/******************************************************
 	 * StepGraph[<x list>, <y list>]
@@ -32,8 +80,8 @@ public class AlgoStepGraph extends AlgoBarChart {
 	public AlgoStepGraph(Construction cons, String label, GeoList list1,
 			GeoList list2) {
 
-		super(cons, label, list1, list2, null, null,
-				null, null, AlgoBarChart.TYPE_STEPGRAPH);
+		super(cons, label, list1, list2, null, null, null, null,
+				AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/******************************************************
@@ -44,27 +92,12 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param list2
 	 */
 	public AlgoStepGraph(Construction cons, GeoList list1, GeoList list2) {
-		super(cons, list1, list2, null, null, null,
-				null, AlgoBarChart.TYPE_STEPGRAPH);
-	}
-
-	/******************************************************
-	 * StepGraph[<x list>, <y list>, <boolean showStep>]
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 * @param showStep
-	 */
-	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoList list2, GeoBoolean showStep) {
-		super(cons, label, list1, list2, null, null, showStep, null,
+		super(cons, list1, list2, null, null, null, null,
 				AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/******************************************************
-	 * StepGraph[<x list>, <y list>, <boolean showStep>, < point type >]
+	 * StepGraph[<x list>, <y list>, <boolean hasJump>]
 	 * 
 	 * @param cons
 	 * @param label
@@ -73,8 +106,23 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param showStep
 	 */
 	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoList list2, GeoBoolean showStep, GeoText pointType) {
-		super(cons, label, list1, list2, null, null, showStep, pointType,
+			GeoList list2, GeoBoolean hasJump) {
+		super(cons, label, list1, list2, null, null, hasJump, null,
+				AlgoBarChart.TYPE_STEPGRAPH);
+	}
+
+	/******************************************************
+	 * StepGraph[<x list>, <y list>, <boolean hasJump>, < point style >]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 * @param showStep
+	 */
+	public AlgoStepGraph(Construction cons, String label, GeoList list1,
+			GeoList list2, GeoBoolean showStep, GeoNumeric pointStyle) {
+		super(cons, label, list1, list2, null, null, showStep, pointStyle,
 				AlgoBarChart.TYPE_STEPGRAPH);
 	}
 

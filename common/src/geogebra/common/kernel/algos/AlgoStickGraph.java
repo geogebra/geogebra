@@ -23,6 +23,38 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoStickGraph extends AlgoBarChart {
 
 	/******************************************************
+	 * StickGraph[<list of points>]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 */
+	public AlgoStickGraph(Construction cons, String label, GeoList list1) {
+
+		super(cons, label, list1, null, null, null,
+				null, null, AlgoBarChart.TYPE_STICKGRAPH);
+
+	}
+	
+
+	/******************************************************
+	 * StickGraph[<list of points, <horizontal>]
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 */
+	public AlgoStickGraph(Construction cons, String label, GeoList list1, GeoBoolean isHorizontal) {
+
+		super(cons, label, list1, null, null, isHorizontal,
+				null, null, AlgoBarChart.TYPE_STICKGRAPH);
+
+	}
+	
+	
+	/******************************************************
 	 * StickGraph[<x list>, <y list>]
 	 * 
 	 * @param cons
@@ -52,7 +84,7 @@ public class AlgoStickGraph extends AlgoBarChart {
 
 	/**
 	 * /******************************************************
-	 * StickGraph[<x list>, <y list>, <isHorizontal>] 
+	 * StickGraph[<x list>, <y list>, <Horizontal>] 
 	 * 
 	 * @param cons
 	 * @param label
@@ -63,8 +95,8 @@ public class AlgoStickGraph extends AlgoBarChart {
 	public AlgoStickGraph(Construction cons, String label, GeoList list1,
 			GeoList list2, GeoBoolean isHorizontal) {
 		
-		super(cons, label, list1, list2, null, null,
-				isHorizontal, null, AlgoBarChart.TYPE_STICKGRAPH);
+		super(cons, label, list1, list2, null,
+				isHorizontal, null, null, AlgoBarChart.TYPE_STICKGRAPH);
 	}
 
 	@Override
