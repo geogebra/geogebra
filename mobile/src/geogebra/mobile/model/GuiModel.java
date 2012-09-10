@@ -1,4 +1,4 @@
-package geogebra.mobile.gui.elements;
+package geogebra.mobile.model;
 
 import geogebra.mobile.gui.elements.toolbar.OptionsBarBackground;
 import geogebra.mobile.gui.elements.toolbar.ToolBarButton;

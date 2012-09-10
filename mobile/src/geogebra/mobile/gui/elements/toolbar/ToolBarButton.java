@@ -2,7 +2,7 @@ package geogebra.mobile.gui.elements.toolbar;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import geogebra.mobile.gui.elements.GuiModel;
+import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 import com.google.gwt.event.dom.client.ClickEvent;

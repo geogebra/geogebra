@@ -667,9 +667,7 @@ public class MobileApp extends App
 		// TODO
 		if (this.euclidianView == null)
 		{
-			this.euclidianView = new EuclidianViewM(
-					this.euclidianController == null ? new MobileEuclidianController()
-							: (MobileEuclidianController) this.euclidianController);
+			initEuclidianViews(); 
 		}
 		return this.euclidianView;
 	}

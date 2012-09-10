@@ -4,12 +4,13 @@ import geogebra.common.kernel.Kernel;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.mobile.gui.algebra.AlgebraViewPanel;
-import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.gui.elements.TabletHeaderPanel;
 import geogebra.mobile.gui.elements.TabletHeaderPanelLeft;
 import geogebra.mobile.gui.elements.TabletHeaderPanelRight;
 import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
+import geogebra.mobile.model.GuiModel;
+import geogebra.mobile.model.MobileModel;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -28,8 +29,6 @@ public class TabletGUI implements GeoGebraMobileGUI
 	private TabletHeaderPanelRight rightHeader;
 	private AlgebraViewPanel algebraViewPanel;
 	private ToolBar toolBar;
-
-	private GuiModel guiModel;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end
@@ -101,16 +100,16 @@ public class TabletGUI implements GeoGebraMobileGUI
 	public void initComponents(final Kernel kernel)
 	{
 		// TODO add other stuff
-		this.guiModel = new GuiModel();
+		GuiModel guiModel = new GuiModel();
+		MobileModel mobileModel = new MobileModel(); 
 
-		MobileEuclidianController ec = new MobileEuclidianController();
+		MobileEuclidianController ec = new MobileEuclidianController(mobileModel, guiModel);
 		ec.setKernel(kernel);
-		ec.setGuiModel(this.guiModel);
 		this.euclidianViewPanel.initEuclidianView(ec);
 
-		MobileAlgebraController ac = new MobileAlgebraController(kernel);
+		MobileAlgebraController ac = new MobileAlgebraController(kernel, mobileModel);
 		this.algebraViewPanel.initAlgebraView(ac, kernel);
-		this.toolBar.makeTabletToolBar(this.guiModel, ac);
+		this.toolBar.makeTabletToolBar(guiModel, ac);
 
 	}
 }

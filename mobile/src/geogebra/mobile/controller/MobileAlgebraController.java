@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
+import geogebra.mobile.model.MobileModel;
 
 /**
  * 
@@ -21,9 +22,12 @@ import geogebra.common.main.MyError;
 public class MobileAlgebraController extends AlgebraController
 {
 
-	public MobileAlgebraController(Kernel kernel)
+	private MobileModel mobileModel; 
+	
+	public MobileAlgebraController(Kernel kernel, MobileModel model)
 	{
 		super(kernel);
+		this.mobileModel = model; 
 	}
 
 	/**

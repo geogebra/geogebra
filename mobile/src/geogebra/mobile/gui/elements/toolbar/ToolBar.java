@@ -2,8 +2,8 @@ package geogebra.mobile.gui.elements.toolbar;
 
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.gui.CommonResources;
-import geogebra.mobile.gui.elements.GuiModel;
 import geogebra.mobile.gui.elements.InputDialog;
+import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
