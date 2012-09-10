@@ -1,6 +1,8 @@
 package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -17,6 +19,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.statistics.AlgoStemPlot;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.plugin.GeoClass;
@@ -688,10 +691,36 @@ public class CellRangeProcessor {
 	}
 
 	/**
+	 * Creates a GeoList from the cells in an array of cellranges. Empty cells
+	 * are ignored. Uses these defaults: do not create undo point, do not sort,
+	 * do not filter by geo type, set a label.
+	 */
+	public GeoElement createStemPlot(ArrayList<CellRange> rangeList,
+			boolean scanByColumn, boolean copyByValue) {
+		GeoList list = createList(rangeList, scanByColumn, copyByValue, false, false,
+				null, false);
+		
+		AlgoStemPlot bp = new AlgoStemPlot(cons, null,  list, null);
+
+		GeoText text = bp.getResult();
+		
+		// try and make sure it's on screen
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		double x = (2*ev.getXmin() + ev.getXmax())/3d;
+		double y = (ev.getYmin() + 2*ev.getYmax())/3d;
+		
+		text.setRealWorldLoc(x, y);
+		text.updateRepaint();
+		
+		return text;
+		
+	}
+
+	/**
 	 * Creates a GeoList from the cells in an array of CellRange. Empty cells
 	 * are ignored
 	 */
-	public GeoElement createList(ArrayList<CellRange> rangeList,
+	public GeoList createList(ArrayList<CellRange> rangeList,
 			boolean scanByColumn, boolean copyByValue, boolean isSorted,
 			boolean doStoreUndo, GeoClass geoTypeFilter, boolean setLabel) {
 
