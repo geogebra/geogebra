@@ -57,21 +57,11 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		this.labelOffsetY = labelOffsetY;
 	}
 
-	@Override
-	public String getClassName() {
-		return "GeoButton";
-	}
-	
     @Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_BUTTON_ACTION;
     }
-	
-    @Override
-    public String getTypeString() {
-		return "Button";
-	}
-    
+
     @Override
 	public GeoClass getGeoClassType() {
     	return GeoClass.BUTTON;

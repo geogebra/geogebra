@@ -123,16 +123,6 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		setPoints(this.startPoint, this.endPoint);
 		calcLength();
 	}
-	
-	@Override
-	public String getClassName() {	
-		return "GeoSegment";
- 	}
-	
-	@Override
-	public String getTypeString() {
-		return "Segment";
-	}
 	 
 	@Override
 	public GeoClass getGeoClassType() {

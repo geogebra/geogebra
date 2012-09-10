@@ -114,18 +114,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoNumeric";
-	}
-
-	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_SLIDER;
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Numeric";
 	}
 
 	@Override

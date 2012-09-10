@@ -299,11 +299,6 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoConic3D";
-	}
-
-	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;

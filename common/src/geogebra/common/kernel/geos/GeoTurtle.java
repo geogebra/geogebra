@@ -120,15 +120,6 @@ public class GeoTurtle extends GeoElement implements Animatable{
 	// GETTERS/SETTERS
 	// ===============================================
 
-	@Override
-	public String getClassName() {
-		return "GeoTurtle";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Turtle";
-	}
 
 	@Override
 	public GeoClass getGeoClassType() {

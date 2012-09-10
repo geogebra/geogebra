@@ -78,16 +78,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoVector";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Vector";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.VECTOR;
 	}   

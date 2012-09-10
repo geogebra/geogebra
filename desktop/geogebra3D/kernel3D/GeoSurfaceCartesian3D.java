@@ -132,16 +132,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoSurfaceCartesian3D";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "SurfaceCartesian3D";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.SURFACECARTESIAN3D;
 	}

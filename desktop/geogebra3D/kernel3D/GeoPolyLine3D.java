@@ -55,16 +55,6 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	// ///////////////////////////////////////
 	// GeoPolyLine3D
 
-	@Override
-	public String getClassName() {
-		return "GeoPolyLine3D";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "PolyLine3D";
-
-	}
 
 	@Override
 	public GeoClass getGeoClassType() {

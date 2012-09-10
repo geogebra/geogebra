@@ -44,11 +44,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public String getTypeString() {
-		return "Line3D";
-	}
-
-	@Override
 	public boolean isEqual(GeoElement Geo) {
 		App.debug("unimplemented");
 		return false;
@@ -143,11 +138,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 		sbToString.append(")");
 		
 		return sbToString;  
-	}
-
-	@Override
-	public String getClassName() {
-		return "GeoLine3D";
 	}
 	
 	@Override

@@ -56,16 +56,6 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}
 
 	@Override
-	public String getClassName() {	
-		return "GeoRay";
- 	}
-	
-	@Override
-	public String getTypeString() {
-		return "Ray";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.RAY;
 	}

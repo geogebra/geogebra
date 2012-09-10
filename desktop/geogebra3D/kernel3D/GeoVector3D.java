@@ -107,10 +107,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		return GeoClass.VECTOR3D;
 	}
 
-	@Override
-	public String getTypeString() {
-		return "Vector3D";
-	}
 
 	@Override
 	public boolean isDefined() {
@@ -177,11 +173,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	protected boolean showInEuclidianView() {
 		// TODO Auto-generated method stub
 		return true;
-	}
-
-	@Override
-	public String getClassName() {
-		return "GeoVector3D";
 	}
 
 	@Override

@@ -284,16 +284,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoPlane3D";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Plane3D";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.PLANE3D;
 	}

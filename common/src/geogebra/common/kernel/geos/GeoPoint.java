@@ -199,11 +199,6 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoPoint";
-	}
-
-	@Override
 	public int getRelatedModeID() {
 		return toStringMode == Kernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
 				: EuclidianConstants.MODE_POINT;

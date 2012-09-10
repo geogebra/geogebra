@@ -213,11 +213,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	}
 
-	@Override
-	public String getClassName() {
-		return "GeoPolygon3D";
-	}
-
 	// ///////////////////////////////////////
 	// link with the 2D coord sys
 

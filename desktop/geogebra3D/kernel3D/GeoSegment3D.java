@@ -77,25 +77,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return getUnit();
 	}
 
-	/**
-	 * return "GeoSegment3D"
-	 * 
-	 * @return "GeoSegment3D"
-	 */
-	@Override
-	public String getClassName() {
-		return "GeoSegment3D";
-	}
-
-	/**
-	 * return "Segment3D"
-	 * 
-	 * @return "Segment3D"
-	 */
-	@Override
-	public String getTypeString() {
-		return "Segment3D";
-	}
 
 	/**
 	 * return {@link GeoClass}

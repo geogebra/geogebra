@@ -95,20 +95,10 @@ public class GeoScriptAction extends GeoElement  {
 	}
 
 	@Override
-	public String getTypeString() {
-		return "ScriptAction";
-	}
-
-	@Override
 	public boolean isEqual(GeoElement geo) {
 		if(!(geo instanceof GeoScriptAction))
 			return false;
 		return action == ((GeoScriptAction)geo).action;
-	}
-
-	@Override
-	public String getClassName() {
-		return "GeoScriptAction";
 	}
 	
 	/**

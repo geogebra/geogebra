@@ -678,16 +678,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// COMMON STUFF
 
 	@Override
-	public String getClassName() {
-		return "GeoPoint3D";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Point3D";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POINT3D;
 	}

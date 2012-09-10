@@ -140,11 +140,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoPolygon";
-	}
-
-	@Override
 	public String getTypeString() {
 		if (points == null)
 			return "Polygon";

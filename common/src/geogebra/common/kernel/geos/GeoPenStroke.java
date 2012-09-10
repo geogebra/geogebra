@@ -28,11 +28,6 @@ public class GeoPenStroke extends GeoPolyLine {
 	}
 
 	@Override
-	public String getTypeString() {
-		return "PenStroke";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.PENSTROKE;
 	}

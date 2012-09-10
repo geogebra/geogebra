@@ -88,11 +88,6 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoConicPart";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.CONICPART;
 	}

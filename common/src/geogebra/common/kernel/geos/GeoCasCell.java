@@ -1914,18 +1914,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	@Override
-	public String getTypeString() {
-		return "CasCell";
-	}
-
-	@Override
 	public boolean isEqual(final GeoElement Geo) {
 		return false;
-	}
-
-	@Override
-	public String getClassName() {
-		return "GeoCasCell";
 	}
 
 	/**

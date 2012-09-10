@@ -57,18 +57,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoBoolean";
-	}
-
-	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX;
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Boolean";
 	}
 
 	@Override

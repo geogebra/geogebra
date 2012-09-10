@@ -115,16 +115,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoList";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "List";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.LIST;
 	}

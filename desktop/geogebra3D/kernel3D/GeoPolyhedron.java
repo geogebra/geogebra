@@ -947,11 +947,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		return "todo-GeoPolyhedron";
 	}
 
-	@Override
-	public String getClassName() {
-		return "GeoPolyhedron";
-	}
-
 	/** to be able to fill it with an alpha value */
 	@Override
 	public boolean isFillable() {

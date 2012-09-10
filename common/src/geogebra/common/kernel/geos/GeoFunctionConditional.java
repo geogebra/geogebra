@@ -137,11 +137,6 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoFunctionConditional";
-	}
-
-	@Override
 	public String getTypeString() {
 		return "Function";
 	}

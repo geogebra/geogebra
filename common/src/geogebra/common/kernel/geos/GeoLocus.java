@@ -122,16 +122,6 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoLocus";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Locus";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.LOCUS;
 	}

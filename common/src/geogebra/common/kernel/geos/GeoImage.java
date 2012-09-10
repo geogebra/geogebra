@@ -443,16 +443,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoImage";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Image";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.IMAGE;
 	}

@@ -112,11 +112,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}
 	
 	@Override
-	public String getClassName() {
-		return "GeoFunctionNVar";
-	}
-	
-	@Override
 	public String getTypeString() {
 		return isInequality ? "Inequality":"MultivariableFunction";
 	}

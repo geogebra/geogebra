@@ -446,11 +446,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue 
 		return true;
 	}
 
-	@Override
-	public String getClassName() {
-		return "GeoQuadricLimited";
-	}
-
 	// ///////////////////////////////////
 	// GEOQUADRICND
 	// ///////////////////////////////////

@@ -314,11 +314,6 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return sbToValueString;
 	}
 
-	@Override
-	public String getClassName() {
-		return "GeoQuadric";
-	}
-
 	/** to be able to fill it with an alpha value */
 	@Override
 	public boolean isFillable() {

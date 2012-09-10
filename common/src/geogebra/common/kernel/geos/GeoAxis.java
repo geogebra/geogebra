@@ -104,11 +104,6 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		return "Line";
 	}
 
-	@Override
-	public GeoClass getGeoClassType() {
-		return GeoClass.AXIS;
-	}
-
 	// /////////////////////////////////////
 	// GEOAXISND INTERFACE
 	// /////////////////////////////////////

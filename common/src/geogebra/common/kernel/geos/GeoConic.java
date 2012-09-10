@@ -85,11 +85,6 @@ public class GeoConic extends GeoConicND implements Traceable,
 	}
 	
 	@Override
-	public String getClassName() {
-		return "GeoConic";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.CONIC;
 	}

@@ -203,10 +203,6 @@ Dilateable, Transformable, EuclidianViewCE {
 		return GeoClass.IMPLICIT_POLY;
 	}
 
-	@Override
-	public String getTypeString() {
-		return "ImplicitPoly";
-	}
 	
 	/**
 	 * returns all class-specific xml tags for saveXML
@@ -423,12 +419,6 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 
 		return sb.toString();
-	}
-	
-
-	@Override
-    public String getClassName() {
-		return "GeoImplicitPoly";
 	}
 
 	@Override

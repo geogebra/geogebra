@@ -392,18 +392,8 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoText";
-	}
-
-	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_TEXT;
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Text";
 	}
 
 	@Override

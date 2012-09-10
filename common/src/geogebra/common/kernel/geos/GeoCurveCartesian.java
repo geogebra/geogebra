@@ -97,16 +97,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoCurveCartesian";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "CurveCartesian";
-	}
-
-	@Override
 	public String translatedTypeString() {
 		return app.getPlain("Curve");
 	}

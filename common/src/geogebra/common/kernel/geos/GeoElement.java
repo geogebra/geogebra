@@ -4035,12 +4035,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * Returns type string of GeoElement. Note: this is equal to
-	 * getClassName().substring(3), but faster
-	 * 
-	 * @return type string without "Geo" prefix
+	 * @return type string for XML
 	 */
-	public abstract String getTypeString();
+	final public String getXMLtypeString() {
+		// don't use getTypeString() as it's overridden
+		return StringUtil.toLowerCase(getGeoClassType().name);
+	}
+
+	/**
+	 * Returns type string of GeoElement. 
+	 * 
+	 * @return type string without "Geo" prefix in most cases, overridden in eg GeoPoint, GeoPolygon
+	 */
+	public String getTypeString() {
+		return getGeoClassType().name;
+	}
 
 	/**
 	 * overridden in GeoConicND
@@ -4675,19 +4684,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean isAxis() {
 		return false;
-	}
-
-	/*
-	 * #****************************************************** SAVING
-	 * *****************************************************
-	 */
-	/** @return class name (getClass().getName() doesn't work with obfuscation)*/
-	public abstract String getClassName();
-	/**
-	 * @return type string for XML
-	 */
-	final public String getXMLtypeString() {
-		return StringUtil.toLowerCase(getClassName().substring(3));
 	}
 
 	/**

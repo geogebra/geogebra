@@ -153,16 +153,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoCurveCartesian3D";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "CurveCartesian3D";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.CURVECARTESIAN3D;
 	}

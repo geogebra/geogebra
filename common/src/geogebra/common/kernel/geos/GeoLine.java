@@ -133,16 +133,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoLine";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Line";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.LINE;
 	}

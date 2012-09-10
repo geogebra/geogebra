@@ -244,11 +244,6 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoFunction";
-	}
-
-	@Override
 	public String getTypeString() {
 		return (isInequality != null && isInequality) ? "Inequality"
 				: "Function";

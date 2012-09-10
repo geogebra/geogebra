@@ -103,16 +103,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoPolyLine";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "PolyLine";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYLINE;
 	}

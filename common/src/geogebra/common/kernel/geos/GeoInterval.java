@@ -79,16 +79,6 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoInterval";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Interval";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.INTERVAL;
 	}

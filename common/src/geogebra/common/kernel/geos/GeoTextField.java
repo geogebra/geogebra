@@ -40,17 +40,8 @@ public class GeoTextField extends GeoButton {
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoTextField";
-	}
-	@Override
 	public boolean isChangeable(){
 		return true;
-	}
-	
-	@Override
-	public String getTypeString() {
-		return "TextField";
 	}
     
     @Override

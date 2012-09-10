@@ -154,16 +154,6 @@ public class GeoAngle extends GeoNumeric {
 	}
 
 	@Override
-	public String getClassName() {
-		return "GeoAngle";
-	}
-
-	@Override
-	public String getTypeString() {
-		return "Angle";
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.ANGLE;
 	}
