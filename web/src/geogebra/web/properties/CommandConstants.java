@@ -2218,6 +2218,18 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List> ]\n[ <List>, <Adjustment -1|0|1> ]")
     String StemPlot_Syntax();
 
+    @DefaultStringValue("StepGraph")
+    String StepGraph();
+
+    @DefaultStringValue("[ <List of Points> ]\n[ <List of Points>, <Boolean Join> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]\n[ <List of Points>, <Boolean Join>, <Point style> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Join> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Join>, <Point style> ]")
+    String StepGraph_Syntax();
+
+    @DefaultStringValue("StickGraph")
+    String StickGraph();
+
+    @DefaultStringValue("[ <List of Points> ]\n[ <List of Points>, <Boolean Horizontal> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Horizontal> ]")
+    String StickGraph_Syntax();
+
     @DefaultStringValue("Stretch")
     String Stretch();
 
