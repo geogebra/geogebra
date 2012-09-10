@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.statistics.AlgoFrequency;
 import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
@@ -43,42 +44,52 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
 public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	/** Bar chart from expression **/
-	public static final int TYPE_BARCHART_EXP = 10;
+	public static final int TYPE_BARCHART_EXPRESSION = 0;
 
 	/** Bar chart from raw data and given width **/
-	public static final int TYPE_BARCHART_RAWDATA = 11;
+	public static final int TYPE_BARCHART_RAWDATA = 1;
 
 	/** Bar chart from (values,frequencies) **/
-	public static final int TYPE_BARCHART_FREQUENCY_TABLE = 12;
+	public static final int TYPE_BARCHART_FREQUENCY_TABLE = 2;
 
 	/** Bar chart from (values,frequencies) with given width **/
-	public static final int TYPE_BARCHART_FREQUENCY_TABLE_WIDTH = 13;
+	public static final int TYPE_BARCHART_FREQUENCY_TABLE_WIDTH = 3;
 
-	/** Bar chart of a discrete probability distribution **/
+	/** Stick graph **/
+	public static final int TYPE_STICKGRAPH = 10;
+
+	/** Step graph **/
+	public static final int TYPE_STEPGRAPH = 20;
+
+	/** Graph of a discrete probability distribution **/
 	public static final int TYPE_BARCHART_BINOMIAL = 40;
 	public static final int TYPE_BARCHART_PASCAL = 41;
 	public static final int TYPE_BARCHART_POISSON = 42;
 	public static final int TYPE_BARCHART_HYPERGEOMETRIC = 43;
 	public static final int TYPE_BARCHART_BERNOULLI = 44;
 	public static final int TYPE_BARCHART_ZIPF = 45;
-	private int type;
 
 	// largest possible number of rectangles
 	private static final int MAX_RECTANGLES = 10000;
 
-	private NumberValue a, b, n, p1, p2, p3; // input
-	private GeoList list1, list2; // input
-	private GeoElement ageo, bgeo, ngeo, widthGeo, isCumulative, p1geo,
-			p2geo, p3geo;
+	// output
+	private GeoNumeric sum;
 
+	// input
+	private NumberValue a, b, n, p1, p2, p3;
+	private GeoList list1, list2;
+
+	// local fields
+	private GeoElement ageo, bgeo, ngeo, widthGeo, isCumulative, isHorizontal,
+			p1geo, p2geo, p3geo, showJump, pointType;
+	private int type;
 	private int N; // # of intervals
 	private double[] yval; // y value (= min) in interval 0 <= i < N
 	private double[] leftBorder; // leftBorder (x val) of interval 0 <= i < N
 	private double barWidth;
-
 	private double freqMax;
-	
-	private GeoNumeric sum; // output sum
+
+	private int drawType = DrawBarGraph.DRAW_VERTICAL_BAR;
 
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
@@ -93,7 +104,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			NumberValue b, GeoList list1) {
 		super(cons);
 
-		type = TYPE_BARCHART_EXP;
+		type = TYPE_BARCHART_EXPRESSION;
 
 		this.a = a;
 		this.b = b;
@@ -105,7 +116,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setLabel(label);
-		sum.setDrawable(true); 
+		sum.setDrawable(true);
 	}
 
 	/******************************************************
@@ -118,8 +129,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoNumeric width) {
-		this(cons, list1, width);
-		type = TYPE_BARCHART_RAWDATA;
+		this(cons, list1, null, width, null, null, null, TYPE_BARCHART_RAWDATA);
 		sum.setLabel(label);
 
 	}
@@ -132,18 +142,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 * @param width
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoNumeric width) {
-		super(cons);
-
-		type = TYPE_BARCHART_RAWDATA;
-
-		this.list1 = list1;
-		widthGeo = width.toGeoElement();
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-
+		this(cons, list1, null, width, null, null, null, TYPE_BARCHART_RAWDATA);
 	}
 
 	/******************************************************
@@ -157,10 +156,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2) {
 
-		this(cons, list1, list2);
-		type = TYPE_BARCHART_FREQUENCY_TABLE;
+		this(cons, list1, list2, null, null, null, null,
+				TYPE_BARCHART_FREQUENCY_TABLE);
 		sum.setLabel(label);
-
 	}
 
 	/******************************************************
@@ -171,18 +169,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 * @param list2
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2) {
-		super(cons);
 
-		type = TYPE_BARCHART_FREQUENCY_TABLE;
-
-		this.list1 = list1;
-		this.list2 = list2;
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-
+		this(cons, list1, list2, null, null, null, null,
+				TYPE_BARCHART_FREQUENCY_TABLE);
 	}
 
 	/******************************************************
@@ -196,19 +185,10 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2, NumberValue width) {
-		super(cons);
 
-		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;
-
-		this.list1 = list1;
-		this.list2 = list2;
-		widthGeo = width.toGeoElement();
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-
+		this(cons, list1, list2, width, null, null, null,
+				TYPE_BARCHART_FREQUENCY_TABLE_WIDTH);
+		sum.setLabel(label);
 	}
 
 	/******************************************************
@@ -222,13 +202,64 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			NumberValue width) {
+
+		this(cons, list1, list2, width, null, null, null,
+				TYPE_BARCHART_FREQUENCY_TABLE_WIDTH);
+	}
+
+	/******************************************************
+	 * General constructor with label
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 * @param width
+	 * @param isHorizontal
+	 * @param showJump
+	 * @param showStepJump
+	 * @param showPoints
+	 * @param pointType
+	 * @param type
+	 */
+	public AlgoBarChart(Construction cons, String label, GeoList list1,
+			GeoList list2, NumberValue width, GeoBoolean isHorizontal,
+			GeoBoolean showJump, GeoText pointType, int type) {
+
+		this(cons, list1, list2, width, isHorizontal, showJump, pointType, type);
+		sum.setLabel(label);
+
+	}
+
+	/******************************************************
+	 * General constructor
+	 * 
+	 * @param cons
+	 * @param list1
+	 * @param list2
+	 * @param width
+	 * @param isHorizontal
+	 * @param showJump
+	 * @param showStepJump
+	 * @param showPoints
+	 * @param pointType
+	 * @param type
+	 */
+	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
+			NumberValue width, GeoBoolean isHorizontal, GeoBoolean showJump,
+			GeoText pointType, int type) {
 		super(cons);
 
-		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;
+		this.type = type;
 
 		this.list1 = list1;
 		this.list2 = list2;
-		widthGeo = width.toGeoElement();
+		if (width != null) {
+			widthGeo = width.toGeoElement();
+		}
+		this.isHorizontal = isHorizontal;
+		this.showJump = showJump;
+		this.pointType = pointType;
 
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
@@ -318,7 +349,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			double[] vals, double[] borders, int N) {
 		super(cons, false);
 
-		type = TYPE_BARCHART_EXP;
+		type = TYPE_BARCHART_EXPRESSION;
 
 		this.a = a;
 		this.b = b;
@@ -356,6 +387,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;
 
 		widthGeo = width.toGeoElement();
+
 		this.yval = vals;
 		this.leftBorder = borders;
 		this.N = N;
@@ -370,29 +402,65 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	@Override
 	protected void setInputOutput() {
 
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+
 		switch (type) {
 
-		case TYPE_BARCHART_EXP:
+		case TYPE_BARCHART_EXPRESSION:
+
 			input = new GeoElement[3];
 			input[0] = ageo;
 			input[1] = bgeo;
 			input[2] = list1;
 			break;
+
 		case TYPE_BARCHART_FREQUENCY_TABLE:
-			input = new GeoElement[2];
-			input[0] = list1;
-			input[1] = list2;
-			break;
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
-			input = new GeoElement[3];
-			input[0] = list1;
-			input[1] = list2;
-			input[2] = widthGeo;
-			break;
 		case TYPE_BARCHART_RAWDATA:
-			input = new GeoElement[2];
-			input[0] = list1;
-			input[1] = widthGeo;
+
+			list.add(list1);
+			if (list2 != null) {
+				list.add(list2);
+			}
+			if (widthGeo != null) {
+				list.add(widthGeo);
+			}
+
+			input = new GeoElement[list.size()];
+			input = list.toArray(input);
+			break;
+
+		case TYPE_STICKGRAPH:
+
+			list.add(list1);
+			if (list2 != null) {
+				list.add(list2);
+			}
+
+			if (isHorizontal != null) {
+				list.add(isHorizontal);
+			}
+
+			input = new GeoElement[list.size()];
+			input = list.toArray(input);
+			break;
+
+		case TYPE_STEPGRAPH:
+
+			list.add(list1);
+			if (list2 != null) {
+				list.add(list2);
+			}
+
+			if (showJump != null) {
+				list.add(showJump);
+			}
+			if (pointType != null) {
+				list.add(pointType);
+			}
+
+			input = new GeoElement[list.size()];
+			input = list.toArray(input);
 			break;
 
 		case TYPE_BARCHART_BERNOULLI:
@@ -428,7 +496,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		return Algos.AlgoBarChart;
 	}
 
-	/** 
+	/**
 	 * @return the resulting sum
 	 */
 	public GeoNumeric getSum() {
@@ -443,7 +511,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	/**
-	 * @return maximum frequency of a bar chart 
+	 * @return maximum frequency of a bar chart
 	 */
 	public double getFreqMax() {
 
@@ -455,14 +523,14 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	/**
-	 * @return y values (heights) of a bar chart 
+	 * @return y values (heights) of a bar chart
 	 */
 	public double[] getYValue() {
 		return yval;
 	}
 
 	/**
-	 * @return left class borders of a bar chart 
+	 * @return left class borders of a bar chart
 	 */
 	public double[] getLeftBorder() {
 		return leftBorder;
@@ -512,51 +580,67 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		return N;
 	}
 
+	/**
+	 * @return bar width
+	 */
 	public double getWidth() {
 		return barWidth;
 	}
 
 	/**
-	 * @return the p1
+	 * @return discrete graph parameter p1
 	 */
 	public NumberValue getP1() {
 		return p1;
 	}
 
 	/**
-	 * @return the p2
+	 * @return discrete graph parameter p2
 	 */
 	public NumberValue getP2() {
 		return p2;
 	}
 
 	/**
-	 * @return the p3
+	 * @return discrete graph parameter p3
 	 */
 	public NumberValue getP3() {
 		return p3;
-	}
-	
-	/**
-	 * @return the type of graph to draw
-	 */
-	public int getDrawType() {
-		if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()){
-			return DrawBarGraph.TYPE_STEP_GRAPH; 
-		}
-		return DrawBarGraph.TYPE_VERTICAL_BAR;	
 	}
 
 	/**
 	 * @return the type of graph to draw
 	 */
-	public boolean hasPoints() {
-		if(this.widthGeo != null && ((GeoNumeric)widthGeo).getDouble() == 0){
-			return true; 
+	public int getDrawType() {
+
+		if ((showJump != null && ((GeoBoolean) showJump).getBoolean())) {
+			return DrawBarGraph.DRAW_STEP_GRAPH_JUMP;
+
+		} else if (type == TYPE_STEPGRAPH
+				|| (isCumulative != null && ((GeoBoolean) isCumulative)
+						.getBoolean())) {
+			return DrawBarGraph.DRAW_STEP_GRAPH_CONTINUOUS;
+
+		} else if (isHorizontal != null
+				&& ((GeoBoolean) isHorizontal).getBoolean()) {
+			return DrawBarGraph.DRAW_HORIZONTAL_BAR;
+
+		} else {
+			return DrawBarGraph.DRAW_VERTICAL_BAR;
 		}
-		return false;	
 	}
-	
+
+	/**
+	 * @return true if points are drawn with the graph
+	 */
+	public boolean hasPoints() {
+
+		if (type == TYPE_STICKGRAPH
+				|| (showJump != null && ((GeoBoolean) showJump).getBoolean())) {
+			return true;
+		}
+		return false;
+	}
 
 	// ======================================================
 	// Compute
@@ -572,7 +656,13 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			computeWithFrequency();
 			break;
 
-		case TYPE_BARCHART_EXP:
+		case TYPE_STICKGRAPH:
+		case TYPE_STEPGRAPH:
+			// TODO: handle point lists
+			computeFromValueFrequencyLists(list1, list2, 0.0);
+			break;
+
+		case TYPE_BARCHART_EXPRESSION:
 			computeWithExp();
 			break;
 
@@ -585,6 +675,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		case TYPE_BARCHART_HYPERGEOMETRIC:
 		case TYPE_BARCHART_PASCAL:
 		case TYPE_BARCHART_ZIPF:
+
 			if (!prepareDistributionLists()) {
 				sum.setUndefined();
 				return;
@@ -871,7 +962,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	public DrawInformationAlgo copy() {
 		int N = this.getIntervals();
 		switch (this.getType()) {
-		case TYPE_BARCHART_EXP:
+		case TYPE_BARCHART_EXPRESSION:
 			return new AlgoBarChart(cons,
 					(NumberValue) getA().deepCopy(kernel), (NumberValue) getB()
 							.deepCopy(kernel), Cloner.clone(getValues()),

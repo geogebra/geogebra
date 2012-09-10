@@ -17,10 +17,12 @@ import geogebra.common.plugin.EuclidianStyleConstants;
  */
 public class DrawBarGraph extends Drawable {
 
-	public static final int TYPE_VERTICAL_BAR = 0;
-	public static final int TYPE_HORIZONTAL_BAR = 1;
-	public static final int TYPE_STEP_GRAPH = 2;
-	private int drawType = TYPE_VERTICAL_BAR;
+	public static final int DRAW_VERTICAL_BAR = 0;
+	public static final int DRAW_HORIZONTAL_BAR = 1;
+	public static final int DRAW_STEP_GRAPH_CONTINUOUS = 2;
+	public static final int DRAW_STEP_GRAPH_JUMP = 3;
+
+	private int drawType = DRAW_VERTICAL_BAR;
 
 	private boolean isVisible, labelVisible;
 	private double[] coords = new double[2];
@@ -65,8 +67,11 @@ public class DrawBarGraph extends Drawable {
 
 	private void init() {
 		algo = (AlgoBarChart) geo.getDrawAlgorithm();
+		drawType = algo.getDrawType();
 
-		createPts();
+		if (algo.hasPoints()) {
+			createPts();
+		}
 	}
 
 	/**
@@ -94,7 +99,7 @@ public class DrawBarGraph extends Drawable {
 			}
 
 			try {
-				if (algo.getDrawType() != TYPE_STEP_GRAPH) {
+				if (algo.getDrawType() != DRAW_STEP_GRAPH_CONTINUOUS) {
 					fill(g2, gp, false); // fill using default/hatching/image as
 											// appropriate
 				}
@@ -175,17 +180,21 @@ public class DrawBarGraph extends Drawable {
 
 		drawType = algo.getDrawType();
 
-		for (int i = 0; i < N; i++) {
-			coords[0] = xVal[i];
-			coords[1] = yVal[i];
-			pts[i].setCoords(coords[0], coords[1], 1.0);
-			pts[i].setPointSize(2 + (geo.lineThickness + 1) / 3);
-			drawPoints[i].update();
+		if (algo.hasPoints()) {
+			for (int i = 0; i < N; i++) {
+				coords[0] = xVal[i];
+				coords[1] = yVal[i];
+				pts[i].setCoords(coords[0], coords[1], 1.0);
+				pts[i].setPointSize(2 + (geo.lineThickness + 1) / 3);
+				drawPoints[i].update();
+			}
 		}
+
+		double halfWidth = width / 2;
 
 		switch (drawType) {
 
-		case TYPE_VERTICAL_BAR:
+		case DRAW_VERTICAL_BAR:
 
 			if (width <= 0) {
 				for (int i = 0; i < N; i++) {
@@ -231,7 +240,7 @@ public class DrawBarGraph extends Drawable {
 
 			break;
 
-		case TYPE_HORIZONTAL_BAR:
+		case DRAW_HORIZONTAL_BAR:
 
 			if (width <= 0) {
 				for (int i = 0; i < N; i++) {
@@ -276,9 +285,7 @@ public class DrawBarGraph extends Drawable {
 			}
 			break;
 
-		case TYPE_STEP_GRAPH:
-
-			double halfWidth = width / 2;
+		case DRAW_STEP_GRAPH_CONTINUOUS:
 
 			for (int i = 0; i < N - 1; i++) {
 
@@ -308,6 +315,26 @@ public class DrawBarGraph extends Drawable {
 			gp.lineTo(coords[0], coords[1]);
 
 			break;
+
+		case DRAW_STEP_GRAPH_JUMP:
+
+			for (int i = 0; i < N - 1; i++) {
+
+				// move to start point
+				coords[0] = xVal[i] + halfWidth;
+				coords[1] = yVal[i];
+				view.toScreenCoords(coords);
+				gp.moveTo(coords[0], coords[1]);
+
+				// across
+				coords[0] = xVal[i + 1] + halfWidth;
+				coords[1] = yVal[i];
+				view.toScreenCoords(coords);
+				gp.lineTo(coords[0], coords[1]);
+
+			}
+
+			break;
 		}
 
 		// gp on screen?
@@ -335,11 +362,13 @@ public class DrawBarGraph extends Drawable {
 		for (int i = 0; i < pts.length; i++) {
 			pts[i] = new GeoPoint(view.getKernel().getConstruction());
 			pts[i].setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
+			pts[i].setObjColor(geo.getObjectColor());
+
 			pts[i].setLabelVisible(false);
-			
+
 			drawPoints[i] = new DrawPoint(view, pts[i]);
 			drawPoints[i].setGeoElement(pts[i]);
-			
+
 		}
 
 	}

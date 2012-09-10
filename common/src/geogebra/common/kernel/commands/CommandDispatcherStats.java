@@ -30,6 +30,10 @@ public class CommandDispatcherStats {
 			return new CmdDotPlot(kernel);
 		case StemPlot:
 			return new CmdStemPlot(kernel);
+		case StickGraph:
+			return new CmdStickGraph(kernel);
+		case StepGraph:
+			return new CmdStepGraph(kernel);
 		case ResidualPlot:
 			return new CmdResidualPlot(kernel);
 		case FrequencyPolygon:
