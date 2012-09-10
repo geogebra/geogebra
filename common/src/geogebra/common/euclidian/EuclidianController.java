@@ -8338,19 +8338,27 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PARALLEL:
-		case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
 		case EuclidianConstants.MODE_ORTHOGONAL:
-		case EuclidianConstants.MODE_LINE_BISECTOR:
-		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-		case EuclidianConstants.MODE_TANGENTS:
-		case EuclidianConstants.MODE_POLAR_DIAMETER:
-			// hits = view.getHits(mouseLoc);
+			
+			
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.size() == 0) {
 				createNewPoint(hits, false, true, true);
+			} else if (selLines() == 1 && hits.get(0).isPath()) {
+				// make sure clicking on line then line works #2610
+				createNewPointForModeOther(hits);
 			}
+			
+			break;
+			
+		case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
+		case EuclidianConstants.MODE_LINE_BISECTOR:
+		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+		case EuclidianConstants.MODE_TANGENTS:
+		case EuclidianConstants.MODE_POLAR_DIAMETER:
+			// hits = view.getHits(mouseLoc);
 			break;
 	
 		case EuclidianConstants.MODE_COMPASSES: // Michael Borcherds 2008-03-13
