@@ -30,7 +30,6 @@ public enum ToolBarCommand
 	PolylineBetweenPoints(EuclidianConstants.MODE_POLYLINE, CommonResources.INSTANCE.polyline_between_points()),
 	RayThroughTwoPoints(EuclidianConstants.MODE_RAY, CommonResources.INSTANCE.ray_through_two_points()),
 	SegmentBetweenTwoPoints(EuclidianConstants.MODE_SEGMENT, CommonResources.INSTANCE.segment_between_two_points()),
-	SegmentWithGivenLengthFromPoint(EuclidianConstants.MODE_SEGMENT_FIXED, CommonResources.INSTANCE.segment_with_given_length_from_point()),
 	VectorBetweenTwoPoints(EuclidianConstants.MODE_VECTOR, CommonResources.INSTANCE.vector_between_two_points()),
 	VectorFromPoint(EuclidianConstants.MODE_VECTOR_FROM_POINT, CommonResources.INSTANCE.vector_from_point()),
 	
@@ -52,7 +51,6 @@ public enum ToolBarCommand
 	
 	// Circle and Arc
 	CircleThroughThreePoints(EuclidianConstants.MODE_CIRCLE_THREE_POINTS, CommonResources.INSTANCE.circle_through_three_points()),
-	CircleWithCenterAndRadius(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS, CommonResources.INSTANCE.circle_with_center_and_radius()),
 	CircleWithCenterThroughPoint(EuclidianConstants.MODE_CIRCLE_TWO_POINTS, CommonResources.INSTANCE.circle_with_center_through_point()),
 	CircularArcWithCenterBetweenTwoPoints(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, CommonResources.INSTANCE.circular_arc_with_center_between_two_points()),
 	CircularSectorWithCenterBetweenTwoPoints(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS, CommonResources.INSTANCE.circular_sector_with_center_between_two_points()),
@@ -69,27 +67,22 @@ public enum ToolBarCommand
 	
 	// Measurement
 	Angle(EuclidianConstants.MODE_ANGLE, CommonResources.INSTANCE.angle()),
-	AngleWithGivenSize(EuclidianConstants.MODE_ANGLE_FIXED, CommonResources.INSTANCE.angle_with_given_size()),
 	Area(EuclidianConstants.MODE_AREA, CommonResources.INSTANCE.area()),
 	CreateList(EuclidianConstants.MODE_CREATE_LIST, CommonResources.INSTANCE.create_list()),
 	DistanceOrLength(EuclidianConstants.MODE_DISTANCE, CommonResources.INSTANCE.distance_or_length()),
 	Slope(EuclidianConstants.MODE_SLOPE, CommonResources.INSTANCE.slope()),
 	
 	// Transformation
-	DilateObjectFromPointByFactor(EuclidianConstants.MODE_DILATE_FROM_POINT, CommonResources.INSTANCE.dilate_object_from_point_by_factor()),
 	ReflectObjectAboutCircle(EuclidianConstants.MODE_MIRROR_AT_CIRCLE, CommonResources.INSTANCE.reflect_object_about_circle()),
 	ReflectObjectAboutLine(EuclidianConstants.MODE_MIRROR_AT_LINE, CommonResources.INSTANCE.reflect_object_about_line()),
 	ReflectObjectAboutPoint(EuclidianConstants.MODE_MIRROR_AT_POINT, CommonResources.INSTANCE.reflect_object_about_point()),
-	RotateObjectAboutPointByAngle(EuclidianConstants.MODE_MOVE_ROTATE, CommonResources.INSTANCE.rotate_object_about_point_by_angle()),
 	TranslateObjectByVector(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR, CommonResources.INSTANCE.translate_object_by_vector()),
 	
 	// Special Object
 	FreehandShape(EuclidianConstants.MODE_FREEHAND_SHAPE, CommonResources.INSTANCE.freehand_shape()),
-	FunctionInspector(EuclidianConstants.MODE_FUNCTION_INSPECTOR, CommonResources.INSTANCE.function_inspector()),
 	InsertImage(EuclidianConstants.MODE_IMAGE, CommonResources.INSTANCE.insert_image()),
 	InsertText(EuclidianConstants.MODE_TEXT, CommonResources.INSTANCE.insert_text()),
 	Pen(EuclidianConstants.MODE_PEN, CommonResources.INSTANCE.pen()),
-	ProbabilityCalculator(EuclidianConstants.MODE_PROBABILITY_CALCULATOR, CommonResources.INSTANCE.probability_calculator()),
 	RelationBetweenTwoObjects(EuclidianConstants.MODE_RELATION, CommonResources.INSTANCE.relation_between_two_objects()),
 	
 	// Action Object

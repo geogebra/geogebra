@@ -21,7 +21,6 @@ public enum ToolBarMenu
 	Line(ToolBarCommand.LineThroughTwoPoints, new ToolBarCommand[] {
 			ToolBarCommand.LineThroughTwoPoints,
 			ToolBarCommand.SegmentBetweenTwoPoints,
-			ToolBarCommand.SegmentWithGivenLengthFromPoint,
 			ToolBarCommand.RayThroughTwoPoints,
 			ToolBarCommand.PolylineBetweenPoints,
 			ToolBarCommand.VectorBetweenTwoPoints,
@@ -46,7 +45,6 @@ public enum ToolBarMenu
 	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint,
 			new ToolBarCommand[] {
 					ToolBarCommand.CircleWithCenterThroughPoint,
-					ToolBarCommand.CircleWithCenterAndRadius,
 					ToolBarCommand.Compasses,
 					ToolBarCommand.CircleThroughThreePoints,					
 					ToolBarCommand.Semicircle,
@@ -63,7 +61,6 @@ public enum ToolBarMenu
 
 	Mesurement(ToolBarCommand.Angle, new ToolBarCommand[] {
 			ToolBarCommand.Angle, 
-			ToolBarCommand.AngleWithGivenSize,
 			ToolBarCommand.DistanceOrLength,
 			ToolBarCommand.Area,
 			ToolBarCommand.Slope,
@@ -73,18 +70,14 @@ public enum ToolBarMenu
 			ToolBarCommand.ReflectObjectAboutLine,
 			ToolBarCommand.ReflectObjectAboutPoint,
 			ToolBarCommand.ReflectObjectAboutCircle,
-			ToolBarCommand.RotateObjectAboutPointByAngle,
-			ToolBarCommand.TranslateObjectByVector,
-			ToolBarCommand.DilateObjectFromPointByFactor }),
+			ToolBarCommand.TranslateObjectByVector }),
 
 	SpecialObject(ToolBarCommand.InsertText, new ToolBarCommand[] {
 			ToolBarCommand.InsertText,
 			ToolBarCommand.InsertImage,
 			ToolBarCommand.Pen,
 			ToolBarCommand.FreehandShape,
-			ToolBarCommand.RelationBetweenTwoObjects,
-			ToolBarCommand.ProbabilityCalculator,
-			ToolBarCommand.FunctionInspector }),
+			ToolBarCommand.RelationBetweenTwoObjects }),
 
 	ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {
 			ToolBarCommand.Slider,
