@@ -373,15 +373,6 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			addSubItem(subMenu, item);
 			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges)));
 
-			item = new JMenuItem(app.getMenu("StemPlot"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					cp.createStemPlot(selectedCellRanges,
-							false, true);
-				}
-			});
-			addSubItem(subMenu, item);
-
 			item = new JMenuItem(app.getMenu("OperationTable"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
