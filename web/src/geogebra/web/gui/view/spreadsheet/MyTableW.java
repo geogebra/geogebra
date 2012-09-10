@@ -320,6 +320,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		return kernel;
 	}
 
+	public SpreadsheetTableModel getModel() {
+		return tableModel;
+	}
+
 	public CopyPasteCut getCopyPasteCut() {
 		return copyPasteCut;
 	}
