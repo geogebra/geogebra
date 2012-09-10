@@ -77,7 +77,7 @@ your workstation.
 	<!-- download base64 encoded version of mpreduce from GeoGebra repository -->
 	<!-- Please change the date according to ../desktop/kickstart.xml when the default.img file is changing! -->
 	<target name="ggbreduce-base64">
-	<get src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=20120905"
+	<get src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=20120910"
 	    dest="src/geogebra/resources/statictexts/defaultbase64web.img"/>
 	</target>
 	
