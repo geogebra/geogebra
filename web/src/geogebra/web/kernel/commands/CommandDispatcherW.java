@@ -20,12 +20,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 	
 	@ConcreteType(CommandDispatcherDiscrete.class)
 	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
-	interface CommandDispatcherDiscrateProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
+	interface CommandDispatcherDiscreteProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
 	
 	@Override
     protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
-			discreteDispatcher = GWT.create(CommandDispatcherDiscrateProxy.class);
+			discreteDispatcher = GWT.create(CommandDispatcherDiscreteProxy.class);
 		}
 		return discreteDispatcher;
 	}
