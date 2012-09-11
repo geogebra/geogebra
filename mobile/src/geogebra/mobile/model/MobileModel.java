@@ -22,6 +22,7 @@ public class MobileModel
 	private GuiModel guiModel;
 	private Kernel kernel;
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
+	private ToolBarCommand lastCmd = null;
 
 	public MobileModel(GuiModel model, Kernel k)
 	{
@@ -51,6 +52,32 @@ public class MobileModel
 		return success;
 	}
 
+	/**
+	 * selects one element of the given class (if there are elements of
+	 * different classes, the first class that has elements in the hits will be
+	 * used)
+	 * 
+	 * @param hits
+	 *            the Hits to get the elements form
+	 * @param geoclass
+	 *            Array of possible classes
+	 * @return success (false if there is no element of any of the given classes
+	 */
+	public boolean selectOutOf(Hits hits, Test[] geoclass)
+	{
+		Hits h = new Hits();
+		for (int i = 0; i < geoclass.length; i++)
+		{
+			hits.getHits(geoclass[i], h);
+			if (h.size() > 0)
+			{
+				select(h.get(0));
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void resetSelection()
 	{
 		for (GeoElement geo : this.selectedElements)
@@ -58,6 +85,15 @@ public class MobileModel
 			geo.setSelected(false);
 		}
 		this.selectedElements.clear();
+	}
+
+	public void checkCommand()
+	{
+		if (this.lastCmd != this.guiModel.getCommand())
+		{
+			this.lastCmd = this.guiModel.getCommand();
+			resetSelection();
+		}
 	}
 
 	/**
@@ -130,7 +166,6 @@ public class MobileModel
 
 	public void handleEvent(Hits hits)
 	{
-
 		boolean draw = false;
 
 		switch (this.guiModel.getCommand())
@@ -156,10 +191,7 @@ public class MobileModel
 		case PerpendicularLine:
 		case ParallelLine:
 		case Parabola:
-			if (!select(hits, Test.GEOPOINT, 1))
-			{
-				select(hits, Test.GEOLINE, 1);
-			}
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE });
 			draw = getNumberOf(GeoPoint.class) >= 1
 					&& getNumberOf(GeoLine.class) >= 1;
 			break;
@@ -202,6 +234,8 @@ public class MobileModel
 		// commands that need an unknown number of points
 		case PolylineBetweenPoints:
 		case Polygon:
+		case RigidPolygon:
+		case VectorPolygon:
 			select(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(GeoPoint.class) > 2
 					&& getElement(GeoPoint.class).equals(lastSelected());
@@ -209,6 +243,7 @@ public class MobileModel
 		default:
 			break;
 		}
+
 		// draw anything other than a point
 		if (draw)
 		{
@@ -346,6 +381,18 @@ public class MobileModel
 				this.kernel.Polygon(null,
 						geos2.toArray(new GeoPoint[geos2.size() - 1]));
 				break;
+			case RigidPolygon:
+				ArrayList<GeoElement> geos3 = getAll(GeoPoint.class);
+				geos3.remove(geos3.size() - 1);
+				this.kernel.RigidPolygon(null,
+						geos3.toArray(new GeoPoint[geos3.size() - 1]));
+				break;
+			case VectorPolygon:
+				ArrayList<GeoElement> geos4 = getAll(GeoPoint.class);
+				geos4.remove(geos4.size() - 1);
+				this.kernel.VectorPolygon(null,
+						geos4.toArray(new GeoPoint[geos4.size() - 1]));
+				break;
 			default:
 			}
 
@@ -355,6 +402,7 @@ public class MobileModel
 
 	public boolean handleEvent(GeoElement geo)
 	{
+		checkCommand();
 		if (this.guiModel.getCommand() == ToolBarCommand.DeleteObject)
 		{
 			geo.remove();

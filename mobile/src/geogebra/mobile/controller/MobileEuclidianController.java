@@ -31,7 +31,6 @@ public class MobileEuclidianController extends EuclidianController
 
 	private GuiModel guiModel;
 	private MobileModel mobileModel;
-	private ToolBarCommand lastCmd;
 	private GPoint origin;
 	private boolean moving;
 	private boolean clicked = false;
@@ -148,12 +147,7 @@ public class MobileEuclidianController extends EuclidianController
 	{
 		ToolBarCommand cmd = this.guiModel.getCommand();
 
-		if (this.lastCmd != cmd)
-		{
-			this.lastCmd = cmd;
-			this.mobileModel.resetSelection();
-			// resetSelection();
-		}
+		this.mobileModel.checkCommand();
 
 		this.mouseLoc = new GPoint(x, y);
 		this.mode = this.guiModel.getCommand().getMode();
@@ -188,8 +182,6 @@ public class MobileEuclidianController extends EuclidianController
 				this.mobileModel.select(geo);
 			}
 			break;
-
-		// commands that need one point - nothing to do anymore
 		default:
 			this.mobileModel.handleEvent(hits);
 		}

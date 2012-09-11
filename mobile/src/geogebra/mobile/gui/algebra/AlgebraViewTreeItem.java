@@ -29,7 +29,7 @@ import com.googlecode.mgwt.ui.client.widget.MCheckBox;
  * @see geogebra.web.gui.view.algebra.RadioButtonTreeItem
  * 
  */
-public class RadioButtonTreeItem extends HorizontalPanel implements
+public class AlgebraViewTreeItem extends HorizontalPanel implements
 		ClickHandler, MouseDownHandler
 {
 
@@ -53,7 +53,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	InlineHTML ihtml;
 	TextBox tb;
 
-	public RadioButtonTreeItem(GeoElement ge, AlgebraView av,
+	public AlgebraViewTreeItem(GeoElement ge, AlgebraView av,
 			AlgebraController ac)
 	{
 		super();
@@ -66,22 +66,22 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 
 		this.check = new CheckBox();
-		this.check.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
+		this.check.setChecked(AlgebraViewTreeItem.this.previouslyChecked = ge
 				.isEuclidianVisible());
 		this.check.addClickHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				RadioButtonTreeItem.this.check
-						.setChecked(RadioButtonTreeItem.this.previouslyChecked = !RadioButtonTreeItem.this.previouslyChecked);
-				RadioButtonTreeItem.this.geo
-						.setEuclidianVisible(!RadioButtonTreeItem.this.geo
+				AlgebraViewTreeItem.this.check
+						.setChecked(AlgebraViewTreeItem.this.previouslyChecked = !AlgebraViewTreeItem.this.previouslyChecked);
+				AlgebraViewTreeItem.this.geo
+						.setEuclidianVisible(!AlgebraViewTreeItem.this.geo
 								.isSetEuclidianVisible());
-				RadioButtonTreeItem.this.geo.update();
-				RadioButtonTreeItem.this.geo.getKernel().getApplication()
+				AlgebraViewTreeItem.this.geo.update();
+				AlgebraViewTreeItem.this.geo.getKernel().getApplication()
 						.storeUndoInfo();
-				RadioButtonTreeItem.this.geo.getKernel().notifyRepaint();
+				AlgebraViewTreeItem.this.geo.getKernel().notifyRepaint();
 			}
 		});
 		add(this.check);
@@ -412,9 +412,10 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		if(((MobileAlgebraController) this.algebraController)
-				.handleEvent(this.geo)){
-		this.kernel.notifyRepaint();  
+		if (((MobileAlgebraController) this.algebraController)
+				.handleEvent(this.geo))
+		{
+			this.kernel.notifyRepaint();
 		}
 	}
 

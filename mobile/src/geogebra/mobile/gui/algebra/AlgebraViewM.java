@@ -414,8 +414,8 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 			Widget wi = node.getWidget();
 			this.editing = true;
 			setAnimationEnabled(false);
-			if (wi instanceof RadioButtonTreeItem)
-				((RadioButtonTreeItem) wi).startEditing();
+			if (wi instanceof AlgebraViewTreeItem)
+				((AlgebraViewTreeItem) wi).startEditing();
 		}
 	}
 
@@ -814,7 +814,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 			geo = getItem(i).getUserObject();
 			if (geo instanceof GeoElement)
 			{
-				((RadioButtonTreeItem) getItem(i).getWidget()).update();
+				((AlgebraViewTreeItem) getItem(i).getWidget()).update();
 				getItem(i).setSelected(((GeoElement) geo).doHighlighting());
 			} else
 			{
@@ -929,7 +929,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 				// descriptions
 				// node.setSelected(true);
 				// ensureSelectedItemVisible();
-				((RadioButtonTreeItem) node.getWidget()).update();
+				((AlgebraViewTreeItem) node.getWidget()).update();
 			} catch (Exception e)
 			{
 				e.printStackTrace();
@@ -941,9 +941,9 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 			 */
 			if (isEditing())
 			{
-				if (((RadioButtonTreeItem) node.getWidget()).isThisEdited())
+				if (((AlgebraViewTreeItem) node.getWidget()).isThisEdited())
 				{
-					((RadioButtonTreeItem) node.getWidget()).cancelEditing();
+					((AlgebraViewTreeItem) node.getWidget()).cancelEditing();
 				}
 			}
 		}
@@ -1071,7 +1071,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement)
 		{
-			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
+			ti.setWidget(new AlgebraViewTreeItem((GeoElement) ob,
 					AlgebraViewM.this, this.algebraController));
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
