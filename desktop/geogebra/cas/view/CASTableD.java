@@ -631,6 +631,7 @@ public class CASTableD extends JTable implements CASTable {
 		}
 		if (renderer != null)
 			renderer.setFont(getFont());
+		
 		repaint();
 	}
 

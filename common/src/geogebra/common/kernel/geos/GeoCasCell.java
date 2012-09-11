@@ -999,6 +999,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 			invars = new TreeSet<String>();
 		return invars;
 	}
+	
+	public HashSet<GeoElement> getVariables(){
+		return outputVE.getVariables();
+	}
 
 	private TreeSet<String> getFunctionVars() {
 		if (functionvars == null)
