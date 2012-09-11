@@ -1011,7 +1011,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Expand_5() {
-		t("Expand[((2 x - 1)^2 + 2 x + 3]", "4 x^2 - 2 x + 4");
+		t("Expand[(2 x - 1)^2 + 2 x + 3]", "4 * x^(2) - 2 * x + 4");
 	}
 	
 
