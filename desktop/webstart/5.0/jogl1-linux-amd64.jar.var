@@ -1,0 +1,8 @@
+URI: jogl1-linux-amd64.jar
+
+URI: packed/jogl1-linux-amd64.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jogl1-linux-amd64.jar
+Content-Type: x-java-archive

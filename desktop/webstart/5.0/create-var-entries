@@ -1,0 +1,25 @@
+#!/bin/sh
+# This script creates all required entries in the webstart template directory.
+
+SOURCEDIR=../../build/debug
+test -r $SOURCEDIR/geogebra.jar || SOURCEDIR=../../build
+
+mkdir -p unsigned
+
+for i in $SOURCEDIR/*.jar; do
+ JAR=`basename $i`
+ F=$JAR.var
+ echo "URI: $JAR" > $F
+ echo >> $F
+ echo "URI: packed/$JAR.pack.gz" >> $F
+ echo "Content-Type: x-java-archive" >> $F
+ echo "Content-Encoding: pack200-gzip" >> $F
+ echo >> $F
+ echo "URI: unpacked/$JAR" >> $F
+ echo "Content-Type: x-java-archive" >> $F
+
+ cd unsigned
+ ln -s ../$F
+ cd ..
+
+ done

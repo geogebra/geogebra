@@ -1,0 +1,8 @@
+URI: jogl.jar
+
+URI: packed/jogl.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jogl.jar
+Content-Type: x-java-archive

@@ -1,0 +1,8 @@
+URI: opennimac.jar
+
+URI: packed/opennimac.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/opennimac.jar
+Content-Type: x-java-archive

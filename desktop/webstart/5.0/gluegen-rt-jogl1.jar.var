@@ -1,0 +1,8 @@
+URI: gluegen-rt-jogl1.jar
+
+URI: packed/gluegen-rt-jogl1.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/gluegen-rt-jogl1.jar
+Content-Type: x-java-archive

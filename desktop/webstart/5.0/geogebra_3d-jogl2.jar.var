@@ -1,0 +1,8 @@
+URI: geogebra_3d-jogl2.jar
+
+URI: packed/geogebra_3d-jogl2.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/geogebra_3d-jogl2.jar
+Content-Type: x-java-archive

@@ -1,0 +1,8 @@
+URI: jd2xx64.jar
+
+URI: packed/jd2xx64.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jd2xx64.jar
+Content-Type: x-java-archive

@@ -1,0 +1,8 @@
+URI: geogebra_usb.jar
+
+URI: packed/geogebra_usb.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/geogebra_usb.jar
+Content-Type: x-java-archive

@@ -1,0 +1,8 @@
+URI: openni64.jar
+
+URI: packed/openni64.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/openni64.jar
+Content-Type: x-java-archive

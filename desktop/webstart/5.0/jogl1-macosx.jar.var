@@ -1,0 +1,8 @@
+URI: jogl1-macosx.jar
+
+URI: packed/jogl1-macosx.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jogl1-macosx.jar
+Content-Type: x-java-archive

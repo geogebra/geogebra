@@ -1,0 +1,8 @@
+URI: geogebra-jogl1.jar
+
+URI: packed/geogebra-jogl1.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/geogebra-jogl1.jar
+Content-Type: x-java-archive
