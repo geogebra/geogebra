@@ -67,60 +67,60 @@
 
     <!-- USB native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/openni.jar" />
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jd2xx.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/openni.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/openni64.jar" />
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/openni64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/openni64.jar" />
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/openni64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
     </resources>
     <resources os="Mac OS X" arch="ppc">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-mac-static.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-mac-static.jar" />
     </resources>
     <resources os="Mac OS X" arch="i386">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
     </resources>
     <resources os="Mac OS X" arch="x86_64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
     </resources>
     
     <!-- JOGL1 native components (architecture dependent) -->
     <resources os="Linux" arch="amd64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-amd64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-amd64.jar" />
     </resources>
     <resources os="Linux" arch="x86_64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-amd64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-amd64.jar" />
     </resources>
     <resources os="Linux" arch="i386">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-i586.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-i586.jar" />
     </resources>
     <resources os="Linux" arch="x86">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-i586.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-linux-i586.jar" />
     </resources>
     <resources os="Windows" arch="x86">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-windows-i586.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-windows-i586.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-windows-amd64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-windows-amd64.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-windows-amd64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-windows-amd64.jar" />
     </resources>
     <resources os="Mac OS X" arch="ppc">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-macosx.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-macosx.jar" />
     </resources>
     <resources os="Mac OS X" arch="i386">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-macosx.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-macosx.jar" />
     </resources>
     <resources os="Mac OS X" arch="x86_64">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl1-macosx.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jogl1-macosx.jar" />
     </resources>
 
   <application-desc main-class="geogebra.GeoGebra3D"/>
