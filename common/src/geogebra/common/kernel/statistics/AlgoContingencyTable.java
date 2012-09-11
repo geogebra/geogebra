@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -24,14 +24,14 @@ import geogebra.common.kernel.geos.GeoText;
 import java.util.ArrayList;
 
 /**
- * FrequencyTable[] algorithm based on AlgoFrequency
+ * ContingencyTable[] algorithm
  * 
- * @author Zbynek Konecny
+ * @author G. Sturr
  * 
  */
 public class AlgoContingencyTable extends AlgoElement {
 
-	private GeoList dataList1, dataList2, rowList, colList, freqMatrix; // input
+	private GeoList list1, list2, rowList, colList, freqMatrix; // input
 	private GeoText args; // input
 
 	private GeoText table; // output
@@ -49,25 +49,27 @@ public class AlgoContingencyTable extends AlgoElement {
 	boolean showExpected;
 
 	/**
-	 * Constructs a contingency table
+	 * Constructs a contingency table from raw data
 	 * 
 	 * @param cons
 	 * @param label
-	 * @param textList1
-	 * @param textList2
+	 * @param list1
+	 * @param list2
+	 * @param args
+	 * 
 	 */
-	public AlgoContingencyTable(Construction cons, String label,
-			GeoList textList1, GeoList textList2, GeoText args) {
+	public AlgoContingencyTable(Construction cons, String label, GeoList list1,
+			GeoList list2, GeoText args) {
 
 		super(cons);
 
 		isRawData = true;
 
-		this.dataList2 = textList1;
-		this.dataList1 = textList2;
+		this.list1 = list1;
+		this.list2 = list2;
 		this.args = args;
 
-		freq = new AlgoFrequency(cons, dataList2, dataList1, true);
+		freq = new AlgoFrequency(cons, list1, list2, true);
 		cons.removeFromConstructionList(freq);
 
 		table = new GeoText(cons);
@@ -82,12 +84,14 @@ public class AlgoContingencyTable extends AlgoElement {
 	}
 
 	/**
-	 * Constructs a contingency table
+	 * Constructs a contingency table from a given frequency table
 	 * 
 	 * @param cons
 	 * @param label
-	 * @param textList1
-	 * @param textList2
+	 * @param rowList
+	 * @param colList
+	 * @param freqMatrix
+	 * @param args
 	 */
 	public AlgoContingencyTable(Construction cons, String label,
 			GeoList rowList, GeoList colList, GeoList freqMatrix, GeoText args) {
@@ -101,7 +105,7 @@ public class AlgoContingencyTable extends AlgoElement {
 		this.freqMatrix = freqMatrix;
 		this.args = args;
 
-		freq = new AlgoFrequency(cons, dataList2, dataList1, true);
+		freq = new AlgoFrequency(cons, list2, list1, true);
 		cons.removeFromConstructionList(freq);
 
 		table = new GeoText(cons);
@@ -125,10 +129,10 @@ public class AlgoContingencyTable extends AlgoElement {
 
 		ArrayList<GeoElement> outList = new ArrayList<GeoElement>();
 
-		if (dataList1 != null)
-			outList.add(dataList1);
-		if (dataList2 != null)
-			outList.add(dataList2);
+		if (list1 != null)
+			outList.add(list1);
+		if (list2 != null)
+			outList.add(list2);
 
 		if (rowList != null)
 			outList.add(rowList);
@@ -176,6 +180,55 @@ public class AlgoContingencyTable extends AlgoElement {
 		}
 	}
 
+	private String[] rowValues;
+	private String[] colValues;
+	private int[][] freqValues;
+	private double[][] expected;
+	private double[][] chiCont;
+	int[] rowSum;
+	int[] colSum;
+	int totalSum;
+
+	private StringTemplate nTemplate = StringTemplate.numericDefault;
+
+	private void loadValues() {
+
+		rowValues = freq.getContingencyRowValues();
+		colValues = freq.getContingencyColumnValues();
+		GeoList fr = freq.getResult();
+
+		rowSum = new int[rowValues.length];
+		colSum = new int[colValues.length];
+		totalSum = 0;
+
+		freqValues = new int[rowValues.length][colValues.length];
+		expected = new double[rowValues.length][colValues.length];
+		chiCont = new double[rowValues.length][colValues.length];
+
+		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
+			GeoList rowGeo = (GeoList) fr.get(rowIndex);
+			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
+				freqValues[rowIndex][colIndex] = (int) ((GeoNumeric) rowGeo
+						.get(colIndex)).getDouble();
+				rowSum[rowIndex] += freqValues[rowIndex][colIndex];
+				colSum[colIndex] += freqValues[rowIndex][colIndex];
+				totalSum += freqValues[rowIndex][colIndex];
+			}
+		}
+
+		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
+			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
+				expected[rowIndex][colIndex] = 1.0 * rowSum[rowIndex]
+						* colSum[colIndex] / totalSum;
+				chiCont[rowIndex][colIndex] = (freqValues[rowIndex][colIndex] - expected[rowIndex][colIndex]);
+				chiCont[rowIndex][colIndex] = chiCont[rowIndex][colIndex]
+						* chiCont[rowIndex][colIndex]
+						/ expected[rowIndex][colIndex];
+			}
+		}
+
+	}
+
 	@Override
 	public final void compute() {
 
@@ -183,110 +236,148 @@ public class AlgoContingencyTable extends AlgoElement {
 			table.setUndefined();
 			return;
 		}
-		
+
+		loadValues();
 		parseArgs();
 
 		sb.setLength(0);
 
-		String[] rowValues = freq.getContingencyRowValues();
-		String[] colValues = freq.getContingencyColumnValues();
-		GeoList fr = freq.getResult();
+		// GeoList fr = freq.getResult();
 
 		// prepare array
 		sb.append("\\begin{array}{|l");
 		for (int i = 0; i < colValues.length - 1; i++) {
 			sb.append("| ");
 		}
-		sb.append("| |}");
+		sb.append("| || |}"); // extra column for margin
 		sb.append(" \\\\ \\hline ");
 
-		// first row
-		sb.append(app.getMenu("Count") + "&");
-		for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-			sb.append(colValues[colIndex]);
-			if (colIndex < colValues.length - 1)
-				sb.append("&");
-		}
+		// table header
+		addTableRow(sb, 0, app.getMenu("Frequency"), "colValue");
+		if (showRowPercent)
+			addTableRow(sb, 0, app.getPlain("RowPercent"), "blank");
+		if (showColPercent)
+			addTableRow(sb, 0, app.getPlain("ColumnPercent"), "blank");
+		if (showTotalPercent)
+			addTableRow(sb, 0, app.getPlain("TotalPercent"), "blank");
+		if (showExpected)
+			addTableRow(sb, 0, app.getPlain("ExpectedCount"), "blank");
+		if (showChi)
+			addTableRow(sb, 0, app.getPlain("ChiSquaredContribution"), "blank");
 
-		if (showRowPercent) {
-			sb.append("\\\\");
-			sb.append(app.getMenu("Row") + " &");
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-				sb.append("\\;");
-				if (colIndex < colValues.length - 1)
-					sb.append("&");
-			}
-		}
-		if (showColPercent) {
-			sb.append("\\\\");
-			sb.append(app.getMenu("Column") + " &");
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-				sb.append("\\;");
-				if (colIndex < colValues.length - 1)
-					sb.append("&");
-			}
-		}
-		if (showTotalPercent) {
-			sb.append("\\\\");
-			sb.append(app.getMenu("Total") + " &");
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-				sb.append("\\;");
-				if (colIndex < colValues.length - 1)
-					sb.append("&");
-			}
-		}
-
-		if (showChi) {
-			sb.append("\\\\");
-			sb.append(app.getMenu("ChiSquareContribution") + " &");
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-				sb.append("\\;");
-				if (colIndex < colValues.length - 1)
-					sb.append("&");
-			}
-		}
-		if (showExpected) {
-			sb.append("\\\\");
-			sb.append(app.getMenu("Expected Count") + " &");
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-				sb.append("\\;");
-				if (colIndex < colValues.length - 1)
-					sb.append("&");
-			}
-		}
-
-		sb.append("\\\\");
 		sb.append("\\hline ");
 
 		// remaining rows
 		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
-			sb.append(rowValues[rowIndex]);
-			sb.append("&");
-			GeoList rowGeo = (GeoList) fr.get(rowIndex);
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-				sb.append(rowGeo.get(colIndex).toValueString(
-						table.getStringTemplate()));
-				if (colIndex < colValues.length - 1)
-					sb.append("&");
-			}
 
-			if (showRowPercent) {
-				sb.append("\\\\");
-				sb.append("\\; &");
-				for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
-					sb.append(rowGeo.get(colIndex).toValueString(
-							table.getStringTemplate()));
-					if (colIndex < colValues.length - 1)
-						sb.append("&");
-				}
-			}
+			addTableRow(sb, rowIndex, rowValues[rowIndex], "count");
+			if (showRowPercent)
+				addTableRow(sb, rowIndex, null, "-");
+			if (showColPercent)
+				addTableRow(sb, rowIndex, null, "|");
+			if (showTotalPercent)
+				addTableRow(sb, rowIndex, null, "+");
+			if (showExpected)
+				addTableRow(sb, rowIndex, null, "e");
+			if (showChi)
+				addTableRow(sb, rowIndex, null, "k");
 
-			sb.append("\\\\");
 			sb.append("\\hline ");
 		}
+		sb.append("\\hline ");
 
+		// table footer
+		addTableRow(sb, 0, app.getMenu("Total"), "tableFooter");
+		if (showRowPercent)
+			addTableRow(sb, 0, null, "rowPercentFooter");
+		sb.append("\\hline ");
+		
 		sb.append("\\end{array}");
 		table.setTextString(sb.toString());
+	}
+
+	private void addTableRow(StringBuilder sb, int rowIndex, String header,
+			String type) {
+
+		double x;
+
+		// row header
+		if (header == null) {
+			sb.append("\\;");
+		} else {
+			sb.append(header);
+		}
+		sb.append("&");
+
+		// row elements
+		for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
+
+			if (type.equals("blank")) {
+				sb.append("\\;");
+
+			} else if (type.equals("colValue")) {
+				sb.append(colValues[colIndex]);
+
+			} else if (type.equals("count")) {
+				sb.append(freqValues[rowIndex][colIndex]);
+
+			} else if (type.equals("-")) {
+				x = 100.0 * freqValues[rowIndex][colIndex] / rowSum[rowIndex];
+				sb.append(app.getKernel().format(x,
+						StringTemplate.numericDefault));
+
+			} else if (type.equals("|")) {
+				x = 100.0 * freqValues[rowIndex][colIndex] / colSum[colIndex];
+				sb.append(app.getKernel().format(x,
+						StringTemplate.numericDefault));
+
+			} else if (type.equals("+")) {
+				x = 100.0 * freqValues[rowIndex][colIndex] / totalSum;
+				sb.append(app.getKernel().format(x,
+						StringTemplate.numericDefault));
+
+			} else if (type.equals("e")) {
+				x = expected[rowIndex][colIndex];
+				sb.append(app.getKernel().format(x,
+						StringTemplate.numericDefault));
+
+			} else if (type.equals("k")) {
+				x = chiCont[rowIndex][colIndex];
+				sb.append(app.getKernel().format(x,
+						StringTemplate.numericDefault));
+
+			} else if (type.equals("tableFooter")) {
+				sb.append(colSum[colIndex]);
+
+			} else if (type.equals("rowPercentFooter")) {
+				x = 100.0 * colSum[colIndex] / totalSum;
+				sb.append(app.getKernel().format(x,
+						StringTemplate.numericDefault));
+			}
+
+			sb.append("&");
+		}
+
+		// margin
+		if (type.equals("count")) {
+			sb.append(rowSum[rowIndex]);
+
+		} else if (type.equals("colValue")) {
+			sb.append(app.getMenu("Total"));
+			
+		} else if (type.equals("|")) {
+			x = 100.0 * rowSum[rowIndex] / totalSum;
+			sb.append(app.getKernel().format(x,
+					StringTemplate.numericDefault));
+
+		} else if (type.equals("tableFooter")) {
+			sb.append(totalSum);
+
+		} else {
+			sb.append("\\;");
+		}
+
+		sb.append("\\\\");
 	}
 
 	// TODO Consider locusequability

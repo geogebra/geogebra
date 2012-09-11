@@ -43,9 +43,7 @@ public class AlgoFrequency extends AlgoElement {
 
 	// for compute
 	private GeoList value = new GeoList(cons);
-
 	private String[] contingencyRowValues, contingencyColumnValues;
-
 	private Boolean isContingencyTable = false;
 
 	/**
@@ -54,41 +52,6 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param isCumulative
 	 * @param classList
 	 * @param dataList
-	 */
-	public AlgoFrequency(Construction cons, String label, GeoList list1,
-			GeoList list2, boolean isContingencyTable) {
-		this(cons, list1, list2, isContingencyTable);
-		frequency.setLabel(label);
-	}
-
-	/**
-	 * Contingency Table (no label)
-	 * @param cons 
-	 * @param list1 
-	 * @param list2 
-	 * @param isContingencyTable 
-	
-	 */
-	public AlgoFrequency(Construction cons, GeoList list1,
-			GeoList list2, boolean isContingencyTable) {
-		super(cons);
-		
-		this.isContingencyTable = true;
-		this.classList = list1;
-		this.dataList = list2;
-		frequency = new GeoList(cons);
-		setInputOutput();
-		compute();
-	
-	}
-	
-	/**
-	 * Contingency Table 
-	 * @param cons 
-	 * @param label 
-	 * @param isCumulative 
-	 * @param classList 
-	 * @param dataList  
 	 */
 	public AlgoFrequency(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
@@ -146,6 +109,44 @@ public class AlgoFrequency extends AlgoElement {
 		compute();
 	}
 
+	/***************************************************
+	 * Contingency table constructor
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 * @param isContingencyTable
+	 * 
+	 */
+	public AlgoFrequency(Construction cons, String label, GeoList list1,
+			GeoList list2, boolean isContingencyTable) {
+
+		this(cons, list1, list2, isContingencyTable);
+		frequency.setLabel(label);
+	}
+
+	/***************************************************
+	 * Contingency table constructor (no label)
+	 * 
+	 * @param cons
+	 * @param list1
+	 * @param list2
+	 * @param isContingencyTable
+	 *            (dummy variable)
+	 */
+	public AlgoFrequency(Construction cons, GeoList list1, GeoList list2,
+			boolean isContingencyTable) {
+		super(cons);
+
+		this.isContingencyTable = true;
+		this.classList = list1;
+		this.dataList = list2;
+		frequency = new GeoList(cons);
+		setInputOutput();
+		compute();
+	}
+
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoFrequency;
@@ -193,8 +194,7 @@ public class AlgoFrequency extends AlgoElement {
 	public String[] getContingencyColumnValues() {
 		return contingencyColumnValues;
 	}
-	
-	
+
 	@Override
 	public final void compute() {
 
@@ -377,21 +377,21 @@ public class AlgoFrequency extends AlgoElement {
 			frequency.setUndefined();
 			return;
 		}
-		
+
 		if (!(dataList.getElementType().equals(GeoClass.TEXT) && classList
 				.getElementType().equals(GeoClass.TEXT))) {
 			frequency.setUndefined();
 			return;
 		}
-		
+
 		if (dataList.size() != classList.size()) {
 			frequency.setUndefined();
 			return;
 		}
-		
+
 		frequency.setDefined(true);
 		frequency.clear();
-		System.out.println("AlgoContTable 1");
+
 		contingencyRowValues = getUniqueValues(classList);
 		contingencyColumnValues = getUniqueValues(dataList);
 
@@ -401,24 +401,28 @@ public class AlgoFrequency extends AlgoElement {
 		int n1 = contingencyRowValues.length;
 		int n2 = contingencyColumnValues.length;
 
+		// todo: reuse freqTable? need to init?
 		int[][] freqTable = new int[n1][n2];
 		for (int i = 0; i < n1; i++)
 			for (int j = 0; j < n2; j++)
 				freqTable[i][j] = 0;
 
-		for (int i = 0; i < classList.size(); i++) {
-			String s1 = ((GeoText) classList.get(i))
+		// compute the frequencies
+		for (int index = 0; index < classList.size(); index++) {
+			// get ordered pair of strings
+			String s1 = ((GeoText) classList.get(index))
 					.toValueString(StringTemplate.defaultTemplate);
-			String s2 = ((GeoText) dataList.get(i))
+			String s2 = ((GeoText) dataList.get(index))
 					.toValueString(StringTemplate.defaultTemplate);
-
+			// increment frequency element 
 			freqTable[rowList.indexOf(s1)][colList.indexOf(s2)]++;
 		}
 
-		for (int i = 0; i < n1; i++) {
+		// create the GeoList matrix
+		for (int row = 0; row < n1; row++) {
 			GeoList l = new GeoList(cons);
-			for (int j = 0; j < n2; j++) {
-				l.add(new GeoNumeric(cons, freqTable[i][j]));
+			for (int col = 0; col < n2; col++) {
+				l.add(new GeoNumeric(cons, freqTable[row][col]));
 			}
 			frequency.add(l);
 		}
