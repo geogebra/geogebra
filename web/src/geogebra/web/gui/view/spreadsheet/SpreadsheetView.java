@@ -20,8 +20,9 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
 import java.util.HashMap;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener {
@@ -113,6 +114,9 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 		setBorder(BorderFactory.createEmptyBorder());
 		addFocusListener(this);*/
+
+		Label placeholder = new Label("Don't forget about the place for the spreadsheet style bar");
+		add(placeholder);
 
 		add(spreadsheet);
 
