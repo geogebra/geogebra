@@ -42,6 +42,8 @@ public class CommandDispatcherStats {
 			return new CmdNormalQuantilePlot(kernel);
 		case FrequencyTable:
 			return new CmdFrequencyTable(kernel);
+		case ContingencyTable:
+			return new CmdContingencyTable(kernel);
 		case Mean:
 			return new CmdMean(kernel);
 		case Variance:

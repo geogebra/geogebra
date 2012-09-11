@@ -633,6 +633,7 @@ public class CommandDispatcher {
 			case ColumnName:
 			case CorrelationCoefficient:
 			case Covariance:
+			case ContingencyTable:
 			case DotPlot:
 			case Erlang:
 			case Exponential:

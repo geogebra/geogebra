@@ -402,6 +402,7 @@ public enum Algos {
 	AlgoSpearman(Commands.Spearman),
 	AlgoFrequencyPolygon(Commands.FrequencyPolygon),
 	AlgoFrequencyTable(Commands.FrequencyTable),
+	AlgoContingencyTable(Commands.ContingencyTable),
 	AlgoReducedRowEchelonForm(Commands.ReducedRowEchelonForm),
 	AlgoTiedRank(Commands.TiedRank),
 	AlgoOrdinalRank(Commands.OrdinalRank),

@@ -109,7 +109,7 @@ public enum Commands implements CommandsConstants{
    	DotPlot(TABLE_CHARTS), StemPlot(TABLE_CHARTS), ResidualPlot(TABLE_CHARTS),
    	FrequencyPolygon(TABLE_CHARTS),
    	NormalQuantilePlot(TABLE_CHARTS), FrequencyTable(TABLE_CHARTS), StickGraph(TABLE_CHARTS), 
-   	StepGraph(TABLE_CHARTS), 
+   	StepGraph(TABLE_CHARTS), ContingencyTable(TABLE_CHARTS),
    	
 	//=============================================================
 	// statistics

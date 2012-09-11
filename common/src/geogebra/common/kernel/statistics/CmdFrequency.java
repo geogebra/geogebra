@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * Frequency
@@ -186,8 +187,14 @@ public class CmdFrequency extends CommandProcessor {
 	 */
 	final private GeoList Frequency(String label, GeoList classList,
 			GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, null, classList,
-				dataList);
+		AlgoFrequency algo;
+
+		if(classList.getElementType() == GeoClass.TEXT){
+			algo = new AlgoFrequency(cons, label, classList, dataList, true);
+		}else{
+			algo = new AlgoFrequency(cons, label, null, classList,
+					dataList);
+		}
 		GeoList list = algo.getResult();
 		return list;
 	}
