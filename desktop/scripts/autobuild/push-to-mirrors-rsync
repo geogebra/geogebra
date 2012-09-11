@@ -32,7 +32,7 @@ if [ ! -r mirrors-rsync.conf ]; then
  exit 2
  fi
 
-MYDIR=4.2
+MYDIR=5.0
 cd $WWWDIR/$MYDIR
 MYVER=`cat unpacked/version.txt`
 

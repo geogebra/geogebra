@@ -9,7 +9,7 @@
 # The remote server must ensure that http://$IP/webstart
 # is the same directory as "ssh -p $PORT $RUSER@$IP; cd $DIR".
 
-# If parameters is given, it overrides version number (4.2)
+# If parameters is given, it overrides version number (5.0)
 
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
@@ -29,7 +29,7 @@ if [ ! -r mirrors.conf ]; then
  exit 2
  fi
 
-MYDIR=4.2
+MYDIR=5.0
 if [ "$1" != "" ]; then
  MYDIR=$1
  fi
@@ -39,12 +39,12 @@ MYVER=`cat unpacked/version.txt`
 cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR; do
  echo "Copying files to $RUSER@$IP:$PORT/$DIR..."
  # (Re)creating directories (-n is important to prevent reading data from cat):
- ssh -n -l $RUSER -p $PORT $IP "mkdir -p $DIR; cd $DIR; mkdir -p $MYDIR; cd $MYDIR; mkdir -p jnlp/unsigned packed unpacked unsigned/packed unsigned/unpacked usb"
+ ssh -n -l $RUSER -p $PORT $IP "mkdir -p $DIR; cd $DIR; mkdir -p $MYDIR; cd $MYDIR; mkdir -p jnlp/unsigned packed unpacked unsigned/packed unsigned/unpacked"
  # Copying files to root directory:
- scp -P $PORT forum.gif wiki.jpg geogebra64.gif geogebra64.png *.var $RUSER@$IP:$DIR/$MYDIR
+ scp -P $PORT *.var $RUSER@$IP:$DIR/$MYDIR
  # Copying files to packed directory:
  scp -P $PORT packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/packed
- # Copying files to packed directory:
+ # Copying files to unpacked directory:
  scp -P $PORT unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR/unpacked
  # Copying files to unsigned directory:
  scp -P $PORT unsigned/*.jar.var $RUSER@$IP:$DIR/$MYDIR/unsigned
@@ -52,8 +52,6 @@ cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | gre
  scp -P $PORT unsigned/packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/unsigned/packed
  # Copying files to unsigned/unpacked directory:
  scp -P $PORT unsigned/unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR/unsigned/unpacked
- # Copying files to usb/ directory:
- scp -P $PORT usb/*.jar $RUSER@$IP:$DIR/$MYDIR/usb
  # Symlinking files into jnlp/ for fast webstart:
  ssh -n -l $RUSER -p $PORT $IP "cd $DIR/$MYDIR/unpacked; for i in *.jar; do cd; cd $DIR/$MYDIR/jnlp; rm -f \$i; ln -s ../unpacked/\$i; ln -s ../packed/\$i.pack.gz; done"
  # Symlinking files into jnlp/unsigned:
