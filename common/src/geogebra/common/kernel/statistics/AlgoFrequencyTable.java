@@ -131,7 +131,7 @@ public class AlgoFrequencyTable extends AlgoElement {
 			sb.append(app.getMenu("Value"));
 			sb.append("&");
 			sb.append(useDens ? app
-					.getCommand("Frequency") : app.getMenu("Count"));
+					.getMenu("Frequency") : app.getMenu("Count"));
 			sb.append(" \\\\\\hline ");
 			for (int i = 0; i < length; i++) {
 				sb.append(va.get(i).toValueString(table.getStringTemplate()));
