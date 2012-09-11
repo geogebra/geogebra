@@ -210,8 +210,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		}
 
 		// set visual appearance
-		setBorderWidth(1);//setShowGrid(true);
-		//TODO//setGridColor(TABLE_GRID_COLOR);
+		setBorderWidth(1);
+		if (TABLE_GRID_COLOR != null)
+			getElement().getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		//TODO//setSelectionBackground(SELECTED_BACKGROUND_COLOR);
 		//TODO//setSelectionForeground(Color.BLACK);
 
@@ -1978,7 +1980,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 				if (i == 0) {
 					if (j == 0) {
 						prob = rowHeaderRenderer.getListCellRendererWidget(
-							" ", j, false, false);
+							"", j, false, false);
 						prob.getElement().getStyle().setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
 					} else {
 						gva = rowHeaderModel.getElementAt(j-1);

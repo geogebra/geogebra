@@ -132,7 +132,10 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 			//TODO?//size.height = table.getRowHeight(index);
 			//TODO?//setPreferredSize(size);
 
-			((Label)retwidget).setText(text);
+			if (text != "")
+				((Label)retwidget).setText(text);
+			else
+				((Label)retwidget).setText(""+(char)160);
 
 			if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
 				//if (defaultBackground != null)
