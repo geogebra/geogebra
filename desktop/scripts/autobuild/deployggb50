@@ -102,6 +102,11 @@ if [ "$WWW_REMOTEDIR" != "" ]; then
  ./rsync-www 2>&1 >.rsync-www
  fi
 
+# 9/2. Push to mirrors:
+cd $SVNDIR/geogebra/desktop/scripts/autobuild
+./push-to-mirrors
+./push-to-mirrors-rsync
+
 # 10. Sending an email to geogebra-dev:
 REVISION=`cat $SVNDIR/geogebra/desktop/scripts/autobuild/.revision`
 MAIL="New version of GeoGebra 5.0 has just been uploaded: $MYVER\nhttp://dev.geogebra.org/trac/log/trunk?rev=$REVISION\nAutomatic message, do not reply"
