@@ -274,7 +274,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Polynomial> ]\n[ <Conic> ]")
     String Coefficients_Syntax();
 
-    @DefaultStringValue("[ <Polynomial> ]")
+    @DefaultStringValue("[ <Polynomial> ]\n[ <Polynomial>, <Variable> ]")
     String Coefficients_SyntaxCAS();
 
     @DefaultStringValue("Column")
@@ -327,6 +327,12 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ ]\n[ <Object> ]")
     String ConstructionStep_Syntax();
+
+    @DefaultStringValue("ContingencyTable")
+    String ContingencyTable();
+
+    @DefaultStringValue("[ <List of Text>, <List of Text> ]\n[ <List of Text>, <List of Text>, <Options> ]\n[ <List of Row Values>, <List of Column Values>, <Frequency Table> ]\n[ <List of Row Values>, <List of Column Values>, <Frequency Table> , <Options> ]")
+    String ContingencyTable_Syntax();
 
     @DefaultStringValue("ContinuedFraction")
     String ContinuedFraction();
@@ -769,10 +775,13 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Number> ]\n[ <Point> ]")
     String FractionText_Syntax();
 
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Text>, <List of Text> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]")
+    String Freqency_Syntax();
+
     @DefaultStringValue("Frequency")
     String Frequency();
 
-    @DefaultStringValue("[ <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]")
     String Frequency_Syntax();
 
     @DefaultStringValue("FrequencyPolygon")
@@ -2557,7 +2566,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("VerticalText")
     String VerticalText();
 
-    @DefaultStringValue("[ <Text> ]")
+    @DefaultStringValue("[ <Text> ]\n[ <Text>, <Point> ]")
     String VerticalText_Syntax();
 
     @DefaultStringValue("Voronoi")

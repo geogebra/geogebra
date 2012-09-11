@@ -301,6 +301,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("(checked numerically)")
     String CheckedNumerically();
 
+    @DefaultStringValue("Χ² Contribution")
+    String ChiSquaredContribution();
+
     @DefaultStringValue("Choose a color")
     String ChooseColor();
 
@@ -360,6 +363,9 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Colorful construction protocol")
     String ColorfulConstructionProtocol();
+
+    @DefaultStringValue("Column %")
+    String ColumnPercent();
 
     @DefaultStringValue("Command")
     String Command();
@@ -612,6 +618,9 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Esc")
     String Esc();
+
+    @DefaultStringValue("Expected Count")
+    String ExpectedCount();
 
     @DefaultStringValue("y = a x² + b x + c")
     String ExplicitConicEquation();
@@ -1147,6 +1156,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Objects")
     String Objects();
 
+    @DefaultStringValue("Observed Count")
+    String ObservedCount();
+
     @DefaultStringValue("Off")
     String Off();
 
@@ -1357,6 +1369,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Root of %0 on interval [%1, %2]")
     String RootOfAonIntervalBC();
 
+    @DefaultStringValue("Row %")
+    String RowPercent();
+
     @DefaultStringValue("Scale in cm")
     String ScaleInCentimeter();
 
@@ -1411,8 +1426,14 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Show Numbers")
     String ShowAxisNumbers();
 
+    @DefaultStringValue("Show Data Source")
+    String ShowDataSource();
+
     @DefaultStringValue("Show Grid")
     String ShowGrid();
+
+    @DefaultStringValue("Show Interval")
+    String ShowInterval();
 
     @DefaultStringValue("Show Label")
     String ShowLabel();
@@ -1584,6 +1605,12 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Tooltips")
     String Tooltips();
+
+    @DefaultStringValue("Total")
+    String Total();
+
+    @DefaultStringValue("Total %")
+    String TotalPercent();
 
     @DefaultStringValue("Trace:")
     String TraceMode();

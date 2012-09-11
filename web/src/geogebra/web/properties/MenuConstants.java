@@ -196,6 +196,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Regular")
     String CheckboxSize_Regular();
 
+    @DefaultStringValue("ChiSquared Test")
+    String ChiSquaredTest();
+
     @DefaultStringValue("Choose from File")
     String ChooseFromFile();
 
@@ -852,6 +855,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Google Drive")
     String GoogleDrive();
+
+    @DefaultStringValue("Goodness of Fit Test")
+    String GooodnessOfFitTest();
 
     @DefaultStringValue("Graph")
     String Graph();
@@ -2455,11 +2461,23 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Y ← X")
     String Y_X();
 
+    @DefaultStringValue("Z Estimate, Difference of Means")
+    String ZEstimateDifferenceOfMeans();
+
+    @DefaultStringValue("Z Estimate, Difference of Proportions")
+    String ZEstimateDifferenceOfProportions();
+
     @DefaultStringValue("Z Estimate of a Mean")
     String ZMeanInterval();
 
     @DefaultStringValue("Z Test of a Mean")
     String ZMeanTest();
+
+    @DefaultStringValue("Z Estimate of a Proportion")
+    String ZProportionInterval();
+
+    @DefaultStringValue("Z Test of a Proportion")
+    String ZProportionTest();
 
     @DefaultStringValue("Z")
     String ZStatistic();
