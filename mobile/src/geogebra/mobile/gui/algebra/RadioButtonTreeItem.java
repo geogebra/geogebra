@@ -1,12 +1,13 @@
 package geogebra.mobile.gui.algebra;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.App;
+import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.web.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.SpanElement;
@@ -35,10 +36,11 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	MCheckBox checkBox;
 	CheckBox check;
 
-	GeoElement geo;
-	Kernel kernel;
-	App app;
-	AlgebraView av;
+	private GeoElement geo;
+	private Kernel kernel;
+	private AlgebraView algebraView;
+	private AlgebraController algebraController;
+
 	boolean previouslyChecked;
 	boolean LaTeX = false;
 	boolean thisIsEdited = false;
@@ -51,19 +53,20 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	InlineHTML ihtml;
 	TextBox tb;
 
-	public RadioButtonTreeItem(GeoElement ge, AlgebraView algebraView)
+	public RadioButtonTreeItem(GeoElement ge, AlgebraView av,
+			AlgebraController ac)
 	{
 		super();
 		this.geo = ge;
 		this.kernel = this.geo.getKernel();
-		this.app = this.kernel.getApplication();
-		this.av = algebraView;
+		this.algebraView = av;
+		this.algebraController = ac;
 
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 
 		this.check = new CheckBox();
-		check.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
+		this.check.setChecked(RadioButtonTreeItem.this.previouslyChecked = ge
 				.isEuclidianVisible());
 		this.check.addClickHandler(new ClickHandler()
 		{
@@ -341,7 +344,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	{
 
 		this.thisIsEdited = false;
-		this.av.cancelEditing();
+		this.algebraView.cancelEditing();
 
 		if (newValue != null)
 		{
@@ -363,7 +366,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	{
 
 		this.thisIsEdited = false;
-		this.av.cancelEditing();
+		this.algebraView.cancelEditing();
 
 		if (newValue != null)
 		{
@@ -399,7 +402,7 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	@Override
 	public void onMouseDown(MouseDownEvent evt)
 	{
-		if (this.av.isEditing())
+		if (this.algebraView.isEditing())
 			return;
 
 		evt.preventDefault();
@@ -409,8 +412,10 @@ public class RadioButtonTreeItem extends HorizontalPanel implements
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		// TODO
-		// this.radio.getClicked();
+		if(((MobileAlgebraController) this.algebraController)
+				.handleEvent(this.geo)){
+		this.kernel.notifyRepaint();  
+		}
 	}
 
 }

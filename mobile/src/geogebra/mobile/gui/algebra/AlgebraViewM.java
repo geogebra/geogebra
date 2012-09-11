@@ -1072,7 +1072,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 		if (ob instanceof GeoElement)
 		{
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
-					AlgebraViewM.this));
+					AlgebraViewM.this, this.algebraController));
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
 					.getElement().getFirstChildElement(), "display",

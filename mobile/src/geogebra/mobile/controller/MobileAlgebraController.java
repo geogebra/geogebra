@@ -1,7 +1,5 @@
 package geogebra.mobile.controller;
 
-import com.google.gwt.event.dom.client.KeyUpEvent;
-
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -13,6 +11,8 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.mobile.model.MobileModel;
 
+import com.google.gwt.event.dom.client.KeyUpEvent;
+
 /**
  * 
  * @author Thomas Krismayer
@@ -22,12 +22,17 @@ import geogebra.mobile.model.MobileModel;
 public class MobileAlgebraController extends AlgebraController
 {
 
-	private MobileModel mobileModel; 
-	
+	private MobileModel mobileModel;
+
 	public MobileAlgebraController(Kernel kernel, MobileModel model)
 	{
 		super(kernel);
-		this.mobileModel = model; 
+		this.mobileModel = model;
+	}
+
+	public boolean handleEvent(GeoElement geo)
+	{
+		return this.mobileModel.handleEvent(geo);
 	}
 
 	/**
@@ -46,7 +51,7 @@ public class MobileAlgebraController extends AlgebraController
 				return;
 			}
 
-//			this.app.setScrollToShow(true);
+			// this.app.setScrollToShow(true);
 			GeoElement[] geos;
 			try
 			{

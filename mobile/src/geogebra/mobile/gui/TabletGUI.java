@@ -101,7 +101,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	{
 		// TODO add other stuff
 		GuiModel guiModel = new GuiModel();
-		MobileModel mobileModel = new MobileModel(); 
+		MobileModel mobileModel = new MobileModel(guiModel, kernel); 
 
 		MobileEuclidianController ec = new MobileEuclidianController(mobileModel, guiModel);
 		ec.setKernel(kernel);
