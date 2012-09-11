@@ -602,6 +602,29 @@ public class GeoGebraCasIntegrationTest {
 		t("Numeric[ChiSquared[4, 3], 3]", "0.442");
 	}
 	
+	
+	/* Coefficients */
+
+	@Test
+	public void Coefficients_0() {
+		t("Coefficients[x^3 - 3 x^2 + 3 x]", "{1, -3, 3, 0}");
+	}
+	
+	@Test
+	public void Coefficients_1() {
+		t("Coefficients[x^3 - 3 x^2 + 3 x, a]", "{x^(3) - 3 * x^(2) + 3 * x}");
+	}
+	
+	@Test
+	public void Coefficients_2() {
+		t("Coefficients[a^3 - 3 a^2 + 3 a, a]", "{1, -3, 3, 0}");
+	}
+	
+	@Test
+	public void Coefficients_3() {
+		t("Coefficients[a^3 - 3 a^2 + 3 a, x]", "{a^(3) - 3 * a^(2) + 3 * a}");
+	}
+	
 
 	/* CommonDenomiator */
 
