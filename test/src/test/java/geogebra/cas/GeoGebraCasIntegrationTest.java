@@ -673,29 +673,18 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Cross_2() {
-		t("Cross[(1, 3, 2), (0, 3, -2)]", "(-12, 2, 3)");
-	}
-
-	@Test
-	public void Cross_3() {
-		t("Cross[(a, b, c), (d, e, f)]",
-				"(b * f - c * e, -a * f + c * d, a * e - b * d)");
-	}
-	
-	@Test
-	public void Cross_4() {
 		t("Cross[(a, b), (d, e)]",
 				"a * e - b * d");
 	}
 	
 	@Test
-	public void Cross_5() {
+	public void Cross_3() {
 		t("(a, b, c)\u2297 (d, e, f)",
 				"(b * f - c * e, -a * f + c * d, a * e - b * d)");
 	}
 	
 	@Test
-	public void Cross_6() {
+	public void Cross_4() {
 		t("(1,2)\u2297 (3,4)",
 				"-2");
 	}
@@ -773,6 +762,16 @@ public class GeoGebraCasIntegrationTest {
 		t("Degree[a x^4 + 2 x^2, a]", "1");
 	}
 
+	@Test
+	public void Degree_3() {
+		t("Degree[x^4 y^3 + 2 x^2 y^3, x]", "4");
+	}
+
+	@Test
+	public void Degree_4() {
+		t("Degree[x^4 y^3 + 2 x^2 y^3, y]", "3");
+	}
+
 	
 	/* Delete */
 	
@@ -782,7 +781,7 @@ public class GeoGebraCasIntegrationTest {
 			executeInCAS("a:=4");
 			String result = executeInCAS("a");
 			if(!result.equals("4")) {
-				fail("Assignment not working so the \"Delete\" command can't be tested");
+				fail("Assignment not working so the \"Delete\" command can't be tested.");
 			}
 		} catch (Throwable t) {
 			Throwables.propagate(t);
@@ -829,11 +828,6 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Derivative_3() {
-		try {
-			executeInCAS("Delete[a]");
-		} catch (Throwable t) {
-			Throwables.propagate(t);
-		}
 		t("Derivative[a x^3, x, 2]", "6 * x * a", "6 * a * x");
 	}
 	
@@ -980,6 +974,8 @@ public class GeoGebraCasIntegrationTest {
 				"(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
 	}
 
+	// TODO Simplify this ridiculously complex test! 
+	
 	@Test
 	public void Expand_2() {
 		StringBuilder expectedResult = new StringBuilder("");
@@ -1009,8 +1005,13 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Expand_4() {
-		t("Expand[(x⁶ + 6x⁵ + 30x⁴ + 120x³ + 360x² + 720x + 720) / 720]",
+		t("Expand[(x^6 + 6 x^5 + 30 x^4 + 120 x^3 + 360 x^2 + 720 x + 720) / 720]",
 				"x^(6) / 720 + x^(5) / 120 + x^(4) / 24 + x^(3) / 6 + x^(2) / 2 + x + 1");
+	}
+
+	@Test
+	public void Expand_5() {
+		t("Expand[((2 x - 1)^2 + 2 x + 3]", "4 x^2 - 2 x + 4");
 	}
 	
 
