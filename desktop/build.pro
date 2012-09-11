@@ -24,7 +24,7 @@
 -libraryjars ../jogl1/lib/download/jar/jogl.jar
 -libraryjars ../jogl1/lib/download/jar/gluegen-rt.jar
 -libraryjars ../jogl2/lib/jogl.all.jar
--libraryjars ../jogl2/lib/gluegen-rt
+-libraryjars ../jogl2/lib/gluegen-rt.jar
 -libraryjars lib/jython.jar
 -libraryjars lib/OpenGeoProver.jar
 #-libraryjars ../java150-rt.jar
