@@ -128,6 +128,7 @@ public class MyCellRenderer {
 			((Label)retwidget).setText("");
 			if (bgColor != null)
 				retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
+			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
 			return retwidget;
 		}
 
@@ -293,6 +294,7 @@ public class MyCellRenderer {
 
 		/*}*/
 
+		retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		return retwidget;
 	}
 

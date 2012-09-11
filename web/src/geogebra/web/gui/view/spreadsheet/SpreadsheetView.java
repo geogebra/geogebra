@@ -35,7 +35,6 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	// spreadsheet table and row header
 	private MyTableW table;
 	protected SpreadsheetTableModelW tableModel;
-	//private SpreadsheetRowHeader rowHeader;
 	//private JTableHeader tableHeader;
 
 	// moved to kernel

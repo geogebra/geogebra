@@ -37,6 +37,7 @@ import java.util.HashSet;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
@@ -65,7 +66,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
-	//protected SpreadsheetColumnController.ColumnHeaderRenderer headerRenderer;
+
+	protected SpreadsheetColumnController.ColumnHeaderRenderer columnHeaderRenderer;
+	protected SpreadsheetRowHeader.RowHeaderRenderer rowHeaderRenderer;
+	protected SpreadsheetRowHeader.MyListModel rowHeaderModel;
+
 	protected SpreadsheetView view;
 	protected SpreadsheetTableModel tableModel;
 	private CellRangeProcessor crProcessor;
@@ -163,7 +168,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * Construct table
 	 */
 	public MyTableW(SpreadsheetView view, SpreadsheetTableModel tableModel) {
-		super(tableModel.getRowCount(), tableModel.getColumnCount());
+		super(tableModel.getRowCount() + 1, tableModel.getColumnCount() + 1);
 
 		cellResizeHeightSet = new HashSet<GPoint>();
 		cellResizeWidthSet = new HashSet<GPoint>();
@@ -283,7 +288,14 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// click
 		// changeSelection(0, 0, false, false);
 */
-		setCellPadding(2);
+		rowHeaderModel = new SpreadsheetRowHeader.MyListModel(
+			(SpreadsheetTableModelW)tableModel);
+		SpreadsheetRowHeader srh = new SpreadsheetRowHeader(app,this);
+		rowHeaderRenderer = srh.new RowHeaderRenderer();
+		SpreadsheetColumnController scc = new SpreadsheetColumnController(app,this);
+		columnHeaderRenderer = scc.new ColumnHeaderRenderer();
+
+		setCellPadding(0);
 		setCellSpacing(0);
 		getElement().getStyle().setTableLayout(Style.TableLayout.FIXED);
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
@@ -384,7 +396,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 */
 	protected void updateColumnCount() {
 
-		if (tableModel.getColumnCount() <= this.getColumnCount())
+		if (tableModel.getColumnCount() + 1 <= this.getColumnCount())
 			return;
 
 		// ensure that auto-create is off
@@ -392,10 +404,12 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		//	throw new IllegalStateException();
 		//}
 
-		resizeColumns(tableModel.getColumnCount());
+		int cc = this.getColumnCount();
+
+		resizeColumns(tableModel.getColumnCount() + 1);
 
 		// add new columns to table
-		for (int i = this.getColumnCount(); i < tableModel.getColumnCount(); ++i) {
+		for (int i = cc; i < tableModel.getColumnCount() + 1; ++i) {
 			getColumnFormatter().getElement(i).getStyle().setWidth(preferredColumnWidth, Style.Unit.PX);
 		//	TableColumn col = new TableColumn(i);
 		//TODO//	col.setHeaderRenderer(headerRenderer);
@@ -461,10 +475,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			updateColumnCount();
 
 			// web-specific solution
-			if (tableModel.getRowCount() <= getRowCount())
+			if (tableModel.getRowCount() + 1 <= getRowCount())
 				return;
 
-			resizeRows(tableModel.getRowCount());
+			resizeRows(tableModel.getRowCount() + 1);
 		}
 
 		public void valueChange() {
@@ -1481,7 +1495,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			boolean adjustHeight) {
 
 		Widget prefWidget = defaultTableCellRenderer
-				.getTableCellRendererWidget(this, tableModel.getValueAt(row, col),
+				.getTableCellRendererWidget(this, tableModel.getValueAt(row+1, col+1),
 						false, false, row, col);
 
 		if (adjustWidth) {
@@ -1514,11 +1528,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		int prefWidth = 0;
 		int tempWidth = -1;
-		for (int row = 0; row < getRowCount(); row++) {
-			if (tableModel.getValueAt(row, column) != null) {
+		for (int row = 1; row < getRowCount(); row++) {
+			if (tableModel.getValueAt(row-1, column-1) != null) {
 				tempWidth = defaultTableCellRenderer
 						.getTableCellRendererWidget(this,
-								tableModel.getValueAt(row, column), false, false, row,
+								tableModel.getValueAt(row-1, column-1), false, false, row,
 								column).getOffsetWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
@@ -1547,11 +1561,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		int prefHeight = getRowFormatter().getElement(row).getOffsetHeight();
 		//int prefHeight = this.getRowHeight();
 		int tempHeight = 0;
-		for (int column = 0; column < this.getColumnCount(); column++) {
+		for (int column = 1; column < this.getColumnCount(); column++) {
 
 			tempHeight = defaultTableCellRenderer
 					.getTableCellRendererWidget(this,
-						tableModel.getValueAt(row, column), false, false, row, column)
+						tableModel.getValueAt(row-1, column-1), false, false, row, column)
 					.getOffsetHeight();
 
 			prefHeight = Math.max(prefHeight, tempHeight);
@@ -1947,24 +1961,39 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		Widget prob = null;
 		Object gva = null;
 
-		if (getColumnCount() != tableModel.getColumnCount()) {
+		if (getColumnCount() != tableModel.getColumnCount() + 1) {
 			updateColumnCount();
-			if (getColumnCount() != tableModel.getColumnCount())
-				resizeColumns(tableModel.getColumnCount());
+			if (getColumnCount() != tableModel.getColumnCount() + 1)
+				resizeColumns(tableModel.getColumnCount() + 1);
 		}
 
-		if (getRowCount() != tableModel.getRowCount()) {
-			resizeRows(tableModel.getRowCount());
+		if (getRowCount() != tableModel.getRowCount() + 1) {
+			resizeRows(tableModel.getRowCount() + 1);
 		}
 
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
 		for (int i = colCount - 1; i >= 0; i--) {
 			for (int j = rowCount - 1; j >= 0; j--) {
-				gva = tableModel.getValueAt(j, i);
-				prob = defaultTableCellRenderer.getTableCellRendererWidget(
-					this, gva, false, false, j, i);
-
+				if (i == 0) {
+					if (j == 0) {
+						prob = rowHeaderRenderer.getListCellRendererWidget(
+							" ", j, false, false);
+						prob.getElement().getStyle().setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
+					} else {
+						gva = rowHeaderModel.getElementAt(j-1);
+						prob = rowHeaderRenderer.getListCellRendererWidget(
+							gva, j, false, false);
+					}
+				} else if (j == 0) {
+					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i-1);
+					prob = columnHeaderRenderer.getTableCellRendererWidget(
+						this, gva, false, false, j, i);
+				} else {
+					gva = tableModel.getValueAt(j-1, i-1);
+					prob = defaultTableCellRenderer.getTableCellRendererWidget(
+						this, gva, false, false, j, i);
+				}
 				setWidget(j, i, prob);
 			}
 		}

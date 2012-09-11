@@ -147,6 +147,8 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 				}
 			}
 
+			retwidget.getElement().getStyle().setProperty("textAlign", "center");
+			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
 			return retwidget;
 		}
 	}

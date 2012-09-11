@@ -477,6 +477,8 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 				}
 			}*/
 
+			retwidget.getElement().getStyle().setProperty("textAlign", "center");
+			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
 			return retwidget;
 		}
 
