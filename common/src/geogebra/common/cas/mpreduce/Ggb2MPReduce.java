@@ -125,7 +125,7 @@ public class Ggb2MPReduce {
 		p("If.2", "if %0=true then %1 else '? else iffun(%0,%1)");
 		p("If.3", "if %0=true then %1 else if %0=false then %2 else ifelsefun(%0,%1,%2)");
 		
-		p("ImplicitDerivative.3", "-df(%0,%1)/df(%0,%2)");
+		p("ImplicitDerivative.3", "-df(%0,%2)/df(%0,%1)");
 		p("ImplicitDerivative.1", "-df(%0,currentx!!)/df(%0,currenty!!)");
 		p("Integral.1",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); on combineexpt; let intrules!!; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
