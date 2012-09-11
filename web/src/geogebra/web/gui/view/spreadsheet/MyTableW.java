@@ -302,6 +302,8 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		getElement().getStyle().setTableLayout(Style.TableLayout.FIXED);
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 
+		getElement().addClassName("geogebraweb-table-spreadsheet");
+
 		renderCells();
 	}
 
@@ -1982,15 +1984,18 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 						prob = rowHeaderRenderer.getListCellRendererWidget(
 							"", j, false, false);
 						prob.getElement().getStyle().setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
+						getCellFormatter().getElement(j, i).addClassName("geogebraweb-th-corner");
 					} else {
 						gva = rowHeaderModel.getElementAt(j-1);
 						prob = rowHeaderRenderer.getListCellRendererWidget(
 							gva, j, false, false);
+						getCellFormatter().getElement(j, i).addClassName("geogebraweb-th-rows");
 					}
 				} else if (j == 0) {
 					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i-1);
 					prob = columnHeaderRenderer.getTableCellRendererWidget(
 						this, gva, false, false, j, i);
+					getCellFormatter().getElement(j, i).addClassName("geogebraweb-th-columns");
 				} else {
 					gva = tableModel.getValueAt(j-1, i-1);
 					prob = defaultTableCellRenderer.getTableCellRendererWidget(
