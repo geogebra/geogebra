@@ -2092,73 +2092,40 @@ public class AppW extends App {
 	 *            Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 */
 	
-	@ConcreteType(KernelW.class)
-	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
-	interface KernelWProxy extends AsyncProxy<KernelWInterface>, KernelWInterface {}
-	
 	void initCoreObjects(final boolean undoActive, final App this_app) {
 		
-		kernel = GWT.create(KernelW.class);
-		kernel.initAfterAsync(this_app);
+		kernel = new KernelW(this_app);
 			
-		GWT.runAsync(Settings.class, new RunAsyncCallback() {
-			
-			public void onSuccess() {
-				// init settings
-				settings = new Settings();
-			}
-			
-			public void onFailure(Throwable reason) {
-				App.debug("Loading Settings faliled");
-			}
-		});
 		
-		GWT.runAsync(MyXMLio.class, new RunAsyncCallback() {
-			
-			public void onSuccess() {
-				myXMLio = new MyXMLio(kernel, kernel.getConstruction());
-			}
-			
-			public void onFailure(Throwable reason) {
-				App.debug("Loading MyXmlIo failed");
-			}
-		});
+		// init settings
+		settings = new Settings();
 		
-		GWT.runAsync(FontManager.class, new RunAsyncCallback() {
+		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
 			
-			public void onSuccess() {
-				fontManager = new FontManagerW();
-				setFontSize(12);
-				initEuclidianViews();
+		fontManager = new FontManagerW();
+		setFontSize(12);
+		initEuclidianViews();
 
-				initImageManager();
+		initImageManager();
 
 				
 
 				
-				setFontSize(12);
-				// setLabelDragsEnabled(false);
-				capturingThreshold = 20;
+		setFontSize(12);
+		// setLabelDragsEnabled(false);
+		capturingThreshold = 20;
 
-				// make sure undo allowed
-				hasFullPermissions = true;
+		// make sure undo allowed
+		hasFullPermissions = true;
 
-				getScriptManager();// .ggbOnInit();//this is not called here because we
-								   // have to delay it
-				                   // until the canvas is first drawn
+		getScriptManager();// .ggbOnInit();//this is not called here because we
+						// have to delay it
+				        // until the canvas is first drawn
 
-				setUndoActive(undoActive);
-				registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
-				afterCoreObjectsInited();
-			}
+		setUndoActive(undoActive);
+		registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
+		afterCoreObjectsInited();
 			
-			public void onFailure(Throwable reason) {
-				App.debug("Loading FontManager failed");
-			}
-		});
-			
-
-		
 	}
 
 	/**

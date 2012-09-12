@@ -21,9 +21,9 @@ public class KernelW extends Kernel implements KernelWInterface {
 	    super(app);
     }
 
-	@Override
+	/*@Override
     public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		return new AlgebraProcessor(kernel, new CommandDispatcherW(kernel));
-	}
+	}*/
 	
 }

@@ -18,7 +18,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 	    super(kernel);
     }
 	
-	@ConcreteType(CommandDispatcherDiscrete.class)
+	/*@ConcreteType(CommandDispatcherDiscrete.class)
 	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
 	interface CommandDispatcherDiscreteProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
 	
@@ -65,6 +65,6 @@ public class CommandDispatcherW extends CommandDispatcher {
 			casDispatcher = GWT.create(CommandDispatcherCAS.class);
 		}
 		return casDispatcher;
-	}
+	}*/
 
 }

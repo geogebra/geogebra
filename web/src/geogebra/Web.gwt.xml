@@ -36,7 +36,7 @@
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
-  <set-property name="user.agent" value="safari, gecko1_8, ie9, opera" />
+  <set-property name="user.agent" value="safari, gecko1_8, opera, ie9" />
   <!--<set-property name="user.agent" value="safari, gecko1_8" />-->
   <add-linker name="xsiframe" />
   <!-- Specify the paths for translatable code                    -->
@@ -138,15 +138,7 @@
   
   <!-- default internationalization language -->
   <set-property-fallback name="locale" value="en"/>
-  
-  <extend-configuration-property name="compiler.splitpoint.initial.sequence"
-    value="geogebra.common.main.settings.Settings"/>
-  <extend-configuration-property name="compiler.splitpoint.initial.sequence"
-    value="geogebra.web.io.MyXMLio"/>
-  <extend-configuration-property name="compiler.splitpoint.initial.sequence"
-    value="geogebra.common.main.FontManager"/>
-
-  
+ 
   <!-- For login to Google -->
   <inherits name="com.google.api.gwt.oauth2.OAuth2" />
   
