@@ -92,6 +92,7 @@ echo "$0: JAR files copied to 5.0 and history/$MYVER"
 
 # 4/6. Rewriting main JNLP's to use jars.geogebra.org instead of www.geogebra.org
 # (take care of spaces in the JNLP file!):
+cd $WWWDIR/$MYDIR
 for i in 1 2; do
  sed -i s/" \(href=\"http:\/\/\)www\(.geogebra.org\/webstart\)"/" \1jars\2"/g \
   geogebra-50-jogl$i.jnlp
