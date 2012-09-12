@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 
@@ -42,11 +43,8 @@ public class AlgoContingencyTable extends AlgoElement {
 	private boolean isRawData;
 
 	// display option flags
-	boolean showRowPercent;
-	boolean showColPercent;
-	boolean showTotalPercent;
-	boolean showChi;
-	boolean showExpected;
+	private boolean showRowPercent, showColPercent, showTotalPercent, showChi,
+			showExpected, showTest;
 
 	/**
 	 * Constructs a contingency table from raw data
@@ -163,6 +161,7 @@ public class AlgoContingencyTable extends AlgoElement {
 		showTotalPercent = false;
 		showChi = false;
 		showExpected = false;
+		showTest = false;
 
 		if (args != null) {
 			String optionsStr = args.getTextString();
@@ -177,6 +176,8 @@ public class AlgoContingencyTable extends AlgoElement {
 				showChi = true;
 			if (optionsStr.indexOf("e") > -1)
 				showExpected = true;
+			if (optionsStr.indexOf("=") > -1)
+				showTest = true;
 		}
 	}
 
@@ -188,8 +189,6 @@ public class AlgoContingencyTable extends AlgoElement {
 	int[] rowSum;
 	int[] colSum;
 	int totalSum;
-
-	private StringTemplate nTemplate = StringTemplate.numericDefault;
 
 	private void loadValues() {
 
@@ -242,8 +241,6 @@ public class AlgoContingencyTable extends AlgoElement {
 
 		sb.setLength(0);
 
-		// GeoList fr = freq.getResult();
-
 		// prepare array
 		sb.append("\\begin{array}{|l");
 		for (int i = 0; i < colValues.length - 1; i++) {
@@ -291,8 +288,35 @@ public class AlgoContingencyTable extends AlgoElement {
 		if (showRowPercent)
 			addTableRow(sb, 0, null, "rowPercentFooter");
 		sb.append("\\hline ");
-		
 		sb.append("\\end{array}");
+
+		if (showTest) {
+
+			AlgoChiSquaredTest test = new AlgoChiSquaredTest(cons,
+					freq.getResult(), null);
+			cons.removeFromConstructionList(test);
+			GeoList result = test.getResult();
+
+			sb.append("\\\\");
+			sb.append(app.getMenu("ChiSquaredTest"));
+			sb.append("\\\\");
+			sb.append("\\begin{array}{| | | | |}");
+			sb.append(" \\\\ \\hline ");
+			sb.append(app.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi + Unicode.Superscript_2 +  "&" + app.getMenu("PValue"));
+			sb.append("\\\\");
+			sb.append("\\hline ");
+			sb.append(app.getKernel().format((rowValues.length-1)*(colValues.length-1),
+					StringTemplate.numericDefault));
+			sb.append("&");
+			sb.append(result.get(1).toValueString(StringTemplate.numericDefault));
+			sb.append("&");
+			sb.append(result.get(0).toValueString(StringTemplate.numericDefault));
+			sb.append("\\\\");
+			sb.append("\\hline ");
+			sb.append("\\end{array}");
+
+		}
+
 		table.setTextString(sb.toString());
 	}
 
@@ -364,11 +388,10 @@ public class AlgoContingencyTable extends AlgoElement {
 
 		} else if (type.equals("colValue")) {
 			sb.append(app.getMenu("Total"));
-			
+
 		} else if (type.equals("|")) {
 			x = 100.0 * rowSum[rowIndex] / totalSum;
-			sb.append(app.getKernel().format(x,
-					StringTemplate.numericDefault));
+			sb.append(app.getKernel().format(x, StringTemplate.numericDefault));
 
 		} else if (type.equals("tableFooter")) {
 			sb.append(totalSum);
