@@ -1108,9 +1108,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("inputBox")
     String Name_textfield();
 
-    @DefaultStringValue("turtle")
-    String Name_turtle();
-
     @DefaultStringValue("Name & Value")
     String NameAndValue();
 
@@ -1644,9 +1641,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Triangle")
     String Triangle();
-
-    @DefaultStringValue("Turtle")
-    String Turtle();
 
     @DefaultStringValue("Unit vector of %0")
     String UnitVectorOfA();

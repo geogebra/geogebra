@@ -775,13 +775,10 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Number> ]\n[ <Point> ]")
     String FractionText_Syntax();
 
-    @DefaultStringValue("[ <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Text>, <List of Text> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]")
-    String Freqency_Syntax();
-
     @DefaultStringValue("Frequency")
     String Frequency();
 
-    @DefaultStringValue("[ <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]")
+    @DefaultStringValue("[ <List of Raw Data> ]\n[ <Boolean Cumulative>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Text>, <List of Text> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]")
     String Frequency_Syntax();
 
     @DefaultStringValue("FrequencyPolygon")
@@ -916,7 +913,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <f(x, y)> ]")
     String ImplicitDerivative_Syntax();
 
-    @DefaultStringValue("[ <f(x, y) > ]\n[ <Expression>, <Dependent Variable>, <Independent Variable> ]")
+    @DefaultStringValue("[ <f(x, y)> ]\n[ <Expression>, <Dependent Variable>, <Independent Variable> ]")
     String ImplicitDerivative_SyntaxCAS();
 
     @DefaultStringValue("Incircle")
