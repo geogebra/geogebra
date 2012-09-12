@@ -15,7 +15,7 @@
 	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
 	<set-property name="gwt.logging.developmentModeHandler" value="ENABLED" />
 	<set-property name="gwt.logging.firebugHandler" value="ENABLED" />
-	<set-property name="gwt.logging.popupHandler" value="ENABLED" />
+	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
 	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
 
 	<!-- Inherits Web Hopefully it inherits everything that is in it, and even Common -->
