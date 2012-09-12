@@ -122,6 +122,7 @@
 %(mri           "redlog/mri"                                 csl psl)
 %(mri_ofsf      "redlog/mri"                                 csl psl)
 %(mri_pasf      "redlog/mri"                                 csl psl)
+ (myvector      "myvector"                                   csl psl)
 %(redfront      "redfront"                                   csl psl)
 %(reduce4       "reduce4"                                    csl psl)
 %(tables        "reduce4"                                    csl psl)
@@ -151,7 +152,6 @@
 %(mma           "redlog/mma"                                 csl psl)
 %(guardian      "guardian"              test                 csl psl)
 %(cdiff         "cdiff"                 test                 csl psl)
- (myvector      "myvector"                                   csl psl)
 )
 
 % End of configuration data
