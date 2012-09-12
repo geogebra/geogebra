@@ -2065,4 +2065,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		return fun.getFunctionVariables();
 	}
 
+	public void clearCasEvalMap(String label) {
+		fun.clearCasEvalMap(label);
+		
+	}
+
 }

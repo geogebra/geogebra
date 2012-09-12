@@ -52,4 +52,6 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 * @return input variables
 	 */
 	public FunctionVariable[] getFunctionVariables();
+	
+	public void clearCasEvalMap(String string);
 }

@@ -97,6 +97,14 @@ public abstract class AlgoCasBase extends AlgoElement {
 	public String toString(StringTemplate tpl) {
 		return getCommandDescription(tpl);
 	}
+
+	/**
+	* Clears the cache (needed in Web when the CAS loads)
+	* @param label not used
+	*/
+	public final void clearCasEvalMap(String label){
+		f.clearCasEvalMap(label);
+	}
 	
 	
 

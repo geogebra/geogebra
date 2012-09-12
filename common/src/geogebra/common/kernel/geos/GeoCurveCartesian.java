@@ -976,4 +976,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return funY;
 	}
 
+	public void clearCasEvalMap(String label) {
+		funX.clearCasEvalMap(label);
+		funY.clearCasEvalMap(label);		
+	}
+
 }

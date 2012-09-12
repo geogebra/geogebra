@@ -857,4 +857,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				return ml;
 		}
 
+		public void clearCasEvalMap(String label) {
+			fun.clearCasEvalMap(label);
+		}
+
 }

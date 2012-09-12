@@ -4305,6 +4305,7 @@ public class Kernel {
 			AlgoElement algo = geo.getParentAlgorithm();
 
 			if (algo instanceof AlgoCasBase) {
+				((AlgoCasBase) algo).clearCasEvalMap("");
 				((AlgoCasBase) algo).compute();
 			}
 

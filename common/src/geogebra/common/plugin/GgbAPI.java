@@ -511,7 +511,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 */
 	public void initCAS() {
  		if (app.isHTML5Applet()) {
- 			kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
+ 			//kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
 			kernel.refreshCASCommands();
 			app.getActiveEuclidianView().repaintView();
  		}
