@@ -28,7 +28,6 @@ import java.util.ArrayList;
  */
 public class MobileEuclidianController extends EuclidianController
 {
-
 	private GuiModel guiModel;
 	private MobileModel mobileModel;
 	private GPoint origin;
@@ -46,12 +45,10 @@ public class MobileEuclidianController extends EuclidianController
 	 * prevent redraw
 	 */
 	@Override
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex)
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible,
+	    boolean doSingleHighlighting, boolean complex)
 	{
-		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
-				intersectPossible, false, complex);
+		return super.createNewPoint(hits, onPathPossible, inRegionPossible, intersectPossible, false, complex);
 	}
 
 	public void setView(EuclidianView euclidianView)
@@ -97,8 +94,7 @@ public class MobileEuclidianController extends EuclidianController
 
 	public void onTouchMove(int x, int y)
 	{
-		if (this.clicked
-				&& this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
+		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
 
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
@@ -110,9 +106,7 @@ public class MobileEuclidianController extends EuclidianController
 				this.moving = true;
 			}
 
-			this.startPoint = new GPoint2D.Double(
-					this.view.toRealWorldCoordX(this.origin.getX()),
-					this.view.toRealWorldCoordY(this.origin.getY()));
+			this.startPoint = new GPoint2D.Double(this.view.toRealWorldCoordX(this.origin.getX()), this.view.toRealWorldCoordY(this.origin.getY()));
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
@@ -134,10 +128,8 @@ public class MobileEuclidianController extends EuclidianController
 			return;
 		}
 
-		if (Swipeables.isSwipeable(this.guiModel.getCommand())
-				&& this.mobileModel.getNumberOf(GeoPoint.class) == 1
-				&& (Math.abs(this.origin.getX() - x) > 10 || Math
-						.abs(this.origin.getY() - y) > 10))
+		if (Swipeables.isSwipeable(this.guiModel.getCommand()) && this.mobileModel.getNumberOf(GeoPoint.class) == 1
+		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
 		{
 			handleEvent(x, y);
 		}
@@ -149,7 +141,7 @@ public class MobileEuclidianController extends EuclidianController
 
 		this.mobileModel.checkCommand();
 
-		this.mouseLoc = new GPoint(x, y);
+		super.mouseLoc = new GPoint(x, y);
 		this.mode = this.guiModel.getCommand().getMode();
 
 		if (cmd == ToolBarCommand.Move_Mobile)
@@ -196,8 +188,7 @@ public class MobileEuclidianController extends EuclidianController
 
 	private void removeSelection()
 	{
-		boolean repaint = this.app.getSelectedGeos().size() > 0
-				|| this.movedGeoPoint != null;
+		boolean repaint = this.app.getSelectedGeos().size() > 0 || this.movedGeoPoint != null;
 
 		for (GeoElement g : this.app.getSelectedGeos())
 		{
@@ -218,11 +209,9 @@ public class MobileEuclidianController extends EuclidianController
 		}
 	}
 
-	public void onPinch(double scaleFactor)
+	public void onPinch(int x, int y, double scaleFactor)
 	{
-		// TODO Implement canvas scaling (simple rescaling the getContext2d
-		// doesn't do the trick...
-		// also mind all the other events that are fired beside pinch! (can we
-		// consume them somehow, if a pinch occures?)
+		super.mouseLoc = new GPoint(x, y);
+		super.zoomInOut(false, scaleFactor < 1);
 	}
 }
