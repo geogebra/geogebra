@@ -3,6 +3,7 @@ package geogebra.mobile.gui.elements.toolbar;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.InputDialog;
+import geogebra.mobile.gui.elements.InputDialog.InputCallback;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
@@ -66,15 +67,22 @@ public class ToolBar extends ButtonBar
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				ToolBar.this.input = new InputDialog(new ClickHandler()
+				ToolBar.this.input = new InputDialog("Input", new InputCallback()
 				{
 					@Override
-					public void onClick(ClickEvent e)
+					public void onOk()
 					{
 						algebraController.newInput(ToolBar.this.input.getText());
-						ToolBar.this.input.hide();
+					}
+
+					@Override
+					public void onCancel()
+					{
+						ToolBar.this.input.close();
 					}
 				});
+				
+				ToolBar.this.input.show();
 			}
 		}, ClickEvent.getType());
 

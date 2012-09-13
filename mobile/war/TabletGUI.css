@@ -58,8 +58,12 @@
 	right: 0px;
 }
 
-.popinButton {
-	width: 50%;
+.inputdialog {
+	width: 70%;
+}
+
+.inputtext {
+	width: 98%;
 }
 
 .toolbutton {
