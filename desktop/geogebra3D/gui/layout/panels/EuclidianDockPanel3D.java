@@ -45,4 +45,9 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	public EuclidianViewND getEuclidianView() {
 		return ((App3D)app).getEuclidianView3D();
 	}
+	
+	@Override
+	public boolean updateResizeWeight(){
+		return true;
+	}
 }

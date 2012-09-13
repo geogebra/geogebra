@@ -64,4 +64,10 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	public EuclidianViewND getEuclidianView() {
 		return view;
 	}
+	
+	
+	@Override
+	public boolean updateResizeWeight(){
+		return true;
+	}
 }
