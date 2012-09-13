@@ -263,7 +263,7 @@ public class AlgoSurdText extends AlgoElement {
 		}
 		
 		
-		appendUndefined();
+		sb.append(kernel.format(num, StringTemplate.maxPrecision));
 		
 	}
 			
@@ -380,7 +380,7 @@ public class AlgoSurdText extends AlgoElement {
     	//sb1.append("}");
 		
 		// eg SurdText[1.23456789012345] returns 1.23456789012345
-		sb1.append(num.getDouble());
+		sb1.append(kernel.format(num.getDouble(), StringTemplate.maxPrecision));
 	}
 	
 	/**
