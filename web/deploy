@@ -75,7 +75,7 @@ echo "Updating war/web to www.geogebra.org/web/4.2/web"
 rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" war/web $WWW_SERVER_LOGIN:$GGBWEBDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 BACKUPDIR=history/4.2-`date +%Y-%m-%d`
 echo "Making backup to web/$BACKUPDIR"
-ssh -n -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN "cd $GGBWEBDIR; mkdir -p $BACKUPDIR; cp -a * ../$BACKUPDIR"
+ssh -n -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN "cd $GGBWEBDIR; mkdir -p ../$BACKUPDIR; cp -a * ../$BACKUPDIR"
 fi
 
 # 5/3. Uploading to Google App Engine
