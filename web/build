@@ -129,6 +129,7 @@ INSTALLDIR=""
 STYLE=OBFUSCATED
 OTHEROPTS=""
 JAVAC_CLEANUP=""
+GWT_UC_CLEANUP=0
 LOCALES=""
 PROJECT=web
 HEAPSIZE=2048m
@@ -147,6 +148,7 @@ while [ $# -gt 0 ]; do
    echo "  -u [useragents]     Comma separated list of user agents to compile ($USERAGENTS)"
    echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory (first deletes!)"
    echo "  -c                  Do a cleanup before javac compilation"
+   echo "  -cg                 Clean gwt-unitCache before compilation"
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -g [directory]      Use GWT SDK from the given directory ($GWTDIR)"
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
@@ -187,6 +189,10 @@ while [ $# -gt 0 ]; do
 
   -c)
    JAVAC_CLEANUP=clean
+   ;;
+
+  -cg)
+   GWT_UC_CLEANUP=1
    ;;
 
   -s)
@@ -336,6 +342,13 @@ if [ $VERBOSE = 1 ]; then
  echo "Classpath for GWT Compiler is $CLASSPATH"
  fi
 
+# 8/1. Deleting gwt-unitCache on demand
+if [ $GWT_UC_CLEANUP = 1 ]; then
+ cd $WEBDIR/gwt-unitCache
+ find . | xargs rm
+ fi
+ 
+# 8/2. Running the GWT compiler
 cd $WEBDIR/../$PROJECT/src/geogebra
 java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS geogebra.$PROJECT_UPCASE || exit 8
