@@ -16,8 +16,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -36,7 +40,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 	MCheckBox checkBox;
 	CheckBox check;
 
-	private GeoElement geo;
+	GeoElement geo;
 	private Kernel kernel;
 	private AlgebraView algebraView;
 	private AlgebraController algebraController;
@@ -62,19 +66,18 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		this.algebraView = av;
 		this.algebraController = ac;
 
-		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
 		this.check = new CheckBox();
-		this.check.setChecked(AlgebraViewTreeItem.this.previouslyChecked = ge
-				.isEuclidianVisible());
-		this.check.addClickHandler(new ClickHandler()
+		AlgebraViewTreeItem.this.previouslyChecked = ge.isEuclidianVisible();
+		this.check.setValue(ge.isEuclidianVisible(), false);
+
+		this.check.addValueChangeHandler(new ValueChangeHandler<Boolean>()
 		{
 			@Override
-			public void onClick(ClickEvent event)
+			public void onValueChange(ValueChangeEvent<Boolean> event)
 			{
-				AlgebraViewTreeItem.this.check
-						.setChecked(AlgebraViewTreeItem.this.previouslyChecked = !AlgebraViewTreeItem.this.previouslyChecked);
 				AlgebraViewTreeItem.this.geo
 						.setEuclidianVisible(!AlgebraViewTreeItem.this.geo
 								.isSetEuclidianVisible());
@@ -264,26 +267,28 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		// make sure eg FractionText[] works (surrounds with {} which doesn't
 		// draw
 		// well in MathQuill)
-		if (eqstring.length() >= 2)
-			if (eqstring.startsWith("{") && eqstring.endsWith("}"))
+
+		String str = new String(eqstring);
+		if (str.length() >= 2)
+			if (str.startsWith("{") && str.endsWith("}"))
 			{
-				eqstring = eqstring.substring(1, eqstring.length() - 1);
+				str = str.substring(1, str.length() - 1);
 			}
 
 		// remove $s
-		eqstring = eqstring.trim();
-		while (eqstring.startsWith("$"))
-			eqstring = eqstring.substring(1).trim();
-		while (eqstring.endsWith("$"))
-			eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+		str = str.trim();
+		while (str.startsWith("$"))
+			str = str.substring(1).trim();
+		while (str.endsWith("$"))
+			str = str.substring(0, str.length() - 1).trim();
 
 		// remove all \; and \,
-		eqstring = eqstring.replace("\\;", "");
-		eqstring = eqstring.replace("\\,", "");
+		str = str.replace("\\;", "");
+		str = str.replace("\\,", "");
 
-		eqstring = eqstring.replace("\\left\\{", "\\lbrace");
-		eqstring = eqstring.replace("\\right\\}", "\\rbrace");
-		return eqstring;
+		str = str.replace("\\left\\{", "\\lbrace");
+		str = str.replace("\\right\\}", "\\rbrace");
+		return str;
 	}
 
 	public void startEditing()
@@ -362,42 +367,42 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		update();
 	}
 
-	public void stopEditing(String newValue)
-	{
-
-		this.thisIsEdited = false;
-		this.algebraView.cancelEditing();
-
-		if (newValue != null)
-		{
-			// Formula Hacks ... Currently only functions are considered
-			StringBuilder sb = new StringBuilder();
-			boolean switchw = false;
-			for (int i = 0; i < newValue.length(); i++)
-				if (newValue.charAt(i) != ' ')
-				{
-					if (newValue.charAt(i) != '|')
-						sb.append(newValue.charAt(i));
-					else if (switchw = !switchw)
-						sb.append("abs(");
-					else
-						sb.append(")");
-				}
-			newValue = sb.toString();
-
-			// Formula Hacks ended.
-			boolean redefine = !this.geo.isPointOnPath();
-			GeoElement geo2 = this.kernel.getAlgebraProcessor()
-					.changeGeoElement(this.geo, newValue, redefine, true);
-			if (geo2 != null)
-			{
-				this.geo = geo2;
-			}
-		}
-
-		// maybe it's possible to enter something which is non-LaTeX
-		update();
-	}
+	// public void stopEditing(String newValue)
+	// {
+	//
+	// this.thisIsEdited = false;
+	// this.algebraView.cancelEditing();
+	//
+	// if (newValue != null)
+	// {
+	// // Formula Hacks ... Currently only functions are considered
+	// StringBuilder sb = new StringBuilder();
+	// boolean switchw = false;
+	// for (int i = 0; i < newValue.length(); i++)
+	// if (newValue.charAt(i) != ' ')
+	// {
+	// if (newValue.charAt(i) != '|')
+	// sb.append(newValue.charAt(i));
+	// else if (switchw = !switchw)
+	// sb.append("abs(");
+	// else
+	// sb.append(")");
+	// }
+	// newValue = sb.toString();
+	//
+	// // Formula Hacks ended.
+	// boolean redefine = !this.geo.isPointOnPath();
+	// GeoElement geo2 = this.kernel.getAlgebraProcessor()
+	// .changeGeoElement(this.geo, newValue, redefine, true);
+	// if (geo2 != null)
+	// {
+	// this.geo = geo2;
+	// }
+	// }
+	//
+	// // maybe it's possible to enter something which is non-LaTeX
+	// update();
+	// }
 
 	@Override
 	public void onMouseDown(MouseDownEvent evt)

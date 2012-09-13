@@ -5,7 +5,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.mobile.controller.MobileAlgebraController;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndEvent;

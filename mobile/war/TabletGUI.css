@@ -2,6 +2,16 @@
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.stylingbar {
+	position: absolute;
+	right: 0px;
+	margin-right: 0px;
+	background-color: white;
+	box-shadow: 5px 5px 10px #333333;
+	-webkit-border-radius: 1em 0em 0em 1em;
+	width: 52px;
+}
+
 .euclidianview {
 	position: absolute;
 	top: 0px;

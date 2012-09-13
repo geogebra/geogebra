@@ -11,6 +11,22 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
+	//StylingBar
+	
+	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_axes.svg")
+	@Validated(validated = false)
+	SVGResource show_or_hide_the_axes();
+	
+	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_grid.svg")
+	@Validated(validated = false)
+	SVGResource show_or_hide_the_grid();
+	
+	@Source("icons/svg/stylingbar_graphicsview_point_capturing.svg")
+	@Validated(validated = false)
+	SVGResource point_capturing();
+	
+	//ToolBar
+	
 	@Source("icons/svg/arrow_cursor_finger.svg")
 	@Validated(validated = false)
 	SVGResource arrow_cursor_finger();

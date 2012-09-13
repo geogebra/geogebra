@@ -1,13 +1,13 @@
 package geogebra.mobile.gui.elements.toolbar;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 		this.menuEntries = menu.getEntries();
 		this.model = guiModel;
-		 
+
 		this.addDomHandler(new ClickHandler()
 		{
 
@@ -71,21 +71,13 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	protected void showOptions()
 	{
-		this.model.closeOptions();
-
-		
-			OptionsBarBackground options = new OptionsBarBackground(
-					this.menuEntries, this);
-			this.model.setOptions(options);
-			
-			RootPanel.get().add(options);
-			if (this.menuEntries.length != 0)
-			{
+		OptionsBarBackground options = new OptionsBarBackground(
+				this.menuEntries, this);
+		this.model.showOptions(options);
+		if (this.menuEntries.length != 0)
+		{
 			options.show();
-			}
-			this.model.setOptionsShown(true);
-		
-
+		}
 		this.model.setActive(this);
 	}
 

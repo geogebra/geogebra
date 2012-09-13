@@ -9,7 +9,6 @@ import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
 
 import java.util.HashMap;
 
@@ -648,9 +647,12 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	 * GeoElement as user objects.
 	 * 
 	 * @param parent
+	 *            parent node
 	 * @param newGeo
+	 *            geoElement to get a new position
 	 * @param mode
-	 * @return
+	 *            the SortMode
+	 * @return position
 	 */
 	final public static int getInsertPosition(TreeItem parent,
 			GeoElement newGeo, SortMode mode)
@@ -698,7 +700,9 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	 * alphabetically by their names.
 	 * 
 	 * @param parent
+	 *            parent node (start of the search)
 	 * @param geoLabel
+	 *            label to look for
 	 * 
 	 * @return -1 when not found
 	 */
@@ -732,8 +736,10 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 	/**
 	 * Performs a linear search for geo among the children of parent.
 	 * 
-	 * @param parent
+	* @param parent
+	 *            parent node (start of the search)
 	 * @param geoLabel
+	 *            label to look for
 	 * 
 	 * @return -1 when not found
 	 */
@@ -909,11 +915,10 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels,
 
 	}
 
-	// TODO EuclidianView#setHighlighted() doesn't exist
+	// EuclidianView#setHighlighted() 
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
-	 * @see EuclidianViewW#setHighlighted()
 	 */
 	@Override
 	public void update(GeoElement geo)
