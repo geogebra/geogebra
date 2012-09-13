@@ -868,6 +868,7 @@ FunctionEnd
     Delete $INSTDIR\GeoGebraPrim.exe
     Delete $INSTDIR\*.jar
     Delete $INSTDIR\gpl-3.0.txt
+    Delete $INSTDIR\cc-by-sa-3.0.txt
     Delete $INSTDIR\wiki.ico
     RMDir $INSTDIR
     
