@@ -32,6 +32,10 @@ public class MobileModel
 
 	public void select(GeoElement geo)
 	{
+		if (geo == null)
+		{
+			return;
+		}
 		geo.setSelected(true);
 		this.selectedElements.add(geo);
 	}
@@ -145,6 +149,11 @@ public class MobileModel
 		return geos;
 	}
 
+	public int getTotalNumber()
+	{
+		return this.selectedElements.size();
+	}
+
 	public int getNumberOf(Class<? extends GeoElement> class1)
 	{
 		int count = 0;
@@ -174,6 +183,13 @@ public class MobileModel
 		case AttachDetachPoint:
 			// TODO
 			// attachDetach(hits);
+
+			// selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE });
+			// GeoPoint point = (GeoPoint) getElement(GeoPoint.class);
+			// if (point != null
+			// && (point.isPointOnPath() || point.isPointInRegion()))
+			// {
+			// }
 			break;
 
 		// commands that need two points
@@ -247,56 +263,59 @@ public class MobileModel
 		// draw anything other than a point
 		if (draw)
 		{
+			GeoElement newElement = null;
+			GeoElement[] newArray = new GeoElement[0];
+
 			switch (this.guiModel.getCommand())
 			{
 			case LineThroughTwoPoints:
-				this.kernel.getAlgoDispatcher().Line(null,
+				newElement = this.kernel.getAlgoDispatcher().Line(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1));
 				break;
 			case SegmentBetweenTwoPoints:
-				this.kernel.getAlgoDispatcher().Segment(null,
+				newElement = this.kernel.getAlgoDispatcher().Segment(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1));
 				break;
 			case RayThroughTwoPoints:
-				this.kernel.getAlgoDispatcher().Ray(null,
+				newElement = this.kernel.getAlgoDispatcher().Ray(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1));
 				break;
 			case VectorBetweenTwoPoints:
-				this.kernel.getAlgoDispatcher().Vector(null,
+				newElement = this.kernel.getAlgoDispatcher().Vector(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1));
 				break;
 			case CircleWithCenterThroughPoint:
-				this.kernel.getAlgoDispatcher().Circle(null,
+				newElement = this.kernel.getAlgoDispatcher().Circle(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1));
 				break;
 			case Semicircle:
-				this.kernel.getAlgoDispatcher().Semicircle(null,
+				newElement = this.kernel.getAlgoDispatcher().Semicircle(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1));
 				break;
 			case PerpendicularLine:
-				this.kernel.getAlgoDispatcher().OrthogonalLine(null,
-						(GeoPoint) getElement(GeoPoint.class),
+				newElement = this.kernel.getAlgoDispatcher().OrthogonalLine(
+						null, (GeoPoint) getElement(GeoPoint.class),
 						(GeoLine) getElement(GeoLine.class));
 				break;
 			case ParallelLine:
-				this.kernel.getAlgoDispatcher().Line(null,
+				newElement = this.kernel.getAlgoDispatcher().Line(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoLine) getElement(GeoLine.class));
 				break;
 			case MidpointOrCenter:
 				if (getNumberOf(GeoSegment.class) > 0)
 				{
-					this.kernel.getAlgoDispatcher().Midpoint(null,
+					newElement = this.kernel.getAlgoDispatcher().Midpoint(null,
 							(GeoSegment) getElement(GeoSegment.class));
 				} else if (getNumberOf(GeoPoint.class) >= 2)
 				{
-					this.kernel.getAlgoDispatcher().Midpoint(null,
+					newElement = this.kernel.getAlgoDispatcher().Midpoint(null,
 							(GeoPoint) getElement(GeoPoint.class),
 							(GeoPoint) getElement(GeoPoint.class, 1));
 				}
@@ -304,64 +323,65 @@ public class MobileModel
 			case PerpendicularBisector:
 				if (getNumberOf(GeoSegment.class) > 0)
 				{
-					this.kernel.getAlgoDispatcher().LineBisector(null,
-							(GeoSegment) getElement(GeoSegment.class));
+					newElement = this.kernel.getAlgoDispatcher().LineBisector(
+							null, (GeoSegment) getElement(GeoSegment.class));
 				} else if (getNumberOf(GeoPoint.class) >= 2)
 				{
-					this.kernel.getAlgoDispatcher().LineBisector(null,
-							(GeoPoint) getElement(GeoPoint.class),
+					newElement = this.kernel.getAlgoDispatcher().LineBisector(
+							null, (GeoPoint) getElement(GeoPoint.class),
 							(GeoPoint) getElement(GeoPoint.class, 1));
 				}
 				break;
 			case Parabola:
-				this.kernel.getAlgoDispatcher().Parabola(null,
+				newElement = this.kernel.getAlgoDispatcher().Parabola(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoLine) getElement(GeoLine.class));
 				break;
 			case CircleThroughThreePoints:
-				this.kernel.getAlgoDispatcher().Circle(null,
+				newElement = this.kernel.getAlgoDispatcher().Circle(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1),
 						(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case CircularArcWithCenterBetweenTwoPoints:
-				this.kernel.getAlgoDispatcher().CircleArc(null,
+				newElement = this.kernel.getAlgoDispatcher().CircleArc(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1),
 						(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case CircularSectorWithCenterBetweenTwoPoints:
-				this.kernel.getAlgoDispatcher().CircleSector(null,
+				newElement = this.kernel.getAlgoDispatcher().CircleSector(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1),
 						(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case CircumCirculuarArcThroughThreePoints:
-				this.kernel.getAlgoDispatcher().CircumcircleArc(null,
-						(GeoPoint) getElement(GeoPoint.class),
+				newElement = this.kernel.getAlgoDispatcher().CircumcircleArc(
+						null, (GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1),
 						(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case CircumCircularSectorThroughThreePoints:
-				this.kernel.getAlgoDispatcher().CircumcircleSector(null,
-						(GeoPoint) getElement(GeoPoint.class),
-						(GeoPoint) getElement(GeoPoint.class, 1),
-						(GeoPoint) getElement(GeoPoint.class, 2));
+				newElement = this.kernel.getAlgoDispatcher()
+						.CircumcircleSector(null,
+								(GeoPoint) getElement(GeoPoint.class),
+								(GeoPoint) getElement(GeoPoint.class, 1),
+								(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case Ellipse:
-				this.kernel.getAlgoDispatcher().Ellipse(null,
+				newElement = this.kernel.getAlgoDispatcher().Ellipse(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1),
 						(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case Hyperbola:
-				this.kernel.getAlgoDispatcher().Hyperbola(null,
+				newElement = this.kernel.getAlgoDispatcher().Hyperbola(null,
 						(GeoPoint) getElement(GeoPoint.class),
 						(GeoPoint) getElement(GeoPoint.class, 1),
 						(GeoPoint) getElement(GeoPoint.class, 2));
 				break;
 			case ConicThroughFivePoints:
-				this.kernel.getAlgoDispatcher().Conic(
+				newElement = this.kernel.getAlgoDispatcher().Conic(
 						null,
 						new GeoPoint[] { (GeoPoint) getElement(GeoPoint.class),
 								(GeoPoint) getElement(GeoPoint.class, 1),
@@ -372,32 +392,40 @@ public class MobileModel
 			case PolylineBetweenPoints:
 				ArrayList<GeoElement> geos = getAll(GeoPoint.class);
 				geos.remove(geos.size() - 1);
-				this.kernel.PolyLineND(null,
+				newArray = this.kernel.PolyLineND(null,
 						geos.toArray(new GeoPoint[geos.size()]));
 				break;
 			case Polygon:
 				ArrayList<GeoElement> geos2 = getAll(GeoPoint.class);
 				geos2.remove(geos2.size() - 1);
-				this.kernel.Polygon(null,
+				newArray = this.kernel.Polygon(null,
 						geos2.toArray(new GeoPoint[geos2.size() - 1]));
 				break;
 			case RigidPolygon:
 				ArrayList<GeoElement> geos3 = getAll(GeoPoint.class);
 				geos3.remove(geos3.size() - 1);
-				this.kernel.RigidPolygon(null,
+				newArray = this.kernel.RigidPolygon(null,
 						geos3.toArray(new GeoPoint[geos3.size() - 1]));
 				break;
 			case VectorPolygon:
 				ArrayList<GeoElement> geos4 = getAll(GeoPoint.class);
 				geos4.remove(geos4.size() - 1);
-				this.kernel.VectorPolygon(null,
+				newArray = this.kernel.VectorPolygon(null,
 						geos4.toArray(new GeoPoint[geos4.size() - 1]));
 				break;
 			default:
 			}
 
 			resetSelection();
+
+			select(newElement);
+			for (GeoElement geo : newArray)
+			{
+				select(geo);
+			}
 		}
+
+		this.guiModel.updateStylingBar(this);
 	}
 
 	public boolean handleEvent(GeoElement geo)

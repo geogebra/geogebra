@@ -1,9 +1,9 @@
 package geogebra.mobile.gui.elements;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 /**
  * ButtonBar for the buttons on the right side of the HeaderPanel.
@@ -11,7 +11,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
  * @author Thomas Krismayer
  * 
  */
-public class TabletHeaderPanelRight extends ButtonBar
+public class TabletHeaderPanelRight extends HorizontalPanel
 {
 
 	/**

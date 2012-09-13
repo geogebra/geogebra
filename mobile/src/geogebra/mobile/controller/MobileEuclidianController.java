@@ -31,7 +31,6 @@ public class MobileEuclidianController extends EuclidianController
 	private GuiModel guiModel;
 	private MobileModel mobileModel;
 	private GPoint origin;
-	private boolean moving;
 	private boolean clicked = false;
 
 	public MobileEuclidianController(MobileModel model, GuiModel guiModel)
@@ -45,10 +44,12 @@ public class MobileEuclidianController extends EuclidianController
 	 * prevent redraw
 	 */
 	@Override
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible,
-	    boolean doSingleHighlighting, boolean complex)
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+			boolean inRegionPossible, boolean intersectPossible,
+			boolean doSingleHighlighting, boolean complex)
 	{
-		return super.createNewPoint(hits, onPathPossible, inRegionPossible, intersectPossible, false, complex);
+		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
+				intersectPossible, false, complex);
 	}
 
 	public void setView(EuclidianView euclidianView)
@@ -84,6 +85,11 @@ public class MobileEuclidianController extends EuclidianController
 	{
 	}
 
+	public void setGuiModel(GuiModel model)
+	{
+		this.guiModel = model;
+	}
+
 	public void onTouchStart(int x, int y)
 	{
 		this.guiModel.closeOptions();
@@ -94,19 +100,15 @@ public class MobileEuclidianController extends EuclidianController
 
 	public void onTouchMove(int x, int y)
 	{
-		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
+		if (this.clicked
+				&& this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
-
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 
-			if (!this.moving)
-			{
-				this.view.setHits(this.origin);
-				this.moving = true;
-			}
-
-			this.startPoint = new GPoint2D.Double(this.view.toRealWorldCoordX(this.origin.getX()), this.view.toRealWorldCoordY(this.origin.getY()));
+			this.startPoint = new GPoint2D.Double(
+					this.view.toRealWorldCoordX(this.origin.getX()),
+					this.view.toRealWorldCoordY(this.origin.getY()));
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
@@ -117,10 +119,9 @@ public class MobileEuclidianController extends EuclidianController
 	{
 		this.clicked = false;
 
-		if (this.moving)
+		if (this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
-			this.moving = false;
-			this.mode = this.guiModel.getCommand().getMode();
+			// this.mode = this.guiModel.getCommand().getMode();
 
 			// object that was moved loses selection
 			removeSelection();
@@ -128,8 +129,10 @@ public class MobileEuclidianController extends EuclidianController
 			return;
 		}
 
-		if (Swipeables.isSwipeable(this.guiModel.getCommand()) && this.mobileModel.getNumberOf(GeoPoint.class) == 1
-		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
+		if (Swipeables.isSwipeable(this.guiModel.getCommand())
+				&& this.mobileModel.getNumberOf(GeoPoint.class) == 1
+				&& (Math.abs(this.origin.getX() - x) > 10 || Math
+						.abs(this.origin.getY() - y) > 10))
 		{
 			handleEvent(x, y);
 		}
@@ -174,6 +177,11 @@ public class MobileEuclidianController extends EuclidianController
 				this.mobileModel.select(geo);
 			}
 			break;
+
+		// commands that only draw one point
+		case NewPoint:
+			this.mobileModel.select((GeoElement) super.movedGeoPoint);
+			//$FALL-THROUGH$
 		default:
 			this.mobileModel.handleEvent(hits);
 		}
@@ -181,14 +189,10 @@ public class MobileEuclidianController extends EuclidianController
 		this.kernel.notifyRepaint();
 	}
 
-	public void setGuiModel(GuiModel model)
-	{
-		this.guiModel = model;
-	}
-
 	private void removeSelection()
 	{
-		boolean repaint = this.app.getSelectedGeos().size() > 0 || this.movedGeoPoint != null;
+		boolean repaint = this.app.getSelectedGeos().size() > 0
+				|| this.movedGeoPoint != null;
 
 		for (GeoElement g : this.app.getSelectedGeos())
 		{

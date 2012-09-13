@@ -1,11 +1,15 @@
 package geogebra.mobile.model;
 
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.mobile.gui.elements.StylingBar;
 import geogebra.mobile.gui.elements.toolbar.OptionsBarBackground;
 import geogebra.mobile.gui.elements.toolbar.ToolBarButton;
 import geogebra.mobile.utils.ToolBarCommand;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 /**
@@ -20,10 +24,9 @@ public class GuiModel
 
 	private ToolBarButton activeButton;
 	private ButtonBar optionsBackground;
-	private RoundPanel stylingBarBackground;
-
 	private boolean optionsShown = false;
-	private boolean stylingBarShown = false;
+	private StylingBar stylingBar;
+	private EuclidianView euclidianView;
 
 	public ToolBarCommand getCommand()
 	{
@@ -36,21 +39,51 @@ public class GuiModel
 		setActive(tbb);
 	}
 
+	public void processSource(String string)
+	{
+		if (string.equals("pointCapture"))
+		{
+			// taken from EuclidianStyleBarStatic.processSourceCommon
+			int mode = this.euclidianView.getPointCapturingMode();
+			if (mode == 3 || mode == 0)
+			{
+				mode = 3 - mode; // swap 0 and 3
+			}
+			this.euclidianView.setPointCapturing(mode);
+		} else
+		{
+			EuclidianStyleBarStatic.processSourceCommon(string, null,
+					this.euclidianView);
+		}
+	}
+
+	public void updateStylingBar(MobileModel model)
+	{
+		if (this.stylingBar == null)
+		{
+			return;
+		}
+
+		ArrayList<ToolBarButton> commands = new ArrayList<ToolBarButton>();
+
+		if (model.getTotalNumber() == 0)
+		{
+			this.stylingBar.clear();
+			return;
+		}
+
+		this.stylingBar.updateColour(model.lastSelected().getAlgebraColor()
+				.toString());
+		this.stylingBar.rebuild(commands.toArray(new ToolBarButton[commands
+				.size()]));
+	}
+
 	public void closeOptions()
 	{
 		if (this.optionsShown && this.optionsBackground != null)
 		{
 			RootPanel.get().remove(this.optionsBackground);
 			this.optionsShown = false;
-		}
-	}
-
-	public void closeStylingBar()
-	{
-		if (this.stylingBarShown && this.stylingBarBackground != null)
-		{
-			RootPanel.get().remove(this.stylingBarBackground);
-			this.stylingBarShown = false;
 		}
 	}
 
@@ -72,21 +105,18 @@ public class GuiModel
 		this.optionsShown = true;
 	}
 
-	public void showStylingBar(RoundPanel stylingBar)
-	{
-		closeStylingBar();
-		this.stylingBarBackground = stylingBar;
-		RootPanel.get().add(this.stylingBarBackground);
-		this.stylingBarShown = true;
-	}
-
 	public boolean optionsShown()
 	{
 		return this.optionsShown;
 	}
 
-	public boolean stylingShown()
+	public void setStylingBar(StylingBar bar)
 	{
-		return this.stylingBarShown;
+		this.stylingBar = bar;
+	}
+
+	public void setEuclidianView(EuclidianView ec)
+	{
+		this.euclidianView = ec;
 	}
 }

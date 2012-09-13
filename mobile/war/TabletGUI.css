@@ -9,7 +9,6 @@
 	background-color: white;
 	box-shadow: 5px 5px 10px #333333;
 	-webkit-border-radius: 1em 0em 0em 1em;
-	width: 52px;
 }
 
 .euclidianview {
@@ -38,19 +37,12 @@
 .leftHeader {
 	position: absolute;
 	top: 0px;
-	background: none;
-	background-color: transparent;
-	border: none;
 }
 
 .rightHeader {
 	position: absolute;
 	top: 0px;
 	right: 0px;
-	background: none;
-	background-color: transparent;
-	border: none;
-	max-width: 38mm;
 }
 
 .rightButton {

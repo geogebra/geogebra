@@ -25,6 +25,14 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource point_capturing();
 	
+	@Source("icons/svg/empty.svg")
+	@Validated(validated = false)
+	SVGResource colour();
+	
+	@Source("icons/svg/tools_generaltools_label.svg")
+	@Validated(validated = false)
+	SVGResource label();
+	
 	//ToolBar
 	
 	@Source("icons/svg/arrow_cursor_finger.svg")
