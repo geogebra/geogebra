@@ -27,17 +27,20 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	public interface InputCallback
 	{
 		/**
-		 * Called if ok button is taped.
+		 * Called if ok button is clicked.
 		 */
 		public void onOk();
 
 		/**
-		 * Called if cancel button is taped.
+		 * Called if cancel button is clicked.
 		 */
 		public void onCancel();
 	}
 
-	
+	/**
+	 * The Ok-Button of the InputDialog.
+	 * @see com.googlecode.mgwt.ui.client.widget.base.ButtonBase ButtonBase
+	 */
   private static class OkButton extends ButtonBase {
 
     public OkButton(DialogCss css, String text) {
@@ -48,6 +51,10 @@ public class InputDialog implements HasText, HasTitleText, Dialog
     }
   }
 	
+  /**
+   * The Cancel-Button of the InputDialog.
+   * @see com.googlecode.mgwt.ui.client.widget.base.ButtonBase ButtonBase
+   */
   private static class CancelButton extends ButtonBase {
     public CancelButton(DialogCss css, String text) {
       super(css);
@@ -56,12 +63,12 @@ public class InputDialog implements HasText, HasTitleText, Dialog
     }
   }
 	
-	
+  
 	PopinDialog popinDialog;
 	private DialogPanel dialogPanel;
 	private TextBox textInput;
 	private DialogCss css;
-	private FlowPanel buttonContainer; /////
+	private FlowPanel buttonContainer;
 	InputCallback callback;
 
 	/**
@@ -178,9 +185,8 @@ public class InputDialog implements HasText, HasTitleText, Dialog
   }
 	
 
-	/* 
-	 * @see
-	 * com.googlecode.mgwt.ui.client.dialog.HasTitleText#setTitleText(java.lang.String)
+	/**
+	 * @see com.googlecode.mgwt.ui.client.dialog.HasTitleText#setTitleText(java.lang.String)
 	 */
 	@Override
 	public void setTitleText(String title)
@@ -188,8 +194,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		this.dialogPanel.getDialogTitle().setHTML(title);
 	}
 
-	/*
-	 * 
+	/**
 	 * @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String)
 	 */
 	@Override
@@ -198,8 +203,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		this.textInput.setText(text);
 	}
 
-	/*
-	 * 
+	/**
 	 * @see com.googlecode.mgwt.ui.client.dialog.HasTitleText#getTitleText()
 	 */
 	@Override
@@ -209,7 +213,6 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	}
 
 	/**
-	 * 
 	 * @see com.google.gwt.user.client.ui.HasText#getText()
 	 */
 	@Override
@@ -244,46 +247,4 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	{
 		this.popinDialog.setHideOnBackgroundClick(true);
 	}
-	
 }
-
-	/**
-	 * Is called from the {@link geogebra.mobile.gui.elements.toolbar.ToolBar ToolBar}, to handle commands from the input bar.
-	 * @param handler the clickhandler
-	 */
-	
-	
-//	public InputDialog(ClickHandler handler)
-//	{
-//		this(handler, ""); 
-//	}
-//	
-//	/**
-//	 * Is called from {@link TabletHeaderPanel} to change the title of the app.
-//	 * @param handler the clickhandler
-//	 * @param titel the title of the app
-//	 */
-//	public InputDialog(ClickHandler handler, String titel)
-//	{	
-//		this.inputBar = new TextBox();
-//		this.inputBar.setText(titel);
-//				
-//		setHideOnBackgroundClick(true);
-//		//setCenterContent(true);
-//
-//		RoundPanel roundPanel = new RoundPanel();
-//		roundPanel.add(this.inputBar);
-//
-//		Button button = new Button("ok");
-//		button.addDomHandler(handler, ClickEvent.getType());
-//		button.addStyleName("popinButton");
-//		roundPanel.add(button);
-//
-//		add(roundPanel);
-//		show();
-//	}
-//	
-//	public String getText()
-//	{
-//		return this.inputBar.getText();
-//	}
