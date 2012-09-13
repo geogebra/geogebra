@@ -754,9 +754,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List of Points> ]")
     String FitSin_Syntax();
 
-    @DefaultStringValue("[ <List of Points> ]")
-    String FitSin_SyntaxCAS();
-
     @DefaultStringValue("Flatten")
     String Flatten();
 

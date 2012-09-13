@@ -286,7 +286,6 @@ var commandKeysVar = {
 	FitPow_SyntaxCAS:'',
 	FitSin:'',
 	FitSin_Syntax:'',
-	FitSin_SyntaxCAS:'',
 	Flatten:'',
 	Flatten_Syntax:'',
 	Focus:'',
