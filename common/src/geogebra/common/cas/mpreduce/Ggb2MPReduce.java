@@ -106,7 +106,7 @@ public class Ggb2MPReduce {
 				" input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(ycoord(~w!!), input!!); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= (sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!; return p1!!+log(x)*p2!! end >>");
 		p("FitPoly.2",
 				"<< clear tmpx!!, tmpy!!; on rounded, roundall, numval; begin scalar xvec!!, yvec!!, input!!;" +
-				" input!!:= mattolistoflists(%0); xvec!!:=map(xcoord(~w!!), input!!); yvec!!:= map(ycoord(~w!!), input!!); tmpx!!:=vandermonde(xvec!!);" +
+				" input!!:= mattolistoflists(%0); xvec!!:=map(xcoord(~w!!), input!!); yvec!!:= map(ycoord(~w!!), input!!); tmpx!!:=vandermonde2(xvec!!);" +
 				" tmpx!!:=sub\\_matrix(tmpx!!,for i:=1:length(input!!) collect i, for i:=1:(%1+1) collect i);" +
 				" tmpy!!:=listtocolumnvector(yvec!!);tmpx!!:=(1/(tp(tmpx!!)*tmpx!!))*tp(tmpx!!); " +
 				" tmpy!!:=tmpx!!*tmpy!!; return for i:=1:part(length(tmpy!!),1) sum tmpy!!(i,1)*x^(i-1) end>>");

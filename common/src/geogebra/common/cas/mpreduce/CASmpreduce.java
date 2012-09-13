@@ -828,7 +828,20 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "			sum vec1(1,i)*vec2(1,i) " + "      >> "
 						+ "      else " + "		'? " + "    >> " + "  else "
 						+ "    '? " + "  >> " + "end;");
-
+		mpreduce1.evaluate(
+		"procedure vandermonde2(variables);" + 
+		  "begin "+
+		    "integer i,j,sq_size; "+
+		    "sq_size := length variables; " +
+		    "return <<"+
+		    "matrix vand(sq_size,sq_size); "+
+		    "for i:=1:sq_size do "+
+		    "  for j:=1:sq_size do "+
+		    "     vand(i,j):= "+
+		    "           if part(variables,i)=0 and j=1 then 1 else part(variables,i)^(j-1); "+
+		    "vand >>"+
+		  "end;");
+		  
 		mpreduce1
 				.evaluate("procedure mycross(atmp,btmp); "
 						+ "begin;"
