@@ -241,8 +241,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		selectedCellRanges.add(new CellRange(app));
 
 		selectionType = MyTable.CELL_SELECT;
-		//TODO//setCellSelectionEnabled(true);
-
+		rowSelectionAllowed = columnSelectionAllowed = true;
 
 		/*
 		// add mouse and key listeners
@@ -539,17 +538,15 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		selectionChanged();
 	}
 
-	/*
-	@Override
 	public void selectAll() {
 		setSelectionType(MyTable.CELL_SELECT);
-		this.setAutoscrolls(false);
+		//?//this.setAutoscrolls(false);
 		// select the upper left corner cell
 		changeSelection(0, 0, false, false);
 		// extend the selection to the current lower right corner cell
 		changeSelection(getRowCount() - 1, getColumnCount() - 1, false, true);
 		setSelectAll(true);
-		this.setAutoscrolls(true);
+		//?//this.setAutoscrolls(true);
 
 		// this.scrollRectToVisible(getCellRect(0,0,true));
 		// setRowSelectionInterval(0, getRowCount()-1);
@@ -558,7 +555,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// selectionChanged();
 		// this.getSelectAll();
 
-	}*/
+	}
 
 	/**
 	 * This handles all selection changes for the table.
@@ -665,10 +662,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// newSelection.debug();
 		// printSelectionParameters();
 
-		/*TODO if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
+		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
 			setSelectNone(false);
 
-		if (changedAnchor && !isEditing())
+		/*TODO if (changedAnchor && !isEditing())
 			view.updateFormulaBar();*/
 
 		// update the geo selection list
@@ -724,7 +721,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	/**
 	 * Sets the initial selection parameters to a single cell. Does this without
 	 * calling changeSelection, so it should only be used at startup.
-	 *//*
+	 */
 	public void setInitialCellSelection(int row, int column) {
 
 		setSelectionType(MyTable.CELL_SELECT);
@@ -738,10 +735,9 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		minSelectionRow = row;
 		maxSelectionRow = row;
 
-		getColumnModel().getSelectionModel().setSelectionInterval(column,
-				column);
-		getSelectionModel().setSelectionInterval(row, row);
-	}*/
+		//?//getColumnModel().getSelectionModel().setSelectionInterval(column, column);
+		//?//getSelectionModel().setSelectionInterval(row, row);
+	}
 
 	/*
 	 * public void setSelectionRectangle(CellRange cr){
@@ -780,7 +776,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * }
 	 */
 
-	/*public boolean setSelection(String cellName) {
+	public boolean setSelection(String cellName) {
 
 		if (cellName == null)
 			return setSelection(-1, -1, -1, -1);
@@ -790,15 +786,14 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			return setSelection(newCell.x, newCell.y);
 		}
 		return false;
-	}*/
-
-	public boolean setSelection(int c, int r) {
-		return false;//TODO: implementation needed
-		/*CellRange cr = new CellRange(app, c, r, c, r);
-		return setSelection(cr);*/
 	}
 
-	/*public boolean setSelection(int c1, int r1, int c2, int r2) {
+	public boolean setSelection(int c, int r) {
+		CellRange cr = new CellRange(app, c, r, c, r);
+		return setSelection(cr);
+	}
+
+	public boolean setSelection(int c1, int r1, int c2, int r2) {
 
 		CellRange cr = new CellRange(app, c1, r1, c2, r2);
 		if (!cr.isValid())
@@ -809,8 +804,8 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		return setSelection(cr);
 
-	}*/
-/*
+	}
+
 	public boolean setSelection(CellRange cr) {
 
 		if (cr != null && !cr.isValid())
@@ -818,20 +813,35 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		try {
 			if (cr == null || cr.isEmptyRange()) {
-				getSelectionModel().clearSelection();
+
+				minSelectionColumn = -1;
+				minSelectionRow = -1;
+				maxSelectionColumn = -1;
+				maxSelectionRow = -1;
+				anchorSelectionColumn = -1;
+				anchorSelectionRow = -1;
+				leadSelectionColumn = -1;
+				leadSelectionRow = -1;
 
 			} else {
 
-				this.setAutoscrolls(false);
+				//?//this.setAutoscrolls(false);
 
 				// row selection
 				if (cr.isRow()) {
-					setRowSelectionInterval(cr.getMinRow(), cr.getMaxRow());
+					//setRowSelectionInterval(cr.getMinRow(), cr.getMaxRow());
+					anchorSelectionRow = cr.getMinRow();
+					leadSelectionRow = cr.getMaxRow();
+					anchorSelectionColumn = -1;
+					leadSelectionColumn = -1;
 
 					// column selection
 				} else if (cr.isColumn()) {
-					setColumnSelectionInterval(cr.getMinColumn(),
-							cr.getMaxColumn());
+					//setColumnSelectionInterval(cr.getMinColumn(), cr.getMaxColumn());
+					anchorSelectionColumn = cr.getMinColumn();
+					leadSelectionColumn = cr.getMaxColumn();
+					anchorSelectionRow = -1;
+					leadSelectionRow = -1;
 
 					// cell block selection
 				} else {
@@ -845,9 +855,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 				selectionChanged();
 
 				// scroll to upper left corner of rectangle
-				this.setAutoscrolls(true);
-				scrollRectToVisible(getCellRect(cr.getMinRow(),
-						cr.getMinColumn(), true));
+				//?//this.setAutoscrolls(true);
+				
+				//TODO//scrollRectToVisible(getCellRect(cr.getMinRow(),
+				//TODO cr.getMinColumn(), true));
 				repaint();
 			}
 		} catch (Exception e) {
@@ -856,7 +867,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		}
 
 		return true;
-	}*/
+	}
 
 	// TODO Handle selection for a list of cell ranges
 
@@ -950,19 +961,19 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	// By adding a call to selectionChanged in JTable's setRowSelectionInterval
 	// and setColumnSelectionInterval methods, selectionChanged becomes
 	// the sole handler for selection events.
-	/*@Override
 	public void setRowSelectionInterval(int row0, int row1) {
 		setSelectionType(MyTable.ROW_SELECT);
-		super.setRowSelectionInterval(row0, row1);
+		anchorSelectionRow = row0;
+		leadSelectionRow = row1;
 		selectionChanged();
 	}
 
-	@Override
 	public void setColumnSelectionInterval(int col0, int col1) {
 		setSelectionType(MyTable.COLUMN_SELECT);
-		super.setColumnSelectionInterval(col0, col1);
+		anchorSelectionColumn = col0;
+		leadSelectionColumn = col1;
 		selectionChanged();
-	}*/
+	}
 
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
@@ -971,16 +982,16 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		return isSelectNone;
 	}
 
-	/*public void setSelectNone(boolean isSelectNone) {
+	public void setSelectNone(boolean isSelectNone) {
 
 		this.isSelectNone = isSelectNone;
 
 		if (isSelectNone == true) {
 			setSelection(-1, -1, -1, -1);
-			view.updateFormulaBar();
+			//TODO//view.updateFormulaBar();
 		}
 
-	}*/
+	}
 
 	public boolean isSelectAll() {
 		return isSelectAll;
