@@ -2,6 +2,7 @@ package geogebra3D.gui;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeoD;
@@ -217,4 +218,28 @@ public class GuiManager3D extends GuiManagerD {
 	protected EuclidianViewD newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
 		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id);
 	}
+	
+	
+	
+	
+	//////////////////////////////
+	// 3D VIEW
+	//////////////////////////////
+	
+	@Override
+	public void attachView(int viewId) {
+		
+		switch (viewId) {
+		case App.VIEW_EUCLIDIAN3D:
+			App.debug("TODO: how to attach 3D view?");
+			break;
+		default: 
+			super.attachView(viewId);
+			break;
+		}
+	}
+
+	
+	
+	
 }
