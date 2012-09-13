@@ -63,7 +63,7 @@ if [ $UPDATEZIP = 1 ]; then
 echo "Updating GeoGebraWeb-latest.zip"
 mkdir -p $DOWNLOADDIR
 cp GeoGebraWeb-$VERSION.zip $DOWNLOADDIR
-cd $DOWNLOADDDIR
+cd $DOWNLOADDIR
 rm GeoGebraWeb-latest.zip
 ln -s GeoGebraWeb-$VERSION.zip GeoGebraWeb-latest.zip
 fi
