@@ -170,7 +170,7 @@ public class AlgoContingencyTable extends AlgoElement {
 				showTotalPercent = true;
 			if (optionsStr.indexOf("|") > -1)
 				showColPercent = true;
-			if (optionsStr.indexOf("-") > -1)
+			if (optionsStr.indexOf("_") > -1)
 				showRowPercent = true;
 			if (optionsStr.indexOf("k") > -1)
 				showChi = true;
@@ -269,7 +269,7 @@ public class AlgoContingencyTable extends AlgoElement {
 
 			addTableRow(sb, rowIndex, rowValues[rowIndex], "count");
 			if (showRowPercent)
-				addTableRow(sb, rowIndex, null, "-");
+				addTableRow(sb, rowIndex, null, "_");
 			if (showColPercent)
 				addTableRow(sb, rowIndex, null, "|");
 			if (showTotalPercent)
@@ -345,7 +345,7 @@ public class AlgoContingencyTable extends AlgoElement {
 			} else if (type.equals("count")) {
 				sb.append(freqValues[rowIndex][colIndex]);
 
-			} else if (type.equals("-")) {
+			} else if (type.equals("_")) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / rowSum[rowIndex];
 				sb.append(app.getKernel().format(x,
 						StringTemplate.numericDefault));
