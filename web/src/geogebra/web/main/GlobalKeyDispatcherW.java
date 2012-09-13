@@ -32,13 +32,15 @@ public class GlobalKeyDispatcherW extends
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void onKeyPress(KeyPressEvent event) {
+		AppW.setDownKeys(event);
 		event.stopPropagation();
 		event.preventDefault();
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
+		AppW.setDownKeys(event);
 		//AbstractApplication.debug("onkeyup");
 		event.preventDefault();
 		event.stopPropagation();
@@ -99,6 +101,7 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
+		AppW.setDownKeys(event);
 		//AbstractApplication.debug("onkeydown");
 	    event.preventDefault();
 	    event.stopPropagation();

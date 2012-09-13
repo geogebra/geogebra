@@ -1094,12 +1094,13 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		return new GPoint(indexX, indexY);
 	}
 
-	/*public Rectangle getCellBlockRect(int column1, int row1, int column2,
+	/*public GRectangle getCellBlockRect(int column1, int row1, int column2,
 			int row2, boolean includeSpacing) {
-		Rectangle r1 = getCellRect(row1, column1, includeSpacing);
-		Rectangle r2 = getCellRect(row2, column2, includeSpacing);
-		r1.setBounds(r1.x, r1.y, (r2.x - r1.x) + r2.width, (r2.y - r1.y)
-				+ r2.height);
+		GRectangle r1 = getCellRect(row1, column1, includeSpacing);
+		GRectangle r2 = getCellRect(row2, column2, includeSpacing);
+		r1.setBounds((int)r1.getX(), (int)r1.getY(),
+			(int)((r2.getX() - r1.getX()) + r2.getWidth()),
+			(int)((r2.getY() - r1.getY()) + r2.getHeight()));
 		return r1;
 	}
 
@@ -1695,7 +1696,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * Sets the table mode
 	 * 
 	 * @param tableMode
-	 *//*TODO: initAutoFunction
+	 */
 	public void setTableMode(int tableMode) {
 
 		if (tableMode == MyTable.TABLE_MODE_AUTOFUNCTION) {
@@ -1717,7 +1718,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		this.tableMode = tableMode;
 		repaint();
-	}*/
+	}
 
 	// ==================================================
 	// Autofunction handlers
@@ -1726,7 +1727,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	/**
 	 * Initializes the autoFunction feature. The targetCell is prepared and the
 	 * GUI is adjusted to handle selection drag with an autoFunction
-	 *//*TODO: maybe not too hard
+	 */
 	protected boolean initAutoFunction() {
 
 		// Selection is a single cell.
@@ -1754,9 +1755,9 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			targetCell.setUndefined();
 
 			// Set the targetcellFrame so the Paint method can use it to draw a
-			// dashed frame
-			targetcellFrame = this.getCellBlockRect(minSelectionColumn,
-					minSelectionRow, minSelectionColumn, minSelectionRow, true);
+			// dashed frame - will be implemented differently in the web version (TODO)
+			//targetcellFrame = this.getCellBlockRect(minSelectionColumn,
+			//		minSelectionRow, minSelectionColumn, minSelectionRow, true);
 
 			// Change the selection frame color to gray
 			// and clear the current selection
@@ -1792,7 +1793,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	/**
 	 * Creates autofunction cells based on the given cell range and the current
 	 * autofunction mode.
-	 *//*TODO: maybe not too hard
+	 */
 	protected void performAutoFunctionCreation(CellRange cr) {
 
 		if (cr.isColumn() || cr.isRow())
@@ -1803,7 +1804,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		CellRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
-		if (cr.isPartialRow() || (!cr.isPartialColumn() && AppD.getShiftDown())) {
+		if (cr.isPartialRow() || (!cr.isPartialColumn() && AppW.getShiftDown())) {
 			targetRange = new CellRange(app, cr.getMaxColumn() + 1,
 					cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
@@ -1855,12 +1856,12 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			setSelection(targetRange);
 			repaint();
 		}
-	}*/
+	}
 
 	/**
 	 * Stops the autofunction from updating and creates a new geo for the target
 	 * cell based on the current autofunction mode.
-	 *//*
+	 */
 	protected void stopAutoFunction() {
 
 		setTableMode(MyTable.TABLE_MODE_STANDARD);
@@ -1872,7 +1873,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			changeSelection(coords.y, coords.x, false, false);
 			repaint();
 		}
-	}*/
+	}
 
 	/**
 	 * Creates an autofunction in the given target cell based on the current

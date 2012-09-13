@@ -93,6 +93,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.UrlBuilder;
@@ -2365,4 +2366,19 @@ public class AppW extends App {
 	    return Factory.getPrototype();
     }
 
+	private static boolean controlDown = false;
+	private static boolean shiftDown = false;
+
+	public static boolean getControlDown() {
+		return controlDown;
+	}
+
+	public static boolean getShiftDown() {
+		return shiftDown;
+	}
+
+	public static void setDownKeys(KeyEvent ev) {
+		controlDown = ev.isControlKeyDown();
+		shiftDown = ev.isShiftKeyDown();
+	}
 }
