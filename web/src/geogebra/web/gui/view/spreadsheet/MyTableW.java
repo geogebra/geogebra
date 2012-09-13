@@ -100,6 +100,13 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	protected int maxSelectionRow = -1;
 	protected int minSelectionColumn = -1;
 	protected int maxSelectionColumn = -1;
+
+	// for emulating the JTable's changeSelection method 
+	protected int anchorSelectionRow = -1;
+	protected int anchorSelectionColumn = -1;
+	protected int leadSelectionRow = -1;
+	protected int leadSelectionColumn = -1;
+
 	public boolean[] selectedColumns;
 
 	// Used for rendering headers with ctrl-select
@@ -107,6 +114,9 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
 
 	private int selectionType = MyTable.CELL_SELECT;
+
+	private boolean columnSelectionAllowed;
+	private boolean rowSelectionAllowed;
 
 	private boolean doShowDragHandle = true;
 	private GColor selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
@@ -229,8 +239,8 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<CellRange>();
 		selectedCellRanges.add(new CellRange(app));
-		
-		//TODO//setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+		selectionType = MyTable.CELL_SELECT;
 		//TODO//setCellSelectionEnabled(true);
 
 
@@ -498,8 +508,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * JTable does not support non-contiguous cell selection. It treats
 	 * ctrl-down cell selection as if it was shift-extend. To prevent this
 	 * behavior the JTable changeSelection method is overridden here.
-	 *//*
-	@Override
+	 */
 	public void changeSelection(int rowIndex, int columnIndex, boolean toggle,
 			boolean extend) {
 		// if(Application.getControlDown())
@@ -508,14 +517,29 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		// force column selection
 		if (view.isColumnSelect()) {
-			setColumnSelectionInterval(columnIndex, columnIndex);
+			anchorSelectionColumn = columnIndex;
+			leadSelectionColumn = columnIndex;
+			//setColumnSelectionInterval(columnIndex, columnIndex);
 		}
 
-		super.changeSelection(rowIndex, columnIndex, toggle, extend);
+		if (toggle) {
+			// not used anyway
+		} else {
+			if (extend) {
+				leadSelectionColumn = columnIndex;
+				leadSelectionRow = rowIndex;
+			} else {
+				anchorSelectionColumn = columnIndex;
+				anchorSelectionRow = rowIndex;
+				leadSelectionColumn = -1;
+				leadSelectionRow = -1;
+			}
+		}
 		// let selectionChanged know about a change in single cell selection
 		selectionChanged();
 	}
 
+	/*
 	@Override
 	public void selectAll() {
 		setSelectionType(MyTable.CELL_SELECT);
@@ -540,14 +564,13 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * This handles all selection changes for the table.
 	 */
 	public void selectionChanged() {
-		//TODO: implementation needed
 
 		// create a cell range object to store
 		// the current table selection
-/*
+
 		CellRange newSelection = new CellRange(app);
 
-		if (view.isTraceDialogVisible()) {
+		/*TODO if (view.isTraceDialogVisible()) {
 
 			newSelection = view.getTraceSelectionRange(getColumnModel()
 					.getSelectionModel().getAnchorSelectionIndex(),
@@ -556,31 +579,29 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 			scrollRectToVisible(getCellRect(newSelection.getMinRow(),
 					newSelection.getMaxColumn(), true));
 
-		} else {
+		} else {*/
 
 			switch (selectionType) {
 
 			case MyTable.CELL_SELECT:
-				newSelection.setCellRange(getColumnModel().getSelectionModel()
-						.getAnchorSelectionIndex(), getSelectionModel()
-						.getAnchorSelectionIndex(), getColumnModel()
-						.getSelectionModel().getLeadSelectionIndex(),
-						getSelectionModel().getLeadSelectionIndex());
+				newSelection.setCellRange(
+					anchorSelectionColumn, anchorSelectionRow,
+					leadSelectionColumn, leadSelectionRow);
 				break;
 
 			case MyTable.ROW_SELECT:
-				newSelection.setCellRange(-1, getSelectionModel()
-						.getAnchorSelectionIndex(), -1, getSelectionModel()
-						.getLeadSelectionIndex());
+				newSelection.setCellRange(
+					-1, anchorSelectionRow,
+					-1, leadSelectionRow);
 				break;
 
 			case MyTable.COLUMN_SELECT:
-				newSelection.setCellRange(getColumnModel().getSelectionModel()
-						.getAnchorSelectionIndex(), -1, getColumnModel()
-						.getSelectionModel().getLeadSelectionIndex(), -1);
+				newSelection.setCellRange(
+					anchorSelectionColumn, -1,
+					leadSelectionColumn, -1);
 				break;
 			}
-
+/*
 		}
 */
 		// newSelection.debug();
@@ -589,24 +610,24 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		 * if(selectedCellRanges.size()>0 &&
 		 * newSelection.equals(selectedCellRanges.get(0))) return;
 		 */
-/*
+
 		// update the selection list
 
-		if (!AppD.getControlDown()) {
+		/*TODO if (!AppD.getControlDown()) {
 			selectedCellRanges.clear();
 			selectedColumnSet.clear();
 			selectedRowSet.clear();
 			selectedCellRanges.add(0, newSelection);
 
-		} else { // ctrl-select
-*/
+		} else { // ctrl-select*/
+
 			/*
 			 * // return if we have already ctrl-selected this range for
 			 * (CellRange cr : selectedCellRanges) { if
 			 * (cr.equals(newSelection)){ System.out.println("reutrned");
 			 * return; } }
 			 */
-/*
+
 			// handle dragging
 			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
 				selectedCellRanges.remove(0);
@@ -614,7 +635,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 			// add the selection to the list
 			selectedCellRanges.add(0, newSelection);
-		}
+		/*}*/
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
@@ -644,11 +665,11 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		// newSelection.debug();
 		// printSelectionParameters();
 
-		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
+		/*TODO if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
 			setSelectNone(false);
 
 		if (changedAnchor && !isEditing())
-			view.updateFormulaBar();
+			view.updateFormulaBar();*/
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
@@ -664,8 +685,8 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 				this.updateAutoFunction();
 			}
 
-			if (view.isVisibleStyleBar())
-				view.getSpreadsheetStyleBar().updateStyleBar();
+			/*TODO if (view.isVisibleStyleBar())
+				view.getSpreadsheetStyleBar().updateStyleBar();*/
 
 			app.setSelectedGeos(list, false);
 			if (list.size() > 0) {
@@ -679,6 +700,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 
 		// if the selection has changed or an empty cell has been clicked,
 		// repaint
+		/*TODO
 		if (changed || list.isEmpty()) {
 			repaint();
 			if (this.getTableHeader() != null)
@@ -882,7 +904,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	 * 
 	 * }
 	 */
-/*
+
 	public void setSelectionType(int selType) {
 
 		if (view.isColumnSelect()) {
@@ -892,28 +914,34 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 		switch (selType) {
 
 		case MyTable.CELL_SELECT:
-			setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);
 			setRowSelectionAllowed(true);
 			break;
 
 		case MyTable.ROW_SELECT:
-			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(false);
 			setRowSelectionAllowed(true);
 			break;
 
 		case MyTable.COLUMN_SELECT:
-			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);
 			setRowSelectionAllowed(false);
 			break;
 
 		}
 
+		// in web, selectionType should do what setSelectionMode do too
 		this.selectionType = selType;
 
-	}*/
+	}
+
+	public void setColumnSelectionAllowed(boolean allow) {
+		columnSelectionAllowed = allow;
+	}
+
+	public void setRowSelectionAllowed(boolean allow) {
+		rowSelectionAllowed = allow;
+	}
 
 	public int getSelectionType() {
 		return selectionType;
