@@ -27,7 +27,17 @@ public class CmdContingencyTable extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
+		
+		case 2:
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
+				AlgoContingencyTable algo = new AlgoContingencyTable(cons,
+						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1], null);
 
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList()) 
 					&& (ok[2] = arg[2].isGeoText())) {
