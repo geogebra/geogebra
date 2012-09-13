@@ -1023,6 +1023,19 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
+	/* FDistribution */
+	
+	@Test
+	public void FDistribution_0() {
+		t("Fdistribution[5, 7, 3]", "betaRegularized(5/2, 7/2, 15/22)"); 
+	}
+	
+	@Test
+	public void FDistribution_1() {
+		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.90775343897945");
+	}
+	
+
 	/* Factor */
 
 	/* Factor with Constants */
@@ -1086,7 +1099,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factor_Variables_7() {
-		t("Factor[36r^2 + 24 r t + 4t^2]", "4 * (3 * r + t)^(2)");
+		t("Factor[36 r^2 + 24 r t + 4 t^2]", "4 * (3 * r + t)^(2)");
 	}
 
 	@Test
@@ -1103,8 +1116,6 @@ public class GeoGebraCasIntegrationTest {
 	public void Factor_Variables_10() {
 		t("Factor[(a^2 - 2 * a * b + b^2)^2]", "(a - b)^(4)");
 	}
-
-
 	
 	@Test
 	public void Factor_Variables_11() {
@@ -1150,15 +1161,6 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
-	/* FDistribution */
-	
-	@Test
-	public void FDistribution_0() {
-		t("Fdistribution[5, 7, 3]", "betaRegularized(5/2, 7/2, 15/22)"); 
-		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.90775343897945");
-	}
-	
-
 	/* First */
 
 	/* Constants Only */
@@ -1193,6 +1195,16 @@ public class GeoGebraCasIntegrationTest {
 		t("FitPow[{(1, 1), (3, 2), (7, 4)}]",
 				"0.974488577374291 * x^(0.7084753128560123)");
 	}
+	
+
+	/* Fit Sin */
+	
+	// TODO Check whether we can have this at all.
+
+	//@Test
+	//public void FitSin_0() {
+	//	t("FitSin[{(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)}]", "1 + sin((π / 2) * x + π / 2)");
+	//}
 
 	// TODO Abstract, as well?
 
