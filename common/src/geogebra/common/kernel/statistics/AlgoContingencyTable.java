@@ -138,8 +138,8 @@ public class AlgoContingencyTable extends AlgoElement {
 			outList.add(colList);
 		if (freqMatrix != null)
 			outList.add(freqMatrix);
-
-		outList.add(args);
+		if (args != null)
+			outList.add(args);
 
 		input = new GeoElement[outList.size()];
 		input = outList.toArray(input);
@@ -172,6 +172,7 @@ public class AlgoContingencyTable extends AlgoElement {
 				showColPercent = true;
 			if (optionsStr.indexOf("_") > -1)
 				showRowPercent = true;
+
 			if (optionsStr.indexOf("k") > -1)
 				showChi = true;
 			if (optionsStr.indexOf("e") > -1)
@@ -186,9 +187,9 @@ public class AlgoContingencyTable extends AlgoElement {
 	private int[][] freqValues;
 	private double[][] expected;
 	private double[][] chiCont;
-	int[] rowSum;
-	int[] colSum;
-	int totalSum;
+	private int[] rowSum;
+	private int[] colSum;
+	private int totalSum;
 
 	private void loadValues() {
 
@@ -250,17 +251,25 @@ public class AlgoContingencyTable extends AlgoElement {
 		sb.append(" \\\\ \\hline ");
 
 		// table header
-		addTableRow(sb, 0, app.getMenu("Frequency"), "colValue");
+		addTableRow(sb, 0, handleSpecialChar(app.getMenu("Frequency")),
+				"colValue");
+
 		if (showRowPercent)
-			addTableRow(sb, 0, app.getPlain("RowPercent"), "blank");
+			addTableRow(sb, 0, handleSpecialChar(app.getPlain("RowPercent")),
+					"blank");
 		if (showColPercent)
-			addTableRow(sb, 0, app.getPlain("ColumnPercent"), "blank");
+			addTableRow(sb, 0,
+					handleSpecialChar(app.getPlain("ColumnPercent")), "blank");
 		if (showTotalPercent)
-			addTableRow(sb, 0, app.getPlain("TotalPercent"), "blank");
+			addTableRow(sb, 0, handleSpecialChar(app.getPlain("TotalPercent")),
+					"blank");
 		if (showExpected)
-			addTableRow(sb, 0, app.getPlain("ExpectedCount"), "blank");
+			addTableRow(sb, 0,
+					handleSpecialChar(app.getPlain("ExpectedCount")), "blank");
 		if (showChi)
-			addTableRow(sb, 0, app.getPlain("ChiSquaredContribution"), "blank");
+			addTableRow(sb, 0,
+					handleSpecialChar(app.getPlain("ChiSquaredContribution")),
+					"blank");
 
 		sb.append("\\hline ");
 
@@ -302,15 +311,19 @@ public class AlgoContingencyTable extends AlgoElement {
 			sb.append("\\\\");
 			sb.append("\\begin{array}{| | | | |}");
 			sb.append(" \\\\ \\hline ");
-			sb.append(app.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi + Unicode.Superscript_2 +  "&" + app.getMenu("PValue"));
+			sb.append(app.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi
+					+ Unicode.Superscript_2 + "&" + app.getMenu("PValue"));
 			sb.append("\\\\");
 			sb.append("\\hline ");
-			sb.append(app.getKernel().format((rowValues.length-1)*(colValues.length-1),
+			sb.append(app.getKernel().format(
+					(rowValues.length - 1) * (colValues.length - 1),
 					StringTemplate.numericDefault));
 			sb.append("&");
-			sb.append(result.get(1).toValueString(StringTemplate.numericDefault));
+			sb.append(result.get(1)
+					.toValueString(StringTemplate.numericDefault));
 			sb.append("&");
-			sb.append(result.get(0).toValueString(StringTemplate.numericDefault));
+			sb.append(result.get(0)
+					.toValueString(StringTemplate.numericDefault));
 			sb.append("\\\\");
 			sb.append("\\hline ");
 			sb.append("\\end{array}");
@@ -401,6 +414,10 @@ public class AlgoContingencyTable extends AlgoElement {
 		}
 
 		sb.append("\\\\");
+	}
+
+	private String handleSpecialChar(String s) {
+		return s.replaceAll("%", "\\\\%").replaceAll(" ", "\\\\;");
 	}
 
 	// TODO Consider locusequability
