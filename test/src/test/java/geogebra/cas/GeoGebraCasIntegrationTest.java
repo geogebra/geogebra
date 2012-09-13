@@ -1151,8 +1151,12 @@ public class GeoGebraCasIntegrationTest {
 	
 
 	/* FDistribution */
-
-	// FIXME #1869
+	
+	@Test
+	public void FDistribution_0() {
+		t("Fdistribution[5, 7, 3]", "betaRegularized(5/2, 7/2, 15/22)"); 
+		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.90775343897945");
+	}
 	
 
 	/* First */
@@ -2858,11 +2862,5 @@ public class GeoGebraCasIntegrationTest {
 		 * The exact result is
 		 * 		{x = (-ln(55)) / (ln(13) - ln(5))}.
 		 */
-	}
-	
-	@Test
-	public void FDistribution_0() {
-		t("Fdistribution[5,7,3]","betaRegularized(5/2,7/2,15/22)"); 
-		t("Numeric[Fdistribution[5,7,3]]","0.90775343897945");
 	}
 }
