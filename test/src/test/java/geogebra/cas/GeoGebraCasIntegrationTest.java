@@ -1188,6 +1188,14 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
+	/* Fit Exp */
+
+	@Test
+	public void FitExp_0() {
+		t("Numeric[FitExp[{(0, 1), (2, 4)}], 15]", "ℯ^(0.693147180559945 * x)");
+	}
+	
+
 	/* Fit Pow */
 
 	@Test
