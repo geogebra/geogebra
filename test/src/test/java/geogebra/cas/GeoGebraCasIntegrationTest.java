@@ -1376,12 +1376,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ImplicitDerivative_0() {
-		t("ImplicitDerivative[x + y + 5, x, y]", "-1");
+		t("ImplicitDerivative[x + y + 5, y, x]", "-1");
 	}
 
 	@Test
 	public void ImplicitDerivative_1() {
-		t("ImplicitDerivative[x^2 + y^2, x, y]", "(-x) / y");
+		t("ImplicitDerivative[x^2 + y^2, y, x]", "(-x) / y");
 	}
 	
 

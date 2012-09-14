@@ -767,6 +767,7 @@ public class NoExceptionsTest {
 		t("Frequency[ list1, list2,b1]");
 		t("Frequency[ list1, list2, b2 , n2 ]");
 		t("Frequency[ list2 ]");
+		t("Frequency[ {\"GeoGebra\",\"rocks\"},{\"X\",\"Y\"} ]");
 
 	}
 
@@ -1921,12 +1922,20 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdStickGraph() {
-		t("StickGraph[list1, list2,n1]");
+		t("StickGraph[list1, list2]");
+		t("StickGraph[ptlist1]");
+		t("StickGraph[list1, list2,b2]");
+		t("StickGraph[ptlist1,b2]");
 	}
 	
 	@Test
 	public void cmdStepGraph() {
-		t("StepGraph[list1, list2,n1]");
+		t("StepGraph[list1, list2]");
+		t("StepGraph[ptlist1]");
+		t("StepGraph[list1, list2,b2]");
+		t("StepGraph[ptlist1,b2]");
+		t("StepGraph[list1, list2,b2,n1]");
+		t("StepGraph[ptlist1,b2,n2]");
 	}
 	
 	@Test
@@ -2206,6 +2215,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdVerticalText() {
 		t("VerticalText[ txt ]");
+		t("VerticalText[ txt, Pt1 ]");
 	}
 
 	@Test
@@ -2506,4 +2516,14 @@ public class NoExceptionsTest {
 		t("ZMean2Estimate[ list1, list1, n3,n4, n1 ]");
 		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1,n2 ]");
 	}
+	
+	@Test
+	public void cmdContingencyTable(){
+		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ]");
+		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ,\"|\"]");
+		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"},{{1,2}} ]");
+		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ,{{1,2}},\"|\"]");
+	}
+	
+	
 }
