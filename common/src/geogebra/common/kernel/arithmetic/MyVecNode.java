@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
@@ -140,7 +141,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		double[] coords;
-
+		
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 			coords = getCoords();
@@ -180,9 +181,9 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 				sb.append(')');
 			}
 			break;
-
+			
 		default: // continue below
-			sb.append('(');
+			sb.append(tpl.getStringType().equals(StringType.LATEX) ? " \\left( " : "(");
 			sb.append(x.isGeoElement() ? ((GeoElement) x).getLabel(tpl) : x
 					.toString(tpl));
 			if (mode == Kernel.COORD_CARTESIAN)
@@ -191,7 +192,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 				sb.append("; ");
 			sb.append(y.isGeoElement() ? ((GeoElement) y).getLabel(tpl) : y
 					.toString(tpl));
-			sb.append(')');
+			sb.append(tpl.getStringType().equals(StringType.LATEX) ? " \\right) " : ")");
 			break;
 		}
 
