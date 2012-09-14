@@ -649,13 +649,13 @@ public abstract class EuclidianController {
 				}
 				return null;
 			} else if (b.isGeoConic()) {
-				return IntersectLineConicSingle(null, (GeoLine) a,
+				return getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) a,
 						(GeoConic) b, xRW, yRW);
 			} else if (b.isGeoFunctionable()) {
 				// line and function
 				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
 				if (f.isPolynomialFunction(false)) {
-					return IntersectPolynomialLineSingle(null, f,
+					return getAlgoDispatcher().IntersectPolynomialLineSingle(null, f,
 							(GeoLine) a, xRW, yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(
@@ -670,7 +670,7 @@ public abstract class EuclidianController {
 		// first hit is a conic
 		else if (a.isGeoConic()) {
 			if (b.isGeoLine()) {
-				return IntersectLineConicSingle(null, (GeoLine) b,
+				return getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) b,
 						(GeoConic) a, xRW, yRW);
 			} else if (b.isGeoConic() && !a.isEqual(b)) {
 				return getAlgoDispatcher().IntersectConicsSingle(null, (GeoConic) a,
@@ -685,7 +685,7 @@ public abstract class EuclidianController {
 			if (b.isGeoLine()) {
 				// line and function
 				if (aFun.isPolynomialFunction(false)) {
-					return IntersectPolynomialLineSingle(null, aFun,
+					return getAlgoDispatcher().IntersectPolynomialLineSingle(null, aFun,
 							(GeoLine) b, xRW, yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(
@@ -2194,7 +2194,7 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			if (singlePointWanted) {
-				ret[0] = IntersectLineConicSingle(null, line[0],
+				ret[0] = getAlgoDispatcher().IntersectLineConicSingle(null, line[0],
 						conic[0], xRW, yRW);
 			} else {
 				ret = getAlgoDispatcher().IntersectLineConic(null, line[0], conic[0]);
@@ -2244,7 +2244,7 @@ public abstract class EuclidianController {
 			
 			if (fun[0].isPolynomialFunction(false)) {
 				if (singlePointWanted) {
-					ret[0] = IntersectPolynomialLineSingle(null, fun[0],
+					ret[0] = getAlgoDispatcher().IntersectPolynomialLineSingle(null, fun[0],
 							line[0], xRW, yRW);
 				} else {
 					ret = getAlgoDispatcher().IntersectPolynomialLine(null, fun[0], line[0]);
@@ -2264,7 +2264,7 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			if (singlePointWanted) {
-				return new GeoElement[] { IntersectPolynomialConicSingle(null, fun[0], conic[0],
+				return new GeoElement[] { getAlgoDispatcher().IntersectPolynomialConicSingle(null, fun[0], conic[0],
 								xRW, yRW) };
 			}
 			return getAlgoDispatcher().IntersectPolynomialConic(null, fun[0], conic[0]);
@@ -2277,7 +2277,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				if (singlePointWanted) {
-					return new GeoElement[] { IntersectImplicitpolyPolynomialSingle(null, p,
+					return new GeoElement[] { getAlgoDispatcher().IntersectImplicitpolyPolynomialSingle(null, p,
 									fun, xRW, yRW) };
 				}
 				return getAlgoDispatcher().IntersectImplicitpolyPolynomial(null, p, fun);
@@ -2289,7 +2289,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				if (singlePointWanted) {
-					return new GeoElement[] { IntersectImplicitpolyLineSingle(null, p, l, xRW,
+					return new GeoElement[] { getAlgoDispatcher().IntersectImplicitpolyLineSingle(null, p, l, xRW,
 									yRW) };
 				}
 				return getAlgoDispatcher().IntersectImplicitpolyLine(null, p, l);
@@ -2299,7 +2299,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				if (singlePointWanted) {
-					return new GeoElement[] { IntersectImplicitpolyConicSingle(null, p, c, xRW,
+					return new GeoElement[] { getAlgoDispatcher().IntersectImplicitpolyConicSingle(null, p, c, xRW,
 									yRW) };
 				}
 				return getAlgoDispatcher().IntersectImplicitpolyConic(null, p, c);
@@ -2308,7 +2308,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				if (singlePointWanted) {
-					return new GeoElement[] { IntersectImplicitpolysSingle(null, p[0], p[1],
+					return new GeoElement[] { getAlgoDispatcher().IntersectImplicitpolysSingle(null, p[0], p[1],
 									xRW, yRW) };
 				}
 				return getAlgoDispatcher().IntersectImplicitpolys(null, p[0], p[1]);
@@ -2318,101 +2318,7 @@ public abstract class EuclidianController {
 	}
 
 
-	/**
-	 * one intersection point of polynomial f and line l near to (xRW, yRW)
-	 */
-	final private GeoPoint IntersectPolynomialLineSingle(String label,
-			GeoFunction f, GeoLine l, double xRW, double yRW) {
 
-		if (!f.isPolynomialFunction(false))
-			return null;
-
-		AlgoIntersectPolynomialLine algo = getAlgoDispatcher().getIntersectionAlgorithm(f, l);
-		int index = algo.getClosestPointIndex(xRW, yRW);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, index);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-	final private GeoPoint IntersectPolynomialConicSingle(String label,
-			GeoFunction f, GeoConic c, double x, double y) {
-		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(f, c);
-		int idx = algo.getClosestPointIndex(x, y);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-
-
-
-	/**
-	 * get only one intersection point of two conics that is near to the given
-	 * location (xRW, yRW)
-	 */
-	final private GeoPoint IntersectLineConicSingle(String label, GeoLine g,
-			GeoConic c, double xRW, double yRW) {
-		AlgoIntersectLineConic algo = getAlgoDispatcher().getIntersectionAlgorithm(g, c);
-		int index = algo.getClosestPointIndex(xRW, yRW);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, index);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-
-
-	/**
-	 * get single intersection points of a implicitPoly and a line
-	 */
-	final private GeoPoint IntersectImplicitpolyLineSingle(String label,
-			GeoImplicitPoly p, GeoLine l, double x, double y) {
-		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(p, l);
-		int idx = algo.getClosestPointIndex(x, y);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-
-	/**
-	 * get single intersection points of a implicitPoly and a line
-	 */
-	final private GeoPoint IntersectImplicitpolyPolynomialSingle(String label,
-			GeoImplicitPoly p, GeoFunction f, double x, double y) {
-		if (!f.isPolynomialFunction(false))
-			return null;
-		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(p, f);
-		int idx = algo.getClosestPointIndex(x, y);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-	/**
-	 * get single intersection points of implicitPolys and conic near given
-	 * Point (x,y)
-	 * 
-	 * @param x
-	 * @param y
-	 */
-	final public GeoPoint IntersectImplicitpolyConicSingle(String label,
-			GeoImplicitPoly p1, GeoConic c1, double x, double y) {
-		AlgoIntersectImplicitpolys algo = getAlgoDispatcher().getIntersectionAlgorithm(p1, c1);
-		int idx = algo.getClosestPointIndex(x, y);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-	/**
-	 * get single intersection points of two implicitPolys near given Point
-	 * (x,y)
-	 * 
-	 * @param x
-	 * @param y
-	 */
-	final private GeoPoint IntersectImplicitpolysSingle(String label,
-			GeoImplicitPoly p1, GeoImplicitPoly p2, double x, double y) {
-		AlgoIntersectImplicitpolys algo = getAlgoDispatcher().getIntersectionAlgorithm(p1, p2);
-		int idx = algo.getClosestPointIndex(x, y);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
 	protected final GeoElement[] parallel(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;
