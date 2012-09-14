@@ -723,20 +723,19 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 	}*/
 
-	/*public void setColumnWidthsFromSettings() {
+	public void setColumnWidthsFromSettings() {
 
 		table.setPreferredColumnWidth(settings().preferredColumnWidth());
 		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
 		for (int i = 0; i < table.getColumnCount(); ++i) {
 			if (widthMap.containsKey(i)) {
-				table.getColumnModel().getColumn(i)
-						.setPreferredWidth(widthMap.get(i));
+				table.getColumnFormatter().setWidth(i, ""+widthMap.get(i));
 			} else {
-				table.getColumnModel().getColumn(i)
-						.setPreferredWidth(table.preferredColumnWidth());
+				table.getColumnFormatter().setWidth(i,
+					""+table.preferredColumnWidth());
 			}
 		}
-	}*/
+	}
 
 	public void setRowHeightsFromSettings() {
 		HashMap<Integer, Integer> heightMap = app.getSettings()
@@ -1020,12 +1019,14 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	}*/
 
 	/*public void setShowGrid(boolean showGrid) {
-		table.setShowGrid(showGrid);
-		if (showGrid)
-			table.setIntercellSpacing(new Dimension(1, 1));
-		else
-			table.setIntercellSpacing(new Dimension(0, 0));
-		getSpreadsheetStyleBar().updateStyleBar();
+		//table.setShowGrid(showGrid);
+		if (showGrid) {
+			table.setBorderWidth(1);
+			//table.setIntercellSpacing(new Dimension(1, 1));
+		} else {
+			//table.setIntercellSpacing(new Dimension(0, 0));
+		}
+		//TODO//getSpreadsheetStyleBar().updateStyleBar();
 	}*/
 
 	public boolean getAllowToolTips() {
@@ -1172,23 +1173,23 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	}
 
 	public void settingsChanged(AbstractSettings settings0) {
-/*TODO
+
 		allowSettingUpate = false;
 
 		// layout
-		setShowColumnHeader(settings().showColumnHeader());
-		setShowRowHeader(settings().showRowHeader());
-		setShowVScrollBar(settings().showVScrollBar());
-		setShowHScrollBar(settings().showHScrollBar());
-		setShowGrid(settings().showGrid());
+		//?//setShowColumnHeader(settings().showColumnHeader());
+		//?//setShowRowHeader(settings().showRowHeader());
+		//?//setShowVScrollBar(settings().showVScrollBar());
+		//?//setShowHScrollBar(settings().showHScrollBar());
+		//TODO//setShowGrid(settings().showGrid());
 		setAllowToolTips(settings().allowToolTips());
-		setShowFormulaBar(settings().showFormulaBar());
+		//?//setShowFormulaBar(settings().showFormulaBar());
 		setColumnSelect(settings().isColumnSelect());
 		setAllowSpecialEditor(settings().allowSpecialEditor());
-		setEqualsRequired(settings().equalsRequired());
+		//?//setEqualsRequired(settings().equalsRequired());
 
 		// browser panel
-		if (AppD.hasFullPermissions()) {
+		/*? if (AppD.hasFullPermissions()) {
 			settings().removeListener(this);
 			if (settings().initialBrowserMode() < 0)
 				settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
@@ -1199,21 +1200,21 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 			if (settings().initialURL() == null)
 				settings().setInitialURL(DEFAULT_URL);
 			settings().addListener(this);
-		}
+		}*/
 
-		setShowFileBrowser(settings().showBrowserPanel());
+		//?//setShowFileBrowser(settings().showBrowserPanel());
 
 		// row height and column widths
 		setColumnWidthsFromSettings();
 		setRowHeightsFromSettings();
 
 		// cell format
-		getTable().getCellFormatHandler().processXMLString(
-				settings().cellFormat());
+		//TODO//getTable().getCellFormatHandler().processXMLString(
+		//TODO//	settings().cellFormat());
 
 		// preferredSize
-		this.setPreferredSize(geogebra.awt.GDimensionD
-				.getAWTDimension(settings().preferredSize()));
+		//TODO//this.setPreferredSize(geogebra.awt.GDimensionD
+		//TODO//		.getAWTDimension(settings().preferredSize()));
 
 		// initial position
 		// TODO not working yet ...
@@ -1223,7 +1224,6 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		// settings.selectedCell().y);
 
 		allowSettingUpate = true;
-*/
 	}
 
 	// ================================================
