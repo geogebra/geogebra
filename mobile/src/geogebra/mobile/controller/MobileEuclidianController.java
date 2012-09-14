@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -50,6 +51,94 @@ public class MobileEuclidianController extends EuclidianController
 	{
 		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
 				intersectPossible, false, complex);
+	}
+
+	/**
+	 * save the selected elements in MobileModel instead of App no repaint
+	 * anymore!
+	 * 
+	 * @see EuclidianController#handleMovedElement(GeoElement, boolean)
+	 */
+	@Override
+	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag)
+	{
+
+		// move label?
+		GeoElement geo = this.view.getLabelHit(this.mouseLoc);
+		// Application.debug("label("+(System.currentTimeMillis()-t0)+")");
+		if (geo != null)
+		{
+			this.moveMode = MOVE_LABEL;
+			this.movedLabelGeoElement = geo;
+			this.oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
+			this.startLoc = this.mouseLoc;
+			this.view.setDragCursor();
+			return;
+		}
+
+		// find and set movedGeoElement
+		this.view.setHits(this.mouseLoc);
+		Hits viewHits = this.view.getHits();
+
+		// make sure that eg slider takes precedence over a polygon (in the same
+		// layer)
+		viewHits.removePolygons();
+
+		Hits moveableList;
+
+		// if we just click (no drag) on eg an intersection, we want it selected
+		// not a popup with just the lines in
+
+		// now we want this behaviour always as
+		// * there is no popup
+		// * user might do eg click then arrow keys
+		// * want drag with left button to work (eg tessellation)
+
+		// consider intersection of 2 circles.
+		// On drag, we want to be able to drag a circle
+		// on click, we want to be able to select the intersection point
+		if (drag)
+		{
+			moveableList = viewHits.getMoveableHits(this.view);
+		} else
+		{
+			moveableList = viewHits;
+		}
+
+		Hits hits = moveableList.getTopHits();
+
+		ArrayList<GeoElement> selGeos = this.mobileModel.getSelectedGeos();
+
+		// if object was chosen before, take it now!
+		if ((selGeos.size() == 1) && !hits.isEmpty()
+				&& hits.contains(selGeos.get(0)))
+		{
+			// object was chosen before: take it
+			geo = selGeos.get(0);
+		} else
+		{
+			// choose out of hits
+			geo = chooseGeo(hits, false);
+
+			if (!selGeos.contains(geo))
+			{
+				this.mobileModel.resetSelection();
+				this.mobileModel.select(geo);
+			}
+		}
+
+		if ((geo != null) && !geo.isFixed())
+		{
+			this.moveModeSelectionHandled = true;
+		} else
+		{
+			// no geo clicked at
+			this.moveMode = MOVE_NONE;
+			resetMovedGeoPoint();
+			return;
+		}
+
+		handleMovedElement(geo, selGeos.size() > 1);
 	}
 
 	public void setView(EuclidianView euclidianView)
@@ -112,7 +201,6 @@ public class MobileEuclidianController extends EuclidianController
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
-
 	}
 
 	public void onTouchEnd(int x, int y)
@@ -121,12 +209,12 @@ public class MobileEuclidianController extends EuclidianController
 
 		if (this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
-			// this.mode = this.guiModel.getCommand().getMode();
-
-			// object that was moved loses selection
-			removeSelection();
-
-			return;
+			System.out.println("\n" + (this.app.getSelectedGeos().size() > 0)
+					+ "\n");
+			if (this.movedGeoPoint != null)
+			{
+				this.mobileModel.select((GeoElement) this.movedGeoPoint);
+			}
 		}
 
 		if (Swipeables.isSwipeable(this.guiModel.getCommand())
@@ -136,6 +224,8 @@ public class MobileEuclidianController extends EuclidianController
 		{
 			handleEvent(x, y);
 		}
+
+		this.guiModel.updateStylingBar(this.mobileModel);
 	}
 
 	private void handleEvent(int x, int y)
@@ -187,30 +277,6 @@ public class MobileEuclidianController extends EuclidianController
 		}
 
 		this.kernel.notifyRepaint();
-	}
-
-	private void removeSelection()
-	{
-		boolean repaint = this.app.getSelectedGeos().size() > 0
-				|| this.movedGeoPoint != null;
-
-		for (GeoElement g : this.app.getSelectedGeos())
-		{
-			g.setSelected(false);
-			g.setHighlighted(false);
-		}
-
-		if (this.movedGeoPoint != null)
-		{
-			((GeoElement) this.movedGeoPoint).setSelected(false);
-			((GeoElement) this.movedGeoPoint).setHighlighted(false);
-		}
-
-		if (repaint)
-		{
-			// includes repaint
-			this.app.setSelectedGeos(new ArrayList<GeoElement>());
-		}
 	}
 
 	public void onPinch(int x, int y, double scaleFactor)

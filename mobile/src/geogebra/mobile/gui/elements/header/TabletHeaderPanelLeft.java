@@ -1,4 +1,4 @@
-package geogebra.mobile.gui.elements;
+package geogebra.mobile.gui.elements.header;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;

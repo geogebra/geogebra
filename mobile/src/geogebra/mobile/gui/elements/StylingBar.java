@@ -19,7 +19,7 @@ import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 public class StylingBar extends RoundPanel
 {
 	private VerticalPanel base = new VerticalPanel();
-	private ToolBarButton colourButton;
+	private ToolBarButton colorButton;
 	private ToolBarButton labelButton;
 	private ToolBarButton[] tempButtons = new ToolBarButton[0];
 
@@ -93,7 +93,7 @@ public class StylingBar extends RoundPanel
 		}
 		add(this.base);
 
-		this.colourButton = new ToolBarButton(
+		this.colorButton = new ToolBarButton(
 				CommonResources.INSTANCE.colour(), guiModel);
 		this.labelButton = new ToolBarButton(CommonResources.INSTANCE.label(),
 				guiModel);
@@ -111,7 +111,7 @@ public class StylingBar extends RoundPanel
 			this.base.remove(b);
 		}
 
-		this.base.add(this.colourButton);
+		this.base.add(this.colorButton);
 		this.tempButtons = commands;
 		for (ToolBarButton b : this.tempButtons)
 		{
@@ -123,7 +123,7 @@ public class StylingBar extends RoundPanel
 	@Override
 	public void clear()
 	{
-		this.base.remove(this.colourButton);
+		this.base.remove(this.colorButton);
 		for (ToolBarButton b : this.tempButtons)
 		{
 			this.base.remove(b);
@@ -132,8 +132,8 @@ public class StylingBar extends RoundPanel
 		this.base.remove(this.labelButton);
 	}
 
-	public void updateColour(String colour)
+	public void updateColour(String color)
 	{
-		this.colourButton.getElement().getStyle().setBackgroundColor(colour);
+		this.colorButton.getElement().getStyle().setBackgroundColor(color);
 	}
 }

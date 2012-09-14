@@ -100,6 +100,11 @@ public class MobileModel
 		}
 	}
 
+	public ArrayList<GeoElement> getSelectedGeos()
+	{
+		return this.selectedElements;
+	}
+
 	/**
 	 * 
 	 * @param class1
@@ -256,6 +261,15 @@ public class MobileModel
 			draw = getNumberOf(GeoPoint.class) > 2
 					&& getElement(GeoPoint.class).equals(lastSelected());
 			break;
+
+		// special commands
+		case Select:
+			for (GeoElement geo : hits)
+			{
+				select(geo);
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -425,7 +439,7 @@ public class MobileModel
 			}
 		}
 
-		this.guiModel.updateStylingBar(this);
+		// this.guiModel.updateStylingBar(this);
 	}
 
 	public boolean handleEvent(GeoElement geo)
@@ -439,7 +453,7 @@ public class MobileModel
 		Hits hits = new Hits();
 		hits.add(geo);
 		handleEvent(hits);
+		this.guiModel.updateStylingBar(this);
 		return true;
 	}
-
 }

@@ -1,5 +1,6 @@
-package geogebra.mobile.gui.elements;
+package geogebra.mobile.gui.elements.header;
 
+import geogebra.mobile.gui.elements.InputDialog;
 import geogebra.mobile.gui.elements.InputDialog.InputCallback;
 
 import com.google.gwt.event.dom.client.ClickEvent;
