@@ -100,19 +100,19 @@ public class Ggb2MPReduce {
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
 				"<<on rounded, roundall, numval; begin scalar p1!!, p2!!, input!!, sigmax!!, sigmay!!, sigmaxy!!, sigmax2!!, length!!, denominator!!, xlist!!, ylist!!; " +
-				"input!!:=mattolistoflists(%0); xlist!!:=map(xcoord(~w!!), input!!); ylist!!:=map(log,map(ycoord(~w!!), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*exp(x*p2!!) end>>");
+				"input!!:=mattolistoflists(%0); xlist!!:=map(xcoord(~w!!), input!!); ylist!!:=map(log,map(ycoord(~w!!), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*exp(currentx!!*p2!!) end>>");
 		p("FitLog.1",
 				"<<on rounded, roundall, numval; begin scalar p1!!, p2!!, input!!, sigmax!!, sigmay!!, sigmaxy!!, sigmax2!!, length!!, denominator!!, xlist!!, ylist!!;" +
-				" input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(ycoord(~w!!), input!!); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= (sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!; return p1!!+log(x)*p2!! end >>");
+				" input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(ycoord(~w!!), input!!); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= (sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!; return p1!!+log(currentx!!)*p2!! end >>");
 		p("FitPoly.2",
 				"<< clear tmpx!!, tmpy!!; on rounded, roundall, numval; begin scalar xvec!!, yvec!!, input!!;" +
 				" input!!:= mattolistoflists(%0); xvec!!:=map(xcoord(~w!!), input!!); yvec!!:= map(ycoord(~w!!), input!!); tmpx!!:=vandermonde2(xvec!!);" +
 				" tmpx!!:=sub\\_matrix(tmpx!!,for i:=1:length(input!!) collect i, for i:=1:(%1+1) collect i);" +
 				" tmpy!!:=listtocolumnvector(yvec!!);tmpx!!:=(1/(tp(tmpx!!)*tmpx!!))*tp(tmpx!!); " +
-				" tmpy!!:=tmpx!!*tmpy!!; return for i:=1:part(length(tmpy!!),1) sum tmpy!!(i,1)*x^(i-1) end>>");
+				" tmpy!!:=tmpx!!*tmpy!!; return for i:=1:part(length(tmpy!!),1) sum tmpy!!(i,1)*currentx!!^(i-1) end>>");
 		p("FitPow.1",
 				"<<on rounded, roundall, numval; begin scalar p1!!, p2!!, input!!, sigmax!!, sigmay!!, sigmaxy!!, sigmax2!!, length!!, denominator!!, xlist!!, ylist!!; " +
-				"input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(log,map(ycoord(~w!!), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*x^p2!! end >>");
+				"input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(log,map(ycoord(~w!!), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*currentx!!^p2!! end >>");
 		// FitSin
 		p("Gamma.3",
 				"(((%1)*(%2))^(%0))/(%0)*kummerm(%0,%0+1,-(%1)*(%2))/beta(%0)");
