@@ -1204,6 +1204,14 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
+	/* Fit Poly */
+
+	@Test
+	public void FitPoly_0() {
+		t("FitPoly[{(-1, -1), (0, 1), (1, 1), (2, 5)}, 3]", "x^(3) - x^(2) + 1");
+	}
+	
+
 	/* Fit Pow */
 
 	@Test
@@ -2890,5 +2898,20 @@ public class GeoGebraCasIntegrationTest {
 		 * The exact result is
 		 * 		{x = (-ln(55)) / (ln(13) - ln(5))}.
 		 */
+	}
+	
+	/* Ticket 2651: Function not Evaluated */
+
+	@Test
+	public void Ticket_Ticket2651() {
+		t("f(x) := FitPoly[{(-1, -1), (0, 1), (1, 1), (2, 5)}, 3]", "x^(3) - x^(2) + 1");
+		t("f(-1)", "-1");
+		
+		// Tidy up
+		try {
+			executeInCAS("Delete[f]");
+		} catch (Throwable t) {
+			Throwables.propagate(t);
+		}
 	}
 }
