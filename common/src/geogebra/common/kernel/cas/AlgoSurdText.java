@@ -48,6 +48,7 @@ public class AlgoSurdText extends AlgoElement {
     private GeoText text; //output	
     
     protected StringBuilder sb = new StringBuilder();
+    //double debug0, debug1, debug2;
     
     public AlgoSurdText(Construction cons, String label, GeoNumeric num, GeoList list) {
     	this(cons, num, list);
@@ -111,6 +112,101 @@ public class AlgoSurdText extends AlgoElement {
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
+			
+
+			/*
+			int[] primes = {2,   3,   5,   7,  11,  13,  17,  19,  23,  29,  31,  37,  41,
+					  43,  47,  53,  59,  61,  67,  71,  73,  79,  83,  89,  97, 101,
+
+					  103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167,
+					  173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239,
+
+					  241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313,
+					  317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397,
+
+					  401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467,
+					  479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569,
+
+					  571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643,
+					  647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733,
+
+					  739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823,
+					  827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911,
+
+					  919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997};
+			
+			
+		    debug0 = Double.MAX_VALUE;
+		    debug1 = Double.MAX_VALUE;
+		    debug2 = Double.MAX_VALUE;
+		    double debug0max = Double.MAX_VALUE;
+		    double debug1max = Double.MAX_VALUE;
+		    double debug2max = Double.MAX_VALUE;
+		    
+		    
+			App.debug("START");
+			for (int p = 0 ; p < primes.length / 2; p++) {
+				for (int q = 1 ; q < 100 ; q++) { // up to 400
+					
+					double num = q + Math.sqrt(primes[p]);
+					
+					sb.setLength(0);
+					PSLQappendQuadratic(sb, num, tpl);
+					
+					
+					
+					if (!sb.toString().equals(q+"+\\sqrt{"+primes[p]+"}")) {
+						//App.debug("error:"+sb.toString()+"       "+q+"+\\sqrt{"+primes[p]+"}");
+						
+						if (Math.abs(debug0) > Math.abs(debug1) && Math.abs(debug0) > Math.abs(debug2)) {
+							if (Math.abs(debug0) < debug0max) {
+								debug0max = Math.abs(debug0);
+							}
+						} else if (Math.abs(debug1) > Math.abs(debug2) && Math.abs(debug1) > Math.abs(debug0)) {
+							if (Math.abs(debug1) < debug1max) {
+								debug1max = Math.abs(debug1);
+							}
+						} else if (Math.abs(debug2) > Math.abs(debug1) && Math.abs(debug2) > Math.abs(debug0)) {
+							if (Math.abs(debug2) < debug2max) {
+								debug2max = Math.abs(debug2);
+							}
+						}
+					}
+					
+					
+					for (int r = 2 ; r < 100 ; r++) {
+						num = (q + Math.sqrt(primes[p]))/r;
+						
+						sb.setLength(0);
+						PSLQappendQuadratic(sb, num, tpl);
+						
+						if (sb.toString().indexOf("\\frac") > -1 && !sb.toString().equals("\\frac{"+q+"+\\sqrt{"+primes[p]+"}}{"+r+"}")) {
+							//App.debug("error:"+sb.toString()+"       \\frac{"+q+"+\\sqrt{"+primes[p]+"}}{"+r+"}      "+sbDebug.toString());
+
+						
+							if (Math.abs(debug0) > Math.abs(debug1) && Math.abs(debug0) > Math.abs(debug2)) {
+								if (Math.abs(debug0) < debug0max) {
+									debug0max = Math.abs(debug0);
+								}
+							} else if (Math.abs(debug1) > Math.abs(debug2) && Math.abs(debug1) > Math.abs(debug0)) {
+								if (Math.abs(debug1) < debug1max) {
+									debug1max = Math.abs(debug1);
+								}
+							} else if (Math.abs(debug2) > Math.abs(debug1) && Math.abs(debug2) > Math.abs(debug0)) {
+								if (Math.abs(debug2) < debug2max) {
+									debug2max = Math.abs(debug2);
+								}
+							}
+
+						
+						}
+						
+					}
+					
+				}
+			}
+			App.debug("END "+debug0max+" "+debug1max+" "+debug2max);
+			*/
 
 			double decimal = num.getDouble();
 
@@ -247,7 +343,7 @@ public class AlgoSurdText extends AlgoElement {
 				testValues[i] = values.get(i);
 				testNames[i] = names.get(i);
 				
-				App.debug(testNames[i]);
+				//App.debug(testNames[i]);
 			}
 			
 		} else {
@@ -535,14 +631,22 @@ public class AlgoSurdText extends AlgoElement {
     		appendUndefined(sb, num1);
     		return;
     	}
+    	
+    	//debug0 = coeffs[0];
+    	//debug1 = coeffs[1];
+    	//debug2 = coeffs[2];
 		
-		App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
+		//App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
 		if ((coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0)
-				|| Math.abs(coeffs[0]) > 15000
-				|| Math.abs(coeffs[1]) > 50000
-				|| Math.abs(coeffs[2]) > 200000
+				
+				// try to minimize possibility of wrong answer
+				// and maximize usefulness
+				// numbers determined by commented-out code in compute() method
+				|| Math.abs(coeffs[0]) > 570 
+				|| Math.abs(coeffs[1]) > 729 
+				|| Math.abs(coeffs[2]) > 465 
 				) {
-			App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
+			//App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
 			appendUndefined(sb, num1);
 		} else if (coeffs[0] == 0) {
 			//coeffs[1]: denominator;  coeffs[2]: numerator
