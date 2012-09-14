@@ -105,7 +105,7 @@ public class AlgoSurdText extends AlgoElement {
 
     @Override
 	public void compute() {   	
-    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+    	StringTemplate tpl = StringTemplate.maxPrecision;
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
