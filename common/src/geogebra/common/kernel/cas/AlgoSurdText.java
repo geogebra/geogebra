@@ -532,9 +532,20 @@ public class AlgoSurdText extends AlgoElement {
     	}
     	
 		double[] numPowers = {num1 * num1, num1, 1.0};
-		int[] coeffs = PSLQ(numPowers, Kernel.STANDARD_PRECISION, 10);
+		int[] coeffs = PSLQ(numPowers, 1E-10, 10);
 		
-		if (coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0 ) {
+    	if (coeffs == null) {
+    		appendUndefined(sb, num1);
+    		return;
+    	}
+		
+		App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
+		if ((coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0)
+				|| Math.abs(coeffs[0]) > 15000
+				|| Math.abs(coeffs[1]) > 50000
+				|| Math.abs(coeffs[2]) > 200000
+				) {
+			App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
 			appendUndefined(sb, num1);
 		} else if (coeffs[0] == 0) {
 			//coeffs[1]: denominator;  coeffs[2]: numerator
