@@ -121,7 +121,11 @@ public class AlgoSurdText extends AlgoElement {
 				else*/
 					//PSLQappendQuartic(sb, decimal, tpl);
 				
-				PSLQappendGeneral(sb, decimal, tpl);
+				if (list == null) {
+					PSLQappendQuadratic(sb, decimal, tpl);
+				} else {
+					PSLQappendGeneral(sb, decimal, tpl);					
+				}
 			}
 						
 			text.setTextString(sb.toString());

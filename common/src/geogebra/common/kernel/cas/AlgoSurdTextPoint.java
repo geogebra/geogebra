@@ -70,18 +70,14 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 
     @Override
 	public final void compute() {
-    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+    	StringTemplate tpl = StringTemplate.maxPrecision;
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
 			sb.append(" \\left( ");
-			App.debug(sb.toString());
-			PSLQappendGeneral(sb, p.inhomX,tpl);
-			App.debug(sb.toString());
+			PSLQappendQuadratic(sb, p.inhomX,tpl);
 			sb.append(" , ");
-			App.debug(sb.toString());
-			PSLQappendGeneral(sb, p.inhomY,tpl);
-			App.debug(sb.toString());
+			PSLQappendQuadratic(sb, p.inhomY,tpl);
 			sb.append(" \\right) ");
 			
 			text.setTextString(sb.toString());
