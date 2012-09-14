@@ -105,26 +105,23 @@ public class AlgoSurdText extends AlgoElement {
 
     @Override
 	public void compute() {   	
-    	StringTemplate tpl = StringTemplate.maxPrecision;
+    	
+    	// make sure answer is formatted as eg \sqrt not sqrt
+    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
-			
+
 			double decimal = num.getDouble();
-			
+
 			if ( Kernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal),tpl));
 			} else {
-				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, AbstractKernel.EPSILON);
-				if (frac[1]<10000)
-					Fractionappend(sb, (int)frac[0], (int)frac[1]);
-				else*/
-					//PSLQappendQuartic(sb, decimal, tpl);
-				
+
 				if (list == null) {
 					PSLQappendQuadratic(sb, decimal, tpl);
 				} else {
-					PSLQappendGeneral(sb, decimal, tpl);					
+					PSLQappendGeneral(sb, decimal, tpl);	
 				}
 			}
 						
