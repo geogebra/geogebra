@@ -9,22 +9,24 @@
 	<inherits name="com.google.gwt.resources.Resources" />
 	<inherits name="com.google.gwt.logging.Logging"/>
 
-	<!-- Logging -->
-	<set-property name="gwt.logging.enabled" value="TRUE"/>
-	<set-property name="gwt.logging.logLevel" value="INFO"/>
-	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
-	<set-property name="gwt.logging.developmentModeHandler" value="DISABLED" />
-	<set-property name="gwt.logging.firebugHandler" value="DISABLED" />
-	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
-	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
-
-	<!-- Inherits Web Hopefully it inherits everything that is in it, and even Common -->
-	<inherits name="geogebra.Common" />
-	<inherits name="geogebra.Web" />
 
 	<!-- Other module inherits -->
 	<inherits name="com.googlecode.mgwt.MGWT" />
 	<inherits name="org.vectomatic.libgwtsvg" />
+	
+	<!-- Inherits Web Hopefully it inherits everything that is in it, and even Common -->
+	<inherits name="geogebra.Common" />
+	<inherits name="geogebra.Web" />
+	
+	
+	<!-- Logging -->
+	<set-property name="gwt.logging.enabled" value="TRUE"/>
+	<set-property name="gwt.logging.logLevel" value="INFO"/>
+	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+	<set-property name="gwt.logging.developmentModeHandler" value="ENABLED" />
+	<set-property name="gwt.logging.firebugHandler" value="ENABLED" />
+	<set-property name="gwt.logging.popupHandler" value="ENABLED" />
+	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class="geogebra.mobile.MobileEntryPoint" />

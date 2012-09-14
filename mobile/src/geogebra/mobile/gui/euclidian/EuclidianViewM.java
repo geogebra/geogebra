@@ -18,10 +18,13 @@ import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.web.awt.GGraphics2DW;
 
 import java.util.List;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.logging.client.HasWidgetsLogHandler;
+import com.google.gwt.logging.client.LoggingPopup;
 import com.google.gwt.user.client.Window;
 import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
 import com.googlecode.mgwt.dom.client.event.touch.TouchEndHandler;
@@ -40,13 +43,15 @@ import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
  */
 public class EuclidianViewM extends EuclidianView
 {
+	static Logger logger = Logger.getLogger("");
+	LoggingPopup popup;
+	
 	// set in setCanvas
 	private GGraphics2DW g2p = null;
 	Canvas canvas;
 
 	private GColor backgroundColor = GColor.white;
 	private GGraphics2D g2dtemp;
-	Logger logger;
 
 	public EuclidianViewM(MobileEuclidianController ec)
 	{
@@ -54,7 +59,7 @@ public class EuclidianViewM extends EuclidianView
 
 		this.setAllowShowMouseCoords(false);
 
-		EuclidianViewM.this.logger = Logger.getLogger("");
+		logger.addHandler(new HasWidgetsLogHandler(new LoggingPopup()));
 	}
 
 	/**
@@ -70,19 +75,7 @@ public class EuclidianViewM extends EuclidianView
 		this.g2p = new GGraphics2DW(this.canvas);
 
 		TouchDelegate touchDelegate = new TouchDelegate(this.canvas);
-
-		touchDelegate.addPinchHandler(new PinchHandler()
-		{
-			@Override
-			public void onPinch(PinchEvent event)
-			{
-				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onPinch(event.getX(), event.getY(), event.getScaleFactor());
-
-				EuclidianViewM.this.logger.log(Level.INFO,
-				    event.toDebugString() + " (" + event.getX() + "/" + event.getY() + ")" + "; " + event.getScaleFactor());
-			}
-		});
-
+		
 		touchDelegate.addTouchStartHandler(new TouchStartHandler()
 		{
 
@@ -93,9 +86,9 @@ public class EuclidianViewM extends EuclidianView
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getTouches().get(0).getPageX(), event
 				    .getTouches().get(0).getPageY());
 
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getTouches().get(0).getPageX() + "/"
+				EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " (" + event.getTouches().get(0).getPageX() + "/"
 				    + event.getTouches().get(0).getPageY() + ")");
-
+				EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " " + event.getTouches().length());
 			}
 		});
 
@@ -108,6 +101,7 @@ public class EuclidianViewM extends EuclidianView
 				event.preventDefault();
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getTouches().get(0).getPageX(), event
 				    .getTouches().get(0).getPageY());
+				EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " " + event.getTouches().length());
 			}
 		});
 
@@ -120,14 +114,27 @@ public class EuclidianViewM extends EuclidianView
 				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getChangedTouches().get(0).getPageX(), event
 				    .getChangedTouches().get(0).getPageY());
 
-				EuclidianViewM.this.logger.log(Level.INFO, event.toDebugString() + " (" + event.getChangedTouches().get(0).getPageX() + "/"
+				EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " (" + event.getChangedTouches().get(0).getPageX() + "/"
 				    + event.getChangedTouches().get(0).getPageY() + ")");
+				EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " " + event.getTouches().length());
 			}
 		});
+		
+		touchDelegate.addPinchHandler(new PinchHandler() {
 
+			@Override
+			public void onPinch(PinchEvent event) {
+				((MobileEuclidianController) EuclidianViewM.this.getEuclidianController()).onPinch(event.getX(), event.getY(), event.getScaleFactor());
+
+				EuclidianViewM.logger.log(Level.INFO,
+						event.toDebugString() + " (" + event.getX() + "/" + event.getY() + ")" + "; " + event.getScaleFactor());	
+			}
+		});
+		
 		updateFonts();
 		initView(true);
 		attachView();
+		
 	}
 
 	@Override

@@ -228,6 +228,12 @@ public class MobileEuclidianController extends EuclidianController
 		this.guiModel.updateStylingBar(this.mobileModel);
 	}
 
+	public void onPinch(int x, int y, double scaleFactor)
+	{
+		super.mouseLoc = new GPoint(x, y);
+		super.zoomInOut(false, scaleFactor < 1);
+	}
+
 	private void handleEvent(int x, int y)
 	{
 		ToolBarCommand cmd = this.guiModel.getCommand();
@@ -279,9 +285,27 @@ public class MobileEuclidianController extends EuclidianController
 		this.kernel.notifyRepaint();
 	}
 
-	public void onPinch(int x, int y, double scaleFactor)
+	private void removeSelection()
 	{
-		super.mouseLoc = new GPoint(x, y);
-		super.zoomInOut(false, scaleFactor < 1);
+		boolean repaint = this.app.getSelectedGeos().size() > 0
+				|| this.movedGeoPoint != null;
+
+		for (GeoElement g : this.app.getSelectedGeos())
+		{
+			g.setSelected(false);
+			g.setHighlighted(false);
+		}
+
+		if (this.movedGeoPoint != null)
+		{
+			((GeoElement) this.movedGeoPoint).setSelected(false);
+			((GeoElement) this.movedGeoPoint).setHighlighted(false);
+		}
+
+		if (repaint)
+		{
+			// includes repaint
+			this.app.setSelectedGeos(new ArrayList<GeoElement>());
+		}
 	}
 }
