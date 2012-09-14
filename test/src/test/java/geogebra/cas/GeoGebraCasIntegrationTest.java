@@ -1196,6 +1196,14 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
+	/* Fit Log */
+
+	@Test
+	public void FitLog_0() {
+		t("FitLog[{(ℯ,1), (ℯ^2, 4)}]", "3 * log(x) - 2");
+	}
+	
+
 	/* Fit Pow */
 
 	@Test
