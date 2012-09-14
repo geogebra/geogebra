@@ -214,6 +214,8 @@ public class GeoGebraCasIntegrationTest {
 		t("a", "a");
 		t("a := 1", "1");
 		t("a", "1");
+		
+		// Tidy up
 		try {
 			executeInCAS("Delete[a]");
 		} catch (Throwable t) {
@@ -778,7 +780,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Delete_0() {
 		try {
-			executeInCAS("a:=4");
+			executeInCAS("a := 4");
 			String result = executeInCAS("a");
 			if(!result.equals("4")) {
 				fail("Assignment not working so the \"Delete\" command can't be tested.");
@@ -1323,6 +1325,42 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void HyperGeometric_Cumulative_3() {
 		t("HyperGeometric[10, 2, 2, 3, true]", "1");
+	}
+	
+	
+	/* Identity */
+
+	@Test
+	public void Identity_0() {
+		t("Identity[3]", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
+	}
+
+	@Test
+	public void Identity_1() {
+		t("a := 3", "3");
+		t("Identity[a]", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
+		t("a := 4", "4");
+		t("Identity[a]", "{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}");
+
+		// Tidy up
+		try {
+			executeInCAS("Delete[a]");
+		} catch (Throwable t) {
+			Throwables.propagate(t);
+		}
+	}
+
+	@Test
+	public void Identity_2() {
+		t("A := {{2, 17, -3}, {b, c, 0}, {f, 0, 1}}", "{{2, 17, -3}, {b, c, 0}, {f, 0, 1}}");
+		t("A^0", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
+		
+		// Tidy up
+		try {
+			executeInCAS("Delete[A]");
+		} catch (Throwable t) {
+			Throwables.propagate(t);
+		}
 	}
 	
 
