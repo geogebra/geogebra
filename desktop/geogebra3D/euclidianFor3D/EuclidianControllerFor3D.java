@@ -49,6 +49,8 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		
 	}
 	
+	/*
+	
 	@Override
 	protected boolean attach(GeoPointND p, Path path) {
 		if (!((GeoElement) p).isGeoElement3D())
@@ -69,6 +71,8 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 			return super.detach(p);
 		return false;
 	}
+	
+	*/
 	
 	/**
 	 * Method used when geos are both 2D

@@ -1,5 +1,6 @@
 package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -1399,6 +1400,82 @@ public class AlgoDispatcher {
 		Transform t = new TransformMirror(cons, g);
 		return t.transform(geoMir, label);
 
+	}
+	
+	public boolean attach(GeoPointND p, Path path, EuclidianViewInterfaceCommon view, double mx, double my) {
+		
+		GeoPoint point = (GeoPoint) p;
+	
+		try {
+			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			//checkZooming(); 
+			
+			GeoPoint newPoint = Point(null, path,
+					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
+					false, false);
+			cons.setSuppressLabelCreation(oldLabelCreationFlag);
+			cons.replace(point, newPoint);
+			//clearSelections();
+			return true;
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean attach(GeoPointND p, Region region, EuclidianViewInterfaceCommon view, double mx, double my) {
+	
+		GeoPoint point = (GeoPoint) p;
+		
+		try {
+			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			//checkZooming(); 
+			
+			GeoPoint newPoint = PointIn(null, region,
+					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
+					false, false);
+			cons.setSuppressLabelCreation(oldLabelCreationFlag);
+			cons.replace(point, newPoint);
+			//clearSelections();
+			return true;
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean detach(GeoPointND point, EuclidianViewInterfaceCommon view) {
+		
+		GeoPoint p = (GeoPoint) point;
+		
+		//getSelectedPoints();
+		//getSelectedRegions();
+		//getSelectedPaths();
+
+		// move point (20,20) pixels when detached
+		double x = view.toScreenCoordX(p.inhomX) + 20;
+		double y = view.toScreenCoordY(p.inhomY) + 20;
+
+		try {
+			boolean oldLabelCreationFlag = cons
+					.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			//checkZooming(); 
+			
+			GeoPoint newPoint = new GeoPoint(
+					cons, null,
+					view.toRealWorldCoordX(x),
+					view.toRealWorldCoordY(y), 1.0);
+			cons.setSuppressLabelCreation(oldLabelCreationFlag);
+			cons.replace(p, newPoint);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
+		//clearSelections();
+		return true;
 	}
 
 }

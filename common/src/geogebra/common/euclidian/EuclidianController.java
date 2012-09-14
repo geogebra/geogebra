@@ -3686,84 +3686,7 @@ public abstract class EuclidianController {
 		refreshHighlighting(null, null);
 	}
 
-	protected boolean attach(GeoPointND p, Path path) {
-		
-		GeoPoint point = (GeoPoint) p;
-	
-		try {
-			Construction cons = kernel.getConstruction();
-			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			checkZooming(); 
-			
-			GeoPoint newPoint = getAlgoDispatcher().Point(null, path,
-					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
-					false, false);
-			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			kernel.getConstruction().replace(point, newPoint);
-			clearSelections();
-			return true;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return false;
-		}
-	}
 
-	protected boolean attach(GeoPointND p, Region region) {
-	
-		GeoPoint point = (GeoPoint) p;
-		
-		try {
-			Construction cons = kernel.getConstruction();
-			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			checkZooming(); 
-			
-			GeoPoint newPoint = getAlgoDispatcher().PointIn(null, region,
-					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
-					false, false);
-			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			kernel.getConstruction().replace(point, newPoint);
-			clearSelections();
-			return true;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return false;
-		}
-	}
-	
-	protected boolean detach(GeoPointND point) {
-		
-		GeoPoint p = (GeoPoint) point;
-		
-		getSelectedPoints();
-		getSelectedRegions();
-		getSelectedPaths();
-
-		// move point (20,20) pixels when detached
-		double x = view.toScreenCoordX(p.inhomX) + 20;
-		double y = view.toScreenCoordY(p.inhomY) + 20;
-
-		try {
-			Construction cons = kernel.getConstruction();
-			boolean oldLabelCreationFlag = cons
-					.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			checkZooming(); 
-			
-			GeoPoint newPoint = new GeoPoint(
-					kernel.getConstruction(), null,
-					view.toRealWorldCoordX(x),
-					view.toRealWorldCoordY(y), 1.0);
-			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			cons.replace(p, newPoint);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		clearSelections();
-		return true;
-	}
 	
 	
 
@@ -3784,7 +3707,14 @@ public abstract class EuclidianController {
 	
 			if (p.isPointOnPath() || p.isPointInRegion()) {
 	
-				detach(p);
+				getSelectedPoints();
+				getSelectedRegions();
+				getSelectedPaths();
+				
+				checkZooming(); 
+				if (getAlgoDispatcher().detach(p, view)) {
+					clearSelections();
+				}
 			}
 		}
 	
@@ -3804,17 +3734,39 @@ public abstract class EuclidianController {
 				if (((GeoElement) paths[0]).isGeoPolygon()
 						|| (((GeoElement) paths[0]).isGeoConic() && (((GeoConicND) paths[0])
 								.getLastHitType() == HitType.ON_FILLING))) {
-					return attach(points[0], (Region) paths[0]);
+					
+					checkZooming(); 
+					boolean ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, mx, my);
+					
+					if (ret) {
+						clearSelections();
+					}
+					
+					return ret;
 				}
 	
-				return attach(points[0], paths[0]);
+				checkZooming(); 
+				boolean ret =  getAlgoDispatcher().attach(points[0], paths[0], view, mx, my);
 	
+				if (ret) {
+					clearSelections();
+				}
+				return ret;
+				
 			} else if (selRegions() == 1) {
 				Region regions[] = getSelectedRegions();
 				GeoPointND[] points = getSelectedPoints();
 	
 				if (!((GeoElement) regions[0]).isChildOf((GeoElement) points[0])) {
-					return attach(points[0], regions[0]);
+					
+					checkZooming(); 
+					boolean ret = getAlgoDispatcher().attach(points[0], regions[0], view, mx, my);
+					
+					if (ret) {
+						clearSelections();
+					}
+					
+					return ret;
 				}
 	
 			}
