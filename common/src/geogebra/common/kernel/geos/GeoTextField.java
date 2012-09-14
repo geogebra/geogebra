@@ -188,6 +188,10 @@ public class GeoTextField extends GeoButton {
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl)
 					+ ")=" + defineText;
 		}
+		
+		if ("".equals(defineText.trim())) {
+			return;
+		}
 
 		try {
 			linkedGeo = kernel
