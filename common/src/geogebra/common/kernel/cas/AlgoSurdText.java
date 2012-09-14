@@ -342,7 +342,7 @@ public class AlgoSurdText extends AlgoElement {
 	
     	int numOfAllTerms = vars.length;
     	if (numOfAllTerms-1 > Math.floor((coeffs.length-1-step-offset)/step)) { //checksum
-    		appendUndefined();
+    		//appendUndefined();
     		return;
     	}
     	
@@ -372,19 +372,14 @@ public class AlgoSurdText extends AlgoElement {
 		
 	}
 
-	private void appendUndefined() {
-		
-    	appendUndefined(sb);
-	}
-
-	private void appendUndefined(StringBuilder sb1) {
+	private void appendUndefined(StringBuilder sb1, double num1) {
 		
     	//sb1.append("\\text{");
     	//sb1.append(app.getPlain("undefined"));
     	//sb1.append("}");
 		
 		// eg SurdText[1.23456789012345] returns 1.23456789012345
-		sb1.append(kernel.format(num.getDouble(), StringTemplate.maxPrecision));
+		sb1.append(kernel.format(num1, StringTemplate.maxPrecision));
 	}
 	
 	/**
@@ -408,7 +403,7 @@ public class AlgoSurdText extends AlgoElement {
 		if (coeffs[0] == 0 && coeffs[1] ==0) {
 
 			if (coeffs[2] == 0 && coeffs[3] == 0 && coeffs[4] == 0 ) {
-				appendUndefined(sb);
+				appendUndefined(sb, num1);
 			} else if (coeffs[2] == 0) {
 				//coeffs[1]: denominator;  coeffs[2]: numerator
 				int denom = coeffs[3];
@@ -426,7 +421,7 @@ public class AlgoSurdText extends AlgoElement {
 				int c = 2*coeffs[2];
 
 				if (b2 <= 0) { //should not happen!
-					appendUndefined(sb);
+					appendUndefined(sb, num1);
 					return;
 				}
 				
@@ -537,10 +532,10 @@ public class AlgoSurdText extends AlgoElement {
     	}
     	
 		double[] numPowers = {num1 * num1, num1, 1.0};
-		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
+		int[] coeffs = PSLQ(numPowers, Kernel.STANDARD_PRECISION, 10);
 		
 		if (coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0 ) {
-			appendUndefined(sb);
+			appendUndefined(sb, num1);
 		} else if (coeffs[0] == 0) {
 			//coeffs[1]: denominator;  coeffs[2]: numerator
 			int denom = coeffs[1];
@@ -558,7 +553,7 @@ public class AlgoSurdText extends AlgoElement {
 			int c = 2*coeffs[0];
 
 			if (b2 <= 0) { //should not happen!
-				appendUndefined(sb);
+				appendUndefined(sb, num1);
 				return;
 			}
 			
