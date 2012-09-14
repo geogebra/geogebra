@@ -51,5 +51,17 @@ wine $WIXDIR/light.exe -sval -ext WixUIExtension -ext WiXUtilExtension GeoGebra.
 
 mv GeoGebra.msi $MSIFILE
 
+if [ "$MSISIGN" = 1 ]; then
+ # Copying the unsigned MSI file and signatures to the Windows box:
+ ncftpput -u $MSIFTPUSER -p $MSIFTPPASS -P $MSIFTPPORT $MSISERVER $MSIFTPDIR $MSIFILE
+ # Assuming that a PVX key already created.
+ # Signing the file in Windows by using signtool.exe:
+ ssh -p $MSISSHPORT -i $MSISSHKEY $MSISSHUSER@$MSISERVER cmd /c "$MSIMSSDKDIR\\signtool.exe" \
+  sign /f "$MSIFTPDIRFULL\\igi-keystore.pfx" $MSIFTPDIRFULL\\$MSIFILE
+ # Copying the signed file back to here:
+ rm $MSIFILE
+ ncftpget -u $MSIFTPUSER -p $MSIFTPPASS -P $MSIFTPPORT $MSISERVER . $MSIFTPDIR/$MSIFILE
+ fi
+
 echo "Now you can run 'msiexec /i $MSIFILE' to test GeoGebra Windows Installer on Unix"
 
