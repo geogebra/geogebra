@@ -240,6 +240,10 @@ public class AlgoContingencyTable extends AlgoElement {
 		// TODO: reuse value arrays
 
 		rowCount = rowList.size();
+		if(freqMatrix.size()!=rowCount){
+			table.setUndefined();
+			return false;
+		}
 		colCount = colList.size();
 		rowValues = new String[rowCount];
 		colValues = new String[colCount];
