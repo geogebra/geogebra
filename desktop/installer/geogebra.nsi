@@ -632,27 +632,17 @@ Section Install Install
     File cc.ico
     File forum.ico
     File "${build.dir}\installer\windows\GeoGebra.exe"
-    File "${build.dir}\installer\windows\GeoGebraPrim.exe"
     File "${build.dir}\unpacked\*.jar"
     File gpl-3.0.txt
-    File cc-by-sa-3.0.txt
+    File by-nc-sa-3.0.txt
     File wiki.ico
     SetOutPath $INSTDIR\unsigned
     File "${build.dir}\unsigned\unpacked\*.jar"
     
-    CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes"
     SetOutPath ""
     CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraPrim.lnk $INSTDIR\GeoGebraPrim.exe "" $INSTDIR\GeoGebraPrim.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (German).lnk" http://www.geogebra.org/de/wiki/ "" $INSTDIR\wiki.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (International).lnk" http://www.geogebra.org/en/wiki/ "" $INSTDIR\wiki.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebra.org.lnk" http://www.geogebra.org/ "" $INSTDIR\GeoGebra.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebratube.org.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License.lnk" http://www.geogebra.org/download/license.txt "" $INSTDIR\GeoGebra.exe 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (CC-by-SA-3.0).lnk" http://creativecommons.org/licenses/by-sa/3.0/ "" $INSTDIR\cc.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (GPL-3.0).lnk" $INSTDIR\gpl-3.0.txt
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\Release Notes.lnk" http://www.geogebra.org/en/wiki/index.php/Release_Notes_GeoGebra_4.2 "" $INSTDIR\GeoGebra.exe 0
     ${If} 1 = $DESKTOP_ALL
     ${OrIf} 1 = $DESKTOP_CURRENT
       Call PushShellVarContext
@@ -662,7 +652,6 @@ Section Install Install
        SetShellVarContext current
       ${EndIf}
       CreateShortCut $DESKTOP\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
-      CreateShortCut $DESKTOP\GeoGebraPrim.lnk $INSTDIR\GeoGebraPrim.exe "" $INSTDIR\GeoGebraPrim.exe 0
       Call PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
@@ -865,23 +854,14 @@ FunctionEnd
     Delete $INSTDIR\cc.ico
     Delete $INSTDIR\forum.ico
     Delete $INSTDIR\GeoGebra.exe
-    Delete $INSTDIR\GeoGebraPrim.exe
     Delete $INSTDIR\*.jar
     Delete $INSTDIR\gpl-3.0.txt
-    Delete $INSTDIR\cc-by-sa-3.0.txt
+    Delete $INSTDIR\by-nc-sa-3.0.txt
     Delete $INSTDIR\wiki.ico
     RMDir $INSTDIR
     
-    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License.lnk"
-    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (CC-by-SA-3.0).lnk"
-    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (GPL-3.0).lnk"
-    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\Release Notes.lnk"
-    RMDir "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes"
     Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk"
-    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (German).lnk"
-    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (International).lnk"
-    Delete $SMPROGRAMS\$STARTMENU_FOLDER\www.geogebra.org.lnk
     Delete $SMPROGRAMS\$STARTMENU_FOLDER\www.geogebratube.org.lnk
     RMDir $SMPROGRAMS\$STARTMENU_FOLDER
     
