@@ -27,7 +27,7 @@ public class CmdContingencyTable extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		
+
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 				AlgoContingencyTable algo = new AlgoContingencyTable(cons,
@@ -37,9 +37,9 @@ public class CmdContingencyTable extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
-			
+
 		case 3:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList()) 
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoText())) {
 				AlgoContingencyTable algo = new AlgoContingencyTable(cons,
 						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1],
@@ -47,20 +47,32 @@ public class CmdContingencyTable extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
+				
+			} else if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())) {
+				AlgoContingencyTable algo = new AlgoContingencyTable(cons,
+						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1],
+						(GeoList) arg[2], null);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		case 4:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList()) && (ok[3] = arg[3].isGeoText()) ) {
-				// TODO : use correct constructor
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoText())) {
+
 				AlgoContingencyTable algo = new AlgoContingencyTable(cons,
 						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1],
-						(GeoText) arg[2]);
+						(GeoList) arg[2], (GeoText) arg[3]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

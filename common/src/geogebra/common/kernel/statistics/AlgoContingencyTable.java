@@ -42,11 +42,22 @@ public class AlgoContingencyTable extends AlgoElement {
 	private StringBuilder sb = new StringBuilder();
 	private boolean isRawData;
 
+	private String[] rowValues;
+	private String[] colValues;
+	private int[][] freqValues;
+	private double[][] expected;
+	private double[][] chiCont;
+	private int[] rowSum;
+	private int[] colSum;
+	private int totalSum;
+
 	// display option flags
 	private boolean showRowPercent, showColPercent, showTotalPercent, showChi,
 			showExpected, showTest;
+	private int rowCount;
+	private int colCount;
 
-	/**
+	/**************************************************
 	 * Constructs a contingency table from raw data
 	 * 
 	 * @param cons
@@ -81,7 +92,7 @@ public class AlgoContingencyTable extends AlgoElement {
 
 	}
 
-	/**
+	/***************************************************
 	 * Constructs a contingency table from a given frequency table
 	 * 
 	 * @param cons
@@ -102,9 +113,6 @@ public class AlgoContingencyTable extends AlgoElement {
 		this.colList = colList;
 		this.freqMatrix = freqMatrix;
 		this.args = args;
-
-		freq = new AlgoFrequency(cons, list2, list1, true);
-		cons.removeFromConstructionList(freq);
 
 		table = new GeoText(cons);
 
@@ -182,16 +190,14 @@ public class AlgoContingencyTable extends AlgoElement {
 		}
 	}
 
-	private String[] rowValues;
-	private String[] colValues;
-	private int[][] freqValues;
-	private double[][] expected;
-	private double[][] chiCont;
-	private int[] rowSum;
-	private int[] colSum;
-	private int totalSum;
+	/**
+	 * Loads raw data from GeoLists into arrays
+	 */
+	private boolean loadRawDataValues() {
 
-	private void loadValues() {
+		if (!freq.getResult().isDefined()) {
+			return false;
+		}
 
 		rowValues = freq.getContingencyRowValues();
 		colValues = freq.getContingencyColumnValues();
@@ -202,8 +208,6 @@ public class AlgoContingencyTable extends AlgoElement {
 		totalSum = 0;
 
 		freqValues = new int[rowValues.length][colValues.length];
-		expected = new double[rowValues.length][colValues.length];
-		chiCont = new double[rowValues.length][colValues.length];
 
 		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
 			GeoList rowGeo = (GeoList) fr.get(rowIndex);
@@ -216,8 +220,79 @@ public class AlgoContingencyTable extends AlgoElement {
 			}
 		}
 
-		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
-			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
+		return true;
+	}
+
+	/**
+	 * Loads prepared frequencies and values from GeoLists into arrays
+	 */
+	private boolean loadPreparedDataValues() {
+
+		GeoElement geo;
+
+		if (rowList == null || colList == null || freqMatrix == null
+				|| !rowList.isDefined() || !colList.isDefined()
+				|| !freqMatrix.isDefined() || !freqMatrix.isMatrix()) {
+			table.setUndefined();
+			return false;
+		}
+
+		// TODO: reuse value arrays
+
+		rowCount = rowList.size();
+		colCount = colList.size();
+		rowValues = new String[rowCount];
+		colValues = new String[colCount];
+		rowSum = new int[rowCount];
+		colSum = new int[colCount];
+
+		for (int i = 0; i < rowCount; i++) {
+			geo = rowList.get(i);
+			if (!geo.isGeoText())
+				return false;
+			rowValues[i] = ((GeoText) geo).getTextString();
+		}
+
+		for (int i = 0; i < colCount; i++) {
+			geo = colList.get(i);
+			if (!geo.isGeoText())
+				return false;
+
+			colValues[i] = ((GeoText) geo).getTextString();
+		}
+
+		freqValues = new int[rowSum.length][colValues.length];
+
+		for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+			// row element
+			GeoList rowGeo = (GeoList) freqMatrix.get(rowIndex);
+			for (int colIndex = 0; colIndex < colCount; colIndex++) {
+				// geo element
+				geo = rowGeo.get(colIndex);
+				if (!geo.isGeoNumeric())
+					return false;
+
+				freqValues[rowIndex][colIndex] = (int) ((GeoNumeric) rowGeo
+						.get(colIndex)).getDouble();
+				rowSum[rowIndex] += freqValues[rowIndex][colIndex];
+				colSum[colIndex] += freqValues[rowIndex][colIndex];
+				totalSum += freqValues[rowIndex][colIndex];
+			}
+
+		}
+		return true;
+	}
+
+	/**
+	 * Computes expected counts and chi-square contributions
+	 */
+	private void computeChiTestValues() {
+
+		expected = new double[rowValues.length][colValues.length];
+		chiCont = new double[rowValues.length][colValues.length];
+
+		for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+			for (int colIndex = 0; colIndex < colCount; colIndex++) {
 				expected[rowIndex][colIndex] = 1.0 * rowSum[rowIndex]
 						* colSum[colIndex] / totalSum;
 				chiCont[rowIndex][colIndex] = (freqValues[rowIndex][colIndex] - expected[rowIndex][colIndex]);
@@ -226,19 +301,25 @@ public class AlgoContingencyTable extends AlgoElement {
 						/ expected[rowIndex][colIndex];
 			}
 		}
-
 	}
 
 	@Override
 	public final void compute() {
 
-		if (!freq.getResult().isDefined()) {
+		boolean dataLoaded;
+		if (isRawData) {
+			dataLoaded = loadRawDataValues();
+		} else {
+			dataLoaded = loadPreparedDataValues();
+		}
+
+		if (!dataLoaded) {
 			table.setUndefined();
 			return;
 		}
 
-		loadValues();
 		parseArgs();
+		computeChiTestValues();
 
 		sb.setLength(0);
 
@@ -301,8 +382,12 @@ public class AlgoContingencyTable extends AlgoElement {
 
 		if (showTest) {
 
-			AlgoChiSquaredTest test = new AlgoChiSquaredTest(cons,
-					freq.getResult(), null);
+			AlgoChiSquaredTest test;
+			if (isRawData) {
+				test = new AlgoChiSquaredTest(cons, freq.getResult(), null);
+			} else {
+				test = new AlgoChiSquaredTest(cons, freqMatrix, null);
+			}
 			cons.removeFromConstructionList(test);
 			GeoList result = test.getResult();
 
