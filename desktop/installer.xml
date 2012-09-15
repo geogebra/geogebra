@@ -215,6 +215,7 @@ read the following web pages:
 				role="Editor" />
 		</jarbundler>
 		<copy file="${src.dir}/installer/gpl-3.0.txt" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/gpl-3.0.txt" />
+		<copy file="${src.dir}/installer/by-nc-sa-3.0.txt" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/by-nc-sa-3.0.txt" />
 		<move file="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/Java/unpacked" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/Java/unsigned" />
 		<zip destfile="${build.dir}/installer/GeoGebra_${versionname}.zip">
 			<zipfileset dir="${build.dir}/installer/macosx" excludes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" />
