@@ -728,6 +728,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// get input vars. Do this *before* we set the assignment variable to avoid name clash,
 		// see #2599
+		// f(x)=FitPoly[...] has no x on RHS, but we need it
+		if(ve instanceof FunctionNVar){
+			for(FunctionVariable fv:((FunctionNVar) ve).getFunctionVariables()){		
+				getFunctionVars().add(fv.toString(StringTemplate.defaultTemplate));
+			}
+		}
 		HashSet<GeoElement> geoVars = ve.getVariables();
 		if (geoVars != null) {
 			for (GeoElement geo : geoVars) {
