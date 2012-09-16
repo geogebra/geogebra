@@ -9,6 +9,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -252,7 +253,9 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		 * sbBuildValueString.append(kernel.format(y));
 		 * sbBuildValueString.append(")"); break; }
 		 */
-
+		if(tpl.hasType(StringType.MPREDUCE)){
+				sbBuildValueString.append("myvect");				
+		}
 		sbBuildValueString.append("(");
 		sbBuildValueString.append(kernel.format(getX(),tpl));
 		setCoordSep(tpl);
@@ -538,6 +541,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		spreadsheetTraceList.add(yy);
 		GeoNumeric zz = new GeoNumeric(cons, v.getZ());
 		spreadsheetTraceList.add(zz);
+	}
+	
+	@Override
+	final public boolean isCasEvaluableObject() {
+		return true;
 	}
 
 }

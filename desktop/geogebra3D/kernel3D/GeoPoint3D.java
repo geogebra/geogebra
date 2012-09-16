@@ -36,6 +36,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -780,6 +781,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		}
 
 		sbToString.setLength(0);
+		if(tpl.hasType(StringType.MPREDUCE)){
+			sbToString.append("myvect");				
+		}
 		sbToString.append("(");
 		sbToString.append(kernel.format(p.getX(),tpl));
 		sbToString.append(", ");
@@ -1178,7 +1182,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return 3;
 	}
 	
-	
+	@Override
+	final public boolean isCasEvaluableObject() {
+		return true;
+	}	
 	
 	
 	
