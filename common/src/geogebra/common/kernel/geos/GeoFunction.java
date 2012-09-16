@@ -424,7 +424,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * @return f(x)
 	 */
 	public double evaluate(double x) {
-		if (fun == null)
+		if (fun == null || !isDefined)
 			return Double.NaN;
 
 		/*
@@ -483,6 +483,11 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * @return f(x)
 	 */
 	final public boolean evaluateBoolean(double x) {
+		
+		if (fun == null || !isDefined) {
+			return false;
+		}
+		
 		return fun.evaluateBoolean(x);
 	}
 

@@ -16,6 +16,8 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -4295,11 +4297,11 @@ public class Kernel {
 
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-
-			if (geo.isGeoFunction()) {
-				((GeoFunction) geo).getFunction().clearCasEvalMap("");
-			} else if (geo.isGeoFunctionNVar()) {
-				((GeoFunctionNVar) geo).getFunction().clearCasEvalMap("");
+			
+			FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
+			
+			if (fun != null) {
+				fun.clearCasEvalMap("");
 			}
 
 			AlgoElement algo = geo.getParentAlgorithm();

@@ -221,6 +221,11 @@ public class GeoFunctionConditional extends GeoFunction {
 	 */
 	@Override
 	final public double evaluate(double x) {
+		
+		if (condFun == null || !isDefined) {
+			return Double.NaN;
+		}
+
 		if (interval) {
 			// check if x is in interval [a, b]
 			if (x < intervalMin || x > intervalMax) {
@@ -269,6 +274,11 @@ public class GeoFunctionConditional extends GeoFunction {
 	@Override
 	public Function getFunction() {
 		if (uncondFun == null) {
+			
+			if (condFun == null) {
+				return null;
+			}
+			
 			ExpressionNode en = new ExpressionNode(kernel,
 					condFun.getFunctionExpression(), Operation.MULTIPLY,
 					ifFun.getFunctionExpression());
