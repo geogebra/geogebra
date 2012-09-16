@@ -4297,13 +4297,13 @@ public class Kernel {
 
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			
-			FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
-			
-			if (fun != null) {
-				fun.clearCasEvalMap("");
+			if(geo instanceof FunctionalNVar){
+				FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
+				
+				if (fun != null) {
+					fun.clearCasEvalMap("");
+				}
 			}
-
 			AlgoElement algo = geo.getParentAlgorithm();
 
 			if (algo instanceof AlgoCasBase) {
