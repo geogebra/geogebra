@@ -215,6 +215,9 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		showGrid(plotSettings.showGrid);
 		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
 				plotSettings.showYAxis, false);
+		
+		setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
+				plotSettings.showXAxis, false);
 
 		setAutomaticGridDistance(plotSettings.gridIntervalAuto);
 		if (!plotSettings.gridIntervalAuto) {

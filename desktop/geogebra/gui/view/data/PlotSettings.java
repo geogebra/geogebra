@@ -19,6 +19,7 @@ public class PlotSettings {
 	public int pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
 	
 	public boolean showYAxis = false;
+	public boolean showXAxis = true;
 	public boolean showArrows = false;
 	public boolean forceXAxisBuffer = false;
 	public boolean forceYAxisBuffer = false;
