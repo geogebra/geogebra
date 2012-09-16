@@ -5996,9 +5996,9 @@ public abstract class EuclidianController {
 					
 				}
 				
+				return;
 			}
 			
-			return;
 		}
 
 		
