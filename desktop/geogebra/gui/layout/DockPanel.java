@@ -792,15 +792,11 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		titlePanel.setVisible(app.getSettings().getLayout().showTitleBar()
 				&& !(isAlone && !isMaximized()) && !app.isApplet()
 				&& !isOpenInFrame());
-
-		if (styleBarPanel != null) {
-			styleBarPanel.setVisible(isStyleBarVisible());
-		}
-
-		if (styleBarButtonPanel != null) {
-			styleBarButtonPanel.setVisible(!titlePanel.isVisible());
-		}
-
+		
+		// update stylebar visibility
+		setShowStyleBar(isStyleBarVisible());
+		updateStyleBarVisibility();
+		
 		// update the title bar if necessary
 		updateTitleBarIfNecessary();
 		
@@ -996,22 +992,28 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Toggle the style bar.
 	 */
 	public void toggleStyleBar() {
-		if (!this.hasStyleBar)
+		if (!hasStyleBar)
 			return;
 
 		setShowStyleBar(!showStyleBar);
+		updateStyleBarVisibility();
+	}
+	
+	/**
+	 * Update the style bar visibility.
+	 */
+	public void updateStyleBarVisibility() {
+		if (styleBar == null)
+			return;
 
-		if (showStyleBar && styleBar == null) {
-			styleBar = loadStyleBar();
-			styleBar.addMouseListener(this);
-			styleBarPanel.add(styleBar, BorderLayout.CENTER);
-		}
-
-		styleBar.setVisible(showStyleBar);
-		styleBarButtonPanel.setVisible(!titlePanel.isVisible());
 		styleBarPanel.setVisible(isStyleBarVisible());
-
+		updateToggleStyleBarButtons();
 		updateTitleBar();
+		
+		if (isStyleBarVisible()){
+			styleBar.setVisible(showStyleBar);
+			styleBarButtonPanel.setVisible(!titlePanel.isVisible());
+		}
 	}
 
 	/**
@@ -1159,9 +1161,6 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
-
-		updateToggleStyleBarButtons();
-
 	}
 
 	private void updateToggleStyleBarButtons() {
