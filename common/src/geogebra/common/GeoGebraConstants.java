@@ -28,7 +28,7 @@ public interface GeoGebraConstants {
 	public static final String XML_FILE_FORMAT = IS_FIVE_POINT_ZERO ? "5.0" : "4.2";
 	/* end hacks */
 	/** Splash filename -- used for online */
-	public static final String SPLASH_STRING = "splash42beta.png";
+	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
 	public static final String SHORT_VERSION_STRING = "4.2";
