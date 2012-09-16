@@ -5,6 +5,8 @@ import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoPointInRegion;
+import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
@@ -219,6 +221,8 @@ public class GeoTextField extends GeoButton {
 
 			if (linkedGeo.isGeoText()) {
 				linkedText = ((GeoText) linkedGeo).getTextString();
+			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath || linkedGeo.getParentAlgorithm() instanceof AlgoPointInRegion) {
+				linkedText = linkedGeo.toValueString(StringTemplate.defaultTemplate);
 			} else {
 
 				// want just a number for eg a=3 but we want variables for eg
