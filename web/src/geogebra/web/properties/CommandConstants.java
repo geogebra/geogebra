@@ -694,9 +694,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List of Points> ]")
     String FitExp_Syntax();
 
-    @DefaultStringValue("[ <List of Points> ]")
-    String FitExp_SyntaxCAS();
-
     @DefaultStringValue("FitGrowth")
     String FitGrowth();
 
@@ -721,9 +718,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List of Points> ]")
     String FitLog_Syntax();
 
-    @DefaultStringValue("[ <List of Points> ]")
-    String FitLog_SyntaxCAS();
-
     @DefaultStringValue("FitLogistic")
     String FitLogistic();
 
@@ -736,17 +730,11 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List of Points>, <Degree of Polynomial> ]")
     String FitPoly_Syntax();
 
-    @DefaultStringValue("[ <List of Points>, <Degree of Polynomial> ]")
-    String FitPoly_SyntaxCAS();
-
     @DefaultStringValue("FitPow")
     String FitPow();
 
     @DefaultStringValue("[ <List of Points> ]")
     String FitPow_Syntax();
-
-    @DefaultStringValue("[ <List of Points> ]")
-    String FitPow_SyntaxCAS();
 
     @DefaultStringValue("FitSin")
     String FitSin();
@@ -2191,10 +2179,10 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SolveODE")
     String SolveODE();
 
-    @DefaultStringValue("[ <f'(x, y)>, <Start x>, <Start y>, <End x>, <Step> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <End t>, <Step> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End x>, <Step> ]")
+    @DefaultStringValue("[ <f'(x, y)> ]\n[ <f'(x, y)>, <Point on f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <End x>, <Step> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <End t>, <Step> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End x>, <Step> ]")
     String SolveODE_Syntax();
 
-    @DefaultStringValue("[ <Equation> ]\n[ <Equation>, <Dependent Variable>, <Independent Variable> ]")
+    @DefaultStringValue("[ <Equation> ]\n[ <Equation>, <Point(s) on f> ]\n[ <Equation>, <Point(s) on f>, <Point(s) on f'> ]\n[ <Equation>, <Dependent Variable>, <Independent Variable>,  <Point(s) on f> ] \n[ <Equation>, <Dependent Variable>, <Independent Variable>, <Point(s) on f>, <Point(s) on f'> ]")
     String SolveODE_SyntaxCAS();
 
     @DefaultStringValue("Sort")

@@ -559,6 +559,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("μ₁ - μ₂")
     String DifferenceOfMeans_short();
 
+    @DefaultStringValue("p1 - p2")
+    String DifferenceOfProportions_short();
+
     @DefaultStringValue("Difference of Means T")
     String DifferenceofMeansT();
 
@@ -1561,6 +1564,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Style")
     String Properties_Style();
 
+    @DefaultStringValue("p")
+    String Proportion_short();
+
     @DefaultStringValue("RGB")
     String RGB();
 
@@ -1707,6 +1713,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Row Order")
     String RowOrder();
+
+    @DefaultStringValue("Sample")
+    String Sample();
 
     @DefaultStringValue("Sample 1")
     String Sample1();
@@ -2481,6 +2490,12 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Z")
     String ZStatistic();
+
+    @DefaultStringValue("Z Test, Difference of Means")
+    String ZTestDifferenceOfMeans();
+
+    @DefaultStringValue("Z Test, Difference of Proportions")
+    String ZTestDifferenceOfProportions();
 
     @DefaultStringValue("Zoom")
     String Zoom();
