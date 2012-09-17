@@ -33,6 +33,10 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource label();
 	
+	@Source("icons/svg/properties_defaults_2.svg")
+	@Validated(validated = false)
+	SVGResource properties_defaults();
+	
 	//ToolBar
 	
 	@Source("icons/svg/arrow_cursor_finger.svg")

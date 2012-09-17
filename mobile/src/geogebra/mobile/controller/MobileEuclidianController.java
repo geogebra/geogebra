@@ -8,6 +8,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -141,11 +142,38 @@ public class MobileEuclidianController extends EuclidianController
 		handleMovedElement(geo, selGeos.size() > 1);
 	}
 
+	/**
+	 * use the selected Elements from MobileModel instead of the ones from App
+	 * 
+	 * @see EuclidianController#moveMultipleObjects
+	 */
+	@Override
+	protected void moveMultipleObjects(boolean repaint)
+	{
+		this.translationVec.setX(this.xRW - this.startPoint.x);
+		this.translationVec.setY(this.yRW - this.startPoint.y);
+		this.startPoint.setLocation(this.xRW, this.yRW);
+		this.startLoc = this.mouseLoc;
+
+		// move all selected geos
+		GeoElement.moveObjects(
+				removeParentsOfView(this.mobileModel.getSelectedGeos()),
+				this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
+
+		if (repaint)
+		{
+			this.kernel.notifyRepaint();
+		}
+	}
+
 	public void setView(EuclidianView euclidianView)
 	{
 		this.view = euclidianView;
 	}
 
+	/**
+	 * sets kernel AND app (kernel.getApplication)
+	 */
 	@Override
 	public void setKernel(Kernel k)
 	{
@@ -156,6 +184,7 @@ public class MobileEuclidianController extends EuclidianController
 	@Override
 	public void setApplication(App app)
 	{
+		this.app = this.kernel.getApplication();
 	}
 
 	@Override
@@ -207,16 +236,6 @@ public class MobileEuclidianController extends EuclidianController
 	{
 		this.clicked = false;
 
-		if (this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
-		{
-			System.out.println("\n" + (this.app.getSelectedGeos().size() > 0)
-					+ "\n");
-			if (this.movedGeoPoint != null)
-			{
-				this.mobileModel.select((GeoElement) this.movedGeoPoint);
-			}
-		}
-
 		if (Swipeables.isSwipeable(this.guiModel.getCommand())
 				&& this.mobileModel.getNumberOf(GeoPoint.class) == 1
 				&& (Math.abs(this.origin.getX() - x) > 10 || Math
@@ -249,6 +268,7 @@ public class MobileEuclidianController extends EuclidianController
 			if (this.view.getHits().size() == 0)
 			{
 				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
+				this.mobileModel.resetSelection(); 
 			}
 		}
 
@@ -283,29 +303,5 @@ public class MobileEuclidianController extends EuclidianController
 		}
 
 		this.kernel.notifyRepaint();
-	}
-
-	private void removeSelection()
-	{
-		boolean repaint = this.app.getSelectedGeos().size() > 0
-				|| this.movedGeoPoint != null;
-
-		for (GeoElement g : this.app.getSelectedGeos())
-		{
-			g.setSelected(false);
-			g.setHighlighted(false);
-		}
-
-		if (this.movedGeoPoint != null)
-		{
-			((GeoElement) this.movedGeoPoint).setSelected(false);
-			((GeoElement) this.movedGeoPoint).setHighlighted(false);
-		}
-
-		if (repaint)
-		{
-			// includes repaint
-			this.app.setSelectedGeos(new ArrayList<GeoElement>());
-		}
 	}
 }

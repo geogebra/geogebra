@@ -3,6 +3,7 @@ package geogebra.mobile.gui.elements;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.toolbar.ToolBarButton;
 import geogebra.mobile.model.GuiModel;
+import geogebra.mobile.utils.StylingBarEntries;
 
 import java.util.Arrays;
 
@@ -20,7 +21,6 @@ public class StylingBar extends RoundPanel
 {
 	private VerticalPanel base = new VerticalPanel();
 	private ToolBarButton colorButton;
-	private ToolBarButton labelButton;
 	private ToolBarButton[] tempButtons = new ToolBarButton[0];
 
 	public StylingBar(final GuiModel guiModel)
@@ -95,12 +95,15 @@ public class StylingBar extends RoundPanel
 
 		this.colorButton = new ToolBarButton(
 				CommonResources.INSTANCE.colour(), guiModel);
-		this.labelButton = new ToolBarButton(CommonResources.INSTANCE.label(),
-				guiModel);
 	}
 
 	public void rebuild(ToolBarButton[] commands)
 	{
+		if(commands == null){
+			clear(); 
+			return; 
+		}
+		
 		if (Arrays.equals(this.tempButtons, commands) && commands.length != 0)
 		{
 			return;
@@ -117,9 +120,19 @@ public class StylingBar extends RoundPanel
 		{
 			this.base.add(b);
 		}
-		this.base.add(this.labelButton);
 	}
 
+	public void rebuild(StylingBarEntries entries, GuiModel model)
+	{
+		if(entries == null){
+			clear(); 
+		}
+		else{
+			rebuild(entries.getButtons(model)); 
+			updateColor(entries.getColor().toString()); 
+		}		
+	}
+	
 	@Override
 	public void clear()
 	{
@@ -129,11 +142,10 @@ public class StylingBar extends RoundPanel
 			this.base.remove(b);
 		}
 		this.tempButtons = new ToolBarButton[0];
-		this.base.remove(this.labelButton);
 	}
 
-	public void updateColour(String color)
+	public void updateColor(String color)
 	{
 		this.colorButton.getElement().getStyle().setBackgroundColor(color);
-	}
+	}	
 }
