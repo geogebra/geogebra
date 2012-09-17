@@ -556,7 +556,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ComplexNumbers() {
-		t("(5 + 3 ί) + Conjugate(5 + 3 ί)", "10");
+		t("(5 + 3  \u03af) + Conjugate(5 + 3  \u03af)", "10");
 	}
 	
 
@@ -572,19 +572,19 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CFactor_0() {
-		t("CFactor[x^2 + 4]", "(x + 2 * ί) * (x - 2 * ί)");
+		t("CFactor[x^2 + 4]", "(x + 2 *  \u03af) * (x - 2 *  \u03af)");
 	}
 
 	@Test
 	public void CFactor_1() {
-		t("CFactor[a^2 + x^2, a]", "(a + x * ί) * (a - x * ί)",
-				"(ί * x + a) * ( - ί * x + a)");
+		t("CFactor[a^2 + x^2, a]", "(a + x *  \u03af) * (a - x *  \u03af)",
+				"( \u03af * x + a) * ( -  \u03af * x + a)");
 	}
 
 	@Test
 	public void CFactor_2() {
-		t("CFactor[a^2 + x^2, x]", "(x + a * ί) * (x - a * ί)",
-				"(x + ί * a) * (x - ί * a)");
+		t("CFactor[a^2 + x^2, x]", "(x + a *  \u03af) * (x - a *  \u03af)",
+				"(x +  \u03af * a) * (x -  \u03af * a)");
 	}
 
 
@@ -698,17 +698,17 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CSolutions_OneVariable_0() {
-		t("CSolutions[x^2 = -1]", "{ί, -ί}");
+		t("CSolutions[x^2 = -1]", "{ \u03af, - \u03af}");
 	}
 
 	@Test
 	public void CSolutions_OneVariable_1() {
-		t("CSolutions[x^2 + 1 = 0]", "{ί, -ί}");
+		t("CSolutions[x^2 + 1 = 0]", "{ \u03af, - \u03af}");
 	}
 
 	@Test
 	public void CSolutions_OneVariable_2() {
-		t("CSolutions[a^2 = -1, a]", "{ί, -ί}");
+		t("CSolutions[a^2 = -1, a]", "{ \u03af, - \u03af}");
 	}
 
 	/* Several Equations and Variables */
@@ -716,7 +716,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void CSolutions_Several_0() {
 		t("CSolutions[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]",
-				"{{1 + 2 * ί, 1 + ί}, {1 - 2 * ί, 1 - ί}}");
+				"{{1 + 2 *  \u03af, 1 +  \u03af}, {1 - 2 *  \u03af, 1 -  \u03af}}");
 	}
 
 
@@ -726,17 +726,17 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CSolve_OneVariable_0() {
-		t("CSolve[x^2 = -1]", "{x = ί, x = -ί}");
+		t("CSolve[x^2 = -1]", "{x =  \u03af, x = - \u03af}");
 	}
 
 	@Test
 	public void CSolve_OneVariable_1() {
-		t("CSolve[x^2 + 1 = 0, x]", "{x = ί, x = -ί}");
+		t("CSolve[x^2 + 1 = 0, x]", "{x =  \u03af, x = - \u03af}");
 	}
 
 	@Test
 	public void CSolve_OneVariable_2() {
-		t("CSolve[a^2 = -1, a]", "{a = ί, a = -ί}");
+		t("CSolve[a^2 = -1, a]", "{a =  \u03af, a = - \u03af}");
 	}
 
 	/* Several Equations and Variables */
@@ -744,7 +744,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void CSolve_Several_0() {
 		t("CSolve[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]",
-				"{{x = 1 + 2 * ί, y = 1 + ί}, {x = 1 - 2 * ί, y = 1 - ί}}");
+				"{{x = 1 + 2 *  \u03af, y = 1 +  \u03af}, {x = 1 - 2 *  \u03af, y = 1 -  \u03af}}");
 	}
 
 
@@ -980,23 +980,7 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Expand_2() {
-		StringBuilder expectedResult = new StringBuilder("");
-
-		if (CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvarb")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarx")) {
-			expectedResult.append("a * x^(2) + b * x^(2)");
-		} else if (CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvara")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarb")) {
-			expectedResult.append("x^(2) * a + x^(2) * b");
-		} else {
-			fail("Expected result for this variable ordering not defined yet.");
-		}
-
-		t("Expand[Factor[a x^2 + b x^2]]", expectedResult.toString());
+		t("Expand[Factor[a x^2 + b x^2]]", "a * x^(2) + b * x^(2)");
 	}
 
 	@Test
@@ -1368,7 +1352,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Imaginary_0() {
-		t("Imaginary[17 + 3 ί]", "3");
+		t("Imaginary[17 + 3  \u03af]", "3");
 	}
 	
 
@@ -2043,7 +2027,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Real_0() {
-		t("Real[17 + 3 ί]", "17");
+		t("Real[17 + 3  \u03af]", "17");
 	}
 	
 
@@ -2690,7 +2674,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ToComplex_0() {
-		t("ToComplex[(3, 2)]", "3 + 2 * ί", "2 * ί + 3");
+		t("ToComplex[(3, 2)]", "3 + 2 *  \u03af", "2 *  \u03af + 3");
 	}
 	
 
@@ -2698,7 +2682,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ToExponential_0() {
-		t("ToExponential[1 + ί]", "sqrt(2) * ℯ^((ί * π) / 4)");
+		t("ToExponential[1 +  \u03af]", "sqrt(2) * ℯ^(( \u03af * π) / 4)");
 	}
 	
 
@@ -2706,7 +2690,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ToPoint_0() {
-		t("ToPoint[3 + 2ί]", "(3, 2)");
+		t("ToPoint[3 + 2 \u03af]", "(3, 2)");
 	}
 	
 
@@ -2719,7 +2703,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ToPolar_1() {
-		t("ToPolar[1 + sqrt(3) * ί]", "(2; π / 3)");
+		t("ToPolar[1 + sqrt(3) *  \u03af]", "(2; π / 3)");
 	}
 	
 
@@ -2899,7 +2883,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Ticket_Ticket1336_4() {
-		t("(5 + 3 ί) + Conjugate[5 + 3 ί]", "10");
+		t("(5 + 3  \u03af) + Conjugate[5 + 3  \u03af]", "10");
 	}
 
 	/* Ticket 1477: e becomes E in CAS */
