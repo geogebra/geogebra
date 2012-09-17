@@ -41,18 +41,30 @@ public class CmdCircle3D extends CmdCircle {
 	    							(GeoLineND) arg[0],
 	    							(GeoPointND) arg[1])};
 	    			return ret;
-	    		}else if ((ok[0] = (arg[0] .isGeoPoint()))
-	    				&& (ok[1] = (arg[1] .isNumberValue()))) {
-	    			GeoElement[] ret =
-		    			{
+	    		}else if (ok[0] = (arg[0] .isGeoPoint())){
+	    			if(ok[1] = (arg[1] .isNumberValue())){
+		    			GeoElement[] ret =
+		    				{
 		    					kernelA.getManager3D().Circle3D(
 		    							c.getLabel(),
 		    							(GeoPointND) arg[0],
 		    							(NumberValue) arg[1],
 		    							(GeoDirectionND) ((Kernel3D) kernelA).getXOYPlane())};
 		    			return ret;
-	    			
+
+		    		}else if(ok[1] = (arg[1] .isGeoPoint())){
+		    			GeoElement[] ret =
+		    				{
+		    					kernelA.getManager3D().Circle3D(
+		    							c.getLabel(),
+		    							(GeoPointND) arg[0],
+		    							(GeoPointND) arg[1],
+		    							(GeoDirectionND) ((Kernel3D) kernelA).getXOYPlane())};
+		    			return ret;
+
+		    		}
 	    		}
+	    	
 	    	}
 	    	break;
 	    
