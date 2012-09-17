@@ -2091,7 +2091,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	private void setInputVE(ValidExpression inputVE) {
-		App.printStacktrace(ValidExpression.debugString(inputVE));
 		this.inputVE = inputVE;
 	}
 
@@ -2205,7 +2204,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (isFunctionAble) {
 			setInputVE(new Function(getInputVE().wrap()));
 			
-			((Function) getInputVE()).initFunction();
+			((Function) getInputVE()).initFunctionVars();
 		}
 
 		this.firstComputeOutput = true;

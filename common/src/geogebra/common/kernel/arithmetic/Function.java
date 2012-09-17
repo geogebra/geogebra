@@ -133,7 +133,16 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		super.initFunction();
 	}
-
+	/**
+	 * Initializes function variables  without resolving commands in the expression
+	 */
+	public void initFunctionVars() {
+		if (fVars == null) {
+			// try function variable x
+			fVars = new FunctionVariable[] { new FunctionVariable(kernel) };
+		}
+	}
+	
 	/**
 	 * Returns this function's value at position x.
 	 * 
