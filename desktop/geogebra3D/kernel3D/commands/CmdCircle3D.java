@@ -9,6 +9,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
+import geogebra3D.kernel3D.Kernel3D;
 
 public class CmdCircle3D extends CmdCircle {
 	
@@ -35,11 +36,22 @@ public class CmdCircle3D extends CmdCircle {
 	    				&& (ok[1] = (arg[1] .isGeoPoint()))) {
 	    			GeoElement[] ret =
 	    			{
-	    					((Kernel)kernelA).getManager3D().Circle3D(
+	    					kernelA.getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoLineND) arg[0],
 	    							(GeoPointND) arg[1])};
 	    			return ret;
+	    		}else if ((ok[0] = (arg[0] .isGeoPoint()))
+	    				&& (ok[1] = (arg[1] .isNumberValue()))) {
+	    			GeoElement[] ret =
+		    			{
+		    					kernelA.getManager3D().Circle3D(
+		    							c.getLabel(),
+		    							(GeoPointND) arg[0],
+		    							(NumberValue) arg[1],
+		    							(GeoDirectionND) ((Kernel3D) kernelA).getXOYPlane())};
+		    			return ret;
+	    			
 	    		}
 	    	}
 	    	break;
@@ -53,7 +65,7 @@ public class CmdCircle3D extends CmdCircle {
 	    				&& (ok[2] = (arg[2] .isGeoPoint()))) {
 	    			GeoElement[] ret =
 	    			{
-	    					((Kernel)kernelA).getManager3D().Circle3D(
+	    					kernelA.getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(GeoPointND) arg[1],
@@ -63,10 +75,10 @@ public class CmdCircle3D extends CmdCircle {
 	    	}
 
 	    	if ((ok[0] = (arg[0] .isGeoPoint())) && (ok[2] = (arg[2] instanceof GeoDirectionND))){
-	    		if ((ok[1] = (arg[1] .isNumberValue()))){
+	    		if (ok[1] = (arg[1] .isNumberValue())){
 	    			GeoElement[] ret =
 	    			{
-	    					((Kernel)kernelA).getManager3D().Circle3D(
+	    					kernelA.getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(NumberValue) arg[1],
@@ -75,7 +87,7 @@ public class CmdCircle3D extends CmdCircle {
 	    		}else if ((ok[1] = (arg[1] .isGeoPoint()))){
 	    			GeoElement[] ret =
 	    			{
-	    					((Kernel)kernelA).getManager3D().Circle3D(
+	    					kernelA.getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(GeoPointND) arg[1],
