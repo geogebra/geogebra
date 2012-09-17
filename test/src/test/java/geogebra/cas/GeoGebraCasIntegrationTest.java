@@ -577,14 +577,13 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CFactor_1() {
-		t("CFactor[a^2 + x^2, a]", "(a + x *  \u03af) * (a - x *  \u03af)",
-				"( \u03af * x + a) * ( -  \u03af * x + a)");
+		t("CFactor[a^2 + x^2, a]", "(a + x * \u03af) * (a - x * \u03af)",	"(a - x * \u03af) * (a + x * \u03af)");
 	}
 
 	@Test
 	public void CFactor_2() {
-		t("CFactor[a^2 + x^2, x]", "(x + a *  \u03af) * (x - a *  \u03af)",
-				"(x +  \u03af * a) * (x -  \u03af * a)");
+		t("CFactor[a^2 + x^2, x]", "(x + a * \u03af) * (x - a * \u03af)",
+				"(x + \u03af * a) * (x - \u03af * a)");
 	}
 
 
@@ -1405,7 +1404,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Integral_Definite_0() {
-		t("Integral[cos(x), x, a, b]", "-sin(a)+ sin(b)");
+		t("Integral[cos(x), x, a, b]", "-sin(a) + sin(b)");
 	}
 
 	@Test
