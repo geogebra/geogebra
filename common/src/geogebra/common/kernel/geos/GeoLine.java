@@ -96,7 +96,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	public GeoLine(Construction c) {
 		super(c);
-		setMode(GeoLine.EQUATION_IMPLICIT);
 	}
 
 	/**

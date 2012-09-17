@@ -307,6 +307,7 @@ public class ConstructionDefaults {
 		line.setLocalVariableLabel("Line");
 		line.setObjColor(colLine);
 		line.setDefaultGeoType(DEFAULT_LINE);
+		line.setMode(GeoLine.EQUATION_IMPLICIT);
 		defaultGeoElements.put(DEFAULT_LINE, line);
 
 		// segment
