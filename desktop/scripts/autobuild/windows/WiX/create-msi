@@ -33,11 +33,8 @@ test -r ../../../../build/installer/windows/GeoGebra.exe || {
 cp ../../../../build/unpacked/* .
 cp ../../../../installer/geogebra.ico .
 cp ../../../../build/installer/windows/GeoGebra.exe .
-cp ../../../../build/installer/windows/GeoGebraPrim.exe .
-cp ../../../../installer/cc-by-sa-3.0.txt .
-cp ../../../../installer/cc.ico .
+cp ../../../../installer/by-nc-sa-3.0.txt .
 cp ../../../../installer/forum.ico .
-cp ../../../../installer/wiki.ico .
 cp ../../../../installer/gpl-3.0.txt .
 mkdir -p unsigned
 cp ../../../../build/unsigned/unpacked/* unsigned

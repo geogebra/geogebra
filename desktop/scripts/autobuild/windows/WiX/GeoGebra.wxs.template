@@ -15,7 +15,7 @@
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='ProgramFilesFolder' Name='PFiles'>
         <Directory Id='GeoGebra' Name='GeoGebra'>
-          <Directory Id='INSTALLDIR' Name='GeoGebra $SHORTVERSION'>
+          <Directory Id='INSTALLDIR' Name='GeoGebra\GeoGebra $SHORTVERSION'>
 
             <Component Id='MainExecutable' Guid='30b84939-322a-4c8e-9018-996b43c273f6'>
               <File Id='GeoGebraExe' Name='GeoGebra.exe' DiskId='1' Source='GeoGebra.exe' KeyPath='yes'>
@@ -24,13 +24,6 @@
               </File>
             </Component>
 
-            <Component Id='MainExecutablePrim' Guid='4631ca72-0d9a-4b3a-a63e-2428796510a1'>
-              <File Id='GeoGebraPrimExe' Name='GeoGebraPrim.exe' DiskId='1' Source='GeoGebraPrim.exe' KeyPath='yes'>
-                <Shortcut Id="startmenuGeoGebraPrim" Directory="ProgramMenuDir" Name="GeoGebraPrim $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
-                <Shortcut Id="desktopGeoGebraPrim" Directory="DesktopFolder" Name="GeoGebraPrim $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
-              </File>
-            </Component>
-            
             <!--Component Id='GeogebraOrgURL' Guid='23c93ff9-d6a7-4991-b384-c416068cfc03'>
         	<Util:InternetShortcut id='GeogebraOrgURL' Directory='ProgramMenuDir' Name='GeoGebra website' Target='http://www.geogebra.org' />
             </Component-->
@@ -83,24 +76,16 @@
               <File Id='JlmGreekJar' Name='jlm_greek.jar' DiskId='1' Source='jlm_greek.jar' KeyPath='yes'/>
             </Component>
 
-            <Component Id='CcBySa30Txt' Guid='d816a540-0210-4319-88cc-e67735e593b8'>
-              <File Id='CcBySa30Txt' Name='cc-by-sa-3.0.txt' DiskId='1' Source='cc-by-sa-3.0.txt' KeyPath='yes'/>
+            <Component Id='ByNcSa30Txt' Guid='d816a540-0210-4319-88cc-e67735e593b8'>
+              <File Id='ByNcSa30Txt' Name='by-nc-sa-3.0.txt' DiskId='1' Source='by-nc-sa-3.0.txt' KeyPath='yes'/>
             </Component>
 
             <Component Id='Gpl30Txt' Guid='d535757e-c04e-46d4-8522-7673a55245a0'>
               <File Id='Gpl30Txt' Name='gpl-3.0.txt' DiskId='1' Source='gpl-3.0.txt' KeyPath='yes'/>
             </Component>
 
-            <Component Id='CcIco' Guid='c9898bd4-9e01-4fc2-b021-6092f1edddfc'>
-              <File Id='CcIco' Name='cc.ico' DiskId='1' Source='cc.ico' KeyPath='yes'/>
-            </Component>
-
             <Component Id='ForumIco' Guid='9de2c61c-8ec3-46ae-a602-2889313ac664'>
               <File Id='ForumIco' Name='forum.ico' DiskId='1' Source='forum.ico' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='WikiIco' Guid='68c60980-cde7-4501-90be-7a4ccc5e6c0e'>
-              <File Id='WikiIco' Name='wiki.ico' DiskId='1' Source='wiki.ico' KeyPath='yes'/>
             </Component>
 
             <Component Id='GeogebraIco' Guid='6d8d4ac7-04c8-48c6-a465-3f9cec9569b4'>
@@ -178,7 +163,6 @@
       Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
       <Feature Id='MainProgram' Title='Program' Description='The main executable.' Level='1'>
         <ComponentRef Id='MainExecutable' />
-        <ComponentRef Id='MainExecutablePrim' />
         <!--ComponentRef Id='GeogebraOrgURL' /-->
         <ComponentRef Id='GeogebraJar' />
         <ComponentRef Id='GeogebraMainJar' />
@@ -205,11 +189,9 @@
         <ComponentRef Id='UnsignedJlmCyrillicJar' />
         <ComponentRef Id='UnsignedJlmGreekJar' />
         <ComponentRef Id='ForumIco' />
-        <ComponentRef Id='WikiIco' />
-        <ComponentRef Id='CcIco' />
         <ComponentRef Id='GeogebraIco' />
         <ComponentRef Id='Gpl30Txt' />
-        <ComponentRef Id='CcBySa30Txt' />
+        <ComponentRef Id='ByNcSa30Txt' />
       <ComponentRef Id='ProgramMenuDir' />
       </Feature>
 
