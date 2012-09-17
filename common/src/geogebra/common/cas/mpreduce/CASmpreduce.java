@@ -1275,7 +1275,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		varOrder.append(variableOrdering);
 		mpreduce1.evaluate("varorder!!:= list(" + varOrder + ");");
-		mpreduce1.evaluate("order varorder!!;");
+		//mpreduce1.evaluate("order varorder!!;");
 		mpreduce1.evaluate("korder varorder!!;");
 
 		// access functions for elements of a vector

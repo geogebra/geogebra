@@ -578,7 +578,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void CFactor_1() {
 		t("CFactor[a^2 + x^2, a]", "(a + x * ί) * (a - x * ί)",
-				"(a + ί * x) * (a - ί * x)");
+				"(ί * x + a) * ( - ί * x + a)");
 	}
 
 	@Test
@@ -820,7 +820,7 @@ public class GeoGebraCasIntegrationTest {
 		} catch (Throwable t) {
 			Throwables.propagate(t);
 		}
-		t("Derivative[a x^3]", "3 * x^(2) * a");
+		t("Derivative[a x^3]", "3 * a * x^(2)");
 	}
 
 	@Test
@@ -2676,13 +2676,13 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void TaylorPolynomial_VariableSpecified_5() {
 		t("TaylorPolynomial[x^3 sin(y), y, 3, 1]",
-				"x^(3) * sin(3)+x^(3)*cos(3)*(y-3)");
+				"sin(3) * x^(3) + cos(3) * x^(3) * (y-3)");
 	}
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_6() {
 		t("TaylorPolynomial[x^3 sin(y), y, 3, 2]",
-				"x^(3) * sin(3) + x^(3) * cos(3) * (y - 3) - (x^(3) * sin(3)) / 2 * (y - 3)^(2)");
+				"sin(3) * x^(3) + cos(3) * x^(3) * (y - 3) - (sin(3) * x^(3)) / 2 * (y - 3)^(2)");
 	}
 
 
@@ -2852,7 +2852,7 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Vectors_MatrixTimesVector_1() {
-		t("{{a,b},{c,d}}*(x,y)","(x*a+y*b,x*c+y*d)");
+		t("{{a,b},{c,d}}*(x,y)","(a*x+b*y,c*x+d*y)");
 	}
 	
 	@Test
