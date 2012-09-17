@@ -105,7 +105,7 @@ Var ASSOCIATE_GGT
   !define UMUI_SETUPTYPEPAGE_STANDARD "$(UMUI_TEXT_SETUPTYPE_STANDARD_TITLE)"
   !define UMUI_SETUPTYPEPAGE_DEFAULTCHOICE ${UMUI_STANDARD}
   
-  !define MUI_STARTMENUPAGE_DEFAULTFOLDER GeoGebra
+  !define MUI_STARTMENUPAGE_DEFAULTFOLDER GeoGebra\GeoGebra 5.0
   !define UMUI_ALTERNATIVESTARTMENUPAGE_USE_TREEVIEW
   !define UMUI_ALTERNATIVESTARTMENUPAGE_SETSHELLVARCONTEXT
 !else
@@ -610,7 +610,7 @@ VIAddVersionKey CompanyName "International GeoGebra Institute"
 VIAddVersionKey FileDescription "GeoGebra Installer"
 VIAddVersionKey FileVersion ${fullversion}
 VIAddVersionKey InternalName GeoGebra_Installer_${versionname}
-VIAddVersionKey LegalCopyright "(C) 2001-2009 International GeoGebra Institute"
+VIAddVersionKey LegalCopyright "(C) 2001-2012 International GeoGebra Institute"
 VIAddVersionKey OriginalFilename GeoGebra_Installer_${versionname}.exe
 VIAddVersionKey ProductName GeoGebra
 VIAddVersionKey ProductVersion ${fullversion}
@@ -629,13 +629,11 @@ Section Install Install
     
     CreateDirectory $INSTDIR\unsigned
     SetOutPath $INSTDIR
-    File cc.ico
     File forum.ico
     File "${build.dir}\installer\windows\GeoGebra.exe"
     File "${build.dir}\unpacked\*.jar"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
-    File wiki.ico
     SetOutPath $INSTDIR\unsigned
     File "${build.dir}\unsigned\unpacked\*.jar"
     
@@ -643,7 +641,7 @@ Section Install Install
     SetOutPath ""
     CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebratube.org.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
     ${If} 1 = $DESKTOP_ALL
     ${OrIf} 1 = $DESKTOP_CURRENT
       Call PushShellVarContext
@@ -852,18 +850,16 @@ FunctionEnd
     
     Delete $INSTDIR\unsigned\*.jar
     RMDir $INSTDIR\unsigned
-    Delete $INSTDIR\cc.ico
     Delete $INSTDIR\forum.ico
     Delete $INSTDIR\GeoGebra.exe
     Delete $INSTDIR\*.jar
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\by-nc-sa-3.0.txt
-    Delete $INSTDIR\wiki.ico
     RMDir $INSTDIR
     
     Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk"
-    Delete $SMPROGRAMS\$STARTMENU_FOLDER\www.geogebratube.org.lnk
+    Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk
     RMDir $SMPROGRAMS\$STARTMENU_FOLDER
     
     ${If} 1 = $DESKTOP_ALL
