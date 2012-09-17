@@ -144,6 +144,9 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		// restore default settings	
 		add(restoreDefaultSettings);
 
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 	}
 
 	/**

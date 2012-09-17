@@ -81,115 +81,60 @@ public class GeoGebraMenuBar extends JMenuBar {
 	public void initMenubar() {
 		removeAll();
 
-		if (app.isRightToLeftReadingOrder()) {
+		// "File"
+		fileMenu = new FileMenu(app);
+		add(fileMenu);
 
-			// "flag" to select language
-			//addFlag();	
-			
-			// force next item to far right
-			//add(Box.createHorizontalGlue());			
-			
-			// "Help"
-			helpMenu = new HelpMenu(app);
-			add(helpMenu);			
-			
-			// "Window"
-			windowMenu = new WindowMenu(app);
+		// "Edit"
+		editMenu = new EditMenu(app);
+		add(editMenu);
 
-			if(!app.isApplet()) // just add the menu if this is not an applet we're 
-			{
-				add(windowMenu);
+		// "View"
+		viewMenu = new ViewMenu(app, layout);
+		add(viewMenu);
 
-				if (app.getPluginManager() != null) {
-					javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
-					if (pim != null) {
-						add(pim);
-					} // H-P Ulven 2008-04-17
-				}
+		// "Perspectives"
+		//if(!app.isApplet()) {
+		//	perspectivesMenu = new PerspectivesMenu(app, layout);
+		//	add(perspectivesMenu);
+		//}
+
+		// "Options"
+		optionsMenu = new OptionsMenuD(app);
+		add(optionsMenu);
+
+		// "Tools"
+		toolsMenu = new ToolsMenu(app);
+		add(toolsMenu);
+
+		// "Window"
+		windowMenu = new WindowMenu(app);
+
+		if(!app.isApplet()) // just add the menu if this is not an applet we're 
+		{
+			add(windowMenu);
+
+			if (app.getPluginManager() != null) {
+				javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
+				if (pim != null) {
+					add(pim);
+				} // H-P Ulven 2008-04-17
 			}
-			
-			
-			// "Tools"
-			toolsMenu = new ToolsMenu(app);
-			add(toolsMenu);			
-			
-			// "Options"
-			optionsMenu = new OptionsMenuD(app);
-			add(optionsMenu);			
-
-			// "Perspectives"
-			//if(!app.isApplet()) {
-			//	perspectivesMenu = new PerspectivesMenu(app, layout);
-			//	add(perspectivesMenu);
-			//}			
-
-			// "View"
-			viewMenu = new ViewMenu(app, layout);
-			add(viewMenu);			
-			
-			// "Edit"
-			editMenu = new EditMenu(app);
-			add(editMenu);
-			
-			// "File"
-			fileMenu = new FileMenu(app);
-			add(fileMenu);
-			
-		} else {
-
-			// "File"
-			fileMenu = new FileMenu(app);
-			add(fileMenu);
-
-			// "Edit"
-			editMenu = new EditMenu(app);
-			add(editMenu);
-
-			// "View"
-			viewMenu = new ViewMenu(app, layout);
-			add(viewMenu);
-
-			// "Perspectives"
-			//if(!app.isApplet()) {
-			//	perspectivesMenu = new PerspectivesMenu(app, layout);
-			//	add(perspectivesMenu);
-			//}
-
-			// "Options"
-			optionsMenu = new OptionsMenuD(app);
-			add(optionsMenu);
-
-			// "Tools"
-			toolsMenu = new ToolsMenu(app);
-			add(toolsMenu);
-
-			// "Window"
-			windowMenu = new WindowMenu(app);
-
-			if(!app.isApplet()) // just add the menu if this is not an applet we're 
-			{
-				add(windowMenu);
-
-				if (app.getPluginManager() != null) {
-					javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
-					if (pim != null) {
-						add(pim);
-					} // H-P Ulven 2008-04-17
-				}
-			}
-
-			// "Help"
-			helpMenu = new HelpMenu(app);
-			add(helpMenu);
-
-
-			// force next item to far right
-			//add(Box.createHorizontalGlue());
-
-			// "flag" to select language
-			//addFlag();
 		}
 
+		// "Help"
+		helpMenu = new HelpMenu(app);
+		add(helpMenu);
+
+
+		// force next item to far right
+		//add(Box.createHorizontalGlue());
+
+		// "flag" to select language
+		//addFlag();
+
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
 
 
 	}

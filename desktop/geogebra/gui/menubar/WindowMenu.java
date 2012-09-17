@@ -81,6 +81,10 @@ class WindowMenu extends BaseMenu {
 			bg.add(mi);
 			add(mi);
 		}
+		
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 	}
 	
 	/**

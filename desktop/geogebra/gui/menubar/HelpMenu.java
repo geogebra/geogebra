@@ -56,6 +56,10 @@ class HelpMenu extends BaseMenu {
 		addSeparator();
 
 		add(infoAction);
+		
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 	}
 	
 	/**

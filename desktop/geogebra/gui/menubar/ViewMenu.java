@@ -126,6 +126,10 @@ public class ViewMenu extends BaseMenu {
 		// F9 and Ctrl-R both work, but F9 doesn't on MacOS, so we must display
 		// Ctrl-R
 		setMenuShortCutAccelerator(mi, 'R');
+		
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 
 	}
 

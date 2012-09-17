@@ -47,6 +47,9 @@ class ToolsMenu extends BaseMenu {
 		add(showCreateToolsAction);
 		add(showManageToolsAction);
 
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 	}
 	
 	/**

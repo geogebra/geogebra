@@ -167,6 +167,10 @@ class FileMenu extends BaseMenu {
 		if (GeoGebraFrame.getInstanceCount() > 1) {
 			add(exitAllAction);
 		}
+		
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 	}
 	
 	/**

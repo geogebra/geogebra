@@ -156,6 +156,10 @@ public class EditMenu extends BaseMenu {
 								KeyEvent.VK_DELETE, 0));
 			}
 		}
+		
+		// support for right-to-left languages
+		app.setComponentOrientation(this);
+
 	}
 	
 	/**

@@ -93,9 +93,9 @@ import geogebra.util.Util;
 import java.awt.AWTKeyStroke;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -5293,6 +5293,33 @@ public class AppD extends App implements
 	 */
 	public static void toggleCrossPlatformLAF() {
 		setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel()); 
+	}
+	
+	public ComponentOrientation getComponentOrientation() {
+		return isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
+	}
+	public void setComponentOrientation(Component c) {
+		
+		ComponentOrientation orientation = isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
+	    c.setComponentOrientation(orientation);
+	    //c.applyComponentOrientation(orientation);
+	    
+	    App.debug(c.getClass());
+
+	    if (c instanceof JMenu) {
+	      JMenu menu = (JMenu)c;
+	      int ncomponents = menu.getMenuComponentCount();
+	      for (int i = 0 ; i < ncomponents ; ++i) {
+	    	  setComponentOrientation( menu.getMenuComponent(i));
+	      }
+	    } else if (c instanceof Container) {
+	      Container container = (Container)c;
+	      int ncomponents = container.getComponentCount();
+	      for (int i = 0 ; i < ncomponents ; ++i) {
+	    	  setComponentOrientation( container.getComponent(i));
+	      }
+	    }
+		
 	}
 	
 	
