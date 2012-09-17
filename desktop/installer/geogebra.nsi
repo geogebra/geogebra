@@ -639,6 +639,7 @@ Section Install Install
     SetOutPath $INSTDIR\unsigned
     File "${build.dir}\unsigned\unpacked\*.jar"
     
+    CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER" 
     SetOutPath ""
     CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
