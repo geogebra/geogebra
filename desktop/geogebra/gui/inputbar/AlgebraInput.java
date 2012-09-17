@@ -276,7 +276,15 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		if (e.isConsumed()) return;
 
 		int keyCode = e.getKeyCode();
-		if (keyCode == KeyEvent.VK_ENTER) {	
+
+		switch (keyCode) {
+		case KeyEvent.VK_A:	
+		case KeyEvent.VK_C:	
+		case KeyEvent.VK_X:
+		case KeyEvent.VK_V:
+			// make sure eg Ctrl-A not passed on
+			return;
+		case KeyEvent.VK_ENTER:	
 			app.getKernel().clearJustCreatedGeosInViews();
 			String input = inputField.getText();					   
 			if (input == null || input.length() == 0)
@@ -288,19 +296,15 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			app.setScrollToShow(true);
 			GeoElement[] geos;
 			try {
-				if (input.startsWith("/")) {
-					String cmd = input.substring(1);
-					app.getPythonBridge().eval(cmd);
-					geos = new GeoElement[0];
-				} else {
+				{
 					geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
-					
+
 					// need label if we type just eg
 					// lnx
 					if (geos.length == 1 && !geos[0].labelSet) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
-					
+
 					//set first output as selected geo in properties view
 					ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 					if(geos.length>0){
@@ -313,11 +317,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 				inputField.showError(ee);
 				return;
 			}
-		 catch (MyError ee) {
-			inputField.showError(ee);
-			return;
-		}
-			
+			catch (MyError ee) {
+				inputField.showError(ee);
+				return;
+			}
+
 
 			// create texts in the middle of the visible view
 			// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
@@ -344,11 +348,14 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 			app.setScrollToShow(false);
 
-									   
+
 			inputField.addToHistory(input);
 			inputField.setText(null);  							  			   
-						  
-		} else app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg ctrl-tab
+
+			break;
+		default:
+			app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg ctrl-tab
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
