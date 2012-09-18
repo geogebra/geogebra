@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.toolbar;
 
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
@@ -219,8 +220,18 @@ public class ModeToggleMenu extends JPanel {
 													// inside an awt window
 			Point locApp = component.getLocationOnScreen();
 			
+			
 			if (toolbar.getOrientation() == SwingConstants.HORIZONTAL) {
-				popMenu.show(component, locButton.x - locApp.x, locButton.y
+				tbutton.repaint();
+				
+				int offsetx = 0;
+				if (app.isRightToLeftReadingOrder()) {				
+					// needed otherwise popMenu.getWidth() can return 0
+					popMenu.setVisible(true);
+					offsetx = popMenu.getWidth() - tbutton.getWidth();
+				}
+
+				popMenu.show(component, locButton.x - locApp.x - offsetx, locButton.y
 						- locApp.y + tbutton.getHeight());
 			} else {
 				popMenu.show(component, locButton.x - locApp.x + tbutton.getWidth(), locButton.y
@@ -254,7 +265,7 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	private boolean showToolTipText = true;
 	boolean popupTriangleHighlighting = false;
 	boolean popupTriangleClicked = false;
-	private ModeToggleMenu menu;
+	ModeToggleMenu menu;
 
 	private static final Color arrowColor = new Color(0, 0, 0, 130);
 	// private static final Color selColor = new Color(166, 11, 30,150);
@@ -452,8 +463,9 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if (popupTriangleClicked(e.getX(), e.getY()))
+		if (popupTriangleClicked(e.getX(), e.getY())) {
 			menu.setPopupVisible(true);
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
