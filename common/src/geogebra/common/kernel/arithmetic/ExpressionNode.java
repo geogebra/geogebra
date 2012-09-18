@@ -5025,7 +5025,9 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiply(double d) {
-		if (d == 0) {
+		if (Kernel.isZero(d)) {
+			return new ExpressionNode(kernel, 0);
+		} else if (Kernel.isEqual(1,  d)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY,
