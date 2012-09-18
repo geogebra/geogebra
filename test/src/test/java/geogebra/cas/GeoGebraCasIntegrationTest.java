@@ -572,7 +572,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CFactor_0() {
-		t("CFactor[x^2 + 4]", "(x + 2 *  \u03af) * (x - 2 *  \u03af)");
+		t("CFactor[x^2 + 4]", "(x + 2 * \u03af) * (x - 2 * \u03af)");
 	}
 
 	@Test
@@ -1529,8 +1529,13 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void LeftSide_1() {
-		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3x + 1}]",
+		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3 x + 1}]",
 				"{a^(2) + b^(2), x + 2}");
+	}
+
+	@Test
+	public void LeftSide_2() {
+		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3 x + 1}, 1]", "a^(2) + b^(2)");
 	}
 	
 
