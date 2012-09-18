@@ -44,4 +44,9 @@ public class EuclidianViewPanel extends LayoutPanel
 	public EuclidianViewM getEuclidianView(){
 		return this.euclidianView; 
 	}
+	
+	public void repaint() {
+		
+		this.euclidianView.repaint();
+	}
 }

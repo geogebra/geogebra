@@ -13,7 +13,13 @@ import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.ComplexPanel;
+
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
@@ -22,15 +28,14 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
  * Coordinates the GUI of the tablet.
  * 
  */
-public class TabletGUI implements GeoGebraMobileGUI
-{
-	private EuclidianViewPanel euclidianViewPanel;
-	private TabletHeaderPanel headerPanel;
-	private TabletHeaderPanelLeft leftHeader;
-	private TabletHeaderPanelRight rightHeader;
-	private AlgebraViewPanel algebraViewPanel;
-	private ToolBar toolBar;
-	private StylingBar stylingBar;
+public class TabletGUI implements GeoGebraMobileGUI {
+	EuclidianViewPanel euclidianViewPanel;
+	TabletHeaderPanel headerPanel;
+	TabletHeaderPanelLeft leftHeader;
+	TabletHeaderPanelRight rightHeader;
+	AlgebraViewPanel algebraViewPanel;
+	ToolBar toolBar;
+	StylingBar stylingBar;
 
 	private GuiModel guiModel = new GuiModel();
 
@@ -38,8 +43,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	 * Sets the viewport and other settings, creates a link element at the end
 	 * of the head, appends the css file and initializes the GUI elements.
 	 */
-	public TabletGUI()
-	{
+	public TabletGUI() {
 		// set viewport and other settings for mobile
 		MGWT.applySettings(MGWTSettings.getAppSetting());
 
@@ -50,6 +54,17 @@ public class TabletGUI implements GeoGebraMobileGUI
 		// append your own css as last thing in the head
 		MGWTStyle.injectStyleSheet("TabletGUI.css");
 
+		// Handle orientation changes
+		MGWT.addOrientationChangeHandler(new OrientationChangeHandler() {
+
+			@Override
+			public void onOrientationChanged(OrientationChangeEvent event) {
+
+				TabletGUI.this.euclidianViewPanel.repaint();
+
+			}
+
+		});
 		// Initialize GUI Elements
 		this.headerPanel = new TabletHeaderPanel();
 		this.leftHeader = new TabletHeaderPanelLeft();
@@ -60,15 +75,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		this.stylingBar = new StylingBar(this.guiModel);
 
 		this.guiModel.setStylingBar(this.stylingBar);
-		
-		layout();
-	}
 
-	/**
-	 * Sets the layout of the whole tablet.
-	 */
-	public void layout()
-	{
 		RootPanel.get().add(this.euclidianViewPanel);
 		RootPanel.get().add(this.headerPanel);
 		RootPanel.get().add(this.leftHeader);
@@ -79,14 +86,12 @@ public class TabletGUI implements GeoGebraMobileGUI
 	}
 
 	@Override
-	public EuclidianViewPanel getEuclidianViewPanel()
-	{
+	public EuclidianViewPanel getEuclidianViewPanel() {
 		return this.euclidianViewPanel;
 	}
 
 	@Override
-	public AlgebraViewPanel getAlgebraViewPanel()
-	{
+	public AlgebraViewPanel getAlgebraViewPanel() {
 		return this.algebraViewPanel;
 	}
 
@@ -100,8 +105,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	 *            Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel)
-	{
+	public void initComponents(final Kernel kernel) {
 		MobileModel mobileModel = new MobileModel(this.guiModel, kernel);
 
 		MobileEuclidianController ec = new MobileEuclidianController(
