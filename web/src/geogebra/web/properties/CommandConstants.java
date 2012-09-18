@@ -94,12 +94,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List of Data>, <List of Frequencies> ]\n[ <List of Raw Data>, <Width of Bars> ]\n[ <List of Data>, <List of Frequencies>, <Width of Bars> ]\n[ <Start Value>, <End Value>, <List of Heights> ]\n[ <Start Value>, <End Value>, <Expression>, <Variable>, <From Number>, <To Number> ]\n[ <Start Value>, <End Value>, <Expression>, <Variable>, <From Number>, <To Number>, <Step Width> ]")
     String BarChart_Syntax();
 
-    @DefaultStringValue("BarCode")
-    String BarCode();
-
-    @DefaultStringValue("[ ]\n[ <Image> ]\n[ <Text or Number>, \"<Format (optional)>\" , \"<Error Correction (optional)>\", <Width (optional)>, <Height (optional)>]")
-    String BarCode_Syntax();
-
     @DefaultStringValue("Barycenter")
     String Barycenter();
 
@@ -921,12 +915,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <List>, <List>, <Position> ]\n[ <Object>, <List>, <Position> ]")
     String Insert_Syntax();
-
-    @DefaultStringValue("IntegerPart")
-    String IntegerPart();
-
-    @DefaultStringValue("[ <Expression> ]")
-    String IntegerPart_SyntaxCAS();
 
     @DefaultStringValue("Integral")
     String Integral();

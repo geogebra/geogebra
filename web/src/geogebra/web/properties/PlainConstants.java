@@ -739,6 +739,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("csch")
     String Function_csch();
 
+    @DefaultStringValue("integerPart")
+    String Function_floor();
+
     @DefaultStringValue("fractionalPart")
     String Function_fractionalPart();
 
