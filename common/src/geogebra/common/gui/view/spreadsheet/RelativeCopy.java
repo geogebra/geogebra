@@ -281,7 +281,10 @@ public class RelativeCopy {
 		TreeSet<GeoElement> tree = new TreeSet<GeoElement>();
 		for (int x = x1; x <= x2; ++x) {
 			int ix = x - x1;
-			tree.add(getValue(app, x1 + ix, sy));
+			GeoElement cell = getValue(app, x1 + ix, sy);
+			if (cell != null) {
+				tree.add(cell);
+			}
 		}
 
 		for (int y = dy1; y <= dy2; ++y) {
