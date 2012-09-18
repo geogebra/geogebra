@@ -1599,7 +1599,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 		// update closestPointIndex
 		getNearestPoint(P);
-
+		if(geoList.size()==0){
+			if(P.isDefined())
+				P.setUndefined();
+			return;
+		}
 		final GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
 			App.debug("TODO: " + geo.getGeoClassType()
