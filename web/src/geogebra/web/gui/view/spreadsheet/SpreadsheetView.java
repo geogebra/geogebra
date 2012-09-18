@@ -2,18 +2,15 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
 //import geogebra.web.gui.inputfield.MyTextField;
-import geogebra.web.gui.layout.LayoutW;
 //import geogebra.web.gui.view.Gridable;
 import geogebra.web.main.AppW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
