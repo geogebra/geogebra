@@ -134,13 +134,13 @@ public class Ggb2MPReduce {
 		p("ImplicitDerivative.3", "-df(%0,%2)/df(%0,%1)");
 		p("ImplicitDerivative.1", "-df(%0,currentx!!)/df(%0,currenty!!)");
 		p("Integral.1",
-				"<<begin scalar integral!!, input!!; input!!:=(%0);  let intrules!!; on combineexpt; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on combineexpt; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.2",
-				"<<begin scalar integral!!; let intrules!!; on combineexpt; integral!!:=int(%0,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.3",
-				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!;on combineexpt; integral!!:=myint(input!!,mymainvar(input!!),%1,%2); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input!!,mainvar(input!!),%1,%2) end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; integral!!:=myint(input!!,mymainvar(input!!),%1,%2); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input!!,mainvar(input!!),%1,%2) end>>");
 		p("Integral.4",
-				"<<begin scalar integral!!; let intrules!!;on combineexpt; integral!!:=myint(%0,%1,%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0,%1,%2,%3) end>>");
+				"<<begin scalar integral!!; input!!; input!!:=(%0); let intrules!!; integral!!:=myint(%0,%1,%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0,%1,%2,%3) end>>");
 		p("IntegralBetween.4",
 				"<< begin scalar integral!!, input1!!, input2!!, variable!!; input1!!:=(%0); input2!!:=(%1); variable!!:=mymainvar(list(input1!!, input2!!)); let intrules!!; integral!!:=myint(input1!!-input2!!,mymainvar(list(input1!!, input2!!)),%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input1!!-input2!!,variable,%2,%3) end >>");
 		p("IntegralBetween.5",
