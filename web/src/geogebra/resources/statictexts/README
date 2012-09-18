@@ -11,4 +11,4 @@ base64 encoded image automatically.)
 Another option to create the defaultbase64web.img file is to use the
 base64 utility from Unix:
 
-$ base64 -w0 ../../../desktop/default.img > defaultbase64web.img
+$ base64 -w0 ../../../../../desktop/default.img > defaultbase64web.img
