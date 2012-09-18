@@ -284,7 +284,7 @@ public class SpreadsheetMouseListener implements
 
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
-		GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 
 		// change selection if right click is outside current selection
 		if (p.getY() != table.anchorSelectionRow
@@ -420,7 +420,7 @@ public class SpreadsheetMouseListener implements
 			if (!((AppW) kernel.getApplication()).letShowPopupMenu())
 				return;
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 
 			// change selection if right click is outside current selection
 			if (p.getY() < table.minSelectionRow
@@ -445,7 +445,7 @@ public class SpreadsheetMouseListener implements
 
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
-		GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 
 		// change selection if right click is outside current selection
 		if (p.getY() != table.leadSelectionRow
@@ -627,7 +627,7 @@ public class SpreadsheetMouseListener implements
 
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 
 			// change selection if right click is outside current selection
 			if (p.getY() != table.leadSelectionRow

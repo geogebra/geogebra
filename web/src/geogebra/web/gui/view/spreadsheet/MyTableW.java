@@ -1930,6 +1930,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 					        this, gva, false, false, j, i);
 				}
 				setWidget(j, i, prob);
+				getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 			}
 		}
 	}
