@@ -172,7 +172,7 @@
 	</target>
 	
 	<target id="ggbreduce-update" name="ggbreduce-update" depends="clean,minireduce.img">
-		<copy file="../../../default.img" tofile="../../../default.img.old"/>
+		<copy file="../../../default.img" tofile="../../../default.img.old" failonerror="false"/>
 		<copy file="${build.images.dir}/minireduce.img" tofile="../../../default.img"/>
 		<echo message="Do not forget to edit kickstart.xml and upload the new default.img file to dev.geogebra.org!"/>
 	</target>	
