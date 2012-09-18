@@ -551,7 +551,7 @@ AlgoTo2D,AlgoDependentVector3D,
 	AlgoToPolar(Commands.ToPolar),AlgoToComplex(Commands.ToComplex),AlgoTrigSimplify(Commands.TrigSimplify),
 	AlgoTrigCombine(Commands.TrigCombine),AlgoTrigExpand(Commands.TrigExpand),AlgoCommonDenominator(Commands.CommonDenominator), 
 	AlgoPolynomialCD(Commands.CommonDenominator), AlgoToPoint(Commands.ToPoint), AlgoNIntegral(Commands.NIntegral),
-	AlgoTurtle(Commands.Turtle)
+	AlgoTurtle(Commands.Turtle), AlgoIdentity(Commands.Identity)
 	;
 	private String command;
 	private Algos(){
