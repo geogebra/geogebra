@@ -469,6 +469,7 @@ public class CommandDispatcher {
 			case ToComplex:
 			case ToPolar:
 			case Factors:
+			case NSolveODE:
 				return getAdvancedDispatcher().dispatch(command,kernel);
 				
 				

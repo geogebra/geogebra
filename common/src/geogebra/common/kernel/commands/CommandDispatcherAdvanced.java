@@ -283,6 +283,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdToComplexPolar(kernel,Kernel.COORD_COMPLEX);
 		case ToPolar:
 			return new CmdToComplexPolar(kernel,Kernel.COORD_POLAR);
+		case NSolveODE:
+			return new CmdNSolveODE(kernel);
 		}
 		return null;
 	}

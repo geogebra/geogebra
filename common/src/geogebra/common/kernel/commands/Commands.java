@@ -78,7 +78,7 @@ public enum Commands implements CommandsConstants{
    	Denominator(TABLE_FUNCTION), ComplexRoot(TABLE_FUNCTION), SolveODE(TABLE_FUNCTION), SlopeField(TABLE_FUNCTION), Iteration(TABLE_FUNCTION),
    	PathParameter(TABLE_FUNCTION), Asymptote(TABLE_FUNCTION), CurvatureVector(TABLE_FUNCTION), Curvature(TABLE_FUNCTION),
    	OsculatingCircle(TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(TABLE_FUNCTION),
-   	ImplicitCurve(TABLE_FUNCTION),ImplicitDerivative(TABLE_FUNCTION),
+   	ImplicitCurve(TABLE_FUNCTION),ImplicitDerivative(TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION),
 
 	//=============================================================
 	// conics
