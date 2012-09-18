@@ -100,6 +100,10 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	protected int maxSelectionRow = -1;
 	protected int minSelectionColumn = -1;
 	protected int maxSelectionColumn = -1;
+	protected int minSelectionRowOld = -1;
+	protected int maxSelectionRowOld = -1;
+	protected int minSelectionColumnOld = -1;
+	protected int maxSelectionColumnOld = -1;
 
 	// for emulating the JTable's changeSelection method 
 	protected int anchorSelectionRow = -1;
@@ -1996,7 +2000,7 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 	}*/
 
 	public void repaint() {
-		//renderCells();
+		renderSelection();
 		//TODO: implementation needed
 	}
 
@@ -2044,5 +2048,55 @@ public class MyTableW extends Grid implements /*FocusListener,*/ MyTable {
 				setWidget(j, i, prob);
 			}
 		}
+	}
+
+	public void renderSelection() {
+
+		//TODO implement other features from the old paint method
+
+		if (minSelectionRowOld != -1 && maxSelectionRowOld != -1
+				&& minSelectionColumnOld != -1 && maxSelectionColumnOld != -1) {
+
+			// At first, the program should delete any previous selection created by this method
+
+			for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
+				getCellFormatter().getElement(i, minSelectionColumnOld).getStyle().setProperty(
+					"border-left", "0px");
+				getCellFormatter().getElement(i, maxSelectionColumnOld).getStyle().setProperty(
+					"border-right", "0px");
+			}
+			for (int i = minSelectionColumnOld; i <= maxSelectionColumnOld; i++) {
+				getCellFormatter().getElement(minSelectionRowOld, i).getStyle().setProperty(
+					"border-top", "0px");
+				getCellFormatter().getElement(maxSelectionColumnOld, i).getStyle().setProperty(
+					"border-bottom", "0px");
+			}
+		}
+
+		minSelectionRowOld = minSelectionRow;
+		maxSelectionRowOld = maxSelectionRow;
+		minSelectionColumnOld = minSelectionColumn;
+		maxSelectionColumnOld = maxSelectionColumn;
+
+		if (minSelectionRow != -1 && maxSelectionRow != -1
+				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+
+			for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
+				getCellFormatter().getElement(i, minSelectionColumn).getStyle().setProperty(
+					"border-left", selectionRectangleColor.toString()+" solid "+LINE_THICKNESS2+"px");
+				getCellFormatter().getElement(i, maxSelectionColumn).getStyle().setProperty(
+					"border-right", selectionRectangleColor.toString()+" solid "+LINE_THICKNESS2+"px");
+			}
+			for (int i = minSelectionColumn; i <= maxSelectionColumn; i++) {
+				getCellFormatter().getElement(minSelectionRow, i).getStyle().setProperty(
+					"border-top", selectionRectangleColor.toString()+" solid "+LINE_THICKNESS2+"px");
+				getCellFormatter().getElement(maxSelectionColumn, i).getStyle().setProperty(
+					"border-bottom", selectionRectangleColor.toString()+" solid "+LINE_THICKNESS2+"px");
+			}
+		}
+
+		// After rendering the LaTeX image for a geo, update the row height
+		// with the preferred size set by the renderer.
+		resizeMarkedCells();
 	}
 }

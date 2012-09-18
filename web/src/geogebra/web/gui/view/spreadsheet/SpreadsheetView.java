@@ -1316,5 +1316,6 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 	public void repaint() {
 		//TODO implementation needed
+		table.repaint();
 	}
 }
