@@ -176,6 +176,9 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 				menu.addSeparator();
 			}
 		}
+		
+		app.setComponentOrientation(menu);
+
 	}
 
 	

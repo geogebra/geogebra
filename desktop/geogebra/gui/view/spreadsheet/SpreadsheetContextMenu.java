@@ -449,6 +449,9 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			});
 			addItem(item);
 		}
+		
+		app.setComponentOrientation(this);
+
 
 	}
 

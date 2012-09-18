@@ -123,6 +123,9 @@ public class SpecialNumberFormat implements ActionListener {
 			.setSelected(true);
 		} catch (Exception e) {
 		}
+		
+		app.setComponentOrientation(menuDecimalPlaces);
+
 
 	}
 

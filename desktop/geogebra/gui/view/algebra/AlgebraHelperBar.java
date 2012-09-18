@@ -197,6 +197,9 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		});
 		mi.setSelected(algebraView.getTreeMode() == SortMode.ORDER);
 		menu.add(mi);
+		
+		app.setComponentOrientation(menu);
+
 
 	}
 }

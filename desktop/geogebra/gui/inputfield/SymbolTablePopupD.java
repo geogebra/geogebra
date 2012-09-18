@@ -61,6 +61,8 @@ public class SymbolTablePopupD {
 		createSymbolTable();
 		registerListeners();
 		locale = app.getLocale();
+		
+		app.setComponentOrientation(popup);
 	}
 
 

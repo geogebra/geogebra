@@ -117,6 +117,9 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (wrappedPopup.getComponentCount() > 2)
 			wrappedPopup.addSeparator();
 		addForAllItems();
+		
+		app.setComponentOrientation(wrappedPopup);
+
 	}
 
 	private void addPointItems() {

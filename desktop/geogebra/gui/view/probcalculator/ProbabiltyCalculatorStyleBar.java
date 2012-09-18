@@ -199,6 +199,8 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 		});
 
 		updateMenuDecimalPlaces(roundingPopup);
+		
+		app.setComponentOrientation(roundingPopup);
 
 	}
 

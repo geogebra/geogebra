@@ -460,6 +460,9 @@ public class DynamicTextInputPane extends JTextPane {
 				}
 			}); */
 			contextMenu.add(item);
+			
+			app.setComponentOrientation(contextMenu);
+
 		}
 	}
 

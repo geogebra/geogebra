@@ -1238,6 +1238,9 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		optionsPopup.addSeparator();
 		optionsPopup.add(itmHeader);
+		
+		app.setComponentOrientation(optionsPopup);
+
 
 	}
 

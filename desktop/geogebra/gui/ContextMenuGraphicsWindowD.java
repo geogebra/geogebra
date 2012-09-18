@@ -137,6 +137,8 @@ implements ActionListener {
         }
    
         addMiProperties();
+        
+		app.setComponentOrientation(wrappedPopup);
          
     }
     

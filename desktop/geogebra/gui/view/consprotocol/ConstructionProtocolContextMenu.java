@@ -135,6 +135,9 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		mi.addActionListener(lstHelp);
 		add(mi);
 		
+		app.setComponentOrientation(this);
+
+		
 	}
 	
 	

@@ -79,6 +79,7 @@ public class ModeToggleMenu extends JPanel {
 		menuItemList = new ArrayList<JMenuItem>();
 		popupMenuItemListener = new MenuItemListener();
 		size = 0;
+		
 	}
 
 	public int getToolsCount() {
@@ -156,6 +157,9 @@ public class ModeToggleMenu extends JPanel {
 			// add button to button group
 			bg.add(tbutton);
 		}
+		
+		app.setComponentOrientation(mi);
+
 	}
 
 	/**

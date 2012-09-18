@@ -355,6 +355,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				-1, 8));
 		btInsertUnicode.addPopupMenuItem(createMenuItem(
 				TableSymbols.handPointers, -1, 6));
+		
+		app.setComponentOrientation(menu);
 
 	}
 
