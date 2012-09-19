@@ -2,19 +2,17 @@ package geogebra.mobile.model;
 
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.Test;
 import geogebra.mobile.gui.CommonResources;
-import geogebra.mobile.gui.elements.StylingBar;
+import geogebra.mobile.gui.elements.stylingbar.StylingBar;
 import geogebra.mobile.gui.elements.toolbar.OptionsBarBackground;
 import geogebra.mobile.gui.elements.toolbar.ToolBarButton;
 import geogebra.mobile.utils.ToolBarCommand;
 
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
@@ -33,24 +31,6 @@ public class GuiModel
 	private boolean optionsShown = false;
 	private StylingBar stylingBar;
 	private EuclidianView euclidianView;
-	private ToolBarButton[] styleBarOption;
-
-	public GuiModel()
-	{
-		this.styleBarOption = new ToolBarButton[3];
-		this.styleBarOption[0] = new ToolBarButton(
-				CommonResources.INSTANCE.label(), this);
-		this.styleBarOption[1] = new ToolBarButton(
-				CommonResources.INSTANCE.properties_defaults(), this);
-		this.styleBarOption[1].addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-
-			}
-		}, ClickEvent.getType());
-	}
 
 	public ToolBarCommand getCommand()
 	{
@@ -74,10 +54,10 @@ public class GuiModel
 				mode = 3 - mode; // swap 0 and 3
 			}
 			this.euclidianView.setPointCapturing(mode);
-		} else
+		}
+		else
 		{
-			EuclidianStyleBarStatic.processSourceCommon(string, null,
-					this.euclidianView);
+			EuclidianStyleBarStatic.processSourceCommon(string, null, this.euclidianView);
 		}
 	}
 
@@ -94,17 +74,16 @@ public class GuiModel
 			return;
 		}
 
-		ArrayList<ToolBarButton> commands = new ArrayList<ToolBarButton>();
+		ArrayList<SVGResource> commands = new ArrayList<SVGResource>();
 
-		if (model.getElement(GeoLine.class) == null
-				&& model.getElement(GeoVector.class) == null)
+		if (model.getNumberOf(Test.GEOPOINT) == model.getTotalNumber())
 		{
-			commands.add(this.styleBarOption[0]);
+			commands.add(CommonResources.INSTANCE.label());
 		}
 
-		if (model.getElement(GeoPoint.class) == null)
+		if (model.getElement(Test.GEOPOINT) == null)
 		{
-			commands.add(this.styleBarOption[1]);
+			commands.add(CommonResources.INSTANCE.properties_defaults());
 		}
 
 		if (model.getTotalNumber() == 0)
@@ -113,10 +92,8 @@ public class GuiModel
 			return;
 		}
 
-		this.stylingBar.updateColor(model.lastSelected().getAlgebraColor()
-				.toString());
-		this.stylingBar.rebuild(commands.toArray(new ToolBarButton[commands
-				.size()]));
+		this.stylingBar.updateColor(model.lastSelected().getAlgebraColor().toString());
+		this.stylingBar.rebuild(commands.toArray(new SVGResource[commands.size()]));
 	}
 
 	public void closeOptions()
@@ -137,8 +114,7 @@ public class GuiModel
 		this.activeButton = toolBarButton;
 		this.activeButton.addStyleName("button-active");
 
-		this.stylingBar.rebuild(toolBarButton.getCmd().getStylingBarEntries(),
-				this);
+		this.stylingBar.rebuild(toolBarButton.getCmd().getStylingBarEntries());
 	}
 
 	public void showOptions(ButtonBar options)

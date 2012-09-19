@@ -10,7 +10,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.mobile.gui.euclidian.MobileMouseEvent;
@@ -19,6 +19,7 @@ import geogebra.mobile.model.MobileModel;
 import geogebra.mobile.utils.Swipeables;
 import geogebra.mobile.utils.ToolBarCommand;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -46,12 +47,10 @@ public class MobileEuclidianController extends EuclidianController
 	 * prevent redraw
 	 */
 	@Override
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex)
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible,
+	    boolean doSingleHighlighting, boolean complex)
 	{
-		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
-				intersectPossible, false, complex);
+		return super.createNewPoint(hits, onPathPossible, inRegionPossible, intersectPossible, false, complex);
 	}
 
 	/**
@@ -101,7 +100,8 @@ public class MobileEuclidianController extends EuclidianController
 		if (drag)
 		{
 			moveableList = viewHits.getMoveableHits(this.view);
-		} else
+		}
+		else
 		{
 			moveableList = viewHits;
 		}
@@ -111,12 +111,12 @@ public class MobileEuclidianController extends EuclidianController
 		ArrayList<GeoElement> selGeos = this.mobileModel.getSelectedGeos();
 
 		// if object was chosen before, take it now!
-		if ((selGeos.size() == 1) && !hits.isEmpty()
-				&& hits.contains(selGeos.get(0)))
+		if ((selGeos.size() == 1) && !hits.isEmpty() && hits.contains(selGeos.get(0)))
 		{
 			// object was chosen before: take it
 			geo = selGeos.get(0);
-		} else
+		}
+		else
 		{
 			// choose out of hits
 			geo = chooseGeo(hits, false);
@@ -131,7 +131,8 @@ public class MobileEuclidianController extends EuclidianController
 		if ((geo != null) && !geo.isFixed())
 		{
 			this.moveModeSelectionHandled = true;
-		} else
+		}
+		else
 		{
 			// no geo clicked at
 			this.moveMode = MOVE_NONE;
@@ -156,9 +157,7 @@ public class MobileEuclidianController extends EuclidianController
 		this.startLoc = this.mouseLoc;
 
 		// move all selected geos
-		GeoElement.moveObjects(
-				removeParentsOfView(this.mobileModel.getSelectedGeos()),
-				this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
+		GeoElement.moveObjects(removeParentsOfView(this.mobileModel.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 
 		if (repaint)
 		{
@@ -218,15 +217,12 @@ public class MobileEuclidianController extends EuclidianController
 
 	public void onTouchMove(int x, int y)
 	{
-		if (this.clicked
-				&& this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
+		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
 		{
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 
-			this.startPoint = new GPoint2D.Double(
-					this.view.toRealWorldCoordX(this.origin.getX()),
-					this.view.toRealWorldCoordY(this.origin.getY()));
+			this.startPoint = new GPoint2D.Double(this.view.toRealWorldCoordX(this.origin.getX()), this.view.toRealWorldCoordY(this.origin.getY()));
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
@@ -236,10 +232,8 @@ public class MobileEuclidianController extends EuclidianController
 	{
 		this.clicked = false;
 
-		if (Swipeables.isSwipeable(this.guiModel.getCommand())
-				&& this.mobileModel.getNumberOf(GeoPoint.class) == 1
-				&& (Math.abs(this.origin.getX() - x) > 10 || Math
-						.abs(this.origin.getY() - y) > 10))
+		if (Swipeables.isSwipeable(this.guiModel.getCommand()) && this.mobileModel.getNumberOf(Test.GEOPOINT) == 1
+		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
 		{
 			handleEvent(x, y);
 		}
@@ -249,9 +243,11 @@ public class MobileEuclidianController extends EuclidianController
 
 	public void onPinch(int x, int y, double scaleFactor)
 	{
-		// TODO Deactivate other events, while zoom is in progress (moving, placing objects etc.)
+		// TODO Deactivate other events, while zoom is in progress (moving,
+		// placing objects etc.)
 		super.mouseLoc = new GPoint(x, y);
-		// scaleFactor > 1 because scaleFactor is not > 1 when fingers are moved apart
+		// scaleFactor > 1 because scaleFactor is not > 1 when fingers are moved
+		// apart
 		super.zoomInOut(true, scaleFactor > 1);
 	}
 
@@ -270,7 +266,7 @@ public class MobileEuclidianController extends EuclidianController
 			if (this.view.getHits().size() == 0)
 			{
 				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
-				this.mobileModel.resetSelection(); 
+				this.mobileModel.resetSelection();
 			}
 		}
 
@@ -282,18 +278,15 @@ public class MobileEuclidianController extends EuclidianController
 
 		switch (cmd)
 		{
-		// other commands
 		case DeleteObject:
 			for (int i = 0; i < hits.size(); i++)
 			{
 				hits.get(i).remove();
 			}
 			break;
-		case Select:
-			for (GeoElement geo : hits)
-			{
-				this.mobileModel.select(geo);
-			}
+
+		case AttachDetachPoint:
+			this.mobileModel.attachDetach(hits, new Point(x, y));
 			break;
 
 		// commands that only draw one point

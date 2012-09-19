@@ -2,6 +2,7 @@ package geogebra.mobile.gui.elements.toolbar;
 
 import java.util.Arrays;
 
+import geogebra.mobile.gui.elements.ToolButton;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
@@ -29,9 +30,9 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	 * Each ToolBarButton belongs to a {@link ToolBarMenu}.
 	 * 
 	 * @param menu
-	 *            : the button to be placed
+	 *          : the button to be placed
 	 * @param guiModel
-	 *            : the ToolBar it is placed on
+	 *          : the ToolBar it is placed on
 	 */
 	public ToolBarButton(ToolBarMenu menu, GuiModel guiModel)
 	{
@@ -47,11 +48,11 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
-						.getCmd() && ToolBarButton.this.model.optionsShown())
+				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd() && ToolBarButton.this.model.optionsShown())
 				{
 					ToolBarButton.this.model.closeOptions();
-				} else
+				}
+				else
 				{
 					showOptions();
 				}
@@ -72,10 +73,8 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(this.menuEntries);
-		result = prime * result
-				+ ((this.model == null) ? 0 : this.model.hashCode());
-		result = prime * result
-				+ ((this.svg == null) ? 0 : this.svg.hashCode());
+		result = prime * result + ((this.model == null) ? 0 : this.model.hashCode());
+		result = prime * result + ((this.svg == null) ? 0 : this.svg.hashCode());
 		return result;
 	}
 
@@ -95,13 +94,15 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 		{
 			if (other.model != null)
 				return false;
-		} else if (!this.model.equals(other.model))
+		}
+		else if (!this.model.equals(other.model))
 			return false;
 		if (this.svg == null)
 		{
 			if (other.svg != null)
 				return false;
-		} else if (!this.svg.equals(other.svg))
+		}
+		else if (!this.svg.equals(other.svg))
 			return false;
 		return true;
 	}
@@ -115,8 +116,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	protected void showOptions()
 	{
-		OptionsBarBackground options = new OptionsBarBackground(
-				this.menuEntries, this);
+		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
 		this.model.showOptions(options);
 		if (this.menuEntries.length != 0)
 		{

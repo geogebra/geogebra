@@ -33,8 +33,7 @@ import com.googlecode.mgwt.ui.client.widget.MCheckBox;
  * @see geogebra.web.gui.view.algebra.RadioButtonTreeItem
  * 
  */
-public class AlgebraViewTreeItem extends HorizontalPanel implements
-		ClickHandler, MouseDownHandler
+public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler, MouseDownHandler
 {
 
 	MCheckBox checkBox;
@@ -57,8 +56,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 	InlineHTML ihtml;
 	TextBox tb;
 
-	public AlgebraViewTreeItem(GeoElement ge, AlgebraView av,
-			AlgebraController ac)
+	public AlgebraViewTreeItem(GeoElement ge, AlgebraView av, AlgebraController ac)
 	{
 		super();
 		this.geo = ge;
@@ -71,19 +69,16 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 
 		this.check = new CheckBox();
 		AlgebraViewTreeItem.this.previouslyChecked = ge.isEuclidianVisible();
-		this.check.setValue(ge.isEuclidianVisible(), false);
+		this.check.setValue(new Boolean(ge.isEuclidianVisible()), false);
 
 		this.check.addValueChangeHandler(new ValueChangeHandler<Boolean>()
 		{
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event)
 			{
-				AlgebraViewTreeItem.this.geo
-						.setEuclidianVisible(!AlgebraViewTreeItem.this.geo
-								.isSetEuclidianVisible());
+				AlgebraViewTreeItem.this.geo.setEuclidianVisible(!AlgebraViewTreeItem.this.geo.isSetEuclidianVisible());
 				AlgebraViewTreeItem.this.geo.update();
-				AlgebraViewTreeItem.this.geo.getKernel().getApplication()
-						.storeUndoInfo();
+				AlgebraViewTreeItem.this.geo.getKernel().getApplication().storeUndoInfo();
 				AlgebraViewTreeItem.this.geo.getKernel().notifyRepaint();
 			}
 		});
@@ -92,8 +87,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		SpanElement se = DOM.createSpan().cast();
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		se.getStyle().setColor(
-				GColor.getColorString(this.geo.getAlgebraColor()));
+		se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
 		this.ihtml = new InlineHTML();
 		this.ihtml.addClickHandler(this);
 		this.ihtml.addMouseDownHandler(this);
@@ -108,7 +102,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		if (this.geo.isIndependent())
 		{
 			text = this.geo.getAlgebraDescriptionTextOrHTMLDefault();
-		} else
+		}
+		else
 		{
 			switch (this.kernel.getAlgebraStyle())
 			{
@@ -117,14 +112,11 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = this.geo
-						.addLabelTextOrHTML(this.geo
-								.getDefinitionDescription(StringTemplate.defaultTemplate));
+				text = this.geo.addLabelTextOrHTML(this.geo.getDefinitionDescription(StringTemplate.defaultTemplate));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
-				text = this.geo.addLabelTextOrHTML(this.geo
-						.getCommandDescription(StringTemplate.defaultTemplate));
+				text = this.geo.addLabelTextOrHTML(this.geo.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
 			default:
 				break;
@@ -134,24 +126,21 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		// if enabled, render with LaTeX
 		if (/* TODO this.av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
-			String latexStr = this.geo.getLaTeXAlgebraDescription(true,
-					StringTemplate.latexTemplate);
-			if ((latexStr != null)
-					&& this.geo.isLaTeXDrawableGeo(latexStr)
-					&& (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix()
-							: true))
+			String latexStr = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
+			if ((latexStr != null) && this.geo.isLaTeXDrawableGeo(latexStr) && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
 			{
 				latexStr = inputLatexCosmetics(latexStr);
 				this.seMayLatex = se;
-				DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex,
-						latexStr, this.geo.getAlgebraColor(), GColor.white);
+				DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, latexStr, this.geo.getAlgebraColor(), GColor.white);
 				this.LaTeX = true;
-			} else
+			}
+			else
 			{
 				this.seNoLatex = se;
 				this.seNoLatex.setInnerHTML(text);
 			}
-		} else
+		}
+		else
 		{
 			this.seNoLatex = se;
 			this.seNoLatex.setInnerHTML(text);
@@ -169,12 +158,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		String text = null;
 		if (/* TODO av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
-			text = this.geo.getLaTeXAlgebraDescription(true,
-					StringTemplate.latexTemplate);
-			if ((text != null)
-					&& this.geo.isLaTeXDrawableGeo(text)
-					&& (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix()
-							: true))
+			text = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
+			if ((text != null) && this.geo.isLaTeXDrawableGeo(text) && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
 			{
 				newLaTeX = true;
 			}
@@ -185,7 +170,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 			if (this.geo.isIndependent())
 			{
 				text = this.geo.getAlgebraDescriptionTextOrHTMLDefault();
-			} else
+			}
+			else
 			{
 				switch (this.kernel.getAlgebraStyle())
 				{
@@ -194,15 +180,11 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					text = this.geo
-							.addLabelTextOrHTML(this.geo
-									.getDefinitionDescription(StringTemplate.defaultTemplate));
+					text = this.geo.addLabelTextOrHTML(this.geo.getDefinitionDescription(StringTemplate.defaultTemplate));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = this.geo
-							.addLabelTextOrHTML(this.geo
-									.getCommandDescription(StringTemplate.defaultTemplate));
+					text = this.geo.addLabelTextOrHTML(this.geo.getCommandDescription(StringTemplate.defaultTemplate));
 					break;
 				default:
 					break;
@@ -215,29 +197,29 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		{
 			text = inputLatexCosmetics(text);
 			DrawEquationWeb.updateEquationMathQuill(text, this.seMayLatex);
-		} else if (!this.LaTeX && !newLaTeX)
+		}
+		else if (!this.LaTeX && !newLaTeX)
 		{
 			this.seNoLatex.setInnerHTML(text);
-		} else if (newLaTeX)
+		}
+		else if (newLaTeX)
 		{
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle().setColor(
-					GColor.getColorString(this.geo.getAlgebraColor()));
+			se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
 			this.ihtml.getElement().replaceChild(se, this.seNoLatex);
 			text = inputLatexCosmetics(text);
 			this.seMayLatex = se;
-			DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, text,
-					this.geo.getAlgebraColor(), GColor.white);
+			DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, text, this.geo.getAlgebraColor(), GColor.white);
 			this.LaTeX = true;
-		} else
+		}
+		else
 		{
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle().setColor(
-					GColor.getColorString(this.geo.getAlgebraColor()));
+			se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
 			this.ihtml.getElement().replaceChild(se, this.seMayLatex);
 			this.seNoLatex = se;
 			this.seNoLatex.setInnerHTML(text);
@@ -354,8 +336,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 		if (newValue != null)
 		{
 			boolean redefine = !this.geo.isPointOnPath();
-			GeoElement geo2 = this.kernel.getAlgebraProcessor()
-					.changeGeoElement(this.geo, newValue, redefine, true);
+			GeoElement geo2 = this.kernel.getAlgebraProcessor().changeGeoElement(this.geo, newValue, redefine, true);
 			if (geo2 != null)
 			{
 				this.geo = geo2;
@@ -417,8 +398,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		if (((MobileAlgebraController) this.algebraController)
-				.handleEvent(this.geo))
+		if (((MobileAlgebraController) this.algebraController).handleEvent(this.geo))
 		{
 			this.kernel.notifyRepaint();
 		}

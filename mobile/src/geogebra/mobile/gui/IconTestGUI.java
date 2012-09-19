@@ -2,7 +2,7 @@ package geogebra.mobile.gui;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.gui.algebra.AlgebraViewPanel;
-import geogebra.mobile.gui.elements.toolbar.ToolButton;
+import geogebra.mobile.gui.elements.ToolButton;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
@@ -30,13 +30,13 @@ public class IconTestGUI implements GeoGebraMobileGUI
 		MGWTStyle.injectStyleSheet("TabletGUI.css");
 
 		this.rootPanel = RootPanel.get();
-		
+
 		for (ResourcePrototype r : CommonResourcesIconTest.INSTANCE.getResources())
 		{
 			r.getName();
 			this.rootPanel.add(new ToolButton((SVGResource) r));
 		}
-		
+
 	}
 
 	@Override
@@ -52,8 +52,8 @@ public class IconTestGUI implements GeoGebraMobileGUI
 	}
 
 	@Override
-  public void initComponents(Kernel kernel)
-  {
-  }
-	
+	public void initComponents(Kernel kernel)
+	{
+	}
+
 }

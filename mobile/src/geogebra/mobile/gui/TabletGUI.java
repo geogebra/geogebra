@@ -4,20 +4,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.controller.MobileEuclidianController;
 import geogebra.mobile.gui.algebra.AlgebraViewPanel;
-import geogebra.mobile.gui.elements.StylingBar;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanel;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanelLeft;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanelRight;
+import geogebra.mobile.gui.elements.stylingbar.StylingBar;
 import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.ComplexPanel;
-
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -28,7 +24,8 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
  * Coordinates the GUI of the tablet.
  * 
  */
-public class TabletGUI implements GeoGebraMobileGUI {
+public class TabletGUI implements GeoGebraMobileGUI
+{
 	EuclidianViewPanel euclidianViewPanel;
 	TabletHeaderPanel headerPanel;
 	TabletHeaderPanelLeft leftHeader;
@@ -40,25 +37,27 @@ public class TabletGUI implements GeoGebraMobileGUI {
 	private GuiModel guiModel = new GuiModel();
 
 	/**
-	 * Sets the viewport and other settings, creates a link element at the end
-	 * of the head, appends the css file and initializes the GUI elements.
+	 * Sets the viewport and other settings, creates a link element at the end of
+	 * the head, appends the css file and initializes the GUI elements.
 	 */
-	public TabletGUI() {
+	public TabletGUI()
+	{
 		// set viewport and other settings for mobile
 		MGWT.applySettings(MGWTSettings.getAppSetting());
 
 		// this will create a link element at the end of head
-		MGWTStyle.getTheme().getMGWTClientBundle().getMainCss()
-				.ensureInjected();
+		MGWTStyle.getTheme().getMGWTClientBundle().getMainCss().ensureInjected();
 
 		// append your own css as last thing in the head
 		MGWTStyle.injectStyleSheet("TabletGUI.css");
 
 		// Handle orientation changes
-		MGWT.addOrientationChangeHandler(new OrientationChangeHandler() {
+		MGWT.addOrientationChangeHandler(new OrientationChangeHandler()
+		{
 
 			@Override
-			public void onOrientationChanged(OrientationChangeEvent event) {
+			public void onOrientationChanged(OrientationChangeEvent event)
+			{
 
 				TabletGUI.this.euclidianViewPanel.repaint();
 
@@ -86,37 +85,37 @@ public class TabletGUI implements GeoGebraMobileGUI {
 	}
 
 	@Override
-	public EuclidianViewPanel getEuclidianViewPanel() {
+	public EuclidianViewPanel getEuclidianViewPanel()
+	{
 		return this.euclidianViewPanel;
 	}
 
 	@Override
-	public AlgebraViewPanel getAlgebraViewPanel() {
+	public AlgebraViewPanel getAlgebraViewPanel()
+	{
 		return this.algebraViewPanel;
 	}
 
 	/**
 	 * Creates a new instance of {@link MobileEuclidianController} and
 	 * {@link MobileAlgebraController} and initializes the
-	 * {@link EuclidianViewPanel euclidianViewPanel} and
-	 * {@link AlgebraViewPanel algebraViewPanel} according to these instances.
+	 * {@link EuclidianViewPanel euclidianViewPanel} and {@link AlgebraViewPanel
+	 * algebraViewPanel} according to these instances.
 	 * 
 	 * @param kernel
-	 *            Kernel
+	 *          Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel) {
+	public void initComponents(final Kernel kernel)
+	{
 		MobileModel mobileModel = new MobileModel(this.guiModel, kernel);
 
-		MobileEuclidianController ec = new MobileEuclidianController(
-				mobileModel, this.guiModel);
+		MobileEuclidianController ec = new MobileEuclidianController(mobileModel, this.guiModel);
 		ec.setKernel(kernel);
 		this.euclidianViewPanel.initEuclidianView(ec);
-		this.guiModel.setEuclidianView(this.euclidianViewPanel
-				.getEuclidianView());
+		this.guiModel.setEuclidianView(this.euclidianViewPanel.getEuclidianView());
 
-		MobileAlgebraController ac = new MobileAlgebraController(kernel,
-				mobileModel);
+		MobileAlgebraController ac = new MobileAlgebraController(kernel, mobileModel);
 		this.algebraViewPanel.initAlgebraView(ac, kernel);
 		this.toolBar.makeTabletToolBar(this.guiModel, ac);
 
