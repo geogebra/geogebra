@@ -18,7 +18,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -26,6 +28,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.main.App;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -87,6 +90,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		ageo =  a.toGeoElement();
 		bgeo =  b.toGeoElement();
 		this.evaluate = evaluate;
+		
+		
+		// always use numerical algorithm in web (CAS much too slow)
+		if (app.isHTML5Applet()) {
+			evaluateNumerically = true;
+		}
 
 		// create helper algorithm for symbolic integral
 		// don't use symbolic integral for conditional functions
@@ -217,8 +226,23 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			//AbstractApplication.debug(n.getValue()+" "+numericIntegration(f, lowerLimit, upperLimit));
 			
 		} else {
-			n.setValue(numericIntegration(f, lowerLimit, upperLimit));
 			
+			// more accurate numeric-integration for polynomials
+			
+			 Function inFun = f.getFunction();
+			 
+			 // check if it's a polynomial
+			 PolyFunction polyIntegral = inFun.getNumericPolynomialIntegral();
+			 
+			 // it it is...
+			 if (polyIntegral != null) {
+				 // ... we can calculate the integral more accurately
+				 n.setValue(polyIntegral.evaluate(upperLimit) - polyIntegral.evaluate(lowerLimit));
+				 
+			 } else {
+			
+				 n.setValue(numericIntegration(f, lowerLimit, upperLimit));
+			 }
 		}
 		/*
 		 * Application.debug("***\nsteps: " + maxstep);
