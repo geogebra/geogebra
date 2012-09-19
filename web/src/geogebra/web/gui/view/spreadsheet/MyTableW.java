@@ -1931,6 +1931,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				}
 				setWidget(j, i, prob);
 				getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+				getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 			}
 		}
 	}
