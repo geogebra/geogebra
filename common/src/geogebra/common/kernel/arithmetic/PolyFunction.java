@@ -24,7 +24,7 @@ public class PolyFunction implements RealRootDerivFunction {
 	protected double [] coeffs;
 	private int degree; 
 	
-	private PolyFunction derivative; 
+	private PolyFunction derivative, integral; 
 	
 	//private double []  // for value and derivative's value
 	/**
@@ -104,6 +104,17 @@ public class PolyFunction implements RealRootDerivFunction {
 		return derivative;
 	}
 	
+	/**
+	 * 
+	 * @return first derivative
+	 */
+	final public PolyFunction getIntegral() {
+		if (integral == null) {
+			integral = buildIntegral();
+		}
+		return integral;
+	}
+	
 	private PolyFunction buildDerivative() {
 		if (degree < 1)
 			return new PolyFunction(0);
@@ -114,6 +125,16 @@ public class PolyFunction implements RealRootDerivFunction {
 			deriv.coeffs[i-1] = i * coeffs[i];
 		}
 		return deriv;
+	}
+	
+	private PolyFunction buildIntegral() {
+		
+		// standard case
+		PolyFunction integ = new PolyFunction(degree + 1);
+		for (int i=0; i <= degree; i++) {
+			integ.coeffs[i+1] = coeffs[i] / (i+1);
+		}
+		return integ;
 	}
 	
 	/**

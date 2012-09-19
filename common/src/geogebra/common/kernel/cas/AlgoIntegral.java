@@ -16,7 +16,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -71,6 +73,24 @@ public class AlgoIntegral extends AlgoCasBase {
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 
+		 if (f instanceof GeoFunction) {
+			 Function inFun = ((GeoFunction)f).getFunction();
+			 
+			 // check if it's a polynomial
+			 PolyFunction polyDeriv = inFun.getNumericPolynomialIntegral();
+			 
+			 // it it is...
+			 if (polyDeriv != null) {
+				 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
+				 Function funDeriv = polyDeriv.getFunction(kernel, inFun.getFunctionVariable());
+				 
+				 //App.debug(f.toString());
+				 //App.debug(funDeriv.toString());
+				 
+				 ((GeoFunction)g).setFunction(funDeriv);
+				 return;
+			 }
+		 }
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
 		
 		// get variable string with tmp prefix,

@@ -433,6 +433,27 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	/**
+	 * Tries to expand this function to a polynomial with numeric coefficients
+	 * and returns its integral as a PolyFunction object. (without +c)
+	 * Note: may return null if it's not a polynomial.
+	 * 
+	 * @return integral
+	 * 
+	 */
+	final public PolyFunction getNumericPolynomialIntegral() {
+		// we expand the numerical expression of this function (all variables
+		// are
+		// replaced by their values) and try to get a polynomial.
+		// Then we take the integral of this polynomial.
+		PolyFunction poly = expandToPolyFunction(expression, false,false);
+		if (poly != null) { // we got a polynomial
+			poly = poly.getIntegral();
+
+		}
+		return poly;
+	}
+
+	/**
 	 * Returns all symbolic non-constant polynomial factors of this function
 	 * relevant for root finding. A list of PolyFunction (resp.
 	 * SymbolicPolyFunction) objects is returned. Note: may return null if this
