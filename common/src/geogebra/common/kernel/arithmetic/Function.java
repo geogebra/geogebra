@@ -781,6 +781,19 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @return n-th derivative
 	 */
 	final Function getDerivative(int n, boolean keepFractions) {
+		
+		
+		 // check if it's a polynomial
+		 PolyFunction polyDeriv = getNumericPolynomialDerivative(n);
+		 
+		 // it it is...
+		 if (polyDeriv != null) {
+			 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
+
+			 // NB keepFractions ignored, so different answer given for f(x) = 3x^2 / 5, f'(x)
+			 return polyDeriv.getFunction(kernel, getFunctionVariable());
+		}
+		
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
 		String varStr = fVars[0].toString(StringTemplate.prefixedDefault);

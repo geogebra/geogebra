@@ -12,7 +12,9 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
+import geogebra.common.plugin.Operation;
 
 /**
  * Fast polynomial evaluation of Function
@@ -170,6 +172,51 @@ public class PolyFunction implements RealRootDerivFunction {
 		return pd;
 	}
 	
+	/**
+	 * @param kernel Kernel
+	 * @param fv FunctionVariable, eg "t" in f(t)
+	 * @return Function containing ExpressionNode built from coefficients
+	 */
+	public Function getFunction(Kernel kernel, FunctionVariable fv) {
+		
+		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
+
+		if (degree == 0) {
+			// constant
+			ExpressionNode en = new ExpressionNode(kernel, new MyDouble(kernel, coeffs[0]));
+			return new Function(en, fv);
+		} else if (degree == 1) {
+			// linear
+			ExpressionNode en = fvEn.multiply(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[1]))).plus(coeffs[0]);
+			return new Function(en, fv);
+		}
+
+		ExpressionNode en = fvEn.power((degree)).multiply(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[degree])));
+
+		if (degree > 2) {
+			for (int i = degree - 1 ; i > 1 ; i--) {
+				
+				if (!Kernel.isZero(coeffs[i])) {
+					ExpressionNode term = new ExpressionNode(kernel, fv, Operation.POWER, new MyDouble(kernel, i)).multiply(new ExpressionNode(kernel, coeffs[i]));
+					en = en.plus(term);
+				}
+			}
+		}
+		
+		// linear coefficient
+		if (!Kernel.isZero(coeffs[1])) {
+			en = en.plus(fvEn.multiply(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[1]))));
+		}
+		
+		// constant term
+		if (!Kernel.isZero(coeffs[0])) {
+			en = en.plus(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[0])));
+		}
+
+		return new Function(en, fv);
+
+	}
+
 /*
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -16,11 +16,15 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 
 /**
  * Derivative of a function
@@ -97,6 +101,25 @@ public class AlgoDerivative extends AlgoCasBase {
 		 sbAE.append(",");
 		 sbAE.append(order == null ? 1 : (int) Math.round(order.getDouble()));
 		 sbAE.append(")");
+		 
+		 if (f instanceof GeoFunction) {
+			 Function inFun = ((GeoFunction)f).getFunction();
+			 
+			 // check if it's a polynomial
+			 PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(order == null ? 1 : (int) Math.round(order.getDouble()));
+			 
+			 // it it is...
+			 if (polyDeriv != null) {
+				 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
+				 Function funDeriv = polyDeriv.getFunction(kernel, inFun.getFunctionVariable());
+				 
+				 //App.debug(f.toString());
+				 //App.debug(funDeriv.toString());
+				 
+				 ((GeoFunction)g).setFunction(funDeriv);
+				 return;
+			 }
+		 }
 		 
 		 // find symbolic derivative of f
 		 g.setUsingCasCommand(sbAE.toString(), f, true,arbconst);	

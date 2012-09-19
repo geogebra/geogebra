@@ -5036,6 +5036,21 @@ public class ExpressionNode extends ValidExpression implements
 
 	/**
 	 * @param d
+	 *            value to multiply
+	 * @return result of multiply
+	 */
+	public ExpressionNode power(double d) {
+		if (Kernel.isZero(d)) {
+			return new ExpressionNode(kernel, 1);
+		} else if (Kernel.isEqual(1,  d)) {
+			return this;
+		}
+		return new ExpressionNode(kernel, this, Operation.POWER,
+				new MyDouble(kernel, d));
+	}
+
+	/**
+	 * @param d
 	 *            value to subtract
 	 * @return this - d
 	 */
