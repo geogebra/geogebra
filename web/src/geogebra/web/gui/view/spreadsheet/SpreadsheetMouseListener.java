@@ -291,13 +291,15 @@ public class SpreadsheetMouseListener implements
 			|| p.getX() != table.anchorSelectionColumn) {
 			// switch to cell selection mode
 
-			if (table.getSelectionType() != MyTable.CELL_SELECT) {
-				table.setSelectionType(MyTable.CELL_SELECT);
-			}
+			if (p.getY() > 0 && p.getX() > 0) {
+				if (table.getSelectionType() != MyTable.CELL_SELECT) {
+					table.setSelectionType(MyTable.CELL_SELECT);
+				}
 
-			// now change the selection
-			table.changeSelection(p.getY(), p.getX(), false, false);
-			table.repaint();
+				// now change the selection
+				table.changeSelection(p.getY(), p.getX(), false, false);
+				table.repaint();
+			}
 		}
 	}
 
@@ -452,13 +454,16 @@ public class SpreadsheetMouseListener implements
 			|| p.getX() != table.leadSelectionColumn) {
 			// switch to cell selection mode
 
-			if (table.getSelectionType() != MyTable.CELL_SELECT) {
-				table.setSelectionType(MyTable.CELL_SELECT);
-			}
+			if (p.getY() > 0 && p.getX() > 0) {
 
-			// now change the selection
-			table.changeSelection(p.getY(), p.getX(), false, true);
-			table.repaint();
+				if (table.getSelectionType() != MyTable.CELL_SELECT) {
+					table.setSelectionType(MyTable.CELL_SELECT);
+				}
+
+				// now change the selection
+				table.changeSelection(p.getY(), p.getX(), false, true);
+				table.repaint();
+			}
 		}
 	}
 
@@ -634,13 +639,16 @@ public class SpreadsheetMouseListener implements
 				|| p.getX() != table.leadSelectionColumn) {
 				// switch to cell selection mode
 
-				if (table.getSelectionType() != MyTable.CELL_SELECT) {
-					table.setSelectionType(MyTable.CELL_SELECT);
-				}
+				if (p.getY() > 0 && p.getX() > 0) {
 
-				// now change the selection
-				table.changeSelection(p.getY(), p.getX(), false, true);
-				table.repaint();
+					if (table.getSelectionType() != MyTable.CELL_SELECT) {
+						table.setSelectionType(MyTable.CELL_SELECT);
+					}
+
+					// now change the selection
+					table.changeSelection(p.getY(), p.getX(), false, true);
+					table.repaint();
+				}
 			}
 		}
 	}
