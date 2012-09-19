@@ -1367,20 +1367,6 @@ public class GeoGebraCasIntegrationTest {
 		t("ImplicitDerivative[x^2 + y^2, y, x]", "(-x) / y");
 	}
 	
-
-	/* IntegerPart */
-
-	@Test
-	public void IntegerPart_0() {
-		t("IntegerPart[6/5]", "1");
-	}
-
-	@Test
-	public void IntegerPart_1() {
-		t("IntegerPart[1/5 + 3/2 + 2]", "3");
-	}
-	
-
 	/* Integral */
 
 	/* Indefinite Integral */
