@@ -72,8 +72,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 	final public String evaluateRaw(final String input) throws Throwable {
 		
-		App.printStacktrace("");
-		
 		String exp = input;
 		// we need to escape any upper case letters and non-ascii codepoints
 		// with '!'
