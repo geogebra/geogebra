@@ -78,7 +78,6 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void fill3DRect(int x, int y, int width, int height, boolean raised) {
 		App.debug("fill3DRect: implementation needed"); 
-
 	}
 
 	//tmp
@@ -94,8 +93,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		doDrawShape(shape);
-		context.stroke();
-		
+		context.stroke();	
 	}
 
 	protected void doDrawShape(Shape shape) {
@@ -270,7 +268,6 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			currentPaint = new GTexturePaintW((GTexturePaintW)paint);
 			CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 			context.setFillStyle(ptr);
-			//why we get null here sometimes?
 		}
 
 	}
@@ -300,7 +297,10 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	private boolean nativeDashUsed = false;
 
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
-		if (typeof ctx.mozDash != 'undefined') {
+		if (typeof ctx.setLineDash === 'function') {
+			ctx.setLineDash(dasharray);
+			this.@geogebra.web.awt.GGraphics2DW::nativeDashUsed = true;
+		} else if (typeof ctx.mozDash != 'undefined') {
 			ctx.mozDash = dasharray;
 			this.@geogebra.web.awt.GGraphics2DW::nativeDashUsed = true;
 			
