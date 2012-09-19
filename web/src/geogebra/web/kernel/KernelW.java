@@ -27,20 +27,21 @@ public class KernelW extends Kernel implements KernelWInterface {
 
     @Override
     public AlgebraProcessor newAlgebraProcessor(final Kernel kernel) {
-    	if (!kernel.hasAlgebraProcessor()) {
-    		GWT.runAsync(new RunAsyncCallback() {
+    	//if (!kernel.hasAlgebraProcessor()) {
+    		//GWT.runAsync(new RunAsyncCallback() {
 			
-    			public void onSuccess() {
-    				kernel.setAlgebraProcessor(new AlgebraProcessor(kernel, new CommandDispatcherW(kernel)));
-    				kernel.getApplication().getActiveEuclidianView().repaintView();
-    			}
+    		//	public void onSuccess() {
+    		//		kernel.setAlgebraProcessor(new AlgebraProcessor(kernel, new CommandDispatcherW(kernel)));
+    		//		kernel.getApplication().getActiveEuclidianView().repaintView();
+    		//	}
 			
-    			public void onFailure(Throwable reason) {
-    				App.debug("Algebra processor loading failed");
-    			}
-    		});
-    	}
-    	return kernel.getAlgPForAsync();
+    		//	public void onFailure(Throwable reason) {
+    		//		App.debug("Algebra processor loading failed");
+    		//	}
+    		//});
+    	//}
+    	//return kernel.getAlgPForAsync();
+    	return new AlgebraProcessor(kernel, new CommandDispatcherW(kernel));
 		
 	}
 	
