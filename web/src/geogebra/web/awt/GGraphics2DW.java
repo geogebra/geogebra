@@ -102,7 +102,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		double[] coords = new double[6];
 		
 		// see #1718
-		boolean enableDashEmulation = nativeDashUsed || App.isFullAppGui(); 
+		boolean enableDashEmulation = true;//nativeDashUsed || App.isFullAppGui(); 
 		
 		while (!it.isDone()) {
 			int cu = it.currentSegment(coords);
