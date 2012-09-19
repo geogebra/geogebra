@@ -5304,8 +5304,6 @@ public class AppD extends App implements
 	    c.setComponentOrientation(orientation);
 	    //c.applyComponentOrientation(orientation);
 	    
-	    App.debug(c.getClass());
-
 	    if (c instanceof JMenu) {
 	      JMenu menu = (JMenu)c;
 	      int ncomponents = menu.getMenuComponentCount();
