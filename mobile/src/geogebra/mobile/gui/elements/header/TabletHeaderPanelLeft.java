@@ -1,6 +1,9 @@
 package geogebra.mobile.gui.elements.header;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 
 /**
@@ -34,6 +37,16 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		{
 			this.add(left[i]);
 		}
+		
+		left[0].addTapHandler(new TapHandler() {
+			
+			@Override
+			public void onTap(TapEvent event) {
+				//TODO Clear model, don't reload everything
+				Window.Location.reload();
+				
+			}
+		});
 	}
 
 }
