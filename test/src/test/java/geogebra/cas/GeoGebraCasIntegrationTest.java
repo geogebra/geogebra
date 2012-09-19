@@ -1543,12 +1543,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Length_0() {
-		t("Length[2x, 0, 1]", "sqrt(5)");
+		t("Length[2 x, 0, 1]", "sqrt(5)");
 	}
 
 	@Test
 	public void Length_1() {
-		t("Length[2a, a, 0, 1]", "sqrt(5)");
+		t("Length[2 a, a, 0, 1]", "sqrt(5)");
 	}
 	
 
