@@ -1,6 +1,7 @@
 package geogebra.web.kernel.commands;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.AsyncProxy;
 import com.google.gwt.user.client.AsyncProxy.ConcreteType;
 
@@ -11,6 +12,7 @@ import geogebra.common.kernel.commands.CommandDispatcherCAS;
 import geogebra.common.kernel.commands.CommandDispatcherDiscrete;
 import geogebra.common.kernel.commands.CommandDispatcherInterface;
 import geogebra.common.kernel.commands.CommandDispatcherScripting;
+import geogebra.common.main.App;
 
 public class CommandDispatcherW extends CommandDispatcher {
 
@@ -18,53 +20,83 @@ public class CommandDispatcherW extends CommandDispatcher {
 	    super(kernel);
     }
 	
-	/*@ConcreteType(CommandDispatcherDiscrete.class)
-	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
-	interface CommandDispatcherDiscreteProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
 	
-	@Override
     protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
-			discreteDispatcher = GWT.create(CommandDispatcherDiscreteProxy.class);
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					discreteDispatcher = new CommandDispatcherDiscrete();		
+					initCmdTable();
+					kernel.getApplication().getActiveEuclidianView().repaintView();
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("CommandDispatcherDiscrete loading failed");
+				}
+			});	
 		}
 		return discreteDispatcher;
 	}
 	
-	@ConcreteType(CommandDispatcherScripting.class)
-	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
-	interface CommandDispatcherScriptingProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
-	
-	
 	@Override
     protected CommandDispatcherInterface getScriptingDispatcher() {
 		if(scriptingDispatcher == null) {
-			scriptingDispatcher = GWT.create(CommandDispatcherScripting.class);
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					scriptingDispatcher = new CommandDispatcherScripting();
+					initCmdTable();
+					kernel.getApplication().getActiveEuclidianView().repaintView();
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("CommandDispatcherScripting loading failed");
+				}
+			});
+			
 		}
 		return scriptingDispatcher;
 	}
 	
-	@ConcreteType(CommandDispatcherAdvanced.class)
-	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
-	interface CommandDispatcherAdvancedProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
-		
 	@Override
     protected CommandDispatcherInterface getAdvancedDispatcher() {
 		if(advancedDispatcher == null) {
-			advancedDispatcher = GWT.create(CommandDispatcherAdvanced.class);
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					advancedDispatcher = new CommandDispatcherAdvanced();
+					initCmdTable();
+					kernel.getApplication().getActiveEuclidianView().repaintView();
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("CommandDispatcherAdvanced loading failed");
+				}
+			});
+			
 		}
 		return advancedDispatcher;
 	}
 	
-	@ConcreteType(CommandDispatcherCAS.class)
-	@com.google.gwt.user.client.AsyncProxy.AllowNonVoid
-	interface CommandDispatcherCASProxy extends AsyncProxy<CommandDispatcherInterface>, CommandDispatcherInterface {}
-	
 	@Override
     protected CommandDispatcherCAS getCASDispatcher() {
 		if(casDispatcher == null) {
-			casDispatcher = GWT.create(CommandDispatcherCAS.class);
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					casDispatcher = new CommandDispatcherCAS();
+					initCmdTable();
+					kernel.getApplication().getActiveEuclidianView().repaintView();
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("CommandDispatcherCAS loading failed");
+				}
+			});
+			
 		}
 		return casDispatcher;
-	}*/
+	}
 
 }

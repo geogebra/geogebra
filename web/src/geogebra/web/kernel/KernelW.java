@@ -1,5 +1,8 @@
 package geogebra.web.kernel;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
@@ -21,9 +24,24 @@ public class KernelW extends Kernel implements KernelWInterface {
 	    super(app);
     }
 
-	/*@Override
-    public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor(kernel, new CommandDispatcherW(kernel));
-	}*/
+
+    @Override
+    public AlgebraProcessor newAlgebraProcessor(final Kernel kernel) {
+    	if (!kernel.hasAlgebraProcessor()) {
+    		GWT.runAsync(new RunAsyncCallback() {
+			
+    			public void onSuccess() {
+    				kernel.setAlgebraProcessor(new AlgebraProcessor(kernel, new CommandDispatcherW(kernel)));
+    				kernel.getApplication().getActiveEuclidianView().repaintView();
+    			}
+			
+    			public void onFailure(Throwable reason) {
+    				App.debug("Algebra processor loading failed");
+    			}
+    		});
+    	}
+    	return kernel.getAlgPForAsync();
+		
+	}
 	
 }

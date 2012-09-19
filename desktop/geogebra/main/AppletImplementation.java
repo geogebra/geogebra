@@ -22,7 +22,6 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.app.GeoGebraFrame;
 import geogebra.plugin.GgbAPID;
 import geogebra.util.Util;
 

@@ -4424,5 +4424,17 @@ public class Kernel {
 
 		setManager3D(newManager3D(this));
 	}
+
+	public boolean hasAlgebraProcessor() {
+		return algProcessor != null;
+	}
+
+	public void setAlgebraProcessor(AlgebraProcessor algebraProcessor) {
+		algProcessor = algebraProcessor;
+	}
+
+	public AlgebraProcessor getAlgPForAsync() {
+		return algProcessor;
+	}
 	
 }
