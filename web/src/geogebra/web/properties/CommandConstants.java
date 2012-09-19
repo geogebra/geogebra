@@ -1057,9 +1057,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Matrix> ]\n[ <Function> ]")
     String Invert_Syntax();
 
-    @DefaultStringValue("[ <Matrix> ]")
-    String Invert_SyntaxCAS();
-
     @DefaultStringValue("IsInRegion")
     String IsInRegion();
 

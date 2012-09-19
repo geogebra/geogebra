@@ -387,7 +387,6 @@ var commandKeysVar = {
 	InverseZipf_Syntax:'',
 	Invert:'',
 	Invert_Syntax:'',
-	Invert_SyntaxCAS:'',
 	IsInRegion:'',
 	IsInRegion_Syntax:'',
 	IsInteger:'',
