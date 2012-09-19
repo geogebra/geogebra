@@ -86,6 +86,7 @@ public class AlgoCoefficients extends AlgoElement {
 			double[] coeffs = poly.getCoeffs();
 
 			g.clear();
+			g.setDefined(true);
 
 			for (int i = coeffs.length - 1 ; i >=0 ; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
