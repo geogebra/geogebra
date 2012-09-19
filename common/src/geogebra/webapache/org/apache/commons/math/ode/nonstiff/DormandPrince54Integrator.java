@@ -17,7 +17,7 @@
 /* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.util.FastMath;
+//MAYBENOTIMPORTANT import org.apache.commons.math.util.FastMath;
 
 
 /**
