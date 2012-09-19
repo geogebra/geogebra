@@ -1268,6 +1268,12 @@ public class NoExceptionsTest {
 		t("NormalQuantilePlot[ list2]");
 
 	}
+	
+	@Test
+	public void cmdNSolveODE()  {	
+		t("NSolveODE[ { twovar }, n2, { n5 }, n6 ]");
+		t("NSolveODE[ { twovar }, n2, { n5 }, n6 ], prob");
+	}
 
 	@Test
 	public void cmdNumerator() {
