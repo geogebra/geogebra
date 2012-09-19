@@ -12,21 +12,23 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
-import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Try to expand the given function
  * 
  * @author Michael Borcherds
  */
-public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand{
+public class AlgoCoefficients extends AlgoElement {
 
 	private GeoFunction f; // input
 	private GeoList g; // output
@@ -73,51 +75,35 @@ public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand
 			return;
 		}
 
-		// get function and function variable string using temp variable
-		// prefixes,
-		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
-		String[] funVarStr = f.getTempVarCASString(false);
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("Coefficients(");
-		sb.append(funVarStr[0]); // function expression
-		sb.append(",");
-		sb.append(funVarStr[1]); // function variable
-		sb.append(")");
+		Function inFun = f.getFunction();
+
+		// check if it's a polynomial & get coefficients
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
+
+		if (poly != null) {
+
+			double[] coeffs = poly.getCoeffs();
+
+			g.clear();
+
+			for (int i = coeffs.length - 1 ; i >=0 ; i--) {
+				g.add(new GeoNumeric(cons, coeffs[i]));
+			}
+
+			return;
+		}
+
+		// not a polynomial
 		g.setUndefined();
-		casInput = sb.toString();
-		kernel.evaluateGeoGebraCASAsync(this);			
+		return;
 
-	}
-	
-	public String getCasInput(){
-		return casInput;
+
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getCommandDescription(tpl);
-	}
-
-	public void handleCASoutput(String output, int requestID) {
-		if(kernel.getAlgebraProcessor().evaluateToList(output)==null){
-			g.setUndefined();
-		}else{
-			g.set(kernel.getAlgebraProcessor().evaluateToList(output));
-			g.setDefined(true);
-			if(USE_ASYNCHRONOUS)
-				g.updateCascade();
-		}
-		
-	}
-
-	public void handleException(Throwable exception,int id) {
-		g.setUndefined();
-		
-	}
-
-	public boolean useCacheing() {
-		return true;
 	}
 
 	// TODO Consider locusequability

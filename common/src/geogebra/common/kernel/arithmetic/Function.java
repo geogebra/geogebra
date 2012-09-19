@@ -615,7 +615,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            true for symbolic coefficients (SymbolicPolyFunction), false
 	 *            for numeric coefficients (PolyFunction)
 	 */
-	private PolyFunction expandToPolyFunction(ExpressionValue ev,
+	public PolyFunction expandToPolyFunction(ExpressionValue ev,
 			boolean symbolic,boolean assumeFalseIfCASNeeded) {
 		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev,
 				symbolic);
