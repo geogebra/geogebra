@@ -32,7 +32,6 @@ public class CmdCAStoOperation extends CommandProcessor{
 		ExpressionNode en = null;
 		GeoElement[] args = resArgs(c);
 		switch(op){
-			case FLOOR:
 			case YCOORD:
 			case XCOORD: en = new ExpressionNode(kernelA,args[0],op,null);
 			break;

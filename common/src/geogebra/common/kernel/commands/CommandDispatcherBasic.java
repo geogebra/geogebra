@@ -57,8 +57,6 @@ public class CommandDispatcherBasic {
 			return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
 		case Cross:
 			return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
-		case IntegerPart:
-			return new CmdCAStoOperation(kernel,Operation.FLOOR);
 		case PolyLine:
 			return new CmdPolyLine(kernel);
 		case PointIn:

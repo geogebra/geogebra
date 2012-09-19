@@ -498,7 +498,6 @@ public class CommandDispatcher {
 			case BarCode:
 			case Dot:
 			case Cross:
-			case IntegerPart:
 			case PolyLine:
 			case PointIn:
 			case Line:

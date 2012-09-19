@@ -158,7 +158,6 @@ public class Ggb2MPReduce {
 		p("RootList.1",
 				"rootlist(mattolistoflists(%0))");
 		p("Invert.1", "<<begin scalar a; a:=%0; return if part(a,0)=\\'mat then 1/a else sub(yy=currentx!!,rhs(part(part(mysolve(yy=a,mymainvar(a)),1),1))); end>>");
-		p("IntegerPart.1", "if %0>0 then floor(%0) else ceiling(%0)");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
 		//p("Join.N","<<begin scalar list!!=list(%); if length(list!!)=1 then list!!:=part(list!!,0); return for each x!! in list!! join x!! end>>");
 		p("Join.N","<<begin scalar list!!; list!!:=list(%); if length(list!!)=1 then list!!:=mattolistoflists(part(list!!,1)); return for each x!! in list!! join x!! end>>");
