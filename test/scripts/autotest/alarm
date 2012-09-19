@@ -27,15 +27,13 @@ if [ $RESULT = 2 ]; then
 if [ $RESULT = 3 ]; then
  MESSAGE="There is a problem with the output of simpletest at revision $REVISION"
  # Try to find out exactly what happened:
- TEMPFILE=$REVDIR/$REVISION/simpletest.log
- if [ -r $TEMPFILE ]; then
-  LOG=`cat $TEMPFILE | awk '{printf("%s\\\n",$0);}'`
- else
-  LOG=`cat $REVDIR/$REVISION/simpletest.stdout | awk '{printf("%s\\\n",$0);}'`
-  ERRLOG=`cat $REVDIR/$REVISION/simpletest.stderr | awk '{printf("%s\\\n",$0);}'`
-  LOG="$LOG
-$ERRLOG"
-  fi
+ for i in log stdout stderr; do
+  TEMPFILE=$REVDIR/$REVISION/simpletest.$i
+  if [ -r $TEMPFILE ]; then
+   THISLOG=`cat $TEMPFILE | awk '{printf("%s\\\n",$0);}'`
+   LOG="$LOG\\nsimpletest.$i:\\n$THISLOG"
+   fi
+  done
  fi
 
 if [ $RESULT = 4 ]; then
