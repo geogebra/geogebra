@@ -31,9 +31,9 @@ public class StringTemplate {
 		}
 	};
 	static {
-		prefixedDefault.forceSF = true;
+		prefixedDefault.forceNF = true;
 		prefixedDefault.usePrefix = true;
-		prefixedDefault.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+		prefixedDefault.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(15);
 	}
 	/**
 	 * GeoGebra string type, internationalize digits
@@ -63,10 +63,10 @@ public class StringTemplate {
 	static {
 		casTemplate.internationalizeDigits = false;
 		casTemplate.usePrefix = false;
-		casTemplate.forceSF = true;
+		casTemplate.forceNF = true;
 		casTemplate.localizeCmds = false;
 		casTemplate.setType(StringType.MPREDUCE);
-		casTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+		casTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(15);
 	}
 	
 	/**
