@@ -86,6 +86,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	private ToggleButton showSymbolButton = null;
 	private SymbolTablePopupW tablePopup;
 	private boolean showSymbolTableIcon = false;
+	public static boolean showSymbolButtonFocused = false;
 	  
 	  /**
 	   * Flag to determine if text must start with "=" to activate autoComplete;
@@ -154,6 +155,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 						// set it as focused anyway, because it is needed
 						// before the real focus and blur events take place
 			    		showSymbolButton.addStyleName("ShowSymbolButtonFocused");
+			    		showSymbolButtonFocused = true;
 		    		}
 		    		super.onBrowserEvent(event);
 		    	}
@@ -165,6 +167,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    showSymbolButton.addBlurHandler(new BlurHandler() {
 				public void onBlur(BlurEvent event) {
 		    		showSymbolButton.removeStyleName("ShowSymbolButtonFocused");
+		    		showSymbolButtonFocused = false;
 		    		// TODO: make it disappear when blurred
 		    		// to a place else than the textfield?
 				}

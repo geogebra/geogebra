@@ -331,7 +331,7 @@ public abstract class EuclidianController {
 
 	protected Hits handleAddSelectedArrayList = new Hits();
 
-	protected boolean textfieldHasFocus = false;
+	public static boolean textfieldHasFocus = false;
 
 	protected String sliderValue = null;
 

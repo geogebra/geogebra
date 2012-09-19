@@ -11,6 +11,7 @@ import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
@@ -165,7 +166,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				event.stopPropagation();
 	}
 	
-	private boolean DRAGMODE_MUST_BE_SELECTED = false;
+	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 
 	public void onDoubleClick(DoubleClickEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
@@ -237,8 +238,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-		DRAGMODE_MUST_BE_SELECTED = true;
-		if(!textfieldHasFocus) event.preventDefault();
+		
+		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!textfieldHasFocus)){
+			DRAGMODE_MUST_BE_SELECTED = true;
+		}
+			
+		if(!textfieldHasFocus){
+			event.preventDefault();
+		}
 			
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMousePressed(e);
