@@ -120,6 +120,28 @@ public class StylingBar extends RoundPanel
 		add(this.base);
 
 		this.colorButton = new StylingBarButton(CommonResources.INSTANCE.colour(), defaultHandler);
+		this.colorButton.addStyleName("button-active");
+		this.colorButton.addDomHandler(new ClickHandler()
+		{
+
+			@Override
+      public void onClick(ClickEvent event)
+      {
+				guiModel.closeOptions();
+				ColorBarBackground colorBar = new ColorBarBackground();
+				guiModel.showColorBar(colorBar);
+								
+				//guiModel.processSource("pointCapture");
+				if (StylingBar.this.colorButton.getStyleName().endsWith("button-active"))
+				{
+					StylingBar.this.colorButton.removeStyleName("button-active");
+				} else
+				{
+					StylingBar.this.colorButton.addStyleName("button-active");
+				}
+      }
+			
+		}, ClickEvent.getType());
 	}
 
 	/**

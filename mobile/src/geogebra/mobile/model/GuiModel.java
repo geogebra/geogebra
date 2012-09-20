@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.Test;
 import geogebra.mobile.gui.CommonResources;
+import geogebra.mobile.gui.elements.stylingbar.ColorBarBackground;
 import geogebra.mobile.gui.elements.stylingbar.StylingBar;
 import geogebra.mobile.gui.elements.toolbar.OptionsBarBackground;
 import geogebra.mobile.gui.elements.toolbar.ToolBarButton;
@@ -115,6 +116,22 @@ public class GuiModel
 		this.activeButton.addStyleName("button-active");
 
 		this.stylingBar.rebuild(toolBarButton.getCmd().getStylingBarEntries());
+	}
+	
+
+	private ColorBarBackground colorBackground;
+	/**
+	 * Shows the colorBar.
+	 * @see ColorBarBackground
+	 * @see ColorBar
+	 * @see Colors 
+	 * @param
+	 */
+	public void showColorBar(ColorBarBackground colorBarBackground)
+	{
+		this.colorBackground = colorBarBackground;
+		this.colorBackground.show();
+		RootPanel.get().add(colorBarBackground);
 	}
 
 	public void showOptions(ButtonBar options)

@@ -5,12 +5,18 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
 public interface CommonResources extends ClientBundle
 {
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
+	//ColorBar
+	@Source("backgroundImage/colorBar.png")
+	ImageResource colorBarBackground();
+	
+	
 	//StylingBar
 	
 	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_axes.svg")
