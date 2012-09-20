@@ -14,19 +14,22 @@
 
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='ProgramFilesFolder' Name='PFiles'>
-        <Directory Id='GeoGebra' Name='GeoGebra'>
-          <Directory Id='INSTALLDIR' Name='GeoGebra\GeoGebra $SHORTVERSION'>
+        <Directory Id='INSTALLDIR' Name='GeoGebra $SHORTVERSION'>
 
             <Component Id='MainExecutable' Guid='30b84939-322a-4c8e-9018-996b43c273f6'>
               <File Id='GeoGebraExe' Name='GeoGebra.exe' DiskId='1' Source='GeoGebra.exe' KeyPath='yes'>
-                <Shortcut Id="startmenuGeoGebra" Directory="ProgramMenuDir" Name="GeoGebra $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
-                <Shortcut Id="desktopGeoGebra" Directory="DesktopFolder" Name="GeoGebra $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
+                <Shortcut Id="startmenuGeoGebra" Directory="ProgramMenuDir" Name="GeoGebra" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
+                <Shortcut Id="desktopGeoGebra" Directory="DesktopFolder" Name="GeoGebra" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
               </File>
             </Component>
 
-            <!--Component Id='GeogebraOrgURL' Guid='23c93ff9-d6a7-4991-b384-c416068cfc03'>
-        	<Util:InternetShortcut id='GeogebraOrgURL' Directory='ProgramMenuDir' Name='GeoGebra website' Target='http://www.geogebra.org' />
-            </Component-->
+            <Component Id='GeogebratubeURL' Guid='93fca0d0-00d3-11e2-83d2-3860778b92e6'>
+        	<util:InternetShortcut Id='GeogebratubeURL' Directory='ProgramMenuDir' Name='GeoGebraTube' Target='http://www.geogebratube.org' />
+            </Component>
+
+            <Component Id='GeogebraForumURL' Guid='d95d7ffc-0306-11e2-b2f2-3860778b92e6'>
+        	<util:InternetShortcut Id='GeogebraForumURL' Directory='ProgramMenuDir' Name='GeoGebra Forum' Target='http://www.geogebra.org/forum' />
+            </Component>
 
             <Component Id='GeogebraJar' Guid='0fc449ce-18e9-4aa9-8b0e-2b0d2729ed16'>
               <File Id='GeogebraJar' Name='geogebra.jar' DiskId='1' Source='geogebra.jar' KeyPath='yes' />
@@ -50,10 +53,6 @@
 
             <Component Id='GeogebraJavascriptJar' Guid='80a13814-22e6-4cdc-9f1d-6ab2fefacbfd'>
               <File Id='GeogebraJavascriptJar' Name='geogebra_javascript.jar' DiskId='1' Source='geogebra_javascript.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='GeogebraUsbJar' Guid='70f6b0fd-86b8-4410-bb40-a015cbc0f17f'>
-              <File Id='GeogebraUsbJar' Name='geogebra_usb.jar' DiskId='1' Source='geogebra_usb.jar' KeyPath='yes'/>
             </Component>
 
             <Component Id='GeogebraGuiJar' Guid='4352d2e7-6d35-4afa-a3d8-706027c95a21'>
@@ -122,10 +121,6 @@
               <File Id='UnsignedGeogebraAlgosJar' Name='geogebra_algos.jar' DiskId='1' Source='unsigned\geogebra_algos.jar' KeyPath='yes'/>
             </Component>
 
-            <Component Id='UnsignedGeogebraUsbJar' Guid='0d53735f-c823-4c61-ba98-ffce8e99edf1'>
-              <File Id='UnsignedGeogebraUsbJar' Name='geogebra_usb.jar' DiskId='1' Source='unsigned\geogebra_usb.jar' KeyPath='yes'/>
-            </Component>
-
             <Component Id='UnsignedJlatexmathJar' Guid='42ef7273-a71e-4969-b2ba-7e172f129752'>
               <File Id='UnsignedJlatexmathJar' Name='jlatexmath.jar' DiskId='1' Source='unsigned\jlatexmath.jar' KeyPath='yes'/>
             </Component>
@@ -143,7 +138,6 @@
             </Component>
 
            </Directory>
-          </Directory>
         </Directory>
       </Directory>
 
@@ -163,7 +157,8 @@
       Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
       <Feature Id='MainProgram' Title='Program' Description='The main executable.' Level='1'>
         <ComponentRef Id='MainExecutable' />
-        <!--ComponentRef Id='GeogebraOrgURL' /-->
+        <ComponentRef Id='GeogebratubeURL' />
+        <ComponentRef Id='GeogebraForumURL' />
         <ComponentRef Id='GeogebraJar' />
         <ComponentRef Id='GeogebraMainJar' />
         <ComponentRef Id='GeogebraAlgosJar' />
@@ -171,7 +166,6 @@
         <ComponentRef Id='GeogebraJavascriptJar' />
         <ComponentRef Id='GeogebraGuiJar' />
         <ComponentRef Id='GeogebraExportJar' />
-        <ComponentRef Id='GeogebraUsbJar' />
         <ComponentRef Id='GeogebraPropertiesJar' />
         <ComponentRef Id='JlatexmathJar' />
         <ComponentRef Id='JlmCyrillicJar' />
@@ -183,7 +177,6 @@
         <ComponentRef Id='UnsignedGeogebraJavascriptJar' />
         <ComponentRef Id='UnsignedGeogebraGuiJar' />
         <ComponentRef Id='UnsignedGeogebraExportJar' />
-        <ComponentRef Id='UnsignedGeogebraUsbJar' />
         <ComponentRef Id='UnsignedGeogebraPropertiesJar' />
         <ComponentRef Id='UnsignedJlatexmathJar' />
         <ComponentRef Id='UnsignedJlmCyrillicJar' />
@@ -203,6 +196,7 @@
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
 
     <Icon Id="geogebra.ico" SourceFile="geogebra.ico" />
+    <Property Id="ARPPRODUCTICON" Value="geogebra.ico" />
 
     <WixVariable Id="WixUILicenseRtf" Value="wix-license.rtf" />
 
