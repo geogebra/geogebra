@@ -460,8 +460,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				ymax2 = c + (newHeight / 2);
 			}
 		}
-		if (((xmax2 - xmin2) > Kernel.MIN_PRECISION)
-				&& ((ymax2 - ymin2) > Kernel.MIN_PRECISION)) {
+		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION)
+				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION)) {
 			setRealWorldCoordSystem(xmin2, xmax2, ymin2, ymax2);
 		}
 		updatingBounds = false;
