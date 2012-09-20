@@ -60,7 +60,7 @@ to ensure availability.
 	<target name="jre-geogebra" if="linux">
 	<mkdir dir="jre"/>
 	<get src="http://dev.geogebra.org/download/installer/jre/jre-6u26-linux-i586.bin" dest="jre/jre-6u26-linux-i586.bin" usetimestamp="true"/>
-	<get src="http://dev.geogebra.org/download/installer/jre/jre-6u26-linux-x64.bin" dest="jre/jre-6u26-linux-x64.bin" usetimestamp="true"/>
+	<!--get src="http://dev.geogebra.org/download/installer/jre/jre-6u26-linux-x64.bin" dest="jre/jre-6u26-linux-x64.bin" usetimestamp="true"/-->
 	</target>
 	
 	<!-- download launch4j from GeoGebra repository -->
