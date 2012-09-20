@@ -316,21 +316,28 @@ public class StatGeo {
 
 		double[] leftBorder = histogram.getLeftBorder();
 		double yValue[] = histogram.getYValue();
-		int size = doCumulative ? yValue.length : yValue.length - 1;
+		int size = doCumulative ? yValue.length : yValue.length + 1;
 		GeoPointND[] points = new GeoPoint[size];
 
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		if (doCumulative)
+		
+		if(doCumulative){
 			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
-		for (int i = 0; i < yValue.length - 1; i++) {
-			if (doCumulative)
-				points[i + 1] = new GeoPoint(cons, null, leftBorder[i + 1],
-						yValue[i], 1.0);
-			else
-				points[i] = new GeoPoint(cons, null,
-						(leftBorder[i + 1] + leftBorder[i]) / 2, yValue[i], 1.0);
-		}
+			for (int i = 0; i < yValue.length-1; i++) {
+				points[i+1] = new GeoPoint(cons, null, leftBorder[i+1], yValue[i], 1.0);
+			}
+		}else{
+			double midpoint = leftBorder[0]-0.5*(leftBorder[1]-leftBorder[0]);
+			points[0] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
+			for (int i = 0; i < yValue.length-1; i++) {
+				midpoint = 0.5*(leftBorder[i+1] + leftBorder[i]);
+				points[i+1] = new GeoPoint(cons, null, midpoint, yValue[i], 1.0);
+			}
+			midpoint = 1.5*leftBorder[yValue.length-1] -.5*(leftBorder[yValue.length-2]);
+			points[yValue.length] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
+		}	
+		
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points, false);
