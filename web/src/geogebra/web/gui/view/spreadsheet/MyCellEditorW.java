@@ -18,7 +18,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
  * DefaultCellEditor(JTextField)
  * 
  */
-public class MyCellEditor /*extends DefaultCellEditor implements FocusListener*/ {
+public class MyCellEditorW {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class MyCellEditor /*extends DefaultCellEditor implements FocusListener*/
 		textField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditor(Kernel kernel) {
+	public MyCellEditorW(Kernel kernel) {
 
 		//TODO//super(new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false));
 
