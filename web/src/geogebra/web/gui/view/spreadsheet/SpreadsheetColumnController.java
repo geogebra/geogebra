@@ -9,12 +9,19 @@ import geogebra.common.main.App;
 import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetColumnController /*implements KeyListener, MouseListener,
-		MouseMotionListener*/ {
+public class SpreadsheetColumnController implements
+	MouseDownHandler, MouseUpHandler, MouseMoveHandler {
 
 	private AppW app;
 	private SpreadsheetView view;
@@ -26,6 +33,8 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 	protected boolean isResizing = false;
 
 	private int overTraceButtonColumn = -1;
+
+	private boolean isMouseDown = false;
 
 	public SpreadsheetColumnController(AppW app, MyTableW table) {
 
@@ -72,18 +81,22 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 		overTraceButtonColumn = -1;
 		if (table.getTableHeader() != null)
 			table.getTableHeader().resizeAndRepaint();
-	}
+	}*/
 
-	public void mousePressed(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		boolean metaDown = AppD.isControlDown(e);
-		boolean shiftDown = e.isShiftDown();
-		boolean rightClick = AppD.isRightClick(e);
+	public void onMouseDown(MouseDownEvent e) {
 
-		if (!view.hasViewFocus())
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
-					.setFocusedPanel(App.VIEW_SPREADSHEET);
+		isMouseDown = true;
+		e.preventDefault();
+
+		int x = e.getClientX();
+		int y = e.getClientY();
+		boolean metaDown = e.isControlKeyDown();// || e.isMetaKeyDown();//AppW.isControlDown(e);
+		boolean shiftDown = e.isShiftKeyDown();
+		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);//AppW.isRightClick(e);
+
+		//?//if (!view.hasViewFocus())
+		//?//	((LayoutW) app.getGuiManager().getLayout()).getDockManager()
+		//?//			.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		if (!rightClick) {
 			GPoint point = table.getIndexFromPixel(x, y);
@@ -105,18 +118,18 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 					if (point.x == this.overTraceButtonColumn) {
 						int column = point.getX();
 						table.setColumnSelectionInterval(column, column);
-						view.showTraceDialog(null,
-								table.selectedCellRanges.get(0));
-						e.consume();
+						//?//view.showTraceDialog(null,
+						//?//		table.selectedCellRanges.get(0));
+						//?//e.consume();
 						return;
 					}
 
 					// otherwise handle column selection
 					if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
 						table.setSelectionType(MyTable.COLUMN_SELECT);
-						if (table.getTableHeader() != null) {
-							table.getTableHeader().requestFocusInWindow();
-						}
+						//?//if (table.getTableHeader() != null) {
+						//?//	table.getTableHeader().requestFocusInWindow();
+						//?//}
 					}
 
 					if (shiftDown) {
@@ -140,10 +153,14 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 		}
 	}
 
-	public void mouseReleased(MouseEvent e) {
-		boolean rightClick = AppD.isRightClick(e);
+	public void onMouseUp(MouseUpEvent e) {
 
-		if (!((AppD) kernel.getApplication()).letShowPopupMenu()) {
+		isMouseDown = false;
+		e.preventDefault();
+
+		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+
+		if (!((AppW) kernel.getApplication()).letShowPopupMenu()) {
 			return;
 		}
 
@@ -153,7 +170,7 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 				return;
 			}
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 			if (p == null) {
 				return;
 			}
@@ -173,18 +190,18 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-					table, e.isShiftDown());
-			popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			//?//SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
+			//?//		table, e.isShiftDown());
+			//?//popupMenu.show(e.getComponent(), e.getX(), e.getY());
 
 		} else if (isResizing) {
 
-			if (e.getClickCount() == 2) {
-				return;
-			}
+			//?//if (e.getClickCount() == 2) {
+			//?//	return;
+			//?//}
 
-			int x = e.getX();
-			int y = e.getY();
+			int x = e.getClientX();
+			int y = e.getClientY();
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point == null) {
 				return;
@@ -200,7 +217,7 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 						// size
 			}
 
-			int width = table.getColumnModel().getColumn(column).getWidth();
+			int width = table.getColumnFormatter().getElement(column).getOffsetWidth();
 			int[] selected = table.getSelectedColumns();
 			if (selected == null) {
 				return;
@@ -214,8 +231,7 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 				return;
 			}
 			for (int i = 0; i < selected.length; ++i) {
-				table.getColumnModel().getColumn(selected[i])
-						.setPreferredWidth(width);
+				table.getColumnFormatter().setWidth(selected[i], width+"px");
 			}
 		}
 	}
@@ -224,33 +240,13 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 	// MouseMotion Listener Methods
 	// =========================================================
 
-	public void mouseDragged(MouseEvent e) {
+	public void onMouseMove(MouseMoveEvent e) {
 
-		if (AppD.isRightClick(e)) {
-			return; // G.Sturr 2009-9-30
-		}
-
-		if (isResizing) {
-			return;
-		}
-		int x = e.getX();
-		int y = e.getY();
-		GPoint point = table.getIndexFromPixel(x, y);
-		if (point != null) {
-			int column = point.getX();
-			if (column0 == -1) {
-				column0 = column;
-			}
-			table.setColumnSelectionInterval(column0, column);
-			// repaint();
-		}
-	}
-
-	public void mouseMoved(MouseEvent e) {
+		e.preventDefault();
 
 		// handles mouse over a trace button
 
-		int column = -1;
+		/*TODO int column = -1;
 		boolean isOver = false;
 		java.awt.Point mouseLoc = e.getPoint();
 		GPoint cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
@@ -285,6 +281,29 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 			if (table.getTableHeader() != null) {
 				table.getTableHeader().resizeAndRepaint();
 			}
+		}*/
+
+		// DRAG
+
+		if (isMouseDown) {
+			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+				return; // G.Sturr 2009-9-30
+			}
+
+			if (isResizing) {
+				return;
+			}
+			int x = e.getClientX();
+			int y = e.getClientY();
+			GPoint point = table.getIndexFromPixel(x, y);
+			if (point != null) {
+				int column = point.getX();
+				if (column0 == -1) {
+					column0 = column;
+				}
+				table.setColumnSelectionInterval(column0, column);
+				// repaint();
+			}
 		}
 	}
 
@@ -292,7 +311,7 @@ public class SpreadsheetColumnController /*implements KeyListener, MouseListener
 	// Key Listener Methods
 	// =========================================================
 
-	public void keyTyped(KeyEvent e) {
+	/*public void keyTyped(KeyEvent e) {
 	}
 
 	public void keyPressed(KeyEvent e) {

@@ -64,6 +64,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
 
+	protected SpreadsheetColumnController scc;
+
 	protected SpreadsheetColumnController.ColumnHeaderRenderer columnHeaderRenderer;
 	protected SpreadsheetRowHeader.RowHeaderRenderer rowHeaderRenderer;
 	protected SpreadsheetRowHeader.MyListModel rowHeaderModel;
@@ -243,6 +245,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		rowSelectionAllowed = columnSelectionAllowed = true;
 
 		// add mouse and key listeners
+		scc = new SpreadsheetColumnController(app, this);
 		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, this);
 		addDomHandler(ml, MouseDownEvent.getType());
 		addDomHandler(ml, MouseUpEvent.getType());
@@ -287,8 +290,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		        (SpreadsheetTableModelW) tableModel);
 		SpreadsheetRowHeader srh = new SpreadsheetRowHeader(app, this);
 		rowHeaderRenderer = srh.new RowHeaderRenderer();
-		SpreadsheetColumnController scc = new SpreadsheetColumnController(app,
-		        this);
 		columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 
 		setCellPadding(0);
@@ -1098,34 +1099,47 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Overrides the paint() to draw special spreadsheet table graphics, e.g.
 	 * selection rectangle and custom borders
 	 */
-	/*
-	 * @Override public void paint(Graphics graphics) { super.paint(graphics);
-	 * 
-	 * Graphics2D g2 = (Graphics2D) graphics;
-	 * 
-	 * // draw custom borders SpreadsheetBorders.drawFormatBorders(g2, this);
-	 * 
-	 * // draw special target cell frame if (targetcellFrame != null) {
-	 * g2.setColor(geogebra.awt.GColorD
-	 * .getAwtColor(GeoGebraColorConstants.DARKBLUE)); g2.setStroke(dashed);
-	 * g2.draw(targetcellFrame); }
-	 * 
-	 * // if the spreadsheet doesn't have focus // then don't draw the selection
-	 * graphics ... exit now if (!view.hasViewFocus()) { if (!isSelectNone)
-	 * setSelectNone(true); return; }
-	 * 
-	 * // draw special dragging frame for cell editor if (isDragging2) { GPoint
-	 * point1 = getPixel(minColumn2, minRow2, true); GPoint point2 =
-	 * getPixel(maxColumn2, maxRow2, false); int x1 = point1.getX(); int y1 =
-	 * point1.getY(); int x2 = point2.getX(); int y2 = point2.getY();
-	 * graphics.setColor(Color.GRAY); // Application.debug(x1 + "," + y1 + "," +
-	 * x2 + "," + y2); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); }
-	 * 
-	 * // draw dragging frame if (dragingToRow != -1 && dragingToColumn != -1) {
-	 */
+	/* @Override
+	public void paint(Graphics graphics) { super.paint(graphics);
+
+		Graphics2D g2 = (Graphics2D) graphics;
+
+		// draw custom borders
+		SpreadsheetBorders.drawFormatBorders(g2, this);
+
+		// draw special target cell frame
+		if (targetcellFrame != null) {
+			g2.setColor(geogebra.awt.GColorD
+					.getAwtColor(GeoGebraColorConstants.DARKBLUE)); g2.setStroke(dashed);
+			g2.draw(targetcellFrame);
+		}
+
+		// if the spreadsheet doesn't have focus
+		// then don't draw the selection graphics ... exit now
+		if (!view.hasViewFocus()) {
+			if (!isSelectNone)
+				setSelectNone(true);
+			return;
+		}
+
+		//draw special dragging frame for cell editor
+		if (isDragging2) {
+			GPoint point1 = getPixel(minColumn2, minRow2, true);
+			GPoint point2 = getPixel(maxColumn2, maxRow2, false);
+			int x1 = point1.getX();
+			int y1 = point1.getY();
+			int x2 = point2.getX();
+			int y2 = point2.getY();
+			graphics.setColor(Color.GRAY);
+			// Application.debug(x1 + "," + y1 + "," + x2 + "," + y2);
+			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+			graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+			graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+			graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
+		}
+
+		// draw dragging frame
+		if (dragingToRow != -1 && dragingToColumn != -1) {*/
 	/*
 	 * Application.debug("minSelectionRow = " + minSelectionRow);
 	 * Application.debug("minSelectionColumn = " + minSelectionColumn);
@@ -1134,76 +1148,105 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Application.debug("dragingToRow = " + dragingToRow);
 	 * Application.debug("dragingToColumn = " + dragingToColumn); /*
 	 */
-	/*
-	 * // -|1|- // 2|-|3 // -|4|- graphics.setColor(Color.gray); if
-	 * (dragingToColumn < minSelectionColumn) { // 2 GPoint point1 =
-	 * getPixel(dragingToColumn, minSelectionRow, true); GPoint point2 =
-	 * getPixel(minSelectionColumn - 1, maxSelectionRow, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1); }
-	 * else if (dragingToRow > maxSelectionRow) { // 4 GPoint point1 =
-	 * getPixel(minSelectionColumn, maxSelectionRow + 1, true); GPoint point2 =
-	 * getPixel(maxSelectionColumn, dragingToRow, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); }
-	 * else if (dragingToRow < minSelectionRow) { // 1 GPoint point1 =
-	 * getPixel(minSelectionColumn, dragingToRow, true); GPoint point2 =
-	 * getPixel(maxSelectionColumn, minSelectionRow - 1, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1); graphics.fillRect(x2
-	 * - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); } else if
-	 * (dragingToColumn > maxSelectionColumn) { // 3 GPoint point1 =
-	 * getPixel(maxSelectionColumn + 1, minSelectionRow, true); GPoint point2 =
-	 * getPixel(dragingToColumn, maxSelectionRow, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x2 - LINE_THICKNESS1, y1,
-	 * LINE_THICKNESS1, y2 - y1); graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2
-	 * - x1, LINE_THICKNESS1); graphics.fillRect(x1, y1, x2 - x1,
-	 * LINE_THICKNESS1); } }
-	 * 
-	 * // draw dragging dot GPoint pixel1 = getMaxSelectionPixel(); if
-	 * (doShowDragHandle && pixel1 != null && !editor.isEditing()) {
-	 * 
-	 * // Highlight the dragging dot if mouseover if (isOverDot) {
-	 * graphics.setColor(Color.gray); } else // {graphics.setColor(Color.BLUE);}
-	 * { graphics.setColor(selectionRectangleColor); }
-	 * 
-	 * int x = pixel1.getX() - (DOT_SIZE + 1) / 2; int y = pixel1.getY() -
-	 * (DOT_SIZE + 1) / 2; graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE); }
-	 * 
-	 * if (minSelectionRow != -1 && maxSelectionRow != -1 && minSelectionColumn
-	 * != -1 && maxSelectionColumn != -1) { GPoint min =
-	 * this.getMinSelectionPixel(); GPoint max = this.getMaxSelectionPixel();
-	 * int x1 = min.getX(); int y1 = min.getY(); int x2 = max.getX(); int y2 =
-	 * max.getY();
-	 * 
-	 * // graphics.setColor(Color.BLUE);
-	 * graphics.setColor(selectionRectangleColor);
-	 * 
-	 * // draw frame around current selection // G.Sturr 2009-9-23 adjusted
-	 * parameters to work with getPixel fix if (!editor.isEditing()) {
-	 * graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1); graphics.fillRect(x2
-	 * - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1 - DOT_SIZE / 2 - 1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1 - DOT_SIZE / 2 - 1,
-	 * LINE_THICKNESS2); } // draw small frame around current editing cell else
-	 * { x1 -= LINE_THICKNESS2 - 1; x2 += LINE_THICKNESS2 - 1; y1 -=
-	 * LINE_THICKNESS2 - 1; y2 += LINE_THICKNESS2 - 1; graphics.fillRect(x1, y1,
-	 * x2 - x1, LINE_THICKNESS2); graphics.fillRect(x1, y1, LINE_THICKNESS2, y2
-	 * - y1); graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 -
-	 * y1); graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1,
-	 * LINE_THICKNESS2); } }
-	 * 
-	 * // After rendering the LaTeX image for a geo, update the row height //
-	 * with the preferred size set by the renderer. resizeMarkedCells();
-	 * 
-	 * }
-	 */
+	/*	// -|1|- // 2|-|3 // -|4|-
+			graphics.setColor(Color.gray);
+			if (dragingToColumn < minSelectionColumn) { // 2
+				GPoint point1 = getPixel(dragingToColumn, minSelectionRow, true);
+				GPoint point2 = getPixel(minSelectionColumn - 1, maxSelectionRow, false);
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
+				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+			}
+			else if (dragingToRow > maxSelectionRow) { // 4
+				GPoint point1 = getPixel(minSelectionColumn, maxSelectionRow + 1, true);
+				GPoint point2 = getPixel(maxSelectionColumn, dragingToRow, false);
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
+				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
+			}
+			else if (dragingToRow < minSelectionRow) { // 1
+				GPoint point1 = getPixel(minSelectionColumn, dragingToRow, true);
+				GPoint point2 = getPixel(maxSelectionColumn, minSelectionRow - 1, false);
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
+				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
+			} else if (dragingToColumn > maxSelectionColumn) { // 3
+				GPoint point1 = getPixel(maxSelectionColumn + 1, minSelectionRow, true);
+				GPoint point2 = getPixel(dragingToColumn, maxSelectionRow, false);
+				int x1 = point1.getX();
+				int y1 = point1.getY();
+				int x2 = point2.getX();
+				int y2 = point2.getY();
+				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+			}
+		}
+		// draw dragging dot GPoint pixel1 = getMaxSelectionPixel();
+		if (doShowDragHandle && pixel1 != null && !editor.isEditing()) {
+			// Highlight the dragging dot if mouseover
+			if (isOverDot) {
+				graphics.setColor(Color.gray);
+			}
+			else // {graphics.setColor(Color.BLUE);}
+			{
+				graphics.setColor(selectionRectangleColor);
+			}
+			int x = pixel1.getX() - (DOT_SIZE + 1) / 2;
+			int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
+			graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE);
+		}
+
+		if (minSelectionRow != -1 && maxSelectionRow != -1 && minSelectionColumn
+			!= -1 && maxSelectionColumn != -1) {
+			GPoint min = this.getMinSelectionPixel();
+			GPoint max = this.getMaxSelectionPixel();
+			int x1 = min.getX();
+			int y1 = min.getY();
+			int x2 = max.getX();
+			int y2 = max.getY();
+
+			// graphics.setColor(Color.BLUE);
+			graphics.setColor(selectionRectangleColor);
+
+			// draw frame around current selection
+			// G.Sturr 2009-9-23 adjusted parameters to work with getPixel fix
+			if (!editor.isEditing()) {
+				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
+				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
+				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1 - DOT_SIZE / 2 - 1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1 - DOT_SIZE / 2 - 1, LINE_THICKNESS2);
+			}
+			// draw small frame around current editing cell
+			else
+			{
+				x1 -= LINE_THICKNESS2 - 1;
+				x2 += LINE_THICKNESS2 - 1;
+				y1 -= LINE_THICKNESS2 - 1;
+				y2 += LINE_THICKNESS2 - 1;
+				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
+				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
+				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1, LINE_THICKNESS2);
+			}
+		}
+
+		// After rendering the LaTeX image for a geo, update the row height
+		//with the preferred size set by the renderer.
+		resizeMarkedCells();
+	}*/
 
 	/**
 	 * Starts in-cell editing for cells with short editing strings. For strings

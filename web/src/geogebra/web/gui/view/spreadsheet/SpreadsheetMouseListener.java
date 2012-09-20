@@ -27,6 +27,7 @@ public class SpreadsheetMouseListener implements
 	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModel model;
+	private SpreadsheetColumnController scc;
 	//private MyCellEditor editor;
 
 	private RelativeCopy relativeCopy;
@@ -44,6 +45,7 @@ public class SpreadsheetMouseListener implements
 		this.view = (SpreadsheetView)table.getView();
 		this.model = table.getModel();
 		//TODO this.editor = table.editor;
+		this.scc = table.scc;
 
 		this.relativeCopy = new RelativeCopy(kernel);
 	}
@@ -171,6 +173,12 @@ public class SpreadsheetMouseListener implements
 
 	public void onMouseDown(MouseDownEvent e) {
 
+		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+		if (p.getY() == 0 && p.getX() > 0) {
+			scc.onMouseDown(e);
+			return;
+		}
+
 		//if (!view.hasViewFocus())
 		//	((LayoutW) app.getGuiManager().getLayout()).getDockManager()
 		//			.setFocusedPanel(App.VIEW_SPREADSHEET);
@@ -209,7 +217,7 @@ public class SpreadsheetMouseListener implements
 
 			// force column selection
 			if (view.isColumnSelect()) {
-				GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+				GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 				if (point != null) {
 					int column = point.getX();
 					table.setColumnSelectionInterval(column, column);
@@ -284,8 +292,6 @@ public class SpreadsheetMouseListener implements
 
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
-		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
-
 		// change selection if right click is outside current selection
 		if (p.getY() != table.anchorSelectionRow
 			|| p.getX() != table.anchorSelectionColumn) {
@@ -304,6 +310,12 @@ public class SpreadsheetMouseListener implements
 	}
 
 	public void onMouseUp(MouseUpEvent e) {
+
+		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+		if (p.getY() == 0 && p.getX() > 0) {
+			scc.onMouseUp(e);
+			return;
+		}
 
 		mouseIsDown = false;
 		e.preventDefault();
@@ -422,8 +434,6 @@ public class SpreadsheetMouseListener implements
 			if (!((AppW) kernel.getApplication()).letShowPopupMenu())
 				return;
 
-			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
-
 			// change selection if right click is outside current selection
 			if (p.getY() < table.minSelectionRow
 					|| p.getY() > table.maxSelectionRow
@@ -447,8 +457,6 @@ public class SpreadsheetMouseListener implements
 
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
-		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
-
 		// change selection if right click is outside current selection
 		if (p.getY() != table.leadSelectionRow
 			|| p.getX() != table.leadSelectionColumn) {
@@ -468,6 +476,12 @@ public class SpreadsheetMouseListener implements
 	}
 
 	public void onMouseMove(MouseMoveEvent e) {
+
+		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+		if (p.getY() == 0 && p.getX() > 0) {
+			scc.onMouseMove(e);
+			return;
+		}
 
 		e.preventDefault();
 
@@ -631,8 +645,6 @@ public class SpreadsheetMouseListener implements
 
 
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
-
-			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 
 			// change selection if right click is outside current selection
 			if (p.getY() != table.leadSelectionRow
