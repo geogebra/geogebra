@@ -6632,9 +6632,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void wrapMouseclicked(AbstractEvent event) {
-		if(textBoxFocused) return;
-		
+	protected void wrapMouseclicked(AbstractEvent event) {		
 		if (penMode(mode)) {
 			return;
 		}
@@ -9380,11 +9378,6 @@ public abstract class EuclidianController {
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
-		
-	}
-
-	public static void textBoxFocused(boolean b) {
-		textBoxFocused = b;
 		
 	}
 	
