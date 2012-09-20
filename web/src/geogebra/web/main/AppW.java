@@ -1064,7 +1064,7 @@ public class AppW extends App {
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
 
-		App.initializeSingularWS();
+		// App.initializeSingularWS();
 
 		// neded to not overwrite anything already exists
 		ORIGINAL_BODY_CLASSNAME = RootPanel.getBodyElement().getClassName();
