@@ -29,6 +29,46 @@
 	border: none;
 }
 
+
+.colorBarBackground {
+	position: absolute;
+	right: 75px;
+	bottom: 320px;
+	width: 250px;
+	height: 220px;
+	box-shadow: 5px 5px 10px #333333;
+	-webkit-border-radius: 1em 0em 0em 1em;
+}
+.colorBar {
+	margin-left: 20px;
+	width: 90%;
+	background: none;
+	background-color: transparent;
+	border: none;
+}
+
+.colorScrollPanel {
+	width: 100%;
+	height: 100%;
+}
+
+.colorChoiceButton {
+	height: 18px;
+	width: 100%;
+	background-image: none !important;
+}
+
+.dummyButton {
+	height: 58px;
+	background-image: none !important;
+	background: none;
+	border: none !important;
+}
+
+.colorBar * td {
+	width: 170px;
+}
+
 .headerpanel {
 	position: static;
 	top: 0px;
@@ -121,4 +161,9 @@
 
 .algebraView-heading {
 	color: black;
+}
+
+.rootTest {
+	width: 1000px;
+	height: 1000px;
 }
