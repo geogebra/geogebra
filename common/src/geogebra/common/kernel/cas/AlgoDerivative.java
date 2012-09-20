@@ -86,43 +86,44 @@ public class AlgoDerivative extends AlgoCasBase {
     private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
-		
+
+
+		if (f instanceof GeoFunction) {
+			Function inFun = ((GeoFunction)f).getFunction();
+
+			// check if it's a polynomial
+			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(order == null ? 1 : (int) Math.round(order.getDouble()));
+
+			// it it is...
+			if (polyDeriv != null) {
+				// ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
+				Function funDeriv = polyDeriv.getFunction(kernel, inFun.getFunctionVariable());
+
+				//App.debug(f.toString());
+				//App.debug(funDeriv.toString());
+
+				((GeoFunction)g).setFunction(funDeriv);
+				return;
+			}
+		}
+
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-		
+
 		// get variable string with tmp prefix, 
 		// e.g. "x" becomes "ggbtmpvarx" here
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
 
-		
-		 sbAE.setLength(0);
-		 sbAE.append("Derivative(%");
-		 sbAE.append(",");
-		 sbAE.append(varStr);
-		 sbAE.append(",");
-		 sbAE.append(order == null ? 1 : (int) Math.round(order.getDouble()));
-		 sbAE.append(")");
-		 
-		 if (f instanceof GeoFunction) {
-			 Function inFun = ((GeoFunction)f).getFunction();
-			 
-			 // check if it's a polynomial
-			 PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(order == null ? 1 : (int) Math.round(order.getDouble()));
-			 
-			 // it it is...
-			 if (polyDeriv != null) {
-				 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
-				 Function funDeriv = polyDeriv.getFunction(kernel, inFun.getFunctionVariable());
-				 
-				 //App.debug(f.toString());
-				 //App.debug(funDeriv.toString());
-				 
-				 ((GeoFunction)g).setFunction(funDeriv);
-				 return;
-			 }
-		 }
-		 
-		 // find symbolic derivative of f
-		 g.setUsingCasCommand(sbAE.toString(), f, true,arbconst);	
+
+		sbAE.setLength(0);
+		sbAE.append("Derivative(%");
+		sbAE.append(",");
+		sbAE.append(varStr);
+		sbAE.append(",");
+		sbAE.append(order == null ? 1 : (int) Math.round(order.getDouble()));
+		sbAE.append(")");
+
+		// find symbolic derivative of f
+		g.setUsingCasCommand(sbAE.toString(), f, true,arbconst);	
 
 	}
   
