@@ -629,9 +629,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// update internal selection variables
 		newSelection.setActualRange();
-		minSelectionColumn = newSelection.getMinColumn();
+		if (newSelection.getMinRow() == 0)
+			minSelectionRow = 1;
+		else
+			minSelectionRow = newSelection.getMinRow();
+		if (newSelection.getMinColumn() == 0)
+			minSelectionColumn = 1;
+		else
+			minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
-		minSelectionRow = newSelection.getMinRow();
 		maxSelectionRow = newSelection.getMaxRow();
 
 		// newSelection.debug();
