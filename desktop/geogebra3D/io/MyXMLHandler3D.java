@@ -97,6 +97,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			} else if (eName.equals("plane")) {
 				ok = handlePlane(ev, attrs);
 				break;
+			} else if (eName.equals("projection")) {
+				ok = handleProjection(ev, attrs);
+				break;
 			}
 			
 			/*
@@ -263,7 +266,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 	
-	/** handles plane attributes (show grid) for EuclidianView3D
+	/** 
 	 * @param ev
 	 * @param attrs
 	 * @return true if all is done ok
@@ -288,6 +291,25 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return true;
 		} catch (Exception e) {
 			//e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/** handles projection attribute
+	 * @param ev
+	 * @param attrs
+	 * @return true if all is done ok
+	 */
+	protected boolean handleProjection(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
+		try {
+			String strType = attrs.get("type");
+			if (strType != null) {
+				int type = Integer.parseInt(strType);
+				ev.setProjection(type);
+			}			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

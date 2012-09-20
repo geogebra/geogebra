@@ -738,7 +738,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	private void updateEye(){
-
+		
 		//update view direction
 		if (projection==PROJECTION_CAV)
 			viewDirection=renderer.getCavOrthoDirection().copyVector();
@@ -2466,7 +2466,18 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		sb.append(getClippingReduction());		
 		sb.append("\"/>\n");	
 		
+
+		// projection
+		sb.append("\t<projection type=\"");
+		sb.append(getProjection());	
+		sb.append("\"/>\n");	
+		
+		
+		//end
 		sb.append("</euclidianView3D>\n");
+		
+		
+		
 		
 	}
 	
@@ -3168,8 +3179,27 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	private int projection = PROJECTION_ORTHOGRAPHIC;
 	
-	
 	public void setProjection(int projection){
+		switch(projection){
+		case PROJECTION_ORTHOGRAPHIC:
+			setProjectionOrthographic();
+			break;
+		case PROJECTION_PERSPECTIVE:
+			setProjectionPerspective();
+			break;
+		case PROJECTION_ANAGLYPH:
+			setAnaglyph();
+			break;
+		case PROJECTION_CAV:
+			setCav();
+			break;
+			
+		}
+		
+	}
+	
+	
+	private void setProjectionValues(int projection){
 		if(this.projection!=projection){
 			this.projection=projection;
 			updateEye();
@@ -3188,7 +3218,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	public void setProjectionOrthographic(){
 		renderer.updateOrthoValues();
-		setProjection(PROJECTION_ORTHOGRAPHIC);
+		setProjectionValues(PROJECTION_ORTHOGRAPHIC);
 	}
 	
 	
@@ -3197,7 +3227,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	public void setProjectionPerspective(){
 		updateProjectionPerspectiveValue();
-		setProjection(PROJECTION_PERSPECTIVE);
+		setProjectionValues(PROJECTION_PERSPECTIVE);
 	}
 	
 	
@@ -3233,7 +3263,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setAnaglyph(){
 		updateProjectionPerspectiveValue();
 		renderer.updateAnaglyphValues();
-		setProjection(PROJECTION_ANAGLYPH);
+		setProjectionValues(PROJECTION_ANAGLYPH);
 	}
 	
 	private boolean isAnaglyphGrayScaled = true;
@@ -3299,7 +3329,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	public void setCav(){
 		renderer.updateCavValues();
-		setProjection(PROJECTION_CAV);
+		setProjectionValues(PROJECTION_CAV);
 	}
 	
 	public void setCavAngle(double angle){
