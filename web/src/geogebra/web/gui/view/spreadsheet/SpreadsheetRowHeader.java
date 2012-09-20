@@ -9,11 +9,20 @@ import geogebra.common.main.App;
 import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetRowHeader /*extends JList implements MouseListener,
+public class SpreadsheetRowHeader implements
+MouseDownHandler, MouseUpHandler, MouseMoveHandler
+/*extends JList implements MouseListener,
 		MouseMotionListener, KeyListener, ListSelectionListener*/
 
 {
@@ -33,10 +42,12 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 	private static Cursor resizeCursor = Cursor
 			.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
 	private Cursor otherCursor = resizeCursor;*/
-	private int mouseYOffset, resizingRow;
+	private int mouseYOffset, resizingRow = -1;
 	private boolean doRowResize = false;
 
 	protected int row0 = -1;
+
+	private boolean isMouseDown = false;
 
 	/***************************************************
 	 * Constructor
@@ -215,25 +226,29 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 	}
 
 	public void mouseExited(MouseEvent e) {
-	}
+	}*/
 
-	public void mousePressed(MouseEvent e) {
-		boolean shiftPressed = e.isShiftDown();
-		boolean rightClick = AppD.isRightClick(e);
+	public void onMouseDown(MouseDownEvent e) {
 
-		int x = e.getX();
-		int y = e.getY();
+		isMouseDown = true;
+		e.preventDefault();
 
-		if (!view.hasViewFocus())
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
-					.setFocusedPanel(App.VIEW_SPREADSHEET);
+		boolean shiftPressed = e.isShiftKeyDown();
+		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+
+		int x = e.getClientX();
+		int y = e.getClientY();
+
+		//?//if (!view.hasViewFocus())
+		//?//	((LayoutW) app.getGuiManager().getLayout()).getDockManager()
+		//?//			.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// Update resizingRow. If nonnegative, then mouse is over a boundary
 		// and it gives the row to be resized (resizing is done in
 		// mouseDragged).
-		java.awt.Point p = e.getPoint();
-		resizingRow = getResizingRow(p);
-		mouseYOffset = p.y - table.getRowHeight(resizingRow);
+		//?//java.awt.Point p = e.getPoint();
+		//?//resizingRow = getResizingRow(p);
+		//?//mouseYOffset = p.y - table.getRowHeight(resizingRow);
 		//
 
 		// left click
@@ -247,7 +262,7 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 				// G.STURR 2010-1-29
 				if (table.getSelectionType() != MyTable.ROW_SELECT) {
 					table.setSelectionType(MyTable.ROW_SELECT);
-					requestFocusInWindow();
+					//?//requestFocusInWindow();
 				}
 
 				if (shiftPressed) {
@@ -269,15 +284,18 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	public void onMouseUp(MouseUpEvent e) {
 
-		boolean rightClick = AppD.isRightClick(e);
+		isMouseDown = false;
+		e.preventDefault();
+
+		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 
 		if (rightClick) {
 			if (!app.letShowPopupMenu())
 				return;
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 			if (p == null)
 				return;
 
@@ -295,14 +313,14 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-					table, e.isShiftDown());
-			popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			//?//SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
+			//?//		table, e.isShiftDown());
+			//?//popupMenu.show(e.getComponent(), e.getX(), e.getY());
 
 		}
 
 		// If row resize has happened, resize all other selected rows
-		if (doRowResize) {
+		/*? if (doRowResize) {
 			if (minSelectionRow != -1 && maxSelectionRow != -1
 					&& (maxSelectionRow - minSelectionRow > 1)) {
 				if (table.isSelectAll())
@@ -313,51 +331,53 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 					}
 			}
 			doRowResize = false;
-		}
+		}*/
 	}
 
 	// ===============================================
 	// MouseMotion Listener Methods
 	// ===============================================
 
-	public void mouseDragged(MouseEvent e) {
-		if (AppD.isRightClick(e))
-			return; // G.Sturr 2009-9-30
+	public void onMouseMove(MouseMoveEvent e) {
 
-		// G.STURR 2010-1-9
-		// On mouse drag either resize or select a row
-		int x = e.getX();
-		int y = e.getY();
-		if (resizingRow >= 0) {
-			// resize row
-			int newHeight = y - mouseYOffset;
-			if (newHeight > 0) {
-				table.setRowHeight(resizingRow, newHeight);
-				// set this flag to resize all selected rows on mouse release
-				doRowResize = true;
-			}
+		e.preventDefault();
 
-		} else { // select row
-			GPoint point = table.getIndexFromPixel(x, y);
-			if (point != null) {
-				int row = point.getY();
-				table.setRowSelectionInterval(row0, row);
-
-				// G.Sturr 2010-4-4
-				// keep the row header updated when drag selecting multiple rows
-				view.updateRowHeader();
-				table.scrollRectToVisible(table.getCellRect(point.y, point.x,
-						true));
-				table.repaint();
-			}
-		}
-
-	}
-
-	public void mouseMoved(MouseEvent e) {
 		// Show resize cursor when mouse is over a row boundary
-		if ((getResizingRow(e.getPoint()) >= 0) != (getCursor() == resizeCursor)) {
-			swapCursor();
+		//?//if ((getResizingRow(e.getPoint()) >= 0) != (getCursor() == resizeCursor)) {
+		//?//	swapCursor();
+		//?//}
+
+		if (isMouseDown) {
+			
+			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT)
+				return; // G.Sturr 2009-9-30
+
+			// G.STURR 2010-1-9
+			// On mouse drag either resize or select a row
+			int x = e.getClientX();
+			int y = e.getClientY();
+			if (resizingRow >= 0) {
+				// resize row
+				int newHeight = y - mouseYOffset;
+				if (newHeight > 0) {
+					table.setRowHeight(resizingRow, newHeight);
+					// set this flag to resize all selected rows on mouse release
+					doRowResize = true;
+				}
+			} else { // select row
+				GPoint point = table.getIndexFromPixel(x, y);
+				if (point != null) {
+					int row = point.getY();
+					table.setRowSelectionInterval(row0, row);
+
+					// G.Sturr 2010-4-4
+					// keep the row header updated when drag selecting multiple rows
+					//?//view.updateRowHeader();
+					//?//table.scrollRectToVisible(table.getCellRect(point.y, point.x,
+					//?//		true));
+					table.repaint();
+				}
+			}
 		}
 	}
 
@@ -365,7 +385,7 @@ public class SpreadsheetRowHeader /*extends JList implements MouseListener,
 	// Key Listener Methods
 	// ===============================================
 
-	public void keyTyped(KeyEvent e) {
+	/*public void keyTyped(KeyEvent e) {
 	}
 
 	public void keyPressed(KeyEvent e) {

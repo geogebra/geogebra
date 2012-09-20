@@ -65,7 +65,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public CopyPasteCut copyPasteCut;
 
 	protected SpreadsheetColumnController scc;
-
+	protected SpreadsheetRowHeader srh;
 	protected SpreadsheetColumnController.ColumnHeaderRenderer columnHeaderRenderer;
 	protected SpreadsheetRowHeader.RowHeaderRenderer rowHeaderRenderer;
 	protected SpreadsheetRowHeader.MyListModel rowHeaderModel;
@@ -246,6 +246,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// add mouse and key listeners
 		scc = new SpreadsheetColumnController(app, this);
+		srh = new SpreadsheetRowHeader(app, this);
 		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, this);
 		addDomHandler(ml, MouseDownEvent.getType());
 		addDomHandler(ml, MouseUpEvent.getType());
@@ -288,7 +289,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		 */
 		rowHeaderModel = new SpreadsheetRowHeader.MyListModel(
 		        (SpreadsheetTableModelW) tableModel);
-		SpreadsheetRowHeader srh = new SpreadsheetRowHeader(app, this);
 		rowHeaderRenderer = srh.new RowHeaderRenderer();
 		columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 

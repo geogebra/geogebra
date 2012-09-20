@@ -27,7 +27,6 @@ public class SpreadsheetMouseListener implements
 	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModel model;
-	private SpreadsheetColumnController scc;
 	//private MyCellEditor editor;
 
 	private RelativeCopy relativeCopy;
@@ -45,7 +44,6 @@ public class SpreadsheetMouseListener implements
 		this.view = (SpreadsheetView)table.getView();
 		this.model = table.getModel();
 		//TODO this.editor = table.editor;
-		this.scc = table.scc;
 
 		this.relativeCopy = new RelativeCopy(kernel);
 	}
@@ -175,7 +173,10 @@ public class SpreadsheetMouseListener implements
 
 		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 		if (p.getY() == 0 && p.getX() > 0) {
-			scc.onMouseDown(e);
+			table.scc.onMouseDown(e);
+			return;
+		} else if (p.getX() == 0 && p.getY() > 0) {
+			table.srh.onMouseDown(e);
 			return;
 		}
 
@@ -313,7 +314,10 @@ public class SpreadsheetMouseListener implements
 
 		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 		if (p.getY() == 0 && p.getX() > 0) {
-			scc.onMouseUp(e);
+			table.scc.onMouseUp(e);
+			return;
+		} else if (p.getX() == 0 && p.getY() > 0) {
+			table.srh.onMouseUp(e);
 			return;
 		}
 
@@ -479,7 +483,10 @@ public class SpreadsheetMouseListener implements
 
 		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 		if (p.getY() == 0 && p.getX() > 0) {
-			scc.onMouseMove(e);
+			table.scc.onMouseMove(e);
+			return;
+		} else if (p.getX() == 0 && p.getY() > 0) {
+			table.srh.onMouseMove(e);
 			return;
 		}
 
