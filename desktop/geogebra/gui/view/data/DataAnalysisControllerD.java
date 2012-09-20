@@ -87,6 +87,11 @@ public class DataAnalysisControllerD {
 		this.leftToRight = leftToRight;
 	}
 
+	public boolean isLeftToRight() {
+		return leftToRight;
+	}
+
+	
 	public GeoElement getRegressionModel() {
 		return geoRegression;
 	}
@@ -201,7 +206,7 @@ public class DataAnalysisControllerD {
 			return;
 		}
 
-		ArrayList<GeoList> list = dataSource.loadDataLists(mode());
+		ArrayList<GeoList> list = dataSource.loadDataLists(mode(), leftToRight);
 
 		if (list == null) {
 			this.setValidData(false);
@@ -276,7 +281,7 @@ public class DataAnalysisControllerD {
 	 * @return String array of data titles
 	 */
 	public String[] getDataTitles() {
-		return dataSource.getDataTitles(mode());
+		return dataSource.getDataTitles(mode(), leftToRight);
 	}
 
 	public void swapXY() {
@@ -320,10 +325,10 @@ public class DataAnalysisControllerD {
 	public void updateAllStatPanels(boolean doCreateGeo) {
 		App.error("updateAllStatPanel --- start");
 		view.comboStatPanel.updatePlot(doCreateGeo);
-		if (view.comboStatPanel2 != null)
+		if (mode() != DataAnalysisViewD.MODE_MULTIVAR && view.comboStatPanel2 != null)
 			view.comboStatPanel2.updatePlot(doCreateGeo);
 		if (view.statisticsPanel != null) {
-			App.error("updateAllStatPanel --- statPANEL");
+			//App.error("updateAllStatPanel --- statPANEL");
 			view.statisticsPanel.updatePanel();
 		}
 

@@ -33,7 +33,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private MyToggleButton btnDataSource;
 	private MyTextField fldDataSource;
 	private MyToggleButton btnExport;
-	private JButton btnSwapXY;
+	private MyToggleButton btnSwapXY;
 
 	public DataAnalysisStyleBar(AppD app, DataAnalysisViewD statDialog) {
 
@@ -80,8 +80,8 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
-		btnSwapXY = new JButton();
-		btnSwapXY.setSelected(false);
+		btnSwapXY = new MyToggleButton(iconHeight);
+		btnSwapXY.setSelected(!statDialog.getController().isLeftToRight());
 		btnSwapXY.setMaximumSize(btnSwapXY.getPreferredSize());
 		btnSwapXY.addActionListener(this);
 		btnSwapXY.setFocusable(false);
@@ -104,14 +104,19 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	public void updateGUI() {
 
 		btnShowStatistics.setSelected(statDialog.showStatPanel());
+		
+		btnShowData.setVisible(statDialog.getMode() != DataAnalysisViewD.MODE_MULTIVAR);
 		btnShowData.setSelected(statDialog.showDataPanel());
+		
+		btnShowPlot2.setVisible(statDialog.getMode() != DataAnalysisViewD.MODE_MULTIVAR);
 		btnShowPlot2.setSelected(statDialog.showComboPanel2());
-	//	fldDataSource.setText(statDialog.getStatDialogController()
+	
+		//	fldDataSource.setText(statDialog.getStatDialogController()
 		//		.getSourceString());
 		fldDataSource.revalidate();
 		
 		btnSwapXY.setVisible(statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION);
-		btnSwapXY.setSelected(!statDialog.isLeftToRight());
+		btnSwapXY.setSelected(!statDialog.getController().isLeftToRight());
 	}
 
 	private JPanel createDataSourcePanel() {
@@ -186,6 +191,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 		else if (source == btnSwapXY) {
 			statDialog.getController().swapXY();
+			updateGUI();
 		}
 		
 		else if (source == btnDataSource) {

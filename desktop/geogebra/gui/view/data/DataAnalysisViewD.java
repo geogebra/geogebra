@@ -66,8 +66,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	private boolean showStatPanel = false;
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
-	private boolean leftToRight = true;
-	
 
 	private boolean doSpecialNumberFormat = false;
 
@@ -81,7 +79,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			.getAwtColor(GeoGebraColorConstants.CRIMSON);
 	public static final Color BARCHART_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.DARKGREEN);
-	
+
 	public static final Color DOTPLOT_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY5);
 	public static final Color NQPLOT_COLOR = geogebra.awt.GColorD
@@ -150,7 +148,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		this.app = app;
 		this.kernel = app.getKernel();
 
-
 		nf = new SpecialNumberFormat(app, this);
 
 		daCtrl = new DataAnalysisControllerD(app, this);
@@ -197,7 +194,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		}
 
 		// TODO is this needed?
-		setLeftToRight(true);
+		daCtrl.setLeftToRight(true);
 
 		updateFonts();
 		setLabels();
@@ -251,7 +248,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			} else if (sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
 				comboStatPanel.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
 				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
-				
+
 			} else if (sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
 				comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
 				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
@@ -401,18 +398,18 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// Getters/setters
 	// ======================================
 
-	public DataAnalysisControllerD getDaCtrl(){
+	public DataAnalysisControllerD getDaCtrl() {
 		return daCtrl;
 	}
-	
-	public DataSource getDataSource(){
+
+	public DataSource getDataSource() {
 		return daCtrl.getDataSource();
 	}
-	
-	private int sourceType(){
+
+	private int sourceType() {
 		return daCtrl.getDataSource().getSourceType();
 	}
-	
+
 	/**
 	 * Component representation of this view
 	 * 
@@ -524,14 +521,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		return app;
 	}
 
-	public boolean isLeftToRight() {
-		return leftToRight;
-	}
-
-	public void setLeftToRight(boolean leftToRight) {
-		daCtrl.setLeftToRight(leftToRight);
-	}
-
 	public int getMode() {
 		return mode;
 	}
@@ -557,14 +546,12 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	}
 
 	public boolean isNumericData() {
-		if(daCtrl.getDataSource() == null){
+		if (daCtrl.getDataSource() == null) {
 			return false;
 		}
 		return daCtrl.getDataSource().isNumericData();
 	}
 
-	
-	
 	// =================================================
 	// Handlers for Component Visibility
 	// =================================================
@@ -643,6 +630,25 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 				displayPanel.setLeftComponent(null);
 				displayPanel.setDividerSize(0);
 			}
+
+		} else { // handle multi-variable case
+
+			if (showStatPanel) {
+				if (displayPanel.getBottomComponent() == null) {
+					displayPanel.setBottomComponent(statDataPanel);
+					// displayPanel.resetToPreferredSizes();
+					displayPanel.setDividerLocation(displayPanel
+							.getLastDividerLocation());
+					displayPanel.setDividerSize(defaultDividerSize);
+				}
+			} else {
+				displayPanel.setLastDividerLocation(displayPanel
+						.getDividerLocation());
+				displayPanel.setBottomComponent(null);
+				displayPanel.setDividerSize(0);
+
+			}
+
 		}
 
 		setLabels();

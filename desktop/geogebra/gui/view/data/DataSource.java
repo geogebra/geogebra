@@ -41,7 +41,7 @@ public class DataSource {
 	private boolean enableHeader = false;
 
 	private int mode;
-	private int sourceType;
+	private int sourceType = SOURCE_RAWDATA;
 
 	private boolean isNumericData = true;
 
@@ -133,8 +133,8 @@ public class DataSource {
 
 		// add the new data source object
 		list.set(index, createDataItem(obj, type));
-		
-		debug();
+
+		//debug();
 	}
 
 	/**
@@ -149,8 +149,6 @@ public class DataSource {
 		rangeList.add(cellRange);
 		return list.add(new DataItem(rangeList, ITEM_SPREADSHEET));
 	}
-
-	
 
 	/**
 	 * Adds an empty object to the source list
@@ -749,13 +747,19 @@ public class DataSource {
 	 * 
 	 * @return String array of data titles
 	 */
-	public String[] getDataTitles(int mode) {
+	public String[] getDataTitles(int mode, boolean leftToRight) {
 
 		String[] s = new String[list.size()];
+		
+		if (leftToRight)
+			for (int i = 0; i < s.length; i++) {
+				s[i] = getDataTitle(i);
+			}
+		else
+			for (int i = 0; i < s.length; i++) {
+				s[i] = getDataTitle(s.length - 1 - i);
+			}
 
-		for (int i = 0; i < s.length; i++) {
-			s[i] = getDataTitle(i);
-		}
 		return s;
 	}
 
@@ -830,7 +834,7 @@ public class DataSource {
 	 * @param sourceType
 	 * @return
 	 */
-	protected ArrayList<GeoList> loadDataLists(int mode) {
+	protected ArrayList<GeoList> loadDataLists(int mode, boolean leftToRight) {
 
 		if (list.size() == 0 || list.get(0) == null) {
 			return null;
@@ -838,7 +842,6 @@ public class DataSource {
 
 		ArrayList<GeoList> sourceList = new ArrayList<GeoList>();
 
-		boolean leftToRight = false;
 		boolean scanByColumn = true;
 		boolean copyByValue = false;
 		boolean doStoreUndo = false;

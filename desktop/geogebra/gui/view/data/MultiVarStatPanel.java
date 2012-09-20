@@ -79,9 +79,10 @@ public class MultiVarStatPanel extends BasicStatTable {
 				{ app.getMenu("LowerQuartile.short"), "Q1" },
 				{ app.getMenu("Median"), "Median" },
 				{ app.getMenu("UpperQuartile.short"), "Q3" },
-				{ app.getMenu("Maximum.short"), "Max" },
-				{ app.getMenu("Sum"), "Sum" },
-				{ app.getMenu("Sum2"), "SigmaXX" } };
+				{ app.getMenu("Maximum.short"), "Max" }
+			//	{ app.getMenu("Sum"), "Sum" },
+			//	{ app.getMenu("Sum2"), "SigmaXX" } 
+				};
 		return map;
 	}
 }
