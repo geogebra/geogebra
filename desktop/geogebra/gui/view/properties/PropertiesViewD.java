@@ -36,6 +36,7 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -737,10 +738,22 @@ public class PropertiesViewD extends
 			return;
 		
 		//close undocked properties view when setting mode
+		//if propreties view covers a part of the main window
 		DockManager manager = ((LayoutD) app.getGuiManager().getLayout()).getDockManager();
 		DockPanel panel = manager.getPanel(getViewID());
-		if (panel.isInFrame())
-			manager.closePanel(panel, false);
+		if (panel.isInFrame()){
+			Rectangle panelRectangle = panel.getFrameBounds();
+			Rectangle mainWindowRectangle = ((AppD) app).getMainComponent().getBounds();
+			
+			boolean outside = (panelRectangle.x > mainWindowRectangle.x+mainWindowRectangle.width)
+					|| (panelRectangle.x + panelRectangle.width < mainWindowRectangle.x)
+					|| (panelRectangle.y > mainWindowRectangle.y+mainWindowRectangle.height)
+					|| (panelRectangle.y + panelRectangle.height < mainWindowRectangle.y)
+					;
+
+			if (!outside)
+				manager.closePanel(panel, false);
+		}
 		
 		this.mode=mode;
 		
