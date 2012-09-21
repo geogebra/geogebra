@@ -141,7 +141,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	public boolean isTransparent() {
-		return true;
+		return getAlpha()<1f;
 	}
 	
 	

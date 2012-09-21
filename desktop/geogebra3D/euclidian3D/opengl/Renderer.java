@@ -1269,6 +1269,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		Application.debug(sbd.toString());
 		/ END DEBUG*/
         //view3D.setHits(hits3D);
+        
+        //App.debug(hits3D);
        
         waitForPick = false;
         
