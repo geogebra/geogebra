@@ -2203,6 +2203,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (!hasMouse)
 			return;
 		
+		if (getProjection() != PROJECTION_ANAGLYPH && getProjection() != PROJECTION_PERSPECTIVE)
+			return;
+		
 		GPoint mouseLoc = euclidianController.getMouseLoc();
 		if (mouseLoc == null)
 			return;
@@ -2218,7 +2221,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			double z = getToScreenMatrix().mul(getCursor3D().getCoords()).getZ()
 					+20; //to be over
 			//App.debug("\n"+eye);
-			double eyeSep = renderer.getEyeSep();
+			double eyeSep = 0;
+			if (getProjection() == PROJECTION_ANAGLYPH)
+				eyeSep = renderer.getEyeSep(); //TODO eye lateralization
+			
 			double x = mouseLoc.x + renderer.getLeft() + eyeSep;
 			double y = -mouseLoc.y + renderer.getTop();
 			double dz = eye.getZ() - z;
