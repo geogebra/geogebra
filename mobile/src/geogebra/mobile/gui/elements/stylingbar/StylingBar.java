@@ -2,6 +2,7 @@ package geogebra.mobile.gui.elements.stylingbar;
 
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.model.GuiModel;
+import geogebra.mobile.model.MobileModel;
 import geogebra.mobile.utils.StylingBarEntries;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class StylingBar extends RoundPanel
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
 	final GuiModel guiModel;
+	MobileModel mobileModel; 
 	StylingBarButton[] button;
 	StylingBarButton colorButton;
 	
@@ -34,10 +36,11 @@ public class StylingBar extends RoundPanel
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
 	 * @param guiModel
 	 */
-	public StylingBar(final GuiModel guiModel)
+	public StylingBar(final GuiModel guiModel, MobileModel mobileModel)
 	{
 		this.addStyleName("stylingbar");
 		this.guiModel = guiModel;
+		this.mobileModel = mobileModel; 
 		
 		createStandardButtons();
 		createOptionalButtons();
@@ -136,7 +139,7 @@ public class StylingBar extends RoundPanel
 				}
 				else
 				{
-					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this);
+					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.mobileModel);
 					StylingBar.this.guiModel.showColorBar(colorBar);
 				}
 			}

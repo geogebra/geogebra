@@ -1,6 +1,7 @@
 package geogebra.mobile.gui.elements.stylingbar;
 
 import geogebra.common.awt.GColor;
+import geogebra.mobile.model.MobileModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -8,18 +9,19 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.mgwt.ui.client.widget.Button;
 
 /**
- * A {@link VerticalPanel} which contains the different
- * color-choices.
+ * A {@link VerticalPanel} which contains the different color-choices.
  */
 public class Colors extends VerticalPanel
 {
 
 	StylingBar stylingBar;
+	MobileModel mobileModel;
 	String buttonColor;
 
-	public Colors (StylingBar stylingBar)
+	public Colors(StylingBar stylingBar, MobileModel mobileModel)
 	{
 		this.stylingBar = stylingBar;
+		this.mobileModel = mobileModel;
 		addDummyButton();
 		addColorButton(GColor.BLACK);
 		addColorButton(GColor.MAGENTA);
@@ -44,11 +46,16 @@ public class Colors extends VerticalPanel
 		{
 
 			@Override
-      public void onClick(ClickEvent event)
-      {
-	      Colors.this.stylingBar.updateColor(GColor.getColorString(color));
-      }
-			
+			public void onClick(ClickEvent event)
+			{
+				Colors.this.stylingBar.updateColor(GColor.getColorString(color));
+				if (Colors.this.mobileModel.lastSelected() != null
+				    && StyleBarStatic.applyColor(Colors.this.mobileModel.getSelectedGeos(), color, Colors.this.mobileModel.getLastAlpha()))
+				{
+					Colors.this.mobileModel.lastSelected().updateRepaint();
+				}
+			}
+
 		}, ClickEvent.getType());
 		add(button);
 	}

@@ -1,5 +1,7 @@
 package geogebra.mobile.gui.elements.stylingbar;
 
+import geogebra.mobile.model.MobileModel;
+
 import com.googlecode.mgwt.ui.client.animation.AnimationHelper;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
@@ -11,10 +13,10 @@ public class ColorBarBackground extends ButtonBar
 	private final AnimationHelper animationHelper;
 	private ColorBar colorBar;
 	
-	public ColorBarBackground(StylingBar stylingBar)
+	public ColorBarBackground(StylingBar stylingBar, MobileModel mobileModel)
 	{				
 		addStyleName("colorBarBackground");
-		this.colorBar = new ColorBar(stylingBar);
+		this.colorBar = new ColorBar(stylingBar, mobileModel);
 
 		this.animationHelper = new AnimationHelper();
 		add(this.animationHelper);	

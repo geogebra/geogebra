@@ -218,6 +218,24 @@ public class MobileModel
 		return this.selectedElements.size() > 0 ? this.selectedElements.get(this.selectedElements.size() - 1) : null;
 	}
 
+	/**
+	 * 
+	 * @return alpha value of the fillable that was last selected; -1 in case no
+	 *         fillable geo that was selected
+	 */
+	public float getLastAlpha()
+	{
+		float alpha = -1f;
+		for (GeoElement geo : this.selectedElements)
+		{
+			if (geo.isFillable())
+			{
+				alpha = geo.getAlphaValue();
+			}
+		}
+		return alpha;
+	}
+
 	public void handleEvent(Hits hits, Point point)
 	{
 		this.guiModel.closeOptions();

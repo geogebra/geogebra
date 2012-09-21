@@ -2,6 +2,7 @@ package geogebra.mobile.gui.elements.stylingbar;
 
 
 import geogebra.mobile.gui.CommonResources;
+import geogebra.mobile.model.MobileModel;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
@@ -18,10 +19,10 @@ public class ColorBar extends LayoutPanel
 	 * Initializes the {@link ScrollPanel} and adds the different 
 	 * {@link geogebra.mobile.gui.elements.stylingbar.Colors color-choices} to it.
 	 */
-	public ColorBar(StylingBar stylingBar)
+	public ColorBar(StylingBar stylingBar, MobileModel mobileModel)
   {
 		addStyleName("colorBar");
-		this.colors = new Colors(stylingBar);
+		this.colors = new Colors(stylingBar, mobileModel);
 		this.scrollPanel = new ScrollPanel(this.colors);
 		this.scrollPanel.addStyleName("colorScrollPanel");
 		//this.scrollPanel.setVerticalScrollPosition(10);

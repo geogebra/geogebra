@@ -95,7 +95,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		GuiModel guiModel = new GuiModel(mobileModel); 
 		mobileModel.setGuiModel(guiModel); 		
 		
-		this.stylingBar = new StylingBar(guiModel);
+		this.stylingBar = new StylingBar(guiModel, mobileModel);
 		guiModel.setStylingBar(this.stylingBar);
 
 		RootPanel.get().add(this.euclidianViewPanel);
