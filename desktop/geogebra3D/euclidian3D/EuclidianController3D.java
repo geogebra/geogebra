@@ -430,7 +430,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//view3D.toSceneCoords3D(view3D.getViewDirection());		
 			Coords coords = o.projectPlaneThruVIfPossible(CoordMatrix4x4.Identity(), view3D.getViewDirection())[1]; //TODO use current region instead of identity
 			xRW = coords.getX(); yRW = coords.getY();
-			super.movePoint(repaint, geogebra.euclidian.event.MouseEvent.wrapEvent(mouseEvent));
+			super.movePoint(repaint,mouseEvent);
 			
 			view3D.getCursor3D().setCoords(movedGeoPoint.getCoordsInD(3),false);
 			
@@ -1409,7 +1409,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private boolean mouseMoved = false;
 	//private boolean mousePressed = false;
-	private MouseEvent mouseEvent = null;
+	private AbstractEvent mouseEvent = null;
 	
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {	
@@ -1419,7 +1419,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		
 		//for next mouse move process
-		mouseEvent = geogebra.euclidian.event.MouseEvent.getEvent(e);
+		mouseEvent = e;
 		mouseMoved = true;
 		
 		
@@ -1463,9 +1463,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			}
 			*/
 			((EuclidianView3D) view).updateCursor3D();
-			AbstractEvent e=geogebra.euclidian.event.MouseEvent.wrapEvent(mouseEvent);
-			super.processMouseMoved(e);
-			e.release();
+			super.processMouseMoved(mouseEvent);
+			//mouseEvent.release();
 			
 			mouseMoved = false;
 		}
