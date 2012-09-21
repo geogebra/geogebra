@@ -136,16 +136,16 @@ public class MyCellEditorW {
 	/**
 	 * set flag to require text start with "=" to activate autocomplete
 	 */
-	/*public void setEqualsRequired(boolean equalsRequired) {
+	public void setEqualsRequired(boolean equalsRequired) {
 		textField.setEqualsRequired(equalsRequired);
-	}*/
+	}
 
 	/**
 	 * returns flag that requires text start with "=" to activate autocomplete
 	 */
-	/*public boolean isEqualsRequired() {
+	public boolean isEqualsRequired() {
 		return textField.isEqualsRequired();
-	}*/
+	}
 
 	public void setLabels() {
 		textField.setDictionary(app.getCommandDictionary());

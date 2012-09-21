@@ -1192,4 +1192,13 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	    return false;
     }
 
+	/** returns if text must start with "=" to activate autocomplete */
+	public boolean isEqualsRequired() {
+		return isEqualsRequired;
+	}
+
+	/** sets flag to require text starts with "=" to activate autocomplete */
+	public void setEqualsRequired(boolean isEqualsRequired) {
+		this.isEqualsRequired = isEqualsRequired;
+	}
 }

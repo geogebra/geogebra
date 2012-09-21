@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
@@ -56,7 +57,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	protected Kernel kernel;
 	protected AppW app;
-	// protected MyCellEditor editor;
+	protected MyCellEditorW editor;
 	// private MyCellEditorBoolean editorBoolean;
 	// private MyCellEditorButton editorButton;
 	// private MyCellEditorList editorList;
@@ -435,10 +436,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	/**
 	 * sets requirement that commands entered into cells must start with "="
 	 */
-	/*
-	 * public void setEqualsRequired(boolean isEqualsRequired) {
-	 * editor.setEqualsRequired(isEqualsRequired); }
-	 */
+	/*public void setEqualsRequired(boolean isEqualsRequired) {
+		editor.setEqualsRequired(isEqualsRequired);
+	}*/
 
 	/**
 	 * gets flag for requirement that commands entered into cells must start
@@ -1259,30 +1259,34 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * longer than MAX_CELL_EDIT_STRING_LENGTH, the redefine dialog is shown.
 	 * Also prevents fixed cells from being edited.
 	 */
-	// @Override
 	public boolean editCellAt(int row, int col) {
+		Object ob = tableModel.getValueAt(row-1, col-1);
+
+		// prepare editor to handle equals
+		editor.setEqualsRequired(app.getSettings().getSpreadsheet().equalsRequired());
+		if (ob instanceof GeoElement) {
+			GeoElement geo = (GeoElement) ob;
+			if (geo.isGeoButton() || geo.isGeoImage()) {
+				app.getDialogManager().showPropertiesDialog();
+				return true;
+			}
+			if (!view.getShowFormulaBar()) {
+				if (!geo.isFixed()) {
+					if (!geo.isGeoText() &&
+					editor.getEditorInitString(geo).length() > MAX_CELL_EDIT_STRING_LENGTH) {
+						app.getDialogManager().showRedefineDialog(geo, false);
+						return true;
+					}
+					if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
+						app.getDialogManager().showRedefineDialog(geo, true);
+						return true;
+					}
+				}
+			}
+		}
+		// STANDARD case: in cell editing
 		return false;// TODO: implementation needed
-		/*
-		 * Object ob = getValueAt(row, col);
-		 * 
-		 * // prepare editor to handle equals
-		 * editor.setEqualsRequired(app.getSettings().getSpreadsheet()
-		 * .equalsRequired());
-		 * 
-		 * if (ob instanceof GeoElement) { GeoElement geo = (GeoElement) ob; if
-		 * (geo.isGeoButton() || geo.isGeoImage()) {
-		 * app.getDialogManager().showPropertiesDialog(); return true; } if
-		 * (!view.getShowFormulaBar()) { if (!geo.isFixed()) { if
-		 * (!geo.isGeoText() && editor.getEditorInitString(geo).length() >
-		 * MAX_CELL_EDIT_STRING_LENGTH) {
-		 * app.getDialogManager().showRedefineDialog(geo, false); return true; }
-		 * 
-		 * if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
-		 * app.getDialogManager().showRedefineDialog(geo, true); return true; }
-		 * } } }
-		 * 
-		 * // STANDARD case: in cell editing return super.editCellAt(row, col);
-		 */
+		//return super.editCellAt(row, col);
 	}
 
 	// This handles ctrl-select dragging of cell blocks
