@@ -2,6 +2,8 @@ package geogebra.mobile.model;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -9,11 +11,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
+import geogebra.common.main.MyError;
 import geogebra.mobile.utils.ToolBarCommand;
 
 import java.awt.Point;
 import java.util.ArrayList;
+
+import com.google.gwt.event.dom.client.KeyUpEvent;
 
 /**
  * 
@@ -23,16 +29,35 @@ import java.util.ArrayList;
 public class MobileModel
 {
 
-	private GuiModel guiModel;
 	private Kernel kernel;
-	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
-	private ToolBarCommand lastCmd = null;
+	private GuiModel guiModel;
 	private boolean commandFinished = false;
+	private ToolBarCommand command;
+	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
 
-	public MobileModel(GuiModel model, Kernel k)
+	public MobileModel(Kernel k)
+	{
+		this.kernel = k;
+	}
+
+	public void setGuiModel(GuiModel model)
 	{
 		this.guiModel = model;
-		this.kernel = k;
+	}
+
+	public ToolBarCommand getCommand()
+	{
+		return this.command;
+	}
+
+	public void setCommand(ToolBarCommand cmd)
+	{
+		if (this.command != null && this.command.equals(cmd))
+		{
+			return;
+		}
+		resetSelection();
+		this.command = cmd;
 	}
 
 	public void select(GeoElement geo)
@@ -86,7 +111,7 @@ public class MobileModel
 		return false;
 	}
 
-	private void deselect(GeoElement geo)
+	public void deselect(GeoElement geo)
 	{
 		geo.setSelected(false);
 		this.selectedElements.remove(geo);
@@ -99,20 +124,6 @@ public class MobileModel
 			geo.setSelected(false);
 		}
 		this.selectedElements.clear();
-	}
-
-	public void checkCommand()
-	{
-		if (this.lastCmd != this.guiModel.getCommand())
-		{
-			this.lastCmd = this.guiModel.getCommand();
-			resetSelection();
-		}
-		if (this.commandFinished)
-		{
-			resetSelection();
-			this.commandFinished = false;
-		}
 	}
 
 	public ArrayList<GeoElement> getSelectedGeos()
@@ -207,16 +218,30 @@ public class MobileModel
 		return this.selectedElements.size() > 0 ? this.selectedElements.get(this.selectedElements.size() - 1) : null;
 	}
 
-	public void handleEvent(Hits hits)
+	public void handleEvent(Hits hits, Point point)
 	{
-		boolean draw = false;
+		this.guiModel.closeOptions();
 
-		switch (this.guiModel.getCommand())
+		boolean draw = false;
+		if (this.commandFinished)
 		{
+			resetSelection();
+			this.commandFinished = false;
+		}
+
+		switch (this.command)
+		{
+		// commands that only draw one point
+		case NewPoint:
+		case ComplexNumbers:
+		case PointOnObject:
+			resetSelection();
+			select(hits, Test.GEOPOINT, 1);
+			break;
+
 		// commands that need one point or a point and a Path or a Region
 		case AttachDetachPoint:
-			// TODO
-			attachDetach(hits, null);
+			attachDetach(hits, point);
 			break;
 
 		// commands that need two points
@@ -282,6 +307,13 @@ public class MobileModel
 			break;
 
 		// special commands
+		case Move_Mobile:
+			for (GeoElement geo : hits)
+			{
+				select(geo);
+			}
+			break;
+
 		case Select:
 			if (hits.size() == 0)
 			{
@@ -307,6 +339,12 @@ public class MobileModel
 				}
 			}
 			break;
+		case DeleteObject:
+			for (GeoElement geo : hits)
+			{
+				geo.remove();
+			}
+			break;
 
 		default:
 			break;
@@ -318,7 +356,7 @@ public class MobileModel
 			GeoElement newElement = null;
 			GeoElement[] newArray = new GeoElement[0];
 
-			switch (this.guiModel.getCommand())
+			switch (this.command)
 			{
 			case LineThroughTwoPoints:
 				newElement = this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) getElement(Test.GEOPOINT), (GeoPoint) getElement(Test.GEOPOINT, 1));
@@ -435,24 +473,16 @@ public class MobileModel
 
 			this.commandFinished = true;
 		}
-	}
 
-	public boolean handleEvent(GeoElement geo)
-	{
-		checkCommand();
-		if (this.guiModel.getCommand() == ToolBarCommand.DeleteObject)
+		this.kernel.notifyRepaint();
+
+		if (this.guiModel != null)
 		{
-			geo.remove();
-			return false;
+			this.guiModel.updateStylingBar(this);
 		}
-		Hits hits = new Hits();
-		hits.add(geo);
-		handleEvent(hits);
-		this.guiModel.updateStylingBar(this);
-		return true;
 	}
 
-	public void attachDetach(Hits hits, Point c)
+	private void attachDetach(Hits hits, Point c)
 	{
 		EuclidianViewInterfaceCommon view = this.kernel.getApplication().getActiveEuclidianView();
 
@@ -467,18 +497,114 @@ public class MobileModel
 			if (!point.isIndependent())
 			{
 				this.kernel.getAlgoDispatcher().detach(point, view);
+				resetSelection();
+				select(point);
 				this.commandFinished = true;
 			}
 			else if (region != null)
 			{
 				this.kernel.getAlgoDispatcher().attach(point, region, view, p.getX(), p.getY());
+				resetSelection();
+				select(point);
 				this.commandFinished = true;
 			}
 			else if (path != null)
 			{
 				this.kernel.getAlgoDispatcher().attach(point, path, view, p.getX(), p.getY());
+				resetSelection();
+				select(point);
 				this.commandFinished = true;
 			}
+		}
+	}
+
+	/**
+	 * @see geogebra.web.gui.inputbar.AlgebraInputW#onKeyUp(KeyUpEvent event)
+	 * 
+	 * @param input
+	 *          the new command
+	 */
+	public void newInput(String input)
+	{
+		try
+		{
+			this.kernel.clearJustCreatedGeosInViews();
+			if (input == null || input.length() == 0)
+			{
+				return;
+			}
+
+			// this.app.setScrollToShow(true);
+			GeoElement[] geos;
+			try
+			{
+				if (input.startsWith("/"))
+				{
+					String cmd = input.substring(1);
+
+					// TODO
+					this.kernel.getApplication().getPythonBridge().eval(cmd);
+					geos = new GeoElement[0];
+				}
+				else
+				{
+					geos = this.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(input, true, false, true);
+
+					// need label if we type just eg
+					// lnx
+					if (geos.length == 1 && !geos[0].labelSet)
+					{
+						geos[0].setLabel(geos[0].getDefaultLabel());
+					}
+
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				return;
+			}
+			catch (MyError e)
+			{
+				e.printStackTrace();
+				return;
+			}
+
+			// create texts in the middle of the visible view
+			// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
+			if (geos.length > 0 && geos[0] != null && geos[0].isGeoText())
+			{
+				GeoText text = (GeoText) geos[0];
+				if (!text.isTextCommand() && text.getStartPoint() == null)
+				{
+
+					Construction cons = text.getConstruction();
+
+					// TODO
+					EuclidianViewInterfaceCommon ev = this.kernel.getApplication().getActiveEuclidianView();
+
+					boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
+					cons.setSuppressLabelCreation(true);
+					GeoPoint p = new GeoPoint(text.getConstruction(), null, (ev.getXmin() + ev.getXmax()) / 2, (ev.getYmin() + ev.getYmax()) / 2, 1.0);
+					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+
+					try
+					{
+						text.setStartPoint(p);
+						text.update();
+					}
+					catch (CircularDefinitionException e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+			}
+			// this.app.setScrollToShow(false);
+
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

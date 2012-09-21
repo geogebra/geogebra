@@ -27,12 +27,18 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 public class GuiModel
 {
 
+	private MobileModel mobileModel;
 	private ToolBarButton activeButton;
 	private ButtonBar optionsBackground;
 	private boolean optionsShown = false;
 	private boolean colorBarShown = false;
 	private StylingBar stylingBar;
 	private EuclidianView euclidianView;
+
+	public GuiModel(MobileModel model)
+	{
+		this.mobileModel = model;
+	}
 
 	public ToolBarCommand getCommand()
 	{
@@ -123,16 +129,19 @@ public class GuiModel
 		this.activeButton = toolBarButton;
 		this.activeButton.addStyleName("button-active");
 
+		this.mobileModel.setCommand(toolBarButton.getCmd());
+
 		this.stylingBar.rebuild(toolBarButton.getCmd().getStylingBarEntries());
 	}
-	
 
 	private ColorBarBackground colorBackground;
+
 	/**
 	 * Shows the colorBar.
+	 * 
 	 * @see ColorBarBackground
 	 * @see ColorBar
-	 * @see Colors 
+	 * @see Colors
 	 * @param
 	 */
 	public void showColorBar(ColorBarBackground colorBarBackground)
@@ -141,7 +150,7 @@ public class GuiModel
 		RootPanel.get().add(colorBarBackground);
 		this.colorBarShown = true;
 	}
-	
+
 	private void closeColorBar()
 	{
 		RootPanel.get().remove(this.colorBackground);
@@ -152,8 +161,7 @@ public class GuiModel
 	{
 		return this.colorBarShown;
 	}
-	
-	
+
 	public void showOptions(ButtonBar options)
 	{
 		closeOptions();

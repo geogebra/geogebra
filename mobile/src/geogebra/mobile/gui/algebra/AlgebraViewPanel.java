@@ -2,7 +2,7 @@ package geogebra.mobile.gui.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
-import geogebra.mobile.controller.MobileAlgebraController;
+import geogebra.mobile.controller.MobileController;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
@@ -95,14 +95,14 @@ public class AlgebraViewPanel extends LayoutPanel
 	 * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
 	 * {@link Kernel kernel}.
 	 * 
-	 * @param ac
+	 * @param controller
 	 *            MobileAlgebraController
 	 * @param kernel
 	 *            Kernel
 	 */
-	public void initAlgebraView(MobileAlgebraController ac, Kernel kernel)
+	public void initAlgebraView(MobileController controller, Kernel kernel)
 	{
-		this.algebraView = new AlgebraViewM(ac);
+		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
 
 		this.scrollPanel = new ScrollPanel(this.algebraView);

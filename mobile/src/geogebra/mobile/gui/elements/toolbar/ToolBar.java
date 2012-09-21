@@ -1,10 +1,10 @@
 package geogebra.mobile.gui.elements.toolbar;
 
-import geogebra.mobile.controller.MobileAlgebraController;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.InputDialog;
 import geogebra.mobile.gui.elements.InputDialog.InputCallback;
 import geogebra.mobile.model.GuiModel;
+import geogebra.mobile.model.MobileModel;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
@@ -31,18 +31,17 @@ public class ToolBar extends ButtonBar
 	}
 
 	/**
-	 * Fill the toolBar with the default {@link ToolBarButton ToolBarButtons}
-	 * and sets the default button to active.
+	 * Fill the toolBar with the default {@link ToolBarButton ToolBarButtons} and
+	 * sets the default button to active.
 	 * 
 	 * @param model
-	 *            GuiModel
+	 *          GuiModel
 	 * @see GuiModel
 	 * 
-	 * @param algebraController
-	 *            AlgebraController responsible for handling the events
+	 * @param mobileModel
+	 *          MobileModel responsible for handling the events
 	 */
-	public void makeTabletToolBar(final GuiModel model,
-			final MobileAlgebraController algebraController)
+	public void makeTabletToolBar(final GuiModel model, final MobileModel mobileModel)
 	{
 		this.b = new ToolBarButton[12];
 
@@ -59,8 +58,7 @@ public class ToolBar extends ButtonBar
 		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, model);
 
 		// inputBar
-		this.b[11] = new ToolBarButton(
-				CommonResources.INSTANCE.show_input_bar(), model);
+		this.b[11] = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), model);
 		this.b[11].addStyleName("rightButton");
 		this.b[11].addDomHandler(new ClickHandler()
 		{
@@ -72,7 +70,7 @@ public class ToolBar extends ButtonBar
 					@Override
 					public void onOk()
 					{
-						algebraController.newInput(ToolBar.this.input.getText());
+						mobileModel.newInput(ToolBar.this.input.getText());
 					}
 
 					@Override
@@ -81,7 +79,7 @@ public class ToolBar extends ButtonBar
 						ToolBar.this.input.close();
 					}
 				});
-				
+
 				ToolBar.this.input.show();
 			}
 		}, ClickEvent.getType());

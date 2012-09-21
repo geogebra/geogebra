@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.mobile.gui.euclidian.MobileMouseEvent;
-import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
 import geogebra.mobile.utils.Swipeables;
 import geogebra.mobile.utils.ToolBarCommand;
@@ -29,18 +28,125 @@ import java.util.ArrayList;
  * @see geogebra.common.euclidian.EuclidianController EuclidianController
  * 
  */
-public class MobileEuclidianController extends EuclidianController
+public class MobileController extends EuclidianController
 {
-	private GuiModel guiModel;
-	private MobileModel mobileModel;
+	private MobileModel model;
 	private GPoint origin;
 	private boolean clicked = false;
 
-	public MobileEuclidianController(MobileModel model, GuiModel guiModel)
+	public MobileController(MobileModel mobileModel)
 	{
-		this.mobileModel = model;
-		this.guiModel = guiModel;
+		this.model = mobileModel;
 		this.mode = -1;
+	}
+
+	public void setView(EuclidianView euclidianView)
+	{
+		this.view = euclidianView;
+	}
+
+	/**
+	 * sets kernel AND app (kernel.getApplication)
+	 */
+	@Override
+	public void setKernel(Kernel k)
+	{
+		this.kernel = k;
+		this.app = this.kernel.getApplication();
+	}
+
+	@Override
+	public void setApplication(App application)
+	{
+		this.app = application;
+	}
+
+	@Override
+	protected void initToolTipManager()
+	{
+	}
+
+	@Override
+	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1)
+	{
+		return null;
+	}
+
+	@Override
+	protected void resetToolTipManager()
+	{
+	}
+
+	public void onTouchStart(int x, int y)
+	{
+		this.origin = new GPoint(x, y);
+		this.clicked = true;
+		handleEvent(x, y);
+	}
+
+	public void onTouchMove(int x, int y)
+	{
+		if (this.clicked && this.model.getCommand() == ToolBarCommand.Move_Mobile)
+		{
+			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
+			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
+
+			this.startPoint = new GPoint2D.Double(this.view.toRealWorldCoordX(this.origin.getX()), this.view.toRealWorldCoordY(this.origin.getY()));
+			wrapMouseDragged(mEvent);
+			this.origin = new GPoint(x, y);
+		}
+	}
+
+	public void onTouchEnd(int x, int y)
+	{
+		this.clicked = false;
+
+		if (Swipeables.isSwipeable(this.model.getCommand()) && this.model.getNumberOf(Test.GEOPOINT) == 1
+		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
+		{
+			handleEvent(x, y);
+		}
+	}
+
+	public void onPinch(int x, int y, double scaleFactor)
+	{
+		// TODO Deactivate other events, while zoom is in progress (moving,
+		// placing objects etc.)
+		super.mouseLoc = new GPoint(x, y);
+		// scaleFactor > 1 because scaleFactor is not > 1 when fingers are moved
+		// apart
+		super.zoomInOut(true, scaleFactor > 1);
+	}
+
+	public void handleEvent(Hits hits)
+	{
+		this.model.handleEvent(hits, null);
+	}
+
+	private void handleEvent(int x, int y)
+	{
+		ToolBarCommand cmd = this.model.getCommand();
+
+		super.mouseLoc = new GPoint(x, y);
+		this.mode = this.model.getCommand().getMode();
+
+		if (cmd == ToolBarCommand.Move_Mobile)
+		{
+			this.view.setHits(this.mouseLoc);
+			if (this.view.getHits().size() == 0)
+			{
+				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
+				this.model.resetSelection();
+			}
+		}
+
+		// draw the new point
+		switchModeForMousePressed(new MobileMouseEvent(x, y));
+
+		this.view.setHits(this.mouseLoc);
+		Hits hits = this.view.getHits();
+
+		this.model.handleEvent(hits, new Point(x, y));
 	}
 
 	/**
@@ -54,7 +160,7 @@ public class MobileEuclidianController extends EuclidianController
 	}
 
 	/**
-	 * save the selected elements in MobileModel instead of App no repaint
+	 * save the selected elements in MobileModel instead of App; no repaint
 	 * anymore!
 	 * 
 	 * @see EuclidianController#handleMovedElement(GeoElement, boolean)
@@ -108,7 +214,7 @@ public class MobileEuclidianController extends EuclidianController
 
 		Hits hits = moveableList.getTopHits();
 
-		ArrayList<GeoElement> selGeos = this.mobileModel.getSelectedGeos();
+		ArrayList<GeoElement> selGeos = this.model.getSelectedGeos();
 
 		// if object was chosen before, take it now!
 		if ((selGeos.size() == 1) && !hits.isEmpty() && hits.contains(selGeos.get(0)))
@@ -123,8 +229,8 @@ public class MobileEuclidianController extends EuclidianController
 
 			if (!selGeos.contains(geo))
 			{
-				this.mobileModel.resetSelection();
-				this.mobileModel.select(geo);
+				this.model.resetSelection();
+				this.model.select(geo);
 			}
 		}
 
@@ -157,7 +263,7 @@ public class MobileEuclidianController extends EuclidianController
 		this.startLoc = this.mouseLoc;
 
 		// move all selected geos
-		GeoElement.moveObjects(removeParentsOfView(this.mobileModel.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
+		GeoElement.moveObjects(removeParentsOfView(this.model.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 
 		if (repaint)
 		{
@@ -165,138 +271,4 @@ public class MobileEuclidianController extends EuclidianController
 		}
 	}
 
-	public void setView(EuclidianView euclidianView)
-	{
-		this.view = euclidianView;
-	}
-
-	/**
-	 * sets kernel AND app (kernel.getApplication)
-	 */
-	@Override
-	public void setKernel(Kernel k)
-	{
-		this.kernel = k;
-		this.app = this.kernel.getApplication();
-	}
-
-	@Override
-	public void setApplication(App app)
-	{
-		this.app = this.kernel.getApplication();
-	}
-
-	@Override
-	protected void initToolTipManager()
-	{
-	}
-
-	@Override
-	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1)
-	{
-		return null;
-	}
-
-	@Override
-	protected void resetToolTipManager()
-	{
-	}
-
-	public void setGuiModel(GuiModel model)
-	{
-		this.guiModel = model;
-	}
-
-	public void onTouchStart(int x, int y)
-	{
-		this.guiModel.closeOptions();
-		this.origin = new GPoint(x, y);
-		this.clicked = true;
-		handleEvent(x, y);
-	}
-
-	public void onTouchMove(int x, int y)
-	{
-		if (this.clicked && this.guiModel.getCommand() == ToolBarCommand.Move_Mobile)
-		{
-			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-
-			this.startPoint = new GPoint2D.Double(this.view.toRealWorldCoordX(this.origin.getX()), this.view.toRealWorldCoordY(this.origin.getY()));
-			wrapMouseDragged(mEvent);
-			this.origin = new GPoint(x, y);
-		}
-	}
-
-	public void onTouchEnd(int x, int y)
-	{
-		this.clicked = false;
-
-		if (Swipeables.isSwipeable(this.guiModel.getCommand()) && this.mobileModel.getNumberOf(Test.GEOPOINT) == 1
-		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
-		{
-			handleEvent(x, y);
-		}
-
-		this.guiModel.updateStylingBar(this.mobileModel);
-	}
-
-	public void onPinch(int x, int y, double scaleFactor)
-	{
-		// TODO Deactivate other events, while zoom is in progress (moving,
-		// placing objects etc.)
-		super.mouseLoc = new GPoint(x, y);
-		// scaleFactor > 1 because scaleFactor is not > 1 when fingers are moved
-		// apart
-		super.zoomInOut(true, scaleFactor > 1);
-	}
-
-	private void handleEvent(int x, int y)
-	{
-		ToolBarCommand cmd = this.guiModel.getCommand();
-
-		this.mobileModel.checkCommand();
-
-		super.mouseLoc = new GPoint(x, y);
-		this.mode = this.guiModel.getCommand().getMode();
-
-		if (cmd == ToolBarCommand.Move_Mobile)
-		{
-			this.view.setHits(this.mouseLoc);
-			if (this.view.getHits().size() == 0)
-			{
-				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
-				this.mobileModel.resetSelection();
-			}
-		}
-
-		// draw the new point
-		switchModeForMousePressed(new MobileMouseEvent(x, y));
-
-		this.view.setHits(this.mouseLoc);
-		Hits hits = this.view.getHits();
-
-		switch (cmd)
-		{
-		case DeleteObject:
-			for (int i = 0; i < hits.size(); i++)
-			{
-				hits.get(i).remove();
-			}
-			break;
-
-		case AttachDetachPoint:
-			this.mobileModel.attachDetach(hits, new Point(x, y));
-			break;
-
-		// commands that only draw one point
-		case NewPoint:
-			this.mobileModel.select((GeoElement) super.movedGeoPoint);
-			//$FALL-THROUGH$
-		default:
-			this.mobileModel.handleEvent(hits);
-		}
-
-		this.kernel.notifyRepaint();
-	}
 }

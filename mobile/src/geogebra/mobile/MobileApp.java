@@ -35,6 +35,7 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 import geogebra.web.io.MyXMLio;
+import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.FontManagerW;
 
@@ -49,14 +50,13 @@ import com.google.gwt.i18n.client.LocaleInfo;
 public class MobileApp extends App
 {
 	private GeoGebraMobileGUI mobileGUI;
-
 	private FontManagerW fontManager;
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
 	 * 
 	 * @param mobileGUI
-	 *            graphic user interface
+	 *          graphic user interface
 	 * @see geogebra.common.factories.FormatFactory FormatFactory
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
@@ -85,11 +85,10 @@ public class MobileApp extends App
 		// initEuclidianViews();
 
 		this.myXMLio = new MyXMLio(this.kernel, this.kernel.getConstruction());
+		this.kernel.getConstruction().setXMLio(this.myXMLio);
 
 		setUndoActive(true);
-
 		this.mobileGUI.initComponents(this.kernel);
-
 		super.initing = false;
 	}
 
@@ -98,6 +97,8 @@ public class MobileApp extends App
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
+
+		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 	}
 
 	@Override
@@ -107,8 +108,7 @@ public class MobileApp extends App
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes1,
-			boolean showGrid1)
+	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
 	{
 		// MobileEuclidianController ec = new MobileEuclidianController();
 		// ec.setKernel(this.kernel);
@@ -378,8 +378,7 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean show,
-			boolean playButton, double playDelay, boolean showProtButton)
+	public void setShowConstructionProtocolNavigation(boolean show, boolean playButton, double playDelay, boolean showProtButton)
 	{
 
 	}
@@ -406,8 +405,7 @@ public class MobileApp extends App
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(
-			geogebra.common.kernel.Kernel kernel1)
+	protected EuclidianController newEuclidianController(geogebra.common.kernel.Kernel kernel1)
 	{
 
 		return null;
@@ -416,13 +414,12 @@ public class MobileApp extends App
 	@Override
 	public UndoManager getUndoManager(Construction cons)
 	{
-
-		return null;
+		// TODO
+		return new UndoManagerW(cons);
 	}
 
 	@Override
-	public AnimationManager newAnimationManager(
-			geogebra.common.kernel.Kernel kernel2)
+	public AnimationManager newAnimationManager(geogebra.common.kernel.Kernel kernel2)
 	{
 
 		return null;
@@ -618,8 +615,7 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public void addMenuItem(MenuInterface parentMenu, String filename,
-			String name, boolean asHtml, MenuInterface subMenu)
+	public void addMenuItem(MenuInterface parentMenu, String filename, String name, boolean asHtml, MenuInterface subMenu)
 	{
 	}
 
@@ -665,7 +661,8 @@ public class MobileApp extends App
 		// TODO
 		if (this.euclidianView == null)
 		{
-			initEuclidianViews(); 
+			// initEuclidianViews();
+			this.euclidianView = (EuclidianView) getActiveEuclidianView();
 		}
 		return this.euclidianView;
 	}

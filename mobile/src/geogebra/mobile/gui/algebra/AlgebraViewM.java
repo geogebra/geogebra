@@ -1,10 +1,9 @@
 package geogebra.mobile.gui.algebra;
 
 import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -17,7 +16,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -28,9 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView
 {
 
-	protected App app; // parent appame
-	private Kernel kernel;
-
+	protected App app; 
+	
 	// store all pairs of GeoElement -> node in the Tree
 	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
 
@@ -38,8 +35,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	 * Nodes for tree mode MODE_DEPENDENCY.
 	 */
 	private TreeItem depNode, indNode;
-
-	protected TreeItem auxiliaryNode;
 
 	/**
 	 * Root node for tree mode MODE_TYPE.
@@ -63,22 +58,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	 */
 	protected SortMode treeMode;
 
-	private GeoElement selectedGeoElement;
-	// private TreeItem selectedNode;
-
-	// private AlgebraHelperBar helperBar;
-
-	private AlgebraController algebraController;
-
-	public AlgebraController getAlgebraController()
-	{
-		return this.algebraController;
-	}
-
-	// /**
-	// * Flag for LaTeX rendering.
-	// */
-	// final private static boolean renderLaTeX = true;
+	private EuclidianController controller;
 
 	/**
 	 * Creates new AlgebraView.
@@ -87,16 +67,13 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	 *          : AlgebraController
 	 * 
 	 */
-	public AlgebraViewM(AlgebraController algCtrl)
+	public AlgebraViewM(EuclidianController ctr)
 	{
 		super();
 
-		App.debug("creating Algebra View");
-
-		this.app = algCtrl.getApplication();
-		this.kernel = algCtrl.getKernel();
-		algCtrl.setView(this);
-		this.algebraController = algCtrl;
+		this.app = ctr.getApplication();
+//		algCtrl.setView(this);
+		this.controller = ctr;
 		// this is the default value
 		this.treeMode = SortMode.TYPE;
 
@@ -106,12 +83,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		setLabels();
 
 		getElement().setId("View_" + App.VIEW_ALGEBRA);
-
-		// TODO
-		// this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-		// this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-		// this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-
 	}
 
 	/**
@@ -128,13 +99,11 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		{
 		case DEPENDENCY:
 			// don't re-init anything
-			if (this.depNode == null || this.indNode == null || this.auxiliaryNode == null)
+			if (this.depNode == null || this.indNode == null)
 			{
 				// rootDependency = new TreeItem();
 				this.depNode = new TreeItem(); // dependent objects
 				this.indNode = new TreeItem();
-				this.auxiliaryNode = new TreeItem();
-
 			}
 
 			// set the root
@@ -142,14 +111,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			addItem(this.indNode);
 			addItem(this.depNode);
 
-			// add auxiliary node if neccessary
-			if (this.app.showAuxiliaryObjects)
-			{
-				if (this.auxiliaryNode.getTree() != this)
-				{
-					addItem(this.auxiliaryNode);
-				}
-			}
 			break;
 		case ORDER:
 			if (this.rootOrder == null)
@@ -158,12 +119,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 				this.rootOrder = new TreeItem();
 			}
 			setUserObject(this.rootOrder, "");
-
-			// always try to remove the auxiliary node
-			if (this.app.showAuxiliaryObjects && this.auxiliaryNode != null)
-			{
-				removeAuxiliaryNode();
-			}
 
 			// set the root
 			clear();
@@ -179,12 +134,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 				this.typeNodesMap = new HashMap<String, TreeItem>(5);
 			}
 
-			// always try to remove the auxiliary node
-			if (this.app.showAuxiliaryObjects && this.auxiliaryNode != null)
-			{
-				removeAuxiliaryNode();
-			}
-
 			// set the root
 			clear();
 			// addItem(rootType);
@@ -197,12 +146,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 				this.layerNodesMap = new HashMap<Integer, TreeItem>(10);
 			}
 
-			// always try to remove the auxiliary node
-			if (this.app.showAuxiliaryObjects && this.auxiliaryNode != null)
-			{
-				removeAuxiliaryNode();
-			}
-
 			// set the root
 			clear();
 			// addItem(rootLayer);
@@ -213,109 +156,12 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 
 	}
 
-	protected void removeAuxiliaryNode()
-	{
-		removeItem(this.auxiliaryNode);
-	}
-
-	boolean attached = false;
-
-	public void attachView()
-	{
-		clearView();
-		this.kernel.notifyAddAll(this);
-		this.kernel.attach(this);
-		this.attached = true;
-	}
-
-	public void detachView()
-	{
-		this.kernel.detach(this);
-		clearView();
-		this.attached = false;
-	}
-
 	public void updateFonts()
 	{
 		GFont font = this.app.getPlainFontCommon();
 		getStyleElement().getStyle().setFontStyle(Style.FontStyle.valueOf(font.isItalic() ? "ITALIC" : "NORMAL"));
 		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
 		getStyleElement().getStyle().setFontWeight(Style.FontWeight.valueOf(font.isBold() ? "BOLD" : "NORMAL"));
-	}
-
-	public void clearSelection()
-	{
-
-		// deselecting this causes a bug; it maybe fixed
-		// by changing the repaintView method too,
-		// adding setSelectedItem( some TreeItem ),
-		// but which TreeItem should be that if more are selected?
-		// that's why Arpad choosed to comment this out instead
-		// super.setSelectedItem(null);
-
-		for (int i = 0; i < getItemCount(); i++)
-		{
-			if (!(getItem(i).getUserObject() instanceof GeoElement))
-				for (int j = 0; j < getItem(i).getChildCount(); j++)
-				{
-					getItem(i).getChild(j).setSelected(false);
-				}
-		}
-		this.selectedGeoElement = null;
-	}
-
-	public GeoElement getSelectedGeoElement()
-	{
-		return this.selectedGeoElement;
-	}
-
-	public boolean showAuxiliaryObjects()
-	{
-		return this.app.showAuxiliaryObjects;
-	}
-
-	public void setShowAuxiliaryObjects(boolean flag)
-	{
-
-		this.app.showAuxiliaryObjects = flag;
-
-		cancelEditing();
-
-		if (flag)
-		{
-			clearView();
-
-			switch (getTreeMode())
-			{
-			case DEPENDENCY:
-				addItem(this.auxiliaryNode);
-				break;
-			default:
-				break;
-			}
-
-			this.kernel.notifyAddAll(this);
-		}
-		else
-		{
-			// if we're listing the auxiliary objects in a single leaf we can
-			// just remove that leaf, but for type-based categorization those
-			// auxiliary nodes might be scattered across the whole tree,
-			// therefore we just rebuild the tree
-			switch (getTreeMode())
-			{
-			case DEPENDENCY:
-				if (this.auxiliaryNode.getParentItem() != null)
-				{
-					removeItem(this.auxiliaryNode);
-				}
-				break;
-			default:
-
-				clearView();
-				this.kernel.notifyAddAll(this);
-			}
-		}
 	}
 
 	/**
@@ -326,26 +172,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		return this.treeMode;
 	}
 
-	/**
-	 * @param value
-	 *          Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
-	 */
-	public void setTreeMode(SortMode value)
-	{
-		if (getTreeMode().equals(value))
-		{
-			return;
-		}
-
-		clearView();
-
-		this.treeMode = value;
-		initModel();
-
-		this.kernel.notifyAddAll(this);
-		setLabels();
-	}
-
 	@Override
 	public Object getPathForLocation(int x, int y)
 	{
@@ -354,65 +180,9 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 
 	public boolean editing = false;
 
-	/**
-	 * Open Editor textfield for geo.
-	 */
 	@Override
 	public void startEditing(GeoElement geo, boolean shiftDown)
 	{
-		if (geo == null)
-			return;
-
-		// open Object Properties for eg GeoImages
-		if (!geo.isAlgebraViewEditable())
-		{
-			// FIXMEWEB ArrayList<GeoElement> geos = new
-			// ArrayList<GeoElement>();
-			// FIXMEWEB geos.add(geo);
-			// FIXMEWEB app.getDialogManager().showPropertiesDialog(geos);
-			return;
-		}
-
-		if (!shiftDown || !geo.isPointOnPath() && !geo.isPointInRegion())
-		{
-			if (!geo.isIndependent() || !this.attached) // needed for F2 when
-			// Algebra
-			// View closed
-			{
-				if (geo.isRedefineable())
-				{
-					this.app.getDialogManager().showRedefineDialog(geo, true);
-				}
-				return;
-			}
-
-			if (!geo.isChangeable())
-			{
-				if (geo.isFixed())
-				{
-					// TODO
-					// app.showMessage(app.getError("AssignmentToFixed"));
-				}
-				else if (geo.isRedefineable())
-				{
-					this.app.getDialogManager().showRedefineDialog(geo, true);
-				}
-				return;
-			}
-		}
-
-		TreeItem node = this.nodeTable.get(geo);
-
-		if (node != null)
-		{
-			cancelEditing();
-			// FIXMEWEB select and show node
-			Widget wi = node.getWidget();
-			this.editing = true;
-			setAnimationEnabled(false);
-			if (wi instanceof AlgebraViewTreeItem)
-				((AlgebraViewTreeItem) wi).startEditing();
-		}
 	}
 
 	/**
@@ -422,12 +192,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	@Override
 	public void setLabels()
 	{
-
 		setTreeLabels();
-
-		/*
-		 * if (helperBar != null) { helperBar.updateLabels(); }
-		 */
 	}
 
 	/**
@@ -441,7 +206,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		case DEPENDENCY:
 			setUserObject(this.indNode, this.app.getPlain("FreeObjects"));
 			setUserObject(this.depNode, this.app.getPlain("DependentObjects"));
-			setUserObject(this.auxiliaryNode, this.app.getPlain("AuxiliaryObjects"));
 			break;
 		case TYPE:
 			for (String key : this.typeNodesMap.keySet())
@@ -480,7 +244,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		if (geo.isLabelSet() && geo.showInAlgebraView() && geo.isSetAlgebraVisible())
 		{
 			// don't add auxiliary objects if the tree is categorized by type
-			if (!getTreeMode().equals(SortMode.DEPENDENCY) && !showAuxiliaryObjects() && geo.isAuxiliaryObject())
+			if (!getTreeMode().equals(SortMode.DEPENDENCY) && geo.isAuxiliaryObject())
 			{
 				return;
 			}
@@ -533,11 +297,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		switch (this.treeMode)
 		{
 		case DEPENDENCY:
-			if (geo.isAuxiliaryObject())
-			{
-				parent = this.auxiliaryNode;
-			}
-			else if (geo.isIndependent())
+			if (geo.isIndependent())
 			{
 				parent = this.indNode;
 			}
@@ -688,69 +448,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	}
 
 	/**
-	 * Performs a binary search for geo among the children of parent. All children
-	 * of parent have to be instances of GeoElement sorted alphabetically by their
-	 * names.
-	 * 
-	 * @param parent
-	 *          parent node (start of the search)
-	 * @param geoLabel
-	 *          label to look for
-	 * 
-	 * @return -1 when not found
-	 */
-	final public static int binarySearchGeo(TreeItem parent, String geoLabel)
-	{
-		int left = 0;
-		int right = parent.getChildCount() - 1;
-		if (right == -1 || geoLabel == null)
-			return -1;
-
-		// binary search for geo's label
-		while (left <= right)
-		{
-			int middle = (left + right) / 2;
-			TreeItem node = parent.getChild(middle);
-			String nodeLabel = ((GeoElement) node.getUserObject()).getLabelSimple();
-
-			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
-			if (compare < 0)
-				right = middle - 1;
-			else if (compare > 0)
-				left = middle + 1;
-			else
-				return middle;
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Performs a linear search for geo among the children of parent.
-	 * 
-	 * @param parent
-	 *          parent node (start of the search)
-	 * @param geoLabel
-	 *          label to look for
-	 * 
-	 * @return -1 when not found
-	 */
-	final public static int linearSearchGeo(TreeItem parent, String geoLabel)
-	{
-		if (geoLabel == null)
-			return -1;
-		int childCount = parent.getChildCount();
-		for (int i = 0; i < childCount; i++)
-		{
-			TreeItem node = parent.getChild(i);
-			GeoElement g = (GeoElement) node.getUserObject();
-			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate)))
-				return i;
-		}
-		return -1;
-	}
-
-	/**
 	 * removes a node from the tree
 	 */
 	@Override
@@ -782,7 +479,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		case DEPENDENCY:
 			this.indNode.removeItems();
 			this.depNode.removeItems();
-			this.auxiliaryNode.removeItems();
 			break;
 		case TYPE:
 			removeItems();
@@ -851,7 +547,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	public void reset()
 	{
 		cancelEditing();
-		// repaint();
 		ensureSelectedItemVisible();
 	}
 
@@ -960,26 +655,11 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		add(geo);
 	}
 
-	// TODO
-	// /**
-	// * Returns true if rendering is done with LaTeX
-	// *
-	// * @return
-	// */
-	// public boolean isRenderLaTeX() {
-	// return renderLaTeX;
-	// }
-
 	@Override
 	public int getViewID()
 	{
 		return App.VIEW_ALGEBRA;
 	}
-
-	// TODO
-	// public App getApplication() {
-	// return this.app;
-	// }
 
 	public int[] getGridColwidths()
 	{
@@ -1069,7 +749,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement)
 		{
-			ti.setWidget(new AlgebraViewTreeItem((GeoElement) ob, AlgebraViewM.this, this.algebraController));
+			ti.setWidget(new AlgebraViewTreeItem((GeoElement) ob, AlgebraViewM.this, this.controller));
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "-moz-inline-box");
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "inline-block");
@@ -1079,8 +759,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			ti.setWidget(new InlineLabelTreeItem(this.app, ti, ob.toString()));
 		}
 	}
-
-	public GeoElement lastSelectedGeo = null;
 
 	@Override
 	public void onBrowserEvent(Event event)
@@ -1092,7 +770,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	@Override
 	public boolean hasFocus()
 	{
-		App.debug("unimplemented");
 		return false;
 	}
 

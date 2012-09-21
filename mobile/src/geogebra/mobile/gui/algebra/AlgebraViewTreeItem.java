@@ -1,13 +1,14 @@
 package geogebra.mobile.gui.algebra;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.gui.view.algebra.AlgebraController;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.mobile.controller.MobileAlgebraController;
+import geogebra.mobile.controller.MobileController;
 import geogebra.web.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.SpanElement;
@@ -42,7 +43,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 	GeoElement geo;
 	private Kernel kernel;
 	private AlgebraView algebraView;
-	private AlgebraController algebraController;
+	private EuclidianController controller;
 
 	boolean previouslyChecked;
 	boolean LaTeX = false;
@@ -56,13 +57,13 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 	InlineHTML ihtml;
 	TextBox tb;
 
-	public AlgebraViewTreeItem(GeoElement ge, AlgebraView av, AlgebraController ac)
+	public AlgebraViewTreeItem(GeoElement ge, AlgebraView av, EuclidianController ac)
 	{
 		super();
 		this.geo = ge;
 		this.kernel = this.geo.getKernel();
 		this.algebraView = av;
-		this.algebraController = ac;
+		this.controller = ac;
 
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -348,43 +349,6 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		update();
 	}
 
-	// public void stopEditing(String newValue)
-	// {
-	//
-	// this.thisIsEdited = false;
-	// this.algebraView.cancelEditing();
-	//
-	// if (newValue != null)
-	// {
-	// // Formula Hacks ... Currently only functions are considered
-	// StringBuilder sb = new StringBuilder();
-	// boolean switchw = false;
-	// for (int i = 0; i < newValue.length(); i++)
-	// if (newValue.charAt(i) != ' ')
-	// {
-	// if (newValue.charAt(i) != '|')
-	// sb.append(newValue.charAt(i));
-	// else if (switchw = !switchw)
-	// sb.append("abs(");
-	// else
-	// sb.append(")");
-	// }
-	// newValue = sb.toString();
-	//
-	// // Formula Hacks ended.
-	// boolean redefine = !this.geo.isPointOnPath();
-	// GeoElement geo2 = this.kernel.getAlgebraProcessor()
-	// .changeGeoElement(this.geo, newValue, redefine, true);
-	// if (geo2 != null)
-	// {
-	// this.geo = geo2;
-	// }
-	// }
-	//
-	// // maybe it's possible to enter something which is non-LaTeX
-	// update();
-	// }
-
 	@Override
 	public void onMouseDown(MouseDownEvent evt)
 	{
@@ -398,10 +362,9 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		if (((MobileAlgebraController) this.algebraController).handleEvent(this.geo))
-		{
-			this.kernel.notifyRepaint();
-		}
+		Hits hits = new Hits(); 
+		hits.add(this.geo); 
+		((MobileController) this.controller).handleEvent(hits);
 	}
 
 }

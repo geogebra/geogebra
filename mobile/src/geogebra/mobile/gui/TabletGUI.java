@@ -1,8 +1,7 @@
 package geogebra.mobile.gui;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.mobile.controller.MobileAlgebraController;
-import geogebra.mobile.controller.MobileEuclidianController;
+import geogebra.mobile.controller.MobileController;
 import geogebra.mobile.gui.algebra.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanel;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanelLeft;
@@ -34,8 +33,6 @@ public class TabletGUI implements GeoGebraMobileGUI
 	ToolBar toolBar;
 	StylingBar stylingBar;
 
-	private GuiModel guiModel = new GuiModel();
-
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
@@ -54,16 +51,13 @@ public class TabletGUI implements GeoGebraMobileGUI
 		// Handle orientation changes
 		MGWT.addOrientationChangeHandler(new OrientationChangeHandler()
 		{
-
 			@Override
 			public void onOrientationChanged(OrientationChangeEvent event)
 			{
-
 				TabletGUI.this.euclidianViewPanel.repaint();
-
 			}
-
 		});
+
 		// Initialize GUI Elements
 		this.headerPanel = new TabletHeaderPanel();
 		this.leftHeader = new TabletHeaderPanelLeft();
@@ -71,17 +65,6 @@ public class TabletGUI implements GeoGebraMobileGUI
 		this.toolBar = new ToolBar();
 		this.euclidianViewPanel = new EuclidianViewPanel();
 		this.algebraViewPanel = new AlgebraViewPanel();
-		this.stylingBar = new StylingBar(this.guiModel);
-
-		this.guiModel.setStylingBar(this.stylingBar);
-
-		RootPanel.get().add(this.euclidianViewPanel);
-		RootPanel.get().add(this.headerPanel);
-		RootPanel.get().add(this.leftHeader);
-		RootPanel.get().add(this.rightHeader);
-		RootPanel.get().add(this.stylingBar);
-		RootPanel.get().add(this.algebraViewPanel);
-		RootPanel.get().add(this.toolBar);
 	}
 
 	@Override
@@ -97,7 +80,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	}
 
 	/**
-	 * Creates a new instance of {@link MobileEuclidianController} and
+	 * Creates a new instance of {@link MobileController} and
 	 * {@link MobileAlgebraController} and initializes the
 	 * {@link EuclidianViewPanel euclidianViewPanel} and {@link AlgebraViewPanel
 	 * algebraViewPanel} according to these instances.
@@ -108,16 +91,28 @@ public class TabletGUI implements GeoGebraMobileGUI
 	@Override
 	public void initComponents(final Kernel kernel)
 	{
-		MobileModel mobileModel = new MobileModel(this.guiModel, kernel);
+		MobileModel mobileModel = new MobileModel(kernel); 
+		GuiModel guiModel = new GuiModel(mobileModel); 
+		mobileModel.setGuiModel(guiModel); 		
+		
+		this.stylingBar = new StylingBar(guiModel);
+		guiModel.setStylingBar(this.stylingBar);
 
-		MobileEuclidianController ec = new MobileEuclidianController(mobileModel, this.guiModel);
+		RootPanel.get().add(this.euclidianViewPanel);
+		RootPanel.get().add(this.headerPanel);
+		RootPanel.get().add(this.leftHeader);
+		RootPanel.get().add(this.rightHeader);
+		RootPanel.get().add(this.stylingBar);
+		RootPanel.get().add(this.algebraViewPanel);
+		RootPanel.get().add(this.toolBar);
+
+		MobileController ec = new MobileController(mobileModel);
 		ec.setKernel(kernel);
 		this.euclidianViewPanel.initEuclidianView(ec);
-		this.guiModel.setEuclidianView(this.euclidianViewPanel.getEuclidianView());
+		guiModel.setEuclidianView(this.euclidianViewPanel.getEuclidianView());
 
-		MobileAlgebraController ac = new MobileAlgebraController(kernel, mobileModel);
-		this.algebraViewPanel.initAlgebraView(ac, kernel);
-		this.toolBar.makeTabletToolBar(this.guiModel, ac);
+		this.algebraViewPanel.initAlgebraView(ec, kernel);
+		this.toolBar.makeTabletToolBar(guiModel, mobileModel);
 
 	}
 }
