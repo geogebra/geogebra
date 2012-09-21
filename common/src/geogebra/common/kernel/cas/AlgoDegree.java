@@ -16,18 +16,20 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.util.StringUtil;
 
 /**
- * Try to expand the given function
+ * Degree of a polynomial
+ * 
+ * Uses CAS sometimes, eg Degree[x^n] so needs "implements UsesCAS"
  * 
  * @author Michael Borcherds
  */
-public class AlgoDegree extends AlgoElement {
+public class AlgoDegree extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
 	private GeoNumeric num; // output
@@ -62,33 +64,32 @@ public class AlgoDegree extends AlgoElement {
 	public GeoNumeric getResult() {
 		return num;
 	}
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	@Override
 	public final void compute() {
 		if (!f.isDefined()) {
 			num.setUndefined();
 			return;
 		}
+		
+		
+		Function inFun = f.getFunction();
 
-		// get function and function variable string using temp variable
-		// prefixes,
-		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
-		String[] funVarStr = f.getTempVarCASString(false);
+		// check if it's a polynomial & get coefficients
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
 
-		sb.setLength(0);
-		sb.append("Degree(");
-		sb.append(funVarStr[0]); // function expression
-		sb.append(",");
-		sb.append(funVarStr[1]); // function variable
-		sb.append(")");
-		String functionOut;
-		try {
-			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
-			num.setValue(StringUtil.parseDouble(functionOut));
-		} catch (Throwable e) {
-			System.err.println("AlgoDegree: " + e.getMessage());
-			num.setUndefined();
+		if (poly != null) {
+
+			num.setValue(poly.getDegree());
+
+			return;
 		}
+
+		// not a polynomial
+		num.setUndefined();
+		return;
+
+
 	}
 
 	@Override
