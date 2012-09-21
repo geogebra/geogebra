@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
@@ -2696,7 +2697,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	 * @return if the 3D cursor is visible for current mode
 	 */
 	public boolean cursor3DVisibleForCurrentMode(int cursorType){
-				
+
 		if (cursorType==EuclidianView3D.PREVIEW_POINT_ALREADY){
 			switch(mode){
 			//cross arrows for moving point
@@ -2747,7 +2748,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			default:
 				return false;			
 			}
+			
 		}
+		
 	}
 	
 
@@ -2977,6 +2980,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			*/
 		}
 	}
+	
 	
 }
 

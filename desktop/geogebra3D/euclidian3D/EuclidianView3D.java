@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -1048,9 +1049,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return 3D physical coords of the picking point
 	 */
 	public Coords getPickPoint(int x, int y) {
-
-		Dimension d = new Dimension();
-		getJPanel().getSize(d);
 
 		pickPoint.setX(x + renderer.getLeft());
 		pickPoint.setY(-y + renderer.getTop());
@@ -2197,18 +2195,56 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//
 	/////////////////////////////////////////////////////
 	
+	/**
+	 * draws the mouse cursor (for anaglyph)
+	 * @param renderer renderer
+	 */
+	public void drawMouseCursor(Renderer renderer){
+		if (!hasMouse)
+			return;
+		
+		GPoint mouseLoc = euclidianController.getMouseLoc();
+		if (mouseLoc == null)
+			return;
+		
+		Coords v;
+		
+		if (getCursor3DType()==CURSOR_DEFAULT){
+			//if mouse is over nothing, use mouse coords and screen for depth
+			v = new Coords(mouseLoc.x + renderer.getLeft(),-mouseLoc.y + renderer.getTop(), 0, 1);
+		}else{
+			//if mouse is over an object, use its depth and mouse coords
+			Coords eye = renderer.getPerspEye();
+			double z = getToScreenMatrix().mul(getCursor3D().getCoords()).getZ()
+					+20; //to be over
+			//App.debug("\n"+eye);
+			double eyeSep = renderer.getEyeSep();
+			double x = mouseLoc.x + renderer.getLeft() + eyeSep;
+			double y = -mouseLoc.y + renderer.getTop();
+			double dz = eye.getZ() - z;
+			double coeff = dz/eye.getZ();
+			
+			v = new Coords(x*coeff - eyeSep, y*coeff, z, 1);
+		}
+		
+		CoordMatrix4x4 matrix = CoordMatrix4x4.Identity();
+		matrix.setOrigin(v);
+		renderer.setMatrix(matrix);
+		renderer.drawMouseCursor();
+		
 	
+	}	
 	
 	/** 
 	 * draws the cursor
-	 * @param renderer
+	 * @param renderer renderer
 	 */
 	public void drawCursor(Renderer renderer){
 
 		
-		//Application.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
+		//App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
 
-		if (hasMouse){
+		if (hasMouse){			
 			if (moveCursorIsVisible()){
 				renderer.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());	
@@ -2337,7 +2373,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	public void setDefaultCursor(){
-		//Application.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
+		//App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
 		
 		if (app.getShiftDown()) //do nothing
 			return;
@@ -2348,11 +2384,21 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			return;
 		}
 		
+		/*
 		// 2D cursor
-		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		if (getProjection()==PROJECTION_ANAGLYPH)
+			setTransparentCursor(); //use own 3D cursor (for depth)
+		else
+			setDefault2DCursor();
+		*/
 		
 		// 3D cursor
 		cursor = CURSOR_DEFAULT;
+	}
+	
+	
+	private void setDefault2DCursor(){
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
 	public void setHitCursor(){
@@ -3219,6 +3265,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setProjectionOrthographic(){
 		renderer.updateOrthoValues();
 		setProjectionValues(PROJECTION_ORTHOGRAPHIC);
+		setDefault2DCursor();
 	}
 	
 	
@@ -3228,6 +3275,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setProjectionPerspective(){
 		updateProjectionPerspectiveValue();
 		setProjectionValues(PROJECTION_PERSPECTIVE);
+		setTransparentCursor();
 	}
 	
 	
@@ -3264,6 +3312,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		updateProjectionPerspectiveValue();
 		renderer.updateAnaglyphValues();
 		setProjectionValues(PROJECTION_ANAGLYPH);
+		setTransparentCursor();
 	}
 	
 	private boolean isAnaglyphGrayScaled = true;
@@ -3330,6 +3379,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setCav(){
 		renderer.updateCavValues();
 		setProjectionValues(PROJECTION_CAV);
+		setDefault2DCursor();
 	}
 	
 	public void setCavAngle(double angle){
@@ -3476,11 +3526,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		setShowAxis(2,  show, true);
 	}
 
+
 	@Override
 	public void setTransparentCursor() {
-		App.warn("unimplemented");
-		
+
+		setCursor(getApplication().getTransparentCursor());
+
 	}
+
 
 	@Override
 	public void setEraserCursor() {
@@ -3500,6 +3553,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	
 }
 

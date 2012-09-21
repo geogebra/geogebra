@@ -42,6 +42,8 @@ abstract public class Manager {
 	private PlotterSurface surface;
 	/** text */
 	private PlotterText text;
+	/** mouse cursor */
+	private PlotterMouseCursor mouseCursor;
 	
 	//geogebra stuff
 	private EuclidianView3D view3D;
@@ -79,6 +81,8 @@ abstract public class Manager {
 		viewButtons = new PlotterViewButtons(this);
 		viewInFrontOf = new PlotterViewInFrontOf(this);
 		
+		mouseCursor = new PlotterMouseCursor(this);
+		
 		//geogebra
 		this.view3D = view3D;
 		
@@ -106,7 +110,10 @@ abstract public class Manager {
 		return text;
 	}	
 	
-	
+	public PlotterMouseCursor getMouseCursor(){
+		return mouseCursor;
+	}
+
 	/////////////////////////////////////////////
 	// GEOGEBRA METHODS
 	/////////////////////////////////////////////
@@ -225,7 +232,17 @@ abstract public class Manager {
 	 */
 	abstract protected void color(float r, float g, float b, float a);
 	
+	/**
+	 * set the line width (for GL_LINE rendering)
+	 * @param width width
+	 */
+	abstract protected void lineWidth(float width);
 	
+	/**
+	 * set the point size (for GL_POINT rendering)
+	 * @param size size
+	 */
+	abstract protected void pointSize(float size);
 
 	/////////////////////////////////////////////
 	// COORDS METHODS

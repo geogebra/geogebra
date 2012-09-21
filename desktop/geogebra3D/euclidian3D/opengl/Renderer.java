@@ -394,7 +394,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //drawable3DLists.drawLabel(this);
  
         //gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
+        
+        
         gl.glDisable(GLlocal.GL_TEXTURE_2D);
+        
+
+        view3D.drawMouseCursor(this);
     }
     
     private static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
@@ -853,6 +858,27 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     /**
+     * draws mouse cursor
+     */
+    public void drawMouseCursor(){
+    	//Application.debug("ici");
+    	
+    	initMatrix();
+    	setBlending(false);
+    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_POINT);
+    	gl.glColor4f(0,0,0,1);
+    	geometryManager.draw(geometryManager.getMouseCursor().getIndex());
+    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);
+    	gl.glColor4f(0,0,0,1);
+    	geometryManager.draw(geometryManager.getMouseCursor().getIndex());
+    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_FILL);
+    	gl.glColor4f(1,1,1,1);
+    	geometryManager.draw(geometryManager.getMouseCursor().getIndex());
+    	setBlending(true);
+		resetMatrix();   	
+    }
+   
+    /**
      * draws a view button
      * @param type
      */
@@ -1125,7 +1151,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         /* create MOUSE_PICK_WIDTH x MOUSE_PICK_WIDTH pixel picking region near cursor location */
         glu.gluPickMatrix((double) mouseX, (double) (dim.height - mouseY), MOUSE_PICK_WIDTH, MOUSE_PICK_WIDTH, viewport, 0);
-        setProjectionMatrix();
+        setProjectionMatrixForPicking();
     	gl.glMatrixMode(GLlocal.GL_MODELVIEW);
     	
     	gl.glDisable(GLlocal.GL_ALPHA_TEST);
@@ -1626,6 +1652,25 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		setProjectionMatrix();
 
     	gl.glMatrixMode(GLlocal.GL_MODELVIEW);		
+	}	
+	
+	private void setProjectionMatrixForPicking(){
+		
+		switch(view3D.getProjection()){
+		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+			viewOrtho();
+			break;
+		case EuclidianView3D.PROJECTION_ANAGLYPH:
+			viewAnaglyph();
+			break;
+		case EuclidianView3D.PROJECTION_PERSPECTIVE:
+			viewPersp();
+			break;
+		case EuclidianView3D.PROJECTION_CAV:
+			viewCav();
+			break;
+		}
+				
 	}
 	
 	private void setProjectionMatrix(){
@@ -1706,6 +1751,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     public Coords getPerspEye(){
     	return perspEye;
+    }
+    
+    /**
+     * 
+     * @return eyes separation (half of, in real coords)
+     */
+    public double getEyeSep(){
+    	return anaglyphEyeSep;
     }
     
     private void viewPersp(){

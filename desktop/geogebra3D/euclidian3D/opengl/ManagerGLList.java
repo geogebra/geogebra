@@ -197,6 +197,17 @@ public class ManagerGLList extends Manager {
 		renderer.gl.glColor4f(r,g,b,a);
 	}
 	
+	@Override
+	protected void lineWidth(float width){
+		renderer.gl.glLineWidth(width);
+	}
+	
+	@Override
+	protected void pointSize(float size){
+		renderer.gl.glPointSize(size);
+	}
+	
+	
 	
 	/////////////////////////////////////////////
 	// POLYGONS DRAWING METHODS
