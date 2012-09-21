@@ -35,6 +35,7 @@ import java.util.HashMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -321,8 +322,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		createDisplayTypeComboBox();
 		sliderNumClasses.setToolTipText(app.getMenu("Classes"));
 		fldNumClasses.setToolTipText(app.getMenu("Classes"));
-		lblStart.setText(app.getMenu(" Start") + ": ");
-		lblWidth.setText(app.getMenu(" Width") + ": ");
+		lblStart.setText(app.getMenu("Start") + " ");
+		lblWidth.setText(app.getMenu("Width") + " ");
 		if (mode == DataAnalysisViewD.MODE_REGRESSION) {
 			lblTitleX.setText(app.getMenu("Column.X") + ": ");
 			lblTitleY.setText(app.getMenu("Column.Y") + ": ");
@@ -555,6 +556,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		manualClassesPanel.setFloatable(false);
 		manualClassesPanel.add(lblStart);
 		manualClassesPanel.add(fldStart);
+		manualClassesPanel.add(Box.createHorizontalStrut(4));
 		manualClassesPanel.add(lblWidth);
 		manualClassesPanel.add(fldWidth);
 
