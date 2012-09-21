@@ -16,7 +16,7 @@ import geogebra.common.main.App;
  * @author zbynek
  *
  */
-public class AlgoSolveODECas extends AlgoElement {
+public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	private CasEvaluableFunction f;
 	private GeoElement g;
 	private GeoPointND pt;

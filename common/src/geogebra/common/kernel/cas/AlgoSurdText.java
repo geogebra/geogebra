@@ -36,7 +36,7 @@ import org.apache.commons.math.util.MathUtils;
  * @author lightest
  *
  */
-public class AlgoSurdText extends AlgoElement {
+public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	//private DfpField decFull = new DfpField(64);
 	//DfpField decLess = new DfpField(16);

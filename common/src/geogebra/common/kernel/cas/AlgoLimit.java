@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Michael Borcherds
  */
-public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
+public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesCAS {
 
 	protected GeoFunction f;
 	protected NumberValue num; // input
