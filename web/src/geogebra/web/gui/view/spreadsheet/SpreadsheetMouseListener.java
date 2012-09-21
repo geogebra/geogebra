@@ -82,7 +82,7 @@ public class SpreadsheetMouseListener implements
 					//?//f.getCaret().setVisible(true);
 				}
 
-				table.setAllowEditing(false);
+				//?//table.setAllowEditing(false);
 			}
 
 		}
@@ -90,7 +90,7 @@ public class SpreadsheetMouseListener implements
 
 	public void onClick(ClickEvent e) {
 
-		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+		/*TODO GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (editor.isEditing()) {
 			String text = editor.getEditingValue();
 			if (text.startsWith("=")) {
@@ -105,7 +105,7 @@ public class SpreadsheetMouseListener implements
 			prefix0 = null;
 			table.isDragging2 = false;
 			table.repaint();
-		} /*TODO else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
+		} else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			int row = table.rowAtPoint(e.getPoint());
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);

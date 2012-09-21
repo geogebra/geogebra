@@ -29,8 +29,8 @@ public class MyCellEditorW {
 	protected MyTableW table;
 	private AutoCompleteTextFieldW textField;
 
-	protected int column;
-	protected int row;
+	protected int column = -1;
+	protected int row = -1;
 	private boolean editing = false;
 	private boolean errorOnStopEditing = false;
 
@@ -196,11 +196,13 @@ public class MyCellEditorW {
 	public void setLabel(String text) {
 		if (!editing)
 			return;
-		//TODO! delegate.setValue(text);
+		//?// delegate.setValue(text);
+		textField.setText(text);
 	}
 
 	public String getEditingValue() {
-		return null;//TODO! (String) delegate.getCellEditorValue();
+		return textField.getText();
+		//?// (String) delegate.getCellEditorValue();
 	}
 
 	public Object getCellEditorValue() {
@@ -214,6 +216,8 @@ public class MyCellEditorW {
 	public void cancelCellEditing() {
 		editing = false;
 		errorOnStopEditing = false;
+		
+		table.finishEditing();//?
 
 		//?//super.cancelCellEditing();
 
@@ -238,6 +242,7 @@ public class MyCellEditorW {
 		editing = false;
 		boolean success = true;//TODO super.stopCellEditing();
 
+		table.finishEditing();//?
 		// give the table the focus in case the formula bar is the editor
 		//?//if (table.getView().getFormulaBar().editorHasFocus()) {
 			// Application.debug("give focus to table");
@@ -271,10 +276,10 @@ public class MyCellEditorW {
 		try {
 
 			if (allowProcessGeo) {
-				String text = "";//TODO! (String) delegate.getCellEditorValue();
+				String text = textField.getText();//?// (String) delegate.getCellEditorValue();
 				// get GeoElement of current cell
 				value = kernel.lookupLabel(GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row), false);
+						.getSpreadsheetCellName(column - 1, row - 1), false);
 
 				if (text.equals("")) {
 					if (value != null) {
@@ -285,7 +290,7 @@ public class MyCellEditorW {
 				} else {
 					GeoElement newVal = RelativeCopy
 							.prepareAddingValueToTableNoStoringUndoInfo(kernel,
-									app, text, value, column, row);
+									app, text, value, column - 1, row - 1);
 					if (newVal == null) {
 						return false;
 					}
@@ -330,11 +335,11 @@ public class MyCellEditorW {
 
 			switch (keyCode) {
 			case KeyCodes.KEY_ESCAPE:
-				GeoElement oldGeo = kernel.getGeoAt(column, row);
+				GeoElement oldGeo = kernel.getGeoAt(column - 1, row - 1);
 				cancelCellEditing();
 
 				// restore old text in spreadsheet
-				table.getModel().setValueAt(oldGeo, row, column);
+				table.getModel().setValueAt(oldGeo, row - 1, column - 1);
 
 				// stopCellEditing(0,0);
 				// force nice redraw
@@ -350,7 +355,7 @@ public class MyCellEditorW {
 
 		public void checkCursorKeys(KeyDownEvent e) {
 
-			String text = "";//TODO! (String) delegate.getCellEditorValue();
+			String text = textField.getText();//?// (String) delegate.getCellEditorValue();
 
 			int keyCode = e.getNativeKeyCode();
 			// Application.debug(e+"");

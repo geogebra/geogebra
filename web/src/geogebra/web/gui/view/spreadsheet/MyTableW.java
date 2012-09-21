@@ -25,6 +25,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.web.awt.GBasicStrokeW;
 //import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.web.main.AppW;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ import java.util.HashSet;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -261,6 +264,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		addDomHandler(ml, MouseDownEvent.getType());
 		addDomHandler(ml, MouseUpEvent.getType());
 		addDomHandler(ml, MouseMoveEvent.getType());
+		addDomHandler(ml, ClickEvent.getType());
+		addDomHandler(ml, DoubleClickEvent.getType());
 
 		/*
 		 * // key listener KeyListener[] defaultKeyListeners =
@@ -1293,17 +1298,21 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 		}
 		// STANDARD case: in cell editing
-		if (isCellEditable(row, col)) {
+		if (isCellEditable(row - 1, col - 1)) {
 			isEditing = true;
 			editRow = row;
 			editColumn = col;
 			Object mce = getCellEditor(row, col);
 
 			// do this now, and do it later in renderCells - memorized row and col
-			Widget w = ((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
+			AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
+				((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
+			w.getTextField().setHeight((SpreadsheetSettings.TABLE_CELL_HEIGHT-10)+"px");
+			w.getTextField().setWidth((preferredColumnWidth-10)+"px");
 			setWidget(row, col, w);
 			getCellFormatter().getElement(row, col).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+			return true;
 		}
 		return false;// TODO: implementation needed
 		//return super.editCellAt(row, col);
@@ -1401,6 +1410,13 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (this.isEditing()) {
 			editor.setText(text);
 		}
+	}
+
+	public void finishEditing() {
+		isEditing = false;
+		editRow = -1;
+		editColumn = -1;
+		renderCells();//TODO: make more efficient...
 	}
 
 	/*
@@ -2006,6 +2022,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 					gva = tableModel.getValueAt(j - 1, i - 1);
 					prob = defaultTableCellRenderer.getTableCellRendererWidget(
 					        this, gva, false, false, j, i);
+
+					// just a workaround for now to show something:
+					prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
+					getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(GColor.WHITE.toString());
 				}
 				setWidget(j, i, prob);
 				getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
