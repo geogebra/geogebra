@@ -16,8 +16,11 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoFunction;
 
 
 /**
@@ -39,6 +42,29 @@ public class AlgoExpand extends AlgoCasBase {
     private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
+		
+		
+		
+		if (f instanceof GeoFunction) {
+			Function inFun = ((GeoFunction)f).getFunction();
+
+			// check if it's a polynomial
+			PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
+
+			// if it is...
+			if (poly != null) {
+				// ... we can expand the polynomial without loading the CAS (*much* faster, especially in web)
+				Function fun = poly.getFunction(kernel, inFun.getFunctionVariable());
+
+				//App.debug(f.toString());
+				//App.debug(funDeriv.toString());
+
+				((GeoFunction)g).setFunction(fun);
+				((GeoFunction)g).setDefined(true);
+				return;
+			}
+		}
+
 		// symbolic expand of f
 		g.setUsingCasCommand("Numeric(Expand(%))", f, false,arbconst);		
 	}
