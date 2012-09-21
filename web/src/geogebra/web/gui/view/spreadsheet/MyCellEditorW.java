@@ -12,6 +12,7 @@ import geogebra.web.main.AppW;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Default cell editor for the spreadsheet, extends
@@ -98,11 +99,10 @@ public class MyCellEditorW {
 
 	}
 
-	/*@Override
-	public Component getTableCellEditorComponent(JTable table0, Object value0,
+	public Widget getTableCellEditorComponent(MyTableW table0, Object value0,
 			boolean isSelected, int row0, int column0) {
 
-		table = (MyTableW) table0;
+		table = table0;
 
 		if (value0 instanceof String) { // clicked to type
 			value = null;
@@ -123,15 +123,15 @@ public class MyCellEditorW {
 				}
 			}
 		}
-		delegate.setValue(text);
+		/*TODO delegate.setValue(text);
 
-		Component component = getComponent();
-		component.setFont(app.getFontCanDisplayAwt(text));
+		Widget component = getComponent();
+		component.setFont(app.getFontCanDisplayAwt(text));*/
 
 		editing = true;
 
-		return component;
-	}*/
+		return null;//TODO return component;
+	}
 
 	/**
 	 * set flag to require text start with "=" to activate autocomplete
