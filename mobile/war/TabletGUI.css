@@ -29,7 +29,6 @@
 	border: none;
 }
 
-
 .colorBarBackground {
 	position: absolute;
 	right: 75px;
@@ -37,14 +36,21 @@
 	width: 250px;
 	height: 220px;
 	box-shadow: 5px 5px 10px #333333;
-	-webkit-border-radius: 1em 0em 0em 1em;
-}
+	-webkit-border-radius: 1em 1em 1em 1em;
+	z-index: 100;
+	/*content: url(backgroundImage/colorBar.png);*/
+}	
 .colorBar {
-	margin-left: 20px;
-	width: 90%;
+	width: 100%;
 	background: none;
 	background-color: transparent;
 	border: none;
+	-webkit-border-radius: 1em 1em 1em 1em;
+	foreground-image: url(colorBar.png);
+}
+
+.colorBar.background-image {
+	z-index: 999;
 }
 
 .colorScrollPanel {
@@ -53,6 +59,7 @@
 }
 
 .colorChoiceButton {
+	margin-left: 27px !important;
 	height: 18px;
 	width: 100%;
 	background-image: none !important;
