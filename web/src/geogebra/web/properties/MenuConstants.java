@@ -1669,7 +1669,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Reset")
     String Reset();
 
-    @DefaultStringValue("ResidualPlot")
+    @DefaultStringValue("Residual Plot")
     String ResidualPlot();
 
     @DefaultStringValue("Result")
