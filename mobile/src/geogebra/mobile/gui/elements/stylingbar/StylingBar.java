@@ -15,6 +15,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 /**
+ * The StylingBar includes the standard buttons (grid, axes, point capturing)
+ * and the optional buttons, which are only shown if needed (e.g. color, lineStyle).
  * 
  * @author Thomas Krismayer
  * 
@@ -22,121 +24,126 @@ import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 public class StylingBar extends RoundPanel
 {
 	private VerticalPanel base = new VerticalPanel();
-	StylingBarButton colorButton;
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
-
+	final GuiModel guiModel;
+	StylingBarButton[] button;
+	StylingBarButton colorButton;
+	
+	/**
+	 * Initializes the {@link StylingBarButton StylingBarButtons}.
+	 * @param guiModel
+	 */
 	public StylingBar(final GuiModel guiModel)
 	{
 		this.addStyleName("stylingbar");
+		this.guiModel = guiModel;
+		
+		createStandardButtons();
+		createOptionalButtons();
+	}
 
-		// default: close ToolBarOptions on click
+	/**
+	 * Initializes the standardButtons which are always shown
+	 * (ShowGrid, ShowAxes & PointCapture).
+	 */
+	private void createStandardButtons()
+  {
+		this.button = new StylingBarButton[3];
+		
+		this.button[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
+		this.button[1] = createStyleBarButton("showGrid", CommonResources.INSTANCE.show_or_hide_the_grid(), 1);
+		this.button[2] = createStyleBarButton("pointCapture", CommonResources.INSTANCE.point_capturing(), 2);
+		
+		//set button showAxes and pointCapture to (default) active
+		this.button[0].addStyleName("button-active");
+		this.button[2].addStyleName("button-active");
+		
+		//add the standardButtons to the verticalPanel
+		for (int i = 0; i < this.button.length; i++)
+		{
+			this.base.add(this.button[i]);
+		}
+		add(this.base);
+  }
+
+	/**
+	 * Initializes the optional buttons, which are only shown if its necessary.
+	 */
+	private void createOptionalButtons()
+  {
+	  // default: close ToolBarOptions on click
 		ClickHandler defaultHandler = new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				guiModel.closeOptions();
+				StylingBar.this.guiModel.closeOptions();
 			}
 		};
 
 		// optional buttons
-
 		this.option = new StylingBarButton[2];
 		this.option[0] = new StylingBarButton(CommonResources.INSTANCE.label(), defaultHandler);
 		this.option[1] = new StylingBarButton(CommonResources.INSTANCE.properties_defaults(), defaultHandler);
-		this.option[1].addDomHandler(new ClickHandler()
+		
+		this.colorButton = addColorBarButton();
+  }
+
+	/**
+	 * 
+	 * @param process
+	 * @param svg
+	 * @param number
+	 * @return a new StylingBarButton with an ClickHandler
+	 */
+	private StylingBarButton createStyleBarButton(final String process, SVGResource svg, final int number)
+  {
+	  return new StylingBarButton(svg, new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-
-			}
-		}, ClickEvent.getType());
-
-		// buttons which are always shown
-
-		final StylingBarButton[] button = new StylingBarButton[3];
-		button[0] = new StylingBarButton(CommonResources.INSTANCE.show_or_hide_the_axes(), new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				guiModel.closeOptions();
-				guiModel.processSource("showAxes");
-				if (button[0].getStyleName().endsWith("button-active"))
+				StylingBar.this.guiModel.closeOptions();
+				StylingBar.this.guiModel.processSource(process);
+				if (StylingBar.this.button[number].getStyleName().endsWith("button-active"))
 				{
-					button[0].removeStyleName("button-active");
+					StylingBar.this.button[number].removeStyleName("button-active");
 				}
 				else
 				{
-					button[0].addStyleName("button-active");
+					StylingBar.this.button[number].addStyleName("button-active");
 				}
 			}
 		});
-		button[0].addStyleName("button-active");
+  }
 
-		button[1] = new StylingBarButton(CommonResources.INSTANCE.show_or_hide_the_grid(), new ClickHandler()
+	/**
+	 * Initializes the colorButton with an ClickHandler to open and close
+	 * the color-choice-wheel.
+	 * @return
+	 */
+	private StylingBarButton addColorBarButton()
+  {
+	  return new StylingBarButton(CommonResources.INSTANCE.colour(), new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				guiModel.closeOptions();
-				guiModel.processSource("showGrid");
-				if (button[1].getStyleName().endsWith("button-active"))
+				if (StylingBar.this.guiModel.getColorBarShown())
 				{
-					button[1].removeStyleName("button-active");
-				}
-				else
-				{
-					button[1].addStyleName("button-active");
-				}
-			}
-		});
-
-		button[2] = new StylingBarButton(CommonResources.INSTANCE.point_capturing(), new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				guiModel.closeOptions();
-				guiModel.processSource("pointCapture");
-				if (button[2].getStyleName().endsWith("button-active"))
-				{
-					button[2].removeStyleName("button-active");
-				}
-				else
-				{
-					button[2].addStyleName("button-active");
-				}
-			}
-		});
-		button[2].addStyleName("button-active");
-
-		for (int i = 0; i < button.length; i++)
-		{
-			this.base.add(button[i]);
-		}
-		add(this.base);
-
-		this.colorButton = new StylingBarButton(CommonResources.INSTANCE.colour(), new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				if (guiModel.getColorBarShown())
-				{
-					guiModel.closeOptions();
+					StylingBar.this.guiModel.closeOptions();
 				}
 				else
 				{
 					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this);
-					guiModel.showColorBar(colorBar);
+					StylingBar.this.guiModel.showColorBar(colorBar);
 				}
 			}
 		});
-	}
+  }
 
+	
 	/**
 	 * 
 	 * @param commands
