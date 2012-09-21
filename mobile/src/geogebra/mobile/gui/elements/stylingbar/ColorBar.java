@@ -25,11 +25,8 @@ public class ColorBar extends LayoutPanel
 		this.colors = new Colors(stylingBar, mobileModel);
 		this.scrollPanel = new ScrollPanel(this.colors);
 		this.scrollPanel.addStyleName("colorScrollPanel");
-		//this.scrollPanel.setVerticalScrollPosition(10);
-		
 		add(this.scrollPanel);
 		setVisible(true);
-		
 		
 		this.getElement().getStyle().setBackgroundImage("url("+CommonResources.INSTANCE.colorBarBackground().getSafeUri().asString()+")");
   }

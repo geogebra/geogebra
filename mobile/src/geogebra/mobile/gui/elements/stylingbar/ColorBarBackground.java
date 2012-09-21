@@ -10,16 +10,17 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
  */
 public class ColorBarBackground extends ButtonBar
 {
-	private final AnimationHelper animationHelper;
+	//private final AnimationHelper animationHelper;
 	private ColorBar colorBar;
 	
 	public ColorBarBackground(StylingBar stylingBar, MobileModel mobileModel)
 	{				
 		addStyleName("colorBarBackground");
 		this.colorBar = new ColorBar(stylingBar, mobileModel);
-
-		this.animationHelper = new AnimationHelper();
-		add(this.animationHelper);	
 		add(this.colorBar);
+		
+		//TO DO implement animationHelper
+		//this.animationHelper = new AnimationHelper();
+		//add(this.animationHelper);
 	}
 }
