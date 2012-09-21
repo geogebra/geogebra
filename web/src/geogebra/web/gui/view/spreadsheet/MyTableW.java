@@ -143,6 +143,12 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		return isOverDnDRegion;
 	}
 
+	protected boolean isEditing = false;
+
+	public boolean isEditing() {
+		return isEditing;
+	}
+
 	// Keep track of ctrl-down. This is needed in some
 	// selection methods that do not receive key events.
 	protected boolean metaDown = false;
@@ -647,9 +653,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
 			setSelectNone(false);
 
-		/*
-		 * TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
-		 */
+		//TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
@@ -1286,6 +1290,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 		}
 		// STANDARD case: in cell editing
+		isEditing = true;
 		return false;// TODO: implementation needed
 		//return super.editCellAt(row, col);
 	}
@@ -1379,10 +1384,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	}
 
 	public void updateEditor(String text) {
-		// TODO: implementation needed
-		/*
-		 * if (this.isEditing()) { editor.setText(text); }
-		 */
+		if (this.isEditing()) {
+			editor.setText(text);
+		}
 	}
 
 	/*
