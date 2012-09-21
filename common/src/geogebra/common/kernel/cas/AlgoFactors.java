@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoList;
  * 
  * @author Michael Borcherds
  */
-public class AlgoFactors extends AlgoElement {
+public class AlgoFactors extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
 	private GeoList g; // output

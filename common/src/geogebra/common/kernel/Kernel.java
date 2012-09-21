@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
@@ -4318,7 +4319,7 @@ public class Kernel {
 			if (algo instanceof AlgoCasBase) {
 				((AlgoCasBase) algo).clearCasEvalMap("");
 				algo.compute();
-			} else if (algo instanceof UsesCAS) {
+			} else if (algo instanceof UsesCAS || algo instanceof AlgoUsingTempCASalgo) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				algo.compute();
 			}
