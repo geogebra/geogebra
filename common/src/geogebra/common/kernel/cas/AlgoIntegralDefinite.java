@@ -125,7 +125,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 	@Override
 	public Algos getClassName() {
-		return numeric ? Algos.AlgoIntegralDefinite : Algos.AlgoNIntegral;
+		return numeric ?  Algos.AlgoNIntegral : Algos.AlgoIntegralDefinite;
 	}
 
 	// for AlgoElement

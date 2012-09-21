@@ -70,7 +70,7 @@ public class CmdIntegral extends CommandProcessor {
 				
 				AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2],!"NIntegral".equals(internalCommandName));
+						(NumberValue) arg[1], (NumberValue) arg[2],"NIntegral".equals(internalCommandName));
 
 				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
