@@ -234,10 +234,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		defaultTableCellRenderer = new MyCellRenderer(app, view,
 		        (CellFormat) this.getCellFormatHandler());
 
-		/*
-		 * :NEXT:Grid.setCellFormatter editor = new MyCellEditor(kernel);
-		 * setDefaultEditor(Object.class, editor);
-		 */
+		//:NEXT:Grid.setCellFormatter
+		editor = new MyCellEditorW(kernel);
+		//setDefaultEditor(Object.class, editor);
+
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<CellRange>();
 		selectedCellRanges.add(new CellRange(app));
@@ -366,11 +366,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Returns boolean editor (checkbox) for this table. If none exists, a new
 	 * one is created.
 	 */
-	/*
-	 * public MyCellEditorBoolean getEditorBoolean() { if (editorBoolean ==
-	 * null) editorBoolean = new MyCellEditorBoolean(kernel); return
-	 * editorBoolean; }
-	 */
+	/*public MyCellEditorBoolean getEditorBoolean() {
+		if (editorBoolean == null)
+			editorBoolean = new MyCellEditorBoolean(kernel);
+		return editorBoolean;
+	}*/
 
 	/**
 	 * Returns button editor for this table. If none exists, a new one is
@@ -420,35 +420,36 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// addColumn destroys custom row heights, so we must reset them
 		resetRowHeights();
 
-	}/*
-	 * 
-	 * @Override public TableCellEditor getCellEditor(int row, int column) {
-	 * 
-	 * GPoint p = new GPoint(column, row); if (view.allowSpecialEditor() &&
-	 * oneClickEditMap.containsKey(p) && kernel.getAlgebraStyle() ==
-	 * Kernel.ALGEBRA_STYLE_VALUE) {
-	 * 
-	 * switch (oneClickEditMap.get(p).getGeoClassType()) { case BOOLEAN: return
-	 * getEditorBoolean(); case BUTTON: return getEditorButton(); case LIST:
-	 * return getEditorList(); } } return editor; }
-	 */
+	}
+
+	public Object getCellEditor(int row, int column) {
+		GPoint p = new GPoint(column, row);
+		if (view.allowSpecialEditor() &&
+			oneClickEditMap.containsKey(p) && kernel.getAlgebraStyle() ==
+			Kernel.ALGEBRA_STYLE_VALUE) {
+			switch (oneClickEditMap.get(p).getGeoClassType()) {
+				case BOOLEAN: return null;//TODO! getEditorBoolean();
+				case BUTTON: return null;//TODO! getEditorButton();
+				case LIST: return null;//TODO! getEditorList();
+			}
+		}
+		return editor;
+	}
 
 	/**
 	 * sets requirement that commands entered into cells must start with "="
 	 */
-	/*public void setEqualsRequired(boolean isEqualsRequired) {
+	public void setEqualsRequired(boolean isEqualsRequired) {
 		editor.setEqualsRequired(isEqualsRequired);
-	}*/
+	}
 
 	/**
 	 * gets flag for requirement that commands entered into cells must start
 	 * with "="
 	 */
-	/*
-	 * public boolean isEqualsRequired() { return view.isEqualsRequired(); }
-	 * 
-	 * public void setLabels() { editor.setLabels(); }
-	 */
+	public boolean isEqualsRequired() { return view.isEqualsRequired(); }
+
+	public void setLabels() { editor.setLabels(); }
 
 	public int preferredColumnWidth() {
 		return preferredColumnWidth;
@@ -1351,25 +1352,31 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * we need to return false for this normally, otherwise we can't detect
 	 * double-clicks
 	 */
-	/*
-	 * @Override public boolean isCellEditable(int row, int column) { if
-	 * (view.isColumnSelect()) return false;
-	 * 
-	 * // allow use of special editors for e.g. buttons, lists if
-	 * (view.allowSpecialEditor() && oneClickEditMap.containsKey(new
-	 * GPoint(column, row))) return true;
-	 * 
-	 * // normal case: return false so we can handle double click in our //
-	 * mouseReleased if (!allowEditing) return false;
-	 * 
-	 * // prevent editing fixed geos when allowEditing == true GeoElement geo =
-	 * (GeoElement) getModel().getValueAt(row, column); if (geo != null &&
-	 * geo.isFixed()) return false;
-	 * 
-	 * // return true when editing is allowed (mostly for blank cells). This //
-	 * lets // the JTable mousePressed listener catch double clicks and invoke
-	 * the // editor return true; }
-	 */
+	public boolean isCellEditable(int row, int column) {
+
+		if (view.isColumnSelect())
+			return false;
+
+		// allow use of special editors for e.g. buttons, lists
+		if (view.allowSpecialEditor() &&
+			oneClickEditMap.containsKey(new GPoint(column, row)))
+			return true;
+
+		// normal case: return false so we can handle double click in our // mouseReleased
+		if (!allowEditing)
+			return false;
+
+		// prevent editing fixed geos when allowEditing == true
+		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
+		if (geo != null && geo.isFixed())
+			return false;
+
+		// return true when editing is allowed (mostly for blank cells). This
+		// lets
+		// the JTable mousePressed listener catch double clicks and invoke the
+		// editor
+		return true;
+	}
 
 	public void updateEditor(String text) {
 		// TODO: implementation needed
