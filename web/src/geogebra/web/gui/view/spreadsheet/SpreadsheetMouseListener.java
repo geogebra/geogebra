@@ -5,10 +5,16 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.SpreadsheetTableModel;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -16,8 +22,9 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 
+
 public class SpreadsheetMouseListener implements
-	MouseDownHandler, MouseUpHandler, MouseMoveHandler {
+	MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler {
 
 	protected String selectedCellName;
 	protected String prefix0, postfix0;
@@ -27,7 +34,7 @@ public class SpreadsheetMouseListener implements
 	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModel model;
-	//private MyCellEditor editor;
+	private MyCellEditorW editor;
 
 	private RelativeCopy relativeCopy;
 
@@ -43,48 +50,47 @@ public class SpreadsheetMouseListener implements
 		this.table = table;
 		this.view = (SpreadsheetView)table.getView();
 		this.model = table.getModel();
-		//TODO this.editor = table.editor;
+		this.editor = table.editor;
 
 		this.relativeCopy = new RelativeCopy(kernel);
 	}
 
-	/*TODO public void mouseClicked(MouseEvent e) {
-
-		boolean doubleClick = (e.getClickCount() != 1);
+	public void onDoubleClick(DoubleClickEvent e) {
 
 		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+
 		if (point != null) {
-
-			if (doubleClick) {
-
-				// auto-fill down if dragging dot is double-clicked
-				if (table.isOverDot) {
-					handleAutoFillDown();
-					return;
-				}
-
-				// otherwise, doubleClick edits cell
-
-				if (!(table.getOneClickEditMap().containsKey(point) && view
-						.allowSpecialEditor())) {
-					table.setAllowEditing(true);
-					table.editCellAt(table.getSelectedRow(),
-							table.getSelectedColumn());
-
-					// workaround, see
-					// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625
-					final JTextComponent f = (JTextComponent) table
-							.getEditorComponent();
-					if (f != null) {
-						f.requestFocus();
-						f.getCaret().setVisible(true);
-					}
-
-					table.setAllowEditing(false);
-				}
+			// auto-fill down if dragging dot is double-clicked
+			if (table.isOverDot) {
+				//TODO handleAutoFillDown();
+				return;
 			}
-		}
 
+			// otherwise, doubleClick edits cell
+
+			if (!(table.getOneClickEditMap().containsKey(point) && view
+					.allowSpecialEditor())) {
+				table.setAllowEditing(true);
+				table.editCellAt(table.getSelectedRow(),
+						table.getSelectedColumn());
+
+				// workaround, see
+				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625
+				final AutoCompleteTextFieldW f = (AutoCompleteTextFieldW)table.getEditorWidget();
+				if (f != null) {
+					f.requestFocus();
+					//?//f.getCaret().setVisible(true);
+				}
+
+				table.setAllowEditing(false);
+			}
+
+		}
+	}
+
+	public void onClick(ClickEvent e) {
+
+		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (editor.isEditing()) {
 			String text = editor.getEditingValue();
 			if (text.startsWith("=")) {
@@ -93,40 +99,26 @@ public class SpreadsheetMouseListener implements
 					int column = point.getX();
 					int row = point.getY();
 					GeoElement geo = RelativeCopy.getValue(app, column, row);
-					if (geo != null) {
-						e.consume();
-					}
 				}
 			}
 			selectedCellName = null;
 			prefix0 = null;
 			table.isDragging2 = false;
 			table.repaint();
-		} else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
+		} /*TODO else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			int row = table.rowAtPoint(e.getPoint());
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
 			// let euclidianView know about the click
-			AbstractEvent event = geogebra.euclidian.event.MouseEvent
+			AbstractEvent event = geogebra.web.euclidian.event.MouseEvent
 					.wrapEvent(e);
 			app.getActiveEuclidianView().clickedGeo(geo, event);
 			event.release();
-		}
-
-		// else
-		// { // !editor.isEditing()
-		// int row = rowAtPoint(e.getPoint());
-		// int col = columnAtPoint(e.getPoint());
-		// GeoElement geo = (GeoElement) getModel().getValueAt(row, col);
-		//
-		// // copy description into input bar when a cell is clicked on
-		// copyDefinitionToInputBar(geo);
-		// selectionChanged();
-		// }
+		}*/
 	}
 
 	// automatic fill down from the dragging dot
-	public void handleAutoFillDown() {
+	/*public void handleAutoFillDown() {
 		int col = table.getSelectedColumn();
 		int row = table.maxSelectionRow;
 		if (model.getValueAt(row, col) != null) {

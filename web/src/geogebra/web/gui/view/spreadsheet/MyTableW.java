@@ -149,6 +149,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		return isEditing;
 	}
 
+	protected int editRow = -1;
+	protected int editColumn = -1;
+
 	// Keep track of ctrl-down. This is needed in some
 	// selection methods that do not receive key events.
 	protected boolean metaDown = false;
@@ -1290,7 +1293,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 		}
 		// STANDARD case: in cell editing
-		isEditing = true;
+		if (isCellEditable(row, col)) {
+			isEditing = true;
+			editRow = row;
+			editColumn = col;
+			Object mce = getCellEditor(row, col);
+
+			// do this now, and do it later in renderCells - memorized row and col
+			Widget w = ((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
+			setWidget(row, col, w);
+			getCellFormatter().getElement(row, col).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		}
 		return false;// TODO: implementation needed
 		//return super.editCellAt(row, col);
 	}
@@ -2069,5 +2083,21 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// After rendering the LaTeX image for a geo, update the row height
 		// with the preferred size set by the renderer.
 		resizeMarkedCells();
+	}
+
+	public int getSelectedRow() {//in grid (presentation) coordinates
+		if (minSelectionRow > 0)
+			return minSelectionRow;
+		return -1;
+	}
+
+	public int getSelectedColumn() {//in grid (presentation) coordinates
+		if (minSelectionColumn > 0)
+			return minSelectionColumn;
+		return -1;
+	}
+
+	public Widget getEditorWidget() {
+		return editor.getTextfield();
 	}
 }

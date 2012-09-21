@@ -99,7 +99,7 @@ public class MyCellEditorW {
 
 	}
 
-	public Widget getTableCellEditorComponent(MyTableW table0, Object value0,
+	public Widget getTableCellEditorWidget(MyTableW table0, Object value0,
 			boolean isSelected, int row0, int column0) {
 
 		table = table0;
@@ -123,14 +123,17 @@ public class MyCellEditorW {
 				}
 			}
 		}
-		/*TODO delegate.setValue(text);
+		/*? delegate.setValue(text);
 
 		Widget component = getComponent();
 		component.setFont(app.getFontCanDisplayAwt(text));*/
 
+		textField.setText(text);
+		textField.setFont(app.getFontCanDisplay(text));
+
 		editing = true;
 
-		return null;//TODO return component;
+		return textField;//? return component;
 	}
 
 	/**
@@ -479,4 +482,7 @@ public class MyCellEditorW {
 		}
 	}*/
 
+	public Widget getTextfield() {
+		return textField;
+	}
 }
