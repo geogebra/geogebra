@@ -103,6 +103,7 @@ public class AlgoDerivative extends AlgoCasBase {
 				//App.debug(funDeriv.toString());
 
 				((GeoFunction)g).setFunction(funDeriv);
+				((GeoFunction)g).setDefined(true);
 				return;
 			}
 		}
