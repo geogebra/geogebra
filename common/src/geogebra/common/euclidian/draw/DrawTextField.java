@@ -130,7 +130,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 */
 		public void focusGained(FocusEvent e) {
 			view.getEuclidianController().textfieldHasFocus(true);
-			geoTextField.updateText(textField);
+			//geoTextField.updateText(textField);
 		}
 	
 		/**
