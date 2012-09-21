@@ -24,11 +24,13 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Try to expand the given function
+ * returns coefficients of a Polynomial as a list
+ * 
+ * Uses CAS sometimes, eg Coefficients[x^n] so needs "implements UsesCAS"
  * 
  * @author Michael Borcherds
  */
-public class AlgoCoefficients extends AlgoElement {
+public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
 	private GeoList g; // output
