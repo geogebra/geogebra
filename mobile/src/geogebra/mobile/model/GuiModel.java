@@ -30,6 +30,7 @@ public class GuiModel
 	private ToolBarButton activeButton;
 	private ButtonBar optionsBackground;
 	private boolean optionsShown = false;
+	private boolean colorBarShown = false;
 	private StylingBar stylingBar;
 	private EuclidianView euclidianView;
 
@@ -104,6 +105,13 @@ public class GuiModel
 			RootPanel.get().remove(this.optionsBackground);
 			this.optionsShown = false;
 		}
+		/**
+		 * Closes the color-choice-wheel.
+		 */
+		if (this.colorBarShown)
+		{
+			closeColorBar();
+		}
 	}
 
 	public void setActive(ToolBarButton toolBarButton)
@@ -130,10 +138,22 @@ public class GuiModel
 	public void showColorBar(ColorBarBackground colorBarBackground)
 	{
 		this.colorBackground = colorBarBackground;
-		this.colorBackground.show();
 		RootPanel.get().add(colorBarBackground);
+		this.colorBarShown = true;
+	}
+	
+	private void closeColorBar()
+	{
+		RootPanel.get().remove(this.colorBackground);
+		this.colorBarShown = false;
 	}
 
+	public boolean getColorBarShown()
+	{
+		return this.colorBarShown;
+	}
+	
+	
 	public void showOptions(ButtonBar options)
 	{
 		closeOptions();

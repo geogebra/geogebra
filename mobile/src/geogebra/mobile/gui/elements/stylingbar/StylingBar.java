@@ -22,7 +22,7 @@ import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 public class StylingBar extends RoundPanel
 {
 	private VerticalPanel base = new VerticalPanel();
-	private StylingBarButton colorButton;
+	StylingBarButton colorButton;
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
 
@@ -119,29 +119,22 @@ public class StylingBar extends RoundPanel
 		}
 		add(this.base);
 
-		this.colorButton = new StylingBarButton(CommonResources.INSTANCE.colour(), defaultHandler);
-		this.colorButton.addStyleName("button-active");
-		this.colorButton.addDomHandler(new ClickHandler()
+		this.colorButton = new StylingBarButton(CommonResources.INSTANCE.colour(), new ClickHandler()
 		{
-
 			@Override
-      public void onClick(ClickEvent event)
-      {
-				guiModel.closeOptions();
-				ColorBarBackground colorBar = new ColorBarBackground();
-				guiModel.showColorBar(colorBar);
-								
-				//guiModel.processSource("pointCapture");
-				if (StylingBar.this.colorButton.getStyleName().endsWith("button-active"))
+			public void onClick(ClickEvent event)
+			{
+				if (guiModel.getColorBarShown())
 				{
-					StylingBar.this.colorButton.removeStyleName("button-active");
-				} else
-				{
-					StylingBar.this.colorButton.addStyleName("button-active");
+					guiModel.closeOptions();
 				}
-      }
-			
-		}, ClickEvent.getType());
+				else
+				{
+					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this);
+					guiModel.showColorBar(colorBar);
+				}
+			}
+		});
 	}
 
 	/**
