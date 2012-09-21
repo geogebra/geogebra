@@ -88,6 +88,7 @@ public class AlgoIntegral extends AlgoCasBase {
 				 //App.debug(funDeriv.toString());
 				 
 				 ((GeoFunction)g).setFunction(funDeriv);
+				 ((GeoFunction)g).setDefined(true);
 				 return;
 			 }
 		 }
