@@ -1133,7 +1133,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				app.doAfterRedefine(newText);
 
 				// make redefined text selected
-				app.addSelectedGeo(newText);
+				//app.addSelectedGeo(newText);
 				return true;
 			} catch (Exception e) {
 				app.showError("ReplaceFailed");
