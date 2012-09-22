@@ -205,9 +205,9 @@ office@geogebra.org
 	<target name="doSign" if="keystore.present" description="sign jar files">
 		<signjar 
 			keystore="${workspace.dir}/igi-keystore.p12" 	
-			alias="International GeoGebra Institute&apos;s GlobalSign nv-sa ID"
+			alias="{18902418-007d-43e1-ad20-93ce57e716da}"
 			storetype="pkcs12"
-			storepass="geogebra">
+			storepass="geogebra1234">
 			<fileset dir="${build.dir}" includes="*.jar" />
 		</signjar>
 	</target>
@@ -227,9 +227,9 @@ office@geogebra.org
 	<target name="doSignDebug" if="keystore.present" description="sign jar files">
 		<signjar 
 			keystore="${workspace.dir}/igi-keystore.p12" 	
-			alias="International GeoGebra Institute&apos;s GlobalSign nv-sa ID"
+			alias="{18902418-007d-43e1-ad20-93ce57e716da}"
 			storetype="pkcs12"
-			storepass="geogebra">
+			storepass="geogebra1234">
 			<fileset dir="${build.dir}/debug" includes="*.jar" />
 		</signjar>
 	</target>
