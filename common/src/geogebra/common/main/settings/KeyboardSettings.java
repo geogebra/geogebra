@@ -25,6 +25,7 @@ public class KeyboardSettings extends AbstractSettings {
 		supportedLocales.add("fr"); // French
 		supportedLocales.add("de"); // German
 		supportedLocales.add("el"); // Greek	
+		supportedLocales.add("fi"); // Finnish	
 		supportedLocales.add("iw"); // Hebrew
 		supportedLocales.add("hi"); // Hindi		
 		supportedLocales.add("hu"); // Hungarian		
