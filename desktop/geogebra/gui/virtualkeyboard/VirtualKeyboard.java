@@ -723,7 +723,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				setMode(KEYBOARD_SOLIDUS, kbLocale);
 				return;
 
-			case '\u0060': // grave
+			//case '\u0060': // grave
 			case '\u0300': // combining grave
 				setMode(KEYBOARD_GRAVE, kbLocale);
 				return;

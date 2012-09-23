@@ -32,6 +32,7 @@ public class KeyboardSettings extends AbstractSettings {
 		supportedLocales.add("ml"); // Malayalam
 		supportedLocales.add("no"); // Norwegian
 		supportedLocales.add("fa"); // Persian
+		supportedLocales.add("pt_PT"); // Portuguese (Portugal)
 		supportedLocales.add("ru"); // Russian
 		supportedLocales.add("sk"); // Slovak
 		supportedLocales.add("es"); // Spanish
