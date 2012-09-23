@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 import java.util.Date;
@@ -29,60 +30,26 @@ public class CmdGetTime extends CommandProcessor {
 	}
 	
 	private static final int[] month_days={31,28,31,30,31,30,31,31,30,31,30,31};
-	private GeoText monthStr1 = new GeoText(cons);
-	private GeoText dayStr1 = new GeoText(cons);
-	private Date cal;
-	private int d;
-	private int m;
-	private int date;
-	private int month;
-	private int year;
-	private int hours;
-	private int mins;
-	private int secs;
-	private int yearday;
-	private String dayStr;
-	private String monthStr;
-
 
 	@Override
 	@SuppressWarnings("deprecation")
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		cal = new Date();
+		GeoText monthStr1 = new GeoText(cons);
+		GeoText dayStr1 = new GeoText(cons);
+		Date cal = new Date();
 		GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
-		d = cal.getDay() + 1;
+		int d = cal.getDay() + 1;
 		GeoNumeric day = new GeoNumeric(cons, d);
-		m = cal.getMonth() + 1;
+		int m = cal.getMonth() + 1;
 		GeoNumeric month1 = new GeoNumeric(cons, m);
 		GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
 		GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
 		GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
 		GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
 		GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
-		date =cal.getDate();
-		month=cal.getMonth();
-		year=cal.getYear()+1900;
-		hours= cal.getHours();
-		mins =cal.getMinutes();
-		secs= cal.getSeconds();
-		yearday=0;
-		dayStr=app.getPlain("Day."+d);
-		monthStr = app.getPlain("Month."+m);
-		/* changed to use java.util.Date - java.util.Calendar not supported by GWT
-		Calendar cal = Calendar.getInstance();
-		GeoNumeric ms = new GeoNumeric(cons, cal.get(Calendar.MILLISECOND));
-		GeoNumeric secs = new GeoNumeric(cons, cal.get(Calendar.SECOND));
-		GeoNumeric mins = new GeoNumeric(cons, cal.get(Calendar.MINUTE));
-		GeoNumeric hours = new GeoNumeric(cons, cal.get(Calendar.HOUR_OF_DAY));
-		GeoNumeric date = new GeoNumeric(cons, cal.get(Calendar.DAY_OF_MONTH));
-		int d = cal.get(Calendar.DAY_OF_WEEK);
-		GeoNumeric day = new GeoNumeric(cons, d);
-		int m = cal.get(Calendar.MONTH) + 1;
-		GeoNumeric month = new GeoNumeric(cons, m);
-		GeoNumeric year = new GeoNumeric(cons, cal.get(Calendar.YEAR));
-		*/
+
 		monthStr1.setTextString(app.getPlain("Month."+m));
 		
 		dayStr1.setTextString(app.getPlain("Day."+d));
@@ -113,17 +80,9 @@ public class CmdGetTime extends CommandProcessor {
 
 			case 1:
 			
-			char[] cArray = c.getArgument(0).toValueString(StringTemplate.defaultTemplate).toCharArray();
 			StringBuilder sb = new StringBuilder(20);
-			for (int i = 0; i < cArray.length; i++) {
-				
-				if (cArray[i] == '\\' && i < cArray.length - 1) {
-					decode(cArray[i+1], sb);
-					i++;
-				} else {
-					sb.append(cArray[i]);
-				}
-			}
+			
+			buildLocalizedDate(sb, c.getArgument(0).toValueString(StringTemplate.defaultTemplate), app);
 
 			GeoText rettext = new GeoText(cons, c.getLabel(), sb.toString());
 
@@ -134,8 +93,45 @@ public class CmdGetTime extends CommandProcessor {
 		}
 	}
 		
+		public static void buildLocalizedDate(StringBuilder sb, String format, App app) {
+			char[] cArray = format.toCharArray();
+			for (int i = 0; i < cArray.length; i++) {
+				
+				if (cArray[i] == '\\' && i < cArray.length - 1) {
+					decode(cArray[i+1], sb, app);
+					i++;
+				} else {
+					sb.append(cArray[i]);
+				}
+			}
+		
+	}
+
 		@SuppressWarnings("deprecation")
-		private void decode(char c, StringBuilder sb) {
+		private static void decode(char c, StringBuilder sb, App app) {
+
+			
+			Date cal = new Date();
+			//GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
+			int d = cal.getDay() + 1;
+			//GeoNumeric day = new GeoNumeric(cons, d);
+			int m = cal.getMonth() + 1;
+			//GeoNumeric month1 = new GeoNumeric(cons, m);
+			//GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
+			//GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
+			//GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
+			//GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
+			//GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
+			int date =cal.getDate();
+			int month=cal.getMonth();
+			int year=cal.getYear()+1900;
+			int hours= cal.getHours();
+			int mins =cal.getMinutes();
+			int secs= cal.getSeconds();
+			int yearday=0;
+			String dayStr=app.getPlain("Day."+d);
+			String monthStr = app.getPlain("Month."+m);
+	
 			switch(c){
 			
 			case 'd': 

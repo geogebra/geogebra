@@ -13,6 +13,9 @@
 package geogebra.gui;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.CmdGetTime;
+import geogebra.common.main.App;
+import geogebra.common.util.Unicode;
 import geogebra.gui.inputfield.MyFormattedTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
@@ -121,29 +124,23 @@ public class TitlePanel extends JPanel {
 	}
 
 	public String configureDate(String src) {
-		Calendar cal = Calendar.getInstance();
-		Date date = cal.getTime();
+		
 
 		// If no date specified use current date
 		if (src.equals("")) {
-			return DateFormat.getDateInstance(DateFormat.LONG)
-					.format(date);
-		} else
-			return src;
-
-		/*
-		 * Try to parse date with the local date format. If this fails just
-		 * display it and let the user re-edit it. To draw user attention to
-		 * this shortcoming we highlight the text field with red and let it have
-		 * the focus. TODO: Is this sufficient enough without any textual advice
-		 * such as a dialog?
-		 * 
-		 * COMMENTED by Markus Hohenwarter: the change of background color does
-		 * not really help the user, moreover it does not work at the moment ...
-		 * else { try { date = DateFormat.getDateInstance().parse(src); } catch
-		 * (ParseException e) { dateField.setBackground(new Color(255, 48, 48));
-		 * dateField.requestFocusInWindow(); return src; } }
-		 */
+			
+			App app = cons.getApplication();
+			StringBuilder sb = new StringBuilder();
+			
+			String format = app.isRightToLeftReadingOrder() ? "\\j "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\Y" : "\\j\\S \\F \\Y";
+			
+			// in form 23rd September 2012
+			CmdGetTime.buildLocalizedDate(sb, format, app);
+			
+			return sb.toString();
+		}
+		
+		return src;
 
 	}
 
