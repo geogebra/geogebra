@@ -29,6 +29,7 @@ public class KeyboardSettings extends AbstractSettings {
 		supportedLocales.add("hi"); // Hindi		
 		supportedLocales.add("hu"); // Hungarian		
 		supportedLocales.add("ko"); // Korean
+		supportedLocales.add("mk"); // Macedonian
 		supportedLocales.add("ml"); // Malayalam
 		supportedLocales.add("no"); // Norwegian
 		supportedLocales.add("fa"); // Persian
