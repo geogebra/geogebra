@@ -277,8 +277,7 @@ public class Ggb2MPReduce {
 		p("Sequence.4",
 				"<<listofliststomat(<<begin scalar %1; return for %1:=(%2):(%3) collect (%0) end>>)>>");
 		p("Sequence.5",
-				"<<listofliststomat(<<begin scalar %1; return for %1:=(%2) step (%4) until (%3) collect (%0) end>>)>>");
-		p("SetSignificantNumbersNumeric.1", "printprecision!!:=(%0)");
+				"<<listofliststomat(<<begin scalar %1; return for %1:=(%2) step (%4) until (%3) collect (%0) end>>)>>");	
 		p("SD.1",
 				"<<begin scalar tmpmean, tmplist; tmplist:=(%0)$ tmpmean:=0$ tmpmean:= (1/length(tmplist))*for i:=1:length(tmplist) sum part(tmplist,i)$ return sqrt((1/length(tmplist))*for i:=1:length(tmplist) sum (part(tmplist,i)^2-tmpmean^2)) end>>");
 		p("Shuffle.1", "shuffle(%0)");
