@@ -19,7 +19,11 @@ public class KeyboardSettings extends AbstractSettings {
 	public static ArrayList<String> supportedLocales = new ArrayList<String>();
 	static {
 		supportedLocales.add("ar"); // Arabic
+		
+		// same keyboard layout currently
 		supportedLocales.add("hr"); // Croatian
+		supportedLocales.add("sr"); // Serbian
+		
 		supportedLocales.add("cs"); // Czech
 		supportedLocales.add("en_GB"); // English (UK)
 		supportedLocales.add("fr"); // French
