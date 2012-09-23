@@ -164,7 +164,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowData.setToolTipText(app.getMenu("ShowData"));
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
 		btnPrint.setToolTipText(app.getMenu("Print"));
-		btnDataSource.setToolTipText(app.getMenu("ShowSource"));
+		btnDataSource.setToolTipText(app.getPlain("ShowDataSource"));
 		
 		String swapString = app.getMenu("Column.X") + " \u21C6 "
 				+ app.getMenu("Column.Y");
