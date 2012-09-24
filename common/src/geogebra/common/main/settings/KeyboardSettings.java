@@ -20,9 +20,10 @@ public class KeyboardSettings extends AbstractSettings {
 	static {
 		supportedLocales.add("ar"); // Arabic
 		
-		// same keyboard layout currently
+		// same keyboard layout (TODO: combine)
 		supportedLocales.add("hr"); // Croatian
 		supportedLocales.add("sr"); // Serbian
+		supportedLocales.add("sl"); // Slovenian
 		
 		supportedLocales.add("cs"); // Czech
 		supportedLocales.add("en_GB"); // English (UK)
