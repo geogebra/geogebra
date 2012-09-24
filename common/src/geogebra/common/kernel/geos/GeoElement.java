@@ -63,6 +63,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.LaTeXCache;
+import geogebra.common.util.Language;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.SpreadsheetTraceSettings;
@@ -195,6 +196,12 @@ public abstract class GeoElement extends ConstructionElement implements
 																// '\u0640' (see
 																// later on)
 			'\u0648', '\u064a' };
+	
+	private static final char[] yiddish = { '\u05D1', '\u05D2', '\u05D3',
+			'\u05D4', '\u05D5', '\u05D6', '\u05D7', '\u05D8', '\u05DB',
+			'\u05DC', '\u05DE', '\u05E0', '\u05E1', '\u05E2', '\u05E4',
+			'\u05E6', '\u05E7', '\u05E8', '\u05E9', '\u05EA'
+	};
 
 	private static final char[] greekUpperCase = { // Michael Borcherds
 			// 2008-02-23
@@ -2950,10 +2957,13 @@ public abstract class GeoElement extends ConstructionElement implements
 				// use Greek upper case for labeling points if language is Greek
 				// (el)
 				if (app.isUsingLocalizedLabels()) {
-					if (app.languageIs("el")) {
+					if (app.languageIs(Language.Greek.locale)) {
 						chars = greekUpperCase;
-					} else if (app.languageIs("ar")) {
+					} else if (app.languageIs(Language.Arabic.locale)) {
+						// Arabic / Arabic (Morocco)
 						chars = arabic;
+					} else if (app.languageIs(Language.Yiddish.locale)) {
+						chars = yiddish;
 					} else {
 						chars = pointLabels;
 					}
