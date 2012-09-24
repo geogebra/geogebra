@@ -1218,8 +1218,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			} else if (piAxisUnit[axis]) {
 				axesNumberingDistances[axis] = Math.PI;
 			} else {
-				double pot = Math.pow(10, exp);
-				double n = units / pot;
+				// see #2682
+				double pot = Kernel.checkDecimalFraction(Math.pow(10, exp));
+				double n = Kernel.checkDecimalFraction(units / pot);
 
 				if (n > 5) {
 					axesNumberingDistances[axis] = 5 * pot;
