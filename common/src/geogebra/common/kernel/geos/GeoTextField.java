@@ -8,6 +8,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoPointInRegion;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -138,6 +139,20 @@ public class GeoTextField extends GeoButton {
 			StringUtil.encodeXML(sb, linkedGeo.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");			    		    	
 			sb.append("/>\n");
+
+			// print decimals
+			if (printDecimals >= 0 && !useSignificantFigures) {
+				sb.append("\t<decimals val=\"");
+				sb.append(printDecimals);
+				sb.append("\"/>\n");
+			}
+
+			// print significant figures
+			if (printFigures >= 0 && useSignificantFigures) {
+				sb.append("\t<significantfigures val=\"");
+				sb.append(printFigures);
+				sb.append("\"/>\n");
+			}
 		}
 		
 		if (getLength() != defaultLength) {
@@ -157,7 +172,6 @@ public class GeoTextField extends GeoButton {
 	 */
 	public void updateLinkedGeo(String inputText) {
 		String defineText = inputText;
-		StringTemplate tpl = StringTemplate.defaultTemplate;
 		if (linkedGeo.isGeoLine()) {
 
 			// not y=
@@ -194,12 +208,28 @@ public class GeoTextField extends GeoButton {
 		if ("".equals(defineText.trim())) {
 			return;
 		}
+		
+		double num = Double.NaN;
+		
+		// for a simple number, round it to the textfield setting (if set)
+		if (linkedGeo.isGeoNumeric() && !linkedGeo.isGeoAngle() && (printDecimals > -1 || printFigures > -1)) {
+			try {
+				num = Double.parseDouble(inputText);
+				defineText = kernel.format(num,  tpl);
+				
+			} catch (Exception e) {
+				// user has entered eg 33deg, 4*3, 2^10, ?
+				// do nothing
+				e.printStackTrace();
+			}
+		}
 
 		try {
 			linkedGeo = kernel
 					.getAlgebraProcessor()
 					.changeGeoElementNoExceptionHandling(linkedGeo,
 							defineText, false, true);
+			
 		} catch (Exception e1) {
 			app.showError(e1.getMessage());
 			return;
@@ -222,14 +252,14 @@ public class GeoTextField extends GeoButton {
 			if (linkedGeo.isGeoText()) {
 				linkedText = ((GeoText) linkedGeo).getTextString();
 			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath || linkedGeo.getParentAlgorithm() instanceof AlgoPointInRegion) {
-				linkedText = linkedGeo.toValueString(StringTemplate.defaultTemplate);
+				linkedText = linkedGeo.toValueString(tpl);
 			} else {
 
 				// want just a number for eg a=3 but we want variables for eg
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				linkedText = linkedGeo.getFormulaString(StringTemplate.defaultTemplate,
+				linkedText = linkedGeo.getFormulaString(tpl,
 						substituteNos);
 			}
 
@@ -316,6 +346,51 @@ public class GeoTextField extends GeoButton {
 			textField.requestFocus();
 		}
 	}
+	
+	private void updateTemplate() {
+
+		if (useSignificantFigures() && printFigures > -1) {
+			tpl = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
+		} else if (!useSignificantFigures && printDecimals > -1) {
+			tpl = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals, false);
+		} else {
+			tpl = StringTemplate.get(StringType.GEOGEBRA);
+		}
+	}
+
+
+	private int printDecimals = -1;
+	private int printFigures = -1;
+	private boolean useSignificantFigures = false;
+	private StringTemplate tpl = StringTemplate.defaultTemplate;
+	
+	public int getPrintDecimals() {
+		return printDecimals;
+	}
+
+	public int getPrintFigures() {
+		return printFigures;
+	}
+
+	public void setPrintDecimals(int printDecimals, boolean update) {
+		this.printDecimals = printDecimals;
+		printFigures = -1;
+		useSignificantFigures = false;
+		updateTemplate();
+	}
+
+	public void setPrintFigures(int printFigures, boolean update) {
+		this.printFigures = printFigures;
+		printDecimals = -1;
+		useSignificantFigures = true;
+		updateTemplate();
+	}
+
+	public boolean useSignificantFigures() {
+		return useSignificantFigures;
+	}
+
+
 
 
 }

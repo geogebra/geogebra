@@ -201,7 +201,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @param text2 text
 	 */
 	final public void setTextString(String text2) {
-		String text = text2;
+		String text = text2 == null ? "" : text2;
 		// Michael Borcherds 2008-05-11
 		// remove trailing linefeeds (FreeHEP EMF export doesn't like them)
 		while (text.length() > 1 && text.charAt(text.length() - 1) == '\n') {
@@ -453,7 +453,6 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * used for eg Text["text",(1,2)] to stop it being draggable
 	 */
 	boolean alwaysFixed = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
