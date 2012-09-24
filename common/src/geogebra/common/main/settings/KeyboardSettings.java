@@ -1,6 +1,7 @@
 package geogebra.common.main.settings;
 
 import geogebra.common.main.App;
+import geogebra.common.util.Language;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,29 +21,30 @@ public class KeyboardSettings extends AbstractSettings {
 	static {
 		supportedLocales.add("ar"); // Arabic
 		
-		// same keyboard layout (TODO: combine)
-		supportedLocales.add("hr"); // Croatian
-		supportedLocales.add("sr"); // Serbian
-		supportedLocales.add("sl"); // Slovenian
+		// same keyboard layout (TODO: maybe combine)
+		supportedLocales.add(Language.Croatian.locale); // Croatian
+		supportedLocales.add(Language.Serbian.locale); // Serbian
+		supportedLocales.add(Language.Slovenian.locale); // Slovenian
 		
-		supportedLocales.add("cs"); // Czech
-		supportedLocales.add("en_GB"); // English (UK)
-		supportedLocales.add("fr"); // French
-		supportedLocales.add("de"); // German
-		supportedLocales.add("el"); // Greek	
-		supportedLocales.add("fi"); // Finnish	
-		supportedLocales.add("iw"); // Hebrew
-		supportedLocales.add("hi"); // Hindi		
-		supportedLocales.add("hu"); // Hungarian		
-		supportedLocales.add("ko"); // Korean
-		supportedLocales.add("mk"); // Macedonian
-		supportedLocales.add("ml"); // Malayalam
-		supportedLocales.add("no"); // Norwegian
-		supportedLocales.add("fa"); // Persian
-		supportedLocales.add("pt_PT"); // Portuguese (Portugal)
-		supportedLocales.add("ru"); // Russian
-		supportedLocales.add("sk"); // Slovak
-		supportedLocales.add("es"); // Spanish
+		supportedLocales.add(Language.Czech.locale); // Czech
+		supportedLocales.add(Language.English_UK.locale); // English (UK)
+		supportedLocales.add(Language.French.locale); // French
+		supportedLocales.add(Language.German.locale); // German
+		supportedLocales.add(Language.Greek.locale); // Greek	
+		supportedLocales.add(Language.Finnish.locale); // Finnish	
+		supportedLocales.add(Language.Hebrew.locale); // Hebrew
+		supportedLocales.add(Language.Hindi.locale); // Hindi		
+		supportedLocales.add(Language.Hungarian.locale); // Hungarian		
+		supportedLocales.add(Language.Korean.locale); // Korean
+		supportedLocales.add(Language.Macedonian.locale); // Macedonian
+		supportedLocales.add(Language.Malayalam.locale); // Malayalam
+		supportedLocales.add("no"); // Norwegian (covers both)
+		supportedLocales.add(Language.Persian.locale); // Persian
+		//supportedLocales.add("pt_PT"); // Portuguese (Portugal)
+		supportedLocales.add(Language.Russian.locale); // Russian
+		supportedLocales.add(Language.Slovak.locale); // Slovak
+		supportedLocales.add(Language.Spanish.locale); // Spanish
+		supportedLocales.add(Language.Yiddish.locale);
 	}
 
 	private float keyboardOpacity = 0.7f;
