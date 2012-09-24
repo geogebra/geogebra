@@ -27,3 +27,5 @@ RECIPIENT=geogebra-dev@googlegroups.com
 MAILSERVERSSHLOGIN=build@dev.geogebra.org
 MAILSERVERSSHPORT=22
 MAILSERVERSSHKEY=...keyfile...
+
+LOCKFILE=/tmp/autotest.lock

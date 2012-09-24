@@ -10,7 +10,12 @@ test -r autotest.conf && . ./autotest.conf
 
 while [ true ]; do
  date
+ echo "trunk" $LOCKFILE
  ./build-latest && ./alarm
+ rm -f $LOCKFILE
  date
  sleep $WAITBETWEENBUILDS
+ while [ -e $LOCKFILE ]; do
+  sleep $WAITBETWEENBUILDS
+  done
  done
