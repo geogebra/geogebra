@@ -79,9 +79,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private int pixelWidth, pixelHeight;
 	private final NumberFormat sizeLabelFormat;
 
-	private boolean textAsShapes = true;
-	private boolean transparent = true;
-	private boolean EMFPlus = true;
+	boolean textAsShapes = true;
+	boolean transparent = true;
+	boolean EMFPlus = true;
 
 	private final int FORMAT_PNG = 0;
 	private final int FORMAT_PDF = 1;
@@ -607,7 +607,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 		try {
 			
-			exportPDF(app, getEuclidianView(), file, exportToClipboard, pixelWidth, pixelHeight, exportScale);
+			exportPDF(app, getEuclidianView(), file, textAsShapes, pixelWidth, pixelHeight, exportScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
