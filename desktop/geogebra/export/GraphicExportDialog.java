@@ -241,13 +241,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				textAsShapesCB.setEnabled(true);
 				switch (cbFormat.getSelectedIndex()) {
 				case FORMAT_SVG:
-				case FORMAT_PDF:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.remove(cbTransparent);
 					dpiPanel.add(textAsShapesCB);
 					break;
+				case FORMAT_PDF:
 				case FORMAT_EPS:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
