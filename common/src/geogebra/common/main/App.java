@@ -2811,8 +2811,7 @@ public abstract class App {
 	public abstract GFont getPlainFontCommon();
 
 	public boolean isExporting() {
-		// TODO Auto-generated method stub
-		return false;
+		return exporting;
 	}
 
 	/**
