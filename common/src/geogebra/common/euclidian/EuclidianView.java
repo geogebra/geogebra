@@ -2712,8 +2712,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            graphics
 	 */
 	final protected void drawGrid(geogebra.common.awt.GGraphics2D g2) {
-		g2.setColor(gridColor);
-		g2.setStroke(gridStroke);
 
 		// vars for handling positive-only axes
 		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
@@ -2726,6 +2724,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		if (gridType != GRID_POLAR) {
 			g2.setClip(xAxisStart, 0, getWidth(), yAxisEnd);
 		}
+
+		// this needs to be after setClip()
+		// bug in FreeHEP (PDF export)
+		// #2683
+		g2.setColor(gridColor);
+		g2.setStroke(gridStroke);
 
 		switch (gridType) {
 
