@@ -10,7 +10,7 @@ test -r autotest.conf && . ./autotest.conf
 
 while [ true ]; do
  date
- echo "trunk" $LOCKFILE
+ echo "trunk" > $LOCKFILE
  ./build-latest && ./alarm
  rm -f $LOCKFILE
  date
