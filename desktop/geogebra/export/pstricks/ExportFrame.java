@@ -317,7 +317,7 @@ abstract public class ExportFrame extends JFrame{
 		menu.setActionCommand("combo");
 		setLayout(new BorderLayout());
 		add(menu,BorderLayout.NORTH);
-		add(button,BorderLayout.EAST);
+		add(button,app.borderEast());
 		add(zone,BorderLayout.CENTER);
 		setSize(200,300);
 		setVisible(true);

@@ -137,7 +137,7 @@ public class SliderDialog extends JDialog
 		labelPanel.add(tfLabel, BorderLayout.NORTH);
 		labelPanel.add(cbRandom, BorderLayout.SOUTH);
 		topPanel.add(labelPanel, BorderLayout.CENTER);
-		topPanel.add(radioPanel, BorderLayout.WEST);
+		topPanel.add(radioPanel, app.borderWest());
 
 		// slider panels		
 		sliderPanel = new SliderPanel(app, null, true, false);			

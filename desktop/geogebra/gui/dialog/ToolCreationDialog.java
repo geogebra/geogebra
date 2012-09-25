@@ -648,7 +648,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		btRemove.setToolTipText(app.getPlainTooltip("Remove"));
 		outputButtonPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 		outputButtonPanel.add(btRemove);
-		centerPanel.add(outputButtonPanel, BorderLayout.EAST);
+		centerPanel.add(outputButtonPanel, app.borderEast());
 
 		// listener for buttons
 		ActionListener ac = new ActionListener() {

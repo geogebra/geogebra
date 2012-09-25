@@ -490,7 +490,7 @@ public class WorksheetExportDialog extends JDialog {
 		});
 		
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(app.getPlain("Title") + ": "), BorderLayout.WEST);
+		p.add(new JLabel(app.getPlain("Title") + ": "), app.borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		panel.add(p, BorderLayout.NORTH);
 		
@@ -561,7 +561,7 @@ public class WorksheetExportDialog extends JDialog {
 		funcPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("Functionality")));
 		funcPanel.setLayout(new BoxLayout(funcPanel, BoxLayout.Y_AXIS));
-		tab.add(funcPanel, BorderLayout.WEST);
+		tab.add(funcPanel, app.borderWest());
 
 		// enable right click
 		cbEnableRightClick = new JCheckBox(app.getMenu("EnableRightClick"));
@@ -587,7 +587,7 @@ public class WorksheetExportDialog extends JDialog {
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 		guiPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("UserInterface")));
-		tab.add(guiPanel, BorderLayout.EAST);
+		tab.add(guiPanel, app.borderEast());
 
 		// two columns
 		JPanel guiPanelWest = new JPanel();
@@ -596,8 +596,8 @@ public class WorksheetExportDialog extends JDialog {
 		guiPanelEast.setLayout(new BoxLayout(guiPanelEast, BoxLayout.Y_AXIS));
 		JPanel twoColumns = new JPanel();
 		twoColumns.setLayout(new BorderLayout());
-		twoColumns.add(guiPanelEast, BorderLayout.EAST);
-		twoColumns.add(guiPanelWest, BorderLayout.WEST);
+		twoColumns.add(guiPanelEast, app.borderEast());
+		twoColumns.add(guiPanelWest, app.borderWest());
 		twoColumns.setAlignmentX(LEFT_ALIGNMENT);
 		guiPanel.add(twoColumns);
 
@@ -655,8 +655,8 @@ public class WorksheetExportDialog extends JDialog {
 		filePanelEast.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		JPanel fileTwoColumns = new JPanel();
 		fileTwoColumns.setLayout(new BorderLayout());
-		fileTwoColumns.add(filePanelEast, BorderLayout.EAST);
-		fileTwoColumns.add(filePanelWest, BorderLayout.WEST);
+		fileTwoColumns.add(filePanelEast, app.borderEast());
+		fileTwoColumns.add(filePanelWest, app.borderWest());
 		fileTwoColumns.setAlignmentX(LEFT_ALIGNMENT);
 		filePanel.add(fileTwoColumns);
 

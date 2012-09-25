@@ -256,7 +256,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 			panel.add(restoreDefaultsButton);
 		}
 
-		buttonPanel.add(panel, BorderLayout.WEST);
+		buttonPanel.add(panel, app.borderWest());
 
 		// (save and close on the right side)
 		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -279,7 +279,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 			}
 		});
 		panel.add(closeButton);
-		buttonPanel.add(panel, BorderLayout.EAST);
+		buttonPanel.add(panel, app.borderEast());
 
 		add(buttonPanel, BorderLayout.SOUTH);
 

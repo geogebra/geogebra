@@ -271,7 +271,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					|| orientation == SwingConstants.WEST) {
 				// p2.add(undoPanel);
 			}
-			p.add(p2, BorderLayout.EAST);
+			p.add(p2, app.borderEast());
 
 		}
 

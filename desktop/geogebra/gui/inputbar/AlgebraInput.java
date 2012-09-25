@@ -117,11 +117,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		// create sub-panels				 		
 		JPanel labelPanel = new JPanel(new BorderLayout());
 		
-		labelPanel.add(inputLabel, BorderLayout.EAST);
+		labelPanel.add(inputLabel, app.borderEast());
 
 		JPanel eastPanel = new JPanel(new BorderLayout());
 		if (app.showInputHelpToggle()) {
-			eastPanel.add(btnHelpToggle, BorderLayout.WEST);
+			eastPanel.add(btnHelpToggle, app.borderWest());
 		}
 		
 		labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10, 0, 2));
@@ -129,9 +129,9 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputPanel.setBorder(BorderFactory.createEmptyBorder(2,0,2,0));
 		
 		setLayout(new BorderLayout(0,0));
-		add(labelPanel, BorderLayout.WEST);
+		add(labelPanel, app.borderWest());
 		add(inputPanel, BorderLayout.CENTER);
-		add(eastPanel, BorderLayout.EAST);
+		add(eastPanel, app.borderEast());
 
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		setLabels();

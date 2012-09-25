@@ -71,7 +71,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 		panel.setLayout(new BorderLayout());
 		
 		//add title label
-		panel.add(super.createFocusPanel(), BorderLayout.WEST);
+		panel.add(super.createFocusPanel(), app.borderWest());
 		
 		return panel;
 	}

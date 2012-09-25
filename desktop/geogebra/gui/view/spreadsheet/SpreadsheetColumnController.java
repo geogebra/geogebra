@@ -474,10 +474,10 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 				btnTrace.setIcon(traceIcon);
 
 			if (app.getTraceManager().isTraceColumn(colIndex)) {
-				this.add(btnTrace, BorderLayout.WEST);
+				this.add(btnTrace, app.borderWest());
 			} else {
-				if (layout.getLayoutComponent(BorderLayout.WEST) != null) {
-					this.remove(layout.getLayoutComponent(BorderLayout.WEST));
+				if (layout.getLayoutComponent(app.borderWest()) != null) {
+					this.remove(layout.getLayoutComponent(app.borderWest()));
 				}
 			}
 
@@ -506,7 +506,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 				Component c = getTableCellRendererComponent(table, value,
 						false, false, -1, colIndex);
 
-				// layout.getLayoutComponent(BorderLayout.WEST).getBounds(rect);
+				// layout.getLayoutComponent(app.borderWest()).getBounds(rect);
 				btnTrace.getBounds(rect);
 
 				// System.out.println(loc.toString() + "  :  " +

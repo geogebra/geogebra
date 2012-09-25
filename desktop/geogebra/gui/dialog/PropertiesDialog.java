@@ -166,8 +166,8 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		JPanel buttonPanel = new JPanel(new BorderLayout());
 		JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
-		buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
+		buttonPanel.add(rightButtonPanel, app.borderEast());
+		buttonPanel.add(leftButtonPanel, app.borderWest());
 
 		// left buttons
 		if (app.letDelete())

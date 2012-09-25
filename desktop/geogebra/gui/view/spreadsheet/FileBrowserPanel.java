@@ -177,8 +177,8 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		buttonPanel.add(minimizeButton);
 
 		JPanel header = new JPanel(new BorderLayout());
-		header.add(toolbar, BorderLayout.WEST);
-		header.add(buttonPanel, BorderLayout.EAST);
+		header.add(toolbar, app.borderWest());
+		header.add(buttonPanel, app.borderEast());
 		// header.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 		// .createEtchedBorder(), BorderFactory.createEmptyBorder(2, 5, 2,5)));
 

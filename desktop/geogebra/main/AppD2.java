@@ -55,13 +55,13 @@ public class AppD2 {
 			southPanel.add(toolBarContainer, BorderLayout.NORTH);
 			break;
 		case SwingConstants.EAST:
-			eastPanel.add(toolBarContainer, BorderLayout.EAST);
+			eastPanel.add(toolBarContainer, app.borderEast());
 			if (showToolBarHelp && helpPanel != null) {
 				northPanel.add(helpPanel, BorderLayout.NORTH);
 			}
 			break;
 		case SwingConstants.WEST:
-			westPanel.add(toolBarContainer, BorderLayout.WEST);
+			westPanel.add(toolBarContainer, app.borderWest());
 			if (showToolBarHelp && helpPanel != null) {
 				northPanel.add(helpPanel, BorderLayout.NORTH);
 			}

@@ -172,7 +172,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		createInferenceTypeComboBox();
 
 		selectionPanel = new JPanel(new BorderLayout());
-		selectionPanel.add(cbInferenceMode, BorderLayout.WEST);
+		selectionPanel.add(cbInferenceMode, app.borderWest());
 	}
 
 

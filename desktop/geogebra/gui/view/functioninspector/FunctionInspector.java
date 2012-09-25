@@ -257,7 +257,7 @@ KeyListener, SpecialNumberFormatInterface {
 
 		headerPanel = new JPanel(new BorderLayout());
 		headerPanel.add(lblGeoName, BorderLayout.CENTER);	
-		headerPanel.add(helpPanel,BorderLayout.EAST);
+		headerPanel.add(helpPanel,app.borderEast());
 		headerPanel.setBorder(BorderFactory.createEmptyBorder(2,5,2,2));
 	}
 
@@ -319,8 +319,8 @@ KeyListener, SpecialNumberFormatInterface {
 		// create the panel
 		
 		JPanel northPanel = new JPanel(new BorderLayout());
-		northPanel.add(tb1,BorderLayout.WEST);
-		northPanel.add(tb2,BorderLayout.EAST);
+		northPanel.add(tb1,app.borderWest());
+		northPanel.add(tb2,app.borderEast());
 
 		JPanel southPanel = new JPanel(new BorderLayout());
 		southPanel.add(toggleGraphicsPanel,BorderLayout.CENTER);

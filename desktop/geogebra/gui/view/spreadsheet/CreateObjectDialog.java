@@ -175,14 +175,14 @@ public class CreateObjectDialog extends InputDialogD implements
 			objectType = TYPE_LIST;
 			typePanel = new JPanel(new BorderLayout());
 			typePanel.add(lblObject, BorderLayout.NORTH);
-			typePanel.add(typeList, BorderLayout.WEST);
+			typePanel.add(typeList, app.borderWest());
 			typeList.setBorder(BorderFactory.createEmptyBorder(6, 2, 2, 2));
 			typePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			optionPane.add(typePanel, BorderLayout.WEST);
+			optionPane.add(typePanel, app.borderWest());
 		}
 
 		namePanel = new JPanel(new BorderLayout());
-		// namePanel.add(lblName, BorderLayout.WEST);
+		// namePanel.add(lblName, app.borderWest());
 		namePanel.add(fldName, BorderLayout.CENTER);
 
 		buildOptionsPanel();
@@ -197,7 +197,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		previewPanel.setBackground(this.wrappedDialog.getBackground());
 
 		JPanel op = new JPanel(new BorderLayout());
-		op.add(p, BorderLayout.WEST);
+		op.add(p, app.borderWest());
 		op.add(previewPanel, BorderLayout.CENTER);
 
 		previewPanel.setPreferredSize(new Dimension(200,
@@ -217,7 +217,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		JPanel northPanel = new JPanel(new BorderLayout());
 		// northPanel.add(namePanel,BorderLayout.NORTH);
 		// northPanel.add(Box.createRigidArea(new Dimension(50,10)),
-		// BorderLayout.WEST);
+		// app.borderWest());
 		northPanel.add(copyPanel, BorderLayout.CENTER);
 
 		JPanel orderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -243,7 +243,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		optionsPanel = new JPanel(new BorderLayout());
 		optionsPanel.add(northPanel, BorderLayout.NORTH);
 		// optionsPanel.add(Box.createRigidArea(new Dimension(50,10)),
-		// BorderLayout.WEST);
+		// app.borderWest());
 		optionsPanel.add(cards, BorderLayout.CENTER);
 
 		// lblPreviewHeader = new JLabel();

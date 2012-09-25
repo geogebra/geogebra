@@ -178,7 +178,7 @@ public class PropertiesViewD extends
 	 * 
 	 * panel.add(restoreDefaultsButton); }
 	 * 
-	 * buttonPanel.add(panel, BorderLayout.WEST);
+	 * buttonPanel.add(panel, app.borderWest());
 	 * 
 	 * 
 	 * // (save and close on the right side) panel = new JPanel(new
@@ -192,7 +192,7 @@ public class PropertiesViewD extends
 	 * panel.add(saveButton); }
 	 * 
 	 * 
-	 * buttonPanel.add(panel, BorderLayout.EAST);
+	 * buttonPanel.add(panel, app.borderEast());
 	 * 
 	 * 
 	 * }

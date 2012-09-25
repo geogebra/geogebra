@@ -125,9 +125,9 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	private void createControlPanel() {
 
 		controlPanel = new JPanel(new BorderLayout());
-		controlPanel.add(LayoutUtil.flowPanel(cbProcedure), BorderLayout.WEST);
+		controlPanel.add(LayoutUtil.flowPanel(cbProcedure), app.borderWest());
 		controlPanel
-				.add(LayoutUtil.flowPanel(btnCalculate), BorderLayout.EAST);
+				.add(LayoutUtil.flowPanel(btnCalculate), app.borderEast());
 
 	}
 

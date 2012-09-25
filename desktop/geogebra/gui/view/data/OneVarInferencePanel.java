@@ -620,9 +620,9 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		if(south != null)
 			p.add(south, BorderLayout.SOUTH);
 		if(west != null)
-			p.add(west, BorderLayout.WEST);
+			p.add(west, app.borderWest());
 		if(east != null)
-			p.add(east, BorderLayout.EAST);
+			p.add(east, app.borderEast());
 
 		//	p.setBackground(Color.white);
 		return p;

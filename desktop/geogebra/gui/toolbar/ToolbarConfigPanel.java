@@ -104,7 +104,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 				
 		scrollPanel.setPreferredSize(new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
 		//
-		selectionPanel.add(scrollPanel, BorderLayout.WEST);
+		selectionPanel.add(scrollPanel, app.borderWest());
 		//
 		
 		JPanel buttonPanel = new JPanel();

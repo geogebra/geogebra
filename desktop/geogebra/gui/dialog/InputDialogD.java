@@ -239,8 +239,8 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		btPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		btPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonsPanel = new JPanel(new BorderLayout(5, 5));
-		buttonsPanel.add(btPanel2, BorderLayout.WEST); // used for Help or
-		buttonsPanel.add(btPanel, BorderLayout.EAST);
+		buttonsPanel.add(btPanel2, app.borderWest()); // used for Help or
+		buttonsPanel.add(btPanel, app.borderEast());
 
 		// add buttons to panels
 		loadBtPanel(showApply);

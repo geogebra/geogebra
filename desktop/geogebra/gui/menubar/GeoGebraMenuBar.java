@@ -380,7 +380,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 				
 				app.showMessage(app.getPlain("SystemInformationMessage"));
 			}
-		}), BorderLayout.EAST);
+		}), app.borderEast());
 
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.add(systemInfoPanel, BorderLayout.NORTH);

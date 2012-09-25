@@ -72,21 +72,21 @@ public class TitlePanel extends JPanel {
 		updateData();
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(app.getPlain("Title") + ": "), BorderLayout.WEST);
+		p.add(new JLabel(app.getPlain("Title") + ": "), app.borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		add(p, BorderLayout.NORTH);
 
 		p = new JPanel(new BorderLayout(5, 5));
 		JPanel p1 = new JPanel(new BorderLayout());
-		p1.add(new JLabel(app.getPlain("Author") + ": "), BorderLayout.WEST);
+		p1.add(new JLabel(app.getPlain("Author") + ": "), app.borderWest());
 		p1.add(authorField, BorderLayout.CENTER);
 		p.add(p1, BorderLayout.CENTER);
 
 		p1 = new JPanel(new BorderLayout());
-		p1.add(new JLabel(app.getPlain("Date") + ": "), BorderLayout.WEST);
+		p1.add(new JLabel(app.getPlain("Date") + ": "), app.borderWest());
 		p1.add(dateField, BorderLayout.CENTER);
 
-		p.add(p1, BorderLayout.EAST);
+		p.add(p1, app.borderEast());
 		add(p, BorderLayout.CENTER);
 
 		setBorder(BorderFactory.createCompoundBorder(BorderFactory

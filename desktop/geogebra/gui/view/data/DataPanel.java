@@ -152,7 +152,7 @@ public class DataPanel extends JPanel implements ActionListener,
 
 		Corner upperLeftCorner = new Corner();
 		upperLeftCorner.setLayout(new BorderLayout());
-		upperLeftCorner.add(btnEnableAll, BorderLayout.WEST);
+		upperLeftCorner.add(btnEnableAll, app.borderWest());
 
 		upperLeftCorner.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 1, TABLE_GRID_COLOR),

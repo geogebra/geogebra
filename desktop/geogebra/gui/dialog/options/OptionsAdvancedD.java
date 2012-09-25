@@ -316,8 +316,8 @@ public class OptionsAdvancedD extends
 		guiPanelEast.setLayout(new BoxLayout(guiPanelEast, BoxLayout.Y_AXIS));
 		JPanel twoColumns = new JPanel();
 		twoColumns.setLayout(new BorderLayout());
-		twoColumns.add(guiPanelEast, BorderLayout.EAST);
-		twoColumns.add(guiPanelWest, BorderLayout.WEST);
+		twoColumns.add(guiPanelEast, app.borderEast());
+		twoColumns.add(guiPanelWest, app.borderWest());
 		twoColumns.setAlignmentX(Component.LEFT_ALIGNMENT);
 		miscPanel.add(twoColumns);
 

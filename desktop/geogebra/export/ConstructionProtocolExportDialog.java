@@ -90,7 +90,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 				app.getPlain("InsertPictureOfAllOpenViews"));
 		cbScreenshotPicture.setSelected(false);
 
-		picPanel.add(cbDrawingPadPicture, BorderLayout.WEST);
+		picPanel.add(cbDrawingPadPicture, app.borderWest());
 		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
 			picPanel.add(cbScreenshotPicture, BorderLayout.SOUTH);
 		}

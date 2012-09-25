@@ -46,7 +46,7 @@ public class CASOutputPanel extends JPanel {
 		latexPanel.setForeground(Color.black);
 		latexPanel.setBackground(Color.white);
 		
-		add(outputSign, BorderLayout.WEST);
+		add(outputSign, app.borderWest());
 		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		centerPanel.setBackground(Color.white);
 		centerPanel.add(outputArea);

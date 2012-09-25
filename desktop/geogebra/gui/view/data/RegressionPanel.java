@@ -117,7 +117,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		// put it all together
 		regressionPanel = new JPanel(new BorderLayout(30, 0));
 		regressionPanel.add(modelPanel, BorderLayout.CENTER);
-		regressionPanel.add(cbPanel, BorderLayout.WEST);
+		regressionPanel.add(cbPanel, app.borderWest());
 		regressionPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("RegressionModel")));
 
@@ -149,7 +149,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		p.add(fldOutputY);
 
 		predictionPanel = new JPanel(new BorderLayout());
-		predictionPanel.add(p, BorderLayout.WEST);
+		predictionPanel.add(p, app.borderWest());
 
 	}
 

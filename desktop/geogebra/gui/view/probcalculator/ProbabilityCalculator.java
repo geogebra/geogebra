@@ -564,7 +564,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// distribution combo box panel
 		JPanel cbPanel = new JPanel(new BorderLayout());
-		cbPanel.add(comboDistribution, BorderLayout.WEST);
+		cbPanel.add(comboDistribution, app.borderWest());
 
 		// parameter panel
 		JPanel parameterPanel = new JPanel(
@@ -587,9 +587,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.add(LayoutUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
-				BorderLayout.WEST);
+				app.borderWest());
 		p.add(LayoutUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
-				Box.createHorizontalStrut(10)), BorderLayout.EAST);
+				Box.createHorizontalStrut(10)), app.borderEast());
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));

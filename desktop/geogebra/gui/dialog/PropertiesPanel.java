@@ -1248,7 +1248,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			// put the sub-panels together
 			setLayout(new BorderLayout());
 			add(colorChooserContainer, BorderLayout.NORTH);
-			add(southPanel, BorderLayout.WEST);
+			add(southPanel, app.borderWest());
 
 		}
 
@@ -3522,21 +3522,21 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			clickScriptPanel.add(clickDialog.getButtonPanel(),
-					BorderLayout.EAST);
+					app.borderEast());
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
 			updateScriptPanel.add(
 					updateDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
-					BorderLayout.EAST);
+					app.borderEast());
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
 			globalScriptPanel.add(
 					globalDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
-					BorderLayout.EAST);
+					app.borderEast());
 
 			add(tabbedPane, BorderLayout.CENTER);
 

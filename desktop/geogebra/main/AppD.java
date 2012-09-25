@@ -999,16 +999,16 @@ public class AppD extends App implements
 			// (this puts them outside, not sandwiched between north/south)
 			JPanel mainPanel = new JPanel(new BorderLayout());
 			mainPanel.add(northSouthCenter, BorderLayout.CENTER);
-			mainPanel.add(eastPanel, BorderLayout.EAST);
-			mainPanel.add(westPanel, BorderLayout.WEST);
+			mainPanel.add(eastPanel, borderEast());
+			mainPanel.add(westPanel, borderWest());
 			
 			applicationPanel.add(mainPanel, BorderLayout.CENTER);
 
 			if (showDockBar && !isApplet()) {
 				if (dockBar.isEastOrientation())
-					applicationPanel.add((Component) dockBar, BorderLayout.EAST);
+					applicationPanel.add((Component) dockBar, borderEast());
 				else {
-					applicationPanel.add((Component) dockBar, BorderLayout.WEST);
+					applicationPanel.add((Component) dockBar, borderWest());
 				}
 			}
 
@@ -5104,10 +5104,10 @@ public class AppD extends App implements
 	 * 
 	 * return East/West as appropriate for eg Hebrew / Arabic
 	 * 
-	 * return String rather than BorderLayout.EAST so we're not dependent on awt
+	 * return String rather than app.borderEast() so we're not dependent on awt
 	 */
 	public String borderEast() {
-		//return BorderLayout.EAST;
+		//return app.borderEast();
 		if (isRightToLeftReadingOrder()) {
 			return "West";
 		} else {
@@ -5120,11 +5120,10 @@ public class AppD extends App implements
 	 * 
 	 * return East/West as appropriate for eg Hebrew / Arabic
 	 * 
-	 * return String rather than BorderLayout.West so we're not dependent on awt
+	 * return String rather than app.borderWest() so we're not dependent on awt
 	 */
 	public String borderWest() {
-		// TODO Auto-generated method stub
-		//return BorderLayout.WEST;
+		//return app.borderWest();
 		if (!isRightToLeftReadingOrder()) {
 			return "West";
 		} else {

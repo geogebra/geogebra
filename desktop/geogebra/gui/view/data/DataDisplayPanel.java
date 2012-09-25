@@ -243,10 +243,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			// control panel
 			controlPanel = new JPanel(new BorderLayout(0, 0));
-			controlPanel.add(flowPanel(cbDisplayType), BorderLayout.WEST);
+			controlPanel.add(flowPanel(cbDisplayType), app.borderWest());
 			controlPanel.add(controlCards, BorderLayout.CENTER);
 			controlPanel.add(flowPanelRight(btnOptions, btnExport),
-					BorderLayout.EAST);
+					app.borderEast());
 		}
 
 		plotPanel = new PlotPanelEuclidianView(app.getKernel(),
@@ -303,7 +303,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			mainPanel.add(controlPanel, BorderLayout.NORTH);
 		}
 		mainPanel.add(displayCardPanel, BorderLayout.CENTER);
-		mainPanel.add(optionsPanel, BorderLayout.EAST);
+		mainPanel.add(optionsPanel, app.borderEast());
 
 		this.setLayout(new BorderLayout(0, 0));
 		this.add(mainPanel, BorderLayout.CENTER);

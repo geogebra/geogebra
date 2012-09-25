@@ -261,12 +261,12 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		if (mode == DataAnalysisViewD.MODE_MULTIVAR) {
 			sourceControlPanel.add(
 					LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
-					BorderLayout.WEST);
+					app.borderWest());
 		}
 
 		sourceControlPanel.add(
 				LayoutUtil.flowPanel(0, 0, 0, btnClear, btnOptions),
-				BorderLayout.EAST);
+				app.borderEast());
 
 	}
 
@@ -296,7 +296,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		dataTypePanel.add(LayoutUtil.flowPanel(tab, ckHeader));
 		// dataTypePanel.add(OptionsUtil.flowPanel(tab, btnOptions));
 
-		// controlPanel.add(OptionsUtil.flowPanel(lblTitle), BorderLayout.WEST);
+		// controlPanel.add(OptionsUtil.flowPanel(lblTitle), app.borderWest());
 		// controlPanel.add(OptionsUtil.flowPanel(btnOptions),
 		// BorderLayout.NORTH);
 		if (showOptionsPanel) {
@@ -1006,7 +1006,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			p.add(lblSource, BorderLayout.CENTER);
 
 			if (!lblTitle.getText().equals(app.getMenu("Classes"))) {
-				p.add(btnSelect, BorderLayout.WEST);
+				p.add(btnSelect, app.borderWest());
 
 				if (btnHoverColumn == vColIndex) {
 					btnSelect.setIcon(rolloverSelectIcon);

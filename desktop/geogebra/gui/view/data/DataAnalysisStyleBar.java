@@ -127,7 +127,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		fldDataSource = new MyTextField(app);
 
 		JPanel dataSourcePanel = new JPanel(new BorderLayout(5, 0));
-		//dataSourcePanel.add(btnDataSource, BorderLayout.WEST);
+		//dataSourcePanel.add(btnDataSource, app.borderWest());
 		//dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
 
 		dataSourcePanel.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 5));

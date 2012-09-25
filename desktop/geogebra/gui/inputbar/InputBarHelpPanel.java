@@ -133,7 +133,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		titleLabel = new JLabel();
 		// titleLabel.setForeground(Color.darkGray);
 
-		titlePanel.add(titleLabel, BorderLayout.WEST);
+		titlePanel.add(titleLabel, app.borderWest());
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(scroller, BorderLayout.CENTER);
@@ -175,7 +175,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		syntaxLabel = new JLabel();
 		syntaxLabel.setForeground(Color.darkGray);
-		titlePanel.add(syntaxLabel, BorderLayout.WEST);
+		titlePanel.add(syntaxLabel, app.borderWest());
 
 		syntaxHelpPanel = new JPanel(new BorderLayout());
 		JScrollPane scroller = new JScrollPane(helpTextPane);
@@ -220,8 +220,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		rightPanel.add(btnRefresh);
 
 		JPanel buttonPanel = new JPanel(new BorderLayout());
-		buttonPanel.add(leftPanel, BorderLayout.WEST);
-		buttonPanel.add(rightPanel, BorderLayout.EAST);
+		buttonPanel.add(leftPanel, app.borderWest());
+		buttonPanel.add(rightPanel, app.borderEast());
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
@@ -281,14 +281,14 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		fcnTree.setRowHeight(-1);
 
 		JPanel fPanel = new JPanel(new BorderLayout());
-		fPanel.add(Box.createRigidArea(new Dimension(35, 1)), BorderLayout.WEST);
+		fPanel.add(Box.createRigidArea(new Dimension(35, 1)), app.borderWest());
 		fPanel.add(functionTable, BorderLayout.CENTER);
 		fPanel.setBackground(bgColor);
 
 		tablePanel = new JPanel(new BorderLayout());
 		tablePanel.add(fcnTree, BorderLayout.NORTH);
 
-		tablePanel.add(fPanel, BorderLayout.WEST);
+		tablePanel.add(fPanel, app.borderWest());
 		functionTable.setAlignmentX(LEFT_ALIGNMENT);
 
 		tablePanel.setBackground(bgColor);

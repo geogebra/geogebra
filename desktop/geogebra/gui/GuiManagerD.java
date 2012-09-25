@@ -1023,7 +1023,7 @@ public class GuiManagerD extends GuiManager {
 			String flag = StringUtil.toLowerCase(country)+".png";
 			JMenuItem jj = new JMenuItem(((AppD)app).getFlagIcon(flag));
 			jj.setAlignmentX(100);
-			menuBar2.add(jj, BorderLayout.EAST);
+			menuBar2.add(jj, ((AppD) app).borderEast());
 
 			
 		}

@@ -436,9 +436,9 @@ implements
 		promptPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		//promptPanel.setVisible(false);
 		
-		buttonPanel.add(closeCancelPanel, BorderLayout.EAST);
+		buttonPanel.add(closeCancelPanel, app.borderEast());
 		//buttonPanel.add(promptPanel, BorderLayout.CENTER);	
-		buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
+		buttonPanel.add(leftButtonPanel, app.borderWest());
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));	
 		//buttonPanel.setPreferredSize(new Dimension(400,50));
 		

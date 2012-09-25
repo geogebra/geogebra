@@ -294,7 +294,7 @@ public class PrintPreview extends JDialog {
 
 		JPanel buttonPanel = new JPanel(new BorderLayout(2, 2));
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-		buttonPanel.add(westPanel, BorderLayout.WEST);
+		buttonPanel.add(westPanel, app.borderWest());
 
 		// title
 		TitlePanel titlePanel = new TitlePanel(app);

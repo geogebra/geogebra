@@ -483,7 +483,7 @@ public class StatTable extends JScrollPane {
 
 			setLayout(new BorderLayout());
 			comboBox = new JComboBox(items);
-			add(comboBox, BorderLayout.EAST);
+			add(comboBox, app.borderEast());
 			if (text != null) {
 				label = new JLabel(text);
 				add(label, BorderLayout.CENTER);

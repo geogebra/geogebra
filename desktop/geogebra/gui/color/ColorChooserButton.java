@@ -196,7 +196,7 @@ public class ColorChooserButton extends JButton{
 					pack();
 				}
 			});
-			metaPanel.add(pickButton, BorderLayout.WEST);
+			metaPanel.add(pickButton, app.borderWest());
 			
 			pickerPanel = new JPanel(new BorderLayout());
 			pickerPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
@@ -222,11 +222,11 @@ public class ColorChooserButton extends JButton{
 					colorPicker.setModeParam(slider.getValue() / 100.0f);
 				}
 			});
-			pickerPanel.add(slider, BorderLayout.EAST);
+			pickerPanel.add(slider, app.borderEast());
 			pickerPanel.setVisible(false);
 			metaPanel.add(pickerPanel, BorderLayout.CENTER);
 			
-			add(metaPanel, BorderLayout.EAST);*/
+			add(metaPanel, app.borderEast());*/
 		}
 
 		/** 
