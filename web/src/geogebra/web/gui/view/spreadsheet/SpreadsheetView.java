@@ -17,6 +17,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
 import java.util.HashMap;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -76,6 +77,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	//private JPanel spreadsheetPanel;
 
 	//private SpreadsheetViewDnD dndHandler;
+
+	private boolean repaintScheduled = false;// to repaint less often, make it quicker
 
 	/******************************************************
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
@@ -272,6 +275,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		// kernel.notifyRemoveAll(this);
 	}
 
+
+
 	public void add(GeoElement geo) {
 
 		// Application.debug(new Date() + " ADD: " + geo);
@@ -284,6 +289,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 					true));
 		*/
+
+		scheduleRepaint();
 	}
 
 	public void remove(GeoElement geo) {
@@ -304,6 +311,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		case LIST:
 			table.oneClickEditMap.remove(geo);
 		}
+		scheduleRepaint();
 	}
 
 	public void rename(GeoElement geo) {
@@ -1312,5 +1320,17 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	public void repaint() {
 		//TODO implementation needed
 		table.repaint();
+	}
+
+	public void scheduleRepaint() {
+		if (!repaintScheduled) {
+			repaintScheduled = true;
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				public void execute() {
+					repaintScheduled = false;
+					repaint();
+				}
+			});
+		}
 	}
 }

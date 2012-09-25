@@ -160,6 +160,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// selection methods that do not receive key events.
 	protected boolean metaDown = false;
 
+	boolean repaintAll = false;// sometimes only the repainting of borders/background is needed
+
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
@@ -315,7 +317,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		getElement().addClassName("geogebraweb-table-spreadsheet");
 
-		renderCells();
+		setRepaintAll();
+		repaint();
 	}
 
 	/**
@@ -490,7 +493,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		public void valueChange() {
-
+			setRepaintAll();
 		}
 	}
 
@@ -1416,7 +1419,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		isEditing = false;
 		editRow = -1;
 		editColumn = -1;
-		renderCells();//TODO: make more efficient...
+
+		setRepaintAll();//TODO: don't call renderCells, just change the edited cell
+		repaint();
 	}
 
 	/*
@@ -1970,7 +1975,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * cursor; }
 	 */
 
-	boolean repaintAll = false;
 	public void setRepaintAll() {
 		repaintAll = true;
 	}
