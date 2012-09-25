@@ -39,6 +39,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyTableW extends Grid implements /* FocusListener, */MyTable {
@@ -2054,22 +2055,60 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// TODO implement other features from the old paint method
 
-		// TODO: background color of cells and headers should be fixed! 
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
+		GPoint cellPoint = new GPoint();
+		GColor bgColor;
+		Element operate = null;
 		for (int i = colCount - 1; i >= 0; i--) {
 			for (int j = rowCount - 1; j >= 0; j--) {
+
+				if (getWidget(j, i) != null)
+					operate = getWidget(j, i).getElement();
+				else
+					operate = getCellFormatter().getElement(j, i);
+
 				if (i == 0) {
 					if (j == 0) {
-						
+						// no need to do anything, in theory
 					} else {
-						
+						if (j >= minSelectionRow && j <= maxSelectionRow)
+							operate.getStyle().setBackgroundColor(
+								MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+						else
+							operate.getStyle().setBackgroundColor(
+								MyTableW.BACKGROUND_COLOR_HEADER.toString());
 					}
 				} else if (j == 0) {
-					
+					if (i >= minSelectionColumn && i <= maxSelectionColumn)
+						operate.getStyle().setBackgroundColor(
+							MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+					else
+						operate.getStyle().setBackgroundColor(
+							MyTableW.BACKGROUND_COLOR_HEADER.toString());
 				} else {
-					//getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(
-					//	formatHandler.getCellFormat(cell, formatBorder);
+					cellPoint.setLocation(i - 1, j - 1);
+					bgColor = (GColor)formatHandler.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR);
+					GeoElement geo = null;
+
+					if (tableModel.getValueAt(j-1, i-1) instanceof GeoElement)
+						geo = (GeoElement)tableModel.getValueAt(j - 1, i - 1);
+
+					if (bgColor == null && geo != null && geo.getBackgroundColor() != null)
+						bgColor = geo.getBackgroundColor();
+
+					// adjust selection color when there is a bgColor
+					if (geo != null && geo.doHighlighting()) {
+						if (bgColor != null) {
+							bgColor = bgColor.darker();
+						} else {
+							bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
+						}
+					}
+					if (bgColor != null)
+						operate.getStyle().setBackgroundColor(bgColor.toString());
+					else
+						operate.getStyle().setBackgroundColor(GColor.WHITE.toString());
 				}
 			}
 		}
