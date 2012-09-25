@@ -165,6 +165,9 @@ public class SliderDialog extends JDialog
 		
 		//Make this dialog display it.
 		setContentPane(optionPane);			
+		
+		app.setComponentOrientation(this);
+		
 		pack();	
 		setLocationRelativeTo(app.getFrame());	
 	}
