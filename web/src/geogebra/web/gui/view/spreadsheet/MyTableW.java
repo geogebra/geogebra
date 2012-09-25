@@ -61,7 +61,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected Kernel kernel;
 	protected AppW app;
 	protected MyCellEditorW editor;
-	// private MyCellEditorBoolean editorBoolean;
+	private MyCellEditorBooleanW editorBoolean;
 	// private MyCellEditorButton editorButton;
 	// private MyCellEditorList editorList;
 
@@ -384,11 +384,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Returns boolean editor (checkbox) for this table. If none exists, a new
 	 * one is created.
 	 */
-	/*public MyCellEditorBoolean getEditorBoolean() {
+	public MyCellEditorBooleanW getEditorBoolean() {
 		if (editorBoolean == null)
-			editorBoolean = new MyCellEditorBoolean(kernel);
+			editorBoolean = new MyCellEditorBooleanW(kernel);
 		return editorBoolean;
-	}*/
+	}
 
 	/**
 	 * Returns button editor for this table. If none exists, a new one is
@@ -446,7 +446,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			oneClickEditMap.containsKey(p) && kernel.getAlgebraStyle() ==
 			Kernel.ALGEBRA_STYLE_VALUE) {
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
-				case BOOLEAN: return null;//TODO! getEditorBoolean();
+				case BOOLEAN: return getEditorBoolean();
 				case BUTTON: return null;//TODO! getEditorButton();
 				case LIST: return null;//TODO! getEditorList();
 			}
