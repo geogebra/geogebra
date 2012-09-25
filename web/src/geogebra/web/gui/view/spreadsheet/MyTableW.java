@@ -1970,7 +1970,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * cursor; }
 	 */
 
+	boolean repaintAll = false;
+	public void setRepaintAll() {
+		repaintAll = true;
+	}
+
 	public void repaint() {
+
+		if (repaintAll) {
+			renderCells();
+			repaintAll = false;
+		}
+
 		renderSelection();
 		// TODO: implementation needed
 	}

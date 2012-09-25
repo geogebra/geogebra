@@ -284,12 +284,11 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 					true));
 		*/
-
-		table.renderCells();
 	}
 
 	public void remove(GeoElement geo) {
 		// Application.debug(new Date() + " REMOVE: " + geo);
+		table.setRepaintAll();
 
 		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
@@ -305,8 +304,6 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		case LIST:
 			table.oneClickEditMap.remove(geo);
 		}
-
-		table.renderCells();
 	}
 
 	public void rename(GeoElement geo) {
@@ -384,6 +381,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 
 	public void update(GeoElement geo) {
 
+		table.setRepaintAll();
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
