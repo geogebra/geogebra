@@ -6,6 +6,8 @@ import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
@@ -21,6 +23,7 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.regexp.shared.MatchResult;
 
 
 public class SpreadsheetMouseListener implements
@@ -57,7 +60,7 @@ public class SpreadsheetMouseListener implements
 
 	public void onDoubleClick(DoubleClickEvent e) {
 
-		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+		GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 
 		if (point != null) {
 			// auto-fill down if dragging dot is double-clicked
@@ -90,24 +93,24 @@ public class SpreadsheetMouseListener implements
 
 	public void onClick(ClickEvent e) {
 
-		/*TODO GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+		GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 		if (editor.isEditing()) {
 			String text = editor.getEditingValue();
 			if (text.startsWith("=")) {
-				point = table.getIndexFromPixel(e.getX(), e.getY());
+				point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 				if (point != null) {
 					int column = point.getX();
 					int row = point.getY();
-					GeoElement geo = RelativeCopy.getValue(app, column, row);
+					GeoElement geo = RelativeCopy.getValue(app, column - 1, row - 1);
 				}
 			}
 			selectedCellName = null;
 			prefix0 = null;
 			table.isDragging2 = false;
 			table.repaint();
-		} else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			int row = table.rowAtPoint(e.getPoint());
-			int col = table.columnAtPoint(e.getPoint());
+		} /*? else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
+			int row = point.y;//?//table.rowAtPoint(e.getPoint());
+			int col = point.x;//?//table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
 			// let euclidianView know about the click
 			AbstractEvent event = geogebra.web.euclidian.event.MouseEvent
@@ -184,19 +187,17 @@ public class SpreadsheetMouseListener implements
 		// tell selection listener about click on GeoElement
 		if (!rightClick
 				&& app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
-			/*TODO int row = table.rowAtPoint(e.getPoint());
-			int col = table.columnAtPoint(e.getPoint());
-			GeoElement geo = (GeoElement) model.getValueAt(row, col);
+			int row = p.getY();//?//table.rowAtPoint(e.getPoint());
+			int col = p.getX();//?//table.columnAtPoint(e.getPoint());
+			GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
 
 			// double click or empty geo
-			if (e.getClickCount() == 2 || geo == null) {
-				//TODO table.requestFocusInWindow();
-			} else {
+			if (geo != null) {
 				// tell selection listener about click
 				app.geoElementSelected(geo, false);
-				e.consume();
+				//?//e.consume();
 				return;
-			}*/
+			}
 		}
 
 		if (!rightClick) {
@@ -231,20 +232,20 @@ public class SpreadsheetMouseListener implements
 			// Handle click in another cell while editing a cell:
 			// if the edit string begins with "=" then the clicked cell name
 			// is inserted into the edit text
-			/*TODO if (editor.isEditing()) {
+			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
-					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+					GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 					if (point != null) {
 						int column = point.getX();
 						int row = point.getY();
 						GeoElement geo = RelativeCopy
-								.getValue(app, column, row);
+								.getValue(app, column - 1, row - 1);
 						if (geo != null) {
 
 							// get cell name
 							String name = GeoElementSpreadsheet
-									.getSpreadsheetCellName(column, row);
+									.getSpreadsheetCellName(column - 1, row - 1);
 							if (geo.isGeoFunction())
 								name += "(x)";
 							selectedCellName = name;
@@ -264,10 +265,8 @@ public class SpreadsheetMouseListener implements
 							// insert the geo label into the editor string
 							editor.addLabel(name);
 
-							e.consume();
 							table.repaint();
 						}
-						e.consume();
 					}
 				} else {
 
@@ -279,8 +278,7 @@ public class SpreadsheetMouseListener implements
 				}
 			} else if (table.isOverDot) {
 				table.isDragingDot = true;
-				e.consume();
-			}*/
+			}
 		}
 
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
@@ -324,15 +322,15 @@ public class SpreadsheetMouseListener implements
 		}
 
 		if (!rightClick) {
-			/*TODO if (editor.isEditing()) {
+			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
-					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+					GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 					if (point != null) {
 						int column = point.getX();
 						int row = point.getY();
 						if (column != editor.column || row != editor.row) {
-							e.consume();
+							//?//e.consume();
 						}
 					}
 				}
@@ -346,7 +344,7 @@ public class SpreadsheetMouseListener implements
 			if (table.isOverDot) {
 				// prevent UI manager from changing selection when mouse
 				// is in a neighbor cell but is still over the dot region
-				e.consume();
+				//?//e.consume();
 			}
 
 			if (table.isDragingDot) {
@@ -401,21 +399,21 @@ public class SpreadsheetMouseListener implements
 				table.isDragingDot = false;
 				table.dragingToRow = -1;
 				table.dragingToColumn = -1;
-				setTableCursor();
+				//TODO//setTableCursor();
 
 				// prevent UI manager from changing selection
-				e.consume();
+				//?//e.consume();
 
 				table.repaint();
 
-			}*/
+			}
 		}
 
 		// Alt click: copy definition to input field
-		/*TODO if (!table.isEditing() && e.isAltDown() && app.showAlgebraInput()) {
-			int row = table.rowAtPoint(e.getPoint());
-			int col = table.columnAtPoint(e.getPoint());
-			GeoElement geo = (GeoElement) model.getValueAt(row, col);
+		if (!table.isEditing() && e.isAltKeyDown() && app.showAlgebraInput()) {
+			int row = p.getY();//table.rowAtPoint(e.getPoint());
+			int col = p.getX();//table.columnAtPoint(e.getPoint());
+			GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
 
 			if (geo != null) {
 				// F3 key: copy definition to input bar
@@ -423,7 +421,7 @@ public class SpreadsheetMouseListener implements
 						3, geo);
 				return;
 			}
-		}*/
+		}
 
 		// handle right click
 		if (rightClick) {
@@ -497,11 +495,11 @@ public class SpreadsheetMouseListener implements
 			}
 
 			// handle editing mode drag
-			/*TODO if (editor.isEditing()) {
-				GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+			if (editor.isEditing()) {
+				GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 				if (point != null && selectedCellName != null) {
-					int column2 = point.getX();
-					int row2 = point.getY();
+					int column2 = point.getX() - 1;
+					int row2 = point.getY() - 1;
 
 					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 							.exec(selectedCellName);
@@ -535,14 +533,14 @@ public class SpreadsheetMouseListener implements
 					table.maxRow2 = row2;
 					table.repaint();
 				}
-				e.consume();
+				//?//e.consume();
 				return;
 			}
 
 			// handle dot drag
-			if (table.isDragingDot) {
+			/*TODO if (table.isDragingDot) {
 
-				e.consume();
+				//?//e.consume();
 				int mouseX = e.getX();
 				int mouseY = e.getY();
 				GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
