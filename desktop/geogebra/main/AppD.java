@@ -166,6 +166,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -5304,19 +5305,21 @@ public class AppD extends App implements
 	    //c.applyComponentOrientation(orientation);
 	    
 	    if (c instanceof JMenu) {
-	      JMenu menu = (JMenu)c;
-	      int ncomponents = menu.getMenuComponentCount();
-	      for (int i = 0 ; i < ncomponents ; ++i) {
-	    	  setComponentOrientation( menu.getMenuComponent(i));
-	      }
+	    	JMenu menu = (JMenu)c;
+	    	int ncomponents = menu.getMenuComponentCount();
+	    	for (int i = 0 ; i < ncomponents ; ++i) {
+	    		setComponentOrientation( menu.getMenuComponent(i));
+	    	}
+	    } else if (c instanceof JTextField) {
+	    	((JTextField)c).setHorizontalAlignment(isRightToLeftReadingOrder() ? JTextField.RIGHT : JTextField.LEFT);
 	    } else if (c instanceof Container) {
-	      Container container = (Container)c;
-	      int ncomponents = container.getComponentCount();
-	      for (int i = 0 ; i < ncomponents ; ++i) {
-	    	  setComponentOrientation( container.getComponent(i));
-	      }
+	    	Container container = (Container)c;
+	    	int ncomponents = container.getComponentCount();
+	    	for (int i = 0 ; i < ncomponents ; ++i) {
+	    		setComponentOrientation( container.getComponent(i));
+	    	}
 	    }
-		
+
 	}
 	
 	

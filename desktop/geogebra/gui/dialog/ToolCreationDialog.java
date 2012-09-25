@@ -422,6 +422,8 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			namePanel = new ToolNameIconPanel(app, false);
 			tabbedPane.addTab(app.getMenu("NameIcon"), null, namePanel, null);
 
+			app.setComponentOrientation(this);
+			
 			setResizable(true);
 			pack();
 			// center

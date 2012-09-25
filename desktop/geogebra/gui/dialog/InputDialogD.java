@@ -165,6 +165,9 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 
 		// finalize the GUI
 		centerOnScreen();
+		
+		app.setComponentOrientation(wrappedDialog);
+		
 		wrappedDialog.setResizable(true);
 		wrappedDialog.pack();
 	}

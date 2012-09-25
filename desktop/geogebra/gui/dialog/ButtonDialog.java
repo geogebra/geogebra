@@ -237,6 +237,10 @@ public class ButtonDialog extends JDialog
 		//Make this dialog display it.
 		setContentPane(optionPane);			
 		
+		// TODO: for buttons too when script panel works in RTL
+		if (textField) {
+			app.setComponentOrientation(this);
+		}
 		/*
 		
 		inputPanel = new InputPanel("ggbApplet.evalCommand('A=(3,4)');", app, 10, 50, false, true, false );	

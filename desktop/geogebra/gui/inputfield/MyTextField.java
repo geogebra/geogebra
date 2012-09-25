@@ -116,6 +116,8 @@ public class MyTextField extends JTextField implements ActionListener,
 		borderBtn = new BorderButtonD(this);
 		borderBtn.setBorderButton(0, icon, this);
 		setDefaultBorder();
+		
+		app.setComponentOrientation(this);
 	}
 
 	/**

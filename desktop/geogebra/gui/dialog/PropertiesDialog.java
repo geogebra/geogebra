@@ -211,6 +211,8 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		}
 
 		setLabels();
+		
+		app.setComponentOrientation(this);
 	}
 
 	public PropertiesPanel getPropertiesPanel() {

@@ -168,6 +168,8 @@ public class CheckboxCreationDialog extends JDialog implements
 
 		// Make this dialog display it.
 		setContentPane(optionPane);
+		
+		app.setComponentOrientation(this);
 	}
 
 	public void actionPerformed(ActionEvent ae) {

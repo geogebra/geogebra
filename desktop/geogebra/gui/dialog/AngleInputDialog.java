@@ -63,6 +63,8 @@ public class AngleInputDialog extends InputDialogD {
 		centerPanel.add(rbPanel, BorderLayout.SOUTH);								
 		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);		
 		centerOnScreen();		
+		
+		app.setComponentOrientation(wrappedDialog);
 	}	
 	
 	public boolean isCounterClockWise() {

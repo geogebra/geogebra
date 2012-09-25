@@ -2,6 +2,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.geos.GeoTurtle;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -62,6 +63,8 @@ public class TurtleDriverPanel extends JPanel implements ActionListener,
 		
 		this.setLayout(new BorderLayout());
 		this.add(vBox, BorderLayout.CENTER);
+		
+		((AppD)t.getKernel().getApplication()).setComponentOrientation(this);
 	
 	}
 
