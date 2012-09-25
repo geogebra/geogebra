@@ -78,10 +78,8 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 		languageSelector.addItem(app.getPlain("Script"));
 		languageSelector.addItem(app.getPlain("JavaScript"));
 
-		// don't show in 4.2 Webstart builds
-		if (!AppD.isWebstart() || app.is3D()) {
-			languageSelector.addItem(app.getPlain("Python"));
-		}
+		languageSelector.addItem(app.getPlain("Python"));
+		
 		languageSelector.addActionListener(this);
 
 		setGeo(button);

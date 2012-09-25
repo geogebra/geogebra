@@ -14,18 +14,16 @@ public interface GeoGebraConstants {
 	public static final String VERSION_STRING = "4.9.50.0"; 
 	
 	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
-	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra42/version_check_allow = false
+	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow = false
 	 * */
 	public static final String PREFERENCES_ROOT_GLOBAL = "/geogebra";
 	
 	//********* start hacks TODO remove it when branched  *************
 	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
-	public static final boolean IS_FIVE_POINT_ZERO = VERSION_STRING
-			.startsWith("4.9") ? true : false;
 	/** root preferences node */
-	public static final String PREFERENCES_ROOT = IS_FIVE_POINT_ZERO ? "/geogebra50" : "/geogebra42";
+	public static final String PREFERENCES_ROOT = "/geogebra50";
 	/** File format version */
-	public static final String XML_FILE_FORMAT = IS_FIVE_POINT_ZERO ? "5.0" : "4.2";
+	public static final String XML_FILE_FORMAT = "5.0";
 	/* end hacks */
 	/** Splash filename -- used for online */
 	public static final String SPLASH_STRING = "splash.png";
@@ -65,7 +63,7 @@ public interface GeoGebraConstants {
 	/** GeoGebra URL*/
 	public final static String GEOGEBRA_WEBSITE = "http://www.geogebra.org/";
 	/** 4.2 desktop bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = IS_FIVE_POINT_ZERO ? "http://www.geogebra.org/bugs/?v=5.0" : "http://www.geogebra.org/bugs/";
+	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "http://www.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "http://www.geogebra.org/bugs/?v=web";
 	/** GeoGebraTube URL */

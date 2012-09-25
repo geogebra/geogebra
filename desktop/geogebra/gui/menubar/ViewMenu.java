@@ -83,14 +83,10 @@ public class ViewMenu extends BaseMenu {
 		cbShowInputBar = new JCheckBoxMenuItem(showAlgebraInputAction);
 		add(cbShowInputBar);
 		
-		// show Kinect option in Eclipse & 5.0 Webstart only
-		// ie not 4.2
-		if (!AppD.isWebstart() || app.is3D()) {
-			// TEST: show/hide Kinect window
-			cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
-			app.setEmptyIcon(cbShowKinect);
-			add(cbShowKinect);
-		}
+		// TEST: show/hide Kinect window
+		cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
+		app.setEmptyIcon(cbShowKinect);
+		add(cbShowKinect);
 
 		// cbShowHandwriting = new JCheckBoxMenuItem(showHandwritingAction);
 		// app.setEmptyIcon(cbShowHandwriting);
