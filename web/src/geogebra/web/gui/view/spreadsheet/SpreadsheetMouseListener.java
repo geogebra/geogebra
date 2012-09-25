@@ -82,7 +82,7 @@ public class SpreadsheetMouseListener implements
 					//?//f.getCaret().setVisible(true);
 				}
 
-				//?//table.setAllowEditing(false);
+				table.setAllowEditing(false);
 			}
 
 		}

@@ -440,7 +440,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	}
 
-	public Object getCellEditor(int row, int column) {
+	public BaseCellEditor getCellEditor(int row, int column) {
 		GPoint p = new GPoint(column, row);
 		if (view.allowSpecialEditor() &&
 			oneClickEditMap.containsKey(p) && kernel.getAlgebraStyle() ==
@@ -1301,7 +1301,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 		}
 		// STANDARD case: in cell editing
-		if (isCellEditable(row - 1, col - 1)) {
+		if (isCellEditable(row - 1, col - 1) && !isEditing) {
 			isEditing = true;
 			editRow = row;
 			editColumn = col;
@@ -1317,6 +1317,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 			return true;
 		}
+		getCellEditor(row, col).cancelCellEditing();
 		return false;// TODO: implementation needed
 		//return super.editCellAt(row, col);
 	}

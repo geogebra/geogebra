@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * DefaultCellEditor(JTextField)
  * 
  */
-public class MyCellEditorW {
+public class MyCellEditorW implements BaseCellEditor {
 
 	private static final long serialVersionUID = 1L;
 
