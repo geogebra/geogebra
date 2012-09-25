@@ -99,6 +99,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// use -1 flags for row and column.
 	// Note: selectedCellRanges.get(0) gives the same selection but uses -1
 	// flags
+	// the following are in Grid coordinates (TableModel coordinates+1)
 	protected int minSelectionRow = -1;
 	protected int maxSelectionRow = -1;
 	protected int minSelectionColumn = -1;
@@ -108,7 +109,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected int minSelectionColumnOld = -1;
 	protected int maxSelectionColumnOld = -1;
 
-	// for emulating the JTable's changeSelection method
+	// for emulating the JTable's changeSelection method, in TableModel coordinates
 	protected int anchorSelectionRow = -1;
 	protected int anchorSelectionColumn = -1;
 	protected int leadSelectionRow = -1;
@@ -517,11 +518,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// not used anyway
 		} else {
 			if (extend) {
-				leadSelectionColumn = columnIndex;
-				leadSelectionRow = rowIndex;
+				leadSelectionColumn = columnIndex - 1;
+				leadSelectionRow = rowIndex - 1;
 			} else {
-				anchorSelectionColumn = columnIndex;
-				anchorSelectionRow = rowIndex;
+				anchorSelectionColumn = columnIndex - 1;
+				anchorSelectionRow = rowIndex - 1;
 				leadSelectionColumn = -1;
 				leadSelectionRow = -1;
 			}
@@ -601,28 +602,27 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// update the selection list
 
-		/*
-		 * TODO if (!AppD.getControlDown()) { selectedCellRanges.clear();
-		 * selectedColumnSet.clear(); selectedRowSet.clear();
-		 * selectedCellRanges.add(0, newSelection);
-		 * 
-		 * } else { // ctrl-select
-		 */
+		if (!AppW.getControlDown()) {
+			selectedCellRanges.clear();
+			selectedColumnSet.clear();
+			selectedRowSet.clear();
+			selectedCellRanges.add(0, newSelection);
+		} else { // ctrl-select
+			/*
+			 * // return if we have already ctrl-selected this range for
+			 * (CellRange cr : selectedCellRanges) { if
+			 * (cr.equals(newSelection)){ System.out.println("reutrned");
+			 * return; } }
+			 */
 
-		/*
-		 * // return if we have already ctrl-selected this range for (CellRange
-		 * cr : selectedCellRanges) { if (cr.equals(newSelection)){
-		 * System.out.println("reutrned"); return; } }
-		 */
+			// handle dragging
+			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
+				selectedCellRanges.remove(0);
+			}
 
-		// handle dragging
-		if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
-			selectedCellRanges.remove(0);
+			// add the selection to the list
+			selectedCellRanges.add(0, newSelection);
 		}
-
-		// add the selection to the list
-		selectedCellRanges.add(0, newSelection);
-		/* } */
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
@@ -644,16 +644,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// update internal selection variables
 		newSelection.setActualRange();
-		if (newSelection.getMinRow() == 0)
-			minSelectionRow = 1;
-		else
-			minSelectionRow = newSelection.getMinRow();
-		if (newSelection.getMinColumn() == 0)
-			minSelectionColumn = 1;
-		else
-			minSelectionColumn = newSelection.getMinColumn();
+		minSelectionRow = newSelection.getMinRow();
+		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
 		maxSelectionRow = newSelection.getMaxRow();
+
+		if (minSelectionRow != -1) minSelectionRow += 1;
+		if (minSelectionColumn != -1) minSelectionColumn += 1;
+		if (maxSelectionColumn != -1) maxSelectionColumn += 1;
+		if (maxSelectionRow != -1) maxSelectionRow += 1;
 
 		// newSelection.debug();
 		// printSelectionParameters();
@@ -694,14 +693,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// if the selection has changed or an empty cell has been clicked,
 		// repaint
-		/*
-		 * TODO if (changed || list.isEmpty()) { repaint(); if
-		 * (this.getTableHeader() != null) getTableHeader().repaint(); }
-		 * 
-		 * // System.out.println("------------------"); // for (CellRange cr:
-		 * selectedCellRanges)cr.debug();
-		 */
-	}// TODO:required method
+		if (changed || list.isEmpty()) {
+			repaint();
+			//?//if (this.getTableHeader() != null)
+			//?//	getTableHeader().repaint();
+		}
+
+		// System.out.println("------------------");
+		// for (CellRange cr: selectedCellRanges)cr.debug();
+	}
 
 	private void printSelectionParameters() {
 		System.out.println("----------------------------------");
@@ -950,15 +950,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// the sole handler for selection events.
 	public void setRowSelectionInterval(int row0, int row1) {
 		setSelectionType(MyTable.ROW_SELECT);
-		anchorSelectionRow = row0;
-		leadSelectionRow = row1;
+		anchorSelectionRow = row0 - 1;
+		leadSelectionRow = row1 - 1;
 		selectionChanged();
 	}
 
 	public void setColumnSelectionInterval(int col0, int col1) {
 		setSelectionType(MyTable.COLUMN_SELECT);
-		anchorSelectionColumn = col0;
-		leadSelectionColumn = col1;
+		anchorSelectionColumn = col0 - 1;
+		leadSelectionColumn = col1 - 1;
 		selectionChanged();
 	}
 
@@ -2024,8 +2024,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 					        this, gva, false, false, j, i);
 
 					// just a workaround for now to show something:
-					prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
-					getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(GColor.WHITE.toString());
+				 	prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
+				 	getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(GColor.WHITE.toString());
 				}
 				setWidget(j, i, prob);
 				getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
@@ -2037,6 +2037,26 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public void renderSelection() {
 
 		// TODO implement other features from the old paint method
+
+		// TODO: background color of cells and headers should be fixed! 
+		int colCount = getColumnCount();
+		int rowCount = getRowCount();
+		for (int i = colCount - 1; i >= 0; i--) {
+			for (int j = rowCount - 1; j >= 0; j--) {
+				if (i == 0) {
+					if (j == 0) {
+						
+					} else {
+						
+					}
+				} else if (j == 0) {
+					
+				} else {
+					//getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(
+					//	formatHandler.getCellFormat(cell, formatBorder);
+				}
+			}
+		}
 
 		if (minSelectionRowOld != -1 && maxSelectionRowOld != -1
 		        && minSelectionColumnOld != -1 && maxSelectionColumnOld != -1) {

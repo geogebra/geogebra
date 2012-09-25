@@ -115,10 +115,12 @@ public class MyCellRenderer {
 				CellFormat.FORMAT_BGCOLOR);
 		if (bgColor == null) {
 			isCustomBGColor = false;
-			//TODO//bgColor = table.getBackground();
+			bgColor = GColor.white;//table.getBackground();
 		} else {
 			isCustomBGColor = true;
 		}
+		if (bgColor != null)
+			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 
 		// Get the cell geo, exit if null
 		// ==================================================
@@ -126,8 +128,6 @@ public class MyCellRenderer {
 			geo = (GeoElement) value;
 		} else {
 			((Label)retwidget).setText("");
-			if (bgColor != null)
-				retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
 			return retwidget;
 		}
@@ -208,8 +208,6 @@ public class MyCellRenderer {
 			fontStyle = GFont.PLAIN;
 
 		((Label)retwidget).setText(text);
-		if (bgColor != null)
-			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 		GFont gf = app.getFontCanDisplay(text, fontStyle);
 		((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
 		((Label)retwidget).getElement().getStyle().setFontStyle(

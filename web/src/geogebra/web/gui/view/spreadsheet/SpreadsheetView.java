@@ -1206,8 +1206,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		setRowHeightsFromSettings();
 
 		// cell format
-		//TODO//getTable().getCellFormatHandler().processXMLString(
-		//TODO//	settings().cellFormat());
+		getSpreadsheetTable().getCellFormatHandler().processXMLString(
+			settings().cellFormat());
 
 		// preferredSize
 		//TODO//this.setPreferredSize(geogebra.awt.GDimensionD

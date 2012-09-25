@@ -242,7 +242,6 @@ public class MyCellEditorW {
 		editing = false;
 		boolean success = true;//TODO super.stopCellEditing();
 
-		table.finishEditing();//?
 		// give the table the focus in case the formula bar is the editor
 		//?//if (table.getView().getFormulaBar().editorHasFocus()) {
 			// Application.debug("give focus to table");
@@ -256,6 +255,7 @@ public class MyCellEditorW {
 		boolean success = stopCellEditing();
 		moveSelectedCell(colOff, rowOff);
 		allowProcessGeo = false;
+		table.finishEditing();//?
 		return success;
 	}
 
