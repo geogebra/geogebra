@@ -293,6 +293,7 @@ public class MyCellRenderer {
 		/*}*/
 
 		retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+		retwidget.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
 		return retwidget;
 	}
 
