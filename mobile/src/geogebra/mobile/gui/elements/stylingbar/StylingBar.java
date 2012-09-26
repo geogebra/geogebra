@@ -1,8 +1,11 @@
 package geogebra.mobile.gui.elements.stylingbar;
 
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
+import geogebra.mobile.utils.OptionType;
 import geogebra.mobile.utils.StylingBarEntries;
 
 import java.util.ArrayList;
@@ -17,7 +20,8 @@ import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 /**
  * The StylingBar includes the standard buttons (grid, axes, point capturing)
- * and the optional buttons, which are only shown if needed (e.g. color, lineStyle).
+ * and the optional buttons, which are only shown if needed (e.g. color,
+ * lineStyle).
  * 
  * @author Thomas Krismayer
  * 
@@ -28,70 +32,96 @@ public class StylingBar extends RoundPanel
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
 	final GuiModel guiModel;
-	MobileModel mobileModel; 
+	MobileModel mobileModel;
 	StylingBarButton[] button;
 	StylingBarButton colorButton;
-	
+	LineStyleBar lineStyleBar;
+
 	/**
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
+	 * 
 	 * @param guiModel
 	 */
-	public StylingBar(final GuiModel guiModel, MobileModel mobileModel)
+	public StylingBar(MobileModel mobileModel)
 	{
+		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
+
 		this.addStyleName("stylingbar");
-		this.guiModel = guiModel;
-		this.mobileModel = mobileModel; 
-		
+		this.guiModel = mobileModel.getGuiModel();
+		this.mobileModel = mobileModel;
+
 		createStandardButtons();
 		createOptionalButtons();
 	}
 
 	/**
-	 * Initializes the standardButtons which are always shown
-	 * (ShowGrid, ShowAxes & PointCapture).
+	 * Initializes the standardButtons which are always shown (ShowGrid, ShowAxes
+	 * & PointCapture).
 	 */
 	private void createStandardButtons()
-  {
+	{
 		this.button = new StylingBarButton[3];
-		
+
 		this.button[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
 		this.button[1] = createStyleBarButton("showGrid", CommonResources.INSTANCE.show_or_hide_the_grid(), 1);
 		this.button[2] = createStyleBarButton("pointCapture", CommonResources.INSTANCE.point_capturing(), 2);
-		
-		//set button showAxes and pointCapture to (default) active
+
+		// set button showAxes and pointCapture to (default) active
 		this.button[0].addStyleName("button-active");
 		this.button[2].addStyleName("button-active");
-		
-		//add the standardButtons to the verticalPanel
+
+		// add the standardButtons to the verticalPanel
 		for (int i = 0; i < this.button.length; i++)
 		{
 			this.base.add(this.button[i]);
 		}
 		add(this.base);
-  }
+	}
 
 	/**
 	 * Initializes the optional buttons, which are only shown if its necessary.
 	 */
 	private void createOptionalButtons()
-  {
-	  // default: close ToolBarOptions on click
-		ClickHandler defaultHandler = new ClickHandler()
+	{
+
+		// optional buttons
+		this.option = new StylingBarButton[2];
+		this.option[0] = new StylingBarButton(CommonResources.INSTANCE.label(), new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				StylingBar.this.guiModel.closeOptions();
+				if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.CaptionStyle)
+				{
+					StylingBar.this.guiModel.closeOptions();
+				}
+				else
+				{
+					StylingBar.this.guiModel.closeOptions();
+					StylingBar.this.guiModel.showOption(new CaptionBar(StylingBar.this.mobileModel), OptionType.CaptionStyle);
+				}
 			}
-		};
+		});
 
-		// optional buttons
-		this.option = new StylingBarButton[2];
-		this.option[0] = new StylingBarButton(CommonResources.INSTANCE.label(), defaultHandler);
-		this.option[1] = new StylingBarButton(CommonResources.INSTANCE.properties_defaults(), defaultHandler);
-		
-		this.colorButton = addColorBarButton();
-  }
+		this.option[1] = new StylingBarButton(CommonResources.INSTANCE.properties_defaults(), new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.LineStyle)
+				{
+					StylingBar.this.guiModel.closeOptions();
+				}
+				else
+				{
+					StylingBar.this.guiModel.closeOptions();
+					StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.mobileModel), OptionType.LineStyle);
+				}
+			}
+		});
+
+		this.colorButton = createColorBarButton();
+	}
 
 	/**
 	 * 
@@ -101,8 +131,8 @@ public class StylingBar extends RoundPanel
 	 * @return a new StylingBarButton with an ClickHandler
 	 */
 	private StylingBarButton createStyleBarButton(final String process, SVGResource svg, final int number)
-  {
-	  return new StylingBarButton(svg, new ClickHandler()
+	{
+		return new StylingBarButton(svg, new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -119,34 +149,35 @@ public class StylingBar extends RoundPanel
 				}
 			}
 		});
-  }
+	}
 
 	/**
-	 * Initializes the colorButton with an ClickHandler to open and close
-	 * the color-choice-wheel.
+	 * Initializes the colorButton with an ClickHandler to open and close the
+	 * color-choice-wheel.
+	 * 
 	 * @return
 	 */
-	private StylingBarButton addColorBarButton()
-  {
-	  return new StylingBarButton(CommonResources.INSTANCE.colour(), new ClickHandler()
+	private StylingBarButton createColorBarButton()
+	{
+		return new StylingBarButton(CommonResources.INSTANCE.colour(), new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				if (StylingBar.this.guiModel.getColorBarShown())
+				if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
 				{
 					StylingBar.this.guiModel.closeOptions();
 				}
 				else
 				{
+					StylingBar.this.guiModel.closeOptions();
 					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.mobileModel);
-					StylingBar.this.guiModel.showColorBar(colorBar);
+					StylingBar.this.guiModel.showOption(colorBar, OptionType.Color);
 				}
 			}
 		});
-  }
+	}
 
-	
 	/**
 	 * 
 	 * @param commands

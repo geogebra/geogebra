@@ -2,6 +2,7 @@ package geogebra.mobile.gui.elements.stylingbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.mobile.model.MobileModel;
+import geogebra.web.awt.GColorW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,6 +25,7 @@ public class Colors extends VerticalPanel
 		this.mobileModel = mobileModel;
 		addDummyButton();
 		addColorButton(GColor.BLACK);
+		addColorButton(new GColorW(153, 51, 0));
 		addColorButton(GColor.MAGENTA);
 		addColorButton(GColor.BLUE);
 		addColorButton(GColor.CYAN);
@@ -49,8 +51,9 @@ public class Colors extends VerticalPanel
 			public void onClick(ClickEvent event)
 			{
 				Colors.this.stylingBar.updateColor(GColor.getColorString(color));
-				if (Colors.this.mobileModel.lastSelected() != null
-				    && StyleBarStatic.applyColor(Colors.this.mobileModel.getSelectedGeos(), color, Colors.this.mobileModel.getLastAlpha()))
+				Colors.this.mobileModel.getGuiModel().setColor(color);
+				if (Colors.this.mobileModel.lastSelected() != null && Colors.this.mobileModel.isColorChangeAllowed()
+				    && StyleBarStatic.applyColor(Colors.this.mobileModel.getSelectedGeos(), color))
 				{
 					Colors.this.mobileModel.lastSelected().updateRepaint();
 				}

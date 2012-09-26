@@ -9,7 +9,6 @@ import geogebra.mobile.gui.elements.header.TabletHeaderPanelRight;
 import geogebra.mobile.gui.elements.stylingbar.StylingBar;
 import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
-import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
 
 import com.google.gwt.user.client.ui.RootPanel;
@@ -91,12 +90,10 @@ public class TabletGUI implements GeoGebraMobileGUI
 	@Override
 	public void initComponents(final Kernel kernel)
 	{
-		MobileModel mobileModel = new MobileModel(kernel); 
-		GuiModel guiModel = new GuiModel(mobileModel); 
-		mobileModel.setGuiModel(guiModel); 		
-		
-		this.stylingBar = new StylingBar(guiModel, mobileModel);
-		guiModel.setStylingBar(this.stylingBar);
+		MobileModel mobileModel = new MobileModel(kernel);
+
+		this.stylingBar = new StylingBar(mobileModel);
+		mobileModel.getGuiModel().setStylingBar(this.stylingBar);
 
 		RootPanel.get().add(this.euclidianViewPanel);
 		RootPanel.get().add(this.headerPanel);
@@ -109,10 +106,10 @@ public class TabletGUI implements GeoGebraMobileGUI
 		MobileController ec = new MobileController(mobileModel);
 		ec.setKernel(kernel);
 		this.euclidianViewPanel.initEuclidianView(ec);
-		guiModel.setEuclidianView(this.euclidianViewPanel.getEuclidianView());
+		mobileModel.getGuiModel().setEuclidianView(this.euclidianViewPanel.getEuclidianView());
 
 		this.algebraViewPanel.initAlgebraView(ec, kernel);
-		this.toolBar.makeTabletToolBar(guiModel, mobileModel);
+		this.toolBar.makeTabletToolBar(mobileModel);
 
 	}
 }

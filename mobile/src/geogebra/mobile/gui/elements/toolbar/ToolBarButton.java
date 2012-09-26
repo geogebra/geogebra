@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import geogebra.mobile.gui.elements.ToolButton;
 import geogebra.mobile.model.GuiModel;
+import geogebra.mobile.utils.OptionType;
 import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
@@ -48,7 +49,8 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd() && ToolBarButton.this.model.optionsShown())
+				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd()
+				    && ToolBarButton.this.model.getOptionTypeShown() == OptionType.ToolBar)
 				{
 					ToolBarButton.this.model.closeOptions();
 				}
@@ -117,7 +119,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	protected void showOptions()
 	{
 		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
-		this.model.showOptions(options);
+		this.model.showOption(options, OptionType.ToolBar);
 		if (this.menuEntries.length != 0)
 		{
 			options.show();

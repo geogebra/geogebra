@@ -12,7 +12,7 @@ public enum StylingBarEntries
 	DependentPoints(GColor.darkGray,
 	    new SVGResource[] { CommonResources.INSTANCE.label() }),
 	Line(GColor.black, new SVGResource[] { CommonResources.INSTANCE.properties_defaults() }),
-	Polygon(new GColorW(153, 51, 0), new SVGResource[] {});
+	Polygon(new GColorW(153, 51, 0), new SVGResource[] {CommonResources.INSTANCE.properties_defaults()});
 
 	GColor defaultColor;
 	SVGResource[] entry;

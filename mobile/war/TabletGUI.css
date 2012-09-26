@@ -29,23 +29,34 @@
 	border: none;
 }
 
+.StyleBarOptions {
+	position: absolute;
+	right: 75px;
+	top: 150px;
+	box-shadow: 5px 5px 10px #333333;
+	-webkit-border-radius: 1em 1em 1em 1em;
+}
+
 .colorBarBackground {
 	position: absolute;
 	right: 75px;
-	bottom: 320px;
+	top: 150px;	
 	width: 250px;
-	height: 220px;
-	box-shadow: 5px 5px 10px #333333;
-	-webkit-border-radius: 1em 1em 1em 1em;
 	z-index: 100;
-}	
+}
 
-.colorBar {
+.colorBar { 	
+	height: 220px;
+	box-shadow: 5px 5px 10px #333333;	
 	width: 100%;
 	background: none;
 	background-color: transparent;
 	border: none;
 	-webkit-border-radius: 1em 1em 1em 1em;
+}
+
+.colorSliderPanel{
+	box-shadow: 5px 5px 10px #333333;
 }
 
 .colorScrollPanel {

@@ -41,24 +41,24 @@ public class ToolBar extends ButtonBar
 	 * @param mobileModel
 	 *          MobileModel responsible for handling the events
 	 */
-	public void makeTabletToolBar(final GuiModel model, final MobileModel mobileModel)
+	public void makeTabletToolBar(final MobileModel mobileModel)
 	{
 		this.b = new ToolBarButton[12];
 
-		this.b[0] = new ToolBarButton(ToolBarMenu.Point, model);
-		this.b[1] = new ToolBarButton(ToolBarMenu.Line, model);
-		this.b[2] = new ToolBarButton(ToolBarMenu.SpecialLine, model);
-		this.b[3] = new ToolBarButton(ToolBarMenu.Polygon, model);
-		this.b[4] = new ToolBarButton(ToolBarMenu.CircleAndArc, model);
-		this.b[5] = new ToolBarButton(ToolBarMenu.ConicSection, model);
-		this.b[6] = new ToolBarButton(ToolBarMenu.Mesurement, model);
-		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, model);
-		this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, model);
-		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, model);
-		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, model);
+		this.b[0] = new ToolBarButton(ToolBarMenu.Point, mobileModel.getGuiModel());
+		this.b[1] = new ToolBarButton(ToolBarMenu.Line, mobileModel.getGuiModel());
+		this.b[2] = new ToolBarButton(ToolBarMenu.SpecialLine, mobileModel.getGuiModel());
+		this.b[3] = new ToolBarButton(ToolBarMenu.Polygon, mobileModel.getGuiModel());
+		this.b[4] = new ToolBarButton(ToolBarMenu.CircleAndArc, mobileModel.getGuiModel());
+		this.b[5] = new ToolBarButton(ToolBarMenu.ConicSection, mobileModel.getGuiModel());
+		this.b[6] = new ToolBarButton(ToolBarMenu.Mesurement, mobileModel.getGuiModel());
+		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, mobileModel.getGuiModel());
+		this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, mobileModel.getGuiModel());
+		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, mobileModel.getGuiModel());
+		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, mobileModel.getGuiModel());
 
 		// inputBar
-		this.b[11] = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), model);
+		this.b[11] = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), mobileModel.getGuiModel());
 		this.b[11].addStyleName("rightButton");
 		this.b[11].addDomHandler(new ClickHandler()
 		{
@@ -89,7 +89,7 @@ public class ToolBar extends ButtonBar
 			this.add(this.b[i]);
 		}
 
-		model.setActive(this.b[0]);
+		mobileModel.getGuiModel().setActive(this.b[0]);
 	}
 
 	public ToolBarCommand getCommand()
