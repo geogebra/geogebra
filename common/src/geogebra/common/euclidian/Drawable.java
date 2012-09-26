@@ -125,6 +125,21 @@ public abstract class Drawable extends DrawableND {
 	 * @return true if tthe whole drawable is inside
 	 */
 	public abstract boolean isInside(GRectangle rect);
+	
+	/**
+	 * @param rect rectangle
+	 * @return true if a part of this Drawable is within the rectangle
+	 */
+	public boolean intersectsRectangle(GRectangle rect){
+		GArea s=getShape();
+		if (s==null){
+			return false;
+		}
+		if (isFilled()){
+			return s.intersects(rect);
+		}
+		return s.intersects(rect)&&!s.contains(rect);
+	}
 
 	@Override
 	public abstract GeoElement getGeoElement();
@@ -555,6 +570,14 @@ public abstract class Drawable extends DrawableND {
 	 * @param g2 graphics*/
 	protected void drawTrace(GGraphics2D g2) {
 		// do nothing, overridden where needed
+	}
+	
+	/**
+	 * @return whether the to-be-drawn geoElement is filled, meaning the
+	 *         alpha-value is greater zero, or hatching is enabled.
+	 */
+	public boolean isFilled(){
+		return (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled());
 	}
 
 }

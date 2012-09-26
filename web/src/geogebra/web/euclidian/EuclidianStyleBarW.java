@@ -86,6 +86,8 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	private PopupMenuButton btnLabelStyle;
 
 	private PopupMenuButton btnPointCapture;
+	
+	private PopupMenuButton btnDeleteSize;
 
 	private MyToggleButton btnCopyVisualStyle, btnPen, btnShowGrid,
 	btnShowAxes;
@@ -373,9 +375,16 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// add(btnPenEraser);
 		// add(btnHideShowLabel);
 		add(btnLabelStyle);
+		
 		// add(btnPointCapture);
 		addBtnRotateView();
 		// add(btnPenDelete);
+		
+		if (btnDeleteSize.isVisible()){
+			addSeparator();
+		}
+		
+		add(btnDeleteSize);
 	}
 	
 	protected void addBtnRotateView() {
@@ -407,8 +416,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
-				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
-				btnTableTextBracket, btnLabelStyle, btnPointCapture };
+		        btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
+		        btnTableTextBracket, btnLabelStyle, btnDeleteSize,
+		        btnPointCapture };
 	}
 
 	// =====================================================
@@ -842,6 +852,28 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		AppResourcesConverter.setIcon(ptCaptureIcon, btnPointCapture);
 		btnPointCapture.addActionListener(this);
 		btnPointCapture.setKeepVisible(false);
+		
+		
+		// =====================================================
+		// Delete Size Button
+		
+		btnDeleteSize= new PopupMenuButton((AppW)app, null, 0, 0, new GDimensionW(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON, false, true){
+
+			@Override
+            public void update(Object[] geos) {
+				// always show this button unless in pen mode
+				this.setVisible(mode==EuclidianConstants.MODE_DELETE);
+            }
+			
+		};
+		btnDeleteSize.getMySlider().setMinimum(10);
+		btnDeleteSize.getMySlider().setMaximum(100);
+		btnDeleteSize.getMySlider().setMajorTickSpacing(20);
+		btnDeleteSize.getMySlider().setMinorTickSpacing(5);
+		btnDeleteSize.getMySlider().setPaintTicks(true);
+		btnDeleteSize.addActionListener(this);
+		ImageResource deleteSizeIcon = AppResources.INSTANCE.delete_small();
+		AppResourcesConverter.setIcon(deleteSizeIcon, btnDeleteSize);
 	}
 
 	// ========================================
@@ -1125,7 +1157,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		};
 		btnTextSize.addActionListener(this);
 		btnTextSize.setKeepVisible(false);
+
 	}
+	
 
 	// =====================================================
 	// Event Handlers
@@ -1291,15 +1325,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			EuclidianStyleBarStatic.applyTableTextFormat(targetGeos, btnTableTextJustify.getSelectedIndex(), btnTableTextLinesH.isSelected(), btnTableTextLinesV.isSelected(), btnTableTextBracket.getSelectedIndex(), app);
 		}
 
-		//else if (source == btnPenDelete) {
-
-			// add code here to delete pen image
-
-		//} else if (source == btnPenEraser) {
-
-			// add code here to toggle between pen and eraser mode;
-
-		//}
+		else if (source == btnDeleteSize){
+			ec.setDeleteToolSize(btnDeleteSize.getSliderValue());
+		}
 	}
 	
 	// ==============================================

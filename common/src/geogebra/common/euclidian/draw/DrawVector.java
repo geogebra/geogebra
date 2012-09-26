@@ -20,6 +20,7 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -358,6 +359,14 @@ public class DrawVector extends Drawable implements Previewable {
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return (lineVisible && rect.contains(line.getBounds()))
 				|| (arrowheadVisible && rect.contains(gp.getBounds()));
+	}
+	
+	
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return (lineVisible && line.intersects(rect))
+				|| (arrowheadVisible && gp.intersects(rect));
 	}
 
 	@Override

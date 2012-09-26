@@ -15,6 +15,7 @@ package geogebra.common.euclidian.draw;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -423,6 +424,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(labelRectangle);
+	}
+	
+	
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return box.getBounds().intersects(rect);
 	}
 
 	/**

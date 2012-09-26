@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.RemoveNeeded;
@@ -316,6 +317,22 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		}
 		return size > 0;
 
+	}
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (geoList.drawAsComboBox()) {
+			return box.getBounds().intersects(rect);
+		} 
+
+
+		int size = drawables.size();
+		for (int i = 0; i < size; i++) {
+			Drawable d = (Drawable) drawables.get(i);
+			if (d.intersectsRectangle(rect))
+				return true;
+		}
+		return false;
 	}
 
 	/**

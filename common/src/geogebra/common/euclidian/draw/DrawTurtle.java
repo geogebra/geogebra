@@ -267,6 +267,18 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (isVisible) {
+			for (PartialPath p : pathList) {
+				if (p.path.intersects(rect)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public GeoElement getGeoElement() {
 		return geo;
 	}

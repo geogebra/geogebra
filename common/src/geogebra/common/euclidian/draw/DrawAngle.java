@@ -763,6 +763,11 @@ public class DrawAngle extends Drawable implements Previewable {
 	final public boolean isInside(GRectangle rect) {
 		return shape != null && rect.contains(shape.getBounds());
 	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return shape != null && shape.intersects(rect);
+	}
 
 	@Override
 	public GeoElement getGeoElement() {

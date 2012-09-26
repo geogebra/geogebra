@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -484,6 +485,11 @@ public class DrawSegment extends Drawable implements Previewable {
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return line != null && rect.contains(line.getP1())
 				&& rect.contains(line.getP2());
+	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return line.intersects(rect);
 	}
 
 	@Override

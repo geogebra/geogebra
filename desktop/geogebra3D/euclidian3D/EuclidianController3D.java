@@ -1359,7 +1359,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	@Override
 	protected void wrapMouseReleased(AbstractEvent event) {
-		if (!DRAGGING_OCCURED && !app.isRightClick(event))
+		if (!draggingOccured && !app.isRightClick(event))
 			view3D.switchMoveCursor();
 		
 		super.wrapMouseReleased(event);
@@ -1383,7 +1383,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			else{
 				//switch the direction of move (xy or z) in case of left-click
 				//if (!movedGeoPointDragged){
-				if (!DRAGGING_OCCURED && !app.isRightClick(e)){
+				if (!draggingOccured && !app.isRightClick(e)){
 					movedGeoPoint.switchMoveMode();
 					((EuclidianView3D) view).getCursor3D().setMoveMode(movedGeoPoint.getMoveMode());
 					//Application.debug(movedGeoPoint+"\nmove mode="+movedGeoPoint.getMoveMode()+"\ncursor move mode="+((EuclidianView3D) view).getCursor3D().getMoveMode());

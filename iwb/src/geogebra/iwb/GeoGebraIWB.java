@@ -50,7 +50,7 @@ public class GeoGebraIWB extends GeoGebra {
 				dllFound = false;
 			}
 			if (!dllFound) {
-				app.showError("RegistrationUtilsNotFound"); // TODO add to
+				app.showError(app.getError("RegistrationUtilsNotFound")); // TODO add to
 															// properties
 			}
 		}
@@ -94,7 +94,7 @@ public class GeoGebraIWB extends GeoGebra {
 				App.info("No SMARTboard-driver installed.");
 				App.debug(e.getMessage());
 				e.printStackTrace();
-				app.showError("CouldNotConnectToSMARTBoard"); // TODO add to
+				app.showError(app.getError("NoDriverNoConnectionToSMARTBoard")); // TODO add to
 																// properties
 			}
 		}

@@ -181,6 +181,11 @@ public final class DrawBoolean extends Drawable {
 	final public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return rect.intersects(labelRectangle);
+	}
 
 	/**
 	 * Returns false

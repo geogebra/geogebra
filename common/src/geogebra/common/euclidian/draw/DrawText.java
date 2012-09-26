@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
@@ -264,6 +265,12 @@ public final class DrawText extends Drawable {
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(labelRectangle);
+	}
+
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return labelRectangle.intersects(rect);
 	}
 
 	/**

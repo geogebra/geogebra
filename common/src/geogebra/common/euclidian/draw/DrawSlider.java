@@ -17,6 +17,7 @@ the Free Software Foundation.
 package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
@@ -208,5 +209,12 @@ public class DrawSlider extends Drawable {
 		}
 		return line.getBounds();
 	}
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return drawPoint.intersectsRectangle(rect)||line.intersects(rect);
+	}
+	
+	
 
 }

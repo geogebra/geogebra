@@ -96,6 +96,11 @@ public class DrawBoxPlot extends Drawable {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
 	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return gp != null && gp.intersects(rect);
+	}
 
 	@Override
 	public boolean isInside(GRectangle rect) {

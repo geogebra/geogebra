@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
@@ -251,6 +252,11 @@ public class DrawUpperLowerSum extends Drawable {
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return false;
+	}
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return gp != null && gp.intersects(rect);
 	}
 
 	@Override

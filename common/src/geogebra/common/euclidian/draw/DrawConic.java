@@ -1084,7 +1084,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			return false;
 		// set a flag that says if the point is on the filling
 		boolean isOnFilling = false;
-		if ((geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled())
+		if (isFilled()
 				&& type != GeoConicNDConstants.CONIC_SINGLE_POINT
 				&& type != GeoConicNDConstants.CONIC_DOUBLE_LINE) {
 			double realX = view.toRealWorldCoordX(hitX);
@@ -1164,6 +1164,26 @@ final public class DrawConic extends Drawable implements Previewable {
 			return rect != null && rect.contains(shape.getBounds());
 		}
 
+		return false;
+	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (type==GeoConicNDConstants.CONIC_SINGLE_POINT){
+			return drawPoint.intersectsRectangle(rect);
+		}
+		if (type==GeoConicNDConstants.CONIC_DOUBLE_LINE){
+			return drawLines[0].intersectsRectangle(rect)||drawLines[1].intersectsRectangle(rect);
+		}
+		if (isFilled()){
+			return super.intersectsRectangle(rect);
+		}
+		if (shape!=null){
+			return shape.intersects(rect)&&!shape.contains(rect);
+		}
+		if (super.getShape()!=null){
+			return super.getShape().intersects(rect)&&!super.getShape().contains(rect);
+		}
 		return false;
 	}
 

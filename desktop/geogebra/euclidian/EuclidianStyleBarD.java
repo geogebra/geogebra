@@ -59,17 +59,15 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	private PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize,
 			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
-			btnPointCapture;
+			btnPointCapture, btnDeleteSize;
 
 	private MyToggleButton btnPen, btnShowGrid, btnShowAxes, btnBold,
-			btnItalic, btnDelete, btnPenEraser, btnTableTextLinesV,
-			btnTableTextLinesH;
+			btnItalic, btnDelete, btnTableTextLinesV, btnTableTextLinesH;
 
 	MyToggleButton btnFixPosition;
 
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton[] toggleBtnList;
-	private JButton btnPenDelete;
 
 	// fields for setting/unsetting default geos
 	private HashMap<Integer, Integer> defaultGeoMap;
@@ -215,6 +213,13 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				// we also update stylebars according to just created geos
 				activeGeoList.addAll(ec.getJustCreatedGeos());
 			}
+		} 
+		// -----------------------------------------------------
+		// display a selection for the drag-delete-tool
+		// can't use a geo element for this
+		// -----------------------------------------------------
+		else if (mode==EuclidianConstants.MODE_DELETE){
+			
 		}
 
 		// -----------------------------------------------------
@@ -272,10 +277,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		for (int i = 0; i < toggleBtnList.length; i++) {
 			toggleBtnList[i].update(activeGeoList.toArray());
 		}
-
-		// show the pen delete button
-		// TODO: handle pen mode in code above
-		btnPenDelete.setVisible(EuclidianView.isPenMode(mode));
 
 		addButtons();
 
@@ -359,6 +360,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		if (btnFixPosition.isVisible())
 			addSeparator();
 		add(btnFixPosition);
+		
+		if (btnDeleteSize.isVisible()){
+			addSeparator();
+		}
+		add(btnDeleteSize);
 
 	}
 
@@ -373,13 +379,13 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
 				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
-				btnTableTextBracket, btnLabelStyle, btnPointCapture };
+				btnTableTextBracket, btnLabelStyle, btnPointCapture, btnDeleteSize };
 	}
 
 	protected MyToggleButton[] newToggleBtnList() {
 		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes,
-				btnBold, btnItalic, btnDelete, btnPenEraser,
-				btnTableTextLinesV, btnTableTextLinesH, btnFixPosition };
+				btnBold, btnItalic, btnDelete, btnTableTextLinesV,
+				btnTableTextLinesH, btnFixPosition };
 	}
 
 	protected void addBtnPointCapture() {
@@ -441,6 +447,28 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		};
 		btnDelete.addActionListener(this);
 		add(btnDelete);
+		
+		// ========================================
+		// delete-drag square size
+		btnDeleteSize=new PopupMenuButton(app, null, 0, 0, iconDimension, 0, false, true){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				this.setVisible(mode==EuclidianConstants.MODE_DELETE);
+			}
+			
+			
+			
+		};
+		btnDeleteSize.getMySlider().setMinimum(10);
+		btnDeleteSize.getMySlider().setMaximum(100);
+		btnDeleteSize.getMySlider().setMajorTickSpacing(20);
+		btnDeleteSize.getMySlider().setMinorTickSpacing(5);
+		btnDeleteSize.getMySlider().setPaintTicks(true);
+		btnDeleteSize.addActionListener(this);
+		btnDeleteSize.setIcon(app.getImageIcon("delete_small.gif"));
 
 		// ========================================
 		// show axes button
@@ -632,21 +660,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnPointStyle.addActionListener(this);
 
 		// ========================================
-		// eraser button
-		btnPenEraser = new MyToggleButton(app.getImageIcon("delete_small.gif"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible(EuclidianView.isPenMode(mode));
-			}
-		};
-
-		btnPenEraser.addActionListener(this);
-
-		// ========================================
 		// caption style button
 
 		String[] captionArray = new String[] { app.getPlain("stylebar.Hidden"), // index
@@ -758,14 +771,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnPointCapture.setStandardButton(true); // popup on the whole button
 		btnPointCapture.addActionListener(this);
 		btnPointCapture.setKeepVisible(false);
-
-		// ========================================
-		// pen delete button
-		btnPenDelete = new JButton("\u2718");
-		Dimension d = new Dimension(iconHeight, iconHeight);
-		btnPenDelete.setPreferredSize(d);
-		btnPenDelete.setMaximumSize(d);
-		btnPenDelete.addActionListener(this);
 
 		// ========================================
 		// fixed position button
@@ -1364,16 +1369,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		else if (source == btnTableTextJustify || source == btnTableTextLinesH || source == btnTableTextLinesV || source == btnTableTextBracket) {
 			EuclidianStyleBarStatic.applyTableTextFormat(targetGeos, btnTableTextJustify.getSelectedIndex(), btnTableTextLinesH.isSelected(), btnTableTextLinesV.isSelected(), btnTableTextBracket.getSelectedIndex(), app);
 		}
-
-		else if (source == btnPenDelete) {
-
-			// add code here to delete pen image
-
-		} else if (source == btnPenEraser) {
-
-			// add code here to toggle between pen and eraser mode;
-
-		} else if (source == btnFixPosition) {
+		
+		else if (source == btnDeleteSize){
+			ec.setDeleteToolSize(btnDeleteSize.getSliderValue());
+		}
+		else if (source == btnFixPosition) {
 			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos, btnFixPosition.isSelected(), ev) != null;
 		}
 	}
@@ -1425,8 +1425,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				.getPlainTooltip("stylebar.VerticalLine"));
 
 		btnPen.setToolTipText(app.getPlainTooltip("stylebar.Pen"));
-		btnPenEraser.setToolTipText(app.getPlainTooltip("stylebar.Eraser"));
 		btnFixPosition.setToolTipText(app.getPlain("AbsoluteScreenLocation"));
+		
+		btnDeleteSize.setToolTipText(app.getPlain("Size"));
 
 	}
 

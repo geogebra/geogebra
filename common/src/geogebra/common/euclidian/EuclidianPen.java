@@ -106,9 +106,10 @@ public class EuclidianPen {
     private int absDeltaX = 0;
     private int absDeltaY = 0;
     private float absTangent = 0;
-
-
-	private boolean erasing = false;
+    
+    private final static int PEN_SIZE_FACTOR=2;
+	
+	private boolean startNewStroke=false;
 
 	private int penSize;
 
@@ -117,6 +118,9 @@ public class EuclidianPen {
 	}
 
 	public void setPenSize(int penSize) {
+		if (this.penSize!=penSize){
+			startNewStroke=true;
+		}
 		this.penSize = penSize;
 	}
 
@@ -125,6 +129,9 @@ public class EuclidianPen {
 	}
 
 	public void setPenLineStyle(int penLineStyle) {
+		if (this.penLineStyle != penLineStyle){
+			startNewStroke=true;
+		}
 		this.penLineStyle = penLineStyle;
 	}
 
@@ -162,18 +169,20 @@ public class EuclidianPen {
 
 	public void setDefaults() {
 		penSize = 3;
-		eraserSize = 16;
+		eraserSize = 32;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.black;
 	}
 
-	public boolean isErasing() {
-		return erasing;
+	/**
+	 * 
+	 * @param e
+	 * @return Is this MouseEvent an erasing Event.
+	 */
+	public boolean isErasingEvent(AbstractEvent e) {
+		return app.isRightClick(e) && !freehand;
 	}
 
-	public void setErasing(boolean erasing) {
-		this.erasing = erasing;
-	}
 
 	public void setPenGeo(GeoElement penGeo) {
 		
@@ -191,11 +200,33 @@ public class EuclidianPen {
 	// ===========================================
 	// Mouse Event Handlers
 	// ===========================================
+	
+	
+	/**
+	 * Mouse dragged while in pen mode, decide whether erasing or new points.
+	 * @param e
+	 */
+	public void handleMouseDraggedForPenMode(AbstractEvent e){
+		view.setTransparentCursor();
+		if (isErasingEvent(e)) {
+			view.getEuclidianController().handleMouseDraggedForDelete(e,eraserSize,true);
+		} else {
+			handleMousePressedForPenMode(e, null);
+		}
+	}
 
 	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
-
+		if (!isErasingEvent(e)) {
+			addPointPenMode(e,hits);
+		}
+	}
 		
-
+	/**
+	 * add the saved points to the last stroke or create a new one
+	 * @param e
+	 * @param h
+	 */
+	public void addPointPenMode(AbstractEvent e, Hits h){
 			
 		// if a PolyLine is selected, we can append to it.
 
@@ -206,31 +237,16 @@ public class EuclidianPen {
 		}
 
 
-		if (app.isRightClick(e) && !freehand) {
-			view.setEraserCursor();
-			erasing = true;
-		} else {
-			view.setTransparentCursor();
-			erasing = false;
-		}
-
-
+		view.setTransparentCursor();
 
 		// if (g2D == null) g2D = penImage.createGraphics();
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		GGraphics2D g2D = view.getGraphicsForPen();
 		GShape circle;
-		if (app.isRightClick(e) && !freehand) {
-			g2D.setColor(GColor.white);
-			circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() -  eraserSize , e.getY()
-					-  eraserSize , eraserSize * 2, eraserSize * 2);
-		} else {
-			g2D.setColor(penColor);
-			circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize,
-					e.getY() - penSize, penSize * 2, penSize * 2);
-		}
-		// g2D.drawOval(e.getX(), e.getY(), penSize, penSize);
+		g2D.setColor(penColor);
+		circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize,
+				e.getY() - penSize, penSize * 2, penSize * 2);
 		g2D.fill(circle);
 
 		if (minX > e.getX())
@@ -286,7 +302,15 @@ public class EuclidianPen {
 	    }
 	}
 
+	/**
+	 * Clean up the pen mode stuff, add points.
+	 * @param e
+	 */
 	public void handleMouseReleasedForPenMode(AbstractEvent e) {
+		
+		if (app.isRightClick(e) && !freehand){
+			return;
+		}
 		
 		if (freehand) {
 			mouseReleasedFreehand(e);
@@ -541,69 +565,42 @@ public class EuclidianPen {
 		//GeoList newPts;// = new GeoList(cons);
 		GeoPoint[] newPts;// = new GeoList(cons);
 		int offset;
-		if (erasing) {
+		if (startNewStroke){
+			lastAlgo=null;
+			startNewStroke=false;
+		}
+		if (lastAlgo == null) {
+			//lastPolyLine = new GeoPolyLine(cons, "hello");
+			newPts = new GeoPoint[penPoints2.size()];
+			//newPts = new GeoList(cons);
+			offset = 0;
+		} else {
+			//newPts = lastPolyLine.getPointsList();
 			
-			if (lastAlgo == null) {
-				return;
-			}
+			// force a gap
+			//newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
+			
 			
 			GeoPoint[] pts = getAlgoPolyline(lastAlgo).getPoints();
 			
-			newPts = new GeoPoint[pts.length];
+			newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
 			
-			GeoPoint undefinedPoint = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
-
 			for (int i = 0 ; i < pts.length ; i++) {
-				
-				// check if each point is inside eraser
-				
-		    	Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
-		    	boolean erase = false;
-		    	while (it.hasNext() && !erase) {
-		    		GPoint p = it.next();
-		    		if (p.distance(view.toScreenCoordXd(pts[i].inhomX), view.toScreenCoordYd(pts[i].inhomY)) < eraserSize) {
-		    			erase = true;
-		    		}		    			    		
-				}
+				newPts[i] = (GeoPoint) pts[i].copyInternal(cons);
+			}
+			
+			newPts[pts.length] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
 
-				// add undefined point to erase (creates a gap)
-				newPts[i] = erase ? undefinedPoint : (GeoPoint) pts[i].copyInternal(cons);
-			}
 			
-		} else {
-			if (lastAlgo == null) {
-				//lastPolyLine = new GeoPolyLine(cons, "hello");
-				newPts = new GeoPoint[penPoints2.size()];
-				//newPts = new GeoList(cons);
-				offset = 0;
-			} else {
-				//newPts = lastPolyLine.getPointsList();
-				
-				// force a gap
-				//newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
-				
-				
-				GeoPoint[] pts = getAlgoPolyline(lastAlgo).getPoints();
-				
-				newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
-				
-				for (int i = 0 ; i < pts.length ; i++) {
-					newPts[i] = (GeoPoint) pts[i].copyInternal(cons);
-				}
-				
-				newPts[pts.length] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
-	
-				
-				offset = pts.length + 1;
-				
-			}
+			offset = pts.length + 1;
 			
-	    	Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
-	    	while (it.hasNext()) {
-	    		GPoint p = it.next();
-	    		//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
-	    		newPts[offset++] = new GeoPoint(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
-			}
+		}
+		
+    	Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
+    	while (it.hasNext()) {
+    		GPoint p = it.next();
+    		//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
+    		newPts[offset++] = new GeoPoint(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
 		}
 		
 		
@@ -665,7 +662,7 @@ public class EuclidianPen {
 		
 		GeoPolyLine poly = (GeoPolyLine) algo.getOutput(0);
 		
-		poly.setLineThickness(penSize * 2);
+		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
 		poly.setObjColor(penColor);
 		poly.setLayer(1);
@@ -786,7 +783,7 @@ public class EuclidianPen {
 		
 		GeoElement fun = algo.getGeoElements()[0];
 		
-		fun.setLineThickness(penSize * 2);
+		fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		fun.setLineType(penLineStyle);
 		fun.setObjColor(penColor);
 		fun.setLayer(1);
@@ -1082,7 +1079,7 @@ public class EuclidianPen {
 		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction(), null, p1, q, z);
 		
 		GeoConic circle = (GeoConic) algo.getCircle();
-		circle.setLineThickness(penSize * 2);
+		circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		circle.setLineType(penLineStyle);
 		circle.setObjColor(penColor);
 		circle.setLayer(1);
@@ -1556,7 +1553,7 @@ public class EuclidianPen {
     	algo = new AlgoPolygon(cons, null, pts);
     	
 		GeoElement poly = algo.getGeoElements()[0];
-		poly.setLineThickness(penSize * 2);
+		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
 		poly.setObjColor(penColor);
 		poly.setLayer(1);
@@ -1929,6 +1926,9 @@ public class EuclidianPen {
     }
 
 	public void setPenColor(geogebra.common.awt.GColor color) {
+		if (!this.penColor.equals(color)){
+			startNewStroke=true;
+		}
 		this.penColor = color;
 		
 	}

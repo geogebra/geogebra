@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -252,6 +253,17 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			}
 			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (isVisible) {
+			if (strokedShape == null) {
+				strokedShape = objStroke.createStrokedShape(gp);
+			}
+			return strokedShape.intersects(rect);
 		}
 		return false;
 	}

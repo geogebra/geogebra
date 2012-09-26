@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -151,6 +152,11 @@ public class DrawIntegralFunctions extends Drawable {
 	final public boolean hit(int x, int y) {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
+	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return gp != null && gp.intersects(rect);
 	}
 
 	@Override

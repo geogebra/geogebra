@@ -14,6 +14,7 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -1067,6 +1068,24 @@ public class DrawParametricCurve extends Drawable {
 		/*
 		 * return gp.intersects(x-3,y-3,6,6) && !gp.contains(x-3,y-3,6,6);
 		 */
+	}
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (isVisible) {
+			GShape t = geo.isInverseFill() ? getShape() : gp;
+			if (strokedShape == null) {
+				//strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
+				strokedShape = objStroke.createStrokedShape(gp);
+			}
+			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
+				return t.intersects(rect);
+			}
+			
+			return strokedShape.intersects(rect);			
+			
+		}
+		return false;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GArc2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -382,6 +383,46 @@ public class DrawConicPart extends Drawable implements Previewable {
 	public void disposePreview() {
 		if (conicPart != null) {
 			conicPart.remove();
+		}
+	}
+	
+	
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (!isVisible)
+			return false;
+
+		switch (draw_type) {
+		case DRAW_TYPE_ELLIPSE:
+			if (isFilled()){
+				shape.intersects(rect);
+			}
+			if (strokedShape == null) {
+				strokedShape = objStroke.createStrokedShape(shape);
+			}
+			return strokedShape.intersects(rect);
+
+			/*
+			 * // sector: take shape for hit testing if (closure == Arc2D.PIE) {
+			 * return shape.intersects(x-2, y-2, 4, 4) && !shape.contains(x-2,
+			 * y-2, 4, 4); } else { if (tempPoint == null) { tempPoint = new
+			 * GeoPoint(conicPart.getConstruction()); }
+			 * 
+			 * double rwX = view.toRealWorldCoordX(x); double rwY =
+			 * view.toRealWorldCoordY(y); double maxError = 4 * view.invXscale;
+			 * // pixel tempPoint.setCoords(rwX, rwY, 1.0); return
+			 * conicPart.isOnPath(tempPoint, maxError); }
+			 */
+
+		case DRAW_TYPE_SEGMENT:
+			return drawSegment.intersectsRectangle(rect);
+
+		case DRAW_TYPE_RAYS:
+			return drawRay1.intersectsRectangle(rect) || drawRay2.intersectsRectangle(rect);
+
+		default:
+			return false;
 		}
 	}
 

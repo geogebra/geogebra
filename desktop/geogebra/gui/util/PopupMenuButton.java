@@ -120,7 +120,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(AppD app, Object[] data, Integer rows, Integer columns, Dimension iconSize, Integer mode){
+	public PopupMenuButton(AppD app, Object[] data, int rows, int columns, Dimension iconSize, int mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 
@@ -135,8 +135,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(AppD app, Object[] data, Integer rows, Integer columns, Dimension iconSize, 
-			Integer mode, final boolean hasTable, boolean hasSlider){
+	public PopupMenuButton(AppD app, Object[] data, int rows, int columns, Dimension iconSize, 
+			int mode, final boolean hasTable, boolean hasSlider){
 		super(); 
 		this.app = app;
 		this.hasTable = hasTable;		

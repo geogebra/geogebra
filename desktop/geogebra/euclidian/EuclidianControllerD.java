@@ -57,7 +57,7 @@ public class EuclidianControllerD extends
 		setApplication(kernel.getApplication());
 
 		// for tooltip manager
-		DEFAULT_INITIAL_DELAY = ToolTipManager.sharedInstance()
+		defaultInitialDelay = ToolTipManager.sharedInstance()
 				.getInitialDelay();
 
 		tempNum = new MyDouble(kernel);
@@ -128,14 +128,14 @@ public class EuclidianControllerD extends
 	public void initToolTipManager() {
 		// set tooltip manager
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
-		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY / 2);
+		ttm.setInitialDelay(defaultInitialDelay / 2);
 		ttm.setEnabled(((AppD) app).getAllowToolTips());
 	}
 
 	@Override
 	public void resetToolTipManager() {
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
-		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY);
+		ttm.setInitialDelay(defaultInitialDelay);
 	}
 
 	/* ****************************************************** */

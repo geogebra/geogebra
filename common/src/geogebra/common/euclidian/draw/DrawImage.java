@@ -20,6 +20,7 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -336,6 +337,18 @@ public final class DrawImage extends Drawable {
 		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);
 	}
+	
+	
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		if (!isVisible || geoImage.isInBackground())
+			return false;
+
+		return rect.intersects(boundingBox);
+	}
+
+
 
 	private double[] hitCoords = new double[2];
 

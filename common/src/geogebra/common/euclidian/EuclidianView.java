@@ -115,6 +115,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			.newColor(200, 200, 230);
 	private static final geogebra.common.awt.GColor colZoomRectangleFill = geogebra.common.factories.AwtFactory.prototype
 			.newColor(200, 200, 230, 50);
+	
+	//deletion square design
+	private static final GColor colDeletionSquare = AwtFactory.prototype
+			.newColor(128, 0, 0);
+	private static final GBasicStroke strokeDeletionSquare = AwtFactory.prototype
+			.newBasicStroke(1.0f);
+	private GRectangle deletionRectangle;
+	
+	
 	// colors: axes, grid, background
 	private geogebra.common.awt.GColor axesColor, gridColor;
 	private GRectangle selectionRectangle;
@@ -2571,6 +2580,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		if (selectionRectangle != null) {
 			drawZoomRectangle(g2);
 		}
+		
+		if (deletionRectangle != null){
+			drawRect(g2, colDeletionSquare,strokeDeletionSquare,deletionRectangle);
+		}
 
 		// when mouse over slider, show preview value of slider for that point
 		boolean drawn = drawSliderValue(g2);
@@ -2611,6 +2624,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		g2.fill(selectionRectangle);
 		g2.setColor(colZoomRectangle);
 		g2.draw(selectionRectangle);
+	}
+	
+	/**
+	 * 	 Draws rectangle with given options
+	 * @param g2 graphics
+	 * @param col color for stroke
+	 * @param stroke stroke to use
+	 * @param rect rectangle to draw
+	 */
+	protected void drawRect(GGraphics2D g2, GColor col, GBasicStroke stroke, GRectangle rect) {
+		g2.setColor(col);
+		g2.setStroke(stroke);
+		g2.draw(rect);
 	}
 
 	/**
@@ -3605,6 +3631,27 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			Drawable d = it.next();
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && d.isInside(rect)) {
+				hits.add(geo);
+			}
+		}
+	}
+	
+	/**
+	 * sets array of GeoElements whose visual representation is inside of the
+	 * given screen rectangle
+	 * @param rect rectangle
+	 */
+	public final void setIntersectionHits(GRectangle rect) {
+		hits.init();
+		if (rect == null) {
+			return;
+		}
+
+		DrawableIterator it = allDrawableList.getIterator();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			GeoElement geo = d.getGeoElement();
+			if (geo.isEuclidianVisible() && d.intersectsRectangle(rect)) {
 				hits.add(geo);
 			}
 		}
@@ -4728,5 +4775,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void setOptionPanel(OptionsEuclidian optionPanel){
 		this.optionPanel=optionPanel;
 	}
+
+	public GRectangle getDeletionRectangle() {
+		return deletionRectangle;
+	}
+
+	public void setDeletionRectangle(GRectangle deletionRectangle) {
+		this.deletionRectangle = deletionRectangle;
+	}
+	
+	
 
 }

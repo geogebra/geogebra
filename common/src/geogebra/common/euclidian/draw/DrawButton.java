@@ -205,6 +205,11 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	final public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return myButton.getBounds().intersects(rect) && isVisible;
+	}
 
 	/**
 	 * Returns false

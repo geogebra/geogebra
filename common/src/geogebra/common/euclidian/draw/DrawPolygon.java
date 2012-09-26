@@ -12,10 +12,12 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GArea;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -354,5 +356,15 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 		return gp.getBounds();
 	}
+
+	@Override
+	public GArea getShape() {
+		if (geo.isInverseFill()||super.getShape()!=null)
+			return super.getShape();
+		setShape(AwtFactory.prototype.newArea(gp));
+		return super.getShape();
+	}
+	
+	
 
 }

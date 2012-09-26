@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -210,6 +211,11 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(gp.getBounds());
+	}
+	
+	@Override
+	public boolean intersectsRectangle(GRectangle rect){
+		return gp.intersects(rect);
 	}
 
 	@Override
