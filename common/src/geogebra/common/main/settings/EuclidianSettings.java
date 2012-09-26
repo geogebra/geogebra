@@ -347,7 +347,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setAxisLabel(int axis, String axisLabel) {
 		boolean changed = false;
-		if ((axisLabel != null) && (axisLabel.length() == 0)) {
+		if ((axisLabel == null) || (axisLabel.length() == 0)) {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
 		} else {
