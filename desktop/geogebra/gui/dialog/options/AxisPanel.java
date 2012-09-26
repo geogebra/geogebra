@@ -308,7 +308,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 			 	ncbTickDist.addItemListener(this);	
 			 	
 			 	cbAxisLabel.removeActionListener(this);
-			 	cbAxisLabel.setSelectedItem(view.axisLabelForXML(axis));
+			 	cbAxisLabel.setSelectedItem(view.getAxesLabels()[axis]);
 			 	cbAxisLabel.addActionListener(this);
 			 	
 			 	cbUnitLabel.removeActionListener(this);
