@@ -2075,61 +2075,67 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// TODO implement other features from the old paint method
 
-		int colCount = getColumnCount();
-		int rowCount = getRowCount();
 		GPoint cellPoint = new GPoint();
 		GColor bgColor;
 		Element operate = null;
-		for (int i = colCount - 1; i >= 0; i--) {
-			for (int j = rowCount - 1; j >= 0; j--) {
+		for (int i = getColumnCount() - 1; i >= 1; i--) {
+			if (getWidget(0, i) != null)
+				operate = getWidget(0, i).getElement();
+			else
+				operate = getCellFormatter().getElement(0, i);
+
+			if (i >= minSelectionColumn && i <= maxSelectionColumn && selectionType != MyTable.ROW_SELECT)
+				operate.getStyle().setBackgroundColor(
+					MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+			else
+				operate.getStyle().setBackgroundColor(
+					MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		}
+		for (int j = getRowCount() - 1; j >= 1; j--) {
+			if (getWidget(j, 0) != null)
+				operate = getWidget(j, 0).getElement();
+			else
+				operate = getCellFormatter().getElement(j, 0);
+
+			if (j >= minSelectionRow && j <= maxSelectionRow && selectionType != MyTable.COLUMN_SELECT)
+				operate.getStyle().setBackgroundColor(
+					MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+			else
+				operate.getStyle().setBackgroundColor(
+					MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		}
+
+		int colCount = tableModel.getHighestUsedColumn() + 2;
+		int rowCount = tableModel.getHighestUsedRow() + 2;
+		for (int i = colCount - 1; i >= 1; i--) {
+			for (int j = rowCount - 1; j >= 1; j--) {
 
 				if (getWidget(j, i) != null)
 					operate = getWidget(j, i).getElement();
 				else
 					operate = getCellFormatter().getElement(j, i);
 
-				if (i == 0) {
-					if (j == 0) {
-						// no need to do anything, in theory
+				cellPoint.setLocation(i - 1, j - 1);
+				bgColor = (GColor)formatHandler.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR);
+				GeoElement geo = null;
+				if (tableModel.getValueAt(j-1, i-1) instanceof GeoElement)
+					geo = (GeoElement)tableModel.getValueAt(j - 1, i - 1);
+
+				if (bgColor == null && geo != null && geo.getBackgroundColor() != null)
+					bgColor = geo.getBackgroundColor();
+
+				// adjust selection color when there is a bgColor
+				if (geo != null && geo.doHighlighting()) {
+					if (bgColor != null) {
+						bgColor = bgColor.darker();
 					} else {
-						if (j >= minSelectionRow && j <= maxSelectionRow)
-							operate.getStyle().setBackgroundColor(
-								MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-						else
-							operate.getStyle().setBackgroundColor(
-								MyTableW.BACKGROUND_COLOR_HEADER.toString());
+						bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
 					}
-				} else if (j == 0) {
-					if (i >= minSelectionColumn && i <= maxSelectionColumn)
-						operate.getStyle().setBackgroundColor(
-							MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-					else
-						operate.getStyle().setBackgroundColor(
-							MyTableW.BACKGROUND_COLOR_HEADER.toString());
-				} else {
-					cellPoint.setLocation(i - 1, j - 1);
-					bgColor = (GColor)formatHandler.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR);
-					GeoElement geo = null;
-
-					if (tableModel.getValueAt(j-1, i-1) instanceof GeoElement)
-						geo = (GeoElement)tableModel.getValueAt(j - 1, i - 1);
-
-					if (bgColor == null && geo != null && geo.getBackgroundColor() != null)
-						bgColor = geo.getBackgroundColor();
-
-					// adjust selection color when there is a bgColor
-					if (geo != null && geo.doHighlighting()) {
-						if (bgColor != null) {
-							bgColor = bgColor.darker();
-						} else {
-							bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
-						}
-					}
-					if (bgColor != null)
-						operate.getStyle().setBackgroundColor(bgColor.toString());
-					else
-						operate.getStyle().setBackgroundColor(GColor.WHITE.toString());
 				}
+				if (bgColor != null)
+					operate.getStyle().setBackgroundColor(bgColor.toString());
+				else
+					operate.getStyle().setBackgroundColor(GColor.WHITE.toString());
 			}
 		}
 
