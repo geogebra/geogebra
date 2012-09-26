@@ -284,8 +284,8 @@ public class SpreadsheetMouseListener implements
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
 		// change selection if right click is outside current selection
-		if (p.getY() != table.anchorSelectionRow
-			|| p.getX() != table.anchorSelectionColumn) {
+		if (p.getY() != table.anchorSelectionRow + 1
+			|| p.getX() != table.anchorSelectionColumn + 1) {
 			// switch to cell selection mode
 
 			if (p.getY() > 0 && p.getX() > 0) {
@@ -452,8 +452,8 @@ public class SpreadsheetMouseListener implements
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
 		// change selection if right click is outside current selection
-		if (p.getY() != table.leadSelectionRow
-			|| p.getX() != table.leadSelectionColumn) {
+		if (p.getY() != table.leadSelectionRow + 1
+			|| p.getX() != table.leadSelectionColumn + 1) {
 			// switch to cell selection mode
 
 			if (p.getY() > 0 && p.getX() > 0) {
@@ -644,8 +644,8 @@ public class SpreadsheetMouseListener implements
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
 			// change selection if right click is outside current selection
-			if (p.getY() != table.leadSelectionRow
-				|| p.getX() != table.leadSelectionColumn) {
+			if (p.getY() != table.leadSelectionRow + 1
+				|| p.getX() != table.leadSelectionColumn + 1) {
 				// switch to cell selection mode
 
 				if (p.getY() > 0 && p.getX() > 0) {

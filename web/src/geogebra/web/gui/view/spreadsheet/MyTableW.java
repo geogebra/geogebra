@@ -533,8 +533,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			} else {
 				anchorSelectionColumn = columnIndex - 1;
 				anchorSelectionRow = rowIndex - 1;
-				leadSelectionColumn = -1;
-				leadSelectionRow = -1;
+				leadSelectionColumn = columnIndex - 1;
+				leadSelectionRow = rowIndex - 1;
 			}
 		}
 		// let selectionChanged know about a change in single cell selection
