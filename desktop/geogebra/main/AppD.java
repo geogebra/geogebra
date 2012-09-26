@@ -99,6 +99,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -155,18 +156,22 @@ import java.util.logging.SimpleFormatter;
 import javax.imageio.ImageIO;
 import javax.naming.OperationNotSupportedException;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -5298,6 +5303,11 @@ public class AppD extends App implements
 	public ComponentOrientation getComponentOrientation() {
 		return isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
 	}
+	
+
+	// renderer for JComboBox (align left/right)
+	private ListCellRenderer renderer = new DefaultListCellRenderer();
+	
 	public void setComponentOrientation(Component c) {
 		
 		ComponentOrientation orientation = isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
@@ -5312,6 +5322,10 @@ public class AppD extends App implements
 	    	}
 	    } else if (c instanceof JTextField) {
 	    	((JTextField)c).setHorizontalAlignment(isRightToLeftReadingOrder() ? JTextField.RIGHT : JTextField.LEFT);
+	    } else if (c instanceof JComboBox) {
+	    	JComboBox cb = (JComboBox) c;		
+			((JLabel) renderer ).setHorizontalAlignment(isRightToLeftReadingOrder() ? SwingConstants.RIGHT : SwingConstants.LEFT );
+			cb.setRenderer(renderer);
 	    } else if (c instanceof Container) {
 	    	Container container = (Container)c;
 	    	int ncomponents = container.getComponentCount();
@@ -5321,7 +5335,18 @@ public class AppD extends App implements
 	    }
 
 	}
-	
+
+
+	/**
+	 * set a flow layout for the panel with correct orientation
+	 * @param panel
+	 */
+	public void setFlowLayoutOrientation(JPanel panel) {
+		if (isRightToLeftReadingOrder())
+			panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		else
+			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+	}
 	
 
 	

@@ -106,6 +106,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -777,8 +778,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox showObjectCB;
 
 		public ShowObjectPanel() {
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-
+			app.setFlowLayoutOrientation(this);
+			
 			// check box for show object
 			showObjectCB = new JCheckBox();
 			showObjectCB.addItemListener(this);
@@ -787,6 +788,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			showObjectCB.setText(app.getPlain("ShowObject"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -1074,7 +1076,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox checkboxFixCB;
 
 		public CheckBoxFixPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
+			app.setFlowLayoutOrientation(this);
 
 			checkboxFixCB = new JCheckBox();
 			checkboxFixCB.addItemListener(this);
@@ -1083,6 +1086,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			checkboxFixCB.setText(app.getPlain("FixCheckbox"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -1610,7 +1614,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private boolean showNameValueComboBox;
 
 		public LabelPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
 
 			// check boxes for show object, show label
 			showLabelCB = new JCheckBox();
@@ -1621,7 +1625,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			labelModeCB.addActionListener(this);
 
 			// labelPanel with show checkbox
-			setLayout(new FlowLayout(FlowLayout.LEFT));
+			app.setFlowLayoutOrientation(this);
 			add(showLabelCB);
 			add(labelModeCB);
 		}
@@ -1649,6 +1653,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			} else {
 				showLabelCB.setText(app.getPlain("ShowLabel") + ":");
 			}
+				
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2011,7 +2017,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox showTraceCB;
 
 		public TracePanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
+			app.setFlowLayoutOrientation(this);
 
 			// check boxes for show trace
 			showTraceCB = new JCheckBox();
@@ -2021,6 +2028,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			showTraceCB.setText(app.getPlain("ShowTrace"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2101,7 +2109,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox showAnimatingCB;
 
 		public AnimatingPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
+			app.setFlowLayoutOrientation(this);
 
 			// check boxes for animating
 			showAnimatingCB = new JCheckBox();
@@ -2111,6 +2120,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			showAnimatingCB.setText(app.getPlain("Animating"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2282,8 +2292,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox showFixCB;
 
 		public FixPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
-
+			super();
+			app.setFlowLayoutOrientation(this);
+			
 			// check boxes for show trace
 			showFixCB = new JCheckBox();
 			showFixCB.addItemListener(this);
@@ -2292,6 +2303,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			showFixCB.setText(app.getPlain("FixObject"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2595,7 +2607,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox cbComboBox;
 
 		public ListsAsComboBoxPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
+			app.setFlowLayoutOrientation(this);
 
 			// check boxes for show trace
 			cbComboBox = new JCheckBox();
@@ -2607,6 +2620,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			cbComboBox.setText(app.getPlain("DrawAsDropDownList"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2927,7 +2941,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox isBGimage;
 
 		public BackgroundImagePanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
+			app.setFlowLayoutOrientation(this);
 
 			// check boxes for show trace
 			isBGimage = new JCheckBox();
@@ -2937,6 +2952,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			isBGimage.setText(app.getPlain("BackgroundImage"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -3014,7 +3030,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox auxCB;
 
 		public AuxiliaryObjectPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super();
+			app.setFlowLayoutOrientation(this);
 
 			// check boxes for show trace
 			auxCB = new JCheckBox();
@@ -3024,6 +3041,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 			auxCB.setText(app.getPlain("AuxiliaryObject"));
+			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
@@ -7089,26 +7107,43 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	private void updateGUI(boolean showDefinition, boolean showCaption) {
 		int rows = 1;
 		removeAll();
-
-		add(nameLabel);
-		add(inputPanelName);
+		
+		if (app.isRightToLeftReadingOrder()){
+			add(inputPanelName);
+			add(nameLabel);			
+		}else{
+			add(nameLabel);
+			add(inputPanelName);
+		}
 
 		if (showDefinition) {
 			rows++;
-			add(defLabel);
-			add(inputPanelDef);
+			if (app.isRightToLeftReadingOrder()){				
+				add(inputPanelDef);	
+				add(defLabel);
+			}else{
+				add(defLabel);
+				add(inputPanelDef);
+			}			
 		}
 
 		if (showCaption) {
 			rows++;
-			add(captionLabel);
-			add(inputPanelCap);
+			if (app.isRightToLeftReadingOrder()){	
+				add(inputPanelCap);
+				add(captionLabel);				
+			}else{
+				add(captionLabel);
+				add(inputPanelCap);
+			}
 		}
 
-	
+		app.setComponentOrientation(this); 
+
 		this.rows=rows;
 		setLayout();
-				
+		
+		
 	}
 	
 	private int rows;
