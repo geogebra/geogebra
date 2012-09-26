@@ -498,6 +498,7 @@ public class SpreadsheetColumnController implements
 
 			retwidget.getElement().getStyle().setProperty("textAlign", "center");
 			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+			retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
 			return retwidget;
 		}
 

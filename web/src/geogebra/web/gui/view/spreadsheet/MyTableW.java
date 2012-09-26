@@ -174,6 +174,12 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
+	// there should be place left for the textfield
+	public static int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
+	// the textfield is this much smaller than the row height and column width
+	public static int minusRowHeight = 12;
+	public static int minusColumnWidth = 14;
+
 	// Collection of cells that contain geos that can be edited with one click,
 	// e.g. booleans, buttons, lists
 	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
@@ -214,7 +220,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// .getImage(), true);
 
 		// set row height
-		setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
+		setRowHeight(minimumRowHeight);
 
 		/*
 		 * // prepare column headers SpreadsheetColumnController
@@ -1311,8 +1317,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// do this now, and do it later in renderCells - memorized row and col
 			AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
 				((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
-			w.getTextField().setHeight((SpreadsheetSettings.TABLE_CELL_HEIGHT-10)+"px");
-			w.getTextField().setWidth((preferredColumnWidth-10)+"px");
+			w.getTextField().setHeight((minimumRowHeight-minusRowHeight)+"px");
+			w.getTextField().setWidth((preferredColumnWidth-minusColumnWidth)+"px");
 			setWidget(row, col, w);
 			getCellFormatter().getElement(row, col).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
@@ -1443,8 +1449,12 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	// Keep row heights of table and rowHeader in sync
 	public void setRowHeight(int row, int rowHeight) {
+		int rowHeight2 = rowHeight;
+		if (rowHeight2 < minimumRowHeight)
+			rowHeight2 = minimumRowHeight;
+
 		getRowFormatter().getElement(row).getStyle()
-		        .setHeight(rowHeight, Style.Unit.PX);
+		        .setHeight(rowHeight2, Style.Unit.PX);
 		try {
 			if (view != null) {
 				// TODO//view.updateRowHeader();
@@ -1458,9 +1468,13 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	}
 
 	public void setRowHeight(int rowHeight) {
+		int rowHeight2 = rowHeight;
+		if (rowHeight2 < minimumRowHeight)
+			rowHeight2 = minimumRowHeight;
+
 		for (int i = 0; i < getRowCount(); i++)
 			getRowFormatter().getElement(i).getStyle()
-			        .setHeight(rowHeight, Style.Unit.PX);
+			        .setHeight(rowHeight2, Style.Unit.PX);
 		try {
 			if (view != null) {
 				// TODO//view.updateRowHeader();
@@ -1476,7 +1490,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public void resetRowHeights() {
 		doRecordRowHeights = false;
 		for (GPoint p : adjustedRowHeights) {
-			setRowHeight(p.x, p.y);
+			int rowHeight2 = p.y;
+			if (rowHeight2 < minimumRowHeight)
+				rowHeight2 = minimumRowHeight;
+			setRowHeight(p.x, rowHeight2);
 		}
 		doRecordRowHeights = true;
 	}
@@ -1540,7 +1557,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 			int resultHeight = Math.max(getRowFormatter().getElement(row)
 			        .getOffsetHeight(), (int) prefWidget.getOffsetHeight());
-			setRowHeight(row, resultHeight);
+			int rowHeight2 = resultHeight;
+			if (rowHeight2 < minimumRowHeight)
+				rowHeight2 = minimumRowHeight;
+			setRowHeight(row, rowHeight2);
 		}
 
 	}
