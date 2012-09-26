@@ -2116,7 +2116,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 */
 	public void setAxisLabel(int axis, String axLabel) {
 		String axisLabel = axLabel;
-		if ((axisLabel != null) && (axisLabel.length() == 0)) {
+		if ((axisLabel == null) || (axisLabel.length() == 0)) {
 			axesLabels[axis] = null;
 		} else {
 			axesLabelsStyle[axis] = GFont.PLAIN;
