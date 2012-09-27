@@ -47,11 +47,11 @@ public class AlgoGCD extends AlgoTwoNumFunction {
     		}
     		
     		
-    		if (Kernel.isEqual(a.getDouble(), Math.floor(a.getDouble()+0.5d), Kernel.MAX_PRECISION)  
-    				&& Kernel.isEqual(b.getDouble(), Math.floor(b.getDouble()+0.5d), Kernel.MAX_PRECISION))
+    		if (Kernel.isInteger(a.getDouble())  
+    				&& Kernel.isInteger(b.getDouble()))
     		{  
-    			BigInteger i1 = BigInteger.valueOf((long) Math.floor(a.getDouble()+0.5d));
-    			BigInteger i2 = BigInteger.valueOf((long) Math.floor(b.getDouble()+0.5d));
+    			BigInteger i1 = BigInteger.valueOf((long) Kernel.checkInteger(a.getDouble()));
+    			BigInteger i2 = BigInteger.valueOf((long) Kernel.checkInteger(b.getDouble()));
     			
     			i1 = i1.gcd(i2);
     			
