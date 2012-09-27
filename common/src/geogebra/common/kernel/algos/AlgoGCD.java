@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import java.math.BigInteger;
@@ -32,6 +33,8 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 	public Algos getClassName() {
         return Algos.AlgoGCD;
     }
+    
+    
       
     @Override
 	public final void compute() {
@@ -43,10 +46,12 @@ public class AlgoGCD extends AlgoTwoNumFunction {
     			return;
     		}
     		
-    		if (a.getDouble() == Math.floor(a.getDouble()) && b.getDouble() == Math.floor(b.getDouble()))
+    		
+    		if (Kernel.isEqual(a.getDouble(), Math.floor(a.getDouble()+0.5d), Kernel.MAX_PRECISION)  
+    				&& Kernel.isEqual(b.getDouble(), Math.floor(b.getDouble()+0.5d), Kernel.MAX_PRECISION))
     		{  
-    			BigInteger i1 = BigInteger.valueOf((long)a.getDouble());
-    			BigInteger i2 = BigInteger.valueOf((long)b.getDouble());
+    			BigInteger i1 = BigInteger.valueOf((long) Math.floor(a.getDouble()+0.5d));
+    			BigInteger i2 = BigInteger.valueOf((long) Math.floor(b.getDouble()+0.5d));
     			
     			i1 = i1.gcd(i2);
     			
