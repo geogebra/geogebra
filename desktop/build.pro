@@ -175,6 +175,11 @@
 -keep class geogebra.plugin.jython.PythonFlatAPI { <methods>; <fields>; }
 -keep class geogebra.plugin.jython.CommonsMathLinearAPI { <methods>; <fields>; }
 
+# connection to R,eg from python
+# from org.rosuda.REngine.Rserve import RConnection;
+# R= RConnection();
+-keep class org.rosuda.REngine.Rserve.RConnection { <methods>; }
+
 # for the inner class 'Geo'
 -keepattributes InnerClasses
 -keep class geogebra.plugin.jython.PythonAPI$Geo { <methods>; }
