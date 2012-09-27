@@ -234,7 +234,7 @@ public class AlgorithmSet {
 		while (cur != null) {
 			sb.append("\n\t");
 			sb.append(cur.algo + ", constIndex: "
-					+ cur.algo.getConstructionIndex());
+					+ cur.algo.getConstructionIndex() + ", ceID: " + cur.algo.getID());
 			cur = cur.next;
 		}
 		sb.append("]");

@@ -833,7 +833,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 
 		ConstructionElement ce = obj;
-		if (getConstructionIndex() < ce.getConstructionIndex()) {
+		int thisIndex = getConstructionIndex();
+		int objIndex = ce.getConstructionIndex();
+		if (thisIndex == objIndex) {
+			// two help algorithms can have same construction index 
+			// if they have same parent geos, see #2693
+			// in this case we use the creation ID to distinguish them
+			return super.compareTo(obj);
+		}
+		else if (thisIndex < objIndex) {
 			return -1;
 		}
 		return 1;
