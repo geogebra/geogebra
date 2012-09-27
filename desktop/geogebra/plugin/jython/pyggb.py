@@ -6,6 +6,8 @@ from __future__ import division, with_statement
 from geogebra.plugin.jython import PythonScriptInterface
 from java.lang import Exception as JavaException
 
+from org.rosuda.REngine.Rserve import RConnection;
+
 from collections import defaultdict
 import sys, time, traceback
 
@@ -30,6 +32,7 @@ class Interface(PythonScriptInterface):
         self.geo = objects.GeoNamespace(self.factory)
         selection = self.selection = objects.Selection(self.factory)
         self.init_namespace = {
+            'RConnection': RConnection,
             'Color': Color,
             # Below we must assume that the GgbApi is already created.
             'ggbApplet': APIProxy(raw_api.getGgbApi()),
