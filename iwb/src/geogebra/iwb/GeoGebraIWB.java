@@ -36,6 +36,13 @@ public class GeoGebraIWB extends GeoGebra {
 
 	protected void setUpSMARTBoardConnection(final AppD app) {
 		boolean dllFound = false;
+//		App.debug(System.getProperty("java.library.path"));
+//		App.debug(System.getProperty("os.arch"));
+		/** is the bitness of the jvm 64 */
+		boolean jvm64=System.getProperty("os.arch").endsWith("64");
+		
+		//we try to load both files just to be sure, only the errormessage depends
+		//on the bitness.
 		try {
 			System.loadLibrary("RegistrationUtils");
 			dllFound = true;
@@ -50,8 +57,8 @@ public class GeoGebraIWB extends GeoGebra {
 				dllFound = false;
 			}
 			if (!dllFound) {
-				app.showError(app.getError("RegistrationUtilsNotFound")); // TODO add to
-															// properties
+				app.showError(app.getPlain("SMARTBoardDLLErrorA"),
+						(jvm64?"RegistrationUtilsx64.dll":"RegistrationUtils.dll"));
 			}
 		}
 		if (dllFound) {
@@ -94,8 +101,7 @@ public class GeoGebraIWB extends GeoGebra {
 				App.info("No SMARTboard-driver installed.");
 				App.debug(e.getMessage());
 				e.printStackTrace();
-				app.showError(app.getError("NoDriverNoConnectionToSMARTBoard")); // TODO add to
-																// properties
+				app.showError(app.getPlain("SMARTBoardConnectionError"));
 			}
 		}
 	}
