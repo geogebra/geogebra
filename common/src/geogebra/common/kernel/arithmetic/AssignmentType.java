@@ -18,7 +18,7 @@ public enum AssignmentType {
 	DEFAULT,
 
 	/**
-	 * the assignment which delays the evaluation (":==")
+	 * the assignment which delays the evaluation ("::=")
 	 */
 	DELAYED
 }

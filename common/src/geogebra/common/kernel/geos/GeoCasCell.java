@@ -759,7 +759,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			break;
 		}
 
-		
 		if (ve.getLabel() != null && getFunctionVars().isEmpty()) {
 			String var = getFunctionVariable(ve);
 			if (var != null)
@@ -1575,7 +1574,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	final public boolean computeOutput() {
 		// do not compute output if this cell is used as a text cell
 		if (!useAsText) {
-			return computeOutput(true);
+			return computeOutput(getInputVE().getAssignmentType()!=AssignmentType.DELAYED);
 		}
 		return true; // simulate success
 	}
@@ -1604,7 +1603,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean success = false;
 		CASException ce = null;
 		nativeOutput = true;
-		if (!useGeoGebraFallback) {
+		//do not create a twin geo if the assigment type is delayed since this exists only in cas
+		if (!useGeoGebraFallback || getInputVE().getAssignmentType()==AssignmentType.DELAYED) {
 			// CAS EVALUATION
 			try {
 				if (evalVE == null) {

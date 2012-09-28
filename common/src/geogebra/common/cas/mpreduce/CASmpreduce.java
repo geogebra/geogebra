@@ -216,6 +216,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
+			// delayed function definition f(x)::= Derivative[x^2] should return Derivative[x^2]
+			if (casInput.getAssignmentType() == AssignmentType.DELAYED){
+				return casInput.toString(StringTemplate.defaultTemplate);
+			}
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
 			return toGeoGebraString(
