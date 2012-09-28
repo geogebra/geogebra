@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- README: Building GeoGebra 
+
+This script helps building vanilla GeoGebra *.jar files
+primarily for testing purposes. It is also a basis
+to create an official build for GeoGebra (see pack.xml).
+
+To learn more on building GeoGebra by using this script, please
+read the following web pages:
+
+  http://www.geogebra.org/trac/wiki/SetUp
+
+If you want to include GeoGebra with e.g. Linux distributions or
+other software, please see the license conditions below and contact
+us at office@geogebra.org. We will try our best to provide installers
+for various platforms. However, we cannot provide our signature files
+to create signed *.jar files.
+
+LICENSE
+Please note that GeoGebra's source code is licensed under GNU GPL but
+all GeoGebra language files (geogebra/properties) bundled in the file
+geogebra_properties.jar are subject to a Creative Commons Attribution-
+Share Alike license (see LICENSE.txt).
+
+If you would like to contribute to GeoGebra in any way, please let us
+know. Your help is always welcome!
+
+The GeoGebra Team
+office@geogebra.org 
+-->
+
+<!--
+   GeoGebra build script
+   @author Markus Hohenwarter <markus@geogebra.org>
+-->
+
+<project default="info">
+
+	<target name="info">
+		<echo message="****************************************************************************************"/>
+		<echo message="* To learn how to build GeoGebra, please read http://www.geogebra.org/trac/wiki/SetUp. *"/>
+		<echo message="* To create JAR files for GeoGebra, please use the pack.xml file instead.              *"/>
+		<echo message="****************************************************************************************"/>
+	</target>
+
+	<import file="common.xml"/>
+
+	<target name="clean">
+		<!-- delete build directory -->
+		<mkdir dir="${build.dir}"/>
+		<delete includeemptydirs="true" followsymlinks="false">
+			<fileset dir="${build.dir}" defaultexcludes="false">
+				<include name="**/*" />
+			</fileset>
+		</delete>
+
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.dir}/packed"/>
+		<mkdir dir="${build.dir}/unpacked"/>
+		<mkdir dir="${build.dir}/unsigned"/>
+		<mkdir dir="${build.dir}/debug"/>
+		<mkdir dir="${build.dir}/unsigned/packed"/>
+		<mkdir dir="${build.dir}/unsigned/unpacked"/>
+		<mkdir dir="${propertiestemp.dir}"/>
+	</target>
+
+	<!-- create all jar files -->
+	<target name="ggb-jar-files" 
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-copy-jlatexmath, ggb-copy-iwb">
+	</target>
+
+	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
+	<target name="compile-grammar">
+		<javacc
+		   target="../common/src/geogebra/common/kernel/parser/Parser.jj"
+		   javacchome="${src.dir}/lib/build/javacc"
+		   static="false"
+		/>
+	</target>
+
+	<!-- compiles grammar for cl -->
+	<target name="compile-grammar-cl" depends="compile-grammar-clean, compile-grammar">
+	</target>
+
+	<target name="compile-grammar-clean">
+		<delete followsymlinks="false">
+			<fileset dir="../common/src/geogebra/common/kernel" includes="**/*.class" />
+		</delete>
+		<delete followsymlinks="false">
+			<fileset dir="../common/src/geogebra/common/kernel/parser"
+			    includes="*.java" excludes="ParserInterface.java"/>
+		</delete>
+	</target>
+
+	<target name="delete-classes">
+		<delete followsymlinks="false">
+			<fileset dir="." includes="**/*.class" />
+		</delete>
+	</target>
+
+	<manifest file="../manifest.mf">
+		<attribute name="Main-Class" value="geogebra.iwb.GeoGebraIWB"/>
+		<attribute name="Class-Path" 
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar sbsdk.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
+
+	<!-- remove comments from properties files -->
+	<target name="stripComments">
+		<copy todir="${propertiestemp.dir}/geogebra/properties" encoding="ISO-8859-1">
+			<fileset dir="${propertiessrc.dir}">
+				<include name="*" />
+			</fileset>
+			<filterchain>
+				<trim/>
+				<striplinecomments>
+					<comment value="#"/>
+				</striplinecomments>
+			</filterchain>
+		</copy>
+	</target>
+
+	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
+	<target name="ggb-jar" depends="clean, copy-common-files" description="create unsigned geogebra.jar">
+		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
+	</target>
+
+	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
+	<target name="ggb-jar-index" description="create index in geogebra.jar">
+		<exec executable="jar" dir="${build.dir}">
+			<arg value="i"/>
+			<arg value="geogebra.jar"/>
+			<arg value="geogebra_main.jar"/>
+			<arg value="geogebra_gui.jar"/>
+			<arg value="geogebra_cas.jar"/>
+			<arg value="geogebra_algos.jar"/>
+			<arg value="geogebra_export.jar"/>
+			<arg value="geogebra_javascript.jar"/>
+			<arg value="geogebra_properties.jar"/>
+			<arg value="jlatexmath.jar"/>
+			<arg value="jlm_cyrillic.jar"/>
+			<arg value="jlm_greek.jar"/>
+			<arg value="sbsdk.jar"/>
+		</exec>
+	</target>
+	
+	<!-- copies the jlatexmath jars  -->
+	<target name="ggb-copy-jlatexmath" depends="clean" description="copy jlatexmath jars">
+		<copy file="${src.dir}/lib/jlatexmath.jar"
+		      tofile="${build.dir}/jlatexmath.jar">
+		</copy>
+		<copy file="${src.dir}/lib/jlm_greek.jar"
+		      tofile="${build.dir}/jlm_greek.jar">
+		</copy>
+		<copy file="${src.dir}/lib/jlm_cyrillic.jar"
+		      tofile="${build.dir}/jlm_cyrillic.jar">
+		</copy>
+	</target>
+
+	<target name="ggb-copy-iwb">
+		<copy file="${src.dir}/lib/sbsdk.jar"
+		      tofile="${build.dir}/sbsdk.jar">
+		</copy>
+		<copy todir="${build.dir}">
+		    <fileset dir="${src.dir}/lib" includes="RegistrationUtils*.dll" />
+		</copy>
+	</target>
+
+	<target name="copy-common-files" description="copy common files to the right place">
+		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
+		<mkdir dir="${src.dir}/geogebra/common"/>
+		<copy todir="${src.dir}/geogebra/common" failonerror="false">
+                        <fileset dir="${src.dir}/../common/src/geogebra/common">
+                                <include name="**/*.class" />
+                        </fileset>
+			<!-- Eclipse stores compiled files in a different place: -->                        
+                        <fileset dir="${src.dir}/../common/war/WEB-INF/classes/geogebra/common">
+                                <include name="**/*.class" />
+                        </fileset>	
+		</copy>
+		
+		<copy todir="${src.dir}/geogebra/common/main/xml" failonerror="false">
+                        <fileset dir="${src.dir}/../common/src/geogebra/common/main/xml">
+                                <include name="**/*.xml" />
+                        </fileset>
+		</copy>
+		
+	</target>
+	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
+	<target name="ggb-main-jar" depends="clean, copy-common-files" description="create unsigned geogebra_main.jar">
+		
+		<copy todir="${src.dir}/geogebra/common/main/xml" failonerror="false">
+                        <fileset dir="${src.dir}/../common/src/geogebra/common/main/xml">
+                                <include name="**/*.xml" />
+                        </fileset>
+		</copy>
+		
+		<jar jarfile="${build.dir}/geogebra_main.jar"		
+			basedir="${src.dir}"		   
+			includes="**/*.class,	
+			**/*.py,
+		  			**/default-preferences.xml, 				
+					  geogebra/main/*.png,
+			  edu/xtec/adapter/**,
+			  edu/xtec/adapter/impl/**,
+					  **/algo2command.properties,	
+					  **/algo2intergeo.properties"
+			excludes="geogebra/*,
+					geogebra/gui/**,
+					geogebra/export/**, 
+					geogebra/cas/**,
+			geogebra/kernel/advancedgeometry/**,
+			geogebra/kernel/discrete/**,
+			geogebra/kernel/cas/**,
+			geogebra/sound/**,
+					jasymca/**,		
+			geogebra/common/export/**,
+			geogebra/common/kernel/scripting/**,
+			geogebra/common/kernel/advanced/**,
+			geogebra/common/kernel/barycentric/**,
+			geogebra/common/kernel/discrete/**,
+			geogebra/common/kernel/statistics/**,
+			geogebra/common/kernel/cas/**,
+			geogebra/common/cas/**,
+			geogebra/common/kernel/locusequ/**,
+			geogebra/common/gui/**,
+			bin/**,
+					org/**,
+					org/mathpiper/**,
+					org/mozilla/**,
+					org/freehep/**, 
+					org/concord/**,
+					ccsd/**,
+					edu/mas/**,
+					edu/uci/**,
+					org/apache/**,
+					org/apache/log4j/**, 
+			com/bric/**,
+			jd2xx/**,
+			com/quantimegroup/**,
+			com/google/zxing/**,
+			scripts/**,
+			**/*.tmp,
+				    tutor/**,
+					meta-inf/**"		
+		/>
+
+	</target>
+
+	<target name="ggb-export-jar" depends="clean, copy-common-files" description="create unsigned geogebra_export.jar">
+		<jar jarfile="${build.dir}/geogebra_export.jar"
+			basedir="${src.dir}"
+			includes="geogebra/export/**, 
+			geogebra/common/export/**,
+					org/freehep/**, 
+					meta-inf/services/**"
+			excludes="**/*.java,
+			**/*.html" 
+		/>
+	</target>
+
+	<target name="ggb-javascript-jar" depends="clean" description="create unsigned geogebra_javascript.jar">
+		<jar jarfile="${build.dir}/geogebra_javascript.jar"
+			basedir="${src.dir}"
+			includes="org/mozilla/**"
+			excludes="**/*.java" 
+		/>
+	</target>
+
+	<target name="ggb-cas-jar" depends="clean, copy-common-files" description="create unsigned geogebra_cas.jar">
+		<jar jarfile="${build.dir}/geogebra_cas.jar"
+			basedir="${src.dir}"
+			includes="geogebra/cas/**,
+					org/apache/log4j/**,
+					org/mathpiper/mpreduce/**/*.class,
+			geogebra/kernel/cas/**,
+			geogebra/common/cas/**,
+			geogebra/common/kernel/cas/**,
+			geogebra/common/kernel/locusequ/**,
+					default.img"
+			excludes="**/*.java,
+			geogebra/cas/maxima/**,
+			geogebra/cas/jacomax/**,
+			geogebra/cas/mathpiper/**"
+		/>
+	</target>
+
+	<target name="ggb-algos-jar" depends="clean, copy-common-files" description="create unsigned geogebra_algos.jar">
+		<copy todir="${src.dir}/org/apache" failonerror="false">
+			<fileset dir="${src.dir}/../common/src/org/apache">
+				<include name="**/*.class" />
+			</fileset>
+			<!-- Eclipse stores compiled files in a different place: -->
+                        <fileset dir="${src.dir}/../common/war/WEB-INF/classes/org/apache">
+				<include name="**/*.class" />
+			</fileset>
+
+		</copy>
+		<copy todir="${src.dir}/edu">
+			<fileset dir="${src.dir}/../common/src/geogebra/jung/edu">
+				<include name="**/*.class" />
+			</fileset>
+		</copy>
+		<jar jarfile="${build.dir}/geogebra_algos.jar"
+			basedir="${src.dir}"
+			includes="geogebra/kernel/discrete/**,
+			geogebra/sound/**,
+			geogebra/advancedgeometry/**,
+					edu/uci/**,
+					com/google/zxing/**,
+					org/jfugue/**,
+			geogebra/common/kernel/scripting/**,
+			geogebra/common/kernel/advanced/**,
+			geogebra/common/kernel/barycentric/**,
+			geogebra/common/kernel/discrete/**,
+			geogebra/common/kernel/statistics/**,
+					org/apache/**"
+			excludes="**/*.java,
+			**/*.html,
+			**/*.txt,
+			org/apache/log4j/**" 
+		/>
+	</target>
+
+	<target name="ggb-gui-jar" depends="clean, copy-common-files" description="create unsigned geogebra_gui.jar">
+		<jar jarfile="${build.dir}/geogebra_gui.jar"
+			basedir="${src.dir}"
+			includes="geogebra/gui/**,
+			geogebra/common/gui/**,
+			geogebra/iwb/**"
+			excludes="**/*.java" 
+		/>
+	</target>
+
+	<target name="ggb-properties-jar" depends="clean, stripComments" description="create unsigned geogebra_properties.jar">
+		<jar jarfile="${build.dir}/geogebra_properties.jar"
+			basedir="${propertiestemp.dir}"
+			includes="**/*"		
+			excludes="**/wiki*.*"
+		/>
+	</target>
+
+
+</project>

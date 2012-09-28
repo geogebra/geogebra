@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- README: Building GeoGebra Installer for Windows and Mac OS X
+
+This script assumes that the several kinds of GeoGebra *.jar files
+already exist in the build/ folder. Please read the details in
+build.xml.
+
+To learn more on building GeoGebra installers by using this script, please
+read the following web pages:
+
+  http://www.geogebra.org/trac/wiki/NSISonUnix
+
+-->
+
+<!--
+   GeoGebra installer build script
+   @author Markus Hohenwarter <markus@geogebra.org>
+   @author Yves Kreis <yves@geogebra.org>
+   @author Zoltan Kovacs <zoltan@geogeba.org>
+-->
+
+
+<project default="installer">
+
+	<import file="common.xml"/>
+
+	<target name="installer" depends="installer-clean, installer-windows, installer-macosx"/>
+
+	<target name="installer-clean">
+		<delete dir="${build.dir}/installer" followsymlinks="false"/>
+		<mkdir  dir="${build.dir}/installer"/>
+		<mkdir  dir="${build.dir}/installer/windows"/>
+		<mkdir  dir="${build.dir}/installer/windows/unsigned"/>
+		<mkdir  dir="${build.dir}/installer/windows/temp"/>
+		<mkdir  dir="${build.dir}/installer/macosx"/>
+	</target>
+
+	<!-- defines the launch4j and nsis tasks used to create the Windows installer -->
+	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="installer/launch4j/launch4j.jar" />
+	<taskdef name="nsis" classname="net.sf.nsisant.Task" classpath="installer/nsisant-1.2.jar" />
+
+	<!-- defines the conditions used during creation of the Windows installer -->
+	<condition property="installer-windows">
+		<or>
+			<os family="winnt"/>
+			<and>
+				<os family="mac"/>
+				<available file="/Applications/Wine.app"/>
+			</and>
+			<and>
+				<os family="unix"/>
+				<available file="/usr/bin/wine"/>
+			</and>
+		</or>
+	</condition>
+	<condition property="installer-windows-keystore">
+			<or>
+				<and>
+					<os family="winnt"/>
+					<available file="${workspace.dir}/igi-keystore.pvk"/>
+					<available file="${workspace.dir}/igi-keystore.spc"/>
+				</and>
+				<and>
+					<os family="mac"/>
+					<available file="${workspace.dir}/igi-keystore.der"/>
+					<available file="${workspace.dir}/igi-keystore.spc"/>
+				</and>
+				<and>
+					<os family="unix"/>
+					<available file="${workspace.dir}/igi-keystore-CL.spc.der"/>
+				</and>
+			</or>
+	</condition>
+	<condition property="installer-windows-uninstaller" value="${build.dir}\installer\windows\">
+		<os family="winnt"/>
+	</condition>
+	<condition property="installer-windows-uninstaller" value="C:\">
+		<os family="mac"/>
+	</condition>
+	<condition property="installer-windows-uninstaller" value="C:\">
+		<os family="unix"/>
+	</condition>
+	<condition property="installer-windows-osfamily-mac">
+		<os family="mac"/>
+	</condition>
+	<condition property="installer-windows-osfamily-unix">
+		<os family="unix"/>
+	</condition>
+
+	<target name="GeoGebraSMART.exe">
+		<!--nsis script="installer/GeoGebra_exe.nsi" verbosity="1" path="${src.dir}/installer/nsis">
+		</nsis-->
+		<launch4j configFile="${src.dir}/installer/geogebra.xml"
+			outfile="${build.dir}/installer/windows/unsigned/GeoGebraSMART.exe"
+			fileVersion="${fullversion}"
+			txtFileVersion="${fullversion}"
+			productVersion="${fullversion}"
+			txtProductVersion="${fullversion}"/>
+	<!-- On Windows we will do an in-place signing, so we just copy the unsigned file to its final place. -->
+	<copy file="${build.dir}/installer/windows/unsigned/GeoGebraSMART.exe" tofile="${build.dir}/installer/windows/GeoGebraSMART.exe"/>
+	</target>
+
+	<!-- creates a GeoGebra installer for Windows -->
+	<!-- First we run NSIS to create the uninstaller.exe which will be used for creating
+	     the THIRD uninstaller.exe somewhere (described in ${installer-windows-uninstaller})
+             when the SECOND uninstaller.exe is run. The second uninstaller.exe is a signed version
+             of the first one.
+	     -->
+	<target name="installer-windows" depends="readVersion, GeoGebraSMART.exe" if="installer-windows">
+		<tstamp />
+		<!-- Creating the FIRST uninstaller.exe. -->
+		<nsis script="installer/geogebra.nsi" verbosity="1" path="${src.dir}/installer/nsis">
+			<define name="build.dir"   value="${build.dir}"/>
+			<define name="fullversion" value="${fullversion}"/>
+			<define name="versionname" value="${versionname}"/>
+			<define name="builddate"   value="${TODAY}"/>
+			<define name="outfile"     value="${build.dir}/installer/windows/temp/uninstaller.exe"/>
+			<define name="uninstaller" value="${installer-windows-uninstaller}"/>
+		</nsis>
+		<!-- Signing it (also GeoGebra.exe will be signed): the SECOND uninstaller.exe will be created. -->
+		<antcall target="installer-windows-sign-components"/>
+		<!-- Creating the THIRD uninstaller.exe by running the SECOND uninstaller.exe. -->
+		<exec executable="${build.dir}/installer/windows/temp/uninstaller.exe" osfamily="winnt"/>
+		<exec dir="/Applications/Wine.app/Contents/MacOS" executable="/Applications/Wine.app/Contents/MacOS/startwine" osfamily="mac">
+			<arg file="${build.dir}/installer/windows/temp/uninstaller.exe"/>
+			<env key="WINEPREFIX" value="${workspace.dir}/wine"/>
+		</exec>
+		<exec executable="/usr/bin/wine" osfamily="unix">
+			<arg file="${build.dir}/installer/windows/temp/uninstaller.exe"/>
+			<env key="WINEPREFIX" value="${workspace.dir}/wine"/>
+		</exec>
+		<!-- On Mac and Unix we have to take the THIRD uninstaller.exe from the wine installation directory
+		     and copy to its final place. -->
+		<antcall target="installer-windows-move-uninstaller-mac"/>
+		<antcall target="installer-windows-move-uninstaller-unix"/>
+
+		<!-- Now we about to create the big installation bundle, also by running NSIS.
+		     Here we don't define the "uninstaller" variable, thus a "normal" run will be done. -->
+		<nsis script="installer/geogebra.nsi" verbosity="1" path="${src.dir}/installer/nsis">
+			<define name="build.dir"   value="${build.dir}"/>
+			<define name="fullversion" value="${fullversion}"/>
+			<define name="versionname" value="${versionname}"/>
+			<define name="builddate"   value="${TODAY}"/>
+			<define name="outfile"     value="${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe"/>
+		</nsis>
+		<!-- Since under Windows we sign the file in-place, we create a copy to the final directory. -->
+		<copy file="${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe"/>
+		<!-- Signing the bundle. -->
+		<antcall target="installer-windows-sign-installer"/>
+		
+		<!-- Putting the signed bundle to its final place. -->
+		<move file="${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/GeoGebra-Windows-Installer-${versionname}.exe"/>
+		<!--delete dir="${build.dir}/installer/windows" followsymlinks="false" removeNotFollowedSymlinks="true"/-->
+	</target>
+
+	<!-- Subroutines for the above steps. -->
+
+	<!-- Moving Wine-generated uninstaller.exe to the unsigned directory. -->
+	<target name="installer-windows-move-uninstaller-mac" if="installer-windows-osfamily-mac">
+		<move file="${workspace.dir}/wine/drive_c/uninstaller.exe" tofile="${build.dir}/installer/windows/uninstaller.exe"/>
+	</target>
+	<target name="installer-windows-move-uninstaller-unix" if="installer-windows-osfamily-unix">
+		<move file="${workspace.dir}/wine/drive_c/uninstaller.exe" tofile="${build.dir}/installer/windows/uninstaller.exe"/>
+	</target>
+	<target name="installer-windows-sign-components" if="installer-windows-keystore">
+		<!-- On Windows we do in-place signing. -->
+		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebraSMART.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/temp/uninstaller.exe'"/>
+		</exec>
+		<!-- On Mac and Unix we will copy the signed file over the unsigned one. -->		
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra.exe' -out '${build.dir}/installer/windows/GeoGebraSMART.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/temp/uninstaller.exe' -out '${build.dir}/installer/windows/temp/uninstaller-signed.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebraSMART.exe' -out '${build.dir}/installer/windows/GeoGebraSMART.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/temp/uninstaller.exe' -out '${build.dir}/installer/windows/temp/uninstaller-signed.exe'"/>
+		</exec>
+		<!-- On Mac and Unix this will overwrite the unsigned version, on Windows it does not harm. -->
+		<copy file='${build.dir}/installer/windows/temp/uninstaller-signed.exe'
+			tofile='${build.dir}/installer/windows/temp/uninstaller.exe' failonerror="false"/>
+	</target>
+	<!-- Signing the bundle. -->
+	<target name="installer-windows-sign-installer" if="installer-windows-keystore">
+		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe' -out '${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe' -out '${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe'"/>
+		</exec>
+	</target>
+
+	<!-- defines the jarbundler task used to create the Mac OS X bundle -->
+	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="installer/jarbundler-2.1.0.jar" />
+
+	<!-- creates a GeoGebra.app bundle for Mac OS X -->
+	<target name="installer-macosx" depends="readVersion">
+		<jarbundler
+				dir="${build.dir}/installer/macosx"
+				name="GeoGebra"
+				mainclass="geogebra.GeoGebra" 
+				jar="${build.dir}/unpacked/geogebra.jar"
+				build="${build}"
+				bundleid="geogebra.GeoGebra"
+				icon="installer/geogebra.icns"
+				infostring="GeoGebra ${fullversion}, (C) 2001-2012 International GeoGebra Institute"
+				jvmversion="1.5.0+"
+				shortname="GeoGebra"
+				signature="GGB"
+				stubfile="installer/JavaApplicationStub"
+				version="${version}">
+			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
+			<javafileset dir="${build.dir}/unpacked" />
+			<javafileset dir="${build.dir}/unsigned" includes="unpacked/*.jar" />
+			<documenttype
+				name="GeoGebra File"
+				extensions="ggb"
+				mimetypes="application/vnd.geogebra.file"
+				iconfile="installer/geogebra.icns"
+				role="Editor" />
+			<documenttype
+				name="GeoGebra Tool"
+				extensions="ggt"
+				mimetypes="application/vnd.geogebra.tool"
+				iconfile="installer/geogebra.icns"
+				role="Editor" />
+		</jarbundler>
+		<copy file="${src.dir}/installer/gpl-3.0.txt" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/gpl-3.0.txt" />
+		<copy file="${src.dir}/installer/by-nc-sa-3.0.txt" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/by-nc-sa-3.0.txt" />
+		<move file="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/Java/unpacked" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/Java/unsigned" />
+		<zip destfile="${build.dir}/installer/GeoGebra_${versionname}.zip">
+			<zipfileset dir="${build.dir}/installer/macosx" excludes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" />
+			<zipfileset dir="${build.dir}/installer/macosx" includes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" filemode="755" />
+		</zip>
+		<delete dir="${build.dir}/installer/macosx"/>
+	</target>
+</project>

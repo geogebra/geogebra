@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- README: Packing GeoGebra 
+
+This script builds several kinds of GeoGebra *.jar files,
+primarily for creating an official build for GeoGebra.
+It must be run using JDK 1.5 (NOT 1.6 or later).
+Note that GeoGebra itself needs to be compiled using Java 1.5.
+
+To learn more on building GeoGebra by using this script, please
+read the following web pages:
+
+  http://www.geogebra.org/trac/wiki/SetUpCommandLine
+  http://www.geogebra.org/trac/wiki/BuildingProcess
+
+If you want to include GeoGebra with e.g. Linux distributions or
+other software, please see the license conditions below and contact
+us at office@geogebra.org. We will try our best to provide installers
+for various platforms. However, we cannot provide our signature files
+to create signed *.jar files.
+
+LICENSE
+Please note that GeoGebra's source code is licensed under GNU GPL but
+all GeoGebra language files (geogebra/properties) bundled in the file
+geogebra_properties.jar are subject to a Creative Commons Attribution-
+Share Alike license (see LICENSE.txt).
+
+If you would like to contribute to GeoGebra in any way, please let us
+know. Your help is always welcome!
+
+The GeoGebra Team
+office@geogebra.org 
+-->
+
+<!--
+   GeoGebra build script
+   @author Markus Hohenwarter <markus@geogebra.org>
+-->
+
+<project default="geogebra">
+
+	<import file="common.xml"/>
+	<import file="build.xml"/>
+	
+	<!-- build signed and unsigned GeoGebra jar files -->
+	<target name="geogebra" 
+		depends="clean, ggb-jar-files, geogebra-aftervanilla">
+	</target>
+
+	<!-- build signed and unsigned GeoGebra jar files -->
+	<target name="geogebra-aftervanilla" 
+		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate,
+					copyJars, sign, pack, preloadHtml, finish">
+	</target>
+
+	<!-- build jar files for testing without obfuscation -->
+	<target name="geogebra-unobfuscated" 
+		depends="clean, ggb-jar-files, ggb-jar-index, 
+					copyJars, sign, pack, preloadHtml, finish">
+	</target>
+
+	<target name="delete-sources">
+		<delete followsymlinks="false">
+			<fileset dir="." includes="**/*.java" />
+		</delete>
+		<delete followsymlinks="false">
+			<fileset dir="." includes="geogebra/properties/*.properties" />
+		</delete>
+	</target>
+
+	<target name="finish">
+		<delete dir="${propertiestemp.dir}"/>
+		<delete dir="${src.dir}/geogebra/common"/>
+	</target>
+
+	<!-- put jar files into subdirectories signed and unsigned -->
+	<target name="copyJars" depends="ggb-jar-files">
+		<copy todir="${build.dir}/unsigned/unpacked">
+			<fileset dir="${build.dir}" includes="*.jar, *.dll" />
+		</copy>
+	</target>
+
+	<!-- put jar files (unobfuscated, unindexed) into subdirectory debug -->
+	<target name="copyDebug" depends="ggb-jar-files">
+		<copy todir="${build.dir}/debug">
+			<fileset dir="${build.dir}" includes="*.jar, *.dll" />
+		</copy>
+	</target>
+
+	<!-- Define Proguard task -->
+	<taskdef 
+		resource="proguard/ant/task.properties" 
+		classpath="lib/build/tools_proguard46.jar" />
+
+	<!-- Define pack200 task -->
+	<!-- bug in Java 6, see http://www.geogebra.org/forum/viewtopic.php?f=8&t=3972&st=0&sk=t&sd=a&start=15 -->
+	<taskdef name="p200ant"
+	    classname="de.matthiasmann.p200ant.P200AntTask"
+	    classpath="lib/build/tools_p200ant.jar"/>
+
+
+	<!-- Obfuscate jar files without signing -->
+	<target name="obfuscate" depends="ggb-jar-files">
+		<!-- check if java150-rt.jar file present -->
+		<!--condition property="java150-rt.present">
+			<available file="${workspace.dir}/java150-rt.jar"/>
+		</condition-->
+		<antcall target="doObfuscate"/>
+	</target>
+	<!--target name="doObfuscate" if="java150-rt.present" description="obfuscate jar files"-->
+	<target name="doObfuscate" description="obfuscate jar files">
+		<proguard configuration="build.pro"/>
+		<move todir="${build.dir}">
+			<fileset dir="${temp.dir}" includes="*.jar, *.dll"/>
+		</move>
+		<delete dir="${temp.dir}"/>
+	</target>
+
+	<!-- Sign jar files -->
+	<target name="sign" description="repack and sign jar files twice (to ensure WebStart compatibility)">
+		<!-- check if keystore file present -->
+		<condition property="keystore.present">
+			<available file="${workspace.dir}/igi-keystore.p12"/>
+		</condition>
+
+		<!-- repack and sign jars first time -->
+		<antcall target="repack"/>
+		<antcall target="ggb-jar-index"/>
+		<antcall target="doSign"/>
+	</target>
+
+	<!-- sign jars -->
+	<target name="doSign" if="keystore.present" description="sign jar files">
+		<signjar 
+			keystore="${workspace.dir}/igi-keystore.p12" 	
+			alias="{18902418-007d-43e1-ad20-93ce57e716da}"
+			storetype="pkcs12"
+			storepass="geogebra1234">
+			<fileset dir="${build.dir}" includes="*.jar" />
+		</signjar>
+	</target>
+
+	<!-- Sign debug jar files -->
+	<target name="signDebug" description="repack and sign jar files twice (to ensure WebStart compatibility)">
+		<!-- check if keystore file present -->
+		<condition property="keystore.present">
+			<available file="${workspace.dir}/igi-keystore.p12"/>
+		</condition>
+
+		<antcall target="doSignDebug"/>
+
+	</target>
+
+	<!-- sign debug jars -->
+	<target name="doSignDebug" if="keystore.present" description="sign jar files">
+		<signjar 
+			keystore="${workspace.dir}/igi-keystore.p12" 	
+			alias="{18902418-007d-43e1-ad20-93ce57e716da}"
+			storetype="pkcs12"
+			storepass="geogebra1234">
+			<fileset dir="${build.dir}/debug" includes="*.jar" />
+		</signjar>
+	</target>
+
+	<!-- repack jars -->
+	<target name="repack" if="keystore.present" description="repack jar files in preparation for signing">
+                <fileset id="jars2pack" dir="${build.dir}">
+                        <include name="*.jar"/>
+                </fileset>
+                <p200ant repack="true"  configFile="tools_p200.config">
+                        <fileset refid="jars2pack"/>
+                </p200ant>
+	</target>
+
+	<!-- pack jars -->
+	<!-- This should prevent running the pack target on Java 1.6
+	     http://www.java-tips.org/other-api-tips/ant/how-can-i-test-for-jvm-versions.html -->
+  	<target name="get-jvm">
+      		<condition property="jvm.buggy">
+			<or>
+      				<equals arg1="${ant.java.version}" arg2="1.6"/>
+      			</or>
+      		</condition>
+      	</target>
+
+	<target name="pack" description="pack jar files">
+                <fileset id="unsignedJars" dir="${build.dir}/unsigned/unpacked">
+                        <include name="*.jar"/>
+                </fileset>
+                <p200ant destdir="${build.dir}/unsigned/packed"  configFile="tools_p200.config">
+                        <fileset refid="unsignedJars"/>
+                </p200ant>
+
+		<move todir="${build.dir}/unpacked">
+			<fileset dir="${build.dir}" includes="*.jar, *.dll" />
+		</move>
+
+                <fileset id="signedJars" dir="${build.dir}/unpacked">
+                        <include name="*.jar"/>
+                </fileset>
+                <p200ant destdir="${build.dir}/packed"  configFile="tools_p200.config">
+                        <fileset refid="signedJars"/>
+                </p200ant>
+
+	</target>
+
+	<!-- creates preload.html -->
+	<target name="preloadHtml" depends="readVersion">
+		<echo file="${build.dir}/unsigned/preload.html" append="false">
+		&lt;html&gt;
+		&lt;applet code="geogebra.GeoGebraAppletPreloader" archive="geogebra.jar" codebase="./" width="1" height="1"&gt;
+			&lt;param name="cache_archive" value="geogebra.jar, geogebra_main.jar, geogebra_gui.jar, geogebra_cas.jar, geogebra_export.jar, geogebra_algos.jar, geogebra_javascript.jar, geogebra_properties.jar, jlatexmath.jar, jlm_cyrillic.jar, jlm_greek.jar, sbsdk.jar "/&gt;
+			&lt;param name="cache_version" value="${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}"/&gt;
+		&lt;/applet&gt;
+		&lt;/html&gt;	
+		</echo>		
+		
+		<echo file="${build.dir}/unpacked/version.txt" append="false">${fullversion}</echo>
+	</target>
+
+</project>
