@@ -1,6 +1,8 @@
 package geogebra.mobile.gui.elements.header;
 
-import com.google.gwt.user.client.Window;
+import geogebra.common.kernel.Kernel;
+import geogebra.mobile.model.GuiModel;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
@@ -18,7 +20,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	/**
 	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft()
+	public TabletHeaderPanelLeft(final Kernel kernel, final GuiModel guiModel)
 	{
 		this.addStyleName("leftHeader");
 
@@ -42,9 +44,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			
 			@Override
 			public void onTap(TapEvent event) {
-				//TODO Clear model, don't reload everything
-				Window.Location.reload();
-				
+				//TODO 
+				guiModel.closeOptions(); 
+				kernel.clearConstruction(); 
+				kernel.notifyRepaint(); 				
 			}
 		});
 	}

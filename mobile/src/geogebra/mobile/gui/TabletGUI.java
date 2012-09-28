@@ -57,13 +57,8 @@ public class TabletGUI implements GeoGebraMobileGUI
 			}
 		});
 
-		// Initialize GUI Elements
-		this.headerPanel = new TabletHeaderPanel();
-		this.leftHeader = new TabletHeaderPanelLeft();
-		this.rightHeader = new TabletHeaderPanelRight();
-		this.toolBar = new ToolBar();
+		// requirde to start the kernel
 		this.euclidianViewPanel = new EuclidianViewPanel();
-		this.algebraViewPanel = new AlgebraViewPanel();
 	}
 
 	@Override
@@ -91,6 +86,13 @@ public class TabletGUI implements GeoGebraMobileGUI
 	public void initComponents(final Kernel kernel)
 	{
 		MobileModel mobileModel = new MobileModel(kernel);
+		
+		// Initialize GUI Elements
+		this.headerPanel = new TabletHeaderPanel();
+		this.leftHeader = new TabletHeaderPanelLeft(kernel, mobileModel.getGuiModel());
+		this.rightHeader = new TabletHeaderPanelRight();
+		this.toolBar = new ToolBar();
+		this.algebraViewPanel = new AlgebraViewPanel();
 
 		this.stylingBar = new StylingBar(mobileModel);
 		mobileModel.getGuiModel().setStylingBar(this.stylingBar);

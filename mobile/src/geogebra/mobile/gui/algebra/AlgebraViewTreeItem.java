@@ -191,6 +191,15 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 					break;
 				}
 			}
+
+			if (this.seMayLatex != null)
+			{
+				this.seMayLatex.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
+			}
+			else if (this.seNoLatex != null)
+			{
+				this.seNoLatex.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
+			}
 		}
 
 		// now we have text and how to display it (newLaTeX/LaTeX)
@@ -362,8 +371,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		Hits hits = new Hits(); 
-		hits.add(this.geo); 
+		Hits hits = new Hits();
+		hits.add(this.geo);
 		((MobileController) this.controller).handleEvent(hits);
 	}
 

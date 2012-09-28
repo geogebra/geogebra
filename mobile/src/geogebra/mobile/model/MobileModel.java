@@ -259,6 +259,7 @@ public class MobileModel
 		case PointOnObject:
 			resetSelection();
 			select(hits, Test.GEOPOINT, 1);
+			this.guiModel.appendStyle(this.selectedElements);
 			this.changeColorAllowed = true;
 			break;
 
