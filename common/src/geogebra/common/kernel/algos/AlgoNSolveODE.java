@@ -6,7 +6,6 @@ import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 
 /**
  * @author Bencze Balazs 
- *
  */
 public class AlgoNSolveODE extends AlgoElement {
 
@@ -33,9 +31,8 @@ public class AlgoNSolveODE extends AlgoElement {
 	private GeoList startY;				// input
 	private GeoNumeric startX;			// input
 	private GeoNumeric endX;			// input
-	private GeoNumeric relTol;			// input
 	
-	private GeoList out;				// output
+	private GeoLocus out[];				// output
 	
 	protected ArrayList<MyPoint> al[];
 	
@@ -46,29 +43,26 @@ public class AlgoNSolveODE extends AlgoElement {
 	 * @param cons cons
 	 * @param labels labels
 	 * @param fun the list of the functions
-	 * @param startX  
-	 * @param startY 
-	 * @param endX 
-	 * @param relTol relative tolerance
+	 * @param startX  from where should be integrated (X-coords)
+	 * @param startY  from where should be integrated (y-coords)
+	 * @param endX until when should be integrated (X-coords)
 	 */
-	public AlgoNSolveODE(Construction cons, String labels[], 
+	public AlgoNSolveODE(Construction cons, String[] labels, 
 			GeoList fun, GeoNumeric startX, GeoList startY, 
-			GeoNumeric endX, GeoNumeric relTol) {
+			GeoNumeric endX) {
 		
 		super(cons);
 		
 		this.fun = fun;   
 		this.startY = startY;
 		this.startX = startX;  
-		this.endX = endX;            	
-		this.relTol = relTol;
+		this.endX = endX;
 		
 		dim = fun.size();
 		y0 = new double[dim];
-		
 		setInputOutput();
 		compute();
-		out.setLabel(labels[0]);
+		GeoElement.setLabels(labels, out);
 	}
 	
 	@Override
@@ -84,22 +78,26 @@ public class AlgoNSolveODE extends AlgoElement {
 	/**
 	 * @return locus
 	 */
-	public GeoList getResult() {
+	public GeoLocus[] getResult() {
 		return out;
 	}
 	
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[5]; 
+		input = new GeoElement[4]; 
 		input[0] = fun;
 		input[1] = startX;
 		input[2] = startY;
 		input[3] = endX;
-		input[4] = relTol;
-		out = new GeoList(cons);
-		super.setOutputLength(1);
-		super.setOutput(0, out);
-		setDependencies(); 
+		out = new GeoLocus[dim];
+		for (int i = 0; i < dim; i++ ) {
+			out[i] = new GeoLocus(cons);
+		}
+		super.setOutputLength(dim);
+		for (int i = 0; i < dim; i++) {
+			super.setOutput(i, out[i]);
+		}
+		setDependencies();
 	}
 	
 	@Override
@@ -110,9 +108,7 @@ public class AlgoNSolveODE extends AlgoElement {
 				return;
 			}
 		}
-		if ( !startX.isDefined() || !relTol.isDefined() 
-				|| Kernel.isZero(relTol.getDouble()) 
-				|| !endX.isDefined() ) {
+		if ( !startX.isDefined() || !endX.isDefined() ) {
 			setUndefined();
 			return;
 		}
@@ -129,7 +125,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 		
 		FirstOrderIntegrator integrator = 
-				new DormandPrince54Integrator(0.001, 0.01, 0.000001, relTol.getDouble());
+				new DormandPrince54Integrator(0.001, 0.01, 0.000001, 0.0001);
 		FirstOrderDifferentialEquations ode = new ODEN(fun);
 		integrator.addStepHandler(stepHandler);
 		
@@ -149,14 +145,15 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 		
 		for (int i = 0; i < dim; i++) {
-			out.add(new GeoLocus(cons));
-			((GeoLocus)out.get(i)).setPoints(al[i]);
-			((GeoLocus)out.get(i)).setDefined(true);
+			out[i].setPoints(al[i]);
+			out[i].setDefined(true);
 		}
 	}
 	
 	private void setUndefined() {
-		out.setUndefined();
+		for (int i = 0; i < out.length; i++) {
+			out[i].setUndefined();
+		}
 	}
 	
 	private StepHandler stepHandler = new StepHandler() {

@@ -1272,7 +1272,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdNSolveODE()  {	
 		t("NSolveODE[ { twovar }, n2, { n5 }, n6 ]");
-		t("NSolveODE[ { twovar }, n2, { n5 }, n6 , prob ]");
 	}
 
 	@Test

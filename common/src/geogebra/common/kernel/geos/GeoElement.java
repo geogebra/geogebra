@@ -3022,7 +3022,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoLocus()) {
 				
 				if (algoParent.getClassName().equals(Algos.AlgoSolveODE)
-						|| algoParent instanceof AlgoIntegralODE) {
+						|| algoParent instanceof AlgoIntegralODE
+						|| algoParent.getClassName().equals(Algos.AlgoNSolveODE)) {
 					
 					return defaultNumberedLabel("numericalIntegral"); // Name.numericalIntegral
 					

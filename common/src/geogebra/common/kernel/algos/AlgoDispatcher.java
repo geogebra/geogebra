@@ -902,6 +902,15 @@ public class AlgoDispatcher {
 		GeoPoint S = algo.getPoint();
 		return S;
 	}
+	
+	/**
+	 * Solves a system of ODEs
+	 */
+	final public GeoLocus[] NSolveODE(String[] labels, GeoList fun, GeoNumeric startX, 
+			 GeoList startY, GeoNumeric endX) {
+		   AlgoNSolveODE algo = new AlgoNSolveODE(cons, labels, fun, startX, startY, endX);
+		   return algo.getResult();
+	}
 
 	/**
 	 * yields intersection points named label of line g and polyLine p

@@ -56,6 +56,7 @@ import geogebra.common.kernel.advanced.CmdLeftRightSide;
 import geogebra.common.kernel.advanced.CmdMatrixRank;
 import geogebra.common.kernel.advanced.CmdMaximize;
 import geogebra.common.kernel.advanced.CmdMinimize;
+import geogebra.common.kernel.advanced.CmdNSolveODE;
 import geogebra.common.kernel.advanced.CmdNumerator;
 import geogebra.common.kernel.advanced.CmdOrdinal;
 import geogebra.common.kernel.advanced.CmdOsculatingCircle;

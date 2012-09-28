@@ -3368,12 +3368,6 @@ public class Kernel {
 //		System.out.println("STOPPED collecting updates  " + startGeo);
 	}
 
-	 final public GeoList NSolveODE(String[] strings, GeoList fun, GeoNumeric startX, 
-			 GeoList startY, GeoNumeric endX, GeoNumeric relTol) {
-		   AlgoNSolveODE algo = new AlgoNSolveODE(cons, strings, fun, startX, startY, endX, relTol);
-		   return algo.getResult();
-		 }
-
 	
 	public final void notifyUpdateVisualStyle(GeoElement geo) {
 		if (notifyViewsActive) {
