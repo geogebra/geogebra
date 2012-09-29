@@ -49,21 +49,26 @@ public class GeoGebraMenubarW extends MenuBar {
 	        
         }
 
-		private void init() {
+	private void init() {
 
-			createFileMenu(!getNativeEmailSet().equals(""));
-			
-			createEditMenu();
-			
-			//Creation of Options Menu
-			 createOptionsMenu(); // Later we'll put back.
-			//Creation of Help Menu
-			createHelpMenu();
-			
-			createLinkToGGBT();
-			
-			createLoginToGoogle();
-        }
+		createFileMenu(!getNativeEmailSet().equals(""));
+
+		createEditMenu();
+
+		// createViewMenu();
+
+		// Creation of Options Menu
+		createOptionsMenu(); // Later we'll put back.
+
+		//createWindowMenu();
+
+		// Creation of Help Menu
+		createHelpMenu();
+
+		createLinkToGGBT();
+
+		createLoginToGoogle();
+	}
 
 		private void createLoginToGoogle() {
 			
@@ -231,6 +236,11 @@ public class GeoGebraMenubarW extends MenuBar {
 			addItem(app.getMenu("Edit"), editMenu);
 		}
 		
+//		private void createViewMenu() {
+//			ViewMenuW viewMenu = new ViewMenuW();
+//			addItem(app.getMenu("View"), viewMenu);
+//		}
+		
 		private void createHelpMenu() {
 	        helpMenu = new HelpMenuW(app);
 			addItem(app.getMenu("Help"),helpMenu);
@@ -241,6 +251,11 @@ public class GeoGebraMenubarW extends MenuBar {
 			addItem(app.getMenu("Options"), optionsMenu);
 		}
 		
+		private void createWindowMenu() {
+			WindowMenuW windowMenu = new WindowMenuW(app);
+			addItem(app.getMenu("Window"), windowMenu);
+		}
+				
 		public static String getMenuBarHtml(String url,String text) {		
 			//TODO: Resize images for this real size, if it is good.
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
