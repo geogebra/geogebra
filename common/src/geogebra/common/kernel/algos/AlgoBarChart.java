@@ -89,6 +89,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	private double barWidth;
 	private double freqMax;
 
+	// flag to determine if result sum measures area or length
+	private boolean isAreaSum = true;
+	
 	private int drawType = DrawBarGraph.DRAW_VERTICAL_BAR;
 
 	/******************************************************
@@ -648,7 +651,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	@Override
 	public void compute() {
-
+		
+		isAreaSum = true;
+		
 		switch (type) {
 
 		case TYPE_BARCHART_FREQUENCY_TABLE:
@@ -658,6 +663,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 		case TYPE_STICKGRAPH:
 		case TYPE_STEPGRAPH:
+			
+			isAreaSum = false;
+			
 			if (list1 == null || !list1.isDefined()) {
 				sum.setUndefined();
 				return;
@@ -666,7 +674,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			if (list1.getGeoElementForPropertiesDialog().isGeoPoint()) {
 				computeFromPointList(list1);
 			} else {
-				computeFromValueFrequencyLists(list1, list2, 0.0);
+				barWidth = 0.0;
+				computeFromValueFrequencyLists();
 			}
 			break;
 
@@ -688,6 +697,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 				sum.setUndefined();
 				return;
 			}
+			barWidth = -1;
 			computeWithFrequency();
 			break;
 
@@ -740,7 +750,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		}
 
 		// calc area of rectangles
-		sum.setValue(ySum * barWidth * N);
+		sum.setValue(ySum * barWidth);
 
 	}
 
@@ -762,8 +772,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		cons.removeFromConstructionList(al1);
 		cons.removeFromConstructionList(al2);
 
-		computeFromValueFrequencyLists(al1.getResult(), al2.getResult(),
-				barWidth);
+		list1 = al1.getResult();
+		list2 = al2.getResult();
+		computeFromValueFrequencyLists();
 
 	}
 
@@ -799,14 +810,13 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			barWidth = -1;
 		}
 
-		computeFromValueFrequencyLists(list1, list2, barWidth);
+		computeFromValueFrequencyLists();
 
 	}
 
-	private void computeFromValueFrequencyLists(GeoList list1, GeoList list2,
-			double width) {
+	private void computeFromValueFrequencyLists() {
 
-		if (width < 0) {
+		if (barWidth < 0) {
 			if (list1.size() > 1) {
 				double x1 = list1.get(0).evaluateNum().getDouble();
 				double x2 = list1.get(1).evaluateNum().getDouble();
@@ -827,7 +837,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			leftBorder = new double[N];
 		}
 
-		int ySum = 0;
+		double ySum = 0;
 
 		for (int i = 0; i < N; i++) {
 			double x = list1.get(i).evaluateNum().getDouble();
@@ -848,23 +858,30 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			}
 		}
 
-		// set the sum to the total area
-		sum.setValue(ySum * barWidth * yval.length);
+		// set the sum
+		if (isAreaSum) {
+			// sum = total area
+			sum.setValue(ySum * barWidth);
+		} else {
+			// sum = total length
+			sum.setValue(ySum);
+		}
 	}
 
+	/**
+	 * Computes stick or step graph from a list of points
+	 * 
+	 * @param list1
+	 */
 	private void computeFromPointList(GeoList list1) {
 
-		 // no width (for now)
-		double width = 0.0;
-		
-		
 		N = list1.size();
 		if (yval == null || yval.length < N) {
 			yval = new double[N];
 			leftBorder = new double[N];
 		}
 
-		int ySum = 0;
+		double ySum = 0;
 
 		for (int i = 0; i < N; i++) {
 
@@ -888,8 +905,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			}
 		}
 
-		// set the sum to the total area
-		sum.setValue(ySum * barWidth * yval.length);
+		// sum = total length
+		sum.setValue(ySum);
 	}
 
 	// ======================================================
