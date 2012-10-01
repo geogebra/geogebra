@@ -27,6 +27,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.main.App;
 
 
 
@@ -266,7 +267,10 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
                     intersectionType =  INTERSECTION_PASSING_LINE;                    
                 }                
             }
-        }        
+        }     
+        
+        for (int i=0; i < 2; i++) 
+        	checkIsOnLine(Q[i]);
 		
 				
 	}
