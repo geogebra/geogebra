@@ -1400,9 +1400,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 			// parse output into valid expression
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
-			CommandReplacer cr = CommandReplacer.getReplacer(app);
-			outputVE.traverse(cr);
-			outputVE.setAssignmentType(getInputVE().getAssignmentType());
+			
+			if(outputVE!=null){
+				CommandReplacer cr = CommandReplacer.getReplacer(app);
+				outputVE.traverse(cr);
+				outputVE.setAssignmentType(inputVE.getAssignmentType());
+			}else{
+				setError("CAS.GeneralErrorMessage");
+			}
 		}
 		if (isFunctionDeclaration) {
 			// replace GeoDummyVariable objects in outputVE by the function
