@@ -57,8 +57,8 @@ public class GeoGebraIWB extends GeoGebra {
 				dllFound = false;
 			}
 			if (!dllFound) {
-				app.showError(app.getPlain("SMARTBoardDLLErrorA"),
-						(jvm64?"RegistrationUtilsx64.dll":"RegistrationUtils.dll"));
+				app.showError(app.getPlain("SMARTBoardDLLErrorA",
+						(jvm64?"RegistrationUtilsx64.dll":"RegistrationUtils.dll")));
 			}
 		}
 		if (dllFound) {
