@@ -1934,7 +1934,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	@Override
 	protected GeoElement[] intersect(Hits hits) {
 		
-		AppD.debug(hits);
+		//AppD.debug(hits);
 		if (hits.isEmpty())
 			return null;		
 		if (hits.containsGeoPoint()) {
