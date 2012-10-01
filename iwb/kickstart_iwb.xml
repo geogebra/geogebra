@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+   iwb kickstart build script
+   Download SMART SDK binaries needed by the iwb project    
+   @author michael
+-->
+
+<project default="iwb">
+
+	<!-- these targets should come from the GeoGebra repository (currently) -->
+	<target name="iwb" depends="RegistrationUtils, RegistrationUtilsx64, sbsdk"/>
+
+	<target name="sbsdk">
+	<mkdir dir="lib"/>
+	<get src="http://dev.geogebra.org/download/lib/iwb/sbsdk.jar" dest="lib/sbsdk.jar"
+	    usetimestamp="true"/>
+	</target>
+
+	<target name="RegistrationUtils">
+	<mkdir dir="lib"/>
+	<get src="http://dev.geogebra.org/download/lib/iwb/RegistrationUtils.dll" dest="lib/RegistrationUtils.dll"
+	    usetimestamp="true"/>
+	</target>
+
+	<target name="RegistrationUtilsx64">
+	<mkdir dir="lib"/>
+	<get src="http://dev.geogebra.org/download/lib/iwb/RegistrationUtilsx64.dll" dest="lib/RegistrationUtilsx64.dll"
+	    usetimestamp="true"/>
+	</target>
+
+
+</project>
