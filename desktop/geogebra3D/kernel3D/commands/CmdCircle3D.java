@@ -31,17 +31,17 @@ public class CmdCircle3D extends CmdCircle {
 	    switch (n) {
 	    case 2 :
 	    	arg = resArgs(c);
-	    	if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
-	    		if ((ok[0] = (arg[0] instanceof GeoLineND))
-	    				&& (ok[1] = (arg[1] .isGeoPoint()))) {
-	    			GeoElement[] ret =
-	    			{
-	    					kernelA.getManager3D().Circle3D(
-	    							c.getLabel(),
-	    							(GeoLineND) arg[0],
-	    							(GeoPointND) arg[1])};
-	    			return ret;
-	    		}else if (ok[0] = (arg[0] .isGeoPoint())){
+	    	if ((ok[0] = (arg[0] instanceof GeoLineND))
+    				&& (ok[1] = (arg[1] .isGeoPoint()))) {
+    			GeoElement[] ret =
+    			{
+    					kernelA.getManager3D().Circle3D(
+    							c.getLabel(),
+    							(GeoLineND) arg[0],
+    							(GeoPointND) arg[1])};
+    			return ret;
+    		}else if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
+	    		 if (ok[0] = (arg[0] .isGeoPoint())){
 	    			if(ok[1] = (arg[1] .isNumberValue())){
 		    			GeoElement[] ret =
 		    				{
