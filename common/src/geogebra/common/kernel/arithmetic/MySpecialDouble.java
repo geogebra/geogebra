@@ -44,8 +44,9 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str) {
 		super(kernel, val);
-		originalString = str;
-		strToString = str;
+		//Reduce can't handle .5*8
+		originalString = str.startsWith(".")?"0" + str:str;
+		strToString = originalString;
 		if(strToString == null)
 			strToString = "0";
 		// check if this is a letter constant, e.g. Pi or Euler number
