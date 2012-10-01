@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 
 
 
@@ -216,6 +217,11 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			checkIsOnB(P[0]);
 			P[1].setCoords(csA.getPoint(points2d[1].x, points2d[1].y), false);
 			checkIsOnB(P[1]);
+			
+			if (!P[0].isDefined() && P[1].isDefined()){
+				P[0].setCoords(P[1].getCoords(), false);
+				P[1].setUndefined();
+			}
 			
 			P[2].setUndefined();P[3].setUndefined();
 			/*
