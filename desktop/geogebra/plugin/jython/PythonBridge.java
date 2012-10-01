@@ -4,8 +4,6 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.plugin.Event;
-import geogebra.common.plugin.script.CompiledPythonScript;
 import geogebra.main.AppD;
 
 import javax.swing.JComponent;
@@ -230,12 +228,6 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	@Override
 	public void removeEventHandler(GeoElement geo, String evtType) {
 		pyInterface.removeEventHandler(geo, evtType);
-	}
-
-	@Override
-	public CompiledPythonScript compileEventScript(String text) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
