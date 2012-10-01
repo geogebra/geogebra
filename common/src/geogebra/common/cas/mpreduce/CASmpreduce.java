@@ -526,33 +526,91 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "   return reverse(coefflist)" + " else" + "   return '?"
 				+ " end;");
 		
-		mpreduce1.evaluate("procedure myand (a,b); if a=true and b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sand(a,b);");
-		mpreduce1.evaluate("operator sand;");
+		mpreduce1.evaluate("operator sless;" 
+				+ "  operator sgreater;"
+				+ "  operator slessequal;" 
+				+ "  operator sgreaterequal;"
+				+ "  operator sequal;"
+				+ "  operator sunequal;"
+				+ "  operator snot;"
+				+ "  operator sand;"
+				+ "  operator sor;"
+				+ "  operator simplies;");
 		
-		mpreduce1.evaluate("procedure myor (a,b); if a=true or b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sor(a,b);");
-		mpreduce1.evaluate("operator sor;");
-		
-		mpreduce1.evaluate("procedure myimplies (a,b); if a=false or b=true then true else  if (a=true or a=false) and (b=true or b=false) then false else simplies(a,b);");
-		mpreduce1.evaluate("operator simplies;");
-		
-		mpreduce1.evaluate("procedure mynot a; if a=false then true else  if (a=true or a=false) then false else snot(a);");
-		mpreduce1.evaluate("operator snot;");
+		mpreduce1.evaluate("let({sless(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) = -1,"
+				+ " sless(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) > -1,"
+				+ " sgreater(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) = 1,"
+				+ " sgreater(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) < 1,"
+				+ " slessequal(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) < 1,"
+				+ " slessequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) = 1,"
+				+ " sgreaterequal(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) > -1,"
+				+ " sgreaterequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) = -1,"
+				+ " sequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and not (mycompare(arg1,arg2) = 0),"
+				+ " sunequal(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and not (mycompare(arg1,arg2) = 0),"
+				+ " sunequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) =0,"
+				+ " snot(~arg) => 'true when arg = 'false,"
+				+ " snot(~arg) => 'false when arg = 'true," 
+				+ " sand(~arg1, ~arg2) => 'true when arg1 = 'true and arg2 ='true,"
+				+ " sand(~arg1, ~arg2) => 'false when arg1 = 'false or arg2 ='false,"
+				+ " sor(~arg1, ~arg2) => 'true when arg1 = 'true or arg2 ='true,"
+				+ " sor(~arg1, ~arg2) => 'false when arg1 = 'false and arg2 ='false,"
+				+ " simplies(~arg1, ~arg2) => 'true when arg1 = 'false or arg2 ='true,"
+				+ " simplies(~arg1, ~arg2) => 'false when arg1 = 'true and arg2 ='false," 
+				+ " sequal(~arg1,~arg2) => myequalvec(arg1,arg2) when myvecp(arg1) and myvecp(arg2),"
+				+ " sequal(~arg1,~arg2) => myequallist(arg1,arg2) when arglength(arg1)>-1 and arglength(arg2)>-1 and part(arg1,0)='list and part(arg2,0)='list,"
+				+ " sequal(~arg1,~arg2) => 'true when subtraction(arg1,arg2)=0 or trigsimp(subtraction(arg1,arg2),combine)=0,"
+				+ " sequal(~arg1,~arg2) => 'false when mynumberp(subtraction(arg1,arg2))='true and mycompare(subtraction(arg1,arg2),0)='false,"
+				+ " sequal(~arg1,~arg2) => 'false when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and mycompare(trigsimp(subtraction(arg1,arg2),combine),0)='false});");
 
-		mpreduce1.evaluate("procedure mygreater (a,b); if numberp(a) and numberp(b) then"
-						+ "(if a>b then true else false) else sgreater(a,b);");
-		mpreduce1.evaluate("operator sgreater;");
+		//tests whether two vectors are equal,
+		//assumes that both arguments are vectors
+		//, please check before using this function
+		mpreduce1.evaluate("procedure myequalvec(arg1, arg2);" +
+				" begin scalar ret;" +
+				"   return if not(dim(arg1)=dim(arg2)) then" +
+				"     'false" +
+				"   else" +
+				"     <<ret:='true;" +
+				"     for i:=0:dim(arg1)-1 do ret:= sand(ret, sequal(get(arg1,i),get(arg2,i)));" +
+				"     ret>>" +
+				" end;");
+
+		//tests whether two list are equal,
+		//assumes that both arguments are lists
+		//, please check before using this function
+		mpreduce1.evaluate(" procedure myequallist(arg1, arg2);" +
+				" begin scalar ret;" +
+				"   return if not(length(arg1)=length(arg2)) then" +
+				"     'false" +
+				"   else" +
+				"     <<ret:='true;" +
+				"     for i:=1:length(arg1) do" +
+				"       ret:= sand(ret, sequal(part(arg1,i),part(arg2,i)));" +
+				"     ret>>" +
+				" end;");
 		
-		mpreduce1.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then"
-						+ "(if a<b then true else false) else sless(a,b);");
-		mpreduce1.evaluate("operator sless;");
-		
-		mpreduce1.evaluate("procedure mygreaterequal (a,b); if numberp(a) and numberp(b) then"
-						+ "(if a>=b then true else false) else sgreaterequal(a,b);");
-		mpreduce1.evaluate("operator sgreaterequal;");
-		
-		mpreduce1.evaluate("procedure mylessequal (a,b);if numberp(a) and numberp(b) then"
-						+ "(if a<=b then true else false) else slessequal(a,b);");
-		mpreduce1.evaluate("operator slessequal;");
+		mpreduce1.evaluate("procedure mynumberp(arg);"
+				+ "  begin scalar roundedon;"
+				+ "  roundedon := if lisp(!*rounded) then 'true else 'false;"
+				+ "  on rounded;" 
+				+ "  return if numberp(arg) then"
+				+ "    <<if roundedon='false then off rounded; 'true>>"
+				+ "  else"
+				+ "    <<if roundedon='false then off rounded; 'false>>"
+				+ "  end;");
+
+		//assumption: arg1 and arg2 are numbers, please check before using
+		mpreduce1.evaluate("procedure mycompare(arg1, arg2);"
+				+ "  begin scalar roundedon;"
+				+ "  roundedon := if lisp(!*rounded) then 'true else 'false;"
+				+ "  on rounded;" 
+				+ "  return if arg1<arg2 then"
+				+ "    <<if roundedon='false then off rounded; -1>>"
+				+ "  else if arg1=arg2 then"
+				+ "    <<if roundedon='false then off rounded; 0>>" 
+				+ "  else"
+				+ "    <<if roundedon='false then off rounded; 1>>" 
+				+ "  end;");
 		
 		mpreduce1.evaluate(" Degree := pi/180;");
 
@@ -631,7 +689,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("operator zscoord");
 
 		mpreduce1
-				.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
+				.evaluate("procedure booltonum a; if a = 'true then 1 else if a = 'false then 0 else a;");
 		mpreduce1
 		.evaluate("procedure isnonzero(a);if a=0 or not freeof(a,i) then 0 else 1;");
 		App.debug(mpreduce1
@@ -1045,26 +1103,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("operator subtraction;");
 
 		mpreduce1
-				.evaluate("procedure myequal(a,b);begin; scalar ret;"
-						+ "ret:=false;"
-						+ "a:=mattolistoflists(a);"
-						+ "b:=mattolistoflists(b);"
-						+ "if myvecp(a) and myvecp(b) then <<ret:= myand(myequal(xvcoord(a),xvcoord(b)),myequal(yvcoord(a),yvcoord(b)));"
-						+ " if(dim a = 3) then ret:=myand(ret,myequal(zvcoord(a),zvcoord(b)))>>"
-						+ " else if arglength(a)>-1 and arglength(b)>-1 and part(a,0)='list and part(b,0)='list"
-						+ " then <<if length(a)=length(b) then ret:=equallists(a,b) else ret:=false>>"
-						+ " else ret:=if subtraction(a,b)=0 or trigsimp(subtraction(a,b),combine)=0 then true else " +
-						" if numberp(subtraction(a,b)) or numberp(trigsimp(subtraction(a,b),combine)) then false else sequal(a,b);"
-						+ " return ret; end;");
-		mpreduce1.evaluate("procedure equallists(a,b);begin;scalar ret,k; "
-				+ "ret:=true;" + "k:=1;"
-				+ "while k <= length(a) and ret=true do<<"
-				+ " ret:=myequal(part(a,k),part(b,k));k:=k+1>>;"
-				+ " return ret; end;");
-
-		mpreduce1
-				.evaluate("procedure myneq(a,b);if myequal(a,b)=true then false "
-						+ "else true");
+				.evaluate("procedure myneq(a,b);snot myequal(a,b);");
 
 		mpreduce1
 				.evaluate("procedure fractionalpart(a);if (a)>0 then a-floor(a) else a-ceiling(a)");
