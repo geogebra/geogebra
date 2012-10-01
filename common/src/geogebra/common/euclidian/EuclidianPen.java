@@ -462,26 +462,36 @@ public class EuclidianPen {
 				rs.endpt = brk[j+1];
 				this.get_segment_geometry(brk[j], brk[j+1], ss, rs);
 			}
-			if(this.try_rectangle())
+			
+			GeoElement geo = try_rectangle();
+			if (geo != null)
 			{
 				recognizer_queue_length = 0;
 				App.debug("Rectangle Recognized");
+				return geo;
 			}
-			if(this.try_arrow())
+			geo = try_arrow();
+			if (geo != null)
 			{
 				recognizer_queue_length = 0;
 				App.debug("Arrow Recognized");
+				return geo;
 			}
-			if(this.try_closed_polygon(3))
+			
+			geo = try_closed_polygon(3);
+			if (geo != null)
 			{
 				recognizer_queue_length = 0;
 				App.debug("Triangle Recognized");
 			}
-			if(this.try_closed_polygon(4))
+			
+			geo = try_closed_polygon(4);
+			if (geo != null)
 			{
 				recognizer_queue_length = 0;
 				App.debug("Quadrilateral Recognized");
 			}
+			
 			if(n==1)//then stroke is a line
 			{
 				App.debug("Current stroke is a line");
@@ -1404,7 +1414,7 @@ public class EuclidianPen {
     	r.y2 = r.ycenter + lmax*Math.sin(r.angle);
     }
     
-    private boolean try_rectangle()
+    private GeoElement try_rectangle()
     {
     	RecoSegment rs = null;
     	RecoSegment r1 = null;
@@ -1419,7 +1429,7 @@ public class EuclidianPen {
     	double points[] = new double[10];
 
     	if(recognizer_queue_length < 4)
-    		return false;
+    		return null;
     	if(recognizer_queue_length-4 == 0)
     		rs = reco_queue_a;
     	if(recognizer_queue_length-4 == 1)
@@ -1432,7 +1442,7 @@ public class EuclidianPen {
     		rs = reco_queue_e;
     	//AbstractApplication.debug(rs.startpt);
     	if(rs.startpt != 0)
-    		return false;
+    		return null;
     	for(i=0; i<=3; ++i)
     	{
     		if(recognizer_queue_length-4+i == 0)
@@ -1457,7 +1467,7 @@ public class EuclidianPen {
     			r2 = reco_queue_e;
     		//AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE);
     		if(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE)
-    			return false;
+    			return null;
     		avg_angle = avg_angle + r1.angle;
     		if(r2.angle > r1.angle)
     			avg_angle = avg_angle + ((i+1)*Math.PI/2);
@@ -1489,7 +1499,7 @@ public class EuclidianPen {
     			r2 = reco_queue_e;
     		dist = Math.hypot((r1.reversed?r1.x1:r1.x2) - (r2.reversed?r2.x2:r2.x1), (r1.reversed?r1.y1:r1.y2) - (r2.reversed?r2.y2:r2.y1));
     		if(dist > RECTANGLE_LINEAR_TOLERANCE*(r1.radius+r2.radius))
-    			return false;
+    			return null;
     	}
     	avg_angle = avg_angle/4;
     	if(Math.abs(avg_angle) < SLANT_TOLERANCE)
@@ -1559,10 +1569,10 @@ public class EuclidianPen {
 		poly.setLayer(1);
 		poly.updateRepaint();
 
-    	return true;
+    	return poly;
     }
     
-    private boolean try_arrow()
+    private GeoElement try_arrow()
     {
     	RecoSegment rs = null;
     	RecoSegment temp1 = null;
@@ -1582,7 +1592,7 @@ public class EuclidianPen {
     	double x_last = 0;
     	double y_last = 0;
     	if (recognizer_queue_length<3) 
-    		return false;
+    		return null;
     	if(recognizer_queue_length-3 == 0)
     		rs = reco_queue_a;
     	if(recognizer_queue_length-3 == 1)
@@ -1595,7 +1605,7 @@ public class EuclidianPen {
     		rs = reco_queue_e;
     	//AbstractApplication.debug(rs.startpt);
     	if(rs.startpt != 0)
-    		return false;
+    		return null;
     	for(i=1; i<=2; ++i)
     	{
     		if(recognizer_queue_length-3+i == 0)
@@ -1609,11 +1619,11 @@ public class EuclidianPen {
     		if(recognizer_queue_length-3+i == 4)
     			temp1 = reco_queue_e;
     		if (temp1.radius > ARROW_MAXSIZE*rs.radius)
-    			return false;
+    			return null;
     		rev[i] = (Math.hypot(temp1.xcenter - rs.x1, temp1.ycenter - rs.y1)) < (Math.hypot(temp1.xcenter - rs.x2, temp1.ycenter - rs.y2));
     	}
     	if(rev[1] != rev[2])
-    		return false;
+    		return null;
     	if(rev[1])
     	{
     		x1 = rs.x2;
@@ -1655,10 +1665,10 @@ public class EuclidianPen {
     			temp1.reversed = !temp1.reversed;
     		}
     		if(Math.abs(alpha[i]) < ARROW_ANGLE_MIN || Math.abs(alpha[i]) > ARROW_ANGLE_MAX)
-    			return false;
+    			return null;
     	}
     	if(alpha[1]*alpha[2] > 0 || Math.abs(alpha[1] + alpha[2]) > ARROW_ASYMMETRY_MAX_ANGLE)
-    		return false;
+    		return null;
     	if(recognizer_queue_length-2 == 0)
 			temp1 = reco_queue_a;
 		if(recognizer_queue_length-2 == 1)
@@ -1680,9 +1690,9 @@ public class EuclidianPen {
 		if(recognizer_queue_length-1 == 4)
 			temp2 = reco_queue_e;
 		if(temp1.radius/temp2.radius > 1+ARROW_ASYMMETRY_MAX_LINEAR)
-			return false;
+			return null;
 		if(temp2.radius/temp1.radius > 1+ARROW_ASYMMETRY_MAX_LINEAR)
-			return false;
+			return null;
 		EuclidianPen.calc_edge_isect(temp1, temp2, pt);
 		for(j=1; j<=2; ++j)
 		{
@@ -1698,7 +1708,7 @@ public class EuclidianPen {
     			temp1 = reco_queue_e;
     		dist = Math.hypot(pt[0] - (temp1.reversed?temp1.x1:temp1.x2), pt[1] - (temp1.reversed?temp1.y1:temp1.y2));
     		if (dist > ARROW_TIP_LINEAR_TOLERANCE*temp1.radius) 
-    			return false;
+    			return null;
 		}
 		dist = (pt[0] - x2)*Math.sin(angle) - (pt[1] - y2)*Math.cos(angle);
 		if(recognizer_queue_length-3+1 == 0)
@@ -1723,11 +1733,11 @@ public class EuclidianPen {
 			temp2 = reco_queue_e;
 		dist = dist/(temp1.radius + temp2.radius);
 		if (Math.abs(dist) > ARROW_SIDEWAYS_GAP_TOLERANCE) 
-			return false;
+			return null;
 		dist = (pt[0] - x2)*Math.cos(angle) + (pt[1] - y2)*Math.sin(angle);
 		dist = dist/(temp1.radius + temp2.radius);
 		if (dist < ARROW_MAIN_LINEAR_GAP_MIN || dist > ARROW_MAIN_LINEAR_GAP_MAX)
-			return false;
+			return null;
 		if (Math.abs(rs.angle) < SLANT_TOLERANCE) 
 		{ // nearly horizontal
 		    angle = angle - rs.angle;
@@ -1780,10 +1790,10 @@ public class EuclidianPen {
 		line.setObjColor(penColor);
 		line.setLayer(1);
 		line.updateRepaint();
-		return true;
+		return line;
     }
     
-    private boolean try_closed_polygon(int nsides)
+    private GeoElement try_closed_polygon(int nsides)
     {
     	RecoSegment rs = null;
     	RecoSegment r1 = null;
@@ -1798,7 +1808,7 @@ public class EuclidianPen {
     	double points[] = new double[nsides*2 + 2];
     	
     	if(recognizer_queue_length < nsides)
-    		return false;
+    		return null;
     	if(recognizer_queue_length-nsides == 0)
     		rs = reco_queue_a;
     	if(recognizer_queue_length-nsides == 1)
@@ -1810,7 +1820,7 @@ public class EuclidianPen {
     	if(recognizer_queue_length-nsides == 4)
     		rs = reco_queue_e;
     	if(rs.startpt != 0)
-    		return false;
+    		return null;
     	for(i=0 ; i<nsides; ++i)
     	{
     		if(recognizer_queue_length-nsides+i == 0)
@@ -1861,7 +1871,7 @@ public class EuclidianPen {
         	EuclidianPen.calc_edge_isect(r1, r2, pt);
         	dist = Math.hypot((r1.reversed ? r1.x1:r1.x2) - pt[0], (r1.reversed? r1.y1:r1.y2) - pt[1]) + Math.hypot((r2.reversed? r2.x2:r2.x1) - pt[0], (r2.reversed? r2.y2:r2.y1) - pt[1]);
         	if(dist > POLYGON_LINEAR_TOLERANCE*(r1.radius + r2.radius))
-        		return false;
+        		return null;
     	}
     	for(i=0; i<nsides; ++i)
     	{
@@ -1913,7 +1923,7 @@ public class EuclidianPen {
 		poly.updateRepaint();
 
     	
-    	return true;
+    	return poly;
     }
     
     private static void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
