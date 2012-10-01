@@ -133,6 +133,16 @@ public class StringTemplate {
 	}
 	
 	/**
+	 * Not localized template, allow bigger precision for Numeric command
+	 */
+
+	public static final StringTemplate numericNoLocal = new StringTemplate();
+	static{
+		numericNoLocal.allowMoreDigits = true;
+		numericNoLocal.localizeCmds = false;
+	}
+	
+	/**
 	 * Default LaTeX template, just allow bigger precision for Numeric command
 	 */
 	public static final StringTemplate numericLatex = new StringTemplate();
