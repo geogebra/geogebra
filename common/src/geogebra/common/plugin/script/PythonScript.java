@@ -9,10 +9,18 @@ import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.jython.PythonBridge;
 
 
+/**
+ * @author arno
+ * Script class for Python scripts
+ */
 public class PythonScript extends Script {
 
 	private PythonBridge bridge;
 
+	/**
+	 * @param app the script's application
+	 * @param text the script's source code
+	 */
 	public PythonScript(App app, String text) {
 		super(app, text);
 		bridge = app.getPythonBridge();

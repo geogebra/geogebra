@@ -10,10 +10,18 @@ import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.util.StringUtil;
 
+/**
+ * @author arno
+ * Script class for GgbScript scripts
+ */
 public class GgbScript extends Script {
 	
 	private AlgebraProcessor proc;
 	
+	/**
+	 * @param app the script's application
+	 * @param scriptText the script's source code
+	 */
 	public GgbScript(App app, String scriptText) {
 		super(app, scriptText);
 		this.proc = app.getKernel().getAlgebraProcessor();
@@ -69,6 +77,12 @@ public class GgbScript extends Script {
 		return retone.toString();
 	}
 
+	/**
+	 * Delocalize a script
+	 * @param app the application
+	 * @param st the script text
+	 * @return the text of the delocalized script
+	 */
 	public static String localizedScript2Script(App app, String st) {
 		final String[] starr = splitScriptByCommands(st);
 		final StringBuilder retone = new StringBuilder();
