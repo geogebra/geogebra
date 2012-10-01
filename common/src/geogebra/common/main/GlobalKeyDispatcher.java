@@ -430,12 +430,6 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-				// needed for detached views and MacOS
-				// Cmd + Y: Redo
-			case Y:
-				app.getGuiManager().redo();
-				consumed = true;
-				break;
 
 				// needed for detached views and MacOS
 				// Ctrl + Z: Undo
@@ -476,6 +470,24 @@ public abstract class GlobalKeyDispatcher {
 					}
 				} else {
 					app.getGuiManager().save();
+					consumed = true;
+				}
+				break;
+
+			case Y:
+				if (isShiftDown) {
+					if (app.isUsingFullGui()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									App.VIEW_PYTHON),
+									App.VIEW_PYTHON);
+						consumed = true;
+					}
+				} else {
+					// needed for detached views and MacOS
+					// Cmd + Y: Redo
+
+					app.getGuiManager().redo();
 					consumed = true;
 				}
 				break;
