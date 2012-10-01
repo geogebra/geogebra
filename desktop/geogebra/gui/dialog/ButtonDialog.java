@@ -17,6 +17,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.plugin.ScriptType;
+import geogebra.common.plugin.script.Script;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.InputPanelD;
@@ -184,7 +186,14 @@ public class ButtonDialog extends JDialog
 		
 		// create script panel
 		JLabel scriptLabel = new JLabel(app.getPlain("Script")+":");
-		initString = (button == null) ? "" : button.getClickScript();
+		// XXX Remark 1: This has been incorrect as it assumes the click script
+		// is GgbScript.  However I'm only adapting it to the new scripting
+		// structure so it will need to be dealt with later
+		if (button == null || button.getClickScript() == null) {
+			initString = "";
+		} else {
+			initString = button.getClickScript().getText();
+		}
 		InputPanelD ip2 = new InputPanelD(initString, app, 10, 40, false);
 		Dimension dim = ((GeoGebraEditorPane) ip2.getTextComponent())
 				.getPreferredSizeFromRowColumn(10, 40);
@@ -284,8 +293,10 @@ public class ButtonDialog extends JDialog
 			button.setAbsoluteScreenLoc(x, y);
 
 			
-			button.setLabel(null);	
-			button.setClickScript(tfScript.getText(), true);
+			button.setLabel(null);
+			// XXX See Remark 1 above
+			Script script = app.createScript(ScriptType.GGBSCRIPT, tfScript.getText(), true);
+			button.setClickScript(script);
 			
 			// set caption text
 			String strCaption = tfCaption.getText().trim();

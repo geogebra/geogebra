@@ -45,9 +45,17 @@ import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GgbAPI;
+import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptManagerCommon;
+import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.jython.PythonBridge;
+import geogebra.common.plugin.script.GgbScript;
+import geogebra.common.plugin.script.JsScript;
+import geogebra.common.plugin.script.PythonScript;
+import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger;
@@ -272,7 +280,7 @@ public abstract class App {
 	public static final int SPREADSHEET_INI_ROWS = 100;
 
 	private HashMap<String, String> translateCommandTable,
-			translateCommandTableScripting;
+	translateCommandTableScripting;
 	// command dictionary
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary commandDictCAS;
@@ -1174,11 +1182,11 @@ public abstract class App {
 	// used by PropertyDialogGeoElement and MenuBarImpl
 	// for the Rounding Menus
 	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
-			-1, 3, 5, 10, 15 };
+		-1, 3, 5, 10, 15 };
 	final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7 };
+		-1, 6, -1, -1, -1, -1, 7 };
 	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12 };
+		-1, -1, 11, -1, -1, -1, -1, 12 };
 
 	public String[] getRoundingMenu() {
 		String[] strDecimalSpaces = {
@@ -1222,9 +1230,9 @@ public abstract class App {
 	 * Rounding menu options (not internationalized)
 	 */
 	final public static String[] strDecimalSpacesAC = { "0 decimals",
-			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
-			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-			"5 figures", "10 figures", "15 figures" };
+		"1 decimals", "2 decimals", "3 decimals", "4 decimals",
+		"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
+		"5 figures", "10 figures", "15 figures" };
 
 	// Rounding Menus end
 
@@ -1251,7 +1259,7 @@ public abstract class App {
 				}
 			}
 			getActiveEuclidianView().getEuclidianController()
-					.clearJustCreatedGeos();
+			.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController().clearSelections();
 			storeUndoInfo();
 		}
@@ -1765,7 +1773,7 @@ public abstract class App {
 				// separator
 			} else if (lang.startsWith("fa")) { // Persian
 				unicodeZero = '\u06f0'; // Persian digit 0 (Extended
-										// Arabic-Indic)
+				// Arabic-Indic)
 				unicodeDecimalPoint = '\u066b'; // Arabic comma
 				unicodeComma = '\u060c'; // Arabic-Indic decimal point
 				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
@@ -2310,7 +2318,7 @@ public abstract class App {
 
 		clearSelectedGeos(repaint,repaint);
 	}
-	
+
 	/**
 	 * Clear selection
 	 * @param repaint whether all views need repainting afterwards
@@ -2326,7 +2334,7 @@ public abstract class App {
 			selectedGeos.clear();
 			if (repaint) 
 				kernel.notifyRepaint();
-			
+
 			if (updateSelection)
 				updateSelection();
 
@@ -4222,6 +4230,40 @@ public abstract class App {
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
 
+	public Script createScript(ScriptType type, String scriptText, boolean translate) {
+		if (type == ScriptType.GGBSCRIPT && translate) { 
+			scriptText = GgbScript.localizedScript2Script(this, scriptText);
+		}
+		return type.newScript(this, scriptText);
+	}
+	
+	public void dispatchEvent(Event evt) {
+		if (isScriptingDisabled()) {
+			return;
+		}
+		Script script = evt.target.getScript(evt.type);
+		if (script == null) {
+			return;
+		}
+		if (evt.type == EventType.UPDATE) {
+			if (isBlockUpdateScripts()) {
+				return;
+			}
+		}
+		try {
+			setBlockUpdateScripts(true);
+			script.run(evt);
+			if (evt.type != EventType.UPDATE) {
+				storeUndoInfo();
+			}
+		} catch (ScriptError e) {
+			showError(e.getLocalizedMessage());
+		} finally {
+			setBlockUpdateScripts(false);
+		}
+	}
+
+
 	public void showRelation(GeoElement a, GeoElement b) {
 		GOptionPane optionPane = getFactory().newGOptionPane();
 		optionPane.showConfirmDialog(getMainComponent(),
@@ -4246,7 +4288,7 @@ public abstract class App {
 	public abstract CASFactory getCASFactory();
 
 	public abstract SwingFactory getSwingFactory();
-	
+
 	public abstract Factory getFactory();
 
 }

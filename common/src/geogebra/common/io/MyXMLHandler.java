@@ -42,7 +42,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement.ScriptType;
+import geogebra.common.plugin.ScriptType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
@@ -69,7 +69,9 @@ import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.script.Script;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
 
@@ -3477,15 +3479,15 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleScript(LinkedHashMap<String, String> attrs,
 			ScriptType type) {
 		try {
-			String clickScript = attrs.get("val");
-			if (clickScript != null && clickScript.length() > 0) {
-				geo.setClickScriptType(type);
-				geo.setClickScript(clickScript, false);
+			String text = attrs.get("val");
+			if (text != null && text.length() > 0) {
+				Script script = app.createScript(type, text, false);
+				geo.setClickScript(script);
 			}
-			String updateScript = attrs.get("onUpdate");
-			if (updateScript != null && updateScript.length() > 0) {
-				geo.setUpdateScriptType(type);
-				geo.setUpdateScript(updateScript, false);
+			text = attrs.get("onUpdate");
+			if (text != null && text.length() > 0) {
+				Script script = app.createScript(type, text, false);
+				geo.setUpdateScript(script);
 			}
 			return true;
 		} catch (Exception e) {
@@ -3551,9 +3553,10 @@ public class MyXMLHandler implements DocHandler {
 				GeoBoolean bool = (GeoBoolean) geo;
 				bool.setValue(parseBoolean(strVal));
 			} else if (isButton) {
+				// XXX What's this javascript doing here? (Arnaud)
 				GeoButton button = (GeoButton) geo;
-				button.setClickScript(strVal, false);
-				button.setClickScriptType(ScriptType.JAVASCRIPT);
+				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal, false);
+				button.setClickScript(script);
 			}
 			return true;
 		} catch (Exception e) {

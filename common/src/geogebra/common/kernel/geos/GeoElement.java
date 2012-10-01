@@ -55,13 +55,16 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing;
-import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.ScriptType;
+import geogebra.common.plugin.script.Script;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.Language;
 import geogebra.common.util.MyMath;
@@ -90,59 +93,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public boolean isVector3DValue() {
 		return false;
-	}
-
-	/**
-	 * @return the ScriptType for update
-	 */
-	public ScriptType getUpdateScriptType() {
-		return updateScriptType;
-	}
-
-	/**
-	 * @param scriptType
-	 *            type of update script
-	 */
-	public void setUpdateScriptType(final ScriptType scriptType) {
-		updateScriptType = scriptType;
-	}
-
-	/**
-	 * @return the ScriptType for click
-	 */
-	public ScriptType getClickScriptType() {
-		return clickScriptType;
-	}
-
-	/**
-	 * Scripting language
-	 *
-	 */
-	public enum ScriptType {
-		/** GGBScript */
-		GGBSCRIPT,
-		/** JavaScript */
-		JAVASCRIPT,
-		/** Python */
-		PYTHON
-	}
-	
-	/**
-	 * Scripting event type
-	 */
-	public enum EventType {
-		/** On click */
-		CLICK,
-		/** On update */
-		UPDATE
-	}
-
-	/**
-	 * @param scriptType
-	 *            type of click script
-	 */
-	public void setClickScriptType(final ScriptType scriptType) {
-		clickScriptType = scriptType;
 	}
 
 	/**
@@ -4627,10 +4577,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private String strHasIndexLabel;
 	private boolean hasIndexLabel = false;
-	// private boolean updateJavaScript;
-	// private boolean clickJavaScript;
-	private ScriptType updateScriptType = ScriptType.GGBSCRIPT;
-	private ScriptType clickScriptType = ScriptType.GGBSCRIPT;
 
 	/**
 	 * returns type and label of a GeoElement as html string (for tooltips and
@@ -4756,99 +4702,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param sb string builder
 	 */
 	public void getScriptTags(final StringBuilder sb) {
-		// JavaScript
-		if ((updateJavaScript() && (updateScript.length() > 0))
-				|| (clickJavaScript() && (clickScript.length() > 0))) {
-			sb.append("\t<javascript ");
-			if (clickJavaScript() && (clickScript.length() > 0)) {
-				sb.append(" val=\"");
-				getXMLClickScript(sb);
-				sb.append("\"");
-			}
-			if (updateJavaScript() && (updateScript.length() > 0)) {
-				sb.append(" onUpdate=\"");
-				getXMLUpdateScript(sb);
-				sb.append("\"");
-			}
-			sb.append("/>\n");
+		
+		if (clickScript != null) {
+			sb.append("\t<");
+			sb.append(clickScript.getLanguageName());
+			sb.append(" val=\"");
+			StringUtil.encodeXML(sb, clickScript.getInternalText());
+			sb.append("\"/>\n");
 		}
-
-		// GGBScript
-		if ((updateGGBScript() && (updateScript != null) && (updateScript
-				.length() > 0))
-				|| (clickGGBScript() && (clickScript != null) && (clickScript
-						.length() > 0))) {
-			sb.append("\t<ggbscript ");
-			if (clickGGBScript() && (clickScript.length() > 0)) {
-				sb.append(" val=\"");
-				getXMLClickScript(sb);
-				sb.append("\"");
-			}
-			if (updateGGBScript() && (updateScript.length() > 0)) {
-				sb.append(" onUpdate=\"");
-				getXMLUpdateScript(sb);
-				sb.append("\"");
-			}
-			sb.append("/>\n");
+		if (updateScript != null) {
+			sb.append("\t<");
+			sb.append(updateScript.getLanguageName());
+			sb.append(" onUpdate=\"");
+			StringUtil.encodeXML(sb, updateScript.getInternalText());
+			sb.append("\"/>\n");
 		}
-
-		// Python
-		if ((updatePythonScript() && (updateScript != null) && (updateScript
-				.length() > 0))
-				|| (clickPythonScript() && (clickScript != null) && (clickScript
-						.length() > 0))) {
-			sb.append("\t<python ");
-			if (clickPythonScript() && (clickScript.length() > 0)) {
-				sb.append(" val=\"");
-				getXMLClickScript(sb);
-				sb.append("\"");
-			}
-			if (updatePythonScript() && (updateScript.length() > 0)) {
-				sb.append(" onUpdate=\"");
-				getXMLUpdateScript(sb);
-				sb.append("\"");
-			}
-			sb.append("/>\n");
-		}
-
-	}
-
-	/**
-	 * @return true if click script is GGBScript
-	 */
-	public boolean clickGGBScript() {
-		return clickScriptType.equals(ScriptType.GGBSCRIPT);
-	}
-
-	/**
-	 * @return true if update script is GGBScript
-	 */
-	public boolean updateGGBScript() {
-		return updateScriptType.equals(ScriptType.GGBSCRIPT);
-	}
-	/**
-	 * @return true if click script is JavaScript
-	 */
-	public boolean clickJavaScript() {
-		return clickScriptType.equals(ScriptType.JAVASCRIPT);
-	}
-	/**
-	 * @return true if update script is JavaScript
-	 */
-	public boolean updateJavaScript() {
-		return updateScriptType.equals(ScriptType.JAVASCRIPT);
-	}
-	/**
-	 * @return true if click script is Python
-	 */
-	public boolean clickPythonScript() {
-		return clickScriptType.equals(ScriptType.PYTHON);
-	}
-	/**
-	 * @return true if update script is Python
-	 */
-	private boolean updatePythonScript() {
-		return updateScriptType.equals(ScriptType.PYTHON);
 	}
 
 	/**
@@ -6220,178 +6088,53 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// JavaScript
 
-	private String clickScript = "";
-	private String updateScript = "";
+	private Script clickScript = null;
+	private Script updateScript = null;
 
-	/**
-	 * This method should split a GeoGebra script into the following format: ""
-	 * or "something"; "command"; "something"; "command"; "something"; ...
-	 * 
-	 * @param st
-	 *            String GeoGebra script
-	 * @return String [] the GeoGebra script split into and array
-	 */
-	private static String[] splitScriptByCommands(final String st) {
 
-		StringBuilder retone = new StringBuilder();
-		final ArrayList<String> ret = new ArrayList<String>();
-
-		// as the other algorithms would be too complicated,
-		// just go from the end of the string and advance character by character
-
-		// at first count the number of "s to decide how to start the algorithm
-		int countapo = 0;
-		for (int j = 0; j < st.length(); j++) {
-			if (st.charAt(j) == '"') {
-				countapo++;
-			}
-		}
-
-		boolean in_string = false;
-		if ((countapo % 2) == 1) {
-			in_string = true;
-		}
-
-		boolean before_bracket = false;
-		boolean just_before_bracket = false;
-		for (int i = st.length() - 1; i >= 0; i--) {
-			if (in_string) {
-				if (st.charAt(i) == '"') {
-					in_string = false;
-				}
-			} else if (just_before_bracket) {
-				if (StringUtil.isLetterOrDigitOrUnderscore(st.charAt(i))) {
-					ret.add(0, retone.toString());
-					retone = new StringBuilder();
-					just_before_bracket = false;
-					before_bracket = true;
-				} else if ((st.charAt(i) != '[') && (st.charAt(i) != ' ')) {
-					just_before_bracket = false;
-					before_bracket = false;
-					if (st.charAt(i) == '"') {
-						in_string = true;
-					}
-				}
-			} else if (before_bracket) {
-				if (!StringUtil.isLetterOrDigitOrUnderscore(st.charAt(i))) {
-					ret.add(0, retone.toString());
-					retone = new StringBuilder();
-					before_bracket = false;
-					if (st.charAt(i) == '"') {
-						in_string = true;
-					} else if (st.charAt(i) == '[') {
-						just_before_bracket = true;
-					}
-				}
-			} else {
-				if (st.charAt(i) == '"') {
-					in_string = true;
-				} else if (st.charAt(i) == '[') {
-					just_before_bracket = true;
-				}
-			}
-			retone.insert(0, st.charAt(i));
-		}
-		ret.add(0, retone.toString());
-		if (before_bracket) {
-			ret.add(0, "");
-		}
-		final String[] ex = { "" };
-		return ret.toArray(ex);
-	}
-
-	private String script2LocalizedScript(final String st) {
-		final String[] starr = splitScriptByCommands(st);
-		final StringBuilder retone = new StringBuilder();
-		for (int i = 0; i < starr.length; i++) {
-			if ((i % 2) == 0) {
-				retone.append(starr[i]);
-			} else {
-				retone.append(app.getCommand(starr[i]));
-			}
-		}
-		return retone.toString();
-	}
-
-	private String localizedScript2Script(final String st) {
-		final String[] starr = splitScriptByCommands(st);
-		final StringBuilder retone = new StringBuilder();
-		for (int i = 0; i < starr.length; i++) {
-			if ((i % 2) == 0) {
-				retone.append(starr[i]);
-			} else {
-				// allow English language command in French scripts
-				if (app.getInternalCommand(starr[i]) != null) {
-					retone.append(app.getInternalCommand(starr[i]));
-				} else {
-					// fallback for wrong call in English already
-					// or if someone writes an English command into an
-					// other language script
-					retone.append(starr[i]);
-				}
-			}
-		}
-		return retone.toString();
-	}
 	
-	private void setPythonEventHandler(ScriptType type, String evt, String code) {
-		if (type == ScriptType.PYTHON) {
-			app.getPythonBridge().setEventListener(this, evt, code);
-		}		
-	}
-
 	/**
 	 * @param script script
-	 * @param translateInternal true to translate commands to internal
 	 */
-	public void setClickScript(final String script,
-			final boolean translateInternal) {
+	public void setClickScript(Script script) {
 		if (!canHaveClickScript()) {
 			return;
 		}
-		// Application.debug(script);
-		if (!clickGGBScript()) {
-			if (app.getScriptingLanguage() == null) {
-				app.setScriptingLanguage(app.getLanguage());
-			}
-			setPythonEventHandler(clickScriptType, "click", script);
-			clickScript = script;
-		} else {
-			if (translateInternal) {
-				clickScript = localizedScript2Script(script);
-			} else {
-				setPythonEventHandler(clickScriptType, "click", script);
-				clickScript = script;
-			}
+		if (clickScript != null) {
+			clickScript.unbind(this, EventType.CLICK);
 		}
+		clickScript = script;
 	}
 
 	/**
 	 * Sets update script
 	 * @param script script
-	 * @param translateInternal true to translate into internal commands
 	 */
-	public void setUpdateScript(final String script,
-			final boolean translateInternal) {
+	public void setUpdateScript(Script script) {
 		if (!canHaveUpdateScript()) {
 			return;
 		}
-		if (!updateGGBScript()) {
-			if (app.getScriptingLanguage() == null) {
-				app.setScriptingLanguage(app.getLanguage());
-			}
-			setPythonEventHandler(updateScriptType, "update", script);
-			updateScript = script;
-		} else {
-			if (translateInternal) {
-				updateScript = localizedScript2Script(script);
-			} else {
-				setPythonEventHandler(updateScriptType, "update", script);
-				updateScript = script;
-			}
+		if (updateScript != null) {
+			updateScript.unbind(this, EventType.UPDATE);
 		}
+		updateScript = script;
 		app.initJavaScriptViewWithoutJavascript();
 	}
+	
+	public void setScript(Script script, EventType evt) {
+		switch (evt) {
+			case CLICK:
+				setClickScript(script);
+				break;
+			case UPDATE:
+				setUpdateScript(script);
+				break;
+			default:
+				break;
+		}
+		script.bind(this, evt);
+	}
+	
 	/**
 	 * @return true if this can have update script
 	 */
@@ -6399,23 +6142,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		return true;
 	}
 	/**
-	 * Returns update script, for GGBScript the resultis localized
+	 * Returns update script, for GGBScript the result is localized
 	 * @return update script
 	 */
-	public String getUpdateScript() {
-		if (updateGGBScript()) {
-			return script2LocalizedScript(updateScript);
-		}
+	public Script getUpdateScript() {
 		return updateScript;
 	}
 
 	/**
 	 * @return click script (localized if GGBScript)
 	 */
-	public String getClickScript() {
-		if (clickGGBScript()) {
-			return script2LocalizedScript(clickScript);
-		}
+	public Script getClickScript() {
 		return clickScript;
 	}
 	
@@ -6423,151 +6160,30 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param type event type
 	 * @return script
 	 */
-	public String getScript(EventType type) {
+	public Script getScript(EventType type) {
 		switch (type) {
 		case CLICK:
 			return getClickScript();
 		case UPDATE:
 			return getUpdateScript();
 		}
-		return "";
+		return null;
 	}
 	
-	private void getXMLUpdateScript(StringBuilder sb) {
-		StringUtil.encodeXML(sb, updateScript);
-	}
-
-	private void getXMLClickScript(StringBuilder sb) {
-		StringUtil.encodeXML(sb, clickScript);
-	}
-
-	private void runGgbScript(final String arg, final boolean update) {
-
-		final String ggbScript = update ? updateScript : clickScript;
-
-		final AlgebraProcessor ab = kernel.getAlgebraProcessor();
-		final String script[] = (arg == null) ? ggbScript.split("\n")
-				: ggbScript.replaceAll("%0", arg).split("\n");
-
-		boolean success = false;
-		int i = -1;
-		try {
-			for (i = 0; i < script.length; i++) {
-				final String command = script[i].trim();
-
-				if (!command.equals("") && (command.charAt(0) != '#')) {
-					// System.out.println(script[i]);
-					ab.processAlgebraCommandNoExceptionHandling(command, false,
-							false, true);
-					success = true;
-				}
-			}
-			// there have been no errors
-			if (update) {
-				app.setBlockUpdateScripts(false);
-			}
-		} catch (final Throwable e) {
-			app.showError(app.getPlain("ErrorInScriptAtLineAFromObjectB",
-					(i + 1) + "", getLabel(StringTemplate.defaultTemplate)) + "\n" + e.getLocalizedMessage());
-			success = false;
-			if (update) {
-				app.setBlockUpdateScripts(true);
-			}
-		}
-		// storing undo info is expensive, so we don't want to do it on update
-		if (success && !update) {
-			app.storeUndoInfo();
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void runPythonScript(final String arg, final boolean update) {
-
-		App.debug("running Python script: " + arg);
-		app.evalPythonScript(app, update ? updateScript : clickScript, arg);
-	}
-
-	private void runJavaScript(final String arg, final boolean update) {
-		// Possible TODO: make executing update scripts also possible via
-		// browser
-		try {
-			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
-				if (arg == null) {
-					final Object[] args = {};
-					app.callAppletJavaScript("ggb" + getLabel(StringTemplate.defaultTemplate), args);
-				} else {
-					final Object[] args = { arg };
-					app.callAppletJavaScript("ggb" + getLabel(StringTemplate.defaultTemplate), args);
-				}
-			} else if (app.isHTML5Applet() && app.useBrowserForJavaScript()) {
-				String functionPrefix = update ? "ggbUpdate" : "ggb";
-				if (arg == null) {
-					final Object[] args = {};
-					app.callAppletJavaScript(functionPrefix + getLabel(StringTemplate.defaultTemplate), args);
-				} else {
-					final Object[] args = { arg };
-					app.callAppletJavaScript(functionPrefix + getLabel(StringTemplate.defaultTemplate), args);
-				}
-			}else {
-				app.evalJavaScript(app, update ? updateScript : clickScript, arg);
-			}
-			// there have been no errors
-			if (update) {
-				app.setBlockUpdateScripts(false);
-			}
-		} catch (final Exception e) {
-			e.printStackTrace();
-			app.showError(app.getPlain(update ? "OnUpdate" : "OnClick") + " "
-					+ getLabel(StringTemplate.defaultTemplate) + ":\n" + app.getPlain("ErrorInJavaScript")
-					+ "\n" + e.getLocalizedMessage());
-			if (update) {
-				app.setBlockUpdateScripts(true);
-			}
-		}
-	}
 	/**
 	 * Runs the click script of this object
 	 * @param arg argument that replaces all %0 in the script
 	 */
 	public void runScripts(final String arg) {
-		if (!canHaveClickScript() || (clickScript.length() == 0)
-				|| app.isScriptingDisabled()) {
-			return;
-		}
-		switch (clickScriptType) {
-		case PYTHON:
-			app.getPythonBridge().click(this);
-			//runPythonScript(arg, false);
-			break;
-		case JAVASCRIPT:
-			runJavaScript(arg, false);
-			break;
-		case GGBSCRIPT:
-			runGgbScript(arg, false);
-			break;
-		}
+		// App.debug("click:" + getLabel(StringTemplate.defaultTemplate));
+		app.dispatchEvent(new Event(EventType.CLICK, this, arg));
 	}
 
 	/**
 	 * Runs update script of this object
 	 */
 	public void runUpdateScripts() {
-		if (!canHaveUpdateScript() || (updateScript.length() == 0)
-				|| app.isBlockUpdateScripts() || app.isScriptingDisabled()) {
-			return;
-		}
-		app.setBlockUpdateScripts(true);
-		switch (updateScriptType) {
-		case PYTHON:
-			//runPythonScript(null, true);
-			break;
-		case JAVASCRIPT:
-			runJavaScript(null, true);
-			break;
-		case GGBSCRIPT:
-			runGgbScript(null, true);
-			break;
-		}
+		app.dispatchEvent(new Event(EventType.UPDATE, this));
 	}
 
 	private boolean showTrimmedIntersectionLines = false;

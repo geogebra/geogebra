@@ -1,9 +1,12 @@
 package geogebra.plugin.jython;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.plugin.Event;
 
 import javax.swing.JComponent;
 import javax.swing.JMenuBar;
+
+import org.python.core.PyObject;
 
 /**
  * @author arno
@@ -54,8 +57,10 @@ public interface PythonScriptInterface {
 	 * @param evtType event type ("update", "click"...)
 	 * @param code Python code to execute
 	 */
-	public void setEventListener(GeoElement geo, String evtType, String code);
+	public void setEventHandler(GeoElement geo, String evtType, String code);
 
+	public void removeEventHandler(GeoElement geo, String evtType);
+	
 	/**
 	 * 
 	 */
@@ -75,5 +80,5 @@ public interface PythonScriptInterface {
 	 * @return the menu bar for the python window
 	 */
 	public JMenuBar getMenuBar();
-
+	
 }

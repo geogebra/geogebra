@@ -51,10 +51,13 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.plugin.EventType;
 import geogebra.common.kernel.scripting.AlgoTurtle;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.Operation;
+import geogebra.common.plugin.ScriptType;
+import geogebra.common.plugin.script.Script;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
@@ -560,35 +563,26 @@ public class PythonFlatAPI {
 		/* Scripting */
 		
 		/**
-		 * Get click script
+		 * Get script
+		 * @param geo the geo
+		 * @param evtType the event type
 		 * @return click script
 		 */
 		
-		public static String getClickScript(GeoElement geo) {
-			return geo.getClickScript();
+		public static Script getScript(GeoElement geo, EventType evtType) {
+			return geo.getScript(evtType);
 		}
 		
 		/**
-		 * @return update script
+		 * Create new script and attach it to an event
+		 * @param geo the geo
+		 * @param text the script text
+		 * @param evt the event type
+		 * @param type the script type
 		 */
-		public static String getUpdateScript(GeoElement geo) {
-			return geo.getUpdateScript();
-		}
-		
-		/**
-		 * @param script new click script
-		 */
-		public static void setClickScript(GeoElement geo, String script) {
-			geo.setClickScriptType(GeoElement.ScriptType.PYTHON);
-			geo.setClickScript(script, false);
-		}
-		
-		/**
-		 * @param script new update script
-		 */
-		public static void setUpdateScript(GeoElement geo, String script) {
-			geo.setUpdateScriptType(GeoElement.ScriptType.PYTHON);			
-			geo.setUpdateScript(script, false);
+		public static void setScript(GeoElement geo, String text, EventType evt, ScriptType type) {
+			Script script = type.newScript(geo.getKernel().getApplication(), text);
+			geo.setScript(script, evt);
 		}
 		
 		/* GeoPoint methods */
@@ -1718,5 +1712,10 @@ public class PythonFlatAPI {
 	 */
 	public void updateMenubar() {
 		app.updateMenubar();
+	}
+	
+	public void setScript(GeoElement geo, String text, EventType evt, ScriptType lang) {
+		Script script = app.createScript(lang, text, true);
+		geo.setScript(script, evt);
 	}
 }

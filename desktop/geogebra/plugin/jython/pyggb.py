@@ -82,6 +82,7 @@ class Interface(PythonScriptInterface):
         # if ... return and try ... finally are hacks to try to fix #1520
         # I can't run ATM so...
         label = API.Geo.getLabel(target)
+        # print "1.", evt_type, label
         if label is not None:
             for listener in self.event_listeners[evt_type]:
                 try:
@@ -91,6 +92,7 @@ class Interface(PythonScriptInterface):
         if self.handling_event:
             return
         cached = target in self.factory._cache
+        # print "2.", evt_type, label, cached
         if cached or (label and evt_type == 'add'):
             element = self.factory.get_element(target)
             try:
@@ -101,6 +103,7 @@ class Interface(PythonScriptInterface):
                 return
         else:
             return
+        # print "3.", evt_type, element.label
         try:
             self.handling_event = True
             action()
@@ -137,7 +140,7 @@ class Interface(PythonScriptInterface):
         return False
         return self.pywin is not None and self.pywin.frame.visible
 
-    def setEventListener(self, geo, evt, code):
+    def setEventHandler(self, geo, evt, code):
         el = self.factory.get_element(geo)
         print "Setting event listener for", el.label
         if not code.strip():
@@ -152,7 +155,7 @@ class Interface(PythonScriptInterface):
         try:
             self.namespace['__el__'] = el
             handler_def = compile(code, "<%s %s>" % (evt, el.label), 'exec')
-            exec handler_def in self.namespace 
+            exec handler_def in self.namespace
             setattr(el, "on" + evt, self.namespace['__handle_event__'])
             del self.namespace['__handle_event__']
         except SyntaxError:
@@ -162,6 +165,16 @@ class Interface(PythonScriptInterface):
         finally:
             del self.namespace['__el__']
 
+    def removeEventHandler(self, geo, evt):
+        if geo not in self.factory._cache:
+            return
+        el = self.factory.get_element(geo)
+        print "Removing event listener for", el.label
+        try:
+            delattr(el, "on" + evt)
+        except AttributeError:
+            pass
+    
     def reset(self):
         if self.pywin is not None:
             self.pywin.reset()
@@ -222,7 +235,7 @@ class Interface(PythonScriptInterface):
     def getComponent(self):
         return self.get_pywin().getComponent()
     def getMenuBar(self):
-        return self.get_pywin().getMenuBar()
+        return self.get_pywin().getMenuBar  ()
 
 
 interface = Interface()

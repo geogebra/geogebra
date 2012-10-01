@@ -4,6 +4,8 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.script.CompiledPythonScript;
 import geogebra.main.AppD;
 
 import javax.swing.JComponent;
@@ -97,7 +99,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	
 	private void handleEvent(String evt, GeoElement geo) {
-		// AbstractApplication.debug("event: " + evt);
+		// App.debug("event: " + evt);
 		pyInterface.handleEvent(evt, geo);
 	}
 	/**
@@ -170,8 +172,8 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * @param code Python code to execute
 	 */
 	@Override
-	public void setEventListener(GeoElement geo, String evtType, String code) {
-		pyInterface.setEventListener(geo, evtType, code);
+	public void setEventHandler(GeoElement geo, String evtType, String code) {
+		pyInterface.setEventHandler(geo, evtType, code);
 	}
 	
 	/**
@@ -224,5 +226,17 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	    App.debug("unimplemented");
 		return false;
 	}
+
+	@Override
+	public void removeEventHandler(GeoElement geo, String evtType) {
+		pyInterface.removeEventHandler(geo, evtType);
+	}
+
+	@Override
+	public CompiledPythonScript compileEventScript(String text) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 

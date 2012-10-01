@@ -16,7 +16,8 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement.ScriptType;
+import geogebra.common.plugin.ScriptType;
+import geogebra.common.plugin.script.Script;
 import geogebra.common.main.App;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.main.AppD;
@@ -75,11 +76,9 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 		JPanel centerPanel = new JPanel(new BorderLayout());
 
 		languageSelector = new JComboBox();
-		languageSelector.addItem(app.getPlain("Script"));
-		languageSelector.addItem(app.getPlain("JavaScript"));
-
-		languageSelector.addItem(app.getPlain("Python"));
-		
+		for (ScriptType type : ScriptType.values()) {
+			languageSelector.addItem(app.getPlain(type.getName()));
+		}
 		languageSelector.addActionListener(this);
 
 		setGeo(button);
@@ -102,8 +101,6 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 
 	public void setGeo(GeoElement geo) {
 
-		// AbstractApplication.printStacktrace("");
-
 		handlingDocumentEventOff = true;
 
 		if (global) {
@@ -114,14 +111,14 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 		this.geo = geo;
 
 		if (geo != null) {
-			App.debug(updateScript ? geo.getUpdateScript() : geo
-					.getClickScript());
-			inputPanel.setText(updateScript ? geo.getUpdateScript() : geo
-					.getClickScript());
-			// setJSMode(updateScript ?
-			// geo.updateJavaScript():geo.clickJavaScript());
-			setScriptType(updateScript ? geo.getUpdateScriptType() : geo
-					.getClickScriptType());
+			Script script = updateScript ? geo.getUpdateScript() : geo.getClickScript();
+			// Default to an empty Ggb script
+			if (script == null) {
+				script = app.createScript(ScriptType.GGBSCRIPT, "", false);
+			}
+			// App.debug(script.getText());
+			inputPanel.setText(script.getText());
+			setScriptType(script.getType());
 		}
 
 		handlingDocumentEventOff = false;
@@ -220,23 +217,20 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 	private void setScriptType(ScriptType scriptType) {
 		this.scriptType = scriptType;
 		String scriptStr;
-		int index;
+		int index = scriptType.ordinal();
 		switch (scriptType) {
 		default:
 		case GGBSCRIPT:
 			scriptStr = "geogebra";
-			index = 0;
 			break;
 
 		case PYTHON:
 			App.debug("TODO");
 			scriptStr = "javascript";// python";
-			index = 2;
 			break;
 
 		case JAVASCRIPT:
 			scriptStr = "javascript";
-			index = 1;
 			break;
 
 		}
@@ -289,18 +283,15 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 
 			}
 
-			// change existing text
+			// change existing script
+			Script script = app.createScript(scriptType, inputValue, true);
 			if (updateScript) {
-				getGeo().setUpdateScript(inputValue, true);
-				// getGeo().setUpdateJavaScript(javaScript);
-				getGeo().setUpdateScriptType(scriptType);
+				getGeo().setUpdateScript(script);
 				// let's suppose fixing this script removed the reason why
 				// scripts were blocked
 				app.setBlockUpdateScripts(false);
 			} else {
-				getGeo().setClickScript(inputValue, true);
-				// getGeo().setClickJavaScript(javaScript);
-				getGeo().setClickScriptType(scriptType);
+				getGeo().setClickScript(script);
 			}
 			return true;
 		}

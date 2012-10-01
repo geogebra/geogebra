@@ -36,6 +36,8 @@ from javax.swing.undo import (
     UndoManager, CannotUndoException, CannotRedoException
 )
 
+from javax.swing.border import EmptyBorder
+
 from java.awt import (
     Toolkit, BorderLayout, Color as awtColor, GridLayout, Font
 )
@@ -43,6 +45,8 @@ from java.awt.event import (
     KeyListener, ActionListener, KeyEvent, ActionEvent, FocusListener,
     WindowAdapter,
 )
+
+from geogebra.common.plugin import ScriptType, EventType
 
 try:
     from javax.swing.filechooser import FileNameExtensionFilter
@@ -794,10 +798,20 @@ class EventsPane(WindowPane, ActionListener):
 
         # Create Selection pane
         select_pane = JPanel()
-        self.objects_box = JComboBox([])
+        self.objects_box = JComboBox([], actionCommand="object")
         select_pane.add(self.objects_box)
-        self.events_box = JComboBox(["update", "click"])
+        self.events_box = JComboBox(
+            ["update", "click"],
+            actionCommand="event"
+        )
+        self.event_types = [EventType.UPDATE, EventType.CLICK]
         select_pane.add(self.events_box)
+        self.languages = list(ScriptType.values())
+        self.language_box = JComboBox(
+            [l.getName() for l in self.languages],
+            actionCommand="language"
+        )        
+        select_pane.add(self.language_box)
         save_btn = JButton("Save")
         select_pane.add(save_btn)
         self.component.add(select_pane, BorderLayout.PAGE_START)
@@ -846,24 +860,26 @@ class EventsPane(WindowPane, ActionListener):
             self.current = None
             self.objects_box.enabled = False
             self.events_box.enabled = False
+            self.language_box.enabled = False
             self.script_area.input = ""
             self.script_area.component.enabled = False
         else:
             changed = False
             if self.current is None:
-                index, event = 0, 'click'
+                index, event = 0, 1
                 changed = True
             else:
                 geo, event = self.current
                 try:
                     index = self.geos.index(geo)
                 except ValueError:
-                    index, event = 0, 'click'
+                    index, event = 0, 1
                     changed = True
-            self.events_box.selectedItem = event
+            self.events_box.selectedIndex = event
             self.objects_box.selectedIndex = index
             self.events_box.enabled = True
             self.objects_box.enabled = True
+            self.language_box.enabled = True
             self.script_area.component.enabled = True
             if changed:
                 self.update_script_area()
@@ -879,9 +895,10 @@ class EventsPane(WindowPane, ActionListener):
     def save_current_script(self):
         if self.current is not None:
             geo, evt = self.current
+            lang = self.language_box.selectedIndex
+            evt, lang = self.event_types[evt], self.languages[lang]
             script = self.script_area.input
-            setter = "set" + evt.capitalize() + "Script"
-            getattr(API.Geo, setter)(geo, script)
+            self.api.setScript(geo, script, evt, lang)
             
     def update_script_area(self):
         self.save_current_script()
@@ -890,10 +907,14 @@ class EventsPane(WindowPane, ActionListener):
             self.current = None
         else:
             geo = self.geos[geo_index]
-            evt = self.events_box.selectedItem
+            evt = self.events_box.selectedIndex
             self.current = geo, evt
-            getter = "get" + evt.capitalize() + "Script"
-            self.script_area.input = getattr(API.Geo, getter)(geo)
+            script = API.Geo.getScript(geo, self.event_types[evt])
+            if script is None:
+                self.script_area.input = ""
+            else:
+                self.script_area.input = script.getText()
+                self.language_box.selectedIndex = script.getType().ordinal()
             self.script_area.reset_undo()
         
     def reset(self):
@@ -902,7 +923,9 @@ class EventsPane(WindowPane, ActionListener):
     
     # Implementation of ActionEvent
     def actionPerformed(self, evt):
-        if not self.building_objects_box:
+        if self.building_objects_box:
+           return
+        if evt.actionCommand != "language":
             self.update_script_area()
 
 
@@ -929,7 +952,7 @@ class PythonWindow(ActionListener, ChangeListener):
         self.api = api
         #self.frame = JFrame("Python Window")
 
-        self.tabs = tabs = JTabbedPane()
+        self.tabs = tabs = JTabbedPane()#border=EmptyBorder(0, -10, 0, 0))
 
         self.make_menubar()
         self.update_undo_state(None)
@@ -959,7 +982,9 @@ class PythonWindow(ActionListener, ChangeListener):
         #self.frame.pack()
         #self.frame.size = 500, 600
         self.active_pane.activate()
-
+        
+        print tabs.border, tabs.insets
+        
     def update_geos(self, geos):
         self.events_pane.update_geos(geos)
     

@@ -17,6 +17,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.plugin.ScriptType;
+import geogebra.common.plugin.script.Script;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
@@ -1576,15 +1578,15 @@ public class WorksheetExportDialog extends JDialog {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 
-			String script = geo.getClickScript();
-			if (!script.equals("") && geo.clickJavaScript()) {
+			Script script = geo.getClickScript();
+			if (script != null && script.getType() == ScriptType.JAVASCRIPT) {
 				// for each GeoElement with a JavaScript, create a function call
 				// with the same name as the geo's label (prefixed by ggb)
 				sb.append("function ggb");
 				sb.append(geo.getLabelSimple());
 				appendWithLineBreak(sb, "() {");
 				appendWithLineBreak(sb, "var ggbApplet = document.ggbApplet;");
-				appendWithLineBreak(sb, script);
+				appendWithLineBreak(sb, script.getInternalText());
 				appendWithLineBreak(sb, "}");
 
 			}
