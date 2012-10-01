@@ -31,6 +31,11 @@ import geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoExpand extends AlgoCasBase {
        
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param f function
+     */
     public AlgoExpand(Construction cons, String label, CasEvaluableFunction f) {
     	super(cons, label, f);
     }   

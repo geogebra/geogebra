@@ -53,5 +53,8 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 */
 	public FunctionVariable[] getFunctionVariables();
 	
+	/**
+	 * @param string key for which value should be deleted
+	 */
 	public void clearCasEvalMap(String string);
 }

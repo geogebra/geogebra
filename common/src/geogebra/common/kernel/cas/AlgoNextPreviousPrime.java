@@ -8,14 +8,22 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-
+/**
+ * Algorithm for NextPrime and PreviousPrime
+ */
 public class AlgoNextPreviousPrime extends AlgoElement {
 
 	private NumberValue init;
 	private GeoNumeric result;
 	private boolean next;
-	public AlgoNextPreviousPrime(Construction c,String label,NumberValue init,boolean next) {
-		super(c);
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param init where to start seeking from primes
+	 * @param next true for NextPrime, false for PreviousPrime
+	 */
+	public AlgoNextPreviousPrime(Construction cons,String label,NumberValue init,boolean next) {
+		super(cons);
 		this.init = init;
 		this.next=next;
 		result = new GeoNumeric(cons);
@@ -61,10 +69,13 @@ public class AlgoNextPreviousPrime extends AlgoElement {
 		return next ? Algos.AlgoNextPrime : Algos.AlgoPreviousPrime;
 	}
 
+	/**
+	 * @return resulting prime
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}
-
-	// TODO Consider locusequability
+	
+	//Locus equability makes no sense here
 
 }

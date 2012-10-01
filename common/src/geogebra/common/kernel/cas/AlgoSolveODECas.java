@@ -20,7 +20,7 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	private CasEvaluableFunction f;
 	private GeoElement g;
 	private GeoPointND pt;
-	private AlgoElement helper;
+
 	/**
 	 * @param cons construction
 	 * @param label label for output
@@ -123,13 +123,12 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 			if(res!=null && res.length>0){
 				if(g==null){
 					g = res[0];
-					helper = g.getParentAlgorithm();
 				}else
 					g.set(res[0]);
 				ok =true;
 			}
 		} catch (Throwable e) {
-			App.debug("AlgoDegree: " + e.getMessage());
+			App.debug("AlgoSolveODECas: " + e.getMessage());
 		}
 		if(!ok){
 			if(g!=null)

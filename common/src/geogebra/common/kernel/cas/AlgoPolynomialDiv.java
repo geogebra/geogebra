@@ -31,7 +31,12 @@ public class AlgoPolynomialDiv extends AlgoElement {
 	private GeoFunction g; // output
 
 	private StringBuilder sb = new StringBuilder();
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f1 divided function
+     * @param f2 divisor function
+     */
 	public AlgoPolynomialDiv(Construction cons, String label, GeoFunction f1,
 			GeoFunction f2) {
 		super(cons);
@@ -61,6 +66,9 @@ public class AlgoPolynomialDiv extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result of division
+	 */
 	public GeoFunction getResult() {
 		return g;
 	}

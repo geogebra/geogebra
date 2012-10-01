@@ -291,7 +291,6 @@ public class CommandDispatcher {
 	 * 
 	 * @param cmdName
 	 *            String command name
-	 * @param c 
 	 * @return Processor for given command
 	 */
 	public CommandProcessor commandTableSwitch(String cmdName) {
@@ -804,16 +803,18 @@ public class CommandDispatcher {
 		}
 		return statsDispatcher;
 	}
-
+	/** dispatcher for discrete math*/
 	protected CommandDispatcherDiscrete discreteDispatcher = null;
+	/** @return dispatcher for discrete math*/
 	protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
 			discreteDispatcher = new CommandDispatcherDiscrete();
 		}
 		return discreteDispatcher;
 	}
-	
+	/** dispatcher for CAS commands*/
 	protected CommandDispatcherCAS casDispatcher = null;
+	/** @return dispatcher for CAS commands*/
 	protected CommandDispatcherCAS getCASDispatcher() {
 		if(casDispatcher == null) {
 			casDispatcher = new CommandDispatcherCAS();
@@ -821,15 +822,18 @@ public class CommandDispatcher {
 		return casDispatcher;
 	}
 
+	/** dispatcher for scripting commands*/
 	protected CommandDispatcherScripting scriptingDispatcher = null;
+	/** @return dispatcher for scripting commands*/
 	protected CommandDispatcherInterface getScriptingDispatcher() {
 		if(scriptingDispatcher == null) {
 			scriptingDispatcher = new CommandDispatcherScripting();
 		}
 		return scriptingDispatcher;
 	}
-
+	/** dispatcher for advanced commands*/
 	protected CommandDispatcherAdvanced advancedDispatcher = null;
+	/** @return dispatcher for advanced commands*/
 	protected CommandDispatcherInterface getAdvancedDispatcher() {
 		if(advancedDispatcher == null) {
 			advancedDispatcher = new CommandDispatcherAdvanced();

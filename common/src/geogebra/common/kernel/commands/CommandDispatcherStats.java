@@ -7,7 +7,7 @@ import geogebra.common.kernel.statistics.*;
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
  *
  */
-public class CommandDispatcherStats {
+public class CommandDispatcherStats implements CommandDispatcherInterface {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
 		case RandomElement:

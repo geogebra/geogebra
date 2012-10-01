@@ -35,6 +35,12 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 	private GeoPoint T;
 	private boolean pointOnCurve;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param P point on function
+	 * @param f curve
+	 */
 	public AlgoTangentCurve(Construction cons, String label, GeoPoint P,
 			GeoCurveCartesian f) {
 		super(cons);
@@ -87,18 +93,30 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting tangent
+	 */
 	public GeoLine getTangent() {
 		return tangent;
 	}
 
+	/**
+	 * @return input curve
+	 */
 	GeoCurveCartesian getCurve() {
 		return f;
 	}
 
+	/**
+	 * @return input point on curve
+	 */
 	GeoPoint getPoint() {
 		return P;
 	}
 
+	/**
+	 * @return tangent point
+	 */
 	GeoPoint getTangentPoint() {
 		return T;
 	}

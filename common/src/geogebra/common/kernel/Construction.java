@@ -92,10 +92,12 @@ public class Construction {
 		geoTable = new HashMap<String, GeoElement>(200);
 		initGeoTables();
 	}
-
-	public Map<Integer,GeoNumeric> constsM= new TreeMap<Integer,GeoNumeric>(), 
-			intsM= new TreeMap<Integer,GeoNumeric>(), 
-			complexNumbersM = new TreeMap<Integer,GeoNumeric>();
+	/** maps arbconst indices to related numbers */
+	public Map<Integer,GeoNumeric> constsM= new TreeMap<Integer,GeoNumeric>();
+			/** maps arbint indices to related numbers */
+	public Map<Integer,GeoNumeric> intsM= new TreeMap<Integer,GeoNumeric>();
+			/** maps arbcomplex indices to related numbers */
+	public Map<Integer,GeoNumeric> complexNumbersM = new TreeMap<Integer,GeoNumeric>();
 	
 	/**
 	 * creates the ConstructionDefaults consDefaults

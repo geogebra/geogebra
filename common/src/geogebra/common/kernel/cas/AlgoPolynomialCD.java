@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
 /**
- * Polynomial division
+ * Polynomial common denominator
  * 
  * @author Michael Borcherds
  */
@@ -31,7 +31,12 @@ public class AlgoPolynomialCD extends AlgoElement {
 	private GeoFunction g; // output
 
 	private StringBuilder sb = new StringBuilder();
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f1 first function
+     * @param f2 second function
+     */
 	public AlgoPolynomialCD(Construction cons, String label, GeoFunction f1,
 			GeoFunction f2) {
 		super(cons);
@@ -61,6 +66,9 @@ public class AlgoPolynomialCD extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting common denominator
+	 */
 	public GeoFunction getResult() {
 		return g;
 	}

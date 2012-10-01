@@ -32,7 +32,11 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 	private GeoList g; // output
 
 	private StringBuilder sb = new StringBuilder();
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f function
+     */
 	public AlgoFactors(Construction cons, String label, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -59,6 +63,9 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return list of factors
+	 */
 	public GeoList getResult() {
 		return g;
 	}

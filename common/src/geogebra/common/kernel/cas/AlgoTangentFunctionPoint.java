@@ -22,6 +22,9 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 
+/**
+ * Algorithm for tangent of function
+ */
 public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 
 	private GeoPoint P; // input
@@ -31,12 +34,23 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 	private boolean pointOnFunction;
 	private GeoFunction deriv;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param P point on function
+	 * @param f function
+	 */
 	public AlgoTangentFunctionPoint(Construction cons, String label,
 			GeoPoint P, GeoFunction f) {
 		this(cons, P, f);
 		tangent.setLabel(label);
 	}
 
+	/**
+	 * @param cons construction
+	 * @param P point on function
+	 * @param f function
+	 */
 	public AlgoTangentFunctionPoint(Construction cons, GeoPoint P,
 			GeoFunction f) {
 		super(cons);
@@ -89,18 +103,30 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting tangent
+	 */
 	public GeoLine getTangent() {
 		return tangent;
 	}
 
+	/**
+	 * @return function
+	 */
 	GeoFunction getFunction() {
 		return f;
 	}
 
+	/**
+	 * @return point on function
+	 */
 	GeoPoint getPoint() {
 		return P;
 	}
 
+	/**
+	 * @return point on function
+	 */
 	GeoPoint getTangentPoint() {
 		return T;
 	}

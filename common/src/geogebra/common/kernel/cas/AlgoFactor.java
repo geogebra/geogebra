@@ -25,7 +25,11 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
  * @author Markus Hohenwarter
  */
 public class AlgoFactor extends AlgoCasBase {
-   
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f function
+     */
 	public AlgoFactor(Construction cons,  String label, CasEvaluableFunction f) {
 		super(cons, label, f);
 	}

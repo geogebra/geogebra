@@ -29,6 +29,11 @@ public class AlgoParametricDerivative extends AlgoElement {
 
 	private GeoCurveCartesian curve, paramDeriv;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param curve curve
+	 */
 	public AlgoParametricDerivative(Construction cons, String label,
 			GeoCurveCartesian curve) {
 		this(cons, curve);
@@ -59,6 +64,9 @@ public class AlgoParametricDerivative extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 	
+	/**
+	 * @return parametric derivative
+	 */
 	public GeoCurveCartesian getParametricDerivative() {
 		return paramDeriv;
 	}

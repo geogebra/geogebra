@@ -87,7 +87,7 @@ public class GeoTextField extends GeoButton {
 	private AutoCompleteTextField textField, textField2;
 	
 	@Override
-	public String toValueString(StringTemplate tpl) {
+	public String toValueString(StringTemplate tpl1) {
 		if (linkedGeo == null) return "";
 		return text;
 	}
@@ -364,14 +364,17 @@ public class GeoTextField extends GeoButton {
 	private boolean useSignificantFigures = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
 	
+	@Override
 	public int getPrintDecimals() {
 		return printDecimals;
 	}
 
+	@Override
 	public int getPrintFigures() {
 		return printFigures;
 	}
 
+	@Override
 	public void setPrintDecimals(int printDecimals, boolean update) {
 		this.printDecimals = printDecimals;
 		printFigures = -1;
@@ -379,6 +382,7 @@ public class GeoTextField extends GeoButton {
 		updateTemplate();
 	}
 
+	@Override
 	public void setPrintFigures(int printFigures, boolean update) {
 		this.printFigures = printFigures;
 		printDecimals = -1;
@@ -386,6 +390,7 @@ public class GeoTextField extends GeoButton {
 		updateTemplate();
 	}
 
+	@Override
 	public boolean useSignificantFigures() {
 		return useSignificantFigures;
 	}

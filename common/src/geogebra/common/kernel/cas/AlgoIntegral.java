@@ -32,13 +32,22 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoIntegral extends AlgoCasBase {
 
 	private GeoNumeric var;
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f function
+	 * @param var variable
+     */
 	public AlgoIntegral(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var) {
 		this(cons, f, var);
 		g.toGeoElement().setLabel(label);
 	}
-
+	/**
+     * @param cons construction
+     * @param f function
+	 * @param var variable
+     */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var) {
 		super(cons, f);

@@ -465,6 +465,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	/**
 	 * Sets the input of this row using the current casTwinGeo.
+	 * @param force force update (needed if twin geo is a slider)
 	 */
 	public void setInputFromTwinGeo(boolean force) {
 		if (ignoreTwinGeoUpdate && !force) {
@@ -1000,6 +1001,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return invars;
 	}
 	
+	@Override
 	public HashSet<GeoElement> getVariables(){
 		return outputVE.getVariables();
 	}

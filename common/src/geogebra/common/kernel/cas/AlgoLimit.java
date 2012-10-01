@@ -28,14 +28,22 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * @author Michael Borcherds
  */
 public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesCAS {
-
+	/** function whose limit we are finding*/
 	protected GeoFunction f;
-	protected NumberValue num; // input
-	protected GeoNumeric outNum; // output
-
+	/** input number */
+	protected NumberValue num; 
+	/** result */
+	protected GeoNumeric outNum;
+	/** string builder*/
 	protected StringBuilder sb = new StringBuilder();
 	private String limitString;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 * @param num number
+	 */
 	public AlgoLimit(Construction cons, String label, GeoFunction f,
 			NumberValue num) {
 		super(cons);
@@ -70,6 +78,9 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return limit result
+	 */
 	public GeoNumeric getResult() {
 		return outNum;
 	}

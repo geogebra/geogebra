@@ -1816,6 +1816,9 @@ public class AlgebraProcessor {
 	/**
 	 * Creates a dependent list object with the given label, e.g. {3, 2, 1} +
 	 * {a, b, 2}
+	 * @param label label for output
+	 * @param root expression defining the dependent list
+	 * @return resulting list
 	 */
 	final public GeoList ListExpression(String label, ExpressionNode root) {
 		AlgoDependentListExpression algo = new AlgoDependentListExpression(
@@ -1848,6 +1851,11 @@ public class AlgebraProcessor {
 		return t;
 	}
 	
+	/**
+	 * @param label label for result
+	 * @param text content of the text
+	 * @return resulting text
+	 */
 	final public GeoText Text(String label, String text) {
 		GeoText t = new GeoText(cons);
 		t.setTextString(text);

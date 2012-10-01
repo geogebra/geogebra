@@ -19,28 +19,41 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.App;
 
+/**
+ * Algorithm for SurdText(Point)
+ *
+ */
 public class AlgoSurdTextPoint extends AlgoSurdText {
 
 	private GeoPoint p; //input
     private GeoText text; //output	
+    private StringBuilder sbp;
     
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param p input point
+     */
     public AlgoSurdTextPoint(Construction cons, String label, GeoPoint p) {
     	this(cons, p);
         text.setLabel(label);
     }
-
+    /**
+     * @param cons construction
+     * @param p input point
+     */
     AlgoSurdTextPoint(Construction cons, GeoPoint p) {
         super(cons);
         this.p = p;
-               
+        sbp=new StringBuilder(50);       
         text = new GeoText(cons);
 		text.setLaTeX(true, false);
 		text.setIsTextCommand(true); // stop editing as text
 		try {
 			text.setStartPoint(p, 0);
 		} catch (CircularDefinitionException e) {
+			//should never happen
 		}
 		
         setInputOutput();
@@ -73,14 +86,14 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
     	StringTemplate tpl = StringTemplate.maxPrecision;
 		if (input[0].isDefined()) {
 			
-			sb.setLength(0);
-			sb.append(" \\left( ");
-			PSLQappendQuadratic(sb, p.inhomX,tpl);
-			sb.append(" , ");
-			PSLQappendQuadratic(sb, p.inhomY,tpl);
-			sb.append(" \\right) ");
+			sbp.setLength(0);
+			sbp.append(" \\left( ");
+			PSLQappendQuadratic(sbp, p.inhomX,tpl);
+			sbp.append(" , ");
+			PSLQappendQuadratic(sbp, p.inhomY,tpl);
+			sbp.append(" \\right) ");
 			
-			text.setTextString(sb.toString());
+			text.setTextString(sbp.toString());
 			text.setLaTeX(true, false);
 			
 		} else {

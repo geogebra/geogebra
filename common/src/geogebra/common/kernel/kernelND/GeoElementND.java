@@ -182,6 +182,12 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return construction index
 	 */
 	int getConstructionIndex();
+	/**
+	 * @return set of algos that depend on this geo
+	 */
 	AlgorithmSet getAlgoUpdateSet();
+	/**
+	 * @return whether the update set
+	 */
 	boolean hasAlgoUpdateSet();
 }

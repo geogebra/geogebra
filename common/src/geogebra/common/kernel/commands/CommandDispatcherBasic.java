@@ -9,7 +9,7 @@ import geogebra.common.plugin.Operation;
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
  *
  */
-public class CommandDispatcherBasic {
+public class CommandDispatcherBasic implements CommandDispatcherInterface {
 	public CommandProcessor dispatch(Commands c, Kernel kernel){
 		switch(c){
 		// basic

@@ -22,14 +22,31 @@ import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
+/**
+ * Algorithm for second order ODEs
+ */
 public class AlgoSolveODE2 extends AlgoElement {
 
 	private GeoFunction b, c, f; // input
 	private GeoNumeric x, y, yDot, end, step; // input
 	// private GeoList g; // output
 	private GeoLocus locus; // output
+	/** points of the locus*/
 	ArrayList<MyPoint> al;
 
+	/**
+	 * SolveODE[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End x>, <Step>] 
+	 * @param cons construction
+	 * @param label label for output
+	 * @param b b 
+	 * @param c c
+	 * @param f function
+	 * @param x start x
+	 * @param y start y
+	 * @param yDot start y'
+	 * @param end end parameter
+	 * @param step step
+	 */
 	public AlgoSolveODE2(Construction cons, String label, GeoFunctionable b,
 			GeoFunctionable c, GeoFunctionable f, GeoNumeric x, GeoNumeric y,
 			GeoNumeric yDot, GeoNumeric end, GeoNumeric step) {
@@ -75,6 +92,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting locus
+	 */
 	public GeoLocus getResult() {
 		return locus;
 	}
@@ -130,11 +150,12 @@ public class AlgoSolveODE2 extends AlgoElement {
 		return getCommandDescription(tpl);
 	}
 
-	StepHandler stepHandler = new StepHandler() {
+	private StepHandler stepHandler = new StepHandler() {
 		public void reset() {
+			//do nothing
 		}
 
-		Construction cons = kernel.getConstruction();
+		private Construction cons1 = kernel.getConstruction();
 
 		public boolean requiresDenseOutput() {
 			return false;
@@ -143,16 +164,16 @@ public class AlgoSolveODE2 extends AlgoElement {
 		public void handleStep(StepInterpolator interpolator, boolean isLast)
 				throws DerivativeException {
 			double t = interpolator.getCurrentTime();
-			double[] y = interpolator.getInterpolatedState();
+			double[] y1 = interpolator.getInterpolatedState();
 			// System.out.println(t + " " + y[0]+ " "+y[1]);
 
-			boolean oldState = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
+			boolean oldState = cons1.isSuppressLabelsActive();
+			cons1.setSuppressLabelCreation(true);
 
 			// g.add(new GeoPoint(cons, null, t, y[0], 1.0));
-			al.add(new MyPoint(t, y[0], true));
+			al.add(new MyPoint(t, y1[0], true));
 
-			cons.setSuppressLabelCreation(oldState);
+			cons1.setSuppressLabelCreation(oldState);
 		}
 	};
 

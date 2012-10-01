@@ -93,6 +93,11 @@ public class CmdGetTime extends CommandProcessor {
 		}
 	}
 		
+		/**
+		 * @param sb string builder to which the date is appended
+		 * @param format date format
+		 * @param app application
+		 */
 		public static void buildLocalizedDate(StringBuilder sb, String format, App app) {
 			char[] cArray = format.toCharArray();
 			for (int i = 0; i < cArray.length; i++) {

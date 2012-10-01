@@ -23,7 +23,12 @@ import geogebra.common.kernel.geos.GeoFunction;
  * @author Michael Borcherds
  */
 public class AlgoLimitAbove extends AlgoLimit {
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 * @param num number
+	 */
 	public AlgoLimitAbove(Construction cons, String label, GeoFunction f,
 			NumberValue num) {
 		super(cons, label, f, num);

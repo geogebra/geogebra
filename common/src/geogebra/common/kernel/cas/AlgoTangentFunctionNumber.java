@@ -31,7 +31,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 
@@ -42,7 +41,12 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 
 	private GeoPoint T;
 	private GeoFunction deriv;
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param n function parameter
+	 * @param f function
+	 */
 	public AlgoTangentFunctionNumber(Construction cons, String label,
 			NumberValue n, GeoFunction f) {
 		super(cons);
@@ -86,10 +90,16 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting tangent
+	 */
 	public GeoLine getTangent() {
 		return tangent;
 	}
 
+	/**
+	 * @return input function
+	 */
 	GeoFunction getFunction() {
 		return f;
 	}

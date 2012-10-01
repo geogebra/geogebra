@@ -6,9 +6,15 @@ import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
-
+/**
+ * Algorithm for TrigSimplify 
+ */
 public class AlgoTrigSimplify extends AlgoCasBase {
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 */
 	public AlgoTrigSimplify(Construction cons, String label,
 			CasEvaluableFunction f) {
 		super(cons, label, f);

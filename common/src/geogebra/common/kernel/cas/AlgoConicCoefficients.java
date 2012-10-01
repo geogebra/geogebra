@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Try to expand the given function 
+ * Algorithm for coefficients of a conic 
  * 
  * @author Michael Borcherds
  */
@@ -30,7 +30,11 @@ public class AlgoConicCoefficients extends AlgoElement {
 
 	private GeoConic c; // input
     private GeoList g; // output        
-    
+    /**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param c conic
+	 */
     public AlgoConicCoefficients(Construction cons, String label, GeoConic c) {
     	super(cons);
         this.c = c;        	
@@ -64,6 +68,9 @@ public class AlgoConicCoefficients extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return resulting list of coefficients
+     */
     public GeoList getResult() {
         return g;
     }

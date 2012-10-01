@@ -19,16 +19,26 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 
 	private GeoNumeric A, B; // input
 	private GeoFunction f; // f1 is f'(x)
-	GeoFunction f1;
 	private GeoNumeric length; // output
 	private RealRootFunction lengthFunction; // is T = sqrt(1+(f')^2)
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 * @param A start parameter
+	 * @param B end parameter
+	 */
 	public AlgoLengthFunction(Construction cons, String label, GeoFunction f,
 			GeoNumeric A, GeoNumeric B) {
 		this(cons, f, A, B);
 		length.setLabel(label);
 	}
-
+	/**
+	 * @param cons construction
+	 * @param f function
+	 * @param A start parameter
+	 * @param B end parameter
+	 */
 	public AlgoLengthFunction(Construction cons, GeoFunction f, GeoNumeric A,
 			GeoNumeric B) {
 		super(cons);
@@ -39,10 +49,10 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 
 		// First derivative of function f
 		algoCAS = new AlgoDerivative(cons, f);
-		this.f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
+		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 
 		// Integral of length function
-		lengthFunction = new LengthFunction();
+		lengthFunction = new LengthFunction(f1);
 		cons.removeFromConstructionList(algoCAS);
 
 		setInputOutput();
@@ -66,6 +76,9 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting length
+	 */
 	public GeoNumeric getLength() {
 		return length;
 	}
@@ -78,20 +91,6 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
 				lengthFunction, a, b));
 		length.setValue(lenVal);
-	}
-
-	/**
-	 * T = sqrt( 1 + f'(x)^2)
-	 */
-	private class LengthFunction implements RealRootFunction {
-		public LengthFunction() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public double evaluate(double t) {
-			double p = f1.evaluate(t);
-			return Math.sqrt(1 + p * p);
-		}
 	}
 
 	// TODO Consider locusequability

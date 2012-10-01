@@ -19,10 +19,17 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
 	private GeoNumeric t0, t1; // input
 	private GeoCurveCartesian c; // c1 is c'(x)
-	GeoCurveCartesian c1;
+	
 	private GeoNumeric length; // output
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param c curve
+	 * @param t0 start parameter
+	 * @param t1 end parameter
+	 */
 	public AlgoLengthCurve(Construction cons, String label,
 			GeoCurveCartesian c, GeoNumeric t0, GeoNumeric t1) {
 		super(cons);
@@ -33,10 +40,10 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
 		// First derivative of curve f
 		algoCAS = new AlgoDerivative(cons, c);
-		this.c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
+		GeoCurveCartesian c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
 
-		lengthCurve = new LengthCurve();
+		lengthCurve = new LengthCurve(c1);
 
 		setInputOutput();
 		compute();
@@ -59,7 +66,9 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		setOutput(0, length);
 		setDependencies(); // done by AlgoElement
 	}
-
+	/**
+	 * @return resulting length
+	 */
 	public GeoNumeric getLength() {
 		return length;
 	}
@@ -72,21 +81,6 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
 				lengthCurve, a, b));
 		length.setValue(lenVal);
-	}
-
-	/**
-	 * T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-	private class LengthCurve implements RealRootFunction {
-		public LengthCurve() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public double evaluate(double t) {
-			double f1eval[] = new double[2];
-			c1.evaluateCurve(t, f1eval);
-			return (Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]));
-		}
 	}
 
 	// TODO Consider locusequability

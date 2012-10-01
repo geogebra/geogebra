@@ -25,13 +25,13 @@ import geogebra.common.kernel.geos.GeoTurtle;
  * @author G. Sturr
  */
 public class AlgoTurtle extends AlgoElement {
-
-	protected GeoTurtle turtle; // output
+	/** output turtle */
+	protected GeoTurtle turtle;
 
 	/**
 	 * @param cons
 	 *            the construction
-	 * @param labels
+	 * @param label label for output
 	 */
 	public AlgoTurtle(Construction cons, String label) {
 		super(cons);
@@ -43,6 +43,9 @@ public class AlgoTurtle extends AlgoElement {
 
 	}
 
+	/**
+	 * @param cons construction
+	 */
 	protected AlgoTurtle(Construction cons) {
 		super(cons);
 
@@ -99,7 +102,7 @@ public class AlgoTurtle extends AlgoElement {
 		// do nothing for now
 	}
 
-	StringBuilder sb;
+	private StringBuilder sb;
 
 	@Override
 	final public String toString(StringTemplate tpl) {

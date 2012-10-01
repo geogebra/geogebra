@@ -117,6 +117,10 @@ public class CmdTableText extends CommandProcessor {
 
 	/**
 	 * Table[list] Michael Borcherds
+	 * @param label label for output
+	 * @param list input matrix
+	 * @param args matrix parameters
+	 * @return table text
 	 */
 	final public GeoText TableText(String label, GeoList list, GeoText args) {
 		AlgoTableText algo = new AlgoTableText(cons, label, list, args);

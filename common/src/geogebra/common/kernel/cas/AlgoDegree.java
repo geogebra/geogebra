@@ -34,8 +34,11 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 	private GeoFunction f; // input
 	private GeoNumeric num; // output
 
-	private StringBuilder sb = new StringBuilder();
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 */
 	public AlgoDegree(Construction cons, String label, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -61,6 +64,9 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return degree as number
+	 */
 	public GeoNumeric getResult() {
 		return num;
 	}

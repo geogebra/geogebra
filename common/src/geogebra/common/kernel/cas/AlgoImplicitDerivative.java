@@ -9,12 +9,19 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-
+/**
+ * Algorithm for ImplicitDerivative[f(x,y)]
+ *
+ */
 public class AlgoImplicitDerivative extends AlgoElement {
 
 	private GeoFunctionNVar result;
 	private FunctionalNVar functional; 
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param functional function of two variables
+     */
 	public AlgoImplicitDerivative(Construction cons, String label,
 			FunctionalNVar functional) {
 		super(cons);
@@ -65,6 +72,9 @@ public class AlgoImplicitDerivative extends AlgoElement {
 		return Algos.AlgoImplicitDerivative;
 	}
 	
+	/**
+	 * @return resulting derivative
+	 */
 	public GeoFunctionNVar getResult(){
 		return result;
 	}

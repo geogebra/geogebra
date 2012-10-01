@@ -47,14 +47,24 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	private GeoList list; //input
     private GeoText text; //output	
     
-    protected StringBuilder sb = new StringBuilder();
+    private StringBuilder sb = new StringBuilder();
     //double debug0, debug1, debug2;
-    
+    /**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param num number
+     * @param list list of hints
+	 */
     public AlgoSurdText(Construction cons, String label, GeoNumeric num, GeoList list) {
     	this(cons, num, list);
         text.setLabel(label);
     }
 
+    /**
+     * @param cons construction
+     * @param num number
+     * @param list list of hints
+     */
     AlgoSurdText(Construction cons, GeoNumeric num, GeoList list) {
         super(cons);
         this.num = num;
@@ -72,7 +82,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
     }
 
     /**
-     * @param cons
+     * @param cons construction
      */
     public AlgoSurdText(Construction cons) {
 		super(cons);

@@ -92,6 +92,13 @@ public class CmdKeepIf extends CommandProcessor {
 		}
 	}
 
+	/**
+	 * Returns result for two-parametric version of this command
+	 * @param c construction
+	 * @param booleanFun condition
+	 * @param args both arguments
+	 * @return result of the command
+	 */
 	protected GeoElement[] getResult2(ValidExpression c, GeoFunction booleanFun, GeoElement[] args) {
 		AlgoKeepIf algo = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) args[1]));
 		GeoElement[] ret = { algo.getResult() };
@@ -99,6 +106,14 @@ public class CmdKeepIf extends CommandProcessor {
 		return ret;
 	}
 
+	/**
+	 * Returns result for two-parametric version of this command
+	 * @param c construction
+	 * @param arg condition
+	 * @param vars list of variables
+	 * @param over list of lists we iterate over
+	 * @return result of the command
+	 */
 	protected GeoElement[] getResult3(ValidExpression c, GeoBoolean arg, GeoElement[] vars, GeoList[] over) {
 		AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), arg, vars[0], over[0]);
 		GeoElement[] ret = { algo.getResult() };

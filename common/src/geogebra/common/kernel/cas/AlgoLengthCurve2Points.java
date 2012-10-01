@@ -20,10 +20,17 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
 	private GeoPoint A, B; // input
 	private GeoCurveCartesian c;
-	GeoCurveCartesian derivative;
+	private GeoCurveCartesian derivative;
 	private GeoNumeric length; // output
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param c curve
+	 * @param A start point
+	 * @param B end point
+	 */
 	public AlgoLengthCurve2Points(Construction cons, String label,
 			GeoCurveCartesian c, GeoPoint A, GeoPoint B) {
 		super(cons);
@@ -37,7 +44,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 		derivative = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
 
-		lengthCurve = new LengthCurve();
+		lengthCurve = new LengthCurve(derivative);
 
 		setInputOutput();
 		compute();
@@ -61,6 +68,9 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting legth
+	 */
 	public GeoNumeric getLength() {
 		return length;
 	}
@@ -79,21 +89,5 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 		length.setValue(lenVal);
 	}
 
-	/**
-	 * T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-	private class LengthCurve implements RealRootFunction {
-		double f1eval[] = new double[2];
-
-		public LengthCurve() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public double evaluate(double t) {
-			derivative.evaluateCurve(t, f1eval);
-			return (Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]));
-		}
-	}
-
-	// TODO Consider locusequability
+	//locus equability makes no sense here
 }

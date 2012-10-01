@@ -140,6 +140,10 @@ public class CmdIntegral extends CommandProcessor {
 
 	/**
 	 * Integral of function f
+	 * @param label label for output
+	 * @param f function
+	 * @param var variable
+	 * @return integral of given  function wrt given variable
 	 */
 	final public GeoElement Integral(String label, CasEvaluableFunction f,
 			GeoNumeric var) {

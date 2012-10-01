@@ -9,8 +9,19 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
+/**
+ * Algorithm for TrigExpand
+ *
+ */
 public class AlgoTrigExpand extends AlgoCasBase {
 	private  GeoFunction target;
+	
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 * @param target target function (ie sin or cos)
+	 */
 	public AlgoTrigExpand(Construction cons, String label,
 			CasEvaluableFunction f,GeoFunction target) {
 		super(cons, f);

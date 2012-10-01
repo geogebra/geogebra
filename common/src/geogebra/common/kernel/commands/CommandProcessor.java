@@ -514,12 +514,14 @@ public abstract class CommandProcessor {
 	}
 
 	/**
+	 * Check if arg(i) depends on arg(j) and either throw an error 
+	 * or write warning
 	 *  see #2552
 	 *  
-	 * @param arg
-	 * @param name
-	 * @param i
-	 * @param j
+	 * @param arg arguments
+	 * @param name argument name
+	 * @param i index of possibly dependent argument
+	 * @param j index of independent argument
 	 */
 	protected void checkDependency(GeoElement[] arg, String name, int i, int j) {
 		if (arg[i].isChildOrEqual(arg[j])) {
@@ -533,6 +535,9 @@ public abstract class CommandProcessor {
 
 	}
 
+	/**
+	 * @return algo dispatcher
+	 */
 	protected AlgoDispatcher getAlgoDispatcher() {
 		return kernelA.getAlgoDispatcher();
 	}

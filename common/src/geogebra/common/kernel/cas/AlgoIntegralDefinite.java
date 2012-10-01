@@ -28,7 +28,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.App;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -60,29 +59,58 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	private static int adaptiveGaussQuadCounter = 0;
 	private static final int MAX_GAUSS_QUAD_CALLS = 500;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 * @param a from number
+	 * @param b to number
+	 * @param numeric true to use numeric method
+	 */
 	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
 			NumberValue a, NumberValue b,boolean numeric) {
 		this(cons, f, a, b, null,numeric);
 		this.numeric = numeric;
 		n.setLabel(label);
 	}
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 * @param a from number
+	 * @param b to number
+	 * @param evaluate true to evaluate, false to shade only
+	 */
 	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
 			NumberValue a, NumberValue b, GeoBoolean evaluate) {
 		this(cons, f, a, b, evaluate);
 		n.setLabel(label);
 	}
-
+	/**
+	 * @param cons construction
+	 * @param f function
+	 * @param a from number
+	 * @param b to number
+	 * @param evaluate true to evaluate, false to shade only
+	 */
 	public AlgoIntegralDefinite(Construction cons, GeoFunction f,
 			NumberValue a, NumberValue b, GeoBoolean evaluate) {
 		this(cons, f, a, b, evaluate, false);
 
 	}
-
+	/**
+	 * @param cons construction
+	 * @param f function
+	 * @param a from number
+	 * @param b to number
+	 * @param num numeric true to use numeric method
+	 * @param evaluate true to evaluate, false to shade only
+	 */
 	public AlgoIntegralDefinite(Construction cons, GeoFunction f,
 			NumberValue a, NumberValue b, GeoBoolean evaluate,
-			boolean evaluateNumerically) {
+			boolean num) {
 		super(cons);
+		boolean evaluateNumerically = num;
 		this.f = f;
 		n = new GeoNumeric(cons); // output
 		this.a = a;
@@ -113,7 +141,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		compute();
 		n.setDrawable(true);
 	}
-
+	/**
+	 * @param f function
+	 * @param a from number
+	 * @param b to number
+	 * @param evaluate true to evaluate, false to shade only
+	 */
 	public AlgoIntegralDefinite(GeoFunction f, NumberValue a, NumberValue b,
 			GeoBoolean evaluate) {
 		super(f.getConstruction(), false);
@@ -149,22 +182,37 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting integral
+	 */
 	public GeoNumeric getIntegral() {
 		return n;
 	}
 
+	/**
+	 * @return value of integral
+	 */
 	double getIntegralValue() {
 		return n.getValue();
 	}
 
+	/**
+	 * @return input function
+	 */
 	public GeoFunction getFunction() {
 		return f;
 	}
 
+	/**
+	 * @return left border
+	 */
 	public NumberValue getA() {
 		return a;
 	}
 
+	/**
+	 * @return right border
+	 */
 	public NumberValue getB() {
 		return b;
 	}
@@ -250,11 +298,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		 */
 	}
 
-	private double freehandIntegration(GeoFunction f2, double lowerLimit,
-			double upperLimit) {
+	private double freehandIntegration(GeoFunction f2, double lowerLimitUser,
+			double upperLimitUser) {
 		
 		int multiplier = 1;
-		
+		double lowerLimit = lowerLimitUser;
+		double upperLimit = upperLimitUser;
 		if (lowerLimit > upperLimit) {
 			// swap a and b
 			double temp = lowerLimit;
@@ -276,9 +325,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			return Double.NaN;
 		}
 		
-		double n = list.size() - 2;
+		double nn = list.size() - 2;
 		
-		double step = (b1 - a1) / (n - 1);
+		double step = (b1 - a1) / (nn - 1);
 		
 		int startGap = (int) Math.ceil((lowerLimit - a1) / step);
 		int endGap = (int) Math.ceil((b1 - upperLimit) / step);

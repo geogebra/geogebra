@@ -7,8 +7,15 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
+/**
+ * Algorithm for Simplify(function)
+ */
 public class AlgoSimplify extends AlgoCasBase {
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f function
+     */
 	public AlgoSimplify(Construction cons,  String label, CasEvaluableFunction f) {
 		super(cons, label, f);
 	}

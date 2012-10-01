@@ -31,7 +31,12 @@ public class AlgoPolynomialMod extends AlgoElement {
 	private GeoFunction g; // output
 
 	private StringBuilder sb = new StringBuilder();
-
+	/**
+     * @param cons construction
+     * @param label label for output
+     * @param f1 divided function
+     * @param f2 divisor function
+     */
 	public AlgoPolynomialMod(Construction cons, String label, GeoFunction f1,
 			GeoFunction f2) {
 		super(cons);
@@ -61,6 +66,9 @@ public class AlgoPolynomialMod extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return residue of division
+	 */
 	public GeoFunction getResult() {
 		return g;
 	}

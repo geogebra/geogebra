@@ -34,13 +34,21 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
 	private GeoList g; // output
-	private String casInput;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 */
 	public AlgoCoefficients(Construction cons, String label, GeoFunction f) {
 		this(cons, f);
 		g.setLabel(label);
 	}
-
+	
+	/**
+	 * @param cons construction
+	 * @param f function
+	 */
 	public AlgoCoefficients(Construction cons, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -66,6 +74,9 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting function
+	 */
 	public GeoList getResult() {
 		return g;
 	}

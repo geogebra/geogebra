@@ -27,15 +27,18 @@ import geogebra.common.util.Unicode;
 
 
 /**
- * Returns the name of a GeoElement as a GeoText.
+ * Parses the input as a function, simplifies it and returns as text
  * @author  Michael
- * @version 
  */
 public class AlgoSimplifyText extends AlgoElement {
 
 	private GeoText textIn;  // input
     private GeoText text;     // output              
-        
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param textIn input text
+     */    
     public AlgoSimplifyText(Construction cons, String label, GeoText textIn) {
     	super(cons);
         this.textIn = textIn;  
@@ -65,6 +68,9 @@ public class AlgoSimplifyText extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
+    /**
+     * @return resulting text
+     */
     public GeoText getGeoText() { return text; }
     
     // calc the current value of the arithmetic tree

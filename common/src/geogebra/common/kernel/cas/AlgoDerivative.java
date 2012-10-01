@@ -24,7 +24,6 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 
 /**
  * Derivative of a function
@@ -35,7 +34,13 @@ public class AlgoDerivative extends AlgoCasBase {
 
 	private GeoNumeric var;
     private NumberValue order;
-
+    /**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+     * @param var variable (may be null)
+     * @param order derivative order (may be null)
+	 */
     public AlgoDerivative(
         Construction cons,
         String label,
@@ -46,11 +51,19 @@ public class AlgoDerivative extends AlgoCasBase {
         this(cons, f, var, order);
         g.toGeoElement().setLabel(label);
     }
-    
+    /**
+	 * @param cons construction
+	 * @param f function
+	 */
     public AlgoDerivative(Construction cons,  CasEvaluableFunction f) {
         this(cons, f, null, null);      
     }
-    
+    /**
+	 * @param cons construction
+	 * @param f function
+     * @param var variable (may be null)
+     * @param order derivative order (may be null)
+	 */
     public AlgoDerivative(Construction cons,  CasEvaluableFunction f, GeoNumeric var, NumberValue order) {
             super(cons, f);
             this.var = var;

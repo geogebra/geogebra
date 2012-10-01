@@ -19,8 +19,16 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
+/**
+ * Algorithm for partial fractions
+ *
+ */
 public class AlgoPartialFractions extends AlgoCasBase {
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f function
+	 */
 	public AlgoPartialFractions(Construction cons, String label,
 			CasEvaluableFunction f) {
 		super(cons, label, f);
