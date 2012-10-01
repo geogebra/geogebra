@@ -81,6 +81,7 @@ public class ViewMenu extends BaseMenu {
 		}
 		
 		cbShowInputBar = new JCheckBoxMenuItem(showAlgebraInputAction);
+		app.setEmptyIcon(cbShowInputBar);
 		add(cbShowInputBar);
 		
 		// TEST: show/hide Kinect window
