@@ -90,4 +90,11 @@ public abstract class Script {
 	public String getLanguageName() {
 		return this.getType().getName();
 	}
+
+	/**
+	 * @return the XML attribute name for serialization to file
+	 */
+	public Object getXMLName() {
+		return this.getType().getXMLName();
+	}
 }

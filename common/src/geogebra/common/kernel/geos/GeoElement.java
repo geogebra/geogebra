@@ -4705,14 +4705,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 		if (clickScript != null) {
 			sb.append("\t<");
-			sb.append(clickScript.getLanguageName());
+			sb.append(clickScript.getXMLName());
 			sb.append(" val=\"");
 			StringUtil.encodeXML(sb, clickScript.getInternalText());
 			sb.append("\"/>\n");
 		}
 		if (updateScript != null) {
 			sb.append("\t<");
-			sb.append(updateScript.getLanguageName());
+			sb.append(updateScript.getXMLName());
 			sb.append(" onUpdate=\"");
 			StringUtil.encodeXML(sb, updateScript.getInternalText());
 			sb.append("\"/>\n");

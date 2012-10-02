@@ -14,7 +14,7 @@ public enum ScriptType {
 	/**
 	 * GgbScript
 	 */
-	GGBSCRIPT("Script") {
+	GGBSCRIPT("Script", "ggbscript") {
 		@Override
 		public Script newScript(App app, String text) {
 			return new GgbScript(app, text);
@@ -23,7 +23,7 @@ public enum ScriptType {
 	/**
 	 * JsScript
 	 */
-	JAVASCRIPT("JavaScript") {
+	JAVASCRIPT("JavaScript", "javascript") {
 		@Override
 		public Script newScript(App app, String text) {
 			return new JsScript(app, text);
@@ -32,7 +32,7 @@ public enum ScriptType {
 	/**
 	 * PythonScript
 	 */
-	PYTHON("Python") {
+	PYTHON("Python", "python") {
 		@Override
 		public Script newScript(App app, String text) {
 			return new PythonScript(app, text);
@@ -40,9 +40,11 @@ public enum ScriptType {
 	};
 
 	private String name;
+	private String xmlName;
 
-	ScriptType(String name) {
+	ScriptType(String name, String xmlName) {
 		this.name = name;
+		this.xmlName = xmlName;
 	}
 	
 	/**
@@ -59,6 +61,14 @@ public enum ScriptType {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * Get the script type XML attribute name
+	 * @return the XML attribute name
+	 */
+	public String getXMLName() {
+		return xmlName;
 	}
 	
 }
