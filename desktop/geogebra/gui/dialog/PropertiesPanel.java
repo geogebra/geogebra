@@ -3214,7 +3214,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			GeoPointND newLoc = null;
 
 			if (strLoc == null || strLoc.trim().length() == 0) {
-				newLoc = null;
+				//newLoc = null;
 			} else {
 				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
 						true, true);
@@ -3394,7 +3394,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			GeoPointND newLoc = null;
 
 			if (strLoc == null || strLoc.trim().length() == 0) {
-				newLoc = null;
+				//newLoc = null;
 			} else {
 				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
 						true, true);
@@ -6814,8 +6814,6 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 				&& (strAlpha == null || strAlpha.trim().length() == 0)
 				&& (strBlue == null || strBlue.trim().length() == 0)) {
 			// num = null;
-			list = null;
-			listAlpha = null;
 		} else {
 			if (strRed == null || strRed.trim().length() == 0)
 				strRed = defaultR;

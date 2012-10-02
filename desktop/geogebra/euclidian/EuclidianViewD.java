@@ -655,15 +655,14 @@ public class EuclidianViewD extends EuclidianViewND implements
 		//TODO -- did we need the following line?
 		//ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
 
-		if (giNeedsInit
-				|| (gi == null)) {
+		if (giNeedsInit) {
 			String fileName = ((AppD)app).createImage(penImage2, "penimage.png");
 			// Application.debug(fileName);
 			GeoImage geoImage = null;
-			if (gi == null)
-				geoImage = new GeoImage(app.getKernel().getConstruction());
-			else
-				geoImage = gi;
+			//if (gi == null)
+			//	geoImage = new GeoImage(app.getKernel().getConstruction());
+			//else
+			geoImage = gi;
 			geoImage.setImageFileName(fileName);
 			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
 			GeoPoint corner = (new GeoPoint(
@@ -677,8 +676,8 @@ public class EuclidianViewD extends EuclidianViewND implements
 			corner2.setLabelVisible(false);
 			corner.update();
 			corner2.update();
-			if (gi == null)
-				geoImage.setLabel(null);
+			//if (gi == null)
+			//	geoImage.setLabel(null);
 			geoImage.setCorner(corner, 0);
 			geoImage.setCorner(corner2, 1);
 

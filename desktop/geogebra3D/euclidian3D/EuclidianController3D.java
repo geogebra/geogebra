@@ -1507,7 +1507,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 			view3D.createPreviewConic();
 			view3D.createPreviewLine();
-			previewDrawable = null;
 			/*
 			if (tempArrayList4!=null) {
 				for (int i=0; i<tempArrayList4.size(); ++i){

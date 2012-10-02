@@ -179,7 +179,7 @@ public class ShapeGeneration {
             VPoint lastpoint  = points.get(points.size()-1);
             if (!( firstpoint.x==lastpoint.x && firstpoint.y==lastpoint.y )) {
                 // Check if the line needs to be split
-                if ( splitlonglines && lastpoint!=null && lastpoint.distanceTo(firstpoint)>2*shapepoint_mindensity ) {
+                if ( splitlonglines && lastpoint.distanceTo(firstpoint)>2*shapepoint_mindensity ) {
                     addPointsToLine(points.size(), points, randompoints, lastpoint, firstpoint, min_x, min_y,
                             array, width, height, shapepoint_circle, shapepoint_mindensity);
                 }

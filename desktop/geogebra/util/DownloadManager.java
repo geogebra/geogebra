@@ -46,8 +46,8 @@ public class DownloadManager {
 			}
 			
 			in = new BufferedInputStream(srcConnection.getInputStream());
-			if (in == null)
-				throw new NullPointerException("URL not found: " + src);
+			//if (in == null)
+			//	throw new NullPointerException("URL not found: " + src);
 
 			// create output file
 			out = new FileOutputStream(dest);

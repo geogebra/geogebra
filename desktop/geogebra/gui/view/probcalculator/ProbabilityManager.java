@@ -654,9 +654,7 @@ public class ProbabilityManager {
 			v = parms[0];
 			if (v > 2) {
 				sigma = Math.sqrt(v / (v - 2));
-			} else {
-				sigma = null; // infinity?
-			}
+			} 
 
 			break;
 

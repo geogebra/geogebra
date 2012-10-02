@@ -77,8 +77,6 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private boolean debug = true;
 
 	/****************************************
 	 * Constructor
