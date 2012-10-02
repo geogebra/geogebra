@@ -15,6 +15,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import geogebra.common.gui.SetLabels;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.LayoutUtil;
+import geogebra.gui.util.ListSeparatorRenderer;
+import geogebra.gui.view.data.StatTable;
+import geogebra.gui.view.data.StatisticsPanel;
+import geogebra.main.AppD;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -55,15 +65,17 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	private int fieldWidth = 6;
 	private double confLevel = .95, hypMean = 0;
 
-	private JPanel inputPanel, testPanel, estimatePanel, controlPanel;
+	private JPanel panelInput, panelTest, panelEstimate, panelControl;
 
 	JScrollPane resultScroller;
 
 	private enum Procedure {
-		ZMEAN, ZMEAN2, TMEAN, TMEAN2, ZPROP, ZPROP2
+		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST,
+
+		ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
 	}
 
-	private Procedure selectedProcedure = Procedure.ZMEAN;
+	private Procedure selectedProcedure = Procedure.ZMEAN_TEST;
 
 	private StatTable resultTable;
 
@@ -74,6 +86,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	private String[] propSampleLabel;
 
 	private String[] meanTSampleLabel;
+
+	private HashMap<String, Procedure> pMap;
 
 	/******************************************************************
 	 * @param app
@@ -95,16 +109,19 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		JPanel outputPanel = new JPanel();
 		outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
-		outputPanel.add(inputPanel);
-		outputPanel.add(testPanel);
-		outputPanel.add(estimatePanel);
-
+		outputPanel.add(panelInput);
+		outputPanel.add(panelTest);
+		outputPanel.add(panelEstimate);
+		outputPanel.add(panelControl);
+		
 		JPanel main = new JPanel(new BorderLayout());
 
 		main.setLayout(new BorderLayout());
-		main.add(outputPanel, BorderLayout.NORTH);
+		main.add(outputPanel, BorderLayout.SOUTH);
 		main.add(resultScroller, BorderLayout.CENTER);
-		main.add(controlPanel, BorderLayout.SOUTH);
+		
+		
+		//main.add(panelControl, BorderLayout.SOUTH);
 
 		// JScrollPane mainScroller = new JScrollPane(main);
 
@@ -117,36 +134,50 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	}
 
 	private void updateGUI() {
-		// TODO Auto-generated method stub
+
+		setSampleFieldLabels();
+		for (int i = 0; i < 3; i++) {
+			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
+			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
+			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
+			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
+		}
+
+		lblSampleHeader1.setVisible((lblSampleStat2[0].getText() != null));
+		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null));
+
+		setPanelLayout();
+		this.revalidate();
 
 	}
 
 	private void createControlPanel() {
 
-		controlPanel = new JPanel(new BorderLayout());
-		controlPanel.add(LayoutUtil.flowPanel(cbProcedure), app.borderWest());
-		controlPanel
-				.add(LayoutUtil.flowPanel(btnCalculate), app.borderEast());
+
+		panelControl = new JPanel(new BorderLayout());
+		panelControl.add(LayoutUtil.flowPanel(cbProcedure), app.borderWest());
+		panelControl.add(LayoutUtil.flowPanel(btnCalculate), app.borderEast());
+
 
 	}
 
 	private void createTestPanel() {
 
-		testPanel = new JPanel();
-		testPanel.setLayout(new BoxLayout(testPanel, BoxLayout.Y_AXIS));
+		panelTest = new JPanel();
+		panelTest.setLayout(new BoxLayout(panelTest, BoxLayout.Y_AXIS));
 
-		testPanel.add(LayoutUtil.flowPanel(lblNull, fldNullHyp));
-		testPanel.add(LayoutUtil.flowPanel(lblTailType, btnLeft, btnRight,
+		panelTest.add(LayoutUtil.flowPanel(lblNull, fldNullHyp));
+		panelTest.add(LayoutUtil.flowPanel(lblTailType, btnLeft, btnRight,
 				btnTwo));
 
 	}
 
 	private void createEstimatePanel() {
 
-		estimatePanel = new JPanel();
-		estimatePanel.setLayout(new BoxLayout(estimatePanel, BoxLayout.Y_AXIS));
+		panelEstimate = new JPanel();
+		panelEstimate.setLayout(new BoxLayout(panelEstimate, BoxLayout.Y_AXIS));
 
-		estimatePanel.add(LayoutUtil.flowPanel(lblConfLevel, fldConfLevel));
+		panelEstimate.add(LayoutUtil.flowPanel(lblConfLevel, fldConfLevel));
 
 	}
 
@@ -155,17 +186,23 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		JPanel p1 = new JPanel();
 
 		p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-		p1.add(LayoutUtil.flowPanelRight(0, 0, 0, lblSampleHeader1));
+		p1.add(LayoutUtil.flowPanel(0, 4, 0, lblSampleHeader1));
 		for (int i = 0; i < lblSampleStat1.length; i++) {
-			p1.add(LayoutUtil.flowPanelRight(4, 0, 0, lblSampleStat1[i],
+			p1.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleStat1[i],
 					fldSampleStat1[i]));
 		}
 
 		JPanel p2 = new JPanel();
 		p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+		p2.add(LayoutUtil.flowPanel(0, 4, 0, lblSampleHeader2));
+		for (int i = 0; i < lblSampleStat2.length; i++) {
+			p2.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleStat2[i],
+					fldSampleStat2[i]));
+		}
 
-		inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		inputPanel.add(p1);
+		panelInput = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
+		panelInput.add(p1);
+		panelInput.add(p2);
 
 	}
 
@@ -187,6 +224,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		taResultLog.setMinimumSize(new Dimension(50, 50));
 
 		cbProcedure = new JComboBox();
+		cbProcedure.setRenderer(new ListSeparatorRenderer());
+
 		cbProcedure.addActionListener(this);
 		btnCalculate = new JButton();
 
@@ -239,7 +278,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 			fldSampleStat1[i].addActionListener(this);
 			fldSampleStat1[i].addFocusListener(this);
 		}
-		
+
 		lblSampleStat2 = new JLabel[3];
 		for (int i = 0; i < lblSampleStat2.length; i++) {
 			lblSampleStat2[i] = new JLabel();
@@ -257,9 +296,9 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 	public void setLabels() {
 
-		inputPanel.setBorder(BorderFactory.createTitledBorder("Input"));
-		testPanel.setBorder(BorderFactory.createTitledBorder("Test"));
-		estimatePanel.setBorder(BorderFactory.createTitledBorder("Estimate"));
+		panelInput.setBorder(BorderFactory.createTitledBorder("Input"));
+		panelTest.setBorder(BorderFactory.createTitledBorder("Test"));
+		panelEstimate.setBorder(BorderFactory.createTitledBorder("Estimate"));
 
 		lblHypParameter.setText(app.getMenu("HypothesizedMean.short") + " = ");
 
@@ -270,24 +309,64 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		lblSigma.setText(app.getMenu("StandardDeviation.short") + " = ");
 		btnCalculate.setText(app.getMenu("Calculate"));
 
-		lblSampleHeader1.setText(app.getMenu("Sample"));
-		lblSampleHeader2.setText(app.getMenu("Sample"));
-		
+		lblSampleHeader1.setText(app.getMenu("Sample1"));
+		lblSampleHeader2.setText(app.getMenu("SampleProportion"));
+
 		setProcedureComboLabels();
-		
+
 		setSampleFieldLabels();
 
 	}
 
 	private void setProcedureComboLabels() {
-		cbProcedure.removeAllItems();
-		cbProcedure.addItem(app.getMenu("ZMeanProcedures"));
-		cbProcedure.addItem(app.getMenu("ZMean2Procedures"));
-		cbProcedure.addItem(app.getMenu("TMeanProcedures"));
-		cbProcedure.addItem(app.getMenu("TMean2Procedures"));
 
-		cbProcedure.addItem(app.getMenu("ZPropProcedures"));
-		cbProcedure.addItem(app.getMenu("ZProp2Procedures"));
+		pMap = new HashMap<String, Procedure>();
+		pMap.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		pMap.put(app.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
+		pMap.put(app.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
+		pMap.put(app.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
+		pMap.put(app.getMenu("ZTestDifferenceOfMeans"), Procedure.ZMEAN2_TEST);
+		pMap.put(app.getMenu("TTestDifferenceOfMeans"), Procedure.TMEAN2_TEST);
+		pMap.put(app.getMenu("ZEstimateDifferenceOfMeans"), Procedure.ZMEAN2_CI);
+		pMap.put(app.getMenu("TEstimateDifferenceOfMeans"), Procedure.TMEAN2_CI);
+		pMap.put(app.getMenu("ZProportionTest"), Procedure.ZPROP_TEST);
+		pMap.put(app.getMenu("ZProportionInterval"), Procedure.ZPROP_CI);
+		pMap.put(app.getMenu("ZTestDifferenceOfProportions"),
+				Procedure.ZPROP2_TEST);
+		pMap.put(app.getMenu("ZEstimateDifferenceOfProportions"),
+				Procedure.ZPROP_CI);
+		pMap.put(app.getMenu("GooodnessOfFitTest"), Procedure.GOF_TEST);
+		pMap.put(app.getMenu("ChiSquaredTest"), Procedure.CHISQ_TEST);
+
+		cbProcedure.removeAllItems();
+		cbProcedure.addItem(app.getMenu("ZMeanTest"));
+		cbProcedure.addItem(app.getMenu("TMeanTest"));
+		cbProcedure.addItem(app.getMenu("ZMeanInterval"));
+		// cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+		cbProcedure.addItem(app.getMenu("TMeanInterval"));
+		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+
+		cbProcedure.addItem(app.getMenu("ZTestDifferenceOfMeans"));
+		cbProcedure.addItem(app.getMenu("TTestDifferenceOfMeans"));
+
+		cbProcedure.addItem(app.getMenu("ZEstimateDifferenceOfMeans"));
+		// cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+
+		cbProcedure.addItem(app.getMenu("TEstimateDifferenceOfMeans"));
+		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+
+		cbProcedure.addItem(app.getMenu("ZProportionInterval"));
+		cbProcedure.addItem(app.getMenu("ZProportionTest"));
+		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+
+		cbProcedure.addItem(app.getMenu("ZTestDifferenceOfProportions"));
+		cbProcedure.addItem(app.getMenu("ZEstimateDifferenceOfProportions"));
+		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+
+		cbProcedure.addItem(app.getMenu("GooodnessOfFitTest"));
+		cbProcedure.addItem(app.getMenu("ChiSquaredTest"));
+
+		cbProcedure.setMaximumRowCount(17);
 
 	}
 
@@ -302,24 +381,57 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		String successes = app.getMenu("Successes");
 		String n = app.getMenu("N");
 
+		for (int i = 0; i < 3; i++) {
+			lblSampleStat1[i].setText(null);
+			lblSampleStat2[i].setText(null);
+		}
+
 		switch (selectedProcedure) {
-		case ZMEAN:
-		case ZMEAN2:
+		case ZMEAN_TEST:
+		case ZMEAN_CI:
 			lblSampleStat1[0].setText(sampleMean);
-			lblSampleStat1[1].setText(sigma);
-			lblSampleStat1[2].setText(n);
+			lblSampleStat1[1].setText(n);
 			break;
-		case TMEAN:
-		case TMEAN2:
+
+		case TMEAN_TEST:
+		case TMEAN_CI:
 			lblSampleStat1[0].setText(sampleMean);
 			lblSampleStat1[1].setText(sd);
 			lblSampleStat1[2].setText(n);
 			break;
-		case ZPROP:
-		case ZPROP2:
+
+		case ZMEAN2_TEST:
+		case ZMEAN2_CI:
+			lblSampleStat1[0].setText(sampleMean);
+			lblSampleStat1[1].setText(n);
+			lblSampleStat2[0].setText(sampleMean);
+			lblSampleStat2[1].setText(n);
+			break;
+
+		case TMEAN2_TEST:
+		case TMEAN2_CI:
+			lblSampleStat1[0].setText(sampleMean);
+			lblSampleStat1[1].setText(sd);
+			lblSampleStat1[2].setText(n);
+			lblSampleStat2[0].setText(sampleMean);
+			lblSampleStat2[1].setText(sd);
+			lblSampleStat2[2].setText(n);
+			break;
+
+		case ZPROP_TEST:
+		case ZPROP_CI:
 			lblSampleStat1[0].setText(successes);
 			lblSampleStat1[2].setText(n);
 			break;
+
+		case ZPROP2_TEST:
+		case ZPROP2_CI:
+			lblSampleStat1[0].setText(successes);
+			lblSampleStat1[2].setText(n);
+			lblSampleStat2[0].setText(successes);
+			lblSampleStat2[2].setText(n);
+			break;
+
 		}
 	}
 
@@ -329,12 +441,12 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		switch (selectedProcedure) {
 
-		case ZMEAN:
+		case ZMEAN_TEST:
 			resultLabelTest.add(app.getMenu("PValue"));
 			resultLabelTest.add(app.getMenu("ZStatistic"));
 			break;
 
-		case TMEAN:
+		case TMEAN_TEST:
 			resultLabelTest.add(app.getMenu("PValue"));
 			resultLabelTest.add(app.getMenu("TStatistic"));
 			resultLabelTest.add(app.getMenu(""));
@@ -356,13 +468,13 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		switch (selectedProcedure) {
 
-		case ZMEAN:
+		case ZMEAN_TEST:
 			resultLabelEstimate.add(app.getMenu("Interval"));
 			resultLabelEstimate.add(app.getMenu("LowerLimit"));
 			resultLabelEstimate.add(app.getMenu("UpperLimit"));
 			break;
 
-		case TMEAN:
+		case TMEAN_TEST:
 			resultLabelEstimate.add(app.getMenu("Interval"));
 			resultLabelEstimate.add(app.getMenu("LowerLimit"));
 			resultLabelEstimate.add(app.getMenu("UpperLimit"));
@@ -378,7 +490,41 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 	}
 
+	private void setPanelLayout() {
+
+		panelEstimate.setVisible(false);
+		panelTest.setVisible(false);
+
+		switch (selectedProcedure) {
+		case ZMEAN_TEST:
+		case ZMEAN2_TEST:
+		case TMEAN_TEST:
+		case TMEAN2_TEST:
+		case ZPROP_TEST:
+		case ZPROP2_TEST:
+			panelTest.setVisible(true);
+			break;
+
+		case ZMEAN_CI:
+		case ZMEAN2_CI:
+		case TMEAN_CI:
+		case TMEAN2_CI:
+		case ZPROP_CI:
+		case ZPROP2_CI:
+			panelEstimate.setVisible(true);
+			break;
+		}
+
+	}
+
 	public void actionPerformed(ActionEvent e) {
+
+		Object source = e.getSource();
+
+		if (source == cbProcedure) {
+			selectedProcedure = pMap.get(cbProcedure.getSelectedItem());
+			updateGUI();
+		}
 
 	}
 
