@@ -76,7 +76,7 @@ public class Point_dt {
 	 * @param z The new z coordinate.
 	 */
 	public void setZ(double Z) {
-		this.z = z;
+		this.z = Z;
 	}
 
 	double distance2(Point_dt p) {
