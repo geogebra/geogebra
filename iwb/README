@@ -1,0 +1,3 @@
+The license.txt file has been generated on Unix by running
+
+$ cat license-unfold.txt | fold -s -w 70 > license.txt
