@@ -466,7 +466,7 @@ public class Complex {
       double[] anum = {x[0], x[1]};
       for (int i = 0; i < c.length; ++i) {
          anum = add( anum, ONE_);
-         s = add( s, divide(c[i], anum) );;
+         s = add( s, divide(c[i], anum) );
       }
       s = multiply( 2.506628275, s );
       //g = Math.pow(xgh, xh) * s / Math.exp(xgh);
@@ -676,7 +676,7 @@ public class Complex {
       double[] anum = {x[0], x[1]};
       for (int i = 0; i < c.length; ++i) {
          anum = add( anum, ONE_);
-         s = add( s, divide(c[i], anum) );;
+         s = add( s, divide(c[i], anum) );
       }
       s = multiply( 2.506628275, s );
       //g = xh * Math.log(xgh) + Math.log(s) - xgh;

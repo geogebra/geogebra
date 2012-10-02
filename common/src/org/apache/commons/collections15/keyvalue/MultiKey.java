@@ -103,7 +103,7 @@ public class MultiKey <K> implements Serializable {
             throw new IllegalArgumentException("The array of keys must not be null");
         }
         if (makeClone) {
-            this.keys = (K[]) keys.clone();
+            this.keys = keys.clone();
         } else {
             this.keys = keys;
         }

@@ -68,8 +68,8 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
      * for special cases of e.g. AlgoIntersectLineConic
      */
 	private void addIncidence() {
-		if (C instanceof GeoPoint)
-			((GeoPoint) C).addIncidence(hyperbola);
+		if (C != null)
+			C.addIncidence(hyperbola);
 
 	}
     

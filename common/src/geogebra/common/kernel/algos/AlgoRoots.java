@@ -62,7 +62,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	// Input-Output
 	// private GeoFunctionable function; // input
-	private GeoFunction f, f1, f2, diff;
+	private GeoFunction f0, f1, f2, diff;
 	private NumberValue left; // input
 	private GeoElement geoleft;
 	private NumberValue right; // input
@@ -82,7 +82,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 																		// function
 																		// for
 																		// points!
-		this.f = function;
+		this.f0 = function;
 		this.left = left;
 		this.geoleft = left.toGeoElement();
 		this.right = right;
@@ -102,7 +102,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	public AlgoRoots(Construction cons, GeoFunction function, NumberValue left,
 			NumberValue right) {
 		super(cons, function); // Ancestor gets first function for points!
-		this.f = function;
+		this.f0 = function;
 		this.left = left;
 		this.geoleft = left.toGeoElement();
 		this.right = right;
@@ -158,7 +158,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		switch (type) {
 		case TYPE_ROOTS:
 			input = new GeoElement[3];
-			input[0] = f.toGeoElement();
+			input[0] = f0.toGeoElement();
 			input[1] = geoleft;
 			input[2] = georight;
 			break;
@@ -182,7 +182,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		boolean ok = false;
 		switch (type) {
 		case TYPE_ROOTS:
-			ok = f.toGeoElement().isDefined() && geoleft.isDefined()
+			ok = f0.toGeoElement().isDefined() && geoleft.isDefined()
 					&& georight.isDefined();
 			break;
 		case TYPE_INTERSECTIONS:
@@ -200,7 +200,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 															// intersections
 				compute2(diff);
 			} else {
-				compute2(f);
+				compute2(f0);
 			}// if type
 		}// if ok input
 	}// compute()

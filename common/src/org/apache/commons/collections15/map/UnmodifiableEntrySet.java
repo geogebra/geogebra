@@ -138,7 +138,7 @@ public final class UnmodifiableEntrySet <K,V> extends AbstractSetDecorator<Map.E
         }
 
         public Map.Entry<K, V> next() {
-            Map.Entry entry = (Map.Entry) iterator.next();
+            Map.Entry entry = iterator.next();
             return new UnmodifiableEntry<K, V>(entry);
         }
 

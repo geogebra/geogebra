@@ -14,8 +14,6 @@ import org.apache.commons.math.special.Gamma;
  * important for minimal applets
  */
 public class MyMath2 {
-	private static final int MAX_ITERATIONS = 1000;
-
 	final public static double gammaIncomplete(double a, double x) {
 
 		try {

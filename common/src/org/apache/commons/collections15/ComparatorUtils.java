@@ -111,7 +111,7 @@ public class ComparatorUtils {
      * @see ComparatorChain
      */
     public static <T> Comparator<T> chainedComparator(Collection<T> comparators) {
-        return chainedComparator((Comparator[]) comparators.toArray(new Comparator[comparators.size()]));
+        return chainedComparator(comparators.toArray(new Comparator[comparators.size()]));
     }
 
     /**

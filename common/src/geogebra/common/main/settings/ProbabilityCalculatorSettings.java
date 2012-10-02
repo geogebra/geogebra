@@ -9,7 +9,7 @@ import java.util.LinkedList;
  */
 public class ProbabilityCalculatorSettings extends AbstractSettings {
 	
-	public enum DIST { NORMAL, STUDENT, CHISQUARE, F, CAUCHY, EXPONENTIAL, GAMMA, WEIBULL, LOGISTIC, LOGNORMAL, ERLANG, BINOMIAL, PASCAL, HYPERGEOMETRIC, POISSON };
+	public enum DIST { NORMAL, STUDENT, CHISQUARE, F, CAUCHY, EXPONENTIAL, GAMMA, WEIBULL, LOGISTIC, LOGNORMAL, ERLANG, BINOMIAL, PASCAL, HYPERGEOMETRIC, POISSON }
 
 	/*
 	// continuous distribution identifiers

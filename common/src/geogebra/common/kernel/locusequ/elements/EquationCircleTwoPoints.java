@@ -21,8 +21,6 @@ import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
  */
 public class EquationCircleTwoPoints extends EquationGenericConic {
 
-    private EquationPoint externalEqu;
-
     /**
      * General constructor.
      * @param element {@link GeoElement}

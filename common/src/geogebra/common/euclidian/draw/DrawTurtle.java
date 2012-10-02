@@ -66,20 +66,20 @@ public class DrawTurtle extends Drawable {
 	private static class PartialPath {
 		public GColor color;
 		public int thickness;
-		public GeneralPathClipped path;
+		public GeneralPathClipped path1;
 		private GBasicStroke stroke;
 		
 		public PartialPath(GColor c, int th, GeneralPathClipped p) {
 			color = c;
 			thickness = th;
-			path = p;
+			path1 = p;
 			stroke =  AwtFactory.prototype.newBasicStroke(thickness);
 		}
 		
 		public void draw(GGraphics2D g2) {
 			g2.setColor(color);
 			g2.setStroke(stroke);
-			g2.draw(path);
+			g2.draw(path1);
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class DrawTurtle extends Drawable {
 		private GColor penColor = GColor.BLACK;
 		private int penThickness = 1;
 		private int nlines = 0;
-		private double turnAngle = 0d;
+		private double turnAngle1 = 0d;
 		private GeneralPathClipped currentPath;
 		// private GeoPointND currentPosition = turtle.getStartPoint();
 		private double coords[] = new double[2];
@@ -131,11 +131,11 @@ public class DrawTurtle extends Drawable {
 		}
 		
 		public void turn(double angle) {
-			turnAngle += angle;
+			turnAngle1 += angle;
 		}
 		
 		public void partialTurn(double angle, double progress) {
-			turnAngle += angle*progress;
+			turnAngle1 += angle*progress;
 		}
 		
 		public void setColor(GColor color) {
@@ -198,7 +198,7 @@ public class DrawTurtle extends Drawable {
 			ds.finishPartialPath();
 			currentCoords[0] = ds.coords[0];
 			currentCoords[1] = ds.coords[1];
-			turnAngle = ds.turnAngle;
+			turnAngle = ds.turnAngle1;
 		}
 
 		turtleImageBounds.setFrame(currentCoords[0] - imageSize / 2,
@@ -228,7 +228,7 @@ public class DrawTurtle extends Drawable {
 				g2.setPaint(turtle.getSelColor());
 				g2.setStroke(selStroke);
 				for (PartialPath path : pathList) {
-					g2.draw(path.path);
+					g2.draw(path.path1);
 				}
 			}
 
@@ -252,7 +252,7 @@ public class DrawTurtle extends Drawable {
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
 			for (PartialPath path : pathList) {
-				if (path.path.intersects(x - hitThreshold, y - hitThreshold,
+				if (path.path1.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold)) {
 					return true;
 				}
@@ -270,7 +270,7 @@ public class DrawTurtle extends Drawable {
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (isVisible) {
 			for (PartialPath p : pathList) {
-				if (p.path.intersects(rect)) {
+				if (p.path1.intersects(rect)) {
 					return true;
 				}
 			}
@@ -300,7 +300,7 @@ public class DrawTurtle extends Drawable {
 
 		boundRect = turtleImageBounds;
 		for (PartialPath path : pathList) {
-			boundRect = boundRect.union(path.path.getBounds());
+			boundRect = boundRect.union(path.path1.getBounds());
 		}
 
 		return boundRect;

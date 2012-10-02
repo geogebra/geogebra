@@ -201,7 +201,6 @@ public final class Pair<T> implements Collection<T>, Serializable
     @SuppressWarnings("unchecked")
     public <S> S[] toArray(S[] a) {
         S[] to_return = a;
-        Class<?> type = a.getClass().getComponentType();
         if (a.length < 2){
         	// TODO check
         	//to_return = (S[])java.lang.reflect.Array.newInstance(type, 2);

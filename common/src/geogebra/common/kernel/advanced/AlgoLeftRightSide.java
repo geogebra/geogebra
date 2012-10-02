@@ -45,7 +45,6 @@ public class AlgoLeftRightSide extends AlgoElement {
 			side.setUndefined();
 			return;
 		}
-		ExpressionNode expr;
 		String str = equation.toValueString(StringTemplate.maxPrecision);
 		String[] sides = str.split("=");
 		String sideStr = left ? sides[0]:sides[1];

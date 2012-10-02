@@ -3,7 +3,6 @@ package geogebra.common.gui;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -382,7 +381,7 @@ public abstract class ContextMenuGeoElement {
 				// update the geo lists and show the popup again with the new selection
 				sGeos.clear();
 				sGeos.add(cmdGeo);
-				app.getGuiManager().showPopupChooseGeo(sGeos, gs, (EuclidianViewInterfaceCommon)v, l);
+				app.getGuiManager().showPopupChooseGeo(sGeos, gs, v, l);
 			}
 
 }

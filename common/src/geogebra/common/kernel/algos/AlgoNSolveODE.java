@@ -1,7 +1,6 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -10,6 +9,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 
+import java.util.ArrayList;
+
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -17,9 +18,6 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
-
-
-import java.util.ArrayList;
 
 
 /**
@@ -177,11 +175,10 @@ public class AlgoNSolveODE extends AlgoElement {
 	};
 
 	private class ODEN implements FirstOrderDifferentialEquations {
-		@SuppressWarnings("hiding")
-		private GeoList fun;
+		private GeoList fun1;
 		
 		public ODEN(GeoList fun) {
-			this.fun = fun;
+			this.fun1 = fun;
 		}
 
 		public int getDimension() {
@@ -196,7 +193,7 @@ public class AlgoNSolveODE extends AlgoElement {
 				input[i + 1] = y[i];
 			}
 			for (int i = 0; i < dim; i++) {
-				yDot[i] = ((FunctionalNVar)fun.get(i)).evaluate(input);
+				yDot[i] = ((FunctionalNVar)fun1.get(i)).evaluate(input);
 			}
 		}
 		

@@ -495,18 +495,6 @@ public final  class RegressionMath {
         }//for all points    
     }//getPoints()
     
-    //Correllation coefficient in linear case (and pseudo for exp,log, pow)
-    private final  double corrCoeff(){
-        double cc;
-        double n=(size*sigmax2-sigmax*sigmax)*(size*sigmay2-sigmay*sigmay); 
-        if((n-0.0d)<1.0E-15d){            //udef...
-            cc=0.0d;
-        }else{
-            cc=(size*sigmaxy-sigmax*sigmay)/java.lang.Math.sqrt(n);
-        }//if-else           
-        return cc;
-    }//corrCoeff()
-    
     //Make M with 1,x,x^2,... , and Y with y1,y2,.. for all datapoints
     private final void makeMatrixArrays(int degree){
     	marray=new double[size][degree+1];

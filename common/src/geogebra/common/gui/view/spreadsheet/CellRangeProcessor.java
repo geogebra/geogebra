@@ -1,8 +1,6 @@
 package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -19,7 +17,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.statistics.AlgoStemPlot;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.plugin.GeoClass;

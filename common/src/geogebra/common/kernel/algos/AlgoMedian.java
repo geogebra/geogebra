@@ -137,7 +137,6 @@ public class AlgoMedian extends AlgoElement {
 			}
 
 			for (int i = 0; i < freqList.size(); i++) {
-				GeoElement geo = inputList.get(i);
 				if (!freqList.get(i).isNumberValue()) {
 					median.setUndefined();
 					return;
@@ -145,7 +144,6 @@ public class AlgoMedian extends AlgoElement {
 			}	
 			
 			for (int i = 0; i < inputList.size(); i++) {
-				GeoElement geo = inputList.get(i);
 				if (!inputList.get(i).isNumberValue()) {
 					median.setUndefined();
 					return;

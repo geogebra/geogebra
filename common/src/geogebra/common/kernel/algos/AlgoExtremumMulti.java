@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -63,13 +62,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 												// 2000 pxs...)
 	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
 												// pxs interval...) ;
-	private static final double MAX_GRADIENT = 1.0E-4; // Filter out false
-														// extremums near
-														// discontinuity 10^8
-														// too large
 
 	// Input-Output
-	private GeoFunction f;
+	private GeoFunction f1;
 	private NumberValue left; // input
 	private GeoElement geoleft;
 	private NumberValue right; // input
@@ -81,7 +76,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		super(cons, labels, !cons.isSuppressLabelsActive(), function); // set
 																		// f,g,l
 																		// null
-		this.f = function;
+		this.f1 = function;
 		this.left = left;
 		this.geoleft = left.toGeoElement();
 		this.right = right;
@@ -118,7 +113,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = f.toGeoElement();
+		input[0] = f1.toGeoElement();
 		input[1] = geoleft;
 		input[2] = georight;
 
@@ -141,7 +136,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double l = left.getDouble();
 		double r = right.getDouble();
 
-		if (!f.toGeoElement().isDefined() || !geoleft.isDefined()
+		if (!f1.toGeoElement().isDefined() || !geoleft.isDefined()
 				|| !georight.isDefined() // ||
 											// (right.getDouble()<=left.getDouble()
 											// )
@@ -155,7 +150,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				r = tmp;
 			} // correct user input
 
-			RealRootFunction rrfunc = f.getRealRootFunctionY();
+			RealRootFunction rrfunc = f1.getRealRootFunctionY();
 
 			// / --- Algorithm --- ///
 
@@ -298,31 +293,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		super(cons);
 
 	}// Test constructor
-
-	private final static void listArray(double[] a) {
-		int l = a.length;
-		System.out.println("Length: " + l);
-		for (int i = 0; i < l; i++) {
-			System.out.println("a[" + i + "]: " + a[i]);
-		}// for
-	}// listArray(a)
-
-	private final static void listLabels(String[] a) {
-		int l = a.length;
-		System.out.println("Length: " + l);
-		for (int i = 0; i < l; i++) {
-			System.out.println("Label[" + i + "]: " + a[i]);
-		}// for
-	}// listLabels(a)
-
-	private final static void listPoints(GeoPoint[] gpts) {
-		int n = gpts.length;
-		System.out.println("Length: " + n);
-		for (int i = 0; i < n; i++) {
-			System.out.println("Label: " + gpts[i].getLabel(StringTemplate.defaultTemplate) + "     pt[" + i
-					+ "]: (" + gpts[i].x + "," + gpts[i] + ")");
-		}// for
-	}// listPoints(GeoPoint[])
 
 	// TODO Consider locusequability
 

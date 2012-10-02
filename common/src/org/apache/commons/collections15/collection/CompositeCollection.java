@@ -159,7 +159,7 @@ public class CompositeCollection <E> implements Collection<E> {
         final E[] result = (E[]) new Object[this.size()];
         int i = 0;
         for (Iterator<E> it = this.iterator(); it.hasNext(); i++) {
-            result[i] = (E) it.next();
+            result[i] = it.next();
         }
         return result;
     }

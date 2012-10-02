@@ -328,7 +328,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
      */
     public K previousKey(K key) {
         checkKey(key);
-        Node<K, V> node = nextSmaller(lookup((Comparable) key, KEY), KEY);
+        Node<K, V> node = nextSmaller(lookup(key, KEY), KEY);
         return (node == null ? null : node.getKey());
     }
     
@@ -2030,7 +2030,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
         }
 
         public K get(final Object key) {
-            return main.getKey((V) key);
+            return main.getKey(key);
         }
 
         public V getKey(final Object value) {
@@ -2061,13 +2061,13 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
 
         public V nextKey(V key) {
             checkKey(key);
-            Node<K, V> node = main.nextGreater(main.lookup((Comparable) key, VALUE), VALUE);
+            Node<K, V> node = main.nextGreater(main.lookup(key, VALUE), VALUE);
             return (node == null ? null : node.getValue());
         }
 
         public V previousKey(V key) {
             checkKey(key);
-            Node<K, V> node = main.nextSmaller(main.lookup((Comparable) key, VALUE), VALUE);
+            Node<K, V> node = main.nextSmaller(main.lookup(key, VALUE), VALUE);
             return (node == null ? null : node.getValue());
         }
 
@@ -2084,7 +2084,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
         }
 
         public K remove(final Object key) {
-            return main.removeValue((V) key);
+            return main.removeValue(key);
         }
 
         public V removeValue(final Object value) {

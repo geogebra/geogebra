@@ -102,7 +102,7 @@ public class SwitchClosure <T> implements Closure<T>, Serializable {
             return NOPClosure.INSTANCE;
         }
         // convert to array like this to guarantee iterator() ordering
-        Closure defaultClosure = (Closure) predicatesAndClosures.remove(null);
+        Closure defaultClosure = predicatesAndClosures.remove(null);
         int size = predicatesAndClosures.size();
         if (size == 0) {
             return (defaultClosure == null ? NOPClosure.INSTANCE : defaultClosure);

@@ -1,6 +1,5 @@
 package geogebra.common.kernel.statistics;
 
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOneListFunction;
@@ -31,7 +30,7 @@ public class CmdMean extends CmdOneListFunction {
 
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
-		AlgoMean algo = new AlgoMean((Construction) cons, a, list, freq);
+		AlgoMean algo = new AlgoMean(cons, a, list, freq);
 		return algo.getResult(); 
 	}
 

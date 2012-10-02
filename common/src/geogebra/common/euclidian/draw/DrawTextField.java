@@ -17,7 +17,6 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.euclidian.event.FocusEvent;
@@ -377,18 +376,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
-	}
-
-	@SuppressWarnings("unused")
-	private void updateLabel() {
-		// TODO delete?
-		/*
-		 * xLabel = geo.labelOffsetX; yLabel = geo.labelOffsetY;
-		 * 
-		 * labelRectangle.setBounds(xLabel, yLabel, ((textSize == null) ? 0 :
-		 * textSize.x), 12);
-		 */
-
 	}
 
 	@Override

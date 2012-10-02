@@ -81,8 +81,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
     @Override
 	protected void computeMidCoords(){
     	
-    	GeoPoint P = (GeoPoint) getP();
-        GeoPoint Q = (GeoPoint) getQ();
+    	GeoPoint P = getP();
+        GeoPoint Q = getQ();
         
     	getPoint().setCoords(
                 (P.inhomX + Q.inhomX) / 2.0d,
@@ -96,8 +96,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		GeoPoint P=(GeoPoint) getP();
-		GeoPoint Q=(GeoPoint) getQ();
+		GeoPoint P=getP();
+		GeoPoint Q=getQ();
 		if (P != null && Q != null) {
 			P.getFreeVariables(variables);
 			Q.getFreeVariables(variables);
@@ -108,8 +108,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 	
 	public int[] getDegrees()
 			throws NoSymbolicParametersException {
-		GeoPoint P=(GeoPoint) getP();
-		GeoPoint Q=(GeoPoint) getQ();
+		GeoPoint P=getP();
+		GeoPoint Q=getQ();
 		if (P != null && Q != null) {
 			int[] degreeP = P.getDegrees();
 			int[] degreeQ = Q.getDegrees();
@@ -144,8 +144,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 		if (polynomials != null) {
 			return polynomials;
 		}
-		GeoPoint P=(GeoPoint) getP();
-		GeoPoint Q=(GeoPoint) getQ();
+		GeoPoint P=getP();
+		GeoPoint Q=getQ();
 		if (P != null && Q != null) {
 			Polynomial[] pP = P.getPolynomials();
 			Polynomial[] pQ = Q.getPolynomials();
@@ -167,8 +167,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 			return botanaPolynomials;
 		}
 
-		GeoPoint P=(GeoPoint) getP();
-		GeoPoint Q=(GeoPoint) getQ();
+		GeoPoint P=getP();
+		GeoPoint Q=getQ();
 
 		if (P == null || Q == null)
 			throw new NoSymbolicParametersException();

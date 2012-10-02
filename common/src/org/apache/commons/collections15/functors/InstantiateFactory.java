@@ -73,8 +73,8 @@ public class InstantiateFactory <T> implements Factory<T>, Serializable {
         if (paramTypes == null || paramTypes.length == 0) {
             return new InstantiateFactory<T>(classToInstantiate);
         } else {
-            paramTypes = (Class[]) paramTypes.clone();
-            args = (Object[]) args.clone();
+            paramTypes = paramTypes.clone();
+            args = args.clone();
             return new InstantiateFactory<T>(classToInstantiate, paramTypes, args);
         }
     }

@@ -183,21 +183,6 @@ public class AlgoFit extends AlgoElement {
 			// mprint(Y:",Y);
 	}// makeMatrixes()
 
-	// First solution (Borcherds)
-	private final String buildFunction() {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < functionsize; i++) {
-			sb.append(P.getEntry(i, 0));
-			sb.append('*');
-			sb.append(((GeoFunction) functionlist.get(i)).getFormulaString(
-					StringTemplate.defaultTemplate, true));
-			if (i != functionsize - 1) {
-				sb.append('+');
-			}
-		}
-		return sb.toString();
-	}
-
 	// Making GeoFunction fit(x)= p1*f(x)+p2*g(x)+p3*h(x)+...
 	private final GeoFunction makeFunction() {
 		double p;

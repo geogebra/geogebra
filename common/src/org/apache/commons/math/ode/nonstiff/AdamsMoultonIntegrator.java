@@ -347,7 +347,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         private final double[] previous;
 
         /** Current scaled first derivative. */
-        private final double[] scaled;
+        private final double[] scaled1;
 
         /** Current state before correction. */
         private final double[] before;
@@ -362,7 +362,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
          */
         public Corrector(final double[] previous, final double[] scaled, final double[] state) {
             this.previous = previous;
-            this.scaled   = scaled;
+            this.scaled1   = scaled;
             this.after    = state;
             this.before   = state.clone();
         }
@@ -395,7 +395,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
 
             double error = 0;
             for (int i = 0; i < after.length; ++i) {
-                after[i] += previous[i] + scaled[i];
+                after[i] += previous[i] + scaled1[i];
                 if (i < mainSetDimension) {
                     final double yScale = FastMath.max(FastMath.abs(previous[i]), FastMath.abs(after[i]));
                     final double tol = (vecAbsoluteTolerance == null) ?

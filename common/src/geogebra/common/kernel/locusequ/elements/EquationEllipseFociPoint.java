@@ -10,7 +10,6 @@ import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.half;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationMidpoint;
@@ -27,14 +26,12 @@ import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
 public class EquationEllipseFociPoint extends EquationGenericConic {
 
 
-    private GeoConic ellipse;
-
     private GeoPoint f1, f2, ep; // Focus 1, Focus 2, External Point
     private EquationPoint ef1, ef2, eep;
     private EquationPoint center;
     private EquationExpression distance;
-    private EquationExpression a2, b2;
-    private SymbolicVector ev1, ev2;
+    private EquationExpression a2;
+    private SymbolicVector ev1;
     
     /**
      * General constructor.
@@ -60,14 +57,14 @@ public class EquationEllipseFociPoint extends EquationGenericConic {
         center = new EquationMidpoint(ef1, ef2); // CenterPoint
         
         ev1 = new SymbolicVector(center, ef1).getUnitary();
-        ev2 = ev1.normal();
+        ev1.normal();
         
         EquationExpression d1 = dist(ef1, eep); // Distance from f1 to ep
         EquationExpression d2 = dist(ef2, eep); // Distance from f2 to ep
         EquationExpression dF = dist(ef1, ef2); // Focal distance
         distance = sum(d1, d2);
         a2 = sqr(div(distance, EquationNumericValue.from(2)));     // a^2
-        b2 = diff(a2, sqr(div(dF, EquationNumericValue.from(2)))); // b^2
+        diff(a2, sqr(div(dF, EquationNumericValue.from(2))));
         
         this.setEllipseHyperbola(ef1, ef2, half(distance));
     }

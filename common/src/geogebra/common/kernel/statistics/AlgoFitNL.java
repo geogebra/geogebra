@@ -138,7 +138,7 @@ public class AlgoFitNL extends AlgoElement {
 				curvefitter.addObservedPoint(1.0, xdata[i], ydata[i]);
 			}// for all datapoints
 
-			double[] result = curvefitter.fit(prfunction,
+			curvefitter.fit(prfunction,
 					prfunction.getStartValues());
 
 			// DEBUG - to be removed:

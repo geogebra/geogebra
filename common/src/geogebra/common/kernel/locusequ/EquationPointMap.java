@@ -21,13 +21,10 @@ public class EquationPointMap {
      * GEOGEBRA_DIMENSION is defined.
      */
     private static final int GEOGEBRA_DIMENSION = 2;
-    private GeoLocus locus;
     private GeoPoint locusPoint, movingPoint; // TODO: Look into using GeoPointND
     private int curInd;
     private Map<GeoPoint,EquationPoint> container;
     private Map<GeoPoint,GeoPoint> identifications;
-    private EquationScope scope;
-    
     /**
      * Creates a new EquationPointMap associated to a {@link EquationScope}.
      * @param scope associated.
@@ -36,7 +33,6 @@ public class EquationPointMap {
         this.curInd = 1;
         this.container = new HashMap<GeoPoint,EquationPoint>();
         this.identifications = new HashMap<GeoPoint, GeoPoint>();
-        this.scope = scope;
     }
 
     /**

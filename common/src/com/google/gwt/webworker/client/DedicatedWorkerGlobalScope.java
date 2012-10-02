@@ -33,7 +33,7 @@ public class DedicatedWorkerGlobalScope extends WorkerGlobalScope {
 
   protected DedicatedWorkerGlobalScope() {
     // Constructors must be protected in JavaScriptObject overlays.
-  };
+  }
 
   public final native void postMessage(double message) /*-{
     this.postMessage(message);

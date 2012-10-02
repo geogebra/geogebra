@@ -1,7 +1,6 @@
 package geogebra.common.kernel.discrete.tsp.model;
 
 public class Node {
-	private static final int SIZE = 10;
 	private double x;
 	
 	private double y;

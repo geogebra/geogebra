@@ -11,7 +11,6 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacro;
-import geogebra.common.kernel.algos.AlgoNSolveODE;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -4086,7 +4085,7 @@ public class Kernel {
 			
 			//app.debug(sb.toString());
 			
-			p[i] = (GeoPoint) getAlgebraProcessor().evaluateToPoint(
+			p[i] = getAlgebraProcessor().evaluateToPoint(
 					sb.toString(), true, false);
 			p[i].setLabel(null);
 			p[i].setEuclidianVisible(false);

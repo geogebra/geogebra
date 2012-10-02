@@ -87,7 +87,7 @@ public class TiedMapEntry <K,V> implements Map.Entry<K, V>, KeyValue<K, V>, Seri
      * @throws IllegalArgumentException if the value is set to this map entry
      */
     public V setValue(V value) {
-        if ((Object) value == this) {
+        if (value == this) {
             throw new IllegalArgumentException("Cannot set value to this map entry");
         }
 

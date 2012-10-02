@@ -1,12 +1,9 @@
 package geogebra.common.kernel.discrete.delaunay;
 
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -227,7 +224,6 @@ public class Delaunay_Triangulation {
                 Point_dt p3 = triangle.p3();
                 
                 double d3 = p3.distance(pointToDelete);
-                Point_dt p;
                 if(d1<=d2 && d1<=d3) {
                     return p1;
                 }
@@ -1115,16 +1111,6 @@ public class Delaunay_Triangulation {
 	 * Receives a point and returns all the points of the triangles that
 	 * shares point as a corner (Connected vertices to this point).
 	 * 
-	 * By Doron Ganel & Eyal Roth
-	 */
-	private Vector<Point_dt> findConnectedVertices(Point_dt point) {
-		return findConnectedVertices(point, false);
-	}
-	
-	/* 
-	 * Receives a point and returns all the points of the triangles that
-	 * shares point as a corner (Connected vertices to this point).
-	 * 
 	 * Set saveTriangles to true if you wish to save the triangles that were found.
 	 * 
 	 * By Doron Ganel & Eyal Roth
@@ -1176,15 +1162,7 @@ public class Delaunay_Triangulation {
 		return pointsVec;
 	}
         
-        private boolean onPerimeter(Vector<Triangle_dt> triangles) {
-            for(Triangle_dt t : triangles) {
-                if(t.isHalfplane())
-                    return true;
-            }
-            return false;
-        }
-	
-	// Walks on a consistent side of triangles until a cycle is achieved.
+        // Walks on a consistent side of triangles until a cycle is achieved.
 	//By Doron Ganel & Eyal Roth
     // changed to public by Udi
 	public Vector<Triangle_dt> findTriangleNeighborhood(Triangle_dt firstTriangle, Point_dt point) {

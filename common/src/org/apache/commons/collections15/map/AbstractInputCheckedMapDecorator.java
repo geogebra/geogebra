@@ -150,7 +150,7 @@ abstract class AbstractInputCheckedMapDecorator <K,V> extends AbstractMapDecorat
             if (array.length > result.length) {
                 array[result.length] = null;
             }
-            return (T[]) array;
+            return array;
         }
     }
 

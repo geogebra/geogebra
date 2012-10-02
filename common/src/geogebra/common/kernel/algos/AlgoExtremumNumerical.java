@@ -18,7 +18,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
 
 /**
  * Command: Extremum[<function>,leftx,rightx]
@@ -252,18 +251,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	}// getX()
 
 	private static final boolean DEBUG = true;
-
-	private final static void debug(String s) {
-		if (DEBUG) {
-			App.debug(s);
-		}// if()
-	}// debug()
-
-	private String info(int i, double l, double m, double r) {
-		return "Iteration " + i + ":\n" + l + "     " + m + "     " + r
-				+ "     " + f.evaluate(l) + "     " + f.evaluate(m) + "     "
-				+ f.evaluate(r);
-	}// info()
 
 	// TODO Consider locusequability
 

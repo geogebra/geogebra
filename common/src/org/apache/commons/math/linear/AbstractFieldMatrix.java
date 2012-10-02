@@ -346,24 +346,24 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         walkInOptimizedOrder(new DefaultFieldMatrixPreservingVisitor<T>(field.getZero()) {
 
             /** Initial row index. */
-            private int startRow;
+            private int startRow1;
 
             /** Initial column index. */
-            private int startColumn;
+            private int startColumn1;
 
             /** {@inheritDoc} */
             @Override
             public void start(final int rows, final int columns,
                               final int startRow, final int endRow,
                               final int startColumn, final int endColumn) {
-                this.startRow    = startRow;
-                this.startColumn = startColumn;
+                this.startRow1    = startRow;
+                this.startColumn1 = startColumn;
             }
 
             /** {@inheritDoc} */
             @Override
             public void visit(final int row, final int column, final T value) {
-                destination[row - startRow][column - startColumn] = value;
+                destination[row - startRow1][column - startColumn1] = value;
             }
 
         }, startRow, endRow, startColumn, endColumn);

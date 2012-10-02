@@ -453,7 +453,7 @@ public class FirstOrderIntegratorWithJacobians {
     private class FiniteDifferencesWrapper implements ODEWithJacobians {
 
         /** Raw ODE without jacobians computation. */
-        private final ParameterizedODE ode;
+        private final ParameterizedODE ode1;
 
         /** Parameters array (may be null if parameters dimension from original problem is zero) */
         private final double[] p;
@@ -475,7 +475,7 @@ public class FirstOrderIntegratorWithJacobians {
          */
         public FiniteDifferencesWrapper(final ParameterizedODE ode,
                                         final double[] p, final double[] hY, final double[] hP) {
-            this.ode = ode;
+            this.ode1 = ode;
             this.p  = p.clone();
             this.hY = hY.clone();
             this.hP = hP.clone();
@@ -484,19 +484,19 @@ public class FirstOrderIntegratorWithJacobians {
 
         /** {@inheritDoc} */
         public int getDimension() {
-            return ode.getDimension();
+            return ode1.getDimension();
         }
 
         /** {@inheritDoc} */
         public void computeDerivatives(double t, double[] y, double[] yDot) throws DerivativeException {
             // this call to computeDerivatives has already been counted,
             // we must not increment the counter again
-            ode.computeDerivatives(t, y, yDot);
+            ode1.computeDerivatives(t, y, yDot);
         }
 
         /** {@inheritDoc} */
         public int getParametersDimension() {
-            return ode.getParametersDimension();
+            return ode1.getParametersDimension();
         }
 
         /** {@inheritDoc} */
@@ -516,7 +516,7 @@ public class FirstOrderIntegratorWithJacobians {
             for (int j = 0; j < n; ++j) {
                 final double savedYj = y[j];
                 y[j] += hY[j];
-                ode.computeDerivatives(t, y, tmpDot);
+                ode1.computeDerivatives(t, y, tmpDot);
                 for (int i = 0; i < n; ++i) {
                     dFdY[i][j] = (tmpDot[i] - yDot[i]) / hY[j];
                 }
@@ -525,12 +525,12 @@ public class FirstOrderIntegratorWithJacobians {
 
             // compute df/dp where f is the ODE and p is the parameters array
             for (int j = 0; j < k; ++j) {
-                ode.setParameter(j, p[j] +  hP[j]);
-                ode.computeDerivatives(t, y, tmpDot);
+                ode1.setParameter(j, p[j] +  hP[j]);
+                ode1.computeDerivatives(t, y, tmpDot);
                 for (int i = 0; i < n; ++i) {
                     dFdP[i][j] = (tmpDot[i] - yDot[i]) / hP[j];
                 }
-                ode.setParameter(j, p[j]);
+                ode1.setParameter(j, p[j]);
             }
 
         }

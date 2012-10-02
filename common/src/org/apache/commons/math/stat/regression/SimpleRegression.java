@@ -141,9 +141,9 @@ public class SimpleRegression implements Serializable {
         } else {
             double dx = x - xbar;
             double dy = y - ybar;
-            sumXX += dx * dx * (double) n / (n + 1d);
-            sumYY += dy * dy * (double) n / (n + 1d);
-            sumXY += dx * dy * (double) n / (n + 1d);
+            sumXX += dx * dx * n / (n + 1d);
+            sumYY += dy * dy * n / (n + 1d);
+            sumXY += dx * dy * n / (n + 1d);
             xbar += dx / (n + 1.0);
             ybar += dy / (n + 1.0);
         }
@@ -174,9 +174,9 @@ public class SimpleRegression implements Serializable {
         if (n > 0) {
             double dx = x - xbar;
             double dy = y - ybar;
-            sumXX -= dx * dx * (double) n / (n - 1d);
-            sumYY -= dy * dy * (double) n / (n - 1d);
-            sumXY -= dx * dy * (double) n / (n - 1d);
+            sumXX -= dx * dx * n / (n - 1d);
+            sumYY -= dy * dy * n / (n - 1d);
+            sumXY -= dx * dy * n / (n - 1d);
             xbar -= dx / (n - 1.0);
             ybar -= dy / (n - 1.0);
             sumX -= x;
@@ -485,7 +485,7 @@ public class SimpleRegression implements Serializable {
      */
     public double getInterceptStdErr() {
         return FastMath.sqrt(
-            getMeanSquareError() * ((1d / (double) n) + (xbar * xbar) / sumXX));
+            getMeanSquareError() * ((1d / n) + (xbar * xbar) / sumXX));
     }
 
     /**

@@ -76,7 +76,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	private GeoNumeric sum;
 
 	// input
-	private NumberValue a, b, n, p1, p2, p3;
+	private NumberValue a, b, p1, p2, p3;
 	private GeoList list1, list2;
 
 	// local fields
@@ -92,8 +92,6 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
 	
-	private int drawType = DrawBarGraph.DRAW_VERTICAL_BAR;
-
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
 	 * 
@@ -367,7 +365,6 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		super(cons, false);
 		type = TYPE_BARCHART_RAWDATA;
 
-		this.n = a;
 		this.yval = vals;
 		this.leftBorder = borders;
 		this.N = N;

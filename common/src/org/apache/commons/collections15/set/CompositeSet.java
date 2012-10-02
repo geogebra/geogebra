@@ -89,7 +89,7 @@ public class CompositeSet <E> extends CompositeCollection<E> implements Set<E> {
                 }
             }
         }
-        super.addComposited((Collection<E>[]) new Collection[]{c});
+        super.addComposited(new Collection[]{c});
     }
 
     /**

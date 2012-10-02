@@ -116,7 +116,7 @@ public class TransformedList <I,O> extends TransformedCollection<I, O> implement
     }
 
     public boolean addAll(int index, Collection coll) {
-        Collection<O> transformed = transform((Collection<? extends I>) coll);
+        Collection<O> transformed = transform(coll);
         return getList().addAll(index, transformed);
     }
 

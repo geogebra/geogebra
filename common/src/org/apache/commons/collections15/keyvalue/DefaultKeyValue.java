@@ -81,7 +81,7 @@ public class DefaultKeyValue <K,V> extends AbstractKeyValue<K, V> {
      * @throws IllegalArgumentException if key is this object
      */
     public K setKey(final K key) {
-        if ((Object) key == this) {
+        if (key == this) {
             throw new IllegalArgumentException("DefaultKeyValue may not contain itself as a key.");
         }
 
@@ -98,7 +98,7 @@ public class DefaultKeyValue <K,V> extends AbstractKeyValue<K, V> {
      * @throws IllegalArgumentException if value is this object
      */
     public V setValue(final V value) {
-        if ((Object) value == this) {
+        if (value == this) {
             throw new IllegalArgumentException("DefaultKeyValue may not contain itself as a value.");
         }
 

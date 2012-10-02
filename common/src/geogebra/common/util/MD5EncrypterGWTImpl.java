@@ -142,7 +142,7 @@ public class MD5EncrypterGWTImpl {
     }
 
     return utftext.toString();
-  };
+  }
 
   private int[] ConvertToWordArray(String string) {
     int lWordCount;
@@ -167,7 +167,7 @@ public class MD5EncrypterGWTImpl {
     lWordArray[lNumberOfWords-2] = lMessageLength<<3;
     lWordArray[lNumberOfWords-1] = lMessageLength>>>29;
     return lWordArray;
-  };
+  }
 
   
   public int RotateLeft(int lValue, int iShiftBits) {
@@ -229,5 +229,5 @@ public class MD5EncrypterGWTImpl {
       WordToHexValue = WordToHexValue + WordToHexValue_temp.substring(WordToHexValue_temp.length()-2);
     }
     return WordToHexValue;
-  };
+  }
 }

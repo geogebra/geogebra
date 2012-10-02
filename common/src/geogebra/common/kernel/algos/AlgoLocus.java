@@ -79,7 +79,7 @@ public class AlgoLocus extends AlgoElement {
 	private TreeSet<ConstructionElement> locusConsOrigElements;
 	private TreeSet<GeoElement> Qin;
 
-	private long countUpdates = 0;
+	
 
 	// private Updater updater;
 
@@ -371,8 +371,6 @@ public class AlgoLocus extends AlgoElement {
 		locus.clearPoints();
 		clearCache();
 		pointCount = 0;
-		useCache = 0;
-		countUpdates = 0;
 		lastX = Double.MAX_VALUE;
 		lastY = Double.MAX_VALUE;
 		maxTimeExceeded = false;
@@ -566,8 +564,6 @@ public class AlgoLocus extends AlgoElement {
 	 * constructions caching of previous paramater positions is used.
 	 */
 	private void pcopyUpdateCascade() {
-		countUpdates++;
-
 		if (continuous) {
 			// CONTINOUS construction
 			// don't use caching for continuous constructions:
@@ -600,7 +596,6 @@ public class AlgoLocus extends AlgoElement {
 			} else {
 				// use cached result to set Qcopy
 				Qcopy.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
-				useCache++;
 			}
 		}
 
@@ -663,8 +658,6 @@ public class AlgoLocus extends AlgoElement {
 	private double[] paramCache = new double[3];
 	private GPoint2D[] qcopyCache = new GPoint2D[paramCache.length];
 	private int cacheIndex = 0;
-	private long useCache = 0;
-
 	private void insertPoint(double x, double y, boolean lineTo) {
 		pointCount++;
 

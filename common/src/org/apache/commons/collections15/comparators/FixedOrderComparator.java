@@ -215,7 +215,7 @@ public class FixedOrderComparator <T> implements Comparator<T> {
      */
     public boolean addAsEqual(T existingObj, T newObj) {
         checkLocked();
-        Integer position = (Integer) map.get(existingObj);
+        Integer position = map.get(existingObj);
         if (position == null) {
             throw new IllegalArgumentException(existingObj + " not known to " + this);
         }
@@ -241,8 +241,8 @@ public class FixedOrderComparator <T> implements Comparator<T> {
      */
     public int compare(T obj1, T obj2) {
         isLocked = true;
-        Integer position1 = (Integer) map.get(obj1);
-        Integer position2 = (Integer) map.get(obj2);
+        Integer position1 = map.get(obj1);
+        Integer position2 = map.get(obj2);
         if (position1 == null || position2 == null) {
             switch (unknownObjectBehavior) {
                 case UNKNOWN_BEFORE:

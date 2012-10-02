@@ -8,11 +8,9 @@ the Free Software Foundation.
  */
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Stick graph algorithm

@@ -162,7 +162,6 @@ public class BranchBound {
 						if (circuit != null) {
 							if (circuitLowerBound > circuit.getCost()) {
 								circuitLowerBound = circuit.getCost();
-								int[] route = circuit.getRoute();
 								//if (panel != null) panel.set(this.extractArrayToTable(route));
 								//if (panel != null) panel.set(connects[j], disconnects[j]);
 								//if (panel != null) panel.setCost(circuitLowerBound);
@@ -249,25 +248,6 @@ public class BranchBound {
 		return sb.toString();
 	}
 
-	/**
-	 * é…�åˆ—ã‚’ãƒ†ãƒ¼ãƒ–ãƒ«ã�«å±•é–‹ã�™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-	 * O(n)ã�§å®Ÿè¡Œå�¯èƒ½ã�§ã�™ã€‚
-	 * @param route
-	 * @return å±•é–‹ã�•ã‚Œã�Ÿãƒ†ãƒ¼ãƒ–ãƒ«
-	 */
-	private boolean[][] extractArrayToTable(int[] route) {
-		boolean[][] table = new boolean[route.length][route.length];
-		int previous = route[route.length - 1];
-		int next;
-		for (int i = 0; i < route.length; i++) {
-			next = route[i];
-			table[previous][next] = true;
-			table[next][previous] = true;
-			previous = next;
-		}
-		return table;
-	}
-	
 	/**
 	 * é…�åˆ—ã‚’ãƒ†ãƒ¼ãƒ–ãƒ«ã�«å±•é–‹ã�™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
 	 * O(n)ã�§å®Ÿè¡Œå�¯èƒ½ã�§ã�™ã€‚

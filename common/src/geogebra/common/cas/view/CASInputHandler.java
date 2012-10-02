@@ -4,7 +4,6 @@ import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
@@ -16,8 +15,6 @@ public class CASInputHandler {
 	private CASView casView;
 	private static Kernel kernel;
 	private CASTable consoleTable;
-
-	private boolean assignToFreeGeoOnly = false;
 
 	public CASInputHandler(CASView view) {
 		this.casView = view;
@@ -471,25 +468,6 @@ public class CASInputHandler {
 		}
 
 		return success;
-	}
-
-	/**
-	 * Returns whether it's allowed to change var in GeoGebra at the moment.
-	 * This is important to avoid unnecessary redefinitions.
-	 * 
-	 * @param var
-	 * @return
-	 */
-	private boolean isGeoGebraAssignmentAllowed(String var) {
-		// don't allow assignment to dependent geo
-		if (assignToFreeGeoOnly) {
-			// check for dependent geo with label var
-			GeoElement geo = kernel.lookupLabel(var);
-			if (geo != null && !geo.isIndependent()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -969,13 +947,6 @@ public class CASInputHandler {
 	// return assignmentResult.toString();
 	// }
 
-	private static boolean isDeleteCommand(String inputExp) {
-		return inputExp.startsWith("Delete");
-	}
-
-	private static boolean containsCommand(String CASResult) {
-		return CASResult != null && CASResult.indexOf('[') > -1;
-	}
 
 	/**
 	 * Evaluates expression with GeoGebra and returns the resulting string.

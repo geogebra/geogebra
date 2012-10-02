@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 public abstract class OptionsObject {
 
-	private static final int MAX_GEOS_FOR_EXPAND_ALL = 15;
-	private static final int MAX_COMBOBOX_ENTRIES = 200;
 	protected static final int MIN_LIST_WIDTH = 120;
 	public static final int TEXT_FIELD_FRACTION_DIGITS = 8;
 	protected Kernel kernel;

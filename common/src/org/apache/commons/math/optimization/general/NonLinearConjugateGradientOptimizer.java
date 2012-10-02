@@ -154,11 +154,6 @@ public class NonLinearConjugateGradientOptimizer
 
                 incrementIterationsCounter();
 
-                double dTd = 0;
-                for (final double di : searchDirection) {
-                    dTd += di * di;
-                }
-
                 // find the optimal step in the search direction
                 final UnivariateRealFunction lsf = new LineSearchFunction(searchDirection);
                 final double step = solver.solve(lsf, 0, findUpperBound(lsf, 0, initialStep));

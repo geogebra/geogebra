@@ -49,7 +49,7 @@ class FunctorUtils {
         if (predicates == null) {
             return null;
         }
-        return (Predicate<? super T>[]) predicates.clone();
+        return predicates.clone();
     }
 
     /**
@@ -123,7 +123,7 @@ class FunctorUtils {
         if (closures == null) {
             return null;
         }
-        return (Closure<? super T>[]) closures.clone();
+        return closures.clone();
     }
 
     /**
@@ -152,7 +152,7 @@ class FunctorUtils {
         if (transformers == null) {
             return null;
         }
-        return (Transformer<? super I, ? extends O>[]) transformers.clone();
+        return transformers.clone();
     }
 
     /**

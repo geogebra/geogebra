@@ -28,7 +28,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoElementND;

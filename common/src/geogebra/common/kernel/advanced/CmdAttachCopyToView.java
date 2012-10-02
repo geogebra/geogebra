@@ -28,7 +28,6 @@ public class CmdAttachCopyToView extends CommandProcessor {
 
 	@Override
 	final public GeoElement[] process(Command c) throws MyError {
-		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;

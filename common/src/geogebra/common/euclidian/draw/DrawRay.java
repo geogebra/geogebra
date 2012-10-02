@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
-import geogebra.common.awt.GArea;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;

@@ -264,7 +264,7 @@ public class MultiKeyMap <K,V> implements IterableMap<MultiKey<K>, V>, Serializa
      * @return true if the key matches
      */
     protected boolean isEqualKey(AbstractHashedMap.HashEntry<MultiKey<K>, V> entry, K... keys) {
-        MultiKey multi = (MultiKey) entry.getKey();
+        MultiKey multi = entry.getKey();
         if (multi.size() != keys.length) {
             return false;
         } else {

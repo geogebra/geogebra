@@ -488,12 +488,10 @@ public class Dfp implements FieldElement<Dfp> {
         q = offset;  // set q to point to first sig digit
         p = significantDigits-1+offset;
 
-        int trailingZeros = 0;
         while (p > q) {
             if (striped[p] != '0') {
                 break;
             }
-            trailingZeros++;
             p--;
         }
 

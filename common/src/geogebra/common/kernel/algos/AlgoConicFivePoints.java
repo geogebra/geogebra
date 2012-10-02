@@ -39,12 +39,10 @@ import java.util.ArrayList;
 public class AlgoConicFivePoints extends AlgoElement {
 
     private GeoPoint[] P; // input  five points      
-	private GeoPoint[] Ppert;   
-    private GeoConic conic; // output             
-    private double delta;
+	private GeoConic conic; // output             
     private boolean criticalCase; // true when 5 points is on a parabola
     
-    private double[][] A, B, C, Cpert, Cmin;
+    private double[][] A, B, C;
     private double l, m;
     private GeoVec3D[] line;
     private int i, j;
@@ -70,9 +68,6 @@ public class AlgoConicFivePoints extends AlgoElement {
         A = new double[3][3];
         B = new double[3][3];
         C = new double[3][3];
-        Cpert = new double[3][3];
-        Cmin = new double[3][3];
-
         checkCriticalCase();
         compute();
         addIncidence();

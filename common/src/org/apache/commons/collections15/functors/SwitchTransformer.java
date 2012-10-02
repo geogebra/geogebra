@@ -147,7 +147,7 @@ public class SwitchTransformer <I,O> implements Transformer<I, O>, Serializable 
                 return iTransformers[i].transform(input);
             }
         }
-        return (O) iDefault.transform(input);
+        return iDefault.transform(input);
     }
 
     /**

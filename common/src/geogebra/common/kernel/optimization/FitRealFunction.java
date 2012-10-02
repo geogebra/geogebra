@@ -68,9 +68,6 @@ import geogebra.common.kernel.geos.GeoFunction;
  */
 public class FitRealFunction implements org.apache.commons.math.optimization.fitting.ParametricRealFunction {
 	
-	/// --- Constants --- ///
-	private final static	double		DELTAX			=	1.0E-8;		//To be decided...	
-	
 	/// --- Properties --- ///
 	private		Kernel			kernel				=	null;
 	private 	int				numberOfParameters	=	0;
@@ -141,13 +138,11 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 		numberOfParameters=gliders.length;
 		
 		mydoubles=new MyDouble[numberOfParameters];				//Make my own parameters
-		double sum=0.0d;										//Sum for average
 		double temp;
 		for(int i=0;i<numberOfParameters;i++){
 			temp=((NumberValue)gliders[i]).getDouble();
 			mydoubles[i]=new MyDouble(kernel);
 			mydoubles[i].set(temp);								//Set mydoubles to start values from a,b,c
-			sum+=temp;											//System.out.println("mydouble["+i+"]: "+mydoubles[i].getDouble());
 		}//for all parameters
 		
 		ExpressionNode node=f.getExpression();

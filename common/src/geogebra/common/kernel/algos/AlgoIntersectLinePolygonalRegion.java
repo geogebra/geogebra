@@ -88,18 +88,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 
 	}
 
-	 /**
-     * @author Tam
-     * 
-     * for special cases of e.g. AlgoIntersectLineConic
-     */
-    private void addIncidence() {
-    	//TODO: should be called dynamically
-
-	}
-
-	
-	protected void init() {
+	 protected void init() {
 		// TODO Auto-generated method stub
 		spaceDim = 2;
 	}

@@ -11,7 +11,6 @@ import geogebra.common.kernel.discrete.delaunay.Triangle_dt;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -111,11 +111,11 @@ public abstract class AbstractCollectionDecorator <E> implements Collection<E> {
     }
 
     public Object[] toArray() {
-        return (Object[]) collection.toArray();
+        return collection.toArray();
     }
 
     public <T> T[] toArray(T[] object) {
-        return (T[]) collection.toArray(object);
+        return collection.toArray(object);
     }
 
     public boolean containsAll(Collection<?> coll) {

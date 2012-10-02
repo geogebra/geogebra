@@ -72,54 +72,6 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 			
 	}
 	
-	/*
-	 * The generation of binomial random variates (1993) 
-	 * by Wolfgang Hormann, Inst Statistik, Wirtschaftuniv Wien, A- Wien
-	 * Journal of Statistical Computation and Simulation
-	 * http://eeyore.wu-wien.ac.at/papers/92-04-07.wh.ps.gz 
-	 * http://epub.wu-wien.ac.at/dyn/virlib/wp/eng/mediate/epub-wu-01_6f1.pdf?ID=epub-wu-01_6f1
-	 * 
-	 * Algorithm BTRS
-	 */
-	private int randomBinomialTRS(int n, double p) {
-
-		if (p > 0.5) return n - randomBinomialTRS(n, 1 - p);
-
-		if (n * p < 10) return randomBinomial(n, p);
-
-		double spq = Math.sqrt(n*p*(1-p));
-
-		double b = 1.15 + 2.53 * spq;
-		double a = -0.0873 + 0.0248 * b + 0.01 * p;
-		double c = n * p + 0.5;
-		double v_r = 0.92 - 4.2 / b;
-
-		double us = 0;
-		double v = 0;
-
-		while (true) {
-
-			int k = -1;
-			while (k < 0 || k > n) {
-				double u = app.getRandomNumber() - 0.5;
-				v = app.getRandomNumber();
-				us = 0.5 - Math.abs(u);
-				k = (int)Math.floor((2 * a / us + b) * u + c);
-				if (us >= 0.07 && v < v_r) return k;
-			}
-
-			double alpha = (2.83 + 5.1/b) * spq;
-			double lpq = Math.log(p / (1 - p));
-			int m = (int)Math.floor((n + 1) * p);
-			double h = logOfKFactorial(m) + logOfKFactorial((n-m));
-
-			v = v * alpha / (a / (us * us) + b);
-
-			if (v <= h - logOfKFactorial(k) - logOfKFactorial(n-k) + (k-m)*lpq) return k;
-		}
-
-	}
-
 	private int randomBinomial(double n, double p) {
 
 		int count = 0;
@@ -134,16 +86,6 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 	private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
 
 	private static double logtable[] = new double[10];
-
-	private static double logOfKFactorial(int k) {
-		if (k<10) {
-			if (logtable[k] == 0) logtable[k] = Math.log(MyMath2.factorial(k+1d));
-			return logtable[k];
-		}
-
-		// Stirling approximation
-		return halflog2pi + (k+0.5) * Math.log(k+1) - (k+1) + (1/12.0 - (1/360.0 - 1/1260.0/(k+1)/(k+1))/(k+1)/(k+1))/(k+1);
-	}
 
 //	private int[] DecimalToFraction(double Decimal, double AccuracyFactor) {
 //		double FractionNumerator, FractionDenominator;

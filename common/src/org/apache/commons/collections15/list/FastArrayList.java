@@ -1115,24 +1115,24 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         private class SubListIter implements ListIterator<E> {
 
-            private List<E> expected;
+            private List<E> expected1;
             private ListIterator<E> iter;
             private int lastReturnedIndex = -1;
 
 
             public SubListIter(int i) {
-                this.expected = list;
-                this.iter = SubList.this.get(expected).listIterator(i);
+                this.expected1 = list;
+                this.iter = SubList.this.get(expected1).listIterator(i);
             }
 
             private void checkMod() {
-                if (list != expected) {
+                if (list != expected1) {
                     throw new ConcurrentModificationException();
                 }
             }
 
             List<E> get() {
-                return SubList.this.get(expected);
+                return SubList.this.get(expected1);
             }
 
             public boolean hasNext() {
@@ -1174,7 +1174,7 @@ public class FastArrayList <E> extends ArrayList<E> {
                 }
                 get().remove(lastReturnedIndex);
                 last--;
-                expected = list;
+                expected1 = list;
                 iter = get().listIterator(previousIndex());
                 lastReturnedIndex = -1;
             }
@@ -1185,7 +1185,7 @@ public class FastArrayList <E> extends ArrayList<E> {
                     throw new IllegalStateException();
                 }
                 get().set(lastReturnedIndex, o);
-                expected = list;
+                expected1 = list;
                 iter = get().listIterator(previousIndex() + 1);
             }
 

@@ -66,8 +66,8 @@ public class InstantiateTransformer implements Transformer<Class, Object>, Seria
         if (paramTypes == null || paramTypes.length == 0) {
             return NO_ARG_INSTANCE;
         } else {
-            paramTypes = (Class[]) paramTypes.clone();
-            args = (Object[]) args.clone();
+            paramTypes = paramTypes.clone();
+            args = args.clone();
         }
         return new InstantiateTransformer(paramTypes, args);
     }
@@ -102,7 +102,7 @@ public class InstantiateTransformer implements Transformer<Class, Object>, Seria
      */
     public Object transform(Class input) {
         try {
-            Constructor con = ((Class) input).getConstructor(iParamTypes);
+            Constructor con = input.getConstructor(iParamTypes);
             return con.newInstance(iArgs);
 
         } catch (NoSuchMethodException ex) {

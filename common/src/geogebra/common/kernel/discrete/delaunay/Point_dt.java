@@ -43,7 +43,7 @@ public class Point_dt {
 	/** returns the x-coordinate of this point. */
 	public double x() {
 		return x;
-	};
+	}
 	
 	/**
 	 * Sets the x coordinate.
@@ -56,7 +56,7 @@ public class Point_dt {
 	/** returns the y-coordinate of this point. */
 	public double y() {
 		return y;
-	};
+	}
 	
 	/**
 	 * Sets the y coordinate.
@@ -69,7 +69,7 @@ public class Point_dt {
 	/** returns the z-coordinate of this point. */
 	public double z() {
 		return z;
-	};
+	}
 	
 	/**
 	 * Sets the z coordinate.

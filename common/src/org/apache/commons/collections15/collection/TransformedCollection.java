@@ -127,7 +127,7 @@ public class TransformedCollection <I,O> extends AbstractSerializableCollectionD
     }
 
     public boolean addAll(Collection coll) {
-        Collection<O> col2 = transform((Collection<? extends I>) coll);
+        Collection<O> col2 = transform(coll);
         return getCollection().addAll(col2);
     }
 

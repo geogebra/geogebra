@@ -318,7 +318,7 @@ public class ClosureUtils {
         if (objectsAndClosures == null) {
             throw new IllegalArgumentException("The object and closure map must not be null");
         }
-        Closure def = (Closure) objectsAndClosures.remove(null);
+        Closure def = objectsAndClosures.remove(null);
         int size = objectsAndClosures.size();
         trs = new Closure[size];
         preds = new Predicate[size];

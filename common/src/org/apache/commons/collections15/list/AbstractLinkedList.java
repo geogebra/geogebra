@@ -182,7 +182,7 @@ public abstract class AbstractLinkedList <E> implements List<E> {
         int i = 0;
         for (Node<E> node = header.next; node != header; node = node.next, i++) {
             // Can do no better than cast through Object here.
-            array[i] = (T) (Object) node.getValue();
+            array[i] = (T) node.getValue();
         }
         // Set the value after the last value to null
         if (array.length > size) {

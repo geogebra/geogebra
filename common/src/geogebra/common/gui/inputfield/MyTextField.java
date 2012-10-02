@@ -460,14 +460,11 @@ public abstract class MyTextField {
 		return ret;
 	}
 
-	private boolean showSymbolTableIcon;
-
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
 	 * 
 	 * @param showSymbolTableIcon
 	 */
 	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
-		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 }

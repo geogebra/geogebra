@@ -157,8 +157,7 @@ public abstract class AbstractEstimator implements Estimator {
         }
 
         cost = 0;
-        int index = 0;
-        for (int i = 0; i < rows; i++, index += cols) {
+        for (int i = 0; i < rows; i++) {
             WeightedMeasurement wm = measurements[i];
             double residual = wm.getResidual();
             residuals[i] = FastMath.sqrt(wm.getWeight()) * residual;

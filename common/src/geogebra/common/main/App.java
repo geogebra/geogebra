@@ -53,8 +53,6 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.plugin.script.GgbScript;
-import geogebra.common.plugin.script.JsScript;
-import geogebra.common.plugin.script.PythonScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
@@ -279,8 +277,7 @@ public abstract class App {
 	/** initial number of rows for spreadsheet */
 	public static final int SPREADSHEET_INI_ROWS = 100;
 
-	private HashMap<String, String> translateCommandTable,
-	translateCommandTableScripting;
+	private HashMap<String, String> translateCommandTable;
 	// command dictionary
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary commandDictCAS;
@@ -295,46 +292,7 @@ public abstract class App {
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
 
-	private String oldScriptLanguage = null;
-
 	private String scriptingLanguage;
-
-	private void fillCommandDictScripting() {
-		if ((scriptingLanguage == null)
-				|| scriptingLanguage.equals(oldScriptLanguage)
-				|| "null".equals(scriptingLanguage)) {
-			return;
-		}
-		oldScriptLanguage = scriptingLanguage;
-		initScriptingBundle();
-
-		// translation table for all command names in command.properties
-		if (translateCommandTableScripting == null) {
-			translateCommandTableScripting = new HashMap<String, String>();
-		}
-
-		// command dictionary for all public command names available in
-		// GeoGebra's input field
-
-		translateCommandTableScripting.clear();
-
-		for (Commands comm : Commands.values()) {
-			String internal = comm.toString();
-			if (tableVisible(comm.getTable())) {
-				String local = getScriptingCommand(internal);
-				if (local != null) {
-					local = local.trim();
-					// case is ignored in translating local command names to
-					// internal names!
-					translateCommandTableScripting.put(
-							StringUtil.toLowerCase(local), internal);
-					debug(StringUtil.toLowerCase(local));
-
-				}
-			}
-		}
-
-	}
 
 	/**
 	 * @return whether language of command bundle changed since we last updated

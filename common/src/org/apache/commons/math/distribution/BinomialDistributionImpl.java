@@ -259,7 +259,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      * @since 2.2
      */
     public double getNumericalMean() {
-        return (double)getNumberOfTrials() * getProbabilityOfSuccess();
+        return getNumberOfTrials() * getProbabilityOfSuccess();
     }
 
     /**
@@ -274,6 +274,6 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      */
     public double getNumericalVariance() {
         final double p = getProbabilityOfSuccess();
-        return (double)getNumberOfTrials() * p * (1 - p);
+        return getNumberOfTrials() * p * (1 - p);
     }
 }

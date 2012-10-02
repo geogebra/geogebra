@@ -23,7 +23,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
-import org.apache.commons.math.stat.inference.TTestImpl;
 
 /**
  * Performs a chi square Goodness of Fit test or Test of Independence.
@@ -35,8 +34,6 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 	private GeoList geoList1, geoList2; // input
 	private GeoList result; // output
-	private TTestImpl tTestImpl;
-	private double[] val;
 	private double p, testStat;
 	private ChiSquaredDistribution chisquared = null;
 

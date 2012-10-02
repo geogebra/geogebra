@@ -532,10 +532,6 @@ public abstract class CopyPasteCut {
 			this.y2 = y2;
 		}
 
-		public int getId() {
-			return id;
-		}
-
 		public int getx1() {
 			return x1;
 		}
@@ -550,13 +546,6 @@ public abstract class CopyPasteCut {
 
 		public int gety2() {
 			return y2;
-		}
-
-		public int compareTo(Object o) {
-			App.debug(o.getClass() + "");
-			// int id = ((Record) o).getId();
-			// return id - this.id;
-			return 0;
 		}
 	}
 

@@ -21,11 +21,9 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -189,7 +187,7 @@ public class EuclidianPen {
 		if (penGeo == null) {
 			lastAlgo = null;
 		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
-			lastAlgo = (AlgoPolyLine) penGeo.getParentAlgorithm();
+			lastAlgo = penGeo.getParentAlgorithm();
 		}
 	}
 

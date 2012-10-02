@@ -65,7 +65,6 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     private GeoConic degConic;  
     private GeoLine tempLine;
     private int [] age; // for points in D   
-    private int originalPermutation[]; //for backward compatibility. See #945
     private int permutation[]; // of computed intersection points Q to output points P
     private double [][] distTable;   
     private boolean [] isQonPath;
@@ -124,7 +123,6 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         
         preexistPoints = new ArrayList<GeoPoint>();
         newPoints = new ArrayList<GeoPoint>();
-        originalPermutation = new int[] {0,1,2,3};
         isQonPath = new boolean[4];    
         isPalive = new boolean[4];
         age = new int[4];
@@ -145,7 +143,6 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         
     	ArrayList<GeoPoint> list1 = A.getPointsOnConic();
     	ArrayList<GeoPoint> list2 = B.getPointsOnConic();
-    	ArrayList<GeoPoint> temp;
     	
     	if (list1!=null && list2!=null) {
     		for (int i = 0; i<list1.size(); i++) {

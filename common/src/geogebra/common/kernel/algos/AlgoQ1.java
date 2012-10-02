@@ -33,7 +33,6 @@ public class AlgoQ1 extends AlgoElement {
 	private GeoList inputList, freqList; //input
     private GeoNumeric Q1; //output	
     private int size;
-    private GeoList tempList;
 
     public AlgoQ1(Construction cons, String label, GeoList inputList) {
     	this(cons, inputList);
@@ -158,7 +157,6 @@ public class AlgoQ1 extends AlgoElement {
 			}
 
 			for (int i = 0; i < freqList.size(); i++) {
-				GeoElement geo = inputList.get(i);
 				if (!freqList.get(i).isNumberValue()) {
 					Q1.setUndefined();
 					return;
@@ -166,7 +164,6 @@ public class AlgoQ1 extends AlgoElement {
 			}	
 			
 			for (int i = 0; i < inputList.size(); i++) {
-				GeoElement geo = inputList.get(i);
 				if (!inputList.get(i).isNumberValue()) {
 					Q1.setUndefined();
 					return;

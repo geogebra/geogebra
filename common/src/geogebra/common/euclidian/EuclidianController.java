@@ -124,8 +124,6 @@ public abstract class EuclidianController {
 
 	protected static final int MAX_CONTINUITY_STEPS = 4;
 
-	private static boolean textBoxFocused;
-
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
 	
 		for (int i = geos.size() - 1; i >= 0; i--) {

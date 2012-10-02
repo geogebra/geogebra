@@ -291,59 +291,7 @@ public class SharedMinimumSpanningTree {
         return best_cutoff;
     }
     
-    /**
-     * This method relies too much on arbitary variables and produces
-     *  less than perfect results in many instances - use determineClusterCutOffByGradient()
-     *  for a much better result. However, determineClusterCutOffByGradient() does
-     *  have a tendency to leave points sitting by themselves and create smaller clusters
-     *  than possibly desired in some instances - so this function may be better.
-     */
-    private static int determineClusterCutOffByDifference(TreeMap<Integer,Integer> sortedvalues, double percentage_diff_before_cluster_cutoff) {
-        int index = 0;
-        int curr = -1, prev;
-        int clustercutoff       = -1;
-        int clustercutoff_index = -1;
-        int prev_clustercutoff       = -1;
-        int prev_clustercutoff_index = -1;
-        int valuesincluster = 1;
-        
-        for ( Integer value : sortedvalues.values() ) {
-            // If first value, then get value and continue
-            if ( curr==-1 ) {
-                curr          = value.intValue();
-                continue;
-            }
-            
-            // Otherwise, move current to previous and get new current
-            index++;
-            prev = curr;
-            curr = value.intValue();
-            
-            // Consider if around same previous value
-            if ( curr<=prev*percentage_diff_before_cluster_cutoff ) {
-                valuesincluster++;
-            } else {
-                if ( valuesincluster>=3 ) {
-                    prev_clustercutoff = prev;
-                    prev_clustercutoff_index = index;
-                }
-                clustercutoff       = prev;
-                clustercutoff_index = index;
-                valuesincluster = 1;
-            }
-        }
-        
-        if ( valuesincluster>=3 ) {
-            if ( clustercutoff==-1 || clustercutoff_index<=0.25*sortedvalues.size() ) {
-                return curr;
-            }
-			return clustercutoff;
-        }
-		if ( prev_clustercutoff==-1 || prev_clustercutoff_index<=0.25*sortedvalues.size() ) {
-		    return curr;
-		}
-		return prev_clustercutoff;
-    }
+    
     
     
     /* ***************************************************** */

@@ -22,7 +22,6 @@ import geogebra.common.kernel.geos.GeoPenStroke;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 

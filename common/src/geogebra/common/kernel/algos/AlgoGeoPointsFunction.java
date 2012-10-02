@@ -105,15 +105,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     }//getPoints()
 
 
-    //delete?
-    final private void removeX(int pos) {    
-    	for (int i = pos+1; i < numberOfXValues; i++) {
-    		//curXValues[i-1] = curXValues[i];
-    	}    
-        numberOfXValues--;
-    }//removeX(pos)
-    
-	// Show at least one root point in algebra view
+    // Show at least one root point in algebra view
 	// Copied from AlgoRootsPolynomial...
     protected final void showOneRootInAlgebraView(){	
     	if(!points[0].isDefined() ) {

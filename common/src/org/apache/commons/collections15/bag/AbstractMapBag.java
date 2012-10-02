@@ -370,7 +370,7 @@ public abstract class AbstractMapBag <E> implements Bag<E> {
      */
     public boolean retainAll(Collection<?> coll) {
         if (coll instanceof Bag) {
-            return retainAll((Bag<? extends E>) coll);
+            return retainAll(coll);
         }
         return retainAll(new HashBag(coll));
     }

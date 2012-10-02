@@ -751,7 +751,7 @@ public class FastTreeMap <K,V> extends TreeMap<K, V> {
                 if (expected != map) {
                     throw new ConcurrentModificationException();
                 }
-                lastReturned = (Map.Entry<K, V>) iterator.next();
+                lastReturned = iterator.next();
                 return iteratorNext(lastReturned);
             }
 

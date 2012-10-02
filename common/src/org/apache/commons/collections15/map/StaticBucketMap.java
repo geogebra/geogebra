@@ -390,7 +390,7 @@ public final class StaticBucketMap <K,V> implements Map<K, V> {
 
         while (i.hasNext()) {
             K key = (K) i.next();
-            put(key, (V) map.get(key));
+            put(key, map.get(key));
         }
     }
 

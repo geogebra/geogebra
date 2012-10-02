@@ -146,7 +146,7 @@ public abstract class BitsStreamGenerator implements RandomGenerator {
     /** {@inheritDoc} */
     public long nextLong() {
         final long high  = ((long) next(32)) << 32;
-        final long  low  = ((long) next(32)) & 0xffffffffL;
+        final long  low  = (next(32)) & 0xffffffffL;
         return high | low;
     }
 

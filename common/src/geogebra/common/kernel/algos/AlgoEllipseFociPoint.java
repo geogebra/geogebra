@@ -71,8 +71,8 @@ public class AlgoEllipseFociPoint extends AlgoElement {
      * for special cases of e.g. AlgoIntersectLineConic
      */
 	private void addIncidence() {
-		if (C instanceof GeoPoint)
-			((GeoPoint) C).addIncidence( ellipse);
+		if (C != null)
+			C.addIncidence( ellipse);
 
 	}
 

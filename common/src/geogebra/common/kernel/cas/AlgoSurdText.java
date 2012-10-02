@@ -1329,7 +1329,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		
 		//constants (defined later)
 		private MyDecimal ZERO;
-		private MyDecimal ONE;
 		MyDecimal ZERO_LESS;
 		private MyDecimal ONE_LESS;
 		
@@ -1405,7 +1404,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			
 			
 			ZERO = new MyDecimal(fullScale1, BigDecimal.ZERO);
-			ONE = new MyDecimal(fullScale1, BigDecimal.ONE);
 			ZERO_LESS = new MyDecimal(lessScale1, BigDecimal.ZERO);
 			ONE_LESS = new MyDecimal(lessScale1, BigDecimal.ONE);
 			
@@ -1944,11 +1942,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		public StringBuilder formalSolution;
 	
 
-		//default constructor: deg=2, no constants added, precision = 8 decimal digits
-		private AlgebraicFit() {
-			numOfConsts=0;
-			err = 10E-8;
-		}
 		
 		/**
 		 * @param constStrings the strings of the constants

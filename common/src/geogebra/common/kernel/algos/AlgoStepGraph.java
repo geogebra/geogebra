@@ -12,7 +12,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoText;
 
 /**
  * Stick graph algorithm

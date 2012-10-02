@@ -51,7 +51,7 @@ public class BestVoronoiCells {
         double sum = 0;
         if ( numberstored==0 ) return -1.0;
         for ( int x=0 ; x<numberstored ; x++ ) sum += bestareas[x];
-        return sum/((double)numberstored);
+        return sum/(numberstored);
     }
     
     public int getAverageX() {

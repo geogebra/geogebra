@@ -115,21 +115,6 @@ public class PointPairList {
 	}
 	
 	/**
-	 * Checks if a is "really smaller than" b, which means
-	 * (1) they do not share indexD nor indexQ
-	 * (2) a.dist < b.dist
-	 */
-	private static boolean reallySmallerThan(PointPair a, PointPair b) { 
-
-		if (a.indexP == b.indexP || a.indexQ == b.indexQ)
-			return false;
-		
-		return (a.dist < b.dist);
-	}
-	
-	
-
-	/**
 	 * Removes all PointPairs where indexP == pair.indexP or indexQ ==
 	 * pair.indexQ
 	 * @param pair pair such that pairs with one same point must be removed

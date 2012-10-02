@@ -28,7 +28,6 @@ import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
@@ -1730,13 +1729,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		}
 	}
 	
-	private void debug(){
-		System.out.println("===============================================");
-		System.out.println("yval: " + Arrays.toString(yval));
-		System.out.println("leftBorder: " + Arrays.toString(leftBorder));
-		System.out.println("===============================================");
-	}
-
 	private boolean functionDefined(double ad, double bd) {
 		double interval = (bd - ad) / CHECKPOINTS;
 		for (double temp = ad; (interval > 0 && temp < bd)
