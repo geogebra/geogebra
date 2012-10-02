@@ -2,6 +2,7 @@ package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -68,6 +69,7 @@ public class CommandDispatcherMPReduce {
 		mypower(Operation.POWER),
 		/** power*/
 		myround(Operation.ROUND),
+		ifelsefun(Operation.NO_OPERATION),
 		sum(Operation.SUM),
 		impart(Operation.IMAGINARY),
 		repart(Operation.REAL),
@@ -127,6 +129,13 @@ public class CommandDispatcherMPReduce {
 						);
 				
 				break;
+			case ifelsefun:
+				Command c = new Command(kernel,"If",false,false);
+				c.addArgument(args.getItem(0).wrap());
+				c.addArgument(args.getItem(1).wrap());
+				c.addArgument(args.getItem(2).wrap());
+						ret = c;
+						break;
 			case ggbinterval:
 				int type = (int) args.getItem(3).evaluateNum().getDouble();
 				boolean leftClosed = type >1;

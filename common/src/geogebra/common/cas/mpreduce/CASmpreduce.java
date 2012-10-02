@@ -460,6 +460,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "};");
 		mpreduce1.evaluate("operator iffun;");
 		mpreduce1.evaluate("operator ifelsefun;");
+		mpreduce1.evaluate("let { ifelsefun(~x,~a,~b) => ~a when x='true,  ifelsefun(~x,~a,~b) => ~b when x='false, " +
+				"iffun(~x,~a) => ~a when x='true, iffun(~x,~a) => '?}");
 		mpreduce1.evaluate("let {" + "abs(pi)=>pi,abs(e)=>e};");
 		mpreduce1.evaluate("let { limit(~x^~n,~n,infinity) => infinity when numberp(~x) and ~x>1,"
 				+ "	limit(~a*~x^~n,~n,infinity) => infinity when numberp(~x) and ~x>1 and numberp(~a) and ~a>0,"

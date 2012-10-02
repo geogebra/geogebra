@@ -1659,7 +1659,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<or/>", leftStr, rightStr);
 			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"myor", leftStr, rightStr);
+				appendOp(sb,"sor", leftStr, rightStr);
 			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				sb.append(' ');
@@ -1697,7 +1697,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<and/>", leftStr, rightStr);
 			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"myand", leftStr, rightStr);
+				appendOp(sb,"sand", leftStr, rightStr);
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 
@@ -1734,7 +1734,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<implies/>", leftStr, rightStr);
 			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"myimplies", leftStr, rightStr);
+				appendOp(sb,"simplies", leftStr, rightStr);
 			} else {
 				if (STRING_TYPE != StringType.MPREDUCE)
 					append(sb, leftStr, left, operation, STRING_TYPE);
@@ -1768,7 +1768,7 @@ public class ExpressionNode extends ValidExpression implements
 			} else if (STRING_TYPE.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
 			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"myequal", leftStr, rightStr);
+				appendOp(sb,"sequal", leftStr, rightStr);
 			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1800,7 +1800,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<neq/>", leftStr, rightStr);
 			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"myneq", leftStr, rightStr);
+				appendOp(sb,"sunequal", leftStr, rightStr);
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1942,7 +1942,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<lt/>", leftStr, rightStr);
 			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"myless", leftStr, rightStr);
+				appendOp(sb,"sless", leftStr, rightStr);
 			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1961,7 +1961,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<gt/>", leftStr, rightStr);
 			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"mygreater", leftStr, rightStr);
+				appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1980,7 +1980,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<leq/>", leftStr, rightStr);
 			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"mylessequal", leftStr, rightStr);
+				appendOp(sb,"slessequal", leftStr, rightStr);
 			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -2011,7 +2011,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<qeq/>", leftStr, rightStr);
 			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"mygreaterequal", leftStr, rightStr);
+				appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
