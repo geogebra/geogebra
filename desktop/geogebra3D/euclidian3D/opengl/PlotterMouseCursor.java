@@ -1,8 +1,5 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra.common.kernel.Matrix.Coords;
-
-import java.awt.Color;
 
 /**
  * Class that describes the geometry of buttons for 3D view

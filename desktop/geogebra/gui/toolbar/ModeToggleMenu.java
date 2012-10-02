@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.gui.toolbar;
 
-import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.BasicStroke;

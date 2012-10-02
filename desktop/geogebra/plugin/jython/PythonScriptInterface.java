@@ -1,12 +1,9 @@
 package geogebra.plugin.jython;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.plugin.Event;
 
 import javax.swing.JComponent;
 import javax.swing.JMenuBar;
-
-import org.python.core.PyObject;
 
 /**
  * @author arno

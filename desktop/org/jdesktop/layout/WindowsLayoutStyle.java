@@ -7,6 +7,7 @@ package org.jdesktop.layout;
 import java.awt.Container;
 import java.awt.FontMetrics;
 import java.awt.Toolkit;
+
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;

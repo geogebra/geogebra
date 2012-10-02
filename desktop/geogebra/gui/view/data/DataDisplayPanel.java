@@ -1,7 +1,6 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.statistics.AlgoHistogram;

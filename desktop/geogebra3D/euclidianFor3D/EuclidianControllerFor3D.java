@@ -1,8 +1,6 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.Region;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;

@@ -4,9 +4,12 @@ package org.rosuda.REngine.Rserve;
 // Copyright (C) 2004 Simon Urbanek
 // --- for licensing information see LICENSE file in the original JRclient distribution ---
 
-import java.io.*;
-import org.rosuda.REngine.*;
-import org.rosuda.REngine.Rserve.protocol.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.rosuda.REngine.Rserve.protocol.RPacket;
+import org.rosuda.REngine.Rserve.protocol.RTalk;
 
 /** <b>RFileInputStream</b> is an {@link InputStream} to transfer files
     from <b>Rserve</b> server to the client. It is used very much like

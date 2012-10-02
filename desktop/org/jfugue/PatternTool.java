@@ -1,6 +1,5 @@
 package org.jfugue;
 
-import org.jfugue.ParserListenerAdapter;
 
 public abstract class PatternTool extends ParserListenerAdapter
 {

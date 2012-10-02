@@ -23,7 +23,6 @@
 
 package org.concord.sensor.serial;
 
-import org.concord.sensor.device.impl.JavaDeviceFactory;
 
 
 public class JavaSerialPortFactory

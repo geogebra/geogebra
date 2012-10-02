@@ -4,9 +4,8 @@ package org.rosuda.REngine.Rserve.protocol;
 // Copyright (C) 2004 Simon Urbanek
 // --- for licensing information see LICENSE file in the original JRclient distribution ---
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.rosuda.REngine.Rserve.RConnection;
 

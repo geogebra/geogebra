@@ -2,7 +2,6 @@ package geogebra.cas.view;
 
 import geogebra.awt.GColorD;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
 
 import java.awt.Component;
 

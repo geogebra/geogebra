@@ -8,6 +8,7 @@ package org.jdesktop.layout;
 import java.awt.Container;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import javax.swing.JComponent;
 
 /**

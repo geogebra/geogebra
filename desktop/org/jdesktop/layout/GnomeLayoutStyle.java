@@ -5,6 +5,7 @@
 
 package org.jdesktop.layout;
 import java.awt.Container;
+
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 

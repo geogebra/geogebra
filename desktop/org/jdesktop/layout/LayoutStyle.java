@@ -7,6 +7,7 @@ package org.jdesktop.layout;
 
 import java.awt.Container;
 import java.awt.Insets;
+
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;

@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;

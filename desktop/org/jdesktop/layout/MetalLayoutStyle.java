@@ -6,6 +6,9 @@
 package org.jdesktop.layout;
 
 import java.awt.Container;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.swing.ButtonModel;
 import javax.swing.DefaultButtonModel;
 import javax.swing.JComponent;
@@ -13,7 +16,6 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
-import java.lang.reflect.*;
 
 /**
  * An implementation of <code>LayoutStyle</code> for the java look and feel.

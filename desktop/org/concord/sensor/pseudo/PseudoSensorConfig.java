@@ -29,8 +29,6 @@
  */
 package org.concord.sensor.pseudo;
 
-import org.concord.framework.data.DataDimension;
-import org.concord.sensor.SensorConfig;
 import org.concord.sensor.device.impl.SensorConfigImpl;
 
 /**

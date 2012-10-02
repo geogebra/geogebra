@@ -10,7 +10,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.dialog.PropertiesPanel;

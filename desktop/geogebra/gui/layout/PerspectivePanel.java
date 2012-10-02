@@ -3,7 +3,6 @@ package geogebra.gui.layout;
 import geogebra.common.io.layout.Perspective;
 import geogebra.gui.dialog.LanguageDialog;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;

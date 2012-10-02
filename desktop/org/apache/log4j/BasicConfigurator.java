@@ -3,7 +3,6 @@ package org.apache.log4j;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.LogManager;
 
 /**
  * LogConfigurator adapter for log4j to java logger.

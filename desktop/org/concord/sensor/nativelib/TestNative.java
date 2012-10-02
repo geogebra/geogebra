@@ -45,7 +45,6 @@ import org.concord.sensor.device.impl.InterfaceManager;
 import org.concord.sensor.device.impl.JavaDeviceFactory;
 import org.concord.sensor.impl.ExperimentRequestImpl;
 import org.concord.sensor.impl.SensorRequestImpl;
-import org.concord.sensor.impl.SensorUtilJava;
 import org.concord.sensor.state.PrintUserMessageHandler;
 
 /**

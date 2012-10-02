@@ -9,9 +9,12 @@
 
 package org.rosuda.REngine.Rserve;
 
-import java.io.*;
-import org.rosuda.REngine.*;
-import org.rosuda.REngine.Rserve.protocol.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import org.rosuda.REngine.Rserve.protocol.RPacket;
+import org.rosuda.REngine.Rserve.protocol.RTalk;
 
 /** <b>RFileOutputStream</b> is an {@link OutputStream} to transfer files
 from the client to <b>Rserve</b> server. It is used very much like

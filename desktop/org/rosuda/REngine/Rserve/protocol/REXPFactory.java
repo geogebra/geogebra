@@ -4,10 +4,26 @@ package org.rosuda.REngine.Rserve.protocol;
 // Copyright (C) 2004-8 Simon Urbanek
 // --- for licensing information see LICENSE file in the original JRclient distribution ---
 
-import java.util.*;
+import java.util.Vector;
 
-import org.rosuda.REngine.*;
-import org.rosuda.REngine.Rserve.*;
+import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.REXPDouble;
+import org.rosuda.REngine.REXPExpressionVector;
+import org.rosuda.REngine.REXPFactor;
+import org.rosuda.REngine.REXPGenericVector;
+import org.rosuda.REngine.REXPInteger;
+import org.rosuda.REngine.REXPLanguage;
+import org.rosuda.REngine.REXPList;
+import org.rosuda.REngine.REXPLogical;
+import org.rosuda.REngine.REXPMismatchException;
+import org.rosuda.REngine.REXPNull;
+import org.rosuda.REngine.REXPRaw;
+import org.rosuda.REngine.REXPS4;
+import org.rosuda.REngine.REXPString;
+import org.rosuda.REngine.REXPSymbol;
+import org.rosuda.REngine.REXPUnknown;
+import org.rosuda.REngine.RList;
+import org.rosuda.REngine.Rserve.RConnection;
 
 /** representation of R-eXpressions in Java
 

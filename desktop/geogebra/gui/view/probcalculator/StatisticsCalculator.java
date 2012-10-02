@@ -1,5 +1,12 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.gui.SetLabels;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.LayoutUtil;
+import geogebra.gui.view.data.StatTable;
+import geogebra.main.AppD;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -8,14 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
-
-import geogebra.common.gui.SetLabels;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.data.StatTable;
-import geogebra.gui.view.data.StatisticsPanel;
-import geogebra.main.AppD;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;

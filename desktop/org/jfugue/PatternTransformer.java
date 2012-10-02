@@ -22,8 +22,6 @@
 
 package org.jfugue;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class is used to transform a pattern.  Extend this class to create your own

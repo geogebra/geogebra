@@ -16,9 +16,9 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
-import geogebra.common.main.App;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.main.AppD;
 

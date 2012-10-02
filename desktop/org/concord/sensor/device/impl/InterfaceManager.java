@@ -27,7 +27,6 @@ import org.concord.framework.text.UserMessageHandler;
 import org.concord.sensor.DeviceConfig;
 import org.concord.sensor.SensorDataManager;
 import org.concord.sensor.SensorDataProducer;
-import org.concord.sensor.device.DeviceFactory;
 import org.concord.sensor.device.SensorDevice;
 import org.concord.sensor.impl.SensorDataProducerImpl;
 import org.concord.sensor.impl.Ticker;

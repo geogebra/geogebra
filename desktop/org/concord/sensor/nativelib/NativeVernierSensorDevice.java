@@ -33,7 +33,6 @@
 package org.concord.sensor.nativelib;
 
 import geogebra.common.main.App;
-import geogebra.main.AppD;
 
 import org.concord.sensor.ExperimentRequest;
 import org.concord.sensor.SensorRequest;

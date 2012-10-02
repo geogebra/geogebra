@@ -3,7 +3,6 @@ package geogebra.gui.view.data;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.advanced.AlgoUnique;
-import geogebra.common.kernel.advanced.AlgoVerticalText;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoDependentList;
@@ -47,14 +46,12 @@ import geogebra.common.kernel.statistics.AlgoNormalQuantilePlot;
 import geogebra.common.kernel.statistics.AlgoResidualPlot;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoStemPlot;
-import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.gui.view.data.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * 

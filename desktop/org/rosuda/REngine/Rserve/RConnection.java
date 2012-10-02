@@ -4,11 +4,20 @@ package org.rosuda.REngine.Rserve;
 // Copyright (C) 2004-08 Simon Urbanek
 // --- for licensing information see LICENSE file in the original JRclient distribution ---
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
-import org.rosuda.REngine.*;
-import org.rosuda.REngine.Rserve.protocol.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
+import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.REXPMismatchException;
+import org.rosuda.REngine.REXPNull;
+import org.rosuda.REngine.REngine;
+import org.rosuda.REngine.REngineException;
+import org.rosuda.REngine.Rserve.protocol.REXPFactory;
+import org.rosuda.REngine.Rserve.protocol.RPacket;
+import org.rosuda.REngine.Rserve.protocol.RTalk;
+import org.rosuda.REngine.Rserve.protocol.jcrypt;
 
 /**  class providing TCP/IP connection to an Rserve
      @version $Id: RConnection.java 3404 2011-07-28 14:57:31Z urbanek $

@@ -1,7 +1,6 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -21,7 +20,6 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;

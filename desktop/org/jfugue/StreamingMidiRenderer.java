@@ -22,7 +22,6 @@
 
 package org.jfugue;
 
-import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 
 /**

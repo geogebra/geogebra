@@ -5,12 +5,26 @@
 
 package org.jdesktop.layout;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.Panel;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import org.jdesktop.layout.*;
-import java.awt.*;
-import java.lang.reflect.*;
-import javax.swing.*;
-import java.util.*;
 
 /**
  * An implementation of <code>LayoutStyle</code> for Mac OS X Tiger.

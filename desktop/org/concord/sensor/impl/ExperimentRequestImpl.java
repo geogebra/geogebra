@@ -27,7 +27,6 @@
  */
 package org.concord.sensor.impl;
 
-import org.concord.framework.data.DataDimension;
 import org.concord.sensor.ExperimentRequest;
 import org.concord.sensor.SensorRequest;
 

@@ -2,7 +2,6 @@ package geogebra3D.euclidian3D;
 
 
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;

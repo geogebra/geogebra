@@ -11,9 +11,9 @@
 
 package org.rosuda.REngine.Rserve;
 
+import org.rosuda.REngine.REngineException;
 import org.rosuda.REngine.Rserve.protocol.RPacket;
 import org.rosuda.REngine.Rserve.protocol.RTalk;
-import org.rosuda.REngine.REngineException;
 
 public class RserveException extends REngineException {
     protected String err;

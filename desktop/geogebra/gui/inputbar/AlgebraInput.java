@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanelD;

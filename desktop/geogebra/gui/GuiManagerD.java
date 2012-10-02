@@ -71,7 +71,6 @@ import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.Util;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
