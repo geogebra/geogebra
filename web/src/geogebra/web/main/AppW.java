@@ -2333,7 +2333,7 @@ public class AppW extends App {
 
 	@Override
 	public void runScripts(GeoElement geo1, String string) {
-		geo1.runScripts(string);
+		geo1.runClickScripts(string);
 	}
 
 	public String getEnglishCommand(String pageName) {
