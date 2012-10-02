@@ -458,6 +458,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "int(~w+csc(~x),~x) => int(w,x)+log(abs(tan(x / 2))),"
 						+ "int(~a+~w*csc(~x),~x) => int(a,x)+w*log(abs(tan(x / 2))) when freeof(w,x)"
 						+ "};");
+		mpreduce1.evaluate("procedure islist(n);" +
+				"if arglength(n)>-1 and part(n,0)='list then 1 else 0;");
 		mpreduce1.evaluate("operator iffun;");
 		mpreduce1.evaluate("operator ifelsefun;");
 		mpreduce1.evaluate("let { ifelsefun(~x,~a,~b) => ~a when x='true,  ifelsefun(~x,~a,~b) => ~b when x='false, " +
@@ -501,7 +503,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate("solverules:={" + "logb(~x,~b)=>log(x)/log(b),"
 				+ "log10(~x)=>log(x)/log(10)" + "};");
-
+		App.debug(mpreduce1
+		.evaluate("procedure mkconditions(xx,yy,pts);for each el in mkdepthone(list(pts)) collect list(xx=xcoord(el),yy=ycoord(el));"));
 		mpreduce1
 				.evaluate("procedure myatan2(y,x);"
 						+ " begin scalar xinput, yinput;"

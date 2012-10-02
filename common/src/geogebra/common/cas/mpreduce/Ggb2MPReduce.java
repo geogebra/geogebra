@@ -298,23 +298,24 @@ public class Ggb2MPReduce {
 				" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>");
 		p("SolveODE.2",
 				"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,list(x!!=xcoord(%1),y!!=ycoord(%1)))$" +
+				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,mkconditions(x!!,y!!,%1))$" +
 				" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>");
+		//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS
 		p("SolveODE.3",
-				"if myvecp(%2) then "
+				"if myvecp(%2) or islist(%2)=1 then "
 				+		"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
-						"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,list(list(x!!=xcoord(%1),y!!=ycoord(%1)),list(x!!=xcoord(%2),df(y!!,x!!)=ycoord(%2))))$" +
+						"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,append(mkconditions(x!!,y!!,%1),mkconditions(x!!,df(y!!,x!!),%2)))$" +
 						" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>"+
 				" else <<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
 				"tmpret:=odesolve(sub(list(@1'=df(@1,%2),@1''=df(@1,%2,2)),tmpeqn),%1,%2)$" +
 				" nodepend %1,%2; korder varorder!!; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
 		p("SolveODE.4",
 				"<<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(%1'=df(%1,%2),%1''=df(%1,%2,2)),tmpeqn),%1,%2,list(%2=xcoord(%3),%1=ycoord(%3)))$" +
+				"tmpret:=odesolve(sub(list(%1'=df(%1,%2),%1''=df(%1,%2,2)),tmpeqn),%1,%2,mkconditions(%2,%1,%3))$" +
 				" nodepend %1,%2; korder varorder!!; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
-		p("SolveODE.5",
+		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"<<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(%1'=df(%1,%2),%1''=df(%1,%2,2)),tmpeqn),%1,%2,list(list(%2=xcoord(%3),%1=ycoord(%3)),list(%2=xcoord(%4),df(%1,%2)=ycoord(%4))))$" +
+				"tmpret:=odesolve(sub(list(%1'=df(%1,%2),%1''=df(%1,%2,2)),tmpeqn),%1,%2,append(mkconditions(%2,%1,%3),mkconditions(%2,df(%1,%2),%4)))$" +
 				" nodepend %1,%2; korder varorder!!; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
 		p("Substitute.2",
 				"<<if keepinput!!=1 then <<keepinput!!:=2; sub(%1, !*hold(%0)) >> else begin scalar rulelist!!, replacements!!; replacements!!:=(%1); if arglength(replacements!!)>-1 and part(replacements!!,0)=\\'list then 0 else replacements!!:=list(replacements!!); rulelist!!:= for each element in replacements!! collect part(element,0):=replaceby; return %0 where rulelist!! end>>");

@@ -503,6 +503,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						sbCASCommand.append(ch);
 						sbCASCommand.append(translation.charAt(i));
 					}
+					//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS 
 				}else if (ch == '@') {
 					// get number after %
 					i++;
