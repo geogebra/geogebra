@@ -54,6 +54,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	@SuppressWarnings("cast")
+	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder temp = new StringBuilder();
@@ -109,6 +110,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	@SuppressWarnings("cast")
+	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	final public String toOutputValueString(StringTemplate tpl) {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
 		sb2.append('"');

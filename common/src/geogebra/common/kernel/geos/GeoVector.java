@@ -427,6 +427,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	@SuppressWarnings("cast")
+	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
@@ -672,6 +673,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	private StringBuilder sb;
 
 	@SuppressWarnings("cast")
+	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null) sb = new StringBuilder();

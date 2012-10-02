@@ -38,7 +38,7 @@ public class AlgoStemPlot extends AlgoElement {
 	private GeoText text; //output	
 	private StringBuilder low, high;
 
-	private StringBuffer sb = new StringBuffer();
+	private StringBuilder sb = new StringBuilder();
 
 	/**
 	 * @param cons construction
@@ -366,6 +366,7 @@ public class AlgoStemPlot extends AlgoElement {
 		sb.append("\\begin{tabular}{ll}");  	
 		if(outlierIndex[0] > 0)
 			sb.append(low);
+		// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 		sb.append((CharSequence)body);
 		if(outlierIndex[1] < data.length)
 			sb.append(high);

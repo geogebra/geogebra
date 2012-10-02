@@ -878,6 +878,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param tpl string template
 	 */
 	@SuppressWarnings("cast")
+	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	final public void toStringLHS(StringBuilder sb,StringTemplate tpl) {
 		double[] g = new double[3];
 

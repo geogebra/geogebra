@@ -771,6 +771,8 @@ public class Kernel {
 
 	private double[] temp;// = new double[6];
 
+	@SuppressWarnings("cast")
+	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	public final StringBuilder buildImplicitEquation(double[] numbers,
 			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
 			char op, StringTemplate tpl) {
