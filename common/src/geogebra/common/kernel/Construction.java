@@ -1290,12 +1290,22 @@ public class Construction {
 			oldGeo.updateRepaint();
 			return;
 		}
-		App.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
+		
+		
+		//App.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
+		
+		// if an object is redefined the same (eg in a script) rather than 
+		// reloading the whole XML, just update it
 		if(oldGeo.getCommandDescription(StringTemplate.maxPrecision).equals(
 				newGeo.getCommandDescription(StringTemplate.maxPrecision)) &&
 				oldGeo.getParentAlgorithm()!=null){
 			ArrayList<AlgoElement> ae = new ArrayList<AlgoElement>();
 			ae.add(oldGeo.getParentAlgorithm());
+			
+			// make sure typing a=random() twice updates OK
+			oldGeo.getParentAlgorithm().update();
+			
+			// make sure b=a+1 also updates
 			AlgoElement.updateCascadeAlgos(ae);
 			return;
 		}
