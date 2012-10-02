@@ -1,5 +1,7 @@
 package geogebra.common.plugin;
 
+import java.util.HashMap;
+
 import geogebra.common.main.App;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.JsScript;
@@ -41,7 +43,8 @@ public enum ScriptType {
 
 	private String name;
 	private String xmlName;
-
+	private static HashMap<String, ScriptType> xmlMap = new HashMap<String, ScriptType>();
+	
 	ScriptType(String name, String xmlName) {
 		this.name = name;
 		this.xmlName = xmlName;
@@ -71,4 +74,18 @@ public enum ScriptType {
 		return xmlName;
 	}
 	
+	/**
+	 * @param eName the xml name of the script type
+	 * @return the script type with this name or null if none exists
+	 */
+	public static ScriptType getTypeWithXMLName(String eName) {
+		return xmlMap.get(eName);
+	}
+
+	static {
+		for (ScriptType tp : ScriptType.values()) {
+			xmlMap.put(tp.getXMLName(), tp);
+		}
+	}
+
 }

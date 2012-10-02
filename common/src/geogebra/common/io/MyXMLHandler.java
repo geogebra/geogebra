@@ -2951,7 +2951,11 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		boolean ok = true;
-		switch (firstChar(eName)) {
+		ScriptType scriptType = ScriptType.getTypeWithXMLName(eName);
+		if (scriptType != null) {
+			ok = handleScript(attrs, scriptType);
+		}
+		else switch (firstChar(eName)) {
 		case 'a':
 			if ("auxiliary".equals(eName)) {
 				ok = handleAuxiliary(attrs);
@@ -3040,14 +3044,6 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleForceReflexAngle(attrs);
 				break;
 			}
-			// Michael Borcherds 2007-11-19
-
-		case 'g':
-			if ("ggbscript".equals(eName)) {
-				ok = handleScript(attrs, ScriptType.GGBSCRIPT);
-				break;
-			}
-
 		case 'i':
 			if ("isLaTeX".equals(eName)) {
 				ok = handleIsLaTeX(attrs);
@@ -3057,12 +3053,6 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			} else if ("interpolate".equals(eName)) {
 				ok = handleInterpolate(attrs);
-				break;
-			}
-
-		case 'j':
-			if ("javascript".equals(eName)) {
-				ok = handleScript(attrs, ScriptType.JAVASCRIPT);
 				break;
 			}
 
@@ -3124,10 +3114,7 @@ public class MyXMLHandler implements DocHandler {
 			else if ("pointStyle".equals(eName)) {
 				ok = handlePointStyle(attrs);
 				break;
-			} else if ("python".equals(eName)) {
-				ok = handleScript(attrs, ScriptType.PYTHON);
-				break;
-			}
+			} 
 			/*
 			 * should not be needed else if ("pathParameter".equals(eName)) { ok
 			 * = handlePathParameter(attrs); break; }
