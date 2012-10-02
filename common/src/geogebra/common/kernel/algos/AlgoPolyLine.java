@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoPenStroke;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -96,7 +97,7 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
         this.geoList = geoList;
         this.penStroke = penStroke;
         
-        app.debug(penStroke);
+        //App.debug(penStroke);
           
         //poly = new GeoPolygon(cons, points);
         createPolyLine();  

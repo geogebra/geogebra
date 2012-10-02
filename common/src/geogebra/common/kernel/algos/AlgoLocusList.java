@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -146,7 +147,7 @@ public class AlgoLocusList extends AlgoElement {
 				}
 			}
 		} catch (Exception ex) {
-			app.error(ex.getMessage());
+			App.error(ex.getMessage());
 		}
 	}
 

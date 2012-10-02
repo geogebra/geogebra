@@ -597,14 +597,14 @@ public class Delaunay_Triangulation {
 		Point_dt p2 = triangle.p2();
 		Point_dt p3 = triangle.p3();
 		
-		if((p1.pointLineTest(point,p3) == point.LEFT)&&
-		   (p2.pointLineTest(point,p3) == point.RIGHT))
+		if((p1.pointLineTest(point,p3) == Point_dt.LEFT)&&
+		   (p2.pointLineTest(point,p3) == Point_dt.RIGHT))
 			return p3;
-		if((p3.pointLineTest(point,p2) == point.LEFT)&&
-		   (p1.pointLineTest(point,p2) == point.RIGHT))
+		if((p3.pointLineTest(point,p2) == Point_dt.LEFT)&&
+		   (p1.pointLineTest(point,p2) == Point_dt.RIGHT))
 			return p2;
-		if((p2.pointLineTest(point,p1) == point.LEFT)&&
-		   (p3.pointLineTest(point,p1) == point.RIGHT))
+		if((p2.pointLineTest(point,p1) == Point_dt.LEFT)&&
+		   (p3.pointLineTest(point,p1) == Point_dt.RIGHT))
 			return p1;
 		return null;		
 	}
@@ -1266,7 +1266,7 @@ public class Delaunay_Triangulation {
 	
 	// TODO: Move this to triangle.
 	//checks if the triangle is not re-entrant
-	private double calcDet(Point_dt A ,Point_dt B, Point_dt P)
+	private static double calcDet(Point_dt A ,Point_dt B, Point_dt P)
 	{
 		return (A.x()*(B.y()-P.y())) - (A.y()*(B.x()-P.x())) + (B.x()*P.y()-B.y()*P.x());  
 	}

@@ -501,7 +501,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			temp *=num1;
 		}
 		
-		int[] coeffs = PSLQ(numPowers,getKernel().getEpsilon(),10);
+		getKernel();
+		int[] coeffs = PSLQ(numPowers,Kernel.getEpsilon(),10);
 		
 		if (coeffs[0] == 0 && coeffs[1] ==0) {
 
@@ -1446,7 +1447,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			gamma = 1/Math.sqrt(1/tau/tau - 1/rho/rho);
 			
 			initialize_full();
-			new MyDecimal(lessScale1);
 			b = new MyDecimal(lessScale1);
 			l = new MyDecimal(lessScale1);
 			d = new MyDecimal(lessScale1);
@@ -1978,7 +1978,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			this.tpl = tpl;
 			
 			getKernel();
-			err = Math.min(getKernel().MAX_PRECISION, Kernel.getEpsilon());
+			getKernel();
+			err = Math.min(Kernel.MAX_PRECISION, Kernel.getEpsilon());
 			coeffBound = 100;
 			formalSolution = new StringBuilder();
 			formalSolution.setLength(0);

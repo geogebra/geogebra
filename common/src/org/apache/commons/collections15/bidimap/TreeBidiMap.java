@@ -1669,7 +1669,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
             expectedModifications++;
             lastReturnedNode = null;
             if (nextNode == null) {
-                previousNode = main.greatestNode(main.rootNode[orderType], orderType);
+                previousNode = TreeBidiMap.greatestNode(main.rootNode[orderType], orderType);
             } else {
                 previousNode = main.nextSmaller(nextNode, orderType);
             }
@@ -1731,7 +1731,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
          */
         EntryView(final TreeBidiMap main, final int orderType, final int dataType) {
             super(main, orderType, dataType);
-            this.oppositeType = main.oppositeIndex(orderType);
+            this.oppositeType = TreeBidiMap.oppositeIndex(orderType);
         }
 
         public boolean contains(Object obj) {
@@ -2049,14 +2049,14 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
             if (main.nodeCount == 0) {
                 throw new NoSuchElementException("Map is empty");
             }
-            return main.leastNode(main.rootNode[VALUE], VALUE).getValue();
+            return TreeBidiMap.leastNode(main.rootNode[VALUE], VALUE).getValue();
         }
 
         public V lastKey() {
             if (main.nodeCount == 0) {
                 throw new NoSuchElementException("Map is empty");
             }
-            return main.greatestNode(main.rootNode[VALUE], VALUE).getValue();
+            return TreeBidiMap.greatestNode(main.rootNode[VALUE], VALUE).getValue();
         }
 
         public V nextKey(V key) {

@@ -93,7 +93,7 @@ public class BranchBound {
 			}
 			if (this.updateMulipliers(multiplier, edges, multipliers)) {
 				// å·¡å›žè·¯ã�Œæ±‚ã�¾ã‚Œã�°åˆ†æž�ã�™ã‚‹å¿…è¦�ã�¯ã�ªã��ã€�å·¡å›žè·¯ã‚’è¿”ã�™ã€‚ã€‚
-				int[] route = this.compressTableToArray(edges);
+				int[] route = BranchBound.compressTableToArray(edges);
 				if (this.opt != null) {
 					while (this.opt.method(route, table));
 					cost = this.getCost(route, table);
@@ -191,7 +191,7 @@ public class BranchBound {
 	 * @param table åœ§ç¸®ã�™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«
 	 * @return åœ§ç¸®ã�•ã‚Œã�Ÿé…�åˆ—
 	 */
-	private int[] compressTableToArray(boolean[][] table) {
+	private static int[] compressTableToArray(boolean[][] table) {
 		int[] route = new int[table.length];
 		int before = -1;
 		int index = 0;

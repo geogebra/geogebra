@@ -257,7 +257,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 				append("}; \n").
 				append("setring(vars, degreeorder vars, revlex); \n").
 				append("setideal(m,{").
-					append(this.constructRestrictions(restrictions)).
+					append(MPReduceTranslator.constructRestrictions(restrictions)).
 				append("}); \n").
 				append("s := eliminate(m, {").
 				    append(this.getVarsToEliminate()).
@@ -270,13 +270,13 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		return script.append("ring rr=real,(").
 				append(this.getVars()).
 				append("),dp;ideal m=").
-				append(this.constructRestrictions(restrictions)).
+				append(MPReduceTranslator.constructRestrictions(restrictions)).
 				append(";eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
 				append(");").toString();
 	}
 	
-	private String constructRestrictions(Collection<StringBuilder> restrictions) {
+	private static String constructRestrictions(Collection<StringBuilder> restrictions) {
 		StringBuilder equations = new StringBuilder();
 		
 		StringBuilder[] rs= restrictions.toArray(new StringBuilder[restrictions.size()]);
