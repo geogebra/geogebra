@@ -5202,6 +5202,17 @@ public class ExpressionNode extends ValidExpression implements
 						if(operation!=Operation.NROOT)
 							setRight(new MyDouble(kernel, Double.NaN));
 					} else { // to parse x^(c/2) to sqrt(x^c)
+						double c = rightLeaf.getLeft().evaluateNum().getDouble();
+						if(c<0){
+							
+							setRight(new ExpressionNode(kernel,getLeft().wrap().power(-c),
+									getOperation(),getRight() 
+									));
+							setOperation(Operation.DIVIDE);
+							setLeft(new MyDouble(kernel,1.0));
+								
+						}
+						else 	
 						setLeft(new ExpressionNode(kernel, getLeft(),
 								Operation.POWER, rightLeaf.getLeft()));
 					}
