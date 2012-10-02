@@ -1991,7 +1991,7 @@ ExpressionNode numberFunction():
       	 Construction cons = kernel.getConstruction();
       	 GeoNumeric randNum = new GeoNumeric(cons);
          cons.addRandomGeo(randNum);
-         randNum.setValue(Math.random());         
+         randNum.setValue(app.getRandomNumber());         
       	 return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
       }
 |
