@@ -4703,7 +4703,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param sb string builder
 	 */
 	public void getScriptTags(final StringBuilder sb) {
-		
+		Script clickScript = scripts[EventType.CLICK.ordinal()];
+		Script updateScript = scripts[EventType.UPDATE.ordinal()];
 		if (clickScript != null) {
 			sb.append("\t<");
 			sb.append(clickScript.getXMLName());
@@ -6087,11 +6088,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		inTree = flag;
 	}
 
-	// JavaScript
+	/*
+	 * Scripting
+	 */
 
-	private Script clickScript = null;
-	private Script updateScript = null;
-	
 	private Script[] scripts = new Script[EventType.values().length];
 
 	
@@ -6136,22 +6136,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean canHaveUpdateScript() {
 		return true;
 	}
-	/**
-	 * Returns update script, for GGBScript the result is localized
-	 * @return update script
-	 */
-	public Script getUpdateScript() {
-		return scripts[EventType.UPDATE.ordinal()];
-	}
 
 	/**
-	 * @return click script (localized if GGBScript)
-	 */
-	public Script getClickScript() {
-		return scripts[EventType.CLICK.ordinal()];
-	}
-	
-	/**
+	 * Return script for event type (localized if ggbscript)
 	 * @param type event type
 	 * @return script
 	 */
@@ -6164,7 +6151,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param arg argument that replaces all %0 in the script
 	 */
 	public void runClickScripts(final String arg) {
-		// App.debug("click:" + getLabel(StringTemplate.defaultTemplate));
 		app.dispatchEvent(new Event(EventType.CLICK, this, arg));
 	}
 

@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
 import geogebra.gui.editor.GeoGebraEditorPane;
@@ -189,10 +190,11 @@ public class ButtonDialog extends JDialog
 		// XXX Remark 1: This has been incorrect as it assumes the click script
 		// is GgbScript.  However I'm only adapting it to the new scripting
 		// structure so it will need to be dealt with later
-		if (button == null || button.getClickScript() == null) {
+		Script clickScript = button.getScript(EventType.CLICK);
+		if (button == null || clickScript == null) {
 			initString = "";
 		} else {
-			initString = button.getClickScript().getText();
+			initString = clickScript.getText();
 		}
 		InputPanelD ip2 = new InputPanelD(initString, app, 10, 40, false);
 		Dimension dim = ((GeoGebraEditorPane) ip2.getTextComponent())

@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
 import geogebra.gui.editor.GeoGebraEditorPane;
@@ -111,7 +112,8 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 		this.geo = geo;
 
 		if (geo != null) {
-			Script script = updateScript ? geo.getUpdateScript() : geo.getClickScript();
+			Script script = geo.getScript(
+					updateScript ? EventType.UPDATE : EventType.CLICK);
 			// Default to an empty Ggb script
 			if (script == null) {
 				script = app.createScript(ScriptType.GGBSCRIPT, "", false);
