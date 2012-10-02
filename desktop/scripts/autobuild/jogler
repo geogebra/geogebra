@@ -29,6 +29,8 @@ while [ $# -gt 0 ]; do
    echo "  -c                        Compile first (runs build-pack-installer)"
    echo "  -l [file]                 Logging to file (passed to build-pack-installer)"
    echo "  -u [url]                  Target URL (passed to build-pack-installer)"
+   echo "  -nt                       Do not download third-party components (passed to build-pack-installer)"
+   echo "  -ne                       Do not stop on an ecj error (passed to build-pack-installer)"
    echo "  -t [dir]                  Target directory ($MYDIR)"
    echo "  -w [dir]                  Target directory root folder, path to target URL ($WWWDIR)"
    exit 0
@@ -59,6 +61,14 @@ while [ $# -gt 0 ]; do
    COMPILE=1
    ;;
 
+  -nt)
+   TP="-nt"
+   ;;
+
+  -ne)
+   EE="-ne"
+   ;;
+
   *)
    echo "Unknown parameter: $1. Use \"$0 -h\" for help."
    exit 32
@@ -72,7 +82,7 @@ while [ $# -gt 0 ]; do
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $ORIGDIR
-  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i || exit $?
+  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE || exit $?
   cd ../..
   rm -fR build-jogl$i
   cp -a build build-jogl$i
