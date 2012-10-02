@@ -69,20 +69,35 @@ public class CommandDispatcherMPReduce {
 		mypower(Operation.POWER),
 		/** power*/
 		myround(Operation.ROUND),
+		/** two way conditional function */
 		ifelsefun(Operation.NO_OPERATION),
+		/** conditional function */
+		iffun(Operation.NO_OPERATION),
+		/** symbolic sum */
 		sum(Operation.SUM),
+		/** imaginary part */
 		impart(Operation.IMAGINARY),
+		/** real part */
 		repart(Operation.REAL),
+		/** realpart that can handle points */
 		myreal(Operation.REAL),
-		
+		/** equal operator */
 		sequal(Operation.EQUAL_BOOLEAN),
+		/** and operator */
 		sand(Operation.AND),
+		/** or operator */
 		sor(Operation.OR),
+		/** implication operator */
 		simplies(Operation.IMPLICATION),
+		/** not operator */
 		snot(Operation.NOT),
+		/** > operator */
 		sgreater(Operation.GREATER),
+		/** >= operator */
 		sgreaterequal(Operation.GREATER_EQUAL),
+		/** < operator */
 		sless(Operation.LESS),
+		/** <= operator */
 		slessequal(Operation.LESS_EQUAL),
 		
 		;
@@ -136,6 +151,12 @@ public class CommandDispatcherMPReduce {
 				c.addArgument(args.getItem(2).wrap());
 						ret = c;
 						break;
+			case iffun:
+				c = new Command(kernel,"If",false,false);
+				c.addArgument(args.getItem(0).wrap());
+				c.addArgument(args.getItem(1).wrap());
+						ret = c;
+						break;						
 			case ggbinterval:
 				int type = (int) args.getItem(3).evaluateNum().getDouble();
 				boolean leftClosed = type >1;
