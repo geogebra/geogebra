@@ -306,8 +306,8 @@ public class Ggb2MPReduce {
 				+		"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
 						"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,append(mkconditions(x!!,y!!,%1),mkconditions(x!!,df(y!!,x!!),%2)))$" +
 						" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>"+
-				" else <<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(@1'=df(@1,%2),@1''=df(@1,%2,2)),tmpeqn),%1,%2)$" +
+				" else <<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend @1,@2; if freeof(tmpeqn,=) then tmpeqn:=df(@1,@2)=tmpeqn; " +
+				"tmpret:=odesolve(sub(list(@1'=df(@1,@2),@1''=df(@1,@2,2)),tmpeqn),@1,@2)$" +
 				" nodepend %1,%2; korder varorder!!; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
 		p("SolveODE.4",
 				"<<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
