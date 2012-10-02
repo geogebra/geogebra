@@ -7,9 +7,10 @@ import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
-public abstract class ScriptManagerCommon {
+public abstract class ScriptManager implements EventListener{
 
 	protected App app;
 	protected boolean listenersEnabled = true;
@@ -20,8 +21,67 @@ public abstract class ScriptManagerCommon {
 	protected ArrayList<String>	renameListeners  = new ArrayList<String>();
 	protected ArrayList<String>	updateListeners  = new ArrayList<String>();
 	protected ArrayList<String>	clearListeners  = new ArrayList<String>();
-	protected JavaToJavaScriptView javaToJavaScriptView;
-
+	
+	
+	public ScriptManager(App app) {
+		this.app = app;
+		app.getEventDispatcher().addEventListener(this);
+	}
+	
+	
+	public void sendEvent(Event evt) {
+		// TODO get rid of javaToJavaScriptView
+		if (!listenersEnabled) {
+			return;
+		}
+		switch(evt.type) {
+		case CLICK:
+			break;
+		case UPDATE:
+			callListeners(updateListeners, evt);
+			if (updateListenerMap != null) {
+				callListener(updateListenerMap.get(evt.target), evt);
+			}
+			break;
+		case ADD:
+			callListeners(addListeners, evt);
+			break;
+		case REMOVE:
+			callListeners(removeListeners, evt);
+			break;
+		case RENAME:
+			callListeners(renameListeners, evt);
+			break;
+		// TODO case CLEAR
+		default:
+			App.debug("Unknown event type");
+		}
+	}
+	
+	private static Object[] getArguments(Event evt) {
+		GeoElement geo = evt.target;
+		String label = geo.getLabel(StringTemplate.defaultTemplate);
+		if (evt.type == EventType.RENAME) {
+			return new Object[] {geo.getOldLabel(), label};
+		} else if (evt.argument == null) {
+			return new Object[] {label};
+		}
+		return new Object[] {label, evt.argument};
+	}
+	
+	private void callListeners(List<String> listeners, Event evt) {
+		Object[] args = getArguments(evt);
+		for (String listener : listeners) {
+			callJavaScript(listener, args);
+		}
+	}
+	
+	private void callListener(String listener, Event evt) {
+		if (listener != null) {
+			callJavaScript(listener, getArguments(evt));
+		}
+	}
+	
 	public void disableListeners() {
 		listenersEnabled = false;
 	}
@@ -53,7 +113,10 @@ public abstract class ScriptManagerCommon {
 		if (clearListeners != null) {
 			clearListeners.clear();
 		}
-
+		
+		if (updateListenerMap != null) {
+			updateListenerMap.clear();
+		}
 	}
 	
 	/**
@@ -221,18 +284,12 @@ public abstract class ScriptManagerCommon {
 	}			
 
 	public synchronized void initJavaScriptView() {
-		if (javaToJavaScriptView == null) {
-			javaToJavaScriptView = new JavaToJavaScriptView();
-			app.getKernel().attach(javaToJavaScriptView); // register view
-			initJavaScript();
-		}
+		// TODO check to see if it's already done?
+		initJavaScript();
 	}
 	
 	public synchronized void initJavaScriptViewWithoutJavascript() {
-		if (javaToJavaScriptView == null) {
-			javaToJavaScriptView = new JavaToJavaScriptView();
-			app.getKernel().attach(javaToJavaScriptView); // register view			
-		}
+		// TODO remove this
 	}
 
 	public void ggbOnInit() {
@@ -243,159 +300,6 @@ public abstract class ScriptManagerCommon {
 	}
 
 	abstract public void callJavaScript(String jsFunction, Object [] args);
-
-	/**
-	 * Implements the View interface for
-	 * Java to JavaScript communication, see
-	 * addChangeListener() and removeChangeListener()
-	 */	
-	public class JavaToJavaScriptView implements View {
-
-		/**
-		 * Calls all registered add listeners.
-		 * @see #registerAddListener(String)
-		 */
-		public void add(GeoElement geo) {
-			if (addListeners.size()>0 && geo.isLabelSet()) { 	
-				Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
-				notifyListeners(addListeners, args);
-			}
-		}
-
-		/**
-		 * Calls all registered remove listeners.
-		 * @see #registerRemoveListener(String)
-		 */
-		public void remove(GeoElement geo) {
-			if (removeListeners.size()>0 && geo.isLabelSet()) {  
-				Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
-				notifyListeners(removeListeners, args);						
-			}			
-		}
-
-		/**
-		 * Calls all registered clear listeners.
-		 * @see #registerClearListener(String)
-		 */
-		public void clearView() {
-			/* 
-			 * This code would make sense for a "reload" 
-			 * 
-			// try to keep all update listeners
-			if (updateListenerMap != null) {			
-				HashMap newGeoJSfunMap = new HashMap(); 
-
-				// go through all geos and update their maps
-				Iterator it = updateListenerMap.keySet().iterator();
-				while (it.hasNext()) {
-					// try to find new geo with same label
-					GeoElement oldGeo = (GeoElement) it.next();				
-					GeoElement newGeo = kernel.lookupLabel(oldGeo.getLabel());
-
-					if (newGeo != null)
-						// add mapping to new map
-						newGeoJSfunMap.put(newGeo,(String) updateListenerMap.get(oldGeo));				
-				}
-
-				// use new map
-				updateListenerMap.clear();
-				updateListenerMap = newGeoJSfunMap;			
-			}
-			 */
-
-			app.getGgbApi().lastGeoElementsIteratorSize = 0;	//ulven 29.08.05: should have been a method...
-			updateListenerMap = null;			
-			if (clearListeners.size()>0) {  				
-				notifyListeners(clearListeners, null);						
-			}
-		}
-
-		/**
-		 * Calls all registered rename listeners.
-		 * @see #registerRenameListener(String)
-		 */
-		public void rename(GeoElement geo) {						
-			if (renameListeners.size()>0 && geo.isLabelSet()) {
-				Object [] args = { geo.getOldLabel(), geo.getLabel(StringTemplate.defaultTemplate) };
-				notifyListeners(renameListeners, args);				
-			}			
-		}
-
-		/**
-		 * Calls all JavaScript functions (listeners) using 
-		 * the specified arguments.
-		 */
-		private synchronized void notifyListeners(ArrayList<String> listeners, Object [] args) {	
-			if (!listenersEnabled) return;
-			int size = listeners.size();
-			for (int i=0; i < size; i++) {
-				String jsFunction = listeners.get(i);										
-				callJavaScript(jsFunction, args);					
-			}			
-		}	
-
-		/**
-		 * Calls all registered update and updateObject listeners.
-		 * @see #registerUpdateListener(String)
-		 */
-		public synchronized void update(GeoElement geo) {			
-			geo.runUpdateScripts();
-			if (!listenersEnabled) return;
-			// update listeners
-			if (updateListeners.size()>0 && geo.isLabelSet()) {
-				Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
-				notifyListeners(updateListeners, args);	
-			}
-
-			// updateObject listeners
-			if (updateListenerMap != null) {			
-				String jsFunction = updateListenerMap.get(geo);		
-				if (jsFunction != null) {	
-					Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
-					callJavaScript(jsFunction, args);
-				}
-			}
-
-		}
-
-
-		final public void updateVisualStyle(GeoElement geo) {
-			update(geo);
-		}
-
-		public void updateAuxiliaryObject(GeoElement geo) {
-			update(geo);
-		}				
-
-		public void reset() {							
-		}
-
-		public void setMode(int mode) {
-			// don't react..
-		}
-
-		public void repaintView() {
-			// no repaint should occur here: views that are
-			// part of the applet do this on their own    		
-		}
-
-		public int getViewID() {
-			return App.VIEW_NONE;
-		}
-
-		public boolean hasFocus() {
-			return false;
-		}
-
-		public void repaint() {
-		}
-
-		public boolean isShowing() {
-			return false;
-		}
-
-	}
-
 }
 
 

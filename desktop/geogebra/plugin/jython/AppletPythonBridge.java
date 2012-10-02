@@ -2,7 +2,7 @@ package geogebra.plugin.jython;
 
 import geogebra.main.AppD;
 
-public class AppletPythonBridge extends PythonBridge {
+public class AppletPythonBridge extends PythonBridgeD {
 	public AppletPythonBridge(AppD app) {
 		super(app);
 	}

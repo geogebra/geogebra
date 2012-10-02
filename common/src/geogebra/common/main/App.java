@@ -46,10 +46,12 @@ import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventDispatcher;
 import geogebra.common.plugin.EventType;
+import geogebra.common.plugin.GeoScriptRunner;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.ScriptError;
-import geogebra.common.plugin.ScriptManagerCommon;
+import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.plugin.script.GgbScript;
@@ -75,7 +77,7 @@ import java.util.TreeSet;
  */
 public abstract class App {
 	/** Script manager */
-	protected ScriptManagerCommon scriptManager = null;
+	protected ScriptManager scriptManager = null;
 	/**
 	 * True when we are running standalone app or signed applet, false for
 	 * unsigned applet
@@ -1029,6 +1031,7 @@ public abstract class App {
 	public abstract void showErrorDialog(String s);
 
 	private boolean useBrowserForJavaScript = true;
+	private EventDispatcher eventDispatcher;
 
 	/**
 	 * @param useBrowserForJavaScript
@@ -1056,8 +1059,16 @@ public abstract class App {
 	/**
 	 * @return script manager
 	 */
-	public abstract ScriptManagerCommon getScriptManager();
+	public abstract ScriptManager getScriptManager();
 
+	public EventDispatcher getEventDispatcher() {
+		if (eventDispatcher == null) {
+			eventDispatcher = new EventDispatcher(this);
+			kernel.attach(eventDispatcher);
+		}
+		return eventDispatcher;
+	}
+	
 	// TODO: move following methods somewhere else
 	/**
 	 * @param ge
@@ -4046,6 +4057,7 @@ public abstract class App {
 	public abstract String getCountryFromGeoIP() throws Exception;
 
 	private Random random = new Random();
+	private GeoScriptRunner geoScriptRunner;
 
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
@@ -4195,33 +4207,13 @@ public abstract class App {
 		return type.newScript(this, scriptText);
 	}
 	
-	public void dispatchEvent(Event evt) {
-		if (isScriptingDisabled()) {
-			return;
-		}
-		Script script = evt.target.getScript(evt.type);
-		if (script == null) {
-			return;
-		}
-		if (evt.type == EventType.UPDATE) {
-			if (isBlockUpdateScripts()) {
-				return;
-			}
-		}
-		try {
-			setBlockUpdateScripts(true);
-			script.run(evt);
-			if (evt.type != EventType.UPDATE) {
-				storeUndoInfo();
-			}
-		} catch (ScriptError e) {
-			showError(e.getLocalizedMessage());
-		} finally {
-			setBlockUpdateScripts(false);
+	public void startGeoScriptRunner() {
+		if (geoScriptRunner == null) {
+			geoScriptRunner = new GeoScriptRunner(this);
+			getEventDispatcher().addEventListener(geoScriptRunner);
 		}
 	}
-
-
+	
 	public void showRelation(GeoElement a, GeoElement b) {
 		GOptionPane optionPane = getFactory().newGOptionPane();
 		optionPane.showConfirmDialog(getMainComponent(),
@@ -4248,5 +4240,9 @@ public abstract class App {
 	public abstract SwingFactory getSwingFactory();
 
 	public abstract Factory getFactory();
+
+	public void dispatchEvent(Event evt) {
+		getEventDispatcher().dispatchEvent(evt);
+	}
 
 }

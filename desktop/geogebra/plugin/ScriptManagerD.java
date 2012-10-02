@@ -2,6 +2,7 @@ package geogebra.plugin;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.plugin.ScriptManager;
 import geogebra.main.AppD;
 
 //import org.concord.framework.data.stream.DataListener;
@@ -11,7 +12,7 @@ import geogebra.main.AppD;
 //import org.mozilla.javascript.Scriptable;
 
 
-public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
+public class ScriptManagerD extends ScriptManager {
 	
 	
 	// library of functions that is available to all JavaScript calls
@@ -34,9 +35,8 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 			"ggbApplet.registerObjectUpdateListener('A','listener');" +
 			"}";*/
 	
-	public ScriptManager(App app) {
-		this.app = app;
-		
+	public ScriptManagerD(App app) {
+		super(app);
 		//evalScript("ggbOnInit();");
 	}
 	

@@ -2,7 +2,10 @@ package geogebra.common.plugin;
 
 public enum EventType {
 	CLICK("click"),
-	UPDATE("update");
+	UPDATE("update"),
+	ADD("add"),
+	REMOVE("remove"),
+	RENAME("rename");
 	
 	private String eventName;
 

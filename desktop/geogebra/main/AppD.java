@@ -80,9 +80,9 @@ import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPID;
 import geogebra.plugin.PluginManager;
-import geogebra.plugin.ScriptManager;
+import geogebra.plugin.ScriptManagerD;
 import geogebra.plugin.jython.AppletPythonBridge;
-import geogebra.plugin.jython.PythonBridge;
+import geogebra.plugin.jython.PythonBridgeD;
 import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
 import geogebra.util.GeoGebraLogger;
@@ -367,7 +367,7 @@ public class AppD extends App implements
 
 	private GgbAPID ggbapi = null;
 	private PluginManager pluginmanager = null;
-	private PythonBridge pythonBridge = null;
+	private PythonBridgeD pythonBridge = null;
 
 	
 	/**
@@ -505,7 +505,7 @@ public class AppD extends App implements
 		
 		// create Python Bridge
 		if (!isApplet) {
-			pythonBridge = new PythonBridge(this);
+			pythonBridge = new PythonBridgeD(this);
 		}
 		else pythonBridge = new AppletPythonBridge(this);
 		
@@ -3920,7 +3920,7 @@ public class AppD extends App implements
 	}
 	
 	@Override
-	public PythonBridge getPythonBridge() {
+	public PythonBridgeD getPythonBridge() {
 		if (!pythonBridge.isReady()) {
 			pythonBridge.init();
 		}
@@ -3953,11 +3953,11 @@ public class AppD extends App implements
 	}
 
 	@Override
-	public ScriptManager getScriptManager() {
+	public ScriptManagerD getScriptManager() {
 		if (scriptManager == null) {
-			scriptManager = new ScriptManager(this);
+			scriptManager = new ScriptManagerD(this);
 		}
-		return (ScriptManager) scriptManager;
+		return (ScriptManagerD) scriptManager;
 	}
 
 	/*

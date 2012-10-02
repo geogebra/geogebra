@@ -32,7 +32,7 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.ScriptManagerCommon;
+import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
@@ -1623,9 +1623,9 @@ public class AppW extends App {
 
 	}
 
-	public ScriptManagerCommon getScriptManager() {
+	public ScriptManager getScriptManager() {
 		if (scriptManager == null) {
-			scriptManager = new ScriptManager(this);
+			scriptManager = new ScriptManagerW(this);
 		}
 		return scriptManager;
 	}

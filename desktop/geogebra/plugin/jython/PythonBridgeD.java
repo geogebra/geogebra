@@ -1,9 +1,11 @@
 package geogebra.plugin.jython;
 
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventListener;
+import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.main.AppD;
 
 import javax.swing.JComponent;
@@ -22,7 +24,7 @@ import org.python.util.PythonInterpreter;
  * the PythonScriptInterface object as well.
  * @author arno
  */
-public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge implements View, GeoElementSelectionListener {
+public class PythonBridgeD extends PythonBridge implements EventListener, GeoElementSelectionListener {
 	private AppD application;
 	private PythonFlatAPI api;
 	private PythonInterpreter interpreter = null;
@@ -30,7 +32,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	private boolean ready = false;
 	
 	/** constructor for dummy implementation */
-	public PythonBridge() {
+	public PythonBridgeD() {
 		
 	}
 	
@@ -39,7 +41,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * so it can take a while...
 	 * @param app the GeoGebra application
 	 */
-	public PythonBridge(AppD app) {
+	public PythonBridgeD(AppD app) {
 		application = app;
 		// FLAT
 		api = new PythonFlatAPI(app);
@@ -64,7 +66,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 			interpreter.exec("from pyggb import interface");
 			pyInterface = (PythonScriptInterface)interpreter.get("interface").__tojava__(PythonScriptInterface.class);
 			pyInterface.init(api);
-			application.getKernel().attach(this);
+			application.getEventDispatcher().addEventListener(this);
 			ready = true;
 			App.debug("Done Initialising Python interpreter.");
 		}
@@ -111,54 +113,8 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	
 	/*
-  	 * Implementation of View
-  	 * used to dispatch events to the PythonScriptInterface object
+	 * @see geogebra.common.main.GeoElementSelectionListener
 	 */
-	
-	public void add(GeoElement geo) {
-		handleEvent("add", geo);
-	}
-	
-	public void remove(GeoElement geo) {
-		handleEvent("remove", geo);
-	}
-	
-	public void rename(GeoElement geo) {
-		handleEvent("rename", geo);
-	}
-	
-	public void update(GeoElement geo) {
-		handleEvent("update", geo);
-	}
-	
-	public void updateVisualStyle(GeoElement geo) {
-		//pyInterface.handleEvent("updateVisualStyle", geo);
-	}
-	
-	public void updateAuxiliaryObject(GeoElement geo) {
-		//pyInterface.handleEvent("updateAuxiliaryObject", geo);
-	}
-	
-	public void repaintView() {
-		/* not needed */
-	}
-	
-	public void reset() {
-		//pyInterface.reset();
-	} 
-	
-	public void clearView() {
-		//pyInterface.reset();
-	}
-	
-	public void setMode(int mode) {
-		/* not needed */
-	}
-	
-	public int getViewID() {
-		return 10;
-	}
-
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		pyInterface.notifySelected(geo, addToSelection);
 	}
@@ -198,9 +154,6 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public void execScript() {
 		pyInterface.reset();
 	}
-	public boolean hasFocus() {
-		return false;
-	}
 	
 	/**
 	 * @return the JComponent for the python dock panel
@@ -216,18 +169,16 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 		return pyInterface.getMenuBar();
 	}
 
-	public void repaint() {
-	    App.debug("unimplemented");
-	}
-
-	public boolean isShowing() {
-	    App.debug("unimplemented");
-		return false;
-	}
-
 	@Override
 	public void removeEventHandler(GeoElement geo, String evtType) {
 		pyInterface.removeEventHandler(geo, evtType);
+	}
+	
+	/*
+	 * @see geogebra.common.plugin.EventListener
+	 */
+	public void sendEvent(Event evt) {
+		pyInterface.handleEvent(evt.type.getName(), evt.target);
 	}
 
 }

@@ -2,14 +2,14 @@ package geogebra.web.main;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.common.plugin.ScriptManagerCommon;
+import geogebra.common.plugin.ScriptManager;
 
-public class ScriptManager extends ScriptManagerCommon {
+public class ScriptManagerW extends ScriptManager {
 
 	public String ggbApplet = "ggbApplet";
 
-	public ScriptManager(App app) {
-	    this.app = app;
+	public ScriptManagerW(App app) {
+		super(app);
 
 	    // this should contain alphanumeric characters only,
 	    // but it is not checked otherwise
@@ -47,7 +47,7 @@ public class ScriptManager extends ScriptManagerCommon {
 	private native void initAppletFunctions(
 			geogebra.web.main.GgbAPI ggbAPI) /*-{
 
-		var ggbApplet = this.@geogebra.web.main.ScriptManager::ggbApplet;
+		var ggbApplet = this.@geogebra.web.main.ScriptManagerW::ggbApplet;
 
 		//set the reference
 		$doc[ggbApplet] = $wnd[ggbApplet] = {};

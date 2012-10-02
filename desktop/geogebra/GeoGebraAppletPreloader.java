@@ -164,7 +164,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading jython.jar... ");
 				System.out.flush();
 				try {
-					geogebra.plugin.jython.PythonBridge.class.getClass();
+					geogebra.plugin.jython.PythonBridgeD.class.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");

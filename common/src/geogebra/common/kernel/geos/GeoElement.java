@@ -6091,20 +6091,15 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private Script clickScript = null;
 	private Script updateScript = null;
-
+	
+	private Script[] scripts = new Script[EventType.values().length];
 
 	
 	/**
 	 * @param script script
 	 */
 	public void setClickScript(Script script) {
-		if (!canHaveClickScript()) {
-			return;
-		}
-		if (clickScript != null) {
-			clickScript.unbind(this, EventType.CLICK);
-		}
-		clickScript = script;
+		setScript(script, EventType.CLICK);
 	}
 
 	/**
@@ -6112,14 +6107,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param script script
 	 */
 	public void setUpdateScript(Script script) {
-		if (!canHaveUpdateScript()) {
-			return;
-		}
-		if (updateScript != null) {
-			updateScript.unbind(this, EventType.UPDATE);
-		}
-		updateScript = script;
-		app.initJavaScriptViewWithoutJavascript();
+		setScript(script, EventType.UPDATE);
 	}
 	
 	/**
@@ -6128,16 +6116,17 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param evt the event type that will trigger the script
 	 */
 	public void setScript(Script script, EventType evt) {
-		switch (evt) {
-			case CLICK:
-				setClickScript(script);
-				break;
-			case UPDATE:
-				setUpdateScript(script);
-				break;
-			default:
-				break;
+		if (evt == EventType.UPDATE && !canHaveUpdateScript()
+				|| evt == EventType.CLICK && !canHaveClickScript()) {
+			return;
 		}
+		// Make sure we're listening to events for this script
+		app.startGeoScriptRunner();
+		Script oldScript = scripts[evt.ordinal()];
+		if (oldScript != null) {
+			oldScript.unbind(this, evt);
+		}
+		scripts[evt.ordinal()] = script;
 		script.bind(this, evt);
 	}
 	
@@ -6152,14 +6141,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return update script
 	 */
 	public Script getUpdateScript() {
-		return updateScript;
+		return scripts[EventType.UPDATE.ordinal()];
 	}
 
 	/**
 	 * @return click script (localized if GGBScript)
 	 */
 	public Script getClickScript() {
-		return clickScript;
+		return scripts[EventType.CLICK.ordinal()];
 	}
 	
 	/**
@@ -6167,13 +6156,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return script
 	 */
 	public Script getScript(EventType type) {
-		switch (type) {
-		case CLICK:
-			return getClickScript();
-		case UPDATE:
-			return getUpdateScript();
-		}
-		return null;
+		return scripts[type.ordinal()];
 	}
 	
 	/**
@@ -6183,13 +6166,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void runClickScripts(final String arg) {
 		// App.debug("click:" + getLabel(StringTemplate.defaultTemplate));
 		app.dispatchEvent(new Event(EventType.CLICK, this, arg));
-	}
-
-	/**
-	 * Runs update script of this object
-	 */
-	public void runUpdateScripts() {
-		app.dispatchEvent(new Event(EventType.UPDATE, this));
 	}
 
 	private boolean showTrimmedIntersectionLines = false;

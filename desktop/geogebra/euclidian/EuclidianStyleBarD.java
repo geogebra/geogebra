@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -43,7 +44,7 @@ import javax.swing.JToolBar;
  * @author G. Sturr
  */
 public class EuclidianStyleBarD extends JToolBar implements ActionListener,
-		geogebra.common.euclidian.EuclidianStyleBar {
+		EuclidianStyleBar {
 
 	/***/
 	private static final long serialVersionUID = 1L;
