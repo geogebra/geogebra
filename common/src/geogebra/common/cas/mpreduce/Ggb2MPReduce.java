@@ -63,11 +63,11 @@ public class Ggb2MPReduce {
 		p("Delete.1", " << clear %0; \\'true>>");
 		p("Denominator.1", "den(%0)");
 		p("Derivative.1",
-				"<< begin scalar input!!, result!!; input!!:=(%0);let solverules; on combineexpt; result!!:=df(input!!,mymainvar(input!!)); clearrules solverules; return result!! end>>");
+				"<< begin scalar input!!, result!!; input!!:=(%0);let solverules; on combineexpt, rational; result!!:=df(input!!,mymainvar(input!!)); clearrules solverules; return result!! end>>");
 		p("Derivative.2", 
-				"<<begin scalar result!!; let solverules; on combineexpt; result!!:=df(%0,%1); clearrules solverules; return result!! end>>");
+				"<<begin scalar result!!; let solverules; on combineexpt, rational; result!!:=df(%0,%1); clearrules solverules; return result!! end>>");
 		p("Derivative.3", 
-				"<<begin scalar result!!; let solverules; on combineexpt; result!!:=df(%0,%1,%2); clearrules solverules; return result!! end>>");
+				"<<begin scalar result!!; let solverules; on combineexpt, rational; result!!:=df(%0,%1,%2); clearrules solverules; return result!! end>>");
 		p("Determinant.1", "<<tmpmat!!:=(%0); det(tmpmat!!)>>");
 		p("Dimension.1", "<<begin scalar input!!; input!!:=%0; return if myvecp input!! then dim input!! else length(input!!) end>>");
 		p("Div.2", "div(%0,%1)");
@@ -84,7 +84,7 @@ public class Ggb2MPReduce {
 		p("Element.3",
 				"<<clear input!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2)>>");
 		p("Expand.1",
-				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs$ tmp!!:=(%0); off factor, combinelogs$on expandlogs$  tmp!!>>");
+				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=(%0); off factor, combinelogs$on expandlogs$  tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 		p("Factor.1",
 				"<<on combineexpt; off combinelogs$ begin scalar factorlist!!, tmpexp!!; if numberp(den(%0)) then <<factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>> else <<on factor; tmpexp!!:=(%0); on factor; return tmpexp!! >> end >>");
@@ -136,9 +136,9 @@ public class Ggb2MPReduce {
 		p("ImplicitDerivative.3", "-df(%0,%2)/df(%0,%1)");
 		p("ImplicitDerivative.1", "-df(%0,currentx!!)/df(%0,currenty!!)");
 		p("Integral.1",
-				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on combineexpt; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.2",
-				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.3",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; integral!!:=myint(input!!,mymainvar(input!!),%1,%2); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input!!,mainvar(input!!),%1,%2) end>>");
 		p("Integral.4",
@@ -255,7 +255,7 @@ public class Ggb2MPReduce {
 				"<<begin scalar a, b, min!!, max!!; min!!:=myround(%1); max!!:=myround(%2); a:=for i:=0:%0-1 sum (random(max!!-(min!!)+1)+(min!!))*currentx!!^i; return a+currentx!!^(%0)*if min!!<=0 and max!!>0 then <<b:=random(max!!-(min!!))+(min!!); if b>=0 then b+1 else b>> else random(max!!-(min!!)+1)+min!! end>>");
 		p("RandomPolynomial.4",
 				"<<begin scalar a, b, min!!, max!!; min!!:=myround(%2); max!!:=myround(%3); a:=for i:=0:%1-1 sum (random(max!!-min!!+1)+min!!)*(%0)^i; return a+(%0)^(%1)*if min!!<=0 and max!!>0 then <<b:=random(max!!-min!!)+min!!; if b>=0 then b+1 else b>> else random(max!!-min!!+1)+min!! end>>");
-		p("Rationalize.1", "<<off rounded; %0 >>");
+		p("Rationalize.1", "<<off rounded;on rationalize; %0 >>");
 		p("Reverse.1","reverse(%0)");
 		p("RightSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(rhs,input!!) else rhs(input!!) end>>");
