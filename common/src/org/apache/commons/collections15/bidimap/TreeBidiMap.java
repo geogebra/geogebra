@@ -670,7 +670,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
     private Node<K, V> nextGreater(final Node<K, V> node, final int index) {
         Node<K, V> rval = null;
         if (node == null) {
-            rval = null;
+            //rval = null;
         } else if (node.getRight(index) != null) {
             // everything to the node's right is larger. The least of
             // the right node's descendants is the next larger node
@@ -704,7 +704,7 @@ public class TreeBidiMap <K extends Comparable,V extends Comparable> implements 
     private Node<K, V> nextSmaller(final Node<K, V> node, final int index) {
         Node<K, V> rval = null;
         if (node == null) {
-            rval = null;
+            //rval = null;
         } else if (node.getLeft(index) != null) {
             // everything to the node's left is smaller. The greatest of
             // the left node's descendants is the next smaller node

@@ -76,7 +76,7 @@ public final class TransformerPredicate <T> implements Predicate<T>, Serializabl
     public boolean evaluate(T object) {
         Boolean result = iTransformer.transform(object);
         if (result == null) {
-            throw new FunctorException("Transformer must return an instanceof Boolean, it was a " + (result == null ? "null object" : result.getClass().getName()));
+            throw new FunctorException("Transformer must return an instanceof Boolean, it was a " + ("null object"));
         }
         return result.booleanValue();
     }

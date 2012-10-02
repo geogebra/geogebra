@@ -581,7 +581,7 @@ public class ExtendedProperties extends Hashtable {
                             file = new File(basePath + value);
                         }
 
-                        if (file != null && file.exists() && file.canRead()) {
+                        if (file.exists() && file.canRead()) {
                             load(new FileInputStream(file));
                         }
                     } else {

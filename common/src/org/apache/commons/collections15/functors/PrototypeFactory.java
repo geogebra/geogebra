@@ -202,9 +202,9 @@ public class PrototypeFactory <T> {
                     // ignore
                 }
                 try {
-                    if (baos != null) {
+                    //if (baos != null) {
                         baos.close();
-                    }
+                    //}
                 } catch (IOException ex) {
                     // ignore
                 }

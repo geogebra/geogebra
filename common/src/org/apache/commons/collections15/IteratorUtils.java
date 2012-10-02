@@ -872,7 +872,7 @@ public class IteratorUtils {
         } else if (obj instanceof Dictionary) {
             return new EnumerationIterator(((Dictionary) obj).elements());
 
-        } else if (obj != null && obj.getClass().isArray()) {
+        } else if (obj.getClass().isArray()) {
             return new ArrayIterator(obj);
 
         } else {
