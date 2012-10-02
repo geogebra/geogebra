@@ -25,7 +25,7 @@ public class MyCellEditorButton extends AbstractCellEditor implements TableCellE
 	    ActionListener actionListener = new ActionListener() {
 	      public void actionPerformed(ActionEvent actionEvent) {
 	    	  SwingUtilities.invokeLater( new Runnable(){ public void
-	            	run() { editGeo.runScripts(null); }});
+	            	run() { editGeo.runClickScripts(null); }});
 
 	      }
 	    };

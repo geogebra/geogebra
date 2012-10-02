@@ -5229,7 +5229,7 @@ public class AppD extends App implements
 	public void runScripts(final GeoElement geo1, final String string) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				geo1.runScripts(string);
+				geo1.runClickScripts(string);
 			}
 		});
 	}

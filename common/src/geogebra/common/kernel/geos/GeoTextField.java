@@ -298,7 +298,7 @@ public class GeoTextField extends GeoButton {
 	 * (e.g. by pressing ENTER)
 	 */
 	public void textSubmitted() {
-		runScripts(getText());
+		runClickScripts(getText());
 	}
 	
 	/**

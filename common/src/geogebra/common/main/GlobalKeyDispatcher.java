@@ -156,7 +156,7 @@ public abstract class GlobalKeyDispatcher {
 						geoBool.setValue(!geoBool.getBoolean());
 						geoBool.updateRepaint();
 					} else {
-						selGeos.get(0).runScripts(null);
+						selGeos.get(0).runClickScripts(null);
 					}
 
 					consumed = true;

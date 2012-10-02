@@ -6121,6 +6121,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		app.initJavaScriptViewWithoutJavascript();
 	}
 	
+	/**
+	 * Set a script for this geo
+	 * @param script source code for the new script
+	 * @param evt the event type that will trigger the script
+	 */
 	public void setScript(Script script, EventType evt) {
 		switch (evt) {
 			case CLICK:
@@ -6174,7 +6179,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Runs the click script of this object
 	 * @param arg argument that replaces all %0 in the script
 	 */
-	public void runScripts(final String arg) {
+	public void runClickScripts(final String arg) {
 		// App.debug("click:" + getLabel(StringTemplate.defaultTemplate));
 		app.dispatchEvent(new Event(EventType.CLICK, this, arg));
 	}
