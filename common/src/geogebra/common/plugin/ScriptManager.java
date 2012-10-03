@@ -16,10 +16,12 @@ public abstract class ScriptManager implements EventListener{
 	protected boolean listenersEnabled = true;
 	// maps between GeoElement and JavaScript function names
 	protected HashMap<GeoElement, String> updateListenerMap;
+	protected HashMap<GeoElement, String> clickListenerMap;
 	protected ArrayList<String> addListeners = new ArrayList<String>();
 	protected ArrayList<String>	removeListeners  = new ArrayList<String>();
 	protected ArrayList<String>	renameListeners  = new ArrayList<String>();
 	protected ArrayList<String>	updateListeners  = new ArrayList<String>();
+	protected ArrayList<String>	clickListeners  = new ArrayList<String>();
 	protected ArrayList<String>	clearListeners  = new ArrayList<String>();
 	
 	
@@ -36,6 +38,10 @@ public abstract class ScriptManager implements EventListener{
 		}
 		switch(evt.type) {
 		case CLICK:
+			callListeners(clickListeners, evt);
+			if (clickListenerMap != null) {
+				callListener(clickListenerMap.get(evt.target), evt);
+			}
 			break;
 		case UPDATE:
 			callListeners(updateListeners, evt);
@@ -117,6 +123,10 @@ public abstract class ScriptManager implements EventListener{
 		if (updateListenerMap != null) {
 			updateListenerMap.clear();
 		}
+		
+		if (clickListenerMap != null) {
+			clickListenerMap.clear();
+		}
 	}
 	
 	/**
@@ -134,8 +144,7 @@ public abstract class ScriptManager implements EventListener{
 			return;				
 		}
 						
-		// init view
-		initJavaScriptView();
+		initJavaScript();
 		
 		// init list
 		if (listenerList == null) {
@@ -256,8 +265,7 @@ public abstract class ScriptManager implements EventListener{
 		GeoElement geo = app.getKernel().lookupLabel(objName);
 		if (geo == null) return;
 				
-		// init view
-		initJavaScriptView();
+		initJavaScript();
 		
 		// init map and view
 		if (updateListenerMap == null) {
@@ -282,15 +290,6 @@ public abstract class ScriptManager implements EventListener{
 			}
 		}
 	}			
-
-	public synchronized void initJavaScriptView() {
-		// TODO check to see if it's already done?
-		initJavaScript();
-	}
-	
-	public synchronized void initJavaScriptViewWithoutJavascript() {
-		// TODO remove this
-	}
 
 	public void ggbOnInit() {
 		app.callAppletJavaScript("ggbOnInit", null);

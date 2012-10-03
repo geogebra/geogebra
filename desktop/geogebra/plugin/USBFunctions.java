@@ -28,7 +28,7 @@ public class USBFunctions {
 			return;		
 				
 		// init view
-		sm.initJavaScriptView();
+		sm.initJavaScript();
 		
 		// init map and view
 		if (loggerListenerMap == null) {

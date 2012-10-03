@@ -1052,10 +1052,6 @@ public abstract class App {
 		return useBrowserForJavaScript;
 	}
 
-	final public void initJavaScriptViewWithoutJavascript() {
-		getScriptManager().initJavaScriptViewWithoutJavascript();
-	}
-
 	/**
 	 * @return script manager
 	 */
