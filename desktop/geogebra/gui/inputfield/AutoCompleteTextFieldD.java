@@ -713,7 +713,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 		return false;
 	}
-
+	
 	private List<String> resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
@@ -740,10 +740,19 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		else
 			completions = dict.getCompletions(cmdPrefix);
 
-		completions = getSyntaxes(completions);
+		List<String> commandCompletions = getSyntaxes(completions);
+		
+		// Start with the built-in function completions
+		completions = app.getParserFunctions().getCompletions(cmdPrefix);
+		// Then add the command completions
+		if (completions.isEmpty()) {
+			completions = commandCompletions;
+		} else if (commandCompletions != null) {
+			completions.addAll(commandCompletions);			
+		}
 		return completions;
 	}
-
+	
 	/*
 	 * Take a list of commands and return all possible syntaxes for these
 	 * commands
@@ -820,7 +829,12 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		sb.append(text.substring(curWordStart + curWord.length()));
 		setText(sb.toString());
 		int bracketIndex = command.indexOf('[');// + 1;
-
+		// Special case if the completion is a built-in function
+		if (bracketIndex == -1) {
+			bracketIndex = command.indexOf('(');
+			setCaretPosition(curWordStart + bracketIndex + 1);
+			return true;
+		}
 		if (command.indexOf("[]") > -1) {
 			// eg GetTime[]
 			bracketIndex += 2;
