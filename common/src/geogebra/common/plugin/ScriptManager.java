@@ -247,50 +247,79 @@ public abstract class ScriptManager implements EventListener{
 	}
 	
 	/**
-	 * Registers a JavaScript update listener for an object. Whenever the object with 
+	 * Registers a JavaScript listener for an object. Whenever the object with 
 	 * the given name changes, a JavaScript function named JSFunctionName 
 	 * is called using the name of the changed object as the single argument. 
 	 * If objName previously had a mapping JavaScript function, the old value 
 	 * is replaced.
-	 * 
-	 * Example: First, set a change listening JavaScript function:
-	 * ggbApplet.setChangeListener("A", "myJavaScriptFunction");
-	 * Then the GeoGebra Applet will call the Javascript function
-	 * myJavaScriptFunction("A");
-	 * whenever object A changes.	
 	 */
-	public synchronized void registerObjectUpdateListener(String objName, String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0)
-			return;		
-		GeoElement geo = app.getKernel().lookupLabel(objName);
-		if (geo == null) return;
-				
-		initJavaScript();
-		
-		// init map and view
-		if (updateListenerMap == null) {
-			updateListenerMap = new HashMap<GeoElement, String>();			
+	private synchronized HashMap<GeoElement, String> registerObjectListener(
+			HashMap<GeoElement, String> map,
+			String objName,
+			String JSFunctionName) {
+		if (JSFunctionName == null || JSFunctionName.length() == 0) {
+			return map;	
 		}
-		
-		// add map entry
-		updateListenerMap.put(geo, JSFunctionName);		
-		App.debug("registerUpdateListener: object: " + objName + ", function: " + JSFunctionName);
+		GeoElement geo = app.getKernel().lookupLabel(objName);
+		if (geo == null) {
+			return map;
+		}
+		initJavaScript();
+		if (map == null) {
+			map = new HashMap<GeoElement, String>();			
+		}
+		map.put(geo, JSFunctionName);
+		return map;
 	}
 	
 	/**
-	 * Removes a previously set change listener for the given object.
-	 * @see setChangeListener
+	 * Removes a previously set object listener for the given object.
 	 */
-	public synchronized void unregisterObjectUpdateListener(String objName) {
-		if (updateListenerMap != null) {
+	private synchronized void unregisterObjectListener(			
+			HashMap<GeoElement, String> map,
+			String objName) {
+		if (map != null) {
 			GeoElement geo = app.getKernel().lookupLabel(objName);
 			if (geo != null) {
-				updateListenerMap.remove(geo);
-				App.debug("unregisterUpdateListener for object: " + objName);
+				map.remove(geo);
 			}
 		}
 	}			
-
+	
+	/**
+	 * Register a JavaScript function that will run when an object is updated
+	 * @param objName the name of the target object
+	 * @param fName the name of the JavaScript function
+	 */
+	public void registerObjectUpdateListener(String objName, String fName) {
+		updateListenerMap = registerObjectListener(updateListenerMap, objName, fName);
+	}
+	
+	/**
+	 * Unregister any JavaScript function that runs when an object is updated
+	 * @param objName the name of the target object
+	 */
+	public void unregisterObjectUpdateListener(String objName) {
+		unregisterObjectListener(updateListenerMap, objName);
+	}
+	
+	/**
+	 * Register a JavaScript function that will run when an object is clicked
+	 * @param objName the name of the target object
+	 * @param fName the name of the JavaScript function
+	 */
+	public void registerObjectClickListener(String objName, String fName) {
+		clickListenerMap = registerObjectListener(clickListenerMap, objName, fName);
+	}
+	
+	/**
+	 * Unregister any JavaScript function that runs when an object is clicked
+	 * @param objName the name of the target object
+	 */
+	public void unregisterObjectClickListener(String objName) {
+		unregisterObjectListener(clickListenerMap, objName);
+	}
+	
 	public void ggbOnInit() {
 		app.callAppletJavaScript("ggbOnInit", null);
 	}
