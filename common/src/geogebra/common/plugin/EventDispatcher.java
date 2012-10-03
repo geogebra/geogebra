@@ -12,6 +12,11 @@ import java.util.ArrayList;
  * app.getEventDispatcher().addEventListener(...)). It will then obtain events
  * via the sendEvent() method.
  * 
+ * EventDispatcher registers itself as a view so it can listen to most event
+ * types and forward them to listeners. Click events are handled differently
+ * because they are not part of the View interface (the clicked GeoElement is
+ * responsible for relaying the event to the event dispatcher)
+ * 
  * @author arno
  * 
  */
@@ -25,12 +30,14 @@ public class EventDispatcher implements View {
 	 */
 	public EventDispatcher(App app) {
 		this.app = app;
+		app.getKernel().attach(this);
 	}
 
 	/**
 	 * Add a new EventListener object
-	 * @param listener the object that wants to receive notifications
-	 * of events
+	 * 
+	 * @param listener
+	 *            the object that wants to receive notifications of events
 	 */
 	public void addEventListener(EventListener listener) {
 		listeners.add(listener);
@@ -38,7 +45,9 @@ public class EventDispatcher implements View {
 
 	/**
 	 * Dispatch an event to all registered event listeners
-	 * @param evt the event to be dispatched
+	 * 
+	 * @param evt
+	 *            the event to be dispatched
 	 */
 	public void dispatchEvent(Event evt) {
 		for (EventListener listener : listeners) {
@@ -48,9 +57,13 @@ public class EventDispatcher implements View {
 
 	/**
 	 * Convenience method for dispatching an event
-	 * @param evtType the type of the event
-	 * @param geo the target of the event
-	 * @param arg an extra argument
+	 * 
+	 * @param evtType
+	 *            the type of the event
+	 * @param geo
+	 *            the target of the event
+	 * @param arg
+	 *            an extra argument
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo, String arg) {
 		dispatchEvent(new Event(evtType, geo, arg));
@@ -58,8 +71,11 @@ public class EventDispatcher implements View {
 
 	/**
 	 * Convenience method for dispatching an event
-	 * @param evtType the type of the event
-	 * @param geo the target of the event
+	 * 
+	 * @param evtType
+	 *            the type of the event
+	 * @param geo
+	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
 		dispatchEvent(new Event(evtType, geo));

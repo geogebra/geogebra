@@ -1057,14 +1057,19 @@ public abstract class App {
 	 */
 	public abstract ScriptManager getScriptManager();
 
+	/**
+	 * Get the event dispatcher, which dispatches events objects that manage
+	 * event driven scripts
+	 * 
+	 * @return the app's event dispatcher
+	 */
 	public EventDispatcher getEventDispatcher() {
 		if (eventDispatcher == null) {
 			eventDispatcher = new EventDispatcher(this);
-			kernel.attach(eventDispatcher);
 		}
 		return eventDispatcher;
 	}
-	
+
 	// TODO: move following methods somewhere else
 	/**
 	 * @param ge
@@ -1147,11 +1152,11 @@ public abstract class App {
 	// used by PropertyDialogGeoElement and MenuBarImpl
 	// for the Rounding Menus
 	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
-		-1, 3, 5, 10, 15 };
+			-1, 3, 5, 10, 15 };
 	final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-		-1, 6, -1, -1, -1, -1, 7 };
+			-1, 6, -1, -1, -1, -1, 7 };
 	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-		-1, -1, 11, -1, -1, -1, -1, 12 };
+			-1, -1, 11, -1, -1, -1, -1, 12 };
 
 	public String[] getRoundingMenu() {
 		String[] strDecimalSpaces = {
@@ -1195,9 +1200,9 @@ public abstract class App {
 	 * Rounding menu options (not internationalized)
 	 */
 	final public static String[] strDecimalSpacesAC = { "0 decimals",
-		"1 decimals", "2 decimals", "3 decimals", "4 decimals",
-		"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-		"5 figures", "10 figures", "15 figures" };
+			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
+			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
+			"5 figures", "10 figures", "15 figures" };
 
 	// Rounding Menus end
 
@@ -1224,7 +1229,7 @@ public abstract class App {
 				}
 			}
 			getActiveEuclidianView().getEuclidianController()
-			.clearJustCreatedGeos();
+					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController().clearSelections();
 			storeUndoInfo();
 		}
@@ -2281,13 +2286,16 @@ public abstract class App {
 	 */
 	public void clearSelectedGeos(boolean repaint) {
 
-		clearSelectedGeos(repaint,repaint);
+		clearSelectedGeos(repaint, repaint);
 	}
 
 	/**
 	 * Clear selection
-	 * @param repaint whether all views need repainting afterwards
-	 * @param updateSelection call (or not) updateSelection()
+	 * 
+	 * @param repaint
+	 *            whether all views need repainting afterwards
+	 * @param updateSelection
+	 *            call (or not) updateSelection()
 	 */
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
 		int size = selectedGeos.size();
@@ -2297,7 +2305,7 @@ public abstract class App {
 				geo.setSelected(false);
 			}
 			selectedGeos.clear();
-			if (repaint) 
+			if (repaint)
 				kernel.notifyRepaint();
 
 			if (updateSelection)
@@ -4196,20 +4204,21 @@ public abstract class App {
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
 
-	public Script createScript(ScriptType type, String scriptText, boolean translate) {
-		if (type == ScriptType.GGBSCRIPT && translate) { 
+	public Script createScript(ScriptType type, String scriptText,
+			boolean translate) {
+		if (type == ScriptType.GGBSCRIPT && translate) {
 			scriptText = GgbScript.localizedScript2Script(this, scriptText);
 		}
 		return type.newScript(this, scriptText);
 	}
-	
+
 	public void startGeoScriptRunner() {
 		if (geoScriptRunner == null) {
 			geoScriptRunner = new GeoScriptRunner(this);
 			getEventDispatcher().addEventListener(geoScriptRunner);
 		}
 	}
-	
+
 	public void showRelation(GeoElement a, GeoElement b) {
 		GOptionPane optionPane = getFactory().newGOptionPane();
 		optionPane.showConfirmDialog(getMainComponent(),
