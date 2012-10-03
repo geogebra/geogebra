@@ -2742,9 +2742,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// vars for handling positive-only axes
 		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
 		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
-		int yAxisEnd = positiveAxes[1] ? (int) yCrossPix : getHeight();
-		int xAxisStart = positiveAxes[0] ? (int) xCrossPix : 0;
-
+		int yAxisEnd = (positiveAxes[1] && yCrossPix<getHeight())  ? (int) yCrossPix : getHeight();
+		int xAxisStart = (positiveAxes[0] && xCrossPix>0) ? (int) xCrossPix : 0;
+	
 		// set the clipping region to the region defined by the axes
 		geogebra.common.awt.GShape oldClip = g2.getClip();
 		if (gridType != GRID_POLAR) {
@@ -2765,7 +2765,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			double tickStep = getXscale() * gridDistances[0];
 			double start = getxZero() % tickStep;
 			double pix = start;
-
+			
 			for (int i = 0; pix <= getWidth(); i++) {
 				// int val = (int) Math.round(i);
 				// g2.drawLine(val, 0, val, height);
