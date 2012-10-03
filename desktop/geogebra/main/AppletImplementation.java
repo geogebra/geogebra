@@ -1405,6 +1405,24 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.getScriptManager().unregisterObjectUpdateListener(objName);
 	}
 
+	public synchronized void registerClickListener(String JSFunctionName) {
+		app.getScriptManager().registerClickListener(JSFunctionName);
+	}
+
+	public synchronized void unregisterClickListener(String JSFunctionName) {
+		app.getScriptManager().unregisterClickListener(JSFunctionName);
+	}
+
+	public synchronized void registerObjectClickListener(String objName,
+			String JSFunctionName) {
+		app.getScriptManager().registerObjectClickListener(objName,
+				JSFunctionName);
+	}
+
+	public synchronized void unregisterObjectClickListener(String objName) {
+		app.getScriptManager().unregisterObjectClickListener(objName);
+	}
+
 	public boolean isMoveable(String objName) {
 		return ggbApi.isMoveable(objName);
 	}

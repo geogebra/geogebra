@@ -507,6 +507,33 @@ public interface JavaScriptAPI {
 	 */
 	public void unregisterObjectUpdateListener(String objName);
 	
+	/**
+	 * Registers a JavaScript function as an click listener for the applet's construction.
+	 * Whenever any object is clicked in the GeoGebraApplet's construction, the JavaScript 
+	 * function JSFunctionName is called using the name of the updated object as a single argument. 	
+	 */
+	public void registerClickListener(String JSFunctionName);
+	
+	/**
+	 * Removes a previously registered Click listener.
+	 */
+	public void unregisterClickListener(String JSFunctionName);
+	
+	/**
+	 * Registers a JavaScript Click listener for an object. Whenever the object with 
+	 * the given name changes, a JavaScript function named JSFunctionName 
+	 * is called using the name of the changed object as the single argument. 
+	 * If objName previously had a mapping JavaScript function, the old value 
+	 * is replaced.
+	 */
+	public void registerObjectClickListener(String objName, String JSFunctionName);
+	
+	/**
+	 * Removes a previously set change listener for the given object.
+	 * @see #setChangeListener
+	 */
+	public void unregisterObjectClickListener(String objName);
+
 	public void drawToImage(String label,double[] x, double[] y);
 	
 	public void clearImage(String label);

@@ -427,6 +427,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 				JSFunctionName);
 	}
 
+	public synchronized void registerObjectClickListener(String objName,
+			String JSFunctionName) {
+		getAppletImplementation().registerObjectClickListener(objName,
+				JSFunctionName);
+	}
+
 	public synchronized void registerRemoveListener(String JSFunctionName) {
 		getAppletImplementation().registerRemoveListener(JSFunctionName);
 	}
@@ -437,6 +443,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized void registerUpdateListener(String JSFunctionName) {
 		getAppletImplementation().registerUpdateListener(JSFunctionName);
+	}
+
+	public synchronized void registerClickListener(String JSFunctionName) {
+		getAppletImplementation().registerClickListener(JSFunctionName);
 	}
 
 	public synchronized boolean renameObject(String oldObjName,
@@ -598,6 +608,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().unregisterObjectUpdateListener(objName);
 	}
 
+	public synchronized void unregisterObjectClickListener(String objName) {
+		getAppletImplementation().unregisterObjectClickListener(objName);
+	}
+
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		getAppletImplementation().unregisterRemoveListener(JSFunctionName);
 	}
@@ -608,6 +622,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
 		getAppletImplementation().unregisterUpdateListener(JSFunctionName);
+	}
+
+	public synchronized void unregisterClickListener(String JSFunctionName) {
+		getAppletImplementation().unregisterClickListener(JSFunctionName);
 	}
 
 	public boolean isMoveable(String objName) {
