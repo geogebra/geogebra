@@ -242,7 +242,25 @@ public abstract class ScriptManager implements EventListener{
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
 		if (updateListeners != null) {
 			updateListeners.remove(JSFunctionName);
-			App.debug("unregisterUpdateListener: " + JSFunctionName);
+		}	
+	}
+	
+	/**
+	 * Registers a JavaScript function as a click listener for the applet's construction.
+	 * Whenever any object is click in the GeoGebraApplet's construction, the JavaScript 
+	 * function JSFunctionName is called using the name of the clicked object as a single argument. 	
+	 */
+	public synchronized void registerClickListener(String JSFunctionName) {
+		registerGlobalListener(clickListeners,JSFunctionName,"registerUpdateListener");
+	}
+	
+	/**
+	 * Removes a previously registered click listener.
+	 * @see #registerRemoveListener(String) 
+	 */
+	public synchronized void unregisterClickListener(String JSFunctionName) {
+		if (clickListeners != null) {
+			clickListeners.remove(JSFunctionName);
 		}	
 	}
 	
