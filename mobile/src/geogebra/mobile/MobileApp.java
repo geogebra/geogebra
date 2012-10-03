@@ -28,7 +28,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.GgbAPI;
-import geogebra.common.plugin.ScriptManagerCommon;
+import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
@@ -89,6 +89,8 @@ public class MobileApp extends App
 
 		setUndoActive(true);
 		this.mobileGUI.initComponents(this.kernel);
+		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
+
 		super.initing = false;
 	}
 
@@ -235,13 +237,6 @@ public class MobileApp extends App
 	public void showError(String s)
 	{
 
-	}
-
-	@Override
-	public ScriptManagerCommon getScriptManager()
-	{
-
-		return null;
 	}
 
 	@Override
@@ -716,6 +711,12 @@ public class MobileApp extends App
 
 	@Override
 	public Factory getFactory()
+	{
+		return null;
+	}
+
+	@Override
+	public ScriptManager getScriptManager()
 	{
 		return null;
 	}

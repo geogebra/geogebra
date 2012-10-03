@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
-import com.googlecode.mgwt.ui.client.widget.MCheckBox;
 
 /**
  * Taken from the web-project.
@@ -36,8 +35,7 @@ import com.googlecode.mgwt.ui.client.widget.MCheckBox;
  */
 public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler, MouseDownHandler
 {
-
-	MCheckBox checkBox;
+	
 	CheckBox check;
 
 	GeoElement geo;
