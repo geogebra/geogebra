@@ -304,8 +304,17 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    else
 		      completions = dict.getCompletions(cmdPrefix);
 
-		    completions = getSyntaxes(completions);
-		    return completions;
+            List<String> commandCompletions = getSyntaxes(completions); 
+		                 
+            // Start with the built-in function completions 
+            completions = app.getParserFunctions().getCompletions(cmdPrefix); 
+            // Then add the command completions 
+            if (completions.isEmpty()) { 
+            	completions = commandCompletions; 
+            } else if (commandCompletions != null) { 
+            	completions.addAll(commandCompletions);                  
+            } 
+            return completions;
 		  }
 
 		  /*
@@ -1139,7 +1148,12 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 			//sb.append(text.substring(curWordStart + curWord.length()));
 			//setText(sb.toString());
 			int bracketIndex = command.indexOf('[');// + 1;
-			
+            // Special case if the completion is a built-in function 
+			if (bracketIndex == -1) { 
+				bracketIndex = command.indexOf('('); 
+				setCaretPosition(curWordStart + bracketIndex + 1); 
+				return true; 
+			} 
 			setCaretPosition(curWordStart + bracketIndex);
 			moveToNextArgument(false);
 			return true;
