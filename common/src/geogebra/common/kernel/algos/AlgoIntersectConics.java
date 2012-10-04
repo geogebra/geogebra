@@ -523,33 +523,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         		);
 
         isPermutationNeeded = false;
-        
-        /*
-    	System.out.print("permutation: ");
-    	for (int i=0; i < permutation.length; i++) {
-    		System.out.print(permutation[i] + " ");
-    	}
-    	Application.debug();
-    	*/  
-    	
-		if ("c".equals(getA().getLabelSimple()) && "g".equals(getB().getLabelSimple()))
-		{
-			App.debug("");
-			for (int i=0; i<2; i++) {
-			System.out.print(permutation[i]+"\t");
-			}
-			System.out.println("");
-			for (int i=0; i<2; i++) {
-			System.out.println(D[i].toString() + "\t" + P[i].toString() + "\t" + Q[i].toString());
-			}
-			for (int i=0; i<2; i++) {
-				for (int j=0; j<2; j++) {
-					System.out.print(distTable[i][j] + "\t");
-				}
-				System.out.println("");
-			}
-		}
-        
+            
         // 	make sure intersection points lie on limited paths
         if (isLimitedPathSituation)   
         	handleLimitedPaths();        
