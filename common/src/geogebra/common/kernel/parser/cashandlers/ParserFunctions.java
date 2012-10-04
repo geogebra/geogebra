@@ -347,7 +347,8 @@ public class ParserFunctions {
 	 * 
 	 * @param prefix
 	 *            the wanted prefix
-	 * @return all the built-in functions starting with this prefix
+	 * @return all the built-in functions starting with this prefix (with
+	 *         brackets at the end)
 	 */
 	public ArrayList<String> getCompletions(String prefix) {
 		ArrayList<String> completions = new ArrayList<String>();
