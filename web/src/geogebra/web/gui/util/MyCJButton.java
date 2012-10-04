@@ -170,7 +170,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
     }*/
 
 	private Context2d getTempContext2D() {
-	    if (tempContext == null); {
+	    if (tempContext == null) {
 	    	tempCanvas = Canvas.createIfSupported();
 	    	tempContext = tempCanvas.getContext2d();
 	    }
