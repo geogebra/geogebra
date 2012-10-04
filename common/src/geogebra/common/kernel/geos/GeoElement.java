@@ -2620,13 +2620,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		updateSpreadsheetCoordinates();
 
 		notifyAdd();
-		if(cons.getCASdummies().contains(newLabel)){
+		/*if(cons.getCASdummies().contains(newLabel)){
 			cons.moveInConstructionList(this, 0);
 			cons.getCASdummies().remove(newLabel);
 			for(int i=0;cons.getCasCell(i)!=null;i++){
 				kernel.getAlgebraProcessor().processCasCell(cons.getCasCell(i));
 			}
-		}
+		}*/
 	}
 
 	private void updateSpreadsheetCoordinates() {
@@ -6844,7 +6844,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param scope given {@link EquationScope}
 	 * @return a new {@link EquationElement}
 	 */
-	@SuppressWarnings("javadoc")
 	public EquationElementInterface createEquationElement(final EquationScopeInterface scope) {
 		return this.getParentAlgorithm().buildEquationElementForGeo(this, scope);
 	}
