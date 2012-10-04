@@ -192,6 +192,8 @@
 -keep class geogebra.common.plugin.EuclidianStyleConstants { <fields>; }
 -keep class geogebra.common.plugin.GeoClass { <fields>; }
 -keep class geogebra.common.plugin.Operation { <fields>; }
+-keep class geogebra.common.plugin.ScriptType { <fields>; }
+-keep class geogebra.common.plugin.EventType { <fields>; }
 
 -keep class geogebra.plugin.GgbAPI { <methods>; }
 -keep class geogebra.common.plugin.GgbAPI { <methods>; }
