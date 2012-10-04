@@ -838,4 +838,10 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.putImageData(data, x, y);
 	}
 
+
+	@Override
+    public void drawImage(GImage img, int x, int y) {
+		App.debug("drawImage: implementation needed");
+    }
+
 }
