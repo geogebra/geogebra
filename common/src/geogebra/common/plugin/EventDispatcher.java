@@ -120,8 +120,12 @@ public class EventDispatcher implements View {
 	}
 
 	public void clearView() {
-		// TODO Check what to do
-
+		// As I understand it, this happens when a new file is started. This is
+		// the time to call the reset() function of the registered event
+		// listeners.
+		for (EventListener listener : listeners) {
+			listener.reset();
+		}
 	}
 
 	public void setMode(int mode) {

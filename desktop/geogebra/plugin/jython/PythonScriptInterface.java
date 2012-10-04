@@ -59,10 +59,15 @@ public interface PythonScriptInterface {
 	public void removeEventHandler(GeoElement geo, String evtType);
 	
 	/**
-	 * 
+	 * Wipe the python machine clean
 	 */
 	public void reset();
 
+	/**
+	 * Run the init (global) script
+	 */
+	public void runInitScript();
+	
 	/**
 	 * @return the value of the script in the editor or null
 	 */

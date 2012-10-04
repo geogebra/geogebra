@@ -36,4 +36,8 @@ public class GeoScriptRunner implements EventListener {
 			app.setBlockUpdateScripts(false);
 		}
 	}
+
+	public void reset() {
+		// Nothing to do here as the script are removed with the geos.
+	}
 }

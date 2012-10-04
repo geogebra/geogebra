@@ -17,11 +17,11 @@ public interface EventListener {
 	public void sendEvent(Event evt);
 
 	/**
-	 * This method is called every time the construction is cleared. This is a
-	 * cue to the event listener to get rid of the scripts attached to
-	 * particular objects.
+	 * This method is called every time we have a new construction. The event
+	 * listener should get rid of all the scripts
 	 * 
-	 * TODO check how to make this work
+	 * At the moment this is triggered when View.clearView() is called
+	 * TODO check that this only really happens when a new file is created or opened.
 	 */
-	// public void clearObjects();
+	public void reset();
 }

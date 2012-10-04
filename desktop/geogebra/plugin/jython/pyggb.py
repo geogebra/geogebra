@@ -176,8 +176,15 @@ class Interface(PythonScriptInterface):
             pass
     
     def reset(self):
+        # Make sure all objects are fresh
+        reload(objects)
+        # Refresh the namespace and stuff as well
+        self(init)
+        # Reset the Python Window if it's up
         if self.pywin is not None:
             self.pywin.reset()
+    
+    def runInitScript(self):
         # Run the init script and run ggbOnInit() if it exists
         self.run(self.api.getInitScript() +
                  "if 'ggbOnInit' in globals():"

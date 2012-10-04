@@ -99,7 +99,7 @@ public abstract class ScriptManager implements EventListener{
 	/*
 	 * needed for eg File -> New
 	 */
-	public void resetListeners() {
+	public void reset() {
 		if (addListeners != null) {
 			addListeners.clear();
 		}
@@ -121,11 +121,11 @@ public abstract class ScriptManager implements EventListener{
 		}
 		
 		if (updateListenerMap != null) {
-			updateListenerMap.clear();
+			updateListenerMap = null;
 		}
 		
 		if (clickListenerMap != null) {
-			clickListenerMap.clear();
+			clickListenerMap = null;
 		}
 	}
 	

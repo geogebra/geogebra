@@ -25,6 +25,7 @@ import org.python.util.PythonInterpreter;
  * @author arno
  */
 public class PythonBridgeD extends PythonBridge implements EventListener, GeoElementSelectionListener {
+
 	private AppD application;
 	private PythonFlatAPI api;
 	private PythonInterpreter interpreter = null;
@@ -152,7 +153,7 @@ public class PythonBridgeD extends PythonBridge implements EventListener, GeoEle
 	 * Execute the Python Script
 	 */
 	public void execScript() {
-		pyInterface.reset();
+		pyInterface.runInitScript();
 	}
 	
 	/**
@@ -175,10 +176,14 @@ public class PythonBridgeD extends PythonBridge implements EventListener, GeoEle
 	}
 	
 	/*
-	 * @see geogebra.common.plugin.EventListener
+	 * Implementation of EventListener
 	 */
 	public void sendEvent(Event evt) {
 		pyInterface.handleEvent(evt.type.getName(), evt.target);
+	}
+
+	public void reset() {
+		pyInterface.reset();
 	}
 
 }

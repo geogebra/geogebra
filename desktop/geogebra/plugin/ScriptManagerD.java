@@ -58,9 +58,6 @@ public class ScriptManagerD extends ScriptManager {
 
 	}
 	
-
-
-
 	
 	public synchronized void initJavaScript() {
 		

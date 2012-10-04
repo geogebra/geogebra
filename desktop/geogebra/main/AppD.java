@@ -842,10 +842,6 @@ public class AppD extends App implements
 			getEuclidianView2().resetXYMinMaxObjects();
 		}
 
-		if (scriptManager != null) {
-			scriptManager.resetListeners();
-		}
-
 		resetUniqueId();
 	}
 
