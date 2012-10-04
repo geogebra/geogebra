@@ -53,11 +53,13 @@ public class TabletGUI implements GeoGebraMobileGUI
 			@Override
 			public void onOrientationChanged(OrientationChangeEvent event)
 			{
+				// TODO update whatever is shown right now, not necessarily the euclidianViewPanel, 
+				//this is just a temporary workaround
 				TabletGUI.this.euclidianViewPanel.repaint();
 			}
 		});
 
-		// requirde to start the kernel
+		// required to start the kernel
 		this.euclidianViewPanel = new EuclidianViewPanel();
 	}
 

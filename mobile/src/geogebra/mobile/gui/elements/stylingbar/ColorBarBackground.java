@@ -22,12 +22,13 @@ public class ColorBarBackground extends VerticalPanel
 
 	public ColorBarBackground(StylingBar stylingBar, final MobileModel mobileModel)
 	{
-		addStyleName("colorBarBackground");
+		this.addStyleName("colorBarBackground");
 		this.colorBar = new ColorBar(stylingBar, mobileModel);
-		add(this.colorBar);
+		this.add(this.colorBar);
 
 		RoundPanel sliderPanel = new RoundPanel();
 		sliderPanel.addStyleName("colorSliderPanel");
+		
 		Slider slider = new Slider();
 		slider.setMinimum(0);
 		slider.setMaximum(10);

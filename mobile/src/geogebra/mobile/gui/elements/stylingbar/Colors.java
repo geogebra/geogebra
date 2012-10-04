@@ -14,15 +14,14 @@ import com.googlecode.mgwt.ui.client.widget.Button;
  */
 public class Colors extends VerticalPanel
 {
-
 	StylingBar stylingBar;
 	MobileModel mobileModel;
-	String buttonColor;
 
 	public Colors(StylingBar stylingBar, MobileModel mobileModel)
 	{
 		this.stylingBar = stylingBar;
 		this.mobileModel = mobileModel;
+
 		addDummyButton();
 		addColorButton(GColor.BLACK);
 		addColorButton(new GColorW(153, 51, 0));
@@ -42,8 +41,9 @@ public class Colors extends VerticalPanel
 	private void addColorButton(final GColor color)
 	{
 		Button button = new Button();
-		button.addStyleName("colorChoiceButton");
+		button.addStyleDependentName("colorChoiceButton");
 		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
+		
 		button.addDomHandler(new ClickHandler()
 		{
 
@@ -60,13 +60,15 @@ public class Colors extends VerticalPanel
 			}
 
 		}, ClickEvent.getType());
-		add(button);
+		
+		this.add(button);
 	}
 
 	private void addDummyButton()
 	{
 		Button button = new Button();
-		button.addStyleName("dummyButton");
-		add(button);
+		button.addStyleDependentName("dummyButton");
+		
+		this.add(button);
 	}
 }

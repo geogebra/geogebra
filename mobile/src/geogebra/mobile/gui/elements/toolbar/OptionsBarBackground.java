@@ -31,7 +31,7 @@ public class OptionsBarBackground extends ButtonBar
 	public OptionsBarBackground(ToolBarCommand[] menuEntries,
 			OptionsClickedListener ancestor)
 	{
-		this.addStyleName("toolBarOptionsBackground");
+		this.addStyleDependentName("toolBarOptionsBackground");
 		this.optionsBar = new OptionsBar(menuEntries, ancestor);
 
 		this.animationHelper = new AnimationHelper();

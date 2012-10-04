@@ -16,12 +16,12 @@
 	top: 0px;
 }
 
-.toolbar {
+.mgwt-ButtonBar-toolbar {
 	position: absolute;
 	bottom: 0px;
 }
 
-.toolBarOptionsBackground {
+.mgwt-ButtonBar-toolBarOptionsBackground {
 	position: absolute;
 	bottom: 50px;
 	background: none;
@@ -64,18 +64,18 @@
 	height: 100%;
 }
 
-.colorChoiceButton {
-	margin-left: 27px !important;
+div.mgwt-Button-colorChoiceButton {
+	margin-left: 27px;
 	height: 18px;
 	width: 100%;
-	background-image: none !important;
+	background-image: none;
 }
 
-.dummyButton {
+div.mgwt-Button-dummyButton {
 	height: 58px;
-	background-image: none !important;
+	background-image: none;
 	background: none;
-	border: none !important;
+	border: none;
 }
 
 .colorBar * td {
@@ -98,7 +98,7 @@
 	right: 0px;
 }
 
-.rightButton {
+.mgwt-BarButton-tool-rightButton {
 	position: absolute;
 	right: 0px;
 }
@@ -111,7 +111,7 @@
 	width: 98%;
 }
 
-.toolbutton {
+.mgwt-BarButton-tool {
 	cursor: pointer;
 	border: 1px solid rgba(0, 0, 0, 0.5);
 	margin: 3px;

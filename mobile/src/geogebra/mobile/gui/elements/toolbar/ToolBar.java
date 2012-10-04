@@ -27,7 +27,7 @@ public class ToolBar extends ButtonBar
 
 	public ToolBar()
 	{
-		this.addStyleName("toolbar");
+		this.addStyleDependentName("toolbar");
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class ToolBar extends ButtonBar
 
 		// inputBar
 		this.b[11] = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), mobileModel.getGuiModel());
-		this.b[11].addStyleName("rightButton");
+		this.b[11].addStyleDependentName("rightButton");
 		this.b[11].addDomHandler(new ClickHandler()
 		{
 			@Override

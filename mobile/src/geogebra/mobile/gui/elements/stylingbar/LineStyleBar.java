@@ -16,7 +16,7 @@ public class LineStyleBar extends RoundPanel
 
 	public LineStyleBar(final MobileModel mobileModel)
 	{
-		addStyleName("StyleBarOptions");
+		this.addStyleName("StyleBarOptions");
 
 		Button[] lineStyle = new Button[5];
 

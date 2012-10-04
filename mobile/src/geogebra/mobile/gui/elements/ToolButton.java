@@ -25,7 +25,7 @@ public class ToolButton extends ButtonBarButtonBase
 	public ToolButton(ToolBarCommand cmd)
 	{
 		super(null);
-		this.addStyleName("toolbutton");
+		this.addStyleDependentName("tool");
 
 		this.cmd = cmd;
 		super.getElement().getStyle().setBackgroundImage(cmd.getIconUrlAsString());
@@ -34,7 +34,7 @@ public class ToolButton extends ButtonBarButtonBase
 	public ToolButton(SVGResource icon)
 	{
 		super(null);
-		this.addStyleName("toolbutton");
+		this.addStyleDependentName("tool");
 		super.getElement().getStyle().setBackgroundImage("url(" + icon.getSafeUri().asString() + ")");
 	}
 
