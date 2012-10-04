@@ -224,6 +224,12 @@ public class StringUtil {
 		}
 	}
 
+	/**
+	 * Default implementation does not work, overriden in desktop
+	 * TODO make sure we override this in Web as well
+	 * @param c character
+	 * @return whether it's left to right Unicode character
+	 */
 	protected boolean isRightToLeftChar( char c ) {
 
 		return false; 

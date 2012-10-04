@@ -31,7 +31,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 /**
  *
  * @author  Markus
- * @version 
  */
 public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, DependentAlgo {
 

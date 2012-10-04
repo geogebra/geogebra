@@ -480,9 +480,8 @@ public class Complex {
          double[] result = multiply(Math.PI, x);
          result = divide( result, multiply( g, sin( multiply(Math.PI, x) ) ) );
          return result;
-      } else {
-         return g;
       }
+	return g;
    }
 
    /**
@@ -689,9 +688,8 @@ public class Complex {
          result = subtract( result, g);
          result = subtract( result, lnSin( multiply(Math.PI, x) ) );
          return result;
-      } else {
-         return g;
       }
+	return g;
    }
 
    /**

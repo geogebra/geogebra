@@ -17,8 +17,6 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class SpreadsheetTableModel implements View {
 
-	private static final long serialVersionUID = 1L;
-
 	private App app;
 	private int highestUsedColumn = -1;
 	private int highestUsedRow = -1;

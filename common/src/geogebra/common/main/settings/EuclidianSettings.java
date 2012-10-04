@@ -638,7 +638,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setShowAxes(boolean x, boolean y) {
 		this.setShowAxis(0, x);
-		this.setShowAxis(1, x);
+		this.setShowAxis(1, y);
 		//settingChanged() is called from those above
 
 	}

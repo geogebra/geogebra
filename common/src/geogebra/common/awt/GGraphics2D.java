@@ -786,8 +786,5 @@ public abstract class GGraphics2D {
 
 	public abstract void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 
-	public void drawImage(GImage img, int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void drawImage(GImage img, int x, int y);
 }
