@@ -2214,10 +2214,6 @@ public class AppW extends App {
 			getEuclidianView2().resetXYMinMaxObjects();
 		}
 
-		if (scriptManager != null) {
-			scriptManager.resetListeners();
-		}
-
 		resetUniqueId();
 
 		driveBase64FileName = null;
