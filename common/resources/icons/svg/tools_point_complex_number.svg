@@ -14,7 +14,7 @@
    inkscape:version="0.48.2 r9819"
    width="512"
    height="512"
-   sodipodi:docname="complex_number.svg">
+   sodipodi:docname="tools_point_complex_number.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -38,30 +38,25 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1680"
-     inkscape:window-height="988"
+     inkscape:window-width="1440"
+     inkscape:window-height="816"
      id="namedview4"
      showgrid="false"
      inkscape:zoom="1.28"
      inkscape:cx="106.66243"
      inkscape:cy="239.23901"
-     inkscape:window-x="1358"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
-  <path
-     inkscape:connector-curvature="0"
-     id="path3003"
-     d="m 0.98305499,396.49153 0,-116 114.99999501,0 115,0 0,116 0,116 -115,0 -114.99999501,0 0,-116 z"
-     style="fill:#fdfdfd" />
   <g
-     id="g3860"
-     transform="matrix(2.4074227,0,0,2.4074227,-100.4648,50.786786)" />
-  <g
-     id="g3005">
+     id="g2990">
+    <g
+       transform="matrix(2.4074227,0,0,2.4074227,-100.4648,50.786786)"
+       id="g3860" />
     <g
        id="text3787"
-       style="font-size:97.22268676999999600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       style="font-size:97.22268677px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
        transform="matrix(2.3920369,0,0,2.4229075,-70.777301,10.161786)">
       <path
          inkscape:connector-curvature="0"
