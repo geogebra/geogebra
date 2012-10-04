@@ -40,12 +40,12 @@ import java.util.Iterator;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo,
 	RestrictionAlgoForLocusEquation{
-
-	protected GeoLine g; // input
+	/** input line */
+	protected GeoLine g;
+	/** input conic */
 	protected GeoConic c;
 
 	private GeoPoint[] D; // D: old points; Q: new points, not yet permuted
@@ -65,7 +65,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	// for every resulting point P: has it ever been defined, i.e. is it alive?
 	private boolean isPalive[];
 
-	private int i;
+	//private int i;
 	private boolean isDefinedAsTangent;
 	private boolean firstIntersection = true;
 	private boolean isPermutationNeeded = true;
@@ -152,7 +152,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			isQonPath = new boolean[2];
 			isPalive = new boolean[2];
 
-			for (i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				Q[i] = new GeoPoint(cons);
 				P[i] = new GeoPoint(cons);
 				D[i] = new GeoPoint(cons);
@@ -457,7 +457,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// remember the defined points D, so that Di = Pi if Pi is defined
 		// and set age
 		boolean noSingularity = !P[0].isEqual(P[1]); // singularity check
-		for (i = 0; i < 2; i++) {
+		for (int i = 0; i < 2; i++) {
 			boolean finite = P[i].isFinite();
 
 			// don't do this if P[0] = P[1]
@@ -486,7 +486,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		if (firstIntersection) {
 			// init points in order P[0], P[1]
 			int count = 0;
-			for (i = 0; i < Q.length; i++) {
+			for (int i = 0; i < Q.length; i++) {
 				// make sure interesection points lie on limited paths
 				if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {
 					P[count].setCoords(Q[i]);
@@ -529,7 +529,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// singularity check
 		boolean noSingularity = !P[0].isEqual(P[1]);
 
-		for (i = 0; i < P.length; i++) {
+		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {
 				if (!pointLiesOnBothPaths(P[i])) {
 					// the intersection point should be undefined as it doesn't
