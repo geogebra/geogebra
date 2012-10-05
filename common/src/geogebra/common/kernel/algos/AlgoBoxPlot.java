@@ -272,13 +272,14 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 				
 				if (useOutliers) {
 
-					// outlier = more than 1.5 * IQR from median
-					if (x > median + 1.5 * (Q3 - Q1)) {
+					// outlier = more than 1.5 * IQR above Q3...
+					if (x > Q3 + 1.5 * (Q3 - Q1)) {
 						addOutlier(x);
 						updateMaxMin = false;
 					}
 					
-					if (x < median - 1.5 * (Q3 - Q1)) {
+					// ...or less then 1.5 * IQR below Q1
+					if (x < Q1 - 1.5 * (Q3 - Q1)) {
 						addOutlier(x);
 						updateMaxMin = false;
 					}
