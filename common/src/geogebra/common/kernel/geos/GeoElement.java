@@ -221,15 +221,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	private GeoCasCell correspondingCasCell; // used by GeoCasCell
 	private boolean animating = false;
 	/** maximal animation speed */
-	public final static double MAX_ANIMATION_SPEED = 100;
+	final public static double MAX_ANIMATION_SPEED = 100;
 	/** animation type: oscillating */
-	public final static int ANIMATION_OSCILLATING = 0;
+	final public static int ANIMATION_OSCILLATING = 0;
 	/** animation type: increasing */
-	public final static int ANIMATION_INCREASING = 1;
+	final public static int ANIMATION_INCREASING = 1;
 	/** animation type: decreasing */
-	public final static int ANIMATION_DECREASING = 2;
+	final public static int ANIMATION_DECREASING = 2;
 	/** animation type: increasing once */
-	public final static int ANIMATION_INCREASING_ONCE = 3;
+	final public static int ANIMATION_INCREASING_ONCE = 3;
 	private int animationType = ANIMATION_OSCILLATING;
 	private int animationDirection = 1;
 	/** transparency */
@@ -257,11 +257,11 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// =================================
 	/** color space: RGB */
-	public final static int COLORSPACE_RGB = 0;
+	final public static int COLORSPACE_RGB = 0;
 	/** color space: HSB */
-	public final static int COLORSPACE_HSB = 1;
+	final public static int COLORSPACE_HSB = 1;
 	/** color space: HSL */
-	public final static int COLORSPACE_HSL = 2;
+	final public static int COLORSPACE_HSL = 2;
 	private int colorSpace = COLORSPACE_RGB;
 
 	private final List<Integer> viewFlags;
@@ -1599,7 +1599,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Used to convert various interfaces into GeoElement
 	 * @return this
 	 */
-	public final GeoElement toGeoElement() {
+	final public GeoElement toGeoElement() {
 		return this;
 	}
 
@@ -2031,7 +2031,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return whether this element has editable properties
 	 */
-	public final boolean hasProperties() {
+	final public boolean hasProperties() {
 		// return isDrawable() || isChangeable();
 		return isGeoElement();
 	}
@@ -3219,7 +3219,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param algorithm algorithm directly dependent on this
 	 */
-	public final void addAlgorithm(final AlgoElement algorithm) {
+	final public void addAlgorithm(final AlgoElement algorithm) {
 		if (!(getAlgorithmList().contains(algorithm))) {
 			algorithmList.add(algorithm);
 		}
@@ -3233,7 +3233,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param algorithm algo to be added
 	 */
-	public final void addToAlgorithmListOnly(final AlgoElement algorithm) {
+	final public void addToAlgorithmListOnly(final AlgoElement algorithm) {
 		if (!getAlgorithmList().contains(algorithm)) {
 			algorithmList.add(algorithm);
 		}
@@ -3246,7 +3246,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param algorithm algorithm to be added
 	 */
-	public final void addToUpdateSetOnly(final AlgoElement algorithm) {
+	final public void addToUpdateSetOnly(final AlgoElement algorithm) {
 		addToUpdateSets(algorithm);
 	}
 
@@ -3255,7 +3255,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param algorithm algorithm to be removed
 	 */
-	public final void removeAlgorithm(final AlgoElement algorithm) {
+	final public void removeAlgorithm(final AlgoElement algorithm) {
 		if (algorithmList != null) {
 			algorithmList.remove(algorithm);
 			removeFromUpdateSets(algorithm);
@@ -3623,7 +3623,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	@SuppressWarnings("deprecation")
 	@Deprecated
 	@Override
-	public final String toString() {
+	final public String toString() {
 		return toString(StringTemplate.defaultTemplate);
 	}
 
@@ -3652,7 +3652,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return new MyDouble(getKernel(),Double.NaN);
 	}
 	
-	public final ExpressionValue evaluate(StringTemplate tpl) {
+	final public ExpressionValue evaluate(StringTemplate tpl) {
 		return this;
 	}
 
@@ -3761,7 +3761,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo other geo
 	 * @return true if geo depends on this object.
 	 */
-	public boolean isParentOf(final GeoElement geo) {
+	final public boolean isParentOf(final GeoElement geo) {
 		if (algoUpdateSet != null) {
 			final Iterator<AlgoElement> it = algoUpdateSet
 					.getIterator();
@@ -3783,7 +3783,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return true if this object is parent of other geos.
 	 */
-	public boolean hasChildren() {
+	final public boolean hasChildren() {
 		return (algorithmList != null) && (algorithmList.size() > 0);
 	}
 
@@ -3793,7 +3793,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo other geo
 	 * @return true if this object is dependent on geo.
 	 */
-	public boolean isChildOf(final GeoElement geo) {
+	final public boolean isChildOf(final GeoElement geo) {
 		if ((geo == null) || isIndependent()) {
 			return false;
 		}
@@ -3806,7 +3806,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo other geo
 	 * @return true if this object is dependent on other geo.
 	 */
-	public boolean isChildOrEqual(final GeoElement geo) {
+	final public boolean isChildOrEqual(final GeoElement geo) {
 		return (this == geo) || isChildOf(geo);
 	}
 
@@ -3815,7 +3815,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return set of all children of this geo
 	 */
-	public TreeSet<GeoElement> getAllChildren() {
+	final public TreeSet<GeoElement> getAllChildren() {
 		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
 		if (algoUpdateSet != null) {
 			final Iterator<AlgoElement> it = algoUpdateSet
@@ -3834,7 +3834,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * implementation of abstract methods from ConstructionElement
 	 */
 	@Override
-	public GeoElement[] getGeoElements() {
+	final public GeoElement[] getGeoElements() {
 		return myGeoElements;
 	}
 
@@ -3855,7 +3855,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * object the construction index of its parent algorithm is returned.
 	 */
 	@Override
-	public int getConstructionIndex() {
+	final public int getConstructionIndex() {
 		if (algoParent == null) {
 			return super.getConstructionIndex();
 		}
@@ -3867,7 +3867,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * construction. For an independent object 0 is returned.
 	 */
 	@Override
-	public int getMinConstructionIndex() {
+	final public int getMinConstructionIndex() {
 		if (algoParent == null) {
 			return 0;
 		}
@@ -3879,7 +3879,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * construction.
 	 */
 	@Override
-	public int getMaxConstructionIndex() {
+	final public int getMaxConstructionIndex() {
 		if (algoParent == null) {
 			// independent object:
 			// index must be less than every dependent algorithm's index
@@ -3898,7 +3898,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String getDefinitionDescription(StringTemplate tpl) {
+	final public String getDefinitionDescription(StringTemplate tpl) {
 		if (algoParent == null) {
 			return "";
 		}
@@ -3909,7 +3909,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param addHTMLtag true to wrap in &lthtml>
 	 * @return definition description as HTML
 	 */
-	public String getDefinitionDescriptionHTML(final boolean addHTMLtag) {
+	final public String getDefinitionDescriptionHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
 		}
@@ -3918,7 +3918,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String getCommandDescription(StringTemplate tpl) {
+	final public String getCommandDescription(StringTemplate tpl) {
 		if (algoParent == null) {
 			return "";
 		}
@@ -3929,7 +3929,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param addHTMLtag tue to wrap in &lt;HTML>
 	 * @return HTML command description
 	 */
-	public String getCommandDescriptionHTML(final boolean addHTMLtag) {
+	final public String getCommandDescriptionHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
 		}
@@ -3962,7 +3962,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param desc description
 	 * @return label = description or label: description
 	 */
-	public String addLabelTextOrHTML(final String desc) {
+	final public String addLabelTextOrHTML(final String desc) {
 		String ret;
 
 		final boolean includesEqual = desc.indexOf('=') >= 0;
@@ -4725,7 +4725,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Appends caption XML tag to given builder
 	 * @param sb string builder
 	 */
-	public final void getCaptionXML(StringBuilder sb) {
+	final public void getCaptionXML(StringBuilder sb) {
 		// caption text
 		if ((caption != null) && (caption.length() > 0)
 				&& !caption.equals(label)) {
@@ -5109,7 +5109,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return "";
 	}
 
-	public final int getLineThickness() {
+	final public int getLineThickness() {
 		return lineThickness;
 	}
 
@@ -5121,7 +5121,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return 1;
 	}
 
-	public final int getLineType() {
+	final public int getLineType() {
 		return lineType;
 	}
 
@@ -5461,7 +5461,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return condition to show this geo
 	 */
-	public final GeoBoolean getShowObjectCondition() {
+	final public GeoBoolean getShowObjectCondition() {
 		return condShowObject;
 	}
 
@@ -5496,7 +5496,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Removes condition to show object, if it is equal to the given one
 	 * @param bool condition to show object
 	 */
-	public final void removeCondition(final GeoBoolean bool) {
+	final public void removeCondition(final GeoBoolean bool) {
 		if (condShowObject == bool) {
 			condShowObject = null;
 		}
@@ -5504,7 +5504,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return dynamic color as list of numbers {R,G,B} / {H,S,L} / {H,S,B}
 	 */
-	public final GeoList getColorFunction() {
+	final public GeoList getColorFunction() {
 		return colFunction;
 	}
 
@@ -5851,7 +5851,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return true for macro outputs
 	 */
-	public final boolean isAlgoMacroOutput() {
+	final public boolean isAlgoMacroOutput() {
 		return isAlgoMacroOutput;
 	}
 
@@ -6818,7 +6818,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return label;
 	}
 	
-	public final ExpressionValue traverse(Traversing t){
+	final public ExpressionValue traverse(Traversing t){
 		return t.process(this);
 	}
 	
@@ -6831,11 +6831,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 	
-	public final GeoElement unwrap(){
+	final public GeoElement unwrap(){
 		return this;
 	}
 	
-	public ExpressionNode wrap(){
+	final public ExpressionNode wrap(){
 		return new ExpressionNode(getKernel(),this);
 	}
 
@@ -6864,7 +6864,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return whether this element has fixed screen location in some view
 	 */
-	public boolean isPinned() {
+	final public boolean isPinned() {
 		if (this instanceof AbsoluteScreenLocateable) {
 			return ((AbsoluteScreenLocateable) this).isAbsoluteScreenLocActive();
 		}
