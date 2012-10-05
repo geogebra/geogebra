@@ -1050,6 +1050,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (cmdname.equals("Expression")) {
 			return real ? toRealString(tpl) : toString(tpl);
 		}
+		//#2706
+		if(input==null)
+			return null;
 		sbAE.setLength(0);
 		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(app.getCommand(cmdname));
