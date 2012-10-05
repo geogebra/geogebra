@@ -24,9 +24,14 @@ from geogebra.awt import GColorD as Color
 class Interface(PythonScriptInterface):
     
     def init(self, raw_api):
-        global selection
-        self.api = api = APIProxy(raw_api)
+        self.api = APIProxy(raw_api)
+        self.ggbApi = APIProxy(raw_api.getGgbApi())
         self.pywin = None
+        self.reinit()
+    
+    def reinit(self):
+        global selection
+        api = self.api
         factory = self.factory = objects.ElementFactory(api)
         functions = Functions(api, factory)
         self.geo = objects.GeoNamespace(self.factory)
@@ -35,7 +40,7 @@ class Interface(PythonScriptInterface):
             'RConnection': RConnection,
             'Color': Color,
             # Below we must assume that the GgbApi is already created.
-            'ggbApplet': APIProxy(raw_api.getGgbApi()),
+            'ggbApplet': self.ggbApi,
             'geo': self.geo,
             'selection': self.selection,
             #'interactive': interactive,
@@ -179,7 +184,7 @@ class Interface(PythonScriptInterface):
         # Make sure all objects are fresh
         reload(objects)
         # Refresh the namespace and stuff as well
-        self(init)
+        self.reinit()
         # Reset the Python Window if it's up
         if self.pywin is not None:
             self.pywin.reset()

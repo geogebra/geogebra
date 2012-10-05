@@ -445,7 +445,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					GColor.WHITE, false);
 
 			if (!app.isApplet()) {
-				//app.getPythonBridge();
+				app.getPythonBridge();
 			}
 	
 			// check if newer version is available
