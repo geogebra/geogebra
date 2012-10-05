@@ -50,6 +50,9 @@ public class EventDispatcher implements View {
 	 *            the event to be dispatched
 	 */
 	public void dispatchEvent(Event evt) {
+		if (!evt.target.isLabelSet()) {
+			return;
+		}
 		for (EventListener listener : listeners) {
 			listener.sendEvent(evt);
 		}

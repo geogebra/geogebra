@@ -76,6 +76,9 @@ public abstract class ScriptManager implements EventListener{
 	}
 	
 	private void callListeners(List<String> listeners, Event evt) {
+		if (listeners.isEmpty()) {
+			return;
+		}
 		Object[] args = getArguments(evt);
 		for (String listener : listeners) {
 			callJavaScript(listener, args);
