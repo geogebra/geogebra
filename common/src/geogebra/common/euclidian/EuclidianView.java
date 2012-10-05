@@ -3114,7 +3114,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			// tick, exception is for positive only
 			double smallTickOffset = 0;
 			double axesStep = getXscale() * axesNumberingDistances[0]; // pixelstep
-			if (getPositiveAxes()[0] && (rw > getXmin())) {
+			if (getPositiveAxes()[0] && (Kernel.isGreaterEqual(rw, getXmin()))) {
 				// start labels at the y-axis instead of screen border
 				// be careful: axisCross[1] = x value for which the y-axis
 				// crosses,
@@ -3313,7 +3313,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			// tick, exception is for positive only
 			double smallTickOffset = 0;
 			double axesStep = getYscale() * axesNumberingDistances[1]; // pixelstep
-			if (getPositiveAxes()[1] && (rw > getYmin())) {
+			if (getPositiveAxes()[1] && (Kernel.isGreaterEqual(rw, getYmin()))) {
 				// start labels at the y-axis instead of screen border
 				// be careful: axisCross[1] = x value for which the y-axis
 				// crosses,
