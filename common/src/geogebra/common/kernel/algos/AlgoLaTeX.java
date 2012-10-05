@@ -19,7 +19,9 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 
@@ -124,7 +126,11 @@ public class AlgoLaTeX extends AlgoElement {
     		
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
     		if(show){
-    			text.setTextString(geo.getLaTeXAlgebraDescription(substitute,text.getStringTemplate()));
+    			if(geo.isGeoCasCell()){
+    				text.setTextString(((GeoCasCell)geo).getOutput(StringTemplate.numericLatex));	
+    			}else{
+    				text.setTextString(geo.getLaTeXAlgebraDescription(substitute,text.getStringTemplate()));
+    			}
     			if(text.getTextString() == null){
     				String desc = geo.getAlgebraDescription(text.getStringTemplate());
     				if(geo.hasIndexLabel())
@@ -136,7 +142,9 @@ public class AlgoLaTeX extends AlgoElement {
     			if (geo.isGeoText()) {
     				// needed for eg Text commands eg FormulaText[Text[
     				text.setTextString(((GeoText)geo).getTextString());
-    			} else {
+    			}else if(geo.isGeoCasCell()){
+    				text.setTextString(((GeoCasCell)geo).getOutput(StringTemplate.numericLatex));	
+    			}else {
     				text.setTextString(geo.getFormulaString(text.getStringTemplate(), substitute ));   
     			}
     		}
