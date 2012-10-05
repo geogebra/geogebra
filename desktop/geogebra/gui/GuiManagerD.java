@@ -1501,7 +1501,6 @@ public class GuiManagerD extends GuiManager {
 					fileFilter.addExtension("jpeg");
 					fileFilter.addExtension("png");
 					fileFilter.addExtension("gif");
-					fileFilter.addExtension("tif");
 					if (Util.getJavaVersion() >= 1.5)
 						fileFilter.addExtension("bmp");
 					fileFilter.setDescription(app.getPlain("Image"));
