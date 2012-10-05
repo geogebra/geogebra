@@ -181,23 +181,20 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		// tell MPReduce whether it should use the keep input flag,
 		// e.g. important for Substitute
 		StringBuilder sb = new StringBuilder();
-		sb.append("<<keepinput!!:=");
+	
+		sb.append("<<resetsettings(");
 		sb.append(keepInput ? 1 : 0);
-		sb.append("$taylortostd:=");
+		sb.append(",");
 		sb.append(taylorToStd ? 1 : 0);
-		// set default switches
-		// (note: off factor turns on exp, so off exp must be placed later)
-
-		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ off allfac,revpri, complex, rounded, numval, factor, div, combinelogs, expandlogs, combineexpt,rational,rationalize$ on pri$ currentx!!:= ");
-
+		sb.append(",");
 		// sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
 		if (arbconst == null || arbconst.isCAS()) {
 			sb.append(casPrefix);
-			sb.append("x; currenty!!:= ");
+			sb.append("x,");
 			sb.append(casPrefix);
-			sb.append("y;");
+			sb.append("y);");
 		} else {
-			sb.append("ggbtmpvarx;currenty!!:=ggbtmpvary;");
+			sb.append("ggbtmpvarx,ggbtmpvary);");
 		}
 
 		sb.append(mpreduceInput);
@@ -433,7 +430,20 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("scientific_notation {16,5};");
 		mpreduce1.evaluate("on fullroots;");
 		mpreduce1.evaluate("printprecision!!:=15;");
+	
+		// set default switches
+		// (note: off factor turns on exp, so off exp must be placed later)
 
+		mpreduce1.evaluate("procedure resetsettings(keepin,taystd,curx,cury);begin;" +
+				"keepinput!!:=keepin;taylortostd:=taystd;" +
+				"currentx!!:=curx;currenty!!:=cury;" +
+				"numeric!!:=0$ precision 30; " +
+				"print\\_precision 16; " +
+				"off allfac,revpri, complex, rounded, numval, factor, div; " +
+				"off combinelogs, expandlogs, combineexpt,rational,rationalize;" +
+				"on pri;" +
+				"return 1;" +
+				"end;");
 		mpreduce1
 				.evaluate("intrules!!:={"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
