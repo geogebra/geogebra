@@ -577,7 +577,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CFactor_1() {
-		t("CFactor[a^2 + x^2, a]", "(a + x * \u03af) * (a - x * \u03af)",	"(a - x * \u03af) * (a + x * \u03af)");
+		t("CFactor[a^2 + x^2, a]", "(\u03af * x + a) * (- \u03af * x + a)",	"(a - x * \u03af) * (a + x * \u03af)");
 	}
 
 	@Test
@@ -991,7 +991,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Expand_4() {
 		t("Expand[(x^6 + 6 x^5 + 30 x^4 + 120 x^3 + 360 x^2 + 720 x + 720) / 720]",
-				"x^(6) / 720 + x^(5) / 120 + x^(4) / 24 + x^(3) / 6 + x^(2) / 2 + x + 1");
+				"1/ 720 * x^(6) + 1 / 120 * x^(5) + 1 / 24 * x^(4) + 1 / 6 *x^(3) + 1 / 2 * x^(2) + x + 1");
 	}
 
 	@Test
@@ -1383,7 +1383,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Integral_Indefinite_2() {
-		s("Integral[-x^3 + x^2]", "(-3 * x^(4) + 4 * x^(3)) / 12 + c_INDEX");
+		s("Integral[-x^3 + x^2]", "(-1) / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
 	}
 
 	/* Definite Integral */
@@ -2248,7 +2248,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void SampleSD_1() {
 		// TODO Result unchecked.
-		t("SampleSD[{1, 2, a}]", "(sqrt(a^(2) - 3 * a + 3) * sqrt(3)) / 3");
+		t("SampleSD[{1, 2, a}]", "sqrt(a^(2) - 3 * a + 3) / sqrt(3)");
 	}
 	
 
@@ -2734,7 +2734,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitPerpendicularVector_1() {
 		t("UnitPerpendicularVector[(a, b)]",
-				"((-sqrt(a^(2) + b^(2)) * b) / (a^(2) + b^(2)), (sqrt(a^(2) + b^(2)) * a) / (a^(2) + b^(2)))");
+				"((-b) / sqrt(a^(2) + b^(2)) , a / sqrt(a^(2) + b^(2)))");
 	}
 	
 
@@ -2748,7 +2748,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitVector_1() {
 		t("UnitVector[(a, b)]",
-				"(a * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)), b * sqrt(a^(2) + b^(2)) / (a^(2) + b^(2)))",
+				"(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))",
 				"((sqrt(a^(2) + b^(2)) * a) / (a^(2) + b^(2)), (sqrt(a^(2) + b^(2)) *b) / (a^(2) + b^(2)))");
 	}
 
