@@ -299,14 +299,17 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 		axesOptionsPanel.add(btAxesColor);
 		axesOptionsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
+		
 		// axes style
 		cbAxesStyle = new JComboBox();
 		lineStyle = new JLabel(app.getPlain("LineStyle") + ":");
 		lineStyle.setLabelFor(cbAxesStyle);
 		cbAxesStyle.addItem("\u2014"); // line
 		cbAxesStyle.addItem("\u2192"); // arrow
-		cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold line
-		cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
+		cbAxesStyle.addItem("\u21fe"); // arrow (triangle)
+		cbAxesStyle.addItem("\u21ff"); // arrow (double)
+		//cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold line
+		//cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
 																	// arrow
 		cbAxesStyle.setEditable(false);
 		axesOptionsPanel.add(lineStyle);

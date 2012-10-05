@@ -18,12 +18,14 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.NumberComboBox;
+import geogebra.gui.dialog.AxesStyleListRenderer;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
@@ -87,7 +89,7 @@ public class OptionsEuclidianD extends
 
 	// GUI elements
 	private JButton btBackgroundColor, btAxesColor, btGridColor;
-	private JCheckBox cbShowAxes, cbShowGrid, cbBoldGrid, cbGridManualTick,
+	private JCheckBox cbShowAxes, cbBoldAxes, cbShowGrid, cbBoldGrid, cbGridManualTick,
 			cbShowMouseCoords, ckShowNavbar, ckNavPlay, ckOpenConsProtocol;
 	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
 			cbTooltips;
@@ -253,6 +255,9 @@ public class OptionsEuclidianD extends
 		// show axes checkbox
 		cbShowAxes = new JCheckBox(app.getPlain("ShowAxes"));
 
+		// show bold checkbox
+		cbBoldAxes = new JCheckBox(app.getPlain("Bold"));
+
 		// axes color
 		color = new JLabel(app.getPlain("Color") + ":");
 		color.setLabelFor(btAxesColor);
@@ -262,19 +267,40 @@ public class OptionsEuclidianD extends
 		// axes style
 		lineStyle = new JLabel(app.getPlain("LineStyle") + ":");
 		lineStyle.setLabelFor(cbAxesStyle);
-		cbAxesStyle = new JComboBox();
-		cbAxesStyle.addItem("\u2014"); // line
-		cbAxesStyle.addItem("\u2192"); // arrow
-		cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold line
-		cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
+
+		
+		
+		
+		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
+		cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
+		cbAxesStyle.setRenderer(renderer);
+		cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
+		//cbAxesStyle.setBackground(getBackground());
+		
+		
+		//cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold line
+		//cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
 																	// arrow
+		
+		/*
+		 * 			
+		 * PointStyleListRenderer renderer = new PointStyleListRenderer();
+			renderer.setPreferredSize(new Dimension(18, 18));
+			cbStyle = new JComboBox(EuclidianViewD.getPointStyles());
+			cbStyle.setRenderer(renderer);
+			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE + 1);
+			cbStyle.setBackground(getBackground());
+			cbStyle.addActionListener(this);
+			add(cbStyle);
+
+		 */
 		cbAxesStyle.setEditable(false);
 
 		// axes options panel
 		axesOptionsPanel = new JPanel();
 		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel,
 				BoxLayout.Y_AXIS));
-		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes));
+		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes, Box.createHorizontalStrut(20), cbBoldAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
 				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
 	}
@@ -482,6 +508,10 @@ public class OptionsEuclidianD extends
 		cbShowAxes.setSelected(view.getShowXaxis() && view.getShowYaxis());
 		cbShowAxes.addActionListener(this);
 
+		cbBoldAxes.removeActionListener(this);
+		cbBoldAxes.setSelected(view.areAxesBold());
+		cbBoldAxes.addActionListener(this);
+
 		cbShowGrid.removeActionListener(this);
 		cbShowGrid.setSelected(view.getShowGrid());
 		cbShowGrid.addActionListener(this);
@@ -518,7 +548,14 @@ public class OptionsEuclidianD extends
 		cbGridType.addActionListener(this);
 
 		cbAxesStyle.removeActionListener(this);
-		cbAxesStyle.setSelectedIndex(view.getAxesLineStyle());
+		// need style with bold removed for menu
+		for (int i = 0 ; i < EuclidianStyleConstants.lineStyleOptions.length ; i++) {
+			if (view.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
+				cbAxesStyle.setSelectedIndex(i);
+				break;
+			}
+		}
+		
 		cbAxesStyle.addActionListener(this);
 
 		cbGridStyle.removeActionListener(this);
@@ -680,6 +717,7 @@ public class OptionsEuclidianD extends
 				.getPlain("Miscellaneous")));
 
 		cbShowAxes.setText(app.getPlain("ShowAxes"));
+		cbBoldAxes.setText(app.getPlain("Bold"));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -769,6 +807,20 @@ public class OptionsEuclidianD extends
 			} else {
 				view.setShowAxes(cbShowAxes.isSelected(), true);
 			}
+		} else if (source == cbBoldAxes) {
+			if (app.getEuclidianView1() == view) {
+				app.getSettings()
+						.getEuclidian(1)
+						.setBoldAxes(cbBoldAxes.isSelected());
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+				view.setShowAxes(cbShowAxes.isSelected(), true);
+			} else if (app.getEuclidianView2() == view) {
+				app.getSettings()
+						.getEuclidian(2)
+						.setBoldAxes(cbBoldAxes.isSelected());
+			} else {
+				view.setBoldAxes(cbBoldAxes.isSelected());
+			}
 		} else if (source == cbShowGrid) {
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1)
@@ -820,16 +872,21 @@ public class OptionsEuclidianD extends
 				view.setGridType(cbGridType.getSelectedIndex());
 			}
 		} else if (source == cbAxesStyle) {
+			
+			int style = ((Integer)cbAxesStyle.getSelectedItem()).intValue()
+					// make sure bold checkbox doesn't change
+					+ (cbBoldAxes.isSelected() ? EuclidianStyleConstants.AXES_BOLD : 0);
+			
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1)
-						.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
+						.setAxesLineStyle(style);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
+				view.setAxesLineStyle(style);
 			} else if (view == app.getEuclidianView2()) {
 				app.getSettings().getEuclidian(2)
-						.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
+						.setAxesLineStyle(style);
 			} else {
-				view.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
+				view.setAxesLineStyle(style);
 			}
 		} else if (source == cbGridStyle) {
 			int type = ((Integer) cbGridStyle.getSelectedItem()).intValue();
@@ -1119,6 +1176,7 @@ public class OptionsEuclidianD extends
 		axesOptionsPanel.setFont(font);
 		miscPanel.setFont(font);
 		cbShowAxes.setFont(font);
+		cbBoldAxes.setFont(font);
 
 		cbShowMouseCoords.setFont(font);
 

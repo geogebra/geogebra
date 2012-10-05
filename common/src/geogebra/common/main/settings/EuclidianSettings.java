@@ -2,6 +2,7 @@ package geogebra.common.main.settings;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -751,5 +752,15 @@ public class EuclidianSettings extends AbstractSettings {
 	public Double getLockedAxesRatio(){
 		return lockedAxesRatio;
 	}
+	
+	public void setBoldAxes(boolean bold) {
+		int oldAxesLineStyle = axesLineStyle;
+		axesLineStyle = EuclidianView.getBoldAxes(bold, axesLineStyle);
+		
+		if (oldAxesLineStyle != axesLineStyle) {
+			settingChanged();
+		}
+	}
+
 
 }

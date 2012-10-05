@@ -7,6 +7,7 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GFontRenderContext;
+import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint;
@@ -19,13 +20,13 @@ import geogebra.common.euclidian.draw.DrawButton;
 import geogebra.common.euclidian.draw.DrawConic;
 import geogebra.common.euclidian.draw.DrawImage;
 import geogebra.common.euclidian.draw.DrawLine;
+import geogebra.common.euclidian.draw.DrawLine.PreviewType;
 import geogebra.common.euclidian.draw.DrawList;
 import geogebra.common.euclidian.draw.DrawPolyLine;
 import geogebra.common.euclidian.draw.DrawPolygon;
 import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
 import geogebra.common.euclidian.draw.DrawVector;
-import geogebra.common.euclidian.draw.DrawLine.PreviewType;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
@@ -115,19 +116,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			.newColor(200, 200, 230);
 	private static final geogebra.common.awt.GColor colZoomRectangleFill = geogebra.common.factories.AwtFactory.prototype
 			.newColor(200, 200, 230, 50);
-	
-	//deletion square design
+
+	// deletion square design
 	private static final GColor colDeletionSquare = AwtFactory.prototype
 			.newColor(128, 0, 0);
 	private static final GBasicStroke strokeDeletionSquare = AwtFactory.prototype
 			.newBasicStroke(1.0f);
 	private GRectangle deletionRectangle;
-	
-	
+
 	// colors: axes, grid, background
 	private geogebra.common.awt.GColor axesColor, gridColor;
 	private GRectangle selectionRectangle;
-	private static geogebra.common.awt.GBasicStroke defAxesStroke = geogebra.common.factories.AwtFactory.prototype
+	public static geogebra.common.awt.GBasicStroke defAxesStroke = geogebra.common.factories.AwtFactory.prototype
 			.newBasicStroke(1.0f, geogebra.common.awt.GBasicStroke.CAP_BUTT,
 					geogebra.common.awt.GBasicStroke.JOIN_MITER);
 
@@ -1113,9 +1113,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			kernel.setEuclidianViewBounds(evNo, getXmin(), getXmax(),
 					getYmin(), getYmax(), getXscale(), getYscale());
 		}
-		
-		//tell option panel
-		if (optionPanel!=null)
+
+		// tell option panel
+		if (optionPanel != null)
 			optionPanel.updateBounds();
 
 	}
@@ -1517,12 +1517,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	final public DrawableND createDrawableND(GeoElement geo) {
 		return createDrawable(geo);
 	}
-	
+
 	public DrawableND newDrawable(GeoElement geo) {
 		return EuclidianDraw.newDrawable(this, geo);
 	}
-
-
 
 	/**
 	 * adds a GeoElement to this view
@@ -1960,8 +1958,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            new mode for sylebar
 	 */
 	protected abstract void setStyleBarMode(int mode);
-
-
 
 	/**
 	 * @param mode
@@ -2407,8 +2403,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		int layer;
 
 		for (layer = 0; layer <= getApplication().getMaxLayerUsed(); layer++) // only
-																			// draw
-																			// layers
+																				// draw
+																				// layers
 		// we need
 		{
 			// if (isSVGExtensions)
@@ -2580,9 +2576,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		if (selectionRectangle != null) {
 			drawZoomRectangle(g2);
 		}
-		
-		if (deletionRectangle != null){
-			drawRect(g2, colDeletionSquare,strokeDeletionSquare,deletionRectangle);
+
+		if (deletionRectangle != null) {
+			drawRect(g2, colDeletionSquare, strokeDeletionSquare,
+					deletionRectangle);
 		}
 
 		// when mouse over slider, show preview value of slider for that point
@@ -2625,15 +2622,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		g2.setColor(colZoomRectangle);
 		g2.draw(selectionRectangle);
 	}
-	
+
 	/**
-	 * 	 Draws rectangle with given options
-	 * @param g2 graphics
-	 * @param col color for stroke
-	 * @param stroke stroke to use
-	 * @param rect rectangle to draw
+	 * Draws rectangle with given options
+	 * 
+	 * @param g2
+	 *            graphics
+	 * @param col
+	 *            color for stroke
+	 * @param stroke
+	 *            stroke to use
+	 * @param rect
+	 *            rectangle to draw
 	 */
-	protected void drawRect(GGraphics2D g2, GColor col, GBasicStroke stroke, GRectangle rect) {
+	protected void drawRect(GGraphics2D g2, GColor col, GBasicStroke stroke,
+			GRectangle rect) {
 		g2.setColor(col);
 		g2.setStroke(stroke);
 		g2.draw(rect);
@@ -2725,6 +2728,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			.newEllipse2DDouble(); // polar grid circles
 	private GLine2D tempLine = geogebra.common.factories.AwtFactory.prototype
 			.newLine2D();
+	private GGeneralPath gp;
 	/**
 	 * Get styleBar
 	 */
@@ -2742,9 +2746,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// vars for handling positive-only axes
 		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
 		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
-		int yAxisEnd = (positiveAxes[1] && yCrossPix<getHeight())  ? (int) yCrossPix : getHeight();
-		int xAxisStart = (positiveAxes[0] && xCrossPix>0) ? (int) xCrossPix : 0;
-	
+		int yAxisEnd = (positiveAxes[1] && yCrossPix < getHeight()) ? (int) yCrossPix
+				: getHeight();
+		int xAxisStart = (positiveAxes[0] && xCrossPix > 0) ? (int) xCrossPix
+				: 0;
+
 		// set the clipping region to the region defined by the axes
 		geogebra.common.awt.GShape oldClip = g2.getClip();
 		if (gridType != GRID_POLAR) {
@@ -2765,7 +2771,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			double tickStep = getXscale() * gridDistances[0];
 			double start = getxZero() % tickStep;
 			double pix = start;
-			
+
 			for (int i = 0; pix <= getWidth(); i++) {
 				// int val = (int) Math.round(i);
 				// g2.drawLine(val, 0, val, height);
@@ -2965,12 +2971,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		double xSmall2 = xCrossPix - 2;
 		int xoffset, yoffset;
 
-		boolean bold = (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_FULL_BOLD)
-				|| (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD);
-		boolean drawArrowsx = ((axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW) || (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD))
+		boolean bold = areAxesBold();
+		boolean filled = (axesLineType & EuclidianStyleConstants.AXES_FILL_ARROWS) != 0;
+		
+		if (filled && gp == null) {
+			gp = geogebra.common.factories.AwtFactory.prototype.newGeneralPath();
+		}
+
+		boolean drawRightArrow = ((axesLineType & EuclidianStyleConstants.AXES_RIGHT_ARROW) != 0)
 				&& !(positiveAxes[0] && (getXmax() < axisCross[1]));
-		boolean drawArrowsy = ((axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW) || (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD))
+		boolean drawTopArrow = ((axesLineType & EuclidianStyleConstants.AXES_RIGHT_ARROW) != 0)
 				&& !(positiveAxes[1] && (getYmax() < axisCross[0]));
+		
+		
+		boolean drawLeftArrow = ((axesLineType & EuclidianStyleConstants.AXES_LEFT_ARROW) != 0)
+				&& !(positiveAxes[0]);
+		boolean drawBottomArrow = ((axesLineType & EuclidianStyleConstants.AXES_LEFT_ARROW) != 0)
+				&& !(positiveAxes[1]);
+		
+		
+		
 		// AXES_TICK_STYLE_MAJOR_MINOR = 0;
 		// AXES_TICK_STYLE_MAJOR = 1;
 		// AXES_TICK_STYLE_NONE = 2;
@@ -3004,8 +3024,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// RenderingHints.VALUE_ANTIALIAS_OFF);
 
 		// make sure arrows don't go off screen (eg EMF export)
-		double arrowAdjustx = drawArrowsx ? axesStroke.getLineWidth() : 0;
-		double arrowAdjusty = drawArrowsy ? axesStroke.getLineWidth() : 0;
+		double arrowAdjustx = drawRightArrow ? axesStroke.getLineWidth() : 0;
+		double arrowAdjusty = drawTopArrow ? axesStroke.getLineWidth() : 0;
 
 		GColor bgCol = showGrid && !moveAxesLabels ? getBackgroundCommon()
 				: null;
@@ -3015,18 +3035,51 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 			// y-Axis itself
 			g2.setStroke(axesStroke);
-			tempLine.setLine(xCrossPix, arrowAdjusty + (drawArrowsy ? 1 : -1),
-					xCrossPix, yAxisEnd);
+			tempLine.setLine(xCrossPix, arrowAdjusty + (drawTopArrow ? 1 : -1),
+					xCrossPix, yAxisEnd + (drawBottomArrow ? -2 : 0));
 			g2.draw(tempLine);
 
-			if (drawArrowsy) {
-				// draw arrow for y-axis
-				tempLine.setLine(xCrossPix + 0.5, arrowAdjusty, xCrossPix
-						- arrowSize, arrowAdjusty + arrowSize);
-				g2.draw(tempLine);
-				tempLine.setLine(xCrossPix - 0.5, arrowAdjusty, xCrossPix
-						+ arrowSize, arrowAdjusty + arrowSize);
-				g2.draw(tempLine);
+			if (drawTopArrow) {
+				
+				if (filled) {
+					
+					gp.reset();
+					gp.moveTo((float)xCrossPix, (float)arrowAdjusty);
+					gp.lineTo((float)(xCrossPix - arrowSize), (float)(arrowAdjusty + 4 * arrowSize));
+					gp.lineTo((float)(xCrossPix + arrowSize), (float)(arrowAdjusty + 4 * arrowSize));
+					
+					g2.fill(gp);
+					
+				} else {
+					// draw top arrow for y-axis
+					tempLine.setLine(xCrossPix + 0.5, arrowAdjusty, xCrossPix
+							- arrowSize, arrowAdjusty + arrowSize);
+					g2.draw(tempLine);
+					tempLine.setLine(xCrossPix - 0.5, arrowAdjusty, xCrossPix
+							+ arrowSize, arrowAdjusty + arrowSize);
+					g2.draw(tempLine);
+				}
+			}
+
+			if (drawBottomArrow) {
+				
+				if (filled) {
+					
+					gp.reset();
+					gp.moveTo((float)xCrossPix, (float)(getHeight() - arrowAdjusty));
+					gp.lineTo((float)(xCrossPix - arrowSize), (float)(getHeight() - arrowAdjusty - 4 * arrowSize));
+					gp.lineTo((float)(xCrossPix + arrowSize), (float)(getHeight() - arrowAdjusty - 4 * arrowSize));
+					
+					g2.fill(gp);
+					
+				} else {
+					// draw bottom arrow for y-axis
+					tempLine.setLine(xCrossPix + 0.5, getHeight() - arrowAdjusty, xCrossPix - arrowSize, getHeight() - arrowAdjusty - arrowSize);
+					g2.draw(tempLine);
+					tempLine.setLine(xCrossPix - 0.5, getHeight() - arrowAdjusty, xCrossPix
+							+ arrowSize, getHeight() - arrowAdjusty - arrowSize);
+					g2.draw(tempLine);
+				}
 			}
 
 		}
@@ -3098,24 +3151,58 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 			// x-Axis itself
 			g2.setStroke(axesStroke);
-			tempLine.setLine(xAxisStart, yCrossPix, getWidth() - arrowAdjustx
+			tempLine.setLine(xAxisStart + (drawLeftArrow ? 2 : 0), yCrossPix, getWidth() - arrowAdjustx
 					- 1, yCrossPix);
 			g2.draw(tempLine);
 
-			if (drawArrowsx) {
+			if (drawRightArrow) {
+				
+				if (filled) {
+					
+					gp.reset();
+					gp.moveTo((float)(getWidth() - arrowAdjustx), (float)yCrossPix);
+					gp.lineTo((float)(getWidth() - arrowAdjustx - arrowSize * 4), (float)(yCrossPix - arrowSize));
+					gp.lineTo((float)(getWidth() - arrowAdjustx - arrowSize * 4), (float)(yCrossPix + arrowSize));
+					
+					g2.fill(gp);
+					
+				} else {
 
-				// draw arrow for x-axis
-				tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix + 0.5,
-						getWidth() - arrowAdjustx - arrowSize, yCrossPix
-								- arrowSize);
-				g2.draw(tempLine);
-				tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix - 0.5,
-						getWidth() - arrowAdjustx - arrowSize, yCrossPix
-								+ arrowSize);
-				g2.draw(tempLine);
+					// draw right arrow for x-axis
+					tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix + 0.5,
+							getWidth() - arrowAdjustx - arrowSize, yCrossPix
+									- arrowSize);
+					g2.draw(tempLine);
+					tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix - 0.5,
+							getWidth() - arrowAdjustx - arrowSize, yCrossPix
+									+ arrowSize);
+					g2.draw(tempLine);
+				}
+			}
 
-				// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				// RenderingHints.VALUE_ANTIALIAS_OFF);
+			if (drawLeftArrow) {
+				
+				if (filled) {
+					
+					gp.reset();
+					gp.moveTo((float)(arrowAdjustx), (float)yCrossPix);
+					gp.lineTo((float)(arrowAdjustx + arrowSize * 4), (float)(yCrossPix - arrowSize));
+					gp.lineTo((float)(arrowAdjustx + arrowSize * 4), (float)(yCrossPix + arrowSize));
+					
+					g2.fill(gp);
+					
+				} else {
+
+					// draw left arrow for x-axis
+					tempLine.setLine(arrowAdjustx, yCrossPix + 0.5,
+							arrowAdjustx + arrowSize, yCrossPix
+									- arrowSize);
+					g2.draw(tempLine);
+					tempLine.setLine(arrowAdjustx, yCrossPix - 0.5,
+							arrowAdjustx + arrowSize, yCrossPix
+									+ arrowSize);
+					g2.draw(tempLine);
+				}
 			}
 
 			for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
@@ -3170,7 +3257,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 						tempLine.setLine(pix, yZeroTick, pix, yBig);
 						g2.draw(tempLine);
 					}
-				} else if (drawMajorTicks[0] && !drawArrowsx) {
+				} else if (drawMajorTicks[0] && !drawRightArrow) {
 					// draw last tick if there is no arrow
 					tempLine.setLine(pix, yZeroTick, pix, yBig);
 					g2.draw(tempLine);
@@ -3319,7 +3406,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 						tempLine.setLine(xBig, pix, xZeroTick, pix);
 						g2.draw(tempLine);
 					}
-				} else if (drawMajorTicks[1] && !drawArrowsy) {
+				} else if (drawMajorTicks[1] && !drawTopArrow) {
 					// draw last tick if there is no arrow
 					g2.setStroke(tickStroke);
 					tempLine.setLine(xBig, pix, xZeroTick, pix);
@@ -3597,7 +3684,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		synchronizeMenuBarAndEuclidianStyleBar(evs);
 
 		if (!evs.hasDynamicBounds()) {
-			// the xmin, xmax, ... we read from Settings are nulls; 
+			// the xmin, xmax, ... we read from Settings are nulls;
 			// use the double values instead
 			setCoordSystem(evs.getXZero(), evs.getYZero(), evs.getXscale(),
 					evs.getYscale(), true);
@@ -3605,8 +3692,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			evs.setXmaxObject(xmaxObject, false);
 			evs.setYminObject(yminObject, false);
 			evs.setYmaxObject(ymaxObject, false);
-		} 
-		else {
+		} else {
 			// xmin, ... are OK; just update bounds
 			updateBounds();
 		}
@@ -3635,11 +3721,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			}
 		}
 	}
-	
+
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
-	 * @param rect rectangle
+	 * 
+	 * @param rect
+	 *            rectangle
 	 */
 	public final void setIntersectionHits(GRectangle rect) {
 		hits.init();
@@ -3894,6 +3982,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void setShowAxes(boolean flag, boolean update) {
 		setShowAxis(AXIS_X, flag, false);
 		setShowAxis(AXIS_Y, flag, true);
+	}
+
+	public void setBoldAxes(boolean bold) {
+		axesLineType = getBoldAxes(bold, axesLineType);
 	}
 
 	/**
@@ -4764,16 +4856,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return mode == EuclidianConstants.MODE_PEN
 				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
 	}
-	
 
 	private OptionsEuclidian optionPanel = null;
-	
+
 	/**
 	 * sets the option panel for gui update
-	 * @param optionPanel option panel
+	 * 
+	 * @param optionPanel
+	 *            option panel
 	 */
-	public void setOptionPanel(OptionsEuclidian optionPanel){
-		this.optionPanel=optionPanel;
+	public void setOptionPanel(OptionsEuclidian optionPanel) {
+		this.optionPanel = optionPanel;
 	}
 
 	public GRectangle getDeletionRectangle() {
@@ -4783,7 +4876,31 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void setDeletionRectangle(GRectangle deletionRectangle) {
 		this.deletionRectangle = deletionRectangle;
 	}
-	
-	
+
+	/**
+	 * changes style bold <> not bold as necessary
+	 * 
+	 * @param bold
+	 * @param axesLineStyle
+	 *            old style
+	 * @return new style
+	 */
+	public static int getBoldAxes(boolean bold, int axesLineStyle) {
+
+		if (bold) {
+			return axesLineStyle | EuclidianStyleConstants.AXES_BOLD;
+		} else {
+			return axesLineStyle & (~EuclidianStyleConstants.AXES_BOLD);
+
+		}
+	}
+
+	/**
+	 * @return whether axes are bold
+	 */
+	public boolean areAxesBold() {
+		return (axesLineType & EuclidianStyleConstants.AXES_BOLD) != 0;
+
+	}
 
 }

@@ -48,14 +48,31 @@ public class EuclidianStyleConstants {
 	public static final int AXES_TICK_STYLE_NONE = 2;
 	
 	
+	// used in the XML, DO NOT CHANGE
+	public static final int AXES_RIGHT_ARROW = 	1; // also TOP
+	public static final int AXES_BOLD = 		2;
+	public static final int AXES_LEFT_ARROW = 	4; // also BOTTOM
+	public static final int AXES_FILL_ARROWS = 	8;
+		
+	// used in the XML, DO NOT CHANGE
+	public static final int AXES_LINE_TYPE_FULL = 					0;
+	public static final int AXES_LINE_TYPE_ARROW = 					AXES_RIGHT_ARROW;
+	public static final int AXES_LINE_TYPE_FULL_BOLD = 				AXES_BOLD;
+	public static final int AXES_LINE_TYPE_ARROW_BOLD = 			AXES_RIGHT_ARROW + AXES_BOLD;
+	public static final int AXES_LINE_TYPE_ARROW_FILLED = 			AXES_RIGHT_ARROW + AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS = 			AXES_RIGHT_ARROW + AXES_LEFT_ARROW;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS_FILLED = 		AXES_RIGHT_ARROW + AXES_LEFT_ARROW 	+ AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_ARROW_FILLED_BOLD = 		AXES_RIGHT_ARROW + AXES_BOLD 		+ AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS_BOLD = 		AXES_RIGHT_ARROW + AXES_LEFT_ARROW 	+ AXES_BOLD;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS_FILLED_BOLD = AXES_RIGHT_ARROW + AXES_LEFT_ARROW 	+ AXES_BOLD 	+ AXES_FILL_ARROWS;
 	
-	public static final int AXES_LINE_TYPE_FULL = 0;
-
-	public static final int AXES_LINE_TYPE_ARROW = 1;
-
-	public static final int AXES_LINE_TYPE_FULL_BOLD = 2;
-
-	public static final int AXES_LINE_TYPE_ARROW_BOLD = 3;
+	// for the options menu
+	public static Integer[] lineStyleOptions = { EuclidianStyleConstants.AXES_LINE_TYPE_FULL,
+			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
+			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,
+			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
+			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED
+			};
 
 
 

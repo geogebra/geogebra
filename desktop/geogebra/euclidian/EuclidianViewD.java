@@ -704,4 +704,10 @@ public class EuclidianViewD extends EuclidianViewND implements
 
 	}
 
+	@Override
+	public void setBoldAxes(boolean bold) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
