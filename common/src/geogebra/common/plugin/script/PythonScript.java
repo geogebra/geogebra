@@ -41,9 +41,6 @@ public class PythonScript extends Script {
 
 	@Override
 	public void run(Event evt) throws ScriptError {
-		if (evt.type == EventType.CLICK) {
-			bridge.click(evt.target);
-		}
 		// Do nothing because events are handled in the python code
 	}
 

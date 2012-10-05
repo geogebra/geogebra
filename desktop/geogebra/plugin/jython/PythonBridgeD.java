@@ -99,20 +99,6 @@ public class PythonBridgeD extends PythonBridge implements EventListener, GeoEle
 		return pyInterface.isWindowVisible();
 	}
 	
-	private void handleEvent(String evt, GeoElement geo) {
-		// App.debug("event: " + evt);
-		pyInterface.handleEvent(evt, geo);
-	}
-	/**
-	 * This should be called when a geo is clicked.
-	 * (For now this is done in EuclidianController.switchModeForMouseReleased)
-	 * @param geo the clicked GeoElement
-	 */
-	@Override
-	public void click(GeoElement geo) {
-		handleEvent("click", geo);
-	}
-	
 	/*
 	 * @see geogebra.common.main.GeoElementSelectionListener
 	 */
