@@ -190,8 +190,8 @@ public class ButtonDialog extends JDialog
 		// XXX Remark 1: This has been incorrect as it assumes the click script
 		// is GgbScript.  However I'm only adapting it to the new scripting
 		// structure so it will need to be dealt with later
-		Script clickScript = button.getScript(EventType.CLICK);
-		if (button == null || clickScript == null) {
+		Script clickScript = button == null ? null : button.getScript(EventType.CLICK);
+		if (clickScript == null) {
 			initString = "";
 		} else {
 			initString = clickScript.getText();
