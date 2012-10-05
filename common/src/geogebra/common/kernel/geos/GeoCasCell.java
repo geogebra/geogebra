@@ -898,18 +898,24 @@ public class GeoCasCell extends GeoElement implements VarString {
 		newCmdSb.append("(");
 		return expression1.replaceAll(regexSb.toString(), newCmdSb.toString());
 	}
-
+	//make sure we don't enter setAssignmentVar from itself
+	private boolean ignoreSetAssignment = false;
 	/**
 	 * Set assignment var of this cell. For example "b := a^2 + 3" has
 	 * assignment var "b".
 	 * 
 	 * @param var
 	 */
+	
 	private void setAssignmentVar(final String var) {
+		if(ignoreSetAssignment){
+			App.printStacktrace("");
+			return;
+		}
 		if (assignmentVar != null && assignmentVar.equals(var)) {
 			return;
 		}
-
+		
 		if (assignmentVar != null) {
 			// remove old label from construction
 			cons.removeCasCellLabel(assignmentVar);
@@ -922,30 +928,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		} else if (cons.isFreeLabel(var)) {
 			// check for invalid assignment variables like $, $$, $1, $2, ...,
 			// $1$, $2$, ... which are dynamic references
-			if (var.charAt(0) == ROW_REFERENCE_DYNAMIC) {
-				boolean validVar = false;
-				// if var.length() == 1 we have "$" and the for-loop won't be
-				// entered
-				for (int i = 1; i < var.length(); i++) {
-					if (!Character.isDigit(var.charAt(i))) {
-						if (i == 1 && var.charAt(1) == ROW_REFERENCE_DYNAMIC) {
-							// "$$" so far, so it can be valid (if var.length >
-							// 2) or invalid if "$$" is the whole var
-						} else if (i == var.length() - 1
-								&& var.charAt(var.length() - 1) == ROW_REFERENCE_DYNAMIC) {
-							// "$dd...dd$" where all d are digits -> invalid
-						} else {
-							// "$xx..xx" where not all x are numbers and the
-							// first x is not a '$' (there can only be one x)
-							validVar = true;
-							break;
-						}
-					}
-				}
 
-				if (!validVar) {
-					setError("CAS.VariableIsDynamicReference");
-				}
+			if (!LabelManager.validVar(var)) {
+				setError("CAS.VariableIsDynamicReference");
 			}
 
 			assignmentVar = var;
@@ -956,6 +941,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// store label of this CAS cell in Construction
 		if (assignmentVar != null) {
 			if (twinGeo != null) {
+				ignoreSetAssignment = true;
 				twinGeo.rename(assignmentVar);
 			}
 			cons.putCasCellLabel(this, assignmentVar);
@@ -963,6 +949,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// remove twinGeo if we had one
 			setTwinGeo(null);
 		}
+		ignoreSetAssignment = false;
 	}
 
 	/**
