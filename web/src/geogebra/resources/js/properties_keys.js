@@ -2298,6 +2298,7 @@ var plainKeysVar = {
 	ShowOnXAxis:'',
 	ShowOnlineHelp:'',
 	ShowOnlyBreakpoints:'',
+	ShowOutliers:'',
 	ShowTitleBar:'',
 	ShowTrace:'',
 	ShowTrimmed:'',

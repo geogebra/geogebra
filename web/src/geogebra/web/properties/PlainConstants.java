@@ -1453,6 +1453,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Show Only Breakpoints")
     String ShowOnlyBreakpoints();
 
+    @DefaultStringValue("Show Outliers")
+    String ShowOutliers();
+
     @DefaultStringValue("Show Title Bar")
     String ShowTitleBar();
 
