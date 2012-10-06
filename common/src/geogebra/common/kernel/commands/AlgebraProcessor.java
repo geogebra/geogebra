@@ -172,7 +172,9 @@ public class AlgebraProcessor {
 		boolean prevFree = algoParent == null;
 		boolean nowFree = casCell.getGeoElementVariables() == null;
 		boolean needsRedefinition = false;
-
+		//If we change dependencies of CAS cells, we need to update construction
+		//to make sure the CAS cells are painted in right order (#232)
+		boolean needsConsUpdate = false;
 		if (prevFree) {
 			if (nowFree) {
 				// free -> free, e.g. m := 7 -> m := 8
@@ -187,6 +189,7 @@ public class AlgebraProcessor {
 					cons.removeFromConstructionList(casCell);
 					KernelCAS.DependentCasCell(casCell);
 					needsRedefinition = false;
+					needsConsUpdate = true;
 				} else {
 					// existing casCell with possible twinGeo
 					needsRedefinition = true;
@@ -211,7 +214,7 @@ public class AlgebraProcessor {
 				// rebuild construction using XML
 				cons.changeCasCell(casCell);
 				casCell.computeOutput();
-				casCell.updateCascade();
+				casCell.updateCascade();				
 			} catch (Exception e) {
 				e.printStackTrace();
 				casCell.setError("RedefinitionFailed");
@@ -220,8 +223,12 @@ public class AlgebraProcessor {
 		} else {
 			casCell.notifyAdd();
 			casCell.updateCascade();
+			if(needsConsUpdate)
+				kernel.updateConstruction();
 		}
+		
 	}
+	
 	
 	/**
 	 * decides if the ExperssionNode leaf could become a plotable function or not
