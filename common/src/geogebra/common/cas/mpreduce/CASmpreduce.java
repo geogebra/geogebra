@@ -513,8 +513,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate("solverules:={" + "logb(~x,~b)=>log(x)/log(b),"
 				+ "log10(~x)=>log(x)/log(10)" + "};");
-		App.debug(mpreduce1
-		.evaluate("procedure mkconditions(xx,yy,pts);for each el in mkdepthone(list(pts)) collect list(xx=xcoord(el),yy=ycoord(el));"));
+		mpreduce1
+		.evaluate("procedure mkconditions(xx,yy,pts);for each el in mkdepthone(list(pts)) collect list(xx=xcoord(el),yy=ycoord(el));");
 		mpreduce1
 				.evaluate("procedure myatan2(y,x);"
 						+ " begin scalar xinput, yinput;"
@@ -707,7 +707,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure booltonum a; if a = 'true then 1 else if a = 'false then 0 else a;");
 		mpreduce1
 		.evaluate("procedure isnonzero(a);if a=0 or not freeof(a,i) then 0 else 1;");
-		App.debug(mpreduce1
+		mpreduce1
 		.evaluate("procedure mynumsolve(a,b); " +
 				" begin;scalar eqn, denumer,var;" +
 				" a:=mkdepthone(list(a));"+
@@ -718,15 +718,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				" return if length(a)=1 and not(mycoeff(eqn,var)='?)" +
 				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and isnonzero(sub(r,denumer))=1 then list(r) else list())" +
 				" else num_solve(a,b,iterations=10000);" +
-				" end;"));
+				" end;");
 		mpreduce1
 		.evaluate("procedure listtodisjunction(v,lst);" +
 				"begin scalar ret;" +
 				"ret:=part(lst,1);"+
 				"for i:=2:length(lst) do ret:=sor(ret,part(lst,i));" +
 				"return ret; end;");
-		App.debug(mpreduce1.evaluate("procedure logofstd(a);begin scalar r;r:=mycoeff(logof(a),logminusone);return if length(r)=1 then part(r,1) else" +
-				" part(r,2)+(if(fixp(part(r,1)/2)) then 0 else i * pi); end;"));
+		mpreduce1.evaluate("procedure logofstd(a);begin scalar r;r:=mycoeff(logof(a),logminusone);return if length(r)=1 then part(r,1) else" +
+				" part(r,2)+(if(fixp(part(r,1)/2)) then 0 else i * pi); end;");
 		
 		mpreduce1.evaluate("procedure logof(a);"
 				+" if (arglength(a)>-1) and (part(a,0)='minus )then logminusone+logof(part(a,1)) else "
@@ -739,11 +739,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			    " if arglength(eqn)>-1 and part(eqn,0)='plus then (logofstd(for k:=2:arglength(eqn) sum part(eqn,k))-logofstd(-part(eqn,1))) " +
 			    " else eqn;"
 				 );
-		App.debug(mpreduce1.evaluate("procedure bigexponents(eqn);" +
+		mpreduce1.evaluate("procedure bigexponents(eqn);" +
 				" if arglength(eqn) = -1 or numberp(eqn) then 0 else if part(eqn,0)='expt " +
 				" and numberp(part(eqn,2)) and part(eqn,2)> 16 then  1 else " +
 			    " for k:=1:arglength(eqn) sum bigexponents(part(eqn,k));"
-				 ));
+				 );
 		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
@@ -815,7 +815,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					" return if part(other!!,1)=1 then part(other!!,2) else part(solutions!!,2);" +
 					" end;");
 		
-		App.debug(mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
+		mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
 				+ " begin scalar bool!!, isineq,temp1!!,temp2!!, max, noofstdsolutions;"
 				
 				+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
@@ -841,7 +841,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "    else " + "		 {} >>;"
 				+ "  clearrules solverules;"
 				+ "  if solutions!!=list() then bool!!:=0;"
-				+ "  return if isineq then list(1,listtodisjunction(var,flattenlist(mkset(solutions!!)))) else list(bool!!,mkset(solutions!!));" + " end;"));
+				+ "  return if isineq then list(1,listtodisjunction(var,flattenlist(mkset(solutions!!)))) else list(bool!!,mkset(solutions!!));" + " end;");
 		
 		mpreduce1
 		.evaluate("procedure mysolve1(eqn);"
