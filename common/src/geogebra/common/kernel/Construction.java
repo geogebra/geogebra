@@ -1042,6 +1042,35 @@ public class Construction {
 			updateConstructionRunning = false;
 		}
 	}
+	
+	final public void updateCasCells() {
+		// collect notifyUpdate calls using xAxis as dummy geo
+		GeoElement dummyGeo = xAxis;
+		kernel.startCollectingNotifyUpdate(dummyGeo);
+		updateConstructionRunning = true;
+		try {			
+			// G.Sturr 2010-5-28: turned this off so that random numbers can be
+			// traced
+			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
+			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
+	
+			// update all independent GeoElements
+			int size = ceList.size();
+			for (int i = 0; i < size; ++i) {
+				ConstructionElement ce = ceList.get(i);
+				if ((ce.isGeoElement() && ((GeoElement)ce).isGeoCasCell())
+						|| ((ce instanceof AlgoElement)&&((AlgoElement)ce).getClassName()
+								==Algos.AlgoDependentCasCell)) {
+					ce.update();
+				}
+			}
+		}
+		finally {
+			kernel.stopCollectingNotifyUpdate(dummyGeo);
+			updateConstructionRunning = false;
+		}
+	}
+
 
 	/**
 	 * Returns this construction in XML format. GeoGebra File Format.

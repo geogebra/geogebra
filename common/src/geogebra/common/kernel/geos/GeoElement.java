@@ -3087,10 +3087,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent != null) {
 			algoParent.remove(this);
 		} else {
-			doRemove();
+			//must be done in this order because doRemove destroys the link
 			if (correspondingCasCell != null) {
 				correspondingCasCell.doRemove();
 			}
+			doRemove();
+			
 		}
 	}
 

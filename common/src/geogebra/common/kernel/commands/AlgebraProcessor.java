@@ -224,7 +224,7 @@ public class AlgebraProcessor {
 			casCell.notifyAdd();
 			casCell.updateCascade();
 			if(needsConsUpdate)
-				kernel.updateConstruction();
+				cons.updateCasCells();
 		}
 		
 	}
