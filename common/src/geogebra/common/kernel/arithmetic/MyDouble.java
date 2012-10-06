@@ -146,7 +146,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * @param x new value
 	 */
-	final public void set(double x) {
+	public void set(double x) {
 		val = x;
 	}
 

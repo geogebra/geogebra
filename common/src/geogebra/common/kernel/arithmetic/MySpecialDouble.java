@@ -34,6 +34,7 @@ public class MySpecialDouble extends MyDouble {
 	private boolean keepOriginalString;
 	private boolean isLetterConstant; // for Pi, Euler, or Degree constant
 	private boolean scientificNotation = false;
+	private boolean setFromOutside;
 
 	private static MySpecialDouble eulerConstant;
 
@@ -128,6 +129,8 @@ public class MySpecialDouble extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		if(setFromOutside)
+			return super.toString(tpl);
 		if (!isLetterConstant) {
 			//serializing to CAS -- simply print input
 			if(tpl.hasType(StringType.MPREDUCE))
@@ -200,6 +203,12 @@ public class MySpecialDouble extends MyDouble {
 		}
 
 		return strToString;
+	}
+	
+	@Override
+	public void set(double val){
+		super.set(val);
+		setFromOutside = true;
 	}
 
 }
