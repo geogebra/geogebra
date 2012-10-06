@@ -225,13 +225,15 @@ class InputHistory(object):
         
 
 class Later(Runnable):
-    def __init__(self, f):
+    def __init__(self, f, args, kwargs):
         self.f = f
+        self.args = args
+        self.kwargs = kwargs
     def run(self):
-        self.f()
+        self.f(*self.args, **self.kwargs)
 
-def later(f):
-    SwingUtilities.invokeLater(Later(f))
+def later(f, *args, **kwargs):
+    SwingUtilities.invokeLater(Later(f, args, kwargs))
     return f
 
 
@@ -781,7 +783,7 @@ class ScriptPane(WindowPane):
         self.api.setInitScript(self.script_area.input)
 
 
-class EventsPane(WindowPane, ActionListener):
+class EventsPane(WindowPane, ActionListener, DocumentListener):
     
     def __init__(self, window, api):
         self.api = api
@@ -812,19 +814,24 @@ class EventsPane(WindowPane, ActionListener):
             actionCommand="language"
         )        
         select_pane.add(self.language_box)
-        save_btn = JButton("Save")
-        select_pane.add(save_btn)
+        self.save_btn = JButton("Save")
+        select_pane.add(self.save_btn)
         self.component.add(select_pane, BorderLayout.PAGE_START)
 
         self.events_box.addActionListener(self)
         self.objects_box.addActionListener(self)
-        save_btn.addActionListener(self)
+        self.language_box.addActionListener(self)
+        self.save_btn.addActionListener(self)
         
         self.current = None
         self.update_geos()
         interface.addEventListener("add", self.event_listener)
         interface.addEventListener("remove", self.event_listener)
         interface.addEventListener("rename", self.event_listener)
+        
+        # Listen to script_area changes in order to know when the save
+        # button can be activated
+        self.script_area.doc.addDocumentListener(self)
         
         # Hack to be able to change the objects_box
         self.building_objects_box = False
@@ -892,6 +899,12 @@ class EventsPane(WindowPane, ActionListener):
         else:
             self.must_update_geos = True
     
+    def current_script_changed(self):
+        self.save_btn.enabled = True
+    
+    def set_save_btn(self, state):
+        self.save_btn.enabled = state
+    
     def save_current_script(self):
         if self.current is not None:
             geo, evt = self.current
@@ -916,17 +929,30 @@ class EventsPane(WindowPane, ActionListener):
                 self.script_area.input = script.getText()
                 self.language_box.selectedIndex = script.getType().ordinal()
             self.script_area.reset_undo()
+        later(self.set_save_btn, False)
         
     def reset(self):
-        self.current=None
+        self.current = None
         self.update_geos()
     
-    # Implementation of ActionEvent
+    # Implementation of ActionListener
     def actionPerformed(self, evt):
         if self.building_objects_box:
            return
-        if evt.actionCommand != "language":
+        if evt.actionCommand == "language":
+            self.save_btn.enabled = True
+        else:
             self.update_script_area()
+    
+    # Implementation of DocumentListener
+    def changedUpdate(self, evt):
+        self.current_script_changed()
+    
+    def removeUpdate(self, evt):
+        self.current_script_changed()
+    
+    def insertUpdate(self, evt):
+        self.current_script_changed()
 
 
 
