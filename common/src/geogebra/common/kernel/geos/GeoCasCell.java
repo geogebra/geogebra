@@ -1601,10 +1601,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 					result = geos[0]
 							.toValueString(StringTemplate.numericDefault);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
-					// cons.removeFromConstructionList(parentAlgo);
 					if (parentAlgo != null) {
 						parentAlgo.remove();
 					}
+					//make sure fallback algos are synced with CAS, but not printed in XML (#2688)
+					parentAlgo.setPrintedInXML(false);
+					geos[0].addCasAlgoUser();
 					outputVE = new ExpressionNode(kernel, geos[0]);
 					outputVE.setAssignmentType(getInputVE().getAssignmentType());
 					// geos[0].addCasAlgoUser();
