@@ -92,7 +92,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	public GeoCasCell(final Construction c) {
 		super(c);
-
 		input = "";
 		localizedInput = "";
 		setInputVE(null);
@@ -114,41 +113,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	@Override
 	public void set(final GeoElement geo) {
-		// GeoCasCell casCell = (GeoCasCell) geo;
-		//
-		// inputVE = casCell.inputVE;
-		// evalVE = casCell.evalVE;
-		// outputVE = casCell.outputVE;
-		//
-		// input = casCell.input;
-		// prefix = casCell.prefix;
-		// postfix = casCell.postfix;
-		// error = casCell.error;
-		// latex = casCell.latex;
-		// localizedInput = casCell.localizedInput;
-		// currentLocale = casCell.currentLocale;
-		// suppressOutput = casCell.suppressOutput;
-		//
-		// // input variables of this cell
-		// invars = casCell.invars;
-		// // defined input GeoElements of this cell
-		// inGeos = casCell.inGeos;
-		// isCircularDefinition = casCell.isCircularDefinition;
-		//
-		// // twin geo, e.g. GeoCasCell m := 8 creates GeoNumeric m = 8
-		// // twinGeo = casCell.twinGeo;
-		// // firstComputeOutput = casCell.firstComputeOutput;
-		// // useGeoGebraFallback = casCell.useGeoGebraFallback;
-		// // ignoreTwinGeoUpdate = casCell.ignoreTwinGeoUpdate;
-		//
-		// // internal command names used in the input expression
-		// cmdNames = casCell.cmdNames;
-		// assignmentVar = casCell.assignmentVar;
-		// includesRowReferences = casCell.includesRowReferences;
-		// includesNumericCommand = casCell.includesNumericCommand;
-		//
-		// evalCmd = casCell.evalCmd;
-		// evalComment = casCell.evalCmd;
+		//some dead code removed in r20927
 	}
 
 	/**
@@ -1308,7 +1273,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return evaluated command
 	 */
 	final public String getEvalCommand() {
-		return evalCmd;
+		return pointList ? "PointList" : evalCmd;
 	}
 
 	/**
@@ -1604,7 +1569,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,
+				ValidExpression evalVE2 = pointList ? wrapPointList(evalVE):evalVE;
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE2,
 						null, StringTemplate.numericNoLocal);
 				success = result != null;
 			} catch (CASException e) {
@@ -1657,6 +1623,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// set Output
 		finalizeComputation(success, result, ce, doTwinGeoUpdate);
 		return success;
+	}
+
+	private ValidExpression wrapPointList(ValidExpression arg) {
+		Command c= new Command(kernel,"PointList",false);
+		c.addArgument(arg.wrap());
+		return c.wrap();
 	}
 
 	private void finalizeComputation(final boolean success,
@@ -1849,7 +1821,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if (isNative()) {
 				sb.append(" native=\"true\"");
 			}
-
+			if (pointList) {
+				sb.append(" pointList=\"true\"");
+			}
 			if (!"".equals(evalCmd)) {
 				sb.append(" evalCommand=\"");
 				StringUtil.encodeXML(sb, evalCmd);
@@ -2134,7 +2108,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		app.storeUndoInfo();
 		kernel.notifyRepaint();
 	}
-
+	private boolean pointList;
 	/**
 	 * Assigns result to a variable if possible
 	 * 
@@ -2145,7 +2119,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (getInputVE() == null || input.equals("")) {
 			return false;
 		}
-		Boolean keepInput = false;
+
 		String oldEvalComment = evalComment;
 		ValidExpression oldEvalVE = evalVE;
 		ValidExpression oldInputVE = getInputVE();
@@ -2171,11 +2145,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					|| (topLevel.getName()).equals("Solutions")
 					|| (topLevel.getName()).equals("CSolve")
 					|| (topLevel.getName()).equals("CSolutions")) {
-				Command c = new Command(kernel, "PointList", true);
-				c.addArgument(evalVE.wrap());
-				this.setEvalCommand("PointList");
-				evalVE = c.wrap();
-				keepInput = true;
+				pointList = true;
 			}
 		}
 
@@ -2215,14 +2185,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			 * set output (if input has been not changed), or set input and
 			 * recalculate
 			 */
-			if (keepInput) {
-				outputVE.setAssignmentType(AssignmentType.DEFAULT);
-				updateLocalizedInput(StringTemplate.defaultTemplate);
-				outputVE.setLabel(assignmentVar);
-			} else {
-				setInput(getInputVE()
+			setInput(getInputVE()
 						.toAssignmentString(StringTemplate.defaultTemplate));
-			}
+			
 			computeOutput(false);
 			this.update();
 			latex = null;
@@ -2240,6 +2205,13 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * @param pointList2 whether evalVE needs to be wrapped in PointList when evaluating
+	 */
+	public void setPointList(boolean pointList2) {
+		pointList = pointList2;
 	}
 
 }

@@ -3629,6 +3629,8 @@ public class MyXMLHandler implements DocHandler {
 			boolean error = parseBoolean(attrs.get("error"));
 			boolean nativeOutput = parseBoolean(attrs.get("native"));
 			geoCasCell.setNative(nativeOutput);
+			boolean pointList = parseBoolean(attrs.get("pointList"));
+			geoCasCell.setPointList(pointList);
 			if (error) {
 				geoCasCell.setError(output);
 			} else {
