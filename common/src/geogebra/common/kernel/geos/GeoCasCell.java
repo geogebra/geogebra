@@ -586,6 +586,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// parse eval text into valid expression
 		evalVE = parseGeoGebraCASInputAndResolveDummyVars(eval);
+		if(inputVE!=null && inputVE.getLabel()!=null){
+			evalVE.setLabel(inputVE.getLabel());
+			evalVE.setAssignmentType(inputVE.getAssignmentType());
+		}
+		
 		if (evalVE != null) {
 			evalVE = resolveInputReferences(evalVE, inGeos);
 			if (evalVE.isTopLevelCommand()) {
@@ -1467,7 +1472,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE);
 		if (lastOutputEvaluationGeo != null
 				&& !dependsOnDummy(lastOutputEvaluationGeo)) {
+			try{
 			twinGeo.set(lastOutputEvaluationGeo);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		} else {
 			twinGeo.setUndefined();
 		}
