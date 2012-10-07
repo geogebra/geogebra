@@ -4,6 +4,7 @@ import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -41,19 +42,24 @@ public class LaTeXPanel extends JPanel {
 		
 		this.latex = latex;
 		
-		// draw equation to get its size
-		equSize = drawEquationToImage();		
-		
-		// check if image was big enough for equation
-		if (ensureImageSize(equSize.width, equSize.height)) {
-			equSize = drawEquationToImage();
-		}
-		
-		setPreferredSize(equSize);
-		setSize(equSize);	
-		validate();
+		updateLaTeX();
 	}		
 	
+	private void updateLaTeX() {
+		// draw equation to get its size
+				equSize = drawEquationToImage();		
+				
+				// check if image was big enough for equation
+				if (ensureImageSize(equSize.width, equSize.height)) {
+					equSize = drawEquationToImage();
+				}
+				
+				setPreferredSize(equSize);
+				setSize(equSize);	
+				validate();
+		
+	}
+
 	@Override
 	public void setForeground(Color c){
 		super.setForeground(c);
@@ -87,6 +93,14 @@ public class LaTeXPanel extends JPanel {
 			return true;
 		}		
 		return false;
+	}
+	
+	@Override
+	public void setFont(Font f){
+		super.setFont(f);
+		if(latex!=null){
+			updateLaTeX();
+		}
 	}
 	
 	@Override
