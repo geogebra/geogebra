@@ -83,6 +83,8 @@ public class CommandDispatcherMPReduce {
 		myreal(Operation.REAL),
 		/** equal operator */
 		sequal(Operation.EQUAL_BOOLEAN),
+		/** not equal operator */
+		sunequal(Operation.NOT_EQUAL),
 		/** and operator */
 		sand(Operation.AND),
 		/** or operator */
@@ -226,6 +228,7 @@ public class CommandDispatcherMPReduce {
 			case sgreater:
 			case sless:
 			case sequal:
+			case sunequal:
 			case sgreaterequal:
 			case slessequal:
 			case mypower:

@@ -110,7 +110,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		exp = sb.toString();
 
-		App.debug("CASmpreduce.evaluateRaw: eval with MPReduce: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -561,21 +560,28 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ " sgreaterequal(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) > -1,"
 				+ " sgreaterequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) = -1,"
 				+ " sequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and not (mycompare(arg1,arg2) = 0),"
-				+ " sunequal(~arg1,~arg2) => 'true when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and not (mycompare(arg1,arg2) = 0),"
-				+ " sunequal(~arg1,~arg2) => 'false when mynumberp(arg1) = 'true and mynumberp(arg2) = 'true and mycompare(arg1,arg2) =0,"
 				+ " snot(~arg) => 'true when arg = 'false,"
 				+ " snot(~arg) => 'false when arg = 'true," 
-				+ " sand(~arg1, ~arg2) => 'true when arg1 = 'true and arg2 ='true,"
+				+ " sand(~arg1, ~arg2) => arg2 when arg1 = 'true,"
+				+ " sand(~arg1, ~arg2) => arg1 when arg2 = 'true,"
 				+ " sand(~arg1, ~arg2) => 'false when arg1 = 'false or arg2 ='false,"
 				+ " sor(~arg1, ~arg2) => 'true when arg1 = 'true or arg2 ='true,"
-				+ " sor(~arg1, ~arg2) => 'false when arg1 = 'false and arg2 ='false,"
+				+ " sor(~arg1, ~arg2) => arg2 when arg1 = 'false,"
+				+ " sor(~arg1, ~arg2) => arg1 when arg2 = 'false,"
 				+ " simplies(~arg1, ~arg2) => 'true when arg1 = 'false or arg2 ='true,"
 				+ " simplies(~arg1, ~arg2) => 'false when arg1 = 'true and arg2 ='false," 
+				
+				+ " sunequal(~arg1,~arg2) => myunequalvec(arg1,arg2) when myvecp(arg1) and myvecp(arg2),"
+				+ " sunequal(~arg1,~arg2) => myunequallist(arg1,arg2) when arglength(arg1)>-1 and arglength(arg2)>-1 and part(arg1,0)='list and part(arg2,0)='list,"
+				+ " sunequal(~arg1,~arg2) => 'false when subtraction(arg1,arg2)=0 or trigsimp(subtraction(arg1,arg2),combine)=0,"
+				+ " sunequal(~arg1,~arg2) => 'true when mynumberp(subtraction(arg1,arg2))='true and not(mycompare(subtraction(arg1,arg2),0)=0),"
+				+ " sunequal(~arg1,~arg2) => 'true when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and not (mycompare(trigsimp(subtraction(arg1,arg2),combine),0)=0),"
+				
 				+ " sequal(~arg1,~arg2) => myequalvec(arg1,arg2) when myvecp(arg1) and myvecp(arg2),"
 				+ " sequal(~arg1,~arg2) => myequallist(arg1,arg2) when arglength(arg1)>-1 and arglength(arg2)>-1 and part(arg1,0)='list and part(arg2,0)='list,"
 				+ " sequal(~arg1,~arg2) => 'true when subtraction(arg1,arg2)=0 or trigsimp(subtraction(arg1,arg2),combine)=0,"
-				+ " sequal(~arg1,~arg2) => 'false when mynumberp(subtraction(arg1,arg2))='true and mycompare(subtraction(arg1,arg2),0)='false,"
-				+ " sequal(~arg1,~arg2) => 'false when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and mycompare(trigsimp(subtraction(arg1,arg2),combine),0)='false});");
+				+ " sequal(~arg1,~arg2) => 'false when mynumberp(subtraction(arg1,arg2))='true and not(mycompare(subtraction(arg1,arg2),0)=0),"
+				+ " sequal(~arg1,~arg2) => 'false when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and not (mycompare(trigsimp(subtraction(arg1,arg2),combine),0)=0)});");
 
 		//tests whether two vectors are equal,
 		//assumes that both arguments are vectors
@@ -587,6 +593,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"   else" +
 				"     <<ret:='true;" +
 				"     for i:=0:dim(arg1)-1 do ret:= sand(ret, sequal(get(arg1,i),get(arg2,i)));" +
+				"     ret>>" +
+				" end;");
+		mpreduce1.evaluate("procedure myunequalvec(arg1, arg2);" +
+				" begin scalar ret;" +
+				"   return if not(dim(arg1)=dim(arg2)) then" +
+				"     'false" +
+				"   else" +
+				"     <<ret:='false;" +
+				"     for i:=0:dim(arg1)-1 do ret:= sor(ret, sunequal(get(arg1,i),get(arg2,i)));" +
 				"     ret>>" +
 				" end;");
 
@@ -601,6 +616,16 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"     <<ret:='true;" +
 				"     for i:=1:length(arg1) do" +
 				"       ret:= sand(ret, sequal(part(arg1,i),part(arg2,i)));" +
+				"     ret>>" +
+				" end;");
+		mpreduce1.evaluate(" procedure myunequallist(arg1, arg2);" +
+				" begin scalar ret;" +
+				"   return if not(length(arg1)=length(arg2)) then" +
+				"     'false" +
+				"   else" +
+				"     <<ret:='false;" +
+				"     for i:=1:length(arg1) do" +
+				"       ret:= sor(ret, sunequal(part(arg1,i),part(arg2,i)));" +
 				"     ret>>" +
 				" end;");
 		
