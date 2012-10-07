@@ -1335,8 +1335,9 @@ public class ExpressionNode extends ValidExpression implements
 			else {
 				// expression node
 				
-				// first we need to group the factors of all possible numerators
-				numerGroup();
+				// we could group the factors of all possible numerators here.
+				//we won't do that. http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
+				//numerGroup();
 				
 				String leftStr = null, rightStr = null;
 				if (symbolic && left.isGeoElement()) {
@@ -1368,53 +1369,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		return ret;
 	}
-
-	private ExpressionNode numerGroup() {
-		
-		ExpressionNode ret = null;
-		
-		if (isLeaf()) {
-			return this; //no change
-		}
-		
-		if (operation == Operation.MULTIPLY) {
-
-			if (!right.isExpressionNode())
-				return this; //no change
-			
-			ExpressionNode r = (ExpressionNode)right;
-			
-			if (r == null || r.isLeaf())
-				return this; //no change
-		
-			if (r.operation == Operation.MULTIPLY) {
-				right = r.numerGroup(); //now right must be an ExpressionNode.
-				r = (ExpressionNode)right;
-			}
-			
-			if (r.operation == Operation.DIVIDE) {
-				
-				ExpressionNode newL;
-				
-				newL = new ExpressionNode(kernel, this.left, Operation.MULTIPLY, r.left);
-				
-				this.setOperation(Operation.DIVIDE);
-				setLeft(newL);
-				setRight(r.right);
-				ret = r;
-			}	
-			
-		} else {
-			if (left!=null && left.isExpressionNode())
-				((ExpressionNode)left).numerGroup();
-			if (right!=null && right.isExpressionNode())
-				((ExpressionNode)right).numerGroup();
-			ret = this;
-		}
-			
-		return ret;
-	}
-
+	
 	/**
 	 * @return a representation of all classes present in the tree
 	 */
@@ -4250,6 +4205,12 @@ public class ExpressionNode extends ValidExpression implements
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
+				//maybe wrongly parsed dynamic reference in CAS -- TODO decide whether we need this
+				if(!left.isGeoElement()){
+					sb.append('$');
+					sb.append(leftStr);
+					break;
+				}
 				// $ for row
 				GeoElement geo = (GeoElement) left;
 				if (geo.getSpreadsheetCoords() != null) {
