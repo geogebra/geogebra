@@ -126,8 +126,9 @@ public abstract class CASView implements View{
 			processInput(command, null);
 			break;
 		case EuclidianConstants.MODE_DELETE:
-			// no parameters
-
+			// make sure we don't switch to evaluate if delete tool is used in EV
+			if(getApp().getGuiManager().getActiveToolbarId()!=this.getViewID())
+				backToEvaluate = false;
 			boolean undo = deleteCasCells(getConsoleTable().getSelectedRows());
 			if(undo)
 				getConsoleTable().getApplication().storeUndoInfo();

@@ -2955,4 +2955,10 @@ public class GuiManagerD extends GuiManager {
 	public int getInputHelpPanelMinimumWidth() {
 		return getInputHelpPanel().getMinimumSize().width;
 	}
+	@Override
+	public int getActiveToolbarId(){
+		if(toolbarPanel==null)
+			return -1;
+		return toolbarPanel.getActiveToolbar();
+	}
 }

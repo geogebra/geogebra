@@ -599,8 +599,13 @@ public abstract class GuiManager {
 	public abstract Object getInputHelpPanel();
 
 	public abstract int getInputHelpPanelMinimumWidth();
-
-	
+	/**
+	 * 
+	 * @return id of view which is setting the active toolbar
+	 */
+	public int getActiveToolbarId(){
+		return App.VIEW_EUCLIDIAN;
+	}
 
 
 

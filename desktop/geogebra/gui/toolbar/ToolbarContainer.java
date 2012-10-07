@@ -460,6 +460,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			}
 		}
 	}
+	/**
+	 * 
+	 * @return id of view which is setting the active toolbar
+	 */
+	public int getActiveToolbar(){
+		return activeToolbar;
+	}
 
 	/**
 	 * Update toolbars.
