@@ -53,6 +53,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
@@ -5007,6 +5008,14 @@ public abstract class EuclidianController {
 											&& (((GeoConicND) region).getLastHitType() == HitType.ON_FILLING)) {
 										createPoint = true;
 										hits.remove(region); // conic won't be treated
+																// as a path
+									} else {
+										createPoint = true;
+									}
+								} else if (region instanceof FunctionalNVar) {
+									if (((FunctionalNVar)region).isInequality()) {
+										createPoint = true;
+										hits.remove(region); // inequality won't be treated
 																// as a path
 									} else {
 										createPoint = true;
