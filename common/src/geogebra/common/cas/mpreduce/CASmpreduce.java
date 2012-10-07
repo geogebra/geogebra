@@ -109,7 +109,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			}
 		}
 		exp = sb.toString();
-
+		App.debug("MPReduce eval: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -1071,7 +1071,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure mydivision(a,b); multiplication(a,1/booltonum(b))");
 		mpreduce1.evaluate("operator mydivision;");
 		mpreduce1
-				.evaluate("procedure mypower(a,b); if myvecp(a) then if b=2 then multiplication(a,a) else '? else a^b;");
+				.evaluate("procedure mypower(a,b); if b=0 and a=0 then 1 else if myvecp(a) then if b=2 then multiplication(a,a) else '? else a^b;");
 		mpreduce1.evaluate("operator mypower;");
 
 		mpreduce1.evaluate("operator listtomyvect;");
