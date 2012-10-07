@@ -1,6 +1,7 @@
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -77,12 +78,22 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	}
 
 	private ExpressionNode randomCoef(boolean acceptZero) {
-		if(acceptZero)	
-		return new ExpressionNode(kernel,app.getRandomIntegerBetween(min.getDouble(),
-				max.getDouble()));
-		int rnd = app.getRandomIntegerBetween(min.getDouble(),
-				max.getDouble()-1);
-		return new ExpressionNode(kernel,rnd>=0 ? rnd +1:rnd);
+		
+		double minD = min.getDouble();
+		double maxD = max.getDouble();
+		
+		if (acceptZero
+				// either both positive, both negative
+				// or both zero (which shouldn't happen)
+				// eg RandomPolynomial[3,0,0] returns undefined
+				|| Math.signum(maxD) == Math.signum(minD)) {
+			return new ExpressionNode(kernel,app.getRandomIntegerBetween(minD,
+					maxD));
+		}
+		
+		// logic doen't work unless minD < 0 < maxD 
+		int rnd = app.getRandomIntegerBetween(minD, maxD - 1);
+		return new ExpressionNode(kernel, rnd >= 0 ? rnd + 1 : rnd);
 	}
 
 	@Override
