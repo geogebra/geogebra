@@ -515,6 +515,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 */
 	public void changeSelection(int rowIndex, int columnIndex, boolean toggle,
 	        boolean extend) {
+		// this should be in table model coordinates
+		
 		// if(Application.getControlDown())
 		// super.changeSelection(rowIndex, columnIndex, false, false);
 		// else
@@ -528,13 +530,17 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// not used anyway
 		} else {
 			if (extend) {
-				leadSelectionColumn = columnIndex - 1;
-				leadSelectionRow = rowIndex - 1;
+				leadSelectionColumn = columnIndex;
+				leadSelectionRow = rowIndex;
+				if (anchorSelectionColumn == -1)
+					anchorSelectionColumn = leadSelectionColumn;
+				if (anchorSelectionRow == -1)
+					anchorSelectionRow = leadSelectionRow;
 			} else {
-				anchorSelectionColumn = columnIndex - 1;
-				anchorSelectionRow = rowIndex - 1;
-				leadSelectionColumn = columnIndex - 1;
-				leadSelectionRow = rowIndex - 1;
+				anchorSelectionColumn = columnIndex;
+				anchorSelectionRow = rowIndex;
+				leadSelectionColumn = columnIndex;
+				leadSelectionRow = rowIndex;
 			}
 		}
 		// let selectionChanged know about a change in single cell selection

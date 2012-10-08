@@ -294,7 +294,7 @@ public class SpreadsheetMouseListener implements
 				}
 
 				// now change the selection
-				table.changeSelection(p.getY(), p.getX(), false, false);
+				table.changeSelection(p.getY() - 1, p.getX() - 1, false, false);
 				table.repaint();
 			}
 		}
@@ -440,7 +440,8 @@ public class SpreadsheetMouseListener implements
 				}
 
 				// now change the selection
-				table.changeSelection(p.getY(), p.getX(), false, false);
+				if (p.getX() > 0 && p.getY() > 0)
+					table.changeSelection(p.getY() - 1, p.getX() - 1, false, false);
 			}
 
 			// create and show context menu
@@ -463,7 +464,7 @@ public class SpreadsheetMouseListener implements
 				}
 
 				// now change the selection
-				table.changeSelection(p.getY(), p.getX(), false, true);
+				table.changeSelection(p.getY() - 1, p.getX() - 1, false, true);
 				table.repaint();
 			}
 		}
@@ -655,7 +656,7 @@ public class SpreadsheetMouseListener implements
 					}
 
 					// now change the selection
-					table.changeSelection(p.getY(), p.getX(), false, true);
+					table.changeSelection(p.getY() - 1, p.getX() - 1, false, true);
 					table.repaint();
 				}
 			}
