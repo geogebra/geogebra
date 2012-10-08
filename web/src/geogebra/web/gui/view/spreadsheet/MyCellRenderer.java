@@ -187,14 +187,20 @@ public class MyCellRenderer {
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = GeoElement
-						.convertIndicesToHTML(geo
-								.getDefinitionDescription(StringTemplate.defaultTemplate));
+				text = geo.getDefinitionDescription(StringTemplate.defaultTemplate);
+
+				// Label accepts text, not HTML!
+				//text = GeoElement
+				//		.convertIndicesToHTML(geo
+				//				.getDefinitionDescription(StringTemplate.defaultTemplate));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
-				text = GeoElement.convertIndicesToHTML(geo
-						.getCommandDescription(StringTemplate.defaultTemplate));
+				text = geo.getCommandDescription(StringTemplate.defaultTemplate);
+
+				// Label accepts text, not HTML!
+				//text = GeoElement.convertIndicesToHTML(geo
+				//		.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
 
 			}
@@ -207,7 +213,9 @@ public class MyCellRenderer {
 		if (fontStyle == null)
 			fontStyle = GFont.PLAIN;
 
+		retwidget.getElement().getStyle().setProperty("whiteSpace", "nowrap");
 		((Label)retwidget).setText(text);
+
 		GFont gf = app.getFontCanDisplay(text, fontStyle);
 		((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
 		((Label)retwidget).getElement().getStyle().setFontStyle(
