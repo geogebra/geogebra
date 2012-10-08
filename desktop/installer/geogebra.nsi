@@ -38,6 +38,7 @@ OutFile "${outfile}"
 Caption "GeoGebra Installer" # see line marked with CAPTION
 BrandingText "GeoGebra ${fullversion} (${builddate})"
 
+
 RequestExecutionLevel highest
 SetCompressor /SOLID /FINAL lzma
 XPStyle on
@@ -126,7 +127,6 @@ Var ASSOCIATE_GGT
 !include WordFunc.nsh
 
 !include ZipDLL.nsh
-
 !include x64.nsh
 
 !macro PushShellVarContext
@@ -621,6 +621,50 @@ VIAddVersionKey ProductVersion ${fullversion}
 
 VIProductVersion ${fullversion}
 
+!define LVM_GETITEMCOUNT 0x1004
+!define LVM_GETITEMTEXT 0x102D
+ 
+Function DumpLog
+  Exch $5
+  Push $0
+  Push $1
+  Push $2
+  Push $3
+  Push $4
+  Push $6
+ 
+  FindWindow $0 "#32770" "" $HWNDPARENT
+  GetDlgItem $0 $0 1016
+  StrCmp $0 0 exit
+  FileOpen $5 $5 "w"
+  StrCmp $5 "" exit
+    SendMessage $0 ${LVM_GETITEMCOUNT} 0 0 $6
+    System::Alloc ${NSIS_MAX_STRLEN}
+    Pop $3
+    StrCpy $2 0
+    System::Call "*(i, i, i, i, i, i, i, i, i) i \
+      (0, 0, 0, 0, 0, r3, ${NSIS_MAX_STRLEN}) .r1"
+    loop: StrCmp $2 $6 done
+      System::Call "User32::SendMessageA(i, i, i, i) i \
+        ($0, ${LVM_GETITEMTEXT}, $2, r1)"
+      System::Call "*$3(&t${NSIS_MAX_STRLEN} .r4)"
+      FileWrite $5 "$4$\r$\n"
+      IntOp $2 $2 + 1
+      Goto loop
+    done:
+      FileClose $5
+      System::Free $1
+      System::Free $3
+  exit:
+    Pop $6
+    Pop $4
+    Pop $3
+    Pop $2
+    Pop $1
+    Pop $0
+    Exch $5
+FunctionEnd
+
 /**
  * Installer
  */
@@ -628,10 +672,12 @@ VIProductVersion ${fullversion}
 Section Install Install
   
   !ifndef uninstaller
-    
+
     SectionIn 1 2
-    
+
+
     CreateDirectory $INSTDIR\unsigned
+
     SetOutPath $INSTDIR
     File forum.ico
     File "${build.dir}\installer\windows\GeoGebra-no3D.exe"
@@ -643,17 +689,26 @@ Section Install Install
     SetOutPath $INSTDIR\unsigned
     File "${build.dir}\unsigned\unpacked\*.jar"
 
-    ${If} ${RunningX64}
-    !insertmacro ZIPDLL_EXTRACT "${build.dir}\jogl1-windows-amd64.jar" "$SMPROGRAMS\$STARTMENU_FOLDER" "*.dll"
-    ${Else}
-    !insertmacro ZIPDLL_EXTRACT "${build.dir}\jogl1-windows-i586.jar" "$SMPROGRAMS\$STARTMENU_FOLDER" "*.dll"
-    ${EndIf}
+    /**
+     * The JOGL1 amd64 packages are incompatible with Windows 7 64 bit.
+     * So we simply offer the i586 version the JOGL1 files. Fingers crossed.
+     */
+
+    /* ${If} ${RunningX64}
+      ZipDLL::extractall "$INSTDIR\jogl1-windows-amd64.jar" "$INSTDIR"
+      ZipDLL::extractall "$INSTDIR\jogl1-windows-amd64.jar" "$INSTDIR\unsigned"
+    ${Else} */
+      ZipDLL::extractall "$INSTDIR\jogl1-windows-i586.jar" "$INSTDIR"
+      ZipDLL::extractall "$INSTDIR\jogl1-windows-i586.jar" "$INSTDIR\unsigned"
+    /* ${EndIf} */
+    RMDir /r $INSTDIR\META-INF
+    RMDir /r $INSTDIR\unsigned\META-INF
 
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
     SetOutPath ""
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL2.exe "" $INSTDIR\GeoGebra-JOGL2.exe 0
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra-no3D.exe "" $INSTDIR\GeoGebra-no3D.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (3D with JOGL1).lnk" $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (3D with JOGL2).lnk" $INSTDIR\GeoGebra-JOGL2.exe "" $INSTDIR\GeoGebra-JOGL2.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (without 3D).lnk" $INSTDIR\GeoGebra-no3D.exe "" $INSTDIR\GeoGebra-no3D.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
     ${If} 1 = $DESKTOP_ALL
@@ -664,11 +719,11 @@ Section Install Install
       ${ElseIf} 1 = $DESKTOP_CURRENT
        SetShellVarContext current
       ${EndIf}
-      CreateShortCut $DESKTOP\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
+      CreateShortCut "$DESKTOP\GeoGebra (3D with JOGL1).lnk" $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
       Call PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      CreateShortCut $QUICKLAUNCH\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
+      CreateShortCut "$QUICKLAUNCH\GeoGebra (3D with JOGL1).lnk" $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
     ${EndIf}
     
     Call PushShellVarContext
@@ -740,6 +795,12 @@ Section Install Install
     WriteINIStr $INSTDIR\uninstaller.ini Permissions     ShellVarContext   $R0
     
     File "${build.dir}\installer\windows\uninstaller.exe"
+
+    /* Logging */
+    StrCpy $0 "$INSTDIR\install.log"
+    Push $0
+    Call DumpLog
+
     
   !endif
   
@@ -872,9 +933,12 @@ FunctionEnd
     Delete $INSTDIR\*.dll
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\by-nc-sa-3.0.txt
+    Delete $INSTDIR\install.log
     RMDir $INSTDIR
     
-    Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk
+    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (3D with JOGL1).lnk"
+    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (3D with JOGL2).lnk"
+    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (without 3D).lnk"
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk"
     Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk
     RMDir $SMPROGRAMS\$STARTMENU_FOLDER
@@ -887,11 +951,13 @@ FunctionEnd
       ${ElseIf} 1 = $DESKTOP_CURRENT
         SetShellVarContext current
       ${EndIf}
-      Delete $DESKTOP\GeoGebra.lnk
+      Delete "$DESKTOP\GeoGebra (3D with JOGL1).lnk"
+      Delete "$DESKTOP\GeoGebra (3D with JOGL2).lnk"
+      Delete "$DESKTOP\GeoGebra (without 3D).lnk"
       Call un.PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      Delete $QUICKLAUNCH\GeoGebra.lnk
+      Delete "$QUICKLAUNCH\GeoGebra (3D with JOGL1).lnk"
     ${EndIf}
     
     Call un.PushShellVarContext

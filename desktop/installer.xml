@@ -121,7 +121,7 @@ read the following web pages:
              when the SECOND uninstaller.exe is run. The second uninstaller.exe is a signed version
              of the first one.
 	     -->
-	<target name="installer-windows" depends="readVersion, GeoGebra-JOGL1.exe" if="installer-windows">
+	<target name="installer-windows" depends="readVersion, GeoGebra.exe" if="installer-windows">
 		<tstamp />
 		<!-- Creating the FIRST uninstaller.exe. -->
 		<nsis script="installer/geogebra.nsi" verbosity="1" path="${src.dir}/installer/nsis">
