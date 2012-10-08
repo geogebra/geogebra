@@ -726,7 +726,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("procedure zcoord(a); if myvecp(a) then zvcoord(a) else zscoord(a)");
 		mpreduce1.evaluate("operator zscoord");
-
+		
 		mpreduce1
 				.evaluate("procedure booltonum a; if a = 'true then 1 else if a = 'false then 0 else a;");
 		mpreduce1
@@ -828,7 +828,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					    + "    solutionset:=append(solutionset,{part(part(densol,j),2)});"
 					    + " >>;"
 					    + "densol:=temp1!!;"
-					    + "solutionset:=mysortdec(solutionset); solutionset:=append({infinity},solutionset); solutionset:=append(solutionset,{-infinity});"
+					    + "solutionset:=mysortdec(solutionset); "
+					    + "solutionset:=append({infinity},solutionset); solutionset:=append(solutionset,{-infinity});"
 						+ "ineqsol:={};" 
 						+ "nmroots:=length(solutionset);"
 						+ "max:=second(solutionset);"
@@ -847,7 +848,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "   else if mymember(part(solutionset,j+1), densol) then type:=1"
 						+ "   else if mymember(part(solutionset,j), densol) then type:=2"
 						+ "   else type:=3;"
-						+ "  ineqsol:=append({var=!*interval!*(part(solutionset,j+1), part(solutionset,j), type)},ineqsol); j:=j+2;>>;"
+						+ "  if part(solutionset,j+1) neq part(solutionset,j) then "
+						+ "   ineqsol:=append({var=!*interval!*(part(solutionset,j+1), part(solutionset,j), type)},ineqsol) "
+						+ "    else if sand(sequal(part(solutionset,j+1),part(solutionset,j)), sequal(type,3))=true then"
+						+ "    ineqsol:=append({var=(part(solutionset,j))},ineqsol);"
+						+ "  j:=j+2;>>;"
 						+ "solutions!!:=ineqsol; >>;"
 						+ "if solutions!!={} then return {};"
 						+ " >>; "
@@ -882,6 +887,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "	       bool!!:=2*bool!!;"
 				+ " 	   firstsol!!:=part(sol,1);"
 				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then  {{mkinterval(var,part(part(firstsol!!,2),3),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
+				+ "    else if part(firstsol!!,0)=equal then {{firstsol!!}}"
 				+ "    else if bool!!=1 then" + "  	 {sol}"
 				+ "	   else if bool!!>1 then" + "  	 {{var='?}}"
 				+ "    else " + "		 {} >>;"
@@ -1307,6 +1313,22 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "    append(append(mysort(leftlist),eqlist),mysort(rightlist))"
 						+ " >> " + "end;");
 		
+		// mygreatersort and myequalsort are needed when trying to compare rational numbers
+		// eg. sqrt(2) and 2
+		mpreduce1.evaluate("procedure mygreatersort(a,b);"
+				+ "begin;"
+				+ "on rounded, roundall, numval;"
+				+ "ret:=if sgreater(a,b)=true then 1 else 0;"
+				+ "if numeric!!=0 then off rounded, roundall, numval;"
+				+ "return ret;"
+				+ "end;");
+		mpreduce1.evaluate("procedure myequalsort(a,b);"
+				+ "begin;"
+				+ "on rounded, roundall, numval;"
+				+ "ret:=if sequal(a,b)=true then 1 else 0;"
+				+ "if numeric!!=0 then off rounded, roundall, numval;"
+				+ "return ret;"
+				+ "end;");
 		mpreduce1
 		.evaluate("procedure mysortdec a;"
 				+ "begin scalar leftlist, rightlist, eqlist;"
@@ -1317,9 +1339,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ " if length(a)<2 then a"
 				+ " else <<"
 				+ "  for each elem in a do"
-				+ "    if elem>part(a,1) then"
+				+ "    if mygreatersort(elem,part(a,1)) then"
 				+ "     leftlist:=elem . leftlist"
-				+ "    else if elem=part(a,1) then"
+				+ "    else if myequalsort(elem,part(a,1)) then"
 				+ "     eqlist:=elem . eqlist"
 				+ "    else"
 				+ "     rightlist:=elem . rightlist;"
