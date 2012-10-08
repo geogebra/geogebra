@@ -713,9 +713,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate("operator ggbinterval;");
 		mpreduce1
-				.evaluate("procedure mkinterval(var,op,a,b);"
-						+ "begin scalar ineqtype;"
-						+ "ineqtype:= if op= 'slessequal or op= 'sgreaterequal then 3 else 0;"
+				.evaluate("procedure mkinterval(var,ineqtype,a,b);"
+						+ "begin;"
 						+ "return ggbinterval(var,a,b,ineqtype);" + "end;");
 
 		mpreduce1
@@ -821,11 +820,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					    + "  if evenp(part(part(multi,j),2)) then "
 					    + "    solutionset:=append(solutionset,{part(part(solutions!!,j),2)});"
 					    + " >>;"
+					    + "temp1!!:={};"
 					    + "for j:=1:length(densol) do <<"
 					    + "  solutionset:=append(solutionset,{part(part(densol,j),2)});"
+					    + "  temp1!!:=append(temp1!!,{part(part(densol,j),2)});"
 					    + "  if evenp(part(part(denmulti,j),2)) then "
 					    + "    solutionset:=append(solutionset,{part(part(densol,j),2)});"
 					    + " >>;"
+					    + "densol:=temp1!!;"
 					    + "solutionset:=mysortdec(solutionset); solutionset:=append({infinity},solutionset); solutionset:=append(solutionset,{-infinity});"
 						+ "ineqsol:={};" 
 						+ "nmroots:=length(solutionset);"
@@ -838,8 +840,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=max+1},part(eqn,1)) < 0 then start:=2;"
 						+ " if numeric!!=0 then off rounded, roundall, numval; "
 						+ "j:=start;"
-						+ "while j+1<=nmroots do << ineqsol:=append({var=!*interval!*(part(solutionset,j+1), part(solutionset,j))},ineqsol);"
-						+ "      j:=j+2; >>;"
+						+ "while j+1<=nmroots do <<"
+						+ "  type:=0;"
+						+ "  if ineqop='sless or ineqop='sgreater then type:=0"
+						+ "   else if mymember(part(solutionset,j+1), densol) and mymember(part(solutionset,j), densol) then type:=0"
+						+ "   else if mymember(part(solutionset,j+1), densol) then type:=1"
+						+ "   else if mymember(part(solutionset,j), densol) then type:=2"
+						+ "   else type:=3;"
+						+ "  ineqsol:=append({var=!*interval!*(part(solutionset,j+1), part(solutionset,j), type)},ineqsol); j:=j+2;>>;"
 						+ "solutions!!:=ineqsol; >>;"
 						+ "if solutions!!={} then return {};"
 						+ " >>; "
@@ -873,7 +881,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "      else"
 				+ "	       bool!!:=2*bool!!;"
 				+ " 	   firstsol!!:=part(sol,1);"
-				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then  {{mkinterval(var,ineqop,part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
+				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then  {{mkinterval(var,part(part(firstsol!!,2),3),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
 				+ "    else if bool!!=1 then" + "  	 {sol}"
 				+ "	   else if bool!!>1 then" + "  	 {{var='?}}"
 				+ "    else " + "		 {} >>;"
@@ -1324,6 +1332,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "  else"
 				+ "    append(append(mysortdec(leftlist),eqlist),mysortdec(rightlist))"
 				+ " >> " + "end;");
+		
+		mpreduce1.evaluate("procedure mymember(a, list);" 
+				+ "begin;boole:=0;jj:=1;" 
+				+ "while jj<=length(list) and not boole do <<if part(list,jj)=a then boole:=1;jj:=jj+1;>>;" 
+				+ "return boole;" 
+				+ "end;");
 
 		mpreduce1.evaluate("procedure myint(exp, var, from, upto);"
 						+ "begin scalar upper, lower;"
