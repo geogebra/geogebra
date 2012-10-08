@@ -125,6 +125,10 @@ Var ASSOCIATE_GGT
 !include LogicLib.nsh
 !include WordFunc.nsh
 
+!include ZipDLL.nsh
+
+!include x64.nsh
+
 !macro PushShellVarContext
   Push $R0
   StrCpy $R0 $SMPROGRAMS
@@ -222,7 +226,7 @@ Var ASSOCIATE_GGT
   !define UMUI_CONFIRMPAGE_TEXTBOX Confirm
   !insertmacro UMUI_PAGE_CONFIRM
   !insertmacro MUI_PAGE_INSTFILES
-  !define MUI_FINISHPAGE_RUN $INSTDIR\GeoGebra.exe
+  !define MUI_FINISHPAGE_RUN $INSTDIR\GeoGebra-JOGL1.exe
   !insertmacro MUI_PAGE_FINISH
 !else
   !insertmacro UMUI_UNPAGE_MULTILANGUAGE
@@ -630,16 +634,26 @@ Section Install Install
     CreateDirectory $INSTDIR\unsigned
     SetOutPath $INSTDIR
     File forum.ico
-    File "${build.dir}\installer\windows\GeoGebra.exe"
+    File "${build.dir}\installer\windows\GeoGebra-no3D.exe"
+    File "${build.dir}\installer\windows\GeoGebra-JOGL1.exe"
+    File "${build.dir}\installer\windows\GeoGebra-JOGL2.exe"
     File "${build.dir}\unpacked\*.jar"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
     SetOutPath $INSTDIR\unsigned
     File "${build.dir}\unsigned\unpacked\*.jar"
-    
-    CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER" 
+
+    ${If} ${RunningX64}
+    !insertmacro ZIPDLL_EXTRACT "${build.dir}\jogl1-windows-amd64.jar" "$SMPROGRAMS\$STARTMENU_FOLDER" "*.dll"
+    ${Else}
+    !insertmacro ZIPDLL_EXTRACT "${build.dir}\jogl1-windows-i586.jar" "$SMPROGRAMS\$STARTMENU_FOLDER" "*.dll"
+    ${EndIf}
+
+    CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
     SetOutPath ""
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
+    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
+    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL2.exe "" $INSTDIR\GeoGebra-JOGL2.exe 0
+    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra-no3D.exe "" $INSTDIR\GeoGebra-no3D.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
     ${If} 1 = $DESKTOP_ALL
@@ -650,11 +664,11 @@ Section Install Install
       ${ElseIf} 1 = $DESKTOP_CURRENT
        SetShellVarContext current
       ${EndIf}
-      CreateShortCut $DESKTOP\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
+      CreateShortCut $DESKTOP\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
       Call PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      CreateShortCut $QUICKLAUNCH\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
+      CreateShortCut $QUICKLAUNCH\GeoGebra.lnk $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
     ${EndIf}
     
     Call PushShellVarContext
@@ -668,16 +682,16 @@ Section Install Install
       WriteRegStr SHCTX Software\Classes\.ggb "" GeoGebra.File
       WriteRegStr SHCTX Software\Classes\.ggb "Content Type" application/vnd.geogebra.file
       WriteRegStr SHCTX Software\Classes\GeoGebra.File "" "GeoGebra File"
-      WriteRegStr SHCTX Software\Classes\GeoGebra.File\DefaultIcon "" $INSTDIR\GeoGebra.exe,0
-      WriteRegStr SHCTX Software\Classes\GeoGebra.File\shell\open\command "" '"$INSTDIR\GeoGebra.exe" "%1"'
+      WriteRegStr SHCTX Software\Classes\GeoGebra.File\DefaultIcon "" $INSTDIR\GeoGebra-JOGL1.exe,0
+      WriteRegStr SHCTX Software\Classes\GeoGebra.File\shell\open\command "" '"$INSTDIR\GeoGebra-JOGL1.exe" "%1"'
       WriteRegStr SHCTX "Software\Classes\MIME\Database\Content Type\application/vnd.geogebra.file" Extension .ggb
     ${EndIf}
     ${If} 1 = $ASSOCIATE_GGT
       WriteRegStr SHCTX Software\Classes\.ggt "" GeoGebra.Tool
       WriteRegStr SHCTX Software\Classes\.ggt "Content Type" application/vnd.geogebra.tool
       WriteRegStr SHCTX Software\Classes\GeoGebra.Tool "" "GeoGebra Tool"
-      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\DefaultIcon "" $INSTDIR\GeoGebra.exe,0
-      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\shell\open\command "" '"$INSTDIR\GeoGebra.exe" "%1"'
+      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\DefaultIcon "" $INSTDIR\GeoGebra-JOGL1.exe,0
+      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\shell\open\command "" '"$INSTDIR\GeoGebra-JOGL1.exe" "%1"'
       WriteRegStr SHCTX "Software\Classes\MIME\Database\Content Type\application/vnd.geogebra.tool" Extension .ggt
     ${EndIf}
     ${If} 1 = $ASSOCIATE_GGB
@@ -694,7 +708,7 @@ Section Install Install
     StrCpy $3 "0$3"
     SectionGetSize ${Install} $0
     WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Contact office@geogebra.org
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayIcon $INSTDIR\GeoGebra.exe,0
+    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayIcon $INSTDIR\GeoGebra-JOGL1.exe,0
     WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayName GeoGebra
     WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayVersion ${fullversion}
     WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra EstimatedSize $0
@@ -791,11 +805,11 @@ Function .onInit
     ${If} "true" == $ADMINISTRATOR
       SetShellVarContext all
       StrCpy $UMUI_DEFAULT_SHELLVARCONTEXT all
-      StrCpy $INSTDIR $PROGRAMFILES\GeoGebra 5.0
+      StrCpy $INSTDIR "$PROGRAMFILES\GeoGebra 5.0"
     ${Else}
       SetShellVarContext current
       StrCpy $UMUI_DEFAULT_SHELLVARCONTEXT current
-      StrCpy $INSTDIR $PROFILE\GeoGebra 5.0
+      StrCpy $INSTDIR "$PROFILE\GeoGebra 5.0"
     ${EndIf}
     
     StrCpy $VERSION ""
@@ -851,8 +865,11 @@ FunctionEnd
     Delete $INSTDIR\unsigned\*.jar
     RMDir $INSTDIR\unsigned
     Delete $INSTDIR\forum.ico
-    Delete $INSTDIR\GeoGebra.exe
+    Delete $INSTDIR\GeoGebra-no3D.exe
+    Delete $INSTDIR\GeoGebra-JOGL1.exe
+    Delete $INSTDIR\GeoGebra-JOGL2.exe
     Delete $INSTDIR\*.jar
+    Delete $INSTDIR\*.dll
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\by-nc-sa-3.0.txt
     RMDir $INSTDIR

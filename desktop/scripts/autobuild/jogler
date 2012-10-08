@@ -82,7 +82,7 @@ while [ $# -gt 0 ]; do
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $ORIGDIR
-  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE || exit $?
+  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE -ni || exit $?
   cd ../..
   rm -fR build-jogl$i
   cp -a build build-jogl$i
@@ -134,3 +134,10 @@ for i in . debug; do
   -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
   $WWWDIR/$MYDIR/$i/geogebra-50-jogl2.jnlp
   done
+
+# 6. Creating installer
+cd $ORIGDIR/../..
+test -d build.unjogled && rm -fR build.unjogled
+mv build build.unjogled
+cp -a $WWWDIR/$MYDIR build
+ant -f installer.xml

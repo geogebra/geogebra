@@ -36,6 +36,7 @@
   <dontWrapJar>true</dontWrapJar>
   <errTitle>GeoGebra</errTitle>
   <icon>geogebra.ico</icon>
+  <classPath mainClass="geogebra.GeoGebra"/>
   <jre>
     <minVersion>1.5.0</minVersion>
     <initialHeapSize>32</initialHeapSize>

@@ -91,14 +91,28 @@ read the following web pages:
 	<target name="GeoGebra.exe">
 		<!--nsis script="installer/GeoGebra_exe.nsi" verbosity="1" path="${src.dir}/installer/nsis">
 		</nsis-->
-		<launch4j configFile="${src.dir}/installer/geogebra.xml"
-			outfile="${build.dir}/installer/windows/unsigned/GeoGebra.exe"
+		<launch4j configFile="${src.dir}/installer/geogebra-no3d.xml"
+			outfile="${build.dir}/installer/windows/unsigned/GeoGebra-no3D.exe"
 			fileVersion="${fullversion}"
 			txtFileVersion="${fullversion}"
 			productVersion="${fullversion}"
 			txtProductVersion="${fullversion}"/>
-	<!-- On Windows we will do an in-place signing, so we just copy the unsigned file to its final place. -->
-	<copy file="${build.dir}/installer/windows/unsigned/GeoGebra.exe" tofile="${build.dir}/installer/windows/GeoGebra.exe"/>
+		<launch4j configFile="${src.dir}/installer/geogebra-jogl1.xml"
+			outfile="${build.dir}/installer/windows/unsigned/GeoGebra-JOGL1.exe"
+			fileVersion="${fullversion}"
+			txtFileVersion="${fullversion}"
+			productVersion="${fullversion}"
+			txtProductVersion="${fullversion}"/>
+		<launch4j configFile="${src.dir}/installer/geogebra-jogl2.xml"
+			outfile="${build.dir}/installer/windows/unsigned/GeoGebra-JOGL2.exe"
+			fileVersion="${fullversion}"
+			txtFileVersion="${fullversion}"
+			productVersion="${fullversion}"
+			txtProductVersion="${fullversion}"/>
+		<!-- On Windows we will do an in-place signing, so we just copy the unsigned file to its final place. -->
+		<copy file="${build.dir}/installer/windows/unsigned/GeoGebra-no3D.exe" tofile="${build.dir}/installer/windows/GeoGebra-no3D.exe"/>
+		<copy file="${build.dir}/installer/windows/unsigned/GeoGebra-JOGL1.exe" tofile="${build.dir}/installer/windows/GeoGebra-JOGL1.exe"/>
+		<copy file="${build.dir}/installer/windows/unsigned/GeoGebra-JOGL2.exe" tofile="${build.dir}/installer/windows/GeoGebra-JOGL2.exe"/>
 	</target>
 
 	<!-- creates a GeoGebra installer for Windows -->
@@ -107,7 +121,7 @@ read the following web pages:
              when the SECOND uninstaller.exe is run. The second uninstaller.exe is a signed version
              of the first one.
 	     -->
-	<target name="installer-windows" depends="readVersion, GeoGebra.exe" if="installer-windows">
+	<target name="installer-windows" depends="readVersion, GeoGebra-JOGL1.exe" if="installer-windows">
 		<tstamp />
 		<!-- Creating the FIRST uninstaller.exe. -->
 		<nsis script="installer/geogebra.nsi" verbosity="1" path="${src.dir}/installer/nsis">
@@ -118,7 +132,7 @@ read the following web pages:
 			<define name="outfile"     value="${build.dir}/installer/windows/temp/uninstaller.exe"/>
 			<define name="uninstaller" value="${installer-windows-uninstaller}"/>
 		</nsis>
-		<!-- Signing it (also GeoGebra.exe will be signed): the SECOND uninstaller.exe will be created. -->
+		<!-- Signing it (also GeoGebra*.exe will be signed): the SECOND uninstaller.exe will be created. -->
 		<antcall target="installer-windows-sign-components"/>
 		<!-- Creating the THIRD uninstaller.exe by running the SECOND uninstaller.exe. -->
 		<exec executable="${build.dir}/installer/windows/temp/uninstaller.exe" osfamily="winnt"/>
@@ -166,22 +180,41 @@ read the following web pages:
 	<target name="installer-windows-sign-components" if="installer-windows-keystore">
 		<!-- On Windows we do in-place signing. -->
 		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
-			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebra.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebra-no3D.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebra-JOGL1.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebra-JOGL2.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
 			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/temp/uninstaller.exe'"/>
 		</exec>
 		<!-- On Mac and Unix we will copy the signed file over the unsigned one. -->		
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
-			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra.exe' -out '${build.dir}/installer/windows/GeoGebra.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-no3D.exe' -out '${build.dir}/installer/windows/GeoGebra-no3D.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-JOGL1.exe' -out '${build.dir}/installer/windows/GeoGebra-JOGL1.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-JOGL2.exe' -out '${build.dir}/installer/windows/GeoGebra-JOGL2.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
 			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/temp/uninstaller.exe' -out '${build.dir}/installer/windows/temp/uninstaller-signed.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
-			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra.exe' -out '${build.dir}/installer/windows/GeoGebra.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-no3D.exe' -out '${build.dir}/installer/windows/GeoGebra-no3D.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-JOGL1.exe' -out '${build.dir}/installer/windows/GeoGebra-JOGL1.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-JOGL2.exe' -out '${build.dir}/installer/windows/GeoGebra-JOGL2.exe'"/>
+		</exec>
+		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
+
 			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/temp/uninstaller.exe' -out '${build.dir}/installer/windows/temp/uninstaller-signed.exe'"/>
 		</exec>
 		<!-- On Mac and Unix this will overwrite the unsigned version, on Windows it does not harm. -->

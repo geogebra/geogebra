@@ -31,6 +31,7 @@ TESTURL="http://dev.geogebra.org/~build/www-autobuild"
 if [ "$WWWDIR" = "" ]; then
  WWWDIR=/home/build/www-autobuild
  fi
+INSTALLER=1
 
 # 3. Reading command line arguments
 while [ $# -gt 0 ]; do
@@ -48,6 +49,7 @@ while [ $# -gt 0 ]; do
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
    echo "  -nc, --no-classes         Do not (re)compile classes"
    echo "  -ne, --no-ecj-err         Do not stop on an ecj error"
+   echo "  -ni, --no-installer       Do not run installer creator"
    echo "  -tu [url]                 Test URL ($TESTURL), points to WWWDIR ($WWWDIR)"
    echo "  -r [revision]             Use revision instead of latest"
    echo "  -l [logfile]              Use logfile instead of /tmp/build-pack-installer.log"
@@ -83,6 +85,10 @@ while [ $# -gt 0 ]; do
 
   -ne | --no-ecj-err)
    STOPONECJERR=0
+   ;;
+
+  -ni | --no-installer)
+   INSTALLER=0
    ;;
 
   -r)
@@ -234,7 +240,9 @@ runstep 72 .jartest "Testing packed JARs" ./test-packed-jars
 cd $WORKDIR
 
 # 8. Creating Windows and Mac OS X installer
-runstep 8 .installer "Creating installers" ant -f installer.xml
+if [ "$INSTALLER" = 1 ]; then
+ runstep 8 .installer "Creating installers" ant -f installer.xml
+ fi
 
 # 9/1. Copying and text replacing
 log "Recreating $WWWDIR/$MYDIR directory"

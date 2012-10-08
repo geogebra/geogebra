@@ -25,7 +25,7 @@ function geogebra_applet(width,height,filename,framePossible,enableRightClick,en
        var jars = "geogebra.jar, geogebra_main.jar, geogebra_gui.jar, geogebra_cas.jar, geogebra_algos.jar, geogebra_export.jar, geogebra_javascript.jar, jlatexmath.jar, jlm_greek.jar, jlm_cyrillic.jar, geogebra_properties.jar";
 // REPLACE END	
  
-  ret = '<applet name="ggbApplet" code="geogebra.GeoGebraApplet" codebase="http://www.geogebra.org/webstart/4.2/" archive="geogebra.jar" height="'+height+'" width="'+width+'">';
+  ret = '<applet name="ggbApplet" code="geogebra.GeoGebraApplet" codebase="http://jars.geogebra.org/webstart/4.2/" archive="geogebra.jar" height="'+height+'" width="'+width+'">';
   ret +='<param name="image" value="http://www.geogebra.org/webstart/loading.gif"/><param name="boxborder" value="false"/><param name="centerimage" value="true">';
   ret +='<param name="java_arguments" value="-Xmx512m">';
   ret += '<param name="cache_archive" value="'+jars+'" />';
