@@ -924,6 +924,7 @@ FunctionEnd
     !insertmacro RemoveUninstaller
     
     Delete $INSTDIR\unsigned\*.jar
+    Delete $INSTDIR\unsigned\*.dll
     RMDir $INSTDIR\unsigned
     Delete $INSTDIR\forum.ico
     Delete $INSTDIR\GeoGebra-no3D.exe
