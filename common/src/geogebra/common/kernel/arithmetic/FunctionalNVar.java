@@ -59,12 +59,5 @@ public interface FunctionalNVar extends ExpressionValue{
 	 * @param label new label
 	 */
 	public void setLabel(String label);
-	
-	
-	/**
-	 * 
-	 * @return whether or not it's an inequality
-	 * (could be GeoFunction or GeoFunctionNVar)
-	 */
-	public boolean isInequality();
+
 }

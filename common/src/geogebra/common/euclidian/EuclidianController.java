@@ -5012,8 +5012,9 @@ public abstract class EuclidianController {
 									} else {
 										createPoint = true;
 									}
-								} else if (region instanceof FunctionalNVar) {
-									if (((FunctionalNVar)region).isInequality()) {
+								} else if (region instanceof GeoFunction) {
+									// eg x<4, y<4 (check not needed here for x+y<4)
+									if (((GeoFunction)region).isInequality()) {
 										createPoint = true;
 										hits.remove(region); // inequality won't be treated
 																// as a path

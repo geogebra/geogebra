@@ -926,8 +926,4 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return true;
 	}
 
-	public boolean isInequality() {
-		return false;
-	}
-
 }
