@@ -2113,6 +2113,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Greater than or equal to")
     String Symbol_GreaterThanEqualTo();
 
+    @DefaultStringValue("Implication")
+    String Symbol_Implication();
+
     @DefaultStringValue("Infinity")
     String Symbol_Infinity();
 

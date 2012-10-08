@@ -1537,9 +1537,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Substitute & Simplify")
     String SubstituteSimplify();
 
-    @DefaultStringValue("Implication")
-    String Symbol_Implication();
-
     @DefaultStringValue("Syntax")
     String Syntax();
 
