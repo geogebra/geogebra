@@ -67,6 +67,7 @@ Var STARTMENU_FOLDER
   Var ADMINISTRATOR
   Var VERSION
   Var WORKSTATION
+  Var ARCHITECTURE
   
   Var ADDITIONALTASKS_INI
   Var ADDITIONALTASKS_DESKTOP
@@ -127,7 +128,6 @@ Var ASSOCIATE_GGT
 !include WordFunc.nsh
 
 !include ZipDLL.nsh
-!include x64.nsh
 
 !macro PushShellVarContext
   Push $R0
@@ -557,6 +557,83 @@ Var ASSOCIATE_GGT
     !insertmacro INSTALLOPTIONS_WRITE "confirm.ini" "Field 3" Flags $R0
   FunctionEnd
 
+  Function MissingJava
+   messageBox MB_OK "No Java is detected on your system. You will be redirected to the Java download page after installing GeoGebra.\n\
+    By default, GeoGebra installs a 32 bit version of the JOGL1 DLLs if no Java is preinstalled. \
+    If you are going to install the 64 bit version of Java, you must re-run the GeoGebra installer \
+    to have the correct version of the JOGL1 DLLs."
+  FunctionEnd
+
+Function Architecture
+  Push $R0
+  Push $R1
+
+  Call GetJRE
+  Pop $R1
+
+  ${If} "" == $R1
+   Call MissingJava
+   StrCpy $ARCHITECTURE "i586"
+   Goto InstalledJavaFound
+  ${EndIf}
+ 
+  StrCpy $0 '"$R1" -d64 -version'
+  SetOutPath $EXEDIR
+  ExecWait $0 $R0
+  ${If} 1 == $R0
+   StrCpy $ARCHITECTURE "i586"
+   Goto InstalledJavaFound
+  ${EndIf}
+
+ StrCpy $ARCHITECTURE "amd64"
+
+ InstalledJavaFound:
+  Pop $R1
+  Pop $R0
+FunctionEnd
+
+ 
+Function GetJRE
+;
+;  returns the full path of a valid java.exe
+;  looks in:
+;  1 - .\jre directory (JRE Installed with application)
+;  2 - JAVA_HOME environment variable
+;  3 - the registry
+;  4 - hopes it is in current dir or PATH
+;
+; Borrowed from http://nsis.sourceforge.net/Java_Launcher
+ 
+  Push $R0
+  Push $R1
+ 
+  ; use javaw.exe to avoid dosbox.
+  ; use java.exe to keep stdout/stderr
+  !define JAVAEXE "java.exe"
+ 
+  ClearErrors
+  StrCpy $R0 "$EXEDIR\jre\bin\${JAVAEXE}"
+  IfFileExists $R0 JreFound  ;; 1) found it locally
+  StrCpy $R0 ""
+ 
+  ClearErrors
+  ReadEnvStr $R0 "JAVA_HOME"
+  StrCpy $R0 "$R0\bin\${JAVAEXE}"
+  IfErrors 0 JreFound  ;; 2) found it in JAVA_HOME
+ 
+  ClearErrors
+  ReadRegStr $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+  ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
+  StrCpy $R0 "$R0\bin\${JAVAEXE}"
+ 
+  IfErrors 0 JreFound  ;; 3) found it in the registry
+  StrCpy $R0 "${JAVAEXE}"  ;; 4) wishing you good luck
+ 
+ JreFound:
+  Pop $R1
+  Exch $R0
+FunctionEnd
+
 !endif
 
 /**
@@ -675,7 +752,6 @@ Section Install Install
 
     SectionIn 1 2
 
-
     CreateDirectory $INSTDIR\unsigned
 
     SetOutPath $INSTDIR
@@ -689,18 +765,10 @@ Section Install Install
     SetOutPath $INSTDIR\unsigned
     File "${build.dir}\unsigned\unpacked\*.jar"
 
-    /**
-     * The JOGL1 amd64 packages are incompatible with Windows 7 64 bit.
-     * So we simply offer the i586 version the JOGL1 files. Fingers crossed.
-     */
+    Call Architecture
 
-    /* ${If} ${RunningX64}
-      ZipDLL::extractall "$INSTDIR\jogl1-windows-amd64.jar" "$INSTDIR"
-      ZipDLL::extractall "$INSTDIR\jogl1-windows-amd64.jar" "$INSTDIR\unsigned"
-    ${Else} */
-      ZipDLL::extractall "$INSTDIR\jogl1-windows-i586.jar" "$INSTDIR"
-      ZipDLL::extractall "$INSTDIR\jogl1-windows-i586.jar" "$INSTDIR\unsigned"
-    /* ${EndIf} */
+    ZipDLL::extractall "$INSTDIR\jogl1-windows-$ARCHITECTURE.jar" "$INSTDIR"
+    ZipDLL::extractall "$INSTDIR\jogl1-windows-$ARCHITECTURE.jar" "$INSTDIR\unsigned"
     RMDir /r $INSTDIR\META-INF
     RMDir /r $INSTDIR\unsigned\META-INF
 
@@ -1025,3 +1093,4 @@ FunctionEnd
   FunctionEnd
   
 !endif
+ 
