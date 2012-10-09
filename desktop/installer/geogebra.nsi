@@ -33,7 +33,7 @@
  * Installer Attributes
  */
 
-Name GeoGebra
+Name "GeoGebra 5.0"
 OutFile "${outfile}"
 Caption "GeoGebra Installer" # see line marked with CAPTION
 BrandingText "GeoGebra ${fullversion} (${builddate})"
@@ -557,98 +557,39 @@ Var ASSOCIATE_GGT
     !insertmacro INSTALLOPTIONS_WRITE "confirm.ini" "Field 3" Flags $R0
   FunctionEnd
 
-  Function MissingJava
-   messageBox MB_OK "No Java is detected on your system. You will be redirected to the Java download page after installing GeoGebra.\n\
-    By default, GeoGebra installs a 32 bit version of the JOGL1 DLLs if no Java is preinstalled. \
-    If you are going to install the 64 bit version of Java, you must re-run the GeoGebra installer \
-    to have the correct version of the JOGL1 DLLs."
-  FunctionEnd
-
 Function Architecture
   Push $R0
   Push $R1
 
-  Call GetJRE
-  Pop $R1
-
-  ${If} "" == $R1
-   Call MissingJava
-   StrCpy $ARCHITECTURE "i586"
-   Goto InstalledJavaFound
-  ${EndIf}
- 
-  StrCpy $0 '"$R1" -d32 -version'
-  SetOutPath $EXEDIR
-  ExecWait $0 $R0
-  ${If} "0" == $R0
-   StrCpy $ARCHITECTURE "i586"
-   Goto InstalledJavaFound
-  ${EndIf}
-
-  StrCpy $0 '"$R1" -d64 -version'
-  SetOutPath $EXEDIR
-  ExecWait $0 $R0
-  ${If} "0" == $R0
-   StrCpy $ARCHITECTURE "amd64"
-   Goto InstalledJavaFound
-  ${EndIf}
-
- ;messageBox MB_OK "There is an error with detecting the correct Java architecture. \
- ; As a fallback we assume that your machine has a 32 bit Java version installed."
- StrCpy $ARCHITECTURE "i586"
-
- InstalledJavaFound:
-  Pop $R1
-  Pop $R0
-FunctionEnd
-
- 
-Function GetJRE
-;
-;  returns the full path of a valid java.exe
-;  looks in:
-;  1 - .\jre directory (JRE Installed with application)
-;  2 - JAVA_HOME environment variable
-;  3 - the registry
-;  4 - hopes it is in current dir or PATH
-;
-; Borrowed from http://nsis.sourceforge.net/Java_Launcher
- 
-  Push $R0
-  Push $R1
- 
-  ; use javaw.exe to avoid dosbox.
-  ; use java.exe to keep stdout/stderr
-  !define JAVAEXE "java.exe"
- 
-  ClearErrors
-  StrCpy $R0 "$EXEDIR\jre\bin\${JAVAEXE}"
-  IfFileExists $R0 JreFound  ;; 1) found it locally
-  StrCpy $R0 ""
- 
-  ClearErrors
-  ReadEnvStr $R0 "JAVA_HOME"
-  StrCpy $R0 "$R0\bin\${JAVAEXE}"
-  IfErrors 0 JreFound  ;; 2) found it in JAVA_HOME
- 
   ClearErrors
   ReadRegStr $R1 HKLM "SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment" "CurrentVersion"
   ReadRegStr $R0 HKLM "SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
   StrCpy $R0 "$R0\bin\${JAVAEXE}"
-  IfErrors 0 JreFound  ;; 3) found it in the registry (64 bit entry, launch4j prefers it)
+  IfErrors 0 ArchAmd64  ;; Java found in the registry (64 bit entry, launch4j prefers it)
    ;; see http://stackoverflow.com/questions/2688932/configure-launch4j-to-use-32-bit-jvm-only
  
   ClearErrors
   ReadRegStr $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
   ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
   StrCpy $R0 "$R0\bin\${JAVAEXE}"
-  IfErrors 0 JreFound  ;; 3) found it in the registry (32 bit entry)
+  IfErrors 0 ArchI586  ;; Java found it in the registry (32 bit entry)
 
-  StrCpy $R0 "${JAVAEXE}"  ;; 4) wishing you good luck
- 
- JreFound:
+  ClearErrors
+  messageBox MB_OK "No Java is detected on your system. You will be redirected to the Java download page after installing GeoGebra.\n\
+    By default, GeoGebra installs a 32 bit version of the JOGL1 DLLs if no Java is preinstalled. \
+    If you are going to install the 64 bit version of Java, you must re-run the GeoGebra installer \
+    to have the correct version of the JOGL1 DLLs."
+
+  ArchI586:
+   StrCpy $ARCHITECTURE "i586"
+   Goto JavaFound
+
+  ArchAmd64:
+   StrCpy $ARCHITECTURE "amd64"
+
+  JavaFound:
   Pop $R1
-  Exch $R0
+  Pop $R0
 FunctionEnd
 
 !endif
@@ -710,7 +651,7 @@ VIAddVersionKey FileVersion ${fullversion}
 VIAddVersionKey InternalName GeoGebra_Installer_${versionname}
 VIAddVersionKey LegalCopyright "(C) 2001-2012 International GeoGebra Institute"
 VIAddVersionKey OriginalFilename GeoGebra_Installer_${versionname}.exe
-VIAddVersionKey ProductName GeoGebra
+VIAddVersionKey ProductName "GeoGebra 5.0"
 VIAddVersionKey ProductVersion ${fullversion}
 
 VIProductVersion ${fullversion}
