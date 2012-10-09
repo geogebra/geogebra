@@ -1543,7 +1543,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	final public boolean computeOutput() {
 		// do not compute output if this cell is used as a text cell
 		if (!useAsText) {
-			return computeOutput(getInputVE().getAssignmentType()!=AssignmentType.DELAYED);
+			//input VE is noll sometimes, ie if Solve is used on a=b+c,b
+			return computeOutput(getEvalVE().getAssignmentType()!=AssignmentType.DELAYED);
 		}
 		return true; // simulate success
 	}
