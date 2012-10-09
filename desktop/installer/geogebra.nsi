@@ -577,15 +577,25 @@ Function Architecture
    Goto InstalledJavaFound
   ${EndIf}
  
-  StrCpy $0 '"$R1" -d64 -version'
+  StrCpy $0 '"$R1" -d32 -version'
   SetOutPath $EXEDIR
   ExecWait $0 $R0
-  ${If} 1 == $R0
+  ${If} "0" == $R0
    StrCpy $ARCHITECTURE "i586"
    Goto InstalledJavaFound
   ${EndIf}
 
- StrCpy $ARCHITECTURE "amd64"
+  StrCpy $0 '"$R1" -d64 -version'
+  SetOutPath $EXEDIR
+  ExecWait $0 $R0
+  ${If} "0" == $R0
+   StrCpy $ARCHITECTURE "amd64"
+   Goto InstalledJavaFound
+  ${EndIf}
+
+ ;messageBox MB_OK "There is an error with detecting the correct Java architecture. \
+ ; As a fallback we assume that your machine has a 32 bit Java version installed."
+ StrCpy $ARCHITECTURE "i586"
 
  InstalledJavaFound:
   Pop $R1
@@ -622,11 +632,18 @@ Function GetJRE
   IfErrors 0 JreFound  ;; 2) found it in JAVA_HOME
  
   ClearErrors
+  ReadRegStr $R1 HKLM "SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment" "CurrentVersion"
+  ReadRegStr $R0 HKLM "SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
+  StrCpy $R0 "$R0\bin\${JAVAEXE}"
+  IfErrors 0 JreFound  ;; 3) found it in the registry (64 bit entry, launch4j prefers it)
+   ;; see http://stackoverflow.com/questions/2688932/configure-launch4j-to-use-32-bit-jvm-only
+ 
+  ClearErrors
   ReadRegStr $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
   ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
   StrCpy $R0 "$R0\bin\${JAVAEXE}"
- 
-  IfErrors 0 JreFound  ;; 3) found it in the registry
+  IfErrors 0 JreFound  ;; 3) found it in the registry (32 bit entry)
+
   StrCpy $R0 "${JAVAEXE}"  ;; 4) wishing you good luck
  
  JreFound:
