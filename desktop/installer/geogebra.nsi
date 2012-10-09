@@ -788,22 +788,22 @@ Section Install Install
     IntCmp $3 9 0 0 +2
     StrCpy $3 "0$3"
     SectionGetSize ${Install} $0
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Contact office@geogebra.org
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayIcon $INSTDIR\GeoGebra-JOGL1.exe,0
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayName GeoGebra
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayVersion ${fullversion}
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra EstimatedSize $0
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra HelpLink http://www.geogebra.org/forum/
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra InstallDate $1$2$3
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra InstallLocation $INSTDIR
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Language $LANGUAGE
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra NoModify 1
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra NoRepair 1
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Publisher "International GeoGebra Institute"
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra SettingsIdentifier Software\JavaSoft\Prefs\geogebra
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra UninstallString '"$INSTDIR\uninstaller.exe"'
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra URLInfoAbout http://www.geogebra.org/
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra URLUpdateInfo http://www.geogebra.org/download/
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" Contact office@geogebra.org
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayIcon $INSTDIR\GeoGebra-JOGL1.exe,0
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayName "GeoGebra 5.0"
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayVersion ${fullversion}
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" EstimatedSize $0
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" HelpLink http://www.geogebra.org/forum/
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" InstallDate $1$2$3
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" InstallLocation $INSTDIR
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" Language $LANGUAGE
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" NoModify 1
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" NoRepair 1
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" Publisher "International GeoGebra Institute"
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" SettingsIdentifier Software\JavaSoft\Prefs\geogebra
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" UninstallString '"$INSTDIR\uninstaller.exe"'
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" URLInfoAbout http://www.geogebra.org/
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" URLUpdateInfo http://www.geogebra.org/download/
     Call PopShellVarContext
     
     SetOutPath $INSTDIR
@@ -933,7 +933,7 @@ FunctionEnd
  */
 
 !macro RemoveUninstaller
-  DeleteRegKey SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra
+  DeleteRegKey SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0"
   Delete $INSTDIR\uninstaller.ini
   Delete $INSTDIR\uninstaller.exe
 !macroend
