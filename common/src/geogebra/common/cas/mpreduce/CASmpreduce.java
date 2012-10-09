@@ -785,6 +785,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
 						+ " else if freeof(eqn,=) then eqn else eqn:=subtraction(lhs(eqn),rhs(eqn));"
 						+ " solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
+						// if it cannot solve the equation and numeric is off, then we return {x=?}
+						+ " if not (freeof(solutions!!,root_of)=t and freeof(solutions!!,one_of)=t) and numeric!!=0 then return {{(if arglength(var)>-1 and part(var,0)='list then part(var,1) else var)='?}};"
 						+ " multi:=for j:=1:length(solutions!!) join {m=part(root_multiplicities,j)};"
 						+ " if not freeof(eqn,/) then isfraction:=1;"
 						+ " densol:={};denmulti:={};" //solutions of the denominator(if needed)
@@ -858,7 +860,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ " >>; "
 
 						// inequality solution ends
-					+ "  solutions!! := solvepostprocess(solutions!!,var);" +
+					+ "solutions!! := solvepostprocess(solutions!!,var);" +
 					" other!!:=list(0);" +
 					" if not (part(solutions!!,1)=1) then " +
 					" other!!:=solvepostprocess(solve(map(exptolin(~r),eqn),var),var);" +
@@ -885,7 +887,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 				+ "      else"
 				+ "	       bool!!:=2*bool!!;"
-				+ " 	   firstsol!!:=part(sol,1);"
+				+ " 	firstsol!!:=part(sol,1);"
 				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then  {{mkinterval(var,part(part(firstsol!!,2),3),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
 				+ "    else if part(firstsol!!,0)=equal then {{firstsol!!}}"
 				+ "    else if bool!!=1 then" + "  	 {sol}"
