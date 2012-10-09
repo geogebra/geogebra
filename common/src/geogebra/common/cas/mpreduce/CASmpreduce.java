@@ -437,7 +437,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"keepinput!!:=keepin;taylortostd:=taystd;" +
 				"currentx!!:=curx;currenty!!:=cury;" +
 				"numeric!!:=0$ precision 30; " +
-				"print\\_precision 16; " +
+				"print_precision 16; " +
 				"off allfac,revpri, complex, rounded, numval, factor, div; " +
 				"off combinelogs, expandlogs, combineexpt,rational,rationalize;" +
 				"on pri;" +
