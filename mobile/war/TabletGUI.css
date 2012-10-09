@@ -2,7 +2,7 @@
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.stylingbar {
+div.stylingbar {
 	position: absolute;
 	right: 0px;
 	margin-right: 0px;
@@ -16,12 +16,12 @@
 	top: 0px;
 }
 
-.mgwt-ButtonBar-toolbar {
+div.mgwt-ButtonBar-toolbar {
 	position: absolute;
 	bottom: 0px;
 }
 
-.mgwt-ButtonBar-toolBarOptionsBackground {
+div.mgwt-ButtonBar-toolBarOptionsBackground {
 	position: absolute;
 	bottom: 50px;
 	background: none;
@@ -29,7 +29,7 @@
 	border: none;
 }
 
-.StyleBarOptions {
+div.StyleBarOptions {
 	position: absolute;
 	right: 75px;
 	top: 150px;
@@ -37,7 +37,7 @@
 	-webkit-border-radius: 1em 1em 1em 1em;
 }
 
-.colorBarBackground {
+div.colorBarBackground {
 	position: absolute;
 	right: 75px;
 	top: 150px;	
@@ -45,7 +45,7 @@
 	z-index: 100;
 }
 
-.colorBar { 	
+div.colorBar { 	
 	height: 220px;
 	box-shadow: 5px 5px 10px #333333;	
 	width: 100%;
@@ -55,11 +55,11 @@
 	-webkit-border-radius: 1em 1em 1em 1em;
 }
 
-.colorSliderPanel{
+div.colorSliderPanel{
 	box-shadow: 5px 5px 10px #333333;
 }
 
-.colorScrollPanel {
+div.colorScrollPanel {
 	width: 100%;
 	height: 100%;
 }
@@ -98,7 +98,7 @@ div.mgwt-Button-dummyButton {
 	right: 0px;
 }
 
-.mgwt-BarButton-tool-rightButton {
+div.mgwt-BarButton-tool-rightButton {
 	position: absolute;
 	right: 0px;
 }
@@ -111,7 +111,7 @@ div.mgwt-Button-dummyButton {
 	width: 98%;
 }
 
-.mgwt-BarButton-tool {
+div.mgwt-BarButton-tool {
 	cursor: pointer;
 	border: 1px solid rgba(0, 0, 0, 0.5);
 	margin: 3px;
