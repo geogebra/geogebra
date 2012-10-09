@@ -19,8 +19,16 @@ import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.euclidian.MyZoomerW;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import java_cup.internal_error;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.EndedHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
+import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.logging.client.LoggingPopup;
 import com.google.gwt.user.client.Window;
 import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
@@ -40,11 +48,11 @@ import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
  */
 public class EuclidianViewM extends EuclidianView
 {
-	// static Logger logger = Logger.getLogger("");
+	static Logger logger = Logger.getLogger("");
 	LoggingPopup popup;
 
 	// set in setCanvas
-	private GGraphics2DW g2p = null;
+	GGraphics2DW g2p = null;
 	Canvas canvas;
 
 	private GColor backgroundColor = GColor.white;
@@ -56,7 +64,7 @@ public class EuclidianViewM extends EuclidianView
 
 		this.setAllowShowMouseCoords(false);
 
-		// logger.addHandler(new HasWidgetsLogHandler(new LoggingPopup()));
+		logger.addHandler(new HasWidgetsLogHandler(new LoggingPopup()));
 	}
 
 	/**
@@ -129,11 +137,30 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onPinch(PinchEvent event)
 			{
-				((MobileController) EuclidianViewM.this.getEuclidianController()).onPinch(event.getX(), event.getY(), event.getScaleFactor());
+				EuclidianViewM.this.g2p.scale(event.getScaleFactor(), event.getScaleFactor());
+				// ((MobileController)
+				// EuclidianViewM.this.getEuclidianController()).onPinch(event.getX(),
+				// event.getY(), event.getScaleFactor());
 
 				// EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " (" +
 				// event.getX() + "/" + event.getY() + ")" + "; " +
 				// event.getScaleFactor());
+			}
+		});
+
+		this.canvas.addMouseWheelHandler(new MouseWheelHandler()
+		{
+
+			@Override
+			public void onMouseWheel(MouseWheelEvent event)
+			{
+				int scale = event.getDeltaY();
+				
+			 ((MobileController)
+				 EuclidianViewM.this.getEuclidianController()).onPinch(event.getClientX(),
+				 event.getClientY(), scale);
+
+				EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " (" + event.getClientX() + "/" + event.getClientY() + ")" + "; " + scale);
 			}
 		});
 
