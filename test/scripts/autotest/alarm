@@ -89,10 +89,10 @@ LASTOK=`./which-latest-ok`
 if [ "$LASTOK" != "" ]; then
  LASTOKINFO="The last error-free revision was $LASTOK in the autotest database"
  fi
-echo "$MESSAGE
-$REV_HTTP
-$LASTOKINFO
+#echo "$MESSAGE
+#$REV_HTTP
+#$LASTOKINFO
 
-$LOG
+#$LOG
 
-Automatic message, do not reply" | ssh -i $MAILSERVERSSHKEY -p$MAILSERVERSSHPORT $MAILSERVERSSHLOGIN mail -s "autotest/alarm report" $RECIPIENT
+#Automatic message, do not reply" | ssh -i $MAILSERVERSSHKEY -p$MAILSERVERSSHPORT $MAILSERVERSSHLOGIN mail -s "autotest/alarm report" $RECIPIENT
