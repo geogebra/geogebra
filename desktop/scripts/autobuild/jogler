@@ -34,9 +34,9 @@ while [ $# -gt 0 ]; do
    echo "  -ne                       Do not stop on an ecj error (passed to build-pack-installer)"
    echo "  -nj                       Do not create JNLP files"
    echo "  -t [dir]                  Target directory ($MYDIR)"
-   echo "  -w [dir]                  Target directory root folder, path to target URL ($WWWDIR)"
+   echo "  -w [dir]                  Target directory root folder, absolute path to target URL ($WWWDIR)"
    echo "                            (Final target will be $WWWDIR/$MYDIR, set by -w and -t."
-   echo "                            Use '.' for any of them if you want to jogle a single directory.)"
+   echo "                            Use '-t .' if you want to jogle a single directory.)"
    exit 0
    ;;
 

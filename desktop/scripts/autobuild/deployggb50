@@ -110,14 +110,9 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  # A significant difference to 4.2 that we create the Windows installer here
  # (not during the build step):
 
- # Backing up unjogled build directory:
- cd $SVNDIR/geogebra/desktop
- test -d build.unjogled && rm -fR build.unjogled
- mv build build.unjogled
-
  # Creating jogled build directory:
  cd $SVNDIR/geogebra/desktop/scripts/autobuild
- ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t build -w . -nj
+ ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t . -w $SVNDIR/geogebra/desktop/build -nj
 
  # Running installer creator:
  cd $SVNDIR/geogebra/desktop
