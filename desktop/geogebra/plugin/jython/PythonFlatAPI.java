@@ -1718,4 +1718,22 @@ public class PythonFlatAPI {
 		Script script = app.createScript(lang, text, true);
 		geo.setScript(script, evt);
 	}
+	
+	/**
+	 * Get the source text of a script
+	 * @param script the script
+	 * @return the script source
+	 */
+	public static String getScriptText(Script script) {
+		return script.getText();
+	}
+	
+	/**
+	 * Get the type of a script
+	 * @param script the script
+	 * @return the type of the script
+	 */
+	public static ScriptType getScriptType(Script script) {
+		return script.getType();
+	}
 }

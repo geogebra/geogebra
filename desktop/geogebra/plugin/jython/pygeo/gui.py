@@ -926,8 +926,8 @@ class EventsPane(WindowPane, ActionListener, DocumentListener):
             if script is None:
                 self.script_area.input = ""
             else:
-                self.script_area.input = script.getText()
-                self.language_box.selectedIndex = script.getType().ordinal()
+                self.script_area.input = API.getScriptText(script)
+                self.language_box.selectedIndex = API.getScriptType(script).ordinal()
             self.script_area.reset_undo()
         later(self.set_save_btn, False)
         
