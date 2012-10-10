@@ -12,8 +12,10 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.main.MyError;
+import geogebra.mobile.gui.elements.Picker;
 import geogebra.mobile.utils.ToolBarCommand;
 
 import java.awt.Point;
@@ -287,6 +289,12 @@ public class MobileModel
 			draw = getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOLINE) >= 1;
 			break;
 
+		// commands that need one point and one vector
+		case VectorFromPoint:
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR });
+			draw = getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOVECTOR) >= 1;
+			break;
+
 		// commands that need two points or one segment
 		case MidpointOrCenter:
 		case PerpendicularBisector:
@@ -315,10 +323,22 @@ public class MobileModel
 			draw = getNumberOf(Test.GEOPOINT) >= 3;
 			break;
 
+		// commands that need three points or two lines
+		case AngleBisector:
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE });
+			draw = getNumberOf(Test.GEOPOINT) >= 3 || getNumberOf(Test.GEOLINE) >= 2;
+			break;
+
 		// commands that need five points
 		case ConicThroughFivePoints:
 			select(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 5;
+			break;
+
+		// commands that need two points and special input
+		case RegularPolygon:
+			select(hits, Test.GEOPOINT, 1);
+			draw = getNumberOf(Test.GEOPOINT) >= 2;
 			break;
 
 		// commands that need an unknown number of points
@@ -434,6 +454,11 @@ public class MobileModel
 			case Parabola:
 				newElements.add(this.kernel.getAlgoDispatcher().Parabola(null, (GeoPoint) getElement(Test.GEOPOINT), (GeoLine) getElement(Test.GEOLINE)));
 				break;
+			case VectorFromPoint:
+				GeoPoint endPoint = (GeoPoint) this.kernel.getAlgoDispatcher().Translate(null, getElement(Test.GEOPOINT),
+				    (GeoVec3D) getElement(Test.GEOVECTOR))[0];
+				newElements.add(this.kernel.getAlgoDispatcher().Vector(null, (GeoPoint) getElement(Test.GEOPOINT), endPoint));
+				break;
 			case CircleThroughThreePoints:
 				newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) getElement(Test.GEOPOINT), (GeoPoint) getElement(Test.GEOPOINT, 1),
 				    (GeoPoint) getElement(Test.GEOPOINT, 2)));
@@ -462,6 +487,21 @@ public class MobileModel
 				newElements.add(this.kernel.getAlgoDispatcher().Hyperbola(null, (GeoPoint) getElement(Test.GEOPOINT),
 				    (GeoPoint) getElement(Test.GEOPOINT, 1), (GeoPoint) getElement(Test.GEOPOINT, 2)));
 				break;
+			case AngleBisector:
+				if (getNumberOf(Test.GEOPOINT) >= 3)
+				{
+					newElements.add(this.kernel.getAlgoDispatcher().AngularBisector(null, (GeoPoint) getElement(Test.GEOPOINT),
+					    (GeoPoint) getElement(Test.GEOPOINT, 1), (GeoPoint) getElement(Test.GEOPOINT, 2)));
+				}
+				else
+				{
+					for (GeoElement e : this.kernel.getAlgoDispatcher().AngularBisector(null, (GeoLine) getElement(Test.GEOLINE),
+					    (GeoLine) getElement(Test.GEOLINE, 1)))
+					{
+						newElements.add(e);
+					}
+				}
+				break;
 			case ConicThroughFivePoints:
 				newElements.add(this.kernel.getAlgoDispatcher().Conic(
 				    null,
@@ -475,6 +515,10 @@ public class MobileModel
 				{
 					newElements.add(geo);
 				}
+				break;
+			case RegularPolygon:
+				// TODO
+				// Picker picker = new Picker();
 				break;
 			case Polygon:
 				ArrayList<GeoElement> geos2 = getAll(Test.GEOPOINT);

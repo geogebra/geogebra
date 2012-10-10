@@ -78,6 +78,12 @@ div.mgwt-Button-dummyButton {
 	border: none;
 }
 
+div.mgwt-Button-picker{
+	-webkit-border-radius: 0px;
+	margin: 0px; 
+}
+
+
 .colorBar * td {
 	width: 170px;
 }
@@ -120,8 +126,7 @@ div.mgwt-BarButton-tool {
 	background-color: white;
 }
 
-.button-active {
-	color: #fff;
+div.mgwt-BarButton-active {
 	margin: 1px;
 	border: 3px solid rgba(0, 0, 255, 1);
 }

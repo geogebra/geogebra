@@ -130,10 +130,10 @@ public class GuiModel
 	{
 		if (this.activeButton != null)
 		{
-			this.activeButton.removeStyleName("button-active");
+			this.activeButton.removeStyleDependentName("active");
 		}
 		this.activeButton = toolBarButton;
-		this.activeButton.addStyleName("button-active");
+		this.activeButton.addStyleDependentName("active");
 
 		if (this.mobileModel != null)
 		{

@@ -67,8 +67,8 @@ public class StylingBar extends RoundPanel
 		this.button[2] = createStyleBarButton("pointCapture", CommonResources.INSTANCE.point_capturing(), 2);
 
 		// set button showAxes and pointCapture to (default) active
-		this.button[0].addStyleName("button-active");
-		this.button[2].addStyleName("button-active");
+		this.button[0].addStyleDependentName("active");
+		this.button[2].addStyleDependentName("active");
 
 		// add the standardButtons to the verticalPanel
 		for (int i = 0; i < this.button.length; i++)
@@ -139,13 +139,13 @@ public class StylingBar extends RoundPanel
 			{
 				StylingBar.this.guiModel.closeOptions();
 				StylingBar.this.guiModel.processSource(process);
-				if (StylingBar.this.button[number].getStyleName().endsWith("button-active"))
+				if (StylingBar.this.button[number].getStyleName().endsWith("active"))
 				{
-					StylingBar.this.button[number].removeStyleName("button-active");
+					StylingBar.this.button[number].removeStyleDependentName("active");
 				}
 				else
 				{
-					StylingBar.this.button[number].addStyleName("button-active");
+					StylingBar.this.button[number].addStyleDependentName("active");
 				}
 			}
 		});
