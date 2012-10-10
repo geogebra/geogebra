@@ -5,6 +5,7 @@ MYDIR=test50
 CV=5.0
 COMPILE=0
 WWWDIR=/home/build/www-autobuild
+JNLP=1
 
 ORIGDIR=`dirname $0`
 cd $ORIGDIR
@@ -31,8 +32,11 @@ while [ $# -gt 0 ]; do
    echo "  -u [url]                  Target URL (passed to build-pack-installer)"
    echo "  -nt                       Do not download third-party components (passed to build-pack-installer)"
    echo "  -ne                       Do not stop on an ecj error (passed to build-pack-installer)"
+   echo "  -nj                       Do not create JNLP files"
    echo "  -t [dir]                  Target directory ($MYDIR)"
    echo "  -w [dir]                  Target directory root folder, path to target URL ($WWWDIR)"
+   echo "                            (Final target will be $WWWDIR/$MYDIR, set by -w and -t."
+   echo "                            Use '.' for any of them if you want to jogle a single directory.)"
    exit 0
    ;;
 
@@ -67,6 +71,10 @@ while [ $# -gt 0 ]; do
 
   -ne)
    EE="-ne"
+   ;;
+
+  -nj)
+   JNLP=0
    ;;
 
   *)
@@ -112,7 +120,7 @@ for i in jar jar.pack.gz; do
  done
 
 # 3/2. Copying over jogl.jar and jogl1-*.jar
-find build-jogl1 -name jogl.jar -or -name 'jogl1-*' | while read FILE; do
+find build-jogl1 -name jogl.jar -or -name 'jogl1-*.jar' | while read FILE; do
  DIR=`dirname $FILE`
  DIR2=`echo $DIR | sed s/build-jogl1//`
  COMMAND="cp $FILE $WWWDIR/$MYDIR/$DIR2"
@@ -124,6 +132,10 @@ find build-jogl1 -name jogl.jar -or -name 'jogl1-*' | while read FILE; do
 find $WWWDIR/$MYDIR -name geogebra.jar -or -name geogebra_3d.jar | xargs rm
 
 # 5. Changing JNLP files
+if [ "$JNLP" = 0 ]; then
+ exit 0
+ fi
+
 for i in . debug; do
  sed -i -e s/"geogebra\.jar"/geogebra-jogl1.jar/g \
   -e s/"geogebra_3d\.jar"/geogebra_3d-jogl1.jar/g \

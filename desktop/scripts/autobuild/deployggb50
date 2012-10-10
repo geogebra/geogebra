@@ -109,13 +109,22 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
  # A significant difference to 4.2 that we create the Windows installer here
  # (not during the build step):
+
+ # Backing up unjogled build directory:
  cd $SVNDIR/geogebra/desktop
  test -d build.unjogled && rm -fR build.unjogled
  mv build build.unjogled
- cp -a $WWWDIR/$MYDIR build
+
+ # Creating jogled build directory:
+ cd $SVNDIR/geogebra/desktop/scripts/autobuild
+ ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t build -w . -nj
+
+ # Running installer creator:
+ cd $SVNDIR/geogebra/desktop
  ant -f installer.xml installer-clean installer-windows
  cd $SVNDIR/geogebra/desktop/build/installer
 
+ # Copying to Google Code:
  WINDOWS_INSTALLER_EXE=GeoGebra-Windows-Installer-`echo $MYVER | tr . -`.exe
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_INSTALLER_EXE
