@@ -30,8 +30,8 @@ VERBOSE=0
 CLASSES=1
 RUN=0
 TIDYUP=0
-CV=5.0
 JOGL=1
+PREPARE=0
 
 BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
 set_bootclasspath
@@ -46,13 +46,13 @@ while [ $# -gt 0 ]; do
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help         This help"
    echo "  -c, --clean               Do a cleanup first by removing *.class files"
-   echo "  -cv [version]             Set GeoGebra compilation version: 4.2 or 5.0 ($CV)"
    echo "  -J [version]              Set JOGL version for 5.0 ($JOGL)"
    echo "  -s [dir]                  Use dir for source directory ($WORKDIR)"
    echo "  -b [file]                 Set bootclasspath for ecj ($BOOTCLASSPATH)"
    echo "  -j [dir]                  Java home directory ($JAVA_HOME)"
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
    echo "  -nc, --no-classes         Do not (re)compile classes"
+   echo "  -pr, --prepare-run        Prepare JARs for running (pre-jogling)"
    echo "  -r, --run                 Run GeoGebra after compilation (in background)"
    echo "  -tu, --tidy-up            Tidy up the build directory after compilation"
    echo "  -v, --verbose             Be verbose whenever possible"
@@ -75,6 +75,10 @@ while [ $# -gt 0 ]; do
 
   -r | --run)
    RUN=1
+   ;;
+
+  -pr | --prepare-run)
+   PREPARE=1
    ;;
 
   -tu | --tidy-up)
@@ -142,17 +146,6 @@ SRCVERSION=`cat ../../../common/src/geogebra/common/GeoGebraConstants.java \
  | grep "public static final String VERSION_STRING" | cut -f7 -d" " |\
  sed s/\"//g | sed s/";"// | cut -f1-2 -d.`
 
-ERRORSTRING="WARNING: Incompatible source version ($SRCVERSION) and compilation target ($CV)"
-if [ "$CV" = "4.2" -a "$SRCVERSION" != "4.2" -a "$SRCVERSION" != "4.1" ]; then
- echo $ERRORSTRING
- # exit 42
- fi
-
-if [ "$CV" = "5.0" -a "$SRCVERSION" != "5.0" -a "$SRCVERSION" != "4.9" ]; then
- echo $ERRORSTRING
- # exit 42
- fi
-
 cd $WORKDIR
 
 umask 0002 # trying to ensure g+w rights for all created files automatically
@@ -203,11 +196,7 @@ if [ $CLASSES = 1 ]; then
  fi
 
 # 6/4. Packaging
-TARGET=ggb-jar-files
-if [ "$CV" = "5.0" ]; then
- TARGET=${TARGET}3D
- fi
-$ANT $TARGET || exit 3
+$ANT ggb-jar-files3D || exit 3
 
 # 6/5. Tidying up on demand
 BUILDDIR=`cd $WORKDIR/build; pwd`
@@ -216,19 +205,24 @@ if [ $TIDYUP = 1 ]; then
  for i in debug packed tempproperties unpacked unsigned; do
   rm -fR $BUILDDIR/$i
   done
- if [ "$CV" = "4.2" ]; then
-  rm $BUILDDIR/geogebra_3d.jar
-  fi
  fi
 
 # 7. Finish
-if [ "$JOGL" = "1" -a "$CV" = "5.0" ]; then
- EXTRA="LD_LIBRARY_PATH=."
+if [ "$JOGL" = "1" ]; then
+ EXTRA="-Djava.library.path=."
  fi
-if [ $RUN = 0 ]; then
- echo "Vanilla *.jar files are located in $BUILDDIR directory."
- echo "To run GeoGebra, enter \"cd $BUILDDIR; $EXTRA java -jar geogebra.jar\"."
+echo "Vanilla *.jar files are located in $BUILDDIR directory."
+if [ $RUN = 0 -a $PREPARE = 0 ]; then
+ echo "They cannot be used directly: they require jogling."
 else
  cd "$BUILDDIR"
- java -jar geogebra.jar &
+ mv geogebra.jar geogebra-jogl$JOGL.jar
+ mv geogebra_3d.jar geogebra_3d-jogl$JOGL.jar
+ mv gluegen-rt.jar gluegen-rt-jogl$JOGL.jar
+ RUNCOMMAND="java $EXTRA -jar geogebra-jogl$JOGL.jar"
+ if [ $RUN = 1 ]; then
+  $RUNCOMMAND &
+ else
+  echo "Enter \"$RUNCOMMAND\" to run GeoGebra 5.0 JOGL$JOGL from command line."
+  fi
  fi
