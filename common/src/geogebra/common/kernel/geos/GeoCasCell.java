@@ -2160,7 +2160,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 					|| (topLevel.getName()).equals("CSolve")
 					|| (topLevel.getName()).equals("CSolutions")
 					|| (topLevel.getName()).equals("NSolve")
-					|| (topLevel.getName()).equals("NSolutions")) {
+					|| (topLevel.getName()).equals("NSolutions")
+					|| (topLevel.getName()).equals("Root")) {
 				//if we got evalVE by clicking Solve button, inputVE might just contain the equations
 				//we want the command in input as well
 				if(!pointList){
