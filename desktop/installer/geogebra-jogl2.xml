@@ -1,0 +1,56 @@
+<!--
+ #
+ # @(#)geogebra.xml
+ # 
+ #    Version: 1.01.20110625
+ #    Version: 1.00.20091229
+ # Written by: Yves Kreis <mailto:yves@geogebra.org>
+ # Update by: Zoltan Kovacs <mailto:zoltan@geogebra.org>
+ # 
+ # All GeoGebra installers are subject to the following Creative Commons 
+ # Attribution-Noncommercial-Share Alike License; either version 3.0 of 
+ # the License, or (at your option) any later version 
+ # (see http://creativecommons.org/licenses/by-nc-sa/3.0/):
+ # 
+ # You are free to copy, distribute, transmit, and adapt GeoGebra 
+ # installers under the following conditions:
+ #  + Attribution. You must attribute the work
+ #      (i.e. by linking to http://www.geogebra.org/)
+ #  + Noncommercial. You may not use this work for commercial purposes 
+ #      (unless you have approval from GeoGebra, please contact us
+ #       at office@geogebra.org).
+ #  + Share Alike. If you alter, transform, or build upon this work, 
+ #      you may distribute the resulting work only under the same, 
+ #      similar or a compatible license.
+ # 
+ # GeoGebra installers are ...
+ #   installation packages that let you install the GeoGebra 
+ #   application and/or documentation files on your system 
+ #   (MS Windows, Mac OS X, Linux, etc.) including GeoGebra WebStart.
+ #
+-->
+
+<launch4jConfig>
+  <headerType>gui</headerType>
+  <jar>geogebra-jogl2.jar</jar>
+  <dontWrapJar>true</dontWrapJar>
+  <errTitle>GeoGebra JOGL2</errTitle>
+  <icon>geogebra.ico</icon>
+  <jre>
+    <minVersion>1.5.0</minVersion>
+    <initialHeapSize>32</initialHeapSize>
+    <maxHeapSize>512</maxHeapSize>
+  </jre>
+  <cmdLine></cmdLine>
+  <versionInfo>
+    <fileDescription>GeoGebra JOGL2</fileDescription>
+    <copyright>(C) 2001-2012 International GeoGebra Institute</copyright>
+    <productName>GeoGebra</productName>
+    <companyName>International GeoGebra Institute</companyName>
+    <internalName>geogebra</internalName>
+    <originalFilename>GeoGebra-JOGL2.exe</originalFilename>
+  </versionInfo>
+  <messages>
+    <jreVersionErr>This application requires a Java Runtime Environment newer or equal to</jreVersionErr>
+  </messages>
+</launch4jConfig>
