@@ -104,6 +104,17 @@ echo "$WARNINGS warnings during chmod'ing web files"
 
 ### TODO: Copy the missing parts here from deployggb4* ###
 
+# 8. Copying the Windows installer version to Google Code:
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+ cd $SVNDIR/geogebra/desktop/build/installer
+
+ WINDOWS_INSTALLER_EXE=GeoGebra-Windows-Installer-`echo $MYVER | tr . -`.exe
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_INSTALLER_EXE
+ fi
+
+### TODO: Copy the missing parts here from deployggb4* ###
+
 # 9/1. rsync-www on demand:
 if [ "$WWW_REMOTEDIR" != "" ]; then
  echo "$0: Copying all files to $WWW_REMOTEDIR"
