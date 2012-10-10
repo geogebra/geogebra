@@ -11,6 +11,6 @@ public class ProverSettings {
     public static boolean freePointsNeverCollinear = true;
     public static boolean useFixCoordinates = true;
     public static boolean useSingularWebService = true;
-    public static String singularWebServiceRemoteURL = "http://140.78.116.134/";
+    public static String singularWebServiceRemoteURL = "http://singularws.idm.jku.at/";
     public static int singularWebServiceTimeout = 5;
 }
