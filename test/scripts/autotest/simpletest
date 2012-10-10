@@ -14,11 +14,12 @@ REVISION=`svn info | grep Revision: | awk '{print $2}'`
 
 cd $REVDIR/$REVISION || exit 1 # Build problem
 
-test -r geogebra.jar || exit 2 # Non-existing JAR
+test -r geogebra-jogl1.jar || exit 2 # Non-existing JAR
 
-
+# Testing no-3D version:
 xvfb-run --auto-servernum timeout -k $SIMPLETESTTIMEOUT $SIMPLETESTTIMEOUT \
- $JAVA_HOME/bin/java -jar geogebra.jar --regressionFile=simpletest.out --logFile=simpletest.log $MYDIR/simpletest.ggb \
+ $JAVA_HOME/bin/java -cp geogebra-jogl1.jar geogebra.GeoGebra \
+  --regressionFile=simpletest.out --logFile=simpletest.log $MYDIR/simpletest.ggb \
   >simpletest.stdout 2>simpletest.stderr
 
 diff simpletest.out $MYDIR/simpletest.out || exit 3 # Problem with simple testing

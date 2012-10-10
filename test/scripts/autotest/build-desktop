@@ -14,7 +14,7 @@ DESKTOPDIR=../../../desktop
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 COMMONDIR=../../../common/src/geogebra/common/
 mkdir -p $REVDIR/$REVISION
-$DESKTOP_AUTOBUILDDIR/make-vanilla-jars -c -j $JAVA_HOME
+$DESKTOP_AUTOBUILDDIR/make-vanilla-jars -c -j $JAVA_HOME -J 1 -pr
 
 cp $DESKTOP_BUILDDIR/*.jar $REVDIR/$REVISION
 cat $DESKTOPDIR/.ecjlog | grep -A 3 "\. ERROR" > $REVDIR/$REVISION/ecjerrors && exit 1
