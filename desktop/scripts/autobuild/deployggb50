@@ -107,7 +107,9 @@ echo "$WARNINGS warnings during chmod'ing web files"
 # 8. Copying the Windows installer version to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
- cd $SVNDIR/geogebra/desktop/build
+ # A significant difference to 4.2 that we create the Windows installer here
+ # (not during the build step):
+ cd $SVNDIR/geogebra/desktop
  test -d build.unjogled && rm -fR build.unjogled
  mv build build.unjogled
  cp -a $WWWDIR/$MYDIR build
