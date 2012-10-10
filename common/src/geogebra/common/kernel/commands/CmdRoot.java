@@ -38,9 +38,14 @@ public class CmdRoot extends CommandProcessor {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0].isGeoFunctionable()))
-				return Root(c.getLabels(), ((GeoFunctionable) arg[0])
-						.getGeoFunction());
+			if ((arg[0].isGeoFunctionable())){				
+				GeoFunction gf = ((GeoFunctionable) arg[0])
+						.getGeoFunction();
+				// allow functions that can be simplified to factors of polynomials
+				if (!gf.isPolynomialFunction(true))
+					throw argErr(app, c.getName(), arg[0]);
+				return Root(c.getLabels(), gf);
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 			// root with start value
@@ -85,10 +90,6 @@ public class CmdRoot extends CommandProcessor {
 	 * can be simplified to factors of polynomials, e.g. sqrt(x) to x)
 	 */
 	final private GeoPoint[] Root(String[] labels, GeoFunction f) {
-		// allow functions that can be simplified to factors of polynomials
-		if (!f.isPolynomialFunction(true))
-			return null;
-
 		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, labels, f);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
