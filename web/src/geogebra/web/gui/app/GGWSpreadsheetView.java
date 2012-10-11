@@ -47,5 +47,8 @@ public class GGWSpreadsheetView extends Composite {
 	   spreadsheet = ((AppW)app).getGuiManager().getSpreadsheetView();
 
 	   tempsheet.add(spreadsheet);
+	   spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
+	   // 80 is a temporary estimation
+	   spreadsheet.getScrollPanel().setHeight((this.getOffsetHeight()-80)+"px");
 	}
 }

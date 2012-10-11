@@ -1333,4 +1333,8 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 			});
 		}
 	}
+
+	public ScrollPanel getScrollPanel() {
+		return spreadsheet;
+	}
 }
