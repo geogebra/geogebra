@@ -1,0 +1,14 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:gc="urn:import:com.google.gwt.canvas.client" 
+	xmlns:web="urn:import:geogebra.web.gui.app">
+	<ui:style>
+		
+	</ui:style>
+
+	<web:VerticalPanelSmart ui:field="ancestor">
+		<web:SpreadsheetStyleBarPanel ui:field="ssbpanel"></web:SpreadsheetStyleBarPanel>
+		<web:SpreadsheetPanel ui:field="sspanel" ></web:SpreadsheetPanel>
+	</web:VerticalPanelSmart>
+</ui:UiBinder>

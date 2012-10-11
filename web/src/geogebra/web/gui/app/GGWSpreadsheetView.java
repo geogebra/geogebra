@@ -30,25 +30,14 @@ public class GGWSpreadsheetView extends Composite {
 	/**
 	 * 
 	 */
-	@UiField AbsolutePanel tempsheet;
-	SpreadsheetView spreadsheet = null;
+	@UiField SpreadsheetView1 spreadsheetview;
 
-	/**
-	 * 	Wrapper for the two EuclidianView (one is active only)
-	 */
 	public GGWSpreadsheetView() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	public void attachApp(App app) {
 	   this.application = app;
-
-	   // get the spreadsheet from the app
-	   spreadsheet = ((AppW)app).getGuiManager().getSpreadsheetView();
-
-	   tempsheet.add(spreadsheet);
-	   spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
-	   // 80 is a temporary estimation
-	   spreadsheet.getScrollPanel().setHeight((this.getOffsetHeight()-80)+"px");
+	   spreadsheetview.attachApp(app);
 	}
 }

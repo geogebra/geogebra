@@ -13,6 +13,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 
 public class SpreadsheetStyleBarW extends HorizontalPanel {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +35,8 @@ public class SpreadsheetStyleBarW extends HorizontalPanel {
 
 	public SpreadsheetStyleBarW(SpreadsheetView view) {
 
+		super();
+
 		this.view = view;
 		this.app = view.getApplication();
 		this.table = (MyTableW) view.getSpreadsheetTable();
@@ -48,7 +51,7 @@ public class SpreadsheetStyleBarW extends HorizontalPanel {
 		setFloatable(false);*/
 
 		// create and add the buttons
-		createButtons();
+		/*? createButtons();
 		add(btnFormulaBar);
 
 		//?//this.addSeparator();
@@ -64,10 +67,14 @@ public class SpreadsheetStyleBarW extends HorizontalPanel {
 		add(btnBgColor);
 
 		//?//this.addSeparator();
-		add(btnBorderStyle);
+		add(btnBorderStyle);*/
+
+		////temporary
+		add(new Label("."));
+		////temporary
 
 		setLabels();
-		updateStyleBar();
+		//?//updateStyleBar();
 	}
 
 	private void createButtons() {

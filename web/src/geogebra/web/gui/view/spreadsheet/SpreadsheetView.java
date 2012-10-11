@@ -115,9 +115,6 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		setBorder(BorderFactory.createEmptyBorder());
 		addFocusListener(this);*/
 
-		Label placeholder = new Label("Don't forget about the place for the spreadsheet style bar");
-		add(placeholder);
-
 		add(spreadsheet);
 
 		updateFonts();
@@ -139,6 +136,9 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		table = new MyTableW(this, tableModel);
 
 		spreadsheet = new ScrollPanel(table);
+		spreadsheet.setAlwaysShowScrollBars(true);
+		spreadsheet.setWidth("100%");
+		spreadsheet.setHeight("100%");
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
