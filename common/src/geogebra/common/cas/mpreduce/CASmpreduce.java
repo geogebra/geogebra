@@ -1102,7 +1102,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure mypower(a,b); " +
 						"if b=0 and a=0 then 1 " +
 						" else if myvecp(a) then (if b=2 then multiplication(a,a) else '?)" +
-						" else if arglength(a)>-1 and part(a,0)='mat and det(a)=0 then mat(('?))" +
+						" else if arglength(a)>-1 and part(a,0)='mat and numberp(b) and b<0 and det(a)=0 then mat(('?))" +
 						" else a^b;");
 		mpreduce1.evaluate("operator mypower;");
 
