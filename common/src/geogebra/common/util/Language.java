@@ -63,7 +63,7 @@ public enum Language {
 			Country.Swaziland, Country.Tanzania, Country.Tonga,
 			Country.TrinidadTobago, Country.Tuvalu, Country.Uganda,
 			Country.Vanuatu, Country.Zambia, Country.Zimbabwe),
-	English_UK(null, true, false, "enGB", "en_GB", "English (UK)", Country.UnitedKingdom),
+	English_UK(null, true, true, "enGB", "en_GB", "English (UK)", Country.UnitedKingdom),
 	English_Australia(null, true, false, "enAU", "en_AU", "English (Australia)", Country.Australia),
 	Estonian(null, true, false, "et","et", "Estonian / Eesti keel", Country.Estonia),
 	Filipino(null, true, false, "tl","tl", "Filipino", Country.Philippines),
@@ -159,7 +159,7 @@ public enum Language {
 		this.countries = countries;
 		this.flagName = null;
 		this.fullyTranslated = fullyTranslated;
-		this.enableInGWT = enableInGWT;
+		this.enableInGWT = true;//enableInGWT;
 		this.testChar = testChar;
 		
 	}

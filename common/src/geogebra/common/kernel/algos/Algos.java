@@ -520,7 +520,7 @@ public enum Algos {
 	AlgoQuadricEnds(Commands.Ends),
 	AlgoQuadricEndBottom(Commands.Bottom),
 	AlgoQuadricEndTop(Commands.Top),
-	AlgoSurfaceCartesian(Commands.SurfaceCartesian), 
+	AlgoSurfaceCartesian(Commands.Surface), 
 	AlgoDependentPlane,AlgoDependentPoint3D,
 	AlgoDependentPoint,AlgoDependentList,AlgoDependentImplicitPoly,
 	AlgoDependentCasCell,AlgoDependentVector,AlgoDependentText,
