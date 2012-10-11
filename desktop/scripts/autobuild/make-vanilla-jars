@@ -218,7 +218,9 @@ else
  cd "$BUILDDIR"
  mv geogebra.jar geogebra-jogl$JOGL.jar
  mv geogebra_3d.jar geogebra_3d-jogl$JOGL.jar
- mv gluegen-rt.jar gluegen-rt-jogl$JOGL.jar
+ if [ "$JOGL" = "1" ]; then
+  mv gluegen-rt.jar gluegen-rt-jogl1.jar
+  fi
  RUNCOMMAND="java $EXTRA -jar geogebra-jogl$JOGL.jar"
  if [ $RUN = 1 ]; then
   $RUNCOMMAND &
