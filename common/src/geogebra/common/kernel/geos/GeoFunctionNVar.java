@@ -567,8 +567,9 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				
 		@Override
 		public void update(){
-			if(fun.isBooleanFunction())
+			if(fun != null && fun.isBooleanFunction()) {
 				isInequality = fun.updateIneqs();
+			}
 			super.update();
 		}
 		@Override
