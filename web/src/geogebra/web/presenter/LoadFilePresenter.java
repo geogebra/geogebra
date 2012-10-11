@@ -1,6 +1,8 @@
 package geogebra.web.presenter;
 
 import geogebra.common.main.GeoGebraPreferences;
+import geogebra.web.Web;
+import geogebra.web.Web.GuiToLoad;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.html5.View;
 import geogebra.web.main.AppW;
@@ -63,11 +65,10 @@ public class LoadFilePresenter extends BasePresenter {
 		boolean showMenuBar = view.getDataParamShowMenuBar();
 		//app.setShowMenuBar(showMenuBar);
 		//app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), true);
-		//app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());	
+		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());	
 		
 		
-		// TODO boolean undoActive = (showToolBar || showMenuBar);
-		boolean undoActive = true;
+		boolean undoActive = (showToolBar || showMenuBar || Web.currentGUI.equals(GuiToLoad.APP));
 
 		app.setUndoActive(undoActive);			
 

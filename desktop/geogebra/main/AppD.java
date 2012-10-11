@@ -344,8 +344,7 @@ public class AppD extends App implements
 
 	protected boolean showAlgebraView = true;
 
-	private boolean showToolBarTop = true;
-	private boolean showToolBarHelp = false;
+	
 	protected boolean showConsProtNavigation = false;
 	
 	
@@ -3019,25 +3018,9 @@ public class AppD extends App implements
 		}
 	}
 
-	public void setShowToolBar(boolean toolbar) {
-		showToolBar = toolbar;
-	}
+	
 
-	public void setShowToolBar(boolean toolbar, boolean help) {
-		showToolBar = toolbar;
-		showToolBarHelp = help;
-		if (showToolBar) {
-			getGuiManager().setShowToolBarHelp(showToolBarHelp);
-		}
-	}
-
-	public boolean showToolBar() {
-		return showToolBar;
-	}
-
-	public void setShowMenuBar(boolean flag) {
-		showMenuBar = flag;
-	}
+	
 	public boolean showMenuBar() {
 		return showMenuBar;
 	}

@@ -166,6 +166,10 @@ public abstract class App {
 	 * Whether input bar should be visible
 	 */
 	protected boolean showAlgebraInput = true;
+	
+	protected boolean showToolBarTop = true;
+	protected boolean showToolBarHelp = false;
+	
 	/**
 	 * Whether input help toggle button should be visible
 	 */
@@ -2806,6 +2810,27 @@ public abstract class App {
 	public void setShowToolBarNoUpdate(boolean toolbar) {
 		showToolBar = toolbar;
 	}
+	
+	public boolean showToolBar() {
+		return showToolBar;
+	}
+
+	public void setShowMenuBar(boolean flag) {
+		showMenuBar = flag;
+	}
+	
+	public void setShowToolBar(boolean toolbar) {
+		showToolBar = toolbar;
+	}
+
+	public void setShowToolBar(boolean toolbar, boolean help) {
+		showToolBar = toolbar;
+		showToolBarHelp = help;
+		if (showToolBar) {
+			getGuiManager().setShowToolBarHelp(showToolBarHelp);
+		}
+	}
+	
 
 	/**
 	 * Adds given geo to selection
