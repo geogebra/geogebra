@@ -55,7 +55,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	private ScrollPanel spreadsheet;
 	//private FileBrowserPanel fileBrowser;
 	private int defaultDividerLocation = 150;
-	//private SpreadsheetStyleBar styleBar;
+	private SpreadsheetStyleBarW styleBar;
 	//private JPanel restorePanel;
 
 	// toolbar manager
@@ -252,12 +252,12 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	/**
 	 * get spreadsheet styleBar
 	 */
-	/*public SpreadsheetStyleBar getSpreadsheetStyleBar() {
+	public SpreadsheetStyleBarW getSpreadsheetStyleBar() {
 		if (styleBar == null) {
-			styleBar = new SpreadsheetStyleBar(this);
+			styleBar = new SpreadsheetStyleBarW(this);
 		}
 		return styleBar;
-	}*/
+	}
 
 	// ===============================================================
 	// VIEW Implementation
@@ -1029,7 +1029,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		} else {
 			//table.setIntercellSpacing(new Dimension(0, 0));
 		}
-		//TODO//getSpreadsheetStyleBar().updateStyleBar();
+		getSpreadsheetStyleBar().updateStyleBar();
 	}*/
 
 	public boolean getAllowToolTips() {
@@ -1057,9 +1057,9 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		return settings().showFormulaBar();
 	}
 
-	/*public boolean isVisibleStyleBar() {
+	public boolean isVisibleStyleBar() {
 		return styleBar == null || styleBar.isVisible();
-	}*/
+	}
 
 	public void setColumnSelect(boolean isColumnSelect) {
 		// do nothing yet
