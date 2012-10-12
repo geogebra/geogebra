@@ -29,14 +29,14 @@ PROP_DIR=desktop/geogebra/properties
 git rm -r $PROP_DIR
 
 # Delete the GWT properties directory:
-GWTPROP_DIR=web/src/geogebra/web/properties
-git rm -r $GWTPROP_DIR
+###GWTPROP_DIR=web/src/geogebra/web/properties
+###git rm -r $GWTPROP_DIR
 
 # Delete properties_keys.js
-JS_DIR=web/src/geogebra/resources/js
-JSKEYS=properties_keys.js
-JSKEYS_PATH=$JS_DIR/$JSKEYS
-git rm $JSKEYS_PATH
+###JS_DIR=web/src/geogebra/resources/js
+###JSKEYS=properties_keys.js
+###JSKEYS_PATH=$JS_DIR/$JSKEYS
+###git rm $JSKEYS_PATH
 
 # XXX This is currently done by ggbtrans at 22.00 daily XXX
 # Make a snapshot of ggbtransdb for export
@@ -47,19 +47,19 @@ mkdir -p $PROP_DIR
 $GGBTRANS_DIR/export.py trunk $PROP_DIR
 
 # Explode the GWT properties files
-mkdir -p $GWTPROP_DIR
-$GGBTRANS_DIR/export.py gwt $GWTPROP_DIR
+###mkdir -p $GWTPROP_DIR
+###$GGBTRANS_DIR/export.py gwt $GWTPROP_DIR
 
 # Generate the java interfaces
-$GGBTRANS_DIR/export.py gwtjava $GWTPROP_DIR
+###$GGBTRANS_DIR/export.py gwtjava $GWTPROP_DIR
 
 # Generate properties_keys.js
-$GGBTRANS_DIR/export.py gwtjs $JS_DIR
+###$GGBTRANS_DIR/export.py gwtjs $JS_DIR
 
 # Add new files (with directory):
 git add $PROP_DIR
-git add $GWTPROP_DIR
-git add $JSKEYS_PATH
+###git add $GWTPROP_DIR
+###git add $JSKEYS_PATH
 
 git commit -m "properties files and related resources automatically updated from ggbtrans"
 
