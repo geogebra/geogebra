@@ -227,12 +227,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		Command cmd = casInput.getTopLevelCommand();
 		if (cmd != null && "Delete".equals(cmd.getName())
 				&& "true".equals(result)) {
+			String label = 
+					cmd.getArgument(0).toString(
+							StringTemplate.defaultTemplate);
 			GeoElement geo = inputExpression
 					.getKernel()
-					.getConstruction()
-					.lookupLabel(
-							cmd.getArgument(0).toString(
-									StringTemplate.defaultTemplate));
+					.lookupLabel(label);
+			if(geo==null)
+				geo = inputExpression
+				.getKernel().lookupCasCellLabel(label);
 			if (geo != null) {
 				geo.remove();
 			}
@@ -432,7 +435,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	
 		// set default switches
 		// (note: off factor turns on exp, so off exp must be placed later)
-
+		mpreduce1.evaluate("procedure myclear(k); if arglength(k)=-1 and not numberp(k) then clear k");
 		mpreduce1.evaluate("procedure resetsettings(keepin,taystd,curx,cury);begin;" +
 				"keepinput!!:=keepin;taylortostd:=taystd;" +
 				"currentx!!:=curx;currenty!!:=cury;" +

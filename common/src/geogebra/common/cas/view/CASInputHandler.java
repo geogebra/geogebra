@@ -460,7 +460,7 @@ public class CASInputHandler {
 		success = !cellValue.isError();
 		if (startEditing || !success) {
 			// start editing row below successful evaluation
-			boolean isLastRow = consoleTable.getRowCount() == selRow + 1;
+			boolean isLastRow = consoleTable.getRowCount() <= selRow + 1;
 			boolean goDown = success &&
 			// we are in last row or next row is empty
 					(isLastRow || consoleTable.isRowEmpty(selRow + 1));

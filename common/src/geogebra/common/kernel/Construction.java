@@ -1043,20 +1043,18 @@ public class Construction {
 		}
 	}
 	
+	/**
+	 * Similar to updateConstruction, but only updates CAS cells
+	 */
 	final public void updateCasCells() {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		GeoElement dummyGeo = xAxis;
 		kernel.startCollectingNotifyUpdate(dummyGeo);
 		updateConstructionRunning = true;
 		try {			
-			// G.Sturr 2010-5-28: turned this off so that random numbers can be
-			// traced
-			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
-	
 			// update all independent GeoElements
-			int size = ceList.size();
-			for (int i = 0; i < size; ++i) {
+			// check the size every time as Delete may change it
+			for (int i = 0; i < ceList.size(); ++i) {
 				ConstructionElement ce = ceList.get(i);
 				if ((ce.isGeoElement() && ((GeoElement)ce).isGeoCasCell())
 						|| ((ce instanceof AlgoElement)&&((AlgoElement)ce).getClassName()

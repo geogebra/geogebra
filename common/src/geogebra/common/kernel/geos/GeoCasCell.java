@@ -1960,7 +1960,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		cons.removeFromGeoSetWithCasCells(this);
 
 		setTwinGeo(null);
-		cons.updateCasCells();
+		if(this.isInConstructionList())
+			cons.updateCasCells();
 	}
 
 	/**
