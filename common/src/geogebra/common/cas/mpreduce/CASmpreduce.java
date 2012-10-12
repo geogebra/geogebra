@@ -157,21 +157,38 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		// so that commands like Substitute can work accordingly
 		boolean keepInput = casInput.isKeepInputUsed();
 		boolean taylorToStd = true;
+		Command cmd = casInput.getTopLevelCommand();
 		if (keepInput) {
-			// remove KeepInput[] command and take argument
-			Command cmd = casInput.getTopLevelCommand();
+			// remove KeepInput[] command and take argument			
 			if (cmd != null && cmd.getName().equals("KeepInput")) {
 				// use argument of KeepInput as casInput
 				if (cmd.getArgumentNumber() > 0) {
 					casInput = cmd.getArgument(0);
 				}
 			}
-		} else if (casInput.isTopLevelCommand()) {
-			Command cmd = casInput.getTopLevelCommand();
+		} else 
 			if (cmd != null && cmd.getName().equals("TaylorSeries")) {
 				taylorToStd = false;
 			}
+		 else if (cmd != null && "Delete".equals(cmd.getName())
+				) {
+			String label = 
+					cmd.getArgument(0).toString(
+							StringTemplate.defaultTemplate);
+			this.unbindVariable(cmd.getArgument(0).toString(
+					StringTemplate.casTemplate));
+			GeoElement geo = inputExpression
+					.getKernel()
+					.lookupLabel(label);
+			if(geo==null)
+				geo = inputExpression
+				.getKernel().lookupCasCellLabel(label);
+			if (geo != null) {
+				geo.remove();
+			}
+			return "true";
 		}
+		
 
 		// convert parsed input to MPReduce string
 		String mpreduceInput = casParser.translateToCAS(casInput,
@@ -224,22 +241,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 							+ ((FunctionNVar) casInput).getVarString(StringTemplate.casTemplate)
 							+ ")"), arbconst, tpl);
 		}
-		Command cmd = casInput.getTopLevelCommand();
-		if (cmd != null && "Delete".equals(cmd.getName())
-				&& "true".equals(result)) {
-			String label = 
-					cmd.getArgument(0).toString(
-							StringTemplate.defaultTemplate);
-			GeoElement geo = inputExpression
-					.getKernel()
-					.lookupLabel(label);
-			if(geo==null)
-				geo = inputExpression
-				.getKernel().lookupCasCellLabel(label);
-			if (geo != null) {
-				geo.remove();
-			}
-		}
+		
 		// standard case
 		if ("".equals(result)) {
 			return null;
@@ -435,7 +437,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	
 		// set default switches
 		// (note: off factor turns on exp, so off exp must be placed later)
-		mpreduce1.evaluate("procedure myclear(k); if arglength(k)=-1 and not numberp(k) then clear k");
+
 		mpreduce1.evaluate("procedure resetsettings(keepin,taystd,curx,cury);begin;" +
 				"keepinput!!:=keepin;taylortostd:=taystd;" +
 				"currentx!!:=curx;currenty!!:=cury;" +

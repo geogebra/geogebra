@@ -60,7 +60,7 @@ public class Ggb2MPReduce {
 		p("Degree.1",
 				"<<begin scalar input!!, variables!!; input!!:=(%0); torder(list(),gradlex); input!!:=part(gsplit(input!!),1); variables!!:=gvars(list(input!!)); return for each variable!! in variables!! sum deg(input!!,variable!!) end>>");
 		p("Degree.2", "deg(%0,%1)");
-		p("Delete.1", " << myclear %0; \\'true>>");
+		p("Delete.1", "");
 		p("Denominator.1", "den(%0)");
 		p("Derivative.1",
 				"<< begin scalar input!!, result!!; input!!:=(%0);let solverules; on combineexpt; result!!:=df(input!!,mymainvar(input!!)); clearrules solverules; return result!! end>>");
