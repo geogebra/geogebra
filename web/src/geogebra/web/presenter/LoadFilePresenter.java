@@ -75,7 +75,7 @@ public class LoadFilePresenter extends BasePresenter {
 		String language = view.getDataParamLanguage();
 		if (language != null) {
 			String country = view.getDataParamCountry();
-			if (country == null) {
+			if (country == null || "".equals(country)) {
 				app.setLanguage(language);
 			} else {
 				app.setLanguage(language, country);

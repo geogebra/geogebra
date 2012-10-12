@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.MenuBar;
 
@@ -81,15 +82,17 @@ public class LanguageMenuW extends MenuBar {
 					
 					App.debug("Language Menu includes language: " + l.localeGWT);										
 
-					if(ch <= 'D') {
+					String menuBarHTML = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text);
+					LanguageCommand lc = new LanguageCommand(l, (AppW) app);
 
-						atoDMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
+					if(ch <= 'D') {
+						atoDMenuBar.addItem(menuBarHTML ,true, lc);
 					} else if(ch <= 'I') {
-						etoIMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
+						etoIMenuBar.addItem(menuBarHTML ,true, lc);
 					} else if(ch <= 'Q') {
-						jtoQMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
+						jtoQMenuBar.addItem(menuBarHTML ,true, lc);
 					} else {
-						rtoZMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
+						rtoZMenuBar.addItem(menuBarHTML ,true, lc);
 					}
 
 				}

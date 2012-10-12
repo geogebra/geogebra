@@ -527,70 +527,31 @@ public abstract class GuiManager {
 
 	public abstract void updateMenuFile();
 
-	public void exitAll() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void exitAll();
 
-	public boolean saveCurrentFile() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean saveCurrentFile();
 
-	public void updateToolbar() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void updateToolbar();
 
-	public boolean hasEuclidianView2() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean hasEuclidianView2();
 
-	public void allowGUIToRefresh() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void allowGUIToRefresh();
 
-	public void updateFrameTitle() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void updateFrameTitle();
 
-	public void setLabels() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setLabels();
 
-	public void setShowToolBarHelp(boolean showToolBarHelp) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setShowToolBarHelp(boolean showToolBarHelp);
 
-	public void setShowConstructionProtocolNavigation(boolean flag) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setShowConstructionProtocolNavigation(boolean flag);
 
-	public View getEuclidianView2() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract View getEuclidianView2();
 
-	public boolean hasEuclidianView2EitherShowingOrNot() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean hasEuclidianView2EitherShowingOrNot();
 
-	public View getAlgebraView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract View getAlgebraView();
 
-	public void updateFrameSize() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void updateFrameSize();
 
 	public abstract void clearInputbar();
 

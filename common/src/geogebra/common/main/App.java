@@ -1706,7 +1706,7 @@ public abstract class App {
 	 * @param lang
 	 *            language
 	 */
-	protected void updateLanguageFlags(String lang) {
+	public void updateLanguageFlags(String lang) {
 
 		// force update
 		fontSizeStrings = null;

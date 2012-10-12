@@ -96,6 +96,7 @@ public class Web implements EntryPoint {
 		Web.currentGUI = checkIfNeedToLoadGUI();
 		if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
+			//JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJSenGB().getText());
 			// popup when the user wants to exit accidentally
 	        Window.addWindowClosingHandler(new Window.ClosingHandler() {
 	            public void onWindowClosing(ClosingEvent event) {

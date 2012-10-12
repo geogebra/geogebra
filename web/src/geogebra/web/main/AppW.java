@@ -18,8 +18,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.commands.CommandDispatcherCAS;
-import geogebra.common.kernel.commands.CommandDispatcherInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -57,20 +55,15 @@ import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
+import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
+import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.kernel.AnimationManagerW;
 import geogebra.web.kernel.KernelW;
-import geogebra.web.kernel.KernelWInterface;
 import geogebra.web.kernel.UndoManagerW;
-import geogebra.web.properties.ColorsConstants;
-import geogebra.web.properties.CommandConstants;
-import geogebra.web.properties.ErrorConstants;
-import geogebra.web.properties.MenuConstants;
-import geogebra.web.properties.PlainConstants;
-import geogebra.web.properties.SymbolsConstants;
 import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
 
@@ -89,21 +82,19 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.AsyncProxy;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.AsyncProxy.ConcreteType;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -155,16 +146,6 @@ public class AppW extends App {
 	private boolean showGrid = false;
 
 	protected ImageManager imageManager;
-
-	/*
-	 * Internationalization member variables
-	 */
-	private ColorsConstants colorConstants;
-	private PlainConstants plainConstants;
-	private CommandConstants commandConstants, commandConstantsOld = null;
-	private ErrorConstants errorConstants;
-	private MenuConstants menuConstants;
-	private SymbolsConstants symbolConstants;
 
 	private EuclidianPanel euclidianViewPanel;
 	private Canvas canvas;
@@ -291,55 +272,12 @@ public class AppW extends App {
 
 	}
 
-	/**
-	 * Inernationalization: instantiation using GWT.create() properties
-	 * interfaces
-	 * 
-	 * @author Rana
-	 */
-	private void initColorConstants() {
-		colorConstants = GWT.create(ColorsConstants.class);
-	}
-
-	private void initPlainConstants() {
-		plainConstants = GWT.create(PlainConstants.class);
-	}
-
-	private void initCommandConstants() {
-		commandConstants = GWT.create(CommandConstants.class);
-	}
-
-	private void initErrorConstants() {
-		errorConstants = GWT.create(ErrorConstants.class);
-	}
-
-	private void initMenuConstants() {
-		menuConstants = GWT.create(MenuConstants.class);
-	}
-
-	private void initSymbolConstants() {
-		symbolConstants = GWT.create(SymbolsConstants.class);
-	}
 
 	/**
 	 * This method was supposed to change the initial language depending on the
 	 * GeoIP of the user-agent.
 	 */
 	public void initializeLanguage() {
-
-		if (colorConstants == null)
-			this.initColorConstants();
-		if (plainConstants == null)
-			this.initPlainConstants();
-		if (commandConstants == null)
-			this.initCommandConstants();
-		if (errorConstants == null)
-			this.initErrorConstants();
-		this.initErrorConstants();
-		if (menuConstants == null)
-			this.initMenuConstants();
-		if (symbolConstants == null)
-			this.initSymbolConstants();
 
 		// App.debug("GeoIP Country: " + AppW.geoIPCountryName);
 		// App.debug("GeoIP Language: " + AppW.geoIPLanguage);
@@ -642,21 +580,23 @@ public class AppW extends App {
 		if (key == null) {
 			return "";
 		}
-
-		try {
-
-			if (commandConstants == null) {
-				initTranslatedCommands();
-			}
-
-			return commandConstants
-			        .getString(crossReferencingPropertiesKeys(key));
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Invalid key: " + key);
+		
+		if (language == null) {
+			// keys not loaded yet
 			return key;
 		}
-	}
+
+
+		String ret = getCommandNative(language, crossReferencingPropertiesKeys(key));
+		
+		if (ret == null || "".equals(ret)) {
+			App.debug("command key not found: "+key);
+			return key;
+		}
+		
+		return ret;
+
+}
 
 	/**
 	 * This method checks if the command is stored in the command properties
@@ -669,6 +609,12 @@ public class AppW extends App {
 	 */
 	@Override
 	final public String getReverseCommand(String command) {
+
+		if (language == null) {
+			// keys not loaded yet
+			return command;
+		}
+
 		initTranslatedCommands();
 
 		String aCommand = StringUtil.toLowerCase(command);
@@ -678,8 +624,8 @@ public class AppW extends App {
 			// The Dictionary class is used to get the whole set of command
 			// properties keys dynamically (during runtime)
 			// These command keys are defined in the HTML host page as a
-			// JavaScript Object named "commandKeysVar".
-			Dictionary commandKeys = Dictionary.getDictionary("commandKeysVar");
+			// JavaScript Object named "__GGB_commandKeysVar...".
+			Dictionary commandKeys = getCommandDict();
 			Set<String> commandKeysSet = commandKeys.keySet();
 			Iterator<String> commandKeysIterator = commandKeysSet.iterator();
 
@@ -689,7 +635,7 @@ public class AppW extends App {
 			while (commandKeysIterator != null && commandKeysIterator.hasNext()) {
 				key = commandKeysIterator.next();
 
-				if (StringUtil.toLowerCase(commandConstants.getString(key))
+				if (StringUtil.toLowerCase(getCommandNative(language, key))
 				        .equals(aCommand)) {
 					return key;
 				}
@@ -721,20 +667,25 @@ public class AppW extends App {
 		if (key == null) {
 			return "";
 		}
-
-		try {
-
-			if (plainConstants == null) {
-				initPlainConstants();
-			}
-
-			return plainConstants
-			        .getString(crossReferencingPropertiesKeys(key));
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Missing key: " + key);
+		
+		if (language == null) {
+			// keys not loaded yet
 			return key;
 		}
+
+		if (language == null) {
+			// keys not loaded yet
+			return key;
+		}
+
+		String ret = getPlainNative(language, crossReferencingPropertiesKeys(key));
+		
+		if (ret == null || "".equals(ret)) {
+			App.debug("plain key not found: "+key);
+			return key;
+		}
+		
+		return ret;
 	}
 
 	/**
@@ -764,6 +715,8 @@ public class AppW extends App {
 
 		return aStr.replace(A_DOT, AN_UNDERSCORE);
 	}
+	
+	boolean menuKeysLoaded = false;
 
 	/**
 	 * @author Rana This method should work for both menu and menu tooltips
@@ -775,20 +728,83 @@ public class AppW extends App {
 		if (key == null) {
 			return "";
 		}
-
-		try {
-
-			if (menuConstants == null) {
-				initMenuConstants();
-			}
-
-			return menuConstants.getString(crossReferencingPropertiesKeys(key));
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Invalid key: " + key);
+		
+		if (language == null) {
+			// keys not loaded yet
 			return key;
 		}
+
+		String ret = getMenuNative(language, crossReferencingPropertiesKeys(key));
+		
+		if (ret == null || "".equals(ret)) {
+			App.debug("menu key not found: "+key);
+			return key;
+		}
+		
+		return ret;
+	
 	}
+	
+	public native String getMenuNative(String language, String key) /*-{
+		if ($wnd["__GGB__menuKeysVar"+language]) {
+			// translated
+			return $wnd["__GGB__menuKeysVar"+language][key];
+		} else {
+			// English
+			return  $wnd.__GGB__menuKeysVaren[key];
+		}
+	}-*/;
+
+	public native String getPlainNative(String language, String key) /*-{
+		if ($wnd["__GGB__plainKeysVar"+language]) {
+			// translated
+			return $wnd["__GGB__plainKeysVar"+language][key];
+		} else {
+			// English
+			return  $wnd.__GGB__plainKeysVaren[key];
+		}
+	}-*/;
+
+	public native String getSymbolNative(String language, String key) /*-{
+		if ($wnd["__GGB__symbolKeysVar"+language]) {
+			// translated
+			return $wnd["__GGB__symbolKeysVar"+language][key];
+		} else {
+			// English
+			return  $wnd.__GGB__symbolKeysVaren[key];
+		}
+	}-*/;
+
+	public native String getErrorNative(String language, String key) /*-{
+		
+		if ($wnd["__GGB__errorKeysVar"+language]) {
+			// translated
+			return $wnd["__GGB__errorKeysVar"+language][key];
+		} else {
+			// English
+			return  $wnd.__GGB__errorKeysVaren[key];
+		}
+	}-*/;
+
+	public native String getCommandNative(String language, String key) /*-{
+		if ($wnd["__GGB__commandKeysVar"+language]) {
+			// translated
+			return $wnd["__GGB__commandKeysVar"+language][key];
+		} else {
+			// English
+			return  $wnd.__GGB__commandKeysVaren[key];
+		}
+	}-*/;
+
+	public native String getColorsNative(String language, String key) /*-{
+		if ($wnd["__GGB__colorsKeysVar"+language]) {
+			// translated
+			return $wnd["__GGB__colorsKeysVar"+language][key];
+		} else {
+			// English
+			return  $wnd.__GGB__colorsKeysVaren[key];
+		}
+	}-*/;
 
 	@Override
 	public String getError(String key) {
@@ -796,20 +812,20 @@ public class AppW extends App {
 		if (key == null) {
 			return "";
 		}
-
-		try {
-
-			if (errorConstants == null) {
-				initErrorConstants();
-			}
-
-			return errorConstants
-			        .getString(crossReferencingPropertiesKeys(key));
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Invalid key: " + key);
+		
+		if (language == null) {
+			// keys not loaded yet
 			return key;
 		}
+
+		String ret = getErrorNative(language, crossReferencingPropertiesKeys(key));
+		
+		if (ret == null || "".equals(ret)) {
+			App.debug("error key not found: "+key);
+			return key;
+		}
+		
+		return ret;
 	}
 
 	/**
@@ -895,24 +911,121 @@ public class AppW extends App {
 		}
 		return localeName.substring(0, 2);
 	}
+	
+	// eg "en_GB", "es"
+	// remains null until we're sure keys are loaded
+	String language = "en";
 
-	public void setLanguage(String language) {
-		// TODO Auto-generated method stub
-		App.debug("setLanguage: implementation needed");
-		updateLanguageFlags(getLanguage());
+	public void setLanguage(final String lang) {
+		
+		if (lang.equals(language)) {
+			setLabels(); 
+			return;
+		}
+		
+		if (lang == null || "".equals(lang)) {
+			
+			App.error("language being set to empty string");
+			setLanguage("en");
+			return;
+		}
+		
+		App.debug("setting language to:" + lang);
+		
+		
+		
+		
+		// load keys (into a JavaScript <script> tag)
+		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
+		script.setSrc(GWT.getModuleBaseURL()+"js/properties_keys_"+lang+".js");
+		script.addLoadHandler(new ScriptLoadCallback() {
+			
+			public void onLoad() {
+				if (lang == null || "".equals(lang)) {
+					language = "en";
+				} else {
+					language = lang;
+				}
+				
+				// force reload
+				commandDictionary = null;
+
+				setCommandChanged(true);
+				
+				App.debug("keys loaded for language: "+lang);
+				App.debug("TODO: reinitialize GUI on language change");
+				
+				// make sure digits are updated in all numbers
+				getKernel().updateConstruction();
+				setUnsaved();
+
+				// update display & Input Bar Dictionary etc
+				setLabels(); 
+				
+				//inputField.setDictionary(getCommandDictionary());
+
+				updateLanguageFlags(getLanguage());
+
+			}
+		});
+		Document.get().getBody().appendChild(script);
 	}
 
 	public void setLanguage(String language, String country) {
-		// TODO Auto-generated method stub
-		App.debug("setLanguage: implementation needed");
-		updateLanguageFlags(getLanguage());
+		
+		if (language == null || "".equals(language)) {
+			App.warn("error calling setLanguage(), setting to English (US): "+language+"_"+country);
+			setLanguage("en");
+			return;
+		}
+		
+		if (country == null || "".equals(country)) {
+			setLanguage(language);
+		}this.
+		
+		setLanguage(language+"_"+country);
 	}
+	
+	void setLabels() {
+		if (initing) {
+			return;
+		}
+
+		if (guiManager != null) {
+			getGuiManager().setLabels();
+		}
+
+		//if (rbplain != null) {
+		kernel.updateLocalAxesNames();
+		//}
+
+		updateCommandDictionary();
+	}
+
+
 
 	@Override
 	public boolean letRedefine() {
 		// AbstractApplication.debug("implementation needed"); // TODO
 		// Auto-generated
 		return true;
+	}
+
+	
+	Dictionary commandDictionary = null;
+	
+	private Dictionary getCommandDict() {
+		if (commandDictionary == null) {
+			try {
+				commandDictionary = Dictionary.getDictionary("__GGB__commandKeysVar"+language);
+			} catch (MissingResourceException e) {
+				commandDictionary = Dictionary.getDictionary("__GGB__commandKeysVaren");
+				App.error("Missing Dictionary " + language);
+			}
+		}
+
+			return commandDictionary;
+
 	}
 
 	@Override
@@ -922,18 +1035,10 @@ public class AppW extends App {
 		// The Dictionary class is used to get the whole set of command
 		// properties keys dynamically (during runtime)
 		// These command keys are defined in the HTML host page as a JavaScript
-		// Object named "commandKeysVar".
-
-		Dictionary commandDictionary = null;
-		try {
-
-			commandDictionary = Dictionary.getDictionary("commandKeysVar");
-		} catch (MissingResourceException e) {
-			App.warn("Missing Internal Command " + cmd);
-		}
-
-		if (commandDictionary != null) {
-			Set<String> commandPropertyKeys = commandDictionary.keySet();
+		// Object named "commandKeysVaren", "commandKeysVarfr" etc
+		
+		if (getCommandDict() != null) {
+			Set<String> commandPropertyKeys = getCommandDict().keySet();
 			Iterator<String> commandKeysIterator = commandPropertyKeys
 			        .iterator();
 			while (commandKeysIterator.hasNext()) {
@@ -1292,7 +1397,7 @@ public class AppW extends App {
 
 		try {
 
-			Dictionary colorKeysDict = Dictionary.getDictionary("colorKeysVar");
+			Dictionary colorKeysDict = Dictionary.getDictionary("__GGB__colorKeysVar"+language);
 			Iterator<String> colorKeysIterator = colorKeysDict.keySet()
 			        .iterator();
 			while (colorKeysIterator != null && colorKeysIterator.hasNext()) {
@@ -1341,18 +1446,7 @@ public class AppW extends App {
 			}
 		}
 
-		try {
-
-			if (colorConstants == null) {
-				initColorConstants();
-			}
-
-			return colorConstants.getString(StringUtil.toLowerCase(key));
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Invalid key: " + key);
-			return key;
-		}
+		return key;
 
 	}
 
@@ -1415,6 +1509,7 @@ public class AppW extends App {
 
 	DrawEquationWeb drawEquation;
 	private GuiManagerW guiManager;
+	private boolean commandChanged = true;
 
 	@Override
 	public DrawEquationInterface getDrawEquation() {
@@ -1539,25 +1634,28 @@ public class AppW extends App {
 
 	@Override
 	protected boolean isCommandChanged() {
-		return commandConstantsOld != commandConstants;
+		return commandChanged;
 	}
 
 	@Override
 	protected void setCommandChanged(boolean b) {
-		commandConstantsOld = commandConstants;
+		commandChanged = b;
 	}
 
 	@Override
 	protected boolean isCommandNull() {
-		return commandConstants == null;
+		return false;
 	}
 
 	@Override
 	public void initCommand() {
-		if (commandConstants == null) {
-			initCommandConstants();
-		}
+		//
 	}
+	
+	private void initCommandConstants() {
+		//
+	}
+
 
 	@Override
 	public void initScriptingBundle() {
@@ -1829,48 +1927,37 @@ public class AppW extends App {
 	@Override
 	final public String getSymbol(int key) {
 
-		try {
-
-			if (symbolConstants == null) {
-				initSymbolConstants();
-			}
-
-			String ret = null;
-
-			ret = symbolConstants.getString("S_" + key);
-
-			if (ret != null && "".equals(ret)) {
-				return null;
-			}
-			return ret;
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Invalid key number: " + key);
-			return null;
+		if (language == null) {
+			// keys not loaded yet
+			return "S"+key;
 		}
+
+		String ret = getSymbolNative(language, "S"+key);
+		
+		if (ret == null || "".equals(ret)) {
+			App.debug("menu key not found: "+key);
+			return "";
+		}
+		
+		return ret;
 	}
 
 	@Override
 	final public String getSymbolTooltip(int key) {
 
-		try {
-
-			if (symbolConstants == null) {
-				initSymbolConstants();
-			}
-
-			String ret = null;
-			ret = symbolConstants.getString("T_" + key);
-			if (ret != null && "".equals(ret)) {
-				return null;
-			}
-
-			return ret;
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " Invalid key number: " + key);
-			return null;
+		if (language == null) {
+			// keys not loaded yet
+			return "T"+key;
 		}
+
+		String ret = getSymbolNative(language, "T"+key);
+		
+		if (ret == null || "".equals(ret)) {
+			App.debug("menu key not found: "+key);
+			return "";
+		}
+		
+		return ret;
 	}
 
 	/**
@@ -2334,10 +2421,10 @@ public class AppW extends App {
 
 	public String getEnglishCommand(String pageName) {
 		initCommand();
-		String ret = commandConstants
-		        .getString(crossReferencingPropertiesKeys(pageName));
-		if (ret != null)
-			return ret;
+		//String ret = commandConstants
+		//        .getString(crossReferencingPropertiesKeys(pageName));
+		//if (ret != null)
+		//	return ret;
 		return pageName;
 	}
 

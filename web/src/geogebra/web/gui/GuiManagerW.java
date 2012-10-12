@@ -826,4 +826,80 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		App.debug("unimplemented");
 	    return 0;
     }
+
+	@Override
+    public void exitAll() {
+		App.debug("unimplemented");
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public boolean saveCurrentFile() {
+	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
+	    return false;
+    }
+
+	@Override
+    public boolean hasEuclidianView2() {
+	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
+	    return false;
+    }
+
+	@Override
+    public void allowGUIToRefresh() {
+		App.debug("unimplemented");
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void updateFrameTitle() {
+	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
+	    
+    }
+
+	@Override
+    public void setLabels() {
+		if (algebraInput != null)
+			algebraInput.setLabels();
+    }
+
+	@Override
+    public void setShowToolBarHelp(boolean showToolBarHelp) {
+		App.debug("unimplemented");
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setShowConstructionProtocolNavigation(boolean flag) {
+		App.debug("unimplemented");
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public View getEuclidianView2() {
+		App.debug("unimplemented");
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public boolean hasEuclidianView2EitherShowingOrNot() {
+	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
+	    return false;
+    }
+
+	@Override
+    public void updateFrameSize() {
+	    // TODO Auto-generated method stub
+		App.debug("unimplemented");
+	    
+    }
 }

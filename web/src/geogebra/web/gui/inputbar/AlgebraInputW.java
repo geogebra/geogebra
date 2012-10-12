@@ -6,6 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -119,7 +120,7 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 
 		if(btnHelpToggle!=null)
 			btnHelpToggle.setTitle(app.getMenu("InputHelp"));
-	
+		
 		inputField.setDictionary(app.getCommandDictionary());
 	}	
 	

@@ -1,11 +1,11 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.main.App;
 import geogebra.common.util.Language;
+import geogebra.web.main.AppW;
 
-import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 
 /**
  * @author Rana
@@ -24,6 +24,8 @@ public class LanguageCommand implements Command {
 	
 	private String localeCode;
 	private String localeParameter;
+
+	private AppW app;
 	
 	
 	/**
@@ -37,9 +39,10 @@ public class LanguageCommand implements Command {
 	/**
 	 * @param newLocaleCode
 	 */
-	public LanguageCommand(Language newLocaleCode) {
+	public LanguageCommand(Language newLocaleCode, AppW app) {
 		this.localeCode = newLocaleCode.localeGWT;
 		this.localeParameter = LOCALE_PARAMETER;
+		this.app = app;
 	}
 	
 	/**
@@ -68,7 +71,8 @@ public class LanguageCommand implements Command {
 	}
 
 	public void execute() {
-		changeLocale(localeParameter, localeCode);
+		//changeLocale(localeParameter, localeCode);
+		app.setLanguage(localeCode);
 		setCookies(LOCALE_PARAMETER, localeCode);
 	}
 	
@@ -77,9 +81,10 @@ public class LanguageCommand implements Command {
 	 * @param newLocale
 	 */
 	public static void changeLocale(String localeParamName, String newLocale) {
-		UrlBuilder newUrl = Window.Location.createUrlBuilder();
-		newUrl.setParameter(localeParamName, newLocale);
-		Window.Location.assign(newUrl.buildString());
+		App.printStacktrace("");
+		//UrlBuilder newUrl = Window.Location.createUrlBuilder();
+		//newUrl.setParameter(localeParamName, newLocale);
+		//Window.Location.assign(newUrl.buildString());
 	}
 	
 	/**
