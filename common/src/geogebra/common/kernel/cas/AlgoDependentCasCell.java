@@ -138,11 +138,13 @@ public class AlgoDependentCasCell extends AlgoElement {
 	}
 	
 	
-	
+	/**
+	 * This might appear when we use KeepInput and display the result => we want to show symbolic version
+	 */
     @Override
 	final public String toString(StringTemplate tpl) {
         // return input string, e.g. "m := c + 3"
-        return casCell.getInput(tpl);
+        return casCell.getLabel(tpl);
     }	
     
     /**

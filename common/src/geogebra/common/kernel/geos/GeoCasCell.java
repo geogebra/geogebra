@@ -1935,9 +1935,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return sb.toString();
 	}
 
+	/**
+	 * This might appear when we use KeepInput and display the result => we want to show symbolic version
+	 */
 	@Override
 	public String toString(final StringTemplate tpl) {
-		return getInput(tpl);
+		return getLabel(tpl);
 	}
 
 	@Override
