@@ -97,8 +97,12 @@ public class AlgoLocusEquation extends AlgoElement {
 
 		if(system != null) {
 			EquationTranslator trans = new MPReduceTranslator(cons.getKernel());
-		
-			this.geoPoly.setCoeff(trans.eliminateSystem(system));
+			try{
+				this.geoPoly.setCoeff(trans.eliminateSystem(system));
+			//Timeout => set undefined	
+			}catch(Exception e){
+				this.geoPoly.setUndefined();
+			}
 		} else {
 			this.geoPoly.setUndefined();
 		}
