@@ -31,7 +31,11 @@ public class LabelManager {
 
 			return true;
 		}
-
+		
+		/**
+		 * @param var variable name (for CAS cell)
+		 * @return whether position(s) od $ are valid in this name
+		 */
 		public static boolean validVar(String var) {
 			// check for invalid assignment variables like $, $$, $1, $2, ...,
 			// $1$, $2$, ... which are dynamic references

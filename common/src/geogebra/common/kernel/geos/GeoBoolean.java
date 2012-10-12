@@ -22,7 +22,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * 
