@@ -431,11 +431,13 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(App.getCASVersionString());
 		sb.append("\n\n");
 
-		// copy the entire log to systemInfo (maybe not required at all)
-		sb.append("GeoGebraLogger log:\n");
-		sb.append(App.logger.getEntireLog());
-		sb.append("\n");
-
+		if (App.logger != null) {
+			// copy the entire log to systemInfo (maybe not required at all)
+			sb.append("GeoGebraLogger log:\n");
+			sb.append(App.logger.getEntireLog());
+			sb.append("\n");
+		}
+		
 		// copy file log
 		if (app.logFile != null) {
 			sb.append("File log from " + app.logFile.toString() + ":\n");
