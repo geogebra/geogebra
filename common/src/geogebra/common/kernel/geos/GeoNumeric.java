@@ -38,7 +38,6 @@ import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
@@ -477,23 +476,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	final public double getDouble() {
 		return value;
-	}
-
-	@Override
-	final public boolean isConstant() {
-		return false;
-	}
-
-	@Override
-	final public boolean isLeaf() {
-		return true;
-	}
-
-	@Override
-	final public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varset = new HashSet<GeoElement>();
-		varset.add(this);
-		return varset;
 	}
 
 	@Override

@@ -27,8 +27,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
 
-import java.util.HashSet;
-
 /**
  * @author Markus Hohenwarter
  */
@@ -288,19 +286,6 @@ final public String toValueString(StringTemplate tpl) {
 	final public boolean isConstant() {
         return false;
     }
-    
-    @Override
-	final public boolean isLeaf() {
-        return true;
-    }
-    
-    @Override
-	final public HashSet<GeoElement> getVariables() {
-        HashSet<GeoElement> varset = new HashSet<GeoElement>();        
-        varset.add(this);        
-        return varset;          
-    }                   
-    
 
 	@Override
 	public boolean isNumberValue() {

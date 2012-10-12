@@ -26,8 +26,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
-import java.util.HashSet;
-
 /**
  * PolyLine (open Polygon) through given points
  * 
@@ -225,23 +223,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 
 	final public double getDouble() {
 		return getLength();
-	}
-
-	@Override
-	final public boolean isConstant() {
-		return false;
-	}
-
-	@Override
-	final public boolean isLeaf() {
-		return true;
-	}
-
-	@Override
-	final public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varset = new HashSet<GeoElement>();
-		varset.add(this);
-		return varset;
 	}
 
 	@Override

@@ -957,11 +957,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			invars = new TreeSet<String>();
 		return invars;
 	}
-	
-	@Override
-	public HashSet<GeoElement> getVariables(){
-		return outputVE.getVariables();
-	}
 
 	private TreeSet<String> getFunctionVars() {
 		if (functionvars == null)
@@ -1487,14 +1482,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	@Override
 	public void updateCascade() {
 		update();
-
-		if (twinGeo != null) {
+		App.debug("updating"+getLabel(StringTemplate.defaultTemplate));
+		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			ignoreTwinGeoUpdate = true;
 			twinGeo.update();
 			ignoreTwinGeoUpdate = false;
 			updateAlgoUpdateSetWith(twinGeo);
 		} else if (algoUpdateSet != null) {
 			// update all algorithms in the algorithm set of this GeoElement
+			App.debug(algoUpdateSet.getSize());
 			algoUpdateSet.updateAll();
 		}
 	}
@@ -1989,7 +1985,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 	}
 
-	private boolean dependsOnDummy(final GeoElement geo) {
+	private static boolean dependsOnDummy(final GeoElement geo) {
 		if (geo instanceof GeoDummyVariable) {
 			return true;
 		}

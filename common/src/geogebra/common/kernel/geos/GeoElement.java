@@ -3640,7 +3640,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public boolean isLeaf() {
+	public final boolean isLeaf() {
 		return true;
 	}
 
@@ -3657,8 +3657,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	final public ExpressionValue evaluate(StringTemplate tpl) {
 		return this;
 	}
-
-	public HashSet<GeoElement> getVariables() {
+	
+	/**
+	 * Returns just set with just one element (itself).
+	 * Do not ever remove the final flag, it will break the update mechanism.
+	 */
+	public final HashSet<GeoElement> getVariables() {
 		final HashSet<GeoElement> ret = new HashSet<GeoElement>();
 		ret.add(this);
 		return ret;

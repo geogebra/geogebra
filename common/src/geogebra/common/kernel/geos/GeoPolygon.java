@@ -43,7 +43,6 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Polygon through given points
@@ -948,23 +947,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	final public double getDouble() {
 		return getArea();
-	}
-
-	@Override
-	final public boolean isConstant() {
-		return false;
-	}
-
-	@Override
-	final public boolean isLeaf() {
-		return true;
-	}
-
-	@Override
-	final public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varset = new HashSet<GeoElement>();
-		varset.add(this);
-		return varset;
 	}
 
 	@Override

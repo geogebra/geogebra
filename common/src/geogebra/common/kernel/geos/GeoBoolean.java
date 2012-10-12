@@ -232,25 +232,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return sbToString.toString();
 	}
 
-	/**
-	 * interface BooleanValue
-	 */
-	@Override
-	final public boolean isConstant() {
-		return false;
-	}
-
-	@Override
-	final public boolean isLeaf() {
-		return true;
-	}
-
-	@Override
-	final public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varset = new HashSet<GeoElement>();
-		varset.add(this);
-		return varset;
-	}
 
 	/**
 	 * returns all class-specific xml tags for saveXML

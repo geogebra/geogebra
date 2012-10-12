@@ -501,25 +501,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		ret.setMode(toStringMode);
 		return ret;
 	}        
-
-	@Override
-	public boolean isConstant() {
-		return false;
-	}
-
-	@Override
-	public boolean isLeaf() {
-		return true;
-	}
-
-	@Override
-	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varset = new HashSet<GeoElement>();        
-		varset.add(this);        
-		return varset;          
-	}
-
-
+	
 	/** POLAR or CARTESIAN */
 
 	/**

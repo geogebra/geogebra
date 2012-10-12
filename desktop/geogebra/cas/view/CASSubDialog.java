@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -104,35 +105,8 @@ public class CASSubDialog extends JDialog implements ActionListener {
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 
-		HashSet<GeoElement> vars = cell.getInputVE().getVariables();
-		Vector<String> row;
-		if (vars != null) {
-			data = new Vector<Vector<String>>(vars.size() + 1);
-			Iterator<GeoElement> iter = vars.iterator();
-			while (iter.hasNext()) {
-				row = new Vector<String>(2);
-				GeoElement var = iter.next();
-				String nextVar = var.getLabel(StringTemplate.defaultTemplate);
-				int i = 0;
-				for (i = 0; i < data.size(); i++) {
-					if (data.get(i).firstElement().compareTo(nextVar) >= 0) {
-						break;
-					}
-				}
-				if (i == data.size()
-						|| !data.get(i).firstElement().equals(nextVar)) {
-					row.add(nextVar);
-					row.add("");
-					data.insertElementAt(row, i);
-				}
-			}
-		} else {
-			data = new Vector<Vector<String>>(1);
-		}
-		row = new Vector<String>(2);
-		row.add("");
-		row.add("");
-		data.add(row);
+		
+		initData(cell);
 
 		Vector<String> header = new Vector<String>();
 		header.add(getApp().getPlain("OldExpression"));
@@ -207,6 +181,48 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		// Make this dialog display it.
 		setContentPane(optionPane);
 
+	}
+
+	private void initData(GeoCasCell cell) {
+		HashSet<GeoElement> vars = new HashSet<GeoElement>();
+		for(GeoElement var:cell.getInputVE().getVariables()){
+			addVariables(var,vars);
+		}
+		Vector<String> row;
+		data = new Vector<Vector<String>>(vars.size() + 1);
+		Iterator<GeoElement> iter = vars.iterator();
+		while (iter.hasNext()) {
+			row = new Vector<String>(2);
+			GeoElement var = iter.next();
+			String nextVar = var.getLabel(StringTemplate.defaultTemplate);
+			int i = 0;
+			for (i = 0; i < data.size(); i++) {
+				if (data.get(i).firstElement().compareTo(nextVar) >= 0) {
+					break;
+				}
+			}
+			if (i == data.size()
+					|| !data.get(i).firstElement().equals(nextVar)) {
+				row.add(nextVar);
+				row.add("");
+				data.insertElementAt(row, i);
+			}
+		}
+
+		row = new Vector<String>(2);
+		row.add("");
+		row.add("");
+		data.add(row);
+		
+	}
+
+	private static void addVariables(GeoElement var, HashSet<GeoElement> vars) {
+		if(var instanceof GeoCasCell){
+			ValidExpression ve = ((GeoCasCell)var).getOutputValidExpression();
+			if(ve!=null)
+				vars.addAll(ve.getVariables());
+		}
+		else vars.add(var);
 	}
 
 	/**
