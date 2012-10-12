@@ -402,14 +402,17 @@ Dilateable, Transformable, EuclidianViewCE {
 							sb.append(number);
 						}
 						if (i>0){
-							sb.append('x');
+							sb.append(kernel.printVariableName("x", tpl));
 						}
 						addPow(sb,i,tpl);
 						if (j>0){
-							if (i>0){ //insert blank after x^i
+							if(tpl.hasType(StringType.MPREDUCE)){
+								sb.append('*');
+							}
+							else if (i>0){ //insert blank after x^i
 								sb.append(' ');
 							}
-							sb.append('y');
+							sb.append(kernel.printVariableName("y", tpl));
 						}
 						addPow(sb,j,tpl);
 						sb.append(' ');
@@ -1737,6 +1740,11 @@ Dilateable, Transformable, EuclidianViewCE {
 		 */
 		public GeoLocus getLocus() {
 			return locus;
+		}
+		
+		@Override
+		public boolean isCasEvaluableObject(){
+			return true;
 		}
 
 
