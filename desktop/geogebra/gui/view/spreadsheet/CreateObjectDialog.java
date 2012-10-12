@@ -48,13 +48,12 @@ import javax.swing.event.ListSelectionListener;
  * @author G. Sturr
  * 
  */
+@SuppressWarnings({"javadoc", "rawtypes"})
 public class CreateObjectDialog extends InputDialogD implements
 		ListSelectionListener, FocusListener {
 	
-	private SpreadsheetView view;
 	private CellRangeProcessor cp;
 	private ArrayList<CellRange> selectedCellRanges;
-	private int selectionType;
 	private MyTableD table;
 
 	public static final int TYPE_LIST = 0;
@@ -66,13 +65,11 @@ public class CreateObjectDialog extends InputDialogD implements
 
 	private JList typeList;
 	private DefaultListModel model;
-	private JLabel lblObject, lblType, lblName, lblTake, lblOrder, lblXYOrder;
+	private JLabel lblObject, lblName;
 
 	private JCheckBox ckSort, ckTranspose;
 	private JRadioButton btnValue, btnObject;
-	private JRadioButton rbOrderNone, rbOrderRow, rbOrderCol, rbOrderSortAZ,
-			rbOrderSortZA;
-	private JComboBox cbScanOrder, cbTake;
+	private JComboBox cbScanOrder;
 
 	private boolean isIniting = true;
 	private JPanel optionsPanel;
@@ -83,15 +80,12 @@ public class CreateObjectDialog extends InputDialogD implements
 	private GeoElement newGeo;
 
 	private JScrollPane previewPanel;
-	private JTextField fldType;
-
 	private String title = null;
 
 	private boolean keepNewGeo = false;
 	private JComboBox cbLeftRightOrder;
 	private JPanel cards;
 	private JLabel lblPreview;
-	private JLabel lblPreviewHeader;
 	private JPanel namePanel;
 
 	public CreateObjectDialog(AppD app, SpreadsheetView view,
@@ -99,11 +93,9 @@ public class CreateObjectDialog extends InputDialogD implements
 
 		super(app.getFrame(), false);
 		this.app = app;
-		this.view = view;
 		this.objectType = objectType;
 		this.table = (MyTableD) view.getSpreadsheetTable();
 		cp = table.getCellRangeProcessor();
-		selectionType = table.getSelectionType();
 		selectedCellRanges = table.selectedCellRanges;
 
 		boolean showApply = false;
@@ -131,6 +123,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		wrappedDialog.addWindowFocusListener(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createAdditionalGUI() {
 
 		model = new DefaultListModel();
@@ -142,11 +135,8 @@ public class CreateObjectDialog extends InputDialogD implements
 		fldName.setShowSymbolTableIcon(true);
 		fldName.addFocusListener(this);
 
-		lblTake = new JLabel();
 		cbScanOrder = new JComboBox();
 		cbScanOrder.addActionListener(this);
-		lblOrder = new JLabel();
-		cbTake = new JComboBox();
 
 		cbLeftRightOrder = new JComboBox();
 		cbLeftRightOrder.addActionListener(this);
@@ -157,8 +147,6 @@ public class CreateObjectDialog extends InputDialogD implements
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(btnObject);
 		bg.add(btnValue);
-
-		lblXYOrder = new JLabel();
 
 		ckSort = new JCheckBox();
 		ckSort.setSelected(false);
@@ -251,6 +239,7 @@ public class CreateObjectDialog extends InputDialogD implements
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setLabels(String title) {
 
@@ -445,6 +434,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		super.setVisible(isVisible);
 	}
 
+	@SuppressWarnings("unused")
 	private void closeDialog() {
 		// either remove our geo or keep it and make it visible
 		if (keepNewGeo) {
@@ -615,11 +605,15 @@ public class CreateObjectDialog extends InputDialogD implements
 	@Override
 	public void windowLostFocus(WindowEvent e) {
 		// close the window and set the geo when focus is lost
-		if (wrappedDialog.isVisible())
+		if (wrappedDialog.isVisible()
+				// workaround for IE applets: focus is lost immediately -> dialog closes 
+				&& !app.isApplet()) { 
 			setVisible(false);
+		}
 	}
 
 	public void focusGained(FocusEvent e) {
+		//
 	}
 
 	public void focusLost(FocusEvent e) {
