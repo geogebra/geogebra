@@ -2904,17 +2904,17 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ARCCOS:
-			trig(leftStr,sb,"<arccos/>","\\operatorname{acos}","ArcCos(","ACOS(","acos","acos","arccos",
+			trig(leftStr,sb,"<arccos/>","\\operatorname{acos}","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",
 					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCSIN:
-			trig(leftStr,sb,"<arcsin/>","\\operatorname{asin}","ArcSin(","ASIN(","asin","asin","arcsin",
+			trig(leftStr,sb,"<arcsin/>","\\operatorname{asin}","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",
 					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN:
-			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(","atan","atan","arctan",
+			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(","atan",degFix("atan"),"arctan",
 					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
@@ -2938,7 +2938,8 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 
 				case MPREDUCE:
-					sb.append("myatan2(");
+					sb.append(degFix("myatan2"));
+					sb.append("(");
 					break;
 
 				default:
@@ -4332,6 +4333,13 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append("unhandled operation " + operation);
 		}
 		return sb.toString();
+	}
+
+	private String degFix(String string) {
+		if(kernel.getInverseTrigReturnsAngle()){
+			return "deg"+string;
+		}
+		return string;
 	}
 
 	private static void appendOp(StringBuilder sb, String string, String leftStr,
