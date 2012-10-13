@@ -787,6 +787,29 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			    " for k:=1:arglength(eqn) sum bigexponents(part(eqn,k));"
 				 );
 		
+		//used in issolvableineq
+		mpreduce1.evaluate("procedure isniceop(op,exp);"
+		+ "begin scalar bool;"
+		+ "bool:=(if (op='plus or op='minus or op='times or op='quotient or (op='expt and fixp(exp))) then 1 else 0);"
+		+ "return bool;"
+		+ "end;");
+		
+		//determines if an expression looks like polynomial/polynomial or not
+		mpreduce1.evaluate("procedure issolvableineq(inequ);"
+		+ "begin scalar jj, b;"
+		+ "jj:=1; b:=1;"
+		+ "if arglength(inequ)>-1 then"
+		+ " while (b=1 and jj<=arglength(inequ)) do <<"
+		+ "   b:=issolvableineq(part(inequ,jj));"
+		+ "   jj:=jj+1;"
+		+ "  >>;"
+		+ "if not (arglength(inequ)=-1) and b then <<"
+		+ "if arglength(inequ)=0 then b:=0"
+		+ " else if arglength(inequ)=1 then b:=isniceop(part(inequ,0),1)"
+		+ " else b:=isniceop(part(inequ,0),part(inequ,2));>>;"
+		+ "return b;"
+		+ "end;");
+		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq,temp1!!,temp2!!, max, other!!, isfraction;"
@@ -802,9 +825,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "    eqn:=for each x in eqn collect"
 						+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
 						+ " else if freeof(eqn,=) then eqn else eqn:=subtraction(lhs(eqn),rhs(eqn));"
+						// if the inequality is not like (polynomial/polynomial) 
+						//    or its a system of inequalities then we return with {x=?} (yet)
+						+ " if arglength(eqn)=1 and isineq and not(issolvableineq(part(eqn,1))) then "
+						+ "   return {{(if arglength(var)=1 and part(var,0)='list then part(var,1) else var)='?}};"
 						+ " solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
-						// if it cannot solve the equation and numeric is off, then we return {x=?}
-						+ " if not (freeof(solutions!!,root_of)=t and freeof(solutions!!,one_of)=t) and numeric!!=0 then return {{(if arglength(var)>-1 and part(var,0)='list then part(var,1) else var)='?}};"
+						// if it cannot solve the equation, numeric is off, and isineq then we return {x=?}
+						+ " if not (freeof(solutions!!,root_of)=t and freeof(solutions!!,one_of)=t) and numeric!!=0 and isineq then"
+						+ "   return {{(if arglength(var)=1 and part(var,0)='list then part(var,1) else var)='?}};"
 						+ " multi:=for j:=1:length(solutions!!) join {m=part(root_multiplicities,j)};"
 						
 						//single inequality solution begins"
@@ -821,15 +849,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ " temp3!!:=for j:=1:length(densol) join if freeof(part(densol,j),'i) then {part(densol,j)} else {};"
 						+ " temp4!!:=for j:=1:length(densol) join if freeof(part(densol,j),'i) then {part(denmulti,j)} else {};"
 						+ " solutions!!:=temp1!!; multi:=temp2!!; densol:=temp3!!; denmulti:=temp4!!;"
-						+ "  nroots:=length(solutions!!);"
+						+ "  nroots:=length(solutions!!)+length(densol);"
 						+ "  if not (nroots=0) then << sol:=part(part(solutions!!,1),2);"
 						+ "     if not freeof(sol,'i) or (arglength(sol)>-1 and part(sol,0)='arbreal) then <<solutions!!:={}; nroots:=0>>; >>;"
 
 						//Case 1: the corresponding equation has no solution
 						+ "if nroots = 0 then  <<"
-						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={ggbinterval(var,-infinity,infinity,0)}"
+						+ "if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={var=!*interval!*(-infinity,infinity,0)}"
 					    + "else if (ineqop='sless or ineqop='slessequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={}"
-						+ "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={ggbinterval(var,-infinity,infinity,0)}"
+						+ "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) > 0 then solutions!!:={var=!*interval!*(-infinity,infinity,0)}"
 					    + "else if (ineqop='sgreater or ineqop='sgreaterequal) and sub({var=0},part(eqn,1)) < 0 then solutions!!:={};"
 						+ ">> else " 			
 					   //Case 2: the corresponding equation has some solution
