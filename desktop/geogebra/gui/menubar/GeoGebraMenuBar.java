@@ -221,8 +221,19 @@ public class GeoGebraMenuBar extends JMenuBar {
 	public void updateFonts() {
 		for(int i = 0; i < this.getMenuCount(); i++){
 			JMenu m;
-			if ((m = getMenu(i)) != null)
-			setMenuFontRecursive(m, app.getPlainFont());
+			if ((m = getMenu(i)) != null) {
+				
+				// old method
+				// problem with keyboard shortcuts
+				//setMenuFontRecursive(m, app.getPlainFont());
+				
+				// force rebuild next time menu is opened
+				// see BaseMenu.menuSelected()
+				m.removeAll();
+				
+				// update title (always visible)
+				m.setFont(app.getPlainFont());
+			}
 		}
 	}
 
@@ -231,10 +242,13 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * @param font
 	 */
 	public static void setMenuFontRecursive(JMenuItem m, Font font) {
+		App.debug(m.getClass());
 		if (m instanceof JMenu) {
 			JPopupMenu pm = ((JMenu) m).getPopupMenu();
 
 			MenuElement[] components = pm.getSubElements();
+			
+			//App.debug(components.length);
 
 			for (MenuElement com : components) {
 				// System.out.println(m.getText());
@@ -244,6 +258,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 				if (com instanceof JMenuItem) {
 					setMenuFontRecursive((JMenuItem) com, font);
 				}
+				
+				//App.debug(com.getClass());
 			}
 		}
 		m.setFont(font);

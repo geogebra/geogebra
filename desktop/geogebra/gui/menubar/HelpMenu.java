@@ -41,6 +41,9 @@ class HelpMenu extends BaseMenu {
 	@Override
 	protected void initItems()
 	{
+		
+		removeAll();
+		
 		JMenuItem mi = add(helpAction);
 		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1,
 				0);

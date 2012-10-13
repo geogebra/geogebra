@@ -25,8 +25,8 @@ public class FontManagerD extends FontManager {
 	private int						fontSize;
 	private String					sansName, serifName;
 
-	private static HashMap			fontMap					= new HashMap();
-	private static StringBuilder	key						= new StringBuilder();
+	private HashMap			fontMap					= new HashMap();
+	private StringBuilder	key						= new StringBuilder();
 
 	public static final String[]	FONT_NAMES_SANSSERIF	= {
 															"SansSerif", // Java
@@ -188,6 +188,7 @@ public class FontManagerD extends FontManager {
 		serifFont = getFont(serif, Font.PLAIN, size);
 		serifFontBold = getFont(serif, Font.BOLD, size);
 
+		// TODO: causes problems with multiple windows (File -> New Window)
 		setLAFFont(plainFont);
 
 		// System.out.println("Fonts updated: sans: " + sans + ", serif: " + serif);
@@ -211,7 +212,7 @@ public class FontManagerD extends FontManager {
 	 * Gets a font from a HashMap to avoid multiple creations
 	 * of the same font.
 	 */
-	private static Font getFont(final String name, final int style, final int size) {
+	private Font getFont(final String name, final int style, final int size) {
 		// build font's key name for HashMap
 		key.setLength(0);
 		key.append(name);
@@ -282,7 +283,7 @@ public class FontManagerD extends FontManager {
 	 * Tries to find a font that can display all given unicode characters.
 	 * Starts with tryFontNames first.
 	 */
-	public static String getFontCanDisplay(final LinkedList tryFontNames, final String testCharacters) throws Exception {
+	public String getFontCanDisplay(final LinkedList tryFontNames, final String testCharacters) throws Exception {
 		// System.out.println("expensive test getFontCanDisplay, " + testCharacters);
 
 		// try given fonts
@@ -356,8 +357,8 @@ public class FontManagerD extends FontManager {
 		return serifFont;
 	}
 
-	private void setLAFFont(final Font plain) {
-		// Dialog
+	
+	private static void setLAFFont(final Font plain) {
 		UIManager.put("ColorChooser.font", plain);
 		UIManager.put("FileChooser.font", plain);
 

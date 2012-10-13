@@ -58,7 +58,7 @@ class FileMenu extends BaseMenu {
 	/**
 	 * Initialize all items.
 	 */
-	private void updateItems()
+	public void initItems()
 	{
 		if (!initialized) {
 			return;
@@ -73,6 +73,7 @@ class FileMenu extends BaseMenu {
 			mi = new JMenuItem(newWindowAction);
 			setMenuShortCutAccelerator(mi, 'N');
 			add(mi);
+			
 		}
 
 		// "New": reset
@@ -514,12 +515,8 @@ class FileMenu extends BaseMenu {
 
 	@Override
 	public void update() {
-		updateItems();
-	}
-	
-	@Override
-	protected void initItems() {
 		// 
+		
 	}
 
 

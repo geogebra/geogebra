@@ -29,6 +29,7 @@ import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -5286,7 +5287,7 @@ public class AppD extends App implements
 
 	// renderer for JComboBox (align left/right)
 	private ListCellRenderer renderer = new DefaultListCellRenderer();
-	
+
 	public void setComponentOrientation(Component c) {
 		
 		ComponentOrientation orientation = isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
@@ -5326,6 +5327,7 @@ public class AppD extends App implements
 		else
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 	}
+
 	
 
 	

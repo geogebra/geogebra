@@ -120,8 +120,8 @@ import javax.swing.SwingUtilities;
  */
 public class GuiManagerD extends GuiManager {
 	
-	private static boolean USE_COMPRESSED_VIEW = true;
-	private static int CV_UPDATES_PER_SECOND = 3;
+	private final static boolean USE_COMPRESSED_VIEW = true;
+	private final static int CV_UPDATES_PER_SECOND = 3;
 
 	protected Kernel kernel;
 
@@ -138,7 +138,7 @@ public class GuiManagerD extends GuiManager {
 	private AssignmentView assignmentView;
 	protected ConstructionProtocolNavigation constProtocolNavigation;
 	private GeoGebraMenuBar menuBar;
-	JMenuBar menuBar2;
+	private JMenuBar menuBar2;
 
 	private ToolbarContainer toolbarPanel;
 	private boolean htmlLoaded;// see #126

@@ -72,6 +72,8 @@ public class EditMenu extends BaseMenu {
 	@Override
 	protected void initItems()
 	{
+		removeAll();
+		
 		JMenuItem mi;
 		
 		if (app.isUndoActive()) {

@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.Event;
@@ -8,6 +9,7 @@ import java.awt.Toolkit;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
@@ -25,7 +27,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	protected AppD app;
 	
 	protected boolean initialized = false;
-	
+
 	/**
 	 * Construct a new sub-menu and assign the application attribute.
 	 * 
@@ -96,15 +98,19 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	}
 
 	public void menuSelected(MenuEvent e) {
-		//AbstractApplication.debug("Menu opening: "+getClass());
+		App.debug("Menu opening: "+getClass());
+			
 		if (getItemCount() == 0) {
+			App.debug("creating menu items");
+			//UIManager.put("Menu.acceleratorFont",  app.getPlainFont());
+			UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 			initialized = true;
 			//AbstractApplication.debug("building menu");
 			initActions();
 			initItems();
 			update();
-		}
-		
+			GeoGebraMenuBar.setMenuFontRecursive(this, app.getPlainFont());
+		} 
 	}
 
 	protected abstract void initActions();

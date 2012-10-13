@@ -7,26 +7,22 @@ import geogebra.common.main.App;
 /**
  * This class is not a superclass of OptionsMenu, only  common method stack
  */
-public abstract class OptionsMenu {
+public class OptionsMenu {
 
-	private static RadioButtonMenuBar menuAlgebraStyle;
-	private static RadioButtonMenuBar menuDecimalPlaces;
-	private static RadioButtonMenuBar menuLabeling;
-	private static RadioButtonMenuBar menuPointCapturing;
-	private static App app;
+	private RadioButtonMenuBar menuAlgebraStyle;
+	private RadioButtonMenuBar menuDecimalPlaces;
+	private RadioButtonMenuBar menuLabeling;
+	private RadioButtonMenuBar menuPointCapturing;
+	private App app;
 	static Kernel kernel;
 	
-	/**
-	 * Sets the value of app field.
-	 * @param application
-	 */
-	public static void init(App application){
-		app = application;
+	public OptionsMenu(App app) {
+		this.app = app;
 		kernel = app.getKernel();
 	}
-	
 
-	public static void processActionPerformed(String cmd) {
+
+	public void processActionPerformed(String cmd) {
 		// decimal places
 		if (cmd.endsWith("decimals")) {
 			try {
@@ -102,7 +98,7 @@ public abstract class OptionsMenu {
 	 * Adds the "Algebra description" menu for the menu given in parameter 
 	 * @param menu "Algebra description menu will be added for this
 	 */
-	public static void addAlgebraDescriptionMenu(MenuInterface menu){	
+	public void addAlgebraDescriptionMenu(MenuInterface menu){	
 		menuAlgebraStyle = app.getFactory().newRadioButtonMenuBar(app);
 		
 		String[] strDescription = { app.getPlain("Value"), 
@@ -126,7 +122,7 @@ public abstract class OptionsMenu {
 	/**
 	 * Update algebra style description (switch between value / definition / command).
 	 */
-	public static void updateMenuViewDescription() {
+	public void updateMenuViewDescription() {
 		if (menuAlgebraStyle != null) {
 			menuAlgebraStyle.setSelected(kernel.getAlgebraStyle());
 		}
@@ -135,7 +131,7 @@ public abstract class OptionsMenu {
 	/**
 	 * Update the menu with all decimal places.
 	 */
-	public static void updateMenuDecimalPlaces() {
+	public void updateMenuDecimalPlaces() {
 		if (menuDecimalPlaces == null)
 			return;
 		int pos = -1;
@@ -160,7 +156,7 @@ public abstract class OptionsMenu {
 
 	}
 	
-	public static void addDecimalPlacesMenu(MenuInterface menu){
+	public void addDecimalPlacesMenu(MenuInterface menu){
 		menuDecimalPlaces = app.getFactory().newRadioButtonMenuBar(app);
 
 		/*
@@ -180,7 +176,7 @@ public abstract class OptionsMenu {
 	}
 	
 	
-	public static void addLabelingMenu(MenuInterface menu){	
+	public void addLabelingMenu(MenuInterface menu){	
 		menuLabeling = app.getFactory().newRadioButtonMenuBar(app);
 		
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
@@ -198,14 +194,14 @@ public abstract class OptionsMenu {
 	/**
 	 * Update the selected item in the labeling capturing menu.
 	 */
-	private static void updateMenuLabeling() {
+	private void updateMenuLabeling() {
 		if (menuLabeling == null) return;
 		
 		int pos = app.getLabelingStyle();
 		menuLabeling.setSelected(pos);
 	}
 	
-	public static void addPointCapturingMenu(MenuInterface menu){		
+	public void addPointCapturingMenu(MenuInterface menu){		
 		menuPointCapturing = app.getFactory().newRadioButtonMenuBar(app);
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
 				app.getMenu("FixedToGrid"), app.getMenu("off") };
@@ -221,7 +217,7 @@ public abstract class OptionsMenu {
 	/**
 	 * Update the point capturing menu.
 	 */
-	public static void updateMenuPointCapturing() {	
+	public void updateMenuPointCapturing() {	
 		if (menuPointCapturing == null)
 			return;
 
@@ -229,7 +225,7 @@ public abstract class OptionsMenu {
 		menuPointCapturing.setSelected(pos);
 	}
 	
-	public static void addFontSizeMenu(MenuInterface menu){
+	public void addFontSizeMenu(MenuInterface menu){
 		RadioButtonMenuBar submenu = app.getFactory().newRadioButtonMenuBar(app);
 		
 		//String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt", "24 pt",
@@ -252,7 +248,7 @@ public abstract class OptionsMenu {
 		app.addMenuItem(menu, "font.png", app.getMenu("FontSize"), true, submenu);
 	}
 
-	public static void update() {
+	public void update() {
 		updateMenuDecimalPlaces();
 		updateMenuPointCapturing();
 		updateMenuViewDescription();

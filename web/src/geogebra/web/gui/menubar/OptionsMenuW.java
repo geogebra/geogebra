@@ -28,20 +28,19 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		super(true);
 	    this.app = app;
 	    kernel = app.getKernel();
-	    OptionsMenu.init(app);
 	    addStyleName("GeoGebraMenuBar");
 	    initItems();
 	}
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
-		OptionsMenu.addAlgebraDescriptionMenu(this);
-		OptionsMenu.addPointCapturingMenu(this);
-		OptionsMenu.addDecimalPlacesMenu(this);	
+		app.getOptionsMenu().addAlgebraDescriptionMenu(this);
+		app.getOptionsMenu().addPointCapturingMenu(this);
+		app.getOptionsMenu().addDecimalPlacesMenu(this);	
 		addSeparator();
-		OptionsMenu.addLabelingMenu(this);
+		app.getOptionsMenu().addLabelingMenu(this);
 		addSeparator();
-		OptionsMenu.addFontSizeMenu(this);
+		app.getOptionsMenu().addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
 		addSeparator();
@@ -108,7 +107,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	}
 	
 	public void actionPerformed(String cmd){
-		OptionsMenu.processActionPerformed(cmd);
+		app.getOptionsMenu().processActionPerformed(cmd);
 	}
 
 

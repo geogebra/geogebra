@@ -277,7 +277,7 @@ public class GeoGebraMenubarW extends MenuBar {
 
 		public void updateMenubar() {
 			App.debug("implementation needed - just finishing");
-			OptionsMenu.update();        
+			app.getOptionsMenu().update();        
         }
 
 		public static void setMenuSelected(MenuItem m,

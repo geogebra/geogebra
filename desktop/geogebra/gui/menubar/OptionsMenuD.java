@@ -46,8 +46,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		super(app, app.getMenu("Options"));
 		
 		kernel = app.getKernel();
-		OptionsMenu.init(app);
-
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
@@ -62,19 +60,19 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		
 		//G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
-		OptionsMenu.addAlgebraDescriptionMenu(this);		
+		app.getOptionsMenu().addAlgebraDescriptionMenu(this);		
 		// point capturing
-		OptionsMenu.addPointCapturingMenu(this);		
-		OptionsMenu.addDecimalPlacesMenu(this);
+		app.getOptionsMenu().addPointCapturingMenu(this);		
+		app.getOptionsMenu().addDecimalPlacesMenu(this);
 		addSeparator();
 		// Labeling
-		OptionsMenu.addLabelingMenu(this);
+		app.getOptionsMenu().addLabelingMenu(this);
 
 		//add(drawingPadPropAction);	
 
 		addSeparator();
 
-		OptionsMenu.addFontSizeMenu(this);
+		app.getOptionsMenu().addFontSizeMenu(this);
 		
 
 		/*
@@ -320,7 +318,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 	@Override
 	public void update() {
-		OptionsMenu.update();
+		app.getOptionsMenu().update();
 	}
 	
 	/**
@@ -388,7 +386,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	 */
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
-		OptionsMenu.processActionPerformed(cmd);
+		app.getOptionsMenu().processActionPerformed(cmd);
 	}
 
 	@Override
@@ -397,7 +395,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	}
 
 	public void actionPerformed(String command) {
-		OptionsMenu.processActionPerformed(command);	
+		app.getOptionsMenu().processActionPerformed(command);	
 	}
 
 

@@ -17,6 +17,7 @@ import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.io.MyXMLio;
@@ -3518,12 +3519,8 @@ public abstract class App {
 	/**
 	 * Returns font manager
 	 * 
-	 * @return null unless overridden
 	 */
-	protected FontManager getFontManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected abstract FontManager getFontManager();
 
 	/**
 	 * Returns a font that can display testString in plain sans-serif font and
@@ -4254,6 +4251,7 @@ public abstract class App {
 	protected abstract Object getMainComponent();
 
 	private GeoElement geoForCopyStyle;
+	private OptionsMenu optionsMenu;
 
 	public GeoElement getGeoForCopyStyle() {
 		return geoForCopyStyle;
@@ -4271,6 +4269,14 @@ public abstract class App {
 
 	public void dispatchEvent(Event evt) {
 		getEventDispatcher().dispatchEvent(evt);
+	}
+	
+	public OptionsMenu getOptionsMenu() {
+		
+		if (optionsMenu == null) {
+			optionsMenu = new OptionsMenu(this);
+		}
+		return optionsMenu;
 	}
 
 }

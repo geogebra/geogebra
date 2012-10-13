@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.UIManager;
 
 /**
  * The "Windows" menu.
@@ -31,7 +32,8 @@ class WindowMenu extends BaseMenu {
 	/**
 	 * Initialize and update the items.
 	 */
-	private void updateItems()
+	@Override
+	public void initItems()
 	{
 		if (!initialized) {
 			return;
@@ -113,12 +115,9 @@ class WindowMenu extends BaseMenu {
 
 	@Override
 	public void update() {
-		updateItems();
+		UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
+		initItems();
+		GeoGebraMenuBar.setMenuFontRecursive(this, app.getPlainFont());
 	}
 
-
-	@Override
-	protected void initItems() {
-		//
-	}
 }
