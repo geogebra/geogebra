@@ -97,6 +97,11 @@ public class NoExceptions3DTest {
 	public void cmdSphere() {
 		// TODO write test
 	}
+	
+	@Test
+	public void cmdSurface() {
+		// TODO write test
+	}
 
 	@Test
 	public void cmdTetrahedron() {

@@ -1895,6 +1895,8 @@ public class NoExceptionsTest {
 		t("SolveODE[ f1(x), f1(x+n1), polynom1(x),n1, n3, n4, n4, prob ]");
 		t("SolveODE[ f1(x), polynom1(y), n1, n2, n3, prob2 ]");
 		t("SolveODE[ twovar(x,y), n1, n2, n4, prob2 ]");
+		t("SolveODE[ -x]");
+		t("SolveODE[ -x,Pt1]");
 	}
 
 	@Test
