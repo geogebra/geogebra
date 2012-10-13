@@ -182,7 +182,7 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.piChar:
 				return "pi";
 			case Unicode.degreeChar:
-				return "pi/180";
+				return "\\'\u00b0";
 			case Unicode.eulerChar:
 				return "e";
 			}

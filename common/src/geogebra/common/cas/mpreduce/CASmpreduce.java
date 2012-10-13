@@ -449,11 +449,18 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"return 1;" +
 				"end;");
 		mpreduce1
-		.evaluate("procedure degasin(x); asin(x)*180/pi*'°;");
+		.evaluate("procedure degasin(x); asin(x)*180/pi*'\u00b0;");
 		mpreduce1
-		.evaluate("procedure degatan(x); atan(x)*180/pi*'°;");
+		.evaluate("procedure degatan(x); atan(x)*180/pi*'\u00b0;");
 		mpreduce1
-		.evaluate("procedure degacos(x); acos(x)*180/pi*'°;");
+		.evaluate("procedure degacos(x); acos(x)*180/pi*'\u00b0;");
+		mpreduce1
+		.evaluate("let { sin(~a*'\u00b0)=>sin(a*pi/180)," +
+				"cos(~a*'\u00b0)=>cos(a*pi/180)," +
+				"tan(~a*'\u00b0)=>tan(a*pi/180)," +
+				"cot(~a*'\u00b0)=>cot(a*pi/180)," +
+				"sec(~a*'\u00b0)=>sec(a*pi/180)," +
+				"csc(~a*'\u00b0)=>csc(a*pi/180)}");
 		mpreduce1
 				.evaluate("intrules!!:={"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
