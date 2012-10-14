@@ -186,11 +186,6 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 	 */
 	@Override
 	public double[][] eliminate(Collection<StringBuilder> translatedRestrictions) {
-		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		String script = this.createMPReduceScript(translatedRestrictions);
-		App.info("[LocusEqu] input to cas: "+script);
-		String result = cas.evaluateMPReduce(script);
-		App.info("[LocusEqu] output from cas: "+result);
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			String script2 = this.createSingularScript(translatedRestrictions);
@@ -198,9 +193,14 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 			String result2 = App.singularWS.directCommand(script2);
 			App.info("[LocusEqu] output from singular: "+result2);
 			// Uncomment this to test computation via SingularWS:
-			// return getCoefficientsFromSingularResult(result2);
+			return getCoefficientsFromSingularResult(result2);
 		}
-		
+
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		String script = this.createMPReduceScript(translatedRestrictions);
+		App.info("[LocusEqu] input to cas: "+script);
+		String result = cas.evaluateMPReduce(script);
+		App.info("[LocusEqu] output from cas: "+result);
 		return getCoefficientsFromResult(result, cas);
 	}
 
@@ -225,7 +225,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		for (int x = 0; x < xLength; x++) {
 			for (int y = 0; y < yLength; y++) {
 				result[x][y] = Double.parseDouble(flatData[counter]);
-				// App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
+				App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
 				++counter;
 			}
 		}
@@ -294,8 +294,9 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 				append(MPReduceTranslator.constructRestrictions(restrictions)).
 				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
-				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
-				append("coeffs(coeffs(m1,x),y));").toString();
+				append(");ideal m2=m1[size(m1)];").
+				append("printf(\"%s,%s,%s\",size(coeffs(m2,x)),size(coeffs(m2,y)),").
+				append("coeffs(coeffs(m2,x),y));").toString();
 		/**
 		 *  Singular will return degree of x (+1), degree of y (+1), and then
 		 *  the coefficients as a matrix, in the same format as Sergio collects them
@@ -303,6 +304,10 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		 *  
 		 *  Example: 5,3,0,0,-4.000e+00,0,0,0,4.000e+00,0,1.000e+00,-4.000e+00,0,0,1.000e+00,0,0
  		 *  for x^4 - 4x^3 + x^2*y^2 + 4*x^2- 4*y^2.
+ 		 *  
+ 		 *  Unfortunately the "m2=m1[size(m1)]" hack does not work properly in some cases.
+ 		 *  I should learn why Singular returns multiple polynomials in the elimination ideal
+ 		 *  in such cases, and how to choose the proper one.
 		 */
 		
 	}
