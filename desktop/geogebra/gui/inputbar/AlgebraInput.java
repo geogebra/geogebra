@@ -379,28 +379,24 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		// 
 		
 	}
 
 
-	@Override
 	public void mousePressed(MouseEvent e) {
 		// 
 		
 	}
 
 
-	@Override
 	public void mouseReleased(MouseEvent e) {
 		// 
 		
 	}
 
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
 		// make sure tooltips from Tool Bar don't get in the way 
 		ToolTipManager.sharedInstance().setEnabled(false); 
@@ -408,7 +404,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 
-	@Override
 	public void mouseExited(MouseEvent e) {
 		// 
 		
