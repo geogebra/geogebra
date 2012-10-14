@@ -1,6 +1,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +50,7 @@ public class MPReducePolynomialParser {
 			
 			for(Integer y : yMap.keySet()) {
 				coeffs[x][y] = yMap.get(y);
+				// App.debug("[LocusEqu] coeffs[" + x + "," + y + "]=" + coeffs[x][y]);
 			}
 		}
 		

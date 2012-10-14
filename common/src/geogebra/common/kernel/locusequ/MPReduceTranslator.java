@@ -197,6 +197,8 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 			App.info("[LocusEqu] input to singular: "+script2);
 			String result2 = App.singularWS.directCommand(script2);
 			App.info("[LocusEqu] output from singular: "+result2);
+			// Uncomment this to test computation via SingularWS:
+			// return getCoefficientsFromSingularResult(result2);
 		}
 		
 		return getCoefficientsFromResult(result, cas);
@@ -213,6 +215,25 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		}
 	}
 
+	private double[][] getCoefficientsFromSingularResult(String rawResult) {
+		String[] flatData = rawResult.split(",");
+		int xLength = Integer.parseInt(flatData[0]);
+		int yLength = Integer.parseInt(flatData[1]);
+		double[][] result = new double[xLength][yLength];
+
+		int counter = 2;
+		for (int x = 0; x < xLength; x++) {
+			for (int y = 0; y < yLength; y++) {
+				result[x][y] = Double.parseDouble(flatData[counter]);
+				// App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
+				++counter;
+			}
+		}
+		
+		return result;
+		
+	}
+	
 	private double[][] simplifyResult(double[][] original) {
 		if(original[0][0] == 0.0) {
 			return original;
@@ -220,7 +241,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		
 		int xLength = original.length;
 		int yLength = original[0].length;
-		double[][] result = new double[original.length][original[0].length];
+		double[][] result = new double[xLength][yLength];
 		
 		double indepCoeff = original[0][0];
 		
@@ -271,9 +292,19 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 				append(this.getVars()).
 				append("),dp;ideal m=").
 				append(MPReduceTranslator.constructRestrictions(restrictions)).
-				append(";eliminate(m,").
+				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
-				append(");").toString();
+				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
+				append("coeffs(coeffs(m1,x),y));").toString();
+		/**
+		 *  Singular will return degree of x (+1), degree of y (+1), and then
+		 *  the coefficients as a matrix, in the same format as Sergio collects them
+		 *  from Reduce. ;-)
+		 *  
+		 *  Example: 5,3,0,0,-4.000e+00,0,0,0,4.000e+00,0,1.000e+00,-4.000e+00,0,0,1.000e+00,0,0
+ 		 *  for x^4 - 4x^3 + x^2*y^2 + 4*x^2- 4*y^2.
+		 */
+		
 	}
 	
 	private static String constructRestrictions(Collection<StringBuilder> restrictions) {
