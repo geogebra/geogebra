@@ -49,6 +49,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
+import geogebra.common.main.SingularWSSettings;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
@@ -651,7 +652,8 @@ public class AppD extends App implements
 							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
 							+ "  --logFile=FILENAME\tset log file"
 							+ "  --silent\tCompletely mute logging\n"
-							+ "  --prover=OPTIONS\tset options for the prover subsystem (use --proverhelp for more information)\n");
+							+ "  --prover=OPTIONS\tset options for the prover subsystem (use --proverhelp for more information)\n"
+							+ "  --singularWS=OPTIOMS\tset options for SingularWS (use --singularWShelp for more information)\n");
 			
 			System.exit(0);
 		}
@@ -672,14 +674,22 @@ public class AppD extends App implements
 					+ ProverSettings.freePointsNeverCollinear + "] (Botana only)\n"
 					+ "      usefixcoords:BOOLEAN\tuse fix coordinates for the first points ["
 					+ ProverSettings.useFixCoordinates + "] (Botana only)\n"
-					+ "      singularWS:BOOLEAN\tuse Singular WebService when possible ["
-					+ ProverSettings.useSingularWebService + "]\n"
-					+ "      singularWSremoteURL:URL\tset the remote server URL for Singular WebService ["
-					+ ProverSettings.singularWebServiceRemoteURL + "]\n"
-					+ "      singularWStimeout:SECS\tset the timeout for SingularWebService ["
-					+ ProverSettings.singularWebServiceTimeout + "]\n\n"
 					+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:false\n");
-					System.exit(0);
+			System.exit(0);
+		}
+		if (args.containsArg("singularWShelp")) {
+			// help message for singularWS
+			System.out.println(
+					" --singularWS=OPTIONS\tset options for SingularWS\n"
+					+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
+					+ "      enable:BOOLEAN\tuse Singular WebService when possible ["
+					+ SingularWSSettings.useSingularWebService + "]\n"
+					+ "      remoteURL:URL\tset the remote server URL ["
+					+ SingularWSSettings.singularWebServiceRemoteURL + "]\n"
+					+ "      timeout:SECS\tset the timeout ["
+					+ SingularWSSettings.singularWebServiceTimeout + "]\n"
+					+ "  Example: singularWS=timeout:3\n");
+			System.exit(0);
 		}
 		// help debug applets
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
@@ -1331,21 +1341,26 @@ public class AppD extends App implements
         	ProverSettings.useFixCoordinates = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
-        if ("singularWS".equalsIgnoreCase(str[0])) {
-        	ProverSettings.useSingularWebService = Boolean.valueOf(str[1]).booleanValue();
+        App.warn("Prover option not recognized: ".concat(option));
+    }
+
+    private static void setSingularWSOption(String option) {
+        String[] str = option.split(":", 2);
+        if ("enable".equalsIgnoreCase(str[0])) {
+        	SingularWSSettings.useSingularWebService = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
-        if ("singularWSremoteURL".equalsIgnoreCase(str[0])) {
-        	ProverSettings.singularWebServiceRemoteURL = str[1].toLowerCase();
+        if ("remoteURL".equalsIgnoreCase(str[0])) {
+        	SingularWSSettings.singularWebServiceRemoteURL = str[1].toLowerCase();
             return;
         }
-        if ("singularWStimeout".equalsIgnoreCase(str[0])) {
-        	ProverSettings.singularWebServiceTimeout = Integer.parseInt(str[1]);
+        if ("timeout".equalsIgnoreCase(str[0])) {
+        	SingularWSSettings.singularWebServiceTimeout = Integer.parseInt(str[1]);
             return;
         }
         App.warn("Prover option not recognized: ".concat(option));
     }
-	
+    
 	/**
 	 * Reports if GeoGebra version check is allowed. The version_check_allowed preference
 	 * is read to decide this, which can be set by the command line option
@@ -1379,6 +1394,12 @@ public class AppD extends App implements
             String[] proverOptions = args.getStringValue("prover").split(",");
             for (int i = 0 ; i < proverOptions.length ; i++) {
                 setProverOption(proverOptions[i]);
+            }
+        }
+        if (args.containsArg("singularWS")) {
+            String[] singularWSOptions = args.getStringValue("singularWS").split(",");
+            for (int i = 0 ; i < singularWSOptions.length ; i++) {
+                setSingularWSOption(singularWSOptions[i]);
             }
         }
 	}

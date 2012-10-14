@@ -187,19 +187,23 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 	@Override
 	public double[][] eliminate(Collection<StringBuilder> translatedRestrictions) {
 		
+		String script, result;
+		
+		// If SingularWS is available, let's use it:
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
-			String script2 = this.createSingularScript(translatedRestrictions);
-			App.info("[LocusEqu] input to singular: "+script2);
-			String result2 = App.singularWS.directCommand(script2);
-			App.info("[LocusEqu] output from singular: "+result2);
-			// Ccomment this to disable computation via SingularWS:
-			return getCoefficientsFromSingularResult(result2);
+			script = this.createSingularScript(translatedRestrictions);
+			App.info("[LocusEqu] input to singular: "+script);
+			result = App.singularWS.directCommand(script);
+			App.info("[LocusEqu] output from singular: "+result);
+			// Comment this to disable computation via SingularWS:
+			return getCoefficientsFromSingularResult(result);
 		}
 
+		// Falling back to use Reduce/Cali:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		String script = this.createMPReduceScript(translatedRestrictions);
+		script = this.createMPReduceScript(translatedRestrictions);
 		App.info("[LocusEqu] input to cas: "+script);
-		String result = cas.evaluateMPReduce(script);
+		result = cas.evaluateMPReduce(script);
 		App.info("[LocusEqu] output from cas: "+result);
 		return getCoefficientsFromResult(result, cas);
 	}
