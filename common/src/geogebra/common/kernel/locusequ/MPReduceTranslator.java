@@ -192,7 +192,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 			App.info("[LocusEqu] input to singular: "+script2);
 			String result2 = App.singularWS.directCommand(script2);
 			App.info("[LocusEqu] output from singular: "+result2);
-			// Uncomment this to test computation via SingularWS:
+			// Ccomment this to disable computation via SingularWS:
 			return getCoefficientsFromSingularResult(result2);
 		}
 
@@ -225,7 +225,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		for (int x = 0; x < xLength; x++) {
 			for (int y = 0; y < yLength; y++) {
 				result[x][y] = Double.parseDouble(flatData[counter]);
-				App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
+				// App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
 				++counter;
 			}
 		}
@@ -288,15 +288,30 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
-		return script.append("ring rr=real,(").
+		final String SINGULAR_COEFFS = "(real,30)"; // may be "real", but inaccurate for cubic computations
+		/**
+		 * TODO: Singular does not seem to be able to convert rationals automatically into
+		 * its internal rationals, i.e. we get an error message if we still try to force it:
+		 * 
+         * > ring rr=0,(x,y,x2,x1),dp
+		 * > ideal m=.48*x1;
+         *    ? `.48` is not defined
+         *    ? error occurred in or before STDIN line 4: `ideal m=.48*x1;`
+         *    ? expected ideal-expression. type 'help ideal;'
+		 *
+		 * This means that here we use float point arithmetics, but with higher precision.
+		 * This approach is not really symbolic, but fast and accurate enough for every day use.
+		 * 
+		 * See Singular Online Manual, 3.3.1 "Examples of ring declarations" for more details.
+		 */
+		return script.append("ring rr=" + SINGULAR_COEFFS + ",(").
 				append(this.getVars()).
 				append("),dp;ideal m=").
 				append(MPReduceTranslator.constructRestrictions(restrictions)).
 				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
-				append(");ideal m2=m1[size(m1)];").
-				append("printf(\"%s,%s,%s\",size(coeffs(m2,x)),size(coeffs(m2,y)),").
-				append("coeffs(coeffs(m2,x),y));").toString();
+				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
+				append("coeffs(coeffs(m1,x),y));").toString();
 		/**
 		 *  Singular will return degree of x (+1), degree of y (+1), and then
 		 *  the coefficients as a matrix, in the same format as Sergio collects them
