@@ -228,7 +228,7 @@ public class GeoTextField extends GeoButton {
 			linkedGeo = kernel
 					.getAlgebraProcessor()
 					.changeGeoElementNoExceptionHandling(linkedGeo,
-							defineText, false, true);
+							defineText, linkedGeo.isIndependent(), true); 
 			
 		} catch (Exception e1) {
 			app.showError(e1.getMessage());
