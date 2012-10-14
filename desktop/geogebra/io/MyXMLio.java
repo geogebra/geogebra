@@ -181,12 +181,16 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		// process macros
 		if (macroXmlFileBuffer != null) {
 			// don't clear kernel for macro files
+			kernel.getConstruction().setFileLoading(true);
 			processXMLBuffer(macroXmlFileBuffer, !isGGTfile, isGGTfile);
+			kernel.getConstruction().setFileLoading(false);
 		}
 
 		// process construction
 		if (!isGGTfile && xmlFileBuffer != null) {
+			kernel.getConstruction().setFileLoading(true);
 			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
+			kernel.getConstruction().setFileLoading(false);
 		}
 		if(!javaScriptFound && !isGGTfile)
 			kernel.resetLibraryJavaScript();
@@ -327,7 +331,9 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		ZipEntry entry = zip.getNextEntry();
 		if (entry != null && entry.getName().equals(XML_FILE)) {
 			// process xml file
+			kernel.getConstruction().setFileLoading(true);
 			doParseXML(new InputStreamReader(zip, "UTF8"), true, false, true,true);
+			kernel.getConstruction().setFileLoading(false);
 			zip.close();
 		} else {
 			zip.close();
