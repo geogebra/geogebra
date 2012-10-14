@@ -5917,7 +5917,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		String ret = "";
 
-		// Functions override this, no need to care about them
+		// GeoFunction & GeoFunctionNVar override this, no need to care about them
 		// only inequalities call this
 
 		// matrices

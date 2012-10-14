@@ -1973,15 +1973,11 @@ public class GeoFunction extends GeoElement implements VarString,
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
 							: getFunction().toString(tpl);
 			}
-		} else
+		} else {
 			return super.getFormulaString(tpl, substituteNumbers);
-
-		// GeoNumeric eg a=1
-		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers
-				&& isLabelSet()) {
-			ret = kernel.printVariableName(label, tpl);
 		}
-		if ("".equals(ret) && !this.isGeoText()) {
+
+		if ("".equals(ret)) {
 			// eg Text[ (1,2), false]
 			ret = toOutputValueString(tpl);
 		}
