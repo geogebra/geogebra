@@ -43,6 +43,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -1537,6 +1538,10 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 					&& (!isAlone() && !isInFrame() && !isMaximized())) {
 				windowButton.setVisible(true);
 			}
+			
+			// make sure tooltips from Tool Bar don't get in the way 
+			ToolTipManager.sharedInstance().setEnabled(false); 
+			ToolTipManager.sharedInstance().setEnabled(true); 		
 		}
 
 		public void mouseExited(MouseEvent e) {

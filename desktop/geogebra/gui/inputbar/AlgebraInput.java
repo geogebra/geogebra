@@ -35,6 +35,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -42,11 +44,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 
 /**
  * @author Markus Hohenwarter
  */
-public class AlgebraInput extends  JPanel implements ActionListener, KeyListener, FocusListener, SetLabels {
+public class AlgebraInput extends  JPanel implements ActionListener, KeyListener, FocusListener, SetLabels, MouseListener {
 	private static final long serialVersionUID = 1L;
 
 
@@ -70,6 +73,8 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		app.removeTraversableKeys(this);
 
 		initGUI();
+		
+		addMouseListener(this);
 	}
 
 
@@ -358,9 +363,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 	public void keyReleased(KeyEvent e) {
+		//
 	}
 
 	public void keyTyped(KeyEvent e) {	
+		//
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -368,5 +375,42 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 	public void focusLost(FocusEvent arg0) {
+		//
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// 
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// 
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// 
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// make sure tooltips from Tool Bar don't get in the way 
+		ToolTipManager.sharedInstance().setEnabled(false); 
+		ToolTipManager.sharedInstance().setEnabled(true); 		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// 
+		
 	}	 
 }
