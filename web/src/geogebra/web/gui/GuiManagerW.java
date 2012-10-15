@@ -100,8 +100,9 @@ public class GuiManagerW extends GuiManager {
 	
 	@Override
 	public void updateActions() {
-		GGWMenuBar.getMenubar().updateSelection();
-
+		if (GGWMenuBar.getMenubar() != null) {
+			GGWMenuBar.getMenubar().updateSelection();
+		}
 	}
 
 	@Override

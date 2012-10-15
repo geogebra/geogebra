@@ -1551,7 +1551,7 @@ public class AppW extends App {
 	public GuiManagerW getGuiManager() {
 		if (guiManager == null) {
 			// TODO: add getGuiManager(), see #1783
-			if (getUseFullGui()) {
+			if (getUseFullGui() || showToolBar) {
 				guiManager = new GuiManagerW(this);
 			}
 		}
@@ -1981,6 +1981,9 @@ public class AppW extends App {
 	}
 
 	public Widget buildApplicationPanel() {
+		if (showToolBar) {
+			euclidianViewPanel.attachToolbar(this);
+		}
 		return euclidianViewPanel;
 	}
 
