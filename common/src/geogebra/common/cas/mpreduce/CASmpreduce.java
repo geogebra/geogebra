@@ -756,7 +756,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				" b:=mkdepthone(list(b));"+
 				" var:=part(b,1);" +
 				" if arglength(var)>-1 and part(var,0)='equal then var:=part(var,1);"+
-				" if length(a)=1 then <<eqn:=num(lhs(part(a,1))-rhs(part(a,1)));denumer:=den(lhs(part(a,1))-rhs(part(a,1)))>>;"+
+				" if length(a)=1 and arglength(part(a,1))>-1 and part(part(a,1),0)='equal then <<eqn:=num(lhs(part(a,1))-rhs(part(a,1)));denumer:=den(lhs(part(a,1))-rhs(part(a,1)))>>"+
+				"   else if length(a)=1 then <<eqn:=num(part(a,1)); denumer:=den(part(a,1));>>;" +
 				" return if length(a)=1 and not(mycoeff(eqn,var)='?)" +
 				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and isnonzero(sub(r,denumer))=1 then list(r) else list())" +
 				" else num_solve(a,b,iterations=10000);" +
