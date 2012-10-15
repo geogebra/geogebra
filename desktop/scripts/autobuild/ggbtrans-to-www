@@ -31,6 +31,8 @@ for i in tube nav; do
 # Tube files must be renamed:
 MYDIR=`pwd`
 cd $PROP_DIR/tube
+mv tube_no_NO.properties nb.properties
+mv tube_no_NO_NY.properties nn.properties
 for i in tube_*.properties; do
  NAME=`echo $i | sed s/^tube_//`
  mv $i $NAME
