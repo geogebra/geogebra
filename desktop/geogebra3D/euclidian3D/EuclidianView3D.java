@@ -2202,7 +2202,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (!hasMouse)
 			return;
 		
-		if (getProjection() != PROJECTION_ANAGLYPH && getProjection() != PROJECTION_PERSPECTIVE)
+		if (getProjection() != PROJECTION_ANAGLYPH ) //&& getProjection() != PROJECTION_PERSPECTIVE)
 			return;
 		
 		GPoint mouseLoc = euclidianController.getMouseLoc();
@@ -2267,7 +2267,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 						break;
 					case PREVIEW_POINT_ALREADY: //showing arrows directions
 						drawPointAlready(getCursor3D().getMoveMode());				
-						break;				
+						break;		
+					case PREVIEW_POINT_NONE:
+						//App.debug("ici");
+						break;
 					}
 					break;
 					/*
@@ -3280,7 +3283,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setProjectionPerspective(){
 		updateProjectionPerspectiveValue();
 		setProjectionValues(PROJECTION_PERSPECTIVE);
-		setTransparentCursor();
+		setDefault2DCursor();
+		//setTransparentCursor();
 	}
 	
 	

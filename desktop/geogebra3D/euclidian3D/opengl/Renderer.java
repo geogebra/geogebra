@@ -398,8 +398,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         gl.glDisable(GLlocal.GL_TEXTURE_2D);
         
-
+        if (enableClipPlanes)
+        	disableClipPlanes();
         view3D.drawMouseCursor(this);
+        if (enableClipPlanes)
+    		enableClipPlanes();
+        
     }
     
     private static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
