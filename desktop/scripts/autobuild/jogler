@@ -145,4 +145,8 @@ for i in . debug; do
  sed -i -e s/"geogebra\.jar"/geogebra-jogl2.jar/g \
   -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
   $WWWDIR/$MYDIR/$i/geogebra-50-jogl2.jnlp
-  done
+
+ sed -i -e s/"geogebra\.jar"/geogebra-jogl1.jar/g \
+  $WWWDIR/$MYDIR/$i/geogebra-50-no3d.jnlp
+
+ done

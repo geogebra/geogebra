@@ -303,10 +303,10 @@ find $WWWDIR -name .svn | xargs rm -fR
 
 # 10/6. Copying JNLP's to debug as well (5.0 only):
 if [ "$CV" = "5.0" ]; then
- for i in 1 2; do
-  cat $WWWDIR/$MYDIR/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
+ for i in jogl1 jogl2 no3d; do
+  cat $WWWDIR/$MYDIR/geogebra-50-$i.jnlp | sed s/unpacked/debug/g |\
    sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
-   > $WWWDIR/$MYDIR/debug/geogebra-50-jogl$i.jnlp
+   > $WWWDIR/$MYDIR/debug/geogebra-50-$i.jnlp
   done
  fi
 

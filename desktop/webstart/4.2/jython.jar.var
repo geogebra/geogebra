@@ -1,8 +1,0 @@
-URI: jython.jar
-
-URI: packed/jython.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
-URI: unpacked/jython.jar
-Content-Type: x-java-archive

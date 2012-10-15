@@ -73,10 +73,10 @@ for dir in $WWWDIR/$MYDIR $WWWDIR/history/$MYVER; do
   done
 
  # 4/4. Copying JNLP's to debug as well:
- for i in 1 2; do
-  cat $dir/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
+ for i in jogl1 jogl2 no3d; do
+  cat $dir/geogebra-50-$i.jnlp | sed s/unpacked/debug/g |\
    sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
-   > $dir/debug/geogebra-50-jogl$i.jnlp
+   > $dir/debug/geogebra-50-$i.jnlp
   done
 
  done # dir
@@ -93,9 +93,9 @@ echo "$0: JAR files copied to 5.0 and history/$MYVER"
 # 4/6. Rewriting main JNLP's to use jars.geogebra.org instead of www.geogebra.org
 # (take care of spaces in the JNLP file!):
 cd $WWWDIR/$MYDIR
-for i in 1 2; do
+for i in jogl1 jogl2 no3d; do
  sed -i s/" \(href=\"http:\/\/\)www\(.geogebra.org\/webstart\)"/" \1jars\2"/g \
-  geogebra-50-jogl$i.jnlp
+  geogebra-50-$i.jnlp
  done
 
 # 5. Finally, making sure that all files have group writable permissions:
