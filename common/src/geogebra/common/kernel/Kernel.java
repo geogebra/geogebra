@@ -1977,10 +1977,17 @@ public class Kernel {
 	 * @return prefixed label
 	 */
 	public String printVariableName(final String label, final StringTemplate tpl) {
+		String ret;
 		if (tpl.isUseTempVariablePrefix()) {
-			return addTempVariablePrefix(label);
+			ret = addTempVariablePrefix(label);
 		}
-		return printVariableName(tpl.getStringType(), label);
+		ret = printVariableName(tpl.getStringType(), label);
+		
+		 if (ret.length() == 1 && ret.equals("l") && tpl.getStringType().equals(StringType.LATEX)) {
+			   ret = "\\ell";
+		 }
+		
+		return ret;
 	}
 
 	/**
