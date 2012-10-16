@@ -7,6 +7,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -21,6 +22,8 @@ import geogebra.mobile.utils.ToolBarCommand;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
 /**
@@ -31,7 +34,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 public class MobileModel
 {
 
-	private Kernel kernel;
+	Kernel kernel;
 	private GuiModel guiModel;
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
@@ -517,8 +520,18 @@ public class MobileModel
 				}
 				break;
 			case RegularPolygon:
-				// TODO
-				// Picker picker = new Picker();
+				final Picker picker = new Picker();
+				picker.addHandler(new ClickHandler()
+				{
+					@Override
+					public void onClick(ClickEvent event)
+					{
+						// the polygon is drawn by the Picker
+						// MobileModel.this.kernel.getAlgoDispatcher().RegularPolygon(null,
+						// (GeoPoint) getElement(Test.GEOPOINT),
+						// (GeoPoint) getElement(Test.GEOPOINT, 1), new MyDouble(MobileModel.this.kernel, picker.getNumber()));
+					}
+				});
 				break;
 			case Polygon:
 				ArrayList<GeoElement> geos2 = getAll(Test.GEOPOINT);

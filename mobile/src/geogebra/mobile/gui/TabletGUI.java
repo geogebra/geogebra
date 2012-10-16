@@ -96,24 +96,23 @@ public class TabletGUI implements GeoGebraMobileGUI
 		this.toolBar = new ToolBar();
 		this.algebraViewPanel = new AlgebraViewPanel();
 
-		this.stylingBar = new StylingBar(mobileModel);
-		mobileModel.getGuiModel().setStylingBar(this.stylingBar);
+		MobileController ec = new MobileController(mobileModel);
+		ec.setKernel(kernel);
+		this.euclidianViewPanel.initEuclidianView(ec);
+		mobileModel.getGuiModel().setEuclidianView(this.euclidianViewPanel.getEuclidianView());
 
+		this.stylingBar = new StylingBar(mobileModel, this.euclidianViewPanel.getEuclidianView());
+		mobileModel.getGuiModel().setStylingBar(this.stylingBar);
+		
+		this.algebraViewPanel.initAlgebraView(ec, kernel);
+		this.toolBar.makeTabletToolBar(mobileModel);
+		
 		RootPanel.get().add(this.euclidianViewPanel);
 		RootPanel.get().add(this.headerPanel);
 		RootPanel.get().add(this.leftHeader);
 		RootPanel.get().add(this.rightHeader);
 		RootPanel.get().add(this.stylingBar);
 		RootPanel.get().add(this.algebraViewPanel);
-		RootPanel.get().add(this.toolBar);
-
-		MobileController ec = new MobileController(mobileModel);
-		ec.setKernel(kernel);
-		this.euclidianViewPanel.initEuclidianView(ec);
-		mobileModel.getGuiModel().setEuclidianView(this.euclidianViewPanel.getEuclidianView());
-
-		this.algebraViewPanel.initAlgebraView(ec, kernel);
-		this.toolBar.makeTabletToolBar(mobileModel);
-
+		RootPanel.get().add(this.toolBar);		
 	}
 }

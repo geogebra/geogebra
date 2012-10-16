@@ -3,6 +3,7 @@ package geogebra.mobile.gui.elements.stylingbar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.mobile.gui.CommonResources;
+import geogebra.mobile.gui.euclidian.EuclidianViewM;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
 import geogebra.mobile.utils.OptionType;
@@ -31,9 +32,11 @@ public class StylingBar extends RoundPanel
 	private VerticalPanel base = new VerticalPanel();
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
+	EuclidianViewM euclidianView; 
 	final GuiModel guiModel;
 	MobileModel mobileModel;
 	StylingBarButton[] button;
+	boolean[] active; 
 	StylingBarButton colorButton;
 	LineStyleBar lineStyleBar;
 
@@ -42,8 +45,10 @@ public class StylingBar extends RoundPanel
 	 * 
 	 * @param guiModel
 	 */
-	public StylingBar(MobileModel mobileModel)
+	public StylingBar(MobileModel mobileModel, EuclidianViewM view)
 	{
+		this.euclidianView = view; 
+		
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
 		this.addStyleName("stylingbar");
@@ -61,10 +66,38 @@ public class StylingBar extends RoundPanel
 	private void createStandardButtons()
 	{
 		this.button = new StylingBarButton[3];
+		this.active = new boolean[]{true, false, true}; 
 
 		this.button[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
+		this.button[0].addDomHandler(new ClickHandler(){
+			@Override
+      public void onClick(ClickEvent event)
+      {
+				StyleBarStatic.showAxes(StylingBar.this.euclidianView);      
+      }			
+		}, ClickEvent.getType());
+		
 		this.button[1] = createStyleBarButton("showGrid", CommonResources.INSTANCE.show_or_hide_the_grid(), 1);
+		this.button[1].addDomHandler(new ClickHandler(){
+			@Override
+      public void onClick(ClickEvent event)
+      {
+				StyleBarStatic.showGrid(StylingBar.this.euclidianView);   
+      }			
+		}, ClickEvent.getType());
+		
 		this.button[2] = createStyleBarButton("pointCapture", CommonResources.INSTANCE.point_capturing(), 2);
+		this.button[2].addDomHandler(new ClickHandler(){
+			@Override
+      public void onClick(ClickEvent event)
+      {
+				int mode = StylingBar.this.euclidianView.getPointCapturingMode();
+				
+				if (mode == 3 || mode == 0)
+					mode = 3 - mode; // swap 0 and 3
+				StylingBar.this.euclidianView.setPointCapturing(mode);     
+      }			
+		}, ClickEvent.getType());
 
 		// set button showAxes and pointCapture to (default) active
 		this.button[0].addStyleDependentName("active");
@@ -139,13 +172,15 @@ public class StylingBar extends RoundPanel
 			{
 				StylingBar.this.guiModel.closeOptions();
 				StylingBar.this.guiModel.processSource(process);
-				if (StylingBar.this.button[number].getStyleName().endsWith("active"))
+				if (StylingBar.this.active[number])
 				{
 					StylingBar.this.button[number].removeStyleDependentName("active");
+					StylingBar.this.active[number] = false; 
 				}
 				else
 				{
 					StylingBar.this.button[number].addStyleDependentName("active");
+					StylingBar.this.active[number] = true; 
 				}
 			}
 		});
