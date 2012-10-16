@@ -225,7 +225,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(getLabelForAssignment());
+		sb.append(getKernel().printVariableName(getLabelForAssignment(),tpl));
 		App.debug(assignmentType);
 		switch (assignmentType) {
 		case DEFAULT:
