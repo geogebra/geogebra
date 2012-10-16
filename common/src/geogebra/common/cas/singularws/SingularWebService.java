@@ -1,7 +1,7 @@
 package geogebra.common.cas.singularws;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.regexp.shared.MatchResult;
 
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.main.App;
@@ -86,6 +86,8 @@ public class SingularWebService {
 	 */
 	public boolean testConnection() {
 			
+		// App.debug("TEST: " + convertFloatsToRationals("((6.56*(x-x1))-(-0.2197*(y-x2)))"));
+		
 		String result = swsCommandResult(testConnectionCommand); 
 		if (result == null)
 			return false;
@@ -196,19 +198,34 @@ public class SingularWebService {
 	 * @return the output expression in rational divisions
 	 */
 	public static String convertFloatsToRationals(String input) {
+		
+		/* It was a pain to convert this code to a GWT compliant one.
+		 * See http://stackoverflow.com/questions/6323024/gwt-2-1-regex-class-to-parse-freetext
+		 * for details.
+		 */
+		
 		StringBuffer output = new StringBuffer();
-		Pattern p = Pattern.compile("\\.[0-9]+");
-		Matcher m = p.matcher(input);
-		while (m.find()) {
+			
+		RegExp re = RegExp.compile("\\.[\\d]+", "g");
+		
+		int from = 0;
+		
+		for (MatchResult mr = re.exec(input); mr != null; mr = re.exec(input)) {
 			String divisor = "1";
-			int length = m.end() -  m.start();
-			for (int i = 1; i < length; ++i) {
+			int length = mr.getGroup(0).length();
+			for (int j = 1; j < length; ++j) {
 				divisor += "0";
-				}
-			m.appendReplacement(output, input.substring(m.start() + 1, m.end()) + "/" + divisor);
 			}
-
-		m.appendTail(output);
+			// Adding the non-matching part from the previous match (or from the start):
+			if (from <= mr.getIndex() - 1)
+				output.append(input.substring(from, mr.getIndex()));
+			// Adding the matching part in replaced form (removing the first "." character):
+			output.append(input.substring(mr.getIndex() + 1, mr.getIndex()
+					+ length) + "/" + divisor);
+			from = mr.getIndex() + length; // Preparing then next "from".
+		}
+		// Adding tail:
+		output.append(input.substring(from, input.length()));
 		
 		return output.toString();
 	}
