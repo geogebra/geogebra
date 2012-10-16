@@ -22,8 +22,12 @@ public class SingularWebService {
 	private final String singularDirectCommand = "s";
 	
 	private String wsHost = SingularWSSettings.singularWebServiceRemoteURL;
-	private Boolean available; 
+	private Boolean available;
 	
+	private String locusLib; 
+	
+	private final String[] SINGULAR_LIB_GROBCOVCx = {"grobcovC1", "grobcovC0"};
+		
 	/**
 	 * Creates a Singular webservice connection handler
 	 */
@@ -73,6 +77,7 @@ public class SingularWebService {
 	
 	/**
 	 * Create a connection to the SingularWS server for testing.
+	 * Also sets up variables depending on the installed features of Singular. 
 
 	 * @return true if the connection works properly
 	 */
@@ -80,9 +85,27 @@ public class SingularWebService {
 		String result = swsCommandResult(testConnectionCommand); 
 		if (result == null)
 			return false;
-		if (result.equals("ok"))
+		if (result.equals("ok")) {
+			// Testing extra features.
+			for (String l: SINGULAR_LIB_GROBCOVCx) {
+				if (testLib(l)) {
+					locusLib = l;
+					break;
+					}
+				}
 			return true;
+			}
 		return false;
+	}
+	
+	private boolean testLib(String name) {
+		String result = directCommand("LIB \"" + name + ".lib\";");
+		if (result.isEmpty()) {
+			App.debug("SingularWS supports library " + name);
+			return true;
+		}
+		App.debug("SingularWS doesn't support library " + name + " (" + result + ")");
+		return false;	
 	}
 	
 	/**
