@@ -4,6 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.main.App;
@@ -292,6 +293,19 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
+		String locusLib = SingularWebService.getLocusLib();
+
+		if (locusLib.length() != 0) {
+			script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + this.getVarsToEliminate()).
+					append("),dp;").
+					append("short=0;ideal I=" + SingularWebService.convertFloatsToRationals(MPReduceTranslator.constructRestrictions(restrictions))).
+					append(";def Gp=grobcov(I);locus2d(Gp);");
+			App.debug(script);
+			String result = App.singularWS.directCommand(script.toString());
+			App.debug(result);
+			script = new StringBuilder();
+		}
+		
 		final String SINGULAR_COEFFS = "(real,30)"; // may be "real", but inaccurate for cubic computations
 		/**
 		 * TODO: Singular does not seem to be able to convert rationals automatically into

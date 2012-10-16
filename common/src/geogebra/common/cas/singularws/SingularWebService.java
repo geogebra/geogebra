@@ -1,5 +1,8 @@
 package geogebra.common.cas.singularws;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.main.App;
 import geogebra.common.main.SingularWSSettings;
@@ -24,7 +27,7 @@ public class SingularWebService {
 	private String wsHost = SingularWSSettings.singularWebServiceRemoteURL;
 	private Boolean available;
 	
-	private String locusLib; 
+	private static String locusLib; 
 	
 	private final String[] SINGULAR_LIB_GROBCOVCx = {"grobcovC1", "grobcovC0"};
 		
@@ -82,6 +85,7 @@ public class SingularWebService {
 	 * @return true if the connection works properly
 	 */
 	public boolean testConnection() {
+			
 		String result = swsCommandResult(testConnectionCommand); 
 		if (result == null)
 			return false;
@@ -166,6 +170,47 @@ public class SingularWebService {
 	 */
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	/**
+	 * If non-empty, it contains the name of the auxiliary Singular library "grobcovCx"
+	 * to compute loci in such a form which does not contain the degenerate parts
+	 * of the algebraic curve.
+	 * See http://www-ma2.upc.edu/montes/ for more details.
+	 * Thanks to Antonio Montes and Francisco Botana for providing this extra library.
+	 * 
+	 * @return the name of the auxiliary Groebner cover library
+	 */
+	public static String getLocusLib() {
+		return locusLib;
+	}
+	
+	/**
+	 * Converts floats to rationals. Uses some kind of heuristics
+	 * since it simply replaces e.g. ".2346" to "2346/10000".
+	 * This will also work e.g. for "89.2346" since it will be
+	 * changed to "892346/10000". The "." character should not be use
+	 * for other purposes, so we naively assume that this holds.
+
+	 * @param input the input expression in floating point format
+	 * @return the output expression in rational divisions
+	 */
+	public static String convertFloatsToRationals(String input) {
+		StringBuffer output = new StringBuffer();
+		Pattern p = Pattern.compile("\\.[0-9]+");
+		Matcher m = p.matcher(input);
+		while (m.find()) {
+			String divisor = "1";
+			int length = m.end() -  m.start();
+			for (int i = 1; i < length; ++i) {
+				divisor += "0";
+				}
+			m.appendReplacement(output, input.substring(m.start() + 1, m.end()) + "/" + divisor);
+			}
+
+		m.appendTail(output);
+		
+		return output.toString();
 	}
 	
 }
