@@ -100,7 +100,7 @@ public class SingularWebService {
 	
 	private boolean testLib(String name) {
 		String result = directCommand("LIB \"" + name + ".lib\";");
-		if (result.isEmpty()) {
+		if (result.length() == 0) {
 			App.debug("SingularWS supports library " + name);
 			return true;
 		}
