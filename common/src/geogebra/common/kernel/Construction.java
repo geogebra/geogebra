@@ -2736,19 +2736,10 @@ public class Construction {
 	 * @return StringBuilder with xml of this construction.
 	 */
 	public StringBuilder getCurrentUndoXML() {
-		return xmlio.getUndoXML(this);
+		return kernel.getApplication().getXMLio().getUndoXML(this);
 	}
 
-	private MyXMLio xmlio;
 	private GeoElement outputGeo;
-
-	/**
-	 * @param xmlio
-	 *            XMLio object
-	 */
-	public void setXMLio(MyXMLio xmlio) {
-		this.xmlio = xmlio;
-	}
 
 	/**
 	 * Clears the undo info list of this construction and adds the current

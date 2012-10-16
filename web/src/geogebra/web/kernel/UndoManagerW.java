@@ -32,17 +32,13 @@ public class UndoManagerW extends UndoManager {
 		}
 	}
 
-	private MyXMLio xmlio;
-
 	public UndoManagerW(Construction cons) {
 	    super(cons);
-		xmlio = new MyXMLio(cons.getKernel(), cons);
-		cons.setXMLio(xmlio);
     }
 
 	@Override
 	public void processXML(String xml) throws Exception {
-		xmlio.processXMLString(xml, true, false);
+		app.getXMLio().processXMLString(xml, true, false);
 
 	}
 

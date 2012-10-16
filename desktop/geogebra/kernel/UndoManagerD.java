@@ -65,16 +65,12 @@ public class UndoManagerD extends UndoManager {
 
 	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";
 	
-	private MyXMLio xmlio;
-
 	/**
 	 * Creates a new UndowManager for the given Construction.
 	 * @param cons construction
 	 */
 	public UndoManagerD(Construction cons) {
 		super(cons);
-		xmlio = new MyXMLio(cons.getKernel(), cons);
-		cons.setXMLio(xmlio);
 	}
 
 	/**
@@ -194,7 +190,7 @@ public class UndoManagerD extends UndoManager {
 
 			// load undo info
 			((AppD)app).getScriptManager().disableListeners();
-			xmlio.readZipFromMemory(is);
+			((AppD)app).getXMLio().readZipFromMemory(is);
 			((AppD)app).getScriptManager().enableListeners();
 
 			is.close();
@@ -216,7 +212,7 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
-		xmlio.processXMLString(strXML, true, false, false);
+		((AppD)app).getXMLio().processXMLString(strXML, true, false, false);
 		construction.setFileLoading(false);
 	}
 	

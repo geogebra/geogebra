@@ -4279,4 +4279,6 @@ public abstract class App {
 		return optionsMenu;
 	}
 
+	public abstract MyXMLio getXMLio();
+
 }

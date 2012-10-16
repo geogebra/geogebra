@@ -2396,6 +2396,7 @@ public class AppW extends App {
 	}
 
 	private NormalizerMinimal normalizerMinimal;
+	private MyXMLio xmlio;
 
 	@Override
 	public NormalizerMinimal getNormalizer() {
@@ -2466,5 +2467,13 @@ public class AppW extends App {
 	public static void setDownKeys(KeyEvent ev) {
 		controlDown = ev.isControlKeyDown();
 		shiftDown = ev.isShiftKeyDown();
+	}
+
+	@Override 
+	public MyXMLio getXMLio() { 
+		if (xmlio == null) { 
+			xmlio = new MyXMLio(kernel, kernel.getConstruction()); 
+		} 
+		return xmlio; 
 	}
 }
