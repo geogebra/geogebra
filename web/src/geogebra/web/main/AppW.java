@@ -46,6 +46,7 @@ import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.EuclidianPanel;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -55,6 +56,7 @@ import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
+import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.DynamicScriptElement;
@@ -1982,9 +1984,15 @@ public class AppW extends App {
 
 	public Widget buildApplicationPanel() {
 		if (showToolBar) {
-			euclidianViewPanel.attachToolbar(this);
+			attachToolbar();
 		}
 		return euclidianViewPanel;
+	}
+	
+	public void attachToolbar() {
+		GGWToolBar toolbar = new GGWToolBar();
+		toolbar.init(this);
+		frame.add(toolbar);
 	}
 
 	public void showLoadingAnimation(boolean go) {
@@ -2475,5 +2483,12 @@ public class AppW extends App {
 			xmlio = new MyXMLio(kernel, kernel.getConstruction()); 
 		} 
 		return xmlio; 
+	}
+	
+	public void setShowToolBar(boolean toolbar, boolean help) {
+		if (toolbar) {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
+		}
+		super.setShowToolBar(toolbar, help);
 	}
 }

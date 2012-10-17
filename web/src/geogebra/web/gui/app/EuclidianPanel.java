@@ -47,11 +47,5 @@ public class EuclidianPanel extends Composite implements RequiresResize {
 	public void remove(Widget w) {
 	   euclidianpanel.remove(w);
     }
-	
-	public void attachToolbar(App app) {
-		GGWToolBar toolbar = new GGWToolBar();
-		toolbar.init(app);
-		euclidianpanel.add(toolbar);
-	}
 
 }
