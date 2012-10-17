@@ -3,7 +3,6 @@ package geogebra.common.kernel.discrete;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.tsp.method.tsp.BranchBound;
 import geogebra.common.kernel.discrete.tsp.method.tsp.Opt3;
 import geogebra.common.kernel.discrete.tsp.model.Node;
@@ -31,9 +30,6 @@ public class AlgoTravelingSalesman extends AlgoHull {
     		return;
     	} 
     	
-        if (vl == null) vl = new ArrayList<VPoint>();
-        else vl.clear();
-   	
 		double inhom[] = new double[2];
 		
 		Opt3 opt3 = new Opt3();
