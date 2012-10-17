@@ -187,7 +187,7 @@ if [ $CLASSES = 1 ]; then
  mv $COMMONJAVA $COMMONJAVA.temporarily_renamed
  
  $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
-  -time -proceedOnError -g ../desktop ../common/src/geogebra/common ../common/src/org ../common/src/geogebra/jung ../jogl$JOGL/src > .ecjlog 2>&1
+  -time -proceedOnError -g ../desktop ../common/src/geogebra/common ../common/src/org ../common/src/geogebra/jung ../common/src/geogebra/jts ../jogl$JOGL/src > .ecjlog 2>&1
  tail -1 .ecjlog
  echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 

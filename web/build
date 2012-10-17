@@ -35,6 +35,7 @@ $GGDIR/common/war/WEB-INF/lib:\
 $GGDIR/common/src/geogebra/jre:\
 $GGDIR/common/src/geogebra/webapache:\
 $GGDIR/common/src/geogebra/jung:\
+$GGDIR/common/src/geogebra/jts:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GWTDIR/gwt-user.jar:\
 $GWTDIR/gwt-dev.jar:\
@@ -53,6 +54,7 @@ $GGDIR/common/war/WEB-INF/lib:\
 $GGDIR/common/src/geogebra/jre:\
 $GGDIR/common/src/geogebra/webapache:\
 $GGDIR/common/src/geogebra/jung:\
+$GGDIR/common/src/geogebra/jts:\
 $GGDIR/common/resources:\
 $GGDIR/web/src:\
 $GGDIR/mobile/test-classes:\
@@ -287,6 +289,7 @@ ln -s ../../../common/src/com
 ln -s ../../../common/src/geogebra/common
 ln -s ../../../common/src/geogebra/webapache
 ln -s ../../../common/src/geogebra/jung
+ln -s ../../../common/src/geogebra/jts
 
 # 6/2. Unzipping 3rd party GWT JARs
 # TODO: Maybe do something similar with WebWorker
