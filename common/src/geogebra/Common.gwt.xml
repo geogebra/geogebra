@@ -17,6 +17,7 @@
   <super-source path='jre' />
   <super-source path='webapache' />
   <super-source path='jung' />
+  <super-source path='jts' />  
   <replace-with class="geogebra.common.kernel.parser.ParseExceptionGWT">
     <when-type-is class="geogebra.common.kernel.parser.ParseException"/>
   </replace-with>

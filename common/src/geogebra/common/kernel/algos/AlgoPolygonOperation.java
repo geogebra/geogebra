@@ -15,19 +15,26 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.GArea;
-import geogebra.common.awt.GPathIterator;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.util.Cloner;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 
 /**
  * 
@@ -107,7 +114,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	}
 
-	
+
 	@Override
 	protected void setInputOutput() {
 
@@ -141,7 +148,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		// have the polygon itself as output object
 		if (!labelPointsAndSegments) {
 			super.setOutputLength(1);
-	        super.setOutput(0, poly);
+			super.setOutput(0, poly);
 		}
 		// otherwise: points and segments are also output objects
 		else {
@@ -202,76 +209,94 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		ArrayList<Double> xcoord = new ArrayList<Double>();
 		ArrayList<Double> ycoord = new ArrayList<Double>();
 		double[] coords = new double[6];
-				
-		// Convert input polygons to Area objects
-		GArea a1 = getArea(inPoly0.getPoints());
-		GArea a2 = getArea(inPoly1.getPoints());
-		GArea testArea = null;
-		if(a1 != null && a2 != null){
-		// test for empty intersection
-			testArea = getArea(inPoly0.getPoints());
-			testArea.intersect(a2);
+
+
+
+
+
+
+
+		GeoPointND[] pts0 = inPoly0.getPoints();
+		GeoPointND[] pts1 = inPoly1.getPoints();
+
+		Coordinate[] coordinates0 = new Coordinate[pts0.length + 1];
+		Coordinate[] coordinates1 = new Coordinate[pts1.length + 1];
+
+		Coords xy;
+
+		for (int i = 0 ; i < pts0.length ; i++) {
+			xy = pts0[i].getCoordsInD(2);
+			coordinates0[i] = new Coordinate(xy.get(1),xy.get(2));
 		}
-		if(testArea==null || testArea.isEmpty()) {
-			poly.setUndefined();
-			
+
+		xy = pts0[0].getCoordsInD(2);
+		coordinates0[pts0.length] = new Coordinate(xy.get(1),xy.get(2));
+
+		for (int i = 0 ; i < pts1.length ; i++) {
+			xy = pts1[i].getCoordsInD(2);
+			coordinates1[i] = new Coordinate(xy.get(1),xy.get(2));
 		}
-		// if intersection is non-empty perform operation
-		else {
+
+		xy = pts1[0].getCoordsInD(2);
+		coordinates1[pts1.length] = new Coordinate(xy.get(1),xy.get(2));
+
+		CoordinateArraySequence cas0 = new CoordinateArraySequence(coordinates0);
+		CoordinateArraySequence cas1 = new CoordinateArraySequence(coordinates1);
+
+		GeometryFactory fact = new GeometryFactory();
+		LinearRing linear0 = fact.createLinearRing(cas0);
+		LinearRing linear1 = fact.createLinearRing(cas1);
+		Polygon poly0 = new Polygon(linear0, null, fact);
+		Polygon poly1 = new Polygon(linear1, null, fact);
+
+		Geometry geom;
+
+		//App.debug(poly0.toString()+" "+poly1.toString());
+
+		try {
 			switch (operationType) {
+			default:
 			case INTERSECTION:
-				a1.intersect(a2);
+				geom =  poly1.intersection(poly0);
 				break;
 			case UNION:
-				a1.add(a2);
+				geom =  poly1.union(poly0);
 				break;
 			case DIFFERENCE:
-				a1.subtract(a2);
+				geom =  poly1.difference(poly0);
 				break;
 			}
+		} catch (Exception e) {
+			//e.printStackTrace();
+			updatePointsArray(0);
+			poly.setPoints(points);
+			setOutput();
+			poly.setUndefined();
+			return;
 
-			// Iterate through the path of the result 
-			// and recover the polygon vertices.
-			
-			GPathIterator it = a1.getPathIterator(null);
-
-			int type = it.currentSegment(coords);
-			it.next();
-			double[] oldCoords = Cloner.clone(coords);
-			double[] initCoords = Cloner.clone(coords);
-			double epsilon = 1E-10;
-
-			while (!it.isDone()) {
-				type = it.currentSegment(coords);
-				if (type == GPathIterator.SEG_CLOSE) {
-					break;
-				}
-				// Sometimes the Path iterator gives two almost identical points and 
-				// we only want one of them. 
-				// TODO: Why does this happen???
-				if (Math.abs(oldCoords[0] - coords[0]) > epsilon
-						|| Math.abs(oldCoords[1] - coords[1]) > epsilon) {
-					xcoord.add(coords[0]);
-					ycoord.add(coords[1]);
-				}
-				oldCoords = Cloner.clone(coords);
-
-				it.next();
-
-			}
-			
-			//fixes #1951: sometimes the initial coordinates are not added into xcoord, ycoord.
-			if (Math.abs(oldCoords[0] - initCoords[0]) > epsilon
-					|| Math.abs(oldCoords[1]- initCoords[1]) > epsilon) {
-				xcoord.add(initCoords[0]);
-				ycoord.add(initCoords[1]);
-			}
-			
 		}
 
-		
+		if (!(geom instanceof Polygon)) {
+			App.warn("result not a polygon: "+geom.getGeometryType());
+			updatePointsArray(0);
+			poly.setPoints(points);
+			setOutput();
+			poly.setUndefined();
+			return;
+		}
+
+		Polygon poly2 = (Polygon) geom;
+
+		//App.debug(poly2.getNumPoints());
+
+		//App.debug(Geometry.get(poly2));
+
+
+		Coordinate[] coordinates2 = poly2.getCoordinates();
+
+
 		// Update the points array to the correct size
-		int n = xcoord.size();
+		int n = coordinates2.length;
 		//System.out.println("number of points: " + n);
 		int oldPointNumber = points.length;
 		if (n != oldPointNumber) {
@@ -282,7 +307,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		// Set the points to the new polygon vertices
 		for (int k = 0; k < n; k++) {
-			points[k].setCoords(xcoord.get(k), ycoord.get(k), 1);
+			points[k].setCoords(coordinates2[k].x, coordinates2[k].y, 1);
 			//System.out.println("vertices: " + xcoord.get(k) + " , " + ycoord.get(k));
 
 		}
@@ -294,7 +319,11 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		// update new points and segments 
 		if (n != oldPointNumber) {
 			updateSegmentsAndPointsLabels();
-		}    	    	
+		}    	  
+
+
+
+
 	}         
 
 
@@ -315,8 +344,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 
 		boolean pointsSegmentsShowLabel = (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
-		|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && 
-		 cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
+				|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && 
+				cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
 
 		// set labels for points only if the original points had labels
 		if (labelPointsAndSegments) {
