@@ -121,7 +121,8 @@ function passoptions() {
   "&c=".$CODEBASE.
   "&s=".bool2int($SHOWFILELIST).
   "&h=".bool2int($SHOWHIDDEN).
-  "&v=".bool2int($VERSION);
+  "&v=".bool2int($VERSION).
+  "&t=".bool2int($TOOLBAR);
  }
 
 function pretty_filename($name) {
