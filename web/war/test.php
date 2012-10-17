@@ -9,6 +9,7 @@
 //  m: milestones directory
 //  v: show version number (if possible, set 0 for off)
 //  c: codebase
+//  t: toolbar
 
 // Copyright (c) 2012 The GeoGebra Team <geogebra-dev@geogebra.org>
 
@@ -25,6 +26,7 @@ $DEFAULTFILE="Girl_in_Mirror.ggb";
 $SHOWFILELIST=TRUE;
 $SHOWHIDDEN=FALSE;
 $VERSION=TRUE;
+$TOOLBAR=FALSE;
 
 if ($_GET['m']!="")
  $MILESTONES=$_GET['m'];
@@ -32,6 +34,8 @@ if ($_GET['s']=="0")
  $SHOWFILELIST=FALSE;
 if ($_GET['h']=="1")
  $SHOWHIDDEN=TRUE;
+if ($_GET['t']=="1")
+ $TOOLBAR=TRUE;
 if ($_GET['v']=="0")
  $VERSION=FALSE;
 if ($_GET['c']=="0")
@@ -74,6 +78,7 @@ if ($VERSION) {
     data-param-height="550"
     data-param-enableLabelDrags="false"
     data-param-enableShiftDragZoom="false"
+    <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
     style="border: 1px solid black; display:inline-block;"
     data-param-ggbbase64=<?php
 
