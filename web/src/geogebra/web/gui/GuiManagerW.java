@@ -484,7 +484,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		if(propertiesView !=null){
 			propertiesView.mousePressedForPropertiesView();
 		} else {
-			((PropertiesViewW) getPropertiesView()).mousePressedForPropertiesView();
+			// TODO: @Gabor: do we want this? I don't think we want to initialize the view unnecessarily.
+			//((PropertiesViewW) getPropertiesView()).mousePressedForPropertiesView();
 		}
 	}
 
