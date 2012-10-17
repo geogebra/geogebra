@@ -811,6 +811,16 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		+ "return b;"
 		+ "end;");
 		
+		mpreduce1.evaluate("procedure existingsolutions(eqn,sol);"
+		+ "begin scalar ret!!, bool!!; ret!!:={};"
+		+ "for each solution in sol do <<"
+		+ "  bool!!:=1;"
+		+ "  for each eq in eqn do"
+		+ "    if sub(solution,den(eq))=0 then bool!!:=0;"
+		+ "  if bool!! then ret!!:=(solution).ret!!;>>;"
+		+ "return reverse ret!!;"
+		+ "end;");
+		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!, isineq,temp1!!,temp2!!, max, other!!, isfraction;"
@@ -831,6 +841,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ " if arglength(eqn)=1 and isineq and not(issolvableineq(part(eqn,1))) then "
 						+ "   return {{(if arglength(var)=1 and part(var,0)='list then part(var,1) else var)='?}};"
 						+ " solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
+						// to prevent Solve command to yield non-existing solutions
+						// such as solve({c*a^(-2)=15/4,c*a^(-4)=15/64},{a,c}) does {a=0,c=0} 
+						+ " if not(isineq) then solutions!!:=existingsolutions(eqn,solutions!!);"
 						// if it cannot solve the equation, numeric is off, and isineq then we return {x=?}
 						+ " if not (freeof(solutions!!,root_of)=t and freeof(solutions!!,one_of)=t) and numeric!!=0 and isineq then"
 						+ "   return {{(if arglength(var)=1 and part(var,0)='list then part(var,1) else var)='?}};"
