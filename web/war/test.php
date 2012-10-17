@@ -116,7 +116,7 @@ function bool2int($bool) {
 }
 
 function passoptions() {
- global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION;
+ global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR;
  return "&m=".$MILESTONES.
   "&c=".$CODEBASE.
   "&s=".bool2int($SHOWFILELIST).
