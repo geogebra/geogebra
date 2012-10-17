@@ -771,7 +771,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("procedure logofstd(a);begin scalar r;r:=mycoeff(logof(a),logminusone);return if length(r)=1 then part(r,1) else" +
 				" part(r,2)+(if(fixp(part(r,1)/2)) then 0 else i * pi); end;");
 		
-		mpreduce1.evaluate("procedure logof(a);"
+		mpreduce1.evaluate("procedure logof(a);" +
+				" if numberp(a) and a<0 then logminusone + log(-a) else "
 				+" if (arglength(a)>-1) and (part(a,0)='minus )then logminusone+logof(part(a,1)) else "
 				+" if (arglength(a)>-1) and (part(a,0)='expt )then logof(part(a,1))*part(a,2) else "
 		+" if (arglength(a)>-1) and (part(a,0)='times)then for k:=1:arglength(a) sum logof(part(a,k)) else "
@@ -811,15 +812,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		+ "return b;"
 		+ "end;");
 		
-		mpreduce1.evaluate("procedure existingsolutions(eqn,sol);"
-		+ "begin scalar ret!!, bool!!; ret!!:={};"
+		mpreduce1.evaluate("procedure existingsolutions(eqn,sol); sol;");
+	/*	+ "begin scalar ret!!, bool!!; ret!!:={};"
 		+ "for each solution in sol do <<"
 		+ "  bool!!:=1;"
 		+ "  for each eq in eqn do"
 		+ "    if sub(solution,den(eq))=0 then bool!!:=0;"
 		+ "  if bool!! then ret!!:=(solution).ret!!;>>;"
 		+ "return reverse ret!!;"
-		+ "end;");
+		+ "end;");*/
 		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
