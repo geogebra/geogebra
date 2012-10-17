@@ -812,15 +812,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		+ "return b;"
 		+ "end;");
 		
-		mpreduce1.evaluate("procedure existingsolutions(eqn,sol); sol;");
-	/*	+ "begin scalar ret!!, bool!!; ret!!:={};"
+		mpreduce1.evaluate("procedure existingsolutions(eqn,sol);"
+		+ "begin scalar ret!!, bool!!; ret!!:={};"
 		+ "for each solution in sol do <<"
 		+ "  bool!!:=1;"
 		+ "  for each eq in eqn do"
 		+ "    if sub(solution,den(eq))=0 then bool!!:=0;"
 		+ "  if bool!! then ret!!:=(solution).ret!!;>>;"
 		+ "return reverse ret!!;"
-		+ "end;");*/
+		+ "end;");
 		
 		mpreduce1
 				.evaluate("procedure mysolve(eqn, var);"
