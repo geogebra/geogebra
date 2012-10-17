@@ -1537,8 +1537,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			}
 
 			// make sure tooltips from Tool Bar don't get in the way
-			ToolTipManager.sharedInstance().setEnabled(false);
-			ToolTipManager.sharedInstance().setEnabled(true);
+			setToolTipText("");
 		}
 
 		public void mouseExited(MouseEvent e) {
