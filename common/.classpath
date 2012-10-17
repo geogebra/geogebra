@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="geogebra/jre/|geogebra/webapache/|geogebra/jung/" kind="src" path="src"/>
+	<classpathentry excluding="geogebra/jre/|geogebra/webapache/|geogebra/jung/|geogebra/jts/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/geogebra/jts"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="src" path="war/WEB-INF/lib"/>
 	<classpathentry excluding="java/|geogebra/common/kernel/parser/|geogebra/common/kernel/|geogebra/common/|geogebra/" kind="src" path="src/geogebra/jre"/>
