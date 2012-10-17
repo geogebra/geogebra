@@ -928,7 +928,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					//may happen that other!! is "we don't know" and solutions!! is "no answer" 
 					" return if part(other!!,1)=1 then part(other!!,2) else part(solutions!!,2);" +
 					" end;");
-		
+		mpreduce1.evaluate("procedure simplifyexp(x);" +
+				" begin scalar y;" +
+				" exprules:={e^(log(~aa)/~bb)=>aa^(1/bb)};" +
+				" let exprules;" +
+				" y:=x;"+
+				" clearrules exprules;" +
+				" return y;" +
+				" end; ");
+				
 		mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
 				+ " begin scalar bool!!, isineq,temp1!!,temp2!!, max, noofstdsolutions;"
 				
@@ -950,7 +958,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "	       bool!!:=2*bool!!;"
 				+ " 	firstsol!!:=part(sol,1);"
 				+ "     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then  {{mkinterval(var,part(part(firstsol!!,2),3),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
-				+ "    else if bool!!=1 then" + "  	 {sol}"
+				+ "    else if bool!!=1 then" + "  	 {simplifyexp(sol)}"
 				+ "	   else if bool!!>1 then" + "  	 {{var='?}}"
 				+ "    else " + "		 {} >>;"
 				+ "  clearrules solverules;"
