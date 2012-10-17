@@ -2926,4 +2926,70 @@ public class GeoGebraCasIntegrationTest {
 			Throwables.propagate(t);
 		}
 	}
+	
+	@Test
+	public void Rubrik1 () {
+		//t("KeepInput[x-1/2=2x+3]","x - 1 / 2 = 2 * x + 3");
+		//t("KeepInput[(x-1/2=2x+3)+1/2]","(x - 1 / 2 = 2 * x + 3)+1/2");
+		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2");
+		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2");
+		t("Numeric[(x-1/2=2x+3)+1/2]","x = 2 * x + 3.5");
+	}
+	
+	@Test
+	public void Rubrik2 () {
+		t("f(t):=100*1.5^t","100 * (3 / 2) ^ (t)");
+		t("f(2)","225");
+		t("Solve[f(t)=225,t]","{t = 2}","{t = log(9 / 4)/log(3 / 2)}");
+		t("Numeric[Solve[f(t)=225,t]]","{t = 2}");
+		t("Solve[225=c*1.5^2,c]","{c = 100}");
+		t("Solve[225=100*a^2,a]","{a = 3 / 2 , a = (-3) / 2}");		
+	}
+	
+	@Test
+	public void Rubrik3 () {
+		t("f(t):=c*a^t","a ^ (t) * c");
+		t("Solve(f(2)=225,a)","{a = 15 * sqrt(1 / c), a = -15 * sqrt(1 / c)}");
+	}
+	
+	@Test
+	public void Rubrik4 () {
+		//t("f(x):=a * x^3 + b * x^2 + c * x + d","a * x^(3) + b * x^(2) + c * x + d");
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		kernel.getConstruction().addToConstructionList(f,false);
+		f.setInput("f(x):=a * x^3 + b * x^2 + c * x + d");
+		f.computeOutput();
+		
+		Assert.assertEquals(f.getOutput(StringTemplate.defaultTemplate),
+				"f(x):=a x³ + b x² + c x + d");
+		t("g1:=f(1)=1","a + b + c + d = 1");
+		t("g2:=f(2) = 2","8 * a + 4 * b + 2 * c + d = 2");
+		t("g3:=f'(1) = 0","3 * a + 2 * b + c = 0");
+		t("g4:=f''(1) = 0","6 * a + 2 * b = 0");
+		t("Solve({g1,g2,g3,g4},{a,b,c,d})","{{a = 1, b = -3, c = 3, d = 0}}");
+	}
+	
+	@Test
+	public void Rubrik56() {
+		t("A:={{2,3,2},{1,1,1},{0,-1,3}}","{{2,3,2},{1,1,1},{0,-1,3}}");
+		t("B:={{3},{2},{7}}","{{3},{2},{7}}");
+		t("X:={{x},{y},{z}}","{{x},{y},{z}}");
+		t("A*X=B","{{2 * x + 3*y + 2 * z},{x + y +z},{ - y + 3 * z}}={{3},{2},{7}}");
+		
+	}
+	@Test
+	public void Rubrik7() {
+		t("A:={{2,3,2},{1,1,1},{0,-1,3}}","{{2,3,2},{1,1,1},{0,-1,3}}");
+		t("B:={{3},{2},{7}}","{{3},{2},{7}}");
+		t("Invert[A] * B","{{1},{-1},{2}}");
+	}
+	@Test
+	public void QuickStart(){
+		t("f(x) := x^2 - 3/2 * x + 2","(2* x^(2) - 3 * x + 4) / 2");
+		t("g(x) := 1/2 * x + 2","(x + 4) / 2");
+		t("h(x):=f(x)-g(x)","x^(2) - 2 * x");
+		t("Factor[h(x)]","(x - 2) * x","x * (x - 2)");
+		t("Solve[h(x)=0,x]","{x = 2, x = 0}","{x = 0, x = 2}");
+		t("S:=Intersect[f(x),g(x)]","{(2,3),(0,2)}");
+	}
 }
