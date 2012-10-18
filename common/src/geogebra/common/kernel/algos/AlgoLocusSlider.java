@@ -93,9 +93,11 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		QstartPos = new GeoPoint(cons);
 		PstartPos = new GeoNumeric(cons);
 
+		//we may need locus in init => row order important
+		locus = new GeoLocus(cons);
 		init();
 		updateScreenBorders();
-		locus = new GeoLocus(cons);
+		
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
 		compute();
