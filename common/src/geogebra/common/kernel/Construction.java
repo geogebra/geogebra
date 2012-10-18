@@ -2736,8 +2736,16 @@ public class Construction {
 	 * @return StringBuilder with xml of this construction.
 	 */
 	public StringBuilder getCurrentUndoXML() {
-		return kernel.getApplication().getXMLio().getUndoXML(this);
+		return getXMLio().getUndoXML(this);
 	}
+
+	public MyXMLio getXMLio() {
+		if (xmlio == null)
+			xmlio = kernel.getApplication().createXMLio(this);
+		return xmlio;
+	}
+
+	private MyXMLio xmlio;
 
 	private GeoElement outputGeo;
 

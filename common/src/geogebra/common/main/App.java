@@ -4280,5 +4280,6 @@ public abstract class App {
 	}
 
 	public abstract MyXMLio getXMLio();
+	public abstract MyXMLio createXMLio(Construction cons);
 
 }

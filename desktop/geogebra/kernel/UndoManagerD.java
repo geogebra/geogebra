@@ -190,7 +190,7 @@ public class UndoManagerD extends UndoManager {
 
 			// load undo info
 			((AppD)app).getScriptManager().disableListeners();
-			((AppD)app).getXMLio().readZipFromMemory(is);
+			((geogebra.io.MyXMLio)construction.getXMLio()).readZipFromMemory(is);
 			((AppD)app).getScriptManager().enableListeners();
 
 			is.close();
@@ -212,7 +212,7 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
-		((AppD)app).getXMLio().processXMLString(strXML, true, false, false);
+		((geogebra.io.MyXMLio)construction.getXMLio()).processXMLString(strXML, true, false, false);
 		construction.setFileLoading(false);
 	}
 	

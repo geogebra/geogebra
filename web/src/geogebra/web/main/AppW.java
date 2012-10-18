@@ -2480,11 +2480,16 @@ public class AppW extends App {
 	@Override 
 	public MyXMLio getXMLio() { 
 		if (xmlio == null) { 
-			xmlio = new MyXMLio(kernel, kernel.getConstruction()); 
+			xmlio = createXMLio(kernel.getConstruction()); 
 		} 
 		return xmlio; 
 	}
-	
+
+	@Override
+	public MyXMLio createXMLio(Construction cons) {
+		return new MyXMLio(cons.getKernel(), cons);
+	}
+
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		if (toolbar) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());

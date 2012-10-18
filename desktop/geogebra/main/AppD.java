@@ -3561,6 +3561,11 @@ public class AppD extends App implements
 		return (MyXMLio)myXMLio;
 	}
 
+	@Override
+	public MyXMLio createXMLio(Construction cons) {
+		return new MyXMLio(cons.getKernel(), cons);
+	}
+
 	public boolean isSaved() {
 		return isSaved;
 	}

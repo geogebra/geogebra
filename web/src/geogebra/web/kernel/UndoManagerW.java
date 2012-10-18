@@ -38,8 +38,7 @@ public class UndoManagerW extends UndoManager {
 
 	@Override
 	public void processXML(String xml) throws Exception {
-		app.getXMLio().processXMLString(xml, true, false);
-
+		construction.getXMLio().processXMLString(xml, true, false);
 	}
 
 	@Override
