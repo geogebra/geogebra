@@ -137,6 +137,8 @@ public class Ggb2MPReduce {
 		p("ImplicitDerivative.1", "-df(%0,currentx!!)/df(%0,currenty!!)");
 		p("Integral.1",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+		p("IntegralHelper.2",
+				"<<begin scalar integral!!, input!!; on numval, rounded, roundall; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.2",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.3",
