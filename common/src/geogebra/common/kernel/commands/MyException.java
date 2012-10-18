@@ -14,7 +14,7 @@ public class MyException extends Exception {
 	/**
 	 * Unequal number of ( and )
 	 */
-	public static final int IMBALANCED_BRACKETS = 1;
+	public static final int IMBALANCED_BRACKETS = 2;
 	private int errorType = INVALID_INPUT;
 	/**
 	 * 

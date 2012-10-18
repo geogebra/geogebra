@@ -74,6 +74,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.App;
+import geogebra.common.main.BracketsError;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -523,7 +524,7 @@ public class AlgebraProcessor {
 			}
 			throw new MyException(app.getError("InvalidInput") + ":\n" + cmd,
 					MyException.INVALID_INPUT);
-		} catch (MyError e) {
+		} catch (BracketsError e) {
 			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(e.getLocalizedMessage());

@@ -641,7 +641,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		try {
 			return (kernel.getGeoGebraCAS()).getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(inValue);
-		} catch (Throwable e) {
+		}catch (CASException c){
+			setError(app.getError(c.getKey()));
+			return null;
+		}catch (Throwable e){
+			
 			return null;
 		}
 	}
@@ -1540,6 +1544,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// do not compute output if this cell is used as a text cell
 		if (!useAsText) {
 			//input VE is noll sometimes, ie if Solve is used on a=b+c,b
+			if(getEvalVE()==null)
+				return false;
 			return computeOutput(getEvalVE().getAssignmentType()!=AssignmentType.DELAYED);
 		}
 		return true; // simulate success

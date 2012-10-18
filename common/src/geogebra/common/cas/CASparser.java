@@ -33,7 +33,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
-import geogebra.common.main.App;
+import geogebra.common.main.BracketsError;
+import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 
 import java.util.Map;
@@ -59,14 +60,21 @@ public class CASparser implements CASParserInterface{
 	
 	
 	public ValidExpression parseGeoGebraCASInput(final String exp) throws CASException {
+		CASException c;
 		try {
 			return parser.parseGeoGebraCAS(exp);
 		} catch (ParseException e) {
-			throw new CASException(e);
+			c =  new CASException(e);
+			c.setKey("InvalidInput");
+			throw c;
+		} catch (BracketsError e) {
+			c =  new CASException(e);
+			c.setKey("UnbalancedBrackets");
+			throw c;
 		}
 	}
 	
-	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue) {
+	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue) throws CASException {
 		if (inValue == null || inValue.length() == 0)
 			return null;
 		
@@ -81,11 +89,11 @@ public class CASparser implements CASParserInterface{
 		//}catch (MaximaVersionUnsupportedExecption e) {
 		//	throw e; // propagate exception
 		}catch (Throwable e) {
-			App.debug("Parsing failed: "+inValue);
-			e.printStackTrace();
-			//AbstractApplication.debug(e);
-			return null;
+			if(e instanceof CASException)
+				throw (CASException)e;
+			throw new CASException(e);
 		}
+		
 	}
 	
 	/**

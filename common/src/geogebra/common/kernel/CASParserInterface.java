@@ -12,8 +12,9 @@ public interface CASParserInterface {
 	 * The result is returned as a ValidExpression.
 	 * @param inValue GeoGebraCAS input
 	 * @return parsed expression
+	 * @throws CASException if something goes wrong (invalid input)
 	 */
-	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue);
+	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue) throws CASException;
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
 	 * @param inValue GeoGebraCAS input
