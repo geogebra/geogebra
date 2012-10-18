@@ -2929,8 +2929,8 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Rubrik1 () {
-		//t("KeepInput[x-1/2=2x+3]","x - 1 / 2 = 2 * x + 3");
-		//t("KeepInput[(x-1/2=2x+3)+1/2]","(x - 1 / 2 = 2 * x + 3)+1/2");
+		t("KeepInput[x-1/2=2x+3]","x - 1 / 2 = 2 * x + 3");
+		t("KeepInput[(x-1/2=2x+3)+1/2]","(x - 1 / 2 = 2 * x + 3)+1/2");
 		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2");
 		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2");
 		t("Numeric[(x-1/2=2x+3)+1/2]","x = 2 * x + 3.5");
