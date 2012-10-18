@@ -152,7 +152,7 @@ public class PointPairList {
 	}
 	
 	/**
-	 * @return
+	 * @return true
 	 */
 	public final boolean isStrict() {
 		isStrict = true;
@@ -162,14 +162,16 @@ public class PointPairList {
 	}
 
 	/**
-	 * @return
+	 * @return size of the list
 	 */
 	public final int size() {
 		return size;
 	}
 	
-	/*
+	/**
 	 * already assumed that the list is sorted.
+	 * @param indexQ index of Q-point 
+	 * @return index of closest P-point
 	 */
 	public final int getClosestPWithindexQ(int indexQ) {
 		
@@ -177,14 +179,15 @@ public class PointPairList {
 		while (pair!=null) {
 			if (pair.indexQ==indexQ)
 				return pair.indexP;
-			else
-				pair = pair.next;
+			pair = pair.next;
 		}
 		return -1; //indexQ not found
 	}
 	
-	/*
+	/**
 	 * already assumed that the list is sorted.
+	 * @param indexP index of P-point 
+	 * @return index of closest Q-point
 	 */
 	public final int getClosestQWithindexP(int indexP) {
 		
@@ -192,8 +195,7 @@ public class PointPairList {
 		while (pair!=null) {
 			if (pair.indexP==indexP)
 				return pair.indexP;
-			else
-				pair = pair.next;
+			pair = pair.next;
 		}
 		return -1; //indexQ not found
 	}

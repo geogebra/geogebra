@@ -26,6 +26,7 @@ public interface PathMover {
 	public static final double STEP_INCREASE_FACTOR = 2;
 	/** minimal step width*/
 	public static final double MIN_STEP_WIDTH = 1E-8;
+	/** -1*(minimal step width)	 */
 	public static final double NEG_MIN_STEP_WIDTH = -1E-8;
 	/** normalized parameter is defined on open interval,
 	 * to avoid the borders, we use this offset*/
@@ -40,6 +41,14 @@ public interface PathMover {
 	 * @param p initial point
 	 */
 	public void init(GeoPoint p);
+	
+	/**
+	 * Inits the path mover using a point p on the path
+	 * and sets the orientation to positive.
+	 * Note: the path parameter of p may be changed here!
+	 * @param p initial point
+	 * @param min_steps minimal number of steps for the particular instance
+	 */
 	public void init(GeoPoint p, int min_steps);
 	
 	/**

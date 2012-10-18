@@ -9,10 +9,15 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 
+/**
+ * Algo dispatcher for CAS algos
+ *
+ */
 public class KernelCAS {
 
 	/**
 	 * GeoCasCell dependent on other variables, e.g. m := c + 3
+	 * @param geoCasCell the dependent cell
 	 * 
 	 * @return resulting casCell created using geoCasCell.copy().
 	 */
@@ -21,6 +26,13 @@ public class KernelCAS {
 		return algo.getCasCell();
 	}
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param P point
+	 * @param f function
+	 * @return tangent to function through point
+	 */
 	public static GeoLine Tangent(Construction cons, String label, GeoPoint P,
 			GeoFunction f) {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(cons,
@@ -30,7 +42,13 @@ public class KernelCAS {
 		t.update();
 		return t;
 	}
-
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param P point
+	 * @param f curve
+	 * @return tangent to curve through point
+	 */
 	public static GeoLine Tangent(Construction cons, String label, GeoPoint P,
 			GeoCurveCartesian f) {
 		AlgoTangentCurve algo = new AlgoTangentCurve(cons, label, P, f);

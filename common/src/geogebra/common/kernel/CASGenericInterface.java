@@ -5,6 +5,10 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.settings.SettingListener;
 
+/**
+ * Generic interface for language-specific part of CAS which is plugged into
+ * GoGebraCAS.
+ */
 public interface CASGenericInterface extends SettingListener {
 
 	/**
@@ -20,6 +24,9 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	String translateAssignment(final String label, final String body);
 
+	/**
+	 * Initializes CAS. Only needed in Web where we must download it on demand.
+	 */
 	public void initCAS();
 
 	/**

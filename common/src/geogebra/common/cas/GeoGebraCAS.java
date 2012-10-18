@@ -158,6 +158,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * CasParserToolsImpl('b')); }
 	 */
 
+	/**
+	 * @return MPReduce
+	 */
 	public synchronized CASmpreduce getMPReduce() {
 		if (casMPReduce == null)
 			casMPReduce = app.getCASFactory()
@@ -206,6 +209,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			List<Integer> derivativeDegrees= col.getDegrees();
 			StringTemplate casTpl = StringTemplate.defaultTemplate;
 			StringBuilder sb = new StringBuilder(100);
+			System.out.println(casInput+"::"+derivativeDegrees.size());
 			for(int i=0;i<derivativeDegrees.size();i++){
 				sb.setLength(0);
 				sb.append(derivativeFunctions.get(i).getLabel(casTpl));

@@ -35,6 +35,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 		myPointList = locus.getPoints();
 	}
 
+	@Override
 	public void init(GeoPoint p, int min_steps) {
 		if (p.getPath() instanceof GeoLocus) {
 			myPointList = ((GeoLocus) p.getPath()).getPoints();

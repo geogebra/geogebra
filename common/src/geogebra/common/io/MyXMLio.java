@@ -84,6 +84,7 @@ public abstract class MyXMLio {
 	 * @param sb builder
 	 * @param isMacro true for ggt files
 	 * @param uniqueId construction ID
+	 * @param app application (may afect XML version) //TODO remove once Tube supports 5.0 applets
 	 */
 	protected final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId, App app) {
 		

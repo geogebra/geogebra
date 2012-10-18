@@ -56,9 +56,9 @@ import geogebra.common.kernel.locusequ.elements.EquationTangentPoint;
 public class LocusEquation {
 
 	/**
-	 * @param className className
+	 * @param algo className
 	 * @param element element
-	 * @param scope scope
+	 * @param scopeI scope
 	 * @return @return
 	 */
 	public static EquationElementInterface buildEquationElementForGeo(
@@ -173,6 +173,10 @@ public class LocusEquation {
 		}
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @return processor for LocusEquation
+	 */
 	public static CommandProcessor newCmdLocusEquation(Kernel kernel) {
 		return  new CmdLocusEquation(kernel);
 	}

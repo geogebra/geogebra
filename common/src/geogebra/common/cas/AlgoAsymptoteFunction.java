@@ -33,6 +33,12 @@ public class AlgoAsymptoteFunction extends AlgoElement {
     
     private StringBuilder sb = new StringBuilder();
    
+    /**
+     * Asymptotes for function
+     * @param cons construction
+     * @param label label for output
+     * @param f function
+     */
     public AlgoAsymptoteFunction(Construction cons, String label, GeoFunction f) {
     	super(cons);
         this.f = f;            	
@@ -61,6 +67,9 @@ public class AlgoAsymptoteFunction extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return list of asymptotes
+     */
     public GeoList getResult() {
         return g;
     }

@@ -23,7 +23,8 @@ public class PathMoverGeneric implements PathMover {
 	private static final int BOUNDS_INFINITE = 2;
 	private static final int BOUNDS_FIXED_INFINITE = 3;
 	private static final int BOUNDS_INFINITE_FIXED = 4;
-
+	
+	/** minimal number of steps for this particular instance */
 	public int MIN_STEPS_INSTANCE = MIN_STEPS;
 	/**path */
 	protected Path path;

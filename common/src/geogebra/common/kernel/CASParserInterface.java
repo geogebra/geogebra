@@ -7,10 +7,20 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
  * Interface for CAS parser
  */
 public interface CASParserInterface {
-
+	/**
+	 * Parses the given expression and resolves variables as GeoDummy objects.
+	 * The result is returned as a ValidExpression.
+	 * @param inValue GeoGebraCAS input
+	 * @return parsed expression
+	 */
 	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue);
-
-	ValidExpression parseGeoGebraCASInput(final String result) throws CASException;
+	/**
+	 * Parses the given expression and returns it as a ValidExpression.
+	 * @param inValue GeoGebraCAS input
+	 * @return parsed expression
+	 * @throws CASException something goes wrong
+	 */
+	ValidExpression parseGeoGebraCASInput(final String inValue) throws CASException;
 
 	/**
 	 * Replace variables with dummy objects
@@ -18,6 +28,10 @@ public interface CASParserInterface {
 	 */
 	void resolveVariablesForCAS(ExpressionValue outputVe);
 
+	/**
+	 * @param string internal name of command
+	 * @return localized name of command
+	 */
 	String getTranslatedCASCommand(final String string);
 
 }

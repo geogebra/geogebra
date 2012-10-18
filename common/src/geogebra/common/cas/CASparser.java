@@ -58,10 +58,6 @@ public class CASparser implements CASParserInterface{
 	}
 	
 	
-	/**
-	 * Parses the given expression and returns it as a ValidExpression.
-	 * @throws CASException something goes wrong
-	 */
 	public ValidExpression parseGeoGebraCASInput(final String exp) throws CASException {
 		try {
 			return parser.parseGeoGebraCAS(exp);
@@ -70,10 +66,6 @@ public class CASparser implements CASParserInterface{
 		}
 	}
 	
-	/**
-	 * Parses the given expression and resolves variables as GeoDummy objects.
-	 * The result is returned as a ValidExpression.
-	 */
 	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue) {
 		if (inValue == null || inValue.length() == 0)
 			return null;
