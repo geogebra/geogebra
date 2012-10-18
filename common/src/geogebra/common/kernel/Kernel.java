@@ -180,7 +180,7 @@ public class Kernel {
 
 	// print precision
 	public static final int STANDARD_PRINT_DECIMALS = 2;
-	private double PRINT_PRECISION = 1E-2;
+	//private double PRINT_PRECISION = 1E-2;
 	private NumberFormatAdapter nf;
 	private final ScientificFormatAdapter sf;
 	public boolean useSignificantFigures = false;
@@ -990,7 +990,8 @@ public class Kernel {
 		// "<=" catches -0.0000000000000005
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
-		if (((-PRINT_PRECISION / 2) <= x) && (x < (PRINT_PRECISION / 2))) {
+		double printPrecision = tpl.getPrecision(nf);
+		if (((-printPrecision / 2) <= x) && (x < (printPrecision / 2))) {
 			// avoid output of "-0" for eg -0.0004
 			return "0";
 		}
@@ -1238,7 +1239,7 @@ public class Kernel {
 
 		// add constant coeff
 		double coeff = temp[vars.length];
-		if ((Math.abs(coeff) >= PRINT_PRECISION) || useSignificantFigures) {
+		if ((Math.abs(coeff) >= tpl.getPrecision(nf)) || useSignificantFigures) {
 			sbBuildLHS.append(' ');
 			sbBuildLHS.append(sign(coeff));
 			sbBuildLHS.append(' ');
@@ -1341,7 +1342,7 @@ public class Kernel {
 				abs = temp[i];
 			}
 
-			if ((abs >= PRINT_PRECISION) || useSignificantFigures) {
+			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures) {
 				sbBuildImplicitVarPart.append(sign);
 				sbBuildImplicitVarPart.append(formatCoeff(abs, tpl));
 				sbBuildImplicitVarPart.append(vars[i]);
@@ -1352,13 +1353,21 @@ public class Kernel {
 
 	private final StringBuilder sbBuildImplicitVarPart = new StringBuilder(80);
 
-	// form: y��� = f(x) (coeff of y = 0)
+	/**
+	 * form: y^2 = f(x) (coeff of y = 0)
+	 * @param numbers coefficients
+	 * @param vars variables
+	 * @param pos position of y^2 coefficient
+	 * @param KEEP_LEADING_SIGN whether leading sign should be kept
+	 * @param tpl string template
+	 * @return explicit equation of conic
+	 */
 	public final StringBuilder buildExplicitConicEquation(double[] numbers,
 			String[] vars, int pos, boolean KEEP_LEADING_SIGN,
 			StringTemplate tpl) {
-		// y���-coeff is 0
+		// y^2-coeff is 0
 		double d, dabs, q = numbers[pos];
-		// coeff of y��� is 0 or coeff of y is not 0
+		// coeff of y^2 is 0 or coeff of y is not 0
 		if (isZero(q)) {
 			return buildImplicitEquation(numbers, vars, KEEP_LEADING_SIGN,
 					true, '=', tpl);
@@ -1366,8 +1375,8 @@ public class Kernel {
 
 		int i, leadingNonZero = numbers.length;
 		for (i = 0; i < numbers.length; i++) {
-			if ((i != pos) && // except y��� coefficient
-					((Math.abs(numbers[i]) >= PRINT_PRECISION) || useSignificantFigures)) {
+			if ((i != pos) && // except y^2 coefficient
+					((Math.abs(numbers[i]) >= tpl.getPrecision(nf)) || useSignificantFigures)) {
 				leadingNonZero = i;
 				break;
 			}
@@ -1397,7 +1406,7 @@ public class Kernel {
 				if (i != pos) {
 					d = -numbers[i] / q;
 					dabs = Math.abs(d);
-					if ((dabs >= PRINT_PRECISION) || useSignificantFigures) {
+					if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
 						sbBuildExplicitConicEquation.append(' ');
 						sbBuildExplicitConicEquation.append(sign(d));
 						sbBuildExplicitConicEquation.append(' ');
@@ -1411,7 +1420,7 @@ public class Kernel {
 			// constant coeff
 			d = -numbers[i] / q;
 			dabs = Math.abs(d);
-			if ((dabs >= PRINT_PRECISION) || useSignificantFigures) {
+			if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
 				sbBuildExplicitConicEquation.append(' ');
 				sbBuildExplicitConicEquation.append(sign(d));
 				sbBuildExplicitConicEquation.append(' ');
@@ -1525,14 +1534,14 @@ public class Kernel {
 		// x coeff
 		d = -numbers[0] / q;
 		dabs = Math.abs(d);
-		if ((dabs >= PRINT_PRECISION) || useSignificantFigures) {
+		if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
 			sbBuildExplicitLineEquation.append(formatCoeff(d, tpl));
 			sbBuildExplicitLineEquation.append(vars[0]);
 
 			// constant
 			d = -numbers[2] / q;
 			dabs = Math.abs(d);
-			if ((dabs >= PRINT_PRECISION) || useSignificantFigures) {
+			if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
 				sbBuildExplicitLineEquation.append(' ');
 				sbBuildExplicitLineEquation.append(sign(d));
 				sbBuildExplicitLineEquation.append(' ');
@@ -2082,8 +2091,7 @@ public class Kernel {
 			ROUND_HALF_UP_FACTOR = figures < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
 					: 1;
 
-			PRINT_PRECISION = MAX_PRECISION;
-			setEpsilonForPrintPrecision(PRINT_PRECISION);
+			setEpsilonForPrintPrecision(MAX_PRECISION);
 
 			// tell CAS to use significant figures for Numeric
 			if (ggbCAS != null) {
@@ -2099,8 +2107,7 @@ public class Kernel {
 			ROUND_HALF_UP_FACTOR = decimals < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
 					: 1;
 
-			PRINT_PRECISION = Math.pow(10, -decimals);
-			setEpsilonForPrintPrecision(PRINT_PRECISION);
+			setEpsilonForPrintPrecision(Math.pow(10, -decimals));
 
 			// tell CAS to use significant figures:
 			// sigFig = min(2*decimal places, 20)
