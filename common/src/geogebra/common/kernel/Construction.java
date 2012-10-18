@@ -2025,6 +2025,8 @@ public class Construction {
 	 *            label to be checked
 	 * @param includeCASvariables
 	 *            whether GeoCasCell labels should be checked too
+	 * @param includeDummies 
+	 * 				when true, this method also checks that label is not used for a CAS dummy
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
 	public boolean isFreeLabel(String label, boolean includeCASvariables, boolean includeDummies) {
@@ -2738,7 +2740,10 @@ public class Construction {
 	public StringBuilder getCurrentUndoXML() {
 		return getXMLio().getUndoXML(this);
 	}
-
+	/**
+	 * Each construction has its own IO because of strong coupling between those.
+	 * @return MyXMLio for this construction
+	 */
 	public MyXMLio getXMLio() {
 		if (xmlio == null)
 			xmlio = kernel.getApplication().createXMLio(this);
@@ -2863,10 +2868,17 @@ public class Construction {
 	}
 	// update all indices >= pos
 
+	/**
+	 * @return whether updateConstruction is running
+	 */
 	public boolean isUpdateConstructionRunning() {
 		return updateConstructionRunning;
 	}
 	private TreeSet<String> casDummies = new TreeSet<String>();
+	
+	/**
+	 * @return set of names that are used by CAS for dummies
+	 */
 	public TreeSet<String> getCASdummies() {
 		return casDummies;
 	}
