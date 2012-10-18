@@ -155,9 +155,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		ValidExpression casInput = inputExpression;
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
-		boolean keepInput = casInput.isKeepInputUsed();
-		boolean taylorToStd = true;
 		Command cmd = casInput.getTopLevelCommand();
+		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
+		boolean taylorToStd = true;
+		
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
 			if (cmd != null && cmd.getName().equals("KeepInput")) {
