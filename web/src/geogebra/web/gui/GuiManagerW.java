@@ -22,6 +22,7 @@ import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
+import geogebra.web.gui.dialog.InputDialogDownloadGGB;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
 import geogebra.web.gui.layout.LayoutW;
@@ -508,7 +509,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		app.setWaitCursor();
 		//String fileName = Window.prompt("File name", "Bunny");
 		//do saving here if getBase64 will be good
-		GeoGebraFileChooser fileChooser = ((DialogManagerW)app.getDialogManager()).getFileChooser();
+		GeoGebraFileChooser fileChooser = ((DialogManagerW) app
+		        .getDialogManager())
+		        .getFileChooser(GeoGebraFileChooser.FILE_SAVE);
 		if (((AppW) app).getFileName() != null) {
 			fileChooser.setFileName(((AppW) app).getFileName());
 		} else {
@@ -524,6 +527,22 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	    return true;
     }
 
+	/**
+	 * Download the worksheet into a .ggb file
+	 * @return 
+	 * 
+	 */
+	public boolean download() {
+		app.setWaitCursor();
+		GeoGebraFileChooser fileChooser = ((DialogManagerW) app
+		        .getDialogManager())
+		        .getFileChooser(GeoGebraFileChooser.FILE_DOWNLOAD);
+		fileChooser.setFileName("ggb");
+		fileChooser.setDescription("desc");
+		fileChooser.show();
+		return true;
+	}
+	
 	@Override
 	public void showPropertiesViewSliderTab(){
 		App.debug("unimplemented");
@@ -532,6 +551,11 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	@Override
     public void openURL() {
 		InputDialogOpenURL id = new InputDialogOpenURL((AppW)app);
+		id.setVisible(true);	    
+    }
+	
+    public void downloadGGB() {
+		InputDialogDownloadGGB id = new InputDialogDownloadGGB((AppW)app);
 		id.setVisible(true);	    
     }
 	

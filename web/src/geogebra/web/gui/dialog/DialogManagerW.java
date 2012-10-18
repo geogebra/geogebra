@@ -183,12 +183,13 @@ public class DialogManagerW extends DialogManager {
 
 	}
 	
-	GeoGebraFileChooser fileChooser = null;
-
-	public GeoGebraFileChooser getFileChooser() {
+	GeoGebraFileChooser fileChooser = null;	
+	
+	public GeoGebraFileChooser getFileChooser(int type) {
 	    if (fileChooser == null) {
 	    	fileChooser = new GeoGebraFileChooser(app);
 	    }
+	    fileChooser.setType(type);
 	    return fileChooser;
     }
 	

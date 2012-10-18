@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
@@ -65,6 +66,15 @@ public class FileMenuW extends MenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
 				public void execute() {	}
 			});
+			
+//		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), "download..." ),true,new Command() {
+//			
+//			public void execute() {
+//				((GuiManagerW)(app.getGuiManager())).downloadGGB();
+//			}
+//		});
+			
+			
 
 		// this is enabled always
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {

@@ -26,7 +26,11 @@ public class GeoGebraFileChooser extends PopupPanel {
 	TextArea description;
 	Button save;
 	Button cancel;
+	Button download;
 	GeoGebraFileChooser _this = this;
+	public static int FILE_SAVE = 1;
+	public static int FILE_DOWNLOAD = 2;
+	private int type;
 
 	public GeoGebraFileChooser(final App app) {
 	    super();
@@ -51,6 +55,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
 	    buttonPanel.add(save = new Button(app.getMenu("SaveToGoogleDrive")));
+	    buttonPanel.add(download = new Button(app.getMenu("Download")));
 	    p.add(buttonPanel);
 	    addStyleName("GeoGebraFileChooser");
 	    
@@ -76,6 +81,20 @@ public class GeoGebraFileChooser extends PopupPanel {
 				}
 			}
 				
+		});
+	    
+	    download.addClickHandler(new ClickHandler() {			
+			public void onClick(ClickEvent event) {
+				if (fileName.getText() != "") {
+					save.setEnabled(false);
+					cancel.setEnabled(false);
+					fileName.setEnabled(false);
+					description.setEnabled(false);
+					app.getXML();
+					
+					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
+				}
+			}
 		});
 	    
 	    addCloseHandler(new CloseHandler<PopupPanel>() {
@@ -107,4 +126,16 @@ public class GeoGebraFileChooser extends PopupPanel {
 		description.setText(ds);
 	}
 
+	public void setType(int t){
+		type = t;
+		if (t == FILE_SAVE){
+			//descriptionPanel.setVisible(true);
+			save.setVisible(true);
+			download.setVisible(false);
+		} else {
+			//descriptionPanel.setVisible(false);
+			save.setVisible(false);
+			download.setVisible(true);		
+		}
+	}
 }
