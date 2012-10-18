@@ -14,9 +14,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.GArea;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -57,7 +54,6 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	private GeoPoint [] points;
 	private PolyOperation operationType;
-	private EuclidianViewInterfaceSlim ev;
 
 	private boolean labelPointsAndSegments;
 	private boolean labelsNeedIniting;
@@ -84,7 +80,6 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		super(cons);
 
-		ev = cons.getApplication().getActiveEuclidianView();
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;
@@ -178,43 +173,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		return poly;
 	}
 
-	/**
-	 * Convert array of polygon GeoPoints to an Area object
-	 */
-	private GArea getArea(GeoPointND[] pts) {
-
-		double [] coords = new double[2]; 
-		GeneralPathClipped gp = new GeneralPathClipped(ev);
-
-		// first point
-		pts[0].getInhomCoords(coords);
-		if(!pts[0].isDefined())
-			return null;
-		gp.moveTo(coords[0], coords[1]);   
-
-		for (int i=1; i < pts.length; i++) {
-			pts[i].getInhomCoords(coords);			
-			gp.lineTo(coords[0], coords[1]);
-			if(!pts[i].isDefined())
-				return null;
-		}
-		gp.closePath();
-
-		return geogebra.common.factories.AwtFactory.prototype.newArea(gp);	
-	}
-
 	@Override
 	public final void compute() {
-
-		ArrayList<Double> xcoord = new ArrayList<Double>();
-		ArrayList<Double> ycoord = new ArrayList<Double>();
-		double[] coords = new double[6];
-
-
-
-
-
-
 
 		GeoPointND[] pts0 = inPoly0.getPoints();
 		GeoPointND[] pts1 = inPoly1.getPoints();
@@ -244,16 +204,19 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		CoordinateArraySequence cas1 = new CoordinateArraySequence(coordinates1);
 
 		GeometryFactory fact = new GeometryFactory();
-		LinearRing linear0 = fact.createLinearRing(cas0);
-		LinearRing linear1 = fact.createLinearRing(cas1);
-		Polygon poly0 = new Polygon(linear0, null, fact);
-		Polygon poly1 = new Polygon(linear1, null, fact);
-
 		Geometry geom;
 
 		//App.debug(poly0.toString()+" "+poly1.toString());
 
 		try {
+			
+			LinearRing linear0 = fact.createLinearRing(cas0);
+			LinearRing linear1 = fact.createLinearRing(cas1);
+			Polygon poly0 = new Polygon(linear0, null, fact);
+			Polygon poly1 = new Polygon(linear1, null, fact);
+
+			
+			
 			switch (operationType) {
 			default:
 			case INTERSECTION:
