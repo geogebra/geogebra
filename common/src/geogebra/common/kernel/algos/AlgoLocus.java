@@ -96,9 +96,11 @@ public class AlgoLocus extends AlgoElement {
 		QstartPos = new GeoPoint(cons);
 		PstartPos = new GeoPoint(cons);
 
+		//we may need locus in init when something goes wrong
+		locus = new GeoLocus(cons);
 		init();
 		updateScreenBorders();
-		locus = new GeoLocus(cons);
+		
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
 		compute();
