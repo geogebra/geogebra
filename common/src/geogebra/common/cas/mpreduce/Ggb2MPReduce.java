@@ -39,7 +39,7 @@ public class Ggb2MPReduce {
 				"<<begin scalar input!!; input!!:=(%0); return mycoeff(input!!,mymainvar(input!!)) end >>");
 		p("Coefficients.2", "mycoeff(%0,%1)");
 		p("CompleteSquare.1",
-				"<<begin scalar input!!, co, va;off exp; input!!:=(%0); va := mymainvar(input!!);co:= mycoeff(input!!,va);return if length(co)=3 then part(co,1)*(va+part(co,2)/part(co,1)/2)^2+part(co,3)-part(co,2)^2/part(co,1)/4 else \\'?; end >>");
+				"<<begin scalar input!!, co, va;off exp; on rational; input!!:=(%0); va := mymainvar(input!!);co:= mycoeff(input!!,va);return if length(co)=3 then part(list(part(co,1)*(va+part(co,2)/part(co,1)/2)^2,part(co,3)-part(co,2)^2/part(co,1)/4),0):=+ else \\'?; end >>");
 		p("CommonDenominator.2", "lcm(den(%0),den(%1))");
 		p("Covariance.2",
 				"<<begin scalar ret, tmpmean1, tmpmean2, tmplength, list1!!, list2!!; list1!!:=(%0); list2!!:=(%1); ret:=0$ tmpmean1:=0$ tmpmean2:=0$ tmplength:=length(list1!!)$ tmpmean1:=1/tmplength*for i:=1:tmplength sum part(list1!!,i) $ tmpmean2:=1/tmplength*for i:=1:tmplength sum part(list2!!,i)$  return 1/tmplength*for i:=1:tmplength sum (part(list1!!,i)-tmpmean1)*(part(list2!!,i)-tmpmean2) end>>");
