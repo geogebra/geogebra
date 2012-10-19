@@ -217,6 +217,6 @@
 //            event.preventDefault();
 //            return false;
 //        }
-    };
+    }
     }
 })(this);
