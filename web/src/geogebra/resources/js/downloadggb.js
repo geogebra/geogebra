@@ -196,10 +196,8 @@
     }
     
     obj.downloadggb = {
-    		tempfunction: function(){
-    			window.alert("aaa");
-    		},
-    downloadGGBfunction : function(event) {
+    		downloadGGBfunction : function(event) {
+    			console.log("downloadGGBfunction");
 //        var target = event.target, entry;
 //        if (!downloadButton.download) {
 //        	console.log("downloadggb.js - downloadGGBfile - if start");
@@ -217,6 +215,6 @@
 //            event.preventDefault();
 //            return false;
 //        }
-    }
+    		}
     }
 })(this);

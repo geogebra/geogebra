@@ -3,6 +3,7 @@ package geogebra.web.gui.dialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 public class InputDialogDownloadGGB extends InputDialogW{
@@ -16,15 +17,12 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		this.btOK.addStyleName("downloadButton");
 		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
-		addEventListenerForDownloadButton();
+		addEventListenerForDownloadButton(this.btOK.getElement());
 	}
 	
-	private native void addEventListenerForDownloadButton() /*-{
-		console.log("addEventListenerForDownlaodButton starts");
-		var downloadButton = document.getElementById("downloadButton");
-		console.log("addEventListenerForDownloadButton 1");
-        downloadButton.addEventListener("click", $wnd.downloadggb.tempfunction, false);
-        console.log("addEventListenerForDownloadButton 2");
+	private native void addEventListenerForDownloadButton(Element downloadButton) /*-{
+		//var downloadButton = document.getElementById("downloadButton");
+        downloadButton.addEventListener("click", $wnd.downloadggb.downloadGGBfunction, false);
 	}-*/;
 	
 	public void onClick(ClickEvent e) {
