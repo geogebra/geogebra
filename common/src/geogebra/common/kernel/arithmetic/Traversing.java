@@ -224,10 +224,12 @@ public interface Traversing {
 	 */
 	public class PowerRootReplacer implements Traversing {
 		private boolean toRoot;
+		/** functions with 100th root are numerically unstable*/
+		private static int MAX_ROOT=99;
 		public ExpressionValue process(ExpressionValue ev) {
 			if(!ev.isExpressionNode())
 				return ev;
-			((ExpressionNode)ev).replacePowersRoots(toRoot);
+			((ExpressionNode)ev).replacePowersRoots(toRoot,MAX_ROOT);
 			return ev;
 		}
 		private static PowerRootReplacer replacer = new PowerRootReplacer();

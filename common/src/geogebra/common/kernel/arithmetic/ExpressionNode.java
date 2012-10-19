@@ -5138,7 +5138,7 @@ public class ExpressionNode extends ValidExpression implements
 	 *            true to replace powers by roots
 	 * @return this node with replaced powers / roots
 	 */
-	public boolean replacePowersRoots(boolean toRoot) {
+	public boolean replacePowersRoots(boolean toRoot,int maxRoot ) {
 		boolean didReplacement = false;
 
 		if (toRoot && getOperation() == Operation.POWER
@@ -5158,7 +5158,8 @@ public class ExpressionNode extends ValidExpression implements
 					hit = true;
 				}
 				else if (!rightLeaf.getRight().unwrap().isExpressionNode() && rightLeaf.getRight().isNumberValue() &&
-						Kernel.isInteger(((NumberValue)rightLeaf.getRight()).getDouble())) {
+						Kernel.isInteger(((NumberValue)rightLeaf.getRight()).getDouble()) &&
+						((NumberValue)rightLeaf.getRight()).getDouble()<=maxRoot) {
 					App.debug(((NumberValue)rightLeaf.getRight()).getDouble());
 					setOperation(Operation.NROOT);
 					setRight(new MyDouble(kernel,((NumberValue)rightLeaf.getRight()).getDouble()));
