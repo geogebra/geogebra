@@ -820,7 +820,7 @@ public class RelativeCopy {
 		}
 
 		// remove leading equal sign, e.g. "= A1 + A2"
-		if (text.charAt(0)== '=') {
+		if (text.length()>0 && text.charAt(0)== '=') {
 			text = text.substring(1);
 		}
 		text = text.trim();
@@ -895,7 +895,9 @@ public class RelativeCopy {
 			return null;
 		} catch (Exception e) {
 			// create text if something went wrong
-			text = "\"" + text + "\"";
+			if(text.startsWith("\""))
+				text = text.substring(1,text.length()-2); 
+			text = "\"" + (text.replace("\"", "\"+UnicodeToLetter[34]+\"")) + "\"";
 			newValues = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(text, false);
 			newValues[0].setLabel(name);
