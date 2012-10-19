@@ -268,13 +268,13 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			final String[] parameters, final String body, AssignmentType type) {
 		
 		StringBuilder sb = new StringBuilder();
-		
+		int length = parameters.length;
 		if (type==AssignmentType.DELAYED){
 
 			sb.append("procedure ");
 			sb.append(label);
 			sb.append('(');
-			for (int i = 0; i < parameters.length; i++) {
+			for (int i = 0; i < length; i++) {
 				if (i != 0) {
 					sb.append(',');
 				}
@@ -290,23 +290,28 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		
 		StringBuilder parameterstmp = new StringBuilder();
 		StringBuilder replacements = new StringBuilder("list(");
+		String processedBody = body;
 		for (int i = 0; i < parameters.length; i++) {
 			if (i != 0) {
 				parameterstmp.append(',');
 				replacements.append(',');
 			}
-			parameterstmp.append(parameters[i]);
-			parameterstmp.append("tmp");
+			
+			parameterstmp.append("var");
+			parameterstmp.append(i);
+			
+			replacements.append("l");
 			replacements.append(parameters[i]);
+			processedBody = body.replaceAll("("+parameters[i]+"\\b)", "l$1");
 			replacements.append(" => ");
-			replacements.append(parameters[i]);
-			replacements.append("tmp");
+			replacements.append("var");
+			replacements.append(i);
 		}
 		replacements.append(')');
 
 		sb.append(label);
 		sb.append("functionbody := ");
-		sb.append(body);
+		sb.append(processedBody);
 		sb.append("$ procedure ");
 		sb.append(label);
 		sb.append("(");
