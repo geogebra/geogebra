@@ -662,4 +662,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public String getPenColor() {
 		return getAppletImplementation().getPenColor();
 	}
+
+	public void setListValue(String objName, int index, double x) {
+		getAppletImplementation().setListValue(objName, index, x); 	
+	}
+
+	public double getListValue(String objName, int index) {
+		return getAppletImplementation().getListValue(objName, index); 
+	}
 }

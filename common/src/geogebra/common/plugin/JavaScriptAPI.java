@@ -539,5 +539,17 @@ public interface JavaScriptAPI {
 	public void clearImage(String label);
 
 
-	
+	/** 
+	 * Sets the double value of the specified index of the list.  
+	 * Can be used to extend the size of a list 
+	 */ 
+	public void setListValue(String objName, int index, double x); 
+
+	/** 
+	 * Gets the double value of the specified index of the list.  
+	 *  
+	 * Returns Double.NaN if the object is not a GeoNumeric/Angle 
+	 */ 
+	public double getListValue(String objName, int index); 
+
 }

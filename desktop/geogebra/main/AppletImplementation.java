@@ -1458,4 +1458,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getPenColor();
 	}
 
+	public void setListValue(String objName, int index, double x) {
+		ggbApi.setListValue(objName, index, x); 		
+	}
+
+	public double getListValue(String objName, int index) {
+		return ggbApi.getListValue(objName, index); 
+	}
+
 }

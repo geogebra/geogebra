@@ -12,6 +12,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
@@ -966,5 +967,75 @@ public abstract class GgbAPI implements JavaScriptAPI{
 				.getEuclidianController().getPen().getPenColorCommon());
     }
 	
+	// similar code in CmdSetValue
+	public void setListValue(String objName, int nn, double x) {
+		GeoElement geoList = kernel.lookupLabel(objName);
+		if (geoList == null || !geoList.isGeoList()) {
+			return;
+		}
+
+
+		GeoList list = (GeoList)geoList;
+
+		if (nn < 1 || nn > list.size() + 1) {
+			return;
+		}
+		
+		Construction cons = kernel.getConstruction();
+
+		if(nn > list.size()){
+			list.add(new GeoNumeric(cons, x));
+			list.updateRepaint();
+			return;
+		}
+		GeoElement geo = list.get(nn - 1);
+		if (geo.isIndependent()) {
+			if (geo.isGeoNumeric()) {
+				((GeoNumeric) geo).setValue(x);
+			} else {
+				geo.set(new GeoNumeric(cons, x));						
+			}
+		}
+		//else App.debug(geo.getParentAlgorithm());
+
+		geo.updateRepaint();
+
+		// update the list too if necessary
+		if (!geo.isLabelSet()) { // eg like first element of {1,2,a}
+			Iterator<GeoElement> it = cons
+					.getGeoSetConstructionOrder().iterator();
+			while (it.hasNext()) {
+				GeoElement geo2 = it.next();
+				if (geo2.isGeoList()) {
+					GeoList gl = (GeoList) geo2;
+					for (int i = 0; i < gl.size(); i++) {
+						if (gl.get(i) == geo)
+							gl.updateRepaint();
+					}
+				}
+			}
+		}
+	}
+
+	public double getListValue(String objName, int index) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null || !geo.isGeoList()) {
+			return Double.NaN;
+		}
+
+
+		GeoList list = (GeoList)geo;
+
+		if (index < 1 || index >= list.size() + 1) {
+			return Double.NaN;
+		}
+
+		GeoElement ret = list.get(index - 1);
+
+		// GeoBoolean implements NumberValue, so no need to check for that
+		return ret.evaluateNum().getDouble();
+	}
+
+
 
 }
