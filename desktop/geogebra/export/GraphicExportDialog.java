@@ -707,7 +707,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// draw graphics view into image
 			EuclidianViewD ev = getEuclidianView();
 			
-			exportPNG(ev, file, showError, getDPI(), exportScale);
+			exportPNG(ev, file, transparent, getDPI(), exportScale);
 			
 			if (exportToClipboard) {
 				sendToClipboard(file);
