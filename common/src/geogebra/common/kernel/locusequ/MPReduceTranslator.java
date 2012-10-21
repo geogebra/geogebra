@@ -293,7 +293,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
-		String locusLib = SingularWebService.getLocusLib();
+		String locusLib = ""; // SingularWebService.getLocusLib();
 
 		if (locusLib.length() != 0) {
 			script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + this.getVarsToEliminate()).

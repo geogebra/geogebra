@@ -147,6 +147,12 @@ while [ $# -gt 0 ]; do
    echo "Usage: $0 [options]"
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help   This help"
+   echo -n "  -j                  Set JAVA_HOME"
+   if [ "$JAVA_HOME" ]; then
+    echo " (not set, expect a build error)"
+   else
+    echo " ($JAVA_HOME)"
+    fi
    echo "  -u [useragents]     Comma separated list of user agents to compile ($USERAGENTS)"
    echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory (first deletes!)"
    echo "  -c                  Do a cleanup before javac compilation"
@@ -187,6 +193,11 @@ while [ $# -gt 0 ]; do
   -X)
    shift
    XML="$1"
+   ;;
+   
+  -j)
+   shift
+   JAVA_HOME="$1"
    ;;
 
   -c)
