@@ -197,10 +197,12 @@ public abstract class Drawable3D extends DrawableND {
 	public static final int DRAW_TYPE_CURVES = DRAW_TYPE_POINTS+1;
 	/** type for drawing planes, polygons, etc. */
 	public static final int DRAW_TYPE_SURFACES = DRAW_TYPE_CURVES+1;
-	/** type for drawing polyhedrons, quadrics, etc. */
-	public static final int DRAW_TYPE_CLOSED_SURFACES = DRAW_TYPE_SURFACES+1;
+	/** type for drawing polyhedrons, etc. */
+	public static final int DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED = DRAW_TYPE_SURFACES+1;
+	/** type for drawing  quadrics, etc. */
+	public static final int DRAW_TYPE_CLOSED_SURFACES_CURVED = DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED+1;
 	/** type for drawing parametric surfaces, etc., that need clipping */
-	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES+1;
+	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES_CURVED+1;
 	/** number max of drawing types */
 	public static final int DRAW_TYPE_MAX = DRAW_TYPE_CLIPPED_SURFACES+1;
 	
@@ -628,14 +630,15 @@ public abstract class Drawable3D extends DrawableND {
 	public int comparePickingTo(Drawable3D d, boolean checkPickOrder){
 		
 		/*
-		App.debug("\n"
-				+"zMin= "+(this.zPickMin)
+		App.debug("\ncheckPickOrder="+checkPickOrder
+				+"\nzMin= "+(this.zPickMin)
 				+" | zMax= "+(this.zPickMax)
 				+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
 				+"zMin= "+(d.zPickMin)
 				+" | zMax= "+(d.zPickMax)
 				+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
 		*/
+		
 		
 		//check if one is transparent and the other not
 		if ( (!this.isTransparent()) && (d.isTransparent()) )
@@ -644,16 +647,18 @@ public abstract class Drawable3D extends DrawableND {
 			return 1;
 		
 
-		//check if one is selected and not the other
-		if (this.getGeoElement().isSelected() && !d.getGeoElement().isSelected())
-			return -1;
-		if (!this.getGeoElement().isSelected() && d.getGeoElement().isSelected())
-			return 1;
-		
+		//check if one is selected and not the other 
+		// -- ONLY when same pickorder to avoid last created geo to get the focus
+		if (this.getPickOrder()==d.getPickOrder()){
+			if (this.getGeoElement().isSelected() && !d.getGeoElement().isSelected())
+				return -1;
+			if (!this.getGeoElement().isSelected() && d.getGeoElement().isSelected())
+				return 1;
+		}
 		
 		
 		//check if the two objects are "mixed"	
-		if ((this.zPickMin-d.zPickMin)*(this.zPickMax-d.zPickMax)<EPSILON_Z){
+		if (this.zPickMax>d.zPickMin && d.zPickMax>this.zPickMin){
 			
 			if (DEBUG){
 				DecimalFormat df = new DecimalFormat("0.000000000");
@@ -672,12 +677,18 @@ public abstract class Drawable3D extends DrawableND {
 			
 			
 			
-			// if both are points, check if one is on a path and the other not
+			// if both are points
 			if (this.getGeoElement().isGeoPoint() && d.getGeoElement().isGeoPoint()){
+				//check if one is on a path and the other not
 				if ((((GeoPointND) this.getGeoElement()).hasPath())&&(!((GeoPointND) d.getGeoElement()).hasPath()))
 					return -1;
 				if ((!((GeoPointND) this.getGeoElement()).hasPath())&&(((GeoPointND) d.getGeoElement()).hasPath()))
-					return 1;			 
+					return 1;	
+				//check if one is the child of the other
+				if (this.getGeoElement().isChildOf(d.getGeoElement()))
+					return -1;
+				if (d.getGeoElement().isChildOf(d.getGeoElement()))
+					return 1;
 			}
 			
 			
@@ -693,11 +704,7 @@ public abstract class Drawable3D extends DrawableND {
 				*/
 			
 			
-			//check if one is the child of the other
-			if (this.getGeoElement().isChildOf(d.getGeoElement()))
-				return -1;
-			if (d.getGeoElement().isChildOf(d.getGeoElement()))
-				return 1;
+			
 		
 		}
 		

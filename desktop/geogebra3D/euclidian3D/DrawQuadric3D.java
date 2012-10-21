@@ -196,7 +196,7 @@ implements Previewable {
 		case GeoQuadric3D.QUADRIC_SPHERE:
 		case GeoQuadric3D.QUADRIC_CONE:
 		case GeoQuadric3D.QUADRIC_CYLINDER:
-			addToDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES);
+			addToDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_CURVED);
 			break;
 		default:
 			addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
@@ -208,7 +208,7 @@ implements Previewable {
 		case GeoQuadric3D.QUADRIC_SPHERE:
 		case GeoQuadric3D.QUADRIC_CONE:
 		case GeoQuadric3D.QUADRIC_CYLINDER:
-			removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES);
+			removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_CURVED);
 			break;
 		default:
 			removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);

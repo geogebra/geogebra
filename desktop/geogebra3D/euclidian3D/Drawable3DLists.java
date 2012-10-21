@@ -236,7 +236,9 @@ public class Drawable3DLists {
 	public void drawNotTransparentSurfacesClosed(Renderer renderer){
 		
 	
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES].iterator(); d.hasNext();) 
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) 
+			d.next().drawNotTransparentSurface(renderer);	
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED].iterator(); d.hasNext();) 
 			d.next().drawNotTransparentSurface(renderer);	
 
 		
@@ -294,7 +296,9 @@ public class Drawable3DLists {
 	 */
 	public void drawTranspClosed(Renderer renderer){
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES].iterator(); d.hasNext();) 
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) 
+			d.next().drawTransp(renderer);	
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED].iterator(); d.hasNext();) 
 			d.next().drawTransp(renderer);	
 		
 	}
@@ -359,7 +363,9 @@ public class Drawable3DLists {
 	 */
 	public void drawClosedSurfacesForHiding(Renderer renderer){
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES].iterator(); d.hasNext();) 
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) 
+			d.next().drawHiding(renderer);	
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED].iterator(); d.hasNext();) 
 			d.next().drawHiding(renderer);	
 
 	}
@@ -373,32 +379,37 @@ public class Drawable3DLists {
 			d.next().drawHiding(renderer);	
 
 	}
+	
+	private void drawListForPicking(Renderer renderer, Drawable3DList list){
+		for (Iterator<Drawable3D> iter = list.iterator(); iter.hasNext();) {
+        	Drawable3D d = iter.next();
+        	renderer.pick(d);
+		}		
+	}
 
 	/** draw objects to pick them
 	 * @param renderer opengl context
 	 */
 	public void drawForPicking(Renderer renderer){
-
-		renderer.setCulling(true);
-		for(int i=0; i<Drawable3D.DRAW_TYPE_SURFACES; i++)
-			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
-	        	Drawable3D d = iter.next();
-	        	renderer.pick(d);
-			}
+		
 		
 		renderer.setCulling(false);
-		for(int i=Drawable3D.DRAW_TYPE_SURFACES; i<=Drawable3D.DRAW_TYPE_CLOSED_SURFACES; i++)
-			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
-	        	Drawable3D d = iter.next();
-	        	renderer.pick(d);
-			}		
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_DEFAULT]);	
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_POINTS]);	
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CURVES]);	
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_SURFACES]);	
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]);	
+		renderer.setCulling(true);
+		renderer.setCullFaceFront();
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
+		renderer.setCullFaceBack();
+		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
 
+	
+		renderer.setCulling(false);
 		if (containsClippedSurfaces()){
 			renderer.enableClipPlanesIfNeeded();
-			for (Iterator<Drawable3D> iter = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].iterator(); iter.hasNext();) {
-				Drawable3D d = iter.next();
-				renderer.pick(d);
-			}
+			drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]);	
 			renderer.disableClipPlanesIfNeeded();
 		}
 		

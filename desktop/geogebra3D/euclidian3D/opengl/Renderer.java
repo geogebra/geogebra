@@ -185,6 +185,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
 			gl.glDisable(GLlocal.GL_CULL_FACE);
 	}
 	
+	public void setCullFaceFront(){
+		gl.glCullFace(GLlocal.GL_FRONT); 
+	}
+	
+	public void setCullFaceBack(){
+		gl.glCullFace(GLlocal.GL_BACK); 
+	}
+	
 	/** sets if openGL blending is done or not
 	 * @param flag
 	 */

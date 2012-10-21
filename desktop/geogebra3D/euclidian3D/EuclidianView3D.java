@@ -1061,6 +1061,22 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 		return pickPoint.copyVector();
 	}
+	
+	/**
+	 * 
+	 * @param p 3D point in scene coords
+	 * @return (x,y) point aligned with p
+	 */
+	public Coords projectOnScreen(Coords p){
+		Coords p1 = getToScreenMatrix().mul(p);//.getInhomCoords();
+		if (projection == PROJECTION_PERSPECTIVE
+				|| projection == PROJECTION_ANAGLYPH) {
+			Coords eye = renderer.getPerspEye();
+			Coords v = p1.sub(eye);
+			return new Coords(eye.getX()-eye.getZ()*v.getX()/v.getZ(),eye.getY()-eye.getZ()*v.getY()/v.getZ());
+		}
+		return new Coords(p1.getX(),p1.getY());
+	}
 
 	/** p scene coords, (dx,dy) 2D mouse move -> 3D physical coords 
 	 * @param p 

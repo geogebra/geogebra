@@ -27,6 +27,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -890,11 +891,12 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
     		if (((GeoElement) point).isGeoElement3D()){
     			//if the resulting point is defined, but is not around the mouse, discard it. (2011/8/8 Tam)
     			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
-    			Coords toScreenCoords = view3D.getToScreenMatrix().mul(((GeoPoint3D) point).getCoords().getCoordsLast1()).getInhomCoords();
-    			/*
-        		Application.debug("X: "+Math.abs(picked.getX() - toScreenCoords.getX()) + "\n" +
-        			"Y: "+Math.abs(picked.getY() - toScreenCoords.getY()));
-    			 */
+    			Coords toScreenCoords = view3D.projectOnScreen(((GeoPoint3D) point).getCoords().getCoordsLast1());
+ 
+    			//App.debug("\nmouse="+mouseLoc.x+","+mouseLoc.y+"\npicked=\n"+picked+"\ncoords\n"+toScreenCoords);
+        		//App.debug("X: "+Math.abs(picked.getX() - toScreenCoords.getX()) + "\n" +
+        		//	"Y: "+Math.abs(picked.getY() - toScreenCoords.getY()));
+    			
     			if ( 	Math.abs(picked.getX() - toScreenCoords.getX()) > 15 ||
     					Math.abs(picked.getY() - toScreenCoords.getY()) > 15 ) {
     				return null;
