@@ -221,9 +221,9 @@ public class Ggb2MPReduce {
 				"<<on rounded, numval, roundall$ map(rhs,mynumsolve(%0,%1)) >>");
 		p("Numerator.1", "num(%0)");
 		p("Numeric.1",
-				"<<numeric!!:=1; on rounded, roundall, numval$ if printprecision!!<=16 then <<print\\_precision(printprecision!!)$ %0>> else <<precision(printprecision!!)$ print\\_precision(printprecision!!)$ %0 >> >>");
+				"<<numeric!!:=1; on rounded, roundall, numval$ %0 >>");
 		p("Numeric.2",
-				"<<numeric!!:=1; on rounded, roundall, numval$ if %1<=16 then <<print\\_precision(%1)$ %0>> else <<precision(%1)$ print\\_precision(%1)$ %0 >> >>");
+				"<<numeric!!:=1; on rounded, roundall, numval$ precision(max(%1,16))$ print\\_precision(%1)$ %0 >>");
 		p("OrthogonalVector.1",
 				"if myvecp then perpendicular %0 else if arglength(%0)>-1 and part(%0,0)=\\'mat then part mat((0,-1),(1,0))*(%0) else '?");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
