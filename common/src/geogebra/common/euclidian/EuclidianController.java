@@ -4215,12 +4215,36 @@ public abstract class EuclidianController {
 		// remove all indices
 		return label.replaceAll("_", "");
 	}
+	
+	
 
+	protected GeoText createDynamicTextForPolygonArea(String type, GeoElement object, GeoElement value) {
+		return createDynamicText(type, object, value, mouseLoc);
+	}
+	
+	
 	/**
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
 	 */
 	protected GeoText createDynamicText(String type, GeoElement object, GeoElement value, GPoint loc) {
+		
+		GeoText text = createDynamicText(type, object, value);
+		if (text!=null){
+			text.setAbsoluteScreenLocActive(true);
+			text.setAbsoluteScreenLoc(loc.x, loc.y);
+			text.setBackgroundColor(GColor.WHITE);
+			text.updateRepaint();		
+		}
+		
+		return text;
+		
+	}
+	
+	/**
+	 * Creates a text that shows a number value of geo.
+	 */
+	protected GeoText createDynamicText(String type, GeoElement object, GeoElement value) {
 		// create text that shows length
 		try {
 			
@@ -4241,10 +4265,6 @@ public abstract class EuclidianController {
 			
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
 					true, true);
-			text.setAbsoluteScreenLocActive(true);
-			text.setAbsoluteScreenLoc(loc.x, loc.y);
-			text.setBackgroundColor(GColor.WHITE);
-			text.updateRepaint();
 			return text;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4315,8 +4335,8 @@ public abstract class EuclidianController {
 			return null;
 		}
 		
-		GPoint mouseCoords = event.getPoint();
 	
+		App.debug(hits);
 		int count = addSelectedPolygon(hits, 1, false);
 		if (count == 0) {
 			addSelectedConic(hits, 2, false);
@@ -4342,7 +4362,7 @@ public abstract class EuclidianController {
 	
 			// text
 			GeoText text = createDynamicText("AreaOfA", conic, area,
-					mouseCoords);
+					event.getPoint());
 			if (conic.isLabelSet()) {
 				area.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Area"))
 						+ conic.getLabelSimple()));
@@ -4358,8 +4378,8 @@ public abstract class EuclidianController {
 			GeoPolygon[] poly = getSelectedPolygons();
 	
 			// dynamic text with polygon's area
-			GeoText text = createDynamicText("AreaOfA",  poly[0],
-					poly[0], mouseLoc);
+			GeoText text = createDynamicTextForPolygonArea("AreaOfA",  poly[0],
+					poly[0]);
 			if (poly[0].isLabelSet()) {
 				text.setLabel(removeUnderscores(app.getPlain("Text")
 						+ poly[0].getLabelSimple()));
@@ -4370,13 +4390,15 @@ public abstract class EuclidianController {
 	
 		return null;
 	}
+	
+	
 
 	protected String descriptionPoints(String type, GeoPolygon poly) {
 		// build description text including point labels
 		StringBuilder descText = new StringBuilder();
 	
 		// use points for polygon with static points (i.e. no list of points)
-		GeoPoint[] points = null;
+		GeoPointND[] points = null;
 		if (poly.getParentAlgorithm() instanceof AlgoPolygon) {
 			points = ((AlgoPolygon) poly.getParentAlgorithm()).getPoints();
 		}

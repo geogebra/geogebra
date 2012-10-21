@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolyLine;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
@@ -177,11 +178,11 @@ public class CopyPaste {
 			} else if (geo.isGeoPolygon()) {
 				if (geo.getParentAlgorithm().getClassName()
 						.equals(Algos.AlgoPolygon)) {
-					GeoElement[] points = ((AlgoPolygon) (geo
+					GeoPointND[] points = ((AlgoPolygon) (geo
 							.getParentAlgorithm())).getPoints();
 					for (int j = 0; j < points.length; j++) {
 						if (!geos.contains(points[j])) {
-							geos.add(points[j]);
+							geos.add((GeoElement) points[j]);
 						}
 					}
 					GeoElement[] ogeos = ((AlgoPolygon) (geo

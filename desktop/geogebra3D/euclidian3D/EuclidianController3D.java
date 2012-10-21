@@ -2,10 +2,12 @@ package geogebra3D.euclidian3D;
 
 
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -17,6 +19,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -1741,6 +1744,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 		case EuclidianConstants.MODE_CONIFY:
+		case EuclidianConstants.MODE_AREA:
 			//String s = hits.toString();
 			hits.removeAllPolygonsButOne();
 			//s+="\nAprès:\n"+hits.toString();
@@ -2976,6 +2980,27 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			}
 			*/
 		}
+	}
+	
+	
+	
+	@Override
+	protected GeoText createDynamicTextForPolygonArea(String type, GeoElement object, GeoElement value) {
+		GeoText text = createDynamicText(type, object, value);
+		
+		if (text!=null){
+			try {
+				GeoPoint3D p = new GeoPoint3D(kernel.getConstruction());
+				p.setCoords(view3D.getCursor3D().getCoords());
+				text.setStartPoint(p);
+			} catch (CircularDefinitionException e) {
+				e.printStackTrace();
+			}
+			text.setBackgroundColor(GColor.WHITE);
+			text.updateRepaint();
+		}
+		
+		return text;
 	}
 	
 	

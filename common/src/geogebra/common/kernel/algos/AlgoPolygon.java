@@ -250,8 +250,8 @@ public class AlgoPolygon extends AlgoElement {
     	return poly; 
     }  
     
-    public GeoPoint [] getPoints() {
-    	return (GeoPoint[]) points;
+    public GeoPointND [] getPoints() {
+    	return points;
     }
     
     public GeoElement getPolyhedron() { return polyhedron; }    

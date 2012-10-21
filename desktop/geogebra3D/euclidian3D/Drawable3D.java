@@ -627,6 +627,16 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return 1 if this is in front, 0 if equality, -1 either*/
 	public int comparePickingTo(Drawable3D d, boolean checkPickOrder){
 		
+		/*
+		App.debug("\n"
+				+"zMin= "+(this.zPickMin)
+				+" | zMax= "+(this.zPickMax)
+				+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
+				+"zMin= "+(d.zPickMin)
+				+" | zMax= "+(d.zPickMax)
+				+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
+		*/
+		
 		//check if one is transparent and the other not
 		if ( (!this.isTransparent()) && (d.isTransparent()) )
 			return -1;
@@ -642,7 +652,7 @@ public abstract class Drawable3D extends DrawableND {
 		
 		
 		
-		//check if the two objects are "mixed"			
+		//check if the two objects are "mixed"	
 		if ((this.zPickMin-d.zPickMin)*(this.zPickMax-d.zPickMax)<EPSILON_Z){
 			
 			if (DEBUG){
@@ -651,6 +661,7 @@ public abstract class Drawable3D extends DrawableND {
 						+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
 						+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
 			}
+			
 			
 			if (checkPickOrder){
 				if (this.getPickOrder()<d.getPickOrder())
@@ -668,14 +679,18 @@ public abstract class Drawable3D extends DrawableND {
 				if ((!((GeoPointND) this.getGeoElement()).hasPath())&&(((GeoPointND) d.getGeoElement()).hasPath()))
 					return 1;			 
 			}
+			
+			
 
 			//smaller object is more likely to be picked
 			//Note: all objects that are not yet have defined a measure have a default measure = 0
 			//so that they are not affected by this comparison.
+			/*
 			if (Kernel.isGreater(d.getGeoElement().getMeasure(),this.getGeoElement().getMeasure()))
 				return -1;
 			if (Kernel.isGreater(this.getGeoElement().getMeasure(),d.getGeoElement().getMeasure()))
 				return 1;
+				*/
 			
 			
 			//check if one is the child of the other
@@ -685,6 +700,7 @@ public abstract class Drawable3D extends DrawableND {
 				return 1;
 		
 		}
+		
 
 		//finally check if one is before the other
 		if (this.zPickMin<d.zPickMin)
