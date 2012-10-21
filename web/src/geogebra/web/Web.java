@@ -94,9 +94,11 @@ public class Web implements EntryPoint {
 	public void onModuleLoad() {
 		//do we have an app?
 		Web.currentGUI = checkIfNeedToLoadGUI();
+		
+		// always need English properties available, eg Function.sin
+		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
+	
 		if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
-			//JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJSenGB().getText());
 			// popup when the user wants to exit accidentally
 	        Window.addWindowClosingHandler(new Window.ClosingHandler() {
 	            public void onWindowClosing(ClosingEvent event) {
