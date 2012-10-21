@@ -222,7 +222,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 				text = sb.toString();
 			}	
 
-			mi = new JRadioButtonMenuItem(text);
+			mi = new LanguageRadioButtonMenuItem(text);
 			
 			// make sure eg Malayalam, Georgian drawn OK (not in standard Java font)
 			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));

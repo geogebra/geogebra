@@ -242,7 +242,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * @param font
 	 */
 	public static void setMenuFontRecursive(JMenuItem m, Font font) {
-		App.debug(m.getClass());
+		//App.debug(m.getClass());
 		if (m instanceof JMenu) {
 			JPopupMenu pm = ((JMenu) m).getPopupMenu();
 
@@ -252,7 +252,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 			for (MenuElement com : components) {
 				// System.out.println(m.getText());
-				if (com instanceof JComponent) {
+				if (com instanceof LanguageRadioButtonMenuItem) {
+					// do nothing
+				} else if (com instanceof JComponent) {
 					((JComponent) com).setFont(font);
 				}
 				if (com instanceof JMenuItem) {
@@ -262,7 +264,12 @@ public class GeoGebraMenuBar extends JMenuBar {
 				//App.debug(com.getClass());
 			}
 		}
-		m.setFont(font);
+		
+		if (m instanceof LanguageRadioButtonMenuItem) {
+			((LanguageRadioButtonMenuItem)m).getFont().deriveFont(font.getSize2D());
+		} else {
+			m.setFont(font);
+		}
 	}
 
 
