@@ -4336,7 +4336,6 @@ public abstract class EuclidianController {
 		}
 		
 	
-		App.debug(hits);
 		int count = addSelectedPolygon(hits, 1, false);
 		if (count == 0) {
 			addSelectedConic(hits, 2, false);
