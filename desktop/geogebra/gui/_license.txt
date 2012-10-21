@@ -99,7 +99,7 @@ TRANSLATORS
   * Georgian: Lasha Kokilashvili (Georgia)
   * German: Markus Hohenwarter, Judith Hohenwarter, Andreas Lindner,
       Sandra Reichenberger, Christina Biermair, Andrea Duringer,
-      Barbara Kimeswenger, Corinna Krohn (Austria),
+      Barbara Kimeswenger, Corinna Kroehn, Kurt Soeser (Austria),
       Yves Kreis (Luxembourg), Birgit Lachner (Germany)
   * Greek: Nicholas Mousoulides, Constantinos Christou (Cyprus),
       Spiros Mavrogiannis, Manolis Koutlis,
