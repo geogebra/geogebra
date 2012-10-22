@@ -472,7 +472,19 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"tan(~a*'\u00b0)=>tan(a*pi/180)," +
 				"cot(~a*'\u00b0)=>cot(a*pi/180)," +
 				"sec(~a*'\u00b0)=>sec(a*pi/180)," +
-				"csc(~a*'\u00b0)=>csc(a*pi/180)}");
+				"csc(~a*'\u00b0)=>csc(a*pi/180)," +
+				"sin(\u00b0/~a)=>sin(1/a*pi/180)," +
+				"cos(\u00b0/~a)=>cos(1/a*pi/180)," +
+				"tan(\u00b0/~a)=>tan(1/a*pi/180)," +
+				"cot(\u00b0/~a)=>cot(1/a*pi/180)," +
+				"sec(\u00b0/~a)=>sec(1/a*pi/180)," +
+				"csc(\u00b0/~a)=>csc(1/a*pi/180)," +
+				"sin(~b*\u00b0/~a)=>sin(b/a*pi/180)," +
+				"cos(~b*\u00b0/~a)=>cos(b/a*pi/180)," +
+				"tan(~b*\u00b0/~a)=>tan(b/a*pi/180)," +
+				"cot(~b*\u00b0/~a)=>cot(b/a*pi/180)," +
+				"sec(~b*\u00b0/~a)=>sec(b/a*pi/180)," +
+				"csc(~b*\u00b0/~a)=>csc(b/a*pi/180)}");
 		mpreduce1
 				.evaluate("intrules!!:={"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
