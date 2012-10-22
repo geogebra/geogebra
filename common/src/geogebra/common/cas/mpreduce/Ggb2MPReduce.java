@@ -194,13 +194,13 @@ public class Ggb2MPReduce {
 		p("LimitBelow.2",
 				"<<begin scalar input!!, result!!; input!!:=(%0); result!! := limit!-(input!!,mymainvar(input!!),%1); return if freeof(result!!,\\'limit!-) then result!! else \\'?end>>");
 		p("LimitBelow.3", "<<begin scalar result!!; result!! :=limit!-(%0,%1,%2); return if freeof(result!!,\\'limit!-) then result!! else \\'? end >>");
-		p("Max.N", "max(%)");
+		p("Max.N", "myfoldif(sless,list(%))");
 		p("MatrixRank.1", "<<begin scalar a; a:=%0; return rank(a);end>>");
 		p("Mean.1",
 				"<<begin scalar list!!; list!!:=(%0)$ return 1/length(list!!)*for i:=1:length(list!!) sum part(list!!,i) end>>");
 		p("Median.1",
 				"<<begin scalar list!!; list!!:=(%0)$ list!!:= mysort list!!$ return if remainder(length(list!!),2)=0 then (part(list!!,length(list!!)/2)+part(list!!,1+length(list!!)/2))/2 else part(list!!,(length(list!!)+1)/2) end>>");
-		p("Min.N", "min(%)");
+		p("Min.N", "myfoldif(sgreater,list(%))");
 		p("Midpoint.2", "multiplication((%0)+(%1),1/2)");
 		p("Mod.2", "mod!!(%0,%1)");
 		p("NextPrime.1", "if %0<2 then 2 else nextprime(%0)");

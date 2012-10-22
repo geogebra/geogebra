@@ -662,28 +662,37 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("procedure mynumberp(arg);"
 				+ "  begin scalar roundedon;"
 				+ "  roundedon := if lisp(!*rounded) then 'true else 'false;"
-				+ "  on rounded;" 
+				+ "  on rounded,numval;" 
 				+ "  return if numberp(arg) then"
-				+ "    <<if roundedon='false then off rounded; 'true>>"
+				+ "    <<if roundedon='false then off rounded,numval; 'true>>"
 				+ "  else"
-				+ "    <<if roundedon='false then off rounded; 'false>>"
+				+ "    <<if roundedon='false then off rounded,numval; 'false>>"
 				+ "  end;");
 
 		//assumption: arg1 and arg2 are numbers, please check before using
 		mpreduce1.evaluate("procedure mycompare(arg1, arg2);"
 				+ "  begin scalar roundedon;"
 				+ "  roundedon := if lisp(!*rounded) then 'true else 'false;"
-				+ "  on rounded;" 
+				+ "  on rounded,numval;" 
 				+ "  return if arg1<arg2 then"
-				+ "    <<if roundedon='false then off rounded; -1>>"
+				+ "    <<if roundedon='false then off rounded,numval; -1>>"
 				+ "  else if arg1=arg2 then"
-				+ "    <<if roundedon='false then off rounded; 0>>" 
+				+ "    <<if roundedon='false then off rounded,numval; 0>>" 
 				+ "  else"
-				+ "    <<if roundedon='false then off rounded; 1>>" 
+				+ "    <<if roundedon='false then off rounded,numval; 1>>" 
 				+ "  end;");
 		
 		mpreduce1.evaluate(" Degree := pi/180;");
 
+		App.debug(mpreduce1.evaluate(" procedure myfoldif(op,arg1);" +
+				" begin scalar ret;"+
+				"     arg1:=mkdepthone(arg1);"+
+				"     ret:=part(arg1,1);" +
+				"     for i:=2:length(arg1) do" +
+				"       ret:= if op(ret, part(arg1,i))='false then ret else " +
+				"  if op(ret, part(arg1,i))='true then part(arg1,i) else '?;" +
+				"     return ret;" +
+				" end;"));
 		mpreduce1
 				.evaluate("procedure myround(x);"
 						+ "begin; on numval, rounded; r:=floor(x+0.5); off numval, rounded; return r;end");
