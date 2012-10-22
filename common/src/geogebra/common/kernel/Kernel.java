@@ -1765,7 +1765,7 @@ public class Kernel {
 						checkDecimalFraction(Math.toDegrees(phi), precision),
 						tpl));
 				sbFormatAngle.append("*");
-				sbFormatAngle.append("'\u00b0");
+				sbFormatAngle.append("\u00b0");
 				sbFormatAngle.append(")");
 			} else {
 				sbFormatAngle.append(format(phi, tpl));
