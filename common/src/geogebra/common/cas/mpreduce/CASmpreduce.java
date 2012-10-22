@@ -707,7 +707,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				" end;"));
 		mpreduce1
 				.evaluate("procedure myround(x);"
-						+ "begin; on numval, rounded; r:=floor(x+0.5); off numval, rounded; return r;end");
+						+ "begin; " +
+						" roundedon := if lisp(!*rounded) then 'true else 'false; " +
+						" on numval, rounded; r:=floor(x+0.5);" +
+						" if roundedon='false then off numval, rounded; " +
+						" return r;end");
 
 		mpreduce1.evaluate("procedure harmonic(n,m); for i:=1:n sum 1/(i**m);");
 		mpreduce1.evaluate("procedure uigamma(n,m); gamma(n)-igamma(n,m);");
@@ -730,7 +734,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure complexexponential(r,phi); r*(cos(phi)+i*sin(phi));");
 		mpreduce1.evaluate("procedure conjugate(x); conj(x);");
 		mpreduce1
-				.evaluate("procedure myrandom(); <<on rounded; random(100000001)/(random(100000000)+1)>>;");
+				.evaluate("procedure myrandom(); " +
+						" begin;" +
+						" roundedon := if lisp(!*rounded) then 'true else 'false;" +
+						" on rounded; " +
+						" ret!!:=random(100000001)/(random(100000000)+1);" +
+						" if(roundedon='false) then off rounded;" +
+						" return ret!!;" +
+						" end;");
 		mpreduce1.evaluate("procedure gamma!Regularized(a,x); igamma(a,x);");
 		mpreduce1.evaluate("procedure gamma2(a,x); gamma(a)*igamma(a,x);");
 		mpreduce1.evaluate("procedure beta3(a,b,x); beta(a,b)*ibeta(a,b,x);");
