@@ -132,10 +132,14 @@ public class DrawEquationD implements DrawEquationInterface {
 			}
 
 
-			// Arabic is in standard Java fonts, so we don't need to search for
+			// Arabic is in standard Java fonts, so we don't need to search for a font
+			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
+			// Korean is in standard Java fonts, so we don't need to search for a font
+			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
+			// Japanese is in standard Java fonts, so we don't need to search for
 			// a font
 			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
+					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
 
 			// Other codeblocks (currency, symbols etc)
 			TeXFormula.registerExternalFont(
