@@ -2093,10 +2093,6 @@ public class Kernel {
 
 			setEpsilonForPrintPrecision(MAX_PRECISION);
 
-			// tell CAS to use significant figures for Numeric
-			if (ggbCAS != null) {
-				ggbCAS.setSignificantFiguresForNumeric(figures);
-			}
 		}
 	}
 
@@ -2108,13 +2104,6 @@ public class Kernel {
 					: 1;
 
 			setEpsilonForPrintPrecision(Math.pow(10, -decimals));
-
-			// tell CAS to use significant figures:
-			// sigFig = min(2*decimal places, 20)
-			if (ggbCAS != null) {
-				ggbCAS.setSignificantFiguresForNumeric(Math.min(20,
-						2 * decimals));
-			}
 		}
 	}
 

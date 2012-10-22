@@ -136,29 +136,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * Sets the number of signficiant figures (digits) that should be used as
-	 * print precision for the output of Numeric[] commands.
-	 * 
-	 * @param significantNumbers
-	 *            significant figures
-	 */
-	public void setSignificantFiguresForNumeric(final int significantNumbers) {
-		getCurrentCAS().setSignificantFiguresForNumeric(significantNumbers);
-	}
-
-	/*
-	 * private CASmathpiper getMathPiper() { if
-	 * (currentCAS.equals(CasType.MATHPIPER)) return (CASmathpiper) cas; else
-	 * return new CASmathpiper(casParser, new CasParserToolsImpl('e')); }
-	 */
-
-	/*
-	 * private CASmaxima getMaxima() { if (currentCAS.equals(CasType.MAXIMA))
-	 * return (CASmaxima) cas; else return new CASmaxima(casParser, new
-	 * CasParserToolsImpl('b')); }
-	 */
-
-	/**
 	 * @return MPReduce
 	 */
 	public synchronized CASmpreduce getMPReduce() {

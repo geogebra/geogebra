@@ -40,8 +40,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					+ "ggbtmpvarl, ggbtmpvarm, ggbtmpvarn, ggbtmpvaro, ggbtmpvarp, "
 					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
 					+ "ggbtmpvarv, ggbtmpvarw");
-	/** number of significant digits; for -1 use kernel default */
-	protected int significantNumbers = -1;
+
 	/**
 	 * We escape any upper-letter words so Reduce doesn't switch them to /
 	 * lower-letter, / however the following function-names should not be
@@ -399,24 +398,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	}
 
 	/**
-	 * Sets the number of significant figures (digits) that should be used as
-	 * print precision for the output of Numeric[] commands.
-	 * 
-	 * @param significantNumbers
-	 *            new number of significant digits
-	 */
-	public void setSignificantFiguresForNumeric(final int significantNumbers) {
-		if (this.significantNumbers == significantNumbers)
-			return;
-		this.significantNumbers = significantNumbers;
-		try {
-			getMPReduce().evaluate("printprecision!!:=" + significantNumbers);
-		} catch (Throwable th) {
-			th.printStackTrace();
-		}
-	}
-
-	/**
 	 * Loads all packages and initializes all the functions which do not depend
 	 * on the current kernel.
 	 * 
@@ -444,8 +425,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1.evaluate("off numval;");
 		mpreduce1.evaluate("linelength 50000;");
 		mpreduce1.evaluate("scientific_notation {16,5};");
-		mpreduce1.evaluate("on fullroots;");
-		mpreduce1.evaluate("printprecision!!:=15;");
+		mpreduce1.evaluate("on fullroots;");		
 	
 		// set default switches
 		// (note: off factor turns on exp, so off exp must be placed later)
@@ -696,7 +676,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		
 		mpreduce1.evaluate(" Degree := pi/180;");
 
-		App.debug(mpreduce1.evaluate(" procedure myfoldif(op,arg1);" +
+		mpreduce1.evaluate(" procedure myfoldif(op,arg1);" +
 				" begin scalar ret;"+
 				"     arg1:=mkdepthone(arg1);"+
 				"     ret:=part(arg1,1);" +
@@ -704,7 +684,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"       ret:= if op(ret, part(arg1,i))='false then ret else " +
 				"  if op(ret, part(arg1,i))='true then part(arg1,i) else '?;" +
 				"     return ret;" +
-				" end;"));
+				" end;");
 		mpreduce1
 				.evaluate("procedure myround(x);"
 						+ "begin; " +

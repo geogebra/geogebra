@@ -99,12 +99,4 @@ public interface CASGenericInterface extends SettingListener {
 	public abstract String translateFunctionDeclaration(final String label,
 			final String[] parameters, final String body, AssignmentType type);
 
-	/**
-	 * Sets the number of signficiant figures (digits) that should be used as
-	 * print precision for the output of Numeric[] commands.
-	 * 
-	 * @param significantNumbers
-	 *            number of significant digits (-1 to use default)
-	 */
-	public abstract void setSignificantFiguresForNumeric(final int significantNumbers);
 }

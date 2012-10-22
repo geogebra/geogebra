@@ -40,8 +40,6 @@ public interface GeoGebraCasInterface {
 
 	public void unbindVariable(final String addCASVariablePrefix);
 
-	public void setSignificantFiguresForNumeric(final int figures);
-
 	public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, final boolean symbolic,
 			StringTemplate tpl);
