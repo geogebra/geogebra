@@ -167,5 +167,11 @@ public interface ExpressionValue {
 	 * @return wrapped value
 	 */
 	public ExpressionNode wrap();
+	
+	/**
+	 * 
+	 * @return whether x(this) makes sense
+	 */
+	public boolean hasCoords();
 }
 

@@ -292,9 +292,6 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
-
-	
-	
 	
 	@Override
 	public ExpressionValue traverse(Traversing t) {
@@ -304,6 +301,11 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		x = x.traverse(t);
 		y = y.traverse(t);
 		return this;
+	}
+	
+	@Override
+	public boolean hasCoords() {
+		return true;
 	}
 	
 }

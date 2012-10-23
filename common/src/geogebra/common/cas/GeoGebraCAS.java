@@ -444,9 +444,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						sbCASCommand.append("applyfunction(");
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord,");
-					} else {
+					} else if (args.get(0).hasCoords()) {
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord(");
+					} else {
+						sbCASCommand.append("multiplication(");
+						sbCASCommand.append(kern.printVariableName(ch+"", tpl));
+						sbCASCommand.append(",");
 					}
 					handled = true;
 				}

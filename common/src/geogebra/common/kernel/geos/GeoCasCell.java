@@ -2241,5 +2241,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 	public void setPointList(boolean pointList2) {
 		pointList = pointList2;
 	}
+	
+	@Override
+	public boolean hasCoords() {
+		return outputVE!=null && outputVE.hasCoords();
+	}
 
 }

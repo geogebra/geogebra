@@ -559,5 +559,9 @@ implements Traceable {
         y = x * sin - y * cos;
         x = x0;        
     }
-    
+	
+    @Override
+	public boolean hasCoords() {
+		return true;
+	}
 }

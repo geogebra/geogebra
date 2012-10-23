@@ -359,5 +359,9 @@ public abstract class ValidExpression implements ExpressionValue {
 	public ExpressionNode wrap() {
 		return new ExpressionNode(getKernel(), this);
 	}
+	
+	public boolean hasCoords() {
+		return false;
+	}
 
 }

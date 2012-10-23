@@ -39,5 +39,22 @@ public class GeoDummyVariable extends GeoNumeric {
 	public String getVarName(){
 		return varName;
 	}
+	
+	/**
+	 * @return GeoElement with same name (null if not found)
+	 */
+	public GeoElement getElementWithSameName(){
+		GeoElement ge = kernel.lookupLabel(varName);
+		if(ge==null)
+			ge = kernel.lookupCasCellLabel(varName);
+		return ge;
+	}
+	@Override
+	public boolean hasCoords() {
+		GeoElement ge = getElementWithSameName();
+		if(ge != null)
+			return ge.hasCoords();
+		return false;
+	}
 
 }

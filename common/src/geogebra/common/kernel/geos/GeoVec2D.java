@@ -1144,5 +1144,10 @@ final public class GeoVec2D extends ValidExpression implements
 	public Kernel getKernel() {
 		return kernel;
 	}
+	
+	@Override
+	public boolean hasCoords() {
+		return true;
+	}
 
 }

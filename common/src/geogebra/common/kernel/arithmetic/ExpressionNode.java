@@ -5136,6 +5136,7 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * @param toRoot
 	 *            true to replace powers by roots
+	 * @param maxRoot do not use roots higher than that
 	 * @return this node with replaced powers / roots
 	 */
 	public boolean replacePowersRoots(boolean toRoot,int maxRoot ) {
@@ -5256,5 +5257,12 @@ public class ExpressionNode extends ValidExpression implements
 	@Override
 	public ExpressionNode wrap(){
 		return this;
+	}
+	
+	@Override
+	public boolean hasCoords() {
+		if (isLeaf() )
+			return left!=null && left.hasCoords();
+		return getLeft().hasCoords() || getRight().hasCoords();
 	}
 }

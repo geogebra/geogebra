@@ -6881,4 +6881,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 		return getParentAlgorithm() instanceof AlgoAttachCopyToView;
 	}
+	
+	public boolean hasCoords() {
+		return false;
+	}
 }

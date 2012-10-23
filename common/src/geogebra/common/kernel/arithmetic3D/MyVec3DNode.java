@@ -261,4 +261,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
+	
+	@Override
+	public boolean hasCoords() {
+		return true;
+	}
 }
