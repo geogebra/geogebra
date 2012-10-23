@@ -130,7 +130,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		// or if it should not be evaluated (i.e. a shade-only integral)
 		if ((evaluate == null || evaluate.getBoolean())
 				&& !f.isGeoFunctionConditional() && !f.isFreehandFunction() && !evaluateNumerically) {
-			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null,true);
+			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null);
 			symbIntegral = (GeoFunction) algoInt.getResult();
 			cons.removeFromConstructionList(algoInt);
 			// make sure algo is removed properly

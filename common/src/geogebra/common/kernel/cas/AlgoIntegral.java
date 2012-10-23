@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoIntegral extends AlgoCasBase {
 
 	private GeoNumeric var;
-	private boolean helperForDefinite;
+	
 	/**
      * @param cons construction
      * @param label label for output
@@ -41,7 +41,7 @@ public class AlgoIntegral extends AlgoCasBase {
      */
 	public AlgoIntegral(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var) {
-		this(cons, f, var,false);
+		this(cons, f, var);
 		g.toGeoElement().setLabel(label);
 	}
 	/**
@@ -50,9 +50,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	 * @param var variable
      */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var,boolean helperForDefinite) {
+			GeoNumeric var) {
 		super(cons, f);
-		this.helperForDefinite = helperForDefinite;
 		this.var = var;
 
 		setInputOutput(); // for AlgoElement
@@ -110,10 +109,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
 		
 		sbAE.setLength(0);
-		if(helperForDefinite)
-			sbAE.append("IntegralHelper(%");
-		else
-			sbAE.append("Integral(%");
+		sbAE.append("Integral(%");
 		sbAE.append(",");
 		sbAE.append(varStr);
 		sbAE.append(")");

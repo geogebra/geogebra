@@ -79,7 +79,6 @@ public class Ggb2MPReduce {
 		p("DivisorsSum.1",
 				"<<off combinelogs$ if numberp(%0) then if %0=1 then 1 else for each x in factorize(%0) product (part(x,1)^(part(x,2)+1)-1)/(part(x,1)-1) else \\'? >>");
 		p("Dot.2", "mydot(%0,%1)");
-		p("erf.1", "myerf(%0)");
 		p("Element.2", "part(%0,%1)");
 		p("Element.3",
 				"<<clear input!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2)>>");
@@ -137,8 +136,6 @@ public class Ggb2MPReduce {
 		p("ImplicitDerivative.1", "-df(%0,currentx!!)/df(%0,currenty!!)");
 		p("Integral.1",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
-		p("IntegralHelper.2",
-				"<<begin scalar integral!!, input!!; on numval, rounded, roundall; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.2",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.3",
