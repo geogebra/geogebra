@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -186,7 +187,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			List<Integer> derivativeDegrees= col.getDegrees();
 			StringTemplate casTpl = StringTemplate.defaultTemplate;
 			StringBuilder sb = new StringBuilder(100);
-			System.out.println(casInput+"::"+derivativeDegrees.size());
+
 			for(int i=0;i<derivativeDegrees.size();i++){
 				sb.setLength(0);
 				sb.append(derivativeFunctions.get(i).getLabel(casTpl));
@@ -430,11 +431,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// no translation found:
 		// use key as function name
 		if (translation == null) {
-
+			Kernel kern = app.getKernel();
+			boolean silent = kern.isSilentMode();
 			// convert command names x, y, z to xcoord, ycoord, ycoord to
 			// protect it in CAS
 			// see http://www.geogebra.org/trac/ticket/1440
-			boolean handled = false;
+			boolean handled = false;			
 			if (name.length() == 1) {
 				char ch = name.charAt(0);
 				if (ch == 'x' || ch == 'y' || ch == 'z') {
@@ -448,6 +450,28 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					}
 					handled = true;
 				}
+			}else try{
+				Commands c =Commands.valueOf(name);				
+				if(c!=null){
+					
+					kern.setSilentMode(true);
+					StringBuilder sb = new StringBuilder(name);
+					sb.append('[');
+					for(int i=0;i<args.size();i++){
+						if(i>0)
+							sb.append(',');
+						sb.append(args.get(i).toValueString(StringTemplate.defaultTemplate));
+					}
+					sb.append(']');
+					GeoElement[] ggbResult = kern.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(sb.toString(), 
+							false,false,false);
+					kern.setSilentMode(silent);
+					if(ggbResult!=null && ggbResult.length>0 && ggbResult[0]!=null)
+						return ggbResult[0].toValueString(tpl);
+				}
+			}catch(Exception e){
+				kern.setSilentMode(silent);
+				App.info(name+" not known command or function");
 			}
 
 			// standard case: add ggbcasvar prefix to name for CAS
