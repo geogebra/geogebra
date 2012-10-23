@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.properties.PropertiesStyleBar;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
@@ -728,7 +729,7 @@ public class PropertiesViewD extends
 	
 	private int mode = EuclidianConstants.MODE_MOVE;
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		
 		//on init, mode=-1
 		if (mode<0)

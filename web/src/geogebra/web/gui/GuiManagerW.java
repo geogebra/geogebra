@@ -11,6 +11,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -445,10 +446,10 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			algebraView.detachView();
 	}
 	
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 
 		// can't move this after otherwise Object Properties doesn't work
-		kernel.notifyModeChanged(mode);
+		kernel.notifyModeChanged(mode,m);
 
 		// select toolbar button, returns *actual* mode selected
 //		int newMode = setToolbarMode(mode);

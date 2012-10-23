@@ -13,6 +13,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -2429,12 +2430,12 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 
 		setModeFinished = false;
 		
 		// can't move this after otherwise Object Properties doesn't work
-		kernel.notifyModeChanged(mode);
+		kernel.notifyModeChanged(mode,m);
 
 		//notifyModeChanged called another setMode => nothing to do here
 		if(setModeFinished)
@@ -2444,7 +2445,7 @@ public class GuiManagerD extends GuiManager {
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
 			mode = newMode;
-			kernel.notifyModeChanged(mode);
+			kernel.notifyModeChanged(mode,m);
 		}
 
 		if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {

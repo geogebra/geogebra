@@ -17,6 +17,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -830,7 +831,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			repaint();
 		}
 
-		public void setMode(int mode) {
+		public void setMode(int mode,ModeSetter m) {
 			// don't react..
 		}
 

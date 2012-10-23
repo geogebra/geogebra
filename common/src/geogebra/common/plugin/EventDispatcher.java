@@ -1,5 +1,6 @@
 package geogebra.common.plugin;
 
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -134,7 +135,7 @@ public class EventDispatcher implements View {
 		}
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		// TODO Could be useful?
 
 	}

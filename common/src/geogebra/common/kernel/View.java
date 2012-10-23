@@ -64,7 +64,7 @@ public interface View {
 	 * Notify this view about changed mode
 	 * @param mode Euclidian view mode
 	 */
-	public void setMode(int mode);
+	public void setMode(int mode,ModeSetter m);
 	/**
 	 * @return unique ID of this view
 	 */

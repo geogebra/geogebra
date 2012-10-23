@@ -2,6 +2,7 @@ package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -229,7 +230,7 @@ public abstract class SpreadsheetTableModel implements View {
 		// ignore
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		// ignore
 	}
 

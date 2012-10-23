@@ -29,6 +29,7 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.UndoManager;
@@ -3038,17 +3039,23 @@ public abstract class App {
 	 * @param mode
 	 *            new mode
 	 */
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
 		}
 
 		if (getGuiManager() != null) {
-			getGuiManager().setMode(mode);
+			getGuiManager().setMode(mode,m);
 		} else if (euclidianView != null) {
-			euclidianView.setMode(mode);
+			euclidianView.setMode(mode,m);
 		}
 	}
+	
+	public void setMode(int mode) {
+		setMode(mode,ModeSetter.TOOLBAR);
+	}
+	
+	
 
 	/**
 	 * Adds geo to Euclidian view (EV1)

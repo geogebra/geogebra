@@ -53,9 +53,7 @@ public class CasDockPanel extends DockPanel {
 	 */
 	@Override
 	protected void setActiveToolBar(){		
-		((GuiManagerD)appCas.getGuiManager()).getCasView().setToolbarIsUpdatedByDockPanel(true);
 		super.setActiveToolBar();
-		((GuiManagerD)appCas.getGuiManager()).getCasView().setToolbarIsUpdatedByDockPanel(false);
 	}
 	
 	@Override

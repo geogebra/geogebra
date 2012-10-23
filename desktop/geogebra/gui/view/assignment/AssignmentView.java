@@ -1,6 +1,7 @@
 package geogebra.gui.view.assignment;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -92,7 +93,7 @@ public class AssignmentView extends JPanel implements View, Gridable {
 		
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		// TODO Auto-generated method stub
 		
 	}

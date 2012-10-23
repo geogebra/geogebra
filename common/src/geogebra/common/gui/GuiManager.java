@@ -15,6 +15,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -49,7 +50,7 @@ public abstract class GuiManager {
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 			GPoint p);
 
-	public abstract void setMode(int mode);
+	public abstract void setMode(int mode,ModeSetter m);
 
 	public abstract void redo();
 	public abstract void undo();

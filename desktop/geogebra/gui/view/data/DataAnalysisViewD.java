@@ -3,6 +3,7 @@ package geogebra.gui.view.data;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -777,7 +778,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// do nothing
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		// do nothing
 	}
 

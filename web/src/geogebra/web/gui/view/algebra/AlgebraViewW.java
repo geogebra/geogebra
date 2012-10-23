@@ -17,6 +17,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -871,7 +872,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	/**
 	 * Reset the algebra view if the mode changed.
 	 */
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		reset();
 	}
 

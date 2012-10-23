@@ -3231,9 +3231,9 @@ public class Kernel {
 	 * 
 	 * @param mode
 	 */
-	final public void notifyModeChanged(int mode) {
+	final public void notifyModeChanged(int mode,ModeSetter m) {
 		for (int i = 0; i < viewCnt; ++i) {
-			views[i].setMode(mode);
+			views[i].setMode(mode,m);
 		}
 	}
 

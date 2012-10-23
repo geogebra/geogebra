@@ -5,6 +5,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -347,7 +348,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	}
 
 	/** Respond to changes in mode sent by GUI manager */
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 
 		this.mode = mode;
 /*TODO

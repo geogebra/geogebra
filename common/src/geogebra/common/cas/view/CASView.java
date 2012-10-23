@@ -3,6 +3,7 @@ package geogebra.common.cas.view;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -102,8 +103,8 @@ public abstract class CASView implements View{
 	/**
 	 * Handles toolbar mode changes
 	 */
-	public void setMode(int mode) {
-		if (toolbarIsUpdatedByDockPanel)
+	public void setMode(int mode,ModeSetter m) {
+		if (m != ModeSetter.TOOLBAR)
 			return;
 
 		String command = kernel.getModeText(mode); // e.g. "Derivative"
@@ -144,7 +145,7 @@ public abstract class CASView implements View{
 			// ignore other modes
 		}
 		if(backToEvaluate)
-			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE);
+			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE,ModeSetter.CAS_VIEW);
 	}
 	
 	/**
@@ -170,16 +171,6 @@ public abstract class CASView implements View{
 			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
 			getConsoleTable().insertRow(rows, casCell, false);
 		}
-	}
-	
-	/**
-	 * This should be called with "false" to ignore mode changes temporarily 
-	 * @param toolbarIsUpdatedByDockPanel whether toolbar is being updated by dock panel 
-	 */
-
-	public void setToolbarIsUpdatedByDockPanel(
-			boolean toolbarIsUpdatedByDockPanel) {
-		this.toolbarIsUpdatedByDockPanel = toolbarIsUpdatedByDockPanel;
 	}
 	
 	/**

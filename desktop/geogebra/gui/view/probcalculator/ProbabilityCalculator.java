@@ -3,6 +3,7 @@ package geogebra.gui.view.probcalculator;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoBarChart;
@@ -1676,7 +1677,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		// updateAll();
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {

@@ -1,6 +1,7 @@
 package geogebra.gui.toolbar;
 
 import geogebra.common.gui.view.properties.PropertiesView;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
@@ -456,7 +457,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			toolbarPanel.show(Integer.toString(id));
 			//prevent data analysis view from setting mode twice (hack)
 			if(id != App.VIEW_DATA_ANALYSIS){
-				app.setMode(getToolbar(id).getSelectedMode());
+				app.setMode(getToolbar(id).getSelectedMode(),ModeSetter.DOCK_PANEL);
 			}
 		}
 	}

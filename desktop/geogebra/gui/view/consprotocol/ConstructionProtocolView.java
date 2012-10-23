@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -1170,7 +1171,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		/**
 		 * Don't react to changing mode.
 		 */
-		public void setMode(int mode) {
+		public void setMode(int mode,ModeSetter m) {
 		}
 
 		public int getRowCount() {

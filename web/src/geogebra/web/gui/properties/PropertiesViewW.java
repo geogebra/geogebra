@@ -1,5 +1,6 @@
 package geogebra.web.gui.properties;
 
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
@@ -205,7 +206,7 @@ public class PropertiesViewW extends
 
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		// TODO Auto-generated method stub
 
 	}

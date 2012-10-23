@@ -32,6 +32,7 @@ import geogebra.common.factories.FormatFactory;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
@@ -356,7 +357,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return mode;
 	}
 
-	public void setMode(int mode) {
+	public void setMode(int mode,ModeSetter m) {
 		if (mode == this.mode) {
 			return;
 		}
@@ -1551,6 +1552,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 */
 	public void resetMode() {
 		setMode(mode);
+	}
+
+	public void setMode(int mode2) {
+		setMode(mode2,ModeSetter.TOOLBAR);
+		
 	}
 
 	public void repaintView() {

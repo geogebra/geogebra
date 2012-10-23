@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.advanced.AlgoCurvature;
@@ -1078,7 +1079,7 @@ KeyListener, SpecialNumberFormatInterface {
 		setVisible(false);
 	}
 	public void clearView() {}
-	public void setMode(int mode) {}
+	public void setMode(int mode,ModeSetter m) {}
 
 
 

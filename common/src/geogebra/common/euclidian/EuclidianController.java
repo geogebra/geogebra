@@ -24,6 +24,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.Region;
@@ -7822,7 +7823,7 @@ public abstract class EuclidianController {
 					transformCoordsOffset[0] = xRW;
 					transformCoordsOffset[1] = yRW;
 	
-					app.setMode(EuclidianConstants.MODE_MOVE);
+					app.setMode(EuclidianConstants.MODE_MOVE,ModeSetter.TOOLBAR);
 					movedGeoVector = vec;
 					moveMode = MOVE_VECTOR_NO_GRID;
 					return;
