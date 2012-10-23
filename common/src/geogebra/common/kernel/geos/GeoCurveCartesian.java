@@ -915,17 +915,23 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double sum = 0;
 		double sumY = 0;
 		int limit = repeatLast ? points.length + 1 : points.length;
+		int nonzeroSegments = 0;
 		for (int i = 1; i < limit; i++) {
 			int pointIndex = i >= points.length ? 0 : i;
 			ExpressionNode greater = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.MINUS,
-							new MyDouble(kernel, i - 1)), Operation.ABS, null);
-			coef = 0.5 * ((GeoPoint) points[pointIndex]).getX() - 0.5
-					* ((GeoPoint) points[i - 1]).getX() - cumulative;
-			coefY = 0.5 * ((GeoPoint) points[pointIndex]).getY() - 0.5
-					* ((GeoPoint) points[i - 1]).getY() - cumulativeY;
-			sum += coef * (i - 1);
-			sumY += coefY * (i - 1);
+							new MyDouble(kernel, nonzeroSegments)), Operation.ABS, null);
+			Coords c1 = points[pointIndex].getCoordsInD(2);
+			Coords c2 = points[i-1].getCoordsInD(2);
+			if(c1.isEqual(c2))
+				continue;
+			coef = 0.5 * c1.getX() - 0.5
+					* c2.getX() - cumulative;
+			coefY = 0.5 * c1.getY() - 0.5
+					* c2.getY() - cumulativeY;
+			sum += coef * nonzeroSegments;
+			sumY += coefY * nonzeroSegments;
+			nonzeroSegments++;
 			cumulative += coef;
 			cumulativeY += coefY;
 			enx = enx.plus(greater.multiply(new MyDouble(kernel, coef)));
@@ -942,7 +948,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.setFunctionY(yFun);
 
 		this.setFunctionX(xFun);
-		this.setInterval(0, limit - 1);
+		this.setInterval(0, nonzeroSegments);
 	}
 	/**
 	 * Hide range in formula -- needed when the curve is infinite and 
