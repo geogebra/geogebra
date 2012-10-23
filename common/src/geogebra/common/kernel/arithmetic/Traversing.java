@@ -368,7 +368,7 @@ public interface Traversing {
 					&& en.getOperation()!=Operation.DERIVATIVE){
 					GeoElement geo = null;
 					if(en.getLeft() instanceof GeoDummyVariable){
-						geo = en.getKernel().lookupLabel(((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
+						geo = ((GeoDummyVariable)en.getLeft()).getElementWithSameName();
 						en.setLeft(expand(geo));
 					}
 										
@@ -376,7 +376,7 @@ public interface Traversing {
 				if(en.getRight()!=null){
 						GeoElement geo = null;
 						if(en.getRight() instanceof GeoDummyVariable){
-							geo = en.getKernel().lookupLabel(((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
+							geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
 							en.setRight(expand(geo));
 						}
 											
