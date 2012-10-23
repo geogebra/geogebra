@@ -34,7 +34,6 @@ import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.BracketsError;
-import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 
 import java.util.Map;
