@@ -35,7 +35,7 @@
 	<set-property name="user.agent" value="safari" />
 
 	<!-- Compile only one locale -->
-	<set-property name="locale" value="en"/>
+	<!--<set-property name="locale" value="en"/>  -->
 
 	<!-- Compile only for one OS; values: iphone, retina (for iPhone 4 and 4S), ipad, desktop, android, android_tablet, blackberry -->
 	<set-property name="mgwt.os" value="ipad" />

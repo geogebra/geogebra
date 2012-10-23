@@ -22,10 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import java_cup.internal_error;
-
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.EndedHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.logging.client.HasWidgetsLogHandler;

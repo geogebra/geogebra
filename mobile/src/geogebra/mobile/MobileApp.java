@@ -82,11 +82,6 @@ public class MobileApp extends App
 
 		this.kernel = new Kernel(MobileApp.this);
 
-		// initEuclidianViews();
-
-		this.myXMLio = new MyXMLio(this.kernel, this.kernel.getConstruction());
-		this.kernel.getConstruction().setXMLio(this.myXMLio);
-
 		setUndoActive(true);
 		this.mobileGUI.initComponents(this.kernel);
 		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
@@ -719,6 +714,19 @@ public class MobileApp extends App
 	public ScriptManager getScriptManager()
 	{
 		return null;
+	}
+
+	@Override
+	public geogebra.common.io.MyXMLio getXMLio() {
+		if (this.myXMLio == null) { 
+			this.myXMLio = createXMLio(this.kernel.getConstruction()); 
+		} 
+		return this.myXMLio; 
+	}
+
+	@Override
+	public geogebra.common.io.MyXMLio createXMLio(Construction cons) {
+		return new MyXMLio(cons.getKernel(), cons);
 	}
 
 }
