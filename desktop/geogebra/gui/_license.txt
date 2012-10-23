@@ -71,7 +71,7 @@ TRANSLATORS
   * Armenian: Gagik Aghekyan (Armenia)
   * Basque: Gonzalo Elcano Vizcay (Spain)
   * Bosnian: Maja Hrbat (Bosnia and Herzegovina)
-  * Bulgarian: Hristo Stoyanov, Magdalena Petkova (Bulgaria)
+  * Bulgarian: Hristo Stoyanov Hristov, Magdalena Petkova (Bulgaria)
   * Catalan: Jaume Bartroli, Pep Bujosa, Josep Lluis Canadilla,
       Carlos Gimenez, Antoni Goma, Jorge Sanchez,
       Roser Sebastian, David Obrador Sala (Spain)
