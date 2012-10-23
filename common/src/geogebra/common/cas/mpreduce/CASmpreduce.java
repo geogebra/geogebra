@@ -1519,14 +1519,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		CASmpreduce.mpreduce = mpreduce1;
 
 		// user variable ordering
-		String variableOrdering = "ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, "
-				+ "ggbcasvarb, ggbcasvarc, ggbcasvard, ggbcasvare, ggbcasvarf, "
-				+ "ggbcasvarg, ggbcasvarh, ggbcasvari, ggbcasvarj, ggbcasvark, "
-				+ "ggbcasvarl, ggbcasvarm, ggbcasvarn, ggbcasvaro, ggbcasvarp, "
-				+ "ggbcasvarq, ggbcasvarr, ggbcasvars, ggbcasvart, ggbcasvaru, "
-				+ "ggbcasvarv, ggbcasvarw";
+		String variableOrdering = "l%x, %x, l%y, %y, l%z, %z, l%a, %a, "
+				+ "l%b, %b, l%c, %c, l%d, %d, l%e, %e, l%f, %f, "
+				+ "l%g, %g, l%h, %h, l%i, %i, l%j, %j, l%k, %k, "
+				+ "l%l, %l, l%m, %m, l%n, %n, l%o, %o, l%p, %p, "
+				+ "l%q, %q, l%r, %r, l%s, %s, l%t, %t, l%u, %u, "
+				+ "l%v, %v, l%w, %w";
 		// make sure to use current kernel's variable prefix
-		variableOrdering = variableOrdering.replace("ggbcasvar", casPrefix);
+		variableOrdering = variableOrdering.replace("%", casPrefix);
 		if (varOrder.length() > 0 && variableOrdering.length() > 0) {
 			varOrder.append(',');
 		}
