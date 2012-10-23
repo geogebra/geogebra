@@ -49,10 +49,7 @@ public class EventDispatcher implements View {
 	 * @param evt
 	 *            the event to be dispatched
 	 */
-	public void dispatchEvent(Event evt) {
-		if (!evt.target.isLabelSet()) {
-			return;
-		}
+	public void dispatchEvent(Event evt) {		
 		for (EventListener listener : listeners) {
 			listener.sendEvent(evt);
 		}
@@ -69,6 +66,9 @@ public class EventDispatcher implements View {
 	 *            an extra argument
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo, String arg) {
+		if (!geo.isLabelSet()) {
+			return;
+		}
 		dispatchEvent(new Event(evtType, geo, arg));
 	}
 
@@ -81,6 +81,9 @@ public class EventDispatcher implements View {
 	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
+		if (!geo.isLabelSet()) {
+			return;
+		}
 		dispatchEvent(new Event(evtType, geo));
 	}
 
