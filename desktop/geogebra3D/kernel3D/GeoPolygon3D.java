@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
@@ -15,10 +16,13 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
@@ -593,7 +597,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	private EuclidianViewForPlane euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = ((App3D) app).createEuclidianViewForPlane(this);
+		euclidianViewForPlane = ((App3D) app).createEuclidianViewForPlane(this,true);
+	}
+	
+	public void setEuclidianViewForPlane(EuclidianView view){
+		euclidianViewForPlane = (EuclidianViewForPlane) view;
 	}
 	
 	public boolean hasView2DVisible(){
@@ -615,7 +623,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 	
 	
+	public void linkToView2D(int viewId){
+		((App3D) app).putEuclidianViewForPlane(viewId, this); 
 	
+	}
 	
 	
 
@@ -626,5 +637,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			euclidianViewForPlane.updateForPlane();
 		}
 	}
+	
+	
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		if (euclidianViewForPlane != null){
+			sb.append("\t<view2D");
+			sb.append(" id=\"");
+			sb.append(euclidianViewForPlane.getId());
+			sb.append("\"");
+			sb.append("/>\n");
+		}
+	}
+
 
 }

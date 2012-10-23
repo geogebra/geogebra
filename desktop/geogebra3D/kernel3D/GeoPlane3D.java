@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.RegionParameters;
@@ -447,6 +448,15 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		sb.append("\t<fading val=\"");
 		sb.append(getFading());
 		sb.append("\"/>\n");
+		
+		//2D view
+		if (euclidianViewForPlane != null){
+			sb.append("\t<view2D");
+			sb.append(" id=\"");
+			sb.append(euclidianViewForPlane.getId());
+			sb.append("\"");
+			sb.append("/>\n");
+		}
 
 	}
 
@@ -475,7 +485,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public void createView2D() {
 		euclidianViewForPlane = ((App3D) app)
-				.createEuclidianViewForPlane(this);
+				.createEuclidianViewForPlane(this,true);
 		updateViewForPlaneDirection(((App3D) app).getEuclidianView3D()
 				.getViewDirection(), ((App3D) app).getEuclidianView3D()
 				.getToScreenMatrix());
@@ -515,6 +525,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	public void setEuclidianViewForPlane(EuclidianView view){
+		euclidianViewForPlane = (EuclidianViewForPlane) view;
+	}
+	
 	public Coords getDirectionInD3() {
 		return getCoordSys().getNormal();
 	}
@@ -522,6 +536,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	public double getMeasure() {
 		return Double.POSITIVE_INFINITY;
+	}
+	
+	public void linkToView2D(int viewId){
+		((App3D) app).putEuclidianViewForPlane(viewId, this); 
 	}
 
 	// ///////////////////////////////////

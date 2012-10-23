@@ -131,16 +131,8 @@ public class DockPanelData {
 		return embeddedSize;
 	}
 	
-	/**
-	 * @return An XML representation of the data stored in this class.
-	 */
-	public String getXml() {
-		
-		//TODO remove this : here to avoid saving planes 2D views
-		/*
-		if (getViewId()>=1024)
-			return "";
-		*/
+
+	protected StringBuilder getStartXml() {
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("<view id=\"");
@@ -169,8 +161,18 @@ public class DockPanelData {
 		sb.append((int)getFrameBounds().getWidth());
 		sb.append(",");
 		sb.append((int)getFrameBounds().getHeight());
+		return sb;
+	}
+	
+	/**
+	 * @return An XML representation of the data stored in this class.
+	 */
+	public String getXml() {
+		
+		StringBuilder sb = getStartXml();
 		sb.append("\" />\n");
 		return sb.toString();
+		
 	}
 	
 	/**

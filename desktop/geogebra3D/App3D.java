@@ -22,9 +22,12 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
@@ -46,6 +49,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -57,6 +61,9 @@ public class App3D extends AppD {
 	protected Kernel3D kernel3D;
 
 	private EuclidianViewForPlane euclidianViewForPlane;
+	private EuclidianDockPanelForPlane panel;
+	
+	private HashMap<Integer, ViewCreator> evForPlaneList;
 
 	public App3D(CommandLineArguments args, JFrame frame,
 			boolean undoActive) {
@@ -72,6 +79,7 @@ public class App3D extends AppD {
 			AppletImplementation applet, boolean undoActive) {
 
 		super(args, frame, applet, null, undoActive);
+		
 
 		// euclidianView3D.initAxisAndPlane();
 
@@ -187,7 +195,7 @@ public class App3D extends AppD {
 	 * @param plane
 	 * @return create a new euclidian view for the plane
 	 */
-	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane) {
+	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);
@@ -195,23 +203,29 @@ public class App3D extends AppD {
 		euclidianViewForPlane.addExistingGeos();
 
 		// create dock panel
-		EuclidianDockPanelForPlane panel = new EuclidianDockPanelForPlane(this,
+		panel = new EuclidianDockPanelForPlane(this,
 				euclidianViewForPlane);
 		((LayoutD) getGuiManager().getLayout()).registerPanel(panel);
 
-		// panel.setToolbarString(dpInfo[i].getToolbarString());
-		panel.setFrameBounds(new Rectangle(600, 400));
-		// panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
-		// panel.setEmbeddedSize(dpInfo[i].getEmbeddedSize());
-		// panel.setShowStyleBar(dpInfo[i].showStyleBar());
-		// panel.setOpenInFrame(dpInfo[i].isOpenInFrame());
-		panel.setVisible(true);
-		panel.toggleStyleBar();
 
-		((LayoutD) getGuiManager().getLayout()).getDockManager().show(panel);
+		if (panelSettings){
+			// panel.setToolbarString(dpInfo[i].getToolbarString());
+			panel.setFrameBounds(new Rectangle(600, 400));
+			// panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
+			// panel.setEmbeddedSize(dpInfo[i].getEmbeddedSize());
+			// panel.setShowStyleBar(dpInfo[i].showStyleBar());
+			// panel.setOpenInFrame(dpInfo[i].isOpenInFrame());
+			panel.setVisible(true);
+			panel.toggleStyleBar();
+
+
+			((LayoutD) getGuiManager().getLayout()).getDockManager().show(panel);
+		}
 
 		return euclidianViewForPlane;
 	}
+	
+
 
 	// ///////////////////////////////
 	// GUI
@@ -368,6 +382,33 @@ public class App3D extends AppD {
 	@Override
 	public String getVersionString() {
 		return super.getVersionString() + "-" + RendererJogl.JOGL_VERSION;
+	}
+	
+	
+	@Override
+	public DockPanel createEuclidianDockPanelForPlane(int id){
+		if (evForPlaneList==null)
+			return null;
+		ViewCreator vc = getViewCreator(id);
+		if (vc==null)
+			return null;
+		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc,false));
+		return panel;
+	}
+	
+	public void putEuclidianViewForPlane(int id, ViewCreator plane){
+		if (evForPlaneList==null)
+			evForPlaneList = new HashMap<Integer, ViewCreator>();
+		evForPlaneList.put(id, plane);
+	}
+	
+	public ViewCreator getViewCreator(int id){
+		return evForPlaneList.get(id);
+	}
+	
+	public void resetEuclidianViewForPlaneIds() {
+		EuclidianDockPanelForPlane.resetIds();
+		evForPlaneList=null;
 	}
 	
 }

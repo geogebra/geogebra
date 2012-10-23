@@ -74,6 +74,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.layout.DockPanel;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -5355,6 +5356,13 @@ public class AppD extends App implements
 	}
 
 	
+	/**
+	 * 
+	 * @return new EuclidianDockPanelForPlane
+	 */
+	public DockPanel createEuclidianDockPanelForPlane(int id){
+		return null;
+	}
 
 	
 }

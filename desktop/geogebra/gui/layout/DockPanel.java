@@ -76,7 +76,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * The ID of this dock panel.
 	 */
-	private int id;
+	protected int id;
 
 	/**
 	 * The title of this dock panel.
@@ -86,7 +86,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * If this panel is visible.
 	 */
-	private boolean visible = false;
+	protected boolean visible = false;
 
 	/**
 	 * If this panel has focus.
@@ -96,12 +96,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * The dimensions of the external window of this panel.
 	 */
-	private Rectangle frameBounds = new Rectangle(50, 50, 500, 500);
+	protected Rectangle frameBounds = new Rectangle(50, 50, 500, 500);
 
 	/**
 	 * If this panel should be opened in a frame the next time it's visible.
 	 */
-	private boolean openInFrame = false;
+	protected boolean openInFrame = false;
 
 	/**
 	 * If there is a style bar associated with this panel.
@@ -121,18 +121,18 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * If the style bar is visible.
 	 */
-	private boolean showStyleBar = false;
+	protected boolean showStyleBar = false;
 
 	/**
 	 * String which stores the position of the panel in the layout.
 	 */
-	private String embeddedDef = "1";
+	protected String embeddedDef = "1";
 
 	/**
 	 * The size of the panel in the layout, may be either the width or height
 	 * depending upon embeddedDef.
 	 */
-	private int embeddedSize = 150;
+	protected int embeddedSize = 150;
 
 	/**
 	 * The panel at the top where the title and the close button is displayed
@@ -207,7 +207,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * panel has no toolbar. Always contains the string of the perspective
 	 * loaded last.
 	 */
-	private String toolbarString;
+	protected String toolbarString;
 
 	/**
 	 * Default toolbar definition string associated with this panel or null if

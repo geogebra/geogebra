@@ -13,6 +13,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
@@ -32,21 +33,39 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	
 	private int id;
 
+
+	/**
+	 * 
+	 * @param ec controller
+	 */
+	public EuclidianViewForPlane(EuclidianControllerD ec) {
+		super(ec, new boolean[]{ true, true }, true, 1); //TODO ev id
+		
+		initView(true);
+		setShowAxes(false, true);
+		showGrid(false);
+	}
+	
 	/**
 	 * 
 	 * @param ec controller
 	 * @param plane plane creating this view
 	 */
 	public EuclidianViewForPlane(EuclidianControllerD ec, GeoCoordSys2D plane) {
-		super(ec, new boolean[]{ true, true }, true, 1); //TODO ev id
+		this(ec);
 		
-		this.plane = plane;
+		setPlane(plane);
+
 		updateMatrix();
 			
-		//TODO
-		initView(true);
-		setShowAxes(false, true);
-		showGrid(false);
+	}
+	
+	/**
+	 * set the plane creator
+	 * @param plane plane creator
+	 */
+	public void setPlane(GeoCoordSys2D plane){
+		this.plane = plane;
 	}
 	
 	
@@ -156,6 +175,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		
 		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);	
 		inverseTransformedMatrix = transformedMatrix.inverse();
+		
 	}
 	
 	/**
@@ -253,11 +273,16 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	
 	@Override
 	public String getFromPlaneString(){
+		if (plane==null)
+			return "";
 		return plane.toGeoElement().getLabel(StringTemplate.defaultTemplate);
 	}
 
 	@Override
 	public String getTranslatedFromPlaneString(){
+		if (plane == null)
+			return "";
+		
 		if (plane instanceof GeoPlaneND) {
 			return getApplication().getPlain("PlaneA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
 		}

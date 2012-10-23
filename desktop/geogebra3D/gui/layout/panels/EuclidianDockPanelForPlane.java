@@ -1,13 +1,16 @@
 package geogebra3D.gui.layout.panels;
 
 import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.io.layout.DockPanelDataForPlane;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * Dock panel for the primary euclidian view.
@@ -17,7 +20,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	private EuclidianViewForPlane view;
 	
 	//id of the first view
-	private static int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE;
+	private static int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	
 	/**
 	 * @param app application
@@ -42,7 +45,14 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		
 		
 		viewId++; //id of next view
-		
+	}
+	
+	/**
+	 * 
+	 * @return view
+	 */
+	public EuclidianViewForPlane getView(){
+		return view;
 	}
 	
 	@Override
@@ -70,4 +80,16 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	public boolean updateResizeWeight(){
 		return true;
 	}
+	
+	@Override
+	public DockPanelData createInfo() {
+		return new DockPanelDataForPlane(id, toolbarString, visible, openInFrame,
+				showStyleBar, new geogebra.awt.GRectangleD(frameBounds),
+				embeddedDef, embeddedSize,view.getFromPlaneString());
+	}
+	
+	public static void resetIds(){
+		viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
+	}
+	
 }

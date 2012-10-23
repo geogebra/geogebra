@@ -128,7 +128,8 @@ public abstract class App {
 	 * id for view created from plane; also 1025 to 2047 might be used for this
 	 * purpose
 	 */
-	public static final int VIEW_EUCLIDIAN_FOR_PLANE = 1024;
+	public static final int VIEW_EUCLIDIAN_FOR_PLANE_START = 1024;
+	public static final int VIEW_EUCLIDIAN_FOR_PLANE_END = 2047;
 	// please let 1024 to 2047 empty
 	/** id for plot panels (small EVs eg in regression analysis tool) */
 	public static final int VIEW_PLOT_PANEL = 2048;
@@ -4281,5 +4282,13 @@ public abstract class App {
 
 	public abstract MyXMLio getXMLio();
 	public abstract MyXMLio createXMLio(Construction cons);
+
+	/**
+	 * reset ids for 2D view created by planes, etc. Used in 3D.
+	 */
+	public void resetEuclidianViewForPlaneIds() {
+		// used in 3D
+		
+	}
 
 }

@@ -189,6 +189,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		// process construction
 		if (!isGGTfile && xmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
+			app.resetEuclidianViewForPlaneIds();
 			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
 			kernel.getConstruction().setFileLoading(false);
 		}

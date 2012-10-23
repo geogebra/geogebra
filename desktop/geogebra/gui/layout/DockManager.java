@@ -7,11 +7,9 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.main.AppD;
-
 import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Toolkit;
@@ -1228,10 +1226,13 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		if (panel!=null)
 			return panel;
-		else{//manages case where the panel is not found (e.g. 3D view)
-			AppD.printStacktrace("viewId="+viewId+" not found");
-			return new ErrorDockPanel(app,viewId);
+		
+		if (viewId>=App.VIEW_EUCLIDIAN_FOR_PLANE_START && viewId<=App.VIEW_EUCLIDIAN_FOR_PLANE_END){
+			return app.createEuclidianDockPanelForPlane(viewId);
 		}
+		
+		return null;
+		
 	}
 	
 	/**
