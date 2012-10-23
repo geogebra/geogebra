@@ -48,6 +48,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 			DrawableND oldDrawable = get(drawablePos);
 			if (oldDrawable.getGeoElement() == listElement) {
 				d = oldDrawable;
+				update(d);
 			} else {
 				d = getDrawable(listElement, drawList);
 			}
@@ -56,9 +57,6 @@ public class DrawListArray extends ArrayList<DrawableND> {
 		}
 
 		if (d != null) {
-
-			update(d);
-
 			if (inOldDrawableRange) {
 				set(drawablePos, d);
 			} else {
@@ -78,6 +76,12 @@ public class DrawListArray extends ArrayList<DrawableND> {
 		d.update();
 	}
 
+	/**
+	 * Returns UPDATED drawable for the geo
+	 * @param listElement geo
+	 * @param drawList list that wants to add this geo
+	 * @return drawable for the geo
+	 */
 	private DrawableND getDrawable(GeoElement listElement, DrawableND drawList) {
 
 		DrawableND d = view.getDrawableND(listElement);
@@ -86,6 +90,8 @@ public class DrawListArray extends ArrayList<DrawableND> {
 			d = createDrawableND(listElement);// view.createDrawableND(listElement);
 			if (d != null)
 				d.setCreatedByDrawList(drawList);
+		}else{
+			d.update();
 		}
 		return d;
 	}
