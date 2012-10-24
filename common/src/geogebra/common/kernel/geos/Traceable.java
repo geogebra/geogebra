@@ -1,9 +1,11 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.kernelND.GeoElementND;
+
 /**
  * @author Markus Hohenwarter
  */
-public interface Traceable {
+public interface Traceable extends GeoElementND{
 	/**
 	 * @return true if tracing
 	 */
