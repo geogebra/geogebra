@@ -512,7 +512,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		sb.append("\t<file name=\"");
 		// Michael Borcherds 2007-12-10 this line restored (not needed now MD5
 		// code put in the correct place)
-		sb.append(this.getGraphicsAdapter().getImageFileName());
+		sb.append(StringUtil.encodeXML(this.getGraphicsAdapter().getImageFileName()));
 		sb.append("\"/>\n");
 
 		// name of image file

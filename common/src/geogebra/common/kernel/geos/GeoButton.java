@@ -17,6 +17,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.StringUtil;
 
 
 /**
@@ -256,7 +257,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		// name of image file
 		if (getFillImage() != null) {
 			sb.append("\t<file name=\"");
-			sb.append(this.getGraphicsAdapter().getImageFileName());
+			sb.append(StringUtil.encodeXML(this.getGraphicsAdapter().getImageFileName()));
 			sb.append("\"/>\n");
 		}
 
