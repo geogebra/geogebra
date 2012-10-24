@@ -3390,9 +3390,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * afterwards! synchronized for animation
 	 */
 	public void updateCascade() {
-		// start collecting notify updates as locateables can cause multiple updates, see #2462			
+		// start collecting notify updates as locateables can cause multiple updates, see #2462
 		kernel.startCollectingNotifyUpdate(this);
-
 		update();
 		updateDependentObjects();
 
@@ -6885,4 +6884,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean hasCoords() {
 		return false;
 	}
+	
+	public boolean isWaitingForUpdate() {
+		return waitingForUpdate;
+	}
+
+	public void setWaitingForUpdate(boolean waitingForUpdate) {
+		this.waitingForUpdate = waitingForUpdate;
+	}
+
+	private boolean waitingForUpdate;
 }
