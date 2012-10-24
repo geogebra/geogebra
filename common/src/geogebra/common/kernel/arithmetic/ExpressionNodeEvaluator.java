@@ -67,115 +67,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		// handle list operations first
 
-		if (lt.isListValue()) {
-			if ((operation == Operation.MULTIPLY) ) {
-				
-				
-				if (rt.isVectorValue()) {
-				MyList myList = ((ListValue) lt).getMyList();
-				boolean isMatrix = myList.isMatrix();
-				int rows = myList.getMatrixRows();
-				int cols = myList.getMatrixCols();
-				if (isMatrix && (rows == 2) && (cols == 2)) {
-					GeoVec2D myVec = ((VectorValue) rt).getVector();
-					// 2x2 matrix
-					myVec.multiplyMatrix(myList);
-
-					return myVec;
-				} else if (isMatrix && (rows == 3) && (cols == 3)) {
-					GeoVec2D myVec = ((VectorValue) rt).getVector();
-					// 3x3 matrix, assume it's affine
-					myVec.multiplyMatrixAffine(myList, rt);
-					return myVec;
-				}
-				
-				} else if (rt.isVector3DValue()) {
-						MyList myList = ((ListValue) lt).getMyList();
-						boolean isMatrix = myList.isMatrix();
-						int rows = myList.getMatrixRows();
-						int cols = myList.getMatrixCols();
-						if (isMatrix && (rows == 3) && (cols == 3)) {
-							Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
-							// 3x3 matrix * 3D vector / point
-							myVec.multiplyMatrix(myList, rt);
-							return myVec;
-						}
-					
-					
-				}
-
-			} else if ((operation == Operation.VECTORPRODUCT)
-					&& rt.isListValue()) {
-
-				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
-				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
-				if (((listL.size() == 3) && (listR.size() == 3))
-						|| ((listL.size() == 2) && (listR.size() == 2))) {
-					listL.vectorProduct(listR);
-					return listL;
-				}
-
-			}
-			// we cannot use elseif here as we might need multiplication
-			if ((operation != Operation.EQUAL_BOOLEAN // added
-																// EQUAL_BOOLEAN
-																// Michael
-					)
-					// Borcherds 2008-04-12
-					&& (operation != Operation.NOT_EQUAL // ditto
-					) && (operation != Operation.IS_SUBSET_OF // ditto
-					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
-					) && (operation != Operation.SET_DIFFERENCE // ditto
-					) && (operation != Operation.ELEMENT_OF // list1(1) to get
-															// first element
-					)&& (operation != Operation.IS_ELEMENT_OF // list1(1) to get
-							// first element
-							) && !rt.isVectorValue() // eg {1,2} + (1,2)
-					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
-											// 2008-06-05
-			{
-				MyList myList = ((ListValue) lt).getMyList();
-				// list lt operation rt
-				myList.applyRight(operation, rt,tpl);
-				return myList;
-			}
-		} else if (rt.isListValue()
-				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
-				// EQUAL_BOOLEAN
-				// Michael
-				// Borcherds
-				// 2008-04-12
-				&& !operation.equals(Operation.NOT_EQUAL) // ditto
-				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
-				&& !operation.equals(Operation.FREEHAND) // ditto
-				&& !lt.isVectorValue() // eg {1,2} + (1,2)
-				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
-				// 2008-06-05
-				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
-			MyList myList = ((ListValue) rt).getMyList();
-			// lt operation list rt
-			myList.applyLeft(operation, lt,tpl);
-			return myList;
-		}
-
-		else if ((lt instanceof FunctionalNVar)
-				&& (rt instanceof FunctionalNVar)
-				&& !operation.equals(Operation.EQUAL_BOOLEAN)
-				&& !operation.equals(Operation.NOT_EQUAL)) {
-			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
-					(FunctionalNVar) rt);
-		}
-		// we want to use function arithmetic in cases like f*2 or f+x^2, but
-		// not for f(2), f'(2) etc.
-		else if ((lt instanceof FunctionalNVar) && rt.isNumberValue()
-				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
-			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
-					right, true);
-		} else if ((rt instanceof FunctionalNVar) && lt.isNumberValue()) {
-			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
-					left, false);
-		}
-
+		ExpressionValue special = handleSpecial(lt,rt,left,right,operation,tpl);
+		if(special!=null)
+			return special;
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		switch (operation) {
 		/*
@@ -2018,6 +1912,120 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					+ (operation.toString()));
 
 		}
+	}
+
+	private static ExpressionValue handleSpecial(ExpressionValue lt,
+			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
+			Operation operation, StringTemplate tpl) {
+		if (lt.isListValue()) {
+			if ((operation == Operation.MULTIPLY) ) {
+				
+				
+				if (rt.isVectorValue()) {
+				MyList myList = ((ListValue) lt).getMyList();
+				boolean isMatrix = myList.isMatrix();
+				int rows = myList.getMatrixRows();
+				int cols = myList.getMatrixCols();
+				if (isMatrix && (rows == 2) && (cols == 2)) {
+					GeoVec2D myVec = ((VectorValue) rt).getVector();
+					// 2x2 matrix
+					myVec.multiplyMatrix(myList);
+
+					return myVec;
+				} else if (isMatrix && (rows == 3) && (cols == 3)) {
+					GeoVec2D myVec = ((VectorValue) rt).getVector();
+					// 3x3 matrix, assume it's affine
+					myVec.multiplyMatrixAffine(myList, rt);
+					return myVec;
+				}
+				
+				} else if (rt.isVector3DValue()) {
+						MyList myList = ((ListValue) lt).getMyList();
+						boolean isMatrix = myList.isMatrix();
+						int rows = myList.getMatrixRows();
+						int cols = myList.getMatrixCols();
+						if (isMatrix && (rows == 3) && (cols == 3)) {
+							Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
+							// 3x3 matrix * 3D vector / point
+							myVec.multiplyMatrix(myList, rt);
+							return myVec;
+						}
+					
+					
+				}
+
+			} else if ((operation == Operation.VECTORPRODUCT)
+					&& rt.isListValue()) {
+
+				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
+				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
+				if (((listL.size() == 3) && (listR.size() == 3))
+						|| ((listL.size() == 2) && (listR.size() == 2))) {
+					listL.vectorProduct(listR);
+					return listL;
+				}
+
+			}
+			// we cannot use elseif here as we might need multiplication
+			if ((operation != Operation.EQUAL_BOOLEAN // added
+																// EQUAL_BOOLEAN
+																// Michael
+					)
+					// Borcherds 2008-04-12
+					&& (operation != Operation.NOT_EQUAL // ditto
+					) && (operation != Operation.IS_SUBSET_OF // ditto
+					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
+					) && (operation != Operation.SET_DIFFERENCE // ditto
+					) && (operation != Operation.ELEMENT_OF // list1(1) to get
+															// first element
+					)&& (operation != Operation.IS_ELEMENT_OF // list1(1) to get
+							// first element
+							) && !rt.isVectorValue() // eg {1,2} + (1,2)
+					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
+											// 2008-06-05
+			{
+				MyList myList = ((ListValue) lt).getMyList();
+				// list lt operation rt
+				myList.applyRight(operation, rt,tpl);
+				return myList;
+			}
+		} else if (rt.isListValue()
+				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
+				// EQUAL_BOOLEAN
+				// Michael
+				// Borcherds
+				// 2008-04-12
+				&& !operation.equals(Operation.NOT_EQUAL) // ditto
+				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
+				&& !operation.equals(Operation.FREEHAND) // ditto
+				&& !lt.isVectorValue() // eg {1,2} + (1,2)
+				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
+				// 2008-06-05
+				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
+			MyList myList = ((ListValue) rt).getMyList();
+			// lt operation list rt
+			myList.applyLeft(operation, lt,tpl);
+			return myList;
+		}
+
+		else if ((lt instanceof FunctionalNVar)
+				&& (rt instanceof FunctionalNVar)
+				&& !operation.equals(Operation.EQUAL_BOOLEAN)
+				&& !operation.equals(Operation.NOT_EQUAL)) {
+			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
+					(FunctionalNVar) rt);
+		}
+		// we want to use function arithmetic in cases like f*2 or f+x^2, but
+		// not for f(2), f'(2) etc.
+		else if ((lt instanceof FunctionalNVar) && rt.isNumberValue()
+				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
+			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
+					right, true);
+		} else if ((rt instanceof FunctionalNVar) && lt.isNumberValue()) {
+			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
+					left, false);
+		}
+		return null;
 	}
 
 	/**
