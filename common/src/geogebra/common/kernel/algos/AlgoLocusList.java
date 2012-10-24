@@ -59,6 +59,8 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
+		locus.setFillable(false);
+
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
 		compute();
@@ -77,6 +79,8 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
+		locus.setFillable(false);
+
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
 		compute();

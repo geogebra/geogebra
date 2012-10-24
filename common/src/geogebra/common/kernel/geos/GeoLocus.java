@@ -35,6 +35,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	public static final int MAX_PATH_RUNS = 10;
 
 	private boolean defined;
+	private boolean fillable;
 
 	// coords of points on locus
 	private ArrayList<MyPoint> myPointList;
@@ -52,6 +53,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		setConstructionDefaults(); // init visual settings
 
 		myPointList = new ArrayList<MyPoint>(500);
+		setFillable(true);
 	}
 
 	@Override
@@ -419,12 +421,15 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 
 	@Override
 	public boolean isFillable() {
-		return true;
+		return fillable;
 	}
 
 	@Override
 	public boolean isInverseFillable() {
-		return isFillable();
+		return fillable;
 	}
 
+	public void setFillable(boolean fill) {
+		fillable = fill;
+	}
 }
