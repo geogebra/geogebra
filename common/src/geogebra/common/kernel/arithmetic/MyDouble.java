@@ -199,18 +199,18 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param a 1st summand
 	 * @param b 2nd summand 
 	 * @param c result*/
-	final public static void add(MyDouble a, MyDouble b, MyDouble c) {
-		c.isAngle = a.isAngle && b.isAngle;
-		c.set(a.val + b.val);
+	final public static void add(MyDouble a, NumberValue b, MyDouble c) {
+		c.isAngle = a.isAngle && b.isAngle();
+		c.set(a.val + b.getDouble());
 	}
 
 	/** c = a - b 
 	 * @param a subtrahend
 	 * @param b minuend
 	 * @param c result*/
-	final public static void sub(MyDouble a, MyDouble b, MyDouble c) {
-		c.isAngle = a.isAngle && b.isAngle;
-		c.set(a.val - b.val);
+	final public static void sub(MyDouble a, NumberValue b, MyDouble c) {
+		c.isAngle = a.isAngle && b.isAngle();
+		c.set(a.val - b.getDouble());
 	}
 
 	/**
@@ -221,24 +221,24 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param b 2nd factor
 	 * @param c result
 	 * */
-	final public static void mult(MyDouble a, MyDouble b, MyDouble c) {
-		c.isAngle = a.isAngle || b.isAngle;
-
+	final public static void mult(MyDouble a, NumberValue b, MyDouble c) {
+		c.isAngle = a.isAngle || b.isAngle();
+		double bval = b.getDouble();
 		// ? * anything = ?
-		if (Double.isNaN(a.val) || Double.isNaN(b.val)) {
+		if (Double.isNaN(a.val) || Double.isNaN(bval)) {
 			c.set(Double.NaN);
 			return;
 		}
 
 		// (infinity) * (-infinity) = ?
-		if (Double.isInfinite(a.val) && Double.isInfinite(b.val)
-				&& Math.signum(a.val) != Math.signum(b.val)) {
+		if (Double.isInfinite(a.val) && Double.isInfinite(bval)
+				&& Math.signum(a.val) != Math.signum(bval)) {
 			c.set(Double.NaN);
 			return;
 		}
 
 		// gives correct answer for eg -3 * infinity
-		c.set(a.val * b.val);
+		c.set(a.val * bval);
 	}
 
 	/**

@@ -395,7 +395,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// number - number
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				num = ((NumberValue) lt).getNumber();
-				MyDouble.sub(num, ((NumberValue) rt).getNumber(), num);
+				MyDouble.sub(num, (NumberValue) rt, num);
 				return num;
 			}
 			// vector - vector
@@ -450,7 +450,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// number * number
 				if (rt.isNumberValue()) {
 					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, ((NumberValue) rt).getNumber(), num);
+					MyDouble.mult(num, (NumberValue) rt, num);
 					return num;
 				}
 				// number * vector
@@ -459,12 +459,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
 					return vec;
 				}
-				// number * boolean
-				else if (rt.isBooleanValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, ((BooleanValue) rt).getDouble(), num);
-					return num;
-				}
+				// number * boolean -- already in number * number				
 
 			}
 			// text concatenation (left)
