@@ -418,4 +418,11 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	public ExpressionValue getItem(int i) {
 		return args.get(i);
 	}
+	
+	@Override
+	public boolean hasCoords(){
+		if("x".equals(name) || "y".equals(name) || "y".equals(name))
+			return false;
+		return true;
+	}
 }
