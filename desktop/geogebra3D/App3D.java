@@ -396,16 +396,22 @@ public class App3D extends AppD {
 		return panel;
 	}
 	
+	/**
+	 * link view id to plane
+	 * @param id view id
+	 * @param plane plane
+	 */
 	public void putEuclidianViewForPlane(int id, ViewCreator plane){
 		if (evForPlaneList==null)
 			evForPlaneList = new HashMap<Integer, ViewCreator>();
 		evForPlaneList.put(id, plane);
 	}
 	
-	public ViewCreator getViewCreator(int id){
+	private ViewCreator getViewCreator(int id){
 		return evForPlaneList.get(id);
 	}
 	
+	@Override
 	public void resetEuclidianViewForPlaneIds() {
 		EuclidianDockPanelForPlane.resetIds();
 		evForPlaneList=null;
