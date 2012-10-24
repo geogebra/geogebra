@@ -446,6 +446,27 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 
 		case MULTIPLY:
+			if (lt.isNumberValue()) {
+				// number * number
+				if (rt.isNumberValue()) {
+					num = ((NumberValue) lt).getNumber();
+					MyDouble.mult(num, ((NumberValue) rt).getNumber(), num);
+					return num;
+				}
+				// number * vector
+				else if (rt.isVectorValue()) {
+					vec = ((VectorValue) rt).getVector();
+					GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
+					return vec;
+				}
+				// number * boolean
+				else if (rt.isBooleanValue()) {
+					num = ((NumberValue) lt).getNumber();
+					MyDouble.mult(num, ((BooleanValue) rt).getDouble(), num);
+					return num;
+				}
+
+			}
 			// text concatenation (left)
 			if (lt.isTextValue()) {
 				msb = ((TextValue) lt).getText();
@@ -476,40 +497,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return msb;
 			} else
 			// number * ...
-			if (lt.isNumberValue()) {
-				// number * number
-				if (rt.isNumberValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, ((NumberValue) rt).getNumber(), num);
-					return num;
-				}
-				// number * vector
-				else if (rt.isVectorValue()) {
-					vec = ((VectorValue) rt).getVector();
-					GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
-					return vec;
-				}
-				// number * boolean
-				else if (rt.isBooleanValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, ((BooleanValue) rt).getDouble(), num);
-					return num;
-				}
 
-				// number * 3D vector
-				/*
-				 * else if (rt.isVector3DValue()) { Geo3DVec vec3D =
-				 * ((Vector3DValue)rt).get3DVec(); Geo3DVec.mult(vec3D,
-				 * ((NumberValue)lt).getDouble(), vec3D); return vec3D; }
-				 */
-				else {
-					str = new String[]{ "IllegalMultiplication", lt.toString(errorTemplate),
-							"*", rt.toString(errorTemplate) };
-					throw new MyError(app, str);
-				}
-			}
 			// boolean * number
-			else if (lt.isBooleanValue() && rt.isNumberValue()) {
+			if (lt.isBooleanValue() && rt.isNumberValue()) {
 				num = ((NumberValue) rt).getNumber();
 				MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
 				return num;
