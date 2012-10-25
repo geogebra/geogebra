@@ -4,6 +4,7 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.main.App;
 import geogebra3D.kernel3D.GeoLine3D;
 
 import java.util.ArrayList;
@@ -60,15 +61,15 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 		
 		GeoLineND line = (GeoLineND) getGeoElement();
 		
-		Coords o = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 0));
-		Coords v = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 1)).sub(o);
+		Coords o = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 0).getInhomCoordsInSameDimension());
+		Coords v = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 1).getInhomCoordsInSameDimension()).sub(o);
 						
 		double[] minmax = 
 			getView3D().getRenderer().getIntervalInFrustum(
 				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
 				o, v, extendedDepth);
 		
-		//Application.debug("minmax="+minmax[0]+", "+minmax[1]);
+		//App.debug("\no=\n"+o+"\nv=\n"+v+"\nminmax="+minmax[0]+", "+minmax[1]);
 		
 		setDrawMinMax(minmax[0], minmax[1]);
 	}
