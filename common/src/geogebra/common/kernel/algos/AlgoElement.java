@@ -689,6 +689,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 	protected boolean removed = false;
 	
 	/**
+	 * delete dependent objects
+	 */
+	protected void removeOutput(){
+		for (int i = 0; i < getOutputLength(); i++) {
+			getOutput(i).doRemove();
+		}
+	}
+	
+	/**
 	 * Removes algorithm and all dependent objects from construction.
 	 */
 	
@@ -701,9 +710,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		cons.removeFromAlgorithmList(this);
 
 		// delete dependent objects
-		for (int i = 0; i < getOutputLength(); i++) {
-			getOutput(i).doRemove();
-		}
+		removeOutput();
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {

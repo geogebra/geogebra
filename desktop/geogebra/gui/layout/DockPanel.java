@@ -918,7 +918,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Close this panel permanently.
 	 */
-	protected void closePanel() {
+	public void closePanel() {
 		closePanel(true);
 	}
 

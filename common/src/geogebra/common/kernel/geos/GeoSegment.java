@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -668,4 +669,5 @@ final public String toValueString(StringTemplate tpl) {
 	public void setFromMeta(GeoElement poly) {
 		meta = poly;
 	}
+	
 }

@@ -231,10 +231,15 @@ public class GuiManager3D extends GuiManagerD {
 		
 		switch (viewId) {
 		case App.VIEW_EUCLIDIAN3D:
-			App.debug("TODO: how to attach 3D view?");
+			App.debug("TODO: attach 3D view?");
 			break;
 		default: 
-			super.attachView(viewId);
+			/*
+			if (viewId>=App.VIEW_EUCLIDIAN_FOR_PLANE_START && viewId<=App.VIEW_EUCLIDIAN_FOR_PLANE_END)
+				App.debug("TODO: attach view for plane?");
+			else
+			*/
+				super.attachView(viewId);
 			break;
 		}
 	}

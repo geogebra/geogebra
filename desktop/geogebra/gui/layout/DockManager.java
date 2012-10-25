@@ -95,6 +95,15 @@ public class DockManager implements AWTEventListener, SetLabels {
 		dockPanel.register(this);
 	}
 	
+	
+	/**
+	 * remove panel for the dock panels list
+	 * @param dockPanel panel
+	 */
+	public void unRegisterPanel(DockPanel dockPanel) {
+		dockPanels.remove(dockPanel);
+	}
+	
 	/**
 	 * Apply a certain perspective by arranging the dock panels in the requested order.
 	 * 

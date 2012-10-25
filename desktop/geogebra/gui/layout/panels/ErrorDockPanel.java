@@ -52,5 +52,5 @@ public class ErrorDockPanel extends DockPanel {
 	@Override
 	public final void setFocus(boolean hasFocus, boolean updatePropertiesView) {}
 	@Override
-	protected void closePanel() {}
+	public void closePanel() {}
 }

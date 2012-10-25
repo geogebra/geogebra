@@ -230,14 +230,13 @@ public class AlgoPolygon extends AlgoElement {
         		super.setOutput(i+1, (GeoElement) segments[i]);
         	}
         }
-        /*
-        String s="output = ";
-        for (int i=0; i < size-1; i++) {
-            s+=output[i].getLabel()+", ";
-        } 
-        Application.debug(s);
-        */       
     }
+    
+    @Override
+	protected void removeOutput(){
+		if (polyhedron == null) //if from polyhedron, no need to remove dependent objects
+			super.removeOutput();
+	}
     
     @Override
 	public void update() {

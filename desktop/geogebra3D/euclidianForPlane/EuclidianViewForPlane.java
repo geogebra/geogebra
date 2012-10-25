@@ -15,8 +15,10 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
+import geogebra.gui.layout.LayoutD;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
+import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -34,17 +36,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	private int id;
 
 
-	/**
-	 * 
-	 * @param ec controller
-	 */
-	public EuclidianViewForPlane(EuclidianControllerD ec) {
-		super(ec, new boolean[]{ true, true }, true, 1); //TODO ev id
-		
-		initView(true);
-		setShowAxes(false, true);
-		showGrid(false);
-	}
 	
 	/**
 	 * 
@@ -52,7 +43,11 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 * @param plane plane creating this view
 	 */
 	public EuclidianViewForPlane(EuclidianControllerD ec, GeoCoordSys2D plane) {
-		this(ec);
+		super(ec, new boolean[]{ true, true }, true, 1);
+		
+		initView(true);
+		setShowAxes(false, true);
+		showGrid(false);
 		
 		setPlane(plane);
 
@@ -330,12 +325,15 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return ret;
 	}	
 	
+	private EuclidianDockPanelForPlane panel;
+	
 	/**
-	 * set the id of the view
-	 * @param id id
+	 * set the dock panel of the view
+	 * @param panel dock panel containing
 	 */
-	public void setId(int id){
-		this.id=id;
+	public void setDockPanel(EuclidianDockPanelForPlane panel){
+		this.panel=panel;
+		this.id=panel.getViewId();
 	}
 	
 	/**
@@ -344,6 +342,16 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	
+	/**
+	 * remove the view (when creator is removed)
+	 */
+	public void doRemove(){
+		panel.closePanel();
+		((LayoutD) app.getGuiManager().getLayout()).getDockManager().unRegisterPanel(panel);
+		kernel.detach(this);
 	}
 	
 }

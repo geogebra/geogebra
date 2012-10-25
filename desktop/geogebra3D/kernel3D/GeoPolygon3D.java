@@ -651,5 +651,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		}
 	}
 
+	
+	@Override
+	public void doRemove() {
+		if (euclidianViewForPlane != null){
+			euclidianViewForPlane.doRemove();
+		}
+		super.doRemove();
+	}
 
 }
