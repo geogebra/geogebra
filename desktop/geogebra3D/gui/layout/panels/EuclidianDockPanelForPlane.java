@@ -42,10 +42,14 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		this.view = view;
 		view.setDockPanel(this);
 		
+		setEmbeddedSize(300);
 		
 		
 		viewId++; //id of next view
 	}
+	
+	
+	
 	
 	/**
 	 * 

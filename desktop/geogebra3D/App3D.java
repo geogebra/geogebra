@@ -213,7 +213,7 @@ public class App3D extends AppD {
 			// panel.setToolbarString(dpInfo[i].getToolbarString());
 			panel.setFrameBounds(new Rectangle(600, 400));
 			// panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
-			// panel.setEmbeddedSize(dpInfo[i].getEmbeddedSize());
+			//panel.setEmbeddedSize(300);
 			// panel.setShowStyleBar(dpInfo[i].showStyleBar());
 			// panel.setOpenInFrame(dpInfo[i].isOpenInFrame());
 			panel.setVisible(true);
@@ -221,6 +221,7 @@ public class App3D extends AppD {
 
 
 			((LayoutD) getGuiManager().getLayout()).getDockManager().show(panel);
+			
 		}
 
 		return euclidianViewForPlane;

@@ -46,7 +46,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	public EuclidianViewForPlane(EuclidianControllerD ec, ViewCreator plane) {
 		super(ec, new boolean[]{ false, false }, false, 0); //TODO euclidian settings
 		
-		initView(true);
+		//initView(true);
 		setShowAxes(false, false);
 		showGrid(false);
 		
@@ -361,6 +361,13 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		panel.closePanel();
 		((LayoutD) app.getGuiManager().getLayout()).getDockManager().unRegisterPanel(panel);
 		kernel.detach(this);
+	}
+	
+	
+	public void setCoordSystem(double xZero, double yZero, double xscale,
+			double yscale, boolean repaint) {
+		App.printStacktrace("");
+		super.setCoordSystem(xZero, yZero, xscale, yscale, repaint);
 	}
 	
 }

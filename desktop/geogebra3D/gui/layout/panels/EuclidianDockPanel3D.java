@@ -29,6 +29,8 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 		);
 		
 		this.app = app;
+		
+		setEmbeddedSize(300);
 	}
 
 	@Override
