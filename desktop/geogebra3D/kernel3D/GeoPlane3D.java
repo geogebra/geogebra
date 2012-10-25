@@ -513,7 +513,15 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	
 
 	public void setView2DVisible(boolean flag){
-		createView2D();
+		
+		if (euclidianViewForPlane==null){
+			if (flag)
+				createView2D();
+			return;
+		}
+		
+		app.getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
+		
 	}
 
 	@Override
