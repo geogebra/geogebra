@@ -493,6 +493,20 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 	
+
+	public void removeView2D(){
+		euclidianViewForPlane.doRemove();
+	}
+	
+
+	@Override
+	public void doRemove() {
+		if (euclidianViewForPlane != null){
+			removeView2D();
+		}
+		super.doRemove();
+	}
+	
 	public boolean hasView2DVisible(){
 		return euclidianViewForPlane!=null && app.getGuiManager().showView(euclidianViewForPlane.getId());
 	}

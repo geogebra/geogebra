@@ -13,6 +13,10 @@ public interface ViewCreator extends GeoCoordSys2D {
 	/** create a 2D view about this coord sys */
 	public void createView2D();
 	
+	
+	/** remove the 2D view */
+	public void removeView2D();
+	
 	/**
 	 * set the euclidian view created
 	 * @param view view
