@@ -27,15 +27,19 @@ import geogebra.common.plugin.Operation;
  *         Evaluator for ExpressionNode (used in Operation.evaluate())
  */
 public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
-	private StringTemplate errorTemplate = StringTemplate.defaultTemplate;
+	private static final StringTemplate errorTemplate = StringTemplate.defaultTemplate;
+
 	/**
 	 * Evaluates the ExpressionNode described by the parameters
 	 * 
-	 * @param expressionNode       ExpressionNode to evaluate
-	 * @param tpl template needed for nodes containing string concatenation
+	 * @param expressionNode
+	 *            ExpressionNode to evaluate
+	 * @param tpl
+	 *            template needed for nodes containing string concatenation
 	 * @return corresponding ExpressionValue
 	 */
-	public ExpressionValue evaluate(ExpressionNode expressionNode,StringTemplate tpl) {
+	public ExpressionValue evaluate(ExpressionNode expressionNode,
+			StringTemplate tpl) {
 		boolean leaf = expressionNode.leaf;
 		ExpressionValue left = expressionNode.getLeft();
 
@@ -44,20 +48,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// ValidExpression
 		}
 		String[] str;
-		Kernel kernel = expressionNode.getKernel();
+
 		ExpressionValue right = expressionNode.getRight();
 		Operation operation = expressionNode.getOperation();
-		App app = kernel.getApplication();
+
 		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 
 		// Application.debug(operation+"");
 
 		ExpressionValue lt, rt;
-		MyDouble num;
-		MyBoolean bool;
-		GeoVec2D vec, vec2;
-		MyStringBuffer msb;
-		Polynomial poly;
 
 		lt = left.evaluate(tpl); // left tree
 		if (operation.equals(Operation.NO_OPERATION)) {
@@ -67,10 +66,209 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		// handle list operations first
 
-		ExpressionValue special = handleSpecial(lt,rt,left,right,operation,tpl);
-		if(special!=null)
+		ExpressionValue special = handleSpecial(lt, rt, left, right, operation,
+				tpl);
+		if (special != null)
 			return special;
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
+		return operation.handle(this, lt, rt, left, right, tpl, holdsLaTeXtext);
+
+	}
+
+	private static ExpressionValue handleSpecial(ExpressionValue lt,
+			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
+			Operation operation, StringTemplate tpl) {
+		if (lt.isListValue()) {
+			if ((operation == Operation.MULTIPLY)) {
+
+				if (rt.isVectorValue()) {
+					MyList myList = ((ListValue) lt).getMyList();
+					boolean isMatrix = myList.isMatrix();
+					int rows = myList.getMatrixRows();
+					int cols = myList.getMatrixCols();
+					if (isMatrix && (rows == 2) && (cols == 2)) {
+						GeoVec2D myVec = ((VectorValue) rt).getVector();
+						// 2x2 matrix
+						myVec.multiplyMatrix(myList);
+
+						return myVec;
+					} else if (isMatrix && (rows == 3) && (cols == 3)) {
+						GeoVec2D myVec = ((VectorValue) rt).getVector();
+						// 3x3 matrix, assume it's affine
+						myVec.multiplyMatrixAffine(myList, rt);
+						return myVec;
+					}
+
+				} else if (rt.isVector3DValue()) {
+					MyList myList = ((ListValue) lt).getMyList();
+					boolean isMatrix = myList.isMatrix();
+					int rows = myList.getMatrixRows();
+					int cols = myList.getMatrixCols();
+					if (isMatrix && (rows == 3) && (cols == 3)) {
+						Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
+						// 3x3 matrix * 3D vector / point
+						myVec.multiplyMatrix(myList, rt);
+						return myVec;
+					}
+
+				}
+
+			} else if ((operation == Operation.VECTORPRODUCT)
+					&& rt.isListValue()) {
+
+				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
+				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
+				if (((listL.size() == 3) && (listR.size() == 3))
+						|| ((listL.size() == 2) && (listR.size() == 2))) {
+					listL.vectorProduct(listR);
+					return listL;
+				}
+
+			}
+			// we cannot use elseif here as we might need multiplication
+			if ((operation != Operation.EQUAL_BOOLEAN // added
+														// EQUAL_BOOLEAN
+														// Michael
+					)
+					// Borcherds 2008-04-12
+					&& (operation != Operation.NOT_EQUAL // ditto
+					) && (operation != Operation.IS_SUBSET_OF // ditto
+					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
+					) && (operation != Operation.SET_DIFFERENCE // ditto
+					) && (operation != Operation.ELEMENT_OF // list1(1) to get
+															// first element
+					) && (operation != Operation.IS_ELEMENT_OF // list1(1) to
+																// get
+					// first element
+					) && !rt.isVectorValue() // eg {1,2} + (1,2)
+					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
+											// 2008-06-05
+			{
+				MyList myList = ((ListValue) lt).getMyList();
+				// list lt operation rt
+				myList.applyRight(operation, rt, tpl);
+				return myList;
+			}
+		} else if (rt.isListValue()
+				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
+				// EQUAL_BOOLEAN
+				// Michael
+				// Borcherds
+				// 2008-04-12
+				&& !operation.equals(Operation.NOT_EQUAL) // ditto
+				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
+				&& !operation.equals(Operation.FREEHAND) // ditto
+				&& !lt.isVectorValue() // eg {1,2} + (1,2)
+				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
+				// 2008-06-05
+				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
+			MyList myList = ((ListValue) rt).getMyList();
+			// lt operation list rt
+			myList.applyLeft(operation, lt, tpl);
+			return myList;
+		}
+
+		else if ((lt instanceof FunctionalNVar)
+				&& (rt instanceof FunctionalNVar)
+				&& !operation.equals(Operation.EQUAL_BOOLEAN)
+				&& !operation.equals(Operation.NOT_EQUAL)) {
+			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
+					(FunctionalNVar) rt);
+		}
+		// we want to use function arithmetic in cases like f*2 or f+x^2, but
+		// not for f(2), f'(2) etc.
+		else if ((lt instanceof FunctionalNVar) && rt.isNumberValue()
+				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
+			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
+					right, true);
+		} else if ((rt instanceof FunctionalNVar) && lt.isNumberValue()) {
+			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
+					left, false);
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param lt
+	 * @param rt
+	 * @return false if not defined
+	 */
+	private static MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
+			ExpressionValue rt) {
+		StringTemplate tpl = StringTemplate.defaultTemplate;
+		// booleans
+		if (lt.isBooleanValue() && rt.isBooleanValue()) {
+			return new MyBoolean(kernel,
+					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
+							.getBoolean());
+		} else if (lt.isNumberValue() && rt.isNumberValue()) {
+			return new MyBoolean(kernel, Kernel.isEqual(
+					((NumberValue) lt).getDouble(),
+					((NumberValue) rt).getDouble()));
+		} else if (lt.isTextValue() && rt.isTextValue()) {
+
+			String strL = ((TextValue) lt).toValueString(tpl);
+			String strR = ((TextValue) rt).toValueString(tpl);
+
+			// needed for eg Sequence[If[Element[list1,i]=="b",0,1],i,i,i]
+			if ((strL == null) || (strR == null)) {
+				return new MyBoolean(kernel, false);
+			}
+
+			return new MyBoolean(kernel, strL.equals(strR));
+		} else if (lt.isListValue() && rt.isListValue()) {
+
+			MyList list1 = ((ListValue) lt).getMyList();
+			MyList list2 = ((ListValue) rt).getMyList();
+
+			int size = list1.size();
+
+			if (size != list2.size()) {
+				return new MyBoolean(kernel, false);
+			}
+
+			for (int i = 0; i < size; i++) {
+				if (!evalEquals(kernel, list1.getListElement(i).evaluate(tpl),
+						list2.getListElement(i).evaluate(tpl)).getBoolean()) {
+					return new MyBoolean(kernel, false);
+				}
+			}
+
+			return new MyBoolean(kernel, true);
+
+		} else if (lt.isGeoElement() && rt.isGeoElement()) {
+			GeoElement geo1 = (GeoElement) lt;
+			GeoElement geo2 = (GeoElement) rt;
+
+			return new MyBoolean(kernel, geo1.isEqual(geo2));
+		} else if (lt.isVectorValue() && rt.isVectorValue()) {
+			VectorValue vec1 = (VectorValue) lt;
+			VectorValue vec2 = (VectorValue) rt;
+			return new MyBoolean(kernel, vec1.getVector().isEqual(
+					vec2.getVector()));
+		} else if (lt.isVector3DValue() && rt.isVector3DValue()) {
+			Vector3DValue vec1 = (Vector3DValue) lt;
+			Vector3DValue vec2 = (Vector3DValue) rt;
+			return new MyBoolean(kernel, vec1.get3DVec().isEqual(
+					vec2.get3DVec()));
+		}
+
+		return new MyBoolean(kernel, false);
+	}
+
+	public ExpressionValue handleDefault(ExpressionValue lt1,
+			ExpressionValue rt1, ExpressionValue left, ExpressionValue right,
+			Operation operation, StringTemplate tpl, boolean holdsLaTeXtext) {
+		MyDouble num;
+		MyBoolean bool;
+		GeoVec2D vec, vec2;
+		Polynomial poly;
+		String[] str;
+		ExpressionValue lt = lt1;
+		ExpressionValue rt = rt1;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
 		switch (operation) {
 		/*
 		 * case NO_OPERATION: if (lt.isNumber()) return
@@ -96,7 +294,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				bool.setValue(!bool.getBoolean());
 				return bool;
 			}
-			str = new String[]{ "IllegalBoolean", strNOT, lt.toString(errorTemplate) };
+			str = new String[] { "IllegalBoolean", strNOT,
+					lt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case OR:
@@ -107,8 +306,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						|| ((BooleanValue) rt).getBoolean());
 				return bool;
 			}
-			str = new String[]{ "IllegalBoolean", lt.toString(errorTemplate), strOR,
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalBoolean", lt.toString(errorTemplate),
+					strOR, rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case AND:
@@ -119,8 +318,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						&& ((BooleanValue) rt).getBoolean());
 				return bool;
 			}
-			str = new String[]{ "IllegalBoolean", lt.toString(errorTemplate), strAND,
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalBoolean", lt.toString(errorTemplate),
+					strAND, rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		case IMPLICATION:
 			// boolean AND boolean
@@ -130,8 +329,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						|| ((BooleanValue) rt).getBoolean());
 				return bool;
 			}
-			str = new String[]{ "IllegalBoolean", lt.toString(errorTemplate), strIMPLIES,
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalBoolean", lt.toString(errorTemplate),
+					strIMPLIES, rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 			/*
@@ -141,8 +340,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case EQUAL_BOOLEAN: {
 			MyBoolean b = evalEquals(kernel, lt, rt);
 			if (b == null) {
-				str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
-						strEQUAL_BOOLEAN, rt.toString(errorTemplate) };
+				str = new String[] { "IllegalComparison",
+						lt.toString(errorTemplate), strEQUAL_BOOLEAN,
+						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 			return b;
@@ -151,8 +351,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case NOT_EQUAL: {
 			MyBoolean b = evalEquals(kernel, lt, rt);
 			if (b == null) {
-				str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
-						strNOT_EQUAL, rt.toString(errorTemplate) };
+				str = new String[] { "IllegalComparison",
+						lt.toString(errorTemplate), strNOT_EQUAL,
+						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 			// NOT equal
@@ -165,8 +366,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel, MyList.isElementOf(lt,
 						((ListValue) rt).getMyList()));
 			}
-			str = new String[]{ "IllegalListOperation", lt.toString(errorTemplate),
-					strIS_ELEMENT_OF, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalListOperation",
+					lt.toString(errorTemplate), strIS_ELEMENT_OF,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		}
 
@@ -176,8 +378,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList(), tpl));
 			}
-			str = new String[]{ "IllegalListOperation", lt.toString(errorTemplate),
-					strIS_SUBSET_OF, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalListOperation",
+					lt.toString(errorTemplate), strIS_SUBSET_OF,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		}
 
@@ -185,10 +388,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isListValue() && rt.isListValue()) {
 				return new MyBoolean(kernel, MyList.listContainsStrict(
 						((ListValue) rt).getMyList(),
-						((ListValue) lt).getMyList(),tpl));
+						((ListValue) lt).getMyList(), tpl));
 			}
-			str = new String[]{ "IllegalListOperation", lt.toString(errorTemplate),
-					strIS_SUBSET_OF_STRICT, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalListOperation",
+					lt.toString(errorTemplate), strIS_SUBSET_OF_STRICT,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		}
 
@@ -198,8 +402,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((ListValue) lt).getMyList(),
 						((ListValue) rt).getMyList());
 			}
-			str = new String[]{ "IllegalListOperation", lt.toString(errorTemplate),
-					strSET_DIFFERENCE, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalListOperation",
+					lt.toString(errorTemplate), strSET_DIFFERENCE,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		}
 
@@ -210,12 +415,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
-			if(lt.isTextValue() && rt.isTextValue()){
-				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
-				return new MyBoolean(kernel,comp<0);
+			if (lt.isTextValue() && rt.isTextValue()) {
+				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
+						((TextValue) rt).toValueString(tpl));
+				return new MyBoolean(kernel, comp < 0);
 			}
-			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate), "<",
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalComparison",
+					lt.toString(errorTemplate), "<", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case GREATER:
@@ -226,13 +432,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			}
-			if(lt.isTextValue() && rt.isTextValue()){
-				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
-				return new MyBoolean(kernel,comp>0);
+			if (lt.isTextValue() && rt.isTextValue()) {
+				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
+						((TextValue) rt).toValueString(tpl));
+				return new MyBoolean(kernel, comp > 0);
 			}
-			str = new String[]{ "IllegalComparison", lt.getClass().getName(),
-					lt.toString(errorTemplate), ">", rt.toString(errorTemplate),
-					rt.getClass().getName() };
+			str = new String[] { "IllegalComparison", lt.getClass().getName(),
+					lt.toString(errorTemplate), ">",
+					rt.toString(errorTemplate), rt.getClass().getName() };
 			throw new MyError(app, str);
 
 		case LESS_EQUAL:
@@ -242,28 +449,32 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
-			if(lt.isTextValue() && rt.isTextValue()){
-				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
-				return new MyBoolean(kernel,comp<=0);
+			if (lt.isTextValue() && rt.isTextValue()) {
+				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
+						((TextValue) rt).toValueString(tpl));
+				return new MyBoolean(kernel, comp <= 0);
 			}
-			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
-					strLESS_EQUAL, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalComparison",
+					lt.toString(errorTemplate), strLESS_EQUAL,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case GREATER_EQUAL:
 			// number >= number
-			//AbstractApplication.debug(lt.getClass()+" "+rt.getClass());
+			// AbstractApplication.debug(lt.getClass()+" "+rt.getClass());
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			}
-			if(lt.isTextValue() && rt.isTextValue()){
-				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
-				return new MyBoolean(kernel,comp>=0);
+			if (lt.isTextValue() && rt.isTextValue()) {
+				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
+						((TextValue) rt).toValueString(tpl));
+				return new MyBoolean(kernel, comp >= 0);
 			}
-			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
-					strGREATER_EQUAL, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalComparison",
+					lt.toString(errorTemplate), strGREATER_EQUAL,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case PARALLEL:
@@ -272,8 +483,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel,
 						((GeoLine) lt).isParallel((GeoLine) rt));
 			}
-			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
-					strPARALLEL, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalComparison",
+					lt.toString(errorTemplate), strPARALLEL,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case PERPENDICULAR:
@@ -282,370 +494,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel,
 						((GeoLine) lt).isPerpendicular((GeoLine) rt));
 			}
-			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
-					strPERPENDICULAR, rt.toString(errorTemplate) };
+			str = new String[] { "IllegalComparison",
+					lt.toString(errorTemplate), strPERPENDICULAR,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
-
-			/*
-			 * ARITHMETIC operations
-			 */
-		case PLUS:
-			// number + number
-			if (lt.isNumberValue() && rt.isNumberValue()) {
-				num = ((NumberValue) lt).getNumber();
-				MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
-				return num;
-			}
-			// vector + vector
-			else if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.add(vec, ((VectorValue) rt).getVector(), vec);
-				return vec;
-			}
-			// vector + number (for complex addition)
-			else if (lt.isVectorValue() && rt.isNumberValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.add(vec, ((NumberValue) rt), vec);
-				return vec;
-			}
-			// number + vector (for complex addition)
-			else if (lt.isNumberValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector();
-				GeoVec2D.add(vec, ((NumberValue) lt), vec);
-				return vec;
-			}
-			// list + vector
-			else if (lt.isListValue() && rt.isVectorValue()) {
-				MyList list = ((ListValue) lt).getMyList();
-				if (list.size() > 0) {
-					ExpressionValue ev = list.getListElement(0);
-					if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
-						// + point
-						vec = ((VectorValue) rt).getVector();
-						GeoVec2D.add(vec, ((ListValue) lt), vec);
-						return vec;
-					}
-				}
-				// not a list with numbers, do list operation
-				MyList myList = ((ListValue) lt).getMyList();
-				// list lt operation rt
-				myList.applyRight(operation, rt,tpl);
-				return myList;
-
-			}
-			// vector + list
-			else if (rt.isListValue() && lt.isVectorValue()) {
-				MyList list = ((ListValue) rt).getMyList();
-				if (list.size() > 0) {
-					ExpressionValue ev = list.getListElement(0);
-					if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
-						// + point
-						vec = ((VectorValue) lt).getVector();
-						GeoVec2D.add(vec, ((ListValue) rt), vec);
-						return vec;
-					}
-				}
-				// not a list with numbers, do list operation
-				MyList myList = ((ListValue) rt).getMyList();
-				// lt operation list rt
-				myList.applyLeft(operation, lt,tpl);
-				return myList;
-			}
-			// text concatenation (left)
-			else if (lt.isTextValue()) {
-				msb = ((TextValue) lt).getText();
-				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false,tpl));
-				} else {
-					if (rt.isGeoElement()) {
-						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString(tpl));
-					} else {
-						msb.append(rt.toValueString(tpl));
-					}
-				}
-				return msb;
-			} // text concatenation (right)
-			else if (rt.isTextValue()) {
-				msb = ((TextValue) rt).getText();
-				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false,tpl));
-				} else {
-					if (lt.isGeoElement()) {
-						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString(tpl));
-					} else {
-						msb.insert(0, lt.toValueString(tpl));
-					}
-				}
-				return msb;
-			}
-			// polynomial + polynomial
-			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.add((Polynomial) rt);
-				return poly;
-			} else {
-				str = new String[]{ "IllegalAddition", lt.toString(errorTemplate), "+",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
-
-		case MINUS:
-			// number - number
-			if (lt.isNumberValue() && rt.isNumberValue()) {
-				num = ((NumberValue) lt).getNumber();
-				MyDouble.sub(num, (NumberValue) rt, num);
-				return num;
-			}
-			// vector - vector
-			else if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.sub(vec, ((VectorValue) rt).getVector(), vec);
-				return vec;
-			}
-			// 3D vector - 3D vector
-			/*
-			 * else if (lt.isVector3DValue() && rt.isVector3DValue()) { Geo3DVec
-			 * vec3D = ((Vector3DValue)lt).get3DVec(); Geo3DVec.sub(vec3D,
-			 * ((Vector3DValue)rt).get3DVec(), vec3D); return vec3D; }
-			 */
-			// vector - number (for complex subtraction)
-			else if (lt.isVectorValue() && rt.isNumberValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.sub(vec, ((NumberValue) rt), vec);
-				return vec;
-			}
-			// number - vector (for complex subtraction)
-			else if (lt.isNumberValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector();
-				GeoVec2D.sub(((NumberValue) lt), vec, vec);
-				return vec;
-			}
-			// list - vector
-			else if (lt.isListValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector();
-				GeoVec2D.sub(vec, ((ListValue) lt), vec, false);
-				return vec;
-			}
-			// vector - list
-			else if (rt.isListValue() && lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.sub(vec, ((ListValue) rt), vec, true);
-				return vec;
-			}
-			// polynomial - polynomial
-			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.sub((Polynomial) rt);
-				return poly;
-			} else {
-				str = new String[]{ "IllegalSubtraction", lt.toString(errorTemplate), "-",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
-
-		case MULTIPLY:
-			if (lt.isNumberValue()) {
-				// number * number
-				if (rt.isNumberValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, (NumberValue) rt, num);
-					return num;
-				}
-				// number * vector
-				else if (rt.isVectorValue()) {
-					vec = ((VectorValue) rt).getVector();
-					GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
-					return vec;
-				}
-				// number * boolean -- already in number * number				
-
-			}
-			// text concatenation (left)
-			if (lt.isTextValue()) {
-				msb = ((TextValue) lt).getText();
-				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false,tpl));
-				} else {
-					if (rt.isGeoElement()) {
-						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString(tpl));
-					} else {
-						msb.append(rt.toValueString(tpl));
-					}
-				}
-				return msb;
-			} // text concatenation (right)
-			else if (rt.isTextValue()) {
-				msb = ((TextValue) rt).getText();
-				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false,tpl));
-				} else {
-					if (lt.isGeoElement()) {
-						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString(tpl));
-					} else {
-						msb.insert(0, lt.toValueString(tpl));
-					}
-				}
-				return msb;
-			} else
-			// number * ...
-
-			// boolean * number
-			if (lt.isBooleanValue() && rt.isNumberValue()) {
-				num = ((NumberValue) rt).getNumber();
-				MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
-				return num;
-			}
-			/*
-			 * // 3D vector * number else if (lt.isVector3DValue() &&
-			 * rt.isNumberValue()) { Geo3DVec vec3D =
-			 * ((Vector3DValue)lt).get3DVec(); Geo3DVec.mult(vec3D,
-			 * ((NumberValue)rt).getDouble(), vec3D); return vec3D; } // 3D
-			 * vector * 3D Vector (inner/dot product) else if
-			 * (lt.isVector3DValue() && rt.isVector3DValue()) { Geo3DVec vec3D =
-			 * ((Vector3DValue)lt).get3DVec(); num = new MyDouble(kernel);
-			 * Geo3DVec.inner(vec3D, ((Vector3DValue)rt).get3DVec(), num);
-			 * return num; }
-			 */
-			// vector * ...
-			else if (lt.isVectorValue()) {
-				// vector * number
-				if (rt.isNumberValue()) {
-					vec = ((VectorValue) lt).getVector();
-					GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
-					return vec;
-				}
-				// vector * vector (inner/dot product)
-				else if (rt.isVectorValue()) {
-					vec = ((VectorValue) lt).getVector();
-					if (vec.getMode() == Kernel.COORD_COMPLEX) {
-
-						// complex multiply
-
-						GeoVec2D.complexMultiply(vec,
-								((VectorValue) rt).getVector(), vec);
-						return vec;
-					}
-					num = new MyDouble(kernel);
-					GeoVec2D.inner(vec, ((VectorValue) rt).getVector(), num);
-					return num;
-				}
-
-				else {
-					str = new String[]{ "IllegalMultiplication", lt.toString(errorTemplate),
-							"*", rt.toString(errorTemplate) };
-					throw new MyError(app, str);
-				}
-			}
-			// polynomial * polynomial
-			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.multiply((Polynomial) rt);
-				return poly;
-			} else if (lt.isTextValue()) {
-				msb = ((TextValue) lt).getText();
-				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false,tpl));
-				} else {
-					if (rt.isGeoElement()) {
-						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString(tpl));
-					} else {
-						msb.append(rt.toValueString(tpl));
-					}
-				}
-				return msb;
-			} // text concatenation (right)
-			else if (rt.isTextValue()) {
-				msb = ((TextValue) rt).getText();
-				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false,tpl));
-				} else {
-					if (lt.isGeoElement()) {
-						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString(tpl));
-					} else {
-						msb.insert(0, lt.toValueString(tpl));
-					}
-				}
-				return msb;
-			} else {
-				str = new String[]{ "IllegalMultiplication", lt.toString(errorTemplate), "*",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
-
-		case DIVIDE:
-			if (rt.isNumberValue()) {
-				// number / number
-				if (lt.isNumberValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.div(num, ((NumberValue) rt).getNumber(), num);
-					return num;
-				}
-				// vector / number
-				else if (lt.isVectorValue()) {
-					vec = ((VectorValue) lt).getVector();
-					GeoVec2D.div(vec, ((NumberValue) rt).getDouble(), vec);
-					return vec;
-				} else if (lt instanceof GeoFunction) {
-					return GeoFunction.applyNumberSymb(Operation.DIVIDE,
-							(GeoFunction) lt, right, true);
-				}
-				/*
-				 * // number * 3D vector else if (lt.isVector3DValue()) {
-				 * Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
-				 * Geo3DVec.div(vec3D, ((NumberValue)rt).getDouble(), vec3D);
-				 * return vec3D; }
-				 */
-				else {
-					str = new String[]{ "IllegalDivision", lt.toString(errorTemplate), "/",
-							rt.toString(errorTemplate) };
-					throw new MyError(app, str);
-				}
-			}
-			// polynomial / polynomial
-			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-				// the divisor must be a polynom of degree 0
-				if (((Polynomial) rt).degree() != 0) {
-					str = new String[]{ "DivisorMustBeConstant", lt.toString(errorTemplate),
-							"/", rt.toString(errorTemplate) };
-					throw new MyError(app, str);
-				}
-
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.divide((Polynomial) rt);
-				return poly;
-			}
-			// vector / vector (complex division Michael Borcherds 2007-12-09)
-			else if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.complexDivide(vec, ((VectorValue) rt).getVector(), vec);
-				return vec;
-
-			}
-			// number / vector (complex division Michael Borcherds 2007-12-09)
-			else if (lt.isNumberValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector(); // just to
-														// initialise
-														// vec
-				GeoVec2D.complexDivide((NumberValue) lt,
-						((VectorValue) rt).getVector(), vec);
-				return vec;
-
-			}
-
-			else if ((rt instanceof GeoFunction) && lt.isNumberValue()) {
-				return GeoFunction.applyNumberSymb(Operation.DIVIDE,
-						(GeoFunction) rt, left, false);
-			} else {
-				str = new String[]{ "IllegalDivision", lt.toString(errorTemplate), "/",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
 
 		case VECTORPRODUCT:
 			if (lt.isVectorValue() && rt.isVectorValue()) {
@@ -655,8 +507,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				GeoVec2D.vectorProduct(vec, vec2, num);
 				return num;
 			}
-			String[] str2 = { "IllegalMultiplication", lt.toString(errorTemplate),
-					strVECTORPRODUCT, rt.toString(errorTemplate) };
+			String[] str2 = { "IllegalMultiplication",
+					lt.toString(errorTemplate), strVECTORPRODUCT,
+					rt.toString(errorTemplate) };
 			throw new MyError(app, str2);
 
 		case POWER:
@@ -678,8 +531,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					ExpressionNode node = (ExpressionNode) right;
 					if (node.getOperation().equals(Operation.DIVIDE)) {
 						// check if we have a/b with a and b integers
-						double a = node.getLeft().evaluateNum()
-								.getDouble();
+						double a = node.getLeft().evaluateNum().getDouble();
 						long al = Math.round(a);
 						if (Kernel.isEqual(a, al)) { // a is integer
 							double b = node.getRight().evaluateNum()
@@ -689,7 +541,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 								// (x^a)^(1/0)
 								num.set(Double.NaN);
 							} else if (Kernel.isEqual(b, bl)) { // b is
-																		// integer
+																// integer
 								// divide through greatest common divisor of a
 								// and b
 								long gcd = Kernel.gcd(al, bl);
@@ -737,7 +589,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// vector ^ 2 (inner product)
 			else if (lt.isVectorValue() && rt.isNumberValue()) {
 				// if (!rt.isConstant()) {
-				// String [] str = new String[]{ "ExponentMustBeConstant", lt.toString(),
+				// String [] str = new String[]{ "ExponentMustBeConstant",
+				// lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
@@ -759,12 +612,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 				num.set(Double.NaN);
 				return num;
-				// String [] str = new String[]{ "IllegalExponent", lt.toString(),
+				// String [] str = new String[]{ "IllegalExponent",
+				// lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 			} else if (lt.isVectorValue() && rt.isVectorValue()) {
 				// if (!rt.isConstant()) {
-				// String [] str = new String[]{ "ExponentMustBeConstant", lt.toString(),
+				// String [] str = new String[]{ "ExponentMustBeConstant",
+				// lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
@@ -778,7 +633,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			} else if (lt.isNumberValue() && rt.isVectorValue()) {
 				// if (!rt.isConstant()) {
-				// String [] str = new String[]{ "ExponentMustBeConstant", lt.toString(),
+				// String [] str = new String[]{ "ExponentMustBeConstant",
+				// lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
@@ -795,8 +651,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
 				// the exponent must be a number
 				if (((Polynomial) rt).degree() != 0) {
-					str = new String[]{ "ExponentMustBeInteger", lt.toString(errorTemplate),
-							"^", rt.toString(errorTemplate) };
+					str = new String[] { "ExponentMustBeInteger",
+							lt.toString(errorTemplate), "^",
+							rt.toString(errorTemplate) };
 					throw new MyError(app, str);
 				}
 
@@ -806,7 +663,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (baseIsNumber) {
 					Term base = ((Polynomial) lt).getTerm(0);
 					Term exponent = ((Polynomial) rt).getTerm(0);
-					Term newBase = new Term( new ExpressionNode(kernel,
+					Term newBase = new Term(new ExpressionNode(kernel,
 							base.getCoefficient(), Operation.POWER,
 							exponent.getCoefficient()), "");
 
@@ -815,8 +672,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 				// number is not a base
 				if (!rt.isConstant()) {
-					str = new String[]{ "ExponentMustBeConstant", lt.toString(errorTemplate),
-							"^", rt.toString(errorTemplate) };
+					str = new String[] { "ExponentMustBeConstant",
+							lt.toString(errorTemplate), "^",
+							rt.toString(errorTemplate) };
 					throw new MyError(app, str);
 				}
 
@@ -827,44 +685,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					poly.power((int) exponent);
 					return poly;
 				}
-				str = new String[]{ "ExponentMustBeInteger", lt.toString(errorTemplate),
-						"^", rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			} else {
-				//AbstractApplication.debug("power: lt :" + lt.getClass()
-				//		+ ", rt: " + rt.getClass());
-				str = new String[]{ "IllegalExponent", lt.toString(errorTemplate), "^",
+				str = new String[] { "ExponentMustBeInteger",
+						lt.toString(errorTemplate), "^",
 						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
-			}
-
-		case COS:
-			// cos(number)
-			if (lt.isNumberValue()) {
-				return ((NumberValue) lt).getNumber().cos();
-			} else if (lt.isPolynomialInstance()
-					&& (((Polynomial) lt).degree() == 0)) {
-				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.COS, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "cos", lt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
-
-		case SIN:
-			// sin(number)
-			if (lt.isNumberValue()) {
-				return ((NumberValue) lt).getNumber().sin();
-			} else if (lt.isPolynomialInstance()
-					&& (((Polynomial) lt).degree() == 0)) {
-				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.SIN, null), ""));
-			} else {
-				str = new String[]{ "IllegalArgument", "sin", lt.toString(errorTemplate) };
+				// AbstractApplication.debug("power: lt :" + lt.getClass()
+				// + ", rt: " + rt.getClass());
+				str = new String[] { "IllegalExponent",
+						lt.toString(errorTemplate), "^",
+						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -911,8 +741,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyDouble(kernel, ret);
 
 			}
-			str = new String[]{ "IllegalArgument", "freehand", lt.toString(errorTemplate) };
-			//AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
+			str = new String[] { "IllegalArgument", "freehand",
+					lt.toString(errorTemplate) };
+			// AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
 			throw new MyError(app, str);
 
 		case TAN:
@@ -922,11 +753,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.TAN, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.TAN, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "tan", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "tan",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -937,11 +768,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ARCCOS, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ARCCOS, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "arccos", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "arccos",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -952,11 +783,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ARCSIN, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ARCSIN, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "arcsin", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "arcsin",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -967,11 +798,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ARCTAN, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ARCTAN, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "arctan", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "arctan",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -981,8 +812,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) lt).getNumber().atan2((NumberValue) rt)
 						.getNumber();
 			}
-			str = new String[]{ "IllegalArgument", "arctan2", lt.toString(errorTemplate),
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "arctan2",
+					lt.toString(errorTemplate), rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case COSH:
@@ -992,11 +823,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.COSH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.COSH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "cosh", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "cosh",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1007,11 +838,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.SINH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.SINH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "sinh", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "sinh",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1022,11 +853,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.TANH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.TANH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "tanh", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "tanh",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1037,11 +868,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ACOSH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ACOSH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "acosh", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "acosh",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1052,11 +883,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ASINH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ASINH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "asinh", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "asinh",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1067,11 +898,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ATANH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ATANH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "atanh", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "atanh",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case ZETA:
@@ -1081,18 +912,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ZETA, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ZETA, null), ""));
 			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
 				GeoVec2D.complexZeta(vec, vec);
-				
+
 				return vec;
 
 			} else {
-				str = new String[]{ "IllegalArgument", "zeta", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "zeta",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case CI:
@@ -1102,11 +933,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.CI, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.CI, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "cosIntegral", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "cosIntegral",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case SI:
@@ -1116,11 +947,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.SI, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.SI, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "sinIntegral", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "sinIntegral",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case EI:
@@ -1130,11 +961,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.EI, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.EI, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "expIntegral", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "expIntegral",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1145,11 +976,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.CSC, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.CSC, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "csc", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "csc",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1160,11 +991,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.SEC, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.SEC, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "sec", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "sec",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1175,11 +1006,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.COT, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.COT, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "cot", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "cot",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1190,11 +1021,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.CSCH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.CSCH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "csch", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "csch",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1205,11 +1036,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.SECH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.SECH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "sech", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "sech",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1220,11 +1051,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.COTH, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.COTH, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "coth", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "coth",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1235,9 +1066,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.EXP, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.EXP, null), ""));
 			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
@@ -1247,7 +1077,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				str = new String[]{ "IllegalArgument", "exp", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "exp",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1258,9 +1089,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.LOG, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.LOG, null), ""));
 			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
@@ -1270,7 +1100,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				str = new String[]{ "IllegalArgument", "log", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "log",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1279,8 +1110,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return ((NumberValue) rt).getNumber().log((NumberValue) lt);
 			}
-			str = new String[]{ "IllegalArgument", "log", lt.toString(errorTemplate),
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "log",
+					lt.toString(errorTemplate), rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case GAMMA_INCOMPLETE:
@@ -1289,7 +1120,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber().gammaIncomplete(
 						(NumberValue) lt);
 			}
-			str = new String[]{ "IllegalArgument", "gammaIncomplete",
+			str = new String[] { "IllegalArgument", "gammaIncomplete",
 					lt.toString(errorTemplate), rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
@@ -1299,7 +1130,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber()
 						.gammaIncompleteRegularized((NumberValue) lt);
 			}
-			str = new String[]{ "IllegalArgument",
+			str = new String[] { "IllegalArgument",
 					"gammaIncompleteRegularized", lt.toString(errorTemplate),
 					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
@@ -1309,8 +1140,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return ((NumberValue) rt).getNumber().beta((NumberValue) lt);
 			}
-			str = new String[]{ "IllegalArgument", "beta", lt.toString(errorTemplate),
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "beta",
+					lt.toString(errorTemplate), rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case BETA_INCOMPLETE:
@@ -1319,7 +1150,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber().betaIncomplete(
 						(VectorValue) lt);
 			}
-			str = new String[]{ "IllegalArgument", "betaIncomplete",
+			str = new String[] { "IllegalArgument", "betaIncomplete",
 					lt.toString(errorTemplate), rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
@@ -1329,7 +1160,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber()
 						.betaIncompleteRegularized((VectorValue) lt);
 			}
-			str = new String[]{ "IllegalArgument",
+			str = new String[] { "IllegalArgument",
 					"betaIncompleteRegularized", lt.toString(errorTemplate),
 					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
@@ -1339,7 +1170,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().erf();
 			}
-			str = new String[]{ "IllegalArgument", "erf", lt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "erf",
+					lt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case PSI:
@@ -1347,7 +1179,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().psi();
 			}
-			str = new String[]{ "IllegalArgument", "erf", lt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "erf",
+					lt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case POLYGAMMA:
@@ -1356,8 +1189,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber().polygamma(
 						(NumberValue) lt);
 			}
-			str = new String[]{ "IllegalArgument", "polygamma", lt.toString(errorTemplate),
-					rt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "polygamma",
+					lt.toString(errorTemplate), rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case LOG10:
@@ -1367,11 +1200,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.LOG10, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.LOG10, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "lg", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "lg",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1382,11 +1215,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.LOG2, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.LOG2, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "ld", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "ld",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case SQRT_SHORT:
@@ -1397,9 +1230,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.SQRT, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.SQRT, null), ""));
 			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
@@ -1408,39 +1240,41 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				str = new String[]{ "IllegalArgument", "sqrt", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "sqrt",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case NROOT:
 			// sqrt(number)
-			if(rt.isNumberValue()){
-				double n = ((NumberValue)rt).getDouble();
-				MyDouble exp = new MyDouble(kernel,1/n);
-			
+			if (rt.isNumberValue()) {
+				double n = ((NumberValue) rt).getDouble();
+				MyDouble exp = new MyDouble(kernel, 1 / n);
+
 				if (lt.isNumberValue()) {
 					MyDouble root = ((NumberValue) lt).getNumber();
-					if(Kernel.isGreater(0, root.getDouble()) && Kernel.isInteger(n) && Math.round(n)%2==1){
-						MyDouble.powDoubleSgnChange(root, exp, root);	
-					}else{
+					if (Kernel.isGreater(0, root.getDouble())
+							&& Kernel.isInteger(n) && Math.round(n) % 2 == 1) {
+						MyDouble.powDoubleSgnChange(root, exp, root);
+					} else {
 						MyDouble.pow(root, exp, root);
 					}
 					return root;
 				} else if (lt.isPolynomialInstance()
 						&& (((Polynomial) lt).degree() == 0)) {
 					lt = ((Polynomial) lt).getConstantCoefficient();
-					return new Polynomial(kernel, new Term(
-							new ExpressionNode(kernel, lt, Operation.NROOT, exp),
-							""));
+					return new Polynomial(kernel, new Term(new ExpressionNode(
+							kernel, lt, Operation.NROOT, exp), ""));
 				} else if (lt.isVectorValue()) {
 					vec = ((VectorValue) lt).getVector();
-	
+
 					// complex sqrt
 					GeoVec2D.complexPower(vec, exp, vec);
 					return vec;
-	
-				} 
+
+				}
 			}
-			str = new String[]{ "IllegalArgument", "sqrt", lt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", "sqrt",
+					lt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case CBRT:
@@ -1450,9 +1284,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.CBRT, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.CBRT, null), ""));
 			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
@@ -1461,7 +1294,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				str = new String[]{ "IllegalArgument", "cbrt", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "cbrt",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1477,7 +1311,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				str = new String[]{ "IllegalArgument", "cbrt", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "cbrt",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1492,7 +1327,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyDouble(kernel,
 						((NumberValue) lt).getDouble() < 0 ? Math.PI : 0);
 			} else {
-				str = new String[]{ "IllegalArgument", "arg", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "arg",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1503,9 +1339,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.ABS, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ABS, null), ""));
 			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
@@ -1515,7 +1350,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyDouble(kernel, GeoVec2D.complexAbs(vec));
 
 			} else {
-				str = new String[]{ "IllegalArgument", "abs", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "abs",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1526,11 +1362,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.SGN, null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.SGN, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "sgn", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "sgn",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1541,11 +1377,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.FLOOR, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.FLOOR, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "floor", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "floor",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1556,11 +1392,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.CEIL, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.CEIL, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "ceil", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "ceil",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1571,11 +1407,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ROUND, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ROUND, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "round", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "round",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case FRACTIONAL_PART:
@@ -1585,11 +1421,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, operation, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, operation, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "fractionalPart", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "fractionalPart",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case FACTORIAL:
@@ -1599,11 +1435,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.FACTORIAL,
-								null), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.FACTORIAL, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", lt.toString(errorTemplate), " !" };
+				str = new String[] { "IllegalArgument",
+						lt.toString(errorTemplate), " !" };
 				throw new MyError(app, str);
 			}
 
@@ -1614,11 +1450,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.GAMMA, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.GAMMA, null), ""));
 			} else {
-				str = new String[]{ "IllegalArgument", "gamma", lt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument", "gamma",
+						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1627,48 +1463,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// note: left tree holds MyDouble object to set random number
 			// in randomize()
 			return ((NumberValue) lt).getNumber();
-		case REAL:			
-		case XCOORD:
-			// x(vector)
-			if (lt.isVectorValue()) {
-				return new MyDouble(kernel, ((VectorValue) lt).getVector()
-						.getX());
-			} else if (lt.isPolynomialInstance()
-					&& (((Polynomial) lt).degree() == 0)) {
-				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, operation, null),
-						""));
-			} else if (lt.isVector3DValue()) {
-				return new MyDouble(kernel,
-						((Vector3DValue) lt).getPointAsDouble()[0]);
-			} else if (lt instanceof GeoLine) {
-				return new MyDouble(kernel, ((GeoLine) lt).x);
-			} else {
-				str = new String[]{ "IllegalArgument", "x(", lt.toString(errorTemplate), ")" };
-				throw new MyError(app, str);
-			}
-		case IMAGINARY:	
-		case YCOORD:
-			// y(vector)
-			if (lt.isVectorValue()) {
-				return new MyDouble(kernel, ((VectorValue) lt).getVector()
-						.getY());
-			} else if (lt.isPolynomialInstance()
-					&& (((Polynomial) lt).degree() == 0)) {
-				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, operation, null),
-						""));
-			} else if (lt.isVector3DValue()) {
-				return new MyDouble(kernel,
-						((Vector3DValue) lt).getPointAsDouble()[1]);
-			} else if (lt instanceof GeoLine) {
-				return new MyDouble(kernel, ((GeoLine) lt).y);
-			} else {
-				str = new String[]{ "IllegalArgument", "y(", lt.toString(errorTemplate), ")" };
-				throw new MyError(app, str);
-			}
 
 		case ZCOORD:
 			// z(vector)
@@ -1677,16 +1471,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isPolynomialInstance()
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.ZCOORD, null),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.ZCOORD, null), ""));
 			} else if (lt.isVector3DValue()) {
 				return new MyDouble(kernel,
 						((Vector3DValue) lt).getPointAsDouble()[2]);
 			} else if (lt instanceof GeoLine) {
 				return new MyDouble(kernel, ((GeoLine) lt).z);
 			} else {
-				String[] str3 = { "IllegalArgument", "z(", lt.toString(errorTemplate), ")" };
+				String[] str3 = { "IllegalArgument", "z(",
+						lt.toString(errorTemplate), ")" };
 				throw new MyError(app, str3);
 			}
 
@@ -1719,7 +1513,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 			// + " rt: " + rt + ", " + rt.getClass());
-			str = new String[]{ "IllegalArgument", rt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
 		case FUNCTION:
@@ -1750,21 +1544,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						return new MyDouble(kernel, ((GeoFunctionable) lt)
 								.getGeoFunction().getFunction().evaluate(pt));
 					} else {
-						App
-								.error("missing case in ExpressionNodeEvaluator");
+						App.error("missing case in ExpressionNodeEvaluator");
 					}
 				}
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
 					&& (((Polynomial) rt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.FUNCTION, rt),
-						""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.FUNCTION, rt), ""));
 			} else {
 				// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 				// + " rt: " + rt + ", " + rt.getClass());
-				str = new String[]{ "IllegalArgument", rt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument",
+						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1799,10 +1592,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 							&& (ev instanceof MyVecNode)) {
 						MyVecNode pt = (MyVecNode) ev;
 						double[] vals = new double[] {
-								pt.getX().evaluateNum()
-										.getDouble(),
-								pt.getY().evaluateNum()
-										.getDouble() };
+								pt.getX().evaluateNum().getDouble(),
+								pt.getY().evaluateNum().getDouble() };
 						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,
 									funN.evaluateBoolean(vals));
@@ -1854,13 +1645,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					&& (((Polynomial) rt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.VEC_FUNCTION,
-								rt), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.VEC_FUNCTION, rt), ""));
 			} else {
 				// Application.debug("lt: " + lt.getClass() + " rt: " +
 				// rt.getClass());
-				str = new String[]{ "IllegalArgument", rt.toString(errorTemplate) };
+				str = new String[] { "IllegalArgument",
+						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 
@@ -1880,206 +1671,507 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					&& (((Polynomial) rt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
-				return new Polynomial(kernel,
-						new Term( new ExpressionNode(kernel, lt,
-								Operation.DERIVATIVE, rt), ""));
+				return new Polynomial(kernel, new Term(new ExpressionNode(
+						kernel, lt, Operation.DERIVATIVE, rt), ""));
 			}
 			// error if we get here
-			str = new String[]{ "IllegalArgument", rt.toString(errorTemplate) };
+			str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		case ARBCONST:
 		case ARBINT:
 		case ARBCOMPLEX:
-			return new MyDouble(kernel,0.0);
+			return new MyDouble(kernel, 0.0);
 
 		default:
 			throw new MyError(app, "ExpressionNode: Unhandled operation."
 					+ (operation.toString()));
 
 		}
+
 	}
 
-	private static ExpressionValue handleSpecial(ExpressionValue lt,
-			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
-			Operation operation, StringTemplate tpl) {
-		if (lt.isListValue()) {
-			if ((operation == Operation.MULTIPLY) ) {
-				
-				
-				if (rt.isVectorValue()) {
-				MyList myList = ((ListValue) lt).getMyList();
-				boolean isMatrix = myList.isMatrix();
-				int rows = myList.getMatrixRows();
-				int cols = myList.getMatrixCols();
-				if (isMatrix && (rows == 2) && (cols == 2)) {
-					GeoVec2D myVec = ((VectorValue) rt).getVector();
-					// 2x2 matrix
-					myVec.multiplyMatrix(myList);
+	public ExpressionValue handleXcoord(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue left, ExpressionValue right, Operation operation,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		if (lt.isVectorValue()) {
+			return new MyDouble(kernel, ((VectorValue) lt).getVector().getX());
+		} else if (lt.isPolynomialInstance()
+				&& (((Polynomial) lt).degree() == 0)) {
+			lt = ((Polynomial) lt).getConstantCoefficient();
+			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
+					lt, operation, null), ""));
+		} else if (lt.isVector3DValue()) {
+			return new MyDouble(kernel,
+					((Vector3DValue) lt).getPointAsDouble()[0]);
+		} else if (lt instanceof GeoLine) {
+			return new MyDouble(kernel, ((GeoLine) lt).x);
+		} else {
+			str = new String[] { "IllegalArgument", "x(",
+					lt.toString(errorTemplate), ")" };
+			throw new MyError(app, str);
+		}
+	}
 
-					return myVec;
-				} else if (isMatrix && (rows == 3) && (cols == 3)) {
-					GeoVec2D myVec = ((VectorValue) rt).getVector();
-					// 3x3 matrix, assume it's affine
-					myVec.multiplyMatrixAffine(myList, rt);
-					return myVec;
-				}
-				
-				} else if (rt.isVector3DValue()) {
-						MyList myList = ((ListValue) lt).getMyList();
-						boolean isMatrix = myList.isMatrix();
-						int rows = myList.getMatrixRows();
-						int cols = myList.getMatrixCols();
-						if (isMatrix && (rows == 3) && (cols == 3)) {
-							Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
-							// 3x3 matrix * 3D vector / point
-							myVec.multiplyMatrix(myList, rt);
-							return myVec;
-						}
-					
-					
-				}
+	public ExpressionValue handleYcoord(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue left, ExpressionValue right, Operation operation,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
 
-			} else if ((operation == Operation.VECTORPRODUCT)
-					&& rt.isListValue()) {
+		// y(vector)
+		if (lt.isVectorValue()) {
+			return new MyDouble(kernel, ((VectorValue) lt).getVector().getY());
+		} else if (lt.isPolynomialInstance()
+				&& (((Polynomial) lt).degree() == 0)) {
+			lt = ((Polynomial) lt).getConstantCoefficient();
+			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
+					lt, operation, null), ""));
+		} else if (lt.isVector3DValue()) {
+			return new MyDouble(kernel,
+					((Vector3DValue) lt).getPointAsDouble()[1]);
+		} else if (lt instanceof GeoLine) {
+			return new MyDouble(kernel, ((GeoLine) lt).y);
+		} else {
+			str = new String[] { "IllegalArgument", "y(",
+					lt.toString(errorTemplate), ")" };
+			throw new MyError(app, str);
+		}
+	}
 
-				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
-				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
-				if (((listL.size() == 3) && (listR.size() == 3))
-						|| ((listL.size() == 2) && (listR.size() == 2))) {
-					listL.vectorProduct(listR);
-					return listL;
-				}
+	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,			
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		MyDouble num;
+		GeoVec2D vec;
+		MyStringBuffer msb;
+		Polynomial poly;
 
+		if (lt.isNumberValue()) {
+			// number * number
+			if (rt.isNumberValue()) {
+				num = ((NumberValue) lt).getNumber();
+				MyDouble.mult(num, (NumberValue) rt, num);
+				return num;
 			}
-			// we cannot use elseif here as we might need multiplication
-			if ((operation != Operation.EQUAL_BOOLEAN // added
-																// EQUAL_BOOLEAN
-																// Michael
-					)
-					// Borcherds 2008-04-12
-					&& (operation != Operation.NOT_EQUAL // ditto
-					) && (operation != Operation.IS_SUBSET_OF // ditto
-					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
-					) && (operation != Operation.SET_DIFFERENCE // ditto
-					) && (operation != Operation.ELEMENT_OF // list1(1) to get
-															// first element
-					)&& (operation != Operation.IS_ELEMENT_OF // list1(1) to get
-							// first element
-							) && !rt.isVectorValue() // eg {1,2} + (1,2)
-					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
-											// 2008-06-05
-			{
-				MyList myList = ((ListValue) lt).getMyList();
-				// list lt operation rt
-				myList.applyRight(operation, rt,tpl);
-				return myList;
+			// number * vector
+			else if (rt.isVectorValue()) {
+				vec = ((VectorValue) rt).getVector();
+				GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
+				return vec;
 			}
-		} else if (rt.isListValue()
-				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
-				// EQUAL_BOOLEAN
-				// Michael
-				// Borcherds
-				// 2008-04-12
-				&& !operation.equals(Operation.NOT_EQUAL) // ditto
-				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
-				&& !operation.equals(Operation.FREEHAND) // ditto
-				&& !lt.isVectorValue() // eg {1,2} + (1,2)
-				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
-				// 2008-06-05
-				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
+			// number * boolean -- already in number * number
+
+		}
+		// text concatenation (left)
+		if (lt.isTextValue()) {
+			msb = ((TextValue) lt).getText();
+			if (holdsLaTeXtext) {
+				msb.append(rt.toLaTeXString(false, tpl));
+			} else {
+				if (rt.isGeoElement()) {
+					GeoElement geo = (GeoElement) rt;
+					msb.append(geo.toDefinedValueString(tpl));
+				} else {
+					msb.append(rt.toValueString(tpl));
+				}
+			}
+			return msb;
+		} // text concatenation (right)
+		else if (rt.isTextValue()) {
+			msb = ((TextValue) rt).getText();
+			if (holdsLaTeXtext) {
+				msb.insert(0, lt.toLaTeXString(false, tpl));
+			} else {
+				if (lt.isGeoElement()) {
+					GeoElement geo = (GeoElement) lt;
+					msb.insert(0, geo.toDefinedValueString(tpl));
+				} else {
+					msb.insert(0, lt.toValueString(tpl));
+				}
+			}
+			return msb;
+		} else
+		// number * ...
+
+		// boolean * number
+		if (lt.isBooleanValue() && rt.isNumberValue()) {
+			num = ((NumberValue) rt).getNumber();
+			MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
+			return num;
+		}
+		/*
+		 * // 3D vector * number else if (lt.isVector3DValue() &&
+		 * rt.isNumberValue()) { Geo3DVec vec3D =
+		 * ((Vector3DValue)lt).get3DVec(); Geo3DVec.mult(vec3D,
+		 * ((NumberValue)rt).getDouble(), vec3D); return vec3D; } // 3D vector *
+		 * 3D Vector (inner/dot product) else if (lt.isVector3DValue() &&
+		 * rt.isVector3DValue()) { Geo3DVec vec3D =
+		 * ((Vector3DValue)lt).get3DVec(); num = new MyDouble(kernel);
+		 * Geo3DVec.inner(vec3D, ((Vector3DValue)rt).get3DVec(), num); return
+		 * num; }
+		 */
+		// vector * ...
+		else if (lt.isVectorValue()) {
+			// vector * number
+			if (rt.isNumberValue()) {
+				vec = ((VectorValue) lt).getVector();
+				GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
+				return vec;
+			}
+			// vector * vector (inner/dot product)
+			else if (rt.isVectorValue()) {
+				vec = ((VectorValue) lt).getVector();
+				if (vec.getMode() == Kernel.COORD_COMPLEX) {
+
+					// complex multiply
+
+					GeoVec2D.complexMultiply(vec,
+							((VectorValue) rt).getVector(), vec);
+					return vec;
+				}
+				num = new MyDouble(kernel);
+				GeoVec2D.inner(vec, ((VectorValue) rt).getVector(), num);
+				return num;
+			}
+
+			else {
+				str = new String[] { "IllegalMultiplication",
+						lt.toString(errorTemplate), "*",
+						rt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
+		}
+		// polynomial * polynomial
+		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+			poly = new Polynomial(kernel, (Polynomial) lt);
+			poly.multiply((Polynomial) rt);
+			return poly;
+		} else if (lt.isTextValue()) {
+			msb = ((TextValue) lt).getText();
+			if (holdsLaTeXtext) {
+				msb.append(rt.toLaTeXString(false, tpl));
+			} else {
+				if (rt.isGeoElement()) {
+					GeoElement geo = (GeoElement) rt;
+					msb.append(geo.toDefinedValueString(tpl));
+				} else {
+					msb.append(rt.toValueString(tpl));
+				}
+			}
+			return msb;
+		} // text concatenation (right)
+		else if (rt.isTextValue()) {
+			msb = ((TextValue) rt).getText();
+			if (holdsLaTeXtext) {
+				msb.insert(0, lt.toLaTeXString(false, tpl));
+			} else {
+				if (lt.isGeoElement()) {
+					GeoElement geo = (GeoElement) lt;
+					msb.insert(0, geo.toDefinedValueString(tpl));
+				} else {
+					msb.insert(0, lt.toValueString(tpl));
+				}
+			}
+			return msb;
+		} else {
+			str = new String[] { "IllegalMultiplication",
+					lt.toString(errorTemplate), "*", rt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+	}
+
+	public ExpressionValue handlePlus(ExpressionValue lt, ExpressionValue rt,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		MyDouble num;
+		GeoVec2D vec;
+		MyStringBuffer msb;
+		Polynomial poly;
+		if (lt.isNumberValue() && rt.isNumberValue()) {
+			num = ((NumberValue) lt).getNumber();
+			MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
+			return num;
+		}
+		// vector + vector
+		else if (lt.isVectorValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) lt).getVector();
+			GeoVec2D.add(vec, ((VectorValue) rt).getVector(), vec);
+			return vec;
+		}
+		// vector + number (for complex addition)
+		else if (lt.isVectorValue() && rt.isNumberValue()) {
+			vec = ((VectorValue) lt).getVector();
+			GeoVec2D.add(vec, ((NumberValue) rt), vec);
+			return vec;
+		}
+		// number + vector (for complex addition)
+		else if (lt.isNumberValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) rt).getVector();
+			GeoVec2D.add(vec, ((NumberValue) lt), vec);
+			return vec;
+		}
+		// list + vector
+		else if (lt.isListValue() && rt.isVectorValue()) {
+			MyList list = ((ListValue) lt).getMyList();
+			if (list.size() > 0) {
+				ExpressionValue ev = list.getListElement(0);
+				if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
+					// + point
+					vec = ((VectorValue) rt).getVector();
+					GeoVec2D.add(vec, ((ListValue) lt), vec);
+					return vec;
+				}
+			}
+			// not a list with numbers, do list operation
+			MyList myList = ((ListValue) lt).getMyList();
+			// list lt operation rt
+			myList.applyRight(Operation.PLUS, rt, tpl);
+			return myList;
+
+		}
+		// vector + list
+		else if (rt.isListValue() && lt.isVectorValue()) {
+			MyList list = ((ListValue) rt).getMyList();
+			if (list.size() > 0) {
+				ExpressionValue ev = list.getListElement(0);
+				if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
+					// + point
+					vec = ((VectorValue) lt).getVector();
+					GeoVec2D.add(vec, ((ListValue) rt), vec);
+					return vec;
+				}
+			}
+			// not a list with numbers, do list operation
 			MyList myList = ((ListValue) rt).getMyList();
 			// lt operation list rt
-			myList.applyLeft(operation, lt,tpl);
+			myList.applyLeft(Operation.PLUS, lt, tpl);
 			return myList;
 		}
-
-		else if ((lt instanceof FunctionalNVar)
-				&& (rt instanceof FunctionalNVar)
-				&& !operation.equals(Operation.EQUAL_BOOLEAN)
-				&& !operation.equals(Operation.NOT_EQUAL)) {
-			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
-					(FunctionalNVar) rt);
-		}
-		// we want to use function arithmetic in cases like f*2 or f+x^2, but
-		// not for f(2), f'(2) etc.
-		else if ((lt instanceof FunctionalNVar) && rt.isNumberValue()
-				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
-			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
-					right, true);
-		} else if ((rt instanceof FunctionalNVar) && lt.isNumberValue()) {
-			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
-					left, false);
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param lt
-	 * @param rt
-	 * @return false if not defined
-	 */
-	private MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
-			ExpressionValue rt) {
-		StringTemplate tpl = StringTemplate.defaultTemplate;
-		// booleans
-		if (lt.isBooleanValue() && rt.isBooleanValue()) {
-			return new MyBoolean(kernel,
-					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
-							.getBoolean());
-		} else if (lt.isNumberValue() && rt.isNumberValue()) {
-			return new MyBoolean(kernel, Kernel.isEqual(
-					((NumberValue) lt).getDouble(),
-					((NumberValue) rt).getDouble()));
-		} else if (lt.isTextValue() && rt.isTextValue()) {
-			
-			String strL = ((TextValue) lt).toValueString(tpl);
-			String strR = ((TextValue) rt).toValueString(tpl);
-
-			// needed for eg Sequence[If[Element[list1,i]=="b",0,1],i,i,i]
-			if ((strL == null) || (strR == null)) {
-				return new MyBoolean(kernel, false);
-			}
-
-			return new MyBoolean(kernel, strL.equals(strR));
-		} else if (lt.isListValue() && rt.isListValue()) {
-
-			MyList list1 = ((ListValue) lt).getMyList();
-			MyList list2 = ((ListValue) rt).getMyList();
-
-			int size = list1.size();
-
-			if (size != list2.size()) {
-				return new MyBoolean(kernel, false);
-			}
-
-			for (int i = 0; i < size; i++) {
-				if (!evalEquals(kernel, list1.getListElement(i).evaluate(tpl),
-						list2.getListElement(i).evaluate(tpl)).getBoolean()) {
-					return new MyBoolean(kernel, false);
+		// text concatenation (left)
+		else if (lt.isTextValue()) {
+			msb = ((TextValue) lt).getText();
+			if (holdsLaTeXtext) {
+				msb.append(rt.toLaTeXString(false, tpl));
+			} else {
+				if (rt.isGeoElement()) {
+					GeoElement geo = (GeoElement) rt;
+					msb.append(geo.toDefinedValueString(tpl));
+				} else {
+					msb.append(rt.toValueString(tpl));
 				}
 			}
-
-			return new MyBoolean(kernel, true);
-
-		} else if (lt.isGeoElement() && rt.isGeoElement()) {
-			GeoElement geo1 = (GeoElement) lt;
-			GeoElement geo2 = (GeoElement) rt;
-
-			return new MyBoolean(kernel, geo1.isEqual(geo2));
-		} else if (lt.isVectorValue() && rt.isVectorValue()) {
-			VectorValue vec1 = (VectorValue) lt;
-			VectorValue vec2 = (VectorValue) rt;
-			return new MyBoolean(kernel, vec1.getVector().isEqual(
-					vec2.getVector()));
-		} else if (lt.isVector3DValue() && rt.isVector3DValue()) {
-			Vector3DValue vec1 = (Vector3DValue) lt;
-			Vector3DValue vec2 = (Vector3DValue) rt;
-			return new MyBoolean(kernel, vec1.get3DVec().isEqual(
-					vec2.get3DVec()));
+			return msb;
+		} // text concatenation (right)
+		else if (rt.isTextValue()) {
+			msb = ((TextValue) rt).getText();
+			if (holdsLaTeXtext) {
+				msb.insert(0, lt.toLaTeXString(false, tpl));
+			} else {
+				if (lt.isGeoElement()) {
+					GeoElement geo = (GeoElement) lt;
+					msb.insert(0, geo.toDefinedValueString(tpl));
+				} else {
+					msb.insert(0, lt.toValueString(tpl));
+				}
+			}
+			return msb;
+		}
+		// polynomial + polynomial
+		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+			poly = new Polynomial(kernel, (Polynomial) lt);
+			poly.add((Polynomial) rt);
+			return poly;
+		} else {
+			str = new String[] { "IllegalAddition", lt.toString(errorTemplate),
+					"+", rt.toString(errorTemplate) };
+			throw new MyError(app, str);
 		}
 
-		return new MyBoolean(kernel, false);
 	}
 
+	public ExpressionValue handleCos(ExpressionValue lt, ExpressionValue rt) {
+		// cos(number)
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		if (lt.isNumberValue()) {
+			return ((NumberValue) lt).getNumber().cos();
+		} else if (lt.isPolynomialInstance()
+				&& (((Polynomial) lt).degree() == 0)) {
+			lt = ((Polynomial) lt).getConstantCoefficient();
+			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
+					lt, Operation.COS, null), ""));
+		} else {
+			str = new String[] { "IllegalArgument", "cos",
+					lt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+	}
+
+	public ExpressionValue handleSin(ExpressionValue lt, ExpressionValue rt) {
+		// sin(number)
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		if (lt.isNumberValue()) {
+			return ((NumberValue) lt).getNumber().sin();
+		} else if (lt.isPolynomialInstance()
+				&& (((Polynomial) lt).degree() == 0)) {
+			lt = ((Polynomial) lt).getConstantCoefficient();
+			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
+					lt, Operation.SIN, null), ""));
+		} else {
+			str = new String[] { "IllegalArgument", "sin",
+					lt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+	}
+
+	public ExpressionValue handleDivide(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue left, ExpressionValue right) {
+		// sin(number)
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		MyDouble num;
+		GeoVec2D vec;
+		Polynomial poly;
+		if (rt.isNumberValue()) {
+			// number / number
+			if (lt.isNumberValue()) {
+				num = ((NumberValue) lt).getNumber();
+				MyDouble.div(num, ((NumberValue) rt).getNumber(), num);
+				return num;
+			}
+			// vector / number
+			else if (lt.isVectorValue()) {
+				vec = ((VectorValue) lt).getVector();
+				GeoVec2D.div(vec, ((NumberValue) rt).getDouble(), vec);
+				return vec;
+			} else if (lt instanceof GeoFunction) {
+				return GeoFunction.applyNumberSymb(Operation.DIVIDE,
+						(GeoFunction) lt, right, true);
+			}
+			/*
+			 * // number * 3D vector else if (lt.isVector3DValue()) { Geo3DVec
+			 * vec3D = ((Vector3DValue)lt).get3DVec(); Geo3DVec.div(vec3D,
+			 * ((NumberValue)rt).getDouble(), vec3D); return vec3D; }
+			 */
+			else {
+				str = new String[] { "IllegalDivision",
+						lt.toString(errorTemplate), "/",
+						rt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
+		}
+		// polynomial / polynomial
+		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+			// the divisor must be a polynom of degree 0
+			if (((Polynomial) rt).degree() != 0) {
+				str = new String[] { "DivisorMustBeConstant",
+						lt.toString(errorTemplate), "/",
+						rt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
+
+			poly = new Polynomial(kernel, (Polynomial) lt);
+			poly.divide((Polynomial) rt);
+			return poly;
+		}
+		// vector / vector (complex division Michael Borcherds 2007-12-09)
+		else if (lt.isVectorValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) lt).getVector();
+			GeoVec2D.complexDivide(vec, ((VectorValue) rt).getVector(), vec);
+			return vec;
+
+		}
+		// number / vector (complex division Michael Borcherds 2007-12-09)
+		else if (lt.isNumberValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) rt).getVector(); // just to
+													// initialise
+													// vec
+			GeoVec2D.complexDivide((NumberValue) lt,
+					((VectorValue) rt).getVector(), vec);
+			return vec;
+
+		}
+
+		else if ((rt instanceof GeoFunction) && lt.isNumberValue()) {
+			return GeoFunction.applyNumberSymb(Operation.DIVIDE,
+					(GeoFunction) rt, left, false);
+		} else {
+			str = new String[] { "IllegalDivision", lt.toString(errorTemplate),
+					"/", rt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+	}
+
+	public ExpressionValue handleMinus(ExpressionValue lt, ExpressionValue rt) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		MyDouble num;
+		GeoVec2D vec;
+		Polynomial poly;
+		// number - number
+		if (lt.isNumberValue() && rt.isNumberValue()) {
+			num = ((NumberValue) lt).getNumber();
+			MyDouble.sub(num, (NumberValue) rt, num);
+			return num;
+		}
+		// vector - vector
+		else if (lt.isVectorValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) lt).getVector();
+			GeoVec2D.sub(vec, ((VectorValue) rt).getVector(), vec);
+			return vec;
+		}
+		// 3D vector - 3D vector
+		/*
+		 * else if (lt.isVector3DValue() && rt.isVector3DValue()) { Geo3DVec
+		 * vec3D = ((Vector3DValue)lt).get3DVec(); Geo3DVec.sub(vec3D,
+		 * ((Vector3DValue)rt).get3DVec(), vec3D); return vec3D; }
+		 */
+		// vector - number (for complex subtraction)
+		else if (lt.isVectorValue() && rt.isNumberValue()) {
+			vec = ((VectorValue) lt).getVector();
+			GeoVec2D.sub(vec, ((NumberValue) rt), vec);
+			return vec;
+		}
+		// number - vector (for complex subtraction)
+		else if (lt.isNumberValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) rt).getVector();
+			GeoVec2D.sub(((NumberValue) lt), vec, vec);
+			return vec;
+		}
+		// list - vector
+		else if (lt.isListValue() && rt.isVectorValue()) {
+			vec = ((VectorValue) rt).getVector();
+			GeoVec2D.sub(vec, ((ListValue) lt), vec, false);
+			return vec;
+		}
+		// vector - list
+		else if (rt.isListValue() && lt.isVectorValue()) {
+			vec = ((VectorValue) lt).getVector();
+			GeoVec2D.sub(vec, ((ListValue) rt), vec, true);
+			return vec;
+		}
+		// polynomial - polynomial
+		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+			poly = new Polynomial(kernel, (Polynomial) lt);
+			poly.sub((Polynomial) rt);
+			return poly;
+		} else {
+			str = new String[] { "IllegalSubtraction",
+					lt.toString(errorTemplate), "-", rt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+	}
 }
