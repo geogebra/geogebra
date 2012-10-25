@@ -51,7 +51,7 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
     	
     	CoordSys coordsys = getCS().getCoordSys();
     	
-    	getLine().setCoord(getPoint().getCoordsInD(3), coordsys.getVz());
+    	getLine().setCoord(getPoint().getInhomCoordsInD(3), coordsys.getVz());
         
     }
 

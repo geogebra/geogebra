@@ -28,7 +28,7 @@ public abstract class AlgoQuadricPointPointNumber extends AlgoQuadricPointNumber
 	
 	@Override
 	protected Coords getDirection(){
-		return ((GeoPointND) getSecondInput()).getCoordsInD(3).sub(getOrigin().getCoordsInD(3));
+		return ((GeoPointND) getSecondInput()).getInhomCoordsInD(3).sub(getOrigin().getInhomCoordsInD(3));
 	}
 	
     @Override

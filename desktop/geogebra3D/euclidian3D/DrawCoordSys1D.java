@@ -225,13 +225,13 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 		} else if (selectedPoints.size()==2){
 			GeoPointND firstPoint = (GeoPointND) selectedPoints.get(0);
 			GeoPointND secondPoint = (GeoPointND) selectedPoints.get(1);
-			((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getCoordsInD(3), secondPoint.getCoordsInD(3));
+			((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getInhomCoordsInD(3), secondPoint.getInhomCoordsInD(3));
 			getGeoElement().setEuclidianVisible(true);
 			//setWaitForUpdate();
 		}else if (selectedPoints.size()==1){
 			GeoPointND firstPoint = (GeoPointND) selectedPoints.get(0);
 			GeoPointND secondPoint = getView3D().getCursor3D();
-			((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getCoordsInD(3), secondPoint.getCoordsInD(3));
+			((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getInhomCoordsInD(3), secondPoint.getInhomCoordsInD(3));
 			getGeoElement().setEuclidianVisible(true);
 			//setWaitForUpdate();
 		}else{

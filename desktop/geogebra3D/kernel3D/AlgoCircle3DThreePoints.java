@@ -113,7 +113,7 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     	for(int i=0;i<3;i++){
     		//project the point on the coord sys
     		//Coords[] project=points[i].getCoordsInD(3).projectPlane(coordSys.getMatrixOrthonormal());
-    		Coords[] project=coordSys.getNormalProjection(points[i].getCoordsInD(3));
+    		Coords[] project=coordSys.getNormalProjection(points[i].getInhomCoordsInD(3));
 			 //set the 2D points
 			 points2D[i].setCoords(project[1].getX(), project[1].getY(), project[1].getW());
 

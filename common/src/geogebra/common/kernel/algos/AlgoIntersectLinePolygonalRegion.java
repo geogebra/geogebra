@@ -186,8 +186,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
     				g instanceof GeoSegmentND &&
     				p.isInRegion(((GeoSegmentND)g).getStartPoint(),false))
     			newSegmentCoords.put(0.0,  new Coords[] {
-    					((GeoSegmentND)g).getStartPoint().getCoordsInD(spaceDim),
-    					((GeoSegmentND)g).getEndPoint().getCoordsInD(spaceDim)});
+    					((GeoSegmentND)g).getStartPoint().getInhomCoordsInD(spaceDim),
+    					((GeoSegmentND)g).getEndPoint().getInhomCoordsInD(spaceDim)});
     		
     		return;
     	}

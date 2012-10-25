@@ -100,7 +100,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 		if (algo instanceof AlgoAnglePoints) {
 			
 			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
-			Coords center = pa.getB().getCoordsInD(3);
+			Coords center = pa.getB().getInhomCoordsInD(3);
 			Coords v1 = pa.getA().getInhomCoordsInD(3).sub(center);
 			v1.calcNorm(); 
 			double l1 = v1.getNorm();

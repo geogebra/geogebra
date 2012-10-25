@@ -148,7 +148,7 @@ implements Previewable {
 		
 		if (selectedPoints.size()>=1){
 			((GeoVector3D) getGeoElement()).setCoords(
-					secondPoint.getCoordsInD(3).sub(firstPoint.getCoordsInD(3)).get());
+					secondPoint.getInhomCoordsInD(3).sub(firstPoint.getInhomCoordsInD(3)).get());
 			try {
 				((GeoVector3D) getGeoElement()).setStartPoint(firstPoint);
 			} catch (CircularDefinitionException e) {

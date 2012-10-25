@@ -74,7 +74,7 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
     	//recompute the coord sys
     	coordsys.resetCoordSys();
 		
-    	coordsys.addPoint(points[0].getCoordsInD(3));
+    	coordsys.addPoint(points[0].getInhomCoordsInD(3));
     	Coords[] v = direction.getDirectionInD3().completeOrthonormal();
 		coordsys.addVector(v[0]);
 		coordsys.addVector(v[1]);

@@ -253,8 +253,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * @return coresponding coords
 	 */
 	public Coords getPointCoords(double parameter) {
-		return startPoint.getCoordsInD(3).add(
-				(endPoint.getCoordsInD(3).sub(startPoint.getCoordsInD(3)))
+		return startPoint.getInhomCoordsInD(3).add(
+				(endPoint.getInhomCoordsInD(3).sub(startPoint.getInhomCoordsInD(3)))
 						.mul(parameter));
 	}
 

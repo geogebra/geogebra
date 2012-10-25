@@ -414,7 +414,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			
 		
 		for (int i=0; i<points.length; i++)
-			ret = ret.add(points[i].getCoordsInD(3));
+			ret = ret.add(points[i].getInhomCoordsInD(3));
 		
 		return ret.mul((double) 1/points.length);
 	}
@@ -426,7 +426,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	public Coords getTopMiddlePoint(){
 		Coords ret = new Coords(4);
 		for (int i=0; i<outputPoints.size(); i++)
-			ret = ret.add(outputPoints.getElement(i).getCoordsInD(3));
+			ret = ret.add(outputPoints.getElement(i).getInhomCoordsInD(3));
 		
 		return ret.mul((double) 1/outputPoints.size());
 	}

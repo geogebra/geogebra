@@ -51,9 +51,9 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 	public final void compute() {
     	
     	GeoLineND line = getInputLine();
-    	Coords o = line.getPointInD(3, 0);
-    	Coords v1 = line.getPointInD(3, 1).sub(o);
-    	Coords o2 = getPoint().getCoordsInD(3);
+    	Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
+    	Coords v1 = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
+    	Coords o2 = getPoint().getInhomCoordsInD(3);
     	Coords v2 = o2.sub(o);
     	
     	Coords v3 = v1.crossProduct(v2);
@@ -62,7 +62,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
     	if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION))
     		getLine().setUndefined();
     	else
-    		getLine().setCoord(getPoint().getCoordsInD(3), v.normalize());
+    		getLine().setCoord(getPoint().getInhomCoordsInD(3), v.normalize());
         
     }
 

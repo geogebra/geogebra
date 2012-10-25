@@ -111,7 +111,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			defined = false;// TODO if s=0 then draws a line
 		else {
 			r = s / c;
-			setCone(origin.getCoordsInD(3), direction.getCoordsInD(3), r);
+			setCone(origin.getInhomCoordsInD(3), direction.getCoordsInD(3), r);
 		}
 
 	}
@@ -172,7 +172,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 
 		if (defined) {
-			setCylinder(origin.getCoordsInD(3), direction, r);
+			setCylinder(origin.getInhomCoordsInD(3), direction, r);
 		}
 
 	}

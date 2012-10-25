@@ -194,7 +194,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		Coords bottomCenter1 = new Coords(4);
 		//interiorPoint.set(0);
 		for (int i=0;i<bottomPoints.length;i++){
-			bottomCenter1 = bottomCenter1.add(bottomPoints[i].getCoordsInD(3));
+			bottomCenter1 = bottomCenter1.add(bottomPoints[i].getInhomCoordsInD(3));
 		}
 		
 		bottomCenter = bottomCenter1.mul((double) 1/(bottomPoints.length));

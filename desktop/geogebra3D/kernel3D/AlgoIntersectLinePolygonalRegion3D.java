@@ -136,8 +136,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     		if (g instanceof GeoSegmentND &&
     				((GeoPolygon3D) p).isInRegion(g.getStartPoint(),false))
     			newSegmentCoords.put(0.0,  new Coords[] {
-    					g.getStartPoint().getCoordsInD(spaceDim),
-    					g.getEndPoint().getCoordsInD(spaceDim)});
+    					g.getStartPoint().getInhomCoordsInD(spaceDim),
+    					g.getEndPoint().getInhomCoordsInD(spaceDim)});
     		
     		return;
     	}

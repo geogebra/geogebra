@@ -308,8 +308,8 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		direction1 = direction2 = direction3 = null;
 
 		for (; index1 < getNumPoints() - 1; index1++) {
-			if (!points[index1].getCoordsInD(3).equalsForKernel(
-					points[0].getCoordsInD(3), Kernel.EPSILON)) {
+			if (!points[index1].getInhomCoordsInD(3).equalsForKernel(
+					points[0].getInhomCoordsInD(3), Kernel.EPSILON)) {
 				direction1 = points[index1].getInhomCoordsInD(3).sub(
 						points[0].getInhomCoordsInD(3));
 				break;

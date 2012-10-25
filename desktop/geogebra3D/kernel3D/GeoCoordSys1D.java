@@ -279,11 +279,11 @@ Translateable{
 		if(!done){
 			//project current point coordinates
 			//Application.debug("project current point coordinates");
-			Coords preDirection = P.getCoordsInD(3).sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
+			Coords preDirection = P.getInhomCoordsInD(3).sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
 			if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
 				preDirection = coordsys.getVy();
 		
-			Coords[] project = P.getCoordsInD(3).projectOnLineWithDirection(
+			Coords[] project = P.getInhomCoordsInD(3).projectOnLineWithDirection(
 					coordsys.getOrigin(),
 					coordsys.getVx(),
 					preDirection.crossProduct(coordsys.getVx()));

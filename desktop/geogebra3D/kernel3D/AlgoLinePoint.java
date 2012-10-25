@@ -69,7 +69,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
     	if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION))
     		getLine().setUndefined();
     	else
-    		getLine().setCoord(getPoint().getCoordsInD(3), v.normalize());
+    		getLine().setCoord(getPoint().getInhomCoordsInD(3), v.normalize());
     }
 
 
