@@ -993,7 +993,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	@Override
 	public Coords getLabelPosition() {
 		// Application.debug(inhom.toString());
-		return getCoords();
+		return getInhomCoordsInD(3);
 	}
 
 	// ///////////////////////////////////////
