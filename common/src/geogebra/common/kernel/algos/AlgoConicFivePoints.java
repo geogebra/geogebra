@@ -378,9 +378,7 @@ public class AlgoConicFivePoints extends AlgoElement {
        
         
         conic.setMatrix(C);
-        //System.out.println(conic.getTypeString());
-        
-        kernel.setSilentMode(false);
+        //System.out.println(conic.getTypeString());               
         
     }
 
