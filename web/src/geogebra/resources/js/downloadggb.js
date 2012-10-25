@@ -59,11 +59,12 @@
 
 		}, errorHandler);
 
+		zipWriter.add('geogebra.xml', new zip.BlobReader('geogebra.xml'), null, null);
 	}
 
     function createTempGGBFile(callback) {
         var tmpFilename = "geogebra.ggb";
-        requestFileSystem(TEMPORARY, 4 * 1024 * 1024 * 1024, function(filesystem) {
+        requestFileSystem(window.TEMPORARY, 4 * 1024 * 1024 * 1024, function(filesystem) {
             function create() {
                 filesystem.root.getFile(tmpFilename, {
                     create : true
@@ -76,6 +77,7 @@
                 entry.remove(create, create);
             }, create);
         });
+        console.log("createTempGGBFile end");
     }
 
     var model = (function() {
@@ -90,6 +92,7 @@
                 
                 addGGBFiles: function addGGBFiles(){
                 	//TODO: add the files (geogebra.xml, etc.) to the zip 
+                	requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
                 }
         };
     })();
@@ -102,12 +105,11 @@
     	},
     	downloadGGBfunction : function(event) {
     		console.log("downloadGGBfunction");
-    		//requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
     		createTempGGBFile(function(fileEntry) {
                 zipFileEntry = fileEntry;
                 writer = new zip.FileWriter(zipFileEntry);
-                //createZipWriter();
-                //addGGBFiles();
+                createZipWriter();
+                addGGBFiles();
             });
     		
     		
