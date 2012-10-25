@@ -1243,6 +1243,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		return null;
 		
 	}
+
 	
 	/**
 	 * @return All dock panels

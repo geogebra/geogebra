@@ -13,6 +13,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.layout.LayoutD;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  */
 public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
-	private GeoCoordSys2D plane;
+	private ViewCreator plane;
 	
 	private int id;
 
@@ -42,11 +43,11 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 * @param ec controller
 	 * @param plane plane creating this view
 	 */
-	public EuclidianViewForPlane(EuclidianControllerD ec, GeoCoordSys2D plane) {
-		super(ec, new boolean[]{ true, true }, true, 1);
+	public EuclidianViewForPlane(EuclidianControllerD ec, ViewCreator plane) {
+		super(ec, new boolean[]{ false, false }, false, 0); //TODO euclidian settings
 		
 		initView(true);
-		setShowAxes(false, true);
+		setShowAxes(false, false);
 		showGrid(false);
 		
 		setPlane(plane);
@@ -59,8 +60,16 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 * set the plane creator
 	 * @param plane plane creator
 	 */
-	public void setPlane(GeoCoordSys2D plane){
+	public void setPlane(ViewCreator plane){
 		this.plane = plane;
+	}
+	
+	/**
+	 * @return creator of the view
+	 * 
+	 */
+	public ViewCreator getPlane(){
+		return plane;
 	}
 	
 	

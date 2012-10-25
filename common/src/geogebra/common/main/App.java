@@ -4297,5 +4297,21 @@ public abstract class App {
 		// used in 3D
 		
 	}
+	
+	/**
+	 * store view creators (for undo)
+	 */
+	public void storeViewCreators(){
+		// used in 3D
+	}
+	
+	/**
+	 * recall view creators (for undo)
+	 */
+	public void recallViewCreators(){
+		// used in 3D
+	}
+	
+	
 
 }

@@ -3494,10 +3494,12 @@ public class Kernel {
 	public void redo() {
 		if (undoActive) {
 			storeSelectedGeosNames();
+			app.storeViewCreators();
 			notifyReset();
 			clearJustCreatedGeosInViews();
 			cons.redo();
 			notifyReset();
+			app.recallViewCreators();
 			recallSelectedGeosNames();
 		}
 	}
@@ -3505,12 +3507,14 @@ public class Kernel {
 	public void undo() {
 		if (undoActive) {
 			storeSelectedGeosNames();
+			app.storeViewCreators();
 			notifyReset();
 			clearJustCreatedGeosInViews();
 			getApplication().getActiveEuclidianView().getEuclidianController()
 					.clearSelections();
 			cons.undo();
 			notifyReset();
+			app.recallViewCreators();
 			recallSelectedGeosNames();
 
 			// repaint needed for last undo in second EuclidianView (bugfix)

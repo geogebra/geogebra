@@ -49,6 +49,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -415,6 +416,41 @@ public class App3D extends AppD {
 	public void resetEuclidianViewForPlaneIds() {
 		EuclidianDockPanelForPlane.resetIds();
 		evForPlaneList=null;
+	}
+	
+	private ArrayList<EuclidianDockPanelForPlane> panelForPlaneList;
+	
+	@Override
+	public void storeViewCreators(){
+		
+		if (panelForPlaneList==null)
+			panelForPlaneList = new ArrayList<EuclidianDockPanelForPlane>();
+		else
+			panelForPlaneList.clear();
+		
+		DockPanel[] panels = ((LayoutD) getGuiManager().getLayout()).getDockManager().getPanels();
+		for (int i=0; i<panels.length; i++){
+			if (panels[i] instanceof EuclidianDockPanelForPlane){
+				panelForPlaneList.add((EuclidianDockPanelForPlane) panels[i]);
+			}
+		}
+		
+	}
+	
+
+	@Override
+	public void recallViewCreators(){
+
+		for (EuclidianDockPanelForPlane p : panelForPlaneList){
+			EuclidianViewForPlane view = p.getView();
+			GeoElement geo = kernel.lookupLabel(((GeoElement) view.getPlane()).getLabelSimple());
+			if (geo!=null && (geo instanceof ViewCreator)){
+				ViewCreator plane = (ViewCreator) geo;
+				view.setPlane(plane);
+				plane.setEuclidianViewForPlane(view);
+				view.updateForPlane();
+			}
+		}
 	}
 	
 }
