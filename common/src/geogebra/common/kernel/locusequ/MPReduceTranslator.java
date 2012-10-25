@@ -297,7 +297,8 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
-		String locusLib = ""; // SingularWebService.getLocusLib();
+		String locusLib = SingularWebService.getLocusLib();
+		locusLib = "";
 
 		if (locusLib.length() != 0) {
 			script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + this.getVarsToEliminate()).
@@ -310,9 +311,9 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 			script = new StringBuilder();
 		}
 		
-		final String SINGULAR_COEFFS = "(real,30)"; // may be "real", but inaccurate for cubic computations
+		final String SINGULAR_COEFFS = "0"; // "(real,30)"; // may be "real", but inaccurate for cubic computations
 		/**
-		 * TODO: Singular does not seem to be able to convert rationals automatically into
+		 * Singular does not convert rationals automatically into
 		 * its internal rationals, i.e. we get an error message if we still try to force it:
 		 * 
          * > ring rr=0,(x,y,x2,x1),dp
@@ -321,15 +322,19 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
          *    ? error occurred in or before STDIN line 4: `ideal m=.48*x1;`
          *    ? expected ideal-expression. type 'help ideal;'
 		 *
-		 * This means that here we use float point arithmetics, but with higher precision.
+		 * This means that here we can use float point arithmetics, but with higher precision.
 		 * This approach is not really symbolic, but fast and accurate enough for every day use.
 		 * 
 		 * See Singular Online Manual, 3.3.1 "Examples of ring declarations" for more details.
+		 * 
+		 * Another approach is to convert all floats to rationals as we do it right now.
 		 */
 		return script.append("ring rr=" + SINGULAR_COEFFS + ",(").
 				append(this.getVars()).
 				append("),dp;ideal m=").
-				append(MPReduceTranslator.constructRestrictions(restrictions)).
+				// We should not convert floats to rationals if SINGULAR_COEFFS != "0":
+				// append(MPReduceTranslator.constructRestrictions(restrictions)).
+				append(SingularWebService.convertFloatsToRationals(MPReduceTranslator.constructRestrictions(restrictions))).
 				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
 				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
@@ -341,10 +346,6 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		 *  
 		 *  Example: 5,3,0,0,-4.000e+00,0,0,0,4.000e+00,0,1.000e+00,-4.000e+00,0,0,1.000e+00,0,0
  		 *  for x^4 - 4x^3 + x^2*y^2 + 4*x^2- 4*y^2.
- 		 *  
- 		 *  Unfortunately the "m2=m1[size(m1)]" hack does not work properly in some cases.
- 		 *  I should learn why Singular returns multiple polynomials in the elimination ideal
- 		 *  in such cases, and how to choose the proper one.
 		 */
 		
 	}
