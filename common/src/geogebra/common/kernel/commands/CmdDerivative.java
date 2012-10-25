@@ -47,6 +47,7 @@ public class CmdDerivative extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
+			boolean suppress = cons.isSuppressLabelsActive(); //we need to reset this later #2356			
 			try {
 				arg = resArgs(c);
 				// Derivative[ f(x), 2]
@@ -82,7 +83,7 @@ public class CmdDerivative extends CommandProcessor {
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
-
+			cons.setSuppressLabelCreation(suppress);
 			// Derivative[ f(a,b), a ]
 			try {
 				arg2 = resArgsLocalNumVar(c, 1, 1);
@@ -134,7 +135,7 @@ public class CmdDerivative extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 3:
-			// Derivative[ f(a,b), a, 2 ]
+			// Derivative[ f(a,b), a, 2 ]			
 			try {
 				arg = resArgsLocalNumVar(c, 1, 1);
 				if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()
@@ -147,7 +148,7 @@ public class CmdDerivative extends CommandProcessor {
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
-
+			
 			arg = resArgs(c);
 			// Derivative[ f(x, y), x, 2]
 			if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoFunction()
