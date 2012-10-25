@@ -1,5 +1,7 @@
 package geogebra.common.cas.singularws;
 
+import java.util.Date;
+
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.regexp.shared.MatchResult;
 
@@ -27,9 +29,13 @@ public class SingularWebService {
 	private String wsHost = SingularWSSettings.singularWebServiceRemoteURL;
 	private Boolean available;
 	
-	private static String locusLib; 
+	private static String locusLib = ""; 
+    private static boolean fastConn;
 	
 	private final String[] SINGULAR_LIB_GROBCOVCx = {"grobcovC1", "grobcovC0"};
+	
+	private final int CONNECTION_SPEED_NO_TESTS = 3;
+	private final int CONNECTION_SPEED_THRESHOLD = 100;
 		
 	/**
 	 * Creates a Singular webservice connection handler
@@ -77,6 +83,14 @@ public class SingularWebService {
 			return true;
 		return false;
 	}
+
+	/**
+	 * Reports if SingularWS has a fast connection available. 
+	 * @return true if SingularWS connection is fast enough
+	 */
+	public boolean isFast() {
+		return fastConn;
+	}
 	
 	/**
 	 * Create a connection to the SingularWS server for testing.
@@ -92,6 +106,19 @@ public class SingularWebService {
 		if (result == null)
 			return false;
 		if (result.equals("ok")) {
+			// Testing connection speed.
+			fastConn = true; // be optimistic
+			for (int i = 0; i < CONNECTION_SPEED_NO_TESTS && fastConn; ++i) {
+		    	Date date = new Date();
+		        long startTime = date.getTime();
+		    	swsCommandResult(testConnectionCommand);
+		    	date = new Date();
+		    	long elapsedTime = date.getTime() - startTime;
+		    	App.debug("Measuring speed to SWS #" + i + ": " + elapsedTime + " ms");
+		    	if (elapsedTime > CONNECTION_SPEED_THRESHOLD)
+		    		fastConn = false;
+			}
+
 			// Testing extra features.
 			for (String l: SINGULAR_LIB_GROBCOVCx) {
 				if (testLib(l)) {

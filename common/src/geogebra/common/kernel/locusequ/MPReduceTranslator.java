@@ -6,6 +6,7 @@ package geogebra.common.kernel.locusequ;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.main.App;
 
@@ -134,7 +135,8 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 	 */
 	@Override
 	public StringBuilder number(double number) {
-		return new StringBuilder("(").append(number).append(")");
+		MyDouble md = new MyDouble(kernel, number);
+		return new StringBuilder("(").append(md).append(")");
 	}
 
 	/* (non-Javadoc)
@@ -190,8 +192,8 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		
 		String script, result;
 		
-		// If SingularWS is available, let's use it:
-		if (App.singularWS != null && App.singularWS.isAvailable()) {
+		// If SingularWS is available and quick enough, let's use it:
+		if (App.singularWS != null && App.singularWS.isAvailable() && App.singularWS.isFast()) {
 			script = this.createSingularScript(translatedRestrictions);
 			App.info("[LocusEqu] input to singular: "+script);
 			result = App.singularWS.directCommand(script);
@@ -199,6 +201,8 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 			// Comment this to disable computation via SingularWS:
 			return getCoefficientsFromSingularResult(result);
 		}
+		
+		App.debug("TEST: " + this.createSingularScript(translatedRestrictions));
 
 		// Falling back to use Reduce/Cali:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
