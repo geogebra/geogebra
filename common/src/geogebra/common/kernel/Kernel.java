@@ -84,7 +84,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -3315,9 +3314,7 @@ public class Kernel {
 			if (!readingCollectNotifyUpdateSet){
 				//			if (collectNotifyUpdateSet.contains(geo))
 				//				System.out.println("  ALREADY COLLECTED UPDATE: " + geo);
-				if(!geo.isWaitingForUpdate())
-					collectNotifyUpdateSet.add(geo);
-				geo.setWaitingForUpdate(true);
+				collectNotifyUpdateSet.add(geo);			
 				return;
 			}
 			
@@ -3333,7 +3330,7 @@ public class Kernel {
 //		App.printStacktrace("notifyUpdate " + geo);
 	}
 	
-	private LinkedList<GeoElement> collectNotifyUpdateSet = new LinkedList<GeoElement>();
+	private HashSet<GeoElement> collectNotifyUpdateSet = new HashSet<GeoElement>();
 	private GeoElementND collectNotifyUpdateStartingGeo;
 	
 	/**
@@ -3345,7 +3342,7 @@ public class Kernel {
 		if (collectNotifyUpdateStartingGeo != null) return;
 		
 		collectNotifyUpdateStartingGeo = startGeo;
-		clearNotifyUpdateList();	
+		collectNotifyUpdateSet.clear();		
 			
 //		System.out.println("\nSTART collecting updates:  " + startGeo);
 	}
@@ -3363,24 +3360,16 @@ public class Kernel {
 		for (GeoElement geo : collectNotifyUpdateSet) {
 //			System.out.println("   update: " + geo);
 			for (int i = 0; i < viewCnt; ++i) {
-				views[i].update(geo);					
+				views[i].update(geo);				
 			}
-			geo.setWaitingForUpdate(false);
 		}
 		
 		collectNotifyUpdateStartingGeo = null;
-		clearNotifyUpdateList();
+		collectNotifyUpdateSet.clear();
 		
 		readingCollectNotifyUpdateSet=false;
 				
 //		System.out.println("STOPPED collecting updates  " + startGeo);
-	}
-	
-	private void clearNotifyUpdateList(){
-		for (GeoElement geo : collectNotifyUpdateSet) {
-			geo.setWaitingForUpdate(false);
-		}
-		collectNotifyUpdateSet.clear();
 	}
 
 	
