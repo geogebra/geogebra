@@ -1309,50 +1309,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 
-		case FUNCTION:
-			// function(number)
-			if (rt.isNumberValue()) {
-				if (lt instanceof Evaluatable) {
-					NumberValue arg = (NumberValue) rt;
-					if ((lt instanceof GeoFunction)
-							&& ((GeoFunction) lt).isBooleanFunction()) {
-						return new MyBoolean(kernel,
-								((GeoFunction) lt).evaluateBoolean(arg
-										.getDouble()));
-					}
-					return arg.getNumber().apply((Evaluatable) lt);
-				}
-			} else if (rt instanceof GeoPoint) {
-				if (lt instanceof Evaluatable) {
-					GeoPoint pt = (GeoPoint) rt;
-					if (lt instanceof GeoFunction) {
-						FunctionNVar fun = ((GeoFunction) lt).getFunction();
-						if (fun.isBooleanFunction()) {
-							return new MyBoolean(kernel,
-									fun.evaluateBoolean(pt));
-						}
-						return new MyDouble(kernel, fun.evaluate(pt));
-					} else if (lt instanceof GeoFunctionable) {
-						// eg GeoLine
-						return new MyDouble(kernel, ((GeoFunctionable) lt)
-								.getGeoFunction().getFunction().evaluate(pt));
-					} else {
-						App.error("missing case in ExpressionNodeEvaluator");
-					}
-				}
-			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-					&& (((Polynomial) rt).degree() == 0)) {
-				lt = ((Polynomial) lt).getConstantCoefficient();
-				rt = ((Polynomial) rt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(new ExpressionNode(
-						kernel, lt, Operation.FUNCTION, rt), ""));
-			} else {
-				// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
-				// + " rt: " + rt + ", " + rt.getClass());
-				str = new String[] { "IllegalArgument",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
+		
 
 		case FUNCTION_NVAR:
 			// function(list of numbers)
@@ -2189,5 +2146,57 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				lt.toString(errorTemplate) };
 		throw new MyError(app, str);
 	}
+	}
+	
+	public ExpressionValue handleFunction(ExpressionValue lt, ExpressionValue rt) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		Polynomial poly;
+		MyDouble num;
+	// function(number)
+	if (rt.isNumberValue()) {
+		if (lt instanceof Evaluatable) {
+			NumberValue arg = (NumberValue) rt;
+			if ((lt instanceof GeoFunction)
+					&& ((GeoFunction) lt).isBooleanFunction()) {
+				return new MyBoolean(kernel,
+						((GeoFunction) lt).evaluateBoolean(arg
+								.getDouble()));
+			}
+			return arg.getNumber().apply((Evaluatable) lt);
+		}
+	} else if (rt instanceof GeoPoint) {
+		if (lt instanceof Evaluatable) {
+			GeoPoint pt = (GeoPoint) rt;
+			if (lt instanceof GeoFunction) {
+				FunctionNVar fun = ((GeoFunction) lt).getFunction();
+				if (fun.isBooleanFunction()) {
+					return new MyBoolean(kernel,
+							fun.evaluateBoolean(pt));
+				}
+				return new MyDouble(kernel, fun.evaluate(pt));
+			} else if (lt instanceof GeoFunctionable) {
+				// eg GeoLine
+				return new MyDouble(kernel, ((GeoFunctionable) lt)
+						.getGeoFunction().getFunction().evaluate(pt));
+			} else {
+				App.error("missing case in ExpressionNodeEvaluator");
+			}
+		}
+	} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
+			&& (((Polynomial) rt).degree() == 0)) {
+		lt = ((Polynomial) lt).getConstantCoefficient();
+		rt = ((Polynomial) rt).getConstantCoefficient();
+		return new Polynomial(kernel, new Term(new ExpressionNode(
+				kernel, lt, Operation.FUNCTION, rt), ""));
+	}
+		// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
+		// + " rt: " + rt + ", " + rt.getClass());
+		str = new String[] { "IllegalArgument",
+				rt.toString(errorTemplate) };
+		throw new MyError(app, str);
+	
+	
 	}
 }
