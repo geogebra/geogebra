@@ -48,7 +48,14 @@ MULTIPLY{
 		return ev.handleDivide(lt,rt,left,right);
 		
 	}
-},POWER,
+},POWER{
+	@Override
+	public ExpressionValue handle(ExpressionNodeEvaluator ev,ExpressionValue lt, ExpressionValue rt,
+			 ExpressionValue left, ExpressionValue right, StringTemplate tpl,boolean holdsLaTeX) {
+		return ev.handlePower(lt,rt,right);
+		
+	}
+},
 
 FREEHAND,COS{
 	@Override
@@ -64,7 +71,14 @@ FREEHAND,COS{
 		return ev.handleSin(lt,rt);
 		
 	}
-},TAN,EXP,LOG,ARCCOS,ARCSIN,ARCTAN,ARCTAN2,NROOT,SQRT,SQRT_SHORT,ABS
+},TAN,EXP{
+	@Override
+	public ExpressionValue handle(ExpressionNodeEvaluator ev,ExpressionValue lt, ExpressionValue rt,
+			 ExpressionValue left, ExpressionValue right, StringTemplate tpl,boolean holdsLaTeX) {
+		return ev.handleExp(lt);
+		
+	}
+},LOG,ARCCOS,ARCSIN,ARCTAN,ARCTAN2,NROOT,SQRT,SQRT_SHORT,ABS
 ,SGN,
 XCOORD{
 	@Override

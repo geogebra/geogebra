@@ -512,191 +512,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					rt.toString(errorTemplate) };
 			throw new MyError(app, str2);
 
-		case POWER:
-			// number ^ number
-			if (lt.isNumberValue() && rt.isNumberValue()) {
-				num = ((NumberValue) lt).getNumber();
-				double base = num.getDouble();
-				MyDouble exponent = ((NumberValue) rt).getNumber();
-
-				// special case: e^exponent (Euler number)
-				if (base == Math.E) {
-					return exponent.exp();
-				}
-
-				// special case: left side is negative and
-				// right side is a fraction a/b with a and b integers
-				// x^(a/b) := (x^a)^(1/b)
-				if ((base < 0) && right.isExpressionNode()) {
-					ExpressionNode node = (ExpressionNode) right;
-					if (node.getOperation().equals(Operation.DIVIDE)) {
-						// check if we have a/b with a and b integers
-						double a = node.getLeft().evaluateNum().getDouble();
-						long al = Math.round(a);
-						if (Kernel.isEqual(a, al)) { // a is integer
-							double b = node.getRight().evaluateNum()
-									.getDouble();
-							long bl = Math.round(b);
-							if (b == 0) {
-								// (x^a)^(1/0)
-								num.set(Double.NaN);
-							} else if (Kernel.isEqual(b, bl)) { // b is
-																// integer
-								// divide through greatest common divisor of a
-								// and b
-								long gcd = Kernel.gcd(al, bl);
-								al = al / gcd;
-								bl = bl / gcd;
-
-								// we will now evaluate (x^a)^(1/b) instead of
-								// x^(a/b)
-								// set base = x^a
-								if (al != 1) {
-									base = Math.pow(base, al);
-								}
-								if (base > 0) {
-									// base > 0 => base^(1/b) is no problem
-									num.set(Math.pow(base, 1d / bl));
-								} else { // base < 0
-									boolean oddB = (Math.abs(bl) % 2) == 1;
-									if (oddB) {
-										// base < 0 and b odd: (base)^(1/b) =
-										// -(-base^(1/b))
-										num.set(-Math.pow(-base, 1d / bl));
-									} else {
-										// base < 0 and a & b even: (base)^(1/b)
-										// = undefined
-										num.set(Double.NaN);
-									}
-								}
-								return num;
-							}
-						}
-					}
-				}
-
-				// standard case
-				MyDouble.pow(num, exponent, num);
-				return num;
-			}
-			/*
-			 * // vector ^ 2 (inner product) (3D) else if (lt.isVector3DValue()
-			 * && rt.isNumberValue()) { num = ((NumberValue)rt).getNumber();
-			 * Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec(); if
-			 * (num.getDouble() == 2.0) { Geo3DVec.inner(vec3D, vec3D, num); }
-			 * else { num.set(Double.NaN); } return num; }
-			 */
-			// vector ^ 2 (inner product)
-			else if (lt.isVectorValue() && rt.isNumberValue()) {
-				// if (!rt.isConstant()) {
-				// String [] str = new String[]{ "ExponentMustBeConstant",
-				// lt.toString(),
-				// "^", rt.toString() };
-				// throw new MyError(app, str);
-				// }
-				vec = ((VectorValue) lt).getVector();
-				num = ((NumberValue) rt).getNumber();
-
-				if (vec.getMode() == Kernel.COORD_COMPLEX) {
-
-					// complex power
-
-					GeoVec2D.complexPower(vec, num, vec);
-					return vec;
-
-				}
-				// inner/scalar/dot product
-				if (num.getDouble() == 2.0) {
-					GeoVec2D.inner(vec, vec, num);
-					return num;
-				}
-				num.set(Double.NaN);
-				return num;
-				// String [] str = new String[]{ "IllegalExponent",
-				// lt.toString(),
-				// "^", rt.toString() };
-				// throw new MyError(app, str);
-			} else if (lt.isVectorValue() && rt.isVectorValue()) {
-				// if (!rt.isConstant()) {
-				// String [] str = new String[]{ "ExponentMustBeConstant",
-				// lt.toString(),
-				// "^", rt.toString() };
-				// throw new MyError(app, str);
-				// }
-				vec = ((VectorValue) lt).getVector();
-				vec2 = ((VectorValue) rt).getVector();
-
-				// complex power
-
-				GeoVec2D.complexPower(vec, vec2, vec);
-				return vec;
-
-			} else if (lt.isNumberValue() && rt.isVectorValue()) {
-				// if (!rt.isConstant()) {
-				// String [] str = new String[]{ "ExponentMustBeConstant",
-				// lt.toString(),
-				// "^", rt.toString() };
-				// throw new MyError(app, str);
-				// }
-				num = ((NumberValue) lt).getNumber();
-				vec = ((VectorValue) rt).getVector();
-
-				// real ^ complex
-
-				GeoVec2D.complexPower(num, vec, vec);
-				return vec;
-
-			}
-			// polynomial ^ number
-			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-				// the exponent must be a number
-				if (((Polynomial) rt).degree() != 0) {
-					str = new String[] { "ExponentMustBeInteger",
-							lt.toString(errorTemplate), "^",
-							rt.toString(errorTemplate) };
-					throw new MyError(app, str);
-				}
-
-				// is the base also a number? In this case pull base^exponent
-				// together into lt polynomial
-				boolean baseIsNumber = ((Polynomial) lt).degree() == 0;
-				if (baseIsNumber) {
-					Term base = ((Polynomial) lt).getTerm(0);
-					Term exponent = ((Polynomial) rt).getTerm(0);
-					Term newBase = new Term(new ExpressionNode(kernel,
-							base.getCoefficient(), Operation.POWER,
-							exponent.getCoefficient()), "");
-
-					return new Polynomial(kernel, newBase);
-				}
-
-				// number is not a base
-				if (!rt.isConstant()) {
-					str = new String[] { "ExponentMustBeConstant",
-							lt.toString(errorTemplate), "^",
-							rt.toString(errorTemplate) };
-					throw new MyError(app, str);
-				}
-
-				// get constant coefficent of given polynomial
-				double exponent = ((Polynomial) rt).getConstantCoeffValue();
-				if ((Kernel.isInteger(exponent) && ((int) exponent >= 0))) {
-					poly = new Polynomial(kernel, (Polynomial) lt);
-					poly.power((int) exponent);
-					return poly;
-				}
-				str = new String[] { "ExponentMustBeInteger",
-						lt.toString(errorTemplate), "^",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			} else {
-				// AbstractApplication.debug("power: lt :" + lt.getClass()
-				// + ", rt: " + rt.getClass());
-				str = new String[] { "IllegalExponent",
-						lt.toString(errorTemplate), "^",
-						rt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
+		
 
 		case FREEHAND:
 			// freehand function
@@ -1055,29 +871,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						kernel, lt, Operation.COTH, null), ""));
 			} else {
 				str = new String[] { "IllegalArgument", "coth",
-						lt.toString(errorTemplate) };
-				throw new MyError(app, str);
-			}
-
-		case EXP:
-			// exp(number)
-			if (lt.isNumberValue()) {
-				return ((NumberValue) lt).getNumber().exp();
-			} else if (lt.isPolynomialInstance()
-					&& (((Polynomial) lt).degree() == 0)) {
-				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(new ExpressionNode(
-						kernel, lt, Operation.EXP, null), ""));
-			} else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-
-				// complex e^z
-
-				GeoVec2D.complexExp(vec, vec);
-				return vec;
-
-			} else {
-				str = new String[] { "IllegalArgument", "exp",
 						lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
@@ -2173,5 +1966,228 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					lt.toString(errorTemplate), "-", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
 		}
+	}
+	
+	public ExpressionValue handlePower(ExpressionValue lt, ExpressionValue rt,ExpressionValue right) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		Polynomial poly;
+		MyDouble num;
+		GeoVec2D vec, vec2;
+	// number ^ number
+	if (lt.isNumberValue() && rt.isNumberValue()) {
+		num = ((NumberValue) lt).getNumber();
+		double base = num.getDouble();
+		MyDouble exponent = ((NumberValue) rt).getNumber();
+
+		// special case: e^exponent (Euler number)
+		if (base == Math.E) {
+			return exponent.exp();
+		}
+
+		// special case: left side is negative and
+		// right side is a fraction a/b with a and b integers
+		// x^(a/b) := (x^a)^(1/b)
+		if ((base < 0) && right.isExpressionNode()) {
+			ExpressionNode node = (ExpressionNode) right;
+			if (node.getOperation().equals(Operation.DIVIDE)) {
+				// check if we have a/b with a and b integers
+				double a = node.getLeft().evaluateNum().getDouble();
+				long al = Math.round(a);
+				if (Kernel.isEqual(a, al)) { // a is integer
+					double b = node.getRight().evaluateNum()
+							.getDouble();
+					long bl = Math.round(b);
+					if (b == 0) {
+						// (x^a)^(1/0)
+						num.set(Double.NaN);
+					} else if (Kernel.isEqual(b, bl)) { // b is
+														// integer
+						// divide through greatest common divisor of a
+						// and b
+						long gcd = Kernel.gcd(al, bl);
+						al = al / gcd;
+						bl = bl / gcd;
+
+						// we will now evaluate (x^a)^(1/b) instead of
+						// x^(a/b)
+						// set base = x^a
+						if (al != 1) {
+							base = Math.pow(base, al);
+						}
+						if (base > 0) {
+							// base > 0 => base^(1/b) is no problem
+							num.set(Math.pow(base, 1d / bl));
+						} else { // base < 0
+							boolean oddB = (Math.abs(bl) % 2) == 1;
+							if (oddB) {
+								// base < 0 and b odd: (base)^(1/b) =
+								// -(-base^(1/b))
+								num.set(-Math.pow(-base, 1d / bl));
+							} else {
+								// base < 0 and a & b even: (base)^(1/b)
+								// = undefined
+								num.set(Double.NaN);
+							}
+						}
+						return num;
+					}
+				}
+			}
+		}
+
+		// standard case
+		MyDouble.pow(num, exponent, num);
+		return num;
+	}
+	/*
+	 * // vector ^ 2 (inner product) (3D) else if (lt.isVector3DValue()
+	 * && rt.isNumberValue()) { num = ((NumberValue)rt).getNumber();
+	 * Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec(); if
+	 * (num.getDouble() == 2.0) { Geo3DVec.inner(vec3D, vec3D, num); }
+	 * else { num.set(Double.NaN); } return num; }
+	 */
+	// vector ^ 2 (inner product)
+	else if (lt.isVectorValue() && rt.isNumberValue()) {
+		// if (!rt.isConstant()) {
+		// String [] str = new String[]{ "ExponentMustBeConstant",
+		// lt.toString(),
+		// "^", rt.toString() };
+		// throw new MyError(app, str);
+		// }
+		vec = ((VectorValue) lt).getVector();
+		num = ((NumberValue) rt).getNumber();
+
+		if (vec.getMode() == Kernel.COORD_COMPLEX) {
+
+			// complex power
+
+			GeoVec2D.complexPower(vec, num, vec);
+			return vec;
+
+		}
+		// inner/scalar/dot product
+		if (num.getDouble() == 2.0) {
+			GeoVec2D.inner(vec, vec, num);
+			return num;
+		}
+		num.set(Double.NaN);
+		return num;
+		// String [] str = new String[]{ "IllegalExponent",
+		// lt.toString(),
+		// "^", rt.toString() };
+		// throw new MyError(app, str);
+	} else if (lt.isVectorValue() && rt.isVectorValue()) {
+		// if (!rt.isConstant()) {
+		// String [] str = new String[]{ "ExponentMustBeConstant",
+		// lt.toString(),
+		// "^", rt.toString() };
+		// throw new MyError(app, str);
+		// }
+		vec = ((VectorValue) lt).getVector();
+		vec2 = ((VectorValue) rt).getVector();
+
+		// complex power
+
+		GeoVec2D.complexPower(vec, vec2, vec);
+		return vec;
+
+	} else if (lt.isNumberValue() && rt.isVectorValue()) {
+		// if (!rt.isConstant()) {
+		// String [] str = new String[]{ "ExponentMustBeConstant",
+		// lt.toString(),
+		// "^", rt.toString() };
+		// throw new MyError(app, str);
+		// }
+		num = ((NumberValue) lt).getNumber();
+		vec = ((VectorValue) rt).getVector();
+
+		// real ^ complex
+
+		GeoVec2D.complexPower(num, vec, vec);
+		return vec;
+
+	}
+	// polynomial ^ number
+	else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+		// the exponent must be a number
+		if (((Polynomial) rt).degree() != 0) {
+			str = new String[] { "ExponentMustBeInteger",
+					lt.toString(errorTemplate), "^",
+					rt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+
+		// is the base also a number? In this case pull base^exponent
+		// together into lt polynomial
+		boolean baseIsNumber = ((Polynomial) lt).degree() == 0;
+		if (baseIsNumber) {
+			Term base = ((Polynomial) lt).getTerm(0);
+			Term exponent = ((Polynomial) rt).getTerm(0);
+			Term newBase = new Term(new ExpressionNode(kernel,
+					base.getCoefficient(), Operation.POWER,
+					exponent.getCoefficient()), "");
+
+			return new Polynomial(kernel, newBase);
+		}
+
+		// number is not a base
+		if (!rt.isConstant()) {
+			str = new String[] { "ExponentMustBeConstant",
+					lt.toString(errorTemplate), "^",
+					rt.toString(errorTemplate) };
+			throw new MyError(app, str);
+		}
+
+		// get constant coefficent of given polynomial
+		double exponent = ((Polynomial) rt).getConstantCoeffValue();
+		if ((Kernel.isInteger(exponent) && ((int) exponent >= 0))) {
+			poly = new Polynomial(kernel, (Polynomial) lt);
+			poly.power((int) exponent);
+			return poly;
+		}
+		str = new String[] { "ExponentMustBeInteger",
+				lt.toString(errorTemplate), "^",
+				rt.toString(errorTemplate) };
+		throw new MyError(app, str);
+	} else {
+		// AbstractApplication.debug("power: lt :" + lt.getClass()
+		// + ", rt: " + rt.getClass());
+		str = new String[] { "IllegalExponent",
+				lt.toString(errorTemplate), "^",
+				rt.toString(errorTemplate) };
+		throw new MyError(app, str);
+	}
+	}
+	
+	public ExpressionValue handleExp(ExpressionValue lt) {
+		String[] str;
+		Kernel kernel = lt.getKernel();
+		App app = kernel.getApplication();
+		Polynomial poly;
+		MyDouble num;
+		GeoVec2D vec;
+	// exp(number)
+	if (lt.isNumberValue()) {
+		return ((NumberValue) lt).getNumber().exp();
+	} else if (lt.isPolynomialInstance()
+			&& (((Polynomial) lt).degree() == 0)) {
+		lt = ((Polynomial) lt).getConstantCoefficient();
+		return new Polynomial(kernel, new Term(new ExpressionNode(
+				kernel, lt, Operation.EXP, null), ""));
+	} else if (lt.isVectorValue()) {
+		vec = ((VectorValue) lt).getVector();
+
+		// complex e^z
+
+		GeoVec2D.complexExp(vec, vec);
+		return vec;
+
+	} else {
+		str = new String[] { "IllegalArgument", "exp",
+				lt.toString(errorTemplate) };
+		throw new MyError(app, str);
+	}
 	}
 }
