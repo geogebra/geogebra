@@ -428,7 +428,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				plane.createView2D();
+				plane.setView2DVisible(true);
 			}
 		};
 		addAction(action);
