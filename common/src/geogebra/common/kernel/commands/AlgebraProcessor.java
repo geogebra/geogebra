@@ -383,6 +383,7 @@ public class AlgebraProcessor {
 		GeoElement[] result;
 
 		try {
+			app.storeViewCreators();
 			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
 			if(geo instanceof GeoFunction)
 				cons.registerFunctionVariable(((GeoFunction)geo).getFunction().getVarString(StringTemplate.defaultTemplate));
@@ -407,14 +408,19 @@ public class AlgebraProcessor {
 			if (newLabel.equals(oldLabel)) {
 				// try to overwrite
 				result = processValidExpression(newValue, redefineIndependent);
-				if (result != null && storeUndoInfo)
-					app.storeUndoInfo();
+				if (result != null){
+					app.recallViewCreators();
+					if(storeUndoInfo)
+						app.storeUndoInfo();
+				}
+				
 				return result[0];
 			} else if (cons.isFreeLabel(newLabel)) {
 				newValue.setLabel(oldLabel);
 				// rename to oldLabel to enable overwriting
 				result = processValidExpression(newValue, redefineIndependent);
 				result[0].setLabel(newLabel); // now we rename
+				app.recallViewCreators();
 				if (storeUndoInfo)
 					app.storeUndoInfo();
 				return result[0];
