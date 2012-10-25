@@ -364,10 +364,4 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}
 	
 	
-	public void setCoordSystem(double xZero, double yZero, double xscale,
-			double yscale, boolean repaint) {
-		App.printStacktrace("");
-		super.setCoordSystem(xZero, yZero, xscale, yscale, repaint);
-	}
-	
 }
