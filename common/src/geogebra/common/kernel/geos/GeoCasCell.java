@@ -2255,15 +2255,40 @@ public class GeoCasCell extends GeoElement implements VarString {
 	public boolean hasCoords() {
 		return outputVE!=null && outputVE.hasCoords();
 	}
-	
+	private int SCREEN_WIDTH = 80;
 	@Override
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 		if(isError())
 			return kernel.getApplication().getError(error);
 		if(tooltip == null && outputVE!=null){				
-				tooltip = GeoElement.indicesToHTML(getOutput(StringTemplate.defaultTemplate), true);
+				tooltip = getOutput(StringTemplate.defaultTemplate);
 				tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
 				tooltip = tooltip.replace("gGbInTeGrAl(", "\u222b(");			
+					
+				if(tooltip.length()>SCREEN_WIDTH && tooltip.indexOf('{')>-1){
+					int listStart = tooltip.indexOf('{');
+					StringBuilder sb = new StringBuilder(tooltip.length()+20);
+					sb.append(tooltip.substring(0,listStart+1));
+					
+					int currLine = 0;
+					for(int i=listStart+1;i<tooltip.length();i++){
+						if(tooltip.charAt(i)==','){
+							App.debug(i);
+							int nextComma = tooltip.indexOf(',', i+1);
+							if(nextComma ==-1)
+								nextComma = tooltip.length()-1;
+							if(currLine+(nextComma-i)>SCREEN_WIDTH){
+								sb.append(",\n");
+								currLine=0;
+								i++;								
+							}
+						}
+						currLine++;
+						sb.append(tooltip.charAt(i));
+					}
+					tooltip = sb.toString();
+				}
+			tooltip = GeoElement.indicesToHTML(tooltip, true);
 		}
 		return tooltip;
 	}
