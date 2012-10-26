@@ -453,7 +453,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 	public void updatePreview() {
 		if (getView3D().getEuclidianController().previewFromResultedGeo) { 
-			getView3D().previewLine.setEuclidianVisible(false);
+			if (getView3D().previewLine!=null)
+				getView3D().previewLine.setEuclidianVisible(false);
 	
 			GeoElement geo = getView3D().getEuclidianController().resultedGeo;
 			//Application.debug(geo);
