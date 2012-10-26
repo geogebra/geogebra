@@ -1328,7 +1328,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	public void setOutput(final String output, boolean prependLabel) {
 		error = null;
-		latex = null;
+		clearStrings();
 
 		// when input is a function declaration, output also needs to become a
 		// function
@@ -1688,7 +1688,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
 		//invalidate latex
-		latex = null;
+		clearStrings();
 
 	}
 
@@ -1698,7 +1698,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	public void setError(final String error) {
 		this.error = error;
-		latex = null;
+		clearStrings();
 		outputVE = null;
 	}
 
@@ -2129,6 +2129,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		kernel.notifyRepaint();
 	}
 	private boolean pointList;
+
+	private String tooltip;
 	/**
 	 * Assigns result to a variable if possible
 	 * 
@@ -2218,7 +2220,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			
 			computeOutput(false);
 			this.update();
-			latex = null;
+			clearStrings();
+			
 		} else {
 			App.debug("Fail" + oldEvalComment);
 			// plot failed, undo assignment
@@ -2235,6 +2238,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return true;
 	}
 	
+	private void clearStrings() {
+		tooltip = null;
+		latex = null;
+		
+	}
+
 	/**
 	 * @param pointList2 whether evalVE needs to be wrapped in PointList when evaluating
 	 */
@@ -2245,6 +2254,18 @@ public class GeoCasCell extends GeoElement implements VarString {
 	@Override
 	public boolean hasCoords() {
 		return outputVE!=null && outputVE.hasCoords();
+	}
+	
+	@Override
+	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
+		if(isError())
+			return kernel.getApplication().getError(error);
+		if(tooltip == null && outputVE!=null){				
+				tooltip = GeoElement.indicesToHTML(getOutput(StringTemplate.defaultTemplate), true);
+				tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
+				tooltip = tooltip.replace("gGbInTeGrAl(", "\u222b(");			
+		}
+		return tooltip;
 	}
 
 }

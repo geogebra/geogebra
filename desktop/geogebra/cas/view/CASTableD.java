@@ -5,7 +5,9 @@ package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASTable;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
@@ -284,11 +286,16 @@ public class CASTableD extends JTable implements CASTable {
 					|| (isOutputRollOver
 							&& getGeoCasCell(row).getLaTeXOutput() != null && getGeoCasCell(
 							row).getLaTeXOutput().length() > 0);
-
+			if(isOutputRollOver){
+				setToolTipText(getGeoCasCell(row).getTooltipText(true, true));
+			}
+			else
+				setToolTipText(null);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
+			setToolTipText(null);
 			rollOverRow = -1;
 			repaint();
 		}
