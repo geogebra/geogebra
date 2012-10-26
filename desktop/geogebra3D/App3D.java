@@ -450,6 +450,9 @@ public class App3D extends AppD {
 				view.setPlane(plane);
 				plane.setEuclidianViewForPlane(view);
 				view.updateForPlane();
+			}else{
+				//no more creator : remove
+				p.getView().doRemove();
 			}
 		}
 	}
