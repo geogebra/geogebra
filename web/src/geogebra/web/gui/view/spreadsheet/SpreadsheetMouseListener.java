@@ -74,8 +74,9 @@ public class SpreadsheetMouseListener implements
 			if (!(table.getOneClickEditMap().containsKey(point) && view
 					.allowSpecialEditor())) {
 				table.setAllowEditing(true);
-				table.editCellAt(table.getSelectedRow(),
-						table.getSelectedColumn());
+				table.editCellAt(
+					table.getSelectedRow()+1,
+					table.getSelectedColumn()+1);
 
 				// workaround, see
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625

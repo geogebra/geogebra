@@ -42,13 +42,12 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 		boolean altDown = e.isAltKeyDown(); 	 
 		boolean ctrlDown = e.isControlKeyDown(); //AppW.isControlDown(e) // Windows ctrl/Mac Meta
 		//|| e.isControlDown(); // Fudge (Mac ctrl key)	
-							
+
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
-		
-		
+
 		switch (keyCode) {
-		
+
 		case KeyCodes.KEY_UP://KeyEvent.VK_UP:
 			if (e.isControlKeyDown()) {
 				//AppW.isControlDown(e)) {
@@ -102,8 +101,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 		
 		case KeyCodes.KEY_DOWN://VK_DOWN:
 			// auto increase spreadsheet size when you go off the bottom	
-			if (table.getSelectedRow() + 1 == table.getRowCount() && table.getSelectedRow() < Kernel.MAX_SPREADSHEET_ROWS) {
-				model.setRowCount(table.getRowCount() +1);
+			if (table.getSelectedRow() + 1 >= table.getRowCount()-1 && table.getSelectedRow() < Kernel.MAX_SPREADSHEET_ROWS) {
+				model.setRowCount(table.getRowCount());
 				
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
 			}
@@ -161,8 +160,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 			// if shift pressed, select cells too
 			
 			// find rectangle that will contain all cells 
-			for (int c = 0 ; c <table.getColumnCount() ; c++)
-			for (int r = 0 ; r < table.getRowCount() ; r++)
+			for (int c = 0 ; c <table.getColumnCount()-1 ; c++)
+			for (int r = 0 ; r < table.getRowCount()-1 ; r++)
 				if ((r > row || c > column) && model.getValueAt(r, c) != null) {
 					if (r > row) row = r;
 					if (c > column) column = c;
@@ -175,8 +174,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 		case KeyCodes.KEY_RIGHT: //Event.VK_RIGHT:
 			// auto increase spreadsheet size when you go off the right
 			
-			if (table.getSelectedColumn() + 1 == table.getColumnCount() && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
-				model.setColumnCount(table.getColumnCount() +1);		
+			if (table.getSelectedColumn() + 1 >= table.getColumnCount()-1 && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
+				model.setColumnCount(table.getColumnCount());		
 				view.columnHeaderRevalidate();
 
 				// these two lines are a workaround for Java 6
@@ -251,9 +250,9 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 			break;
 
 
-		case GWTKeycodes.KEY_C://KeyEvent.VK_C: 	                         
-		case GWTKeycodes.KEY_V://KeyEvent.VK_V: 	                        
-		case GWTKeycodes.KEY_X://KeyEvent.VK_X: 	                         
+		case GWTKeycodes.KEY_C://KeyEvent.VK_C:
+		case GWTKeycodes.KEY_V://KeyEvent.VK_V:
+		case GWTKeycodes.KEY_X://KeyEvent.VK_X:
 		case GWTKeycodes.KEY_DELETE://KeyEvent.VK_DELETE: 	                         
 		case GWTKeycodes.KEY_BACKSPACE://KeyEvent.VK_BACK_SPACE:
 			if (! editor.isEditing()) {
@@ -302,7 +301,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 		case GWTKeycodes.KEY_F2://KeyEvent.VK_F2:	
 			if (!editor.isEditing()) {
 				table.setAllowEditing(true);
-				table.editCellAt(table.getSelectedRow(), table.getSelectedColumn());
+				table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);
 				 //?//final JTextComponent f = (JTextComponent)table.getEditorComponent();
 		         //?//   f.requestFocus();
 		         //?//   f.getCaret().setVisible(true);
@@ -339,8 +338,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				row = 0;
 				column = 0;
 				// find rectangle that will contain all defined cells 
-				for (int c = 0 ; c < table.getColumnCount() ; c++)
-				for (int r = 0 ; r < table.getRowCount() ; r++)
+				for (int c = 0 ; c < table.getColumnCount()-1 ; c++)
+				for (int r = 0 ; r < table.getRowCount()-1 ; r++)
 					if ((r > row || c > column) && model.getValueAt(r, c) != null) {
 						if (r > row) row = r;
 						if (c > column) column = c;
@@ -390,7 +389,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 		}
 	
 		model.setValueAt(null, table.getSelectedRow(), table.getSelectedColumn());
-		table.editCellAt(table.getSelectedRow(), table.getSelectedColumn()); 
+		table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1); 
 		// workaround, see
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625				
         //?//final JTextComponent f = (JTextComponent)table.getEditorComponent();

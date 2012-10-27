@@ -1294,6 +1294,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Also prevents fixed cells from being edited.
 	 */
 	public boolean editCellAt(int row, int col) {
+
+		if (row < 1 || col < 1)
+			return false;
+
 		Object ob = tableModel.getValueAt(row-1, col-1);
 
 		// prepare editor to handle equals
@@ -2217,16 +2221,16 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		resizeMarkedCells();
 	}
 
-	public int getSelectedRow() {//in grid (presentation) coordinates
-		if (minSelectionRow > 0)
-			return minSelectionRow;
-		return -1;
+	public int getSelectedRow() {//in table model (logic) coordinates
+		if (minSelectionRow < 1)
+			return -1;
+		return minSelectionRow - 1;
 	}
 
-	public int getSelectedColumn() {//in grid (presentation) coordinates
-		if (minSelectionColumn > 0)
-			return minSelectionColumn;
-		return -1;
+	public int getSelectedColumn() {//in table model (logic) coordinates
+		if (minSelectionColumn < 1)
+			return -1;
+		return minSelectionColumn - 1;
 	}
 
 	public Widget getEditorWidget() {
