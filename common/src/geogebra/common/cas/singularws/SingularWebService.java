@@ -2,9 +2,6 @@ package geogebra.common.cas.singularws;
 
 import java.util.Date;
 
-import com.google.gwt.regexp.shared.RegExp;
-import com.google.gwt.regexp.shared.MatchResult;
-
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.main.App;
 import geogebra.common.main.SingularWSSettings;
@@ -212,49 +209,6 @@ public class SingularWebService {
 	 */
 	public static String getLocusLib() {
 		return locusLib;
-	}
-	
-	/**
-	 * Converts floats to rationals. Uses some kind of heuristics
-	 * since it simply replaces e.g. ".2346" to "2346/10000".
-	 * This will also work e.g. for "89.2346" since it will be
-	 * changed to "892346/10000". The "." character should not be use
-	 * for other purposes, so we naively assume that this holds.
-
-	 * @param input the input expression in floating point format
-	 * @return the output expression in rational divisions
-	 */
-	public static String convertFloatsToRationals(String input) {
-		
-		/* It was a pain to convert this code to a GWT compliant one.
-		 * See http://stackoverflow.com/questions/6323024/gwt-2-1-regex-class-to-parse-freetext
-		 * for details.
-		 */
-		
-		StringBuffer output = new StringBuffer();
-			
-		RegExp re = RegExp.compile("\\.[\\d]+", "g");
-		
-		int from = 0;
-		
-		for (MatchResult mr = re.exec(input); mr != null; mr = re.exec(input)) {
-			String divisor = "1";
-			int length = mr.getGroup(0).length();
-			for (int j = 1; j < length; ++j) {
-				divisor += "0";
-			}
-			// Adding the non-matching part from the previous match (or from the start):
-			if (from <= mr.getIndex() - 1)
-				output.append(input.substring(from, mr.getIndex()));
-			// Adding the matching part in replaced form (removing the first "." character):
-			output.append(input.substring(mr.getIndex() + 1, mr.getIndex()
-					+ length) + "/" + divisor);
-			from = mr.getIndex() + length; // Preparing then next "from".
-		}
-		// Adding tail:
-		output.append(input.substring(from, input.length()));
-		
-		return output.toString();
 	}
 	
 }

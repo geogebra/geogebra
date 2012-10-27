@@ -16,6 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * @author sergio
  * @author zoltan
@@ -302,7 +305,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				append("}; \n").
 				append("setring(vars, degreeorder vars, revlex); \n").
 				append("setideal(m,{").
-					append(SingularWebService.convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
+					append(convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 				append("}); \n").
 				append("s := eliminate(m, {").
 				    append(this.getVarsToEliminate()).
@@ -318,7 +321,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		if (locusLib.length() != 0) {
 			script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + this.getVarsToEliminate()).
 					append("),dp;").
-					append("short=0;ideal I=" + SingularWebService.convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
+					append("short=0;ideal I=" + convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 					append(";def Gp=grobcov(I);locus2d(Gp);");
 			App.debug(script);
 			String result = App.singularWS.directCommand(script.toString());
@@ -349,7 +352,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				append("),dp;ideal m=").
 				// We should not convert floats to rationals if SINGULAR_COEFFS != "0":
 				// append(MPReduceTranslator.constructRestrictions(restrictions)).
-				append(SingularWebService.convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
+				append(convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
 				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
@@ -380,4 +383,48 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		return equations.toString();
 	}
 
+	/**
+	 * Converts floats to rationals. Uses some kind of heuristics
+	 * since it simply replaces e.g. ".2346" to "2346/10000".
+	 * This will also work e.g. for "89.2346" since it will be
+	 * changed to "892346/10000". The "." character should not be use
+	 * for other purposes, so we naively assume that this holds.
+
+	 * @param input the input expression in floating point format
+	 * @return the output expression in rational divisions
+	 */
+	public static String convertFloatsToRationals(String input) {
+		
+		/* It was a pain to convert this code to a GWT compliant one.
+		 * See http://stackoverflow.com/questions/6323024/gwt-2-1-regex-class-to-parse-freetext
+		 * for details.
+		 */
+		
+		StringBuffer output = new StringBuffer();
+			
+		RegExp re = RegExp.compile("\\.[\\d]+", "g");
+		
+		int from = 0;
+		
+		for (MatchResult mr = re.exec(input); mr != null; mr = re.exec(input)) {
+			String divisor = "1";
+			int length = mr.getGroup(0).length();
+			for (int j = 1; j < length; ++j) {
+				divisor += "0";
+			}
+			// Adding the non-matching part from the previous match (or from the start):
+			if (from <= mr.getIndex() - 1)
+				output.append(input.substring(from, mr.getIndex()));
+			// Adding the matching part in replaced form (removing the first "." character):
+			output.append(input.substring(mr.getIndex() + 1, mr.getIndex()
+					+ length) + "/" + divisor);
+			from = mr.getIndex() + length; // Preparing then next "from".
+		}
+		// Adding tail:
+		output.append(input.substring(from, input.length()));
+		
+		return output.toString();
+	}
+
+	
 }
