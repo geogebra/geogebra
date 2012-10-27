@@ -54,7 +54,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
@@ -6142,7 +6141,10 @@ public abstract class EuclidianController {
 				param = yRW - startPoint.y;
 			}
 		}
+		//make sure we don't show eg 5.2 for slider <-5,5> in the hit treshold
+		param = Math.max(0, Math.min(movedSlider.getSliderWidth(),param));
 		param = (param * (max - min)) / movedSlider.getSliderWidth();
+		
 	
 		// round to animation step scale
 		param = Kernel.roundToScale(param,
