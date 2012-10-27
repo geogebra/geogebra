@@ -59,7 +59,7 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
-		locus.setFillable(false);
+		locus.setFillable(true);
 
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
@@ -79,7 +79,7 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
-		locus.setFillable(false);
+		locus.setFillable(true);
 
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
@@ -129,8 +129,13 @@ public class AlgoLocusList extends AlgoElement {
 					}
 					P.setPath((Path)actel);
 					if (actel instanceof GeoList) {
-						actal = new AlgoLocusList(cons, Q, P, try_steps);
-						pathp = ((AlgoLocusList)actal).getLocus();
+						if (((GeoList)actel).shouldUseAlgoLocusList()) {
+							actal = new AlgoLocusList(cons, Q, P, try_steps);
+							pathp = ((AlgoLocusList)actal).getLocus();
+						} else {
+							actal = new AlgoLocus(cons, Q, P, try_steps);
+							pathp = ((AlgoLocus)actal).getLocus();
+						}
 					} else {
 						actal = new AlgoLocus(cons, Q, P, try_steps);
 						pathp = ((AlgoLocus)actal).getLocus();

@@ -25,6 +25,8 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.Algos;
@@ -2234,5 +2236,70 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		
 	}
 
+	/**
+	 * Before creating a locus based on this GeoList as a path,
+	 * this method decides whether the locus algo should be AlgoLocus or AlgoLocusList.
+	 * 
+	 * @return boolean true if AlgoLocusList should be used.
+	 */
+	public boolean shouldUseAlgoLocusList() {
 
+		GeoPoint minPar = null, maxPar = null, prevMinPar = null, prevMaxPar = null;
+		int falses = 0;
+		for (int i = 0; i < this.size(); i++)
+		{
+			if ((Path)get(i) instanceof GeoSegment) {
+				minPar = ((GeoSegment)get(i)).getStartPoint();
+				maxPar = ((GeoSegment)get(i)).getEndPoint();
+			} else if ((Path)get(i) instanceof GeoLine) {
+				minPar = ((GeoLine)get(i)).getStartPoint();
+				maxPar = ((GeoLine)get(i)).getEndPoint();
+			} else if ((Path)get(i) instanceof GeoConicPart) {
+				if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
+					minPar =
+						((AlgoConicPartConicPoints)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getStartPoint();
+					maxPar = 
+						((AlgoConicPartConicPoints)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getEndPoint();
+				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
+					minPar = (GeoPoint)
+						((AlgoConicPartCircumcircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
+					maxPar = (GeoPoint)
+						((AlgoConicPartCircumcircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[2];
+				} else {
+					minPar = null;
+					maxPar = null;
+				}
+			} else {
+				minPar = null;
+				maxPar = null;
+			}
+
+			if (i == 0) {
+				;//here lineTo is false, but it does not matter because it is at start
+			} else if (maxPar != null && minPar != null) {
+				if (maxPar == prevMaxPar || minPar == prevMinPar ||
+					maxPar == prevMinPar || minPar == prevMaxPar) {
+					;//here lineTo is true, because the path is continous
+				} else {
+					falses++;
+				}
+			} else {
+				falses++;
+			}
+			prevMaxPar = maxPar;
+			prevMinPar = minPar;
+		}
+
+		// if no lineTo was false (for i>0)
+		// then the path is continous so AlgoLocus is enough
+		if (falses == 0)
+			return false;
+
+		// otherwise use AlgoLocusList
+		return true;
+	}
 }
