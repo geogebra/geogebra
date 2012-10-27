@@ -62,16 +62,21 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ *	Factory class for drawables
+ *
+ */
 public class EuclidianDraw {
-
+	/**
+	 * adds a GeoElement to ev view
+	 * @param ev euclidian view
+	 * 
+	 * @param geo
+	 *            GeoElement to be added
+	 * @return drawable for given GeoElement
+	 */
 	public static DrawableND newDrawable(EuclidianView ev, GeoElement geo) {
-		/**
-		 * adds a GeoElement to ev view
-		 * 
-		 * @param geo
-		 *            GeoElement to be added
-		 * @return drawable for given GeoElement
-		 */
+		
 		Drawable d = null;
 		switch (geo.getGeoClassType()) {
 		case BOOLEAN:
