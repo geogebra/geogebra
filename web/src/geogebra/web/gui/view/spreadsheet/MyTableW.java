@@ -297,9 +297,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
+		copyPasteCut = new CopyPasteCutW(app);
+
 		/*
-		 * copyPasteCut = new CopyPasteCutD(app);
-		 * 
 		 * // - see ticket #135 addFocusListener(this);
 		 * 
 		 * // editing putClientProperty("terminateEditOnFocusLost",
