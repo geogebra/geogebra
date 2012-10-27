@@ -18,18 +18,30 @@ import java.util.Set;
 
 /**
  * @author sergio
- * Translates a system to MPReduce.
+ * @author zoltan
+ * Translates a system to MPReduce or Singular.
  */
-public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
+public class CASTranslator extends EquationTranslator<StringBuilder> {
 	
 	private Set<String> varsToEliminate;
 	private Kernel kernel;
 	
-	public MPReduceTranslator(Kernel kernel) {
+	/**
+	 * @param kernel
+	 */
+	/**
+	 * Constructor
+	 * @param kernel the current kernel
+	 */
+	public CASTranslator(Kernel kernel) {
 		this.kernel = kernel;
 		this.varsToEliminate = new HashSet<String>();
 	}
 
+	/**
+	 * List of variables to eliminate
+	 * @return comma separated list of variables 
+	 */
 	protected String getVarsToEliminate() {
 		StringBuilder varsString = new StringBuilder(varsToEliminate.size());
 		
@@ -45,6 +57,10 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		return varsString.toString();
 	}
 	
+	/**
+	 * Variables used in this computation
+	 * @return comma separated list of variables
+	 */
 	protected String getVars() {
 		return new StringBuilder("x,y,").append(getVarsToEliminate()).toString();
 	}
@@ -213,18 +229,17 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		return getCoefficientsFromResult(result, cas);
 	}
 
-	private double[][] getCoefficientsFromResult(String rawResult, GeoGebraCAS cas) {
+	private static double[][] getCoefficientsFromResult(String rawResult, GeoGebraCAS cas) {
 		String result = getResultFromRaw(rawResult);
 		App.info("[LocusEqu] to-be-parsed result: "+result);
 		
 		if("".equals(result.trim())) {
 			return new double[][]{{}};
-		} else {
-			return simplifyResult(parseResult(result,cas));
 		}
+		return simplifyResult(parseResult(result,cas));
 	}
 
-	private double[][] getCoefficientsFromSingularResult(String rawResult) {
+	private static double[][] getCoefficientsFromSingularResult(String rawResult) {
 		String[] flatData = rawResult.split(",");
 		int xLength = Integer.parseInt(flatData[0]);
 		int yLength = Integer.parseInt(flatData[1]);
@@ -243,7 +258,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		
 	}
 	
-	private double[][] simplifyResult(double[][] original) {
+	private static double[][] simplifyResult(double[][] original) {
 		if(original[0][0] == 0.0) {
 			return original;
 		}
@@ -252,9 +267,11 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		int yLength = original[0].length;
 		double[][] result = new double[xLength][yLength];
 		
-		double indepCoeff = original[0][0];
-		
-		result[0][0] = 1.0;
+		// double indepCoeff = original[0][0];
+		// result[0][0] = 1.0;
+		// We don't simplify the result, but leave it to the user:
+		double indepCoeff = 1.0;
+		result[0][0] = original[0][0];
 		
 		for(int y = 1; y < yLength; y++) {
 			result[0][y] = original[0][y] / indepCoeff;
@@ -269,7 +286,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		return result;
 	}
 
-	private double[][] parseResult(String result, GeoGebraCAS cas) {
+	private static double[][] parseResult(String result, GeoGebraCAS cas) {
 		return MPReducePolynomialParser.parsePolynomial(result, cas);
 	}
 
@@ -287,7 +304,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 				append("}; \n").
 				append("setring(vars, degreeorder vars, revlex); \n").
 				append("setideal(m,{").
-					append(MPReduceTranslator.constructRestrictions(restrictions)).
+					append(SingularWebService.convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 				append("}); \n").
 				append("s := eliminate(m, {").
 				    append(this.getVarsToEliminate()).
@@ -303,7 +320,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		if (locusLib.length() != 0) {
 			script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + this.getVarsToEliminate()).
 					append("),dp;").
-					append("short=0;ideal I=" + SingularWebService.convertFloatsToRationals(MPReduceTranslator.constructRestrictions(restrictions))).
+					append("short=0;ideal I=" + SingularWebService.convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 					append(";def Gp=grobcov(I);locus2d(Gp);");
 			App.debug(script);
 			String result = App.singularWS.directCommand(script.toString());
@@ -334,7 +351,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 				append("),dp;ideal m=").
 				// We should not convert floats to rationals if SINGULAR_COEFFS != "0":
 				// append(MPReduceTranslator.constructRestrictions(restrictions)).
-				append(SingularWebService.convertFloatsToRationals(MPReduceTranslator.constructRestrictions(restrictions))).
+				append(SingularWebService.convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
 				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
