@@ -64,10 +64,8 @@ import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.kernel.AnimationManagerW;
-import geogebra.web.kernel.HasTimerAction;
 import geogebra.web.kernel.KernelW;
 import geogebra.web.kernel.UndoManagerW;
-import geogebra.web.kernel.gawt.Timer;
 import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
 
@@ -109,7 +107,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AppW extends App implements HasTimerAction{
+public class AppW extends App {
 
 	/**
 	 * Constants related to internationalization
@@ -1231,12 +1229,9 @@ public class AppW extends App implements HasTimerAction{
 		getEuclidianView1().setDisableRepaint(true);
 		getEuclidianView1().setReIniting(true);
 	}
-	private Timer timer;
+
 	public void afterLoadFile() {
 		kernel.initUndoInfo();
-		if(timer == null)
-			timer = new Timer(20,this);
-		timer.run();
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().repaintView();
@@ -2501,9 +2496,4 @@ public class AppW extends App implements HasTimerAction{
 		}
 		super.setShowToolBar(toolbar, help);
 	}
-
-	public void actionPerformed() {
-		getEuclidianView1().repaintOnTime();
-	    
-    }
 }

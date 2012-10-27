@@ -321,17 +321,11 @@ public class EuclidianViewW extends EuclidianView {
 	    App.debug("implementation needed or OK");
     }
 
-	private boolean repaintWaiting = false; 
-    
-	public void repaint() {
-    	repaintWaiting = true;
-    }
-    
-    public void repaintOnTime() {
-    	if (repaintWaiting && !disableRepaint) {
+
+    public void repaint() {
+    	if (!disableRepaint) {
 			geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     		paint(g2p);
-    		repaintWaiting = false;
     	}
     }
 
