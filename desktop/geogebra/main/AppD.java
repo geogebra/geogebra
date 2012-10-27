@@ -29,7 +29,6 @@ import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -540,7 +539,7 @@ public class AppD extends App implements
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
 		// init singularWS
-		initializeSingularWS();
+		initializeSingularWSD();
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI
@@ -5364,5 +5363,36 @@ public class AppD extends App implements
 		return null;
 	}
 
+	private class initializeSingularWS_thread implements Runnable {
+		public initializeSingularWS_thread() {
+		}
+		public void run() {
+			// Display info about this particular thread
+			App.debug(Thread.currentThread() + " running");
+			initializeSingularWS();
+		}
+	}
+
+	public void initializeSingularWSD() {
+		Thread t = new Thread(new initializeSingularWS_thread(), "compute");
+		long startTime = System.currentTimeMillis();
+		t.start();
+		int i = 0;
+		while (t.isAlive()) {
+			App.debug("Waiting for the initialization: " + i++);
+			try {
+				t.join(250);
+			} catch (InterruptedException e) {
+				return;
+			}
+			if (((System.currentTimeMillis() - startTime) > SingularWSSettings.singularWebServiceTimeout * 1000L)
+	                  && t.isAlive()) {
+	                App.debug("SingularWS startup timeout");
+	                t.interrupt();
+	                // t.join(); // http://docs.oracle.com/javase/tutorial/essential/concurrency/simple.html
+	                return;
+	            }
+		}
+	}
 	
 }
