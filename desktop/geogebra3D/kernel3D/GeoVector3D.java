@@ -500,7 +500,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(
 						new ExpressionNode(kernel,
-								getYBracket(), // "z("
+								getZBracket(), // "z("
 								Operation.PLUS, 
 								new ExpressionNode(kernel,
 										getNameGeo(), // Name[this]
