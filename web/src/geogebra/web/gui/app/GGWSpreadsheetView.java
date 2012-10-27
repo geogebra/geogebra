@@ -8,7 +8,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Top level GUI for the spreadsheet view (imitation of GGWGraphicsView) 
  *
  */
-public class GGWSpreadsheetView extends Composite {
+public class GGWSpreadsheetView extends ResizeComposite {
 
 	App application = null;
 	
@@ -37,16 +37,24 @@ public class GGWSpreadsheetView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
+	public void onResize() {
+		//App.debug("Resized");
+		if (application != null) {
+			SpreadsheetView spreadsheet = (SpreadsheetView)application.getGuiManager().getSpreadsheetView();
+			spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
+			spreadsheet.getScrollPanel().setHeight(
+				(this.getOffsetHeight() -
+					(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
+				getSpreadsheetStyleBar()).getOffsetHeight())+"px");
+		}
+    }
+
 	public void attachApp(App app) {
 	   this.application = app;
 	   spreadsheetview = new SpreadsheetView1();
 	   tempsheet0.add(spreadsheetview);
 	   spreadsheetview.attachApp(app);
-	   SpreadsheetView spreadsheet = (SpreadsheetView)app.getGuiManager().getSpreadsheetView();
-	   spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
-	   spreadsheet.getScrollPanel().setHeight(
-       (this.getOffsetHeight() -
-    	(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
-    	getSpreadsheetStyleBar()).getOffsetHeight())+"px");
+
+	   onResize();
 	}
 }
