@@ -1328,7 +1328,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		Drawable d = (Drawable) DrawableMap.get(geo);
 		int layer = geo.getLayer();
 		if (d == null)
-			return;
+			return;					
 		if (d instanceof RemoveNeeded) {
 			drawLayers[layer].remove(d);
 			((RemoveNeeded) d).remove();
@@ -1341,7 +1341,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		if (geo.isGeoPoint()) {
 			stickyPointList.remove(geo);
 		}
-		repaint();
+		if(!d.isCreatedByDrawListVisible())
+			repaint();
 
 	}
 
