@@ -35,6 +35,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -277,20 +278,24 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		addDomHandler(ml, ClickEvent.getType());
 		addDomHandler(ml, DoubleClickEvent.getType());
 
-		/*
-		 * // key listener KeyListener[] defaultKeyListeners =
-		 * getKeyListeners(); for (int i = 0; i < defaultKeyListeners.length;
-		 * ++i) { removeKeyListener(defaultKeyListeners[i]); }
-		 * addKeyListener(new SpreadsheetKeyListener(app, this));
-		 * 
-		 * // setup selection listener // TODO // These listeners are no longer
-		 * needed. // getSelectionModel().addListSelectionListener(new //
-		 * RowSelectionListener()); //
-		 * getColumnModel().getSelectionModel().addListSelectionListener(new //
-		 * ColumnSelectionListener()); //
-		 * getColumnModel().getSelectionModel().addListSelectionListener
-		 * (columnHeader);
-		 */
+		// key listener - old solution
+		//KeyListener[] defaultKeyListeners = getKeyListeners();
+		//for (int i = 0; i < defaultKeyListeners.length; ++i) {
+		//	removeKeyListener(defaultKeyListeners[i]);
+		//}
+		//addKeyListener(new SpreadsheetKeyListener(app, this));
+		
+		//addDomHandler(new SpreadsheetKeyListener(app, this), KeyDownEvent.getType());
+
+		// setup selection listener
+		// TODO
+		// These listeners are no longer needed.
+		// getSelectionModel().addListSelectionListener(new 
+		// RowSelectionListener()); 
+		// getColumnModel().getSelectionModel().addListSelectionListener(new 
+		// ColumnSelectionListener()); 
+		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
+
 		// add table model listener
 		((SpreadsheetTableModelW) tableModel)
 		        .setChangeListener(new MyTableModelListener());

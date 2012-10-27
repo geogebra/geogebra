@@ -21,9 +21,9 @@ import java.util.HashMap;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 
-public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInterface, /*ComponentListener,
+public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener {
 
 	private static final long serialVersionUID = 1L;
@@ -137,6 +137,7 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 		table = new MyTableW(this, tableModel);
 
 		spreadsheet = new ScrollPanel(table);
+		//TODO//addKeyDownHandler(new SpreadsheetKeyListener(app, table));
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
@@ -1234,9 +1235,9 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	/*protected boolean hasViewFocus() {
 		boolean hasFocus = false;
 		try {
-			if (((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+			if (((LayoutW) app.getGuiManager().getLayout()).getDockManager()
 					.getFocusedPanel() != null)
-				hasFocus = ((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+				hasFocus = ((LayoutW) app.getGuiManager().getLayout()).getDockManager()
 						.getFocusedPanel().isAncestorOf(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1246,11 +1247,12 @@ public class SpreadsheetView extends VerticalPanel implements SpreadsheetViewInt
 	}*/
 
 	// transfer focus to the table
-	/*@Override
+	//@Override
 	public void requestFocus() {
-		if (table != null)
-			table.requestFocus();
-	}*/
+		//if (table != null)
+		//	table.requestFocus();
+		setFocus(true);
+	}
 
 	// test all components of SpreadsheetView for hasFocus
 	//@Override

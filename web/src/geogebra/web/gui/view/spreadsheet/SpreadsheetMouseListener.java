@@ -178,6 +178,7 @@ public class SpreadsheetMouseListener implements
 		//if (!view.hasViewFocus())
 		//	((LayoutW) app.getGuiManager().getLayout()).getDockManager()
 		//			.setFocusedPanel(App.VIEW_SPREADSHEET);
+		view.requestFocus();
 
 		mouseIsDown = true;
 		e.preventDefault();
