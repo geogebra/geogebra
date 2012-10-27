@@ -2399,6 +2399,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setDefaultCursor(){
 		//App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
 		
+		
 		if (app.getShiftDown()) //do nothing
 			return;
 		
@@ -2408,13 +2409,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			return;
 		}
 		
-		/*
+
 		// 2D cursor
 		if (getProjection()==PROJECTION_ANAGLYPH)
 			setTransparentCursor(); //use own 3D cursor (for depth)
 		else
 			setDefault2DCursor();
-		*/
+		
 		
 		// 3D cursor
 		cursor = CURSOR_DEFAULT;
