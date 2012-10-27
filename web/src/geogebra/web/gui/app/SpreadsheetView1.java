@@ -1,15 +1,16 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SpreadsheetView1 extends ResizeComposite {
+public class SpreadsheetView1 extends Composite {
 
 	App application = null;
 
@@ -26,10 +27,7 @@ public class SpreadsheetView1 extends ResizeComposite {
 	public SpreadsheetView1() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
-	/**
-	 * @return euclidianPanel (needed for wrap for textfields)
-	 */
+
 	public SpreadsheetPanel getSpreadsheetPanel() {
 		return sspanel;
 	}
@@ -47,5 +45,4 @@ public class SpreadsheetView1 extends ResizeComposite {
 	   ssbpanel.attachApp(app);
 	   sspanel.attachApp(app);
 	}
-
 }

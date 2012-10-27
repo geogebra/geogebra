@@ -30,7 +30,8 @@ public class GGWSpreadsheetView extends Composite {
 	/**
 	 * 
 	 */
-	@UiField SpreadsheetView1 spreadsheetview;
+	@UiField AbsolutePanel tempsheet0;
+	SpreadsheetView1 spreadsheetview = null;
 
 	public GGWSpreadsheetView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -38,6 +39,14 @@ public class GGWSpreadsheetView extends Composite {
 
 	public void attachApp(App app) {
 	   this.application = app;
+	   spreadsheetview = new SpreadsheetView1();
+	   tempsheet0.add(spreadsheetview);
 	   spreadsheetview.attachApp(app);
+	   SpreadsheetView spreadsheet = (SpreadsheetView)app.getGuiManager().getSpreadsheetView();
+	   spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
+	   spreadsheet.getScrollPanel().setHeight(
+       (this.getOffsetHeight() -
+    	(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
+    	getSpreadsheetStyleBar()).getOffsetHeight())+"px");
 	}
 }
