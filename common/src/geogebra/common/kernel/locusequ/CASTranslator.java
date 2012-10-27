@@ -27,9 +27,6 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	private Kernel kernel;
 	
 	/**
-	 * @param kernel
-	 */
-	/**
 	 * Constructor
 	 * @param kernel the current kernel
 	 */
@@ -297,7 +294,8 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 
 	private String createMPReduceScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
-		return script.append("algebraic; \n").
+		return script.append("off numval, rounded, roundall, factor$").
+				append("algebraic; \n").
 				append("load cali; \n").
 				append("vars := {").
 					append(this.getVars()).
