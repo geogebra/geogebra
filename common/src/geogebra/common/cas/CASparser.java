@@ -203,8 +203,14 @@ public class CASparser implements CASParserInterface{
 			throw new CASException(t);
 		}	
 	}
-
-
+	/**
+	 * Final automata can be in three states
+	 * * NORMAL -- no index being read
+	 * * UNDERSCORE -- last character was _
+	 * * LONG_INDEX -- it found _{, but not yet }
+	 *
+	 */
+	private enum FA {NORMAL,UNDERSCORE,LONG_INDEX}
 	/**
 	 * Converts all index characters ('_', '{', '}') in the given String
 	 * to "unicode" + charactercode + DELIMITER Strings. This is needed because
@@ -216,54 +222,54 @@ public class CASparser implements CASParserInterface{
 		int len = str.length();
 		StringBuilder replaceIndices = new StringBuilder();
 		
-		boolean foundIndex = false;
-
+		FA state = FA.NORMAL;  
 		// convert every single character and append it to sb
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
-			int code = c;
-			
-			boolean replaceCharacter = false;			
-			switch (c) {
-				case '_': // start index
-					foundIndex = true;
-					replaceCharacter = true;
-					
-					if (i > 0 && str.charAt(i-1) == '\\'){
-						replaceCharacter = false;
-						// \\_ is translated to _
-						replaceIndices.deleteCharAt(replaceIndices.length()-1);
+						
+			switch (state) {
+				case NORMAL: // start index
+					if(c=='_'){
+						if (i > 0 && str.charAt(i-1) == '\\'){
+							// \\_ is translated to _
+							replaceIndices.deleteCharAt(replaceIndices.length()-1);
+							replaceIndices.append('_');
+						}else{
+							state = FA.UNDERSCORE;
+							appendcode(replaceIndices,'_');
+						}
 					}
+					else replaceIndices.append(c);
 					break;
 										
-				case '{': 	
-					if (foundIndex) {
-						replaceCharacter = true;						
-					}					
+				case UNDERSCORE: 	
+					if (c=='{') {						
+						state = FA.LONG_INDEX;						
+					}else{
+						state = FA.NORMAL;
+					}
+					appendcode(replaceIndices,c);
 					break;					
 					
-				case '}':
-					if (foundIndex) {
-						replaceCharacter = true;
-						foundIndex = false; // end of index
-					}					
+				case LONG_INDEX:
+					if (c=='}') {						
+						state = FA.NORMAL;						
+					}
+					appendcode(replaceIndices,c);					
 					break;
-					
-				default:
-					replaceCharacter = false;
-			}
-			
-			if (replaceCharacter) {
-				replaceIndices.append(ExpressionNodeConstants.UNICODE_PREFIX);
-				replaceIndices.append(code);
-				replaceIndices.append(ExpressionNodeConstants.UNICODE_DELIMITER);
-			} else {
-				replaceIndices.append(c);
-			}
+			}			
 		}
 					
 		return replaceIndices.toString();
 	}
+
+	private static void appendcode(StringBuilder replaceIndices, int code) {
+		replaceIndices.append(ExpressionNodeConstants.UNICODE_PREFIX);
+		replaceIndices.append(code);
+		replaceIndices.append(ExpressionNodeConstants.UNICODE_DELIMITER);
+		
+	}
+
 
 	/**
 	 * Reverse operation of removeSpecialChars().
