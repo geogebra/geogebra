@@ -173,7 +173,14 @@ public class CASInputHandler {
 				if (isKeepInput) {
 					cellValue.setEvalCommand("KeepInput");
 				}
-
+				if(isNumeric){
+					cellValue.setInput(cellValue.getAssignmentVariable()+
+							cellValue.getInputVE().getAssignmentOperator()+
+							ggbcmd+"["+ cellValue.getInputVE().toString(StringTemplate.numericDefault)+"]"						
+							);
+					processRowThenEdit(selRow, true);
+					return;
+				}
 				// evaluate assignment row
 				boolean needInsertRow = !isEvaluate && !isKeepInput;
 				boolean success = processRowThenEdit(selRow, !needInsertRow);
