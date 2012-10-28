@@ -606,8 +606,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			// compare if the parsed expressions are equal
 			return input1normalized.equals(input2normalized);
 		} catch (Throwable th) {
-			System.err.println("GeoGebraCAS.isStructurallyEqual: "
-					+ th.getMessage());
+			App.debug("Invalid selection: "
+					+ localizedInput);
 			return false;
 		}
 	}
