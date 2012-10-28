@@ -24,6 +24,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.main.App;
 
 
 
@@ -85,16 +86,25 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
     	GeoPoint3D p = (GeoPoint3D) getIntersection();
     	
     	if (project==null)
-    		p.setUndefined(); //TODO infinite point
+    		p.setUndefined(); 
+    	else if (Double.isNaN(project[2].get(1))){ //infinite point
+    		if (getCS1().isGeoSegment() || getCS1().isGeoRay() 
+    				|| getCS2().isGeoSegment() || getCS2().isGeoRay())
+    			p.setUndefined();
+    		else{ //set coords to direction only when lines
+    			p.setCoords(project[0]);
+    			p.updateCoords();
+    		}
+    	}
     	else if (project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
     		
     		double t1 = project[2].get(1); //parameter on line 1
        		double t2 = project[2].get(2); //parameter on line 2
        	    		
-    		if (t1 > line1.getMinParameter()
-    				&& t1 < line1.getMaxParameter() 				
-    				&& t2 > line2.getMinParameter()
-    				&& t2 < line2.getMaxParameter()
+    		if (t1 > line1.getMinParameter() - Kernel.STANDARD_PRECISION
+    				&& t1 < line1.getMaxParameter() + Kernel.STANDARD_PRECISION 				
+    				&& t2 > line2.getMinParameter() - Kernel.STANDARD_PRECISION
+    				&& t2 < line2.getMaxParameter() + Kernel.STANDARD_PRECISION
     				)   		
     			p.setCoords(project[0]);
     		else
@@ -102,6 +112,7 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
     	}
     	else
     		p.setUndefined();
+    	
     	
     }
   

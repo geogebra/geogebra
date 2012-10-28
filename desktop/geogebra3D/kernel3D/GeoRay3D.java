@@ -232,5 +232,10 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		sb.append("\"/>\n");
 
 	}
+	
+	@Override
+	public boolean isGeoRay() {
+		return true;
+	}
 
 }

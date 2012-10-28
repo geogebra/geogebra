@@ -739,7 +739,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	@Override
 	public boolean showInEuclidianView() {
-		return isDefined;
+		return isDefined && !isInfinite;
 	}
 
 	@Override
