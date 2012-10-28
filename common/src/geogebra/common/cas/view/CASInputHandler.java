@@ -9,13 +9,17 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
-
+/**
+ * Handles CAS input 
+ */
 public class CASInputHandler {
 
 	private CASView casView;
 	private static Kernel kernel;
 	private CASTable consoleTable;
-
+	/**
+	 * @param view CAS view
+	 */
 	public CASInputHandler(CASView view) {
 		this.casView = view;
 		kernel = view.getApp().getKernel();
@@ -91,8 +95,7 @@ public class CASInputHandler {
 		// STANDARD CASE: GeoGebraCAS input
 		// break text into prefix, evalText, postfix
 		String prefix, evalText, postfix;
-		boolean hasSelectedText = selectedText != null
-				&& selectedText.trim().length() > 0;
+		boolean hasSelectedText = meaningfulSelection(selectedText);
 		if (hasSelectedText) {
 			// selected text: break it up into prefix, evalText, and postfix
 			prefix = selRowInput.substring(0, selStart).trim();
@@ -253,6 +256,25 @@ public class CASInputHandler {
 		processRowThenEdit(selRow, true);
 	}
 
+	/**
+	 * We want to ignore selected text if it's just ) or ] because of double click
+	 * @param text
+	 * @return whether it is meaningful to consider this as a selection
+	 */	
+	private static boolean meaningfulSelection(String text) {
+		 if(text==null)
+			 return false;
+		 String trimmed = text.trim();
+		 if(trimmed.length()==0)
+			 return false;
+		 if(trimmed.length()==1 && "]})".indexOf(trimmed)>-1)
+					return false;
+		return true;
+	}
+
+	/**
+	 * Deletes current row, including all dependent objects
+	 */
 	public void deleteCurrentRow() {
 		int[] selected = consoleTable.getSelectedRows();
 		for (int current : selected) {
