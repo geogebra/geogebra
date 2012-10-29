@@ -336,20 +336,7 @@ public class EuclidianPen {
 
 		addPointsToPolyLine(penPoints);
 		
-		if (app.getScriptManager() != null) {
-			double x[] = new double[penPoints.size()], y[] = new double[penPoints
-			                                                            .size()];
-			for (int i = 0; i < penPoints.size(); i++) {
-				x[i] = view.toRealWorldCoordX(penPoints.get(i).getX());
-				y[i] = view.toRealWorldCoordY(penPoints.get(i).getY());
-			}
-			// we want to clear the points before notifyDraw throws potential
-			// exception
-			penPoints.clear();
-
-		} else {
-			penPoints.clear();
-		}
+		penPoints.clear();		
 	}
 
 	private GeoElement checkShapes(AbstractEvent e) {
