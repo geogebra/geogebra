@@ -2,6 +2,9 @@
 
 	var requestFileSystem = obj.webkitRequestFileSystem ||
 	 obj.mozRequestFileSystem || obj.requestFileSystem;
+	
+	var zipWriter;
+	var downloadButton;
 
 	
 	function errorHandler(e) {
@@ -76,44 +79,53 @@
             filesystem.root.getFile(tmpFilename, null, function(entry) {
                 entry.remove(create, create);
             }, create);
-        });
+        }, errorHandler);
         console.log("createTempGGBFile end");
     }
 
-    var model = (function() {
-        var zipFileEntry, zipWriter, writer; //, creationMethod, URL = obj.webkitURL || obj.mozURL || obj.URL;
 
-        return {
-                createZipWriter : function createZipWriter() {
-                    zip.createWriter(writer, function(writer) {
-                        zipWriter = writer;
-                    }, onerror);
-                },
-                
-                addGGBFiles: function addGGBFiles(){
-                	//TODO: add the files (geogebra.xml, etc.) to the zip 
-                	requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
-                }
-        };
-    })();
- 
-
+    function createZipWriter(writer) {
+                 zip.createWriter(writer, function(writer) {
+                    zipWriter = writer;
+                    addGGBFiles();
+                    setDownloadButton();
+                }, onerror);
+    }
+            
+    function addGGBFiles(){
+    	console.log("addGGBFiles()");
+            	//TODO: add the files (geogebra.xml, etc.) to the zip 
+            	//requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
+    }
     
-    obj.downloadggb = {
+    function setDownloadButton(){
+    	downloadButton.download = "geogebra.ggb";
+        zipWriter.close(function(blob) {
+        	var clickEvent = document.createEvent("MouseEvent");
+			clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			var blobURL = this.zipFileEntry.toURL();
+			zipWriter = null;
+			
+			console.log("Todo: download ggb");
+
+		});
+    	
+    }
+    
+obj.downloadggb = {
+		zipFileEntry : null,
+		writer : null,
+		
     	setDownloadButton : function(button){
     		downloadButton = button;
     	},
     	downloadGGBfunction : function(event) {
     		console.log("downloadGGBfunction");
     		createTempGGBFile(function(fileEntry) {
-                zipFileEntry = fileEntry;
-                writer = new zip.FileWriter(zipFileEntry);
-                createZipWriter();
-                addGGBFiles();
+                this.zipFileEntry = fileEntry;
+                this.writer = new zip.FileWriter(this.zipFileEntry);
+                createZipWriter(writer);
             });
-    		
-    		
-
     	}
     }
 })(this);
