@@ -16,7 +16,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 	private SpreadsheetView view;
 	private Kernel kernel;
 	private MyTableW table;
-	private SpreadsheetTableModelW model;	
+	private SpreadsheetTableModelW model;
 	private MyCellEditorW editor;
 
 
@@ -36,6 +36,10 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 	}*/
 
 	public void onKeyDown(KeyDownEvent e) {
+
+		e.stopPropagation();
+		e.preventDefault();
+
 		int keyCode = e.getNativeKeyCode();//.getKeyCode();
 		//Application.debug(keyCode+"");
 		//boolean shiftDown = e.isShiftDown(); 	 
@@ -298,7 +302,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 			break;		
 			
 		//case KeyEvent.VK_ENTER:	
-		case GWTKeycodes.KEY_F2://KeyEvent.VK_F2:	
+		case GWTKeycodes.KEY_F2://KeyEvent.VK_F2:	//FIXME
 			if (!editor.isEditing()) {
 				table.setAllowEditing(true);
 				table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);

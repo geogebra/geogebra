@@ -1982,23 +1982,23 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// this is temporary code while cleaning up
 	// ===========================================
 	public void copy(boolean altDown) {
-		copyPasteCut.copy(minSelectionColumn, minSelectionRow,
-		        maxSelectionColumn, maxSelectionRow, altDown);
+		copyPasteCut.copy( getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
 	}
 
 	public boolean paste() {
-		return copyPasteCut.paste(minSelectionColumn, minSelectionRow,
-		        maxSelectionColumn, maxSelectionRow);
+		return copyPasteCut.paste( getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow() );
 	}
 
 	public boolean cut() {
-		return copyPasteCut.cut(minSelectionColumn, minSelectionRow,
-		        maxSelectionColumn, maxSelectionRow);
+		return copyPasteCut.cut( getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow() );
 	}
 
 	public boolean delete() {
-		return copyPasteCut.cut(minSelectionColumn, minSelectionRow,
-		        maxSelectionColumn, maxSelectionRow);
+		return copyPasteCut.cut( getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow() );
 	}
 
 	/*
@@ -2231,6 +2231,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (minSelectionColumn < 1)
 			return -1;
 		return minSelectionColumn - 1;
+	}
+
+	public int getMaxSelectedRow() {//in table model (logic) coordinates
+		if (maxSelectionRow < 1)
+			return -1;
+		return maxSelectionRow - 1;
+	}
+
+	public int getMaxSelectedColumn() {//in table model (logic) coordinates
+		if (maxSelectionColumn < 1)
+			return -1;
+		return maxSelectionColumn - 1;
 	}
 
 	public Widget getEditorWidget() {
