@@ -1,9 +1,9 @@
 #!/bin/sh
 test -r autobuild.conf || {
  echo "Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
- exit 1
+ # exit 1
  }
-. ./autobuild.conf
+test -r autobuild.conf && . ./autobuild.conf
 
 cd $SVNDIR/geogebra/desktop/build/packed
 mkdir temp

@@ -6,6 +6,8 @@ CV=5.0
 COMPILE=0
 WWWDIR=/home/build/www-autobuild
 JNLP=1
+JH="" # contains -j $JAVA_HOME if $JAVA_HOME is not empty
+JT=""
 
 ORIGDIR=`dirname $0`
 cd $ORIGDIR
@@ -14,7 +16,7 @@ ORIGDIR=`pwd`
 # 1/1. Start and loading configuration
 test -r autobuild.conf || {
  echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
- exit 1
+ # exit 1
  }
 test -r autobuild.conf && . ./autobuild.conf
 
@@ -32,7 +34,9 @@ while [ $# -gt 0 ]; do
    echo "  -u [url]                  Target URL (passed to build-pack-installer)"
    echo "  -nt                       Do not download third-party components (passed to build-pack-installer)"
    echo "  -ne                       Do not stop on an ecj error (passed to build-pack-installer)"
+   echo "  -j [dir]                  Set JAVA_HOME to dir (passed to build-pack-installer)"
    echo "  -nj                       Do not create JNLP files"
+   echo "  -nt                       Do not run jartest"
    echo "  -t [dir]                  Target directory ($MYDIR)"
    echo "  -w [dir]                  Target directory root folder, absolute path to target URL ($WWWDIR)"
    echo "                            (Final target will be $WWWDIR/$MYDIR, set by -w and -t."
@@ -49,6 +53,11 @@ while [ $# -gt 0 ]; do
    shift
    TESTURL="$1"
    TU="-tu $TESTURL"
+   ;;
+
+  -j)
+   shift
+   JH="-j $1"
    ;;
 
   -t)
@@ -77,6 +86,10 @@ while [ $# -gt 0 ]; do
    JNLP=0
    ;;
 
+  -nt)
+   JT="-nt"
+   ;;
+
   *)
    echo "Unknown parameter: $1. Use \"$0 -h\" for help."
    exit 32
@@ -90,7 +103,7 @@ while [ $# -gt 0 ]; do
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $ORIGDIR
-  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE -ni || exit $?
+  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE -ni $JH $JT || exit $?
   cd ../..
   rm -fR build-jogl$i
   cp -a build build-jogl$i

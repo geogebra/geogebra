@@ -5,7 +5,7 @@
 # 1. Start and loading configuration
 test -r autobuild.conf || {
  echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
- exit 1
+ # exit 1
  }
 test -r autobuild.conf && . ./autobuild.conf
 
@@ -32,6 +32,8 @@ if [ "$WWWDIR" = "" ]; then
  WWWDIR=/home/build/www-autobuild
  fi
 INSTALLER=1
+JARTEST=1
+JH="" # Contains "-j $JAVA_HOME" if $JAVA_HOME is not empty
 
 # 3. Reading command line arguments
 while [ $# -gt 0 ]; do
@@ -44,11 +46,13 @@ while [ $# -gt 0 ]; do
    echo "  -h, -help, --help         This help"
    echo "  -cv [version]             Set GeoGebra compilation version: 4.2 (default) or 5.0"
    echo "  -J [version]              Set JOGL version for 5.0 ($JOGL)"
+   echo "  -j [dir]                  Set JAVA_HOME (passed to make-vanilla-jars)"
    echo "  -np, --no-purge           Do not purge certain directories before SVN update"
    echo "  -nd, --no-delete-src      Do not delete sources before SVN update"
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
    echo "  -nc, --no-classes         Do not (re)compile classes"
    echo "  -ne, --no-ecj-err         Do not stop on an ecj error"
+   echo "  -nt                       Do not run jartest"
    echo "  -ni, --no-installer       Do not run installer creator"
    echo "  -tu [url]                 Test URL ($TESTURL), points to WWWDIR ($WWWDIR)"
    echo "  -r [revision]             Use revision instead of latest"
@@ -65,6 +69,12 @@ while [ $# -gt 0 ]; do
   -J)
    shift
    JOGL="$1"
+   ;;
+   
+  -j)
+   shift
+   JAVA_HOME="$1"
+   JH="-j $1"
    ;;
 
   -ng | --no-grammar)
@@ -89,6 +99,10 @@ while [ $# -gt 0 ]; do
 
   -ni | --no-installer)
    INSTALLER=0
+   ;;
+
+  -nt)
+   JARTEST=0
    ;;
 
   -r)
@@ -219,7 +233,7 @@ runstep 54 .jd2xx "Downloading JD2XX" \
 
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
-runstep 6 .build "Building" ./make-vanilla-jars -c -cv $CV -J $JOGL
+runstep 6 .build "Building" ./make-vanilla-jars -c -cv $CV -J $JOGL $JH
 cd $WORKDIR
 ECJRESULT=`tail -1 .ecjlog`
 log "Eclipse Compiler for Java (ecj) found $ECJRESULT"
@@ -236,7 +250,9 @@ cp $WORKDIR/geogebra.map $WORKDIR/build/unpacked/geogebra-map.txt
 
 # 7/3. Testing packed jars
 cd $WORKDIR/scripts/autobuild
-runstep 72 .jartest "Testing packed JARs" ./test-packed-jars 
+if [ "$JARTEST" = 1 ]; then
+ runstep 72 .jartest "Testing packed JARs" ./test-packed-jars
+ fi
 cd $WORKDIR
 
 # 8. Creating Windows and Mac OS X installer
