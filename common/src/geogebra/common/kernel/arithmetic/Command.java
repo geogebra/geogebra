@@ -421,7 +421,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	
 	@Override
 	public boolean hasCoords(){
-		if("x".equals(name) || "y".equals(name) || "y".equals(name))
+		if("x".equals(name) || "y".equals(name) || "z".equals(name))
 			return false;
 		return true;
 	}
