@@ -94,6 +94,7 @@ public class ToolBar extends ButtonBar
 
 	public ToolBarCommand getCommand()
 	{
+		// FIXME activeCmd is never written, it's always the default value
 		return this.activeCmd;
 	}
 }

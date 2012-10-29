@@ -528,7 +528,8 @@ public class MobileModel
 						// the polygon is drawn by the Picker
 						// MobileModel.this.kernel.getAlgoDispatcher().RegularPolygon(null,
 						// (GeoPoint) getElement(Test.GEOPOINT),
-						// (GeoPoint) getElement(Test.GEOPOINT, 1), new MyDouble(MobileModel.this.kernel, picker.getNumber()));
+						// (GeoPoint) getElement(Test.GEOPOINT, 1), new
+						// MyDouble(MobileModel.this.kernel, picker.getNumber()));
 					}
 				});
 				break;
@@ -573,6 +574,8 @@ public class MobileModel
 
 		this.kernel.notifyRepaint();
 
+		// FIXME this.guiModel can never be null, because it's set in the
+		// constructor
 		if (this.guiModel != null && (this.commandFinished || this.command == ToolBarCommand.Select || this.command == ToolBarCommand.Move_Mobile))
 		{
 			this.guiModel.updateStylingBar(this);

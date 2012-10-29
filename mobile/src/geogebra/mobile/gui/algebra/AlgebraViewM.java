@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.LayerView;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -538,7 +539,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	 * Reset the algebra view if the mode changed.
 	 */
 	@Override
-	public void setMode(int mode)
+	public void setMode(int mode, ModeSetter modeSetter)
 	{
 		reset();
 	}

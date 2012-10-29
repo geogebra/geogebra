@@ -29,6 +29,8 @@ public class MobileEntryPoint implements EntryPoint
 		// GWT.getModuleBaseForStaticFiles may be used afterwards, maybe not.
 		// String.replace(CharSequence, CharSequence) should replace all in
 		// theory
+		
+		//FIXME does this do anything? the resulting string is ignored.
 		mathquillcss.replace("url(mobile/font/Symbola",
 				"url(" + GWT.getModuleBaseURL() + "font/Symbola");
 		mathquillcss.replace("url(web/font/Symbola",
