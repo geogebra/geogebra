@@ -472,4 +472,17 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	}
 
+	@Override
+	public void paste() {
+		super.paste();
+		
+		String text = getText();
+		
+		// make sure <TAB> can't get pasted into Input Bar
+		if (text.indexOf('\t') > -1) {
+			int pos2 = getCaretPosition();
+			setText(text.replace('\t', ' '));
+			setCaretPosition(pos2);
+		}
+	}
 }
