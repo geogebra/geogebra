@@ -64,9 +64,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		textField = new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false);
 		textField.setAutoComplete(enableAutoComplete);
 
-		textField.addDomHandler(
-			new SpreadsheetCellEditorKeyListener(false),
-			KeyDownEvent.getType());
+		textField.getTextBox().addKeyDownHandler(new SpreadsheetCellEditorKeyListener(false));
 		//?//textField.addFocusListener(this);
 
 		/*DocumentListener documentListener = new DocumentListener() {
@@ -130,6 +128,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 		textField.setText(text);
 		textField.setFont(app.getFontCanDisplay(text));
+		textField.requestFocus();
 
 		editing = true;
 

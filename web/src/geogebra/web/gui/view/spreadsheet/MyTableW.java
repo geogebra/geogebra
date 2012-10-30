@@ -1335,6 +1335,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			w.getTextField().setHeight((minimumRowHeight-minusRowHeight)+"px");
 			w.getTextField().setWidth((preferredColumnWidth-minusColumnWidth)+"px");
 			setWidget(row, col, w);
+			w.requestFocus();
 			getCellFormatter().getElement(row, col).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 			return true;
@@ -1442,6 +1443,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		isEditing = false;
 		editRow = -1;
 		editColumn = -1;
+		view.requestFocus();
 
 		setRepaintAll();//TODO: don't call renderCells, just change the edited cell
 		repaint();
