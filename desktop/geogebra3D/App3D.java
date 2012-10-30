@@ -193,10 +193,11 @@ public class App3D extends AppD {
 	// ///////////////////////////////
 
 	/**
-	 * @param plane
+	 * @param plane plane creator
+	 * @param id view id
 	 * @return create a new euclidian view for the plane
 	 */
-	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
+	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, int id) {
 		// create new view for plane and controller
 		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);
@@ -204,12 +205,16 @@ public class App3D extends AppD {
 		euclidianViewForPlane.addExistingGeos();
 
 		// create dock panel
-		panel = new EuclidianDockPanelForPlane(this,
+		if (id==0)
+			panel = new EuclidianDockPanelForPlane(this,
 				euclidianViewForPlane);
+		else
+			panel = new EuclidianDockPanelForPlane(this,
+					euclidianViewForPlane, id);
 		((LayoutD) getGuiManager().getLayout()).registerPanel(panel);
 
 
-		if (panelSettings){
+		if (id==0){
 			// panel.setToolbarString(dpInfo[i].getToolbarString());
 			panel.setFrameBounds(new Rectangle(600, 400));
 			// panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
@@ -394,7 +399,7 @@ public class App3D extends AppD {
 		ViewCreator vc = getViewCreator(id);
 		if (vc==null)
 			return null;
-		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc,false));
+		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc,id));
 		return panel;
 	}
 	
