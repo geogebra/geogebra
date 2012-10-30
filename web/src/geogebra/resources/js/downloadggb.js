@@ -94,19 +94,21 @@
             
     function addGGBFiles(){
     	console.log("addGGBFiles()");
-            	//TODO: add the files (geogebra.xml, etc.) to the zip 
-            	//requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
+        //TODO: add the files (geogebra.xml, etc.) to the zip 
+        //requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
     }
     
     function setDownloadButton(){
     	downloadButton.download = "geogebra.ggb";
         zipWriter.close(function(blob) {
-        	var clickEvent = document.createEvent("MouseEvent");
-			clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+//        	var clickEvent = document.createEvent("MouseEvent");
+//			clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			var blobURL = this.zipFileEntry.toURL();
 			zipWriter = null;
 			
 			console.log("Todo: download ggb");
+			downloadButton.setAttribute("ggburl", blobURL);
+			downloadButton.disabled = false;
 
 		});
     	
@@ -119,7 +121,7 @@ obj.downloadggb = {
     	setDownloadButton : function(button){
     		downloadButton = button;
     	},
-    	downloadGGBfunction : function(event) {
+    	downloadGGBfunction : function() {
     		console.log("downloadGGBfunction");
     		createTempGGBFile(function(fileEntry) {
                 this.zipFileEntry = fileEntry;
