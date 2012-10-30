@@ -63,7 +63,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	 */
 	public GeoPolyLine(Construction cons) {
 		super(cons);
-
+		this.points = new GeoPointND[]{};
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
@@ -75,13 +75,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	 * @param label label
 	 */
 	public GeoPolyLine(Construction cons, String label) {
-		super(cons);
-
-		// moved from GeoElement's constructor
-		// must be called from the subclass, see
-		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		setConstructionDefaults(); // init visual settings
-		
+		this(cons);
+	
 		setLabel(label);
 	}
 
