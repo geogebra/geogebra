@@ -1918,8 +1918,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	public synchronized void doOpenFiles(File[] files,
-			boolean allowOpeningInThisInstance, String extension) {
-		// Zbynek Konecny, 2010-05-28 (see #126)
+			boolean allowOpeningInThisInstance, String extension) {		
 		htmlLoaded = false;
 		// there are selected files
 		if (files != null) {
@@ -1974,7 +1973,6 @@ public class GuiManagerD extends GuiManager {
 						// load HTML file with applet param ggbBase64
 						// if we loaded from GGB, we don't want to overwrite old
 						// file
-						// next line Zbynek Konecny, 2010-05-28 (#126)
 						htmlLoaded = loadBase64File(file);
 					} else {
 						// standard GeoGebra file
