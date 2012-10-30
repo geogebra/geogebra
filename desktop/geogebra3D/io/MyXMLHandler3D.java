@@ -141,12 +141,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				break;
 			}
 
-		case 'v':
-			if (eName.equals("view2D")) {
-				ok = handleView2D(attrs);
-				break;
-			}
-
 		default:
 			super.startGeoElement(eName, attrs);
 		}
@@ -204,15 +198,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 	
-	private boolean handleView2D(LinkedHashMap<String, String> attrs) {
-		try {
-			int id = Integer.parseInt(attrs.get("id"));	
-			((ViewCreator) geo).linkToView2D(id);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
 
 
 	/** handles plane attributes for EuclidianView3D

@@ -23,18 +23,13 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	private static int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	
 	
-	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlane view) {
-		this(app, view, viewId);
-
-	}
-	
 	/**
 	 * @param app application
 	 * @param view view for plane
 	 */
-	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlane view, int id) {
+	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlane view) {
 		super(
-			id,	// view id 
+			viewId,	// view id 
 			"GraphicsViewForPlaneA", 				// view title
 			ToolBar.getAllToolsNoMacrosForPlane(),// toolbar string
 			true,						// style bar?
@@ -50,8 +45,6 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		
 		setEmbeddedSize(300);
 		
-		if (viewId<id)
-			viewId=id;
 		viewId++; //id of next view
 	}
 	

@@ -5359,7 +5359,7 @@ public class AppD extends App implements
 	 * 
 	 * @return new EuclidianDockPanelForPlane
 	 */
-	public DockPanel createEuclidianDockPanelForPlane(int id){
+	public DockPanel createEuclidianDockPanelForPlane(int id, String plane){
 		return null;
 	}
 

@@ -31,10 +31,5 @@ public interface ViewCreator extends GeoCoordSys2D {
 	 * @param flag visibility*/
 	public void setView2DVisible(boolean flag);
 	
-	/**
-	 * link the view creator to the view2D
-	 * @param viewId view id
-	 */
-	public void linkToView2D(int viewId);
 	
 }

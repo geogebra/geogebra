@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.euclidian.GetViewId;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
@@ -125,7 +126,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			// copy dock panel info settings
 			for(int i = 0; i < dpData.length; ++i) {
-				DockPanel panel = getPanel(dpData[i].getViewId());
+				DockPanel panel = getPanel(dpData[i]);
 				
 				if(panel == null) {
 					// TODO insert error panel
@@ -1216,6 +1217,25 @@ public class DockManager implements AWTEventListener, SetLabels {
 	}
 	
 	/**
+	 * 
+	 * @param viewId constant VIEW_EUCLIDIAN, VIEW_ALGEBRA, or VIEW_FOR_PLANE
+	 * @param plane plane when for euclidian view for plane
+	 * @return a DockPanel
+	 */
+	public DockPanel getPanel(DockPanelData dpData)
+	{
+		if (dpData.getPlane()==null) //standard case
+			return getPanel(dpData.getViewId());
+		
+		//euclidian view for plane case	
+		DockPanel panel = app.createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
+		//set the view id of the dock panel data for apply perspective
+		dpData.setViewId(panel.getViewId());
+		return panel;
+		
+	}
+	
+	/**
 	 * Returns a specific DockPanel.
 	 * 
 	 * Use the constants VIEW_EUCLIDIAN, VIEW_ALGEBRA etc. as viewId.
@@ -1233,14 +1253,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 			}
 		}
 		
-		if (panel!=null)
-			return panel;
 		
-		if (viewId>=App.VIEW_EUCLIDIAN_FOR_PLANE_START && viewId<=App.VIEW_EUCLIDIAN_FOR_PLANE_END){
-			return app.createEuclidianDockPanelForPlane(viewId);
-		}
+		return panel;
 		
-		return null;
 		
 	}
 

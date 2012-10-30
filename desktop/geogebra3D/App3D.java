@@ -64,8 +64,6 @@ public class App3D extends AppD {
 	private EuclidianViewForPlane euclidianViewForPlane;
 	private EuclidianDockPanelForPlane panel;
 	
-	private HashMap<Integer, ViewCreator> evForPlaneList;
-
 	public App3D(CommandLineArguments args, JFrame frame,
 			boolean undoActive) {
 		this(args, frame, null, undoActive);
@@ -194,10 +192,10 @@ public class App3D extends AppD {
 
 	/**
 	 * @param plane plane creator
-	 * @param id view id
+	 * @param panelSettings panel settings
 	 * @return create a new euclidian view for the plane
 	 */
-	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, int id) {
+	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);
@@ -205,16 +203,13 @@ public class App3D extends AppD {
 		euclidianViewForPlane.addExistingGeos();
 
 		// create dock panel
-		if (id==0)
-			panel = new EuclidianDockPanelForPlane(this,
+		panel = new EuclidianDockPanelForPlane(this,
 				euclidianViewForPlane);
-		else
-			panel = new EuclidianDockPanelForPlane(this,
-					euclidianViewForPlane, id);
+
 		((LayoutD) getGuiManager().getLayout()).registerPanel(panel);
 
 
-		if (id==0){
+		if (panelSettings){
 			// panel.setToolbarString(dpInfo[i].getToolbarString());
 			panel.setFrameBounds(new Rectangle(600, 400));
 			// panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
@@ -393,35 +388,23 @@ public class App3D extends AppD {
 	
 	
 	@Override
-	public DockPanel createEuclidianDockPanelForPlane(int id){
-		if (evForPlaneList==null)
+	public DockPanel createEuclidianDockPanelForPlane(int id, String plane){
+		
+		GeoElement geo = kernel.lookupLabel(plane);
+		if (geo==null)
 			return null;
-		ViewCreator vc = getViewCreator(id);
-		if (vc==null)
+		if (!(geo instanceof ViewCreator))
 			return null;
-		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc,id));
+		
+		ViewCreator vc = (ViewCreator) geo;//getViewCreator(id);
+		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc,false));
 		return panel;
 	}
 	
-	/**
-	 * link view id to plane
-	 * @param id view id
-	 * @param plane plane
-	 */
-	public void putEuclidianViewForPlane(int id, ViewCreator plane){
-		if (evForPlaneList==null)
-			evForPlaneList = new HashMap<Integer, ViewCreator>();
-		evForPlaneList.put(id, plane);
-	}
-	
-	private ViewCreator getViewCreator(int id){
-		return evForPlaneList.get(id);
-	}
 	
 	@Override
 	public void resetEuclidianViewForPlaneIds() {
 		EuclidianDockPanelForPlane.resetIds();
-		evForPlaneList=null;
 	}
 	
 	private ArrayList<EuclidianDockPanelForPlane> panelForPlaneList;

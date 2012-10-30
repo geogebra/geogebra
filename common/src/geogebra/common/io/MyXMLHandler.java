@@ -2379,10 +2379,12 @@ public class MyXMLHandler implements DocHandler {
 
 			String embeddedDef = attrs.get("location");
 			int embeddedSize = Integer.parseInt(attrs.get("size"));
+			
+			String plane = attrs.get("plane");
 
 			tmp_views.add(new DockPanelData(viewId, toolbar, isVisible,
 					openInFrame, showStyleBar, windowRect, embeddedDef,
-					embeddedSize));
+					embeddedSize, plane));
 
 			return true;
 		} catch (Exception e) {
