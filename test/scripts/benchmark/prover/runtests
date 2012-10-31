@@ -11,7 +11,7 @@ HTML=html/index.html
 PROVERS="Auto Recio Botana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
-SINGULARWSREMOTEURL=http://ggb1.idm.jku.at:8085
+SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
@@ -20,10 +20,9 @@ LOGFILE=$MYDIR/tmp/.test.log
 REGRESSIONFILE=$MYDIR/tmp/.regression.out
 rm -f $HTML
 
-BUILDDIR=../../../../desktop/build
-test -r $BUILDDIR/geogebra.jar 2>&1 || exit 1 # Non-existing JAR
+RUNDIR=../../../../../tools/build/targets
 
-VERSION=`cd $BUILDDIR; java -jar geogebra.jar --v 2>&1 | head -1 | cut -f5 -d" "`
+VERSION=`cd $RUNDIR; ./run --v 2>&1 | head -1 | cut -f5 -d" "`
 REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
 
 # Title
@@ -77,15 +76,15 @@ for i in `find -name '*.ggb' | sort`; do
  WORSTPROVER=""
 
  for j in $PROVERS; do
-  cd $MYDIR; cd $BUILDDIR
+  cd $MYDIR; cd $RUNDIR
   ENGINE=`echo $j | cut -f1 -d_`
   METHOD=""
   if [ $ENGINE = OpenGeoProver ]; then
    METHOD=`echo $j | cut -f2 -d_`
    fi
   # Testing:
-  timeout $TIMEOUT java -jar geogebra.jar \
-   --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT,singularwsremoteurl:$SINGULARWSREMOTEURL \
+  timeout $TIMEOUT ./run \
+   --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:$SINGULARWSREMOTEURL \
    --logFile=$LOGFILE \
    --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en \
    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
