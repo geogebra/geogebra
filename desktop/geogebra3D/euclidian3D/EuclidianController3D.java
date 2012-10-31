@@ -2565,21 +2565,30 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}	
  	
 	
-	
 	@Override
 	protected GeoElement chooseGeo(ArrayList<GeoElement> geos, boolean includeFixed) {
-		
+		return chooseGeo(geos, includeFixed, false);
+	}
+
+	@Override
+	protected GeoElement chooseGeo(ArrayList<GeoElement> geos, boolean includeFixed, boolean includeConstants) {
+
+			
 		//Application.printStacktrace(((Hits) geos).toString());
 		
 		if (!geos.isEmpty()){
 			//if the geo hitted is one of view3D's geos, then chooseGeo return null
-			if (view3D.owns(geos.get(0)))
+			if (!includeConstants && view3D.owns(geos.get(0)))
 				return null;
 			
 			//doesn't use choosing dialog TODO use choosing dialog ?
 			//return super.chooseGeo(geos, includeFixed);
 			//return first element : ordering done in hits
-			return geos.get(0);
+			GeoElement geo = geos.get(0);
+			if (!includeFixed && geo.isFixed())
+				return null;
+			
+			return geo;
 		}
 	
 		return null;

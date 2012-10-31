@@ -1274,13 +1274,17 @@ public abstract class EuclidianController {
 				}
 				return ret;
 			}
-
+	
 	protected GeoElement chooseGeo(ArrayList<GeoElement> geos, boolean includeFixed) {
+		return chooseGeo(geos, includeFixed, true);
+	}
+
+	protected GeoElement chooseGeo(ArrayList<GeoElement> geos, boolean includeFixed, boolean includeConstants) {
 		if (geos == null) {
 			return null;
 		}
 	
-		if (geos.size() > 1) {
+		if (geos.size() > 1 || !includeConstants) {
 			removeAxes(geos);
 		}
 	
@@ -1558,7 +1562,7 @@ public abstract class EuclidianController {
 				if (!addMoreThanOneAllowed
 						|| ((geos.size() + selectionList.size()) > max)) {
 					// Application.printStacktrace(geos.toString());
-					return addToSelectionList(selectionList, chooseGeo(geos, true), max);
+					return addToSelectionList(selectionList, chooseGeo(geos, true, true), max);
 				}
 			
 				// already selected objects -> choose one
@@ -1569,7 +1573,7 @@ public abstract class EuclidianController {
 					}
 				}
 				if (contained) {
-					return addToSelectionList(selectionList, chooseGeo(geos, true), max);
+					return addToSelectionList(selectionList, chooseGeo(geos, true, true), max);
 				}
 			
 				// add all objects to list
