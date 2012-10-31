@@ -26,6 +26,7 @@ DEVELOPERS
   * Hans-Petter Ulven (Norway 2008-)
 
 CONTRIBUTORS
+  * Balazs Bencze (Romania 2012-)
   * Lucas Binter (Austria 2011-)
   * Philipp Birklbauer (Austria 2010-)
   * Loic Le Coq (France 2006-)
