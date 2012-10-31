@@ -241,11 +241,39 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		if (!(geom instanceof Polygon)) {
 			App.warn("result not a polygon: "+geom.getGeometryType());
-			updatePointsArray(0);
-			poly.setPoints(points);
-			setOutput();
-			poly.setUndefined();
-			return;
+			int dim = geom.getDimension();
+			int ng = geom.getNumGeometries();
+			
+			if (dim == 2) {
+				int ng2 =0;
+				int j2 = 0;
+				
+				for (int j=0; j<ng; j++ ) {
+					if (geom.getGeometryN(j).getDimension()==2) {
+						ng2 ++;
+						j2 = j;
+					}
+				}
+				
+				if (ng2==1) {
+					geom = geom.getGeometryN(j2);
+				} else {
+					updatePointsArray(0);
+					poly.setPoints(points);
+					setOutput();
+					poly.setUndefined();
+					App.warn("There are "+ ng2 + " polygons");
+					return;
+				}
+			} else {
+			
+				updatePointsArray(0);
+				poly.setPoints(points);
+				setOutput();
+				poly.setUndefined();
+				App.warn("Dimension less than 2");
+				return;
+			}
 		}
 
 		Polygon poly2 = (Polygon) geom;
