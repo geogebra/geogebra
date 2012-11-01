@@ -81,7 +81,7 @@ public class Ggb2MPReduce {
 		p("Dot.2", "mydot(%0,%1)");
 		p("Element.2", "part(%0,%1)");
 		p("Element.3",
-				"<<clear input!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2)>>");
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2); end>>");
 		p("Expand.1",
 				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=(%0); off factor, combinelogs$on expandlogs$  tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
@@ -173,9 +173,9 @@ public class Ggb2MPReduce {
 		p("LCM.2",
 				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=lcm(%0,%1); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end>>");
 		p("LeftSide.1",
-				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(lhs,input!!) else lhs(input!!) end>>");
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(input!!,0)=\\'list then map(lhs,input!!) else lhs(input!!) end>>");
 		p("LeftSide.2",
-				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then lhs(part(input!!,%1)) else \\'? end>>");
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(input!!,0)=\\'list then lhs(part(input!!,%1)) else \\'? end>>");
 		p("Length.1",
 				"mylength(%0)");
 		p("Length.3",
@@ -257,9 +257,9 @@ public class Ggb2MPReduce {
 		p("Rationalize.1", "<<off rounded;on rationalize; %0 >>");
 		p("Reverse.1","reverse(%0)");
 		p("RightSide.1",
-				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(rhs,input!!) else rhs(input!!) end>>");
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(input!!,0)=\\'list then map(rhs,input!!) else rhs(input!!) end>>");
 		p("RightSide.2",
-				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then rhs(part(input!!,%1)) else \\'? end>>");
+				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(input!!,0)=\\'list then rhs(part(input!!,%1)) else \\'? end>>");
 		p("Root.1",
 				"<<begin scalar input!!; input!!:=(%0); return flattenlist(mysolve(input!!,mymainvar(input!!))) end>>");
 		p("ReducedRowEchelonForm.1",
