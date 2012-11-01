@@ -20,7 +20,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMathExact.MyDecimal;
@@ -43,7 +43,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	int fullScale = 64;
 	int lessScale = 16;
 
-	private GeoNumeric num; //input
+	private GeoNumberValue num; //input
 	private GeoList list; //input
     private GeoText text; //output	
     
@@ -55,7 +55,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param num number
      * @param list list of hints
 	 */
-    public AlgoSurdText(Construction cons, String label, GeoNumeric num, GeoList list) {
+    public AlgoSurdText(Construction cons, String label, GeoNumberValue num, GeoList list) {
     	this(cons, num, list);
         text.setLabel(label);
     }
@@ -65,7 +65,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
      * @param num number
      * @param list list of hints
      */
-    AlgoSurdText(Construction cons, GeoNumeric num, GeoList list) {
+    AlgoSurdText(Construction cons, GeoNumberValue num, GeoList list) {
         super(cons);
         this.num = num;
         this.list = list;
@@ -96,7 +96,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[list == null ? 1 : 2];
-        input[0] = num;
+        input[0] = num.toGeoElement();
         if (list != null) {
         	input[1] = list;
         }

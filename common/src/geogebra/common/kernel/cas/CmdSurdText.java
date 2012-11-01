@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -33,10 +33,10 @@ public class CmdSurdText extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].isGeoNumeric()) {
+			if (arg[0].isNumberValue()) {
 				
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
-						(GeoNumeric) arg[0], null);
+						(GeoNumberValue) arg[0], null);
 				
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
@@ -54,10 +54,10 @@ public class CmdSurdText extends CommandProcessor {
 		case 2:
 
 			boolean ok0;
-			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoList()) {
+			if ((ok0 = arg[0].isNumberValue()) && arg[1].isGeoList()) {
 				
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
-						(GeoNumeric) arg[0], (GeoList) arg[1]);
+						(GeoNumberValue) arg[0], (GeoList) arg[1]);
 				
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
