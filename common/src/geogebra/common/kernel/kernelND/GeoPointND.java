@@ -232,6 +232,10 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	 */
 	public int getDimension();
 	
+    /**
+     * Changes coord style to CARTESIAN 3D
+     */
+	public void setCartesian3D();
 
 	
 

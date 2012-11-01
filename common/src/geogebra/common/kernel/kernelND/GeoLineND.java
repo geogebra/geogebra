@@ -109,5 +109,20 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @return distance distance between this and g
 	 */
 	public double distance(GeoLineND g);
+	
+
+	/** set equation mode to implicit */
+	public void setToImplicit();
+	
+	/** change equation mode to explicit */
+	public void setToExplicit();
+	
+	/**
+	 * Switch to parametric mode and set parameter name
+	 * 
+	 * @param parameter
+	 *            name
+	 */
+	public void setToParametric(String parameter);
 
 }

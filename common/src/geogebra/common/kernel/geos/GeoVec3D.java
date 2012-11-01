@@ -186,8 +186,12 @@ implements Traceable {
     /**
      * Changes coord style to COMPLEX
      */
-    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }     
-    
+    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }  
+    /**
+     * Changes coord style to CARTESIAN 3D
+     */
+    public void setCartesian3D() { toStringMode = Kernel.COORD_CARTESIAN_3D; }
+       
 	@Override
 	public boolean isTraceable() {
 		return true;

@@ -1059,7 +1059,7 @@ public abstract class EuclidianController {
 				return getAlgoDispatcher().Point(null, path, x, y, !forPreviewable, complex);
 			}
 
-	protected final GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
+	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
 			double y, boolean complex) {
 		checkZooming(forPreviewable); 
 		
@@ -8947,22 +8947,16 @@ public abstract class EuclidianController {
 					} else {
 						// no selected geos: choose geo and show popup menu				
 						if (app.isUsingFullGui() && app.getGuiManager() != null) {
-							//if (geo != null) {
 							
-							    GeoElement geo = chooseGeo(hits, true);
+							GeoElement geo = chooseGeo(hits, true, false);
+
+							if (geo==null)//when axis is clicked
+								showDrawingPadPopup(mouseLoc);
+							else{
 								ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 								geos.add(geo);
 								showPopupMenuChooseGeo(geos,hits);
-
-							/* Now overriden
-							} else {
-								// for 3D : if the geo hitted is xOyPlane, then
-								// chooseGeo return null
-								// app.getGuiManager().showDrawingPadPopup((EuclidianView)
-								// view, mouseLoc);
-								showDrawingPadPopup(mouseLoc);
 							}
-							*/
 						}
 						
 					}

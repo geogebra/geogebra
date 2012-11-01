@@ -474,6 +474,26 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return point3D;
 	}
 	
+
+	@Override
+	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x,
+			double y, boolean complex) {
+		GeoPointND point = super.createNewPoint2D(forPreviewable, path, x, y, complex);
+		point.setCartesian3D();
+		point.update();
+		return point;
+	}
+
+	@Override
+	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
+			double y, boolean complex) {
+		GeoPointND point = super.createNewPoint2D(forPreviewable, region, x, y, complex);
+		point.setCartesian3D();
+		point.update();
+		return point;
+	}
+
+	
 	/**
 	 * return a copy of the preview point if one
 	 */
@@ -519,7 +539,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 					
 				}else{
 					Coords coords = point.getCoordsInD(2);
-					return super.createNewPoint2D(false, path, coords.getX(), coords.getY(), false); 
+					return createNewPoint2D(false, path, coords.getX(), coords.getY(), false); 
 				}
 	
 			}else
@@ -545,7 +565,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 					ret = point3D;
 				}else{
 					Coords coords = point.getCoordsInD(2);
-					return super.createNewPoint2D(false, region, coords.getX(), coords.getY(), false); 
+					return createNewPoint2D(false, region, coords.getX(), coords.getY(), false); 
 				}
 			}else
 				return null;

@@ -523,6 +523,24 @@ Translateable{
 		return dist;
 	}
 
+	
+	
+	
+
+	public void setToImplicit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setToExplicit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setToParametric(String parameter) {
+		// TODO Auto-generated method stub
+		
+	}
     
 	
 }

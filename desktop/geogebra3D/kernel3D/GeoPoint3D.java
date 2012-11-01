@@ -1185,6 +1185,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
+	}
+
+	public void setCartesian3D() {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 	

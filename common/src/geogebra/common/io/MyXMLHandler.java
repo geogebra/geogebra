@@ -58,6 +58,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
@@ -3389,7 +3390,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
 		// line
 		if (geo.isGeoLine()) {
-			GeoLine line = (GeoLine) geo;
+			GeoLineND line = (GeoLineND) geo;
 			String style = attrs.get("style");
 			if (style.equals("implicit")) {
 				line.setToImplicit();
@@ -3448,6 +3449,8 @@ public class MyXMLHandler implements DocHandler {
 			v.setPolar();
 		} else if (style.equals("complex")) {
 			v.setComplex();
+		} else if (style.equals("cartesian3d")) {
+			v.setCartesian3D();
 		} else {
 			System.err.println("unknown style in <coordStyle>: " + style);
 			return false;

@@ -1125,7 +1125,31 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 			// }
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;
+			
+		case Kernel.COORD_CARTESIAN_3D: //cartesian 3D
+			sbBuildValueString.append('(');
+			sbBuildValueString.append(kernel.format(getInhomX(), tpl));
+			String separator;
+			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
+			case Kernel.COORD_STYLE_AUSTRIAN:
+				separator = " |";
+				break;
 
+			default:
+				separator = Character.toString(App.unicodeComma);
+			}
+
+			sbBuildValueString.append(separator);
+			sbBuildValueString.append(" ");
+			sbBuildValueString.append(kernel.format(getInhomY(), tpl));
+
+			sbBuildValueString.append(separator);
+			sbBuildValueString.append(" ");
+			sbBuildValueString.append(kernel.format(0, tpl));
+
+			sbBuildValueString.append(')');
+
+			break;
 		default: // CARTESIAN
 			sbBuildValueString.append('(');
 			sbBuildValueString.append(kernel.format(getInhomX(), tpl));
@@ -1177,6 +1201,10 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		case Kernel.COORD_COMPLEX:
 			sb.append("\t<coordStyle style=\"complex\"/>\n");
+			break;
+
+		case Kernel.COORD_CARTESIAN_3D:
+			sb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
 			break;
 
 		default:

@@ -3675,6 +3675,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			coordCB.addItem(app.getPlain("CartesianCoords")); // index 0
 			coordCB.addItem(app.getPlain("PolarCoords")); // index 1
 			coordCB.addItem(app.getPlain("ComplexNumber")); // index 2
+			coordCB.addItem(app.getPlain("CartesianCoords3D")); // index 3
 
 			coordCB.setSelectedIndex(selectedIndex);
 			coordCB.addActionListener(this);
@@ -3706,6 +3707,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				break;
 			case Kernel.COORD_COMPLEX:
 				coordCB.setSelectedIndex(2);
+				break;
+			case Kernel.COORD_CARTESIAN_3D:
+				coordCB.setSelectedIndex(3);
 				break;
 			default:
 				coordCB.setSelectedItem(null);
@@ -3764,6 +3768,13 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoVec3D) geos[i];
 						geo.setMode(Kernel.COORD_COMPLEX);
+						geo.updateRepaint();
+					}
+					break;
+				case 3: // Kernel.COORD_CARTESIAN_3D
+					for (int i = 0; i < geos.length; i++) {
+						geo = (GeoVec3D) geos[i];
+						geo.setMode(Kernel.COORD_CARTESIAN_3D);
 						geo.updateRepaint();
 					}
 					break;
