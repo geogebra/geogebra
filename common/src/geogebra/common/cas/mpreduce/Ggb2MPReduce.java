@@ -81,7 +81,7 @@ public class Ggb2MPReduce {
 		p("Dot.2", "mydot(%0,%1)");
 		p("Element.2", "part(%0,%1)");
 		p("Element.3",
-				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2); end>>");
+				"part(part(mattolistoflists(%0),%1),%2)");
 		p("Expand.1",
 				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=(%0); off factor, combinelogs$on expandlogs$  tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
