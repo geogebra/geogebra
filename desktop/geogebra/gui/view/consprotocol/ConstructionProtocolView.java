@@ -1140,7 +1140,15 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			// init view
 			rowList.clear();
 			geoMap.clear();
-			kernel.notifyAddAll(this, kernel.getLastConstructionStep());
+			notifyAddAll(kernel.getLastConstructionStep());
+		}
+		private boolean notifyUpdateCalled;
+		private void notifyAddAll(int lastConstructionStep) {
+			notifyUpdateCalled = true;
+			kernel.notifyAddAll(this,kernel.getLastConstructionStep());
+			notifyUpdateCalled = false;
+			updateAll();
+			
 		}
 
 		public void attachView() {
@@ -1505,6 +1513,8 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		private void updateAll() {
+			if(notifyUpdateCalled)
+				return;
 			int size = rowList.size();
 
 			int toolbarIconHeight = 0;
@@ -1633,7 +1643,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		
 		if(!isViewAttached){
 			data.clearView();
-			kernel.notifyAddAll(data);
+			data.notifyAddAll(kernel.getConstruction().getStep());
 			
 			JFrame tempFrame = new JFrame();
 			tempFrame.add(this);
