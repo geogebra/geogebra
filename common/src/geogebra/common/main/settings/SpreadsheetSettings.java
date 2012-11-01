@@ -3,6 +3,7 @@ package geogebra.common.main.settings;
 
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
+import geogebra.common.factories.AwtFactory;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -58,10 +59,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public SpreadsheetSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
+		preferredSize = AwtFactory.prototype.newDimension(0,0);
 	}
 
 	public SpreadsheetSettings() {
 		super();
+		preferredSize = AwtFactory.prototype.newDimension(0,0);
 	}
 
 	public HashMap<Integer,Integer> getWidthMap(){
