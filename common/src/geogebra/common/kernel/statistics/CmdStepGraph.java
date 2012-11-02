@@ -58,7 +58,7 @@ public class CmdStepGraph extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			// StepGraph[ <list of points>, <jump> ]
+			// StepGraph[ <list of points>, <join> ]
 			else if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoBoolean()))) {
 
@@ -72,7 +72,7 @@ public class CmdStepGraph extends CommandProcessor {
 
 		case 3:
 
-			// StepGraph[ <x List>, <y list>, <showJump> ]
+			// StepGraph[ <x List>, <y list>, <join> ]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))
@@ -83,7 +83,7 @@ public class CmdStepGraph extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
-				// StepGraph[ <list of points>, <jump>, <point style> ]
+				// StepGraph[ <list of points>, <join>, <point style> ]
 			} else if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoBoolean()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
@@ -97,7 +97,7 @@ public class CmdStepGraph extends CommandProcessor {
 
 		case 4:
 
-			// StepGraph[ <x List>, <y list>, <showJump>, <point style> ]
+			// StepGraph[ <x List>, <y list>, <join>, <point style> ]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))

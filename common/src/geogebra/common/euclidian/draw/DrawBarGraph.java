@@ -17,12 +17,20 @@ import geogebra.common.plugin.EuclidianStyleConstants;
  */
 public class DrawBarGraph extends Drawable {
 
+	// graph types
 	public static final int DRAW_VERTICAL_BAR = 0;
 	public static final int DRAW_HORIZONTAL_BAR = 1;
 	public static final int DRAW_STEP_GRAPH_CONTINUOUS = 2;
 	public static final int DRAW_STEP_GRAPH_JUMP = 3;
-
 	private int drawType = DRAW_VERTICAL_BAR;
+
+	// point types
+	public static final int POINT_RIGHT = 1;
+	public static final int POINT_RIGHT_OPEN_LEFT = 2;
+	public static final int POINT_NONE = 0;
+	public static final int POINT_LEFT = -1;
+	public static final int POINT_LEFT_OPEN_RIGHT = -2;
+	private int pointType = POINT_NONE;
 
 	private boolean isVisible, labelVisible;
 	private double[] coords = new double[2];
@@ -126,7 +134,7 @@ public class DrawBarGraph extends Drawable {
 
 			// point
 			if (algo.hasPoints()) {
-				for (int i = 0; i < algo.getIntervals(); i++) {
+				for (int i = 0; i < drawPoints.length; i++) {
 					drawPoints[i].draw(g2);
 				}
 			}
@@ -143,7 +151,7 @@ public class DrawBarGraph extends Drawable {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
 	}
-	
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return gp != null && gp.intersects(rect);
@@ -184,15 +192,55 @@ public class DrawBarGraph extends Drawable {
 		int N = algo.getIntervals();
 
 		drawType = algo.getDrawType();
+		pointType = algo.getPointType();
+		int pointStyle;
 
-		if (algo.hasPoints()) {
+		if (algo.hasPoints() && pointType != POINT_NONE) {
+
+			if (pointType == POINT_LEFT || pointType == POINT_LEFT_OPEN_RIGHT) {
+				pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+			} else {
+				pointStyle = EuclidianStyleConstants.POINT_STYLE_CIRCLE;
+			}
+
 			for (int i = 0; i < N; i++) {
 				coords[0] = xVal[i];
 				coords[1] = yVal[i];
 				pts[i].setCoords(coords[0], coords[1], 1.0);
+				pts[i].setObjColor(geo.getObjectColor());
 				pts[i].setPointSize(2 + (geo.lineThickness + 1) / 3);
+				pts[i].setPointStyle(pointStyle);
+				if (pointType == POINT_RIGHT) {
+					pts[i].setEuclidianVisible(false);
+				}
 				drawPoints[i].update();
 			}
+
+			if (drawType == DRAW_STEP_GRAPH_CONTINUOUS
+					|| drawType == DRAW_STEP_GRAPH_JUMP) {
+
+				if (pointType == POINT_LEFT
+						|| pointType == POINT_LEFT_OPEN_RIGHT) {
+					pointStyle = EuclidianStyleConstants.POINT_STYLE_CIRCLE;
+				} else {
+					pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+				}
+
+				// step graph right points
+				for (int i = 0; i < N - 1; i++) {
+					coords[0] = xVal[i + 1];
+					coords[1] = yVal[i];
+					pts[N + i].setCoords(coords[0], coords[1], 1.0);
+					pts[N + i].setObjColor(geo.getObjectColor());
+					pts[N + i].setPointSize(2 + (geo.lineThickness + 1) / 3);
+					pts[N + i].setPointStyle(pointStyle);
+					if (pointType == POINT_LEFT) {
+						pts[N + i].setEuclidianVisible(false);
+					}
+					drawPoints[N + i].update();
+				}
+			}
+
 		}
 
 		double halfWidth = width / 2;
@@ -361,14 +409,16 @@ public class DrawBarGraph extends Drawable {
 
 	private void createPts() {
 
-		pts = new GeoPoint[algo.getIntervals()];
-		drawPoints = new DrawPoint[algo.getIntervals()];
+		if (drawType == DRAW_STEP_GRAPH_CONTINUOUS
+				|| drawType == DRAW_STEP_GRAPH_JUMP) {
+			pts = new GeoPoint[2 * algo.getIntervals() - 1];
+		} else {
+			pts = new GeoPoint[algo.getIntervals()];
+		}
+		drawPoints = new DrawPoint[pts.length];
 
 		for (int i = 0; i < pts.length; i++) {
 			pts[i] = new GeoPoint(view.getKernel().getConstruction());
-			pts[i].setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
-			pts[i].setObjColor(geo.getObjectColor());
-
 			pts[i].setLabelVisible(false);
 
 			drawPoints[i] = new DrawPoint(view, pts[i]);

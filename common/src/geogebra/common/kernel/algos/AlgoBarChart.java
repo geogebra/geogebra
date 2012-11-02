@@ -81,7 +81,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	// local fields
 	private GeoElement ageo, bgeo, ngeo, widthGeo, isCumulative, isHorizontal,
-			p1geo, p2geo, p3geo, showJump, pointType;
+			p1geo, p2geo, p3geo, hasJoin, pointType;
 	private int type;
 	private int N; // # of intervals
 	private double[] yval; // y value (= min) in interval 0 <= i < N
@@ -91,7 +91,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
-	
+
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
 	 * 
@@ -210,24 +210,22 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	/******************************************************
 	 * General constructor with label
+	 * @param cons 
+	 * @param label 
+	 * @param list1 
+	 * @param list2 
+	 * @param width 
+	 * @param isHorizontal 
+	 * @param join 
+	 * @param pointType 
+	 * @param type 
 	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 * @param width
-	 * @param isHorizontal
-	 * @param showJump
-	 * @param showStepJump
-	 * @param showPoints
-	 * @param pointType
-	 * @param type
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2, NumberValue width, GeoBoolean isHorizontal,
-			GeoBoolean showJump, GeoNumeric pointType, int type) {
+			GeoBoolean join, GeoNumeric pointType, int type) {
 
-		this(cons, list1, list2, width, isHorizontal, showJump, pointType, type);
+		this(cons, list1, list2, width, isHorizontal, join, pointType, type);
 		sum.setLabel(label);
 
 	}
@@ -240,14 +238,14 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 * @param list2
 	 * @param width
 	 * @param isHorizontal
-	 * @param showJump
+	 * @param join
 	 * @param showStepJump
 	 * @param showPoints
 	 * @param pointType
 	 * @param type
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
-			NumberValue width, GeoBoolean isHorizontal, GeoBoolean showJump,
+			NumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
 			GeoNumeric pointType, int type) {
 		super(cons);
 
@@ -259,7 +257,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			widthGeo = width.toGeoElement();
 		}
 		this.isHorizontal = isHorizontal;
-		this.showJump = showJump;
+		this.hasJoin = join;
 		this.pointType = pointType;
 
 		sum = new GeoNumeric(cons); // output
@@ -452,8 +450,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 				list.add(list2);
 			}
 
-			if (showJump != null) {
-				list.add(showJump);
+			if (hasJoin != null) {
+				list.add(hasJoin);
 			}
 			if (pointType != null) {
 				list.add(pointType);
@@ -613,14 +611,20 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public int getDrawType() {
 
-		if ((showJump != null && ((GeoBoolean) showJump).getBoolean())) {
+		// case 1: step graphs
+		if (type == TYPE_STEPGRAPH) {
+			if ((hasJoin != null && ((GeoBoolean) hasJoin).getBoolean())) {
+				return DrawBarGraph.DRAW_STEP_GRAPH_CONTINUOUS;
+			}
 			return DrawBarGraph.DRAW_STEP_GRAPH_JUMP;
+		}
 
-		} else if (type == TYPE_STEPGRAPH
-				|| (isCumulative != null && ((GeoBoolean) isCumulative)
-						.getBoolean())) {
+		// case 2: cumulative discrete probability
+		else if (isCumulative != null
+				&& ((GeoBoolean) isCumulative).getBoolean()) {
 			return DrawBarGraph.DRAW_STEP_GRAPH_CONTINUOUS;
 
+			// case 3: all other types use either horizontal or vertical bars
 		} else if (isHorizontal != null
 				&& ((GeoBoolean) isHorizontal).getBoolean()) {
 			return DrawBarGraph.DRAW_HORIZONTAL_BAR;
@@ -635,11 +639,26 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public boolean hasPoints() {
 
-		if (type == TYPE_STICKGRAPH
-				|| (showJump != null && ((GeoBoolean) showJump).getBoolean())) {
-			return true;
+		return (type == TYPE_STICKGRAPH || type == TYPE_STEPGRAPH);
+	}
+
+	/**
+	 * @return point style
+	 */
+	public int getPointType() {
+
+		if(type == TYPE_STICKGRAPH){
+			return DrawBarGraph.POINT_LEFT;
 		}
-		return false;
+		if (pointType == null)
+			return DrawBarGraph.POINT_NONE;
+
+		int p = (int) ((GeoNumeric) pointType).getDouble();
+		if (p < -2 || p > 2) {
+			p = DrawBarGraph.POINT_NONE;
+		}
+		return p;
+
 	}
 
 	// ======================================================
@@ -648,9 +667,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	@Override
 	public void compute() {
-		
+
 		isAreaSum = true;
-		
+
 		switch (type) {
 
 		case TYPE_BARCHART_FREQUENCY_TABLE:
@@ -660,9 +679,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 		case TYPE_STICKGRAPH:
 		case TYPE_STEPGRAPH:
-			
+
 			isAreaSum = false;
-			
+
 			if (list1 == null || !list1.isDefined()) {
 				sum.setUndefined();
 				return;
