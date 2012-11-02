@@ -4,7 +4,7 @@
 # FIXME: The entire source .zip file could be created by the script automatically.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-GGB_PORTABLE_ZIP=../../../installer/download/GeoGebra-Windows-Portable-5-0-x-x.zip
+GGB_PORTABLE_ZIP=../../../installer/download/GeoGebra-Windows-Portable-4-9-x-x.zip
 # You can also add a variable for that into autobuild.conf.
 
 # Please do not edit below this. (FIXME: the above settings should come from the config file.)
