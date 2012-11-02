@@ -194,7 +194,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param rt
 	 * @return false if not defined
 	 */
-	private static MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
+	public static MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
 			ExpressionValue rt) {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// booleans

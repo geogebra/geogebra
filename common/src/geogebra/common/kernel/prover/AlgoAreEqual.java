@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -81,7 +82,10 @@ public class AlgoAreEqual extends AlgoElement implements
 
 	@Override
 	public final void compute() {
-		outputBoolean.setValue(inputElement1.isEqual(inputElement2));
+		// Formerly we used this:
+		// outputBoolean.setValue(inputElement1.isEqual(inputElement2));
+		// But we prefer to have the same output as for inputElement1 == inputElement2 for being consistent: 
+		outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel, inputElement1, inputElement2).getBoolean());
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
