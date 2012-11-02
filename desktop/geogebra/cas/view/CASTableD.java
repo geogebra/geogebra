@@ -36,6 +36,7 @@ import javax.swing.CellEditor;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MouseInputAdapter;
@@ -606,17 +607,23 @@ public class CASTableD extends JTable implements CASTable {
 	 */
 	public void startEditingRow(final int editRow) {
 
-		rollOverRow = -1;
-		if (editRow >= tableModel.getRowCount()) {
-			// insert new row, this starts editing
-			insertRow(null, true);
-		} else {
-			// start editing
-			doEditCellAt(editRow, COL_CAS_CELLS);
-		}
+		// use invokeLater to prevent the scrollpane from stealing the focus
+		// when scrollbars are made visible
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				rollOverRow = -1;
+				if (editRow >= tableModel.getRowCount()) {
+					// insert new row, this starts editing
+					insertRow(null, true);
+				} else {
+					// start editing
+					doEditCellAt(editRow, COL_CAS_CELLS);
+				}
+			}
+		});
 	}
 
-	private void doEditCellAt(final int editRow, final int editCol) {
+	protected void doEditCellAt(final int editRow, final int editCol) {
 		if (editRow < 0)
 			return;
 		setRowSelectionInterval(editRow, editRow);
