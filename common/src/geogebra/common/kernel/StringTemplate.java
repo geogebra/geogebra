@@ -102,6 +102,7 @@ public class StringTemplate {
 	static {
 		regression.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(6,20,false);
 		regression.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(6);
+		regression.forceSF = true;
 		regression.setType(StringType.GEOGEBRA_XML);
 	}
 	/**
