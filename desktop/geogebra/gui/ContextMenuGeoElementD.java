@@ -157,20 +157,6 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			addAction(action);
 		}
 		
-		if (mode != Kernel.COORD_CARTESIAN_3D && !geo.isFixed() && point.getMode() != Kernel.COORD_COMPLEX) {
-			action = new AbstractAction(app.getPlain("CartesianCoords3D")) {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				public void actionPerformed(ActionEvent e) {
-					cartesianCoords3DCmd();
-				}
-			};
-			addAction(action);
-		}
-
 
 		/*
         if (mode != Kernel.COORD_COMPLEX && !geo.isFixed()) {

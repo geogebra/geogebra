@@ -79,19 +79,6 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 	
-	public void cartesianCoords3DCmd() {
-		ArrayList<GeoElement> geos2 = checkOneGeo();
-
-		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoPoint) {
-				GeoPoint point1 = (GeoPoint)geo1;
-				point1.setMode(Kernel.COORD_CARTESIAN_3D);
-				point1.updateRepaint();
-			}
-		}
-		app.storeUndoInfo();
-	}
 
 	public void equationImplicitEquationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
