@@ -384,7 +384,13 @@ public class EditMenu extends BaseMenu {
 		super.menuSelected(e);
 		
 		if (!e.getSource().equals(this)) { // ie submenu opened
-					
+				
+			// disable for unsigned applets
+			if (app.isApplet() && !app.hasFullPermissions()) {
+				clipboardMenu.setEnabled(false);
+				return;
+			}
+			
 			// check if there's an image on the clipboard
 			String[] fileName = ((GuiManagerD) app.getGuiManager()).getImageFromTransferable(null);
 			clipboardMenu.setEnabled(fileName.length > 0);
