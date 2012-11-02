@@ -17,7 +17,7 @@
 #
 # GG_XMS=<initial Java heap size> # If unset, 32m will be used.
 #
-# GG_XMX=<maximum Java heap size> # If unset, 512m will be used.
+# GG_XMX=<maximum Java heap size> # If unset, 1024m will be used.
 #
 # GG_DJAVA_LIBRARY_PATH=<native library path>
 
@@ -67,10 +67,10 @@ if [ -z "$GG_XMS" ]; then
 fi
 
 #---------------------------------------------
-# If $GG_XMX not set, use 512m.
+# If $GG_XMX not set, use 1024m.
 
 if [ -z "$GG_XMX" ]; then
-	GG_XMX='512m'
+	GG_XMX='1024m'
 fi
 
 #---------------------------------------------
@@ -111,7 +111,7 @@ if [ -w "$GG_CONFIG_FILE" ]; then
 #
 `if [ ! -n "$DEFAULT_GG_XMS" ]; then echo "# DEFAULT_GG_XMS='$GG_XMS'"; else echo "DEFAULT_GG_XMS='$DEFAULT_GG_XMS'"; fi`
 
-# Set maximum Java heap size, e.g '512m'.
+# Set maximum Java heap size, e.g '1024m'.
 #
 `if [ ! -n "$DEFAULT_GG_XMX" ]; then echo "# DEFAULT_GG_XMX='$GG_XMX'"; else echo "DEFAULT_GG_XMX='$DEFAULT_GG_XMX'"; fi`
 

@@ -16,7 +16,7 @@ FOR /F "tokens=2* delims=	 " %%A IN ('REG QUERY "HKLM\Software\JavaSoft\Java Run
 if "%CurrentVersion%"=="" goto NoJava
 :: Here additional tests could be done for exact version (TODO)
 
-java -Xms32m -Xmx512m -jar geogebra.jar --settingsfile=geogebra.properties
+java -Xms32m -Xmx1024m -jar geogebra.jar --settingsfile=geogebra.properties
 
 if errorlevel 1 goto BadDirectory
 exit /b 0

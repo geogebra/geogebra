@@ -45,7 +45,7 @@
   </security>
 	<update check="timeout" policy="always"/>
   <resources>
-    <j2se version="1.5.0+" max-heap-size="512m" href="http://java.sun.com/products/autodl/j2se"/>
+    <j2se version="1.5.0+" max-heap-size="1024m" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="geogebra.jar" main="true"/>
     <jar href="geogebra_main.jar"/>
     <jar href="geogebra_gui.jar"/>
