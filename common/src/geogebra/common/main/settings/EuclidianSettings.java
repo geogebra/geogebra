@@ -59,10 +59,6 @@ public class EuclidianSettings extends AbstractSettings {
 		this.euclidianSettings1 = euclidianSettings1;
 		preferredSize = AwtFactory.prototype.newDimension(0,0);
 	}
-	public EuclidianSettings(){
-		this.euclidianSettings1 = null;
-		preferredSize = AwtFactory.prototype.newDimension(0,0);
-	}
 
 	/*
 	 * some settings are not stored in XML, eg eg automaticGridDistance so we
