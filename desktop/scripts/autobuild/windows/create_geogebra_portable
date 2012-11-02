@@ -67,9 +67,13 @@ mv $SVNDIR/geogebra/desktop/installer/GeoGebra-*.exe .
 
 # 2/2. Unzipping the i586 version of JOGL1 DLLs:
 unzip jogl1-windows-i586.jar
-rm jogl1-windows-i586.jar
-rm -fR META-INF
 cp *.dll unsigned
+
+# 2/3. Cleanup (removing all unnecessary .jar files):
+rm -fR META-INF
+for i in . unsigned; do
+ rm $i/jogl1-*.jar $i/*-linux-*.jar $i/*-mac*.jar $i/*64*.jar
+ done
 
 cd ..
 rm -f "$DIRNAME.zip" # deleting if a previous version already exists
@@ -80,7 +84,7 @@ WINDOWS_ZIP_FINAL=GeoGebra-Windows-Portable-`echo $VERSION_STRING | tr . -`.zip
 mv "$DIRNAME.zip" $WINDOWS_ZIP_FINAL
 cp $WINDOWS_ZIP_FINAL $TARGET_DIR
 
-exit 0 # Remove this when the above code is tested.
+# exit 0 # Remove this when the above code is tested.
 
 # 3. Copying to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
