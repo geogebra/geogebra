@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.Unicode;
@@ -23,19 +24,19 @@ import geogebra.common.util.Unicode;
 
 public class AlgoFractionText extends AlgoElement {
 
-	private GeoNumeric num; //input
+	private GeoNumberValue num; //input
     private GeoText text; //output	
     
     private double frac[] = {0,0};
  
     private StringBuilder sb = new StringBuilder();
     
-    public AlgoFractionText(Construction cons, String label, GeoNumeric num) {
+    public AlgoFractionText(Construction cons, String label, GeoNumberValue num) {
     	this(cons, num);
         text.setLabel(label);
     }
 
-    AlgoFractionText(Construction cons, GeoNumeric num) {
+    AlgoFractionText(Construction cons, GeoNumberValue num) {
         super(cons);
         this.num = num;
                
@@ -54,7 +55,7 @@ public class AlgoFractionText extends AlgoElement {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[1];
-        input[0] = num;
+        input[0] = num.toGeoElement();
 
         setOutputLength(1);
         setOutput(0, text);

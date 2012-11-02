@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.AlgoFractionText;
 import geogebra.common.kernel.algos.AlgoFractionTextPoint;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -33,10 +33,10 @@ public class CmdFractionText extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].isGeoNumeric()) {
+			if (arg[0].isNumberValue()) {
 				
 				AlgoFractionText algo = new AlgoFractionText(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+						(GeoNumberValue) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
