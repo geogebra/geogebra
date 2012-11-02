@@ -40,10 +40,12 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -61,7 +63,7 @@ import java.util.TreeSet;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
-		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable {
+		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -97,6 +99,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	public GeoPoint3D(Construction c) {
 		super(c, 4);
+		setCartesian3D();
 		setUndefined();
 	}
 
@@ -107,6 +110,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			double z, double w) {
 		super(c, x, y, z, w); // GeoVec4D constructor
 		setLabel(label);
+		setCartesian3D();
 
 	}
 
@@ -116,6 +120,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	public GeoPoint3D(Construction c, Path path) {
 		super(c, 4);
+		setCartesian3D();
 		setPath(path);
 	}
 
@@ -134,6 +139,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	public GeoPoint3D(Construction c, Region region) {
 		super(c, 4);
+		setCartesian3D();
 		setRegion(region);
 	}
 
@@ -596,7 +602,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 
 	public int getMode() {
-		return Kernel.COORD_CARTESIAN; // TODO other modes
+		return toStringMode;
 	}
 
 	/**
@@ -719,7 +725,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			setCoords(p);
 			// TODO ? moveMode = p.getMoveMode();
 			updateCoords();
-			// TODO setMode(p.toStringMode); // complex etc
+			setMode(p.getMode()); // complex etc
 		}
 		/*
 		 * TODO else if (geo.isGeoVector()) { GeoVector v = (GeoVector) geo;
@@ -767,9 +773,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 		StringBuilder sbToString = getSbBuildValueString();
 
-		boolean isVisibleInView2D = false;
+		//boolean isVisibleInView2D = false;
 		Coords p = getInhomCoordsInD(3);
 
+		/*
 		if (getViewForValueString() instanceof EuclidianViewD) {
 			Coords p2D = ((EuclidianView) getViewForValueString())
 					.getCoordsForView(getInhomCoordsInD(3));
@@ -779,22 +786,20 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			} else
 				return app.getPlain("NotIncluded");
 		}
+		*/
 
 		sbToString.setLength(0);
 		if(tpl.hasType(StringType.MPREDUCE)){
 			sbToString.append("myvect");				
 		}
-		sbToString.append("(");
-		sbToString.append(kernel.format(p.getX(),tpl));
-		sbToString.append(", ");
-		sbToString.append(kernel.format(p.getY(),tpl));
-		if (!isVisibleInView2D) {
-			sbToString.append(", ");
-			sbToString.append(kernel.format(p.getZ(),tpl));
-		}
-		sbToString.append(")");
+		
+		
+		if (toStringMode==Kernel.COORD_CARTESIAN_3D || !Kernel.isZero(p.getZ()))
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
+		else
+			GeoPoint.buildValueString(kernel, tpl, toStringMode,  p.getX(), p.getY(), sbToString);
 
-		// TODO use point property
+
 		return sbToString.toString();
 	}
 
@@ -870,10 +875,30 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
+		// polar or cartesian coords
+		switch (toStringMode) {
+		case Kernel.COORD_POLAR:
+			sb.append("\t<coordStyle style=\"polar\"/>\n");
+			break;
+
+		case Kernel.COORD_COMPLEX:
+			sb.append("\t<coordStyle style=\"complex\"/>\n");
+			break;
+
+		case Kernel.COORD_CARTESIAN:
+			sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+			break;
+
+		default:
+			// don't save default (Kernel.COORD_CARTESIAN_3D)
+		}
+
 		// point size
 		sb.append("\t<pointSize val=\"");
 		sb.append(pointSize);
 		sb.append("\"/>\n");
+		
+		
 
 	}
 
@@ -1187,13 +1212,21 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return true;
 	}
 
-	public void setCartesian3D() {
-		// TODO Auto-generated method stub
-		
-	}	
+    public void setCartesian() { toStringMode = Kernel.COORD_CARTESIAN; }
+    public void setCartesian3D() { toStringMode = Kernel.COORD_CARTESIAN_3D; }
 	
 	
-	
+    /**
+     * Sets the coord style
+     * @param mode new coord style
+     */
+    public void setMode(int mode ) {
+        toStringMode = mode;
+    }
+
+    public void setPolar() { toStringMode = Kernel.COORD_POLAR; }
+
+    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }  
 
 
 }

@@ -23,13 +23,14 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.CoordStyle;
 
 /**
  *
  * @author  Markus
  */
 public abstract class GeoVec3D extends GeoElement 
-implements Traceable {
+implements Traceable, CoordStyle {
     /** x coordinate*/
     public double x =  Double.NaN;
     /** y coordinate*/

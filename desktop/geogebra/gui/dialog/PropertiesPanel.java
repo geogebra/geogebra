@@ -50,6 +50,7 @@ import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -3690,7 +3691,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			coordCB.removeActionListener(this);
 
 			// check if properties have same values
-			GeoVec3D geo0 = (GeoVec3D) geos[0];
+			CoordStyle geo0 = (CoordStyle) geos[0];
 			boolean equalMode = true;
 
 			int mode;
@@ -3723,7 +3724,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			boolean geosOK = true;
 			// boolean allPoints = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoPoint || geos[i] instanceof GeoVector)) {
+				if (!(((GeoElement) geos[i]).isGeoPoint() || geos[i] instanceof GeoVector)) {
 					geosOK = false;
 				}
 
@@ -3747,35 +3748,35 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == coordCB) {
-				GeoVec3D geo;
+				CoordStyle geo;
 				switch (coordCB.getSelectedIndex()) {
 				case 0: // Kernel.CARTESIAN
 					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoVec3D) geos[i];
+						geo = (CoordStyle) geos[i];
 						geo.setMode(Kernel.COORD_CARTESIAN);
-						geo.updateRepaint();
+						((GeoElement) geo).updateRepaint();
 					}
 					break;
 
 				case 1: // Kernel.POLAR
 					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoVec3D) geos[i];
+						geo = (CoordStyle) geos[i];
 						geo.setMode(Kernel.COORD_POLAR);
-						geo.updateRepaint();
+						((GeoElement) geo).updateRepaint();
 					}
 					break;
 				case 2: // Kernel.COMPLEX
 					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoVec3D) geos[i];
+						geo = (CoordStyle) geos[i];
 						geo.setMode(Kernel.COORD_COMPLEX);
-						geo.updateRepaint();
+						((GeoElement) geo).updateRepaint();
 					}
 					break;
 				case 3: // Kernel.COORD_CARTESIAN_3D
 					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoVec3D) geos[i];
+						geo = (CoordStyle) geos[i];
 						geo.setMode(Kernel.COORD_CARTESIAN_3D);
-						geo.updateRepaint();
+						((GeoElement) geo).updateRepaint();
 					}
 					break;
 				}

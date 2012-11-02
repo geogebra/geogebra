@@ -57,6 +57,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3436,12 +3437,12 @@ public class MyXMLHandler implements DocHandler {
 
 	// for point or vector
 	private boolean handleCoordStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoPoint() || geo.isGeoVector()) || geo.isGeoElement3D()) {
+		if (!(geo instanceof CoordStyle)) {
 			System.err.println("wrong element type for <coordStyle>: "
 					+ geo.getClass());
 			return false;
 		}
-		GeoVec3D v = (GeoVec3D) geo;
+		CoordStyle v = (CoordStyle) geo;
 		String style = attrs.get("style");
 		if (style.equals("cartesian")) {
 			v.setCartesian();

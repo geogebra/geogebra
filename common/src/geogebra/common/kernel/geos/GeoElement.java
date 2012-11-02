@@ -6898,4 +6898,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private boolean waitingForUpdate;
+	
+	
+	
 }

@@ -1,5 +1,6 @@
 package geogebra.common.kernel.kernelND;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
@@ -233,10 +234,17 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	public int getDimension();
 	
     /**
+     * Changes coord style to CARTESIAN
+     */
+    public void setCartesian();
+	
+    /**
      * Changes coord style to CARTESIAN 3D
      */
 	public void setCartesian3D();
 
+
+	
 	
 
 	

@@ -49,6 +49,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1106,53 +1107,63 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 			return sbBuildValueString;
 		}
 
+		if (toStringMode==Kernel.COORD_CARTESIAN_3D)
+			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(), getInhomY(), 0, sbBuildValueString);
+		else
+			buildValueString(kernel, tpl, toStringMode, getInhomX(), getInhomY(), sbBuildValueString);
+	
+		return sbBuildValueString;
+	}
+	
+	
+	public static final void buildValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
+		sbBuildValueString.append('(');
+		sbBuildValueString.append(kernel.format(x, tpl));
+		String separator;
+		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
+		case Kernel.COORD_STYLE_AUSTRIAN:
+			separator = " |";
+			break;
+
+		default:
+			separator = Character.toString(App.unicodeComma);
+		}
+
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+		sbBuildValueString.append(kernel.format(y, tpl));
+
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+		sbBuildValueString.append(kernel.format(z, tpl));
+
+		sbBuildValueString.append(')');
+	}
+
+	public static final void buildValueString(Kernel kernel, StringTemplate tpl, int toStringMode, double x, double y, StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
 			sbBuildValueString.append('(');
 			sbBuildValueString.append(kernel.format(
-					MyMath.length(getInhomX(), getInhomY()), tpl));
+					MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
 			sbBuildValueString.append(kernel.formatAngle(
-					Math.atan2(getInhomY(), getInhomX()), tpl));
+					Math.atan2(y, x), tpl));
 			sbBuildValueString.append(')');
 			break;
 
 		case Kernel.COORD_COMPLEX:
 			// if (!isI) { // return just "i" for special i
-			sbBuildValueString.append(kernel.format(getInhomX(), tpl));
+			sbBuildValueString.append(kernel.format(x, tpl));
 			sbBuildValueString.append(" ");
-			kernel.formatSignedCoefficient(getInhomY(),sbBuildValueString, tpl);
+			kernel.formatSignedCoefficient(y,sbBuildValueString, tpl);
 			// }
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;
-			
-		case Kernel.COORD_CARTESIAN_3D: //cartesian 3D
-			sbBuildValueString.append('(');
-			sbBuildValueString.append(kernel.format(getInhomX(), tpl));
-			String separator;
-			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-			case Kernel.COORD_STYLE_AUSTRIAN:
-				separator = " |";
-				break;
 
-			default:
-				separator = Character.toString(App.unicodeComma);
-			}
-
-			sbBuildValueString.append(separator);
-			sbBuildValueString.append(" ");
-			sbBuildValueString.append(kernel.format(getInhomY(), tpl));
-
-			sbBuildValueString.append(separator);
-			sbBuildValueString.append(" ");
-			sbBuildValueString.append(kernel.format(0, tpl));
-
-			sbBuildValueString.append(')');
-
-			break;
 		default: // CARTESIAN
 			sbBuildValueString.append('(');
-			sbBuildValueString.append(kernel.format(getInhomX(), tpl));
+			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
 				sbBuildValueString.append(" | ");
@@ -1162,10 +1173,10 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 				sbBuildValueString.append(App.unicodeComma);
 				sbBuildValueString.append(" ");
 			}
-			sbBuildValueString.append(kernel.format(getInhomY(), tpl));
+			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(')');
 		}
-		return sbBuildValueString;
+		
 	}
 
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
