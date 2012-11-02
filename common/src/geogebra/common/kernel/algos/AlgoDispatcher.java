@@ -107,7 +107,7 @@ public class AlgoDispatcher {
 
 	/** Point on path with cartesian coordinates (x,y) */
 	final public GeoPoint Point(String label, Path path, double x, double y,
-			boolean addToConstruction, boolean complex) {
+			boolean addToConstruction, boolean complex, boolean coords2D) {
 		boolean oldMacroMode = false;
 		if (!addToConstruction) {
 			oldMacroMode = cons.isSuppressLabelsActive();
@@ -118,6 +118,9 @@ public class AlgoDispatcher {
 		GeoPoint p = algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);
+			p.update();
+		}else if (!coords2D){
+			p.setCartesian3D();
 			p.update();
 		}
 		if (!addToConstruction) {
@@ -752,7 +755,7 @@ public class AlgoDispatcher {
 
 	/** Point in region with cartesian coordinates (x,y) */
 	final public GeoPoint PointIn(String label, Region region, double x,
-			double y, boolean addToConstruction, boolean complex) {
+			double y, boolean addToConstruction, boolean complex, boolean coords2D) {
 		boolean oldMacroMode = false;
 		if (!addToConstruction) {
 			oldMacroMode = cons.isSuppressLabelsActive();
@@ -765,6 +768,9 @@ public class AlgoDispatcher {
 		GeoPoint p = algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);
+		}else if (!coords2D){
+			p.setCartesian3D();
+			p.update();
 		}
 		if (!addToConstruction) {
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -1423,7 +1429,7 @@ public class AlgoDispatcher {
 			
 			GeoPoint newPoint = Point(null, path,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
-					false, false);
+					false, false, p.getMode()!=Kernel.COORD_CARTESIAN_3D);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace(point, newPoint);
 			//clearSelections();
@@ -1445,7 +1451,7 @@ public class AlgoDispatcher {
 			
 			GeoPoint newPoint = PointIn(null, region,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
-					false, false);
+					false, false, true);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace(point, newPoint);
 			//clearSelections();

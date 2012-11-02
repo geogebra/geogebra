@@ -36,7 +36,7 @@ public class CmdPointIn extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isRegion()) {
 				GeoElement[] ret =
-				{ getAlgoDispatcher().PointIn(c.getLabel(), (Region) arg[0], 0, 0, true, false)};
+				{ getAlgoDispatcher().PointIn(c.getLabel(), (Region) arg[0], 0, 0, true, false, true)};
 				return ret;
 			} 
 			throw argErr(app, c.getName(), arg[0]);

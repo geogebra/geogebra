@@ -99,7 +99,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	public GeoPoint3D(Construction c) {
 		super(c, 4);
-		setCartesian3D();
 		setUndefined();
 	}
 

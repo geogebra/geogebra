@@ -9,6 +9,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra3D.kernel3D.GeoPoint3D;
 
@@ -78,18 +79,20 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 	 * @param b second geo
 	 * @return single intersection point
 	 */
-	protected GeoPointND getSingleIntersectionPointFrom2D(GeoElement a, GeoElement b) {
-		return super.getSingleIntersectionPoint(a, b);
+	protected GeoPointND getSingleIntersectionPointFrom2D(GeoElement a, GeoElement b, boolean coords2D) {
+		return super.getSingleIntersectionPoint(a, b, coords2D);
 	}
 
 	
 	@Override
-	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b) {
+	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b, boolean coords2D) {
 
 		// check if a and b are two 2D geos
 		if (!a.isGeoElement3D() && !b.isGeoElement3D())
-			return getSingleIntersectionPointFrom2D(a, b);
+			return getSingleIntersectionPointFrom2D(a, b, coords2D);
 		
+		
+		GeoPointND point = null;
 		
 		// first hit is a line
 		if (a.isGeoLine()) {
@@ -100,9 +103,9 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 							.IntersectLines(null, (GeoLine) a, (GeoLine) b);
 				}
 				*/
-				return (GeoPoint3D) getKernel().getManager3D().Intersect(null,  a,  b);
+				point = (GeoPoint3D) getKernel().getManager3D().Intersect(null,  a,  b);
 			} else if (b.isGeoConic()) {
-				return getKernel().getManager3D().IntersectLineConicSingle(null, 
+				point = getKernel().getManager3D().IntersectLineConicSingle(null, 
     					(GeoLineND)a, (GeoConicND)b, xRW, yRW, view.getInverseMatrix());
 			/*
 			} else if (b.isGeoFunctionable()) {
@@ -125,17 +128,26 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		// first hit is a conic
 		else if (a.isGeoConic()) {
 			if (b.isGeoLine()) {
-				return getKernel().getManager3D().IntersectLineConicSingle(null, 
+				point = getKernel().getManager3D().IntersectLineConicSingle(null, 
 						(GeoLineND)b, (GeoConicND)a, xRW, yRW, view.getInverseMatrix());
 			} else if (b.isGeoConic() && !a.isEqual(b)) {
-				return getKernel().getManager3D().IntersectConicsSingle(null, 
+				point = getKernel().getManager3D().IntersectConicsSingle(null, 
 						(GeoConicND)a, (GeoConicND)b, xRW , yRW, view.getInverseMatrix());
 			} else {
 				return null;
 			}
 		}
+
+		if (point!=null){
+			if (coords2D){
+				point.setCartesian();
+			}else{
+				point.setCartesian3D();
+			}
+			point.update();
+		}
 		
-		return null;
+		return point;
 		
 	}
 

@@ -1,6 +1,7 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -9,6 +10,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
@@ -57,20 +59,20 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 	
 		Coords coords = getCoordsFromView(xRW,yRW);
 		
-		GeoPointND ret = kernel.getManager3D().Point3DIn(null, ((EuclidianView) view).getPlaneContaining(), coords, !forPreviewable);
+		GeoPointND ret = kernel.getManager3D().Point3DIn(null, view.getPlaneContaining(), coords, !forPreviewable, false);
 		return ret;
 	}
 	
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
-		return createNewPoint(forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex);
+		return createNewPoint(forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex, false);
 	}
 	
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
-		return createNewPoint(forPreviewable, region, coords.getX(), coords.getY(), coords.getZ(), complex);
+		return createNewPoint(forPreviewable, region, coords.getX(), coords.getY(), coords.getZ(), complex, false);
 	}
 
 	@Override
@@ -80,13 +82,13 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 
 	@Override
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
-		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, ((EuclidianView) view).getDirection())};		
+		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, view.getDirection())};		
 
 	}
 	
 	@Override
 	protected void processModeLock(GeoPointND point){
-		Coords coords = ((EuclidianView) view).getCoordsForView(point.getInhomCoordsInD(3));
+		Coords coords = view.getCoordsForView(point.getInhomCoordsInD(3));
 		xRW = coords.getX();
 		yRW = coords.getY();
 	}
@@ -95,7 +97,7 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 	protected void processModeLock(Path path){
 		GeoPointND p = createNewPoint(true, path, false);
 		((GeoElement) p).update();
-		Coords coords = ((EuclidianView) view).getCoordsForView(p.getInhomCoordsInD(3));
+		Coords coords = view.getCoordsForView(p.getInhomCoordsInD(3));
 		xRW = coords.getX();
 		yRW = coords.getY();
 	}
@@ -108,5 +110,10 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 				ret.add(geo);
 		return ret;
 	}
+	
+	@Override
+	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b, boolean coords2D) {
+		return super.getSingleIntersectionPoint(a, b, false);
+	}	
 	
 }

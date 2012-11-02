@@ -54,8 +54,12 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	/** Point3D label with cartesian coordinates (x,y,z) */
-	final public GeoPoint3D Point3D(String label, double x, double y, double z) {
+	final public GeoPoint3D Point3D(String label, double x, double y, double z, boolean coords2D) {
 		GeoPoint3D p = new GeoPoint3D(cons);
+		if (coords2D)
+			p.setCartesian();
+		else
+			p.setCartesian3D();
 		p.setCoords(x, y, z, 1.0);
 		p.setLabel(label); // invokes add()
 
@@ -99,7 +103,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Point in region with cartesian coordinates (x,y,z) */
 	final public GeoPoint3D Point3DIn(String label, Region region,
-			Coords coords, boolean addToConstruction) {
+			Coords coords, boolean addToConstruction, boolean coords2D) {
 		boolean oldMacroMode = false;
 
 		if (!addToConstruction) {
@@ -112,6 +116,12 @@ public class Manager3D implements Manager3DInterface {
 				coords);
 		GeoPoint3D p = algo.getP();
 
+		if (coords2D)
+			p.setCartesian();
+		else
+			p.setCartesian3D();
+		p.update();
+		
 		if (!addToConstruction) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
@@ -119,20 +129,25 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	/** Point in region with cartesian coordinates (x,y,z) */
-	final public GeoPoint3D Point3DIn(Region region, Coords coords) {
+	final public GeoPoint3D Point3DIn(Region region, Coords coords, boolean coords2D) {
 		AlgoPoint3DInRegion algo = new AlgoPoint3DInRegion(cons, region, coords);
 		GeoPoint3D p = algo.getP();
+		if (coords2D)
+			p.setCartesian();
+		else
+			p.setCartesian3D();
+		p.update();
 		return p;
 	}
 
 	/** Point in region */
-	final public GeoPoint3D Point3DIn(String label, Region region) {
-		return Point3DIn(label, region, null, true);
+	final public GeoPoint3D Point3DIn(String label, Region region, boolean coords2D) {
+		return Point3DIn(label, region, null, true, coords2D);
 	}
 
 	/** Point3D on a 1D path with cartesian coordinates (x,y,z) */
 	final public GeoPoint3D Point3D(String label, Path path, double x,
-			double y, double z, boolean addToConstruction) {
+			double y, double z, boolean addToConstruction, boolean coords2D) {
 		boolean oldMacroMode = false;
 		if (!addToConstruction) {
 			oldMacroMode = cons.isSuppressLabelsActive();
@@ -142,6 +157,11 @@ public class Manager3D implements Manager3DInterface {
 		AlgoPoint3DOnPath algo = new AlgoPoint3DOnPath(cons, label, path, x, y,
 				z);
 		GeoPoint3D p = algo.getP();
+		if (coords2D)
+			p.setCartesian();
+		else
+			p.setCartesian3D();
+		p.update();
 		if (!addToConstruction) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
@@ -149,12 +169,12 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	/** Point3D on a 1D path without cartesian coordinates */
-	final public GeoPoint3D Point3D(String label, Path path) {
+	final public GeoPoint3D Point3D(String label, Path path, boolean coords2D) {
 		// try (0,0,0)
 		// AlgoPoint3DOnPath algo = new AlgoPoint3DOnPath(cons, label, path, 0,
 		// 0, 0);
 		// GeoPoint3D p = algo.getP();
-		GeoPoint3D p = Point3D(label, path, 0, 0, 0, true);
+		GeoPoint3D p = Point3D(label, path, 0, 0, 0, true, coords2D);
 
 		/*
 		 * TODO below // try (1,0,0) if (!p.isDefined()) { p.setCoords(1,0,1);

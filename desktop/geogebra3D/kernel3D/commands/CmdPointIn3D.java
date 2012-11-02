@@ -33,7 +33,7 @@ public class CmdPointIn3D extends CmdPointIn {
 			if (ok[0] = (arg[0].isRegion())) {
 				if (arg[0].isGeoElement3D()){
 					GeoElement[] ret =
-					{ (GeoElement) ((Kernel)kernelA).getManager3D().Point3DIn(c.getLabel(), (Region) arg[0])};
+					{ (GeoElement) ((Kernel)kernelA).getManager3D().Point3DIn(c.getLabel(), (Region) arg[0], false)};
 					return ret;
 				}else
 					return super.process(c);

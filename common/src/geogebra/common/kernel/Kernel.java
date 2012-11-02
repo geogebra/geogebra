@@ -4069,7 +4069,7 @@ public class Kernel {
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		p[1] = getAlgoDispatcher().Point(null, circle, poly.getPoint(1).inhomX, poly.getPoint(1).inhomY,
-				true, false);
+				true, false, true);
 		
 		p[1].setLabel(null);
 		
@@ -4141,7 +4141,7 @@ public class Kernel {
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		GeoPoint p = getAlgoDispatcher().Point(null, circle, points[1].inhomX, points[1].inhomY,
-				true, false);
+				true, false, true);
 		try {
 			(cons).replace(points[1], p);
 			points[1] = p;

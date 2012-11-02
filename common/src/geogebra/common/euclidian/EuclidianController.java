@@ -638,7 +638,7 @@ public abstract class EuclidianController {
 		GeoElement a = hits.get(0);
 		GeoElement b = hits.get(1);
 		
-		return getSingleIntersectionPoint(a,b);
+		return getSingleIntersectionPoint(a,b,true);
 	}
 	
 	/**
@@ -647,30 +647,32 @@ public abstract class EuclidianController {
 	 * @param b second geo
 	 * @return single intersection points from geos a,b
 	 */
-	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b) {
+	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b, boolean coords2D) {
 	
+		GeoPointND point = null;
+		
 		// first hit is a line
 		if (a.isGeoLine()) {
 			if (b.isGeoLine()) {
 				if (!((GeoLine) a).linDep((GeoLine) b)) {
-					return getAlgoDispatcher()
+					point = getAlgoDispatcher()
 							.IntersectLines(null, (GeoLine) a, (GeoLine) b);
-				}
-				return null;
+				}else
+					return null;
 			} else if (b.isGeoConic()) {
-				return getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) a,
+				point = getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) a,
 						(GeoConic) b, xRW, yRW);
 			} else if (b.isGeoFunctionable()) {
 				// line and function
 				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
 				if (f.isPolynomialFunction(false)) {
-					return getAlgoDispatcher().IntersectPolynomialLineSingle(null, f,
+					point = getAlgoDispatcher().IntersectPolynomialLineSingle(null, f,
 							(GeoLine) a, xRW, yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				return getAlgoDispatcher().IntersectFunctionLine(null, f, (GeoLine) a,
+				point = getAlgoDispatcher().IntersectFunctionLine(null, f, (GeoLine) a,
 						initPoint);
 			} else {
 				return null;
@@ -679,10 +681,10 @@ public abstract class EuclidianController {
 		// first hit is a conic
 		else if (a.isGeoConic()) {
 			if (b.isGeoLine()) {
-				return getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) b,
+				point = getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) b,
 						(GeoConic) a, xRW, yRW);
 			} else if (b.isGeoConic() && !a.isEqual(b)) {
-				return getAlgoDispatcher().IntersectConicsSingle(null, (GeoConic) a,
+				point = getAlgoDispatcher().IntersectConicsSingle(null, (GeoConic) a,
 						(GeoConic) b, xRW, yRW);
 			} else {
 				return null;
@@ -694,13 +696,13 @@ public abstract class EuclidianController {
 			if (b.isGeoLine()) {
 				// line and function
 				if (aFun.isPolynomialFunction(false)) {
-					return getAlgoDispatcher().IntersectPolynomialLineSingle(null, aFun,
+					point = getAlgoDispatcher().IntersectPolynomialLineSingle(null, aFun,
 							(GeoLine) b, xRW, yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				return getAlgoDispatcher().IntersectFunctionLine(null, aFun,
+				point = getAlgoDispatcher().IntersectFunctionLine(null, aFun,
 						(GeoLine) b, initPoint);
 			} else if (b.isGeoFunctionable()) {
 				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
@@ -712,14 +714,21 @@ public abstract class EuclidianController {
 				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				return getAlgoDispatcher().IntersectFunctions(null, aFun, bFun,
+				point = getAlgoDispatcher().IntersectFunctions(null, aFun, bFun,
 						initPoint);
 			} else {
 				return null;
 			}
-		} else {
-			return null;
 		}
+
+		if (point!=null){
+			if (!coords2D){
+				point.setCartesian3D();
+				point.update();
+			}
+		}
+		
+		return point;
 	}
 
 	/***************************************************************************
@@ -1043,52 +1052,57 @@ public abstract class EuclidianController {
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex) {
 		return createNewPoint(forPreviewable, path,
 				Kernel.checkDecimalFraction(xRW),
-				Kernel.checkDecimalFraction(yRW), 0, complex);
+				Kernel.checkDecimalFraction(yRW), 0, complex, true);
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex) {
 		return createNewPoint(forPreviewable, region,
 				Kernel.checkDecimalFraction(xRW),
-				Kernel.checkDecimalFraction(yRW), 0, complex);
+				Kernel.checkDecimalFraction(yRW), 0, complex, true);
 	}
 
 	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x,
-			double y, boolean complex) {
+			double y, boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable); 
 		
-				return getAlgoDispatcher().Point(null, path, x, y, !forPreviewable, complex);
+				return getAlgoDispatcher().Point(null, path, x, y, !forPreviewable, complex, coords2D);
 			}
 
 	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
-			double y, boolean complex) {
+			double y, boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable); 
 		
-				GeoPointND ret = getAlgoDispatcher().PointIn(null, region, x, y, !forPreviewable, complex);
+				GeoPointND ret = getAlgoDispatcher().PointIn(null, region, x, y, !forPreviewable, complex, coords2D);
 				return ret;
 			}
 
 	public GeoPointND createNewPoint(boolean forPreviewable, Region region, double x,
-			double y, double z, boolean complex) {
+			double y, double z, boolean complex, boolean coords2D) {
 			
 				if (region.toGeoElement().isGeoElement3D()) {
 					checkZooming(forPreviewable); 
 					
-					return kernel.getManager3D().Point3DIn(null, region,
-							new Coords(x, y, z, 1), !forPreviewable);
+					GeoPointND point = kernel.getManager3D().Point3DIn(null, region,
+							new Coords(x, y, z, 1), !forPreviewable, coords2D);
+					
+
+					return point;
 				}
-				return createNewPoint2D(forPreviewable, region, x, y, complex);
+				return createNewPoint2D(forPreviewable, region, x, y, complex, coords2D);
 			}
 
 	public GeoPointND createNewPoint(boolean forPreviewable, Path path, double x,
-			double y, double z, boolean complex) {
+			double y, double z, boolean complex, boolean coords2D) {
 			
 				if (path.toGeoElement().isGeoElement3D()) {
 					checkZooming(forPreviewable); 
 					
-					return kernel.getManager3D().Point3D(null, path, x, y, z,
-							!forPreviewable);
+					GeoPointND point = kernel.getManager3D().Point3D(null, path, x, y, z,
+							!forPreviewable, coords2D);
+				
+					return point;
 				}
-				return createNewPoint2D(forPreviewable, path, x, y, complex);
+				return createNewPoint2D(forPreviewable, path, x, y, complex, coords2D);
 			}
 
 	public void setKernel(Kernel kernel) {
@@ -5582,7 +5596,7 @@ public abstract class EuclidianController {
 	protected void processModeLock(Path path) {
 		checkZooming();
 		
-		GeoPoint p = getAlgoDispatcher().Point(null, path, xRW, yRW, false, false);
+		GeoPoint p = getAlgoDispatcher().Point(null, path, xRW, yRW, false, false, true);
 		p.update();
 		xRW = p.inhomX;
 		yRW = p.inhomY;

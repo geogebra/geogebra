@@ -36,7 +36,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 public interface Manager3DInterface {
 
 	/** Point3D label with cartesian coordinates (x,y,z) */
-	public GeoElement Point3D(String label, double x, double y, double z);
+	public GeoElement Point3D(String label, double x, double y, double z, boolean coords2D);
 
 	/**
 	 * Point dependent on arithmetic expression with variables, represented by a
@@ -55,19 +55,19 @@ public interface Manager3DInterface {
 
 	/** Point in region with cartesian coordinates (x,y,z) */
 	public GeoPointND Point3DIn(String label, Region region, Coords coords,
-			boolean addToConstruction);
+			boolean addToConstruction, boolean coords2D);
 
-	public GeoPointND Point3DIn(Region region, Coords coords);
+	public GeoPointND Point3DIn(Region region, Coords coords, boolean coords2D);
 
 	/** Point in region */
-	public GeoPointND Point3DIn(String label, Region region);
+	public GeoPointND Point3DIn(String label, Region region, boolean coords2D);
 
 	/** Point3D on a 1D path with cartesian coordinates (x,y,z) */
 	public GeoPointND Point3D(String label, Path path, double x, double y,
-			double z, boolean addToConstruction);
+			double z, boolean addToConstruction, boolean coords2D);
 
 	/** Point3D on a 1D path without cartesian coordinates */
-	public GeoPointND Point3D(String label, Path path);
+	public GeoPointND Point3D(String label, Path path, boolean coords2D);
 
 	/**
 	 * Midpoint M = (P + Q)/2
