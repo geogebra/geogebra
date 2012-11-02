@@ -1,28 +1,27 @@
 #!/bin/sh
 
-# Creates the actual portable version of GeoGebra.
-# Based on ggb42maxima.
-# FIXME: Filename for this script should be changed.
+# Creates the actual portable version of GeoGebra for Windows i586.
+# FIXME: The entire source .zip file could be created by the script automatically.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-GGB42_ZIP=../../../installer/download/GeoGebra-Windows-Portable-4-1-x-x.zip
+GGB_PORTABLE_ZIP=../../../installer/download/GeoGebra-Windows-Portable-5-0-x-x.zip
 # You can also add a variable for that into autobuild.conf.
 
 # Please do not edit below this. (FIXME: the above settings should come from the config file.)
 
 umask 0002 # trying to ensure g+w rights for all created files automatically
 
-TEMPDIR=/tmp/ggb42
+TEMPDIR=/tmp/ggb_portable
 mkdir -p $TEMPDIR
 
 . ../autobuild.conf
 
-cp $GGB42_ZIP $TEMPDIR
-ZIPFILE=`basename $GGB42_ZIP`
+cp $GGB_PORTABLE_ZIP $TEMPDIR
+ZIPFILE=`basename $GGB_PORTABLE_ZIP`
 TARGET_DIR=$WWWDIR/installer
 mkdir -p $TARGET_DIR
 
-GGB42_ZIPVERSION=`basename $GGB42_ZIP | sed 's/GeoGebra-Windows-Portable-//g' | sed 's/.zip//g' | tr - .`
+GGB_PORTABLE_ZIPVERSION=`basename $GGB_PORTABLE_ZIP | sed 's/GeoGebra-Windows-Portable-//g' | sed 's/.zip//g' | tr - .`
 
 VERSION_STRING=`cat ../../../build/unpacked/version.txt`
 if [ "$VERSION_STRING" = "" ]; then
@@ -40,13 +39,13 @@ which zip 2>&1 >/dev/null || {
     exit 1
     }
 
-echo "Updating GeoGebra JAR files from version $GGB42_ZIPVERSION to $VERSION_STRING..."
+echo "Updating GeoGebra JAR files from version $GGB_PORTABLE_ZIPVERSION to $VERSION_STRING..."
 
 # 1. Preparations and unzipping:
 DIRNAME="GeoGebra ${VERSION_STRING}"
-rm -fR "GeoGebra ${GGB42_ZIPVERSION}" # removing old working directory
+rm -fR "GeoGebra ${GGB_PORTABLE_ZIPVERSION}" # removing old working directory
 unzip $TEMPDIR/$ZIPFILE >> /dev/null
-mv "GeoGebra ${GGB42_ZIPVERSION}" "$DIRNAME"
+mv "GeoGebra ${GGB_PORTABLE_ZIPVERSION}" "$DIRNAME"
 cd "$DIRNAME"
 
 # 2. Zipping:
@@ -58,7 +57,21 @@ cd unsigned
 rm -fR *
 cp ../../../../../build/unsigned/unpacked/* .
 
-cd ../..
+# 2/1. Updating EXEs with version numbers:
+cd ..
+WORKDIR=`pwd`
+cd $SVNDIR/geogebra/desktop/installer
+./make-portable-xmls $VERSION_STRING
+cd "$WORKDIR"
+mv $SVNDIR/geogebra/desktop/installer/GeoGebra-*.exe .
+
+# 2/2. Unzipping the i586 version of JOGL1 DLLs:
+unzip jogl1-windows-i586.jar
+rm jogl1-windows-i586.jar
+rm -fR META-INF
+cp *.dll unsigned
+
+cd ..
 rm -f "$DIRNAME.zip" # deleting if a previous version already exists
 zip -r "$DIRNAME.zip" "$DIRNAME" >> /dev/null
 chmod g+w "$DIRNAME.zip"
@@ -66,6 +79,8 @@ chmod g+w "$DIRNAME.zip"
 WINDOWS_ZIP_FINAL=GeoGebra-Windows-Portable-`echo $VERSION_STRING | tr . -`.zip
 mv "$DIRNAME.zip" $WINDOWS_ZIP_FINAL
 cp $WINDOWS_ZIP_FINAL $TARGET_DIR
+
+exit 0 # Remove this when the above code is tested.
 
 # 3. Copying to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
@@ -75,7 +90,9 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
 # 4. Cleanup:
 rm -fR "$DIRNAME" $WINDOWS_ZIP_FINAL # removing current working directory and file
-rm -f $TEMPDIR/$GGB42_ZIP
+rm -f $TEMPDIR/$GGB_PORTABLE_ZIP
+
+exit 0 # TODO: Create the MSI version as well!
 
 # 5. Creating the MSI version and copying to Google Code:
 cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows/WiX

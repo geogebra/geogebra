@@ -1,0 +1,32 @@
+#!/bin/sh
+# Creates EXEs for portable versions. Uses the non-portable XMLs.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+VERSION=$1
+
+if [ "$VERSION" = "" ]; then
+ echo "Usage: $0 [version]"
+ exit 1
+ fi
+
+# Abbreviations
+mv=minVersion
+fv=fileVersion
+tfv=txtFileVersion
+pv=productVersion
+tpv=txtProductVersion
+p=path
+of=outfile
+
+for i in geogebra-*.xml; do
+ OUTFILE=`basename $i .xml`.exe
+ OUTFILE=`echo $OUTFILE | sed s/geogebra/GeoGebra/`
+ cat $i \
+  | sed s/"<$mv>[0-9\.]*<\/$mv>"/"<$p>jre<\/$p>"/ \
+  | sed s/"\(<launch4jConfig>\)"/"\\1<$of>$OUTFILE<\/$of>"/ \
+  | sed s/"\(<versionInfo>\)"/"\\1<$fv>$VERSION<\/$fv><$tfv>$VERSION<\/$tfv><$pv>$VERSION<\/$pv><$tpv>$VERSION<\/$tpv>"/ \
+  > portable-$i
+ cd launch4j
+ java -jar launch4j.jar ../portable-$i
+ cd ..
+ done
