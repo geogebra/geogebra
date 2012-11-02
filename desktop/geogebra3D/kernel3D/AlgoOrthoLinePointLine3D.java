@@ -38,7 +38,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoOrthoLinePointLine;
+        return Algos.AlgoOrthoLinePointLine3D;
     }
 
 

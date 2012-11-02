@@ -59,11 +59,12 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoPoint()))
 					&& (ok[1] = (arg[1] .isGeoLine()))) {
-				if (//check if at least one arg is 3D (else use super method)
+				if (//check if at least one arg is 3D
 						(arg[0].isGeoElement3D() || arg[1].isGeoElement3D())){
 					
 					//ensure backward compatibility
 					if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(App.getSubValues("4.9.68.0"))){
+						
 						GeoElement[] ret =
 				    		{
 				    				(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
@@ -92,7 +93,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 								(GeoLine) arg[1])};
 				return ret;
 				
-			}
+			    }
 			
 			// line through point orthogonal to conic
 			else if (
