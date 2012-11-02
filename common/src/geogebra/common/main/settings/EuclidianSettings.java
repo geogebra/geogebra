@@ -3,6 +3,7 @@ package geogebra.common.main.settings;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -56,6 +57,11 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public EuclidianSettings(EuclidianSettings euclidianSettings1) {
 		this.euclidianSettings1 = euclidianSettings1;
+		preferredSize = AwtFactory.prototype.newDimension(0,0);
+	}
+	public EuclidianSettings(){
+		this.euclidianSettings1 = null;
+		preferredSize = AwtFactory.prototype.newDimension(0,0);
 	}
 
 	/*
