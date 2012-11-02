@@ -32,58 +32,15 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    case 2 :
 	    	arg = resArgs(c);
 	    	if (
-	    			(ok[0] = (arg[0] .isGeoPoint() ) )
-	    			&& (ok[1] = (arg[1] instanceof GeoCoordSys2D ))
-	    	) {
+	    			(arg[0] .isGeoPoint()  )
+	    			&& (arg[1] instanceof GeoLineND )
+	    			) {
 	    		GeoElement[] ret =
-	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
-	    						c.getLabel(),
-	    						(GeoPointND) arg[0],
-	    						(GeoCoordSys2D) arg[1])};
-	    		return ret;
-	    	}else if (
-	    			//check if at least one arg is 3D (else use super method)
-	    			(arg[0].isGeoElement3D() || arg[1].isGeoElement3D())
-	    			&&
-	    			((ok[0] = (arg[0] .isGeoPoint() ) )
-	    			&& (ok[1] = (arg[1] instanceof GeoLineND )))
-	    	) {
-	    		GeoElement[] ret =
-	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
+	    			{
+	    				(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoLineND) arg[1])};
-	    		return ret;
-	    	}else if (
-	    			((ok[0] = (arg[0] instanceof GeoLineND ) )
-	    			&& (ok[1] = (arg[1] instanceof GeoLineND )))
-	    	) {
-	    		GeoElement[] ret =
-	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
-	    						c.getLabel(),
-	    						(GeoLineND) arg[0],
-	    						(GeoLineND) arg[1])};
-	    		return ret;
-	    	}
-	    	break;
-	    
-	    case 3 :
-	    	arg = resArgs(c);
-	    	if (
-	    			(ok[0] = (arg[0] .isGeoPoint() ) )
-	    			&& (ok[1] = (arg[1] instanceof GeoLineND ))
-	    			&& (ok[2] = (arg[2] instanceof GeoDirectionND ))
-	    	) {
-	    		GeoElement[] ret =
-	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
-	    						c.getLabel(),
-	    						(GeoPointND) arg[0],
-	    						(GeoLineND) arg[1],
-	    						(GeoDirectionND) arg[2])};
 	    		return ret;
 	    	}
 	    	break;

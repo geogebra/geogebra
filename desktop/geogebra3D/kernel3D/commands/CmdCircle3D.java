@@ -49,7 +49,7 @@ public class CmdCircle3D extends CmdCircle {
 		    							c.getLabel(),
 		    							(GeoPointND) arg[0],
 		    							(NumberValue) arg[1],
-		    							(GeoDirectionND) ((Kernel3D) kernelA).getXOYPlane())};
+		    							(GeoDirectionND) kernelA.getXOYPlane())};
 		    			return ret;
 
 		    		}else if(ok[1] = (arg[1] .isGeoPoint())){
@@ -59,7 +59,7 @@ public class CmdCircle3D extends CmdCircle {
 		    							c.getLabel(),
 		    							(GeoPointND) arg[0],
 		    							(GeoPointND) arg[1],
-		    							(GeoDirectionND) ((Kernel3D) kernelA).getXOYPlane())};
+		    							(GeoDirectionND) kernelA.getXOYPlane())};
 		    			return ret;
 
 		    		}

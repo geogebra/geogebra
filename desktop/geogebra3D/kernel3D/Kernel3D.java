@@ -99,6 +99,7 @@ public class Kernel3D extends Kernel {
 		return ((Construction3D) cons).getZAxis3D();
 	}
 
+	@Override
 	public GeoPlane3DConstant getXOYPlane() {
 		return ((Construction3D) cons).getXOYPlane();
 	}

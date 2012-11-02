@@ -116,7 +116,7 @@ public enum Algos {
 	AlgoMidpoint(Commands.Midpoint),
 	AlgoMidpointSegment(Commands.Midpoint),
 	AlgoMirror(Commands.Mirror),
-	AlgoOrthoLinePointLine(Commands.OrthogonalLine),
+	AlgoOrthoLinePointLine(Commands.OrthogonalLine3D),
 	AlgoOrthoLinePointVector(Commands.OrthogonalLine),
 	AlgoOrthoVectorLine(Commands.OrthogonalVector),
 	AlgoOrthoVectorVector(Commands.OrthogonalVector),

@@ -59,6 +59,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -78,7 +79,6 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -4455,6 +4455,14 @@ public class Kernel {
 
 	public AlgebraProcessor getAlgPForAsync() {
 		return algProcessor;
+	}
+	
+	/**
+	 * used in 3D
+	 * @return xOy plane
+	 */
+	public GeoCoordSys2D getXOYPlane() {
+		return null;
 	}
 	
 }
