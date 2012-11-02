@@ -72,7 +72,7 @@ cp *.dll unsigned
 # 2/3. Cleanup (removing all unnecessary .jar files):
 rm -fR META-INF
 for i in . unsigned; do
- rm -f $i/jogl1-*.jar $i/*-linux-*.jar $i/*-mac*.jar $i/*64*.jar
+ rm -f $i/jogl1-*.jar $i/*-linux-*.jar $i/*mac*.jar $i/*64*.jar $i/geogebra-map.txt
  done
 
 cd ..
