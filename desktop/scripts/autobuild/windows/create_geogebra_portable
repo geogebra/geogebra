@@ -66,7 +66,7 @@ cd "$WORKDIR"
 mv $SVNDIR/geogebra/desktop/installer/GeoGebra-*.exe .
 
 # 2/2. Unzipping the i586 version of JOGL1 DLLs:
-unzip -o -f jogl1-windows-i586.jar
+unzip -o jogl1-windows-i586.jar
 cp *.dll unsigned
 
 # 2/3. Cleanup (removing all unnecessary .jar files):
