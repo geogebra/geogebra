@@ -20,9 +20,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * Decides if the objects are equal.
+ * Can be embedded into the Prove command to work symbolically.
+ * This class should work exactly the same as the "==" operation. 
  * @author Simon Weitzhofer
  *  17th of may 2012
- * 
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoAreEqual extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
