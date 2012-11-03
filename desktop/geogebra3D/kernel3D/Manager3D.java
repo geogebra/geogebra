@@ -73,6 +73,8 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoPoint3D DependentPoint3D(String label, ExpressionNode root) {
 		AlgoDependentPoint3D algo = new AlgoDependentPoint3D(cons, label, root);
 		GeoPoint3D P = algo.getPoint3D();
+		P.setCartesian3D();
+		P.update();
 		return P;
 	}
 
