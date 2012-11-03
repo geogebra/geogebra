@@ -134,7 +134,7 @@ public class MySpecialDouble extends MyDouble {
 		if (!isLetterConstant) {
 			//serializing to CAS -- simply print input
 			if(tpl.hasType(StringType.MPREDUCE))
-				return originalString;
+				return originalString.replace("E", "e");
 			//if we are printing result of numeric and user didn't force us to use significant digits
 			//print the original string
 			if (keepOriginalString || (!tpl.useScientific(kernel.useSignificantFigures) && !strToString.contains("."))
