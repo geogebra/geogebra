@@ -17,9 +17,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * Decides if the lines are perpendicular.
+ * Can be embedded into the Prove command to work symbolically.
  * @author Simon Weitzhofer
  *  17th of May 2012
- * 
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoArePerpendicular extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {

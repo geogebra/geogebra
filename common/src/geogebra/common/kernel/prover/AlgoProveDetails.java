@@ -33,8 +33,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
- *
- * @author  Zoltan Kovacs <zoltan@geogebra.org>
+ * Algo for the ProveDetails command.
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoProveDetails extends AlgoElement {
 

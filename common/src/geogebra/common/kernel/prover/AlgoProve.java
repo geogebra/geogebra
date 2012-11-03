@@ -28,8 +28,8 @@ import geogebra.common.util.Prover.ProverEngine;
 import java.util.Date;
 
 /**
- *
- * @author  Zoltan Kovacs <zoltan@geogebra.org>
+ * Algo for the Prove command.
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoProve extends AlgoElement {
 

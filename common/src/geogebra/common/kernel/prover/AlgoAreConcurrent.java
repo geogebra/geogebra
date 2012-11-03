@@ -17,9 +17,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * Decides if the lines are concurrent.
+ * Can be embedded into the Prove command to work symbolically.
  * @author Simon Weitzhofer
- *         18th of May 2012
- *
+ *         18th April 2012
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoAreConcurrent extends AlgoElement implements SymbolicParametersAlgo,
 	SymbolicParametersBotanaAlgoAre {

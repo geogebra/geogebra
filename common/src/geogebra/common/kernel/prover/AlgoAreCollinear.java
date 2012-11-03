@@ -16,9 +16,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * Decides if the points are collinear.
+ * Can be embedded into the Prove command to work symbolically.
  * @author Simon Weitzhofer
  *         18th April 2012
- *
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersAlgo,
 	SymbolicParametersBotanaAlgoAre {

@@ -16,9 +16,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * Decides if the points are concyclic.
+ * Can be embedded into the Prove command to work symbolically.
  * @author Simon Weitzhofer
  *  27th of April 2012
- * 
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoAreConcyclic extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
