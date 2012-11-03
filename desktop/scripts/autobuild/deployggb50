@@ -110,7 +110,7 @@ cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows
 
 ### TODO: Copy the missing parts here from deployggb4* ###
 
-# 8. Copying the Windows installer version to Google Code:
+# 8. Copying the Windows installer and the Mac OS X version to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
  # A significant difference to 4.2 that we create the Windows installer here
@@ -122,16 +122,31 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
  # Running installer creator:
  cd $SVNDIR/geogebra/desktop
- ant -f installer.xml installer-clean installer-windows
+ ant -f installer.xml installer
  cd $SVNDIR/geogebra/desktop/build/installer
 
  # Copying to Google Code:
  WINDOWS_INSTALLER_EXE=GeoGebra-Windows-Installer-`echo $MYVER | tr . -`.exe
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_INSTALLER_EXE
- fi
 
-### TODO: Copy the missing parts here from deployggb4* ###
+ # Now dealing with the Mac OS X bundle...
+ MACOSX_ZIP=GeoGebra_`echo $MYVER | tr . -`.zip
+ # GeoGebra_3-9-209-0.zip -> GeoGebra-MacOS-Installer-3-9-209-0.zip (GeoGebra for Mac OSX)
+ MACOSX_ZIP_FINAL=GeoGebra-MacOS-Installer-`echo $MYVER | tr . -`.zip
+ test -r $MACOSX_ZIP_FINAL || mv $MACOSX_ZIP $MACOSX_ZIP_FINAL
+
+ # Signing on a remote Mac machine:
+ MACSIGN_LOGIN=$MACSIGN_USER@$MACSIGN_SERVER
+ ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "mkdir -p $MACSIGN_DIR"
+ scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACOSX_ZIP_FINAL $MACSIGN_LOGIN:$MACSIGN_DIR/.
+ ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "cd $MACSIGN_DIR; unzip -o $MACOSX_ZIP_FINAL; security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain; codesign -v -f -s \"$MACSIGN_DEVID\" GeoGebra.app; rm $MACOSX_ZIP_FINAL; zip -r $MACOSX_ZIP_FINAL GeoGebra.app"
+ scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
+
+ # Copying to Google Code:
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Featured $MACOSX_ZIP_FINAL
+ fi
 
 # 9/1. rsync-www on demand:
 if [ "$WWW_REMOTEDIR" != "" ]; then

@@ -238,14 +238,15 @@ read the following web pages:
 	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="installer/jarbundler-2.1.0.jar" />
 
 	<!-- creates a GeoGebra.app bundle for Mac OS X -->
+	<!-- By default we run the JOGL2 version. -->
 	<target name="installer-macosx" depends="readVersion">
 		<jarbundler
 				dir="${build.dir}/installer/macosx"
 				name="GeoGebra"
-				mainclass="geogebra.GeoGebra" 
-				jar="${build.dir}/unpacked/geogebra.jar"
+				mainclass="geogebra.GeoGebra3D" 
+				jar="${build.dir}/unpacked/geogebra-jogl2.jar"
 				build="${build}"
-				bundleid="geogebra.GeoGebra"
+				bundleid="geogebra.GeoGebra3D"
 				icon="installer/geogebra.icns"
 				infostring="GeoGebra ${fullversion}, (C) 2001-2012 International GeoGebra Institute"
 				jvmversion="1.5.0+"
@@ -254,8 +255,8 @@ read the following web pages:
 				stubfile="installer/JavaApplicationStub"
 				version="${version}">
 			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
-			<javafileset dir="${build.dir}/unpacked" />
-			<javafileset dir="${build.dir}/unsigned" includes="unpacked/*.jar" />
+			<javafileset dir="${build.dir}/unpacked" excludes="*-linux-*.jar,*-windows-*.jar,*-win.jar,*64.jar,openni.jar,geogebra-map.txt" />
+			<javafileset dir="${build.dir}/unsigned" includes="unpacked/*.jar" excludes="*-linux-*.jar,*-windows-*.jar,*-win.jar,*64.jar,openni.jar,geogebra-map.txt" />
 			<documenttype
 				name="GeoGebra File"
 				extensions="ggb"
