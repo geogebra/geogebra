@@ -2943,6 +2943,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
 		
 		if (!hitPoint) {
+			if (selCoordSys2D() == 0)
+				addSelectedLine(hits, 1, false);
 			if (selLines() == 0) 
 				addselectedCS2D(hits, 1, false);
 		}
