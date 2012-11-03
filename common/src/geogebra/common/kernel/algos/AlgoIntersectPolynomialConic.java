@@ -75,7 +75,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		
 		double[] A=c.matrix;
 		if (h.isPolynomialFunction(false)){
-			PolyFunction pf=h.getFunction().getNumericPolynomialDerivative(0);
+			PolyFunction pf=h.getFunction().getNumericPolynomialDerivative(0,false);
 			PolynomialFunction y=new PolynomialFunction(pf.getCoeffs());
 			PolynomialFunction r=new PolynomialFunction(new double[]{A[2],2*A[4],A[0]});
 			r=r.add(y.multiply(new PolynomialFunction(new double[]{2*A[5],2*A[3]})));

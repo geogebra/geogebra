@@ -105,7 +105,7 @@ public class AlgoDerivative extends AlgoCasBase {
 			Function inFun = ((GeoFunction)f).getFunction();
 
 			// check if it's a polynomial
-			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(order == null ? 1 : (int) Math.round(order.getDouble()));
+			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(order == null ? 1 : (int) Math.round(order.getDouble()),true);
 
 			// it it is...
 			if (polyDeriv != null) {

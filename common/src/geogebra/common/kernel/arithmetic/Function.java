@@ -418,12 +418,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @return derivative
 	 * 
 	 */
-	final public PolyFunction getNumericPolynomialDerivative(int n) {
+	final public PolyFunction getNumericPolynomialDerivative(int n,boolean skipCASfallback) {
 		// we expand the numerical expression of this function (all variables
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the derivative of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false,false);
+		PolyFunction poly = expandToPolyFunction(expression, false,skipCASfallback);
 		if (poly != null) { // we got a polynomial
 			for (int i = 0; i < n; i++) {
 				poly = poly.getDerivative();
@@ -445,7 +445,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the integral of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false,false);
+		PolyFunction poly = expandToPolyFunction(expression, false,true);
 		if (poly != null) { // we got a polynomial
 			poly = poly.getIntegral();
 
@@ -808,7 +808,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		
 		
 		 // check if it's a polynomial
-		 PolyFunction polyDeriv = getNumericPolynomialDerivative(n);
+		 PolyFunction polyDeriv = getNumericPolynomialDerivative(n,true);
 		 
 		 // it it is...
 		 if (polyDeriv != null) {
