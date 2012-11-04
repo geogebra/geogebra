@@ -6502,11 +6502,11 @@ public abstract class EuclidianController {
 			view.setToolTipText(null);
 			view.setDefaultCursor();
 		} else {
-			if (event.isShiftDown() && (hits.size() == 1)
-					&& (hits.get(0) instanceof GeoAxis)) {
-				if (((GeoAxis) hits.get(0)).getType() == GeoAxisND.X_AXIS) {
+			if ((event.isShiftDown() || mode == EuclidianConstants.MODE_TRANSLATEVIEW)
+				&& (hits.size() >= 1)) {
+				if (hits.hasXAxis()) {
 					view.setResizeXAxisCursor();
-				} else {
+				} else if (hits.hasYAxis()){
 					view.setResizeYAxisCursor();
 				}
 			} else {
@@ -7554,7 +7554,7 @@ public abstract class EuclidianController {
 	
 		case MOVE_VIEW:
 			if (repaint) {
-				if (temporaryMode) {
+				if (temporaryMode && mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
 					view.setMoveCursor();
 				}
 				/*
@@ -8273,13 +8273,11 @@ public abstract class EuclidianController {
 		}
 	
 		startLoc = mouseLoc;
-		if (!temporaryMode) {
-			if (moveMode == MOVE_VIEW) {
-				view.setMoveCursor();
-			} else {
-				view.setDragCursor();
-			}
+
+		if (moveMode == MOVE_VIEW) {
+			view.setDragCursor();
 		}
+		
 	
 		// xZeroOld = view.getXZero();
 		// yZeroOld = view.getYZero();
@@ -8557,6 +8555,11 @@ public abstract class EuclidianController {
 			temporaryMode = true;
 			oldMode = mode; // remember current mode
 			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+			
+			// if over an axis, force the correct cursor to be displayed
+			if(view.getHits().hasXAxis() || view.getHits().hasYAxis()){
+				processMouseMoved(event);
+			}
 		}
 
 		switchModeForMousePressed(event);

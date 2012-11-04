@@ -163,8 +163,12 @@ public class EuclidianViewD extends EuclidianViewND implements
 	}
 
 	public void setDragCursor() {
+		
+		if(getMode() == EuclidianConstants.MODE_TRANSLATEVIEW){
+			setGrabbingCursor();
+		}
 
-		if (getApplication().useTransparentCursorWhenDragging) {
+		else if (getApplication().useTransparentCursorWhenDragging) {
 			setCursor(getApplication().getTransparentCursor());
 		} else {
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -176,7 +180,6 @@ public class EuclidianViewD extends EuclidianViewND implements
 	public void setTransparentCursor() {
 
 		setCursor(getApplication().getTransparentCursor());
-
 	}
 
 	@Override
@@ -198,6 +201,11 @@ public class EuclidianViewD extends EuclidianViewND implements
 		setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
 	}
 
+	public void setGrabbingCursor() {
+		setCursor(getCursorForImage(getApplication()
+				.getInternalImage("cursor_grabbing.gif")));
+	}
+	
 	public void setHitCursor() {
 		if (defaultCursor == null) {
 			setCursor(Cursor.getDefaultCursor());
@@ -227,6 +235,11 @@ public class EuclidianViewD extends EuclidianViewND implements
 		case EuclidianConstants.MODE_ZOOM_OUT:
 			defaultCursor = getCursorForImage(getApplication()
 					.getInternalImage("cursor_zoomout.gif"));
+			break;
+
+		case EuclidianConstants.MODE_TRANSLATEVIEW:
+			defaultCursor = getCursorForImage(getApplication()
+					.getInternalImage("cursor_grab.gif"));
 			break;
 		}
 

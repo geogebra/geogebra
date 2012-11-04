@@ -13,11 +13,13 @@ package geogebra.common.euclidian;
 
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
+import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
@@ -39,6 +41,7 @@ public class Hits extends ArrayList<GeoElement> {
 	private int listCount;
 	private int polyCount;
 	private int imageCount;
+	private boolean hasXAxis, hasYAxis;
 
 	/** init the hits */
 	public void init(){
@@ -46,6 +49,8 @@ public class Hits extends ArrayList<GeoElement> {
 		listCount = 0;
 		polyCount = 0;
 		imageCount = 0;
+		hasXAxis = false;
+		hasYAxis = false;
 	}
 	//Can't override and GWT don't support CLONE anyway.
 	@SuppressWarnings("all")
@@ -59,7 +64,9 @@ public class Hits extends ArrayList<GeoElement> {
 		ret.listCount = this.listCount;
 		ret.polyCount = this.polyCount;
 		ret.imageCount = this.imageCount;
-
+		ret.hasXAxis = this.hasXAxis;
+		ret.hasYAxis = this.hasYAxis;
+		
 		return ret;
 	} 
 	
@@ -73,18 +80,26 @@ public class Hits extends ArrayList<GeoElement> {
 	
 	/** adding specifics GeoElements */
 	@Override
-	public boolean add(GeoElement geo){
-		
-		if (!geo.isSelectionAllowed()) return false;
-		
+	public boolean add(GeoElement geo) {
+
+		if (!geo.isSelectionAllowed())
+			return false;
+
 		if (geo.isGeoList()) {
 			listCount++;
 		} else if (geo.isGeoImage()) {
 			imageCount++;
 		} else if (geo.isGeoPolygon()) {
 			polyCount++;
-		} 
-		return super.add(geo);		
+
+		} else if (geo instanceof GeoAxis) {
+			if (((GeoAxis) geo).getType() == GeoAxisND.X_AXIS) {
+				hasXAxis = true;
+			} else {
+				hasYAxis = true;
+			}
+		}
+		return super.add(geo);
 	}
 	
 
@@ -101,6 +116,19 @@ public class Hits extends ArrayList<GeoElement> {
 	public int getListCount(){
 		return listCount;
 	}	
+	
+	/**
+	 * @return true if x axis is hit
+	 */
+	public boolean hasXAxis(){
+		return hasXAxis;
+	}
+	/**
+	 * @return true if y axis is hit
+	 */
+	public boolean hasYAxis(){
+		return hasYAxis;
+	}
 	
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).

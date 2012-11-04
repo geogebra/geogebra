@@ -1372,11 +1372,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		// look for axis
 		if (hits.getImageCount() == 0) {
-			if (showAxes[0] && (Math.abs(getyZero() - p.y) < 3)) {
-				hits.add(kernel.getXAxis());
+			// x axis hit
+			if (showAxes[0] && (Math.abs(getYAxisCrossingPixel() - p.y) < 3)) {
+				// handle positive axis only
+				if (!positiveAxes[0] || (getXAxisCrossingPixel() < p.x - 3)) {
+					hits.add(kernel.getXAxis());
+				}
 			}
-			if (showAxes[1] && (Math.abs(getxZero() - p.x) < 3)) {
-				hits.add(kernel.getYAxis());
+			// y axis hit
+			if (showAxes[1] && (Math.abs(getXAxisCrossingPixel() - p.x) < 3)) {
+				// handle positive axis only
+				if (!positiveAxes[1] || (getYAxisCrossingPixel() > p.y - 3)) {
+					hits.add(kernel.getYAxis());
+				}
 			}
 		}
 
@@ -2946,7 +2954,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 										: ""), getFontAxes(), frc);
 		return layout.getAdvance();
 	}
-
+	
+	
+	private double getXAxisCrossingPixel(){
+		return getxZero() + (axisCross[1] * getXscale());
+	}
+	private double getYAxisCrossingPixel(){
+		return this.getyZero() - (axisCross[0] * getYscale());
+	}
+	
 	/**
 	 * Draws axes
 	 * 
@@ -2956,10 +2972,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	protected void drawAxes(geogebra.common.awt.GGraphics2D g2) {
 
 		// xCrossPix: yAxis crosses the xAxis at this x pixel
-		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
+		double xCrossPix = getXAxisCrossingPixel();
 
-		// yCrossPix: xAxis crosses the YAxis at his y pixel
-		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
+		// yCrossPix: xAxis crosses the yAxis at this y pixel
+		double yCrossPix = getYAxisCrossingPixel();
 
 		// yAxis end value (for drawing half-axis)
 		int yAxisEnd = positiveAxes[1] ? (int) yCrossPix : getHeight();
