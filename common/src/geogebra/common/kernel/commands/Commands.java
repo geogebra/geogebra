@@ -44,7 +44,7 @@ public enum Commands implements CommandsConstants{
    	Intersect(TABLE_GEOMETRY), IntersectRegion(TABLE_GEOMETRY), Distance(TABLE_GEOMETRY), Length(TABLE_GEOMETRY),
    	Radius(TABLE_GEOMETRY), CircleArc(TABLE_GEOMETRY), Arc(TABLE_GEOMETRY), Sector(TABLE_GEOMETRY),
    	CircleSector(TABLE_GEOMETRY), CircumcircleSector(TABLE_GEOMETRY), CircumcircleArc(TABLE_GEOMETRY), Polygon(TABLE_GEOMETRY),
-   	RigidPolygon(TABLE_GEOMETRY), Area(TABLE_GEOMETRY), Union(TABLE_GEOMETRY), Circumference(TABLE_GEOMETRY),
+   	RigidPolygon(TABLE_GEOMETRY), Area(TABLE_GEOMETRY), Circumference(TABLE_GEOMETRY),
    	Perimeter(TABLE_GEOMETRY), Locus(TABLE_GEOMETRY), Centroid(TABLE_GEOMETRY), TriangleCenter(TABLE_GEOMETRY), Barycenter(TABLE_GEOMETRY), Trilinear(TABLE_GEOMETRY), Cubic(TABLE_GEOMETRY), 
    	TriangleCurve(TABLE_GEOMETRY),Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
    	CrossRatio(TABLE_GEOMETRY), ClosestPoint(TABLE_GEOMETRY),
@@ -99,7 +99,7 @@ public enum Commands implements CommandsConstants{
    	Sequence(TABLE_LIST), SelectedElement(TABLE_LIST), SelectedIndex(TABLE_LIST), RandomElement(TABLE_LIST),
    	Product(TABLE_LIST), Frequency(TABLE_LIST), Unique(TABLE_LIST), Classes(TABLE_LIST),
    	Zip(TABLE_LIST), Intersection(TABLE_LIST),
-   	PointList(TABLE_LIST), OrdinalRank(TABLE_LIST), TiedRank(TABLE_LIST),
+   	PointList(TABLE_LIST), OrdinalRank(TABLE_LIST), TiedRank(TABLE_LIST), Union(TABLE_LIST), 
    	
 	//=============================================================
 	// charts
