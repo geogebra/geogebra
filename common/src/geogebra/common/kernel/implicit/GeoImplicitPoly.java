@@ -21,6 +21,7 @@ package geogebra.common.kernel.implicit;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MacroConstruction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -1320,7 +1321,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		 * @param resolution gives the area covered by one "pixel" of the screen
 		 */
 		public void updatePath(double rectX,double rectY,double rectW,double rectH,double resolution){
-			if (!calcPath) //important for helper curves, which aren't visible
+			if (!calcPath || cons instanceof MacroConstruction) //important for helper curves, which aren't visible
 				return;
 			
 			locus.clearPoints();
