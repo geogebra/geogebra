@@ -677,9 +677,9 @@ final public class GeoVec2D extends ValidExpression implements
 	 * @param c
 	 *            result
 	 */
-	final public static void complexPower(GeoVec2D a, NumberValue b, GeoVec2D c) {
+	final public static void complexPower(GeoVec2D a, NumberValue b, GeoVec2D c) {		
 		Complex out = new Complex(a.x, a.y);
-		out = out.pow(new Complex(b.getDouble(), 0));
+		out = out.log().multiply(b.getDouble()).exp();
 		c.x = out.getReal();
 		c.y = out.getImaginary();
 		c.setMode(Kernel.COORD_COMPLEX);

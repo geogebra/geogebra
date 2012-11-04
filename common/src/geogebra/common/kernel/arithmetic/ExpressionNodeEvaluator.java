@@ -2014,16 +2014,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// throw new MyError(app, str);
 		// }
 		vec = ((VectorValue) lt).getVector();
-		num = ((NumberValue) rt).getNumber();
 
 		if (vec.getMode() == Kernel.COORD_COMPLEX) {
 
 			// complex power
-
-			GeoVec2D.complexPower(vec, num, vec);
+			GeoVec2D.complexPower(vec, ((NumberValue) rt), vec);
 			return vec;
 
 		}
+		num = ((NumberValue) rt).getNumber();
 		// inner/scalar/dot product
 		if (num.getDouble() == 2.0) {
 			GeoVec2D.inner(vec, vec, num);
