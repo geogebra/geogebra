@@ -73,7 +73,6 @@ public class AlgoAreEqual extends AlgoElement implements
 		setDependencies(); // done by AlgoElement
 	}
 
-
 	/**
 	 * Gets the result of the test
 	 * @return true if the objects are equal and false otherwise
