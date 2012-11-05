@@ -85,38 +85,43 @@ public abstract class AbstractProverReciosMethod {
 		}
 		
 		it = fixedVariables.iterator();
-		int nrOfFixedCoordinates=0;
+		int nrOfFixedPoints=0;
 		GeoElement fixedElement1=null, fixedElement2=null;
 		while (it.hasNext()){
 			Variable var;
-			if (nrOfFixedCoordinates==0){
+			if (nrOfFixedPoints==0){
 				var = it.next();
 				values.put(var, BigInteger.ZERO);
 				values.put(it.next(), BigInteger.ZERO);
 				fixedElement1=var.getParent();
-				nrOfFixedCoordinates=1;
-			} else if (nrOfFixedCoordinates==1){
+				nrOfFixedPoints=1;
+			} else if (nrOfFixedPoints==1){
 				var = it.next();
 				values.put(var, BigInteger.ZERO);
 				values.put(it.next(), BigInteger.ONE);
 				fixedElement2=var.getParent();
-				nrOfFixedCoordinates=2;
+				nrOfFixedPoints=2;
 			} else {
 				freeVariables.add(it.next());
 			}
 		}
 		
-		if (nrOfFixedCoordinates==1){
+		if (nrOfFixedPoints==1){
 			fixedPoints=new GeoElement[1];
 			fixedPoints[0]=fixedElement1;
-		} else if (nrOfFixedCoordinates==2){
+		} else if (nrOfFixedPoints==2){
 			fixedPoints=new GeoElement[2];
 			fixedPoints[0]=fixedElement1;
 			fixedPoints[1]=fixedElement2;
 		}
 		
 		int nrFreeVariables=freeVariables.size();
-		if (nrOfFixedCoordinates==2 && nrFreeVariables<=2){
+
+		/* We always set the NDG condition if there are
+		 * exactly two fixed points. I hope this is OK now
+		 * (reported by Noel Lambert as a bug).
+		 */
+		if (nrOfFixedPoints==2 /* && nrFreeVariables<=2 */){
 			NDGCondition ndg = new NDGCondition();
 			ndg.setCondition("AreEqual");
 			GeoElement[] geos = { fixedElement1, fixedElement2 };
