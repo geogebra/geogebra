@@ -238,7 +238,11 @@ public class SpreadsheetMouseListener implements
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
 					GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
-					if (point != null) {
+					if (point != null &&
+						(point.getX() != editor.column || point.getY() != editor.row)) {
+						// in Web, it's necessary to distinguish the editor row and column
+						// because the event is not catched and not taken by the textfield
+
 						int column = point.getX();
 						int row = point.getY();
 						GeoElement geo = RelativeCopy

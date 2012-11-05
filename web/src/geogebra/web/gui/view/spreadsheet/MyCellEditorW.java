@@ -370,7 +370,6 @@ public class MyCellEditorW implements BaseCellEditor {
 
 				// Application.debug("UP");
 				stopCellEditing(0, -1);
-				editing = false;
 				//?//e.consume();
 				tabReturnCol = -1;
 				break;
@@ -385,7 +384,6 @@ public class MyCellEditorW implements BaseCellEditor {
 				if (tabReturnCol == -1)
 					tabReturnCol = column;
 				stopCellEditing(e.isShiftKeyDown() ? -1 : 1, 0);
-				editing = false;
 
 				break;
 
@@ -398,7 +396,6 @@ public class MyCellEditorW implements BaseCellEditor {
 					if (tabReturnCol != -1) {
 						int colOffset = tabReturnCol - column;
 						stopCellEditing(colOffset, 1);
-						editing = false;
 					} else {
 						stopCellEditing(0, 1);
 					}
@@ -417,7 +414,6 @@ public class MyCellEditorW implements BaseCellEditor {
 				}
 				// Application.debug("DOWN");
 				stopCellEditing(0, 1);
-				editing = false;
 				tabReturnCol = -1;
 				break;
 
@@ -428,9 +424,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == 0) {
 					stopCellEditing(-1, 0);
-					editing = false;
 				}
-				editing = false;
 				tabReturnCol = -1;
 				break;
 
@@ -441,10 +435,8 @@ public class MyCellEditorW implements BaseCellEditor {
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == text.length()) {
 					stopCellEditing(1, 0);
-					editing = false;
 				}
 
-				editing = false;
 				tabReturnCol = -1;
 				break;
 
