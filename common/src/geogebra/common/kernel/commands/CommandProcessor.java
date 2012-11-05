@@ -363,7 +363,8 @@ public abstract class CommandProcessor {
 		else
 			sb.setLength(0);
 		getCommandSyntax(sb, app1, cmd, argNumber);
-		return new MyError(app1, sb.toString(), cmd);
+		App.debug(getClass().getName());
+		return new MyError(app1, sb.toString(), cmd);		
 	}
 
 	/**
