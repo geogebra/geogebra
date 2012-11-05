@@ -10,8 +10,8 @@ import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -319,7 +319,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	// so we can return to that column when <enter> pressed
 	public static int tabReturnCol = -1;
 
-	public class SpreadsheetCellEditorKeyListener implements KeyUpHandler {
+	public class SpreadsheetCellEditorKeyListener implements KeyDownHandler {
 
 		// boolean escape = false;
 		boolean isFormulaBarListener;
@@ -328,8 +328,12 @@ public class MyCellEditorW implements BaseCellEditor {
 			this.isFormulaBarListener = isFormulaBarListener;
 		}
 
-		public void onKeyUp(KeyUpEvent e) {
-			//App.debug("Computer was here");
+		public void onKeyDown(KeyDownEvent e) {
+
+			// stopping propagation is needed to prevent
+			// the prevention of the default action at another place
+			e.stopPropagation();
+
 			checkCursorKeys(e);
 			int keyCode = e.getNativeKeyCode();
 
@@ -353,7 +357,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			}
 		}
 
-		public void checkCursorKeys(KeyUpEvent e) {
+		public void checkCursorKeys(KeyDownEvent e) {
 
 			String text = textField.getText();//?// (String) delegate.getCellEditorValue();
 

@@ -2,6 +2,7 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.web.main.AppW;
 

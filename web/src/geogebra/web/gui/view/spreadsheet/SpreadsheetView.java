@@ -137,7 +137,7 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 		table = new MyTableW(this, tableModel);
 
 		spreadsheet = new ScrollPanel(table);
-		//TODO//addKeyDownHandler(new SpreadsheetKeyListener(app, table));
+		addKeyDownHandler(new SpreadsheetKeyListener(app, table));
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
