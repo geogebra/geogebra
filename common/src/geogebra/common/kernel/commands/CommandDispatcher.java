@@ -295,9 +295,9 @@ public class CommandDispatcher {
 	 */
 	public CommandProcessor commandTableSwitch(String cmdName) {
 		try {
-
+			
 			Commands command = Commands.valueOf(cmdName);
-
+			App.debug(command.name());
 			switch (command) {
 
 			
