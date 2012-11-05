@@ -10,8 +10,8 @@ import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -61,10 +61,10 @@ public class MyCellEditorW implements BaseCellEditor {
 
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
-		textField = new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false);
+		SpreadsheetCellEditorKeyListener sl = new SpreadsheetCellEditorKeyListener(false);
+		textField = new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false, sl);
 		textField.setAutoComplete(enableAutoComplete);
 
-		textField.getTextBox().addKeyDownHandler(new SpreadsheetCellEditorKeyListener(false));
 		//?//textField.addFocusListener(this);
 
 		/*DocumentListener documentListener = new DocumentListener() {
@@ -319,7 +319,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	// so we can return to that column when <enter> pressed
 	public static int tabReturnCol = -1;
 
-	public class SpreadsheetCellEditorKeyListener implements KeyDownHandler {
+	public class SpreadsheetCellEditorKeyListener implements KeyUpHandler {
 
 		// boolean escape = false;
 		boolean isFormulaBarListener;
@@ -328,7 +328,8 @@ public class MyCellEditorW implements BaseCellEditor {
 			this.isFormulaBarListener = isFormulaBarListener;
 		}
 
-		public void onKeyDown(KeyDownEvent e) {
+		public void onKeyUp(KeyUpEvent e) {
+			//App.debug("Computer was here");
 			checkCursorKeys(e);
 			int keyCode = e.getNativeKeyCode();
 
@@ -352,7 +353,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			}
 		}
 
-		public void checkCursorKeys(KeyDownEvent e) {
+		public void checkCursorKeys(KeyUpEvent e) {
 
 			String text = textField.getText();//?// (String) delegate.getCellEditorValue();
 

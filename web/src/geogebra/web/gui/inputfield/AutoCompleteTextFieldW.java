@@ -110,12 +110,12 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	   * 
 	   */
 	  public AutoCompleteTextFieldW(int columns, App app) {
-	    this(columns, (AppW) app, true);
+	    this(columns, (AppW) app, true, null);
 	  }
 	  
 	  public AutoCompleteTextFieldW(int columns, AppW app,
-		      boolean handleEscapeKey) {
-		    this(columns, app, handleEscapeKey, app.getCommandDictionary());
+		      boolean handleEscapeKey, KeyUpHandler kuh) {
+		    this(columns, app, handleEscapeKey, app.getCommandDictionary(), kuh);
 		    // setDictionary(app.getAllCommandsDictionary());
 	  }
 	  
@@ -126,7 +126,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 
 	  public AutoCompleteTextFieldW(int columns, AppW app,
-		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
+		      boolean handleEscapeKey, AutoCompleteDictionary dict, KeyUpHandler kuh) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
 		  textField = new SuggestBox(completionsPopup = new CompletionsPopup(),new TextBox(), new SuggestBox.DefaultSuggestionDisplay());
@@ -188,18 +188,21 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 		    //CommandCompletionListCellRenderer cellRenderer = new CommandCompletionListCellRenderer();
 		    completionsPopup.addTextField(this);
-		    
+
 		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
-		    textField.getTextBox().addKeyDownHandler(this);
-		    textField.getTextBox().addKeyUpHandler(this);
-		    textField.getTextBox().addKeyPressHandler(this);
+		    if (kuh == null) {
+		    	textField.getTextBox().addKeyDownHandler(this);
+		    	textField.getTextBox().addKeyUpHandler(this);
+		    	textField.getTextBox().addKeyPressHandler(this);
+		    } else {
+		    	textField.getTextBox().addKeyUpHandler(kuh);
+		    }
 		    textField.addValueChangeHandler(this);
 		    textField.addSelectionHandler(this);
-		    
-		   
+
 		    init();
 	}
-	
+
 	private void init(){
 		textField.getTextBox().addMouseUpHandler(new MouseUpHandler(){
 			public void onMouseUp(MouseUpEvent event) {
