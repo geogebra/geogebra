@@ -24,13 +24,13 @@ public class GGWSpreadsheetView extends ResizeComposite {
 	private static GGWSpreadsheetViewUiBinder uiBinder = GWT
 	        .create(GGWSpreadsheetViewUiBinder.class);
 
-	interface GGWSpreadsheetViewUiBinder extends UiBinder<Widget, GGWSpreadsheetView> {
+	interface GGWSpreadsheetViewUiBinder extends UiBinder<AbsolutePanelSmart, GGWSpreadsheetView> {
 	}
 	
 	/**
 	 * 
 	 */
-	@UiField AbsolutePanel tempsheet0;
+	@UiField AbsolutePanelSmart tempsheet0;
 	SpreadsheetView1 spreadsheetview = null;
 
 	public GGWSpreadsheetView() {

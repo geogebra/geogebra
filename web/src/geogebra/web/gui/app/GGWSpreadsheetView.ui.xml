@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:web="urn:import:geogebra.web.gui.app">
 	<ui:style>
 	</ui:style>
-	<g:AbsolutePanel ui:field="tempsheet0">
+	<web:AbsolutePanelSmart ui:field="tempsheet0">
 		<web:SpreadsheetView1 ui:field="spreadsheetview"></web:SpreadsheetView1>
-	</g:AbsolutePanel> 
+	</web:AbsolutePanelSmart> 
 </ui:UiBinder>
