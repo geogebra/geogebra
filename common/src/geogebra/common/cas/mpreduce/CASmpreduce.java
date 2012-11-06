@@ -40,6 +40,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					+ "ggbtmpvarl, ggbtmpvarm, ggbtmpvarn, ggbtmpvaro, ggbtmpvarp, "
 					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
 					+ "ggbtmpvarv, ggbtmpvarw");
+	private boolean initialized = false;
 
 	/**
 	 * We escape any upper-letter words so Reduce doesn't switch them to /
@@ -109,6 +110,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		exp = sb.toString();
 		App.debug("MPReduce eval: " + exp);
+		if (!initialized) {
+			// TODO: This looks quite ugly, but seems to work well at the moment.
+			// Gabor suggest to use jquery + callback here instead to make
+			// sure this code will surely run BEFORE the big CPU heavy
+			// initialization.
+			App.showAnnouncement("CAS initializing, please wait...");
+			initialized = true;
+		}
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -409,6 +418,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	protected static final void initStaticMyMPReduceFunctions(Evaluate mpreduce1)
 			throws Throwable {
 		App.debug("Loading packages...");
+
 		String[] packages = { "rsolve", "numeric", "odesolve",
 				"defint", "linalg", "reset", "taylor", "groebner", "trigsimp",
 				"polydiv", "myvector", "specfn"};
@@ -1498,6 +1508,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "first(mymainvars(a,1));");
 		
 		App.debug("Initial procedures in Reduce have been defined");
+		App.hideAnnouncement();
 		
 	}
 

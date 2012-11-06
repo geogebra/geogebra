@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * GeoGebraLogger implementation for the web platform
@@ -18,6 +20,8 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	public GeoGebraLogger() {
 	}
 
+	PopupPanel announcementPopup;
+	
 	@Override
 	protected String getTimeInfo() {
 		Date date = new Date();
@@ -53,4 +57,31 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	private native void printWebConsole(String s) /*-{
 		$wnd.console.log(s);
 		}-*/;
+	
+	
+	@Override
+    public void showAnnouncement(String message) {
+		if (announcementPopup != null) {
+			return;
+			// First it must be hidden.
+		}
+        log(INFO, "Announcement: " + message);
+        hideAnnouncement();
+		announcementPopup = new PopupPanel();
+	    announcementPopup.ensureDebugId("announcement");
+	    announcementPopup.setWidth("400px");
+	    announcementPopup.setWidget(
+	        new HTML(message));
+        announcementPopup.setPopupPosition(400, 0);
+        announcementPopup.show();
+	}
+	
+	@Override
+    public void hideAnnouncement() {
+		if (announcementPopup != null) {
+			announcementPopup.removeFromParent();
+			announcementPopup.hide();
+			announcementPopup = null;
+		}
+	}
 }

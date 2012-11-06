@@ -252,6 +252,12 @@ public abstract class GeoGebraLogger {
 		return "";
 		// Implementation overrides this in some applications.  
 	}
+
+	public void showAnnouncement(String message) {
+	}
+	
+	public void hideAnnouncement() {
+	}
 	
 	/**
 	 * Returns some memory related information (for debugging)

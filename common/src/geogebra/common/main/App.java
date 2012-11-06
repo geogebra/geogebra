@@ -1945,6 +1945,14 @@ public abstract class App {
 			debug(s.toString());
 		}
 	}
+	
+	public static void showAnnouncement(String message) {
+		logger.showAnnouncement(message);
+	}
+
+	public static void hideAnnouncement() {
+		logger.hideAnnouncement();
+	}
 
 	/**
 	 * Prints debugging message, level DEBUG
