@@ -137,7 +137,8 @@ public class AlgoZip extends AlgoElement {
 		if (updateRunning)
 			return;
 		updateRunning = true;
-		for (int i = 1; i < input.length; i++) {
+		//only set undefined when some *input list* is undefined
+		for (int i = 2; i < input.length; i+=2) {
 			if (!input[i].isDefined()) {
 				list.setUndefined();
 				updateRunning = false;
