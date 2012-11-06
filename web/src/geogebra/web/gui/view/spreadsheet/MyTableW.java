@@ -23,6 +23,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.web.awt.GBasicStrokeW;
+import geogebra.web.awt.GRectangleW;
 //import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.web.main.AppW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -1101,18 +1102,22 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		return new GPoint(indexX, indexY);
 	}
 
-	/*
-	 * public GRectangle getCellBlockRect(int column1, int row1, int column2,
-	 * int row2, boolean includeSpacing) { GRectangle r1 = getCellRect(row1,
-	 * column1, includeSpacing); GRectangle r2 = getCellRect(row2, column2,
-	 * includeSpacing); r1.setBounds((int)r1.getX(), (int)r1.getY(),
-	 * (int)((r2.getX() - r1.getX()) + r2.getWidth()), (int)((r2.getY() -
-	 * r1.getY()) + r2.getHeight())); return r1; }
-	 * 
-	 * public Rectangle getSelectionRect(boolean includeSpacing) { return
-	 * getCellBlockRect(minSelectionColumn, minSelectionRow, maxSelectionColumn,
-	 * maxSelectionRow, includeSpacing); }
-	 */
+	public GRectangle getCellRect(int row, int column, boolean spacing) {
+		GPoint min = getPixel(column, row, true);
+		GPoint max = getPixel(column, row, false);
+		return new GRectangleW(min.x, min.y, max.x-min.x, max.y-min.y);
+	}
+
+	public GRectangle getCellBlockRect(int column1, int row1, int column2, int row2, boolean includeSpacing) {
+		GRectangle r1 = getCellRect(row1, column1, includeSpacing);
+		GRectangle r2 = getCellRect(row2, column2, includeSpacing);
+		r1.setBounds((int)r1.getX(), (int)r1.getY(), (int)((r2.getX() - r1.getX()) + r2.getWidth()), (int)((r2.getY() - r1.getY()) + r2.getHeight()));
+		return r1;
+	}
+
+	public GRectangle getSelectionRect(boolean includeSpacing) {
+		return getCellBlockRect(minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow, includeSpacing);
+	}
 
 	// target selection frame
 	// =============================

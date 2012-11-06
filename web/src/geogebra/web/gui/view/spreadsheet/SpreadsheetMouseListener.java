@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -9,6 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.main.SpreadsheetTableModel;
+import geogebra.web.awt.GRectangle2DW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
@@ -545,7 +547,7 @@ public class SpreadsheetMouseListener implements
 			}
 
 			// handle dot drag
-			/*TODO if (table.isDragingDot) {
+			if (table.isDragingDot) {
 
 				//?//e.consume();
 				int mouseX = e.getX();
@@ -563,7 +565,7 @@ public class SpreadsheetMouseListener implements
 				} else {
 					table.dragingToRow = mouseCell.getY();
 					table.dragingToColumn = mouseCell.getX();
-					Rectangle selRect = table.getSelectionRect(true);
+					GRectangle selRect = table.getSelectionRect(true);
 
 					// increase size if we're at the bottom of the spreadsheet
 					if (table.dragingToRow + 1 == table.getRowCount()
@@ -575,51 +577,50 @@ public class SpreadsheetMouseListener implements
 					if (table.dragingToColumn + 1 == table.getColumnCount()
 							&& table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS) {
 						model.setColumnCount(table.getColumnCount() + 1);
-						view.getColumnHeader().revalidate();
+						view.columnHeaderRevalidate();
 						// Java's addColumn method will clear selection, so
 						// re-select our cell
 						table.setSelection(oldSelection);
 					}
 
 					// scroll to show "highest" selected cell
-					table.scrollRectToVisible(table.getCellRect(mouseCell.y,
-							mouseCell.x, true));
+					//TODO//table.scrollRectToVisible(table.getCellRect(mouseCell.y, mouseCell.x, true));
 
-					if (!selRect.contains(e.getPoint())) {
+					if (!selRect.contains(p.getX(), p.getY())) {
 
 						int rowOffset = 0, colOffset = 0;
 
 						// get row distance
 						if (table.minSelectionRow > 0
 								&& table.dragingToRow < table.minSelectionRow) {
-							rowOffset = mouseY - selRect.y;
+							rowOffset = mouseY - (int)selRect.getY();
 							if (-rowOffset < 0.5 * table.getCellRect(
 									table.minSelectionRow - 1,
-									table.minSelectionColumn, true).height)
+									table.minSelectionColumn, true).getHeight())
 								rowOffset = 0;
 						} else if (table.maxSelectionRow < Kernel.MAX_SPREADSHEET_ROWS
 								&& table.dragingToRow > table.maxSelectionRow) {
-							rowOffset = mouseY - (selRect.y + selRect.height);
+							rowOffset = mouseY - ((int)selRect.getY() + (int)selRect.getHeight());
 							if (rowOffset < 0.5 * table.getCellRect(
 									table.maxSelectionRow + 1,
-									table.maxSelectionColumn, true).height)
+									table.maxSelectionColumn, true).getHeight())
 								rowOffset = 0;
 						}
 
 						// get column distance
 						if (table.minSelectionColumn > 0
 								&& table.dragingToColumn < table.minSelectionColumn) {
-							colOffset = mouseX - selRect.x;
+							colOffset = mouseX - (int)selRect.getX();
 							if (-colOffset < 0.5 * table.getCellRect(
 									table.minSelectionRow,
-									table.minSelectionColumn - 1, true).width)
+									table.minSelectionColumn - 1, true).getWidth())
 								colOffset = 0;
 						} else if (table.maxSelectionColumn < Kernel.MAX_SPREADSHEET_COLUMNS
 								&& table.dragingToColumn > table.maxSelectionColumn) {
-							colOffset = mouseX - (selRect.x + selRect.width);
+							colOffset = mouseX - ((int)selRect.getX() + (int)selRect.getWidth());
 							if (colOffset < 0.5 * table.getCellRect(
 									table.maxSelectionRow,
-									table.maxSelectionColumn + 1, true).width)
+									table.maxSelectionColumn + 1, true).getWidth())
 								colOffset = 0;
 						}
 
@@ -640,12 +641,12 @@ public class SpreadsheetMouseListener implements
 
 					// handle ctrl-select dragging of cell blocks
 					else {
-						if (e.isControlDown()) {
+						/*TODO if (e.isControlDown()) {
 							table.handleControlDragSelect(e);
-						}
+						}*/
 					}
 				}
-			}*/
+			}
 
 
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
@@ -666,62 +667,59 @@ public class SpreadsheetMouseListener implements
 					table.repaint();
 				}
 			}
+		} else {
+			// MOVE, NO DRAG
+
+			if (table.isEditing())
+				return;
+
+			// get GeoElement at mouse location
+			int row = p.getY();//?//table.rowAtPoint(e.getPoint());
+			int col = p.getX();//?//table.columnAtPoint(e.getPoint());
+			GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
+
+			// set tooltip with geo's description
+			if (geo != null & view.getAllowToolTips()) {
+				app.setTooltipFlag();
+				//TODO//table.setToolTipText(geo.getLongDescriptionHTML(true, true));
+				app.clearTooltipFlag();
+			} else {
+				//TODO//table.setToolTipText(null);
+			}
+
+			// check if over the dragging dot and update accordingly
+			GPoint maxPoint = table.getMaxSelectionPixel();
+			GPoint minPoint = table.getMinSelectionPixel();
+
+			if (maxPoint != null) {
+				int dotX = maxPoint.getX();
+				int dotY = maxPoint.getY();
+				int s = MyTableW.DOT_SIZE + 2;
+				GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
+				boolean overDot = dotRect.contains(p.getX(), p.getY());
+				if (table.isOverDot != overDot) {
+					table.isOverDot = overDot;
+					//TODO//setTableCursor();
+					table.repaint();
+				}
+			}
+
+			// check if over the DnD region and update accordingly
+			GPoint testPoint = table.getMinSelectionPixel();
+			if (testPoint != null) {
+				int minX = minPoint.getX();
+				int minY = minPoint.getY();
+				int maxX = maxPoint.getX();
+				int w = maxX - minX;
+				GRectangle2DW dndRect = new GRectangle2DW(minX, minY - 2, w, 4);
+				boolean overDnD = dndRect.contains(p.getX(), p.getY());
+				if (table.isOverDnDRegion != overDnD) {
+					table.isOverDnDRegion = overDnD;
+					//TODO//setTableCursor();
+				}
+			}
 		}
 	}
-
-	/**
-	 * Shows tool tip description of geo on mouse over
-	 */
-	/*public void mouseMoved(MouseEvent e) {
-		if (table.isEditing())
-			return;
-
-		// get GeoElement at mouse location
-		int row = table.rowAtPoint(e.getPoint());
-		int col = table.columnAtPoint(e.getPoint());
-		GeoElement geo = (GeoElement) model.getValueAt(row, col);
-
-		// set tooltip with geo's description
-		if (geo != null & view.getAllowToolTips()) {
-			app.setTooltipFlag();
-			table.setToolTipText(geo.getLongDescriptionHTML(true, true));
-			app.clearTooltipFlag();
-		} else
-			table.setToolTipText(null);
-
-		// check if over the dragging dot and update accordingly
-		GPoint maxPoint = table.getMaxSelectionPixel();
-		GPoint minPoint = table.getMinSelectionPixel();
-
-		if (maxPoint != null) {
-			int dotX = maxPoint.getX();
-			int dotY = maxPoint.getY();
-			int s = MyTableD.DOT_SIZE + 2;
-			Rectangle dotRect = new Rectangle(dotX - s / 2, dotY - s / 2, s, s);
-			boolean overDot = dotRect.contains(e.getPoint());
-			if (table.isOverDot != overDot) {
-				table.isOverDot = overDot;
-				setTableCursor();
-				table.repaint();
-			}
-		}
-
-		// check if over the DnD region and update accordingly
-		GPoint testPoint = table.getMinSelectionPixel();
-		if (testPoint != null) {
-			int minX = minPoint.getX();
-			int minY = minPoint.getY();
-			int maxX = maxPoint.getX();
-			int w = maxX - minX;
-			Rectangle dndRect = new Rectangle(minX, minY - 2, w, 4);
-			boolean overDnD = dndRect.contains(e.getPoint());
-			if (table.isOverDnDRegion != overDnD) {
-				table.isOverDnDRegion = overDnD;
-				setTableCursor();
-			}
-		}
-
-	}*/
 
 	/**
 	 * Sets table cursor
