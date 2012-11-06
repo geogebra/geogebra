@@ -187,7 +187,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		table.addKeyListener(keyListener);
 
 		// navigation bar
-		protNavBar = new ConstructionProtocolNavigation(this);
+		protNavBar = new ConstructionProtocolNavigation(app);
 		protNavBar.setPlayButtonVisible(false);
 		protNavBar.setConsProtButtonVisible(false);
 		add(protNavBar, BorderLayout.SOUTH);

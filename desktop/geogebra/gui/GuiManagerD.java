@@ -137,7 +137,6 @@ public class GuiManagerD extends GuiManager {
 	private EuclidianViewD euclidianView2;
 	private ConstructionProtocolView constructionProtocolView;
 	private AssignmentView assignmentView;
-	protected ConstructionProtocolNavigation constProtocolNavigation;
 	private GeoGebraMenuBar menuBar;
 	private JMenuBar menuBar2;
 
@@ -481,19 +480,19 @@ public class GuiManagerD extends GuiManager {
 			sb.append(constructionProtocolView.getConsProtocolXML());
 
 		// navigation bar of construction protocol
-		if (((AppD)app).showConsProtNavigation() && constProtocolNavigation != null) {
+		if (((AppD)app).showConsProtNavigation() && ((AppD)app).getConstructionProtocolNavigation() != null) {
 			sb.append("\t<consProtNavigationBar ");
 			sb.append("show=\"");
 			sb.append(((AppD)app).showConsProtNavigation());
 			sb.append('\"');
 			sb.append(" playButton=\"");
-			sb.append(constProtocolNavigation.isPlayButtonVisible());
+			sb.append(((AppD)app).getConstructionProtocolNavigation().isPlayButtonVisible());
 			sb.append('\"');
 			sb.append(" playDelay=\"");
-			sb.append(constProtocolNavigation.getPlayDelay());
+			sb.append(((AppD)app).getConstructionProtocolNavigation().getPlayDelay());
 			sb.append('\"');
 			sb.append(" protButton=\"");
-			sb.append(constProtocolNavigation.isConsProtButtonVisible());
+			sb.append(((AppD)app).getConstructionProtocolNavigation().isConsProtButtonVisible());
 			sb.append('\"');
 			sb.append(" consStep=\"");
 			sb.append(kernel.getConstructionStep());
@@ -786,52 +785,41 @@ public class GuiManagerD extends GuiManager {
 		ToolbarContainer.setShowHelp(flag);
 	}
 
-	public JComponent getConstructionProtocolNavigation() {
-		if (constProtocolNavigation == null) {
-			getConstructionProtocolView();
-			constProtocolNavigation = new ConstructionProtocolNavigation(
-					constructionProtocolView);
-		}
-
-		return constProtocolNavigation;
-	}
-
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		if (show) {
 			if (app.getActiveEuclidianView() != null)
 				app.getActiveEuclidianView().resetMode();
-			getConstructionProtocolNavigation();
-			constProtocolNavigation.register();
+			((AppD)app).getConstructionProtocolNavigation().register(getConstructionProtocolView());
 		} else {
-			if (constProtocolNavigation != null)
-				constProtocolNavigation.unregister();
+			if (((AppD)app).getConstructionProtocolNavigation() != null)
+				((AppD)app).getConstructionProtocolNavigation().unregister();
 		}
 
-		constProtocolNavigation.setVisible(show);
+		((AppD)app).getConstructionProtocolNavigation().setVisible(show);
 	}
 
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
 		setShowConstructionProtocolNavigation(show);
 
-		if (constProtocolNavigation != null) {
-			constProtocolNavigation.setPlayButtonVisible(playButton);
-			constProtocolNavigation.setPlayDelay(playDelay);
-			constProtocolNavigation.setConsProtButtonVisible(showProtButton);
+		if (((AppD)app).getConstructionProtocolNavigation() != null) {
+			((AppD)app).getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
+			((AppD)app).getConstructionProtocolNavigation().setPlayDelay(playDelay);
+			((AppD)app).getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
 		}
 
 	}
 
 	public boolean isConsProtNavigationPlayButtonVisible() {
-		if (constProtocolNavigation != null) {
-			return constProtocolNavigation.isPlayButtonVisible();
+		if (((AppD)app).getConstructionProtocolNavigation() != null) {
+			return ((AppD)app).getConstructionProtocolNavigation().isPlayButtonVisible();
 		}
 		return true;
 	}
 
 	public boolean isConsProtNavigationProtButtonVisible() {
-		if (constProtocolNavigation != null) {
-			return constProtocolNavigation.isConsProtButtonVisible();
+		if (((AppD)app).getConstructionProtocolNavigation() != null) {
+			return ((AppD)app).getConstructionProtocolNavigation().isConsProtButtonVisible();
 		}
 		return true;
 	}
@@ -913,8 +901,8 @@ public class GuiManagerD extends GuiManager {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		if (constProtocolNavigation != null)
-			constProtocolNavigation.initGUI();
+		if (((AppD)app).getConstructionProtocolNavigation() != null)
+			((AppD)app).getConstructionProtocolNavigation().initGUI();
 
 		if (casView != null)
 			casView.updateFonts();
@@ -983,8 +971,8 @@ public class GuiManagerD extends GuiManager {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		if (constProtocolNavigation != null)
-			constProtocolNavigation.setLabels();
+		if (((AppD)app).getConstructionProtocolNavigation() != null)
+			((AppD)app).getConstructionProtocolNavigation().setLabels();
 
 		if (virtualKeyboard != null)
 			virtualKeyboard.setLabels();

@@ -74,6 +74,7 @@ import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -5314,6 +5315,8 @@ public class AppD extends App implements
 	// renderer for JComboBox (align left/right)
 	private ListCellRenderer renderer = new DefaultListCellRenderer();
 
+	private ConstructionProtocolNavigation constProtocolNavigation;
+
 	public void setComponentOrientation(Component c) {
 		
 		ComponentOrientation orientation = isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
@@ -5395,4 +5398,11 @@ public class AppD extends App implements
 		}
 	}
 	
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation() { 
+		if (constProtocolNavigation == null) { 
+			constProtocolNavigation = new ConstructionProtocolNavigation(this); 
+		} 
+
+		return constProtocolNavigation; 
+	} 	
 }

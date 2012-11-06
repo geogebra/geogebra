@@ -75,9 +75,8 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 * Creates a new navigation bar to step through the construction protocol.
 	 * @param prot construction protocol view
 	 */
-	public ConstructionProtocolNavigation(ConstructionProtocolView prot) {
-		this.prot = prot;			
-		app = prot.getApplication();	
+	public ConstructionProtocolNavigation(AppD app) {
+		this.app = app;			
 				
 		SpinnerModel model =
 	        new SpinnerNumberModel(2, //initial value
@@ -91,7 +90,8 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		
 		lbSteps = new JLabel();
 		
-		initGUI();
+		// done when needed, later
+		//initGUI();
 		
 /*		//next 3 rows moved into EuclidianDockPanel.loadComponent
 		//because it not neccessary for all Contruction protocol navigation issue
@@ -112,8 +112,10 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 * @param flag true to make play button visible
 	 */
 	public void setPlayButtonVisible(boolean flag) {
-		showPlayButton = flag;	
-		playPanel.setVisible(flag);
+		showPlayButton = flag;
+		if (playPanel != null) {
+			playPanel.setVisible(flag);
+		}
 	}
 	
 	/**
@@ -128,7 +130,9 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 */
 	public void setConsProtButtonVisible(boolean flag) {		
 		showConsProtButton = flag;	
-		btOpenWindow.setVisible(flag);
+		if (btOpenWindow != null) {
+			btOpenWindow.setVisible(flag);
+		}
 	}
 	
 	/**
@@ -232,18 +236,23 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 * the number of construction steps.	
 	 */
 	public void update() {	
-		int currentStep = prot.getCurrentStepNumber();
-		int stepNumber  = prot.getLastStepNumber();
-		lbSteps.setText(currentStep + " / " + stepNumber);	
+		if (prot != null) {
+			int currentStep = prot.getCurrentStepNumber();
+			int stepNumber  = prot.getLastStepNumber();
+			lbSteps.setText(currentStep + " / " + stepNumber);	
+		}
 	}
 	
 	/**
 	 * Registers this navigation bar at its protocol
 	 * to be informed about updates.
+	 * @param constructionProtocolView 
 	 */
-	public void register() {
-		prot.registerNavigationBar(this);
-		update();
+	public void register(ConstructionProtocolView constructionProtocolView) { 
+		if (prot == null) { 
+			initGUI(); 
+		}
+		prot = constructionProtocolView;
 	}
 	
 	/**
