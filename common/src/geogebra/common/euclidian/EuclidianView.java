@@ -2492,38 +2492,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	/**
-	 * Draws slider value preview
-	 * 
-	 * @param g2
-	 *            graphics
-	 * @return false if nothing was drawn
-	 */
-	final protected boolean drawSliderValue(geogebra.common.awt.GGraphics2D g2) {
-
-		if (mode != EuclidianConstants.MODE_MOVE) {
-			return false;
-		}
-
-		if (euclidianController.mouseLoc == null) {
-			return false;
-		}
-
-		GPoint pos = euclidianController.mouseLoc;
-
-		String val = euclidianController.getSliderValue();
-
-		if (val == null) {
-			return false;
-		}
-
-		g2.setColor(geogebra.common.awt.GColor.darkGray);
-		g2.setFont(getFontLine());
-		g2.drawString(val, pos.x + 15, pos.y + 15);
-
-		return true;
-	}
-
-	/**
 	 * @param g2
 	 *            background graphics
 	 */
@@ -2597,17 +2565,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					deletionRectangle);
 		}
 
-		// when mouse over slider, show preview value of slider for that point
-		boolean drawn = drawSliderValue(g2);
-
-		if (!drawn) {
-			if (allowShowMouseCoords && showMouseCoords
-					&& (showAxes[0] || showAxes[1] || showGrid)) {
-				drawMouseCoords(g2);
-			}
-			if (showAxesRatio) {
-				drawAxesRatio(g2);
-			}
+		if (allowShowMouseCoords && showMouseCoords
+				&& (showAxes[0] || showAxes[1] || showGrid)) {
+			drawMouseCoords(g2);
+		}
+		if (showAxesRatio) {
+			drawAxesRatio(g2);
 		}
 
 		if (kernel.needToShowAnimationButton()) {

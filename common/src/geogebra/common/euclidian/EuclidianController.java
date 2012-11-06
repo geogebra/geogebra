@@ -344,8 +344,6 @@ public abstract class EuclidianController {
 
 	public boolean textfieldHasFocus = false;
 
-	protected String sliderValue = null;
-
 	private MyButton pressedButton;
 	
 	protected static final int MOVE_NONE = 101;
@@ -3415,10 +3413,6 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	public String getSliderValue() {
-		return sliderValue;
-	}
-
 	protected final GeoElement[] mirrorAtLine(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;
@@ -6142,7 +6136,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected final double getSliderValue(GeoNumeric movedSlider) {
+	protected final double getSliderValue(GeoNumeric movedSlider, boolean click) {
 		double min = movedSlider.getIntervalMin();
 		double max = movedSlider.getIntervalMax();
 		double param;
@@ -6187,15 +6181,27 @@ public abstract class EuclidianController {
 	
 		}
 	
-		return val;
+		if (!click) { 
+			// dragging with mouse 
+			return val; 
+		} 
+
+		// new behaviour from GeoGebra 4.2 
+		// clicking just moves slider up one "notch" 
+		// better for touch screens 
+		if (val > movedSlider.getValue()) { 
+			return Math.min(movedSlider.getValue() + movedSlider.getAnimationStep(), movedSlider.getIntervalMax()); 
+		} else { 
+			return Math.max(movedSlider.getValue() - movedSlider.getAnimationStep(), movedSlider.getIntervalMin()); 
+		} 	
 	}
 
 	/**
 	 * @param repaint TODO ignored now -- on purpose ? 
 	 */
-	protected final void moveNumeric(boolean repaint) {
+	protected final void moveNumeric(boolean repaint, boolean click) {
 	
-		double newVal = getSliderValue(movedGeoNumeric);
+		double newVal = getSliderValue(movedGeoNumeric, click);
 		double oldVal = movedGeoNumeric.getValue();
 	
 		// don't set the value unless needed
@@ -6525,9 +6531,6 @@ public abstract class EuclidianController {
 		// hits = view.getTopHits(hits);
 	
 		hits = hits.getTopHits();
-		if(sliderValue!=null)
-			repaintNeeded = true;
-		sliderValue = null;
 		if (hits.size() == 1) {
 			GeoElement hit = hits.get(0);
 			int labelMode = hit.getLabelMode();
@@ -6548,14 +6551,6 @@ public abstract class EuclidianController {
 					boolean valueShowing = hit.isLabelVisible()
 							&& (hit.getLabelMode() == GeoElement.LABEL_NAME_VALUE || hit.getLabelMode() == GeoElement.LABEL_VALUE);
 	
-					// preview just for fixed sliders (with value showing)
-					if (((GeoNumeric) hit).isSliderFixed() && valueShowing) {
-						sliderValue = hit.isGeoAngle()? kernel
-								.formatAngle(getSliderValue((GeoNumeric) hit),
-										StringTemplate.defaultTemplate).toString():kernel
-								.format(getSliderValue((GeoNumeric) hit),
-										StringTemplate.defaultTemplate);
-					}
 				}
 			}
 		}
@@ -7287,7 +7282,7 @@ public abstract class EuclidianController {
 							movedGeoNumeric.getSliderY());
 	
 					// update straightaway in case it's just a click (no drag)
-					moveNumeric(true);
+					moveNumeric(true, true);
 				}
 			}
 	
@@ -7524,7 +7519,7 @@ public abstract class EuclidianController {
 		case MOVE_NUMERIC:
 			// view.incrementTraceRow(); // for spreadsheet/trace
 	
-			moveNumeric(repaint);
+			moveNumeric(repaint, false);
 			break;
 	
 		case MOVE_SLIDER:
@@ -7749,7 +7744,6 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseDragged(AbstractEvent event) {
-		sliderValue = null;
 		if (textfieldHasFocus && moveMode != MOVE_BUTTON) {
 			return;
 		}
@@ -8806,7 +8800,6 @@ public abstract class EuclidianController {
 			app.storeUndoInfo();
 		}
 		
-		sliderValue = null;
 		if (event != null) {
 			mx = event.getX();
 			my = event.getY();
