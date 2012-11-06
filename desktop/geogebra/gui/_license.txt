@@ -87,7 +87,6 @@ TRANSLATORS
       Roger Van Nieuwenhuyze, Pedro Tytgat, Riggy Van de Wiele,
       Beatrijs Versichel (Belgium),
       Anton Geijer, Toon Rekkers (The Netherlands)
-  * Filipino: Jose Abelardo Torio (Philippines)
   * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
       Yves Kreis (Luxembourg), Michael Borcherds (UK)
   * Estonian: Jane Albre (Estonia)
