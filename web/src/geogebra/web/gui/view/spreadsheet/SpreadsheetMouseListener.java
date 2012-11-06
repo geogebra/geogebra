@@ -274,8 +274,10 @@ public class SpreadsheetMouseListener implements
 							// insert the geo label into the editor string
 							editor.addLabel(name);
 
+							eConsumed = true;
 							table.repaint();
 						}
+						eConsumed = true;
 					}
 				} else {
 
