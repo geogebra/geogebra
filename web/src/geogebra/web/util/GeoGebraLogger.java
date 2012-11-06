@@ -1,5 +1,7 @@
 package geogebra.web.util;
 
+import geogebra.common.main.App;
+
 import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
@@ -69,7 +71,7 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 			return;
 			// First it must be hidden.
 		}
-        log(INFO, "Announcement: " + message);
+		log(INFO, "ANNOUNCEMENT: " + message);
         hideAnnouncement();
 		announcementPopup = new PopupPanel();
 	    announcementPopup.ensureDebugId("announcement");
@@ -78,11 +80,13 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	    		+ message + "&nbsp;</div>";
 	    announcementPopup.setWidget(
 	        new HTML(html));
-	    announcementPopup.setPopupPosition(400, 3); // fake position first (we need to write it out)
+	    announcementPopup.setPopupPosition(10, 10); // fake position first (we need to write it out), but also for applets
 	    announcementPopup.show();
-	    int left = (Window.getClientWidth() - announcementPopup.getOffsetWidth()) / 2;
-	    log(INFO, Window.getClientWidth() + "-" + announcementPopup.getOffsetWidth());
-        announcementPopup.setPopupPosition(left, 3); // good position
+	    if (App.isFullAppGui()) {
+	    	// For full GUI the text should be centered (ant put on the top):
+	    	int left = (Window.getClientWidth() - announcementPopup.getOffsetWidth()) / 2;
+	    	announcementPopup.setPopupPosition(left, 3); // good position
+	    }
         announcementPopup.show();
 	}
 	
