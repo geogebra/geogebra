@@ -398,8 +398,8 @@ public class SpreadsheetMouseListener implements
 				// copy the cells
 				boolean succ = relativeCopy.doDragCopy(
 						table.minSelectionColumn-1, table.minSelectionRow-1,
-						table.maxSelectionColumn-1, table.maxSelectionRow-1, x1,
-						y1, x2, y2);
+						table.maxSelectionColumn-1, table.maxSelectionRow-1, x1-1,
+						y1-1, x2-1, y2-1);
 				if (succ) {
 					app.storeUndoInfo();
 				}
