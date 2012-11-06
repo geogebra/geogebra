@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -20,6 +21,9 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	public GeoGebraLogger() {
 	}
 
+	/**
+	 * Global object for announcements for user's interest.
+	 */
 	PopupPanel announcementPopup;
 	
 	@Override
@@ -69,10 +73,16 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
         hideAnnouncement();
 		announcementPopup = new PopupPanel();
 	    announcementPopup.ensureDebugId("announcement");
-	    announcementPopup.setWidth("400px");
+	    // Change this to a more/less fancy thing if you want: 
+	    String html = "<div id='announcement' style='background-color: blue; color: white; font-weight: bold; font-family: arial,sans-serif;'>&nbsp;"
+	    		+ message + "&nbsp;</div>";
 	    announcementPopup.setWidget(
-	        new HTML(message));
-        announcementPopup.setPopupPosition(400, 0);
+	        new HTML(html));
+	    announcementPopup.setPopupPosition(400, 3); // fake position first (we need to write it out)
+	    announcementPopup.show();
+	    int left = (Window.getClientWidth() - announcementPopup.getOffsetWidth()) / 2;
+	    log(INFO, Window.getClientWidth() + "-" + announcementPopup.getOffsetWidth());
+        announcementPopup.setPopupPosition(left, 3); // good position
         announcementPopup.show();
 	}
 	

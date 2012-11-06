@@ -115,6 +115,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// Gabor suggest to use jquery + callback here instead to make
 			// sure this code will surely run BEFORE the big CPU heavy
 			// initialization.
+			// TODO: Use localized text here.
 			App.showAnnouncement("CAS initializing, please wait...");
 			initialized = true;
 		}
