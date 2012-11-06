@@ -1368,7 +1368,10 @@ public abstract class App {
 			TreeSet<GeoElement> tree = geo.getAllPredecessors();
 			Iterator<GeoElement> it2 = tree.iterator();
 			while (it2.hasNext()) {
-				addSelectedGeo(it2.next(), false, false);
+				geo = it2.next();
+				if (geo.isLabelSet()) {
+					addSelectedGeo(geo, false, false);
+				}
 			}
 		}
 		kernel.notifyRepaint();
@@ -1420,7 +1423,10 @@ public abstract class App {
 			TreeSet<GeoElement> tree = geo.getAllChildren();
 			Iterator<GeoElement> it2 = tree.iterator();
 			while (it2.hasNext()) {
-				addSelectedGeo(it2.next(), false, false);
+				geo = it2.next();
+				if (geo.isLabelSet()) {
+					addSelectedGeo(geo, false, false);
+				}
 			}
 		}
 		kernel.notifyRepaint();
