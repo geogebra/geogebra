@@ -66,7 +66,7 @@ CONTRIBUTORS
 TRANSLATORS
   * Afrikaans: Rika Grobler (South Africa)
   * Albanian: Pellumb Klogjeri (Albania), Teuta Iljazi (Macedonia)
-  * Arabic: Brahim Boulakbech, Haboubi Abdessalem (Tunisia),
+  * Arabic: Brahim Boulakbech, Haboubi Abdessalem,  Boulifa Mehdi (Tunisia),
       Maha Ah (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
   * Armenian: Gagik Aghekyan (Armenia)
   * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena (Spain)
