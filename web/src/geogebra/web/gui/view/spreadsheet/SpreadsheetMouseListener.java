@@ -9,6 +9,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.web.awt.GRectangle2DW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -185,6 +186,7 @@ public class SpreadsheetMouseListener implements
 
 		mouseIsDown = true;
 		e.preventDefault();
+		boolean eConsumed = false;
 
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 
@@ -285,8 +287,12 @@ public class SpreadsheetMouseListener implements
 				}
 			} else if (table.isOverDot) {
 				table.isDragingDot = true;
+				eConsumed = true;
 			}
 		}
+
+		if (eConsumed)
+			return;
 
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
@@ -553,8 +559,8 @@ public class SpreadsheetMouseListener implements
 			if (table.isDragingDot) {
 
 				eConsumed = true;
-				int mouseX = e.getX();
-				int mouseY = e.getY();
+				int mouseX = e.getClientX();
+				int mouseY = e.getClientY();
 				GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
 
 				// save the selected cell position so it can be re-selected if
@@ -589,7 +595,7 @@ public class SpreadsheetMouseListener implements
 					// scroll to show "highest" selected cell
 					//TODO//table.scrollRectToVisible(table.getCellRect(mouseCell.y, mouseCell.x, true));
 
-					if (!selRect.contains(p.getX(), p.getY())) {
+					if (!selRect.contains(e.getClientX(), e.getClientY())) {
 
 						int rowOffset = 0, colOffset = 0;
 
@@ -701,7 +707,7 @@ public class SpreadsheetMouseListener implements
 				int dotY = maxPoint.getY();
 				int s = MyTableW.DOT_SIZE + 2;
 				GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
-				boolean overDot = dotRect.contains(p.getX(), p.getY());
+				boolean overDot = dotRect.contains(e.getClientX(), e.getClientY());
 				if (table.isOverDot != overDot) {
 					table.isOverDot = overDot;
 					//TODO//setTableCursor();
@@ -717,7 +723,7 @@ public class SpreadsheetMouseListener implements
 				int maxX = maxPoint.getX();
 				int w = maxX - minX;
 				GRectangle2DW dndRect = new GRectangle2DW(minX, minY - 2, w, 4);
-				boolean overDnD = dndRect.contains(p.getX(), p.getY());
+				boolean overDnD = dndRect.contains(e.getClientX(), e.getClientY());
 				if (table.isOverDnDRegion != overDnD) {
 					table.isOverDnDRegion = overDnD;
 					//TODO//setTableCursor();
