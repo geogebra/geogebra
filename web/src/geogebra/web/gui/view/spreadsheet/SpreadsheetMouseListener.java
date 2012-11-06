@@ -397,18 +397,18 @@ public class SpreadsheetMouseListener implements
 
 				// copy the cells
 				boolean succ = relativeCopy.doDragCopy(
-						table.minSelectionColumn, table.minSelectionRow,
-						table.maxSelectionColumn, table.maxSelectionRow, x1,
+						table.minSelectionColumn-1, table.minSelectionRow-1,
+						table.maxSelectionColumn-1, table.maxSelectionRow-1, x1,
 						y1, x2, y2);
 				if (succ) {
 					app.storeUndoInfo();
 				}
 
 				// extend the selection to include the drag copy selection
-				table.setSelection(Math.min(x1, table.minSelectionColumn),
-						Math.min(y1, table.minSelectionRow),
-						Math.max(x2, table.maxSelectionColumn),
-						Math.max(y2, table.maxSelectionRow));
+				table.setSelection(Math.min(x1, table.minSelectionColumn)-1,
+						Math.min(y1, table.minSelectionRow)-1,
+						Math.max(x2, table.maxSelectionColumn)-1,
+						Math.max(y2, table.maxSelectionRow)-1);
 
 				// reset flags and cursor
 				table.isOverDot = false;
