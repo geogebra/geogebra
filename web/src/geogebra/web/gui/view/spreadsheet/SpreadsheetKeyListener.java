@@ -315,12 +315,12 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 			//e.consume();
 			break;	
 			
-		case KeyCodes.KEY_ENTER://KeyEvent.VK_ENTER:	
-			/*? if (MyCellEditor.tabReturnCol > -1) {
-				table.changeSelection(row , MyCellEditor.tabReturnCol, false, false);
-				MyCellEditor.tabReturnCol = -1;
-			}*/
-			
+		case KeyCodes.KEY_ENTER://KeyEvent.VK_ENTER:
+			if (MyCellEditorW.tabReturnCol > -1) {
+				table.changeSelection(row , MyCellEditorW.tabReturnCol-1, false, false);
+				MyCellEditorW.tabReturnCol = -1;
+			}
+
 			// fall through
 		case GWTKeycodes.KEY_PAGEDOWN://KeyEvent.VK_PAGE_DOWN:	
 		case GWTKeycodes.KEY_PAGEUP://KeyEvent.VK_PAGE_UP:	

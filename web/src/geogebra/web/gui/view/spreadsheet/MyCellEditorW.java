@@ -261,7 +261,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	private void moveSelectedCell(int colOff, int rowOff) {
 		int nextRow = Math.min(row + rowOff, table.getRowCount() - 1);
 		int nextColumn = Math.min(column + colOff, table.getColumnCount() - 1);
-		table.setSelection(nextColumn, nextRow);
+		table.setSelection(nextColumn - 1, nextRow - 1);
 	}
 
 	/**
