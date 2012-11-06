@@ -34,8 +34,9 @@
 		console.log('Error: ' + msg);
 	}
 
-	function createXML(fs) {
+	function createXML(fs, zipWriter2) {
 
+		fs = obj.downloadggb.getFileSystem();
 		fs.root.getFile('geogebra.xml', {
 			create : true
 		}, function(fileEntry) {
@@ -61,8 +62,8 @@
 			}, errorHandler);
 
 		}, errorHandler);
-
-		zipWriter.add('geogebra.xml', new zip.BlobReader('geogebra.xml'), null, null);
+		
+		obj.downloadggb.zipWriter.add('geogebra.xml', new zip.BlobReader('geogebra.xml'), function(){setDownloadButton();}, function(){});
 	}
 
     function createTempGGBFile(callback) {
@@ -72,7 +73,8 @@
                 filesystem.root.getFile(tmpFilename, {
                     create : true
                 }, function(zipFile) {
-                    callback(zipFile);
+                	obj.downloadggb.setFileSystem(filesystem);
+                    callback(zipFile, filesystem);
                 });
             }
 
@@ -85,25 +87,24 @@
 
 
     function createZipWriter(writer) {
-                 zip.createWriter(writer, function(writer) {
+                 zip.createWriter(writer, function(writer,filesystem) {
                     zipWriter = writer;
-                    addGGBFiles();
-                    setDownloadButton();
+                    obj.downloadggb.zipWriter = zipWriter;
+                    addGGBFiles(filesystem);
                 }, onerror);
     }
             
-    function addGGBFiles(){
-    	console.log("addGGBFiles()");
+    function addGGBFiles(filesystem){
         //TODO: add the files (geogebra.xml, etc.) to the zip 
         //requestFileSystem(window.TEMPORARY, 1024*1024, createXML, errorHandler);
+    	createXML(filesystem);
     }
     
     function setDownloadButton(){
     	downloadButton.download = "geogebra.ggb";
         zipWriter.close(function(blob) {
-//        	var clickEvent = document.createEvent("MouseEvent");
-//			clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			var blobURL = this.zipFileEntry.toURL();
+        	zfEntry = obj.downloadggb.getZipFileEntry();
+        	var blobURL = zfEntry.toURL();
 			zipWriter = null;
 			
 			console.log("Todo: download ggb");
@@ -117,16 +118,44 @@
 obj.downloadggb = {
 		zipFileEntry : null,
 		writer : null,
+		fileSystem : null,
+		zipWriter : null,
+
+		setZipFileEntry : function(fe){
+			console.log("setZipFileEntry");
+			zipFileEntry = fe;
+		},
+
+		getZipFileEntry : function(){
+			console.log("getZipFileEntry");
+			return zipFileEntry;
+		},
 		
+		getWriter : function (){
+			console.log(writer.valueOf());
+			return writer;
+		},
+		
+		setFileSystem : function(filesys){
+			fileSystem = filesys;
+		},
+
+		getFileSystem : function(){
+			return fileSystem;
+		},
+
     	setDownloadButton : function(button){
     		downloadButton = button;
     	},
     	downloadGGBfunction : function() {
     		console.log("downloadGGBfunction");
-    		createTempGGBFile(function(fileEntry) {
-                this.zipFileEntry = fileEntry;
+    		obj.zip.workerScriptsPath = "web/js/zipjs/"; 
+    		createTempGGBFile(function(fileEntry,filesystem) {
+                zipFileEntry = fileEntry;
+                obj.downloadggb.setZipFileEntry(fileEntry);
                 this.writer = new zip.FileWriter(this.zipFileEntry);
-                createZipWriter(writer);
+                this.downloadggb.getWriter();
+                createZipWriter(writer,filesystem);
             });
     	}
     }
