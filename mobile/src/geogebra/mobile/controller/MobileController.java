@@ -10,6 +10,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -86,7 +87,7 @@ public class MobileController extends EuclidianController
 
 	public void onTouchMove(int x, int y)
 	{
-		if (this.clicked && this.model.getCommand() == ToolBarCommand.Move_Mobile)
+		if (this.clicked && (this.clicked = this.model.controlClicked()) && this.model.getCommand() == ToolBarCommand.Move_Mobile)
 		{
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
@@ -251,6 +252,7 @@ public class MobileController extends EuclidianController
 
 	/**
 	 * use the selected Elements from MobileModel instead of the ones from App
+	 * removes Polygons from the list
 	 * 
 	 * @see EuclidianController#moveMultipleObjects
 	 */
@@ -262,6 +264,17 @@ public class MobileController extends EuclidianController
 		this.startPoint.setLocation(this.xRW, this.yRW);
 		this.startLoc = this.mouseLoc;
 
+		//remove Polygons, add their points instead
+		ArrayList<GeoElement> polygons = this.model.getAll(Test.GEOPOLYGON); 
+		for(GeoElement geo : polygons){
+			for(GeoPointND p : ((GeoPolygon) geo).getPoints()){
+				if(p instanceof GeoElement){
+					this.model.select((GeoElement)p); 
+				}
+			}
+			this.model.deselect(geo); 
+		}
+		
 		// move all selected geos
 		GeoElement.moveObjects(removeParentsOfView(this.model.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 

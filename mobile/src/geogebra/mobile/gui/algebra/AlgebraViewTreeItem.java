@@ -8,6 +8,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.Test;
 import geogebra.mobile.controller.MobileController;
 import geogebra.web.main.DrawEquationWeb;
 
@@ -35,8 +36,6 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler, MouseDownHandler
 {
-	
-	CheckBox check;
 
 	GeoElement geo;
 	private Kernel kernel;
@@ -51,7 +50,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 	SpanElement seMayLatex;
 	SpanElement seNoLatex;
 
-	// RadioButtonHandy radio;
+	CheckBox check;
 	InlineHTML ihtml;
 	TextBox tb;
 
@@ -68,7 +67,13 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 		this.check = new CheckBox();
 		AlgebraViewTreeItem.this.previouslyChecked = ge.isEuclidianVisible();
-		this.check.setValue(new Boolean(ge.isEuclidianVisible()), false);
+		
+		// regular Polygons: defined is set to false (-> isEudclidianVisible returns false) 
+		if(Test.GEOPOLYGON.check(ge)){
+			AlgebraViewTreeItem.this.previouslyChecked = true; 
+		}
+		
+		this.check.setValue(new Boolean(AlgebraViewTreeItem.this.previouslyChecked), false);
 
 		this.check.addValueChangeHandler(new ValueChangeHandler<Boolean>()
 		{
@@ -144,10 +149,6 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 			this.seNoLatex = se;
 			this.seNoLatex.setInnerHTML(text);
 		}
-		// FIXME: geo.getLongDescription() doesn't work
-		// geo.getKernel().getApplication().setTooltipFlag();
-		// se.setTitle(geo.getLongDescription());
-		// geo.getKernel().getApplication().clearTooltipFlag();
 	}
 
 	public void update()

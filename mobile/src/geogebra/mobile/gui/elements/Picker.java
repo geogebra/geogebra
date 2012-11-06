@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
 import com.googlecode.mgwt.ui.client.widget.Button;
+import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 public class Picker
 {
@@ -67,7 +68,10 @@ public class Picker
 		}, ClickEvent.getType());
 		verticalPanel.add(this.ok);
 
-		this.popinDialog.add(verticalPanel);
+		RoundPanel p = new RoundPanel(); 
+		p.add(verticalPanel); 		
+		
+		this.popinDialog.add(p);
 		this.popinDialog.center();
 	}
 

@@ -5,7 +5,6 @@ import geogebra.mobile.gui.elements.InputDialog;
 import geogebra.mobile.gui.elements.InputDialog.InputCallback;
 import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
-import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,7 +21,6 @@ public class ToolBar extends ButtonBar
 {
 
 	protected ToolBarButton[] b;
-	private ToolBarCommand activeCmd;
 	protected InputDialog input;
 
 	public ToolBar()
@@ -92,9 +90,4 @@ public class ToolBar extends ButtonBar
 		mobileModel.getGuiModel().setActive(this.b[0]);
 	}
 
-	public ToolBarCommand getCommand()
-	{
-		// FIXME activeCmd is never written, it's always the default value
-		return this.activeCmd;
-	}
 }

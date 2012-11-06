@@ -245,10 +245,10 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		if (geo.isLabelSet() && geo.showInAlgebraView() && geo.isSetAlgebraVisible())
 		{
 			// don't add auxiliary objects if the tree is categorized by type
-			if (!getTreeMode().equals(SortMode.DEPENDENCY) && geo.isAuxiliaryObject())
-			{
-				return;
-			}
+			// if (!getTreeMode().equals(SortMode.DEPENDENCY) && geo.isAuxiliaryObject())
+			// {
+			//	return;
+			// }
 
 			TreeItem parent, node;
 			node = new TreeItem();
