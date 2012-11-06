@@ -63,20 +63,19 @@ CONTRIBUTORS
   * Quan Yuan (USA 2007-09)
   * Andy Zhu (USA 2010-)
 
-
 TRANSLATORS
   * Afrikaans: Rika Grobler (South Africa)
-  * Albanian: Pellumb Klogjeri (Albania)
+  * Albanian: Pellumb Klogjeri (Albania), Teuta Iljazi (Macedonia)
   * Arabic: Brahim Boulakbech, Haboubi Abdessalem (Tunisia),
-      Maha Ah (Egypt)
+      Maha Ah (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
   * Armenian: Gagik Aghekyan (Armenia)
-  * Basque: Gonzalo Elcano Vizcay (Spain)
+  * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena (Spain)
   * Bosnian: Maja Hrbat (Bosnia and Herzegovina)
   * Bulgarian: Hristo Stoyanov Hristov, Magdalena Petkova (Bulgaria)
   * Catalan: Jaume Bartroli, Pep Bujosa, Josep Lluis Canadilla,
       Carlos Gimenez, Antoni Goma, Jorge Sanchez,
       Roser Sebastian, David Obrador Sala (Spain)
-  * Chinese (Simplified): Chen Xing, Tom King (China)
+  * Chinese (Simplified): Chen Xing, Tom King, Ran Tao (China)
   * Chinese (Traditional): Fu-Kwun Hwang, Chen-Hui Lin, Pegasus Roe,
       Joe Chen (Taiwan)
   * Croatian: Sime Suljic, Ela Rac-Marinic-Kragic, Josip Klicinovic,
@@ -86,13 +85,16 @@ TRANSLATORS
   * Danish: Steen Grode (Denmark)
   * Dutch: Ivan De Winne, Chris Cambre, Jozef Van Remoortere,
       Roger Van Nieuwenhuyze, Pedro Tytgat, Riggy Van de Wiele,
-      Beatrijs Versichel (Belgium)
+      Beatrijs Versichel (Belgium),
+      Anton Geijer, Toon Rekkers (The Netherlands)
   * Filipino: Jose Abelardo Torio (Philippines)
   * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
       Yves Kreis (Luxembourg), Michael Borcherds (UK)
   * Estonian: Jane Albre (Estonia)
+  * Filipino: Guillermo Bautista, Jose Abelardo Torio, Erlina Ronda (The Philippines)
   * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
-      Teemu Hinkula (Finland)
+      Teemu Hinkula, Tero Pirinen, Vadim Gurkalov, Aleksi Matsi,
+      Jani Hannula (Finland)
   * French: Noel Lambert (France)
   * Galician: Debora Pereiro Carbajo, Esperanza Gesteira Losada,
       Enrique de la Torre Fernandez, Fernando Zacarias Maceiras,
@@ -100,12 +102,14 @@ TRANSLATORS
   * Georgian: Lasha Kokilashvili (Georgia)
   * German: Markus Hohenwarter, Judith Hohenwarter, Andreas Lindner,
       Sandra Reichenberger, Christina Biermair, Andrea Duringer,
-      Barbara Kimeswenger, Corinna Kroehn, Kurt Soeser (Austria),
+      Barbara Kimeswenger, Corinna Kroehn, Kurt Soeser,
+      Johanna Zoechbauer, Alexander Hartl (Austria),
       Yves Kreis (Luxembourg), Birgit Lachner (Germany)
   * Greek: Nicholas Mousoulides, Constantinos Christou (Cyprus),
       Spiros Mavrogiannis, Manolis Koutlis,
       Fergadiotis Athanasios, Alkeos Souyoul (Greece)
   * Hebrew: Guy Hed (Israel)
+  * Hindi: Sanjay Gulati, Girish Belkar, Chandan Kumar, Neel Shah (India)
   * Hungarian: Zsuzsanna Papp-Varga, Andras Hrasko, Peter Csiba,
       Zoltan Major, Maria Sz. Fekete, Ildiko Kezer, Viktoria Kmecs,
       Szabolcs Sulik, Lajos Szilassi, Zoltan Kovacs, Agnes Tamcsu,
@@ -119,11 +123,11 @@ TRANSLATORS
   * Korean: Kyeong-Sik Choi (Korea)
   * Lithuanian: Rokas Tamosiunas, Antanas Apynis (Lithuania)
   * Macedonian: Linda Fahlberg-Stojanovska, Jasmina Markoska,
-      Zoran Trifunov (FYR Macedonia)
+      Zoran Trifunov, Alexandar Momirovski (FYR Macedonia)
   * Malay: Daniel Leong Chee Kin (Malaysia)
   * Marathi: Smita Patil, Aparna Lalingkar (India)
-  * Mongolian: Batnasan Davaa (Mongolia)
-  * Nepali: Bhesh Raj Mainali (Nepal)
+  * Mongolian: O Otgonnaran, Batnasan Davaa (Mongolia)
+  * Nepali: Bhesh Raj Mainali, Keshab Prasad (Nepal)
   * Norwegian: Sigbjorn Hals (Norway)
   * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi (Iran)
   * Polish: Ania Borkowska, Marzanna Miasko, Malgorzata Paliga
@@ -139,7 +143,7 @@ TRANSLATORS
   * Slovenian: Stanislav Senveter (Slovenia)
   * Spanish: Liliana Saidon (Argentina)
   * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
-  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah
+  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah, Vasu Raj
   * Tajik: Yusuf Balkas (Tajikistan)
   * Thai: Alongkot Maiduang (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
@@ -148,6 +152,7 @@ TRANSLATORS
       Nguyen Danh Nam (Vietnam)
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
       Gwyn Jones (Wales)
+  * Yiddish: Eliezer Niborski (France, Israel)
 
 SUPPORTING PARTNERS
   * Google, Inc.
