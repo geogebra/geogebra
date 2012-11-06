@@ -768,12 +768,12 @@ public class AppW extends App {
 	}-*/;
 
 	public native String getSymbolNative(String language, String key) /*-{
-		if ($wnd["__GGB__symbolKeysVar"+language]) {
+		if ($wnd["__GGB__symbolsKeysVar"+language]) {
 			// translated
-			return $wnd["__GGB__symbolKeysVar"+language][key];
+			return $wnd["__GGB__symbolsKeysVar"+language][key];
 		} else {
 			// English
-			return  $wnd.__GGB__symbolKeysVaren[key];
+			return  $wnd.__GGB__symbolsKeysVaren[key];
 		}
 	}-*/;
 
@@ -1931,14 +1931,14 @@ public class AppW extends App {
 
 		if (language == null) {
 			// keys not loaded yet
-			return "S"+key;
+			return null;
 		}
 
 		String ret = getSymbolNative(language, "S"+key);
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
-			return "";
+			return null;
 		}
 		
 		return ret;
@@ -1949,14 +1949,14 @@ public class AppW extends App {
 
 		if (language == null) {
 			// keys not loaded yet
-			return "T"+key;
+			return null;
 		}
 
 		String ret = getSymbolNative(language, "T"+key);
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
-			return "";
+			return null;
 		}
 		
 		return ret;
