@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.GeoClass;
@@ -96,6 +97,17 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	@Override
 	public void set(GeoElement geo) {
+		if(!(geo instanceof GeoFunctionConditional) && geo.isGeoFunction()){
+			isDefined = geo.isDefined();
+			if (ifFun == null) {
+				ifFun = (GeoFunction) geo.copyInternal(cons);
+			}
+			adjustCons(ifFun);
+			elseFun = null;
+			condFun = new GeoFunction(cons,new Function(new ExpressionNode(kernel,new MyBoolean(kernel,true))));
+			ifFun.set(geo);
+			return;
+		}
 		GeoFunctionConditional geoFunCond = (GeoFunctionConditional) geo;
 		isDefined = geoFunCond.isDefined;
 
@@ -103,21 +115,13 @@ public class GeoFunctionConditional extends GeoFunction {
 			condFun = (GeoFunction) geoFunCond.condFun.copyInternal(cons);
 		}
 
-		if (isAlgoMacroOutput()) {
-			condFun.setAlgoMacroOutput(true);
-			condFun.setParentAlgorithm(getParentAlgorithm());
-			condFun.setConstruction(cons);
-		}
+		adjustCons(condFun);
 		condFun.set(geoFunCond.condFun);
 
 		if (ifFun == null) {
 			ifFun = (GeoFunction) geoFunCond.ifFun.copyInternal(cons);
 		}
-		if (isAlgoMacroOutput()) {
-			ifFun.setAlgoMacroOutput(true);
-			ifFun.setParentAlgorithm(getParentAlgorithm());
-			ifFun.setConstruction(cons);
-		}
+		adjustCons(ifFun);
 		ifFun.set(geoFunCond.ifFun);
 
 		if (geoFunCond.elseFun == null) {
@@ -126,16 +130,18 @@ public class GeoFunctionConditional extends GeoFunction {
 			if (elseFun == null) {
 				elseFun = (GeoFunction) geoFunCond.elseFun.copyInternal(cons);
 			}
-			if (isAlgoMacroOutput()) {
-				elseFun.setAlgoMacroOutput(true);
-				elseFun.setParentAlgorithm(getParentAlgorithm());
-				elseFun.setConstruction(cons);
-			}
+			adjustCons(elseFun);
 			elseFun.set(geoFunCond.elseFun);
 		}
 		uncondFun = null; // will be evaluated in getFunction()
 	}
-
+	private void adjustCons(GeoFunction f){
+		if (isAlgoMacroOutput()) {
+			f.setAlgoMacroOutput(true);
+			f.setParentAlgorithm(getParentAlgorithm());
+			f.setConstruction(cons);
+		}
+	}
 	@Override
 	public String getTypeString() {
 		return "Function";
