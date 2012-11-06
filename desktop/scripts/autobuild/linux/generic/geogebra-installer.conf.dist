@@ -8,6 +8,6 @@
 #
 export NAME='geogebra-beta'
 
-# Set application name shown by desktop file, e.g. 'GeoGebra 5.0 Beta'.
+# Set application name shown by desktop file, e.g. 'GeoGebra 5 Beta'.
 #
-export DESCRIPTION='GeoGebra 4.2 Beta'
+export DESCRIPTION='GeoGebra 5 Beta'
