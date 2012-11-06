@@ -199,7 +199,6 @@ public class SpreadsheetMouseListener implements
 			if (geo != null) {
 				// tell selection listener about click
 				app.geoElementSelected(geo, false);
-				//?//e.consume();
 				return;
 			}
 		}
@@ -321,6 +320,7 @@ public class SpreadsheetMouseListener implements
 
 		mouseIsDown = false;
 		e.preventDefault();
+		boolean eConsumed = false;
 
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 
@@ -338,7 +338,7 @@ public class SpreadsheetMouseListener implements
 						int column = point.getX();
 						int row = point.getY();
 						if (column != editor.column || row != editor.row) {
-							//?//e.consume();
+							eConsumed = true;
 						}
 					}
 				}
@@ -352,7 +352,7 @@ public class SpreadsheetMouseListener implements
 			if (table.isOverDot) {
 				// prevent UI manager from changing selection when mouse
 				// is in a neighbor cell but is still over the dot region
-				//?//e.consume();
+				eConsumed = true;
 			}
 
 			if (table.isDragingDot) {
@@ -410,7 +410,7 @@ public class SpreadsheetMouseListener implements
 				//TODO//setTableCursor();
 
 				// prevent UI manager from changing selection
-				//?//e.consume();
+				eConsumed = true;
 
 				table.repaint();
 
@@ -458,6 +458,9 @@ public class SpreadsheetMouseListener implements
 			popupMenu.show(e.getComponent(), e.getX(), e.getY());*/
 		}
 
+		if (eConsumed)
+			return;
+
 		// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
 		// change selection if right click is outside current selection
@@ -490,6 +493,7 @@ public class SpreadsheetMouseListener implements
 		}
 
 		e.preventDefault();
+		boolean eConsumed = false;
 
 		// TODO: move the content of the mouseMoved method here
 
@@ -542,14 +546,13 @@ public class SpreadsheetMouseListener implements
 					table.maxRow2 = row2;
 					table.repaint();
 				}
-				//?//e.consume();
 				return;
 			}
 
 			// handle dot drag
 			if (table.isDragingDot) {
 
-				//?//e.consume();
+				eConsumed = true;
 				int mouseX = e.getX();
 				int mouseY = e.getY();
 				GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
@@ -648,6 +651,8 @@ public class SpreadsheetMouseListener implements
 				}
 			}
 
+			if (eConsumed)
+				return;
 
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 
