@@ -110,9 +110,9 @@ instructions.
 
 	<!-- download jlatexmath from GeoGebra repository -->
 	<target name="jlatexmath-geogebra">
-	<get src="http://dev.geogebra.org/download/lib/jlatexmath-20120703.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
-	<get src="http://dev.geogebra.org/download/lib/jlm_cyrillic-20120703.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
-	<get src="http://dev.geogebra.org/download/lib/jlm_greek-20120703.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlatexmath-20121106.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlm_cyrillic-20121106.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlm_greek-20121106.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- download jython from GeoGebra repository -->
