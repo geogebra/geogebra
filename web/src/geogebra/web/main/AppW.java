@@ -2135,6 +2135,11 @@ public class AppW extends App {
 		RootPanel.get().addStyleName("cursor_wait");
 	}
 
+	@Override
+	public void setDefaultCursor() {
+		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
+	}
+
 	public void resetCursor() {
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 	}
@@ -2146,7 +2151,6 @@ public class AppW extends App {
 		guiManager.setLayout(new geogebra.web.gui.layout.LayoutW());
 		guiManager.initialize();
 		setDefaultCursor();
-
 	}
 
 	/**
