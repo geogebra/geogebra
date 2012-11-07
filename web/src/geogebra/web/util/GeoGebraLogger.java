@@ -1,14 +1,9 @@
 package geogebra.web.util;
 
-import geogebra.common.main.App;
-
 import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * GeoGebraLogger implementation for the web platform
@@ -22,11 +17,6 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	 */
 	public GeoGebraLogger() {
 	}
-
-	/**
-	 * Global object for announcements for user's interest.
-	 */
-	PopupPanel announcementPopup;
 	
 	@Override
 	protected String getTimeInfo() {
@@ -65,37 +55,4 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 		}-*/;
 	
 	
-	@Override
-    public void showAnnouncement(String message) {
-		if (announcementPopup != null) {
-			return;
-			// First it must be hidden.
-		}
-		log(INFO, "ANNOUNCEMENT: " + message);
-        hideAnnouncement();
-		announcementPopup = new PopupPanel();
-	    announcementPopup.ensureDebugId("announcement");
-	    // Change this to a more/less fancy thing if you want: 
-	    String html = "<div id='announcement' style='background-color: blue; color: white; font-weight: bold; font-family: arial,sans-serif;'>&nbsp;"
-	    		+ message + "&nbsp;</div>";
-	    announcementPopup.setWidget(
-	        new HTML(html));
-	    announcementPopup.setPopupPosition(10, 10); // fake position first (we need to write it out), but also for applets
-	    announcementPopup.show();
-	    if (App.isFullAppGui()) {
-	    	// For full GUI the text should be centered (ant put on the top):
-	    	int left = (Window.getClientWidth() - announcementPopup.getOffsetWidth()) / 2;
-	    	announcementPopup.setPopupPosition(left, 3); // good position
-	    }
-        announcementPopup.show();
 	}
-	
-	@Override
-    public void hideAnnouncement() {
-		if (announcementPopup != null) {
-			announcementPopup.removeFromParent();
-			announcementPopup.hide();
-			announcementPopup = null;
-		}
-	}
-}

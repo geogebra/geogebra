@@ -2,6 +2,7 @@ package geogebra.factories;
 
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.dialog.TextInputDialog;
+import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.geos.GeoText;
@@ -26,6 +27,11 @@ public class FactoryD extends Factory{
 			boolean isTextMode) {
 		return new geogebra.gui.dialog.TextInputDialog(app, title, editGeo, startPoint, cols,
 		        rows, isTextMode);
+	}
+
+	@Override
+	public InfoBar newInfoBar(App app) {
+		return new geogebra.gui.infobar.InfoBarD(app);
 	}
 
 	

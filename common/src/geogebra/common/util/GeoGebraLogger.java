@@ -252,22 +252,6 @@ public abstract class GeoGebraLogger {
 		return "";
 		// Implementation overrides this in some applications.  
 	}
-
-	/**
-	 * Put a global announcement on the display.
-	 * Currently implemented in the web platform only.
-	 * @param message
-	 */
-	public void showAnnouncement(String message) {
-		// override in the various platforms
-	}
-	
-	/**
-	 * Hide (remove) the global announcement.
-	 */
-	public void hideAnnouncement() {
-		// override in the various platforms
-	}
 	
 	/**
 	 * Returns some memory related information (for debugging)

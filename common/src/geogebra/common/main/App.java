@@ -16,6 +16,7 @@ import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -1946,12 +1947,19 @@ public abstract class App {
 		}
 	}
 	
+	/**
+	 * Shows an announcement in the infobar.
+	 * @param message the information (preferably one line)
+	 */
 	public static void showAnnouncement(String message) {
-		logger.showAnnouncement(message);
+		infobar.show(message);
 	}
 
+	/**
+	 * Hides the announcement in the infobar.
+	 */
 	public static void hideAnnouncement() {
-		logger.hideAnnouncement();
+		infobar.hide();
 	}
 
 	/**
@@ -2066,7 +2074,8 @@ public abstract class App {
 	public static GeoGebraLogger logger;
 	/** Singular web service (CAS) */
 	public static SingularWebService singularWS;
-
+	public static InfoBar infobar;
+	
 	/**
 	 * Whether we are running on Mac
 	 * 

@@ -40,7 +40,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					+ "ggbtmpvarl, ggbtmpvarm, ggbtmpvarn, ggbtmpvaro, ggbtmpvarp, "
 					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
 					+ "ggbtmpvarv, ggbtmpvarw");
-	private boolean initialized = false;
+	private static boolean initialized = false;
 
 	/**
 	 * We escape any upper-letter words so Reduce doesn't switch them to /
@@ -116,7 +116,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// sure this code will surely run BEFORE the big CPU heavy
 			// initialization.
 			// TODO: Use localized text here.
-			App.showAnnouncement("CAS initializing, please wait...");
+			App.showAnnouncement("CAS initializing, please wait..."); // for the web
 			initialized = true;
 		}
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
@@ -418,6 +418,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 */
 	protected static final void initStaticMyMPReduceFunctions(Evaluate mpreduce1)
 			throws Throwable {
+		App.showAnnouncement("CAS initializing, please wait..."); // for the desktop
+		initialized = true;
 		App.debug("Loading packages...");
 
 		String[] packages = { "rsolve", "numeric", "odesolve",

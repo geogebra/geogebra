@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.web.gui.dialog.TextInputDialogW;
+import geogebra.web.gui.infobar.InfoBarW;
 
 public class FactoryW extends Factory{
 
@@ -28,5 +29,10 @@ public class FactoryW extends Factory{
 		return new TextInputDialogW(app, title, editGeo, startPoint, cols,
 		        rows, isTextMode);
 	}
-
+	
+	@Override
+    public InfoBarW newInfoBar(App app) {
+		return new InfoBarW(app);
+    }
+	
 }

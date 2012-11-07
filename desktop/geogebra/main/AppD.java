@@ -73,6 +73,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLio;
@@ -438,8 +439,9 @@ public class AppD extends App implements
 				logger.setLogDestination(LogDestination.FILE);
 				logger.setLogFile(args.getStringValue("logFile"));
 			}
-				
 		}
+		
+		infobar = new InfoBarD(this);
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 		

@@ -51,6 +51,7 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
@@ -186,6 +187,8 @@ public class AppW extends App {
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
 		startLogger();
+		infobar = new InfoBarW(this);
+		
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
 		        + Window.Navigator.getUserAgent());
@@ -231,6 +234,8 @@ public class AppW extends App {
 
 		setCurrentFileId();
 		startLogger();
+		infobar = new InfoBarW(this);
+
 		initCommonObjects();
 
 		this.canvas = appFrame.getEuclidianView1Canvas();
