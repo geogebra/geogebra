@@ -67,7 +67,7 @@ TRANSLATORS
   * Afrikaans: Rika Grobler (South Africa)
   * Albanian: Pellumb Klogjeri (Albania), Teuta Iljazi (Macedonia)
   * Arabic: Brahim Boulakbech, Haboubi Abdessalem,  Boulifa Mehdi (Tunisia),
-      Maha Ah (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
+      Maha Ahmed (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
   * Armenian: Gagik Aghekyan (Armenia)
   * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena (Spain)
   * Bosnian: Maja Hrbat (Bosnia and Herzegovina)
@@ -128,7 +128,7 @@ TRANSLATORS
   * Mongolian: O Otgonnaran, Batnasan Davaa (Mongolia)
   * Nepali: Bhesh Raj Mainali, Keshab Prasad (Nepal)
   * Norwegian: Sigbjorn Hals (Norway)
-  * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi (Iran)
+  * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi, Amir MirSaeed (Iran)
   * Polish: Ania Borkowska, Marzanna Miasko, Malgorzata Paliga
       Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak, Jerzy Mil (Poland)
   * Portuguese (Brazil): Humberto Bortolossi, Celina A. A. P. Abar,
@@ -136,6 +136,7 @@ TRANSLATORS
     Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
     Alana Souza de Oliveira (Brazil)
   * Portuguese (Portugal): Jorge Geraldes, Antonio Ribeiro (Portugal)
+  * Romanian: Alexandra Fortis, Casian Colcher, Valerian Antohe, Moni Ungvari (Romania)
   * Russian: Anatoly Scherbakov, Beatrice Versichel, Bugaevsky Vladimir (Russia)
   * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia)
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
