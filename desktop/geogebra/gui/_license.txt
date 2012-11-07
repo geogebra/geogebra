@@ -143,7 +143,7 @@ TRANSLATORS
   * Slovenian: Stanislav Senveter (Slovenia)
   * Spanish: Liliana Saidon (Argentina)
   * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
-  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah, Vasu Raj
+  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah, Vasuraj Dhamodharan
   * Tajik: Yusuf Balkas (Tajikistan)
   * Thai: Alongkot Maiduang (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
