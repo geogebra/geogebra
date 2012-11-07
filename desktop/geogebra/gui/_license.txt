@@ -90,7 +90,7 @@ TRANSLATORS
   * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
       Yves Kreis (Luxembourg), Michael Borcherds (UK)
   * Estonian: Jane Albre (Estonia)
-  * Filipino: Guillermo Bautista, Jose Abelardo Torio, Erlina Ronda (The Philippines)
+  * Filipino: Guillermo Bautista, Jr., Jose Abelardo Torio, Erlina Ronda (The Philippines)
   * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
       Teemu Hinkula, Tero Pirinen, Vadim Gurkalov, Aleksi Matsi,
       Jani Hannula (Finland)
