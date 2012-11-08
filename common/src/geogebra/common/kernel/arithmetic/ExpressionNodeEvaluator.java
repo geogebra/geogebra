@@ -437,9 +437,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(kernel, comp > 0);
 			}
-			str = new String[] { "IllegalComparison", lt.getClass().getName(),
+			str = new String[] { "IllegalComparison", 
 					lt.toString(errorTemplate), ">",
-					rt.toString(errorTemplate), rt.getClass().getName() };
+					rt.toString(errorTemplate) };
+			App.debug(lt.getClass()+","+rt.getClass());
 			throw new MyError(app, str);
 
 		case LESS_EQUAL:
@@ -1948,6 +1949,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else {
 			str = new String[] { "IllegalSubtraction",
 					lt.toString(errorTemplate), "-", rt.toString(errorTemplate) };
+			App.debug(lt.getClass()+","+rt.getClass());
 			throw new MyError(app, str);
 		}
 	}
