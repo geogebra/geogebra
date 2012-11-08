@@ -8,6 +8,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.UserAwarenessListener;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -1035,7 +1036,14 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		// GeoBoolean implements NumberValue, so no need to check for that
 		return ret.evaluateNum().getDouble();
 	}
-
+	
+	public void addUserAwarenessListener( UserAwarenessListener listener ){
+		this.kernel.addUserAwarenessListener(listener);
+	}
+	
+	public void removeUserAwarenessListener( UserAwarenessListener listener ){
+		this.kernel.removeUserAwarenessListener(listener);
+	}
 
 
 }

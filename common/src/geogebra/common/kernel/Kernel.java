@@ -134,6 +134,7 @@ public class Kernel {
 	protected View[] views = new View[20];
 	/** Number of attached views*/
 	protected int viewCnt = 0;
+	protected ArrayList<UserAwarenessListener> userAwarenessListeners;
 	/** Construction */
 	protected Construction cons;
 	/** Algebra processor*/
@@ -286,6 +287,7 @@ public class Kernel {
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 		nf = FormatFactory.prototype.getNumberFormat(2);
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
+		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
 	}
 
 	/**
@@ -725,6 +727,16 @@ public class Kernel {
 	 */
 	public void setLoadingMode(boolean b) {
 		loadingMode = b;
+		
+		if( loadingMode ){
+			for( UserAwarenessListener listener: this.userAwarenessListeners ){
+				listener.fileLoading();
+			}
+		}else {
+			for( UserAwarenessListener listener: this.userAwarenessListeners ){
+				listener.fileLoadComplete();
+			}
+		}
 	}
 	/**
 	 * @return whether file is being loaded
@@ -3419,6 +3431,18 @@ public class Kernel {
 	public boolean isViewReiniting() {
 		return viewReiniting;
 	}
+	
+	/* *******************************************************
+	 * methods for managing user awareness listeners
+	 * ******************************************************
+	 */
+	public void addUserAwarenessListener(UserAwarenessListener listener){
+		this.userAwarenessListeners.add(listener);
+	}
+	
+	public void removeUserAwarenessListener(UserAwarenessListener listener){
+		this.userAwarenessListeners.remove(listener);
+	}
 
 	/*
 	 * /************************** Undo /Redo
@@ -3743,7 +3767,7 @@ public class Kernel {
 	/* **********************************
 	 * MACRO handling *********************************
 	 */
-
+	
 	/**
 	 * Creates a new macro within the kernel. A macro is a user defined command
 	 * in GeoGebra.
@@ -3753,6 +3777,10 @@ public class Kernel {
 			macroManager = new MacroManager(getApplication());
 		}
 		macroManager.addMacro(macro);
+		
+		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+			listener.addMacro(macro);
+		}
 	}
 
 	/**
@@ -3761,6 +3789,10 @@ public class Kernel {
 	public void removeMacro(Macro macro) {
 		if (macroManager != null)
 			macroManager.removeMacro(macro);
+		
+		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+			listener.removeMacro(macro);
+		}
 	}
 
 	/**
@@ -3770,6 +3802,10 @@ public class Kernel {
 		if (macroManager != null) {
 			getApplication().removeMacroCommands();
 			macroManager.removeAllMacros();
+		}
+		
+		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+			listener.removeAllMacros();
 		}
 	}
 
@@ -3784,7 +3820,12 @@ public class Kernel {
 		if (nameUsed || cmdName == null || cmdName.length() == 0)
 			return false;
 
+		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+			listener.setMacroCommandName(macro, cmdName);
+		}
+		
 		macroManager.setMacroCommandName(macro, cmdName);
+		
 		return true;
 	}
 
