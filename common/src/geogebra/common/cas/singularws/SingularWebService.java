@@ -89,6 +89,12 @@ public class SingularWebService {
 		return fastConn;
 	}
 	
+	private String speed() {
+		if (isFast())
+			return "fast";
+		return "slow";
+	}
+	
 	/**
 	 * Create a connection to the SingularWS server for testing.
 	 * Also sets up variables depending on the installed features of Singular. 
@@ -198,6 +204,28 @@ public class SingularWebService {
 		this.timeout = timeout;
 	}
 
+	/**
+	 * Gets Singular version.
+	 * @return version number (int), e.g. 3150
+	 */
+	public String getVersion() {
+		if (isAvailable()) {
+			return directCommand("system(\"version\");");
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets full Singular version string.
+	 * @return version string
+	 */
+	public String getSingularVersionString() {
+		if (this.available) {
+			return "SingularWS " + getVersion() + " " + speed() + " at " + getConnectionSite();
+		}
+		return "";
+	}
+	
 	/**
 	 * If non-empty, it contains the name of the auxiliary Singular library "grobcovCx"
 	 * to compute loci in such a form which does not contain the degenerate parts

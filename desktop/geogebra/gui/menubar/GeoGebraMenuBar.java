@@ -1,6 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.export.ScalingPrintGridable;
@@ -364,6 +365,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		
 
 		StringBuilder sb = new StringBuilder();
+		String swsVer = App.singularWS.getSingularVersionString();
 		sb.append("<html><b>");
 		appendVersion(sb, app);
 		sb.append("</b>  (");
@@ -373,6 +375,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB, ");
 		sb.append(App.getCASVersionString());
+		if (swsVer != "")
+			sb.append(",<br>" + swsVer);
 		sb.append(")<br>");	
 		sb.append(GeoGebraConstants.BUILD_DATE);
 
