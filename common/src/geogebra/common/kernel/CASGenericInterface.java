@@ -3,7 +3,6 @@ package geogebra.common.kernel;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.SettingListener;
 
 /**
@@ -27,14 +26,12 @@ public interface CASGenericInterface extends SettingListener {
 
 	/**
 	 * Initializes CAS. Only needed in Web where we must download it on demand.
-	 * @param app Application
 	 */
-	public void initCAS(App app);
+	public void initCAS();
 
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra
 	 * notation.
-	 * @param app Application
 	 * 
 	 * @param casInput
 	 *            in GeoGebraCAS syntax
@@ -46,14 +43,13 @@ public interface CASGenericInterface extends SettingListener {
 	 * @throws CASException
 	 *             if evaluation fails
 	 */
-	public abstract String evaluateGeoGebraCAS(App app, ValidExpression casInput,
+	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException;
 
 	/**
 	 * Evaluates an expression in the syntax of the currently active CAS
 	 * (MathPiper or Maxima).
-	 * @param app Application
 	 * 
 	 * @param exp
 	 *            The expression to be evaluated.
@@ -61,31 +57,28 @@ public interface CASGenericInterface extends SettingListener {
 	 * @throws Throwable
 	 *             if evaluation fails
 	 */
-	public abstract String evaluateRaw(App app, final String exp) throws Throwable;
+	public abstract String evaluateRaw(final String exp) throws Throwable;
 
 	/**
 	 * Unbinds (deletes) variable.
-	 * @param app Application
 	 * 
 	 * @param var
 	 *            the name of the variable.
 	 */
-	public abstract void unbindVariable(App app, final String var);
+	public abstract void unbindVariable(final String var);
 
 	/**
 	 * Resets the cas and unbinds all variable and function definitions.
-	 * @param app Application
 	 */
-	public abstract void reset(App app);
+	public abstract void reset();
 
 	/**
 	 * Call CAS asynchronously
-	 * @param app Application
 	 * 
 	 * @param c
 	 *            command that should receive the result
 	 */
-	public void evaluateGeoGebraCASAsync(App app, final AsynchronousCommand c);
+	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
 
 	/**
 	 * Translates a function definition/function assignment like

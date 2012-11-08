@@ -36,10 +36,10 @@ public class CASmpreduceD extends CASmpreduce {
 	 * @param parserTools parser helper tools
 	 * @param casPrefix prefix for CAS variables
 	 */
-	public CASmpreduceD(App app, CASparser casParser, CasParserTools parserTools,String casPrefix) {
+	public CASmpreduceD(CASparser casParser, CasParserTools parserTools,String casPrefix) {
 		super(casParser,casPrefix);
 		this.parserTools = parserTools;
-		getMPReduce(app);
+		getMPReduce();
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class CASmpreduceD extends CASmpreduce {
 	 *         initialization.
 	 */
 	@Override
-	protected synchronized Evaluate getMPReduce(App app) {
+	protected synchronized Evaluate getMPReduce() {
 		if (mpreduce == null) {
 			// create mpreduce as a private reference to mpreduce_static
 			mpreduce = getStaticInterpreter();
@@ -76,7 +76,7 @@ public class CASmpreduceD extends CASmpreduce {
 				// CASmpreduce instance
 				// because it depends on the current kernel's ggbcasvar prefix,
 				// see #1443
-				initDependentMyMPReduceFunctions(app, mpreduce);
+				initDependentMyMPReduceFunctions(mpreduce);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -96,10 +96,10 @@ public class CASmpreduceD extends CASmpreduce {
 	 * @throws CASException if CAS fails
 	 */
 	@Override
-	public final String evaluateMPReduce(App app, String input) throws CASException {
+	public final String evaluateMPReduce(String input) throws CASException {
 		try {
 			String exp = casParser.replaceIndices(input);
-			String ret = evaluateRaw(app, exp);
+			String ret = evaluateRaw(exp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling
 
@@ -117,11 +117,11 @@ public class CASmpreduceD extends CASmpreduce {
 	}
 
 	@Override
-	public synchronized void reset(App app) {
+	public synchronized void reset() {
 		if (mpreduce == null)
 			return;
 
-		super.reset(app);
+		super.reset();
 	}
 
 
@@ -144,7 +144,7 @@ public class CASmpreduceD extends CASmpreduce {
 	
 	private Thread casThread;
 	@SuppressWarnings("unused")
-	public void evaluateGeoGebraCASAsync(final App app,
+	public void evaluateGeoGebraCASAsync(
 			 final AsynchronousCommand cmd 
 			) {
 		App.debug("about to start some thread");
@@ -167,7 +167,7 @@ public class CASmpreduceD extends CASmpreduce {
 					try{
 						inVE = casParser.parseGeoGebraCASInput(input);
 						//TODO: arbconst()
-						result = evaluateGeoGebraCAS(app, inVE,new MyArbitraryConstant((ConstructionElement)command),
+						result = evaluateGeoGebraCAS(inVE,new MyArbitraryConstant((ConstructionElement)command),
 								StringTemplate.defaultTemplate);
 						CASAsyncFinished(inVE, result, null, command,  input);
 					}catch(Throwable exception){
@@ -189,8 +189,9 @@ public class CASmpreduceD extends CASmpreduce {
 		
 	}
 
-	public void initCAS(App app) {
+	public void initCAS() {
 		// TODO Auto-generated method stub
+		
 	}
 	
 }

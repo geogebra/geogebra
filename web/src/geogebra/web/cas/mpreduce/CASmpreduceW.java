@@ -44,7 +44,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 			
 		}
 		
-		public RepeatingCommand getInitializationExecutor(App app) {
+		public RepeatingCommand getInitializationExecutor() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -71,11 +71,11 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
     }
 	
 	@Override
-	protected synchronized Evaluate getMPReduce(App app) {
+	protected synchronized Evaluate getMPReduce() {
 		//return this;
 		if (mpreduce == null) {
 			// create mpreduce as a private reference to mpreduce_static
-			mpreduce = getStaticInterpreter(app, this);
+			mpreduce = getStaticInterpreter(this);
 
 			try {
 				// make sure to call initMyMPReduceFunctions() for each
@@ -93,11 +93,10 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	}
 	
 	/**
-	 * @param app Application
 	 * @param casInstance CAS instance
 	 * @return Static MPReduce interpreter shared by all CASmpreduce instances.
 	 */
-	public static synchronized Interpretable getStaticInterpreter(final App app, final CASmpreduceW casInstance) {
+	public static synchronized Interpretable getStaticInterpreter(final CASmpreduceW casInstance) {
 		if (!asyncstarted ) {
 			asyncstarted = true;
 			GWT.runAsync(new RunAsyncCallback() {
@@ -107,7 +106,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 					new InterpreterJs().getStartMessage();
 					
 					//this will be hard. 1; First async: we got CAS here. But we must load Lisp image.
-					InterpreterJs.casLoadImage(app, casInstance);      
+					InterpreterJs.casLoadImage(casInstance);      
 				}
 				
 				public void onFailure(Throwable reason) {
@@ -119,10 +118,10 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	}
 
 	@Override
-	public String evaluateMPReduce(App app, String exp) {
+	public String evaluateMPReduce(String exp) {
 		try {
 			String processedExp = casParser.replaceIndices(exp);
-			String ret = evaluateRaw(app, processedExp);
+			String ret = evaluateRaw(processedExp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling
 
@@ -155,13 +154,13 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 
 
 	@Override
-	public void unbindVariable(App app, final String var) {
+	public void unbindVariable(final String var) {
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("clear(");
 			sb.append(var);
 			sb.append(");");
-			getMPReduce(app).evaluate(sb.toString());
+			getMPReduce().evaluate(sb.toString());
 
 			// TODO: remove
 			App.debug("Cleared variable: " + sb.toString());
@@ -175,10 +174,10 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	 * (non-Javadoc)
 	 * @see geogebra.common.kernel.cas.CASGenericInterface#initCAS()
 	 */
-	public void initCAS(App app) {
+	public void initCAS() {
 		App.debug("initCAS() called");
 		try {
-	        initDependentMyMPReduceFunctions(app, this);
+	        initDependentMyMPReduceFunctions(this);
         } catch (Throwable e) {
 	        e.printStackTrace();
         }
@@ -220,7 +219,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	/**
 	 * TODO: Current implementation for web is actually SYNCHRONOUS
 	 */
-	public void evaluateGeoGebraCASAsync(App app,
+	public void evaluateGeoGebraCASAsync(
 			 final AsynchronousCommand command 
 			) {
 		
@@ -230,7 +229,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 				try{
 					inVE = casParser.parseGeoGebraCASInput(input);
 					//TODO: arbconst()
-					result = evaluateGeoGebraCAS(app,inVE,null,StringTemplate.defaultTemplate);
+					result = evaluateGeoGebraCAS(inVE,null,StringTemplate.defaultTemplate);
 				}catch(Throwable exception){
 					result ="";
 					CASAsyncFinished(inVE, result, exception, command, input);
@@ -241,14 +240,14 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	/**
 	 * Callback method; used when Lisp image is loaded
 	 */
-	public void lispImageLoaded(App app) {
+	public void lispImageLoaded() {
 		//now we have REAL cas
 		App.debug("LISP image loaded");
 		mpreduce_static = InterpreterJs.getInstance();
 		mpreduce = mpreduce_static;
 		//2; Second callback: when LISP image loaded :-)
 		try {
-	        initDependentMyMPReduceFunctions(app,mpreduce);
+	        initDependentMyMPReduceFunctions(mpreduce);
         } catch (Throwable e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();

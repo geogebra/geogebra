@@ -166,7 +166,7 @@ public class GeoGebraAppFrame extends Composite {
 	private void loadCAS(){
 		App.debug("loadCAS started");
 		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
-		CASmpreduceW.getStaticInterpreter(app, casMPReduce);		
+		CASmpreduceW.getStaticInterpreter(casMPReduce);		
 	}
 	
 	/**

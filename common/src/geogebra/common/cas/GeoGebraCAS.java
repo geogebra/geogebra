@@ -132,8 +132,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * Resets the cas and unbinds all variable and function definitions.
 	 */
-	public void reset(App app) {
-		getCurrentCAS().reset(app);
+	public void reset() {
+		getCurrentCAS().reset();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public synchronized CASmpreduce getMPReduce() {
 		if (casMPReduce == null)
 			casMPReduce = app.getCASFactory()
-					.newMPReduce(app, casParser, new CasParserToolsImpl('e'),
+					.newMPReduce(casParser, new CasParserToolsImpl('e'),
 							app.getKernel());
 		return casMPReduce;
 	}
@@ -161,7 +161,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *            variable to be unbound
 	 */
 	public void unbindVariable(final String var) {
-		getCurrentCAS().unbindVariable(app, var);
+		getCurrentCAS().unbindVariable(var);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				sb.append("]");
 				evaluateGeoGebraCAS(sb.toString(), arbconst);
 			}
-			result = getCurrentCAS().evaluateGeoGebraCAS(app, casInput, arbconst,
+			result = getCurrentCAS().evaluateGeoGebraCAS(casInput, arbconst,
 					tpl);
 		} catch (CASException ce) {
 			exception = ce;
@@ -270,7 +270,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	final public String evaluateRaw(String exp) throws Throwable {
-		return getCurrentCAS().evaluateRaw(app, exp);
+		return getCurrentCAS().evaluateRaw(exp);
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluateMPReduce(String exp) throws CASException {
-		return getMPReduce().evaluateMPReduce(app, exp);
+		return getMPReduce().evaluateMPReduce(exp);
 	}
 
 	// these variables are cached to gain some speed in getPolynomialCoeffs
@@ -617,7 +617,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
-		getCurrentCAS().evaluateGeoGebraCASAsync(app, c);
+		getCurrentCAS().evaluateGeoGebraCASAsync(c);
 	}
 
 	public String evaluateGeoGebraCAS(ValidExpression evalVE,
