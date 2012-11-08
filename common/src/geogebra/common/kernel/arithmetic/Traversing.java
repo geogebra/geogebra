@@ -173,12 +173,15 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 				if(!(ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable))
 					return ev;
-				if(!var.equals(ev.toString(StringTemplate.defaultTemplate))){
-					replacements++;
+				if(!var.equals(ev.toString(StringTemplate.defaultTemplate))){					
 					return ev;
 				}
+				replacements++;
 				return newObj;
 		}
+		/**
+		 * @return number of replacements since getReplacer was called
+		 */
 		public int getReplacements(){
 			return replacements;
 		}
