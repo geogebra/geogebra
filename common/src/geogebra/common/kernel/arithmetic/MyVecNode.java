@@ -307,5 +307,9 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public boolean hasCoords() {
 		return true;
 	}
+
+	public boolean containsFunctionVariable() {
+		return x.wrap().containsFunctionVariable() || y.wrap().containsFunctionVariable();
+	}
 	
 }

@@ -944,11 +944,18 @@ public class ExpressionNode extends ValidExpression implements
 				&& ((ExpressionNode) left).containsFunctionVariable()) {
 			return true;
 		}
+		if ((left instanceof MyVecNode)
+				&& ((MyVecNode) left).containsFunctionVariable()) {
+			return true;
+		}
 		if ((right instanceof ExpressionNode)
 				&& ((ExpressionNode) right).containsFunctionVariable()) {
 			return true;
 		}
-
+		if ((right instanceof MyVecNode)
+				&& ((MyVecNode) left).containsFunctionVariable()) {
+			return true;
+		}
 		return false;
 	}
 

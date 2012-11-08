@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -240,20 +241,16 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	public void initFunction() {
 		// replace function variables in tree
 		for (int i = 0; i < fVars.length; i++) {
+			App.debug(fVars[i]);
 			FunctionVariable fVar = fVars[i];
 
 			// look for Variable objects with name of function variable and
 			// replace them
-			VariableReplacer vr = VariableReplacer.getReplacer(fVar.getSetVarString(), fVar);
-			expression = expression.traverse(vr).wrap();
-			 int replacements = vr.getReplacements();
-			isConstantFunction = isConstantFunction && replacements == 0;
-
-			if (replacements == 0) {
-				// x, y got polynomials while parsing
-				replacements = expression.replacePolynomials(fVar);
-				isConstantFunction = isConstantFunction && replacements == 0;
-			}
+			// x, y got polynomials while parsing
+			VariablePolyReplacer s = VariablePolyReplacer.getReplacer(fVar);
+			expression.traverse(s);
+			int replacements = s.getReplacements();
+			isConstantFunction = isConstantFunction && replacements == 0;			
 		}
 
 		// replace variable names by objects

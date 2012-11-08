@@ -124,6 +124,42 @@ public interface Traversing {
 		}
 	}
 	
+	/**
+	 * Replaces variables and polynomials
+	 *
+	 */
+	public class VariablePolyReplacer implements Traversing {
+		private FunctionVariable fv;
+		private int replacements;
+		public ExpressionValue process(ExpressionValue ev) {
+			App.debug(fv.toString(StringTemplate.defaultTemplate));
+			App.debug(ev);
+			if ((ev.isPolynomialInstance() || ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable)
+					&& fv.toString(StringTemplate.defaultTemplate).equals(
+							ev.toString(StringTemplate.defaultTemplate))) {
+				replacements++;
+				return fv;
+			}
+				
+			return ev;
+		}
+		/**
+		 * @return number of replacements since getReplacer was called
+		 */
+		public int getReplacements(){
+			return replacements;
+		}
+		private static VariablePolyReplacer replacer = new VariablePolyReplacer();
+		/**
+		 * @param fv function variable
+		 * @return replacer
+		 */
+		public static VariablePolyReplacer getReplacer(FunctionVariable fv){
+			replacer.fv = fv;
+			return replacer;
+		}
+	}
+	
 	
 	/**
 	 * Replaces dummy variable with given name
