@@ -28,6 +28,8 @@
  *************************************************************************/
 package org.mathpiper.mpreduce;
 
+import geogebra.common.main.App;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -267,10 +269,10 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
     //---------
     static JavaScriptObject callBackFunction = null;
 
-    public static void casLoadImage() {
+    public static void casLoadImage(App app) {
         try {
 
-            Scheduler.get().scheduleIncremental(InterpreterInstance.getInitializationExecutor());
+            Scheduler.get().scheduleIncremental(InterpreterInstance.getInitializationExecutor(app));
 
 
         } catch (Exception e) {
@@ -299,7 +301,7 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
         return Jlisp.version;
     }
 
-    public RepeatingCommand getInitializationExecutor() {
+    public RepeatingCommand getInitializationExecutor(App app) {
         RepeatingCommand repeatingCommand = new RepeatingCommand() {
 
             int counter = 0;
@@ -499,13 +501,13 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
     }//end method.
     GZIPInputStream gzip = null;
 
-    public static void main(String[] args) {
+    public static void main(App app, String[] args) {
 
         Interpreter mpreduce = new Interpreter();
 
         try {
 
-            RepeatingCommand builtinFunctionExecutor = mpreduce.getInitializationExecutor();
+            RepeatingCommand builtinFunctionExecutor = mpreduce.getInitializationExecutor(app);
             while (builtinFunctionExecutor.execute() == true) {
             }
 
