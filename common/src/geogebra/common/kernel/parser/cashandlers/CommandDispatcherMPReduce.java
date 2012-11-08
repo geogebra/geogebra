@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.Variable;
@@ -147,18 +148,11 @@ public class CommandDispatcherMPReduce {
 				
 				break;
 			case ifelsefun:
-				Command c = new Command(kernel,"If",false,false);
-				c.addArgument(args.getItem(0).wrap());
-				c.addArgument(args.getItem(1).wrap());
-				c.addArgument(args.getItem(2).wrap());
-						ret = c;
-						break;
-			case iffun:
-				c = new Command(kernel,"If",false,false);
-				c.addArgument(args.getItem(0).wrap());
-				c.addArgument(args.getItem(1).wrap());
-						ret = c;
-						break;						
+				MyNumberPair branches = new MyNumberPair(kernel,args.getItem(1),args.getItem(2));
+				ret = new ExpressionNode(kernel,
+				args.getItem(0),Operation.IF_ELSE,
+				branches);
+						break;							
 			case ggbinterval:
 				int type = (int) args.getItem(3).evaluateNum().getDouble();
 				boolean leftClosed = type >1;
@@ -217,6 +211,7 @@ public class CommandDispatcherMPReduce {
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
 						 args.getItem(1));
 				break;
+			case iffun:	
 			case multiplication:
 			case subtraction:
 			case addition:
