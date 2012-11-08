@@ -64,13 +64,14 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	}
 
 	/**
+	 * @param app Application
 	 * @param exp
 	 *            MPREduce command
 	 * @return value returned from CAS
 	 */
-	public abstract String evaluateMPReduce(String exp);
+	public abstract String evaluateMPReduce(App app, String exp);
 
-	final public String evaluateRaw(final String input) throws Throwable {
+	final public String evaluateRaw(App app, final String input) throws Throwable {
 		
 		String exp = input;
 		// we need to escape any upper case letters and non-ascii codepoints
@@ -115,11 +116,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// Gabor suggest to use jquery + callback here instead to make
 			// sure this code will surely run BEFORE the big CPU heavy
 			// initialization.
-			// TODO: Use localized text here.
-			App.showAnnouncement("CAS initializing, please wait..."); // for the web
+			App.showAnnouncement(app.getPlain("CASInitializing")); // for the web
 			initialized = true;
 		}
-		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
+		String result = getMPReduce(app).evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
 		for (String s : result.split("\n")) {
@@ -158,9 +158,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return result;
 	}
 
-	final public synchronized String evaluateGeoGebraCAS(
+	final public synchronized String evaluateGeoGebraCAS(App app,
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
 			StringTemplate tpl) throws CASException {
+
 		ValidExpression casInput = inputExpression;
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
@@ -185,7 +186,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			String label = 
 					cmd.getArgument(0).toString(
 							StringTemplate.defaultTemplate);
-			this.unbindVariable(cmd.getArgument(0).toString(
+			this.unbindVariable(app, cmd.getArgument(0).toString(
 					StringTemplate.casTemplate));
 			GeoElement geo = inputExpression
 					.getKernel()
@@ -227,10 +228,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		sb.append(">>");
 
 		// evaluate in MPReduce
-		String result = evaluateMPReduce(sb.toString());
+		String result = evaluateMPReduce(app, sb.toString());
 		if (keepInput) {
 			// when keepinput was treated in MPReduce, it is now > 1
-			String keepinputVal = evaluateMPReduce("keepinput!!;");
+			String keepinputVal = evaluateMPReduce(app, "keepinput!!;");
 			boolean keepInputUsed = !"1".equals(keepinputVal);
 			if (!keepInputUsed) {
 				result = casParser.toGeoGebraString(casInput, tpl);
@@ -246,7 +247,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
 			return toGeoGebraString(
-					evaluateMPReduce(result
+					evaluateMPReduce(app, result
 							+ "("
 							+ ((FunctionNVar) casInput).getVarString(StringTemplate.casTemplate)
 							+ ")"), arbconst, tpl);
@@ -375,13 +376,13 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return casParser.toGeoGebraString(ve, tpl);
 	}
 
-	public void unbindVariable(final String var) {
+	public void unbindVariable(App app, final String var) {
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("clear(");
 			sb.append(var);
 			sb.append(");");
-			getMPReduce().evaluate(sb.toString());
+			getMPReduce(app).evaluate(sb.toString());
 
 			// TODO: remove
 			App.debug("Cleared variable: " + sb.toString());
@@ -391,16 +392,17 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	}
 
 	/**
+	 * @param app Application
 	 * @return MPReduce evaluator
 	 */
-	protected abstract Evaluate getMPReduce();
+	protected abstract Evaluate getMPReduce(App app);
 
-	public synchronized void reset() {
+	public synchronized void reset(App app) {
 
 		try {
-			getMPReduce().evaluate("resetreduce;");
-			getMPReduce().initialize();
-			initDependentMyMPReduceFunctions(getMPReduce());
+			getMPReduce(app).evaluate("resetreduce;");
+			getMPReduce(app).initialize();
+			initDependentMyMPReduceFunctions(app, getMPReduce(app));
 		} catch (Throwable e) {
 			App.debug("failed to reset MPReduce");
 			e.printStackTrace();
@@ -410,15 +412,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	/**
 	 * Loads all packages and initializes all the functions which do not depend
 	 * on the current kernel.
-	 * 
+	 * @param app Application
 	 * @param mpreduce1
 	 *            MPReduce evaluator
 	 * @throws Throwable
 	 *             from evaluator when some of the initial commands fails
 	 */
-	protected static final void initStaticMyMPReduceFunctions(Evaluate mpreduce1)
+	protected static final void initStaticMyMPReduceFunctions(App app, Evaluate mpreduce1)
 			throws Throwable {
-		App.showAnnouncement("CAS initializing, please wait..."); // for the desktop
+		App.showAnnouncement(app.getPlain("CASInitializing")); // for the desktop
 		initialized = true;
 		App.debug("Loading packages...");
 
@@ -1524,11 +1526,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 * @throws Throwable
 	 *             from evaluator if some of the initialization commands fails
 	 */
-	protected final synchronized void initDependentMyMPReduceFunctions(
+	protected final synchronized void initDependentMyMPReduceFunctions(App app,
 			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {
 
 		if (CASmpreduce.mpreduce != mpreduce1) {
-			initStaticMyMPReduceFunctions(mpreduce1); // SLOW in web
+			initStaticMyMPReduceFunctions(app, mpreduce1); // SLOW in web
 		}
 		CASmpreduce.mpreduce = mpreduce1;
 

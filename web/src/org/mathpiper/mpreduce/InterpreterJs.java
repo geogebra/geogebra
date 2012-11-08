@@ -1,6 +1,7 @@
 package org.mathpiper.mpreduce;
 
 import geogebra.common.cas.Evaluate;
+import geogebra.common.main.App;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
 
 import java.io.IOException;
@@ -232,10 +233,10 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	    }-*/;
 
 	//---------
-	    public static String casInitialize() {
+	    public static String casInitialize(App app) {
 	        InterpreterInstance.initialize();
 	        
-	        casToCallback.lispImageLoaded();
+	        casToCallback.lispImageLoaded(app);
 	        //callCasLoaded();
 
 	        return initializeResult;
@@ -250,11 +251,11 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	    static JavaScriptObject callBackFunction = null;
 		private static CASmpreduceW casToCallback = null;
 
-	    public static void casLoadImage(CASmpreduceW casInstance) {
+	    public static void casLoadImage(App app, CASmpreduceW casInstance) {
 	    	casToCallback  = casInstance;
 	        try {
 
-	            Scheduler.get().scheduleIncremental(InterpreterInstance.getInitializationExecutor());
+	            Scheduler.get().scheduleIncremental(InterpreterInstance.getInitializationExecutor(app));
 
 
 	        } catch (Exception e) {
@@ -282,7 +283,7 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	        return Jlisp.version;
 	    }
 
-	    public RepeatingCommand getInitializationExecutor() {
+	    public RepeatingCommand getInitializationExecutor(final App app) {
 	        RepeatingCommand repeatingCommand = new RepeatingCommand() {
 
 	            int counter = 0;
@@ -412,7 +413,7 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	                            break;
 	                        default:
 	                            if (GWT.isClient()) {
-	                                casInitialize();
+	                                casInitialize(app);
 	                            } else {
 	                                initialize();
 	                            }
@@ -482,13 +483,13 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	    }//end method.
 	    GZIPInputStream gzip = null;
 
-	    public static void main(String[] args) {
+	    public static void main(App app, String[] args) {
 
 	        InterpreterJs mpreduce = new InterpreterJs();
 
 	        try {
 
-	            RepeatingCommand builtinFunctionExecutor = mpreduce.getInitializationExecutor();
+	            RepeatingCommand builtinFunctionExecutor = mpreduce.getInitializationExecutor(app);
 	            while (builtinFunctionExecutor.execute() == true) {
 	            }
 
