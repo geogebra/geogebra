@@ -169,12 +169,18 @@ public interface Traversing {
 	public class VariableReplacer implements Traversing {
 		private String var;
 		private ExpressionValue newObj;
+		private int replacements;
 		public ExpressionValue process(ExpressionValue ev) {
-				if(!(ev instanceof Variable || ev instanceof FunctionVariable))
+				if(!(ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable))
 					return ev;
-				if(!var.equals(ev.toString(StringTemplate.defaultTemplate)))
+				if(!var.equals(ev.toString(StringTemplate.defaultTemplate))){
+					replacements++;
 					return ev;
+				}
 				return newObj;
+		}
+		public int getReplacements(){
+			return replacements;
 		}
 		private static VariableReplacer replacer = new VariableReplacer();
 		/**
@@ -185,6 +191,7 @@ public interface Traversing {
 		public static VariableReplacer getReplacer(String varStr,ExpressionValue replacement){
 			replacer.var = varStr;
 			replacer.newObj = replacement;
+			replacer.replacements = 0;
 			return replacer;
 		}
 	}

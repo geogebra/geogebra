@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -243,8 +244,9 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 
 			// look for Variable objects with name of function variable and
 			// replace them
-			int replacements = expression.replaceVariables(
-					fVar.getSetVarString(), fVar);
+			VariableReplacer vr = VariableReplacer.getReplacer(fVar.getSetVarString(), fVar);
+			expression = expression.traverse(vr).wrap();
+			 int replacements = vr.getReplacements();
 			isConstantFunction = isConstantFunction && replacements == 0;
 
 			if (replacements == 0) {
