@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class GGWSpreadsheetView extends ResizeComposite {
 
 	App application = null;
-	
+
 	private static GGWSpreadsheetViewUiBinder uiBinder = GWT
 	        .create(GGWSpreadsheetViewUiBinder.class);
 
@@ -41,11 +41,16 @@ public class GGWSpreadsheetView extends ResizeComposite {
 		//App.debug("Resized");
 		if (application != null) {
 			SpreadsheetView spreadsheet = (SpreadsheetView)application.getGuiManager().getSpreadsheetView();
-			spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
-			spreadsheet.getScrollPanel().setHeight(
-				(this.getOffsetHeight() -
-					(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
-				getSpreadsheetStyleBar()).getOffsetHeight())+"px");
+
+			// If this is resized, we may know its width and height
+			int width = this.getOffsetWidth();//this is 400, OK
+			int height = this.getOffsetHeight() -
+				(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
+				getSpreadsheetStyleBar()).getOffsetHeight();
+
+			// In theory, the ScrollPanel is the innermost thing which should be resized
+			spreadsheet.getScrollPanel().setWidth(width+"px");
+			spreadsheet.getScrollPanel().setHeight(height+"px");
 		}
     }
 

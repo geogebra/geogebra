@@ -11,9 +11,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetPanel extends Composite implements RequiresResize {
+public class SpreadsheetPanel extends ResizeComposite {
 
 	App application = null;
 
@@ -32,6 +33,10 @@ public class SpreadsheetPanel extends Composite implements RequiresResize {
 
 	public void onResize() {
 		App.debug("resized");
+
+		// Why??
+		spreadsheet.getFocusPanel().setWidth(this.getOffsetWidth()+"px");
+		spreadsheet.getFocusPanel().setHeight(this.getOffsetHeight()+"px");
     }
 
 	public void attachApp(App app) {
@@ -41,7 +46,7 @@ public class SpreadsheetPanel extends Composite implements RequiresResize {
 	   spreadsheet = ((AppW)app).getGuiManager().getSpreadsheetView();
 
 	   tempsheet.add(spreadsheet);
-	   spreadsheet.getScrollPanel().setWidth(this.getOffsetWidth()+"px");
-	   spreadsheet.getScrollPanel().setHeight(this.getOffsetHeight()+"px");
+
+	   onResize();
 	}
 }

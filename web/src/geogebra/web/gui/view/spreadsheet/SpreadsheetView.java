@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 
-public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterface, /*ComponentListener,
+public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener {
 
 	private static final long serialVersionUID = 1L;
@@ -57,7 +57,7 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 
 	// fields for split panel, fileBrowser and stylebar
 	//private JScrollPane spreadsheet;
-	private ScrollPanel spreadsheet;
+	private FocusPanel spreadsheet;
 	//private FileBrowserPanel fileBrowser;
 	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBarW styleBar;
@@ -140,9 +140,6 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 		tableModel = (SpreadsheetTableModelW) app.getSpreadsheetTableModel();
 		table = new MyTableW(this, tableModel);
 
-		spreadsheet = new ScrollPanel(table);
-		addKeyDownHandler(new SpreadsheetKeyListener(app, table));
-
 		bluedot = Canvas.createIfSupported();
 		if (bluedot != null) {
 			bluedot.setCoordinateSpaceHeight(MyTableW.DOT_SIZE);
@@ -155,6 +152,13 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 			c2d.fill();
 			bluedot.getElement().getStyle().setDisplay(Style.Display.NONE);
 		}
+
+		AbsolutePanel forTheBlueDot = new AbsolutePanel();
+		forTheBlueDot.add(table);
+		forTheBlueDot.add(bluedot);
+
+		spreadsheet = new FocusPanel(forTheBlueDot);
+		spreadsheet.addKeyDownHandler(new SpreadsheetKeyListener(app, table));
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
@@ -1281,7 +1285,7 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 	public void requestFocus() {
 		//if (table != null)
 		//	table.requestFocus();
-		setFocus(true);
+		spreadsheet.setFocus(true);
 	}
 
 	// test all components of SpreadsheetView for hasFocus
@@ -1364,7 +1368,11 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 		}
 	}
 
-	public ScrollPanel getScrollPanel() {
+	public FocusPanel getFocusPanel() {
 		return spreadsheet;
+	}
+
+	public ScrollPanel getScrollPanel() {
+		return this;
 	}
 }
