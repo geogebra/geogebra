@@ -4326,7 +4326,44 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(")");
 			}
 			break;
-			
+		case IF:
+			if (STRING_TYPE == StringType.LATEX) {
+				sb.append("If[");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append("]");
+			} else {
+				if (STRING_TYPE == StringType.MPREDUCE) {
+					sb.append("ifelsefun(");
+				} else {
+					sb.append("gGbIf(");
+				}
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")");
+			}
+			break;	
+		case IF_ELSE:
+			if (STRING_TYPE == StringType.LATEX) {
+				sb.append("If[");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append("]");
+			} else {
+				if (STRING_TYPE == StringType.MPREDUCE) {
+					sb.append("ifelsefun(");
+				} else {
+					sb.append("gGbIfElSe(");
+				}
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")");
+			}
+			break;	
 			
 			
 		default:

@@ -214,10 +214,12 @@ public class ParserFunctions {
 
 		put(1, "expIntegral", Operation.EI);
 		put(1, "ExpIntegral", Operation.EI);
-
+		//functions that come from Reduce
 		put(2, "gGbInTeGrAl", Operation.INTEGRAL);
 		put(2, "gGbSuBsTiTuTiOn", Operation.SUBSTITUTION);
 		put(4, "gGbSuM", Operation.SUM);
+		put(2, "gGbIf", Operation.IF);
+		put(3, "gGbIfElSe", Operation.IF_ELSE);
 
 		put(1, "arbint", Operation.ARBINT);
 
@@ -359,7 +361,8 @@ public class ParserFunctions {
 			if (!candidate.startsWith(prefix)) {
 				break;
 			}
-			completions.add(candidate + "()");
+			if(!candidate.startsWith("gGb"))
+				completions.add(candidate + "()");
 		}
 		return completions;
 	}

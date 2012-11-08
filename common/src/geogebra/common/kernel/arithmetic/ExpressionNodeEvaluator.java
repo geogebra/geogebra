@@ -1427,6 +1427,33 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// error if we get here
 			str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
+		case IF:
+			// Application.debug("DERIVATIVE called");
+			// derivative(function, order)
+			if (lt.isBooleanValue()) {
+				if (((BooleanValue)lt).getBoolean()){
+					return rt;
+				}
+				return new MyDouble(kernel,Double.NaN);
+			}
+			// error if we get here
+			str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
+			throw new MyError(app, str);	
+		case IF_ELSE:
+			// Application.debug("DERIVATIVE called");
+			// derivative(function, order)
+			if (lt  instanceof MyNumberPair) {
+				ExpressionValue cond = ((MyNumberPair)lt).getX().evaluate(tpl);
+				if(cond.isBooleanValue()){
+					if (((BooleanValue)cond).getBoolean()){
+						return ((MyNumberPair)lt).getY().evaluate(tpl);
+					}
+					return rt;
+				}
+			}
+			// error if we get here
+			str = new String[] { "IllegalArgument", rt.toString(errorTemplate) };
+			throw new MyError(app, str);	
 		case ARBCONST:
 		case ARBINT:
 		case ARBCOMPLEX:
