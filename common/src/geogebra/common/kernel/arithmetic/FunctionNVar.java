@@ -241,7 +241,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	public void initFunction() {
 		// replace function variables in tree
 		for (int i = 0; i < fVars.length; i++) {
-			App.debug(fVars[i]);
 			FunctionVariable fVar = fVars[i];
 
 			// look for Variable objects with name of function variable and
