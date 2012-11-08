@@ -18,8 +18,11 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
 import java.util.HashMap;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 
@@ -36,6 +39,7 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 	private MyTableW table;
 	protected SpreadsheetTableModelW tableModel;
 	//private JTableHeader tableHeader;
+	public Canvas bluedot;
 
 	// moved to kernel
 	// if these are increased above 32000, you need to change traceRow to an
@@ -139,6 +143,19 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 		spreadsheet = new ScrollPanel(table);
 		addKeyDownHandler(new SpreadsheetKeyListener(app, table));
 
+		bluedot = Canvas.createIfSupported();
+		if (bluedot != null) {
+			bluedot.setCoordinateSpaceHeight(MyTableW.DOT_SIZE);
+			bluedot.setCoordinateSpaceWidth(MyTableW.DOT_SIZE);
+			bluedot.setWidth(MyTableW.DOT_SIZE+"px");
+			bluedot.setHeight(MyTableW.DOT_SIZE+"px");
+			Context2d c2d = bluedot.getContext2d();
+			c2d.setFillStyle(MyTableW.SELECTED_RECTANGLE_COLOR.toString());
+			c2d.fillRect(0, 0, MyTableW.DOT_SIZE, MyTableW.DOT_SIZE);
+			c2d.fill();
+			bluedot.getElement().getStyle().setDisplay(Style.Display.NONE);
+		}
+
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
 
@@ -177,6 +194,19 @@ public class SpreadsheetView extends FocusPanel implements SpreadsheetViewInterf
 		// Add a resize listener to the table so it can auto-enlarge if needed
 		table.addComponentListener(this);
 */
+	}
+
+	public void positionBlueDot(boolean visible, int left, int top) {
+
+		if (bluedot == null)
+			return;
+
+		if (visible) {
+			bluedot.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+			((AbsolutePanel)spreadsheet.getWidget()).setWidgetPosition(bluedot, left, top);
+		} else {
+			bluedot.getElement().getStyle().setDisplay(Style.Display.NONE);
+		}
 	}
 
 	// ===============================================================
