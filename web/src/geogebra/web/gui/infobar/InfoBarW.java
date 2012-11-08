@@ -28,10 +28,6 @@ public class InfoBarW extends geogebra.common.gui.infobar.InfoBar {
 	
     @Override
     public void show(String message) {
-		if (info != null) {
-			return;
-			// First it must be hidden.
-		}
 		App.info("ANNOUNCEMENT: " + message);
         hide();
 		info = new PopupPanel();

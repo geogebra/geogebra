@@ -15,7 +15,7 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
 	 * Global object for announcements for user's interest.
 	 */
 	
-	String prevInfo = null;
+	String origInfo = null;
 	private App myApp;
 	
 	/**
@@ -33,8 +33,9 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
     @Override
 	public void show(String message) {
 		App.info("ANNOUNCEMENT: " + message);
-    	prevInfo = getFrame().getTitle();
-    	String newName = prevInfo + " - " + message;
+		if (origInfo == null)
+			origInfo = getFrame().getTitle();
+    	String newName = origInfo + " - " + message;
     	getFrame().setTitle(newName);
     	
     	// This does not work on Ubuntu 11.04 GNOME.
@@ -44,8 +45,8 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
 	
     @Override
 	public void hide() {
-    	if (prevInfo != null) {
-    		getFrame().setTitle(prevInfo);
+    	if (origInfo != null) {
+    		getFrame().setTitle(origInfo);
     		App.info("ANNOUNCEMENT - off");
     	}
     		
