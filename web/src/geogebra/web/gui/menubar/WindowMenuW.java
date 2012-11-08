@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
@@ -28,10 +29,10 @@ public class WindowMenuW extends MenuBar{
 		clearItems();
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), app.getMenu("")),
+				.empty().getSafeUri().asString(), app.getMenu("NewWindow")),
 		        true, new Command() {
 			        public void execute() {
-			        	com.google.gwt.user.client.Window.open("http://www.geogebra.org/web/web_gui/", "_blank", "");
+			        	com.google.gwt.user.client.Window.open(Window.Location.getHref(), "_blank", "");
 			        }
 		        });
 		
