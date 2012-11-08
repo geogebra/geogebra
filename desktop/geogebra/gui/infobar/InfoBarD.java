@@ -35,7 +35,7 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
 		App.info("ANNOUNCEMENT: " + message);
 		if (origInfo == null)
 			origInfo = getFrame().getTitle();
-    	String newName = origInfo + " - " + message;
+    	String newName = origInfo + " - " + myApp.getPlain(message);
     	getFrame().setTitle(newName);
     	
     	// This does not work on Ubuntu 11.04 GNOME.

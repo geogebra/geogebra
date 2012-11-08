@@ -17,6 +17,7 @@ public class InfoBarW extends geogebra.common.gui.infobar.InfoBar {
 	 * Global object for announcements for user's interest.
 	 */
 	PopupPanel info;
+	private App myApp;
 	
 	/**
 	 * Constructor
@@ -24,6 +25,7 @@ public class InfoBarW extends geogebra.common.gui.infobar.InfoBar {
 	 */
 	public InfoBarW(App app) {
 		info = null;
+		myApp = app;
 	}
 	
     @Override
@@ -34,7 +36,7 @@ public class InfoBarW extends geogebra.common.gui.infobar.InfoBar {
 	    info.ensureDebugId("announcement");
 	    // Change this to a more/less fancy thing if you want: 
 	    String html = "<div id='announcement' style='background-color: blue; color: white; font-weight: bold; font-family: arial,sans-serif;'>&nbsp;"
-	    		+ message + "&nbsp;</div>";
+	    		+ myApp.getPlain(message) + "&nbsp;</div>";
 	    info.setWidget(
 	        new HTML(html));
 	    info.setPopupPosition(10, 10); // fake position first (we need to write it out), but also for applets

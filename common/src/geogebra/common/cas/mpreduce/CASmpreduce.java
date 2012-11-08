@@ -116,7 +116,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// sure this code will surely run BEFORE the big CPU heavy
 			// initialization.
 			// TODO: Use localized text here.
-			App.showAnnouncement("CAS initializing, please wait..."); // for the web
+			App.showAnnouncement("CASInitializing"); // for the web
 			initialized = true;
 		}
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
@@ -418,7 +418,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 */
 	protected static final void initStaticMyMPReduceFunctions(Evaluate mpreduce1)
 			throws Throwable {
-		App.showAnnouncement("CAS initializing, please wait..."); // for the desktop
+		App.showAnnouncement("CASInitializing"); // for the desktop
 		initialized = true;
 		App.debug("Loading packages...");
 
