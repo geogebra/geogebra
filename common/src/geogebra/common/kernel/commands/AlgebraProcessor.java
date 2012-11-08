@@ -307,29 +307,11 @@ public class AlgebraProcessor {
 		try {
 			return changeGeoElementNoExceptionHandling(geo, newValue,
 					redefineIndependent, storeUndoInfo);
-		} catch (Exception e) {
-			app.showError(e.getMessage());
+		}catch (MyError e) {
+			app.showError(e);
 			return null;
-		}
-	}
-
-	/**
-	 * for AlgebraView changes in the tree selection and redefine dialog
-	 * @param geo old geo
-	 * @param newValueVE new value
-	 * @param redefineIndependent  true to allow redefinition of free objects
-	 * @param storeUndoInfo true to make undo step 
-	 * 
-	 * @return changed geo
-	 */
-	public GeoElement changeGeoElement(GeoElement geo,
-			ValidExpression newValueVE, boolean redefineIndependent,
-			boolean storeUndoInfo) {
-
-		try {
-			return changeGeoElementNoExceptionHandling(geo, newValueVE,
-					redefineIndependent, storeUndoInfo);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			app.showError(e.getMessage());
 			return null;
 		}
@@ -344,11 +326,12 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo true to make undo step 
 	 * @return changed geo
 	 * @throws Exception e.g. parse exception or circular definition
+	 * @throws MyError eg assignment to fixed object
 	 *
 	 */
 	public GeoElement changeGeoElementNoExceptionHandling(GeoElement geo,
 			String newValue, boolean redefineIndependent, boolean storeUndoInfo)
-			throws Exception {
+			throws Exception, MyError {
 
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
@@ -358,8 +341,7 @@ public class AlgebraProcessor {
 			e.printStackTrace();
 			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
 		} catch (MyError e) {
-			e.printStackTrace();
-			throw new Exception(e.getLocalizedMessage());
+			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
 			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
@@ -434,9 +416,8 @@ public class AlgebraProcessor {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
-		} catch (MyError e) {
-			e.printStackTrace();
-			throw new Exception(e.getLocalizedMessage());
+		} catch (MyError e) {			
+			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
 			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);

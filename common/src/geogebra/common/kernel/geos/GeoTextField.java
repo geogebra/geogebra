@@ -10,6 +10,7 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
+import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TextObject;
@@ -230,7 +231,11 @@ public class GeoTextField extends GeoButton {
 					.changeGeoElementNoExceptionHandling(linkedGeo,
 							defineText, linkedGeo.isIndependent(), true); 
 			
-		} catch (Exception e1) {
+		}catch (MyError e1) {
+			app.showError(e1);
+			return;
+		} 
+		catch (Exception e1) {
 			app.showError(e1.getMessage());
 			return;
 		}
