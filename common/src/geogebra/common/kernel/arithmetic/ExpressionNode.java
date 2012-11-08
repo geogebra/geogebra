@@ -4327,7 +4327,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 		case IF:
-			if (STRING_TYPE == StringType.LATEX) {
+			if (STRING_TYPE == StringType.LATEX|| tpl.isPrintLocalizedCommandNames()) {
 				sb.append("If[");
 				sb.append(leftStr);
 				sb.append(",");
@@ -4346,7 +4346,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;	
 		case IF_ELSE:
-			if (STRING_TYPE == StringType.LATEX) {
+			if (STRING_TYPE == StringType.LATEX || tpl.isPrintLocalizedCommandNames()) {
 				sb.append("If[");
 				sb.append(leftStr);
 				sb.append(",");
