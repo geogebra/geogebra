@@ -1,7 +1,6 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
@@ -41,6 +40,10 @@ public class GeoGebraMenubarW extends MenuBar {
 		public static MenuItem loginToGoogle;
 		private MenuItem linktoggb;
 
+		/**
+		 * Constructs the menubar
+		 * @param app application
+		 */
 		public GeoGebraMenubarW(App app) {
 	        super();
 	        this.app = app;
@@ -256,11 +259,22 @@ public class GeoGebraMenubarW extends MenuBar {
 			addItem(app.getMenu("Window"), windowMenu);
 		}
 				
+		/**
+		 * Gives back an html source of an enabled menuitem.
+		 * @param url an icon's url
+		 * @param text menuitem's text
+		 * @return html source of a menuitem
+		 */
 		public static String getMenuBarHtml(String url,String text) {		
 			//TODO: Resize images for this real size, if it is good.
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
 		}
 
+		/**Gives back an html source of a disabled menuitem.
+		 * @param url an icon's url
+		 * @param text menuitem's text
+		 * @return html source of a menuitem
+		 */
 		public static String getMenuBarHtmlGrayout(String url,String text) {		
 			//TODO: Resize images for this real size, if it is good.
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
@@ -275,6 +289,9 @@ public class GeoGebraMenubarW extends MenuBar {
 			editMenu.initActions();	        
         }
 
+		/**
+		 * Updates the menubar.
+		 */
 		public void updateMenubar() {
 			App.debug("implementation needed - just finishing");
 			app.getOptionsMenu().update();        

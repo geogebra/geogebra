@@ -11,10 +11,14 @@ import com.google.gwt.user.client.ui.MenuBar;
  */
 public class ViewMenuW extends MenuBar{
 
-	private App app;
+	/**
+	 * Application instance
+	 */
+	App app;
 
 	/**
 	 * Constructs the "Window" menu
+	 * @param application The App instance
 	 */
 	public ViewMenuW(App application) {
 
