@@ -55,7 +55,7 @@ public class GeoGebraMenubarW extends MenuBar {
 
 		createEditMenu();
 
-		// createViewMenu();
+		createViewMenu();
 
 		// Creation of Options Menu
 		createOptionsMenu(); // Later we'll put back.
@@ -236,10 +236,10 @@ public class GeoGebraMenubarW extends MenuBar {
 			addItem(app.getMenu("Edit"), editMenu);
 		}
 		
-//		private void createViewMenu() {
-//			ViewMenuW viewMenu = new ViewMenuW();
-//			addItem(app.getMenu("View"), viewMenu);
-//		}
+		private void createViewMenu() {
+			ViewMenuW viewMenu = new ViewMenuW(app);
+			addItem(app.getMenu("View"), viewMenu);
+		}
 		
 		private void createHelpMenu() {
 	        helpMenu = new HelpMenuW(app);
