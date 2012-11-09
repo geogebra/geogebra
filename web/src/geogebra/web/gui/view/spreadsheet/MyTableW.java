@@ -136,6 +136,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected boolean isDragingDot = false;
 	protected int dragingToRow = -1;
 	protected int dragingToColumn = -1;
+	protected int dragingToRowOld = -1;
+	protected int dragingToColumnOld = -1;
 	protected boolean isOverDot = false;
 	protected boolean isDragging2 = false;
 
@@ -2163,6 +2165,104 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// At first, the program should delete any previous selection
 			// created by this method
 
+			if (dragingToRowOld != -1 && dragingToColumnOld != -1) {
+				if (dragingToColumnOld < minSelectionColumnOld) { // 2
+					for (int i = dragingToColumnOld; i <= minSelectionColumnOld; i++) {
+						getCellFormatter()
+						        .getElement(minSelectionRowOld, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderTop",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+						getCellFormatter()
+						        .getElement(maxSelectionRowOld, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderBottom",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+					for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
+						getCellFormatter()
+						        .getElement(i, dragingToColumnOld)
+						        .getStyle()
+						        .setProperty(
+						                "borderLeft",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+				}
+				else if (dragingToRowOld > maxSelectionRowOld) { // 4
+					for (int i = maxSelectionRowOld; i <= dragingToRowOld; i++) {
+						getCellFormatter()
+						        .getElement(i, minSelectionColumnOld)
+						        .getStyle()
+						        .setProperty(
+						                "borderLeft",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+						getCellFormatter()
+						        .getElement(i, maxSelectionColumnOld)
+						        .getStyle()
+						        .setProperty(
+						                "borderRight",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+					for (int i = minSelectionColumnOld; i <= maxSelectionColumnOld; i++) {
+						getCellFormatter()
+						        .getElement(dragingToRowOld, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderBottom",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+				}
+				else if (dragingToRowOld < minSelectionRowOld) { // 1
+					for (int i = dragingToRowOld; i <= minSelectionRowOld; i++) {
+						getCellFormatter()
+						        .getElement(i, minSelectionColumnOld)
+						        .getStyle()
+						        .setProperty(
+						                "borderLeft",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+						getCellFormatter()
+						        .getElement(i, maxSelectionColumnOld)
+						        .getStyle()
+						        .setProperty(
+						                "borderRight",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+					for (int i = minSelectionColumnOld; i <= maxSelectionColumnOld; i++) {
+						getCellFormatter()
+						        .getElement(dragingToRowOld, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderTop",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+				} else if (dragingToColumnOld > maxSelectionColumnOld) { // 3
+					for (int i = maxSelectionColumnOld; i <= dragingToColumnOld; i++) {
+						getCellFormatter()
+						        .getElement(minSelectionRowOld, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderTop",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+						getCellFormatter()
+						        .getElement(maxSelectionRowOld, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderBottom",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+					for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
+						getCellFormatter()
+						        .getElement(i, dragingToColumnOld)
+						        .getStyle()
+						        .setProperty(
+						                "borderRight",
+						                TABLE_GRID_COLOR.toString()+" solid 1px");
+					}
+				}
+			}
+
 			for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
 				getCellFormatter().getElement(i, minSelectionColumnOld)
 				        .getStyle().setProperty("borderLeft", TABLE_GRID_COLOR.toString()+" solid 1px");
@@ -2181,9 +2281,122 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		maxSelectionRowOld = maxSelectionRow;
 		minSelectionColumnOld = minSelectionColumn;
 		maxSelectionColumnOld = maxSelectionColumn;
+		dragingToRowOld = dragingToRow;
+		dragingToColumnOld = dragingToColumn;
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 		        && minSelectionColumn != -1 && maxSelectionColumn != -1) {
+		
+			if (dragingToRow != -1 && dragingToColumn != -1) {
+				if (dragingToColumn < minSelectionColumn) { // 2
+					for (int i = dragingToColumn; i <= minSelectionColumn; i++) {
+						getCellFormatter()
+						        .getElement(minSelectionRow, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderTop",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+						getCellFormatter()
+						        .getElement(maxSelectionRow, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderBottom",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+					for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
+						getCellFormatter()
+						        .getElement(i, dragingToColumn)
+						        .getStyle()
+						        .setProperty(
+						                "borderLeft",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+				}
+				else if (dragingToRow > maxSelectionRow) { // 4
+					for (int i = maxSelectionRow; i <= dragingToRow; i++) {
+						getCellFormatter()
+						        .getElement(i, minSelectionColumn)
+						        .getStyle()
+						        .setProperty(
+						                "borderLeft",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+						getCellFormatter()
+						        .getElement(i, maxSelectionColumn)
+						        .getStyle()
+						        .setProperty(
+						                "borderRight",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+					for (int i = minSelectionColumn; i <= maxSelectionColumn; i++) {
+						getCellFormatter()
+						        .getElement(dragingToRow, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderBottom",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+				}
+				else if (dragingToRow < minSelectionRow) { // 1
+					for (int i = dragingToRow; i <= minSelectionRow; i++) {
+						getCellFormatter()
+						        .getElement(i, minSelectionColumn)
+						        .getStyle()
+						        .setProperty(
+						                "borderLeft",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+						getCellFormatter()
+						        .getElement(i, maxSelectionColumn)
+						        .getStyle()
+						        .setProperty(
+						                "borderRight",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+					for (int i = minSelectionColumn; i <= maxSelectionColumn; i++) {
+						getCellFormatter()
+						        .getElement(dragingToRow, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderTop",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+				} else if (dragingToColumn > maxSelectionColumn) { // 3
+					for (int i = maxSelectionColumn; i <= dragingToColumn; i++) {
+						getCellFormatter()
+						        .getElement(minSelectionRow, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderTop",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+						getCellFormatter()
+						        .getElement(maxSelectionRow, i)
+						        .getStyle()
+						        .setProperty(
+						                "borderBottom",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+					for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
+						getCellFormatter()
+						        .getElement(i, dragingToColumn)
+						        .getStyle()
+						        .setProperty(
+						                "borderRight",
+						                GColor.GRAY.toString() + " solid "
+						                        + LINE_THICKNESS2 + "px");
+					}
+				}
+			}
+	
 
 			for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
 				getCellFormatter()
