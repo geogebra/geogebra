@@ -718,7 +718,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "begin; " +
 				" roundedon := if lisp(!*rounded) then 'true else 'false; " +
 				" if mynumberp(x)='true then on numval, rounded; " +
-				" r:=ceil(x);" +
+				" r:=ceiling(x);" +
 				" if roundedon='false then off numval, rounded; " +
 				" return r;end");
 

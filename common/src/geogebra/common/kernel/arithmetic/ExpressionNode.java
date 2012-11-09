@@ -588,6 +588,7 @@ public class ExpressionNode extends ValidExpression implements
 			vars.add(left.toString(StringTemplate.defaultTemplate));
 		}else if (left instanceof MyVecNode) {
 			((MyVecNode)left).getX().wrap().getPolynomialVars(vars);
+			((MyVecNode)left).getY().wrap().getPolynomialVars(vars);
 		}
 
 		if (right != null) {
@@ -615,6 +616,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			else if (right instanceof MyVecNode) {
 				((MyVecNode)right).getX().wrap().getPolynomialVars(vars);
+				((MyVecNode)right).getY().wrap().getPolynomialVars(vars);
 			}
 		}
 	}

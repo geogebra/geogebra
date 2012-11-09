@@ -1362,7 +1362,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(app);
 				outputVE.traverse(cr);
-				outputVE.setAssignmentType(inputVE.getAssignmentType());
+				if(inputVE!=null)
+					outputVE.setAssignmentType(inputVE.getAssignmentType());
 			}else{
 				setError("CAS.GeneralErrorMessage");
 			}
@@ -2169,7 +2170,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 					|| (topLevel.getName()).equals("CSolutions")
 					|| (topLevel.getName()).equals("NSolve")
 					|| (topLevel.getName()).equals("NSolutions")
-					|| (topLevel.getName()).equals("Root")) {
+					|| (topLevel.getName()).equals("Root")
+					|| (topLevel.getName()).equals("ComplexRoot")) {
 				//if we got evalVE by clicking Solve button, inputVE might just contain the equations
 				//we want the command in input as well
 				if(!pointList){
