@@ -190,7 +190,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 				DockPanel panel = getPanel(dpData[i].getViewId());
 				
 				// skip panels which will not be drawn in the main window
-				if(!dpData[i].isVisible())
+				if(!dpData[i].isVisible()
+						// eg run "no 3D" with 3D View open in saved settings
+						|| panel == null)
 					continue;
 				
 				// attach view to kernel (being attached multiple times is ignored)
