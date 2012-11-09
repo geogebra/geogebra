@@ -2,14 +2,12 @@ package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.Variable;
@@ -27,6 +25,12 @@ public class CommandDispatcherMPReduce {
 	 * Enum for special commands that may be returned by MPReduce.
 	 */
 	public enum commands {
+		/**ceil*/
+		myfloor(Operation.FLOOR),
+		/**ceil*/
+		myceil(Operation.CEIL),
+		/**ceil*/
+		ceiling(Operation.CEIL),
 		/** arbitrary complex number*/
 		arbcomplex(Operation.ARBCOMPLEX),
 		/** arbitrary constant*/
@@ -48,7 +52,7 @@ public class CommandDispatcherMPReduce {
 		/** sine integral */
 		si(Operation.SI),
 		/** cosine integral */
-		ci(Operation.CI),
+		ci(Operation.CI),		
 		/** cosine integral */
 		ei(Operation.EI),
 		/** symbolic x coord*/
@@ -179,6 +183,9 @@ public class CommandDispatcherMPReduce {
 						 args.getItem(1),Operation.LOGB,
 								args.getItem(0));
 				break;
+			case myfloor:
+			case myceil:
+			case ceiling:	
 			case arbcomplex:
 			case arbconst:
 			case arbint:

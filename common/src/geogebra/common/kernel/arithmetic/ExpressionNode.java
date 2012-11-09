@@ -3677,7 +3677,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(')');
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "floor");
+				appendReduceFunction(sb, "myfloor");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3709,7 +3709,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(')');
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "ceiling");
+				appendReduceFunction(sb, "myceil");
 				sb.append(leftStr);
 				sb.append(')');
 				break;

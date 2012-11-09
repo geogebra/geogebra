@@ -251,9 +251,15 @@ public class Ggb2MPReduce {
 		p("RandomNormal.2",
 				"<<on rounded, roundall, numval; %0+(%1)*cos(2*pi*random(10000000)/10000000)*sqrt(-2*log(random(10000000)/10000000)) >>");
 		p("RandomPolynomial.3",
-				"<<begin scalar a, b, min!!, max!!; min!!:=myround(%1); max!!:=myround(%2); a:=for i:=0:%0-1 sum (random(max!!-(min!!)+1)+(min!!))*currentx!!^i; return a+currentx!!^(%0)*if min!!<=0 and max!!>0 then <<b:=random(max!!-(min!!))+(min!!); if b>=0 then b+1 else b>> else random(max!!-(min!!)+1)+min!! end>>");
+				"<<begin scalar a, b, d, min!!, max!!; d:=myfloor(%0); min!!:=myround(%1); max!!:=myround(%2);" +
+				" a:=for i:=0:d-1 sum (random(max!!-(min!!)+1)+(min!!))*currentx!!^i; " +
+				"return a+currentx!!^(d)*if min!!<=0 and max!!>0 then <<b:=random(max!!-(min!!))+(min!!);" +
+				" if b>=0 then b+1 else b>> else random(max!!-(min!!)+1)+min!! end>>");
 		p("RandomPolynomial.4",
-				"<<begin scalar a, b, min!!, max!!; min!!:=myround(%2); max!!:=myround(%3); a:=for i:=0:%1-1 sum (random(max!!-min!!+1)+min!!)*(%0)^i; return a+(%0)^(%1)*if min!!<=0 and max!!>0 then <<b:=random(max!!-min!!)+min!!; if b>=0 then b+1 else b>> else random(max!!-min!!+1)+min!! end>>");
+				"<<begin scalar a, b, d, min!!, max!!; d:=myfloor(%1); min!!:=myround(%2); max!!:=myround(%3); " +
+				"a:=for i:=0:d-1 sum (random(max!!-min!!+1)+min!!)*(%0)^i;" +
+				" return a+(%0)^(d)*if min!!<=0 and max!!>0 then <<b:=random(max!!-min!!)+min!!; " +
+				" if b>=0 then b+1 else b>> else random(max!!-min!!+1)+min!! end>>");
 		p("Rationalize.1", "<<off rounded;on rationalize; %0 >>");
 		p("Reverse.1","reverse(%0)");
 		p("RightSide.1",

@@ -705,6 +705,22 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						" on numval, rounded; r:=floor(x+0.5);" +
 						" if roundedon='false then off numval, rounded; " +
 						" return r;end");
+		mpreduce1
+		.evaluate("procedure myfloor(x);"
+				+ "begin; " +
+				" roundedon := if lisp(!*rounded) then 'true else 'false; " +
+				" if mynumberp(x)='true then on numval, rounded;" +
+				" r:=floor(x);" +
+				" if roundedon='false then off numval, rounded; " +
+				" return r;end");
+		mpreduce1
+		.evaluate("procedure myceil(x);"
+				+ "begin; " +
+				" roundedon := if lisp(!*rounded) then 'true else 'false; " +
+				" if mynumberp(x)='true then on numval, rounded; " +
+				" r:=ceil(x);" +
+				" if roundedon='false then off numval, rounded; " +
+				" return r;end");
 
 		mpreduce1.evaluate("procedure harmonic(n,m); for i:=1:n sum 1/(i**m);");
 		mpreduce1.evaluate("procedure uigamma(n,m); gamma(n)-igamma(n,m);");
@@ -1284,7 +1300,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure myneq(a,b);snot myequal(a,b);");
 
 		mpreduce1
-				.evaluate("procedure fractionalpart(a);if (a)>0 then a-floor(a) else a-ceiling(a)");
+				.evaluate("procedure fractionalpart(a);ifelsefun(sgreater(a,0),a-myfloor(a),a-myceil(a))");
 		mpreduce1
 				.evaluate("procedure myreal(a);if myvecp(a) then xvcoord(a) else repart(a)");
 		mpreduce1
