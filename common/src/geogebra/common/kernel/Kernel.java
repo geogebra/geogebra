@@ -945,7 +945,7 @@ public class Kernel {
 		case MAXIMA:
 		case MPREDUCE:
 			if (Double.isNaN(x)) {
-				return " 1/0 ";
+				return "?";
 			} else if (Double.isInfinite(x)) {
 				if (casPrintForm.equals(StringType.MPREDUCE)) {
 					return (x < 0) ? "-infinity" : "infinity";
