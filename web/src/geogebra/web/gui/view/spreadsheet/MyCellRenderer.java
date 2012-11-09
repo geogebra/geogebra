@@ -127,8 +127,10 @@ public class MyCellRenderer {
 		if (value != null) {
 			geo = (GeoElement) value;
 		} else {
-			((Label)retwidget).setText("");
+			((Label)retwidget).setText(" ");
 			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+			retwidget.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
+			retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
 			return retwidget;
 		}
 

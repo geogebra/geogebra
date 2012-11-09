@@ -21,6 +21,11 @@ import java.util.HashMap;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -159,6 +164,12 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 
 		spreadsheet = new FocusPanel(forTheBlueDot);
 		spreadsheet.addKeyDownHandler(new SpreadsheetKeyListener(app, table));
+		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, table);
+		spreadsheet.addDomHandler(ml, MouseDownEvent.getType());
+		spreadsheet.addDomHandler(ml, MouseUpEvent.getType());
+		spreadsheet.addDomHandler(ml, MouseMoveEvent.getType());
+		spreadsheet.addDomHandler(ml, ClickEvent.getType());
+		spreadsheet.addDomHandler(ml, DoubleClickEvent.getType());
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);

@@ -272,12 +272,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// add mouse and key listeners
 		scc = new SpreadsheetColumnController(app, this);
 		srh = new SpreadsheetRowHeader(app, this);
-		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, this);
-		addDomHandler(ml, MouseDownEvent.getType());
-		addDomHandler(ml, MouseUpEvent.getType());
-		addDomHandler(ml, MouseMoveEvent.getType());
-		addDomHandler(ml, ClickEvent.getType());
-		addDomHandler(ml, DoubleClickEvent.getType());
 
 		// key listener - old solution
 		//KeyListener[] defaultKeyListeners = getKeyListeners();
@@ -1343,6 +1337,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			w.requestFocus();
 			getCellFormatter().getElement(row, col).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+			getCellFormatter().getElement(row, col).getStyle().setBorderWidth(LINE_THICKNESS2, Style.Unit.PX);
+			view.positionBlueDot(false, 0, 0);
 			return true;
 		}
 		getCellEditor(row, col).cancelCellEditing();
@@ -2221,6 +2217,21 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				                selectionRectangleColor.toString() + " solid "
 				                        + LINE_THICKNESS2 + "px");
 			}
+
+			if (isEditing()) {
+				if (view != null)
+					view.positionBlueDot(false, 0, 0);
+			} else {
+				Element wt1 = getCellFormatter().getElement(0,0);
+				Element wt2 = getCellFormatter().getElement(maxSelectionRow, maxSelectionColumn);
+				int px = wt2.getAbsoluteLeft() - wt1.getAbsoluteLeft() + wt2.getOffsetWidth() - DOT_SIZE/2;
+				int py = wt2.getAbsoluteTop() - wt1.getAbsoluteTop() + wt2.getOffsetHeight() - DOT_SIZE/2;
+				if (view != null)
+					view.positionBlueDot(true, px, py);
+			}
+		} else {
+			if (view != null)
+				view.positionBlueDot(false, 0, 0);
 		}
 
 		// After rendering the LaTeX image for a geo, update the row height
