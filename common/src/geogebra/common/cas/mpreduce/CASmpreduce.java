@@ -1235,7 +1235,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "for each a in lista collect "
 						+ "  if arglength(a)>-1 and freeof(a,i) and part(a,0)='equal then listtomyvect({rhs(a),0})"
 						+ "  else if arglength(a)>-1 and part(a,0)='equal then listtomyvect({repart(rhs(a)),impart(rhs(a))})"
-						+ "  else if arglength(a)=-1 or (not (part(a,0)='list)) and freeof(a,i) then listtomyvect({a,0})"
+						+ "  else if (arglength(a)=-1 or (not (part(a,0)='list))) and freeof(a,i) then listtomyvect({a,0})"
 						+ "  else if arglength(a)=-1 or (not (part(a,0)='list)) then listtomyvect({repart(a),impart(a)})"
 						+ "  else if (arglength(part(a,1))>-1) and (part(part(a,1),0)='equal) then "
 						+ "    <<begin tmp!!:=map(rhs,a); return listtomyvect(tmp!!); end>>" 

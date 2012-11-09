@@ -50,8 +50,9 @@ public class Ggb2MPReduce {
 				"tmplength:=length(input!!);" +
 				"tmpmean1:=1/tmplength* for each element!! in input!! sum <<tmp:=element!!;tmp[0]>> $ tmpmean2:=1/tmplength*for each element!! in input!! sum <<tmp:=element!!;tmp[1]>>$ return 1/tmplength*for each element!! in input!! sum <<tmp:=element!!;(tmp[0]-tmpmean1)*(tmp[1]-tmpmean2)>> end>>");
 		p("Cross.2", "mycross(%0,%1)");
-		p("CSolutions.1",
-				"<<begin scalar input!!; input!!:=(%0); on complex$ return flattenlist(for each element!! in mycsolve(input!!,mymainvar(input!!)) collect map(rhs,element!!)) end>>");
+		String cSolns = "<<begin scalar input!!; input!!:=(%0); on complex$ return flattenlist(for each element!! in mycsolve(input!!,mymainvar(input!!)) collect map(rhs,element!!)) end>>";
+		p("ComplexRoot.1", cSolns);
+		p("CSolutions.1", cSolns);
 		p("CSolutions.2",
 				"<<on complex$ flattenlist(for each element!! in mycsolve(%0,%1) collect map(rhs,element!!))>>");
 		p("CSolve.1",
