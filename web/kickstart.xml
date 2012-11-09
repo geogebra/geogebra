@@ -107,8 +107,8 @@ your workstation.
 	<unzip src="lib/download/gae-sdk.zip" dest="lib">
 	</unzip>
 	<copy todir="war/WEB-INF/lib">
-         <fileset dir="lib/appengine-java-sdk-1.7.0/lib/user" includes="*.jar" />
-         <fileset dir="lib/appengine-java-sdk-1.7.0/lib/user/orm" includes="*.jar" />
+         <fileset dir="lib/appengine-java-sdk-1.7.3/lib/user" includes="*.jar" />
+         <fileset dir="lib/appengine-java-sdk-1.7.3/lib/user/orm" includes="*.jar" />
         </copy>
 	</target>
 
