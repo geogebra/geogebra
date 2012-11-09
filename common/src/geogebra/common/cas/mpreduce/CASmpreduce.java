@@ -981,14 +981,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					//may happen that other!! is "we don't know" and solutions!! is "no answer" 
 					" return if part(other!!,1)=1 then part(other!!,2) else part(solutions!!,2);" +
 					" end;");
-		mpreduce1.evaluate("procedure simplifyexp(x);" +
+		App.debug(mpreduce1.evaluate("procedure simplifyexp(x);" +
 				" begin scalar y;" +
-				" exprules:={e^(log(~aa)/~bb)=>aa^(1/bb)};" +
+				//the second and third rule are for Solve[cubic]
+				" exprules:={e^(log(~aa)/~bb)=>aa^(1/bb),e^(~u*acosh(~t)/3)=>(sqrt(t^2 - 1)+t)^(u/3),e^(acosh(~t)/3)=>(sqrt(t^2 - 1)+t)^(1/3)};" +
 				" let exprules;" +
 				" y:=x;"+
 				" clearrules exprules;" +
 				" return y;" +
-				" end; ");
+				" end; "));
 				
 		mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
 				+ " begin scalar bool!!, isineq,temp1!!,temp2!!, max, noofstdsolutions;"
