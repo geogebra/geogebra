@@ -101,7 +101,7 @@ export CLASSPATH
 
 # 1. Setting up environment variables
 
-GWTDIR=lib/gwt-2.5.0.rc1 # Override it if needed by using autobuild.conf
+GWTDIR=lib/gwt-2.5.0 # Override it if needed by using autobuild.conf
 XML=`which xml 2>/dev/null`
 if [ "$XML" = "" ]; then
  XML=`which xmlstarlet 2>/dev/null`
