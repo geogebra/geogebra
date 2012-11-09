@@ -218,7 +218,7 @@ public class ParserFunctions {
 		put(2, "gGbInTeGrAl", Operation.INTEGRAL);
 		put(2, "gGbSuBsTiTuTiOn", Operation.SUBSTITUTION);
 		put(4, "gGbSuM", Operation.SUM);
-		put(2, "gGbIf", Operation.IF);
+		put(2, "gGbIfElSe", Operation.IF);
 		put(3, "gGbIfElSe", Operation.IF_ELSE);
 
 		put(1, "arbint", Operation.ARBINT);

@@ -4347,9 +4347,9 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("]");
 			} else {
 				if (STRING_TYPE == StringType.MPREDUCE) {
-					sb.append("ifelsefun(");
+					sb.append("iffun(");
 				} else {
-					sb.append("gGbIf(");
+					sb.append("gGbIfElSe(");
 				}
 				sb.append(leftStr);
 				sb.append(',');
