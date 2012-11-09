@@ -72,7 +72,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 			for (int i = rowNum * colNum - 1; i >= rowCount * colNum; i--)
 				defaultTableModel.remove(i);
 		} else {
-			for (int i = rowCount * colNum; i < rowNum * colNum; i++)
+			defaultTableModel.ensureCapacity(rowCount * colNum);
+			for (int i = rowNum * colNum; i < rowCount * colNum; i++)
 				defaultTableModel.add(null);
 		}
 		rowNum = rowCount;
@@ -89,6 +90,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 				for (int j = colNum - 1; j >= columnCount; j--)
 					defaultTableModel.remove(i*colNum + j);
 		} else {
+			defaultTableModel.ensureCapacity(rowNum * columnCount);
 			for (int i = rowNum - 1; i >= 0; i--)
 				for (int j = colNum; j < columnCount; j++)
 					if (i*colNum + j >= defaultTableModel.size())
