@@ -24,7 +24,7 @@ public class SpreadsheetPanel extends ResizeComposite {
 	interface SpreadsheetPanelUiBinder extends UiBinder<AbsolutePanel, SpreadsheetPanel> {
 	}
 
-	@UiField AbsolutePanel tempsheet;
+	@UiField AbsolutePanelSmart tempsheet;
 	SpreadsheetView spreadsheet = null;
 
 	public SpreadsheetPanel() {

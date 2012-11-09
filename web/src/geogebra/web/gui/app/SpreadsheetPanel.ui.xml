@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 	<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:web="urn:import:geogebra.web.gui.app">
-	<g:AbsolutePanel ui:field="tempsheet">
-	</g:AbsolutePanel>
+	<web:AbsolutePanelSmart ui:field="tempsheet">
+	</web:AbsolutePanelSmart>
 </ui:UiBinder>
