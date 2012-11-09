@@ -73,7 +73,7 @@ public class CommandDispatcherMPReduce {
 		/** two way conditional function */
 		ifelsefun(Operation.NO_OPERATION),
 		/** conditional function */
-		iffun(Operation.NO_OPERATION),
+		iffun(Operation.IF),
 		/** symbolic sum */
 		sum(Operation.SUM),
 		/** imaginary part */
