@@ -960,7 +960,7 @@ public class ExpressionNode extends ValidExpression implements
 			return true;
 		}
 		if ((right instanceof MyVecNode)
-				&& ((MyVecNode) left).containsFunctionVariable()) {
+				&& ((MyVecNode) right).containsFunctionVariable()) {
 			return true;
 		}
 		return false;
