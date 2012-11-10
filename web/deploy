@@ -11,18 +11,18 @@
 # Override them if needed by using autobuild.conf
 
 UPDATEWEB=0
-UPDATEGAE=1
+UPDATEGAE=0
 UPDATEGC=0
 UPDATEZIP=0
 
-GAEDIR=lib/appengine-java-sdk-1.7.0
+GAEDIR=lib/appengine-java-sdk-1.7.3
 GAEEMAIL=apps@geogebra.org
 GAEAPP=geogebraweb
 DOWNLOADDIR=$HOME/download/web
 WWW_SERVER_LOGIN=www-refresh@www.geogebra.org
 WWW_SERVER_KEY=$HOME/.ssh/id_rsa-www-refresh@www
 WWW_SERVER_PORT=22077
-GGBWEBDIR=/home/GeoGebra/web/4.2
+GGBWEBDIR=/home/GeoGebra/web/5.0
 
 test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
 
@@ -68,12 +68,12 @@ rm GeoGebraWeb-latest.zip
 ln -s GeoGebraWeb-$VERSION.zip GeoGebraWeb-latest.zip
 fi
 
-# 5/2. Updating war/web to www.geogebra.org/web/4.2/web
+# 5/2. Updating war/web to www.geogebra.org/web/5.0/web
 if [ $UPDATEWEB = 1 ]; then
 cd $WORKDIR
-echo "Updating war/web to www.geogebra.org/web/4.2/web"
+echo "Updating war/web to www.geogebra.org/web/5.0/web"
 rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" war/web $WWW_SERVER_LOGIN:$GGBWEBDIR 2>&1 | grep -v failed | grep -v "were not transferred"
-BACKUPDIR=history/4.2-`date +%Y-%m-%d`
+BACKUPDIR=history/5.0-`date +%Y-%m-%d`
 echo "Making backup to web/$BACKUPDIR"
 ssh -n -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN "cd $GGBWEBDIR; mkdir -p ../$BACKUPDIR; cp -a * ../$BACKUPDIR"
 fi
