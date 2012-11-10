@@ -1,7 +1,8 @@
 package geogebra.gui.infobar;
 
+import javax.swing.JFrame;
+
 import geogebra.common.main.App;
-import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
 
 /**
@@ -25,9 +26,9 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
 	public InfoBarD(App app) {
 		myApp = app;
 	}
-
-	private GeoGebraFrame getFrame() {
-		return (GeoGebraFrame) ((AppD)myApp).getFrame();
+	// we can't cast this to GeoGebraFrame as it would break tests
+	private JFrame getFrame() {
+		return ((AppD)myApp).getFrame();
 	}
 	
     @Override
