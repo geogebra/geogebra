@@ -34,6 +34,10 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
     @Override
 	public void show(String message) {
 		App.info("ANNOUNCEMENT: " + message);
+		
+		if (myApp.isApplet()) // Avoid getting an exception below this point.
+			return; // TODO: Find a way to inform the applet user.
+		
 		if (origInfo == null)
 			origInfo = getFrame().getTitle();
     	String newName = origInfo + " - " + myApp.getPlain(message);
