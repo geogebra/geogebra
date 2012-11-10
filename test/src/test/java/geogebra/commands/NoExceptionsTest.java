@@ -931,6 +931,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdIntegral() {
 		t("Integral[ f1 ]");
+		t("Integral[ f1, x ]");
 		t("Integral[ f1, n2, n3 ]");
 		t("Integral[ f1, n2, n3, b1 ]");
 	}
