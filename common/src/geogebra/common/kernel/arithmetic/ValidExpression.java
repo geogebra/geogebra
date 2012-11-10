@@ -61,6 +61,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	 */
 	public void addLabel(String label) {
 		initLabels();
+		App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 
@@ -198,13 +199,15 @@ public abstract class ValidExpression implements ExpressionValue {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(getLabelForAssignment());
-
+		//make sure we do not prepend null when 
+		//assignment type is none.
 		switch (assignmentType) {
 		case DEFAULT:
+			sb.append(getLabelForAssignment());
 			sb.append(getAssignmentOperator());
 			break;
 		case DELAYED:
+			sb.append(getLabelForAssignment());
 			sb.append(getDelayedAssignmentOperator());
 			break;
 		}
@@ -224,14 +227,14 @@ public abstract class ValidExpression implements ExpressionValue {
 			return toLaTeXString(true, tpl);
 		}
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(getKernel().printVariableName(getLabelForAssignment(),tpl));
-		App.debug(assignmentType);
+		StringBuilder sb = new StringBuilder();		
 		switch (assignmentType) {
 		case DEFAULT:
+			sb.append(getKernel().printVariableName(getLabelForAssignment(),tpl));
 			sb.append(getAssignmentOperatorLaTeX());
 			break;
 		case DELAYED:
+			sb.append(getKernel().printVariableName(getLabelForAssignment(),tpl));
 			sb.append(getDelayedAssignmentOperatorLaTeX());
 			break;
 		}
