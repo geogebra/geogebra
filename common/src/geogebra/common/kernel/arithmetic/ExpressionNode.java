@@ -4832,10 +4832,9 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	private static boolean isConstantDouble(ExpressionValue ev, double v) {
-		if (ev instanceof ExpressionNode)
-			return isConstantDouble(((ExpressionNode) ev).getLeft(), v);
-		return ev instanceof MyDouble && ev.isConstant()
-				&& Kernel.isEqual(v, ((MyDouble) ev).getDouble());
+		ExpressionValue base = ev.unwrap();
+		return base instanceof MyDouble && base.isConstant()
+				&& Kernel.isEqual(v, ((MyDouble) base).getDouble());
 	}
 
 	/**
@@ -4847,7 +4846,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (isConstantDouble(v2, 0))
 			return this;
 		if (this.isLeaf() && isConstantDouble(left, 0))
-			return new ExpressionNode(kernel, v2);
+			return v2.wrap();
 		return new ExpressionNode(kernel, this, Operation.PLUS, v2);
 	}
 
@@ -4987,7 +4986,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * @return result of this * -1
+	 * @return result of 0 - this
 	 */
 	public ExpressionNode reverseSign2() {
 		return new ExpressionNode(kernel, new MyDouble(kernel, 0.0),
@@ -5023,7 +5022,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (isConstantDouble(v2, 0))
 			return this;
 		if (this.isLeaf() && isConstantDouble(left, 0))
-			return new ExpressionNode(kernel, v2);
+			return v2.wrap().reverseSign();
 		return new ExpressionNode(kernel, this, Operation.MINUS, v2);
 	}
 
@@ -5103,7 +5102,7 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public ExpressionNode multiply(ExpressionValue v2) {
 		if (isConstantDouble(v2, 0))
-			return new ExpressionNode(kernel, v2);
+			return v2.wrap();
 		if (isConstantDouble(v2, 1))
 			return this;
 		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
@@ -5116,7 +5115,7 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public ExpressionNode power(ExpressionValue v2) {
 		if(isConstantDouble(v2,0))
-			return new ExpressionNode(kernel,new MyDouble(kernel,1));
+			return new ExpressionNode(kernel,1);
 		if (isConstantDouble(v2, 1))
 			return this;
 		return new ExpressionNode(kernel, this, Operation.POWER, v2);
