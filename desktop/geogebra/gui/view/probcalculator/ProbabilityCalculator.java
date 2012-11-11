@@ -16,6 +16,8 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
 import geogebra.common.kernel.algos.AlgoSequence;
+import geogebra.common.kernel.algos.AlgoStepGraph;
+import geogebra.common.kernel.algos.AlgoStickGraph;
 import geogebra.common.kernel.algos.AlgoTake;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -63,6 +65,7 @@ import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
+import geogebra.gui.util.ListSeparatorRenderer;
 import geogebra.gui.view.data.PlotPanelEuclidianView;
 import geogebra.gui.view.data.PlotSettings;
 import geogebra.main.AppD;
@@ -288,10 +291,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			this.parameters = ProbabilityManager
 					.getDefaultParameters(selectedDist);
 
-		// this.buildLayout();
-		// isIniting = true;
 		updateAll();
-		// isIniting = false;
 	}
 
 	/**
@@ -663,11 +663,15 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// ============================
 
 			if (graphType == GRAPH_STEP) {
-				AlgoPolyLine algoPolyLine = createStepFunction(
-						discreteValueList, discreteProbList);
 
-				cons.removeFromConstructionList(algoPolyLine);
-				discreteGraph = algoPolyLine.getGeoElements()[0];
+				GeoBoolean t = new GeoBoolean(cons);
+				t.setValue(true);
+
+				AlgoStepGraph algoStepGraph = new AlgoStepGraph(cons,
+						discreteValueList, discreteProbList, t);
+
+				cons.removeFromConstructionList(algoStepGraph);
+				discreteGraph = algoStepGraph.getGeoElements()[0];
 
 			} else {
 				AlgoBarChart algoBarChart;
@@ -741,11 +745,24 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			// ============================
 			// create the interval graph
-			if (graphType == GRAPH_STEP) {
-				AlgoPolyLine algoPolyLine2 = createStepFunction(
-						intervalValueList, intervalProbList);
-				cons.removeFromConstructionList(algoPolyLine2);
-				discreteIntervalGraph = algoPolyLine2.getGeoElements()[0];
+
+			if (isCumulative) {
+				GeoBoolean t = new GeoBoolean(cons);
+				t.setValue(true);
+				AlgoStickGraph algoStickGraph = new AlgoStickGraph(cons,
+						intervalValueList, intervalProbList, t);
+				cons.removeFromConstructionList(algoStickGraph);
+				discreteIntervalGraph = algoStickGraph.getGeoElements()[0];
+
+			}
+
+			else if (graphType == GRAPH_STEP) {
+				GeoBoolean t = new GeoBoolean(cons);
+				t.setValue(true);
+				AlgoStepGraph algoStepGraph2 = new AlgoStepGraph(cons,
+						intervalValueList, intervalProbList, t);
+				cons.removeFromConstructionList(algoStepGraph2);
+				discreteIntervalGraph = algoStepGraph2.getGeoElements()[0];
 
 			} else {
 				AlgoBarChart barChart;
@@ -761,7 +778,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 				cons.removeFromConstructionList(barChart);
 			}
 
-			if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
+			if (isCumulative) {
+				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
+						Color.red));
+				discreteIntervalGraph.setLineThickness(3);
+				discreteIntervalGraph
+						.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+			} else if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
 				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
 						ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setLineThickness(thicknessBarChart + 2);
@@ -980,7 +1003,6 @@ public class ProbabilityCalculator extends JPanel implements View,
 		return polyLine;
 	}
 
-
 	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
 
 		AlgoNormalDF algo = new AlgoNormalDF(cons, new GeoNumeric(cons, mean),
@@ -1136,7 +1158,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			break;
 
 		}
-		
+
 		return isValid;
 
 	}
@@ -1466,6 +1488,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			return;
 
 		boolean isDiscrete = probManager.isDiscrete(selectedDist);
+		int oldProbMode = probMode;
 
 		if (isCumulative) {
 			probMode = PROB_LEFT;
@@ -1501,14 +1524,16 @@ public class ProbabilityCalculator extends JPanel implements View,
 			fldHigh.setVisible(true);
 			lblBetween.setText(app.getMenu("XLessThanOrEqual"));
 
+			if (oldProbMode == PROB_RIGHT) {
+				high = low;
+			}
+
 			if (isDiscrete)
 				low = ((GeoNumeric) discreteValueList.get(0)).getDouble();
 			else
 				low = plotSettings.xMin - 1; // move offscreen so the integral
 												// looks complete
 
-			high = plotSettings.xMin + 0.6
-					* (plotSettings.xMax - plotSettings.xMin);
 		}
 
 		else if (probMode == PROB_RIGHT) {
@@ -1518,6 +1543,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 			fldHigh.setVisible(false);
 			lblBetween.setText(app.getMenu("LessThanOrEqualToX"));
 
+			if (oldProbMode == PROB_LEFT) {
+				low = high;
+			}
+
 			if (isDiscrete)
 				high = ((GeoNumeric) discreteValueList.get(discreteValueList
 						.size() - 1)).getDouble();
@@ -1525,8 +1554,6 @@ public class ProbabilityCalculator extends JPanel implements View,
 				high = plotSettings.xMax + 1; // move offscreen so the integral
 												// looks complete
 
-			low = plotSettings.xMin + 0.6
-					* (plotSettings.xMax - plotSettings.xMin);
 		}
 
 		// make result field editable for inverse probability calculation
@@ -1677,7 +1704,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		// updateAll();
 	}
 
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
@@ -1708,6 +1735,27 @@ public class ProbabilityCalculator extends JPanel implements View,
 					setXAxisPoints();
 				}
 			}
+		}
+		updateRounding();
+	}
+
+	/**
+	 * Adjust local rounding constants to match global rounding constants 
+	 * and update GUI when needed
+	 */
+	private void updateRounding() {
+
+		if (kernel.useSignificantFigures) {
+			if (printFigures != kernel.getPrintFigures()) {
+				printFigures = kernel.getPrintFigures();
+				printDecimals = -1;
+				updateDiscreteTable();
+				updateGUI();
+			}
+		} else if (printDecimals != kernel.getPrintDecimals()) {
+			printDecimals = kernel.getPrintDecimals();
+			updateDiscreteTable();
+			updateGUI();
 		}
 	}
 
@@ -2211,59 +2259,24 @@ public class ProbabilityCalculator extends JPanel implements View,
 	}
 
 	// ============================================================
-	// ComboBox Renderer with SEPARATOR
-	// ============================================================
-
-	static class ListSeparatorRenderer extends JLabel implements
-			ListCellRenderer {
-
-		private static final long serialVersionUID = 1L;
-
-		public static final String SEPARATOR = "---";
-		JSeparator separator;
-
-		public ListSeparatorRenderer() {
-			setOpaque(true);
-			setBorder(new EmptyBorder(1, 1, 1, 1));
-			separator = new JSeparator(SwingConstants.HORIZONTAL);
-		}
-
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
-			String str = (value == null) ? "" : value.toString();
-			if (SEPARATOR.equals(str)) {
-				return separator;
-			}
-			if (isSelected) {
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			} else {
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
-			}
-			setFont(list.getFont());
-			setText(str);
-			return this;
-		}
-	}
-
-	// ============================================================
 	// Number Format
 	// ============================================================
 
 	/**
-	 * Formats a number string using local format settings
+	 * Formats a number string using local format settings.
 	 */
 	public String format(double x) {
 		StringTemplate highPrecision;
+		
 		// override the default decimal place setting
-		if (printDecimals >= 0)
+		if (printDecimals >= 0) {
+			int d = printDecimals < 4 ? 4 : printDecimals;
 			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					printDecimals, false);
-		else
+					d, false);
+		} else {
 			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
 					printFigures, false);
-
+		}
 		// get the formatted string
 		String result = kernel.format(x, highPrecision);
 
@@ -2449,7 +2462,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 									.getLabel(StringTemplate.maxPrecision)
 							+ "]";
 				} else if (graphType == GRAPH_STEP) {
-					//TODO: polyline
+					// TODO: polyline
 				}
 
 				GeoElement discreteGraphCopy = createGeoFromString(expr, false);
@@ -2510,13 +2523,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 			}
 
 			// normal overlay
-			if(showNormalOverlay){
+			if (showNormalOverlay) {
 				GeoElement normalOverlayCopy = normalOverlay.copyInternal(cons);
 				normalOverlayCopy.setLabel(null);
 				normalOverlayCopy.setVisualStyle(normalOverlay);
 				newGeoList.add(normalOverlayCopy);
 			}
-			
+
 			// set the EV location and auxiliary = false for all of the new geos
 			for (GeoElement geo : newGeoList) {
 				geo.setAuxiliaryObject(false);

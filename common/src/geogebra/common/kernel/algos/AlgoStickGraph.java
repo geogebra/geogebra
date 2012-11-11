@@ -97,6 +97,24 @@ public class AlgoStickGraph extends AlgoBarChart {
 				isHorizontal, null, null, AlgoBarChart.TYPE_STICKGRAPH);
 	}
 
+	
+	/**
+	 * /******************************************************
+	 * StickGraph[<x list>, <y list>, <Horizontal>] (no label)
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 * @param isHorizontal
+	 */
+	public AlgoStickGraph(Construction cons, GeoList list1,
+			GeoList list2, GeoBoolean isHorizontal) {
+		
+		super(cons, list1, list2, null,
+				isHorizontal, null, null, AlgoBarChart.TYPE_STICKGRAPH);
+	}
+	
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoStickGraph;
