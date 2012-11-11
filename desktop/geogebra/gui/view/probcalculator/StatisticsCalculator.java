@@ -4,8 +4,8 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
+import geogebra.gui.util.ListSeparatorRenderer;
 import geogebra.gui.view.data.StatTable;
-import geogebra.gui.view.probcalculator.ProbabilityCalculator.ListSeparatorRenderer;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
