@@ -555,7 +555,7 @@ symbolic procedure simpexpt2(u,n,flg);
      else if car u eq 'sqrt and not !*keepsqrts
       then return simpexpt2(cadr u, multsq(1 ./ 2,n),flg)
      % We need the !*precise check for, say, sqrt((1+a)^2*y*z).
-     else if car u eq 'times and not !*precise
+     else if car u eq 'times and not !*precise and not !*modular
       then <<x := 1 ./ 1;
              for each z in cdr u do x := multsq(simpexpt1(z,n,flg),x);
              return x>>
@@ -919,7 +919,7 @@ symbolic procedure radf(u,n);
           <<y := lnc x;
                 if y neq 1 then <<x := quotf(x,y); z := multd(y,z)>>>>;
        if x neq 1
-         then <<x := radf1(if !*precise_complex then {x .^ 1} 
+         then <<x := radf1(if !*precise_complex or !*modular then {x .^ 1} 
                             else sqfrf x,n);
                 y := car x;
                 if y neq 1 then

@@ -1,0 +1,15 @@
+on combineexpt;
+
+
+
+int(x^n,n);
+
+
+    n
+   x
+--------
+ log(x)
+
+
+end;
+

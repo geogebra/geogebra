@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: mriqe.red 81 2009-02-06 18:22:31Z thomas-sturm $
+% $Id: mriqe.red 1814 2012-11-02 13:17:09Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2008-2009 Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(mri_qe_rcsid!* mri_qe_copyright!*);
    mri_qe_rcsid!* :=
-      "$Id: mriqe.red 81 2009-02-06 18:22:31Z thomas-sturm $";
+      "$Id: mriqe.red 1814 2012-11-02 13:17:09Z thomas-sturm $";
    mri_qe_copyright!* := "Copyright (c) 2008-2009 T. Sturm"
 >>;
 
@@ -229,6 +229,8 @@ procedure mri_lemma33k(ker,u);
       if not eqcar(ker,'floor) then
 	 rederr {"invalid kernel",ker};
       cd := mri_lemma33f(numr simp cadr ker,u);
+      if cdr cd then rederr "Check!";
+      cd := car cd;  % Check!
       phi := car cd;
       s := cadr cd;
       n := caddr cd;

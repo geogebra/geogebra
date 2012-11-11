@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfqe.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: ofsfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_qe_rcsid!* ofsf_qe_copyright!*);
    ofsf_qe_rcsid!* :=
-      "$Id: ofsfqe.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+      "$Id: ofsfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    ofsf_qe_copyright!* := "(c) 1995-2009 A. Dolzmann T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -1627,23 +1627,20 @@ procedure ofsf_maybenonzero!-local(u,theo,bvl);
       return 'gen . ofsf_0mk2('neq,u)
    end;
 
-procedure ofsf_qemkans(an,atr);
-   sort(
-      ofsf_qeapplyatr ofsf_qebacksub ofsf_qemkans1 an,
+procedure ofsf_qemkans(an);
+   sort(ofsf_qebacksub ofsf_qemkans1 an,
       function(lambda(x,y); ordp(cadr x,cadr y)));
 
 procedure ofsf_qemkans1(an);
    % Ordered field standard form quantifier elimination make answer
    % subroutine. [an] is an answer. Returns a list $((e,a),...)$,
    % where $e$ is an equation and $a$ is an answer translation.
-   begin scalar v,sub,xargl,w,atr,ioe; integer ic,ec;
+   begin scalar v,sub,xargl,w,ioe; integer ic,ec;
       return for each y in an collect <<
 	 v := car y;
 	 sub := cadr y;
 	 xargl := caddr y;
-	 atr := cadddr y;
 	 w := if sub eq 'ofsf_qesubi then <<
-	    atr := nil;
       	    (if car xargl = 'pinf then
  	       simp ofsf_newinfinity(ic := ic+1)
       	    else if car xargl = 'minf then
@@ -1662,7 +1659,7 @@ procedure ofsf_qemkans1(an);
 	    addsq(ofsf_preprexpr(cadr xargl),simp ofsf_newepsilon(ec := ec+1))
 	 else
 	    rederr "BUG IN ofsf_qemkans";
-	 (v . w) . atr
+	 v . w
       >>
    end;
 
@@ -1677,35 +1674,18 @@ procedure ofsf_newepsilon(ec);
       return eps
    end;
 
+switch rlqefullans;
+
 procedure ofsf_qebacksub(eql);
    % Quantifier elimination back substitution. [eql] is a list $(((v .
    % w) . a), ...)$, where $v$ is a variable, $w$ is an SQ, and $a$ is
    % an answer translation. Returns a list $((e,a),...)$, where $e$ is
    % an equation and $a$ is an answer translation.
-   begin scalar subl,rhs,atr,e;
-      return for each w in eql collect <<
-	 e := {'equal,caar w,prepsq subsq(cdar w,subl)};
-	 subl := (caar w . caddr e) . subl;
-	 {e,cdr w}
-      >>
-   end;
-
-procedure ofsf_qeapplyatr(eql);
-   % Ordered field standard form quantifier elimination apply answer
-   % translation. [eql] is a list $((e,a),...)$, where $e$ is an
-   % equation and $a$ is an answer translation. Returns a list of
-   % equations.
-   begin scalar rhs,atr,pow,eqn;
-      return for each w in eql collect <<
-	 eqn := car w;
-	 rhs := caddr eqn;
-	 atr := cadr w;
-	 if null atr then
-	    eqn
-	 else <<
-	    pow := lto_catsoc(cadr eqn,atr) or 1;
-	    {'equal,cadr eqn,ofsf_croot(rhs,pow)}
-      	 >>
+   begin scalar subl,rhs,e;
+      return for each w in eql join <<
+	    e := {'equal,car w,prepsq subsq(cdr w,subl)};
+	    subl := (car w . caddr e) . subl;
+	    if !*rlqefullans or not flagp(car w, 'rl_qeansvar) then {e}
       >>
    end;
 
@@ -1715,12 +1695,6 @@ procedure ofsf_croot(u,n);
 procedure ofsf_preprexpr(r);
    quotsq(!*f2q addf(car r,multf(cadr r,numr simp {'sqrt,prepf caddr r})),
       !*f2q cadddr r);
-
-procedure ofsf_updatr(atr,upd);
-   % Ordered field standard form update answer translation. [atr] is
-   % an answer translation; [upd] is information which has to be added
-   % to [atr]. Returns an answer translation.
-   upd . atr;
 
 procedure ofsf_thsimpl(atl);
    % Ordered field standard form theory simplification. [atl] is a

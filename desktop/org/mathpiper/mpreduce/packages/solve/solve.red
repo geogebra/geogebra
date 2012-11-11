@@ -37,9 +37,10 @@ load!-package 'matrix;
 
 fluid '(!*exp !*ezgcd !*multiplicities !!gcd dmode!* vars!*);
 
-fluid '(inside!-solveeval solve!-gensymcounter);
+fluid '(inside!-solveeval solve!-gensymcounter solve!-gensymprefix);
 
 % solve!-gensymcounter := 1;
+solve!-gensymprefix := explode '!!solvevar;
 
 global '(multiplicities!* assumptions requirements);
 

@@ -260,7 +260,7 @@ put('groepostproc,'psopfn,'groepostsolveeval);
 %       e.g.{y=17,z=b+8};
 %        internally:(( equal y 17)(equal z(plus b 8)))
 %  A zeroset is a list of zeros
-%       elgl{{y=17,z=b+8},{e=17,z=b-8}}
+%       e.g.{{y=17,z=b+8},{e=17,z=b-8}}
 %  Internally the sets(lists)are kept untagged as lists;the
 %  tag'list is only added to the results and to those lists which
 %  are parameters to algebraic operators not in this package.
@@ -363,7 +363,9 @@ begin scalar q,ngtemp,ngall,t2,h,g,a2,phi2;
   <<a2:=cdr groebnereval{'list.g.a,'list.vars};
    if not(car a2=1)then
    <<ngtemp:=groesolvetree(a2,t1,phi2,vars);
-    ngall:=zerosetunion(ngtemp,ngall)>> >>>>;
+     if ngtemp eq 'failed then <<ngall := 'failed; goto ready>>
+      else ngall:=zerosetunion(ngtemp,ngall)>> >>>>;
+ ready:
  return ngall end;
 
 symbolic procedure groesolverestruct(a,phi,vars,ngall);

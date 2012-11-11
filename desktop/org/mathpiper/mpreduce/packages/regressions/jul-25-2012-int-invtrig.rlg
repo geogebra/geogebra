@@ -1,0 +1,173 @@
+
+comment 
+
+  Testing some integrals of inverse trigonometric and hyperbolic functions
+
+end;
+
+
+int(asin(x),x);
+
+
+                     2
+asin(x)*x + sqrt( - x  + 1)
+
+
+int(acos(x),x);
+
+
+                     2
+acos(x)*x - sqrt( - x  + 1)
+
+
+int(asinh(x),x);
+
+
+                   2
+asinh(x)*x - sqrt(x  + 1)
+
+
+int(acosh(x),x);
+
+
+                   2
+acosh(x)*x - sqrt(x  - 1)
+
+
+int(acos(x-1),x);
+
+
+                                       2
+acos(x - 1)*x - acos(x - 1) - sqrt( - x  + 2*x)
+
+
+int(acos(x)*x,x);
+
+
+            2                      2
+ 2*acos(x)*x  + asin(x) - sqrt( - x  + 1)*x
+--------------------------------------------
+                     4
+
+
+int(x^2*asin(3*x),x);
+
+
+               3                2       2                2
+ 81*asin(3*x)*x  + 9*sqrt( - 9*x  + 1)*x  + 2*sqrt( - 9*x  + 1)
+----------------------------------------------------------------
+                              243
+
+
+int(x^2*acos(3*x),x);
+
+
+               3                2       2                2
+ 81*acos(3*x)*x  - 9*sqrt( - 9*x  + 1)*x  - 2*sqrt( - 9*x  + 1)
+----------------------------------------------------------------
+                              243
+
+
+int(x^2*asinh(3*x),x);
+
+
+                3             2       2             2
+ 81*asinh(3*x)*x  - 9*sqrt(9*x  + 1)*x  + 2*sqrt(9*x  + 1)
+-----------------------------------------------------------
+                            243
+
+
+int(x^2*acosh(3*x),x);
+
+
+                3             2       2             2
+ 81*acosh(3*x)*x  - 9*sqrt(9*x  - 1)*x  - 2*sqrt(9*x  - 1)
+-----------------------------------------------------------
+                            243
+
+
+int(asin(3*x)/x^3,x);
+
+
+                             2
+  - asin(3*x) - 3*sqrt( - 9*x  + 1)*x
+--------------------------------------
+                    2
+                 2*x
+
+
+int(acos(3*x)/x^3,x);
+
+
+                             2
+  - acos(3*x) + 3*sqrt( - 9*x  + 1)*x
+--------------------------------------
+                    2
+                 2*x
+
+
+int(asinh(3*x)/x^3,x);
+
+
+                           2             2
+  - asinh(3*x) - 3*sqrt(9*x  + 1)*x - 9*x
+-------------------------------------------
+                      2
+                   2*x
+
+
+int(acosh(3*x)/x^3,x);
+
+
+                           2             2
+  - acosh(3*x) - 3*sqrt(9*x  - 1)*x - 9*x
+-------------------------------------------
+                      2
+                   2*x
+
+
+
+% The following is correct, but not optimal
+
+int(x*acos(x-1),x);
+
+
+                2
+(2*acos(x - 1)*x  - sqrt(x)*sqrt( - x + 2)*x - 3*sqrt(x)*sqrt( - x + 2)
+
+           sqrt( - x + 2) + sqrt(x)*i
+  - 6*log(----------------------------)*i)/4
+                    sqrt(2)
+
+
+df(ws,x);
+
+
+(x*(2*sqrt(x)*sqrt( - x + 2)*acos(x - 1)*x
+
+     - 4*sqrt(x)*sqrt( - x + 2)*acos(x - 1)
+
+                                       2           2
+     + sqrt(x)*sqrt( - x + 2)*sqrt( - x  + 2*x) + x  - 2*x))/(2*sqrt(x)
+
+   *sqrt( - x + 2)*(x - 2))
+
+
+int(x*acos(3*x-2),x);
+
+
+                   2                                  2
+(18*acos(3*x - 2)*x  + 9*asin(3*x - 2) - 3*sqrt( - 3*x  + 4*x - 1)*sqrt(3)*x
+
+                 2
+  - 6*sqrt( - 3*x  + 4*x - 1)*sqrt(3) + 8)/36
+
+
+df(ws,x);
+
+
+acos(3*x - 2)*x
+
+
+end;
+

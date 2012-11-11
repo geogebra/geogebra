@@ -567,6 +567,15 @@ let   e**(i*pi/2) = i,
       e**(i*pi) = -1;
 %     e**(3*i*pi/2)=-i;
 
+% Ci and si.
+
+operator ci,si;
+
+let {
+  df(ci(~x),x) => cos(x)/x,
+  df(si(~x),x) => sin(x)/x
+};
+
 % Rule for derivative of absolute value.
 
 for all x let df(abs x,x)=abs x/x;

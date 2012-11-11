@@ -33,8 +33,7 @@ b3 :=  - partial(x1)  + a
 lpdofactorize b3;
 
 
-                 2
-{{partial(x1) + a , - partial(x1) + abs(a)}}
+{{partial(x1) + abs(a), - partial(x1) + abs(a)}}
 
 
 % Differential binomial formulas:
@@ -222,5 +221,3 @@ partial(x2)
 
 end;
 
-Tested on x86_64-mac_10.7_lion-darwin11.4.0 CSL
-Time (counter 1): 1740 ms  plus GC time: 50 ms

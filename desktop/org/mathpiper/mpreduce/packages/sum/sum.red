@@ -37,13 +37,14 @@ put('sum,'simpfn,'simp!-sum);
 
 symbolic procedure freeof!-df(u, v);
    % check u contains differential operator with respect to v;
-   if atom u then t
+   if atom u or car u eq '!:dn!: or get(car u,'dname) then t
+    else if car u eq '!*sq then freeof!-df(prepsq cadr u,v)
     else if car(u) eq 'df
      then freeof!-df(cadr u,v) and not smember(v,cddr u)
     else freeof!-dfl(cdr u,v);
 
 symbolic procedure freeof!-dfl(u, v);
-   if null u or atom u then t else freeof!-df(car u,v) and freeof!-dfl(cdr u,v);
+   atom u or (freeof!-df(car u,v) and freeof!-dfl(cdr u,v));
 
 symbolic procedure simp!-sum u;
    %ARGUMENT  CAR U: expression of prefix form.

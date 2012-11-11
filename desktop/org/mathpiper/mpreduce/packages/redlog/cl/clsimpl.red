@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: clsimpl.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: clsimpl.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(cl_simpl_rcsid!* cl_simpl_copyright!*);
    cl_simpl_rcsid!* :=
-      "$Id: clsimpl.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+      "$Id: clsimpl.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    cl_simpl_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -681,10 +681,15 @@ procedure cl_siaddatl(atl,c);
 % <LAT> ::= (<ATOMIC FORMULA> . <LABEL>)
 % <LABEL> ::= <INTEGER> | ['ignore]
 
+% Black boxes:
+% rl_susipost
+% rl_susitf
+% rl_susibin
+
 procedure cl_susimkatl(op,knowl,newknowl,n);
    % Common logic susi make atomic formula list. [op] is one of the
    % operators [and], [or]; [knowl], [newknowl] are KNOWL's; [n] is an
-   % integer. Returns an list $L$ of atomic formulas. All knowledge
+   % integer. Returns a list $L$ of atomic formulas. All knowledge
    % tagged with [n] is extraced from [newknowl] into $L$.
    begin scalar res;
       res := for each pair in newknowl join
@@ -743,10 +748,6 @@ procedure cl_susiupdknowl2(lat,knowl,n);
    % Destructively updates [knowl] wrt. [lat].
    begin scalar a,w,sck,ignflg,delflg,addl,term;
       sck := knowl;
-      term := nil;
-      for each nlat in knowl do
-	 if lat = nlat then term := 't;
-      if term then return knowl;
       while sck do <<
 	 a := car sck;
 	 sck := cdr sck;
@@ -771,8 +772,7 @@ procedure cl_susiupdknowl2(lat,knowl,n);
 	 knowl := lat . knowl
       >>;
       while addl do <<
-	 knowl := cl_susiupdknowl2(car addl
-	    ,knowl,n);
+	 knowl := cl_susiupdknowl2(car addl,knowl,n);
 	 if knowl eq 'false then
 	    addl := nil
 	 else
@@ -788,15 +788,14 @@ procedure cl_susiinter(prg,knowl,a);
    % KNOWL's; $\iota$ and $\delta$ are flags.
    begin scalar addl,ignflg,delflg;
       for each p in prg do
-%	 if car p eq 'delete or car p eq 'ignore then
-      	 if car p eq 'ignore then
-	    if cdr p then <<
-	       ignflg := T;
-	       addl := cdr p . addl;
-	    >>
-	    else
-	       cdr a := 'ignore
-      	 else if car p eq 'delete then
+	 if car p eq 'delete or car p eq 'ignore then
+%%       	 if car p eq 'ignore then
+%% 	    if cdr p then <<
+%% 	       ignflg := T;
+%% 	       addl := cdr p . addl;
+%% 	    >> else
+%% 	       cdr a := 'ignore
+%%       	 else if car p eq 'delete then
 	    if cdr p then
 	       delflg := T
 	    else

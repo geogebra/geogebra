@@ -665,8 +665,7 @@ symbolic procedure mygetelement vargs;
 endmodule;
 
 symbolic procedure assgnpri(u,v,w);
-   begin scalar x;
-   %write("assgnpri called with parameters ",u,", ",v," and ",w," # ");terpri();
+   begin scalar x, tm;
    % U is expression being printed.
    % V is a list of expressions assigned to U.
    % W is an id that indicates if U is the first, only or last element
@@ -679,16 +678,37 @@ symbolic procedure assgnpri(u,v,w);
     if !*TeX then return texpri(u,v,w)
      else if getd 'vecp and vecp u then return vecpri(u,'mat)
      else if getd 'myvecp and myvecp u then return myvecpri(u);
+   % The following is a bit of a mess. "fancy" output using latex style
+   % in CSL has real difficulty when given really large expressions,
+   % including big matrices. To avoid that leading to malformed output
+   % and crashes I detect the case where I am running under CSL, fancy
+   % output mode is available and enabled and the expression to to
+   % printed is "huge". In that case I temporarily switch back to
+   % old fashioned output format.
+    if memq('csl, lispsystem!*) and
+       getd 'math!-display and
+       math!-display 0 and
+       outputhandler!* = 'fancy!-output and
+       would!-be!-huge u then <<
+       fmp!-switch nil;
+       tm := t >>;
     if (x := getrtype u) and flagp(x,'sprifn) and null outputhandler!*
       then <<if null v then apply1(get(get(x,'tag),'prifn),u)
-               else maprin list('setq,car v,u);return nil>>;
-    if w memq '(first only) then terpri!* t;
-    v := evalvars v;
-    if !*fort then <<fvarpri(u,v,w); return nil>>;
-    maprin if v then 'setq . aconc(v,u) else u;
-    if null w or w eq 'first then return nil
-     else if not !*nat then prin2!* "$";
-    terpri!*(not !*nat);
+             else maprin list('setq,car v,u) >>
+    else <<
+      if w memq '(first only) then terpri!* t;
+      v := evalvars v;
+      if !*fort then <<
+        fvarpri(u,v,w);
+        if tm then fmp!-switch t;
+        return nil>>;
+      maprin if v then 'setq . aconc(v,u) else u;
+      if null w or w eq 'first then <<
+        if tm then fmp!-switch t;
+        return nil >>
+       else if not !*nat then prin2!* "$";
+      terpri!*(not !*nat) >>;
+    if tm then fmp!-switch t;
     return nil
    end;
 

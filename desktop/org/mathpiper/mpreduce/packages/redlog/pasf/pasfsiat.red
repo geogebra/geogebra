@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasfsiat.red 601 2010-05-11 07:30:44Z thomas-sturm $
+% $Id: pasfsiat.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2002-2009 A. Dolzmann, A. Seidl, and T. Sturm
 % ----------------------------------------------------------------------
@@ -26,12 +26,12 @@
 % THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 % (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 % OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-% 
+%
 
 lisp <<
    fluid '(pasf_siat_rcsid!* pasf_siat_copyright!*);
    pasf_siat_rcsid!* :=
-      "$Id: pasfsiat.red 601 2010-05-11 07:30:44Z thomas-sturm $";
+      "$Id: pasfsiat.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    pasf_siat_copyright!* :=
       "Copyright (c) 2002-2009 A. Dolzmann, A. Seidl, and T. Sturm"
 >>;
@@ -62,11 +62,11 @@ procedure pasf_simplat1(atf,sop);
       % Checking if done yet
       if rl_tvalp atf then return atf;
       % Advanced simplification
-      atf := if pasf_opn atf memq '(cong ncong) then	       
+      atf := if pasf_opn atf memq '(cong ncong) then
 	 % Solvability of congruences (SECong)
 	 pasf_sc atf
       else if pasf_opn atf memq '(equal neq) then
-	 % Solvability of diophantine (in-)equations (SE-Rule)	 
+	 % Solvability of diophantine (in-)equations (SE-Rule)
 	 pasf_se atf
       else
 	 % Order relation reduction
@@ -86,8 +86,8 @@ procedure pasf_zcong(atf);
 	    pasf_arg2l atf)
       else if null pasf_arg2l atf and pasf_opn atf eq 'cong then 'true
       else if null pasf_arg2l atf and pasf_opn atf eq 'ncong then 'false
-      else atf) 
-   else 
+      else atf)
+   else
       atf;
 
 procedure pasf_mkpos(atf);
@@ -95,7 +95,7 @@ procedure pasf_mkpos(atf);
    % is an atomic formula. Returns an equivalent atomic formula with a
    % positive leading coefficient.
    begin scalar res;
-      % Left handside 
+      % Left handside
       res := if not(rl_tvalp atf) and minusf pasf_arg2l atf then
       	 pasf_anegateat atf
       else
@@ -114,7 +114,7 @@ procedure pasf_vf(atf);
       if (not(rl_tvalp atf) and domainp pasf_arg2l atf) then <<
 	 % Parametric modulus
 	 if pasf_congp atf and null domainp pasf_m atf then
-	    if null pasf_arg2l atf then 
+	    if null pasf_arg2l atf then
 	       return 'false
 	    else
 	       return atf;
@@ -124,7 +124,7 @@ procedure pasf_vf(atf);
    	    'false
       >>;
       return atf
-   end;	 
+   end;
 
 procedure pasf_dt(atf);
    % Presburger arithmetic standard form evaluation of definite terms. [atf]
@@ -144,9 +144,9 @@ procedure pasf_dt(atf);
       if pdp eq 'nsdef and opn eq 'greaterp then return 'false;
       if pdp eq 'psdef and opn eq 'geq then return 'true;
       if pdp eq 'nsdef and opn eq 'leq then return 'true;
-      if pdp eq 'psdef and opn eq 'neq then return 
+      if pdp eq 'psdef and opn eq 'neq then return
 	 pasf_0mk2('greaterp,pasf_arg2l atf);
-      if pdp eq 'nsdef and opn eq 'neq then return 
+      if pdp eq 'nsdef and opn eq 'neq then return
 	 pasf_0mk2('lessp,pasf_arg2l atf);
       return atf
    end;
@@ -217,7 +217,7 @@ procedure pasf_cecong(atf);
 	    return atf;
       m := pasf_m atf;
       g := gcdf(m,sfto_dcontentf pasf_arg2l atf);
-      atf := pasf_0mk2(pasf_mkop(pasf_opn atf,quotfx(m,numr simp g)),	      
+      atf := pasf_0mk2(pasf_mkop(pasf_opn atf,quotfx(m,numr simp g)),
 	 quotfx(pasf_arg2l atf,numr simp g));
       m := pasf_m atf;
       g := sfto_dcontentf pasf_arg2l atf;
@@ -280,7 +280,7 @@ procedure pasf_sc(atf);
 	    return atf;
       % Decomposing the formula
       decp := pasf_deci pasf_arg2l atf;
-      % Computing the content 
+      % Computing the content
       g := sfto_dcontentf car decp;
       m := pasf_m atf;
       % Verbose check for simplification
@@ -315,9 +315,9 @@ procedure pasf_evalatpm(rel,lhs,m);
    else if rel eq 'geq then not minusf lhs
    else if rel eq 'lessp then minusf lhs
    else if rel eq 'greaterp then not (minusf lhs or null lhs or lhs = 0)
-   else if rel eq 'cong then 
+   else if rel eq 'cong then
       (null lhs or lhs = 0) or 0 = remainder(lhs,m)
-   else if rel eq 'ncong then 
+   else if rel eq 'ncong then
       not ((null lhs or lhs = 0) or 0 = remainder(lhs,m))
    else rederr {"pasf_evalatp: unknown operator",rel};
 
@@ -338,7 +338,7 @@ procedure pasf_fact(atf);
 	    for each fct in cdr fac collect
 	       pasf_0mk2(op,car fct));
       if op memq '(leq lessp geq greaterp) then
-	 return pasf_fact1(cdr fac,	    
+	 return pasf_fact1(cdr fac,
 	    if minusf car fac then pasf_anegrel op else op);
       return atf;
    end;
@@ -349,16 +349,16 @@ procedure pasf_fact1(fac,op);
    % operator. Returns an equivalent formula to $\prod_i fac(i) op 0$.
    if null cdr fac then
       pasf_0mk2(op,caar fac)
-   else if remainder(cdar fac,2) neq 0 then 
+   else if remainder(cdar fac,2) neq 0 then
       rl_mkn('or,{
 	 rl_mkn('and,{pasf_0mk2(op,caar fac),
-	    if op memq '(geq greaterp) then 
-	       pasf_fact1(cdr fac,op) 
+	    if op memq '(geq greaterp) then
+	       pasf_fact1(cdr fac,op)
 	    else
 	       pasf_fact1(cdr fac,pasf_anegrel op)}),
 	 rl_mkn('and,{pasf_0mk2(pasf_anegrel op,caar fac),
-	    if op memq '(geq greaterp) then 
-	       pasf_fact1(cdr fac,pasf_anegrel op) 
+	    if op memq '(geq greaterp) then
+	       pasf_fact1(cdr fac,pasf_anegrel op)
 	    else
 	       pasf_fact1(cdr fac,op)})})
    else

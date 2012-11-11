@@ -1,4 +1,4 @@
-\documentstyle[11pt,epsfig]{article}
+\documentclass[11pt]{article}
 \title{{\bf Turtle Graphics Interface for REDUCE \\
             Version 3}}
 \author{Caroline Cotter \\ Konrad--Zuse--Zentrum f\"ur Informationstechnik
@@ -6,6 +6,8 @@
 \date{October 1998}
 \newcommand{\syntax}{\textsl{SYNTAX: }}
 \newcommand{\abb}{\textsl{Abbreviated form: }}
+
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -321,7 +323,7 @@ draw {for i:=1:36 collect{setheading(i*10), forward 100, back 100} };
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg1.ps}}}}
+\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg1.pdf}}}}
 \end{picture}
 
 \begin{verbatim}
@@ -335,7 +337,7 @@ draw {for i:=1:12 collect
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg4.ps}}}}
+\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg4.pdf}}}}
 \end{picture}
 
 \begin{verbatim}
@@ -353,7 +355,7 @@ draw {home(), peak(3)};
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg5a.ps}}}}
+\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg5a.pdf}}}}
 \end{picture}  
 
 \begin{verbatim}
@@ -365,7 +367,7 @@ draw {home(), move(5,50), peak(3), move(x_coord+10,-100),
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg5b.ps}}}}
+\put (0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg5b.pdf}}}}
 \end{picture}  
 
 \begin{verbatim}
@@ -388,7 +390,7 @@ draw {home(), tree(130,7)};
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg6a.ps}}}}
+\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg6a.pdf}}}}
 \end{picture}  
 
 \begin{verbatim}
@@ -400,7 +402,7 @@ draw {home(), for i:=1:36 collect
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg7.ps}}}}
+\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg7.pdf}}}}
 \end{picture}  
 
 \begin{verbatim}
@@ -414,7 +416,7 @@ draw {home(), for i:=1:100 collect
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg8.ps}}}}
+\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg8.pdf}}}}
 \end{picture}  
 
 \begin{verbatim}
@@ -435,7 +437,7 @@ draw {gr2, gr6};
 
 \unitlength=1cm
 \begin{picture}(8,8)(0,0)
-\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\epsfbox{eg9.ps}}}}
+\put(0,8){\rotatebox{270}{\resizebox{8cm}{8cm}{\includegraphics{eg9.pdf}}}}
 \end{picture}  
 
 \begin{verbatim}

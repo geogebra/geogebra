@@ -64,7 +64,8 @@ symbolic procedure subs2f u;
 
 symbolic procedure subs2f1 u;
    if domainp u then !*d2q u
-    else begin scalar kern,v,w,x,y,z;
+    else begin scalar kern,v,w,x,y,z,stack;
+    s:  v := w := x := y := nil;
         kern := mvar u;
         z := nil ./ 1;
     a:  if null u or degr(u,kern)=0 then go to a1;
@@ -110,10 +111,19 @@ symbolic procedure subs2f1 u;
         z := addsq(multpq(caar y,subs2f1 cdar y),z);
     c:  y := cdr y;
         if y then go to a1;
-    d:  y := subs2f1 u;
-        % mkprod checks structure in "constant" term.
+    d:  if domainp u then <<
+          y := !*d2q u;
+          go to x >>;
+        stack := z . stack;
+        go to s;
+    x:  % mkprod checks structure in "constant" term.
         if null !*exp then y := mkprod numr y ./ mkprod denr y;
-        return addsq(z,y);
+        y := addsq(z,y);
+        if stack then <<
+          z := car stack;
+          stack := cdr stack;
+          go to x >>; 
+        return y;
     e1: z := addsq(multsq(w,subs2f1 cdar y),z);
         go to c;
     l1: if cdaar y=1 and not eqcar(cadr kern,'expt)     % ONEP

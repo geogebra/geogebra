@@ -1,0 +1,40 @@
+load_package sum;
+
+
+
+on rounded;
+
+
+
+sum(x**0.5,x,1,2);
+
+
+2.41421356237
+
+
+operator f;
+
+
+
+symbolic;
+
+
+nil
+
+
+% The following forms shpuld both evaluate to nil
+
+freeof!-df(aeval '(df (f u v) u v),'v);
+
+
+nil
+
+freeof!-df(reval '(df (f u v) u v),'v);
+
+
+nil
+
+
+end;
+
+nil

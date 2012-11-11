@@ -63,7 +63,9 @@ x_trunc >= 0 and x_trunc - 1 < 0 and x_int + x_trunc - y < 0
 rlexpand ws;
 
 
-([4*y] - 2*[2*y] <= 0 and [2*y] - 2*y < 0 and [2*y] + 1 ~2~ 0)
+([4*y] - 2*[2*y] + 1 < 0 and [2*y] ~2~ 0)
+
+ or ([4*y] - 2*[2*y] + 3 < 0 and [2*y] + 1 ~2~ 0)
 
  or ([4*y] - 2*[2*y] + 4 < 0 and [4*y] + 2 ~4~ 0)
 
@@ -75,15 +77,8 @@ rlexpand ws;
 
  or ([4*y] - 2*[2*y] < 0 and [4*y] + 2 ~4~ 0)
 
- or ([4*y] - 2*[2*y] + 1 < 0 and [2*y] ~2~ 0)
-
- or ([4*y] - 2*[2*y] + 3 < 0 and [2*y] + 1 ~2~ 0)
+ or ([2*y] + 1 ~2~ 0 and [2*y] - 2*y < 0 and [4*y] - 2*[2*y] <= 0)
 
 
 end;
 
-Tested on x86_64-unknown-ubuntu11.04 CSL
-Time (counter 1): 0 ms
-real	0m0.193s
-user	0m0.120s
-sys	0m0.000s

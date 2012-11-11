@@ -29,12 +29,16 @@ module dint;  % Definite integration support.
 fluid '(!*precise);
 
 symbolic procedure simpdint u;
-   begin scalar low,upp,fn,var,x,y,oldmode;
+   begin scalar low,upp,fn,var,x,y,cflag,dmod,result;
       if length u neq 4
         then rerror(int,2,"Improper number of arguments to INT");
-      if dmode!* then oldmode := setdmode(dmode!*,nil);
+      if dmode!*
+        then << if (cflag:=get(dmode!*, 'cmpxfn))
+                  then onoff('complex, nil);
+                if (dmod := get(dmode!*,'dname))
+                  then onoff(dmod,nil)
+             >> where !*msg := nil;
       load!-package 'defint;
-      if oldmode then setdmode(oldmode,t);
       fn := car u;
       var := cadr u;
       low := caddr u;
@@ -74,7 +78,10 @@ symbolic procedure simpdint u;
                  and not smemql('(infinity unknown fail),
                                y := indefint!* {fn,var,low})
         then return simp!* {'difference,x,y};
-      return mkdint(fn,var,low,upp)
+      result := mkdint(fn,var,low,upp);
+      << if dmod then onoff(dmod,t);
+         if cflag then onoff('complex,t)>> where !*msg := nil;
+      return result;
    end;
 
 symbolic procedure defint!* u;

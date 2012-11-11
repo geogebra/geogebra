@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: dvfsfqe.red 67 2009-02-05 18:55:15Z thomas-sturm $
+% $Id: dvfsfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(dvfsf_qe_rcsid!* dvfsf_qe_copyright!*);
    dvfsf_qe_rcsid!* :=
-      "$Id: dvfsfqe.red 67 2009-02-05 18:55:15Z thomas-sturm $";
+      "$Id: dvfsfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    dvfsf_qe_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -218,8 +218,8 @@ procedure dvfsf_qesubqat(atf,v,u);
       return dvfsf_mk2(op,multf(numr lhs,denr rhs),multf(numr rhs,denr lhs))
    end;
 
-procedure dvfsf_transform(f,v);
-   f . nil;
+procedure dvfsf_transform(v, f, vl, an, theo, ans, bvl);
+   nil;
 
 procedure dvfsf_trygauss(f,vl,theo,ans,bvl);
    begin scalar w,v,fargl;
@@ -263,7 +263,7 @@ procedure dvfsf_gelimset(a,v);
       return 'failed
    end;
 
-procedure dvfsf_qemkans(an,atr);
+procedure dvfsf_qemkans(an);
    sort(dvfsf_qebacksub dvfsf_qemkans1 an,
       function(lambda(x,y); ordp(cadr x,cadr y)));
 

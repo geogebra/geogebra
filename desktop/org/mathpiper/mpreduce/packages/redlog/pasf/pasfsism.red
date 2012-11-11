@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasfsism.red 1740 2012-07-30 14:08:52Z thomas-sturm $
+% $Id: pasfsism.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2003-2009 A. Dolzmann, A. Seidl, and T. Sturm
 % ----------------------------------------------------------------------
@@ -26,12 +26,12 @@
 % THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 % (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 % OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-% 
+%
 
 lisp <<
    fluid '(pasf_sism_rcsid!* pasf_sism_copyright!*);
    pasf_sism_rcsid!* :=
-      "$Id: pasfsism.red 1740 2012-07-30 14:08:52Z thomas-sturm $";
+      "$Id: pasfsism.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    pasf_sism_copyright!* :=
       "Copyright (c) 2003-2009 A. Dolzmann. A. Seidl and T. Sturm"
 >>;
@@ -87,7 +87,7 @@ procedure pasf_susibin(old,new);
    % simplification. [old] is a LAT; [new] is a LAT. Returns 'false or a
    % SUSIPROG.
    pasf_susibinad(old,new);
-   
+
 procedure pasf_susibinad(old,new);
    % Presburger standard form additive smart simplification. [old] is the old
    % atomic formula in the theory; [new] is the new atomic formula
@@ -108,7 +108,7 @@ procedure pasf_susibinad(old,new);
       % Decomposing both atomic formulas for additive simplification
       od := pasf_dec pasf_arg2l old;
       nd := pasf_dec pasf_arg2l new;
-      if car od = car nd then 
+      if car od = car nd then
 	 % Equal parametric parts
 	 return pasf_susibinord(
 	    pasf_op old,car od,if cdr od then cdr od else 0,
@@ -118,7 +118,7 @@ procedure pasf_susibinad(old,new);
       % Integer substitution
       if pasf_op old eq 'equal and null cdr ko and car ko memq kn then
 	 return pasf_susibinad1(pasf_subfof1(new,car ko,negf cdr od),level,t);
-      if pasf_op new eq 'equal and null cdr kn and car kn memq ko then	
+      if pasf_op new eq 'equal and null cdr kn and car kn memq ko then
 	 return pasf_susibinad1(pasf_subfof1(old,car kn,negf cdr nd),level,nil);
       return nil
    end;
@@ -130,7 +130,7 @@ procedure pasf_susibinad1(sb,level,flag);
 	 return {'delete . flag,
 	    for each at in rl_argn ssb collect ('add . (at . level))};
       if rl_cxp rl_op ssb then
-	 ssb := pasf_simplat1(sb,nil) where !*rlsifac=nil;   
+	 ssb := pasf_simplat1(sb,nil) where !*rlsifac=nil;
       return {'delete . flag,'add . (ssb . level)}
    end;
 
@@ -150,7 +150,7 @@ procedure pasf_susibineq(u,oop,nop,level);
 	 if pairp nop then car nop else nop);
       if car w eq nil then
      	 % Nothing can be done
-	 return nil	    
+	 return nil
       else if car w eq 'false then
       	 % Contradiction found
 	 return 'false
@@ -215,7 +215,7 @@ procedure pasf_susibineqcong(u,oop,nop,level);
 	    >> else
 	       return nil
 	 >>
-      >>;	    
+      >>;
       % Old formula is an incongruence and new is a congurence
       if car oop eq 'ncong and car nop eq 'cong then <<
 	 if (nil and n = 2*m) then
@@ -231,10 +231,10 @@ procedure pasf_susibineqcong(u,oop,nop,level);
 		  return atf
 	       else if atf eq 'true then
 		  return nil
-	       else	       		       
+	       else
 	       	  return{'(delete . nil), ('add . (atf . level))}
 	    >> else
-	       return nil	    
+	       return nil
 	 >>
       >>;
       % Both formulas are incongruences
@@ -264,10 +264,10 @@ procedure pasf_susibineqcong1(m,n);
 	 if remainder(m,car f) = 0 and
 	 remainder(m,(car f)^(cdr f)) neq 0 then
 	    while (remainder(m,car f) = 0) do
-	       m := m / car f;	 
+	       m := m / car f;
       return m
    end;
-   
+
 procedure pasf_susibinord(oop,ot,oabs,nop,nt,nabs,level);
    % Presburger arithmetic standard form additive simplification. [oop] is the
    % old relation operator; [nop] is the new relation operator; [ot] is the
@@ -289,7 +289,7 @@ procedure pasf_susibinord(oop,ot,oabs,nop,nt,nabs,level);
       oabsv := if null oabs then 0 else oabs;
       nabsv := if null nabs then 0 else nabs;
       % Special case: strict inequalities with an emptyset gap
-      if (oop eq 'lessp and nop eq 'greaterp and oabsv + 1 = nabsv) or	
+      if (oop eq 'lessp and nop eq 'greaterp and oabsv + 1 = nabsv) or
        	 (nop eq 'lessp and oop eq 'greaterp and nabsv + 1 = oabsv) then
 	    return 'false;
       % Special case: inequalities with single point satisfaction set
@@ -308,7 +308,7 @@ procedure pasf_susibinord(oop,ot,oabs,nop,nt,nabs,level);
       w := pasf_smordtable(oop,nop,oabs,nabs);
       if car w eq nil then
      	 % Nothing can be done
-	 return nil	    
+	 return nil
       else if car w eq 'false then
       	 % Contradiction found
 	 return 'false
@@ -407,7 +407,7 @@ procedure pasf_smeqtable(r_1,r_2);
 	     (greaterp . (2 . nil))
 	     (lessp . (2 . nil))
 	     (cong . (nil . nil))
-	     (ncong . (2 . nil))))		  
+	     (ncong . (2 . nil))))
          (geq .
 	    ((equal . (2 . nil))
 	     (neq . (3 . greaterp))
@@ -416,7 +416,7 @@ procedure pasf_smeqtable(r_1,r_2);
 	     (greaterp . (2 . nil))
 	     (lessp . (false . nil))
 	     (cong . (nil . nil))
-	     (ncong . (5 . greaterp))))		      
+	     (ncong . (5 . greaterp))))
          (leq .
 	    ((equal . (2 . nil))
 	     (neq . (3 . lessp))
@@ -425,7 +425,7 @@ procedure pasf_smeqtable(r_1,r_2);
 	     (greaterp . (false . nil))
 	     (lessp . (2 . nil))
 	     (cong . (nil . nil))
-	     (ncong . (5 . lessp))))	   
+	     (ncong . (5 . lessp))))
          (greaterp .
  	    ((equal . (false . nil))
 	     (neq . (1 . nil))
@@ -434,7 +434,7 @@ procedure pasf_smeqtable(r_1,r_2);
 	     (greaterp . (1 . nil))
 	     (lessp . (false . nil))
 	     (cong . (nil . nil))
-	     (ncong . (nil . nil))))	   
+	     (ncong . (nil . nil))))
          (lessp .
 	     ((equal . (false . nil))
 	     (neq . (1 . nil))
@@ -443,7 +443,7 @@ procedure pasf_smeqtable(r_1,r_2);
 	     (greaterp . (false . nil))
 	     (lessp . (1 . nil))
 	     (cong . (nil . nil))
-	     (ncong . (nil . nil))))	   
+	     (ncong . (nil . nil))))
 	 (cong .
 	    ((equal . (2 . nil))
 	     (neq . (nil . nil))
@@ -479,15 +479,14 @@ procedure pasf_smordtable(r1,r2,s,tt);
       pasf_smordtable1(r1,r2)
    else
       rederr {"abused smordtable"};
-   
+
 procedure pasf_smordtable1(r1,r2);
-   % Presburger arithmetic standard form smart simplify ordered absolute
-   % summands table if absoulte summand of $r1$ is less as the one of $r2$.
-   % [r1] is a relaton; [r2] is a relation. Returns '(nil . nil) if no
-   % simplification is possible; '(false . nil) if contradiction was found;
-   % '(1 . nil) if the new formula does not bring any knowledge and can be so
-   % removed from the actual level; '(2 . nil) if the old formula should be
-   % removed and the new added.
+   % Smart simplify ordered absolute summands table if the absolute summand of
+   % [r1] is less than that of [r2]. [r1], [r2] are relations. Returns '(nil .
+   % nil) if no simplification is possible; '(false . nil) if contradiction was
+   % found; '(1 . nil) if the new formula does not bring any knowledge and can
+   % be so removed from the actual level; '(2 . nil) if the old formula should
+   % be removed and the new one added.
    begin scalar al;
       al := '(
 	 (lessp .

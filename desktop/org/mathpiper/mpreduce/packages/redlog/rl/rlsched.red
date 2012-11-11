@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: rlsched.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: rlsched.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(rl_sched_rcsid!* rl_sched_copyright!*);
    rl_sched_rcsid!* :=
-      "$Id: rlsched.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+      "$Id: rlsched.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    rl_sched_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -252,6 +252,10 @@ sl_alias('unsfy,'unstraightify);
 
 rl_mkserv('dfgprint,'(rl_simp),'(reval),'(nil),'aeval,t);
 
+rl_mkserv('smt2Print,'(rl_simp),'(reval),'(nil),'aeval,t);
+
+rl_mkserv('smt2Read,'(dummy),nil,nil,nil,nil);
+
 % Black box scheduler.
 
 rl_mkbb('rl_simplat1,2);
@@ -284,15 +288,13 @@ rl_mkbb('rl_varsel,3);
 
 rl_mkbb('rl_betterp,2);
 
-rl_mkbb('rl_qemkans,2);
+rl_mkbb('rl_qemkans,1);
 
 rl_mkbb('rl_ordatp,2);
 
 rl_mkbb('rl_subsumption,3);
 
-rl_mkbb('rl_transform,2);
-
-rl_mkbb('rl_updatr,2);
+rl_mkbb('rl_transform,7);
 
 rl_mkbb('rl_sacat,3);
 
@@ -381,6 +383,10 @@ rl_mkbb('rl_mkequation,2);
 rl_mkbb('rl_dfgPrintV,1);
 
 rl_mkbb('rl_dfgPrintAt,1);
+
+rl_mkbb('rl_smt2PrintAt,1);
+
+rl_mkbb('rl_smt2ReadAt,1);
 
 endmodule;  % [rlsched]
 

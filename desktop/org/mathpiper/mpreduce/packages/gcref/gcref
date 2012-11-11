@@ -6,6 +6,8 @@ for a in $*; do
     echo "creating $(basename $a .red).tgf ... "
     $REDUCE <<EOF  | grep '[*+][*+][*+]'
 load_package gcref$
+off raise;
+off lower;
 on gcref$
 in "$(basename $a .red).red"$
 out "$(basename $a .red).tgf"$

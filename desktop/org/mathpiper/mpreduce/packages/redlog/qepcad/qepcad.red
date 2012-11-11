@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: qepcad.red 1392 2011-09-10 06:38:45Z thomas-sturm $
+% $Id: qepcad.red 1759 2012-09-25 13:13:51Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann and T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(qepcad_rcsid!* qepcad_copyright!*);
    qepcad_rcsid!* :=
-      "$Id: qepcad.red 1392 2011-09-10 06:38:45Z thomas-sturm $";
+      "$Id: qepcad.red 1759 2012-09-25 13:13:51Z thomas-sturm $";
    qepcad_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -76,6 +76,8 @@ rl_set '(ofsf);
 
 procedure qepcad_qepcad(f,fn);
    begin scalar w,oldpprifn,oldprtch,scsemic,oldecho,oldutf8,isfancy;
+      if cl_varl1 f = '(nil) then
+	 return f;
       oldpprifn := get('times,'pprifn);
       oldprtch := get('expt,'prtch);
       scsemic := semic!*;

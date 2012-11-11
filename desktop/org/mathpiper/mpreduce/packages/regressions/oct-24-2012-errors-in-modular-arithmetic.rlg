@@ -1,0 +1,52 @@
+on modular;
+
+
+setmod 2;
+
+
+1
+
+% The following input caused nil to be called as function
+sqrt(1-x^2);
+
+
+      2
+sqrt(x  + 1)
+
+
+% another error...
+setmod 11;
+
+
+2
+
+off precise;
+
+
+sqrt(10*(x^2+10));
+
+
+         2
+sqrt(10*x  + 1)
+
+
+% Check that domain mode is reset during definite integration
+
+int(sqrt(1-x^2),x,0,1);
+
+
+ 1
+---*pi
+ 4
+
+
+int(sqrt(10*(x^2+10)),x,0,1);
+
+
+ 1                              sqrt(11) + 6
+---*sqrt(10)*(sqrt(11) + 5*log(--------------))
+ 2                                   5
+
+
+end;
+

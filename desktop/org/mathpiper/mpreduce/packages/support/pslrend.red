@@ -483,6 +483,47 @@ symbolic procedure concat2(u,v); concat(u,v);
 
 symbolic procedure dated!-gensym u; gensym();
 
+load get!-options;
+load strings;
+load str!-search;
+load numeric!-ops;
+load chars;
+
+symbolic procedure commandline_setq();
+
+% executes a setq(var,value); from  commandline arg
+% reduce -d var=value
+
+begin scalar extraargs,extracommand;
+
+getunixargs();
+extraargs := get!-command!-args()$
+
+extraargs := member('"-d",extraargs);
+if extraargs
+   then
+   << extracommand := cadr extraargs;
+      extracommand := split!-str(extracommand,"=");
+      eval list('setq,intern car extracommand, cadr extracommand);
+>>$
+end$
+
+% got used to Perl/php split WN
+
+symbolic procedure split!-str (string,separator);
+  reverse split!-str!-1(string,separator,NIL);
+
+symbolic procedure split!-str!-1 (string,separator,r);
+  begin scalar n;
+  n:= string!-search!-equal (separator,string);
+  return
+    if n then
+     split!-str!-1 (subseq(string ,n+1,string!-length(string)),separator,
+                     subseq(string,0,n) .  r)
+    else
+      string . r ;
+  end;
+
 endmodule;
 
 end;

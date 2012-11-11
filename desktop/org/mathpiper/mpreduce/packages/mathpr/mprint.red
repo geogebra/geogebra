@@ -332,8 +332,35 @@ symbolic procedure writepri(u,v); assgnpri(eval u,nil,v);
 
 symbolic procedure exppri(u,v); assgnpri(u,nil,v);
 
+% would-be-huge is used as a filter to judge which expressions can
+% be displayed by CSL in "fancy" mode. What might really like it to do is
+% to return TRUE in the case that the expression passed would display as
+% a single unit that was more than about a page long. Simple sums such
+% as (1+x)^50 may be very long but tmprint.red manages to display them as
+% a sequence of independent lines, so it is not necessary to return TRUE
+% for them.
+% As a first attempt I will just pick up on matrices that have what I will
+% hold to be "too many" rows, columns or merely elements. But extra tests
+% can go in here as and when further limitations to the behaviour of the
+% fancy printing emerge. Or the tests here can be scaled back if printing
+% can be made more robust!
+
+symbolic procedure would!-be!-huge u;
+  begin
+    scalar w, n, m;
+    if eqcar(u, 'mat) then <<
+       n := m := 1;
+       for each x in cdr u do <<
+          n := n + 1;
+          w := length x;
+          if w > m then m := w >>;
+       if n > 20 or m > 20 or m*n=100 then return t
+       else return 0 >>;
+    return nil;
+  end;
+
 symbolic procedure assgnpri(u,v,w);
-   begin scalar x;
+   begin scalar x, tm;
    % U is expression being printed.
    % V is a list of expressions assigned to U.
    % W is an id that indicates if U is the first, only or last element
@@ -345,16 +372,37 @@ symbolic procedure assgnpri(u,v,w);
     % Special cases.  These tests need to be generalized.
     if !*TeX then return texpri(u,v,w)
      else if getd 'vecp and vecp u then return vecpri(u,'mat);
+   % The following is a bit of a mess. "fancy" output using latex style
+   % in CSL has real difficulty when given really large expressions,
+   % including big matrices. To avoid that leading to malformed output
+   % and crashes I detect the case where I am running under CSL, fancy
+   % output mode is available and enabled and the expression to to
+   % printed is "huge". In that case I temporarily switch back to
+   % old fashioned output format.
+    if memq('csl, lispsystem!*) and
+       getd 'math!-display and
+       math!-display 0 and
+       outputhandler!* = 'fancy!-output and
+       would!-be!-huge u then <<
+       fmp!-switch nil;
+       tm := t >>;
     if (x := getrtype u) and flagp(x,'sprifn) and null outputhandler!*
       then <<if null v then apply1(get(get(x,'tag),'prifn),u)
-               else maprin list('setq,car v,u); return nil>>;
-    if w memq '(first only) then terpri!* t;
-    v := evalvars v;
-    if !*fort then <<fvarpri(u,v,w); return nil>>;
-    maprin if v then 'setq . aconc(v,u) else u;
-    if null w or w eq 'first then return nil
-     else if not !*nat then prin2!* "$";
-    terpri!*(not !*nat);
+             else maprin list('setq,car v,u) >>
+    else <<
+      if w memq '(first only) then terpri!* t;
+      v := evalvars v;
+      if !*fort then <<
+        fvarpri(u,v,w);
+        if tm then fmp!-switch t;
+        return nil>>;
+      maprin if v then 'setq . aconc(v,u) else u;
+      if null w or w eq 'first then <<
+        if tm then fmp!-switch t;
+        return nil >>
+       else if not !*nat then prin2!* "$";
+      terpri!*(not !*nat) >>;
+    if tm then fmp!-switch t;
     return nil
    end;
 

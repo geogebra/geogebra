@@ -29,17 +29,45 @@ true
 rlqea rlex sec;
 
 
-{{true,{n = 2,b = 3,a = 1}},
+{{true,
 
- {true,{n = 1,b = 1,a = 0}}}
+  {n = g0016,
+
+        3*g0016
+   b = ---------,
+           2
+
+        g0016
+   a = -------,
+          2
+
+   !,
+
+   g0016 + 2 >= 0 and g0016 - 2 <= 0}},
+
+ {true,
+
+  {n = g0012,
+
+        3*g0012 - 1
+   b = -------------,
+             2
+
+        g0012 - 1
+   a = -----------,
+            2
+
+   !,
+
+   g0012 + 2 >= 0 and g0012 - 2 <= 0}}}
 
 
 rlqe ex(n,sec);
 
 
-(3*a - b = 0 and a + b ~2~ 0 and a - b < 0)
+(3*a - b + 1 = 0 and a + b #2# 0 and a - b < 0)
 
- or (3*a - b + 1 = 0 and a + b #2# 0 and a - b < 0)
+ or (3*a - b = 0 and a + b ~2~ 0 and a - b < 0)
 
 
 % Information Flow Control, Nonlinear Variant
@@ -167,21 +195,21 @@ f:=t2(2)$
  ws;
 
 
-(a1 + a2 - b1 - b2 = 0 and a2 - b2 <= 0 and a2 >= 0 and b1 >= 0)
+(a1 + a2 - b1 - b2 = 0 and a2 - b1 - 1 <= 0 and a2 > 0 and b2 > 0)
 
- or (a1 + a2 - b1 - b2 = 0 and a2 - b2 - 1 <= 0 and a2 > 0 and b1 > 0)
-
- or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 <= 0 and a2 - b2 >= 0 and b2 >= 0)
-
- or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 < 0 and a2 - b2 + 1 >= 0 and b2 > 0)
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 <= 0 and a2 >= 0 and b2 >= 0)
 
  or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 < 0 and a2 - b1 + 1 >= 0 and b1 > 0)
 
  or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 <= 0 and a2 - b1 >= 0 and b1 >= 0)
 
- or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - 1 <= 0 and a2 > 0 and b2 > 0)
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 <= 0 and a2 - b2 >= 0 and b2 >= 0)
 
- or (a1 + a2 - b1 - b2 = 0 and a2 - b1 <= 0 and a2 >= 0 and b2 >= 0)
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 < 0 and a2 - b2 + 1 >= 0 and b2 > 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b2 <= 0 and a2 >= 0 and b1 >= 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b2 - 1 <= 0 and a2 > 0 and b1 > 0)
 
 
 % Dependency Analysis for Automatic Parallelization
@@ -244,5 +272,3 @@ z - 3 > 0
 
 end;
 
-Tested on x86_64-mac_10.7_lion-darwin11.4.0 CSL
-Time (counter 1): 6859 ms  plus GC time: 220 ms

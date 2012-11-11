@@ -1336,7 +1336,8 @@ symbolic procedure vandermonde1(variables);
     vand := mkmatrix(sq_size,sq_size);
     for i:=1:sq_size do
     <<
-      for j:=1:sq_size do
+      setmat(vand,i,1,1);
+      for j:=2:sq_size do
       <<
         setmat(vand,i,j,
                reval{'expt,nth(in_list,i),{'plus,j,{'minus,1}}});

@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ibalp.red 1275 2011-08-16 14:47:01Z thomas-sturm $
+% $Id: ibalp.red 1815 2012-11-02 13:20:27Z thomas-sturm $
 % ----------------------------------------------------------------------
 % (c) 2003-2009 A. Dolzmann, A. Seidl, and T. Sturm, 2011 T.Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(ibalp_rcsid!* ibalp_copyright!*);
-   ibalp_rcsid!* := "$Id: ibalp.red 1275 2011-08-16 14:47:01Z thomas-sturm $";
+   ibalp_rcsid!* := "$Id: ibalp.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
    ibalp_copyright!* :=
       "(c) 2003-2009 A. Dolzmann, A. Seidl, T. Sturm, 2011 T. Sturm"
 >>;
@@ -793,11 +793,11 @@ procedure ibalp_varlt1(u,vl);
       return vl
    end;
 
-procedure ibalp_transform(f,v);
+procedure ibalp_transform(v, f, vl, an, theo, ans, bvl);
    % Transform formula. [f] is a quantifier-free formula; [v] is a
    % variable. Returns $([f] . nil)$. This behavior informs [cl_qe]
    % that there no transformation possible.
-   f . nil;
+   nil;
 
 procedure ibalp_trygauss(f,v,theo,ans,bvl);
    % Try Gauss. [f] is a quantifier-free formula; [v] is a variable.

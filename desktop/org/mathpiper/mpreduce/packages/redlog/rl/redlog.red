@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: redlog.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: redlog.red 1784 2012-10-18 09:09:44Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann and T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(rl_rcsid!* rl_copyright!*);
-   rl_rcsid!* := "$Id: redlog.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+   rl_rcsid!* := "$Id: redlog.red 1784 2012-10-18 09:09:44Z thomas-sturm $";
    rl_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -126,7 +126,7 @@ off1 'rladdcond;
 off1 'rlqeqsc;
 off1 'rlqesqsc;
 off1 'rlsusi;
-on1 'rlsusimult;
+off1 'rlsusimult;
 off1 'rlsusigs;
 on1 'rlsusiadd;
 on1  'rlcadfac;

@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfmisc.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: ofsfmisc.red 1812 2012-11-02 13:13:13Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_misc_rcsid!* ofsf_misc_copyright!*);
    ofsf_misc_rcsid!* :=
-      "$Id: ofsfmisc.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+      "$Id: ofsfmisc.red 1812 2012-11-02 13:13:13Z thomas-sturm $";
    ofsf_misc_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -469,7 +469,7 @@ procedure ofsf_dfgPrintAt(f);
       op := rl_op f;
       lhs := prepf ofsf_arg2l f;
       if op eq 'neq then
-      	 cl_dfgPrintQff rl_mk1('not,ofsf_0mk2('equal,lhs))
+      	 cl_dfgPrintQff rl_mk1('not,ofsf_0mk2('equal, ofsf_arg2l f))
       else <<
       	 opal := '((lessp . ls) (leq . le) (greaterp . gs) (geq . ge));
       	 prin2(if w := atsoc(op,opal) then cdr w else op);
@@ -517,6 +517,96 @@ procedure ofsf_dfgPrintT1(op,argl);
 	 prin2 ")"
       >>
    >>;
+
+procedure ofsf_smt2PrintAt(f);
+   begin scalar opal,op,lhs,w;
+      op := rl_op f;
+      lhs := prepf ofsf_arg2l f;
+      if op eq 'neq then
+      	 cl_smt2PrintQff rl_mk1('not,ofsf_0mk2('equal,ofsf_arg2l f))
+      else <<
+      	 opal := '((lessp . "<") (leq . "<=") (greaterp . ">") (geq . ">=")
+	    (equal . "="));
+      	 prin2 "(";
+      	 prin2(if w := atsoc(op,opal) then cdr w else op);
+      	 prin2 " ";
+      	 ofsf_smt2PrintT lhs;
+      	 prin2 " 0)"
+      >>
+   end;
+
+procedure ofsf_smt2PrintT(u);
+   if numberp u or idp u then
+      prin2 u
+   else
+      ofsf_smt2PrintT1(car u,cdr u);
+
+procedure ofsf_smt2PrintT1(op,argl);
+   if op eq 'difference then <<
+      prin2 "(- ";
+      ofsf_smt2PrintT car argl;
+      prin2 " ";
+      ofsf_smt2PrintT cadr argl;
+      prin2 ")"
+   >> else if op eq 'minus then <<
+      prin2 "(- ";
+      ofsf_smt2PrintT car argl;
+      prin2 ")"
+   >> else if op eq 'plus then <<
+      prin2 "(+ ";
+      for each rargl on argl do <<
+      	 ofsf_smt2PrintT car rargl;
+	 if cdr rargl then
+      	    prin2 " "
+      >>;
+      prin2 ")"
+   >> else if op eq 'times then <<
+      prin2 "(* ";
+      for each rargl on argl do <<
+      	 ofsf_smt2PrintT car rargl;
+	 if cdr rargl then
+      	    prin2 " "
+      >>;
+      prin2 ")"
+   >> else if op eq 'expt then
+      ofsf_smt2PrintT1('times, for i:=1:cadr argl collect car argl);
+
+procedure ofsf_smt2ReadAt(form);
+   begin scalar op, w;
+      op := car form;
+      w := atsoc(op, '((!>!= . geq) (!<!= . leq) (!< . lessp) (!> . greaterp)
+   	 (!= . equal)));
+      if not w then
+	 cl_smt2ReadError {"error: expecting logical symbol but found ", op};
+      op := cdr w;
+      return ofsf_0mk2(op,
+      	 addf(ofsf_smt2ReadTerm cadr form, negf(ofsf_smt2ReadTerm caddr form)))
+   end;
+
+procedure ofsf_smt2ReadTerm(u);
+   numr simp ofsf_smt2ReadTerm1 u;
+
+procedure ofsf_smt2ReadTerm1(u);
+   begin scalar op, w;
+      if atom u then
+ 	 return u;
+      op := car u;
+      w := atsoc(op, '((!+ . plus) (!- . minus) (!* . times)));
+      if not w then
+	 cl_smt2ReadError {"error: expecting arithmetic symbol but found ", op};
+      op := cdr w;
+      if op eq 'minus and cddr u then
+	 op := 'difference;
+      return op . for each arg in cdr u collect ofsf_smt2ReadTerm1 arg
+   end;
+
+procedure ofsf_float2dn(x);
+   begin scalar w; integer dotpos;
+      w := explode x;
+      dotpos := length memq('!., w);
+      prin2t w;
+      return '!:dn!: . compress(for each d in w join if not (d eq '!.) then {d}) . -dotpos
+   end;
 
 endmodule;  % [ofsfmisc]
 

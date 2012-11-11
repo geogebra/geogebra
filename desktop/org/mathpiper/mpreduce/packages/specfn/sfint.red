@@ -126,8 +126,8 @@ let { limit (erf(~x),~x,infinity) => 1,
       limit (erfc(~x),~x,infinity) => 0,
       erfc (~x) => 1-erf(x),
       erfi(~z)  => -i * erf(i*z),
-      int(1/e^(~tt^2),~tt,0,~z) => erf(z)/2*sqrt(pi),
-      int(1/e^(~tt^2),~tt,~z,infinity) => erfc(z)/2*sqrt(pi),
+      int(1/e^(~tt^2),~tt,0,~z) => erf(z)/2*sqrt(pi) when z freeof infinity,
+      int(1/e^(~tt^2),~tt,~z,infinity) => erfc(z)/2*sqrt(pi) when z freeof infinity,
       erf (~x) => compute_int_functions(x,erf)
                 when numberp x and abs(x)<5 and lisp !*rounded };
 

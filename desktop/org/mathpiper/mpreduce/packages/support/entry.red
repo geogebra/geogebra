@@ -373,12 +373,11 @@ defautoload(simplimit,limits);
 
 % Partial fractions entry point.
 
-defautoload(pf,pf,expr,2);
-
-symbolic operator pf;
+flag('(pf),'opfn);
 
 flag('(pf),'noval);
 
+defautoload(pf,pf,expr,2);
 
 % Sum entry points.
 

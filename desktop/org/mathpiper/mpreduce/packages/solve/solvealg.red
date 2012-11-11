@@ -70,6 +70,7 @@ fluid '( system!*        % system to be solved
          !*arbvars
          !*varopt
          solve!-gensymcounter
+      	 solve!-gensymprefix
        );
 
 fluid'(!*trnonlnr);
@@ -523,7 +524,7 @@ symbolic procedure solve!-gensym();
     while length w < 4 do w:='!0 .w;
     % If users have things to solve with names like 'G0001' in them, there
     % could be confusion.
-    return compress('g.w)end;
+    return compress(append(solve!-gensymprefix,w))end;
 
 symbolic procedure solvealgexptgen1(k,x);
    % Kernel 'k' is a general exponentiation 'u**v'.

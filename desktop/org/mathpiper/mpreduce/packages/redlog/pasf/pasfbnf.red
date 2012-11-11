@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasfbnf.red 81 2009-02-06 18:22:31Z thomas-sturm $
+% $Id: pasfbnf.red 1765 2012-10-11 14:58:03Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 2002-2009 A. Dolzmann, A. Seidl, and T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(pasf_bnf_rcsid!* pasf_bnf_copyright!*);
    pasf_bnf_rcsid!* :=
-      "$Id: pasfbnf.red 81 2009-02-06 18:22:31Z thomas-sturm $";
+      "$Id: pasfbnf.red 1765 2012-10-11 14:58:03Z mkosta $";
    pasf_bnf_copyright!* :=
       "Copyright (c) 1995-2009 A. Dolzmann, A. Seidl, T. Sturm"
 >>;
@@ -49,12 +49,29 @@ procedure pasf_sacat(a1,a2,gor);
 procedure pasf_dnf(phi);
    % Presburger arithmetic standard form disjunctive normal form. [phi] is a
    % quantifier free frmula. Returns a pseudo DNF of [phi].
-   pasf_pbnf(pasf_pnf phi,'dnf);
+   if pasf_puregconp(phi, 'and) then phi else pasf_pbnf(pasf_pnf phi,'dnf);
 
 procedure pasf_cnf(phi);
    % Presburger arithmetic standard form conjunctive normal form. [phi] is a
    % quantifier free formula. Returns a pseudo DNF of [phi].
-   pasf_pbnf(pasf_pnf phi,'cnf);
+   if pasf_puregconp(phi, 'or) then phi else pasf_pbnf(pasf_pnf phi,'cnf);
+
+procedure pasf_puregconp(f, gand);
+   % Pure generic conjunction predicate. [f] is a quantifier-free formula.
+   % Returns Boolean.
+   begin scalar c,fl,a;
+      if rl_tvalp f then return t;
+      if pasf_atfp f then return t;
+      if pairp f and rl_op f eq gand then <<
+      	 fl := rl_argn f;
+      	 c := t; while c and fl do <<
+	    a := pop fl;
+	    if not pasf_atfp a then c := nil
+      	 >>;
+      	 return c
+      >>;
+      return nil
+   end;
 
 procedure pasf_pbnf(phi,flag);
    % Presburger arithmetic standard form pseudo boolean normal form

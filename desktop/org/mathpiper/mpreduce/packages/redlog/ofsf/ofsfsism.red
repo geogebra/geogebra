@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfsism.red 1260 2011-08-14 12:04:59Z thomas-sturm $
+% $Id: ofsfsism.red 1813 2012-11-02 13:14:39Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_sism_rcsid!* ofsf_sism_copyright!*);
    ofsf_sism_rcsid!* :=
-      "$Id: ofsfsism.red 1260 2011-08-14 12:04:59Z thomas-sturm $";
+      "$Id: ofsfsism.red 1813 2012-11-02 13:14:39Z thomas-sturm $";
    ofsf_sism_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -401,13 +401,13 @@ procedure ofsf_susibinmult(old,new);
       olevel := cdr old;
       nlevel := cdr new;
       w := quotf(ot,nt);
-      if w = 1 then % [ot equal nt]
+      if w = 1 then  % [ot] = [nt]
 	 return nil;
-      if w then return
-	 ofsf_susibinmult1(orel,nrel,ot,nt,w,olevel,nlevel,T);
+      if w then  % [nt] | [ot]
+	 return ofsf_susibinmult1(orel,nrel,ot,nt,w,olevel,nlevel,T);
       w := quotf(nt,ot);
-      if w then return
-	 ofsf_susibinmult1(nrel,orel,nt,ot,w,nlevel,olevel,nil);
+      if w then
+	 return ofsf_susibinmult1(nrel,orel,nt,ot,w,nlevel,olevel,nil);
       return nil
    end;
 
@@ -441,7 +441,7 @@ procedure ofsf_susibinmult1(pr,fr,prod,af,cf,plevel,flevel,flg);
    end;
 
 procedure ofsf_wop(rel);
-   rel memq '(leq,geq);
+   rel memq '(leq geq);
 
 procedure ofsf_susibinmulttab(u,uv);
    begin scalar al;
@@ -461,9 +461,8 @@ procedure ofsf_susibinmulttab(u,uv);
          (greaterp . ( (equal . (greaterp . equal)) (leq . (greaterp . leq))
                     (geq . (greaterp . geq)) (neq . (greaterp . neq))
                     (lessp . (greaterp . lessp))
-                    (greaterp . (greaterp . greaterp))))
-              	       );
-      return atsoc(uv,atsoc(u,al));
+                    (greaterp . (greaterp . greaterp)))));
+      return atsoc(uv,atsoc(u,al))
    end;
 
 procedure ofsf_susibinad(old,new);

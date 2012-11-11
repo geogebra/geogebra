@@ -477,13 +477,16 @@ symbolic procedure solve1test2(coefs,rcoeffs,f);
    end;
 
 symbolic procedure solveabs u;
-   begin scalar mu,var,lincoeff;
+   begin scalar mu,var,lincoeff,s;
       var := cadr u;
       mu := caddr u;
       lincoeff := cadddr u;
+      s := sign!-of prepsq lincoeff;
+      if s=-1 then return nil;
       u := simp!* caar u;
-      return solnsmerge(solvesq(addsq(u,lincoeff),var,mu),
-                    solvesq(subtrsq(u,lincoeff),var,mu))
+      if s=0 then return solvesq(u,var,mu)
+       else return solnsmerge(solvesq(addsq(u,lincoeff),var,mu),
+                              solvesq(subtrsq(u,lincoeff),var,mu))
    end;
 
 put('abs,'solvefn,'solveabs);
