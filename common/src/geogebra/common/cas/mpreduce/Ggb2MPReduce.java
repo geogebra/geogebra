@@ -59,7 +59,8 @@ public class Ggb2MPReduce {
 				"<<begin scalar input!!; input!!:=(%0); on complex$ return flattenlist(mycsolve(input!!,mymainvar(input!!))) end>>");
 		p("CSolve.2", "<<on complex$ flattenlist(mycsolve(%0,%1))>>");
 		p("Degree.1",
-				"<<begin scalar input!!, variables!!; input!!:=(%0); torder(list(),gradlex); input!!:=part(gsplit(input!!),1); variables!!:=gvars(list(input!!)); return for each variable!! in variables!! sum deg(input!!,variable!!) end>>");
+				"<<begin scalar input!!, variables!!; input!!:=(%0); torder(list(),gradlex); input!!:=part(gsplit(input!!),1); variables!!:=gvars(list(input!!)); " +
+				"return for each variable!! in variables!! sum if not (variable!!=pi or variable!!=e or variable!!=i) then deg(input!!,variable!!) else 0 end>>");
 		p("Degree.2", "deg(%0,%1)");
 		p("Delete.1", "");
 		p("Denominator.1", "den(%0)");
