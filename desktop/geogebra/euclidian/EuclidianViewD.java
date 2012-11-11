@@ -110,6 +110,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 	 * @param showGrid
 	 * @param evno
 	 *            number of this view
+	 * @param settings euclidian settings
 	 */
 	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
@@ -139,11 +140,16 @@ public class EuclidianViewD extends EuclidianViewND implements
 		// updateRightAngleStyle(app.getLocale());
 
 
-
+		EuclidianSettings es = null;
+		if (settings!=null){
+			es = settings;
 		// settings from XML for EV1, EV2
 		// not for eg probability calculator
-		if ((evNo == 1) || (evNo == 2)) {
-			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
+		}else if ((evNo == 1) || (evNo == 2)) {
+			es = getApplication().getSettings().getEuclidian(evNo);
+		}
+		
+		if (es!=null){
 			settingsChanged(es);
 			es.addListener(this);
 		}

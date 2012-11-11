@@ -290,8 +290,6 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean tmp_showAlgebra, tmp_showSpreadsheet;
 
-	// indicate the view no currently parsing
-	private int viewNo = 0;
 
 	// flag so that we can reset EVSettings the first time we get them (for EV1
 	// and EV2)
@@ -515,9 +513,7 @@ public class MyXMLHandler implements DocHandler {
 		switch (mode) {
 		case MODE_EUCLIDIAN_VIEW:
 			if ("euclidianView".equals(eName)) {
-				if (viewNo == 2) {
-					viewNo = 0;
-				}
+				evSet = null;
 				mode = MODE_GEOGEBRA;
 			}
 			break;
@@ -710,24 +706,28 @@ public class MyXMLHandler implements DocHandler {
 	// <euclidianView>
 	// ====================================
 
+	private EuclidianSettings evSet = null;
+	
 	private void startEuclidianViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
-		EuclidianSettings evSet = null;
 
 		// must do this first
 		if ("viewNumber".equals(eName)) {
 			int number = Integer.parseInt(attrs.get("viewNo"));
-			if (number == 2) {
-				viewNo = number;
-			}
+			if (number == 2) 
+				evSet = app.getSettings().getEuclidian(2);
+			else
+				evSet = app.getSettings().getEuclidian(1);
+		}else if ("viewId".equals(eName)){
+			String plane = attrs.get("plane");
+			evSet = app.getSettings().getEuclidianForPlane(plane);
+			if (evSet == null)
+				evSet = app.getSettings().createEuclidianForPlane(plane);
 		}
 
-		if (viewNo == 2) {
-			evSet = app.getSettings().getEuclidian(2);
-		} else {
+		if (evSet == null)
 			evSet = app.getSettings().getEuclidian(1);
-		}
 
 		// make sure eg is reset the first time (for each EV) we get the
 		// settings
@@ -793,7 +793,14 @@ public class MyXMLHandler implements DocHandler {
 				 */
 				ok = true;
 				break;
+			}else if ("viewId".equals(eName)) {
+				/*
+				 * moved earlier, must check first if for EuclidianViewForPlane
+				 */
+				ok = true;
+				break;
 			}
+
 
 		default:
 			System.err.println("unknown tag in <euclidianView>: " + eName);

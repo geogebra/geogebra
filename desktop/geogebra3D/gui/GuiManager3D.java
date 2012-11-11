@@ -216,7 +216,7 @@ public class GuiManager3D extends GuiManagerD {
 	
 	@Override
 	protected EuclidianViewD newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
-		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id);
+		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id, null);
 	}
 	
 	

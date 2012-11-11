@@ -25,6 +25,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.settings.Settings;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
@@ -126,7 +128,7 @@ public class App3D extends AppD {
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
 		return new EuclidianViewFor3D((EuclidianControllerD)euclidianController, showAxes, showGrid,
-				1);
+				1,null);
 	}
 
 	@Override
@@ -146,6 +148,11 @@ public class App3D extends AppD {
 
 		// save euclidianView3D settings
 		euclidianView3D.getXML(sb,asPreference);
+		
+		// save euclidian views for plane settings
+		if (euclidianViewForPlaneList!=null)
+			for (EuclidianViewForPlane view : euclidianViewForPlaneList)
+				view.getXML(sb, asPreference);
 
 		return sb.toString();
 	}
@@ -169,6 +176,11 @@ public class App3D extends AppD {
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		super.getEuclidianViewXML(sb, asPreference);
 		getEuclidianView3D().getXML(sb,asPreference);
+
+		if (euclidianViewForPlaneList!=null)
+			for (EuclidianViewForPlane view : euclidianViewForPlaneList)
+				view.getXML(sb, asPreference);
+
 	}
 
 	@Override
@@ -189,6 +201,8 @@ public class App3D extends AppD {
 	// ///////////////////////////////
 	// EUCLIDIAN VIEW FOR PLANE
 	// ///////////////////////////////
+	
+	private ArrayList<EuclidianViewForPlane> euclidianViewForPlaneList;
 
 	/**
 	 * @param plane plane creator
@@ -198,9 +212,16 @@ public class App3D extends AppD {
 	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);
-		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);
+		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane, 
+				getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple()));
 		euclidianViewForPlane.updateFonts();
 		euclidianViewForPlane.addExistingGeos();
+		
+		//add it to list
+		if (euclidianViewForPlaneList==null)
+			euclidianViewForPlaneList = new ArrayList<EuclidianViewForPlane>();
+		euclidianViewForPlaneList.add(euclidianViewForPlane);
+		
 
 		// create dock panel
 		panel = new EuclidianDockPanelForPlane(this,
@@ -443,6 +464,14 @@ public class App3D extends AppD {
 				p.getView().doRemove();
 			}
 		}
+	}
+	
+	/**
+	 * remove the view from the list
+	 * @param view view
+	 */
+	public void removeEuclidianViewForPlaneFromList(EuclidianViewForPlane view){
+		euclidianViewForPlaneList.remove(view);
 	}
 	
 }

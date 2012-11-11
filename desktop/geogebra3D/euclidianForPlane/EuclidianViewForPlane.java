@@ -15,8 +15,10 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.layout.LayoutD;
+import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
@@ -42,9 +44,10 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 * 
 	 * @param ec controller
 	 * @param plane plane creating this view
+	 * @param settings euclidian settings
 	 */
-	public EuclidianViewForPlane(EuclidianControllerD ec, ViewCreator plane) {
-		super(ec, new boolean[]{ false, false }, false, 0); //TODO euclidian settings
+	public EuclidianViewForPlane(EuclidianControllerD ec, ViewCreator plane, EuclidianSettings settings) {
+		super(ec, new boolean[]{ false, false }, false, 0, settings); //TODO euclidian settings
 		
 		//initView(true);
 		setShowAxes(false, false);
@@ -361,7 +364,20 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		panel.closePanel();
 		((LayoutD) app.getGuiManager().getLayout()).getDockManager().unRegisterPanel(panel);
 		kernel.detach(this);
+		((App3D) app).removeEuclidianViewForPlaneFromList(this);
 	}
 	
+	
+	@Override
+	protected void getXMLid(StringBuilder sbxml){
+
+		sbxml.append("\t<viewId ");
+		sbxml.append("plane=\"");
+		sbxml.append(((GeoElement) plane).getLabelSimple());
+		sbxml.append("\"");
+		sbxml.append("/>\n");
+
+	}
+
 	
 }

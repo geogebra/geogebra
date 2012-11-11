@@ -1,6 +1,7 @@
 package geogebra.common.main.settings;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -15,6 +16,8 @@ import java.util.LinkedList;
  */
 public class Settings {
 	private final EuclidianSettings[] euclidianSettings;
+	
+	private HashMap<String, EuclidianSettings> euclidianSettingsForPlane;
 
 	private AlgebraSettings algebraSettings;
 
@@ -38,6 +41,8 @@ public class Settings {
 	 */
 	public Settings() {
 		euclidianSettings = new EuclidianSettings[2];
+		
+		euclidianSettingsForPlane = new HashMap<String, EuclidianSettings>();
 
 		resetSettings();
 	}
@@ -58,6 +63,10 @@ public class Settings {
 					euclidianSettings[i].addListener(a);
 				}
 			}
+		}
+		
+		for (EuclidianSettings settings : euclidianSettingsForPlane.values()){
+			settings.reset();			
 		}
 
 		if (algebraSettings == null) {
@@ -127,6 +136,10 @@ public class Settings {
 			settings.beginBatch();
 		}
 
+		for (EuclidianSettings settings : euclidianSettingsForPlane.values()) {
+			settings.beginBatch();
+		}
+
 		algebraSettings.beginBatch();
 		spreadsheetSettings.beginBatch();
 		consProtSettings.beginBatch();
@@ -145,6 +158,10 @@ public class Settings {
 	 */
 	public void endBatch() {
 		for (EuclidianSettings settings : euclidianSettings) {
+			settings.endBatch();
+		}
+		
+		for (EuclidianSettings settings : euclidianSettingsForPlane.values()) {
 			settings.endBatch();
 		}
 
@@ -166,6 +183,28 @@ public class Settings {
 	 */
 	public final EuclidianSettings getEuclidian(int number) {
 		return euclidianSettings[number - 1];
+	}
+	
+	
+	/**
+	 * 
+	 * @param plane name of the plane creator
+	 * @return settings of view for this plane
+	 */
+	public final EuclidianSettings getEuclidianForPlane(String plane){
+		return euclidianSettingsForPlane.get(plane);
+	}
+
+	
+	/**
+	 * 
+	 * @param plane name of the plane creator
+	 * @return settings of view for this plane
+	 */
+	public final EuclidianSettings createEuclidianForPlane(String plane){
+		EuclidianSettings settings = new EuclidianSettings(null);
+		euclidianSettingsForPlane.put(plane, settings);
+		return settings;
 	}
 
 	/**

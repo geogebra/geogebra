@@ -4004,6 +4004,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	final public geogebra.common.awt.GGraphics2D getBackgroundGraphics() {
 		return bgGraphics;
 	}
+	
+	/**
+	 * add id to xml
+	 * @param sbxml xml
+	 */
+	protected void getXMLid(StringBuilder sbxml){
+		if (evNo >= 2) {
+			sbxml.append("\t<viewNumber ");
+			sbxml.append("viewNo=\"");
+			sbxml.append(evNo);
+			sbxml.append("\"");
+			sbxml.append("/>\n");
+		}
+	}
 
 	/**
 	 * returns settings in XML format
@@ -4016,13 +4030,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void getXML(StringBuilder sbxml, boolean asPreference) {
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sbxml.append("<euclidianView>\n");
-		if (evNo >= 2) {
-			sbxml.append("\t<viewNumber ");
-			sbxml.append("viewNo=\"");
-			sbxml.append(evNo);
-			sbxml.append("\"");
-			sbxml.append("/>\n");
-		}
+		
+		getXMLid(sbxml);
 
 		if ((getWidth() > MIN_WIDTH) && (getHeight() > MIN_HEIGHT)) {
 			sbxml.append("\t<size ");
