@@ -44,8 +44,8 @@ import java.util.HashSet;
 public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParametersAlgo,
 SymbolicParametersBotanaAlgo {
 
-    private GeoPoint P; // input
-    private GeoLine l; // input
+    protected GeoPoint P; // input
+    protected GeoLine l; // input
     private GeoLine g; // output       
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
@@ -94,13 +94,20 @@ SymbolicParametersBotanaAlgo {
     	return EuclidianConstants.MODE_ORTHOGONAL;
     }  
 
+    /**
+     * set the inputs
+     */
+    protected void setInput(){
+    	input = new GeoElement[2];
+    	input[0] = P;
+    	input[1] = l;
+    }
+
     // for AlgoElement
     @Override
 	public void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = P;
-        input[1] = l;
-
+       
+    	setInput();
         setOutputLength(1);
         setOutput(0,g);
         setDependencies(); // done by AlgoElement
@@ -127,7 +134,7 @@ SymbolicParametersBotanaAlgo {
     }
 
     @Override
-	public final String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));

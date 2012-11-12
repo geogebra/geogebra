@@ -2956,27 +2956,21 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoCoordSys2D[] cs = getselectedCS2D();
 				// create new line
 				return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null, points[0], cs[0])};
+			}else if (selLines() == 1){
+				// fetch selected point and line
+				GeoPointND[] points = getSelectedPointsND();
+				GeoLineND[] lines = getSelectedLinesND();
+				// create new line
+				return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null, points[0], lines[0], kernel.getSpace())};				
 			}
 		}
 		
-		
-		if (selCoordSys2D() == 0)
-			return orthogonal(hits, hitPoint);
 		
 		return null;
 	}
 
 
-	//TODO remove ?
-	@Override
-	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
-		if (((GeoElement) point).isGeoElement3D() || ((GeoElement) line).isGeoElement3D())
-			return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line)};		
-		else
-			return orthogonal2D(point, line);
 	
-	}
-
 
 	@Override
 	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {

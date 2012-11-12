@@ -107,6 +107,11 @@ public class Kernel3D extends Kernel {
 	public GeoClippingCube3D getClippingCube(){
 		return ((Construction3D) cons).getClippingCube();
 	}
+	
+	@Override
+	public GeoSpace getSpace() {
+		return ((Construction3D) cons).getSpace();
+	}
 
 	/* *******************************************
 	 * Methods for EuclidianView/EuclidianView3D
@@ -487,5 +492,7 @@ public class Kernel3D extends Kernel {
 		return super.PolyLine(labels, P, false);
 
 	}
+	
+
 
 }

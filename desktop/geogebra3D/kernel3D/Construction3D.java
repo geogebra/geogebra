@@ -69,6 +69,9 @@ public class Construction3D extends Construction {
 	public GeoPlane3DConstant getXOYPlane(){
 		return xOyPlane;
 	}
+	public GeoSpace getSpace(){
+		return space;
+	}
 	public GeoClippingCube3D getClippingCube(){
 		return clippingCube;
 	}
@@ -135,7 +138,7 @@ public class Construction3D extends Construction {
 	@Override
 	public Constants isConstantElement(GeoElement geo){
 		if (geo==zAxis3D)
-			return Constants.X_AXIS;		
+			return Constants.Z_AXIS;		
 		if (geo==xOyPlane)
 			return Constants.XOY_PLANE;
 		if (geo==space)

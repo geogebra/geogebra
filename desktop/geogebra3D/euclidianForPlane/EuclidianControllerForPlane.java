@@ -80,11 +80,7 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 		return createCircle2ForPoints3D(p0, p1);
 	}
 
-	@Override
-	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
-		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, view.getDirection())};		
 
-	}
 	
 	@Override
 	protected void processModeLock(GeoPointND point){

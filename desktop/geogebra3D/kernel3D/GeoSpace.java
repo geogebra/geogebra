@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -12,7 +13,7 @@ import geogebra.common.plugin.GeoClass;
  * @author matthieu
  *
  */
-public class GeoSpace extends GeoElement3D {
+public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 
 	/**
 	 * @param c
@@ -20,6 +21,7 @@ public class GeoSpace extends GeoElement3D {
 	public GeoSpace(Construction c) {
 		super(c);
 		label = "space";
+		labelSet=true;
 		setFixed(true);
 	}
 
@@ -82,5 +84,14 @@ public class GeoSpace extends GeoElement3D {
 		// in order to make the space available
 		// in empty constructions too (for step == -1)
 		return true;
+	}
+
+
+	
+	
+	public Coords getDirectionInD3() {
+		// return null since there's no specific direction
+		// used for commands that should need a direction, like OrthogonalLine
+		return null;
 	}
 }

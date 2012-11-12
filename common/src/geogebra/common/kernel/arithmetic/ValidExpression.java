@@ -61,7 +61,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	 */
 	public void addLabel(String label) {
 		initLabels();
-		App.printStacktrace(label+":"+(label==null));
+		//App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 

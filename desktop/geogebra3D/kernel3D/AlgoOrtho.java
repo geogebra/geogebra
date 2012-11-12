@@ -28,9 +28,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoOrtho extends AlgoElement3D {
 
  
-	private GeoPointND point; // input
-    private GeoElement inputOrtho; // input
-    private GeoLine3D line; // output       
+	protected GeoPointND point; // input
+	protected GeoElement inputOrtho; // input
+	protected GeoLine3D line; // output       
 
 
     public AlgoOrtho(Construction cons, String label, GeoPointND point, GeoElement ortho) {
@@ -39,13 +39,19 @@ public abstract class AlgoOrtho extends AlgoElement3D {
         this.inputOrtho = ortho;
         line = new GeoLine3D(cons);
         
-        setInputOutput(new GeoElement[] {(GeoElement) point, ortho}, new GeoElement[] {line});
+        setSpecificInputOutput();
 
         // compute line 
         compute();
         line.setLabel(label);
     }
 
+    /**
+     * set specific input/output for this algo
+     */
+    protected void setSpecificInputOutput(){
+    	setInputOutput(new GeoElement[] {(GeoElement) point, inputOrtho}, new GeoElement[] {line});
+    }
 
     public GeoLine3D getLine() {
         return line;
@@ -61,7 +67,7 @@ public abstract class AlgoOrtho extends AlgoElement3D {
 
 
     @Override
-	final public String toString(StringTemplate tpl) {
+    public String toString(StringTemplate tpl) {
     	return app.getPlain("LineThroughAPerpendicularToB",point.getLabel(tpl),inputOrtho.getLabel(tpl));
     }
 }

@@ -26,6 +26,7 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 			coordsys.makeEquationVector();
 			//setCoord(EuclidianView3D.o,EuclidianView3D.vx,EuclidianView3D.vy);
 			label = "xOyPlane";
+			labelSet = true;
 			setObjColor(new geogebra.awt.GColorD(0.5f,0.5f,0.5f));
 			setLabelVisible(false);
 			break;

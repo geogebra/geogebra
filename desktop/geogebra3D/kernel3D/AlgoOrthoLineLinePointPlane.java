@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -22,7 +23,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
- * Compute a line orthogonal to a line, through a point, and orthogonal to a plane
+ * Compute a line orthogonal to a line, through a point, and parallel to a plane
  *
  * @author  matthieu
  * @version 
@@ -67,7 +68,11 @@ public class AlgoOrthoLineLinePointPlane extends AlgoOrthoLineLine {
 
 	// TODO Consider locusequability
     
-    
+    @Override
+	public String toString(StringTemplate tpl) {
+        return app.getPlain("LineThroughAPerpendicularToBParallelToC",point.getLabel(tpl),line1.getLabel(tpl),direction.getLabel(tpl));
+
+    }
     
 
 

@@ -2476,19 +2476,10 @@ public abstract class EuclidianController {
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
 		checkZooming(); 
 		
-		if (((GeoElement) point).isGeoElement3D()
-				|| ((GeoElement) line).isGeoElement3D()) {
-			return new GeoElement[] { (GeoElement) getKernel().getManager3D()
-					.OrthogonalLine3D(null, point, line,
-							( view).getDirection()) };
-		}
-		return orthogonal2D(point, line);
-	}
-
-	protected GeoElement[] orthogonal2D(GeoPointND point, GeoLineND line) {
 		return new GeoElement[] { getAlgoDispatcher().OrthogonalLine(null,
 				(GeoPoint) point, (GeoLine) line) };
 	}
+
 
 	protected final GeoElement[] midpoint(Hits hits) {
 		if (hits.isEmpty()) {
@@ -9564,7 +9555,7 @@ public abstract class EuclidianController {
 	
 	private boolean wheelZoomingOccurred = false;
 
-	private void checkZooming() {
+	protected void checkZooming() {
 		checkZooming(false);
 	}
 

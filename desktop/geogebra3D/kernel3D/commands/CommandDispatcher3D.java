@@ -48,7 +48,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdCircle3D(kernel);
 
 				
-			case OrthogonalLine3D:
+			case OrthogonalLine:
 				return new CmdOrthogonalLine3D(kernel);
 				
 			case OrthogonalVector:

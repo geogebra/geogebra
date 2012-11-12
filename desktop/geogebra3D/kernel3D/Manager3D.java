@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -18,8 +19,10 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.kernelND.Geo3DVec;
@@ -32,6 +35,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -271,6 +275,17 @@ public class Manager3D implements Manager3DInterface {
 
 	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
 			GeoLineND line, GeoDirectionND direction) {
+		
+		//when have space as direction, just to say it's not as in 2D
+		if (direction==((Construction3D) cons).getSpace())
+			return OrthogonalLine3D(label, point, line);	
+		
+		//when xOy plane as direction, check if it's only 2D objects, then return 2D line
+		if (direction==((Construction3D) cons).getXOYPlane() && (point instanceof GeoPoint) && (line instanceof GeoLine)){
+			AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLineXOYPlane(cons, label, (GeoPoint) point, (GeoLine) line);
+			return algo.getLine();
+		}
+		
 		AlgoOrthoLineLinePointPlane algo = new AlgoOrthoLineLinePointPlane(
 				cons, label, point, line, direction);
 		return algo.getLine();

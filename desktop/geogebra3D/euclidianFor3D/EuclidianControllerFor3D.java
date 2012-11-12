@@ -3,6 +3,7 @@ package geogebra3D.euclidianFor3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -151,6 +152,13 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		
 	}
 
-	
+
+
+	@Override
+	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
+		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, view.getDirection())};		
+
+	}
+
 	
 }

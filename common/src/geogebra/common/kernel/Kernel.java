@@ -4505,5 +4505,13 @@ public class Kernel {
 	public GeoCoordSys2D getXOYPlane() {
 		return null;
 	}
+
+	/**
+	 * used in 3D
+	 * @return global space
+	 */
+	public GeoDirectionND getSpace() {
+		return null;
+	}
 	
 }

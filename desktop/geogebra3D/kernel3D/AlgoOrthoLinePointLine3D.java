@@ -15,6 +15,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,6 +35,13 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 
     public AlgoOrthoLinePointLine3D(Construction cons, String label, GeoPointND point, GeoLineND line) {
         super(cons,label,point, (GeoElement) line);
+    }
+    
+
+ 
+    @Override
+	protected void setSpecificInputOutput(){
+    	setInputOutput(new GeoElement[] {(GeoElement) point, inputOrtho, ((Construction3D) cons).getSpace()}, new GeoElement[] {line});
     }
 
     @Override
@@ -64,6 +72,11 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
     	else
     		getLine().setCoord(getPoint().getInhomCoordsInD(3), v.normalize());
         
+    }
+    
+    @Override
+	final public String toString(StringTemplate tpl) {
+    	return app.getPlain("LineThroughAPerpendicularToBinSpace",point.getLabel(tpl),inputOrtho.getLabel(tpl));
     }
 
 	// TODO Consider locusequability
