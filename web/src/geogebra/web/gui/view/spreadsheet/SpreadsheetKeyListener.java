@@ -118,8 +118,9 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				model.setRowCount(table.getRowCount());
 
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
+
+				table.changeSelection(row+1, column, false, e.isShiftKeyDown());
 			}
-			
 			else if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
 
@@ -139,7 +140,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				//e.consume();
 			} else {
 				// default action
-				table.changeSelection(row+1, column, false, e.isShiftKeyDown());
+				if (row + 1 < table.getRowCount() - 1)
+					table.changeSelection(row+1, column, false, e.isShiftKeyDown());
 			}
 
 
@@ -189,15 +191,19 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 
 		case KeyCodes.KEY_RIGHT: //Event.VK_RIGHT:
 			// auto increase spreadsheet size when you go off the right
-			
-			if (table.getSelectedColumn() + 1 >= table.getColumnCount()-1 && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
-				model.setColumnCount(table.getColumnCount());		
+
+			if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1 && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
+				/*FIXME: why this doesn't work in Web?
+
+				model.setColumnCount(table.getColumnCount());
 				view.columnHeaderRevalidate();
 
 				// these two lines are a workaround for Java 6
 				// (Java bug?)
 				table.changeSelection(row, column + 1, false, false);
 				//e.consume();
+				
+				END of FIXME */
 			}
 			else if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
@@ -216,7 +222,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				//e.consume();
 			} else {
 				// default action
-				table.changeSelection(row, column+1, false, e.isShiftKeyDown());
+				if (column + 1 < table.getColumnCount() - 1)
+					table.changeSelection(row, column + 1, false, e.isShiftKeyDown());
 			}
 
 //			// copy description into input bar when a cell is entered
