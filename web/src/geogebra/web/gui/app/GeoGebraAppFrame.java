@@ -88,8 +88,8 @@ public class GeoGebraAppFrame extends Composite {
 		            public void onWindowClosing(ClosingEvent event) {
 		            	// TODO: Localize this, or omit message completely,
 		            	// and maybe put this somewhere else (where i18n is already available).
-		            	event.setMessage(app.getPlain("CloseApplicationLoseUnsavedData"));
-		                //event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
+		            	//event.setMessage(app.getPlain("CloseApplicationLoseUnsavedData"));
+		                event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
 		            }
 		        });
 			//}
