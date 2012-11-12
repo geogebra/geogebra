@@ -841,6 +841,65 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				" and numberp(part(eqn,2)) and part(eqn,2)> 16 then  1 else " +
 			    " for k:=1:arglength(eqn) sum bigexponents(part(eqn,k));"
 				 );
+		// procedure posneg(equation): used to decide whether an equation can be solved, based on positivity and negativity
+		// e.g. sqrt(x)+1=0 -> sqrt(x) is positive, 1 is non-zero positive -> their sum is not zero thus the solution is {}
+		mpreduce1.evaluate("procedure ptqst(op,el1,el2);" + //returns a state of two elements with an operator of plus/times/quotient
+				"begin scalar i,j;" +
+				"if el1=idk or el2=idk then return idk;" +
+				"i:=if el1=nzpoz then 1 else if el1=poz then 2 else if el1=nzneg then 3 else if el1=neg then 4; " +
+				"j:=if el2=nzpoz then 1 else if el2=poz then 2 else if el2=nzneg then 3 else if el2=neg then 4; " +
+				"M!!:=if op='plus then mat((nzpoz,nzpoz,idk, idk),(nzpoz,poz,idk,idk),(idk,idk,nzneg,nzneg),(idk,idk,nzneg,neg))" +
+				"else mat((nzpoz, poz, nzneg, neg), (poz, poz, neg, neg), (nzneg, neg, nzpoz, poz), (neg, neg, poz, poz));" +
+				"return M!!(i,j);" +
+				"end;" +
+
+				"procedure absst(st);" + //returns the state of an element in absolute value
+				"begin;" +
+				"return if st=nzneg or st=nzpoz then nzpoz else poz;" +
+				"end;" +
+
+				"procedure expst(base,pow);" + //return the state of an exponential element: base^pow
+				"begin scalar i,j;" +
+				"i:=if base=nzpoz then 1 else if base=poz then 2 else if base=nzneg then 3 else if base=neg then 4 else 5;" +
+				"j:=if evenp(pow) then 1 else if fixp(pow) then 2 else if numberp(pow) then 3 else 4;" +
+				"if j=4 then return idk else if j=3 then return poz;" +
+				"M!!:=mat((nzpoz, nzpoz),(poz,poz),(nzpoz,nzneg),(poz,neg), (poz,idk));" +
+				"return M!!(i,j);" +
+				"end;" +
+
+				"procedure inv(state);" + //returns the inverse of an element
+				"begin scalar ret;" +
+				"ret:=if state=neg then poz else if state=poz then neg else if state=nzpoz then nzneg " +
+				"    else if state=nzneg then nzpoz else if state=idk then idk;" +
+				"return ret;" +
+				"end;" +
+
+				"procedure state(type, lista);" +
+				"begin scalar ret,el;" +
+				"ret:=" +
+				"if type='minus then inv(part(lista,1))" +
+				"else if type='plus or type='times or type='quotient then <<" +
+				"  el:=part(lista,1);" +
+				"  for i:=2:arglength(lista) do el:=ptqst(type,el,part(lista,i));" +
+				"  el" +
+				">> else if type='abs then absst(part(lista,1))" +
+				"  else if type='sqrt or type='expt then expst(part(lista,1),part(lista,2))" +
+				"  else idk;" +
+				"return ret;" +
+				"end;" +
+
+				"procedure posneg(eqn);" + 
+				"begin scalar ret;" +
+				"ret:={};" +
+				"if arglength(eqn)>-1 then <<" +
+				"  if part(eqn,0)='sqrt then ret:={posneg(part(eqn,1)),-2}" +
+				"  else if part(eqn,0)='expt then ret:={posneg(part(eqn,1)),part(eqn,2)}" +
+				"  else for i:=1:arglength(eqn) do ret:=posneg(part(eqn,i)).ret;" +
+				"  ret:=state(part(eqn,0),ret);" +
+				"  >>" +
+				"else if numberp(eqn) then if eqn>0 then ret:=nzpoz else if eqn<0 then ret:=nzneg else ret:=idk else ret:=idk;" +
+				"return ret;" +
+				"end;");
 		
 		//used in issolvableineq
 		mpreduce1.evaluate("procedure isniceop(op,exp);"
@@ -894,6 +953,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						//    or its a system of inequalities then we return with {x=?} (yet)
 						+ " if arglength(eqn)=1 and isineq and not(issolvableineq(part(eqn,1))) then "
 						+ "   return {{(if arglength(var)=1 and part(var,0)='list then part(var,1) else var)='?}};"
+						+ " sign!!:={};if not(isineq) then <<for i:=1:arglength(eqn) do sign!!:=posneg(part(eqn,1)).sign!!;>>;"
+						+ " if not(isineq) and (not(freeof(sign!!,nzpoz)) or not(freeof(sign!!,nzneg))) then return {};"
 						+ " solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
 						// to prevent Solve command to yield non-existing solutions
 						// such as solve({c*a^(-2)=15/4,c*a^(-4)=15/64},{a,c}) does {a=0,c=0} 
