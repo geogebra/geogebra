@@ -97,18 +97,7 @@ public class Web implements EntryPoint {
 		
 		// always need English properties available, eg Function.sin
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
-	
-		if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
-			// popup when the user wants to exit accidentally
-	        Window.addWindowClosingHandler(new Window.ClosingHandler() {
-	            public void onWindowClosing(ClosingEvent event) {
-	            	// TODO: Localize this, or omit message completely,
-	            	// and maybe put this somewhere else (where i18n is already available).
-	                event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
-	            }
-	        });
-		}
-		
+
 		injectResources();
 		
 //		setLocaleToQueryParam();

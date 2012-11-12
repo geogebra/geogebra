@@ -28,6 +28,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -60,7 +61,7 @@ public class GeoGebraAppFrame extends Composite {
 	
 	DockLayoutPanel outer = null;
 
-	private App app;
+	App app;
 	
 	public GeoGebraAppFrame() {
 		initWidget(outer = binder.createAndBindUi(this));
@@ -77,6 +78,21 @@ public class GeoGebraAppFrame extends Composite {
 	    RootLayoutPanel root = RootLayoutPanel.get();
 	    root.add(this);
 	    root.forceLayout();
+	}
+	
+	private void setCloseMessage() {
+		App.debug("setCloseMessage");
+		//	if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
+				// popup when the user wants to exit accidentally
+		        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+		            public void onWindowClosing(ClosingEvent event) {
+		            	// TODO: Localize this, or omit message completely,
+		            	// and maybe put this somewhere else (where i18n is already available).
+		            	event.setMessage(app.getPlain("CloseApplicationLoseUnsavedData"));
+		                //event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
+		            }
+		        });
+			//}
 	}
 	
 	@Override
@@ -133,6 +149,7 @@ public class GeoGebraAppFrame extends Composite {
 		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
 		app = createApplication(article,this);
+		setCloseMessage();
 //		((AppW)app).initializeLanguage();
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
