@@ -252,7 +252,12 @@ public class Construction {
 		/**
 		 * xOy plane
 		 */
-		XOY_PLANE}
+		XOY_PLANE,
+		/**
+		 * space
+		 */
+		SPACE		
+	}
 
 	
 	/**
@@ -1929,7 +1934,7 @@ public class Construction {
 
 		// global var handling
 		GeoElement geo = geoTableVarLookup(label1);
-
+		
 		// STANDARD CASE: variable name found
 		if (geo != null) {
 			return checkConstructionStep(geo);

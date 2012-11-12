@@ -10,7 +10,9 @@ public enum GeoClass {
 	SURFACECARTESIAN3D("SurfaceCartesian3D"),
 	
 	CLIPPINGCUBE3D("ClippingCube3D"),
-	
+
+	SPACE("Space"),
+
 	DEFAULT("Default");
 	
 	public String name;
