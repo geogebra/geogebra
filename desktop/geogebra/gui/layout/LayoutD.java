@@ -122,17 +122,25 @@ public class LayoutD extends Layout implements SettingListener {
 		app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
 		
 		app.setShowToolBarNoUpdate(perspective.getShowToolBar());
+		app.setShowToolBarHelpNoUpdate(perspective.getShowToolBarHelp());
+		app.setToolbarPosition(perspective.getToolBarPosition(), false);
+		
 		app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
 		app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 		
+		
+		app.setDockBarEast(perspective.isDockBarEast());
+		app.setShowDockBar(perspective.getShowDockBar(), false);
+		
 		// change the dock panel layout
 		dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
-		
+
 		if(!app.isIniting()) {
 			app.updateToolBar();
 			app.updateMenubar();
 			app.updateContentPane();
 		}
+		
 	}
 	
 	/**
@@ -214,6 +222,11 @@ public class LayoutD extends Layout implements SettingListener {
 		perspective.setShowInputPanel(app.showAlgebraInput());
 		perspective.setShowInputPanelCommands(app.showInputHelpToggle());
 		perspective.setShowInputPanelOnTop(app.showInputTop());
+		
+		perspective.setToolBarPosition(app.getToolbarPosition());
+		perspective.setShowToolBarHelp(app.showToolBarHelp());
+		perspective.setShowDockBar(app.isShowDockBar());
+		perspective.setDockBarEast(app.isDockBarEast());
 
 		return perspective;
 	}

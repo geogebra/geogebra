@@ -34,19 +34,8 @@ public class AppD2 {
 		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager.getToolbarPanelContainer();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 		toolBarContainer.setOrientation(toolbarPosition);
-
-		// TODO handle xml for new field toolbarPosition vs. old showToolBarTop 
-		
-		
-		//showToolBarTop = false;
-		//if (showToolBarTop) {
-			northPanel.add(guiManager.getToolbarPanelContainer(),
-					BorderLayout.NORTH);
-		//} else {
-		//	southPanel.add(guiManager.getToolbarPanelContainer(),
-		//			BorderLayout.NORTH);
-		//}
-
+		ToolbarContainer.setShowHelp(showToolBarHelp);
+			
 		switch (toolbarPosition) {
 		case SwingConstants.NORTH:
 			northPanel.add(toolBarContainer, BorderLayout.NORTH);
@@ -73,6 +62,7 @@ public class AppD2 {
 		westPanel.revalidate();
 		eastPanel.revalidate();
 		toolBarContainer.buildGui();
+		helpPanel.revalidate();
 	}
 
 	public static void initInputBar(AppD app, boolean showInputTop, JPanel northPanel, JPanel southPanel) {

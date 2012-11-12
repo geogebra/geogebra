@@ -83,6 +83,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
+import javax.swing.SwingConstants;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -2091,7 +2093,9 @@ public class MyXMLHandler implements DocHandler {
 
 				tmp_perspective.setShowToolBar(true);
 				tmp_perspective.setToolbarDefinition(toolbarStr);
-			} else { // GeoGebra 4.0
+		
+			} else { 
+				// GeoGebra 4.0
 				String showToolBar = attrs.get("show");
 				if (showToolBar == null) {
 					tmp_perspective.setShowToolBar(true);
@@ -2099,6 +2103,19 @@ public class MyXMLHandler implements DocHandler {
 					tmp_perspective.setShowToolBar(showToolBar.equals("true"));
 				}
 				tmp_perspective.setToolbarDefinition(attrs.get("items"));
+				
+				// GeoGebra 4.2 (supports toolbar position and toggling help)
+				if(attrs.get("position") != null){			
+					Integer toolBarPosition = Integer.parseInt(attrs.get("position"));
+					tmp_perspective.setToolBarPosition(toolBarPosition);
+					String showToolBarHelp = attrs.get("show");
+					tmp_perspective.setShowToolBarHelp(!attrs.get("help")
+							.equals("false"));
+				}else{
+					tmp_perspective.setToolBarPosition(SwingConstants.NORTH);
+					tmp_perspective.setShowToolBarHelp(true);
+				}
+
 			}
 			return true;
 		} catch (Exception e) {
@@ -2283,6 +2300,12 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 
 		switch (firstChar(eName)) {
+		case 'd':
+			if ("dockBar".equals(eName)) {
+				ok = handleDockBar(attrs);
+				break;
+			}
+			
 		case 'i':
 			if ("input".equals(eName)) {
 				ok = handleAlgebraInput(attrs);
@@ -2337,6 +2360,20 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean handleDockBar(LinkedHashMap<String, String> attrs) {
+		try {
+			tmp_perspective.setShowDockBar(!attrs.get("show")
+					.equals("false"));
+			tmp_perspective.setDockBarEast(!attrs.get("east").equals(
+					"false"));
+
+			return true;
+		} catch (Exception e) {
+			App.debug(e.getMessage() + ": " + e.getCause());
+			return false;
+		}
+	}
+	
 	private void endGuiPerspectiveElement() {
 		DockPanelData[] dpInfo = new DockPanelData[tmp_views.size()];
 		DockSplitPaneData[] spInfo = new DockSplitPaneData[tmp_panes.size()];

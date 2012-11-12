@@ -352,10 +352,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	private JSplitPane applicationSplitPane;
 
 	private DockBarInterface dockBar;
-
-	private int toolbarPosition = SwingConstants.NORTH;
-
 	private boolean showDockBar = true;
+	private boolean isDockBarEast = true;
+	
+	private int toolbarPosition = SwingConstants.NORTH;
 
 	protected boolean showAlgebraView = true;
 
@@ -2982,6 +2982,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (dockBar == null) {
 				dockBar = AppD2.newDockBar(this);
+				dockBar.setEastOrientation(isDockBarEast);
 			}
 
 			// clear the panels
@@ -3405,9 +3406,30 @@ public class AppD extends App implements KeyEventDispatcher {
 		return showDockBar;
 	}
 
+	public boolean isDockBarEast() {
+		return isDockBarEast;
+	}
+	
+	public void setDockBarEast(boolean isDockBarEast) {
+		this.isDockBarEast = isDockBarEast;
+		if(getDockBar() != null){
+			dockBar.setEastOrientation(isDockBarEast);
+		}
+	}
+	
+	/**
+	 * Set show dockBar with GUI update 
+	 * @param showDockBar
+	 */
 	public void setShowDockBar(boolean showDockBar) {
+		setShowDockBar(showDockBar, true);
+	}
+	
+	public void setShowDockBar(boolean showDockBar, boolean update) {
 		this.showDockBar = showDockBar;
-		updateContentPane();
+		if (update) {
+			updateContentPane();
+		}
 	}
 
 	// ***************************************************************************

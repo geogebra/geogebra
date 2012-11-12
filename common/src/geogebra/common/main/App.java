@@ -2837,6 +2837,10 @@ public abstract class App {
 		showToolBar = toolbar;
 	}
 	
+	public void setShowToolBarHelpNoUpdate(boolean toolbarHelp) {
+		showToolBarHelp = toolbarHelp;
+	}
+	
 	public boolean showToolBar() {
 		return showToolBar;
 	}
