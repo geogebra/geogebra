@@ -68,6 +68,10 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 					
 				}
 				//e.consume();
+			} else {
+				// default action
+				if (row > 0)
+					table.changeSelection(row-1, column, false, e.isShiftKeyDown());
 			}
 			// copy description into input bar when a cell is entered
 //			GeoElement geo = (GeoElement) getModel().getValueAt(table.getSelectedRow() - 1, table.getSelectedColumn());
@@ -94,6 +98,10 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				}
 				
 				//e.consume();
+			} else {
+				// default action
+				if (column > 0)
+					table.changeSelection(row, column-1, false, e.isShiftKeyDown());
 			}
 //			// copy description into input bar when a cell is entered
 //			geo = (GeoElement) getModel().getValueAt(table.getSelectedRow(), table.getSelectedColumn() - 1);
@@ -108,7 +116,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 			// auto increase spreadsheet size when you go off the bottom	
 			if (table.getSelectedRow() + 1 >= table.getRowCount()-1 && table.getSelectedRow() < Kernel.MAX_SPREADSHEET_ROWS) {
 				model.setRowCount(table.getRowCount());
-				
+
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
 			}
 			
@@ -129,6 +137,9 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				}
 				
 				//e.consume();
+			} else {
+				// default action
+				table.changeSelection(row+1, column, false, e.isShiftKeyDown());
 			}
 
 
@@ -203,6 +214,9 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 					
 				}
 				//e.consume();
+			} else {
+				// default action
+				table.changeSelection(row, column+1, false, e.isShiftKeyDown());
 			}
 
 //			// copy description into input bar when a cell is entered
@@ -322,16 +336,31 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 			}
 
 			// fall through
-		case GWTKeycodes.KEY_PAGEDOWN://KeyEvent.VK_PAGE_DOWN:	
+		case GWTKeycodes.KEY_PAGEDOWN://KeyEvent.VK_PAGE_DOWN:
 		case GWTKeycodes.KEY_PAGEUP://KeyEvent.VK_PAGE_UP:	
 			// stop cell being erased before moving
 			break;
-			
+
 			// stop TAB erasing cell before moving
 		case KeyCodes.KEY_TAB://KeyEvent.VK_TAB:
 			// disable shift-tab in column A
-			if (table.getSelectedColumn() == 0 && e.isShiftKeyDown()) ;
+			if (table.getSelectedColumn() == 0 && e.isShiftKeyDown()) {
 				//e.consume();
+			} else {
+				if (e.isShiftKeyDown()) {
+					//if (table.getSelectedColumn() == 0)
+						// this cannot happen
+
+					table.changeSelection(row, column-1, false, false);
+				} else {
+					if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1) {
+						if (table.getSelectedRow() + 1 < table.getRowCount() - 1)
+							table.changeSelection(row+1, 0, false, false);
+					} else {
+						table.changeSelection(row, column+1, false, false);
+					}
+				}
+			}
 			break;
 
 		case GWTKeycodes.KEY_A://KeyEvent.VK_A:
