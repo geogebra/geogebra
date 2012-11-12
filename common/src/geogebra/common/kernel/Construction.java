@@ -244,7 +244,15 @@ public class Construction {
 		/**
 		 * y axis
 		 */
-		Y_AXIS}
+		Y_AXIS,
+		/**
+		 * z axis
+		 */
+		Z_AXIS,
+		/**
+		 * xOy plane
+		 */
+		XOY_PLANE}
 
 	
 	/**

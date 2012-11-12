@@ -1,6 +1,7 @@
 package geogebra.common.gui.dialog.handler;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.kernel.Construction.Constants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -44,12 +45,15 @@ public class RenameInputHandler implements InputHandler {
 					inputValue);
 
 			// is there a geo with this name?
-			GeoElement existingGeo = kernel.lookupLabel(newLabel);						
+			GeoElement existingGeo = kernel.lookupLabel(newLabel);	
 			
 			if (existingGeo != null) {
 				// rename this geo too:
-				String tempLabel = existingGeo.getIndexLabel(newLabel);
-				existingGeo.rename(tempLabel);				
+				if (kernel.getConstruction().isConstantElement(existingGeo)==Constants.NOT){					
+					String tempLabel = existingGeo.getIndexLabel(newLabel);
+					existingGeo.rename(tempLabel);
+				}else
+					newLabel = existingGeo.getIndexLabel(newLabel);
 			}					
 
 			if (geo.rename(newLabel) && storeUndo) {

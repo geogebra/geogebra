@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.main.App;
 
@@ -124,5 +125,17 @@ public class Construction3D extends Construction {
 		
 		
 		
+	}
+	
+	
+	@Override
+	public Constants isConstantElement(GeoElement geo){
+		if (geo==zAxis3D)
+			return Constants.X_AXIS;
+		
+		if (geo==xOyPlane)
+			return Constants.XOY_PLANE;
+		
+		return super.isConstantElement(geo);
 	}
 }
