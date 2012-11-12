@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -16,7 +17,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 	// input
 	private AlgoIntersect algo;
-	private int index; // index of point in algo, can be input directly or be
+	private GeoNumberValue index; // index of point in algo, can be input directly or be
 						// calculated from refPoint
 	private GeoPoint refPoint; // reference point in algo to calculate index;
 								// can be null or undefined
@@ -25,6 +26,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 	private GeoPoint point;
 
 	private GeoPoint[] parentOutput;
+	private int idx;
 
 	// intersection point is the (a) nearest to refPoint
 	public AlgoIntersectSingle(String label, AlgoIntersect algo,
@@ -46,16 +48,13 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 	}
 
 	// intersection point is index-th intersection point of algo
-	public AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
+	public AlgoIntersectSingle(String label, AlgoIntersect algo, GeoNumberValue index) {
 		super(algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo
 
 		// check index
-		if (index < 0)
-			index = 0;
-		else
-			this.index = index;
+		this.index = index;
 
 		refPoint = null;
 
@@ -67,6 +66,10 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		//setIncidence();
 		point.setLabel(label);
 		addIncidence();
+	}
+	
+	public AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
+		this(label,algo,new GeoNumeric(algo.getConstruction(),index));
 	}
 
 	private void addIncidence() {
@@ -119,7 +122,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 			input[1] = algo.input[1];
 			// dummy value to store the index of the intersection point
 			// index + 1 is used here to let numbering start at 1
-			input[2] = new GeoNumeric(cons, index + 1);
+			input[2] = index.toGeoElement();
 		} else {
 			input = new GeoElement[3];
 			input[0] = algo.input[0];
@@ -168,20 +171,21 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		// this is needed for initing the intersection algo with
 		// the intersection point stored in XML files
 		algo.initForNearToRelationship();
-		algo.setIntersectionPoint(index, point);
+		algo.setIntersectionPoint(idx, point);
 		algo.compute();
 	}
 
 	@Override
 	public void compute() {
-
+		if(index!=null)
+			idx = Math.max(0,(int)index.getDouble()-1);
 		parentOutput = algo.getIntersectionPoints();
 
 		if (point != null) {
 			if (kernel.getLoadingMode() && point.hasUpdatePrevilege) { // for
 																		// backward
 																		// compatability
-				algo.setIntersectionPoint(index, point);
+				algo.setIntersectionPoint(idx, point);
 				point.hasUpdatePrevilege = false;
 			} 
 		}
@@ -189,20 +193,20 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		// update index if reference point has been defined
 		if (refPoint != null)
 			if (refPoint.isDefined())
-				index = algo.getClosestPointIndex(refPoint);
+				idx = algo.getClosestPointIndex(refPoint);
 
 		if (input[0].isDefined() && input[1].isDefined()
-				&& index < parentOutput.length) {
+				&& idx < parentOutput.length) {
 			// get coordinates from helper algorithm
-			point.setCoords(parentOutput[index]);
+			point.setCoords(parentOutput[idx]);
 
 			if (point.getIncidenceList() != null) {
 				for (int i = 0; i < parentOutput.length; ++i) {
-					if (!parentOutput[index].contains(parentOutput[i]))
+					if (!parentOutput[idx].contains(parentOutput[i]))
 						point.getIncidenceList().remove(parentOutput[i]);
 				}
 			}
-			point.addIncidence(parentOutput[index]);
+			point.addIncidence(parentOutput[idx]);
 		} else {
 			point.setUndefined();
 			ArrayList<GeoElement> al = point.getIncidenceList();
