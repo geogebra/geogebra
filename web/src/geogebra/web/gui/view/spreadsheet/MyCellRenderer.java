@@ -103,7 +103,10 @@ public class MyCellRenderer {
 		Widget retwidget = new Label();
 
 		//TODO//setBorder(cellPadding);
+
+		// so row and column in table model coordinates
 		cellPoint.setLocation(column, row);
+
 		//?//setIcon(emptyIcon);
 		//?//setIconTextGap(0);
 

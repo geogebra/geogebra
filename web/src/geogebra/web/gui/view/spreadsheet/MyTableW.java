@@ -1556,9 +1556,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public void setPreferredCellSize(int row, int col, boolean adjustWidth,
 	        boolean adjustHeight) {
 
+		// in table model coordinates
+
 		Widget prefWidget = defaultTableCellRenderer
 		        .getTableCellRendererWidget(this,
-		                tableModel.getValueAt(row + 1, col + 1), false, false,
+		                tableModel.getValueAt(row, col), false, false,
 		                row, col);
 
 		if (adjustWidth) {
@@ -1593,6 +1595,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 */
 	public void fitColumn(int column) {
 
+		// in grid coordinates
+
 		Element tableColumn = getColumnFormatter().getElement(column);
 
 		int prefWidth = 0;
@@ -1602,7 +1606,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				tempWidth = defaultTableCellRenderer
 				        .getTableCellRendererWidget(this,
 				                tableModel.getValueAt(row - 1, column - 1),
-				                false, false, row, column).getOffsetWidth();
+				                false, false, row - 1, column - 1).getOffsetWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
 		}
@@ -1637,6 +1641,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 */
 	public void fitRow(int row) {
 
+		// in grid coordinates
+
 		int prefHeight = getRowFormatter().getElement(row).getOffsetHeight();
 		// int prefHeight = this.getRowHeight();
 		int tempHeight = 0;
@@ -1644,7 +1650,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 			tempHeight = defaultTableCellRenderer.getTableCellRendererWidget(
 			        this, tableModel.getValueAt(row - 1, column - 1), false,
-			        false, row, column).getOffsetHeight();
+			        false, row-1, column-1).getOffsetHeight();
 
 			prefHeight = Math.max(prefHeight, tempHeight);
 
@@ -2074,13 +2080,13 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				} else if (j == 0) {
 					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i - 1);
 					prob = columnHeaderRenderer.getTableCellRendererWidget(
-					        this, gva, false, false, j, i);
+					        this, gva, false, false, j - 1, i - 1);
 					getCellFormatter().getElement(j, i).addClassName(
 					        "geogebraweb-th-columns");
 				} else {
 					gva = tableModel.getValueAt(j - 1, i - 1);
 					prob = defaultTableCellRenderer.getTableCellRendererWidget(
-					        this, gva, false, false, j, i);
+					        this, gva, false, false, j - 1, i - 1);
 
 					// just a workaround for now to show something:
 				 	prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
