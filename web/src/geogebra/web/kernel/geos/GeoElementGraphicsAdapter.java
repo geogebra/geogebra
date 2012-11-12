@@ -16,6 +16,10 @@ public class GeoElementGraphicsAdapter extends
 	public GBufferedImage getFillImage() {
 		if (image != null) return image;
 		
+		if ("".equals(imageFileName)) { 
+			return null; 
+		}
+		
 		if (imageFileName.startsWith("/geogebra")) {
 			return null;
 		} else {

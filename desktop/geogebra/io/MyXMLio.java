@@ -159,7 +159,11 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 				// try to load image
 				try {
 					BufferedImage img = ImageIO.read(zip);
-					((AppD)app).addExternalImage(name, img);
+					if ("".equals(name)) { 
+						App.warn("image in zip file with empty name"); 
+					} else { 
+						((AppD)app).addExternalImage(name, img); 
+					} 
 				} catch (IOException e) {
 					App
 							.debug("readZipFromURL: image could not be loaded: "
