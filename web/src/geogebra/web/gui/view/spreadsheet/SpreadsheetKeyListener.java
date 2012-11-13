@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.spreadsheet;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -334,8 +335,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				table.setAllowEditing(false);
 			}
 			//e.consume();
-			break;	
-			
+			break;
+
 		case KeyCodes.KEY_ENTER://KeyEvent.VK_ENTER:
 			if (MyCellEditorW.tabReturnCol > -1) {
 				table.changeSelection(row , MyCellEditorW.tabReturnCol-1, false, false);
@@ -344,8 +345,40 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 
 			// fall through
 		case GWTKeycodes.KEY_PAGEDOWN://KeyEvent.VK_PAGE_DOWN:
-		case GWTKeycodes.KEY_PAGEUP://KeyEvent.VK_PAGE_UP:	
-			// stop cell being erased before moving
+			int pixelx = table.getPixel(column, row, true).getX();
+			int pixely = view.getAbsoluteTop() + view.getOffsetHeight();
+			GPoint gip = table.getIndexFromPixel(pixelx, pixely);
+			if (gip != null) {
+				table.changeSelection(gip.getY(), column, false, false);
+				int oldpixely = table.getPixel(column, row, false).getY();
+				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+					+ pixely - oldpixely);
+			} else {
+				table.changeSelection(model.getRowCount() - 1, column, false, false);
+				pixely = table.getPixel(column, model.getRowCount() - 1, false).getY();
+				int oldpixely = table.getPixel(column, row, false).getY();
+				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+					+ pixely - oldpixely);
+			}
+			break;
+
+		case GWTKeycodes.KEY_PAGEUP://KeyEvent.VK_PAGE_UP:
+			int pixx = table.getPixel(column, row, true).getX();
+			int pixy = view.getAbsoluteTop();
+			GPoint gi = table.getIndexFromPixel(pixx, pixy);
+			if (gi != null) {
+				table.changeSelection(gi.getY(), column, false, false);
+				int oldpixy = table.getPixel(column, row, false).getY();
+				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+						+ pixy - oldpixy);
+				// stop cell being erased before moving
+			} else {
+				table.changeSelection(0, column, false, false);
+				pixy = table.getPixel(column, 0, false).getY();
+				int oldpixy = table.getPixel(column, row, false).getY();
+				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+					+ pixy - oldpixy);
+			}
 			break;
 
 			// stop TAB erasing cell before moving
