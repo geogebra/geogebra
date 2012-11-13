@@ -582,9 +582,10 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 
 		// auto-close parentheses
-		if (caretPos == text.length()
+		if (!e.isAltDown() && (
+				caretPos == text.length()
 				|| geogebra.common.gui.inputfield.MyTextField
-				.isCloseBracketOrWhitespace(text.charAt(caretPos))) {
+				.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			switch (ch) {
 			case '(':
 				// opening parentheses: insert closing parenthesis automatically
