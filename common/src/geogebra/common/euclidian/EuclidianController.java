@@ -7334,7 +7334,7 @@ public abstract class EuclidianController {
 		}
 	
 		// image
-		else if (movedGeoElement.isGeoImage()) {
+		else if (movedGeoElement.isGeoImage() && movedGeoElement.isMoveable(view)) {
 			moveMode = MOVE_IMAGE;
 			movedGeoImage = (GeoImage) movedGeoElement;
 			view.setShowMouseCoords(false);
