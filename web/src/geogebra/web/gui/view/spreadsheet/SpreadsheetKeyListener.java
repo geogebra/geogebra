@@ -297,7 +297,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 				kernel.updateConstruction();
 				//e.consume();
 			}
-			else letterOrDigitTyped(e);
+			else letterOrDigitTyped();
 			break;
 
 			// needs to be here to stop keypress starting a cell edit after the undo
@@ -307,7 +307,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 				app.getGuiManager().undo();
 				//e.consume();
 			}
-			else letterOrDigitTyped(e);
+			else letterOrDigitTyped();
 			break;
 
 			// needs to be here to stop keypress starting a cell edit after the redo
@@ -317,7 +317,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 				app.getGuiManager().redo();
 				//e.consume();
 			}
-			else letterOrDigitTyped(e);
+			else letterOrDigitTyped();
 			break;
 
 
@@ -331,7 +331,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 					Character.toChars(e.getNativeEvent().getCharCode())[0]
 					) &&
 						!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
-					letterOrDigitTyped(e);
+					letterOrDigitTyped();
 				} else	if (ctrlDown) {
 					//e.consume();
 
@@ -476,7 +476,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 					//e.getKeyChar()
 				) && */
 					!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
-				letterOrDigitTyped(e);
+				letterOrDigitTyped();
 			} else
 				//e.consume();
 		break;
@@ -495,7 +495,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 		 */
 	}
 
-	public void letterOrDigitTyped(KeyDownEvent e) {
+	public void letterOrDigitTyped() {
 
 		keyDownSomething = true;
 
@@ -541,8 +541,10 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 	    //as the following doesn't work for KeyDownEvent: e.getNativeEvent().getCharCode();
 	    if (charcode > 0)
 			ch = new String(Character.toChars(charcode));
-	    if (ch == "(" || ch == "{" || ch == "[" || ch == "}" || ch == ")" || ch == "]")
-	    	ch = "";
+
+	    // Desktop allows entering brackets, so should Web do
+	    //if (ch == "(" || ch == "{" || ch == "[" || ch == "}" || ch == ")" || ch == "]")
+	    //	ch = "";
 
 		Object ce = table.getCellEditor(table.getSelectedRow()+1, table.getSelectedColumn()+1);
 		if (ce instanceof MyCellEditorW && ch != "") {
