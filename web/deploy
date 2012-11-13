@@ -10,7 +10,7 @@
 # 1. Setting up environment variables
 # Override them if needed by using autobuild.conf
 
-UPDATEWEB=0
+UPDATEWEB=1
 UPDATEGAE=0
 UPDATEGC=0
 UPDATEZIP=0
