@@ -29,3 +29,9 @@ MAILSERVERSSHPORT=22
 MAILSERVERSSHKEY=...keyfile...
 
 LOCKFILE=/tmp/autotest.lock
+
+WEBTESTPROTOCOL=http
+WEBTESTSERVER=localhost
+WEBTESTPORT=80
+WEBTESTWARDIR=~revs-vanilla/latest/war
+WEBTESTPAGE=test.php

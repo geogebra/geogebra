@@ -1,0 +1,13 @@
+#!/bin/bash
+test -r autotest.conf && . ./autotest.conf
+
+PNGFILE=output.png
+TEMPLATE=webtest-template.js
+OUTFILE=webtest.js
+TESTURL=$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
+TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g`
+
+cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
+ > $OUTFILE
+
+xvfb-run phantomjs $OUTFILE > webtest-out.json
