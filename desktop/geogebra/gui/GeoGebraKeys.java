@@ -142,15 +142,15 @@ public class GeoGebraKeys implements KeyListener {
 			case  '>': 
 			case  '<': 
 				// Italian keyboard, keyString="unknown keycode: 0x0" for these two
+				// French keyboard, keyString= eg "2" (so we need to leave it for Alt-2 to work)
 			case  Unicode.eGrave: 
 			case  Unicode.eAcute: 
-				keyString = e.getKeyChar()+""; 
+				if (keyString.length() > 1) {
+					keyString = e.getKeyChar()+"";
+				}
 			}
 				
 			
-			boolean italian = app.getLocale().toString().startsWith("it");
-
-
 			// don't want to act on eg "Shift"
 			if (keyString.length() == 1) {
 				
