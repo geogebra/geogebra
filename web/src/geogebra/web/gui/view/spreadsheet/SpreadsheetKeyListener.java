@@ -5,13 +5,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 
-public class SpreadsheetKeyListener implements KeyDownHandler
+public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 {
 
 	private AppW app;
@@ -20,7 +23,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 	private MyTableW table;
 	private SpreadsheetTableModelW model;
 	private MyCellEditorW editor;
-
+	boolean keyDownSomething = false;
 
 	public SpreadsheetKeyListener(AppW app, MyTableW table){
 
@@ -294,7 +297,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				kernel.updateConstruction();
 				//e.consume();
 			}
-			else letterOrDigitTyped();
+			else letterOrDigitTyped(e);
 			break;
 
 			// needs to be here to stop keypress starting a cell edit after the undo
@@ -304,7 +307,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				app.getGuiManager().undo();
 				//e.consume();
 			}
-			else letterOrDigitTyped();
+			else letterOrDigitTyped(e);
 			break;
 
 			// needs to be here to stop keypress starting a cell edit after the redo
@@ -314,7 +317,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				app.getGuiManager().redo();
 				//e.consume();
 			}
-			else letterOrDigitTyped();
+			else letterOrDigitTyped(e);
 			break;
 
 
@@ -328,7 +331,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 					Character.toChars(e.getNativeEvent().getCharCode())[0]
 					) &&
 						!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
-					letterOrDigitTyped();
+					letterOrDigitTyped(e);
 				} else	if (ctrlDown) {
 					//e.consume();
 
@@ -473,7 +476,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 					//e.getKeyChar()
 				) && */
 					!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
-				letterOrDigitTyped();
+				letterOrDigitTyped(e);
 			} else
 				//e.consume();
 		break;
@@ -491,20 +494,24 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 		}
 		 */
 	}
-	
-	public void letterOrDigitTyped() {
+
+	public void letterOrDigitTyped(KeyDownEvent e) {
+
+		keyDownSomething = true;
+
 		table.setAllowEditing(true);
 		table.repaint();  //G.Sturr 2009-10-10: cleanup when keypress edit begins
-		
+
 		// check if cell fixed
-		Object o = model.getValueAt(table.getSelectedRow(), table.getSelectedColumn());			
+		Object o = model.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
 		if ( o != null && o instanceof GeoElement) {
 			GeoElement geo = (GeoElement)o;
 			if (geo.isFixed()) return;
 		}
-	
+
 		model.setValueAt(null, table.getSelectedRow(), table.getSelectedColumn());
-		table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1); 
+		table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+
 		// workaround, see
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625				
         //?//final JTextComponent f = (JTextComponent)table.getEditorComponent();
@@ -518,7 +525,32 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 	            f.setSelectionEnd(1);} });*/
 
         table.setAllowEditing(false);
-		
+	}
+
+	public void onKeyPress(KeyPressEvent e) {
+
+		if (keyDownSomething) {
+			keyDownSomething = false;
+		} else {
+			return;
+		}
+
+		// if the user enters something meaningful, spare an additional entering
+		String ch = "";
+	    int charcode = e.getUnicodeCharCode();
+	    //as the following doesn't work for KeyDownEvent: e.getNativeEvent().getCharCode();
+	    if (charcode > 0)
+			ch = new String(Character.toChars(charcode));
+	    if (ch == "(" || ch == "{" || ch == "[" || ch == "}" || ch == ")" || ch == "]")
+	    	ch = "";
+
+		Object ce = table.getCellEditor(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+		if (ce instanceof MyCellEditorW && ch != "") {
+			((MyCellEditorW)ce).setText(ch);
+			((AutoCompleteTextFieldW)((MyCellEditorW)ce).getTextfield()).setCaretPosition(
+				((MyCellEditorW)ce).getEditingValue().length()
+			);
+		}
 	}
 
 	/*public void keyReleased(KeyEvent e) {

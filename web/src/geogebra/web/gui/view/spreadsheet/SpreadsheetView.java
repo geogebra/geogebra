@@ -163,7 +163,9 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 		forTheBlueDot.add(bluedot);
 
 		spreadsheet = new FocusPanel(forTheBlueDot);
-		spreadsheet.addKeyDownHandler(new SpreadsheetKeyListener(app, table));
+		SpreadsheetKeyListener sskl = new SpreadsheetKeyListener(app, table);
+		spreadsheet.addKeyDownHandler(sskl);
+		spreadsheet.addKeyPressHandler(sskl);
 		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, table);
 		spreadsheet.addDomHandler(ml, MouseDownEvent.getType());
 		spreadsheet.addDomHandler(ml, MouseUpEvent.getType());
