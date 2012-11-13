@@ -84,7 +84,7 @@ public class Perspective {
 
 	
 	/**
-	 * Create a perspective by using partial layout information.
+	 * Create a perspective with default layout. 
 	 * 
 	 * @param id
 	 *            id
@@ -122,12 +122,19 @@ public class Perspective {
 		this.showInputPanel = showInputPanel;
 		this.showInputPanelCommands = showInputPanelCommands;
 		this.showInputPanelOnTop = showInputPanelOnTop;
+		
+		// default layout options
+		this.setShowToolBar(true);
+		this.setShowToolBarHelp(false);
+		this.setToolBarPosition(SwingConstants.NORTH);
+		this.setDockBarEast(true);
+		this.setShowDockBar(true);
 				
 	}
 	
 	
 	/**
-	 * Create a perspective by using all information provided below.
+	 * Create a perspective with all available fields.
 	 * 
 	 * @param id
 	 *            id

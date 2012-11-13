@@ -406,6 +406,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// open the sidebar popup once the GUI has initialized
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				if(app.isShowDockBar())
 				app.getDockBar().showPopup();
 			}
 		});

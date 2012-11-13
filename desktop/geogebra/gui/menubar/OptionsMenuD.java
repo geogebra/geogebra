@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingConstants;
 
 /**
  * The "Options" menu.
@@ -310,8 +311,14 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 						app.getEuclidianView2().getStyleBar()
 						.restoreDefaultGeo();
 
-
-
+				// set default layout options
+				app.setToolbarPosition(SwingConstants.NORTH, false);
+				app.setShowToolBarNoUpdate(true);
+				app.setShowToolBarHelpNoUpdate(false);
+				app.setShowDockBar(true, false);
+				app.setDockBarEast(true);
+				app.updateContentPane();
+				
 			}
 		};
 	}
