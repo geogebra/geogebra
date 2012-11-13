@@ -51,6 +51,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
+		int np = 0;
+		int op = 0;
 
 		switch (keyCode) {
 
@@ -71,8 +73,17 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				//e.consume();
 			} else {
 				// default action
-				if (row > 0)
+				if (row > 0) {
 					table.changeSelection(row-1, column, false, e.isShiftKeyDown());
+					int pixely = view.getAbsoluteTop();
+					GPoint gip = table.getIndexFromPixel(1, pixely);
+					if (gip != null && gip.getY() - 1 >= row - 1) {
+						np = table.getPixel(column, row - 1, false).getY();
+						op = table.getPixel(column, row, false).getY();
+						view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+							+ np - op);
+					}
+				}
 			}
 			// copy description into input bar when a cell is entered
 //			GeoElement geo = (GeoElement) getModel().getValueAt(table.getSelectedRow() - 1, table.getSelectedColumn());
@@ -101,8 +112,17 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				//e.consume();
 			} else {
 				// default action
-				if (column > 0)
-					table.changeSelection(row, column-1, false, e.isShiftKeyDown());
+				if (column > 0) {
+					table.changeSelection(row, column - 1, false, e.isShiftKeyDown());
+					int pixelx = view.getAbsoluteLeft();
+					GPoint gip = table.getIndexFromPixel(pixelx, 1);
+					if (gip != null && gip.getX() - 1 >= column - 1) {
+						np = table.getPixel(column - 1, row, false).getX();
+						op = table.getPixel(column, row, false).getX();
+						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
+							+ np - op);
+					}
+				}
 			}
 //			// copy description into input bar when a cell is entered
 //			geo = (GeoElement) getModel().getValueAt(table.getSelectedRow(), table.getSelectedColumn() - 1);
@@ -121,6 +141,10 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
 
 				table.changeSelection(row+1, column, false, e.isShiftKeyDown());
+				np = table.getPixel(column, row + 1, false).getY();
+				op = table.getPixel(column, row, false).getY();
+				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+					+ np - op);
 			}
 			else if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
@@ -137,12 +161,21 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 					table.changeSelection(Math.min(table.getRowCount() - 1, row + 1), column, false, false);
 					
 				}
-				
+
 				//e.consume();
 			} else {
 				// default action
-				if (row + 1 < table.getRowCount() - 1)
-					table.changeSelection(row+1, column, false, e.isShiftKeyDown());
+				if (row + 1 < table.getRowCount() - 1) {
+					table.changeSelection(row + 1, column, false, e.isShiftKeyDown());
+					int pixely = view.getAbsoluteTop() + view.getOffsetHeight();
+					GPoint gip = table.getIndexFromPixel(1, pixely);
+					if (gip != null && gip.getY() - 1 <= row + 1) {
+						np = table.getPixel(column, row + 1, false).getY();
+						op = table.getPixel(column, row, false).getY();
+						view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+							+ np - op);
+					}
+				}
 			}
 
 
@@ -218,13 +251,21 @@ public class SpreadsheetKeyListener implements KeyDownHandler
 					// move right to next defined cell
 					while ( column < table.getColumnCount() - 1 && model.getValueAt(row, column + 1) == null) column++;
 					table.changeSelection(row, Math.min(table.getColumnCount() - 1, column + 1), false, false);
-					
 				}
 				//e.consume();
 			} else {
 				// default action
-				if (column + 1 < table.getColumnCount() - 1)
+				if (column + 1 < table.getColumnCount() - 1) {
 					table.changeSelection(row, column + 1, false, e.isShiftKeyDown());
+					int pixelx = view.getAbsoluteLeft() + view.getOffsetWidth();
+					GPoint gip = table.getIndexFromPixel(pixelx, 1);
+					if (gip != null && gip.getX() - 1 <= column + 1) {
+						np = table.getPixel(column + 1, row, false).getX();
+						op = table.getPixel(column, row, false).getX();
+						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
+							+ np - op);
+					}
+				}
 			}
 
 //			// copy description into input bar when a cell is entered
