@@ -172,9 +172,13 @@ public class SpreadsheetMouseListener implements
 
 		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 		if (p.getY() == 0 && p.getX() > 0) {
+			if (table.isEditing())
+				editor.cancelCellEditing();
 			table.scc.onMouseDown(e);
 			return;
 		} else if (p.getX() == 0 && p.getY() > 0) {
+			if (table.isEditing())
+				editor.cancelCellEditing();
 			table.srh.onMouseDown(e);
 			return;
 		}
@@ -284,7 +288,10 @@ public class SpreadsheetMouseListener implements
 					// if text does not start with "=" then stop the editor
 					// and allow it to create/redefine a geo here
 					editor.setAllowProcessGeo(true);
-					editor.stopCellEditing();
+
+					editor.cancelCellEditing();//quick fix, to be enhanced later
+					//editor.stopCellEditing();
+
 					editor.setAllowProcessGeo(false);
 				}
 			} else if (table.isOverDot) {
@@ -319,9 +326,13 @@ public class SpreadsheetMouseListener implements
 
 		GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 		if (p.getY() == 0 && p.getX() > 0) {
+			if (table.isEditing())
+				editor.cancelCellEditing();
 			table.scc.onMouseUp(e);
 			return;
 		} else if (p.getX() == 0 && p.getY() > 0) {
+			if (table.isEditing())
+				editor.cancelCellEditing();
 			table.srh.onMouseUp(e);
 			return;
 		}
