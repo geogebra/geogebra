@@ -907,6 +907,10 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		app.getGuiManager().updateMenubarSelection();
 		
+		if(focusedDockPanel != null && panel.isInFrame()){
+			panel.getFrame().toFront();
+		}
+		
 	}
 	
 	/**
