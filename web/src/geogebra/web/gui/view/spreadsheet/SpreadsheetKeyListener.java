@@ -230,17 +230,21 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 			// auto increase spreadsheet size when you go off the right
 
 			if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1 && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
-				/*FIXME: why this doesn't work in Web?
 
+				table.setRepaintAll();
 				model.setColumnCount(table.getColumnCount());
 				view.columnHeaderRevalidate();
+				view.repaint();
+				view.getFocusPanel().setWidth(table.getOffsetWidth()+"px");
 
 				// these two lines are a workaround for Java 6
 				// (Java bug?)
 				table.changeSelection(row, column + 1, false, false);
+				np = table.getPixel(column + 1, row, false).getX();
+				op = table.getPixel(column, row, false).getX();
+				view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
+					+ np - op);
 				//e.consume();
-				
-				END of FIXME */
 			}
 			else if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
