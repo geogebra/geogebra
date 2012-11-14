@@ -23,6 +23,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.view.spreadsheet.MyCellEditorW.SpreadsheetCellEditorKeyListener;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 	  
 	  public AutoCompleteTextFieldW(int columns, AppW app,
-		      boolean handleEscapeKey, KeyDownHandler kuh) {
+		      boolean handleEscapeKey, Object kuh) {
 		    this(columns, app, handleEscapeKey, app.getCommandDictionary(), kuh);
 		    // setDictionary(app.getAllCommandsDictionary());
 	  }
@@ -124,7 +125,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 
 	  public AutoCompleteTextFieldW(int columns, AppW app,
-		      boolean handleEscapeKey, AutoCompleteDictionary dict, KeyDownHandler kuh) {
+		      boolean handleEscapeKey, AutoCompleteDictionary dict, Object kuh) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
 		  textField = new SuggestBox(completionsPopup = new CompletionsPopup(),new TextBox(), new SuggestBox.DefaultSuggestionDisplay());
@@ -193,7 +194,10 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    	textField.getTextBox().addKeyUpHandler(this);
 		    	textField.getTextBox().addKeyPressHandler(this);
 		    } else {
-		    	textField.getTextBox().addKeyDownHandler(kuh);
+		    	// This is currently used for MyCellEditorW.SpreadsheetCellEditorKeyListener
+		    	textField.getTextBox().addKeyDownHandler((KeyDownHandler)kuh);
+		    	textField.getTextBox().addKeyPressHandler((KeyPressHandler)kuh);
+		    	textField.getTextBox().addKeyUpHandler((KeyUpHandler)kuh);
 		    }
 		    textField.addValueChangeHandler(this);
 		    textField.addSelectionHandler(this);
@@ -675,9 +679,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 	boolean ctrlC = false;
 
-
 	public void onKeyPress(KeyPressEvent e) {
-			
+
 			 // only handle parentheses
 		    char ch = e.getCharCode();
 

@@ -8,6 +8,7 @@ import geogebra.common.main.GWTKeycodes;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -47,8 +48,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 
 		int keyCode = e.getNativeKeyCode();//.getKeyCode();
 		//Application.debug(keyCode+"");
-		//boolean shiftDown = e.isShiftDown(); 	 
-		boolean altDown = e.isAltKeyDown(); 	 
+		//boolean shiftDown = e.isShiftDown();
+		boolean altDown = e.isAltKeyDown();
 		boolean ctrlDown = e.isControlKeyDown(); //AppW.isControlDown(e) // Windows ctrl/Mac Meta
 		//|| e.isControlDown(); // Fudge (Mac ctrl key)	
 
@@ -541,49 +542,49 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 		}
 
 		model.setValueAt(null, table.getSelectedRow(), table.getSelectedColumn());
-		table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);
 
-		// workaround, see
-		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625				
-        //?//final JTextComponent f = (JTextComponent)table.getEditorComponent();
-        //?//f.requestFocus();
-        //?//f.getCaret().setVisible(true);
-        
-        // workaround for Mac OS X 10.5 problem (first character typed deleted)
-        /*? if (AppD.MAC_OS)
-            SwingUtilities.invokeLater( new Runnable(){ public void
-            	run() { f.setSelectionStart(1);
-	            f.setSelectionEnd(1);} });*/
-
-        table.setAllowEditing(false);
+		// make sure the onKeyPress will start when still this class is the handler
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+		        table.setAllowEditing(false);
+			}
+		});
 	}
 
 	public void onKeyPress(KeyPressEvent e) {
 
+		// make sure e.g. SHIFT+ doesn't trigger default browser action
+		e.stopPropagation();
+		e.preventDefault();
+
+		// ? whether the first onKeyPress after onKeyDown is for the same key
 		if (keyDownSomething) {
 			keyDownSomething = false;
 		} else {
 			return;
 		}
 
-		// if the user enters something meaningful, spare an additional entering
-		String ch = "";
-	    int charcode = e.getUnicodeCharCode();
 	    //as the following doesn't work for KeyDownEvent: e.getNativeEvent().getCharCode();
-	    if (charcode > 0)
-			ch = new String(Character.toChars(charcode));
+		final int charcode = e.getUnicodeCharCode();
 
-	    // Desktop allows entering brackets, so should Web do
-	    //if (ch == "(" || ch == "{" || ch == "[" || ch == "}" || ch == ")" || ch == "]")
-	    //	ch = "";
+		// make sure that this code runs after the editor has actually been created
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				// if the user enters something meaningful, spare an additional entering
+				String ch = "";
+			    if (charcode > 0)
+					ch = new String(Character.toChars(charcode));
 
-		Object ce = table.getCellEditor(table.getSelectedRow()+1, table.getSelectedColumn()+1);
-		if (ce instanceof MyCellEditorW && ch != "") {
-			((MyCellEditorW)ce).setText(ch);
-			((AutoCompleteTextFieldW)((MyCellEditorW)ce).getTextfield()).setCaretPosition(
-				((MyCellEditorW)ce).getEditingValue().length()
-			);
-		}
+				Object ce = table.getCellEditor(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+				if (ce instanceof MyCellEditorW && ch != "") {
+					((MyCellEditorW)ce).setText(ch);
+					((AutoCompleteTextFieldW)((MyCellEditorW)ce).getTextfield()).setCaretPosition(
+						((MyCellEditorW)ce).getEditingValue().length()
+					);
+				}
+			}
+		});
 	}
 
 	/*public void keyReleased(KeyEvent e) {

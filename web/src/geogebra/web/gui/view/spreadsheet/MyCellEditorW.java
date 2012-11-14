@@ -12,6 +12,10 @@ import geogebra.web.main.AppW;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -319,7 +323,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	// so we can return to that column when <enter> pressed
 	public static int tabReturnCol = -1;
 
-	public class SpreadsheetCellEditorKeyListener implements KeyDownHandler {
+	public class SpreadsheetCellEditorKeyListener implements KeyDownHandler, KeyPressHandler, KeyUpHandler {
 
 		// boolean escape = false;
 		boolean isFormulaBarListener;
@@ -355,6 +359,20 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			}
+		}
+
+		public void onKeyPress(KeyPressEvent e) {
+
+			// stopping propagation is needed to prevent
+			// the prevention of the default action at another place
+			e.stopPropagation();
+		}
+
+		public void onKeyUp(KeyUpEvent e) {
+
+			// stopping propagation is needed to prevent
+			// the prevention of the default action at another place
+			e.stopPropagation();
 		}
 
 		public void checkCursorKeys(KeyDownEvent e) {
