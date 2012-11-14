@@ -190,12 +190,12 @@ public class AlgoChiSquaredTest extends AlgoElement {
 			// compute expected values if list2 is not given
 			if (geoList2 == null) {
 
-				int[] columnSum = new int[columns];
+				double[] columnSum = new double[columns];
 				for (int j = 0; j < columns; j++) {
 					columnSum[j] = 0;
 				}
 
-				int[] rowSum = new int[rows];
+				double[] rowSum = new double[rows];
 				for (int i = 0; i < rows; i++) {
 					rowSum[i] = 0;
 				}
