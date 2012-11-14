@@ -40,6 +40,14 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	    return ggwGraphicView;
     }
 
+	public GGWSpreadsheetView getGGWSpreadsheetView() {
+		return ggwSpreadsheetView;
+	}
+
+	public GGWViewWrapper getGGWViewWrapper() {
+		return ggwViewWrapper;// this is for the algebra view, by the way
+	}
+
 	public void attachApp(App app) {
 	   this.application = app;
 	   ggwViewWrapper.attachApp(app);
