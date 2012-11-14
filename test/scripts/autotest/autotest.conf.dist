@@ -18,20 +18,20 @@ REVDIR=${HOME}/revisions/vanilla
 
 # In seconds:
 WAITBETWEENBUILDS=300
-
 SIMPLETESTTIMEOUT=20
 
+# Settings for sending out an email if an error is found:
 REMOTEUSER=some-developer
 RECIPIENT=geogebra-dev@googlegroups.com
-
 MAILSERVERSSHLOGIN=build@dev.geogebra.org
 MAILSERVERSSHPORT=22
 MAILSERVERSSHKEY=...keyfile...
 
 LOCKFILE=/tmp/autotest.lock
 
+# Settings for webtest:
 WEBTESTPROTOCOL=http
 WEBTESTSERVER=localhost
 WEBTESTPORT=80
-WEBTESTWARDIR=~revs-vanilla/latest/war
+WEBTESTWARDIR=revs-vanilla/latest/war
 WEBTESTPAGE=test.php
