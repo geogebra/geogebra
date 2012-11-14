@@ -29,7 +29,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
  * Creates the App base structure.
  *
  */
-public class GeoGebraAppFrame extends Composite {
+public class GeoGebraAppFrame extends ResizeComposite {
 
 	interface Binder extends UiBinder<DockLayoutPanel, GeoGebraAppFrame> { }
 	private static final Binder binder = GWT.create(Binder.class);
