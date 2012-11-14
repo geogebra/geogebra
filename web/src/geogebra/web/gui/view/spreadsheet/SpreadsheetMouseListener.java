@@ -288,11 +288,10 @@ public class SpreadsheetMouseListener implements
 					// if text does not start with "=" then stop the editor
 					// and allow it to create/redefine a geo here
 					editor.setAllowProcessGeo(true);
-
-					editor.cancelCellEditing();//quick fix, to be enhanced later
-					//editor.stopCellEditing();
-
+					editor.stopCellEditing();
 					editor.setAllowProcessGeo(false);
+					table.finishEditing();
+					// almost like MyCellEditorW.stopCellEditing(int,int)
 				}
 			} else if (table.isOverDot) {
 				table.isDragingDot = true;
