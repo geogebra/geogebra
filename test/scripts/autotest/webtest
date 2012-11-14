@@ -3,11 +3,29 @@ test -r autotest.conf && . ./autotest.conf
 
 PNGFILE=output.png
 TEMPLATE=webtest-template.js
-OUTFILE=webtest.js
-TESTURL=$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
-TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g`
+PHANTOMJSFILE=webtest.js
+BASE=$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
+REPORT=webtest-out.json
+TIMEOUT=10000
+REPEAT=1000
 
-cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
- > $OUTFILE
+run() {
+ PARAMS="$1"
+ TESTURL="$BASE?$PARAMS"
+ echo "Testing URL $TESTURL"
+ TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g | sed s/"\&"/"\\\\\\\\\&"/g`
+ cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
+  | sed s/"\$TIMEOUT"/"$TIMEOUT"/g | sed s/"\$REPEAT"/"$REPEAT"/g \
+  > $PHANTOMJSFILE
+ phantomjs $PHANTOMJSFILE > $REPORT
+ }
 
-xvfb-run phantomjs $OUTFILE > webtest-out.json
+MYDIR=`pwd`
+REVISION=`svn info | grep Revision: | awk '{print $2}'`
+TESTFILES=`cd $REVDIR/$REVISION/war/test; ls -1 *.ggb`
+for i in $TESTFILES; do
+ run "f=$i&m=test&c=&s=0&h=0&v=1&t=1"
+ tail $REPORT
+ cp $REPORT $i-$REPORT
+ convert $PNGFILE jpg:- | jp2a - --width=80 --colors -i --chars=".:/#*X-=+|'"
+ done
