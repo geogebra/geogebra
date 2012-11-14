@@ -54,6 +54,8 @@ public class EuclidianControllerW extends geogebra.common.euclidian.EuclidianCon
 MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, 
 TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets {
 
+	private boolean oneFingerTouch = true;
+	
 	/**
 	 * @return offset to get correct getX() in mouseEvents
 	 */
@@ -106,22 +108,24 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public void onGestureChange(GestureChangeEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
-				event.preventDefault();
-				event.stopPropagation();
+				//event.preventDefault();
+				//event.stopPropagation();
 	}
 
 	public void onGestureEnd(GestureEndEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
-				event.preventDefault();
-				event.stopPropagation();
+				//event.preventDefault();
+				//event.stopPropagation();
+		oneFingerTouch = true;
 	}
 
 	public void onGestureStart(GestureStartEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
-				event.preventDefault();
-				event.stopPropagation();
+				//event.preventDefault();
+				//event.stopPropagation();
+		oneFingerTouch = false;
 	}
 
 	public void onTouchCancel(TouchCancelEvent event) {
@@ -136,9 +140,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			wrapMouseDragged(e);
 			e.release();
 		}
-		//to not move the canvas (later some sophisticated handling must be find out)
-		event.preventDefault();
-		event.stopPropagation();
+		if (oneFingerTouch) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	}
 
 	public void onTouchEnd(TouchEndEvent event) {
@@ -149,9 +154,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			 //should be substracted the event just ended, and call mouseevent for that.
 			 //later :-)
 		}
-		//to not move the canvas (later some sophisticated handling must be find out)
-				event.preventDefault();
-				event.stopPropagation();
+		if (oneFingerTouch) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
@@ -161,9 +167,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			wrapMousePressed(e);
 			e.release();
 		}
-		//to not move the canvas (later some sophisticated handling must be find out)
-				event.preventDefault();
-				event.stopPropagation();
+		if (oneFingerTouch) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	}
 	
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
