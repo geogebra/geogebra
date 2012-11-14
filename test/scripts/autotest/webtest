@@ -22,10 +22,10 @@ run() {
 
 MYDIR=`pwd`
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
-TESTFILES=`cd $REVDIR/$REVISION/war/test; ls -1 *.ggb`
+TESTFILES=`cd $REVDIR/latest/war/test; ls -1 *.ggb | grep -v ^_`
 for i in $TESTFILES; do
  run "f=$i&m=test&c=&s=0&h=0&v=1&t=1"
  tail $REPORT
  cp $REPORT $i-$REPORT
- convert $PNGFILE jpg:- | jp2a - --width=80 --colors -i --chars=".:/#*X-=+|'"
+ convert $PNGFILE jpg:- | jp2a - --width=100 --colors
  done
