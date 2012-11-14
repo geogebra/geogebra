@@ -440,12 +440,39 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 						// this cannot happen
 
 					table.changeSelection(row, column-1, false, false);
+					int pix = view.getAbsoluteLeft();
+					GPoint gipp = table.getIndexFromPixel(pix, 1);
+					if (gipp != null && gipp.getX() - 1 >= column - 1) {
+						np = table.getPixel(column - 1, row, false).getX();
+						op = table.getPixel(column, row, false).getX();
+						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
+							+ np - op);
+					}
 				} else {
 					if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1) {
-						if (table.getSelectedRow() + 1 < table.getRowCount() - 1)
+						if (table.getSelectedRow() + 1 < table.getRowCount() - 1) {
 							table.changeSelection(row+1, 0, false, false);
+							view.setHorizontalScrollPosition(0);
+
+							int piy = view.getAbsoluteTop() + view.getOffsetHeight();
+							GPoint gipp = table.getIndexFromPixel(1, piy);
+							if (gipp != null && gipp.getY() - 1 <= row + 1) {
+								np = table.getPixel(column, row + 1, false).getY();
+								op = table.getPixel(column, row, false).getY();
+								view.setVerticalScrollPosition(view.getVerticalScrollPosition()
+									+ np - op);
+							}
+						}
 					} else {
 						table.changeSelection(row, column+1, false, false);
+						int pix = view.getAbsoluteLeft() + view.getOffsetWidth();
+						GPoint gipp = table.getIndexFromPixel(pix, 1);
+						if (gipp != null && gipp.getX() - 1 <= column + 1) {
+							np = table.getPixel(column + 1, row, false).getX();
+							op = table.getPixel(column, row, false).getX();
+							view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
+								+ np - op);
+						}
 					}
 				}
 			}
