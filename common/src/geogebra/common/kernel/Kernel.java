@@ -3325,6 +3325,9 @@ public class Kernel {
 	}
 
 	public final void notifyUpdate(GeoElement geo) {
+		//event dispatcher should not collect calls to stay compatible with 4.0
+		if(notifyViewsActive && app.hasEventDispatcher())
+			app.getEventDispatcher().update(geo);
 		if (collectNotifyUpdateStartingGeo != null) {
 			if (!readingCollectNotifyUpdateSet){
 				//			if (collectNotifyUpdateSet.contains(geo))
@@ -3340,6 +3343,9 @@ public class Kernel {
 		
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
+				//we already told event dispatcher
+				if(views[i].getViewID()==App.VIEW_EVENT_DISPATCHER)
+					continue;
 				views[i].update(geo);
 			}
 		}	

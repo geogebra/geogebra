@@ -126,6 +126,8 @@ public abstract class App {
 	public static final int VIEW_FUNCTION_INSPECTOR = 128;
 	/** id for 3D view */
 	public static final int VIEW_EUCLIDIAN3D = 512;
+	/** let us break the pattern */
+	public static final int VIEW_EVENT_DISPATCHER = 42;
 	/**
 	 * id for view created from plane; also 1025 to 2047 might be used for this
 	 * purpose
@@ -4337,6 +4339,10 @@ public abstract class App {
 	 */
 	public void recallViewCreators(){
 		// used in 3D
+	}
+	
+	public boolean hasEventDispatcher(){
+		return eventDispatcher != null;
 	}
 	
 	

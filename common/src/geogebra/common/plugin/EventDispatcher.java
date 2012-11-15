@@ -141,7 +141,7 @@ public class EventDispatcher implements View {
 	}
 
 	public int getViewID() {
-		return App.VIEW_NONE;
+		return App.VIEW_EVENT_DISPATCHER;
 	}
 
 	public boolean hasFocus() {
