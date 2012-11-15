@@ -35,18 +35,39 @@ public class SpreadsheetPanel extends ResizeComposite {
 		App.debug("resized");
 
 		// Why??
-		spreadsheet.getFocusPanel().setWidth(this.getOffsetWidth()+"px");
-		spreadsheet.getFocusPanel().setHeight(this.getOffsetHeight()+"px");
+		if (spreadsheet != null) {
+			spreadsheet.getFocusPanel().setWidth(this.getOffsetWidth()+"px");
+			spreadsheet.getFocusPanel().setHeight(this.getOffsetHeight()+"px");
+		}
     }
+
+	public SpreadsheetView getSpreadsheet() {
+		return spreadsheet;
+	}
 
 	public void attachApp(App app) {
 	   this.application = app;
 
 	   // get the spreadsheet from the app
-	   spreadsheet = ((AppW)app).getGuiManager().getSpreadsheetView();
-
-	   tempsheet.add(spreadsheet);
+	   //spreadsheet = ((AppW)app).getGuiManager().getSpreadsheetView();
+	   //tempsheet.add(spreadsheet);
 
 	   onResize();
+	}
+
+	public void showSpreadsheetView() {
+		if (application != null && spreadsheet == null) {
+			spreadsheet = ((AppW)application).getGuiManager().getSpreadsheetView();
+			tempsheet.add(spreadsheet);
+			onResize();
+		}
+	}
+
+	public void hideSpreadsheetView() {
+		if (application != null && spreadsheet != null) {
+			tempsheet.remove(spreadsheet);
+			spreadsheet = null;
+			onResize();
+		}
 	}
 }

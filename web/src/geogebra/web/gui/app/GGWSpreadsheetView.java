@@ -39,18 +39,30 @@ public class GGWSpreadsheetView extends ResizeComposite {
 
 	public void onResize() {
 		//App.debug("Resized");
-		if (application != null) {
-			SpreadsheetView spreadsheet = (SpreadsheetView)application.getGuiManager().getSpreadsheetView();
+		if (application != null &&
+			spreadsheetview != null &&
+			spreadsheetview.getSpreadsheetPanel() != null) {
 
-			// If this is resized, we may know its width and height
-			int width = this.getOffsetWidth();//this is 400, OK
-			int height = this.getOffsetHeight() -
-				(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
+			MySplitLayoutPanel mp = (MySplitLayoutPanel)
+				((AppW)application).getAppFrame().getGGWSplitLayoutPanel();
+
+			if (spreadsheetview.getSpreadsheetPanel().getSpreadsheet() == null)
+				if (mp.getWidgetSize(mp.getGGWSpreadsheetView()) > 0)
+					showSpreadsheetView(true);
+
+			if (spreadsheetview.getSpreadsheetPanel().getSpreadsheet() != null) {
+
+				SpreadsheetView spreadsheet = (SpreadsheetView)application.getGuiManager().getSpreadsheetView();
+				// If this is resized, we may know its width and height
+				int width = this.getOffsetWidth();//this is 400, OK
+				int height = this.getOffsetHeight() -
+					(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
 				getSpreadsheetStyleBar()).getOffsetHeight();
 
-			// In theory, the ScrollPanel is the innermost thing which should be resized
-			spreadsheet.getScrollPanel().setWidth(width+"px");
-			spreadsheet.getScrollPanel().setHeight(height+"px");
+				// In theory, the ScrollPanel is the innermost thing which should be resized
+				spreadsheet.getScrollPanel().setWidth(width+"px");
+				spreadsheet.getScrollPanel().setHeight(height+"px");
+			}
 		}
     }
 
@@ -61,5 +73,12 @@ public class GGWSpreadsheetView extends ResizeComposite {
 	   spreadsheetview.attachApp(app);
 
 	   onResize();
+	}
+
+	public void showSpreadsheetView(boolean show) {
+		if (show)
+			spreadsheetview.getSpreadsheetPanel().showSpreadsheetView();
+		else
+			spreadsheetview.getSpreadsheetPanel().hideSpreadsheetView();
 	}
 }
