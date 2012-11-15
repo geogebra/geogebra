@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.parser.Parser;
@@ -72,33 +73,18 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
         	g.setUndefined();
         	return;
         }    
-                
-        // get numeric string for function
-        StringTemplate tpl = StringTemplate.get(StringType.MPREDUCE);
-        String function = f.getCASString(tpl,false);    		
-        String var = f.getVarString(tpl);
         
-        // expand expression and get polynomial coefficients
-        String [] strCoeffs = kernel.getPolynomialCoeffs(function, var);
-        if (strCoeffs == null) {
-        	 g.setDefined(false);
-        	 return;
-        }
-        
-        //  build polynomial 
-        
-        // Michael Borcherds 2008-23-01 BEGIN
-        // moved shared code into AlgoPolynomialFromCoordinates.buildPolyFunctionExpression()
-        
-        int n=strCoeffs.length;
-        double coeffs[] = new double[n];
-  	    for (int k = strCoeffs.length-1; k >= 0 ; k--) {
-  	        coeffs[k] = evaluateToDouble(strCoeffs[k]);  	 	 
-			 if (Double.isNaN(coeffs[k]) || Double.isInfinite(coeffs[k])) {
-				 g.setUndefined();
-				 return;
-			 }
-		 }
+		Function inFun = f.getFunction();
+
+		// check if it's a polynomial & get coefficients
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
+
+		if (poly == null) {
+			g.setDefined(false);
+       	 return;
+		}
+
+		double[] coeffs = poly.getCoeffs();
         
    		Function polyFun = AlgoPolynomialFromCoordinates.
    			buildPolyFunctionExpression(kernel,coeffs);
