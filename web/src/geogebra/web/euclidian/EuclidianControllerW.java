@@ -54,8 +54,6 @@ public class EuclidianControllerW extends geogebra.common.euclidian.EuclidianCon
 MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, 
 TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets {
 
-	private boolean oneFingerTouch = true;
-	
 	/**
 	 * @return offset to get correct getX() in mouseEvents
 	 */
@@ -117,7 +115,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		//to not move the canvas (later some sophisticated handling must be find out)
 				//event.preventDefault();
 				//event.stopPropagation();
-		oneFingerTouch = true;
 	}
 
 	public void onGestureStart(GestureStartEvent event) {
@@ -125,7 +122,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		//to not move the canvas (later some sophisticated handling must be find out)
 				//event.preventDefault();
 				//event.stopPropagation();
-		oneFingerTouch = false;
 	}
 
 	public void onTouchCancel(TouchCancelEvent event) {
@@ -139,10 +135,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
 			wrapMouseDragged(e);
 			e.release();
-		}
-		if (oneFingerTouch) {
-			event.preventDefault();
-			event.stopPropagation();
+			 if (targets.length() == 1) {
+				 event.stopPropagation();
+				 event.preventDefault();
+			 }
 		}
 	}
 
@@ -151,12 +147,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		for (int i = 0; i < targets.length(); i++) {
 			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
 			 e.release();
+			 if (targets.length() == 1) {
+				 event.stopPropagation();
+				 event.preventDefault();
+			 }
 			 //should be substracted the event just ended, and call mouseevent for that.
 			 //later :-)
-		}
-		if (oneFingerTouch) {
-			event.preventDefault();
-			event.stopPropagation();
 		}
 	}
 
@@ -166,10 +162,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
 			wrapMousePressed(e);
 			e.release();
-		}
-		if (oneFingerTouch) {
-			event.preventDefault();
-			event.stopPropagation();
+			 if (targets.length() == 1) {
+				 event.stopPropagation();
+				 event.preventDefault();
+			 }
+			
 		}
 	}
 	
