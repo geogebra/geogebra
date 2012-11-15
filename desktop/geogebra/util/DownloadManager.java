@@ -50,6 +50,7 @@ public class DownloadManager {
 				return;
 			}
 			
+			App.showAnnouncement("Downloading");
 			in = new BufferedInputStream(srcConnection.getInputStream());
 			//if (in == null)
 			//	throw new NullPointerException("URL not found: " + src);
@@ -67,6 +68,7 @@ public class DownloadManager {
 			in.close();		
 		} 
 		catch (Exception e) {
+			App.hideAnnouncement();
 			try {
 				in.close();
 				out.close();
@@ -75,6 +77,7 @@ public class DownloadManager {
 			
 			throw e;
 		}
+		App.hideAnnouncement();
 	}
 	
 	private static String tempDir = null;
