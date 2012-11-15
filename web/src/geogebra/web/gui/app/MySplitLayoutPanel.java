@@ -27,8 +27,8 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
     public void onResize() {
 		super.onResize();
 		Element wrapper = getWidgetContainerElement(ggwGraphicView);
-		((AppW) application).ggwGraphicsViewWidthChanged(wrapper.getOffsetWidth());
-		
+		if (application != null)
+			((AppW) application).ggwGraphicsViewWidthChanged(wrapper.getOffsetWidth());
 	}
 
 	public SplitLayoutPanel getSplitLayoutPanel() {
