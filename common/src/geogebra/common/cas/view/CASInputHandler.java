@@ -228,7 +228,7 @@ public class CASInputHandler {
 				sb.append(ggbcmd);
 				sb.append("[");
 				sb.append(evalText);
-				if (params != null) {
+				if (params != null && !StringUtil.representsMultipleExpressions(evalText)) {
 					StringBuilder paramSB = new StringBuilder();
 					for (int i = 0; i < params.length; i++) {
 						paramSB.append(", ");

@@ -972,4 +972,37 @@ public class StringUtil {
 			return closingBrackets.pop();
 		return -1;
 	}
+
+	/**
+	 * Checks whether the text may represent two expressions separated by comma.
+	 * Simple check for comma is not possible as (1,1)+{1,1} is a simple  expression.
+	 * @param evalText text to be analyzed
+	 * @return true if the text is of the form expression,expression
+	 */
+	public static boolean representsMultipleExpressions(String evalText) {
+		String text = ignoreIndices(evalText);
+		int brackets = 0; 
+		boolean comment = false;
+		for(int i=text.length()-1;i>=0;i--){
+			char ch = text.charAt(i);
+			if(comment && ch!='"')
+				continue;
+			switch(ch){
+				case '}':
+				case ')':
+				case ']':
+					brackets--;
+					break;
+				case '{':
+				case '(':					
+				case '[':	
+					brackets++;
+					break;
+				case ',':
+					if(brackets==0)
+						return true;
+			}
+		}
+		return false;
+	}
 }
