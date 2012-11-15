@@ -3,7 +3,6 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
@@ -37,14 +36,13 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 
 	}
 
-	/*public void keyTyped(KeyEvent e) {
-
-	}*/
-
 	public void onKeyDown(KeyDownEvent e) {
 
 		e.stopPropagation();
-		e.preventDefault();
+
+		// cancel as this may prevent the keyPress in some browsers
+		// hopefully it is enough to preventDefault in onKeyPress
+		//e.preventDefault();
 
 		int keyCode = e.getNativeKeyCode();//.getKeyCode();
 		//Application.debug(keyCode+"");
@@ -517,18 +515,19 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 			
 		/*
 		if (keyCode >= 37 && keyCode <= 40) {
-			if (editor.isEditing())	return;			
+			if (editor.isEditing())	return;
 		}
 
 		for (int i = 0; i < defaultKeyListeners.length; ++ i) {
 			if (e.isConsumed()) break;
-			defaultKeyListeners[i].keyPressed(e);			
+			defaultKeyListeners[i].keyPressed(e);
 		}
 		 */
 	}
 
 	public void letterOrDigitTyped() {
 
+		// memorize that this is OK according to keyCode
 		keyDownSomething = true;
 
 		table.setAllowEditing(true);
@@ -543,13 +542,8 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 
 		model.setValueAt(null, table.getSelectedRow(), table.getSelectedColumn());
 
-		// make sure the onKeyPress will start when still this class is the handler
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);
-		        table.setAllowEditing(false);
-			}
-		});
+		table.editCellAt(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+        table.setAllowEditing(false);
 	}
 
 	public void onKeyPress(KeyPressEvent e) {
@@ -558,7 +552,7 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 		e.stopPropagation();
 		e.preventDefault();
 
-		// ? whether the first onKeyPress after onKeyDown is for the same key
+		// check if this is OK according to keyCode too (right key)
 		if (keyDownSomething) {
 			keyDownSomething = false;
 		} else {
@@ -586,10 +580,6 @@ public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
 			}
 		});
 	}
-
-	/*public void keyReleased(KeyEvent e) {
-		
-	}*/
 
 }
 

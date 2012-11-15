@@ -334,8 +334,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 		public void onKeyDown(KeyDownEvent e) {
 
-			// stopping propagation is needed to prevent
-			// the prevention of the default action at another place
+			// stopping propagation is needed to prevent duplicate events
 			e.stopPropagation();
 
 			checkCursorKeys(e);
@@ -370,8 +369,9 @@ public class MyCellEditorW implements BaseCellEditor {
 
 		public void onKeyUp(KeyUpEvent e) {
 
-			// stopping propagation is needed to prevent
-			// the prevention of the default action at another place
+			// stopping propagation may be needed in strange browsers
+			// this also makes sure no top-level action is done on keyUp
+			// but the default action of the event should have already been expired
 			e.stopPropagation();
 		}
 
