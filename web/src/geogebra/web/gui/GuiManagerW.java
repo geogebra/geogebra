@@ -238,16 +238,17 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
 	public boolean hasSpreadsheetView() {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-		return false;
+		if (spreadsheetView == null)
+			return false;
+		if (!spreadsheetView.isShowing())
+			return false;
+		return true;
 	}
 
 	@Override
 	public void attachSpreadsheetView() {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-
+		getSpreadsheetView();
+		spreadsheetView.attachView();
 	}
 
 	@Override
@@ -315,6 +316,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	public void updateSpreadsheetColumnWidths() {
 		// TODO Auto-generated method stub
 		AppW.debug("unimplemented");
+		//if (spreadsheetView != null) {
+		//	spreadsheetView.updateColumnWidths();
+		//}
 	}
 
 	public void resize(int width, int height) {
@@ -724,7 +728,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public void detachSpreadsheetView() {
-		App.debug("unimplemented");
+		if (spreadsheetView != null)
+			spreadsheetView.detachView();
     }
 
 	@Override
@@ -813,12 +818,14 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public void resetSpreadsheet() {
-		App.debug("unimplemented");
+		if (spreadsheetView != null)
+			spreadsheetView.restart();
     }
 
 	@Override
     public void setScrollToShow(boolean b) {
-		App.debug("unimplemented");
+		if (spreadsheetView != null)
+			spreadsheetView.setScrollToShow(b);
     }
 
 	@Override
@@ -931,4 +938,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		App.debug("unimplemented");
 	    
     }
+
+	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
+		if (spreadsheetView != null)
+			spreadsheetView.getXML(sb, asPreference);
+	}
 }

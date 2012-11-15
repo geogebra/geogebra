@@ -538,11 +538,11 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 	/**
 	 * returns settings in XML format
 	 */
-	/*public void getXML(StringBuilder sb, boolean asPreference) {
+	public void getXML(StringBuilder sb, boolean asPreference) {
 		sb.append("<spreadsheetView>\n");
 
-		int width = getWidth();// getPreferredSize().width;
-		int height = getHeight();// getPreferredSize().height;
+		int width = getOffsetWidth();// getPreferredSize().width;
+		int height = getOffsetHeight();// getPreferredSize().height;
 
 		sb.append("\t<size ");
 		sb.append(" width=\"");
@@ -558,26 +558,31 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 		sb.append(table.preferredColumnWidth);
 		sb.append("\"");
 		sb.append(" height=\"");
-		sb.append(table.getRowHeight());
+		sb.append(table.minimumRowHeight
+			//FIXME: temporarily, otherwise:
+			//table.getRowHeight()
+		);
 		sb.append("\"");
 		sb.append("/>\n");
 
 		if (!asPreference) {
 
 			// column widths
-			for (int col = 0; col < table.getColumnCount(); col++) {
-				TableColumn column = table.getColumnModel().getColumn(col);
-				int colWidth = column.getWidth();
+			for (int col = 1; col < table.getColumnCount(); col++) {
+				int colWidth = table.getColumnFormatter().getElement(col).getOffsetWidth();
 				// if (colWidth != DEFAULT_COLUMN_WIDTH)
 				if (colWidth != table.preferredColumnWidth)
-					sb.append("\t<spreadsheetColumn id=\"" + col
+					sb.append("\t<spreadsheetColumn id=\"" + (col-1)
 							+ "\" width=\"" + colWidth + "\"/>\n");
 			}
 
 			// row heights
-			for (int row = 0; row < table.getRowCount(); row++) {
-				int rowHeight = table.getRowHeight(row);
-				if (rowHeight != table.getRowHeight())
+			for (int row = 1; row < table.getRowCount(); row++) {
+				int rowHeight = table.getRowFormatter().getElement(row).getOffsetHeight();
+				if (rowHeight != table.minimumRowHeight
+						//FIXME: temporarily, otherwise
+						//table.getRowHeight()
+					)
 					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
 							+ rowHeight + "\"/>\n");
 			}
@@ -586,20 +591,31 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 			sb.append("\t<selection ");
 
 			sb.append(" hScroll=\"");
-			sb.append(spreadsheet.getHorizontalScrollBar().getValue());
+			sb.append(0
+				//FIXME: might not be the same for Desktop and Web
+				//getHorizontalScrollPosition()
+				//spreadsheet.getHorizontalScrollBar().getValue()
+			);
 			sb.append("\"");
 
 			sb.append(" vScroll=\"");
-			sb.append(spreadsheet.getVerticalScrollBar().getValue());
+			sb.append(0
+				//FIXME: might not be the same for Desktop and Web
+				//getVerticalScrollPosition()
+				//spreadsheet.getVerticalScrollBar().getValue()
+			);
 			sb.append("\"");
 
 			sb.append(" column=\"");
-			sb.append(table.getColumnModel().getSelectionModel()
-					.getAnchorSelectionIndex());
+			sb.append(table.anchorSelectionColumn
+				//getColumnModel().getSelectionModel().getAnchorSelectionIndex()
+			);
 			sb.append("\"");
 
 			sb.append(" row=\"");
-			sb.append(table.getSelectionModel().getAnchorSelectionIndex());
+			sb.append(table.anchorSelectionRow
+				//table.getSelectionModel().getAnchorSelectionIndex()
+			);
 			sb.append("\"");
 
 			sb.append("/>\n");
@@ -653,7 +669,7 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 		// ---- end layout
 
 		// file browser
-		if (fileBrowser != null) {
+		/*TODO if (fileBrowser != null) {
 			sb.append("\t<spreadsheetBrowser ");
 
 			if (!settings().initialFilePath().equals(settings().defaultFile())
@@ -683,7 +699,7 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 			}
 
 			sb.append("/>\n");
-		}
+		}*/
 
 		// cell formats
 		if (!asPreference)
@@ -693,7 +709,7 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 
 		// Application.debug(sb);
 
-	}*/
+	}
 
 	// ===============================================================
 	// Update
@@ -1361,7 +1377,12 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 	}*/
 
 	public boolean isShowing() {
-		return true;//TODO implementation needed
+		// if this is attached, we shall make sure its parents are visible too
+		return isVisible()
+			&& isAttached()
+			&& table != null
+			&& table.isVisible()
+			&& table.isAttached();
 	}
 
 	public void repaint() {
