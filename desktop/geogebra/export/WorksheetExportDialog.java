@@ -889,7 +889,7 @@ public class WorksheetExportDialog extends JDialog {
 										// TODO: It would be important to pop a window up
 										// for giving some information for the user to be
 										// patient (when no data in the cache exists yet).
-										DownloadManager.copyURLToFile(src, dest);
+										DownloadManager.copyURLToFile(src, dest, app);
 										
 									} catch (Exception e) {
 										// Unsuccessful download, TODO
@@ -1187,7 +1187,7 @@ public class WorksheetExportDialog extends JDialog {
 			// jar file
 			URL src = new URL(codeBase, AppD.JAR_FILES[i]);
 			File dest = new File(destDir, AppD.JAR_FILES[i]);
-			DownloadManager.copyURLToFile(src, dest);
+			DownloadManager.copyURLToFile(src, dest, app);
 
 			// jar.pack.gz file
 			// try {
