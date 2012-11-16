@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.util;
 
+
 import geogebra.common.main.App;
 
 import java.io.BufferedInputStream;
@@ -50,7 +51,18 @@ public class DownloadManager {
 				return;
 			}
 			
-			App.showAnnouncement(app.getPlain("DownloadingA", src.getFile()));
+			// Creating a user readable filename (trimming the directory name):
+			boolean done = false;
+			int i;
+			for (i = src.getFile().length() - 1; i > 0 && !done; i--)
+			{
+				char c = src.getFile().charAt(i);
+				if (c == '/' || c=='\\') // maybe DIRECTORY_SEPARATOR would be better
+					done = true;
+			}
+			String shortname = src.getFile().substring(i + 2);
+			App.showAnnouncement(app.getPlain("DownloadingA", shortname));
+
 			in = new BufferedInputStream(srcConnection.getInputStream());
 			//if (in == null)
 			//	throw new NullPointerException("URL not found: " + src);

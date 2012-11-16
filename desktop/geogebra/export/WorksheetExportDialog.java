@@ -913,8 +913,9 @@ public class WorksheetExportDialog extends JDialog {
 										(new File(targetDir + filename)).mkdir();
 										continue;
 										}
-									// Normal file, but not an HTML:
-									if (!filename.endsWith(".html")) {
+									// Normal file, but not an HTML, TXT or ICO
+									// (in fact we would need the web/ folder here, TODO: polish this):
+									if (!filename.endsWith(".html") && !filename.endsWith(".txt") && !filename.endsWith(".ico")) {
 										copyInputStream(zf.getInputStream(entry),
 												new BufferedOutputStream(new FileOutputStream(
 												targetDir + filename)));
