@@ -44,7 +44,7 @@ public class GeoGebraCasIntegrationTest {
 	@BeforeClass
 	public static void setupCas() {
 		AppD app = new AppD(new CommandLineArguments(
-				silent?new String[]{"--silent"}:new String[0]), new JFrame(), false);
+				silent?new String[]{"--silent"}:new String[0]), new JFrame(), false);		
 		if(silent)
 			App.logger = null;
 		app.setLanguage(Locale.GERMANY);
@@ -2991,5 +2991,16 @@ public class GeoGebraCasIntegrationTest {
 		t("Factor[h(x)]","(x - 2) * x","x * (x - 2)");
 		t("Solve[h(x)=0,x]","{x = 2, x = 0}","{x = 0, x = 2}");
 		t("S:=Intersect[f(x),g(x)]","{(2,3),(0,2)}");
+	}	
+
+	@Test
+	public void ExponentialEqs(){
+		kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(60000);
+		cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
+		t("Solve[7^(2x-5) 5^x = 9^(x+1),x]","{x = (-log(151263)) / (log(9) - 2 * log(7) - log(5))}");
+		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]","{x = (-log(55)) / (log(13) - log(5))}");
+		t("Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]","{{c = (300000000 * 3^(950 / 1057)) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}");
+		kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(5000);
+		cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
 	}
 }
