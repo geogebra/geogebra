@@ -148,7 +148,7 @@ public abstract class GeoElement extends ConstructionElement implements
 																// later on)
 			'\u0648', '\u064a' };
 	
-	private static final char[] yiddish = { '\u05D1', '\u05D2', '\u05D3',
+	private static final char[] yiddish = { '\u05D0', '\u05D1', '\u05D2', '\u05D3',
 			'\u05D4', '\u05D5', '\u05D6', '\u05D7', '\u05D8', '\u05DB',
 			'\u05DC', '\u05DE', '\u05E0', '\u05E1', '\u05E2', '\u05E4',
 			'\u05E6', '\u05E7', '\u05E8', '\u05E9', '\u05EA'
