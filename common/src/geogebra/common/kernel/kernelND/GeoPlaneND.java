@@ -8,7 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public interface GeoPlaneND extends Region, GeoDirectionND{
+public interface GeoPlaneND extends Region, GeoCoordSys2D{
 	
 	/**
 	 * sets the fading for the "ends" of the plane 

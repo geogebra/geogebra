@@ -120,8 +120,8 @@ public interface Manager3DInterface {
 
 	/** Line3D through point orthogonal to line and direction */
 	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
-			GeoLineND line, GeoDirectionND direction);
-
+			GeoDirectionND line, GeoDirectionND direction);
+	
 	/** Line3D orthogonal two lines */
 	public GeoLineND OrthogonalLine3D(String label, GeoLineND line1,
 			GeoLineND line2);

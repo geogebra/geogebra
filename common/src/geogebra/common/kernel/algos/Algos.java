@@ -477,6 +477,7 @@ public enum Algos {
 	AlgoJoinPoints3DRay(Commands.Ray),
 	AlgoOrthoLinePoint(Commands.OrthogonalLine),
 	AlgoOrthoLinePointPlane(Commands.OrthogonalLine),
+	AlgoOrthoLinePointVectors(Commands.OrthogonalLine),
 	AlgoOrthoLineLineLine(Commands.OrthogonalLine),
 	AlgoOrthoLineLinePointPlane(Commands.OrthogonalLine),
 	AlgoOrthoVectorPlane(Commands.OrthogonalVector),

@@ -11,10 +11,12 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.kernel3D.GeoSpace;
 
 /*
  * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
@@ -129,18 +131,24 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	arg = resArgs(c);
 	    	if (
 	    			(ok[0] = (arg[0] .isGeoPoint() ) )
-	    			&& (ok[1] = (arg[1] instanceof GeoLineND ))
-	    			&& (ok[2] = (arg[2] instanceof GeoDirectionND ))
+	    			&& (ok[1] = (arg[1] instanceof GeoDirectionND )) 
+	    			&& (ok[2] = (arg[2] instanceof GeoDirectionND )
+	    			//"space" not allowed as 2nd arg
+	    			&& !(arg[1] instanceof GeoSpace)
+	    			//check if it's not 2 planes (or plane-"space")
+	    			&& !((arg[1] instanceof GeoCoordSys2D) && (arg[2] instanceof GeoCoordSys2D || arg[2] instanceof GeoSpace))
+	    					)
 	    	) {
 	    		GeoElement[] ret =
 	    		{
 	    				(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
-	    						(GeoLineND) arg[1],
+	    						(GeoDirectionND) arg[1],
 	    						(GeoDirectionND) arg[2])};
 	    		return ret;
 	    	}
+	    	
 	    	break;
 	    }
 	    

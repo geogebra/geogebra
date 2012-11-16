@@ -274,11 +274,11 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
-			GeoLineND line, GeoDirectionND direction) {
+			GeoDirectionND line, GeoDirectionND direction) {
 		
 		//when have space as direction, just to say it's not as in 2D
-		if (direction==((Construction3D) cons).getSpace())
-			return OrthogonalLine3D(label, point, line);	
+		if (line instanceof GeoLineND && direction==((Construction3D) cons).getSpace())
+			return OrthogonalLine3D(label, point, (GeoLineND) line);	
 		
 		//when xOy plane as direction, check if it's only 2D objects, then return 2D line
 		if (direction==((Construction3D) cons).getXOYPlane() && (point instanceof GeoPoint) && (line instanceof GeoLine)){
@@ -286,7 +286,7 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getLine();
 		}
 		
-		AlgoOrthoLineLinePointPlane algo = new AlgoOrthoLineLinePointPlane(
+		AlgoOrthoLinePointDirectionDirection algo = new AlgoOrthoLinePointDirectionDirection(
 				cons, label, point, line, direction);
 		return algo.getLine();
 	}
