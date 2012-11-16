@@ -7299,18 +7299,26 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		if (actionPerforming)
 			return;
 
+	
 		Object source = e.getSource();
+		
 		if (source == tfDefinition) {
+			
+			App.debug(redefinitionFailed);
 
 			if (redefinitionFailed) {
 				redefinitionFailed = false;
 				return;
 			}
-
-			String strDefinition = getDefText(currentGeo);
-			if (!strDefinition.equals(tfDefinition.getText())) {
+			
+			String strDefinition = tfDefinition.getText();
+			if (!strDefinition.equals(getDefText(currentGeo))) {
 				tfDefinition.setText(strDefinition);
+				if (defInputHandler.processInput(strDefinition)) 
+					// if succeeded, switch current geo
+					currentGeo = defInputHandler.getGeoElement();
 			}
+			
 			SwingUtilities.invokeLater(doActionStopped);
 
 		} else {
