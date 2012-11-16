@@ -2139,7 +2139,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 *         is already a twinGeo, or a new twinGeo was created successfully
 	 */
 	public boolean plot() {
-		if (getInputVE() == null || input.equals("")) {
+		if (getEvalVE() == null || input.equals("")) {
 			return false;
 		}
 
@@ -2148,7 +2148,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		ValidExpression oldInputVE = getInputVE();
 		String oldAssignmentVar = assignmentVar;
 		AssignmentType oldOVEAssignmentType = outputVE.getAssignmentType();
-		AssignmentType oldIVEAssignmentType = getInputVE().getAssignmentType();
+		AssignmentType oldIVEAssignmentType = getInputVE()==null? evalVE.getAssignmentType() : 
+			getInputVE().getAssignmentType();
 		// there is already a twinGeo, this means this cell is plotable,
 		// therefore return true
 		if (hasTwinGeo()) {
@@ -2205,19 +2206,18 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		this.firstComputeOutput = true;
 		this.computeOutput(true);
-		if (twinGeo != null)
+		if (twinGeo != null  && !dependsOnDummy(twinGeo))
 			twinGeo.setLabel(null);
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
-				&& twinGeo.isEuclidianShowable() && !dependsOnDummy(twinGeo)) {
+				&& twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
-			getInputVE().setAssignmentType(AssignmentType.DEFAULT);
-			getInputVE().setLabel(assignmentVar);
 			/**
-			 * set output (if input has been not changed), or set input and
-			 * recalculate
+			 * We use EvalVE here as it's more transparent to push the command to the input
 			 */
-			setInput(getInputVE()
+			getEvalVE().setAssignmentType(AssignmentType.DEFAULT);
+			getEvalVE().setLabel(assignmentVar);		
+			setInput(getEvalVE()
 						.toAssignmentString(StringTemplate.defaultTemplate));
 			
 			computeOutput(false);
@@ -2229,7 +2229,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// plot failed, undo assignment
 			assignmentVar = oldAssignmentVar;
 			outputVE.setAssignmentType(oldOVEAssignmentType);
-			getInputVE().setAssignmentType(oldIVEAssignmentType);
+			getEvalVE().setAssignmentType(oldIVEAssignmentType);
 			this.firstComputeOutput = true;
 			evalComment = oldEvalComment;
 			evalVE = oldEvalVE;
