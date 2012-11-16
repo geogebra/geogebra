@@ -7323,8 +7323,6 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				return;
 			}
 			
-			App.debug(currentGeo);
-			
 			String strDefinition = tfDefinition.getText();
 			if (!strDefinition.equals(getDefText(currentGeo))) {
 				tfDefinition.setText(strDefinition);
