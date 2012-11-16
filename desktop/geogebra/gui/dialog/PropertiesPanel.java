@@ -7167,6 +7167,20 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	}
 
 	public JPanel update(Object[] geos) {
+		
+		//apply textfields modification on previous geo before switching to new geo
+		if (currentGeo!=null){
+			nameInputHandler.processInput(tfName.getText());
+			
+			String strDefinition = tfDefinition.getText();
+			if (!strDefinition.equals(getDefText(currentGeo))) 
+				defInputHandler.processInput(strDefinition);
+			
+			currentGeo.setCaption(tfCaption.getText());
+			
+			currentGeo.updateRepaint();
+		}
+		
 		if (!checkGeos(geos))
 			return null;
 
@@ -7304,12 +7318,12 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		
 		if (source == tfDefinition) {
 			
-			App.debug(redefinitionFailed);
-
 			if (redefinitionFailed) {
 				redefinitionFailed = false;
 				return;
 			}
+			
+			App.debug(currentGeo);
 			
 			String strDefinition = tfDefinition.getText();
 			if (!strDefinition.equals(getDefText(currentGeo))) {
