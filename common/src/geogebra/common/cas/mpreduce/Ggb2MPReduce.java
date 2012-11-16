@@ -69,7 +69,7 @@ public class Ggb2MPReduce {
 		p("Derivative.2", 
 				"<<begin scalar  input!!, result!!; input!!:=(%0);let solverules; on combineexpt; result!!:=df(input!!,%1); clearrules solverules; return result!! end>>");
 		p("Derivative.3", 
-				"<<begin scalar  input!!, result!!; input!!:=(%0);let solverules; on combineexpt; result!!:=df(input!!,%1,%2); clearrules solverules; return result!! end>>");
+				"<<begin scalar  input!!, deg!!, result!!; input!!:=(%0); deg!!:=(%2);let solverules; on combineexpt; result!!:=if numberp(deg!!) then df(input!!,%1,deg!!) else \\'?; clearrules solverules; return result!! end>>");
 		p("Determinant.1", "<<tmpmat!!:=(%0); det(tmpmat!!)>>");
 		p("Dimension.1", "<<begin scalar input!!; input!!:=%0; return if myvecp input!! then dim input!! else length(input!!) end>>");
 		p("Div.2", "div(%0,%1)");
