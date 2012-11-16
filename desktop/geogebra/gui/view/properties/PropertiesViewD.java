@@ -707,11 +707,6 @@ public class PropertiesViewD extends
 	public void repaintView() {
 
 		if (objectPanel != null) {
-			ArrayList<GeoElement> geos = app.getSelectedGeos();
-			if (geos.size()==1)
-				((OptionsObjectD) objectPanel).updateIfInSelection(app
-						.getSelectedGeos().get(0));
-
 			((OptionsObjectD) objectPanel).getTree().repaint();
 		}
 
