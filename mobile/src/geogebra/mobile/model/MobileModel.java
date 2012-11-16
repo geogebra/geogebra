@@ -8,6 +8,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -34,11 +35,11 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 public class MobileModel
 {
 
-	Kernel kernel; 
+	Kernel kernel;
 	GuiModel guiModel;
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
-	private boolean controlClicked = true; 
+	private boolean controlClicked = true;
 	private ToolBarCommand command;
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
 
@@ -78,7 +79,7 @@ public class MobileModel
 		geo.setSelected(true);
 		this.selectedElements.add(geo);
 	}
-	
+
 	public boolean select(Hits hits, Test geoclass, int max)
 	{
 		boolean success = false;
@@ -307,6 +308,14 @@ public class MobileModel
 					&& getNumberOf(Test.GEOLINE) >= 1;
 			break;
 
+		// commands that need one point or line and one circle or conic
+		case Tangents:
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
+					Test.GEOCONIC });
+			draw = (getNumberOf(Test.GEOPOINT) + getNumberOf(Test.GEOLINE) >= 1)
+					&& getNumberOf(Test.GEOCONIC) >= 1;
+			break;
+
 		// commands that need one point and one vector
 		case VectorFromPoint:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR });
@@ -344,6 +353,7 @@ public class MobileModel
 			break;
 
 		// commands that need three points or two lines
+		case Angle:
 		case AngleBisector:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE });
 			draw = getNumberOf(Test.GEOPOINT) >= 3
@@ -494,6 +504,24 @@ public class MobileModel
 						(GeoPoint) getElement(Test.GEOPOINT),
 						(GeoLine) getElement(Test.GEOLINE)));
 				break;
+			case Tangents:
+				GeoElement[] lines;
+				if (this.getElement(Test.GEOPOINT) != null)
+				{
+					lines = this.kernel.getAlgoDispatcher().Tangent(null,
+							(GeoPoint) this.getElement(Test.GEOPOINT),
+							(GeoConic) this.getElement(Test.GEOCONIC));
+				} else
+				{
+					lines = this.kernel.getAlgoDispatcher().Tangent(null,
+							(GeoLine) this.getElement(Test.GEOLINE),
+							(GeoConic) this.getElement(Test.GEOCONIC));
+				}
+				for (GeoElement l : lines)
+				{
+					newElements.add(l);
+				}
+				break;
 			case VectorFromPoint:
 				GeoPoint endPoint = (GeoPoint) this.kernel.getAlgoDispatcher()
 						.Translate(null, getElement(Test.GEOPOINT),
@@ -544,6 +572,23 @@ public class MobileModel
 						(GeoPoint) getElement(Test.GEOPOINT),
 						(GeoPoint) getElement(Test.GEOPOINT, 1),
 						(GeoPoint) getElement(Test.GEOPOINT, 2)));
+				break;
+			case Compasses:
+				// TODO
+				break;
+			case Angle:
+				if (this.getNumberOf(Test.GEOPOINT) >= 3)
+				{
+					this.kernel.getAlgoDispatcher().Angle(null,
+							(GeoPoint) this.getElement(Test.GEOPOINT),
+							(GeoPoint) this.getElement(Test.GEOPOINT, 1),
+							(GeoPoint) this.getElement(Test.GEOPOINT, 2));
+				} else
+				{
+					this.kernel.getAlgoDispatcher().Angle(null,
+							(GeoLine) this.getElement(Test.GEOLINE),
+							(GeoLine) this.getElement(Test.GEOLINE, 1));
+				}
 				break;
 			case AngleBisector:
 				if (getNumberOf(Test.GEOPOINT) >= 3)
@@ -611,7 +656,7 @@ public class MobileModel
 								.updateStylingBar(MobileModel.this);
 					}
 				});
-				this.controlClicked = false; 
+				this.controlClicked = false;
 				this.commandFinished = true;
 				return; // not break! no need to update or so before everything
 						// is drawn
@@ -668,11 +713,11 @@ public class MobileModel
 
 	public boolean controlClicked()
 	{
-		boolean ret = this.controlClicked; 
-		this.controlClicked = true; 
+		boolean ret = this.controlClicked;
+		this.controlClicked = true;
 		return ret;
 	}
-	
+
 	private void attachDetach(Hits hits, Point c)
 	{
 		EuclidianViewInterfaceCommon view = this.kernel.getApplication()
@@ -810,5 +855,4 @@ public class MobileModel
 		return this.commandFinished || this.changeColorAllowed;
 	}
 
-	
 }

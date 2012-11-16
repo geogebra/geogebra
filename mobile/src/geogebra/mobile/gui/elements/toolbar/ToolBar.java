@@ -57,7 +57,7 @@ public class ToolBar extends ButtonBar
 
 		// inputBar
 		this.b[11] = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), mobileModel.getGuiModel());
-		this.b[11].addStyleDependentName("rightButton");
+		this.b[11].addStyleDependentName("tool-rightButton");
 		this.b[11].addDomHandler(new ClickHandler()
 		{
 			@Override

@@ -37,7 +37,7 @@ div.StyleBarOptions {
 	-webkit-border-radius: 1em 1em 1em 1em;
 }
 
-div.colorBarBackground {
+.colorBarBackground {
 	position: absolute;
 	right: 75px;
 	top: 150px;	
@@ -72,7 +72,7 @@ div.mgwt-Button-colorChoiceButton {
 }
 
 div.mgwt-Button-dummyButton {
-	height: 58px;
+	height: 20px /*58px*/
 	background-image: none;
 	background: none;
 	border: none;
