@@ -287,7 +287,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 	}
 
 	public void hidePopup() {
-		if (popup.isVisible()) {
+		if (popup != null && popup.isVisible()) {
 			popup.superSetVisible(false);
 		}
 	}
