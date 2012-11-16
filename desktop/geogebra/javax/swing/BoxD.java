@@ -62,8 +62,12 @@ public class BoxD extends geogebra.common.javax.swing.GBox {
 
 	@Override
 	public void validate() {
-		// TODO Auto-generated method stub
-		
+		impl.validate();
+	}
+	
+	@Override
+	public void revalidate() {
+		impl.revalidate();
 	}
 
 	@Override

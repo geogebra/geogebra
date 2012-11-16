@@ -329,6 +329,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		if(length!=oldLength){
 			textField.setColumns(length);
 			textField.showPopupSymbolButton(length>8);
+			oldLength = length;
 		}
 		if (!isVisible) {
 			return;
@@ -368,8 +369,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		textField.setEditable(true);
 		geoTextField.updateText(textField);
 
-		box.validate();
-
+		box.revalidate();
+		
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 		GDimension prefSize = box.getPreferredSize();

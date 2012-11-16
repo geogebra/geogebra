@@ -85,4 +85,10 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 	    impl.add(GComboBoxW.getImpl(comboBox));	    
     }
 
+	@Override
+    public void revalidate() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

@@ -19,6 +19,8 @@ public abstract class GBox {
 	public abstract GRectangle getBounds();
 
 	public abstract void validate();
+	
+	public abstract void revalidate();
 
 	public abstract void add(AbstractJComboBox comboBox);
 
