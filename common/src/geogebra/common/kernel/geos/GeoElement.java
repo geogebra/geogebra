@@ -1142,6 +1142,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			typePriority = 110;
 			break;
 		case VECTOR:
+		case VECTOR3D:
 			typePriority = 120;
 			break;
 		case LOCUS:
@@ -1155,7 +1156,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			typePriority = 150;
 			break;
 		default: // shouldn't occur
-			App.debug("missing case in getDrawingPriority()");
+			App.debug("missing case in getDrawingPriority() for "+getGeoClassType());
 			typePriority = 160;
 		}
 
