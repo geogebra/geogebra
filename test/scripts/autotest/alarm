@@ -89,6 +89,8 @@ if [ $RESULT = 0 ]; then
    RESULT=13
    fi
 
+  fi # JRESULT != 0
+
  fi # RESULT == 0
 
 # Error was detected, report needed (general case):
