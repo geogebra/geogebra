@@ -18,7 +18,7 @@ function waitFor(testFx, onReady, timeOutMillis) {
                     // If condition still not fulfilled (timeout but condition is 'false')
                     console.log("'waitFor()' timeout");
                     page.render("$OUTPUTPNG");
-                    phantom.exit(1);
+                    phantom.exit(2);
                 } else {
                     // Condition fulfilled (timeout and/or condition is 'true')
                     console.log("'waitFor()' finished in " + (new Date().getTime() - start) + "ms.");
@@ -31,8 +31,23 @@ function waitFor(testFx, onReady, timeOutMillis) {
 
 var page = require('webpage').create();
 
+var lastmsg = "";
+
 page.onConsoleMessage = function(msg) {
         console.log("msg from webpage:"+msg);
+        /* If there would be two messages twice, this could be a good exit condition.
+        if (msg == lastmsg) {
+                    page.render("$OUTPUTPNG");
+                    phantom.exit(1);
+        }
+        lastmsg = msg;
+        But unfortunately not, e.g. for CylinderInCone.ggb.
+        */
+        if (msg.search("$EXITSTRING") >= 0) {
+                    page.render("$OUTPUTPNG");
+                    phantom.exit(2);
+        }
+
 }
 
 page.onResourceRequested = function (request) {
@@ -60,7 +75,7 @@ page.open("$TESTURL", function (status) {
             });
         }, function() {
            console.log("The sign-in dialog should be visible now.");
-           phantom.exit();
+           phantom.exit(0);
         });
     }
 });
