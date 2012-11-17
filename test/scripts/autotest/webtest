@@ -17,7 +17,7 @@ run() {
  TESTURL="$BASE?$PARAMS"
  echo "Testing URL $TESTURL" >/dev/stderr
  TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g | sed s/"\&"/"\\\\\\\\\&"/g`
- TESTNAME=`basename $1 .ggb`
+ TESTNAME=`basename $1 .ggb | tr _ " "`
  EXITSTRING="] $TESTNAME" # this is some kind of heuristics since the page title will contain "[12345] TestName"
  cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
   | sed s/"\$TIMEOUT"/"$TIMEOUT"/g | sed s/"\$REPEAT"/"$REPEAT"/g \
