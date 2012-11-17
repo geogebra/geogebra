@@ -10,7 +10,7 @@ test -r autotest.conf && . ./autotest.conf
 
 MYDIR=$SVNDIR/geogebra/test/scripts/autotest
 
-REVISION=`svn info | grep Revision: | awk '{print $2}'`
+REVISION=`./myrevision`
 
 cd $REVDIR/$REVISION || exit 1 # Build problem
 

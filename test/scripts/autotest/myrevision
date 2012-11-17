@@ -1,0 +1,5 @@
+#!/bin/sh
+SVNDIR=`cd ../../..; pwd` # FIXME: add another ..
+test -r autotest.conf && . ./autotest.conf
+cd $SVNDIR
+svn info | grep "Last Changed Rev:" | awk '{print $4}'

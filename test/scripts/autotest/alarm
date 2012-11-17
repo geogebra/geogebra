@@ -8,7 +8,7 @@ test -r autotest.conf || {
  }
 test -r autotest.conf && . ./autotest.conf
 
-REVISION=`svn info | grep Revision: | awk '{print $2}'`
+REVISION=`./myrevision`
 REV_HTTP="http://dev.geogebra.org/trac/changeset/$REVISION"
 WEBDIR=$SVNDIR/geogebra/web
 MAILSERVERSSHLOGIN=build@dev.geogebra.org

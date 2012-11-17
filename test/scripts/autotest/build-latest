@@ -21,7 +21,7 @@ MYDIR=$SVNDIR/geogebra/test/scripts/autotest
  ./build-desktop
  ./build-web
 
- REVISION=`svn info | grep Revision: | awk '{print $2}'`
+ REVISION=`./myrevision`
  echo "The latest revision ($REVISION) has been built now"
  
  cd $REVDIR

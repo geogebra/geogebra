@@ -1,15 +1,11 @@
 #!/bin/sh
 # Returns true (0) if the current SVN version is in sync, false (1) otherwise
 
-# 1. Start and loading configuration
-test -r autotest.conf || {
- echo "$0: Cannot find autotest.conf (make sure you edit autotest.conf.dist first)"
- exit 127
- }
+SVNDIR=`cd ../../..; pwd` # FIXME: add another ..
 test -r autotest.conf && . ./autotest.conf
 
-LATEST=`svn info $REPO | grep Revision: | awk '{print $2}'`
-THIS=`svn info | grep Revision: | awk '{print $2}'`
+LATEST=`svn info $REPO | grep "Last Changed Rev:" | awk '{print $4}'`
+THIS=`./myrevision`
 echo "Latest: $LATEST, this: $THIS"
 
 if [ "$LATEST" = "$THIS" -o "$LATEST" = "" ]; then

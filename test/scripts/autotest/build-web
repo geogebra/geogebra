@@ -10,7 +10,7 @@ test -r autotest.conf && . ./autotest.conf
 
 WEB_AUTOBUILDDIR=../../../web
 WEB_BUILDDIR=war
-REVISION=`svn info | grep Revision: | awk '{print $2}'`
+REVISION=`./myrevision`
 mkdir -p $REVDIR/$REVISION
 cd $WEB_AUTOBUILDDIR
 ./build -s OBFUSCATED -c -cg -nl -i $REVDIR/$REVISION/war -- -localWorkers 2 > .buildlog 2>&1 || {

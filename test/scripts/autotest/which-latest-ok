@@ -9,7 +9,7 @@ test -r autotest.conf || {
  }
 test -r autotest.conf && . ./autotest.conf
 
-THIS=`svn info | grep Revision: | awk '{print $2}'`
+THIS=`./myrevision`
 LOOP=1
 TOCHECK=$THIS
 RESULT=255 # Maybe no .result file exists yet
