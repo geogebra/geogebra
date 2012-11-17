@@ -3330,7 +3330,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.notifyUpdate(this);
 	}
 
-	final private void updateGeo() {
+	protected final void updateGeo() {
 
 		if (labelWanted && !labelSet) {
 			// check if this object's label needs to be set
@@ -3390,14 +3390,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates this object and all dependent ones. Note: no repainting is done
 	 * afterwards! synchronized for animation
 	 */
-	public void updateCascade() {
-		// start collecting notify updates as locateables can cause multiple updates, see #2462
-		kernel.startCollectingNotifyUpdate(this);
+	public void updateCascade() {		
 		update();
 		updateDependentObjects();
-
-		// stop collecting notify update and tell views
-		kernel.stopCollectingNotifyUpdate(this);
 	}
 
 	private void updateDependentObjects() {
@@ -3478,16 +3473,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		tempSet1.clear();
 		
 		GeoElementND firstGeo = null;
-		try {
+		
 			final int size = geos.size();
 			for (int i = 0; i < size; i++) {
 				final GeoElementND geo = geos.get(i);
 
-				if (firstGeo == null) {
-					firstGeo = geo;
-					// start collecting notify updates as locateables can cause multiple updates, see #2462			
-					firstGeo.getKernel().startCollectingNotifyUpdate(firstGeo);										
-				}
+		
 				
 				geo.update();								
 
@@ -3507,13 +3498,42 @@ public abstract class GeoElement extends ConstructionElement implements
 					algo.update();
 				}
 			}	
-		}
-		finally {
-			if (firstGeo != null) {
-				// stop collecting notify updates		
-				firstGeo.getKernel().stopCollectingNotifyUpdate(firstGeo);	
+		
+		
+	}
+	
+	final static public synchronized void updateCascadeLocation(
+			final ArrayList<Locateable> geos,
+			final TreeSet<AlgoElement> tempSet1,
+			final boolean updateCascadeAll) 
+	{		
+		// build update set of all algorithms in construction element order
+		// clear temp set
+		tempSet1.clear();
+		
+		final int size = geos.size();
+			for (int i = 0; i < size; i++) {
+				final Locateable geo = geos.get(i);
+				
+				geo.updateLocation();								
+
+				if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
+						&& (geo.hasAlgoUpdateSet())) {
+					// add all dependent algos of geo to the overall algorithm
+					// set
+					geo.getAlgoUpdateSet().addAllToCollection(tempSet1);
+				}
 			}
-		}
+	
+			// now we have one nice algorithm set that we can update
+			if (tempSet1.size() > 0) {
+				final Iterator<AlgoElement> it = tempSet1.iterator();
+				while (it.hasNext()) {
+					final AlgoElement algo = it.next();
+					algo.update();
+				}
+			}	
+		
 	}
 
 	/**
@@ -3546,19 +3566,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		tempSet2.clear();
 		
 		GeoElement firstGeo = null;
-		try {
+		
 	
 			final int size = geos.size();
 			for (int i = 0; i < size; i++) {
 				final ConstructionElement ce = (ConstructionElement) geos.get(i);
 				if (ce.isGeoElement()) {
 					final GeoElement geo = (GeoElement) geos.get(i);
-					
-					if (firstGeo == null) {
-						firstGeo = geo;
-						// start collecting notify updates as locateables can cause multiple updates, see #2462			
-						firstGeo.getKernel().startCollectingNotifyUpdate(firstGeo);										
-					}
 					
 					geo.update();
 	
@@ -3585,13 +3599,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 				}
 			}		
-		}
-		finally {
-			if (firstGeo != null) {
-				// stop collecting notify updates		
-				firstGeo.getKernel().stopCollectingNotifyUpdate(firstGeo);	
-			}
-		}
+		
 	}
 
 	/**
@@ -6884,22 +6892,5 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	public boolean hasCoords() {
 		return false;
-	}
-	/**
-	 * @return whether notifyUpdate from this geo is already queued in Kernel
-	 */
-	public boolean isWaitingForUpdate() {
-		return waitingForUpdate;
-	}
-	/**
-	 * @param waitingForUpdate whether notifyUpdate from this geo is currently queued in Kernel
-	 */
-	public void setWaitingForUpdate(boolean waitingForUpdate) {
-		this.waitingForUpdate = waitingForUpdate;
-	}
-
-	private boolean waitingForUpdate;
-	
-	
-	
+	}	
 }

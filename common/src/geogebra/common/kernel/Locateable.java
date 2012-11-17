@@ -61,5 +61,6 @@ public interface Locateable extends GeoElementND{
 	 * at the end of a construction, @see geogebra.io.MyXMLHandler)
 	 */
 	public void setWaitForStartPoint();
+	public void updateLocation();
 
 }

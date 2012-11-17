@@ -1184,5 +1184,10 @@ public class GeoText extends GeoElement implements Locateable,
 		return true;
 	}
 
+	public void updateLocation() {
+		updateGeo();
+		kernel.notifyUpdateLocation(this);	
+	}
+
 
 }

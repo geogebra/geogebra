@@ -547,5 +547,10 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
+	
+	public void updateLocation() {
+		updateGeo();
+		kernel.notifyUpdateLocation(this);	
+	}
 
 }

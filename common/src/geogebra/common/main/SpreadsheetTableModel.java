@@ -3,6 +3,7 @@ package geogebra.common.main;
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
+import geogebra.common.kernel.UpdateLocationView;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -16,7 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
  * @author G. Sturr
  * 
  */
-public abstract class SpreadsheetTableModel implements View {
+public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	private App app;
 	private int highestUsedColumn = -1;
@@ -203,6 +204,37 @@ public abstract class SpreadsheetTableModel implements View {
 		
 	}
 
+	public void updateLocation(GeoElement geo) {
+		GPoint location = geo.getSpreadsheetCoords();
+
+		
+		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
+				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
+
+			highestUsedColumn = Math.max(highestUsedColumn, location.x);
+			highestUsedRow = Math.max(highestUsedRow, location.y);
+
+			if (location.y >= getRowCount()) {
+				setRowCount(location.y + 1);
+			}
+
+			if (location.x >= getColumnCount()) {
+				// table.setMyColumnCount(location.x + 1);
+				// JViewport cH = spreadsheet.getColumnHeader();
+
+				// bugfix: double-click to load ggb file gives cH = null
+				// if (cH != null) cH.revalidate();
+			}
+			setValueAt(geo, location.y, location.x);
+
+			// add tracing geos to the trace collection
+			if (geo.getSpreadsheetTrace()) {
+				app.getTraceManager().addSpreadsheetTraceGeo(geo);
+			}
+		}
+		
+	}
+	
 	public void clearView() {
 
 		for (int c = 0; c < getColumnCount(); ++c) {

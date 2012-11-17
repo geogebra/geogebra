@@ -3325,22 +3325,7 @@ public class Kernel {
 	}
 
 	public final void notifyUpdate(GeoElement geo) {
-		//event dispatcher should not collect calls to stay compatible with 4.0
-		if(notifyViewsActive && app.hasEventDispatcher())
-			app.getEventDispatcher().update(geo);
-		if (collectNotifyUpdateStartingGeo != null) {
-			if (!readingCollectNotifyUpdateSet){
-				//			if (collectNotifyUpdateSet.contains(geo))
-				//				System.out.println("  ALREADY COLLECTED UPDATE: " + geo);
-				if(!geo.isWaitingForUpdate())
-					collectNotifyUpdateSet.add(geo);
-				geo.setWaitingForUpdate(true);
-				return;
-			}
-			
-			//App.printStacktrace("notifyUpdate " + geo);
-		}
-		
+		//event dispatcher should not collect calls to stay compatible with 4.0		
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				//we already told event dispatcher
@@ -3353,55 +3338,22 @@ public class Kernel {
 //		App.printStacktrace("notifyUpdate " + geo);
 	}
 	
-	private LinkedList<GeoElement> collectNotifyUpdateSet = new LinkedList<GeoElement>();
-	private GeoElementND collectNotifyUpdateStartingGeo;
-	
-	/**
-	 * Starts collecting all calls of notifyUpdate(). The views will NOT be notified about updates by geos until stopCollectingNotifyUpdate() is called.
-	 * @param startGeo: initiating GeoElement. Note: use the same geo for stopCollectingNotifyUpdate
-	 */
-	public final void startCollectingNotifyUpdate(GeoElementND startGeo) {
-		// make sure we only start once
-		if (collectNotifyUpdateStartingGeo != null) return;
-		
-		collectNotifyUpdateStartingGeo = startGeo;
-		clearNotifyUpdateList();	
-			
-//		System.out.println("\nSTART collecting updates:  " + startGeo);
-	}
-	
-	private boolean readingCollectNotifyUpdateSet = false;
-	
-	/**
-	 * Stops collecting calls of notifyUpdate(). The views are notified about all updates by geos since startCollectingNotifyUpdate() was called.
-	 * @param startGeo: initiating GeoElement. Note: this must be the same geo as used in startCollectingNotifyUpdate
-	 */
-	public final void stopCollectingNotifyUpdate(GeoElementND startGeo) {
-		if (collectNotifyUpdateStartingGeo != startGeo) return;
-							
-		readingCollectNotifyUpdateSet = true;
-		for (GeoElement geo : collectNotifyUpdateSet) {
-//			System.out.println("   update: " + geo);
+	public final void notifyUpdateLocation(GeoElement geo) {
+		//event dispatcher should not collect calls to stay compatible with 4.0
+		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				views[i].update(geo);					
+				//we already told event dispatcher
+				if(views[i] instanceof UpdateLocationView){
+					((UpdateLocationView)views[i]).updateLocation(geo);
+				}else{					
+					views[i].update(geo);
+				}
 			}
-			//geo.setWaitingForUpdate(false); is called in clearNotify...
-		}
-		
-		collectNotifyUpdateStartingGeo = null;
-		clearNotifyUpdateList();
-		
-		readingCollectNotifyUpdateSet=false;
-				
-//		System.out.println("STOPPED collecting updates  " + startGeo);
+		}	
+
+//		App.printStacktrace("notifyUpdate " + geo);
 	}
-	
-	private void clearNotifyUpdateList(){
-		for (GeoElement geo : collectNotifyUpdateSet) {
-			geo.setWaitingForUpdate(false);
-		}
-		collectNotifyUpdateSet.clear();
-	}
+
 
 	
 	public final void notifyUpdateVisualStyle(GeoElement geo) {

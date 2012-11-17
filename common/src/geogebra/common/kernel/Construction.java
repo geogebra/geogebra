@@ -992,8 +992,6 @@ public class Construction {
 	 */
 	final public void updateConstruction() {
 		// collect notifyUpdate calls using xAxis as dummy geo
-		GeoElement dummyGeo = xAxis;
-		kernel.startCollectingNotifyUpdate(dummyGeo);
 		updateConstructionRunning = true;
 		try {			
 			// G.Sturr 2010-5-28: turned this off so that random numbers can be
@@ -1051,7 +1049,6 @@ public class Construction {
 			// kernel.app.getGuiManager().stopCollectingSpreadsheetTraces();
 		}
 		finally {
-			kernel.stopCollectingNotifyUpdate(dummyGeo);
 			updateConstructionRunning = false;
 		}
 	}
@@ -1061,8 +1058,6 @@ public class Construction {
 	 */
 	final public void updateCasCells() {
 		// collect notifyUpdate calls using xAxis as dummy geo
-		GeoElement dummyGeo = xAxis;
-		kernel.startCollectingNotifyUpdate(dummyGeo);
 		updateConstructionRunning = true;
 		try {			
 			// update all independent GeoElements
@@ -1077,7 +1072,6 @@ public class Construction {
 			}
 		}
 		finally {
-			kernel.stopCollectingNotifyUpdate(dummyGeo);
 			updateConstructionRunning = false;
 		}
 	}

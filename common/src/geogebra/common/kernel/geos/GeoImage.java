@@ -973,4 +973,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
+	public void updateLocation() {
+		updateGeo();
+		kernel.notifyUpdateLocation(this);	
+	}
+
 }
