@@ -500,10 +500,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 				try {
 					HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-					newestVersion = httpr.sendRequestGetResponseSync(VERSION_URL);
+					String myVersion = GeoGebraConstants.VERSION_STRING;
+					String fullURL = VERSION_URL + "?ver=" + myVersion + "&" +
+							"cb=" + AppD.getCodeBase();
+					newestVersion = httpr.sendRequestGetResponseSync(fullURL);
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
-					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);
+					Long currentVersionL = versionToLong(myVersion);
 					App.debug("current=" + currentVersionL
 							+ " newest=" + newestVersionL);
 					if (currentVersionL < newestVersionL) {
