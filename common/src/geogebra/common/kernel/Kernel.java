@@ -3328,9 +3328,6 @@ public class Kernel {
 		//event dispatcher should not collect calls to stay compatible with 4.0		
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				//we already told event dispatcher
-				if(views[i].getViewID()==App.VIEW_EVENT_DISPATCHER)
-					continue;
 				views[i].update(geo);
 			}
 		}	
