@@ -6,7 +6,7 @@ TEMPLATE=webtest-template.js
 PHANTOMJSFILE=webtest.js
 BASE=$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
 REPORT=webtest-out.json
-TIMEOUT=15000
+TIMEOUT=10000
 REPEAT=1000
 COLORS="--colors"
 COLORS="" # disabling it for easier analyzation
@@ -17,12 +17,14 @@ run() {
  TESTURL="$BASE?$PARAMS"
  echo "Testing URL $TESTURL" >/dev/stderr
  TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g | sed s/"\&"/"\\\\\\\\\&"/g`
- EXITSTRING=`basename $1 .ggb`
+ TESTNAME=`basename $1 .ggb`
+ EXITSTRING="] $TESTNAME" # this is some kind of heuristics since the page title will contain "[12345] TestName"
  cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
   | sed s/"\$TIMEOUT"/"$TIMEOUT"/g | sed s/"\$REPEAT"/"$REPEAT"/g \
   | sed s/"\$EXITSTRING"/"$EXITSTRING"/g \
   > $PHANTOMJSFILE
  phantomjs $PHANTOMJSFILE > $REPORT
+ echo "Return value: $?" >/dev/stderr
  }
 
 ansi_analyze() {

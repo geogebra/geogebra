@@ -1,6 +1,7 @@
 /**
  * This is a PhantomJS code template to get console log output.
  * Waits until the test condition is true or a timeout occurs.
+ * Results 0 (condition match), 2 (timeout), 3 (exitstring match).
  * Based on "waitfor.js" in the PhantomJS documentation.
  * Warning: Take care of the $... variables which must be substituted
  * by parameter values.
@@ -45,7 +46,7 @@ page.onConsoleMessage = function(msg) {
         */
         if (msg.search("$EXITSTRING") >= 0) {
                     page.render("$OUTPUTPNG");
-                    phantom.exit(2);
+                    phantom.exit(3);
         }
 
 }
