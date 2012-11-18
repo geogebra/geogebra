@@ -56,7 +56,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	@Override
 	protected boolean showInEuclidianView() {
-		return true;
+		return coordsys.isDefined();
 	}
 
 	@Override
