@@ -46,6 +46,8 @@
 
 				fileWriter.onwriteend = function(e) {
 					console.log('Write completed.');
+					obj.downloadggb.zipWriter.add('geogebra.xml', new zip.BlobReader('geogebra.xml'), function(){setDownloadButton();}, function(){});
+					
 				};
 
 				fileWriter.onerror = function(e) {
@@ -53,17 +55,18 @@
 				};
 
 				// Create a new Blob and write it to geogebra.xml.
-				var blob = new Blob([ 'xml...' ], {
+				var blob = new Blob([ '<xml></xml>' ], {
 					type : 'text/plain'
 				});
 
+				console.log("write comes");
 				fileWriter.write(blob);
 
 			}, errorHandler);
 
 		}, errorHandler);
 		
-		obj.downloadggb.zipWriter.add('geogebra.xml', new zip.BlobReader('geogebra.xml'), function(){setDownloadButton();}, function(){});
+		
 	}
 
     function createTempGGBFile(callback) {
@@ -120,7 +123,8 @@ obj.downloadggb = {
 		writer : null,
 		fileSystem : null,
 		zipWriter : null,
-
+		
+               
 		setZipFileEntry : function(fe){
 			console.log("setZipFileEntry");
 			zipFileEntry = fe;
