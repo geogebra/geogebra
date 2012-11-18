@@ -80,16 +80,18 @@ public class DownloadManager {
 			in.close();		
 		} 
 		catch (Exception e) {
-			App.hideAnnouncement();
 			try {
 				in.close();
 				out.close();
-			} catch (Exception ex) {}	
+			} catch (Exception ex) {
+				App.error(ex.toString());
+			}	
 			//dest.delete();
 			
 			throw e;
+		} finally{
+			App.hideAnnouncement();
 		}
-		App.hideAnnouncement();
 	}
 	
 	private static String tempDir = null;
