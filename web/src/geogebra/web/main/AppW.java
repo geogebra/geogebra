@@ -46,6 +46,7 @@ import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.EuclidianPanel;
+import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -1774,7 +1775,7 @@ public class AppW extends App {
 	@Override
 	public void updateMenubar() {
 		// getGuiManager().updateMenubar();
-		App.debug("implementation needed - just finishing"); // TODO
+		App.debug("AppW.updateMenubar() - implementation needed - just finishing"); // TODO
 															 // Auto-generated
 	}
 
@@ -1988,11 +1989,21 @@ public class AppW extends App {
 	}
 
 	public Widget buildApplicationPanel() {
+		if (showMenuBar){
+			attachMenubar();
+		}
+		
 		if (showToolBar) {
 			attachToolbar();
 		}
 		return euclidianViewPanel;
 	}
+	
+	public void attachMenubar() {
+		GGWMenuBar menubar = new GGWMenuBar();
+		menubar.init(this);
+		frame.add(menubar);
+	}	
 	
 	public void attachToolbar() {
 		GGWToolBar toolbar = new GGWToolBar();

@@ -125,7 +125,10 @@ public class GeoGebraMenubarW extends MenuBar {
         }
 		
 		private native String getNativeEmailSet() /*-{
-			return $wnd.GGW_appengine.USER_EMAIL;
+			if($wnd.GGW_appengine){
+				return $wnd.GGW_appengine.USER_EMAIL;
+			}
+			else return "";
 		}-*/;
 
 		private void createMenuHtmlForSignedIn() {
