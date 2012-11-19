@@ -130,6 +130,21 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	return "wait for callback";
     }
     
+    private native JavaScriptObject getDownloadGGBCallback() /*-{
+		return $wnd.tempjs.tempCallback;
+    }-*/;
+    
+    public String getGGB(boolean includeThumbnail) {
+    	createArchiveContent(includeThumbnail);
+    	
+    	JavaScriptObject callback = getDownloadGGBCallback();
+    	
+    	//getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
+    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
+    	return "wait for callback";
+    }
+    
+    
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		createArchiveContent(includeThumbnail);
 		

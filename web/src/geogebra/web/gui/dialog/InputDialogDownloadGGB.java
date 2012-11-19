@@ -2,6 +2,7 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.web.main.AppW;
+import geogebra.web.main.GgbAPI;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,8 +16,8 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		super(true);
 		this.app = app;
 		
-		//createGUI(app.getMenu("Download..."), null, false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
-		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);
+		createGUI(app.getMenu("Download"), null, false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
+		//createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);
 		this.btOK.addStyleName("downloadButton");
 		this.btOK.getElement().setId("downloadButton");
 		this.btOK.setEnabled(false);
@@ -24,7 +25,8 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
 		addEventListenerForDownloadButton(this.btOK.getElement());
-		createGGB();
+		//createGGB();
+		((GgbAPI) app.getGgbApi()).getGGB(true);
 		this.btOK.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				String ggbURL = DOM.getElementById("downloadButton").getAttribute("ggburl");
