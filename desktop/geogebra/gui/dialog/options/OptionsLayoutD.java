@@ -400,7 +400,7 @@ public class OptionsLayoutD extends
 			app.getDockBar().setShowButtonBar(rbButtonSidebar.isSelected());
 		}
 		else if (source == rbSidebarEast || source == rbSidebarWest) {
-			app.getDockBar().setEastOrientation(rbSidebarEast.isSelected());
+			app.setDockBarEast(rbSidebarEast.isSelected());
 			app.setShowDockBar(ckShowSideBar.isSelected());
 		}
 		
