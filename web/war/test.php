@@ -10,6 +10,8 @@
 //  v: show version number (if possible, set 0 for off)
 //  c: codebase
 //  t: toolbar
+//  mb: menubar
+//  i: inputbar
 
 // Copyright (c) 2012 The GeoGebra Team <geogebra-dev@geogebra.org>
 
@@ -27,6 +29,8 @@ $SHOWFILELIST=TRUE;
 $SHOWHIDDEN=FALSE;
 $VERSION=TRUE;
 $TOOLBAR=FALSE;
+$MENUBAR=FALSE;
+$INPUTBAR=FALSE;
 
 if ($_GET['m']!="")
  $MILESTONES=$_GET['m'];
@@ -36,6 +40,10 @@ if ($_GET['h']=="1")
  $SHOWHIDDEN=TRUE;
 if ($_GET['t']=="1")
  $TOOLBAR=TRUE;
+if ($_GET['mb']=="1")
+ $MENUBAR=TRUE;
+if ($_GET['i']=="1")
+ $INPUTBAR=TRUE;
 if ($_GET['v']=="0")
  $VERSION=FALSE;
 if ($_GET['c']=="0")
@@ -79,6 +87,8 @@ if ($VERSION) {
     data-param-enableLabelDrags="false"
     data-param-enableShiftDragZoom="false"
     <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
+    <?php if ($MENUBAR) echo 'data-param-showMenuBar="true"' ?>
+    <?php if ($INPUTBAR) echo 'data-param-showAlgebraInput="true"' ?>
     style="border: 1px solid black; display:inline-block;"
     data-param-ggbbase64=<?php
 
@@ -116,13 +126,15 @@ function bool2int($bool) {
 }
 
 function passoptions() {
- global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR;
+ global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR, $MENUBAR, $INPUTBAR;
  return "&m=".$MILESTONES.
   "&c=".$CODEBASE.
   "&s=".bool2int($SHOWFILELIST).
   "&h=".bool2int($SHOWHIDDEN).
   "&v=".bool2int($VERSION).
-  "&t=".bool2int($TOOLBAR);
+  "&t=".bool2int($TOOLBAR).
+  "&mb=".bool2int($MENUBAR).
+  "&i=".bool2int($INPUTBAR);
  }
 
 function pretty_filename($name) {
