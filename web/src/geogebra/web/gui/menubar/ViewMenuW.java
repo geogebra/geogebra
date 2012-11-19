@@ -66,9 +66,7 @@ public class ViewMenuW extends MenuBar{
 			        	if (mp.getGGWSpreadsheetView() != null) {
 			        		if (mp.getWidgetSize(mp.getGGWSpreadsheetView()) > 0) {
 			        			mp.setWidgetSize(mp.getGGWSpreadsheetView(), 0);
-
-			        			//leave it in memory
-			        			//mp.getGGWSpreadsheetView().showSpreadsheetView(false);
+			        			mp.getGGWSpreadsheetView().showSpreadsheetView(false);
 			        		} else {
 			        			//this might be the first time to show
 			        			//in that case, attachment is done too
