@@ -83,7 +83,8 @@ public class GeoGebraFrame extends VerticalPanel {
 			GeoGebraFrame inst = new GeoGebraFrame();
 			inst.app = inst.createApplication(articleElement, inst);
 			useDataParamBorder(articleElement, inst);
-		    inst.add(inst.app.buildApplicationPanel());
+		    //inst.add(inst.app.buildApplicationPanel());
+			inst.app.buildApplicationPanel();
 		    RootPanel.get(articleElement.getId()).add(inst);
 			
 		}
@@ -100,7 +101,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		GeoGebraFrame inst = new GeoGebraFrame();
 		inst.app = inst.createApplication(element, inst);
 		useDataParamBorder(element, inst);
-	    inst.add(inst.app.buildApplicationPanel());
+	    //inst.add(inst.app.buildApplicationPanel());
+		inst.app.buildApplicationPanel();
 	    RootPanel.get(element.getId()).add(inst);
 	}
 

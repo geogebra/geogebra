@@ -3278,15 +3278,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return showAlgebraInput;
 	}
 
-	public void setShowAlgebraInput(boolean flag, boolean update) {
-		showAlgebraInput = flag;
-
-		if (update) {
-			updateApplicationLayout();
-			updateMenubar();
-		}
-	}
-
 	public void setToolbarPosition(int position, boolean update) {
 		toolbarPosition = position;
 		if (update) {

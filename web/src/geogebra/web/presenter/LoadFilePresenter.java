@@ -64,7 +64,8 @@ public class LoadFilePresenter extends BasePresenter {
 		boolean showToolBar = view.getDataParamShowToolBar();
 		boolean showMenuBar = view.getDataParamShowMenuBar();
 		app.setShowMenuBar(showMenuBar);
-		//app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), true);
+		//app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), false);
+		app.setShowAlgebraInput(false, false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());	
 		
 		

@@ -4352,4 +4352,13 @@ public abstract class App {
 		kernel.getConstruction().updateConstruction();
 		kernel.notifyRepaint();
 	}
+
+	public void setShowAlgebraInput(boolean flag, boolean update) {
+		showAlgebraInput = flag;
+	
+		if (update) {
+			updateApplicationLayout();
+			updateMenubar();
+		}
+	}
 }
