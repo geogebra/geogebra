@@ -28,7 +28,12 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 	private GeoPoint[] parentOutput;
 	private int idx;
 
-	// intersection point is the (a) nearest to refPoint
+	/**
+	 * Creates algo for single intersection close to given point
+	 * @param label label for output
+	 * @param algo intersection algo with multiple outputs
+	 * @param refPoint point close to desired intersection
+	 */
 	public AlgoIntersectSingle(String label, AlgoIntersect algo,
 			GeoPoint refPoint) {
 		super(algo.cons);
@@ -47,7 +52,12 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		addIncidence();
 	}
 
-	// intersection point is index-th intersection point of algo
+	/**
+	 * Creates algo for single intersection with given index
+	 * @param label label for output
+	 * @param algo intersection algo with multiple outputs
+	 * @param index index, starting with 1
+	 */
 	public AlgoIntersectSingle(String label, AlgoIntersect algo, GeoNumberValue index) {
 		super(algo.cons);
 		this.algo = algo;
@@ -67,9 +77,14 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		point.setLabel(label);
 		addIncidence();
 	}
-	
+	/**
+	 * Creates algo for single intersection with given index
+	 * @param label label for output
+	 * @param algo intersection algo with multiple outputs
+	 * @param index index, starting with 0
+	 */
 	public AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
-		this(label,algo,new GeoNumeric(algo.getConstruction(),index));
+		this(label,algo,new GeoNumeric(algo.getConstruction(),index+1));
 	}
 
 	private void addIncidence() {
@@ -144,6 +159,9 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		return this.algo;
 	}
 
+	/**
+	 * @return resulting point
+	 */
 	public GeoPoint getPoint() {
 		return point;
 	}
