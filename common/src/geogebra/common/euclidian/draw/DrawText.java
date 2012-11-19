@@ -172,7 +172,8 @@ public final class DrawText extends Drawable {
 		 */
 
 		if (text.isNeedsUpdatedBoundingBox()
-				&& (textChanged || positionChanged || fontChanged)) {
+				&& (textChanged || positionChanged || fontChanged ||
+					text.getKernel().getForceUpdatingBoundingBox())) {
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX)
 				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,

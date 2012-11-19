@@ -176,6 +176,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				drawEquationMathQuill(ih, eqstring,
 					((AppW)app).getCanvas().getCanvasElement().getParentElement());
 				equations.put(eqstring, ih);
+
+				// set a flag that the kernel needs a new update
+				app.getKernel().setUpdateAgain(true);
 			} else {
 				ih.getStyle().setDisplay(Style.Display.INLINE);
 			}

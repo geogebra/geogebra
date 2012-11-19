@@ -86,6 +86,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
@@ -98,6 +99,7 @@ import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -2516,4 +2518,29 @@ public class AppW extends App {
 		}
 		super.setShowToolBar(toolbar, help);
 	}
+
+	/**
+	 * This is used for LaTeXes in GeoGebraWeb (DrawText, DrawEquationWeb)
+	 */
+    @Override
+    public void scheduleUpdateConstruction() {
+
+    	// set up a scheduler in case 0.5 seconds would not be enough for the computer
+    	Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+    		public void execute() {
+    			
+    			// 0.5 seconds is good for the user and maybe for the computer too
+    	    	Timer timeruc = new Timer() {
+    	    		public void run() {
+    	    			boolean force = kernel.getForceUpdatingBoundingBox();
+    	    			kernel.setForceUpdatingBoundingBox(true);
+    	    			kernel.getConstruction().updateConstruction();
+    	    			kernel.notifyRepaint();
+    	    			kernel.setForceUpdatingBoundingBox(force);
+    	    		}
+    	    	};
+    	    	timeruc.schedule(500);
+    		}
+    	});
+    }
 }

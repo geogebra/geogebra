@@ -251,6 +251,9 @@ public class Kernel {
 	// setResolveUnkownVarsAsDummyGeos
 	private boolean resolveUnkownVarsAsDummyGeos = false;
 
+	private boolean updateEVAgain = false; // used for DrawEquationWeb and DrawText in GGW
+	private boolean forceUpdatingBoundingBox = false; // used for DrawEquationWeb and DrawText in GGW
+
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 	/** Application */
@@ -3296,6 +3299,11 @@ public class Kernel {
 
 			view.add(geo);
 		}
+
+		if (getUpdateAgain()) {
+			setUpdateAgain(false);
+			app.scheduleUpdateConstruction();
+		}
 	}
 
 	public final void notifyAdd(GeoElement geo) {
@@ -3403,8 +3411,17 @@ public class Kernel {
 	 * /************************** Undo /Redo
 	 */
 	public void updateConstruction() {
+
+		// views are notified about update at the end of this method
 		cons.updateConstruction();
-		notifyRepaint();
+
+		// latexes in GeoGebraWeb are rendered afterwards and set updateEVAgain
+		if (getUpdateAgain()) {
+			setUpdateAgain(false);
+			app.scheduleUpdateConstruction();
+		} else {
+			notifyRepaint();
+		}
 	}
 
 	/**
@@ -4468,5 +4485,32 @@ public class Kernel {
 	public GeoDirectionND getSpace() {
 		return null;
 	}
-	
+
+	/**
+	 * used for DrawEquationWeb and DrawText in GeoGebraWeb
+	 */
+	public void setUpdateAgain(boolean value) {
+		updateEVAgain = value;
+	}
+
+	/**
+	 * used for DrawEquationWeb and DrawText in GeoGebraWeb
+	 */
+	public boolean getUpdateAgain() {
+		return updateEVAgain && app.isHTML5Applet();
+	}
+
+	/**
+	 * used for DrawEquationWeb and DrawText in GeoGebraWeb
+	 */
+	public void setForceUpdatingBoundingBox(boolean value) {
+		forceUpdatingBoundingBox = value;
+	}
+
+	/**
+	 * used for DrawEquationWeb and DrawText in GeoGebraWeb
+	 */
+	public boolean getForceUpdatingBoundingBox() {
+		return forceUpdatingBoundingBox && app.isHTML5Applet();
+	}
 }

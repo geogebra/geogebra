@@ -44,5 +44,5 @@ public class KernelW extends Kernel implements KernelWInterface {
     	return new AlgebraProcessor(kernel, new CommandDispatcherW(kernel));
 		
 	}
-	
+
 }

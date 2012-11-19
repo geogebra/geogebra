@@ -4344,7 +4344,12 @@ public abstract class App {
 	public boolean hasEventDispatcher(){
 		return eventDispatcher != null;
 	}
-	
-	
 
+	/**
+	 * This should not be used, just overriden in AppW
+	 */
+	public void scheduleUpdateConstruction() {
+		kernel.getConstruction().updateConstruction();
+		kernel.notifyRepaint();
+	}
 }
