@@ -4657,6 +4657,17 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
+			
+
+			this.geos = geos;
+			return update();
+		}
+		
+		public void updateVisualStyle(GeoElement geo) {
+			update();
+		}
+
+		public JPanel update() {
 			// check geos
 			if (!checkGeos(geos))
 				return null;
@@ -4668,7 +4679,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			secondLine.setVisible(!justDisplayFontSize);
 			secondLineVisible = !justDisplayFontSize;
 
-			this.geos = geos;
 
 			cbSize.removeActionListener(this);
 			cbFont.removeActionListener(this);
@@ -4874,10 +4884,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			editPanel.setFont(font);
 		}
 
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
-		}
 	}
 
 	/**
@@ -7455,7 +7461,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			
 			
 			String strDefinition = tfDefinition.getText();
-			if (!strDefinition.equals(getDefText(currentGeo))) 
+			if (strDefinition.length()>0 && !strDefinition.equals(getDefText(currentGeo))) 
 				defInputHandler.processInput(strDefinition);
 			
 			String strCaption = tfCaption.getText();

@@ -333,7 +333,7 @@ public class EuclidianStyleBarStatic {
 					geo.setBackgroundColor(color == null ? null : color);
 					// TODO apply background alpha
 					// --------
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint();
 					needUndo = true;
 				}
 		}
@@ -347,7 +347,7 @@ public class EuclidianStyleBarStatic {
 			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
 					&& geo.getObjectColor() != color) {
 				geo.setObjColor(color);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint();
 				needUndo = true;
 			}
 		}
@@ -367,7 +367,7 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof TextProperties
 					&& ((TextProperties) geo).getFontStyle() != fontStyle) {
 				((TextProperties) geo).setFontStyle(fontStyle);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint();
 				needUndo = true;
 			}
 		}
@@ -385,7 +385,7 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof TextProperties
 					&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
 				((TextProperties) geo).setFontSizeMultiplier(fontSize);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint();
 				needUndo = true;
 			}
 		}
