@@ -214,34 +214,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	public void updateLocation(GeoElement geo) {
-		GPoint location = geo.getSpreadsheetCoords();
-
-		
-		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
-
-			highestUsedColumn = Math.max(highestUsedColumn, location.x);
-			highestUsedRow = Math.max(highestUsedRow, location.y);
-
-			if (location.y >= getRowCount()) {
-				setRowCount(location.y + 1);
-			}
-
-			if (location.x >= getColumnCount()) {
-				// table.setMyColumnCount(location.x + 1);
-				// JViewport cH = spreadsheet.getColumnHeader();
-
-				// bugfix: double-click to load ggb file gives cH = null
-				// if (cH != null) cH.revalidate();
-			}
-			setValueAt(geo, location.y, location.x);
-
-			// add tracing geos to the trace collection
-			if (geo.getSpreadsheetTrace()) {
-				app.getTraceManager().addSpreadsheetTraceGeo(geo);
-			}
-		}
-		
+		updateWithoutTrace(geo);		
 	}
 	
 	public void clearView() {
