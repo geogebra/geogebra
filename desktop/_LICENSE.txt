@@ -1,4 +1,5 @@
 GeoGebra - Dynamic Mathematics for Everyone
+International GeoGebra Institute
 http://www.geogebra.org/
 
                                 LICENSE
@@ -9,25 +10,22 @@ http://www.geogebra.org/
 2) GeoGebra Language Files and Documentation License:
    Creative Commons Attribution-Share Alike 3.0 or later
 
-3) GeoGebra Installers License:
-   Creative Commons Attribution-Share Alike-Non Commercial 3.0 or later
-   
-4) GeoGebra Web Services including GeoGebraTube:
-   Free for non-commercial use.
-   
-Note for Non-commercial Users (e.g private, schools, or universities)
-  You may use and distribute GeoGebra and GeoGebraTube materials 
-  free of charge at home, in school and universities under the 
-  conditions explained below.
+3) GeoGebra Installers and Web Services including GeoGebraTube:
+   Free for Personal Non-Commercial Use
 
-Note for Commercial Users (e.g. publishers or online schools)
+Note for Personal Non-commercial Users (e.g. students, teachers)
+  You may use GeoGebra and GeoGebraTube free of charge
+  at home and in school under the conditions explained below.
+
+Note for Organizations and for Commercial Users
+  (e.g. publishers, online schools, non-profits, ministries)
   If you would like to use GeoGebra applets, installers, web services
-  (including GeoGebraTube) or documentation for commercial purposes and 
-  put the resulting work under your copyright (e.g. for books, online 
-  courses, or on websites under your own copyright), you can do so by 
-  setting up a collaboration agreement with GeoGebra.
-  Please write to office@geogebra.org for details and we will help you
-  to find a simple and good solution for your specific projects.
+  (including GeoGebraTube) or documentation for commercial purposes
+  (e.g. books, online courses) or distribute them to a large number
+  of people (e.g. mass installation on laptops or tablets), you can
+  do so by setting up a collaboration agreement.
+  Please write to office@geogebra.org for details and we will help
+  you to find a good solution for your specific project.
 
 ------------------------------------------------------------------------
 
@@ -60,60 +58,52 @@ Note for Commercial Users (e.g. publishers or online schools)
    or (at your option) any later version 
    (see http://creativecommons.org/licenses/by-sa/3.0/):
 
-   You are free to copy, distribute, transmit, and adapt GeoGebra 
+   You are free to copy, distribute, transmit, and adapt GeoGebra
    language files and documentation under the following conditions:
-    * Attribution. You must attribute the work
-        (i.e. by linking to http://www.geogebra.org/)
-    * Share Alike. If you alter, transform, or build upon this work,
-        you may distribute the resulting work only under the same,
-        similar or a compatible license.
+     * Attribution. You must attribute the work
+       (i.e. by linking to http://www.geogebra.org/)
+     * Share Alike. If you alter, transform, or build upon this work,
+       you may distribute the resulting work only under the same,
+       similar or a compatible license.
 
    GeoGebra file types that are subject to the abovementioned license:
-    * GeoGebra language files are ...
-        the user interface language files ("translations") for
-        all languages used by the GeoGebra application and applets.
-        They are part of every official GeoGebra binary distribution.
-    * GeoGebra documentation files are ...
-        all "GeoGebra Help", "GeoGebra Quickstart" and other
-        documentation files found on the GeoGebra webservers.
+     * GeoGebra language files are ...
+         the user interface language files ("translations") for
+         all languages used by the GeoGebra application and applets.
+         They are part of every official GeoGebra binary distribution.
+     * GeoGebra documentation files are ...
+         all "GeoGebra Help", "GeoGebra Quickstart" and other
+         documentation files found on the GeoGebra webservers.
 
 ------------------------------------------------------------------------
 
-3) GeoGebra Installers License
+3) GeoGebra Installers and GeoGebra Web Services including GeoGebraTube
 
-   All GeoGebra installers (unless stated otherwise explicitly in the 
-   installer itself) are subject to the following Creative Commons 
-   Attribution - Non Commercial - Share Alike License; either 
-   version 3.0 of the License,or (at your option) any later version 
-   (see http://creativecommons.org/licenses/by-nc-sa/3.0/):
+   You are free to copy, distribute, and transmit GeoGebra installers
+   and GeoGebra Web Services including GeoGebraTube under the following
+   conditions:
+     * Attribution. You must attribute the work
+       (i.e. by linking to our website and mentioning GeoGebra)
+     * Non-commercial. You may not use GeoGebra installers or
+       web services for commercial purposes unless you have
+       explicit permission from office@geogebra.org
+     * Personal Use. You may not use or distribute GeoGebra installers
+       or GeoGebra Web Services to more than 1000 people per year
+       unless you have explicit permission from office@geogebra.org
 
-   You are free to copy, distribute, transmit, and adapt GeoGebra 
-   installers under the following conditions:
-    * Attribution. You must attribute the work
-        (i.e. by linking to http://www.geogebra.org/)
-    * Non-commercial. You may not use our installers for commercial 
-        purposes (unless you have explicit permission from
-        office@geogebra.org).
-    * Share Alike. If you alter, transform, or build upon this work,
-        you may distribute the resulting work only under the same,
-        similar or a compatible license.
+   GeoGebra Installers are ...
+     official installation packages that let you install the GeoGebra
+     software, materials and/or documentation files on your operating
+     system (e.g. Windows, Mac OS, Chrome, Android, iOS, etc.)
+     including GeoGebra WebStart.
 
-   GeoGebra installers are ...
-        installation packages that let you install the GeoGebra 
-        application and/or documentation files on your system 
-        (MS Windows, Mac OS, Linux, Chrome, Android, iOS, etc.) 
-        including GeoGebra WebStart.
-		
+   GeoGebra Web Services including GeoGebraTube are ...
+     all GeoGebra pages, materials, embed codes, web APIs and other
+     web services provided via the websites http://www.geogebra.org,
+     http://www.geogebratube.org, http://geogebraweb.appspot.com
+     and any of their subdomains.
+
 ------------------------------------------------------------------------
-
-4) GeoGebra Web Services including GeoGebraTube:   
-
-   You are free to use GeoGebra's Web Services (including GeoGebraTube 
-   embed codes and other web service APIs) from http://www.geogebra.org, 
-   http://www.geogebratube.org, http://geogebraweb.appspot.com/ and 
-   any subdomains under the following conditions:
-    * Attribution. You must attribute our web services
-        (i.e. by linking to our website and mentioning GeoGebra)
-    * Non-commercial. You may not use our web services or link to our
-        websites for commercial purposes (unless you have explicit 
-        permission from office@geogebra.org).
+International GeoGebra Institute
+Wolfauerstr 90, 4040 Linz, Austria
+office@geogebra.org
