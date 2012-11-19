@@ -886,7 +886,6 @@ public class AppW extends App {
 	 */
 	@Override
 	public String getLanguage() {
-		App.debug("getLanguage");
 		return getLocaleStr().substring(0, 2);
 	}
 
@@ -926,7 +925,6 @@ public class AppW extends App {
 	String language = "en";
 
 	public void setLanguage(final String lang) {
-				            //	event.setMessage(app.getPlain("CloseApplicationLoseUnsavedData"));
 		
 		if (lang.equals(language)) {
 			setLabels(); 
@@ -982,9 +980,7 @@ public class AppW extends App {
 	}
 
 	public void setLanguage(String language, String country) {
-		App.debug("setLanguage");
-		
-		
+				
 		if (language == null || "".equals(language)) {
 			App.warn("error calling setLanguage(), setting to English (US): "+language+"_"+country);
 			setLanguage("en");
@@ -996,7 +992,6 @@ public class AppW extends App {
 		}this.
 		
 		setLanguage(language+"_"+country);
-		//setLanguage("de");
 	}
 	
 	void setLabels() {
