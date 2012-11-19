@@ -221,7 +221,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 			return;
 
 		geo.setLabelVisible(true);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint();
 
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 

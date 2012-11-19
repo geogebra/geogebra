@@ -170,4 +170,9 @@ public class AnimationStepPanel
 		label.setFont(font);
 		tfAnimStep.setFont(font);
 	}
+
+	public void updateVisualStyle(GeoElement geo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

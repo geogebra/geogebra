@@ -253,10 +253,11 @@ public class EuclidianStyleBarStatic {
 					geo.setLabelMode(index - 1);
 				}
 			}
-			geo.updateRepaint();
+			geo.updateVisualStyle();
 			needUndo = true;
 		}
 		
+		app.getKernel().notifyRepaint();
 		return needUndo;
 	}
 
@@ -270,7 +271,7 @@ public class EuclidianStyleBarStatic {
 					|| geo.getLineThickness() != lineSize) {
 				geo.setLineType(lineStyle);
 				geo.setLineThickness(lineSize);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint();
 				needUndo = true;
 			}
 		}
@@ -288,11 +289,12 @@ public class EuclidianStyleBarStatic {
 						|| (((PointProperties) geo).getPointStyle() != pointStyle)) {
 					((PointProperties) geo).setPointSize(pointSize);
 					((PointProperties) geo).setPointStyle(pointStyle);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint();
 					needUndo = true;
 				}
 			}
 		}
+		
 		return needUndo;
 	}
 	

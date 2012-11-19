@@ -460,4 +460,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 		speedPanel.updateFonts();
 		
 	}
+
+	public void updateVisualStyle(GeoElement geo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

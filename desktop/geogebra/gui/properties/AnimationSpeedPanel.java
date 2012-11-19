@@ -218,4 +218,9 @@ public class AnimationSpeedPanel
 		
 		tfAnimSpeed.setFont(font);
 	}
+
+	public void updateVisualStyle(GeoElement geo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -146,6 +146,10 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public void add(GeoElement geo) {
 		update(geo);
 	}
+	
+	private void addWithoutTrace(GeoElement geo) {
+		updateWithoutTrace(geo);
+	}
 
 	public void remove(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
@@ -159,7 +163,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		if (location != null) {
 			doRemove(geo, location.y, location.x);
 		}
-		add(geo);
+		addWithoutTrace(geo);
 	}
 
 	private void doRemove(GeoElement geo, int row, int col) {
@@ -167,7 +171,17 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		updateHighestUsedColAndRow(col, row);
 	}
 
-	public void update(GeoElement geo) {
+	public void update(GeoElement geo){
+		updateWithoutTrace(geo);
+
+		// trace value
+		if (!isIniting && geo.getSpreadsheetTrace()) {
+			app.getTraceManager().traceToSpreadsheet(geo);
+		}
+		
+	}
+	
+	private void updateWithoutTrace(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 
 		
@@ -196,11 +210,6 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			}
 		}
 
-		// trace value
-		if (!isIniting && geo.getSpreadsheetTrace()) {
-			app.getTraceManager().traceToSpreadsheet(geo);
-		}
-		
 		
 	}
 

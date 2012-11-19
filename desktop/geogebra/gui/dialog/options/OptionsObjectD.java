@@ -265,7 +265,9 @@ public class OptionsObjectD extends
 	 * @param geo
 	 */
 	public void rename(GeoElement geo) {
-		propPanel.updateSelection(new GeoElement[] { geo });
+		if (selection != null && selection.size() == 1
+				&& selection.contains(geo))
+			propPanel.updateOneGeoName(geo);
 	}
 
 	/**
@@ -278,12 +280,16 @@ public class OptionsObjectD extends
 		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
 		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null
 		// && selection.contains(geo)));
+		
+		/*
 		if (selection != null && selection.contains(geo))
 			propPanel.updateSelection(selection.toArray()); // TODO update only
 															// first tab, set
 															// flag to others
-		// propPanel.updateCurrentTab(selection.toArray()); //TODO update only
-		// first tab, set flag to others
+			*/												 
+															 
+															 
+		propPanel.updateVisualStyle(geo);
 
 	}
 

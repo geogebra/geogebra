@@ -2477,6 +2477,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		this.caption = caption2.trim();
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @return caption as stored in geo
+	 */
+	public String getCaptionSimple(){
+		return caption;
+	}
 
 	/**
 	 * Caption string (with substitutions)
