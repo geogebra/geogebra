@@ -1387,7 +1387,8 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 
 	public void repaint() {
 		//TODO implementation needed
-		table.repaint();
+		if (isShowing())
+			table.repaint();
 	}
 
 	public void scheduleRepaint() {
