@@ -37,7 +37,7 @@
 
     <set-property
         name="gwt.logging.enabled"
-        value="TRUE" />
+        value="FALSE" />
 
     <set-property
         name="gwt.logging.logLevel"

@@ -23,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.GestureChangeEvent;
+import com.google.gwt.event.dom.client.GestureChangeHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.logging.client.HasWidgetsLogHandler;
@@ -77,7 +79,19 @@ public class EuclidianViewM extends EuclidianView
 		this.g2p = new GGraphics2DW(this.canvas);
 
 		TouchDelegate touchDelegate = new TouchDelegate(this.canvas);
+		this.canvas.addTouchStartHandler(new com.google.gwt.event.dom.client.TouchStartHandler(){
 
+			@Override
+			public void onTouchStart(
+					com.google.gwt.event.dom.client.TouchStartEvent event) {
+				event.preventDefault();
+				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getTouches().get(0).getPageX(), event.getTouches()
+				    .get(0).getPageY());
+				
+			}
+			
+		});
+		
 		touchDelegate.addTouchStartHandler(new TouchStartHandler()
 		{
 
@@ -97,6 +111,19 @@ public class EuclidianViewM extends EuclidianView
 			}
 		});
 
+		this.canvas.addTouchMoveHandler(new com.google.gwt.event.dom.client.TouchMoveHandler()
+		{
+
+			@Override
+			public void onTouchMove(
+					com.google.gwt.event.dom.client.TouchMoveEvent event) {
+				event.preventDefault();
+				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getTouches().get(0).getPageX(), event.getTouches().get(0)
+				    .getPageY());				
+			}
+			
+		});
+		
 		touchDelegate.addTouchMoveHandler(new TouchMoveHandler()
 		{
 
@@ -111,6 +138,19 @@ public class EuclidianViewM extends EuclidianView
 			}
 		});
 
+		this.canvas.addTouchEndHandler(new com.google.gwt.event.dom.client.TouchEndHandler()
+		{
+
+			@Override
+			public void onTouchEnd(
+					com.google.gwt.event.dom.client.TouchEndEvent event) {
+				event.preventDefault();
+				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getChangedTouches().get(0).getPageX(), event
+				    .getChangedTouches().get(0).getPageY());
+				
+			}
+			
+		});
 		touchDelegate.addTouchEndHandler(new TouchEndHandler()
 		{
 			@Override
@@ -127,6 +167,15 @@ public class EuclidianViewM extends EuclidianView
 				// event.getTouches().length());
 			}
 		});
+		
+		this.canvas.addGestureChangeHandler(new GestureChangeHandler() {
+			
+			@Override
+			public void onGestureChange(GestureChangeEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		touchDelegate.addPinchHandler(new PinchHandler()
 		{
@@ -134,14 +183,12 @@ public class EuclidianViewM extends EuclidianView
 			@Override
 			public void onPinch(PinchEvent event)
 			{
-				EuclidianViewM.this.g2p.scale(event.getScaleFactor(), event.getScaleFactor());
-				// ((MobileController)
-				// EuclidianViewM.this.getEuclidianController()).onPinch(event.getX(),
-				// event.getY(), event.getScaleFactor());
-
-				// EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " (" +
-				// event.getX() + "/" + event.getY() + ")" + "; " +
-				// event.getScaleFactor());
+				 ((MobileController)EuclidianViewM.this.getEuclidianController()).onPinch(event.getX(),
+				 event.getY(), event.getScaleFactor());
+				 
+//				 EuclidianViewM.logger.log(Level.INFO, event.toDebugString() + " (" +
+//				 event.getX() + "/" + event.getY() + ")" + "; " +
+//				 event.getScaleFactor());
 			}
 		});
 
