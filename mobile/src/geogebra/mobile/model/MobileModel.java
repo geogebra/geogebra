@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.main.MyError;
 import geogebra.mobile.gui.elements.Picker;
@@ -189,7 +190,7 @@ public class MobileModel
 		return null;
 	}
 
-	private GeoElement getElementFrom(Test[] geoclass)
+	public GeoElement getElementFrom(Test[] geoclass)
 	{
 		for (int i = 0; i < geoclass.length; i++)
 		{
@@ -308,6 +309,53 @@ public class MobileModel
 					&& getNumberOf(Test.GEOLINE) >= 1;
 			break;
 
+		// commands that need two points or one point and one line or two lines
+		// or one segment or a circle
+		case DistanceOrLength: // TODO
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
+					Test.GEOSEGMENT, Test.GEOCONIC });
+			draw = getNumberOf(Test.GEOPOINT) >= 2
+					|| (getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOLINE) >= 1)
+					|| getNumberOf(Test.GEOLINE) >= 2
+					|| getNumberOf(Test.GEOSEGMENT) >= 1
+					|| getNumberOf(Test.GEOCONIC) >= 1;
+			break;
+
+		// commands that need one line and any other object
+		case ReflectObjectAboutLine:
+			if (!select(hits, Test.GEOLINE, 1) && hits.size() > 0)
+			{
+				select(hits.get(0));
+			}
+			draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
+			break;
+
+		// commands that need one line and any other object
+		case ReflectObjectAboutCircle:
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
+					Test.GEOPOLYGON, Test.GEOPOLYLINE, Test.GEOCURVECARTESIAN,
+					Test.GEOIMPLICITPOLY });
+			draw = getNumberOf(Test.GEOCONIC) >= 1 && getTotalNumber() >= 2;
+			break;
+
+		// commands that need one point and any other object
+		case ReflectObjectAboutPoint:
+			if (!select(hits, Test.GEOPOINT, 1) && hits.size() > 0)
+			{
+				select(hits.get(0));
+			}
+			draw = getNumberOf(Test.GEOPOINT) >= 1 && getTotalNumber() >= 2;
+			break;
+
+		// commands that need one vector and any other object
+		case TranslateObjectByVector:
+			if (!select(hits, Test.GEOVECTOR, 1) && hits.size() > 0)
+			{
+				select(hits.get(0));
+			}
+			draw = getNumberOf(Test.GEOVECTOR) >= 1 && getTotalNumber() >= 2;
+			break;
+
 		// commands that need one point or line and one circle or conic
 		case Tangents:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
@@ -350,6 +398,15 @@ public class MobileModel
 		case Hyperbola:
 			select(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 3;
+			break;
+
+		// commands that need two points or one circle or one segment
+		case Compasses: // TODO
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
+					Test.GEOSEGMENT });
+			draw = getNumberOf(Test.GEOPOINT) >= 2
+					|| getNumberOf(Test.GEOCONIC) >= 1
+					|| getNumberOf(Test.GEOSEGMENT) >= 1;
 			break;
 
 		// commands that need three points or two lines
@@ -503,6 +560,56 @@ public class MobileModel
 				newElements.add(this.kernel.getAlgoDispatcher().Parabola(null,
 						(GeoPoint) getElement(Test.GEOPOINT),
 						(GeoLine) getElement(Test.GEOLINE)));
+				break;
+			case DistanceOrLength:
+				// TODO: EuclidianController.distance
+				break;
+			case ReflectObjectAboutLine:
+				// get the line that was selected last
+				GeoLine line = getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) getElement(
+						Test.GEOLINE, 1) : (GeoLine) getElement(Test.GEOLINE);
+				deselect(line);
+				for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
+						null, this.selectedElements.get(0), line))
+				{
+					newElements.add(e);
+				}
+				break;
+			case ReflectObjectAboutCircle:
+				// get the circle that was selected last
+				GeoConic circle = getNumberOf(Test.GEOCONIC) > 1 ? (GeoConic) getElement(
+						Test.GEOCONIC, 1)
+						: (GeoConic) getElement(Test.GEOCONIC);
+				deselect(circle);
+				for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
+						null, this.selectedElements.get(0), circle))
+				{
+					newElements.add(e);
+				}
+				break;
+			case ReflectObjectAboutPoint:
+				// get the point that was selected last
+				GeoPoint mirrorPoint = getNumberOf(Test.GEOPOINT) > 1 ? (GeoPoint) getElement(
+						Test.GEOPOINT, 1)
+						: (GeoPoint) getElement(Test.GEOPOINT);
+				deselect(mirrorPoint);
+				for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
+						null, this.selectedElements.get(0), mirrorPoint))
+				{
+					newElements.add(e);
+				}
+				break;
+			case TranslateObjectByVector:
+				// get the point that was selected last
+				GeoVector vector = getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) getElement(
+						Test.GEOVECTOR, 1)
+						: (GeoVector) getElement(Test.GEOVECTOR);
+				deselect(vector);
+				for (GeoElement e : this.kernel.getAlgoDispatcher().Translate(
+						null, this.selectedElements.get(0), vector))
+				{
+					newElements.add(e);
+				}
 				break;
 			case Tangents:
 				GeoElement[] lines;
