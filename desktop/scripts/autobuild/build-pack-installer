@@ -24,7 +24,6 @@ CLASSES=1
 PURGE=1
 DELSRC=1
 LOGFILE=/tmp/build-pack-installer.log
-CV=4.2
 JOGL=1
 STOPONECJERR=1
 TESTURL="http://dev.geogebra.org/~build/www-autobuild"
@@ -43,8 +42,7 @@ while [ $# -gt 0 ]; do
    echo "Usage: $0 [options]"
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help         This help"
-   echo "  -cv [version]             Set GeoGebra compilation version: 4.2 (default) or 5.0"
-   echo "  -J [version]              Set JOGL version for 5.0 ($JOGL)"
+   echo "  -J [version]              Set JOGL version ($JOGL)"
    echo "  -j [dir]                  Set JAVA_HOME to dir"
    echo "  -np, --no-purge           Do not purge certain directories before SVN update"
    echo "  -nd, --no-delete-src      Do not delete sources before SVN update"
@@ -58,11 +56,6 @@ while [ $# -gt 0 ]; do
    echo "  -l [logfile]              Use logfile instead of /tmp/build-pack-installer.log"
    echo "  -v, --verbose             Be verbose whenever possible"
    exit 0
-   ;;
-
-  -cv)
-   shift
-   CV="$1"
    ;;
 
   -J)
@@ -168,19 +161,9 @@ runstep() {
 
 
 # 4. Some more settings
-if [ "$CV" = "4.2" ]; then
- PROJECT=geogebra
- MYDIR=test42
- else
-  if [ "$CV" = "5.0" ]; then
-  PROJECT=geogebra3D
-  MYDIR=test50
-  fi
- fi
-if [ "$PROJECT" = "" ]; then
- echo "Unknown GeoGebra version: $CV"
- exit 1
- fi
+PROJECT=geogebra3D
+MYDIR=test50
+
 if [ "$WWWDIR" = "" ]; then
  echo "WWWDIR is not set, exiting for safety reasons"
  exit 2
@@ -235,7 +218,7 @@ fi
 
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
-runstep 6 .build "Building" ./make-vanilla-jars -c -cv $CV -J $JOGL
+runstep 6 .build "Building" ./make-vanilla-jars -c -J $JOGL
 cd $WORKDIR
 ECJRESULT=`tail -1 .ecjlog`
 log "Eclipse Compiler for Java (ecj) found $ECJRESULT"
@@ -274,7 +257,7 @@ cp -R * $WWWDIR/$MYDIR || exit 4
 
 # 10/2. Copying static files
 log "Copying static files"
-cp -R $WORKDIR/webstart/$CV/* $WWWDIR/$MYDIR || exit 4
+cp -R $WORKDIR/webstart/5.0/* $WWWDIR/$MYDIR || exit 4
 cp $WORKDIR/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
 mkdir -p $WWWDIR/$MYDIR/usb
 cp $WORKDIR/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
@@ -295,11 +278,11 @@ cd $WWWDIR/$MYDIR
 TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g`
 for i in `ls -1 *.html *.jnlp 2>/dev/null`; do
     cat $i | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"$TESTURLSED\/$MYDIR\/unsigned\/unpacked"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/usb-gomotion"/"$TESTURLSED\/$MYDIR\/usb-gomotion.ggb"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"$TESTURLSED\/$MYDIR\/debug"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"$TESTURLSED\/$MYDIR\/unpacked\/"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"$TESTURLSED\/$MYDIR\/"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/unsigned"/"$TESTURLSED\/$MYDIR\/unsigned\/unpacked"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/usb-gomotion"/"$TESTURLSED\/$MYDIR\/usb-gomotion.ggb"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/debug"/"$TESTURLSED\/$MYDIR\/debug"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/jnlp\/"/"$TESTURLSED\/$MYDIR\/unpacked\/"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/"/"$TESTURLSED\/$MYDIR\/"/g | \
      sed s/"<\/title>"/" ($MYVER)<\/title>"/g | \
      grep -v "association mime-type" | \
      grep -v packEnabled \
@@ -317,14 +300,12 @@ for i in geogebra geogebra_main; do
 # 10/5. Removing .svn subdirectories from $WWWDIR
 find $WWWDIR -name .svn | xargs rm -fR
 
-# 10/6. Copying JNLP's to debug as well (5.0 only):
-if [ "$CV" = "5.0" ]; then
- for i in 1 2; do
-  cat $WWWDIR/$MYDIR/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
-   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
-   > $WWWDIR/$MYDIR/debug/geogebra-50-jogl$i.jnlp
-  done
- fi
+# 10/6. Copying JNLP's to debug as well:
+for i in jogl1 jogl2 no3d; do
+ cat $WWWDIR/$MYDIR/geogebra-50-$i.jnlp | sed s/unpacked/debug/g |\
+  sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
+  > $WWWDIR/$MYDIR/debug/geogebra-50-$i.jnlp
+ done
 
 # Disabling since the build server should offer http access:
 # 11. rsync-www on demand
