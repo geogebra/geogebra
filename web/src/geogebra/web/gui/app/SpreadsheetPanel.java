@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.web.main.AppW;
 
@@ -58,7 +59,9 @@ public class SpreadsheetPanel extends ResizeComposite {
 	public void showSpreadsheetView() {
 		if (application != null && spreadsheet == null) {
 			spreadsheet = ((AppW)application).getGuiManager().getSpreadsheetView();
+			((MyTableW)spreadsheet.getSpreadsheetTable()).setRepaintAll();
 			tempsheet.add(spreadsheet);
+			((MyTableW)spreadsheet.getSpreadsheetTable()).repaint();
 			onResize();
 		}
 	}
