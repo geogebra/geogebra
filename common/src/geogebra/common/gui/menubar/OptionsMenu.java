@@ -3,6 +3,7 @@ package geogebra.common.gui.menubar;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * This class is not a superclass of OptionsMenu, only  common method stack
@@ -201,18 +202,22 @@ public class OptionsMenu {
 		menuLabeling.setSelected(pos);
 	}
 	
+	// ie just {3,1,2,0}
+	final private static int [] capturingMenuOrder = { EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, EuclidianStyleConstants.POINT_CAPTURING_ON, EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, EuclidianStyleConstants.POINT_CAPTURING_OFF };
+
 	public void addPointCapturingMenu(MenuInterface menu){		
 		menuPointCapturing = app.getFactory().newRadioButtonMenuBar(app);
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
 				app.getMenu("FixedToGrid"), app.getMenu("off") };
-		String[] strPointCapturingAC = { "3 PointCapturing",
-				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
+		String[] strPointCapturingAC = { capturingMenuOrder[0]+" PointCapturing",
+				capturingMenuOrder[1]+" PointCapturing", capturingMenuOrder[2]+" PointCapturing", capturingMenuOrder[3]+" PointCapturing" };
 		menuPointCapturing.addRadioButtonMenuItems((MyActionListener)menu,
 				strPointCapturing, strPointCapturingAC, 0, false);
 		app.addMenuItem(menu, "magnet2.gif", app.getMenu("PointCapturing"), true, menuPointCapturing);
 		
 		updateMenuPointCapturing();
 	}
+	
 	
 	/**
 	 * Update the point capturing menu.
@@ -222,7 +227,7 @@ public class OptionsMenu {
 			return;
 
 		int pos = app.getActiveEuclidianView().getPointCapturingMode();
-		menuPointCapturing.setSelected(pos);
+		menuPointCapturing.setSelected(capturingMenuOrder[pos]);
 	}
 	
 	public void addFontSizeMenu(MenuInterface menu){
