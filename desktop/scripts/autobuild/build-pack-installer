@@ -212,8 +212,8 @@ $SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revisi
 # 5/2. Downloading newest 3rd party libraries and installer tools
 if [ "$THIRDPARTY" = 1 ]; then
 runstep 52 .kickstart "Downloading build/pack tools" ant -f kickstart.xml geogebra5-packager-commandline
-cd installer
 if [ "$INSTALLERS" = 1 ]; then
+ cd installer
  runstep 52 .installer "Downloading installer tools" ant
  fi
 
