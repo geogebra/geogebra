@@ -46,9 +46,15 @@ public class GGWSpreadsheetView extends ResizeComposite {
 			MySplitLayoutPanel mp = (MySplitLayoutPanel)
 				((AppW)application).getAppFrame().getGGWSplitLayoutPanel();
 
-			if (spreadsheetview.getSpreadsheetPanel().getSpreadsheet() == null)
-				if (mp.getWidgetSize(mp.getGGWSpreadsheetView()) > 0)
+			if (spreadsheetview.getSpreadsheetPanel().getSpreadsheet() == null) {
+				if (mp.getWidgetSize(mp.getGGWSpreadsheetView()) > 0) {
 					showSpreadsheetView(true);
+				}
+			} else {
+				if (mp.getWidgetSize(mp.getGGWSpreadsheetView()) <= 0) {
+					showSpreadsheetView(false);
+				}
+			}
 
 			if (spreadsheetview.getSpreadsheetPanel().getSpreadsheet() != null) {
 
@@ -59,9 +65,11 @@ public class GGWSpreadsheetView extends ResizeComposite {
 					(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
 				getSpreadsheetStyleBar()).getOffsetHeight();
 
-				// In theory, the ScrollPanel is the innermost thing which should be resized
 				spreadsheet.getScrollPanel().setWidth(width+"px");
 				spreadsheet.getScrollPanel().setHeight(height+"px");
+
+				spreadsheet.getFocusPanel().setWidth(width+"px");
+				spreadsheet.getFocusPanel().setHeight(height+"px");
 			}
 		}
     }
