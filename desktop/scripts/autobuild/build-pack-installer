@@ -29,6 +29,7 @@ JOGL=1
 STOPONECJERR=1
 TESTURL="http://dev.geogebra.org/~build/www-autobuild"
 THIRDPARTY=1
+INSTALLERS=1
 if [ "$WWWDIR" = "" ]; then
  WWWDIR=/home/build/www-autobuild
  fi
@@ -51,6 +52,7 @@ while [ $# -gt 0 ]; do
    echo "  -nc, --no-classes         Do not (re)compile classes"
    echo "  -ne, --no-ecj-err         Do not stop on an ecj error"
    echo "  -nt, --no-third-party     Do not download any third-party components"
+   echo "  -ni, --no-installers      Do not create installers"
    echo "  -tu [url]                 Test URL ($TESTURL), points to WWWDIR ($WWWDIR)"
    echo "  -r [revision]             Use revision instead of latest"
    echo "  -l [logfile]              Use logfile instead of /tmp/build-pack-installer.log"
@@ -95,6 +97,10 @@ while [ $# -gt 0 ]; do
 
   -nt | --no-third-party)
    THIRDPARTY=0
+   ;;
+
+  -nt | --no-installers)
+   INSTALLERS=0
    ;;
 
   -r)
@@ -206,8 +212,10 @@ $SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revisi
 # 5/2. Downloading newest 3rd party libraries and installer tools
 if [ "$THIRDPARTY" = 1 ]; then
 runstep 52 .kickstart "Downloading build/pack tools" ant -f kickstart.xml geogebra5-packager-commandline
-# cd installer
-# runstep 52 .installer "Downloading installer tools" ant
+cd installer
+if [ "$INSTALLERS" = 1 ]; then
+ runstep 52 .installer "Downloading installer tools" ant
+ fi
 
 # 5/3. Downloading/updating JOGL
 cd ../jogl$JOGL
@@ -248,7 +256,9 @@ runstep 72 .jartest "Testing packed JARs" ./test-packed-jars
 cd $WORKDIR
 
 # 8. Creating Windows and Mac OS X installer
-# runstep 8 .installer "Creating installers" ant -f installer.xml
+if [ "$INSTALLERS" = 1 ]; then
+ runstep 8 .installer "Creating installers" ant -f installer.xml
+ fi
 
 # 9/1. Copying and text replacing
 log "Recreating $WWWDIR/$MYDIR directory"

@@ -103,7 +103,7 @@ while [ $# -gt 0 ]; do
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $ORIGDIR
-  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE -nt $JH $JT || exit $?
+  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE -ni $JH $JT || exit $?
   cd ../..
   rm -fR build-jogl$i
   cp -a build build-jogl$i
