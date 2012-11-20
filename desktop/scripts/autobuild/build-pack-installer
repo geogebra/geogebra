@@ -206,11 +206,11 @@ $SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revisi
 # 5/2. Downloading newest 3rd party libraries and installer tools
 if [ "$THIRDPARTY" = 1 ]; then
 runstep 52 .kickstart "Downloading build/pack tools" ant -f kickstart.xml geogebra5-packager-commandline
-cd installer
-runstep 52 .installer "Downloading installer tools" ant
+# cd installer
+# runstep 52 .installer "Downloading installer tools" ant
 
 # 5/3. Downloading/updating JOGL
-cd ../../jogl$JOGL
+cd ../jogl$JOGL
 runstep 53 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full
 runstep 53 .kickstart "Downloading/updating JOGL$JOGL" ant -f kickstart.xml
 runstep 53 .get-all "Downloading all JOGL$JOGL related packages" ./get-all
@@ -248,7 +248,7 @@ runstep 72 .jartest "Testing packed JARs" ./test-packed-jars
 cd $WORKDIR
 
 # 8. Creating Windows and Mac OS X installer
-runstep 8 .installer "Creating installers" ant -f installer.xml
+# runstep 8 .installer "Creating installers" ant -f installer.xml
 
 # 9/1. Copying and text replacing
 log "Recreating $WWWDIR/$MYDIR directory"
