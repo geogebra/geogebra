@@ -532,7 +532,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		try {
 			
 
-			exportEPS(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, printingScale);
+			exportEPS(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, exportScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file);
