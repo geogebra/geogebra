@@ -59,11 +59,6 @@ while [ $# -gt 0 ]; do
    exit 0
    ;;
 
-  -cv)
-   shift
-   CV="$1"
-   ;;
-
   -J)
    shift
    JOGL="$1"

@@ -2,7 +2,6 @@
 # The JOGL juggler. Creates a mixture of build directory from JOGL1 and JOGL2 builds.
 
 MYDIR=test50
-CV=5.0
 COMPILE=0
 WWWDIR=/home/build/www-autobuild
 JNLP=1
@@ -103,7 +102,7 @@ while [ $# -gt 0 ]; do
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $ORIGDIR
-  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i $TP $EE -ni $JH $JT || exit $?
+  ./build-pack-installer -l /tmp/jogler.log $L $TU -J $i $TP $EE -ni $JH $JT || exit $?
   cd ../..
   rm -fR build-jogl$i
   cp -a build build-jogl$i
