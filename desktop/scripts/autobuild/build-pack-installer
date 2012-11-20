@@ -5,7 +5,7 @@
 # 1. Start and loading configuration
 test -r autobuild.conf || {
  echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
- exit 1
+ # exit 1
  }
 test -r autobuild.conf && . ./autobuild.conf
 
