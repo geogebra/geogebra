@@ -99,7 +99,7 @@ while [ $# -gt 0 ]; do
    THIRDPARTY=0
    ;;
 
-  -nt | --no-installers)
+  -ni | --no-installers)
    INSTALLERS=0
    ;;
 
