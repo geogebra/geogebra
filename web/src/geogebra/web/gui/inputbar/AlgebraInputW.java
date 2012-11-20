@@ -6,9 +6,10 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
+import geogebra.web.Web;
+import geogebra.web.Web.GuiToLoad;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -66,7 +67,12 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	    inputPanel = new InputPanelW(null,app,30,true);
 	    
 	    inputField = inputPanel.getTextComponent();
-	    int inputWidth = Window.getClientWidth() - 120;
+	    int inputWidth;
+	    if(Web.currentGUI.equals(GuiToLoad.VIEWER)){	    
+	    	inputWidth = app.getDataParamWidth()-120;
+	    } else {
+	    	inputWidth = Window.getClientWidth() - 120;
+	    }
 	    inputField.getTextBox().setWidth(inputWidth+"px");
 	    
 	    inputField.getTextBox().addKeyUpHandler(this);
