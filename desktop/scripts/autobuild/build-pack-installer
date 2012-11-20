@@ -44,6 +44,7 @@ while [ $# -gt 0 ]; do
    echo "  -h, -help, --help         This help"
    echo "  -cv [version]             Set GeoGebra compilation version: 4.2 (default) or 5.0"
    echo "  -J [version]              Set JOGL version for 5.0 ($JOGL)"
+   echo "  -j [dir]                  Set JAVA_HOME to dir"
    echo "  -np, --no-purge           Do not purge certain directories before SVN update"
    echo "  -nd, --no-delete-src      Do not delete sources before SVN update"
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
@@ -65,6 +66,11 @@ while [ $# -gt 0 ]; do
   -J)
    shift
    JOGL="$1"
+   ;;
+
+  -j)
+   shift
+   JAVA_HOME="$1"
    ;;
 
   -ng | --no-grammar)
