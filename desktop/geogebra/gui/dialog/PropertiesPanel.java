@@ -1392,14 +1392,15 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public JPanel update(Object[] geos) {
+			
+			if (!checkGeos(geos))
+				return null;
+			
 			this.geos = geos;
 			return update();
 		}
 		
 		public JPanel update() {
-
-			if (!checkGeos(geos))
-				return null;
 
 			GeoElement geo0 = (GeoElement) geos[0];
 
@@ -1718,6 +1719,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
+
+			if (!checkGeos(geos))
+				return null;
+			
 			this.geos = geos;
 			return update();
 		}
@@ -1727,8 +1732,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
-			if (!checkGeos(geos))
-				return null;
 
 			showLabelCB.removeItemListener(this);
 			labelModeCB.removeActionListener(this);
@@ -4310,6 +4313,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
+			
+			// check geos
+			if (!checkGeos(geos))
+				return null;
+			
 			this.geos = geos;
 			return update();
 		}
@@ -4319,9 +4327,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
+
 
 			slider.removeChangeListener(this);
 
@@ -4446,6 +4452,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
+			
+			// check geos
+			if (!checkGeos(geos))
+				return null;
+			
 			this.geos = geos;
 			return update();
 		}
@@ -4455,9 +4466,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
+
 
 
 			// set value to first point's style
@@ -4657,7 +4666,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			
+
+			// check geos
+			if (!checkGeos(geos))
+				return null;
 
 			this.geos = geos;
 			return update();
@@ -4668,9 +4680,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
 
 			// hide most options for Buttons / Textfields
 			cbFont.setVisible(!justDisplayFontSize);
@@ -5720,6 +5729,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
+			
+			// check geos
+			if (!checkGeos(geos))
+				return null;
 
 			this.geos = geos;
 			return update();
@@ -5730,9 +5743,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
+
 
 			slider.removeChangeListener(this);
 			dashCB.removeActionListener(this);
@@ -5893,7 +5904,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-
+			
+			// check geos
+			if (!checkGeos(geos))
+				return null;
+			
 			this.geos = geos;
 			return update();
 		}
@@ -5903,9 +5918,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
+
 
 			// set value to first line's style
 			GeoElement geo0 = (GeoElement) geos[0];
