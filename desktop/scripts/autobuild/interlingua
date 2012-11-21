@@ -41,7 +41,7 @@
 # instead of
 #   foo=foo:%0,%1
 
-cd ../geogebra/properties
+cd ../desktop/geogebra/properties
 for f in menu colors symbols error command plain; do
     grep -v '^[ \t]*#' $f.properties \
     | sed "h;s/\([^%]\)[0-9]/\1/g;s/[^%0-9]//g;s/%/,%/g;x;s/\([^=]*\)=.*/\1=\1_$f/;G;s/\n,/:/;s/:$//" \
