@@ -478,7 +478,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	private void appendUndefined(StringBuilder sb1, double num1) {
 		
     	//sb1.append("\\text{");
-    	//sb1.append(app.getPlain("undefined"));
+    	//sb1.append(app.getPlain("Undefined"));
     	//sb1.append("}");
 		
 		// eg SurdText[1.23456789012345] returns 1.23456789012345

@@ -109,7 +109,7 @@ public class AlgoFractionText extends AlgoElement {
 			
 
 		} else
-			text.setTextString(app.getPlain("undefined"));
+			text.setTextString(app.getPlain("Undefined"));
 	}
   
     /*	Algorithm To Convert A Decimal To A Fraction

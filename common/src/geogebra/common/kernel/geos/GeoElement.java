@@ -4235,7 +4235,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isDefined()) {
 			return toValueString(tpl);
 		}
-		return app.getPlain("undefined");
+		return app.getPlain("Undefined");
 	}
 
 	/**
@@ -4325,7 +4325,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final StringBuilder sbAlgebraDesc = new StringBuilder();
 			sbAlgebraDesc.append(label);
 			sbAlgebraDesc.append(' ');
-			sbAlgebraDesc.append(app.getPlain("undefined"));
+			sbAlgebraDesc.append(app.getPlain("Undefined"));
 			return sbAlgebraDesc.toString();
 			
 	}
@@ -4343,7 +4343,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);
 				sbAlgebraDesc.append(' ');
-				sbAlgebraDesc.append(app.getPlain("undefined"));
+				sbAlgebraDesc.append(app.getPlain("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4365,7 +4365,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				strAlgebraDescription = toStringMinimal(tpl);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
-				sbAlgebraDesc.append(app.getPlain("undefined"));
+				sbAlgebraDesc.append(app.getPlain("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4392,7 +4392,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isDefined() && !isInfinite()) {
 				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			} else {
-				strLaTeX = app.getPlain("undefined");
+				strLaTeX = app.getPlain("Undefined");
 			}
 		}
 
@@ -4429,7 +4429,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			// isLatexNeeded may return true
 			sb.append(label);
 			sb.append("\\,");
-			sb.append(app.getPlain("undefined"));
+			sb.append(app.getPlain("Undefined"));
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if ((algebraDesc.indexOf(":") > -1) & !geo.isGeoText()) {
@@ -5969,7 +5969,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
-				ret = app.getPlain("undefined");
+				ret = app.getPlain("Undefined");
 			} else if ((Unicode.Infinity + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MinusInfinity + "").equals(ret)) {

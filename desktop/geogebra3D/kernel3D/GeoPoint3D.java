@@ -768,7 +768,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isInfinite())
-			return app.getPlain("undefined");
+			return app.getPlain("Undefined");
 
 		StringBuilder sbToString = getSbBuildValueString();
 

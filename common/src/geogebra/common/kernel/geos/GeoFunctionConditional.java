@@ -369,7 +369,7 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	private String toString(StringTemplate tpl, boolean symbolic) {
 		if (!isDefined())
-			return app.getPlain("undefined");
+			return app.getPlain("Undefined");
 
 		// for CAS, translate to CAS format :)
 		if (tpl.hasType(StringType.MATH_PIPER)
