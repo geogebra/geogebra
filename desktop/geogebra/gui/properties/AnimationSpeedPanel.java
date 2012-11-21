@@ -2,6 +2,7 @@ package geogebra.gui.properties;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -96,7 +97,7 @@ public class AnimationSpeedPanel
 
 	public JPanel update(Object[] geos) {		
 		this.geos = geos;
-		if (!checkGeos(geos))
+		if (!checkGeos(geos,partOfSliderPanel))
 			return null;
 
 		tfAnimSpeed.removeActionListener(this);
@@ -139,27 +140,29 @@ public class AnimationSpeedPanel
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {
-		boolean geosOK = true;
+	/**
+	 * Checks whether geos are are points on path or (if apprpriate) sliders
+	 * @param geos geos
+	 * @param showSliders flag whether we shall return false even for sliders 
+	 * @return whether geos are points on path or sliders
+	 */
+	protected static boolean checkGeos(Object[] geos, boolean showSliders) {		
 		for (int i = 0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];
-			if (!geo.isChangeable() 
-					|| geo.isGeoText() 
-					|| geo.isGeoImage()
-					|| (geo instanceof GeoButton)
-					|| geo.isGeoList()
-					|| geo.isGeoBoolean()
-					|| (geo.isGeoPoint() && !geo.isPointOnPath())
-					|| !partOfSliderPanel && geo.isGeoNumeric() && geo.isIndependent() // slider						
-			)  
-			{				
-				geosOK = false;
-				break;
+			
+			if(geo.isPointOnPath() || geo.getDefaultGeoType() == ConstructionDefaults.DEFAULT_POINT_ON_PATH){
+				if(!geo.isChangeable())
+					return false;
+			}else if(geo.isGeoNumeric() &&  geo.isIndependent()){
+					if(!showSliders || !geo.isChangeable()) //slider  
+						return false; 											
+			}else{
+				return false;
 			}
 		}
 		
 		
-		return geosOK;
+		return true;
 	}
 
 	/**
