@@ -3,17 +3,8 @@
 F=wix-license.rtf
 
 # Creating workfile:
-W=.work.rtf
 cat head.rtf > $F
-cat ../../../../_LICENSE.txt > $W
-echo >> $W
-echo >> $W
-echo "----------------------------------------------------------------------" >> $W
-cat ../../../../_README.txt | tail -n +3 >> $W
 
-# Appending to the RTF:
-cat $W | awk '{printf ("%s\\par\r\n", $0)}' >> $F
+# Appending the license file to the RTF:
+cat ../../../../geogebra/gui/_license.txt | awk '{printf ("%s\\par\r\n", $0)}' >> $F
 /usr/bin/printf "}\x0d\n\00" >> $F
-
-# Cleanup
-rm -f $W
