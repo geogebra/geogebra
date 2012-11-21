@@ -1,6 +1,5 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;

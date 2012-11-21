@@ -1,6 +1,5 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -8,7 +7,7 @@ import geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public interface GeoPlaneND extends Region, GeoCoordSys2D{
+public interface GeoPlaneND extends GeoCoordSys2D{
 	
 	/**
 	 * sets the fading for the "ends" of the plane 
