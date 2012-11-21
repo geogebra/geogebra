@@ -6592,9 +6592,10 @@ public abstract class EuclidianController {
 		// repaintNeeded = noHighlighting ? refreshHighlighting(null) :
 		// refreshHighlighting(hits)
 		// || repaintNeeded;
-	
-		repaintNeeded = noHighlighting ? refreshHighlighting(null, event)
-				: refreshHighlighting(tempFullHits, event) || repaintNeeded;
+
+		repaintNeeded = repaintNeeded ||
+			(noHighlighting ? refreshHighlighting(null, event)
+							: refreshHighlighting(tempFullHits, event));
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
