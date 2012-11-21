@@ -598,7 +598,7 @@ public class AppW extends App {
 		}
 
 
-		String ret = getCommandNative(language, crossReferencingPropertiesKeys(key));
+		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "command");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("command key not found: "+key);
@@ -646,7 +646,7 @@ public class AppW extends App {
 			while (commandKeysIterator != null && commandKeysIterator.hasNext()) {
 				key = commandKeysIterator.next();
 
-				if (StringUtil.toLowerCase(getCommandNative(language, key))
+				if (StringUtil.toLowerCase(getPropertyNative(language, key, "command"))
 				        .equals(aCommand)) {
 					return key;
 				}
@@ -689,10 +689,10 @@ public class AppW extends App {
 			return key;
 		}
 
-		String ret = getPlainNative(language, crossReferencingPropertiesKeys(key));
+		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "plain");
 		
 		if (ret == null || "".equals(ret)) {
-			App.debug("plain key not found: "+key);
+			App.debug("plain key not found: "+key+" "+ret);
 			return key;
 		}
 		
@@ -745,7 +745,7 @@ public class AppW extends App {
 			return key;
 		}
 
-		String ret = getMenuNative(language, crossReferencingPropertiesKeys(key));
+		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "menu");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
@@ -756,66 +756,26 @@ public class AppW extends App {
 	
 	}
 	
-	public native String getMenuNative(String language, String key) /*-{
-		if ($wnd["__GGB__menuKeysVar"+language]) {
-			// translated
-			return $wnd["__GGB__menuKeysVar"+language][key];
-		} else {
-			// English
-			return  $wnd.__GGB__menuKeysVaren[key];
-		}
-	}-*/;
-
-	public native String getPlainNative(String language, String key) /*-{
-		if ($wnd["__GGB__plainKeysVar"+language]) {
-			// translated
-			return $wnd["__GGB__plainKeysVar"+language][key];
-		} else {
-			// English
-			return  $wnd.__GGB__plainKeysVaren[key];
-		}
-	}-*/;
-
-	public native String getSymbolNative(String language, String key) /*-{
-		if ($wnd["__GGB__symbolsKeysVar"+language]) {
-			// translated
-			return $wnd["__GGB__symbolsKeysVar"+language][key];
-		} else {
-			// English
-			return  $wnd.__GGB__symbolsKeysVaren[key];
-		}
-	}-*/;
-
-	public native String getErrorNative(String language, String key) /*-{
+	//
+	/*
+	 * eg __GGB__keysVar.en.command.Ellipse
+	 */
+	public native String getPropertyNative(String language, String key, String section) /*-{
 		
-		if ($wnd["__GGB__errorKeysVar"+language]) {
+		//if (!$wnd["__GGB__keysVar"]) {
+		//	return "languagenotloaded";
+		//}
+		
+		if ($wnd["__GGB__keysVar"][language]) {
 			// translated
-			return $wnd["__GGB__errorKeysVar"+language][key];
+			return $wnd["__GGB__keysVar"][language][section][key];
 		} else {
-			// English
-			return  $wnd.__GGB__errorKeysVaren[key];
+			// English (always available)
+			return $wnd["__GGB__keysVar"]["en"][section][key];
 		}
+		
 	}-*/;
 
-	public native String getCommandNative(String language, String key) /*-{
-		if ($wnd["__GGB__commandKeysVar"+language]) {
-			// translated
-			return $wnd["__GGB__commandKeysVar"+language][key];
-		} else {
-			// English
-			return  $wnd.__GGB__commandKeysVaren[key];
-		}
-	}-*/;
-
-	public native String getColorsNative(String language, String key) /*-{
-		if ($wnd["__GGB__colorsKeysVar"+language]) {
-			// translated
-			return $wnd["__GGB__colorsKeysVar"+language][key];
-		} else {
-			// English
-			return  $wnd.__GGB__colorsKeysVaren[key];
-		}
-	}-*/;
 
 	@Override
 	public String getError(String key) {
@@ -829,7 +789,7 @@ public class AppW extends App {
 			return key;
 		}
 
-		String ret = getErrorNative(language, crossReferencingPropertiesKeys(key));
+		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "error");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("error key not found: "+key);
@@ -1028,9 +988,9 @@ public class AppW extends App {
 	private Dictionary getCommandDict() {
 		if (commandDictionary == null) {
 			try {
-				commandDictionary = Dictionary.getDictionary("__GGB__commandKeysVar"+language);
+				commandDictionary = Dictionary.getDictionary("__GGB__dictionary_"+language);
 			} catch (MissingResourceException e) {
-				commandDictionary = Dictionary.getDictionary("__GGB__commandKeysVaren");
+				commandDictionary = Dictionary.getDictionary("__GGB__dictionary_en");
 				App.error("Missing Dictionary " + language);
 			}
 		}
@@ -1943,7 +1903,7 @@ public class AppW extends App {
 			return null;
 		}
 
-		String ret = getSymbolNative(language, "S"+key);
+		String ret = getPropertyNative(language, "S"+key, "symbol");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
@@ -1961,7 +1921,7 @@ public class AppW extends App {
 			return null;
 		}
 
-		String ret = getSymbolNative(language, "T"+key);
+		String ret = getPropertyNative(language, "T"+key, "symbol");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
