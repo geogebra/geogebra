@@ -49,7 +49,6 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1116,6 +1115,14 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 	
 	
+	/**
+	 * @param kernel kernel
+	 * @param tpl string template
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param z z-coord
+	 * @param sbBuildValueString string builder
+	 */
 	public static final void buildValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
 		sbBuildValueString.append('(');
 		sbBuildValueString.append(kernel.format(x, tpl));
@@ -1139,7 +1146,14 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		sbBuildValueString.append(')');
 	}
-
+	/**
+	 * @param kernel kernel
+	 * @param tpl string template
+	 * @param toStringMode Kernel.POLAR, Kernel.CARTESIAN, ...
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param sbBuildValueString string builder
+	 */
 	public static final void buildValueString(Kernel kernel, StringTemplate tpl, int toStringMode, double x, double y, StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:

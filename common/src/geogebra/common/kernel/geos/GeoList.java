@@ -2279,11 +2279,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			}
 
 			if (i == 0) {
-				;//here lineTo is false, but it does not matter because it is at start
+				//here lineTo is false, but it does not matter because it is at start
 			} else if (maxPar != null && minPar != null) {
 				if (maxPar == prevMaxPar || minPar == prevMinPar ||
 					maxPar == prevMinPar || minPar == prevMaxPar) {
-					;//here lineTo is true, because the path is continous
+					//here lineTo is true, because the path is continous
 				} else {
 					falses++;
 				}

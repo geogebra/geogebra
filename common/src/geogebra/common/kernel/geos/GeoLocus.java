@@ -429,6 +429,9 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		return fillable;
 	}
 
+	/**
+	 * @param fill whether this can be filled
+	 */
 	public void setFillable(boolean fill) {
 		fillable = fill;
 	}

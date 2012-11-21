@@ -3338,6 +3338,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.notifyUpdate(this);
 	}
 
+	/**
+	 * Same as update(), but do not notify kernel
+	 */
 	protected final void updateGeo() {
 
 		if (labelWanted && !labelSet) {
@@ -3480,7 +3483,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// clear temp set
 		tempSet1.clear();
 		
-		GeoElementND firstGeo = null;
+		
 		
 			final int size = geos.size();
 			for (int i = 0; i < size; i++) {
@@ -3510,6 +3513,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 	}
 	
+	/**
+	 * Updates all objects in a cascade, but only location is updated for
+	 * the locatables in input array
+	 * @param geos locateables
+	 * @param tempSet1 set for temporary storing
+	 * @param updateCascadeAll true to update cascade
+	 */
 	final static public synchronized void updateCascadeLocation(
 			final ArrayList<Locateable> geos,
 			final TreeSet<AlgoElement> tempSet1,
@@ -3572,8 +3582,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		// build update set of all algorithms in construction element order
 		// clear temp set
 		tempSet2.clear();
-		
-		GeoElement firstGeo = null;
 		
 	
 			final int size = geos.size();
