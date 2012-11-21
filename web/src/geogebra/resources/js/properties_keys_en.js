@@ -2556,3 +2556,4 @@ __GGB__keysVar.en.symbols = {
 }
 
 var __GGB__dictionary_en = __GGB__keysVar.en.command;
+var __GGB__colors_en=__GGB__keysVar.en.colors;

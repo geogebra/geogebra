@@ -1368,7 +1368,7 @@ public class AppW extends App {
 
 		try {
 
-			Dictionary colorKeysDict = Dictionary.getDictionary("__GGB__colorKeysVar"+language);
+			Dictionary colorKeysDict = Dictionary.getDictionary("__GGB__colors_"+language);
 			Iterator<String> colorKeysIterator = colorKeysDict.keySet()
 			        .iterator();
 			while (colorKeysIterator != null && colorKeysIterator.hasNext()) {
