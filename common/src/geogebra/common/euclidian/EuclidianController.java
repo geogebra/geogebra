@@ -329,7 +329,32 @@ public abstract class EuclidianController {
 	protected boolean mouseIsOverLabel = false;
 
 	protected EuclidianView view;
-	
+
+	protected boolean collectingRepaints = false; // if true, some repaints may be omitted
+
+	protected boolean collectedRepaints = false; // whether to repaint when collectingRepaints set to false
+
+	/**
+	 * Start collecting the minor repaints (view.repaintView's not at the end of the events)
+	 * This method may be called more times before stopCollectingMinorRepaints
+	 */
+	public void startCollectingMinorRepaints() {
+		if (!collectingRepaints)
+			collectedRepaints = false;
+		collectingRepaints = true;
+	}
+
+	/**
+	 * Stop collecting the minor repaints (view.repaintView's not at the end of the events)
+	 * @return: whether there was any repaint catched
+	 */
+	public boolean stopCollectingMinorRepaints() {
+		if (!collectingRepaints)
+			return false;
+		collectingRepaints = false;
+		return collectedRepaints;
+	}
+
 	// ==============================================
 	// Pen
 
@@ -3613,7 +3638,7 @@ public abstract class EuclidianController {
 		clearJustCreatedGeos();
 	
 		// clear highlighting
-		refreshHighlighting(null, null);
+		refreshHighlighting(null, null); // this may call repaint
 	}
 
 
@@ -5642,7 +5667,10 @@ public abstract class EuclidianController {
 	
 				view.getPreviewDrawable().updateMousePos(xRW, yRW);
 			}
-			view.repaintView();
+			if (collectingRepaints)
+				collectedRepaints = true;
+			else
+				view.repaintView();
 		}
 	
 		return changedKernel;
@@ -6593,12 +6621,17 @@ public abstract class EuclidianController {
 		// refreshHighlighting(hits)
 		// || repaintNeeded;
 
+		startCollectingMinorRepaints();
 		if (noHighlighting ?
 			refreshHighlighting(null, event) :
 			refreshHighlighting(tempFullHits, event)) {
 
 			kernel.notifyRepaint();
+			stopCollectingMinorRepaints();
 		} else if (repaintNeeded) {
+			view.repaintView();
+			stopCollectingMinorRepaints();
+		} else if (stopCollectingMinorRepaints()) {
 			view.repaintView();
 		}
 	}
@@ -6622,13 +6655,15 @@ public abstract class EuclidianController {
 		if (textfieldHasFocus) {
 			return;
 		}
-			
+
+		startCollectingMinorRepaints();
 		refreshHighlighting(null, event);
 		resetToolTipManager();
 		view.setAnimationButtonsHighlighted(false);
 		view.setShowMouseCoords(false);
 		mouseLoc = null;
 		view.repaintView();
+		stopCollectingMinorRepaints();
 		view.mouseExited();
 		
 	}
@@ -8641,6 +8676,7 @@ public abstract class EuclidianController {
 			removeParentPoints(hits);
 			selectedGeos.addAll(hits);
 			app.setSelectedGeos(hits);
+			startCollectingMinorRepaints();
 			changedKernel = processMode(hits, e);
 			view.setSelectionRectangle(null);
 			break;
@@ -8652,6 +8688,7 @@ public abstract class EuclidianController {
 				if (hits.get(0).isGeoList()) {
 					selectedGeos.addAll(hits);
 					app.setSelectedGeos(hits);
+					startCollectingMinorRepaints();
 					changedKernel = processMode(hits, e);
 					view.setSelectionRectangle(null);
 					break;
@@ -8673,6 +8710,7 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				app.setSelectedGeos(hits);
+				startCollectingMinorRepaints();
 				changedKernel = processMode(hits, e);
 				view.setSelectionRectangle(null);
 			}
@@ -8712,6 +8750,7 @@ public abstract class EuclidianController {
 			app.storeUndoInfo();
 		}
 	
+		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
@@ -8758,7 +8797,9 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				app.setSelectedGeos(hits);
+				startCollectingMinorRepaints();
 				processMode(hits, null);
+
 				view.setSelectionRectangle(null);
 			}
 			break;
@@ -8766,7 +8807,8 @@ public abstract class EuclidianController {
 		default:
 			break;
 		}
-	
+
+		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
@@ -9056,6 +9098,7 @@ public abstract class EuclidianController {
 		// also needed for right-drag
 		else {
 			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
+				startCollectingMinorRepaints();
 				changedKernel = processMode(hits, event);
 			}
 			if (changedKernel) {
@@ -9077,8 +9120,8 @@ public abstract class EuclidianController {
 		} else {
 			view.setHitCursor();
 		}
-	
 
+		startCollectingMinorRepaints();
 		refreshHighlighting(null, event);
 
 	
@@ -9099,12 +9142,11 @@ public abstract class EuclidianController {
 					app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
 			}
 		}
-		
+
+		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
-		
-		
 	}
-	
+
 	/**
 	 * set just created geos as selected (if any)
 	 * @return true if any just created geos

@@ -4523,12 +4523,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		tempArrayList.clear();
 		tempArrayList.add(geo);
 
+		getEuclidianController().startCollectingMinorRepaints();
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
 				event);
 		if (changedKernel) {
 			getApplication().storeUndoInfo();
 		}
 		kernel.notifyRepaint();
+		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	/**
@@ -4683,12 +4685,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			tempArrayList.add(geo);
 			geos = tempArrayList;
 		}
+		getEuclidianController().startCollectingMinorRepaints();
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
 				geos, null);
 		if (repaintNeeded) {
+			getEuclidianController().stopCollectingMinorRepaints();
 			kernel.notifyRepaint();
+		} else if (getEuclidianController().stopCollectingMinorRepaints()) {
+			repaintView();
 		}
-
 	}
 
 	public void highlight(GeoElement geo) {
@@ -4707,10 +4712,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		tempArrayList.addAll(geoList);
 		geos = tempArrayList;
 
+		getEuclidianController().startCollectingMinorRepaints();
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
 				geos, null);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
+			getEuclidianController().stopCollectingMinorRepaints();
+		} else if (getEuclidianController().stopCollectingMinorRepaints()) {
+			repaintView();
 		}
 	}
 
