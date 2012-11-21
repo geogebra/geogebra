@@ -49,11 +49,6 @@ implements Traceable, CoordStyle {
      */
     public GeoVec3D(Construction c) {
     	super(c);
-	
-		// moved from GeoElement's constructor
-		// must be called from the subclass, see
-		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		setConstructionDefaults(); // init visual settings
     }  
     
     /** Creates new GeoVec3D with coordinates (x,y,z) and label 
@@ -65,18 +60,6 @@ implements Traceable, CoordStyle {
     	this(c);    	
        setCoords(x, y, z);
     }                 
-    
-    /** Copy constructor 
-     * @param c construction
-     * @param v vector to copy*/
-    public GeoVec3D(Construction c, GeoVec3D v) {   
-    	this(c); 	
-        set(v);
-    }
-    
-//    public GeoElement copy() {
-//        return new GeoVec3D(this.cons, this);        
-//    }
     
     @Override
 	public boolean isDefined() {

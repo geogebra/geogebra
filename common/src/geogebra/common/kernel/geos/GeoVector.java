@@ -74,7 +74,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 */
 	public GeoVector(Construction c) {
 		super(c); 
-		//setEuclidianVisible(false);
+		setConstructionDefaults();
 	}
 
 	@Override
@@ -94,7 +94,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 * @param y y-coord
 	 * @param z z-coord*/
 	public GeoVector(Construction c, String label, double x, double y, double z) {
-		super(c, x, y, z); // GeoVec3D constructor                 
+		super(c, x, y, z); // GeoVec3D constructor 
+		setConstructionDefaults();
 		setLabel(label); 
 		//setEuclidianVisible(false);
 	}
@@ -104,7 +105,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 * @param vector vector to copy
 	 */
 	public GeoVector(GeoVector vector) {
-		super(vector.cons);
+		this(vector.cons);
 		set(vector);
 		//setEuclidianVisible(false);
 	}

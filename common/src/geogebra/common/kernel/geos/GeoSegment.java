@@ -103,6 +103,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 */
 	public GeoSegment(Construction c){
 		super(c);
+		setConstructionDefaults();
 	}
 	
 	/**

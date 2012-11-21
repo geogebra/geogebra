@@ -43,7 +43,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 * @param A start point
 	 */
 	public GeoRay(Construction c, GeoPoint A) {
-		super(c);		
+		this(c);
 		setStartPoint(A);
 	}
 	
@@ -53,6 +53,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 */
 	public GeoRay(Construction c) {
 		super(c);
+		setConstructionDefaults();
 	}
 
 	@Override

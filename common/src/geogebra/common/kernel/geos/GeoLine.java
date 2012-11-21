@@ -96,6 +96,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	public GeoLine(Construction c) {
 		super(c);
+		setConstructionDefaults();
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param mode string mode (GeoLine.EQUATION_*)
 	 */
 	public GeoLine(Construction c, int mode) {
-		super(c);
+		this(c);
 		setMode(mode);
 	}
 
@@ -119,6 +120,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	public GeoLine(Construction cons, String label, double a, double b, double c) {
 		super(cons, a, b, c); // GeoVec3D constructor
+		setConstructionDefaults();
 		setLabel(label);
 	}
 	/**
@@ -126,7 +128,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param line line to copy
 	 */
 	public GeoLine(GeoLine line) {
-		super(line.cons);
+		this(line.cons);
 		set(line);
 	}
 

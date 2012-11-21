@@ -122,6 +122,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	public GeoPoint(Construction c) {
 		super(c);
+		setConstructionDefaults();
 		setAnimationType(ANIMATION_INCREASING);
 		setUndefined();
 
@@ -151,6 +152,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	public GeoPoint(Construction c, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor
+		setConstructionDefaults();
 		setAnimationType(ANIMATION_INCREASING);
 		this.setIncidenceList(null);
 	}
@@ -161,6 +163,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	public GeoPoint(Construction c, Path path) {
 		super(c);
+		setConstructionDefaults();
 		setAnimationType(ANIMATION_INCREASING);
 		this.path = path;
 	}
@@ -172,6 +175,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	public GeoPoint(Construction c, Region region) {
 		super(c);
+		setConstructionDefaults();
 		this.region = region;
 	}
 
@@ -223,6 +227,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	public GeoPoint(GeoPoint point) {
 		super(point.cons);
+		setConstructionDefaults();
 		set((GeoElement) point);
 	}
 

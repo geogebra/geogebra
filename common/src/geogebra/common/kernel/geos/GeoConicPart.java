@@ -75,6 +75,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 	public GeoConicPart(Construction c, int type) {
 		super(c);
 		conic_part_type = type;
+		setConstructionDefaults();
 	}
 
 	/**

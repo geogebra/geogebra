@@ -73,7 +73,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 			pointsPathNode, pointsInRegionNode, pointsComplexNode;
 
 	private DefaultMutableTreeNode lineNode, segmentNode, vectorNode,
-			conicNode, conicSectorNode;
+			conicNode, conicSectorNode, rayNode;
 
 	private DefaultMutableTreeNode numberNode, angleNode;
 
@@ -198,6 +198,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		pointsComplexNode = new DefaultMutableTreeNode();
 		lineNode = new DefaultMutableTreeNode();
 		segmentNode = new DefaultMutableTreeNode();
+		rayNode = new DefaultMutableTreeNode();
 		vectorNode = new DefaultMutableTreeNode();
 		conicNode = new DefaultMutableTreeNode();
 		conicSectorNode = new DefaultMutableTreeNode();
@@ -222,6 +223,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 
 		rootNode.add(lineNode);
 		rootNode.add(segmentNode);
+		rootNode.add(rayNode);
 		rootNode.add(vectorNode);
 		rootNode.add(conicNode);
 		rootNode.add(conicSectorNode);
@@ -261,6 +263,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 				ConstructionDefaults.DEFAULT_POINT_COMPLEX);
 		typeToNode.put(lineNode, ConstructionDefaults.DEFAULT_LINE);
 		typeToNode.put(segmentNode, ConstructionDefaults.DEFAULT_SEGMENT);
+		typeToNode.put(rayNode, ConstructionDefaults.DEFAULT_RAY);
 		typeToNode.put(vectorNode, ConstructionDefaults.DEFAULT_VECTOR);
 		typeToNode.put(conicNode, ConstructionDefaults.DEFAULT_CONIC);
 		typeToNode.put(conicSectorNode,
@@ -320,6 +323,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		pointsComplexNode.setUserObject(app.getPlain("ComplexNumber"));
 		lineNode.setUserObject(app.getPlain("Line"));
 		segmentNode.setUserObject(app.getPlain("Segment"));
+		rayNode.setUserObject(app.getPlain("Ray"));
 		vectorNode.setUserObject(app.getPlain("Vector"));
 		conicNode.setUserObject(app.getPlain("Conic"));
 		conicSectorNode.setUserObject(app.getPlain("Sector"));

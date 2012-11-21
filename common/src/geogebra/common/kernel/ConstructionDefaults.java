@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
@@ -74,6 +75,8 @@ public class ConstructionDefaults {
 	 * stored in preferences by mistake
 	 */
 	public static final int DEFAULT_INEQUALITY_1VAR = 24;
+	/** default ray */
+	public static final int DEFAULT_RAY = 25;
 
 	/** default vector */
 	public static final int DEFAULT_VECTOR = 30;
@@ -316,6 +319,13 @@ public class ConstructionDefaults {
 		seg.setObjColor(colLine);
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
+		
+		// segment
+				GeoRay ray = new GeoRay(cons);
+				ray.setLocalVariableLabel("Segment");
+				ray.setObjColor(colLine);
+				ray.setDefaultGeoType(DEFAULT_RAY);
+				defaultGeoElements.put(DEFAULT_RAY, ray);
 
 		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);
 		// inequality.setLocalVariableLabel("Inequality");
@@ -613,6 +623,9 @@ public class ConstructionDefaults {
 		case SEGMENT:
 			type = DEFAULT_SEGMENT;
 			break;
+		case RAY:
+			type = DEFAULT_RAY;
+			break;	
 
 		}
 
