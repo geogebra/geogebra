@@ -330,29 +330,38 @@ public abstract class EuclidianController {
 
 	protected EuclidianView view;
 
-	protected boolean collectingRepaints = false; // if true, some repaints may be omitted
+	protected int collectingRepaints = 0; // if greater than 0, some repaints may be omitted
 
-	protected boolean collectedRepaints = false; // whether to repaint when collectingRepaints set to false
+	protected boolean collectedRepaints = false; // whether to repaint when collectingRepaints set to 0
 
 	/**
 	 * Start collecting the minor repaints (view.repaintView's not at the end of the events)
-	 * This method may be called more times before stopCollectingMinorRepaints
+	 * This method may be called more times, but there should be
+	 * one stopCollectingMinorRepaints for one startCollectingMinorRepaints
+	 * in the same method (and repaint can be done if every level is closed)
 	 */
 	public void startCollectingMinorRepaints() {
-		if (!collectingRepaints)
+
+		if (collectingRepaints < 0) // should not happen, just in case
+			collectingRepaints = 0;
+
+		if (collectingRepaints == 0)
 			collectedRepaints = false;
-		collectingRepaints = true;
+		collectingRepaints++;
 	}
 
 	/**
 	 * Stop collecting the minor repaints (view.repaintView's not at the end of the events)
-	 * @return: whether there was any repaint catched
+	 * 
+	 * @return: whether the actual method shall repaint anything
 	 */
 	public boolean stopCollectingMinorRepaints() {
-		if (!collectingRepaints)
+		if (collectingRepaints <= 0)
 			return false;
-		collectingRepaints = false;
-		return collectedRepaints;
+		collectingRepaints--;
+		if (collectingRepaints == 0)
+			return collectedRepaints;
+		return false;
 	}
 
 	// ==============================================
@@ -642,7 +651,11 @@ public abstract class EuclidianController {
 		if (doUpdateSelection) {
 			app.clearSelectedGeos();
 		}
-		view.repaintView();
+
+		if (collectingRepaints > 0)
+			collectedRepaints = true;
+		else
+			view.repaintView();
 	}
 
 	protected final void clearSelection(ArrayList<?> selectionList) {
@@ -3616,6 +3629,8 @@ public abstract class EuclidianController {
 	 */
 	public void clearSelections(boolean repaint, boolean updateSelection) {
 
+		startCollectingMinorRepaints();
+
 		clearSelection(selectedNumbers, false);
 		clearSelection(selectedNumberValues, false);
 		clearSelection(selectedPoints, false);
@@ -3630,15 +3645,22 @@ public abstract class EuclidianController {
 		clearSelection(selectedLists, false);
 		clearSelection(selectedPaths, false);
 		clearSelection(selectedRegions, false);
-	
+
 		app.clearSelectedGeos(repaint,updateSelection);
-	
+		if (repaint) {
+			stopCollectingMinorRepaints();
+			startCollectingMinorRepaints();
+		}
+
 		// if we clear selection and highlighting,
 		// we may want to clear justCreatedGeos also
 		clearJustCreatedGeos();
 	
 		// clear highlighting
 		refreshHighlighting(null, null); // this may call repaint
+
+		if (stopCollectingMinorRepaints())
+			view.repaintView();
 	}
 
 
@@ -5667,7 +5689,7 @@ public abstract class EuclidianController {
 	
 				view.getPreviewDrawable().updateMousePos(xRW, yRW);
 			}
-			if (collectingRepaints)
+			if (collectingRepaints > 0)
 				collectedRepaints = true;
 			else
 				view.repaintView();
@@ -8640,7 +8662,11 @@ public abstract class EuclidianController {
 			}
 
 	protected void processSelectionRectangle(AbstractEvent e) {
+
+		startCollectingMinorRepaints();
+
 		clearSelections();
+
 		view.setHits(view.getSelectionRectangle());
 		Hits hits = view.getHits();
 	
@@ -8676,7 +8702,6 @@ public abstract class EuclidianController {
 			removeParentPoints(hits);
 			selectedGeos.addAll(hits);
 			app.setSelectedGeos(hits);
-			startCollectingMinorRepaints();
 			changedKernel = processMode(hits, e);
 			view.setSelectionRectangle(null);
 			break;
@@ -8688,7 +8713,6 @@ public abstract class EuclidianController {
 				if (hits.get(0).isGeoList()) {
 					selectedGeos.addAll(hits);
 					app.setSelectedGeos(hits);
-					startCollectingMinorRepaints();
 					changedKernel = processMode(hits, e);
 					view.setSelectionRectangle(null);
 					break;
@@ -8710,7 +8734,6 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				app.setSelectedGeos(hits);
-				startCollectingMinorRepaints();
 				changedKernel = processMode(hits, e);
 				view.setSelectionRectangle(null);
 			}
@@ -8755,6 +8778,9 @@ public abstract class EuclidianController {
 	}
 
 	protected void processSelection() {
+
+		startCollectingMinorRepaints();
+
 		Hits hits = new Hits();
 		hits.addAll(app.getSelectedGeos());
 		clearSelections();
@@ -8797,7 +8823,6 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				app.setSelectedGeos(hits);
-				startCollectingMinorRepaints();
 				processMode(hits, null);
 
 				view.setSelectionRectangle(null);
@@ -9048,6 +9073,8 @@ public abstract class EuclidianController {
 			changedKernel = switchModeForMouseReleased(mode, hits,
 					changedKernel);
 		}
+
+		startCollectingMinorRepaints();
 	
 		// remember helper point, see createNewPoint()
 		if (changedKernel && !changedKernel0) {
@@ -9077,7 +9104,8 @@ public abstract class EuclidianController {
 		}
 		pointCreated = false;
 		// Michael Borcherds 2007-12-08 END
-	
+
+
 		if (temporaryMode) {
 	
 			// Michael Borcherds 2007-10-13 BEGIN
@@ -9098,7 +9126,6 @@ public abstract class EuclidianController {
 		// also needed for right-drag
 		else {
 			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-				startCollectingMinorRepaints();
 				changedKernel = processMode(hits, event);
 			}
 			if (changedKernel) {
@@ -9121,18 +9148,15 @@ public abstract class EuclidianController {
 			view.setHitCursor();
 		}
 
-		startCollectingMinorRepaints();
 		refreshHighlighting(null, event);
 
-	
 		// reinit vars
 		// view.setDrawMode(EuclidianConstants.DRAW_MODE_BACKGROUND_IMAGE);
 		moveMode = MOVE_NONE;
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
-		
 
-		
+
 		if (!setJustCreatedGeosSelected()){ //first try to set just created geos as selected
 			//if none, do specific stuff for properties view
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {//prevent objects created by a script
