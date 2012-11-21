@@ -104,12 +104,6 @@ echo "$WARNINGS warnings during chmod'ing web files"
 
 ### TODO: Copy the missing parts here from deployggb4* ###
 
-# 6/2. Deploying Windows portable as well:
-cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows
-./create_geogebra_portable
-
-### TODO: Copy the missing parts here from deployggb4* ###
-
 # 8. Copying the Windows installer and the Mac OS X version to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
@@ -129,6 +123,10 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  WINDOWS_INSTALLER_EXE=GeoGebra-Windows-Installer-`echo $MYVER | tr . -`.exe
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_INSTALLER_EXE
+
+ # Creating and deploying Windows portable as well:
+ cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows
+ ./create_geogebra_portable
 
  # Now dealing with the Mac OS X bundle...
  MACOSX_ZIP=GeoGebra_`echo $MYVER | tr . -`.zip
