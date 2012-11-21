@@ -415,6 +415,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param n
 	 *            order
+	 * @param skipCASfallback when true, answer is computed without CAS; in case of failure null is returned
 	 * @return derivative
 	 * 
 	 */

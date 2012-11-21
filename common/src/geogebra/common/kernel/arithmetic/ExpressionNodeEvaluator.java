@@ -47,7 +47,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return left.evaluate(tpl); // for wrapping ExpressionValues as
 			// ValidExpression
 		}
-		String[] str;
 
 		ExpressionValue right = expressionNode.getRight();
 		Operation operation = expressionNode.getOperation();
@@ -189,9 +188,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
-	 * @param lt
-	 * @param rt
+	 * Checks whether first object equals second
+	 * @param kernel kernel
+	 * @param lt first object
+	 * @param rt second object
 	 * @return false if not defined
 	 */
 	public static MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
@@ -263,7 +263,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyDouble num;
 		MyBoolean bool;
 		GeoVec2D vec, vec2;
-		Polynomial poly;
 		String[] str;
 		ExpressionValue lt = lt1;
 		ExpressionValue rt = rt1;

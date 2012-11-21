@@ -17,7 +17,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
-import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;

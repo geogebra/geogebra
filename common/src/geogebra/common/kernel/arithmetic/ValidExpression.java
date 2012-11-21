@@ -17,7 +17,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.main.App;
 
 import java.util.Set;
 import java.util.Vector;
