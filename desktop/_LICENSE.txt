@@ -89,7 +89,10 @@ Note for Organizations and for Commercial Users
        explicit permission from office@geogebra.org
      * Personal Use. You may not use or distribute GeoGebra installers
        or GeoGebra Web Services to more than 1000 people per year
-       unless you have explicit permission from office@geogebra.org
+       unless you have explicit permission from office@geogebra.org.
+       We would like to collaborate closely with large scale
+       distributors in order to provide the best possible support
+       for your specific project.
 
    GeoGebra Installers are ...
      official installation packages that let you install the GeoGebra
