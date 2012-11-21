@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra3D.euclidian3D.EuclidianView3D;
@@ -53,7 +54,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 			
 		case Z_AXIS_3D:
 			setCoord(EuclidianView3D.o,EuclidianView3D.vz);
-			label = "zAxis3D";
+			label = "zAxis";
 			setAxisLabel("z");
 			setObjColor(new geogebra.awt.GColorD(Color.BLUE));
 			break;
@@ -189,5 +190,14 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return true;
 	}
 
+	
+	@Override
+	public String getLabel(StringTemplate tpl) {
+		if (tpl.isPrintLocalizedCommandNames()) {
+			return app.getPlain(label);
+		}
+		return label;
+
+	}
 
 }

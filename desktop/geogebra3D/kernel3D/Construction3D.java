@@ -130,8 +130,6 @@ public class Construction3D extends Construction {
 		geoTable.put(spaceLocalName, space);	
 		
 		
-		
-		
 	}
 	
 	

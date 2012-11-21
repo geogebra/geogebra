@@ -94,4 +94,14 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		// used for commands that should need a direction, like OrthogonalLine
 		return null;
 	}
+	
+
+	@Override
+	public String getLabel(StringTemplate tpl) {
+		if (tpl.isPrintLocalizedCommandNames()) {
+			return app.getPlain(label);
+		}
+		return label;
+
+	}
 }

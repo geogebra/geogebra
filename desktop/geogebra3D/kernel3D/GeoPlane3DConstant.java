@@ -68,4 +68,14 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 		return label;
 	}
 	
+
+	@Override
+	public String getLabel(StringTemplate tpl) {
+		if (tpl.isPrintLocalizedCommandNames()) {
+			return app.getPlain(label);
+		}
+		return label;
+
+	}
+	
 }
