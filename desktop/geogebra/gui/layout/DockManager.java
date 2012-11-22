@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.DockPanelData;
@@ -829,13 +830,19 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// determine ancestor element of the event source which is of type
 		// dock panel
 		Component source = (Component)event.getSource();
-//		System.out.println("    source: " + source);
+		//System.out.println("    source: " + source);
 		DockPanel dp = (DockPanel)SwingUtilities.getAncestorOfClass(DockPanel.class, source);
 		
 		// ignore this if we didn't hit a dock panel at all or if we hit the euclidian
 		// view, they are always handled by their own mouse event (see doc comment above)
 		if(dp != null && !(dp.getComponent() instanceof EuclidianViewJPanel)) {
-			setFocusedPanel(dp);
+			//updates the properties view only if source is not the euclidian style bar
+			boolean updatePropertiesView = true;
+			if (source instanceof EuclidianStyleBar)
+				updatePropertiesView=false;
+			else if (SwingUtilities.getAncestorOfClass(EuclidianStyleBar.class, source)!=null)
+				updatePropertiesView=false;
+			setFocusedPanel(dp, updatePropertiesView);
 		}
 	}
 	
