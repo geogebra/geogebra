@@ -3649,6 +3649,7 @@ public abstract class EuclidianController {
 		app.clearSelectedGeos(repaint,updateSelection);
 		if (repaint) {
 			stopCollectingMinorRepaints();
+			collectedRepaints = false;
 			startCollectingMinorRepaints();
 		}
 
