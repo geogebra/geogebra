@@ -642,4 +642,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return cmdSet;
 	}
 
+	public void clearCache() {
+		getPolynomialCoeffsCache.clear();		
+	}
+
 }

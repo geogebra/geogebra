@@ -4317,6 +4317,9 @@ public class Kernel {
 		if (ggbCasCache != null) {
 			ggbCasCache.clear();
 		}
+		if(ggbCAS!=null){
+			ggbCAS.clearCache();
+		}
 	}
 
 	/*

@@ -52,4 +52,6 @@ public interface GeoGebraCasInterface {
 
 	public Set<String> getAvailableCommandNames();
 
+	public void clearCache();
+
 }
