@@ -168,14 +168,16 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
 			while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
-			SpanElement ih = equations.get(eqstring);
-			equationAges.put(eqstring, 0);
+			String eqstringid = eqstring + "@" + geo.getID();
+
+			SpanElement ih = equations.get(eqstringid);
+			equationAges.put(eqstringid, 0);
 			if (ih == null) {
 				ih = DOM.createSpan().cast();
 				ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 				drawEquationMathQuill(ih, eqstring,
 					((AppW)app).getCanvas().getCanvasElement().getParentElement());
-				equations.put(eqstring, ih);
+				equations.put(eqstringid, ih);
 
 				// set a flag that the kernel needs a new update
 				app.getKernel().setUpdateAgain(true);
