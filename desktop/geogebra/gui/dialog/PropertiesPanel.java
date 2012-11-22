@@ -4807,7 +4807,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				for (int i = 0; i < geos.length; i++) {
 					text = (TextProperties) geos[i];
 					text.setFontSizeMultiplier(multiplier);
-					((GeoElement) text).updateRepaint();
+					((GeoElement) text).updateVisualStyleRepaint();
 				}
 
 				// update preview panel
@@ -4819,7 +4819,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				for (int i = 0; i < geos.length; i++) {
 					text = (TextProperties) geos[i];
 					text.setSerifFont(serif);
-					((GeoElement) text).updateRepaint();
+					((GeoElement) text).updateVisualStyleRepaint();
 
 					// update preview panel
 					if (textEditPanel != null)
@@ -4860,7 +4860,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				for (int i = 0; i < geos.length; i++) {
 					text = (TextProperties) geos[i];
 					text.setFontStyle(style);
-					((GeoElement) text).updateRepaint();
+					((GeoElement) text).updateVisualStyleRepaint();
 				}
 
 				// update preview panel
@@ -5798,7 +5798,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setLineThickness(size);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint();
 				}
 			}
 		}
@@ -5814,7 +5814,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setLineType(type);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint();
 				}
 			}
 		}

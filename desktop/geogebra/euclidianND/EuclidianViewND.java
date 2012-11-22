@@ -3,6 +3,8 @@ package geogebra.euclidianND;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianControllerD;
@@ -459,5 +461,13 @@ public abstract class EuclidianViewND extends EuclidianView{
 
 
 	
+	
+	
+	
+	@Override
+	public void updateVisualStyle(GeoElement geo) {
+		super.updateVisualStyle(geo);
+		styleBar.updateStyleBar();
+	}
 	
 }
