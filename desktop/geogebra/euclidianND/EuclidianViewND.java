@@ -467,7 +467,8 @@ public abstract class EuclidianViewND extends EuclidianView{
 	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		super.updateVisualStyle(geo);
-		styleBar.updateStyleBar();
+		if(styleBar!=null)
+			styleBar.updateStyleBar();
 	}
 	
 }
