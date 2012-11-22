@@ -847,10 +847,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public void drawImage(GBufferedImage img, int x, int y,
-            GImageObserver observer) {
-		App.debug("drawImage: implementation needed");
-	    
+    public void drawImage(GBufferedImage img, int x, int y) {
+		drawImage(img, null, x, y);
     }
 
 }

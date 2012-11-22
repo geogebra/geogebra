@@ -284,10 +284,7 @@ public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 	}
 	
 	@Override
-	public void drawImage(GBufferedImage img, int x, int y, GImageObserver observer){
-		if (observer != null){
-			App.error("implementation needed  (- GImageObserverD class needed)");
-		}
+	public void drawImage(GBufferedImage img, int x, int y){
 		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
 	}
 	

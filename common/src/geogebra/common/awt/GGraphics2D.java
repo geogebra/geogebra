@@ -123,7 +123,7 @@ public abstract class GGraphics2D {
 			int x, int y);
 	
 	
-	public abstract void drawImage(GBufferedImage img, int x, int y, GImageObserver observer);
+	public abstract void drawImage(GBufferedImage img, int x, int y);
 
 	/**
 	 * Renders a {@link GRenderedImage},
