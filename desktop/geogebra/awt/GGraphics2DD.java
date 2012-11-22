@@ -19,6 +19,7 @@ import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.main.App;
 
 import java.util.Map;
 
@@ -280,7 +281,14 @@ public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x,
 			int y) {
 		impl.drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(img), (geogebra.awt.GBufferedImageOpD) op, x, y);
-		
+	}
+	
+	@Override
+	public void drawImage(GBufferedImage img, int x, int y, GImageObserver observer){
+		if (observer != null){
+			App.error("implementation needed  (- GImageObserverD class needed)");
+		}
+		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
 	}
 	
 	@Override

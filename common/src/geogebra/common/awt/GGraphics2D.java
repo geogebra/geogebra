@@ -122,6 +122,8 @@ public abstract class GGraphics2D {
 	public abstract void drawImage(GBufferedImage img, GBufferedImageOp op,
 			int x, int y);
 	
+	
+	public abstract void drawImage(GBufferedImage img, int x, int y, GImageObserver observer);
 
 	/**
 	 * Renders a {@link GRenderedImage},

@@ -3,6 +3,7 @@ package geogebra.web.awt;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GAttributedCharacterIterator;
 import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GBufferedImageOp;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GComposite;
@@ -842,6 +843,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void drawImage(GImage img, int x, int y) {
 		App.debug("drawImage: implementation needed");
+    }
+
+
+	@Override
+    public void drawImage(GBufferedImage img, int x, int y,
+            GImageObserver observer) {
+		App.debug("drawImage: implementation needed");
+	    
     }
 
 }
