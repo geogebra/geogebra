@@ -161,7 +161,7 @@ cd $SVNDIR/geogebra/desktop/scripts/autobuild
 # 10. Sending an email to geogebra-dev:
 REVISION=`cat $SVNDIR/geogebra/desktop/scripts/autobuild/.revision`
 MAIL="New version of GeoGebra 5.0 has just been uploaded: $MYVER\nhttp://dev.geogebra.org/trac/log/trunk?rev=$REVISION\nAutomatic message, do not reply"
-echo $MAIL | mail -s "deployggb50 report" geogebra-dev@googlegroups.com
+echo $MAIL | ssh -i $MAILSERVERSSHKEY -p$MAILSERVERSSHPORT $MAILSERVERSSHLOGIN mail -s \"deployggb50 report\" $RECIPIENT
 
 # 11. Updating GeoGebraTube application.ini
 # (not very elegant, but works --- FIXME: implement it with a sed one-liner in place)
