@@ -139,7 +139,7 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  MACSIGN_LOGIN=$MACSIGN_USER@$MACSIGN_SERVER
  ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "mkdir -p $MACSIGN_DIR"
  scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACOSX_ZIP_FINAL $MACSIGN_LOGIN:$MACSIGN_DIR/.
- ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "cd $MACSIGN_DIR; unzip -o $MACOSX_ZIP_FINAL; security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain; codesign -v -f -s \"$MACSIGN_DEVID\" GeoGebra.app; rm $MACOSX_ZIP_FINAL; zip -r $MACOSX_ZIP_FINAL GeoGebra.app"
+ ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "cd $MACSIGN_DIR; rm -fR GeoGebra.app; unzip -o $MACOSX_ZIP_FINAL; security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain; codesign -v -f -s \"$MACSIGN_DEVID\" GeoGebra.app; rm $MACOSX_ZIP_FINAL; zip -r $MACOSX_ZIP_FINAL GeoGebra.app"
  scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
 
  # Copying to Google Code:
