@@ -3401,9 +3401,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates this object and all dependent ones. Note: no repainting is done
 	 * afterwards! synchronized for animation
 	 */
-	public void updateCascade() {		
+	public void updateCascade() {
+		app.getActiveEuclidianView().getEuclidianController().startCollectingMinorRepaints();
 		update();
 		updateDependentObjects();
+		app.getActiveEuclidianView().getEuclidianController().stopCollectingMinorRepaints();
+		app.getActiveEuclidianView().repaintView();
 	}
 
 	private void updateDependentObjects() {
