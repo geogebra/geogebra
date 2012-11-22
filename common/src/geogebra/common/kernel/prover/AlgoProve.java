@@ -90,8 +90,14 @@ public class AlgoProve extends AlgoElement {
         	else if ("Area".equalsIgnoreCase(ProverSettings.proverMethod))
         		p.setProverEngine(ProverEngine.OPENGEOPROVER_AREA);
         }  	            
-        else if ("Botana".equalsIgnoreCase(ProverSettings.proverEngine))
+        else if ("Botana".equalsIgnoreCase(ProverSettings.proverEngine)){
             p.setProverEngine(ProverEngine.BOTANAS_PROVER);
+            p.setAlternativeBotana(false);
+        }
+        else if ("alternativeBotana".equalsIgnoreCase(ProverSettings.proverEngine)){
+            p.setProverEngine(ProverEngine.BOTANAS_PROVER);
+            p.setAlternativeBotana(true);
+        }
         else if ("Recio".equalsIgnoreCase(ProverSettings.proverEngine))
             p.setProverEngine(ProverEngine.RECIOS_PROVER);
         else if ("PureSymbolic".equalsIgnoreCase(ProverSettings.proverEngine))

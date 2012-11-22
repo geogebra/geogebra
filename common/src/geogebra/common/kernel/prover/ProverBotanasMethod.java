@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A prover which uses Francisco Botana's method to prove geometric theorems.
@@ -281,6 +282,109 @@ public class ProverBotanasMethod {
 				// FIXME: this always introduces an extra variable, shouldn't do
 				eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
 				if (Polynomial.solvable(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
+					ans = false;
+			}
+			if (ans)
+				return ProofResult.TRUE;
+			return ProofResult.FALSE;
+		} catch (NoSymbolicParametersException e) {
+			return ProofResult.UNKNOWN;
+		}
+	}
+	
+	/**
+	 * Proves the statement by using Botana's method. No ndg-conditions
+	 * are generated.
+	 * @param prover the prover input object 
+	 * @return if the statement is true
+	 */
+	public static ProofResult prove2(geogebra.common.util.Prover prover) {
+		// Getting the hypotheses:
+		Polynomial[] hypotheses = null;
+		GeoElement statement = prover.getStatement();
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			// AbstractApplication.debug(geo);
+			if (geo instanceof SymbolicParametersBotanaAlgo) {
+				try {
+					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
+					if (geoPolys != null) {
+						int nHypotheses = 0;
+						if (hypotheses != null)
+							nHypotheses = hypotheses.length;
+						Polynomial[] allPolys = new Polynomial[nHypotheses + geoPolys.length];
+						for (int i=0; i<nHypotheses; ++i)
+							allPolys[i] = hypotheses[i];
+						for (int i=0; i<geoPolys.length; ++i)
+							allPolys[nHypotheses + i] = geoPolys[i];
+						hypotheses = allPolys;
+					}
+				} catch (NoSymbolicParametersException e) {
+					App.debug(geo.getParentAlgorithm() + " is not fully implemented");
+					return ProofResult.UNKNOWN;
+				}
+			}
+			else {
+				App.debug(geo.getParentAlgorithm() + " unimplemented");
+				return ProofResult.UNKNOWN;
+			}
+		}
+		updateBotanaVarsInv(statement);
+		try {
+			// The sets of statement polynomials.
+			// The last equation of each set will be negated.
+			if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
+				App.debug(statement.getParentAlgorithm() + " unimplemented");
+				return ProofResult.UNKNOWN;
+			}
+				
+			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
+			// The NDG conditions (automatically created):
+			
+			HashMap<Variable,Integer> substitutions = null;
+			if (ProverSettings.useFixCoordinates)
+				substitutions = fixValues(prover); 
+			
+			int nHypotheses = 0;
+			int nStatements = 0;
+			if (hypotheses != null)
+				nHypotheses = hypotheses.length;
+			if (statements != null)
+				nStatements = statements.length;
+						
+			boolean ans = true;
+			// Solving the equation system for each sets of polynomials of the statement:
+			for (int i=0; i<nStatements && ans; ++i) {
+				int nPolysStatement = statements[i].length;
+				Polynomial[] eqSystem = new Polynomial[nHypotheses + nPolysStatement];
+				// These polynomials will be in the equation system always:
+				for (int j=0; j<nHypotheses; ++j)
+					eqSystem[j] = hypotheses[j];
+				for (int j=0; j<nPolysStatement - 1; ++j)
+					eqSystem[j + nHypotheses] = statements[i][j];
+
+				// Rabinowitsch trick for the last polynomial of the current statement:
+				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
+				// FIXME: this always introduces an extra variable, shouldn't do
+				eqSystem[nHypotheses + nPolysStatement - 1] = spoly;
+				
+				Set<Variable> freeVariables = new HashSet<Variable>();				
+				List<GeoElement> freePoints = getFreePoints(statement);
+				Iterator<GeoElement> itFreePoints=freePoints.iterator();
+				
+				while(itFreePoints.hasNext()){
+					GeoElement freePoint=itFreePoints.next();
+					if (freePoint instanceof SymbolicParametersBotanaAlgo){
+						Variable[] vars = ((SymbolicParametersBotanaAlgo)freePoint).getBotanaVars(freePoint);
+						for (Variable var:vars){
+							freeVariables.add(var);
+						}
+					}
+				}
+				
+				
+				if (Polynomial.solvable(eqSystem, freeVariables, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
 					ans = false;
 			}
 			if (ans)

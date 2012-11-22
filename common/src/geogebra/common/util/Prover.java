@@ -195,6 +195,7 @@ public abstract class Prover {
 	}
 	
 	private List<ProverEngine> proverAutoOrder;
+	private boolean useAlternativeBotana;
 
 		
 	/**
@@ -254,7 +255,11 @@ public abstract class Prover {
 				result = ProofResult.UNKNOWN;
 				return;
 			}
-			result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
+			if (useAlternativeBotana){
+				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove2(this);
+			} else {
+				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
+			}
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
 			result = reciosProver.prove(this);
@@ -342,6 +347,16 @@ public abstract class Prover {
 	 */
 	public void setReturnExtraNDGs(boolean returnExtraNDGs) {
 		this.returnExtraNDGs = returnExtraNDGs;
+	}
+
+	/**
+	 * Sets if the alternative botana method should be used to check
+	 * if a statement is generically true.
+	 * @param b True if the alternative method should be used, false if the traditional method should be used
+	 */
+	public void setAlternativeBotana(final boolean b) {
+		useAlternativeBotana = b;
+		
 	}
 	
 }

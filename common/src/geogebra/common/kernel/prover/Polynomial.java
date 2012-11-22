@@ -1,10 +1,10 @@
 package geogebra.common.kernel.prover;
 
 import geogebra.common.main.App;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -676,6 +676,69 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 	
 	/**
+	 * Returns a Singular code which tests whether a set of algebraic equations has a solution.
+	 * The polynomials defining the algebraic equation are from the polynomial ring over a field
+	 * of rational functions, namely 
+	 * <b>Q<\b>(y1, ..., yn)[x1, ..., xm] where y1, ..., yn are the variables of the field of 
+	 * rational functions and x1, ..., xm are the variables of the polynomial ring.
+	 * Uses the Groebner basis w.r.t. the revgradlex order.
+	 * @param ringVariable variable name for the polynomial ring in Singular
+	 * @param idealVariable variable name for the ideal in Singular
+	 * @param polys array of polynomials
+	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
+	 * @param fieldVariables the names of the variables of the field of rational functions (y1, ..., yn in the example above)
+	 * @param ringVariables the names of the variables of the polynomial ring (x1, ..., xm in the example above)
+	 * @return the Singular program code
+	 */
+	public static String getSingularGroebnerSolvable(String ringVariable,
+			String idealVariable, Polynomial[] polys,
+			HashMap<Variable, Integer> substitutions,
+			Set<Variable> fieldVariables, Set<Variable> ringVariables){
+		String substCommand = "";
+		if (substitutions != null) {
+			String substParams = substitutionsString(substitutions);
+			substCommand = idealVariable + "=subst(" + idealVariable + ","
+					+ substParams + ");";
+		}
+		StringBuilder ret = new StringBuilder(100);
+		ret.append("ring ");
+		ret.append(ringVariable);
+		if (fieldVariables != null && fieldVariables.size() > 0) {
+			ret.append("=(0");
+			Iterator<Variable> iteratorFieldVariables = fieldVariables
+					.iterator();
+			while (iteratorFieldVariables.hasNext()) {
+				ret.append(",");
+				ret.append(iteratorFieldVariables.next().getName());
+			}
+			ret.append(")");
+		} else {
+			ret.append("=0");
+		}
+		if (ringVariables != null && ringVariables.size() > 0) {
+			ret.append(",(");
+			Iterator<Variable> iteratorRingVariables = ringVariables.iterator();
+			while (iteratorRingVariables.hasNext()) {
+				ret.append(iteratorRingVariables.next().getName());
+				ret.append(",");
+			}
+			ret.setLength(ret.length() - 1);
+			ret.append(")");
+		}
+		ret.append(",dp; "); // ring definition in Singular
+		ret.append("ideal ");
+		ret.append(idealVariable);
+		ret.append("=");
+		ret.append(getPolysAsCommaSeparatedString(polys));
+		ret.append(";");
+		ret.append(substCommand);
+		ret.append("groebner(");
+		ret.append(idealVariable);
+		ret.append(")!=1;"); // the Groebner basis calculation command
+		return ret.toString();
+	}
+
+	/**
 	 * Decides if an array of polynomials (as a set) gives a solvable equation system
 	 * on the field of the complex numbers.
 	 * @param polys the array of polynomials
@@ -738,6 +801,41 @@ public class Polynomial implements Comparable<Polynomial> {
 			Variable o1, Variable o2, Variable b1,
 			Variable b2) {
 		return sqrDistance(a1,a2,o1,o2).subtract(sqrDistance(o1,o2,b1,b2));  
+	}
+
+	/**
+	 * Test if the system of algebraic equations has a solution. The polynomials
+	 * are from the polynomial ring over a field of rational functions.
+	 * The calculations are done using SingularWS
+	 * @param eqSystem the polynomials describing the system of algebraic equations
+	 * @param fieldVariables the variables of the field of rational functions
+	 * @param substitutions the substitutions done prior the change
+	 * @return True if the system of equations has a solution, false if not and null
+	 * if Singular was not able to give an answer.
+	 */
+	public static Boolean solvable(Polynomial[] eqSystem,
+			Set<Variable> fieldVariables,
+			HashMap<Variable, Integer> substitutions) {
+		if (App.singularWS != null && App.singularWS.isAvailable()) {
+			HashSet<Variable> dependentVariables=getVars(eqSystem);
+			dependentVariables.removeAll(fieldVariables);
+			String singularSolvableProgram;
+			singularSolvableProgram = getSingularGroebnerSolvable("r", "i", eqSystem, substitutions, fieldVariables, dependentVariables);
+
+			if (singularSolvableProgram.length()>500)
+				App.debug(singularSolvableProgram.length() + " bytes -> singular");
+			else
+				App.debug(singularSolvableProgram + " -> singular");
+			String singularSolvable = App.singularWS.directCommand(singularSolvableProgram);
+			if (singularSolvable.length()>500)
+				App.debug("singular -> " + singularSolvable.length() + " bytes");
+			else
+				App.debug("singular -> " + singularSolvable);
+			if ("0".equals(singularSolvable))
+				return false; // no solution
+			return true; // at least one solution exists
+		}
+		return null; // cannot decide
 	}
 	
 }

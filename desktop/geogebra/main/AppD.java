@@ -995,6 +995,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			if ("OpenGeoProver".equalsIgnoreCase(str[1])
 					|| "Recio".equalsIgnoreCase(str[1])
 					|| "Botana".equalsIgnoreCase(str[1])
+					|| "alternativeBotana".equals(str[1])
 					|| "PureSymbolic".equalsIgnoreCase(str[1])
 					|| "Auto".equalsIgnoreCase(str[1])) {
 				ProverSettings.proverEngine = str[1].toLowerCase();
