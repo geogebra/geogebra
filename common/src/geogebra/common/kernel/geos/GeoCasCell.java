@@ -2218,7 +2218,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			getEvalVE().setAssignmentType(AssignmentType.DEFAULT);
 			getEvalVE().setLabel(assignmentVar);		
 			setInput(getEvalVE()
-						.toAssignmentString(StringTemplate.defaultTemplate));
+						.toAssignmentString(StringTemplate.numericDefault));
 			
 			computeOutput(false);
 			this.update();
