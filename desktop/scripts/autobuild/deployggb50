@@ -129,6 +129,7 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  ./create_geogebra_portable
 
  # Now dealing with the Mac OS X bundle...
+ cd $SVNDIR/geogebra/desktop/build/installer
  MACOSX_ZIP=GeoGebra_`echo $MYVER | tr . -`.zip
  # GeoGebra_3-9-209-0.zip -> GeoGebra-MacOS-Installer-3-9-209-0.zip (GeoGebra for Mac OSX)
  MACOSX_ZIP_FINAL=GeoGebra-MacOS-Installer-`echo $MYVER | tr . -`.zip
