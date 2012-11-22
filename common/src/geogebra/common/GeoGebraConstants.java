@@ -9,9 +9,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// update lines below when this is updated
 	/** last build date */
-	public static final String BUILD_DATE = "21 November 2012";
+	public static final String BUILD_DATE = "22 November 2012";
 	/** complete version string */
-	public static final String VERSION_STRING = "4.9.70.0"; 
+	public static final String VERSION_STRING = "4.9.71.0"; 
 	
 	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
 	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow = false
@@ -29,7 +29,7 @@ public interface GeoGebraConstants {
 	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
-	public static final String SHORT_VERSION_STRING = "4.2";
+	public static final String SHORT_VERSION_STRING = "5.0";
 	/** true if CAS is enabled*/
 	public static final boolean CAS_VIEW_ENABLED = true;
 	/** true for beta versions/release candidates*/
