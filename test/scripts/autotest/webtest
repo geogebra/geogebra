@@ -46,6 +46,15 @@ cat $ANSIFILENAME.test | head -1 | grep --silent "[0-9]  $" && {
  }
 }
 
+json_analyze() {
+JSONFILENAME="$1-webtest-out.json"
+SYNTAXERROR=`cat $JSONFILENAME | grep SyntaxError`
+if [ "$SYNTAXERROR" != "" ]; then
+ echo "$SYNTAXERROR for test $1"
+ exit 23
+ fi
+}
+
 MYDIR=`pwd`
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 TESTFILES=`cd $REVDIR/latest/war/test; ls -1 *.ggb | grep -v ^_`
@@ -55,7 +64,7 @@ for i in $TESTFILES; do
  cp $REPORT $i-$REPORT
  convert $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $i.ansi
  ansi_analyze $i
- # json_analyze $i
+ json_analyze $i
  done
 
 exit 0
