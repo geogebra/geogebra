@@ -583,9 +583,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				case 2:
 					d = new DrawSurface3D(this, geoFun);
 					break;
+				/*
 				case 3:
 					d = new DrawImplicitFunction3Var(this, geoFun);
 					break;
+				*/
 				}
 				break;	
 								
