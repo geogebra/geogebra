@@ -7484,6 +7484,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		currentGeo = geo0;
 		nameInputHandler.setGeoElement(geo0);
+		defInputHandler.setGeoElement(geo0);
 
 		tfName.addActionListener(this);
 
@@ -7584,6 +7585,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			currentGeo.updateRepaint();
 		} else if (source == tfDefinition) {
 			String strDefinition = tfDefinition.getText();
+			
 			if (!strDefinition.equals(getDefText(currentGeo))) {
 
 				if (defInputHandler.processInput(strDefinition)) {
