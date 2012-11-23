@@ -112,20 +112,22 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		boolean oldVal = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 
+		boolean ret = true;
+
 		if (cmdString.indexOf('\n') == -1) {
 			result = kernel.getAlgebraProcessor().processAlgebraCommand(
 					cmdString, false);
 			// return success
-			return result != null;
+			ret = result != null;
 
-		}
+		} else {
 
-		boolean ret = true;
-		String[] cmdStrings = cmdString.split("[\\n]+");
-		for (int i = 0; i < cmdStrings.length; i++) {
-			result = kernel.getAlgebraProcessor().processAlgebraCommand(
-					cmdStrings[i], false);
-			ret = ret & (result != null);
+			String[] cmdStrings = cmdString.split("[\\n]+");
+			for (int i = 0; i < cmdStrings.length; i++) {
+				result = kernel.getAlgebraProcessor().processAlgebraCommand(
+						cmdStrings[i], false);
+				ret = ret & (result != null);
+			}
 		}
 		
 		kernel.setUseInternalCommandNames(oldVal);
