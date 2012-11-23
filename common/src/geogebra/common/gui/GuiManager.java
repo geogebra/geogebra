@@ -59,11 +59,16 @@ public abstract class GuiManager {
 
 	public abstract void loadImage(GeoPoint loc, Object object, boolean altDown);
 
-	public boolean hasAlgebraView() {
+	public boolean hasAlgebraViewShowing() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	public boolean hasAlgebraView() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	public abstract void updateFonts();
 
 	public boolean isUsingConstructionProtocol() {
@@ -118,6 +123,11 @@ public abstract class GuiManager {
 	}
 
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		// TODO Auto-generated method stub
 		
 	}

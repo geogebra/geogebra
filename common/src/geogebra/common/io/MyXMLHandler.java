@@ -924,11 +924,21 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * @param attrs  attributes TODO create some actual attributes
 	 */
-	private static void startAlgebraViewElement(String eName,
+	private void startAlgebraViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
-
+		
 		switch (firstChar(eName)) {
+		case 'a':
+			if ("auxiliary".equals(eName)) {
+				ok = handleAlgebraViewShowAuxiliaryObjects(attrs);
+				break;
+			}
+		case 'm':
+			if ("mode".equals(eName)) {
+				ok = handleAlgebraViewMode(attrs);
+				break;
+			}
 		default:
 			System.err.println("unknown tag in <algebraView>: " + eName);
 		}
@@ -4964,6 +4974,30 @@ public class MyXMLHandler implements DocHandler {
 			System.err.println(msg);
 			e.printStackTrace();
 			throw new MyError(app, msg);
+		}
+	}
+	
+	
+	
+	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
+
+		try {
+			int val = Integer.parseInt(attrs.get("val"));
+			app.getSettings().getAlgebra().setTreeMode(val);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	private boolean handleAlgebraViewShowAuxiliaryObjects(LinkedHashMap<String, String> attrs) {
+
+		try {
+			boolean b = parseBoolean(attrs.get("show"));
+			app.getSettings().getAlgebra().setShowAuxiliaryObjects(b);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 

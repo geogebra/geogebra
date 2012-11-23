@@ -48,4 +48,10 @@ public interface AlgebraView extends View{
 	 * Construction Protocol order
 	 */
 	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER }
+	
+	/**
+	 * set tree mode from int value
+	 * @param mode int value of the mode
+	 */
+	public void setTreeMode(int mode);
 }

@@ -24,6 +24,9 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.AlgebraSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
@@ -44,6 +47,7 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -56,7 +60,7 @@ import javax.swing.tree.TreePath;
  * @author Markus
  * @version
  */
-public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
+public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -116,7 +120,11 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 		
 		super(algCtrl);
 
-		//AbstractApplication.debug("creating Algebra View");
+		// Initialize settings and register listener
+		app.getSettings().getAlgebra().addListener(this);
+
+		
+		settingsChanged(app.getSettings().getAlgebra());
 
 	}
 	
@@ -347,6 +355,40 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	@Override
 	public SortMode getTreeMode() {
 		return treeMode;
+	}
+	
+	/**
+	 * @return int value for tree mode (used in XML)
+	 */
+	public int getTreeModeValue(){
+		switch (getTreeMode()) {
+		case DEPENDENCY:
+			return 0;
+		case TYPE:
+		default:
+			return 1;
+		case LAYER:
+			return 2;
+		case ORDER:
+			return 3;
+		}
+	}
+	
+	public void setTreeMode(int mode){
+		switch(mode){
+		case 0:
+			setTreeMode(SortMode.DEPENDENCY);
+			break;
+		case 1:
+			setTreeMode(SortMode.TYPE);
+			break;
+		case 2:
+			setTreeMode(SortMode.LAYER);
+			break;
+		case 3:
+			setTreeMode(SortMode.ORDER);
+			break;
+		}
 	}
 
 	/**
@@ -999,6 +1041,57 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	protected boolean show(GeoElement geo){
 		return super.show(geo) && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible();
+	}
+	
+	private StringBuilder sbXML;
+	
+	/**
+	 * returns settings in XML format
+	 */
+	public void getXML(StringBuilder sb, boolean asPreference) {
+	
+
+		if (sbXML==null)
+			sbXML = new StringBuilder();
+		else
+			sbXML.setLength(0);
+		
+		//tree mode
+		if (getTreeMode()!=SortMode.TYPE){
+			sbXML.append("\t<mode ");
+			sbXML.append("val=\"");
+			sbXML.append(getTreeModeValue());
+			sbXML.append("\"");
+			sbXML.append("/>\n");
+		}
+
+		
+		//auxiliary objects
+		boolean flag = showAuxiliaryObjects();
+		if (flag){
+			sbXML.append("\t<auxiliary ");
+			sbXML.append("show=\"");
+			sbXML.append(flag);
+			sbXML.append("\"");
+			sbXML.append("/>\n");
+		}
+
+		if (sbXML.length()>0){
+			sb.append("<algebraView>\n");
+			sb.append(sbXML);
+			sb.append("</algebraView>\n");
+		}
+
+
+	}
+
+
+
+	public void settingsChanged(AbstractSettings settings) {
+		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
+		setTreeMode(algebraSettings.getTreeMode());
+		setShowAuxiliaryObjects(algebraSettings.getShowAuxiliaryObjects());
+		
 	}
 
 } // AlgebraView

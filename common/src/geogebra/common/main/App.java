@@ -2226,7 +2226,7 @@ public abstract class App {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
 			if (isUsingFullGui()) {
 				if ((getGuiManager() != null)
-						&& getGuiManager().hasAlgebraView()) {
+						&& getGuiManager().hasAlgebraViewShowing()) {
 					return getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
 							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 				}
@@ -2566,6 +2566,12 @@ public abstract class App {
 			if (getGuiManager().hasProbabilityCalculator()) {
 				getGuiManager().getProbabilityCalculatorXML(sb);
 			}
+			
+			// save AlgebraView settings
+			if (getGuiManager().hasAlgebraView()) {
+				getGuiManager().getAlgebraViewXML(sb, asPreference);
+			}
+			
 		}
 
 		if (asPreference) {

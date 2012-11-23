@@ -178,6 +178,7 @@ public class GuiManagerD extends GuiManager {
 	/**
 	 * Initialize the GUI manager.
 	 */
+	@Override
 	public void initialize() {
 		initAlgebraController(); // needed for keyboard input in EuclidianView
 
@@ -284,6 +285,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 
+	@Override
 	public boolean isInputFieldSelectionListener() {
 		return app.getCurrentSelectionListener() == algebraInput.getTextField();
 	}
@@ -307,6 +309,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public synchronized CASViewD getCasView() {
 		if (casView == null) {
 			casView = new CASViewD((AppD)app);
@@ -319,6 +322,7 @@ public class GuiManagerD extends GuiManager {
 		return casView != null;
 	}
 
+	@Override
 	public AlgebraViewD getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
@@ -370,6 +374,7 @@ public class GuiManagerD extends GuiManager {
 		return constructionProtocolView;
 	}
 	
+	@Override
 	public View getConstructionProtocolData() {
 
 		return getConstructionProtocolView().getData();
@@ -383,20 +388,24 @@ public class GuiManagerD extends GuiManager {
 		return assignmentView;
 	}
 
+	@Override
 	public void startEditing(GeoElement geo) {
 		getAlgebraView().startEditing(geo, false);
 	}
 
+	@Override
 	public void setScrollToShow(boolean scrollToShow) {
 		if (spreadsheetView != null)
 			spreadsheetView.setScrollToShow(scrollToShow);
 	}
 
+	@Override
 	public void resetSpreadsheet() {
 		if (spreadsheetView != null)
 			spreadsheetView.restart();
 	}
 
+	@Override
 	public boolean hasSpreadsheetView() {
 		if (spreadsheetView == null)
 			return false;
@@ -405,14 +414,23 @@ public class GuiManagerD extends GuiManager {
 		return true;
 	}
 
-	public boolean hasAlgebraView() {
+	@Override
+	public boolean hasAlgebraViewShowing() {
 		if (algebraView == null)
 			return false;
 		if (!algebraView.isShowing())
 			return false;
 		return true;
 	}
+	
+	@Override
+	public boolean hasAlgebraView() {
+		if (algebraView == null)
+			return false;
+		return true;
+	}
 
+	@Override
 	public boolean hasProbabilityCalculator() {
 		if (probCalculator == null)
 			return false;
@@ -421,6 +439,7 @@ public class GuiManagerD extends GuiManager {
 		return true;
 	}
 
+	@Override
 	public ProbabilityCalculator getProbabilityCalculator() {
 
 		if (probCalculator == null)
@@ -446,6 +465,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	
+	@Override
 	public SpreadsheetView getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
@@ -455,6 +475,7 @@ public class GuiManagerD extends GuiManager {
 		return spreadsheetView;
 	}
 
+	@Override
 	public void updateSpreadsheetColumnWidths() {
 		if (spreadsheetView != null) {
 			spreadsheetView.updateColumnWidths();
@@ -464,9 +485,16 @@ public class GuiManagerD extends GuiManager {
 	// XML
 	// =====================================================
 
+	@Override
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		if (spreadsheetView != null)
 			spreadsheetView.getXML(sb, asPreference);
+	}
+	
+	@Override
+	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
+		if (algebraView != null)
+			algebraView.getXML(sb, asPreference);
 	}
 
 	// public void getAlgebraViewXML(StringBuilder sb) {
@@ -474,6 +502,7 @@ public class GuiManagerD extends GuiManager {
 	// algebraView.getXML(sb);
 	// }
 
+	@Override
 	public void getConsProtocolXML(StringBuilder sb) {
 
 		if (constructionProtocolView != null)
@@ -502,6 +531,7 @@ public class GuiManagerD extends GuiManager {
 
 	}
 
+	@Override
 	public void getProbabilityCalculatorXML(StringBuilder sb) {
 		if (probCalculator != null)
 			probCalculator.getXML(sb);
@@ -538,10 +568,12 @@ public class GuiManagerD extends GuiManager {
 		return viewID;
 	}
 
+	@Override
 	public PlotPanelEuclidianView getPlotPanelView(int viewID) {
 		return getPlotPanelIDMap().get(viewID);
 	}
 
+	@Override
 	public EuclidianViewD getEuclidianView2() {
 		if (euclidianView2 == null) {
 			boolean[] showAxis = { true, true };
@@ -561,6 +593,7 @@ public class GuiManagerD extends GuiManager {
 				showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
+	@Override
 	public boolean hasEuclidianView2() {
 		if (euclidianView2 == null)
 			return false;
@@ -569,6 +602,7 @@ public class GuiManagerD extends GuiManager {
 		return true;
 	}
 
+	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot() {
 		if (euclidianView2 == null)
 			return false;
@@ -583,6 +617,7 @@ public class GuiManagerD extends GuiManager {
 	 *         default (if the user uses this mode). This is the focused
 	 *         euclidian view or the first euclidian view at the moment.
 	 */
+	@Override
 	public EuclidianView getActiveEuclidianView() {
 
 		EuclidianDockPanelAbstract focusedEuclidianPanel = layout
@@ -600,6 +635,7 @@ public class GuiManagerD extends GuiManager {
 		spreadsheetView.attachView();
 	}
 
+	@Override
 	public void detachSpreadsheetView() {
 		if (spreadsheetView != null)
 			spreadsheetView.detachView();
@@ -611,6 +647,7 @@ public class GuiManagerD extends GuiManager {
 		algebraView.attachView();
 	}
 
+	@Override
 	public void detachAlgebraView() {
 		if (algebraView != null)
 			algebraView.detachView();
@@ -622,6 +659,7 @@ public class GuiManagerD extends GuiManager {
 		casView.attachView();
 	}
 
+	@Override
 	public void detachCasView() {
 		if (casView != null)
 			casView.detachView();
@@ -633,6 +671,7 @@ public class GuiManagerD extends GuiManager {
 		constructionProtocolView.getData().attachView();
 	}
 
+	@Override
 	public void detachConstructionProtocolView() {
 		if (constructionProtocolView != null)
 			constructionProtocolView.getData().detachView();
@@ -644,6 +683,7 @@ public class GuiManagerD extends GuiManager {
 		probCalculator.attachView();
 	}
 
+	@Override
 	public void detachProbabilityCalculatorView() {
 		getProbabilityCalculator();
 		probCalculator.detachView();
@@ -667,6 +707,7 @@ public class GuiManagerD extends GuiManager {
 		assignmentView.attachView();
 	}
 
+	@Override
 	public void detachAssignmentView() {
 		if (assignmentView != null)
 			assignmentView.detachView();
@@ -682,8 +723,9 @@ public class GuiManagerD extends GuiManager {
 			propertiesView.detachView();
 	}
 
+	@Override
 	public void setShowAuxiliaryObjects(boolean flag) {
-		if (!hasAlgebraView())
+		if (!hasAlgebraViewShowing())
 			return;
 		getAlgebraView();
 		algebraView.setShowAuxiliaryObjects(flag);
@@ -702,6 +744,7 @@ public class GuiManagerD extends GuiManager {
 		return algebraInput;
 	}
 
+	@Override
 	public geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField() {
 		getAlgebraInput();
 		return geogebra.javax.swing.GTextComponentD.wrap(algebraInput.getTextField());
@@ -710,15 +753,18 @@ public class GuiManagerD extends GuiManager {
 	/**
 	 * use Application.getDialogManager() instead
 	 */
+	@Override
 	@Deprecated
 	public DialogManager getDialogManager() {
 		return dialogManager;
 	}
 
+	@Override
 	public void setLayout(Layout layout) {
 		this.layout = (LayoutD) layout;
 	}
 
+	@Override
 	public LayoutD getLayout() {
 		return layout;
 	}
@@ -736,6 +782,7 @@ public class GuiManagerD extends GuiManager {
 		return toolbarPanel;
 	}
 
+	@Override
 	public void updateToolbar() {
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
@@ -748,10 +795,12 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public void setShowView(boolean flag, int viewId) {
 		setShowView( flag,  viewId, true);
 	}
 	
+	@Override
 	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
 			if (!showView(viewId))
@@ -772,6 +821,7 @@ public class GuiManagerD extends GuiManager {
 		toolbarPanel.updateHelpText();
 	}
 
+	@Override
 	public boolean showView(int viewId) {
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
@@ -781,10 +831,12 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public void setShowToolBarHelp(boolean flag) {
 		ToolbarContainer.setShowHelp(flag);
 	}
 
+	@Override
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		if (show) {
 			if (app.getActiveEuclidianView() != null)
@@ -798,6 +850,7 @@ public class GuiManagerD extends GuiManager {
 		((AppD)app).getConstructionProtocolNavigation().setVisible(show);
 	}
 
+	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
 		setShowConstructionProtocolNavigation(show);
@@ -860,11 +913,13 @@ public class GuiManagerD extends GuiManager {
 			constructionProtocolView.setConstructionStep(step);
 	}
 
+	@Override
 	public void updateConstructionProtocol() {
 		if (constructionProtocolView != null)
 			constructionProtocolView.update();
 	}
 
+	@Override
 	public boolean isUsingConstructionProtocol() {
 		return constructionProtocolView != null;
 	}
@@ -883,6 +938,7 @@ public class GuiManagerD extends GuiManager {
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
+	@Override
 	public void updateFonts() {
 		if (algebraView != null)
 			algebraView.updateFonts();
@@ -924,6 +980,7 @@ public class GuiManagerD extends GuiManager {
 		SwingUtilities.updateComponentTreeUI(((AppD)app).getMainComponent());
 	}
 
+	@Override
 	public void setLabels() {
 		// reinit actions to update labels
 		showAxesAction = null;
@@ -1025,16 +1082,19 @@ public class GuiManagerD extends GuiManager {
 			menuBar.updateMenubar();
 	}
 
+	@Override
 	public void updateMenubarSelection() {
 		if (menuBar != null)
 			menuBar.updateSelection();
 	}
 
+	@Override
 	public void updateMenuWindow() {
 		if (menuBar != null)
 			menuBar.updateMenuWindow();
 	}
 
+	@Override
 	public void updateMenuFile() {
 		if (menuBar != null)
 			menuBar.updateMenuFile();
@@ -1589,6 +1649,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	// returns true for YES or NO and false for CANCEL
+	@Override
 	public boolean saveCurrentFile() {
 		
 		app.getEuclidianView1().reset();
@@ -1631,6 +1692,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public boolean save() {
 		// app.getFrame().getJMenuBar()
 		app.setWaitCursor();
@@ -1836,12 +1898,14 @@ public class GuiManagerD extends GuiManager {
 					fileName.substring(0, dotPos));
 	}
 
+	@Override
 	public void openURL() {
 		InputDialogD id = new InputDialogOpenURL((AppD)app);
 		id.setVisible(true);
 
 	}
 
+	@Override
 	public void openFile() {
 
 		if (((AppD)app).isSaved() || saveCurrentFile()) {
@@ -1996,6 +2060,7 @@ public class GuiManagerD extends GuiManager {
 
 	}
 
+	@Override
 	public void allowGUIToRefresh() {
 		if (!SwingUtilities.isEventDispatchThread())
 			return;
@@ -2047,16 +2112,19 @@ public class GuiManagerD extends GuiManager {
 
 	}
 	
+	@Override
 	protected boolean loadURL_GGB(String urlString) throws Exception{
 		URL url = getEscapedUrl(urlString);
 		return ((AppD)app).loadXML(url, false);
 	}
 	
+	@Override
 	protected boolean loadURL_base64(String urlString) throws IOException{
 		byte[] zipFile = Base64.decode(urlString);
 		return ((AppD)app).loadXML(zipFile);
 	}
 	
+	@Override
 	protected boolean loadFromApplet(String urlString) throws Exception{
 		URL url = getEscapedUrl(urlString);
 		boolean success = ((AppD)app).loadFromHtml(url);
@@ -2071,6 +2139,7 @@ public class GuiManagerD extends GuiManager {
 		return success;
 	}
 
+	@Override
 	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
 		if (success && !isMacroFile
 				&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
@@ -2147,6 +2216,7 @@ public class GuiManagerD extends GuiManager {
 			propertiesView.updateEuclidianPanelsGUI();
 	}
 
+	@Override
 	public void updateActions() {
 		if (undoAction != null) {
 			if (app.isUndoActive()) {
@@ -2167,6 +2237,7 @@ public class GuiManagerD extends GuiManager {
 
 	}
 
+	@Override
 	public void redo() {
 		app.setWaitCursor();
 		kernel.redo();
@@ -2175,6 +2246,7 @@ public class GuiManagerD extends GuiManager {
 		app.setDefaultCursor();
 	}
 
+	@Override
 	public void undo() {
 		app.setWaitCursor();
 		kernel.undo();
@@ -2280,6 +2352,7 @@ public class GuiManagerD extends GuiManager {
 			openHelp(((AppD)app).getEnglishMenu(page), Help.TOOL);
 	}
 
+	@Override
 	public void openHelp(String page, Help type) {
 		try {
 			URL helpURL = getHelpURL(type, page);
@@ -2294,6 +2367,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public void showURLinBrowser(String strURL) {
 		try {
 			URL url = getEscapedUrl(strURL);
@@ -2416,6 +2490,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public void setMode(int mode,ModeSetter m) {
 
 		setModeFinished = false;
@@ -2514,6 +2589,7 @@ public class GuiManagerD extends GuiManager {
 		return undoAction;
 	}
 
+	@Override
 	public void updateFrameSize() {
 		JFrame fr = ((AppD)app).getFrame();
 		if (fr != null) {
@@ -2522,6 +2598,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public void updateFrameTitle() {
 		if (!(((AppD)app).getFrame() instanceof GeoGebraFrame))
 			return;
@@ -2543,6 +2620,7 @@ public class GuiManagerD extends GuiManager {
 		frame.setTitle(sb.toString());
 	}
 
+	@Override
 	public Object createFrame() {
 		GeoGebraFrame wnd = new GeoGebraFrame();
 		wnd.setGlassPane(layout.getDockManager().getGlassPane());
@@ -2551,6 +2629,7 @@ public class GuiManagerD extends GuiManager {
 		return wnd;
 	}
 
+	@Override
 	public synchronized void exitAll() {
 		ArrayList<GeoGebraFrame> insts = GeoGebraFrame.getInstances();
 		GeoGebraFrame[] instsCopy = new GeoGebraFrame[insts.size()];
@@ -2669,6 +2748,7 @@ public class GuiManagerD extends GuiManager {
 		return virtualKeyboard.isVisible();
 	}
 
+	@Override
 	public boolean noMenusOpen() {
 		if (popupMenu != null && popupMenu.getWrappedPopup().isVisible()) {
 			// Application.debug("menus open");
@@ -2749,6 +2829,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public Component getInputHelpPanel() {
 
 		if (inputHelpPanel == null)
@@ -2787,6 +2868,7 @@ public class GuiManagerD extends GuiManager {
 
 	}
 
+	@Override
 	public void updateAlgebraInput() {
 		if (algebraInput != null)
 			algebraInput.initGUI();
