@@ -105,6 +105,12 @@ public abstract class GgbAPI implements JavaScriptAPI{
 
 		// Application.debug("evalCommand called..."+cmdString);
 		GeoElement[] result;
+		
+		// this is new in GeoGebra 4.2 and it will stop some files working
+		// but causes problems if the files are opened and edited
+		// and in the web project
+		boolean oldVal = kernel.isUsingInternalCommandNames();
+		kernel.setUseInternalCommandNames(true);
 
 		if (cmdString.indexOf('\n') == -1) {
 			result = kernel.getAlgebraProcessor().processAlgebraCommand(
@@ -121,6 +127,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 					cmdStrings[i], false);
 			ret = ret & (result != null);
 		}
+		
+		kernel.setUseInternalCommandNames(oldVal);
 
 		return ret;
 	}

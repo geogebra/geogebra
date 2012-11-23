@@ -1690,7 +1690,17 @@ public class PythonFlatAPI {
 	 * @throws Exception if it goes wrong!
 	 */
 	public GeoElement[] evalCommand(String cmd) throws Exception {
-		return algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, false, false);
+		// this is new in GeoGebra 4.2 and it will stop some files working
+		// but causes problems if the files are opened and edited
+		boolean oldVal = kernel.isUsingInternalCommandNames();
+		kernel.setUseInternalCommandNames(true);
+
+		GeoElement[] ret = algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, false, false);
+		
+		kernel.setUseInternalCommandNames(oldVal);
+		
+		return ret;
+
 	}
 	
 	/**
@@ -1700,7 +1710,8 @@ public class PythonFlatAPI {
 	 * @return the geo elements created
 	 */
 	public GeoElement[] evalCommand(String cmdname, ExpressionValue[] args) {
-		Command cmd = new Command(kernel, cmdname, true);
+		// don't allow translated command names - causes problems if file edited
+		Command cmd = new Command(kernel, cmdname, false);
 		for (int i = 0; i < args.length; i++) {
 			cmd.addArgument(getNode(args[i]));
 		}
