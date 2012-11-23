@@ -341,6 +341,7 @@ public class AlgebraProcessor {
 			e.printStackTrace();
 			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
 		} catch (MyError e) {
+			e.printStackTrace();
 			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
