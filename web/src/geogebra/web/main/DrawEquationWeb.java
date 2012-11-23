@@ -132,7 +132,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
-		App.debug("Algebra View: "+eqstring);
+		// logging takes too much time
+		//App.debug("Algebra View: "+eqstring);
 
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
@@ -161,7 +162,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			eqstring = eqstring.replace("\\;","");
 			eqstring = eqstring.replace("\\,","");
 
-			App.debug(eqstring);
+			// logging takes too much time
+			//App.debug(eqstring);
 
 			// remove $s
 			eqstring = eqstring.trim();
