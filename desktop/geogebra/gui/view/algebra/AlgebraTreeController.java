@@ -127,58 +127,10 @@ implements MouseListener, MouseMotionListener{
 				if (AppD.isControlDown(e)) {
 					app.toggleSelectedGeo(geo); 													
 					if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
-				} else if (e.isShiftDown() && lastSelectedGeo != null) {
-					
+				} else if (e.isShiftDown() && lastSelectedGeo != null) {				
 					ArrayList<GeoElement> geos = tree.getGeosBetween(lastSelectedGeo, geo);
 					app.clearSelectedGeos(false); //repaint will be done next step
 					app.addSelectedGeos(geos, true);
-					//lastSelectedGeo = geo;
-					
-					/*
-					boolean nowSelecting = true;
-					boolean selecting = false;
-					boolean aux = geo.isAuxiliaryObject();
-					boolean ind = geo.isIndependent();
-					boolean aux2 = lastSelectedGeo.isAuxiliaryObject();
-					boolean ind2 = lastSelectedGeo.isIndependent();
-					
-
-					
-					if ((aux == aux2 && aux == true) || (aux == aux2 && ind == ind2)) {
-
-						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
-
-						boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-								compareTo(lastSelectedGeo.getLabel(StringTemplate.defaultTemplate)) < 0;
-
-						while (it.hasNext()) {
-							GeoElement geo2 = it.next();
-							if ((geo2.isAuxiliaryObject() == aux && aux == true)
-									|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
-
-								if (direction && geo2 == lastSelectedGeo) selecting = !selecting;
-								if (!direction && geo2 == geo) selecting = !selecting;
-
-								if (selecting) {
-									app.toggleSelectedGeo(geo2);
-									nowSelecting = app.getSelectedGeos().contains(geo2);
-								}
-
-								if (!direction && geo2 == lastSelectedGeo) selecting = !selecting;
-								if (direction && geo2 == geo) selecting = !selecting;
-							}
-						}
-					}
-					
-
-					if (nowSelecting) {
-						app.addSelectedGeo(geo); 
-						lastSelectedGeo = geo;
-					} else {
-						app.removeSelectedGeo(lastSelectedGeo);
-						lastSelectedGeo = null;
-					}
-					*/
 
 				} else {							
 					app.clearSelectedGeos(false); //repaint will be done next step
