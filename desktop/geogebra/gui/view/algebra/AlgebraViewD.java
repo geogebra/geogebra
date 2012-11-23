@@ -629,6 +629,45 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 			rootOrder.removeAllChildren();
 		}
 	}
+	
+	@Override
+	public DefaultMutableTreeNode getRoot(){
+		switch (getTreeMode()) {
+		case DEPENDENCY:
+			return rootDependency;
+		case TYPE:
+		default:
+			return super.getRoot();
+		case LAYER:
+			return rootLayer;
+		case ORDER:
+			return rootOrder;
+		}
+	}
+	
+	
+	@Override
+	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1, GeoElement geo2) {
+
+		//specific case for ORDER mode
+		if (getTreeMode()==SortMode.ORDER){
+			int found = 0;
+			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			DefaultMutableTreeNode root = getRoot();
+			for (int i=0; i	< root.getChildCount() && found < 2; i++){
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) root.getChildAt(i);
+				Object ob = child.getUserObject();
+				if (ob==geo1 || ob==geo2)
+					found++;
+				if (found>0)
+					ret.add((GeoElement) ob);
+			}
+			return ret;
+		}
+		
+		//other cases
+		return super.getGeosBetween(geo1, geo2);
+	}
 
 	public void repaintView() {
 		repaint();

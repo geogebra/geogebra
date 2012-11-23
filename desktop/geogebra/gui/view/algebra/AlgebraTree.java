@@ -4,16 +4,19 @@ import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.main.AppD;
 
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -222,6 +225,25 @@ public class AlgebraTree extends JTree {
 	}
 	
 	/**
+	 * @param tp tree path
+	 * @return geos as childs under this path
+	 */
+	public static ArrayList<GeoElement> getGeoChildsForPath(TreePath tp) {
+		if (tp == null)
+			return null;
+
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
+				.getLastPathComponent();
+
+		if (node == null)
+			return null;
+
+		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+		addChilds(ret, node, 0, node.getChildCount());
+		return ret;
+	}
+	
+	/**
 	 * adds a new node to the tree
 	 */
 	public void add(GeoElement geo) {
@@ -407,6 +429,106 @@ public class AlgebraTree extends JTree {
 	
 	public boolean showAuxiliaryObjects() {
 		return true;
+	}
+	
+	
+	/**
+	 * 
+	 * @return current root of the tree
+	 */
+	public DefaultMutableTreeNode getRoot(){
+		return rootType;
+	}
+	
+	/** 
+	 * 
+	 * @param geo1 one geo
+	 * @param geo2 one other geo
+	 * @return the indices in the tree corresponding to the two geos
+	 */
+	protected int[][] getIndices(GeoElement geo1, GeoElement geo2){
+		
+		int found = 0;
+		
+		DefaultMutableTreeNode root = getRoot();
+		
+		int[][] ret = new int[2][];
+		for (int i=0; i	< root.getChildCount() && found < 2; i++){
+			DefaultMutableTreeNode child = (DefaultMutableTreeNode) root.getChildAt(i);
+			for (int j=0; j	< child.getChildCount()  && found < 2; j++){
+				DefaultMutableTreeNode child2 = (DefaultMutableTreeNode) child.getChildAt(j);
+				Object ob = child2.getUserObject();
+				if (ob==geo1 || ob==geo2){
+					ret[found] = new int[] {i,j};
+					found++;
+				}			
+			}
+		}
+		
+		if (found<2)
+			return null;
+
+		return ret;
+		
+		
+	}
+	
+	/**
+	 * 
+	 * @param geo1
+	 * @param geo2
+	 * @return geos displayed in the tree between the two geos (included)
+	 */
+	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1, GeoElement geo2) {
+		
+		int[][] indices = getIndices(geo1, geo2);
+		
+		
+		if (indices!=null){
+			int p1 = indices[0][0]; //parent index of first geo
+			int c1 = indices[0][1]; //child index of first geo
+			int p2 = indices[1][0]; //parent index of second geo
+			int c2 = indices[1][1]; //child index of second geo
+
+			DefaultMutableTreeNode root = getRoot();
+			
+			if (p1==p2){//same category
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(p1);
+				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				addChilds(ret, node, c1, c2+1);
+				return ret;
+			}//else, all geos between the two categories
+			
+			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(p1);			
+			addChilds(ret, node, c1, node.getChildCount());
+			for (int i=p1+1; i<p2; i++){
+				node = (DefaultMutableTreeNode) root.getChildAt(i);
+				//add childs only if node is expanded
+				if(!isCollapsed(new TreePath(node.getPath())))
+					addChilds(ret, node, 0, node.getChildCount());
+			}
+			node = (DefaultMutableTreeNode) root.getChildAt(p2);
+			addChilds(ret, node, 0, c2+1);
+			
+			return ret;
+			
+		}
+		
+		
+		
+		return null;
+		
+	}
+	
+	private static void addChilds(ArrayList<GeoElement> list, DefaultMutableTreeNode node, int start, int end){
+		Object ob;
+		for (int i=start; i<end; i++){
+			DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getChildAt(i);
+			if (child != null && (ob = child.getUserObject()) instanceof GeoElement)
+				list.add((GeoElement) ob);
+		}
 	}
 
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo,int forceLayer) {

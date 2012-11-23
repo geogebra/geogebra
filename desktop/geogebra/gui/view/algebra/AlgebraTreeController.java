@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
@@ -127,13 +128,22 @@ implements MouseListener, MouseMotionListener{
 					app.toggleSelectedGeo(geo); 													
 					if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {
+					
+					ArrayList<GeoElement> geos = tree.getGeosBetween(lastSelectedGeo, geo);
+					app.clearSelectedGeos(false); //repaint will be done next step
+					app.addSelectedGeos(geos, true);
+					//lastSelectedGeo = geo;
+					
+					/*
 					boolean nowSelecting = true;
 					boolean selecting = false;
 					boolean aux = geo.isAuxiliaryObject();
 					boolean ind = geo.isIndependent();
 					boolean aux2 = lastSelectedGeo.isAuxiliaryObject();
 					boolean ind2 = lastSelectedGeo.isIndependent();
+					
 
+					
 					if ((aux == aux2 && aux == true) || (aux == aux2 && ind == ind2)) {
 
 						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
@@ -159,6 +169,7 @@ implements MouseListener, MouseMotionListener{
 							}
 						}
 					}
+					
 
 					if (nowSelecting) {
 						app.addSelectedGeo(geo); 
@@ -167,6 +178,7 @@ implements MouseListener, MouseMotionListener{
 						app.removeSelectedGeo(lastSelectedGeo);
 						lastSelectedGeo = null;
 					}
+					*/
 
 				} else {							
 					app.clearSelectedGeos(false); //repaint will be done next step
@@ -219,23 +231,37 @@ implements MouseListener, MouseMotionListener{
 		// get GeoElement at mouse location		
 		TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);
-
 		
+
 		// single selection: popup menu
-		if (app.selectedGeosSize() < 2) {				
+		//if (app.selectedGeosSize() < 2) {				
 			if(geo == null) {
-				app.clearSelectedGeos();	
-				AlgebraContextMenuD contextMenu = new AlgebraContextMenuD((AppD)app);
-				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
-			} else {
-				if (!app.containsSelectedGeo(geo)){
-					app.clearSelectedGeos(false);	
-					app.addSelectedGeo(geo, true, true);
+				
+				ArrayList<GeoElement> childs = AlgebraTree.getGeoChildsForPath(tp);
+				if (childs == null || childs.size()==0){//if click on e.g. object type (like "Point"), then select all and popup menu
+					app.clearSelectedGeos();
+					AlgebraContextMenuD contextMenu = new AlgebraContextMenuD((AppD)app);
+					contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
+				}else{//popup algebra menu
+					app.clearSelectedGeos(false);
+					app.addSelectedGeos(childs, true);
+					((GuiManagerD)app.getGuiManager()).showPopupMenu(childs, tree, mouseCoords);
 				}
-				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-				temp.add(geo);
-				((GuiManagerD)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
+
+				
+
+			} else {
+				if (app.containsSelectedGeo(geo)){//popup menu for current selection (including selected object)
+					((GuiManagerD)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
+				}else{//select only this objet and popup menu
+					app.clearSelectedGeos(false);	
+					app.addSelectedGeo(geo, true, true);				
+					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+					temp.add(geo);
+					((GuiManagerD)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
+				}
 			}
+			/*
 		} 
 		// multiple selection: popup menu (several geos)
 		else {
@@ -243,6 +269,7 @@ implements MouseListener, MouseMotionListener{
 				((GuiManagerD)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
 			}
 		}	
+		*/
 
 	}
 	
