@@ -37,15 +37,22 @@ public class CmdExecute extends CommandProcessor {
 						.isGeoText()))
 			throw argErr(app, c.getName(), arg[0]);
 		GeoList list = (GeoList) arg[0];
+
+		// this is new in GeoGebra 4.2 and it will stop some files working
+		// but causes problems if the files are opened and edited
+		// and in the web project
+		boolean oldVal = kernelA.isUsingInternalCommandNames();
+		kernelA.setUseInternalCommandNames(true);
+
 		for (int i = 0; i < list.size(); i++) {
 			try {
 				String cmdText = ((GeoText) list.get(i)).getTextString();
 				for(int k=1;k<n;k++)
 					cmdText = cmdText.replace("%"+k, arg[k].getLabel(StringTemplate.maxPrecision));
 				kernelA.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(cmdText
-								, false,
-								false, true);
+				.processAlgebraCommandNoExceptionHandling(cmdText
+						, false,
+						false, true);
 			} catch (MyError e) {
 				app.showError(e);
 				break;
@@ -55,6 +62,9 @@ public class CmdExecute extends CommandProcessor {
 				break;
 			}
 		}
+
+		kernelA.setUseInternalCommandNames(oldVal);
+
 		app.storeUndoInfo();
 		return new GeoElement[] {};
 
