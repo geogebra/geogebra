@@ -7451,7 +7451,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	public JPanel update(Object[] geos) {
 		
 		//apply textfields modification on previous geo before switching to new geo
-		if (currentGeo!=null){
+		//skip this if label is not set (we re in the middle of redefinition)
+		if (currentGeo!=null && currentGeo.isLabelSet()){
 			
 			//App.printStacktrace("\n"+tfName.getText()+"\n"+currentGeo.getLabel(StringTemplate.defaultTemplate));
 			
