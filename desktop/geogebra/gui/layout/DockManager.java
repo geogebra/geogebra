@@ -1242,6 +1242,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		//euclidian view for plane case	
 		DockPanel panel = app.createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
+		if (panel==null){
+			App.error("panel==null");
+			return null;
+		}
+		
 		//set the view id of the dock panel data for apply perspective
 		dpData.setViewId(panel.getViewId());
 		return panel;
