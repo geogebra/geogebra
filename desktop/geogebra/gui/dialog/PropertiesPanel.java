@@ -7452,7 +7452,9 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		
 		//apply textfields modification on previous geo before switching to new geo
 		//skip this if label is not set (we re in the middle of redefinition)
-		if (currentGeo!=null && currentGeo.isLabelSet()){
+		//skip this if action is performing
+		if (currentGeo!=null && currentGeo.isLabelSet() && !actionPerforming 
+				&& (geos.length!=1 || geos[0]!=currentGeo)){
 			
 			//App.printStacktrace("\n"+tfName.getText()+"\n"+currentGeo.getLabel(StringTemplate.defaultTemplate));
 			
@@ -7472,8 +7474,10 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			}
 		}
 		
-		if (!checkGeos(geos))
+		if (!checkGeos(geos)){
+			currentGeo=null;
 			return null;
+		}
 
 		// NAME
 		tfName.removeActionListener(this);
