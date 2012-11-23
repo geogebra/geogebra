@@ -2012,8 +2012,8 @@ ExpressionNode numberFunction():
 	// note: the last character of FUNCTION_LABEL is a "("
       { 
       		// remove the opening parenthesis
-      		String funcName = c.image.substring(0, c.image.length()-1);
-
+      		String funcName = c.image.substring(0, c.image.length()-1);			
+			
 			if (MPReduceParsing)  {
 			  	// check for special MPReduce functions, e.g. df, arbconst, etc.
 				en = CommandDispatcherMPReduce.processCommand(funcName, myList);
@@ -2021,51 +2021,44 @@ ExpressionNode numberFunction():
 					return en;
 		    }
 
-      		// check for derivative using f'' notation
+			boolean forceCommand = c.image.charAt(c.image.length()-1)=='[';
+			GeoElement geo = null;    
+      		GeoElement cell = null;
+			// check for derivative using f'' notation
       		int order = 0;
       		int index = funcName.length()-1;
-
-      		String label = funcName;
-      		GeoElement geo = kernel.lookupLabel(funcName);    
-      		GeoElement cell = kernel.lookupCasCellLabel(funcName);
-			
-      		if (cell==null && (geo == null || !(geo.isGeoFunction() || geo.isGeoCurveCartesian())))	{      		    while (index >=0 && c.image.charAt(index) == '\''){      		      	order++; 
-      		    	index--;
-      		   }
-      			    	
-	      		while (index < funcName.length()) {
-	      			label = funcName.substring(0, index+1);
-	      			geo = kernel.lookupLabel(label);
-	      			cell = kernel.lookupCasCellLabel(label);	      			
-	      			// stop if f' is defined but f is not defined, see #1444
-	      			if (cell!=null ||
-	      			(geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {	      					break;
-	      			}
-	      				
-	      			order--;
-	      			index++;
-	      		}
-	      	}
+			String label = funcName;
+			if(!forceCommand){
       		
-      		//f(t)=t(t+1)
-      		if(kernel.getConstruction().isRegistredFunctionVariable(funcName))
-      		{
-      		  ExpressionNode expr =  new ExpressionNode(kernel, new Variable(kernel,funcName), Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
-	      		undecided.add(expr);
-	      		return expr; 
-      		}
-      		boolean forceCommand = false;
+	      		geo = kernel.lookupLabel(funcName);    
+	      		cell = kernel.lookupCasCellLabel(funcName);
+				
+	      		if (cell==null && (geo == null || !(geo.isGeoFunction() || geo.isGeoCurveCartesian())))	{	      		    while (index >=0 && c.image.charAt(index) == '\''){	      		      	order++; 
+	      		    	index--;
+	      		   }
+	      			    	
+		      		while (index < funcName.length()) {
+		      			label = funcName.substring(0, index+1);
+		      			geo = kernel.lookupLabel(label);
+		      			cell = kernel.lookupCasCellLabel(label);	      			
+		      			// stop if f' is defined but f is not defined, see #1444
+		      			if (cell!=null ||
+		      			(geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {		      					break;
+		      			}
+		      				
+		      			order--;
+		      			index++;
+		      		}
+		      	}
+	      		
+	      		//f(t)=t(t+1)
+	      		if(kernel.getConstruction().isRegistredFunctionVariable(funcName)){
+	      		  ExpressionNode expr =  new ExpressionNode(kernel, new Variable(kernel,funcName), Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
+		      		undecided.add(expr);
+		      		return expr; 
+	      		}
 
-      		if((geo!=null || cell!=null) && c.image.charAt(c.image.length()-1)=='[')
-      		{
-      		  try
-                  {
-                    forceCommand = Commands.valueOf(funcName)!=null;
-                  }
-                  catch(Throwable t){
-                	  t.printStackTrace();
-                  }
-      		}
+        }
       		  
       		if (forceCommand || (geo == null && cell==null)) {
       		  		Operation op = app.getParserFunctions().get(funcName,myList.size());
