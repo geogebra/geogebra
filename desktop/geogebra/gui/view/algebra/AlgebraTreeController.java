@@ -129,8 +129,10 @@ implements MouseListener, MouseMotionListener{
 					if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {				
 					ArrayList<GeoElement> geos = tree.getGeosBetween(lastSelectedGeo, geo);
-					app.clearSelectedGeos(false); //repaint will be done next step
-					app.addSelectedGeos(geos, true);
+					if (geos!=null){
+						app.clearSelectedGeos(false); //repaint will be done next step
+						app.addSelectedGeos(geos, true);
+					}
 
 				} else {							
 					app.clearSelectedGeos(false); //repaint will be done next step
