@@ -2928,7 +2928,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ARCTAN:
-			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(","atan",degFix("atan"),"arctan",
+			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",
 					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
