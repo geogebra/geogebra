@@ -59,10 +59,7 @@ public abstract class GuiManager {
 
 	public abstract void loadImage(GeoPoint loc, Object object, boolean altDown);
 
-	public boolean hasAlgebraViewShowing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean hasAlgebraViewShowing();
 
 	public boolean hasAlgebraView() {
 		// TODO Auto-generated method stub
@@ -127,10 +124,7 @@ public abstract class GuiManager {
 		
 	}
 
-	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
 	public void updateActions() {
 		// TODO Auto-generated method stub

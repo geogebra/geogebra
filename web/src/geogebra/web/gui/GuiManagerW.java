@@ -943,4 +943,15 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		if (spreadsheetView != null)
 			spreadsheetView.getXML(sb, asPreference);
 	}
+
+	@Override
+    public boolean hasAlgebraViewShowing() {
+	    App.debug("unimplemented");
+	    return false;
+    }
+
+	@Override
+    public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
+		App.debug("unimplemented");    
+    }
 }
