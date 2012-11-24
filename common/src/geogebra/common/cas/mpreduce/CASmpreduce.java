@@ -903,9 +903,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"end;");
 		
 		//used in issolvableineq
-		mpreduce1.evaluate("procedure isniceop(op,exp);"
+		mpreduce1.evaluate("procedure isniceop(op,exp,base);"
 		+ "begin scalar bool;"
-		+ "bool:=(if (op='plus or op='minus or op='times or op='quotient or (op='expt and fixp(exp))) then 1 else 0);"
+		+ "bool:=(if (op='plus or op='minus or op='times or op='quotient or (op='expt and (fixp(exp) or base=e or numberp(base)))) then 1 else 0);"
 		+ "return bool;"
 		+ "end;");
 		
@@ -920,8 +920,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		+ "  >>;"
 		+ "if not (arglength(inequ)=-1) and b then <<"
 		+ "if arglength(inequ)=0 then b:=0"
-		+ " else if arglength(inequ)=1 then b:=isniceop(part(inequ,0),1)"
-		+ " else b:=isniceop(part(inequ,0),part(inequ,2));>>;"
+		+ " else if arglength(inequ)=1 then b:=isniceop(part(inequ,0),0,0)"
+		+ " else b:=isniceop(part(inequ,0),part(inequ,2),part(inequ,1));>>;"
 		+ "return b;"
 		+ "end;");
 		
