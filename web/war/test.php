@@ -14,6 +14,7 @@
 //  i: inputbar
 //  w: width
 //  he: height
+//  a: show animation button
 
 // Copyright (c) 2012 The GeoGebra Team <geogebra-dev@geogebra.org>
 
@@ -35,6 +36,7 @@ $MENUBAR=FALSE;
 $INPUTBAR=FALSE;
 $WIDTH=0;
 $HEIGHT=0;
+$SHOWANIMBUTTON=NULL;
 
 if ($_GET['m']!="")
  $MILESTONES=$_GET['m'];
@@ -56,6 +58,12 @@ if ($_GET['w']>"0")
  $WIDTH=$_GET['w'];
 if ($_GET['he']>"0")
  $HEIGHT=$_GET['he'];
+if ($_GET['a']=="0")
+ $SHOWANIMBUTTON="false";
+else if ($_GET['a']=="1")
+ $SHOWANIMBUTTON="true";
+
+
 
 // Importing all milestones files into $filenames:
 $dh=opendir($MILESTONES);
@@ -97,6 +105,7 @@ if ($VERSION) {
     <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
     <?php if ($MENUBAR) echo 'data-param-showMenuBar="true"' ?>
     <?php if ($INPUTBAR) echo 'data-param-showAlgebraInput="true"' ?>
+    <?php if ($SHOWANIMBUTTON) echo "data-param-showAnimationButton=\"$SHOWANIMBUTTON\"" ?>
     style="border: 1px solid black; display:inline-block;"
     data-param-ggbbase64=<?php
 
@@ -144,7 +153,8 @@ function passoptions() {
   "&mb=".bool2int($MENUBAR).
   "&i=".bool2int($INPUTBAR).
   "&w=".bool2int($WIDTH).
-  "&he=".bool2int($HEIGHT);
+  "&he=".bool2int($HEIGHT).
+  "&a=".bool2int($SHOWANIMBUTTON);
  }
 
 function pretty_filename($name) {
