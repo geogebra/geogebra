@@ -12,6 +12,8 @@
 //  t: toolbar
 //  mb: menubar
 //  i: inputbar
+//  w: width
+//  he: height
 
 // Copyright (c) 2012 The GeoGebra Team <geogebra-dev@geogebra.org>
 
@@ -31,6 +33,8 @@ $VERSION=TRUE;
 $TOOLBAR=FALSE;
 $MENUBAR=FALSE;
 $INPUTBAR=FALSE;
+$WIDTH=0;
+$HEIGHT=0;
 
 if ($_GET['m']!="")
  $MILESTONES=$_GET['m'];
@@ -48,6 +52,10 @@ if ($_GET['v']=="0")
  $VERSION=FALSE;
 if ($_GET['c']=="0")
  $CODEBASE=$_GET['c'];
+if ($_GET['w']>"0")
+ $WIDTH=$_GET['w'];
+if ($_GET['he']>"0")
+ $HEIGHT=$_GET['he'];
 
 // Importing all milestones files into $filenames:
 $dh=opendir($MILESTONES);
@@ -82,10 +90,10 @@ if ($VERSION) {
     <script type="text/javascript" language="javascript"
      src="<?php echo $CODEBASE ?>web/web.nocache.js"></script>
     <article class="geogebraweb"
-    data-param-width="800"
-    data-param-height="550"
     data-param-enableLabelDrags="false"
     data-param-enableShiftDragZoom="false"
+    <?php if ($WIDTH) echo "data-param-width=\"$WIDTH\"" ?>
+    <?php if ($HEIGHT) echo "data-param-hegiht=\"$HEIGHT\"" ?>
     <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
     <?php if ($MENUBAR) echo 'data-param-showMenuBar="true"' ?>
     <?php if ($INPUTBAR) echo 'data-param-showAlgebraInput="true"' ?>
@@ -126,7 +134,7 @@ function bool2int($bool) {
 }
 
 function passoptions() {
- global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR, $MENUBAR, $INPUTBAR;
+ global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR, $MENUBAR, $INPUTBAR, $WIDTH, $HEIGHT;
  return "&m=".$MILESTONES.
   "&c=".$CODEBASE.
   "&s=".bool2int($SHOWFILELIST).
@@ -134,7 +142,9 @@ function passoptions() {
   "&v=".bool2int($VERSION).
   "&t=".bool2int($TOOLBAR).
   "&mb=".bool2int($MENUBAR).
-  "&i=".bool2int($INPUTBAR);
+  "&i=".bool2int($INPUTBAR).
+  "&w=".bool2int($WIDTH).
+  "&he=".bool2int($HEIGHT);
  }
 
 function pretty_filename($name) {
