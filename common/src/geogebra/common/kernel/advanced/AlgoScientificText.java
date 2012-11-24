@@ -92,30 +92,22 @@ public class AlgoScientificText extends AlgoElement {
 	@Override
 	public void compute() {   	
 		
-		boolean rounding = true;
+		boolean rounding = precision != null;
 		
-		// make a temporary double: makes checking for NaN neater
-		// NB (int)Double.NAN = 0
-		if (precision == null) {
-			precision = new MyDouble(kernel, 15);
-			rounding = false;
-		}
-
-		if (num.isDefined() && precision.isDefined()) {
-			
+		if (num.isDefined() && (precision == null || precision.isDefined())) {	
 
 			sb.setLength(0);
 
 			double decimal = num.getDouble();
 			
-			int prec = (int) precision.getDouble();
+			int prec = precision == null ? 15 : (int) precision.getDouble();
 			
 			if (prec < 1 || prec > 15) {
 				text.setUndefined();
 				return;				
 			}
 
-			StringTemplate stl = StringTemplate.printScientific(StringType.GEOGEBRA, prec,false);
+			StringTemplate stl = StringTemplate.printScientific(StringType.GEOGEBRA, prec, false);
 
 			// returns string like 3456E-7
 			String str = kernel.format(decimal, stl);
