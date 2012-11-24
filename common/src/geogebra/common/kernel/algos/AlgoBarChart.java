@@ -91,6 +91,11 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
+	
+	// helper algos
+	AlgoUnique algoUnique;
+	AlgoFrequency algoFreq;
+
 
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
@@ -412,9 +417,16 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			input[2] = list1;
 			break;
 
+			
+		case TYPE_BARCHART_RAWDATA:
+			algoUnique = new AlgoUnique(cons, list1);
+			algoFreq = new AlgoFrequency(cons, null, null, list1);
+			cons.removeFromConstructionList(algoUnique);
+			cons.removeFromConstructionList(algoFreq);
+			
+			// fall through
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
-		case TYPE_BARCHART_RAWDATA:
 
 			list.add(list1);
 			if (list2 != null) {
@@ -691,7 +703,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 				computeFromPointList(list1);
 			} else {
 				barWidth = 0.0;
-				computeFromValueFrequencyLists();
+				computeFromValueFrequencyLists(list1, list2);
 			}
 			break;
 
@@ -782,15 +794,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			return;
 		}
 
-		AlgoUnique al1 = new AlgoUnique(cons, list1);
-		AlgoFrequency al2 = new AlgoFrequency(cons, null, null, list1);
-
-		cons.removeFromConstructionList(al1);
-		cons.removeFromConstructionList(al2);
-
-		list1 = al1.getResult();
-		list2 = al2.getResult();
-		computeFromValueFrequencyLists();
+		computeFromValueFrequencyLists(algoUnique.getResult(), algoFreq.getResult());
 
 	}
 
@@ -826,11 +830,11 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			barWidth = -1;
 		}
 
-		computeFromValueFrequencyLists();
+		computeFromValueFrequencyLists(list1, list2);
 
 	}
 
-	private void computeFromValueFrequencyLists() {
+	private void computeFromValueFrequencyLists(GeoList list1, GeoList list2) {
 
 		if (barWidth < 0) {
 			if (list1.size() > 1) {
@@ -1058,6 +1062,18 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		default: // TYPE_BARCHART_RAWDATA
 			return new AlgoBarChart(cons, (GeoNumeric) getN().copy(),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
+		}
+	}
+	
+	@Override
+	public void remove() {
+		super.remove();
+		
+		if (algoFreq != null) {
+			algoFreq.remove();
+		}
+		if (algoUnique != null) {
+			algoUnique.remove();
 		}
 	}
 
