@@ -227,7 +227,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		sb.append(">>");
 
 		// evaluate in MPReduce
-		String result = evaluateMPReduce(sb.toString());
+		String plainResult = evaluateMPReduce(sb.toString());
+		String result = plainResult;
 		if (keepInput) {
 			// when keepinput was treated in MPReduce, it is now > 1
 			String keepinputVal = evaluateMPReduce("keepinput!!;");
@@ -246,7 +247,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
 			return toGeoGebraString(
-					evaluateMPReduce(result
+					evaluateMPReduce(plainResult
 							+ "("
 							+ ((FunctionNVar) casInput).getVarString(StringTemplate.casTemplate)
 							+ ")"), arbconst, tpl);
