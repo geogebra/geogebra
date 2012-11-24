@@ -21,6 +21,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSequence;
+import geogebra.common.kernel.algos.AlgoTextCorner;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -1188,6 +1189,21 @@ public class GeoText extends GeoElement implements Locateable,
 		updateGeo();
 		kernel.notifyUpdateLocation(this);	
 	}
+	
+	@Override
+	public void updateVisualStyle() {
+		super.updateVisualStyle();
+		
+		ArrayList<AlgoElement> algos = getAlgorithmList();
+		ArrayList<AlgoElement> algosTextCorner = new ArrayList<AlgoElement>();
+		for (AlgoElement algo : algos){
+			if (algo instanceof AlgoTextCorner)
+				algosTextCorner.add(algo);
+		}
+		AlgoElement.updateCascadeAlgos(algosTextCorner);
+		
+	}
+
 
 
 }
