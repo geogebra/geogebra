@@ -463,7 +463,18 @@ public class Kernel {
 	// blue);
 
 	protected AnimationManager animationManager;
+	
+	/*
+	 * If the data-param-showAnimationButton parameter for applet is false, be
+	 * sure not to show the animation button. In this case the value of
+	 * showAnimationButton is false, otherwise true.
+	 */
+	private boolean showAnimationButton = true;
 
+	public void setShowAnimationButton(boolean showAB){
+		showAnimationButton = showAB;
+	}
+	
 	final public boolean isAnimationRunning() {
 		return animationManager != null && animationManager.isRunning();
 	}
@@ -473,6 +484,7 @@ public class Kernel {
 	}
 
 	final public boolean needToShowAnimationButton() {
+		if (!showAnimationButton ) return false;  
 		return animationManager != null
 				&& animationManager.needToShowAnimationButton();
 	}

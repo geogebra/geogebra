@@ -91,6 +91,10 @@ public class View extends Widget {
 		return ((ArticleElement) container).getDataParamShowResetIcon();
     }
 	
+	public boolean getDataParamShowAnimationButton() {
+		return ((ArticleElement) container).getDataParamShowAnimationButton();
+    }	
+	
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
 			return;

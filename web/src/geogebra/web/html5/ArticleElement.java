@@ -73,9 +73,9 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * Determines if the "data-param-gui" article attribute is set to true
+	 * Determines if the "data-param-enableLabelDrags" article attribute is set to true
 	 * 
-	 * @return the data-param-gui (default: true)
+	 * @return the data-param-enableLabelDrags (default: true)
 	 */
 	public boolean getDataParamEnableLabelDrags() {
 		return (!"false".equals(this.getAttribute("data-param-enableLabelDrags")));
@@ -124,6 +124,13 @@ public final class ArticleElement extends Element {
 	 */
 	public boolean getDataParamShowResetIcon() {
 		return ("true".equals(this.getAttribute("data-param-showResetIcon")));
+	}
+	
+	/**
+	 * @return the data-param-showAnimationButton (default: true)
+	 */
+	public boolean getDataParamShowAnimationButton() {
+		return (!"false".equals(this.getAttribute("data-param-showAnimationButton")));
 	}
 	
 	/**
