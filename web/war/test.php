@@ -101,7 +101,7 @@ if ($VERSION) {
     data-param-enableLabelDrags="false"
     data-param-enableShiftDragZoom="false"
     <?php if ($WIDTH) echo "data-param-width=\"$WIDTH\"" ?>
-    <?php if ($HEIGHT) echo "data-param-hegiht=\"$HEIGHT\"" ?>
+    <?php if ($HEIGHT) echo "data-param-height=\"$HEIGHT\"" ?>
     <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
     <?php if ($MENUBAR) echo 'data-param-showMenuBar="true"' ?>
     <?php if ($INPUTBAR) echo 'data-param-showAlgebraInput="true"' ?>
@@ -144,6 +144,10 @@ function bool2int($bool) {
 
 function passoptions() {
  global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR, $MENUBAR, $INPUTBAR, $WIDTH, $HEIGHT;
+
+ $WIDTH_HEIGHT = ($WIDTH > 0) ? "&w=".$WIDTH : "";
+ if ($HEIGHT > 0) $WIDTH_HEIGHT .= "&he=".$HEIGHT;
+
  return "&m=".$MILESTONES.
   "&c=".$CODEBASE.
   "&s=".bool2int($SHOWFILELIST).
@@ -152,8 +156,7 @@ function passoptions() {
   "&t=".bool2int($TOOLBAR).
   "&mb=".bool2int($MENUBAR).
   "&i=".bool2int($INPUTBAR).
-  "&w=".bool2int($WIDTH).
-  "&he=".bool2int($HEIGHT).
+  $WIDTH_HEIGHT.
   "&a=".bool2int($SHOWANIMBUTTON);
  }
 
