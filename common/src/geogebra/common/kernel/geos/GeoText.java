@@ -1194,9 +1194,8 @@ public class GeoText extends GeoElement implements Locateable,
 	public void updateVisualStyle() {
 		super.updateVisualStyle();
 		
-		ArrayList<AlgoElement> algos = getAlgorithmList();
 		ArrayList<AlgoElement> algosTextCorner = new ArrayList<AlgoElement>();
-		for (AlgoElement algo : algos){
+		for (AlgoElement algo : getAlgorithmList()){
 			if (algo instanceof AlgoTextCorner)
 				algosTextCorner.add(algo);
 		}
