@@ -118,20 +118,9 @@ public class Parser implements ParserInterface{
         GeoGebraCASParsing = true;                        
         ValidExpression ret = buildCASExpression();
         return ret;     
-    }        
-    
-    /**
-     * Parses a MathPiper String and returns a ValidExpression Object     
-     */
-    public ValidExpression parseMathPiper(String parseString) throws ParseException {           
-        myReInit( parseString ); 
-        ExternalCASParsing = true;                         
-        ValidExpression ret = buildMathPiperExpression();
-        processUndecided();
-        return ret;        
     }
 
-      /**
+    /**
      * Parses a MPReduce String and returns a ValidExpression Object     
      */
     public ValidExpression parseMPReduce(String parseString) throws ParseException {           
@@ -139,15 +128,6 @@ public class Parser implements ParserInterface{
         ExternalCASParsing = true;
         MPReduceParsing = true;                     
         return buildMPReduceExpression();     
-    }
-
-    /**
-     * Parses a Maxima String and returns a ValidExpression Object     
-     */
-    public ValidExpression parseMaxima(String parseString) throws ParseException {           
-        myReInit( parseString ); 
-        ExternalCASParsing = true;                         
-        return buildMaximaExpression();     
     }
     
     /**

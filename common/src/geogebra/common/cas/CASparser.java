@@ -160,22 +160,6 @@ public class CASparser implements CASParserInterface{
 		return GeoGebraString;
 	}
 	
-
-	
-	/**
-	 * Tries to convert the given MathPiper string to GeoGebra syntax.
-	 * @param exp MathPiper output
-	 * @return parsed expression
-	 * @throws CASException if parsing goes wrong
-	 */
-	public ValidExpression parseMathPiper(String exp) throws CASException {
-		try {
-			return parser.parseMathPiper(exp);
-		} catch (Throwable t) {
-			throw new CASException(t);
-		}
-	}
-	
 	/**
 	 * Tries to convert the given MPReduce string to GeoGebra syntax.
 	 * @param exp MPReduce output
@@ -190,19 +174,6 @@ public class CASparser implements CASParserInterface{
 		}		
 	}
 	
-	/**
-	 * Tries to convert the given Maxima string to GeoGebra syntax.
-	 * @param exp maxima output
-	 * @return parsed output
-	 * @throws CASException if parsing goes wrong
-	 */
-	public ValidExpression parseMaxima(String exp) throws CASException {
-		try {
-			return parser.parseMaxima(exp);
-		} catch (Throwable t) {
-			throw new CASException(t);
-		}	
-	}
 	/**
 	 * Final automata can be in three states
 	 * * NORMAL -- no index being read
