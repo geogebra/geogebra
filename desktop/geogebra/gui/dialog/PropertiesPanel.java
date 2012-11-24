@@ -7450,6 +7450,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	public JPanel update(Object[] geos) {
 		
+		/* DON'T WORK : MAKE IT A TRY FOR 5.0 ?
 		//apply textfields modification on previous geo before switching to new geo
 		//skip this if label is not set (we re in the middle of redefinition)
 		//skip this if action is performing
@@ -7473,9 +7474,10 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				currentGeo.updateVisualStyleRepaint();
 			}
 		}
+		*/
 		
 		if (!checkGeos(geos)){
-			currentGeo=null;
+			//currentGeo=null;
 			return null;
 		}
 
