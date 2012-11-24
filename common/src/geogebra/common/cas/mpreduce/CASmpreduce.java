@@ -311,7 +311,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			
 			replacements.append("l");
 			replacements.append(parameters[i]);
-			processedBody = body.replaceAll("("+parameters[i]+"\\b)", "l$1");
+			processedBody = processedBody.replaceAll("("+parameters[i]+"\\b)", "l$1");
 			//we need this for x as FitPoly produces function of currentx!!
 			//we also do that for y, just to be sure
 			if(parameters[i].equals(casPrefix+"x"))
