@@ -477,8 +477,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"tan(~b*\u00b0/~a)=>tan(b/a*pi/180)," +
 				"cot(~b*\u00b0/~a)=>cot(b/a*pi/180)," +
 				"sec(~b*\u00b0/~a)=>sec(b/a*pi/180)," +
-				"csc(~b*\u00b0/~a)=>csc(b/a*pi/180)," +
-				"pi/\u00b0 => 180}");
+				"csc(~b*\u00b0/~a)=>csc(b/a*pi/180)}");
 		mpreduce1
 				.evaluate("intrules!!:={"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
