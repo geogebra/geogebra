@@ -34,8 +34,8 @@ $VERSION=TRUE;
 $TOOLBAR=FALSE;
 $MENUBAR=FALSE;
 $INPUTBAR=FALSE;
-$WIDTH=0;
-$HEIGHT=0;
+$WIDTH=800;
+$HEIGHT=550;
 $SHOWANIMBUTTON=NULL;
 
 if ($_GET['m']!="")
@@ -100,8 +100,8 @@ if ($VERSION) {
     <article class="geogebraweb"
     data-param-enableLabelDrags="false"
     data-param-enableShiftDragZoom="false"
-    <?php if ($WIDTH) echo "data-param-width=\"$WIDTH\"" ?>
-    <?php if ($HEIGHT) echo "data-param-height=\"$HEIGHT\"" ?>
+    <?php echo "data-param-width=\"$WIDTH\"" ?>
+    <?php echo "data-param-height=\"$HEIGHT\"" ?>
     <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
     <?php if ($MENUBAR) echo 'data-param-showMenuBar="true"' ?>
     <?php if ($INPUTBAR) echo 'data-param-showAlgebraInput="true"' ?>
