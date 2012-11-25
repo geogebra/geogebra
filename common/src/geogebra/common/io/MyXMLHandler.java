@@ -934,6 +934,11 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleAlgebraViewShowAuxiliaryObjects(attrs);
 				break;
 			}
+		case 'c':
+			if ("collapsed".equals(eName)) {
+				ok = handleAlgebraViewCollapsedNodes(attrs);
+				break;
+			}
 		case 'm':
 			if ("mode".equals(eName)) {
 				ok = handleAlgebraViewMode(attrs);
@@ -5000,6 +5005,21 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+	
+	private boolean handleAlgebraViewCollapsedNodes(LinkedHashMap<String, String> attrs) {
+
+		try {
+			String[] strings = attrs.get("val").split(",");
+			int[] vals = new int[strings.length];
+			for (int i=0; i<strings.length; i++)
+				vals[i]=Integer.parseInt(strings[i]);
+			app.getSettings().getAlgebra().setCollapsedNodes(vals);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 
 	// ====================================
 	// UTILS

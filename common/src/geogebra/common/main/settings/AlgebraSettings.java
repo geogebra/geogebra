@@ -1,6 +1,8 @@
 package geogebra.common.main.settings;
 
 
+import geogebra.common.main.App;
+
 import java.util.LinkedList;
 
 /**
@@ -11,6 +13,8 @@ public class AlgebraSettings extends AbstractSettings {
 	private int treeMode = 1;
 	
 	private boolean showAuxiliaryObjects = false;
+	
+	private int[] collapsedNodes = null;
 
 	public AlgebraSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -53,6 +57,24 @@ public class AlgebraSettings extends AbstractSettings {
 	public boolean getShowAuxiliaryObjects() {
 		return showAuxiliaryObjects;
 	}
+	
+	/**
+	 * set the collapsed nodes indices
+	 * @param collapsedNodes array of indices
+	 */
+	public void setCollapsedNodes(int[] collapsedNodes){
+		this.collapsedNodes=collapsedNodes;
+		settingChanged();
+	}
+	
+	/**
+	 * 
+	 * @return array of indices of collapsed nodes
+	 */
+	public int[] getCollapsedNodes(){
+		return this.collapsedNodes;
+	}
+
 	
 	
 }

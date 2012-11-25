@@ -132,8 +132,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	protected void initTree(){
 		
 		
-		
-		
 		// this is the default value
 		treeMode = SortMode.TYPE;
 
@@ -246,6 +244,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 		
 		clearView();
 		kernel.notifyAddAll(this);
+		applySettings();
 		kernel.attach(this);
 		attached = true;
 
@@ -1045,6 +1044,34 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	
 	private StringBuilder sbXML;
 	
+	
+	private void updateCollapsedNodesIndices(){
+		
+
+
+		//no collapsed nodes
+		if (getTreeMode()==SortMode.ORDER){
+			collapsedNodes = null;
+			return;
+		}
+		
+		
+		
+		if (collapsedNodes==null)
+			collapsedNodes = new ArrayList<Integer>();
+		else
+			collapsedNodes.clear();
+
+		
+		DefaultMutableTreeNode root = getRoot();
+		for (int i=0; i<root.getChildCount(); i++){
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
+			if(isCollapsed(new TreePath(node.getPath())))
+				collapsedNodes.add(i);				
+		}
+		
+	}
+	
 	/**
 	 * returns settings in XML format
 	 */
@@ -1075,6 +1102,20 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 			sbXML.append("\"");
 			sbXML.append("/>\n");
 		}
+		
+		//collapsed nodes
+		updateCollapsedNodesIndices();
+		if (collapsedNodes!=null && collapsedNodes.size()>0){
+			sbXML.append("\t<collapsed ");
+			sbXML.append("val=\"");
+			sbXML.append(collapsedNodes.get(0));
+			for (int i=1; i<collapsedNodes.size();i++){
+				sbXML.append(",");
+				sbXML.append(collapsedNodes.get(i));
+			}
+			sbXML.append("\"");
+			sbXML.append("/>\n");
+		}
 
 		if (sbXML.length()>0){
 			sb.append("<algebraView>\n");
@@ -1084,14 +1125,49 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 
 
 	}
+	
+	
+	private ArrayList<Integer> collapsedNodes;
+	
+	private void setCollapsedNodes(int[] collapsedNodes){
+		if (collapsedNodes == null)
+			return;
+
+		if (this.collapsedNodes==null)
+			this.collapsedNodes = new ArrayList<Integer>();
+		else
+			this.collapsedNodes.clear();
+
+		for (int i=0; i<collapsedNodes.length; i++)
+			this.collapsedNodes.add(collapsedNodes[i]);
+	}
+
+	private void applySettings(){
+		
+		//auxilliary objects
+		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
+		
+		
+		//collapsed nodes
+		if (collapsedNodes == null)
+			return;
+
+		DefaultMutableTreeNode root = getRoot();
+		for (int i : collapsedNodes){
+			App.debug(i);
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
+			collapsePath(new TreePath(node.getPath()));
+		}
+	}
 
 
+	private boolean showAuxiliaryObjectsSettings = false;
 
 	public void settingsChanged(AbstractSettings settings) {
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
-		App.debug(algebraSettings.getTreeMode());
 		setTreeMode(algebraSettings.getTreeMode());
-		setShowAuxiliaryObjects(algebraSettings.getShowAuxiliaryObjects());
+		showAuxiliaryObjectsSettings = algebraSettings.getShowAuxiliaryObjects();
+		setCollapsedNodes(algebraSettings.getCollapsedNodes());
 		
 	}
 
