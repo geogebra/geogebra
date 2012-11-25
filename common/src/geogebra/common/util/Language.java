@@ -45,7 +45,7 @@ public enum Language {
 	Czech(null, true, false, "cs","cs", "Czech / \u010Ce\u0161tina", Country.CzechRepublic),
 	Danish(null, true, false, "da","da", "Danish / Dansk", Country.Denmark),
 	Dutch(null, true, false, "nl","nl", "Dutch / Nederlands", Country.Netherlands, Country.Suriname),
-	Dutch_Belgium(null, true, false, "nlBE","nl_BE", "Dutch (Belgium)", Country.Belgium),
+	Dutch_Belgium(null, true, false, "nlBE","nl_BE", "Dutch / Nederlands (Belgium)", Country.Belgium),
 	English_US(null, true, true, "en", "en",
 			"English (US)", Country.UnitedStatesofAmerica,
 			Country.AntiguaBarbuda, Country.Bahamas, Country.Barbados,
