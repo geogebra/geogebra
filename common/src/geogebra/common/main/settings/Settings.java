@@ -72,8 +72,11 @@ public class Settings {
 		if (algebraSettings == null) {
 			algebraSettings = new AlgebraSettings();
 		} else {
-			algebraSettings = new AlgebraSettings(
-					algebraSettings.getListeners());
+			//make this way to be sure that treeMode is set to 1 before calling settingChanged()
+			LinkedList<SettingListener> listeners = algebraSettings.getListeners();
+			algebraSettings = new AlgebraSettings();
+			algebraSettings.setListeners(listeners);
+			algebraSettings.settingChanged();					
 		}
 
 		if (spreadsheetSettings == null) {
@@ -113,7 +116,7 @@ public class Settings {
 		if (casSettings == null) {
 			casSettings = new CASSettings();
 		} else {
-			casSettings = new CASSettings(algebraSettings.getListeners());
+			casSettings = new CASSettings(casSettings.getListeners());
 		}
 
 		if (probCalcSettings == null) {

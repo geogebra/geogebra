@@ -1089,6 +1089,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 
 	public void settingsChanged(AbstractSettings settings) {
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
+		App.debug(algebraSettings.getTreeMode());
 		setTreeMode(algebraSettings.getTreeMode());
 		setShowAuxiliaryObjects(algebraSettings.getShowAuxiliaryObjects());
 		

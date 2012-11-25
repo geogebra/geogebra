@@ -43,6 +43,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 */
 	public void setShowAuxiliaryObjects(boolean flag) {
 		showAuxiliaryObjects = flag;
+		settingChanged();
 	}
 	
 	/**

@@ -37,6 +37,10 @@ public abstract class AbstractSettings {
 		settingChanged();
 	}
 	
+	public void setListeners(LinkedList<SettingListener> listeners) {
+		this.listeners = listeners;
+	}
+	
 	/**
 	 * Notify listeners about changed settings. This method has to be called by
 	 * implementors of subclasses if a setting's value has been changed.
