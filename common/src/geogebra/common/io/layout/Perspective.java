@@ -324,7 +324,7 @@ public class Perspective {
 	 * @param showInputPanelOnTop
 	 *            true to show input bar on top
 	 */
-	public void setShowInputPanelOnTop(boolean toolBarPosition) {
+	public void setShowInputPanelOnTop(boolean showInputPanelOnTop) {
 		this.showInputPanelOnTop = showInputPanelOnTop;
 	}
 
