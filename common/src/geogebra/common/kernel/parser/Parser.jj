@@ -1569,15 +1569,10 @@ ExpressionValue enelement():
 	ev = list()
 	    { return ev; }      
 | 
- // equation
-    LOOKAHEAD(2147483647)
-    "(" ev = equation()  ")" 
-        { return ev; }       
-|
     // parenthesis
     LOOKAHEAD(2147483647)
-    "("  ev = expressionnode()  ")" 
-        { return  ev; }       	           
+    "("  ev = expressionOrEquation()  ")" 
+        { return  ev.unwrap(); }       	           
 |
     // cartesian vector  (x, y) or (x|y)
     LOOKAHEAD(2147483647)
