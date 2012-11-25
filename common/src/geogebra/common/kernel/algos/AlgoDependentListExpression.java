@@ -280,7 +280,7 @@ public class AlgoDependentListExpression extends AlgoElement implements Dependen
 					}     			
 				}
 				
-				// no cached point: create new one
+				// no cached text: create new one
 				if (geo == null) {
 					GeoText geoFun = new GeoText(cons);
 					geoFun.set(text);					
@@ -288,9 +288,27 @@ public class AlgoDependentListExpression extends AlgoElement implements Dependen
 				}
 				list.add(geo);
 				
+			}else if (element instanceof GeoElement){
+				GeoElement geo0 = (GeoElement)element;
+				if (i < cachedListSize) {
+					GeoElement cachedGeo = list.getCached(i);
+					
+					// the cached element is the same type: set value
+					if (cachedGeo.getGeoClassType().equals(geo0.getGeoClassType())) {
+						cachedGeo.set(geo0);
+						geo = cachedGeo;
+					}     			
+				}
+				
+				// no cached object: create new one
+				if (geo == null) {
+					geo = geo0.copy();					
+				}
+				list.add(geo);
+				
 			}
 			else {
-				App.debug("unsupported list addition: "+element.getClass()+"");
+				App.debug("unsupported list operation: "+element.getClass()+"");
 			}
 		}
     }   
