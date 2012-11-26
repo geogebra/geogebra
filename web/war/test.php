@@ -31,9 +31,9 @@ $DEFAULTFILE="Girl_in_Mirror.ggb";
 $SHOWFILELIST=TRUE;
 $SHOWHIDDEN=FALSE;
 $VERSION=TRUE;
-$TOOLBAR=FALSE;
-$MENUBAR=FALSE;
-$INPUTBAR=FALSE;
+$TOOLBAR=NULL;
+$MENUBAR=NULL;
+$INPUTBAR=NULL;
 $WIDTH=800;
 $HEIGHT=550;
 $SHOWANIMBUTTON=NULL;
@@ -45,11 +45,17 @@ if ($_GET['s']=="0")
 if ($_GET['h']=="1")
  $SHOWHIDDEN=TRUE;
 if ($_GET['t']=="1")
- $TOOLBAR=TRUE;
+ $TOOLBAR="true";
+else if ($_GET['t']=="0")
+ $TOOLBAR="false";
 if ($_GET['mb']=="1")
- $MENUBAR=TRUE;
+ $MENUBAR="true";
+if ($_GET['mb']=="0")
+ $MENUBAR="false";
 if ($_GET['i']=="1")
- $INPUTBAR=TRUE;
+ $INPUTBAR="true";
+if ($_GET['i']=="0")
+ $INPUTBAR="false";
 if ($_GET['v']=="0")
  $VERSION=FALSE;
 if ($_GET['c']=="0")
@@ -102,9 +108,9 @@ if ($VERSION) {
     data-param-enableShiftDragZoom="false"
     <?php echo "data-param-width=\"$WIDTH\"" ?>
     <?php echo "data-param-height=\"$HEIGHT\"" ?>
-    <?php if ($TOOLBAR) echo 'data-param-showToolbar="true"' ?>
-    <?php if ($MENUBAR) echo 'data-param-showMenuBar="true"' ?>
-    <?php if ($INPUTBAR) echo 'data-param-showAlgebraInput="true"' ?>
+    <?php if ($TOOLBAR) echo "data-param-showToolbar=\"$TOOLBAR\"" ?>
+    <?php if ($MENUBAR) echo "data-param-showMenuBar=\"$MENUBAR\"" ?>
+    <?php if ($INPUTBAR) echo "data-param-showAlgebraInput=\"$INPUTBAR\"" ?>
     <?php if ($SHOWANIMBUTTON) echo "data-param-showAnimationButton=\"$SHOWANIMBUTTON\"" ?>
     style="border: 1px solid black; display:inline-block;"
     data-param-ggbbase64=<?php
@@ -143,21 +149,22 @@ function bool2int($bool) {
 }
 
 function passoptions() {
- global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION, $TOOLBAR, $MENUBAR, $INPUTBAR, $WIDTH, $HEIGHT;
+ global $MILESTONES, $CODEBASE, $SHOWFILELIST, $SHOWHIDDEN, $VERSION;
 
- $WIDTH_HEIGHT = ($WIDTH > 0) ? "&w=".$WIDTH : "";
- if ($HEIGHT > 0) $WIDTH_HEIGHT .= "&he=".$HEIGHT;
-
- return "&m=".$MILESTONES.
+ $ret = "&m=".$MILESTONES.
   "&c=".$CODEBASE.
   "&s=".bool2int($SHOWFILELIST).
   "&h=".bool2int($SHOWHIDDEN).
-  "&v=".bool2int($VERSION).
-  "&t=".bool2int($TOOLBAR).
-  "&mb=".bool2int($MENUBAR).
-  "&i=".bool2int($INPUTBAR).
-  $WIDTH_HEIGHT.
-  "&a=".bool2int($SHOWANIMBUTTON);
+  "&v=".bool2int($VERSION);
+
+ if ($_GET['w']!="") $ret .= "&w=".$_GET['w'];
+ if ($_GET['he']!="") $ret .= "&he=".$_GET['he'];
+ if ($_GET['t']!="") $ret .= "&t=".$_GET['t'];
+ if ($_GET['mb']!="") $ret .= "&mb=".$_GET['mb'];
+ if ($_GET['i']!="") $ret .= "&i=".$_GET['i'];
+ if ($_GET['a']!="") $ret .= "&a=".$_GET['a'];
+
+ return $ret;
  }
 
 function pretty_filename($name) {
