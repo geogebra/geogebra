@@ -18,10 +18,13 @@ UPDATEZIP=0
 GAEDIR=lib/appengine-java-sdk-1.7.3
 GAEEMAIL=apps@geogebra.org
 GAEAPP=geogebraweb
-DOWNLOADDIR=$HOME/download/web
+DOWNLOADDIR=/var/www/download/web
 WWW_SERVER_LOGIN=www-refresh@www.geogebra.org
 WWW_SERVER_KEY=$HOME/.ssh/id_rsa-www-refresh@www
 WWW_SERVER_PORT=22077
+DEV_SERVER_LOGIN=build@dev.geogebra.org
+DEV_SERVER_KEY=$HOME/.ssh/id_rsa
+DEV_SERVER_PORT=22077
 GGBWEBDIR=/home/GeoGebra/web/5.0
 
 test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
@@ -60,41 +63,39 @@ echo "* GAE SDK directory is set to $GAEDIR"
 
 # 5/1. Updating GeoGebraWeb-latest.zip (for GeoGebraWeb offline documents in the desktop application)
 if [ $UPDATEZIP = 1 ]; then
-echo "Updating GeoGebraWeb-latest.zip"
-mkdir -p $DOWNLOADDIR
-cp GeoGebraWeb-$VERSION.zip $DOWNLOADDIR
-cd $DOWNLOADDIR
-rm GeoGebraWeb-latest.zip
-ln -s GeoGebraWeb-$VERSION.zip GeoGebraWeb-latest.zip
-fi
+ echo "Updating GeoGebraWeb-latest.zip"
+ # Assuming $DOWNLOADDIR is already created.
+ scp -P $DEV_SERVER_PORT -i $DEV_SERVER_KEY GeoGebraWeb-$VERSION.zip $DEV_SERVER_LOGIN:$DOWNLOADDIR
+ ssh -n -p $DEV_SERVER_PORT -i $DEV_SERVER_KEY $DEV_SERVER_LOGIN "cd $DOWNLOADDIR; rm GeoGebraWeb-latest.zip; ln -s GeoGebraWeb-$VERSION.zip GeoGebraWeb-latest.zip"
+ fi
 
 # 5/2. Updating war/web to www.geogebra.org/web/5.0/web
 if [ $UPDATEWEB = 1 ]; then
-cd $WORKDIR
-echo "Updating war/web to www.geogebra.org/web/5.0/web"
-rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" war/web $WWW_SERVER_LOGIN:$GGBWEBDIR 2>&1 | grep -v failed | grep -v "were not transferred"
-BACKUPDIR=history/5.0-`date +%Y-%m-%d`
-echo "Making backup to web/$BACKUPDIR"
-ssh -n -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN "cd $GGBWEBDIR; mkdir -p ../$BACKUPDIR; cp -a * ../$BACKUPDIR"
-fi
+ cd $WORKDIR
+ echo "Updating war/web to www.geogebra.org/web/5.0/web"
+ rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" war/web $WWW_SERVER_LOGIN:$GGBWEBDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+ BACKUPDIR=history/5.0-`date +%Y-%m-%d`
+ echo "Making backup to web/$BACKUPDIR"
+ ssh -n -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN "cd $GGBWEBDIR; mkdir -p ../$BACKUPDIR; cp -a * ../$BACKUPDIR"
+ fi
 
 # 5/3. Uploading to Google App Engine
 if [ $UPDATEGAE = 1 ]; then
-echo "Uploading to Google App Engine"
-cd $WORKDIR
-echo "Removing symbolMaps"
-rm -fR war/WEB-INF/deploy/web/symbolMaps
-cd $GAEDIR/bin
-sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
-fi
+ echo "Uploading to Google App Engine"
+ cd $WORKDIR
+ echo "Removing symbolMaps"
+ rm -fR war/WEB-INF/deploy/web/symbolMaps
+ cd $GAEDIR/bin
+ sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
+ fi
 
 # 5/4. Uploading to Google Code
 if  [ $UPDATEGC = 1 ]; then
-echo "Uploading to Google Code"
-cd $WEBDIR
-../desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebraWeb $VERSION (platform-independent)" \
- -p geogebra -u $GC_USER -w "$GC_PASS" -l Test GeoGebraWeb-$VERSION.zip
-fi
+ echo "Uploading to Google Code"
+ cd $WEBDIR
+ ../desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebraWeb $VERSION (platform-independent)" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test GeoGebraWeb-$VERSION.zip
+ fi
 
 # 6. Cleanup
 rm -f GeoGebraWeb-$VERSION.zip
