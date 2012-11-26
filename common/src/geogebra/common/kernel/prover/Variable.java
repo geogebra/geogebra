@@ -15,6 +15,7 @@ public class Variable implements Comparable<Variable> {
     //private static int nextAvailableNumber = 0;
 	//private static HashMap<String,Integer> nameToId;
     private static HashMap<Integer,Variable> twins;
+    private boolean isFree = false;
     
     private GeoElement parent;
 	//private final String name;
@@ -34,6 +35,15 @@ public class Variable implements Comparable<Variable> {
         //name = "v".concat(Integer.toString(nextAvailableNumber));
         //nameToId.put(name,n);
         id = n;
+	}
+	
+	/**
+	 * Creates a new variable
+	 * @param free true if the Variable is a free variable
+	 */
+	public Variable(boolean free) {
+		this();
+        isFree = free;
 	}
 	
 	/**
@@ -151,5 +161,13 @@ public class Variable implements Comparable<Variable> {
 	 */
 	public void setParent(final GeoElement parent) {
 		this.parent = parent;
+	}
+
+	/**
+	 * Tests whether the variable is free or dependent
+	 * @return returns true if this is a free variable and returns false if it is a dependent variable
+	 */
+	public boolean isFree() {
+		return isFree;
 	}
 }

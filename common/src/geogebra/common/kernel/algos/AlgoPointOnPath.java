@@ -248,7 +248,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		if (input[0] != null && input[0] instanceof GeoLine){
 			if (botanaVars==null){
 				botanaVars = new Variable[2];
-				botanaVars[0]=new Variable();
+				botanaVars[0]=new Variable(true);
 				botanaVars[1]=new Variable();
 			}
 			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]); // 4 variables
@@ -261,7 +261,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 			if (((GeoConic) input[0]).isCircle()) {
 				if (botanaVars==null){
 					botanaVars = new Variable[2];
-					botanaVars[0]=new Variable();
+					botanaVars[0]=new Variable(true);
 					botanaVars[1]=new Variable();
 				}
 				Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]); // 4 variables

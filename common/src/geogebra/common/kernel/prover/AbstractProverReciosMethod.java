@@ -169,10 +169,10 @@ public abstract class AbstractProverReciosMethod {
 	}
 
 	private static ProofResult compute1d(
-			final HashSet<Variable> freeVariabless,
+			final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
 			final SymbolicParameters s) {
-		Variable variable = freeVariabless.iterator().next();
+		Variable variable = freeVariables.iterator().next();
 		for (int i = 1; i <= deg + 2; i++) {
 			values.put(variable, BigInteger.valueOf(i));
 			try {

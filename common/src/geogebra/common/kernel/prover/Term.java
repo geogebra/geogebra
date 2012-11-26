@@ -33,7 +33,14 @@ public class Term implements Comparable<Term> {
 		variables = new TreeMap<Variable, Integer>(t.getTerm());
 	}
 
-	private Term(final TreeMap<Variable, Integer> variables) {
+	/**
+	 * Creates a Term out of a map from variables to integers. The term is the
+	 * product of the variables raised by the corresponding integers.
+	 * 
+	 * @param variables
+	 *            The map
+	 */
+	Term(final TreeMap<Variable, Integer> variables) {
 		this.variables = variables;
 	}
 
@@ -102,19 +109,7 @@ public class Term implements Comparable<Term> {
 	public Variable getHighestVariable() {
 		return variables.lastKey();
 	}
-
-	public Term gcd(Term t){
-		TreeMap<Variable, Integer> result = new TreeMap<Variable, Integer>();
-		TreeMap<Variable, Integer> tTM=t.getTerm();
-		Iterator<Variable> it = variables.keySet().iterator();
-		while (it.hasNext()){
-			Variable var=it.next();
-			if (tTM.containsKey(var)){
-				result.put(var, Math.min(Math.abs(variables.get(var)),Math.abs(tTM.get(var))));
-			}
-		}
-		return new Term(result);
-	}
+	
 	public int compareTo(Term o) {
 		if (this==o){
 			return 0;

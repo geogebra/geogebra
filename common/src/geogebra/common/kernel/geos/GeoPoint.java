@@ -2162,8 +2162,8 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 		if (algoParent == null) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[2];
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(true);
+				botanaVars[1] = new Variable(true);
 			}
 		}
 		

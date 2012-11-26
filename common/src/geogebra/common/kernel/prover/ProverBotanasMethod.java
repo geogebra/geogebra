@@ -367,24 +367,9 @@ public class ProverBotanasMethod {
 				// Rabinowitsch trick for the last polynomial of the current statement:
 				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
-				eqSystem[nHypotheses + nPolysStatement - 1] = spoly;
+				eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 				
-				Set<Variable> freeVariables = new HashSet<Variable>();				
-				List<GeoElement> freePoints = getFreePoints(statement);
-				Iterator<GeoElement> itFreePoints=freePoints.iterator();
-				
-				while(itFreePoints.hasNext()){
-					GeoElement freePoint=itFreePoints.next();
-					if (freePoint instanceof SymbolicParametersBotanaAlgo){
-						Variable[] vars = ((SymbolicParametersBotanaAlgo)freePoint).getBotanaVars(freePoint);
-						for (Variable var:vars){
-							freeVariables.add(var);
-						}
-					}
-				}
-				
-				
-				if (Polynomial.solvable(eqSystem, freeVariables, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
+				if (Polynomial.solvable2(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
 					ans = false;
 			}
 			if (ans)

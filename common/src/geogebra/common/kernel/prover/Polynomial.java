@@ -1,9 +1,12 @@
 package geogebra.common.kernel.prover;
 
 import geogebra.common.main.App;
+
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -587,8 +590,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][3]));
 	}
 	
-	/**
-	 * 
+	/** 
 	 * Calculates the cross product of two vectors of dimension three.
 	 * @param a the first vector
 	 * @param b the second vector
@@ -601,6 +603,58 @@ public class Polynomial implements Comparable<Polynomial> {
 		result[1]=(a[2].multiply(b[0])).subtract(a[0].multiply(b[2]));
 		result[2]=(a[0].multiply(b[1])).subtract(a[1].multiply(b[0]));
 		return result;
+	}
+	
+	/**
+	 * Substitutes variables in the polynomial by integer values
+	 * 
+	 * @param substitutions
+	 *            A map of the substitutions (not null)
+	 * @return a new polynomial with the variables substituted.
+	 */
+	public Polynomial substitute(Map<Variable, Integer> substitutions) {
+		
+		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
+
+		Iterator<Term> it = terms.keySet().iterator();
+		while (it.hasNext()) {
+			Term t1 = it.next();
+			TreeMap<Variable, Integer> term = (TreeMap<Variable, Integer>) t1
+					.getTerm().clone();
+			BigInteger product = BigInteger.ONE;
+			Iterator<Variable> itSubst = substitutions.keySet().iterator();
+			while (itSubst.hasNext()) {
+				Variable variable = itSubst.next();
+				Integer exponent = term.get(variable);
+				if (exponent != null) {
+					product = product.multiply(BigInteger.valueOf(
+							substitutions.get(variable)).pow(exponent));
+					term.remove(variable);
+				}
+			}
+			product = product.multiply(BigInteger.valueOf(terms.get(t1)));
+			Term t = new Term(term);
+			if (result.containsKey(t)) {
+				BigInteger sum = BigInteger.valueOf(result.get(t)).add(
+						product);
+//				if (sum.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > -1) {
+//					throw new ArithmeticException(
+//							"Integer Overflow in polynomial class");
+//				}
+				if (sum.intValue() == 0) {
+					result.remove(t);
+				} else if (product.intValue() != 0){
+					result.put(t, sum.intValue());
+				}
+			} else {
+//				if (product.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > -1) {
+//					throw new ArithmeticException(
+//							"Integer Overflow in polynomial class");
+//				}
+				result.put(t, product.intValue());
+			}
+		}
+		return new Polynomial(result);
 	}
 
 	
@@ -724,6 +778,8 @@ public class Polynomial implements Comparable<Polynomial> {
 			}
 			ret.setLength(ret.length() - 1);
 			ret.append(")");
+		} else {
+			ret.append(",(dummyvar)");
 		}
 		ret.append(",dp; "); // ring definition in Singular
 		ret.append("ideal ");
@@ -805,29 +861,52 @@ public class Polynomial implements Comparable<Polynomial> {
 
 	/**
 	 * Test if the system of algebraic equations has a solution. The polynomials
-	 * are from the polynomial ring over a field of rational functions.
+	 * are from the polynomial ring over a field of rational functions. The variables
+	 * of the field are the free variables, that is those where isFree() returns true.
 	 * The calculations are done using SingularWS
 	 * @param eqSystem the polynomials describing the system of algebraic equations
-	 * @param fieldVariables the variables of the field of rational functions
 	 * @param substitutions the substitutions done prior the change
 	 * @return True if the system of equations has a solution, false if not and null
 	 * if Singular was not able to give an answer.
 	 */
-	public static Boolean solvable(Polynomial[] eqSystem,
-			Set<Variable> fieldVariables,
+	public static Boolean solvable2(Polynomial[] eqSystem,
 			HashMap<Variable, Integer> substitutions) {
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
-			HashSet<Variable> dependentVariables=getVars(eqSystem);
-			dependentVariables.removeAll(fieldVariables);
-			String singularSolvableProgram;
-			singularSolvableProgram = getSingularGroebnerSolvable("r", "i", eqSystem, substitutions, fieldVariables, dependentVariables);
+			HashSet<Variable> dependentVariables = new HashSet<Variable>();
+			HashSet<Variable> freeVariables = new HashSet<Variable>();
+			Iterator<Variable> variables = getVars(eqSystem).iterator();
+			while(variables.hasNext()){
+				Variable variable=variables.next();
+				if (variable.isFree()){
+					freeVariables.add(variable);
+				} else {
+					dependentVariables.add(variable);
+				}
+			}
+			Polynomial[] eqSystemSubstituted;
+			if (substitutions != null) {
+				eqSystemSubstituted = new Polynomial[eqSystem.length];
+				for (int i = 0; i < eqSystem.length; i++) {
+					eqSystemSubstituted[i] = eqSystem[i].substitute(substitutions);
+				}
+				freeVariables.removeAll(substitutions.keySet());
+			} else {
+				eqSystemSubstituted = eqSystem;
+			}
+			String singularSolvableProgram = getSingularGroebnerSolvable("r", "i",
+					eqSystemSubstituted, null, freeVariables, dependentVariables);
 
-			if (singularSolvableProgram.length()>500)
-				App.debug(singularSolvableProgram.length() + " bytes -> singular");
+			if (singularSolvableProgram.length() > 500)
+				App.debug(singularSolvableProgram.length()
+						+ " bytes -> singular");
 			else
 				App.debug(singularSolvableProgram + " -> singular");
-			String singularSolvable = App.singularWS.directCommand(singularSolvableProgram);
-			if (singularSolvable.length()>500)
+			String singularSolvable = App.singularWS
+					.directCommand(singularSolvableProgram);
+			if (singularSolvable == null){
+				return null;
+			}
+			if (singularSolvable.length() > 500)
 				App.debug("singular -> " + singularSolvable.length() + " bytes");
 			else
 				App.debug("singular -> " + singularSolvable);
