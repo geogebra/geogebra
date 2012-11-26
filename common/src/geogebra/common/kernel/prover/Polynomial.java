@@ -619,8 +619,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		Iterator<Term> it = terms.keySet().iterator();
 		while (it.hasNext()) {
 			Term t1 = it.next();
-			TreeMap<Variable, Integer> term = (TreeMap<Variable, Integer>) t1
-					.getTerm().clone();
+			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(t1.getTerm());
 			BigInteger product = BigInteger.ONE;
 			Iterator<Variable> itSubst = substitutions.keySet().iterator();
 			while (itSubst.hasNext()) {
