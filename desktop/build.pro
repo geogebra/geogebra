@@ -179,6 +179,21 @@
 # from org.rosuda.REngine.Rserve import RConnection;
 # R= RConnection();
 -keep class org.rosuda.REngine.Rserve.RConnection { <methods>; }
+# Contributed by Virgilio Gomez-Rubio, 2012-11-26
+-keep class org.rosuda.REngine.REXP { <methods>; }
+-keep class org.rosuda.REngine.REXPDouble { <methods>; }
+-keep class org.rosuda.REngine.REXPFactor { <methods>; }
+-keep class org.rosuda.REngine.REXPInteger { <methods>; }
+-keep class org.rosuda.REngine.REXPList { <methods>; }
+-keep class org.rosuda.REngine.REXPLogical { <methods>; }
+-keep class org.rosuda.REngine.REXPNull { <methods>; }
+-keep class org.rosuda.REngine.REXPRaw { <methods>; }
+-keep class org.rosuda.REngine.REXPS4 { <methods>; }
+-keep class org.rosuda.REngine.REXPString { <methods>; }
+-keep class org.rosuda.REngine.REXPVector { <methods>; }
+-keep class org.rosuda.REngine.RList { <methods>; }
+-keep class org.rosuda.REngine.Rserve.RFileOutputStream { <methods>; }
+-keep class org.rosuda.REngine.Rserve.RFileInputStream { <methods>; }
 
 # for the inner class 'Geo'
 -keepattributes InnerClasses
@@ -250,22 +265,3 @@
 #-keep class geogebra.kernel.Translateable { <methods>; }
 #-keep class org.freehep.graphics2d.TagString { <methods>; }
 
-# connection to R,eg from python
-# from org.rosuda.REngine.Rserve import RConnection;
-# R= RConnection();
-# Contributed by Virgilio Gomez-Rubio, 2012-11-26
--keep class org.rosuda.REngine.Rserve.RConnection { <methods>; }
--keep class org.rosuda.REngine.REXP { <methods>; }
--keep class org.rosuda.REngine.REXPDouble { <methods>; }
--keep class org.rosuda.REngine.REXPFactor { <methods>; }
--keep class org.rosuda.REngine.REXPInteger { <methods>; }
--keep class org.rosuda.REngine.REXPList { <methods>; }
--keep class org.rosuda.REngine.REXPLogical { <methods>; }
--keep class org.rosuda.REngine.REXPNull { <methods>; }
--keep class org.rosuda.REngine.REXPRaw { <methods>; }
--keep class org.rosuda.REngine.REXPS4 { <methods>; }
--keep class org.rosuda.REngine.REXPString { <methods>; }
--keep class org.rosuda.REngine.REXPVector { <methods>; }
--keep class org.rosuda.REngine.RList { <methods>; }
--keep class org.rosuda.REngine.Rserve.RFileOutputStream { <methods>; }
--keep class org.rosuda.REngine.Rserve.RFileInputStream { <methods>; }
