@@ -52,7 +52,7 @@ public class GeoDummyVariable extends GeoNumeric {
 	@Override
 	public boolean hasCoords() {
 		GeoElement ge = getElementWithSameName();
-		if(ge != null)
+		if(ge != null && !(ge instanceof GeoDummyVariable))
 			return ge.hasCoords();
 		return false;
 	}
