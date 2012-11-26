@@ -642,10 +642,10 @@ public class Polynomial implements Comparable<Polynomial> {
 //				}
 				if (sum.intValue() == 0) {
 					result.remove(t);
-				} else if (product.intValue() != 0){
+				} else {
 					result.put(t, sum.intValue());
 				}
-			} else {
+			} else if (product.intValue() != 0){
 //				if (product.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > -1) {
 //					throw new ArithmeticException(
 //							"Integer Overflow in polynomial class");
