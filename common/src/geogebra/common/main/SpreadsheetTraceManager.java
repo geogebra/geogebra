@@ -660,6 +660,8 @@ public class SpreadsheetTraceManager {
 				break;
 
 			}
+			
+			cell.updateCascade();
 
 		} else {
 			// delete old cell geo
