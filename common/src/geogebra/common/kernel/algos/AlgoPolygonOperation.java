@@ -179,6 +179,12 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		GeoPointND[] pts0 = inPoly0.getPoints();
 		GeoPointND[] pts1 = inPoly1.getPoints();
 
+		// needed for loading some ggb40 files where number of outputs 
+		// can be different due to bugs
+		if (pts0.length == 0 || pts1.length == 0) {
+			return;
+		}
+
 		Coordinate[] coordinates0 = new Coordinate[pts0.length + 1];
 		Coordinate[] coordinates1 = new Coordinate[pts1.length + 1];
 
