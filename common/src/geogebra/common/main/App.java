@@ -4367,4 +4367,14 @@ public abstract class App {
 			updateMenubar();
 		}
 	}
+	
+	protected boolean needsSpreadsheetTableModel = false;
+
+	public void setNeedsSpreadsheetTableModel(){
+		needsSpreadsheetTableModel = true;
+	}
+	
+	public boolean needsSpreadsheetTableModel(){
+		return needsSpreadsheetTableModel;
+	}
 }

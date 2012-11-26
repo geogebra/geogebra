@@ -3839,6 +3839,8 @@ public class MyXMLHandler implements DocHandler {
 			t.showTraceList = (parseBoolean(attrs.get("showTraceList")));
 			t.doTraceGeoCopy = (parseBoolean(attrs.get("doTraceGeoCopy")));
 			
+			app.setNeedsSpreadsheetTableModel();
+			
 			// app.getTraceManager().loadTraceGeoCollection(); is called when construction loaded to add geo to trace list
 
 			return true;

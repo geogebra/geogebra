@@ -229,7 +229,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
-		// ignore
+		updateWithoutTrace(geo);
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {

@@ -2149,6 +2149,8 @@ public class GuiManagerD extends GuiManager {
 
 			if (!app.isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
+				if (app.needsSpreadsheetTableModel())
+					((AppD)app).getSpreadsheetTableModel(); //ensure create one if not already done
 			}
 		} else if (isMacroFile && success) {
 			setToolBarDefinition(Toolbar.getAllTools((AppD)app));

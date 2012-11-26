@@ -400,6 +400,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	private PythonBridgeD pythonBridge = null;
 
 	private SpreadsheetTableModelD tableModel;
+	
 
 	// ==============================================================
 	// MISC FLAGS
@@ -600,6 +601,11 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+		}
+		
+		if (isUsingFullGui() && needsSpreadsheetTableModel){
+			//if tableModel==null, will create one
+			getSpreadsheetTableModel();
 		}
 
 		if (isUsingFullGui() && ggtloading) {
@@ -5043,6 +5049,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		return tableModel;
 	}
+	
 
 	@Override
 	public CommandProcessor newCmdBarCode() {
@@ -5482,6 +5489,9 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 	}
+	
+	
+
 
 	// **************************************************************************
 	// ConstructionProtocol
