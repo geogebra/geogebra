@@ -875,7 +875,7 @@ public class AppW extends App {
 	@Override
 	public String getLocaleStr() {
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		App.debug("Current Locale: " + localeName);
+		App.trace("Current Locale: " + localeName);
 
 		if (localeName.toLowerCase().equals(AppW.DEFAULT_LOCALE)) {
 			return AppW.DEFAULT_LANGUAGE;
