@@ -191,7 +191,7 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * @return the data-param-showLogging (default: true)
+	 * @return the data-param-showLogging (default: false)
 	 */
 	public boolean getDataParamShowLogging() {
 		return ("true".equals(this.getAttribute("data-param-showLogging")));
