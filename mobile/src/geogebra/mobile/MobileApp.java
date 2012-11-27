@@ -759,10 +759,11 @@ public class MobileApp extends App
 
 	@Override
 	public geogebra.common.io.MyXMLio getXMLio() {
-		if (this.myXMLio == null) { 
-			this.myXMLio = createXMLio(this.kernel.getConstruction()); 
-		} 
-		return this.myXMLio; 
+//		if (this.myXMLio == null) { 
+//			this.myXMLio = createXMLio(this.kernel.getConstruction()); 
+//		} 
+//		return this.myXMLio; 
+		return null;
 	}
 
 	@Override
