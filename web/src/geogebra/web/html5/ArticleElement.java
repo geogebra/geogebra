@@ -189,4 +189,11 @@ public final class ArticleElement extends Element {
 	public String getDataParamBorder() {
 		return this.getAttribute("data-param-borderColor");
 	}
+
+	/**
+	 * @return the data-param-showLogging (default: true)
+	 */
+	public boolean getDataParamShowLogging() {
+		return ("true".equals(this.getAttribute("data-param-showLogging")));
+	}
 }

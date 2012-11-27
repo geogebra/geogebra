@@ -190,7 +190,8 @@ public class AppW extends App {
 		this.frame = gf;
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
-		startLogger();
+		if (ae.getDataParamShowLogging())
+			startLogger();
 		infobar = new InfoBarW(this);
 		
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
@@ -237,7 +238,8 @@ public class AppW extends App {
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
 		setCurrentFileId();
-		startLogger();
+		if (article.getDataParamShowLogging())
+			startLogger();
 		infobar = new InfoBarW(this);
 
 		initCommonObjects();
