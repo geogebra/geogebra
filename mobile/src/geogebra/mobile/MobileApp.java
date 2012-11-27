@@ -12,6 +12,7 @@ import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -27,13 +28,13 @@ import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
+import geogebra.mobile.gui.elements.header.XMLBuilder;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppW;
@@ -51,6 +52,14 @@ public class MobileApp extends App
 {
 	private GeoGebraMobileGUI mobileGUI;
 	private FontManagerW fontManager;
+	/**
+	 * static because it gets from server side, either "" or the set filename
+	 */
+	public static String currentFileId = null;
+	private geogebra.common.plugin.GgbAPI ggbapi;
+	private XMLBuilder mobileXML;
+
+
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -72,8 +81,14 @@ public class MobileApp extends App
 		this.mobileGUI = mobileGUI;
 		this.settings = new Settings();
 
+		//setCurrentFileId();
 		setFontSize(12);
 	}
+
+	// not needed yet, because we use xml-Strings
+//	private static native void setCurrentFileId() /*-{
+//  	@geogebra.mobile.MobileApp::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+//  }-*/;
 
 	/**
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
@@ -443,9 +458,13 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public GgbAPI getGgbApi()
-	{
-
+	public geogebra.common.plugin.GgbAPI getGgbApi() {
+		//not needed yet, because now we use xml-strings
+//		if (ggbapi == null) {
+//			ggbapi = new geogebra.mobile.gui.elements.header.GgbAPI(this);
+//		}
+//
+//		return ggbapi;
 		return null;
 	}
 
@@ -588,7 +607,9 @@ public class MobileApp extends App
 	@Override
 	public boolean loadXML(String xml) throws Exception
 	{
-		return false;
+		this.mobileXML = createXMLBuilder(this.kernel.getConstruction());
+		this.mobileXML.processXMLString(xml, true, false);
+		return true;
 	}
 
 	@Override
@@ -711,7 +732,25 @@ public class MobileApp extends App
 	{
 		return null;
 	}
+	
+	//needed, to save xml-Strings(constructions)
+	public XMLBuilder getXMLBuilder() {
+		if (this.mobileXML == null) { 
+			this.mobileXML = createXMLBuilder(this.kernel.getConstruction()); 
+		} 
+		return this.mobileXML; 
+	}
 
+	public XMLBuilder createXMLBuilder(Construction cons) {
+		return new XMLBuilder(cons);
+	}
+
+	public String getXML()
+	{
+		return getXMLBuilder().getFullXML();
+	}
+	//	
+	
 	@Override
 	public ScriptManager getScriptManager()
 	{

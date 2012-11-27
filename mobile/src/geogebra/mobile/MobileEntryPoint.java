@@ -2,7 +2,6 @@ package geogebra.mobile;
 
 import geogebra.mobile.gui.GuiResources;
 import geogebra.mobile.gui.TabletGUI;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -36,6 +35,23 @@ public class MobileEntryPoint implements EntryPoint
 		mathquillcss.replace("url(web/font/Symbola",
 				"url(" + GWT.getModuleBaseURL() + "font/Symbola");
 		StyleInjector.inject(mathquillcss);
+		
+		
+		//insert zip.js - for saving - not needed yet, because now we use xml-Strings
+//		String deflateJs = GuiResources.INSTANCE.deflateJs().getText();
+//		deflateJs.replace("url(mobile/js/zipjs/deflate", "url(" + GWT.getModuleBaseURL() + "js/zipjs/deflate");
+//		deflateJs.replace("url(web/js/zipjs/deflate", "url(" + GWT.getModuleBaseURL() + "js/zipjs/deflate");
+//		JavaScriptInjector.inject(deflateJs);
+//		
+//		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
+//		JavaScriptInjector.inject(GuiResources.INSTANCE.downloadggbJs().getText());
+//		//JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
+//		JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
+//		JavaScriptInjector.inject(GuiResources.INSTANCE.arrayBufferJs().getText());
+//		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
+//		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
+		
+		
 	}
 
 	private void loadMobileAsync()
