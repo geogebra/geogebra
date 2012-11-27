@@ -227,7 +227,7 @@ public class Ggb2MPReduce {
 				"if myvecp then perpendicular %0 else if arglength(%0)>-1 and part(%0,0)=\\'mat then part mat((0,-1),(1,0))*(%0) else '?");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
 		p("PartialFractions.1",
-				"<<begin scalar input!!, tmpret!!;on factor; input!!:=(%0); tmpret!!:= pf(sub(mymainvar(input!!)=dum,input!!),dum); return part(sub(dum=mymainvar(input!!),tmpret!!),0):=+; end>>");
+				"<<begin scalar input!!, tmpret!!;on factor; input!!:=(%0); return part(pf(input!!,mymainvar(input!!)),0):=+; end>>");
 		p("PartialFractions.2", "<<on factor$ part(pf(%0,%1),0):=+>>");
 		p("Pascal.4",
 				"if %3=true then betaRegularized(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1)");
