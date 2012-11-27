@@ -71,6 +71,7 @@ import geogebra.web.kernel.KernelW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
+import geogebra.web.util.MyDictionary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,7 +111,6 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class AppW extends App {
 
@@ -638,7 +638,7 @@ public class AppW extends App {
 			// properties keys dynamically (during runtime)
 			// These command keys are defined in the HTML host page as a
 			// JavaScript Object named "__GGB_commandKeysVar...".
-			Dictionary commandKeys = getCommandDict();
+			MyDictionary commandKeys = getCommandDict();
 			Set<String> commandKeysSet = commandKeys.keySet();
 			Iterator<String> commandKeysIterator = commandKeysSet.iterator();
 
@@ -985,14 +985,16 @@ public class AppW extends App {
 	}
 
 	
-	Dictionary commandDictionary = null;
+	MyDictionary commandDictionary = null;
 	
-	private Dictionary getCommandDict() {
+	private MyDictionary getCommandDict() {
 		if (commandDictionary == null) {
 			try {
-				commandDictionary = Dictionary.getDictionary("__GGB__dictionary_"+language);
+				//commandDictionary = Dictionary.getDictionary("__GGB__dictionary_"+language);
+				commandDictionary = MyDictionary.getDictionary("command", language);
 			} catch (MissingResourceException e) {
-				commandDictionary = Dictionary.getDictionary("__GGB__dictionary_en");
+				//commandDictionary = Dictionary.getDictionary("__GGB__dictionary_en");
+				commandDictionary = MyDictionary.getDictionary("command", "en");
 				App.error("Missing Dictionary " + language);
 			}
 		}
@@ -1370,7 +1372,8 @@ public class AppW extends App {
 
 		try {
 
-			Dictionary colorKeysDict = Dictionary.getDictionary("__GGB__colors_"+language);
+			//Dictionary colorKeysDict = Dictionary.getDictionary("__GGB__colors_"+language);
+			MyDictionary colorKeysDict = MyDictionary.getDictionary("colors", language);
 			Iterator<String> colorKeysIterator = colorKeysDict.keySet()
 			        .iterator();
 			while (colorKeysIterator != null && colorKeysIterator.hasNext()) {
