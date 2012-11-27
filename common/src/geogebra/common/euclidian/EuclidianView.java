@@ -224,7 +224,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	protected boolean antiAliasing = true;
 
 	private boolean showMouseCoords = false;
-	private boolean allowShowMouseCoords = true;
+
+	// set to false because it was set to false in Desktop anyway
+	// (due to a bug in MyXMLHandler?), and it does some speedup in Web
+	private boolean allowShowMouseCoords = false;
 
 	private boolean showAxesRatio = false;
 	/** true if animation button need highlighting */

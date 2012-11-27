@@ -302,7 +302,9 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
-	private boolean allowShowMouseCoords = true;
+	// set to false because it was set to false in Desktop anyway
+	// (due to a bug in MyXMLHandler?), and it does some speedup in Web
+	private boolean allowShowMouseCoords = false;
 
 	private Double lockedAxesRatio = null;
 
