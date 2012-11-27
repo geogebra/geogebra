@@ -932,8 +932,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		+ "begin scalar ret!!, bool!!; ret!!:={};"
 		+ "for each solution in sol do <<"
 		+ "  bool!!:=1;"
-		+ "  for each eq in eqn do"
+		+ "  for each eq in eqn do <<"
 		+ "    if sub(solution,den(eq))=0 then bool!!:=0;"
+		+ "    on expandlogs;"
+		+ "    if sub(solution,num(eq)) neq 0 then bool!!:=0; "
+		+ "    off expandlogs;>>;"
 		+ "  if bool!! then ret!!:=(solution).ret!!;>>;"
 		+ "return reverse ret!!;"
 		+ "end;");
