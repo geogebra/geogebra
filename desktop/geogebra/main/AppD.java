@@ -607,7 +607,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
 		}
 		
-		if (isUsingFullGui() && needsSpreadsheetTableModel){
+		if (needsSpreadsheetTableModel){
 			//if tableModel==null, will create one
 			getSpreadsheetTableModel();
 		}
