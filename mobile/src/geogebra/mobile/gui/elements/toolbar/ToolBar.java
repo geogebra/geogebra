@@ -51,8 +51,8 @@ public class ToolBar extends ButtonBar
 		this.b[5] = new ToolBarButton(ToolBarMenu.ConicSection, mobileModel.getGuiModel());
 		this.b[6] = new ToolBarButton(ToolBarMenu.Mesurement, mobileModel.getGuiModel());
 		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, mobileModel.getGuiModel());
-		this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, mobileModel.getGuiModel());
-		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, mobileModel.getGuiModel());
+//TODO: 	this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, mobileModel.getGuiModel());
+//TODO:		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, mobileModel.getGuiModel());
 		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, mobileModel.getGuiModel());
 
 		// inputBar
@@ -84,7 +84,9 @@ public class ToolBar extends ButtonBar
 
 		for (int i = 0; i < this.b.length; i++)
 		{
-			this.add(this.b[i]);
+			// TODO: remove if(...)
+			if(this.b[i] != null) 
+				this.add(this.b[i]);
 		}
 
 		mobileModel.getGuiModel().setActive(this.b[0]);

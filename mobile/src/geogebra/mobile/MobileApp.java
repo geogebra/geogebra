@@ -64,6 +64,8 @@ public class MobileApp extends App
 	{
 		super.initing = true;
 
+		setLabelDragsEnabled(false); 
+		
 		intitFactories();
 
 		this.fontManager = new FontManagerW();

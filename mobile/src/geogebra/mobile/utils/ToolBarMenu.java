@@ -10,11 +10,14 @@ package geogebra.mobile.utils;
  */
 public enum ToolBarMenu
 {
+	
+	//TODO: add menu items when implemented 	
+	
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
 			ToolBarCommand.NewPoint, 
 			ToolBarCommand.PointOnObject,
 			ToolBarCommand.AttachDetachPoint, 
-			ToolBarCommand.IntersectTwoObjects,
+			//TODO: ToolBarCommand.IntersectTwoObjects,
 			ToolBarCommand.MidpointOrCenter, 
 			ToolBarCommand.ComplexNumbers }),
 
@@ -32,9 +35,10 @@ public enum ToolBarMenu
 			ToolBarCommand.PerpendicularBisector,
 			ToolBarCommand.AngleBisector,
 			ToolBarCommand.Tangents,
-			ToolBarCommand.PolarOrDiameterLine,
-			ToolBarCommand.BestFitLine,
-			ToolBarCommand.Locus }),
+			//TODO: ToolBarCommand.PolarOrDiameterLine,
+			//TODO: ToolBarCommand.BestFitLine,
+			//TODO: ToolBarCommand.Locus 
+			}),
 
 	Polygon(ToolBarCommand.Polygon, new ToolBarCommand[] {
 			ToolBarCommand.Polygon,
@@ -45,7 +49,7 @@ public enum ToolBarMenu
 	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint,
 			new ToolBarCommand[] {
 					ToolBarCommand.CircleWithCenterThroughPoint,
-					ToolBarCommand.Compasses,
+					//TODO: ToolBarCommand.Compasses,
 					ToolBarCommand.CircleThroughThreePoints,					
 					ToolBarCommand.Semicircle,
 					ToolBarCommand.CircularArcWithCenterBetweenTwoPoints,
@@ -61,10 +65,11 @@ public enum ToolBarMenu
 
 	Mesurement(ToolBarCommand.Angle, new ToolBarCommand[] {
 			ToolBarCommand.Angle, 
-			ToolBarCommand.DistanceOrLength,
-			ToolBarCommand.Area,
-			ToolBarCommand.Slope,
-			ToolBarCommand.CreateList }),
+			//TODO: ToolBarCommand.DistanceOrLength,
+			//TODO: ToolBarCommand.Area,
+			//TODO: ToolBarCommand.Slope,
+			//TODO: ToolBarCommand.CreateList 
+			}),
 
 	Transformation(ToolBarCommand.ReflectObjectAboutLine, new ToolBarCommand[] {
 			ToolBarCommand.ReflectObjectAboutLine,
@@ -72,18 +77,20 @@ public enum ToolBarMenu
 			ToolBarCommand.ReflectObjectAboutCircle,
 			ToolBarCommand.TranslateObjectByVector }),
 
-	SpecialObject(ToolBarCommand.InsertText, new ToolBarCommand[] {
-			ToolBarCommand.InsertText,
-			ToolBarCommand.InsertImage,
-			ToolBarCommand.Pen,
-			ToolBarCommand.FreehandShape,
-			ToolBarCommand.RelationBetweenTwoObjects }),
+			//TODO: 
+//	SpecialObject(ToolBarCommand.InsertText, new ToolBarCommand[] {
+//			ToolBarCommand.InsertText,
+//			ToolBarCommand.InsertImage,
+//			ToolBarCommand.Pen,
+//			ToolBarCommand.FreehandShape,
+//			ToolBarCommand.RelationBetweenTwoObjects }),
 
-	ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {
-			ToolBarCommand.Slider,
-			ToolBarCommand.CheckBoxToShowHideObjects,
-			ToolBarCommand.InsertButton, 
-			ToolBarCommand.InsertInputBox }),
+	//TODO: 
+//	ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {
+//			ToolBarCommand.Slider,
+//			ToolBarCommand.CheckBoxToShowHideObjects,
+//			ToolBarCommand.InsertButton, 
+//			ToolBarCommand.InsertInputBox }),
 
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
 			ToolBarCommand.Move_Mobile, 

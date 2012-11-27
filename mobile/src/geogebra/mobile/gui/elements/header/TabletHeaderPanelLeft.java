@@ -24,16 +24,18 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	{
 		this.addStyleName("leftHeader");
 
-		HeaderButton[] left = new HeaderButton[3];
+		// TODO: set array-length to 3
+		HeaderButton[] left = new HeaderButton[1];
 
 		left[0] = new HeaderButton();
 		left[0].setText("new");
 
-		left[1] = new HeaderButton();
-		left[1].setText("open");
-
-		left[2] = new HeaderButton();
-		left[2].setText("save");
+		// TODO: add again
+//		left[1] = new HeaderButton();
+//		left[1].setText("open");
+//
+//		left[2] = new HeaderButton();
+//		left[2].setText("save");
 
 		for (int i = 0; i < left.length; i++)
 		{

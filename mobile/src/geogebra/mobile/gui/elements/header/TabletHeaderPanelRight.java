@@ -2,8 +2,6 @@ package geogebra.mobile.gui.elements.header;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
 
 /**
  * ButtonBar for the buttons on the right side of the HeaderPanel.
@@ -21,8 +19,9 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 	{
 		this.addStyleName("rightHeader");
 
-		this.add(new ArrowLeftButton());
-		this.add(new ArrowRightButton());
+		//TODO: add again 
+//		this.add(new ArrowLeftButton());
+//		this.add(new ArrowRightButton());
 
 	}
 

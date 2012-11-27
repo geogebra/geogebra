@@ -57,7 +57,7 @@ public class Picker
 			verticalPanel.add(b[i]);
 		}
 
-		this.ok = new Button("ok");
+		this.ok = new Button("OK");
 		this.ok.addDomHandler(new ClickHandler()
 		{
 			@Override

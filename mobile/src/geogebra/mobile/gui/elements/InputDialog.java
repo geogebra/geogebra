@@ -144,7 +144,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	 */
 	private void addOkButton()
 	{
-    OkButton okButton = new OkButton(this.css, "Ok");
+    OkButton okButton = new OkButton(this.css, "OK");
     okButton.addDomHandler(new ClickHandler()
 		{
 
