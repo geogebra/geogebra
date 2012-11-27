@@ -1655,7 +1655,7 @@ public class WorksheetExportDialog extends JDialog {
 		// include applet
 		sb.append("<applet name=\"ggbApplet\" code=\"geogebra.GeoGebraApplet\"");
 		// archive geogebra.jar
-		sb.append(" archive=\"geogebra.jar\"");
+		sb.append(" archive=\"" + AppD.GEOGEBRA_JAR_NAME + "\"");
 
 		if (cbOfflineUse.isSelected()) {
 			// codebase for offline applet

@@ -3032,4 +3032,13 @@ public class GuiManagerD extends GuiManager {
 			return -1;
 		return toolbarPanel.getActiveToolbar();
 	}
+	
+	/**
+	 * Tells if the 3D View is shown in the current window
+	 * @return whether 3D View is switched on
+	 */
+	public boolean is3DViewShown() {
+		return menuBar.is3DViewShown();
+	}
+
 }

@@ -243,8 +243,5 @@ public class GuiManager3D extends GuiManagerD {
 			break;
 		}
 	}
-
-	
-	
 	
 }

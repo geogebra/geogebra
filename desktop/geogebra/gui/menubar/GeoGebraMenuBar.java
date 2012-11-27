@@ -75,7 +75,14 @@ public class GeoGebraMenuBar extends JMenuBar {
 		this.app = app;
 	}
 
-
+	/**
+	 * Tells if the 3D View is shown in the current window
+	 * @return whether 3D View is switched on
+	 */
+	public boolean is3DViewShown() {
+		return ((ViewMenu) viewMenu).is3DViewShown();
+	}
+	
 	/**
 	 * Initialize the menubar. No update is required after initialization.
 	 */

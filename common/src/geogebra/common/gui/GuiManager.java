@@ -481,6 +481,9 @@ public abstract class GuiManager {
 		case App.VIEW_PYTHON:
 			App.debug("TODO: how to detach Python view?");
 			break;
+		case App.VIEW_EUCLIDIAN3D:
+			App.debug("TODO: should we detach EV3D?");
+			break;
 		default: 
 			App.error("Error detaching VIEW: "+viewId);
 		}
@@ -572,7 +575,5 @@ public abstract class GuiManager {
 	public int getActiveToolbarId(){
 		return App.VIEW_EUCLIDIAN;
 	}
-
-
 
 }

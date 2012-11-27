@@ -4366,7 +4366,7 @@ public abstract class App {
 			updateApplicationLayout();
 			updateMenubar();
 		}
-	}
+	}	
 	
 	protected boolean needsSpreadsheetTableModel = false;
 

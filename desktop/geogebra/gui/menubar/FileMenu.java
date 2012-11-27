@@ -1,9 +1,11 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
+import geogebra3D.App3D;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -120,7 +122,7 @@ class FileMenu extends BaseMenu {
 			
 			mi = submenu.add(exportWorksheet);
 			setMenuShortCutShiftAccelerator(mi, 'W');
-	
+				
 			mi = submenu.add(exportGraphicAction);
 			setMenuShortCutShiftAccelerator(mi, 'P');
 			
@@ -446,6 +448,14 @@ class FileMenu extends BaseMenu {
 					Thread runner = new Thread() {
 						@Override
 						public void run() {
+							// If the 3D view is shown, we shouldn't offer its
+							// export since it is not supported at the moment:
+							if (((GuiManagerD) app.getGuiManager()).is3DViewShown()) {
+								// TODO: Maybe a better error message here:
+								app.showError("FileFormatNewer");
+								return;
+							}
+
 							app.setWaitCursor();
 							try {
 								app.clearSelectedGeos(true,false);
@@ -484,6 +494,14 @@ class FileMenu extends BaseMenu {
 					Thread runner = new Thread() {
 						@Override
 						public void run() {
+							// If the 3D view is shown, we shouldn't offer GGT upload
+							// since it is not supported at the moment:
+							if (((GuiManagerD) app.getGuiManager()).is3DViewShown()) {
+								// TODO: Maybe a better error message here:
+								app.showError("FileFormatNewer");
+								return;
+							}
+							
 							app.setWaitCursor();
 							try {
 								app.clearSelectedGeos(true,false);
