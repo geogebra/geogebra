@@ -117,6 +117,23 @@ div.mgwt-BarButton-tool-rightButton {
 	width: 98%;
 }
 
+.savedialog {
+	width: 40%;
+}
+
+.savetextinput {
+	width: 98%;
+}
+
+.opendialog {
+	width: 40%;
+}
+
+.listBoxToOpen {
+	width: 100%;
+}
+
+
 div.mgwt-BarButton-tool {
 	cursor: pointer;
 	border: 1px solid rgba(0, 0, 0, 0.5);
