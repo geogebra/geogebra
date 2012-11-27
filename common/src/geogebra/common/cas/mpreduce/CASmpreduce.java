@@ -228,6 +228,23 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		// evaluate in MPReduce
 		String plainResult = evaluateMPReduce(sb.toString());
+		
+
+		// convert result back into GeoGebra syntax
+		if (casInput instanceof FunctionNVar) {
+			// delayed function definition f(x)::= Derivative[x^2] should return Derivative[x^2]
+			if (casInput.getAssignmentType() == AssignmentType.DELAYED){
+				return casInput.toString(StringTemplate.numericDefault);
+			}
+			// function definition f(x) := x^2 should return x^2
+			// f(x):=Derivative[x^2] should return 2x
+			// do not return directly, must check keepinput
+			plainResult = evaluateMPReduce(plainResult
+							+ "("
+							+ ((FunctionNVar) casInput).getVarString(StringTemplate.casTemplate)
+							+ ")");
+		}
+		
 		String result = plainResult;
 		if (keepInput) {
 			// when keepinput was treated in MPReduce, it is now > 1
@@ -237,27 +254,13 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				result = casParser.toGeoGebraString(casInput, tpl);
 			}
 		}
-
-		// convert result back into GeoGebra syntax
-		if (casInput instanceof FunctionNVar) {
-			// delayed function definition f(x)::= Derivative[x^2] should return Derivative[x^2]
-			if (casInput.getAssignmentType() == AssignmentType.DELAYED){
-				return casInput.toString(StringTemplate.defaultTemplate);
-			}
-			// function definition f(x) := x^2 should return x^2
-			// f(x):=Derivative[x^2] should return 2x
-			return toGeoGebraString(
-					evaluateMPReduce(plainResult
-							+ "("
-							+ ((FunctionNVar) casInput).getVarString(StringTemplate.casTemplate)
-							+ ")"), arbconst, tpl);
-		}
 		
 		// standard case
 		if ("".equals(result)) {
 			return null;
 		}
 		return toGeoGebraString(result, arbconst, tpl);
+
 	}
 
 	/**
