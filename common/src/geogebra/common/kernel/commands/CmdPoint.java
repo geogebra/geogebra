@@ -39,7 +39,7 @@ public  GeoElement[] process(Command c) throws MyError {
             if ((arg[0].isGeoList() && 
             		((GeoList)arg[0]).getGeoElementForPropertiesDialog().isGeoNumeric())) {
             	
-        		AlgoPointsFromList algo = new AlgoPointsFromList(cons, c.getLabels(), true, (GeoList) arg[0]);
+        		AlgoPointsFromList algo = new AlgoPointsFromList(cons, c.getLabels(), !cons.isSuppressLabelsActive(), (GeoList) arg[0]);
 
                 GeoElement[] ret = algo.getPoints();
             
