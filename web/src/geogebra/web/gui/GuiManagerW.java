@@ -954,4 +954,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		App.debug("unimplemented");    
     }
+
+	@Override
+    public void applyAlgebraViewSettings() {
+		App.debug("unimplemented");      
+    }
 }
