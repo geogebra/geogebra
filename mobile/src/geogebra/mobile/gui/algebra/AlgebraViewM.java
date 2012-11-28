@@ -784,4 +784,11 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	{
 		return false;
 	}
+
+	@Override
+  public void setTreeMode(int mode)
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
 }
