@@ -336,6 +336,12 @@ public class GuiManagerD extends GuiManager {
 
 		return algebraView;
 	}
+	
+	@Override
+	public void applyAlgebraViewSettings(){
+		if (algebraView!=null)
+			algebraView.applySettings();
+	}
 
 	private PropertiesViewD propertiesView;
 

@@ -558,6 +558,8 @@ public abstract class GuiManager {
 	public abstract boolean hasEuclidianView2EitherShowingOrNot();
 
 	public abstract View getAlgebraView();
+	
+	public abstract void applyAlgebraViewSettings();
 
 	public abstract void updateFrameSize();
 

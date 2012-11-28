@@ -3152,6 +3152,11 @@ public class Kernel {
 
 				notifyEuclidianViewCE();
 				notifyReset();
+				
+				//algebra settings need to be applied after remaking tree
+				if (app.getGuiManager()!=null)
+					app.getGuiManager().applyAlgebraViewSettings();
+				
 				viewReiniting = false;
 			} else {
 				// Application.debug("Deactivate VIEWS");

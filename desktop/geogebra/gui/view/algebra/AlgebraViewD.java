@@ -1142,7 +1142,17 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 			this.collapsedNodes.add(collapsedNodes[i]);
 	}
 
-	private void applySettings(){
+
+	/**
+	 * apply the settings
+	 */
+	public void applySettings(){
+		
+		if (!settingsChanged)
+			return;
+		
+
+		settingsChanged = false;
 		
 		//auxilliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
@@ -1154,21 +1164,26 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 
 		DefaultMutableTreeNode root = getRoot();
 		for (int i : collapsedNodes){
-			App.debug(i);
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
 			collapsePath(new TreePath(node.getPath()));
 		}
+		
 	}
 
 
 	private boolean showAuxiliaryObjectsSettings = false;
+	
+	private boolean settingsChanged = false;
 
 	public void settingsChanged(AbstractSettings settings) {
+	
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
 		setTreeMode(algebraSettings.getTreeMode());
 		showAuxiliaryObjectsSettings = algebraSettings.getShowAuxiliaryObjects();
 		setCollapsedNodes(algebraSettings.getCollapsedNodes());
 		
+		settingsChanged = true;
+				
 	}
 
 } // AlgebraView
