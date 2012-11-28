@@ -119,7 +119,7 @@ public class WorksheetExportDialog extends JDialog {
 	private JCheckBox cbEnableRightClick, cbEnableLabelDrags,
 			cbShowResetIcon, cbShowMenuBar, cbSavePrint, cbShowToolBar,
 			cbShowToolBarHelp, cbShowInputField, cbUseBrowserForJavaScript,
-			cbAllowRescaling, cbRemoveLinebreaks, cbOfflineUse,
+			cbAllowRescaling, cbRemoveLinebreaks,
 			cbIncludeHTML5;
 	private JComboBox cbFileType, cbAllWorksheets;
 	private JButton exportButton, helpButton;
@@ -398,9 +398,9 @@ public class WorksheetExportDialog extends JDialog {
 			// cbOfflineArchive.setSelected( Boolean.valueOf(ggbPref.loadPreference(
 			// GeoGebraPreferences.EXPORT_WS_OFFLINE_ARCHIVE, "false")).booleanValue()
 			// );
-			cbOfflineUse.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_OFFLINE_ARCHIVE,
-							"false")).booleanValue());
+			//cbOfflineUse.setSelected(Boolean.valueOf(
+			//		ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_OFFLINE_ARCHIVE,
+			//				"false")).booleanValue());
 			addHeight();
 
 		} catch (Exception e) {
@@ -453,8 +453,8 @@ public class WorksheetExportDialog extends JDialog {
 				Boolean.toString(cbAllowRescaling.isSelected()));
 		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_REMOVE_LINEBREAKS,
 				Boolean.toString(cbRemoveLinebreaks.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_OFFLINE_ARCHIVE,
-				Boolean.toString(cbOfflineUse.isSelected()));
+		//ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_OFFLINE_ARCHIVE,
+		//		Boolean.toString(cbOfflineUse.isSelected()));
 	}
 	
 	private JPanel createUploadPanel() {
@@ -670,8 +670,8 @@ public class WorksheetExportDialog extends JDialog {
 
 		// download jar files or download GeoGebraWeb.zip
 		// for offline use
-		cbOfflineUse = new JCheckBox(app.getPlain("AllowOfflineUse"));
-		filePanelWest.add(cbOfflineUse);
+		//cbOfflineUse = new JCheckBox(app.getPlain("AllowOfflineUse"));
+		//filePanelWest.add(cbOfflineUse);
 
 		// remove line breaks
 		cbRemoveLinebreaks = new JCheckBox(app.getMenu("RemoveLineBreaks"));
@@ -700,15 +700,15 @@ public class WorksheetExportDialog extends JDialog {
 						exportButton.setText(app.getMenu("Export"));
 						if (cbAllWorksheets != null)
 							cbAllWorksheets.setEnabled(GeoGebraFrame.getInstanceCount() > 1);
-						cbOfflineUse.setEnabled(true);
+						//cbOfflineUse.setEnabled(true);
 					} else {
 						exportButton.setText(app.getMenu("Clipboard"));
 						if (cbAllWorksheets != null) {
 							cbAllWorksheets.setSelectedIndex(TYPE_SINGLE_FILE);
 							cbAllWorksheets.setEnabled(false);
 						}
-						cbOfflineUse.setSelected(false);
-						cbOfflineUse.setEnabled(false);
+						//cbOfflineUse.setSelected(false);
+						//cbOfflineUse.setEnabled(false);
 					}
 			}
 		});
@@ -876,7 +876,7 @@ public class WorksheetExportDialog extends JDialog {
 				@Override
 				public void run() {
 					try {
-
+						/*
 						// copy jar to same directory as ggbFile (if not HTML5Only)
 						if (cbOfflineUse.isSelected()) {
 							if (cbIncludeHTML5.isSelected()) {
@@ -926,7 +926,7 @@ public class WorksheetExportDialog extends JDialog {
 								// copy all jar files
 								copyJarsTo(getAppletCodebase(), HTMLfile.getParent());
 							}
-						}
+						}*/
 
 						// open html file in browser
 						guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
@@ -1639,11 +1639,11 @@ public class WorksheetExportDialog extends JDialog {
 		// GeoGebraWeb (JavaScript/HTML5) for non-Java devices eg Android, iPhone
 		if (includeHTML5) {
 			appendWithLineBreak(sb,	"<script type=\"text/javascript\" language=\"javascript\" src=\"");
-			if (cbOfflineUse.isSelected()) {
-				sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE_OFFLINE);
-			} else {
+			//if (cbOfflineUse.isSelected()) {
+			//	sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE_OFFLINE);
+			//} else {
 				sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
-			}
+			//}
 			sb.append("\"></script>");
 			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" data-param-width=\""+width+"\" data-param-height=\""+height+"\" ");
 			appendGgbAppletParameters(sb, TYPE_GEOGEBRAWEB);
@@ -1657,10 +1657,10 @@ public class WorksheetExportDialog extends JDialog {
 		// archive geogebra.jar
 		sb.append(" archive=\"" + AppD.GEOGEBRA_JAR_NAME + "\"");
 
-		if (cbOfflineUse.isSelected()) {
+		//if (cbOfflineUse.isSelected()) {
 			// codebase for offline applet
-			sb.append("\tcodebase=\"./\"");
-		} else {
+		//	sb.append("\tcodebase=\"./\"");
+		//} else {
 			// add codebase for online applets
 			appendWithLineBreak(sb, "");
 			sb.append("\tcodebase=\"");
@@ -1668,7 +1668,7 @@ public class WorksheetExportDialog extends JDialog {
 			if (!cbSavePrint.isSelected())
 				sb.append("unsigned/");
 			sb.append("\"");
-		}
+		//}
 
 		// width, height
 		appendWithLineBreak(sb, "");
@@ -1696,13 +1696,13 @@ public class WorksheetExportDialog extends JDialog {
 		}
 
 		// loading image for online applet
-		if (!cbOfflineUse.isSelected()) {
+		//if (!cbOfflineUse.isSelected()) {
 			appendWithLineBreak(sb, "\t<param name=\"image\" value=\""
 					+ GeoGebraConstants.LOADING_GIF + "\" />");
 			appendWithLineBreak(sb, "\t<param name=\"boxborder\" value=\"false\" />");
 			appendWithLineBreak(sb,
 					"\t<param name=\"centerimage\" value=\"true\" />");
-		}
+		//}
 
 		appendAllAppletParameters(sb, TYPE_HTMLFILE);
 
@@ -1826,11 +1826,10 @@ public class WorksheetExportDialog extends JDialog {
 		// increase heap memory for applets
 		String javaArgs = "-Xmx" + GeoGebraConstants.MAX_HEAP_SPACE+ "m";
 		
-		// TODO: include pack.gz files in offline export
-		 if (!cbOfflineUse.isSelected()) {
+		 //if (!cbOfflineUse.isSelected()) {
 			 // look for local pack200 files: jar.pack.gz
 			 javaArgs += " -Djnlp.packEnabled=true";
-		 }
+		 //}
 
 		// sb.append("\t<param name=\"java_arguments\" value=\"" + javaArgs +
 		// "\" />");
