@@ -145,13 +145,13 @@ TRANSLATORS
   * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
   * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah, Vasuraj Dhamodharan
   * Tajik: Yusuf Balkas (Tajikistan)
-  * Thai: Alongkot Maiduang (Thailand) 
+  * Thai: Alongkot Maiduang, Donny Passary (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
   * Ukrainian: Valentyna Pikalova (Ukraine)
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
       Nguyen Danh Nam (Vietnam)
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
-      Gwyn Jones (Wales)
+      Gwyn Jones, Sera Roberts (Wales)
   * Yiddish: Eliezer Niborski (France, Israel)
 
 SUPPORTING PARTNERS
