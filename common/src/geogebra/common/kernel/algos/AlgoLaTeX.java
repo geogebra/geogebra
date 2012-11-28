@@ -89,7 +89,8 @@ public class AlgoLaTeX extends AlgoElement {
 			geos.add(substituteVars);
 		if (showName != null) 
 			geos.add(showName);	
-
+		if(geo.isGeoText())
+			((GeoText)geo).addTextDescendant(text);
 		input = new GeoElement[geos.size()];
 		for(int i=0; i<input.length; i++) {
 			input[i] = geos.get(i);

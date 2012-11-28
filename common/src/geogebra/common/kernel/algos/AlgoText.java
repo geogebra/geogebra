@@ -107,10 +107,12 @@ public class AlgoText extends AlgoElement {
 		if (startPoint != null) inputs++;
 		if (substituteVars != null) inputs++;
 		if (latex != null) inputs++;
-
+		
 		int i=0;
 		input = new GeoElement[inputs];
 		input[i++] = geo;
+		if(geo.isGeoText())
+			((GeoText)geo).addTextDescendant(text);
 		if (startPoint != null) input[i++] = startPoint;
 		if (substituteVars != null) input[i++] = substituteVars;
 		if (latex != null) input[i++] = latex;

@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.App;
 
 
 /**
@@ -94,7 +95,7 @@ public class AlgoPointsFromList extends AlgoElement {
 
 		super.setOutput(points);
 		for (int i=1; i < points.length; i++) {
-			points[i].showUndefinedInAlgebraView(false);
+			//points[i].showUndefinedInAlgebraView(false);
 		}
 		setDependencies();
 	}
@@ -124,7 +125,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				length = 1;
 			}
 		}
-		
+		App.debug(list);
 		if (length == -1) {			
 			// handle Point[ { {1,2}, {3,4} } ] case
 			for (int i = 0 ; i < n ; i ++) {

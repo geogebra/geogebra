@@ -457,6 +457,13 @@ public class GeoText extends GeoElement implements Locateable,
 	 */
 	boolean alwaysFixed = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
+	private GeoText linkedText;
+	
+	public void addTextDescendant(GeoText text){
+		if(isLabelSet())
+			return;
+		linkedText = text;
+	}
 
 	/**
 	 * 
@@ -836,7 +843,7 @@ public class GeoText extends GeoElement implements Locateable,
 			printFigures = -1;
 			useSignificantFigures = false;
 			updateTemplate();
-			algo.update();
+			updateTemplateAlgos(algo);
 		}
 	}
 
@@ -847,10 +854,19 @@ public class GeoText extends GeoElement implements Locateable,
 			printDecimals = -1;
 			useSignificantFigures = true;
 			updateTemplate();
-			algo.update();
+			updateTemplateAlgos(algo);
 		}
 	}
 
+	private void updateTemplateAlgos(AlgoElement algo) {
+		if(algo==null)
+			return;
+		for(int i = 0; i<algo.getInput().length;i++)
+			if(algo.getInput()[i].isGeoText())
+				updateTemplateAlgos(algo.getInput()[i].getParentAlgorithm());
+		algo.update();
+		
+	}
 	public boolean useSignificantFigures() {
 		return useSignificantFigures;
 
@@ -1047,7 +1063,9 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @return template
 	 */
 	public StringTemplate getStringTemplate() {
-		return tpl;
+		if(linkedText==null)
+			return tpl;
+		return linkedText.getStringTemplate();
 	}
 	
 	

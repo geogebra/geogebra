@@ -107,7 +107,7 @@ public class AlgoVerticalText extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = args;
-
+		args.addTextDescendant(text);
 		if (startPoint == null) {
 			input = new GeoElement[1];
 			input[0] = args;

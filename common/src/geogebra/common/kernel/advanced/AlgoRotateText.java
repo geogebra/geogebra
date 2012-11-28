@@ -74,7 +74,8 @@ public class AlgoRotateText extends AlgoElement {
 	    input = new GeoElement[2];
 	    input[0] = args;
 	    input[1] = angle;
-
+	    
+	    args.addTextDescendant(text);
 
         setOutputLength(1);
         setOutput(0,text);
