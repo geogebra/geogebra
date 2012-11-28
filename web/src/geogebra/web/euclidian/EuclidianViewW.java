@@ -322,25 +322,27 @@ public class EuclidianViewW extends EuclidianView {
 	    App.debug("implementation needed or OK");
     }
 
-	AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
 			doRepaint();
 		}
 	};
 
-	AnimationScheduler repaintScheduler = AnimationScheduler.get();
+	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
-	private boolean repaintImmediately = true;
-
+	/**
+	 * repaintView just calls this method
+	 */
     public void repaint() {
     	if (!disableRepaint) {
-    		if (repaintImmediately)
-    			doRepaint();
-    		else
-				repaintScheduler.requestAnimationFrame(repaintCallback);
+			repaintScheduler.requestAnimationFrame(repaintCallback);
     	}
     }
 
+    /**
+     * This doRepaint method should be used instead of repaintView in cases
+     * when the repaint should be done immediately 
+     */
     public void doRepaint() {
     	geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     	paint(g2p);

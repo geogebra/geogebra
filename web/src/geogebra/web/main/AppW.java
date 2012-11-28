@@ -219,7 +219,7 @@ public class AppW extends App {
 			                appCanvasWidth, appCanvasHeight));
 			getEuclidianView1().setDisableRepaint(false);
 			getEuclidianView1().synCanvasSize();
-			getEuclidianView1().repaintView();
+			getEuclidianView1().doRepaint();
 			appFrame.finishAsyncLoading(articleElement, appFrame, this);
 		} else if (frame != null) {
 			frame.finishAsyncLoading(articleElement, frame, this);
@@ -1207,7 +1207,7 @@ public class AppW extends App {
 		kernel.initUndoInfo();
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
-		getEuclidianView1().repaintView();
+		getEuclidianView1().doRepaint();
 		splash.canNowHide();
 		getEuclidianView1().requestFocusInWindow();
 	}
@@ -1223,7 +1223,7 @@ public class AppW extends App {
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
 		splashDialog.canNowHide();
-		getEuclidianView1().repaintView();
+		getEuclidianView1().doRepaint();
 
 		// Well, it may cause freeze if we attach this too early
 		attachViews();
@@ -2239,7 +2239,7 @@ public class AppW extends App {
 		                ggwGraphicsViewWidth, appCanvasHeight));
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
-		getEuclidianView1().repaintView();
+		getEuclidianView1().doRepaint();
 		((EuclidianControllerW) getActiveEuclidianView()
 		        .getEuclidianController()).updateOffsets();
 	}
