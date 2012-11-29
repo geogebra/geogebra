@@ -25,6 +25,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
 
 public class DrawEquationWeb implements DrawEquationInterface {
@@ -74,6 +75,40 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public void setUseJavaFontsForLaTeX(App app, boolean b) {
 	    // not relevant for web
     }
+
+	public static String inputLatexCosmetics(String eqstring) {
+		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
+		if (eqstring.length() >= 2)
+			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
+				eqstring = eqstring.substring(1, eqstring.length() - 1);
+			}
+
+		// remove $s
+		eqstring = eqstring.trim();
+		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
+		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+
+		// remove all \; and \,
+		eqstring = eqstring.replace("\\;","");
+		eqstring = eqstring.replace("\\,","");
+
+		eqstring = eqstring.replace("\\left\\{", "\\lbrace");
+		eqstring = eqstring.replace("\\right\\}", "\\rbrace");
+
+		// exchange \\sqrt[x]{y} with \\nthroot{x}{y}
+		//FIXME: what about \\sqrt  [ 3 ] { 5 } ?
+		int index1 = 0, index2 = 0;
+		while ((index1 = eqstring.indexOf("\\sqrt[")) != -1) {
+			index2 = eqstring.indexOf("]", index1);
+			eqstring =
+				eqstring.substring(0,index1) +
+				"\\nthroot{" +
+				eqstring.substring(index1+6, index2) +
+				"}" +
+				eqstring.substring(index2+1);
+		}
+		return eqstring;
+	}
 
 	/**
 	 * This should make all the LaTeXes temporarily disappear
@@ -152,23 +187,10 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		 // the new way to draw an Equation (latex)
 			// no scriptloaded check yet (is it necessary?)
 			// no EuclidianView 1,2 yet
-			
-			// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
-			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
-				eqstring = eqstring.substring(1, eqstring.length() - 1);
-			}
 
-			// remove all \; and \,
-			eqstring = eqstring.replace("\\;","");
-			eqstring = eqstring.replace("\\,","");
-
-			// logging takes too much time
-			//App.debug(eqstring);
-
-			// remove $s
-			eqstring = eqstring.trim();
-			while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
-			while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+			App.debug("Before: "+eqstring);
+			eqstring = inputLatexCosmetics(eqstring);
+			App.debug("After: "+eqstring);
 
 			String eqstringid = eqstring + "@" + geo.getID();
 

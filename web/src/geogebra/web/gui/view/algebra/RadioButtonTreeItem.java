@@ -166,7 +166,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			if ((latexStr != null) &&
 				geo.isLaTeXDrawableGeo(latexStr) &&
 				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
-				latexStr = inputLatexCosmetics(latexStr);
+				latexStr = DrawEquationWeb.inputLatexCosmetics(latexStr);
 				seMayLatex = se;
 				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, latexStr,
 					geo.getAlgebraColor(), GColor.white);
@@ -222,7 +222,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		// now we have text and how to display it (newLaTeX/LaTeX)
 		if (LaTeX && newLaTeX) {
-			text = inputLatexCosmetics(text);
+			text = DrawEquationWeb.inputLatexCosmetics(text);
 			DrawEquationWeb.updateEquationMathQuill(text, seMayLatex);
 		} else if (!LaTeX && !newLaTeX) {
 			seNoLatex.setInnerHTML(text);
@@ -232,7 +232,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 			se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
 			ihtml.getElement().replaceChild(se, seNoLatex);
-			text = inputLatexCosmetics(text);
+			text = DrawEquationWeb.inputLatexCosmetics(text);
 			seMayLatex = se;
 			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, text, geo.getAlgebraColor(), GColor.white);
 			LaTeX = true;
@@ -260,27 +260,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			add(ihtml);
 			stopEditingSimple(tb.getText());
 		}
-	}
-
-	public String inputLatexCosmetics(String eqstring) {
-		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
-		if (eqstring.length() >= 2)
-			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
-				eqstring = eqstring.substring(1, eqstring.length() - 1);
-			}
-
-		// remove $s
-		eqstring = eqstring.trim();
-		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
-		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
-
-		// remove all \; and \,
-		eqstring = eqstring.replace("\\;","");
-		eqstring = eqstring.replace("\\,","");
-
-		eqstring = eqstring.replace("\\left\\{", "\\lbrace");
-		eqstring = eqstring.replace("\\right\\}", "\\rbrace");
-		return eqstring;
 	}
 
 	public void startEditing() {
