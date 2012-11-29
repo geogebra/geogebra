@@ -1148,8 +1148,12 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	 */
 	public void applySettings(){
 		
-		if (!settingsChanged)
-			return;
+		if (!settingsChanged){
+			//that means that no settings were stored in the file: reset settings to have default
+			AlgebraSettings settings = app.getSettings().getAlgebra();
+			settings.reset();
+			settingsChanged(settings);
+		}
 		
 
 		settingsChanged = false;

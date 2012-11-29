@@ -76,5 +76,14 @@ public class AlgebraSettings extends AbstractSettings {
 	}
 
 	
+	/**
+	 * reset the settings
+	 */
+	public void reset(){
+		treeMode = 1;
+		showAuxiliaryObjects = false;
+		collapsedNodes = null;
+	}
+	
 	
 }
