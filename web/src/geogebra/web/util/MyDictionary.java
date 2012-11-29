@@ -15,8 +15,6 @@
  */
 package geogebra.web.util;
 
-import geogebra.common.main.App;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -87,7 +85,7 @@ public final class MyDictionary {
   }
 
   private native boolean isNullDict() /*-{
-		return this.@com.google.gwt.i18n.client.Dictionary::dict === null;
+		return this.@geogebra.web.util.MyDictionary::dict === null;
 	}-*/;
 
 /**
@@ -104,10 +102,10 @@ public final class MyDictionary {
   public native String get(String key) /*-{
     // In Firefox, jsObject.hasOwnProperty(key) requires a primitive string
     key = String(key);
-    var map = this.@com.google.gwt.i18n.client.Dictionary::dict;
+    var map = this.@geogebra.web.util.MyDictionary::dict;
     var value = map[key];
     if (value == null || !map.hasOwnProperty(key)) {
-      this.@com.google.gwt.i18n.client.Dictionary::resourceError(Ljava/lang/String;)(key);
+      this.@geogebra.web.util.MyDictionary::resourceError(Ljava/lang/String;)(key);
     }
     return String(value);
   }-*/;
@@ -145,7 +143,7 @@ public final class MyDictionary {
   }
 
   private native void addKeys(HashSet<String> s) /*-{
-    var map = this.@com.google.gwt.i18n.client.Dictionary::dict
+    var map = this.@geogebra.web.util.MyDictionary::dict
     for (var key in map) {
       if (map.hasOwnProperty(key)) {
         s.@java.util.HashSet::add(Ljava/lang/Object;)(key);
@@ -154,10 +152,10 @@ public final class MyDictionary {
   }-*/;
 
   private native void addValues(ArrayList<String> s) /*-{
-    var map = this.@com.google.gwt.i18n.client.Dictionary::dict
+    var map = this.@geogebra.web.util.MyDictionary::dict
     for (var key in map) {
       if (map.hasOwnProperty(key)) {
-        var value = this.@com.google.gwt.i18n.client.Dictionary::get(Ljava/lang/String;)(key);
+        var value = this.@geogebra.web.util.MyDictionary::get(Ljava/lang/String;)(key);
         s.@java.util.ArrayList::add(Ljava/lang/Object;)(value);
       }
     }
@@ -166,12 +164,13 @@ public final class MyDictionary {
   private native void attach(String section, String language)/*-{
     try {
       if (typeof($wnd["__GGB__keysVar"][language][section]) != "object") {
-        @com.google.gwt.i18n.client.Dictionary::resourceErrorBadType(Ljava/lang/String;)(name);
+        @geogebra.web.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(name);
       }
-      this.@com.google.gwt.i18n.client.Dictionary::dict = $wnd["__GGB__keysVar"][language][section];
+      //this.@geogebra.web.util.MyDictionary::dict = $wnd["__GGB__keysVar"][language][section];
+      this.@geogebra.web.util.MyDictionary::dict = $wnd["__GGB__keysVar"][language][section];
       //alert($wnd["__GGB__keysVar"][language]["command"]["Excentricity"]);
     } catch(e) {
-      @com.google.gwt.i18n.client.Dictionary::resourceErrorBadType(Ljava/lang/String;)(name);
+      @geogebra.web.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(name);
     }
   }-*/;
 }
