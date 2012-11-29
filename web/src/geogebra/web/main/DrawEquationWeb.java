@@ -25,7 +25,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
 
 public class DrawEquationWeb implements DrawEquationInterface {
@@ -188,9 +187,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			// no scriptloaded check yet (is it necessary?)
 			// no EuclidianView 1,2 yet
 
-			App.debug("Before: "+eqstring);
 			eqstring = inputLatexCosmetics(eqstring);
-			App.debug("After: "+eqstring);
 
 			String eqstringid = eqstring + "@" + geo.getID();
 
