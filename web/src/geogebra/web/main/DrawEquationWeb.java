@@ -75,7 +75,10 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	    // not relevant for web
     }
 
-	public static String inputLatexCosmetics(String eqstring) {
+	public static String inputLatexCosmetics(String eqstringin) {
+
+		String eqstring = eqstringin;
+
 		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
 		if (eqstring.length() >= 2)
 			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
@@ -94,8 +97,19 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		eqstring = eqstring.replace("\\left\\{", "\\lbrace");
 		eqstring = eqstring.replace("\\right\\}", "\\rbrace");
 
+		// this might remove necessary space
+		//eqstring = eqstring.replace(" ", "");
+
+		// this does not work
+		//eqstring = eqstring.replace("\\sqrt[ \\t]+\\[", "\\sqrt[");
+
+		// that's why this programmatically slower solution:
+		while ((eqstring.indexOf("\\sqrt ") != -1) || (eqstring.indexOf("\\sqrt\t") != -1)) {
+			eqstring = eqstring.replace("\\sqrt ", "\\sqrt");
+			eqstring = eqstring.replace("\\sqrt\t", "\\sqrt");
+		}
+
 		// exchange \\sqrt[x]{y} with \\nthroot{x}{y}
-		//FIXME: what about \\sqrt  [ 3 ] { 5 } ?
 		int index1 = 0, index2 = 0;
 		while ((index1 = eqstring.indexOf("\\sqrt[")) != -1) {
 			index2 = eqstring.indexOf("]", index1);
