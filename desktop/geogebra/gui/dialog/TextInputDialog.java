@@ -747,8 +747,10 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				isLaTeX = cbLaTeX.isSelected();
 				boolean finished;
+				editOccurred = false;
 				finished = inputHandler.processInput(editor
 						.buildGeoGebraString(isLaTeX));
+				editOccurred = false;
 
 				if (wrappedDialog.isShowing()) {
 					// text dialog window is used and open
