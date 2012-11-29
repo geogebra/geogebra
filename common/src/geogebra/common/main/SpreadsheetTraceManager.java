@@ -600,27 +600,20 @@ public class SpreadsheetTraceManager {
 			int column, int row) {
 		
 		GeoElement cell = RelativeCopy.getValue(app, column, row);
-		// String text = "";
-		try {
-			// GeoElement newCell =
-			// RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel,table,text,cell,column,row);
-			// if(newCell != null)
-			// newCell.setLabelVisible(false);
 
-			if (cell != null) {
-				cell.remove();
+		try {
+			
+
+			if (cell==null || !cell.getGeoClassType().equals(geo.getGeoClassType())){
+				//cell is null or type has changed: deep copy
+				cell = geo.deepCopyGeo();
+				cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column,
+						row));
+			}else{
+				//just copy - so children are not removed
+				cell.set(geo);
 			}
 
-			cell = geo.deepCopyGeo();
-			cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column,
-					row));
-
-			/*
-			 * }else{ text = geo.toValueString(); cell =
-			 * kernel.getAlgebraProcessor
-			 * ().changeGeoElementNoExceptionHandling(cell, text, true, false);
-			 * }
-			 */
 
 			cell.setAllVisualProperties(geo, true);
 			cell.setSpreadsheetTrace(false);
