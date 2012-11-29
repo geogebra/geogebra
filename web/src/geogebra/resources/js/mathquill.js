@@ -1233,12 +1233,19 @@ _.html_template = [
   '<sup class="nthroot"></sup>',
   '<span class="sqrt-stem"></span>'
 ];
-_.text_template = ['sqrt[', '](', ')'];
+_.text_template = ['nroot(', ',', ')'];
+_.text = function() {
+  return 'nroot('+
+  	this.lastChild.text()+
+  	','+
+  	this.firstChild.text()+
+  	')';
+};
 _.latex = function() {
   return '\\sqrt['+this.firstChild.latex()+']{'+this.lastChild.latex()+'}';
 };
 
-LatexCmds.nthroot = NthRoot;
+LatexCmds.nthroot = LatexCmds.nroot = NthRoot;
 
 // Round/Square/Curly/Angle Brackets (aka Parens/Brackets/Braces)
 function Bracket(open, close, cmd, end, replacedFragment) {
@@ -1904,13 +1911,15 @@ var UnItalicizedCmds = {
   // GeoGebra+MathQuill
   sqrt: 1,
   Sqrt: 1,
+  nthroot: 2,
+  nroot: 2,
 
   // MathQuill
   //sum: 1,
   pi: 1
   //theta: 1,
   //int: 1
-}, MAX_AUTOCMD_LEN = 5;
+}, MAX_AUTOCMD_LEN = 7;
 
 (function() {
   var trigs = {
