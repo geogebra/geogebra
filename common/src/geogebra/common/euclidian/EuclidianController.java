@@ -4587,7 +4587,7 @@ public abstract class EuclidianController {
 			return null;
 		}
 		
-		GPoint mouseCoords = event.getPoint();
+		
 	
 		int count = addSelectedPoint(hits, 2, false);
 		if (count == 0) {
@@ -4672,6 +4672,7 @@ public abstract class EuclidianController {
 				//cons.removeFromConstructionList(algo);
 				GeoNumeric arcLength = algo.getArcLength();
 				
+				GPoint mouseCoords = event.getPoint();
 				GeoText text = createDynamicText("ArcLengthOfA", conic, arcLength,
 						mouseCoords);
 					text.setLabel(removeUnderscores(app.getPlain("Text")
@@ -4688,6 +4689,7 @@ public abstract class EuclidianController {
 			GeoNumeric circumFerence = getAlgoDispatcher().Circumference(null, conic);
 	
 			// text
+			GPoint mouseCoords = event.getPoint();
 			GeoText text = createDynamicText("CircumferenceOfA", conic,
 					circumFerence, mouseCoords);
 			if (conic.isLabelSet()) {
@@ -4709,6 +4711,7 @@ public abstract class EuclidianController {
 			GeoNumeric perimeter = getAlgoDispatcher().Perimeter(null, poly[0]);
 	
 			// text
+			GPoint mouseCoords = event.getPoint();
 			GeoText text = createDynamicText("PerimeterOfA", poly[0],
 					perimeter, mouseCoords);
 	
