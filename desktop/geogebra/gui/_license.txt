@@ -38,6 +38,7 @@ CONTRIBUTORS
   * Claudia Gollner (Austria 2011-)
   * Alexander Hartl (Austria 2011-)
   * Guy Hed (Israel 2008-11)
+  * Ralf Hemmecke (Germany 2011)
   * Rana Issa (Austria 2011-)
   * Ted Kosan (USA 2008-)
   * Dominik Kreil (Austria 2011-)
@@ -195,10 +196,6 @@ SUPPORTING PARTNERS
     2002-2009: hosting the GeoGebra website
 
 
-
-GeoGebra - Dynamic Mathematics for Everyone
-International GeoGebra Institute
-http://www.geogebra.org/
 
                                 LICENSE
 
