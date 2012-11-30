@@ -117,10 +117,7 @@ public class StatisticsCalculatorHTML {
 					{ strSE, format(sc.se) },{ strN, format(sc.n)},
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{
-							strInterval,
-							format(sc.mean) + "&nbsp;" + Unicode.PLUSMINUS
-									+ "&nbsp;" + format(sc.me) } };
+					{ strInterval, getInterval(sc.mean, sc.me) } };
 
 			sb.append(htmlTable(zCITable, true));
 
@@ -132,7 +129,7 @@ public class StatisticsCalculatorHTML {
 					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval() } };
+					{ strInterval, getInterval(sc.mean, sc.me) } };
 
 			sb.append(htmlTable(tCITable, true));
 
@@ -161,7 +158,7 @@ public class StatisticsCalculatorHTML {
 					{ strN, format(sc.n), format(sc.n2) },
 					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval() } };
+					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) } };
 
 			sb.append(htmlTable(zCI2SampleTable, true));
 
@@ -190,7 +187,7 @@ public class StatisticsCalculatorHTML {
 					{ strN, format(sc.n), format(sc.n2) },
 					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval() }, { strPooled, isPooled() } };
+					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) }, { strPooled, isPooled() } };
 
 			sb.append(htmlTable(tCI2SampleTable, true));
 
@@ -212,7 +209,7 @@ public class StatisticsCalculatorHTML {
 					{ strN, format(sc.n) }, { strSE, format(sc.se) },
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval() } };
+					{ strInterval, getInterval(sc.getProportion(), sc.me) } };
 
 			sb.append(htmlTable(zPropEstTable, true));
 
@@ -238,7 +235,7 @@ public class StatisticsCalculatorHTML {
 					{ strN, format(sc.n), format(sc.n2) },
 					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval() } };
+					{ strInterval, getInterval(sc.getProportion()-sc.getProportion2(), sc.me) } };
 
 			sb.append(htmlTable(zProp2CISampleTable, true));
 
@@ -264,9 +261,9 @@ public class StatisticsCalculatorHTML {
 		return sc.pooled ? app.getPlain("True") : app.getPlain("False");
 	}
 
-	private String getInterval() {
-		return format(sc.mean) + "&nbsp;" + Unicode.PLUSMINUS + "&nbsp;"
-				+ format(sc.me);
+	private String getInterval(double stat, double me) {
+		return format(stat) + "&nbsp;" + Unicode.PLUSMINUS + "&nbsp;"
+				+ format(me);
 	}
 
 	private static StringBuilder htmlTable(String[][] s, boolean isRowBased) {

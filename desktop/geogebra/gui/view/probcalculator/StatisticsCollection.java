@@ -60,8 +60,21 @@ public class StatisticsCollection {
 		rowSum = new double[rows];
 	}
 
+	public double getProportion() {
+		if (count > n)
+			return Double.NaN;
+		return 1.0 * count / n;
+	}
+
+	public double getProportion2() {
+		if (count2 > n2)
+			return Double.NaN;
+
+		return 1.0 * count2 / n2;
+	}
+
 	public void validate() {
-		
+
 		if (sd < 0) {
 			sd = Double.NaN;
 		}

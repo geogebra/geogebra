@@ -150,7 +150,7 @@ public class StatisticsCalculatorProcessor {
 		case ZPROP_CI:
 
 			n.setValue(sc.n);
-			proportion.setValue(1.0 * sc.count / sc.n);
+			proportion.setValue(sc.getProportion());
 
 			break;
 
@@ -158,9 +158,9 @@ public class StatisticsCalculatorProcessor {
 		case ZPROP2_CI:
 
 			n.setValue(sc.n);
-			proportion.setValue(1.0 * sc.count / sc.n);
+			proportion.setValue(sc.getProportion());
 			n2.setValue(sc.n2);
-			proportion.setValue(1.0 * sc.count2 / sc.n2);
+			proportion.setValue(sc.getProportion2());
 
 			break;
 		}
@@ -272,7 +272,8 @@ public class StatisticsCalculatorProcessor {
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.se = ((AlgoZProportionEstimate) algo).getSE();
-
+			sc.me = ((AlgoZProportionEstimate) algo).getME();
+			
 			break;
 
 		case ZPROP2_TEST:
