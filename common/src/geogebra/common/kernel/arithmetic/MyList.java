@@ -611,7 +611,12 @@ public class MyList extends ValidExpression implements ListValue,
 			// return "\\emptyset";
 			return "\\{\\}";
 		} else if (isMatrix()) {
-			toLaTeXString.append("\\left(\\begin{array}{ll}");
+			
+			toLaTeXString.append("\\left(\\begin{array}{");
+			for (int i = 0; i < matrixCols ; i++) {
+				toLaTeXString.append("l");
+			}
+			toLaTeXString.append("}");
 
 			for (int i = 0; i < size(); i++) {
 				ListValue singleValue = (ListValue) getListElement(i)
