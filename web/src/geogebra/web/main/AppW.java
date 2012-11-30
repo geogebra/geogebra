@@ -1228,11 +1228,7 @@ public class AppW extends App {
 		getEuclidianView1().doRepaint();
 
 		// Well, it may cause freeze if we attach this too early
-		// but here, only call this if needed
 		attachViews();
-
-		//if (needsSpreadsheetTableModel()) 
-		//	getSpreadsheetTableModel(); //ensure create one if not already done
 	}
 
 	public void appSplashCanNowHide() {
