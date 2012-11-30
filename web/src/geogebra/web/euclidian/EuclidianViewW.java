@@ -324,18 +324,24 @@ public class EuclidianViewW extends EuclidianView {
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
-			doRepaint();
+			if (repaintReally) {
+				repaintReally = false;
+				doRepaint();
+			}
 		}
 	};
 
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+
+	private boolean repaintReally = false;
 
 	/**
 	 * repaintView just calls this method
 	 */
     public void repaint() {
     	if (!disableRepaint) {
-			repaintScheduler.requestAnimationFrame(repaintCallback);
+   			repaintReally = true;
+   			repaintScheduler.requestAnimationFrame(repaintCallback);
     	}
     }
 
