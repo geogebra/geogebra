@@ -249,7 +249,6 @@ public class AppW extends App {
 
 		initCoreObjects(undoActive, this);
 
-		
 		// initing = true;
 	}
 
@@ -1210,6 +1209,9 @@ public class AppW extends App {
 		getEuclidianView1().doRepaint();
 		splash.canNowHide();
 		getEuclidianView1().requestFocusInWindow();
+
+		if (needsSpreadsheetTableModel()) 
+			getSpreadsheetTableModel(); //ensure create one if not already done
 	}
 
 	/**
@@ -1226,8 +1228,11 @@ public class AppW extends App {
 		getEuclidianView1().doRepaint();
 
 		// Well, it may cause freeze if we attach this too early
+		// but here, only call this if needed
 		attachViews();
 
+		//if (needsSpreadsheetTableModel()) 
+		//	getSpreadsheetTableModel(); //ensure create one if not already done
 	}
 
 	public void appSplashCanNowHide() {
@@ -1252,18 +1257,19 @@ public class AppW extends App {
 				        .processAlgebraCommandNoExceptionsOrErrors(cmds[i],
 				                false);
 			}
-
 		}
 
 	}
 
 	private void attachViews() {
-		getGuiManager().attachView(VIEW_ALGEBRA);
-		getSpreadsheetTableModel();// its constructor calls attachView as a
+		if (!getGuiManager().getAlgebraView().isAttached())
+			getGuiManager().attachView(VIEW_ALGEBRA);
+
+		if (needsSpreadsheetTableModel())
+			getSpreadsheetTableModel();// its constructor calls attachView as a
 								   // side-effect
 		// Attached only on first click
 		// getGuiManager().attachView(VIEW_PROPERTIES);
-
 	}
 
 	private void loadFile(HashMap<String, String> archiveContent)
