@@ -400,12 +400,12 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		return inputHelpPanel;
     }
 
+	@Override
 	public void setShowAuxiliaryObjects(boolean flag) {
-		// TODO: auto-generated method stub
-		if (!hasAlgebraView())
+		if (!hasAlgebraViewShowing())
 			return;
-		//getAlgebraView();
-		//algebraView.setShowAuxiliaryObjects(flag);
+		getAlgebraView();
+		algebraView.setShowAuxiliaryObjects(flag);
 	}
 
 	public AlgebraViewW getAlgebraView() {
@@ -952,13 +952,24 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-    public boolean hasAlgebraViewShowing() {
-	    App.debug("unimplemented");
-	    return false;
-    }
+	public boolean hasAlgebraViewShowing() {
+		if (algebraView == null)
+			return false;
+		if (!algebraView.isShowing())
+			return false;
+		return true;
+	}
 
 	@Override
-    public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
-		App.debug("unimplemented");    
-    }
+	public boolean hasAlgebraView() {
+		if (algebraView == null)
+			return false;
+		return true;
+	}
+
+	@Override
+	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
+		if (algebraView != null)
+			algebraView.getXML(sb, asPreference);
+	}
 }

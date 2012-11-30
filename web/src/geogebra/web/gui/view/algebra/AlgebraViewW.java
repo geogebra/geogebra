@@ -15,16 +15,15 @@ package geogebra.web.gui.view.algebra;
 import geogebra.common.awt.GFont;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraController;
-import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.DialogManager;
-import geogebra.common.main.settings.AbstractSettings;
-import geogebra.common.main.settings.AlgebraSettings;
+import geogebra.common.main.settings.AbstractSettings; 
+import geogebra.common.main.settings.AlgebraSettings; 
+import geogebra.common.main.settings.SettingListener; 
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.AppW;
 
@@ -44,7 +43,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 
-public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
+public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -176,6 +175,12 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 		// enable drag n drop
 		//algCtrl.enableDnD();
+
+		// Initialize settings and register listener
+		app.getSettings().getAlgebra().addListener(this);
+
+		
+		settingsChanged(app.getSettings().getAlgebra());
 	}
 
 	/**
@@ -848,26 +853,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	}
 
 	public void repaintView() {
-
-		Object geo;
-		// suppose that the add operations have been already done elsewhere
-		for (int i = 0; i < getItemCount(); i++) {
-			geo = getItem(i).getUserObject();
-			if (geo instanceof GeoElement) {
-				((RadioButtonTreeItem)getItem(i).getWidget()).update();
-				getItem(i).setSelected(
-					((GeoElement)geo).doHighlighting());
-			} else {
-				((InlineLabelTreeItem)getItem(i).getWidget()).setText(
-					getItem(i).getUserObject().toString());
-				for (int j = 0; j < getItem(i).getChildCount(); j++) {
-					geo = getItem(i).getChild(j).getUserObject();
-					if (geo instanceof GeoElement)
-						getItem(i).getChild(j).setSelected(
-							((GeoElement)geo).doHighlighting());
-				}
-			}
-		}
+		repaint();
 	}
 
 	/**
@@ -887,7 +873,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 	public void reset() {
 		cancelEditing();
-		//repaint();
+		repaint();
 		ensureSelectedItemVisible();
 	}
 
@@ -1406,12 +1392,29 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
     }
 
 	public void repaint() {
-		App.debug("unimplemented");
+		Object geo;
+		// suppose that the add operations have been already done elsewhere
+		for (int i = 0; i < getItemCount(); i++) {
+			geo = getItem(i).getUserObject();
+			if (geo instanceof GeoElement) {
+				((RadioButtonTreeItem)getItem(i).getWidget()).update();
+				getItem(i).setSelected(
+					((GeoElement)geo).doHighlighting());
+			} else {
+				((InlineLabelTreeItem)getItem(i).getWidget()).setText(
+					getItem(i).getUserObject().toString());
+				for (int j = 0; j < getItem(i).getChildCount(); j++) {
+					geo = getItem(i).getChild(j).getUserObject();
+					if (geo instanceof GeoElement)
+						getItem(i).getChild(j).setSelected(
+							((GeoElement)geo).doHighlighting());
+				}
+			}
+		}
     }
 
 	public boolean isShowing() {
-		App.debug("unimplemented");
-	    return false;
+		return isVisible() && isAttached();
     }
 
 	/**
