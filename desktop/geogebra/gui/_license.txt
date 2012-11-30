@@ -3,7 +3,7 @@ http://www.geogebra.org/
 
 LICENSE
   You are free to copy, distribute and transmit GeoGebra free of charge
-  for non-commercial purposes (see conditions and details below).
+  for personal non-commercial purposes (see conditions and details below).
 
 PROJECT DIRECTOR
   * Markus Hohenwarter (Austria & USA 2001-)
@@ -283,7 +283,7 @@ Note for Organizations and for Commercial Users
        web services for commercial purposes unless you have
        explicit permission from office@geogebra.org
      * Personal Use. You may not use or distribute GeoGebra installers
-       or GeoGebra Web Services to more than 1000 people per year
+       or GeoGebra Web Services to a very large number of users
        unless you have explicit permission from office@geogebra.org.
        We would like to collaborate closely with large scale
        distributors in order to provide the best possible support
@@ -335,5 +335,5 @@ http://dev.geogebra.org/trac/wiki/SourcesForUsedLibraries
 
 ------------------------------------------------------------------------
 International GeoGebra Institute
-Wolfauerstr 90, 4040 Linz, Austria
+Lackenschloessl 23, 5760 Saalfelden, Austria
 office@geogebra.org
