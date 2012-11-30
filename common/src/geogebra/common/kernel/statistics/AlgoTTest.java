@@ -41,7 +41,7 @@ public class AlgoTTest extends AlgoElement {
 	private GeoList  result;     // output   
 	private TTestImpl tTestImpl;
 	private double[] val;
-	private double p, testStat;
+	private double p, testStat, se;
 
 	public AlgoTTest(Construction cons, String label, GeoList geoList, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
@@ -59,6 +59,11 @@ public class AlgoTTest extends AlgoElement {
 	}
 
 	public AlgoTTest(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+		this(cons, mean,sd,n,hypMean,tail);
+		result.setLabel(label);
+	}
+
+	public AlgoTTest(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.geoList = null;
 		this.hypMean = hypMean;
@@ -70,7 +75,6 @@ public class AlgoTTest extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
 	}
 
 

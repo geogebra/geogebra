@@ -199,7 +199,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 				for (int i = 0; i < rows; i++) {
 					rowSum[i] = 0;
 				}
-				int total = 0;
+				double total = 0;
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < columns; j++) {
 						rowSum[i] += observed[i][j];

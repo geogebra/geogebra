@@ -72,7 +72,6 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
@@ -93,19 +92,14 @@ import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -239,10 +233,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	private JTabbedPane tabbedPane;
 
-	// private StatisticsCalculator statCalculator;
+	private StatisticsCalculator statCalculator;
 
 	/*************************************************
-	 * Construct the dialog
+	 * 
+	 * Construct ProbabilityCalculator
+	 * 
+	 * @param app
 	 */
 	public ProbabilityCalculator(AppD app) {
 
@@ -263,12 +260,19 @@ public class ProbabilityCalculator extends JPanel implements View,
 		buildProbCalcPanel();
 		isIniting = false;
 
-		// statCalculator = new StatisticsCalculator(app);
+		statCalculator = new StatisticsCalculator(app);
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(app.getMenu("Distribution"), probCalcPanel);
-		// tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
-
+		tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
+				if (styleBar != null) {
+					styleBar.updateLayout();
+				}
+			}
+		});
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
 
@@ -276,6 +280,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		attachView();
 		settingsChanged(app.getSettings().getProbCalcSettings());
+
+		// TODO for testing only, remove later
+		//tabbedPane.setSelectedIndex(1);
 
 	}
 
@@ -396,6 +403,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setShowNormalOverlay(boolean showNormalOverlay) {
 		this.showNormalOverlay = showNormalOverlay;
+	}
+
+	public boolean isDistributionTabOpen() {
+		return tabbedPane.getSelectedIndex() == 0;
 	}
 
 	// =================================================
@@ -1255,6 +1266,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		lblProb.setFont(app.getItalicFont());
 		plotPanel.updateFonts();
 		table.updateFonts(font);
+		statCalculator.updateFonts(font);
 
 	}
 
@@ -1389,7 +1401,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	}
 
-	public void focusGained(FocusEvent arg0) {
+	public void focusGained(FocusEvent e) {
+		if (e.getSource() instanceof MyTextField) {
+			((MyTextField) e.getSource()).selectAll();
+		}
 	}
 
 	public void focusLost(FocusEvent e) {
@@ -1737,11 +1752,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 			}
 		}
 		updateRounding();
+
+		// statCalculator.updateResult();
 	}
 
 	/**
-	 * Adjust local rounding constants to match global rounding constants 
-	 * and update GUI when needed
+	 * Adjust local rounding constants to match global rounding constants and
+	 * update GUI when needed
 	 */
 	private void updateRounding() {
 
@@ -1781,8 +1798,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		tabbedPane.setTitleAt(0, app.getMenu("Distribution"));
 
-		// statCalculator.setLabels();
-		// tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
+		statCalculator.setLabels();
+		tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
 
 		setLabelArrays();
 
@@ -2267,7 +2284,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	 */
 	public String format(double x) {
 		StringTemplate highPrecision;
-		
+
 		// override the default decimal place setting
 		if (printDecimals >= 0) {
 			int d = printDecimals < 4 ? 4 : printDecimals;

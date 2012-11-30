@@ -73,6 +73,13 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 	public AlgoTMean2Estimate(Construction cons, String label, GeoNumeric geoMean1, GeoNumeric geoSD1, GeoNumeric geoN1,
 			GeoNumeric geoMean2, GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
+		this(cons, geoMean1, geoSD1, geoN1, geoMean2, geoSD2, geoN2, geoLevel,
+				geoPooled);
+		result.setLabel(label);
+	}
+
+	public AlgoTMean2Estimate(Construction cons, GeoNumeric geoMean1, GeoNumeric geoSD1, GeoNumeric geoN1,
+			GeoNumeric geoMean2, GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
 		super(cons);
 		this.geoList1 = null;
 		this.geoList2 = null;
@@ -92,9 +99,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
 	}
 
+	
 
 	@Override
 	public Algos getClassName() {

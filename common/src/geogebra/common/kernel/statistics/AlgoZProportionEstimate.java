@@ -32,6 +32,8 @@ public class AlgoZProportionEstimate extends AlgoElement {
 
 	private GeoNumeric proportion, n, level; //input
 	private GeoList  result;     // output   
+	private double se;
+	private double me;
 	/**
 	 * @param cons
 	 * @param label
@@ -40,6 +42,11 @@ public class AlgoZProportionEstimate extends AlgoElement {
 	 * @param level 
 	 */
 	public AlgoZProportionEstimate(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
+		this(cons, proportion, n, level);
+		result.setLabel(label);
+	}
+
+	public AlgoZProportionEstimate(Construction cons, GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
 		super(cons);
 		this.proportion = proportion;
 		this.n = n;
@@ -48,9 +55,8 @@ public class AlgoZProportionEstimate extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
 	}
-
+	
 
 	@Override
 	public Algos getClassName() {
@@ -76,6 +82,20 @@ public class AlgoZProportionEstimate extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
+	
+	/**
+	 * @return margin of error
+	 */
+	public double getME(){
+		return me;
+	}
+
+	/**
+	 * @return standard error
+	 */
+	public double getSE(){
+		return se;
+	}
 
 	@Override
 	public final void compute() {
@@ -96,9 +116,9 @@ public class AlgoZProportionEstimate extends AlgoElement {
 			return;
 		}
 
-		double se = Math.sqrt(phat * (1 - phat) / n1);
+		se = Math.sqrt(phat * (1 - phat) / n1);
 		double z = Math.abs(critZ);
-		double me = z * se;
+		me = z * se;
 
 		// put these results into the output list
 		result.clear();

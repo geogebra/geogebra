@@ -47,6 +47,20 @@ public class AlgoZMeanTest extends AlgoElement {
 	 * @param tail
 	 */
 	public AlgoZMeanTest(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+		this( cons,  mean,  sd,  n,  hypMean,  tail);
+		result.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 * @param label
+	 * @param mean
+	 * @param sd 
+	 * @param n
+	 * @param hypMean
+	 * @param tail
+	 */
+	public AlgoZMeanTest(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.hypMean = hypMean;
 		this.tail = tail;
@@ -55,11 +69,10 @@ public class AlgoZMeanTest extends AlgoElement {
 		this.n = n;
 		result = new GeoList(cons); 
 		setInputOutput(); // for AlgoElement
-
 		compute();      
-		result.setLabel(label);
+		
 	}
-
+	
 	/**
 	 * @param cons
 	 * @param label

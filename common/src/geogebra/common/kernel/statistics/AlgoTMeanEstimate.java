@@ -59,6 +59,11 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	}
 
 	public AlgoTMeanEstimate(Construction cons, String label, GeoNumeric geoMean, GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
+		this(cons, geoMean,geoSD,geoN,geoLevel);
+		result.setLabel(label);
+	}
+
+	public AlgoTMeanEstimate(Construction cons, GeoNumeric geoMean, GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
 		super(cons);
 		this.geoList = null;
 		this.geoLevel = geoLevel;
@@ -70,10 +75,9 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
 	}
 
-
+	
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTMeanEstimate;
@@ -103,6 +107,9 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		return result;
 	}
 
+	public double getME(){
+		return me;
+	}
 	
 
 	private double getMarginOfError(double sd, double n, double confLevel) throws MathException {

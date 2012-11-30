@@ -35,6 +35,7 @@ public class AlgoZProportion2Test extends AlgoElement {
 	private GeoNumeric proportion, n, proportion2, n_2; //input
 	private GeoText tail; //input
 	private GeoList  result;     // output   
+	private double se;
 	
 	/**
 	 * @param cons
@@ -46,6 +47,19 @@ public class AlgoZProportion2Test extends AlgoElement {
 	 * @param tail
 	 */
 	public AlgoZProportion2Test(Construction cons, String label, GeoNumeric proportion, GeoNumeric n,GeoNumeric proportion2, GeoNumeric n_2, GeoText tail) {
+		this(cons, proportion, n, proportion2, n_2, tail);		  
+		result.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 * @param proportion
+	 * @param n
+	 * @param proportion2 
+	 * @param n_2 
+	 * @param tail
+	 */
+	public AlgoZProportion2Test(Construction cons, GeoNumeric proportion, GeoNumeric n,GeoNumeric proportion2, GeoNumeric n_2, GeoText tail) {
 		super(cons);
 		this.tail = tail;
 		this.proportion = proportion;
@@ -56,9 +70,7 @@ public class AlgoZProportion2Test extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
 	}
-
 
 	@Override
 	public Algos getClassName() {
@@ -87,6 +99,14 @@ public class AlgoZProportion2Test extends AlgoElement {
 		return result;
 	}
 
+
+	/**
+	 * @return standard error
+	 */
+	public double getSE(){
+		return se;
+	}
+	
 	@Override
 	public final void compute() {
 
@@ -110,7 +130,7 @@ public class AlgoZProportion2Test extends AlgoElement {
 		double x1 = phat1 * n1;
 		double x2 = phat2 * n2;
 		double phatTotal = (x1 + x2) / (n1 + n2);
-		double se = Math.sqrt(phatTotal * (1 - phatTotal) * (1 / n1 + 1 / n2));
+		se = Math.sqrt(phatTotal * (1 - phatTotal) * (1 / n1 + 1 / n2));
 		double testStatistic = (phat1 - phat2) / se;
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);

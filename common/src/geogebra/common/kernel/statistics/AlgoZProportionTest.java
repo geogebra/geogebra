@@ -35,18 +35,33 @@ public class AlgoZProportionTest extends AlgoElement {
 	private GeoNumeric hypPropertion, proportion, n; //input
 	private GeoText tail; //input
 	private GeoList  result;     // output   
+	private double se;
 	
 	/**
 	 * @param cons
 	 * @param label
 	 * @param proportion
 	 * @param n
-	 * @param hypPropertion
+	 * @param hypProportion
 	 * @param tail
 	 */
-	public AlgoZProportionTest(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric hypPropertion, GeoText tail) {
+	public AlgoZProportionTest(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric hypProportion, GeoText tail) {
+		this(cons, proportion, n, hypProportion, tail);   
+		result.setLabel(label);
+	}
+
+
+	/**
+	 * @param cons
+	 * @param label
+	 * @param proportion
+	 * @param n
+	 * @param hypProportion
+	 * @param tail
+	 */
+	public AlgoZProportionTest(Construction cons, GeoNumeric proportion, GeoNumeric n, GeoNumeric hypProportion, GeoText tail) {
 		super(cons);
-		this.hypPropertion = hypPropertion;
+		this.hypPropertion = hypProportion;
 		this.tail = tail;
 		this.proportion = proportion;
 		this.n = n;
@@ -54,9 +69,9 @@ public class AlgoZProportionTest extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
+		
 	}
-
+	
 
 	@Override
 	public Algos getClassName() {
@@ -83,6 +98,13 @@ public class AlgoZProportionTest extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
+	
+	/**
+	 * @return standard error
+	 */
+	public double getSE(){
+		return se;
+	}
 
 	@Override
 	public final void compute() {
@@ -103,7 +125,7 @@ public class AlgoZProportionTest extends AlgoElement {
 		double hyp = hypPropertion.getDouble();
 		double phat = proportion.getDouble();
 
-		double se = Math.sqrt(hyp*(1-hyp)/n1);
+		se = Math.sqrt(hyp*(1-hyp)/n1);
 		double testStatistic = (phat - hyp)/se;
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);

@@ -33,6 +33,8 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	private GeoNumeric  mean, sd, n, mean_2, sd_2, n_2, level; //input
 	private GeoList list, list2;
 	private GeoList  result;     // output   
+	private double me;
+	private double se;
 	
 	/**
 	 * @param cons
@@ -46,6 +48,22 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	 * @param level 
 	 */
 	public AlgoZMean2Estimate(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoNumeric level) {
+		this(cons, mean, sd, n, mean_2, sd_2, n_2, level);
+		result.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 * @param label
+	 * @param mean 
+	 * @param sd 
+	 * @param n
+	 * @param mean_2 
+	 * @param sd_2 
+	 * @param n_2 
+	 * @param level 
+	 */
+	public AlgoZMean2Estimate(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoNumeric level) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
@@ -58,9 +76,9 @@ public class AlgoZMean2Estimate extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
 	}
-
+	
+	
 	/**
 	 * @param cons
 	 * @param label
@@ -127,6 +145,15 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
+	
+	public double getME(){
+		return me;
+	}
+
+	public double getSE(){
+		return se;
+	}
+	
 
 	@Override
 	public final void compute() {
@@ -180,9 +207,9 @@ public class AlgoZMean2Estimate extends AlgoElement {
 		}
 
 		double stat = mean1 - mean2;
-		double se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
+		se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
 		double z = Math.abs(critZ);
-		double me = z * se;
+		me = z * se;
 
 		// put these results into the output list
 		result.clear();

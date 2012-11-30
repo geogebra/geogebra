@@ -1,225 +1,346 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.util.ListSeparatorRenderer;
-import geogebra.gui.view.data.StatTable;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
+/**
+ * @author G. Sturr
+ * 
+ */
 public class StatisticsCalculator extends JPanel implements ActionListener,
 		FocusListener, SetLabels {
 
+	private static final long serialVersionUID = 1L;
+
+	// =========================================
+	// support classes
+	// =========================================
+
 	private AppD app;
+	private Construction cons;
+	private Kernel kernel;
+	private StatisticsCollection sc;
+	private StatisticsCalculatorProcessor statProcessor;
+	private StatisticsCalculatorHTML statHTML;
 
-	// GUI elements
+	// =========================================
+	// GUI components
+	// =========================================
+
+	// text fields
 	private MyTextField[] fldSampleStat1, fldSampleStat2;
-	private JTextArea taResultTest, taResultEstimate;
-	private JLabel[] lblSampleStat1, lblSampleStat2;
-	private JRadioButton btnLeft, btnRight, btnTwo;
-
-	private JLabel lblHypParameter, lblTailType, lblNull, lblConfLevel,
-			lblSigma, lblResultHeader, lblSampleHeader1, lblSampleHeader2;
-	private JButton btnCalculate;
 	private MyTextField fldNullHyp, fldConfLevel, fldSigma;
-	private JTextArea taResultLog;
+	private int fieldWidth = 6;
 
-	// test type (tail)
+	// labels
+	private JLabel[] lblSampleStat1, lblSampleStat2;
+	private JLabel lblResult, lblHypParameter, lblTailType, lblNull,
+			lblConfLevel, lblSigma, lblSampleHeader1, lblSampleHeader2;
+
+	// buttons and combo boxes
+	private JRadioButton btnLeft, btnRight, btnTwo;
+	private JButton btnCalculate;
+	private JComboBox cbProcedure;
+	private JCheckBox ckPooled;
+
+	// panels
+	private JPanel panelBasicProcedures, panelControl, panelSample1,
+			panelSample2, panelTestAndCI;
+	private ChiSquarePanel panelChiSquare;
+	private JEditorPane resultPane;
+	private JScrollPane scroller;
+
+	// =========================================
+	// Procedures
+	// =========================================
+
+	/***/
+	public enum Procedure {
+		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
+	}
+
+	private Procedure selectedProcedure;
+
+	private HashMap<String, Procedure> mapNameToProcedure;
+	private HashMap<Procedure, String> mapProcedureToName;
+
+	// =========================================
+	// Misc
+	// =========================================
+
 	private static final String tail_left = "<";
 	private static final String tail_right = ">";
 	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-	private String tail = tail_two;
 
-	private JComboBox cpProcedure;
+	private StringBuilder bodyText;
 
-	private int fieldWidth = 6;
-	private double confLevel = .95, hypMean = 0;
+	private String strMean, strSD, strSigma, strSuccesses, strN, strPooled;
 
-	private JPanel panelInput, panelTest, panelEstimate, panelControl;
-
-	JScrollPane resultScroller;
-
-	private enum Procedure {
-		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST,
-
-		ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
-	}
-
-	private Procedure selectedProcedure = Procedure.ZMEAN_TEST;
-
-	private StatTable resultTable;
-
-	private JComboBox cbProcedure;
-
-	private String[] meanZSampleLabel;
-
-	private String[] propSampleLabel;
-
-	private String[] meanTSampleLabel;
-
-	private HashMap<String, Procedure> pMap;
+	private double[] s1, s2;
 
 	/******************************************************************
+	 * 
+	 * Construct StatisticsCalculator
+	 * 
 	 * @param app
 	 */
 	public StatisticsCalculator(AppD app) {
 		this.app = app;
+		cons = app.getKernel().getConstruction();
+		kernel = cons.getKernel();
+		sc = new StatisticsCollection();
+		statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
+		statHTML = new StatisticsCalculatorHTML(app, this, sc);
 
+		selectedProcedure = Procedure.ZMEAN_TEST;
 		createGUI();
 	}
+
+	// =========================================
+	// Getters/Setters
+	// =========================================
+
+	public Procedure getSelectedProcedure() {
+		return selectedProcedure;
+	}
+
+	public HashMap<Procedure, String> getMapProcedureToName() {
+		return mapProcedureToName;
+	}
+
+	public StatisticsCalculatorProcessor getStatProcessor() {
+		return statProcessor;
+	}
+
+	public StatisticsCollection getStatististicsCollection() {
+		return sc;
+	}
+
+	// =========================================
+	// GUI
+	// =========================================
 
 	private void createGUI() {
 
 		createGUIElements();
 		createControlPanel();
-		createInputPanel();
-		createTestPanel();
-		createEstimatePanel();
-		createResultPanel();
+		setInputPanelLayout();
+		panelChiSquare = new ChiSquarePanel(app, this);
 
-		JPanel outputPanel = new JPanel();
-		outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
-		outputPanel.add(panelInput);
-		outputPanel.add(panelTest);
-		outputPanel.add(panelEstimate);
-		outputPanel.add(panelControl);
-		
+		// prepare result panel
+		resultPane.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createEtchedBorder(),
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		JPanel resultPanel = new JPanel(new BorderLayout());
+		resultPanel.add(lblResult, BorderLayout.NORTH);
+		resultPanel.add(resultPane, BorderLayout.CENTER);
+
+		// procedure panel (procedure input fields + result panel)
+		JPanel procedurePanel = new JPanel();
+		procedurePanel
+				.setLayout(new BoxLayout(procedurePanel, BoxLayout.Y_AXIS));
+		procedurePanel.add(panelBasicProcedures);
+		procedurePanel.add(panelChiSquare);
+		procedurePanel.add(Box.createVerticalStrut(20));
+		procedurePanel.add(resultPanel);
+		procedurePanel.setAlignmentY(TOP_ALIGNMENT);
+
+		// wrapper for procedure panel
+		JPanel procedureWrapper = new JPanel(new BorderLayout());
+		procedureWrapper.add(procedurePanel, BorderLayout.NORTH);
+		procedureWrapper.setBorder(BorderFactory.createEmptyBorder(10, 20, 10,
+				20));
+		scroller = new JScrollPane(procedureWrapper);
+		scroller.getVerticalScrollBar().setUnitIncrement(30);
+
+		// main content panel
 		JPanel main = new JPanel(new BorderLayout());
-
-		main.setLayout(new BorderLayout());
-		main.add(outputPanel, BorderLayout.SOUTH);
-		main.add(resultScroller, BorderLayout.CENTER);
-		
-		
-		//main.add(panelControl, BorderLayout.SOUTH);
-
-		// JScrollPane mainScroller = new JScrollPane(main);
-
-		this.setLayout(new BorderLayout());
-		this.add(main, BorderLayout.CENTER);
+		main.add(scroller, BorderLayout.CENTER);
+		main.add(panelControl, BorderLayout.NORTH);
+		setLayout(new BorderLayout());
+		add(main, BorderLayout.CENTER);
 
 		setLabels();
 		updateGUI();
 
 	}
 
-	private void updateGUI() {
-
-		setSampleFieldLabels();
-		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
-			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
-			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
-			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
-		}
-
-		lblSampleHeader1.setVisible((lblSampleStat2[0].getText() != null));
-		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null));
-
-		setPanelLayout();
-		this.revalidate();
-
-	}
-
 	private void createControlPanel() {
-
 
 		panelControl = new JPanel(new BorderLayout());
 		panelControl.add(LayoutUtil.flowPanel(cbProcedure), app.borderWest());
-		panelControl.add(LayoutUtil.flowPanel(btnCalculate), app.borderEast());
-
-
-	}
-
-	private void createTestPanel() {
-
-		panelTest = new JPanel();
-		panelTest.setLayout(new BoxLayout(panelTest, BoxLayout.Y_AXIS));
-
-		panelTest.add(LayoutUtil.flowPanel(lblNull, fldNullHyp));
-		panelTest.add(LayoutUtil.flowPanel(lblTailType, btnLeft, btnRight,
-				btnTwo));
+		// panelControl.add(LayoutUtil.flowPanel(btnCalculate),
+		// BorderLayout.CENTER);
+		panelControl.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
 	}
 
-	private void createEstimatePanel() {
+	private void setInputPanelLayout() {
 
-		panelEstimate = new JPanel();
-		panelEstimate.setLayout(new BoxLayout(panelEstimate, BoxLayout.Y_AXIS));
+		// ---- prepare panels
 
-		panelEstimate.add(LayoutUtil.flowPanel(lblConfLevel, fldConfLevel));
+		if (panelBasicProcedures == null) {
+			panelBasicProcedures = new JPanel();
+			panelBasicProcedures.setLayout(new GridBagLayout());
+			panelBasicProcedures.setAlignmentY(TOP_ALIGNMENT);
+		}
 
-	}
+		if (panelSample1 == null) {
+			panelSample1 = new JPanel();
+			panelSample1
+					.setLayout(new BoxLayout(panelSample1, BoxLayout.Y_AXIS));
+			panelSample1.setAlignmentY(TOP_ALIGNMENT);
+		}
+		if (panelSample2 == null) {
+			panelSample2 = new JPanel();
+			panelSample2
+					.setLayout(new BoxLayout(panelSample2, BoxLayout.Y_AXIS));
+			panelSample2.setAlignmentY(TOP_ALIGNMENT);
+		}
+		if (panelTestAndCI == null) {
+			panelTestAndCI = new JPanel();
+			panelTestAndCI.setLayout(new BoxLayout(panelTestAndCI,
+					BoxLayout.Y_AXIS));
+			panelTestAndCI.setAlignmentY(TOP_ALIGNMENT);
+		}
 
-	private void createInputPanel() {
+		panelBasicProcedures.removeAll();
+		panelSample1.removeAll();
+		panelSample2.removeAll();
+		panelTestAndCI.removeAll();
 
-		JPanel p1 = new JPanel();
+		// ---- add components
 
-		p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-		p1.add(LayoutUtil.flowPanel(0, 4, 0, lblSampleHeader1));
+		panelSample1.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleHeader1));
 		for (int i = 0; i < lblSampleStat1.length; i++) {
-			p1.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleStat1[i],
-					fldSampleStat1[i]));
+			panelSample1.add(LayoutUtil.flowPanelRight(4, 2, 0,
+					lblSampleStat1[i], fldSampleStat1[i]));
 		}
 
-		JPanel p2 = new JPanel();
-		p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
-		p2.add(LayoutUtil.flowPanel(0, 4, 0, lblSampleHeader2));
+		panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0, new JLabel(" "),
+				lblSampleHeader2));
 		for (int i = 0; i < lblSampleStat2.length; i++) {
-			p2.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleStat2[i],
-					fldSampleStat2[i]));
+			panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0,
+					lblSampleStat2[i], fldSampleStat2[i]));
 		}
 
-		panelInput = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
-		panelInput.add(p1);
-		panelInput.add(p2);
+		switch (selectedProcedure) {
+		case ZMEAN_TEST:
+		case ZMEAN2_TEST:
+		case TMEAN_TEST:
+		case TMEAN2_TEST:
+		case ZPROP_TEST:
+		case ZPROP2_TEST:
 
-	}
+			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
+					Box.createHorizontalStrut(5), lblHypParameter, fldNullHyp));
+			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType,
+					btnLeft, btnRight, btnTwo));
+			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
+			break;
 
-	private void createResultPanel() {
+		case ZMEAN_CI:
+		case ZMEAN2_CI:
+		case TMEAN_CI:
+		case TMEAN2_CI:
+		case ZPROP_CI:
+		case ZPROP2_CI:
 
-		JPanel p = new JPanel();
-		p.setLayout(new BorderLayout());
-		p.add(taResultLog);
-		resultScroller = new JScrollPane(p);
+			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblConfLevel,
+					fldConfLevel));
+			break;
+		}
+
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.gridx = 0;
+		c.gridy = 1;
+		c.anchor = GridBagConstraints.NORTHWEST;
+		c.insets = new Insets(10, 0, 0, 0);
+		panelBasicProcedures.add(panelSample1, c);
+
+		c.gridx = 1;
+		c.weightx = 1;
+		c.insets = new Insets(10, 30, 0, 0);
+		panelBasicProcedures.add(panelSample2, c);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 1;
+		c.gridwidth = 2;
+		c.insets = new Insets(10, 0, 0, 0);
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		panelBasicProcedures.add(panelTestAndCI, c);
 
 	}
 
 	private void createGUIElements() {
 
+		// text pane to hold result HTML output
+		resultPane = new JEditorPane();
+		HTMLEditorKit kit = new HTMLEditorKit();
+		resultPane.setEditorKit(kit);
+		setStyleSheets(kit);
+		resultPane.setEditable(false);
+
+		s1 = new double[3];
+		s2 = new double[3];
+
+		lblResult = new JLabel();
+
 		lblSampleHeader1 = new JLabel();
 		lblSampleHeader2 = new JLabel();
 
-		taResultLog = new JTextArea();
-		taResultLog.setMinimumSize(new Dimension(50, 50));
+		bodyText = new StringBuilder();
+
+		ckPooled = new JCheckBox();
+		ckPooled.setSelected(false);
+		ckPooled.addActionListener(this);
 
 		cbProcedure = new JComboBox();
 		cbProcedure.setRenderer(new ListSeparatorRenderer());
-
 		cbProcedure.addActionListener(this);
+
 		btnCalculate = new JButton();
+		btnCalculate.addActionListener(this);
 
 		btnLeft = new JRadioButton(tail_left);
 		btnRight = new JRadioButton(tail_right);
@@ -255,8 +376,6 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		fldSigma.addActionListener(this);
 		fldSigma.addFocusListener(this);
 
-		lblResultHeader = new JLabel();
-
 		lblSampleStat1 = new JLabel[3];
 		for (int i = 0; i < lblSampleStat1.length; i++) {
 			lblSampleStat1[i] = new JLabel();
@@ -266,7 +385,6 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		for (int i = 0; i < fldSampleStat1.length; i++) {
 			fldSampleStat1[i] = new MyTextField(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
-			fldSampleStat1[i].setText("" + 0);
 			fldSampleStat1[i].addActionListener(this);
 			fldSampleStat1[i].addFocusListener(this);
 		}
@@ -280,7 +398,6 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		for (int i = 0; i < fldSampleStat2.length; i++) {
 			fldSampleStat2[i] = new MyTextField(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
-			fldSampleStat2[i].setText("" + 0);
 			fldSampleStat2[i].addActionListener(this);
 			fldSampleStat2[i].addFocusListener(this);
 		}
@@ -288,90 +405,136 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 	public void setLabels() {
 
-		panelInput.setBorder(BorderFactory.createTitledBorder("Input"));
-		panelTest.setBorder(BorderFactory.createTitledBorder("Test"));
-		panelEstimate.setBorder(BorderFactory.createTitledBorder("Estimate"));
-
-		lblHypParameter.setText(app.getMenu("HypothesizedMean.short") + " = ");
-
-		lblNull.setText(app.getMenu("NullHypothesis") + ": ");
-		lblTailType.setText(app.getMenu("AlternativeHypothesis") + ": ");
-		lblConfLevel.setText(app.getMenu("ConfidenceLevel") + ": ");
-		lblResultHeader.setText(app.getMenu("Result") + ": ");
-		lblSigma.setText(app.getMenu("StandardDeviation.short") + " = ");
+		lblResult.setText(app.getMenu("Result"));
+		lblNull.setText(app.getMenu("NullHypothesis"));
+		lblTailType.setText(app.getMenu("AlternativeHypothesis"));
+		lblConfLevel.setText(app.getMenu("ConfidenceLevel"));
+		lblSigma.setText(app.getMenu("StandardDeviation.short"));
 		btnCalculate.setText(app.getMenu("Calculate"));
-
 		lblSampleHeader1.setText(app.getMenu("Sample1"));
-		lblSampleHeader2.setText(app.getMenu("SampleProportion"));
+		lblSampleHeader2.setText(app.getMenu("Sample2"));
+		ckPooled.setText(app.getMenu("Pooled"));
 
+		setHypParameterLabel();
+		setLabelStrings();
 		setProcedureComboLabels();
-
 		setSampleFieldLabels();
 
+		panelChiSquare.setLabels();
+
+		// reset the text in the result panel
+		updateResult();
+
+	}
+
+	private void setHypParameterLabel() {
+		switch (selectedProcedure) {
+
+		case ZMEAN_TEST:
+		case TMEAN_TEST:
+			lblHypParameter.setText(app.getMenu("HypothesizedMean.short"));
+			break;
+
+		case ZMEAN2_TEST:
+		case TMEAN2_TEST:
+			lblHypParameter.setText(app.getMenu("DifferenceOfMeans.short"));
+			break;
+
+		case ZPROP_TEST:
+			lblHypParameter.setText("");
+			break;
+
+		case ZPROP2_TEST:
+			lblHypParameter.setText(app.getMenu(""));
+			break;
+
+		default:
+			lblHypParameter.setText(app.getMenu(""));
+		}
 	}
 
 	private void setProcedureComboLabels() {
 
-		pMap = new HashMap<String, Procedure>();
-		pMap.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
-		pMap.put(app.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
-		pMap.put(app.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
-		pMap.put(app.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
-		pMap.put(app.getMenu("ZTestDifferenceOfMeans"), Procedure.ZMEAN2_TEST);
-		pMap.put(app.getMenu("TTestDifferenceOfMeans"), Procedure.TMEAN2_TEST);
-		pMap.put(app.getMenu("ZEstimateDifferenceOfMeans"), Procedure.ZMEAN2_CI);
-		pMap.put(app.getMenu("TEstimateDifferenceOfMeans"), Procedure.TMEAN2_CI);
-		pMap.put(app.getMenu("ZProportionTest"), Procedure.ZPROP_TEST);
-		pMap.put(app.getMenu("ZProportionInterval"), Procedure.ZPROP_CI);
-		pMap.put(app.getMenu("ZTestDifferenceOfProportions"),
-				Procedure.ZPROP2_TEST);
-		pMap.put(app.getMenu("ZEstimateDifferenceOfProportions"),
+		if (mapNameToProcedure == null) {
+			mapNameToProcedure = new HashMap<String, Procedure>();
+		}
+		if (mapProcedureToName == null) {
+			mapProcedureToName = new HashMap<Procedure, String>();
+		}
+
+		mapNameToProcedure.clear();
+		mapProcedureToName.clear();
+
+		mapNameToProcedure.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		mapNameToProcedure.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		mapNameToProcedure.put(app.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
+		mapNameToProcedure
+				.put(app.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
+		mapNameToProcedure
+				.put(app.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
+		mapNameToProcedure.put(app.getMenu("ZTestDifferenceOfMeans"),
+				Procedure.ZMEAN2_TEST);
+		mapNameToProcedure.put(app.getMenu("TTestDifferenceOfMeans"),
+				Procedure.TMEAN2_TEST);
+		mapNameToProcedure.put(app.getMenu("ZEstimateDifferenceOfMeans"),
+				Procedure.ZMEAN2_CI);
+		mapNameToProcedure.put(app.getMenu("TEstimateDifferenceOfMeans"),
+				Procedure.TMEAN2_CI);
+		mapNameToProcedure.put(app.getMenu("ZProportionTest"),
+				Procedure.ZPROP_TEST);
+		mapNameToProcedure.put(app.getMenu("ZProportionInterval"),
 				Procedure.ZPROP_CI);
-		pMap.put(app.getMenu("GooodnessOfFitTest"), Procedure.GOF_TEST);
-		pMap.put(app.getMenu("ChiSquaredTest"), Procedure.CHISQ_TEST);
+		mapNameToProcedure.put(app.getMenu("ZTestDifferenceOfProportions"),
+				Procedure.ZPROP2_TEST);
+		mapNameToProcedure.put(app.getMenu("ZEstimateDifferenceOfProportions"),
+				Procedure.ZPROP2_CI);
+		mapNameToProcedure.put(app.getMenu("GoodnessOfFitTest"),
+				Procedure.GOF_TEST);
+		mapNameToProcedure.put(app.getMenu("ChiSquaredTest"),
+				Procedure.CHISQ_TEST);
+
+		for (String s : mapNameToProcedure.keySet()) {
+			this.mapProcedureToName.put(mapNameToProcedure.get(s), s);
+		}
 
 		cbProcedure.removeAllItems();
-		cbProcedure.addItem(app.getMenu("ZMeanTest"));
-		cbProcedure.addItem(app.getMenu("TMeanTest"));
-		cbProcedure.addItem(app.getMenu("ZMeanInterval"));
-		// cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
-		cbProcedure.addItem(app.getMenu("TMeanInterval"));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_TEST));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_TEST));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_TEST));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN2_TEST));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_TEST));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_TEST));
+
 		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_CI));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_CI));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_CI));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_CI));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_CI));
 
-		cbProcedure.addItem(app.getMenu("ZTestDifferenceOfMeans"));
-		cbProcedure.addItem(app.getMenu("TTestDifferenceOfMeans"));
-
-		cbProcedure.addItem(app.getMenu("ZEstimateDifferenceOfMeans"));
-		// cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
-
-		cbProcedure.addItem(app.getMenu("TEstimateDifferenceOfMeans"));
 		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.GOF_TEST));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
 
-		cbProcedure.addItem(app.getMenu("ZProportionInterval"));
-		cbProcedure.addItem(app.getMenu("ZProportionTest"));
-		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+		cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
 
-		cbProcedure.addItem(app.getMenu("ZTestDifferenceOfProportions"));
-		cbProcedure.addItem(app.getMenu("ZEstimateDifferenceOfProportions"));
-		cbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
-
-		cbProcedure.addItem(app.getMenu("GooodnessOfFitTest"));
-		cbProcedure.addItem(app.getMenu("ChiSquaredTest"));
-
-		cbProcedure.setMaximumRowCount(17);
+		// TODO for testing only, remove later
+		// cbProcedure.setSelectedItem(mapProcedureToName
+		// .get(Procedure.CHISQ_TEST));
 
 	}
 
+	private void setLabelStrings() {
+
+		strMean = app.getMenu("Mean");
+		strSD = app.getMenu("SampleStandardDeviation.short");
+		strSigma = app.getMenu("StandardDeviation.short");
+		strSuccesses = app.getMenu("Successes");
+		strN = app.getMenu("N");
+		strPooled = app.getMenu("Pooled");
+	}
+
 	private void setSampleFieldLabels() {
-
-		String sample1 = app.getMenu("Sample1");
-		String sample2 = app.getMenu("Sample2");
-
-		String sampleMean = app.getMenu("Mean");
-		String sd = app.getMenu("SampleStandardDeviation.short");
-		String sigma = app.getMenu("StandardDeviation.short");
-		String successes = app.getMenu("Successes");
-		String n = app.getMenu("N");
 
 		for (int i = 0; i < 3; i++) {
 			lblSampleStat1[i].setText(null);
@@ -381,152 +544,319 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		switch (selectedProcedure) {
 		case ZMEAN_TEST:
 		case ZMEAN_CI:
-			lblSampleStat1[0].setText(sampleMean);
-			lblSampleStat1[1].setText(n);
+			lblSampleStat1[0].setText(strMean);
+			lblSampleStat1[1].setText(strSigma);
+			lblSampleStat1[2].setText(strN);
 			break;
 
 		case TMEAN_TEST:
 		case TMEAN_CI:
-			lblSampleStat1[0].setText(sampleMean);
-			lblSampleStat1[1].setText(sd);
-			lblSampleStat1[2].setText(n);
+			lblSampleStat1[0].setText(strMean);
+			lblSampleStat1[1].setText(strSD);
+			lblSampleStat1[2].setText(strN);
 			break;
 
 		case ZMEAN2_TEST:
 		case ZMEAN2_CI:
-			lblSampleStat1[0].setText(sampleMean);
-			lblSampleStat1[1].setText(n);
-			lblSampleStat2[0].setText(sampleMean);
-			lblSampleStat2[1].setText(n);
+			lblSampleStat1[0].setText(strMean);
+			lblSampleStat1[1].setText(strSigma);
+			lblSampleStat1[2].setText(strN);
+			lblSampleStat2[0].setText(strMean);
+			lblSampleStat2[1].setText(strSD);
+			lblSampleStat2[2].setText(strN);
 			break;
 
 		case TMEAN2_TEST:
 		case TMEAN2_CI:
-			lblSampleStat1[0].setText(sampleMean);
-			lblSampleStat1[1].setText(sd);
-			lblSampleStat1[2].setText(n);
-			lblSampleStat2[0].setText(sampleMean);
-			lblSampleStat2[1].setText(sd);
-			lblSampleStat2[2].setText(n);
+			lblSampleStat1[0].setText(strMean);
+			lblSampleStat1[1].setText(strSD);
+			lblSampleStat1[2].setText(strN);
+			lblSampleStat2[0].setText(strMean);
+			lblSampleStat2[1].setText(strSD);
+			lblSampleStat2[2].setText(strN);
 			break;
 
 		case ZPROP_TEST:
 		case ZPROP_CI:
-			lblSampleStat1[0].setText(successes);
-			lblSampleStat1[2].setText(n);
+			lblSampleStat1[0].setText(strSuccesses);
+			lblSampleStat1[2].setText(strN);
 			break;
 
 		case ZPROP2_TEST:
 		case ZPROP2_CI:
-			lblSampleStat1[0].setText(successes);
-			lblSampleStat1[2].setText(n);
-			lblSampleStat2[0].setText(successes);
-			lblSampleStat2[2].setText(n);
+			lblSampleStat1[0].setText(strSuccesses);
+			lblSampleStat1[2].setText(strN);
+			lblSampleStat2[0].setText(strSuccesses);
+			lblSampleStat2[2].setText(strN);
 			break;
 
 		}
 	}
 
-	private void setResultTable() {
+	private void updateGUI() {
 
-		ArrayList<String> resultLabelTest = new ArrayList<String>();
-
-		switch (selectedProcedure) {
-
-		case ZMEAN_TEST:
-			resultLabelTest.add(app.getMenu("PValue"));
-			resultLabelTest.add(app.getMenu("ZStatistic"));
-			break;
-
-		case TMEAN_TEST:
-			resultLabelTest.add(app.getMenu("PValue"));
-			resultLabelTest.add(app.getMenu("TStatistic"));
-			resultLabelTest.add(app.getMenu(""));
-			resultLabelTest.add(app.getMenu("DegreesOfFreedom.short"));
-			resultLabelTest.add(app.getMenu("StandardError.short"));
-			break;
-
+		setHypParameterLabel();
+		setSampleFieldLabels();
+		for (int i = 0; i < 3; i++) {
+			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
+			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
+			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
+			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
 		}
 
-		String[] rowNames = new String[resultLabelTest.size()];
-		resultLabelTest.toArray(rowNames);
-		resultTable.setStatTable(rowNames.length, rowNames, 1, null);
+		lblSampleHeader1.setVisible((lblSampleStat2[0].getText() != null));
+		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null));
 
-	}
+		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
+				|| selectedProcedure == Procedure.TMEAN2_CI);
 
-	private void setResultTable2() {
-
-		ArrayList<String> resultLabelEstimate = new ArrayList<String>();
-
-		switch (selectedProcedure) {
-
-		case ZMEAN_TEST:
-			resultLabelEstimate.add(app.getMenu("Interval"));
-			resultLabelEstimate.add(app.getMenu("LowerLimit"));
-			resultLabelEstimate.add(app.getMenu("UpperLimit"));
-			break;
-
-		case TMEAN_TEST:
-			resultLabelEstimate.add(app.getMenu("Interval"));
-			resultLabelEstimate.add(app.getMenu("LowerLimit"));
-			resultLabelEstimate.add(app.getMenu("UpperLimit"));
-			resultLabelEstimate.add(app.getMenu(""));
-			resultLabelEstimate.add(app.getMenu("DegreesOfFreedom.short"));
-			resultLabelEstimate.add(app.getMenu("StandardError.short"));
-			break;
-		}
-
-		String[] rowNames = new String[resultLabelEstimate.size()];
-		resultLabelEstimate.toArray(rowNames);
-		resultTable.setStatTable(rowNames.length, rowNames, 1, null);
+		setPanelLayout();
+		this.revalidate();
 
 	}
 
 	private void setPanelLayout() {
 
-		panelEstimate.setVisible(false);
-		panelTest.setVisible(false);
+		panelBasicProcedures.setVisible(false);
+		panelChiSquare.setVisible(false);
 
 		switch (selectedProcedure) {
-		case ZMEAN_TEST:
-		case ZMEAN2_TEST:
-		case TMEAN_TEST:
-		case TMEAN2_TEST:
-		case ZPROP_TEST:
-		case ZPROP2_TEST:
-			panelTest.setVisible(true);
+
+		case CHISQ_TEST:
+		case GOF_TEST:
+			panelChiSquare.setVisible(true);
+			panelChiSquare.updateGUI();
 			break;
 
-		case ZMEAN_CI:
-		case ZMEAN2_CI:
-		case TMEAN_CI:
-		case TMEAN2_CI:
-		case ZPROP_CI:
-		case ZPROP2_CI:
-			panelEstimate.setVisible(true);
-			break;
+		default:
+			setInputPanelLayout();
+			panelBasicProcedures.setVisible(true);
 		}
+
+	}
+
+	public void updateResult() {
+
+		updateStatisticCollection();
+		statProcessor.doCalculate();
+
+		bodyText = new StringBuilder();
+		bodyText.append(statHTML.getStatString());
+		updateResultText();
+		
+		// prevent auto scrolling
+		resultPane.setCaretPosition(0);
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		doActionPerformed(e);
+	}
+
+	public void doActionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source == cbProcedure) {
-			selectedProcedure = pMap.get(cbProcedure.getSelectedItem());
+		if (source instanceof JTextField) {
+			doTextFieldActionPerformed((JTextField) source);
+		}
+
+		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
+			selectedProcedure = mapNameToProcedure.get(cbProcedure
+					.getSelectedItem());
 			updateGUI();
+			updateResult();
+
+			// reset the scrollpane to the top
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					scroller.getVerticalScrollBar().setValue(0);
+				}
+			});
+
+		}
+
+		if (source == btnLeft || source == btnRight || source == btnTwo) {
+			updateResult();
+		}
+
+		if (source == ckPooled) {
+			sc.pooled = ckPooled.isSelected();
+			updateResult();
+		}
+
+		if (source == btnCalculate) {
+			updateResult();
 		}
 
 	}
 
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
+	public void doTextFieldActionPerformed(JTextField source) {
+
+		if (source.getText().equals(ListSeparatorRenderer.SEPARATOR)) {
+			return;
+		}
+
+		updateResult();
+	}
+
+	private double parseNumberText(String s) {
+
+		if (s == null || s.length() == 0) {
+			return Double.NaN;
+		}
+
+		try {
+			String inputText = s.trim();
+
+			// allow input such as sqrt(2)
+			NumberValue nv;
+			nv = cons.getKernel().getAlgebraProcessor()
+					.evaluateToNumeric(inputText, false);
+			return nv.getDouble();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return Double.NaN;
+	}
+
+	private void updateStatisticCollection() {
+		try {
+
+			sc.level = parseNumberText(fldConfLevel.getText());
+			sc.sd = parseNumberText(fldSigma.getText());
+			sc.nullHyp = parseNumberText(fldNullHyp.getText());
+
+			if (btnLeft.isSelected()) {
+				sc.tail = tail_left;
+			} else if (btnRight.isSelected()) {
+				sc.tail = tail_right;
+			} else {
+				sc.tail = tail_two;
+			}
+
+			for (int i = 0; i < s1.length; i++) {
+				s1[i] = (parseNumberText(fldSampleStat1[i].getText()));
+			}
+			for (int i = 0; i < s2.length; i++) {
+				s2[i] = (parseNumberText(fldSampleStat2[i].getText()));
+			}
+
+			switch (selectedProcedure) {
+
+			case ZMEAN_TEST:
+			case ZMEAN_CI:
+			case TMEAN_TEST:
+			case TMEAN_CI:
+				sc.mean = s1[0];
+				sc.sd = s1[1];
+				sc.n = (int) s1[2];
+				break;
+
+			case ZMEAN2_TEST:
+			case ZMEAN2_CI:
+			case TMEAN2_TEST:
+			case TMEAN2_CI:
+				sc.mean = s1[0];
+				sc.sd = s1[1];
+				sc.n = (int) s1[2];
+				sc.mean2 = s2[0];
+				sc.sd2 = s2[1];
+				sc.n2 = (int) s2[2];
+				break;
+
+			case ZPROP_TEST:
+			case ZPROP_CI:
+				sc.count = (int) s1[0];
+				sc.n = (int) s1[1];
+				break;
+
+			case ZPROP2_TEST:
+			case ZPROP2_CI:
+				sc.count = (int) s1[0];
+				sc.n = (int) s1[1];
+				sc.count2 = (int) s2[0];
+				sc.n2 = (int) s2[1];
+				break;
+			}
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public void focusLost(FocusEvent arg0) {
-		// TODO Auto-generated method stub
+	/**
+	 * Formats a number string using local format settings.
+	 * 
+	 * @param x
+	 * @return
+	 */
+	public String format(double x) {
+		StringTemplate highPrecision;
+
+		if (kernel.useSignificantFigures) {
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
+					kernel.getPrintFigures(), false);
+		} else {
+			// override the default decimal place if < 4
+			int d = kernel.getPrintDecimals() < 4 ? 4 : cons.getKernel()
+					.getPrintDecimals();
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
+					d, false);
+		}
+		// get the formatted string
+		String result = kernel.format(x, highPrecision);
+
+		return result;
+	}
+
+	public void focusGained(FocusEvent e) {
+		if (e.getSource() instanceof MyTextField) {
+			((MyTextField) e.getSource()).selectAll();
+		}
+
+	}
+
+	public void focusLost(FocusEvent e) {
+		if (e.getSource() instanceof MyTextField)
+			doTextFieldActionPerformed((MyTextField) e.getSource());
+
+	}
+
+	public void updateFonts(Font font) {
+		setStyleSheetFontSize((HTMLEditorKit) resultPane.getEditorKit(), font);
+		this.setFont(font);
+		this.updateResultText();
+	}
+
+	private static void setStyleSheetFontSize(HTMLEditorKit kit, Font font) {
+
+		StyleSheet styleSheet = kit.getStyleSheet();
+		String size = "" + font.getSize();
+		styleSheet.addRule("body {font-size : " + size + "pt }");
+
+	}
+
+	private static void setStyleSheets(HTMLEditorKit kit) {
+		// add some styles to the html
+		StyleSheet styleSheet = kit.getStyleSheet();
+		styleSheet
+				.addRule("body {color:#00008B; font : 9pt verdana; margin: 4px;  }");
+
+		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
+		styleSheet
+				.addRule("td {text-align: center; border-top-width: 1px; border-style:solid; border-color:#00008B;"
+						+ padding + "}");
+
+	}
+
+	private void updateResultText() {
+
+		String htmlString = "<html><body>\n" + bodyText.toString()
+				+ "</body>\n";
+		resultPane.setText(htmlString);
 
 	}
 

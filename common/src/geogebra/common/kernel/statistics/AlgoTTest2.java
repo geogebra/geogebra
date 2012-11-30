@@ -61,6 +61,12 @@ public class AlgoTTest2 extends AlgoElement {
 
 	public AlgoTTest2(Construction cons, String label, GeoNumeric mean0, GeoNumeric mean1, GeoNumeric sd0, GeoNumeric sd1, 
 			GeoNumeric n0, GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
+		this(cons, mean0, mean1, sd0, sd1, n0, n1, tail, pooled);
+		result.setLabel(label);
+	}
+
+	public AlgoTTest2(Construction cons, GeoNumeric mean0, GeoNumeric mean1, GeoNumeric sd0, GeoNumeric sd1, 
+			GeoNumeric n0, GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
 		super(cons);
 		this.mean0 = mean0;
 		this.mean1 = mean1;
@@ -74,7 +80,7 @@ public class AlgoTTest2 extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
+		
 	}
 
 

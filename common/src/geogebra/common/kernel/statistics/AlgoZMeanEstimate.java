@@ -32,8 +32,12 @@ public class AlgoZMeanEstimate extends AlgoElement {
 
 	private GeoNumeric  mean, sd, n, level; //input
 	GeoList list;
-	private GeoList  result;     // output   
-	/**
+	private GeoList  result;     // output
+	private double me;
+	
+	
+
+	/************************************************
 	 * @param cons
 	 * @param label
 	 * @param mean 
@@ -42,6 +46,18 @@ public class AlgoZMeanEstimate extends AlgoElement {
 	 * @param level 
 	 */
 	public AlgoZMeanEstimate(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
+		this(cons, mean, sd, n, level);
+		result.setLabel(label);
+	}
+
+	/************************************************
+	 * @param cons
+	 * @param mean 
+	 * @param sd 
+	 * @param n
+	 * @param level 
+	 */
+	public AlgoZMeanEstimate(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
@@ -51,9 +67,8 @@ public class AlgoZMeanEstimate extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();      
-		result.setLabel(label);
+		
 	}
-
 
 	/**
 	 * @param cons
@@ -105,6 +120,13 @@ public class AlgoZMeanEstimate extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return margin of error
+	 */
+	public double getME() {
+		return me;
+	}
+	
 	/**
 	 * @return {lower confidence limit, upper confidence limit}.
 	 */
@@ -160,7 +182,7 @@ public class AlgoZMeanEstimate extends AlgoElement {
 
 		double se = sd1 / Math.sqrt(n1);
 		double z = Math.abs(critZ);
-		double me = z * se;
+		me = z * se;
 
 		// put these results into the output list
 		result.clear();
