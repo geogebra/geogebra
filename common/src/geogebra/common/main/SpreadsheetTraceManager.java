@@ -609,20 +609,22 @@ public class SpreadsheetTraceManager {
 				cell = geo.deepCopyGeo();
 				cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column,
 						row));
+
+				cell.setAllVisualProperties(geo, true);
+				cell.setSpreadsheetTrace(false);
+				cell.setTraceSettings(null);
+				cell.setAuxiliaryObject(true);
+				cell.setLabelVisible(false);
+				
+				if (cell.isGeoText())
+					cell.setEuclidianVisible(false);
 			}else{
 				//just copy - so children are not removed
+				// properties not changed
 				cell.set(geo);
 			}
 
 
-			cell.setAllVisualProperties(geo, true);
-			cell.setSpreadsheetTrace(false);
-			cell.setTraceSettings(null);
-			cell.setAuxiliaryObject(true);
-			cell.setLabelVisible(false);
-			
-			if (cell.isGeoText())
-				cell.setEuclidianVisible(false);
 			
 			cell.updateCascade();
 
