@@ -492,7 +492,9 @@ public class RelativeCopy {
 		value2.setAuxiliaryObject(true);
 
 		// attempt to set updated condition to show object (if it's changed)
-		if ((boolText != null) && !boolText.equals(oldBoolText)) {
+		if ((boolText != null)){
+			// removed as doesn't work for eg "random()<0.5" #388
+			//&& !boolText.equals(oldBoolText)) {
 			try {
 				// Application.debug("new condition to show object: "+boolText);
 				GeoBoolean newConditionToShowObject = kernel
@@ -506,7 +508,9 @@ public class RelativeCopy {
 		}
 
 		// attempt to set updated dynamic color function (if it's changed)
-		if ((colorText != null) && !colorText.equals(oldColorText)) {
+		if ((colorText != null)){
+			// removed as doesn't work for eg "random()" #388
+			// && !colorText.equals(oldColorText)) {
 			try {
 				// Application.debug("new color function: "+colorText);
 				GeoList newColorFunction = kernel.getAlgebraProcessor()
