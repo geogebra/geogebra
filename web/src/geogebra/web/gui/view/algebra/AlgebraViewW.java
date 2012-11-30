@@ -15,6 +15,7 @@ package geogebra.web.gui.view.algebra;
 import geogebra.common.awt.GFont;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraController;
+import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.ModeSetter;
@@ -22,10 +23,16 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.AppW;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -267,8 +274,13 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	boolean attached = false;
 
 	public void attachView() {
+
+		if (attached)
+			return;
+
 		clearView();
 		kernel.notifyAddAll(this);
+		applySettings();
 		kernel.attach(this);
 		attached = true;
 		/*
@@ -1234,17 +1246,87 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		}
 	}
 
+	private StringBuilder sbXML;
 	
+	private void updateCollapsedNodesIndices(){
+		
+
+
+		//no collapsed nodes
+		if (getTreeMode()==SortMode.ORDER){
+			collapsedNodes = null;
+			return;
+		}
+		
+		
+		
+		if (collapsedNodes==null)
+			collapsedNodes = new ArrayList<Integer>();
+		else
+			collapsedNodes.clear();
+
+
+		for (int i=0; i<getItemCount(); i++){
+			TreeItem node = getItem(i);
+			if (!node.getState())
+				collapsedNodes.add(i);
+		}
+
+	}
 	
 	/**
 	 * returns settings in XML format
-	 * 
-	 * public void getXML(StringBuilder sb) {
-	 * 
-	 * sb.append("<algebraView>\n"); sb.append("\t<useLaTeX ");
-	 * sb.append(" value=\""); sb.append(isRenderLaTeX()); sb.append("\"");
-	 * sb.append("/>\n"); sb.append("</algebraView>\n"); }
 	 */
+	public void getXML(StringBuilder sb, boolean asPreference) {
+	
+
+		if (sbXML==null)
+			sbXML = new StringBuilder();
+		else
+			sbXML.setLength(0);
+		
+		//tree mode
+		if (getTreeMode()!=SortMode.TYPE){
+			sbXML.append("\t<mode ");
+			sbXML.append("val=\"");
+			sbXML.append(getTreeModeValue());
+			sbXML.append("\"");
+			sbXML.append("/>\n");
+		}
+
+		
+		//auxiliary objects
+		boolean flag = showAuxiliaryObjects();
+		if (flag){
+			sbXML.append("\t<auxiliary ");
+			sbXML.append("show=\"");
+			sbXML.append(flag);
+			sbXML.append("\"");
+			sbXML.append("/>\n");
+		}
+		
+		//collapsed nodes
+		updateCollapsedNodesIndices();
+		if (collapsedNodes!=null && collapsedNodes.size()>0){
+			sbXML.append("\t<collapsed ");
+			sbXML.append("val=\"");
+			sbXML.append(collapsedNodes.get(0));
+			for (int i=1; i<collapsedNodes.size();i++){
+				sbXML.append(",");
+				sbXML.append(collapsedNodes.get(i));
+			}
+			sbXML.append("\"");
+			sbXML.append("/>\n");
+		}
+
+		if (sbXML.length()>0){
+			sb.append("<algebraView>\n");
+			sb.append(sbXML);
+			sb.append("</algebraView>\n");
+		}
+
+
+	}
 
 
 	// temporary proxies for the temporary implementation of AlgebraController in common
@@ -1335,8 +1417,99 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	    return false;
     }
 
+	/**
+	 * @return int value for tree mode (used in XML)
+	 */
+	public int getTreeModeValue(){
+		switch (getTreeMode()) {
+		case DEPENDENCY:
+			return 0;
+		case TYPE:
+		default:
+			return 1;
+		case LAYER:
+			return 2;
+		case ORDER:
+			return 3;
+		}
+	}
+
 	public void setTreeMode(int mode) {
-	    App.debug("unimplemented");
-	    
+		switch(mode){
+		case 0:
+			setTreeMode(SortMode.DEPENDENCY);
+			break;
+		case 1:
+			setTreeMode(SortMode.TYPE);
+			break;
+		case 2:
+			setTreeMode(SortMode.LAYER);
+			break;
+		case 3:
+			setTreeMode(SortMode.ORDER);
+			break;
+		}
     }
+
+	private ArrayList<Integer> collapsedNodes;
+
+	private void setCollapsedNodes(int[] collapsedNodes){
+		if (collapsedNodes == null)
+			return;
+
+		if (this.collapsedNodes==null)
+			this.collapsedNodes = new ArrayList<Integer>();
+		else
+			this.collapsedNodes.clear();
+
+		for (int i=0; i<collapsedNodes.length; i++)
+			this.collapsedNodes.add(collapsedNodes[i]);
+	}
+
+
+	/**
+	 * apply the settings
+	 */
+	public void applySettings(){
+		
+		if (!settingsChanged){
+			//that means that no settings were stored in the file: reset settings to have default
+			AlgebraSettings settings = app.getSettings().getAlgebra();
+			settings.reset();
+			settingsChanged(settings);
+		}
+		
+
+		settingsChanged = false;
+		
+		//auxilliary objects
+		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
+		
+		
+		//collapsed nodes
+		if (collapsedNodes == null)
+			return;
+
+
+		for (int i : collapsedNodes){
+			TreeItem node = getItem(i);
+			node.setState(false);
+		}
+	}
+
+
+	private boolean showAuxiliaryObjectsSettings = false;
+	
+	private boolean settingsChanged = false;
+
+	public void settingsChanged(AbstractSettings settings) {
+	
+		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
+		setTreeMode(algebraSettings.getTreeMode());
+		showAuxiliaryObjectsSettings = algebraSettings.getShowAuxiliaryObjects();
+		setCollapsedNodes(algebraSettings.getCollapsedNodes());
+		
+		settingsChanged = true;
+				
+	}
 } // AlgebraView

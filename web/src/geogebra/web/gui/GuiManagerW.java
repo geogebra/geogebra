@@ -463,7 +463,14 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 //			kernel.notifyModeChanged(mode);
 //		}
 	}
-	
+
+
+	@Override 
+	public void applyAlgebraViewSettings(){ 
+		if (algebraView!=null) 
+			algebraView.applySettings(); 
+	} 
+
 	private PropertiesView propertiesView;
 
 	@Override
@@ -953,10 +960,5 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	@Override
     public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		App.debug("unimplemented");    
-    }
-
-	@Override
-    public void applyAlgebraViewSettings() {
-		App.debug("unimplemented");      
     }
 }
