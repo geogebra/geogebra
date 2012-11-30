@@ -643,9 +643,9 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 			fldSampleStat1[i].addActionListener(this);
 			fldSampleStat2[i].addActionListener(this);
 		}
-		
+
 		fldConfLevel.setText(format(sc.level));
-		
+
 	}
 
 	private void updateGUI() {
@@ -906,7 +906,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
 		styleSheet
-				.addRule("td {text-align: center; border-top-width: 1px; border-style:solid; border-color:#00008B;"
+				.addRule("td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
 						+ padding + "}");
 
 	}
