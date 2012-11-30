@@ -31,9 +31,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
