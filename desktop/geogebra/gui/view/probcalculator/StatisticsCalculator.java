@@ -580,7 +580,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 			lblSampleStat1[1].setText(strSigma);
 			lblSampleStat1[2].setText(strN);
 			lblSampleStat2[0].setText(strMean);
-			lblSampleStat2[1].setText(strSD);
+			lblSampleStat2[1].setText(strSigma);
 			lblSampleStat2[2].setText(strN);
 			break;
 
