@@ -237,7 +237,6 @@ public class StatisticsCalculatorProcessor {
 
 			algo = new AlgoTTest2(cons, mean, sd, n, mean2, sd2, n2, tail,
 					pooled);
-			System.out.println("pooled: " + pooled.getBoolean());
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
@@ -410,10 +409,9 @@ public class StatisticsCalculatorProcessor {
 	}
 
 	private void setTestResults(GeoElement result) {
-		if (result.isDefined()) {
-			GeoList list = (GeoList) result;
-			sc.P = ((GeoNumeric) list.get(0)).getDouble();
-			sc.testStat = ((GeoNumeric) list.get(1)).getDouble();
+		if (result.isDefined() && ((GeoList) result).size() > 0) {
+			sc.P = ((GeoNumeric) ((GeoList) result).get(0)).getDouble();
+			sc.testStat = ((GeoNumeric) ((GeoList) result).get(1)).getDouble();
 		} else {
 			sc.P = Double.NaN;
 			sc.testStat = Double.NaN;
@@ -421,10 +419,9 @@ public class StatisticsCalculatorProcessor {
 	}
 
 	private void setIntervalResults(GeoElement result) {
-		if (result.isDefined()) {
-			GeoList list = (GeoList) result;
-			sc.lower = ((GeoNumeric) list.get(0)).getDouble();
-			sc.upper = ((GeoNumeric) list.get(1)).getDouble();
+		if (result.isDefined() && ((GeoList) result).size() > 0) {
+			sc.lower = ((GeoNumeric) ((GeoList) result).get(0)).getDouble();
+			sc.upper = ((GeoNumeric) ((GeoList) result).get(1)).getDouble();
 
 		} else {
 			sc.lower = Double.NaN;

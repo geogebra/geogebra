@@ -61,6 +61,7 @@ public class StatisticsCollection {
 	}
 
 	public void validate() {
+		
 		if (sd < 0) {
 			sd = Double.NaN;
 		}
@@ -75,8 +76,12 @@ public class StatisticsCollection {
 			n2 = Double.NaN;
 		}
 
-		n = Math.round(n);
-		n2 = Math.round(n2);
+		if (!Double.isNaN(n)) {
+			n = Math.round(n);
+		}
+		if (!Double.isNaN(n2)) {
+			n2 = Math.round(n2);
+		}
 
 		if (level < 0 || level > 1) {
 			level = Double.NaN;

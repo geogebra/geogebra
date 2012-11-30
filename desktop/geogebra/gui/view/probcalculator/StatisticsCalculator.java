@@ -71,7 +71,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	// labels
 	private JLabel[] lblSampleStat1, lblSampleStat2;
 	private JLabel lblResult, lblHypParameter, lblTailType, lblNull,
-			lblConfLevel, lblSigma, lblSampleHeader1, lblSampleHeader2;
+			lblConfLevel, lblSigma, lblSampleHeader, lblSampleHeader1,
+			lblSampleHeader2;
 
 	// buttons and combo boxes
 	private JRadioButton btnLeft, btnRight, btnTwo;
@@ -360,7 +361,6 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		fldNullHyp = new MyTextField(app);
 		fldNullHyp.setColumns(fieldWidth);
-		fldNullHyp.setText("" + 0);
 		fldNullHyp.addActionListener(this);
 		fldNullHyp.addFocusListener(this);
 
@@ -411,8 +411,24 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		lblConfLevel.setText(app.getMenu("ConfidenceLevel"));
 		lblSigma.setText(app.getMenu("StandardDeviation.short"));
 		btnCalculate.setText(app.getMenu("Calculate"));
-		lblSampleHeader1.setText(app.getMenu("Sample1"));
+
+		switch (selectedProcedure) {
+
+		case ZMEAN2_TEST:
+		case TMEAN2_TEST:
+		case ZMEAN2_CI:
+		case TMEAN2_CI:
+		case ZPROP2_TEST:
+		case ZPROP2_CI:
+			lblSampleHeader1.setText(app.getMenu("Sample1"));
+			break;
+
+		default:
+			lblSampleHeader1.setText(app.getMenu("Sample"));
+		}
+
 		lblSampleHeader2.setText(app.getMenu("Sample2"));
+
 		ckPooled.setText(app.getMenu("Pooled"));
 
 		setHypParameterLabel();
@@ -441,11 +457,13 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 			break;
 
 		case ZPROP_TEST:
-			lblHypParameter.setText("");
+			lblHypParameter
+					.setText(app.getMenu("HypothesizedProportion.short"));
 			break;
 
 		case ZPROP2_TEST:
-			lblHypParameter.setText(app.getMenu(""));
+			lblHypParameter.setText(app
+					.getMenu("DifferenceOfProportions.short"));
 			break;
 
 		default:
@@ -579,15 +597,15 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		case ZPROP_TEST:
 		case ZPROP_CI:
 			lblSampleStat1[0].setText(strSuccesses);
-			lblSampleStat1[2].setText(strN);
+			lblSampleStat1[1].setText(strN);
 			break;
 
 		case ZPROP2_TEST:
 		case ZPROP2_CI:
 			lblSampleStat1[0].setText(strSuccesses);
-			lblSampleStat1[2].setText(strN);
+			lblSampleStat1[1].setText(strN);
 			lblSampleStat2[0].setText(strSuccesses);
-			lblSampleStat2[2].setText(strN);
+			lblSampleStat2[1].setText(strN);
 			break;
 
 		}
@@ -627,15 +645,15 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		case ZPROP_TEST:
 		case ZPROP_CI:
 			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[2].setText(format(sc.n));
+			fldSampleStat1[1].setText(format(sc.n));
 			break;
 
 		case ZPROP2_TEST:
 		case ZPROP2_CI:
 			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[2].setText(format(sc.n));
+			fldSampleStat1[1].setText(format(sc.n));
 			fldSampleStat2[0].setText(format(sc.count2));
-			fldSampleStat2[2].setText(format(sc.n2));
+			fldSampleStat2[1].setText(format(sc.n2));
 			break;
 		}
 
@@ -645,6 +663,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		}
 
 		fldConfLevel.setText(format(sc.level));
+		fldNullHyp.setText(format(sc.nullHyp));
 
 	}
 
@@ -660,14 +679,13 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
 		}
 
-		lblSampleHeader1.setVisible((lblSampleStat2[0].getText() != null));
 		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null));
 
 		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
 				|| selectedProcedure == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
-		this.revalidate();
+		revalidate();
 
 	}
 
@@ -722,6 +740,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 					.getSelectedItem());
 			updateGUI();
 			updateResult();
+			//setLabels();
 
 			// reset the scrollpane to the top
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -820,6 +839,10 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 				sc.mean2 = s2[0];
 				sc.sd2 = s2[1];
 				sc.n2 = s2[2];
+
+				// force the null hypothesis to zero
+				// TODO: allow non-zero values
+				sc.nullHyp = 0;
 				break;
 
 			case ZPROP_TEST:
@@ -834,6 +857,10 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 				sc.n = s1[1];
 				sc.count2 = s2[0];
 				sc.n2 = s2[1];
+
+				// force the null hypothesis to zero
+				// TODO: allow non-zero values
+				sc.nullHyp = 0;
 				break;
 			}
 

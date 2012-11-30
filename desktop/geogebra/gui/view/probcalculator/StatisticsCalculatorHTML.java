@@ -92,7 +92,7 @@ public class StatisticsCalculatorHTML {
 		case ZMEAN_TEST:
 
 			String[][] zTestTable = { { strMean, format(sc.mean) },
-					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
 					{ strZ, format(sc.testStat) }, { strP, format(sc.P) } };
 
 			sb.append(htmlTable(zTestTable, true));
@@ -102,7 +102,7 @@ public class StatisticsCalculatorHTML {
 		case TMEAN_TEST:
 
 			String[][] tTestTable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
 					{ strT, format(sc.testStat) }, { strP, format(sc.P) } };
 
 			sb.append(htmlTable(tTestTable, true));
@@ -114,7 +114,7 @@ public class StatisticsCalculatorHTML {
 			String[][] zCITable = {
 					{ strMean, format(sc.mean) },
 					{ strSigma, format(sc.sd) },
-					{ strSE, format(sc.se) },
+					{ strSE, format(sc.se) },{ strN, format(sc.n)},
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{
@@ -129,7 +129,7 @@ public class StatisticsCalculatorHTML {
 		case TMEAN_CI:
 
 			String[][] tCITable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{ strInterval, getInterval() } };
