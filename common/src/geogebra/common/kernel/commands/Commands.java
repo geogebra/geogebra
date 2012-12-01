@@ -225,7 +225,7 @@ public enum Commands implements CommandsConstants{
    	
    	//==
    	
-   	
+   	Reflect(TABLE_ENGLISH),
    	CFactor(TABLE_ENGLISH),
    	CommonDenominator(TABLE_ALGEBRA),
    	Cross(TABLE_ENGLISH),
@@ -261,6 +261,7 @@ public enum Commands implements CommandsConstants{
    	
    	public static Commands englishToInternal(Commands comm) {
 		switch(comm){
+			case Reflect: return Mirror;
 			case Curve: return CurveCartesian;
 			case FormulaText: return LaTeX;
 			case IsDefined: return Defined;
