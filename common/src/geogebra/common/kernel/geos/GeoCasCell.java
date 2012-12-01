@@ -1640,11 +1640,18 @@ public class GeoCasCell extends GeoElement implements VarString {
 		finalizeComputation(success, result, ce, doTwinGeoUpdate);
 		return success;
 	}
-
+	/**
+	 * Wraps an expression in PointList command and copies the assignment
+	 * @param arg expression to be wrapped
+	 * @return point list command
+	 */
 	private ValidExpression wrapPointList(ValidExpression arg) {
 		Command c= new Command(kernel,"PointList",false);
 		c.addArgument(arg.wrap());
-		return c.wrap();
+		ExpressionNode expr = c.wrap();
+		expr.setAssignmentType(arg.getAssignmentType());
+		expr.setLabel(arg.getLabel());
+		return expr;
 	}
 
 	private void finalizeComputation(final boolean success,
