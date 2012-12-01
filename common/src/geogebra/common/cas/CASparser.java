@@ -27,6 +27,8 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
+import geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
+import geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -37,6 +39,8 @@ import geogebra.common.main.BracketsError;
 import geogebra.common.util.StringUtil;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -121,6 +125,11 @@ public class CASparser implements CASParserInterface{
 		ev.traverse(fex);
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
+		Set<String> nonFunctions = new TreeSet<String>(); 
+		NonFunctionCollector c = NonFunctionCollector.getCollector(nonFunctions);
+		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);
+		ev.traverse(c);
+		ev.traverse(r);
 		//TODO: remove local variables from kernel ?
 	}
 	

@@ -385,6 +385,63 @@ public interface Traversing {
 			return collector;
 		}
 	}
+	
+	/**
+	 * Collects all function variables
+	 * @author zbynek
+	 */
+	public class NonFunctionCollector implements Traversing {
+		private Set<String> commands;
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof ExpressionNode){
+				ExpressionNode en = (ExpressionNode) ev;
+				if(en.getRight() instanceof GeoDummyVariable){	
+					commands.add(((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
+					App.debug("catchR"+((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
+				}
+				if(en.getOperation()==Operation.FUNCTION || en.getOperation() ==Operation.FUNCTION_NVAR
+						|| en.getOperation()==Operation.DERIVATIVE)
+				return en;	
+				if(en.getLeft() instanceof GeoDummyVariable){	
+					commands.add(((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
+					App.debug("catchL"+((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
+				}
+			}
+			return ev;
+		}
+		private static NonFunctionCollector collector = new NonFunctionCollector();
+		/**
+		 * Resets and returns the collector
+		 * @param commands set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static NonFunctionCollector getCollector(Set<String> commands){		
+			collector.commands = commands;
+			return collector;
+		}
+	}
+	
+	public class NonFunctionReplacer implements Traversing {
+		private Set<String> commands;
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof Command){
+				Command c = (Command) ev;
+				if(commands.contains(c.getName()) && c.getArgumentNumber()==1)
+					return new GeoDummyVariable(c.getKernel().getConstruction(),c.getName()).wrap().multiply(c.getArgument(0));
+			}
+			return ev;
+		}
+		private static NonFunctionReplacer collector = new NonFunctionReplacer();
+		/**
+		 * Resets and returns the collector
+		 * @param commands set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static NonFunctionReplacer getCollector(Set<String> commands){		
+			collector.commands = commands;
+			return collector;
+		}
+	}
 	/**
 	 * Expands f as f(x) or f(x,y) in CAS
 	 * @author zbynek
@@ -418,13 +475,12 @@ public interface Traversing {
 										
 				}
 				if(en.getRight()!=null){
-						GeoElement geo = null;
-						if(en.getRight() instanceof GeoDummyVariable){
-							geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
-							en.setRight(expand(geo));
-						}
-											
+					GeoElement geo = null;
+					if(en.getRight() instanceof GeoDummyVariable){
+						geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
+						en.setRight(expand(geo));
 					}
+				}
 			}
 
 			return ev;
