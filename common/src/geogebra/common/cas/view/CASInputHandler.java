@@ -181,8 +181,8 @@ public class CASInputHandler {
 				if (isKeepInput) {
 					cellValue.setEvalCommand("KeepInput");
 				}
-				if(isNumeric){
-					cellValue.setInput(cellValue.getAssignmentVariable()+
+				if(isNumeric && cellValue.getInputVE()!=null){
+					cellValue.setInput(cellValue.getInputVE().getLabelForAssignment()+
 							cellValue.getInputVE().getAssignmentOperator()+
 							ggbcmd+"["+ cellValue.getInputVE().toString(StringTemplate.numericDefault)+"]"						
 							);
