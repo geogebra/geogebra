@@ -542,7 +542,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		int numColumns = Math.min(dataSource.size(), sourceTable.getTable()
 				.getModel().getColumnCount());
 		for (int i = 0; i < numColumns; i++) {
-			System.out.println("seting column # " + i );
+			//.out.println("seting column # " + i );
 			setTableColumn(i);
 		}
 
@@ -561,7 +561,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		}
 
 		DefaultTableModel model = sourceTable.getModel();
-		System.out.println("column type: " + dataSource.get(colIndex).getType() );
+		//System.out.println("column type: " + dataSource.get(colIndex).getType() );
 		try {
 			if (dataSource.get(colIndex).getType() == dataSource.ITEM_LIST) {
 
@@ -644,7 +644,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 				Double[] leftBorder = (Double[]) dataSource.get(colIndex)
 						.getItem();
-				System.out.println("=====> " + Arrays.toString(leftBorder));
+				//System.out.println("=====> " + Arrays.toString(leftBorder));
 				// ensure the table has enough rows
 				if (model.getRowCount() < leftBorder.length - 1) {
 					model.setRowCount(leftBorder.length - 1);
@@ -674,8 +674,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	}
 
 	private boolean isValidDataType(GeoElement geo) {
-		System.out.println("isnumeric: " + dataSource.isNumericData() + "  "
-				+ geo.getValueForInputBar());
+		//System.out.println("isnumeric: " + dataSource.isNumericData() + "  "
+		//		+ geo.getValueForInputBar());
 		if (dataSource.isNumericData()) {
 			return geo.isGeoNumeric();
 		} else {
@@ -711,7 +711,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			c[i] = c[i - 1] + classWidth;
 		}
 		
-		System.out.println("========> classes:" + Arrays.toString(c) );
+		//System.out.println("========> classes:" + Arrays.toString(c) );
 		dataSource.addItem(index, c, DataSource.ITEM_CLASSES);
 	}
 
@@ -781,7 +781,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	private void doTextFieldActionPerformed(Object source) {
 
-		System.out.println("========> do textfield 1" );
+		//System.out.println("========> do textfield 1" );
 		if (!(source instanceof JTextField)) {
 			return;
 		}
@@ -793,10 +793,10 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			updatePanel(mode, false);
 
 		} else if (source == fldWidth) {
-			System.out.println("========> do textfield 2" );
+			//System.out.println("========> do textfield 2" );
 			classWidth = Validation
 					.validateDoublePositive(fldWidth, classWidth);
-			System.out.println("========> do textfield 3" + classWidth );
+			//System.out.println("========> do textfield 3" + classWidth );
 			updateClasses(0, classStart, classWidth, 5);
 			updatePanel(mode, false);
 		}

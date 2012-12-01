@@ -35,6 +35,10 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private MyToggleButton btnExport;
 	private MyToggleButton btnSwapXY;
 
+	/**
+	 * @param app
+	 * @param statDialog
+	 */
 	public DataAnalysisStyleBar(AppD app, DataAnalysisViewD statDialog) {
 
 		this.statDialog = statDialog;
@@ -121,7 +125,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	private JPanel createDataSourcePanel() {
 
-		btnDataSource = new MyToggleButton(app.getImageIcon("cursor_grabbing.gif"), iconHeight);   //app.getImageIcon("go-previous.png"));
+		btnDataSource = new MyToggleButton(app.getImageIcon("arrow_cursor_grabbing.png"), iconHeight);   //app.getImageIcon("go-previous.png"));
 		
 		btnDataSource.addActionListener(this);
 		fldDataSource = new MyTextField(app);

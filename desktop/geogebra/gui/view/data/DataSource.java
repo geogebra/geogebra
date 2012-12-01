@@ -957,7 +957,7 @@ public class DataSource {
 
 						try {
 							double num = Double.parseDouble(s[i]);
-							System.out.println(num);
+							//System.out.println(num);
 							GeoElement geo = new GeoNumeric(cons);
 							((GeoNumeric) geo).setValue(num);
 							geoList.add(geo);

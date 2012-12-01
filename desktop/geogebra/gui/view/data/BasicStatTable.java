@@ -151,8 +151,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	 */
 	public void updatePanel() {
 		// App.printStacktrace("update stat panel");
-		GeoList dataList = statDialog.getController()
-				.getDataSelected();
+		GeoList dataList = statDialog.getController().getDataSelected();
 
 		GeoElement geoRegression = statDialog.getRegressionModel();
 		// when the regression mode is NONE geoRegression is a dummy linear
@@ -168,8 +167,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 			for (int column = 0; column < 1; column++) {
 				if (statMap[row].length == 2) {
 					if (statMap[row][1] != null
-							&& statDialog.getController()
-									.isValidData()) {
+							&& statDialog.getController().isValidData()) {
 						AlgoElement algo = getStatMapAlgo(statMap[row][1],
 								dataList, geoRegression);
 						kernel.getConstruction().removeFromConstructionList(
@@ -181,10 +179,8 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 						model.setValueAt("", row, 0);
 					}
 				} else if (statMap[row].length == 3) {
-					if (statMap[row][1] != null
-							&& geoRegression != null
-							&& statDialog.getController()
-									.isValidData()) {
+					if (statMap[row][1] != null && geoRegression != null
+							&& statDialog.getController().isValidData()) {
 						AlgoElement algo = getStatMapAlgo(statMap[row][1],
 								dataList, geoRegression);
 						kernel.getConstruction().removeFromConstructionList(
@@ -203,6 +199,17 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 	protected AlgoElement getStatMapAlgo(String algoName, GeoList dataList,
 			GeoElement geoRegression) {
+		if (statDialog.getDataSource().getSourceType() == DataSource.SOURCE_RAWDATA) {
+			return getStatMapAlgoRawData(algoName, dataList, geoRegression);
+		} else if (statDialog.getDataSource().getSourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
+			return getStatMapAlgoFrequency(algoName, dataList, geoRegression);
+		}
+		return null;
+
+	}
+
+	protected AlgoElement getStatMapAlgoRawData(String algoName,
+			GeoList dataList, GeoElement geoRegression) {
 		AlgoElement ret = null;
 		Construction cons = kernel.getConstruction();
 
@@ -252,6 +259,41 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		} else if (algoName.equals("SumSquaredErrors")) {
 			ret = new AlgoSumSquaredErrors(cons, dataList,
 					(GeoFunctionable) geoRegression);
+		}
+
+		return ret;
+	}
+
+	protected AlgoElement getStatMapAlgoFrequency(String algoName,
+			GeoList frequencyData, GeoElement geoRegression) {
+
+		AlgoElement ret = null;
+		Construction cons = kernel.getConstruction();
+		GeoList dataList = (GeoList) frequencyData.get(0);
+		GeoList freqList = (GeoList) frequencyData.get(1);
+
+		if (algoName.equals("Length")) {
+			ret = new AlgoSum(cons, freqList);
+		} else if (algoName.equals("Mean")) {
+			ret = new AlgoMean(cons, dataList, freqList);
+		} else if (algoName.equals("SD")) {
+			ret = new AlgoStandardDeviation(cons, dataList);
+		} else if (algoName.equals("SampleSD")) {
+			ret = new AlgoSampleStandardDeviation(cons, dataList, freqList);
+		} else if (algoName.equals("Sum")) {
+			ret = new AlgoSum(cons, dataList, freqList);
+		} else if (algoName.equals("SigmaXX")) {
+			ret = new AlgoSigmaXX(cons, dataList);
+		} else if (algoName.equals("Min")) {
+			ret = new AlgoListMin(cons, dataList);
+		} else if (algoName.equals("Q1")) {
+			ret = new AlgoQ1(cons, dataList, freqList);
+		} else if (algoName.equals("Median")) {
+			ret = new AlgoMedian(cons, dataList, freqList);
+		} else if (algoName.equals("Q3")) {
+			ret = new AlgoQ3(cons, dataList, freqList);
+		} else if (algoName.equals("Max")) {
+			ret = new AlgoListMax(cons, dataList);
 		}
 
 		return ret;

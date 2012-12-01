@@ -48,7 +48,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	private Kernel kernel;
 	private StatGeo statGeo;
 	private DataAnalysisControllerD daCtrl;
-
 	private DataAnalysisStyleBar stylebar;
 
 	// modes
@@ -58,16 +57,12 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
-	
-	//private int sourceType = DataSource.SOURCE_RAWDATA;
 
 	// flags
 	private boolean showDataPanel = false;
-
 	private boolean showStatPanel = false;
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
-
 	private boolean doSpecialNumberFormat = false;
 
 	// colors
