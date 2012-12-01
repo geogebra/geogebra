@@ -111,12 +111,8 @@ public class MobileController extends EuclidianController
 
 	public void onPinch(int x, int y, double scaleFactor)
 	{
-		// TODO Deactivate other events, while zoom is in progress (moving,
-		// placing objects etc.)
-		super.mouseLoc = new GPoint(x, y);
-		// scaleFactor > 1 because scaleFactor is not > 1 when fingers are moved
-		// apart
-		super.zoomInOut(true, scaleFactor > 1);
+		super.mouseLoc = new GPoint(x, y);		
+		super.zoomInOut(true, scaleFactor < 1);
 	}
 
 	public void handleEvent(Hits hits)
