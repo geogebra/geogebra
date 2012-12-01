@@ -55,7 +55,7 @@ public class AlgoCountIf3 extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoKeepIf3;
+		return Algos.AlgoCountIf3;
 	}
 
 	@Override

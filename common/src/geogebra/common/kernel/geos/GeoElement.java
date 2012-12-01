@@ -5396,7 +5396,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public boolean contains(final ExpressionValue ev) {
+	final public boolean contains(final ExpressionValue ev) {
 		return ev == this;
 	}
 
