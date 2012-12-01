@@ -83,7 +83,7 @@ TRANSLATORS
       Zeljko Vrabec, Damir Belavic (Croatia)
   * Czech: Zuzana Bouchalova, Michaela Norulakova, Marketa Tomanova,
       Marie Pokorna, Jiri Srubar, Roman Hasek (Czech Republic)
-  * Danish: Steen Grode (Denmark)
+  * Danish: Steen Grode, Martin Thun Klausen (Denmark)
   * Dutch: Ivan De Winne, Chris Cambre, Jozef Van Remoortere,
       Roger Van Nieuwenhuyze, Pedro Tytgat, Riggy Van de Wiele,
       Beatrijs Versichel (Belgium),
