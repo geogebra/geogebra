@@ -1401,8 +1401,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "     return result!! " + "end;");
 
 		mpreduce1.evaluate("procedure mkdepthone(liste);"
-				+ "	for each x in liste join "
-				+ "	if arglength(x)>-1 and part(x,0)='list then"
+				+ "	for each x in mattolistoflists(liste) join "
+				+ "	if arglength(x)>-1 and (part(x,0)='list or part(x,0)='mat) then"
 				+ "	mkdepthone(x) else {x};");
 
 		mpreduce1.evaluate("procedure listtocolumnvector(list); "
