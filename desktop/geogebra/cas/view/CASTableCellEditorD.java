@@ -224,14 +224,13 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 		
 		// if closing paranthesis is typed and there is no opening parenthesis for it
 		// add one in the beginning
-		switch (ch){				
-			
-			case ' ':
+		switch (ch){
 			case '|':
 				// insert output of previous row (not in parentheses)
 				if (editingRow > 0 && text.length() == 0) {
 					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
 					inputArea.setText(selCellValue.getOutputRHS(StringTemplate.defaultTemplate) + " ");
+					e.consume();
 				}
 				break;
 				
@@ -240,7 +239,8 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 				if (editingRow > 0 && text.length() == 0) {
 					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
 					String prevOutput = selCellValue.getOutputRHS(StringTemplate.defaultTemplate);
-					inputArea.setText("(" +  prevOutput);
+					inputArea.setText("(" +  prevOutput + ")");
+					e.consume();
 				}
 				break;		
 				
