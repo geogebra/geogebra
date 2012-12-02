@@ -718,6 +718,7 @@ Section Install Install
     File "${build.dir}\unpacked\jd2*.jar"
     File "${build.dir}\unpacked\jl*.jar"
     File "${build.dir}\unpacked\jython.jar"
+    File "${build.dir}\unpacked\sbsdk.jar"
     File "${build.dir}\unpacked\openni.jar"
     File "${build.dir}\unpacked\openni64.jar"
     File "${build.dir}\unpacked\jython.jar"
