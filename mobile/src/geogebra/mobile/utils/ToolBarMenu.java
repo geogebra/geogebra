@@ -94,7 +94,7 @@ public enum ToolBarMenu
 
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
 			ToolBarCommand.Move_Mobile, 
-			ToolBarCommand.Select,
+			// TODO: ToolBarCommand.Select,
 			ToolBarCommand.DeleteObject });
 
 	ToolBarCommand[] entry;

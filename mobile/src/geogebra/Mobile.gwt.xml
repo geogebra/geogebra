@@ -81,10 +81,12 @@
 
     <set-property
         name="mgwt.os"
-        value="ipad" />
+        value="iPad" />
 
+    <!--
     <set-configuration-property
         name="mgwt.css"
-        value="pretty" />
+        value="pretty" /> 
+    -->
 
 </module>

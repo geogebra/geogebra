@@ -1,5 +1,8 @@
 package geogebra.mobile.gui.elements.toolbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.InputDialog;
 import geogebra.mobile.gui.elements.InputDialog.InputCallback;
@@ -20,7 +23,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 public class ToolBar extends ButtonBar
 {
 
-	protected ToolBarButton[] b;
+	protected List<ToolBarButton> tools;
 	protected InputDialog input;
 
 	public ToolBar()
@@ -41,24 +44,26 @@ public class ToolBar extends ButtonBar
 	 */
 	public void makeTabletToolBar(final MobileModel mobileModel)
 	{
-		this.b = new ToolBarButton[12];
+		this.tools = new ArrayList<ToolBarButton>();
 
-		this.b[0] = new ToolBarButton(ToolBarMenu.Point, mobileModel.getGuiModel());
-		this.b[1] = new ToolBarButton(ToolBarMenu.Line, mobileModel.getGuiModel());
-		this.b[2] = new ToolBarButton(ToolBarMenu.SpecialLine, mobileModel.getGuiModel());
-		this.b[3] = new ToolBarButton(ToolBarMenu.Polygon, mobileModel.getGuiModel());
-		this.b[4] = new ToolBarButton(ToolBarMenu.CircleAndArc, mobileModel.getGuiModel());
-		this.b[5] = new ToolBarButton(ToolBarMenu.ConicSection, mobileModel.getGuiModel());
-		this.b[6] = new ToolBarButton(ToolBarMenu.Mesurement, mobileModel.getGuiModel());
-		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, mobileModel.getGuiModel());
-//TODO: 	this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, mobileModel.getGuiModel());
-//TODO:		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, mobileModel.getGuiModel());
-		this.b[10] = new ToolBarButton(ToolBarMenu.ManipulateObjects, mobileModel.getGuiModel());
+		this.tools.add(new ToolBarButton(ToolBarMenu.ManipulateObjects, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Point, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Line, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Mesurement, mobileModel.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, mobileModel.getGuiModel()));
+		// TODO: this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject,
+		// mobileModel.getGuiModel());
+		// TODO: this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject,
+		// mobileModel.getGuiModel());
 
 		// inputBar
-		this.b[11] = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), mobileModel.getGuiModel());
-		this.b[11].addStyleDependentName("tool-rightButton");
-		this.b[11].addDomHandler(new ClickHandler()
+		ToolBarButton inputBarButton = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), mobileModel.getGuiModel());
+		inputBarButton.addStyleDependentName("tool-rightButton");
+		inputBarButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -82,14 +87,11 @@ public class ToolBar extends ButtonBar
 			}
 		}, ClickEvent.getType());
 
-		for (int i = 0; i < this.b.length; i++)
+		for (ToolBarButton b : this.tools)
 		{
-			// TODO: remove if(...)
-			if(this.b[i] != null) 
-				this.add(this.b[i]);
+			this.add(b);
 		}
 
-		mobileModel.getGuiModel().setActive(this.b[0]);
+		mobileModel.getGuiModel().setActive(this.tools.get(0));
 	}
-
 }
