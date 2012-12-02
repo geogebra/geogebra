@@ -4358,8 +4358,8 @@ public abstract class EuclidianController {
 								"Name[" + geoA.getLabel(tpl) + "]",
 								"Name[" + geoB.getLabel(tpl) + "]", length.getLabel(tpl));
 						// Application.debug(strText);
-						geoA.setLabelVisible(true);
-						geoB.setLabelVisible(true);
+						makeLabelNameVisible(geoA);
+						makeLabelNameVisible(geoB);
 						geoA.updateRepaint();
 						geoB.updateRepaint();
 					} else {
@@ -4388,6 +4388,18 @@ public abstract class EuclidianController {
 					return null;
 				}
 			}
+	
+	private void makeLabelNameVisible(GeoElement geo){
+		//make sure that name of the geo will be visible
+		if (!geo.isLabelVisible()){
+			if (geo.getLabelMode()!=GeoElement.LABEL_NAME_VALUE)
+				geo.setLabelMode(GeoElement.LABEL_NAME);
+			geo.setLabelVisible(true);
+		}else{
+			if (geo.getLabelMode()==GeoElement.LABEL_VALUE)
+				geo.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		}
+	}
 
 	protected GeoElement[] area(Hits hits, AbstractEvent event) {
 		if (hits.isEmpty()) {
