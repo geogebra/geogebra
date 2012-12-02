@@ -4618,12 +4618,29 @@ public abstract class EuclidianController {
 			ret[0] = createDistanceText((GeoElement) points[0], (GeoElement) points[1], midPoint, length);
 			return ret;
 		}
+		
+		// POINT AND LINE
+		else if ((selPoints() == 1) && (selLines() == 1)) {
+			GeoPointND[] points = getSelectedPointsND();
+			GeoLineND[] lines = getSelectedLinesND();
+			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0], (GeoElement) lines[0]);
+	
+			checkZooming(); 
+			
+			// set startpoint of text to midpoint between point and line
+			GeoPointND midPoint = Midpoint(points[0],
+					ClosestPoint(points[0], (Path) lines[0]));
+			GeoElement[] ret = { null };
+			ret[0] = createDistanceText((GeoElement) points[0], (GeoElement) lines[0], midPoint, length);
+			
+			clearSelections(); //make sure segment will be unselected
+			
+			return ret;
+		}
 	
 		// SEGMENT
-		else if ((selSegments() == 1) && (selPoints() != 1)) { //prevent distance point-segment
-			
-			App.printStacktrace("");
-			
+		// make this after point-line
+		else if (selSegments() == 1) { 
 			// length
 			GeoSegmentND[] segments = getSelectedSegmentsND();
 	
@@ -4651,21 +4668,7 @@ public abstract class EuclidianController {
 			return ret; // return this not null because the kernel has changed
 		}
 	
-		// POINT AND LINE
-		else if ((selPoints() == 1) && (selLines() == 1)) {
-			GeoPointND[] points = getSelectedPointsND();
-			GeoLineND[] lines = getSelectedLinesND();
-			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0], (GeoElement) lines[0]);
-	
-			checkZooming(); 
-			
-			// set startpoint of text to midpoint between point and line
-			GeoPointND midPoint = Midpoint(points[0],
-					ClosestPoint(points[0], (Path) lines[0]));
-			GeoElement[] ret = { null };
-			ret[0] = createDistanceText((GeoElement) points[0], (GeoElement) lines[0], midPoint, length);
-			return ret;
-		}
+
 	
 		// circumference of CONIC
 		else if (selConics() == 1) {
