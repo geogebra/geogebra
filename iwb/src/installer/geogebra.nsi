@@ -35,8 +35,8 @@
 
 Name "GeoGebraSMART 5.0"
 OutFile "${outfile}"
-Caption "GeoGebra Installer" # see line marked with CAPTION
-BrandingText "GeoGebra ${fullversion} (${builddate})"
+Caption "GeoGebraSMART Installer" # see line marked with CAPTION
+BrandingText "GeoGebraSMART ${fullversion} (${builddate})"
 
 
 RequestExecutionLevel highest
@@ -643,11 +643,11 @@ FunctionEnd
  */
 
 VIAddVersionKey CompanyName "International GeoGebra Institute"
-VIAddVersionKey FileDescription "GeoGebra Installer"
+VIAddVersionKey FileDescription "GeoGebraSMART Installer"
 VIAddVersionKey FileVersion ${fullversion}
 VIAddVersionKey InternalName GeoGebra_Installer_${versionname}
 VIAddVersionKey LegalCopyright "(C) 2001-2012 International GeoGebra Institute"
-VIAddVersionKey OriginalFilename GeoGebra_Installer_${versionname}.exe
+VIAddVersionKey OriginalFilename GeoGebraSMART_Installer_${versionname}.exe
 VIAddVersionKey ProductName "GeoGebraSMART 5.0"
 VIAddVersionKey ProductVersion ${fullversion}
 
@@ -740,9 +740,9 @@ Section Install Install
 
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
     SetOutPath ""
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (without 3D).lnk" $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraSMART.lnk" $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebraSMART.exe 0
     ${If} 1 = $DESKTOP_ALL
     ${OrIf} 1 = $DESKTOP_CURRENT
       Call PushShellVarContext
@@ -796,7 +796,7 @@ Section Install Install
     SectionGetSize ${Install} $0
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" Contact office@geogebra.org
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayIcon $INSTDIR\GeoGebraSMART.exe,0
-    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayName "GeoGebraSMART 5.0"
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayName "GeoGebra & SMART Board 5.0"
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayVersion ${fullversion}
     WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" EstimatedSize $0
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" HelpLink http://www.geogebra.org/forum/
@@ -846,7 +846,7 @@ Function .onInit
 
   !ifndef uninstaller
     !insertmacro UMUI_MULTILANG_GET
-    System::Call 'kernel32::CreateMutexA(i 0, i 0, t "GeoGebraInstaller") ?e'
+    System::Call 'kernel32::CreateMutexA(i 0, i 0, t "GeoGebraSMARTInstaller") ?e'
     Pop $R0
     ${IfNot} 0 = $R0
       System::Call "kernel32::GetCurrentProcessId() i .R0"
@@ -882,7 +882,7 @@ Function .onInit
           System::Call "user32::GetWindowText(i r0, t .r2, i 1024) i .r3"
           IntOp $3 $3 - 1
           StrCpy $2 $2 $3
-          ${If} "GeoGebra Installer" == $2 # CAPTION!
+          ${If} "GeoGebraSMART Installer" == $2 # CAPTION!
             System::Call "user32::GetWindowThreadProcessId(i r0, *i .r2)"
             ${If} $2 = $R2
               ${Break}

@@ -37,7 +37,7 @@
   <icon>geogebra.ico</icon>
   <classPath>
    <cp>%EXEDIR%\geogebra-jogl1.jar</cp>
-   <mainClass>geogebra.GeoGebra</mainClass>
+   <mainClass>geogebra.iwb.GeoGebraIWB</mainClass>
   </classPath>
   <jre>
     <minVersion>1.5.0</minVersion>

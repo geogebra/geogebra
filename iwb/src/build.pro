@@ -47,7 +47,7 @@
 #-applymapping geogebra3-2-0-0.map	 
 
 # Keep GeoGebra application
--keep class geogebra.GeoGebra {
+-keep class geogebra.iwb.GeoGebraIWB {
     public static void main(java.lang.String[]);
 }
 
