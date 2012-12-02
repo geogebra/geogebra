@@ -65,9 +65,20 @@ office@geogebra.org
 		<mkdir dir="${propertiestemp.dir}"/>
 	</target>
 
+	<target name="delete3D">
+		<!-- delete build directory -->
+		<mkdir dir="${build.dir}"/>
+		<delete includeemptydirs="true" followsymlinks="false">
+			<fileset dir="${build.dir}" defaultexcludes="false">
+				<include name="**/geogebra_3d.jar" />
+			</fileset>
+		</delete>
+
+	</target>
+	
 	<!-- create all jar files -->
 	<target name="ggb-jar-files" 
-			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-copy-jlatexmath, ggb-copy-iwb">
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb">
 	</target>
 
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
@@ -99,10 +110,35 @@ office@geogebra.org
 		</delete>
 	</target>
 
+	<target name="copy-jogl-natives">
+		<copy todir="${build.dir}">
+		    <fileset dir="../jogl${jogl}/lib" includes="*.so, *.jnilib, *.dll" />
+		</copy>
+	</target>
+
+	<!-- create all jar files -->
+	<target name="ggb-jar-files3D" 
+			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, copy-jogl-natives, ggb-copy-iwb">
+	</target>
+
 	<manifest file="../manifest.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
+		<attribute name="Class-Path" 
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
+
+	<manifest file="../manifest3D-jogl1.mf">
 		<attribute name="Main-Class" value="geogebra.iwb.GeoGebraIWB"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar sbsdk.jar"/>
+			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar sbsdk.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
+
+	<manifest file="../manifest3D-jogl2.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
+		<attribute name="Class-Path" 
+			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -130,6 +166,24 @@ office@geogebra.org
 		</jar>
 	</target>
 
+	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
+	<target name="ggb-jar3D" depends="ggb-jar3D-jogl1, ggb-jar3D-jogl2" description="create unsigned geogebra.jar"/>
+
+	<target name="ggb-jar3D-jogl1" depends="clean, copy-common-files" description="create unsigned geogebra.jar (jogl1)" if="usejogl1">
+		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl1.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
+	</target>
+	<target name="ggb-jar3D-jogl2" depends="clean, copy-common-files" description="create unsigned geogebra.jar (jogl2)" if="usejogl2">
+		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl2.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
+	</target>
+
 	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
 	<target name="ggb-jar-index" description="create index in geogebra.jar">
 		<exec executable="jar" dir="${build.dir}">
@@ -142,13 +196,33 @@ office@geogebra.org
 			<arg value="geogebra_export.jar"/>
 			<arg value="geogebra_javascript.jar"/>
 			<arg value="geogebra_properties.jar"/>
+			<arg value="geogebra_usb.jar"/>
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
+			<arg value="jython.jar"/>
+			<arg value="OpenGeoProver.jar"/>
 			<arg value="sbsdk.jar"/>
+
 		</exec>
 	</target>
 	
+	<!-- copies the jogl jars  -->
+	<target name="ggb-copy-jogl" depends="clean" description="copy jogl jars">
+		<copy todir="${build.dir}" flatten="true">		
+			<fileset dir="${src.dir}/../jogl${jogl}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<condition property="usejogl1">
+	    <equals arg1="${jogl}" arg2="1"/>
+	</condition>
+	<condition property="usejogl2">
+	    <equals arg1="${jogl}" arg2="2"/>
+	</condition>
+
 	<!-- copies the jlatexmath jars  -->
 	<target name="ggb-copy-jlatexmath" depends="clean" description="copy jlatexmath jars">
 		<copy file="${src.dir}/lib/jlatexmath.jar"
@@ -162,6 +236,77 @@ office@geogebra.org
 		</copy>
 	</target>
 
+	<!-- copies the jython jar  -->
+	<target name="ggb-copy-jython" depends="clean" description="copy jython jar">
+		<copy file="${src.dir}/lib/jython.jar"
+		      tofile="${build.dir}/jython.jar">
+		</copy>
+	</target>
+
+	<!-- copies the opengeoprover jar  -->
+	<target name="ggb-copy-ogp" depends="clean" description="copy ogp jar">
+		<copy file="${src.dir}/lib/OpenGeoProver.jar"
+		      tofile="${build.dir}/OpenGeoProver.jar">
+		</copy>
+	</target>
+
+	<!-- copies the usb native jars  -->
+	<target name="ggb-copy-usb" depends="clean" description="copy usb jar">
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}/lib"
+				includes="jd2xx*.jar, openni*.jar, vernier_ccsd*.jar" />
+		</copy>
+	</target>
+
+	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
+	<target name="ggb-jar-index3D" description="create index in geogebra.jar"
+	    depends="ggb-jar-index3D-jogl1, ggb-jar-index3D-jogl2"/>
+	<target name="ggb-jar-index3D-jogl1" description="create index in geogebra.jar (jogl1)" if="usejogl1">
+		<exec executable="jar" dir="${build.dir}">
+			<arg value="i"/>
+			<arg value="geogebra-jogl1.jar"/>
+			<arg value="geogebra_main.jar"/>
+			<arg value="geogebra_gui.jar"/>
+			<arg value="geogebra_cas.jar"/>
+			<arg value="geogebra_algos.jar"/>
+			<arg value="geogebra_3d-jogl1.jar"/>
+			<arg value="geogebra_export.jar"/>
+			<arg value="geogebra_javascript.jar"/>
+			<arg value="geogebra_properties.jar"/>
+			<arg value="geogebra_usb.jar"/>
+			<arg value="jogl.jar"/>
+			<arg value="jogl1-linux-amd64.jar"/>
+			<arg value="gluegen-rt-jogl1.jar"/>
+			<arg value="jlatexmath.jar"/>
+			<arg value="jlm_cyrillic.jar"/>
+			<arg value="jlm_greek.jar"/>
+			<arg value="jython.jar"/>
+			<arg value="OpenGeoProver.jar"/>
+		</exec>
+	</target>
+	<target name="ggb-jar-index3D-jogl2" description="create index in geogebra.jar (jogl2)" if="usejogl2">
+		<exec executable="jar" dir="${build.dir}">
+			<arg value="i"/>
+			<arg value="geogebra-jogl2.jar"/>
+			<arg value="geogebra_main.jar"/>
+			<arg value="geogebra_gui.jar"/>
+			<arg value="geogebra_cas.jar"/>
+			<arg value="geogebra_algos.jar"/>
+			<arg value="geogebra_3d-jogl2.jar"/>
+			<arg value="geogebra_export.jar"/>
+			<arg value="geogebra_javascript.jar"/>
+			<arg value="geogebra_properties.jar"/>
+			<arg value="geogebra_usb.jar"/>
+			<arg value="jogl.all.jar"/>
+			<arg value="gluegen-rt.jar"/>
+			<arg value="jlatexmath.jar"/>
+			<arg value="jlm_cyrillic.jar"/>
+			<arg value="jlm_greek.jar"/>
+			<arg value="jython.jar"/>
+			<arg value="OpenGeoProver.jar"/>
+		</exec>
+	</target>
+
 	<target name="ggb-copy-iwb">
 		<copy file="${src.dir}/lib/sbsdk.jar"
 		      tofile="${build.dir}/sbsdk.jar">
@@ -170,6 +315,7 @@ office@geogebra.org
 		    <fileset dir="${src.dir}/lib" includes="RegistrationUtils*.dll" />
 		</copy>
 	</target>
+
 
 	<target name="copy-common-files" description="copy common files to the right place">
 		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
@@ -191,20 +337,14 @@ office@geogebra.org
 		</copy>
 		
 	</target>
+	
 	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
 	<target name="ggb-main-jar" depends="clean, copy-common-files" description="create unsigned geogebra_main.jar">
-		
-		<copy todir="${src.dir}/geogebra/common/main/xml" failonerror="false">
-                        <fileset dir="${src.dir}/../common/src/geogebra/common/main/xml">
-                                <include name="**/*.xml" />
-                        </fileset>
-		</copy>
-		
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
 			**/*.py,
-		  			**/default-preferences.xml, 				
+  			**/default-preferences.xml, 				
 					  geogebra/main/*.png,
 			  edu/xtec/adapter/**,
 			  edu/xtec/adapter/impl/**,
@@ -219,6 +359,8 @@ office@geogebra.org
 			geogebra/kernel/cas/**,
 			geogebra/sound/**,
 					jasymca/**,		
+					geogebra3D/**,			
+					3D/**,	
 			geogebra/common/export/**,
 			geogebra/common/kernel/scripting/**,
 			geogebra/common/kernel/advanced/**,
@@ -226,7 +368,6 @@ office@geogebra.org
 			geogebra/common/kernel/discrete/**,
 			geogebra/common/kernel/statistics/**,
 			geogebra/common/kernel/cas/**,
-			geogebra/common/cas/**,
 			geogebra/common/kernel/locusequ/**,
 			geogebra/common/gui/**,
 			bin/**,
@@ -236,6 +377,7 @@ office@geogebra.org
 					org/freehep/**, 
 					org/concord/**,
 					ccsd/**,
+					geogebra/usb/**,
 					edu/mas/**,
 					edu/uci/**,
 					org/apache/**,
@@ -244,6 +386,7 @@ office@geogebra.org
 			jd2xx/**,
 			com/quantimegroup/**,
 			com/google/zxing/**,
+			com/vividsolutions/**,
 			scripts/**,
 			**/*.tmp,
 				    tutor/**,
@@ -256,11 +399,23 @@ office@geogebra.org
 		<jar jarfile="${build.dir}/geogebra_export.jar"
 			basedir="${src.dir}"
 			includes="geogebra/export/**, 
-			geogebra/common/export/**,
 					org/freehep/**, 
+			geogebra/common/export/**,
 					meta-inf/services/**"
 			excludes="**/*.java,
 			**/*.html" 
+		/>
+	</target>
+
+	<target name="ggb-usb-jar" depends="clean" description="create unsigned geogebra_usb.jar">
+		<jar jarfile="${build.dir}/geogebra_usb.jar"
+			basedir="${src.dir}"
+			includes="org/concord/**,
+					org/OpenNI/**,
+						ccsd/**,
+			jd2xx/**,
+			geogebra/usb/**"
+			excludes="**/*.java" 
 		/>
 	</target>
 
@@ -279,7 +434,6 @@ office@geogebra.org
 					org/apache/log4j/**,
 					org/mathpiper/mpreduce/**/*.class,
 			geogebra/kernel/cas/**,
-			geogebra/common/cas/**,
 			geogebra/common/kernel/cas/**,
 			geogebra/common/kernel/locusequ/**,
 					default.img"
@@ -306,6 +460,13 @@ office@geogebra.org
 				<include name="**/*.class" />
 			</fileset>
 		</copy>
+		
+                <copy todir="${src.dir}/com">
+                        <fileset dir="${src.dir}/../common/src/geogebra/jts/com">
+                                <include name="**/*.class" />
+                        </fileset>
+                </copy>		
+		
 		<jar jarfile="${build.dir}/geogebra_algos.jar"
 			basedir="${src.dir}"
 			includes="geogebra/kernel/discrete/**,
@@ -313,7 +474,9 @@ office@geogebra.org
 			geogebra/advancedgeometry/**,
 					edu/uci/**,
 					com/google/zxing/**,
-					org/jfugue/**,
+			org/jfugue/**,
+			org/rosuda/**,
+			com/vividsolutions/**,
 			geogebra/common/kernel/scripting/**,
 			geogebra/common/kernel/advanced/**,
 			geogebra/common/kernel/barycentric/**,
@@ -334,6 +497,26 @@ office@geogebra.org
 			geogebra/common/gui/**,
 			geogebra/iwb/**"
 			excludes="**/*.java" 
+		/>
+	</target>
+
+	<target name="ggb-3d-jar" depends="clean" description="create unsigned geogebra_3d.jar">
+	        <copy todir="${src.dir}/geogebra3D" failonerror="false">
+            		<fileset dir="${src.dir}/../jogl${jogl}/src/geogebra3D">
+                                <include name="**/*.class" />
+                        </fileset>
+			<!-- Eclipse stores compiled files in a different place: -->
+            		<fileset dir="${src.dir}/../jogl${jogl}/bin/geogebra3D">
+                                <include name="**/*.class" />
+                        </fileset>
+                </copy>
+
+		<jar jarfile="${build.dir}/geogebra_3d.jar"
+			basedir="${src.dir}"
+			includes="geogebra3D/**,
+			com/quantimegroup/**"		
+			excludes="**/*.java,
+						geogebra3D/samples/**" 
 		/>
 	</target>
 

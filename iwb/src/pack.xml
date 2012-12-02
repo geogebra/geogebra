@@ -47,16 +47,32 @@ office@geogebra.org
 		depends="clean, ggb-jar-files, geogebra-aftervanilla">
 	</target>
 
+	<!-- build signed and unsigned GeoGebra 3D jar files -->
+	<target name="geogebra3D" 
+		depends="clean, ggb-jar-files3D, geogebra3D-aftervanilla">
+	</target>
+
 	<!-- build signed and unsigned GeoGebra jar files -->
 	<target name="geogebra-aftervanilla" 
-		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate,
+		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate, delete3D,
+					copyJars, sign, pack, preloadHtml, finish">
+	</target>
+
+	<!-- build signed and unsigned GeoGebra 3D jar files -->
+	<target name="geogebra3D-aftervanilla" 
+		depends="clean, ggb-jar-files3D, copyDebug3D, signDebug, obfuscate3D,
+					copyJars3D, sign3D, pack, preloadHtml, finish">
+	</target>
+	<!-- build jar files for testing without obfuscation -->
+	<target name="geogebra-unobfuscated" 
+		depends="clean, ggb-jar-files, delete3D, ggb-jar-index, 
 					copyJars, sign, pack, preloadHtml, finish">
 	</target>
 
 	<!-- build jar files for testing without obfuscation -->
-	<target name="geogebra-unobfuscated" 
-		depends="clean, ggb-jar-files, ggb-jar-index, 
-					copyJars, sign, pack, preloadHtml, finish">
+	<target name="geogebra3D-unobfuscated" 
+		depends="clean, ggb-jar-files3D, 
+					copyJars3D, sign, pack, preloadHtml, finish">
 	</target>
 
 	<target name="delete-sources">
@@ -68,6 +84,17 @@ office@geogebra.org
 		</delete>
 	</target>
 
+	<target name="delete3D">
+		<!-- delete build directory -->
+		<mkdir dir="${build.dir}"/>
+		<delete includeemptydirs="true" followsymlinks="false">
+			<fileset dir="${build.dir}" defaultexcludes="false">
+				<include name="**/geogebra_3d.jar" />
+			</fileset>
+		</delete>
+
+	</target>
+
 	<target name="finish">
 		<delete dir="${propertiestemp.dir}"/>
 		<delete dir="${src.dir}/geogebra/common"/>
@@ -76,13 +103,31 @@ office@geogebra.org
 	<!-- put jar files into subdirectories signed and unsigned -->
 	<target name="copyJars" depends="ggb-jar-files">
 		<copy todir="${build.dir}/unsigned/unpacked">
-			<fileset dir="${build.dir}" includes="*.jar, *.dll" />
+			<fileset dir="${build.dir}">
+				<include name="*.jar" />
+			</fileset>
 		</copy>
 	</target>
 
 	<!-- put jar files (unobfuscated, unindexed) into subdirectory debug -->
 	<target name="copyDebug" depends="ggb-jar-files">
 		<copy todir="${build.dir}/debug">
+			<fileset dir="${build.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- put jar files (unobfuscated, unindexed) into subdirectory debug -->
+	<target name="copyDebug3D" depends="ggb-jar-files3D">
+		<copy todir="${build.dir}/debug">
+			<fileset dir="${build.dir}" includes="*.jar, *.dll" />
+		</copy>
+	</target>
+
+	<!-- put jar files into subdirectories signed and unsigned -->
+	<target name="copyJars3D" depends="ggb-jar-files3D">
+		<copy todir="${build.dir}/unsigned/unpacked">
 			<fileset dir="${build.dir}" includes="*.jar, *.dll" />
 		</copy>
 	</target>
@@ -101,6 +146,13 @@ office@geogebra.org
 
 	<!-- Obfuscate jar files without signing -->
 	<target name="obfuscate" depends="ggb-jar-files">
+		<!-- check if java150-rt.jar file present -->
+		<!--condition property="java150-rt.present">
+			<available file="${workspace.dir}/java150-rt.jar"/>
+		</condition-->
+		<antcall target="doObfuscate"/>
+	</target>
+	<target name="obfuscate3D" depends="ggb-jar-files3D">
 		<!-- check if java150-rt.jar file present -->
 		<!--condition property="java150-rt.present">
 			<available file="${workspace.dir}/java150-rt.jar"/>
@@ -126,6 +178,20 @@ office@geogebra.org
 		<!-- repack and sign jars first time -->
 		<antcall target="repack"/>
 		<antcall target="ggb-jar-index"/>
+		<antcall target="doSign"/>
+	</target>
+
+	<!-- Sign jar files -->
+	<target name="sign3D" description="repack and sign 3D jar files twice (to ensure WebStart compatibility)">
+		<!-- check if keystore file present -->
+		<condition property="keystore.present">
+			<available file="${workspace.dir}/igi-keystore.p12"/>
+		</condition>
+
+		<!-- repack and sign jars first time -->
+		
+		<antcall target="repack"/>
+		<antcall target="ggb-jar-index3D"/>
 		<antcall target="doSign"/>
 	</target>
 

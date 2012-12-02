@@ -33,10 +33,11 @@
  * Installer Attributes
  */
 
-Name GeoGebraSMART
+Name "GeoGebraSMART 5.0"
 OutFile "${outfile}"
-Caption "GeoGebraSMART Installer" # see line marked with CAPTION
-BrandingText "GeoGebraSMART ${fullversion} (${builddate})"
+Caption "GeoGebra Installer" # see line marked with CAPTION
+BrandingText "GeoGebra ${fullversion} (${builddate})"
+
 
 RequestExecutionLevel highest
 SetCompressor /SOLID /FINAL lzma
@@ -66,6 +67,7 @@ Var STARTMENU_FOLDER
   Var ADMINISTRATOR
   Var VERSION
   Var WORKSTATION
+  Var ARCHITECTURE
   
   Var ADDITIONALTASKS_INI
   Var ADDITIONALTASKS_DESKTOP
@@ -105,7 +107,7 @@ Var ASSOCIATE_GGT
   !define UMUI_SETUPTYPEPAGE_STANDARD "$(UMUI_TEXT_SETUPTYPE_STANDARD_TITLE)"
   !define UMUI_SETUPTYPEPAGE_DEFAULTCHOICE ${UMUI_STANDARD}
   
-  !define MUI_STARTMENUPAGE_DEFAULTFOLDER "GeoGebra 5.0"
+  !define MUI_STARTMENUPAGE_DEFAULTFOLDER "GeoGebraSMART 5.0"
   !define UMUI_ALTERNATIVESTARTMENUPAGE_USE_TREEVIEW
   !define UMUI_ALTERNATIVESTARTMENUPAGE_SETSHELLVARCONTEXT
 !else
@@ -124,6 +126,8 @@ Var ASSOCIATE_GGT
 
 !include LogicLib.nsh
 !include WordFunc.nsh
+
+!include ZipDLL.nsh
 
 !macro PushShellVarContext
   Push $R0
@@ -553,6 +557,38 @@ Var ASSOCIATE_GGT
     !insertmacro INSTALLOPTIONS_WRITE "confirm.ini" "Field 3" Flags $R0
   FunctionEnd
 
+Function Architecture
+  Push $R0
+  Push $R1
+
+  ClearErrors
+  ReadRegStr $R1 HKLM "SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment" "CurrentVersion"
+  ReadRegStr $R0 HKLM "SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
+  StrCpy $R0 "$R0\bin\${JAVAEXE}"
+  IfErrors 0 ArchAmd64  ;; Java found in the registry (64 bit entry, launch4j prefers it)
+   ;; see http://stackoverflow.com/questions/2688932/configure-launch4j-to-use-32-bit-jvm-only
+ 
+  ClearErrors
+  ReadRegStr $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+  ReadRegStr $R0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
+  StrCpy $R0 "$R0\bin\${JAVAEXE}"
+  IfErrors 0 ArchI586  ;; Java found it in the registry (32 bit entry)
+
+  ClearErrors
+  messageBox MB_OK "No Java is detected on your system. You will be redirected to the Java download page after installing GeoGebra."
+
+  ArchI586:
+   StrCpy $ARCHITECTURE "i586"
+   Goto JavaFound
+
+  ArchAmd64:
+   StrCpy $ARCHITECTURE "amd64"
+
+  JavaFound:
+  Pop $R1
+  Pop $R0
+FunctionEnd
+
 !endif
 
 /**
@@ -607,15 +643,59 @@ Var ASSOCIATE_GGT
  */
 
 VIAddVersionKey CompanyName "International GeoGebra Institute"
-VIAddVersionKey FileDescription "GeoGebraSMART Installer"
+VIAddVersionKey FileDescription "GeoGebra Installer"
 VIAddVersionKey FileVersion ${fullversion}
 VIAddVersionKey InternalName GeoGebra_Installer_${versionname}
 VIAddVersionKey LegalCopyright "(C) 2001-2012 International GeoGebra Institute"
-VIAddVersionKey OriginalFilename GeoGebraSMART_Installer_${versionname}.exe
-VIAddVersionKey ProductName GeoGebraSMART
+VIAddVersionKey OriginalFilename GeoGebra_Installer_${versionname}.exe
+VIAddVersionKey ProductName "GeoGebraSMART 5.0"
 VIAddVersionKey ProductVersion ${fullversion}
 
 VIProductVersion ${fullversion}
+
+!define LVM_GETITEMCOUNT 0x1004
+!define LVM_GETITEMTEXT 0x102D
+ 
+Function DumpLog
+  Exch $5
+  Push $0
+  Push $1
+  Push $2
+  Push $3
+  Push $4
+  Push $6
+ 
+  FindWindow $0 "#32770" "" $HWNDPARENT
+  GetDlgItem $0 $0 1016
+  StrCmp $0 0 exit
+  FileOpen $5 $5 "w"
+  StrCmp $5 "" exit
+    SendMessage $0 ${LVM_GETITEMCOUNT} 0 0 $6
+    System::Alloc ${NSIS_MAX_STRLEN}
+    Pop $3
+    StrCpy $2 0
+    System::Call "*(i, i, i, i, i, i, i, i, i) i \
+      (0, 0, 0, 0, 0, r3, ${NSIS_MAX_STRLEN}) .r1"
+    loop: StrCmp $2 $6 done
+      System::Call "User32::SendMessageA(i, i, i, i) i \
+        ($0, ${LVM_GETITEMTEXT}, $2, r1)"
+      System::Call "*$3(&t${NSIS_MAX_STRLEN} .r4)"
+      FileWrite $5 "$4$\r$\n"
+      IntOp $2 $2 + 1
+      Goto loop
+    done:
+      FileClose $5
+      System::Free $1
+      System::Free $3
+  exit:
+    Pop $6
+    Pop $4
+    Pop $3
+    Pop $2
+    Pop $1
+    Pop $0
+    Exch $5
+FunctionEnd
 
 /**
  * Installer
@@ -624,26 +704,45 @@ VIProductVersion ${fullversion}
 Section Install Install
   
   !ifndef uninstaller
-    
+
     SectionIn 1 2
-    
+
     CreateDirectory $INSTDIR\unsigned
+
     SetOutPath $INSTDIR
     File forum.ico
     File "${build.dir}\installer\windows\GeoGebraSMART.exe"
-    File "${build.dir}\unpacked\*.jar"
+    File "${build.dir}\unpacked\OpenGeoProver.jar"
+    File "${build.dir}\unpacked\geogebra*.jar"
+    File "${build.dir}\unpacked\*win*.jar"
+    File "${build.dir}\unpacked\jd2*.jar"
+    File "${build.dir}\unpacked\jl*.jar"
+    File "${build.dir}\unpacked\jython.jar"
+    File "${build.dir}\unpacked\openni.jar"
+    File "${build.dir}\unpacked\openni64.jar"
+    File "${build.dir}\unpacked\jython.jar"
     File "${build.dir}\unpacked\*.dll"
+    File "${build.dir}\unsigned\unpacked\*.dll"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
     SetOutPath $INSTDIR\unsigned
-    File "${build.dir}\unsigned\unpacked\*.jar"
-    File "${build.dir}\unsigned\unpacked\*.dll"
+    File "${build.dir}\unsigned\unpacked\OpenGeoProver.jar"
+    File "${build.dir}\unsigned\unpacked\geogebra*.jar"
+    File "${build.dir}\unsigned\unpacked\*win*.jar"
+    File "${build.dir}\unsigned\unpacked\jd2*.jar"
+    File "${build.dir}\unsigned\unpacked\jl*.jar"
+    File "${build.dir}\unsigned\unpacked\jython.jar"
+    File "${build.dir}\unsigned\unpacked\openni.jar"
+    File "${build.dir}\unsigned\unpacked\openni64.jar"
+    File "${build.dir}\unsigned\unpacked\jython.jar"
+
+    Call Architecture
 
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
     SetOutPath ""
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraSMART.lnk $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (without 3D).lnk" $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebraSMART.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
     ${If} 1 = $DESKTOP_ALL
     ${OrIf} 1 = $DESKTOP_CURRENT
       Call PushShellVarContext
@@ -652,11 +751,11 @@ Section Install Install
       ${ElseIf} 1 = $DESKTOP_CURRENT
        SetShellVarContext current
       ${EndIf}
-      CreateShortCut $DESKTOP\GeoGebraSMART.lnk $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
+      CreateShortCut "$DESKTOP\GeoGebraSMART.lnk" $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
       Call PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      CreateShortCut $QUICKLAUNCH\GeoGebraSMART.lnk $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
+      CreateShortCut "$QUICKLAUNCH\GeoGebraSMART.lnk" $INSTDIR\GeoGebraSMART.exe "" $INSTDIR\GeoGebraSMART.exe 0
     ${EndIf}
     
     Call PushShellVarContext
@@ -695,22 +794,22 @@ Section Install Install
     IntCmp $3 9 0 0 +2
     StrCpy $3 "0$3"
     SectionGetSize ${Install} $0
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Contact office@geogebra.org
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayIcon $INSTDIR\GeoGebraSMART.exe,0
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayName "GeoGebra & SMART Board"
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayVersion ${fullversion}
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra EstimatedSize $0
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra HelpLink http://www.geogebra.org/forum/
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra InstallDate $1$2$3
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra InstallLocation $INSTDIR
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Language $LANGUAGE
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra NoModify 1
-    WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra NoRepair 1
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Publisher "International GeoGebra Institute"
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra SettingsIdentifier Software\JavaSoft\Prefs\geogebra
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra UninstallString '"$INSTDIR\uninstaller.exe"'
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra URLInfoAbout http://www.geogebra.org/
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra URLUpdateInfo http://www.geogebra.org/download/
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" Contact office@geogebra.org
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayIcon $INSTDIR\GeoGebraSMART.exe,0
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayName "GeoGebraSMART 5.0"
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" DisplayVersion ${fullversion}
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" EstimatedSize $0
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" HelpLink http://www.geogebra.org/forum/
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" InstallDate $1$2$3
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" InstallLocation $INSTDIR
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" Language $LANGUAGE
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" NoModify 1
+    WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" NoRepair 1
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" Publisher "International GeoGebra Institute"
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" SettingsIdentifier Software\JavaSoft\Prefs\geogebra
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" UninstallString '"$INSTDIR\uninstaller.exe"'
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" URLInfoAbout http://www.geogebra.org/
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0" URLUpdateInfo http://www.geogebra.org/download/
     Call PopShellVarContext
     
     SetOutPath $INSTDIR
@@ -728,6 +827,12 @@ Section Install Install
     WriteINIStr $INSTDIR\uninstaller.ini Permissions     ShellVarContext   $R0
     
     File "${build.dir}\installer\windows\uninstaller.exe"
+
+    /* Logging */
+    StrCpy $0 "$INSTDIR\install.log"
+    Push $0
+    Call DumpLog
+
     
   !endif
   
@@ -741,7 +846,7 @@ Function .onInit
 
   !ifndef uninstaller
     !insertmacro UMUI_MULTILANG_GET
-    System::Call 'kernel32::CreateMutexA(i 0, i 0, t "GeoGebraSMARTInstaller") ?e'
+    System::Call 'kernel32::CreateMutexA(i 0, i 0, t "GeoGebraInstaller") ?e'
     Pop $R0
     ${IfNot} 0 = $R0
       System::Call "kernel32::GetCurrentProcessId() i .R0"
@@ -777,7 +882,7 @@ Function .onInit
           System::Call "user32::GetWindowText(i r0, t .r2, i 1024) i .r3"
           IntOp $3 $3 - 1
           StrCpy $2 $2 $3
-          ${If} "GeoGebraSMART Installer" == $2 # CAPTION!
+          ${If} "GeoGebra Installer" == $2 # CAPTION!
             System::Call "user32::GetWindowThreadProcessId(i r0, *i .r2)"
             ${If} $2 = $R2
               ${Break}
@@ -793,11 +898,11 @@ Function .onInit
     ${If} "true" == $ADMINISTRATOR
       SetShellVarContext all
       StrCpy $UMUI_DEFAULT_SHELLVARCONTEXT all
-      StrCpy $INSTDIR "$PROGRAMFILES\GeoGebra 5.0"
+      StrCpy $INSTDIR "$PROGRAMFILES\GeoGebraSMART 5.0"
     ${Else}
       SetShellVarContext current
       StrCpy $UMUI_DEFAULT_SHELLVARCONTEXT current
-      StrCpy $INSTDIR "$PROFILE\GeoGebra 5.0"
+      StrCpy $INSTDIR "$PROFILE\GeoGebraSMART 5.0"
     ${EndIf}
     
     StrCpy $VERSION ""
@@ -834,7 +939,7 @@ FunctionEnd
  */
 
 !macro RemoveUninstaller
-  DeleteRegKey SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra
+  DeleteRegKey SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebraSMART 5.0"
   Delete $INSTDIR\uninstaller.ini
   Delete $INSTDIR\uninstaller.exe
 !macroend
@@ -859,9 +964,10 @@ FunctionEnd
     Delete $INSTDIR\*.dll
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\by-nc-sa-3.0.txt
+    Delete $INSTDIR\install.log
     RMDir $INSTDIR
     
-    Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraSMART.lnk
+    Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraSMART.lnk"
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk"
     Delete $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraTube.lnk
     RMDir $SMPROGRAMS\$STARTMENU_FOLDER
@@ -874,11 +980,11 @@ FunctionEnd
       ${ElseIf} 1 = $DESKTOP_CURRENT
         SetShellVarContext current
       ${EndIf}
-      Delete $DESKTOP\GeoGebraSMART.lnk
+      Delete "$DESKTOP\GeoGebraSMART.lnk"
       Call un.PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      Delete $QUICKLAUNCH\GeoGebraSMART.lnk
+      Delete "$QUICKLAUNCH\GeoGebraSMART.lnk"
     ${EndIf}
     
     Call un.PushShellVarContext
@@ -945,3 +1051,4 @@ FunctionEnd
   FunctionEnd
   
 !endif
+ 
