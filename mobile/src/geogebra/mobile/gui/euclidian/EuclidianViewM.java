@@ -22,6 +22,20 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DragEndEvent;
+import com.google.gwt.event.dom.client.DragEndHandler;
+import com.google.gwt.event.dom.client.DragEvent;
+import com.google.gwt.event.dom.client.DragHandler;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.user.client.Window;
@@ -33,9 +47,7 @@ import com.google.gwt.user.client.Window;
  */
 public class EuclidianViewM extends EuclidianView
 {
-	protected static final int MIN_DISTANCE = 10;
-
-	static int oldDistance;
+	int oldDistance;
 
 	// set in setCanvas
 	GGraphics2DW g2p = null;
@@ -76,8 +88,8 @@ public class EuclidianViewM extends EuclidianView
 				}
 				else if (event.getTouches().length() == 2)
 				{
-					oldDistance = (event.getTouches().get(0).getPageX() - event.getTouches().get(1).getPageX()) ^ 2
-					    + (event.getTouches().get(0).getPageY() - event.getTouches().get(1).getPageY()) ^ 2;
+					EuclidianViewM.this.oldDistance = (int) (Math.pow((event.getTouches().get(0).getPageX() - event.getTouches().get(1).getPageX()), 2) + Math
+					    .pow((event.getTouches().get(0).getPageY() - event.getTouches().get(1).getPageY()), 2));
 				}
 			}
 
@@ -108,15 +120,16 @@ public class EuclidianViewM extends EuclidianView
 					centerX = (first.getPageX() + second.getPageX()) / 2;
 					centerY = (first.getPageY() + second.getPageY()) / 2;
 
-					if (oldDistance > 0)
+					if (EuclidianViewM.this.oldDistance > 0)
 					{
-						newDistance = (first.getPageX() - second.getPageX()) ^ 2 + (first.getPageY() - second.getPageY()) ^ 2;
+						newDistance = (int) (Math.pow((first.getPageX() - second.getPageX()), 2) + Math.pow((first.getPageY() - second.getPageY()), 2));
 
-						if(Math.abs(oldDistance - newDistance) > MIN_DISTANCE)
+						if (newDistance / EuclidianViewM.this.oldDistance > 1.1 || newDistance / EuclidianViewM.this.oldDistance < 0.9)
 						{
-							((MobileController) EuclidianViewM.this.getEuclidianController()).onPinch(centerX, centerY, newDistance / oldDistance);
-							oldDistance = newDistance;
-						}						
+							((MobileController) EuclidianViewM.this.getEuclidianController()).onPinch(centerX, centerY, newDistance
+							    / EuclidianViewM.this.oldDistance);
+							EuclidianViewM.this.oldDistance = newDistance;
+						}
 					}
 				}
 			}
@@ -134,6 +147,38 @@ public class EuclidianViewM extends EuclidianView
 
 			}
 
+		});
+
+		// Listeners for Desktop
+		this.canvas.addMouseDownHandler(new MouseDownHandler()
+		{
+			@Override
+			public void onMouseDown(MouseDownEvent event)
+			{
+				event.preventDefault();
+				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getClientX(), event.getClientY());
+			}
+		});
+
+		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
+		{
+
+			@Override
+			public void onMouseMove(MouseMoveEvent event)
+			{
+				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getClientX(), event.getClientY());
+			}
+		});
+
+		this.canvas.addMouseUpHandler(new MouseUpHandler()
+		{
+
+			@Override
+			public void onMouseUp(MouseUpEvent event)
+			{
+				event.preventDefault();
+				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getClientX(), event.getClientY());
+			}
 		});
 
 		this.canvas.addMouseWheelHandler(new MouseWheelHandler()
