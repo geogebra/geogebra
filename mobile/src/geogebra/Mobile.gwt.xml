@@ -81,7 +81,7 @@
 
     <set-property
         name="mgwt.os"
-        value="iPad" />
+        value="ipad" />
 
     <!--
     <set-configuration-property
