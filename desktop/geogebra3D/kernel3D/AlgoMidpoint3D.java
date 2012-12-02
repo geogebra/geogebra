@@ -50,7 +50,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
      * @param P
      * @param Q
      */
-    AlgoMidpoint3D(Construction cons, GeoPointND P, GeoPointND Q) {
+    public AlgoMidpoint3D(Construction cons, GeoPointND P, GeoPointND Q) {
         super(cons,P,Q);
     }
 
@@ -74,7 +74,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 
     
     @Override
-	protected GeoPoint3D getPoint() {
+	public GeoPoint3D getPoint() {
         return (GeoPoint3D) super.getPoint();
     }
     

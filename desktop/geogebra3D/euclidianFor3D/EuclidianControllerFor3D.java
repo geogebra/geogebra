@@ -1,6 +1,7 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
+import geogebra3D.kernel3D.AlgoMidpoint3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
 /**
@@ -158,6 +160,18 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
 		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, view.getDirection())};		
 
+	}
+
+	@Override
+	protected GeoPointND Midpoint(GeoPointND P, GeoPointND Q) {
+
+		if (P.isGeoElement3D() || Q.isGeoElement3D()){
+			AlgoMidpoint3D algo = new AlgoMidpoint3D(kernel.getConstruction(), P, Q);
+			return algo.getPoint();
+		}
+
+		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) P, (GeoPoint) Q);
+		return algo.getPoint();
 	}
 
 	

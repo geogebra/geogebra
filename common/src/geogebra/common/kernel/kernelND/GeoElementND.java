@@ -190,4 +190,10 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return whether the update set
 	 */
 	boolean hasAlgoUpdateSet();
+	
+	
+	/**
+	 * @return whether this is instance of GeoElement3D
+	 */
+	public boolean isGeoElement3D();
 }

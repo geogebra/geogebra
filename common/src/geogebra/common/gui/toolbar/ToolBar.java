@@ -418,7 +418,8 @@ public class ToolBar {
 				// +EuclidianConstants.MODE_PRISM
 				+ " | " + EuclidianConstants.MODE_SPHERE_TWO_POINTS + " "
 				+ EuclidianConstants.MODE_SPHERE_POINT_RADIUS + " || "
-				+ EuclidianConstants.MODE_ANGLE + " "
+				+ EuclidianConstants.MODE_ANGLE + " , "
+				+ EuclidianConstants.MODE_DISTANCE + " "
 				+ EuclidianConstants.MODE_AREA + " | "
 				+ EuclidianConstants.MODE_TRANSLATE_BY_VECTOR + " | "
 				+ EuclidianConstants.MODE_TEXT + " || "
