@@ -43,7 +43,7 @@ public class CmdSetValue extends CmdScripting {
 
 		switch (n) {
 		case 2:
-			if (arg[0].isGeoFunction() && arg[0].isGeoFunctionable()) {
+			if (arg[0].isGeoFunction() && arg[1].isGeoFunctionable()) {
 				// eg f(x)=x^2
 				// SetValue[f,1]
 				GeoFunction fun = (GeoFunction)arg[0];
