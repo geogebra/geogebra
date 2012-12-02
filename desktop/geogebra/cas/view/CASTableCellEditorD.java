@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -206,6 +207,14 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 				getInputArea().setText("");				
 				break;
 				
+			case KeyEvent.VK_V: 
+				if (AppD.isControlDown(e)) { 
+					// make sure Ctrl-V isn't passed on to Euclidian View 
+					getInputArea().paste(); 
+					e.consume(); 
+				} 
+				break; 
+			 	
 //			case KeyEvent.VK_ENTER:
 //				e.consume();
 //				stopCellEditing();				
