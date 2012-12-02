@@ -1004,6 +1004,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Update the style bar visibility.
 	 */
 	public void updateStyleBarVisibility() {
+
 		if (!isVisible())
 			return;
 
@@ -1187,7 +1188,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * @return If the style bar should be visible.
 	 */
 	private boolean isStyleBarVisible() {
-		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2) {
+		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2 || id == App.VIEW_ALGEBRA) {
 			if (!app.getSettings().getLayout().isAllowingStyleBar()) {
 				return false;
 			}
