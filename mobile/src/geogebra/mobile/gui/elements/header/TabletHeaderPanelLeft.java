@@ -27,23 +27,22 @@ import com.google.gwt.storage.client.Storage;
 public class TabletHeaderPanelLeft extends HorizontalPanel
 {
 	MobileApp app;
-	
-	//to save xml-strings
+
+	// to save xml-strings
 	Storage stockStore = null;
 	SaveDialog saveDialog;
 	OpenDialog openDialog;
 
-	
-	//private GgbAPI ggbAPI;//no need for xml string
+	// private GgbAPI ggbAPI;//no need for xml string
 
 	/**
 	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
 	 */
 	public TabletHeaderPanelLeft(final Kernel kernel, final GuiModel guiModel)
 	{
-		
+
 		this.app = (MobileApp) kernel.getApplication();
-		//this.ggbAPI = new GgbAPI(this.app);//no need for xml string
+		// this.ggbAPI = new GgbAPI(this.app);//no need for xml string
 
 		this.addStyleName("leftHeader");
 
@@ -62,20 +61,58 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		{
 			this.add(left[i]);
 		}
-		
-		//new - button
-		left[0].addTapHandler(new TapHandler() {
-			
+
+		// new - button
+		left[0].addDomHandler(new ClickHandler()
+		{
 			@Override
-			public void onTap(TapEvent event) {
-				//TODO 
-				guiModel.closeOptions(); 
-				kernel.clearConstruction(); 
-				kernel.notifyRepaint(); 				
+			public void onClick(ClickEvent event)
+			{
+				guiModel.closeOptions();
+				kernel.clearConstruction();
+				kernel.notifyRepaint();
 			}
-		});
-		
-		//save - button
+		}, ClickEvent.getType());
+
+		// open
+		left[1].addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				event.preventDefault();
+				TabletHeaderPanelLeft.this.stockStore = Storage.getLocalStorageIfSupported();
+				TabletHeaderPanelLeft.this.openDialog = new OpenDialog(TabletHeaderPanelLeft.this.stockStore, new OpenCallback()
+				{
+
+					@Override
+					public void onOpen()
+					{
+						String xml = TabletHeaderPanelLeft.this.openDialog.getChosenFile();
+						try
+						{
+							TabletHeaderPanelLeft.this.app.loadXML(xml);
+						}
+						catch (Exception e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onCancel()
+					{
+						TabletHeaderPanelLeft.this.openDialog.close();
+					}
+
+				});
+
+				TabletHeaderPanelLeft.this.openDialog.show();
+			}
+		}, ClickEvent.getType());
+
+		// save - button
 		left[2].addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -84,111 +121,30 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.stockStore = Storage.getLocalStorageIfSupported();
 
-				TabletHeaderPanelLeft.this.saveDialog = new SaveDialog(new SaveCallback() {
+				TabletHeaderPanelLeft.this.saveDialog = new SaveDialog(new SaveCallback()
+				{
 
 					@Override
-          public void onSave()
-          {
+					public void onSave()
+					{
 						String ggbXML = TabletHeaderPanelLeft.this.app.getXML();
 						TabletHeaderPanelLeft.this.stockStore = Storage.getLocalStorageIfSupported();
-						if (TabletHeaderPanelLeft.this.stockStore != null && TabletHeaderPanelLeft.this.saveDialog.getText() != null) {
+						if (TabletHeaderPanelLeft.this.stockStore != null && TabletHeaderPanelLeft.this.saveDialog.getText() != null)
+						{
 							TabletHeaderPanelLeft.this.stockStore.setItem(TabletHeaderPanelLeft.this.saveDialog.getText(), ggbXML);
 						}
-          }
+					}
 
 					@Override
-          public void onCancel()
-          {
+					public void onCancel()
+					{
 						TabletHeaderPanelLeft.this.saveDialog.close();
-          }
-					
+					}
+
 				});
 
 				TabletHeaderPanelLeft.this.saveDialog.show();
 			}
 		}, ClickEvent.getType());
-		
-		
-		//open
-		left[1].addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.preventDefault();
-				TabletHeaderPanelLeft.this.stockStore = Storage.getLocalStorageIfSupported();
-				TabletHeaderPanelLeft.this.openDialog = new OpenDialog(TabletHeaderPanelLeft.this.stockStore, new OpenCallback() {
-
-					@Override
-          public void onOpen()
-          {
-						String xml = TabletHeaderPanelLeft.this.openDialog.getChosenFile();
-						try
-            {
-	            TabletHeaderPanelLeft.this.app.loadXML(xml);
-            }
-            catch (Exception e)
-            {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-            }
-          }
-
-					@Override
-          public void onCancel()
-          {
-						TabletHeaderPanelLeft.this.openDialog.close();
-          }
-					
-				});
-
-				TabletHeaderPanelLeft.this.openDialog.show();
-			}
-		}, ClickEvent.getType());
-		
-		
-		
-//		left[1].addTapHandler(new TapHandler() {
-//
-//			@Override
-//      public void onTap(TapEvent event)
-//      {
-//				TabletHeaderPanelLeft.this.stockStore = Storage.getLocalStorageIfSupported();
-//				if (TabletHeaderPanelLeft.this.stockStore != null){
-//				  for (int i = 0; i < TabletHeaderPanelLeft.this.stockStore.getLength(); i++){
-//				    String key = TabletHeaderPanelLeft.this.stockStore.key(i);
-//				    System.out.println("opened from local storage: " + TabletHeaderPanelLeft.this.stockStore.getItem(key));
-//				  }
-//				}
-//				//openFile();
-//				//MobileApp app = (MobileApp) kernel.getApplication();
-//				//app.getGuiManager().openURL();
-//      }
-//			
-//		});
-		
-//		//save - button
-//		left[2].addTapHandler(new TapHandler() {
-//
-//			@Override
-//      public void onTap(TapEvent event)
-//      {
-//				//System.out.println("vor callback");
-//				//JavaScriptObject callback = MobileGoogleApis.getPutFileCallback("fileName.getText()", "description.getText()");
-//				//System.out.println("nach callback");
-//				//((geogebra.mobile.gui.elements.header.GgbAPI)TabletHeaderPanelLeft.this.app.getGgbApi()).getBase64(callback);
-//				//callback(dataURI.substr(dataURI.indexOf(',')+1));
-//				//System.out.println("nach get base");
-//				//final String ggbXML = ((geogebra.mobile.gui.elements.header.GgbAPI)TabletHeaderPanelLeft.this.app.getGgbApi()).getArchiveContent();
-//				String ggbXML = TabletHeaderPanelLeft.this.app.getXML();
-//				System.out.println(ggbXML);
-//				TabletHeaderPanelLeft.this.stockStore = Storage.getLocalStorageIfSupported();
-//				if (TabletHeaderPanelLeft.this.stockStore != null) {
-//					TabletHeaderPanelLeft.this.stockStore.setItem("testOne", ggbXML);
-//					System.out.println("saved");
-//				}
-//      }
-//			
-//		});
 	}
 }
