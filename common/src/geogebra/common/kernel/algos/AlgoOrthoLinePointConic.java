@@ -147,7 +147,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
         }
         }
         else{    */    	
-        	GeoVec3D.lineThroughPoints(P, closestPoint.getP(), g[0]);        	
+        	GeoVec3D.lineThroughPoints(P, (GeoPoint) closestPoint.getP(), g[0]);        	
        /* }*/
     }
 

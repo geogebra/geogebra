@@ -14,32 +14,30 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 
 
-public class AlgoClosestPoint3D extends AlgoElement3D {
+public class AlgoClosestPoint3D extends AlgoClosestPoint {
 
-	private Path p;
-	private GeoPointND P;
-	
-	private GeoPoint3D geoPointOnPath;
 
-    public AlgoClosestPoint3D(Construction c,
-    		String label, Path p, GeoPointND P) {
-        super(c);
-        this.p = p;
-        this.P = P;
-        geoPointOnPath = new GeoPoint3D(c);
-        geoPointOnPath.setPath(p);
-        setInputOutput(); // for AlgoElement
-
-        // compute length
-        compute();
-        geoPointOnPath.setLabel(label);
+    public AlgoClosestPoint3D(Construction c, Path path, GeoPointND point) {
+        super(c, path, point);
+        
+    }
+    
+    public AlgoClosestPoint3D(Construction cons, String label, Path path, GeoPointND point) {
+    	super(cons,label,path,point);
+	}
+    
+    protected void createOutputPoint(Construction cons, Path path){
+        P = new GeoPoint3D(cons);
+        ((GeoPoint3D) P).setPath(path);
     }
     
 
@@ -48,41 +46,17 @@ public class AlgoClosestPoint3D extends AlgoElement3D {
         return Algos.AlgoClosestPoint3D;
     }
     
-    // for AlgoElement
     @Override
-	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = (GeoElement)p;
-        input[1] = (GeoElement)P;
-
-        super.setOutputLength(1);
-        super.setOutput(0, (GeoElement3D)geoPointOnPath);
-        setDependencies(); // done by AlgoElement
-    }
- 
-    Path getInputPath() {
-        return p;
-    }
-    GeoPointND getInputPoint() {
-        return P;
-    }
-
-    public GeoPoint3D getOutputPoint() {
-    	return geoPointOnPath;
+	protected void setCoords(){
+    	((GeoPoint3D) P).setCoords(point);
     }
     
-    @Override
-	public void compute() {
-    	//TODO: this is just copied from 2D version, not verified!
-    	if (input[0].isDefined() && P.isDefined()) {	  
-    		geoPointOnPath.setCoords(P);
-	        p.pathChanged(geoPointOnPath);
-	        geoPointOnPath.updateCoords();
-    	} else {
-    		geoPointOnPath.setUndefined();
-    	}
-    }
 
+    @Override
+	protected void addIncidence() {
+    	//TODO
+		
+	}
 	
 
 

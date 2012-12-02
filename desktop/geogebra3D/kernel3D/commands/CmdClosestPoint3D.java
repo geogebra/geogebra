@@ -50,7 +50,7 @@ public  GeoElement[] process(Command c) throws MyError {
         	
            	if  (arg[0].isPath() && arg[1].isGeoPoint()) {
         		return new GeoElement[] {
-        				((Kernel)kernelA).getManager3D().ClosestPoint(
+        				kernelA.getManager3D().ClosestPoint(
         				c.getLabel(),
         				(Path)arg[0],
         				(GeoPointND)arg[1])        		
@@ -60,7 +60,7 @@ public  GeoElement[] process(Command c) throws MyError {
         	
         	if  (arg[0].isRegion() && arg[1].isGeoPoint()) {
         		return new GeoElement[] {
-        				((Kernel)kernelA).getManager3D().ClosestPoint(
+        				kernelA.getManager3D().ClosestPoint(
         				c.getLabel(),
         				(Region)arg[0],
         				(GeoPointND)arg[1])        		
@@ -71,7 +71,7 @@ public  GeoElement[] process(Command c) throws MyError {
         	if (arg[0].isGeoLine() || arg[1].isGeoLine() ){
         		
         		return new GeoElement[] {
-        				((Kernel)kernelA).getManager3D().ClosestPoint(
+        				kernelA.getManager3D().ClosestPoint(
         				c.getLabel(),
         				(GeoLineND)arg[0],
         				(GeoLineND)arg[1])        		

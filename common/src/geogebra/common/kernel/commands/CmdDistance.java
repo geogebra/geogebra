@@ -45,14 +45,14 @@ public class CmdDistance extends CommandProcessor {
 			// distance between point and line
 			else if (arg[0].isGeoPoint()) {
 				GeoElement[] ret = { getAlgoDispatcher().Distance(c.getLabel(),
-						(GeoPoint) arg[0], arg[1]) };
+						(GeoPointND) arg[0], arg[1]) };
 				return ret;
 			}
 
 			// distance between line and point
 			else if (arg[1].isGeoPoint()) {
 				GeoElement[] ret = { getAlgoDispatcher().Distance(c.getLabel(),
-						(GeoPoint) arg[1], arg[0]) };
+						(GeoPointND) arg[1], arg[0]) };
 				return ret;
 			}
 

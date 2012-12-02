@@ -18,29 +18,40 @@ import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 
 public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 
 	private Path path; // input
-    private GeoPoint point; // input      
-    private GeoPoint P; // output      
+    protected GeoPointND point; // input      
+    protected GeoPointND P; // output      
 
-    public AlgoClosestPoint(Construction cons,  Path path, GeoPoint point) {
+    public AlgoClosestPoint(Construction cons,  Path path, GeoPointND point) {
     	super(cons);
         this.path = path;
         this.point = point;
         
         // create point on path and compute current location
-        P = new GeoPoint(cons);
-        P.setPath(path);
+        createOutputPoint(cons, path);
+
 		setInputOutput(); // for AlgoElement	       	        
 		compute();
 		addIncidence();
 	}
     
-    public AlgoClosestPoint(Construction cons, String label, Path path, GeoPoint point) {
+    /**
+     * create the output point
+     * @param cons construction
+     * @param path path
+     */
+    protected void createOutputPoint(Construction cons, Path path){
+        P = new GeoPoint(cons);
+        ((GeoPoint) P).setPath(path);
+    }
+    
+    public AlgoClosestPoint(Construction cons, String label, Path path, GeoPointND point) {
     	this(cons,path,point);
       
 		P.setLabel(label);
@@ -58,7 +69,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 		input[0] = path.toGeoElement();
 		input[1] = point.toGeoElement();    		
         setOutputLength(1);
-        setOutput(0, P);
+        setOutput(0, (GeoElement) P);
         setDependencies(); // done by AlgoElement
     }
 
@@ -67,19 +78,26 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
      * 
      * for special cases of e.g. AlgoIntersectLineConic
      */
-    private void addIncidence() {
-    	P.addIncidence((GeoElement) path);
+    protected void addIncidence() {
+    	((GeoPoint) P).addIncidence((GeoElement) path);
 		
 	}
     
-    public GeoPoint getP() {
+    public GeoPointND getP() {
         return P;
     }
       
+    /**
+     * set coords of closest point to input point coords
+     */
+    protected void setCoords(){
+    	((GeoPoint) P).setCoords((GeoPoint) point);
+    }
+    
     @Override
 	public final void compute() {
     	if (input[0].isDefined() && point.isDefined()) {	  
-    		P.setCoords(point);
+    		setCoords();
 	        path.pathChanged(P);
 	        P.updateCoords();
     	} else {

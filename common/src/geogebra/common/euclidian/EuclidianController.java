@@ -4650,17 +4650,17 @@ public abstract class EuclidianController {
 	
 		// POINT AND LINE
 		else if ((selPoints() == 1) && (selLines() == 1)) {
-			GeoPoint[] points = getSelectedPoints();
-			GeoLine[] lines = getSelectedLines();
-			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0], lines[0]);
+			GeoPointND[] points = getSelectedPointsND();
+			GeoLineND[] lines = getSelectedLinesND();
+			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0], (GeoElement) lines[0]);
 	
 			checkZooming(); 
 			
 			// set startpoint of text to midpoint between point and line
 			GeoPointND midPoint = Midpoint(points[0],
-					ClosestPoint(points[0], lines[0]));
+					ClosestPoint(points[0], (Path) lines[0]));
 			GeoElement[] ret = { null };
-			ret[0] = createDistanceText(points[0], lines[0], midPoint, length);
+			ret[0] = createDistanceText((GeoElement) points[0], (GeoElement) lines[0], midPoint, length);
 			return ret;
 		}
 	
@@ -4745,15 +4745,15 @@ public abstract class EuclidianController {
 	/**
 	 * Returns the projected point of P on line g (or nearest for a Segment)
 	 */
-	final private GeoPoint ClosestPoint(GeoPoint P, GeoLine g) {
+	final private GeoPointND ClosestPoint(GeoPointND P, Path g) {
 		
 		Construction cons = kernel.getConstruction();
 		
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		AlgoClosestPoint cp = new AlgoClosestPoint(cons, g, P);
-
+		AlgoClosestPoint cp = kernel.getAlgoDispatcher().getNewAlgoClosestPoint(cons, g, P);
+		
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return cp.getP();
 	}

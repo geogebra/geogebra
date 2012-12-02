@@ -733,7 +733,7 @@ public class AlgoDispatcher {
 	/**
 	 * Distance named label between point P and line g
 	 */
-	final public GeoNumeric Distance(String label, GeoPoint P, GeoElement g) {
+	final public GeoNumeric Distance(String label, GeoPointND P, GeoElement g) {
 		AlgoDistancePointObject algo = new AlgoDistancePointObject(cons, label,
 				P, g);
 		GeoNumeric num = algo.getDistance();
@@ -1588,6 +1588,18 @@ public class AlgoDispatcher {
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();
 		return point;
+	}
+
+	/**
+	 * 
+	 * @param cons2
+	 * @param path
+	 * @param point
+	 * @return new algo closest point for path and point
+	 */
+	public AlgoClosestPoint getNewAlgoClosestPoint(Construction cons2, Path path,
+			GeoPointND point) {
+		return new AlgoClosestPoint(cons2, path, point);
 	}
 
 }

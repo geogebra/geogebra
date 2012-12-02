@@ -79,6 +79,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -4435,9 +4436,17 @@ public class Kernel {
 	private AlgoDispatcher algoDispatcher;
 	public AlgoDispatcher getAlgoDispatcher() {
 		if (algoDispatcher == null) {
-			algoDispatcher = new AlgoDispatcher(cons);
+			algoDispatcher = newAlgoDispatcher();
 		}
 		return algoDispatcher;
+	}
+	
+	/**
+	 * 
+	 * @return new instance of AlgoDispatcher
+	 */
+	protected AlgoDispatcher newAlgoDispatcher(){
+		return new AlgoDispatcher(cons);
 	}
 
 	public GeoRayND Ray(String label, GeoPoint p, GeoPoint q) {
