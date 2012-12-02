@@ -218,7 +218,7 @@ public abstract class EuclidianController {
 
 	protected ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
 
-	protected ArrayList<GeoSegment> selectedSegments = new ArrayList<GeoSegment>();
+	protected ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
 
 	protected ArrayList<Region> selectedRegions = new ArrayList<Region>();
 
@@ -884,7 +884,7 @@ public abstract class EuclidianController {
 
 	protected final void getSelectedSegmentsND(GeoSegmentND[] segments) {
 		int i = 0;
-		Iterator<GeoSegment> it = selectedSegments.iterator();
+		Iterator<GeoSegmentND> it = selectedSegments.iterator();
 		while (it.hasNext()) {
 			segments[i] = it.next();
 			i++;
@@ -4620,7 +4620,10 @@ public abstract class EuclidianController {
 		}
 	
 		// SEGMENT
-		else if (selSegments() == 1) {
+		else if ((selSegments() == 1) && (selPoints() != 1)) { //prevent distance point-segment
+			
+			App.printStacktrace("");
+			
 			// length
 			GeoSegmentND[] segments = getSelectedSegmentsND();
 	
@@ -4828,7 +4831,7 @@ public abstract class EuclidianController {
 		}
 		// we already have a segment that defines the radius
 		else if (selSegments() == 1) {
-			GeoSegment segment = selectedSegments.get(0);
+			GeoSegmentND segment = selectedSegments.get(0);
 	
 			// check for centerPoint
 			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);

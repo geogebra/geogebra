@@ -55,6 +55,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 	// preview of circle (two points or three points)
 	private ArrayList<GeoPointND> prevPoints;
-	private ArrayList<GeoSegment> prevSegments;
+	private ArrayList<GeoSegmentND> prevSegments;
 	private ArrayList<GeoConicND> prevConics;
 	private GeoPoint[] previewTempPoints;
 	private GeoNumeric previewTempRadius;
@@ -221,7 +222,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param conics preview conics
 	 */
 	public DrawConic(EuclidianView view, int mode, ArrayList<GeoPointND> points,
-			ArrayList<GeoSegment> segments, ArrayList<GeoConicND> conics) {
+			ArrayList<GeoSegmentND> segments, ArrayList<GeoConicND> conics) {
 		this.view = view;
 		prevPoints = points;
 		prevSegments = segments;
@@ -1272,7 +1273,7 @@ final public class DrawConic extends Drawable implements Previewable {
 					GeoPointND p2 = prevPoints.get(1);
 					previewTempRadius.setValue(p1.distance(p2));
 				} else if (prevSegments.size() == 1) {
-					GeoSegment seg = prevSegments.get(0);
+					GeoSegmentND seg = prevSegments.get(0);
 					previewTempRadius.setValue(seg.getLength());
 				} else if (prevConics.size() == 1) {
 					GeoConicND prevCircle = prevConics.get(0);
