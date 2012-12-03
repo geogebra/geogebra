@@ -1960,21 +1960,24 @@ public class Construction {
 					labelWithout$.append(ch);
 				}
 			}
+			String labelString = labelWithout$.toString();
 			// allow automatic creation of elements
-			geo = lookupLabel(labelWithout$.toString(), allowAutoCreate);
+			geo = lookupLabel(labelString, allowAutoCreate);
 			if (geo != null) {
 				// geo found for name that includes $ signs
 				return checkConstructionStep(geo);
 			}
-			int cell = 0;
-			try{
-				cell = Integer.parseInt(labelWithout$.toString());
+			if(labelString.charAt(0)>='0' && labelString.charAt(0)<='9'){
+				int cell = 0;
+				try{
+					cell = Integer.parseInt(labelWithout$.toString());
+					}
+				catch(Exception e){
+					e.printStackTrace();
 				}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			if(cell>0){
-				return this.getCasCell(cell-1);
+				if(cell>0){
+					return this.getCasCell(cell-1);
+				}
 			}
 		}
 
