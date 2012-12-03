@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.MyError;
 
 /**
@@ -43,7 +44,7 @@ public class CmdPerimeter extends CommandProcessor {
 			} else if ( (arg[0].isGeoConic())) {
 
 				GeoElement[] ret = { getAlgoDispatcher().Circumference(c.getLabel(),
-						(GeoConic) arg[0]) };
+						(GeoConicND) arg[0]) };
 				return ret;
 
 			} else if ( (arg[0].isGeoLocus())) {
