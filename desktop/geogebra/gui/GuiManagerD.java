@@ -257,7 +257,8 @@ public class GuiManagerD extends GuiManager {
 		layout.registerPanel(new ProbabilityCalculatorDockPanel((AppD)app));
 
 		// register Properties view
-		layout.registerPanel(new PropertiesDockPanel((AppD)app));
+		propertiesDockPanel = new PropertiesDockPanel((AppD)app);
+		layout.registerPanel(propertiesDockPanel);
 
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanel((AppD)app));
@@ -271,6 +272,16 @@ public class GuiManagerD extends GuiManager {
 			layout.registerPanel(new AssignmentDockPanel(app));
 		}*/
 
+	}
+	
+	private PropertiesDockPanel propertiesDockPanel = null;
+	
+	/**
+	 * 
+	 * @return the properties dock panel
+	 */
+	public PropertiesDockPanel getPropertiesDockPanel(){
+		return propertiesDockPanel;
 	}
 
 	/**

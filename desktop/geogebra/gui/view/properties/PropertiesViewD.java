@@ -20,6 +20,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.OptionPanelD;
 import geogebra.gui.dialog.options.OptionsAdvancedD;
 import geogebra.gui.dialog.options.OptionsCASD;
@@ -31,6 +32,7 @@ import geogebra.gui.dialog.options.OptionsSpreadsheetD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
+import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
@@ -227,6 +229,9 @@ public class PropertiesViewD extends
 	@Override
 	public void updatePropertiesView() {
 
+		if (!isShowing())
+			return;
+		
 		setOptionPanelRegardingFocus(false);
 	}
 
@@ -675,6 +680,9 @@ public class PropertiesViewD extends
 	}
 
 	public void rename(GeoElement geo) {
+		if (!isShowing())
+			return;
+		
 		((OptionsObjectD) objectPanel).rename(geo);
 		((OptionsObjectD) objectPanel).getTree().rename(geo);
 		updateTitleBar();
@@ -682,6 +690,9 @@ public class PropertiesViewD extends
 	}
 
 	public void update(GeoElement geo) {
+		
+		if (!isShowing())
+			return;
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
@@ -691,20 +702,29 @@ public class PropertiesViewD extends
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
-		// update(geo);
+
+		if (!isShowing())
+			return;
+		
 		((OptionsObjectD) objectPanel).updateVisualStyle(geo);
 		((OptionsObjectD) objectPanel).getTree().updateVisualStyle(geo);
 
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
-		// TODO Auto-generated method stub
+		
+		if (!isShowing())
+			return;
+			
 		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
 		((OptionsObjectD) objectPanel).getTree().updateAuxiliaryObject(geo);
 
 	}
 
 	public void repaintView() {
+		
+		if (!isShowing())
+			return;
 
 		if (objectPanel != null) {
 			((OptionsObjectD) objectPanel).getTree().repaint();
@@ -765,6 +785,9 @@ public class PropertiesViewD extends
 
 	@Override
 	public void updateSelection() {
+		
+		if (!isShowing())
+			return;
 		
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
@@ -981,8 +1004,12 @@ public class PropertiesViewD extends
 
 
 	public boolean isShowing() {
-	    App.debug("unimplemented");
-		return false;
+	   
+		PropertiesDockPanel dockPanel = ((GuiManagerD) app.getGuiManager()).getPropertiesDockPanel();
+		if (dockPanel==null)
+			return false;
+		
+		return dockPanel.isVisible();
 	}
 
 }
