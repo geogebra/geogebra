@@ -311,13 +311,18 @@ public class ToolBar {
 		 */
 	
 		// measurements
-		/*
-		 * sb.append(" || "); sb.append(EuclidianView.MODE_ANGLE);
-		 * sb.append(" "); sb.append(EuclidianView.MODE_ANGLE_FIXED);
-		 * sb.append(" , "); sb.append(EuclidianView.MODE_DISTANCE);
-		 * sb.append(" "); sb.append(EuclidianView.MODE_AREA); sb.append(" ");
-		 * sb.append(EuclidianView.MODE_SLOPE);
-		 */
+		
+		sb.append(" || "); 
+		//sb.append(EuclidianConstants.MODE_ANGLE);
+		//sb.append(" "); 
+		//sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
+		//sb.append(" , "); 
+		sb.append(EuclidianConstants.MODE_DISTANCE);
+		sb.append(" "); 
+		sb.append(EuclidianConstants.MODE_AREA); 
+		//sb.append(" ");
+		//sb.append(EuclidianConstants.MODE_SLOPE);
+
 	
 		// transformations
 		/*

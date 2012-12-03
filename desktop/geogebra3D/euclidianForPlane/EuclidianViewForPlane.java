@@ -113,6 +113,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		case CONIC3D:
 		case ANGLE:
 		case ANGLE3D:
+		case TEXT:
 			return geo.isVisibleInView3D();
 		default:
 			return false;
