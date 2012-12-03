@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianPen;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
 import geogebra.common.main.App;
@@ -45,6 +46,7 @@ public class SMARTEventListener implements SBSDKListener{
 
 	private SBSDK board;
 	private AppD app;
+	private EuclidianViewND view;
 	
 	/** save selection for pen */
 	private int penSelection;
@@ -56,11 +58,21 @@ public class SMARTEventListener implements SBSDKListener{
 	/** which tool was last active */
 	private ToolType activeTool;
 
-	public SMARTEventListener(AppD app, SBSDK board) {
+	public SMARTEventListener(AppD app, SBSDK board, EuclidianViewND view) {
 		this.app = app;
 		this.board = board;
+		this.view=view;
 		penSelection=-1;
 		moveEvent=false;
+//		for (int i:new int[]{1,257,513}){
+//			if (board.getToolType(i)==SBSDK_TOOL_TYPE.SB_PEN){
+//				App.debug("active tool at pointer "+i+".");
+//				activeTool=ToolType.PEN;
+//				EuclidianPen ep=view.getEuclidianController().getPen();
+//				ep.setPenSize(2*board.getToolWidth(i));
+//				ep.setPenColor(geogebra.common.factories.AwtFactory.prototype.newColor(board.getToolColor(i).getRGB()));
+//			}
+//		}
 	}
 	
 	
@@ -70,12 +82,12 @@ public class SMARTEventListener implements SBSDKListener{
 		//will be sent when the user starts a gesture (SBSDKBase.SBSDK_GESTURE_EVENT_FLAG.SB_GEF_SEND_ALL_THROUGH_SDK has to be set)
 		print("onGestureDown","GestureID",iGestureId,"type",iType,"x",x,"y",y,"rotation",fRotation,"scale",fScale);
 		if (iType==SBSDK_GESTURE_TYPE.SB_GT_PAN){
-			app.getActiveEuclidianView().rememberOrigins();
+			view.rememberOrigins();
 			gestureStartLoc=new GPoint(x,y);
 		}else if (iType==SBSDK_GESTURE_TYPE.SB_GT_SCALE){
 			gestureStartLoc=new GPoint(x,y);
 		}else if (iType==SBSDK_GESTURE_TYPE.SB_GT_RIGHT_CLICK){
-			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
+			JPanel euclViewPanel=view.getJPanel();
 			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
 			dispatchEvent(me);
 		}
@@ -88,16 +100,20 @@ public class SMARTEventListener implements SBSDKListener{
 		//will be sent when the user moves (or holds) a gesture (SBSDKBase.SBSDK_GESTURE_EVENT_FLAG.SB_GEF_SEND_ALL_THROUGH_SDK has to be set)
 		print("onGestureMove","GestureID",iGestureId,"type",iType,"x",x,"y",y,"rotation",fRotation,"scale",fScale);//,"gstrtX",gestureStartLoc.x,"gstrY",gestureStartLoc.y);
 		if (iType==SBSDK_GESTURE_TYPE.SB_GT_PAN){
-			app.getActiveEuclidianView().setCoordSystemFromMouseMove(x - gestureStartLoc.x,
+			view.setCoordSystemFromMouseMove(x - gestureStartLoc.x,
 						y - gestureStartLoc.y, EuclidianController.MOVE_VIEW);
 		}else if (iType==SBSDK_GESTURE_TYPE.SB_GT_SCALE){
-			EuclidianViewND v=app.getActiveEuclidianView();
+			EuclidianViewND v=view;
 			double factor=1.+fScale;
 			v.setCoordSystem(x + (v.getXZero() - x) * factor, y + (v.getYZero() - y) * factor, v.getXscale()*factor,v.getYscale()*factor);
 		}else if (iType==SBSDK_GESTURE_TYPE.SB_GT_RIGHT_CLICK){
-			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
-			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
-			dispatchEvent(me);
+			/**
+			 * This Move-Event is at most sent once, for the Right-click gesture, so we can't
+			 * use it in any useful way. Also it might lead to an unwanted zoom in.
+			 */
+//			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
+//			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
+//			dispatchEvent(me);
 		}
 	}
 
@@ -108,7 +124,7 @@ public class SMARTEventListener implements SBSDKListener{
 		//will be sent when the user "ends" a gesture (SBSDKBase.SBSDK_GESTURE_EVENT_FLAG.SB_GEF_SEND_ALL_THROUGH_SDK has to be set)
 		print("onGestureUp","GestureID",iGestureId,"type",iType,"x",x,"y",y,"rotation",fRotation,"scale",fScale);
 		if (iType==SBSDK_GESTURE_TYPE.SB_GT_RIGHT_CLICK){
-			JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
+			JPanel euclViewPanel=view.getJPanel();
 			MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
 			dispatchEvent(me);
 			me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false,MouseEvent.BUTTON3);
@@ -258,7 +274,7 @@ public class SMARTEventListener implements SBSDKListener{
 				penSelection=EuclidianConstants.MODE_PEN;
 			}
 			app.setMode(penSelection);
-			EuclidianPen ep=app.getActiveEuclidianView().getEuclidianController().getPen();
+			EuclidianPen ep=view.getEuclidianController().getPen();
 			ep.setPenSize(2*d.getStrokeSize());
 			ep.setPenColor(geogebra.common.factories.AwtFactory.prototype.newColor(c.getRGB()));
 			activeTool=ToolType.PEN;
@@ -279,8 +295,8 @@ public class SMARTEventListener implements SBSDKListener{
 		case USE_ERASER:
 			activeTool=ToolType.ERASER;
 			app.setMode(EuclidianConstants.MODE_DELETE);
-			app.getActiveEuclidianView().getEuclidianController()
-					.setDeleteToolSize(d.getStrokeSize()*2);
+			view.getEuclidianController()
+					.setDeleteToolSize((int)(1.2*d.getStrokeSize()));
 			break;
 		}
 	}
@@ -293,7 +309,7 @@ public class SMARTEventListener implements SBSDKListener{
 				Integer.toString(iPointerID));
 		lastMoveX=-1;
 		lastMoveY=-1;
-		JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
+		JPanel euclViewPanel=view.getJPanel();
 		MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_PRESSED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
 		dispatchEvent(me);
 	}
@@ -307,7 +323,7 @@ public class SMARTEventListener implements SBSDKListener{
 		if (x!=lastMoveX||y!=lastMoveY){
 				lastMoveX=x;
 				lastMoveY=y;
-				JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
+				JPanel euclViewPanel=view.getJPanel();
 				MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_DRAGGED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
 				dispatchEvent(me);
 		}
@@ -318,7 +334,7 @@ public class SMARTEventListener implements SBSDKListener{
 		print("onXYUp", "x", Integer.toString(x), "y", Integer.toString(y),
 				"z", Integer.toString(z), "iPointerID",
 				Integer.toString(iPointerID));
-		JPanel euclViewPanel=app.getActiveEuclidianView().getJPanel();
+		JPanel euclViewPanel=view.getJPanel();
 		MouseEvent me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);
 		dispatchEvent(me);
 		me=new MouseEvent(euclViewPanel, MouseEvent.MOUSE_CLICKED, 0, 0, x, y, 1, false,MouseEvent.BUTTON1);

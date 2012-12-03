@@ -52,6 +52,7 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -76,6 +77,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
 	private static FileDropTargetListener dropTargetListener;
+	
+	private static List<NewInstanceListener> instanceListener=new ArrayList<NewInstanceListener>();
 
 	protected AppD app;
 
@@ -269,6 +272,14 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	public static synchronized GeoGebraFrame getActiveInstance() {
 		return activeInstance;
 	}
+	
+	/**
+	 * adds a NewInstanceListener, fired whenever a new Instance of GeoGebraFrame is created.
+	 * @param l
+	 */
+	public static void addNewInstanceListener(NewInstanceListener l){
+		instanceListener.add(l);
+	}
 
 	/**
 	 * MacOS X specific initialization. Note: this method can only be run on a
@@ -411,6 +422,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			}
 		});
 
+		for (NewInstanceListener l:instanceListener){
+			l.newInstance(wnd);
+		}
+		
 		return wnd;
 	}
 

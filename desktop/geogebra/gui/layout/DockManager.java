@@ -19,6 +19,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import javax.swing.JSplitPane;
@@ -65,6 +66,13 @@ public class DockManager implements AWTEventListener, SetLabels {
 	private ArrayList<DockPanel> dockPanels;
 	
 	/**
+	 * List of DockPanelListeners, informed when some dockpanel is shown.
+	 */
+	private List<ShowDockPanelListener> showDockPanelListener;
+	
+	
+	
+	/**
 	 * @param layout
 	 */
 	public DockManager(LayoutD layout) {
@@ -72,6 +80,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		this.app = layout.getApplication();
 		
 		dockPanels = new ArrayList<DockPanel>();
+		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
 		glassPane = new DockGlassPane(this);
 		
 		if(!app.isApplet()) {
@@ -660,6 +669,10 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		unmarkAlonePanels();
 		markAlonePanel();
+		
+		for (ShowDockPanelListener l:showDockPanelListener){
+			l.showDockPanel(panel);
+		}
 	}
 	
 	/**
@@ -1408,7 +1421,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 		app.updateMenubar();
 	}
 	
-	
+	public void addShowDockPanelListener(ShowDockPanelListener l){
+		showDockPanelListener.add(l);
+	}
 	
 	
 }

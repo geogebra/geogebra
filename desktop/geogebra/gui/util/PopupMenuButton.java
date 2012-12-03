@@ -214,7 +214,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 			// add a mouse listener to handle table selection
 			myTable.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseReleased(MouseEvent e) {
 					handlePopupActionEvent();
 				}
 			});

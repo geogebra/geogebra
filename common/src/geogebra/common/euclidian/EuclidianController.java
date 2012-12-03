@@ -9332,7 +9332,7 @@ public abstract class EuclidianController {
 			break;
 		case EuclidianConstants.MODE_PEN:
 			getPen().setFreehand(false);
-			getPen().setAbsoluteScreenPosition(true);
+//			getPen().setAbsoluteScreenPosition(true);
 			break;
 			/*
 		case EuclidianConstants.MODE_PENCIL:

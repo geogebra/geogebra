@@ -170,6 +170,7 @@ public class EuclidianPen {
 		eraserSize = 32;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.black;
+		setAbsoluteScreenPosition(true);
 	}
 
 	/**
@@ -243,8 +244,8 @@ public class EuclidianPen {
 		GGraphics2D g2D = view.getGraphicsForPen();
 		GShape circle;
 		g2D.setColor(penColor);
-		circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize,
-				e.getY() - penSize, penSize * 2, penSize * 2);
+		circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize/2-1,
+				e.getY() - penSize/2-1, penSize+2, penSize+2);
 		g2D.fill(circle);
 
 		if (minX > e.getX())
