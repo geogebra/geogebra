@@ -4414,7 +4414,7 @@ public abstract class EuclidianController {
 	
 		// area of CONIC
 		if (selConics() == 1) {
-			GeoConic conic = getSelectedConics()[0];
+			GeoConicND conic = getSelectedConicsND()[0];
 	
 			// check if arc
 			if (conic.isGeoConicPart()) {
@@ -4431,8 +4431,7 @@ public abstract class EuclidianController {
 			GeoNumeric area = getAlgoDispatcher().Area(null, conic);
 	
 			// text
-			GeoText text = createDynamicText("AreaOfA", conic, area,
-					event.getPoint());
+			GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area);
 			if (conic.isLabelSet()) {
 				area.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Area"))
 						+ conic.getLabelSimple()));

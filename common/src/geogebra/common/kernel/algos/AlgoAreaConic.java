@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
@@ -33,10 +34,10 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
  */
 public class AlgoAreaConic extends AlgoElement {
 
-	private GeoConic  conic;  // input
+	private GeoConicND  conic;  // input
     private GeoNumeric area;     // output           
         
-    public AlgoAreaConic(Construction cons, String label, GeoConic c) {       
+    public AlgoAreaConic(Construction cons, String label, GeoConicND c) {       
 	  super(cons); 
       this.conic = c;
       area = new GeoNumeric(cons); 

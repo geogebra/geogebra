@@ -688,7 +688,7 @@ public class AlgoDispatcher {
 	/**
 	 * Area named label of conic
 	 */
-	final public GeoNumeric Area(String label, GeoConic c) {
+	final public GeoNumeric Area(String label, GeoConicND c) {
 		AlgoAreaConic algo = new AlgoAreaConic(cons, label, c);
 		GeoNumeric num = algo.getArea();
 		return num;
