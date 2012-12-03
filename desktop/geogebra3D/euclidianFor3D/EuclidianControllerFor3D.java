@@ -1,22 +1,15 @@
 package geogebra3D.euclidianFor3D;
 
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.algos.AlgoClosestPoint;
-import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
-import geogebra3D.kernel3D.AlgoClosestPoint3D;
 import geogebra3D.kernel3D.AlgoMidpoint3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 

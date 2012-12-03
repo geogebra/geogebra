@@ -3011,7 +3011,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	@Override
-	protected GeoText createDynamicTextForPolygonArea(String type, GeoElement object, GeoElement value) {
+	protected GeoText createDynamicTextForMouseLoc(String type, GeoElement object, GeoElement value) {
 		GeoText text = createDynamicText(type, object, value);
 		
 		if (text!=null){
