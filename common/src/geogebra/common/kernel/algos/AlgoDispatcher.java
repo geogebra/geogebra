@@ -705,7 +705,7 @@ public class AlgoDispatcher {
 	/**
 	 * Circumference named label of GeoConic
 	 */
-	final public GeoNumeric Circumference(String label, GeoConic conic) {
+	final public GeoNumeric Circumference(String label, GeoConicND conic) {
 		AlgoCircumferenceConic algo = new AlgoCircumferenceConic(cons, label,
 				conic);
 		return algo.getCircumference();

@@ -4684,7 +4684,7 @@ public abstract class EuclidianController {
 	
 		// circumference of CONIC
 		else if (selConics() == 1) {
-			GeoConic conic = getSelectedConics()[0];
+			GeoConicND conic = getSelectedConicsND()[0];
 			if (conic.isGeoConicPart()) {
 				
 				Construction cons = kernel.getConstruction();

@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.integration.EllipticArcLength;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
@@ -30,7 +31,7 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 public class AlgoCircumferenceConic extends AlgoElement {
 
 	// Take a conic as input
-	private GeoConic conic;
+	private GeoConicND conic;
 
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric circum;
@@ -38,12 +39,12 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	// Helper to calculate circumference for ellipse
 	private EllipticArcLength ellipticArcLength = null;
 
-	public AlgoCircumferenceConic(Construction cons, String label, GeoConic conic) {
+	public AlgoCircumferenceConic(Construction cons, String label, GeoConicND conic) {
 		this(cons, conic);
 		circum.setLabel(label);
 	}
 
-	AlgoCircumferenceConic(Construction cons, GeoConic conic) {
+	AlgoCircumferenceConic(Construction cons, GeoConicND conic) {
 		super(cons);
 		this.conic = conic;
 

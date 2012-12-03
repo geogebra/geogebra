@@ -15,6 +15,7 @@ package geogebra.common.kernel.integration;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -29,7 +30,7 @@ public class EllipticArcLength {
 	 * Creates new elliptic arc length calculator
 	 * @param ellipse ellipse
 	 */
-	public EllipticArcLength(GeoConic ellipse) {
+	public EllipticArcLength(GeoConicND ellipse) {
 		halfAxes = ellipse.getHalfAxes();
 		arcLengthFunction = new EllipticArcLengthFunction();
 	}
