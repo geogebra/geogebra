@@ -86,6 +86,7 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 			switch (type) {
 			case TextArea :
 				textComponent = new JTextArea(rows, columns);
+				setTextAreaLineWrap(true);
 				break;
 			case DynamicText :
 				textComponent = new DynamicTextInputPane(app);
@@ -133,6 +134,19 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 		}		
 	}
 	
+	
+	/**
+	 * Set line wrapping feature for JTextArea components
+	 * 
+	 * @param isWrapped true if line wrapping is supported
+	 */
+	public void setTextAreaLineWrap(boolean isWrapped){
+		if(textComponent instanceof JTextArea){
+			((JTextArea)textComponent).setLineWrap(isWrapped);
+			((JTextArea)textComponent).setWrapStyleWord(isWrapped);
+		}
+	}
+		
 	/**
 	 * Hide/show line numbering in the text component
 	 */
