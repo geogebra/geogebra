@@ -24,7 +24,6 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
-	private GeoPoint geoPoint1;
 	GeoSegment[] segments;
 	GeoPoint[] points;
 	GeoElement[] selGeos;
@@ -37,7 +36,6 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
 				handler, false);
 
-		geoPoint1 = points[0];
 		this.segments = segments;
 		this.points = points;
 		this.selGeos = selGeos;
