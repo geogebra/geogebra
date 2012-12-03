@@ -1,3 +1,8 @@
 The license.txt file has been generated on Unix by running
 
-$ cat license-unfold.txt | fold -s -w 70 > license.txt
+$ cat license-unfold.txt | fold -s -w 70 | \
+ sed s/“/\"/g | \
+ sed s/”/\"/g | \
+ sed s/�/\"/g | \
+ sed s/®/"(R)"/g > license.txt
+# tr \“\”� \"\"\' | sed s/®/"(R)"/g > license.txt

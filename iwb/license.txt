@@ -1,13 +1,13 @@
 SMART Technologies ULC
-SMART Board® Interactive White Board 
+SMART Board(R) Interactive White Board 
 Software Development Kit License Agreement
 
 Last modified:  January 5, 2012.
 
 The terms of this agreement are a legal agreement between you (the 
-“Licensee”, being either an individual or an entity) and SMART 
-Technologies ULC and its affiliates and subsidiaries (“SMART”).  
-Please read this software license agreement (“License”) carefully 
+"Licensee", being either an individual or an entity) and SMART 
+Technologies ULC and its affiliates and subsidiaries ("SMART").  
+Please read this software license agreement ("License") carefully 
 before using the Software.  By using the Software, you are agreeing 
 to be bound by the terms and conditions of this License.  If you do 
 not agree to the terms of this License, do not use the Software.  If 
@@ -19,45 +19,45 @@ update, upgrade, supplement or support service provided by SMART for
 the Software, unless accompanied by a separate license, in which 
 case, that license shall apply.
 1. DEFINITIONS:
-1.1 “Accreditation” means the process for Licensee to submit 
+1.1 "Accreditation" means the process for Licensee to submit 
 Licensee Applications to SMART for verification that the application 
 meets the then current SMART established requirements to be deemed 
 SMART accredited as set out in the SMART’s Software and Content 
 Accreditation Program.  Licensee Applications that have successfully 
-gone through the Accreditation process are deemed “Accredited”.  
+gone through the Accreditation process are deemed "Accredited".  
 The Accreditation process and requirements are available at the SMART 
 Ecosystem Network (at sen.smarttech.com).  SMART may accept or reject 
 such applications in its sole discretion.
-1.1 “Commercial Use” means distribution, redistribution, resale 
+1.1 "Commercial Use" means distribution, redistribution, resale 
 or transfer, or any other form of use for any purpose other than 
 Internal Use, and includes (without limitation) the following 
-purposes: “Free Commercial Use”: licensing or providing for free 
+purposes: "Free Commercial Use": licensing or providing for free 
 download (provided it is truly for free and not as part of a bundled 
 package or offered as an inducement to purchase another product), or 
 for demonstration purposes (subject to the other terms of this 
-License), or “For Fee Commercial Use”: providing, licensing or 
+License), or "For Fee Commercial Use": providing, licensing or 
 sale for a fee (including as part of any type of bundle) or offered 
 as an inducement to purchase another product.
-1.2 “Competitive Product” means any hardware or product bundled 
+1.2 "Competitive Product" means any hardware or product bundled 
 with hardware that is not a SMART Product and that is made 
 commercially available with substantially similar or overlapping 
 functionality as any SMART Product, provided however that a computer 
 used together with a monitor and a single or multiple mice shall not 
 constitute a Competitive Product for the purpose of this License.
-1.3 “Demo Source Code” means source code portions of the Software 
+1.3 "Demo Source Code" means source code portions of the Software 
 that are provided (in both object and source code) to assist Licensee 
 in the development of Licensee Applications, including certain demo 
 or sample code (being code provided for illustrative purposes to 
 assist the Licensee in understanding how a particular function, 
 program or development tool can be used).
-1.4 “Documentation” means SMART proprietary manuals and 
+1.4 "Documentation" means SMART proprietary manuals and 
 instruction documents for the Software, whether in paper or 
 electronic form.
-1.5 “End User” means any party that obtains a copy of the 
+1.5 "End User" means any party that obtains a copy of the 
 Licensee Application for such party’s use and not for further 
 resale, distribution, redistribution, functional modification or 
 application development. 
-1.6 “Internal Use” means distribution, redistribution or any 
+1.6 "Internal Use" means distribution, redistribution or any 
 other form of use within the Licensee organization only, which may 
 include: a) designing, developing, prototyping, evaluating and 
 testing the Licensee Application provided solely within the Licensee 
@@ -69,10 +69,10 @@ redistribution or any other form of use, such as: download, licensing
 or sale for free or for a fee (including as part of any type of 
 bundle) or offered as an inducement to purchase another product, and 
 further excludes resale or transfer.
-1.7 “Licensee Application” means software and/or application 
+1.7 "Licensee Application" means software and/or application 
 developed by the Licensee using the Software or any component of the 
 Software.
-1.8 ”Redistributable” means the compiled executable code which is 
+1.8 "Redistributable" means the compiled executable code which is 
 part of, or results from, the Software and also includes complied, 
 executable derivative works created from the Demo Source Code or 
 otherwise derived by combining the Software in unmodified compiled, 
@@ -82,12 +82,12 @@ be redistributed in an unmodified form. The code entitled SBSDK.lib,
 SBSDK.h, and SBSDKComWrapper.dll (available through the SMART Product 
 Drivers CD) are not Redistributables, however may be used for 
 development purposes, subject to their respective licenses.
-1.9 ”SMART Product” means any and all SMART supplied or branded 
+1.9 "SMART Product" means any and all SMART supplied or branded 
 products on which Licensee Applications can be run, including the 
-SMART Board® interactive white board and other SMART supplied or 
+SMART Board(R) interactive white board and other SMART supplied or 
 branded products introduced by SMART from time-to-time intended for 
 use with the Software.
-1.10 “SMART Product Drivers” means the software (whether 
+1.10 "SMART Product Drivers" means the software (whether 
 accessible via CD, download or through any other media) containing 
 the SMART Board Drivers and other SMART software tools, whether 
 referred to as SMART Product Drivers, SMART Board Drivers, by its 
@@ -95,7 +95,7 @@ file name or any other name, and which interoperate with the SMART
 Notebook software. SMART Product Drivers software may be provided as 
 part of or together with the Notebook software distribution or may be 
 independently distributed as a separate installer package.
-1.11 “Software” means SMART’s proprietary software contained in 
+1.11 "Software" means SMART’s proprietary software contained in 
 the SMART Board interactive white board Software Development Kit 
 (including any and all upgrades, releases, databases and 
 enhancements) delivered to Licensee, whether in object or source code 
@@ -103,7 +103,7 @@ format, and any copies thereof pursuant to this License, and
 includes, without limitation, Demo Source Code, Redistributables, 
 software programs, libraries, third party software and the 
 Documentation delivered to Licensee by SMART. 
-1.12 “Use” means to directly or indirectly install, load, 
+1.12 "Use" means to directly or indirectly install, load, 
 execute, access, employ, utilize, store, or display the Software for 
 the purpose of designing, developing and testing Licensee’s 
 Licensee Applications. For clarity, testing does not mean staging on 
@@ -302,10 +302,10 @@ restrictions contained in this License that would apply to Licensee
 Applications, including the restrictions set out in subsection 
 2.2(f).  
 (i) Licensee Application Name.  Licensee must not name or brand its 
-Licensee Application using the word “SMART” or any phonetic 
+Licensee Application using the word "SMART" or any phonetic 
 variation of that word, by itself or in any combination of words or 
 as part of a word or expression.  Licensee may include the entire 
-phrase “for use with the SMART Board® interactive white board” 
+phrase "for use with the SMART Board(R) interactive white board" 
 after its name or brand of its Licensee Application.  Other than as 
 stated in this Subsection 2.2(i) or in Subsections 2.2(j) or (l), 
 this License does not grant Licensee any right to use any SMART 
@@ -334,16 +334,16 @@ all copies of the Software.  Should Licensee wish to include a
 statement on the Licensee Application referring to Licensee’s use 
 of the SMART Board interactive white board SDK visible to the End 
 User, it must use the following statement only: 
-“Created with the SMART Board® interactive white board SDK.  © 
+"Created with the SMART Board(R) interactive white board SDK.  © 
 2009 - 2012, SMART Technologies.  This product has not been SMART 
-certified.” 
+certified." 
 Licensee may apply to SMART for certification and, if granted, 
 Licensee will be entitled to provide a different attribution 
 statement, as directed by SMART.  
 (m) Access to Third Party Programs.  The Software may include and/or 
 be accompanied by third party software programs and content 
-including, without limitation, freeware, (“Third Party 
-Components”) that may require a separate end-user license agreement 
+including, without limitation, freeware, ("Third Party 
+Components") that may require a separate end-user license agreement 
 from the third party.  If the Licensee is using a Windows operating 
 system, portions of this software use Microsoft Visual C++ and MFC 
 run-times for Visual Studio .NET, Copyright Microsoft Corporation.  
@@ -369,7 +369,7 @@ may be displayed by using the SMART products is the property of the
 respective content owner and may be protected by applicable copyright 
 or other intellectual property laws and treaties.  This License 
 grants Licensee the right to Use such content provided in the 
-Software (if any) on an “as is” basis in Licensee’s Licensee 
+Software (if any) on an "as is" basis in Licensee’s Licensee 
 Application and grants no other rights in or to such content.
 (o) No Viruses.  Licensee shall not create any Licensee Application 
 that, when run on or used in association with a SMART Product or 
@@ -477,16 +477,16 @@ government. Licensee represents and warrants that no official of the
 Canadian or US government has suspended, revoked or denied 
 Licensee’s export privileges.
 8. U.S. GOVERNMENT RESTRICTED RIGHTS:  The Software is a 
-“Commercial Item”, as that term is defined at 48 CFR 2.101, 
-consisting of “Commercial Computer Software” and “Commercial 
-Computer Software Documentation”, as such terms are used in 48 CFR 
+"Commercial Item", as that term is defined at 48 CFR 2.101, 
+consisting of "Commercial Computer Software" and "Commercial 
+Computer Software Documentation", as such terms are used in 48 CFR 
 12.212 or 48 CFR 227.7202, as applicable.  Consistent with 48 CFR 
 12.212 or 48 CFR 227.7202-4, as applicable, the Commercial Computer 
 Software and Commercial Computer Software Documentation are being 
 licensed to US Government Licensees (a) only as Commercial Items; and 
 (b) with only those rights as are granted to all other Licensees 
 pursuant to the terms and conditions herein.
-9. NO WARRANTY:  ANY USE OF THE SOFTWARE IS PROVIDED “AS-IS” AND 
+9. NO WARRANTY:  ANY USE OF THE SOFTWARE IS PROVIDED "AS-IS" AND 
 AT LICENSEE’S OWN RISK.  TO THE MAXIMUM EXTENT PERMITTED BY 
 APPLICABLE LAW, SMART AND ITS SUPPLIERS DISCLAIM ALL WARRANTIES AND 
 CONDITIONS, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED 
@@ -622,15 +622,15 @@ to contact SMART for any reason, please write to either:
 14.12 Notices.  Licensee may provide SMART notice hereunder by 
 sending it to the above address, or such other address SMART shall 
 most recently have notified Licensee (including through the SMART 
-Ecosystem Network website), and shall be sent “Attention: Legal 
-Department”.  Notice to the Licensee, including, without 
+Ecosystem Network website), and shall be sent "Attention: Legal 
+Department".  Notice to the Licensee, including, without 
 limitation, of upgrades or updates to the Software or this License, 
 may be provided by SMART either by a) sending it to the Licensee’s 
 email or business address on record, or such email or business 
 address as Licensee may have most recently notified SMART, or b) 
 providing notification on the SMART Product Update application, 
 accessible a number of ways including:   
-1) “Check for Updates and Activation” menu item in the SMART 
+1) "Check for Updates and Activation" menu item in the SMART 
 Board Tools listing. 
 2) SMART Board Control Panel > About Software and Product Support > 
 Tools > Check for Updates and Activation.  

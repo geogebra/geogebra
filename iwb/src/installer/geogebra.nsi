@@ -214,6 +214,7 @@ Var ASSOCIATE_GGT
 !ifndef uninstaller
   !insertmacro UMUI_PAGE_MULTILANGUAGE
   !insertmacro MUI_PAGE_LICENSE ..\geogebra\gui\_license.txt
+  !insertmacro MUI_PAGE_LICENSE ..\..\iwb\license.txt
   !define MUI_PAGE_CUSTOMFUNCTION_SHOW SetupTypeShow
   !define MUI_PAGE_CUSTOMFUNCTION_LEAVE SetupTypeLeave
   !insertmacro UMUI_PAGE_SETUPTYPE
