@@ -4,7 +4,11 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDispatcher;
+import geogebra.common.kernel.algos.AlgoDistanceLineLine;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -33,6 +37,18 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			return new AlgoClosestPoint3D(cons2, path, point);
 		
 		return super.getNewAlgoClosestPoint(cons2, path, point);
+	}
+	
+	
+	@Override
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+		
+		if (g.isGeoElement3D() || h.isGeoElement3D()){
+			AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g, h);
+			return algo.getDistance();
+		}
+		
+		return super.Distance(label, g, h);
 	}
 
 }

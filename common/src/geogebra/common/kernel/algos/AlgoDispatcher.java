@@ -46,7 +46,7 @@ import java.util.ArrayList;
 
 public class AlgoDispatcher {
 	
-	private Construction cons;
+	protected Construction cons;
 	
 
 

@@ -4672,7 +4672,7 @@ public abstract class EuclidianController {
 	
 		// TWO LINES
 		else if (selLines() == 2) {
-			GeoLine[] lines = getSelectedLines();
+			GeoLineND[] lines = getSelectedLinesND();
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
