@@ -12,8 +12,8 @@ before using the Software.  By using the Software, you are agreeing
 to be bound by the terms and conditions of this License.  If you do 
 not agree to the terms of this License, do not use the Software.  If 
 Licensee is an entity, you acknowledge that you have the authority to 
-accept the terms of this License on the entity’s behalf and shall 
-make other users of the Software aware of the Licensee’s 
+accept the terms of this License on the entity's behalf and shall 
+make other users of the Software aware of the Licensee's 
 responsibilities under this License.  This License applies to any 
 update, upgrade, supplement or support service provided by SMART for 
 the Software, unless accompanied by a separate license, in which 
@@ -22,7 +22,7 @@ case, that license shall apply.
 1.1 "Accreditation" means the process for Licensee to submit 
 Licensee Applications to SMART for verification that the application 
 meets the then current SMART established requirements to be deemed 
-SMART accredited as set out in the SMART’s Software and Content 
+SMART accredited as set out in the SMART's Software and Content 
 Accreditation Program.  Licensee Applications that have successfully 
 gone through the Accreditation process are deemed "Accredited".  
 The Accreditation process and requirements are available at the SMART 
@@ -54,7 +54,7 @@ program or development tool can be used).
 instruction documents for the Software, whether in paper or 
 electronic form.
 1.5 "End User" means any party that obtains a copy of the 
-Licensee Application for such party’s use and not for further 
+Licensee Application for such party's use and not for further 
 resale, distribution, redistribution, functional modification or 
 application development. 
 1.6 "Internal Use" means distribution, redistribution or any 
@@ -95,7 +95,7 @@ file name or any other name, and which interoperate with the SMART
 Notebook software. SMART Product Drivers software may be provided as 
 part of or together with the Notebook software distribution or may be 
 independently distributed as a separate installer package.
-1.11 "Software" means SMART’s proprietary software contained in 
+1.11 "Software" means SMART's proprietary software contained in 
 the SMART Board interactive white board Software Development Kit 
 (including any and all upgrades, releases, databases and 
 enhancements) delivered to Licensee, whether in object or source code 
@@ -105,7 +105,7 @@ software programs, libraries, third party software and the
 Documentation delivered to Licensee by SMART. 
 1.12 "Use" means to directly or indirectly install, load, 
 execute, access, employ, utilize, store, or display the Software for 
-the purpose of designing, developing and testing Licensee’s 
+the purpose of designing, developing and testing Licensee's 
 Licensee Applications. For clarity, testing does not mean staging on 
 a server in a production environment (such as loading content prior 
 to production use), however, does include the right to permit any 
@@ -115,7 +115,7 @@ acceptance testing on the Licensee Application.
 2.1 General.  The Software is protected by copyright laws and 
 international copyright treaties as well as other intellectual 
 property laws and treaties.  The rights granted in this License are 
-limited to SMART’s and its licensors’ intellectual property 
+limited to SMART's and its licensors' intellectual property 
 rights in the Software and do not include any other patents or 
 intellectual property rights. The Software is licensed, not sold and 
 is subject to the terms and restrictions of this License.  This 
@@ -131,7 +131,7 @@ despite the limitations contained in this License, Licensee may only
 use the Software as expressly permitted in this License.  In the 
 event the Software is delivered on a CD, DVD, USB or other form of 
 physical media, Licensee owns such media on which the Software is 
-recorded, but SMART and/or SMART’s licensor(s) retain ownership of 
+recorded, but SMART and/or SMART's licensor(s) retain ownership of 
 the Software itself. 
 2.2 Grant of License.  Subject to Licensee complying with these 
 license terms, Licensee shall have the rights set forth as follows.  
@@ -141,10 +141,10 @@ limitations:
 (a) License Restrictions.  Licensee may Use the Software (i) on an 
 reasonable number of computing devices owned and controlled by 
 Licensee; and (ii) if Licensee has consultants using the Software on 
-the Licensee’s behalf, on one computing device that may be 
+the Licensee's behalf, on one computing device that may be 
 personally owned by each such Licensee consultant, for so long as 
-they continue to be Licensee’s consultant using the Software on the 
-Licensee’s behalf; provided Licensee ensures all users of the 
+they continue to be Licensee's consultant using the Software on the 
+Licensee's behalf; provided Licensee ensures all users of the 
 Software on any such computing devices are made subject to and comply 
 with the terms of this License.
 (b) Copies.  Licensee may make one copy of the Software in 
@@ -163,7 +163,7 @@ restrictions in the Software.
 as described in this subsection 2.2(d), Licensee may not modify, 
 enhance, adapt, or vary the Software, or create derivative works 
 based on the Software, or merge or separate the Software or any 
-component thereof without SMART’s prior written consent.  The Demo 
+component thereof without SMART's prior written consent.  The Demo 
 Source Code is proprietary and confidential to SMART.  Licensee may 
 modify and make derivative works of the Demo Source Code, and may 
 otherwise combine, link statically (or, in the case of the SBSDK.dll 
@@ -184,7 +184,7 @@ License.
 develop, and test the Licensee Application; and to use and distribute 
 Licensee Applications provided however that the Licensee Application 
 and all Redistributables will only be distributed or redistributed: 
-(i) in a manner primarily intended for End User’s use (and not for 
+(i) in a manner primarily intended for End User's use (and not for 
 further resale, transfer, redistribution, development or 
 modification), (ii) in conjunction with, and as part of, a Licensee 
 Application that adds primary and significant functionality to the 
@@ -193,7 +193,7 @@ Redistributables (and, if applicable, to the Demo Source Code), and
 addition to the above limitations, such distribution or 
 redistribution (x) shall be in object code format only; (y) is 
 pursuant to a license agreement, with terms no less protective than 
-contained in this License; and (z) does not use SMART’s name, logo, 
+contained in this License; and (z) does not use SMART's name, logo, 
 or trademarks to market or otherwise in association with any product 
 derived from any component of the Software, subject to the provisions 
 of subsection 2.2(j) below.   LICENSEE SHALL BE LIABLE TO SMART FOR 
@@ -204,7 +204,7 @@ HARMLESS, AND DEFEND SMART FROM AND AGAINST ANY CLAIMS OR LAWSUITS,
 INCLUDING ATTORNEYS' FEES, THAT ARISE OR RESULT FROM THE USE OR 
 DISTRIBUTION OF THE LICENSEE APPLICATION.  The Redistributables are 
 also subject to the export restrictions described in Section 7 below. 
- Licensee shall not, without SMART’s express written prior 
+ Licensee shall not, without SMART's express written prior 
 approval, redistribute the Redistributables in a Licensee Application 
 that is in effect a development tool, allowing third parties to build 
 onto the Licensee Application or build their own Licensee 
@@ -258,7 +258,7 @@ Accreditation by SMART of the Licensee Application, Licensee must
 obtain written approval from SMART in the event the Licensee 
 Application would result in a change in defaults or disable certain 
 functionality of SMART hardware, drivers or software, which approval 
-may be withheld in SMART’s sole discretion.  Licensee shall be 
+may be withheld in SMART's sole discretion.  Licensee shall be 
 solely responsible for, and shall take all precautionary measures to 
 prevent, the Licensee Application disabling or causing SMART 
 hardware, drivers or software to become non-operational; 
@@ -275,7 +275,7 @@ Party Component License Provisions set out below for any
 Redistributables).
 Licensee Applications offered for Commercial Use through a SMART 
 branded website, associated webstore or through a SMART approved 
-program may be removed from such site, store or program at SMART’s 
+program may be removed from such site, store or program at SMART's 
 discretion, including if the Licensee Application is not compatible 
 with a current or the immediately preceding version of the SMART 
 Product.
@@ -316,7 +316,7 @@ medium whatsoever that the Licensee Application is approved,
 accredited or otherwise endorsed by SMART, unless such endorsement 
 has been obtained from SMART through its Software and Content 
 Accreditation Program.  Should Licensee wish to provide SMART prior 
-notice of any public use or display of the Licensee’s Licensee 
+notice of any public use or display of the Licensee's Licensee 
 Applications (including trade industry conferences), it may do so at 
 ecosystem@smarttech.com.
 (k) Applicable Laws.  Licensee must comply with all applicable laws 
@@ -331,10 +331,10 @@ available.
 (l) Proprietary Notices.  Licensee must maintain all trademarks, 
 copyright and other proprietary notices or product identification on 
 all copies of the Software.  Should Licensee wish to include a 
-statement on the Licensee Application referring to Licensee’s use 
+statement on the Licensee Application referring to Licensee's use 
 of the SMART Board interactive white board SDK visible to the End 
 User, it must use the following statement only: 
-"Created with the SMART Board(R) interactive white board SDK.  © 
+"Created with the SMART Board(R) interactive white board SDK.  (C) 
 2009 - 2012, SMART Technologies.  This product has not been SMART 
 certified." 
 Licensee may apply to SMART for certification and, if granted, 
@@ -353,7 +353,7 @@ different from or additional to those contained in this License.  To
 the extent that such licenses are in conflict with any of the rights 
 or obligations granted to the Licensee under this License, the terms 
 of the Third Party Component license shall prevail.  Acceptance of 
-this License also confirms Licensee’s acceptance of such Third 
+this License also confirms Licensee's acceptance of such Third 
 Party Components license terms.  SMART does not endorse or promote 
 any products or services provided by third parties providing the 
 Third Party Components.  You acknowledge that it is your 
@@ -369,7 +369,7 @@ may be displayed by using the SMART products is the property of the
 respective content owner and may be protected by applicable copyright 
 or other intellectual property laws and treaties.  This License 
 grants Licensee the right to Use such content provided in the 
-Software (if any) on an "as is" basis in Licensee’s Licensee 
+Software (if any) on an "as is" basis in Licensee's Licensee 
 Application and grants no other rights in or to such content.
 (o) No Viruses.  Licensee shall not create any Licensee Application 
 that, when run on or used in association with a SMART Product or 
@@ -405,18 +405,18 @@ licenses for these components for use in the Licensee Application.
 Licensee is responsible to ensure it has a valid Microsoft operating 
 system as required by Microsoft prior to installing these components.
 2.3 Proper Use of Software.  Licensee acknowledges that the continued 
-integrity of the Software and SMART’s performance of its 
+integrity of the Software and SMART's performance of its 
 obligations described in this License relies upon the proper Use and 
 maintenance of the Software by Licensee.  Proper Use and maintenance 
 means that Licensee will: 
 (a) install all upgrades and releases made available by SMART, if any;
 (b) use the Software in accordance with the Documentation supplied by 
 SMART and the terms and conditions of this License; and 
-(c) follow SMART’s instructions for installing new releases and for 
+(c) follow SMART's instructions for installing new releases and for 
 correcting and circumventing bugs and fixes to the Software.
 3. DELIVERY AND INSTALLATION:
 3.1 Delivery. Software will be delivered F.C.A. (Incoterms 2000) 
-SMART’s point of manufacture.  Licensee understands and agrees that 
+SMART's point of manufacture.  Licensee understands and agrees that 
 it shall be primarily responsible for the installation of the 
 Software.
 3.2 Acceptance. Licensee agrees that the Software shall be deemed 
@@ -444,19 +444,19 @@ upgrade.  Any such replacement or modified Software or upgrade to the
 Software, or any component thereof, offered to Licensee by SMART 
 shall be considered part of the Software and subject to the terms of 
 this License.  In the event SMART offers a replacement or modified 
-version of or upgrade to the Software (a) Licensee’s continued Use 
+version of or upgrade to the Software (a) Licensee's continued Use 
 of the Software is conditioned on Licensee acceptance of such 
 replacement or modified version of or upgrade to the Software and any 
 accompanying superseding Licensee license agreement and (b) in the 
 case of the replacement, modification, or upgrade of the Software, 
-Licensee’s use of all prior versions of the Software is terminated.
+Licensee's use of all prior versions of the Software is terminated.
 6. TERMINATION:  Without prejudice to any other rights, SMART may 
 terminate this License if Licensee fails to comply with the terms and 
 conditions of this License.  In such event, Licensee must immediately 
 stop using the Software, destroy all copies of the Software and all 
 of its component parts, return or destroy all Documentation in its 
 possession and upon request, provide an affidavit certifying 
-Licensee’s compliance with the foregoing.
+Licensee's compliance with the foregoing.
 7. EXPORT RESTRICTIONS:  Licensee agrees that Licensee will not 
 export or re-export the Software, or any component thereof, or any 
 process or service that is the direct product of the Software (the 
@@ -475,7 +475,7 @@ or entity who has been prohibited from participating in Canadian or
 U.S. export transactions by any official body of the Canadian or U.S. 
 government. Licensee represents and warrants that no official of the 
 Canadian or US government has suspended, revoked or denied 
-Licensee’s export privileges.
+Licensee's export privileges.
 8. U.S. GOVERNMENT RESTRICTED RIGHTS:  The Software is a 
 "Commercial Item", as that term is defined at 48 CFR 2.101, 
 consisting of "Commercial Computer Software" and "Commercial 
@@ -487,7 +487,7 @@ licensed to US Government Licensees (a) only as Commercial Items; and
 (b) with only those rights as are granted to all other Licensees 
 pursuant to the terms and conditions herein.
 9. NO WARRANTY:  ANY USE OF THE SOFTWARE IS PROVIDED "AS-IS" AND 
-AT LICENSEE’S OWN RISK.  TO THE MAXIMUM EXTENT PERMITTED BY 
+AT LICENSEE'S OWN RISK.  TO THE MAXIMUM EXTENT PERMITTED BY 
 APPLICABLE LAW, SMART AND ITS SUPPLIERS DISCLAIM ALL WARRANTIES AND 
 CONDITIONS, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED 
 TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
@@ -515,7 +515,7 @@ BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. BECAUSE SOME
 JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF LIABILITY, 
 THE ABOVE LIMITATION MAY NOT APPLY TO LICENSEE.
 11. LIMITATION OF LIABILITY:  IN ANY CASE, SMART'S ENTIRE LIABILITY 
-AND LICENSEE’S EXCLUSIVE REMEDY UNDER THIS LICENSE SHALL NOT EXCEED 
+AND LICENSEE'S EXCLUSIVE REMEDY UNDER THIS LICENSE SHALL NOT EXCEED 
 TEN DOLLARS (CAD $10.00).
 12. SMART'S SUPPLIERS AND LICENSORS:  ANY RELEASE, DISCLAIMER OR 
 LIMITATION OF SMART'S LIABILITY OR DAMAGES PURSUANT TO THIS LICENSE 
@@ -530,7 +530,7 @@ SAME EXTENT THAT SUCH PROVISIONS APPLY TO SMART.
 HARMLESS, AND DEFEND SMART AND ITS AFFILIATES, AND THEIR OFFICERS 
 DIRECTORS AND EMPLOYEES FROM AND AGAINST ANY AND ALL LIABILITIES, 
 DAMAGES, LOSSES, COSTS AND EXPENSES (INCLUDING BUT NOT LIMITED TO 
-REASONABLE ATTORNEYS’ FEES) INCURRED AS A RESULT OF THE USE, 
+REASONABLE ATTORNEYS' FEES) INCURRED AS A RESULT OF THE USE, 
 MARKETING, DISTRIBUTION OR SALE OF A LICENSEE APPLICATION, INCLUDING 
 ANY CLAIMS ALLEGING THAT ANY LICENSEE APPLICATION INFRINGES ANY THIRD 
 PARTY INTELLECTUAL PROPERTY RIGHTS, PROVIDED SMART PROMPTLY NOTIFIES 
@@ -540,7 +540,7 @@ YOU OF THE CLAIM.
 embodies confidential information of SMART and/or its suppliers and 
 licensors. To the extent Licensee has access to any such information, 
 Licensee agrees to use such information only for the authorized Use 
-of the SMART Product and development of Licensee’s Licensee 
+of the SMART Product and development of Licensee's Licensee 
 Applications.  Other than as incorporated into Licensee Application 
 in accordance with the terms of this License, Licensee further agrees 
 not to disclose such confidential information to any other party and 
@@ -558,7 +558,7 @@ of competent jurisdiction immediately upon request without posting
 bond.  SMART's right to obtain injunctive relief shall not limit its 
 right to seek further remedies.
 14.3 Assignment.  Licensee may not assign this License or any of 
-Licensee’s rights hereunder (by operation of law or otherwise) 
+Licensee's rights hereunder (by operation of law or otherwise) 
 without SMART's prior written consent which may be unreasonably 
 withheld.  For the purposes of this section, an assignment or 
 transfer shall include any change in majority ownership or control of 
@@ -599,7 +599,7 @@ force and effect.
 14.8 Waiver.  The failure by a party to exercise any right hereunder 
 shall not operate as a waiver of such party's right to exercise such 
 right or any other right in the future.
-14.9 Force Majeure.  Either party’s failure to perform it 
+14.9 Force Majeure.  Either party's failure to perform it 
 obligations hereunder shall not be deemed a breach of this License if 
 such failure is due to fire, strike war, civil unrest, acts of 
 terrorism, government regulations, acts of nature, or other causes 
@@ -625,7 +625,7 @@ most recently have notified Licensee (including through the SMART
 Ecosystem Network website), and shall be sent "Attention: Legal 
 Department".  Notice to the Licensee, including, without 
 limitation, of upgrades or updates to the Software or this License, 
-may be provided by SMART either by a) sending it to the Licensee’s 
+may be provided by SMART either by a) sending it to the Licensee's 
 email or business address on record, or such email or business 
 address as Licensee may have most recently notified SMART, or b) 
 providing notification on the SMART Product Update application, 
@@ -656,4 +656,4 @@ Technologies ULC or its affiliates, and may be registered in the
 United States and other jurisdictions.  Other brands, logos and marks 
 are trade-marks of their respective owners. 
 
-© 2009 - 2012, SMART Technologies.
+(C) 2009 - 2012, SMART Technologies.
