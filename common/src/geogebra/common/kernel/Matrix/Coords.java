@@ -137,6 +137,15 @@ public class Coords extends CoordMatrix {
 
 		calcNorm = calcSqNorm = true;
 	}
+	
+	/**
+	 * set values from v
+	 * @param v coords
+	 */
+	public void set(Coords v) {
+		set(v.val);
+	}
+	
 
 	@Override
 	public void set(double val0) {
