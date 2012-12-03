@@ -3195,7 +3195,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			}
 
 			for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
-				if (pix <= maxX) {
+				if (pix >= xAxisStart && pix <= maxX) {
 					if (showAxesNumbers[0]) {
 						String strNum = kernel.formatPiE(rw,
 								axesNumberFormat[0],
@@ -3345,7 +3345,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			// yAxisEnd
 
 			for (; pix >= maxY; rw += axesNumberingDistances[1], pix -= axesStep, labelno++) {
-				if (pix >= maxY) {
+				if (pix >= maxY && pix <= yAxisEnd) {
 					if (showAxesNumbers[1]) {
 						String strNum = kernel.formatPiE(rw,
 								axesNumberFormat[1],
