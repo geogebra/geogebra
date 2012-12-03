@@ -35,8 +35,8 @@
 
 Name "GeoGebraSMART 5.0"
 OutFile "${outfile}"
-Caption "GeoGebraSMART Installer" # see line marked with CAPTION
-BrandingText "GeoGebraSMART ${fullversion} (${builddate})"
+Caption "GeoGebraSMART 5.0 Installer" # see line marked with CAPTION
+BrandingText "GeoGebraSMART ${fullversion}"
 
 
 RequestExecutionLevel highest
@@ -643,7 +643,7 @@ FunctionEnd
  */
 
 VIAddVersionKey CompanyName "International GeoGebra Institute"
-VIAddVersionKey FileDescription "GeoGebraSMART Installer"
+VIAddVersionKey FileDescription "GeoGebraSMART 5.0 Installer"
 VIAddVersionKey FileVersion ${fullversion}
 VIAddVersionKey InternalName GeoGebra_Installer_${versionname}
 VIAddVersionKey LegalCopyright "(C) 2001-2012 International GeoGebra Institute"

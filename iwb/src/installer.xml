@@ -142,15 +142,15 @@ read the following web pages:
 			<define name="fullversion" value="${fullversion}"/>
 			<define name="versionname" value="${versionname}"/>
 			<define name="builddate"   value="${TODAY}"/>
-			<define name="outfile"     value="${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe"/>
+			<define name="outfile"     value="${build.dir}/installer/windows/unsigned/GeoGebraSMART-Windows-Installer-${versionname}.exe"/>
 		</nsis>
 		<!-- Since under Windows we sign the file in-place, we create a copy to the final directory. -->
-		<copy file="${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe"/>
+		<copy file="${build.dir}/installer/windows/unsigned/GeoGebraSMART-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/windows/GeoGebraSMART-Windows-Installer-${versionname}.exe"/>
 		<!-- Signing the bundle. -->
 		<antcall target="installer-windows-sign-installer"/>
 		
 		<!-- Putting the signed bundle to its final place. -->
-		<move file="${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/GeoGebra-Windows-Installer-${versionname}.exe"/>
+		<move file="${build.dir}/installer/windows/GeoGebraSMART-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/GeoGebraSMART-Windows-Installer-${versionname}.exe"/>
 		<!--delete dir="${build.dir}/installer/windows" followsymlinks="false" removeNotFollowedSymlinks="true"/-->
 	</target>
 
@@ -191,13 +191,13 @@ read the following web pages:
 	<!-- Signing the bundle. -->
 	<target name="installer-windows-sign-installer" if="installer-windows-keystore">
 		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
-			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebraSMART-Windows-Installer-${versionname}.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
-			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe' -out '${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebraSMART-Windows-Installer-${versionname}.exe' -out '${build.dir}/installer/windows/GeoGebraSMART-Windows-Installer-${versionname}.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
-			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe' -out '${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebraSMART-Windows-Installer-${versionname}.exe' -out '${build.dir}/installer/windows/GeoGebraSMART-Windows-Installer-${versionname}.exe'"/>
 		</exec>
 	</target>
 
