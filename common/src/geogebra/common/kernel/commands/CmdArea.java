@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.MyError;
 
 /**
@@ -37,7 +38,7 @@ public class CmdArea extends CommandProcessor {
 			// area of conic
 			if (arg[0].isGeoConic()) {
 				GeoElement[] ret = { getAlgoDispatcher().Area(c.getLabel(),
-						(GeoConic) arg[0]) };
+						(GeoConicND) arg[0]) };
 				return ret;
 			}
 			// area of polygon = polygon variable
