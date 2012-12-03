@@ -31,9 +31,12 @@ public class RenameInputHandler implements InputHandler {
 	public boolean processInput(String inputValue) {
 		GeoElement geo = this.geo;
 		
-		if (inputValue == null || inputValue.equals(geo.getLabel(StringTemplate.defaultTemplate)))
+		if (inputValue == null)
 			return false;
-		
+
+		if (inputValue.equals(geo.getLabel(StringTemplate.defaultTemplate)))
+			return true;
+
 		if (!LabelManager.checkName(geo, inputValue)) {
 			app.showError("InvalidInput", inputValue);
 			return false;
@@ -66,6 +69,7 @@ public class RenameInputHandler implements InputHandler {
 		} catch (MyError err) {
 			app.showError("InvalidInput", inputValue);
 		}
+		
 		return false;
 	}
 
