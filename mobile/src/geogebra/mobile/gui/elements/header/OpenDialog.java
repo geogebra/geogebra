@@ -1,13 +1,11 @@
 package geogebra.mobile.gui.elements.header;
 
-import com.google.gwt.dom.client.Text;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.dialog.Dialog;
 import com.googlecode.mgwt.ui.client.dialog.DialogPanel;

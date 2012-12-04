@@ -87,7 +87,7 @@ public class ToolBar extends ButtonBar
 			}
 		}, ClickEvent.getType());
 
-		tools.add(inputBarButton);
+		this.tools.add(inputBarButton);
 		
 		for (ToolBarButton b : this.tools)
 		{

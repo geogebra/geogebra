@@ -22,14 +22,6 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DragEndEvent;
-import com.google.gwt.event.dom.client.DragEndHandler;
-import com.google.gwt.event.dom.client.DragEvent;
-import com.google.gwt.event.dom.client.DragHandler;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;

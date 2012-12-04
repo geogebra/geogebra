@@ -12,7 +12,6 @@ import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
