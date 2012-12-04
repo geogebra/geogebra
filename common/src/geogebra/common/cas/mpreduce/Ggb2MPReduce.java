@@ -215,7 +215,7 @@ public class Ggb2MPReduce {
 		p("NSolve.2",
 				"<<on rounded, numval, roundall$ mynumsolve(%0,%1) >>");
 		p("NSolutions.1",
-				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return map(rhs,mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!)))), iterations=10000)) end>>");
+				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return map(rhs,mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!)))))) end>>");
 		p("NSolutions.2",
 				"<<on rounded, numval, roundall$ map(rhs,mynumsolve(%0,%1)) >>");
 		p("Numerator.1", "num(%0)");
