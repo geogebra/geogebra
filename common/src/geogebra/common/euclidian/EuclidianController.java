@@ -3574,7 +3574,7 @@ public abstract class EuclidianController {
 		Hits oldHighlightedGeos = highlightedGeos.clone();
 
 		// clear old highlighting
-		clearHighlightedGeos();		
+		boolean repaintNeeded = clearHighlightedGeos();		
 
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
@@ -3590,11 +3590,14 @@ public abstract class EuclidianController {
 		// set highlighted objects
 		if (highlightedGeos.size() > 0) {
 			setHighlightedGeos(true);
+			repaintNeeded = true;
 		}
 
 		// if highlightedGeos are the same as the old highlightedGeos, do not repaint
 		// old refreshHighlighting repainted every time when one of them was not empty
-		if (oldHighlightedGeos.size() == highlightedGeos.size() &&
+		if (!repaintNeeded)
+			return false;
+		else if (oldHighlightedGeos.size() == highlightedGeos.size() &&
 			oldHighlightedGeos.containsAll(highlightedGeos))
 			return false;
 
@@ -3656,9 +3659,7 @@ public abstract class EuclidianController {
 
 		app.clearSelectedGeos(repaint,updateSelection);
 		if (repaint) {
-			stopCollectingMinorRepaints();
 			collectedRepaints = false;
-			startCollectingMinorRepaints();
 		}
 
 		// if we clear selection and highlighting,
