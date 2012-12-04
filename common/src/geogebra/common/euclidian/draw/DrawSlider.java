@@ -183,9 +183,9 @@ public class DrawSlider extends Drawable {
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y) {
-		// changed: we want click on fixed slider to move the dot to that point
+		// changed: we want click on fixed slider to increment/decrement the slider a bit
 		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);
-		return line.intersects(x - 2, y - 2, 4, 4);
+		return line.intersects(x - hitThreshold/2, y - hitThreshold/2, hitThreshold, hitThreshold);
 	}
 
 	@Override
