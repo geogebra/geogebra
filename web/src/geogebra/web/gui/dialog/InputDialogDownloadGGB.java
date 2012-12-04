@@ -38,6 +38,7 @@ public class InputDialogDownloadGGB extends InputDialogW{
 	private native void addEventListenerForDownloadButton(Element downloadButton) /*-{
 		//var downloadButton = document.getElementById("downloadButton");
 		$wnd.downloadggb.setDownloadButton(downloadButton);
+		$wnd.tempjs.setDownloadButton(downloadButton);
         //downloadButton.addEventListener("click", $wnd.downloadggb.downloadGGBfunction, false);
 	}-*/;
 	

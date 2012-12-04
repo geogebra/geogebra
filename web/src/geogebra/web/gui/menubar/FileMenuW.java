@@ -68,13 +68,13 @@ public class FileMenuW extends MenuBar {
 				public void execute() {	}
 			});
 			
-//		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Download") ),true,new Command() {
-//			
-//			public void execute() {
-//				//((GgbAPI) app.getGgbApi()).getGGB(true);
-//				((GuiManagerW)(app.getGuiManager())).downloadGGB();
-//			}
-//		});
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Download") ),true,new Command() {
+			
+			public void execute() {
+				//((GgbAPI) app.getGgbApi()).getGGB(true);
+				((GuiManagerW)(app.getGuiManager())).downloadGGB();
+			}
+		});
 			
 			
 

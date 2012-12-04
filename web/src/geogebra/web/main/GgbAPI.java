@@ -139,8 +139,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	
     	JavaScriptObject callback = getDownloadGGBCallback();
     	
-    	//getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
-    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
+    	getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
+    	//getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
     	return "wait for callback";
     }
     
@@ -218,6 +218,138 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	ne["archive"].push(obj);
     }-*/;
 
+	public native void getGGBZipJs(JavaScriptObject arch,
+            boolean includeThumbnail, JavaScriptObject clb) /*-{
+
+		$wnd.zip.workerScriptsPath = "web/js/zipjs/";
+
+		function encodeUTF8(string) {
+			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
+			for (n = 0; n < stringl; n++) {
+				c1 = string.charCodeAt(n);
+				enc = null;
+				if (c1 < 128)
+					end++;
+				else if (c1 > 127 && c1 < 2048)
+					enc = String.fromCharCode((c1 >> 6) | 192) + String.fromCharCode((c1 & 63) | 128);
+				else
+					enc = String.fromCharCode((c1 >> 12) | 224) + String.fromCharCode(((c1 >> 6) & 63) | 128) + String.fromCharCode((c1 & 63) | 128);
+				if (enc != null) {
+					if (end > start)
+						utftext += string.slice(start, end);
+					utftext += enc;
+					start = end = n + 1;
+				}
+			}
+			if (end > start)
+				utftext += string.slice(start, stringl);
+			return utftext;
+		}
+		
+		function ASCIIReader(text) {
+			var that = this;
+		
+			function init(callback, onerror) {
+				that.size = text.length;
+				callback();
+			}
+		
+			function readUint8Array(index, length, callback, onerror) {
+				if (text.length <= index) {
+					return new $wnd.Uint8Array(0);
+				} else if (index < 0) {
+					return new $wnd.Uint8Array(0);
+				} else if (length <= 0) {
+					return new $wnd.Uint8Array(0);
+				} else if (text.length < index + length) {
+					length = text.length - index;
+				}
+				var i, data = new $wnd.Uint8Array(length);
+				for (i = index; i < index + length; i++)
+					data[i - index] = text.charCodeAt(i);
+				callback(data);
+			}
+
+			that.size = 0;
+			that.init = init;
+			that.readUint8Array = readUint8Array;
+		}
+		ASCIIReader.prototype = new $wnd.zip.Reader();
+		ASCIIReader.prototype.constructor = ASCIIReader;
+		
+		//$wnd.zip.useWebWorkers = false;
+		
+		var requestFileSystem = $wnd.webkitRequestFileSystem ||
+	 $wnd.mozRequestFileSystem || $wnd.requestFileSystem;
+		
+		var tmpFilename = "geogebra.ggb";
+        requestFileSystem($wnd.TEMPORARY, 4 * 1024 * 1024 * 1024, function(filesystem) {
+            
+            function create() {
+                filesystem.root.getFile(tmpFilename, {
+                    create : true
+                }, function(ggbFileEntry) {
+                	//obj.downloadggb.setFileSystem(filesystem);
+                    //callback(zipFile, filesystem);
+   					$wnd.zip.createWriter(new $wnd.zip.FileWriter(ggbFileEntry), function(zipWriter) {
+   						
+						function addImage(name, data, callback) {
+							var data2 = data.substr(data.indexOf(',')+1);
+							zipWriter.add(name, new $wnd.zip.Data64URIReader(data2), callback);
+						}
+			
+						function addText(name, data, callback) {
+							$wnd.console.log(name);
+							zipWriter.add(name, new ASCIIReader(data), callback);
+						}
+			
+						function checkIfStillFilesToAdd() {
+							var item,
+								imgExtensions = ["jpg", "png", "gif"];
+							if (arch.archive.length > 0) {
+								$wnd.console.log("arch.archive.length: "+arch.archive.length);
+								item = arch.archive.shift();
+								var ind = item.fileName.lastIndexOf('.');
+								if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
+								//if (item.fileName.indexOf(".png") > -1) 
+										$wnd.console.log("image zipped" + item.fileName);
+										addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
+								} else {
+										$wnd.console.log("text zipped");
+										addText(item.fileName,encodeUTF8(item.fileContent),function(){checkIfStillFilesToAdd();});
+								}
+							} else {
+								zipWriter.close(function(dataURI) {
+										if (typeof clb === "function") {
+											clb(ggbFileEntry);
+											// that's right, this truncation is necessary
+											//clb(dataURI.substr(dataURI.indexOf(',')+1));
+										} else {
+											$wnd.console.log("not callback was given");
+											$wnd.console.log(dataURI);
+										}
+								});
+							}
+						}
+						
+						 checkIfStillFilesToAdd();
+						
+					}, function(error) {
+						$wnd.console.log("error occured while creating ggb zip");
+					});                 
+                });
+            }
+
+            filesystem.root.getFile(tmpFilename, null, function(entry) {
+                entry.remove(create, create);
+            }, create);
+        }, function(e){console.log(e)});
+    
+
+	 }-*/;
+
+
+    
 	private native void getNativeBase64ZipJs(JavaScriptObject arch,
             boolean includeThumbnail, JavaScriptObject clb) /*-{
 
@@ -324,7 +456,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }-*/;
 
 	public native String getNativeBase64(boolean includeThumbnail) /*-{
-		$wnd.console.log("base64 called");
 		var isSaving = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::isSaving()();
 		this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::setSaving(Z)(true);	
 
