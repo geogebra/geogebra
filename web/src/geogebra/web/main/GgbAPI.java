@@ -18,6 +18,7 @@ import java.util.TreeSet;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
@@ -130,18 +131,23 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	return "wait for callback";
     }
     
-    private native JavaScriptObject getDownloadGGBCallback() /*-{
-		return $wnd.tempjs.tempCallback;
+    private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
+		//return $wnd.tempjs.tempCallback;
+		return function(ggbZip){
+				ggburl = ggbZip.toURL();
+				//downloadButton = document.getElementById('downloadButton')
+				downloadButton.download = "geogebra.ggb";
+				downloadButton.setAttribute("ggburl", ggburl);
+				downloadButton.disabled = false;
+			}
     }-*/;
     
-    public String getGGB(boolean includeThumbnail) {
+    public void getGGB(boolean includeThumbnail, Element downloadButton) {
     	createArchiveContent(includeThumbnail);
     	
-    	JavaScriptObject callback = getDownloadGGBCallback();
-    	
+    	JavaScriptObject callback = getDownloadGGBCallback(downloadButton); 	
     	getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
-    	//getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
-    	return "wait for callback";
+
     }
     
     
@@ -280,7 +286,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		//$wnd.zip.useWebWorkers = false;
 		
 		var requestFileSystem = $wnd.webkitRequestFileSystem ||
-	 $wnd.mozRequestFileSystem || $wnd.requestFileSystem;
+			$wnd.mozRequestFileSystem || $wnd.requestFileSystem;
 		
 		var tmpFilename = "geogebra.ggb";
         requestFileSystem($wnd.TEMPORARY, 4 * 1024 * 1024 * 1024, function(filesystem) {

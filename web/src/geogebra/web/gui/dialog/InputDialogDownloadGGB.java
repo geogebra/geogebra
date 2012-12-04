@@ -18,15 +18,13 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		
 		createGUI(app.getMenu("Download"), null, false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
 		//createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);
-		this.btOK.addStyleName("downloadButton");
+		//this.btOK.addStyleName("downloadButton");
 		this.btOK.getElement().setId("downloadButton");
 		this.btOK.setEnabled(false);
 		this.btOK.getElement().setAttribute("ggburl", "a");
 		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
-		addEventListenerForDownloadButton(this.btOK.getElement());
-		//createGGB();
-		((GgbAPI) app.getGgbApi()).getGGB(true);
+		((GgbAPI) app.getGgbApi()).getGGB(true, this.btOK.getElement());
 		this.btOK.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				String ggbURL = DOM.getElementById("downloadButton").getAttribute("ggburl");
@@ -34,18 +32,6 @@ public class InputDialogDownloadGGB extends InputDialogW{
             }
 		});
 	}
-	
-	private native void addEventListenerForDownloadButton(Element downloadButton) /*-{
-		//var downloadButton = document.getElementById("downloadButton");
-		$wnd.downloadggb.setDownloadButton(downloadButton);
-		$wnd.tempjs.setDownloadButton(downloadButton);
-        //downloadButton.addEventListener("click", $wnd.downloadggb.downloadGGBfunction, false);
-	}-*/;
-	
-	private native String createGGB() /*-{
-	    $wnd.downloadggb.downloadGGBfunction();
-	}-*/;
-	
 	
 	public void onClick(ClickEvent e) {
 	    Object source = e.getSource();
