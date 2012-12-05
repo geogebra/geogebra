@@ -1,4 +1,4 @@
-package geogebra.web.gui.app;
+package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
@@ -12,26 +12,19 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class AlgebraPanel extends Composite implements RequiresResize {
+public class AlgebraDockPanelW extends Composite implements RequiresResize {
 
 	private App application;
 
-	private static AlgebraPanelUiBinder uiBinder = GWT
-	        .create(AlgebraPanelUiBinder.class);
-
-	interface AlgebraPanelUiBinder extends UiBinder<ScrollPanel, AlgebraPanel> {
-	}
-
-	@UiField ScrollPanel algebrap;
+	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
 
-	public AlgebraPanel() {
-		initWidget(uiBinder.createAndBindUi(this));
+	public AlgebraDockPanelW() {
+		super();
+		initWidget(algebrap = new ScrollPanel());//temporarily
 		algebrap.setSize("100%", "100%");
 		algebrap.setAlwaysShowScrollBars(false);
-		//aview = Canvas.createIfSupported();
-		//algebrapanel.add(aview);
 	}
 
 	public void setAlgebraView(AlgebraViewW av) {

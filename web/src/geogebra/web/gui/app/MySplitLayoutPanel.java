@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.main.AppW;
@@ -11,14 +12,14 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	private EuclidianDockPanelW ggwGraphicView;
-	private GGWViewWrapper ggwViewWrapper;
+	private AlgebraDockPanelW ggwViewWrapper;
 	private SpreadsheetDockPanelW ggwSpreadsheetView = null;
 
 	private App application;
 
 	public MySplitLayoutPanel(){
 		super();
-		addWest(ggwViewWrapper = new GGWViewWrapper(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
+		addWest(ggwViewWrapper = new AlgebraDockPanelW(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
 
 		addEast(ggwSpreadsheetView = new SpreadsheetDockPanelW(), 0);
 
@@ -58,7 +59,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 		return ggwSpreadsheetView;
 	}
 
-	public GGWViewWrapper getGGWViewWrapper() {
+	public AlgebraDockPanelW getGGWViewWrapper() {
 		return ggwViewWrapper;// this is for the algebra view, by the way
 	}
 
