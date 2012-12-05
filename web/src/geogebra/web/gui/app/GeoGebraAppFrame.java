@@ -8,6 +8,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
@@ -239,8 +240,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	 * 
 	 * EuclidianViewPanel for wrapping textfields
 	 */
-	public EuclidianPanel getEuclidianView1Panel() {
-		return ggwSplitLayoutPanel.getGGWGraphicsView()	.getEuclidianView1Wrapper().getEuclidianPanel();
+	public EuclidianDockPanelW getEuclidianView1Panel() {
+		return ggwSplitLayoutPanel.getGGWGraphicsView()	.getEuclidianView1Wrapper();
 	}
 	
 	public SplitLayoutPanel getGGWSplitLayoutPanel() {

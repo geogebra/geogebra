@@ -45,7 +45,6 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
-import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -55,6 +54,7 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -154,7 +154,7 @@ public class AppW extends App {
 
 	protected ImageManager imageManager;
 
-	private EuclidianPanel euclidianViewPanel;
+	private EuclidianDockPanelW euclidianViewPanel;
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
 	private HashMap<String, String> currentFile = null;
@@ -199,7 +199,7 @@ public class AppW extends App {
 		        + Window.Navigator.getUserAgent());
 		initCommonObjects();
 
-		euclidianViewPanel = new EuclidianPanel();
+		euclidianViewPanel = new EuclidianDockPanelW(false);
 		this.canvas = euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
@@ -1177,7 +1177,7 @@ public class AppW extends App {
 		return canvas;
 	}
 
-	public EuclidianPanel getEuclidianViewpanel() {
+	public EuclidianDockPanelW getEuclidianViewpanel() {
 		return euclidianViewPanel;
 	}
 
@@ -2235,10 +2235,15 @@ public class AppW extends App {
 	 *            Resets the width of the Canvas converning the Width of its
 	 *            wrapper (splitlayoutpanel center)
 	 */
-	public void ggwGraphicsViewWidthChanged(int ggwGraphicsViewWidth) {
+	public void ggwGraphicsViewDimChanged(int width, int height) {
 		getSettings().getEuclidian(1).setPreferredSize(
 		        geogebra.common.factories.AwtFactory.prototype.newDimension(
-		                ggwGraphicsViewWidth, appCanvasHeight));
+		                width, height));
+
+		// simple setting temp.
+		appCanvasHeight = height;
+		appCanvasWidth = width;
+
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint();

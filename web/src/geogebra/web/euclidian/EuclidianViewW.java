@@ -19,7 +19,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
-import geogebra.web.gui.app.EuclidianPanel;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.AppW;
 
@@ -62,7 +62,7 @@ public class EuclidianViewW extends EuclidianView {
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
-	public EuclidianViewW(EuclidianPanel euclidianViewPanel,
+	public EuclidianViewW(EuclidianDockPanelW euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, EuclidianSettings settings) {		
 		super(euclidiancontroller, settings);

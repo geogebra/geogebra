@@ -8,7 +8,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 
 /**
  * @author Arpad Fekete
@@ -20,7 +20,7 @@ public class SpreadsheetDockPanelW extends ResizeComposite /*DockPanelW*/ {
 
 	App application = null;
 
-	SimplePanel toplevel;
+	SimpleLayoutPanel toplevel;
 
 	VerticalPanelSmart ancestor;
 	SpreadsheetStyleBarPanel sstylebar;
@@ -28,13 +28,14 @@ public class SpreadsheetDockPanelW extends ResizeComposite /*DockPanelW*/ {
 
 	public SpreadsheetDockPanelW() {
 		super();
-		initWidget(toplevel = new SimplePanel());
+		initWidget(toplevel = new SimpleLayoutPanel());
 		ancestor = new VerticalPanelSmart();
 		ancestor.add(sstylebar = new SpreadsheetStyleBarPanel());
 		toplevel.add(ancestor);
 	}
 
 	public void onResize() {
+		super.onResize();
 		//App.debug("Resized");
 		if (application != null) {
 

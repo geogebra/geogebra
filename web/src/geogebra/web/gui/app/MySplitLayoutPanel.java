@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.main.AppW;
 
@@ -9,7 +10,7 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 public class MySplitLayoutPanel extends SplitLayoutPanel {
 
-	private GGWGraphicsView ggwGraphicView;
+	private EuclidianDockPanelW ggwGraphicView;
 	private GGWViewWrapper ggwViewWrapper;
 	private SpreadsheetDockPanelW ggwSpreadsheetView = null;
 
@@ -21,7 +22,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 		addEast(ggwSpreadsheetView = new SpreadsheetDockPanelW(), 0);
 
-		add(ggwGraphicView = new GGWGraphicsView());
+		add(ggwGraphicView = new EuclidianDockPanelW(true));
     }
 
 	@Override
@@ -40,14 +41,15 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 		Element wrapper = getWidgetContainerElement(ggwGraphicView);
 		if (application != null)
-			((AppW) application).ggwGraphicsViewWidthChanged(wrapper.getOffsetWidth());
+			((AppW) application).ggwGraphicsViewDimChanged(
+				wrapper.getOffsetWidth(), wrapper.getOffsetHeight());
 	}
 
 	public SplitLayoutPanel getSplitLayoutPanel() {
 	    return this;
     }
 
-	public GGWGraphicsView getGGWGraphicsView() {
+	public EuclidianDockPanelW getGGWGraphicsView() {
 	    // TODO Auto-generated method stub
 	    return ggwGraphicView;
     }
