@@ -40,8 +40,10 @@ public class AlgebraDockPanelW extends ResizeComposite /* DockPanelW */ {
     }
 
 	public void onResize() {
-		if(application.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
-			((HasOffsets)application.getActiveEuclidianView().getEuclidianController()).updateOffsets();
+		if (application != null) {
+			if(application.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
+				((HasOffsets)application.getActiveEuclidianView().getEuclidianController()).updateOffsets();
+		}
 		App.debug("resized");
     }
 
