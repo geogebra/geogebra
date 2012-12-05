@@ -230,6 +230,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 
 	Map extGStates;
 
+	private Dimension pageSize = null;
+
 	/*
 	 * ================================================================================ |
 	 * 1. Constructors & Factory Methods
@@ -393,7 +395,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		for (int i = 1; i <= currentPage; i++) {
 			pages.addPage("Page" + i);
 		}
-		Dimension pageSize = PageConstants.getSize(getProperty(PAGE_SIZE),
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
 				getProperty(ORIENTATION));
 		pages.setMediaBox(0, 0, pageSize.getWidth(), pageSize.getHeight());
 		pages.setResources("Resources");
@@ -530,7 +532,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		// so that the origin is the upper left corner of the page.
 		AffineTransform pageTrafo = new AffineTransform();
 		pageTrafo.scale(1, -1);
-		Dimension pageSize = PageConstants.getSize(getProperty(PAGE_SIZE),
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
 				getProperty(ORIENTATION));
 		Insets margins = PageConstants.getMargins(
 				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
@@ -994,7 +996,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	private double getWidth() {
-		Dimension pageSize = PageConstants.getSize(getProperty(PAGE_SIZE),
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
 				getProperty(ORIENTATION));
 		Insets margins = PageConstants.getMargins(
 				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
@@ -1002,11 +1004,38 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	private double getHeight() {
-		Dimension pageSize = PageConstants.getSize(getProperty(PAGE_SIZE),
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
 				getProperty(ORIENTATION));
 		Insets margins = PageConstants.getMargins(
 				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
 		return pageSize.getHeight() - margins.top - margins.bottom;
+	}
+	
+	
+	/**
+	 * Michael Borcherds (GeoGebra)
+	 * added to allow override of page size
+	 * 
+	 * @param size
+	 * @param orientation
+	 * @return
+	 */
+	private Dimension getSize(String size, String orientation) {
+		if (pageSize != null) {
+			return pageSize;
+		}
+		
+		return PageConstants.getSize(size, orientation);
+	}
+
+	/**
+	 * Michael Borcherds (GeoGebra)
+	 * added to allow override of page size
+	 * 
+	 * @param d
+	 */
+	public void setPageSize(Dimension d) {
+		pageSize  = d;	
 	}
 
 }

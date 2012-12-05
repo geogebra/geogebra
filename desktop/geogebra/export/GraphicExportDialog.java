@@ -888,17 +888,27 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// FontConstants.EMBED_FONTS_TYPE1);
 		props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
 		PDFGraphics2D.setDefaultProperties(props);
-
+		
 		VectorGraphics g;
 		try {
-			g = new PDFGraphics2D(file, new Dimension(
-					pixelWidth, pixelHeight));
+			
+			double printingScale = ev.getPrintingScale();
+			
+			// TODO: why do we need this to make correct size in cm?
+			double factor = 1.76;
 
+			Dimension size = new Dimension(
+					(int)(ev.getExportWidth() * printingScale / factor), (int)(ev.getExportHeight() * printingScale / factor));
+
+			g = new PDFGraphics2D(file, size);
+
+			((PDFGraphics2D)g).setPageSize(size);
+			
 			// make sure LaTeX exported at hi res
 			app.exporting = true;
 
 			g.startExport();
-			ev.exportPaint(g,exportScale);
+			ev.exportPaint(g,printingScale / factor);
 			g.endExport();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
