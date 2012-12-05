@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -10,7 +11,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	private GGWGraphicsView ggwGraphicView;
 	private GGWViewWrapper ggwViewWrapper;
-	private GGWSpreadsheetView ggwSpreadsheetView = null;
+	private SpreadsheetDockPanelW ggwSpreadsheetView = null;
 
 	private App application;
 
@@ -18,7 +19,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 		super();
 		addWest(ggwViewWrapper = new GGWViewWrapper(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
 
-		addEast(ggwSpreadsheetView = new GGWSpreadsheetView(), 0);
+		addEast(ggwSpreadsheetView = new SpreadsheetDockPanelW(), 0);
 
 		add(ggwGraphicView = new GGWGraphicsView());
     }
@@ -26,6 +27,17 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	@Override
     public void onResize() {
 		super.onResize();
+
+		if (ggwSpreadsheetView.getSpreadsheet() == null) {
+			if (getWidgetSize(getGGWSpreadsheetView()) > 0) {
+				ggwSpreadsheetView.showSpreadsheetView(true);
+			}
+		} else {
+			if (getWidgetSize(getGGWSpreadsheetView()) <= 0) {
+				ggwSpreadsheetView.showSpreadsheetView(false);
+			}
+		}
+
 		Element wrapper = getWidgetContainerElement(ggwGraphicView);
 		if (application != null)
 			((AppW) application).ggwGraphicsViewWidthChanged(wrapper.getOffsetWidth());
@@ -40,7 +52,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	    return ggwGraphicView;
     }
 
-	public GGWSpreadsheetView getGGWSpreadsheetView() {
+	public SpreadsheetDockPanelW getGGWSpreadsheetView() {
 		return ggwSpreadsheetView;
 	}
 
@@ -56,5 +68,4 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	   if (ggwSpreadsheetView != null)
 		   ggwSpreadsheetView.attachApp(app);
     }
-
 }

@@ -30,9 +30,10 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 
 public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInterface, /*ComponentListener,
-		FocusListener, Gridable,*/ SettingListener {
+		FocusListener, Gridable,*/ SettingListener, RequiresResize {
 
 	private static final long serialVersionUID = 1L;
 
