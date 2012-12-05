@@ -4,15 +4,11 @@ import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class AlgebraDockPanelW extends Composite implements RequiresResize {
+public class AlgebraDockPanelW extends ResizeComposite /* DockPanelW */ {
 
 	private App application;
 
