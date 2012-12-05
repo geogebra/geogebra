@@ -24,10 +24,14 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		this.btOK.getElement().setAttribute("ggburl", "a");
 		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
-		((GgbAPI) app.getGgbApi()).getGGB(true, this.btOK.getElement());
+		((GgbAPI) app.getGgbApi()).getGGB(true, this.btOK.getElement(), inputPanel.getTextComponent().getTextField().getElement());
 		this.btOK.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				String ggbURL = DOM.getElementById("downloadButton").getAttribute("ggburl");
+				Element dButton = DOM.getElementById("downloadButton");
+				String name = inputPanel.getTextComponent().getTextField().getText();
+				if (name.equals("")) name = "geogebra";
+				dButton.setAttribute("download", name+".ggb");
+				String ggbURL = dButton.getAttribute("ggburl");
 	            Window.open(ggbURL, "_blank", null);
             }
 		});
