@@ -142,6 +142,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point3D" + strFree);
 		freePoint.setObjColor(colPoint);
+		freePoint.setCartesian3D();
 		//freePoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_FREE, freePoint);
 		
@@ -151,6 +152,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point3D" + strDependent);
 		depPoint.setObjColor(colDepPoint);
+		depPoint.setCartesian3D();
 		//depPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_DEPENDENT, depPoint);
 		
@@ -160,6 +162,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("Point3DOn");
 		pathPoint.setObjColor(colPathPoint);
+		pathPoint.setCartesian3D();
 		//pathPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_ON_PATH, pathPoint);
 		
@@ -169,6 +172,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("Point3DInRegion");
 		regionPoint.setObjColor(colRegionPoint);
+		regionPoint.setCartesian3D();
 		//regionPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_IN_REGION, regionPoint);
 		
