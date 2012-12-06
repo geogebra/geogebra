@@ -1968,9 +1968,7 @@ public class AppW extends App {
 		}
 		
 		//return euclidianViewPanel;
-		App.debug("buildAppPanel start");
 		frame.add(euclidianViewPanel);
-		App.debug("buildAppPanel done");
 
 		if (showAlgebraInput){
 			attachAlgebraInput();
