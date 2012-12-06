@@ -239,7 +239,8 @@ public class DrawInequality extends Drawable {
 		if (operation.equals(Operation.NO_OPERATION)) {
 			if (drawable != null) {
 				drawable.updateStrokesJustLineThickness(geo); 
-				drawable.draw(g2);
+				if(geo.getLineThickness()>0)
+					drawable.draw(g2);
 			}
 		} else {
 			if (left != null) {
