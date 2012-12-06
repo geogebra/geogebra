@@ -251,7 +251,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			String keepinputVal = evaluateMPReduce("keepinput!!;");
 			boolean keepInputUsed = !"1".equals(keepinputVal);
 			if (!keepInputUsed) {
-				result = casParser.toGeoGebraString(casInput, tpl);
+				//return directly, we don't want another toGeoGebraString,
+				//because of e and i
+				return casParser.toGeoGebraString(casInput, tpl);
 			}
 		}
 		
