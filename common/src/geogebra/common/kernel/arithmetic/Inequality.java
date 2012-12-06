@@ -197,7 +197,7 @@ public class Inequality {
 				border = conicBorder;
 			}}*/
 		}
-		App.debug(type+":"+coefX+","+coefY);
+		App.trace(type+":"+coefX+","+coefY);
 		if (type == IneqType.INEQUALITY_PARAMETRIC_X || type == IneqType.INEQUALITY_PARAMETRIC_Y) {
 			funBorder = new GeoFunction(kernel.getConstruction());
 			funBorder.setFunction(fun);

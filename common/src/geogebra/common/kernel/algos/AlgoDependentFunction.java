@@ -205,9 +205,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				return funcExpression.replace(x,
 						expandFunctionDerivativeNodes(node.getRight())).wrap();
 			case FUNCTION_NVAR:
-				App.debug("replacing");
-				
-
 				FunctionNVar funN =  ((FunctionalNVar) leftValue)
 						.getFunction();
 				FunctionVariable[] xy = funN.getFunctionVariables();
