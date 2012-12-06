@@ -60,6 +60,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
         setInputOutput(); // for AlgoElement
         
         compute();
+        f.setConstructionDefaults();
     }
     
     /**
