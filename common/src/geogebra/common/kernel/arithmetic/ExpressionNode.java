@@ -4156,16 +4156,19 @@ public class ExpressionNode extends ValidExpression implements
 				} else {
 					sb.append(leftStr);
 				}
-				sb.append(leftBracket(STRING_TYPE));
-				// rightStr is a list of arguments, e.g. {2, 3}
-				// drop the curly braces { and }
-				// or list( and ) in case of mpreduce
-				if (STRING_TYPE.equals(StringType.MPREDUCE)) {
-					sb.append(rightStr.substring(22, rightStr.length() - 2));
-				} else {
-					sb.append(rightStr.substring(1, rightStr.length() - 1));
+				//no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
+				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
+					sb.append(leftBracket(STRING_TYPE));
+					// rightStr is a list of arguments, e.g. {2, 3}
+					// drop the curly braces { and }
+					// or list( and ) in case of mpreduce
+					if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+						sb.append(rightStr.substring(22, rightStr.length() - 2));
+					} else {
+						sb.append(rightStr.substring(1, rightStr.length() - 1));
+					}
+					sb.append(rightBracket(STRING_TYPE));
 				}
-				sb.append(rightBracket(STRING_TYPE));
 			}
 			break;
 
