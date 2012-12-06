@@ -552,8 +552,12 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		public boolean isInverseFillable() {
 			return isFillable();
 		}
-
-		
+		/**
+		 * Reset all inequalities (slow, involves parser)
+		 */
+		public void resetIneqs() {
+			isInequality = fun.initIneqs(getFunctionExpression(), this);
+		}
 		
 		/**
 		 * @return the ineqs

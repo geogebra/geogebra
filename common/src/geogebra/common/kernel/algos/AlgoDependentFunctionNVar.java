@@ -127,9 +127,9 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
 
 			expandedFun.setExpression(node);
 			f.setFunction(expandedFun);
-			//TODO: check whether we need this (we do that in AlgoDependentFunction)
-			//if (f.isBooleanFunction() && f.isLabelSet())
-				//f.resetIneqs();
+			//we need this to update the borders, see #2880
+			if (f.isBooleanFunction() && f.isLabelSet())
+				f.resetIneqs();
 		}
         
         
