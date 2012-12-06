@@ -1,10 +1,12 @@
 #!/bin/bash
 test -r autotest.conf && . ./autotest.conf
 
+TESTPARAMS="m=test&c=&s=0&h=0&v=1&t=1"
 PNGFILE=output.png
 TEMPLATE=webtest-template.js
 PHANTOMJSFILE=webtest.js
 BASE=$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
+REMOTEBASE=$REMOTEWEBTESTPROTOCOL://$REMOTEWEBTESTSERVER:$REMOTEWEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
 REPORT=webtest-out.json
 TIMEOUT=10000
 REPEAT=1000
@@ -13,7 +15,7 @@ COLORS="" # disabling it for easier analyzation
 
 run() {
  TEST="$1"
- PARAMS="f=$TEST&m=test&c=&s=0&h=0&v=1&t=1"
+ PARAMS="f=$TEST&$TESTPARAMS"
  TESTURL="$BASE?$PARAMS"
  echo "Testing URL $TESTURL" >/dev/stderr
  TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g | sed s/"\&"/"\\\\\\\\\&"/g`
@@ -29,28 +31,30 @@ run() {
 
 ansi_analyze() {
 ANSIFILENAME="$1.ansi"
+REMOTEURL="$REMOTEBASE?f=$1&$TESTPARAMS"
 # Taken from http://stackoverflow.com/questions/4174113/how-to-gather-characters-usage-statistics-in-text-file-using-unix-commands:
 cat $ANSIFILENAME | sed 's/\(.\)/\1\n/g' | sort | uniq -c | sort -nr > $ANSIFILENAME.test
 # We created character frequency statistics.
 # 1. If the most frequent character is "space", and no other characters exists,
 # it means no real output is shown. This can be checked by having a 2-lines-output file:
 if [ `cat $ANSIFILENAME.test | wc -l` = 2 ]; then
- echo "Output seems empty for test $1"
+ echo "Output seems empty for test $1 ($REMOTEURL)"
  exit 21
  fi
 # 2. If the "space" character is the most often, it may mean that the output
 # stops at the splash screen:
 cat $ANSIFILENAME.test | head -1 | grep --silent "[0-9]  $" && {
- echo "Output for test $1 seems to be almost empty, maybe too slow"
+ echo "Output for test $1 ($REMOTEURL) seems to be almost empty, maybe too slow"
  exit 22
  }
 }
 
 json_analyze() {
 JSONFILENAME="$1-webtest-out.json"
+REMOTEURL="$REMOTEBASE?f=$1&$TESTPARAMS"
 SYNTAXERROR=`cat $JSONFILENAME | grep SyntaxError`
 if [ "$SYNTAXERROR" != "" ]; then
- echo "$SYNTAXERROR for test $1"
+ echo "$SYNTAXERROR for test $1 ($REMOTEURL)"
  exit 23
  fi
 }
