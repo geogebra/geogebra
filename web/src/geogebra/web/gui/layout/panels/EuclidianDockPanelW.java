@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.app.EuclidianStyleBarPanel;
+import geogebra.web.gui.app.AbsolutePanelSmart;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
 
@@ -22,19 +23,21 @@ public class EuclidianDockPanelW extends ResizeComposite /*DockPanelW*/ {
 
 	VerticalPanelSmart ancestor;
 	EuclidianStyleBarPanel espanel;
-	AbsolutePanel euclidianpanel;
+	AbsolutePanelSmart euclidianpanel;
 	Canvas eview1 = null;
 
 	public EuclidianDockPanelW(boolean stylebar) {
 		super();
-		initWidget(toplevel = new SimpleLayoutPanel());
-		ancestor = new VerticalPanelSmart();
-
-		if (stylebar)
+		if (stylebar) {
+			initWidget(toplevel = new SimpleLayoutPanel());
+			ancestor = new VerticalPanelSmart();
 			ancestor.add(espanel = new EuclidianStyleBarPanel());
+			ancestor.add(euclidianpanel = new AbsolutePanelSmart());
+			toplevel.add(ancestor);
+		} else {
+			initWidget(euclidianpanel = new AbsolutePanelSmart());
+		}
 
-		ancestor.add(euclidianpanel = new AbsolutePanel());
-		toplevel.add(ancestor);
 		eview1 = Canvas.createIfSupported();
 		euclidianpanel.add(eview1);
 	}
@@ -86,5 +89,9 @@ public class EuclidianDockPanelW extends ResizeComposite /*DockPanelW*/ {
 
 	public EuclidianDockPanelW getEuclidianView1Wrapper() {
 		return this;
+	}
+
+	public AbsolutePanel getEuclidianPanel() {
+		return euclidianpanel;
 	}
 }
