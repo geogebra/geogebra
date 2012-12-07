@@ -121,59 +121,14 @@ public final class DrawText extends Drawable {
 		oldXpos = xLabel;
 		oldYpos = yLabel;
 
-		/*
-		 * // use hotEqn for LaTeX if (isLaTeX && eqn == null &&
-		 * !JarManager.JSMATHTEX_LOADED) { eqn = new sHotEqn();
-		 * eqn.setDoubleBuffered(false); eqn.setEditable(false);
-		 * eqn.removeMouseListener(eqn); eqn.removeMouseMotionListener(eqn);
-		 * eqn.setDebug(false); eqn.setOpaque(false);
-		 * //eqn.setFont(view.getFont());
-		 * 
-		 * eqn.setFontname(Application.STANDARD_FONT_NAME); setEqnFontSize();
-		 * view.add(eqn); }
-		 */
-
 		boolean fontChanged = doUpdateFontSize();
-		/*
-		 * // avoid unnecessary updates of LaTeX equation if (isLaTeX) {
-		 * 
-		 * if (JarManager.JSMATHTEX_LOADED) { TeXFormula formula; Icon icon;
-		 * try{ formula = new TeXFormula(labelDesc); icon =
-		 * formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,fontSize); } catch
-		 * (Exception e) { formula = new TeXFormula("LaTeXerror"); icon =
-		 * formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,fontSize);
-		 * 
-		 * }
-		 * 
-		 * labelRectangle.setBounds(xLabel, yLabel, icon.getIconWidth(),
-		 * icon.getIconHeight()); } else { eqn = new sHotEqn();
-		 * eqn.setDoubleBuffered(false); eqn.setEditable(false);
-		 * eqn.removeMouseListener(eqn); eqn.removeMouseMotionListener(eqn);
-		 * eqn.setDebug(false); eqn.setOpaque(false);
-		 * 
-		 * eqn.setFontname(Application.STANDARD_FONT_NAME); setEqnFontSize();
-		 * eqn
-		 * .setForeground(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
-		 * eqn.setBackground(view.getBackground());
-		 * 
-		 * // // set equation // eqn.setEquation(labelDesc); // // // draw
-		 * equation once to get it's image and size //
-		 * eqn.paintComponent(view.getTempGraphics2D()); // eqnImage =
-		 * eqn.getImage(); // eqnSize = eqn.getSize();
-		 * 
-		 * eqnSize = eqn.getSizeof(labelDesc);
-		 * 
-		 * // set bounding box of text component
-		 * labelRectangle.setBounds(xLabel, yLabel, eqnSize.width,
-		 * eqnSize.height); eqn.setBounds(labelRectangle); } } else if
-		 * (text.isNeedsUpdatedBoundingBox()) { // ensure that bounding box gets
-		 * updated by drawing text once
-		 * drawMultilineText(view.getTempGraphics2D()); }
-		 */
+		
+		//some commented code for LaTeX speedup removed in r22321
 
+		//We need check for null bounding box because of SetValue[text,Text["a",(1,1)]] makes it null
 		if (text.isNeedsUpdatedBoundingBox()
 				&& (textChanged || positionChanged || fontChanged ||
-					text.getKernel().getForceUpdatingBoundingBox())) {
+					text.getKernel().getForceUpdatingBoundingBox()|| text.getBoundingBox()==null) ) {
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX)
 				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,
@@ -182,8 +137,7 @@ public final class DrawText extends Drawable {
 			else
 				drawMultilineText(view.getTempGraphics2D(textFont));
 
-			// Michael Borcherds 2007-11-26 BEGIN update corners for Corner[]
-			// command
+			// update corners for Corner[] command
 			double xRW = view.toRealWorldCoordX(labelRectangle.getX());
 			double yRW = view.toRealWorldCoordY(labelRectangle.getY());
 
