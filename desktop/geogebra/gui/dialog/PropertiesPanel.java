@@ -1826,6 +1826,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 					geo.setLabelMode(mode);
 					geo.updateVisualStyle();
 				}
+				kernel.notifyRepaint();
+				app.storeUndoInfo();
 			}
 		}
 
