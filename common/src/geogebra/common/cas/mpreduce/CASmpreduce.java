@@ -674,18 +674,25 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "  begin scalar roundedon;"
 				+ "  roundedon := if lisp(!*rounded) then 'true else 'false;"
 				+ "  on rounded,numval;" 
-				+ "  return if numberp(arg) then"
+				+ "  return if numberp(arg) or arg=infinity or arg=-infinity then"
 				+ "    <<if roundedon='false then off rounded,numval; 'true>>"
 				+ "  else"
 				+ "    <<if roundedon='false then off rounded,numval; 'false>>"
 				+ "  end;");
 
+		//assumption: arg1 is number, please check before using
+		mpreduce1.evaluate("procedure compareinfinity(arg1);"
+				+ "  if arg1 = infinity then 0 else 1;");
 		//assumption: arg1 and arg2 are numbers, please check before using
 		mpreduce1.evaluate("procedure mycompare(arg1, arg2);"
 				+ "  begin scalar roundedon;"
 				+ "  roundedon := if lisp(!*rounded) then 'true else 'false;"
 				+ "  on rounded,numval;" 
-				+ "  return if arg1<arg2 then"
+				+ "  return if arg1 = infinity then compareinfinity(arg2) " 
+				+ "  else if arg1 = -infinity then -compareinfinity(-arg2) "
+				+ "  else if arg2 = infinity then -compareinfinity(arg2) "
+				+ "  else if arg2 = -infinity then compareinfinity(-arg2) "
+				+ "    else if arg1<arg2 then"
 				+ "    <<if roundedon='false then off rounded,numval; -1>>"
 				+ "  else if arg1=arg2 then"
 				+ "    <<if roundedon='false then off rounded,numval; 0>>" 
