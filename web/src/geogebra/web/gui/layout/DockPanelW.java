@@ -1,52 +1,20 @@
-package geogebra.gui.layout;
+package geogebra.web.gui.layout;
 
-import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
-import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.gui.toolbar.Toolbar;
-import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.gui.util.LayoutUtil;
-import geogebra.main.AppD;
+import geogebra.web.awt.GRectangleW;
+import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+//import geogebra.gui.toolbar.Toolbar;
+//import geogebra.gui.toolbar.ToolbarContainer;
+//import geogebra.web.gui.util.LayoutUtil;
+import geogebra.web.main.AppW;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.SystemColor;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.Comparator;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.ToolTipManager;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicButtonUI;
+import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -66,13 +34,12 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * 
  * @author Florian Sonner
  */
-public abstract class DockPanel extends JPanel implements ActionListener,
-		WindowListener, MouseListener, geogebra.common.gui.layout.DockPanel,
-		DockComponent {
+public abstract class DockPanelW extends ResizeComposite implements
+		geogebra.common.gui.layout.DockPanel, DockComponent {
 	private static final long serialVersionUID = 1L;
 
-	protected DockManager dockManager;
-	protected AppD app;
+	//protected DockManager dockManager;
+	protected AppW app;
 
 	/**
 	 * The ID of this dock panel.
@@ -97,7 +64,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * The dimensions of the external window of this panel.
 	 */
-	protected Rectangle frameBounds = new Rectangle(50, 50, 500, 500);
+	protected GRectangleW frameBounds = new GRectangleW(50, 50, 500, 500);
 
 	/**
 	 * If this panel should be opened in a frame the next time it's visible.
@@ -112,12 +79,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Style bar component.
 	 */
-	private JComponent styleBar;
+	private Widget styleBar;
 
 	/**
 	 * Panel to contain a toggle button within the stylebar panel.
 	 */
-	private JPanel styleBarButtonPanel;
+	//private JPanel styleBarButtonPanel;
 
 	/**
 	 * If the style bar is visible.
@@ -139,69 +106,69 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * The panel at the top where the title and the close button is displayed
 	 * normally.
 	 */
-	protected JPanel titlePanel;
+	//protected JPanel titlePanel;
 
 	/**
 	 * The label with the view title.
 	 */
-	protected JLabel titleLabel;
+	//protected JLabel titleLabel;
 
 	/**
 	 * The panel which holds all buttons.
 	 */
-	protected JPanel buttonPanel;
+	//protected JPanel buttonPanel;
 
 	/**
 	 * The close button.
 	 */
-	protected JButton closeButton;
+	//protected JButton closeButton;
 
 	/**
 	 * Button which opens the panel in a new window.
 	 */
-	private JButton windowButton;
+	//private JButton windowButton;
 
 	/**
 	 * A button which brings the panel back to the main window.
 	 */
-	private JButton unwindowButton, unwindowButton2;
+	//private JButton unwindowButton, unwindowButton2;
 
 	/**
 	 * Button used to show / hide the style bar in the titlePanel.
 	 */
-	private JButton toggleStyleBarButton;
+	//private JButton toggleStyleBarButton;
 
 	/**
 	 * Button used to show / hide the style bar when title panel is invisible.
 	 */
-	private JButton toggleStyleBarButton2;
+	//private JButton toggleStyleBarButton2;
 
 	/**
 	 * Button to maximize/unmaximize a panel.
 	 */
-	private JButton maximizeButton;
+	//private JButton maximizeButton;
 
 	/**
 	 * Panel for the styling bar if one is available.
 	 */
-	private JPanel styleBarPanel;
+	private Widget styleBarPanel;
 
 	/**
 	 * Panel used for the toolbar if this dock panel has one.
 	 */
-	private JPanel toolbarPanel;
+	//private JPanel toolbarPanel;
 
 	/**
 	 * Toolbar container which is used if this dock panel is opened in its own
 	 * frame.
 	 */
-	private ToolbarContainer toolbarContainer;
+	//private ToolbarContainer toolbarContainer;
 
 	/**
 	 * Toolbar associated with this dock panel or null if this panel has no
 	 * toolbar.
 	 */
-	private Toolbar toolbar;
+	//private Toolbar toolbar;
 
 	/**
 	 * Toolbar definition string associated with this panel or null if this
@@ -221,12 +188,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * The window which holds this DockPanel if the DockPanel is opened in an
 	 * additional window. The window may become either a JFrame or JDialog.
 	 */
-	protected Window frame = null;
+	//protected Window frame = null;
 
 	/**
 	 * The component used for this view.
 	 */
-	protected JComponent component;
+	protected Widget component;
 
 	/**
 	 * The location of this panel in the view menu. If -1 this panel won't
@@ -266,7 +233,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * If the view needs a menu bar when undocked, its is kept here
 	 */
-	private JMenuBar menubar;
+	//private JMenuBar menubar;
 
 	/**
 	 * @return true if this dock panel frame will be created as a JDialog. If
@@ -305,7 +272,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
 	 */
-	public DockPanel(int id, String title, String toolbar, boolean hasStyleBar,
+	public DockPanelW(int id, String title, String toolbar, boolean hasStyleBar,
 			int menuOrder) {
 		this(id, title, toolbar, hasStyleBar, menuOrder, '\u0000');
 	}
@@ -329,7 +296,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *            The shortcut character which can be used to make this view
 	 *            visible
 	 */
-	public DockPanel(int id, String title, String toolbar, boolean hasStyleBar,
+	public DockPanelW(int id, String title, String toolbar, boolean hasStyleBar,
 			int menuOrder, char menuShortcut) {
 		this.id = id;
 		this.title = title;
@@ -338,8 +305,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
 		this.isAlone = false;
-		this.setMinimumSize(new Dimension(100, 100));
-		setLayout(new BorderLayout());
+		//this.setMinimumSize(new Dimension(100, 100));
+		//setLayout(new BorderLayout());
 	}
 
 	/**
@@ -347,31 +314,31 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *         will return the empty icon or null for Win Vista / 7 to prevent
 	 *         the "checkbox bug"
 	 */
-	public ImageIcon getIcon() {
+	/*public ImageIcon getIcon() {
 		if (AppD.WINDOWS_VISTA_OR_LATER) {
 			return null;
 		} else {
 			return app.getEmptyIcon();
 		}
-	}
+	}*/
 
 	/**
 	 * @return The style bar. Note: Unless this method is overridden a dummy
 	 *         stylebar is returned.
 	 */
-	protected JComponent loadStyleBar() {
-		return new JPanel();
+	protected Widget loadStyleBar() {
+		return new SimplePanel();
 	}
 
 	/**
 	 * @return The main panel of this view.
 	 */
-	protected abstract JComponent loadComponent();
+	protected abstract Widget loadComponent();
 
 	/**
 	 * @return The main panel of this view (null if none was loaded yet).
 	 */
-	public JComponent getComponent() {
+	public Widget getComponent() {
 		return component;
 	}
 
@@ -403,7 +370,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * 
 	 * @return the focus panel
 	 */
-	protected JComponent createFocusPanel() {
+	/*protected JComponent createFocusPanel() {
 		titleLabel = new JLabel(app.getPlain(title));
 		titleLabel.setFont(app.getPlainFont());
 		titleLabel.setForeground(Color.darkGray);
@@ -424,7 +391,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			p.add(titleLabel);
 		}
 		return p;
-	}
+	}*/
 
 	/**
 	 * Bind this view to a dock manager. Also initializes the whole GUI as just
@@ -432,7 +399,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * 
 	 * @param dockManager
 	 */
-	public void register(DockManager dockManager) {
+	/*public void register(DockManager dockManager) {
 		this.dockManager = dockManager;
 		this.app = dockManager.getLayout().getApplication();
 
@@ -512,9 +479,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		updatePanel();
 
 		add(metaPanel, BorderLayout.NORTH);
-	}
+	}*/
 
-	private void createButtons() {
+	/*private void createButtons() {
 
 		// button to show/hide styling bar and the title panel buttons
 		toggleStyleBarButton = new JButton();
@@ -572,7 +539,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		maximizeButton.setFocusPainted(false);
 		maximizeButton.setPreferredSize(new Dimension(16, 16));
 
-	}
+	}*/
 
 	/**
 	 * 
@@ -586,7 +553,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Create a frame for this DockPanel. The frame will either be a JFrame or a
 	 * JDialog depending on the isDialog flag.
 	 */
-	public void createFrame() {
+	/*public void createFrame() {
 
 		if (isDialog) {
 			frame = new JDialog(app.getFrame(), false);
@@ -656,21 +623,21 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		updatePanel();
 
 		frame.repaint();
-	}
+	}*/
 
 	/**
 	 * Remove the frame.
 	 */
-	public void removeFrame() {
+	/*public void removeFrame() {
 		frame.removeAll();
 		frame.setVisible(false);
 		frame = null;
-	}
+	}*/
 
 	/**
 	 * Update all elements in the title bar.
 	 */
-	public void updateTitleBar() {
+	/*public void updateTitleBar() {
 
 		// The view is in the main window
 		if (frame == null) {
@@ -698,7 +665,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		}
 
 		updateLabels();
-	}
+	}*/
 
 	/**
 	 * A panel is 'alone' if no other panel is visible in the main frame. In
@@ -716,7 +683,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		this.isAlone = isAlone;
 
 		if (isVisible()) {
-			updatePanel();
+			//TODO updatePanel();
 		}
 	}
 
@@ -743,7 +710,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 	/**
 	 * Update the panel.
-	 */
+	 *//*TODO
 	public void updatePanel() {
 
 		// load content if panel was hidden till now
@@ -769,7 +736,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			}
 
 			// euclidian view uses the general toolbar
-			if (this instanceof EuclidianDockPanelAbstract) {
+			if (this instanceof EuclidianDockPanelW) {
 				// TODO implement..
 			}
 		}
@@ -801,12 +768,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		// update the title bar if necessary
 		updateTitleBarIfNecessary();
 
-	}
+	}*/
 
 	/**
 	 * 
 	 */
-	protected void updateTitleBarIfNecessary() {
+	/*protected void updateTitleBarIfNecessary() {
 		if (titlePanel.isVisible()) {
 			updateTitleBar();
 		}
@@ -814,33 +781,33 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 	protected JMenuBar loadMenuBar() {
 		return null;
-	}
+	}*/
 
 	/**
 	 * Update the toolbar of this dock panel if it's open in its own toolbar
 	 * container.
 	 */
-	public void updateToolbar() {
+	/*public void updateToolbar() {
 		if (isVisible() && isOpenInFrame() && hasToolbar()) {
 			toolbarContainer.updateToolbarPanel();
 		}
-	}
+	}*/
 
 	/**
 	 * Change the toolbar mode for panels open in a separate frame.
 	 * 
 	 * @param mode
 	 */
-	public void setToolbarMode(int mode) {
+	/*public void setToolbarMode(int mode) {
 		if (isVisible() && isOpenInFrame() && hasToolbar()) {
 			toolbarContainer.setMode(mode);
 		}
-	}
+	}*/
 
 	/**
 	 * Update the toolbar GUI.
 	 */
-	public void buildToolbarGui() {
+	/*public void buildToolbarGui() {
 		if (toolbarContainer != null) {
 			toolbarContainer.buildGui();
 			toolbarContainer.updateHelpText();
@@ -849,13 +816,13 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 				frame.validate();
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Update all labels of this DockPanel. Called while initializing and if the
 	 * language was changed.
 	 */
-	public void updateLabels() {
+	/*public void updateLabels() {
 		closeButton.setToolTipText(app.getMenuTooltip("Close"));
 		windowButton.setToolTipText(app.getPlainTooltip("ViewOpenExtraWindow"));
 		unwindowButton.setToolTipText(app
@@ -872,25 +839,25 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		} else {
 			updateTitle();
 		}
-	}
+	}*/
 
 	/**
 	 * Update fonts.
 	 */
-	public void updateFonts() {
+	/*public void updateFonts() {
 		if (hasFocus && dockManager.hasFullFocusSystem()) {
 			titleLabel.setFont(app.getBoldFont());
 		} else {
 			titleLabel.setFont(app.getPlainFont());
 		}
-	}
+	}*/
 
 	/**
 	 * Update the title of the frame. This is necessary if the language changed
 	 * or if the title of the main window changed (e.g. because the file was
 	 * saved under a different name).
 	 */
-	public void updateTitle() {
+	/*public void updateTitle() {
 		if (isOpenInFrame()) {
 			StringBuilder windowTitle = new StringBuilder();
 			windowTitle.append(getPlainTitle());
@@ -914,28 +881,28 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 				((JFrame) frame).setTitle(windowTitle.toString());
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Close this panel permanently.
 	 */
-	public void closePanel() {
+	/*public void closePanel() {
 		closePanel(true);
-	}
+	}*/
 
 	/**
 	 * Close this panel.
 	 * 
 	 * @param isPermanent
 	 */
-	protected void closePanel(boolean isPermanent) {
+	/*protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
-	}
+	}*/
 
 	/**
 	 * Display this panel in an external window.
 	 */
-	protected void windowPanel() {
+	/*protected void windowPanel() {
 
 		// try to hide the panel
 		if (dockManager.hide(this, false)) {
@@ -960,12 +927,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			setVisible(true);
 			createFrame();
 		}
-	}
+	}*/
 
 	/**
 	 * Display this panel in the main window.
 	 */
-	protected void unwindowPanel() {
+	/*protected void unwindowPanel() {
 		// hide the frame
 		dockManager.hide(this, false);
 
@@ -983,27 +950,27 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 					.setActiveToolbar(toolbar);
 		}
 
-	}
+	}*/
 
 	/** loads the styleBar and puts it into the stylBarPanel */
-	private void setStyleBar() {
+	/*private void setStyleBar() {
 		if (styleBar == null) {
 			styleBar = loadStyleBar();
 			styleBarPanel.add(styleBar, BorderLayout.CENTER);
 		}
-	}
+	}*/
 
 	/**
 	 * Toggle the style bar.
 	 */
-	public void toggleStyleBar() {
+	/*public void toggleStyleBar() {
 		setShowStyleBar(!showStyleBar);
 		updateStyleBarVisibility();
-	}
+	}*/
 
 	/**
 	 * Update the style bar visibility.
-	 */
+	 *//*TODO
 	public void updateStyleBarVisibility() {
 
 		if (!isVisible())
@@ -1018,12 +985,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			styleBar.setVisible(showStyleBar);
 			styleBarButtonPanel.setVisible(!titlePanel.isVisible());
 		}
-	}
+	}*/
 
 	/**
 	 * One of the buttons was pressed.
 	 */
-	public void actionPerformed(ActionEvent e) {
+	/*public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == closeButton) {
 			closePanel(false);
 		} else if (e.getSource() == windowButton) {
@@ -1038,21 +1005,21 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		} else if (e.getSource() == maximizeButton) {
 			toggleMaximize();
 		}
-	}
+	}*/
 
 	/**
 	 * Hide the view if the window was closed or if the close button was
 	 * pressed.
 	 */
-	public void windowClosing(WindowEvent e) {
+	/*public void windowClosing(WindowEvent e) {
 		closePanel(false);
-	}
+	}*/
 
 	/**
 	 * Start dragging if the mouse was pressed while it was on the title panel.
 	 * Or toggle the stylebar on double-click.
 	 */
-	public void mousePressed(MouseEvent arg0) {
+	/*public void mousePressed(MouseEvent arg0) {
 
 		// double-click opens the stylebar and shows the button panel
 		if (arg0.getClickCount() == 2) {
@@ -1066,12 +1033,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 				dockManager.drag(this);
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * @return The parent DockSplitPane or null.
 	 */
-	public DockSplitPane getParentSplitPane() {
+	/*public DockSplitPane getParentSplitPane() {
 		if (isOpenInFrame())
 			return null;
 
@@ -1081,16 +1048,16 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			return null;
 		else
 			return (DockSplitPane) parent;
-	}
+	}*/
 
 	/**
 	 * @return The embedded def string for this DockPanel.
-	 */
+	 *//*TODO
 	public String calculateEmbeddedDef() {
 		StringBuilder def = new StringBuilder();
 
-		Component current = this;
-		Component parent = this.getParent();
+		Widget current = this;
+		Widget parent = this.getParent();
 		DockSplitPane parentDSP;
 
 		while (parent instanceof DockSplitPane) {
@@ -1123,7 +1090,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		}
 
 		return def.reverse().toString();
-	}
+	}*/
 
 	/**
 	 * @return The XML container which stores all relevant information for this
@@ -1131,16 +1098,16 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 */
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, toolbarString, visible, openInFrame,
-				showStyleBar, new geogebra.awt.GRectangleD(frameBounds),
+				showStyleBar, new geogebra.web.awt.GRectangleW(frameBounds),
 				embeddedDef, embeddedSize);
 	}
 
 	/**
 	 * @return If this DockPanel is in an extra frame / window.
 	 */
-	public boolean isInFrame() {
+	/*public boolean isInFrame() {
 		return frame != null;
-	}
+	}*/
 
 	/**
 	 * If this view should open in a frame. Has no immediate effect.
@@ -1167,7 +1134,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		this.showStyleBar = showStyleBar;
 	}
 
-	private void updateToggleStyleBarButtons() {
+	/*private void updateToggleStyleBarButtons() {
 		if (toggleStyleBarButton != null) {
 			if (showStyleBar) {
 				toggleStyleBarButton.setIcon(app
@@ -1183,7 +1150,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
 			// toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
 		}
-	}
+	}*/
 
 	/**
 	 * @return If the style bar should be visible.
@@ -1194,23 +1161,23 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 				return false;
 			}
 		}
-		return (showStyleBar || !titlePanel.isVisible());
+		return (showStyleBar /*|| !titlePanel.isVisible()*/);
 	}
 
-	public void setFrameBounds(Rectangle frameBounds) {
+	public void setFrameBounds(GRectangleW frameBounds) {
 		this.frameBounds = frameBounds;
 	}
 
-	public Rectangle getFrameBounds() {
+	public GRectangleW getFrameBounds() {
 		return this.frameBounds;
 	}
 
 	/**
 	 * @return return the Window
 	 */
-	public Window getFrame() {
+	/*public Window getFrame() {
 		return frame;
-	}
+	}*/
 
 	/**
 	 * @param embeddedDef
@@ -1252,7 +1219,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		this.visible = visible;
 	}
 
-	@Override
+	//@Override
 	public boolean hasFocus() {
 		return hasFocus;
 	}
@@ -1268,15 +1235,15 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *            has the focus
 	 * @param updatePropertiesView
 	 *            update properties view
-	 */
+	 *//*TODO
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
 
 		if (hasFocus && updatePropertiesView) {
-			((GuiManagerD) app.getGuiManager()).updatePropertiesView();
+			((GuiManagerW) app.getGuiManager()).updatePropertiesView();
 		}
 
 		setFocus(hasFocus);
-	}
+	}*/
 
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
@@ -1287,7 +1254,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * 
 	 * @param hasFocus
 	 *            has the focus
-	 */
+	 *//*TODO
 	protected void setFocus(boolean hasFocus) {
 
 		// don't change anything if it's not necessary
@@ -1322,21 +1289,21 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			focusGained();
 		} else {
 			focusLost();
-		}
+		}*/
 
 		/*
 		 * Mark the focused view in bold if the focus system is available. If
 		 * this isn't the case we always stick with the normal font as it would
 		 * confuse the users that the focus "indicator" just changes if we
 		 * switch between EVs.
-		 */
+		 *//*TODO
 		setTitleLabelFocus();
-	}
+	}*/
 
 	/**
 	 * sets the active toolbar
 	 */
-	protected void setActiveToolBar() {
+	/*protected void setActiveToolBar() {
 		if (hasToolbar()) {
 			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
 					.setActiveToolbar(toolbar);
@@ -1348,19 +1315,19 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		// we need an update here
 		((GuiManagerD) app.getGuiManager()).getToolbarPanel().validate();
 		((GuiManagerD) app.getGuiManager()).getToolbarPanel().updateHelpText();
-	}
+	}*/
 
 	/**
 	 * sets the title label when this has not the focus
 	 */
-	protected void setTitleLabelFocus() {
+	/*protected void setTitleLabelFocus() {
 		if (dockManager.hasFullFocusSystem()) {
 			if (titleIsBold())
 				titleLabel.setFont(app.getBoldFont());
 			else
 				titleLabel.setFont(app.getPlainFont());
 		}
-	}
+	}*/
 
 	/**
 	 * 
@@ -1411,9 +1378,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * @return The toolbar associated with this panel.
 	 */
-	public Toolbar getToolbar() {
+	/*public Toolbar getToolbar() {
 		return toolbar;
-	}
+	}*/
 
 	/**
 	 * @return If this panel has a toolbar.
@@ -1473,14 +1440,14 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Helper class to compare dock panels for sorting in the menu.
 	 * 
 	 * @author Florian Sonner
-	 */
-	public static class MenuOrderComparator implements Comparator<DockPanel> {
-		public int compare(DockPanel a, DockPanel b) {
+	 *//*TODO
+	public static class MenuOrderComparator implements Comparator<DockPanelW> {
+		public int compare(DockPanelW a, DockPanelW b) {
 			return a.getMenuOrder() - b.getMenuOrder();
 		}
-	}
+	}*/
 
-	public void windowClosed(WindowEvent e) {
+	/*public void windowClosed(WindowEvent e) {
 	}
 
 	public void windowActivated(WindowEvent e) {
@@ -1508,7 +1475,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	}
 
 	public void mouseReleased(MouseEvent e) {
-	}
+	}*/
 
 	/**
 	 * UI for the buttons in the title panel. Used for Mac as the normal buttons
@@ -1516,7 +1483,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * 
 	 * @author Florian Sonner
 	 */
-	private static class TitleBarButtonUI extends BasicButtonUI {
+	/*private static class TitleBarButtonUI extends BasicButtonUI {
 		@Override
 		public void paint(Graphics g, JComponent component) {
 			JButton button = (JButton) component;
@@ -1525,9 +1492,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 			super.paint(g, component);
 		}
-	}
+	}*/
 
-	public class MyButtonHider extends MouseAdapter {
+	/*public class MyButtonHider extends MouseAdapter {
 
 		public void mouseEntered(MouseEvent e) {
 			// System.out.println("entered, not jpanel");
@@ -1549,19 +1516,19 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			}
 		}
 
-	}
+	}*/
 
 	/**
 	 * @return true if the layout has been maximized
 	 */
-	public boolean isMaximized() {
+	/*public boolean isMaximized() {
 		return dockManager.isMaximized();
-	}
+	}*/
 
 	/**
 	 * Toggles the panel between maximized and normal state
 	 */
-	public void toggleMaximize() {
+	/*public void toggleMaximize() {
 
 		if (isMaximized())
 			dockManager.undoMaximize(true);
@@ -1569,7 +1536,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 			dockManager.maximize(this);
 
 		updatePanel();
-	}
+	}*/
 
 	public String toString(String prefix) {
 		return "\n" + prefix + this.toString();

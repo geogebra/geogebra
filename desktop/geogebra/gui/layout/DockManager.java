@@ -3,6 +3,7 @@ package geogebra.gui.layout;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;

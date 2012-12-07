@@ -5,10 +5,11 @@ import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
+import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Arpad Fekete
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
  * Top level GUI for the spreadsheet view
  *
  */
-public class SpreadsheetDockPanelW extends ResizeComposite /*DockPanelW*/ {
+public class SpreadsheetDockPanelW extends DockPanelW {
 
 	App application = null;
 
@@ -27,11 +28,19 @@ public class SpreadsheetDockPanelW extends ResizeComposite /*DockPanelW*/ {
 	SpreadsheetView sview;
 
 	public SpreadsheetDockPanelW() {
-		super();
+		super(0, null, null, true, 0);
 		initWidget(toplevel = new SimpleLayoutPanel());
 		ancestor = new VerticalPanelSmart();
 		ancestor.add(sstylebar = new SpreadsheetStyleBarPanel());
 		toplevel.add(ancestor);
+	}
+
+	protected Widget loadComponent() {
+		return toplevel;
+	}
+
+	protected Widget loadStyleBar() {
+		return sstylebar;
 	}
 
 	public void onResize() {

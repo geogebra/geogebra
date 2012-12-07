@@ -1,5 +1,7 @@
 package geogebra.gui.layout;
 
+import geogebra.common.gui.layout.DockComponent;
+
 import java.awt.AWTEvent;
 import java.awt.BasicStroke;
 import java.awt.Color;

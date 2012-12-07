@@ -1,4 +1,4 @@
-package geogebra.gui.layout;
+package geogebra.common.gui.layout;
 
 /**
  * interface for DockSplitPane and DockPanel

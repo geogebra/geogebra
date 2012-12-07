@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.main.AppD;
 
