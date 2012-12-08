@@ -13,5 +13,5 @@
 #
 # @author: Zbynek Konecny
 #
-
-for i in `ls command_*`; do echo "**Checking $i"; grep -v Syntax $i |sed "s/.*=\(.*\)/\1/" | sort > f$i; cat f$i | uniq | diff - f$i | grep '>' | sed "s/./$i/" |awk '{print "grep \"=" $2 "$\"", $1}' |sh; done
+cd ../geogebra/properties
+for i in `ls command_*`; do echo "**Checking $i"; grep -v Syntax $i |sed "s/.*=\(.*\)/\1/" | sort > f$i; cat f$i | uniq | diff - f$i | grep '>' | sed "s/./$i/" |awk '{print "grep -F \"=" $2 "\"", $1}' | sh; done
