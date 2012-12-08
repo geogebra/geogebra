@@ -1553,5 +1553,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	public void updateDividerLocation(int size, int orientation1) {
 		// no divider here
 	}
+	
+	public void setDockPanelsVisible(boolean visible){
+		setVisible(visible);
+	}
 
 }

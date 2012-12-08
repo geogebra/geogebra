@@ -2,6 +2,7 @@ package geogebra.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockSplitPaneData;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -78,6 +79,11 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	 */
 	@Override
 	public void setLeftComponent(Component component) {
+		
+		//ensure visibility flags of dock panels set to false
+		if (leftComponent!=null)
+			((DockComponent) leftComponent).setDockPanelsVisible(false);
+
 		super.setLeftComponent(component);
 		updateDivider();
 	}
@@ -88,6 +94,11 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	 */
 	@Override
 	public void setRightComponent(Component component) {
+
+		//ensure visibility flags of dock panels set to false
+		if (rightComponent!=null)
+			((DockComponent) rightComponent).setDockPanelsVisible(false);
+
 		super.setRightComponent(component);
 		updateDivider();
 	}
@@ -327,6 +338,11 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 		return false;
 		
 		
+	}
+	
+	public void setDockPanelsVisible(boolean visible){
+		((DockComponent) leftComponent).setDockPanelsVisible(visible);
+		((DockComponent) rightComponent).setDockPanelsVisible(visible);
 	}
 	
 }

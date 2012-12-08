@@ -38,5 +38,11 @@ public interface DockComponent {
 	 * @param orientation orientation of the parent split
 	 */
 	public void updateDividerLocation(int size, int orientation);
+	
+	/**
+	 * set visibility of all DockPanel sub components
+	 * @param visible flag
+	 */
+	public void setDockPanelsVisible(boolean visible);
 
 }
