@@ -2,7 +2,6 @@ package geogebra.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockSplitPaneData;
-import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -341,8 +340,10 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	}
 	
 	public void setDockPanelsVisible(boolean visible){
-		((DockComponent) leftComponent).setDockPanelsVisible(visible);
-		((DockComponent) rightComponent).setDockPanelsVisible(visible);
+		if (leftComponent!=null)
+			((DockComponent) leftComponent).setDockPanelsVisible(visible);
+		if (rightComponent!=null)
+			((DockComponent) rightComponent).setDockPanelsVisible(visible);
 	}
 	
 }
