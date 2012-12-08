@@ -1318,7 +1318,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 		// update all registered locatables (they have this point as start
 		// point)
 		if (locateableList != null) {
-			GeoElement.updateCascadeLocation(locateableList, getTempSet(), false);
+			GeoElement.updateCascadeLocation(locateableList, getTempSet());
 		}
 	}
 

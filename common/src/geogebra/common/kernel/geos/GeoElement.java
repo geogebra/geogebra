@@ -3464,7 +3464,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            a temporary set that is used to collect all algorithms that
 	 *            need to be updated
 	 * 
-	 * @param updateCascadeAll true to update cascade
+	 * @param updateCascadeAll true to update cascade over dependent geos as well
 	 */
 	final static public synchronized void updateCascade(
 			final ArrayList<? extends GeoElementND> geos,
@@ -3518,12 +3518,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * the locatables in input array
 	 * @param geos locateables
 	 * @param tempSet1 set for temporary storing
-	 * @param updateCascadeAll true to update cascade
 	 */
 	final static public synchronized void updateCascadeLocation(
 			final ArrayList<Locateable> geos,
-			final TreeSet<AlgoElement> tempSet1,
-			final boolean updateCascadeAll) 
+			final TreeSet<AlgoElement> tempSet1) 
 	{		
 		// build update set of all algorithms in construction element order
 		// clear temp set
@@ -3535,7 +3533,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				
 				geo.updateLocation();								
 
-				if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
+				if ((geo.isIndependent() || geo.isGeoText())
 						&& (geo.hasAlgoUpdateSet())) {
 					// add all dependent algos of geo to the overall algorithm
 					// set

@@ -196,4 +196,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return whether this is instance of GeoElement3D
 	 */
 	public boolean isGeoElement3D();
+	/**
+	 * @return whether this is instance of GeoText
+	 */
+	public boolean isGeoText();
 }
