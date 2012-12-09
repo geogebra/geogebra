@@ -1,40 +1,82 @@
 package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.view.algebra.DialogType;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.GgbAPI;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogDownloadGGB extends InputDialogW{
+	
+	Anchor linkDownload;
 	
 	public InputDialogDownloadGGB(AppW app){
 		super(true);
 		this.app = app;
 		
-		createGUI(app.getMenu("Download"), null, false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
-		//createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);
-		//this.btOK.addStyleName("downloadButton");
-		this.btOK.getElement().setId("downloadButton");
-		this.btOK.setEnabled(false);
-		this.btOK.getElement().setAttribute("ggburl", "a");
+		createGUI();
 		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
-		((GgbAPI) app.getGgbApi()).getGGB(true, this.btOK.getElement(), inputPanel.getTextComponent().getTextField().getElement());
-		this.btOK.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				Element dButton = DOM.getElementById("downloadButton");
-				String name = inputPanel.getTextComponent().getTextField().getText();
-				if (name.equals("")) name = "geogebra";
-				dButton.setAttribute("download", name+".ggb");
-				String ggbURL = dButton.getAttribute("ggburl");
-	            Window.open(ggbURL, "_blank", null);
-            }
+		((GgbAPI) app.getGgbApi()).getGGB(true, this.linkDownload.getElement());
+		inputPanel.getTextComponent().getTextField().addValueChangeHandler(new ValueChangeHandler<String>(){
+			public void onValueChange(ValueChangeEvent<String> event) {
+				setFilename(event.getValue());
+            }		
 		});
+		
+		
+	}
+	
+	public void setFilename(String newVal){
+		if (newVal.equals("")) newVal = "geogebra.ggb";
+        linkDownload.getElement().setAttribute("download", newVal);
+	}
+	
+	protected void createGUI() {
+
+		// Create components to be displayed
+		inputPanel = new InputPanelW(initString, app, DEFAULT_COLUMNS, 1,
+				false/*, type*/);
+
+		
+		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		btCancel.addClickHandler(this);
+
+		linkDownload = new Anchor();
+		linkDownload.setText(app.getPlain("Download"));	
+		linkDownload.setStyleName("gwt-Button");
+		linkDownload.addStyleName("linkDownload");
+		linkDownload.getElement().setAttribute("style", "display:inline");
+		linkDownload.getElement().setAttribute(
+				"style", "text-decoration: none; color: black");
+		setFilename("geogebra.ggb");
+		
+		// create button panel
+		FlowPanel btPanel = new FlowPanel();
+		btPanel.addStyleName("DialogButtonPanel");
+		btPanel.add(linkDownload);
+		btPanel.add(btCancel);
+		
+		VerticalPanel centerPanel = new VerticalPanel();
+		centerPanel.add(inputPanel);
+		centerPanel.add(btPanel);
+		
+		wrappedPopup.setWidget(centerPanel);
 	}
 	
 	public void onClick(ClickEvent e) {

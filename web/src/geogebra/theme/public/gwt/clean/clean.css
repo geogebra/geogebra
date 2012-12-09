@@ -1528,3 +1528,7 @@ body[dir=rtl] .undoPanel {
 .DialogButtonPanel button{
 	margin: 1px;
 }
+
+.linkDownload{
+	font: -webkit-small-control;
+}

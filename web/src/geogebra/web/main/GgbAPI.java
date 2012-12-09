@@ -131,19 +131,19 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	return "wait for callback";
     }
     
-    private native JavaScriptObject getDownloadGGBCallback(Element downloadButton, Element textfield) /*-{
+    private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
 		return function(ggbZip){
 				var ggburl = ggbZip.toURL();
 				//downloadButton = document.getElementById('downloadButton')
-				downloadButton.setAttribute("ggburl", ggburl);
-				downloadButton.disabled = false;
+				downloadButton.setAttribute("href", ggburl);
+				//downloadButton.disabled = false;
 			}
     }-*/;
     
-    public void getGGB(boolean includeThumbnail, Element downloadButton, Element textfield) {
+    public void getGGB(boolean includeThumbnail, Element downloadButton) {
     	createArchiveContent(includeThumbnail);
     	
-    	JavaScriptObject callback = getDownloadGGBCallback(downloadButton, textfield); 	
+    	JavaScriptObject callback = getDownloadGGBCallback(downloadButton); 	
     	getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
 
     }
