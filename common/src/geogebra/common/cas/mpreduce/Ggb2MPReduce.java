@@ -247,7 +247,7 @@ public class Ggb2MPReduce {
 		p("Random.2", "random(%1-%0+1)+%0");
 		p("RandomBinomial.2",
 				"<<on rounded, roundall, numval; for each x in for i:=1:%0 collect random(10000000)/10000000 sum if (x<%1) then 1 else 0 >>");
-		p("RandomElement.1", "part(mattolistoflists(%0),random(length(%0))+1)");
+		p("RandomElement.1", "part(mattolistoflists(%0),random(length(mattolistoflists(%0)))+1)");
 		p("RandomPoisson.1",
 				"<<on rounded, roundall, numval; begin scalar L!!, k!!, p!!; L!!:=exp(-%0); k!!:=0; p!!:=1; repeat <<k!!:=k!!+1; p!!:=p!!*(random(10000000)/10000000)>> until p!!<=L!!; return k!!-1 end>>");
 		p("RandomNormal.2",
