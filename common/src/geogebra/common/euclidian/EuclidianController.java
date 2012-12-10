@@ -3850,7 +3850,7 @@ public abstract class EuclidianController {
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			Hits rotAbles = hits.getHits(Test.ROTATEABLE, tempArrayList);
 			count = addSelectedGeo(rotAbles, 1, false);
 		}
 	
@@ -3868,11 +3868,12 @@ public abstract class EuclidianController {
 		if ((selPoints() == 1) && (selGeos() > 0)) {
 	
 			GeoElement[] selGeos = getSelectedGeos();
+			
 	
 			app.getDialogManager()
 					.showNumberInputDialogRotate(
 							app.getMenu(getKernel().getModeText(mode)),
-							getSelectedPolygons(), getSelectedPoints(), selGeos);
+							getSelectedPolygons(), getSelectedPointsND(), selGeos);
 	
 			return null;
 	

@@ -453,6 +453,14 @@ Test {
 			return ob instanceof Transformable;
 		}
 	},
+	
+	/** Test for ROTATEABLE */
+	ROTATEABLE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Rotateable;
+		}
+	},
 
 	/** Test for GEOELEMENT */
 	GEOELEMENT {

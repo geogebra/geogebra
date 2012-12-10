@@ -19,6 +19,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 	}
 	
 	
+	@Override
 	public GeoElement[] process(Command c) throws MyError {	
 
 
@@ -34,7 +35,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 			arg = resArgs(c);
 			if (arg[0].isGeoElement3D()){
 				if (arg[0].isGeoSegment()) {
-					GeoElement[] ret = { (GeoElement) ((Kernel)kernelA).getManager3D().Midpoint(c.getLabel(),
+					GeoElement[] ret = { (GeoElement) kernelA.getManager3D().Midpoint(c.getLabel(),
 							(GeoSegmentND) arg[0]) };
 					return ret;
 				} 
@@ -46,7 +47,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
 				if ((ok[0] = (arg[0].isGeoPoint()))
 						&& (ok[1] = (arg[1].isGeoPoint()))) {
-					GeoElement[] ret = { (GeoElement) ((Kernel)kernelA).getManager3D().Midpoint(c.getLabel(),
+					GeoElement[] ret = { (GeoElement) kernelA.getManager3D().Midpoint(c.getLabel(),
 							(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 					return ret;
 				} 

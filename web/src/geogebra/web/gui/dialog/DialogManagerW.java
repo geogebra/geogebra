@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
@@ -161,7 +162,7 @@ public class DialogManagerW extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPoint[] points, GeoElement[] selGeos) {
+			GeoPointND[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());

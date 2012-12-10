@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.Rotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.Unicode;
@@ -169,7 +170,7 @@ public abstract class DialogManager {
     protected abstract boolean confirm(String string);
 
 	public void showNumberInputDialogRotate(String menu,
-            GeoPolygon[] selectedPolygons, GeoPoint[] selectedPoints,
+            GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
             GeoElement[] selGeos) {
 		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
 		
@@ -220,10 +221,11 @@ public abstract class DialogManager {
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 
 	public static String rotateObject(App app, String inputText,
-			boolean clockwise, GeoPolygon[] polys, GeoPoint[] points,
+			boolean clockwise, GeoPolygon[] polys, GeoPointND[] points,
 			GeoElement[] selGeos) {	
 		String defaultRotateAngle = "45" + "\u00b0";		String angleText = inputText;
 		Kernel kernel = app.getKernel();
+		
 
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
@@ -258,7 +260,7 @@ public abstract class DialogManager {
 			if (polys.length == 1) {
 
 				GeoElement[] geos = kernel.getAlgoDispatcher().Rotate(null, polys[0], num,
-						points[0]);
+						(GeoPoint) points[0]);
 				if (geos != null) {
 					app.storeUndoInfo();
 					kernel.getApplication().getActiveEuclidianView()
@@ -267,15 +269,17 @@ public abstract class DialogManager {
 				}
 				return defaultRotateAngle;
 			}
+
+			
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != points[0]) {
-					if (selGeos[i] instanceof Transformable) {
+					if (selGeos[i] instanceof Rotateable) {
 						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
-								selGeos[i], num, points[0])));
+								selGeos[i], num, (GeoPoint) points[0])));
 					} else if (selGeos[i].isGeoPolygon()) {
 						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
-								selGeos[i], num, points[0])));
+								selGeos[i], num, (GeoPoint) points[0])));
 					}
 				}
 			}

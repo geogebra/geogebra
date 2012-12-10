@@ -37,12 +37,14 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CoordStyle;
@@ -63,7 +65,8 @@ import java.util.TreeSet;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
-		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle {
+		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle,
+		PointRotateable {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1225,7 +1228,39 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
     public void setPolar() { toStringMode = Kernel.COORD_POLAR; }
 
-    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }  
+    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }
+
+    
+    
+    
+	final public void rotate(NumberValue phiValue) {
+		double phi = phiValue.getDouble();
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+
+		double x = getX();
+		double y = getY();
+	
+		setCoords(x * cos - y * sin, x * sin + y * cos, getZ(), getW());
+	}
+
+	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+		double phi = phiValue.getDouble();
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+		
+		double x = getX();
+		double y = getY();
+		double z = getZ();
+		double w = getW();
+
+		double qx = w * Q.getInhomX();
+		double qy = w * Q.getInhomY();
+
+		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
+				+ (y - qy) * cos + qy, z, w);
+	}
+
 
 
 }

@@ -387,7 +387,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPoint[] points, GeoElement[] selGeos) {
+			GeoPointND[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
