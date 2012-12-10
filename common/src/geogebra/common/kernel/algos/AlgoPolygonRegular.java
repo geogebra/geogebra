@@ -108,6 +108,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 								.getElement(0).createSegment(A, B, true);
 						segment.setAuxiliaryObject(true);
 						segment.setLabelVisible(showNewSegmentsLabels);
+						segment.setViewFlags(A.getViewSet());
 						return segment;
 					}
 				});
@@ -127,6 +128,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 								|| B.isEuclidianVisible());
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setLabelVisible(showNewPointsLabels);
+						newPoint.setViewFlags(A.getViewSet());
 						GeoBoolean conditionToShow = A.getShowObjectCondition();
 						if (conditionToShow == null)
 							conditionToShow = B.getShowObjectCondition();
