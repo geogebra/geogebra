@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -17,6 +18,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 public class TransformRotate3D extends TransformRotate{
 
 	private GeoDirectionND orientation;
+	
+	private GeoLineND line;
 	
 	/**
 	 * constructor
@@ -32,10 +35,26 @@ public class TransformRotate3D extends TransformRotate{
 
 	}
 	
+	/**
+	 * constructor
+	 * @param cons construction
+	 * @param angle rotation angle
+	 * @param line line
+	 */
+	public TransformRotate3D(Construction cons, NumberValue angle,
+			GeoLineND line) {
+		super(cons, angle);
+		this.line = line;
+
+	}
+	
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoTransformation algo = null;
-		algo = new AlgoRotate3DPointOrientation(cons, geo,angle, center, orientation);
+		if (line==null) //rotation about center + orientation
+			algo = new AlgoRotate3DPointOrientation(cons, geo, angle, center, orientation);
+		else
+			algo = new AlgoRotate3DLine(cons, geo, angle, line);
 		return algo;
 	}
 

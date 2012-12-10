@@ -7,6 +7,7 @@ import geogebra.common.kernel.commands.CmdRotate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
@@ -55,7 +56,7 @@ public class CmdRotate3D extends CmdRotate{
 			return super.process2(c,arg,ok);
 
 		case 3:
-			// ROTATION AROUND POINT
+			// ROTATION AROUND POINT (AND XOY PLANE)
 			arg = resArgs(c);
 
 			//first check if rotated geo or center point is 3D element
@@ -68,6 +69,19 @@ public class CmdRotate3D extends CmdRotate{
 
 
 			}
+
+			// ROTATION AROUND LINE
+			if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[2] = (arg[2] instanceof GeoLineND))) {
+
+				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
+						(GeoPointND) arg[0], (NumberValue) arg[1], (GeoLineND) arg[2]);
+
+
+			}
+			
+
+			
 			
 			return super.process3(c, arg, ok);
 

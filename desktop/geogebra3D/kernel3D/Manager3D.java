@@ -1211,6 +1211,12 @@ public class Manager3D implements Manager3DInterface {
 		return t.transform((GeoElement) geoRot, label);
 	}
 
+	final public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+			NumberValue phi, GeoLineND line) {
+		Transform t = new TransformRotate3D(cons, phi, line);
+		return t.transform((GeoElement) geoRot, label);
+	}
+
 
 
 }

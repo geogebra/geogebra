@@ -49,6 +49,7 @@ import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.kernel.kernelND.RotateableND;
@@ -1275,16 +1276,40 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			return;
 		}
 		
+		rotate(phiValue, o, vn, v1);
+		
+	}
+	
+	private void rotate(NumberValue phiValue, Coords o, Coords vn, Coords v1){
+		
+		if (vn.isZero()){
+			setUndefined();
+			return;
+		}
+		
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		vn.normalize();
-		Coords v2 = vn.crossProduct4(v1);
+		Coords vn2 = vn.normalized();
+		Coords v2 = vn2.crossProduct4(v1);
 		setCoords(o.add(v1.mul(cos)).add(v2.mul(sin)));
 		
 		
+	}
+	
+	public void rotate(NumberValue phiValue, GeoLineND line){
 		
+		Coords o1 = line.getStartInhomCoords();
+		Coords vn = line.getDirectionInD3();
 		
+		Coords point = getInhomCoordsInD(3);
+		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+		
+		Coords v1 = point.sub(o);
+		
+		rotate(phiValue, o, vn, v1);
+		
+
 	}
 
 

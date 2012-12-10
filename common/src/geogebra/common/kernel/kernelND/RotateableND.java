@@ -16,4 +16,13 @@ public interface RotateableND extends PointRotateable{
 	 * @param orientation orientation for the rotation
 	 */
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation);
+	
+	/**
+	 * Rotates this element about a line
+	 * @param r angle
+	 * @param line line
+	 */
+	public void rotate(NumberValue r, GeoLineND line);
+	
+	
 }
