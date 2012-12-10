@@ -420,7 +420,7 @@ public class AlgebraTree extends JTree {
 		DefaultMutableTreeNode parent = typeNodesMap.get(typeString);
 
 		// this has been the last node
-		if (parent.getChildCount() == 0) {
+		if (parent != null && parent.getChildCount() == 0) {
 			typeNodesMap.remove(typeString);
 			model.removeNodeFromParent(parent);
 		}
