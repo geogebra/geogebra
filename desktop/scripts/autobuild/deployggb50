@@ -135,16 +135,33 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  MACOSX_ZIP_FINAL=GeoGebra-MacOS-Installer-`echo $MYVER | tr . -`.zip
  test -r $MACOSX_ZIP_FINAL || mv $MACOSX_ZIP $MACOSX_ZIP_FINAL
 
- # Signing on a remote Mac machine:
+ # Signing on a remote Mac machine.
+ # We'll run a wrapper script on the virtual hosting server to work a VirtualBox bug around.
+ # That script will start another script on the virtual Mac.
+ # Make sure to put autobuild.conf on the MACSIGN server (and also the macsign script).
+ # Put passphraseless authorized_keys2 to VMHOST and MACSIGN, and also
+ # an identification file to here and VMHOST as well.
+ VMHOST_LOGIN=$VMHOST_USER@$VMHOST_SERVER
  MACSIGN_LOGIN=$MACSIGN_USER@$MACSIGN_SERVER
- ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "mkdir -p $MACSIGN_DIR"
- scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACOSX_ZIP_FINAL $MACSIGN_LOGIN:$MACSIGN_DIR/.
- ssh -n -p $MACSIGN_PORT $MACSIGN_LOGIN "cd $MACSIGN_DIR; rm -fR GeoGebra.app; unzip -o $MACOSX_ZIP_FINAL; security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain; codesign -v -f -s \"$MACSIGN_DEVID\" GeoGebra.app; rm $MACOSX_ZIP_FINAL; zip -r $MACOSX_ZIP_FINAL GeoGebra.app"
- scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
+ echo Copying the unsigned file to the VMHOST...
+ scp -P $VMHOST_PORT -i $VMHOST_KEY $MACOSX_ZIP_FINAL $VMHOST_LOGIN:.
+ echo Running the wrapper script on the VMHOST...
+ ssh -n -p $VMHOST_PORT $VMHOST_LOGIN "
+  echo Copying the unsigned file to the MACSIGN server...
+  scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACOSX_ZIP_FINAL $MACSIGN_LOGIN:$MACSIGN_DIR/.
+  echo Signing...
+  ssh -n -p $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN $MACSIGN_DIR/macsign $MACOSX_ZIP_FINAL
+  echo Copying back the signed file to the VMHOST...
+  scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
+ "
+ echo Copying back the signed file from the VMHOST...
+ scp -P $VMHOST_PORT -i $VMHOST_KEY $VMHOST_LOGIN:$MACOSX_ZIP_FINAL .
+ # It's a craze, indeed!
 
- # Copying to Google Code:
+ echo Copying to Google Code...
+ scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
-  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $MACOSX_ZIP_FINAL
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Featured $MACOSX_ZIP_FINAL
  fi
 
 # 9/1. rsync-www on demand:

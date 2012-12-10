@@ -1,0 +1,14 @@
+#!/bin/sh
+# Copy this script to the Mac OS X signer machine
+# and put autobuild.conf also there.
+
+. `dirname $0`/autobuild.conf
+cd $MACSIGN_DIR
+MACOSX_ZIP_FINAL=$1
+
+rm -fR GeoGebra.app
+unzip -o $MACOSX_ZIP_FINAL
+security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain
+codesign -v -f -s "$MACSIGN_DEVID" GeoGebra.app
+rm $MACOSX_ZIP_FINAL
+zip -r $MACOSX_ZIP_FINAL GeoGebra.app
