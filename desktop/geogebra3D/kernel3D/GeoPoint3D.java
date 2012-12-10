@@ -46,6 +46,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -69,7 +70,7 @@ import java.util.TreeSet;
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle,
-		PointRotateable, RotateableND {
+		PointRotateable, RotateableND, Transformable {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;

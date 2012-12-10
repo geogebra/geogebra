@@ -274,7 +274,7 @@ public abstract class DialogManager {
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != points[0]) {
-					if (selGeos[i] instanceof Rotateable) {
+					if (selGeos[i] instanceof Transformable) {
 						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
 								selGeos[i], num, (GeoPoint) points[0])));
 					} else if (selGeos[i].isGeoPolygon()) {

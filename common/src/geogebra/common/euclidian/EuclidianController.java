@@ -3850,7 +3850,7 @@ public abstract class EuclidianController {
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits rotAbles = hits.getHits(Test.ROTATEABLE, tempArrayList);
+			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
 			count = addSelectedGeo(rotAbles, 1, false);
 		}
 	
