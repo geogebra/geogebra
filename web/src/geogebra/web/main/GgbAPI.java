@@ -133,10 +133,11 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     
     private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
 		return function(ggbZip){
-				var ggburl = ggbZip.toURL();
-				//downloadButton = document.getElementById('downloadButton')
-				downloadButton.setAttribute("href", ggburl);
-				//downloadButton.disabled = false;
+			var URL = $wnd.URL || $wnd.webkitURL;
+			var ggburl = URL.createObjectURL(ggbZip);
+			//downloadButton = document.getElementById('downloadButton')
+			downloadButton.setAttribute("href", ggburl);
+			//downloadButton.disabled = false;
 			}
     }-*/;
     
@@ -280,75 +281,54 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		}
 		ASCIIReader.prototype = new $wnd.zip.Reader();
 		ASCIIReader.prototype.constructor = ASCIIReader;
-		
-		//$wnd.zip.useWebWorkers = false;
-		
-		var requestFileSystem = $wnd.webkitRequestFileSystem ||
-			$wnd.mozRequestFileSystem || $wnd.requestFileSystem;
-		
-		var tmpFilename = "geogebra.ggb";
-        requestFileSystem($wnd.TEMPORARY, 4 * 1024 * 1024 * 1024, function(filesystem) {
-            
-            function create() {
-                filesystem.root.getFile(tmpFilename, {
-                    create : true
-                }, function(ggbFileEntry) {
-                	//obj.downloadggb.setFileSystem(filesystem);
-                    //callback(zipFile, filesystem);
-   					$wnd.zip.createWriter(new $wnd.zip.FileWriter(ggbFileEntry), function(zipWriter) {
-   						
-						function addImage(name, data, callback) {
-							var data2 = data.substr(data.indexOf(',')+1);
-							zipWriter.add(name, new $wnd.zip.Data64URIReader(data2), callback);
-						}
-			
-						function addText(name, data, callback) {
-							$wnd.console.log(name);
-							zipWriter.add(name, new ASCIIReader(data), callback);
-						}
-			
-						function checkIfStillFilesToAdd() {
-							var item,
-								imgExtensions = ["jpg", "png", "gif"];
-							if (arch.archive.length > 0) {
-								$wnd.console.log("arch.archive.length: "+arch.archive.length);
-								item = arch.archive.shift();
-								var ind = item.fileName.lastIndexOf('.');
-								if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
-								//if (item.fileName.indexOf(".png") > -1) 
-										$wnd.console.log("image zipped" + item.fileName);
-										addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
-								} else {
-										$wnd.console.log("text zipped");
-										addText(item.fileName,encodeUTF8(item.fileContent),function(){checkIfStillFilesToAdd();});
-								}
-							} else {
-								zipWriter.close(function(dataURI) {
-										if (typeof clb === "function") {
-											clb(ggbFileEntry);
-											// that's right, this truncation is necessary
-											//clb(dataURI.substr(dataURI.indexOf(',')+1));
-										} else {
-											$wnd.console.log("not callback was given");
-											$wnd.console.log(dataURI);
-										}
-								});
-							}
-						}
-						
-						 checkIfStillFilesToAdd();
-						
-					}, function(error) {
-						$wnd.console.log("error occured while creating ggb zip");
-					});                 
-                });
-            }
 
-            filesystem.root.getFile(tmpFilename, null, function(entry) {
-                entry.remove(create, create);
-            }, create);
-        }, function(e){console.log(e)});
-    
+		$wnd.zip.createWriter(new $wnd.zip.BlobWriter(), function(zipWriter) {
+			
+			function addImage(name, data, callback) {
+				var data2 = data.substr(data.indexOf(',')+1);
+				zipWriter.add(name, new $wnd.zip.Data64URIReader(data2), callback);
+			}
+
+			function addText(name, data, callback) {
+				$wnd.console.log(name);
+				zipWriter.add(name, new ASCIIReader(data), callback);
+			}
+
+			function checkIfStillFilesToAdd() {
+				var item,
+					imgExtensions = ["jpg", "png", "gif"];
+				if (arch.archive.length > 0) {
+					$wnd.console.log("arch.archive.length: "+arch.archive.length);
+					item = arch.archive.shift();
+					var ind = item.fileName.lastIndexOf('.');
+					if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
+					//if (item.fileName.indexOf(".png") > -1) 
+							$wnd.console.log("image zipped" + item.fileName);
+							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
+					} else {
+							$wnd.console.log("text zipped");
+							addText(item.fileName,encodeUTF8(item.fileContent),function(){checkIfStillFilesToAdd();});
+					}
+				} else {
+					zipWriter.close(function(dataURI) {
+							if (typeof clb === "function") {
+								clb(dataURI);
+								// that's right, this truncation is necessary
+								//clb(dataURI.substr(dataURI.indexOf(',')+1));
+							} else {
+								$wnd.console.log("not callback was given");
+								$wnd.console.log(dataURI);
+							}
+					});
+				}
+			}
+			
+			 checkIfStillFilesToAdd();
+			
+		}, function(error) {
+			$wnd.console.log("error occured while creating ggb zip");
+		});              
+
 
 	 }-*/;
 

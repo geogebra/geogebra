@@ -36,9 +36,7 @@ public class InputDialogDownloadGGB extends InputDialogW{
 			public void onValueChange(ValueChangeEvent<String> event) {
 				setFilename(event.getValue());
             }		
-		});
-		
-		
+		});	
 	}
 	
 	public void setFilename(String newVal){
@@ -61,7 +59,6 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		linkDownload.setText(app.getPlain("Download"));	
 		linkDownload.setStyleName("gwt-Button");
 		linkDownload.addStyleName("linkDownload");
-		linkDownload.getElement().setAttribute("style", "display:inline");
 		linkDownload.getElement().setAttribute(
 				"style", "text-decoration: none; color: black");
 		setFilename("geogebra.ggb");
