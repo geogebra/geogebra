@@ -574,5 +574,17 @@ public interface Manager3DInterface {
 
 	public Geo3DVec newGeo3DVec(double double1, double double2, double double3);
 
+	
+	/**
+	 * rotate around a point + direction
+	 * @param label
+	 * @param geoRot
+	 * @param phi
+	 * @param Q
+	 * @param orientation
+	 * @return geo rotated
+	 */
+	public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+			NumberValue phi, GeoPointND Q, GeoDirectionND orientation);
 
 }

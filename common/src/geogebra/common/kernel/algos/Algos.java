@@ -140,6 +140,7 @@ public enum Algos {
 	AlgoRoots(Commands.Roots),
 	AlgoRotate(Commands.Rotate),
 	AlgoRotatePoint(Commands.Rotate),
+	AlgoRotate3DPointOrientation(Commands.Rotate),
 	AlgoSemicircle(Commands.Semicircle),
 	AlgoSequence(Commands.Sequence),
 	AlgoSlope(Commands.Slope),

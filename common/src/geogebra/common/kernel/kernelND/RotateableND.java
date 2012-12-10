@@ -13,6 +13,7 @@ public interface RotateableND extends PointRotateable{
 	 * Rotates this element around
 	 * @param r angle
 	 * @param S center
+	 * @param orientation orientation for the rotation
 	 */
-	public void rotate3D(NumberValue r, GeoPointND S);
+	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation);
 }

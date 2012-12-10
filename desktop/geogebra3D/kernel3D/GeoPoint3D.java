@@ -48,8 +48,10 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CoordStyle;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -66,7 +68,7 @@ import java.util.TreeSet;
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle,
-		PointRotateable {
+		PointRotateable, RotateableND {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1261,6 +1263,29 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 				+ (y - qy) * cos + qy, z, w);
 	}
 
+	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
+		
+		Coords o = S.getInhomCoordsInD(3);
+		Coords v1 = getInhomCoordsInD(3).sub(o);
+		Coords vn = orientation.getDirectionInD3();
+		
+		//check if rotation is possible, i.e. if points are in a plane orthogonal to the direction
+		if (!Kernel.isZero(v1.dotproduct(vn))){
+			setUndefined();
+			return;
+		}
+		
+		double phi = phiValue.getDouble();
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+		vn.normalize();
+		Coords v2 = vn.crossProduct4(v1);
+		setCoords(o.add(v1.mul(cos)).add(v2.mul(sin)));
+		
+		
+		
+		
+	}
 
 
 }

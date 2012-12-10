@@ -144,6 +144,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			case Translate:
 				return new CmdTranslate3D(kernel);
+				
+			case Rotate:
+				return new CmdRotate3D(kernel);
 
 			case Length:
 				return new CmdLength3D(kernel);

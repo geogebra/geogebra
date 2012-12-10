@@ -2,11 +2,15 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdRotate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
+import geogebra3D.kernel3D.GeoPoint3D;
 
 /**
  * @author mathieu
@@ -26,5 +30,70 @@ public class CmdRotate3D extends CmdRotate{
 		super(kernel);
 	}
 	
+	@Override
+	public GeoElement[] process(Command c) throws MyError {
+		int n = c.getArgumentNumber();
+		boolean[] ok = new boolean[n];
+		GeoElement[] arg;
+		
+		switch (n) {
+		case 2:
+			// ROTATE AROUND CENTER (0,0,0)
+			arg = resArgs(c);
+			
+			//first check if rotated geo is 3D element
+			if (arg[0].isGeoElement3D()
+					&& (ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isNumberValue()))) {
+
+				GeoPoint3D center = new GeoPoint3D(cons);
+				center.setCoords(0, 0, 0, 1);
+				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
+						(GeoPointND) arg[0], (NumberValue) arg[1], center, (GeoDirectionND) kernelA.getXOYPlane());
+			}
+		
+			
+			return super.process2(c,arg,ok);
+
+		case 3:
+			// ROTATION AROUND POINT
+			arg = resArgs(c);
+
+			//first check if rotated geo or center point is 3D element
+			if ((arg[0].isGeoElement3D() || arg[2].isGeoElement3D())
+					&& (ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[2] = (arg[2].isGeoPoint()))) {
+
+				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
+						(GeoPointND) arg[0], (NumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) kernelA.getXOYPlane());
+
+
+			}
+			
+			return super.process3(c, arg, ok);
+
+
+		case 4:
+			// ROTATION AROUND POINT AND DIRECTION
+			arg = resArgs(c);
+
+			// rotate point
+			if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[2] = (arg[2].isGeoPoint())) && (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+
+				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
+						(GeoPointND) arg[0], (NumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) arg[3]);
+			}
+
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+
+
+			
+
+
+		}
+		
+		return super.process(c);
+
+	}
 
 }

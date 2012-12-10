@@ -5,6 +5,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.Transform;
+import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -1203,6 +1205,11 @@ public class Manager3D implements Manager3DInterface {
 		return new geogebra3D.kernel3D.Geo3DVec(kernel, x, y, z);
 	}
 
+	final public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+			NumberValue phi, GeoPointND center, GeoDirectionND orientation) {
+		Transform t = new TransformRotate3D(cons, phi, center, orientation);
+		return t.transform((GeoElement) geoRot, label);
+	}
 
 
 
