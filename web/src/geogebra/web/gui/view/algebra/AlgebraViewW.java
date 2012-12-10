@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
@@ -1400,7 +1399,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		repaint();
 	}
 
-	private boolean repaintScheduled = false;
+	private boolean repaintTimed = false;
 
 	private Date repaintedLast = new Date();
 
@@ -1408,7 +1407,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 	private Timer repaintTimer = new Timer() {
 		public void run() {
-			repaintScheduled = false;
+			repaintTimed = false;
 			doRepaint();
 		}
 	};
@@ -1420,13 +1419,13 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		if (!isShowing())
 			return;
 
-		if (repaintScheduled)
+		if (repaintTimed)
 			return;
 
 		Date now = new Date();
 		long repaintMillisNeg = 0;
 		if ((repaintMillisNeg = now.getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
-			repaintScheduled = true;
+			repaintTimed = true;
 			repaintTimer.schedule((int)-repaintMillisNeg);
 			return;
 		}

@@ -16,6 +16,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.web.main.AppW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -27,6 +28,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -1392,12 +1394,48 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 		repaint();
 	}
 
+	private boolean repaintTimed = false;
+
+	private Date repaintedLast = new Date();
+
+	private static int repaintMillis = 334;
+
+	private Timer repaintTimer = new Timer() {
+		public void run() {
+			repaintTimed = false;
+			doRepaint();
+		}
+	};
+
 	public void repaint() {
-		//TODO implementation needed
-		if (isShowing())
-			table.repaint();
+		// no need to repaint that which is not showing
+		// (but take care of repainting if it appears!)
+		if (!isShowing())
+			return;
+
+		if (repaintTimed)
+			return;
+
+		Date now = new Date();
+		long repaintMillisNeg = 0;
+		if ((repaintMillisNeg = now.getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
+			repaintTimed = true;
+			repaintTimer.schedule((int)-repaintMillisNeg);
+			return;
+		}
+		doRepaint();
 	}
 
+	protected void doRepaint() {
+		repaintedLast = new Date();
+		table.repaint();
+	}
+
+	/**
+	 * This method is used from add and remove, to ensure it is executed after
+	 * the loop is executed - so in theory, if there is a loop with add methods,
+	 * all the add methods come first, and repaint is called only afterwards
+	 */
 	public void scheduleRepaint() {
 		if (!repaintScheduled) {
 			repaintScheduled = true;
