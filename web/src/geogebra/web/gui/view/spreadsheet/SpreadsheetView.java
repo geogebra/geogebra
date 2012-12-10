@@ -1388,6 +1388,7 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 
 	protected void onLoad() {
 		// this may be important if the view is added/removed from the DOM
+		super.onLoad();
 		repaint();
 	}
 
