@@ -894,7 +894,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			TreeItem parent = typeNodesMap.get(typeString);
 
 			// this has been the last node
-			if (parent.getChildCount() == 0) {
+			if (parent != null && parent.getChildCount() == 0) {
 				typeNodesMap.remove(typeString);
 				parent.remove();
 			}
