@@ -137,16 +137,70 @@ public class CmdFillCells extends CommandProcessor {
 					app.setScrollToShow(true);
 					return ret;
 				}
+				
+				GeoList list = (GeoList)geo;
+				if (list.isMatrix()) {
 
-				// TODO finish
-				// GeoList list = (GeoList)geo;
-				// if (list.isMatrix())
+					int countX = 0;
+					for (int row = minRow; row <= maxRow; row++) {
+						GeoList rowList = (GeoList) list.get(countX % list.size());
+						countX++;
+						int countY = 0;
+						for (int col = minCol; col <= maxCol; col++) {
+							try {
+								// cell will have been autocreated by eg A1:A3
+								// in command, so delete
+								// in case it's being filled by eg GeoText
+								kernelA.lookupLabel(
+										GeoElementSpreadsheet.getSpreadsheetCellName(col,
+												row)).remove();
+
+								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
+										rowList.get(countY % rowList.size()));
+								countY ++;
+
+							} catch (Exception e) {
+								app.setScrollToShow(true);
+								e.printStackTrace();
+								throw argErr(app, c.getName(), arg[1]);
+							}
+						}
+					}
+
+				} else { 
+					// not matrix, just use each list value in turn
+					int count = 0;
+					for (int row = minRow; row <= maxRow; row++)
+						for (int col = minCol; col <= maxCol; col++) {
+							try {
+								// cell will have been autocreated by eg A1:A3
+								// in command, so delete
+								// in case it's being filled by eg GeoText
+								kernelA.lookupLabel(
+										GeoElementSpreadsheet.getSpreadsheetCellName(col,
+												row)).remove();
+
+								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
+										list.get(count % list.size()));
+								count ++;
+								
+							} catch (Exception e) {
+								app.setScrollToShow(true);
+								e.printStackTrace();
+								throw argErr(app, c.getName(), arg[1]);
+							}
+						}
+
+					
+				}
 
 				app.storeUndoInfo();
 				app.setScrollToShow(true);
 				return ret;
 
 			} 
+			
+			// arg[0] not list
 			{
 
 				app.getKernel().getGeoElementSpreadsheet();
