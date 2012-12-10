@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -328,6 +329,9 @@ public final class DrawPoint extends Drawable {
 		case SEGMENT:
 			drawable = new DrawSegment(view, (GeoSegment) geo2);
 			break;
+		case RAY:
+			drawable = new DrawRay(view, (GeoLineND) geo2);
+			break;
 		case CONIC:
 			drawable = new DrawConic(view, (GeoConic) geo2);
 			break;
@@ -343,8 +347,8 @@ public final class DrawPoint extends Drawable {
 
 		default:
 			drawable = null;
-			App.debug("unsupported type for restriced drawing "
-					+ geo2.getClass() + "");
+			App.debug("unsupported type for restricted drawing "
+					+ geo2.getGeoClassType());
 		}
 
 		if (drawable != null) {
