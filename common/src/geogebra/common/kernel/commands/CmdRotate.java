@@ -41,13 +41,13 @@ public class CmdRotate extends CommandProcessor {
 		case 2:
 			// ROTATE AROUND CENTER (0,0)
 			arg = resArgs(c);
-			process2(c,arg,ok);
+			return process2(c,arg,ok);
 			
 
 		case 3:
 			// ROTATION AROUND POINT
 			arg = resArgs(c);
-			process3(c,arg,ok);
+			return process3(c,arg,ok);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
