@@ -1063,8 +1063,8 @@ public class RelativeCopy {
 		s = s.trim();
 		if(s == null || s.length() == 0) return false;
 		
-		// remove degree char from end of string
-		if (s.charAt(s.length() - 1) == Unicode.degreeChar) {
+		// remove degree/% char from end of string
+		if (s.charAt(s.length() - 1) == Unicode.degreeChar || s.charAt(s.length() - 1) == '%') {
 			s = s.substring(0, s.length() - 1);
 		}
 		
