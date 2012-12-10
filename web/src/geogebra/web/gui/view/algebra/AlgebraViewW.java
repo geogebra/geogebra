@@ -22,18 +22,21 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings; 
-import geogebra.common.main.settings.AlgebraSettings; 
-import geogebra.common.main.settings.SettingListener; 
+import geogebra.common.main.settings.AlgebraSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -1397,12 +1400,47 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		repaint();
 	}
 
+	private boolean repaintScheduled = false;
+
+	private Date repaintedLast = new Date();
+
+	private static int repaintMillis = 334;
+
+	private Timer repaintTimer = new Timer() {
+		public void run() {
+			repaintScheduled = false;
+			doRepaint();
+		}
+	};
+
 	public void repaint() {
 
 		// no need to repaint that which is not showing
-		// (but take care of repainting if it appears!) 
+		// (but take care of repainting if it appears!)
 		if (!isShowing())
 			return;
+
+		if (repaintScheduled)
+			return;
+
+		Date now = new Date();
+		long repaintMillisNeg = 0;
+		if ((repaintMillisNeg = now.getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
+			repaintScheduled = true;
+			repaintTimer.schedule((int)-repaintMillisNeg);
+			return;
+		}
+
+		doRepaint();
+    }
+
+	public boolean isShowing() {
+		return isVisible() && isAttached();
+    }
+
+	protected void doRepaint() {
+
+		repaintedLast = new Date();
 
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
@@ -1423,11 +1461,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 				}
 			}
 		}
-    }
-
-	public boolean isShowing() {
-		return isVisible() && isAttached();
-    }
+	}
 
 	/**
 	 * @return int value for tree mode (used in XML)
