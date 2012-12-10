@@ -81,7 +81,7 @@ public class Ggb2MPReduce {
 		p("DivisorsSum.1",
 				"<<off combinelogs$ if numberp(%0) then if %0=1 then 1 else for each x in factorize(%0) product (part(x,1)^(part(x,2)+1)-1)/(part(x,1)-1) else \\'? >>");
 		p("Dot.2", "mydot(%0,%1)");
-		p("Element.2", "part(%0,%1)");
+		p("Element.2", "part(mattolistoflists(%0),%1)");
 		p("Element.3",
 				"part(part(mattolistoflists(%0),%1),%2)");
 		p("Expand.1",
@@ -247,7 +247,7 @@ public class Ggb2MPReduce {
 		p("Random.2", "random(%1-%0+1)+%0");
 		p("RandomBinomial.2",
 				"<<on rounded, roundall, numval; for each x in for i:=1:%0 collect random(10000000)/10000000 sum if (x<%1) then 1 else 0 >>");
-		p("RandomElement.1", "part(%0,random(length(%0))+1)");
+		p("RandomElement.1", "part(mattolistoflists(%0),random(length(%0))+1)");
 		p("RandomPoisson.1",
 				"<<on rounded, roundall, numval; begin scalar L!!, k!!, p!!; L!!:=exp(-%0); k!!:=0; p!!:=1; repeat <<k!!:=k!!+1; p!!:=p!!*(random(10000000)/10000000)>> until p!!<=L!!; return k!!-1 end>>");
 		p("RandomNormal.2",
