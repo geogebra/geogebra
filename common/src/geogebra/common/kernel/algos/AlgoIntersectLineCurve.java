@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -211,10 +212,23 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 			for (index = 0 ; index < outputSize ; index++) {
 				double paramVal = roots[index];
 				GeoPoint point = (GeoPoint) outputPoints.getElement(index);
+				
+				if (paramVal < curve.getMinParameter() || paramVal > curve.getMaxParameter()) {
+					// intersection is not on the curve
+					point.setUndefined();
+				} else {
 
-				// substitute parameter back into curve to get cartesian coords
-				fv.set(paramVal);
-				point.setCoords(xFun.evaluateNum().getDouble(), yFun.evaluateNum().getDouble(), 1.0);
+					// substitute parameter back into curve to get cartesian coords
+					fv.set(paramVal);
+					point.setCoords(xFun.evaluateNum().getDouble(), yFun.evaluateNum().getDouble(), 1.0);
+					
+					// test the intersection point
+					// this is needed for the intersection of Segments, Rays
+					if (!(line.isIntersectionPointIncident(point, Kernel.MIN_PRECISION) )) {
+						point.setUndefined();
+					}
+				}
+
 				//AbstractApplication.debug(xFun.evaluateNum().getDouble()+","+ yFun.evaluateNum().getDouble());
 			}	
 		}
