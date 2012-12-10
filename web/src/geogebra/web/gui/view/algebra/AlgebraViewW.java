@@ -1391,7 +1391,18 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	    return false;
     }
 
+	protected void onLoad() {
+		// this may be important if the view is added/removed from the DOM
+		repaint();
+	}
+
 	public void repaint() {
+
+		// no need to repaint that which is not showing
+		// (but take care of repainting if it appears!) 
+		if (!isShowing())
+			return;
+
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++) {

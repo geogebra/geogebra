@@ -1386,6 +1386,11 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 			&& table.isAttached();
 	}
 
+	protected void onLoad() {
+		// this may be important if the view is added/removed from the DOM
+		repaint();
+	}
+
 	public void repaint() {
 		//TODO implementation needed
 		if (isShowing())
