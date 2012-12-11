@@ -297,18 +297,28 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	@Override
 	public boolean isChangeable() {
 
+		return isPointChangeable(this);
+	}
+	
+	/**
+	 * static method for used in GeoPoint3D
+	 * @param point point
+	 * @return true if point is Changeable
+	 */
+	public static final boolean isPointChangeable(GeoElement point) {
+
 		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
-		AlgoElement algo = getParentAlgorithm();
+		AlgoElement algo = point.getParentAlgorithm();
 		if (algo != null && algo instanceof AlgoDynamicCoordinatesInterface)
 			return true;
 
 		// make sure Point[circle, param] is not draggable
 		if (algo instanceof PathAlgo) {
-			return ((PathAlgo) algo).isChangeable() && !isFixed();
+			return ((PathAlgo) algo).isChangeable() && !point.isFixed();
 		}
 
-		return !isFixed()
-				&& (isIndependent() || isPointOnPath() || isPointInRegion());
+		return !point.isFixed()
+				&& (point.isIndependent() || point.isPointOnPath() || point.isPointInRegion());
 	}
 
 	@Override

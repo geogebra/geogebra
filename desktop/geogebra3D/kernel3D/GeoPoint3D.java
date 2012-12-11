@@ -479,8 +479,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// copied on GeoPoint
 	@Override
 	public boolean isChangeable() {
-		return !isFixed()
-				&& (isIndependent() || isPointOnPath() || isPointInRegion());
+		return GeoPoint.isPointChangeable(this);
 	}
 
 	// /////////////////////////////////////////////////////////
@@ -1312,6 +1311,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		
 
 	}
+	
 
 
 }
