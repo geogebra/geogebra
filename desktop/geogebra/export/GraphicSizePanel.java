@@ -12,7 +12,6 @@
 
 package geogebra.export;
 
-import geogebra.common.main.App;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 

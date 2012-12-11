@@ -21,7 +21,6 @@ import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.app.GeoGebraFrame;
@@ -36,7 +35,6 @@ import geogebra.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -44,7 +42,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,14 +50,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.TreeSet;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -610,12 +603,10 @@ public class WorksheetExportDialog extends JDialog {
 		if (appCP != null) {
 			width = appCP.getWidth();
 			height = appCP.getHeight();
-			App.debug(width+" "+height);
 		} else {
 			width = DEFAULT_APPLET_WIDTH;
 			height = DEFAULT_APPLET_HEIGHT;
 		}
-		App.debug("XXXX"+width+" "+height);
 		sizePanel = new GraphicSizePanel(app, width, height, false);
 		sizePanel.setAlignmentX(LEFT_ALIGNMENT);
 		guiPanel.add(sizePanel);
