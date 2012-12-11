@@ -3517,15 +3517,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates all objects in a cascade, but only location is updated for
 	 * the locatables in input array
 	 * @param geos locateables
-	 * @param tempSet1 set for temporary storing
 	 */
 	final static public synchronized void updateCascadeLocation(
-			final ArrayList<Locateable> geos,
-			final TreeSet<AlgoElement> tempSet1) 
+			final ArrayList<Locateable> geos) 
 	{		
 		// build update set of all algorithms in construction element order
 		// clear temp set
-		tempSet1.clear();
+		final TreeSet<AlgoElement> tempSet1 = new TreeSet<AlgoElement>();
 		
 		final int size = geos.size();
 			for (int i = 0; i < size; i++) {
@@ -3545,8 +3543,12 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (tempSet1.size() > 0) {
 				final Iterator<AlgoElement> it = tempSet1.iterator();
 				while (it.hasNext()) {
+					try{
 					final AlgoElement algo = it.next();
 					algo.update();
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 				}
 			}	
 		

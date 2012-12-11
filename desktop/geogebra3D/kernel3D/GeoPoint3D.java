@@ -963,7 +963,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		// update all registered locatables (they have this point as start
 		// point)
 		if (locateableList != null) {
-			GeoElement.updateCascadeLocation(locateableList, getTempSet());
+			GeoElement.updateCascadeLocation(locateableList);
 		}
 	}
 
