@@ -132,6 +132,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 		lines = cp.lines;
 
 		value = cp.value;
+		area = cp.area;
 		value_defined = cp.value_defined;
 
 		keepTypeOnGeometricTransform = cp.keepTypeOnGeometricTransform;
