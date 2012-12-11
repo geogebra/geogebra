@@ -2,7 +2,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
-import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -55,7 +55,7 @@ public class SpreadsheetStyleBarPanel extends Composite implements RequiresResiz
 		if (application != app) {
 			application = app;
 			setStyleBar(
-				((SpreadsheetView)application.getGuiManager().getSpreadsheetView())
+				((SpreadsheetViewW)application.getGuiManager().getSpreadsheetView())
 				.getSpreadsheetStyleBar());
 		}
 	}

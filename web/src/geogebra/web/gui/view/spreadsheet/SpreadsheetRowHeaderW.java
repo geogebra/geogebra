@@ -20,7 +20,7 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetRowHeader implements
+public class SpreadsheetRowHeaderW implements
 MouseDownHandler, MouseUpHandler, MouseMoveHandler
 /*extends JList implements MouseListener,
 		MouseMotionListener, KeyListener, ListSelectionListener*/
@@ -28,7 +28,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 {
 	private static final long serialVersionUID = 1L;
 	private AppW app;
-	private SpreadsheetView view;
+	private SpreadsheetViewW view;
 	private MyTableW table;
 	private MyListModel listModel;
 
@@ -52,11 +52,11 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 	/***************************************************
 	 * Constructor
 	 */
-	public SpreadsheetRowHeader(AppW app, MyTableW table) {
+	public SpreadsheetRowHeaderW(AppW app, MyTableW table) {
 
 		this.app = app;
 		this.table = table;
-		this.view = (SpreadsheetView)table.getView();
+		this.view = (SpreadsheetViewW)table.getView();
 
 		listModel = new MyListModel((SpreadsheetTableModelW)table.getModel());
 		//this.setModel(listModel);//display as part of MyTableW yet

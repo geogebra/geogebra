@@ -71,17 +71,17 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
 
-	protected SpreadsheetColumnController scc;
-	protected SpreadsheetRowHeader srh;
-	protected SpreadsheetColumnController.ColumnHeaderRenderer columnHeaderRenderer;
-	protected SpreadsheetRowHeader.RowHeaderRenderer rowHeaderRenderer;
-	protected SpreadsheetRowHeader.MyListModel rowHeaderModel;
+	protected SpreadsheetColumnControllerW scc;
+	protected SpreadsheetRowHeaderW srh;
+	protected SpreadsheetColumnControllerW.ColumnHeaderRenderer columnHeaderRenderer;
+	protected SpreadsheetRowHeaderW.RowHeaderRenderer rowHeaderRenderer;
+	protected SpreadsheetRowHeaderW.MyListModel rowHeaderModel;
 
-	protected SpreadsheetView view;
+	protected SpreadsheetViewW view;
 	protected SpreadsheetTableModel tableModel;
 	private CellRangeProcessor crProcessor;
 	// private MyTableColumnModelListener columnModelListener;
-	MyCellRenderer defaultTableCellRenderer;
+	MyCellRendererW defaultTableCellRenderer;
 
 	private CellFormatInterface formatHandler;
 
@@ -207,7 +207,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	/*******************************************************************
 	 * Construct table
 	 */
-	public MyTableW(SpreadsheetView view, SpreadsheetTableModel tableModel) {
+	public MyTableW(SpreadsheetViewW view, SpreadsheetTableModel tableModel) {
 		super(tableModel.getRowCount() + 1, tableModel.getColumnCount() + 1);
 
 		cellResizeHeightSet = new HashSet<GPoint>();
@@ -257,7 +257,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// TODO//setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		defaultTableCellRenderer = new MyCellRenderer(app, view,
+		defaultTableCellRenderer = new MyCellRendererW(app, view,
 		        (CellFormat) this.getCellFormatHandler());
 
 		//:NEXT:Grid.setCellFormatter
@@ -272,8 +272,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		rowSelectionAllowed = columnSelectionAllowed = true;
 
 		// add mouse and key listeners
-		scc = new SpreadsheetColumnController(app, this);
-		srh = new SpreadsheetRowHeader(app, this);
+		scc = new SpreadsheetColumnControllerW(app, this);
+		srh = new SpreadsheetRowHeaderW(app, this);
 
 		// key listener - old solution
 		//KeyListener[] defaultKeyListeners = getKeyListeners();
@@ -314,7 +314,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		 * ctrl-tab rather than mouse // click // changeSelection(0, 0, false,
 		 * false);
 		 */
-		rowHeaderModel = new SpreadsheetRowHeader.MyListModel(
+		rowHeaderModel = new SpreadsheetRowHeaderW.MyListModel(
 		        (SpreadsheetTableModelW) tableModel);
 		rowHeaderRenderer = srh.new RowHeaderRenderer();
 		columnHeaderRenderer = scc.new ColumnHeaderRenderer();

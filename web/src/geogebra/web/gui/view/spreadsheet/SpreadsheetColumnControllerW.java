@@ -20,11 +20,11 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetColumnController implements
+public class SpreadsheetColumnControllerW implements
 	MouseDownHandler, MouseUpHandler, MouseMoveHandler {
 
 	private AppW app;
-	private SpreadsheetView view;
+	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModelW model;
@@ -36,12 +36,12 @@ public class SpreadsheetColumnController implements
 
 	private boolean isMouseDown = false;
 
-	public SpreadsheetColumnController(AppW app, MyTableW table) {
+	public SpreadsheetColumnControllerW(AppW app, MyTableW table) {
 
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.table = table;
-		this.view = (SpreadsheetView)table.getView();
+		this.view = (SpreadsheetViewW)table.getView();
 		this.model = (SpreadsheetTableModelW)table.getModel();
 
 	}

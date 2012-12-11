@@ -14,23 +14,23 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 
-public class SpreadsheetKeyListener implements KeyDownHandler, KeyPressHandler
+public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 {
 
 	private AppW app;
-	private SpreadsheetView view;
+	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModelW model;
 	private MyCellEditorW editor;
 	boolean keyDownSomething = false;
 
-	public SpreadsheetKeyListener(AppW app, MyTableW table){
+	public SpreadsheetKeyListenerW(AppW app, MyTableW table){
 
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.table = table;
-		this.view = (SpreadsheetView)table.getView();
+		this.view = (SpreadsheetViewW)table.getView();
 		this.model = (SpreadsheetTableModelW) table.getModel();  
 		this.editor = table.editor;
 

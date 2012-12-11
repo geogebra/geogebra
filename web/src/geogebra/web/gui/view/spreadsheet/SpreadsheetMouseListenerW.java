@@ -29,14 +29,14 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 
 
-public class SpreadsheetMouseListener implements
+public class SpreadsheetMouseListenerW implements
 	MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler {
 
 	protected String selectedCellName;
 	protected String prefix0, postfix0;
 
 	private AppW app;
-	private SpreadsheetView view;
+	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModel model;
@@ -49,12 +49,12 @@ public class SpreadsheetMouseListener implements
 	/*************************************************
 	 * Constructor
 	 */
-	public SpreadsheetMouseListener(AppW app, MyTableW table) {
+	public SpreadsheetMouseListenerW(AppW app, MyTableW table) {
 
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.table = table;
-		this.view = (SpreadsheetView)table.getView();
+		this.view = (SpreadsheetViewW)table.getView();
 		this.model = table.getModel();
 		this.editor = table.editor;
 

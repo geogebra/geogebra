@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
-import geogebra.web.gui.view.spreadsheet.SpreadsheetView;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
@@ -25,7 +25,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	VerticalPanelSmart ancestor;
 	SpreadsheetStyleBarPanel sstylebar;
-	SpreadsheetView sview;
+	SpreadsheetViewW sview;
 
 	public SpreadsheetDockPanelW() {
 		super(0, null, null, true, 0);
@@ -52,7 +52,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				// If this is resized, we may know its width and height
 				int width = this.getOffsetWidth();//this is 400, OK
 				int height = this.getOffsetHeight() -
-					(((SpreadsheetView)application.getGuiManager().getSpreadsheetView()).
+					(((SpreadsheetViewW)application.getGuiManager().getSpreadsheetView()).
 				getSpreadsheetStyleBar()).getOffsetHeight();
 
 				sview.getScrollPanel().setWidth(width+"px");
@@ -70,7 +70,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	   onResize();
 	}
 
-	public SpreadsheetView getSpreadsheet() {
+	public SpreadsheetViewW getSpreadsheet() {
 		return sview;
 	}
 

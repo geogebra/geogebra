@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 
-public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInterface, /*ComponentListener,
+public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener, RequiresResize {
 
 	private static final long serialVersionUID = 1L;
@@ -97,7 +97,7 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
 	 * browser, right panel holds spreadsheet.
 	 */
-	public SpreadsheetView(AppW app) {
+	public SpreadsheetViewW(AppW app) {
 		super();
 
 		this.app = app;
@@ -166,10 +166,10 @@ public class SpreadsheetView extends ScrollPanel implements SpreadsheetViewInter
 		forTheBlueDot.add(bluedot);
 
 		spreadsheet = new FocusPanel(forTheBlueDot);
-		SpreadsheetKeyListener sskl = new SpreadsheetKeyListener(app, table);
+		SpreadsheetKeyListenerW sskl = new SpreadsheetKeyListenerW(app, table);
 		spreadsheet.addKeyDownHandler(sskl);
 		spreadsheet.addKeyPressHandler(sskl);
-		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, table);
+		SpreadsheetMouseListenerW ml = new SpreadsheetMouseListenerW(app, table);
 		spreadsheet.addDomHandler(ml, MouseDownEvent.getType());
 		spreadsheet.addDomHandler(ml, MouseUpEvent.getType());
 		spreadsheet.addDomHandler(ml, MouseMoveEvent.getType());

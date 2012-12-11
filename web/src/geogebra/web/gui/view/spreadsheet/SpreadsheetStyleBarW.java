@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class SpreadsheetStyleBarW extends HorizontalPanel {
 	private static final long serialVersionUID = 1L;
-	private SpreadsheetView view;
+	private SpreadsheetViewW view;
 	private AppW app;
 	private MyTableW table;
 	private CellFormat formatHandler;
@@ -33,7 +33,7 @@ public class SpreadsheetStyleBarW extends HorizontalPanel {
 	protected int iconHeight = 18;
 	//?//private Dimension iconDimension = new Dimension(16, iconHeight);
 
-	public SpreadsheetStyleBarW(SpreadsheetView view) {
+	public SpreadsheetStyleBarW(SpreadsheetViewW view) {
 
 		super();
 

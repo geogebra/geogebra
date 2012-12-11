@@ -19,13 +19,13 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MyCellRenderer {
+public class MyCellRendererW {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
 	private AppW app;
 	private Kernel kernel;
-	private SpreadsheetView view;
+	private SpreadsheetViewW view;
 
 	// LaTeX
 	//private ImageIcon latexIcon, emptyIcon;
@@ -70,7 +70,7 @@ public class MyCellRenderer {
 	 * @param view
 	 * @param formatHandler
 	 */
-	public MyCellRenderer(AppW app, SpreadsheetView view,
+	public MyCellRendererW(AppW app, SpreadsheetViewW view,
 			CellFormat formatHandler) {
 
 		this.app = app;
