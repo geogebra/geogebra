@@ -147,31 +147,6 @@ public class WorksheetExportDialog extends JDialog {
 		initGUI();
 	}
 
-	/**
-	 * Checks if the EuclidianView has a selected rectangle. In this case we will
-	 * automatically move the coord system to put the selection rectangle into the
-	 * upper left corner of the euclidian view.
-	 */
-	private void checkEuclidianView() {
-		EuclidianViewND ev = app.getActiveEuclidianView();
-
-		// 1) selection rectangle
-		Rectangle rect = geogebra.awt.GRectangleD.getAWTRectangle(ev.getSelectionRectangle());
-		if (rect != null) {
-			double xZero = ev.getXZero() - rect.x;
-			double yZero = ev.getYZero() - rect.y;
-			rect.x = 0;
-			rect.y = 0;
-			ev.setCoordSystem(xZero, yZero, ev.getXscale(), ev.getYscale(), true);
-
-			// update size panel
-			int width = sizePanel.getSelectedWidth() - (ev.getWidth() - rect.width);
-			int height = sizePanel.getSelectedHeight()
-					- (ev.getHeight() - rect.height);
-			sizePanel.setValues(width, height, false);
-		}
-	}
-
 	private void initGUI() {
 
 		// title, author, date
@@ -635,10 +610,12 @@ public class WorksheetExportDialog extends JDialog {
 		if (appCP != null) {
 			width = appCP.getWidth();
 			height = appCP.getHeight();
+			App.debug(width+" "+height);
 		} else {
 			width = DEFAULT_APPLET_WIDTH;
 			height = DEFAULT_APPLET_HEIGHT;
 		}
+		App.debug("XXXX"+width+" "+height);
 		sizePanel = new GraphicSizePanel(app, width, height, false);
 		sizePanel.setAlignmentX(LEFT_ALIGNMENT);
 		guiPanel.add(sizePanel);
@@ -764,7 +741,6 @@ public class WorksheetExportDialog extends JDialog {
 	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
-			checkEuclidianView();
 			loadPreferences();
 			pack();
 			super.setVisible(true);
@@ -1642,76 +1618,82 @@ public class WorksheetExportDialog extends JDialog {
 			//if (cbOfflineUse.isSelected()) {
 			//	sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE_OFFLINE);
 			//} else {
-				sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
+			sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
 			//}
 			sb.append("\"></script>");
 			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" data-param-width=\""+width+"\" data-param-height=\""+height+"\" ");
 			appendGgbAppletParameters(sb, TYPE_GEOGEBRAWEB);
-		    sb.append("data-param-ggbbase64=\"");
-		    appendBase64(app, sb);
-		    appendWithLineBreak(sb, "\"></article>");
+			sb.append("data-param-ggbbase64=\"");
+			appendBase64(app, sb);
+			appendWithLineBreak(sb, "\"></article>");
 		} else {
 
-		// include applet
-		sb.append("<applet name=\"ggbApplet\" code=\"geogebra.GeoGebraApplet\"");
-		// archive geogebra.jar
-		sb.append(" archive=\"" + AppD.GEOGEBRA_JAR_NAME + "\"");
+			// include applet
+			if (app.hasEuclidianView3D()) {
+				sb.append("<applet name=\"ggbApplet\" code=\"geogebra.GeoGebraApplet3D\"");
+			} else {
+				sb.append("<applet name=\"ggbApplet\" code=\"geogebra.GeoGebraApplet\"");				
+			}
+			// archive geogebra.jar
+			sb.append(" archive=\"" + AppD.GEOGEBRA_JAR_NAME + "\"");
 
-		//if (cbOfflineUse.isSelected()) {
+			//if (cbOfflineUse.isSelected()) {
 			// codebase for offline applet
-		//	sb.append("\tcodebase=\"./\"");
-		//} else {
+			//	sb.append("\tcodebase=\"./\"");
+			//} else {
 			// add codebase for online applets
 			appendWithLineBreak(sb, "");
 			sb.append("\tcodebase=\"");
 			sb.append(GeoGebraConstants.GEOGEBRA_ONLINE_ARCHIVE_BASE);
-			if (!cbSavePrint.isSelected())
+			if (!cbSavePrint.isSelected() && !app.hasEuclidianView3D())
+				// need signed applets for Save, Print
+				// also need signed applets for 3D
 				sb.append("unsigned/");
 			sb.append("\"");
-		//}
+			//}
 
-		// width, height
-		appendWithLineBreak(sb, "");
-		sb.append("\twidth=\"");
-		sb.append(width);
-		sb.append("\" height=\"");
-		sb.append(height);
-		sb.append("\"");
-		if (mayscript && !cbUseBrowserForJavaScript.isSelected())
-			sb.append(" mayscript=\"true\"");// add MAYSCRIPT to ensure ggbOnInit()
-																				// can be called
-		appendWithLineBreak(sb, ">");
+			// width, height
+			appendWithLineBreak(sb, "");
+			sb.append("\twidth=\"");
+			sb.append(width);
+			sb.append("\" height=\"");
+			sb.append(height);
+			sb.append("\"");
+			if (mayscript && !cbUseBrowserForJavaScript.isSelected())
+				sb.append(" mayscript=\"true\"");// add MAYSCRIPT to ensure ggbOnInit()
+			// can be called
+			appendWithLineBreak(sb, ">");
 
-		/*
-		 * if (cbOfflineJars.isSelected() && ggbFile != null) { // ggb file
-		 * sb.append("\t<param name=\"filename\" value=\"");
-		 * sb.append(ggbFile.getName()); sb.append("\" />"); } else
-		 */
-		{
-			// base64 encoding
-			sb.append("\t<param name=\"ggbBase64\" value=\"");
-			appendBase64(app, sb);
-			// space before '/>' stops moodle stripping the paramater! 
-			appendWithLineBreak(sb, "\" />");
-		}
+			/*
+			 * if (cbOfflineJars.isSelected() && ggbFile != null) { // ggb file
+			 * sb.append("\t<param name=\"filename\" value=\"");
+			 * sb.append(ggbFile.getName()); sb.append("\" />"); } else
+			 */
+			{
+				// base64 encoding
+				sb.append("\t<param name=\"ggbBase64\" value=\"");
+				appendBase64(app, sb);
+				// space before '/>' stops moodle stripping the paramater! 
+				appendWithLineBreak(sb, "\" />");
+			}
 
-		// loading image for online applet
-		//if (!cbOfflineUse.isSelected()) {
+			// loading image for online applet
+			//if (!cbOfflineUse.isSelected()) {
 			appendWithLineBreak(sb, "\t<param name=\"image\" value=\""
 					+ GeoGebraConstants.LOADING_GIF + "\" />");
 			appendWithLineBreak(sb, "\t<param name=\"boxborder\" value=\"false\" />");
 			appendWithLineBreak(sb,
 					"\t<param name=\"centerimage\" value=\"true\" />");
-		//}
+			//}
 
-		appendAllAppletParameters(sb, TYPE_HTMLFILE);
+			appendAllAppletParameters(sb, TYPE_HTMLFILE);
 
-		// problem with Moodle 1.9.5 mangling this
-		if (includeNoJavaMessage)
-			appendWithLineBreak(sb, app.getPlain("NoJavaMessage"));
+			// problem with Moodle 1.9.5 mangling this
+			if (includeNoJavaMessage)
+				appendWithLineBreak(sb, app.getPlain("NoJavaMessage"));
 
-		sb.append("</applet>");
-		
+			sb.append("</applet>");
+
 		}
 
 		return sb.toString();
