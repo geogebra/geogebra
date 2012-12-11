@@ -159,7 +159,6 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  # It's a craze, indeed!
 
  echo Copying to Google Code...
- scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Featured $MACOSX_ZIP_FINAL
  fi
