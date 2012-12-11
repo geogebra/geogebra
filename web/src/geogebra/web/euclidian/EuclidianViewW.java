@@ -23,6 +23,7 @@ import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.AppW;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -48,6 +49,7 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.user.client.Timer;
 
 public class EuclidianViewW extends EuclidianView {
 	
@@ -324,32 +326,57 @@ public class EuclidianViewW extends EuclidianView {
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
-			if (repaintReally) {
-				repaintReally = false;
-				doRepaint();
-			}
+			repaintTimed = false;
+			doRepaint();
 		}
 	};
 
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
-	private boolean repaintReally = false;
+	private boolean repaintTimed = false;
+
+	private Date repaintedLast = new Date();
+
+	private static int repaintMillis = 34; // == 30 FPS
+
+	private Timer repaintTimer = new Timer() {
+		public void run() {
+	   		repaintScheduler.requestAnimationFrame(repaintCallback);
+		}
+	};
 
 	/**
 	 * repaintView just calls this method
 	 */
     public void repaint() {
-    	if (!disableRepaint) {
-   			repaintReally = true;
-   			repaintScheduler.requestAnimationFrame(repaintCallback);
-    	}
+
+    	if (disableRepaint)
+    		return;
+
+    	//TODO: enable this code if this view can be detached
+    	//if (!isShowing())
+    	//	return;
+
+		if (repaintTimed)
+			return;
+
+		long repaintMillisNeg = 0;
+		repaintTimed = true;
+		if ((repaintMillisNeg = new Date().getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
+			repaintTimer.schedule((int)-repaintMillisNeg);
+		} else {
+			repaintScheduler.requestAnimationFrame(repaintCallback);
+		}
     }
 
     /**
      * This doRepaint method should be used instead of repaintView in cases
-     * when the repaint should be done immediately 
+     * when the repaint should be done immediately
      */
     public void doRepaint() {
+
+		repaintedLast = new Date();
+
     	geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     	paint(g2p);
     }
@@ -760,8 +787,10 @@ public class EuclidianViewW extends EuclidianView {
 
 
 	public boolean isShowing() {
-		App.debug("unimplemented");
-	    return false;
+	  	return
+	  			g2p != null &&
+	  			g2p.getCanvas() != null &&
+	  			g2p.getCanvas().isAttached() &&
+	  			g2p.getCanvas().isVisible();
     }
-
 }
