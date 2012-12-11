@@ -163,7 +163,7 @@ public class Ggb2MPReduce {
 		p("Invert.1", "<<begin scalar a; a:=%0; return if arglength(a)>0 and part(a,0)=\\'mat then mypower(a,-1) else sub(yy=currentx!!,rhs(part(part(mysolve(yy=a,mymainvar(a)),1),1))); end>>");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
 		//p("Join.N","<<begin scalar list!!=list(%); if length(list!!)=1 then list!!:=part(list!!,0); return for each x!! in list!! join x!! end>>");
-		p("Join.N","<<begin scalar list!!; list!!:=(%); if length(list!!)=1 then list!!:=mattolistoflists(part(list!!,1)); return for each x!! in list!! join mattolistoflists(x!!) end>>");
+		p("Join.N","<<begin scalar list!!; list!!:=mattolistoflists(%); return for each x!! in list!! join mattolistoflists(x!!) end>>");
 		p("Line.2","<<begin scalar xa,ya,xb,yb; xa:=xcoord(%0); ya:=ycoord(%0); xb:=xcoord(%1);yb:=ycoord(%1);return lcm(lcm(den(xa-xb),den(ya-yb)),den(xb*ya-yb*xa))*((ya-yb)*currentx!!+(xb-xa)*currenty!!=xb*ya-yb*xa)/gcd(gcd(num(xa-xb),num(ya-yb)),num(xb*ya-yb*xa)); end>>");
 		// p("IsBound.1","if << symbolic; p!!:=isbound!!('%0); algebraic; p!!>>=1 then 'true else 'false");
 		p("Last.1",

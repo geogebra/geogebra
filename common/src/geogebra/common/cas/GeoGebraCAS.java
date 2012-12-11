@@ -384,16 +384,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
 					if (args.size() == 1) { // might be a list as the argument
-						ExpressionValue ev = args.get(0);
+						ExpressionValue ev = args.get(0).unwrap();
 						String str = toString(ev, symbolic, tpl);
-						if (ev.isListValue()) {
-							sbCASCommand.append(str);
-						} else {
-							// not a list, just append
-							getCurrentCAS().appendListStart(sbCASCommand);
-							sbCASCommand.append(str);
-							getCurrentCAS().appendListEnd(sbCASCommand);
-						}
+						sbCASCommand.append(str);											
 					} else {
 						getCurrentCAS().appendListStart(sbCASCommand);
 						for (int j = 0; j < args.size(); j++) {
