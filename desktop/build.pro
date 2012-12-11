@@ -77,6 +77,10 @@
     public <methods>;
 }
 
+-keep class geogebra.GeoGebraApplet3D {
+    public <methods>;
+}
+
 # Keep GeoGebraAppletPreloader
 -keep class geogebra.GeoGebraAppletPreloader {
     public <methods>;
