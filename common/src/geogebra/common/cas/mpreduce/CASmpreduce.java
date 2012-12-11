@@ -704,8 +704,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate(" procedure myfoldif(op,arg1);" +
 				" begin scalar ret;"+
-				"     arg1:=mkdepthone(arg1);"+
-				"     ret:=part(arg1,1);" +
+				"     arg1:=mattolistoflists(arg1);"+
+				"     ret:=if depth(arg1)>1 then '? else part(arg1,1);" +
 				"     for i:=2:length(arg1) do" +
 				"       ret:= if op(ret, part(arg1,i))='false then ret else " +
 				"  if op(ret, part(arg1,i))='true then part(arg1,i) else '?;" +

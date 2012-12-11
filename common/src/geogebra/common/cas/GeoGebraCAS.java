@@ -387,19 +387,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						ExpressionValue ev = args.get(0);
 						String str = toString(ev, symbolic, tpl);
 						if (ev.isListValue()) {
-							// is a list, remove { and }
-							// resp. list( ... ) in mpreduce
-							if (currentCAS.equals(CasType.MPREDUCE))
-								sbCASCommand.append(str.substring(22,
-										str.length() - 2));
-							else
-								sbCASCommand.append(str.substring(1,
-										str.length() - 1));
+							sbCASCommand.append(str);
 						} else {
 							// not a list, just append
+							getCurrentCAS().appendListStart(sbCASCommand);
 							sbCASCommand.append(str);
+							getCurrentCAS().appendListEnd(sbCASCommand);
 						}
 					} else {
+						getCurrentCAS().appendListStart(sbCASCommand);
 						for (int j = 0; j < args.size(); j++) {
 							ExpressionValue ev = args.get(j);
 							sbCASCommand.append(toString(ev, symbolic, tpl));
@@ -407,6 +403,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						}
 						// remove last comma
 						sbCASCommand.setLength(sbCASCommand.length() - 1);
+						getCurrentCAS().appendListEnd(sbCASCommand);
 					}
 				} else {
 					sbCASCommand.append(ch);

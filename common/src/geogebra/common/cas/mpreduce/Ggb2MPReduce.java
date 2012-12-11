@@ -163,7 +163,7 @@ public class Ggb2MPReduce {
 		p("Invert.1", "<<begin scalar a; a:=%0; return if arglength(a)>0 and part(a,0)=\\'mat then mypower(a,-1) else sub(yy=currentx!!,rhs(part(part(mysolve(yy=a,mymainvar(a)),1),1))); end>>");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
 		//p("Join.N","<<begin scalar list!!=list(%); if length(list!!)=1 then list!!:=part(list!!,0); return for each x!! in list!! join x!! end>>");
-		p("Join.N","<<begin scalar list!!; list!!:=list(%); if length(list!!)=1 then list!!:=mattolistoflists(part(list!!,1)); return for each x!! in list!! join mattolistoflists(x!!) end>>");
+		p("Join.N","<<begin scalar list!!; list!!:=(%); if length(list!!)=1 then list!!:=mattolistoflists(part(list!!,1)); return for each x!! in list!! join mattolistoflists(x!!) end>>");
 		p("Line.2","<<begin scalar xa,ya,xb,yb; xa:=xcoord(%0); ya:=ycoord(%0); xb:=xcoord(%1);yb:=ycoord(%1);return lcm(lcm(den(xa-xb),den(ya-yb)),den(xb*ya-yb*xa))*((ya-yb)*currentx!!+(xb-xa)*currenty!!=xb*ya-yb*xa)/gcd(gcd(num(xa-xb),num(ya-yb)),num(xb*ya-yb*xa)); end>>");
 		// p("IsBound.1","if << symbolic; p!!:=isbound!!('%0); algebraic; p!!>>=1 then 'true else 'false");
 		p("Last.1",
@@ -193,13 +193,13 @@ public class Ggb2MPReduce {
 		p("LimitBelow.2",
 				"<<begin scalar input!!, result!!; input!!:=(%0); result!! := limit!-(input!!,mymainvar(input!!),%1); return if freeof(result!!,\\'limit!-) then result!! else \\'?end>>");
 		p("LimitBelow.3", "<<begin scalar result!!; result!! :=limit!-(%0,%1,%2); return if freeof(result!!,\\'limit!-) then result!! else \\'? end >>");
-		p("Max.N", "myfoldif(sless,list(%))");
+		p("Max.N", "myfoldif(sless,(%))");
 		p("MatrixRank.1", "<<begin scalar a; a:=%0; return rank(a);end>>");
 		p("Mean.1",
 				"<<begin scalar list!!; list!!:=(%0)$ return 1/length(list!!)*for i:=1:length(list!!) sum part(list!!,i) end>>");
 		p("Median.1",
 				"<<begin scalar list!!; list!!:=(%0)$ list!!:= mysort list!!$ return if remainder(length(list!!),2)=0 then (part(list!!,length(list!!)/2)+part(list!!,1+length(list!!)/2))/2 else part(list!!,(length(list!!)+1)/2) end>>");
-		p("Min.N", "myfoldif(sgreater,list(%))");
+		p("Min.N", "myfoldif(sgreater,(%))");
 		p("Midpoint.2", "multiplication((%0)+(%1),1/2)");
 		p("Mod.2", "mod!!(%0,%1)");
 		p("NextPrime.1", "if %0<2 then 2 else nextprime(%0)");

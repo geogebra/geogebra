@@ -99,4 +99,8 @@ public interface CASGenericInterface extends SettingListener {
 	public abstract String translateFunctionDeclaration(final String label,
 			final String[] parameters, final String body, AssignmentType type);
 
+	void appendListStart(StringBuilder sbCASCommand);
+
+	void appendListEnd(StringBuilder sbCASCommand);
+
 }
