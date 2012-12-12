@@ -27,7 +27,7 @@ function geogebra_applet(width,height,filename,framePossible,enableRightClick,en
  
   ret = '<applet name="ggbApplet" code="geogebra.GeoGebraApplet3D" codebase="http://jars.geogebra.org/webstart/5.0/" archive="geogebra-jogl2.jar" height="'+height+'" width="'+width+'">';
   ret +='<param name="image" value="http://www.geogebra.org/webstart/loading.gif"/><param name="boxborder" value="false"/><param name="centerimage" value="true">';
-  ret +='<param name="java_arguments" value="-Xmx512m">';
+  ret +='<param name="java_arguments" value="-Xmx1024m">';
   ret += '<param name="cache_archive" value="'+jars+'" />';
   ret += '<param name="cache_version" value="'+version+'" />';
   if (filename != "") ret+='<param name="filename" value="'+filename+'">';
@@ -71,14 +71,25 @@ function setWidthHeight() {
 
 <!-- Google Analytics (Start) -->
 <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-1780044-1");
-pageTracker._initData();
-pageTracker._trackPageview();
-pageTracker._trackEvent('Installers', 'Downloads', 'AppletStart');
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-1780044-1']);
+_gaq.push(['_setDomainName', 'geogebra.org']);
+
+_gaq.push(['_setAllowLinker', true]);
+_gaq.push(['_trackPageview']);
+_gaq.push(['_trackEvent', 'Installers', 'Downloads', 'AppletStart']);
+
+(function() {
+var ga = document.createElement('script
+'); ga.type = 'text/javascript';
+  ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+  'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
+})();
+
 </script>
 <!-- Google Analytics (End) -->
 
