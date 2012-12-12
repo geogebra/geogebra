@@ -263,8 +263,10 @@ public class GuiManagerD extends GuiManager {
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanel((AppD)app));
 		
-		// register python view
-		layout.registerPanel(new PythonDockPanel((AppD) app));
+		if (!app.isApplet()) {
+			// register python view
+			layout.registerPanel(new PythonDockPanel((AppD) app));
+		}
 		
 		/*
 		if (!app.isWebstart() || app.is3D()) {

@@ -547,8 +547,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		// create Python Bridge
 		if (!isApplet) {
 			pythonBridge = new PythonBridgeD(this);
-		} else
-			pythonBridge = new AppletPythonBridge(this);
+		}
+		//else
+		//	pythonBridge = new AppletPythonBridge(this);
 
 		// load file on startup and set fonts
 		// set flag to avoid multiple calls of setLabels() and
