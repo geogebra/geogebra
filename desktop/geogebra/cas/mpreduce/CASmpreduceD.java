@@ -193,16 +193,4 @@ public class CASmpreduceD extends CASmpreduce {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void appendListStart(StringBuilder sbCASCommand) {
-		// TODO Auto-generated method stub
-		throw new Error("TODO");
-		
-	}
-
-	public void appendListEnd(StringBuilder sbCASCommand) {
-		// TODO Auto-generated method stub
-		throw new Error("TODO");
-	}
-	
 }

@@ -1745,4 +1745,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		if (c.useCacheing())
 			exp.getKernel().putToCasCache(input, result);
 	}
+	
+	public void appendListStart(StringBuilder sbCASCommand){
+		sbCASCommand.append("list(");
+	}
+
+	public void appendListEnd(StringBuilder sbCASCommand){
+		sbCASCommand.append(")");
+	}
 }
