@@ -1,11 +1,9 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
-import geogebra3D.App3D;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

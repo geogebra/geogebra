@@ -52,4 +52,9 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	public boolean updateResizeWeight(){
 		return true;
 	}
+	
+	public boolean isEuclidianDockPanel3D() {
+		return true;
+	}
+
 }

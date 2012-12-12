@@ -9,7 +9,6 @@ import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
 import geogebra.plugin.kinect.KinectTest;
 import geogebra.plugin.kinect.KinectTestApplication;
-import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
@@ -375,7 +374,7 @@ public class ViewMenu extends BaseMenu {
 	public boolean is3DViewShown() {
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		for (DockPanel panel : dockPanels) {
-			if (panel.isVisible() && panel instanceof EuclidianDockPanel3D)
+			if (panel.isVisible() && panel.isEuclidianDockPanel3D())
 				return true;
 		}
 		return false;

@@ -1591,4 +1591,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		setVisible(visible);
 	}
 
+	public boolean isEuclidianDockPanel3D() {
+		return false;
+	}
+
 }
