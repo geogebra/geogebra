@@ -129,7 +129,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			else if (s.startsWith("***")) { // MPReduce comment
 				App.debug("MPReduce comment: " + s);
 				continue;
-			}else if (s.contains("ivalid as")) { // MPReduce comment
+			}else if (s.contains("invalid as")) { // MPReduce comment
 				App.debug("MPReduce comment: " + s);
 				continue;
 			} else if (s.startsWith("Unknown")) {
