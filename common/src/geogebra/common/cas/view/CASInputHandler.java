@@ -467,10 +467,10 @@ public class CASInputHandler {
 	public boolean processRowThenEdit(int selRow, boolean startEditing) {
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		boolean success;
-
+		boolean isLastRow = consoleTable.getRowCount() <= selRow + 1;
 		if (!cellValue.isError()) {
 			// evaluate output and update twin geo
-			kernel.getAlgebraProcessor().processCasCell(cellValue);
+			kernel.getAlgebraProcessor().processCasCell(cellValue,isLastRow);
 		}
 
 		kernel.notifyRepaint();
@@ -479,7 +479,7 @@ public class CASInputHandler {
 		success = !cellValue.isError();
 		if (startEditing || !success) {
 			// start editing row below successful evaluation
-			boolean isLastRow = consoleTable.getRowCount() <= selRow + 1;
+			
 			boolean goDown = success &&
 			// we are in last row or next row is empty
 					(isLastRow || consoleTable.isRowEmpty(selRow + 1));

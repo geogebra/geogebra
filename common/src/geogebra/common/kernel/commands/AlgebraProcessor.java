@@ -159,7 +159,7 @@ public class AlgebraProcessor {
 	 * @param casCell cas cell
 	 * @throws MyError e.g. on syntax error
 	 */
-	final public void processCasCell(GeoCasCell casCell) throws MyError {
+	final public void processCasCell(GeoCasCell casCell,boolean isLastRow) throws MyError {
 		// check for CircularDefinition
 		if (casCell.isCircularDefinition()) {
 			// set twin geo to undefined
@@ -190,7 +190,7 @@ public class AlgebraProcessor {
 					cons.removeFromConstructionList(casCell);
 					KernelCAS.DependentCasCell(casCell);
 					needsRedefinition = false;
-					needsConsUpdate = true;
+					needsConsUpdate = !isLastRow;
 				} else {
 					// existing casCell with possible twinGeo
 					needsRedefinition = true;
