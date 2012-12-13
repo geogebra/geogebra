@@ -285,7 +285,6 @@ public enum Commands implements CommandsConstants{
 			case OrthogonalPlane: return PerpendicularPlane;
 			case SurfaceCartesian: return Surface;
 		}
-		App.debug("unhandled case"+comm.name());
 		return comm;
 	}
 	
