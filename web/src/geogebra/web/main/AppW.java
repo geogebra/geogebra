@@ -627,45 +627,7 @@ public class AppW extends App {
 			return command;
 		}
 
-		initTranslatedCommands();
-
-		String aCommand = StringUtil.toLowerCase(command);
-		String key = null;
-		try {
-
-			// The Dictionary class is used to get the whole set of command
-			// properties keys dynamically (during runtime)
-			// These command keys are defined in the HTML host page as a
-			// JavaScript Object named "__GGB_commandKeysVar...".
-			MyDictionary commandKeys = getCommandDict();
-			Set<String> commandKeysSet = commandKeys.keySet();
-			Iterator<String> commandKeysIterator = commandKeysSet.iterator();
-
-			// check localized commands first
-			// eg in French we have Intersect -> Intersection, Intersection ->
-			// Inter
-			while (commandKeysIterator != null && commandKeysIterator.hasNext()) {
-				key = commandKeysIterator.next();
-
-				if (StringUtil.toLowerCase(getPropertyNative(language, key, "command"))
-				        .equals(aCommand)) {
-					return key;
-				}
-
-			}
-
-			// if that fails check internal commands
-			for (Commands c : Commands.values()) {
-				if (StringUtil.toLowerCase(c.name()).equals(key)) {
-					return Commands.englishToInternal(c).name();
-				}
-			}
-			return null;
-
-		} catch (MissingResourceException e) {
-			App.error(e.toString() + " error in command " + key);
-			return null;
-		}
+		return super.getReverseCommand(command);
 	}
 
 	/**

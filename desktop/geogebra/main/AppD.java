@@ -2719,42 +2719,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	final public String getReverseCommand(String command) {
-		initTranslatedCommands();
-
-		String key = StringUtil.toLowerCase(command);
-		try {
-
-			Enumeration<String> enume = rbcommand.getKeys();
-
-			// check localized commands first
-			// eg in French we have Intersect -> Intersection, Intersection ->
-			// Inter
-			while (enume.hasMoreElements()) {
-				String s = enume.nextElement();
-
-				if (StringUtil.toLowerCase(rbcommand.getString(s)).equals(key)) {
-					return s;
-				}
-
-			}
-
-			enume = rbcommand.getKeys();
-
-			// if that fails check internal commands
-			for (Commands c : Commands.values()) {
-				if (StringUtil.toLowerCase(c.name()).equals(key)) {
-					return Commands.englishToInternal(c).name();
-				}
-			}
-
-			return null;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	@Override
 	final public String getCommand(String key) {
 
 		initTranslatedCommands();

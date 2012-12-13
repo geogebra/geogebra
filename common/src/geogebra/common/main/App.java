@@ -133,6 +133,7 @@ public abstract class App {
 	 * purpose
 	 */
 	public static final int VIEW_EUCLIDIAN_FOR_PLANE_START = 1024;
+	/** maximal ID of view for plane */
 	public static final int VIEW_EUCLIDIAN_FOR_PLANE_END = 2047;
 	// please let 1024 to 2047 empty
 	/** id for plot panels (small EVs eg in regression analysis tool) */
@@ -172,8 +173,13 @@ public abstract class App {
 	 * Whether input bar should be visible
 	 */
 	protected boolean showAlgebraInput = true;
-	
+	/**
+	 * Whether toolbar should appear on top
+	 */
 	protected boolean showToolBarTop = true;
+	/**
+	 * Whether toolbar help should appear
+	 */
 	protected boolean showToolBarHelp = false;
 	
 	/**
@@ -550,11 +556,27 @@ public abstract class App {
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
 	 * 
-	 * @param localname
+	 * @param command
 	 *            local name
 	 * @return internal name
 	 */
-	public abstract String getReverseCommand(String command);
+	public String getReverseCommand(String command) {
+		initTranslatedCommands();
+
+		String key = StringUtil.toLowerCase(command);
+		
+			String ret = translateCommandTable==null? key : translateCommandTable.get(key);
+			if(ret!=null)
+				return ret;
+			// if that fails check internal commands
+			for (Commands c : Commands.values()) {
+				if (StringUtil.toLowerCase(c.name()).equals(key)) {
+					return Commands.englishToInternal(c).name();
+				}
+			}
+			return null;
+		
+	}
 
 	/**
 	 * Updates command dictionary
