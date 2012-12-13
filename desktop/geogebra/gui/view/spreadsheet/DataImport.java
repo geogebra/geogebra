@@ -334,14 +334,24 @@ public class DataImport {
 
 		if (s == null || s.equals(""))
 			return s;
+		
+		String s2 = s;
 
 		// System.out.println("====================");
 		// System.out.println(decimalSeparator + " | " + groupingSeparator);
 		// System.out.println("test string: " + s);
-		String s2 = s.replaceAll(groupingSeparator, "");
-		if (!decimalSeparator.equals("."))
-			s2 = s2.replaceAll(decimalSeparator, ".");
 
+		// don't use regex - doesn't work well with .s
+		while (s2.indexOf(groupingSeparator) > 0) {
+			s2 = s2.replace(groupingSeparator, "");
+		}
+		
+		if (!decimalSeparator.equals(".")) {
+			while (s2.indexOf(decimalSeparator) > 0) {
+				// don't use regex - doesn't work well with .s
+				s2 = s2.replace(decimalSeparator, ".");
+			}
+		}
 		// System.out.println("converted string: " + s2);
 		// System.out.println("is number: " + RelativeCopy.isNumber(s2));
 
