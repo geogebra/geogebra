@@ -35,6 +35,7 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
+import geogebra.web.main.TimerSystemW;
 
 import java.util.ArrayList;
 
@@ -59,6 +60,8 @@ public class GuiManagerW extends GuiManager {
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
+
+	private TimerSystemW timers;
 
 	private AbsolutePanel main;
 
@@ -971,5 +974,12 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		if (algebraView != null)
 			algebraView.getXML(sb, asPreference);
+	}
+
+	public TimerSystemW getTimerSystem() {
+		if (timers == null) {
+			timers = new TimerSystemW((AppW)app);
+		}
+		return timers;
 	}
 }

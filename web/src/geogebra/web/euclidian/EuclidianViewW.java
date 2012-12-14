@@ -22,6 +22,7 @@ import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.AppW;
+import geogebra.web.main.TimerSystemW;
 
 import java.util.Date;
 import java.util.List;
@@ -326,24 +327,11 @@ public class EuclidianViewW extends EuclidianView {
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
-			repaintTimed = false;
-			doRepaint();
+			doRepaint2();
 		}
 	};
 
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-
-	private boolean repaintTimed = false;
-
-	private Date repaintedLast = new Date();
-
-	private static int repaintMillis = 34; // == 30 FPS
-
-	private Timer repaintTimer = new Timer() {
-		public void run() {
-	   		repaintScheduler.requestAnimationFrame(repaintCallback);
-		}
-	};
 
 	/**
 	 * repaintView just calls this method
@@ -357,28 +345,25 @@ public class EuclidianViewW extends EuclidianView {
     	//if (!isShowing())
     	//	return;
 
-		if (repaintTimed)
-			return;
+    	app.getGuiManager().getTimerSystem().viewRepaint(this);
+    }
 
-		long repaintMillisNeg = 0;
-		repaintTimed = true;
-		if ((repaintMillisNeg = new Date().getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
-			repaintTimer.schedule((int)-repaintMillisNeg);
-		} else {
-			repaintScheduler.requestAnimationFrame(repaintCallback);
-		}
+    public void doRepaint() {
+		repaintScheduler.requestAnimationFrame(repaintCallback);
     }
 
     /**
      * This doRepaint method should be used instead of repaintView in cases
      * when the repaint should be done immediately
      */
-    public void doRepaint() {
+    public void doRepaint2() {
 
-		repaintedLast = new Date();
+    	app.getGuiManager().getTimerSystem().viewRepainting(this);
 
     	geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     	paint(g2p);
+
+    	app.getGuiManager().getTimerSystem().viewRepainted(this);
     }
 
 	@Override

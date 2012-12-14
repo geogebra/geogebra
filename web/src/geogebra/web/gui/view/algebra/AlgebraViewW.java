@@ -26,6 +26,7 @@ import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.AppW;
+import geogebra.web.main.TimerSystemW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1399,19 +1400,6 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		repaint();
 	}
 
-	private boolean repaintTimed = false;
-
-	private Date repaintedLast = new Date();
-
-	private static int repaintMillis = 334;
-
-	private Timer repaintTimer = new Timer() {
-		public void run() {
-			repaintTimed = false;
-			doRepaint();
-		}
-	};
-
 	public void repaint() {
 
 		// no need to repaint that which is not showing
@@ -1419,27 +1407,20 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		if (!isShowing())
 			return;
 
-		if (repaintTimed)
-			return;
-
-		Date now = new Date();
-		long repaintMillisNeg = 0;
-		if ((repaintMillisNeg = now.getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
-			repaintTimed = true;
-			repaintTimer.schedule((int)-repaintMillisNeg);
-			return;
-		}
-
-		doRepaint();
+		app.getGuiManager().getTimerSystem().viewRepaint(this);
     }
 
 	public boolean isShowing() {
 		return isVisible() && isAttached();
     }
 
-	protected void doRepaint() {
+	/**
+	 * Only call this method if you really know what you're doing.
+	 * Otherwise call repaint() instead.
+	 */
+	public void doRepaint() {
 
-		repaintedLast = new Date();
+		app.getGuiManager().getTimerSystem().viewRepainting(this);
 
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
@@ -1460,6 +1441,8 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 				}
 			}
 		}
+
+		app.getGuiManager().getTimerSystem().viewRepainted(this);
 	}
 
 	/**

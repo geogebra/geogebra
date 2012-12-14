@@ -14,6 +14,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 import geogebra.web.main.AppW;
+import geogebra.web.main.TimerSystemW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
 import java.util.Date;
@@ -1394,41 +1395,24 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		repaint();
 	}
 
-	private boolean repaintTimed = false;
-
-	private Date repaintedLast = new Date();
-
-	private static int repaintMillis = 334;
-
-	private Timer repaintTimer = new Timer() {
-		public void run() {
-			repaintTimed = false;
-			doRepaint();
-		}
-	};
-
 	public void repaint() {
 		// no need to repaint that which is not showing
 		// (but take care of repainting if it appears!)
 		if (!isShowing())
 			return;
 
-		if (repaintTimed)
-			return;
-
-		Date now = new Date();
-		long repaintMillisNeg = 0;
-		if ((repaintMillisNeg = now.getTime() - repaintedLast.getTime() - repaintMillis) < 0) {
-			repaintTimed = true;
-			repaintTimer.schedule((int)-repaintMillisNeg);
-			return;
-		}
-		doRepaint();
+		app.getGuiManager().getTimerSystem().viewRepaint(this);
 	}
 
-	protected void doRepaint() {
-		repaintedLast = new Date();
+	/**
+	 * This method is called from timers.
+	 * Only call this method if you really know what you're doing.
+	 * Otherwise just call repaint().
+	 */
+	public void doRepaint() {
+		app.getGuiManager().getTimerSystem().viewRepainting(this);
 		table.repaint();
+		app.getGuiManager().getTimerSystem().viewRepainted(this);
 	}
 
 	/**
