@@ -107,7 +107,7 @@ public class MyCellRendererW {
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		/*bgColor = (GColor)formatHandler.getCellFormat(cellPoint,
+		bgColor = (GColor)formatHandler.getCellFormat(cellPoint,
 				CellFormat.FORMAT_BGCOLOR);
 		if (bgColor == null) {
 			isCustomBGColor = false;
@@ -116,7 +116,7 @@ public class MyCellRendererW {
 			isCustomBGColor = true;
 		}
 		if (bgColor != null)
-			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());*/
+			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());
 
 		// Get the cell geo, exit if null
 		// ==================================================
@@ -169,26 +169,26 @@ public class MyCellRendererW {
 
 		// Set font
 		// ===============================================
-		/*fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
+		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
 				CellFormat.FORMAT_FONTSTYLE);
 		if (fontStyle == null)
 			fontStyle = GFont.PLAIN;
 
-		retwidget.getElement().getStyle().setProperty("whiteSpace", "nowrap");*/
+		retwidget.getElement().getStyle().setProperty("whiteSpace", "nowrap");
 		((Label)retwidget).setText(text);
 
-		/*GFont gf = app.getFontCanDisplay(text, fontStyle);
+		GFont gf = app.getFontCanDisplay(text, fontStyle);
 		((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
 		((Label)retwidget).getElement().getStyle().setFontStyle(
 			gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
 		((Label)retwidget).getElement().getStyle().setFontWeight(
-			gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);*/
+			gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);
 
 		// Set foreground and background color
 		// ===============================================
 
 		// use geo bgColor if there is no format bgColor
-		/*if (geo.getBackgroundColor() != null && !isCustomBGColor) {
+		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
 			bgColor = geo.getBackgroundColor();
 			isCustomBGColor = true;
 		}
@@ -206,7 +206,7 @@ public class MyCellRendererW {
 
 		if (geo.getLabelColor() != null)
 			((Label)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
-		*/
+
 		// Set horizontal alignment
 		// ===============================================
 		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
