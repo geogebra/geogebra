@@ -116,9 +116,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 	public EuclidianStyleBarW(EuclidianView ev) {
 		isIniting = true;
-		
-		activeGeoList = new ArrayList<GeoElement>();
-
 
 		this.ev = ev;
 		ec = (EuclidianControllerW)ev.getEuclidianController();
@@ -219,7 +216,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// These are either the selected geos or the current default geo.
 		// Each button uses this list to update its gui and set visibility
 		// -----------------------------------------------------
-		activeGeoList.clear();
+		activeGeoList = new ArrayList<GeoElement>();
 		
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos

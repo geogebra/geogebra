@@ -102,8 +102,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	public EuclidianStyleBarD(EuclidianViewInterfaceCommon ev) {
 
 		isIniting = true;
-		
-		activeGeoList = new ArrayList<GeoElement>();
 
 		this.ev = ev;
 		ec = (EuclidianControllerD) ev.getEuclidianController();
@@ -191,7 +189,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// These are either the selected geos or the current default geo.
 		// Each button uses this list to update its gui and set visibility
 		// -----------------------------------------------------
-		activeGeoList.clear();
+		activeGeoList = new ArrayList<GeoElement>();
 
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
