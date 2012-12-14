@@ -897,8 +897,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// TODO: why do we need this to make correct size in cm?
 			double factor = 1.76;
 
+			//Dimension size = new Dimension(
+			//		(int)(ev.getExportWidth() * printingScale / factor), (int)(ev.getExportHeight() * printingScale / factor));
+
 			Dimension size = new Dimension(
-					(int)(ev.getExportWidth() * printingScale / factor), (int)(ev.getExportHeight() * printingScale / factor));
+					(int)(printingScale * (ev.getExportWidth() / ev.getXscale()) / 2.54 * 72), (int)(printingScale * (ev.getExportHeight() / ev.getYscale()) / 2.54 * 72));
 
 			g = new PDFGraphics2D(file, size);
 
