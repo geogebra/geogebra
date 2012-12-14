@@ -57,14 +57,14 @@ public  GeoElement[] process(Command c) throws MyError {
         		if (
         				(arg[0] instanceof GeoLineND)
         				&& (arg[1] instanceof GeoConicND))
-        			return (GeoElement[]) ((Kernel)kernelA).getManager3D().IntersectLineConic(
+        			return (GeoElement[]) kernelA.getManager3D().IntersectLineConic(
         					c.getLabels(),
         					(GeoLineND) arg[0],
         					(GeoConicND) arg[1]);
         		else if (
         				(arg[0] instanceof GeoConicND)
         				&& (arg[1] instanceof GeoLineND))
-        			return (GeoElement[]) ((Kernel)kernelA).getManager3D().IntersectLineConic(
+        			return (GeoElement[]) kernelA.getManager3D().IntersectLineConic(
         					c.getLabels(),
         					(GeoLineND) arg[1],
         					(GeoConicND) arg[0]);
@@ -72,38 +72,56 @@ public  GeoElement[] process(Command c) throws MyError {
         		else if (
         				(arg[0] instanceof GeoPlane3D)
         				&& (arg[1] instanceof GeoConicND))
-        			return (GeoElement[]) ((Kernel)kernelA).getManager3D().IntersectPlaneConic(
+        			return (GeoElement[]) kernelA.getManager3D().IntersectPlaneConic(
         					c.getLabels(),
         					(GeoCoordSys2D) arg[0],
         					(GeoConicND) arg[1]);
         		else if (
         				(arg[0] instanceof GeoConicND)
         				&& (arg[1] instanceof GeoPlane3D))
-        			return (GeoElement[]) ((Kernel)kernelA).getManager3D().IntersectPlaneConic(
+        			return (GeoElement[]) kernelA.getManager3D().IntersectPlaneConic(
         					c.getLabels(),
         					(GeoCoordSys2D) arg[1],
         					(GeoConicND) arg[0]);
+        		
+        		//intersection plane/polygon
+        		else if (
+        				(arg[0] instanceof GeoPlane3D)
+        				&& (arg[1] instanceof GeoPolygon))
+        			return kernelA.getManager3D().IntersectionPoint(
+        					c.getLabels(),
+        					(GeoPlane3D) arg[0],
+        					(GeoPolygon) arg[1]);
+        		else if (
+        				(arg[0] instanceof GeoPolygon)
+        				&& (arg[1] instanceof GeoPlane3D))
+        			return kernelA.getManager3D().IntersectionPoint(
+        					c.getLabels(),
+        					(GeoPlane3D) arg[1],
+        					(GeoPolygon) arg[0]);
+
         		
                 // Line - Quadric
                 else if (
                     (ok[0] = (arg[0] .isGeoLine()))
                         && (ok[1] = (arg[1] instanceof GeoQuadric3D)))
-    				return (GeoElement[])((Kernel)kernelA).getManager3D().IntersectLineQuadric(
+    				return (GeoElement[])kernelA.getManager3D().IntersectLineQuadric(
                         c.getLabels(),
                          (GeoLineND) arg[0],
                          (GeoQuadric3D) arg[1]);
     			else if (
                     (ok[0] = (arg[0] instanceof GeoQuadric3D))
                         && (ok[1] = (arg[1] .isGeoLine())))
-    				return (GeoElement[])((Kernel)kernelA).getManager3D().IntersectLineQuadric(
+    				return (GeoElement[])kernelA.getManager3D().IntersectLineQuadric(
                         c.getLabels(),
                         (GeoLineND) arg[1],
                         (GeoQuadric3D) arg[0]);
+        		
         		//intersection conic/conic
         		else if (
         				(arg[0] instanceof GeoConicND)
         				&& (arg[1] instanceof GeoConicND))
-        			return (GeoElement[]) ((Kernel)kernelA).getManager3D().IntersectConics(
+        			return (GeoElement[]) kernelA.getManager3D().IntersectConics(
         					c.getLabels(),
         					(GeoConicND) arg[0],
         					(GeoConicND) arg[1]);
@@ -114,7 +132,7 @@ public  GeoElement[] process(Command c) throws MyError {
         		else if ((arg[0] instanceof GeoLineND && arg[1] instanceof GeoPolygon)
         				||(arg[1] instanceof GeoLineND && arg[0] instanceof GeoPolygon))
         			
-        			return ((Kernel)kernelA).getManager3D().IntersectionPoint(
+        			return kernelA.getManager3D().IntersectionPoint(
         							c.getLabels(),
         							(GeoLineND) arg[0],
         							(GeoPolygon) arg[1]);
@@ -126,10 +144,10 @@ public  GeoElement[] process(Command c) throws MyError {
         			
         			GeoElement[] ret =
         			{
-        					((Kernel)kernelA).getManager3D().Intersect(
+        					kernelA.getManager3D().Intersect(
         							c.getLabel(),
-        							(GeoElement) arg[0],
-        							(GeoElement) arg[1])};
+        							arg[0],
+        							arg[1])};
         			return ret;
 
 
@@ -138,10 +156,10 @@ public  GeoElement[] process(Command c) throws MyError {
 
         			GeoElement[] ret =
         			{
-        					((Kernel)kernelA).getManager3D().Intersect(
+        					kernelA.getManager3D().Intersect(
         							c.getLabel(),
-        							(GeoElement) arg[0],
-        							(GeoElement) arg[1])};
+        							arg[0],
+        							arg[1])};
         			return ret;
 
         		}
@@ -150,7 +168,7 @@ public  GeoElement[] process(Command c) throws MyError {
            		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoPlaneND)){
         			GeoElement[] ret =
         			{
-        					((Kernel)kernelA).getManager3D().IntersectPlanes(
+        					kernelA.getManager3D().IntersectPlanes(
         							c.getLabel(),
         							(GeoCoordSys2D) arg[0],
         							(GeoCoordSys2D) arg[1])};
@@ -159,7 +177,7 @@ public  GeoElement[] process(Command c) throws MyError {
            		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
         			GeoElement[] ret =
         			{
-        					((Kernel)kernelA).getManager3D().Intersect(
+        					kernelA.getManager3D().Intersect(
         							c.getLabel(),
         							(GeoPlaneND) arg[0],
         							(GeoQuadric3D) arg[1])};
@@ -168,7 +186,7 @@ public  GeoElement[] process(Command c) throws MyError {
         		else if ((arg[1] instanceof GeoPlaneND) && (arg[0] instanceof GeoQuadricND)){
         			GeoElement[] ret =
         			{
-        					((Kernel)kernelA).getManager3D().Intersect(
+        					kernelA.getManager3D().Intersect(
         							c.getLabel(),
         							(GeoPlaneND) arg[1],
         							(GeoQuadric3D) arg[0])};
@@ -194,7 +212,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && arg[2] .isNumberValue()) {
                     GeoElement[] ret =
                         {
-                             (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineConicSingle(
+                             (GeoElement) kernelA.getManager3D().IntersectLineConicSingle(
                                 c.getLabel(),
                                 (GeoLineND) arg[0],
                                 (GeoConicND) arg[1],
@@ -205,7 +223,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isNumberValue()) {
                         GeoElement[] ret =
                             {
-                                 (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineConicSingle(
+                                 (GeoElement) kernelA.getManager3D().IntersectLineConicSingle(
                                     c.getLabel(),
                                     (GeoLineND) arg[1],
                                     (GeoConicND) arg[0],
@@ -216,7 +234,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isGeoPoint()) {
                         GeoElement[] ret =
                             {
-                                 (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineConicSingle(
+                                 (GeoElement) kernelA.getManager3D().IntersectLineConicSingle(
                                     c.getLabel(),
                                     (GeoLineND) arg[0],
                                     (GeoConicND) arg[1],
@@ -227,7 +245,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isGeoPoint()) {
                         GeoElement[] ret =
                             {
-                                 (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineConicSingle(
+                                 (GeoElement) kernelA.getManager3D().IntersectLineConicSingle(
                                     c.getLabel(),
                                     (GeoLineND) arg[1],
                                     (GeoConicND) arg[0],
@@ -240,7 +258,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isNumberValue()) {
                         GeoElement[] ret =
                             {
-                                 (GeoElement) ((Kernel)kernelA).getManager3D().IntersectConicsSingle(
+                                 (GeoElement) kernelA.getManager3D().IntersectConicsSingle(
                                     c.getLabel(),
                                     (GeoConicND) arg[0],
                                     (GeoConicND) arg[1],
@@ -251,7 +269,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isGeoPoint()) {
                         GeoElement[] ret =
                             {
-                                 (GeoElement) ((Kernel)kernelA).getManager3D().IntersectConicsSingle(
+                                 (GeoElement) kernelA.getManager3D().IntersectConicsSingle(
                                     c.getLabel(),
                                     (GeoConicND) arg[0],
                                     (GeoConicND) arg[1],
@@ -264,7 +282,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isNumberValue()) {
                     GeoElement[] ret =
                     {
-                         (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineQuadricSingle(
+                         (GeoElement) kernelA.getManager3D().IntersectLineQuadricSingle(
                             c.getLabel(),
                             (GeoLineND) arg[0],
                             (GeoQuadric3D) arg[1],
@@ -275,7 +293,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && arg[2] .isNumberValue()) {
                     GeoElement[] ret =
                         {
-                             (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineQuadricSingle(
+                             (GeoElement) kernelA.getManager3D().IntersectLineQuadricSingle(
                                 c.getLabel(),
                                 (GeoLineND) arg[1],
                                 (GeoQuadric3D) arg[0],
@@ -286,7 +304,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && arg[2] .isGeoPoint()) {
                     GeoElement[] ret =
                     {
-                         (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineQuadricSingle(
+                         (GeoElement) kernelA.getManager3D().IntersectLineQuadricSingle(
                             c.getLabel(),
                             (GeoLineND) arg[0],
                             (GeoQuadric3D) arg[1],
@@ -297,7 +315,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && arg[2] .isGeoPoint()) {
                     GeoElement[] ret =
                         {
-                             (GeoElement) ((Kernel)kernelA).getManager3D().IntersectLineQuadricSingle(
+                             (GeoElement) kernelA.getManager3D().IntersectLineQuadricSingle(
                                 c.getLabel(),
                                 (GeoLineND) arg[1],
                                 (GeoQuadric3D) arg[0],

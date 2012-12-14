@@ -670,4 +670,9 @@ final public String toValueString(StringTemplate tpl) {
 		meta = poly;
 	}
 	
+    @Override
+	public boolean respectLimitedPath(double parameter){
+		return Kernel.isGreaterEqual(parameter, 0) && Kernel.isGreaterEqual(1, parameter);
+	}
+
 }

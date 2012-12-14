@@ -439,4 +439,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public final void removePointOnLine(GeoPointND p) {
 		//TODO
 	}
+	
+	public boolean respectLimitedPath(double parameter){
+		return Kernel.isGreaterEqual(parameter, 0) && Kernel.isGreaterEqual(1, parameter);
+	}
 }

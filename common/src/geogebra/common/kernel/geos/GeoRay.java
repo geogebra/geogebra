@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -341,5 +342,10 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
     public boolean isAllEndpointsLabelsSet() {
 		return startPoint.isLabelSet();		
 	} 
+    
+    @Override
+	public boolean respectLimitedPath(double parameter){
+		return Kernel.isGreaterEqual(parameter, 0);
+	}
 
 }

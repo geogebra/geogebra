@@ -174,5 +174,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 	public final void removePointOnLine(GeoPointND p) {
 		//TODO
 	}
+	
+	public boolean respectLimitedPath(double parameter){
+		return true;
+	}
 
 }

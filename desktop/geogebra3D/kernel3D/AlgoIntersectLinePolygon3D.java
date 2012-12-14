@@ -39,15 +39,21 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		this(c, labels, g, p);
 	}
 	
-	
     public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
 			GeoLineND g, GeoPolygon p) {
+    	
+    	this(c,labels,(GeoElement) g, p);
+
+    }
+	
+    public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
+			GeoElement g, GeoPolygon p) {
     	super(c);
     	
         
 		outputPoints=createOutputPoints();
         
-        this.g = g;
+		setFirstInput(g);
         this.p = p;
 
         newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
@@ -59,10 +65,26 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
         
         setLabels(labels);
         update();    
-    	this.p=p;
-    	this.g=g;
     	
 	}
+    
+    /**
+     * set the first input
+     * @param geo geo
+     */
+    protected void setFirstInput(GeoElement geo){
+    	this.g = (GeoLineND) geo;
+ 
+    }
+    
+    /**
+     * 
+     * @return first input
+     */
+    protected GeoElement getFirstInput(){
+    	return (GeoElement) g;
+    }
+
 
 
 	protected OutputHandler<GeoElement> createOutputPoints(){
@@ -90,15 +112,22 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 				}
 			});
 	    }
-    
-    protected void intersectionsCoords(GeoLineND g, GeoPolygon p, TreeMap<Double, Coords> newCoords){
+
+	   protected Coords o1, d1;
+	   
+	   protected void setIntersectionLine(){
+		   
+		   o1 = g.getPointInD(3, 0);
+		   d1 = g.getPointInD(3, 1).sub(o1);
+	   }
+	   
+   
+
+    protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
 
     	//TODO: move these to intersectLinePolyline3D
     	//line origin, direction, min and max parameter values
-    	Coords o1 = g.getPointInD(3, 0);
-    	Coords d1 = g.getPointInD(3, 1).sub(o1);
-    	double min = g.getMinParameter();
-    	double max = g.getMaxParameter();
+    	setIntersectionLine();
     	
     	for(int i=0; i<p.getSegments().length; i++){
     		GeoSegmentND seg = p.getSegments()[i];
@@ -117,13 +146,21 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
            		double t2 = project[2].get(2); //parameter on segment
 
 
-           		if (t1>=min && t1<=max //TODO optimize that
-           				&& t2>=0 && t2<=1)
+           		if (checkParameter(t1) && seg.respectLimitedPath(t2))
            			newCoords.put(t1, project[0]);
 
            	}
         }
         
+    }
+    
+    /**
+     * check the first parameter
+     * @param t1 parameter
+     * @return true if ok
+     */
+    protected boolean checkParameter(double t1){
+    	return g.respectLimitedPath(t1);
     }
   
 
@@ -134,7 +171,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     	newCoords.clear();
     	
     	//fill a new points map
-    	intersectionsCoords(g, p, newCoords);
+    	intersectionsCoords(p, newCoords);
     	
     	//update and/or create points
     	int index = 0;   	
@@ -176,7 +213,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = (GeoElement) g;
+        input[0] = getFirstInput();
         input[1] = p;
         
         setDependencies(); // done by AlgoElement

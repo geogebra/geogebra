@@ -72,6 +72,15 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @return true if not outside
 	 */
 	public boolean respectLimitedPath(Coords coords, double eps);
+	
+	/**
+	 * check if the parameter is possible on the line
+	 * @param parameter parameter
+	 * @return true if possible
+	 */
+	public boolean respectLimitedPath(double parameter);
+	
+	
 
 	/**
 	 * @param p point

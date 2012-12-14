@@ -1528,4 +1528,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public double distance(GeoLineND g) {
 		return distance((GeoLine)g);
 	}
+	
+	public boolean respectLimitedPath(double parameter){
+		return true;
+	}
+	
 }

@@ -237,5 +237,10 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	public boolean isGeoRay() {
 		return true;
 	}
+	
+	@Override
+	public boolean respectLimitedPath(double parameter){
+		return Kernel.isGreaterEqual(parameter, 0);
+	}
 
 }
