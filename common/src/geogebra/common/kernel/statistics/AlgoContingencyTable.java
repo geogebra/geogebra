@@ -404,7 +404,7 @@ public class AlgoContingencyTable extends AlgoElement {
 					+ Unicode.Superscript_2 + "&" + app.getMenu("PValue"));
 			sb.append("\\\\");
 			sb.append("\\hline ");
-			sb.append(app.getKernel().format(
+			sb.append(kernel.format(
 					(rowValues.length - 1) * (colValues.length - 1),
 					StringTemplate.numericDefault));
 			sb.append("&");
@@ -449,27 +449,27 @@ public class AlgoContingencyTable extends AlgoElement {
 
 			} else if (type.equals("_")) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / rowSum[rowIndex];
-				sb.append(app.getKernel().format(x,
+				sb.append(kernel.format(x,
 						StringTemplate.numericDefault));
 
 			} else if (type.equals("|")) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / colSum[colIndex];
-				sb.append(app.getKernel().format(x,
+				sb.append(kernel.format(x,
 						StringTemplate.numericDefault));
 
 			} else if (type.equals("+")) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / totalSum;
-				sb.append(app.getKernel().format(x,
+				sb.append(kernel.format(x,
 						StringTemplate.numericDefault));
 
 			} else if (type.equals("e")) {
 				x = expected[rowIndex][colIndex];
-				sb.append(app.getKernel().format(x,
+				sb.append(kernel.format(x,
 						StringTemplate.numericDefault));
 
 			} else if (type.equals("k")) {
 				x = chiCont[rowIndex][colIndex];
-				sb.append(app.getKernel().format(x,
+				sb.append(kernel.format(x,
 						StringTemplate.numericDefault));
 
 			} else if (type.equals("tableFooter")) {
@@ -477,7 +477,7 @@ public class AlgoContingencyTable extends AlgoElement {
 
 			} else if (type.equals("rowPercentFooter")) {
 				x = 100.0 * colSum[colIndex] / totalSum;
-				sb.append(app.getKernel().format(x,
+				sb.append(kernel.format(x,
 						StringTemplate.numericDefault));
 			}
 
@@ -493,7 +493,7 @@ public class AlgoContingencyTable extends AlgoElement {
 
 		} else if (type.equals("|")) {
 			x = 100.0 * rowSum[rowIndex] / totalSum;
-			sb.append(app.getKernel().format(x, StringTemplate.numericDefault));
+			sb.append(kernel.format(x, StringTemplate.numericDefault));
 
 		} else if (type.equals("tableFooter")) {
 			sb.append(totalSum);
