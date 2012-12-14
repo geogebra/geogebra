@@ -467,7 +467,9 @@ public abstract class EuclidianViewND extends EuclidianView{
 	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		super.updateVisualStyle(geo);
-		if(styleBar!=null)
+		//we call this when dynamic color of not selected object is updated (which happens often)
+		//and in such case we don't want to update stylebar
+		if(styleBar!=null && app.getSelectedGeos().contains(geo))
 			styleBar.updateStyleBar();
 	}
 	
