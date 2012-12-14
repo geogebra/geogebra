@@ -146,6 +146,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected int minRow2 = -1;
 	protected int maxRow2 = -1;
 
+	protected boolean renderCellsFirstTime = true;
+
 	protected boolean isOverDnDRegion = false;
 
 	public boolean isOverDnDRegion() {
@@ -1446,6 +1448,17 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public void finishEditing() {
 		isEditing = false;
+
+		// do this here instead of for every widget in renderCells
+		Object gva = tableModel.getValueAt(editRow - 1, editColumn - 1);
+		Widget prob = defaultTableCellRenderer.getTableCellRendererWidget(
+		        this, gva, false, false, editRow - 1, editColumn - 1);
+	 	prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
+	 	getCellFormatter().getElement(editRow, editColumn).getStyle().setBackgroundColor(GColor.WHITE.toString());
+		setWidget(editRow, editColumn, prob);
+		getCellFormatter().getElement(editRow, editColumn).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+		getCellFormatter().getElement(editRow, editColumn).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+
 		editRow = -1;
 		editColumn = -1;
 		view.requestFocus();
@@ -2049,41 +2062,65 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			updateColumnCount();
 			if (getColumnCount() != tableModel.getColumnCount() + 1)
 				resizeColumns(tableModel.getColumnCount() + 1);
+			renderCellsFirstTime = true;
 		}
 
 		if (getRowCount() != tableModel.getRowCount() + 1) {
 			resizeRows(tableModel.getRowCount() + 1);
+			renderCellsFirstTime = true;
 		}
 
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
 		for (int i = colCount - 1; i >= 0; i--) {
-			for (int j = rowCount - 1; j >= 0; j--) {
+			for (int j = rowCount - 1;  j >= 0; j--) {
 				if (i == 0) {
 					if (j == 0) {
-						prob = rowHeaderRenderer.getListCellRendererWidget("",
-						        j, false, false);
-						prob.getElement()
-						        .getStyle()
+						if (renderCellsFirstTime) {
+							prob = rowHeaderRenderer.getListCellRendererWidget("",
+									j, false, false);
+							prob.getElement()
+								.getStyle()
 						        .setBackgroundColor(
 						                MyTableW.BACKGROUND_COLOR_HEADER
 						                        .toString());
-						getCellFormatter().getElement(j, i).addClassName(
-						        "geogebraweb-th-corner");
-					} else {
+							//getCellFormatter().getElement(j, i).addClassName(
+							//"geogebraweb-th-corner");
+							setWidget(j, i, prob);
+							getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+							getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+						} else {
+							rowHeaderRenderer.changeListCellRendererWidget(getWidget(j,i), "", j, false, false);
+						}
+					} else if (renderCellsFirstTime) {
 						gva = rowHeaderModel.getElementAt(j - 1);
 						prob = rowHeaderRenderer.getListCellRendererWidget(gva,
 						        j, false, false);
-						getCellFormatter().getElement(j, i).addClassName(
-						        "geogebraweb-th-rows");
+						//getCellFormatter().getElement(j, i).addClassName(
+						//        "geogebraweb-th-rows");
+						setWidget(j, i, prob);
+						getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+						getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+					} else {
+						gva = rowHeaderModel.getElementAt(j - 1);
+						prob = rowHeaderRenderer.changeListCellRendererWidget(getWidget(j,i), gva,
+						        j, false, false);
 					}
 				} else if (j == 0) {
 					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i - 1);
-					prob = columnHeaderRenderer.getTableCellRendererWidget(
+					if (renderCellsFirstTime) {
+						prob = columnHeaderRenderer.getTableCellRendererWidget(
 					        this, gva, false, false, j - 1, i - 1);
-					getCellFormatter().getElement(j, i).addClassName(
-					        "geogebraweb-th-columns");
-				} else {
+						//getCellFormatter().getElement(j, i).addClassName(
+					    //    "geogebraweb-th-columns");
+						setWidget(j, i, prob);
+						getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+						getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+					} else {
+						columnHeaderRenderer.changeTableCellRendererWidget(getWidget(j,i),
+						        this, gva, false, false, j - 1, i - 1);
+					}
+				} else if (renderCellsFirstTime) {
 					gva = tableModel.getValueAt(j - 1, i - 1);
 					prob = defaultTableCellRenderer.getTableCellRendererWidget(
 					        this, gva, false, false, j - 1, i - 1);
@@ -2091,12 +2128,17 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 					// just a workaround for now to show something:
 				 	prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 				 	getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(GColor.WHITE.toString());
+					setWidget(j, i, prob);
+					getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
+					getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+				} else {
+					gva = tableModel.getValueAt(j - 1, i - 1);
+					prob = defaultTableCellRenderer.changeTableCellRendererWidget(getWidget(j,i),
+					        this, gva, false, false, j - 1, i - 1);
 				}
-				setWidget(j, i, prob);
-				getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-				getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 			}
 		}
+		renderCellsFirstTime = false;
 	}
 
 	public void renderSelection() {

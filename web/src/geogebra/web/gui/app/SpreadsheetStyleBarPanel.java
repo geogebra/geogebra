@@ -54,9 +54,12 @@ public class SpreadsheetStyleBarPanel extends Composite implements RequiresResiz
 	public void attachApp(App app) {
 		if (application != app) {
 			application = app;
-			setStyleBar(
-				((SpreadsheetViewW)application.getGuiManager().getSpreadsheetView())
-				.getSpreadsheetStyleBar());
+			
+			//TODO: attach it in other cases!
+			if (application.getGuiManager().hasSpreadsheetView())
+				setStyleBar(
+					((SpreadsheetViewW)application.getGuiManager().getSpreadsheetView())
+					.getSpreadsheetStyleBar());
 		}
 	}
 }

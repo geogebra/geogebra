@@ -452,6 +452,53 @@ public class SpreadsheetColumnControllerW implements
 			layout = (BorderLayout) this.getLayout();*/
 		}
 
+		public Widget changeTableCellRendererWidget(Widget retwidget, MyTableW table,
+				Object value, boolean isSelected, boolean hasFocus,
+				int rowIndex, int colIndex) {
+			String text = (value == null) ? "" : value.toString();
+
+			//lblHeader.setFont(app.getPlainFont());//instead of this:
+			/*GFont gf = app.getFontCanDisplay(text, GFont.PLAIN);
+			((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
+			((Label)retwidget).getElement().getStyle().setFontStyle(
+				gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
+			((Label)retwidget).getElement().getStyle().setFontWeight(
+				gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);*/
+
+			//lblHeader.setText(value.toString());
+			((Label)retwidget).setText(text);
+
+			/*if (table.getSelectionType() == MyTable.ROW_SELECT) {
+				((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
+			} else {
+				if (table.selectedColumnSet.contains(colIndex)
+						|| (colIndex >= table.minSelectionColumn && colIndex <= table.maxSelectionColumn)) {
+					((Label)retwidget).getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+				} else {
+					((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
+				}
+			}*/
+
+			/*TODO if (overTraceButtonColumn == colIndex) {
+				btnTrace.setIcon(traceRollOverIcon);
+				setToolTipText(app.getMenuTooltip("TraceToSpreadsheet"));
+			} else
+				btnTrace.setIcon(traceIcon);
+
+			if (app.getTraceManager().isTraceColumn(colIndex)) {
+				this.add(btnTrace, BorderLayout.WEST);
+			} else {
+				if (layout.getLayoutComponent(BorderLayout.WEST) != null) {
+					this.remove(layout.getLayoutComponent(BorderLayout.WEST));
+				}
+			}*/
+
+			//retwidget.getElement().getStyle().setProperty("textAlign", "center");
+			//retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+			//retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
+			return retwidget;
+		}
+
 		public Widget getTableCellRendererWidget(MyTableW table,
 				Object value, boolean isSelected, boolean hasFocus,
 				int rowIndex, int colIndex) {

@@ -123,11 +123,52 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 			//		MyTableW.HEADER_GRID_COLOR));
 		}
 
+		public Widget changeListCellRendererWidget(Widget retwidget, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			String text = (value == null) ? "" : value.toString();
+
+			//setFont(app.getPlainFont());//instead of this:
+			/*GFont gf = app.getFontCanDisplay(text, GFont.PLAIN);
+			((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
+			((Label)retwidget).getElement().getStyle().setFontStyle(
+				gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
+			((Label)retwidget).getElement().getStyle().setFontWeight(
+				gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);*/
+
+			// adjust row height to match spreadsheet table row height
+			//TODO?//Dimension size = getPreferredSize();
+			//TODO?//size.height = table.getRowHeight(index);
+			//TODO?//setPreferredSize(size);
+
+			if (text != "")
+				((Label)retwidget).setText(text);
+			else
+				((Label)retwidget).setText(""+(char)160);
+
+			/*if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
+				//if (defaultBackground != null)
+					((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
+			} else {
+				if (table.selectedRowSet.contains(index)
+						|| (index >= minSelectionRow && index <= maxSelectionRow)) {
+					((Label)retwidget).getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+				} else {
+					//if (defaultBackground != null)
+						((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
+				}
+			}*/
+
+			//retwidget.getElement().getStyle().setProperty("textAlign", "center");
+			//retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+			//retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
+			return retwidget;
+		}
+
 		public Widget getListCellRendererWidget(Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 
 			Widget retwidget = new Label();
-
+			
 			String text = (value == null) ? "" : value.toString();
 
 			//setFont(app.getPlainFont());//instead of this:

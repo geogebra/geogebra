@@ -97,6 +97,176 @@ public class MyCellRendererW {
 		//?//comboBox.setModel(cbModel);
 	}
 
+	public Widget changeTableCellRendererWidget(Widget retwidget, Grid table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+
+		// so row and column in table model coordinates
+		cellPoint.setLocation(column, row);
+
+		// Set visible formats ... do this before exit with null geo
+		// ==================================================
+		// set default background color (adjust later if geo exists)
+
+		/*bgColor = (GColor)formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_BGCOLOR);
+		if (bgColor == null) {
+			isCustomBGColor = false;
+			bgColor = GColor.white;//table.getBackground();
+		} else {
+			isCustomBGColor = true;
+		}
+		if (bgColor != null)
+			retwidget.getElement().getStyle().setBackgroundColor(bgColor.toString());*/
+
+		// Get the cell geo, exit if null
+		// ==================================================
+		if (value != null) {
+			geo = (GeoElement) value;
+		} else {
+			((Label)retwidget).setText(" ");
+			//retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+			//retwidget.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
+			//retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
+			return retwidget;
+		}
+
+		// use special rendering for buttons, booleans and lists
+		// =======================================================
+
+		// ===============================================
+		// (end special rendering)
+
+		// Set text according to algebra style
+		// ===============================================
+		String text = "";
+		if (geo.isIndependent()) {
+			text = geo.toValueString(StringTemplate.defaultTemplate);
+		} else {
+			switch (kernel.getAlgebraStyle()) {
+			case Kernel.ALGEBRA_STYLE_VALUE:
+				text = geo.toValueString(StringTemplate.defaultTemplate);
+				break;
+
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
+				text = geo.getDefinitionDescription(StringTemplate.defaultTemplate);
+
+				// Label accepts text, not HTML!
+				//text = GeoElement
+				//		.convertIndicesToHTML(geo
+				//				.getDefinitionDescription(StringTemplate.defaultTemplate));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_COMMAND:
+				text = geo.getCommandDescription(StringTemplate.defaultTemplate);
+
+				// Label accepts text, not HTML!
+				//text = GeoElement.convertIndicesToHTML(geo
+				//		.getCommandDescription(StringTemplate.defaultTemplate));
+				break;
+
+			}
+		}
+
+		// Set font
+		// ===============================================
+		/*fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_FONTSTYLE);
+		if (fontStyle == null)
+			fontStyle = GFont.PLAIN;
+
+		retwidget.getElement().getStyle().setProperty("whiteSpace", "nowrap");*/
+		((Label)retwidget).setText(text);
+
+		/*GFont gf = app.getFontCanDisplay(text, fontStyle);
+		((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
+		((Label)retwidget).getElement().getStyle().setFontStyle(
+			gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
+		((Label)retwidget).getElement().getStyle().setFontWeight(
+			gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);*/
+
+		// Set foreground and background color
+		// ===============================================
+
+		// use geo bgColor if there is no format bgColor
+		/*if (geo.getBackgroundColor() != null && !isCustomBGColor) {
+			bgColor = geo.getBackgroundColor();
+			isCustomBGColor = true;
+		}
+
+		// adjust selection color when there is a bgColor
+		if (geo.doHighlighting()) {
+			if (isCustomBGColor) {
+				bgColor = bgColor.darker();
+			} else {
+				bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
+			}
+		}
+		if (bgColor != null)// here was an exception
+			((Label)retwidget).getElement().getStyle().setBackgroundColor(bgColor.toString());
+
+		if (geo.getLabelColor() != null)
+			((Label)retwidget).getElement().getStyle().setColor(geo.getLabelColor().toString());
+		*/
+		// Set horizontal alignment
+		// ===============================================
+		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_ALIGN);
+		if (alignment != null) {
+			((Label)retwidget).getElement().getStyle().setProperty("textAlign",
+				alignment == 2 ? "left" : (alignment == 4 ? "right" : "center"));
+		} else if (geo.isGeoText()) {
+			((Label)retwidget).getElement().getStyle().setProperty("textAlign", "left");
+		} else {
+			((Label)retwidget).getElement().getStyle().setProperty("textAlign", "right");
+		}
+
+		// Set icons for LaTeX and images
+		// ===============================================
+		/*if (geo.isGeoImage()) {
+			latexIcon.setImage(geogebra.awt.GBufferedImageD
+					.getAwtBufferedImage(((GeoImage) geo).getFillImage()));
+			setIcon(latexIcon);
+			setHorizontalAlignment(SwingConstants.CENTER);
+			setText("");
+
+		} else {
+
+			boolean isSerif = false;
+			if (geo.isDefined()
+					&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+
+				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
+						true);
+				if (geo.isLaTeXDrawableGeo(latexStr)) {
+					//try {//Widget will be custom
+						if (geo.isGeoText())
+							isSerif = ((GeoText) geo).isSerifFont();
+						// System.out.println(latexStr);
+						app.getDrawEquation().drawLatexImageIcon(
+								app,
+								latexIcon,
+								latexStr,
+								getFont(),
+								isSerif,
+								geogebra.awt.GColorD.getAwtColor(geo
+										.getAlgebraColor()), bgColor);
+						setIcon(latexIcon);
+						setText("");
+
+					} catch (Exception e) {
+						App.debug("error in drawing latex" + e);
+					}
+				}
+			}
+
+		}*/
+
+		//retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
+		//retwidget.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
+		//retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
+		return retwidget;
+	}
+
 	public Widget getTableCellRendererWidget(Grid table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -273,7 +443,7 @@ public class MyCellRendererW {
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setText("");
 
-		} else {*/
+		} else {
 
 			boolean isSerif = false;
 			if (geo.isDefined()
@@ -282,7 +452,7 @@ public class MyCellRendererW {
 				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
 						true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {
-					/*TODO//try {//Widget will be custom
+					//try {//Widget will be custom
 						if (geo.isGeoText())
 							isSerif = ((GeoText) geo).isSerifFont();
 						// System.out.println(latexStr);
@@ -299,11 +469,11 @@ public class MyCellRendererW {
 
 					} catch (Exception e) {
 						App.debug("error in drawing latex" + e);
-					}*/
+					}
 				}
 			}
 
-		/*}*/
+		}*/
 
 		retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		retwidget.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
