@@ -102,21 +102,33 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 
     }
     
-    public static int RESULTCATEGORY_GENERAL = 1;
-    public static int RESULTCATEGORY_PARALLEL = 2;
-    public static int RESULTCATEGORY_CONTAINED = 3;
+    /**
+     * configurations line/plane
+     */
+    public static enum ConfigLinePlane {
+    	/** general case */
+    	GENERAL,
+    	/** line parallel to plane */
+    	PARALLEL,
+    	/** line contained in plane */
+    	CONTAINED
+    }
     
     //TODO optimize it
-    public static int getConfigLinePlane(GeoLineND line, GeoCoordSys2D plane) {
+    /**
+     * 
+     * @param line line
+     * @param plane plane
+     * @return config line/plane (general/parallel/contained)
+     */
+    public static ConfigLinePlane getConfigLinePlane(GeoLineND line, GeoCoordSys2D plane) {
     	if (Kernel.isZero(line.getDirectionInD3().dotproduct(plane.getDirectionInD3()))) {
     		if (Kernel.isZero(line.getPointInD(3, 0).sub(plane.getCoordSys().getOrigin()).dotproduct(plane.getDirectionInD3()))) {
-    			return RESULTCATEGORY_CONTAINED;
-    		} else {
-    			return RESULTCATEGORY_PARALLEL;
-    		}	
-    	} else {
-    		return RESULTCATEGORY_GENERAL;
+    			return ConfigLinePlane.CONTAINED;
+    		}
+			return ConfigLinePlane.PARALLEL;	
     	}
+		return ConfigLinePlane.GENERAL;
     }
     
     /**
@@ -135,14 +147,13 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
     	//check if the point is in the line (segment or half-line)
     	// and if the point is in the region (polygon, ...)
     	if (
-    			-project[1].get(3) > line.getMinParameter()
-    			&& -project[1].get(3) < line.getMaxParameter() 	
+    			line.respectLimitedPath(-project[1].get(3))
     			&&
  				cs2D.isInRegion(project[1].get(1),project[1].get(2))
  		){
 			return project[0];
-		}else
-			return null;
+		}
+		return null;
     }
 	
 	@Override

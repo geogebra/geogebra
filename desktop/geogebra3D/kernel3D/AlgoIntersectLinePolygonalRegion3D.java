@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 
 import java.util.TreeMap;
 
@@ -286,7 +287,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     
 	protected void calcLineInPlaneOfPolygon() {
 		
-    	lineInPlaneOfPolygon = (AlgoIntersectCS1D2D.getConfigLinePlane(g, p) == AlgoIntersectCS1D2D.RESULTCATEGORY_CONTAINED);
+    	lineInPlaneOfPolygon = (AlgoIntersectCS1D2D.getConfigLinePlane(g, p) == ConfigLinePlane.CONTAINED);
 		
 	}
 

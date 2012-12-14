@@ -33,6 +33,7 @@ import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
+import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
@@ -802,7 +803,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 						AlgoIntersectCS1D2D.getConfigLinePlane(
 						(GeoLineND)a,
 						((GeoCoordSys2D)hits.get(1))
-								) == AlgoIntersectCS2D2D.RESULTCATEGORY_CONTAINED)
+								) == ConfigLinePlane.CONTAINED)
 					hits.remove(1);
 				else
 					break;
@@ -2028,7 +2029,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 							AlgoIntersectCS1D2D.getConfigLinePlane(
 							(GeoLineND)selected,
 							((GeoCoordSys2D)goodHits.get(0))
-									) == AlgoIntersectCS2D2D.RESULTCATEGORY_CONTAINED)
+									) == ConfigLinePlane.CONTAINED)
 						goodHits.remove(0);
 					else
 						break;

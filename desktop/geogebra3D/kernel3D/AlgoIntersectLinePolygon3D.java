@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 
 import java.util.TreeMap;
 
@@ -121,38 +122,83 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		   d1 = g.getPointInD(3, 1).sub(o1);
 	   }
 	   
-   
 
-    protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
 
-    	//TODO: move these to intersectLinePolyline3D
-    	//line origin, direction, min and max parameter values
-    	setIntersectionLine();
+
+	   /**
+	    * calc intersection coords
+	    * @param p polygon
+	    * @param newCoords coords
+	    */	   
+	   protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
+
+		   //TODO: move these to intersectLinePolyline3D
+
+		   //check if the line is contained by the polygon plane
+		   switch(AlgoIntersectCS1D2D.getConfigLinePlane(g, p)){
+		   case GENERAL: //intersect line/interior of polygon
+			   intersectionsCoordsGeneral(p, newCoords);
+			   break; 
+		   case CONTAINED: //intesect line/segments
+			   intersectionsCoordsContained(p, newCoords);
+			   break;
+		   case PARALLEL: //no intersection
+			   break;
+
+		   }
+	   }
     	
-    	for(int i=0; i<p.getSegments().length; i++){
-    		GeoSegmentND seg = p.getSegments()[i];
-    		
-    		Coords o2 = seg.getPointInD(3, 0);
-           	Coords d2 = seg.getPointInD(3, 1).sub(o2);
-
-           	Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
-           			o1,d1,o2,d2
-           	);
-
-           	//check if projection is intersection point
-           	if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
-           	
-           		double t1 = project[2].get(1); //parameter on line
-           		double t2 = project[2].get(2); //parameter on segment
+	   /**
+	    * calc intersection coords when line is contained in polygon's plane
+	    * @param p polygon
+	    * @param newCoords coords
+	    */
+	   protected void intersectionsCoordsContained(GeoPolygon p, TreeMap<Double, Coords> newCoords){
 
 
-           		if (checkParameter(t1) && seg.respectLimitedPath(t2))
-           			newCoords.put(t1, project[0]);
+		   //line origin and direction
+		   setIntersectionLine();
 
-           	}
-        }
-        
-    }
+
+		   for(int i=0; i<p.getSegments().length; i++){
+			   GeoSegmentND seg = p.getSegments()[i];
+
+			   Coords o2 = seg.getPointInD(3, 0);
+			   Coords d2 = seg.getPointInD(3, 1).sub(o2);
+
+			   Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
+					   o1,d1,o2,d2
+					   );
+
+			   //check if projection is intersection point
+			   if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
+
+				   double t1 = project[2].get(1); //parameter on line
+				   double t2 = project[2].get(2); //parameter on segment
+
+
+				   if (checkParameter(t1) && seg.respectLimitedPath(t2))
+					   newCoords.put(t1, project[0]);
+
+			   }
+		   }
+
+	   }
+	   
+	   /**
+	    * calc intersection coords when line is not contained in polygon's plane
+	    * @param p polygon
+	    * @param newCoords coords
+	    */
+	   protected void intersectionsCoordsGeneral(GeoPolygon p, TreeMap<Double, Coords> newCoords){
+			   
+			   Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g,p);
+
+			   //check if projection is intersection point
+			   if (singlePoint!=null)
+				   newCoords.put(0d, singlePoint);
+
+	   }
     
     /**
      * check the first parameter

@@ -39,6 +39,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 
 /**
  * Class that for manage all 3D methods in AbstractKernel.
@@ -708,18 +709,12 @@ public class Manager3D implements Manager3DInterface {
 			GeoSurfaceFinite p) {
 
 		if (p instanceof GeoPolygon) {
-			AlgoElement algo;
-			// check if line g is contained in the plane of p
-			if (AlgoIntersectCS1D2D.getConfigLinePlane(g, ((GeoCoordSys2D) p)) == AlgoIntersectCS1D2D.RESULTCATEGORY_CONTAINED)
-				algo = new AlgoIntersectLinePolygon3D(cons, labels, g,
-						(GeoPolygon) p);
-			else
-				algo = new AlgoIntersectLinePolygonalRegion3D(cons, labels, g,
-						(GeoPolygon) p);
+			AlgoElement algo = new AlgoIntersectLinePolygon3D(cons, labels, g,
+					(GeoPolygon) p);
+
 			return algo.getOutput();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public GeoElement[] IntersectionPoint(String[] labels, GeoPlaneND plane,
