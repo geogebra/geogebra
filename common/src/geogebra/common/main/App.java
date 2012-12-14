@@ -76,7 +76,7 @@ import java.util.TreeSet;
 /**
  * Represents an application window, gives access to views and system stuff
  */
-public abstract class App {
+public abstract class App implements Localization{
 	/** Script manager */
 	protected ScriptManager scriptManager = null;
 	/**

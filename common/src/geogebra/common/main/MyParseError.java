@@ -32,21 +32,21 @@ public class MyParseError extends MyError {
 	 * @param app application
 	 * @param errorName error name (should be a key in error.properties) 
 	 */
-    public MyParseError(App app, String errorName) {        
+    public MyParseError(Localization app, String errorName) {        
         super(app, errorName);
     }
     /**
 	 * @param app application
 	 * @param strs lines of the error
 	 */
-    public MyParseError(App app, String [] strs) {
+    public MyParseError(Localization app, String [] strs) {
         // set localized message        
         super(app, strs);
     }        
         
     @Override
 	public String getLocalizedMessage() {       
-        return  app.getError("InvalidInput") + " :\n" +
+        return  l10n.getError("InvalidInput") + " :\n" +
                 super.getLocalizedMessage();
     }
 }

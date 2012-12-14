@@ -26,7 +26,7 @@ public class MyError extends java.lang.Error {
 
 	private static final long serialVersionUID = 1L;
 	/** application */
-	protected App app;
+	protected Localization l10n;
 	private String[] strs;
 	private String commandName = null;
 
@@ -34,10 +34,10 @@ public class MyError extends java.lang.Error {
 	 * @param app application
 	 * @param errorName error name (should be a key in error.properties)
 	 */
-	public MyError(App app, String errorName) {
+	public MyError(Localization app, String errorName) {
 		// set localized message
 		super(errorName);
-		this.app = app;
+		this.l10n = app;
 	}
 
 	/**
@@ -45,10 +45,10 @@ public class MyError extends java.lang.Error {
 	 * @param errorName error name (should be a key in error.properties)
 	 * @param commandName associated command name
 	 */
-	public MyError(App app, String errorName, String commandName) {
+	public MyError(Localization app, String errorName, String commandName) {
 		// set localized message
 		super(errorName);
-		this.app = app;
+		this.l10n = app;
 		this.commandName = commandName;
 	}
 
@@ -56,8 +56,8 @@ public class MyError extends java.lang.Error {
 	 * @param app application
 	 * @param strs lines of the error
 	 */
-	public MyError(App app, String[] strs) {
-		this.app = app;
+	public MyError(Localization app, String[] strs) {
+		this.l10n = app;
 		// set localized message
 		this.strs = strs;
 	}
@@ -72,12 +72,12 @@ public class MyError extends java.lang.Error {
 	@Override
 	public String getLocalizedMessage() {
 		if (strs == null) {
-			return app.getError(getMessage());
+			return l10n.getError(getMessage());
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append(app.getError(strs[0]) + "\n");
+		sb.append(l10n.getError(strs[0]) + "\n");
 		for (int i = 1; i < strs.length; i++) {
-			sb.append(app.getError(strs[i]) + " ");
+			sb.append(l10n.getError(strs[i]) + " ");
 		}
 		return sb.toString();
 	}
@@ -88,10 +88,10 @@ public class MyError extends java.lang.Error {
 
 		sb.append(getClass().toString() + ": ");
 		if (strs == null)
-			sb.append(app.getError(getMessage()));
+			sb.append(l10n.getError(getMessage()));
 		else {
 			for (int i = 0; i < strs.length; i++) {
-				sb.append(app.getError(strs[i]) + " : ");
+				sb.append(l10n.getError(strs[i]) + " : ");
 			}
 		}
 		return sb.toString();
