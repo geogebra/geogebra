@@ -467,7 +467,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// cm size
 		double cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
 		double cmHeight = printingScale
-				* (ev.getExportHeight() / ev.getYscale());
+				* (ev.getExportHeight() / ev.getXscale());  // getXscale is not a typo. see #2894
 		sb.append(sizeLabelFormat.format(cmWidth));
 		sb.append(" cm ");
 		sb.append(Unicode.multiply);
