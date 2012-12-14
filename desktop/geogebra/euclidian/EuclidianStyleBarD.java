@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
@@ -101,6 +102,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	public EuclidianStyleBarD(EuclidianViewInterfaceCommon ev) {
 
 		isIniting = true;
+		
+		activeGeoList = new ArrayList<GeoElement>();
 
 		this.ev = ev;
 		ec = (EuclidianControllerD) ev.getEuclidianController();
@@ -175,6 +178,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			oldDefaultGeo = cons.getConstructionDefaults().getDefaultGeo(
 					oldDefaultMode);
 	}
+	
+	private ArrayList<GeoElement> activeGeoList;
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
@@ -186,7 +191,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// These are either the selected geos or the current default geo.
 		// Each button uses this list to update its gui and set visibility
 		// -----------------------------------------------------
-		ArrayList<GeoElement> activeGeoList = new ArrayList<GeoElement>();
+		activeGeoList.clear();
 
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
@@ -267,20 +272,33 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
 
+
+		updateButtons();
+		
+		addButtons();
+
+	}
+	
+	private void updateButtons(){
 		// -----------------------------------------------------
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
-		tableText = EuclidianStyleBarStatic.updateTableText(activeGeoList.toArray(), mode);
+		Object[] geos = activeGeoList.toArray();
+		tableText = EuclidianStyleBarStatic.updateTableText(geos, mode);
 		for (int i = 0; i < popupBtnList.length; i++) {
-			popupBtnList[i].update(activeGeoList.toArray());
+			popupBtnList[i].update(geos);
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
-			toggleBtnList[i].update(activeGeoList.toArray());
+			toggleBtnList[i].update(geos);
 		}
 
-		addButtons();
+	}
+	
 
+	public void updateVisualStyle(GeoElement geo) {
+		if(activeGeoList.contains(geo))
+			updateButtons();
 	}
 
 

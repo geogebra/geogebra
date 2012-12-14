@@ -116,6 +116,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 	public EuclidianStyleBarW(EuclidianView ev) {
 		isIniting = true;
+		
+		activeGeoList = new ArrayList<GeoElement>();
+
 
 		this.ev = ev;
 		ec = (EuclidianControllerW)ev.getEuclidianController();
@@ -202,6 +205,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 	    App.debug("implementation needed for GUI"); // TODO Auto-generated
     }
+	
+	private ArrayList<GeoElement> activeGeoList;
+
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
@@ -213,8 +219,8 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// These are either the selected geos or the current default geo.
 		// Each button uses this list to update its gui and set visibility
 		// -----------------------------------------------------
-		ArrayList<GeoElement> activeGeoList = new ArrayList<GeoElement>();
-
+		activeGeoList.clear();
+		
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
 		// -----------------------------------------------------
@@ -287,28 +293,36 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
 
-		// -----------------------------------------------------
-		// update the buttons
-		// note: this must always be done, even when activeGeoList is empty
-		// -----------------------------------------------------
-		tableText = EuclidianStyleBarStatic.updateTableText(activeGeoList.toArray(), mode);
-		for (int i = 0; i < popupBtnList.length; i++) {
-			if (popupBtnList[i] != null) {
-				popupBtnList[i].update(activeGeoList.toArray());
-			}
-		}
-		for (int i = 0; i < toggleBtnList.length; i++) {
-			if (toggleBtnList[i] != null) {
-				toggleBtnList[i].update(activeGeoList.toArray());
-			}
-		}
+		updateButtons();
 
 		// show the pen delete button
 		// TODO: handle pen mode in code above
 		//btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
 		addButtons();
     }
+	
 
+	private void updateButtons(){
+		// -----------------------------------------------------
+		// update the buttons
+		// note: this must always be done, even when activeGeoList is empty
+		// -----------------------------------------------------
+		Object[] geos = activeGeoList.toArray();
+		tableText = EuclidianStyleBarStatic.updateTableText(geos, mode);
+		for (int i = 0; i < popupBtnList.length; i++) {
+			popupBtnList[i].update(geos);
+		}
+		for (int i = 0; i < toggleBtnList.length; i++) {
+			toggleBtnList[i].update(geos);
+		}
+
+	}
+	
+
+	public void updateVisualStyle(GeoElement geo) {
+		if(activeGeoList.contains(geo))
+			updateButtons();
+	}
 	// =====================================================
 	// Init GUI
 	// =====================================================
@@ -1379,6 +1393,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	private String getActionCommand(Widget widget){
 		return widget.getElement().getAttribute("actionCommand");
 	}
+
 
 	
 }
