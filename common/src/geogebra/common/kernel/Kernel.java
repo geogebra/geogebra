@@ -416,7 +416,7 @@ public class Kernel {
 	 * @return the Evaluator for ExpressionNode
 	 */
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
-		return new ExpressionNodeEvaluator();
+		return new ExpressionNodeEvaluator(app);
 	}
 
 	/**

@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.main.Localization;
 import geogebra.common.plugin.Operation;
 import geogebra3D.kernel3D.Geo3DVec;
 
@@ -20,6 +21,10 @@ import geogebra3D.kernel3D.Geo3DVec;
  * 
  */
 public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
+
+	public ExpressionNodeEvaluator3D(Localization l10n) {
+		super(l10n);
+	}
 
 	@Override
 	public ExpressionValue evaluate(ExpressionNode expressionNode,StringTemplate tpl) {

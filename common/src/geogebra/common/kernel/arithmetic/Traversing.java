@@ -421,6 +421,11 @@ public interface Traversing {
 		}
 	}
 	
+	/**
+	 * Replaces function calls by multiplications in cases where left argument is clearly not a function
+	 * (see NonFunctionCollector)
+	 * @author zbynek
+	 */
 	public class NonFunctionReplacer implements Traversing {
 		private Set<String> commands;
 		public ExpressionValue process(ExpressionValue ev) {

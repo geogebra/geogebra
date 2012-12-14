@@ -209,7 +209,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
-		return new ExpressionNodeEvaluator3D();
+		return new ExpressionNodeEvaluator3D(app3D);
 	}
 
 	public App3D getApplication3D() {
