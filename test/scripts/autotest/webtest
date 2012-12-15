@@ -24,13 +24,21 @@ run() {
  echo "Testing URL $TESTURL" >/dev/stderr
  TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g | sed s/"\&"/"\\\\\\\\\&"/g`
  TESTNAME=`basename $1 .ggb | tr _ " "`
- EXITSTRING="] $TESTNAME" # this is some kind of heuristics since the page title will contain "[12345] TestName"
+ if [ "$2" = "" ]; then
+  EXITSTRING="] $TESTNAME" # this is some kind of heuristics since the page title will contain "[12345] TestName"
+ else
+  EXITSTRING="$2" # sometimes we must override the heuristics
+  fi
  cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
   | sed s/"\$TIMEOUT"/"$TIMEOUT"/g | sed s/"\$REPEAT"/"$REPEAT"/g \
   | sed s/"\$EXITSTRING"/"$EXITSTRING"/g \
   > $PHANTOMJSFILE
  phantomjs $PHANTOMJSFILE > $REPORT
  echo "Return value: $?" >/dev/stderr
+ # Postprocessing:
+ tail -1 $REPORT >/dev/stderr
+ cp $REPORT $TEST-$REPORT
+ convert $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $TEST.ansi
  }
 
 ansi_analyze() {
@@ -48,9 +56,13 @@ if [ `cat $ANSIFILENAME.test | wc -l` = 2 ]; then
 # 2. If the "space" character is the most often, it may mean that the output
 # stops at the splash screen:
 cat $ANSIFILENAME.test | head -1 | grep --silent "[0-9]  $" && {
- echo "Output for test $1 ($REMOTEURL) seems to be almost empty, maybe too slow"
- exit 22
+ if [ "$2" = force ]; then
+  echo "Output for test $1 ($REMOTEURL) seems to be almost empty, maybe too slow"
+  exit 22
+  fi
+ return 22
  }
+ return 0
 }
 
 json_analyze() {
@@ -68,10 +80,11 @@ REVISION=`svn info | grep Revision: | awk '{print $2}'`
 TESTFILES=`cd $REVDIR/latest/war/test; ls -1 *.ggb | grep -v ^_`
 for i in $TESTFILES; do
  run $i
- tail -1 $REPORT >/dev/stderr
- cp $REPORT $i-$REPORT
- convert $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $i.ansi
  ansi_analyze $i
+ if [ $? = 22 ]; then
+  run $i somethingrandomstringwhichwillneveroccur
+  ansi_analyze $i force
+  fi
  json_analyze $i
  done
 
