@@ -1106,9 +1106,9 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 				sbBuildValueString.append(")");
 			} else {
 				sbBuildValueString.append("myvect(");
-				sbBuildValueString.append( (""+getInhomX()).replace("E", "e"));
+				sbBuildValueString.append( kernel.format(getInhomX(),tpl));
 				sbBuildValueString.append(",");
-				sbBuildValueString.append((""+getInhomY()).replace("E", "e"));
+				sbBuildValueString.append(kernel.format(getInhomY(),tpl));
 				sbBuildValueString.append(")");
 			}
 			return sbBuildValueString;
