@@ -68,13 +68,21 @@ public class GgbScript extends Script {
 		final String[] starr = splitScriptByCommands(st);
 		final StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {
-			if ((i % 2) == 0) {
+			if ((i % 2) == 0 || isFunction(starr,i,app)) {
 				retone.append(starr[i]);
 			} else {
 				retone.append(app.getCommand(starr[i]));
 			}
 		}
 		return retone.toString();
+	}
+
+	private static boolean isFunction(String[] starr, int i,App app) {
+		if(i>=starr.length-1 || starr[i+1].startsWith("["))
+			return false;
+		if(app.getKernel().lookupLabel(starr[i])!=null)
+			return true;		
+		return false;
 	}
 
 	/**
@@ -91,7 +99,7 @@ public class GgbScript extends Script {
 				retone.append(starr[i]);
 			} else {
 				// allow English language command in French scripts
-				if (app.getInternalCommand(starr[i]) != null) {
+				if (!isFunction(starr,i,app) && app.getInternalCommand(starr[i]) != null) {
 					retone.append(app.getInternalCommand(starr[i]));
 				} else {
 					// fallback for wrong call in English already
@@ -146,7 +154,7 @@ public class GgbScript extends Script {
 					retone = new StringBuilder();
 					just_before_bracket = false;
 					before_bracket = true;
-				} else if ((st.charAt(i) != '[') && (st.charAt(i) != ' ')) {
+				} else if (!bracketAt(st,i) && (st.charAt(i) != ' ')) {
 					just_before_bracket = false;
 					before_bracket = false;
 					if (st.charAt(i) == '"') {
@@ -160,14 +168,14 @@ public class GgbScript extends Script {
 					before_bracket = false;
 					if (st.charAt(i) == '"') {
 						in_string = true;
-					} else if (st.charAt(i) == '[') {
+					} else if (bracketAt(st,i)) {
 						just_before_bracket = true;
 					}
 				}
 			} else {
 				if (st.charAt(i) == '"') {
 					in_string = true;
-				} else if (st.charAt(i) == '[') {
+				} else if (bracketAt(st,i)) {
 					just_before_bracket = true;
 				}
 			}
@@ -179,6 +187,10 @@ public class GgbScript extends Script {
 		}
 		final String[] ex = { "" };
 		return ret.toArray(ex);
+	}
+
+	private static boolean bracketAt(String st, int i) {
+		return (st.charAt(i) == '[') || (st.charAt(i) == '(');		
 	}
 
 	@Override
