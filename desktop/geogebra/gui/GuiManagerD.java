@@ -528,7 +528,7 @@ public class GuiManagerD extends GuiManager {
 			sb.append(constructionProtocolView.getConsProtocolXML());
 
 		// navigation bar of construction protocol
-		if (((AppD)app).showConsProtNavigation() && ((AppD)app).getConstructionProtocolNavigation() != null) {
+		if (((AppD)app).showConsProtNavigation()) {
 			sb.append("\t<consProtNavigationBar ");
 			sb.append("show=\"");
 			sb.append(((AppD)app).showConsProtNavigation());
@@ -862,8 +862,7 @@ public class GuiManagerD extends GuiManager {
 				app.getActiveEuclidianView().resetMode();
 			((AppD)app).getConstructionProtocolNavigation().register(getConstructionProtocolView());
 		} else {
-			if (((AppD)app).getConstructionProtocolNavigation() != null)
-				((AppD)app).getConstructionProtocolNavigation().unregister();
+			((AppD)app).getConstructionProtocolNavigation().unregister();
 		}
 
 		((AppD)app).getConstructionProtocolNavigation().setVisible(show);
@@ -874,26 +873,20 @@ public class GuiManagerD extends GuiManager {
 			boolean playButton, double playDelay, boolean showProtButton) {
 		setShowConstructionProtocolNavigation(show);
 
-		if (((AppD)app).getConstructionProtocolNavigation() != null) {
+		
 			((AppD)app).getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
 			((AppD)app).getConstructionProtocolNavigation().setPlayDelay(playDelay);
 			((AppD)app).getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
-		}
+		
 
 	}
 
 	public boolean isConsProtNavigationPlayButtonVisible() {
-		if (((AppD)app).getConstructionProtocolNavigation() != null) {
-			return ((AppD)app).getConstructionProtocolNavigation().isPlayButtonVisible();
-		}
-		return true;
+		return ((AppD)app).getConstructionProtocolNavigation().isPlayButtonVisible();		
 	}
 
 	public boolean isConsProtNavigationProtButtonVisible() {
-		if (((AppD)app).getConstructionProtocolNavigation() != null) {
-			return ((AppD)app).getConstructionProtocolNavigation().isConsProtButtonVisible();
-		}
-		return true;
+		return ((AppD)app).getConstructionProtocolNavigation().isConsProtButtonVisible();		
 	}
 
 	/**
@@ -976,8 +969,7 @@ public class GuiManagerD extends GuiManager {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		if (((AppD)app).getConstructionProtocolNavigation() != null)
-			((AppD)app).getConstructionProtocolNavigation().initGUI();
+		((AppD)app).getConstructionProtocolNavigation().initGUI();
 
 		if (casView != null)
 			casView.updateFonts();
@@ -1047,8 +1039,7 @@ public class GuiManagerD extends GuiManager {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		if (((AppD)app).getConstructionProtocolNavigation() != null)
-			((AppD)app).getConstructionProtocolNavigation().setLabels();
+		((AppD)app).getConstructionProtocolNavigation().setLabels();
 
 		if (virtualKeyboard != null)
 			virtualKeyboard.setLabels();
