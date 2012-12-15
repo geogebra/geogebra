@@ -74,9 +74,7 @@ public class AlgoTriangularDF extends AlgoElement {
     	// Normal[0,1,x]
     	// Normal[0,1,x,true]
 		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en,fv);
-		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
+		GeoFunction dummyFun = fv.wrap().buildFunction(fv);
     	
         input =  new GeoElement[cumulative == null ? 4 : 5];
         input[0] = a.toGeoElement();
@@ -117,29 +115,25 @@ public class AlgoTriangularDF extends AlgoElement {
         // make function x<a
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(a),fv);
-		GeoFunction condFunxLessThana = new GeoFunction(cons, tempFun);
+		GeoFunction condFunxLessThana = en.lessThan(a).buildFunction(fv);
 		//ret.setConditionalFunction(condFun);
 		
         // make function x<b
 		fv = new FunctionVariable(kernel);	
 		en = new ExpressionNode(kernel,fv);
-		tempFun = new Function(en.lessThan(b), fv);
-		GeoFunction condFunxLessThanb = new GeoFunction(cons, tempFun);
+		GeoFunction condFunxLessThanb = en.lessThan(b).buildFunction(fv);
 		//ret.setConditionalFunction(condFun);
 		
         // make function x<mode
 		fv = new FunctionVariable(kernel);	
 		en = new ExpressionNode(kernel,fv);
-		tempFun = new Function(en.lessThan(mode),fv);
-		GeoFunction condFunxLessThanMode = new GeoFunction(cons, tempFun);
+		GeoFunction condFunxLessThanMode = en.lessThan(mode).buildFunction(fv);
 		//ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
 		en = new ExpressionNode(kernel, 0);
-		tempFun = new Function(en,fv);
-		GeoFunction ifFun0 = new GeoFunction(cons, tempFun);
+		GeoFunction ifFun0 = en.buildFunction(fv);
 		//ret.setIfFunction(ifFun);
 
 		GeoFunctionConditional inner = new GeoFunctionConditional(cons); 
@@ -152,20 +146,17 @@ public class AlgoTriangularDF extends AlgoElement {
 			fv = new FunctionVariable(kernel);	
 			en = new ExpressionNode(kernel,fv);			
 			en = en.subtract(a).square().divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
-			tempFun = new Function(en,fv);
-			ifFun1 = new GeoFunction(cons, tempFun);
+			ifFun1 = en.buildFunction(fv);
 
 			fv = new FunctionVariable(kernel);	
 			en = new ExpressionNode(kernel,fv);			
 			en = en.subtract(b).square().divide(bEn.subtract(a).multiply(modeEn.subtract(b))).plus(1);
-			tempFun = new Function(en,fv);
-			GeoFunction ifFun2 = new GeoFunction(cons, tempFun);
+			GeoFunction ifFun2 = en.buildFunction(fv);
 
 	        // make function x=1
 			fv = new FunctionVariable(kernel);	
 			en = new ExpressionNode(kernel, 1);
-			tempFun = new Function(en,fv);
-			GeoFunction elseFun = new GeoFunction(cons, tempFun);
+			GeoFunction elseFun = en.buildFunction(fv);
 			// old hack:
 			//processAlgebraCommand( "If[x < "+a+", 0, If[x < "+c+", (x - ("+a+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), 
 			//If[x < "+b+", 1 + (x - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]", true);
@@ -180,14 +171,12 @@ public class AlgoTriangularDF extends AlgoElement {
 			fv = new FunctionVariable(kernel);	
 			en = new ExpressionNode(kernel,fv);			
 			en = en.subtract(a).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
-			tempFun = new Function(en,fv);
-			ifFun1 = new GeoFunction(cons, tempFun);
+			ifFun1 = en.buildFunction(fv);
 			
 			fv = new FunctionVariable(kernel);	
 			en = new ExpressionNode(kernel,fv);			
 			en = en.subtract(b).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(b)));
-			tempFun = new Function(en,fv);
-			GeoFunction ifFun2 = new GeoFunction(cons, tempFun);
+			GeoFunction ifFun2 = en.buildFunction(fv);
 			
 			inner.setIfFunction(ifFun2);
 			inner.setElseFunction(ifFun0); // x=0

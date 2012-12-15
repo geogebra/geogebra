@@ -22,7 +22,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -58,15 +57,13 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
         // make function x<0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(0),fv);
-		condFun = new GeoFunction(cons, tempFun);
+		condFun = en.lessThan(0).buildFunction(fv);
 		ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
 		en = new ExpressionNode(kernel,0);
-		tempFun = new Function(en,fv);
-		ifFun = new GeoFunction(cons, tempFun);
+		ifFun = en.buildFunction(fv);
 		ret.setIfFunction(ifFun);
 		
         setInputOutput(); // for AlgoElement
@@ -88,9 +85,7 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
     	// Normal[0,1,x]
     	// Normal[0,1,x,true]
 		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en,fv);
-		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
+		GeoFunction dummyFun = fv.wrap().buildFunction(fv);
     	
         input =  new GeoElement[cumulative == null ? 2 : 3];
         input[0] = lambda.toGeoElement();
@@ -130,10 +125,7 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
 			//command="If[x<0,0,("+l+")exp(-("+l+")x)]";
 		}
 		
-		Function tempFun = new Function(en, fv);
-		tempFun.initFunction();
-		
-		elseFun = new GeoFunction(cons, tempFun);
+		elseFun = en.buildFunction(fv);
 		
 		ret.setElseFunction(elseFun);
 		

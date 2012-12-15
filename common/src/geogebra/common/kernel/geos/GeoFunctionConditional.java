@@ -104,7 +104,8 @@ public class GeoFunctionConditional extends GeoFunction {
 			}
 			adjustCons(ifFun);
 			elseFun = null;
-			condFun = new GeoFunction(cons,new Function(new ExpressionNode(kernel,new MyBoolean(kernel,true))));
+			FunctionVariable x = new FunctionVariable(kernel);
+			condFun = new MyBoolean(kernel,true).wrap().buildFunction(x);
 			ifFun.set(geo);
 			return;
 		}

@@ -58,15 +58,13 @@ public class AlgoErlangDF extends AlgoElement {
         // make function x<0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(0),fv);
-		condFun = new GeoFunction(cons, tempFun);
+		condFun = en.lessThan(0).buildFunction(fv);
 		ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
 		en = new ExpressionNode(kernel, 0);
-		tempFun = new Function(en,fv);
-		ifFun = new GeoFunction(cons, tempFun);
+		ifFun = en.buildFunction(fv);
 		ret.setIfFunction(ifFun);
 
 		setInputOutput(); // for AlgoElement
@@ -88,9 +86,7 @@ public class AlgoErlangDF extends AlgoElement {
     	// Normal[0,1,x]
     	// Normal[0,1,x,true]
 		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en,fv);
-		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
+		GeoFunction dummyFun = fv.wrap().buildFunction(fv);
     	
         input =  new GeoElement[cumulative == null ? 3 : 4];
         input[0] = k.toGeoElement();
@@ -138,10 +134,7 @@ public class AlgoErlangDF extends AlgoElement {
 			//command = "If[x<0,0,(("+l+")^("+k+")x^("+k+"-1)exp(-("+l+")x))/("+k+"-1)!]";
 		}
 		
-		Function tempFun = new Function(en, fv);
-		tempFun.initFunction();
-		
-		elseFun = new GeoFunction(cons, tempFun);
+		elseFun = en.buildFunction(fv);
 		
 		ret.setElseFunction(elseFun);
 

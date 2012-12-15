@@ -1819,7 +1819,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		FunctionVariable x = getFunction().getFunctionVariable();
 		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) getFunction()
 				.getExpression().deepCopy(kernel)).replace(x, t);
-		return new GeoFunction(cons,new Function(yExp, t));
+		return yExp.buildFunction(t);
 	}
 
 	public void dilate(NumberValue r, GeoPoint S) {

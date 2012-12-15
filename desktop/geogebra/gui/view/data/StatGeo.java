@@ -369,8 +369,7 @@ public class StatGeo {
 				new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
 		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
 
-		Function f = new Function(normal, x);
-		geo = new GeoFunction(cons, f);
+		geo = normal.buildFunction(x);
 
 		geo.setObjColor(new geogebra.awt.GColorD(
 				DataAnalysisViewD.OVERLAY_COLOR));

@@ -59,15 +59,15 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
         // make function x<0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(0),fv);
-		condFun = new GeoFunction(cons, tempFun);
+		
+		condFun = en.lessThan(0).buildFunction(fv);
 		ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
 		en = new ExpressionNode(kernel,0);
-		tempFun = new Function(en,fv);
-		ifFun = new GeoFunction(cons, tempFun);
+		
+		ifFun = en.buildFunction(fv);
 		ret.setIfFunction(ifFun);
 		
 		
@@ -92,9 +92,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
     	// Normal[0,1,x]
     	// Normal[0,1,x,true]
 		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en,fv);
-		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
+		GeoFunction dummyFun = fv.wrap().buildFunction(fv);
     	
         input =  new GeoElement[cumulative == null ? 3 : 4];
         input[0] = mean.toGeoElement();
@@ -147,10 +145,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 			//command = "If[x<0,0,x^("+k+"-1) exp(-x/("+t+"))/(gamma("+k+")("+t+")^("+k+"))]";
 		}
 		
-		Function tempFun = new Function(en, fv);
-		tempFun.initFunction();
-		
-		elseFun = new GeoFunction(cons, tempFun);
+		elseFun = en.buildFunction(fv);
 		
 		ret.setElseFunction(elseFun);
 		

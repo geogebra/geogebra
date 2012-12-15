@@ -144,9 +144,8 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 		ExpressionNode eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY() / coeffs.getZ()), Operation.MULTIPLY, yFun);
 		enx = enx.plus(eny).plus(1);
 
-		// wrap in a function
-		Function f = new Function(enx, fv);  		
-		GeoFunction geoFun = new GeoFunction(cons, f);
+		// wrap in a function 		
+		GeoFunction geoFun = enx.buildFunction(fv);
 
 		double[] roots = null;
 		int outputSize = -1;
@@ -156,7 +155,7 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 		if (geoFun.isPolynomialFunction(true)) {
 			//AbstractApplication.debug("trying polynomial");
 
-			LinkedList<PolyFunction> factorList = f.getPolynomialFactors(false);
+			LinkedList<PolyFunction> factorList = geoFun.getFunction().getPolynomialFactors(false);
 
 			if (factorList != null) {
 				// compute the roots of every single factor

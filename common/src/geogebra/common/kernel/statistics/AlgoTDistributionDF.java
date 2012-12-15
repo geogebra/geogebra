@@ -71,9 +71,7 @@ public class AlgoTDistributionDF extends AlgoElement implements AlgoDistribution
     	// Normal[0,1,x]
     	// Normal[0,1,x,true]
 		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en,fv);
-		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
+		GeoFunction dummyFun = fv.wrap().buildFunction(fv);
     	
         input =  new GeoElement[cumulative == null ? 2 : 3];
         input[0] = v.toGeoElement();
