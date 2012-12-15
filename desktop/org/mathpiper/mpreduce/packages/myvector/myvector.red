@@ -632,14 +632,17 @@ symbolic procedure myunitperpendicular vargs;
 
 myvectorfn('unitvector,'myunit);
 symbolic procedure myunit vargs;
-  begin scalar x,k,n,norm;
+  begin scalar x,r,k,n,norm;
 %debug%write("myunit entered with argument ", vargs);terpri();
   x := car vargs;
+  %length of vector
   n := upbv x;
+  %the vector to return
+  r := mkvect(n);
   norm := myvectormod vargs;
   for k:=0:n do
-    putv(x,k,aeval list('quotient, getv(x,k), norm));
-  return x
+    putv(r,k,aeval list('quotient, getv(x,k), norm));
+  return r
   end;
 
 myvectorfn('dim,'mydim);
