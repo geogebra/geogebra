@@ -36,6 +36,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
 		Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
-		GeoPoly, Transformable, SymbolicParametersBotanaAlgo {
+		GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments {
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 100;

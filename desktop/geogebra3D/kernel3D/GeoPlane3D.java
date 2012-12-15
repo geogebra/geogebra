@@ -542,6 +542,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public void setEuclidianViewForPlane(EuclidianView view){
 		euclidianViewForPlane = (EuclidianViewForPlane) view;
+		euclidianViewForPlane.setTransform(((App3D) app).getEuclidianView3D()
+				.getViewDirection(), ((App3D) app).getEuclidianView3D()
+				.getToScreenMatrix());
 	}
 	
 	public Coords getDirectionInD3() {

@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.main.App;
 
 import java.util.TreeMap;
@@ -18,7 +19,7 @@ import java.util.TreeMap;
 public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	protected int spaceDim = 3;
-	protected GeoPolygon p;
+	protected HasSegments p;
 	protected GeoLineND g;
 
 	protected OutputHandler<GeoElement> outputPoints; // output
@@ -29,16 +30,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 
 	
-	/**
-	 * @param c 
-	 * @param labels 
-	 * @param g 
-	 * @param p 
-	 */
-	AlgoIntersectLinePolygon3D(Construction c, String[] labels,
-			GeoPolygon p, GeoLineND g) {
-		this(c, labels, g, p);
-	}
+
 	
     public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
 			GeoLineND g, GeoPolygon p) {
@@ -48,7 +40,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     }
 	
     public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
-			GeoElement g, GeoPolygon p) {
+			GeoElement g, HasSegments p) {
     	super(c);
     	
         
@@ -130,9 +122,11 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	    * @param p polygon
 	    * @param newCoords coords
 	    */	   
-	   protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
+	   protected void intersectionsCoords(HasSegments hasSegments, TreeMap<Double, Coords> newCoords){
 
 		   //TODO: move these to intersectLinePolyline3D
+		   
+		   GeoPolygon p = (GeoPolygon) hasSegments;
 
 		   //check if the line is contained by the polygon plane
 		   switch(AlgoIntersectCS1D2D.getConfigLinePlane(g, p)){
@@ -153,7 +147,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	    * @param p polygon
 	    * @param newCoords coords
 	    */
-	   protected void intersectionsCoordsContained(GeoPolygon p, TreeMap<Double, Coords> newCoords){
+	   protected void intersectionsCoordsContained(HasSegments p, TreeMap<Double, Coords> newCoords){
 
 
 		   //line origin and direction
@@ -217,6 +211,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     	newCoords.clear();
     	
     	//fill a new points map
+    	//intersectionsCoords(p, newCoords);
     	intersectionsCoords(p, newCoords);
     	
     	//update and/or create points
@@ -260,7 +255,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = getFirstInput();
-        input[1] = p;
+        input[1] = (GeoElement) p;
         
         setDependencies(); // done by AlgoElement
     }

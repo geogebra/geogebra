@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.main.App;
 
 
@@ -48,7 +49,7 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	
     	Coords[] intersection = CoordMatrixUtil.intersectPlanes(
     			plane.getCoordSys().getMatrixOrthonormal(),
-    			p.getCoordSys().getMatrixOrthonormal());
+    			((GeoPolygon) p).getCoordSys().getMatrixOrthonormal());
 
 		o1 = intersection[0];
 		d1 = intersection[1];
@@ -57,7 +58,7 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 
 	
     @Override
-	protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
+	protected void intersectionsCoords(HasSegments p, TreeMap<Double, Coords> newCoords){
 
     	//intersection line is contained in polygon plane by definition
     	intersectionsCoordsContained(p, newCoords);

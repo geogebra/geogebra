@@ -142,7 +142,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		//add polyhedron's segments and polygons, without setting this algo as algoparent
 		
 		outputPolygons.addOutput(polyhedron.getFaces(),false,false);
-		outputSegments.addOutput(polyhedron.getSegments(),false,true);
+		outputSegments.addOutput(polyhedron.getSegments3D(),false,true);
 		
 	}
 

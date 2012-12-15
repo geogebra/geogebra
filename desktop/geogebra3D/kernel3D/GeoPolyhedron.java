@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
@@ -25,7 +26,7 @@ import java.util.TreeSet;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D {// implements Path {
+public class GeoPolyhedron extends GeoElement3D implements HasSegments {// implements Path {
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
@@ -600,7 +601,18 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 	}
 
-	public GeoSegment3D[] getSegments() {
+	public GeoSegmentND[] getSegments() {
+
+		GeoSegmentND[] ret = new GeoSegmentND[segments.size()];
+		int i = 0;
+		for (GeoSegment3D segment : segments.values()) {
+			ret[i] = segment;
+			i++;
+		}
+		return ret;
+	}
+	
+	public GeoSegment3D[] getSegments3D() {
 
 		GeoSegment3D[] ret = new GeoSegment3D[segments.size()];
 		int i = 0;
@@ -610,7 +622,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 		return ret;
 	}
-	
 
 	public GeoPolygon3D[] getFaces() {
 		GeoPolygon3D[] polygonsArray = new GeoPolygon3D[polygons.size()];
