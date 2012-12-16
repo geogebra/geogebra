@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 /**
  * Abstract class for algos that use some CAS algo as helper
  */
-public abstract class AlgoUsingTempCASalgo extends AlgoElement {
+public abstract class AlgoUsingTempCASalgo extends AlgoElement implements UsesCAS {
 
 	/**
 	 * @param c construction
