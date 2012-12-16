@@ -79,10 +79,6 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	@Override
 	public void setLeftComponent(Component component) {
 		
-		//ensure visibility flags of dock panels set to false
-		if (leftComponent!=null)
-			((DockComponent) leftComponent).setDockPanelsVisible(false);
-
 		super.setLeftComponent(component);
 		updateDivider();
 	}
@@ -93,10 +89,6 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	 */
 	@Override
 	public void setRightComponent(Component component) {
-
-		//ensure visibility flags of dock panels set to false
-		if (rightComponent!=null)
-			((DockComponent) rightComponent).setDockPanelsVisible(false);
 
 		super.setRightComponent(component);
 		updateDivider();

@@ -836,6 +836,9 @@ public class GuiManagerD extends GuiManager {
 				((AppD)app).getActiveEuclidianView().requestFocus();
 			}
 		}
+		
+		layout.getDockManager().getPanel(viewId).setVisible(flag);
+		
 		toolbarPanel.validate();
 		toolbarPanel.updateHelpText();
 	}
