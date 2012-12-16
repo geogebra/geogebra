@@ -837,8 +837,6 @@ public class GuiManagerD extends GuiManager {
 			}
 		}
 		
-		layout.getDockManager().getPanel(viewId).setVisible(flag);
-		
 		toolbarPanel.validate();
 		toolbarPanel.updateHelpText();
 	}
