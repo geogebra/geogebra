@@ -72,7 +72,7 @@ public class DrawParametricCurve extends Drawable {
 	 /** follow along top of screen*/
 	 RESET_XMAX ,
 	 /** follow along right side of screen*/
-	 RESET_YMAX ,
+	 RESET_YMAX, CORNER ,
 	}
 	// low quality settings
 	// // maximum and minimum distance between two plot points in pixels
@@ -156,7 +156,7 @@ public class DrawParametricCurve extends Drawable {
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
 			labelPoint = plotCurve(curve, min, max, view, gp, labelVisible,
-					fillCurve ? Gap.LINE_TO : Gap.MOVE_TO);
+					fillCurve ? Gap.CORNER : Gap.MOVE_TO);
 		}
 
 		// gp on screen?
@@ -347,7 +347,7 @@ public class DrawParametricCurve extends Drawable {
 		// point
 		if (moveToAllowed == Gap.MOVE_TO) {
 			moveTo(gp, x0, y0);
-		} else if (moveToAllowed == Gap.LINE_TO) {
+		} else if (moveToAllowed == Gap.LINE_TO || moveToAllowed == Gap.CORNER) {
 			lineTo(gp, x0, y0);
 		} else if (moveToAllowed == Gap.RESET_XMIN) {
 			double d = gp.getCurrentPoint().getY();
@@ -507,7 +507,10 @@ public class DrawParametricCurve extends Drawable {
 					lineTo = isContinuous(curve, left, t,
 							MAX_PROBLEM_BISECTIONS);
 				}
-			}
+			}else
+				if (moveToAllowed == Gap.CORNER) {
+					corner(gp,x,y, view);
+				}
 
 			// do lineTo or moveTo
 			if (lineTo) {
@@ -569,6 +572,42 @@ public class DrawParametricCurve extends Drawable {
 		} while (top != 0); // end of do-while loop for bisection stack
 
 		return labelPoint;
+	}
+
+	private static void corner(GeneralPathClipped gp2,
+			double x0, double y0,EuclidianView view) {
+		int w = view.getWidth();
+		int h = view.getHeight();
+		GPoint2D pt = gp2.getCurrentPoint();
+		if(pt==null){						
+			return;
+		}
+		double x = pt.getX();
+		double y = pt.getY();
+
+		if((x<0 && x0>w) || (x>w && x0<0)){
+			lineTo(gp2,x,-10);
+			lineTo(gp2,x0,-10);
+			return;
+		}
+				
+		if((y<0 && y0>h)||(y>h && y0<0)){
+			lineTo(gp2,-10,y);
+			lineTo(gp2,-10,y0);
+			return;
+		}
+		
+		if((x>w || x<0) && (y0<0 || y0>h)){
+			lineTo(gp2,x,y0);
+			return;
+		}
+		
+		if((x0>w || x0<0) && (y<0 || y>h)){
+			lineTo(gp2,x0,y);
+			return;
+		}
+		
+		
 	}
 
 	/**
@@ -907,12 +946,6 @@ public class DrawParametricCurve extends Drawable {
 			countPoints++;
 		}
 	}
-
-	// private boolean distanceSmall(double x, double y) {
-	// Point2D point = gp.getCurrentPoint();
-	// return Math.abs(point.getX() - x) > 1 ||
-	// Math.abs(point.getY() - y) > 1;
-	// }
 
 	/*
 	 * The algorithm in plotInterval() is based on an algorithm by John Gillam.
