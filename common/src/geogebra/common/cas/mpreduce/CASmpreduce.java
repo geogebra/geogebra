@@ -436,7 +436,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"polydiv", "myvector", "specfn"};
 		for (String p : packages) {
 			mpreduce1.evaluate("load_package " + p + ";");
-			App.debug("Reduce package " + p + " loaded");
+			App.trace("Reduce package " + p + " loaded");
 		}
 
 		// Initialize MPReduce
@@ -818,7 +818,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure booltonum a; if a = 'true then 1 else if a = 'false then 0 else a;");
 		mpreduce1
 		.evaluate("procedure isnonzero(a);if a=0 or not freeof(a,i) then 0 else 1;");
-		App.debug(mpreduce1
+		mpreduce1
 		.evaluate("procedure mynumsolvesingle(a,b); " +
 				" begin;scalar eqn, denumer,var;" +
 		" var:=b;" +
@@ -833,7 +833,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		" else if not(arglength(b)>-1 and part(b,0)='equal and sub(var=rhs(b)+0.5,df(eqn,var))=0) then" +
 		" num_solve(a,var=rhs(b)+0.5,iterations=10000)" +
 		//tangent still horizontal, let Reduce do its random magic
-		" else num_solve(a,var,iterations=10000);end;"));
+		" else num_solve(a,var,iterations=10000);end;");
 		mpreduce1
 		.evaluate("procedure mynumsolve(a,b); " +
 				" begin;" +
@@ -1073,7 +1073,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					//may happen that other!! is "we don't know" and solutions!! is "no answer" 
 					" return if part(other!!,1)=1 then part(other!!,2) else part(solutions!!,2);" +
 					" end;");
-		App.debug(mpreduce1.evaluate("procedure simplifyexp(x);" +
+		mpreduce1.evaluate("procedure simplifyexp(x);" +
 				" begin scalar y;" +
 				//the second and third rule are for Solve[cubic]
 				" exprules:={e^(log(~aa)/~bb)=>aa^(1/bb),e^(~u*acosh(~t)/3)=>(sqrt(t^2 - 1)+t)^(u/3),e^(acosh(~t)/3)=>(sqrt(t^2 - 1)+t)^(1/3)};" +
@@ -1081,7 +1081,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				" y:=x;"+
 				" clearrules exprules;" +
 				" return y;" +
-				" end; "));
+				" end; ");
 				
 		mpreduce1.evaluate("procedure solvepostprocess(solutions!!,var);" 
 				+ " begin scalar bool!!, isineq,temp1!!,temp2!!, max, noofstdsolutions;"
