@@ -138,7 +138,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
 
                 points[i].setCoords(
                     curXValues[i],
-                    f.evaluate(curXValues[i]),							//yValFunction.evaluate(curXValues[i]),
+                    yAt(curXValues[i]),							//yValFunction.evaluate(curXValues[i]),
                     1.0);
                 
               //  Application.debug("   " + rootPoints[i]); 
@@ -155,7 +155,11 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
         noUndefinedPointsInAlgebraView(points);			//**** experiment****
     }//setPoints(double[],n)
 
-    // number is the number of current roots
+    protected double yAt(double d) {
+		return f.evaluate(d);
+	}
+
+	// number is the number of current roots
     protected void updateLabels(int number) {  
     	if (initLabels) {
     		GeoElement.setLabels(labels, points);

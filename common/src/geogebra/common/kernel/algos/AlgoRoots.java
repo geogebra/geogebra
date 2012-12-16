@@ -205,6 +205,13 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}// if ok input
 	}// compute()
 
+	@Override
+	protected double yAt(double x){
+		if(type == TYPE_ROOTS)
+			return 0;
+		return f1.evaluate(x);
+	}
+	
 	private final void compute2(GeoFunction f) {
 
 		double l = left.getDouble();
