@@ -818,19 +818,31 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("procedure booltonum a; if a = 'true then 1 else if a = 'false then 0 else a;");
 		mpreduce1
 		.evaluate("procedure isnonzero(a);if a=0 or not freeof(a,i) then 0 else 1;");
+		App.debug(mpreduce1
+		.evaluate("procedure mynumsolvesingle(a,b); " +
+				" begin;scalar eqn, denumer,var;" +
+		" var:=b;" +
+		" if arglength(var)>-1 and part(var,0)='equal then var:=part(var,1);"+
+		" if arglength(a)>-1 and part(a,0)='equal then <<eqn:=num(lhs(a)-rhs(a));denumer:=den(lhs(a)-rhs(a))>>"+
+		"   else if length(a)=1 then <<eqn:=num(a); denumer:=den(a);>>;" +
+		" return if not(mycoeff(eqn,var)='?)" +
+		" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and isnonzero(sub(r,denumer))=1 then list(r) else list())" +
+		" else if not(arglength(b)>-1 and part(b,0)='equal and sub(var=rhs(b),df(eqn,var))=0) then" +
+		" num_solve(a,b,iterations=10000)" +
+		//tangent is horizontal, try going big enough step to the right to make it steep
+		" else if not(arglength(b)>-1 and part(b,0)='equal and sub(var=rhs(b)+0.5,df(eqn,var))=0) then" +
+		" num_solve(a,var=rhs(b)+0.5,iterations=10000)" +
+		//tangent still horizontal, let Reduce do its random magic
+		" else num_solve(a,var,iterations=10000);end;"));
 		mpreduce1
 		.evaluate("procedure mynumsolve(a,b); " +
-				" begin;scalar eqn, denumer,var;" +
+				" begin;" +
 				" a:=mkdepthone(list(a));"+
 				" b:=mkdepthone(list(b));"+
-				" var:=part(b,1);" +
-				" if arglength(var)>-1 and part(var,0)='equal then var:=part(var,1);"+
-				" if length(a)=1 and arglength(part(a,1))>-1 and part(part(a,1),0)='equal then <<eqn:=num(lhs(part(a,1))-rhs(part(a,1)));denumer:=den(lhs(part(a,1))-rhs(part(a,1)))>>"+
-				"   else if length(a)=1 then <<eqn:=num(part(a,1)); denumer:=den(part(a,1));>>;" +
-				" return if length(a)=1 and not(mycoeff(eqn,var)='?)" +
-				" then mkdepthone(for each r in roots(eqn) collect if freeof(r,i) and isnonzero(sub(r,denumer))=1 then list(r) else list())" +
+				" return if length(a)=1 then mynumsolvesingle(part(a,1),part(b,1))"+
 				" else num_solve(a,b,iterations=10000);" +
 				" end;");
+		
 		mpreduce1
 		.evaluate("procedure listtodisjunction(v,lst);" +
 				"begin scalar ret;" +
