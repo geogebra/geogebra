@@ -155,7 +155,7 @@ public class Ggb2MPReduce {
 				"for k:=1:(%2) do res!!:=sub(mymainvar(exp!!)=res!!,exp!!);return res!!; end>>");
 		p("IterationList.3",
 				"<<begin scalar res!!,lst!!; exp!!:=(%0); res!!:=(%1); " +
-				"return for k:=1:(%2) collect res!!:=sub(mymainvar(exp!!)=res!!,exp!!); end>>");
+				"return for k:=0:(%2) collect if k=0 then res!! else res!!:=sub(mymainvar(exp!!)=res!!,exp!!); end>>");
 		p("PointList.1",
 				"pointlist(mattolistoflists(%0))");
 		p("RootList.1",
