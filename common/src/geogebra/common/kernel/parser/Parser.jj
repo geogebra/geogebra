@@ -1207,7 +1207,7 @@ ExpressionValue COMPAREterm():
   		// build AND ExpressionNode tree, e.g. 3 < x && x < 7
         left = andList.get(0);
         for (int i=1; i < andList.size(); i++) {
-			left = new ExpressionNode(kernel, left, Operation.AND, andList.get(i));
+			left = new ExpressionNode(kernel, left, Operation.AND_INTERVAL, andList.get(i));
         }   
       }
       return left;

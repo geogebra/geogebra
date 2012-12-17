@@ -182,7 +182,7 @@ public class DrawInequality extends Drawable {
 	}
 
 	private void updateShape() {
-		if (operation.equals(Operation.AND)) {			
+		if (operation.equals(Operation.AND)||operation.equals(Operation.AND_INTERVAL)) {			
 			setShape(left.getShape());
 			getShape().intersect(right.getShape());
 		} else if (operation.equals(Operation.OR)) {

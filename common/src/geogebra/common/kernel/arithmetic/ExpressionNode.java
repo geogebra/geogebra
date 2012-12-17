@@ -1582,20 +1582,20 @@ public class ExpressionNode extends ValidExpression implements
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
-		StringType STRING_TYPE = tpl.getStringType();
+		StringType stringType = tpl.getStringType();
 
 		switch (operation) {
 		case NOT:
 
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<not/>", leftStr, null);
-			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			}else if (stringType.equals(StringType.MPREDUCE)) {
 				sb.append("mynot(");
 				sb.append(leftStr);
 				sb.append(')');
 			} else {
 
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case MATHML:
 
 					break;
@@ -1617,23 +1617,23 @@ public class ExpressionNode extends ValidExpression implements
 				if (left.isLeaf()) {
 					sb.append(leftStr);
 				} else {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 			}
 			break;
 
 		case OR:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<or/>", leftStr, rightStr);
-			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sor", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				sb.append(' ');
 
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
@@ -1657,21 +1657,46 @@ public class ExpressionNode extends ValidExpression implements
 				}
 
 				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
-
-		case AND:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+		case AND_INTERVAL:
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<and/>", leftStr, rightStr);
-			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sand", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				if(left.isExpressionNode()){
+					sb.append(((ExpressionNode)left).getLeftTree().printCASstring(!valueForm, tpl));
+					switch(((ExpressionNode)left).getOperation()){
+						case LESS:appendLessSign(sb,stringType);break;
+						case LESS_EQUAL:appendLeqSign(sb,stringType);break;
+						case GREATER:appendGreaterSign(sb,stringType);break;
+						case EQUAL_BOOLEAN:appendEqualSign(sb,stringType);break;
+						case NOT_EQUAL:appendNotEqualSign(sb,stringType);break;
+						case GREATER_EQUAL:appendGeqSign(sb,stringType);break;
+						case IS_SUBSET_OF:appendSubsetSign(sb,stringType);break;
+						case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,stringType);break;
+						case PARALLEL:appendParallelSign(sb,stringType);break;
+						case PERPENDICULAR:appendPerpSign(sb,stringType);break;
+					}
+					
+					sb.append(getRightTree().printCASstring(!valueForm, tpl));
+					break;
+				}
+			}
+			
+		case AND:
+			if (stringType.equals(StringType.MATHML)) {
+				mathml(sb, "<and/>", leftStr, rightStr);
+			}else if (stringType.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"sand", leftStr, rightStr);
+			} else {
+				append(sb, leftStr, left, operation, stringType);
 
 				sb.append(' ');
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
@@ -1696,20 +1721,21 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				sb.append(' ');
 
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				append(sb, rightStr, right, operation, stringType);
 			}
 			break;
+			
 		case IMPLICATION:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<implies/>", leftStr, rightStr);
-			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"simplies", leftStr, rightStr);
 			} else {
-				if (STRING_TYPE != StringType.MPREDUCE)
-					append(sb, leftStr, left, operation, STRING_TYPE);
+				if (stringType != StringType.MPREDUCE)
+					append(sb, leftStr, left, operation, stringType);
 
 				sb.append(' ');
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
@@ -1726,85 +1752,49 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				sb.append(' ');
 
-				if (STRING_TYPE != StringType.MPREDUCE)
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				if (stringType != StringType.MPREDUCE)
+				append(sb, rightStr, right, operation, stringType);
 			}
 			break;
 
 		case EQUAL_BOOLEAN:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<eq/>", leftStr, rightStr);
-			} else if (STRING_TYPE.equals(StringType.OGP)) {
+			} else if (stringType.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
-			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sequal", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				sb.append(' ');
-				switch (STRING_TYPE) {
-				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\stackrel{\\small ?}{=}");
-					break;
-				case LIBRE_OFFICE:
-				case MATH_PIPER:
-				case JASYMCA:
-				case MPREDUCE:
-					sb.append("=");
-					break;
-
-				default:
-					sb.append(strEQUAL_BOOLEAN);
-				}
-				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendEqualSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case NOT_EQUAL:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<neq/>", leftStr, rightStr);
-			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sunequal", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				sb.append(' ');
-				switch (STRING_TYPE) {
-				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\neq");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("<>");
-					break;
-				case MATH_PIPER:
-					sb.append("!=");
-					break;
-
-				default:
-					sb.append(strNOT_EQUAL);
-				}
-				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendNotEqualSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case IS_ELEMENT_OF:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<in/>", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
 				sb.append(' ');
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
@@ -1818,71 +1808,43 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(strIS_ELEMENT_OF);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case IS_SUBSET_OF:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<subset/>", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				sb.append(' ');
-				switch (STRING_TYPE) {
-				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\subseteq");
-					break;
-				case LIBRE_OFFICE:
-					sb.append(" subseteq ");
-					break;
-				default:
-					sb.append(strIS_SUBSET_OF);
-				}
-				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendSubsetSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case IS_SUBSET_OF_STRICT:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<prsubset/>", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				sb.append(' ');
-				switch (STRING_TYPE) {
-				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\subset");
-					break;
-				case LIBRE_OFFICE:
-					sb.append(" subset ");
-					break;
-				default:
-					sb.append(strIS_SUBSET_OF_STRICT);
-				}
-				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendStrictSubsetSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case SET_DIFFERENCE:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<setdiff/>", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
 				sb.append(' ');
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
@@ -1897,171 +1859,100 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				sb.append(' ');
 				if(right.isExpressionNode() && right.wrap().getOperation()==Operation.SET_DIFFERENCE){
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}else{
-					append(sb, rightStr, right, operation, STRING_TYPE);
+					append(sb, rightStr, right, operation, stringType);
 				}
 				// sb.append(rightStr);
 			}
 			break;
 
 		case LESS:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<lt/>", leftStr, rightStr);
-			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sless", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				if (STRING_TYPE.equals(StringType.LATEX)
-						&& kernel.isInsertLineBreaks()) {
-					sb.append(" \\-< ");
-				} else {
-					sb.append(" < ");
-				}
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendLessSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case GREATER:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<gt/>", leftStr, rightStr);
-			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				if (STRING_TYPE.equals(StringType.LATEX)
-						&& kernel.isInsertLineBreaks()) {
-					sb.append(" \\->");
-				} else {
-					sb.append(" > ");
-				}
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendGreaterSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case LESS_EQUAL:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<leq/>", leftStr, rightStr);
-			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"slessequal", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				sb.append(' ');
-				switch (STRING_TYPE) {
-				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\leq");
-					break;
-				case LIBRE_OFFICE:
-				case MATH_PIPER:
-				case MPREDUCE:
-					sb.append("<=");
-					break;
-
-				default:
-					sb.append(strLESS_EQUAL);
-				}
-				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendLeqSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case GREATER_EQUAL:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<qeq/>", leftStr, rightStr);
-			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				sb.append(' ');
-				switch (STRING_TYPE) {
-				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\geq");
-					break;
-				case LIBRE_OFFICE:
-				case MATH_PIPER:
-					sb.append(">=");
-					break;
-
-				default:
-					sb.append(strGREATER_EQUAL);
-				}
-				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				appendGeqSign(sb,stringType);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case PARALLEL:
-			if (STRING_TYPE.equals(StringType.OGP)) {
+			if (stringType.equals(StringType.OGP)) {
 				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			append(sb, leftStr, left, operation, STRING_TYPE);
+			append(sb, leftStr, left, operation, stringType);
 			// sb.append(leftStr);
-			sb.append(' ');
-			switch (STRING_TYPE) {
-			case LATEX:
-				if (kernel.isInsertLineBreaks()) {
-					sb.append("\\-");
-				}
-				sb.append("\\parallel");
-				break;
-			case LIBRE_OFFICE:
-				sb.append(" parallel ");
-				break;
-			default:
-				sb.append(strPARALLEL);
-			}
-			sb.append(' ');
-			append(sb, rightStr, right, operation, STRING_TYPE);
+			appendParallelSign(sb,stringType);
+			append(sb, rightStr, right, operation, stringType);
 			// sb.append(rightStr);
 			break;
 
 		case PERPENDICULAR:
-			if (STRING_TYPE.equals(StringType.OGP)) {
+			if (stringType.equals(StringType.OGP)) {
 				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			append(sb, leftStr, left, operation, STRING_TYPE);
+			append(sb, leftStr, left, operation, stringType);
 			// sb.append(leftStr);
-			sb.append(' ');
-			switch (STRING_TYPE) {
-			case LATEX:
-				if (kernel.isInsertLineBreaks()) {
-					sb.append("\\-");
-				}
-				sb.append("\\perp");
-				break;
-			case LIBRE_OFFICE:
-				sb.append(" ortho ");
-				break;
-			default:
-				sb.append(strPERPENDICULAR);
-			}
-			sb.append(' ');
-			append(sb, rightStr, right, operation, STRING_TYPE);
+			appendPerpSign(sb,stringType);
+			append(sb, rightStr, right, operation, stringType);
 			// sb.append(rightStr);
 			break;
 
 		case VECTORPRODUCT:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<vectorproduct/>", leftStr, rightStr);
-			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				sb.append("mycross(");
 				sb.append(leftStr);
 				sb.append(',');
@@ -2069,10 +1960,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(')');
 
 			} else {
-				append(sb, leftStr, left, operation, STRING_TYPE);
+				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
 				sb.append(' ');
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
@@ -2086,13 +1977,13 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(strVECTORPRODUCT);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case PLUS:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<plus/>", leftStr, rightStr);
 				break;
@@ -2118,18 +2009,18 @@ public class ExpressionNode extends ValidExpression implements
 				// check for 0
 				if (valueForm) {
 					if (isEqualString(left, 0, !valueForm)) {
-						append(sb, rightStr, right, operation, STRING_TYPE);
+						append(sb, rightStr, right, operation, stringType);
 						break;
 					} else if (isEqualString(right, 0, !valueForm)) {
-						append(sb, leftStr, left, operation, STRING_TYPE);
+						append(sb, leftStr, left, operation, stringType);
 						break;
 					}
 				}
 
 				if (left instanceof Equation) {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				} else {
 					sb.append(leftStr);
 				}
@@ -2141,18 +2032,18 @@ public class ExpressionNode extends ValidExpression implements
 				if (left.isTextValue()
 						&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 								.isLabelSet()))) {
-					if (STRING_TYPE.equals(StringType.LATEX)
+					if (stringType.equals(StringType.LATEX)
 							&& kernel.isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
 						sb.append(" + ");
 					}
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				} else {
 					if (rightStr.charAt(0) == '-') { // convert + - to -
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
 						} else {
@@ -2166,7 +2057,7 @@ public class ExpressionNode extends ValidExpression implements
 																				// -
 																				// to
 																				// -
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
 						} else {
@@ -2174,7 +2065,7 @@ public class ExpressionNode extends ValidExpression implements
 						}
 						sb.append(rightStr.substring(3));
 					} else {
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
 						} else {
@@ -2188,7 +2079,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case MINUS:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<minus/>", leftStr, rightStr);
 				break;
@@ -2212,9 +2103,9 @@ public class ExpressionNode extends ValidExpression implements
 
 			default:
 				if (left instanceof Equation) {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				} else {
 					sb.append(leftStr);
 				}
@@ -2232,7 +2123,7 @@ public class ExpressionNode extends ValidExpression implements
 																			// -
 
 					if (rightStr.charAt(0) == '-') { // convert - - to +
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
 						} else {
@@ -2246,7 +2137,7 @@ public class ExpressionNode extends ValidExpression implements
 																				// -
 																				// to
 																				// +
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
 						} else {
@@ -2254,7 +2145,7 @@ public class ExpressionNode extends ValidExpression implements
 						}
 						sb.append(rightStr.substring(3));
 					} else {
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
 						} else {
@@ -2264,22 +2155,22 @@ public class ExpressionNode extends ValidExpression implements
 					}
 				} else {
 					// fix for changing height in Algebra View plus / minus
-					if (STRING_TYPE.equals(StringType.LATEX)
+					if (stringType.equals(StringType.LATEX)
 							&& kernel.isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
 						sb.append(" - ");
 					}
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 				break;
 			}
 			break;
 
 		case MULTIPLY:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 
 			case MATHML:
 				mathml(sb, "<times/>", leftStr, rightStr);
@@ -2287,12 +2178,12 @@ public class ExpressionNode extends ValidExpression implements
 			default:
 				// check for 1 at left
 				if (isEqualString(left, 1, !valueForm)) {
-					append(sb, rightStr, right, operation, STRING_TYPE);
+					append(sb, rightStr, right, operation, stringType);
 					break;
 				}
 				// check for 1 at right
 				else if (isEqualString(right, 1, !valueForm)) {
-					append(sb, leftStr, left, operation, STRING_TYPE);
+					append(sb, leftStr, left, operation, stringType);
 					break;
 				}
 
@@ -2358,18 +2249,18 @@ public class ExpressionNode extends ValidExpression implements
 								.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
 							// brackets needed for eg Arabic digits
 							sb.append(Unicode.RightToLeftMark);
-							sb.append(leftBracket(STRING_TYPE));
+							sb.append(leftBracket(stringType));
 							sb.append(leftStr);
-							sb.append(rightBracket(STRING_TYPE));
+							sb.append(rightBracket(stringType));
 							sb.append(Unicode.RightToLeftMark);
 						} else {
 							sb.append(leftStr);
 						}
 					}
 				} else {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 
 				// right wing
@@ -2381,7 +2272,7 @@ public class ExpressionNode extends ValidExpression implements
 					boolean showMultiplicationSign = false;
 					boolean multiplicationSpaceNeeded = true;
 					if (nounary) {
-						switch (STRING_TYPE) {
+						switch (stringType) {
 						case PGF:
 						case PSTRICKS:
 						case GEOGEBRA_XML:
@@ -2439,16 +2330,16 @@ public class ExpressionNode extends ValidExpression implements
 							}
 						}
 
-						if (STRING_TYPE.equals(StringType.LATEX)
+						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append("\\-");
 						}
 
 						if (showMultiplicationSign) {
-							sb.append(multiplicationSign(STRING_TYPE));
+							sb.append(multiplicationSign(stringType));
 						} else if (multiplicationSpaceNeeded) {
 							// space instead of multiplication sign
-							sb.append(multiplicationSpace(STRING_TYPE));
+							sb.append(multiplicationSpace(stringType));
 						}
 					}
 
@@ -2460,15 +2351,15 @@ public class ExpressionNode extends ValidExpression implements
 							|| (!nounary && !right.isLeaf() && (opIDright <= Operation.DIVIDE
 									.ordinal() // -(x * a) or -(x / a)
 							))
-							|| (showMultiplicationSign && STRING_TYPE
+							|| (showMultiplicationSign && stringType
 									.equals(StringType.GEOGEBRA))) // 3 (5)
 					{
 						if (rtlMinus) {
 							sb.append(Unicode.RightToLeftMark);
 						}
-						sb.append(leftBracket(STRING_TYPE));
+						sb.append(leftBracket(stringType));
 						sb.append(rightStr);
-						sb.append(rightBracket(STRING_TYPE));
+						sb.append(rightBracket(stringType));
 						if (rtlMinus) {
 							sb.append(Unicode.RightToLeftMark);
 						}
@@ -2478,24 +2369,24 @@ public class ExpressionNode extends ValidExpression implements
 					}
 				} else { // right is + or - tree
 					if (nounary) {
-						switch (STRING_TYPE) {
+						switch (stringType) {
 						case PGF:
 						case PSTRICKS:
 						case GEOGEBRA_XML:
 						case JASYMCA:
 						case MATH_PIPER:
 						case MAXIMA:
-							sb.append(multiplicationSign(STRING_TYPE));
+							sb.append(multiplicationSign(stringType));
 							break;
 
 						default:
 							// space instead of multiplication sign
-							sb.append(multiplicationSpace(STRING_TYPE));
+							sb.append(multiplicationSpace(stringType));
 						}
 					}
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 				break;
 
@@ -2517,7 +2408,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case DIVIDE:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<divide/>", leftStr, rightStr);
 				break;
@@ -2566,11 +2457,11 @@ public class ExpressionNode extends ValidExpression implements
 
 				// left wing
 				// put parantheses around +, -, *
-				append(sb, leftStr, left, Operation.DIVIDE, STRING_TYPE);
+				append(sb, leftStr, left, Operation.DIVIDE, stringType);
 				sb.append(" / ");
 
 				// right wing
-				append(sb, rightStr, right, Operation.POWER, STRING_TYPE); // not
+				append(sb, rightStr, right, Operation.POWER, stringType); // not
 																			// +,
 																			// -,
 																			// *,
@@ -2594,7 +2485,7 @@ public class ExpressionNode extends ValidExpression implements
 			 * }//
 			 */
 
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<power/>", leftStr, rightStr);
 			} else {
 
@@ -2603,7 +2494,7 @@ public class ExpressionNode extends ValidExpression implements
 				boolean finished = false;
 
 				// support for sin^2(x) for LaTeX, eg FormulaText[]
-				if (STRING_TYPE.equals(StringType.LATEX)
+				if (stringType.equals(StringType.LATEX)
 						&& left.isExpressionNode()) {
 					switch (((ExpressionNode) left).getOperation()) {
 					// #1592
@@ -2652,7 +2543,7 @@ public class ExpressionNode extends ValidExpression implements
 
 				}
 
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case MPREDUCE:
 					sb.append("mypower(");
 					sb.append(leftStr);
@@ -2696,15 +2587,15 @@ public class ExpressionNode extends ValidExpression implements
 						// e^x
 						sb.append(leftStr);
 					} else {
-						sb.append(leftBracket(STRING_TYPE));
+						sb.append(leftBracket(stringType));
 						sb.append(leftStr);
-						sb.append(rightBracket(STRING_TYPE));
+						sb.append(rightBracket(stringType));
 					}
 					break;
 				}
 
 				// right wing
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 				case LIBRE_OFFICE:
 					sb.append('^');
@@ -2715,11 +2606,11 @@ public class ExpressionNode extends ValidExpression implements
 
 					sb.append('{');
 					if (addParentheses) {
-						sb.append(leftBracket(STRING_TYPE));
+						sb.append(leftBracket(stringType));
 					}
 					sb.append(rightStr);
 					if (addParentheses) {
-						sb.append(rightBracket(STRING_TYPE));
+						sb.append(rightBracket(stringType));
 					}
 					sb.append('}');
 					break;
@@ -2824,16 +2715,16 @@ public class ExpressionNode extends ValidExpression implements
 						 */
 					} else {
 						sb.append('^');
-						sb.append(leftBracket(STRING_TYPE));
+						sb.append(leftBracket(stringType));
 						sb.append(rightStr);
-						sb.append(rightBracket(STRING_TYPE));
+						sb.append(rightBracket(stringType));
 					}
 				}
 			}
 			break;
 
 		case FACTORIAL:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<factorial/>", leftStr, null);
 				break;
@@ -2863,9 +2754,9 @@ public class ExpressionNode extends ValidExpression implements
 																		// /, ^
 					sb.append(leftStr);
 				} else {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 				sb.append('!');
 				break;
@@ -2874,69 +2765,69 @@ public class ExpressionNode extends ValidExpression implements
 
 		case COS:
 			trig(leftStr,sb,"<cos/>","\\cos","Cos(","COS(","cos","cos","cos",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
+					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case SIN:
 			trig(leftStr,sb,"<sin/>","\\sin","Sin(","SIN(","sin","sin","sin",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
+					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case TAN:
 			trig(leftStr,sb,"<tan/>","\\tan","Tan(","TAN(","tan","tan","tan",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
+					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case CSC:
 			trig(leftStr,sb,"<csc/>","\\csc","Csc(","CSC(","csc","csc","csc",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
+					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case SEC:
 			trig(leftStr,sb,"<sec/>","\\sec","Sec(","SEC(","sec","sec","sec",
-						STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
+						stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case COT:
 			trig(leftStr,sb,"<cot/>","\\cot","Cot(","COT(","cot","cot","cot",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
+					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case CSCH:
 			trig(leftStr,sb,"<csch/>","\\csch","Csch(","CSCH(","csch","csch","func csch",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case SECH:
 			trig(leftStr,sb,"<sech/>","\\sech","Sech(","SECH(","sech","sech","func sech",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case COTH:
 			trig(leftStr,sb,"<coth/>","\\coth","Coth(","COTH(","coth","coth","coth",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCCOS:
 			trig(leftStr,sb,"<arccos/>","\\operatorname{acos}","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCSIN:
 			trig(leftStr,sb,"<arcsin/>","\\operatorname{asin}","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN:
 			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN2:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<atan/>", leftStr, rightStr);
 			} else {
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					sb.append("atan2 \\left( ");
 					break;
@@ -2962,52 +2853,52 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 			}
 			break;
 
 		case COSH:
 			trig(leftStr,sb,"<cosh/>","\\cosh","Cosh(","COSH(","cosh","cosh","cosh",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case SINH:
 			trig(leftStr,sb,"<sinh/>","\\sinh","Sinh(","SINH(","sinh","sinh","sinh",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case TANH:
 			trig(leftStr,sb,"<tanh/>","\\tanh","Tanh(","TANH(","tanh","tanh","tanh",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 
 		case ACOSH:
 			trig(leftStr,sb,"<arccosh/>","\\operatorname{acosh}","ArcCosh(","ACOSH(","acosh","acosh","arcosh",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case ASINH:
 			trig(leftStr,sb,"<arcsinh/>","\\operatorname{asinh}","ArcSinh(","ASINH(","asinh","asinh","arsinh",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);			
+					stringType,tpl.isPrintLocalizedCommandNames(),false);			
 			break;
 
 		case ATANH:
 			trig(leftStr,sb,"<arctanh/>","\\operatorname{atanh}","ArcTanh(","ATANH(","atanh","atanh","artanh",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case REAL:
 			trig(leftStr,sb,"<real/>","\\operatorname{real}","","","myreal","real","real",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case IMAGINARY:
 			trig(leftStr,sb,"<imaginary/>","\\operatorname{imaginary}","","","imaginary","imaginary","imaginary",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case FRACTIONAL_PART:
 			trig(leftStr,sb,"<todo/>","\\operatorname{fractionalPart}","","","fractionalPart","fractionalPart","fractionalPart",
-					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case ZETA:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\zeta\\left( ");
 				break;
@@ -3022,10 +2913,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("zeta(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 		case CI:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\operatorname{Ci} \\left( ");
 				break;
@@ -3042,10 +2933,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("cosIntegral(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 		case SI:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\operatorname{Si} \\left( ");
 				break;
@@ -3062,10 +2953,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("sinIntegral(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 		case EI:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\operatorname{Ei} \\left( ");
 				break;
@@ -3081,7 +2972,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("expIntegral(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 		case ARBCONST:
 			sb.append("arbconst(");
@@ -3102,7 +2993,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 		case EXP:
 			// Application.debug("EXP");
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<exp/>", leftStr, null);
 				break;
@@ -3116,11 +3007,11 @@ public class ExpressionNode extends ValidExpression implements
 
 				sb.append("e^{");
 				if (addParentheses) {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 				}
 				sb.append(leftStr);
 				if (addParentheses) {
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 				sb.append('}');
 				break;
@@ -3165,10 +3056,10 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case LOG:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<ln/>", leftStr, null);
 			} else {
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					sb.append("\\ln \\left( ");
 					break;
@@ -3194,12 +3085,12 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 				}
 				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 			}
 			break;
 
 		case LOGB:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<log/>", "<logbase>", leftStr, "</logbase>", "",
 						rightStr, "");
@@ -3208,17 +3099,17 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("\\log_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftBracket(stringType));
 				sb.append(rightStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 				break;
 			case LIBRE_OFFICE:
 				sb.append("log_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftBracket(stringType));
 				sb.append(rightStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 				break;
 			case MAXIMA:
 			case MATH_PIPER:
@@ -3260,14 +3151,14 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case POLYGAMMA:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\psi_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftBracket(stringType));
 				sb.append(rightStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 				break;
 
 
@@ -3277,7 +3168,7 @@ public class ExpressionNode extends ValidExpression implements
 			default:
 				sb.append("polygamma(");
 				sb.append(leftStr);
-				if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+				if (stringType.equals(StringType.LIBRE_OFFICE))
 					sb.append("\",\"");
 				else
 					sb.append(", ");
@@ -3289,12 +3180,12 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ERF:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\erf");
-				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftBracket(stringType));
 				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "erf");
@@ -3316,12 +3207,12 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case PSI:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\digamma");
-				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftBracket(stringType));
 				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "psi");
@@ -3343,7 +3234,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case LOG10:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<log/>", leftStr, null);
 				break;
@@ -3390,7 +3281,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case LOG2:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\log_{2} \\left(");
 				sb.append(leftStr);
@@ -3426,7 +3317,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 		case NROOT:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<root/>", leftStr, null);
 				break;
@@ -3465,7 +3356,7 @@ public class ExpressionNode extends ValidExpression implements
 	
 		case SQRT_SHORT:
 		case SQRT:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<root/>", leftStr, null);
 				break;
@@ -3497,7 +3388,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case CBRT:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<root/>", "<degree>", "3", "</degree>", "",
 						leftStr, "");
@@ -3533,7 +3424,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ABS:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<abs/>", leftStr, null);
 				break;
@@ -3567,7 +3458,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case SGN:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\mathrm{sgn}(");
 				break;
@@ -3593,7 +3484,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case CONJUGATE:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<conjugate/>", leftStr, null);
 				break;
@@ -3625,7 +3516,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ARG:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<arg/>", leftStr, null);
 				break;
@@ -3659,7 +3550,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case FLOOR:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<floor/>", leftStr, null);
 				break;
@@ -3691,7 +3582,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case CEIL:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<ceiling/>", leftStr, null);
 				break;
@@ -3730,7 +3621,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ROUND:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\mathrm{round} \\left( ");
 				break;
@@ -3750,11 +3641,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("round(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case GAMMA:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\Gamma \\left( ");
 				break;
@@ -3772,11 +3663,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("gamma(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case GAMMA_INCOMPLETE:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\gamma \\left( ");
 				break;
@@ -3796,16 +3687,16 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("gamma(");
 			}
 			sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE))
 				sb.append("\",\"");
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case GAMMA_INCOMPLETE_REGULARIZED:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("P \\left( ");
 				break;
@@ -3822,16 +3713,16 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("gammaRegularized(");
 			}
 			sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE))
 				sb.append("\",\"");
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case BETA:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\Beta \\left( ");
 				break;
@@ -3846,16 +3737,16 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("beta(");
 			}
 			sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE))
 				sb.append("\",\"");
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case BETA_INCOMPLETE:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("\\Beta \\left( ");
 				break;
@@ -3871,16 +3762,16 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("beta(");
 			}
 			sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE))
 				sb.append("\",\"");
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case BETA_INCOMPLETE_REGULARIZED:
-			switch (STRING_TYPE) {
+			switch (stringType) {
 			case LATEX:
 				sb.append("I \\left( ");
 				break;
@@ -3900,19 +3791,19 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("betaRegularized(");
 			}
 			sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE))
 				sb.append("\",\"");
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case RANDOM:
 			if (valueForm) {
 				sb.append(leftStr);
 			} else {
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case MPREDUCE:
 					sb.append("myrandom()");
 					break;
@@ -3936,16 +3827,16 @@ public class ExpressionNode extends ValidExpression implements
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getX(), tpl));
 			} else {
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					sb.append("\\mathrm{x} \\left( ");
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 					break;
 				case LIBRE_OFFICE:
 					sb.append("func x left (");
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
 				case MAXIMA:
 					// we need to protect x(A) as a constant in the CAS
@@ -3980,7 +3871,7 @@ public class ExpressionNode extends ValidExpression implements
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getY(), tpl));
 			} else {
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					sb.append("\\mathrm{y} \\left( ");
 					sb.append(leftStr);
@@ -3989,7 +3880,7 @@ public class ExpressionNode extends ValidExpression implements
 				case LIBRE_OFFICE:
 					sb.append("func y left (");
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
 				case MAXIMA:
 					// we need to protect x(A) as a constant in the CAS
@@ -4020,7 +3911,7 @@ public class ExpressionNode extends ValidExpression implements
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getZ(), tpl));
 			} else {
-				switch (STRING_TYPE) {
+				switch (stringType) {
 				case LATEX:
 					sb.append("\\mathrm{z} \\left( ");
 					sb.append(leftStr);
@@ -4029,7 +3920,7 @@ public class ExpressionNode extends ValidExpression implements
 				case LIBRE_OFFICE:
 					sb.append("func z left (");
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
 				case MAXIMA:
 					// we need to protect x(A) as a constant in the CAS
@@ -4053,7 +3944,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case FUNCTION:
-			if (STRING_TYPE == StringType.MPREDUCE
+			if (stringType == StringType.MPREDUCE
 					&& right instanceof ListValue) {
 				sb.append("applyfunction(" + leftStr + "," + rightStr + ")");
 				break;
@@ -4062,19 +3953,19 @@ public class ExpressionNode extends ValidExpression implements
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
 				if (geo.isLabelSet()) {
-					if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+					if (stringType.equals(StringType.LIBRE_OFFICE))
 							sb.append("func ");
 					sb.append(geo.getLabel(tpl));
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				} else {
 					// inline function: replace function var by right side
 					FunctionVariable var = geo.getFunction()
 							.getFunctionVariable();
 					String oldVarStr = var.toString(tpl);
 					var.setVarString(rightStr);
-					if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+					if (stringType.equals(StringType.LIBRE_OFFICE))
 						sb.append("func ");
 					sb.append(geo.getLabel(tpl));
 					var.setVarString(oldVarStr);
@@ -4088,24 +3979,24 @@ public class ExpressionNode extends ValidExpression implements
 				case $VAR_ROW:
 				case $VAR_COL:
 				case $VAR_ROW_COL:
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 					break;
 
 				default:
 					sb.append(leftStr);
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 					break;
 				}
 			} else {
 				// standard case if we get here
 				sb.append(leftStr);
-				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftBracket(stringType));
 				sb.append(rightStr);
-				sb.append(rightBracket(STRING_TYPE));
+				sb.append(rightBracket(stringType));
 			}
 			break;
 
@@ -4137,17 +4028,17 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					// add brackets, see
 					// http://www.geogebra.org/trac/ticket/1446
-					if (!STRING_TYPE.equals(StringType.LATEX)) {
-						sb.append(leftBracket(STRING_TYPE));
+					if (!stringType.equals(StringType.LATEX)) {
+						sb.append(leftBracket(stringType));
 					}
 					sb.append(en.toValueString(tpl));
-					if (!STRING_TYPE.equals(StringType.LATEX)) {
-						sb.append(rightBracket(STRING_TYPE));
+					if (!stringType.equals(StringType.LATEX)) {
+						sb.append(rightBracket(stringType));
 					}
 				} else {
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 			} else {
 				// multivariate functions
@@ -4158,16 +4049,16 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				//no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
 				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append(leftBracket(stringType));
 					// rightStr is a list of arguments, e.g. {2, 3}
 					// drop the curly braces { and }
 					// or list( and ) in case of mpreduce
-					if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+					if (stringType.equals(StringType.MPREDUCE)) {
 						sb.append(rightStr.substring(22, rightStr.length() - 2));
 					} else {
 						sb.append(rightStr.substring(1, rightStr.length() - 1));
 					}
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(rightBracket(stringType));
 				}
 			}
 			break;
@@ -4180,9 +4071,9 @@ public class ExpressionNode extends ValidExpression implements
 			} else {
 				sb.append(leftStr);
 			}
-			sb.append(leftBracket(STRING_TYPE));
+			sb.append(leftBracket(stringType));
 			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(rightBracket(stringType));
 			break;
 
 		case DERIVATIVE: // e.g. f''
@@ -4263,18 +4154,18 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(')');
 			break;
 		case INTEGRAL:
-			if (STRING_TYPE == StringType.LATEX) {
+			if (stringType == StringType.LATEX) {
 				sb.append("\\int ");
 				sb.append(leftStr);
 				sb.append("d");
 				sb.append(rightStr);
-			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
+			} else if (stringType == StringType.LIBRE_OFFICE) {
 				sb.append("int ");
 				sb.append(leftStr);
 				sb.append(" d");
 				sb.append(rightStr);
 			} else {
-				if (STRING_TYPE == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE) {
 					sb.append("int(");
 				} else {
 					sb.append("gGbInTeGrAl(");
@@ -4287,7 +4178,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 		case SUM:
-			if (STRING_TYPE == StringType.LATEX) {
+			if (stringType == StringType.LATEX) {
 				sb.append("\\sum_{");
 				sb.append(((MyNumberPair)left).y.toString(tpl));
 				sb.append("=");
@@ -4296,7 +4187,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(((MyNumberPair)right).y.toString(tpl));
 				sb.append("}");
 				sb.append(((MyNumberPair)left).x.toString(tpl));
-			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
+			} else if (stringType == StringType.LIBRE_OFFICE) {
 				sb.append("sum from{");
 				sb.append(((MyNumberPair)left).y.toString(tpl));
 				sb.append("=");
@@ -4306,7 +4197,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("}");
 				sb.append(((MyNumberPair)left).x.toString(tpl));
 			} else {
-				if (STRING_TYPE == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE) {
 					sb.append("sum(");
 				} else {
 					sb.append("gGbSuM(");
@@ -4319,20 +4210,20 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;	
 		case SUBSTITUTION:
-			if (STRING_TYPE == StringType.LATEX) {
+			if (stringType == StringType.LATEX) {
 				sb.append("\\left.");
 				sb.append(rightStr);
 				sb.append("\\right\\mid_{");
 				sb.append(leftStr);
 				sb.append("}");
-			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
+			} else if (stringType == StringType.LIBRE_OFFICE) {
 				sb.append("left none");
 				sb.append(rightStr);
 				sb.append("right rline_{");
 				sb.append(leftStr);
 				sb.append("}");	
 			} else {
-				if (STRING_TYPE == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE) {
 					sb.append("sub(");
 				} else {
 					sb.append("gGbSuBsTiTuTiOn(");
@@ -4344,14 +4235,14 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 		case IF:
-			if (STRING_TYPE == StringType.LATEX|| tpl.isPrintLocalizedCommandNames()) {
+			if (stringType == StringType.LATEX|| tpl.isPrintLocalizedCommandNames()) {
 				sb.append("If[");
 				sb.append(leftStr);
 				sb.append(",");
 				sb.append(rightStr);
 				sb.append("]");
 			} else {
-				if (STRING_TYPE == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE) {
 					sb.append("iffun(");
 				} else {
 					sb.append("gGbIfElSe(");
@@ -4363,14 +4254,14 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;	
 		case IF_ELSE:
-			if (STRING_TYPE == StringType.LATEX || tpl.isPrintLocalizedCommandNames()) {
+			if (stringType == StringType.LATEX || tpl.isPrintLocalizedCommandNames()) {
 				sb.append("If[");
 				sb.append(leftStr);
 				sb.append(",");
 				sb.append(rightStr);
 				sb.append("]");
 			} else {
-				if (STRING_TYPE == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE) {
 					sb.append("ifelsefun(");
 				} else {
 					sb.append("gGbIfElSe(");
@@ -4387,6 +4278,190 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append("unhandled operation " + operation);
 		}
 		return sb.toString();
+	}
+
+	private void appendPerpSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\perp");
+			break;
+		case LIBRE_OFFICE:
+			sb.append(" ortho ");
+			break;
+		default:
+			sb.append(strPERPENDICULAR);
+		}
+		sb.append(' ');
+		
+	}
+
+	private void appendParallelSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\parallel");
+			break;
+		case LIBRE_OFFICE:
+			sb.append(" parallel ");
+			break;
+		default:
+			sb.append(strPARALLEL);
+		}
+		sb.append(' ');
+		
+	}
+
+	private void appendGeqSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\geq");
+			break;
+		case LIBRE_OFFICE:
+		case MATH_PIPER:
+			sb.append(">=");
+			break;
+
+		default:
+			sb.append(strGREATER_EQUAL);
+		}
+		sb.append(' ');
+		
+	}
+
+	private void appendLeqSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\leq");
+			break;
+		case LIBRE_OFFICE:
+		case MATH_PIPER:
+		case MPREDUCE:
+			sb.append("<=");
+			break;
+
+		default:
+			sb.append(strLESS_EQUAL);
+		}
+		sb.append(' ');
+		
+	}
+
+	private void appendGreaterSign(StringBuilder sb, StringType stringType) {
+		if (stringType.equals(StringType.LATEX)
+				&& kernel.isInsertLineBreaks()) {
+			sb.append(" \\->");
+		} else {
+			sb.append(" > ");
+		}
+		
+	}
+
+	private void appendLessSign(StringBuilder sb, StringType stringType) {
+		if (stringType.equals(StringType.LATEX)
+				&& kernel.isInsertLineBreaks()) {
+			sb.append(" \\-< ");
+		} else {
+			sb.append(" < ");
+		}
+		
+	}
+
+	private void appendStrictSubsetSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\subset");
+			break;
+		case LIBRE_OFFICE:
+			sb.append(" subset ");
+			break;
+		default:
+			sb.append(strIS_SUBSET_OF_STRICT);
+		}
+		sb.append(' ');		
+	}
+
+	private void appendSubsetSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\subseteq");
+			break;
+		case LIBRE_OFFICE:
+			sb.append(" subseteq ");
+			break;
+		default:
+			sb.append(strIS_SUBSET_OF);
+		}
+		sb.append(' ');
+		
+	}
+
+	private void appendNotEqualSign(StringBuilder sb, StringType stringType) {
+		sb.append(' ');
+		switch (stringType) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\neq");
+			break;
+		case LIBRE_OFFICE:
+			sb.append("<>");
+			break;
+		case MATH_PIPER:
+			sb.append("!=");
+			break;
+
+		default:
+			sb.append(strNOT_EQUAL);
+		}
+		sb.append(' ');
+		
+	}
+
+	private void appendEqualSign(StringBuilder sb, StringType STRING_TYPE) {
+		sb.append(' ');
+		switch (STRING_TYPE) {
+		case LATEX:
+			if (kernel.isInsertLineBreaks()) {
+				sb.append("\\-");
+			}
+			sb.append("\\stackrel{\\small ?}{=}");
+			break;
+		case LIBRE_OFFICE:
+		case MATH_PIPER:
+		case JASYMCA:
+		case MPREDUCE:
+			sb.append("=");
+			break;
+
+		default:
+			sb.append(strEQUAL_BOOLEAN);
+		}
+		sb.append(' ');
+		
 	}
 
 	private String degFix(String string) {

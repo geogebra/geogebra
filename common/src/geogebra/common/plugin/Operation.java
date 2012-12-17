@@ -93,6 +93,14 @@ public enum Operation {
 					ExpressionNodeConstants.strNOT);
 		}
 	},
+	AND_INTERVAL {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			return AND.handle(ev, lt, rt, left, right, tpl, holdsLaTeX);
+		}
+	},
 	IMPLICATION {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,

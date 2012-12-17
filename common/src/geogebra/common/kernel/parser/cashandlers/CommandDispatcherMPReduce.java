@@ -161,7 +161,7 @@ public class CommandDispatcherMPReduce {
 				int type = (int) args.getItem(3).evaluateNum().getDouble();
 				boolean leftClosed = type >1;
 				boolean rightClosed = type%2==1;
-				ExpressionNode leftBound = new ExpressionNode(kernel,args.getItem(0),leftClosed?Operation.GREATER_EQUAL:Operation.GREATER,args.getItem(1)),
+				ExpressionNode leftBound = new ExpressionNode(kernel,args.getItem(1),leftClosed?Operation.LESS_EQUAL:Operation.LESS,args.getItem(0)),
 						rightBound = new ExpressionNode(kernel,args.getItem(0),rightClosed?Operation.LESS_EQUAL:Operation.LESS,args.getItem(2));
 				if(args.getItem(2).evaluateNum().getDouble()==Double.POSITIVE_INFINITY){
 					ret = leftBound;
@@ -169,7 +169,7 @@ public class CommandDispatcherMPReduce {
 					ret = rightBound;
 				}else {ret = new ExpressionNode(kernel,
 						leftBound,
-						Operation.AND,
+						Operation.AND_INTERVAL,
 						rightBound
 						);
 				}

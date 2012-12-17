@@ -657,7 +657,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 				tree.setIneq(newIneq);
 			}
 			return newIneq.getType() != IneqType.INEQUALITY_INVALID;
-		} else if (op.equals(Operation.AND) || op.equals(Operation.OR)
+		} else if (op.equals(Operation.AND) ||op.equals(Operation.AND_INTERVAL)|| op.equals(Operation.OR)
 				|| op.equals(Operation.EQUAL_BOOLEAN)
 				|| op.equals(Operation.NOT_EQUAL)) {
 			tree.setOperation(adjustOp(op, negate));

@@ -1183,7 +1183,7 @@ public class AlgebraProcessor {
 		// check for interval
 
 		ExpressionNode en = fun.getExpression();
-		if (en.getOperation().equals(Operation.AND)) {
+		if (en.getOperation().equals(Operation.AND) || en.getOperation().equals(Operation.AND_INTERVAL)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
 

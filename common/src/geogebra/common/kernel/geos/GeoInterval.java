@@ -128,7 +128,7 @@ public class GeoInterval extends GeoFunction {
 		// return "3 < x < 5";//fun.toValueString();
 
 		ExpressionNode en = fun.getExpression();
-		if (en.getOperation().equals(Operation.AND)) {
+		if (en.getOperation().equals(Operation.AND)||en.getOperation().equals(Operation.AND_INTERVAL)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
 
@@ -186,7 +186,7 @@ public class GeoInterval extends GeoFunction {
 
 	private void updateBoundaries() {
 		ExpressionNode en = fun.getExpression();
-		if (en.getOperation().equals(Operation.AND)) {
+		if (en.getOperation().equals(Operation.AND)||en.getOperation().equals(Operation.AND_INTERVAL)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
 			ExpressionNode enLeft = (ExpressionNode) left;
