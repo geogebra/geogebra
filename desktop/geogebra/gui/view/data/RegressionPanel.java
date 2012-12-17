@@ -317,6 +317,9 @@ public class RegressionPanel extends JPanel implements ActionListener,
 			statDialog.setRegressionOrder(cbPolyOrder.getSelectedIndex() + 2);
 			statDialog.getController().setRegressionGeo();
 			setRegressionEquationLabel();
+			
+			// force update 
+			statDialog.setRegressionMode(Regression.POLY.ordinal());
 		}
 
 	}

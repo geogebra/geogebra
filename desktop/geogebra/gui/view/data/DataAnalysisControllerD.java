@@ -323,7 +323,6 @@ public class DataAnalysisControllerD {
 	}
 
 	public void updateAllStatPanels(boolean doCreateGeo) {
-		App.error("updateAllStatPanel --- start");
 		view.comboStatPanel.updatePlot(doCreateGeo);
 		if (mode() != DataAnalysisViewD.MODE_MULTIVAR && view.comboStatPanel2 != null)
 			view.comboStatPanel2.updatePlot(doCreateGeo);

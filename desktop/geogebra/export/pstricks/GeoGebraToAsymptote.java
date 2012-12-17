@@ -3402,7 +3402,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }    
     
     @Override
-	protected StringTemplate getStringTemplate(){
-    	return StringTemplate.get(StringType.PSTRICKS);
-    }
+    protected StringTemplate getStringTemplate(){
+    	// Asymptote doesn't understand E notation ie 3E-10 
+    	return StringTemplate.fullFigures(StringType.PSTRICKS);    }
 }

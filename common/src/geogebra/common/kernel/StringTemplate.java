@@ -311,6 +311,22 @@ public class StringTemplate {
 		return tpl;
 	}
 
+	/** 
+	 * Prints the number to full double precision without using E notation 
+	 *  
+	 * @param type string type 
+	 * @return template with given parameters 
+	 */ 
+	public static StringTemplate fullFigures(StringType type) { 
+		StringTemplate tpl = new StringTemplate(); 
+		tpl.forceSF = true; 
+		tpl.allowMoreDigits = true; 
+		tpl.setType(type); 
+		// 308 doesn't seem to work for 1E-300, 350 seems OK 
+		tpl.sf=geogebra.common.factories.FormatFactory.prototype.getScientificFormat(16,350,false); 
+		return tpl; 
+	} 	
+
 	/**
 	 * Scientific Notation (eg 2.3 * 4 ^ 5)
 	 * 
