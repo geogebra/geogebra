@@ -397,7 +397,8 @@ public class StringTemplate {
 	 * @return 10^(-number of digits)
 	 */
 	public double getPrecision(NumberFormatAdapter nf2) {
-		return precisions[getNF(nf2).getMaximumFractionDigits()];
+		int digits = getNF(nf2).getMaximumFractionDigits();
+		return digits <=16 ? precisions[digits] : Math.pow(10, -digits);
 	}
 	
 }
