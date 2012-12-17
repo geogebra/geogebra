@@ -139,7 +139,16 @@ if ($SHOWFILELIST) {
    "<div style=\"".classify_filename($f)."\">".
    pretty_filename($f)."</div></a></li>";
   }
- echo "</ul></div></body></html>";
+
+ echo "</ul></div>";
+ 
+ // Adding ggbOnInit()
+ echo '<script type="text/javascript">
+  function ggbOnInit() { console.log("ggbOnInit: page loaded"); }
+  </script>';
+
+ echo "</body></html>";
+
  }
 
 function bool2int($bool) {
