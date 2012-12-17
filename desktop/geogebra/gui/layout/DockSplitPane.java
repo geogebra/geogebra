@@ -73,6 +73,33 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	}
 	
 	/**
+	 * set the left component and check if it's empty when loading file
+	 * @param component componenent
+	 */
+	public void setLeftComponentCheckEmpty(Component component) {
+		
+		//ensure visibility flags of dock panels set to false
+		if (leftComponent!=null)
+			((DockComponent) leftComponent).setDockPanelsVisible(false);
+				
+		setLeftComponent(component);
+	}
+
+	/**
+	 * set the left component and check if it's empty when loading file
+	 * @param component componenent
+	 */
+	public void setRightComponentCheckEmpty(Component component) {
+		
+		//ensure visibility flags of dock panels set to false
+		if (rightComponent!=null)
+			((DockComponent) rightComponent).setDockPanelsVisible(false);
+
+		setRightComponent(component);
+	}
+
+	
+	/**
 	 * Set the left component of this DockSplitPane and remove the divider
 	 * if the left component is null.
 	 */
@@ -82,6 +109,8 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 		super.setLeftComponent(component);
 		updateDivider();
 	}
+	
+	
 	
 	/**
 	 * Set the right component of this DockSplitPane and remove the divider

@@ -190,9 +190,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 				
 				// insert the split pane
 				if(directions[directions.length - 1].equals("0")) {
-					currentParent.setLeftComponent(splitPanes[i]);
+					currentParent.setLeftComponentCheckEmpty(splitPanes[i]);
 				} else {
-					currentParent.setRightComponent(splitPanes[i]);
+					currentParent.setRightComponentCheckEmpty(splitPanes[i]);
 				}
 			}
 
@@ -236,9 +236,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 					
 				}
 				else if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
-					currentParent.setLeftComponent(panel);
+					currentParent.setLeftComponentCheckEmpty(panel);
 				} else {
-					currentParent.setRightComponent(panel);
+					currentParent.setRightComponentCheckEmpty(panel);
 				}
 				
 				panel.updatePanel();
