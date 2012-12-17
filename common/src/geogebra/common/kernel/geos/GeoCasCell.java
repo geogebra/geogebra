@@ -2007,6 +2007,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (geo instanceof GeoDummyVariable) {
 			return true;
 		}
+		if (geo.isGeoList()) {
+			for (int i = 0; i < ((GeoList)geo).size(); i++)
+				if (dependsOnDummy(((GeoList)geo).get(i))) {
+					return true;
+				}
+		}
 		if (geo.isIndependent()) {
 			return false;
 		}
