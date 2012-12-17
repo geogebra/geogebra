@@ -55,7 +55,6 @@ cp ../../../../build/unpacked/* .
 rm -fR unsigned
 
 # 2/1. Updating EXEs with version numbers:
-cd ..
 WORKDIR=`pwd`
 cd $SVNDIR/geogebra/desktop/installer
 ./make-portable-xmls $VERSION_STRING
