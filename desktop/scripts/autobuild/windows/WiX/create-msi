@@ -36,8 +36,6 @@ cp ../../../../build/installer/windows/GeoGebra.exe .
 cp ../../../../installer/by-nc-sa-3.0.txt .
 cp ../../../../installer/forum.ico .
 cp ../../../../installer/gpl-3.0.txt .
-mkdir -p unsigned
-cp ../../../../build/unsigned/unpacked/* unsigned
 
 GGBVERSION=`cat ../../../../build/unpacked/version.txt`
 GGBVERSION_DASHED=`echo $GGBVERSION | tr . -`

@@ -91,53 +91,6 @@
               <File Id='GeogebraIco' Name='geogebra.ico' DiskId='1' Source='geogebra.ico' KeyPath='yes'/>
             </Component>
 
-           <Directory Id='unsigned' Name='unsigned'>
-
-             <Component Id='UnsignedGeogebraJar' Guid='6b4ddf15-1b71-402b-aff0-e2d771bdfc1e'>
-               <File Id='UnsignedGeogebraJar' Name='geogebra.jar' DiskId='1' Source='unsigned\geogebra.jar' KeyPath='yes' />
-             </Component>
-
-             <Component Id='UnsignedGeogebraMainJar' Guid='2fb351ed-6a90-48ae-8e6a-1ad6b2047d76'>
-               <File Id='UnsignedGeogebraMainJar' Name='geogebra_main.jar' DiskId='1' Source='unsigned\geogebra_main.jar' KeyPath='yes'/>
-             </Component>
-
-             <Component Id='UnsignedGeogebraCasJar' Guid='3c2cc49f-2ab8-4d5a-8a2b-a66a5a2e6c07'>
-               <File Id='UnsignedGeogebraCasJar' Name='geogebra_cas.jar' DiskId='1' Source='unsigned\geogebra_cas.jar' KeyPath='yes'/>
-             </Component>
-
-            <Component Id='UnsignedGeogebraExportJar' Guid='52470ddd-834b-431f-8aff-734c055c5d20'>
-              <File Id='UnsignedGeogebraExportJar' Name='geogebra_export.jar' DiskId='1' Source='unsigned\geogebra_export.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedGeogebraGuiJar' Guid='4491b4bd-31f0-41c0-869a-a6d952088007'>
-              <File Id='UnsignedGeogebraGuiJar' Name='geogebra_gui.jar' DiskId='1' Source='unsigned\geogebra_gui.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedGeogebraPropertiesJar' Guid='dd75b402-e8de-4b8b-b810-14e0d7622531'>
-              <File Id='UnsignedGeogebraPropertiesJar' Name='geogebra_properties.jar' DiskId='1' Source='unsigned\geogebra_properties.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedGeogebraAlgosJar' Guid='d535757e-c04e-46d4-8522-7673a55245a0'>
-              <File Id='UnsignedGeogebraAlgosJar' Name='geogebra_algos.jar' DiskId='1' Source='unsigned\geogebra_algos.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedJlatexmathJar' Guid='42ef7273-a71e-4969-b2ba-7e172f129752'>
-              <File Id='UnsignedJlatexmathJar' Name='jlatexmath.jar' DiskId='1' Source='unsigned\jlatexmath.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedJlmCyrillicJar' Guid='dedea156-f965-4f48-8894-c8735f60e682'>
-              <File Id='UnsignedJlmCyrillicJar' Name='jlm_cyrillic.jar' DiskId='1' Source='unsigned\jlm_cyrillic.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedJlmGreekJar' Guid='0c7f2069-5cc6-47e1-9ab7-a5617d24c460'>
-              <File Id='UnsignedJlmGreekJar' Name='jlm_greek.jar' DiskId='1' Source='unsigned\jlm_greek.jar' KeyPath='yes'/>
-            </Component>
-
-            <Component Id='UnsignedGeogebraJavascriptJar' Guid='6a8646a4-ac67-4f0f-a342-4bc11c454307'>
-              <File Id='UnsignedGeogebraJavascriptJar' Name='geogebra_javascript.jar' DiskId='1' Source='unsigned\geogebra_javascript.jar' KeyPath='yes'/>
-            </Component>
-
-           </Directory>
         </Directory>
       </Directory>
 
@@ -170,17 +123,6 @@
         <ComponentRef Id='JlatexmathJar' />
         <ComponentRef Id='JlmCyrillicJar' />
         <ComponentRef Id='JlmGreekJar' />
-        <ComponentRef Id='UnsignedGeogebraJar' />
-        <ComponentRef Id='UnsignedGeogebraMainJar' />
-        <ComponentRef Id='UnsignedGeogebraAlgosJar' />
-        <ComponentRef Id='UnsignedGeogebraCasJar' />
-        <ComponentRef Id='UnsignedGeogebraJavascriptJar' />
-        <ComponentRef Id='UnsignedGeogebraGuiJar' />
-        <ComponentRef Id='UnsignedGeogebraExportJar' />
-        <ComponentRef Id='UnsignedGeogebraPropertiesJar' />
-        <ComponentRef Id='UnsignedJlatexmathJar' />
-        <ComponentRef Id='UnsignedJlmCyrillicJar' />
-        <ComponentRef Id='UnsignedJlmGreekJar' />
         <ComponentRef Id='ForumIco' />
         <ComponentRef Id='GeogebraIco' />
         <ComponentRef Id='Gpl30Txt' />

@@ -44,7 +44,6 @@ for i in ../../../../installer/jre/jre*.bin; do
      $VERSION_STRING \
      $i \
       ../../../../build/unpacked \
-      ../../../../build/unsigned/unpacked \
       $IMAGE_DIR/geogebra.png \
       ../geogebra \
       ../../../../build

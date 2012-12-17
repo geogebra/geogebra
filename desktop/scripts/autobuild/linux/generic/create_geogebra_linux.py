@@ -6,21 +6,20 @@
 
 # argument 1: version of GeoGebra (eg. 3.2.44.0)
 # argument 2: path of directory containing unpacked geogebra files
-# argument 3: path of directory containing unsigned geogebra files
-# argument 4: path of start script geogebra
-# argument 5: path of file license.txt
-# argument 6: path of file geogebra.xml
-# argument 7: path of file geogebra.desktop
-# argument 8: path of file GeoGebra_hicolor_icons.tar.gz
-# argument 9: path of file install.sh
-# argument 10: path of file uninstall.sh
-# argument 11: path of file install-sh
-# argument 12: path of file README
-# argument 13: path of destination directory
+# argument 3: path of start script geogebra
+# argument 4: path of file license.txt
+# argument 5: path of file geogebra.xml
+# argument 6: path of file geogebra.desktop
+# argument 7: path of file GeoGebra_hicolor_icons.tar.gz
+# argument 8: path of file install.sh
+# argument 9: path of file uninstall.sh
+# argument 10: path of file install-sh
+# argument 11: path of file README
+# argument 12: path of destination directory
 
 import os, shutil, sys, tarfile, tempfile
-if len(sys.argv) != 14:
-	print("Error: 13 arguments are expected.")
+if len(sys.argv) != 13:
+	print("Error: 12 arguments are expected.")
 	sys.exit(1)
 if not os.path.exists(sys.argv[2]):
 	print("Error: "+sys.argv[2]+" does not exist.")
@@ -55,27 +54,20 @@ if not os.path.exists(sys.argv[11]):
 if not os.path.exists(sys.argv[12]):
 	print("Error: "+sys.argv[12]+" does not exist.")
 	sys.exit(1)
-if not os.path.exists(sys.argv[13]):
-	print("Error: "+sys.argv[13]+" does not exist.")
-	sys.exit(1)
 geogebra_version = sys.argv[1]
 unpacked_path = os.path.abspath(sys.argv[2])
-unsigned_path = os.path.abspath(sys.argv[3])
-start_script_path = os.path.abspath(sys.argv[4])
-license_txt_path = os.path.abspath(sys.argv[5])
-geogebra_xml_path = os.path.abspath(sys.argv[6])
-geogebra_desktop_path = os.path.abspath(sys.argv[7])
-icons_tar_gz_file_path = os.path.abspath(sys.argv[8])
-install_path = os.path.abspath(sys.argv[9])
-uninstall_path = os.path.abspath(sys.argv[10])
-install_sh_path = os.path.abspath(sys.argv[11])
-readme_path = os.path.abspath(sys.argv[12])
-destination_path = os.path.abspath(sys.argv[13])
+start_script_path = os.path.abspath(sys.argv[3])
+license_txt_path = os.path.abspath(sys.argv[4])
+geogebra_xml_path = os.path.abspath(sys.argv[5])
+geogebra_desktop_path = os.path.abspath(sys.argv[6])
+icons_tar_gz_file_path = os.path.abspath(sys.argv[7])
+install_path = os.path.abspath(sys.argv[8])
+uninstall_path = os.path.abspath(sys.argv[9])
+install_sh_path = os.path.abspath(sys.argv[10])
+readme_path = os.path.abspath(sys.argv[11])
+destination_path = os.path.abspath(sys.argv[12])
 if not os.path.isdir(unpacked_path):
 	print("Error: "+unpacked_path+" is not a directory.")
-	sys.exit(1)
-if not os.path.isdir(unsigned_path):
-	print("Error: "+unsigned_path+" is not a directory.")
 	sys.exit(1)
 if not os.path.isfile(start_script_path):
 	print("Error: "+start_script_path+" is not a file.")
@@ -115,10 +107,6 @@ try:
 		if os.path.isfile(unpacked_path+"/"+element) and os.path.splitext(unpacked_path+"/"+element)[1] == ".jar":
 			shutil.copy(unpacked_path+"/"+element, "geogebra-"+geogebra_version)
 	os.chdir("geogebra-"+geogebra_version)
-	os.mkdir("unsigned")
-	for element in os.listdir(unsigned_path):
-		if os.path.isfile(unsigned_path+"/"+element) and os.path.splitext(unsigned_path+"/"+element)[1] == ".jar":
-			shutil.copy(unsigned_path+"/"+element, "unsigned")
 	os.mkdir("icons")
 	icons_tar_gz_file = tarfile.open(icons_tar_gz_file_path, "r:gz")
 	try:

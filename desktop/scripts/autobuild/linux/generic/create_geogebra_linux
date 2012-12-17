@@ -38,7 +38,6 @@ chmod g+w hicolor.tgz
 $PYTHON3 ./create_geogebra_linux.py \
  $VERSION_STRING \
  ../../../../build/unpacked \
- ../../../../build/unsigned/unpacked \
  ../geogebra \
  ../../../../_LICENSE.txt \
  geogebra.xml \

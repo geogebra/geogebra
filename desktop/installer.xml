@@ -256,7 +256,6 @@ read the following web pages:
 				version="${version}">
 			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
 			<javafileset dir="${build.dir}/unpacked" excludes="*-linux-*.jar,*-windows-*.jar,*-win.jar,*64.jar,openni.jar,geogebra-map.txt" />
-			<javafileset dir="${build.dir}/unsigned" includes="unpacked/*.jar" excludes="*-linux-*.jar,*-windows-*.jar,*-win.jar,*64.jar,openni.jar,geogebra-map.txt" />
 			<documenttype
 				name="GeoGebra File"
 				extensions="ggb"
@@ -272,7 +271,6 @@ read the following web pages:
 		</jarbundler>
 		<copy file="${src.dir}/installer/gpl-3.0.txt" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/gpl-3.0.txt" />
 		<copy file="${src.dir}/installer/by-nc-sa-3.0.txt" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/by-nc-sa-3.0.txt" />
-		<move file="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/Java/unpacked" tofile="${build.dir}/installer/macosx/GeoGebra.app/Contents/Resources/Java/unsigned" />
 		<zip destfile="${build.dir}/installer/GeoGebra_${versionname}.zip">
 			<zipfileset dir="${build.dir}/installer/macosx" excludes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" />
 			<zipfileset dir="${build.dir}/installer/macosx" includes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" filemode="755" />

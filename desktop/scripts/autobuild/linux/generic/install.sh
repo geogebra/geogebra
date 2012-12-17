@@ -2,13 +2,11 @@
 # simple ./install-sh script that copies everything to the right place
 
 # create all needed directories
-./install-sh -d -m 755 /usr/share/geogebra/unsigned
 ./install-sh -d -m 755 /usr/share/icons/hicolor/16x16/apps /usr/share/icons/hicolor/22x22/apps /usr/share/icons/hicolor/24x24/apps /usr/share/icons/hicolor/32x32/apps /usr/share/icons/hicolor/36x36/apps /usr/share/icons/hicolor/48x48/apps /usr/share/icons/hicolor/64x64/apps /usr/share/icons/hicolor/72x72/apps /usr/share/icons/hicolor/96x96/apps /usr/share/icons/hicolor/128x128/apps /usr/share/icons/hicolor/192x192/apps /usr/share/icons/hicolor/256x256/apps /usr/share/icons/hicolor/scalable/apps
 ./install-sh -d -m 755 /usr/share/icons/hicolor/16x16/mimetypes /usr/share/icons/hicolor/22x22/mimetypes /usr/share/icons/hicolor/24x24/mimetypes /usr/share/icons/hicolor/32x32/mimetypes /usr/share/icons/hicolor/36x36/mimetypes /usr/share/icons/hicolor/48x48/mimetypes /usr/share/icons/hicolor/64x64/mimetypes /usr/share/icons/hicolor/72x72/mimetypes /usr/share/icons/hicolor/96x96/mimetypes /usr/share/icons/hicolor/128x128/mimetypes /usr/share/icons/hicolor/192x192/mimetypes /usr/share/icons/hicolor/256x256/mimetypes /usr/share/icons/hicolor/scalable/mimetypes
 
 # ./install-sh files
 ./install-sh -m 644 *.jar /usr/share/geogebra
-./install-sh -m 644 unsigned/*.jar /usr/share/geogebra/unsigned
 ./install-sh -m 755 geogebra /usr/bin
 ./install-sh -m 644 geogebra.xml /usr/share/mime/packages
 ./install-sh -m 644 geogebra.desktop /usr/share/applications

@@ -710,8 +710,6 @@ Section Install Install
 
     SectionIn 1 2
 
-    CreateDirectory $INSTDIR\unsigned
-
     SetOutPath $INSTDIR
     File forum.ico
     File "${build.dir}\installer\windows\GeoGebra-no3D.exe"
@@ -731,26 +729,11 @@ Section Install Install
     File "${build.dir}\unpacked\jython.jar"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
-    SetOutPath $INSTDIR\unsigned
-    File "${build.dir}\unsigned\unpacked\OpenGeoProver.jar"
-    File "${build.dir}\unsigned\unpacked\geogebra*.jar"
-    File "${build.dir}\unsigned\unpacked\gluegen-rt-jogl1.jar"
-    File "${build.dir}\unsigned\unpacked\*win*.jar"
-    File "${build.dir}\unsigned\unpacked\gluegen-rt.jar"
-    File "${build.dir}\unsigned\unpacked\jd2*.jar"
-    File "${build.dir}\unsigned\unpacked\jl*.jar"
-    File "${build.dir}\unsigned\unpacked\jogl.*jar"
-    File "${build.dir}\unsigned\unpacked\jython.jar"
-    File "${build.dir}\unsigned\unpacked\openni.jar"
-    File "${build.dir}\unsigned\unpacked\openni64.jar"
-    File "${build.dir}\unsigned\unpacked\jython.jar"
 
     Call Architecture
 
     ZipDLL::extractall "$INSTDIR\jogl1-windows-$ARCHITECTURE.jar" "$INSTDIR"
-    ZipDLL::extractall "$INSTDIR\jogl1-windows-$ARCHITECTURE.jar" "$INSTDIR\unsigned"
     RMDir /r $INSTDIR\META-INF
-    RMDir /r $INSTDIR\unsigned\META-INF
 
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
     SetOutPath ""
@@ -971,9 +954,6 @@ FunctionEnd
     
     !insertmacro RemoveUninstaller
     
-    Delete $INSTDIR\unsigned\*.jar
-    Delete $INSTDIR\unsigned\*.dll
-    RMDir $INSTDIR\unsigned
     Delete $INSTDIR\forum.ico
     Delete $INSTDIR\GeoGebra-no3D.exe
     Delete $INSTDIR\GeoGebra-JOGL1.exe

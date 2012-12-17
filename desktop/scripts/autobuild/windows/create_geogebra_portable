@@ -51,11 +51,8 @@ cd "$DIRNAME"
 # 2. Zipping:
 cp ../../../../build/unpacked/* .
 
-# Creating (and overwriting) unsigned directory:
-mkdir -p unsigned
-cd unsigned
-rm -fR *
-cp ../../../../../build/unsigned/unpacked/* .
+# Removing the unsigned directory:
+rm -fR unsigned
 
 # 2/1. Updating EXEs with version numbers:
 cd ..
@@ -67,13 +64,10 @@ mv $SVNDIR/geogebra/desktop/installer/GeoGebra-*.exe .
 
 # 2/2. Unzipping the i586 version of JOGL1 DLLs:
 unzip -o jogl1-windows-i586.jar
-cp *.dll unsigned
 
 # 2/3. Cleanup (removing all unnecessary .jar files):
 rm -fR META-INF
-for i in . unsigned; do
- rm -f $i/jogl1-*.jar $i/*-linux-*.jar $i/*mac*.jar $i/*64*.jar $i/geogebra-map.txt
- done
+rm -f jogl1-*.jar *-linux-*.jar *mac*.jar *64*.jar geogebra-map.txt
 
 cd ..
 rm -f "$DIRNAME.zip" # deleting if a previous version already exists

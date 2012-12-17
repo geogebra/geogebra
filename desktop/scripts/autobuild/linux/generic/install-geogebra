@@ -187,13 +187,6 @@ for FILE in `echo $JARS | sed 's/\n/ /g'`; do
 done
 "$INSTALL" -m 644 "geogebra" "$DATADIR/$NAME"
 "$CHMOD" 755 "$DATADIR/$NAME/geogebra"
-if [ -e "unsigned" ]; then
-	"$INSTALL" -d -m 755 "$DATADIR/$NAME/unsigned"
-	UNSIGNED_JARS=`ls "unsigned"`
-	for FILE in `echo $UNSIGNED_JARS | sed 's/\n/ /g'`; do
-		"$INSTALL" -m 644 "unsigned/$FILE" "$DATADIR/$NAME/unsigned"
-	done
-fi
 "$INSTALL" -d -m 755 "$DATADIR/icons"
 "$INSTALL" -d -m 755 "$DATADIR/icons/hicolor"
 for SIZE in 16x16 22x22 32x32 48x48 64x64 128x128 256x256; do
@@ -433,14 +426,6 @@ for FILE in `echo $JARS | sed 's/\n/ /g'`; do
 		rm -f "$DATADIR/$NAME/\$FILE"
 	fi
 done
-if [ -e "$DATADIR/$NAME/unsigned" ]; then
-	for FILE in `echo $UNSIGNED_JARS | sed 's/\n/ /g'`; do
-		if [ -w "$DATADIR/$NAME/unsigned/\$FILE" ]; then
-			rm -f "$DATADIR/$NAME/unsigned/\$FILE"
-		fi
-	done
-	rmdir --ignore-fail-on-non-empty "$DATADIR/$NAME/unsigned"
-fi
 rmdir --ignore-fail-on-non-empty "$DATADIR/$NAME"
 for SIZE in 16x16 22x22 32x32 48x48 64x64 128x128 256x256; do
 	if [ -w "$DATADIR/icons/hicolor/\$SIZE/apps/$NAME.png" ]; then
@@ -545,11 +530,6 @@ if [ "$VERBOSE_MODE" != "false" ]; then
 	for FILE in `echo $JARS | sed 's/ / /g'`; do
 		if [ -e "$DATADIR/$NAME/$FILE" ]; then
 			echo "$DATADIR/$NAME/$FILE"
-		fi
-	done
-	for FILE in `echo $UNSIGNED_JARS | sed 's/ / /g'`; do
-		if [ -e "$DATADIR/$NAME/unsigned/$FILE" ]; then
-			echo "$DATADIR/$NAME/unsigned/$FILE"
 		fi
 	done
 	for SIZE in 16x16 22x22 32x32 48x48 64x64 128x128 256x256; do
