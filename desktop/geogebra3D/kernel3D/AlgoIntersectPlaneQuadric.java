@@ -106,8 +106,12 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     
     @Override
 	public void compute(){
-    	//Application.debug("quadric=\n"+quadric.getSymetricMatrix()+"\nplan=\n"+plane.getParametricMatrix().toString());	 
-    
+
+    	if (!quadric.isDefined() || !plane.isDefined()){
+    		conic.setUndefined();
+    		return;
+    	}
+    	
     	CoordMatrix qm = quadric.getSymetricMatrix();
     	CoordMatrix pm = plane.getParametricMatrix();
     	CoordMatrix pmt = pm.transposeCopy();
