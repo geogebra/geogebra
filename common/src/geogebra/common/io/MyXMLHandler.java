@@ -708,38 +708,32 @@ public class MyXMLHandler implements DocHandler {
 	// <euclidianView>
 	// ====================================
 
-	private EuclidianSettings evSet = null;
+	protected EuclidianSettings evSet = null;
 	
-	private void startEuclidianViewElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+	/**
+	 * check if eName equals "viewId" and set evSet to the correct settings
+	 * (only used for 3D)
+	 * @param eName
+	 * @param attrs
+	 */
+	protected void startEuclidianViewElementCheckViewId(String eName,
+			LinkedHashMap<String, String> attrs){
+		//only used in 3D
+	}
+	
+	/**
+	 * switch name for euclidian view element
+	 * @param eName
+	 * @param attrs
+	 * @param firstChar
+	 * @return true if ok
+	 */
+	protected boolean startEuclidianViewElementSwitch(String eName,
+			LinkedHashMap<String, String> attrs, char firstChar){
+		
 		boolean ok = true;
-
-		// must do this first
-		if ("viewNumber".equals(eName)) {
-			int number = Integer.parseInt(attrs.get("viewNo"));
-			if (number == 2) 
-				evSet = app.getSettings().getEuclidian(2);
-			else
-				evSet = app.getSettings().getEuclidian(1);
-		}else if ("viewId".equals(eName)){
-			String plane = attrs.get("plane");
-			evSet = app.getSettings().getEuclidianForPlane(plane);
-			if (evSet == null)
-				evSet = app.getSettings().createEuclidianForPlane(plane);
-		}
-
-		if (evSet == null)
-			evSet = app.getSettings().getEuclidian(1);
-
-		// make sure eg is reset the first time (for each EV) we get the
-		// settings
-		// "viewNumber" not stored for EV1 so we need to do this here
-		if (resetEVsettingsNeeded) {
-			resetEVsettingsNeeded = false;
-			evSet.reset();
-		}
-
-		switch (firstChar(eName)) {
+		
+		switch (firstChar) {
 		case 'a':
 			if ("axesColor".equals(eName)) {
 				ok = handleAxesColor(evSet, attrs);
@@ -807,8 +801,38 @@ public class MyXMLHandler implements DocHandler {
 		default:
 			System.err.println("unknown tag in <euclidianView>: " + eName);
 		}
+		
+		return ok;
+	}
 
-		if (!ok)
+	
+	private void startEuclidianViewElement(String eName,
+			LinkedHashMap<String, String> attrs) {
+		
+
+		// must do this first
+		if ("viewNumber".equals(eName)) {
+			int number = Integer.parseInt(attrs.get("viewNo"));
+			if (number == 2) 
+				evSet = app.getSettings().getEuclidian(2);
+			else
+				evSet = app.getSettings().getEuclidian(1);
+		}else{ 
+			startEuclidianViewElementCheckViewId(eName, attrs);
+		}
+
+		if (evSet == null)
+			evSet = app.getSettings().getEuclidian(1);
+
+		// make sure eg is reset the first time (for each EV) we get the
+		// settings
+		// "viewNumber" not stored for EV1 so we need to do this here
+		if (resetEVsettingsNeeded) {
+			resetEVsettingsNeeded = false;
+			evSet.reset();
+		}
+
+		if (!startEuclidianViewElementSwitch(eName, attrs, firstChar(eName)))
 			System.err.println("error in <euclidianView>: " + eName);
 	}
 

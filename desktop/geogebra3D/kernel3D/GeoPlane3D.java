@@ -479,11 +479,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public void createView2D() {
 		euclidianViewForPlane = ((App3D) app)
 				.createEuclidianViewForPlane(this,true);
-		updateViewForPlaneDirection(((App3D) app).getEuclidianView3D()
-				.getViewDirection(), ((App3D) app).getEuclidianView3D()
-				.getToScreenMatrix());
-
-
+		euclidianViewForPlane.setTransformRegardingView();
 	}
 	
 
@@ -530,21 +526,14 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		euclidianViewForPlane.updateAllDrawables(true);
 	}
 
-	public void updateViewForPlaneDirection(Coords directionView3D,
-			CoordMatrix toScreenMatrix) {
-
-		if (euclidianViewForPlane != null) {
-			euclidianViewForPlane.setTransform(directionView3D, toScreenMatrix);
-			updateViewForPlane();
-		}
-
-	}
 
 	public void setEuclidianViewForPlane(EuclidianView view){
 		euclidianViewForPlane = (EuclidianViewForPlane) view;
+		/*
 		euclidianViewForPlane.setTransform(((App3D) app).getEuclidianView3D()
 				.getViewDirection(), ((App3D) app).getEuclidianView3D()
 				.getToScreenMatrix());
+				*/
 	}
 	
 	public Coords getDirectionInD3() {

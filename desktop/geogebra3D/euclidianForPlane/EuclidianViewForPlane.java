@@ -15,6 +15,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.layout.LayoutD;
@@ -22,6 +23,7 @@ import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
+import geogebra3D.settings.EuclidianSettingsForPlane;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	
 	private int id;
 
+	private CoordMatrix4x4  transform;// = CoordMatrix4x4.IDENTITY;
 
 	
 	/**
@@ -54,7 +57,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		showGrid(false);
 		
 		setPlane(plane);
-
+		
 		updateMatrix();
 			
 	}
@@ -171,36 +174,42 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	
 	private CoordMatrix4x4 planeMatrix, transformedMatrix;
 	private CoordMatrix inverseTransformedMatrix;
-	//private CoordMatrix4x4 reverseMatrix;
-	private CoordMatrix4x4 transform = CoordMatrix4x4.IDENTITY;
 	
 	/**
 	 * update the matrix transformation
 	 */
 	public void updateMatrix(){
+		
+		if(transform==null) //transform has not already been set
+			transform = CoordMatrix4x4.IDENTITY;
+		
 		//planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
 		planeMatrix = plane.getCoordSys().getDrawingMatrix();	
-		
 		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);	
 		inverseTransformedMatrix = transformedMatrix.inverse();
 		
 	}
 	
+	
+	private int transformMirror = 1;
+	private int transformRotate = 0;
+	
 	/**
 	 * set the transform matrix regarding view direction
-	 * @param directionView3D 3D view direction
-	 * @param toScreenMatrix matrix from real 3D world to screen world
 	 */
-	public void setTransform(Coords directionView3D, CoordMatrix toScreenMatrix){
+	public void setTransformRegardingView(){
+		
+		Coords directionView3D = ((App3D) app).getEuclidianView3D().getViewDirection();
+		CoordMatrix toScreenMatrix = ((App3D) app).getEuclidianView3D().getToScreenMatrix();
 		
 		//front or back view
 		double p = plane.getCoordSys().getNormal().dotproduct(directionView3D);
-		double reverse = 1;
-		if (p<0)
+		if (p<=0){
 			transform = CoordMatrix4x4.IDENTITY;
-		else if (p>0){
+			transformMirror = 1;
+		}else{
 			transform = CoordMatrix4x4.MIRROR_Y;
-			reverse = -1;
+			transformMirror = -1;
 		}
 
 		//Application.debug("transform=\n"+transform);
@@ -213,54 +222,43 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		double vXx = m.get(1, 1);
 		double vXy = m.get(2, 1);
 		double vYx = m.get(1, 2);
-		m.get(2, 2);
-		
-		//Application.debug("vx="+vXx+","+vXy+"\nvy="+vYx+","+vYy);
-		
-		//if (vXx*vXx+vXy*vXy>vYx*vYx+vYy*vYy){//vX is more important
-			if (Math.abs(vXy)>Math.abs(vXx)){			
-				if (vYx*reverse>=0)
-					transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);
-				else
-					transform = CoordMatrix4x4.ROTATION_OZ_M90.mul(transform);
-			}
-		/*}else{//vY is more important
-			if (Math.abs(vYx)>Math.abs(vYy))
-				transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);			
-		}*/
-		
-		/*
-		if (vx.getX()>=0){
-			if (vy.getY()>=0){
-				if (vx.getX()<vx.getY())
-					transform = TRANSFORM_ROT_M90;
-				else if (vx.getX()<-vx.getY())
-					transform = TRANSFORM_ROT_90;
-				else
-					transform = TRANSFORM_IDENTITY;
+
+		if (Math.abs(vXy)>Math.abs(vXx)){			
+			if (vYx*transformMirror>=0){
+				transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);
+				transformRotate = 90;
 			}else{
-				//if (vx.getX()>-vx.getY())
-					transform = TRANSFORM_MIRROR_X;
-				//else
-				//	transform = TRANSFORM_ROT_90;
-			}
-		}else{
-			if (vy.getY()>=0)
-				transform = TRANSFORM_MIRROR_Y;
-			else{
-				if (-vx.getX()>vx.getY())
-					transform = TRANSFORM_MIRROR_O;
-				else
-					transform = TRANSFORM_ROT_M90;
+				transform = CoordMatrix4x4.ROTATION_OZ_M90.mul(transform);
+				transformRotate = -90;
 			}
 		}
-		*/
-		
+
+
 		updateMatrix();
 		
 		
 		//TODO only if new matrix != old matrix
 		updateAllDrawables(true);	
+	}
+	
+	/**
+	 * set transform from values
+	 */
+	public void setTransform(){
+
+		if (transformMirror==1)
+			transform = CoordMatrix4x4.IDENTITY;
+		else{
+			transform = CoordMatrix4x4.MIRROR_Y;
+			transformMirror = -1;
+		}
+
+
+		if (transformRotate == 90)
+			transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);
+		else if (transformRotate == -90)
+			transform = CoordMatrix4x4.ROTATION_OZ_M90.mul(transform);
+
 	}
 	
 	@Override
@@ -379,6 +377,40 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		sbxml.append("/>\n");
 
 	}
+	
+	
+	@Override
+	public void getXML(StringBuilder sbxml, boolean asPreference) {
+		startXML(sbxml, asPreference);
+		
+		// transform
+		sbxml.append("\t<transformForPlane ");
+		sbxml.append("mirror=\"");
+		sbxml.append(transformMirror==-1);
+		sbxml.append("\"");
+		sbxml.append(" rotate=\"");
+		sbxml.append(transformRotate);
+		sbxml.append("\"");		
+		sbxml.append("/>\n");
+		
+		endXML(sbxml);
+	}
 
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		super.settingsChanged(settings);
+		
+		EuclidianSettingsForPlane evs = (EuclidianSettingsForPlane) settings;
+		
+		//transform
+		transformMirror = 1;		
+		if(evs.getMirror())
+			transformMirror=-1;
+		//transformRotate = 0;
+		transformRotate = evs.getRotate();
+
+		setTransform();
+		
+	}
 	
 }

@@ -598,6 +598,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	public void createView2D() {
 		euclidianViewForPlane = ((App3D) app).createEuclidianViewForPlane(this,true);
+		euclidianViewForPlane.setTransformRegardingView();
 	}
 	
 	public void removeView2D(){

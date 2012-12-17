@@ -4031,6 +4031,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            true for preferences
 	 */
 	public void getXML(StringBuilder sbxml, boolean asPreference) {
+		startXML(sbxml, asPreference);
+		endXML(sbxml);
+	}
+
+
+	/**
+	 * start settings in XML format
+	 * 
+	 * @param sbxml
+	 *            string builder
+	 * @param asPreference
+	 *            true for preferences
+	 */
+	protected void startXML(StringBuilder sbxml, boolean asPreference) {
+		
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sbxml.append("<euclidianView>\n");
 		
@@ -4207,6 +4222,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			sbxml.append("\"/>\n");
 		}
 
+	}
+	
+	/**
+	 * end settings in XML format
+	 * 
+	 * @param sbxml
+	 *            string builder
+	 */
+	protected void endXML(StringBuilder sbxml){
 		sbxml.append("</euclidianView>\n");
 	}
 

@@ -15,6 +15,7 @@ import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPoint3D;
+import geogebra3D.settings.EuclidianSettingsForPlane;
 
 import java.util.LinkedHashMap;
 
@@ -443,5 +444,48 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return false;
 		}
 	}	
+	
+	
+	
+	
+	@Override
+	protected void startEuclidianViewElementCheckViewId(String eName,
+			LinkedHashMap<String, String> attrs){
+		if ("viewId".equals(eName)){
+			String plane = attrs.get("plane");
+			evSet = app.getSettings().getEuclidianForPlane(plane);
+			if (evSet == null){
+				evSet = new EuclidianSettingsForPlane();
+				app.getSettings().setEuclidianSettingsForPlane(plane, evSet);
+			}
+		}
+	}
+	
+	@Override
+	protected boolean startEuclidianViewElementSwitch(String eName,
+			LinkedHashMap<String, String> attrs, char firstChar){
+
+		if (firstChar=='t'){
+			if ("transformForPlane".equals(eName)) {
+				return handleTransformForPlane((EuclidianSettingsForPlane) evSet, attrs);
+			} 
+		}
+		
+		return super.startEuclidianViewElementSwitch(eName, attrs, firstChar);
+	}
+	
+	private static boolean handleTransformForPlane(EuclidianSettingsForPlane ev,
+			LinkedHashMap<String, String> attrs) {
+		
+		try {
+			ev.setTransformForPlane(
+					Boolean.parseBoolean(attrs.get("mirror")),
+					Integer.parseInt(attrs.get("rotate")));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
 
 }

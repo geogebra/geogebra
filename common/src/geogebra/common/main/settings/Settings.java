@@ -200,14 +200,12 @@ public class Settings {
 
 	
 	/**
-	 * 
+	 * map the plane/settings
 	 * @param plane name of the plane creator
-	 * @return settings of view for this plane
+	 * @param settings settings
 	 */
-	public final EuclidianSettings createEuclidianForPlane(String plane){
-		EuclidianSettings settings = new EuclidianSettings(null);
+	public final void setEuclidianSettingsForPlane(String plane, EuclidianSettings settings){
 		euclidianSettingsForPlane.put(plane, settings);
-		return settings;
 	}
 
 	/**
