@@ -230,7 +230,7 @@ public class Ggb2MPReduce {
 				"<<begin scalar input!!, tmpret!!;on factor; input!!:=(%0); return part(pf(input!!,mymainvar(input!!)),0):=+; end>>");
 		p("PartialFractions.2", "<<on factor$ part(pf(%0,%1),0):=+>>");
 		p("Pascal.4",
-				"if %3=true then betaRegularized(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1)");
+				"if %3=true then ibeta(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1)");
 		p("Poisson.3",
 				"if %2=true then exp(-(%0))*for i:=0:(%1) sum (%0)^i/factorial(floor(i)) else (%0)^(%1)/factorial(floor(%1))*exp(-%0)");
 		p("PreviousPrime.1",
@@ -343,7 +343,7 @@ public class Ggb2MPReduce {
 		p("TaylorSeries.4",
 				"<< begin scalar tmpret; korder list(); off pri; tmpret:=taylor(%0,%1,%2,%3); korder varorder!!; return if taylortostd =1 then taylortostandard(tmpret) else tmpret end>>");
 		p("TDistribution.2",
-				"<<begin scalar t!!,n!!; n!!:=(%0); t!!:=(%1) ;beta!Regularized(((t!!+sqrt(t!!^2+n!!)/(2*sqrt(t!!^2+n!!)),n!!/2,n!!/2)");
+				"<<begin scalar t!!,n!!; n!!:=(%0); t!!:=(%1) ;ibeta(((t!!+sqrt(t!!^2+n!!)/(2*sqrt(t!!^2+n!!)),n!!/2,n!!/2)");
 		p("ToComplex.1",
 				"<<begin scalar list!!; list!!:=(%0); return if myvecp list!! then get(list!!,0)+i*get(list!!,1) else part(list!!,1)+i*part(list!!,2) end >>");
 		p("ToExponential.1",

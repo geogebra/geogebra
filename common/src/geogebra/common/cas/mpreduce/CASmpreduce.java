@@ -740,7 +740,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		mpreduce1.evaluate("procedure harmonic(n,m); for i:=1:n sum 1/(i**m);");
 		mpreduce1.evaluate("procedure uigamma(n,m); gamma(n)-igamma(n,m);");
-		mpreduce1.evaluate("procedure beta!Regularized(a,b,x); ibeta(a,b,x);");
 		mpreduce1
 				.evaluate("procedure myarg(x);"
 						+ " if arglength(x)>-1 and part(x,0)='list then myatan2(part(x,2), part(x,1)) "
