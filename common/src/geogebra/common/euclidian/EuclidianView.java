@@ -2524,7 +2524,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * @param g2
 	 *            graphics
 	 */
-	final public void paint(geogebra.common.awt.GGraphics2D g2) {
+	public void paint(geogebra.common.awt.GGraphics2D g2) {
 		// Graphics2D g2 = (Graphics2D) g;
 		// lastGraphics2D = g2;
 

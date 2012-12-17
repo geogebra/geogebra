@@ -1,5 +1,6 @@
 package geogebra3D.euclidianForPlane;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -14,7 +15,6 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
@@ -133,7 +133,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 * add all existing geos to this view
 	 */
 	public void addExistingGeos(){
-
 		kernel.notifyAddAll(this);
 	}	
 	
@@ -180,11 +179,20 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 */
 	public void updateMatrix(){
 		
+		if (!plane.isDefined()){
+			//force plane matrix for Drawables creation
+			planeMatrix = CoordMatrix4x4.IDENTITY;
+			transformedMatrix = CoordMatrix4x4.IDENTITY;
+			inverseTransformedMatrix = CoordMatrix4x4.IDENTITY;
+			return;
+		}
+		
 		if(transform==null) //transform has not already been set
 			transform = CoordMatrix4x4.IDENTITY;
 		
 		//planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
 		planeMatrix = plane.getCoordSys().getDrawingMatrix();	
+
 		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);	
 		inverseTransformedMatrix = transformedMatrix.inverse();
 		
@@ -411,6 +419,26 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
 		setTransform();
 		
+	}
+	
+	/*
+	@Override
+	protected EuclidianStyleBarD newEuclidianStyleBar(){
+		return new EuclidianStyleBarForPlane(this);
+	}
+	*/
+	
+	@Override
+	public void paint(geogebra.common.awt.GGraphics2D g2) {		
+		if (!plane.isDefined()){
+			//draws the view in gray
+			g2.setColor(GColor.LIGHT_GRAY);
+			g2.fillRect(0, 0, getWidth(), getHeight());
+			return;
+		}
+		
+		
+		super.paint(g2);
 	}
 	
 }
