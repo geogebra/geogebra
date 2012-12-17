@@ -1667,9 +1667,9 @@ public class ExpressionNode extends ValidExpression implements
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sand", leftStr, rightStr);
 			} else {
-				if(left.isExpressionNode()){
-					sb.append(((ExpressionNode)left).getLeftTree().printCASstring(!valueForm, tpl));
-					switch(((ExpressionNode)left).getOperation()){
+				if(right.isExpressionNode()){
+					sb.append(getLeftTree().printCASstring(!valueForm, tpl));
+					switch(((ExpressionNode)right).getOperation()){
 						case LESS:appendLessSign(sb,stringType);break;
 						case LESS_EQUAL:appendLeqSign(sb,stringType);break;
 						case GREATER:appendGreaterSign(sb,stringType);break;
@@ -1680,9 +1680,9 @@ public class ExpressionNode extends ValidExpression implements
 						case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,stringType);break;
 						case PARALLEL:appendParallelSign(sb,stringType);break;
 						case PERPENDICULAR:appendPerpSign(sb,stringType);break;
+						default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
 					}
-					
-					sb.append(getRightTree().printCASstring(!valueForm, tpl));
+					sb.append(((ExpressionNode)right).getRightTree().printCASstring(!valueForm, tpl));
 					break;
 				}
 			}
