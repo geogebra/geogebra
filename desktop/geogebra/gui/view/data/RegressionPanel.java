@@ -237,7 +237,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 							StringType.LATEX, statDialog.getPrintFigures(),
 							false);
 			} else {
-				highPrecision = StringTemplate.numericDefault;
+				highPrecision = StringTemplate.numericLatex;
 			}
 
 			// no regression
