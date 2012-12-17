@@ -332,7 +332,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public void setUndefined() {
-		// TODO Raccord de méthode auto-généré
+		coordsys.setUndefined();
 
 	}
 
@@ -343,8 +343,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	protected boolean showInEuclidianView() {
-		// TODO Raccord de méthode auto-généré
-		return true;
+		return isDefined();
 	}
 
 	@Override
