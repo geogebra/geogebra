@@ -23,6 +23,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
 /**
@@ -31,25 +33,34 @@ import geogebra.common.kernel.geos.GeoVector;
  */
 public class AlgoVectorPoint extends AlgoElement {
 
-    private GeoPoint P;   // input
-    private GeoVector  v;     // output                    
+    private GeoPointND P;   // input
+    private GeoVectorND  v;     // output                    
     
     /**
      * @param cons construction
      * @param label label for output
      * @param P input point
      */
-    public AlgoVectorPoint(Construction cons, String label, GeoPoint P) {
+    public AlgoVectorPoint(Construction cons, String label, GeoPointND P) {
         super(cons);
         this.P = P;
         
         // create new vector
-        v = new GeoVector(cons);                
+        v = createNewVector();                   
         setInputOutput();
                         
         compute();        
         v.setLabel(label);
-    }           
+    }   
+    
+    
+    /**
+     * @return new vector (overriden in 3D)
+     */
+    protected GeoVectorND createNewVector(){
+    	
+    	return new GeoVector(cons);   	
+    }       
     
     @Override
 	public Algos getClassName() {
@@ -66,34 +77,42 @@ public class AlgoVectorPoint extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = P;
+        input[0] = (GeoElement) P;
               
         super.setOutputLength(1);
-        super.setOutput(0, v);
+        super.setOutput(0, (GeoElement) v);
         setDependencies(); // done by AlgoElement
     }           
     
     /**
      * @return output vector
      */
-    public GeoVector getVector() { return v; }
+    public GeoVectorND getVector() { return v; }
     /**
      * @return input point
      */
-    public GeoPoint getP() { return P; }    
+    public GeoPointND getP() { return P; }    
     
     // calc vector OP   
     @Override
 	public final void compute() {                
-        if (P.isFinite()) {                    
-            v.x = P.inhomX;
-            v.y = P.inhomY;        
-            v.z = 0.0;
+        if (P.isFinite()) {  
+        	setCoords();
         } else {
             v.setUndefined();
         }
     }       
 
+    
+    /**
+     * Updates coords of v using P
+     */
+    protected void setCoords(){
+    	GeoVector v2D = (GeoVector) v;
+        v2D.x = ((GeoPoint) P).inhomX;
+        v2D.y = ((GeoPoint) P).inhomY;        
+        v2D.z = 0.0;
+    }
 	// TODO Consider locusequability
     
 }

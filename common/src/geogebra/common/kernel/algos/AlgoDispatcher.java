@@ -41,6 +41,7 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 import java.util.ArrayList;
 
@@ -270,13 +271,18 @@ public class AlgoDispatcher {
 	/**
 	 * Vector (0,0) to P
 	 */
-	final public GeoVector Vector(String label, GeoPointND P) {
-		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, (GeoPoint) P);
-		GeoVector v = algo.getVector();
+	final public GeoVectorND Vector(String label, GeoPointND P) {
+		GeoVectorND v = createVector(label, P);
 		v.setEuclidianVisible(true);
 		v.update();
 		//notifyUpdate(v);
 		return v;
+	}
+	
+	protected GeoVectorND createVector(String label, GeoPointND P){
+		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, P);
+		return algo.getVector();
+		
 	}
 
 	/**

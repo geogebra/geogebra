@@ -51,6 +51,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.EventType;
 import geogebra.common.kernel.scripting.AlgoTurtle;
 import geogebra.common.plugin.GeoClass;
@@ -1109,7 +1110,7 @@ public class PythonFlatAPI {
 	 * @param pos the point
 	 * @return new vector Geo from O to pos
 	 */
-	public GeoVector geoVector(GeoPoint pos) {
+	public GeoVectorND geoVector(GeoPoint pos) {
 		return getAlgoDispatcher().Vector(null, pos);
 	}
 
