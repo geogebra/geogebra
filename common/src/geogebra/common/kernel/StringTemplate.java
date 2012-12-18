@@ -31,6 +31,7 @@ public class StringTemplate {
 		}
 	};
 	static {
+		prefixedDefault.localizeCmds = false;
 		prefixedDefault.forceNF = true;
 		prefixedDefault.usePrefix = true;
 		prefixedDefault.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(15);
