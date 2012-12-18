@@ -4,6 +4,7 @@ import geogebra.awt.GColorD;
 import geogebra.common.kernel.geos.GeoCasCell;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -25,21 +26,22 @@ public class CASTableCellRenderer extends CASTableCell implements
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-
+		Font casFont = view.getCASViewComponent().getFont();
 		if (value instanceof GeoCasCell) {
+			GeoCasCell cell = (GeoCasCell)value;
 			// set CASTableCell value
-			setValue((GeoCasCell) value);
+			setValue(cell);
 
 			// update font and row height
-			if (((GeoCasCell) value).isUseAsText()) {
-				setFont(view.getCASViewComponent().getFont()
-						.deriveFont(((GeoCasCell) value).getFontStyle(),(float)(12*((GeoCasCell) value).getFontSizeMultiplier())));// ,
-																			// ((GeoCasCell)
-				setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
-				dummyField.setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
-				this.getInputArea().setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
+			if (cell.isUseAsText()) {
+				setFont(casFont
+						.deriveFont(cell.getFontStyle(),(float)(casFont.getSize()*(cell.getFontSizeMultiplier()))));
+																			
+				setForeground(GColorD.getAwtColor(cell.getFontColor()));
+				dummyField.setForeground(GColorD.getAwtColor(cell.getFontColor()));
+				this.getInputArea().setForeground(GColorD.getAwtColor(cell.getFontColor()));
 			} else
-				setFont(view.getCASViewComponent().getFont());
+				setFont(casFont);
 			updateTableRowHeight(table, row);
 
 			// set inputPanel width to match table column width
