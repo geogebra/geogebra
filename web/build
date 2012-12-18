@@ -373,7 +373,7 @@ if [ $VERBOSE = 1 ]; then
  fi
 
 # 8/1. Deleting gwt-unitCache on demand
-if [ $GWT_UC_CLEANUP = 1 ]; then
+if [ $GWT_UC_CLEANUP = 1 -a -d $WEBDIR/gwt-unitCache ]; then
  cd $WEBDIR/gwt-unitCache
  find . | xargs rm
  fi
