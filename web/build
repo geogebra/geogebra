@@ -7,8 +7,8 @@
 
 # Cleanup
 cleanup() {
- echo "* Got $1 signal..."
  LASTEXITCODE=$?
+ echo "* Got $1 signal with exit code $LASTEXITCODE..."
  # Maybe this code could be simplified since the EXIT signal will not be trapped.
  test -r $WEBDIR/src/geogebra/Web.gwt.xml.orig && {
   echo "* Cleaning up: putting back original Web.gwt.xml"
