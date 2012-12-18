@@ -27,35 +27,36 @@ public class TabletHeaderPanel extends HeaderPanel
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanel.this.dialog = new InputDialog("Title", TabletHeaderPanel.this.getElement().getInnerText(), new InputCallback(){
+				TabletHeaderPanel.this.dialog = new InputDialog("Title", TabletHeaderPanel.this.getElement().getInnerText(), new InputCallback()
+				{
 
 					@Override
-          public void onOk()
-          {
+					public void onOk()
+					{
 						changeTitle(TabletHeaderPanel.this.dialog.getText());
-          }
+					}
 
 					@Override
-          public void onCancel()
-          {
-	          TabletHeaderPanel.this.dialog.close();
-          }
+					public void onCancel()
+					{
+						TabletHeaderPanel.this.dialog.close();
+					}
 				});
 
 				TabletHeaderPanel.this.dialog.show();
 			}
 		}, ClickEvent.getType());
 	}
-	
+
 	protected void changeTitle(String title)
 	{
 		this.setCenter(title);
 	}
-	
+
 	@Override
-  public String getTitle()
+	public String getTitle()
 	{
 		return this.getElement().getInnerText();
 	}
-	
+
 }

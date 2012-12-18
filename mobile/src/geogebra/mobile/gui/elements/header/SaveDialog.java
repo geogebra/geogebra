@@ -50,7 +50,6 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 	{
 		public SaveButton(DialogCss css, String text)
 		{
-
 			super(css);
 			setText(text);
 			addStyleName(css.okbutton());
@@ -100,20 +99,21 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 		setTitleText("Save");
 
 		this.textInput.addKeyUpHandler(new KeyUpHandler()
-		{			
+		{
 			@Override
 			public void onKeyUp(KeyUpEvent event)
 			{
-				if(event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER){
+				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER)
+				{
 					SaveDialog.this.callback.onSave();
-					SaveDialog.this.close(); 
+					SaveDialog.this.close();
 				}
 			}
 		});
-		
+
 		addButtonContainer();
 	}
-	
+
 	/**
 	 * Adds a textbox with the given text to the dialogPanel.
 	 * 
@@ -172,7 +172,7 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 		}, ClickEvent.getType());
 
 		this.dialogPanel.showOkButton(false); // don't show the default buttons from
-																					// Daniel Kurka
+		                                      // Daniel Kurka
 		this.buttonContainer.add(saveButton);
 	}
 

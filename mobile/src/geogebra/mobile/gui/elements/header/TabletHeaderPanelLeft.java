@@ -66,10 +66,9 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		initSaveButton(left);
 	}
 
-	
 	private void initSaveButton(HeaderButton[] left)
-  {
-	  left[2].addDomHandler(new ClickHandler()
+	{
+		left[2].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -106,12 +105,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.saveDialog.show();
 			}
 		}, ClickEvent.getType());
-  }
+	}
 
-	
 	private void initOpenButton(HeaderButton[] left)
-  {
-	  left[1].addDomHandler(new ClickHandler()
+	{
+		left[1].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -151,12 +149,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.openDialog.show();
 			}
 		}, ClickEvent.getType());
-  }
+	}
 
-	
 	private void initNewButton(final Kernel kernel, final GuiModel guiModel, HeaderButton[] left)
-  {
-	  left[0].addDomHandler(new ClickHandler()
+	{
+		left[0].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -167,24 +164,25 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				changeTitle("New File");
 			}
 		}, ClickEvent.getType());
-  }
-	
+	}
+
 	/**
 	 * 
-	 * @return
-	 * fileName the title defined in the {@link TabletHeaderPanel tabletHeader}
+	 * @return fileName the title defined in the {@link TabletHeaderPanel
+	 *         tabletHeader}
 	 */
 	String getFileName()
 	{
 		return this.tabletGUI.getTabletHeaderPanel().getTitle();
 	}
-	
+
 	/**
 	 * Sets the title in the {@link TabletHeaderPanel tabletHeader}
+	 * 
 	 * @param title
 	 */
 	void changeTitle(String title)
-  {
+	{
 		this.tabletGUI.getTabletHeaderPanel().changeTitle(title);
-  }
+	}
 }

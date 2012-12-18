@@ -53,8 +53,9 @@ public class TabletGUI implements GeoGebraMobileGUI
 			@Override
 			public void onOrientationChanged(OrientationChangeEvent event)
 			{
-				// TODO update whatever is shown right now, not necessarily the euclidianViewPanel, 
-				//this is just a temporary workaround
+				// TODO update whatever is shown right now, not necessarily the
+				// euclidianViewPanel,
+				// this is just a temporary workaround
 				TabletGUI.this.euclidianViewPanel.repaint();
 			}
 		});
@@ -88,7 +89,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	public void initComponents(final Kernel kernel)
 	{
 		MobileModel mobileModel = new MobileModel(kernel);
-		
+
 		// Initialize GUI Elements
 		this.headerPanel = new TabletHeaderPanel();
 		this.leftHeader = new TabletHeaderPanelLeft(this, kernel, mobileModel.getGuiModel());
@@ -103,19 +104,19 @@ public class TabletGUI implements GeoGebraMobileGUI
 
 		this.stylingBar = new StylingBar(mobileModel, this.euclidianViewPanel.getEuclidianView());
 		mobileModel.getGuiModel().setStylingBar(this.stylingBar);
-		
+
 		this.algebraViewPanel.initAlgebraView(ec, kernel);
 		this.toolBar.makeTabletToolBar(mobileModel);
-		
+
 		RootPanel.get().add(this.euclidianViewPanel);
 		RootPanel.get().add(this.headerPanel);
 		RootPanel.get().add(this.leftHeader);
 		RootPanel.get().add(this.rightHeader);
 		RootPanel.get().add(this.stylingBar);
 		RootPanel.get().add(this.algebraViewPanel);
-		RootPanel.get().add(this.toolBar);		
+		RootPanel.get().add(this.toolBar);
 	}
-	
+
 	public TabletHeaderPanel getTabletHeaderPanel()
 	{
 		return this.headerPanel;

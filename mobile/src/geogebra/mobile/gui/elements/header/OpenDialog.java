@@ -90,7 +90,6 @@ public class OpenDialog implements Dialog
 	 */
 	private void addFileChooser()
 	{
-
 		try
 		{
 			if (this.stockStore.key(0) != null)
@@ -192,8 +191,9 @@ public class OpenDialog implements Dialog
 			}
 
 		}, ClickEvent.getType());
-		this.dialogPanel.showCancelButton(false);	// don't show the default buttons from
-		this.dialogPanel.showOkButton(false);			// Daniel Kurka
+		this.dialogPanel.showCancelButton(false); // don't show the default buttons
+																							// from
+		this.dialogPanel.showOkButton(false); // Daniel Kurka
 		this.buttonContainer.add(cancelButton);
 	}
 
@@ -234,7 +234,7 @@ public class OpenDialog implements Dialog
 		String key = this.list.getValue(this.list.getSelectedIndex());
 		return this.stockStore.getItem(key);
 	}
-	
+
 	/**
 	 * Returns the chosen filename
 	 */
