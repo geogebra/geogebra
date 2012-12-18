@@ -6,12 +6,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.FullWidthLayout;
-import geogebra.gui.util.SpecialNumberFormat;
-import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -38,8 +37,7 @@ import javax.swing.JSplitPane;
  * @author G. Sturr
  * 
  */
-public class DataAnalysisViewD extends JPanel implements View, Printable,
-		SpecialNumberFormatInterface {
+public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,13 +55,11 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
-
 	// flags
 	private boolean showDataPanel = false;
 	private boolean showStatPanel = false;
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
-	private boolean doSpecialNumberFormat = false;
 
 	// colors
 	public static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
@@ -111,6 +107,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		}
 	}
 
+	// rounding constants for local number format
+	private int printDecimals = 4, printFigures = -1;
+
 	// public static final int regressionTypes = 9;
 	private Regression regressionMode = Regression.NONE;
 	private int regressionOrder = 2;
@@ -129,9 +128,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	final static String MainCard = "Card with main panel";
 	final static String SourceCard = "Card with data type options";
 
-	// number format
-	private SpecialNumberFormat nf;
-
 	/*************************************************
 	 * Constructs the view.
 	 * 
@@ -143,8 +139,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		isIniting = true;
 		this.app = app;
 		this.kernel = app.getKernel();
-
-		nf = new SpecialNumberFormat(app, this);
 
 		daCtrl = new DataAnalysisControllerD(app, this);
 
@@ -443,32 +437,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		return showStatPanel;
 	}
 
-	/**
-	 * Converts double to formatted String
-	 * 
-	 * @param x
-	 *            number to be converted
-	 * @return formatted number string
-	 */
-	public String format(double x) {
-
-		// apply local numeric format
-		if (doSpecialNumberFormat) {
-			return nf.format(x);
-		}
-
-		// apply GeoGebra numeric format
-		return app.getKernel().format(x, StringTemplate.numericDefault);
-	}
-
-	public int getPrintDecimals() {
-		return nf.getPrintDecimals();
-	}
-
-	public int getPrintFigures() {
-		return nf.getPrintFigures();
-	}
-
 	public DataAnalysisControllerD getController() {
 		return daCtrl;
 	}
@@ -519,14 +487,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	public int getMode() {
 		return mode;
-	}
-
-	public boolean doSpecialNumberFormat() {
-		return doSpecialNumberFormat;
-	}
-
-	public void setDoSpecialNumberFormat(boolean doSpecialNumberFormat) {
-		this.doSpecialNumberFormat = doSpecialNumberFormat;
 	}
 
 	public void setShowDataOptionsDialog(boolean showDialog) {
@@ -662,13 +622,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// Event Handlers and Updates
 	// =================================================
 
-	/**
-	 * Updates the dialog when the number format options have been changed
-	 */
-	public void changedNumberFormat() {
-		daCtrl.updateDataAnalysisView();
-	}
-
 	public void updateGUI() {
 
 		if (stylebar != null) {
@@ -729,6 +682,63 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	}
 
 	// =================================================
+	// Number Format
+	//
+	// (use GeoGebra rounding settings unless decimals < 4)
+	// =================================================
+
+	/**
+	 * Converts a double numeric value to formatted String
+	 * 
+	 * @param x
+	 *            number to be converted
+	 * @return formatted number string
+	 */
+	public String format(double x) {
+		StringTemplate highPrecision;
+
+		// override the default decimal place setting if less than 4 decimals
+		if (printDecimals >= 0) {
+			int d = printDecimals < 4 ? 4 : printDecimals;
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
+					d, false);
+		} else {
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
+					printFigures, false);
+		}
+		// get the formatted string
+		String result = kernel.format(x, highPrecision);
+
+		return result;
+	}
+
+	/**
+	 * Adjust local rounding constants to match global rounding constants and
+	 * update GUI when needed
+	 */
+	private void updateRounding() {
+
+		if (kernel.useSignificantFigures) {
+			if (printFigures != kernel.getPrintFigures()) {
+				printFigures = kernel.getPrintFigures();
+				printDecimals = -1;
+				updateGUI();
+			}
+		} else if (printDecimals != kernel.getPrintDecimals()) {
+			printDecimals = kernel.getPrintDecimals();
+			updateGUI();
+		}
+	}
+
+	public int getPrintDecimals() {
+		return printDecimals;
+	}
+
+	public int getPrintFigures() {
+		return printFigures;
+	}
+
+	// =================================================
 	// View Implementation
 	// =================================================
 
@@ -739,10 +749,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	public void update(GeoElement geo) {
 
+		updateRounding();
+
 		if (!isIniting && daCtrl.isInDataSource(geo)) {
-			App.error("updated geo:" + geo.toString());
+			// App.error("updated geo:" + geo.toString());
 			daCtrl.updateDataAnalysisView();
 		}
+
 	}
 
 	final public void updateVisualStyle(GeoElement geo) {
@@ -773,7 +786,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// do nothing
 	}
 
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 		// do nothing
 	}
 

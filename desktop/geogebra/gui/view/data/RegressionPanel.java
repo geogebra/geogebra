@@ -227,7 +227,6 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		try {
 			// prepare number format
 			StringTemplate highPrecision;
-			if (statDialog.doSpecialNumberFormat()) {
 				if (statDialog.getPrintDecimals() >= 0)
 					highPrecision = StringTemplate.printDecimals(
 							StringType.LATEX, statDialog.getPrintDecimals(),
@@ -236,9 +235,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 					highPrecision = StringTemplate.printFigures(
 							StringType.LATEX, statDialog.getPrintFigures(),
 							false);
-			} else {
-				highPrecision = StringTemplate.numericLatex;
-			}
+			
 
 			// no regression
 			if (statDialog.getRegressionMode().equals(Regression.NONE)
