@@ -325,10 +325,21 @@ public class Ggb2MPReduce {
 				"tmpret:=odesolve(sub(list(%1'=df(%1,%2),%1''=df(%1,%2,2)),tmpeqn),%1,%2,append(mkconditions(%2,%1,%3),mkconditions(%2,df(%1,%2),%4)))$" +
 				" nodepend %1,%2; korder varorder!!; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
 		p("Substitute.2",
-				"<<if keepinput!!=1 then <<keepinput!!:=2; sub(%1, !*hold(%0)) >> else begin scalar rulelist!!, replacements!!; replacements!!:=(%1); if arglength(replacements!!)>-1 and part(replacements!!,0)=\\'list then 0 else replacements!!:=list(replacements!!); rulelist!!:= for each element in replacements!! collect part(element,0):=replaceby; return %0 where rulelist!! end>>");
+				"<<if keepinput!!=1 then <<keepinput!!:=2; sub(%1, !*hold(%0)) >> else" +
+				" begin " +
+				" scalar rulelist!!, replacements!!; replacements!!:=(%1); " +
+				" replacements!!:=mkdepthone(list(replacements!!));"+				
+				" rulelist!!:= for each element in replacements!! collect part(element,0):=replaceby; " +
+				" return %0 where rulelist!!" +
+				" end>>");
 		// p("Substitute.3","if hold!!=0 then sub(%1=(%2),%0) else sub(%1=(%2),!*hold(%0))");
 		p("Substitute.3",
-				"<<if keepinput!!=1 then <<keepinput!!:=2; sub(%1=(%2), !*hold(%0)) >> else begin scalar rulelist!!; rulelist!!:=list(%1,%2); rulelist!!:=list(part(rulelist!!,0):=replaceby); return %0 where rulelist!! end>>");
+				"<<if keepinput!!=1 then <<keepinput!!:=2; sub(%1=(%2), !*hold(%0)) >> else " +
+				" begin" +
+				" scalar rulelist!!; rulelist!!:=list(%1,%2);" +
+				" rulelist!!:=list(part(rulelist!!,0):=replaceby);" +
+				" return %0 where rulelist!!" +
+				" end>>");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 		p("Sum.1",
 				"<<begin scalar input!!; input!!:=(%0);return for i:=1:length(input!!) sum part(input!!,i) end>>");
