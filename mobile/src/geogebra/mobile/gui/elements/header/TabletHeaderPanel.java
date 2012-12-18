@@ -32,7 +32,7 @@ public class TabletHeaderPanel extends HeaderPanel
 					@Override
           public void onOk()
           {
-	          TabletHeaderPanel.this.setCenter(TabletHeaderPanel.this.dialog.getText());
+						changeTitle(TabletHeaderPanel.this.dialog.getText());
           }
 
 					@Override
@@ -46,4 +46,16 @@ public class TabletHeaderPanel extends HeaderPanel
 			}
 		}, ClickEvent.getType());
 	}
+	
+	protected void changeTitle(String title)
+	{
+		this.setCenter(title);
+	}
+	
+	@Override
+  public String getTitle()
+	{
+		return this.getElement().getInnerText();
+	}
+	
 }

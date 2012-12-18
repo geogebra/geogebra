@@ -88,7 +88,7 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 	 *          - the callback used when a button of the dialog is taped
 	 */
 
-	public SaveDialog(SaveCallback saveCallback)
+	public SaveDialog(String fileName, SaveCallback saveCallback)
 	{
 		this.callback = saveCallback;
 		this.css = MGWTStyle.getTheme().getMGWTClientBundle().getDialogCss();
@@ -96,7 +96,7 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 		setCloseOnBackgroundClick();
 
 		initDialogPanel();
-		addTextBox("");
+		addTextBox(fileName);
 		setTitleText("Save");
 
 		this.textInput.addKeyUpHandler(new KeyUpHandler()
@@ -123,6 +123,7 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 	{
 		this.textInput = new TextBox();
 		this.textInput.addStyleName("savetextinput");
+		setText(text);
 		this.dialogPanel.getContent().add(this.textInput);
 	}
 
@@ -260,21 +261,4 @@ public class SaveDialog implements HasText, HasTitleText, Dialog
 	{
 		this.popinDialog.setHideOnBackgroundClick(true);
 	}
-
-//	/**
-//	 * Checks, if the filename already exists
-//	 * 
-//	 * @return true if filename is OK
-//	 */
-//	private boolean correctFileName()
-//	{
-//		for (int i = 0; i < this.stockStore.getLength(); i++) {
-//			System.out.println("key: " + this.stockStore.key(i));
-//			System.out.println("input: " + this.textInput.getText());
-//			if(this.stockStore.key(i).equals(this.textInput.getText())) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
 }
