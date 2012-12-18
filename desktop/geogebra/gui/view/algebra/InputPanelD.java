@@ -195,8 +195,14 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 			((AutoCompleteTextFieldD)textComponent).updateCurrentWord(false);
 			((AutoCompleteTextFieldD)textComponent).startAutoCompletion();
 		}
-		
-		textComponent.requestFocus();
+		if (!textComponent.hasFocus()) {
+			if (textComponent instanceof DynamicTextInputPane) {
+				((DynamicTextInputPane) textComponent)
+						.getFocusedTextComponent().requestFocus();
+			} else {
+				textComponent.requestFocus();
+			}
+		}
 	}		
 	
 	public void focusGained(FocusEvent e) {
