@@ -2,6 +2,7 @@ package geogebra.gui.view.data;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -34,49 +35,66 @@ import javax.swing.JTextField;
 
 /**
  * JPanel to display settings options for a ComboStatPanel
+ * 
  * @author G. Sturr
- *
+ * 
  */
-public class OptionsPanel extends JPanel implements PropertyChangeListener, ActionListener, FocusListener, StatPanelInterface{
+public class OptionsPanel extends JPanel implements PropertyChangeListener,
+		ActionListener, FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
 	private DataAnalysisViewD statDialog;
 	private StatPanelSettings settings;
 
-	// histogram  panel components
-	private JCheckBox ckCumulative, ckManual, ckOverlayNormal,ckOverlayPolygon, ckShowFrequencyTable, ckShowHistogram;
-	private JRadioButton rbRelative, rbNormalized,  rbFreq ;
-	private JLabel lblFreqType;
+	// histogram panel GUI
+	private JCheckBox ckCumulative, ckManual, ckOverlayNormal,
+			ckOverlayPolygon, ckShowFrequencyTable, ckShowHistogram;
+	private JRadioButton rbRelative, rbNormalized, rbFreq, rbLeftRule,
+			rbRightRule;
+	private JLabel lblFreqType, lblOverlay, lblClassRule;
+	private JPanel freqPanel, showPanel, dimPanel;
 
-	// graph  panel components
+	// graph panel GUI
 	private JCheckBox ckAutoWindow, ckShowGrid;
-	private JLabel lblXMin, lblXMax, lblYMin, lblYMax, lblXInterval, lblYInterval;
-	private MyTextField fldXMin, fldXMax, fldYMin, fldYMax, fldXInterval, fldYInterval;
+	private JLabel lblXMin, lblXMax, lblYMin, lblYMax, lblXInterval,
+			lblYInterval;
+	private MyTextField fldXMin, fldXMax, fldYMin, fldYMax, fldXInterval,
+			fldYInterval;
+	private boolean showYAxisSettings = true;
 
-	private static final int tab1 = 1;
-	private static final int tab2 = 15;
+	// bar graph panel GUI
+	private JLabel lblBarWidth;
+	private MyTextField fldBarWidth;
+	private JCheckBox ckAutoBarWidth;
 
-	// option panels
-	private JPanel histogramPanel, graphPanel, classesPanel, scatterplotPanel;
+	// box plot panel GUI
+	private JCheckBox ckShowOutliers;
 
-	private JPanel mainPanel;
-	private boolean showYSettings = true;
-	private JTabbedPane tabbedPane;
+	// scatterplot panel GUI
 	private JCheckBox ckShowLines;
-	private JLabel lblOverlay;
 
+	// panels
+	private JPanel histogramPanel, graphPanel, classesPanel, scatterplotPanel,
+			barChartPanel, boxPlotPanel;
+	private JPanel mainPanel;
+	private JTabbedPane tabbedPane;
+
+	// misc fields
+	private static final int tab = 5;
 	private boolean isUpdating = false;
-	private int plotType;
-	private JPanel freqPanel;
-	private JPanel showPanel;
-	private JRadioButton rbLeftRule;
-	private JRadioButton rbRightRule;
-	private JPanel dimPanel;
-	private JLabel lblClassRule;
 
+	private final static int fieldWidth = 8;
 
-	public OptionsPanel(AppD app, DataAnalysisViewD statDialog, StatPanelSettings settings){
+	/************************************************************
+	 * Constructs an OptionPanel
+	 * 
+	 * @param app
+	 * @param statDialog
+	 * @param settings
+	 */
+	public OptionsPanel(AppD app, DataAnalysisViewD statDialog,
+			StatPanelSettings settings) {
 
 		this.app = app;
 		this.statDialog = statDialog;
@@ -86,83 +104,94 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		createHistogramPanel();
 		createGraphPanel();
 		createScatterplotPanel();
-		
+		createBarChartPanel();
+		createBoxPlotPanel();
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.add(histogramPanel);
 		mainPanel.add(scatterplotPanel);
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-		
+		mainPanel.add(barChartPanel);
+		mainPanel.add(boxPlotPanel);
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addFocusListener(this);
 		tabbedPane.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
-		this.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,SystemColor.controlShadow));
-		
+		this.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
+				SystemColor.controlShadow));
+
 		// update
 		setLabels();
 		updateGUI();
-		//this.setPreferredSize(tabbedPane.getPreferredSize());
-		
+		// this.setPreferredSize(tabbedPane.getPreferredSize());
+
 		this.requestFocusInWindow();
 
 	}
 
+	public void setPanel(int plotType) {
 
-	public void setPanel(int plotType){
-
-		this.plotType = plotType;
 		tabbedPane.removeAll();
+		this.setVisible(true);
+
+		// add plot-specific tab
 		String tabTitle = DataDisplayPanel.plotMap.get(plotType);
-		tabbedPane.insertTab(tabTitle, null, new JScrollPane(mainPanel),null, 0);
+		tabbedPane.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
+				0);
+		classesPanel.setVisible(false);
+		histogramPanel.setVisible(false);
+		scatterplotPanel.setVisible(false);
+		barChartPanel.setVisible(false);
+		boxPlotPanel.setVisible(false);
+
+		// add graph tab
 		tabbedPane.addTab(app.getMenu("Graph"), new JScrollPane(graphPanel));
-		showYSettings = true;
-		
-		switch(plotType){
-		
+		graphPanel.setVisible(true);
+		showYAxisSettings = true;
+
+		// set visibility for plot-specific panels
+		switch (plotType) {
+
 		case DataDisplayPanel.PLOT_HISTOGRAM:
 			classesPanel.setVisible(true);
 			histogramPanel.setVisible(true);
-			graphPanel.setVisible(true);
-			scatterplotPanel.setVisible(false);		
 			break;
-			
-		case DataDisplayPanel.PLOT_DOTPLOT:
+
 		case DataDisplayPanel.PLOT_BOXPLOT:
-		case DataDisplayPanel.PLOT_NORMALQUANTILE:
-			tabbedPane.removeTabAt(0);
-			showYSettings = true;
-			classesPanel.setVisible(false);
-			histogramPanel.setVisible(false);
-			graphPanel.setVisible(true);
-			scatterplotPanel.setVisible(false);
+			boxPlotPanel.setVisible(true);
 			break;
-			
-		case DataDisplayPanel.PLOT_SCATTERPLOT:	
-			showYSettings = true;
-			classesPanel.setVisible(false);
-			histogramPanel.setVisible(false);
-			graphPanel.setVisible(true);
+
+		case DataDisplayPanel.PLOT_BARCHART:
+			barChartPanel.setVisible(true);
+			break;
+
+		case DataDisplayPanel.PLOT_SCATTERPLOT:
 			scatterplotPanel.setVisible(true);
 			break;
-			
+
+		// graph tab only
+		case DataDisplayPanel.PLOT_DOTPLOT:
+		case DataDisplayPanel.PLOT_NORMALQUANTILE:
 		case DataDisplayPanel.PLOT_RESIDUAL:
 			tabbedPane.removeTabAt(0);
-			showYSettings = true;
-			classesPanel.setVisible(false);
-			histogramPanel.setVisible(false);
-			graphPanel.setVisible(true);
-			scatterplotPanel.setVisible(false);
 			break;
+			
+		case DataDisplayPanel.PLOT_STEMPLOT:
+			this.setVisible(false);
+			break;
+
+
 		}
 
 		setLabels();
 		updateGUI();
 	}
 
-	private void createHistogramPanel(){
+	private void createHistogramPanel() {
 
 		// create components
 		ckCumulative = new JCheckBox();
@@ -175,9 +204,9 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		rbNormalized = new JRadioButton();
 		rbNormalized.addActionListener(this);
 
-		rbRelative = new JRadioButton();	
+		rbRelative = new JRadioButton();
 		rbRelative.addActionListener(this);
-		
+
 		ButtonGroup g = new ButtonGroup();
 		g.add(rbFreq);
 		g.add(rbNormalized);
@@ -192,230 +221,261 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 
 		ckShowFrequencyTable = new JCheckBox();
 		ckShowFrequencyTable.addActionListener(this);
-		
+
 		ckShowHistogram = new JCheckBox();
 		ckShowHistogram.addActionListener(this);
 
-		ckManual = new JCheckBox();		
+		ckManual = new JCheckBox();
 		ckManual.addActionListener(this);
-		
-		
+
 		lblClassRule = new JLabel();
 		rbLeftRule = new JRadioButton();
 		rbLeftRule.addActionListener(this);
 		rbRightRule = new JRadioButton();
 		rbRightRule.addActionListener(this);
-		
+
 		ButtonGroup g2 = new ButtonGroup();
 		g2.add(rbLeftRule);
 		g2.add(rbRightRule);
-		
-		
+
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx=0;
-		c.weightx=1;
-		c.anchor=GridBagConstraints.LINE_START;
-		
+		c.gridx = 0;
+		c.weightx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+
 		// tab = tab-like constraint
 		GridBagConstraints tab = (GridBagConstraints) c.clone();
-		tab.insets = new Insets(0,20,0,0);	
-		
-		
+		tab.insets = new Insets(0, 20, 0, 0);
+
 		// create frequency type panel
-		freqPanel = new JPanel(new GridBagLayout()); 
-		freqPanel.add(ckCumulative,c);
-		freqPanel.add(rbFreq,tab);
-		freqPanel.add(rbRelative,tab);
-		freqPanel.add(rbNormalized,tab);
-		
-		
+		freqPanel = new JPanel(new GridBagLayout());
+		freqPanel.add(ckCumulative, c);
+		freqPanel.add(rbFreq, tab);
+		freqPanel.add(rbRelative, tab);
+		freqPanel.add(rbNormalized, tab);
+
 		// create show panel
-		showPanel = new JPanel(new GridBagLayout()); 
-		showPanel.add(ckShowHistogram,c);
-		showPanel.add(ckShowFrequencyTable,c);
-		showPanel.add(ckOverlayPolygon,c);
-		showPanel.add(ckOverlayNormal,c);
-		
-		
+		showPanel = new JPanel(new GridBagLayout());
+		showPanel.add(ckShowHistogram, c);
+		showPanel.add(ckShowFrequencyTable, c);
+		showPanel.add(ckOverlayPolygon, c);
+		showPanel.add(ckOverlayNormal, c);
+
 		// create classes panel
 		classesPanel = new JPanel(new GridBagLayout());
-		classesPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("FrequencyType")));
+		classesPanel.setBorder(BorderFactory.createTitledBorder(app
+				.getMenu("FrequencyType")));
 		classesPanel.add(ckManual, c);
-		c.insets.top += 8;   // vertical gap
+		c.insets.top += 8; // vertical gap
 		classesPanel.add(lblClassRule, c);
-		c.insets.top -= 8;   // undo vertical gap
-		classesPanel.add(rbLeftRule, tab);	
-		classesPanel.add(rbRightRule, tab);	
-		
+		c.insets.top -= 8; // undo vertical gap
+		classesPanel.add(rbLeftRule, tab);
+		classesPanel.add(rbRightRule, tab);
+
 		// put the sub-panels together
 		Box vBox = Box.createVerticalBox();
 		vBox.add(classesPanel);
 		vBox.add(freqPanel);
 		vBox.add(showPanel);
-		
+
 		histogramPanel = new JPanel(new BorderLayout());
 		histogramPanel.add(vBox, BorderLayout.NORTH);
 		histogramPanel.setBorder(BorderFactory.createEmptyBorder());
-		
+
 	}
 
-	
-
-
-	private void createScatterplotPanel(){
+	private void createBarChartPanel() {
 
 		// create components
-		ckShowLines = new JCheckBox();		
+		ckAutoBarWidth = new JCheckBox();
+		ckAutoBarWidth.addActionListener(this);
+		lblBarWidth = new JLabel();
+		fldBarWidth = new MyTextField(app, fieldWidth);
+		fldBarWidth.setEditable(true);
+		fldBarWidth.addActionListener(this);
+		fldBarWidth.addFocusListener(this);
+
+		// layout
+		Box p = Box.createVerticalBox();
+		p.add(LayoutUtil.flowPanel(ckAutoBarWidth));
+		p.add(LayoutUtil.flowPanel(tab, lblBarWidth, fldBarWidth));
+
+		barChartPanel = new JPanel(new BorderLayout());
+		barChartPanel.add(p, BorderLayout.NORTH);
+
+	}
+
+	private void createBoxPlotPanel() {
+
+		// create components
+		ckShowOutliers = new JCheckBox();
+		ckShowOutliers.addActionListener(this);
+
+		// layout
+		Box p = Box.createVerticalBox();
+		p.add(LayoutUtil.flowPanel(ckShowOutliers));
+
+		boxPlotPanel = new JPanel(new BorderLayout());
+		boxPlotPanel.add(p, BorderLayout.NORTH);
+
+	}
+
+	private void createScatterplotPanel() {
+
+		// create components
+		ckShowLines = new JCheckBox();
 		ckShowLines.addActionListener(this);
 
 		// layout
 		Box p = Box.createVerticalBox();
-		p.add(insetPanel(tab1,ckShowLines));	
+		p.add(insetPanel(tab, ckShowLines));
 
 		scatterplotPanel = new JPanel(new BorderLayout());
-		scatterplotPanel.add(p, BorderLayout.NORTH);	
+		scatterplotPanel.add(p, BorderLayout.NORTH);
 	}
 
-
-
-
-	private void createGraphPanel(){
-
-		int fieldWidth = 8;
+	private void createGraphPanel() {
 
 		// create components
-		ckAutoWindow = new JCheckBox();		
+		ckAutoWindow = new JCheckBox();
 		ckAutoWindow.addActionListener(this);
 
-		ckShowGrid = new JCheckBox();		
+		ckShowGrid = new JCheckBox();
 		ckShowGrid.addActionListener(this);
 
 		lblXMin = new JLabel();
-		fldXMin = new MyTextField(app,fieldWidth);
+		fldXMin = new MyTextField(app, fieldWidth);
 		fldXMin.setEditable(true);
 		fldXMin.addActionListener(this);
 		fldXMin.addFocusListener(this);
-		
+
 		lblXMax = new JLabel();
-		fldXMax = new MyTextField(app,fieldWidth);
+		fldXMax = new MyTextField(app, fieldWidth);
 		fldXMax.addActionListener(this);
 		fldXMax.addFocusListener(this);
-		
+
 		lblYMin = new JLabel();
-		fldYMin = new MyTextField(app,fieldWidth);
+		fldYMin = new MyTextField(app, fieldWidth);
 		fldYMin.addActionListener(this);
 		fldYMin.addFocusListener(this);
-		
+
 		lblYMax = new JLabel();
-		fldYMax = new MyTextField(app,fieldWidth);
+		fldYMax = new MyTextField(app, fieldWidth);
 		fldYMax.addActionListener(this);
 		fldYMax.addFocusListener(this);
-		
+
 		lblXInterval = new JLabel();
-		fldXInterval = new MyTextField(app,fieldWidth);
+		fldXInterval = new MyTextField(app, fieldWidth);
 		fldXInterval.addActionListener(this);
 		fldXInterval.addFocusListener(this);
-		
+
 		lblYInterval = new JLabel();
-		fldYInterval = new MyTextField(app,fieldWidth);
+		fldYInterval = new MyTextField(app, fieldWidth);
 		fldYInterval.addActionListener(this);
 		fldYInterval.addFocusListener(this);
-		
+
 		// create graph options panel
 		JPanel graphOptionsPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx=0;
-		c.weightx=1;
-		c.anchor=GridBagConstraints.LINE_START;
-		graphOptionsPanel.add(ckShowGrid,c);
-		c.insets = new Insets(0,0,4,0);
-		graphOptionsPanel.add(ckAutoWindow,c);
-		
-		
+		c.gridx = 0;
+		c.weightx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		graphOptionsPanel.add(ckShowGrid, c);
+		c.insets = new Insets(0, 0, 4, 0);
+		graphOptionsPanel.add(ckAutoWindow, c);
+
 		// create window dimensions panel
 		dimPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c1 = new GridBagConstraints();
-		c1.gridx=0;
-		c1.gridy=0;
-		c1.weightx=0;
-		c1.insets = new Insets(2,10,0,0);
-		c1.anchor=GridBagConstraints.EAST;
-		
+		c1.gridx = 0;
+		c1.gridy = 0;
+		c1.weightx = 0;
+		c1.insets = new Insets(2, 10, 0, 0);
+		c1.anchor = GridBagConstraints.EAST;
+
 		GridBagConstraints c2 = new GridBagConstraints();
-		c2.gridx=1;
-		c2.gridy=0;
-		c2.weightx=1;
+		c2.gridx = 1;
+		c2.gridy = 0;
+		c2.weightx = 1;
 		c2.insets = c1.insets;
-		c2.anchor=GridBagConstraints.WEST;
-		
+		c2.anchor = GridBagConstraints.WEST;
+
 		// x dimensions
-		dimPanel.add(lblXMin,c1);
-		dimPanel.add(fldXMin,c2);
-		
-		c1.gridy ++; c2.gridy ++;
-		dimPanel.add(lblXMax,c1);
-		dimPanel.add(fldXMax,c2);
-		
-		c1.gridy ++; c2.gridy ++;
-		dimPanel.add(lblXInterval,c1);
-		dimPanel.add(fldXInterval,c2);
-		
+		dimPanel.add(lblXMin, c1);
+		dimPanel.add(fldXMin, c2);
+
+		c1.gridy++;
+		c2.gridy++;
+		dimPanel.add(lblXMax, c1);
+		dimPanel.add(fldXMax, c2);
+
+		c1.gridy++;
+		c2.gridy++;
+		dimPanel.add(lblXInterval, c1);
+		dimPanel.add(fldXInterval, c2);
+
 		// y dimensions
 		c1.insets.top += 8; // add vertical gap
-		c1.gridy ++; c2.gridy ++;
-		dimPanel.add(lblYMin,c1);
-		dimPanel.add(fldYMin,c2);
+		c1.gridy++;
+		c2.gridy++;
+		dimPanel.add(lblYMin, c1);
+		dimPanel.add(fldYMin, c2);
 		c1.insets.top -= 8; // remove vertical gap
-		
-		c1.gridy ++; c2.gridy ++;
-		dimPanel.add(lblYMax,c1);
-		dimPanel.add(fldYMax,c2);
-		
-		c1.gridy ++; c2.gridy ++;
-		dimPanel.add(lblYInterval,c1);
-		dimPanel.add(fldYInterval,c2);
-		
-		
+
+		c1.gridy++;
+		c2.gridy++;
+		dimPanel.add(lblYMax, c1);
+		dimPanel.add(fldYMax, c2);
+
+		c1.gridy++;
+		c2.gridy++;
+		dimPanel.add(lblYInterval, c1);
+		dimPanel.add(fldYInterval, c2);
+
 		// put the sub-panels together
 		Box vBox = Box.createVerticalBox();
 		vBox.add(graphOptionsPanel);
 		vBox.add(dimPanel);
-		
+
 		graphPanel = new JPanel(new BorderLayout());
 		graphPanel.add(vBox, BorderLayout.NORTH);
 		graphPanel.setBorder(BorderFactory.createEmptyBorder());
 
 	}
 
-	private static JComponent insetPanelRight(int inset, JComponent... comp){
+	private static JComponent insetPanelRight(int inset, JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		for(int i = 0; i<comp.length; i++){
+		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
 		}
-		p.add(Box.createRigidArea(new Dimension(10,0)));
+		p.add(Box.createRigidArea(new Dimension(10, 0)));
 		p.setBorder(BorderFactory.createEmptyBorder(2, inset, 0, 0));
 		return p;
 	}
 
-	private static JComponent insetPanel(int inset, JComponent... comp){
+	private static JComponent insetPanel(int inset, JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for(int i = 0; i<comp.length; i++){
+		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
 		}
 		p.setBorder(BorderFactory.createEmptyBorder(2, inset, 0, 0));
 		return p;
 	}
 
-	public void setLabels(){
-		
+	public void setLabels() {
+
 		// titled borders
-		classesPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Classes")));				
-		showPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Show")));
-		freqPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("FrequencyType")));
-		dimPanel.setBorder(BorderFactory.createTitledBorder(app.getPlain("Dimensions")));
-		
+		classesPanel.setBorder(BorderFactory.createTitledBorder(app
+				.getMenu("Classes")));
+		showPanel.setBorder(BorderFactory.createTitledBorder(app
+				.getMenu("Show")));
+		freqPanel.setBorder(BorderFactory.createTitledBorder(app
+				.getMenu("FrequencyType")));
+		dimPanel.setBorder(BorderFactory.createTitledBorder(app
+				.getPlain("Dimensions")));
+
 		// histogram options
-		ckManual.setText(app.getMenu("SetClasssesManually"));		
+		ckManual.setText(app.getMenu("SetClasssesManually"));
 		lblFreqType.setText(app.getMenu("FrequencyType") + ":");
 
 		rbFreq.setText(app.getMenu("Count"));
@@ -432,7 +492,11 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		lblClassRule.setText(app.getMenu("ClassRule") + ":");
 		rbRightRule.setText(app.getMenu("RightClassRule"));
 		rbLeftRule.setText(app.getMenu("LeftClassRule"));
-		
+
+		// bar chart
+		lblBarWidth.setText(app.getMenu("Width"));
+		ckAutoBarWidth.setText(app.getMenu("AutoDimension"));
+
 		// graph options
 		ckAutoWindow.setText(app.getMenu("AutoDimension"));
 		ckShowGrid.setText(app.getPlain("ShowGrid"));
@@ -444,39 +508,44 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		lblXInterval.setText(app.getPlain("xstep") + ":");
 		lblYInterval.setText(app.getPlain("ystep") + ":");
 
+		// scatterplot options
 		ckShowLines.setText(app.getMenu("LineGraph"));
-		
+
+		// boxplot options
+		ckShowOutliers.setText(app.getPlain("ShowOutliers"));
+
 		repaint();
 	}
 
+	private void updateGUI() {
 
-	private void updateGUI(){
+		// set updating flag so we don't have to add/remove action listeners
+		isUpdating = true;
 
-		isUpdating  = true;
+		ckManual.setSelected(settings.useManualClasses);
 
-		ckManual.setSelected(settings.useManualClasses);	
-		
 		rbFreq.setSelected(settings.frequencyType == StatPanelSettings.TYPE_COUNT);
-		rbRelative.setSelected(settings.frequencyType == StatPanelSettings.TYPE_RELATIVE);
-		rbNormalized.setSelected(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
-		
+		rbRelative
+				.setSelected(settings.frequencyType == StatPanelSettings.TYPE_RELATIVE);
+		rbNormalized
+				.setSelected(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
+
 		rbLeftRule.setSelected(settings.isLeftRule);
-		
-		ckCumulative.setSelected(settings.isCumulative);	
-		ckOverlayNormal.setSelected(settings.hasOverlayNormal);	
-		ckOverlayPolygon.setSelected(settings.hasOverlayPolygon);	
-		ckShowGrid.setSelected(settings.showGrid);	
+
+		ckCumulative.setSelected(settings.isCumulative);
+		ckOverlayNormal.setSelected(settings.hasOverlayNormal);
+		ckOverlayPolygon.setSelected(settings.hasOverlayPolygon);
+		ckShowGrid.setSelected(settings.showGrid);
 		ckAutoWindow.setSelected(settings.isAutomaticWindow);
 		ckShowFrequencyTable.setSelected(settings.showFrequencyTable);
 		ckShowHistogram.setSelected(settings.showHistogram);
 
-
-		lblYMin.setVisible(showYSettings);
-		fldYMin.setVisible(showYSettings);
-		lblYMax.setVisible(showYSettings);
-		fldYMax.setVisible(showYSettings);
-		lblYInterval.setVisible(showYSettings);
-		fldYInterval.setVisible(showYSettings);
+		lblYMin.setVisible(showYAxisSettings);
+		fldYMin.setVisible(showYAxisSettings);
+		lblYMax.setVisible(showYAxisSettings);
+		fldYMax.setVisible(showYAxisSettings);
+		lblYInterval.setVisible(showYAxisSettings);
+		fldYInterval.setVisible(showYAxisSettings);
 
 		// enable/disable window dimension components
 		dimPanel.setEnabled(!ckAutoWindow.isSelected());
@@ -494,59 +563,67 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		lblYMax.setEnabled(!ckAutoWindow.isSelected());
 		lblYInterval.setEnabled(!ckAutoWindow.isSelected());
 
-		
 		// enable/disable normal overlay option
-		ckOverlayNormal.setEnabled(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
-		
-		if(ckAutoWindow.isSelected()){
+		ckOverlayNormal
+				.setEnabled(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
+
+		if (ckAutoWindow.isSelected()) {
 			fldXMin.setText("" + statDialog.format(settings.xMin));
 			fldXMax.setText("" + statDialog.format(settings.xMax));
-			fldXInterval.setText("" + statDialog.format(settings.xAxesInterval));
-			
+			fldXInterval
+					.setText("" + statDialog.format(settings.xAxesInterval));
+
 			fldYMin.setText("" + statDialog.format(settings.yMin));
 			fldYMax.setText("" + statDialog.format(settings.yMax));
-			fldYInterval.setText("" + statDialog.format(settings.yAxesInterval));
-			
+			fldYInterval
+					.setText("" + statDialog.format(settings.yAxesInterval));
 		}
 
-		isUpdating  = false;
+		// update bar chart panel
+		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth);
+		fldBarWidth.setText("" + settings.barWidth);
+		fldBarWidth.setEnabled(!ckAutoBarWidth.isSelected());
+
+		// update show outliers
+		ckShowOutliers.setSelected(settings.showOutliers);
+
+		isUpdating = false;
 		repaint();
 	}
 
-
 	private void doTextFieldActionPerformed(JTextField source) {
-		if(isUpdating) return;
+		if (isUpdating)
+			return;
 		try {
 			String inputText = source.getText().trim();
 			NumberValue nv;
-			nv = app.getKernel().getAlgebraProcessor().evaluateToNumeric(inputText, false);		
+			nv = app.getKernel().getAlgebraProcessor()
+					.evaluateToNumeric(inputText, false);
 			double value = nv.getDouble();
 
-			if(source == fldXMin){
-				settings.xMin = value;  
+			if (source == fldXMin) {
+				settings.xMin = value;
 				firePropertyChange("settings", true, false);
-			}
-			else if(source == fldXMax){
+			} else if (source == fldXMax) {
 				settings.xMax = value;
 				firePropertyChange("settings", true, false);
-			}
-			else if(source == fldYMax){
+			} else if (source == fldYMax) {
 				settings.yMax = value;
 				firePropertyChange("settings", true, false);
-			}
-			else if(source == fldYMin){
+			} else if (source == fldYMin) {
 				settings.yMin = value;
 				firePropertyChange("settings", true, false);
-			}
-			else if(source == fldXInterval){
+			} else if (source == fldXInterval) {
 				settings.xAxesInterval = value;
 				firePropertyChange("settings", true, false);
-			}
-			else if(source == fldYInterval){
+			} else if (source == fldYInterval) {
 				settings.yAxesInterval = value;
 				firePropertyChange("settings", true, false);
+			} else if (source == fldBarWidth) {
+				settings.barWidth = value;
+				firePropertyChange("settings", true, false);
 			}
-						
+
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -554,70 +631,62 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 
 	public void actionPerformed(ActionEvent e) {
 
-		if(isUpdating) return;
+		if (isUpdating)
+			return;
 
-		Object source  = e.getSource();
-		if(source instanceof JTextField){
+		Object source = e.getSource();
+		if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
 		}
 
-		else if(source == ckManual){
+		else if (source == ckManual) {
 			settings.useManualClasses = ckManual.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == ckCumulative){
+		} else if (source == ckCumulative) {
 			settings.isCumulative = ckCumulative.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == rbFreq){
+		} else if (source == rbFreq) {
 			settings.frequencyType = StatPanelSettings.TYPE_COUNT;
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == rbRelative){
+		} else if (source == rbRelative) {
 			settings.frequencyType = StatPanelSettings.TYPE_RELATIVE;
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == rbNormalized){
+		} else if (source == rbNormalized) {
 			settings.frequencyType = StatPanelSettings.TYPE_NORMALIZED;
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == ckOverlayNormal){
+		} else if (source == ckOverlayNormal) {
 			settings.hasOverlayNormal = ckOverlayNormal.isSelected();
 			firePropertyChange("settings", true, false);
-		}	
-		else if(source == ckOverlayPolygon){
+		} else if (source == ckOverlayPolygon) {
 			settings.hasOverlayPolygon = ckOverlayPolygon.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == ckShowGrid){
+		} else if (source == ckShowGrid) {
 			settings.showGrid = ckShowGrid.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == ckAutoWindow){
+		} else if (source == ckAutoWindow) {
 			settings.isAutomaticWindow = ckAutoWindow.isSelected();
-			
 			settings.xAxesIntervalAuto = ckAutoWindow.isSelected();
 			settings.yAxesIntervalAuto = ckAutoWindow.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == ckShowFrequencyTable){
+		} else if (source == ckShowFrequencyTable) {
 			settings.showFrequencyTable = ckShowFrequencyTable.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == ckShowHistogram){
+		} else if (source == ckShowHistogram) {
 			settings.showHistogram = ckShowHistogram.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == rbLeftRule || source == rbRightRule){
+		} else if (source == rbLeftRule || source == rbRightRule) {
 			settings.isLeftRule = rbLeftRule.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		else if(source == this.ckShowLines){
+		} else if (source == ckShowLines) {
 			settings.showScatterplotLine = ckShowLines.isSelected();
 			firePropertyChange("settings", true, false);
-		}
-		
-		else{
+		} else if (source == ckShowOutliers) {
+			settings.showOutliers = ckShowOutliers.isSelected();
+			firePropertyChange("settings", true, false);
+		} else if (source == ckAutoBarWidth) {
+			settings.isAutomaticBarWidth = ckAutoBarWidth.isSelected();
+			firePropertyChange("settings", true, false);
+		} else {
 			firePropertyChange("settings", true, false);
 		}
 
@@ -629,30 +698,26 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 
 	}
 
-
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	public void focusLost(FocusEvent e) {
-		if(e.getSource() instanceof JTextField){
-			doTextFieldActionPerformed((JTextField)(e.getSource()));
+	public void focusGained(FocusEvent e) {
+		if (e.getSource() instanceof JTextField) {
+			((JTextField) e.getSource()).selectAll();
 		}
 	}
 
+	public void focusLost(FocusEvent e) {
+		if (e.getSource() instanceof JTextField) {
+			doTextFieldActionPerformed((JTextField) (e.getSource()));
+		}
+	}
 
 	public void updateFonts(Font font) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public void updatePanel() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

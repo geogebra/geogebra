@@ -874,8 +874,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 						.getSelectedItem());
 				updatePlot(true);
 			}
-			optionsPanel.setVisible(false);
-			btnOptions.setSelected(false);
+			
+			if(optionsPanel.isVisible()){
+				optionsPanel.setPanel(selectedPlot);
+			}
 		}
 
 	}
