@@ -7,7 +7,9 @@
 
 # Cleanup
 cleanup() {
+ echo "* Got $1 signal..."
  LASTEXITCODE=$?
+ # Maybe this code could be simplified since the EXIT signal will not be trapped.
  test -r $WEBDIR/src/geogebra/Web.gwt.xml.orig && {
   echo "* Cleaning up: putting back original Web.gwt.xml"
   cd $WEBDIR/src/geogebra
@@ -20,8 +22,18 @@ cleanup() {
    rm $i
    }
   done
-  
+
+ trap 0 # do not do a second cleanup now
+
  exit $LASTEXITCODE
+}
+
+# This will catch the signal number as well,
+# taken from http://stackoverflow.com/a/2183063
+trapper() {
+ for i; do
+  trap "cleanup $i" "$i"
+ done
 }
 
 # Sets the classpath. This must be fine tuned
@@ -136,7 +148,11 @@ LOCALES=""
 PROJECT=web
 HEAPSIZE=2048m
 
-trap "cleanup" EXIT 2 9 15
+# To detect compilation problems it is important
+# to know which signal was sent by the compiler.
+# That's why we trap all possible signals
+# and do both a signal logging and cleanup.
+trapper `seq 0 16` `seq 18 64` # SIGCHILD is not trapped
 
 # 3. Reading command line arguments
 while [ $# -gt 0 ]; do
