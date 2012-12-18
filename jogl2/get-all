@@ -4,3 +4,7 @@
 TARGET=lib
 mkdir -p $TARGET
 cat kickstart.xml | grep http | grep "\.jar" | cut -f2 -d\" | xargs wget -N -P $TARGET
+for i in lib/jogl-all-natives*; do
+ j=`echo $i | sed s/jogl\-all/jogl.all/`
+ cp $i $j
+ done
