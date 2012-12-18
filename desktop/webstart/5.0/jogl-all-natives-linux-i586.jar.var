@@ -1,8 +1,0 @@
-URI: jogl-all-natives-linux-i586.jar
-
-URI: packed/jogl-all-natives-linux-i586.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
-URI: unpacked/jogl-all-natives-linux-i586.jar
-Content-Type: x-java-archive
