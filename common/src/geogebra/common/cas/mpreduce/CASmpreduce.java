@@ -491,7 +491,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				.evaluate("intrules!!:={"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
 						+ "int(~w/(~x+~a),~x) => w*log(abs(x+a)) when freeof(w,x) and freeof(a,x),"
-						+ "int((~b*~x+~w)/(~x+~a),~x) => int((b*xw)/(x+a),x)+w*log(abs(x+a)) when freeof(w,x) and freeof(a,x) and freeof(b,x),"
+						+ "int((~b*~x+~w)/(~x+~a),~x) => int((b*x)/(x+a),x)+w*log(abs(x+a)) when freeof(w,x) and freeof(a,x) and freeof(b,x),"
 						+ "int((~a*~x+~w)/~x,~x) => int(a,x)+w*log(abs(x)) when freeof(w,x) and freeof(a,x),"
 						+ "int((~x+~w)/~x,~x) => x+w*log(abs(x)) when freeof(w,x),"
 						+ "int(tan(~x),~x) => log(abs(sec(x))),"
