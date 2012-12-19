@@ -254,7 +254,7 @@ public class DrawParametricCurve extends Drawable {
 		// plot Interval [t1, t2]
 		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
 				gp, calcLabelPos, moveToAllowed);
-		if(moveToAllowed==Gap.CORNER){
+		if(moveToAllowed==Gap.CORNER && gp.firstPoint()!=null){
 			corner(gp,gp.firstPoint().x,gp.firstPoint().y,view);
 			gp.closePath();
 		}
