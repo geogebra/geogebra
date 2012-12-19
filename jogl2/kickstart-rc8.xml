@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+   GeoGebra kickstart build script    
+   @author Zoltan Kovacs <zoltan@geogebra.org>
+-->
+
+<project default="jogl2">
+
+	<!-- these targets should come from the GeoGebra repository (currently) -->
+	<target name="jogl2" depends="jogl2-geogebra"/>
+
+	<!-- detecting operating system and architecture -->
+	<condition property="winnt-x86">
+		<os family="winnt" arch="x86"/>
+	</condition>
+
+	<condition property="winnt-amd64">
+		<os family="winnt" arch="amd64"/>
+	</condition>
+
+	<condition property="winnt">
+		<os family="winnt"/>
+	</condition>
+
+	<condition property="mac">
+		<os family="mac"/>
+	</condition>
+
+	<condition property="unix-i386">
+		<os family="unix" arch="i386"/>
+	</condition>
+
+	<condition property="unix-amd64">
+		<os family="unix" arch="amd64"/>
+	</condition>
+
+	<!-- dowload jogl2 from GeoGebra repository -->
+	<target name="jogl2-geogebra"
+	    depends="jogl2-linux-amd64-geogebra, jogl2-linux-i586-geogebra, jogl2-macosx-geogebra, jogl2-windows-i586-geogebra, jogl2-windows-amd64-geogebra">
+	<mkdir dir="lib"/>
+	<!-- Getting common parts -->
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt.jar"
+	    dest="lib/gluegen-rt.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl.all.jar"
+	    dest="lib/jogl.all.jar" usetimestamp="true"/>
+	</target>	    
+
+	<target name="jogl2-linux-amd64-geogebra" if="unix-amd64">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-linux-amd64.jar"
+	    dest="lib/jogl-all-natives-linux-amd64.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-linux-amd64.jar"
+	    dest="lib/gluegen-rt-natives-linux-amd64.jar" usetimestamp="true"/>
+	</target>
+
+	<target name="jogl2-linux-i586-geogebra" if="unix-i386">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-linux-i586.jar"
+	    dest="lib/jogl-all-natives-linux-i586.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-linux-i586.jar"
+	    dest="lib/gluegen-rt-natives-linux-i586.jar" usetimestamp="true"/>
+	</target>
+
+	<target name="jogl2-macosx-geogebra" if="mac">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-macosx-universal.jar"
+	    dest="lib/jogl-all-natives-macosx-universal.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-macosx-universal.jar"
+	    dest="lib/gluegen-rt-natives-macosx-universal.jar" usetimestamp="true"/>
+	</target>
+
+	<target name="jogl2-windows-amd64-geogebra" if="winnt-amd64">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-windows-amd64.jar"
+	    dest="lib/jogl-all-natives-windows-amd64.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-windows-amd64.jar"
+	    dest="lib/gluegen-rt-natives-windows-amd64.jar" usetimestamp="true"/>
+	</target>
+	
+	<target name="jogl2-windows-i586-geogebra" if="winnt-x86">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-windows-i586.jar"
+	    dest="lib/jogl-all-natives-windows-i586.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-windows-i586.jar"
+	    dest="lib/gluegen-rt-natives-windows-i586.jar" usetimestamp="true"/>
+	</target>
+
+</project>
