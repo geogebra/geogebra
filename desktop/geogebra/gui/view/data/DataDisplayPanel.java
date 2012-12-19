@@ -571,17 +571,17 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			plotMap = new HashMap<Integer, String>();
 
 		plotMap.clear();
-		plotMap.put(PLOT_HISTOGRAM, app.getMenu("Histogram"));
-		plotMap.put(PLOT_BOXPLOT, app.getMenu("Boxplot"));
-		plotMap.put(PLOT_DOTPLOT, app.getMenu("DotPlot"));
-		plotMap.put(PLOT_NORMALQUANTILE, app.getMenu("NormalQuantilePlot"));
-		plotMap.put(PLOT_STEMPLOT, app.getMenu("StemPlot"));
-		plotMap.put(PLOT_BARCHART, app.getMenu("BarChart"));
+		plotMap.put(PLOT_HISTOGRAM,  unique(app.getMenu("Histogram")));
+		plotMap.put(PLOT_BOXPLOT, unique(app.getMenu("Boxplot")));
+		plotMap.put(PLOT_DOTPLOT, unique(app.getMenu("DotPlot")));
+		plotMap.put(PLOT_NORMALQUANTILE, unique(app.getMenu("NormalQuantilePlot")));
+		plotMap.put(PLOT_STEMPLOT, unique(app.getMenu("StemPlot")));
+		plotMap.put(PLOT_BARCHART, unique(app.getMenu("BarChart")));
 
-		plotMap.put(PLOT_SCATTERPLOT, app.getMenu("Scatterplot"));
-		plotMap.put(PLOT_RESIDUAL, app.getMenu("ResidualPlot"));
+		plotMap.put(PLOT_SCATTERPLOT, unique(app.getMenu("Scatterplot")));
+		plotMap.put(PLOT_RESIDUAL, unique(app.getMenu("ResidualPlot")));
 
-		plotMap.put(PLOT_MULTIBOXPLOT, app.getMenu("StackedBoxPlots"));
+		plotMap.put(PLOT_MULTIBOXPLOT, unique(app.getMenu("StackedBoxPlots")));
 
 		// REVERSE PLOT MAP
 		plotMapReverse = new HashMap<String, Integer>();
@@ -591,6 +591,15 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	}
 
+	/**
+	 * Ensures that a menu string is unique
+	 * @param menuString
+	 * @return
+	 */
+	private String unique(String menuString){
+		return plotMap.containsValue(menuString)? menuString + " " : menuString;
+	}
+	
 	public JPopupMenu getExportMenu() {
 		return plotPanel.getContextMenu();
 	}
