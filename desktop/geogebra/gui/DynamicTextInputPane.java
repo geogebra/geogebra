@@ -85,14 +85,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return focusedTextComponent;
 	}
 
-	@Override
-	public boolean hasFocus() {
-		if (focusedTextComponent == null) {
-			return false;
-		}
-		return focusedTextComponent.hasFocus();
-	}
-
+	
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof JTextComponent) {
 			focusedTextComponent = (JTextComponent) e.getSource();
