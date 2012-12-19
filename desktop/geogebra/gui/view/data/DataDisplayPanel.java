@@ -5,7 +5,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.main.App;
-import geogebra.common.util.Language;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
@@ -31,12 +30,10 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -67,23 +64,36 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb fields
-	private AppD app;
+	AppD app;
 	private DataAnalysisViewD daView;
 	private StatGeo statGeo;
 
 	// data view mode
 	private int mode;
 	
+	@SuppressWarnings("javadoc")
 	public enum PlotType { HISTOGRAM("Histogram"), BOXPLOT("BoxPlot"), DOTPLOT("DotPlot"), NORMALQUANTILE("NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART("BarChart"), SCATTERPLOT("ScatterPlot"), RESIDUAL("ResidualPlot"), MULTIBOXPLOT("StackedBoxPlots");
 	
+	/**
+	 * the associated key from menu.properties
+	 * app.getMenu(key) gives the translation (for the menu) in the current locale
+	 */
 	public String key;
 
 	PlotType(String key) {
 		this.key = key;
 		
 	}
+
+	/**
+	 * @param app AppD
+	 * @return translated key for the current locale eg "StemPlot" -> "Stem and Leaf Diagram" in en_GB
+	 */
+	public String getTranslatedKey(AppD app) {
+		return app.getMenu(key);
+	}
 	
-	};
+	}
 
 	/*
 	// one variable plot types
@@ -105,14 +115,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	// currently selected plot type
 	private PlotType selectedPlot;
 
-	// plot reference
-	protected static HashMap<PlotType, String> plotMap;
-	private HashMap<String, PlotType> plotMapReverse;
+	StatPanelSettings settings;
 
-	private StatPanelSettings settings;
-
-	// geos
-	private GeoList regressionAnalysisList;
 	private ArrayList<GeoElement> plotGeoList;
 
 	private GeoElement[] boxPlotTitles;
@@ -147,7 +151,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private JLabel lblWidth;
 	private AutoCompleteTextFieldD fldStart;
 	private AutoCompleteTextFieldD fldWidth;
-	private JLabel lblNumClasses;
 
 	// stemplot adjustment panel
 	private JToolBar stemAdjustPanel;
@@ -162,10 +165,11 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private MyTextField fldTitleX, fldTitleY;
 	private FrequencyTablePanel frequencyTable;
 	private JToggleButton btnExport;
-	private JTextField fldNumClasses;
+	JTextField fldNumClasses;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
+	 * @param daView daView
 	 */
 	public DataDisplayPanel(DataAnalysisViewD daView) {
 
@@ -174,7 +178,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		this.statGeo = daView.getStatGeo();
 		plotGeoList = new ArrayList<GeoElement>();
 
-		createPlotMap();
 		createGUI();
 
 	}
@@ -331,7 +334,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	 */
 	public void setLabels() {
 
-		createPlotMap();
 		createDisplayTypeComboBox();
 		sliderNumClasses.setToolTipText(app.getMenu("Classes"));
 		fldNumClasses.setToolTipText(app.getMenu("Classes"));
@@ -355,7 +357,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		if (cbDisplayType == null) {
 			cbDisplayType = new JComboBox();
-			cbDisplayType.setRenderer(new MyRenderer());
+			cbDisplayType.setRenderer(new MyRenderer(app));
 
 		} else {
 			cbDisplayType.removeActionListener(this);
@@ -367,40 +369,40 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		case DataAnalysisViewD.MODE_ONEVAR:
 
 			if (!daView.isNumericData()) {
-				cbDisplayType.addItem(plotMap.get(PlotType.BARCHART));
+				cbDisplayType.addItem(PlotType.BARCHART);
 			}
 
 			else if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
-				cbDisplayType.addItem(plotMap.get(PlotType.HISTOGRAM));
-				cbDisplayType.addItem(plotMap.get(PlotType.BARCHART));
-				cbDisplayType.addItem(plotMap.get(PlotType.BOXPLOT));
-				cbDisplayType.addItem(plotMap.get(PlotType.DOTPLOT));
-				cbDisplayType.addItem(plotMap.get(PlotType.STEMPLOT));
-				cbDisplayType.addItem(plotMap.get(PlotType.NORMALQUANTILE));
+				cbDisplayType.addItem(PlotType.HISTOGRAM);
+				cbDisplayType.addItem(PlotType.BARCHART);
+				cbDisplayType.addItem(PlotType.BOXPLOT);
+				cbDisplayType.addItem(PlotType.DOTPLOT);
+				cbDisplayType.addItem(PlotType.STEMPLOT);
+				cbDisplayType.addItem(PlotType.NORMALQUANTILE);
 			}
 
 			else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-				cbDisplayType.addItem(plotMap.get(PlotType.HISTOGRAM));
-				cbDisplayType.addItem(plotMap.get(PlotType.BARCHART));
-				cbDisplayType.addItem(plotMap.get(PlotType.BOXPLOT));
+				cbDisplayType.addItem(PlotType.HISTOGRAM);
+				cbDisplayType.addItem(PlotType.BARCHART);
+				cbDisplayType.addItem(PlotType.BOXPLOT);
 
 			} else if (settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
-				cbDisplayType.addItem(plotMap.get(PlotType.HISTOGRAM));
+				cbDisplayType.addItem(PlotType.HISTOGRAM);
 			}
 
 			break;
 
 		case DataAnalysisViewD.MODE_REGRESSION:
-			cbDisplayType.addItem(plotMap.get(PlotType.SCATTERPLOT));
-			cbDisplayType.addItem(plotMap.get(PlotType.RESIDUAL));
+			cbDisplayType.addItem(PlotType.SCATTERPLOT);
+			cbDisplayType.addItem(PlotType.RESIDUAL);
 			break;
 
 		case DataAnalysisViewD.MODE_MULTIVAR:
-			cbDisplayType.addItem(plotMap.get(PlotType.MULTIBOXPLOT));
+			cbDisplayType.addItem(PlotType.MULTIBOXPLOT);
 			break;
 		}
 
-		cbDisplayType.setSelectedItem(plotMap.get(selectedPlot));
+		cbDisplayType.setSelectedItem(selectedPlot);
 		cbDisplayType.setFocusable(false);
 		cbDisplayType.addActionListener(this);
 		cbDisplayType.setMaximumRowCount(cbDisplayType.getItemCount());
@@ -471,7 +473,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	 */
 	private void createNumClassesPanel() {
 
-		lblNumClasses = new JLabel();
 		fldNumClasses = new JTextField("" + settings.numClasses);
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setOpaque(true);
@@ -572,43 +573,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		manualClassesPanel.add(Box.createHorizontalStrut(4));
 		manualClassesPanel.add(lblWidth);
 		manualClassesPanel.add(fldWidth);
-
-	}
-
-	/**
-	 * Creates two hash maps for JComboBox selections, 1) plotMap: Key = integer
-	 * display type, Value = JComboBox menu string 2) plotMapReverse: Key =
-	 * JComboBox menu string, Value = integer display type
-	 */
-	private void createPlotMap() {
-		if (plotMap == null) {
-			plotMap = new HashMap<PlotType, String>();
-		} else {
-			plotMap.clear();			
-		}
-		
-		if (plotMapReverse == null) {
-			plotMapReverse = new HashMap<String, PlotType>();
-		} else {
-			plotMapReverse.clear();
-		}
-
-		for (PlotType p : PlotType.values()) {
-			String s;
-			plotMap.put(p,  s = unique(app.getMenu(p.key)));
-			plotMapReverse.put(s, p);
-		}
-
-
-	}
-
-	/**
-	 * Ensures that a menu string is unique
-	 * @param menuString
-	 * @return
-	 */
-	private static String unique(String menuString){
-		return plotMap.containsValue(menuString)? menuString + " " : menuString;
 	}
 	
 	public JPopupMenu getExportMenu() {
@@ -622,8 +586,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	public void updatePlot(boolean doCreate) {
 
 		GeoList dataListSelected = daView.getController().getDataSelected();
-
-		GeoElement geo;
 
 		if (hasControlPanel)
 			((CardLayout) controlCards.getLayout()).show(controlCards,
@@ -887,10 +849,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		else if (source == cbDisplayType) {
 			if (cbDisplayType.getSelectedItem().equals(MyRenderer.SEPARATOR)) {
-				cbDisplayType.setSelectedItem(plotMap.get(selectedPlot));
+				cbDisplayType.setSelectedItem(selectedPlot);
 			} else {
-				selectedPlot = plotMapReverse.get(cbDisplayType
-						.getSelectedItem());
+				selectedPlot = (PlotType) cbDisplayType.getSelectedItem();
 				updatePlot(true);
 			}
 			
@@ -920,6 +881,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	public void focusGained(FocusEvent e) {
+		//
 	}
 
 	public void clearPlotGeoList() {
@@ -941,7 +903,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	public void updateFonts() {
-
+		//
 	}
 
 	public void attachView() {
@@ -971,20 +933,12 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		return p;
 	}
 
-	private static JPanel boxXPanel(JComponent... comp) {
-		JPanel p = new JPanel();
-		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
-		}
-		// p.setBackground(Color.white);
-		return p;
-	}
-
 	public void updateFonts(Font font) {
+		//
 	}
 
 	public void updatePanel() {
+		//
 	}
 
 	// ============================================================
@@ -997,7 +951,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		public static final String SEPARATOR = "SEPARATOR";
 		JSeparator separator;
 
-		public MyRenderer() {
+		private AppD app;
+
+		public MyRenderer(AppD app) {
+			this.app = app;
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));
 			separator = new JSeparator(SwingConstants.HORIZONTAL);
@@ -1005,7 +962,12 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
-			String str = (value == null) ? "" : value.toString();
+			String str = "";
+			if (value instanceof PlotType) {
+				str = app.getMenu(((PlotType)value).key);
+			} else {
+				App.error("wrong class");
+			}
 			if (SEPARATOR.equals(str)) {
 				return separator;
 			}

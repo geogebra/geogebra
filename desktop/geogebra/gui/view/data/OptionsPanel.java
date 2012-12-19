@@ -90,9 +90,9 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	/************************************************************
 	 * Constructs an OptionPanel
 	 * 
-	 * @param app
-	 * @param statDialog
-	 * @param settings
+	 * @param app App
+	 * @param statDialog statDialog
+	 * @param settings settings
 	 */
 	public OptionsPanel(AppD app, DataAnalysisViewD statDialog,
 			StatPanelSettings settings) {
@@ -140,7 +140,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		this.setVisible(true);
 
 		// add plot-specific tab
-		String tabTitle = DataDisplayPanel.plotMap.get(plotType);
+		String tabTitle = plotType.getTranslatedKey(app);
 		tabbedPane.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
 				0);
 		classesPanel.setVisible(false);
