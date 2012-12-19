@@ -307,10 +307,12 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		Object[] geos = activeGeoList.toArray();
 		tableText = EuclidianStyleBarStatic.updateTableText(geos, mode);
 		for (int i = 0; i < popupBtnList.length; i++) {
-			popupBtnList[i].update(geos);
+			if (popupBtnList[i] != null)//null pointer fix until necessary
+				popupBtnList[i].update(geos);
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
-			toggleBtnList[i].update(geos);
+			if (toggleBtnList[i] != null)//null pointer fix until necessary
+				toggleBtnList[i].update(geos);
 		}
 
 	}
