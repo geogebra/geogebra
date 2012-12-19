@@ -70,6 +70,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	private boolean hideRangeInFormula;
 
 	/**
+	 * @return whether range is hidden in algebra
+	 */
+	public boolean isHiddenRange(){
+		return hideRangeInFormula;
+	}
+	/**
 	 * Creates new curve
 	 * 
 	 * @param c
