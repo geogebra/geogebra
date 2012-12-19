@@ -55,7 +55,7 @@ public class MobileApp extends App
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
-	private geogebra.common.plugin.GgbAPI ggbapi;
+	//private geogebra.common.plugin.GgbAPI ggbapi;
 	private XMLBuilder mobileXML;
 
 
@@ -740,15 +740,15 @@ public class MobileApp extends App
 		return this.mobileXML; 
 	}
 
-	public XMLBuilder createXMLBuilder(Construction cons) {
+	public static XMLBuilder createXMLBuilder(Construction cons) {
 		return new XMLBuilder(cons);
 	}
 
+	@Override
 	public String getXML()
 	{
 		return getXMLBuilder().getFullXML();
-	}
-	//	
+	}	
 	
 	@Override
 	public ScriptManager getScriptManager()

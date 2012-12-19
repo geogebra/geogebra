@@ -153,6 +153,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 	public void update()
 	{
+		this.check.setValue(this.geo.isEuclidianVisible()); 
+		
 		// check for new LaTeX
 		boolean newLaTeX = false;
 		String text = null;
