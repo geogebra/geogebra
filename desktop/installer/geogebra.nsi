@@ -719,6 +719,7 @@ Section Install Install
     File "${build.dir}\unpacked\geogebra*.jar"
     File "${build.dir}\unpacked\gluegen-rt-jogl1.jar"
     File "${build.dir}\unpacked\*win*.jar"
+    File "${build.dir}\unpacked\jogl.jar"
     File "${build.dir}\unpacked\gluegen-rt.jar"
     File "${build.dir}\unpacked\jd2*.jar"
     File "${build.dir}\unpacked\jl*.jar"
@@ -726,7 +727,6 @@ Section Install Install
     File "${build.dir}\unpacked\jython.jar"
     File "${build.dir}\unpacked\openni.jar"
     File "${build.dir}\unpacked\openni64.jar"
-    File "${build.dir}\unpacked\jython.jar"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
 
