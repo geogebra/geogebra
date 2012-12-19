@@ -162,6 +162,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 			break;
 
 		case DataDisplayPanel.PLOT_BOXPLOT:
+		case DataDisplayPanel.PLOT_MULTIBOXPLOT:
 			boxPlotPanel.setVisible(true);
 			break;
 

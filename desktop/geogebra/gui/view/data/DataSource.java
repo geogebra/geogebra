@@ -134,7 +134,7 @@ public class DataSource {
 		// add the new data source object
 		list.set(index, createDataItem(obj, type));
 
-		//debug();
+		// debug();
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class DataSource {
 	 * Adds an empty object to the source list
 	 */
 	public void addEmpty() {
-		list.add(null);
+		list.add(new DataItem());
 	}
 
 	public DataItem get(int index) {
@@ -750,7 +750,7 @@ public class DataSource {
 	public String[] getDataTitles(int mode, boolean leftToRight) {
 
 		String[] s = new String[list.size()];
-		
+
 		if (leftToRight)
 			for (int i = 0; i < s.length; i++) {
 				s[i] = getDataTitle(i);
@@ -772,19 +772,24 @@ public class DataSource {
 	 */
 	public String getDataTitle(int index) {
 
-		Object obj = list.get(index);
+		// app.printStacktrace("get data title start");
 
-		if (!enableHeader || obj instanceof GeoList) {
+		DataItem dataItem = list.get(index);
+
+		if (!enableHeader || dataItem.type == DataSource.ITEM_LIST) {
+
 			return (this.getSourceString(index));
 
-		} else if (obj instanceof ArrayList<?>) {
+		} else if (enableHeader && dataItem.type == DataSource.ITEM_SPREADSHEET) {
 
 			StringTemplate tpl = StringTemplate.defaultTemplate;
-			CellRange range = ((ArrayList<CellRange>) obj).get(0);
+			CellRange range = ((ArrayList<CellRange>) dataItem.getItem())
+					.get(0);
 
 			if (range.isColumn() || range.isPartialColumn()) {
 				GeoElement geo = RelativeCopy.getValue(app,
 						range.getMinColumn(), range.getMinRow());
+
 				if (geo != null) {
 					return geo.toDefinedValueString(tpl);
 				}
@@ -855,15 +860,18 @@ public class DataSource {
 			// case 1: list of points
 			// ============================================
 
-			if (get(0).getType() == ITEM_LIST) {
-				sourceList.add((GeoList) get(0).getItem());
+			DataItem item = list.get(0);
+
+			if (item.getType() == ITEM_LIST) {
+				sourceList.add((GeoList) item.getItem());
 				return sourceList;
 			}
 
-			else if (get(0).getType() == ITEM_SPREADSHEET) {
+			else if (item.getType() == ITEM_SPREADSHEET) {
 				try {
-					GeoList geoList = (GeoList) crProcessor().createList(
-							(ArrayList<CellRange>) get(0).getItem(),
+					ArrayList<CellRange> rangeListCopy = rangeListCopy(
+							(ArrayList<CellRange>) item.getItem(), enableHeader);
+					GeoList geoList = crProcessor().createList(rangeListCopy,
 							scanByColumn, copyByValue, isSorted, doStoreUndo,
 							GeoClass.NUMERIC, setLabel);
 					sourceList.add(geoList);
@@ -885,18 +893,24 @@ public class DataSource {
 				return null;
 			}
 
-			if (get(0).getType() == ITEM_LIST) {
+			DataItem item0 = list.get(0);
+			DataItem item1 = list.get(1);
+
+			if (item0.getType() == ITEM_LIST) {
 				// TODO handle this case
 				return null;
 			}
 
-			else if (get(0).getType() == ITEM_SPREADSHEET) {
+			else if (item0.getType() == ITEM_SPREADSHEET) {
 				try {
 
-					CellRange xRange = ((ArrayList<CellRange>) list.get(0)
-							.getItem()).get(0).clone();
-					CellRange yRange = ((ArrayList<CellRange>) list.get(1)
-							.getItem()).get(0).clone();
+					CellRange xRange = rangeCopy(
+							((ArrayList<CellRange>) item0.getItem()).get(0),
+							enableHeader);
+
+					CellRange yRange = rangeCopy(
+							((ArrayList<CellRange>) item1.getItem()).get(0),
+							enableHeader);
 
 					ArrayList<CellRange> xyList = new ArrayList<CellRange>();
 					xyList.add(xRange);
@@ -933,10 +947,14 @@ public class DataSource {
 						} else {
 							geoClass = GeoClass.TEXT;
 						}
-						GeoList geoList = (GeoList) crProcessor().createList(
+
+						ArrayList<CellRange> rangeListCopy = rangeListCopy(
 								(ArrayList<CellRange>) item.getItem(),
-								scanByColumn, copyByValue, isSorted,
-								doStoreUndo, geoClass, setLabel);
+								enableHeader);
+
+						GeoList geoList = crProcessor().createList(
+								rangeListCopy, scanByColumn, copyByValue,
+								isSorted, doStoreUndo, geoClass, setLabel);
 						sourceList.add(geoList);
 						// App.error(geoList
 						// .toOutputValueString(StringTemplate.defaultTemplate));
@@ -957,7 +975,7 @@ public class DataSource {
 
 						try {
 							double num = Double.parseDouble(s[i]);
-							//System.out.println(num);
+							// System.out.println(num);
 							GeoElement geo = new GeoNumeric(cons);
 							((GeoNumeric) geo).setValue(num);
 							geoList.add(geo);
@@ -977,6 +995,43 @@ public class DataSource {
 		return null;
 	}
 
+	/**
+	 * Copies a list of cell ranges with option to remove header cell
+	 * 
+	 * @param list
+	 * @param removeHeaderCell
+	 * @return
+	 */
+	private static ArrayList<CellRange> rangeListCopy(
+			ArrayList<CellRange> list, boolean removeHeaderCell) {
+
+		ArrayList<CellRange> list2 = new ArrayList<CellRange>();
+
+		list2.add(rangeCopy(list.get(0), removeHeaderCell));
+
+		for (int i = 1; i < list.size(); i++) {
+			list2.add(list.get(i).clone());
+		}
+		return list2;
+	}
+
+	/**
+	 * Copies a cell range with option to remove header cell
+	 * 
+	 * @param cr
+	 * @param removeHeaderCell
+	 * @return
+	 */
+	private static CellRange rangeCopy(CellRange cr, boolean removeHeaderCell) {
+		CellRange cr2 = cr.clone();
+		if (removeHeaderCell) {
+			cr2.setCellRange(cr.getMinColumn(), cr.getMinRow() + 1,
+					cr.getMaxColumn(), cr.getMaxRow());
+		}
+		return cr2;
+
+	}
+
 	public final static int ITEM_SPREADSHEET = 0;
 	public final static int ITEM_LIST = 1;
 	public final static int ITEM_INTERNAL = 2;
@@ -986,6 +1041,10 @@ public class DataSource {
 
 		private int type;
 		private Object item;
+
+		public DataItem() {
+			this(null, 2);
+		}
 
 		public DataItem(Object obj, int type) {
 			this.type = type;

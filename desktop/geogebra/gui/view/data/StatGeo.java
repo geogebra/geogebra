@@ -572,30 +572,17 @@ public class StatGeo {
 
 	}
 
-	public GeoElement[] createMultipleBoxPlot(GeoList dataList) {
+	public GeoElement[] createMultipleBoxPlot(GeoList dataList, StatPanelSettings settings) {
 
-		// String label = dataList.getLabel();
 		GeoElement geo;
-
-		// Sequence[BoxPlot[k, 0.33333, Element[mm, k]], k, 1, Length[mm]]
-		// String len = "Length[" + label + "]";
-		// String text = "Sequence[BoxPlot[k, 1/3, Element[" + label + "," + len
-		// + "-k+1]], k, 1," + len + "]";
-		// geo = createGeoFromString(text);
-
-		// AlgoListLength len = new AlgoListLength(cons, dataList);
-		// GeoNumeric num = (GeoNumeric) len.getGeoElements()[0];
-		// removeFromConstructionList(len);
-
 		int length = dataList.size();
-
 		GeoElement[] ret = new GeoElement[length];
 
 		for (int i = 0; i < length; i++) {
 			AlgoBoxPlot bp = new AlgoBoxPlot(cons, new GeoNumeric(cons, i + 1),
 					new GeoNumeric(cons, 1d / 3d),
 					(GeoList) dataList.get((length - 1) - i), new GeoBoolean(
-							cons, true));
+							cons, settings.showOutliers));
 			cons.removeFromAlgorithmList(bp);
 			ret[i] = bp.getGeoElements()[0];
 			ret[i].setObjColor(new geogebra.awt.GColorD(

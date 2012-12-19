@@ -993,7 +993,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			lblTitle.setFont(app.getPlainFont());
 
 			// set lblSource text to the source string for this column
-			lblSource.setText(dataSource.getSourceString(vColIndex));
+			lblSource.setText(dataSource.getDataTitle(vColIndex));
 			lblSource.setFont(app.getItalicFont());
 
 			// layout the header

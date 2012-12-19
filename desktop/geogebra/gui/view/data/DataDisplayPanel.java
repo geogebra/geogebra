@@ -793,7 +793,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		case PLOT_MULTIBOXPLOT:
 			if (doCreate) {
 				GeoElement[] boxPlots = statGeo
-						.createMultipleBoxPlot(dataListSelected);
+						.createMultipleBoxPlot(dataListSelected, settings);
 				for (int i = 0; i < boxPlots.length; i++)
 					plotGeoList.add(boxPlots[i]);
 			}
@@ -806,7 +806,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
 					"plotPanel");
-			btnOptions.setVisible(false);
 			break;
 
 		default:
