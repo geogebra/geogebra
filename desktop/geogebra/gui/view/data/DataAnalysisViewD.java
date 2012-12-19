@@ -228,35 +228,35 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 		case MODE_ONEVAR:
 			if (!isNumericData()) {
-				comboStatPanel.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
+				comboStatPanel.setPanel(DataDisplayPanel.PlotType.BARCHART, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BARCHART, mode);
 
 			} else if (sourceType() == DataSource.SOURCE_RAWDATA) {
-				comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+				comboStatPanel.setPanel(DataDisplayPanel.PlotType.HISTOGRAM, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT, mode);
 
 			} else if (sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-				comboStatPanel.setPanel(DataDisplayPanel.PLOT_BARCHART, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+				comboStatPanel.setPanel(DataDisplayPanel.PlotType.BARCHART, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT, mode);
 
 			} else if (sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
-				comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PLOT_BOXPLOT, mode);
+				comboStatPanel.setPanel(DataDisplayPanel.PlotType.HISTOGRAM, mode);
+				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT, mode);
 			}
 			break;
 
 		case MODE_REGRESSION:
-			comboStatPanel.setPanel(DataDisplayPanel.PLOT_SCATTERPLOT, mode);
-			comboStatPanel2.setPanel(DataDisplayPanel.PLOT_RESIDUAL, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PlotType.SCATTERPLOT, mode);
+			comboStatPanel2.setPanel(DataDisplayPanel.PlotType.RESIDUAL, mode);
 			break;
 
 		case MODE_MULTIVAR:
-			comboStatPanel.setPanel(DataDisplayPanel.PLOT_MULTIBOXPLOT, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PlotType.MULTIBOXPLOT, mode);
 			showComboPanel2 = false;
 			break;
 
 		case MODE_GROUPDATA:
-			comboStatPanel.setPanel(DataDisplayPanel.PLOT_HISTOGRAM, mode);
+			comboStatPanel.setPanel(DataDisplayPanel.PlotType.HISTOGRAM, mode);
 			showComboPanel2 = false;
 			break;
 

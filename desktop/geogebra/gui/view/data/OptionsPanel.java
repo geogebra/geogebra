@@ -3,6 +3,7 @@ package geogebra.gui.view.data;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
+import geogebra.gui.view.data.DataDisplayPanel.PlotType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -133,7 +134,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 
 	}
 
-	public void setPanel(int plotType) {
+	public void setPanel(PlotType plotType) {
 
 		tabbedPane.removeAll();
 		this.setVisible(true);
@@ -156,32 +157,32 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		// set visibility for plot-specific panels
 		switch (plotType) {
 
-		case DataDisplayPanel.PLOT_HISTOGRAM:
+		case HISTOGRAM:
 			classesPanel.setVisible(true);
 			histogramPanel.setVisible(true);
 			break;
 
-		case DataDisplayPanel.PLOT_BOXPLOT:
-		case DataDisplayPanel.PLOT_MULTIBOXPLOT:
+		case BOXPLOT:
+		case MULTIBOXPLOT:
 			boxPlotPanel.setVisible(true);
 			break;
 
-		case DataDisplayPanel.PLOT_BARCHART:
+		case BARCHART:
 			barChartPanel.setVisible(true);
 			break;
 
-		case DataDisplayPanel.PLOT_SCATTERPLOT:
+		case SCATTERPLOT:
 			scatterplotPanel.setVisible(true);
 			break;
 
 		// graph tab only
-		case DataDisplayPanel.PLOT_DOTPLOT:
-		case DataDisplayPanel.PLOT_NORMALQUANTILE:
-		case DataDisplayPanel.PLOT_RESIDUAL:
+		case DOTPLOT:
+		case NORMALQUANTILE:
+		case RESIDUAL:
 			tabbedPane.removeTabAt(0);
 			break;
 			
-		case DataDisplayPanel.PLOT_STEMPLOT:
+		case STEMPLOT:
 			this.setVisible(false);
 			break;
 

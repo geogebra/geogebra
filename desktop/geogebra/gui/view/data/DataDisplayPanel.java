@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.main.App;
+import geogebra.common.util.Language;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
@@ -72,7 +73,19 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	// data view mode
 	private int mode;
+	
+	public enum PlotType { HISTOGRAM("Histogram"), BOXPLOT("BoxPlot"), DOTPLOT("DotPlot"), NORMALQUANTILE("NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART("BarChart"), SCATTERPLOT("ScatterPlot"), RESIDUAL("ResidualPlot"), MULTIBOXPLOT("StackedBoxPlots");
+	
+	public String key;
 
+	PlotType(String key) {
+		this.key = key;
+		
+	}
+	
+	};
+
+	/*
 	// one variable plot types
 	public static final int PLOT_HISTOGRAM = 0;
 	public static final int PLOT_BOXPLOT = 1;
@@ -87,13 +100,14 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	// multi variable plot types
 	public static final int PLOT_MULTIBOXPLOT = 50;
-
+*/
+	
 	// currently selected plot type
-	private int selectedPlot;
+	private PlotType selectedPlot;
 
 	// plot reference
-	protected static HashMap<Integer, String> plotMap;
-	private HashMap<String, Integer> plotMapReverse;
+	protected static HashMap<PlotType, String> plotMap;
+	private HashMap<String, PlotType> plotMapReverse;
 
 	private StatPanelSettings settings;
 
@@ -174,7 +188,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	 * @param mode
 	 *            the data analysis mode
 	 */
-	public void setPanel(int plotIndex, int mode) {
+	public void setPanel(PlotType plotIndex, int mode) {
 
 		this.mode = mode;
 		this.selectedPlot = plotIndex;
@@ -353,36 +367,36 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		case DataAnalysisViewD.MODE_ONEVAR:
 
 			if (!daView.isNumericData()) {
-				cbDisplayType.addItem(plotMap.get(PLOT_BARCHART));
+				cbDisplayType.addItem(plotMap.get(PlotType.BARCHART));
 			}
 
 			else if (settings.sourceType() == DataSource.SOURCE_RAWDATA) {
-				cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
-				cbDisplayType.addItem(plotMap.get(PLOT_BARCHART));
-				cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
-				cbDisplayType.addItem(plotMap.get(PLOT_DOTPLOT));
-				cbDisplayType.addItem(plotMap.get(PLOT_STEMPLOT));
-				cbDisplayType.addItem(plotMap.get(PLOT_NORMALQUANTILE));
+				cbDisplayType.addItem(plotMap.get(PlotType.HISTOGRAM));
+				cbDisplayType.addItem(plotMap.get(PlotType.BARCHART));
+				cbDisplayType.addItem(plotMap.get(PlotType.BOXPLOT));
+				cbDisplayType.addItem(plotMap.get(PlotType.DOTPLOT));
+				cbDisplayType.addItem(plotMap.get(PlotType.STEMPLOT));
+				cbDisplayType.addItem(plotMap.get(PlotType.NORMALQUANTILE));
 			}
 
 			else if (settings.sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-				cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
-				cbDisplayType.addItem(plotMap.get(PLOT_BARCHART));
-				cbDisplayType.addItem(plotMap.get(PLOT_BOXPLOT));
+				cbDisplayType.addItem(plotMap.get(PlotType.HISTOGRAM));
+				cbDisplayType.addItem(plotMap.get(PlotType.BARCHART));
+				cbDisplayType.addItem(plotMap.get(PlotType.BOXPLOT));
 
 			} else if (settings.sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
-				cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
+				cbDisplayType.addItem(plotMap.get(PlotType.HISTOGRAM));
 			}
 
 			break;
 
 		case DataAnalysisViewD.MODE_REGRESSION:
-			cbDisplayType.addItem(plotMap.get(PLOT_SCATTERPLOT));
-			cbDisplayType.addItem(plotMap.get(PLOT_RESIDUAL));
+			cbDisplayType.addItem(plotMap.get(PlotType.SCATTERPLOT));
+			cbDisplayType.addItem(plotMap.get(PlotType.RESIDUAL));
 			break;
 
 		case DataAnalysisViewD.MODE_MULTIVAR:
-			cbDisplayType.addItem(plotMap.get(PLOT_MULTIBOXPLOT));
+			cbDisplayType.addItem(plotMap.get(PlotType.MULTIBOXPLOT));
 			break;
 		}
 
@@ -404,7 +418,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		plotPanelNorth.removeAll();
 		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
-		if (selectedPlot == DataDisplayPanel.PLOT_SCATTERPLOT) {
+		if (selectedPlot == DataDisplayPanel.PlotType.SCATTERPLOT) {
 			plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			plotPanelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
 			plotPanelSouth.add(lblTitleX);
@@ -416,8 +430,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 		}
 
-		else if (selectedPlot == DataDisplayPanel.PLOT_HISTOGRAM
-				|| selectedPlot == DataDisplayPanel.PLOT_BARCHART) {
+		else if (selectedPlot == DataDisplayPanel.PlotType.HISTOGRAM
+				|| selectedPlot == DataDisplayPanel.PlotType.BARCHART) {
 
 			// plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			// plotPanelNorth.add(lblTitleY);
@@ -567,27 +581,24 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	 * JComboBox menu string, Value = integer display type
 	 */
 	private void createPlotMap() {
-		if (plotMap == null)
-			plotMap = new HashMap<Integer, String>();
-
-		plotMap.clear();
-		plotMap.put(PLOT_HISTOGRAM,  unique(app.getMenu("Histogram")));
-		plotMap.put(PLOT_BOXPLOT, unique(app.getMenu("Boxplot")));
-		plotMap.put(PLOT_DOTPLOT, unique(app.getMenu("DotPlot")));
-		plotMap.put(PLOT_NORMALQUANTILE, unique(app.getMenu("NormalQuantilePlot")));
-		plotMap.put(PLOT_STEMPLOT, unique(app.getMenu("StemPlot")));
-		plotMap.put(PLOT_BARCHART, unique(app.getMenu("BarChart")));
-
-		plotMap.put(PLOT_SCATTERPLOT, unique(app.getMenu("Scatterplot")));
-		plotMap.put(PLOT_RESIDUAL, unique(app.getMenu("ResidualPlot")));
-
-		plotMap.put(PLOT_MULTIBOXPLOT, unique(app.getMenu("StackedBoxPlots")));
-
-		// REVERSE PLOT MAP
-		plotMapReverse = new HashMap<String, Integer>();
-		for (Integer key : plotMap.keySet()) {
-			plotMapReverse.put(plotMap.get(key), key);
+		if (plotMap == null) {
+			plotMap = new HashMap<PlotType, String>();
+		} else {
+			plotMap.clear();			
 		}
+		
+		if (plotMapReverse == null) {
+			plotMapReverse = new HashMap<String, PlotType>();
+		} else {
+			plotMapReverse.clear();
+		}
+
+		for (PlotType p : PlotType.values()) {
+			String s;
+			plotMap.put(p,  s = unique(app.getMenu(p.key)));
+			plotMapReverse.put(s, p);
+		}
+
 
 	}
 
@@ -596,7 +607,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	 * @param menuString
 	 * @return
 	 */
-	private String unique(String menuString){
+	private static String unique(String menuString){
 		return plotMap.containsValue(menuString)? menuString + " " : menuString;
 	}
 	
@@ -635,7 +646,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		switch (selectedPlot) {
 
-		case PLOT_HISTOGRAM:
+		case HISTOGRAM:
 
 			if (doCreate) {
 				if (histogram != null)
@@ -682,7 +693,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"plotPanel");
 			break;
 
-		case PLOT_BOXPLOT:
+		case BOXPLOT:
 			if (doCreate) {
 				if (boxPlot != null)
 					boxPlot.remove();
@@ -695,7 +706,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"plotPanel");
 			break;
 
-		case PLOT_BARCHART:
+		case BARCHART:
 			if (doCreate) {
 				if (barChart != null)
 					barChart.remove();
@@ -708,7 +719,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"plotPanel");
 			break;
 
-		case PLOT_DOTPLOT:
+		case DOTPLOT:
 			if (doCreate) {
 				if (dotPlot != null)
 					dotPlot.remove();
@@ -722,7 +733,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"plotPanel");
 			break;
 
-		case PLOT_STEMPLOT:
+		case STEMPLOT:
 			String latex = statGeo.getStemPlotLatex(dataListSelected,
 					settings.stemAdjust);
 			imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
@@ -736,7 +747,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"imagePanel");
 			break;
 
-		case PLOT_NORMALQUANTILE:
+		case NORMALQUANTILE:
 			if (doCreate) {
 				if (nqPlot != null)
 					nqPlot.remove();
@@ -749,7 +760,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"plotPanel");
 			break;
 
-		case PLOT_SCATTERPLOT:
+		case SCATTERPLOT:
 			if (doCreate) {
 				scatterPlot = statGeo.createScatterPlot(dataListSelected);
 				plotGeoList.add(scatterPlot);
@@ -779,7 +790,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			break;
 
-		case PLOT_RESIDUAL:
+		case RESIDUAL:
 			if (doCreate) {
 				if (!daView.getRegressionMode().equals(Regression.NONE)) {
 					residualPlot = statGeo.createRegressionPlot(
@@ -799,7 +810,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					"plotPanel");
 			break;
 
-		case PLOT_MULTIBOXPLOT:
+		case MULTIBOXPLOT:
 			if (doCreate) {
 				GeoElement[] boxPlots = statGeo
 						.createMultipleBoxPlot(dataListSelected, settings);
