@@ -1407,7 +1407,8 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		if (!isShowing())
 			return;
 
-		app.getGuiManager().getTimerSystem().viewRepaint(this);
+		doRepaint();//temporary check
+		//app.getGuiManager().getTimerSystem().viewRepaint(this);//temporary check
     }
 
 	public boolean isShowing() {
@@ -1420,7 +1421,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	 */
 	public void doRepaint() {
 
-		app.getGuiManager().getTimerSystem().viewRepainting(this);
+		//app.getGuiManager().getTimerSystem().viewRepainting(this);//temporary check
 
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
@@ -1442,7 +1443,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			}
 		}
 
-		app.getGuiManager().getTimerSystem().viewRepainted(this);
+		//app.getGuiManager().getTimerSystem().viewRepainted(this);//temporary check
 	}
 
 	/**

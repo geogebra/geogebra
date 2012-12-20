@@ -345,7 +345,8 @@ public class EuclidianViewW extends EuclidianView {
     	//if (!isShowing())
     	//	return;
 
-    	app.getGuiManager().getTimerSystem().viewRepaint(this);
+    	doRepaint2();//temporary check
+    	//app.getGuiManager().getTimerSystem().viewRepaint(this);//temporary check
     }
 
     public void doRepaint() {
@@ -358,12 +359,12 @@ public class EuclidianViewW extends EuclidianView {
      */
     public void doRepaint2() {
 
-    	app.getGuiManager().getTimerSystem().viewRepainting(this);
+    	//app.getGuiManager().getTimerSystem().viewRepainting(this);//temporary check
 
     	geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     	paint(g2p);
 
-    	app.getGuiManager().getTimerSystem().viewRepainted(this);
+    	//app.getGuiManager().getTimerSystem().viewRepainted(this);//temporary check
     }
 
 	@Override

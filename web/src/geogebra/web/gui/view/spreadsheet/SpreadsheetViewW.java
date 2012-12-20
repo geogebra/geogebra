@@ -1401,7 +1401,8 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		if (!isShowing())
 			return;
 
-		app.getGuiManager().getTimerSystem().viewRepaint(this);
+		doRepaint();//temporary check
+		//app.getGuiManager().getTimerSystem().viewRepaint(this);//temporary check
 	}
 
 	/**
@@ -1410,9 +1411,9 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 	 * Otherwise just call repaint().
 	 */
 	public void doRepaint() {
-		app.getGuiManager().getTimerSystem().viewRepainting(this);
+		//app.getGuiManager().getTimerSystem().viewRepainting(this);//temporary check
 		table.repaint();
-		app.getGuiManager().getTimerSystem().viewRepainted(this);
+		//app.getGuiManager().getTimerSystem().viewRepainted(this);//temporary check
 	}
 
 	/**
