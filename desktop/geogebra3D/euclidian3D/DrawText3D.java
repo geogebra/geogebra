@@ -38,7 +38,7 @@ public class DrawText3D extends Drawable3DCurves {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-		
+		//see drawlabel
 	}
 
 	@Override
@@ -48,7 +48,8 @@ public class DrawText3D extends Drawable3DCurves {
 				
 		label.update(text.getTextString(), 
 				getFont(), 
-				geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor()),
+				getGeoElement().getBackgroundColor(),
+				getGeoElement().getObjectColor(),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
 

@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.EuclidianStaticD;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -29,7 +30,7 @@ public class DrawLabel3D {
     /** font of the label */
     protected Font font;
     /** color of the label */
-    private Coords color;
+    private Coords backgroundColor, color;
     /** origin of the label (left-bottom corner) */
     private Coords origin; 
     /** x and y offset */
@@ -75,7 +76,20 @@ public class DrawLabel3D {
 		this.view = view;
 	}
 	
+	/**
+	 * update the label
+	 * @param text
+	 * @param fontsize
+	 * @param color
+	 * @param v
+	 * @param xOffset
+	 * @param yOffset
+	 */
+	public void update(String text, Font font, GColor color,
+			Coords v, float xOffset, float yOffset){
 
+		update(text, font, null, color, v, xOffset, yOffset);
+	}
 	
 	
 	/**
@@ -87,7 +101,7 @@ public class DrawLabel3D {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public void update(String text, Font font, Color color,
+	public void update(String text, Font font, GColor backgroundColor, GColor color,
 			Coords v, float xOffset, float yOffset){
 		
 		if (text.length()==0)
@@ -97,6 +111,13 @@ public class DrawLabel3D {
 		//if (v==null)Application.debug(text);
 		this.color = new Coords((double) color.getRed()/255, 
 				(double) color.getGreen()/255, (double) color.getBlue()/255,1);
+		
+		if (backgroundColor!=null)
+			this.backgroundColor = new Coords((double) backgroundColor.getRed()/255, 
+					(double) backgroundColor.getGreen()/255, (double) backgroundColor.getBlue()/255,1);
+		else
+			this.backgroundColor = null;
+		
 		
 		if (view.isGrayScaled())
 			this.color.convertToGrayScale();
@@ -226,17 +247,24 @@ public class DrawLabel3D {
 		int y = (int) (v.getY()+yOffset);
 		if (anchor && yOffset<0) y-=height;
 		
-		//x = (int) (v.getX());y = (int) (v.getY());
 		
 		int z = (int) v.getZ();
 		
 		
+		//draw background
+		if (backgroundColor!=null){
+			renderer.setColor(backgroundColor);
+			renderer.disableTextures();
+			renderer.getGeometryManager().getText().rectangle(x, y, z, width, height);
+		}
+		
+		//draw text
 		renderer.setColor(color);
-		
-		//renderer.getTextures().setTextureNearest(textureIndex);
+		renderer.enableTextures();
 		renderer.getTextures().setTextureLinear(textureIndex);
-		
 		renderer.getGeometryManager().getText().rectangle(x, y, z, width2, height2);
+		
+		
 		
 	}
 

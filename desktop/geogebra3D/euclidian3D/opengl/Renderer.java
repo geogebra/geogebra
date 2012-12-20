@@ -383,6 +383,23 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     
+   /**
+    * enable textures
+    */
+   public void enableTextures(){
+    	
+	   gl.glEnable(GLlocal.GL_TEXTURE_2D);
+    }
+    
+   /**
+    * disable textures
+    */
+   public void disableTextures(){
+   	
+	   gl.glDisable(GLlocal.GL_TEXTURE_2D);
+   }
+   
+   
     private void drawFaceToScreen() {
     	//draw face-to screen parts (labels, ...)
         //drawing labels
