@@ -273,7 +273,7 @@ public class StatisticsCalculatorProcessor {
 			setIntervalResults(result[0]);
 			sc.se = ((AlgoZProportionEstimate) algo).getSE();
 			sc.me = ((AlgoZProportionEstimate) algo).getME();
-			
+
 			break;
 
 		case ZPROP2_TEST:
@@ -299,10 +299,11 @@ public class StatisticsCalculatorProcessor {
 			break;
 
 		case CHISQ_TEST:
-		case GOF_TEST:
-
 			updateChiSq();
+			break;
 
+		case GOF_TEST:
+			updateGOF();
 			break;
 
 		}
@@ -310,8 +311,8 @@ public class StatisticsCalculatorProcessor {
 	}
 
 	/**
-	 * Computes chi sq test results using code from AlgoChiSquaredTest
-	 * TODO: Implement using AlgoChiSquaredTest directly 
+	 * Computes chi sq test results using code from AlgoChiSquaredTest TODO:
+	 * Implement using AlgoChiSquaredTest directly
 	 */
 	private void updateChiSq() {
 
@@ -373,6 +374,65 @@ public class StatisticsCalculatorProcessor {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Computes goodness of fit test results TODO: Implement using
+	 * AlgoGoodnessOfFitTest directly
+	 */
+	private void updateGOF() {
+
+		// init sum fields
+		for (int j = 0; j < sc.columns; j++) {
+			sc.columnSum[j] = 0;
+		}
+		for (int i = 0; i < sc.rows; i++) {
+			sc.rowSum[i] = 0;
+		}
+		sc.total = 0;
+
+		// compute sums
+		for (int i = 0; i < sc.rows; i++) {
+			double value = parseStringData(sc.chiSquareData[i + 1][1]);
+			sc.observed[i][0] = value;
+			value = parseStringData(sc.chiSquareData[i + 1][2]);
+			sc.expected[i][0] = value;
+
+			if (!Double.isNaN(sc.observed[i][0])) {
+				sc.columnSum[0] += sc.observed[i][0];
+			}
+			if (!Double.isNaN(sc.observed[i][1])) {
+				sc.columnSum[1] += sc.expected[i][0];
+			}
+
+		}
+
+		// compute test statistic and chi-square contributions
+		sc.testStat = 0;
+		for (int i = 0; i < sc.rows; i++) {
+			sc.diff[i][0] = (sc.observed[i][0] - sc.expected[i][0])
+					* (sc.observed[i][0] - sc.expected[i][0])
+					/ sc.expected[i][0];
+			sc.testStat += sc.diff[i][0];
+			//System.out.println(i + ", " + 0 + "diff: " + sc.diff[i][0]);
+		}
+
+		// degree of freedom
+		sc.df = sc.rows - 1;
+
+		// compute P
+		try {
+			double leftArea = getChiSquaredDistribution(sc.df)
+					.cumulativeProbability(sc.testStat);
+			sc.P = 1 - leftArea;
+
+		} catch (IllegalArgumentException e) {
+			sc.P = Double.NaN;
+			e.printStackTrace();
+		} catch (MathException e) {
+			sc.P = Double.NaN;
+			e.printStackTrace();
+		}
 	}
 
 	/**

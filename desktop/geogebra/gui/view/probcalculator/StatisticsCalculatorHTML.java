@@ -169,7 +169,7 @@ public class StatisticsCalculatorHTML {
 			String[][] tTest2SampleTable = {
 					{ "&nbsp;", strSample1, strSample2 },
 					{ strMean, format(sc.mean), format(sc.mean2) },
-					{ strSigma, format(sc.sd), format(sc.sd2) },
+					{ strSD, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
 					{ strSE, format(sc.se) }, { strT, format(sc.testStat) },
 					{ strP, format(sc.P) } };
@@ -183,7 +183,7 @@ public class StatisticsCalculatorHTML {
 			String[][] tCI2SampleTable = {
 					{ "&nbsp;", strSample1, strSample2 },
 					{ strMean, format(sc.mean), format(sc.mean2) },
-					{ strSigma, format(sc.sd), format(sc.sd2) },
+					{ strSD, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
 					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },

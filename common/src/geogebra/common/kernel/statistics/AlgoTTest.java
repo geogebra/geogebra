@@ -34,16 +34,16 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  */
 public class AlgoTTest extends AlgoElement {
 
-	
-	private GeoList geoList; //input
-	private GeoNumeric hypMean, mean, sd, n; //input
-	private GeoText tail; //input
-	private GeoList  result;     // output   
+	private GeoList geoList; // input
+	private GeoNumeric hypMean, mean, sd, n; // input
+	private GeoText tail; // input
+	private GeoList result; // output
 	private TTestImpl tTestImpl;
 	private double[] val;
 	private double p, testStat, se;
 
-	public AlgoTTest(Construction cons, String label, GeoList geoList, GeoNumeric hypMean, GeoText tail) {
+	public AlgoTTest(Construction cons, String label, GeoList geoList,
+			GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.geoList = geoList;
 		this.hypMean = hypMean;
@@ -51,19 +51,21 @@ public class AlgoTTest extends AlgoElement {
 		this.mean = null;
 		this.sd = null;
 		this.n = null;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
 
-	public AlgoTTest(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
-		this(cons, mean,sd,n,hypMean,tail);
+	public AlgoTTest(Construction cons, String label, GeoNumeric mean,
+			GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+		this(cons, mean, sd, n, hypMean, tail);
 		result.setLabel(label);
 	}
 
-	public AlgoTTest(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+	public AlgoTTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
+			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.geoList = null;
 		this.hypMean = hypMean;
@@ -71,12 +73,11 @@ public class AlgoTTest extends AlgoElement {
 		this.mean = mean;
 		this.sd = sd;
 		this.n = n;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 	}
-
 
 	@Override
 	public Algos getClassName() {
@@ -84,21 +85,21 @@ public class AlgoTTest extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
-		if(geoList != null){
+		if (geoList != null) {
 			input = new GeoElement[3];
 			input[0] = geoList;
 			input[1] = hypMean;
 			input[2] = tail;
 
-		}else{
+		} else {
 			input = new GeoElement[5];
 			input[0] = mean;
 			input[1] = sd;
 			input[2] = n;
 			input[3] = hypMean;
-			input[4] = tail;			
+			input[4] = tail;
 		}
 
 		setOnlyOutput(result);
@@ -109,8 +110,7 @@ public class AlgoTTest extends AlgoElement {
 		return result;
 	}
 
-
-	private double adjustedPValue(double p, double testStatistic){
+	private double adjustedPValue(double p, double testStatistic) {
 
 		// two sided test
 		if (StringUtil.isNotEqual(tail.getTextString())) {
@@ -118,38 +118,35 @@ public class AlgoTTest extends AlgoElement {
 		}
 
 		// one sided test
-		else if((tail.getTextString().equals(">") && testStatistic > 0)
+		else if ((tail.getTextString().equals(">") && testStatistic > 0)
 				|| (tail.getTextString().equals("<") && testStatistic < 0)) {
-			return p/2;
+			return p / 2;
 		} else {
-			return 1 - p/2;
+			return 1 - p / 2;
 		}
-		
-	}
 
+	}
 
 	@Override
 	public final void compute() {
-
 
 		if (!(StringUtil.isInequality(tail.getTextString()))) {
 			result.setUndefined();
 			return;
 		}
 
-
 		// sample data input
-		if(input.length == 3){
+		if (input.length == 3) {
 
-			int size= geoList.size();
-			if(!geoList.isDefined() || size < 2){
-				result.setUndefined();	
-				return;			
+			int size = geoList.size();
+			if (!geoList.isDefined() || size < 2) {
+				result.setUndefined();
+				return;
 			}
 
 			val = new double[size];
 
-			for (int i=0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoList.get(i);
 				if (geo.isNumberValue()) {
 					NumberValue num = (NumberValue) geo;
@@ -158,24 +155,22 @@ public class AlgoTTest extends AlgoElement {
 				} else {
 					result.setUndefined();
 					return;
-				}    		    		
-			}   
+				}
+			}
 
 			try {
-				
+
 				// get the test statistic and p
-				if(tTestImpl == null)
+				if (tTestImpl == null)
 					tTestImpl = new TTestImpl();
 				testStat = tTestImpl.t(hypMean.getDouble(), val);
 				p = tTestImpl.tTest(hypMean.getDouble(), val);
 				p = adjustedPValue(p, testStat);
-				
-				
+
 				// put these results into the output list
 				result.clear();
 				result.add(new GeoNumeric(cons, p));
-				result.add(new GeoNumeric(cons,testStat));
-
+				result.add(new GeoNumeric(cons, testStat));
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -183,38 +178,43 @@ public class AlgoTTest extends AlgoElement {
 				e.printStackTrace();
 			}
 
+			// sample statistics input
+		} else {
 
-			// sample statistics input 
-		}else{
+
 
 			// check for valid standard deviation and sample size
-			if(sd.getDouble() < 0 || n.getDouble() < 2){
+			if (sd.getDouble() < 0 || n.getDouble() < 2) {
 				result.setUndefined();
 				return;
 			}
-			StatisticalSummaryValues sumStats = new StatisticalSummaryValues(
-					mean.getDouble(), sd.getDouble()*sd.getDouble(), (long) n.getDouble(), -1,-1,-1);
 
 			try {
-				
+				StatisticalSummaryValues sumStats = new StatisticalSummaryValues(
+						mean.getDouble(), sd.getDouble() * sd.getDouble(),
+						(long) n.getDouble(), -1, -1, -1);
+
 				// get the test statistic and p
-				if(tTestImpl == null)
+				if (tTestImpl == null)
 					tTestImpl = new TTestImpl();
 				testStat = tTestImpl.t(hypMean.getDouble(), sumStats);
 				p = tTestImpl.tTest(hypMean.getDouble(), sumStats);
 				p = adjustedPValue(p, testStat);
-				
 
 				// put these results into the output list
 				result.clear();
 				result.add(new GeoNumeric(cons, p));
-				result.add(new GeoNumeric(cons,testStat));
-
+				result.add(new GeoNumeric(cons, testStat));
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
+				result.setUndefined();
+				return;
+				
 			} catch (MathException e) {
 				e.printStackTrace();
+				result.setUndefined();
+				return;
 			}
 
 		}

@@ -59,14 +59,14 @@ public class AlgoTTest2 extends AlgoElement {
 		result.setLabel(label);
 	}
 
-	public AlgoTTest2(Construction cons, String label, GeoNumeric mean0, GeoNumeric mean1, GeoNumeric sd0, GeoNumeric sd1, 
-			GeoNumeric n0, GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
-		this(cons, mean0, mean1, sd0, sd1, n0, n1, tail, pooled);
+	public AlgoTTest2(Construction cons, String label, GeoNumeric mean0, GeoNumeric sd0, GeoNumeric n0, GeoNumeric mean1, 
+			GeoNumeric sd1, GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
+		this(cons, mean0, sd0, n0, mean1, sd1, n1, tail, pooled);
 		result.setLabel(label);
 	}
 
-	public AlgoTTest2(Construction cons, GeoNumeric mean0, GeoNumeric mean1, GeoNumeric sd0, GeoNumeric sd1, 
-			GeoNumeric n0, GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
+	public AlgoTTest2(Construction cons, GeoNumeric mean0, GeoNumeric sd0, GeoNumeric n0, GeoNumeric mean1, 
+			GeoNumeric sd1, GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
 		super(cons);
 		this.mean0 = mean0;
 		this.mean1 = mean1;
@@ -102,10 +102,10 @@ public class AlgoTTest2 extends AlgoElement {
 		}else{
 			input = new GeoElement[8];
 			input[0] = mean0;
-			input[1] = mean1;
-			input[2] = sd0;
-			input[3] = sd1;
-			input[4] = n0;
+			input[1] = sd0;
+			input[2] = n0;
+			input[3] = mean1;
+			input[4] = sd1;
 			input[5] = n1;
 			input[6] = tail;
 			input[7] = pooled;
