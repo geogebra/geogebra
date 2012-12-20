@@ -409,7 +409,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
         gl.glDisable(GLlocal.GL_LIGHTING);
         gl.glEnable(GLlocal.GL_BLEND);
-        gl.glEnable(GLlocal.GL_TEXTURE_2D);
+        enableTextures();
         //gl.glDisable(GLlocal.GL_BLEND);
         //gl.glDepthMask(false);
         drawable3DLists.drawLabel(this);
@@ -421,7 +421,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
         
         
-        gl.glDisable(GLlocal.GL_TEXTURE_2D);
+        disableTextures();
         
         if (enableClipPlanes)
         	disableClipPlanes();
