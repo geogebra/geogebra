@@ -110,21 +110,21 @@ public class EuclidianViewW extends EuclidianView {
 		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, ClickEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOverEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOutEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseDownEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseUpEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseWheelEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, ClickEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOverEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOutEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseDownEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseUpEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseWheelEvent.getType());
 		
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, TouchStartEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, TouchEndEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, TouchMoveEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, TouchCancelEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, GestureStartEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, GestureChangeEvent.getType());
-		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchStartEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchEndEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchMoveEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchCancelEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureStartEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureChangeEvent.getType());
+		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
 		
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
 //		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
@@ -617,7 +617,7 @@ public class EuclidianViewW extends EuclidianView {
 
 	@Override
     public void add(GBox box) {
-	    this.app.getEuclidianViewpanel().add(
+	    this.app.getEuclidianViewpanel().getEuclidianPanel().add(
 	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
@@ -626,7 +626,7 @@ public class EuclidianViewW extends EuclidianView {
 	@Override
     public void remove(GBox box) {
 		App.debug("implementation needed - just finishing"); // TODO
-	    this.app.getEuclidianViewpanel().remove(
+	    this.app.getEuclidianViewpanel().getEuclidianPanel().remove(
 	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box));
 	    
     }

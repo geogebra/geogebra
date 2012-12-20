@@ -40,7 +40,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 			}
 		}
 
-		Element wrapper = getWidgetContainerElement(ggwGraphicView);
+		Element wrapper = ggwGraphicView.getEuclidianPanel().getElement();
 		if (application != null)
 			((AppW) application).ggwGraphicsViewDimChanged(
 				wrapper.getOffsetWidth(), wrapper.getOffsetHeight());
