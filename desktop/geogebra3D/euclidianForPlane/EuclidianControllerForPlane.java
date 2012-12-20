@@ -29,7 +29,7 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 	
 	
 	private Coords getCoordsFromView(double x, double y){
-		return ((EuclidianViewForPlane) view).getCoordsFromView(new Coords(x,y,0,1));
+		return ((EuclidianViewForPlane) view).getCoordsFromView(x,y);
 	}
 		
 	@Override

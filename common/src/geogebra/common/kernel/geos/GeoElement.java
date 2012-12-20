@@ -1111,6 +1111,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			break;
 		case CONIC:
 		case CONICPART:
+		case CONIC3D:
 			typePriority = 70;
 			break;
 		case ANGLE:

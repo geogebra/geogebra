@@ -63,8 +63,21 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
 			btnPointCapture, btnDeleteSize;
 
-	private MyToggleButton btnPen, btnShowGrid, btnShowAxes, btnBold,
-			btnItalic, btnDelete, btnTableTextLinesV, btnTableTextLinesH;
+	private MyToggleButton btnPen;
+
+	protected MyToggleButton btnShowGrid;
+
+	protected MyToggleButton btnShowAxes;
+
+	private MyToggleButton btnBold;
+
+	private MyToggleButton btnItalic;
+
+	private MyToggleButton btnDelete;
+
+	private MyToggleButton btnTableTextLinesV;
+
+	private MyToggleButton btnTableTextLinesH;
 
 	MyToggleButton btnFixPosition;
 
@@ -80,7 +93,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
 	public int mode = -1;
-	private boolean isIniting;
+	protected boolean isIniting;
 	private boolean needUndo = false;
 	private Integer oldDefaultMode;
 	private boolean modeChanged = true;

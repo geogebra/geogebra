@@ -15,6 +15,8 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	final static public int VZ = 2;
 
 	final static public CoordMatrix4x4 IDENTITY = Identity();
+	final static public CoordMatrix4x4 MIRROR_O = Identity().mirrorO();
+	final static public CoordMatrix4x4 MIRROR_X = Identity().mirrorX();
 	final static public CoordMatrix4x4 MIRROR_Y = Identity().mirrorY();
 	final static public CoordMatrix4x4 ROTATION_OZ_90 = RotationOz(Math.PI / 2);
 	final static public CoordMatrix4x4 ROTATION_OZ_M90 = RotationOz(-Math.PI / 2);

@@ -2600,6 +2600,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}	
 	
 	/**
+	 * 
+	 * @return true if show xOy plane
+	 */
+	public boolean getShowPlane(){
+		return xOyPlane.isPlateVisible();
+	}
+	
+	/**
 	 * toggle the visibility of xOy grid
 	 */
 	public void toggleGrid(){

@@ -255,6 +255,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	public void setLabels(){
 		super.setLabels();
+		btnShowPlane.setToolTipText(app.getPlainTooltip("stylebar.xOyPlane"));
 		btnRotateView.setToolTipText(app.getPlainTooltip("stylebar.RotateView"));
 		btnViewDefault.setToolTipText(app.getPlainTooltip("stylebar.ViewDefault"));
 		btnViewXY.setToolTipText(app.getPlainTooltip("stylebar.ViewXY"));
@@ -266,7 +267,16 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	
 	@Override
 	protected void updateGUI(){
+		
+		if (isIniting)
+			return;
+
 		super.updateGUI();
+		
+		btnShowPlane.removeActionListener(this);
+		btnShowPlane.setSelected(((EuclidianView3D) ev).getShowPlane());
+		btnShowPlane.addActionListener(this);
+
 		
 		btnRotateView.removeActionListener(this);
 		btnRotateView.setSelected(false);
@@ -289,14 +299,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnViewYZ.setSelected(false);
 		btnViewYZ.addActionListener(this);
 		
-
-		/*
 		btnViewProjection.removeActionListener(this);
-		btnViewProjection.setSelected(false);
+		btnViewProjection.setSelectedIndex(((EuclidianView3D) ev).getProjection());
 		btnViewProjection.addActionListener(this);
-		 */
-
-		
 		
 	}
 	

@@ -15,11 +15,14 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
+import geogebra3D.euclidian3D.EuclidianStyleBarForPlane;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
@@ -149,6 +152,15 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return getMatrix().mul(coords);
 	}
 	
+	/**
+	 * @param x x coord in view plane
+	 * @param y y coord in view plane
+	 * @return coords in 3D world
+	 */
+	public Coords getCoordsFromView(double x, double y){
+		return getCoordsFromView(new Coords(x,y,0,1));
+	}
+	
 	@Override
 	public CoordMatrix getMatrix(){
 		
@@ -199,8 +211,34 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}
 	
 	
-	private int transformMirror = 1;
-	private int transformRotate = 0;
+	
+
+
+	/**
+	 * update orientation of the view regarding 3D view
+	 */
+	public void updateOrientationRegardingView(){
+		Coords center = getCoordsFromView(
+				toRealWorldCoordX(getWidth()/2),
+				toRealWorldCoordY(getHeight()/2));
+		
+		setTransformRegardingView();
+		updateMatrix();
+		
+		Coords center2 = getCoordsForView(center);
+		
+		int x = toScreenCoordX(center2.getX());
+		int y = toScreenCoordY(center2.getY());
+
+		
+		
+		setCoordSystem(getWidth()/2-x+getxZero(), getHeight()/2-y+getyZero(), getXscale(), getYscale());
+	}
+
+	
+	private int transformMirror;
+	private int transformRotate;
+
 	
 	/**
 	 * set the transform matrix regarding view direction
@@ -225,13 +263,16 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		//CoordMatrix m = toScreenMatrix.mul(planeMatrix.mul(transform));
 		CoordMatrix m = toScreenMatrix.mul(planeMatrix);
 		
-		//Application.debug("m=\n"+m);
+		//App.debug("m=\n"+m);
 		
 		double vXx = m.get(1, 1);
 		double vXy = m.get(2, 1);
 		double vYx = m.get(1, 2);
+		double vYy = m.get(2, 2);
 
-		if (Math.abs(vXy)>Math.abs(vXx)){			
+		transformRotate = 0;
+		//is vX vertical and vY horizontal ?
+		if (Math.abs(vXy)>Math.abs(vXx) && Math.abs(vYx)>Math.abs(vYy)){			
 			if (vYx*transformMirror>=0){
 				transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);
 				transformRotate = 90;
@@ -239,6 +280,10 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 				transform = CoordMatrix4x4.ROTATION_OZ_M90.mul(transform);
 				transformRotate = -90;
 			}
+		//check vX direction
+		}else if (vXx*transformMirror<0){
+			transform = CoordMatrix4x4.MIRROR_O.mul(transform);
+			transformRotate = 180;
 		}
 
 
@@ -256,16 +301,17 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
 		if (transformMirror==1)
 			transform = CoordMatrix4x4.IDENTITY;
-		else{
+		else
 			transform = CoordMatrix4x4.MIRROR_Y;
-			transformMirror = -1;
-		}
+		
 
 
 		if (transformRotate == 90)
 			transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);
 		else if (transformRotate == -90)
 			transform = CoordMatrix4x4.ROTATION_OZ_M90.mul(transform);
+		else if (transformRotate == 180)
+			transform = CoordMatrix4x4.MIRROR_O.mul(transform);
 
 	}
 	
@@ -414,19 +460,20 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		transformMirror = 1;		
 		if(evs.getMirror())
 			transformMirror=-1;
-		//transformRotate = 0;
+				
+
 		transformRotate = evs.getRotate();
 
 		setTransform();
 		
 	}
 	
-	/*
+	
 	@Override
 	protected EuclidianStyleBarD newEuclidianStyleBar(){
 		return new EuclidianStyleBarForPlane(this);
 	}
-	*/
+	
 	
 	@Override
 	public void paint(geogebra.common.awt.GGraphics2D g2) {		
