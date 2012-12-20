@@ -381,23 +381,21 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	//notify();
         }
     }
-    
-    
-   /**
-    * enable textures
-    */
-   public void enableTextures(){
-    	
-	   gl.glEnable(GLlocal.GL_TEXTURE_2D);
+
+
+    /**
+     * enable textures
+     */
+    final public void enableTextures(){  	
+    	gl.glEnable(GLlocal.GL_TEXTURE_2D);
     }
-    
-   /**
-    * disable textures
-    */
-   public void disableTextures(){
-   	
-	   gl.glDisable(GLlocal.GL_TEXTURE_2D);
-   }
+
+    /**
+     * disable textures
+     */
+    final public void disableTextures(){
+    	gl.glDisable(GLlocal.GL_TEXTURE_2D);
+    }
    
    
     private void drawFaceToScreen() {
@@ -517,13 +515,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
         //gl.glDisable(GLlocal.GL_BLEND);
         drawable3DLists.drawHiddenNotTextured(this);
-        gl.glEnable(GLlocal.GL_TEXTURE_2D);
+        enableTextures();
         //gl.glColorMask(false,false,false,false); //no writing in color buffer		
         drawable3DLists.drawHiddenTextured(this);
         drawNotTransp();
         //gl.glColorMask(true,true,true,true);
-        gl.glDisable(GLlocal.GL_TEXTURE_2D);
-        //gl.glDisable(GLlocal.GL_TEXTURE_2D);
+        disableTextures();
         gl.glDisable(GLlocal.GL_ALPHA_TEST);       
         
         //gl.glEnable(GLlocal.GL_BLEND);
@@ -531,12 +528,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
                 
         //drawing transparents parts
         gl.glDepthMask(false);
-        gl.glEnable(GLlocal.GL_TEXTURE_2D);
+        enableTextures();
         drawTransp();      
         gl.glDepthMask(true);
        
         //drawing labels
-        gl.glDisable(GLlocal.GL_TEXTURE_2D);
+        disableTextures();
         gl.glEnable(GLlocal.GL_CULL_FACE);
         //gl.glCullFace(GLlocal.GL_BACK);
         //gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
@@ -562,12 +559,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
 
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
-        gl.glEnable(GLlocal.GL_TEXTURE_2D);
+        enableTextures();
         gl.glDepthMask(false);
         gl.glEnable(GLlocal.GL_BLEND);
         drawTransp();
         gl.glDepthMask(true);
-        gl.glDisable(GLlocal.GL_TEXTURE_2D);
+        disableTextures();
         
         //drawing hiding parts
         gl.glColorMask(false,false,false,false); //no writing in color buffer		
@@ -584,7 +581,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
-        gl.glEnable(GLlocal.GL_TEXTURE_2D);
+        enableTextures();
         gl.glDepthMask(false);
         gl.glEnable(GLlocal.GL_BLEND);
         drawTransp();
@@ -1262,14 +1259,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
        
         if (pickingMode == PICKING_MODE_LABELS){
         	// picking labels
-        	gl.glEnable(GLlocal.GL_TEXTURE_2D);
+        	enableTextures();
         	gl.glDisable(GLlocal.GL_BLEND);
         	gl.glEnable(GLlocal.GL_ALPHA_TEST);
         	//gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
             	
         	drawable3DLists.drawLabelForPicking(this);
         	
-           	gl.glDisable(GLlocal.GL_TEXTURE_2D);
+           	disableTextures();
            	gl.glDisable(GLlocal.GL_BLEND);
            	gl.glDisable(GLlocal.GL_ALPHA_TEST);
             
