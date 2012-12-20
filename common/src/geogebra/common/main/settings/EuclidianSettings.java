@@ -652,8 +652,12 @@ public class EuclidianSettings extends AbstractSettings {
 		if (show == showGrid) {
 			return;
 		}
-		showGrid = show;
+		setShowGridSetting(show);
 		settingChanged();
+	}
+	
+	public void setShowGridSetting(boolean show){
+		showGrid = show;
 	}
 
 	public boolean getShowGrid() {

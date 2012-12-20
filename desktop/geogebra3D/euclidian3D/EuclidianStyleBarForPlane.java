@@ -47,7 +47,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 
 	@Override
 	protected void addGraphicsDecorationsButtons(){
-		add(btnShowAxes);
+		//add(btnShowAxes);
 		add(btnShowGrid);
 	}
 	

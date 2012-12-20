@@ -57,7 +57,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		
 		//initView(true);
 		setShowAxes(false, false);
-		showGrid(false);
+		//showGrid(false);
 		
 		setPlane(plane);
 		
@@ -486,6 +486,14 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		
 		
 		super.paint(g2);
+	}
+	
+	@Override
+	public void showGrid(boolean show) {
+		EuclidianSettings settings = app.getSettings().getEuclidianForPlane(getFromPlaneString());
+		if (settings!=null)
+			settings.setShowGridSetting(show);
+		super.showGrid(show);
 	}
 	
 }
