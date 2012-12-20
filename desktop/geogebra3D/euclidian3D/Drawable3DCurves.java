@@ -49,6 +49,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 		super(a_view3d);
 	}
 
+	@Override
 	public void drawOutline(Renderer renderer) {
 		
 		if(!isVisible())
@@ -70,6 +71,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	
 	
 	
+	@Override
 	public void drawHidden(Renderer renderer){
 		
 		
@@ -104,10 +106,12 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	
 
 	
+	@Override
 	public void drawGeometryPicked(Renderer renderer){
 		drawGeometry(renderer);
 	}
 	
+	@Override
 	public void drawGeometryHidden(Renderer renderer){
 		
 		drawGeometry(renderer);
@@ -117,24 +121,39 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	
 	// methods not used for solid drawables
+	@Override
 	public void drawHiding(Renderer renderer) {}
+	@Override
 	public void drawTransp(Renderer renderer) {}
+	@Override
 	public void drawNotTransparentSurface(Renderer renderer) {}
 
+	@Override
 	public boolean isTransparent() {
 		return false;
 	}
 	
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_CURVES);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
     }
 	
 
+	@Override
 	protected double getColorShift(){
 		return 0.75;
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(){
+		super.setWaitForUpdateVisualStyle();
+		
+		//also update for e.g. line width
+		setWaitForUpdate();
 	}
 }

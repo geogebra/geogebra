@@ -87,6 +87,7 @@ public class DrawList3D extends Drawable3D {
 		
 	}
 	
+	@Override
 	public Drawable3D drawForPicking(Renderer renderer) {
 		
 		return this;
@@ -102,11 +103,13 @@ public class DrawList3D extends Drawable3D {
 		
 	}
 
+	@Override
 	public void drawLabel(Renderer renderer){
 		
 	}
 	
 	
+	@Override
 	public boolean drawLabelForPicking(Renderer renderer){
 		return false;
 	}
@@ -119,11 +122,13 @@ public class DrawList3D extends Drawable3D {
 
 
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_DEFAULT);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	removeFromDrawable3DLists(lists,DRAW_TYPE_DEFAULT);
     }
     
@@ -135,6 +140,7 @@ public class DrawList3D extends Drawable3D {
 	}
 
 
+	@Override
 	protected boolean updateForItSelf() {
 		
 		
@@ -176,18 +182,29 @@ public class DrawList3D extends Drawable3D {
     	return true;
 	}
 
+	@Override
 	protected void updateForView() {
 		
 	}
 	
 	//no label for 3D lists
+	@Override
 	protected void updateLabel(){
 		
 	}
 
 	
 
+	@Override
 	protected double getColorShift(){
 		return 0;
+	}
+	
+	@Override
+	public void setWaitForUpdateVisualStyle(){
+		super.setWaitForUpdateVisualStyle();
+		
+		//also update for e.g. line width
+		setWaitForUpdate();
 	}
 }

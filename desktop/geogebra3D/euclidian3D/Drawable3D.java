@@ -257,7 +257,7 @@ public abstract class Drawable3D extends DrawableND {
 	final public void update(){
 
 
-		if (waitForUpdateVisualStyle){
+		if (waitForUpdateVisualStyle || waitForUpdate){
 			updateColors();
 			setLabelWaitForUpdate();
 			waitForUpdateVisualStyle = false;
@@ -338,7 +338,6 @@ public abstract class Drawable3D extends DrawableND {
 	public void setWaitForUpdate(){
 		
 		waitForUpdate = true;
-		setWaitForUpdateVisualStyle();
 	}
 	
 	/**
