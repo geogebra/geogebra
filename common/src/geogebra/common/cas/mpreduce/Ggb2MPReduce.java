@@ -400,7 +400,7 @@ public class Ggb2MPReduce {
 				"<<begin; clear input!!; input!!:=(%0); return if myvecp input!! then unitvector input!! else input!!/sqrt(<<for i:=1:row\\_dim(input!!) sum input!!(i,1)^2>>) end>>");
 		p("Variance.1",
 				"<<begin scalar x!!,n!!,xd!!; x!!:=(%0)$ n!!:=length(x!!)$ xd!!:=1/n!!*for each i in x!! sum i; return 1/n!!* for each i in x!! sum (i-xd!!)**2 end>>");
-		p("Weibull.3", "1-exp(-(%0)*(%2)^(%1))");
+		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4",
 				"<<begin scalar s; s:= %1; return if %3=true then harmonic(%2,s)/harmonic(%0,s) else 1/((%2)^s*harmonic(%0,s)) end>>");
 		return commandMap;
