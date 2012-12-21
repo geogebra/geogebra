@@ -1070,37 +1070,37 @@ public class Kernel {
 		} else {
 			formatSB.setLength(0);
 		}
+		
+		boolean negative = num.charAt(0) == '-';
+		
+		int start = 0;
 
 		// make sure minus sign works in Arabic
-		boolean reverseOrder = (num.charAt(0) == '-')
-				&& getApplication().isRightToLeftDigits(tpl);
+		boolean RTL = getApplication().isRightToLeftDigits(tpl);
 
-		if (reverseOrder) {
+		if (RTL) {
 			formatSB.append(Unicode.RightToLeftMark);
+			if (negative) {
+				formatSB.append(Unicode.RightToLeftUnaryMinusSign);
+				start = 1;
+			}
 		}
 
-		for (int i = 0; i < num.length(); i++) {
-			char c = num.charAt(i);
-			// char c = reverseOrder ? num.charAt(length - 1 - i) :
-			// num.charAt(i);
+		for (int i = start; i < num.length(); i++) {
+
+			char c = RTL ? num.charAt(num.length() -(negative?0:1) - i) : num.charAt(i);
 			if (c == '.') {
 				c = App.unicodeDecimalPoint;
 			} else if ((c >= '0') && (c <= '9')) {
 
-				c += App.unicodeZero - '0'; // convert to eg
-															// Arabic Numeral
-
+				// convert to eg Arabic Numeral
+				c += App.unicodeZero - '0'; 
 			}
 
-			// make sure the minus is treated as part of the number in eg Arabic
-			// if ( reverseOrder && c=='-'){
-			// formatSB.append(Unicode.RightToLeftUnaryMinusSign);
-			// }
-			// else
 			formatSB.append(c);
 		}
 
-		if (reverseOrder) {
+		if (RTL) {			
 			formatSB.append(Unicode.RightToLeftMark);
 		}
 

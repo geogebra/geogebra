@@ -1749,9 +1749,11 @@ public abstract class App implements Localization{
 		// 2008-03-31
 		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
 
-		// used for axes labels
-		rightToLeftDigits = ("ar".equals(lang) || "fa".equals(lang));
-
+		// used for eg axes labels
+		// Arabic digits are RTL 
+	 	// Persian aren't http://persian.nmelrc.org/persianword/format.htm 
+	 	rightToLeftDigits = "ar".equals(lang);
+	 	
 		// Guy Hed, 25.8.2008
 		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
 		rightToLeftReadingOrder = ("iw".equals(lang) || "ar".equals(lang)
