@@ -351,7 +351,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			final boolean symbolic, StringTemplate tpl) {
 		/* previously this method also replaced f by f(x), but FunctionExpander takes care of that now */
 		if (symbolic) {
-			return ev.toString(tpl);
+			return ev.wrap().toString(tpl);
 		}
 		return ev.toValueString(tpl);
 	}
