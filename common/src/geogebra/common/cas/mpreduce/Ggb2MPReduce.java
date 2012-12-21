@@ -354,7 +354,9 @@ public class Ggb2MPReduce {
 		p("TaylorSeries.4",
 				"<< begin scalar tmpret; korder list(); off pri; tmpret:=taylor(%0,%1,%2,%3); korder varorder!!; return if taylortostd =1 then taylortostandard(tmpret) else tmpret end>>");
 		p("TDistribution.2",
-				"<<begin scalar t!!,n!!; n!!:=(%0); t!!:=(%1) ;ibeta(((t!!+sqrt(t!!^2+n!!)/(2*sqrt(t!!^2+n!!)),n!!/2,n!!/2)");
+				"<<begin scalar t!!,n!!; n!!:=(%0); t!!:=(%1) ;" +
+				"return  1/2 + (ibeta(n!! / 2, 0.5, 1) - ibeta(n!! / 2, 0.5, n!! / (n!! + t!!*t!!)))* sign(t!!) / 2 ;" +
+				"end>>");
 		p("ToComplex.1",
 				"<<begin scalar list!!; list!!:=(%0); return if myvecp list!! then get(list!!,0)+i*get(list!!,1) else part(list!!,1)+i*part(list!!,2) end >>");
 		p("ToExponential.1",
