@@ -403,18 +403,22 @@ public class GeoGebraMenuBar extends JMenuBar {
 		JPanel systemInfoPanel = new JPanel(new BorderLayout(5, 5));
 		systemInfoPanel.add(new JLabel(sb.toString()), BorderLayout.CENTER);
 
-		// copy system information to clipboard
-		systemInfoPanel.add(new JButton(new AbstractAction(app.getPlain("SystemInformation")) {
-
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent arg0) {
-
-				copyDebugInfoToClipboard(app);
-				
-				app.showMessage(app.getPlain("SystemInformationMessage"));
-			}
-		}), app.borderEast());
+		if (AppD.hasFullPermissions()) { 
+			// copy system information to clipboard
+		
+			systemInfoPanel.add(new JButton(new AbstractAction(app.getPlain("SystemInformation")) {
+	
+				private static final long serialVersionUID = 1L;
+	
+				public void actionPerformed(ActionEvent arg0) {
+	
+					copyDebugInfoToClipboard(app);
+					
+					app.showMessage(app.getPlain("SystemInformationMessage"));
+				}
+			}), app.borderEast());
+		
+		}
 
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.add(systemInfoPanel, BorderLayout.NORTH);

@@ -41,25 +41,28 @@ class HelpMenu extends BaseMenu {
 	@Override
 	protected void initItems()
 	{
-		
-		removeAll();
-		
-		JMenuItem mi = add(helpAction);
-		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1,
-				0);
-		mi.setAccelerator(ks);
 
-		add(tutorialAction);
-		add(geogebratubeAction);
-		
-		addSeparator();
-		
-		add(reportBugAction);
-		
-		addSeparator();
+		removeAll();
+
+		// doesn't work in unsigned applets 
+		if (!AppD.hasFullPermissions()) {		
+			JMenuItem mi = add(helpAction);
+			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1,
+					0);
+			mi.setAccelerator(ks);
+
+			add(tutorialAction);
+			add(geogebratubeAction);
+
+			addSeparator();
+
+			add(reportBugAction);
+
+			addSeparator();
+		}
 
 		add(infoAction);
-		
+
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
 

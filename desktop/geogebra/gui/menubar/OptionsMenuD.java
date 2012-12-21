@@ -135,13 +135,16 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		// advanced properties	
 		add(showOptionsAction);
 		
-		addSeparator();
-
-		// save settings	
-		add(saveSettings);
-
-		// restore default settings	
-		add(restoreDefaultSettings);
+		// doesn't work in applets 
+	 	if (!app.isApplet()) {
+			addSeparator();
+	
+			// save settings	
+			add(saveSettings);
+	
+			// restore default settings	
+			add(restoreDefaultSettings);
+	 	}
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
