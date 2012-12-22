@@ -79,7 +79,7 @@ public class DataSource {
 		// add the new data source object
 		list.set(index, getCurrentGeoSelection());
 
-		debug();
+		// debug();
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class DataSource {
 		}
 
 		else if (geo.getSpreadsheetCoords() != null) {
-			return new DataItem(spreadsheetTable().getSelectedCellRanges()
-					.clone(), ITEM_SPREADSHEET);
+			return new DataItem(CellRangeProcessor.clone(spreadsheetTable()
+					.getSelectedCellRanges()), ITEM_SPREADSHEET);
 		}
 
 		return null;
@@ -386,7 +386,7 @@ public class DataSource {
 		// dynamically, so we need to use a copy.
 
 		ArrayList<CellRange> rangeList = CellRangeProcessor
-				.clone(spreadsheetTable().selectedCellRanges);
+				.clone(spreadsheetTable().getSelectedCellRanges());
 
 		// exit if the spreadsheet range is not appropriate for the given mode
 		// and source type
@@ -515,7 +515,7 @@ public class DataSource {
 
 		String[][] s = new String[2][];
 
-		ArrayList<CellRange> rangeList = spreadsheetTable().selectedCellRanges;
+		ArrayList<CellRange> rangeList = spreadsheetTable().getSelectedCellRanges();
 		CellRangeProcessor cr = spreadsheetTable().getCellRangeProcessor();
 		ArrayList<String> list0 = null;
 		ArrayList<String> list1 = null;
@@ -659,7 +659,7 @@ public class DataSource {
 
 		Object dataSource = null;
 
-		ArrayList<CellRange> rangeList = spreadsheetTable().selectedCellRanges;
+		ArrayList<CellRange> rangeList = spreadsheetTable().getSelectedCellRanges();
 		CellRangeProcessor cellRangeProc = spreadsheetTable()
 				.getCellRangeProcessor();
 
@@ -773,6 +773,10 @@ public class DataSource {
 	public String getDataTitle(int index) {
 
 		// app.printStacktrace("get data title start");
+
+		if (index > list.size() - 1) {
+			return null;
+		}
 
 		DataItem dataItem = list.get(index);
 

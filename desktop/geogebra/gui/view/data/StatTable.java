@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.text.JTextComponent;
 
 public class StatTable extends JScrollPane {
 
@@ -551,23 +552,28 @@ public class StatTable extends JScrollPane {
 	}
 
 	/**
-	 * @param allowCellEdit true if table cell can be edited
+	 * @param allowCellEdit
+	 *            true if table cell can be edited
 	 */
 	public void setAllowCellEdit(boolean allowCellEdit) {
 		myTable.setAllowCellEdit(allowCellEdit);
 	}
-	
 
 	// ======================================================
 	// MyTable
 	// ======================================================
 	public class MyTable extends JTable {
 		private static final long serialVersionUID = 1L;
-		
+
 		private boolean allowCellEdit = false;
-		
+
+		public MyTable() {
+			super();
+		}
+
 		/**
-		 * @param allowCellEdit true if table cell can be edited
+		 * @param allowCellEdit
+		 *            true if table cell can be edited
 		 */
 		public void setAllowCellEdit(boolean allowCellEdit) {
 			this.allowCellEdit = allowCellEdit;
@@ -597,6 +603,17 @@ public class StatTable extends JScrollPane {
 			if (p instanceof JViewport) {
 				((JViewport) p).setBackground(getBackground());
 			}
+		}
+
+		// select all when editing starts
+		@Override
+		public Component prepareEditor(TableCellEditor editor, int row,
+				int column) {
+			Component c = super.prepareEditor(editor, row, column);
+			if (c instanceof JTextComponent) {
+				((JTextComponent) c).selectAll();
+			}
+			return c;
 		}
 
 		// Determine if comboCellEditor should be used
