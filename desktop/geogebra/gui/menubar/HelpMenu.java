@@ -45,7 +45,7 @@ class HelpMenu extends BaseMenu {
 		removeAll();
 
 		// doesn't work in unsigned applets 
-		if (!AppD.hasFullPermissions()) {		
+		if (AppD.hasFullPermissions()) {		
 			JMenuItem mi = add(helpAction);
 			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1,
 					0);
