@@ -1247,6 +1247,7 @@ public class CellRangeProcessor {
 	public String getCellRangeString(ArrayList<CellRange> list) {
 		StringBuilder sb = new StringBuilder();
 		for (CellRange cr : list) {
+			//cr.debug();
 			sb.append(getCellRangeString(cr, false));
 			sb.append(", ");
 		}

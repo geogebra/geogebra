@@ -13,12 +13,11 @@ import java.util.ArrayList;
  * Utility class for spreadsheet cell ranges.
  * 
  * A cell range is any rectangular block of cells defined by the column and row
- * index values of two diagonal corner cells. One corner is designated as
- * the anchor cell. 
+ * index values of two diagonal corner cells. One corner is designated as the
+ * anchor cell.
  * 
- * Rows and columns are defined using index values of -1 as follows.
- * row: minColumn and maxColumn = -1
- * column: minRow and maxRow = -1
+ * Rows and columns are defined using index values of -1 as follows. row:
+ * minColumn and maxColumn = -1 column: minRow and maxRow = -1
  * 
  * 
  * @author George Sturr, 2010-1-23
@@ -112,14 +111,14 @@ public class CellRange {
 		return (anchorColumn == -1);
 	}
 
-	public int[] getActualDimensions(){
+	public int[] getActualDimensions() {
 		int[] d = new int[2];
 		CellRange cr = getActualRange(this);
 		d[0] = cr.maxRow - cr.minRow + 1;
 		d[1] = cr.maxColumn - cr.minColumn + 1;
 		return d;
 	}
-	
+
 	// TODO -- refactor this name, should mean has either exactly 2 rows or
 	// exactly 2 columns
 	/**
@@ -128,7 +127,7 @@ public class CellRange {
 	public boolean is2D() {
 		return (maxColumn - minColumn == 1) || (maxRow - minRow == 1);
 	}
-	
+
 	/**
 	 * Returns true if cell range is 1xn, nx1, a row or a column
 	 */
@@ -275,7 +274,6 @@ public class CellRange {
 		return list;
 	}
 
-	
 	/**
 	 * ArrayList of geo value string for each geo found in the given cell range
 	 */
@@ -283,57 +281,57 @@ public class CellRange {
 
 		ArrayList<String> list = new ArrayList<String>();
 		CellRange cr = getActualRange(this);
-		
+
 		if (scanByColumn) {
 			for (int col = cr.minColumn; col <= cr.maxColumn; ++col) {
 				for (int row = cr.minRow; row <= cr.maxRow; ++row) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
-					if (geo != null) 
-						list.add(geo.toValueString(StringTemplate.defaultTemplate));
+					if (geo != null)
+						list.add(geo
+								.toValueString(StringTemplate.defaultTemplate));
 				}
 			}
 		} else {
 			for (int row = cr.minRow; row <= cr.maxRow; ++row) {
 				for (int col = cr.minColumn; col <= cr.maxColumn; ++col) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
-					if (geo != null) 
-						list.add(geo.toValueString(StringTemplate.defaultTemplate));
+					if (geo != null)
+						list.add(geo
+								.toValueString(StringTemplate.defaultTemplate));
 				}
 			}
 		}
 
 		return list;
 	}
-	
-	
-	public ArrayList<CellRange> toPartialColumnList(){
+
+	public ArrayList<CellRange> toPartialColumnList() {
 		ArrayList<CellRange> list = new ArrayList<CellRange>();
 
-		if(isColumn()){
-			for(int col = minColumn; col <= maxColumn; col++)
+		if (isColumn()) {
+			for (int col = minColumn; col <= maxColumn; col++)
 				list.add(new CellRange(app, col, -1, col, -1));
-		}else{
-			for(int col = minColumn; col <= maxColumn; col++)
+		} else {
+			for (int col = minColumn; col <= maxColumn; col++)
 				list.add(new CellRange(app, col, minRow, col, maxRow));
 		}
 
 		return list;
 	}
 
-	public ArrayList<CellRange> toPartialRowList(){
+	public ArrayList<CellRange> toPartialRowList() {
 		ArrayList<CellRange> list = new ArrayList<CellRange>();
 
-		if(isRow()){
-			for(int row = minRow; row <= maxRow; row++)
+		if (isRow()) {
+			for (int row = minRow; row <= maxRow; row++)
 				list.add(new CellRange(app, -1, row, -1, row));
-		}else{
-			for(int row = minRow; row <= maxRow; row++)
+		} else {
+			for (int row = minRow; row <= maxRow; row++)
 				list.add(new CellRange(app, minColumn, row, maxColumn, row));
 		}
 		return list;
 	}
-	
-	
+
 	/**
 	 * ArrayList of all cells found in the cell range
 	 */
@@ -387,7 +385,14 @@ public class CellRange {
 	}
 
 	public CellRange clone() {
-		return new CellRange(app, minColumn, minRow, maxColumn, maxRow);
+		CellRange cr = new CellRange(app);
+		cr.anchorColumn = anchorColumn;
+		cr.anchorRow = anchorRow;
+		cr.minColumn = minColumn;
+		cr.maxColumn = maxColumn;
+		cr.minRow = minRow;
+		cr.maxRow = maxRow;
+		return cr;
 	}
 
 	@Override
@@ -396,7 +401,8 @@ public class CellRange {
 		if (obj instanceof CellRange) {
 			cr = (CellRange) obj;
 			return (cr.minColumn == minColumn && cr.minRow == minRow
-					&& cr.maxColumn == maxColumn && cr.maxRow == maxRow);
+					&& cr.maxColumn == maxColumn && cr.maxRow == maxRow
+					&& cr.anchorColumn == anchorColumn && cr.anchorRow == anchorRow);
 		}
 		return false;
 	}
