@@ -462,13 +462,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return label or output value string
 	 */
 	public String getLabel(StringTemplate tpl) {
-		if (!labelSet && !localVarLabelSet) {
-			if (algoParent == null) {
-				return toOutputValueString(tpl);
+		if (!tpl.isUseRealLabels() || (realLabel == null) || realLabel.equals("")) {
+			if (!labelSet && !localVarLabelSet) {
+				if (algoParent == null) {
+					return toOutputValueString(tpl);
+				}
+				return algoParent.getCommandDescription(tpl);
 			}
-			return algoParent.getCommandDescription(tpl);
+			return kernel.printVariableName(label,tpl);
 		}
-		return kernel.printVariableName(label,tpl);
+		return kernel.printVariableName(realLabel,tpl);
 	}
 
 	/**
@@ -3654,10 +3657,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		return toString(StringTemplate.defaultTemplate);
 	}
 
-	public String toRealString(StringTemplate tpl) {
-		return getRealLabel(tpl);
-	}
-
 	/*
 	 * implementation of interface ExpressionValue
 	 */
@@ -5990,35 +5989,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	}
 
-	/**
-	 * @param tpl string template
-	 * @param substituteNumbers true to substitute numbers
-	 * @return formula string
-	 */
-	public String getRealFormulaString(final StringTemplate tpl,
-			final boolean substituteNumbers) {
-		String ret = "";
-
-		// matrices
-
-		if (getParentAlgorithm() != null) {
-			ret = getParentAlgorithm().getCommandDescription(tpl,true);
-		}
-
-		// GeoNumeric eg a=1
-		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
-				&& isLabelSet()) {
-			ret = kernel.printVariableName(label,tpl);
-		}
-		if ("".equals(ret) && !isGeoText()) {
-			// eg Text[ (1,2), false]
-			ret = toOutputValueString(tpl);
-		}
-
-		return ret;
-
-	}
-
 	// ===================================================
 	// G.Sturr 2010-5-14
 	// New code for spreadsheet tracing with trace manager
@@ -6344,20 +6314,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setRealLabel(final String realLabel) {
 		this.realLabel = realLabel;
-	}
-
-	/**
-	 * Used for Name command. See {@link #setRealLabel(String)}
-	 * @param tpl string template
-	 * 
-	 * @return label of this geo, or label of a real geo in case this one is
-	 *         formal
-	 */
-	public String getRealLabel(StringTemplate tpl) {
-		if ((realLabel == null) || realLabel.equals("")) {
-			return getLabel(tpl);
-		}
-		return realLabel;
 	}
 
 	/**

@@ -169,15 +169,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		return root.toString(tpl);
 	}
 
-	@Override
-	final public String toRealString(StringTemplate tpl) {
-		// was defined as e.g. text0 = "Radius: " + r
-		if (root == null)
-			return "";
-		return root.toRealString(tpl);
-	}
-
-
 	public void setSpreadsheetTraceableText(){
 
 		/*

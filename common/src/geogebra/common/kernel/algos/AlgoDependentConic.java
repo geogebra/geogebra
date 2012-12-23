@@ -123,11 +123,5 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint, 
 	public final String toString(StringTemplate tpl) {
         return equation.toString(tpl);
     }
-    
-    @Override
-	public final String toRealString(StringTemplate tpl) {
-        return equation.toRealString(tpl);
-    }
-
 	// TODO Consider locusequability           
 }

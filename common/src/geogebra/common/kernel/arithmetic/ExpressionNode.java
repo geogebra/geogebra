@@ -4882,33 +4882,6 @@ public class ExpressionNode extends ValidExpression implements
 		return false;
 	}
 
-	@Override
-	public String toRealString(StringTemplate tpl) {
-		if (leaf) { // leaf is GeoElement or not
-			if (left.isGeoElement()) {
-				return ((GeoElement) left).getRealLabel(tpl);
-			}
-			return left.toRealString(tpl);
-		}
-
-		// expression node
-		String leftStr = null, rightStr = null;
-		if (left.isGeoElement()) {
-			leftStr = ((GeoElement) left).getRealLabel(tpl);
-		} else {
-			leftStr = left.toRealString(tpl);
-		}
-
-		if (right != null) {
-			if (right.isGeoElement()) {
-				rightStr = ((GeoElement) right).getRealLabel(tpl);
-			} else {
-				rightStr = right.toRealString(tpl);
-			}
-		}
-		return operationToString(leftStr, rightStr, false, tpl);
-	}
-
 	private static boolean isConstantDouble(ExpressionValue ev, double v) {
 		ExpressionValue base = ev.unwrap();
 		return base instanceof MyDouble && base.isConstant()

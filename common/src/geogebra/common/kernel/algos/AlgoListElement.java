@@ -237,11 +237,11 @@ public class AlgoListElement extends AlgoElement {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public String getCommandDescription(StringTemplate tpl,boolean real) {
 		
 			return super.getCommandDescription(tpl,real);
-        /*      
+            
         	TODO re enable this for shortSyntax flag true for 5.0
             sb.setLength(0);
             
@@ -257,8 +257,8 @@ public class AlgoListElement extends AlgoElement {
             }
             sb.append(")");
             return sb.toString();           
-              */
-    }
+             
+    }*/
 
 	// TODO Consider locusequability
 

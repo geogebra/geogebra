@@ -100,11 +100,6 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
         // return 5a - 3b
         return root.toString(tpl);
     }
-    
-    @Override
-	final public String toRealString(StringTemplate tpl) {        
-        return root.toRealString(tpl);
-    }
 	
 	// TODO Consider locusequability
 }

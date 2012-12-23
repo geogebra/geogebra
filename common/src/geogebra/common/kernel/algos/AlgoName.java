@@ -101,13 +101,13 @@ public class AlgoName extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		String returnLabel = geo.getRealLabel(StringTemplate.defaultTemplate);
+		String returnLabel = geo.getLabel(StringTemplate.realTemplate);
 		if (returnLabel != null) {
 			text.setTextString(returnLabel);
 		} else {
 			// eg Name[a+3]
-			text.setTextString(geo.getRealFormulaString(
-					StringTemplate.defaultTemplate, false));
+			text.setTextString(geo.getFormulaString(
+					StringTemplate.realTemplate, false));
 		}
 	}
 

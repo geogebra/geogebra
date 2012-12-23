@@ -1999,50 +1999,6 @@ public class GeoFunction extends GeoElement implements VarString,
 		return ret;
 
 	}
-
-	@Override
-	public String getRealFormulaString(StringTemplate tpl,
-			boolean substituteNumbers) {
-
-		String ret = "";
-		if (this.isGeoFunctionConditional()) {
-			GeoFunctionConditional geoFun = (GeoFunctionConditional) this;
-			if (tpl.hasType(StringType.MATH_PIPER)) {
-
-				// get in form If(x<3, etc
-				ret = geoFun.toSymbolicString(tpl);
-				// Application.debug(ret);
-			} else if (tpl.hasType(StringType.LATEX)) {
-				ret = app.getFormulaRenderingType() == StringType.MATHML ? geoFun.conditionalMathML(substituteNumbers, tpl) : geoFun.conditionalLaTeX(substituteNumbers, tpl);
-			}
-
-		}
-		if (this.isGeoFunction()) {
-
-			if (isIndependent()) {
-				ret = toValueString(tpl);
-			} else {
-				ret = substituteNumbers ? getFunction().toValueString(tpl)
-						: getFunction().toRealString(tpl);
-			}
-		}
-		// matrices
-
-		else
-			return super.getRealFormulaString(tpl, substituteNumbers);
-		// GeoNumeric eg a=1
-		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers
-				&& isLabelSet()) {
-			ret = kernel.printVariableName(label, tpl);
-		}
-		if ("".equals(ret) && !this.isGeoText()) {
-			// eg Text[ (1,2), false]
-			ret = toOutputValueString(tpl);
-		}
-
-		return ret;
-
-	}
 	
 	@Override
 	public int getMinimumLineThickness() {

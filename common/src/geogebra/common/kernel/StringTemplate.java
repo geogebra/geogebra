@@ -42,6 +42,11 @@ public class StringTemplate {
 	 */
 	public static final StringTemplate defaultTemplate = new StringTemplate();
 	
+	public static final StringTemplate realTemplate = new StringTemplate();
+	static {
+		realTemplate.useRealLabels = true;
+	}
+	
 	/**
 	 * LaTeX string type, do not internationalize digits
 	 */
@@ -179,6 +184,7 @@ public class StringTemplate {
 	private boolean forceSF;
 	private boolean forceNF;
 	private boolean allowMoreDigits;
+	private boolean useRealLabels;
 
 	private boolean localizeCmds;
 	private boolean usePrefix;
@@ -417,6 +423,9 @@ public class StringTemplate {
 	public double getPrecision(NumberFormatAdapter nf2) {
 		int digits = getNF(nf2).getMaximumFractionDigits();
 		return digits <=16 ? precisions[digits] : Math.pow(10, -digits);
+	}
+	public boolean isUseRealLabels() {
+		return useRealLabels;
 	}
 	
 }

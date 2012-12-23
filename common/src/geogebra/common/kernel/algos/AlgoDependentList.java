@@ -161,24 +161,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
     	}
     	sb.append("}");    		    	    	
         return sb.toString();
-    }        
-    
-    @Override
-	final public String toRealString(StringTemplate tpl) {
-
-        if (sb == null) sb = new StringBuilder();
-        else sb.setLength(0);
-    	sb.append("{");
-    	
-    	if(input.length > 0) { // Florian Sonner 2008-07-12
-	    	for (int i=0; i < input.length - 1; i++) {
-	    		sb.append(input[i].getRealLabel(tpl));
-	    		sb.append(", ");
-	    	}    	
-	    	sb.append(input[input.length-1].getRealLabel(tpl));
-    	}
-    	sb.append("}");    		    	    	
-        return sb.toString();
     }
 
 	// TODO Consider locusequability

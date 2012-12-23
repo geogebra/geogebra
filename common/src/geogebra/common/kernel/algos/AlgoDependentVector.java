@@ -92,10 +92,5 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 		return root.toString(tpl);
 	}
 
-	@Override
-	final public String toRealString(StringTemplate tpl) {
-		return root.toRealString(tpl);
-	}
-
 	// TODO Consider locusequability
 }

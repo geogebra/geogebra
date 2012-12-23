@@ -1047,15 +1047,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	@Override
 	public String getCommandDescription(StringTemplate tpl) {
-		return getCommandDescription(tpl,false);
-	}
-
-	public String getCommandDescription(StringTemplate tpl,boolean real) {
 		String cmdname = getCommandName(tpl);
 
 		// command name
 		if (cmdname.equals("Expression")) {
-			return real ? toRealString(tpl) : toString(tpl);
+			return toString(tpl);
 		}
 		//#2706
 		if(input==null)
@@ -1070,19 +1066,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 		int length = input.length;
 
 		sbAE.append("[");
-		// input
+		// input legth is 0 for ConstructionStep[]
 		if (length > 0) {
-			sbAE.append(real ? input[0].getRealLabel(tpl) : input[0].getLabel(tpl)); // Michael
-																				// Borcherds
-																				// 2008-05-15
-																				// added
-																				// input.length>0
-																				// for
-																				// Step[]
+			sbAE.append(input[0].getLabel(tpl)); 
 		}
 		for (int i = 1; i < length; ++i) {
 			sbAE.append(", ");
-			appendCheckVector(sbAE, input[i], real,tpl);
+			appendCheckVector(sbAE, input[i], tpl);
 		}
 		sbAE.append("]");
 		return sbAE.toString();
@@ -1093,8 +1083,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * see #1377 g:X = (-5, 5) + t (4, -3)
 	 */
 	private void appendCheckVector(StringBuilder sb, GeoElement geo,
-			boolean real,StringTemplate tpl) {
-		String cmd = real ? geo.getRealLabel(tpl) : geo.getLabel(tpl);
+			StringTemplate tpl) {
+		String cmd = geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
 			String vectorCommand = "Vector[";
 			if(tpl.isPrintLocalizedCommandNames())
@@ -1113,10 +1103,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		} else {
 			sb.append(cmd);
 		}
-	}
-	
-	public String toRealString(StringTemplate tpl) {
-		return toString(tpl);
 	}
 	
 	@Override

@@ -106,11 +106,6 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo {
 	final public String toString(StringTemplate tpl) {              
         return root.toString(tpl);
     }
-    
-    @Override
-	final public String toRealString(StringTemplate tpl) {              
-        return root.toRealString(tpl);
-    }
 
 	// TODO Consider locusequability
 }

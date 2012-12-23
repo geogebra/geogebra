@@ -318,12 +318,6 @@ public class AlgoDependentListExpression extends AlgoElement implements Dependen
         // was defined as e.g.  L = 3 * {a, b, c}  
         return root.toString(tpl);
     }
-    
-    @Override
-	final public String toRealString(StringTemplate tpl) {
-        // was defined as e.g.  L = 3 * {a, b, c}  
-        return root.toRealString(tpl);
-    }
 
 	// TODO Consider locusequability
 }

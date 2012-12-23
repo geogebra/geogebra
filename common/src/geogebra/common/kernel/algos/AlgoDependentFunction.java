@@ -286,22 +286,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		return sb.toString();
 	}
 
-	@Override
-	public String toRealString(StringTemplate tpl) {
-		if (sb == null)
-			sb = new StringBuilder();
-		else
-			sb.setLength(0);
-		if (f.isLabelSet() && !f.isBooleanFunction()) {
-			sb.append(f.getRealLabel(tpl));
-			sb.append("(");
-			sb.append(f.getVarString(tpl));
-			sb.append(") = ");
-		}
-		sb.append(fun.getExpression().toRealString(tpl));
-		return sb.toString();
-	}
-
 	/*
 	 * checks to see if this is an nth derivative, and return an appropriate
 	 * label eg f''' for 3rd derivative

@@ -128,11 +128,7 @@ public interface ExpressionValue {
      * @param forEquation true to resolve xx as polynomial rather than product of function variables
      */
     public void resolveVariables(boolean forEquation);
-    /**
-     * @param tpl string templates
-     * @return same as toString, but with real labels TODO: remove this
-     */
-	public String toRealString(StringTemplate tpl);
+
 	/**
 	 * @return kernel
 	 */

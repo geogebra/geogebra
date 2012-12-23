@@ -35,10 +35,6 @@ public abstract class ValidExpression implements ExpressionValue {
 	private boolean keepInputUsed; // flag used by GeoGebraCAS
 	private AssignmentType assignmentType = AssignmentType.NONE;
 
-	public String toRealString(StringTemplate tpl) {
-		return toString(tpl);
-	}
-
 	/**
 	 * @param assignmentType
 	 *            the {@link AssignmentType} to set

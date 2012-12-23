@@ -151,20 +151,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
         sb.append(fun.toString(tpl));
         return sb.toString();
     }
-    
-    @Override
-	public String toRealString(StringTemplate tpl) {
-        if (sb == null) sb = new StringBuilder();
-        else sb.setLength(0);
-        if (f.isLabelSet() && !f.isBooleanFunction()) {
-            sb.append(f.getRealLabel(tpl));
-            sb.append("(");
-			sb.append(f.getVarString(tpl));
-			sb.append(") = ");
-        }  
-        sb.append(fun.getExpression().toRealString(tpl));
-        return sb.toString();
-    }
 
 	// TODO Consider locusequability
     

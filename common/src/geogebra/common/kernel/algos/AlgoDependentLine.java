@@ -115,11 +115,6 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, D
     	return equation.toString(tpl);
     }
     
-    @Override
-	final public String toRealString(StringTemplate tpl) { 
-    	return equation.toRealString(tpl);
-    }
-    
     final public double evaluate(GeoPoint P) {
     	double mat0 = ev[0].evaluateNum().getDouble(); // x\u00b2
 		double mat1 = ev[1].evaluateNum().getDouble(); // y\u00b2

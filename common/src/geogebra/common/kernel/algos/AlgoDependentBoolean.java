@@ -98,12 +98,6 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
         // was defined as e.g.  c = a & b
         return root.toString(tpl);
     }
-    
-    @Override
-	final public String toRealString(StringTemplate tpl) {
-        // was defined as e.g.  c = a & b
-        return root.toRealString(tpl);
-    }
 
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
