@@ -157,6 +157,7 @@ public class StringTemplate {
 	static{
 		numericLatex.stringType = StringType.LATEX;
 		numericLatex.allowMoreDigits = true;
+		numericLatex.useRealLabels = true;
 	}
 	/** Generic template for CAS tests */
 	public static final StringTemplate testTemplate = new StringTemplate();
@@ -427,5 +428,29 @@ public class StringTemplate {
 	public boolean isUseRealLabels() {
 		return useRealLabels;
 	}
+	
+	public StringTemplate deriveReal() {
+		StringTemplate copy = copy();
+		copy.useRealLabels = true;
+		return copy;
+	}
+	private StringTemplate copy() {
+		StringTemplate result = new StringTemplate();
+		result.stringType = stringType;
+		result.nf = nf;
+		result.sf = sf;
+		result.usePrefix = usePrefix;
+		result.allowMoreDigits = allowMoreDigits;
+		result.casPrintFormPI = casPrintFormPI;
+		result.internationalizeDigits = internationalizeDigits;
+		result.useRealLabels = useRealLabels;
+		result.localizeCmds = localizeCmds;
+		result.forceNF = forceNF;
+		result.forceSF = forceSF;
+		
+		return result;
+	}
+		
+	
 	
 }

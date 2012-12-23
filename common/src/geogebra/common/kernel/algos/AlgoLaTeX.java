@@ -125,12 +125,13 @@ public class AlgoLaTeX extends AlgoElement {
     		
     		text.setLaTeX(true, false);
     		
+    		StringTemplate tpl = text.getStringTemplate().deriveReal();
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
     		if(show){
     			if(geo.isGeoCasCell()){
     				text.setTextString(((GeoCasCell)geo).getOutput(StringTemplate.numericLatex));	
     			}else{
-    				text.setTextString(geo.getLaTeXAlgebraDescription(substitute,text.getStringTemplate()));
+    				text.setTextString(geo.getLaTeXAlgebraDescription(substitute,tpl));
     			}
     			if(text.getTextString() == null){
     				String desc = geo.getAlgebraDescription(text.getStringTemplate());
@@ -146,7 +147,7 @@ public class AlgoLaTeX extends AlgoElement {
     			}else if(geo.isGeoCasCell()){
     				text.setTextString(((GeoCasCell)geo).getOutput(StringTemplate.numericLatex));	
     			}else {
-    				text.setTextString(geo.getFormulaString(text.getStringTemplate(), substitute ));   
+    				text.setTextString(geo.getFormulaString(tpl, substitute ));   
     			}
     		}
 
