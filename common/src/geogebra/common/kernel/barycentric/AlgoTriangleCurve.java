@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.Traversing.Replacer;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -98,8 +99,8 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTriangleCurve;
+	public Commands getClassName() {
+		return Commands.TriangleCurve;
 	}
 
 	// for AlgoElement

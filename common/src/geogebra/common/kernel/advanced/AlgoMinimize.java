@@ -15,6 +15,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 
@@ -45,8 +46,8 @@ public class AlgoMinimize extends AlgoOptimize{
 	
 
     @Override
-	public Algos getClassName() {
-    	return Algos.AlgoMinimize;
+	public Commands getClassName() {
+    	return Commands.Minimize;
     }//getClassName()    
 
 	// TODO Consider locusequability

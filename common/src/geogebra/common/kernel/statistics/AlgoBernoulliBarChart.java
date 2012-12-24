@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.util.Cloner;
 
@@ -45,8 +46,8 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
     }
 	
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoBernoulliBarChart;
+	public Commands getClassName() {
+        return Commands.Bernoulli;
     }
 
 	public DrawInformationAlgo copy() {		

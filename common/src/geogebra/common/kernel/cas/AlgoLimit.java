@@ -18,6 +18,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -62,8 +63,8 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoLimit;
+	public Commands getClassName() {
+		return Commands.Limit;
 	}
 
 	// for AlgoElement

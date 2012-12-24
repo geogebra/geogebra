@@ -24,6 +24,7 @@ import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -90,8 +91,8 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoApplyMatrix;
+	public Commands getClassName() {
+		return Commands.ApplyMatrix;
 	}
 
 	// for AlgoElement

@@ -135,9 +135,6 @@ public abstract class AlgoOptimize extends AlgoElement{
     	return result;
     
     }//getMinimized()
-    
-    @Override
-	public abstract Algos getClassName();  
 	
 	private final static boolean	DEBUG	=	true;			//debug or errormsg
 	

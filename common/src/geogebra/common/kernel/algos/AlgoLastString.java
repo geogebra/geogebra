@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 
@@ -30,8 +31,8 @@ public class AlgoLastString extends AlgoFirstString {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoLastString;
+	public Commands getClassName() {
+        return Commands.Last;
     }
 
     @Override

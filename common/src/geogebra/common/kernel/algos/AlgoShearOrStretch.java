@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -87,9 +88,9 @@ public class AlgoShearOrStretch extends AlgoTransformation {
     }
     
     @Override
-	public Algos getClassName() {
-        if(shear)return Algos.AlgoShear;
-        return Algos.AlgoStretch;
+	public Commands getClassName() {
+        if(shear)return Commands.Shear;
+        return Commands.Stretch;
     }
     
     // for AlgoElement

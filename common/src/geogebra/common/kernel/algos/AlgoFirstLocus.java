@@ -2,6 +2,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -18,8 +19,8 @@ public class AlgoFirstLocus extends AlgoFirst {
 	}
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoFirstLocus;
+	public Commands getClassName() {
+        return Commands.First;
     }
     
     @Override

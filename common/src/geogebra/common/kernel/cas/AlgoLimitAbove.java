@@ -15,6 +15,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 
 /**
@@ -35,8 +36,8 @@ public class AlgoLimitAbove extends AlgoLimit {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoLimitAbove;
+	public Commands getClassName() {
+		return Commands.LimitAbove;
 	}
 
 	@Override

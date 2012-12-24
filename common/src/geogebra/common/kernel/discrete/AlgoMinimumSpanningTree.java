@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.discrete.alds.al.graphs.PrimMinimumSpanningTree;
 import geogebra.common.kernel.discrete.alds.ds.graphs.Graph.Type;
 import geogebra.common.kernel.discrete.alds.ds.graphs.Vertex;
@@ -21,8 +22,8 @@ public class AlgoMinimumSpanningTree extends AlgoHull {
 		super(cons, label, inputList, null);
 	}
 
-	public Algos getClassName() {
-		return Algos.AlgoMinimumSpanningTree;
+	public Commands getClassName() {
+		return Commands.MinimumSpanningTree;
 	}
 
 	public final void compute() {

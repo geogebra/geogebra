@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoInterval;
 
 
@@ -24,8 +25,8 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 	}
 
 	@Override
-	public Algos getClassName() {
-        return Algos.AlgoIntervalMidpoint;
+	public Commands getClassName() {
+        return Commands.Midpoint;
     }
 
     @Override

@@ -5,6 +5,7 @@ import geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 
 import java.util.Iterator;
@@ -28,8 +29,8 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial{
     }
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoComplexPolynomial;
+	public Commands getClassName() {
+        return Commands.ComplexRoot;
     }
     
     // roots of f

@@ -17,6 +17,7 @@ import geogebra.common.kernel.GraphAlgo;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiAlgorithm;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
@@ -63,8 +64,8 @@ public class AlgoHull extends AlgoElement  implements GraphAlgo {
 		locus.setLabel(label);
 	}
 
-	public Algos getClassName() {
-		return Algos.AlgoHull;
+	public Commands getClassName() {
+		return Commands.Hull;
 	}
 
 	protected void setInputOutput() {

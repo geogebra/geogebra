@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.cas.AlgoCoefficients;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -127,8 +128,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCompleteSquare;
+	public Commands getClassName() {
+		return Commands.CompleteSquare;
 	}
 	
 	// TODO Consider locusequability

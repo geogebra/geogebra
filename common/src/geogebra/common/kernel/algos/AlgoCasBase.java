@@ -55,9 +55,6 @@ public abstract class AlgoCasBase extends AlgoElement {
 		g = (CasEvaluableFunction) f.toGeoElement().copyInternal(cons);
 	}
 
-	@Override
-	public abstract Algos getClassName();
-
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {

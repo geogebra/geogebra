@@ -3,6 +3,7 @@ package geogebra.common.kernel.discrete;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.discrete.tsp.method.tsp.BranchBound;
 import geogebra.common.kernel.discrete.tsp.method.tsp.Opt3;
 import geogebra.common.kernel.discrete.tsp.model.Node;
@@ -18,8 +19,8 @@ public class AlgoTravelingSalesman extends AlgoHull {
 		super(cons, label, inputList, null);
 	}
 	
-    public Algos getClassName() {
-        return Algos.AlgoTravelingSalesman;
+    public Commands getClassName() {
+        return Commands.TravelingSalesman;
     }
     
     public void compute() {

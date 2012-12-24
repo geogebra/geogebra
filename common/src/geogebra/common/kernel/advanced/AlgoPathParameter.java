@@ -17,6 +17,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -49,8 +50,8 @@ public class AlgoPathParameter extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoPathParameter;
+	public Commands getClassName() {
+		return Commands.PathParameter;
 	}
 
 	@Override

@@ -502,7 +502,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	// ======================================================
 
 	@Override
-	public Algos getClassName() {
+	public GetCommand getClassName() {
 		return Algos.AlgoBarChart;
 	}
 

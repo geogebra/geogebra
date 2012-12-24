@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.commands.Commands;
 
 /**
  * Find Numerator
@@ -46,7 +47,7 @@ public class AlgoDenominator extends AlgoNumerator {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoDenominator;
+	public Commands getClassName() {
+        return Commands.Denominator;
     }
 }
