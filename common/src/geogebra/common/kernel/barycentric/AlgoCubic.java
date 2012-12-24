@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -53,8 +54,8 @@ public class AlgoCubic extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCubic;
+	public Commands getClassName() {
+		return Commands.Cubic;
 	}
 
 	// for AlgoElement

@@ -30,6 +30,7 @@ import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -144,7 +145,8 @@ public class DrawAngle extends Drawable implements Previewable {
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 
 		// angle defined by three points
-		switch(algo.getClassName()){
+		Algos al = (Algos)algo.getClassName();
+		switch(al){
 		case AlgoAnglePoints:
 		
 			angleDrawMode = DRAW_MODE_POINTS;

@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -54,8 +55,8 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     }
  
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoOsculatingCircleCurve;
+	public Commands getClassName() {
+        return Commands.OsculatingCircle;
     }
 
     // for AlgoElement

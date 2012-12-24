@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -73,8 +74,8 @@ public class AlgoFit extends AlgoElement {
 	}// Constructor
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoFit;
+	public Commands getClassName() {
+		return Commands.Fit;
 	}
 
 	@Override

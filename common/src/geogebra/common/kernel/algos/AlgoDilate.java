@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
@@ -89,8 +90,8 @@ public class AlgoDilate extends AlgoTransformation {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoDilate;
+	public Commands getClassName() {
+		return Commands.Dilate;
 	}
 
 	@Override

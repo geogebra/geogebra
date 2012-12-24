@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
 import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoMidpointSegment;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -65,8 +66,8 @@ public class LocusEquation {
 			AlgoElement algo, GeoElement element, EquationScopeInterface scopeI) {
 		
 		EquationScope scope = (EquationScope)scopeI;
-		
-		switch (algo.getClassName()) {
+		Algos al = (Algos)algo.getClassName();
+		switch (al) {
 		case AlgoPolygon: 
 			return new EquationPolygon(element, scope);
 			

@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -45,8 +46,8 @@ public class AlgoListLCM extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoListLCM;
+	public Commands getClassName() {
+        return Commands.LCM;
     }
 
     @Override

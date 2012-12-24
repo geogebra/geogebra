@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import java.math.BigInteger;
 
@@ -31,8 +32,8 @@ public class AlgoLCM extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoLCM;
+	public Commands getClassName() {
+        return Commands.LCM;
     }
       
     @Override

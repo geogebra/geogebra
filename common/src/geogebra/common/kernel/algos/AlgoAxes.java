@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -52,8 +53,8 @@ public class AlgoAxes extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoAxes;
+	public Commands getClassName() {
+        return Commands.Axes;
     }
 
     private AlgoAxes(Construction cons, GeoConic c) {

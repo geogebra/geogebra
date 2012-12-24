@@ -32,7 +32,7 @@ public class AlgoIntersectFunctions extends AlgoRoots {
     }//Constructor
     
     @Override
-	public Algos getClassName() {
+	public GetCommand getClassName() {
         return Algos.AlgoIntersectFunctions;
     }//getClassName()
     

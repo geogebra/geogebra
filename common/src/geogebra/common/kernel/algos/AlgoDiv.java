@@ -21,6 +21,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 
 /**
@@ -35,8 +36,8 @@ public class AlgoDiv extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoDiv;
+	public Commands getClassName() {
+        return Commands.Div;
     }        
     
     // calc area of conic c 

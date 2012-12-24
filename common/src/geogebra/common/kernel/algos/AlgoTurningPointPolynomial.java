@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -30,8 +31,8 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
     }
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoTurningPointPolynomial;    
+	public Commands getClassName() {
+        return Commands.TurningPoint;    
     }
             
     public GeoPoint [] getInflectionPoints() {

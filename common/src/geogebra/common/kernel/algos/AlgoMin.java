@@ -19,6 +19,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 /**
  * Computes Min[a, b]
@@ -39,8 +40,8 @@ public class AlgoMin extends AlgoTwoNumFunction {
       }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMin;
+	public Commands getClassName() {
+        return Commands.Min;
     }
     
     // calc minimum of a,b 

@@ -698,8 +698,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		return false;
 	}
 
-	@Override
-	public abstract Algos getClassName();
 
 	// for AlgoElement
 	@Override

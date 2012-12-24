@@ -1,6 +1,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
@@ -181,7 +182,7 @@ public class EquationPointMap {
      * @param p point
      * @return an {@link Algos}
      */
-    protected Algos getParentAlgorithmName(final GeoPoint p) {
+    protected GetCommand getParentAlgorithmName(final GeoPoint p) {
         return p.getParentAlgorithm() == null ? null : p.getParentAlgorithm().getClassName();
     }
 

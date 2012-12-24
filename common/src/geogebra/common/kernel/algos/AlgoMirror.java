@@ -24,6 +24,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
@@ -129,8 +130,8 @@ public class AlgoMirror extends AlgoTransformation {
     }           
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMirror;
+	public Commands getClassName() {
+        return Commands.Mirror;
     }
     
     @Override

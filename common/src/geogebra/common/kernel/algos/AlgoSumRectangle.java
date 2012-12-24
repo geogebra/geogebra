@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 
 
@@ -44,8 +45,8 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	}
 	
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSumRectangle;
+	public Commands getClassName() {
+		return Commands.RectangleSum;
 	}
 	
 	public AlgoSumRectangle copy() {

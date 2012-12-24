@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -145,8 +146,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	}// Constructor TYPE_INTERSECTIONS
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoRoots;
+	public GetCommand getClassName() {
+		return Commands.Roots;
 	}// getClassName()
 
 	public GeoPoint[] getRootPoints() {

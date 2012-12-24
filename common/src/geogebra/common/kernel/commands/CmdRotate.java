@@ -35,7 +35,6 @@ public class CmdRotate extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		GeoElement[] ret;
 
 		switch (n) {
 		case 2:

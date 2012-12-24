@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 
 
@@ -43,8 +44,8 @@ public class AlgoMod extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMod;
+	public Commands getClassName() {
+        return Commands.Mod;
     }       
     
     @Override

@@ -8,6 +8,7 @@ package geogebra.common.kernel.locusequ;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -178,8 +179,8 @@ public class AlgoLocusEquation extends AlgoElement {
 	 * @see geogebra.common.kernel.algos.AlgoElement#getClassName()
 	 */
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoLocusEquation;
+	public Commands getClassName() {
+		return Commands.LocusEquation;
 	}
 
 	/* (non-Javadoc)

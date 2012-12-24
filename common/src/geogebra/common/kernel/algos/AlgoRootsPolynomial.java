@@ -192,7 +192,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public Algos getClassName() {
+	public GetCommand getClassName() {
 		return Algos.AlgoRootsPolynomial;
 	}
 

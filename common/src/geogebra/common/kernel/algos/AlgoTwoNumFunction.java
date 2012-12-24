@@ -46,10 +46,7 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
         
         // compute angle
         compute();     
-      }   
-    
-    @Override
-	public abstract Algos getClassName();
+    }
     
     // for AlgoElement
     @Override
@@ -63,18 +60,5 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    public GeoNumeric getResult() { return num; }        
-
-    @Override
-	public
-	abstract void compute();
-    
-    /*
-	 * This should apply to every subclass. In case it does not,
-	 * a case per case should be used.
-	 * It produces a GeoNumeric, so beware GeoNumeric will be
-	 * treated differently than points.
-	 */
-    
-	// TODO Consider locusequability     
+    public GeoNumeric getResult() { return num; }   
 }

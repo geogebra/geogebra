@@ -114,9 +114,6 @@ public abstract class AlgoStats1D extends AlgoElement {
 	}
 
 	@Override
-	public abstract Algos getClassName();
-
-	@Override
 	protected void setInputOutput() {
 		ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
 		inputList.add(geoList);

@@ -25,6 +25,7 @@ import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.GetPointsAlgo;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -258,7 +259,7 @@ public class CopyPaste {
 				}
 			} else if (geo.isGeoList()) {
 				if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoSequence)) {
+						.equals(Commands.Sequence)) {
 					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 					if (pgeos.length > 1) {
 						if (!geos.contains(pgeos[0]))
@@ -642,7 +643,7 @@ public class CopyPaste {
 
 				if (geo.getParentAlgorithm() != null) {
 					if (geo.getParentAlgorithm().getClassName()
-							.equals(Algos.AlgoSequence)) {
+							.equals(Commands.Sequence)) {
 						// variable of AlgoSequence is not returned in
 						// lookupLabel!
 						// the old name of the variable may remain, as it is not

@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.commands;
 
-import geogebra.common.main.App;
+import geogebra.common.kernel.algos.GetCommand;
 
 @SuppressWarnings("javadoc")
-public enum Commands implements CommandsConstants{
+public enum Commands implements CommandsConstants, GetCommand{
 	
 	// Subtables are separated by comment lines here. 
 
@@ -286,6 +286,9 @@ public enum Commands implements CommandsConstants{
 			case SurfaceCartesian: return Surface;
 		}
 		return comm;
+	}
+	public String getCommand() {
+		return name();
 	}
 	
 }

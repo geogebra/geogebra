@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -47,8 +48,8 @@ public class AlgoFitLineY extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoFitLineY;
+	public Commands getClassName() {
+		return Commands.FitLineY;
 	}
 
 	@Override

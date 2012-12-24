@@ -19,6 +19,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 /**
  * Computes Max[a, b]
@@ -35,8 +36,8 @@ public class AlgoMax extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMax;
+	public Commands getClassName() {
+        return Commands.Max;
     }
       
     @Override

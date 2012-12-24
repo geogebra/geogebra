@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -75,8 +76,8 @@ public class AlgoFunctionMin extends AlgoElement {
     }//constructor
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoFunctionMin;
+	public Commands getClassName() {
+        return Commands.Min;
     }
 
     @Override

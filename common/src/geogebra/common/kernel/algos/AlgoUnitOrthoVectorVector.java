@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
@@ -61,8 +62,8 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
     }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoUnitOrthoVectorVector;
+	public Commands getClassName() {
+        return Commands.UnitOrthogonalVector;
     }
     
     // for AlgoElement

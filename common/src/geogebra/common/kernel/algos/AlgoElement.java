@@ -449,7 +449,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @param classname algorithm identifier
 	 * @return internal command name
 	 */
-	final static String getCommandString(Algos classname) {
+	final static String getCommandString(GetCommand classname) {
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
 
@@ -1119,7 +1119,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 */
 	public String getCommandName(StringTemplate tpl) {
 		String cmdname;
-		Algos classname;
+		GetCommand classname;
 		// get class name
 		classname = getClassName();
 		// translate algorithm class name to internal command name
@@ -1375,7 +1375,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 * @return class identificator (may not be unique)
 	 */
-	public abstract Algos getClassName();
+	public abstract GetCommand getClassName();
 
 	/**
 	 * Sets whether the output of this command should be labeled. This setting

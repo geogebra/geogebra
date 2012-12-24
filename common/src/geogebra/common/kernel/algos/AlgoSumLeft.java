@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.util.Cloner;
 
@@ -50,8 +51,8 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSumLeft;
+	public Commands getClassName() {
+		return Commands.LeftSum;
 	}
 	
 }//class AlgoSumLeft

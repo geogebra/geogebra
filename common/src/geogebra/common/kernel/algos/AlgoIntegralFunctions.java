@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -89,8 +90,8 @@ public class AlgoIntegralFunctions extends AlgoElement  implements DrawInformati
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntegralFunctions;
+	public Commands getClassName() {
+		return Commands.IntegralBetween;
 	}
 	
     public AlgoIntegralFunctions copy(){
