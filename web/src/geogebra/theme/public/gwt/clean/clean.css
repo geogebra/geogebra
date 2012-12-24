@@ -1440,7 +1440,7 @@ body[dir=rtl] .undoPanel {
 
 .red_triangle{
 	position: relative;
-	top: -15px;
+	top: -4px;
 	left: -4px;
 }
 
@@ -1531,4 +1531,8 @@ body[dir=rtl] .undoPanel {
 
 .linkDownload{
 	font: -webkit-small-control;
+}
+
+.toolbarPanel{
+	line-height: 0;
 }
