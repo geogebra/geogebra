@@ -13,15 +13,18 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.GeoVector;
 
 
 
-public class AlgoAngleVector extends AlgoElement {
+public class AlgoAngleVector extends AlgoElement implements AngleAlgo{
 
     private GeoVec3D vec; // input
     private GeoAngle angle; // output          
@@ -82,6 +85,18 @@ public class AlgoAngleVector extends AlgoElement {
         return app.getPlain("AngleOfA",vec.getLabel(tpl));
 
     }
+
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
+		if(vec.isGeoVector()){
+			GeoPoint vertex = ((GeoVector)vec).getStartPoint();
+			if (vertex != null)			
+				vertex.getInhomCoords(m);
+			return vertex!=null && vertex.isDefined() && !vertex.isInfinite();
+		}
+		m[0]=0;
+		m[1]=0;
+		return vec.isDefined();		
+	}
 
 	// TODO Consider locusequability
 }

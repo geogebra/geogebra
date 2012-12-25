@@ -1,10 +1,12 @@
 package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.draw.DrawAngle;
+
 /**
  * Tagging interface for algoritms producing visible angles
  * @author kondr
  *
  */
 public interface AngleAlgo {
-	//just tagging interface
+	boolean updateDrawInfo(double[]m,double[] firstVec, DrawAngle drawable);
 }

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -138,6 +139,10 @@ final public String toString(StringTemplate tpl) {
 			}
 		});
     }
+
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
+		return true;
+	}
 
 	// TODO Consider locusequability
 }

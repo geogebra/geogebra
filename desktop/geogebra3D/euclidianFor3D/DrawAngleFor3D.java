@@ -24,13 +24,13 @@ public class DrawAngleFor3D extends DrawAngle {
 	
 	
 	@Override
-	protected boolean inView(Coords point){
+	public boolean inView(Coords point){
 		//Coords p = view.getCoordsForView(point);
 		return Kernel.isZero(point.getZ());
 	}
 	
 	@Override
-	protected Coords getCoordsInView(GeoPointND point){
+	public Coords getCoordsInView(GeoPointND point){
 		return view.getCoordsForView(point.getInhomCoordsInD(3));
 	}
 	

@@ -19,11 +19,13 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoVec3D;
 
 
 /**
@@ -145,6 +147,16 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
         return app.getPlain("AngleBetweenAB",g.getLabel(tpl),h.getLabel(tpl));
 
     }
+
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
+		double[] n = GeoVec3D.cross(g, h).get();
+		m[0] = n[0] / n[2];
+		m[1] = n[1] / n[2];
+
+		// first vec
+		g.getDirection(firstVec);
+		return true;
+	}
 
 	// TODO Consider locusequability
 }

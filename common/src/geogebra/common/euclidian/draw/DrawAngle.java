@@ -25,20 +25,12 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
-import geogebra.common.kernel.algos.AlgoAngleVector;
-import geogebra.common.kernel.algos.AlgoAngleVectors;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.AngleAlgo;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
@@ -51,25 +43,9 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	private GeoAngle angle;
 
-	private GeoPointND vertex, point, point2;
-
-	private GeoLine line, line2;
-
-	private GeoVector vector;
-
 	private boolean isVisible, labelVisible, show90degrees;
 
-	final private static int DRAW_MODE_POINTS = 0;
-
-	final private static int DRAW_MODE_VECTORS = 1;
-
-	final private static int DRAW_MODE_LINES = 2;
-
-	final private static int DRAW_MODE_SINGLE_VECTOR = 3;
-
-	final private static int DRAW_MODE_SINGLE_POINT = 4;
-
-	private int angleDrawMode;
+	private AngleAlgo algo;
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private GArc2D drawArc = AwtFactory.prototype.newArc2D();
@@ -80,7 +56,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	private double m[] = new double[2];
 	private double coords[] = new double[2];
 	private double[] firstVec = new double[2];
-	private GeoPoint tempPoint;
+	
 	private boolean drawDot;
 	private GeoPoint[] previewTempPoints;
 
@@ -96,6 +72,8 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	private ArrayList<GeoPointND> prevPoints;
 
+	private double maxRadius;
+
 	// END
 
 	/**
@@ -109,11 +87,10 @@ public class DrawAngle extends Drawable implements Previewable {
 		this.angle = angle;
 		geo = angle;
 
-		angleDrawMode = -1;
 
 		init();
 
-		if (angleDrawMode > -1) {
+		if (algo != null) {
 			angle.setDrawable(true);
 			update();
 		}
@@ -139,56 +116,10 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	private void init() {
-		AlgoElement algo = geo.getDrawAlgorithm();
-		Construction cons = geo.getConstruction();
-		tempPoint = new GeoPoint(cons);
-		tempPoint.setCoords(0.0, 0.0, 1.0);
-
-		// angle defined by three points
-		Algos al = (Algos)algo.getClassName();
-		switch(al){
-		case AlgoAnglePoints:
-		
-			angleDrawMode = DRAW_MODE_POINTS;
-			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
-			vertex = pa.getB();
-			point = pa.getA();
-			point2 = pa.getC();
-			break;
-		// angle between two vectors
-		case AlgoAngleVectors:
-			angleDrawMode = DRAW_MODE_VECTORS;
-			AlgoAngleVectors va = (AlgoAngleVectors) algo;
-			GeoVector v = va.getv();
-			vector = v;
-			break;
-		// angle between two lines
-		case AlgoAngleLines: 
-			angleDrawMode = DRAW_MODE_LINES;
-			AlgoAngleLines la = (AlgoAngleLines) algo;
-			line = la.getg();
-			line2 = la.geth();
-			vertex = tempPoint;
-			break;
-		// angle of a single vector or a single point
-		case AlgoAngleVector:
-			AlgoAngleVector av = (AlgoAngleVector) algo;
-			GeoVec3D vec = av.getVec3D();
-			if (vec instanceof GeoVector) {
-				angleDrawMode = DRAW_MODE_SINGLE_VECTOR;
-				vector = (GeoVector) vec;
-			} else if (vec instanceof GeoPoint) {
-				angleDrawMode = DRAW_MODE_SINGLE_POINT;
-				point = (GeoPoint) vec;
-				vertex = tempPoint;
-			}
-			firstVec[0] = 1;
-			firstVec[1] = 0;
-			break;
-		case AlgoAnglePolygon:
-			break;
-		default:
-			App.debug("missing case in DrawAngle");
+		firstVec = new double[]{0,1};
+		m = new double[]{0,0};
+		if(angle.getDrawAlgorithm() instanceof AngleAlgo){
+			algo = ((AngleAlgo)angle.getDrawAlgorithm());
 		}
 	}
 
@@ -197,7 +128,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param pt point
 	 * @return true if coords are in this view
 	 */
-	protected boolean inView(Coords pt) {
+	public boolean inView(Coords pt) {
 		return true;
 	}
 
@@ -206,7 +137,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param p point
 	 * @return coords of the point in view 
 	 */
-	protected Coords getCoordsInView(GeoPointND p){
+	public Coords getCoordsInView(GeoPointND p){
 		return p.getInhomCoordsInD(3);
 	}
 	
@@ -231,117 +162,12 @@ public class DrawAngle extends Drawable implements Previewable {
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(angle);
 
-		double maxRadius = Double.POSITIVE_INFINITY;
+		maxRadius = Double.POSITIVE_INFINITY;
 
 		// set vertex and first vector to determine start angle
-		switch (angleDrawMode) {
-		case DRAW_MODE_POINTS: // three points
-			// vertex
-			Coords v = getCoordsInView(vertex);
-			if (!inView(v)) {
-				isVisible = false;
-				return;
-			}
-			m = v.get();
-
-			Coords ptCoords = getCoordsInView(point);
-			if (!inView(ptCoords)) {
-				isVisible = false;
-				return;
-			}
-			Coords coords2 = getCoordsInView(point2);
-			if (!inView(coords2)) {
-				isVisible = false;
-				return;
-			}
-
-			// first vec
-			firstVec[0] = ptCoords.getX() - m[0];
-			firstVec[1] = ptCoords.getY() - m[1];
-
-			double vertexScreen[] = new double[2];
-			vertexScreen[0] = m[0];
-			vertexScreen[1] = m[1];
-
-			double firstVecScreen[] = new double[2];
-			firstVecScreen[0] = ptCoords.getX();
-			firstVecScreen[1] = ptCoords.getY();
-
-			double secondVecScreen[] = new double[2];
-			secondVecScreen[0] = coords2.getX();
-			secondVecScreen[1] = coords2.getY();
-
-			view.toScreenCoords(vertexScreen);
-			view.toScreenCoords(firstVecScreen);
-			view.toScreenCoords(secondVecScreen);
-
-			firstVecScreen[0] -= vertexScreen[0];
-			firstVecScreen[1] -= vertexScreen[1];
-			secondVecScreen[0] -= vertexScreen[0];
-			secondVecScreen[1] -= vertexScreen[1];
-
-			maxRadius = 0.5 * Math.sqrt(Math.min(
-					firstVecScreen[0] * firstVecScreen[0] + firstVecScreen[1]
-							* firstVecScreen[1], secondVecScreen[0]
-							* secondVecScreen[0] + secondVecScreen[1]
-							* secondVecScreen[1]));
-
-			break;
-
-		case DRAW_MODE_VECTORS: // two vectors
-			// vertex
-			vertex = vector.getStartPoint();
-			if (vertex == null)
-				vertex = tempPoint;
-			vertex.getInhomCoords(m);
-
-			// first vec
-			vector.getInhomCoords(firstVec);
-			break;
-
-		case DRAW_MODE_LINES: // two lines
-			// intersect lines to get vertex
-			m = GeoVec3D.cross(line, line2).get();
-			m[0] = m[0] / m[2];
-			m[1] = m[1] / m[2];
-
-			// first vec
-			line.getDirection(firstVec);
-			break;
-
-		case DRAW_MODE_SINGLE_VECTOR: // single GeoVector
-			// vertex
-			vertex = vector.getStartPoint();
-			if (vertex == null)
-				vertex = tempPoint;
-			vertex.getInhomCoords(m);
-
-			// first vec is constant (1,0)
-			break;
-
-		case DRAW_MODE_SINGLE_POINT: // single GeoPoint
-			// vertex
-			vertex.getInhomCoords(m);
-
-			// first vec is constant (1,0)
-			break;
-
-		default:
-			/*
-			 * if (vertex == null) {
-			 * Application.debug(Util.toHTMLString("vertex null for: " + geo +
-			 * ", parent: " +
-			 * geo.getParentAlgorithm().getCommandDescription())); }
-			 */
-			return;
-		}
-
-		// check vertex
-		if (!vertex.isDefined() || vertex.isInfinite()) {
-			isVisible = false;
-			return;
-		}
-
+		isVisible &= ((AngleAlgo)angle.getDrawAlgorithm()).updateDrawInfo(m, firstVec, this); 
+				
+				
 		// calc start angle
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
 		if (Double.isNaN(angSt) || Double.isInfinite(angSt)) {
@@ -836,5 +662,15 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	public void disposePreview() {
 		//do nothing
+	}
+
+	public void toScreenCoords(double[] vertexScreen) {
+		view.toScreenCoords(vertexScreen);
+		
+	}
+
+	public void setMaxRadius(double d) {
+		this.maxRadius = d;
+		
 	}
 }

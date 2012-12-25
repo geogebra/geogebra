@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -213,6 +214,58 @@ public class AlgoAnglePoints extends AlgoElement implements
 		}
 		return app.getPlain("AngleBetweenABC", An.getLabel(tpl),
 				Bn.getLabel(tpl), Cn.getLabel(tpl));
+	}
+
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
+		Coords v = drawable.getCoordsInView(Bn);
+		if (!drawable.inView(v)) {
+			return false;
+		}
+		
+		m[0] = v.get()[0];
+		m[1] = v.get()[1];
+		
+		Coords ptCoords = drawable.getCoordsInView(An);
+		if (!drawable.inView(ptCoords)) {
+			return false;
+		}
+		Coords coords2 = drawable.getCoordsInView(Cn);
+		if (!drawable.inView(coords2)) {
+			return false;
+		}
+
+		// first vec
+		firstVec[0] = ptCoords.getX() - m[0];
+		firstVec[1] = ptCoords.getY() - m[1];
+
+		double vertexScreen[] = new double[2];
+		vertexScreen[0] = m[0];
+		vertexScreen[1] = m[1];
+
+		double firstVecScreen[] = new double[2];
+		firstVecScreen[0] = ptCoords.getX();
+		firstVecScreen[1] = ptCoords.getY();
+
+		double secondVecScreen[] = new double[2];
+		secondVecScreen[0] = coords2.getX();
+		secondVecScreen[1] = coords2.getY();
+
+		drawable.toScreenCoords(vertexScreen);
+		drawable.toScreenCoords(firstVecScreen);
+		drawable.toScreenCoords(secondVecScreen);
+
+		firstVecScreen[0] -= vertexScreen[0];
+		firstVecScreen[1] -= vertexScreen[1];
+		secondVecScreen[0] -= vertexScreen[0];
+		secondVecScreen[1] -= vertexScreen[1];
+
+		drawable.setMaxRadius(0.5 * Math.sqrt(Math.min(
+				firstVecScreen[0] * firstVecScreen[0] + firstVecScreen[1]
+						* firstVecScreen[1], secondVecScreen[0]
+						* secondVecScreen[0] + secondVecScreen[1]
+						* secondVecScreen[1])));
+		return true;
+
 	}
 
 	// TODO Consider locusequability
