@@ -165,7 +165,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		maxRadius = Double.POSITIVE_INFINITY;
 
 		// set vertex and first vector to determine start angle
-		isVisible &= ((AngleAlgo)angle.getDrawAlgorithm()).updateDrawInfo(m, firstVec, this); 
+		isVisible &= algo != null && algo.updateDrawInfo(m, firstVec, this); 
 				
 				
 		// calc start angle
