@@ -3,6 +3,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoLine;
 
 public class AlgoClosestPointLines extends AlgoIntersectLines{
@@ -11,7 +12,8 @@ public class AlgoClosestPointLines extends AlgoIntersectLines{
 			GeoLine h) {
 		super(cons, label, g, h);
 	}
-	public Algos getClassName(){
-		return Algos.AlgoClosestPoint;
+	@Override
+	public Commands getClassName() {
+		return Commands.ClosestPoint;
 	}
 }

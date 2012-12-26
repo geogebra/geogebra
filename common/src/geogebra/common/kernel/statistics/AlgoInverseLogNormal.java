@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.util.MyMath2;
 
 /**
@@ -38,8 +39,8 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoInverseLogNormal;
+	public Commands getClassName() {
+		return Commands.InverseLogNormal;
 	}
 
 	@Override

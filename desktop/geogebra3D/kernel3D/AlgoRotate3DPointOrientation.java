@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -63,9 +64,9 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoRotate3DPointOrientation;
-    }
+	public Commands getClassName() {
+		return Commands.Rotate;
+	}
 
     /*
     @Override

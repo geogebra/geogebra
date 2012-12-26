@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -54,9 +55,9 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
         // outputBoolean.setLabel(label);
     }
 
-    @Override
-	public Algos getClassName() {
-        return Algos.AlgoAreCollinear;
+	@Override
+	public Commands getClassName() {
+        return Commands.AreCollinear;
     }
 
     @Override

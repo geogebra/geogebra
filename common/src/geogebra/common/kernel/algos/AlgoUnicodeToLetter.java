@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 
@@ -38,9 +39,9 @@ public class AlgoUnicodeToLetter extends AlgoElement {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoUnicodeToLetter;
-    }
+	public Commands getClassName() {
+		return Commands.UnicodeToLetter;
+	}
     
     // for AlgoElement
     @Override

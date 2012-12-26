@@ -23,6 +23,7 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -1302,7 +1303,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		sb.append("<command name=\"");
 		sb.append(cmdname);
 		sb.append("\"");
-		if ((this instanceof AlgoListElement || this.getClassName().equals(Algos.AlgoCell) || this.getClassName().equals(Algos.AlgoObject)) && !getOutput()[0].isDefined()) {
+		if ((this instanceof AlgoListElement || 
+				this.getClassName().equals(Commands.Cell) || this.getClassName().equals(Commands.Object)) && !getOutput()[0].isDefined()) {
 			// need to write the geo type in the XML if it's undefined 
 			// so that it's the same type when the file is loaded again
 			sb.append(" type=\"");

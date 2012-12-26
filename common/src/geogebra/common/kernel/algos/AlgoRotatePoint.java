@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -74,9 +75,9 @@ public class AlgoRotatePoint extends AlgoTransformation {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoRotatePoint;
-    }
+	public Commands getClassName() {
+		return Commands.Rotate;
+	}
 
     @Override
 	public int getRelatedModeID() {

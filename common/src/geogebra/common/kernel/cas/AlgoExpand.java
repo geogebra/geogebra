@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -41,9 +42,9 @@ public class AlgoExpand extends AlgoCasBase {
     }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoExpand;
-    }
+	public Commands getClassName() {
+		return Commands.Expand;
+	}
     private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -56,9 +57,9 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoPolynomialDivision;
-	}
+	public Commands getClassName() {
+    	return Commands.Division;
+    } 
 
 	// for AlgoElement
 	@Override

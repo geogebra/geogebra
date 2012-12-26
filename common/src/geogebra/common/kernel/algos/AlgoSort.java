@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -85,9 +86,9 @@ public class AlgoSort extends AlgoElement {
 		this(cons, inputList, (GeoList) null);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoSort;
+    @Override
+	public Commands getClassName() {
+        return Commands.Sort;
     }
 
     @Override

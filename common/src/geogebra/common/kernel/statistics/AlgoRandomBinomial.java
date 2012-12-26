@@ -18,6 +18,7 @@ import geogebra.common.kernel.SetRandomValue;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.util.MyMath2;
 
 /**
@@ -37,8 +38,8 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoRandomBinomial;
+	public Commands getClassName() {
+		return Commands.RandomBinomial;
 	}
 
 	@Override

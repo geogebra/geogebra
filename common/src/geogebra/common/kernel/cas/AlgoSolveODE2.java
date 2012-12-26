@@ -6,6 +6,7 @@ import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -69,9 +70,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSolveODE2;
-	}
+	public Commands getClassName() {
+        return Commands.SolveODE;
+    }
 
 	// for AlgoElement
 	@Override

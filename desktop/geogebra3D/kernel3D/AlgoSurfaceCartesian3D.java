@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
@@ -92,10 +93,10 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     	return new GeoSurfaceCartesian3D(cons, fun);
     }
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSurfaceCartesian;
-	}
+    @Override
+	public Commands getClassName() {
+        return Commands.Surface;
+    }
     
     // for AlgoElement
 	@Override

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
@@ -39,7 +40,7 @@ public class AlgoProduct extends AlgoStats1D {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoProduct;
-    }
+	public Commands getClassName() {
+    	return Commands.Product;
+    } 
 }

@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -54,9 +55,9 @@ public class AlgoArePerpendicular extends AlgoElement implements
 	}
 	
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoArePerpendicular;
-	}
+	public Commands getClassName() {
+        return Commands.ArePerpendicular;
+    }
 
 	@Override
 	protected void setInputOutput() {

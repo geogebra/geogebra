@@ -19,6 +19,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -44,8 +45,8 @@ public class AlgoAreaPoints extends AlgoElement {
     }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoAreaPoints;
+	public Commands getClassName() {
+        return Commands.Area;
     }
     
     @Override

@@ -42,6 +42,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -612,7 +613,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		boolean isAsymptote = false;
 
 		AlgoElement ob = getParentAlgorithm();
-		if (ob != null && ob.getClassName().equals(Algos.AlgoAsymptote)) {
+		if (ob != null && ob.getClassName().equals(Commands.Asymptote)) {
 			GeoElement[] input = ob.getInput();
 			for (int i = 0; i < input.length; i++) {
 				if (input[i] == c) {

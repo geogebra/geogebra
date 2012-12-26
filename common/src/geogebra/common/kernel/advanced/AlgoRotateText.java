@@ -15,6 +15,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
@@ -65,8 +66,8 @@ public class AlgoRotateText extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoRotateText;
+	public Commands getClassName() {
+        return Commands.RotateText;
     }
 
     @Override

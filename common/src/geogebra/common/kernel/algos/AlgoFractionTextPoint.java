@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -50,9 +51,9 @@ public class AlgoFractionTextPoint extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoFractionText;
-    }
+	public Commands getClassName() {
+		return Commands.FractionText;
+	}
 
     @Override
 	protected void setInputOutput(){

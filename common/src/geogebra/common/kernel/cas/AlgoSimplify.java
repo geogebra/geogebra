@@ -5,6 +5,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 /**
@@ -21,9 +22,10 @@ public class AlgoSimplify extends AlgoCasBase {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSimplify;
-	}
+	public Commands getClassName() {
+        return Commands.Simplify;
+    }
+	
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

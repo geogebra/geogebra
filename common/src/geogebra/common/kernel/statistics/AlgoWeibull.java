@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import org.apache.commons.math.distribution.WeibullDistribution;
 
@@ -36,10 +37,10 @@ public class AlgoWeibull extends AlgoDistribution {
         super(cons, a, b, c, null);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoWeibull;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.Weibull;
+	}
 
     @Override
 	public final void compute() {

@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 
 import org.apache.commons.math.distribution.PascalDistribution;
@@ -37,9 +38,9 @@ public class AlgoPascal extends AlgoDistribution {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPascal;
-    }
+	public Commands getClassName() {
+		return Commands.Pascal;
+	}
 
     @Override
 	public final void compute() {

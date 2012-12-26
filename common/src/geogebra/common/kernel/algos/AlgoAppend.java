@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -59,8 +60,8 @@ public class AlgoAppend extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoAppend;
+	public Commands getClassName() {
+        return Commands.Append;
     }
 
     @Override

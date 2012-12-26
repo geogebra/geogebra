@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
@@ -73,9 +74,9 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
       }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoExponentialDF;
-    }
+	public Commands getClassName() {
+		return Commands.Exponential;
+	}
     
     // for AlgoElement
     @Override

@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoSphereNDPointRadius;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
@@ -53,8 +54,8 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
     
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoSpherePointRadius;
+	public Commands getClassName() {
+        return Commands.Sphere;
     }
 
     public GeoQuadric3D getSphere() {

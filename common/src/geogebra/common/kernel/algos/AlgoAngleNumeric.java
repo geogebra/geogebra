@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -42,8 +43,8 @@ public class AlgoAngleNumeric extends AlgoElement {
     }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoAngleNumeric;
+	public Commands getClassName() {
+        return Commands.Angle;
     }
         
     // for AlgoElement

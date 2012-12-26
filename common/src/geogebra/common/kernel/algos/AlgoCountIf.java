@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyBoolean;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -54,10 +55,10 @@ public class AlgoCountIf extends AlgoElement {
         result.setLabel(label);
     }   
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCountIf;
-	}
+    @Override
+	public Commands getClassName() {
+        return Commands.CountIf;
+    }
     
     // for AlgoElement
 	@Override

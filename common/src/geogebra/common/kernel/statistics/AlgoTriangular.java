@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 /**
  * 
@@ -40,8 +41,8 @@ public class AlgoTriangular extends AlgoDistribution {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTriangular;
+	public Commands getClassName() {
+		return Commands.Triangular;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import org.apache.commons.math.distribution.FDistribution;
 
@@ -36,8 +37,8 @@ public class AlgoFDistribution extends AlgoDistribution {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoFDistribution;
+	public Commands getClassName() {
+		return Commands.FDistribution;
 	}
 
 	@Override

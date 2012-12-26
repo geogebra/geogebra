@@ -78,7 +78,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	}
 
 	@Override
-	public Algos getClassName() {
+	public GetCommand getClassName() {
         return Algos.AlgoIntersectLines;
     }
 

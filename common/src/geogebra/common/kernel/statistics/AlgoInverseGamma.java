@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import org.apache.commons.math.distribution.GammaDistribution;
 
@@ -49,10 +50,10 @@ public class AlgoInverseGamma extends AlgoDistribution {
         super(cons, a, b, c, null);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoInverseGamma;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.InverseGamma;
+	}
     
 	@Override
 	public final void compute() {

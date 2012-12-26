@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 
@@ -73,9 +74,9 @@ public class AlgoName extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoName;
-	}
+	public Commands getClassName() {
+    	return Commands.Name;
+    } 
 
 	// for AlgoElement
 	@Override

@@ -9,6 +9,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoNumerator;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -93,8 +94,8 @@ public class AlgoSolveODE extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSolveODE;
+	public Commands getClassName() {
+		return Commands.SolveODE;
 	}
 
 	// for AlgoElement

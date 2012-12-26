@@ -17,6 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -29,9 +30,9 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoSumFunctions  extends AlgoElement {
 
 	@Override
-	public Algos getClassName() {
-        return Algos.AlgoSumFunctions;
-    }
+	public Commands getClassName() {
+		return Commands.Sum;
+	}
 
 	private GeoList geoList; //input
     private GeoNumeric truncate; //input	

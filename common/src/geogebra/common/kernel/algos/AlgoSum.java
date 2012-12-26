@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
@@ -47,7 +48,7 @@ public class AlgoSum extends AlgoStats1D {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoSum;
-    }
+	public Commands getClassName() {
+		return Commands.Sum;
+	}
 }

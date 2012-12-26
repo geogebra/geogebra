@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 
 /**
  * Compute the bottom of a limited quadric
@@ -29,11 +30,10 @@ public class AlgoQuadricEndTop extends AlgoQuadricEnd {
 		return v1;
 	}
 
-
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoQuadricEndTop;
-	}
+	public Commands getClassName() {
+        return Commands.Top;
+    }
 
 	// TODO Consider locusequability
 

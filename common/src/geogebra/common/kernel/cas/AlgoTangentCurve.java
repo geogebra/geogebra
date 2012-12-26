@@ -15,6 +15,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -72,8 +73,8 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTangentCurve;
+	public Commands getClassName() {
+		return Commands.Tangent;
 	}
 
 	@Override

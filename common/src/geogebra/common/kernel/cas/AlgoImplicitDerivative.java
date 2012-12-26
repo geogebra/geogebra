@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -68,8 +69,8 @@ public class AlgoImplicitDerivative extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoImplicitDerivative;
+	public Commands getClassName() {
+		return Commands.ImplicitDerivative;
 	}
 	
 	/**

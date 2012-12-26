@@ -18,6 +18,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -128,10 +129,9 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoQuadricEnds;
+	public Commands getClassName() {
+        return Commands.Ends;
     }
-    
 
 
 	@Override

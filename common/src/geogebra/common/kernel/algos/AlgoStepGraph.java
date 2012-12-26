@@ -9,6 +9,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -141,8 +142,8 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoStepGraph;
+	public Commands getClassName() {
+		return Commands.StepGraph;
 	}
 
 }

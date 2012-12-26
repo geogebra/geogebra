@@ -27,6 +27,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -59,9 +60,9 @@ public class AlgoTDistributionDF extends AlgoElement implements AlgoDistribution
       }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoTDistributionDF;
-    }
+	public Commands getClassName() {
+		return Commands.TDistribution;
+	}
     
     // for AlgoElement
     @Override

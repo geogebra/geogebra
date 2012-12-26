@@ -3,6 +3,7 @@ package geogebra.common.kernel.implicit;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -82,8 +83,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoImplicitPolyTangentCurve;
+	public Commands getClassName() {
+		return Commands.Tangent;
 	}
 	/**
 	 * @return resulting tangent curve

@@ -22,6 +22,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -53,8 +54,8 @@ public class AlgoLengthVector3D extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoLengthVector;
+	public Commands getClassName() {
+        return Commands.Length;
     }
 
     // for AlgoElement

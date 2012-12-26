@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -187,8 +188,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTangentImplicitpoly;
+	public Commands getClassName() {
+		return Commands.Tangent;
 	}
 
 	@Override

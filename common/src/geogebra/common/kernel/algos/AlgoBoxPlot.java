@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -204,8 +205,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoBoxPlot;
+	public Commands getClassName() {
+		return Commands.BoxPlot;
 	}
 
 	public AlgoBoxPlot copy() {

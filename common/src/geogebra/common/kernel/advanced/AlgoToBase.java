@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.StringUtil;
@@ -84,10 +85,8 @@ public class AlgoToBase extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoToBase;
-	}
-
-	// TODO Consider locusequability
+	public Commands getClassName() {
+    	return Commands.ToBase;
+    } 
 
 }

@@ -15,6 +15,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.util.GgbMat;
@@ -42,8 +43,8 @@ public class AlgoInvert extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoInvert;
+	public Commands getClassName() {
+        return Commands.Invert;
     }
 
     @Override

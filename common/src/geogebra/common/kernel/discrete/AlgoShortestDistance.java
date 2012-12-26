@@ -8,6 +8,7 @@ import geogebra.common.kernel.GraphAlgo;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -59,8 +60,9 @@ public class AlgoShortestDistance extends AlgoElement  implements GraphAlgo {
         return locus;
     }
 
-    public Algos getClassName() {
-        return Algos.AlgoShortestDistance;
+    @Override
+	public Commands getClassName() {
+        return Commands.ShortestDistance;
     }
     
     public final void compute() {

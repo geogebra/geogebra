@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoStats1D;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
@@ -43,8 +44,8 @@ public class AlgoStandardDeviation extends AlgoStats1D {
         super(cons,geoList,freq,AlgoStats1D.STATS_SD);
     }
 	
-    @Override
-	public Algos getClassName() {
-        return Algos.AlgoStandardDeviation;
-    }
+	@Override
+	public Commands getClassName() {
+		return Commands.SD;
+	}
 }

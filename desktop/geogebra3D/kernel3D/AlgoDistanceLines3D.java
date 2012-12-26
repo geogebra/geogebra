@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -49,8 +50,8 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
     
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoDistanceLines3D;
+	public Commands getClassName() {
+        return Commands.Distance;
     }
     
     // for AlgoElement

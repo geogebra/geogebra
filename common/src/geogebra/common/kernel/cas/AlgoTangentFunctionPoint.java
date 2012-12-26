@@ -17,6 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
@@ -82,8 +83,8 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTangentFunctionPoint;
+	public Commands getClassName() {
+		return Commands.Tangent;
 	}
 
 	@Override

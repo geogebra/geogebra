@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoPrimeFactorization;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -64,10 +65,10 @@ public class AlgoDivisorsSum extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		if(sum)
-			return Algos.AlgoDivisorsSum;
-		return Algos.AlgoDivisors;
+	public Commands getClassName() {
+    	if(sum)
+			return Commands.DivisorsSum;
+		return Commands.Divisors;
 	}
 
 	// TODO Consider locusequability

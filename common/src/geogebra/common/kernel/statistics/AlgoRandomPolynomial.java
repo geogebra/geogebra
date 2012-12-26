@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 /**
@@ -97,8 +98,8 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoRandomPolynomial;
+	public Commands getClassName() {
+		return Commands.RandomPolynomial;
 	}
 	/**
 	 * @return resulting polynomial

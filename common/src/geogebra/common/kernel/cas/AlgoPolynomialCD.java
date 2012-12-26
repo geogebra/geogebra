@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -50,9 +51,9 @@ public class AlgoPolynomialCD extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoPolynomialCD;
-	}
+	public Commands getClassName() {
+    	return Commands.CommonDenominator;
+    } 
 
 	// for AlgoElement
 	@Override

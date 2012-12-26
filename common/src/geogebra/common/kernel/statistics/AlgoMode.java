@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -48,9 +49,9 @@ public class AlgoMode extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMode;
-    }
+	public Commands getClassName() {
+		return Commands.Mode;
+	}
 
     @Override
 	protected void setInputOutput(){

@@ -21,6 +21,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
@@ -49,9 +50,9 @@ public class AlgoStepObject extends AlgoElement {
         num.setLabel(label);
    }   
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoStepObject;
+    @Override
+	public Commands getClassName() {
+		return Commands.ConstructionStep;
 	}
     
     // for AlgoElement

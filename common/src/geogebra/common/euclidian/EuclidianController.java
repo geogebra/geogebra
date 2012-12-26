@@ -57,6 +57,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
@@ -7616,7 +7617,8 @@ public abstract class EuclidianController {
 			break;
 	
 		case MOVE_DEPENDENT:
-			if(movedGeoElement.getParentAlgorithm() != null && movedGeoElement.getParentAlgorithm().getClassName()==Algos.AlgoAttachCopyToView){
+			if(movedGeoElement.getParentAlgorithm() != null && 
+			movedGeoElement.getParentAlgorithm().getClassName()==Commands.AttachCopyToView){
 				moveAttached(repaint);
 			}
 			else {

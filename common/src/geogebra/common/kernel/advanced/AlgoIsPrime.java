@@ -5,6 +5,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoPrimeFactorization;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -51,8 +52,8 @@ public class AlgoIsPrime extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIsPrime;
+	public Commands getClassName() {
+		return Commands.IsPrime;
 	}
 
 	public GeoBoolean getResult() {

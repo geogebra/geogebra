@@ -48,6 +48,7 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.algos.EquationScopeInterface;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -2985,13 +2986,13 @@ public abstract class GeoElement extends ConstructionElement implements
 				return defaultNumberedLabel("picture"); // Name.picture
 			} else if (isGeoLocus()) {
 				
-				if (algoParent.getClassName().equals(Algos.AlgoSolveODE)
+				if (algoParent.getClassName().equals(Commands.SolveODE)
 						|| algoParent instanceof AlgoIntegralODE
-						|| algoParent.getClassName().equals(Algos.AlgoNSolveODE)) {
+						|| algoParent.getClassName().equals(Commands.NSolveODE)) {
 					
 					return defaultNumberedLabel("numericalIntegral"); // Name.numericalIntegral
 					
-				} else if (algoParent.getClassName().equals(Algos.AlgoSlopeField)) {
+				} else if (algoParent.getClassName().equals(Commands.SlopeField)) {
 					
 					return defaultNumberedLabel("slopefield"); // Name.slopefield
 				} else if (algoParent instanceof GraphAlgo) {

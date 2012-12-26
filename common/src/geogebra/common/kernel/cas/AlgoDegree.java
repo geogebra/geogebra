@@ -18,6 +18,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -50,9 +51,9 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoDegree;
-	}
+	public Commands getClassName() {
+        return Commands.Degree;
+    }
 
 	// for AlgoElement
 	@Override

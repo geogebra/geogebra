@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 
@@ -55,8 +56,8 @@ public class AlgoLeftRightSide extends AlgoElement {
 
 
 	@Override
-	public Algos getClassName() {
-		return left ? Algos.AlgoLeftSide : Algos.AlgoRightSide;
+	public Commands getClassName() {
+		return left ? Commands.LeftSide:Commands.RightSide;
 	}
 
 	public GeoFunctionNVar getResult() {

@@ -18,6 +18,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -58,10 +59,10 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		compute();
 	}
 
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCoefficients;
-	}
+	 @Override
+		public Commands getClassName() {
+	        return Commands.Coefficients;
+	    }
 
 	// for AlgoElement
 	@Override

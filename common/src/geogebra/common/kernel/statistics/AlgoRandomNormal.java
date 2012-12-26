@@ -17,6 +17,7 @@ import geogebra.common.kernel.SetRandomValue;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 /**
  * Computes RandomNormal[a, b]
@@ -35,8 +36,8 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomVal
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoRandomNormal;
+	public Commands getClassName() {
+		return Commands.RandomNormal;
 	}
 
 	@Override

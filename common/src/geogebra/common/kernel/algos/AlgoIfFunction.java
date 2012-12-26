@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
@@ -58,9 +59,9 @@ public class AlgoIfFunction extends AlgoElement {
         compute();        
     }   
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIfFunction;
+    @Override
+	public Commands getClassName() {
+		return Commands.If;
 	}
     
     // for AlgoElement

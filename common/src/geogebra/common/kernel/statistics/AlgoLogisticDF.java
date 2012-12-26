@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -57,9 +58,9 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
       }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoLogsticDF;
-    }
+	public Commands getClassName() {
+		return Commands.Logistic;
+	}
     
     // for AlgoElement
     @Override

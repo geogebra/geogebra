@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.util.Cloner;
 
@@ -48,10 +49,10 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
         super(mean, null, null, isCumulative, AlgoBarChart.TYPE_BARCHART_POISSON,a,b,vals,borders,N);
     }
 
-    @Override
-	public Algos getClassName() {
-        return Algos.AlgoPoissonBarChart;
-    }
+	@Override
+	public Commands getClassName() {
+		return Commands.Poisson;
+	}
 
     
 	public DrawInformationAlgo copy() {

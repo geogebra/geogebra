@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -102,8 +103,8 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return isRight()?Algos.AlgoHistogramRight:Algos.AlgoHistogram;
+	public Commands getClassName() {
+		return isRight()?Commands.HistogramRight:Commands.Histogram;
 	}
 	
 	public AlgoHistogram copy() {

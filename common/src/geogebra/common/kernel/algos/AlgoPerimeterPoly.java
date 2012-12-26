@@ -13,6 +13,7 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -47,9 +48,9 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoPerimeterPoly;
-	}
+	public Commands getClassName() {
+        return Commands.Perimeter;
+    }
 
 	@Override
 	protected void setInputOutput() {

@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.util.MyMath;
 
 //import org.apache.commons.math.special.Gamma;
@@ -96,9 +97,9 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoBinomial;
-    }
+	public Commands getClassName() {
+		return Commands.Binomial;
+	}
     
     @Override
 	public final void compute() {

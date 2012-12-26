@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -104,8 +105,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTMean2Estimate;
+	public Commands getClassName() {
+		return Commands.TMean2Estimate;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -66,7 +67,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		} else if (geo.isGeoLocus()){
 			// must be a SlopeField
 			AlgoElement algo = geo.getParentAlgorithm();
-			if (algo.getClassName().equals(Algos.AlgoSlopeField)) {
+			if (algo.getClassName().equals(Commands.SlopeField)) {
 				f0 = (FunctionalNVar) algo.getInput()[0];
 			}
 		} // else leave f0 = null

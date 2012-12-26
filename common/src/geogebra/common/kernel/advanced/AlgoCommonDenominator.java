@@ -23,6 +23,7 @@ import geogebra.common.kernel.algos.AlgoFractionText;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 
 /**
@@ -42,9 +43,9 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoCommonDenominator;
-    }        
+	public Commands getClassName() {
+    	return Commands.CommonDenominator;
+    }       
     
     // calc area of conic c 
     @Override

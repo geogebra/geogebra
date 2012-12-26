@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import org.apache.commons.math.distribution.CauchyDistribution;
 
@@ -47,10 +48,10 @@ public class AlgoInverseCauchy extends AlgoDistribution {
         super(cons, a, b, c, null);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoInverseCauchy;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.InverseCauchy;
+	}
     
 	@Override
 	public final void compute() {

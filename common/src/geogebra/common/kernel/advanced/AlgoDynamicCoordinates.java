@@ -18,6 +18,7 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -47,8 +48,8 @@ public class AlgoDynamicCoordinates extends AlgoElement implements AlgoDynamicCo
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoDynamicCoordinates;
+	public Commands getClassName() {
+        return Commands.DynamicCoordinates;
     }
 
     // for AlgoElement

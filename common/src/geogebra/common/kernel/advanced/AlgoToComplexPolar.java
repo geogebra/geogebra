@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -75,11 +76,11 @@ public class AlgoToComplexPolar extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
+	public Commands getClassName() {
 		switch(coordStyle){
-		case Kernel.COORD_COMPLEX:return Algos.AlgoToComplex;
-		case Kernel.COORD_POLAR:return Algos.AlgoToPolar;
-		default: return Algos.AlgoToPoint;
+		case Kernel.COORD_COMPLEX:return Commands.ToComplex;
+		case Kernel.COORD_POLAR:return Commands.ToPolar;
+		default: return Commands.ToPoint;
 		}
 	}
 

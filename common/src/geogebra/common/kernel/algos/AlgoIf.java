@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -54,9 +55,9 @@ public class AlgoIf extends AlgoElement {
         result.setLabel(label);
     }   
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIf;
+    @Override
+	public Commands getClassName() {
+		return Commands.If;
 	}
     
     // for AlgoElement

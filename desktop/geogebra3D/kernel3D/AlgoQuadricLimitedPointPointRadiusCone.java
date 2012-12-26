@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -52,9 +53,9 @@ public class AlgoQuadricLimitedPointPointRadiusCone extends AlgoQuadricLimitedPo
 	
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoLimitedCone;
-	}
+	public Commands getClassName() {
+        return Commands.Cone;
+    }
 
 	// TODO Consider locusequability
 	

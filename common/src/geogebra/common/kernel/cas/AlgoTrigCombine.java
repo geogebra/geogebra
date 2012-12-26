@@ -5,6 +5,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -40,9 +41,9 @@ public class AlgoTrigCombine extends AlgoCasBase {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTrigCombine;
-	}
+	public Commands getClassName() {
+    	return Commands.TrigCombine;
+    } 
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

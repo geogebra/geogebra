@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -80,8 +81,8 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoAngleLines;
+	public Commands getClassName() {
+        return Commands.Angle;
     }
 
     @Override

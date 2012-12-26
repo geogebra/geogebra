@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -228,25 +229,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 
-	/*
 	@Override
-	public void update() {
-
-		// compute and polyhedron
-		super.update();
-		
-		//top point
-		if (height!=null)
-			((GeoPoint3D) getTopPoint()).update();
-
-	}
-*/
-	
-    @Override
-	public Algos getClassName() {
-
-    	return Algos.AlgoPyramid;
-
+	public Commands getClassName() {
+        return Commands.Pyramid;
     }
     
     

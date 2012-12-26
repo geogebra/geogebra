@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -90,9 +91,9 @@ public class AlgoText extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoText;
-	}
+	public Commands getClassName() {
+        return Commands.Text;
+    }
 
 	@Override
 	public int getRelatedModeID() {

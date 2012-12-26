@@ -18,6 +18,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
@@ -88,10 +89,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		super(cons);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoSurdText;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.SurdText;
+	}
 
     @Override
 	protected void setInputOutput(){

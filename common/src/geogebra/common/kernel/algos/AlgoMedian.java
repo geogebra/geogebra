@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -62,8 +63,8 @@ public class AlgoMedian extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMedian;
+	public Commands getClassName() {
+        return Commands.Median;
     }
 
     @Override

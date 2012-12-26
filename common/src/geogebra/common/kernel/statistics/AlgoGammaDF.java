@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
@@ -80,9 +81,9 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
       }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoGammaDF;
-    }
+	public Commands getClassName() {
+		return Commands.Gamma;
+	}
     
     // for AlgoElement
     @Override

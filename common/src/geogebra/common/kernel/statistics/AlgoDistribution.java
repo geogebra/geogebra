@@ -175,9 +175,6 @@ public abstract class AlgoDistribution extends AlgoElement {
 	}
 
 	@Override
-	public abstract Algos getClassName();
-
-	@Override
 	protected void setInputOutput() {
 
 		// build array list of possible arguments

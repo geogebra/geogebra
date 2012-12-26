@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 
 import org.apache.commons.math.distribution.ZipfDistribution;
@@ -33,9 +34,9 @@ public class AlgoZipf extends AlgoDistribution {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoZipf;
-    }
+	public Commands getClassName() {
+		return Commands.Zipf;
+	}
 
 	@Override
 	public final void compute() {

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -37,9 +38,9 @@ public class AlgoTextToUnicode extends AlgoElement {
     }   
   
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoTextToUnicode;
-    }
+	public Commands getClassName() {
+		return Commands.TextToUnicode;
+	}
     
     // for AlgoElement
     @Override

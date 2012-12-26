@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -200,9 +201,8 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	}
 
 	@Override
-	public Algos getClassName() {
-		
-		return Algos.AlgoFunctionInterval;
+	public Commands getClassName() {
+		return Commands.Function;
 	}
 
 	// TODO Consider locusequability

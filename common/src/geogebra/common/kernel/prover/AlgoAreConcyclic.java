@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -59,9 +60,9 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoAreConcyclic;
-	}
+	public Commands getClassName() {
+        return Commands.AreConcyclic;
+    }
 
 	@Override
 	protected void setInputOutput() {

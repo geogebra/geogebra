@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -59,9 +60,10 @@ public class AlgoQ3 extends AlgoElement {
         setInputOutput();
         compute();
     }
+
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoQ3;
+	public Commands getClassName() {
+        return Commands.Q3;
     }
 
     @Override

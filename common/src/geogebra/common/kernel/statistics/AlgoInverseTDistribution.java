@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import org.apache.commons.math.distribution.TDistribution;
 
@@ -45,10 +46,10 @@ public class AlgoInverseTDistribution extends AlgoDistribution {
         super(cons, a, b, null, null);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoInverseTDistribution;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.InverseTDistribution;
+	}
     
 	@Override
 	public final void compute() {

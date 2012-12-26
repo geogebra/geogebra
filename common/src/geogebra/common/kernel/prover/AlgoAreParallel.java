@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -54,9 +55,9 @@ public class AlgoAreParallel extends AlgoElement implements
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoAreParallel;
-	}
+	public Commands getClassName() {
+        return Commands.AreParallel;
+    }
 
 	@Override
 	protected void setInputOutput() {

@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
@@ -64,8 +65,8 @@ public class AlgoScientificText extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoScientificText;
+	public Commands getClassName() {
+		return Commands.ScientificText;
 	}
 
 	@Override

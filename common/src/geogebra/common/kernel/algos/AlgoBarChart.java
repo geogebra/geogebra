@@ -17,6 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -502,8 +503,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	// ======================================================
 
 	@Override
-	public GetCommand getClassName() {
-		return Algos.AlgoBarChart;
+	public Commands getClassName() {
+		return Commands.BarChart;
 	}
 
 	/**

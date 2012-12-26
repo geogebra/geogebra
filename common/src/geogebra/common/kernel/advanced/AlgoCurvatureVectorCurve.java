@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.cas.AlgoDerivative;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -69,9 +70,9 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCurvatureVectorCurve;
-	}
+	public Commands getClassName() {
+        return Commands.CurvatureVector;
+    }
 
 	// for AlgoElement
 	@Override

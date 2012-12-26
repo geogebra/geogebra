@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -50,9 +51,9 @@ public class AlgoIterationList extends AlgoElement {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoIterationList;
-    }
+	public Commands getClassName() {
+    	return Commands.IterationList;
+    } 
 
     @Override
 	protected void setInputOutput(){

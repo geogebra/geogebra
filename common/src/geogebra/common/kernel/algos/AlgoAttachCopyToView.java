@@ -24,6 +24,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -122,8 +123,8 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoAttachCopyToView;
+	public Commands getClassName() {
+		return Commands.AttachCopyToView;
 	}
 
 	// for AlgoElement

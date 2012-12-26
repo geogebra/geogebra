@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -48,8 +49,8 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoFactors;
+	public Commands getClassName() {
+		return Commands.Factors;
 	}
 
 	// for AlgoElement

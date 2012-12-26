@@ -17,6 +17,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
@@ -43,9 +44,9 @@ public class AlgoColumn extends AlgoElement {
         num.setLabel(label);
     }   
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoColumn;
+    @Override
+	public Commands getClassName() {
+		return Commands.Column;
 	}
     
     // for AlgoElement

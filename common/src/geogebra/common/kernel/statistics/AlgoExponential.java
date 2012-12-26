@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 
 import org.apache.commons.math.distribution.ExponentialDistribution;
 
@@ -35,8 +36,8 @@ public class AlgoExponential extends AlgoDistribution {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoExponential;
+	public Commands getClassName() {
+		return Commands.Exponential;
 	}
 
 	@Override

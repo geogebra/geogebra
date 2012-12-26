@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 /**
@@ -63,11 +64,10 @@ public class AlgoNextPreviousPrime extends AlgoElement {
 		}
 		
 	}
-
 	@Override
-	public Algos getClassName() {
-		return next ? Algos.AlgoNextPrime : Algos.AlgoPreviousPrime;
-	}
+	public Commands getClassName() {
+    	return next ? Commands.NextPrime : Commands.PreviousPrime;
+    } 
 
 	/**
 	 * @return resulting prime

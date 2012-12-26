@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 /**
@@ -35,8 +36,8 @@ public class AlgoFactor extends AlgoCasBase {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoFactor;
+	public Commands getClassName() {
+		return Commands.Factor;
 	}
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
