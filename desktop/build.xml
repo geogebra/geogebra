@@ -387,6 +387,7 @@ office@geogebra.org
 		<jar jarfile="${build.dir}/geogebra_export.jar"
 			basedir="${src.dir}"
 			includes="geogebra/export/**, 
+			geogebra/export/pstricks/unicodetex,
 					org/freehep/**, 
 			geogebra/common/export/**,
 					meta-inf/services/**"
