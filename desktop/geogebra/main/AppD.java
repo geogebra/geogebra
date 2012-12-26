@@ -4535,6 +4535,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		return pythonBridge;
 	}
+	
+	/**
+	 * 
+	 * @return whether Python is enabled (eg false for Applets)
+	 */
+	public boolean isPythonEnabled() {
+		return pythonBridge != null;
+	}
 
 	public String getCurrentPythonScript() {
 		String script = null;

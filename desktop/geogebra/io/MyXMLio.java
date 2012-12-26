@@ -411,11 +411,13 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			osw.flush();
 			zip.closeEntry();
 			
-			// Do the same with Python file
-			zip.putNextEntry(new ZipEntry(PYTHON_FILE));
-			osw.write(((AppD) app).getCurrentPythonScript());
-			osw.flush();
-			zip.closeEntry();
+			if (((AppD) app).isPythonEnabled()) {
+				// Do the same with Python file
+				zip.putNextEntry(new ZipEntry(PYTHON_FILE));
+				osw.write(((AppD) app).getCurrentPythonScript());
+				osw.flush();
+				zip.closeEntry();
+			}
 			
 			// And with Logo file
 			/*zip.putNextEntry(new ZipEntry(LOGO_FILE));
