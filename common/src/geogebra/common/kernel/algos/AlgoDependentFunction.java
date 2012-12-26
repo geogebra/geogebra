@@ -177,7 +177,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
-			ExpressionValue leftValue = node.getLeft();
+			ExpressionValue leftValue = node.getLeft().unwrap();
 
 			switch (node.getOperation()) {
 			case FUNCTION:
@@ -205,6 +205,13 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				return funcExpression.replace(x,
 						expandFunctionDerivativeNodes(node.getRight())).wrap();
 			case FUNCTION_NVAR:
+				//make sure we expand $ in $A1(x,y)
+				if (leftValue.isExpressionNode()) {
+					leftValue = expandFunctionDerivativeNodes(leftValue);
+					node.setLeft(leftValue);
+					if (leftValue.isExpressionNode())
+						return node;
+				}
 				FunctionNVar funN =  ((FunctionalNVar) leftValue)
 						.getFunction();
 				FunctionVariable[] xy = funN.getFunctionVariables();
