@@ -198,7 +198,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     private native JavaScriptObject getDummyCallback() /*-{
 	   return function() {
-	   		$wnd.console.log("This is a dummy callback from geogebra.web.main.ggbApi.getBase64(); try the callbacked version instead");
+	   		@geogebra.common.main.App::debug(Ljava/lang/String;)("This is a dummy callback from geogebra.web.main.ggbApi.getBase64(); try the callbacked version instead");
 	   };
     }-*/;
 
@@ -290,7 +290,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			}
 
 			function addText(name, data, callback) {
-				$wnd.console.log(name);
+				@geogebra.common.main.App::debug(Ljava/lang/String;)(name);
 				zipWriter.add(name, new ASCIIReader(data), callback);
 			}
 
@@ -298,15 +298,15 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 				var item,
 					imgExtensions = ["jpg", "png", "gif"];
 				if (arch.archive.length > 0) {
-					$wnd.console.log("arch.archive.length: "+arch.archive.length);
+					@geogebra.common.main.App::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
 					item = arch.archive.shift();
 					var ind = item.fileName.lastIndexOf('.');
 					if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
 					//if (item.fileName.indexOf(".png") > -1) 
-							$wnd.console.log("image zipped" + item.fileName);
+							@geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped" + item.fileName);
 							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
 					} else {
-							$wnd.console.log("text zipped");
+							@geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped");
 							addText(item.fileName,encodeUTF8(item.fileContent),function(){checkIfStillFilesToAdd();});
 					}
 				} else {
@@ -316,8 +316,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 								// that's right, this truncation is necessary
 								//clb(dataURI.substr(dataURI.indexOf(',')+1));
 							} else {
-								$wnd.console.log("not callback was given");
-								$wnd.console.log(dataURI);
+								@geogebra.common.main.App::debug(Ljava/lang/String;)("not callback was given");
+								@geogebra.common.main.App::debug(Ljava/lang/String;)(dataURI);
 							}
 					});
 				}
@@ -326,7 +326,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			 checkIfStillFilesToAdd();
 			
 		}, function(error) {
-			$wnd.console.log("error occured while creating ggb zip");
+			@geogebra.common.main.App::debug(Ljava/lang/String;)("error occured while creating ggb zip");
 		});              
 
 
@@ -401,7 +401,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			}
 
 			function addText(name, data, callback) {
-				$wnd.console.log(name);
+				@geogebra.common.main.App::debug(Ljava/lang/String;)(name);
 				zipWriter.add(name, new ASCIIReader(data), callback);
 			}
 
@@ -413,10 +413,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 					var ind = item.fileName.lastIndexOf('.');
 					if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
 					//if (item.fileName.indexOf(".png") > -1) {
-							$wnd.console.log("image zipped" + item.fileName);
+							@geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped" + item.fileName);
 							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
 					} else {
-							$wnd.console.log("text zipped");
+							@geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped");
 							addText(item.fileName,encodeUTF8(item.fileContent),function(){checkIfStillFilesToAdd();});
 					}
 				} else {
@@ -425,8 +425,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 								// that's right, this truncation is necessary
 								clb(dataURI.substr(dataURI.indexOf(',')+1));
 							} else {
-								$wnd.console.log("not callback was given");
-								$wnd.console.log(dataURI);
+								@geogebra.common.main.App::debug(Ljava/lang/String;)("not callback was given");
+								@geogebra.common.main.App::debug(Ljava/lang/String;)(dataURI);
 							}
 					});
 				}
@@ -435,7 +435,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			 checkIfStillFilesToAdd();
 			
 		}, function(error) {
-			$wnd.console.log("error occured while creating base64 zip");
+			@geogebra.common.main.App::debug(Ljava/lang/String;)("error occured while creating base64 zip");
 		});
     }-*/;
 

@@ -209,12 +209,12 @@ public class View extends Widget {
 	            	(function(entry){
 		            	var filename = entry.filename;
 		                if (entry.filename.match(imageRegex)) {
-		                        $wnd.console.log(filename+" : image");
+		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
 		                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
 		                            view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 		                        });
 		                    } else {
-		                        $wnd.console.log(entry.filename+" : text");
+		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
 		                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
 		                        	@geogebra.web.main.AppW::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
@@ -222,7 +222,7 @@ public class View extends Widget {
 			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 			                         });
 		                        } else {
-		                        	$wnd.console.log("worker");
+		                        	@geogebra.common.main.App::debug(Ljava/lang/String;)("worker");
 		                        	entry.getData(new ASCIIWriter(), function(text) {
 			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 			                         });
@@ -235,7 +235,7 @@ public class View extends Widget {
 	        });
 	    },
 	    function (error) {
-	    	$wnd.console.log(error);
+	    	@geogebra.common.main.App::error(Ljava/lang/String;)(error);
 	    });
     }-*/;
 
@@ -313,12 +313,12 @@ public class View extends Widget {
 			            	(function(entry){
 				            	var filename = entry.filename;
 				                if (entry.filename.match(imageRegex)) {
-				                        $wnd.console.log(filename+" : image");
+				                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
 				                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
 				                            view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				                        });
 				                    } else {
-				                        $wnd.console.log(entry.filename+" : text");
+				                        @geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
 				                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
 				                            @geogebra.web.main.AppW::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
@@ -326,7 +326,7 @@ public class View extends Widget {
 					                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 					                         });
 				                        } else {
-				                        	$wnd.console.log("worker");
+				                        	@geogebra.common.main.App::debug(Ljava/lang/String;)("worker");
 				                        	entry.getData(new ASCIIWriter(), function(text) {
 					                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 					                         });
@@ -339,7 +339,7 @@ public class View extends Widget {
 			        });
 			    },
 			    function (error) {
-			    	$wnd.console.log(error);
+			    	@geogebra.common.main.App::error(Ljava/lang/String;)(error);
 			    });
     }-*/;
 

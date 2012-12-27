@@ -167,9 +167,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	private native void loadCASWithWorker(String baseUrl, GeoGebraAppFrame ggbAF) /*-{
 		var worker = new Worker(baseUrl+"js/loadCAS.js");		
-		$wnd.console.log(baseUrl+"js/loadCAS.js");
+		@geogebra.common.main.App::debug(Ljava/lang/String;)(baseUrl+"js/loadCAS.js");
 		worker.addEventListener("message", function(e) {
-		  $wnd.console.log("worker says: " + e.data);
+		  @geogebra.common.main.App::debug(Ljava/lang/String;)("worker says: " + e.data);
 		});
 		
 	   $wnd.loadCAS =

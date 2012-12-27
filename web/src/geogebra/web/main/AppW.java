@@ -888,7 +888,7 @@ public class AppW extends App {
 				
 				App.debug("keys loaded for language: "+lang);
 				App.debug("TODO: reinitialize GUI on language change");
-				
+		
 				// make sure digits are updated in all numbers
 				getKernel().updateConstruction();
 				setUnsaved();
@@ -2028,7 +2028,7 @@ public class AppW extends App {
 	}
 
 	public static native void console(JavaScriptObject dataAsJSO) /*-{
-		$wnd.console.log(dataAsJSO);
+		@geogebra.common.main.App::debug(Ljava/lang/String;)(dataAsJSO);
 	}-*/;
 
 	@Override
@@ -2214,10 +2214,10 @@ public class AppW extends App {
 	}
 
 	public static native void console(String string) /*-{
-	                                                 if ($wnd && $wnd.console) {
-	                                                 $wnd.console.log(string);
-	                                                 }
-	                                                 }-*/;
+		if ($wnd && $wnd.console) {
+			@geogebra.common.main.App::debug(Ljava/lang/String;)(string);
+		}
+	}-*/;
 
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
