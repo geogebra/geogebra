@@ -2,6 +2,8 @@ package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
+import geogebra.web.Web;
+import geogebra.web.Web.GuiToLoad;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBar;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
@@ -33,7 +35,6 @@ public class GGWToolBar extends Composite {
 		return myIconResourceBundle;
 	}
 
-	private VerticalPanel toolbarPanel = new VerticalPanel(); // just dummy!
 	private VerticalPanel toolbars;
 	private App app;
 	public ToolBar toolBar;
@@ -71,10 +72,10 @@ public class GGWToolBar extends Composite {
 	 * Build the toolbar GUI
 	 */
 	public void buildGui() {
-		toolbarPanel = new VerticalPanel();
-		toolbarPanel.addStyleName("toolbarPanel");
-		updateToolbarPanel();
-
+		
+		if(!Web.currentGUI.equals(GuiToLoad.APP)){
+			updateToolbarPanel();  //currently it's needed for applet, maybe later this will be unnecessary
+		}
 		// setActiveToolbar(activeToolbar);
 		
 		//undo-redo buttons
@@ -113,7 +114,7 @@ public class GGWToolBar extends Composite {
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-		toolbarPanel.clear();
+		//toolbarPanel.clear();
 		
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
