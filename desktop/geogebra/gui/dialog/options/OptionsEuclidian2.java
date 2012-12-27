@@ -1370,7 +1370,7 @@ public class OptionsEuclidian2 extends JPanel implements OptionPanelD,
 			ncbTickDist.addItemListener(this);
 
 			cbAxisLabel.removeActionListener(this);
-			cbAxisLabel.setSelectedItem(view.getAxesLabels()[axis]);
+			cbAxisLabel.setSelectedItem(view.getAxesLabels(true)[axis]);
 			cbAxisLabel.addActionListener(this);
 
 			cbUnitLabel.removeActionListener(this);

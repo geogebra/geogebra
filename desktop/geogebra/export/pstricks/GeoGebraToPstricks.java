@@ -1670,7 +1670,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 //		\psaxes[Dx=5,Dy=0.5]{->}(0,0)(-10.5,-0.4)(10.5,1.2)
 		double Dx=euclidianView.getAxesNumberingDistances()[0];
 		double Dy=euclidianView.getAxesNumberingDistances()[1];
-		String[] label=euclidianView.getAxesLabels();
+		String[] label=euclidianView.getAxesLabels(false);
 		codeBeginPic.append("\\psaxes[labelFontSize=\\scriptstyle,xAxis=");
 		codeBeginPic.append(xAxis);
 		codeBeginPic.append(",yAxis=");

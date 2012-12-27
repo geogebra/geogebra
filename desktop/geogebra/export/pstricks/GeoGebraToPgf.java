@@ -2238,7 +2238,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		geogebra.common.awt.GColor color=euclidianView.getAxesColor();
 		// Drawing X Axis
 		boolean showAxis=euclidianView.getShowXaxis();
-		String[] label=euclidianView.getAxesLabels();
+		String[] label=euclidianView.getAxesLabels(false);
 		if (ymin>0||ymax<0) showAxis=false;
 		double spaceTick=euclidianView.getAxesNumberingDistances()[0];
 		boolean showNumbers=euclidianView.getShowAxesNumbers()[0];		

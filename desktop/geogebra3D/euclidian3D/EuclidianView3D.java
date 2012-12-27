@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
@@ -2885,8 +2886,21 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// AXES
 	//////////////////////////////////////////////////////
 
-	public String[] getAxesLabels(){
-		return axesLabels;
+	public String[] getAxesLabels(boolean addBoldItalicTags) { 
+		String[] ret = new String[3]; 
+		ret[0] = axesLabels[0]; 
+		ret[1] = axesLabels[1]; 
+		ret[2] = axesLabels[2]; 
+
+		if (addBoldItalicTags) { 
+			for (int axis = 0 ; axis <=2 ; axis++) { 
+				if (axesLabels[axis] != null) { 
+					ret[axis] = axisLabelForXML(axis); 
+				} 
+			} 
+		} 
+
+		return ret; 
 	}
 	
 	public void setAxesLabels(String[] axesLabels){
@@ -3587,6 +3601,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			List<geogebra.common.awt.GPoint> penPoints2,
 			geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void drawResetIcon(GGraphics2D g) {
+		App.debug("unimplemented");
 		
 	}
 	

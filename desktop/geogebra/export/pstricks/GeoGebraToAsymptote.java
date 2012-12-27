@@ -2289,7 +2289,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         boolean by       = euclidianView.getShowAxesNumbers()[1];
         String Dx        = format(euclidianView.getAxesNumberingDistances()[0]);
         String Dy        = format(euclidianView.getAxesNumberingDistances()[1]);
-        String[] label   = euclidianView.getAxesLabels();
+        String[] label   = euclidianView.getAxesLabels(false);
         String[] units   = euclidianView.getAxesUnitLabels();
         int axisStyle    = euclidianView.getAxesLineStyle();
         int[] tickStyle  = euclidianView.getAxesTickStyles();

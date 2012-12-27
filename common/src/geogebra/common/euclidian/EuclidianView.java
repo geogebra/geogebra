@@ -2111,10 +2111,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * 
 	 */
 
-	public String[] getAxesLabels() {
-		return axesLabels;
-	}
+	public String[] getAxesLabels(boolean addBoldItalicTags) { 
+		String[] ret = new String[2]; 
+		ret[0] = axesLabels[0]; 
+		ret[1] = axesLabels[1]; 
 
+		if (addBoldItalicTags) { 
+			for (int axis = 0 ; axis <=1 ; axis++) { 
+				if (axesLabels[axis] != null) { 
+					ret[axis] = axisLabelForXML(axis); 
+				} 
+			} 
+		} 
+
+		return ret; 
+	}
+	
 	public void setAxesLabels(String[] axesLabels) {
 		setAxisLabel(0, axesLabels[0]);
 		setAxisLabel(1, axesLabels[1]);
@@ -3501,9 +3513,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * @param g
 	 *            graphics for reset icon
 	 */
-	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g) {
-		App.debug("drawResetIcon: implementation needed");
-	}
+	protected abstract void drawResetIcon(geogebra.common.awt.GGraphics2D g);
 
 	/**
 	 * Draw textfields
@@ -3624,8 +3634,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		setShowAxis(0, evs.getShowAxis(0), false);
 		setShowAxis(1, evs.getShowAxis(1), false);
-		axesLabels = evs.getAxesLabels();
-		setAxesUnitLabels(evs.getAxesUnitLabels());
+		String[] tempAxesLabels = evs.getAxesLabels(); 
+
+		// make sure <b>, <i> processed 
+		setAxisLabel(0, tempAxesLabels[0]); 
+		setAxisLabel(1, tempAxesLabels[1]);		setAxesUnitLabels(evs.getAxesUnitLabels());
 
 		showAxesNumbers = evs.getShowAxisNumbers();
 

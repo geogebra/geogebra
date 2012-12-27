@@ -192,9 +192,10 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public double[] getAxesNumberingDistances();
 	/**
+	 * @param addBoldItalicTags whether to add <b> etc
 	 * @return array with axes labels
 	 */
-	public String[] getAxesLabels();
+	public String[] getAxesLabels(boolean addBoldItalicTags);
 	/**
 	 * @return array with axes line styles
 	 */
