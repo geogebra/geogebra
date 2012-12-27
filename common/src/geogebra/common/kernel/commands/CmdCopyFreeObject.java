@@ -3,7 +3,9 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -28,19 +30,29 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
+		//FunctionalNVar
 		case 1:
 
 			String label = c.getLabel();
-			if (arg[0].isGeoFunctionConditional()|| arg[0].isGeoFunctionNVar() || arg[0].isGeoFunction()) {
-				String command = label == null ? "" : label + "="; 
+			if (arg[0] instanceof FunctionalNVar) {
+				FunctionalNVar f = (FunctionalNVar) arg[0];
+				StringBuilder command = new StringBuilder();
+				
+				// eg f(x,y)=
+				if (label != null) {
+					command.append(label);
+					command.append('(');
+					command.append(f.getVarString(StringTemplate.defaultTemplate));
+					command.append(")=");
+				}
 
 				StringTemplate highPrecision = StringTemplate.maxPrecision;
-				command += arg[0].toOutputValueString(highPrecision); 
+				command.append(arg[0].toOutputValueString(highPrecision)); 
 
 				try { 
-
+					
 					GeoElement[] ret = kernelA.getAlgebraProcessor() 
-							.processAlgebraCommandNoExceptions(command, true); 
+							.processAlgebraCommandNoExceptions(command.toString(), true); 
 
 					ret[0].setVisualStyle(arg[0]); 
 					if(!arg[0].isLabelSet())
