@@ -1,8 +1,4 @@
 URI: gluegen-rt-natives-macosx-universal.jar
 
-URI: packed/gluegen-rt-natives-macosx-universal.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
 URI: unpacked/gluegen-rt-natives-macosx-universal.jar
 Content-Type: x-java-archive

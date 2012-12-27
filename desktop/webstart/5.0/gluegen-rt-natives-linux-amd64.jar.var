@@ -1,8 +1,4 @@
 URI: gluegen-rt-natives-linux-amd64.jar
 
-URI: packed/gluegen-rt-natives-linux-amd64.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
 URI: unpacked/gluegen-rt-natives-linux-amd64.jar
 Content-Type: x-java-archive
