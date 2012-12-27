@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -121,18 +120,10 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 //		btApply.setActionCommand("Apply");
 //		btApply.addActionListener(this);
 
-		Hyperlink linkDownload = new Hyperlink();
-		linkDownload.setText(app.getPlain("Download"));
-		
-		linkDownload.setStyleName("gwt-Button");
-		linkDownload.addStyleName("linkDownload");
-		linkDownload.getElement().setAttribute("style", "display:inline");
-		
 		// create button panel
 		FlowPanel btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
 		btPanel.add(btOK);
-		btPanel.add(linkDownload);
 		btPanel.add(btCancel);
 		//just tmp.
 		if (showApply) {
