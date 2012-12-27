@@ -49,7 +49,7 @@ import java.util.ArrayList;
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
 PointProperties, TextProperties, Traceable, Path, Transformable,
-SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
+SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -1910,6 +1910,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	
 	
 	private TraceModesEnum traceModes = null;
+
+	private boolean showOnAxis;
 	
 	
 	/**
@@ -2301,5 +2303,26 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 		// otherwise use AlgoLocusList
 		return true;
+	}
+
+	public boolean showOnAxis() {
+		return showOnAxis;
+	}
+
+	/**
+	 * For inequalities.
+	 * 
+	 * @param showOnAxis
+	 *            true iff should be drawn on x-Axis only
+	 */
+	public void setShowOnAxis(boolean showOnAxis) {
+		this.showOnAxis = showOnAxis;
+		
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet() && (geo instanceof InequalityProperties)) {
+				((InequalityProperties) geo).setShowOnAxis(showOnAxis);
+			}
+		}
 	}
 }

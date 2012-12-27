@@ -34,7 +34,6 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
@@ -142,7 +141,7 @@ import javax.swing.event.ChangeListener;
 public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
-	private AppD app;
+	AppD app;
 	private Kernel kernel;
 	private GeoGebraColorChooser colChooser;
 
@@ -170,7 +169,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	private RightAnglePanel rightAnglePanel;
 	// END
 
-	private FillingPanel fillingPanel;
+	FillingPanel fillingPanel;
 	private FadingPanel fadingPanel;
 	private LodPanel lodPanel;
 	private CheckBoxInterpolateImage checkBoxInterpolateImage;
@@ -265,7 +264,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel(); // Florian Sonner 2008-07-12
-		ineqStylePanel = new IneqStylePanel();
+		ineqStylePanel = new IneqStylePanel(this);
 		textOptionsPanel = new TextOptionsPanel();
 		arcSizePanel = new ArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
@@ -2462,108 +2461,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			Font font = app.getPlainFont();
 			
 			showFixCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-
-	private class IneqStylePanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox showOnAxis;
-
-		public IneqStylePanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
-
-			// check boxes for show trace
-			showOnAxis = new JCheckBox();
-			showOnAxis.addItemListener(this);
-			add(showOnAxis);
-		}
-
-		public void setLabels() {
-			showOnAxis.setText(app.getPlain("ShowOnXAxis"));
-		}
-
-		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
-				return null;
-
-			showOnAxis.removeItemListener(this);
-
-			// check if properties have same values
-			if (!(geos[0] instanceof GeoFunction))
-				return null;
-			GeoFunction temp, geo0 = (GeoFunction) geos[0];
-			boolean equalFix = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoFunction))
-					return null;
-				temp = (GeoFunction) geos[i];
-
-				if (geo0.showOnAxis() != temp.showOnAxis())
-					equalFix = false;
-			}
-
-			// set trace visible checkbox
-			if (equalFix) {
-				showOnAxis.setSelected(geo0.showOnAxis());
-				if (geo0.showOnAxis())
-					fillingPanel.setAllEnabled(false);
-			} else
-				showOnAxis.setSelected(false);
-
-			showOnAxis.addItemListener(this);
-			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoFunction))
-					return false;
-				GeoFunction gfun = (GeoFunction) geos[i];
-				if (!gfun.isBooleanFunction()
-						|| gfun.getVarString(StringTemplate.defaultTemplate)
-								.equals("y"))
-					return false;
-			}
-			return true;
-		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			GeoFunction geo;
-			Object source = e.getItemSelectable();
-
-			// show trace value changed
-			if (source == showOnAxis) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoFunction) geos[i];
-					geo.setShowOnAxis(showOnAxis.isSelected());
-					geo.updateRepaint();
-
-				}
-				fillingPanel.setAllEnabled(!showOnAxis.isSelected());
-			}
-
-			updateSelection(geos);
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-			
-			showOnAxis.setFont(font);
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
@@ -5162,7 +5059,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class FillingPanel extends JPanel implements ChangeListener,
+	class FillingPanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel, ActionListener {
 
 		/**
