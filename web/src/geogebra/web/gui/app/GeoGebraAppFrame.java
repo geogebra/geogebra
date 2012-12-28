@@ -82,7 +82,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    root.forceLayout();
 	}
 	
-	private void setCloseMessage() {
+	public static void setCloseMessage(final App appl) {
 		App.debug("setCloseMessage");
 		//	if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
 				// popup when the user wants to exit accidentally
@@ -90,7 +90,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		            public void onWindowClosing(ClosingEvent event) {
 		            	// TODO: Localize this, or omit message completely,
 		            	// and maybe put this somewhere else (where i18n is already available).
-		            	//event.setMessage(app.getPlain("CloseApplicationLoseUnsavedData"));
+		            	//event.setMessage(appl.getPlain("CloseApplicationLoseUnsavedData"));
 		                event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
 		            }
 		        });
@@ -151,7 +151,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
 		app = createApplication(article,this);
-		setCloseMessage();
+		setCloseMessage(app);
 //		((AppW)app).initializeLanguage();
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);

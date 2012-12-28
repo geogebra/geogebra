@@ -17,9 +17,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.web.Web;
+import geogebra.web.Web.GuiToLoad;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
@@ -930,6 +933,10 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		        && ((AppW) app).getEuclidianView1().hasStyleBar()) {
 			app.getEuclidianView1().getStyleBar().setLabels();
 		}
+		
+//		if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
+//			GeoGebraAppFrame.setCloseMessage(app);
+//		}
 
     }
 
