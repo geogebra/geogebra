@@ -103,7 +103,6 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			addNumberItems();	
 			addUserInputItem();
 			
-			addViewForValueStringItems();
 				
 		}
 		
@@ -436,52 +435,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 
 	}
 	
-	private void addViewForValueStringItems() {
-
-		AbstractAction action;
-		
-		if (!geo.hasValueStringChangeableRegardingView())
-			return;
-
-		DockPanel panel = ((LayoutD) app.getGuiManager().getLayout()).getDockManager().getFocusedEuclidianPanel();
-		if (panel==null)
-			return;
-		
-		EuclidianViewInterfaceCommon oldView = (EuclidianViewInterfaceCommon)geo.getViewForValueString();
-		EuclidianViewInterfaceCommon newView = app.getActiveEuclidianView();
-		
-		if (newView==app.getEuclidianView2())
-			newView=app.getEuclidianView1(); //graphics and graphics2 are treated the same
-		
-		if (oldView==newView)
-			return;
-
-
-		if (oldView==null)
-			if (newView==app.getEuclidianView1() || newView==app.getEuclidianView2()){
-				if (!geo.isGeoElement3D()) // if 2D geo and new view is 2D standard view, no changes
-					return;
-			}else if (!(newView instanceof EuclidianViewD))
-				if (geo.isGeoElement3D()) // if 3D geo and new view is 3D view, no changes
-					return;
-		
-		
-		
-		action = new AbstractAction(app.getPlain("ShowValueStringRegardingA",newView.getTranslatedFromPlaneString())) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				//TODO change that to chooser
-				showValueStringRegardingACmd();
-				
-			}
-		};
-		addAction(action);
-
-	}
+	
 
 
 	private void addForAllItems() {
@@ -818,12 +772,6 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		return this.wrappedPopup;
 	}
 
-	public void showValueStringRegardingACmd() {
-		geo.setViewForValueString(app.getActiveEuclidianView());
-		geo.update();
-		app.getGuiManager().getAlgebraView().remove(geo);
-		app.getGuiManager().getAlgebraView().add(geo);
-	}
 
 	public void recordToSpreadSheetCmd() {
 		GeoElement geoRecordToSpreadSheet;
