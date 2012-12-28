@@ -125,14 +125,14 @@ public class DrawCurve3D extends Drawable3DCurves {
 //			}
 		} else {
 			if (elementHasChanged) {
-//				if (updateDomain()) {
-//					//domain has changed - create a new mesh
-//					mesh = new CurveMesh(curve, cullingBox, scale);
-//				} else {
+				if (updateDomain()) {
+					//domain has changed - create a new mesh
+					mesh = new CurveMesh(curve, cullingBox, (float) getView3D().getScale());
+				} else {
 					//otherwise, update the surface
 					elementHasChanged = false;
 					mesh.updateParameters();
-//				}
+				}
 			}
 
 			Renderer renderer = getView3D().getRenderer();
