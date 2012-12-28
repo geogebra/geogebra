@@ -26,7 +26,7 @@ public class GGWMenuBar extends Composite {
 		
 	}
 	
-	public void init(App app) {
+	public static void init(App app) {
 		menubar = new GeoGebraMenubarW(app);
 		ggbmenubarwrapper.add(menubar);
 	}
@@ -36,4 +36,9 @@ public class GGWMenuBar extends Composite {
 	}
 	
 
+	public static void removeMenus(){
+		ggbmenubarwrapper.clear();
+	}
+	
+	
 }

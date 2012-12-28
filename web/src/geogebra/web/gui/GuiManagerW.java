@@ -916,6 +916,12 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		if (GGWToolBar.getToolBar() != null) {
 			GGWToolBar.getToolBar().buildGui();
 		}
+		
+		if (GGWMenuBar.getMenubar() != null){
+			GGWMenuBar.removeMenus();
+			GGWMenuBar.init(app);
+		}
+		
 
     }
 
