@@ -7550,6 +7550,8 @@ public abstract class EuclidianController {
 		}
 		if (draggingBeyondThreshold && mode == EuclidianConstants.MODE_DELETE) {
 			handleMouseDraggedForDelete(event,getDeleteToolSize(),false);
+			stopCollectingMinorRepaints();
+			kernel.notifyRepaint();
 			return;
 		}
 		// moveMode was set in mousePressed()
