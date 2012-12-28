@@ -922,6 +922,10 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			GGWMenuBar.init(app);
 		}
 		
+		if (algebraView != null ){
+			algebraView.setLabels();
+		}
+		
 
     }
 
