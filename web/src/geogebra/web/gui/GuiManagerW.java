@@ -926,6 +926,10 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			algebraView.setLabels();
 		}
 		
+		if ((app.getEuclidianView1() != null)
+		        && ((AppW) app).getEuclidianView1().hasStyleBar()) {
+			app.getEuclidianView1().getStyleBar().setLabels();
+		}
 
     }
 
