@@ -25,7 +25,7 @@ abstract public class Manager {
 	static final int TRIANGLES = GLlocal.GL_TRIANGLES;
 
 	/** color factor for highlighting */
-	private float colorFactor;
+	//private float colorFactor;
 	
 	
 	
@@ -130,8 +130,7 @@ abstract public class Manager {
 	 */
 	public void update(){
 		//color factor for highlighting
-		colorFactor = ((float) (Math.sin(System.currentTimeMillis()/200.0)+1))/2f;
-		//colorFactor = (float) Math.abs(Math.sin(System.currentTimeMillis()/300.0))*2;
+		//colorFactor = ((float) (Math.sin(System.currentTimeMillis()/200.0)+1))/2f;
 	}
 	
 	
