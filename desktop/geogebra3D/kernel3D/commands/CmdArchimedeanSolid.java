@@ -37,9 +37,9 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	    			&& (ok[1] = arg[1].isGeoPoint())
 	    			&& (ok[2] = (arg[2] instanceof GeoDirectionND))){
 	    		
-	    			GeoElement[] ret = { kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
+	    			GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
 	    					(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoDirectionND) arg[2],
-	    					name) };
+	    					name) ;
 					return ret;
 	    		
 	    	}else{

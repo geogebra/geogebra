@@ -559,7 +559,7 @@ public interface Manager3DInterface {
 	/**
 	 * @return cube with A, B for first points and v for direction
 	 */
-	public GeoElement ArchimedeanSolid(String[] labels, GeoPointND A,
+	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoDirectionND v, String name);
 
 	/********************************************************************

@@ -1171,11 +1171,11 @@ public class Manager3D implements Manager3DInterface {
 		return num;
 	}
 
-	final public GeoPolyhedron ArchimedeanSolid(String[] labels, GeoPointND A,
+	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoDirectionND v, String name) {
 		AlgoArchimedeanSolid algo = new AlgoArchimedeanSolid(cons, labels, A,
 				B, v, name);
-		return algo.getPolyhedron();
+		return algo.getOutput();
 	}
 
 	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
