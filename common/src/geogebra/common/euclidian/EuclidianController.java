@@ -7542,6 +7542,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void handleMouseDragged(boolean repaint, AbstractEvent event) {
+		startCollectingMinorRepaints();
 		if (!draggingBeyondThreshold
 				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD
 				| Math.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD)) {
@@ -7691,6 +7692,8 @@ public abstract class EuclidianController {
 	
 		default: // do nothing
 		}
+		stopCollectingMinorRepaints();
+		kernel.notifyRepaint();
 	}
 
 	protected boolean viewHasHitsForMouseDragged() {
