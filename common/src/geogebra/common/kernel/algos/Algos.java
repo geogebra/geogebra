@@ -150,7 +150,14 @@ public enum Algos implements GetCommand{
 	AlgoPointInRegion(Commands.PointIn),
 	AlgoPoint3DInRegion(Commands.PointIn),
 	AlgoSphere(Commands.Sphere),
+	
 	//AlgoPolyhedron(Commands.Polyhedron),
+	AlgoCube(Commands.Cube),
+	AlgoTetrahedron(Commands.Tetrahedron),
+	AlgoOctahedron(Commands.Octahedron),
+	AlgoDodecahedron(Commands.Dodecahedron),
+	AlgoIcosahedron(Commands.Icosahedron),
+	
 	AlgoIntersectPlanes(Commands.IntersectionPaths),
 	AlgoIntersectPlaneQuadric(Commands.IntersectionPaths),
 	AlgoConeInfinitePointVectorNumber(Commands.InfiniteCone),
