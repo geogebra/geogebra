@@ -176,7 +176,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	private geogebra.common.awt.GAffineTransform coordTransform = geogebra.common.factories.AwtFactory.prototype
 			.newAffineTransform();
 	private double[] AxesTickInterval = { 1, 1 }; // for axes =
-	private NumberFormatAdapter[] axesNumberFormat;
+	protected NumberFormatAdapter[] axesNumberFormat;
 	private boolean[] showAxes = { true, true };
 
 	// distances between grid lines
@@ -238,13 +238,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 	private boolean showAxesCornerCoords = true;// private
 
-	private boolean[] showAxesNumbers = { true, true };
+	protected boolean[] showAxesNumbers;
 
-	private String[] axesLabels = { null, null };
+	protected String[] axesLabels;
 
-	private int[] axesLabelsStyle = { GFont.PLAIN, GFont.PLAIN };
+	protected int[] axesLabelsStyle;
 
-	private String[] axesUnitLabels = { null, null };
+	protected String[] axesUnitLabels;
 
 	private Previewable previewDrawable;
 	/** true if painting this for the first time */
@@ -268,12 +268,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            settings
 	 */
 	public EuclidianView(EuclidianController ec, EuclidianSettings settings) {
+		
 		// Michael Borcherds 2008-03-01
 		drawLayers = new DrawableList[EuclidianStyleConstants.MAX_LAYERS + 1];
 		for (int k = 0; k <= EuclidianStyleConstants.MAX_LAYERS; k++) {
 			drawLayers[k] = new DrawableList();
 		}
-		axesNumberFormat = new NumberFormatAdapter[2];
+		
+		initAxesValues();
+		
 
 		this.euclidianController = ec;
 		kernel = ec.getKernel();
@@ -289,6 +292,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		hits = new Hits();
 
 		printScaleNF = FormatFactory.prototype.getNumberFormat("#.#####", 5);
+
+	}
+	
+	/**
+	 * init axes values
+	 */
+	protected void initAxesValues(){
+		axesNumberFormat = new NumberFormatAdapter[2];
+		showAxesNumbers = new boolean[] { true, true };
+		axesLabels = new String[] { null, null };
+		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN};
+		axesUnitLabels = new String[] { null, null };
 
 	}
 

@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.Drawable;
@@ -41,6 +42,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidianND.EuclidianViewND;
@@ -102,9 +104,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	double[] gridDistances = { 2, 2, 2 };
 	
 
-	protected boolean[] showAxesNumbers = { true, true, true };
-	protected String[] axesLabels = { "x", "y", "z" };
-	protected String[] axesUnitLabels = { null, null, null };
 
 	protected boolean[] piAxisUnit = { false, false, false };
 	
@@ -293,7 +292,18 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		initView(false);
 	}
+	
+	@Override
+	protected void initAxesValues(){
+		axesNumberFormat = new NumberFormatAdapter[3];
+		showAxesNumbers = new boolean[] { true, true, true };
+		axesLabels = new String[] { "x", "y", "z" };
+		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN, GFont.PLAIN };
+		axesUnitLabels = new String[] { null, null, null };
+
+	}
 		
+	@Override
 	public AppD getApplication() {
 		return app;
 	}
@@ -394,6 +404,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	// POINT_CAPTURING_STICKY_POINTS locks onto these points
 	// not implemented yet in 3D
+	@Override
 	public ArrayList<GeoPointND> getStickyPointList() {
 		return null;
 	}
@@ -401,6 +412,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** return the 3D kernel
 	 * @return the 3D kernel
 	 */
+	@Override
 	public Kernel3D getKernel(){
 		return kernel3D;
 	}
@@ -408,6 +420,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * @return controller
 	 */
+	@Override
 	public EuclidianController3D getEuclidianController(){
 		return euclidianController3D;
 	}
@@ -422,6 +435,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * adds a GeoElement3D to this view
 	 */	
+	@Override
 	public void add(GeoElement geo) {
 		
 		if (geo.isVisibleInView3D()){
@@ -487,6 +501,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return the drawable
 	 */
 	//protected Drawable3D newDrawable(GeoElement geo) {
+	@Override
 	protected Drawable3D createDrawable(GeoElement geo) {
 		Drawable3D d=null;
 		if (geo.hasDrawable3D()){
@@ -799,6 +814,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 		
 	/** Sets coord system from mouse move */
+	@Override
 	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {	
 		switch(mode){
 		case EuclidianController.MOVE_ROTATE_VIEW:
@@ -829,7 +845,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	/* TODO interaction - note : methods are called by EuclidianRenderer3D.viewOrtho() 
 	 * to re-center the scene */
+	@Override
 	public double getXZero() { return XZero; }
+	@Override
 	public double getYZero() { return YZero; }
 	/** @return the z-coord of the origin */
 	public double getZZero() { return ZZero; }
@@ -897,7 +915,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private double scale = 50; 
 
 
+	@Override
 	public double getXscale() { return scale; }
+	@Override
 	public double getYscale() { return scale; }
 	
 	/** @return the z-scale */
@@ -920,6 +940,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 	/** remembers the origins values (xzero, ...) */
+	@Override
 	public void rememberOrigins(){
 		aOld = a;
 		bOld = b;
@@ -1031,6 +1052,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// toolbar and euclidianController3D
 	
 	/** sets EuclidianController3D mode */
+	@Override
 	public void setMode(int mode){
 		if (mode == euclidianController3D.getMode()) return;
 		euclidianController3D.setMode(mode);
@@ -1105,18 +1127,21 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * attach the view to the kernel
 	 */
+	@Override
 	public void attachView() {
 		kernel3D.notifyAddAll(this);
 		kernel3D.attach(this);
 	}
 	
 	
+	@Override
 	public void clearView() {
 		drawable3DLists.clear();
 		//getEuclidianController().initNewMode(getMode()); //TODO: put in a better place
 		initView(false);
 	}
 	
+	@Override
 	protected void initView(boolean repaint) {
 		super.initView(repaint);
 		setBackground(Color.white);
@@ -1126,6 +1151,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * remove a GeoElement3D from this view
 	 */	
+	@Override
 	public void remove(GeoElement geo) {
 		
 		//Application.printStacktrace("geo:"+geo.getLabel());
@@ -1159,16 +1185,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		drawable3DListToBeRemoved.add(d);		
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 		// TODO Raccord de méthode auto-généré		
 	}
 
+	@Override
 	public void repaintView() {
 		
 		//Application.debug("repaint View3D");		
 		//super.repaintView();
 	}
 
+	@Override
 	public void reset() {
 		
 		//Application.debug("reset View3D");
@@ -1197,6 +1226,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		}
 	}
 	
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		//Application.debug(geo);
 		if (geo.hasDrawable3D()){
@@ -1227,6 +1257,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// EuclidianViewInterface
 
 
+	@Override
 	public DrawableND getDrawableND(GeoElement geo) {
 		if (geo.hasDrawable3D()){
 
@@ -1238,37 +1269,45 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
 		
 		return hits.getLabelHit();
 	}
 
+	@Override
 	public Previewable getPreviewDrawable() {
 		
 		return previewDrawable;
 	}
 
+	@Override
 	public geogebra.common.awt.GRectangle getSelectionRectangle() {
 		return new geogebra.awt.GRectangleD(selectionRectangle);
 	}
 
+	@Override
 	public boolean getShowMouseCoords() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean getShowXaxis() {
 		return axis[AXIS_X].isEuclidianVisible();
 	}
 	
+	@Override
 	public boolean getShowYaxis() {
 		return axis[AXIS_Y].isEuclidianVisible();
 	}
 
+	@Override
 	public void setShowAxis(int axis, boolean flag, boolean update){
 		this.axis[axis].setEuclidianVisible(flag);
 	}
 
+	@Override
 	public void setShowAxes(boolean flag, boolean update){
 		setShowAxis(AXIS_X, flag, false);
 		setShowAxis(AXIS_Y, flag, false);
@@ -1296,11 +1335,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		getxOyPlane().setGridVisible(flag);
 	}
 
+	@Override
 	public int getViewHeight() {
 		return getHeight();
 	}
 
 
+	@Override
 	public int getViewWidth() {
 		return getWidth();
 	}
@@ -1315,11 +1356,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
+	@Override
 	public void repaintEuclidianView() {
 		//Application.debug("repaintEuclidianView");
 		//super.repaintEuclidianView();
 	}
 
+	@Override
 	public void resetMode() {
 		// TODO Auto-generated method stub
 		
@@ -1435,6 +1478,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
+	@Override
 	public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,
 			int steps, boolean storeUndo) {
 		
@@ -1663,6 +1707,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	*/
 	
 	// empty method : setHits3D() used instead
+	@Override
 	public void setHits(geogebra.common.awt.GPoint p) {
 		
 	}
@@ -1727,6 +1772,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return hits;
 	}
 
+	@Override
 	public Hits getHits() {
 		return hits.clone();
 	}
@@ -1739,17 +1785,20 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 
+	@Override
 	public void setSelectionRectangle(geogebra.common.awt.GRectangle selectionRectangle) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void setShowAxesRatio(boolean b) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void setShowMouseCoords(boolean b) {
 		// TODO Auto-generated method stub
 		
@@ -1758,6 +1807,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public void zoom(double px, double py, double zoomFactor, int steps,
 			boolean storeUndo) {
 						
@@ -1843,6 +1893,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Previewable createPreviewLine(ArrayList selectedPoints){
 
@@ -1875,19 +1926,23 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 	}
 	
+	@Override
 	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints){
 		return new DrawSegment3D(this, selectedPoints);
 	}	
 	
+	@Override
 	public Previewable createPreviewRay(ArrayList<GeoPointND> selectedPoints){
 		return new DrawRay3D(this, selectedPoints);
 	}	
 	
 
+	@Override
 	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints){
 		return new DrawVector3D(this, selectedPoints);
 	}
 	
+	@Override
 	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints){
 		return new DrawPolygon3D(this, selectedPoints);
 	}
@@ -1898,6 +1953,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	
+	@Override
 	public Previewable createPreviewConic(int mode, ArrayList<GeoPointND> selectedPoints){
 		return null;
 	}
@@ -1933,6 +1989,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	
+	@Override
 	public void updatePreviewable(){
 
 		getPreviewDrawable().updatePreview();
@@ -2142,6 +2199,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public void setPreview(Previewable previewDrawable) {
 		
 		if (this.previewDrawable!=null)
@@ -2444,6 +2502,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @see geogebra3D.io.MyXMLHandler3D
 	 * @return the XML description of 3D view settings
 	 */
+	@Override
 	public void getXML(StringBuilder sb,boolean asPreference) {
 		
 		//Application.debug("getXML: "+a+","+b);
@@ -2886,6 +2945,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// AXES
 	//////////////////////////////////////////////////////
 
+	@Override
 	public String[] getAxesLabels(boolean addBoldItalicTags) { 
 		String[] ret = new String[3]; 
 		ret[0] = axesLabels[0]; 
@@ -2903,6 +2963,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return ret; 
 	}
 	
+	@Override
 	public void setAxesLabels(String[] axesLabels){
 		this.axesLabels = axesLabels;
 		for (int i = 0; i < 3; i++) {
@@ -2912,6 +2973,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		}
 	}
 	
+	@Override
 	public void setAxisLabel(int axis, String axisLabel){
 		if (axisLabel != null && axisLabel.length() == 0) 
 			axesLabels[axis] = null;
@@ -2919,13 +2981,16 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			axesLabels[axis] = axisLabel;
 	}
 	
+	@Override
 	public String[] getAxesUnitLabels(){
 		return axesUnitLabels;
 	}
+	@Override
 	public void setShowAxesNumbers(boolean[] showAxesNumbers){
 		this.showAxesNumbers = showAxesNumbers;
 	}
 	
+	@Override
 	public void setAxesUnitLabels(String[] axesUnitLabels){
 		this.axesUnitLabels = axesUnitLabels;
 
@@ -2939,23 +3004,28 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		setAxesIntervals(getZscale(), 2);
 	}
 	
+	@Override
 	public boolean[] getShowAxesNumbers(){
 		return showAxesNumbers;
 	}
 	
+	@Override
 	public void setShowAxisNumbers(int axis, boolean showAxisNumbers){
 		showAxesNumbers[axis]=showAxisNumbers;
 	}
 	
+	@Override
 	public void setAxesNumberingDistance(double dist, int axis){
 		axesNumberingDistances[axis] = dist;
 		setAutomaticAxesNumberingDistance(false, axis);
 	}
 	
+	@Override
 	public int[] getAxesTickStyles(){
 		return axesTickStyles;
 	}
 
+	@Override
 	public void setAxisTickStyle(int axis, int tickStyle){
 		axesTickStyles[axis]=tickStyle;
 	}
@@ -2967,54 +3037,65 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public Previewable createPreviewParallelLine(ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Previewable createPreviewPerpendicularLine(ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Previewable createPreviewPerpendicularBisector(
 			ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Previewable createPreviewAngleBisector(ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Previewable createPreviewPolyLine(ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void setAxisCross(int axis, double cross) {
 		axisCross[axis] = cross;
 	}
 
+	@Override
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
 		positiveAxes[axis] = isPositiveAxis;
 	}
 
+	@Override
 	public double[] getAxesCross() {
 		return axisCross;
 	}
 
+	@Override
 	public void setAxesCross(double[] axisCross) {
 		this.axisCross = axisCross;
 	}
 
+	@Override
 	public boolean[] getPositiveAxes() {
 		return positiveAxes;
 	}
 
+	@Override
 	public void setPositiveAxes(boolean[] positiveAxis) {
 		this.positiveAxes = positiveAxis;
 	}
@@ -3023,17 +3104,20 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 
+	@Override
 	public boolean getShowGrid() {
 		return xOyPlane.isGridVisible();
 	}
 
 
+	@Override
 	public boolean getGridIsBold() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 
+	@Override
 	public boolean getAllowShowMouseCoords() {
 		// TODO Auto-generated method stub
 		return false;
@@ -3042,75 +3126,88 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public int getAxesLineStyle() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
+	@Override
 	public int getGridLineStyle() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
+	@Override
 	public boolean isAutomaticGridDistance() {
 		return automaticGridDistance;
 	}
 
 
+	@Override
 	public double[] getGridDistances() {
 		return gridDistances;
 	}
 
 
+	@Override
 	public void setAxesColor(geogebra.common.awt.GColor showColorChooser) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void setGridColor(geogebra.common.awt.GColor showColorChooser) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void showGrid(boolean selected) {
 		xOyPlane.setGridVisible(selected);
 		
 	}
 
 
+	@Override
 	public void setGridIsBold(boolean selected) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void setAllowShowMouseCoords(boolean selected) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void setGridType(int selectedIndex) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void setAxesLineStyle(int selectedIndex) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	@Override
 	public void setGridLineStyle(int type) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void setAutomaticGridDistance(boolean flag) {
 		automaticGridDistance = flag;
 		setAxesIntervals(getXscale(), 0);
@@ -3120,31 +3217,38 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public void setGridDistances(double[] dist) {
 		gridDistances = dist;
 		setAutomaticGridDistance(false);
 	}
 
+	@Override
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis) {
 		// TODO Auto-generated method stub		
 	}
 
+	@Override
 	public void setAxesTickStyles(int[] styles) {
 		// TODO Auto-generated method stub		
 	}
 
+	@Override
 	public boolean[] getDrawBorderAxes() {
 		return drawBorderAxes;
 	}
 
+	@Override
 	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
 		this.drawBorderAxes = drawBorderAxes;		
 	}
 
+	@Override
 	public boolean[] isAutomaticAxesNumberingDistance() {
 		return automaticAxesNumberingDistances;
 	}
 
+	@Override
 	public double[] getAxesNumberingDistances() {
 		return axesNumberingDistances;
 	}
@@ -3155,6 +3259,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	////////////////////////////////////////
 	
 
+	@Override
 	public int getMode() {
 		return euclidianController3D.getMode();
 	}
@@ -3212,6 +3317,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * Returns point capturing mode.
 	 */
+	@Override
 	final public int getPointCapturingMode() {
 		return pointCapturingMode;
 	}
@@ -3219,6 +3325,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * Set capturing of points to the grid.
 	 */
+	@Override
 	public void setPointCapturing(int mode) {
 		pointCapturingMode = mode;
 	}
@@ -3228,35 +3335,42 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 		
 
+	@Override
 	public String getFromPlaneString(){
 		return "space";
 	}
 	
+	@Override
 	public String getTranslatedFromPlaneString(){
 		return app.getPlain("space");
 	}
 
 
+	@Override
 	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean isDefault2D(){
 		return false;
 	}
 	
 
+	@Override
 	public boolean hasForParent(GeoElement geo){
 		return false;
 	}
 	
 
+	@Override
 	public boolean isMoveable(GeoElement geo){
 		return geo.isMoveable();
 	}
 	
 
+	@Override
 	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
 		return algoParent.getFreeInputPoints();
 	}
@@ -3419,6 +3533,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
 	public int getViewID() {
 		return App.VIEW_EUCLIDIAN3D;
 	}
@@ -3461,11 +3576,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public boolean getShowAxis(int axis) {
 		return this.axis[axis].isEuclidianVisible();
 	}
 	
 
+	@Override
 	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric){
 		
 	}
@@ -3505,6 +3622,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
+	@Override
 	public int getFontSize() {
 		
 		return app.getFontSize();
@@ -3513,10 +3631,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 	
+	@Override
 	public void setBackground(geogebra.common.awt.GColor color) {
 		setBackground(geogebra.awt.GColorD.getAwtColor(color));
 		
 	}
+	@Override
 	public geogebra.common.awt.GColor getBackgroundCommon() {
 		return new geogebra.awt.GColorD(getBackground());
 		
@@ -3525,6 +3645,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	
 	
+	@Override
 	public int getEuclidianViewNo() {
 		// TODO Auto-generated method stub
 		return App.VIEW_EUCLIDIAN3D;
@@ -3537,6 +3658,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//////////////////////////////////////////
 	// ABSTRACTEUCLIDIANVIEW
 	//////////////////////////////////////////
+	@Override
 	protected void drawAxes(geogebra.common.awt.GGraphics2D g2) {
 		
 		
@@ -3546,6 +3668,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// EUCLIDIANVIEWND
 	//////////////////////////////////////////
 	
+	@Override
 	protected EuclidianStyleBarD newEuclidianStyleBar(){
 		return new EuclidianStyleBar3D(this);
 	}
@@ -3561,6 +3684,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return null;
 	}
 	
+	@Override
 	protected void initCursor() {
 		
 	}
@@ -3570,6 +3694,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return NO_SUCH_PAGE;
 	}
 
+	@Override
 	public void setShowAxis(boolean show) {
 		setShowAxis(0,  show, false);
 		setShowAxis(1,  show, false);
