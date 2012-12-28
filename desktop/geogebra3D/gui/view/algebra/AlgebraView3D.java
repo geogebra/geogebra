@@ -42,10 +42,6 @@ public class AlgebraView3D extends AlgebraViewD {
 		super(algCtrl);
 	}
 	
-	@Override
-	protected AlgebraHelperBar newAlgebraHelperBar(){
-		return new AlgebraHelperBar3D(this, app);
-	}
 	
 	@Override
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo,int forceLayer){

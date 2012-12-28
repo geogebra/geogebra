@@ -423,7 +423,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	 * 
 	 * @return new algebra helper bar
 	 */
-	protected AlgebraHelperBar newAlgebraHelperBar() {
+	final protected AlgebraHelperBar newAlgebraHelperBar() {
 		return new AlgebraHelperBar(this, app);
 	}
 
