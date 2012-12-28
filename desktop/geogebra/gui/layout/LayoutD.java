@@ -366,7 +366,7 @@ public class LayoutD extends Layout implements SettingListener {
 		
 		for(int i = 0; i < panels.length; ++i) {
 			if(panels[i].isOpenInFrame()) {
-				if(component == SwingUtilities.getRootPane(panels[i])) {
+				if(!panels[i].isDialog() && component == SwingUtilities.getRootPane(panels[i])) {
 					return true;
 				}
 			}

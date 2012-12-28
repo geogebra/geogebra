@@ -589,7 +589,18 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public void createFrame() {
 
 		if (isDialog) {
-			frame = new JDialog(app.getFrame(), false);
+			frame = new JDialog(app.getFrame(), false) {
+				// Send window closing event when dialog is set invisible.
+				// This allows a dock panel view to close properly.
+				@Override
+				public void setVisible(boolean isVisible) {
+					if (!isVisible && frame != null) {
+						windowClosing(new WindowEvent(frame,
+								WindowEvent.WINDOW_CLOSING));
+					}
+					super.setVisible(isVisible);
+				}
+			};
 		} else {
 			frame = new JFrame(getPlainTitle());
 			// needs the higher res as used by Windows 7 for the Toolbar
