@@ -45,6 +45,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 		}
 	}
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 
 		renderer.getGeometryManager().draw(getGeometryIndex());
@@ -97,6 +98,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 		cullingBox[5] = view.getZMinMax()[1];
 	}
 
+	@Override
 	protected boolean updateForItSelf() {
 
 		boolean ret = true;
@@ -148,12 +150,14 @@ public class DrawCurve3D extends Drawable3DCurves {
 		return false;
 	}
 
+	@Override
 	protected void updateForView() {
 		updateCullingBox();
 		EuclidianView3D view = getView3D();
-		mesh.updateScale((float)view.getScale());
+		mesh.updateScale((float) view.getScale());
 	}
 
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_1D;
 	}
