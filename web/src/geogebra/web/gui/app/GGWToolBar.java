@@ -37,7 +37,7 @@ public class GGWToolBar extends Composite {
 
 	private VerticalPanel toolbars;
 	private App app;
-	public ToolBar toolBar;
+	static private ToolBar toolBar;
 	@UiField
 	HorizontalPanel toolBarPanel;
 
@@ -475,5 +475,9 @@ public class GGWToolBar extends Composite {
 			return "";
 		}
 
+	}
+	
+	public static ToolBar getToolBar(){
+		return toolBar;
 	}
 }

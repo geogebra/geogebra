@@ -912,6 +912,11 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     public void setLabels() {
 		if (algebraInput != null)
 			algebraInput.setLabels();
+		
+		if (GGWToolBar.getToolBar() != null) {
+			GGWToolBar.getToolBar().buildGui();
+		}
+
     }
 
 	@Override
