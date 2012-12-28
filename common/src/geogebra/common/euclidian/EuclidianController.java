@@ -112,6 +112,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.TreeSet;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -197,7 +198,7 @@ public abstract class EuclidianController {
 
 	protected MyDouble tempNum;
 
-	protected double rotStartAngle;
+	protected double rotationLastAngle;
 
 	protected ArrayList<GeoElement> translateableGeos;
 
@@ -290,8 +291,6 @@ public abstract class EuclidianController {
 	protected boolean altDown = false;
 
 	protected GeoElement rotGeoElement;
-
-	protected GeoElement rotStartGeo;
 
 	protected GeoPoint rotationCenter;
 
@@ -5755,19 +5754,29 @@ public abstract class EuclidianController {
 	}
 
 	protected final void rotateObject(boolean repaint) {
-		double angle = Math.atan2(yRW - rotationCenter.inhomY, xRW
-				- rotationCenter.inhomX)
-				- rotStartAngle;
+		double newAngle = Math.atan2(yRW - rotationCenter.inhomY, xRW
+				- rotationCenter.inhomX);
+		double angle = newAngle
+				- rotationLastAngle;
 	
 		tempNum.set(angle);
-		rotGeoElement.set(rotStartGeo);
-		((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);
-	
-		if (repaint) {
-			rotGeoElement.updateRepaint();
-		} else {
-			rotGeoElement.updateCascade();
+		if(rotGeoElement.isChangeable()){
+			((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);
+			if (repaint) {
+				rotGeoElement.updateRepaint();
+			} else {
+				rotGeoElement.updateCascade();
+			}
+		}else{
+			ArrayList<GeoPoint> pts = rotGeoElement.getFreeInputPoints(view);
+			for(GeoPoint pt:pts){
+				pt.rotate(tempNum, rotationCenter);
+			}
+			GeoElement.updateCascade(pts, new TreeSet<AlgoElement>(), false);
+			view.repaint();
 		}
+		rotationLastAngle = newAngle;	
+		
 	}
 
 	protected final void moveLabel() {
@@ -8309,8 +8318,7 @@ public abstract class EuclidianController {
 				// rotGeoElement.setHighlighted(true);
 	
 				// init values needed for rotation
-				rotStartGeo = rotGeoElement.copy();
-				rotStartAngle = Math.atan2(yRW - rotationCenter.inhomY, xRW
+				rotationLastAngle = Math.atan2(yRW - rotationCenter.inhomY, xRW
 						- rotationCenter.inhomX);
 				moveMode = MOVE_ROTATE;
 			} else {

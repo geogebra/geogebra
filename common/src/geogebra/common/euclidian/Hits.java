@@ -22,6 +22,7 @@ import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -428,6 +429,9 @@ public class Hits extends ArrayList<GeoElement> {
 				if (geo.isRotateMoveable()) {
 					if (rotCenter == null || !geo.isParentOf((GeoElement) rotCenter))
 						moveableList.add(geo);
+					
+				}else if (geo.hasMoveableInputPoints(view)) {
+					moveableList.add(geo);
 				}
 
 				break;
