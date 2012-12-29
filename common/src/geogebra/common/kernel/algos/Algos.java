@@ -45,6 +45,7 @@ public enum Algos implements GetCommand{
 	AlgoIntersectLineQuadric3D(Commands.Intersect),
 	AlgoIntersectPlaneConic(Commands.Intersect),
 	AlgoIntersectPlanePolygon(Commands.Intersect),
+	AlgoIntersectPlanePolyhedron(Commands.Intersect),
 	AlgoIntersectPlanePolygonalRegion(Commands.IntersectionPaths),
 	AlgoIntersectPolynomialLine(Commands.Intersect),
 	AlgoIntersectPolynomials(Commands.Intersect),

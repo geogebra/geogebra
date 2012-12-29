@@ -17,6 +17,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
 import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra3D.kernel3D.GeoPolyhedron;
 import geogebra3D.kernel3D.GeoQuadric3D;
 
 
@@ -99,7 +100,25 @@ public  GeoElement[] process(Command c) throws MyError {
         					c.getLabels(),
         					(GeoPlane3D) arg[1],
         					(GeoPolygon) arg[0]);
-
+        		
+        		
+        		//intersection plane/polyhedron
+        		/*
+        		else if (
+        				(arg[0] instanceof GeoPlane3D)
+        				&& (arg[1] instanceof GeoPolyhedron))
+        			return kernelA.getManager3D().IntersectionPoint(
+        					c.getLabels(),
+        					(GeoPlane3D) arg[0],
+        					(GeoPolyhedron) arg[1]);
+        		else if (
+        				(arg[0] instanceof GeoPolyhedron)
+        				&& (arg[1] instanceof GeoPlane3D))
+        			return kernelA.getManager3D().IntersectionPoint(
+        					c.getLabels(),
+        					(GeoPlane3D) arg[1],
+        					(GeoPolyhedron) arg[0]);
+        		 */
         		
                 // Line - Quadric
                 else if (

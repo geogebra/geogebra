@@ -718,15 +718,22 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	public GeoElement[] IntersectionPoint(String[] labels, GeoPlaneND plane,
-			GeoSurfaceFinite s) {
+			GeoElement s) {
 
 		if (s instanceof GeoPolygon) {
 			AlgoIntersectPlanePolygon algo = new AlgoIntersectPlanePolygon(
 					cons, labels, (GeoPlane3D) plane, (GeoPolygon) s);
 			return algo.getOutput();
-		} else {
-			return null;
 		}
+		
+		if (s instanceof GeoPolyhedron) {
+			AlgoIntersectPlanePolyhedron algo = new AlgoIntersectPlanePolyhedron(
+					cons, labels, (GeoPlane3D) plane, (GeoPolyhedron) s);
+			return algo.getOutput();
+		}
+		
+		
+		return null;
 	}
 
 	public GeoElement[] IntersectionSegment(String[] labels, GeoLineND g,
