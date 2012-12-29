@@ -117,10 +117,14 @@ public class Web implements EntryPoint {
 	public static void injectResources() {
 	    // insert mathquill css
 		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText();
-		// As of GWT 2.4, GWT.getModuleBaseURL is used,
-		// GWT.getModuleBaseForStaticFiles may be used afterwards, maybe not.
-		// String.replace(CharSequence, CharSequence) should replace all in theory
-		mathquillcss.replace("url(web/font/Symbola", "url("+GWT.getModuleBaseURL()+"font/Symbola");
+		// In GWT 2.4 GWT.getModuleBaseURL was used,
+		// but GWT.getModuleBaseForStaticFiles is supported afterwards.
+		// String.replace(CharSequence, CharSequence) should replace all occurences in theory
+		// mathquillcss.replace("url(web/font/Symbola", "url("+GWT.getModuleBaseURL()+"font/Symbola");
+		mathquillcss.replace("url(web/font/Symbola", "url("+GWT.getModuleBaseForStaticFiles()+"font/Symbola");
+		// This code has been changed automatically by the build script, but we
+		// use GWT 2.5 right now, so that part of the script is no longer needed.
+
 		StyleInjector.inject(mathquillcss);
 
 		//insert zip.js

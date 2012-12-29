@@ -327,7 +327,8 @@ for i in $THIRDPARTYJARS; do
 
 # 6/3. Applying patches
 # Arpad's hack for #2452 (only for GWT >=2.5.0)
-sed -i s/\+GWT\.getModuleBaseURL/\+GWT\.getModuleBaseForStaticFiles/ $WEBDIR/src/geogebra/web/Web.java
+# sed -i s/\+GWT\.getModuleBaseURL/\+GWT\.getModuleBaseForStaticFiles/ $WEBDIR/src/geogebra/web/Web.java
+# (No longer needed.)
 
 # 6/4. Running javac
 cd $WEBDIR
