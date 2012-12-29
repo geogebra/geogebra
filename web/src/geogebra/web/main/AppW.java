@@ -889,6 +889,9 @@ public class AppW extends App {
 				App.debug("keys loaded for language: "+lang);
 				App.debug("TODO: reinitialize GUI on language change");
 		
+				
+				updateLanguageFlags(lang);
+				
 				// make sure digits are updated in all numbers
 				getKernel().updateConstruction();
 				setUnsaved();
@@ -898,7 +901,7 @@ public class AppW extends App {
 				
 				//inputField.setDictionary(getCommandDictionary());
 
-				updateLanguageFlags(getLanguage());
+				
 
 			}
 		});
