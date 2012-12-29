@@ -1653,6 +1653,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
@@ -1722,6 +1724,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
@@ -4214,6 +4218,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
@@ -4350,6 +4356,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
@@ -4563,6 +4571,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
@@ -5625,6 +5635,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
@@ -5798,6 +5810,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 		
 		public void updateVisualStyle(GeoElement geo) {
+			if(geos==null)
+				return;
 			update();
 		}
 
