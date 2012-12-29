@@ -33,7 +33,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
@@ -141,6 +140,7 @@ public class DrawLine extends Drawable implements Previewable {
 		this.points = points;
 		this.lines = lines;
 		g = new GeoLine(view.getKernel().getConstruction());
+		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
 		updatePreview();
 	}
 
