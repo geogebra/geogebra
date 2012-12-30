@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
@@ -1565,6 +1566,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
 				ValidExpression evalVE2 = pointList ? wrapPointList(evalVE):evalVE;
+				if(!(evalVE2.unwrap() instanceof Command) || !((Command)evalVE2.unwrap()).getName().equals("Delete")){
+					FunctionExpander fex = FunctionExpander.getCollector();
+					evalVE2 = (ValidExpression) evalVE2.traverse(fex);
+				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE2,
 						null, StringTemplate.numericNoLocal);
 				success = result != null;

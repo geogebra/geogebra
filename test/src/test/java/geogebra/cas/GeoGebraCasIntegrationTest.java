@@ -87,7 +87,7 @@ public class GeoGebraCasIntegrationTest {
 		ExpressionValue outputVe = parser.parseGeoGebraCASInput(result);
 
 		// Resolve Variable objects in ValidExpression as GeoDummy objects.
-		outputVe = parser.resolveVariablesForCAS(outputVe);
+		parser.resolveVariablesForCAS(outputVe);
 		boolean includesNumericCommand = false;
 		HashSet<Command> commands = new HashSet<Command>();
 		inputVe.traverse(CommandCollector.getCollector(commands));
@@ -2949,7 +2949,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Rubrik2 () {
 		t("f(t):=100*1.5^t","100 * (3 / 2) ^ (t)");
-		t("f(2)","225");
+		t("f(1)","150");
 		t("Solve[f(t)=225,t]","{t = 2}","{t = log(9 / 4)/log(3 / 2)}");
 		t("Numeric[Solve[f(t)=225,t]]","{t = 2}");
 		t("Solve[225=c*1.5^2,c]","{c = 100}");
