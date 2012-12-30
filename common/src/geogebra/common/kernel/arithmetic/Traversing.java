@@ -470,16 +470,16 @@ public interface Traversing {
 					ExpressionNode en2 = null;
 					FunctionVariable fv = null;
 					if(geo instanceof FunctionalNVar){
-						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().deepCopy(geo.getKernel()).traverse(this);
+						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
 						fv = ((FunctionalNVar)geo).getFunction().getFunctionVariables()[0];
 					}
 					if(geo instanceof GeoCasCell){
 						en2 = ((GeoCasCell)geo).getOutputValidExpression().wrap();
 						fv = (FunctionVariable) ((GeoCasCell)geo).getFunctionVariableList().getListElement(0).unwrap();
 					}
-					ExpressionValue argument = en.getRight().deepCopy(en.getKernel()).traverse(this);
+					ExpressionValue argument = en.getRight().wrap().getCopy(en.getKernel()).traverse(this);
 					VariableReplacer vr = VariableReplacer.getReplacer(fv.getSetVarString(), argument);
-					return en2.deepCopy(en.getKernel()).traverse(vr);
+					return en2.wrap().getCopy(en.getKernel()).traverse(vr);
 				}
 				else if(en.getOperation()!=Operation.FUNCTION_NVAR
 					&& en.getOperation()!=Operation.DERIVATIVE){
@@ -498,7 +498,6 @@ public interface Traversing {
 					}
 				}
 			}
-
 			return ev;
 		}
 		private static FunctionExpander collector = new FunctionExpander();
