@@ -27,6 +27,7 @@ import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
@@ -44,7 +45,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
 
 /**
  * @author Markus Hohenwarter
@@ -101,7 +101,12 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 
 		// create toggle button to hide/show the input help panel
-		btnHelpToggle = new JToggleButton();
+		btnHelpToggle = new JToggleButton(){
+		      public Point getToolTipLocation(MouseEvent e) {
+		    	  // make sure tooltip doesn't cover button (when window maximized)
+		          return new Point(0, (int) -this.getSize().getHeight() / 2);
+		        }
+		      };
 		
 		//btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_16x16.png"));
 		//btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_16x16.png"));
