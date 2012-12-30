@@ -105,7 +105,22 @@ public class GeoGebraCasIntegrationTest {
 	private static void t(String input, String expectedResult,
 			String... validResults) {
 		try {
-			String result = executeInCAS(input);
+			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+			kernel.getConstruction().addToConstructionList(f,false);
+			f.setInput(input);
+			f.computeOutput();
+			boolean includesNumericCommand = false;
+			HashSet<Command> commands = new HashSet<Command>();
+			f.getInputVE().traverse(CommandCollector.getCollector(commands));
+			if(!commands.isEmpty()){
+					for (Command cmd : commands) {
+						String cmdName = cmd.getName();
+						// Numeric used
+						includesNumericCommand = includesNumericCommand
+								|| ("Numeric".equals(cmdName) && cmd.getArgumentNumber()>1);
+					}
+			}
+			String result = f.getOutputValidExpression().toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate);
 			assertThat(
 					result,
 					equalToIgnoreWhitespaces(logger, input, expectedResult,
@@ -218,7 +233,7 @@ public class GeoGebraCasIntegrationTest {
 		
 		// Tidy up
 		try {
-			executeInCAS("Delete[a]");
+			t("Delete[a]","true");
 		} catch (Throwable t) {
 			Throwables.propagate(t);
 		}
@@ -779,15 +794,8 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Delete_0() {
-		try {
-			executeInCAS("a := 4");
-			String result = executeInCAS("a");
-			if(!result.equals("4")) {
-				fail("Assignment not working so the \"Delete\" command can't be tested.");
-			}
-		} catch (Throwable t) {
-			Throwables.propagate(t);
-		}
+		t("a := 4","4");
+		t("a","4");
 		t("Delete[a]", "true");
 		t("a", "a");
 	}
@@ -1323,9 +1331,10 @@ public class GeoGebraCasIntegrationTest {
 	public void Identity_1() {
 		t("a := 3", "3");
 		t("Identity[a]", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
+		t("Delete[a]","true");
 		t("a := 4", "4");
 		t("Identity[a]", "{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}");
-
+		t("Delete[a]","true");
 		// Tidy up
 		try {
 			executeInCAS("Delete[a]");
@@ -2922,7 +2931,7 @@ public class GeoGebraCasIntegrationTest {
 		
 		// Tidy up
 		try {
-			executeInCAS("Delete[f]");
+			t("Delete[f]","true");
 		} catch (Throwable t) {
 			Throwables.propagate(t);
 		}
