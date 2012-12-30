@@ -20,6 +20,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -120,9 +121,11 @@ public class CASparser implements CASParserInterface{
 		}
 		// resolve variables of valid expression
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
-		FunctionExpander fex = FunctionExpander.getCollector();
 		ev.resolveVariables(false);
-		ev = ev.traverse(fex);
+		if(ev.unwrap() instanceof Command && !((Command)ev.unwrap()).getName().equals("Delete")){
+			FunctionExpander fex = FunctionExpander.getCollector();
+			ev = ev.traverse(fex);
+		}
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
 		Set<String> nonFunctions = new TreeSet<String>(); 
