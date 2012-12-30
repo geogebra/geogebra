@@ -397,14 +397,12 @@ public interface Traversing {
 				ExpressionNode en = (ExpressionNode) ev;
 				if(en.getRight() instanceof GeoDummyVariable){	
 					commands.add(((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
-					App.debug("catchR"+((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
 				}
 				if(en.getOperation()==Operation.FUNCTION || en.getOperation() ==Operation.FUNCTION_NVAR
 						|| en.getOperation()==Operation.DERIVATIVE)
 				return en;	
 				if(en.getLeft() instanceof GeoDummyVariable){	
 					commands.add(((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
-					App.debug("catchL"+((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
 				}
 			}
 			return ev;
@@ -479,8 +477,7 @@ public interface Traversing {
 						en2 = ((GeoCasCell)geo).getOutputValidExpression().wrap();
 						fv = (FunctionVariable) ((GeoCasCell)geo).getFunctionVariableList().getListElement(0).unwrap();
 					}
-					ExpressionValue argument = en.getRight().traverse(this);
-					App.debug(ev);
+					ExpressionValue argument = en.getRight().deepCopy(en.getKernel()).traverse(this);
 					VariableReplacer vr = VariableReplacer.getReplacer(fv.getSetVarString(), argument);
 					return en2.traverse(vr);
 				}

@@ -147,23 +147,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return casMPReduce;
 	}
 
-	// /**
-	// * Returns whether var is a defined variable.
-	// */
-	// public boolean isVariableBound(String var) {
-	// return cas.isVariableBound(var);
-	// }
-
-	/**
-	 * Unbinds (deletes) variable.
-	 * 
-	 * @param var
-	 *            variable to be unbound
-	 */
-	public void unbindVariable(final String var) {
-		getCurrentCAS().unbindVariable(var);
-	}
-
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra
 	 * notation.

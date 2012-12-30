@@ -56,8 +56,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 * 
 	 * @param casParser
 	 *            parser
-	 * @param casPrefix
-	 *            prefix for CAS variables
 	 */
 	public CASmpreduce(CASparser casParser) {
 		this.casParser = casParser;
@@ -188,8 +186,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			String label = 
 					cmd.getArgument(0).toString(
 							StringTemplate.defaultTemplate);
-			this.unbindVariable(cmd.getArgument(0).toString(
-					StringTemplate.casTemplate));
 			GeoElement geo = inputExpression
 					.getKernel()
 					.lookupLabel(label);
@@ -294,21 +290,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 
 		return casParser.toGeoGebraString(ve, tpl);
-	}
-
-	public void unbindVariable(final String var) {
-		try {
-			StringBuilder sb = new StringBuilder();
-			sb.append("clear(");
-			sb.append(var);
-			sb.append(");");
-			getMPReduce().evaluate(sb.toString());
-
-			// TODO: remove
-			App.debug("Cleared variable: " + sb.toString());
-		} catch (Throwable e) {
-			App.debug("Failed to clear variable from MPReduce: " + var);
-		}
 	}
 
 	/**

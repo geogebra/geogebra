@@ -122,7 +122,7 @@ public class CASparser implements CASParserInterface{
 		// resolve variables of valid expression
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 		ev.resolveVariables(false);
-		if(ev.unwrap() instanceof Command && !((Command)ev.unwrap()).getName().equals("Delete")){
+		if(!(ev.unwrap() instanceof Command) || !((Command)ev.unwrap()).getName().equals("Delete")){
 			FunctionExpander fex = FunctionExpander.getCollector();
 			ev = ev.traverse(fex);
 		}

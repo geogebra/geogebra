@@ -1,6 +1,5 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.settings.SettingListener;
@@ -58,14 +57,6 @@ public interface CASGenericInterface extends SettingListener {
 	 *             if evaluation fails
 	 */
 	public abstract String evaluateRaw(final String exp) throws Throwable;
-
-	/**
-	 * Unbinds (deletes) variable.
-	 * 
-	 * @param var
-	 *            the name of the variable.
-	 */
-	public abstract void unbindVariable(final String var);
 
 	/**
 	 * Resets the cas and unbinds all variable and function definitions.
