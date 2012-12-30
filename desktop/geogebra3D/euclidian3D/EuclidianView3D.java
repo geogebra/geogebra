@@ -138,9 +138,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** list for drawables that will be removed on next frame */
 	private LinkedList<Drawable3D> drawable3DListToBeRemoved;// = new DrawList3D();
 	/** list for Geos to that will be added on next frame */
-	private TreeMap<String,GeoElement> geosToBeAdded;
-	/** set for geos to had to hits */
-	private TreeSet<GeoElement> geosToAddToHits;
+	private TreeSet<GeoElement> geosToBeAdded;
 	
 	
 	// Map (geo, drawable) for GeoElements and Drawables
@@ -314,9 +312,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		drawable3DListToBeAdded = new LinkedList<Drawable3D>();
 		drawable3DListToBeRemoved = new LinkedList<Drawable3D>();
 		
-		geosToBeAdded = new TreeMap<String,GeoElement>();
-		
-		geosToAddToHits = new TreeSet<GeoElement>();
+		geosToBeAdded = new TreeSet<GeoElement>();
 		
 		//TODO replace canvas3D with GLDisplay
 		App.debug("create gl renderer");
@@ -440,7 +436,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		if (geo.isVisibleInView3D()){
 			setWaitForUpdate();
-			geosToBeAdded.put(geo.getLabel(StringTemplate.defaultTemplate),geo);
+			geosToBeAdded.add(geo);
 		}
 	}
 	
@@ -459,11 +455,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		d = (Drawable3D) createDrawable(geo);
 		if (d != null) {
 			drawable3DLists.add(d);
-			//if geo wait to be hitted by mouse, add its new drawable
-			if(geosToAddToHits.remove(geo)){
-				addToHits3D(d);
-				//Application.debug(geo+"\n"+hits);
-			}
 		}
 	}
 		
@@ -965,52 +956,18 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			//drawList3D.updateAll();
 
 			// I've placed remove() before add(), otherwise when the two lists
-			// contains the same element, the element will NOT be added. ---Tam, 2011/7/15
-			/*
-			if (!drawable3DListToBeRemoved.isEmpty()){
-				Application.debug("before remove:\n"+drawable3DLists.toString());
-				StringBuilder sb = new StringBuilder("remove:\n");
-				for (Drawable3D d: drawable3DListToBeRemoved){
-					sb.append(d);
-					sb.append(" -- ");
-					sb.append(d.getGeoElement().getLabel());
-					sb.append("\n");
-				}
-				Application.debug(sb.toString());
-			}
-			*/
+			// contains the same element, the element will NOT be added. ---Tam, 2011/7/15			
 			drawable3DLists.remove(drawable3DListToBeRemoved);
-			/*
-			if (!drawable3DListToBeRemoved.isEmpty())
-				Application.debug("after remove:\n"+drawable3DLists.toString());
-			 */
 			drawable3DListToBeRemoved.clear();
 			
 			
-			/*
-			if (!drawable3DListToBeAdded.isEmpty()){
-				Application.debug("before add:\n"+drawable3DLists.toString());	
-				StringBuilder sb = new StringBuilder("add:\n");
-				for (Drawable3D d: drawable3DListToBeAdded){
-					sb.append(d);
-					sb.append(" -- ");
-					sb.append(d.getGeoElement().getLabel());
-					sb.append("\n");
-				}
-				Application.debug(sb.toString());
-			}		
-			*/	
 			
 			//add drawables (for preview)
-			drawable3DLists.add(drawable3DListToBeAdded);
-			/*
-			if (!drawable3DListToBeAdded.isEmpty())
-				Application.debug("after add:\n"+drawable3DLists.toString());	
-			 */		
+			drawable3DLists.add(drawable3DListToBeAdded);	
 			drawable3DListToBeAdded.clear();
 			
 			//add geos
-			for (GeoElement geo : geosToBeAdded.values())
+			for (GeoElement geo : geosToBeAdded)
 				addNow(geo);
 			geosToBeAdded.clear();
 			
@@ -1154,8 +1111,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@Override
 	public void remove(GeoElement geo) {
 		
-		//Application.printStacktrace("geo:"+geo.getLabel());
-
 		if (geo.hasDrawable3D()){
 			//Drawable3D d = ((GeoElement3DInterface) geo).getDrawable3D();
 			Drawable3D d = drawable3DMap.get(geo);
@@ -1174,6 +1129,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		}
 		
 		drawable3DMap.remove(geo);
+		geosToBeAdded.remove(geo);
 	}
 	
 	/**
@@ -1741,22 +1697,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		hits.sort();
 	}
 	
-	/** add the drawable of the geo to the current hits
-	 * (used when a new object is created)
-	 * @param geo
-	 */
-	public void addToHits3D(GeoElement geo){
-		
-
-		DrawableND d = getDrawableND(geo);
-		
-		
-		if (d!=null) //add it immediately
-			addToHits3D((Drawable3D) d);
-		else //wait for drawable created
-			geosToAddToHits.add(geo);
-		
-	}	
+	
 
 	
 	/** init the hits for this view
