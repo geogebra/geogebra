@@ -65,7 +65,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	 * @param kernel kernel
 	 */
 	public CASmpreduceW(CASparser casParser, CasParserTools parserTools,Kernel kernel) {
-		super(casParser,kernel.getCasVariablePrefix());
+		super(casParser);
 		this.parserTools = parserTools;
 		this.kernel=kernel;
     }

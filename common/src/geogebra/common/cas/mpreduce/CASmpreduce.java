@@ -6,6 +6,7 @@ import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
@@ -29,7 +30,7 @@ import java.util.StringTokenizer;
 public abstract class CASmpreduce implements CASGenericInterface {
 	/** parser tools */
 	protected CasParserTools parserTools;
-	private String casPrefix;
+	
 	/** CAS parser */
 	public CASparser casParser;
 	/** variable ordering, e.g. for Integral[a*b] */
@@ -58,9 +59,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 * @param casPrefix
 	 *            prefix for CAS variables
 	 */
-	public CASmpreduce(CASparser casParser, String casPrefix) {
+	public CASmpreduce(CASparser casParser) {
 		this.casParser = casParser;
-		this.casPrefix = casPrefix;
 	}
 
 	/**
@@ -217,14 +217,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		sb.append(taylorToStd ? 1 : 0);
 		sb.append(",");
 		// sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
-		if (arbconst == null || arbconst.isCAS()) {
-			sb.append(casPrefix);
-			sb.append("x,");
-			sb.append(casPrefix);
-			sb.append("y);");
-		} else {
-			sb.append("ggbtmpvarx,ggbtmpvary);");
-		}
+		sb.append("ggbtmpvarx,ggbtmpvary);");
+		
 
 		sb.append(mpreduceInput);
 		sb.append(">>");
@@ -242,10 +236,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
 			// do not return directly, must check keepinput
-			plainResult = evaluateMPReduce(plainResult
+			/*plainResult = evaluateMPReduce(plainResult
 							+ "("
 							+ ((FunctionNVar) casInput).getVarString(StringTemplate.casTemplate)
-							+ ")");
+							+ ")");*/
 		}
 		
 		String result = plainResult;
@@ -266,88 +260,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		}
 		return toGeoGebraString(result, arbconst, tpl);
 
-	}
-
-	/**
-	 * Creates an input string for reduce which defines a function. The body is
-	 * first evaluated and the result is then used as function body. E.g. the
-	 * parameters (f,x,df(x^3,x)) will set f(y):=3*y^2 and NOT f(y):=df(y^3,y).
-	 * 
-	 * @param label
-	 *            The name of the function
-	 * @param parameters
-	 *            The list of the parameters of the function
-	 * @param body
-	 *            The function body
-	 * @return an input string for reduce which defines the function
-	 */
-
-	public String translateFunctionDeclaration(final String label,
-			final String[] parameters, final String body, AssignmentType type) {
-		
-		StringBuilder sb = new StringBuilder();
-		int length = parameters.length;
-		if (type==AssignmentType.DELAYED){
-
-			sb.append("procedure ");
-			sb.append(label);
-			sb.append('(');
-			for (int i = 0; i < length; i++) {
-				if (i != 0) {
-					sb.append(',');
-				}
-				sb.append(parameters[i]);
-
-			}
-			sb.append("); begin return ");
-			sb.append(body);
-			sb.append(" end ");
-			
-			return sb.toString();
-		}
-		
-		StringBuilder parameterstmp = new StringBuilder();
-		StringBuilder replacements = new StringBuilder("list(");
-		String processedBody = body;
-		for (int i = 0; i < parameters.length; i++) {
-			if (i != 0) {
-				parameterstmp.append(',');
-				replacements.append(',');
-			}
-			
-			parameterstmp.append("var");
-			parameterstmp.append(i);
-			
-			replacements.append("l");
-			replacements.append(parameters[i]);
-			processedBody = processedBody.replaceAll("("+parameters[i]+"\\b)", "l$1");
-			//we need this for x as FitPoly produces function of currentx!!
-			//we also do that for y, just to be sure
-			if(parameters[i].equals(casPrefix+"x"))
-				processedBody = processedBody.replaceAll("currentx!!", "l"+parameters[i]);
-			else if(parameters[i].equals(casPrefix+"y"))
-				processedBody = processedBody.replaceAll("currenty!!", "l"+parameters[i]);
-			replacements.append(" => ");
-			replacements.append("var");
-			replacements.append(i);
-		}
-		replacements.append(')');
-
-		sb.append(label);
-		sb.append("functionbody := ");
-		sb.append(processedBody);
-		sb.append("$ procedure ");
-		sb.append(label);
-		sb.append("(");
-		sb.append(parameterstmp);
-		sb.append("); begin return sub(");
-		sb.append(replacements);
-		sb.append(',');
-		sb.append(label);
-		sb.append("functionbody)");
-		sb.append(" end ");
-
-		return sb.toString();
 	}
 
 	/**
@@ -1648,7 +1560,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "l%q, %q, l%r, %r, l%s, %s, l%t, %t, l%u, %u, "
 				+ "l%v, %v, l%w, %w";
 		// make sure to use current kernel's variable prefix
-		variableOrdering = variableOrdering.replace("%", casPrefix);
+		variableOrdering = variableOrdering.replace("%", Kernel.TMP_VARIABLE_PREFIX);
 		if (varOrder.length() > 0 && variableOrdering.length() > 0) {
 			varOrder.append(',');
 		}
@@ -1662,7 +1574,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				+ "procedure ggbcasvary(a); second(a);"
 				+ "procedure ggbcasvarz(a); third(a);";
 		// make sure to use current kernel's variable prefix
-		xyzCoordFunctions = xyzCoordFunctions.replace("ggbcasvar", casPrefix);
+		xyzCoordFunctions = xyzCoordFunctions.replace("ggbcasvar", Kernel.TMP_VARIABLE_PREFIX);
 		mpreduce1.evaluate(xyzCoordFunctions);	
 	}
 

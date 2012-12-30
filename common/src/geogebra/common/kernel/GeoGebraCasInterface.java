@@ -38,8 +38,6 @@ public interface GeoGebraCasInterface {
 	public String evaluateGeoGebraCAS(ValidExpression exp,
 			MyArbitraryConstant cons, StringTemplate tpl) throws CASException;
 
-	public void unbindVariable(final String addCASVariablePrefix);
-
 	public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, final boolean symbolic,
 			StringTemplate tpl);
@@ -48,7 +46,7 @@ public interface GeoGebraCasInterface {
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
 
-	String toAssignment(final GeoElement geoElement, final StringTemplate tpl);
+	//String toAssignment(final GeoElement geoElement, final StringTemplate tpl);
 
 	public Set<String> getAvailableCommandNames();
 

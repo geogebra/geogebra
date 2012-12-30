@@ -377,8 +377,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		// check for eg Sum.N=sum(%)
 		if (translation != null) {
-			translation = translation.replaceAll("%@", app.getKernel()
-					.getCasVariablePrefix());
+			translation = translation.replaceAll("%@", Kernel.TMP_VARIABLE_PREFIX);
 			sbCASCommand.setLength(0);
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
@@ -485,8 +484,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// translation found:
 		// replace %0, %1, etc. in translation by command arguments
 		else {
-			translation = translation.replaceAll("%@", app.getKernel()
-					.getCasVariablePrefix());
+			translation = translation.replaceAll("%@",Kernel.TMP_VARIABLE_PREFIX);
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
@@ -549,25 +547,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return true;
 		}
 		return false;
-	}
-
-	public final String toAssignment(final GeoElement ge,
-			final StringTemplate tpl) {
-		String body = ge.getCASString(tpl, false);
-		String casLabel = casParser.replaceIndices(ge.getLabel(tpl));
-		if (ge instanceof FunctionalNVar) {
-			FunctionVariable[] funVariables = ((FunctionalNVar) ge)
-					.getFunction().getFunctionVariables();
-			String[] variables = new String[funVariables.length];
-			for (int i = 0; i < funVariables.length; i++) {
-				variables[i] = funVariables[i].toString(tpl);
-			}
-			AssignmentType assignmentType = ((FunctionalNVar) ge).getFunction().getAssignmentType();
-
-			return getCurrentCAS().translateFunctionDeclaration(casLabel,
-					variables, body, assignmentType);
-		}
-		return getCurrentCAS().translateAssignment(casLabel, body);
 	}
 
 	/**

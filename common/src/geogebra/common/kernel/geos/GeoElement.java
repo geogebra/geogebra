@@ -2235,16 +2235,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			return null;
 		}
 		
-		String retval;
+		String retval = "";
 
 		try {
-			if (tpl.hasType(StringType.GEOGEBRA)) {
+			
 				final String body = toValueString(tpl);
 				retval = getAssignmentLHS(tpl) + " := " + body;
-			} else {
-				final GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
-				retval = cas.toAssignment(this,tpl);
-			}
+			 
 		} finally {
 			// do nothing
 		}
@@ -2292,42 +2289,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		// don't allow renaming when this object is used in
 		// cell ranges, see AlgoCellRange
 		return cellRangeUsers == 0;
-	}
-
-	/**
-	 * Tells this GeoElement that one more CAS algorithm is using it as input.
-	 */
-	public void addCasAlgoUser() {
-		++casAlgoUsers;
-	}
-
-	/**
-	 * Tells this GeoElement that one CAS algorithm that had been using it as
-	 * input has been removed. If there are no more using algorithms we call
-	 * unbindVariableInCAS().
-	 */
-	public void removeCasAlgoUser() {
-		if (casAlgoUsers > 1) {
-			--casAlgoUsers;
-		} else {
-			unbindVariableInCAS();
-			casAlgoUsers = 0;
-		}
-	}
-
-	/**
-	 * Removes label from underlying CAS.
-	 */
-	public void unbindVariableInCAS() {
-		if (isSendingUpdatesToCAS() && isLabelSet()) {
-			kernel.unbindVariableInGeoGebraCAS(label);
-		}
-	}
-	/**
-	 * @return true if CAS is listening to this geo
-	 */
-	public boolean isSendingUpdatesToCAS() {
-		return casAlgoUsers > 0;
 	}
 
 	/**
@@ -3363,35 +3324,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// texts need updates
 		algebraStringsNeedUpdate();
-
-		// send update to underlying CAS if necessary
-		sendValueToCAS();
-
-	}
-
-	/**
-	 * Sends geo's value in the current CAS, e.g. a := 5;
-	 * 
-	 * @return whether an assignment was evaluated
-	 */
-	final public boolean sendValueToCAS() {
-		if (!isSendingUpdatesToCAS() || !isCasEvaluableObject()
-				|| !isLabelSet()) {
-			return false;
-		}
-
-		try {
-			final GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
-			final String geoStr = toCasAssignment(StringTemplate.get(cas.getCurrentCASstringType()));
-			if (geoStr != null) {
-				cas.evaluateRaw(geoStr);
-				return true;
-			}
-		} catch (final Throwable e) {
-			System.err.println("GeoElement.sendValueToCAS: " + this + "\n\t"
-					+ e.getMessage());
-		}
-		return false;
 	}
 
 	private void algebraStringsNeedUpdate() {

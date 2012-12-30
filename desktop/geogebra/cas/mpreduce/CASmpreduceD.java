@@ -36,8 +36,8 @@ public class CASmpreduceD extends CASmpreduce {
 	 * @param parserTools parser helper tools
 	 * @param casPrefix prefix for CAS variables
 	 */
-	public CASmpreduceD(CASparser casParser, CasParserTools parserTools,String casPrefix) {
-		super(casParser,casPrefix);
+	public CASmpreduceD(CASparser casParser, CasParserTools parserTools) {
+		super(casParser);
 		this.parserTools = parserTools;
 		getMPReduce();
 	}

@@ -16,6 +16,7 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
@@ -408,15 +409,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	private boolean suppressOutput() {
 		return suppressOutput && !isError();
-	}
-
-	/**
-	 * @return false as we don't want CAS cells to send their values to the CAS
-	 *         in update(). This is done in computeOutput() anyway.
-	 */
-	@Override
-	public boolean isSendingUpdatesToCAS() {
-		return false;
 	}
 
 	/**
@@ -924,17 +916,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			setTwinGeo(null);
 		}
 		ignoreSetAssignment = false;
-	}
-
-	/**
-	 * Removes assignment variable from CAS.
-	 */
-	@Override
-	public void unbindVariableInCAS() {
-		// remove assignment variable
-		if (isAssignmentVariableDefined()) {
-			kernel.unbindVariableInGeoGebraCAS(assignmentVar);
-		}
 	}
 
 	/**
@@ -1448,7 +1429,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// allow GeoElement to get same label as CAS cell, so we temporarily
 		// remove the label
 		// but keep it in the underlying CAS
-		cons.removeCasCellLabel(assignmentVar, false);
+		cons.removeCasCellLabel(assignmentVar);
 		// set Label of twinGeo
 		twinGeo.setLabel(assignmentVar);
 		// set back CAS cell label
@@ -1620,7 +1601,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 					}
 					//make sure fallback algos are synced with CAS, but not printed in XML (#2688)
 					parentAlgo.setPrintedInXML(false);
-					geos[0].addCasAlgoUser();
 					outputVE = new ExpressionNode(kernel, geos[0]);
 					outputVE.setAssignmentType(getInputVE().getAssignmentType());
 					// geos[0].addCasAlgoUser();
@@ -1896,7 +1876,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	@Override
 	public String toValueString(final StringTemplate tpl) {
-		return toString(tpl);
+		
+		return outputVE!=null ? outputVE.toValueString(tpl) : toString(tpl);
 	}
 
 	@Override
@@ -1941,7 +1922,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		default:
 			// standard case: return current row, e.g. $5
 			if (row >= 0) {
-				sb.append(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX);
+				if(tpl.hasType(StringType.LATEX)){
+					sb.append("\\$");
+				}else{
+					sb.append(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX);
+				}
 				sb.append(row + 1);
 			}
 			break;

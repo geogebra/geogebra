@@ -330,32 +330,14 @@ public class CASparser implements CASParserInterface{
 	 * @return the translated String.
 	 */
 	public String translateToCAS(ValidExpression ve, StringTemplate casStringType,CASGenericInterface cas) {
-		Kernel kernel = ve.getKernel();
+	
 
 		try {
 			String body = ve.wrap().getCASstring(casStringType,
-					true);
+					false);
 			
 			
-			// handle assignments
-			if(ve.getAssignmentType() == AssignmentType.DEFAULT || ve.getAssignmentType() == AssignmentType.DELAYED) {
-				// is an assignment or a function declaration
-				String label = ve.getLabel();
-				// make sure to escape labels to avoid problems with reserved
-				// CAS labels
-				label = kernel.printVariableName(casStringType.getStringType(), label);
-				if(ve instanceof FunctionNVar) {
-					FunctionNVar funVar = (FunctionNVar) ve;
-					FunctionVariable[] funVariables = funVar.getFunctionVariables();
-					String[] variables=new String[funVariables.length];
-					for (int i=0;i<funVariables.length;i++){
-						variables[i] = funVariables[i].toString(casStringType);
-					}
-					return cas.translateFunctionDeclaration(label,
-							variables, body, funVar.getAssignmentType());
-				}
-				return cas.translateAssignment(label, body);
-			}
+			
 
 			return body;
 		} finally {

@@ -80,25 +80,6 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
 
-	/**
-	 * Translates a function definition/function assignment like
-	 * "f(x, y) = 3*x^2 + y" into the format expected by the CAS.
-	 * Function-Assignments have to be translated using @see
-	 * translateAssignment().
-	 * 
-	 * @param label
-	 *            the name of the function, e.g. f
-	 * @param parameters
-	 *            the parameters of the function, separated by commas, e.g.
-	 *            "x, y"
-	 * @param body
-	 *            the body of the function.
-	 * @param type the assignment type
-	 * @return String in CAS format.
-	 */
-	public abstract String translateFunctionDeclaration(final String label,
-			final String[] parameters, final String body, AssignmentType type);
-
 	void appendListStart(StringBuilder sbCASCommand);
 
 	void appendListEnd(StringBuilder sbCASCommand);

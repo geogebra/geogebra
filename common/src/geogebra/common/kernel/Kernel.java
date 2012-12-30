@@ -143,14 +143,12 @@ public class Kernel {
 	/** Evaluator for ExpressionNode */
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
 	/** CAS variable handling */
-	private static final String GGBCAS_VARIABLE_PREFIX = "ggbcasvar";
-	private static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
+	public static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
 	private static int kernelInstances = 0;
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
 	private final int kernelID;
-	private final String casVariablePrefix;
 	private GeoGebraCasInterface ggbCAS;
 	/** Angle type: radians */
 	final public static int ANGLE_RADIANT = 1;
@@ -288,7 +286,6 @@ public class Kernel {
 	protected Kernel() {
 		kernelInstances++;
 		kernelID = kernelInstances;
-		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 		nf = FormatFactory.prototype.getNumberFormat(2);
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
@@ -1244,16 +1241,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Removes the given variableName from ther underlying CAS.
-	 * @param variableName variable name
-	 */
-	public void unbindVariableInGeoGebraCAS(String variableName) {
-		if (ggbCAS != null) {
-			ggbCAS.unbindVariable(addCASVariablePrefix(variableName));
-		}
-	}
-
-	/**
 	 * Builds lhs of lhs = 0
 	 * @param numbers coefficients
 	 * @param vars variable names
@@ -2047,20 +2034,12 @@ public class Kernel {
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
 			// see http://www.geogebra.org/trac/ticket/1051
-			return addCASVariablePrefix(label.replace("$", ""));
+			return addTempVariablePrefix(label.replace("$", ""));
 
 		default:
 			// standard case
 			return label;
 		}
-	}
-
-	/**
-	 * @return The variable prefix used when variables are sent to the CAS, e.g.
-	 *         "ggbcasvar1"
-	 */
-	public final String getCasVariablePrefix() {
-		return casVariablePrefix;
 	}
 
 	/**
@@ -2070,21 +2049,6 @@ public class Kernel {
 		StringBuilder sb = new StringBuilder();
 		// TMP_VARIABLE_PREFIX + label
 		sb.append(TMP_VARIABLE_PREFIX);
-		sb.append(label);
-		return sb.toString();
-	}
-
-	/**
-	 * @return ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX + kernelID +
-	 *         label.
-	 */
-	private String addCASVariablePrefix(final String label) {
-		if (label.startsWith(TMP_VARIABLE_PREFIX)) {
-			return label;
-		}
-		// casVariablePrefix + label
-		StringBuilder sb = new StringBuilder();
-		sb.append(casVariablePrefix); // GGBCAS_VARIABLE_PREFIX + kernelID
 		sb.append(label);
 		return sb.toString();
 	}
@@ -2106,12 +2070,9 @@ public class Kernel {
 		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
 		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595,
 		// #1616
-		String result = str.replace(casVariablePrefix, replace);
 
 		// e.g. "ggbtmpvara" needs to be changed to "a"
-		result = result.replace(TMP_VARIABLE_PREFIX, replace);
-
-		return result;
+		return str.replace(TMP_VARIABLE_PREFIX, replace);
 	}
 
 	final public void setPrintFigures(int figures) {
@@ -2315,27 +2276,6 @@ public class Kernel {
 
 	public void putToCasCache(String exp, String result) {
 		getCasCache().put(exp, result);
-	}
-
-	/**
-	 * Resets the GeoGebraCAS and clears all variables.
-	 */
-	public void resetGeoGebraCAS() {
-		if (!isGeoGebraCASready())
-			return;
-
-		// do NOT reset CAS because we are using one static CAS for all
-		// applicatin windows
-		// see http://www.geogebra.org/trac/ticket/1415
-		// instead we clear variable names of this kernel individually below
-		// ggbCAS.reset();
-
-		// CAS reset may not clear user variables right now,
-		// see http://www.geogebra.org/trac/ticket/1249
-		// so we clear all user variable names individually from the CAS
-		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
-			geo.unbindVariableInCAS();
-		}
 	}
 
 	/**

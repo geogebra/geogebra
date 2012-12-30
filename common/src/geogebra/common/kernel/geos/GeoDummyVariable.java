@@ -44,9 +44,9 @@ public class GeoDummyVariable extends GeoNumeric {
 	 * @return GeoElement with same name (null if not found)
 	 */
 	public GeoElement getElementWithSameName(){
-		GeoElement ge = kernel.lookupLabel(varName);
+		GeoElement ge = kernel.lookupCasCellLabel(varName);
 		if(ge==null)
-			ge = kernel.lookupCasCellLabel(varName);
+			ge = kernel.lookupLabel(varName);
 		return ge;
 	}
 	@Override

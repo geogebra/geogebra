@@ -1691,7 +1691,6 @@ public class Construction {
 	 * @see #putLabel(GeoElement)
 	 */
 	public void removeLabel(GeoElement geo) {
-		geo.unbindVariableInCAS();
 		geoTable.remove(geo.getLabelSimple());
 		removeFromGeoSets(geo);
 	}
@@ -1803,26 +1802,10 @@ public class Construction {
 	 *            to be removed
 	 * @see #putCasCellLabel(GeoCasCell, String)
 	 */
+	
 	public void removeCasCellLabel(String variable) {
-		removeCasCellLabel(variable, true);
-	}
-
-	/**
-	 * Removes given GeoCasCell from the CAS variable table and if wanted from
-	 * the underlying CAS too.
-	 * 
-	 * @param variable
-	 *            variable name
-	 * 
-	 * @param unbindInCAS
-	 *            whether variable should be removed from underlying CAS too.
-	 * @see #putCasCellLabel(GeoCasCell, String)
-	 */
-	public void removeCasCellLabel(String variable, boolean unbindInCAS) {
 		if (geoCasCellTable != null) {
-			GeoCasCell geoCasCell = geoCasCellTable.remove(variable);
-			if (unbindInCAS && geoCasCell!=null)
-				geoCasCell.unbindVariableInCAS();
+			geoCasCellTable.remove(variable);
 		}
 	}
 
@@ -2714,7 +2697,6 @@ public class Construction {
 	 * After this the construction list will be empty.
 	 */
 	public void clearConstruction() {
-		kernel.resetGeoGebraCAS();
 		constsM.clear();
 		complexNumbersM.clear();
 		intsM.clear();

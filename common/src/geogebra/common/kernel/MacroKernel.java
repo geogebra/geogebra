@@ -185,14 +185,6 @@ public class MacroKernel extends Kernel {
 	}
 
 	/**
-	 * Resets the GeoGebraCAS of the parent kernel and clears all variables.
-	 */
-	@Override
-	public void resetGeoGebraCAS() {
-		parentKernel.resetGeoGebraCAS();
-	}
-
-	/**
 	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
 	 * 
 	 * @param casID
@@ -201,14 +193,6 @@ public class MacroKernel extends Kernel {
 	@Override
 	public void setDefaultCAS(CasType casID) {
 		parentKernel.setDefaultCAS(DEFAULT_CAS);
-	}
-
-	/**
-	 * Removes the given variableName from their underlying CAS.
-	 */
-	@Override
-	public void unbindVariableInGeoGebraCAS(String variableName) {
-		parentKernel.unbindVariableInGeoGebraCAS(variableName);
 	}
 
 	/**

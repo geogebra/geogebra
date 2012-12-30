@@ -66,28 +66,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 		TreeSet<GeoElement> geoVars = casCell.getGeoElementVariables();
 		GeoElement [] geos = new GeoElement[geoVars.size()];
 		input = geoVars.toArray(geos);	
-		
-		// tell construction that input geos are used by CAS algorithm
-		for (GeoElement geo : input) {
-			boolean firstUser = !geo.isSendingUpdatesToCAS();
-			geo.addCasAlgoUser();
-			if (firstUser) {
-				// make sure geo's value is set in CAS
-				geo.sendValueToCAS();
-			}
-		}
-	}	
-	
-	@Override
-	public void remove() {
-		if(removed)
-			return;
-		// tell construction that input geos are no longer used by this CAS algorithm
-		for (GeoElement geo : input) {
-			geo.removeCasAlgoUser();			
-		}
-		
-		super.remove();
+
 	}
 	
 	/**

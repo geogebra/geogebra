@@ -9,8 +9,8 @@ import geogebra.common.kernel.Kernel;
 public class CASFactoryD extends geogebra.common.factories.CASFactory {
 
 	@Override
-	public CASmpreduce newMPReduce(CASparser p, CasParserTools t,Kernel kernel) {
-		return new CASmpreduceD(p,t,kernel.getCasVariablePrefix());
+	public CASmpreduce newMPReduce(CASparser p, CasParserTools t,Kernel k) {
+		return new CASmpreduceD(p,t);
 	}
 
 }
