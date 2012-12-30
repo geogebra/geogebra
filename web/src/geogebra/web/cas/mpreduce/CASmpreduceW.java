@@ -138,37 +138,6 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 		}
 	}
 
-
-	/*/*
-	 * Evaluates the processed expression in CAS
-	 * @param exp expression
-	 * @return MPReduce string representation of result
-	 */
- 
-	
-	/*public static native String nativeEvaluateRaw(String exp) /*-{
-	if (typeof $wnd.callCAS === 'function')
-		return $wnd.callCAS(exp);
-	}-*/
-
-
-
-	@Override
-	public void unbindVariable(final String var) {
-		try {
-			StringBuilder sb = new StringBuilder();
-			sb.append("clear(");
-			sb.append(var);
-			sb.append(");");
-			getMPReduce().evaluate(sb.toString());
-
-			// TODO: remove
-			App.debug("Cleared variable: " + sb.toString());
-		} catch (Throwable e) {
-			App.error("Failed to clear variable from MPReduce: " + var);
-		}
-	}
-
 	/*
 	 * called from JavaScript when the CAS is loaded
 	 * (non-Javadoc)
