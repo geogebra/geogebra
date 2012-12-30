@@ -486,6 +486,7 @@ public interface Traversing {
 					GeoElement geo = null;
 					if(en.getLeft() instanceof GeoDummyVariable){
 						geo = ((GeoDummyVariable)en.getLeft()).getElementWithSameName();
+						if(geo!=null)
 						en.setLeft(expand(geo));
 					}
 										
@@ -494,6 +495,7 @@ public interface Traversing {
 					GeoElement geo = null;
 					if(en.getRight() instanceof GeoDummyVariable){
 						geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
+						if(geo!=null)
 						en.setRight(expand(geo));
 					}
 				}
