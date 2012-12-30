@@ -479,7 +479,7 @@ public interface Traversing {
 					}
 					ExpressionValue argument = en.getRight().deepCopy(en.getKernel()).traverse(this);
 					VariableReplacer vr = VariableReplacer.getReplacer(fv.getSetVarString(), argument);
-					return en2.traverse(vr);
+					return en2.deepCopy(en.getKernel()).traverse(vr);
 				}
 				else if(en.getOperation()!=Operation.FUNCTION_NVAR
 					&& en.getOperation()!=Operation.DERIVATIVE){
