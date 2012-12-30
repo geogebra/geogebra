@@ -453,24 +453,38 @@ public interface Traversing {
 	 */
 	public class FunctionExpander implements Traversing {
 		
-		private static ExpressionValue expand(GeoElement geo){
-			if(geo instanceof GeoFunction)
-				return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION,((GeoFunction)geo).getFunctionVariables()[0]);
-			if(geo instanceof GeoCasCell && ((GeoCasCell)geo).getInputVE() instanceof FunctionNVar){
-				return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION_NVAR,
-						((GeoCasCell)geo).getFunctionVariableList());
-			}
-			if(geo instanceof GeoFunctionNVar){
-					return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION_NVAR,
-							((GeoFunctionNVar)geo).getFunctionVariableList());
-			}
+		private ExpressionValue expand(GeoElement geo){
+			if(geo instanceof FunctionalNVar)
+				return ((FunctionalNVar)geo).getFunctionExpression().deepCopy(geo.getKernel()).traverse(this);
+			if(geo instanceof GeoCasCell){
+				return ((GeoCasCell)geo).getOutputValidExpression();
+			}			
 			return geo;	
 		}
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof ExpressionNode){ 
 				ExpressionNode en = (ExpressionNode) ev;
-				if(en.getOperation()!=Operation.FUNCTION
-					&& en.getOperation()!=Operation.FUNCTION_NVAR
+				if(en.getOperation()==Operation.FUNCTION){
+					GeoElement geo = (GeoElement)en.getLeft();
+					if(geo instanceof GeoDummyVariable){
+						geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
+					}
+					ExpressionNode en2 = null;
+					FunctionVariable fv = null;
+					if(geo instanceof FunctionalNVar){
+						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().deepCopy(geo.getKernel()).traverse(this);
+						fv = ((FunctionalNVar)geo).getFunction().getFunctionVariables()[0];
+					}
+					if(geo instanceof GeoCasCell){
+						en2 = ((GeoCasCell)geo).getOutputValidExpression().wrap();
+						fv = (FunctionVariable) ((GeoCasCell)geo).getFunctionVariableList().getListElement(0).unwrap();
+					}
+					ExpressionValue argument = en.getRight().traverse(this);
+					App.debug(ev);
+					VariableReplacer vr = VariableReplacer.getReplacer(fv.getSetVarString(), argument);
+					return en2.traverse(vr);
+				}
+				else if(en.getOperation()!=Operation.FUNCTION_NVAR
 					&& en.getOperation()!=Operation.DERIVATIVE){
 					GeoElement geo = null;
 					if(en.getLeft() instanceof GeoDummyVariable){

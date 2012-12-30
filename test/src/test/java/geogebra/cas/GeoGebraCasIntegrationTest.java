@@ -12,6 +12,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
@@ -83,10 +84,10 @@ public class GeoGebraCasIntegrationTest {
 		}
 
 		// Parse input into valid expression.
-		ValidExpression outputVe = parser.parseGeoGebraCASInput(result);
+		ExpressionValue outputVe = parser.parseGeoGebraCASInput(result);
 
 		// Resolve Variable objects in ValidExpression as GeoDummy objects.
-		parser.resolveVariablesForCAS(outputVe);
+		outputVe = parser.resolveVariablesForCAS(outputVe);
 		boolean includesNumericCommand = false;
 		HashSet<Command> commands = new HashSet<Command>();
 		inputVe.traverse(CommandCollector.getCollector(commands));

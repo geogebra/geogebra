@@ -26,8 +26,9 @@ public interface CASParserInterface {
 	/**
 	 * Replace variables with dummy objects
 	 * @param outputVe value to process
+	 * @return expression with replaced variables
 	 */
-	void resolveVariablesForCAS(ExpressionValue outputVe);
+	ExpressionValue resolveVariablesForCAS(ExpressionValue outputVe);
 
 	/**
 	 * @param string internal name of command

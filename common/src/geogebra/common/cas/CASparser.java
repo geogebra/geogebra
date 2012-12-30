@@ -86,7 +86,7 @@ public class CASparser implements CASParserInterface{
 			ValidExpression ve = parseGeoGebraCASInput(inValue);
 			
 			// resolve Variable objects in ValidExpression as GeoDummy objects
-			resolveVariablesForCAS(ve);
+			ve = (ValidExpression) resolveVariablesForCAS(ve);
 			
 			return ve;
 		//}catch (MaximaVersionUnsupportedExecption e) {
@@ -104,7 +104,7 @@ public class CASparser implements CASParserInterface{
 	 * kept as symbolic variables.
 	 * TODO check that we need default template here
 	 */
-	public synchronized void resolveVariablesForCAS(ExpressionValue ev) {
+	public synchronized ExpressionValue resolveVariablesForCAS(ExpressionValue ev) {
 		
 		// add local variables to kernel, 
 		// e.g. f(a,b) := 3*a+c*b has local variables a, b
@@ -122,7 +122,7 @@ public class CASparser implements CASParserInterface{
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 		FunctionExpander fex = FunctionExpander.getCollector();
 		ev.resolveVariables(false);
-		ev.traverse(fex);
+		ev = ev.traverse(fex);
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
 		Set<String> nonFunctions = new TreeSet<String>(); 
@@ -130,6 +130,7 @@ public class CASparser implements CASParserInterface{
 		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);
 		ev.traverse(c);
 		ev.traverse(r);
+		return ev;
 		//TODO: remove local variables from kernel ?
 	}
 	
