@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -312,6 +313,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				arbconst.reset();
 				ve.traverse(ArbconstReplacer.getReplacer(arbconst));
 			}
+			PrefixRemover pr = PrefixRemover.getCollector();
+			ve.traverse(pr);
 		}
 		return ve;
 	}

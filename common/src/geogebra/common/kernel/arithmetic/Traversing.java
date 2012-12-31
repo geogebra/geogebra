@@ -294,6 +294,30 @@ public interface Traversing {
 	 * Goes through the ExpressionValue and collects all derivatives
 	 * from expression nodes into arrays
 	 */
+	public class PrefixRemover implements Traversing {
+		
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof Variable){
+				return new Variable(ev.getKernel(),
+						ev.toString(StringTemplate.defaultTemplate).replace(Kernel.TMP_VARIABLE_PREFIX, ""));
+			}
+			return ev;
+		}
+		private static PrefixRemover collector = new PrefixRemover();
+		/**
+		 * Resets and returns the collector
+		 * @return derivative collector
+		 */
+		public static PrefixRemover getCollector(){			
+			return collector;
+		}
+		
+	}
+	
+	/**
+	 * Goes through the ExpressionValue and collects all derivatives
+	 * from expression nodes into arrays
+	 */
 	public class CommandCollector implements Traversing {
 		private Set<Command> commands;
 		public ExpressionValue process(ExpressionValue ev) {
