@@ -44,12 +44,7 @@ public class Variable extends ValidExpression {
 	 * @param name variable name 
 	 **/
 	public Variable(Kernel kernel, String name) {
-		if(name.startsWith(Kernel.TMP_VARIABLE_PREFIX)){
-			this.name = name.substring(Kernel.TMP_VARIABLE_PREFIX.length());
-		}	
-		else{
-			this.name = name;
-		}
+		this.name = name;
 		this.kernel = kernel;
 	}
 
