@@ -205,6 +205,8 @@ public interface Traversing {
 		private ExpressionValue newObj;
 		private int replacements;
 		public ExpressionValue process(ExpressionValue ev) {
+				if(ev==newObj)
+					return new ExpressionNode(newObj.getKernel(),newObj);
 				if(!(ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable))
 					return ev;
 				if(!var.equals(ev.toString(StringTemplate.defaultTemplate))){					

@@ -898,6 +898,8 @@ public class ExpressionNode extends ValidExpression implements
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
+		if(ev!=this)
+			return ev;
 		left = left.traverse(t);
 		if (right != null)
 			right = right.traverse(t);
