@@ -579,8 +579,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
-		// init singularWS
-		initializeSingularWSD();
+
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI
