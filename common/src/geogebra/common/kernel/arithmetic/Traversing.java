@@ -294,59 +294,6 @@ public interface Traversing {
 	 * Goes through the ExpressionValue and collects all derivatives
 	 * from expression nodes into arrays
 	 */
-	public class DerivativeCollector implements Traversing {
-		private List<GeoElement> derivativeFunctions;
-		private List<Integer> derivativeDegrees;
-		private Set<String> signatures;
-		public ExpressionValue process(ExpressionValue ev) {
-			if(!ev.isExpressionNode())
-				return ev;
-			ExpressionNode en = (ExpressionNode)ev;
-			if(en.getOperation() ==Operation.DERIVATIVE){
-				int degree;
-				if(en.getRight() instanceof NumberValue)
-					degree = (int)((NumberValue)en.getRight()).getDouble();
-				else
-					degree = 1;
-				String signature = en.getLeft().toString(StringTemplate.defaultTemplate)+","+degree;
-				if(!signatures.contains(signature)){
-					derivativeFunctions.add((GeoElement)en.getLeft());
-					derivativeDegrees.add(degree);
-					signatures.add(signature);
-				}
-				
-			}
-			return en;
-		}
-		private static DerivativeCollector collector = new DerivativeCollector();
-		/**
-		 * Resets and returns the collector
-		 * @return derivative collector
-		 */
-		public static DerivativeCollector getCollector(){
-			collector.derivativeFunctions = new ArrayList<GeoElement>();
-			collector.derivativeDegrees = new ArrayList<Integer>();
-			collector.signatures = new TreeSet<String>();
-			return collector;
-		}
-		/**
-		 * @return collected functions
-		 */
-		public List<GeoElement> getFunctions(){
-			return derivativeFunctions;
-		}
-		/**
-		 * @return collectted degrees
-		 */
-		public List<Integer> getDegrees(){
-			return derivativeDegrees;
-		}
-	}
-	
-	/**
-	 * Goes through the ExpressionValue and collects all derivatives
-	 * from expression nodes into arrays
-	 */
 	public class CommandCollector implements Traversing {
 		private Set<Command> commands;
 		public ExpressionValue process(ExpressionValue ev) {
