@@ -1,5 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
@@ -464,27 +465,52 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof ExpressionNode){ 
 				ExpressionNode en = (ExpressionNode) ev;
-				if(en.getOperation()==Operation.FUNCTION){
-					GeoElement geo = (GeoElement)en.getLeft();
+				if(en.getOperation()==Operation.FUNCTION || en.getOperation()==Operation.FUNCTION_NVAR){
+					ExpressionValue geo = en.getLeft().unwrap();
+					NumberValue deriv = null;
+					if(geo instanceof ExpressionNode && ((ExpressionNode)geo).getOperation()==Operation.DERIVATIVE){
+						deriv = ((ExpressionNode)geo).getRight().evaluateNum();
+						geo = ((ExpressionNode)geo).getLeft().unwrap();
+					}
 					if(geo instanceof GeoDummyVariable){
 						geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
 					}
 					ExpressionNode en2 = null;
-					FunctionVariable fv = null;
+					FunctionVariable[] fv = null;
+					
 					if(geo instanceof FunctionalNVar){
 						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
-						fv = ((FunctionalNVar)geo).getFunction().getFunctionVariables()[0];
+						fv = ((FunctionalNVar)geo).getFunction().getFunctionVariables();
 					}
 					if(geo instanceof GeoCasCell){
-						en2 = ((GeoCasCell)geo).getOutputValidExpression().wrap();
-						fv = (FunctionVariable) ((GeoCasCell)geo).getFunctionVariableList().getListElement(0).unwrap();
+						ValidExpression ve = ((GeoCasCell)geo).getOutputValidExpression();
+						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar)ve.unwrap()).getExpression():ve.wrap();
+						en2 = en2.getCopy(geo.getKernel());
+						fv = ((GeoCasCell)geo).getFunctionVariables();
 					}
-					ExpressionValue argument = en.getRight().wrap().getCopy(en.getKernel()).traverse(this);
-					VariableReplacer vr = VariableReplacer.getReplacer(fv.getSetVarString(), argument);
-					return en2.wrap().getCopy(en.getKernel()).traverse(vr);
+					if(deriv != null){
+						CASGenericInterface cas = en.getKernel().getGeoGebraCAS().getCurrentCAS();
+						Command derivCommand = new Command(en.getKernel(),"Derivative",false);
+						derivCommand.addArgument(en2);
+						derivCommand.addArgument(fv[0].wrap());
+						derivCommand.addArgument(deriv.wrap());
+						en2 = cas.evaluateToExpression(derivCommand, null).wrap();
+						
+					}
+					if(fv!=null){
+						ExpressionValue argument = en.getRight().wrap().getCopy(en.getKernel()).traverse(this);
+						for(int i=0;i<fv.length;i++){
+							VariableReplacer vr = VariableReplacer.getReplacer(fv[i].getSetVarString(), argument);
+							en2 = en2.traverse(vr).wrap();
+						}
+						return en2;
+					}
 				}
-				else if(en.getOperation()!=Operation.FUNCTION_NVAR
-					&& en.getOperation()!=Operation.DERIVATIVE){
+				else if(en.getOperation()==Operation.DERIVATIVE){
+					//should not get there
+					
+				}
+				else {
 					GeoElement geo = null;
 					if(en.getLeft() instanceof GeoDummyVariable){
 						geo = ((GeoDummyVariable)en.getLeft()).getElementWithSameName();

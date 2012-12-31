@@ -4080,6 +4080,11 @@ public class ExpressionNode extends ValidExpression implements
 
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
+			if(tpl.hasType(StringType.MPREDUCE)){
+				sb.append("df(");
+				sb.append(leftStr);
+				break;
+			}
 			if (left.isGeoElement() && ((GeoElement) left).isLabelSet()) {
 				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {

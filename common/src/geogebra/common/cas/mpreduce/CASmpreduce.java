@@ -163,11 +163,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
 			StringTemplate tpl) throws CASException {
 		ValidExpression casInput = inputExpression;
-		// KeepInput[] command should set flag keepinput!!:=1
-		// so that commands like Substitute can work accordingly
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
-		boolean taylorToStd = true;
+		String plainResult = getPlainResult(casInput,keepInput);
+		
 		
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
@@ -177,51 +176,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					casInput = cmd.getArgument(0);
 				}
 			}
-		} else 
-			if (cmd != null && cmd.getName().equals("TaylorSeries")) {
-				taylorToStd = false;
-			}
-		 else if (cmd != null && "Delete".equals(cmd.getName())
-				) {
-			String label = 
-					cmd.getArgument(0).toString(
-							StringTemplate.defaultTemplate);
-			GeoElement geo = inputExpression
-					.getKernel()
-					.lookupLabel(label);
-			if(geo==null)
-				geo = inputExpression
-				.getKernel().lookupCasCellLabel(label);
-			if (geo != null) {
-				geo.remove();
-			}
-			return "true";
 		}
-		
-
-		// convert parsed input to MPReduce string
-		String mpreduceInput = casParser.translateToCAS(casInput,
-				StringTemplate.casTemplate, this);
-
-		// tell MPReduce whether it should use the keep input flag,
-		// e.g. important for Substitute
-		StringBuilder sb = new StringBuilder();
-	
-		sb.append("<<resetsettings(");
-		sb.append(keepInput ? 1 : 0);
-		sb.append(",");
-		sb.append(taylorToStd ? 1 : 0);
-		sb.append(",");
-		// sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
-		sb.append("ggbtmpvarx,ggbtmpvary);");
-		
-
-		sb.append(mpreduceInput);
-		sb.append(">>");
-
-		// evaluate in MPReduce
-		String plainResult = evaluateMPReduce(sb.toString());
-		
 
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
@@ -257,6 +212,70 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return toGeoGebraString(result, arbconst, tpl);
 
 	}
+	
+	final public synchronized ExpressionValue evaluateToExpression(
+			final ValidExpression inputExpression, MyArbitraryConstant arbconst) throws CASException {
+		String result = getPlainResult(inputExpression,false);
+		// standard case
+		if ("".equals(result)) {
+			return null;
+		}
+		return replaceRoots(casParser.parseMPReduce(result),arbconst);
+
+	}
+
+	private String getPlainResult(ValidExpression casInput,
+			boolean keepInput) {
+		// KeepInput[] command should set flag keepinput!!:=1
+		// so that commands like Substitute can work accordingly
+		Command cmd = casInput.getTopLevelCommand();
+		boolean taylorToStd = true;
+		
+		if(!keepInput && cmd != null && cmd.getName().equals("TaylorSeries")) {
+				taylorToStd = false;
+			}
+		 else if (cmd != null && "Delete".equals(cmd.getName())
+				) {
+			String label = 
+					cmd.getArgument(0).toString(
+							StringTemplate.defaultTemplate);
+			GeoElement geo = casInput
+					.getKernel()
+					.lookupLabel(label);
+			if(geo==null)
+				geo = casInput
+				.getKernel().lookupCasCellLabel(label);
+			if (geo != null) {
+				geo.remove();
+			}
+			return "true";
+		}
+		
+
+		// convert parsed input to MPReduce string
+		String mpreduceInput = casParser.translateToCAS(casInput,
+				StringTemplate.casTemplate, this);
+
+		// tell MPReduce whether it should use the keep input flag,
+		// e.g. important for Substitute
+		StringBuilder sb = new StringBuilder();
+	
+		sb.append("<<resetsettings(");
+		sb.append(keepInput ? 1 : 0);
+		sb.append(",");
+		sb.append(taylorToStd ? 1 : 0);
+		sb.append(",");
+		// sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
+		sb.append("ggbtmpvarx,ggbtmpvary);");
+		
+
+		sb.append(mpreduceInput);
+		sb.append(">>");
+
+		// evaluate in MPReduce
+		String plainResult = evaluateMPReduce(sb.toString());
+		return plainResult;
+	}
 
 	/**
 	 * Tries to parse a given MPReduce string and returns a String in GeoGebra
@@ -276,9 +295,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	final public synchronized String toGeoGebraString(String mpreduceString,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException {
-		ExpressionValue ve = casParser.parseMPReduce(mpreduceString);
+		ExpressionValue ve = replaceRoots(casParser.parseMPReduce(mpreduceString),arbconst);
 		//replace rational exponents by roots or vice versa
 
+		
+
+		return casParser.toGeoGebraString(ve, tpl);
+	}
+	
+	private ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst){
 		if (ve != null) {
 			boolean toRoot = ve.getKernel().getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
@@ -288,8 +313,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				ve.traverse(ArbconstReplacer.getReplacer(arbconst));
 			}
 		}
-
-		return casParser.toGeoGebraString(ve, tpl);
+		return ve;
 	}
 
 	/**

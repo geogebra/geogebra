@@ -1,5 +1,6 @@
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.settings.SettingListener;
@@ -74,5 +75,14 @@ public interface CASGenericInterface extends SettingListener {
 	void appendListStart(StringBuilder sbCASCommand);
 
 	void appendListEnd(StringBuilder sbCASCommand);
+	
+	/**
+	 * 
+	 * @param inputExpression input
+	 * @param arbconst constant handler
+	 * @return evaluated input
+	 */
+	public ExpressionValue evaluateToExpression(
+			final ValidExpression inputExpression, MyArbitraryConstant arbconst);
 
 }

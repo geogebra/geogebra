@@ -2949,7 +2949,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Rubrik2 () {
 		t("f(t):=100*1.5^t","100 * (3 / 2) ^ (t)");
-		t("f(1)","150");
+		t("f(2)","225");
 		t("Solve[f(t)=225,t]","{t = 2}","{t = log(9 / 4)/log(3 / 2)}");
 		t("Numeric[Solve[f(t)=225,t]]","{t = 2}");
 		t("Solve[225=c*1.5^2,c]","{c = 100}");
@@ -2988,6 +2988,9 @@ public class GeoGebraCasIntegrationTest {
 		t("B:={{3},{2},{7}}","{{3},{2},{7}}");
 		t("X:={{x},{y},{z}}","{{x},{y},{z}}");
 		t("A*X=B","{{2 * x + 3*y + 2 * z},{x + y +z},{ - y + 3 * z}}={{3},{2},{7}}");
+		t("Delete[A]","true");
+		t("Delete[B]","true");
+		t("Delete[X]","true");
 		
 	}
 	@Test
@@ -2995,6 +2998,8 @@ public class GeoGebraCasIntegrationTest {
 		t("A:={{2,3,2},{1,1,1},{0,-1,3}}","{{2,3,2},{1,1,1},{0,-1,3}}");
 		t("B:={{3},{2},{7}}","{{3},{2},{7}}");
 		t("Invert[A] * B","{{1},{-1},{2}}");
+		t("Delete[A]","true");
+		t("Delete[B]","true");
 	}
 	@Test
 	public void QuickStart(){

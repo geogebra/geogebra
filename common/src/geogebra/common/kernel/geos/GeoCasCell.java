@@ -2081,6 +2081,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		return null;
 	}
+	
+	public FunctionVariable[] getFunctionVariables() {
+		if (getInputVE() instanceof FunctionNVar) {
+			return ((FunctionNVar) getInputVE())
+					.getFunctionVariables();
+			
+		}
+		return new FunctionVariable[0];
+	}
 
 	private void setInputVE(ValidExpression inputVE) {
 		this.inputVE = inputVE;
