@@ -2953,13 +2953,15 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[f(t)=225,t]","{t = 2}","{t = log(9 / 4)/log(3 / 2)}");
 		t("Numeric[Solve[f(t)=225,t]]","{t = 2}");
 		t("Solve[225=c*1.5^2,c]","{c = 100}");
-		t("Solve[225=100*a^2,a]","{a = 3 / 2 , a = (-3) / 2}");		
+		t("Solve[225=100*a^2,a]","{a = 3 / 2 , a = (-3) / 2}");	
+		t("Delete[f]","true");
 	}
 	
 	@Test
 	public void Rubrik3 () {
 		t("f(t):=c*a^t","a ^ (t) * c");
 		t("Solve(f(2)=225,a)","{a = 15 * sqrt(1 / c), a = -15 * sqrt(1 / c)}");
+		t("Delete[f]","true");
 	}
 	
 	@Test
@@ -2977,6 +2979,7 @@ public class GeoGebraCasIntegrationTest {
 		t("g3:=f'(1) = 0","3 * a + 2 * b + c = 0");
 		t("g4:=f''(1) = 0","6 * a + 2 * b = 0");
 		t("Solve({g1,g2,g3,g4},{a,b,c,d})","{{a = 1, b = -3, c = 3, d = 0}}");
+		t("Delete[f]","true");
 	}
 	
 	@Test
