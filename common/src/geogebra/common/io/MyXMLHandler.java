@@ -705,14 +705,14 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	// <euclidianView>
 	// ====================================
-
+	/** Euclidian settings */
 	protected EuclidianSettings evSet = null;
 	
 	/**
 	 * check if eName equals "viewId" and set evSet to the correct settings
 	 * (only used for 3D)
-	 * @param eName
-	 * @param attrs
+	 * @param eName element name
+	 * @param attrs attributes
 	 */
 	protected void startEuclidianViewElementCheckViewId(String eName,
 			LinkedHashMap<String, String> attrs){
@@ -721,9 +721,9 @@ public class MyXMLHandler implements DocHandler {
 	
 	/**
 	 * switch name for euclidian view element
-	 * @param eName
-	 * @param attrs
-	 * @param firstChar
+	 * @param eName element name
+	 * @param attrs attributes
+	 * @param firstChar first character of element name
 	 * @return true if ok
 	 */
 	protected boolean startEuclidianViewElementSwitch(String eName,
