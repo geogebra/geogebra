@@ -49,7 +49,6 @@ import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.algos.AlgorithmSet;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;

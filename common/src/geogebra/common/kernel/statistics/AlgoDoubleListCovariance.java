@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoList;
 

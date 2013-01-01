@@ -4,7 +4,6 @@ package geogebra.common.kernel.discrete;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.discrete.alds.al.graphs.PrimMinimumSpanningTree;
 import geogebra.common.kernel.discrete.alds.ds.graphs.Graph.Type;

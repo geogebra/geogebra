@@ -3,7 +3,6 @@ package geogebra.common.kernel.prover;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;

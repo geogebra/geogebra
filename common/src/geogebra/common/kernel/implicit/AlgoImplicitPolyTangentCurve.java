@@ -2,7 +2,6 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;

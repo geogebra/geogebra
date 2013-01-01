@@ -1,8 +1,6 @@
 package geogebra.common.main.settings;
 
 
-import geogebra.common.main.App;
-
 import java.util.LinkedList;
 
 /**

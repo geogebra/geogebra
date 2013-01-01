@@ -73,8 +73,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.gwt.user.client.ui.RootPanel;
-
 /**
  * Represents an application window, gives access to views and system stuff
  */

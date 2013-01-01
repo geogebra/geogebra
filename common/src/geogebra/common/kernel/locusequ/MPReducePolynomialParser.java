@@ -1,7 +1,6 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Collections;

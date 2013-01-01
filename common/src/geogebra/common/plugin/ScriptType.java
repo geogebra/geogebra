@@ -1,12 +1,12 @@
 package geogebra.common.plugin;
 
-import java.util.HashMap;
-
 import geogebra.common.main.App;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.JsScript;
 import geogebra.common.plugin.script.PythonScript;
 import geogebra.common.plugin.script.Script;
+
+import java.util.HashMap;
 
 /**
  * @author arno

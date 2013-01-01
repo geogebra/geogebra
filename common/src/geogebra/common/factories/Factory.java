@@ -7,7 +7,6 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.common.util.GeoGebraLogger;
 
 public abstract class Factory {
 	private static Factory prototype;

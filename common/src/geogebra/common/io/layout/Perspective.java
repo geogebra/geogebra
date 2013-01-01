@@ -1,8 +1,8 @@
 package geogebra.common.io.layout;
 
-import javax.swing.SwingConstants;
-
 import geogebra.common.util.StringUtil;
+
+import javax.swing.SwingConstants;
 
 /**
  * Structure for a perspective which consists of the docks and the toolbar

@@ -14,7 +14,6 @@ package geogebra.common.kernel.integration;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.roots.RealRootFunction;
 

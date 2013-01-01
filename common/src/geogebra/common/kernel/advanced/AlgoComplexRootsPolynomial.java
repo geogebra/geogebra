@@ -2,7 +2,6 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoRootsPolynomial;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;

@@ -4,7 +4,6 @@ import geogebra.common.awt.GPoint2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
 import geogebra.common.kernel.discrete.delaunay.Point_dt;

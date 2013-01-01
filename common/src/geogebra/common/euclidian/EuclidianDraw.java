@@ -1,5 +1,6 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.euclidian.draw.DrawBoolean;
 import geogebra.common.euclidian.draw.DrawBoxPlot;
 import geogebra.common.euclidian.draw.DrawButton;
@@ -21,7 +22,6 @@ import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
 import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.draw.DrawSlope;
-import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.euclidian.draw.DrawText;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawTurtle;

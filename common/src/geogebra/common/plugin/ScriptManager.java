@@ -1,7 +1,6 @@
 package geogebra.common.plugin;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 

@@ -1,7 +1,5 @@
 package geogebra.common.plugin.script;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
@@ -9,6 +7,8 @@ import geogebra.common.plugin.Event;
 import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.util.StringUtil;
+
+import java.util.ArrayList;
 
 /**
  * @author arno

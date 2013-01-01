@@ -21,7 +21,6 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.algos.AlgoTransformation;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;

@@ -17,13 +17,11 @@
  */
 package geogebra.common.kernel.discrete.alds.al.graphs;
 
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.discrete.alds.SortableObject;
 import geogebra.common.kernel.discrete.alds.ds.graphs.Vertex;
 import geogebra.common.kernel.discrete.alds.ds.graphs.WeightedGraph;
 import geogebra.common.kernel.discrete.alds.ds.heaps.Heap;
 import geogebra.common.kernel.discrete.alds.ds.heaps.HeapFactory;
-import geogebra.common.main.App;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,12 +1,12 @@
 package geogebra.common.cas.singularws;
 
-import java.util.Date;
-
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.main.App;
 import geogebra.common.main.SingularWSSettings;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
+
+import java.util.Date;
 
 /**
  * Maintains a Singular WebService.

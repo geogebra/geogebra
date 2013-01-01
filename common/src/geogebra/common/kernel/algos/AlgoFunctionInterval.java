@@ -20,7 +20,6 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
-import geogebra.common.main.App;
 
 /**
  * Function limited to interval [a, b]

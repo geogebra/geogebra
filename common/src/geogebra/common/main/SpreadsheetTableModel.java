@@ -4,7 +4,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.UpdateLocationView;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 
 /**
