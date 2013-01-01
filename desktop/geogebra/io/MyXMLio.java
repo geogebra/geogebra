@@ -635,7 +635,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId(), app);
+		addGeoGebraHeader(sb, false, app.getUniqueId());
 		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
 

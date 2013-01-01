@@ -84,13 +84,12 @@ public abstract class MyXMLio {
 	 * @param sb builder
 	 * @param isMacro true for ggt files
 	 * @param uniqueId construction ID
-	 * @param app application (may afect XML version) //TODO remove once Tube supports 5.0 applets
 	 */
-	protected final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId, App app) {
+	protected final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId) {
 		
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)
-		String format = app.isHTML5Applet() ? "4.2" : GeoGebraConstants.XML_FILE_FORMAT;
+		String format = GeoGebraConstants.XML_FILE_FORMAT;
 		
 		sb.append("<geogebra format=\"");
 		sb.append(format);
@@ -127,7 +126,7 @@ public abstract class MyXMLio {
 	public String getFullXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId(), app);
+		addGeoGebraHeader(sb, false, app.getUniqueId());
 		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
 		//sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
@@ -153,7 +152,7 @@ public abstract class MyXMLio {
 	public String getFullMacroXML(ArrayList<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, true, null, app);
+		addGeoGebraHeader(sb, true, null);
 		// save construction
 		sb.append(kernel.getMacroXML(macros));
 
@@ -168,7 +167,7 @@ public abstract class MyXMLio {
 	public String getPreferencesXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, null, app);
+		addGeoGebraHeader(sb, false, null);
 		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT
 		//				+ "\">\n");
