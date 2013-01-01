@@ -299,8 +299,10 @@ public class ExpressionNode extends ValidExpression implements
 			ret = en.getCopy(kernel);
 		}
 		// deep copy
-		else if (ev.isPolynomialInstance() || ev.isConstant()
-				|| (ev instanceof Command)) {
+		//important to check for commands before we call isConstant as that might
+		//result in evaluation
+		else if (ev.isPolynomialInstance() || (ev instanceof Command) || ev.isConstant()
+				) {
 			ret = ev.deepCopy(kernel);
 		} else {
 			ret = ev;
