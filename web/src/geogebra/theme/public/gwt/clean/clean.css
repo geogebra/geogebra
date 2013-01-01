@@ -1453,6 +1453,7 @@ body[dir=rtl] .undoPanel {
 	position: relative;
 	top: -7px;
 	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .captionPanel td{
