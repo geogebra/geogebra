@@ -1536,3 +1536,11 @@ body[dir=rtl] .undoPanel {
 .toolbarPanel{
 	line-height: 0;
 }
+
+body[dir=rtl] .toolbarPanel div table{
+	//margin-left: auto;
+}
+
+body[dir=rtl] .GeoGebraMenuBar table{
+	//margin-left: auto;
+}

@@ -73,6 +73,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.google.gwt.user.client.ui.RootPanel;
+
 /**
  * Represents an application window, gives access to views and system stuff
  */
@@ -1759,6 +1761,12 @@ public abstract class App implements Localization{
 		rightToLeftReadingOrder = ("iw".equals(lang) || "ar".equals(lang)
 				|| "fa".equals(lang) || "ji".equals(lang));
 
+//		if (rightToLeftReadingOrder){
+//			RootPanel.getBodyElement().setAttribute("dir", "rtl");
+//		} else {
+//			RootPanel.getBodyElement().setAttribute("dir", "ltr");
+//		}
+		
 		// Another option:
 		// rightToLeftReadingOrder =
 		// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
