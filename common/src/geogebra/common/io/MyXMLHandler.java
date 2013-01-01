@@ -1092,13 +1092,19 @@ public class MyXMLHandler implements DocHandler {
 				// "false"
 				// now pointCapturing holds an int value
 				int pointCapturingMode;
-				if (str.equals("false"))
+				if (str.equals("false")) {
 					pointCapturingMode = 0;
-				else if (str.equals("true"))
+				} else if (str.equals("true")) {
 					pointCapturingMode = 1;
-				else
+				} else {
 					// int value
 					pointCapturingMode = Integer.parseInt(str);
+					
+					// bug: POINT_CAPTURING_STICKY_POINTS written to XML sometimes 
+					if (pointCapturingMode > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX) { 
+						pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_DEFAULT; 
+					}
+				}
 				ev.setPointCapturing(pointCapturingMode);
 			} else {
 				ev.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);

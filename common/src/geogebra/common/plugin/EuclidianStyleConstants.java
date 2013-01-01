@@ -95,6 +95,11 @@ public class EuclidianStyleConstants {
 	public static final int POINT_CAPTURING_ON_GRID = 2;
 	public static final int POINT_CAPTURING_AUTOMATIC = 3;
 	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
+	
+	public static final int POINT_CAPTURING_DEFAULT = POINT_CAPTURING_AUTOMATIC; 
+
+	// we don't want POINT_CAPTURING_STICKY_POINTS in the XML! 
+	public static final int POINT_CAPTURING_XML_MAX = 3;
 
 	public static final int TOOLTIPS_AUTOMATIC = 0;
 	public static final int TOOLTIPS_ON = 1;

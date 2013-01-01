@@ -4134,7 +4134,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		sbxml.append("\" gridIsBold=\""); //
 		sbxml.append(gridIsBold); // Michael Borcherds 2008-04-11
 		sbxml.append("\" pointCapturing=\"");
-		sbxml.append(getPointCapturingMode());
+
+		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML 
+		sbxml.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT : getPointCapturingMode()); 
+
 		sbxml.append("\" rightAngleStyle=\"");
 		sbxml.append(getApplication().rightAngleStyle);
 		if (asPreference) {

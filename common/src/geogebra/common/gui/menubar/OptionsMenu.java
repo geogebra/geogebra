@@ -227,9 +227,14 @@ public class OptionsMenu {
 			return;
 
 		int pos = app.getActiveEuclidianView().getPointCapturingMode();
-		menuPointCapturing.setSelected(capturingMenuOrder[pos]);
+		if (pos < menuPointCapturing.getItemCount()) { 
+			menuPointCapturing.setSelected(capturingMenuOrder[pos]); 
+		} else { 
+			App.error("PointCapturing out of range"); 
+		} 
+
 	}
-	
+
 	public void addFontSizeMenu(MenuInterface menu){
 		RadioButtonMenuBar submenu = app.getFactory().newRadioButtonMenuBar(app);
 		

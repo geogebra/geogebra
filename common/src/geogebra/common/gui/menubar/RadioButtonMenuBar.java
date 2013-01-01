@@ -6,4 +6,6 @@ public interface RadioButtonMenuBar extends MenuInterface{
 			String[] items, final String[] actionCommands, int selectedPos, boolean changeText);
 	
 	public void setSelected(int pos);
+
+	public int getItemCount();
 }
