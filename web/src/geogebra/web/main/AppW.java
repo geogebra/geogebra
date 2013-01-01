@@ -892,6 +892,12 @@ public class AppW extends App {
 				
 				updateLanguageFlags(lang);
 				
+//				if (rightToLeftReadingOrder) {
+//					RootPanel.getBodyElement().setAttribute("dir", "rtl");
+//				} else {
+//					RootPanel.getBodyElement().setAttribute("dir", "ltr");
+//				}
+				
 				// make sure digits are updated in all numbers
 				getKernel().updateConstruction();
 				setUnsaved();

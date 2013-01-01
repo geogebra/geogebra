@@ -1705,7 +1705,7 @@ public abstract class App implements Localization{
 	}
 
 	// For Hebrew and Arabic. Guy Hed, 25.8.2008
-	private boolean rightToLeftReadingOrder = false;
+	public boolean rightToLeftReadingOrder = false;
 
 	/**
 	 * @return whether current language uses RTL orientation
@@ -1759,11 +1759,6 @@ public abstract class App implements Localization{
 		rightToLeftReadingOrder = ("iw".equals(lang) || "ar".equals(lang)
 				|| "fa".equals(lang) || "ji".equals(lang));
 
-//		if (rightToLeftReadingOrder){
-//			RootPanel.getBodyElement().setAttribute("dir", "rtl");
-//		} else {
-//			RootPanel.getBodyElement().setAttribute("dir", "ltr");
-//		}
 		
 		// Another option:
 		// rightToLeftReadingOrder =

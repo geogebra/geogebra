@@ -1538,9 +1538,9 @@ body[dir=rtl] .undoPanel {
 }
 
 body[dir=rtl] .toolbarPanel div table{
-	//margin-left: auto;
+	margin-left: auto;
 }
 
 body[dir=rtl] .GeoGebraMenuBar table{
-	//margin-left: auto;
+	margin-left: auto;
 }
