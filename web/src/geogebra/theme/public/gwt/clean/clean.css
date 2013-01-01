@@ -1446,6 +1446,7 @@ body[dir=rtl] .undoPanel {
 
 .toolbar_item{
 	width: 40px;
+	text-align:center;
 }
 
 .toolbar_menuitem_label{
