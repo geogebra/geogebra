@@ -3,6 +3,7 @@ package geogebra.export;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
@@ -242,9 +243,13 @@ public class AnimationExportDialog extends JDialog {
 				num.setValue(val);
 				num.updateRepaint();
 
-				Image img = app.getEuclidianView1().getExportImage(1);
-				gifEncoder.addFrame((BufferedImage)img);
-
+				Image img = app.getActiveEuclidianView().getExportImage(1);
+				if (img == null) {
+					App.error("image null");
+				} else {
+					gifEncoder.addFrame((BufferedImage)img);
+				}
+				
 				val += step;
 				
 				if (val > max + 0.00000001 || val < min - 0.00000001) {

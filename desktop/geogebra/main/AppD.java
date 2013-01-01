@@ -2120,11 +2120,11 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public void copyGraphicsViewToClipboard() {
 
-		copyGraphicsViewToClipboard((EuclidianViewD) getGuiManager()
+		copyGraphicsViewToClipboard((EuclidianViewND) getGuiManager()
 				.getActiveEuclidianView());
 	}
 
-	public void copyGraphicsViewToClipboard(final EuclidianViewD ev) {
+	public void copyGraphicsViewToClipboard(final EuclidianViewND euclidianViewND) {
 
 		clearSelectedGeos(true, false);
 		updateSelection(false);
@@ -2134,7 +2134,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			public void run() {
 				setWaitCursor();
 
-				simpleExportToClipboard(ev);
+				simpleExportToClipboard(euclidianViewND);
 
 				/*
 				 * doesn't work in Win7, XP pasting into eg Paint pasting into
@@ -2168,7 +2168,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
-	static void simpleExportToClipboard(EuclidianViewD ev) {
+	static void simpleExportToClipboard(EuclidianViewND ev) {
 		double scale = 2d;
 		double size = ev.getExportWidth() * ev.getExportHeight();
 

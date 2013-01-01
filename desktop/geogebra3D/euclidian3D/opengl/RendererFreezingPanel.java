@@ -32,7 +32,7 @@ public class RendererFreezingPanel extends JPanel {
 	final public void paint(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawImage(renderer.getExportImage(), 0, 0, null);
+		g2.drawImage(renderer.getExportImage(false), 0, 0, null);
 		
 	}
 

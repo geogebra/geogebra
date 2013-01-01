@@ -679,8 +679,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
     /**
      * @return a BufferedImage containing last export image created
      */
-    public BufferedImage getExportImage(){
-    	    	
+    public BufferedImage getExportImage(boolean refresh){
+    	
+    	if (refresh || bi == null) {
+    	//	setExportImage();    	    
+    	}
     	return bi;
     }   
     
