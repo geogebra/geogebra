@@ -3,7 +3,9 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
+import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
@@ -172,6 +174,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	 */
 	public void display(){
 	
+		App.debug("RRR");
 		canvas.display();
 	}		
 	
@@ -379,6 +382,40 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	setExportImage();
         	needExportImage=false;
         	//notify();
+        }
+        
+        if (exportingToGIF) {
+        	App.debug("Exporting frame: "+export_i);
+        	
+        	
+        	setExportImage();
+			if (bi == null) {
+				App.error("image null");
+			} else {
+				gifEncoder.addFrame(bi);
+			}
+			
+			export_val += export_step;
+			
+			if (export_val > export_max + 0.00000001 || export_val < export_min - 0.00000001) {
+				export_val -= 2 * export_step;
+				export_step *= -1;
+			}
+			
+			
+			export_i++;
+			
+			if (export_i>=export_n) {
+				exportingToGIF = false;
+				gifEncoder.finish();
+
+				App.debug("GIF export finished");
+				
+			} else {
+				export_num.setValue(export_val);
+				export_num.updateRepaint();
+			}
+
         }
     }
 
@@ -1847,6 +1884,15 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	
     private double cavX, cavY;
     private Coords cavOrthoDirection; //direction "orthogonal" to the screen (i.e. not visible)
+	private boolean exportingToGIF = false;
+	private int export_n;
+	private double export_val;
+	private double export_min;
+	private double export_max;
+	private double export_step;
+	private AnimatedGifEncoder gifEncoder;
+	private int export_i;
+	private GeoNumeric export_num;
     
     public void updateCavValues(){
     	updateOrthoValues();
@@ -1912,6 +1958,28 @@ public class Renderer extends RendererJogl implements GLEventListener {
 
 	public void dispose(GLAutoDrawable arg0) {
 		// TODO Auto-generated method stub		
+	}
+
+
+
+	public void startAnimatedGIFExport(AnimatedGifEncoder gifEncoder,
+			GeoNumeric num, int n, double val, double min, double max,
+			double step) {
+		exportingToGIF  = true;
+		
+		num.setValue(val);
+		num.updateRepaint();
+		export_i = 0;
+
+		
+		this.export_n = n;
+		this.export_num = num;
+		this.export_val = val;
+		this.export_min = min;
+		this.export_max = max;
+		this.export_step = step;
+		this.gifEncoder = gifEncoder;
+		
 	}
 	
 }

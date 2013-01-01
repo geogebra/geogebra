@@ -22,11 +22,13 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
+import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.GlobalKeyDispatcherD;
@@ -468,5 +470,18 @@ public class App3D extends AppD {
 	public void removeEuclidianViewForPlaneFromList(EuclidianViewForPlane view){
 		euclidianViewForPlaneList.remove(view);
 	}
+	
+	@Override
+	public void exportAnimatedGIF(AnimatedGifEncoder gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
+		
+		if (!(getActiveEuclidianView() instanceof EuclidianView3D)) {
+			// regular 2D export
+			super.exportAnimatedGIF(gifEncoder, num, n, val, min, max, step);
+			return;
+		}
+		
+		getEuclidianView3D().getRenderer().startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
+	}
+
 	
 }

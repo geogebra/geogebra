@@ -43,6 +43,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
@@ -74,6 +75,7 @@ import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
@@ -5479,5 +5481,30 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		return constProtocolNavigation;
+	}
+
+	public void exportAnimatedGIF(AnimatedGifEncoder gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
+		for (int i = 0 ; i < n ; i++) {
+			num.setValue(val);
+			num.updateRepaint();
+
+			Image img = getActiveEuclidianView().getExportImage(1);
+			if (img == null) {
+				App.error("image null");
+			} else {
+				gifEncoder.addFrame((BufferedImage)img);
+			}
+
+			val += step;
+
+			if (val > max + 0.00000001 || val < min - 0.00000001) {
+				val -= 2 * step;
+				step *= -1;
+			}
+
+		}
+		
+		gifEncoder.finish();
+
 	}
 }

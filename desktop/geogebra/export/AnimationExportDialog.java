@@ -235,33 +235,15 @@ public class AnimationExportDialog extends JDialog {
 		gifEncoder.setDelay(timeBetweenFrames);   // miliseconds
 		gifEncoder.setRepeat(cbLoop.isSelected() ? 0 : 1);
 
+		// hide dialog
+		setVisible(false);
+
 		app.setWaitCursor();
 		
 		try
-		{			
-			for (int i = 0 ; i < n ; i++) {
-				num.setValue(val);
-				num.updateRepaint();
-
-				Image img = app.getActiveEuclidianView().getExportImage(1);
-				if (img == null) {
-					App.error("image null");
-				} else {
-					gifEncoder.addFrame((BufferedImage)img);
-				}
-				
-				val += step;
-				
-				if (val > max + 0.00000001 || val < min - 0.00000001) {
-					val -= 2 * step;
-					step *= -1;
-				}
-			}
-
-			gifEncoder.finish();
+		{				
+			app.exportAnimatedGIF(gifEncoder, num, n, val, min, max, step);
 			
-			// hide dialog
-			setVisible(false);
 		} catch (Exception ex)
 		{
 			app.showError("SaveFileFailed");
