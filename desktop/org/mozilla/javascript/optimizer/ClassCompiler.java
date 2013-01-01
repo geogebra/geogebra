@@ -36,7 +36,13 @@
 
 package org.mozilla.javascript.optimizer;
 
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.FunctionNode;
+import org.mozilla.javascript.JavaAdapter;
+import org.mozilla.javascript.ObjToIntMap;
+import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.ScriptOrFnNode;
+import org.mozilla.javascript.ScriptRuntime;
 
 /**
  * Generates class files from script sources.

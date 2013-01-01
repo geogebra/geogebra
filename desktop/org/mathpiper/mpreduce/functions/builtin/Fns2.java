@@ -44,17 +44,15 @@ package org.mathpiper.mpreduce.functions.builtin;
 //         hyperbolic functions
 
 import java.math.BigInteger;
+
 import org.mathpiper.mpreduce.Environment;
-
-
-
-import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.Jlisp;
+import org.mathpiper.mpreduce.LispObject;
+import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.numbers.LispBigInteger;
 import org.mathpiper.mpreduce.numbers.LispFloat;
 import org.mathpiper.mpreduce.numbers.LispInteger;
 import org.mathpiper.mpreduce.numbers.LispNumber;
-import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.numbers.LispSmallInteger;
 
 public class Fns2

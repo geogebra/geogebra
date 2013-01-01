@@ -4,7 +4,6 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.main.App;
 import geogebra3D.kernel3D.GeoLine3D;
 
 import java.util.ArrayList;

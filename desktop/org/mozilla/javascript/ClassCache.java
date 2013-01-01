@@ -39,9 +39,9 @@
 
 package org.mozilla.javascript;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Cache of generated classes and data structures to access Java runtime

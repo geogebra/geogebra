@@ -39,16 +39,15 @@ package org.mathpiper.mpreduce.symbols;
 // Class to represent Lisp symbols
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.special.SpecialFunction;
-import org.mathpiper.mpreduce.io.Fasl;
-import org.mathpiper.mpreduce.functions.lisp.Undefined;
-import org.mathpiper.mpreduce.functions.lisp.LispFunction;
-
 import org.mathpiper.mpreduce.Jlisp;
 import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
 import org.mathpiper.mpreduce.Lit;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
+import org.mathpiper.mpreduce.functions.lisp.LispFunction;
+import org.mathpiper.mpreduce.functions.lisp.Undefined;
+import org.mathpiper.mpreduce.io.Fasl;
+import org.mathpiper.mpreduce.special.SpecialFunction;
 
 public class Symbol extends LispObject
 {

@@ -16,6 +16,9 @@
 
 package com.google.zxing.datamatrix;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -31,9 +34,6 @@ import com.google.zxing.common.DecoderResult;
 import com.google.zxing.common.DetectorResult;
 import com.google.zxing.datamatrix.decoder.Decoder;
 import com.google.zxing.datamatrix.detector.Detector;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * This implementation can detect and decode Data Matrix codes in an image.

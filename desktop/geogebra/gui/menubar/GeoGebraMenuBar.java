@@ -1,7 +1,6 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.export.ScalingPrintGridable;

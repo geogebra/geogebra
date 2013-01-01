@@ -16,6 +16,9 @@
 
 package com.google.zxing.pdf417.detector;
 
+import java.util.Arrays;
+import java.util.Map;
+
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.NotFoundException;
@@ -23,9 +26,6 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.DetectorResult;
 import com.google.zxing.common.GridSampler;
-
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * <p>Encapsulates logic that can detect a PDF417 Code in an image, even if the

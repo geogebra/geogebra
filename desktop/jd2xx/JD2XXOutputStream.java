@@ -28,8 +28,8 @@
 
 package jd2xx;
 
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class JD2XXOutputStream extends OutputStream {
 

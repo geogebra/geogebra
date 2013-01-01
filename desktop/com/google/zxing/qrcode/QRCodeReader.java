@@ -16,6 +16,9 @@
 
 package com.google.zxing.qrcode;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -31,9 +34,6 @@ import com.google.zxing.common.DecoderResult;
 import com.google.zxing.common.DetectorResult;
 import com.google.zxing.qrcode.decoder.Decoder;
 import com.google.zxing.qrcode.detector.Detector;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * This implementation can detect and decode QR Codes in an image.

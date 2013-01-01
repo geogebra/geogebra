@@ -3,7 +3,6 @@ package geogebra3D.gui.view.algebra;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.algebra.AlgebraControllerD;
-import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra3D.App3D;
 

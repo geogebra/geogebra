@@ -69,37 +69,36 @@ import java.util.TimeZone;
 import java.util.Vector;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import org.mathpiper.mpreduce.symbols.Gensym;
-import org.mathpiper.mpreduce.symbols.Symbol;
-import org.mathpiper.mpreduce.special.SpecialFunction;
-import org.mathpiper.mpreduce.special.Specfn;
-import org.mathpiper.mpreduce.io.Fasl;
-import org.mathpiper.mpreduce.io.streams.WriterToLisp;
+
 import org.mathpiper.mpreduce.datatypes.Cons;
-import org.mathpiper.mpreduce.io.streams.DoubleWriter;
-import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
-import org.mathpiper.mpreduce.functions.lisp.Undefined;
-import org.mathpiper.mpreduce.exceptions.ProgEvent;
-import org.mathpiper.mpreduce.exceptions.EOFException;
-import org.mathpiper.mpreduce.io.streams.LispStringReader;
-import org.mathpiper.mpreduce.datatypes.LispString;
-import org.mathpiper.mpreduce.functions.lisp.LispFunction;
-import org.mathpiper.mpreduce.numbers.LispSmallInteger;
-import org.mathpiper.mpreduce.datatypes.LispHash;
 import org.mathpiper.mpreduce.datatypes.LispEqualHash;
-import org.mathpiper.mpreduce.exceptions.LispException;
+import org.mathpiper.mpreduce.datatypes.LispHash;
+import org.mathpiper.mpreduce.datatypes.LispString;
 import org.mathpiper.mpreduce.datatypes.LispVector;
-import org.mathpiper.mpreduce.io.streams.LispStream;
-import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.exceptions.EOFException;
+import org.mathpiper.mpreduce.exceptions.LispException;
+import org.mathpiper.mpreduce.exceptions.ProgEvent;
+import org.mathpiper.mpreduce.exceptions.ResourceException;
+import org.mathpiper.mpreduce.functions.builtin.Fns;
+import org.mathpiper.mpreduce.functions.functionwithenvironment.Bytecode;
+import org.mathpiper.mpreduce.functions.lisp.LispFunction;
+import org.mathpiper.mpreduce.functions.lisp.Undefined;
+import org.mathpiper.mpreduce.io.Fasl;
+import org.mathpiper.mpreduce.io.streams.DoubleWriter;
 import org.mathpiper.mpreduce.io.streams.LispOutputStream;
+import org.mathpiper.mpreduce.io.streams.LispStream;
+import org.mathpiper.mpreduce.io.streams.LispStringReader;
+import org.mathpiper.mpreduce.io.streams.WriterToLisp;
+import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.numbers.LispSmallInteger;
 import org.mathpiper.mpreduce.packagedatastore.PDS;
 import org.mathpiper.mpreduce.packagedatastore.PDSInputStream;
 import org.mathpiper.mpreduce.packagedatastore.PDSOutputStream;
-import org.mathpiper.mpreduce.functions.builtin.Fns;
+import org.mathpiper.mpreduce.special.Specfn;
+import org.mathpiper.mpreduce.special.SpecialFunction;
+import org.mathpiper.mpreduce.symbols.Gensym;
+import org.mathpiper.mpreduce.symbols.Symbol;
 //import org.mathpiper.mpreduce.javacompiler.Fns4;
-
-
-import org.mathpiper.mpreduce.exceptions.ResourceException;
 
 public class Jlisp extends Environment
 {

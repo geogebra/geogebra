@@ -3,9 +3,9 @@ package org.mathpiper.mpreduce.functions.functionwithenvironment;
 //
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.datatypes.Cons;
-import org.mathpiper.mpreduce.Spid;
 import org.mathpiper.mpreduce.LispObject;
+import org.mathpiper.mpreduce.Spid;
+import org.mathpiper.mpreduce.datatypes.Cons;
 
 // This file is part of the Jlisp implementation of Standard Lisp
 // Copyright \u00a9 (C) Codemist Ltd, 1998-2000.

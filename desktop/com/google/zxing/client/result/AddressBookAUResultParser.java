@@ -16,10 +16,10 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.zxing.Result;
 
 /**
  * Implements KDDI AU's address book format. See

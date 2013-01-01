@@ -1,7 +1,6 @@
 package geogebra.gui.layout;
 
 import geogebra.common.euclidian.EuclidianStyleBar;
-import geogebra.common.euclidian.GetViewId;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
@@ -13,6 +12,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.main.AppD;
+
 import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Toolkit;

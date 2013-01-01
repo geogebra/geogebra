@@ -6,7 +6,6 @@ import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Transform;
-import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -37,9 +36,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
-import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 
 /**
  * Class that for manage all 3D methods in AbstractKernel.

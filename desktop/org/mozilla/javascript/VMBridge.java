@@ -39,8 +39,8 @@
 
 package org.mozilla.javascript;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 public abstract class VMBridge

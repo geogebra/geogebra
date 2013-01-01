@@ -16,13 +16,14 @@
 
 package com.google.zxing.client.j2se;
 
-import com.google.zxing.common.BitMatrix;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.awt.image.BufferedImage;
+
+import com.google.zxing.common.BitMatrix;
 
 /**
  * Writes a {@link BitMatrix} to {@link BufferedImage},

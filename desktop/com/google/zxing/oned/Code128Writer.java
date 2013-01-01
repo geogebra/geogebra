@@ -16,14 +16,14 @@
 
 package com.google.zxing.oned;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * This object renders a CODE128 code as a {@link BitMatrix}.

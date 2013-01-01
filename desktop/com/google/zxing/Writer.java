@@ -16,9 +16,9 @@
 
 package com.google.zxing;
 
-import com.google.zxing.common.BitMatrix;
-
 import java.util.Map;
+
+import com.google.zxing.common.BitMatrix;
 
 /**
  * The base class for all objects which encode/generate a barcode image.

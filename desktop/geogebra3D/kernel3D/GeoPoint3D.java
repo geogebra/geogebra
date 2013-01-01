@@ -20,7 +20,6 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -58,7 +57,6 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 
 import java.util.ArrayList;

@@ -37,12 +37,12 @@ package org.mathpiper.mpreduce.io.streams;
 
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.numbers.LispInteger;
-import org.mathpiper.mpreduce.datatypes.Cons;
-import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
+import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
+import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.symbols.Symbol;
 
 public class LispExploder extends LispStream
 {

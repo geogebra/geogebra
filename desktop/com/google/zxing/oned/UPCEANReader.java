@@ -16,6 +16,9 @@
 
 package com.google.zxing.oned;
 
+import java.util.Arrays;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.DecodeHintType;
@@ -27,9 +30,6 @@ import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
 import com.google.zxing.common.BitArray;
-
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * <p>Encapsulates functionality and implementation that is common to UPC and EAN families

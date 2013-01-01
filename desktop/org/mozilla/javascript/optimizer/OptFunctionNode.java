@@ -39,7 +39,11 @@
 
 package org.mozilla.javascript.optimizer;
 
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.FunctionNode;
+import org.mozilla.javascript.Kit;
+import org.mozilla.javascript.Node;
+import org.mozilla.javascript.ScriptOrFnNode;
+import org.mozilla.javascript.Token;
 
 final class OptFunctionNode
 {

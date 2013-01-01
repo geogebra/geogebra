@@ -16,10 +16,10 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.zxing.Result;
 
 /**
  * Implements the "BIZCARD" address book entry format, though this has been

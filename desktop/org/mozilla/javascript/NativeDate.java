@@ -42,8 +42,8 @@
 
 package org.mozilla.javascript;
 
-import java.util.Date;
 import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * This class implements the Date native object.

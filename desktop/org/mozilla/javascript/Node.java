@@ -41,10 +41,10 @@
 
 package org.mozilla.javascript;
 
-import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.Iterator;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This class implements the root of the intermediate representation.

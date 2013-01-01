@@ -13,6 +13,7 @@ import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
+
 import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.datatypes.LispEqualHash;
 import org.mathpiper.mpreduce.datatypes.LispHash;

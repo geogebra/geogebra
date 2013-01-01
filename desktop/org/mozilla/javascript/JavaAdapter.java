@@ -46,12 +46,21 @@
 package org.mozilla.javascript;
 
 
-import java.lang.reflect.*;
-import java.io.*;
-import java.security.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
 
-import org.mozilla.classfile.*;
+import org.mozilla.classfile.ByteCode;
+import org.mozilla.classfile.ClassFileWriter;
 
 public final class JavaAdapter implements IdFunctionCall
 {

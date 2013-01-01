@@ -16,13 +16,10 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
-import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
-import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.

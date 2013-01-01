@@ -1,6 +1,5 @@
 package geogebra3D.settings;
 
-import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 
 /**

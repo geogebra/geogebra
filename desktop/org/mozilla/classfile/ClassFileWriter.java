@@ -39,7 +39,8 @@
 package org.mozilla.classfile;
 
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import org.mozilla.javascript.ObjArray;
 import org.mozilla.javascript.ObjToIntMap;

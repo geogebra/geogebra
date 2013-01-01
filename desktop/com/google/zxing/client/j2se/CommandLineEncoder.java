@@ -16,12 +16,12 @@
 
 package com.google.zxing.client.j2se;
 
+import java.io.File;
+import java.util.Locale;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
-
-import java.io.File;
-import java.util.Locale;
 
 /**
  * Command line utility for encoding barcodes.

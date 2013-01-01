@@ -16,10 +16,10 @@
 
 package com.google.zxing.pdf417.decoder;
 
+import java.math.BigInteger;
+
 import com.google.zxing.FormatException;
 import com.google.zxing.common.DecoderResult;
-
-import java.math.BigInteger;
 
 /**
  * <p>This class contains the methods for decoding the PDF417 codewords.</p>

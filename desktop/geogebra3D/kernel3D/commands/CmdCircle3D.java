@@ -9,7 +9,6 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra3D.kernel3D.Kernel3D;
 
 public class CmdCircle3D extends CmdCircle {
 	

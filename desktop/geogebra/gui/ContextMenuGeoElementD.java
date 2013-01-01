@@ -13,7 +13,6 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -30,9 +29,6 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
-import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.layout.DockPanel;
-import geogebra.gui.layout.LayoutD;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 

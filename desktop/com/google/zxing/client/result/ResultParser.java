@@ -16,8 +16,6 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -25,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import com.google.zxing.Result;
 
 /**
  * <p>Abstract class representing the result of decoding a barcode, as more than

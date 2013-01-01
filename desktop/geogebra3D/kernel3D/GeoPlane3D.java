@@ -15,7 +15,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;

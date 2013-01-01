@@ -16,6 +16,8 @@
 
 package com.google.zxing.multi;
 
+import java.util.Map;
+
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.DecodeHintType;
@@ -23,8 +25,6 @@ import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
-
-import java.util.Map;
 
 /**
  * This class attempts to decode a barcode from an image, not by scanning the whole image,

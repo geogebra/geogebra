@@ -1,6 +1,5 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianStaticD;
 

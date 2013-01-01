@@ -26,9 +26,9 @@
 
 package com.google.zxing.oned.rss.expanded;
 
-import com.google.zxing.common.BitArray;
-
 import java.util.List;
+
+import com.google.zxing.common.BitArray;
 
 /**
  * @author Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)

@@ -20,10 +20,10 @@
 
 package com.google.zxing.pdf417.encoder;
 
-import com.google.zxing.WriterException;
-
 import java.math.BigInteger;
 import java.util.Arrays;
+
+import com.google.zxing.WriterException;
 
 /**
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in

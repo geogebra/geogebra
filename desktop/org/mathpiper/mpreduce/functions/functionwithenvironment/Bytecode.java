@@ -3,17 +3,17 @@ package org.mathpiper.mpreduce.functions.functionwithenvironment;
 //
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.Jlisp;
-import org.mathpiper.mpreduce.Spid;
-import org.mathpiper.mpreduce.symbols.Symbol;
-import org.mathpiper.mpreduce.datatypes.LispVector;
-import org.mathpiper.mpreduce.numbers.LispInteger;
-import org.mathpiper.mpreduce.functions.lisp.LispFunction;
-import org.mathpiper.mpreduce.numbers.LispNumber;
 import org.mathpiper.mpreduce.LispObject;
+import org.mathpiper.mpreduce.Spid;
+import org.mathpiper.mpreduce.datatypes.Cons;
+import org.mathpiper.mpreduce.datatypes.LispVector;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
 import org.mathpiper.mpreduce.functions.builtin.Fns;
+import org.mathpiper.mpreduce.functions.lisp.LispFunction;
+import org.mathpiper.mpreduce.numbers.LispInteger;
+import org.mathpiper.mpreduce.numbers.LispNumber;
+import org.mathpiper.mpreduce.symbols.Symbol;
 
 // This file is part of the Jlisp implementation of Standard Lisp
 // Copyright \u00a9 (C) Codemist Ltd, 1998-2000.

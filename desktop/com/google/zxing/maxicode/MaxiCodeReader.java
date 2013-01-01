@@ -16,6 +16,8 @@
 
 package com.google.zxing.maxicode;
 
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -29,8 +31,6 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.DecoderResult;
 import com.google.zxing.maxicode.decoder.Decoder;
-
-import java.util.Map;
 
 /**
  * This implementation can detect and decode a MaxiCode in an image.

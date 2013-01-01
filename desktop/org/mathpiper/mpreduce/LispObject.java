@@ -43,11 +43,12 @@ package org.mathpiper.mpreduce;
 
 
 import java.math.BigInteger;
+
 import org.mathpiper.mpreduce.exceptions.ResourceException;
 import org.mathpiper.mpreduce.io.streams.LispOutputString;
+import org.mathpiper.mpreduce.io.streams.LispStream;
 import org.mathpiper.mpreduce.numbers.LispBigInteger;
 import org.mathpiper.mpreduce.numbers.LispSmallInteger;
-import org.mathpiper.mpreduce.io.streams.LispStream;
 
 public abstract class LispObject extends Object
 {

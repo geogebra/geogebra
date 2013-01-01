@@ -5,16 +5,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOrthogonalLine;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.App;
 import geogebra.common.main.MyError;
-import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.kernel3D.GeoSpace;
 

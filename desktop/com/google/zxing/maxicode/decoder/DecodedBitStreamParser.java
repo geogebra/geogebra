@@ -16,9 +16,10 @@
 
 package com.google.zxing.maxicode.decoder;
 
-import com.google.zxing.common.DecoderResult;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+
+import com.google.zxing.common.DecoderResult;
 
 /**
  * <p>MaxiCodes can encode text or structured information as bits in one of several modes,

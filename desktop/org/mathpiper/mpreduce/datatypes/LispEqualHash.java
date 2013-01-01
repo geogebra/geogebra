@@ -38,6 +38,7 @@ package org.mathpiper.mpreduce.datatypes;
 
 
 import java.util.HashMap;
+
 import org.mathpiper.mpreduce.LispEqualObject;
 
 public class LispEqualHash extends HashMap

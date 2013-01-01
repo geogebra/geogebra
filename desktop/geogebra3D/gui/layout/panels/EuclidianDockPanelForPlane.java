@@ -10,7 +10,6 @@ import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.io.layout.DockPanelDataForPlane;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 /**
  * Dock panel for the primary euclidian view.

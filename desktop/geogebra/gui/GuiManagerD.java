@@ -59,7 +59,6 @@ import geogebra.gui.view.CompressedAlgebraView;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.assignment.AssignmentView;
-import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.gui.view.data.DataAnalysisViewD;
 import geogebra.gui.view.data.PlotPanelEuclidianView;

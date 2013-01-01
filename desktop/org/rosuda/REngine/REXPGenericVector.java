@@ -1,6 +1,6 @@
 package org.rosuda.REngine;
-import java.util.Vector;
 import java.util.HashMap;
+import java.util.Vector;
 
 /** REXPGenericVector represents a generic vector in R. Its elements can be typically of any {@link REXP} type. */
 public class REXPGenericVector extends REXPVector {

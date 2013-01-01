@@ -16,9 +16,9 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.List;
+
+import com.google.zxing.Result;
 
 /**
  * Partially implements the iCalendar format's "VEVENT" format for specifying a

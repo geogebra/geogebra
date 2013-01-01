@@ -4,17 +4,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
-import geogebra.gui.util.PopupMenuButton;
-import geogebra.main.AppD;
-import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
 
 
 

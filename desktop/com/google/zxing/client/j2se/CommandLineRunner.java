@@ -16,9 +16,6 @@
 
 package com.google.zxing.client.j2se;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.DecodeHintType;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +24,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.DecodeHintType;
 
 /**
  * This simple command line utility decodes files, directories of files, or URIs which are passed

@@ -16,10 +16,10 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.zxing.Result;
 
 /**
  * Tries to parse results that are a URI of some kind.

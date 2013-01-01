@@ -6,11 +6,10 @@ package org.mathpiper.mpreduce.functions.functionwithenvironment;
 //
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.functions.lisp.LispFunction;
-import org.mathpiper.mpreduce.LispObject;
-
 import org.mathpiper.mpreduce.Jlisp;
+import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
+import org.mathpiper.mpreduce.functions.lisp.LispFunction;
 
 /**************************************************************************
  * Copyright (C) 1998-2011, Codemist Ltd.                A C Norman       *

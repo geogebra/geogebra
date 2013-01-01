@@ -16,12 +16,12 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import com.google.zxing.Result;
 
 /**
  * <p>Parses an "sms:" URI result, which specifies a number to SMS.

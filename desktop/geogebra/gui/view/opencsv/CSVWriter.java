@@ -16,7 +16,11 @@ package geogebra.gui.view.opencsv;
  limitations under the License.
  */
 
-import java.io.*;
+import java.io.Closeable;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;

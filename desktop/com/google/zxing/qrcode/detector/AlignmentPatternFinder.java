@@ -16,12 +16,12 @@
 
 package com.google.zxing.qrcode.detector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.zxing.NotFoundException;
 import com.google.zxing.ResultPointCallback;
 import com.google.zxing.common.BitMatrix;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>This class attempts to find alignment patterns in a QR Code. Alignment patterns look like finder

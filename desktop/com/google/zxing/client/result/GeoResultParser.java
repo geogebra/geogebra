@@ -16,10 +16,10 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.zxing.Result;
 
 /**
  * Parses a "geo:" URI result, which specifies a location on the surface of

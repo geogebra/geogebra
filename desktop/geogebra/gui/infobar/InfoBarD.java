@@ -1,9 +1,9 @@
 package geogebra.gui.infobar;
 
-import javax.swing.JFrame;
-
 import geogebra.common.main.App;
 import geogebra.main.AppD;
+
+import javax.swing.JFrame;
 
 /**
  * Put a global announcement on the display. 

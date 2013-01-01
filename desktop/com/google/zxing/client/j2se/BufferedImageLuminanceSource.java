@@ -16,11 +16,11 @@
 
 package com.google.zxing.client.j2se;
 
-import com.google.zxing.LuminanceSource;
-
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import com.google.zxing.LuminanceSource;
 
 /**
  * This LuminanceSource implementation is meant for J2SE clients and our blackbox unit tests.

@@ -16,9 +16,9 @@
 
 package com.google.zxing.client.j2se;
 
-import com.google.zxing.DecodeHintType;
-
 import java.util.Map;
+
+import com.google.zxing.DecodeHintType;
 
 final class Config {
 

@@ -38,7 +38,10 @@
 
 package org.mozilla.javascript;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
 Base class for native object implementation that uses IdFunctionObject to export its methods to script via <class-name>.prototype object.

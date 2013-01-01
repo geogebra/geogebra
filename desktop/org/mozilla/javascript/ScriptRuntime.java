@@ -50,7 +50,7 @@
 package org.mozilla.javascript;
 
 import java.io.Serializable;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;

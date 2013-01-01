@@ -2,7 +2,6 @@ package geogebra.gui.menubar;
 
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
-import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;

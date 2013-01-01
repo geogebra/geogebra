@@ -6,11 +6,10 @@ package org.mathpiper.mpreduce.symbols;
 //
 
 import org.mathpiper.mpreduce.Environment;
-import org.mathpiper.mpreduce.functions.lisp.Undefined;
-
 import org.mathpiper.mpreduce.Jlisp;
 import org.mathpiper.mpreduce.LispReader;
 import org.mathpiper.mpreduce.Lit;
+import org.mathpiper.mpreduce.functions.lisp.Undefined;
 
 /**************************************************************************
  * Copyright (C) 1998-2011, Codemist Ltd.                A C Norman       *

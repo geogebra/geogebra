@@ -3,7 +3,13 @@ package org.rosuda.REngine;
 // REngine library - Java client interface to R
 // Copyright (C) 2004,2007,2008 Simon Urbanek
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 /** implementation of R-lists<br>
     All lists (dotted-pair lists, language lists, expressions and vectors) are regarded as named generic vectors. 

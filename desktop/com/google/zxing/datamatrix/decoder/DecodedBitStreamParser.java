@@ -16,14 +16,14 @@
 
 package com.google.zxing.datamatrix.decoder;
 
-import com.google.zxing.FormatException;
-import com.google.zxing.common.BitSource;
-import com.google.zxing.common.DecoderResult;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import com.google.zxing.FormatException;
+import com.google.zxing.common.BitSource;
+import com.google.zxing.common.DecoderResult;
 
 /**
  * <p>Data Matrix Codes can encode text as bits in one of several modes, and can use multiple modes

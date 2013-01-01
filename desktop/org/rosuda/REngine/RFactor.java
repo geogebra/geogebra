@@ -4,7 +4,7 @@ package org.rosuda.REngine;
 // Copyright (C) 2007 Simon Urbanek
 // --- for licensing information see LICENSE file in the original distribution ---
 
-import java.util.*;
+import java.util.Vector;
 
 /** representation of a factor variable. In R there is no actual object
     type called "factor", instead it is coded as an int vector with a list

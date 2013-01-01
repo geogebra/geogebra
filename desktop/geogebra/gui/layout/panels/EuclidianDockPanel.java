@@ -3,7 +3,6 @@ package geogebra.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 

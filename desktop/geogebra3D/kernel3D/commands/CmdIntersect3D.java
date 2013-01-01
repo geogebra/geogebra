@@ -17,7 +17,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
 import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoPolyhedron;
 import geogebra3D.kernel3D.GeoQuadric3D;
 
 

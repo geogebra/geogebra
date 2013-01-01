@@ -16,15 +16,15 @@
 
 package com.google.zxing.oned;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.common.BitArray;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 final class UPCEANExtensionSupport {
 

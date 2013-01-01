@@ -41,7 +41,9 @@
 
 package org.mozilla.javascript;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * This class reflects Java methods into the JavaScript environment and

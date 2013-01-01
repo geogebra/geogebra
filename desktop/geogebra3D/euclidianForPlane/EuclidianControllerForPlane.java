@@ -1,16 +1,12 @@
 package geogebra3D.euclidianForPlane;
 
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 

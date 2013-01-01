@@ -16,6 +16,9 @@
 
 package com.google.zxing.aztec;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -27,12 +30,9 @@ import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
-import com.google.zxing.common.DecoderResult;
 import com.google.zxing.aztec.decoder.Decoder;
 import com.google.zxing.aztec.detector.Detector;
-
-import java.util.List;
-import java.util.Map;
+import com.google.zxing.common.DecoderResult;
 
 /**
  * This implementation can detect and decode Aztec codes in an image.

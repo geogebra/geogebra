@@ -343,6 +343,7 @@ import java.io.CharArrayWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JApplet;
 import javax.swing.JFileChooser;
@@ -354,6 +355,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
+
 import org.mathpiper.mpreduce.Jlisp;
 
 public class CWin extends JApplet

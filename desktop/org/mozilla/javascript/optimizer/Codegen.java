@@ -45,11 +45,33 @@ package org.mozilla.javascript.optimizer;
 
 
 
-import java.util.*;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.mozilla.classfile.*;
-import org.mozilla.javascript.*;
+import org.mozilla.classfile.ByteCode;
+import org.mozilla.classfile.ClassFileWriter;
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Evaluator;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.FunctionNode;
+import org.mozilla.javascript.GeneratedClassLoader;
+import org.mozilla.javascript.Kit;
+import org.mozilla.javascript.NativeFunction;
+import org.mozilla.javascript.NativeGenerator;
+import org.mozilla.javascript.Node;
+import org.mozilla.javascript.ObjArray;
+import org.mozilla.javascript.ObjToIntMap;
+import org.mozilla.javascript.RhinoException;
+import org.mozilla.javascript.Script;
+import org.mozilla.javascript.ScriptOrFnNode;
+import org.mozilla.javascript.ScriptRuntime;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.SecurityController;
+import org.mozilla.javascript.Token;
 
 /**
  * This class generates code for a given IR tree.

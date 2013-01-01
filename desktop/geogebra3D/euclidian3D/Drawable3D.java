@@ -3,7 +3,6 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;

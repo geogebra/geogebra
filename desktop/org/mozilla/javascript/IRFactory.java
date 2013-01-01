@@ -43,8 +43,8 @@
 
 package org.mozilla.javascript;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class allows the creation of nodes, and follows the Factory pattern.

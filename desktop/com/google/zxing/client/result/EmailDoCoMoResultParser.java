@@ -16,9 +16,9 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Result;
-
 import java.util.regex.Pattern;
+
+import com.google.zxing.Result;
 
 /**
  * Implements the "MATMSG" email message entry format.
