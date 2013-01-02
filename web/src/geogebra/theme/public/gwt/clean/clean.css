@@ -1441,7 +1441,6 @@ body[dir=rtl] .undoPanel {
 .red_triangle{
 	position: relative;
 	top: -4px;
-	left: -4px;
 }
 
 .toolbar_item{
@@ -1449,9 +1448,13 @@ body[dir=rtl] .undoPanel {
 	text-align:center;
 }
 
+.toolbar_menuitem img{
+	vertical-align: middle;
+}
+
 .toolbar_menuitem_label{
 	position: relative;
-	top: -7px;
+	vertical-align: middle;
 	margin-left: 5px;
 	margin-right: 5px;
 }

@@ -191,7 +191,12 @@ public class ToolBar extends MenuBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
-						String item_text = GGWToolBar.getImageHtml(addMode)+ "<span class=\"toolbar_menuitem_label\">" + app.getToolName(addMode) + "</span>";
+						//String item_text = GGWToolBar.getImageHtml(addMode)+ "<span class=\"toolbar_menuitem_label\">" + app.getToolName(addMode) + "</span>";
+						String item_text = "<table><tr><td>"
+						        + GGWToolBar.getImageHtml(addMode)
+						        + "</td><td><span class=\"toolbar_menuitem_label\">"
+						        + app.getToolName(addMode)
+						        + "</span></td></tr></table>";
 						final MenuItem item = new MenuItem(item_text, true, com);
 						com = new Command(){
 							public void execute() {
@@ -199,6 +204,7 @@ public class ToolBar extends MenuBar {
                             }
 						};
 						item.setCommand(com);
+						item.addStyleName("toolbar_menuitem");
 						item.getElement().setAttribute("mode", addMode+"");
 						//item.setStyleName("toolbar_menuitem");
 						tm.addItem(item);
