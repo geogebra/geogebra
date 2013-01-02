@@ -191,7 +191,6 @@ public class ToolBar extends MenuBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
-						//String item_text = GGWToolBar.getImageHtml(addMode)+ "<span class=\"toolbar_menuitem_label\">" + app.getToolName(addMode) + "</span>";
 						String item_text = "<table><tr><td>"
 						        + GGWToolBar.getImageHtml(addMode)
 						        + "</td><td><span class=\"toolbar_menuitem_label\">"

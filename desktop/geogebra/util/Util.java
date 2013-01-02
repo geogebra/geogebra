@@ -48,7 +48,7 @@ import javax.swing.KeyStroke;
  * @author  Markus Hohenwarter
  * @version 
  */
-public class Util extends Object {
+public class Util extends geogebra.common.util.Util {
 
     /** Creates new Util */
     public Util() {
@@ -249,43 +249,7 @@ public class Util extends Object {
 		}
 		
 		return sb.toString();
-	}       
-    /**
-     * Removes < > " * / ? | \ and replaces them with underscore (_)
-	 * Michael Borcherds 2007-11-23
-     */
-    public static String processFilename(String name) {
-		int length = name != null ? name.length() : 0;
-    	
-    	StringBuilder sb = new StringBuilder();
-		for (int i=0; i < length ; i++) {
-			char c = name.charAt(i);
-			if     (c == '<' ||
-					c == '>' ||
-					c == '"' ||
-					c == ':' ||
-					c == '*' ||
-					c == '/' ||
-					c == '\\' ||
-					c == '?' ||
-					c == '\u00a3' || // seems to turn into '�' inside zips
-					c == '|' )
-			{
-				sb.append("_");
-			}
-			else
-			{
-				sb.append(c);
-			}
-		}
-		
-		if (sb.length() == 0) {
-			sb.append("geogebra");
-		}
-		
-		return sb.toString();
-	}       
-    
+	}           
     
 	private static Comparator<File> comparator;
 	

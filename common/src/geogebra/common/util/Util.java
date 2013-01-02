@@ -18,7 +18,7 @@ public class Util extends Object {
      * Removes < > " * / ? | \ and replaces them with underscore (_)
 	 * Michael Borcherds 2007-11-23
      */
-    public static String processFilename(String name) {//TODO: remove this from Desktop
+    public static String processFilename(String name) {
 		int length = name != null ? name.length() : 0;
     	
     	StringBuilder sb = new StringBuilder();

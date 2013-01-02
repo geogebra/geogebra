@@ -3,7 +3,6 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.GgbAPI;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -71,7 +70,6 @@ public class FileMenuW extends MenuBar {
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Download") ),true,new Command() {
 			
 			public void execute() {
-				//((GgbAPI) app.getGgbApi()).getGGB(true);
 				((GuiManagerW)(app.getGuiManager())).downloadGGB();
 			}
 		});
