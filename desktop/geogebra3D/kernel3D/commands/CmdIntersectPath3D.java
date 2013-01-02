@@ -9,7 +9,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
+import geogebra3D.kernel3D.GeoQuadric3D;
 
 public class CmdIntersectPath3D extends CmdIntersectPath {
 	
@@ -79,6 +82,26 @@ public  GeoElement[] process(Command c) throws MyError {
     		return ret;
 
     	}
+    	
+    	
+    	//intersection plane/quadric
+		if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
+			GeoElement[] ret =
+			{
+					kernelA.getManager3D().Intersect(
+							c.getLabel(),
+							(GeoPlaneND) arg[0],
+							(GeoQuadric3D) arg[1])};
+			return ret;
+		}else if ((arg[0] instanceof GeoQuadricND) && (arg[1] instanceof GeoPlaneND)){
+			GeoElement[] ret =
+			{
+					kernelA.getManager3D().Intersect(
+							c.getLabel(),
+							(GeoPlaneND) arg[1],
+							(GeoQuadric3D) arg[0])};
+			return ret;
+		}
 		
 		return super.process(c);
 
