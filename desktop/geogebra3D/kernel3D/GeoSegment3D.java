@@ -186,6 +186,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public void setTwoPointsCoords(Coords start, Coords end) {
 		this.setCoord(start, end.sub(start));
 	}
+	
+
 
 	@Override
 	public boolean isOnPath(Coords p, double eps) {
@@ -442,5 +444,15 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	
 	public boolean respectLimitedPath(double parameter){
 		return Kernel.isGreaterEqual(parameter, 0) && Kernel.isGreaterEqual(1, parameter);
+	}
+
+	/**
+	 * set start and end points
+	 * @param start start point
+	 * @param end end point
+	 */
+	public void setPoints(GeoPoint3D start, GeoPoint3D end) {
+		startPoint = start;
+		endPoint = end;		
 	}
 }

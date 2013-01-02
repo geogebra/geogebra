@@ -101,7 +101,7 @@ public  GeoElement[] process(Command c) throws MyError {
         					(GeoPolygon) arg[0]);
         		
         		
-        		//intersection plane/polyhedron
+        		//intersection plane/polyhedron      
         		/*
         		else if (
         				(arg[0] instanceof GeoPlane3D)

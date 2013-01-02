@@ -22,6 +22,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 	 * @param end end point
 	 */
 	void setTwoPointsCoords(Coords start, Coords end);
+	
 
 	/** @return length of the segment */
 	double getLength();

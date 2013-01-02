@@ -746,6 +746,20 @@ public class Manager3D implements Manager3DInterface {
 		return null;
 
 	}
+	
+	public GeoElement[] IntersectPath(String[] labels, GeoLineND g,
+			GeoSurfaceFinite p) {
+
+		AlgoIntersectPathLinePolygon3D algo;
+		if (p instanceof GeoPolygon) {
+			algo = new AlgoIntersectPathLinePolygon3D(cons, labels, g,
+					(GeoPolygon) p);
+			// Application.debug(algo);
+			return algo.getOutput();
+		}
+		return null;
+
+	}
 
 	public GeoElement[] IntersectionSegment(String[] labels, GeoPlaneND plane,
 			GeoSurfaceFinite s) {

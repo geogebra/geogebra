@@ -368,6 +368,7 @@ public class CommandDispatcher {
 				// advanced
 				
 				
+			case IntersectPath:
 			case IntersectRegion:
 			case Direction:
 

@@ -99,6 +99,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case Intersect:
 				return new CmdIntersect3D(kernel);
+								
+			case IntersectPath:
+				return new CmdIntersectPath3D(kernel);				
+				
 			case Intersection:
 				return new CmdIntersect3D(kernel);
 				// case IntersectionPaths: return new
