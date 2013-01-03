@@ -11,29 +11,25 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
-//import geogebra.web.gui.inputfield.MyTextField;
-//import geogebra.web.gui.view.Gridable;
 import geogebra.web.main.AppW;
-import geogebra.web.main.TimerSystemW;
-import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ScrollPanel;
+//import geogebra.web.gui.inputfield.MyTextField;
+//import geogebra.web.gui.view.Gridable;
 
 public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInterface, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener, RequiresResize {
@@ -1401,8 +1397,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		if (!isShowing())
 			return;
 
-		doRepaint();//temporary check
-		//app.getGuiManager().getTimerSystem().viewRepaint(this);//temporary check
+		app.getGuiManager().getTimerSystem().viewRepaint(this);
 	}
 
 	/**
@@ -1411,9 +1406,9 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 	 * Otherwise just call repaint().
 	 */
 	public void doRepaint() {
-		//app.getGuiManager().getTimerSystem().viewRepainting(this);//temporary check
+		app.getGuiManager().getTimerSystem().viewRepainting(this);
 		table.repaint();
-		//app.getGuiManager().getTimerSystem().viewRepainted(this);//temporary check
+		app.getGuiManager().getTimerSystem().viewRepainted(this);
 	}
 
 	/**

@@ -21,22 +21,19 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.settings.AbstractSettings; 
+import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.AppW;
-import geogebra.web.main.TimerSystemW;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -1407,8 +1404,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		if (!isShowing())
 			return;
 
-		doRepaint();//temporary check
-		//app.getGuiManager().getTimerSystem().viewRepaint(this);//temporary check
+		app.getGuiManager().getTimerSystem().viewRepaint(this);
     }
 
 	public boolean isShowing() {
@@ -1421,7 +1417,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	 */
 	public void doRepaint() {
 
-		//app.getGuiManager().getTimerSystem().viewRepainting(this);//temporary check
+		app.getGuiManager().getTimerSystem().viewRepainting(this);
 
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
@@ -1443,7 +1439,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			}
 		}
 
-		//app.getGuiManager().getTimerSystem().viewRepainted(this);//temporary check
+		app.getGuiManager().getTimerSystem().viewRepainted(this);
 	}
 
 	/**

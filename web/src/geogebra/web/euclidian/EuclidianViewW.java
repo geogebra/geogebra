@@ -19,12 +19,10 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
-import geogebra.web.main.TimerSystemW;
 
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -50,7 +48,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.Timer;
 
 public class EuclidianViewW extends EuclidianView {
 	
@@ -345,8 +342,7 @@ public class EuclidianViewW extends EuclidianView {
     	//if (!isShowing())
     	//	return;
 
-    	doRepaint2();//temporary check
-    	//app.getGuiManager().getTimerSystem().viewRepaint(this);//temporary check
+    	app.getGuiManager().getTimerSystem().viewRepaint(this);
     }
 
     public void doRepaint() {
@@ -359,12 +355,12 @@ public class EuclidianViewW extends EuclidianView {
      */
     public void doRepaint2() {
 
-    	//app.getGuiManager().getTimerSystem().viewRepainting(this);//temporary check
+    	app.getGuiManager().getTimerSystem().viewRepainting(this);
 
     	geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     	paint(g2p);
 
-    	//app.getGuiManager().getTimerSystem().viewRepainted(this);//temporary check
+    	app.getGuiManager().getTimerSystem().viewRepainted(this);
     }
 
 	@Override
