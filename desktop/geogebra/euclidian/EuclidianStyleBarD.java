@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -1386,9 +1387,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 			}
 		} else if (source == btnBold) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 1);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, btnBold.isSelected() ? GFont.BOLD : GFont.PLAIN);
 		} else if (source == btnItalic) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 2);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, btnItalic.isSelected() ? GFont.ITALIC : GFont.PLAIN);
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 		} else if (source == btnLabelStyle) {
