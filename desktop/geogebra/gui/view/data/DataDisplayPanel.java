@@ -72,7 +72,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private int mode;
 	
 	@SuppressWarnings("javadoc")
-	public enum PlotType { HISTOGRAM("Histogram"), BOXPLOT("BoxPlot"), DOTPLOT("DotPlot"), NORMALQUANTILE("NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART("BarChart"), SCATTERPLOT("ScatterPlot"), RESIDUAL("ResidualPlot"), MULTIBOXPLOT("StackedBoxPlots");
+	public enum PlotType { HISTOGRAM("Histogram"), BOXPLOT("Boxplot"), DOTPLOT("DotPlot"), NORMALQUANTILE("NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART("BarChart"), SCATTERPLOT("ScatterPlot"), RESIDUAL("ResidualPlot"), MULTIBOXPLOT("StackedBoxPlots");
 	
 	/**
 	 * the associated key from menu.properties
