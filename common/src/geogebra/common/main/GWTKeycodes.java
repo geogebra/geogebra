@@ -16,8 +16,11 @@ public interface GWTKeycodes {
 	 * {@link com.google.gwt.user.client.ui.KeyboardListener}.
 	 * 
 	 * @author gabor
-	 * Because the original KeyCodes class has a private constructor, cant be extended,
+	 * Because the original KeyCodes class has a private constructor, can't be extended,
 	 * so I must create an own one.
+	 * 
+	 * Useful reference:
+	 * http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
 	 */
 
 	/**
@@ -213,6 +216,12 @@ public interface GWTKeycodes {
 	public static final int KEY_CLEAR = 12;
 
 	public static final int KEY_UNDEFINED = 0;
+
+	// on numeric keypad
+	public static final int KEY_DECIMAL_POINT = 110;
+	
+	// on numeric keypad in eg Germany
+	public static final int KEY_DECIMAL_COMMA = 108;
 
 
 

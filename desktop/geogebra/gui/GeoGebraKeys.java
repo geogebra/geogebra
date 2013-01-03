@@ -2,6 +2,8 @@ package geogebra.gui;
 
 import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.main.App;
+import geogebra.common.main.JavaKeyCodes;
+import geogebra.common.main.KeyCodes;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
@@ -26,7 +28,7 @@ public class GeoGebraKeys implements KeyListener {
 
 	private boolean altPressed;
 	
-	AppD app;
+	private AppD app;
 
 	public GeoGebraKeys(AppD app) {
 		this.app = app;
@@ -70,6 +72,8 @@ public class GeoGebraKeys implements KeyListener {
 			altPressed = false;
 			altCodes.setLength(0);
 		}
+		
+		
 
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
@@ -83,6 +87,27 @@ public class GeoGebraKeys implements KeyListener {
 	}   
 
 	public void keyReleased(KeyEvent e) {  
+		
+		// when decimal comma typed on numeric keypad on eg German keyboard, replace with .
+		if (e.getKeyCode() == KeyEvent.VK_SEPARATOR && e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
+			App.warn("replacing decimal , with decimal .");
+			JTextComponent comp = (JTextComponent) e.getComponent();
+			int pos = comp.getCaretPosition();
+			String oldText = comp.getText();
+			StringBuilder sb = new StringBuilder();
+			
+			// pos - 1 to remove ","
+			sb.append(oldText.substring(0, pos - 1));
+			
+			sb.append(".");
+			sb.append(oldText.substring(pos));            
+			comp.setText(sb.toString());
+
+			comp.setCaretPosition(pos);
+			e.consume();
+			
+		}
+
 		
 		//Application.debug("keyReleased");
 		// ctrl pressed on Mac

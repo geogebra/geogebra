@@ -162,12 +162,13 @@ public class JavaKeyCodes {
 
     /**
      * Constant for the Numpad Separator key.
+     * ie decimal comma eg German keyboards
      * @since 1.4
      */
     public static final int VK_SEPARATOR      = VK_SEPARATER;
 
     public static final int VK_SUBTRACT       = 0x6D;
-    public static final int VK_DECIMAL        = 0x6E;
+    public static final int VK_DECIMAL        = 0x6E; // decimal point on numeric keypad
     public static final int VK_DIVIDE         = 0x6F;
     public static final int VK_DELETE         = 0x7F; /* ASCII DEL */
     public static final int VK_NUM_LOCK       = 0x90;
