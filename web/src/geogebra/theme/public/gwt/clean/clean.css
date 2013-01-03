@@ -291,9 +291,17 @@
   padding: 0px;
   margin: 0px;
   border: 0px;
-  border-left: 1px solid #ccc;
   background: white;
+  //border-left: 1px solid #ccc;
 }
+
+body[dir=ltr] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  border-left: 1px solid #ccc;
+}
+body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  border-right: 1px solid #ccc;
+}
+
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
   width: 1px;
   height: 1px;
@@ -301,14 +309,23 @@
 }
 .gwt-MenuBar-vertical {
   margin-top: 0px;
-  margin-left: 0px;
+  //margin-left: 0px;
   background: white;
+}
+body[dir=ltr] .gwt-MenuBar-vertical {
+  margin-left: 0px;
+}
+body[dir=rtl] .gwt-MenuBar-vertical {
+  margin-right: 0px;
 }
 .gwt-MenuBar-vertical table {
   border-collapse: collapse;
 }
 .gwt-MenuBar-vertical .gwt-MenuItem {
   padding: 2px 40px 2px 1px;
+}
+body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
+  padding: 2px 1px 2px 40px;
 }
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator {
   padding: 2px 0px;
@@ -323,11 +340,17 @@
 .gwt-MenuBar-vertical .subMenuIcon {
   padding-right: 4px;
 }
+body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
+  padding-left: 4px;
+}
 .gwt-MenuBar-vertical .subMenuIcon-selected {
   background: #E3E8F3;
 }
 .gwt-MenuBarPopup {
   margin: 0px 0px 0px 3px;
+}
+body[dir=rtl] .gwt-MenuBarPopup {
+  margin: 0px 3px 0px 0px;
 }
 .gwt-MenuBarPopup .menuPopupTopCenter {
   background: url(images/hborder.png) 0px -12px repeat-x;
