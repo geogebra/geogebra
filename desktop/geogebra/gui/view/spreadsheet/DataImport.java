@@ -363,7 +363,7 @@ public class DataImport {
 
 	}
 
-	private static String[] getDefaultSeparators(App app) {
+	static String[] getDefaultSeparators(App app) {
 
 		String[] separators = new String[2];
 

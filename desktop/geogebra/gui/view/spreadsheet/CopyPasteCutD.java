@@ -27,29 +27,48 @@ public class CopyPasteCutD extends CopyPasteCut {
 	@Override
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy) {
+		
+		char decimalSeparator = DataImport.getDefaultSeparators(app)[0].charAt(0);
+		
+		boolean changeDecimalSeparator = '.' != decimalSeparator;
+		
+		if (changeDecimalSeparator) {
+			App.debug("changing decimal separator to: "+decimalSeparator);
+		}
 
 		// copy tab-delimited geo values into the external buffer
-		cellBufferStr = "";
+		if (cellBufferStr == null) {
+			cellBufferStr = new StringBuilder();
+		} else {
+			cellBufferStr.setLength(0);
+		}
 		for (int row = row1; row <= row2; ++row) {
 			for (int column = column1; column <= column2; ++column) {
 				GeoElement value = RelativeCopy.getValue(app, column, row);
 				if (value != null) {
-					cellBufferStr += value
+					String valueStr = value
 							.toValueString(StringTemplate.maxPrecision);
+					
+					if (changeDecimalSeparator && value.isGeoNumeric()) {
+						valueStr = valueStr.replace('.', decimalSeparator);
+					}
+					
+					cellBufferStr.append(valueStr);
+					
 				}
 				if (column != column2) {
-					cellBufferStr += "\t";
+					cellBufferStr.append('\t');
 				}
 			}
 			if (row != row2) {
-				cellBufferStr += "\n";
+				cellBufferStr.append('\n');
 			}
 		}
 
 		// store the tab-delimited values in the clipboard
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
-		StringSelection stringSelection = new StringSelection(cellBufferStr);
+		StringSelection stringSelection = new StringSelection(cellBufferStr.toString());
 		clipboard.setContents(stringSelection, null);
 
 		// store copies of the actual geos in the internal buffer
@@ -106,7 +125,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
 		boolean doInternalPaste = cellBufferStr != null
-				&& transferString.equals(cellBufferStr);
+				&& transferString.equals(cellBufferStr.toString());
 
 		if (doInternalPaste && cellBufferGeo != null) {
 

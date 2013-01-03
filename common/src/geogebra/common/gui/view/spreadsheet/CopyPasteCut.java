@@ -22,7 +22,7 @@ public abstract class CopyPasteCut {
 	/**
 	 * Stores copied cell geo values as a tab-delimited string.
 	 */
-	protected String cellBufferStr;
+	protected StringBuilder cellBufferStr;
 
 	/**
 	 * Stores copied cell geos as GeoElement[columns][rows]

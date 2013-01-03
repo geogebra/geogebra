@@ -20,20 +20,24 @@ public class CopyPasteCutW extends CopyPasteCut {
 			boolean skipGeoCopy) {
 
 		// copy tab-delimited geo values into the external buffer
-		cellBufferStr = "";
+		if (cellBufferStr == null) {
+			cellBufferStr = new StringBuilder();
+		} else {
+			cellBufferStr.setLength(0);
+		}
 		for (int row = row1; row <= row2; ++row) {
 			for (int column = column1; column <= column2; ++column) {
 				GeoElement value = RelativeCopy.getValue(app, column, row);
 				if (value != null) {
-					cellBufferStr += value
-							.toValueString(StringTemplate.maxPrecision);
+					cellBufferStr.append(value
+							.toValueString(StringTemplate.maxPrecision));
 				}
 				if (column != column2) {
-					cellBufferStr += "\t";
+					cellBufferStr.append('\t');
 				}
 			}
 			if (row != row2) {
-				cellBufferStr += "\n";
+				cellBufferStr.append('\n');
 			}
 		}
 
