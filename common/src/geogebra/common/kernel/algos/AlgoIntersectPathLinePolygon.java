@@ -99,6 +99,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				aE.setCoords(0, 0, 1);
 				a.setPoints(aS, aE);
 				a.setParentAlgorithm(AlgoIntersectPathLinePolygon.this);
+				if (outputSegments.size()>0)
+					a.setAllVisualProperties(outputSegments.getElement(0), false);
 				return a;
 			}
 		});
@@ -149,11 +151,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
      */
 	protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
 
-
-		//line origin and direction
-		setIntersectionLine();
-
-
 		for(int i=0; i<p.getSegments().length; i++){
 			GeoSegmentND seg = p.getSegments()[i];
 
@@ -172,7 +169,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 
 				if (checkParameter(t1) && seg.respectLimitedPath(t2))
-					newCoords.put(t1, new Coords(project[0].getX(), project[0].getY()));
+					addCoords(t1, project[0], newCoords);
 
 			}
 		}
@@ -203,6 +200,39 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		}else if (g instanceof GeoRay)
 			newCoords.put(0d,g.getStartPoint().getInhomCoordsInD(2));
 	}
+	
+	
+	/**
+	 * add polygon points that are on the line
+	 * @param newCoords coords collection
+	 */
+	protected void addPolygonPoints(TreeMap<Double, Coords> newCoords){
+		
+		for(int i=0; i<p.getPoints().length; i++){
+			Coords point = p.getPoints()[i].getInhomCoordsInD(3);
+
+			Coords[] project = point.projectLine(o1, d1);
+
+			//check if projection is intersection point
+			if (project[0].equalsForKernel(point, Kernel.STANDARD_PRECISION)){
+
+				double t1 = project[1].get(1); 
+
+				if (checkParameter(t1))
+					addCoords(t1, project[0], newCoords);
+			}
+		}
+	}
+	
+	/**
+	 * add coords
+	 * @param parameter
+	 * @param coords
+	 * @param newCoords
+	 */
+	protected void addCoords(double parameter, Coords coords, TreeMap<Double, Coords> newCoords){
+		newCoords.put(parameter, new Coords(coords.getX(), coords.getY()));
+	}
 
 	@Override
 	public void compute() {
@@ -210,8 +240,15 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		// clear the points map
 		newCoords.clear();
 		
+		//line origin and direction
+		setIntersectionLine();
+
+		
 		//add start/end points for segments/rays
 		addStartEndPoints(newCoords);
+		
+		//add polygon points
+		addPolygonPoints(newCoords);
 		
 
 		// fill a new points map

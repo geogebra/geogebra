@@ -19,8 +19,6 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoIntersectPathLinePolygon;
 import geogebra.common.kernel.algos.Algos;
@@ -68,6 +66,8 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 				aE.setCoords(0, 0, 0, 1);
 				a.setPoints(aS, aE);
 				a.setParentAlgorithm(AlgoIntersectPathLinePolygon3D.this);
+				if (outputSegments.size()>0)
+					a.setAllVisualProperties(outputSegments.getElement(0), false);
 				return a;
 			}
 		});
@@ -81,42 +81,10 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 
 
 
-    /**
-     * calc all intersection points between line and polygon p
-     * @param p polygon
-     * @param newCoords intersection points
-     */
+	
 	@Override
-	protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
-
-
-		//line origin and direction
-		setIntersectionLine();
-
-
-		for(int i=0; i<p.getSegments().length; i++){
-			GeoSegmentND seg = p.getSegments()[i];
-
-			Coords o2 = seg.getPointInD(3, 0);
-			Coords d2 = seg.getPointInD(3, 1).sub(o2);
-
-			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
-					o1,d1,o2,d2
-					);
-
-			//check if projection is intersection point
-			if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
-
-				double t1 = project[2].get(1); //parameter on line
-				double t2 = project[2].get(2); //parameter on segment
-
-
-				if (checkParameter(t1) && seg.respectLimitedPath(t2))
-					newCoords.put(t1, project[0]);
-
-			}
-		}
-
+	protected void addCoords(double parameter, Coords coords, TreeMap<Double, Coords> newCoords){
+		newCoords.put(parameter, coords);
 	}
 	
 	@Override

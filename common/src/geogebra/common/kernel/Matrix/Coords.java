@@ -682,8 +682,8 @@ public class Coords extends CoordMatrix {
 		Coords OM = this.sub(O);
 		Coords N = V.normalized();
 		double parameter = OM.dotproduct(N);
-		CoordMatrix OH = N.mul(parameter);
-		Coords H = O.add(OH).getColumn(1); // TODO optimize
+		Coords OH = N.mul(parameter);
+		Coords H = O.add(OH); 
 
 		return new Coords[] { H,
 				new Coords(new double[] { parameter / V.norm(), parameter }) };
