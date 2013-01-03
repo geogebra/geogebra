@@ -686,6 +686,8 @@ public class OptionsEuclidianD extends
 		tabbedPane.setTitleAt(1, app.getPlain("xAxis"));
 		tabbedPane.setTitleAt(2, app.getPlain("yAxis"));
 		tabbedPane.setTitleAt(3, app.getMenu("Grid"));
+		
+		app.setComponentOrientation(tabbedPane);
 	}
 
 	protected void setLabelsForCbView() {

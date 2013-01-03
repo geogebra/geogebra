@@ -99,6 +99,8 @@ public class OptionsSpreadsheetD extends
 			tabbedPane.addTab(app.getMenu("Browser"), null, new JScrollPane(
 					buildBrowserOptionsPanel()));
 		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
+		
+		app.setComponentOrientation(wrappedPanel);
 	}
 
 	private JPanel buildLayoutOptionsPanel() {

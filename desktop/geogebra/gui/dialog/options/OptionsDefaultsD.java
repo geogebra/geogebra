@@ -182,6 +182,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
 		wrappedPanel.add(LayoutUtil.flowPanel(0, 0, 20, defaultsButton),
 				BorderLayout.SOUTH);
+		
+		app.setComponentOrientation(wrappedPanel); 
 	}
 
 	/**

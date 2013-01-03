@@ -173,6 +173,8 @@ public class OptionsAdvancedD extends
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 
 		setLabels();
+		
+		app.setComponentOrientation(panel);
 	}
 
 	/**

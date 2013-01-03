@@ -88,6 +88,8 @@ public class OptionsCASD extends geogebra.common.gui.dialog.options.OptionsCAS
 		panel.add(cbShowRoots);
 
 		wrappedPanel.add(panel, BorderLayout.CENTER);
+		
+		app.setComponentOrientation(panel);
 	}
 
 	/**
