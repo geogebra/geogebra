@@ -19,7 +19,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
@@ -97,7 +96,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.http.client.UrlBuilder;
-import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
@@ -892,11 +890,11 @@ public class AppW extends App {
 				
 				updateLanguageFlags(lang);
 				
-//				if (rightToLeftReadingOrder) {
-//					RootPanel.getBodyElement().setAttribute("dir", "rtl");
-//				} else {
-//					RootPanel.getBodyElement().setAttribute("dir", "ltr");
-//				}
+				if (rightToLeftReadingOrder) {
+					RootPanel.getBodyElement().setAttribute("dir", "rtl");
+				} else {
+					RootPanel.getBodyElement().setAttribute("dir", "ltr");
+				}
 				
 				// make sure digits are updated in all numbers
 				getKernel().updateConstruction();
