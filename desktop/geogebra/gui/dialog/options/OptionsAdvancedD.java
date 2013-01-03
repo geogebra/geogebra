@@ -198,9 +198,9 @@ public class OptionsAdvancedD extends
 		tfKeyboardHeight.addFocusListener(this);
 
 		virtualKeyboardPanel.add(LayoutUtil.flowPanel(widthLabel,
-				tfKeyboardWidth, new JLabel("px"),
+				tfKeyboardWidth, new JLabel(app.getMenu("Pixels.short")),
 				Box.createHorizontalStrut(10), heightLabel, tfKeyboardHeight,
-				new JLabel("px")));
+				new JLabel(app.getMenu("Pixels.short"))));
 
 		cbKeyboardShowAutomatic = new JCheckBox();
 
