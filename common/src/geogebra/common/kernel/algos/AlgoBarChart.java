@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -87,16 +88,16 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	private int N; // # of intervals
 	private double[] yval; // y value (= min) in interval 0 <= i < N
 	private double[] leftBorder; // leftBorder (x val) of interval 0 <= i < N
+	private String[] value; // value string for each bar
 	private double barWidth;
 	private double freqMax;
 
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
-	
+
 	// helper algos
 	AlgoUnique algoUnique;
 	AlgoFrequency algoFreq;
-
 
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
@@ -216,15 +217,16 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 	/******************************************************
 	 * General constructor with label
-	 * @param cons 
-	 * @param label 
-	 * @param list1 
-	 * @param list2 
-	 * @param width 
-	 * @param isHorizontal 
-	 * @param join 
-	 * @param pointType 
-	 * @param type 
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param list1
+	 * @param list2
+	 * @param width
+	 * @param isHorizontal
+	 * @param join
+	 * @param pointType
+	 * @param type
 	 * 
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
@@ -418,13 +420,12 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			input[2] = list1;
 			break;
 
-			
 		case TYPE_BARCHART_RAWDATA:
 			algoUnique = new AlgoUnique(cons, list1);
 			algoFreq = new AlgoFrequency(cons, null, null, list1);
 			cons.removeFromConstructionList(algoUnique);
 			cons.removeFromConstructionList(algoFreq);
-			
+
 			// fall through
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
@@ -548,6 +549,13 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	/**
+	 * @return values of a bar chart formatted as string (for frequency tables)
+	 */
+	public String[] getValue() {
+		return value;
+	}
+
+	/**
 	 * @return type of the bar chart
 	 */
 	public int getType() {
@@ -660,7 +668,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	 */
 	public int getPointType() {
 
-		if(type == TYPE_STICKGRAPH){
+		if (type == TYPE_STICKGRAPH) {
 			return DrawBarGraph.POINT_LEFT;
 		}
 		if (pointType == null)
@@ -731,6 +739,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			break;
 
 		}
+
 	}
 
 	public void computeWithExp() {
@@ -763,6 +772,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			yval = new double[N];
 			leftBorder = new double[N];
 		}
+		value = new String[N];
 
 		double ySum = 0;
 
@@ -774,6 +784,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 				yval[i] = ((GeoNumeric) geo).getDouble();
 			else
 				yval[i] = 0;
+
+			value[i] = kernel.format(ad + i * barWidth / 2,
+					StringTemplate.defaultTemplate);
 
 			ySum += yval[i];
 		}
@@ -795,7 +808,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			return;
 		}
 
-		computeFromValueFrequencyLists(algoUnique.getResult(), algoFreq.getResult());
+		computeFromValueFrequencyLists(algoUnique.getResult(),
+				algoFreq.getResult());
 
 	}
 
@@ -858,10 +872,22 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			leftBorder = new double[N];
 		}
 
-		double ySum = 0;
-
+		value = new String[N];
 		for (int i = 0; i < N; i++) {
-			double x = list1.get(i).evaluateNum().getDouble();
+			value[i] = list1.get(i).toValueString(
+					StringTemplate.defaultTemplate);
+		}
+
+		double ySum = 0;
+		double x = 0;
+		for (int i = 0; i < N; i++) {
+			if (list1.get(i).isGeoNumeric()) {
+				x = list1.get(i).evaluateNum().getDouble();
+			} else {
+				// use integers 1,2,3 ...  to position non-numeric data 
+				x = i+1;
+			}
+
 			if (!Double.isNaN(x)) {
 				leftBorder[i] = x - barWidth / 2;
 			} else {
@@ -902,6 +928,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			leftBorder = new double[N];
 		}
 
+		value = new String[N];
+
 		double ySum = 0;
 
 		for (int i = 0; i < N; i++) {
@@ -915,6 +943,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 				sum.setUndefined();
 				return;
 			}
+
+			value[i] = kernel.format(x, StringTemplate.defaultTemplate);
 
 			double y = ((GeoPoint) geo).getY();
 			if (!Double.isNaN(y)) {
@@ -1065,11 +1095,11 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		}
 	}
-	
+
 	@Override
 	public void remove() {
 		super.remove();
-		
+
 		if (algoFreq != null) {
 			algoFreq.remove();
 		}

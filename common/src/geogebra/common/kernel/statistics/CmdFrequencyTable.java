@@ -38,16 +38,24 @@ public class CmdFrequencyTable extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
-		case 1:
-			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { FrequencyTable(c.getLabel(),
-						(GeoList) arg[0]) };
-				return ret;
-
-			} 
-				throw argErr(app, c.getName(), arg[0]);
+		
+	case 1:
+		// raw data
+		if (arg[0].isGeoList()) {
+			GeoElement[] ret = { FrequencyTable(c.getLabel(),
+					(GeoList) arg[0]) };
+			return ret;
+		}
+		
+		// chart
+		else if(arg[0].isGeoNumeric()){
+			GeoElement[] ret = { FrequencyTable(c.getLabel(),
+					(GeoNumeric) arg[0]) };
+			return ret;
 			
+		}else{
+			throw argErr(app, c.getName(), arg[0]);
+		}
 
 		case 2:
 
@@ -257,4 +265,13 @@ public class CmdFrequencyTable extends CommandProcessor {
 		GeoText table = algo.getResult();
 		return table;
 	}
+	
+	/**
+	 * FrequencyTable[chart (Histogram or BarChart)] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, GeoNumeric chart) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, chart);
+		GeoText table = algo.getResult();
+		return table;
+	}	
 }

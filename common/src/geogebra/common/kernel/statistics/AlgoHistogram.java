@@ -30,6 +30,19 @@ import geogebra.common.util.Cloner;
 public class AlgoHistogram extends AlgoFunctionAreaSums {
 		
 	/**
+	 * Creates histogram from class boundaries and heights or data (no label)
+	 * 
+	 * @param cons construction
+	 * @param list1 list of boundaries
+	 * @param list2 list of heights or raw data
+	 * @param right 
+	 */
+	public AlgoHistogram(Construction cons,
+								   GeoList list1, GeoList list2,boolean right) {
+		super(cons, list1, list2, right);		
+	}
+	
+	/**
 	 * Creates histogram from class boundaries and heights or data (has label)
 	 * 
 	 * @param cons construction

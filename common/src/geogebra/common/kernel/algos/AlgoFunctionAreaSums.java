@@ -538,6 +538,20 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
 			GeoList list2, boolean right) {
+		this(cons, list1, list2, right);
+		sum.setLabel(label);
+	}
+
+	/**
+	 * HISTOGRAM[ <list of class boundaries>, <list of heights> ]
+	 * (no label)
+	 * @param cons
+	 * @param list1
+	 * @param list2
+	 * @param right
+	 */
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
+			GeoList list2, boolean right) {
 
 		super(cons);
 
@@ -549,10 +563,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
+		
 		sum.setDrawable(true);
 	}
-
+	
+	
 	public AlgoFunctionAreaSums(Construction cons, double[] vals,
 			double[] borders, int N) {
 		super(cons, false);
