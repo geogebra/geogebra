@@ -3,7 +3,7 @@
  *
  * Keys translations for Thai / ภาษาไทย
  *
- * Generated at 2013-01-04 16:30:09.939261 UTC
+ * Generated at 2013-01-04 19:22:27.554844 UTC
  */
 
 if (!window.__GGB__keysVar) {

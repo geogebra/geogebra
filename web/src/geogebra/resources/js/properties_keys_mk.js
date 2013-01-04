@@ -3,7 +3,7 @@
  *
  * Keys translations for Macedonian / Македонски јазик
  *
- * Generated at 2013-01-04 16:28:44.825740 UTC
+ * Generated at 2013-01-04 19:21:06.937739 UTC
  */
 
 if (!window.__GGB__keysVar) {

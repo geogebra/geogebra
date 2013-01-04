@@ -3,7 +3,7 @@
  *
  * Keys translations for Croatian / Hrvatska
  *
- * Generated at 2013-01-04 16:28:26.147217 UTC
+ * Generated at 2013-01-04 19:20:43.498607 UTC
  */
 
 if (!window.__GGB__keysVar) {

@@ -3,7 +3,7 @@
  *
  * Keys translations for Slovakian / Slovenský jazyk
  *
- * Generated at 2013-01-04 16:29:08.827030 UTC
+ * Generated at 2013-01-04 19:21:31.212911 UTC
  */
 
 if (!window.__GGB__keysVar) {

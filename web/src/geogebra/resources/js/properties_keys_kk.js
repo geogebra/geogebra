@@ -3,7 +3,7 @@
  *
  * Keys translations for Kazakh / Қазақ тілі
  *
- * Generated at 2013-01-04 16:28:37.743015 UTC
+ * Generated at 2013-01-04 19:20:59.015997 UTC
  */
 
 if (!window.__GGB__keysVar) {

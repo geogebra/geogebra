@@ -3,7 +3,7 @@
  *
  * Keys translations for Norwegian
  *
- * Generated at 2013-01-04 16:29:54.569855 UTC
+ * Generated at 2013-01-04 19:22:15.413769 UTC
  */
 
 if (!window.__GGB__keysVar) {

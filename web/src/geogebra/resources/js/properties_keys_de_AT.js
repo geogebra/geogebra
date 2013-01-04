@@ -3,7 +3,7 @@
  *
  * Keys translations for German (Austria) / Deutsch (Österreich)
  *
- * Generated at 2013-01-04 16:29:27.019829 UTC
+ * Generated at 2013-01-04 19:21:51.540952 UTC
  */
 
 if (!window.__GGB__keysVar) {

@@ -3,7 +3,7 @@
  *
  * Keys translations for Telugu / తెలుగు
  *
- * Generated at 2013-01-04 16:30:53.644463 UTC
+ * Generated at 2013-01-04 19:22:52.624485 UTC
  */
 
 if (!window.__GGB__keysVar) {

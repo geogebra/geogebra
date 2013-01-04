@@ -3,7 +3,7 @@
  *
  * Keys translations for Italian / Italiano
  *
- * Generated at 2013-01-04 16:28:33.066195 UTC
+ * Generated at 2013-01-04 19:20:53.745861 UTC
  */
 
 if (!window.__GGB__keysVar) {

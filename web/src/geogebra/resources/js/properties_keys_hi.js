@@ -3,7 +3,7 @@
  *
  * Keys translations for Hindi / मानक हिन्दी
  *
- * Generated at 2013-01-04 16:29:39.347339 UTC
+ * Generated at 2013-01-04 19:22:00.218810 UTC
  */
 
 if (!window.__GGB__keysVar) {

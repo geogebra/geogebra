@@ -3,7 +3,7 @@
  *
  * Keys translations for Norwegian / Bokmål
  *
- * Generated at 2013-01-04 16:28:50.966367 UTC
+ * Generated at 2013-01-04 19:21:13.188812 UTC
  */
 
 if (!window.__GGB__keysVar) {

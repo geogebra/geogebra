@@ -3,7 +3,7 @@
  *
  * Keys translations for Spanish / Español
  *
- * Generated at 2013-01-04 16:28:12.400251 UTC
+ * Generated at 2013-01-04 19:20:20.830158 UTC
  */
 
 if (!window.__GGB__keysVar) {

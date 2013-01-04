@@ -3,7 +3,7 @@
  *
  * Keys translations for Malayalam / മലയാളം
  *
- * Generated at 2013-01-04 16:28:47.196396 UTC
+ * Generated at 2013-01-04 19:21:09.389160 UTC
  */
 
 if (!window.__GGB__keysVar) {

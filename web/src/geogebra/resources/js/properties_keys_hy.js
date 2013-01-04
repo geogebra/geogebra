@@ -3,7 +3,7 @@
  *
  * Keys translations for Armenian / հայերեն
  *
- * Generated at 2013-01-04 16:30:36.151089 UTC
+ * Generated at 2013-01-04 19:22:42.414318 UTC
  */
 
 if (!window.__GGB__keysVar) {

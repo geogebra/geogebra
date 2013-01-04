@@ -3,7 +3,7 @@
  *
  * Keys translations for Persian / فارسی
  *
- * Generated at 2013-01-04 16:28:19.468360 UTC
+ * Generated at 2013-01-04 19:20:31.693325 UTC
  */
 
 if (!window.__GGB__keysVar) {

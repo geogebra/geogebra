@@ -3,7 +3,7 @@
  *
  * Keys translations for Czech / Čeština
  *
- * Generated at 2013-01-04 16:28:02.423469 UTC
+ * Generated at 2013-01-04 19:20:05.289858 UTC
  */
 
 if (!window.__GGB__keysVar) {

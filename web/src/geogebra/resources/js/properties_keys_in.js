@@ -3,7 +3,7 @@
  *
  * Keys translations for Indonesian / Bahasa Indonesia
  *
- * Generated at 2013-01-04 16:29:40.823135 UTC
+ * Generated at 2013-01-04 19:22:01.696665 UTC
  */
 
 if (!window.__GGB__keysVar) {

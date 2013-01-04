@@ -3,7 +3,7 @@
  *
  * Keys translations for Albanian / Gjuha Shqipe
  *
- * Generated at 2013-01-04 16:29:57.769936 UTC
+ * Generated at 2013-01-04 19:22:18.639711 UTC
  */
 
 if (!window.__GGB__keysVar) {

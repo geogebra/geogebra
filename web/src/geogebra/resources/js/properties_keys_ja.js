@@ -3,7 +3,7 @@
  *
  * Keys translations for Japanese / 日本語
  *
- * Generated at 2013-01-04 16:29:43.217042 UTC
+ * Generated at 2013-01-04 19:22:04.081915 UTC
  */
 
 if (!window.__GGB__keysVar) {
