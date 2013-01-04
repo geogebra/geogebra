@@ -82,8 +82,9 @@ public class AlgoFrequencyTable extends AlgoElement {
 				useDensity, density);
 		cons.removeFromConstructionList(freq);
 		table = new GeoText(cons);
-		setInputOutput();
+		
 		type = inputType.STANDARD;
+		setInputOutput();
 
 		compute();
 		table.isTextCommand = true;
