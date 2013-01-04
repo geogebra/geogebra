@@ -46,7 +46,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 				(arg[2].isNumberValue())) 
 			{
 				GeoElement[] ret = { 
-						doCommand2(c.getLabel(), (NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
+						doCommand2(c, (NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
 				
 			}
@@ -68,13 +68,13 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
     
     /**
 	 * Perform the actual command
-	 * @param b first number
-	 * @param c second number
-	 * @param a label
-     * @param d length of result list
+     * @param c command
+     * @param a first arg
+     * @param b second arg
+     * @param d third arg
 	 * @return resulting element
 	 */
-     protected GeoElement doCommand2(String a, NumberValue b, NumberValue c, NumberValue d){
-    	 return null;
+     protected GeoElement doCommand2(Command c, NumberValue a, NumberValue b, NumberValue d){
+    	 throw argNumErr(app, c.getName(), 3);
      }
 }
