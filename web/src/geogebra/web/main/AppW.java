@@ -18,7 +18,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
@@ -1570,12 +1569,6 @@ public class AppW extends App {
 	public SoundManager getSoundManager() {
 		App.debug("getSoundManager: implementation needed for GUI"); // TODO
 																	 // Auto-generated
-		return null;
-	}
-
-	@Override
-	public CommandProcessor newCmdBarCode() {
-		App.debug("newCmdBarCode: remove after branch to ggb42"); // TODO
 		return null;
 	}
 

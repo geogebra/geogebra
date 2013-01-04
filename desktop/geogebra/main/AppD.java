@@ -80,7 +80,6 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
-import geogebra.kernel.commands.CmdBarCode;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPID;
@@ -5024,12 +5023,6 @@ public class AppD extends App implements KeyEventDispatcher {
 					SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
-	}
-	
-
-	@Override
-	public CommandProcessor newCmdBarCode() {
-		return new CmdBarCode(kernel);
 	}
 
 	@Override

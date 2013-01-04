@@ -191,7 +191,7 @@ public enum Commands implements CommandsConstants, GetCommand{
   	// GeoGebra
 	//=============================================================
    	Corner(TABLE_GEOGEBRA), AxisStepX(TABLE_GEOGEBRA), AxisStepY(TABLE_GEOGEBRA), ConstructionStep(TABLE_GEOGEBRA),
-   	Object(TABLE_GEOGEBRA), Name(TABLE_GEOGEBRA), SlowPlot(TABLE_GEOGEBRA), ToolImage(TABLE_GEOGEBRA), BarCode(TABLE_GEOGEBRA),
+   	Object(TABLE_GEOGEBRA), Name(TABLE_GEOGEBRA), SlowPlot(TABLE_GEOGEBRA), ToolImage(TABLE_GEOGEBRA),
    	DynamicCoordinates(TABLE_GEOGEBRA),
    	
 	//=================================================================

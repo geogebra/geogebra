@@ -498,7 +498,6 @@ public class CommandDispatcher {
 			case UnitVector:
 			case Text:
 			case Vector:
-			case BarCode:
 			case Dot:
 			case Cross:
 			case PolyLine:

@@ -39,7 +39,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.CommandDispatcher;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -3159,11 +3158,6 @@ public abstract class App implements Localization{
 	public final Kernel getKernel() {
 		return kernel;
 	}
-
-	/**
-	 * @return command processor for Bar Code
-	 */
-	abstract public CommandProcessor newCmdBarCode();
 
 	/**
 	 * @return number of selected geos

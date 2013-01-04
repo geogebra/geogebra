@@ -51,8 +51,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdText(kernel);
 		case Vector:
 			return new CmdVector(kernel);
-		case BarCode:
-			return kernel.getApplication().newCmdBarCode();
 		case Dot:
 			return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
 		case Cross:
