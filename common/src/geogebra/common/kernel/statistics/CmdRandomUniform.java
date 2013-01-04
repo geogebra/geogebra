@@ -25,4 +25,11 @@ public class CmdRandomUniform extends CmdTwoNumFunction {
 		return algo.getResult();
 	}
 
+
+	@Override
+	protected GeoElement doCommand2(String a, NumberValue b, NumberValue c, NumberValue d)
+	{
+		AlgoRandomUniformList algo = new AlgoRandomUniformList(cons, a, b, c,d);
+		return algo.getResult();
+	}
 }
