@@ -2,7 +2,6 @@ package geogebra.web.main;
 
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
-
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -25,9 +24,9 @@ public class TimerSystemW {
 	private static boolean spreadsheetTimed = false;
 
 	// in the final implementation, these wouldn't be static
-	private static Date euclidian1Latest = new Date();
-	private static Date algebraLatest = new Date();
-	private static Date spreadsheetLatest = new Date();
+	private static Date euclidian1Latest = null;//new Date();
+	private static Date algebraLatest = null;//new Date();
+	private static Date spreadsheetLatest = null;//new Date();
 	private long euclidian1Sum = 0;
 	private long algebraSum = 0;
 	private long spreadsheetSum = 0;
@@ -57,23 +56,22 @@ public class TimerSystemW {
 
 			// repaint the EV every time it comes here
 			if (euclidian1Timed) {
-				euclidian1Timed = false;
 				euclidianView1.doRepaint();
 
 				if (nextrepainttime <= 0) {
 					if (nextbigview == 0 && algebraTimed) {
 						long millis = algebraMillis;
 						if (algebraSum > algebraMillis) millis = algebraSum;
-						if (new Date().getTime() - algebraLatest.getTime() - millis > 0) {
-							algebraTimed = false;
+						if ((algebraLatest == null) ||
+						    (new Date().getTime() - algebraLatest.getTime() - millis > 0)) {
 							nextbigview = 1 - nextbigview;
 							algebraView.doRepaint();
 						}
 					} else if (nextbigview == 1 && spreadsheetTimed) {
 						long millis = spreadsheetMillis;
 						if (spreadsheetSum > spreadsheetMillis) millis = spreadsheetSum;
-						if (new Date().getTime() - spreadsheetLatest.getTime() - millis > 0) {
-							spreadsheetTimed = false;
+						if ((spreadsheetLatest == null) ||
+						    (new Date().getTime() - spreadsheetLatest.getTime() - millis > 0)) {
 							nextbigview = 1 - nextbigview;
 							spreadsheetView.doRepaint();
 						}
@@ -82,32 +80,32 @@ public class TimerSystemW {
 			} else if (algebraTimed && nextbigview == 0) {
 				long millis = algebraMillis;
 				if (algebraSum > algebraMillis) millis = algebraSum;
-				if (new Date().getTime() - algebraLatest.getTime() - millis > 0) {
-					algebraTimed = false;
+				if ((algebraLatest == null) ||
+				    (new Date().getTime() - algebraLatest.getTime() - millis > 0)) {
 					nextbigview = 1 - nextbigview;
 					algebraView.doRepaint();
 				}
 			} else if (spreadsheetTimed && nextbigview == 1) {
 				long millis = spreadsheetMillis;
 				if (spreadsheetSum > spreadsheetMillis) millis = spreadsheetSum;
-				if (new Date().getTime() - spreadsheetLatest.getTime() - millis > 0) {
-					spreadsheetTimed = false;
+				if ((spreadsheetLatest == null) ||
+				    (new Date().getTime() - spreadsheetLatest.getTime() - millis > 0)) {
 					nextbigview = 1 - nextbigview;
 					spreadsheetView.doRepaint();
 				}
 			} else if (algebraTimed) {
 				long millis = algebraMillis;
 				if (algebraSum > algebraMillis) millis = algebraSum;
-				if (new Date().getTime() - algebraLatest.getTime() - millis > 0) {
-					algebraTimed = false;
+				if ((algebraLatest == null) ||
+				    (new Date().getTime() - algebraLatest.getTime() - millis > 0)) {
 					nextbigview = 1 - nextbigview;
 					algebraView.doRepaint();
 				}
 			} else if (spreadsheetTimed) {
 				long millis = spreadsheetMillis;
 				if (spreadsheetSum > spreadsheetMillis) millis = spreadsheetSum;
-				if (new Date().getTime() - spreadsheetLatest.getTime() - millis > 0) {
-					spreadsheetTimed = false;
+				if ((spreadsheetLatest == null) ||
+				    (new Date().getTime() - spreadsheetLatest.getTime() - millis > 0)) {
 					nextbigview = 1 - nextbigview;
 					spreadsheetView.doRepaint();
 				}
@@ -171,13 +169,15 @@ public class TimerSystemW {
 
 		long millis = euclidianMillis;
 		if (euclidian1Sum > euclidianMillis) millis = euclidian1Sum;
+
+		if (euclidian1Latest != null)
 		if ((millis = new Date().getTime() - euclidian1Latest.getTime() - millis) < 0) {
 			euclidian1Timed = true;
 			repaintTimer.schedule((int)-millis);
 			return;
 		}
-
-		euclidianView1.doRepaint();
+		euclidian1Timed = true;
+		repaintTimer.schedule(0);//euclidianView1.doRepaint();
 	}
 
 	public void algebraRepaint() {
@@ -193,12 +193,14 @@ public class TimerSystemW {
 
 		long millis = algebraMillis;
 		if (algebraSum > algebraMillis) millis = algebraSum;
+
+		if (algebraLatest != null)
 		if (new Date().getTime() - algebraLatest.getTime() - millis < 0) {
 			algebraTimed = true;
 			repaintTimer.schedule(commonMillis());
-		} else {
-			algebraView.doRepaint();
+			return;
 		}
+		algebraView.doRepaint();
 	}
 
 	public void spreadsheetRepaint() {
@@ -216,12 +218,14 @@ public class TimerSystemW {
 		// and spreadsheetMillis ms also expired
 		long millis = spreadsheetMillis;
 		if (spreadsheetSum > spreadsheetMillis) millis = spreadsheetSum;
+
+		if (spreadsheetLatest != null)
 		if (new Date().getTime() - spreadsheetLatest.getTime() - millis < 0) {
 			spreadsheetTimed = true;
 			repaintTimer.schedule(commonMillis());
-		} else {
-			spreadsheetView.doRepaint();
+			return;
 		}
+		spreadsheetView.doRepaint();
 	}
 
 	public void viewRepainting(View view) {
@@ -229,12 +233,16 @@ public class TimerSystemW {
 		if (view == null)
 			return;
 
-		if (view == euclidianView1)
+		if (view == euclidianView1) {
+			euclidian1Timed = false;
 			euclidian1Latest = new Date();
-		else if (view == algebraView)
+		} else if (view == algebraView) {
+			algebraTimed = false;
 			algebraLatest = new Date();
-		else if (view == spreadsheetView)
+		} else if (view == spreadsheetView) {
+			spreadsheetTimed = false;
 			spreadsheetLatest = new Date();
+		}
 	}
 
 	public void viewRepainted(View view) {
