@@ -71,7 +71,7 @@ cd geogebra
 # Add new files (with directory):
 git add $PROP_DIR
 git add $GWTPROP_DIR
-git add $JSKEYS_PATH
+git add $JS_DIR
 
 git commit -m "properties files and related resources automatically updated from ggbtrans"
 
