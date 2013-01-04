@@ -660,7 +660,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		ev.setTemporaryCoordSystemForExport(); // allow clipping with Export_1
 												// and 2 Points
 		try {
-			exportSVG(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, exportScale);
+			exportSVG(app, ev, file, textAsShapes, pixelWidth, pixelHeight, exportScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
