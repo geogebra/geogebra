@@ -79,7 +79,7 @@ instructions.
 	    description="Internal target, please do not use manually. Download all packages needed for creating the JAR files">
 	</target>
 
-	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx, openni"
+	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx"
 	    description="Internal target, please do not use manually. Downloads all packages needed for runtime use.">
 	</target>
 
@@ -248,29 +248,6 @@ instructions.
 	    </patternset>
 	    <mapper type="glob" from="javacc-5.0/bin/lib/javacc.jar" to="../build/javacc/javacc.jar"/>
 	</unzip>
-	</target>
-
-	<!-- dowload OpenNI from GeoGebra repository -->
-	<target name="openni" depends="openni-windows32, openni-windows64"/>
-
-	<target name="openni-windows32" if="winnt-x86">
-	<mkdir dir="lib"/>
-		<get 
-		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni-1-5-2-23.dll"
-		    dest="lib/OpenNI.jni.dll" usetimestamp="true"/>
-		<get 
-		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI-1-5-2-23.dll"
-		    dest="lib/OpenNI.dll" usetimestamp="true"/>
-	</target>
-	
-	<target name="openni-windows64" if="winnt-amd64">
-	<mkdir dir="lib"/>
-		<get 
-		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni64-1-5-2-23.dll"
-		    dest="lib/OpenNI.jni64.dll" usetimestamp="true"/>
-		<get 
-		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI64-1-5-2-23.dll"
-		    dest="lib/OpenNI64.dll" usetimestamp="true"/>
 	</target>
 	
 	<target name="_osarchinfo" description="Reports OS name and architecture">

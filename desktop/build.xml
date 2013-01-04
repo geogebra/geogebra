@@ -252,7 +252,7 @@ office@geogebra.org
 	<target name="ggb-copy-usb" depends="clean" description="copy usb jar">
 		<copy todir="${build.dir}">
 			<fileset dir="${src.dir}/lib"
-				includes="jd2xx*.jar, openni*.jar, vernier_ccsd*.jar" />
+				includes="jd2xx*.jar, vernier_ccsd*.jar" />
 		</copy>
 	</target>
 
@@ -373,7 +373,6 @@ office@geogebra.org
 			com/bric/**,
 			jd2xx/**,
 			com/quantimegroup/**,
-			com/google/zxing/**,
 			com/vividsolutions/**,
 			scripts/**,
 			**/*.tmp,
@@ -400,7 +399,6 @@ office@geogebra.org
 		<jar jarfile="${build.dir}/geogebra_usb.jar"
 			basedir="${src.dir}"
 			includes="org/concord/**,
-					org/OpenNI/**,
 						ccsd/**,
 			jd2xx/**,
 			geogebra/usb/**"
@@ -462,7 +460,6 @@ office@geogebra.org
 			geogebra/sound/**,
 			geogebra/advancedgeometry/**,
 					edu/uci/**,
-					com/google/zxing/**,
 			org/jfugue/**,
 			org/rosuda/**,
 			com/vividsolutions/**,

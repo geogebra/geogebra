@@ -7,8 +7,6 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
-import geogebra.plugin.kinect.KinectTest;
-import geogebra.plugin.kinect.KinectTestApplication;
 
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
@@ -16,7 +14,6 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -28,9 +25,9 @@ public class ViewMenu extends BaseMenu {
 	private final LayoutD layout;
 
 	private AbstractAction showKeyboardAction, showAlgebraInputAction,
-			showKinectAction, refreshAction, recomputeAllViews;
+			refreshAction, recomputeAllViews;
 
-	private JCheckBoxMenuItem cbShowKeyboard, cbShowKinect, cbShowInputBar;
+	private JCheckBoxMenuItem cbShowKeyboard, cbShowInputBar;
 
 	private ShowViewAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
@@ -84,32 +81,6 @@ public class ViewMenu extends BaseMenu {
 		app.setEmptyIcon(cbShowInputBar);
 		add(cbShowInputBar);
 		
-		// TEST: show/hide Kinect window
-		cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
-		app.setEmptyIcon(cbShowKinect);
-		add(cbShowKinect);
-
-		// cbShowHandwriting = new JCheckBoxMenuItem(showHandwritingAction);
-		// app.setEmptyIcon(cbShowHandwriting);
-		// add(cbShowHandwriting);
-		//
-		// menuHandwriting = new JMenu(app.getMenu("Handwriting"));
-		// menuHandwriting.setIcon(app.getEmptyIcon());
-		// cbShowHandwritingAutoAdd = new
-		// JCheckBoxMenuItem(showHandwritingAutoAddAction);
-		// app.setEmptyIcon(cbShowHandwritingAutoAdd);
-		// menuHandwriting.add(cbShowHandwritingAutoAdd);
-		// cbShowHandwritingTimedAdd = new
-		// JCheckBoxMenuItem(showHandwritingTimedAddAction);
-		// app.setEmptyIcon(cbShowHandwritingTimedAdd);
-		// menuHandwriting.add(cbShowHandwritingTimedAdd);
-		// cbShowHandwritingTimedRecognise = new
-		// JCheckBoxMenuItem(showHandwritingTimedRecogniseAction);
-		// app.setEmptyIcon(cbShowHandwritingTimedRecognise);
-		// menuHandwriting.add(cbShowHandwritingTimedRecognise);
-
-		// add(menuHandwriting);
-
 		addSeparator();
 
 		mi = add(showLayoutOptionsAction);
@@ -181,100 +152,6 @@ public class ViewMenu extends BaseMenu {
 				app.updateContentPane();
 			}
 		};
-
-
-		showKinectAction = new AbstractAction(app.getMenu("KinectWindow")) {
-
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-
-				JFrame f = new JFrame(app.getMenu("KinectWindow"));
-				final KinectTestApplication app2 = new KinectTestApplication(f);
-
-				app2.viewer = new KinectTest(app.getKernel());
-				f.add("Center", app2.viewer);
-				f.pack();
-				f.setVisible(true);
-				Thread runner = new Thread() {
-
-					@Override
-					public void run() {
-						try {
-							Thread.sleep(7000);
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-						app2.run();
-					}
-				};
-				runner.start();
-
-			}
-		};
-
-		/*
-		 * showHandwritingAction = new
-		 * AbstractAction(app.getPlain("ShowHandwriting")) { private static
-		 * final long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) {
-		 * 
-		 * if (Application.isHandwritingRecognitionActive() &&
-		 * !((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
-		 * 
-		 * // if handwriting is active but hidden, just show it
-		 * ((GuiManagerD)app.getGuiManager()).toggleHandwriting(true); update();
-		 * 
-		 * } else {
-		 * 
-		 * Application.setHandwritingRecognitionActive(!Application.
-		 * isHandwritingRecognitionActive());
-		 * ((GuiManagerD)app.getGuiManager()).toggleHandwriting
-		 * (Application.isHandwritingRecognitionActive()); update(); }
-		 * 
-		 * } };
-		 * 
-		 * showHandwritingAutoAddAction = new
-		 * AbstractAction(app.getPlain("AutoAdd")) { private static final long
-		 * serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) {
-		 * Application.setHandwritingRecognitionAutoAdd
-		 * (!Application.isHandwritingRecognitionAutoAdd()); if
-		 * (Application.isHandwritingRecognitionAutoAdd() &&
-		 * Application.isHandwritingRecognitionTimedAdd()) {
-		 * Application.setHandwritingRecognitionTimedAdd
-		 * (!Application.isHandwritingRecognitionTimedAdd());
-		 * ((GuiManagerD)app.getGuiManager()).updateMenubar(); } if
-		 * (((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
-		 * ((GuiManagerD)app.getGuiManager()).getHandwriting().repaint(); } } };
-		 * 
-		 * showHandwritingTimedAddAction = new
-		 * AbstractAction(app.getPlain("TimedAdd")) { private static final long
-		 * serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) {
-		 * Application.setHandwritingRecognitionTimedAdd
-		 * (!Application.isHandwritingRecognitionTimedAdd()); if
-		 * (Application.isHandwritingRecognitionTimedAdd() &&
-		 * Application.isHandwritingRecognitionAutoAdd()) {
-		 * Application.setHandwritingRecognitionAutoAdd
-		 * (!Application.isHandwritingRecognitionAutoAdd());
-		 * ((GuiManagerD)app.getGuiManager()).updateMenubar(); } if
-		 * (((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
-		 * ((GuiManagerD)app.getGuiManager()).getHandwriting().repaint(); } } };
-		 * 
-		 * showHandwritingTimedRecogniseAction = new
-		 * AbstractAction(app.getPlain("TimedRecognise")) { private static final
-		 * long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) {
-		 * Application.setHandwritingRecognitionTimedRecognise
-		 * (!Application.isHandwritingRecognitionTimedRecognise()); if
-		 * (((GuiManagerD)app.getGuiManager()).showHandwritingRecognition()) {
-		 * ((GuiManagerD)app.getGuiManager()).getHandwriting().repaint(); } } };
-		 */
 
 		refreshAction = new AbstractAction(app.getMenu("Refresh"),
 				new ImageIcon(app.getRefreshViewImage())) {
