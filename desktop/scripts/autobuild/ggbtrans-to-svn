@@ -58,6 +58,8 @@ $GGBTRANS_DIR/export.py gwtjava $GWTPROP_DIR
 
 # Generate properties_keys.js
 $GGBTRANS_DIR/export.py gwtjs $JS_DIR
+# Create localizations
+$GGBTRANS_DIR/export.py gwtjs5.0 $JS_DIR
 
 ### End of Arnaud's hacks ###
 
