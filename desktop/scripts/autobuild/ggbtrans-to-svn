@@ -50,11 +50,11 @@ mkdir -p $PROP_DIR
 $GGBTRANS_DIR/export.py trunk $PROP_DIR
 
 # Explode the GWT properties files
-mkdir -p $GWTPROP_DIR
-$GGBTRANS_DIR/export.py gwt $GWTPROP_DIR
-
+# This is no longer needed (we do not use these files any longer)
+# mkdir -p $GWTPROP_DIR
+# $GGBTRANS_DIR/export.py gwt $GWTPROP_DIR
 # Generate the java interfaces
-$GGBTRANS_DIR/export.py gwtjava $GWTPROP_DIR
+# $GGBTRANS_DIR/export.py gwtjava $GWTPROP_DIR
 
 # Generate properties_keys.js
 $GGBTRANS_DIR/export.py gwtjs $JS_DIR
@@ -70,7 +70,7 @@ cd geogebra
 
 # Add new files (with directory):
 git add $PROP_DIR
-git add $GWTPROP_DIR
+# git add $GWTPROP_DIR
 git add $JS_DIR
 
 git commit -m "properties files and related resources automatically updated from ggbtrans"
