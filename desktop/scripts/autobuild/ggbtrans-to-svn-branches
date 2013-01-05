@@ -12,8 +12,8 @@ BRANCHES_DIR=/home/ggbtrans/svn/branches
 SVNSYNC=`pwd`/svnsync
 
 # Updating SVN:
-cd $BRANCHES_DIR/ggb40
-svn update --force
+# cd $BRANCHES_DIR/ggb40
+# svn update --force
 cd $BRANCHES_DIR/ggb42
 svn update --force
 
@@ -21,8 +21,8 @@ cd $BRANCHES_DIR/wiki
 svn update --force
 
 # Deleting old properties files:
-cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
-rm -f *.properties
+# cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
+# rm -f *.properties
 cd $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 rm -f *.properties
 
@@ -30,7 +30,7 @@ cd $BRANCHES_DIR/wiki/geogebra/properties
 rm -f *.properties
 
 # Explode the properties files and commit:
-$GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
+# $GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 $GGBTRANS_DIR/export.py 4.2 $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 cd $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 cp $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
@@ -38,9 +38,9 @@ cp $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties/*.properties $BRANCH
 `$SVNSYNC`
 svn commit -m "ggb42: *.properties files automatically updated from ggbtrans"
 
-cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
-`$SVNSYNC`
-svn commit -m "ggb40: *.properties files automatically updated from ggbtrans"
+# cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
+# `$SVNSYNC`
+# svn commit -m "ggb40: *.properties files automatically updated from ggbtrans"
 
 $GGBTRANS_DIR/export.py wiki $BRANCHES_DIR/wiki/geogebra/properties
 cd $BRANCHES_DIR/wiki/geogebra/properties
