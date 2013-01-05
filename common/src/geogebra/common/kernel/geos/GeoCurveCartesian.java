@@ -705,7 +705,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			double startValResult = extFinder.findMinimum(left, right, distFun,
 					Kernel.MIN_PRECISION);
 			if (distFun.evaluate(startValResult) < distFun
-					.evaluate(sampleResult)) {
+					.evaluate(sampleResult) + Kernel.MIN_PRECISION/2) {
 				return startValResult;
 			}
 		}
