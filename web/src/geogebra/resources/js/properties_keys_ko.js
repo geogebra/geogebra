@@ -3,7 +3,7 @@
  *
  * Keys translations for Korean / 한국말
  *
- * Generated at 2013-01-04 19:21:01.662447 UTC
+ * Generated at 2013-01-05 12:16:27.518791 UTC
  */
 
 if (!window.__GGB__keysVar) {

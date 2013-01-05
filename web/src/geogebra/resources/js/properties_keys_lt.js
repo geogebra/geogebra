@@ -3,7 +3,7 @@
  *
  * Keys translations for Lithuanian / Lietuvių kalba
  *
- * Generated at 2013-01-04 19:21:04.286421 UTC
+ * Generated at 2013-01-05 12:16:29.905562 UTC
  */
 
 if (!window.__GGB__keysVar) {

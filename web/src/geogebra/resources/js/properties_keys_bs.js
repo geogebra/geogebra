@@ -3,7 +3,7 @@
  *
  * Keys translations for Bosnian / босански
  *
- * Generated at 2013-01-04 19:19:58.789917 UTC
+ * Generated at 2013-01-05 12:15:38.111221 UTC
  */
 
 if (!window.__GGB__keysVar) {

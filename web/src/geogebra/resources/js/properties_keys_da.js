@@ -3,7 +3,7 @@
  *
  * Keys translations for Danish / Dansk
  *
- * Generated at 2013-01-04 19:20:08.808228 UTC
+ * Generated at 2013-01-05 12:15:50.023467 UTC
  */
 
 if (!window.__GGB__keysVar) {

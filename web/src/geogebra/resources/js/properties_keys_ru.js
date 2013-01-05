@@ -3,7 +3,7 @@
  *
  * Keys translations for Russian / Русский язык
  *
- * Generated at 2013-01-04 19:21:28.838882 UTC
+ * Generated at 2013-01-05 12:16:54.158784 UTC
  */
 
 if (!window.__GGB__keysVar) {
@@ -2020,7 +2020,7 @@ __GGB__keysVar.ru.plain = {
     "Button": "Кнопка",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Имя %0 уже используется, поэтому было изменено на %1",
-    "CASFieldHelp": "<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
+    "CASFieldHelp": "<html><body><p><b>Посмотреть использование CAS</b></p><table border=\"1\"><tr><td>Enter </td><td>Оцените вход</td></tr><tr><td>; </td><td>Убрать вывод</td></tr><tr><td>Ctrl + Enter </td><td>оценка в цифровом виде</td></tr><tr><td>Alt + Enter </td><td>Проверить входные</td></tr><tr><td>Уйти</td><td>Стереть вход</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
     "CASInitializing": "Инициализация CAS",
     "CASShowRationalExponentsAsRoots": "Представить рациональные показатели, как корни",
     "CASTimedOut": "CAS в режиме тайм-аута",

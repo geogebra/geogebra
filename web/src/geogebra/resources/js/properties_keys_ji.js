@@ -3,7 +3,7 @@
  *
  * Keys translations for Yiddish / ייִדיש
  *
- * Generated at 2013-01-04 19:22:40.023152 UTC
+ * Generated at 2013-01-05 12:18:01.879113 UTC
  */
 
 if (!window.__GGB__keysVar) {
@@ -1636,7 +1636,7 @@ __GGB__keysVar.ji.menu = {
     "ResidualPlot": "רעשטן־דיאַגראַם",
     "Result": "רעזולטאַט",
     "ReturnAngleInverseTrig": "פֿאַרקערטע טריגאָנאָמעטרישע פֿונקציעס גיבן אַרויס אַ ווינקל",
-    "RightAngleStyle": "סטיל פֿאַר אַ גראָדן ווינקל",
+    "RightAngleStyle": "באַזונדערער סימן פֿאַר אַ גראָדן ווינקל",
     "RightClassRule": "< x ≤",
     "RightProb": "רעכטס",
     "RigidPolygon": "שטײַפֿער פּאָליגאָן",
@@ -2134,7 +2134,7 @@ __GGB__keysVar.ji.plain = {
     "Edit": "באַאַרבעטן",
     "Ellipse": "עליפּס",
     "EllipseEquation": "(x - m)² / a² + (y - n)² / b² = 1",
-    "EllipseWithFociABPassingThroughC": "עליפשׁס מיט פֿאָקוסן %0, %1 דורך %2",
+    "EllipseWithFociABPassingThroughC": "עליפּס מיט פֿאָקוסן %0, %1 דורך %2",
     "EllipseWithFociABandFirstAxisLengthC": "עליפּס מיט פֿאָקוסן %0, %1 און לענג פֿון ערשטן אַקס %2",
     "EmphasizeRightAngle": "אַרויסהייבן אַ גראָדן ווינקל",
     "EmptyBox": "(ליידיק קעסטל)",

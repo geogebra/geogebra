@@ -3,7 +3,7 @@
  *
  * Keys translations for Afrikaans
  *
- * Generated at 2013-01-04 19:22:46.974822 UTC
+ * Generated at 2013-01-05 12:18:08.734359 UTC
  */
 
 if (!window.__GGB__keysVar) {

@@ -3,7 +3,7 @@
  *
  * Keys translations for Estonian / Eesti keel
  *
- * Generated at 2013-01-04 19:20:24.509440 UTC
+ * Generated at 2013-01-05 12:16:01.125222 UTC
  */
 
 if (!window.__GGB__keysVar) {

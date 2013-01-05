@@ -3,7 +3,7 @@
  *
  * Keys translations for Malay / Bahasa Malaysia
  *
- * Generated at 2013-01-04 19:21:10.856943 UTC
+ * Generated at 2013-01-05 12:16:36.157550 UTC
  */
 
 if (!window.__GGB__keysVar) {

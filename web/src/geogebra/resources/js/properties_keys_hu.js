@@ -3,7 +3,7 @@
  *
  * Keys translations for Hungarian / Magyar
  *
- * Generated at 2013-01-04 19:20:47.832367 UTC
+ * Generated at 2013-01-05 12:16:15.719871 UTC
  */
 
 if (!window.__GGB__keysVar) {

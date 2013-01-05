@@ -3,7 +3,7 @@
  *
  * Keys translations for Icelandic / Íslenska
  *
- * Generated at 2013-01-04 19:20:51.157196 UTC
+ * Generated at 2013-01-05 12:16:18.047303 UTC
  */
 
 if (!window.__GGB__keysVar) {

@@ -3,7 +3,7 @@
  *
  * Keys translations for Dutch (Belgium)
  *
- * Generated at 2013-01-04 19:22:58.184262 UTC
+ * Generated at 2013-01-05 12:18:20.262245 UTC
  */
 
 if (!window.__GGB__keysVar) {

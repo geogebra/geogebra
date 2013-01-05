@@ -3,7 +3,7 @@
  *
  * Keys translations for Basque / Euskara
  *
- * Generated at 2013-01-04 19:20:27.573377 UTC
+ * Generated at 2013-01-05 12:16:03.691233 UTC
  */
 
 if (!window.__GGB__keysVar) {

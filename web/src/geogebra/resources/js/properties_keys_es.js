@@ -3,7 +3,7 @@
  *
  * Keys translations for Spanish / Español
  *
- * Generated at 2013-01-04 19:20:20.830158 UTC
+ * Generated at 2013-01-05 12:15:58.471943 UTC
  */
 
 if (!window.__GGB__keysVar) {
@@ -330,7 +330,7 @@ __GGB__keysVar.es.command = {
     "Frequency_Syntax": "[ <Lista de Datos en Bruto> ]\n[ <Booleana de Acumulado>, <Lista de Datos en Bruto> ]\n[ <Lista de Límites de Clase>, <Lista de Datos en Bruto> ]\n[ <Lista de Texto>, <Lista de Texto> ]\n[ <Booleana de Acumulado>, <Lista de Límites de Clase>, <Lista de Datos en Bruto> ]\n[ <Lista de Límites de Clase>, <Lista de Datos en Bruto>, <Densidad en Uso>, <Factor de Escala de Densidad (opcional)> ]\n[ <Booleana de Acumulado>, <Lista de Límites de Clase>, <Lista de Datos en Bruto>, <Densidad en Uso>, <Factor de Escala de Densidad(opcional)> ]",
     "FrequencyPolygon": "PolígonoDeFrecuencias",
     "FrequencyPolygon_Syntax": "[ <Lista de Límites de Clase>, <Lista de Alturas> ]\n[ <Lista de Límites de Clase>, <Lista de Datos en Bruto>, <Densidad en Uso>, <Factor de Escala de Densidad (opcional)> ]\n[ <Acumulada Booleana>, <Lista de Límites de Clase>, <Lista de Datos en Bruto>, <Densidad en Uso>, <Factor de Escala de Densidad (opcional)> ]",
-    "FrequencyTable": "TablaDeFrecuencia",
+    "FrequencyTable": "TablaDeFrecuencias",
     "FrequencyTable_Syntax": "[ <Lista de Datos en Bruto> ]\n[ <Boolenana Acumulativa>, <Lista de Datos en Bruto> ]\n[ <Lista de Límites de Clase>, <Lista de Datos en Bruto> ]\n[ <Boolenana Acumulativa>, <Lista de Límites de Clase>, <Lista de Datos en Bruto> ]\n[ <Lista de Límites de Clase>, <Lista de Datos en Bruto>, <Densidad de Uso>, <Factor de Escala de Densidad> (opcional) ]\n[ <Boolenana Acumulativa>, <Lista de Límites de Clase>, <Lista de Datos en Bruto>, <Booleana de Densidad en Usos>, <Factor de Escala de Densidad> (opcional) ]",
     "FromBase": "DesdeBase",
     "FromBase_Syntax": "[ \"<Número como Texto>\", <Base> ]",

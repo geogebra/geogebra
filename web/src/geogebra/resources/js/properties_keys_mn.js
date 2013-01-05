@@ -3,7 +3,7 @@
  *
  * Keys translations for Mongolian / Монгол хэл
  *
- * Generated at 2013-01-04 19:22:36.468496 UTC
+ * Generated at 2013-01-05 12:17:58.402429 UTC
  */
 
 if (!window.__GGB__keysVar) {

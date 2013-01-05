@@ -3,7 +3,7 @@
  *
  * Keys translations for Hebrew / עִבְרִית
  *
- * Generated at 2013-01-04 19:20:56.383964 UTC
+ * Generated at 2013-01-05 12:16:22.730170 UTC
  */
 
 if (!window.__GGB__keysVar) {

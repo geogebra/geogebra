@@ -3,7 +3,7 @@
  *
  * Keys translations for French / Français
  *
- * Generated at 2013-01-04 19:20:39.279320 UTC
+ * Generated at 2013-01-05 12:16:10.886074 UTC
  */
 
 if (!window.__GGB__keysVar) {

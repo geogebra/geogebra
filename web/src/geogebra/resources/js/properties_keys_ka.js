@@ -3,7 +3,7 @@
  *
  * Keys translations for Georgian / ქართული ენა
  *
- * Generated at 2013-01-04 19:22:06.463910 UTC
+ * Generated at 2013-01-05 12:17:29.379934 UTC
  */
 
 if (!window.__GGB__keysVar) {

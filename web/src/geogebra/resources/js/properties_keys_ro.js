@@ -3,7 +3,7 @@
  *
  * Keys translations for Romanian /  Română
  *
- * Generated at 2013-01-04 19:21:26.963518 UTC
+ * Generated at 2013-01-05 12:16:52.322294 UTC
  */
 
 if (!window.__GGB__keysVar) {

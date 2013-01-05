@@ -3,7 +3,7 @@
  *
  * Keys translations for Tajik /  тоҷикӣ
  *
- * Generated at 2013-01-04 19:22:38.588100 UTC
+ * Generated at 2013-01-05 12:18:00.480267 UTC
  */
 
 if (!window.__GGB__keysVar) {

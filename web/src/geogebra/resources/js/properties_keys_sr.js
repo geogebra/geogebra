@@ -3,7 +3,7 @@
  *
  * Keys translations for Serbian / српски
  *
- * Generated at 2013-01-04 19:22:21.041417 UTC
+ * Generated at 2013-01-05 12:17:43.031759 UTC
  */
 
 if (!window.__GGB__keysVar) {

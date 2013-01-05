@@ -3,7 +3,7 @@
  *
  * Keys translations for Swedish / Svenska
  *
- * Generated at 2013-01-04 19:22:23.423732 UTC
+ * Generated at 2013-01-05 12:17:45.403127 UTC
  */
 
 if (!window.__GGB__keysVar) {

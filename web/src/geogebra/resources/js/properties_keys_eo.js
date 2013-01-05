@@ -3,7 +3,7 @@
  *
  * Keys translations for Esperanto
  *
- * Generated at 2013-01-04 19:23:01.490973 UTC
+ * Generated at 2013-01-05 12:18:23.645054 UTC
  */
 
 if (!window.__GGB__keysVar) {

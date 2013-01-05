@@ -3,7 +3,7 @@
  *
  * Keys translations for Galician / Galego
  *
- * Generated at 2013-01-04 19:21:57.813594 UTC
+ * Generated at 2013-01-05 12:17:20.973292 UTC
  */
 
 if (!window.__GGB__keysVar) {

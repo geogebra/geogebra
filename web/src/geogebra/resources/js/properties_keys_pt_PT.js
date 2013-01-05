@@ -3,7 +3,7 @@
  *
  * Keys translations for Portuguese (Portugal) / Português (Portugal)
  *
- * Generated at 2013-01-04 19:21:23.604617 UTC
+ * Generated at 2013-01-05 12:16:48.952832 UTC
  */
 
 if (!window.__GGB__keysVar) {

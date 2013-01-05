@@ -3,7 +3,7 @@
  *
  * Keys translations for Chinese Simplified / 简体中文
  *
- * Generated at 2013-01-04 19:22:34.116041 UTC
+ * Generated at 2013-01-05 12:17:56.049144 UTC
  */
 
 if (!window.__GGB__keysVar) {
@@ -1790,7 +1790,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Symbol_Infinity": "无穷",
     "Symbol_LessThanEqualTo": "小于或等于",
     "Symbol_NBSP": "不断行空白",
-    "Symbol_Negation": "否定",
+    "Symbol_Negation": "非",
     "Symbol_NotEqual": "不等于",
     "Symbol_Or": "或",
     "Symbol_Parallel": "平行",

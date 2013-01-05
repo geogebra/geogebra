@@ -3,7 +3,7 @@
  *
  * Keys translations for Bulgarian / български език
  *
- * Generated at 2013-01-04 19:21:47.118394 UTC
+ * Generated at 2013-01-05 12:17:10.478401 UTC
  */
 
 if (!window.__GGB__keysVar) {

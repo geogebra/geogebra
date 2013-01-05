@@ -3,7 +3,7 @@
  *
  * Keys translations for Polish / Język polski
  *
- * Generated at 2013-01-04 19:21:18.952839 UTC
+ * Generated at 2013-01-05 12:16:44.273999 UTC
  */
 
 if (!window.__GGB__keysVar) {

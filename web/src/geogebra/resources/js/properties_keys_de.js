@@ -3,7 +3,7 @@
  *
  * Keys translations for German / Deutsch
  *
- * Generated at 2013-01-04 19:20:12.765168 UTC
+ * Generated at 2013-01-05 12:15:52.625863 UTC
  */
 
 if (!window.__GGB__keysVar) {

@@ -3,7 +3,7 @@
  *
  * Keys translations for Catalan / Català
  *
- * Generated at 2013-01-04 19:20:01.174369 UTC
+ * Generated at 2013-01-05 12:15:42.214303 UTC
  */
 
 if (!window.__GGB__keysVar) {
@@ -1741,9 +1741,9 @@ __GGB__keysVar.ca.menu = {
     "Spearman_short": "ρ",
     "SpecialLineTools": "Eines de construcció de rectes especials",
     "SpecialObjectTools": "Eines per a objectes especials",
-    "Sphere2": "Esfera amb centre i un punt",
+    "Sphere2": "Esfera donats el seu centre i un punt per on passa",
     "Sphere2_Help": "Seleccioneu el centre i, a continuació, un punt sobre l'esfera",
-    "SpherePointRadius": "Esfera amb centre i radi",
+    "SpherePointRadius": "Esfera donats el seu centre i el radi",
     "SpherePointRadius_Help": "Seleccioneu el centre i introduïu el radi",
     "Split": "Divideix les cel·les en columnes",
     "Split_Help": "Seleccioneu les columnes a dividir",

@@ -3,7 +3,7 @@
  *
  * Keys translations for Chinese Traditional / 繁體中文
  *
- * Generated at 2013-01-04 19:21:42.569224 UTC
+ * Generated at 2013-01-05 12:17:06.159098 UTC
  */
 
 if (!window.__GGB__keysVar) {

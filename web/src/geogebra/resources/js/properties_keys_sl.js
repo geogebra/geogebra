@@ -3,7 +3,7 @@
  *
  * Keys translations for Slovenian / Slovenščina
  *
- * Generated at 2013-01-04 19:21:33.608768 UTC
+ * Generated at 2013-01-05 12:16:59.217617 UTC
  */
 
 if (!window.__GGB__keysVar) {

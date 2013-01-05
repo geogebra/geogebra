@@ -3,7 +3,7 @@
  *
  * Keys translations for Nepalese / नेपाली
  *
- * Generated at 2013-01-04 19:22:10.652489 UTC
+ * Generated at 2013-01-05 12:17:33.046505 UTC
  */
 
 if (!window.__GGB__keysVar) {

@@ -3,7 +3,7 @@
  *
  * Keys translations for Vietnamese / Tiếng Việt
  *
- * Generated at 2013-01-04 19:21:39.437040 UTC
+ * Generated at 2013-01-05 12:17:03.857018 UTC
  */
 
 if (!window.__GGB__keysVar) {
