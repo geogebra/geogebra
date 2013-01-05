@@ -1783,7 +1783,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codePoint.append("pt);\n");	
 			}
 			else if (dotstyle==EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND){
-				codePoint.append("\\fill [color=");
+				codePoint.append("\\draw [fill=");
 				ColorCode(dotcolor,codePoint);
 				codePoint.append("] ");
 				writePoint(x,y,codePoint);
@@ -1829,7 +1829,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 			else if (dotstyle==EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST){
 				double radius=3*dotsize/4;
-				codePoint.append("\\fill [color=");
+				codePoint.append("\\draw [fill=");
 				ColorCode(dotcolor,codePoint);
 				codePoint.append(",shift={");
 				writePoint(x,y,codePoint);
@@ -1852,7 +1852,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 			else if (dotstyle==EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH){
 				double radius=3*dotsize/4;
-				codePoint.append("\\fill [color=");
+				codePoint.append("\\draw [fill=");
 				ColorCode(dotcolor,codePoint);
 				codePoint.append(",shift={");
 				writePoint(x,y,codePoint);
@@ -1875,7 +1875,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 			else if (dotstyle==EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH){
 				double radius=3*dotsize/4;
-				codePoint.append("\\fill [color=");
+				codePoint.append("\\draw [fill=");
 				ColorCode(dotcolor,codePoint);
 				codePoint.append(",shift={");
 				writePoint(x,y,codePoint);
@@ -1898,7 +1898,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 			else if (dotstyle==EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST){
 				double radius=3*dotsize/4;
-				codePoint.append("\\fill [color=");
+				codePoint.append("\\draw [fill=");
 				ColorCode(dotcolor,codePoint);
 				codePoint.append(",shift={");
 				writePoint(x,y,codePoint);
@@ -1922,7 +1922,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			
 			// default is the circle point style
 			else {
-				codePoint.append("\\fill [color=");
+				codePoint.append("\\draw [fill=");
 				ColorCode(dotcolor,codePoint);
 				codePoint.append("] ");
 				writePoint(x,y,codePoint);
