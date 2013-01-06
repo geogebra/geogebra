@@ -66,7 +66,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -3675,12 +3674,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		App.debug("unimplemented");
 		
 	}
-
-	@Override
-	public Image getExportImage(double scale) {
-		return getRenderer().getExportImage(true);
-	}
-	
 	
 }
 

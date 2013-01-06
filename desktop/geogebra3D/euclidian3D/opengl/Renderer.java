@@ -15,6 +15,7 @@ import geogebra3D.euclidian3D.Hits3D;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -384,7 +385,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	//notify();
         }
         
-        if (exportingToGIF) {
+        switch (exportType) {
+        case ANIMATEDGIF:
         	App.debug("Exporting frame: "+export_i);
         	
         	
@@ -406,7 +408,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 			export_i++;
 			
 			if (export_i>=export_n) {
-				exportingToGIF = false;
+				exportType = ExportType.NONE;
 				gifEncoder.finish();
 
 				App.debug("GIF export finished");
@@ -415,6 +417,25 @@ public class Renderer extends RendererJogl implements GLEventListener {
 				export_num.setValue(export_val);
 				export_num.updateRepaint();
 			}
+			break;
+			
+        case CLIPBOARD:
+        	App.debug("Exporting to clipboard");
+        	
+        	setExportImage();
+        	
+			if (bi == null) {
+				App.error("image null");
+			} else {
+				geogebra.gui.util.ImageSelection imgSel = new geogebra.gui.util.ImageSelection(
+						bi);
+				Toolkit.getDefaultToolkit().getSystemClipboard()
+						.setContents(imgSel, null);
+			}
+			
+			exportType = ExportType.NONE;
+      	
+        	break;
 
         }
     }
@@ -716,11 +737,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     /**
      * @return a BufferedImage containing last export image created
      */
-    public BufferedImage getExportImage(boolean refresh){
-    	
-    	if (refresh || bi == null) {
-    	//	setExportImage();    	    
-    	}
+    public BufferedImage getExportImage(){
     	return bi;
     }   
     
@@ -1881,10 +1898,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		gl.glColorMask(true,true,true,true);
     	}	
     }
-	
+    
+    enum ExportType { NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD };
+    
     private double cavX, cavY;
     private Coords cavOrthoDirection; //direction "orthogonal" to the screen (i.e. not visible)
-	private boolean exportingToGIF = false;
+	private ExportType exportType = ExportType.NONE;
 	private int export_n;
 	private double export_val;
 	private double export_min;
@@ -1965,7 +1984,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	public void startAnimatedGIFExport(AnimatedGifEncoder gifEncoder,
 			GeoNumeric num, int n, double val, double min, double max,
 			double step) {
-		exportingToGIF  = true;
+		exportType  = ExportType.ANIMATEDGIF;
 		
 		num.setValue(val);
 		num.updateRepaint();
@@ -1979,6 +1998,13 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		this.export_max = max;
 		this.export_step = step;
 		this.gifEncoder = gifEncoder;
+		
+	}
+
+
+
+	public void exportToClipboard() {
+		exportType = ExportType.CLIPBOARD;
 		
 	}
 	

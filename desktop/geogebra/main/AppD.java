@@ -2178,7 +2178,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		// copy drawing pad to the system clipboard
-		Image img = ev.getExportImage(scale);
+		Image img = ((EuclidianViewD) ev).getExportImage(scale);
 		geogebra.gui.util.ImageSelection imgSel = new geogebra.gui.util.ImageSelection(
 				img);
 		Toolkit.getDefaultToolkit().getSystemClipboard()
@@ -5481,7 +5481,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			num.setValue(val);
 			num.updateRepaint();
 
-			Image img = getActiveEuclidianView().getExportImage(1);
+			Image img = ((EuclidianViewD) getActiveEuclidianView()).getExportImage(1);
 			if (img == null) {
 				App.error("image null");
 			} else {

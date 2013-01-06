@@ -41,6 +41,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -1226,7 +1227,22 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+		
+		if (!(getParentAlgorithm() instanceof AlgoPointOnPath)) {
+			// write x,y,z
+			super.getXMLtags(sb);
+		} else {
+	        sb.append("\t<coords");
+	        sb.append(" t=\"");
+	        sb.append(getPathParameter().t);
+	        sb.append("\"");
+
+	        sb.append(" x=\""); sb.append(x); sb.append("\"");
+	        sb.append(" y=\""); sb.append(y); sb.append("\"");
+	        sb.append(" z=\""); sb.append(z); sb.append("\"");        
+	        sb.append("/>\n");
+
+		}
 
 		/*
 		 * should not be needed if (path != null) { pathParameter.appendXML(sb);

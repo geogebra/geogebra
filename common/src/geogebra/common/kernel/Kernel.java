@@ -504,12 +504,21 @@ public class Kernel {
 		GeoVec3D v = (GeoVec3D) geo;
 
 		try {
+			String tAttr = attrs.get("t");
+			
+			if (tAttr != null) {
+				// AlgoPointOnPath
+				double t = StringUtil.parseDouble(tAttr);
+				((GeoPoint)v).getPathParameter().setT(t);
+			}
+
 			double x = StringUtil.parseDouble(attrs.get("x"));
 			double y = StringUtil.parseDouble(attrs.get("y"));
 			double z = StringUtil.parseDouble(attrs.get("z"));
 			v.hasUpdatePrevilege = true;
 			v.setCoords(x, y, z);
 			return true;
+			
 		} catch (Exception e) {
 			return false;
 		}

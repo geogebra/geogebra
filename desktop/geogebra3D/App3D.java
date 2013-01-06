@@ -47,7 +47,6 @@ import geogebra3D.util.ImageManager3D;
 
 import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -178,13 +177,6 @@ public class App3D extends AppD {
 			for (EuclidianViewForPlane view : euclidianViewForPlaneList)
 				view.getXML(sb, asPreference);
 
-	}
-
-	@Override
-	public BufferedImage getExportImage(double maxX, double maxY)
-			throws OutOfMemoryError {
-		// TODO use maxX, maxY values
-		return getEuclidianView3D().getRenderer().getExportImage(true);
 	}
 
 	@Override
@@ -482,6 +474,20 @@ public class App3D extends AppD {
 		
 		getEuclidianView3D().getRenderer().startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
 	}
+	
+	@Override
+	public void copyGraphicsViewToClipboard() {
+
+		if (!(getActiveEuclidianView() instanceof EuclidianView3D)) {
+			// regular 2D export
+			super.copyGraphicsViewToClipboard();
+			return;
+		}
+
+		getEuclidianView3D().getRenderer().exportToClipboard();
+	
+	}
+
 
 	
 }

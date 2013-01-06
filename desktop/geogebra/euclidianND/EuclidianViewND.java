@@ -19,7 +19,6 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -472,7 +471,4 @@ public abstract class EuclidianViewND extends EuclidianView{
 			styleBar.updateVisualStyle(geo);
 	}
 
-
-	public abstract Image getExportImage(double scale);
-	
 }
