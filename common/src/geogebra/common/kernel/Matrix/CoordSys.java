@@ -218,6 +218,25 @@ public class CoordSys {
 	public int getMadeCoordSys() {
 		return madeCoordSys;
 	}
+	
+	/**
+	 * complete the coord sys for 2 dimension
+	 */
+	public void completeCoordSys2D(){
+		switch(getMadeCoordSys()){
+		case 0:
+			addVectorWithoutCheckMadeCoordSys(Coords.VX);
+			addVectorWithoutCheckMadeCoordSys(Coords.VY);
+			break;
+		case 1:
+			Coords vx = getVx();
+			if (Kernel.isZero(vx.getX()))
+				addVectorWithoutCheckMadeCoordSys(new Coords(0,-vx.getZ(),vx.getY(),0));
+			else
+				addVectorWithoutCheckMadeCoordSys(new Coords(-vx.getY(),vx.getX(),0,0));
+			break;
+		}
+	}
 
 	/**
 	 * return if the coord sys is made

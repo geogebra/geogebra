@@ -115,11 +115,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		GeoPolygon polygon = (GeoPolygon) getGeoElement();
 		int pointLength = polygon.getPointsLength();
 		
-		if (pointLength<3) //no polygon
+		if (pointLength<3 || Kernel.isZero(polygon.getArea())){ //no polygon
+			setGeometryIndex(-1);
 			return true;
-		
-		if (Kernel.isZero(polygon.getArea())) //no polygon
-			return true;
+		}
 		
 		
 		Renderer renderer = getView3D().getRenderer();
@@ -129,8 +128,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		
 		// if index==0, no polygon have been created
-		if (index==0)
+		if (index==0){
+			setGeometryIndex(-1);
 			return true;
+		}
 		
 		setGeometryIndex(index);
 				

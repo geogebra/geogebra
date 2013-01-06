@@ -294,6 +294,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 			coordSys.addPoint(points[i].getInhomCoordsInD(3));
 		}
+		
+		if(coordSys.getMadeCoordSys()!=2){
+			coordSys.completeCoordSys2D();
+		}
 
 		if (coordSys.makeOrthoMatrix(false, false)) {
 			checkPointsAreOnCoordSys();

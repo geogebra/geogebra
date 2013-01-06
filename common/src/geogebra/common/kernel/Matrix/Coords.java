@@ -28,6 +28,13 @@ public class Coords extends CoordMatrix {
 	private double norm, sqNorm;
 	private boolean calcNorm = true;
 	private boolean calcSqNorm = true;
+	
+	/** vx 3D vector */
+	public static final Coords VX = new Coords(1,0,0,0);
+	/** vy 3D vector */
+	public static final Coords VY = new Coords(0,1,0,0);
+	/** vz 3D vector */
+	public static final Coords VZ = new Coords(0,0,1,0);
 
 	// /////////////////////////////////////////////////:
 	// Constructors
