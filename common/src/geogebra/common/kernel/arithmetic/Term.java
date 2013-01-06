@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.Operation;
 
@@ -375,14 +376,14 @@ public class Term implements Comparable<Object>, Serializable {
 		if (ExpressionNode.isEqualString(coefficient, 0, true))
 			return "0";
 		if (ExpressionNode.isEqualString(coefficient, 1, true)) {
-			if (variableString().length() > 0) {
-				return variableString();
+			if (variableString(tpl).length() > 0) {
+				return variableString(tpl);
 			}
 			return "1";
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String var = variableString();
+		String var = variableString(tpl);
 		if (ExpressionNode.isEqualString(coefficient, -1, true)
 				&& var.length() > 0) {
 			sb.append('-');
@@ -416,12 +417,26 @@ public class Term implements Comparable<Object>, Serializable {
 			return ev.toString(tpl);
 	}
 
-	private String variableString() {
+	private String variableString(StringTemplate tpl) {
+		String str = variables.toString();
+		
+		if(tpl.hasType(StringType.MPREDUCE) && variables.length()>=1){
+			
+			StringBuilder sb = new StringBuilder("(");
+			
+			for(int i=0;i<str.length();i++){
+				if(i>0)
+					sb.append('*');
+				sb.append(tpl.printVariableName(str.charAt(0)+""));
+			}
+			sb.append(')');
+			return sb.toString();
+		}
 		switch (variables.length()) {
 		case 1:
-			return variables.toString();
+			return str;
 		case 2:
-			String str = variables.toString();
+			
 			if (str.equals("xx")) {
 				return "x\u00b2";
 			}

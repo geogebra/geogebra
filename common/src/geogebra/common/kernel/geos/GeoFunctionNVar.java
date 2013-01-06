@@ -290,7 +290,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl){
 		sbToString.setLength(0);
-		sbToString.append(kernel.printVariableName(label, tpl));
+		sbToString.append(tpl.printVariableName(label));
 		sbToString.append("(");
 		sbToString.append(getVarString(tpl));
 		sbToString.append(")");

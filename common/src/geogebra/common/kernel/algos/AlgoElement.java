@@ -1133,7 +1133,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 				// e.g. Element[list, 1] becomes ggbtmpvarElement[list, 1] to
 				// make sure that the CAS does not evaluate this command, see
 				// #1447
-				cmdname = kernel.printVariableName(cmdname,tpl);
+				cmdname = tpl.printVariableName(cmdname);
 			}
 		}
 		return cmdname;

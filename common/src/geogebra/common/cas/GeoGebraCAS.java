@@ -390,7 +390,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						sbCASCommand.append("coord(");
 					} else {
 						sbCASCommand.append("multiplication(");
-						sbCASCommand.append(kern.printVariableName(ch+"", tpl));
+						sbCASCommand.append(tpl.printVariableName(ch+""));
 						sbCASCommand.append(",");
 					}
 					handled = true;
@@ -421,8 +421,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 			// standard case: add ggbcasvar prefix to name for CAS
 			if (!handled) {
-				sbCASCommand.append(app.getKernel()
-						.printVariableName(name, tpl));
+				sbCASCommand.append(tpl
+						.printVariableName(name));
 				sbCASCommand.append('(');
 			}
 			for (int i = 0; i < args.size(); i++) {

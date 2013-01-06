@@ -1992,63 +1992,6 @@ public class Kernel {
 		setEpsilon(STANDARD_PRECISION);
 	}
 
-	/**
-	 * Returns variable label depending on tpl. A label may be prefixed here
-	 * by ExpressionNode.TMP_VARIABLE_PREFIX or Kernel's casVarPrefix
-	 * 
-	 * @param label original label
-	 * @param tpl string template
-	 * @return prefixed label
-	 */
-	public String printVariableName(final String label, final StringTemplate tpl) {
-		String ret;
-		if (tpl.isUseTempVariablePrefix()) {
-			ret = addTempVariablePrefix(label);
-		}
-		ret = printVariableName(tpl.getStringType(), label);
-		
-		 if (ret.length() == 1 && ret.equals("l") && tpl.getStringType().equals(StringType.LATEX)) {
-			   ret = "\\ell";
-		 }
-		
-		return ret;
-	}
-
-	/**
-	 * Returns the label depending on the current print form. When sending
-	 * variables to the underlying CAS, we need to make sure that we don't
-	 * overwrite variable names there, so we add the prefix
-	 * ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX.
-	 * 
-	 * @param printForm string type
-	 * @param label raw label without prefixes
-	 * @return label depending on given string type
-	 */
-	final public String printVariableName(final StringType printForm, final String label) {
-		switch (printForm) {
-		case MPREDUCE:
-		case MAXIMA:
-			// make sure we don't interfer with reserved names
-			// or command names in the underlying CAS
-			// see http://www.geogebra.org/trac/ticket/1051
-			return addTempVariablePrefix(label.replace("$", ""));
-
-		default:
-			// standard case
-			return label;
-		}
-	}
-
-	/**
-	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
-	 */
-	private static String addTempVariablePrefix(final String label) {
-		StringBuilder sb = new StringBuilder();
-		// TMP_VARIABLE_PREFIX + label
-		sb.append(TMP_VARIABLE_PREFIX);
-		sb.append(label);
-		return sb.toString();
-	}
 
 	/**
 	 * @param str string, possibly containing CAS prefix several times

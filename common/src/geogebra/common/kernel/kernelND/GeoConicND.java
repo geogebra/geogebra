@@ -1346,8 +1346,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		if(tpl.hasType(StringType.MPREDUCE)){
 			StringBuilder sb = sbToValueString;
 			sb.setLength(0);
-			String x = kernel.printVariableName("x",tpl);
-			String y = kernel.printVariableName("y",tpl);
+			String x = tpl.printVariableName("x");
+			String y = tpl.printVariableName("y");
 			sb.append("(");
 			sb.append(kernel.format(coeffs[0],tpl));
 			sb.append(")*");

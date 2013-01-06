@@ -808,11 +808,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			sb.append("(");
 			sb.append(kernel.format(x,tpl));
 			sb.append(")*");
-			sb.append(kernel.printVariableName("x",tpl));
+			sb.append(tpl.printVariableName("x"));
 			sb.append("+(");
 			sb.append(kernel.format(y,tpl));
 			sb.append(")*");
-			sb.append(kernel.printVariableName("y",tpl));
+			sb.append(tpl.printVariableName("y"));
 			sb.append('=');
 			sb.append(kernel.format(-z,tpl));
 			return sb;

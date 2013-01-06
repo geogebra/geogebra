@@ -225,11 +225,11 @@ public abstract class ValidExpression implements ExpressionValue {
 		StringBuilder sb = new StringBuilder();		
 		switch (assignmentType) {
 		case DEFAULT:
-			sb.append(getKernel().printVariableName(getLabelForAssignment(),tpl));
+			sb.append(tpl.printVariableName(getLabelForAssignment()));
 			sb.append(getAssignmentOperatorLaTeX());
 			break;
 		case DELAYED:
-			sb.append(getKernel().printVariableName(getLabelForAssignment(),tpl));
+			sb.append(tpl.printVariableName(getLabelForAssignment()));
 			sb.append(getDelayedAssignmentOperatorLaTeX());
 			break;
 		}

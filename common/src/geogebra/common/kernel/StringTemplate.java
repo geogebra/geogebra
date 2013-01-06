@@ -450,6 +450,56 @@ public class StringTemplate {
 		
 		return result;
 	}
+	
+	/**
+	 * Returns the label depending on the current print form. When sending
+	 * variables to the underlying CAS, we need to make sure that we don't
+	 * overwrite variable names there, so we add the prefix
+	 * ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX.
+
+	 * @param label raw label without prefixes
+	 * @return label depending on given string type
+	 */
+	public String printVariableName(final String label) {
+		String ret;
+		if (isUseTempVariablePrefix()) {
+			ret = addTempVariablePrefix(label);
+		}
+		ret = printVariableName(getStringType(), label);
+		
+		 if (ret.length() == 1 && ret.equals("l") && hasType(StringType.LATEX)) {
+			   ret = "\\ell";
+		 }
+		
+		return ret;
+	}
+	
+
+	final private static String printVariableName(final StringType printForm, final String label) {
+		switch (printForm) {
+		case MPREDUCE:
+		case MAXIMA:
+			// make sure we don't interfer with reserved names
+			// or command names in the underlying CAS
+			// see http://www.geogebra.org/trac/ticket/1051
+			return addTempVariablePrefix(label.replace("$", ""));
+
+		default:
+			// standard case
+			return label;
+		}
+	}
+	
+	/**
+	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
+	 */
+	private static String addTempVariablePrefix(final String label) {
+		StringBuilder sb = new StringBuilder();
+		// TMP_VARIABLE_PREFIX + label
+		sb.append(Kernel.TMP_VARIABLE_PREFIX);
+		sb.append(label);
+		return sb.toString();
+	}
 		
 	
 	

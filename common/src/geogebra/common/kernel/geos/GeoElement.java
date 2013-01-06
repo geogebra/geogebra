@@ -469,9 +469,9 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 				return algoParent.getCommandDescription(tpl);
 			}
-			return kernel.printVariableName(label,tpl);
+			return tpl.printVariableName(label);
 		}
-		return kernel.printVariableName(realLabel,tpl);
+		return tpl.printVariableName(realLabel);
 	}
 
 	/**
@@ -5895,7 +5895,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet()) {
-			ret = kernel.printVariableName(label,tpl);
+			ret = tpl.printVariableName(label);
 		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]

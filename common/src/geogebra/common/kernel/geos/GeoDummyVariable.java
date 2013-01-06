@@ -25,7 +25,7 @@ public class GeoDummyVariable extends GeoNumeric {
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		return kernel.printVariableName(varName,tpl);
+		return tpl.printVariableName(varName);
 	}		
 	
 	@Override

@@ -180,7 +180,7 @@ public class Variable extends ValidExpression {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return kernel.printVariableName(name,tpl);
+		return tpl.printVariableName(name);
 	}
 
 	@Override

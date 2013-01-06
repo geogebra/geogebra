@@ -255,7 +255,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
 							.getLeft());
 					if (isAssignmentVariableDefined()) {
-						sb.append(kernel.printVariableName(getAssignmentVariable(),StringTemplate.latexTemplate));
+						sb.append(StringTemplate.latexTemplate.printVariableName(getAssignmentVariable()));
 
 						switch (outputVE.getAssignmentType()) {
 						case DEFAULT:
@@ -1910,7 +1910,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	public String getLabel(StringTemplate tpl) {
 		// standard case: assignment
 		if (assignmentVar != null) {
-			return kernel.printVariableName(assignmentVar, tpl);
+			return tpl.printVariableName(assignmentVar);
 		}
 
 		// row reference like $5

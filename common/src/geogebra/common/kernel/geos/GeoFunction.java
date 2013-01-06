@@ -969,7 +969,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
-		sbToString.append(kernel.printVariableName(label,tpl));
+		sbToString.append(tpl.printVariableName(label));
 		sbToString.append("(");
 		sbToString.append(getVarString(tpl));
 		sbToString.append(")");
@@ -1045,7 +1045,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	public String getVarString(StringTemplate tpl) {
 		if (fun == null) {
-			return kernel.printVariableName("x", tpl);
+			return tpl.printVariableName("x");
 		}
 		return fun.getVarString(tpl);
 	}
