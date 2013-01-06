@@ -1163,7 +1163,7 @@ __GGB__keysVar.ru.menu = {
     "Column_Y": "Y",
     "ColumnHeader": "Заголовок столбца",
     "ColumnOrder": "Порядок столбцов",
-    "ColumnReset": "Востановить столбцы",
+    "ColumnReset": "Создать новый столбец",
     "Columns": "Столбцы",
     "Comma": "Запятая",
     "CommandName": "Имя команды",

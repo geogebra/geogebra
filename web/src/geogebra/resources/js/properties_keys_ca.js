@@ -2468,7 +2468,7 @@ __GGB__keysVar.ca.plain = {
     "SortBy": "Ordenar respecte...",
     "SortObjectsBy": "Ordena objectes respecte…",
     "Speed": "Velocitat",
-    "SphereThroughAwithCenterB": "Esfera que passa per %0 amb centre %1",
+    "SphereThroughAwithCenterB": "Esfera que passa per %1 amb centre %0",
     "SphereWithCenterAandRadiusB": "Esfera amb centre %0 i radi %1",
     "Spreadsheet": "Full de càlcul",
     "StandardObject": "Objecte standard",
