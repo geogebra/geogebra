@@ -574,6 +574,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		</xs:restriction>
 	</xs:simpleType>
 	
+	<xs:simpleType name="javaDouble">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Infinity|-Infinity|NaN|(-?[0-9.E]*)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<xs:simpleType name="coordStyles">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="cartesian|polar|complex"/>

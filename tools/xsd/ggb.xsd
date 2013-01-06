@@ -47,6 +47,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="version" type="xs:string"/>
+			<xs:attribute name="id" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 	
@@ -208,8 +209,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	</xs:element>
 	
 	<xs:complexType name="toolbar">
+		<xs:attribute name="help" type="xs:boolean"/>
 		<xs:attribute name="show" type="xs:boolean"/>
 		<xs:attribute name="items" type="xs:string"/>
+		<xs:attribute name="position" type="nonNegInt"/>
 	</xs:complexType>
 	
 	<xs:element name="perspective">
@@ -245,6 +248,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 					</xs:complexType>
 				</xs:element>
 			
+				<xs:element name="dockBar" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="show" type="xs:boolean"/>
+						<xs:attribute name="east" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="id" type="xs:string"/>
 		</xs:complexType>
@@ -253,7 +262,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	<xs:element name="pane">
 		<xs:complexType>
 			<xs:attribute name="location" type="xs:string" use="required"/>
-			<xs:attribute name="divider" type="xs:double"/>
+			<xs:attribute name="divider" type="javaDouble"/>
 			<xs:attribute name="orientation" type="nonNegInt" />
 		</xs:complexType>
 	</xs:element>
@@ -335,7 +344,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 						<xs:attribute name="viewNo" type="positiveInt"/>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="size"/>
+				<!-- TODO: check whether we can't have size in test app -->
+				<xs:element ref="size" minOccurs="0"/>
 				<xs:element name="coordSystem">
 					<xs:complexType>
 						<xs:attribute name="xZero" type="xs:double"/>
@@ -433,7 +443,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 	<xs:element name="kernel">
 		<xs:complexType>
-			<xs:sequence>
+			<xs:all minOccurs="0">
 				<xs:element name="continuous" type="boolVal" minOccurs="0"/>
 				<xs:element name="usePathAndRegionParameters" type="stringVal" minOccurs="0"/>
 				<xs:element name="decimals" type="intVal"/>
@@ -464,7 +474,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 						<xs:attribute name="expRoots" type="xs:boolean"/>
 					</xs:complexType>
 				</xs:element>
-			</xs:sequence>
+			</xs:all>
 		</xs:complexType>
 	</xs:element>
 	
