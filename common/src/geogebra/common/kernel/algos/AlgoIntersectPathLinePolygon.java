@@ -74,11 +74,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		init();
 		setInputOutput(); // for AlgoElement
 
-		compute();
-
 		setLabels(labels);
-		// TODO: actually no need to update
-		// update();
+
+		compute();
 
 	}
 
@@ -99,11 +97,23 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				aE.setCoords(0, 0, 1);
 				a.setPoints(aS, aE);
 				a.setParentAlgorithm(AlgoIntersectPathLinePolygon.this);
-				if (outputSegments.size()>0)
-					a.setAllVisualProperties(outputSegments.getElement(0), false);
+				setSegmentVisualProperties(a);
 				return a;
 			}
 		});
+	}
+	
+
+	/**
+	 * set visual style for new segments
+	 * @param segment segment
+	 */
+	protected void setSegmentVisualProperties(GeoElement segment){
+		if (outputSegments.size()>0){
+			GeoElement seg0 = outputSegments.getElement(0);
+			segment.setAllVisualProperties(seg0, false);
+			segment.setViewFlags(seg0.getViewSet());
+		}
 	}
 
 	@Override
@@ -185,6 +195,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 */
 	protected boolean checkMidpoint(Coords a, Coords b){
 		Coords midpoint = a.add(b).mul(0.5);
+		//App.debug("\n"+midpoint+"\n"+ p.isInRegion(midpoint.getX(), midpoint.getY()));
 		return  p.isInRegion(midpoint.getX(), midpoint.getY());
 	}
 	
@@ -209,9 +220,11 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	protected void addPolygonPoints(TreeMap<Double, Coords> newCoords){
 		
 		for(int i=0; i<p.getPoints().length; i++){
-			Coords point = p.getPoints()[i].getInhomCoordsInD(3);
+			Coords point = p.getPointsND()[i].getInhomCoordsInD(3);
 
 			Coords[] project = point.projectLine(o1, d1);
+			
+			//App.debug("\npoint=\n"+point+"\nproject=\n"+project[0]);
 
 			//check if projection is intersection point
 			if (project[0].equalsForKernel(point, Kernel.STANDARD_PRECISION)){
@@ -253,8 +266,12 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 		// fill a new points map
 		intersectionsCoords(p, newCoords);
-
-
+		
+		/*
+		for (Coords c : newCoords.values()){
+			App.debug("\n"+c);
+		}
+		*/
 
 		if (newCoords.size()<2) { //no segment
 			outputSegments.adjustOutputSize(1);
@@ -283,8 +300,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				for (int i : segIndices){
 					GeoSegmentND segment = (GeoSegmentND) outputSegments
 							.getElement(indexSegment);
-					setSegment(segment, points[i-1], points[i]);
 		   			//App.debug("\na=\n"+points[i-1]+"\nb=\n"+points[i]);
+					setSegment(segment, points[i-1], points[i]);
 					((GeoElement) segment).update(); // TODO optimize it
 					indexSegment++;
 				}
@@ -312,7 +329,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 
 	protected void setLabels(String[] labels) {
-
+		
 		if (labels!=null &&
 				labels.length==1 &&
 				outputSegments.size() > 1 &&

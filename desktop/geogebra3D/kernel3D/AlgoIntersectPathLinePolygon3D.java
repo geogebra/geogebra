@@ -66,12 +66,12 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 				aE.setCoords(0, 0, 0, 1);
 				a.setPoints(aS, aE);
 				a.setParentAlgorithm(AlgoIntersectPathLinePolygon3D.this);
-				if (outputSegments.size()>0)
-					a.setAllVisualProperties(outputSegments.getElement(0), false);
+				setSegmentVisualProperties(a);
 				return a;
 			}
 		});
 	}
+	
 
 	@Override
 	public Algos getClassName() {
