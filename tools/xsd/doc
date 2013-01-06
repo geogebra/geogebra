@@ -1,0 +1,6 @@
+#!/bin/sh
+for i in common ggb ggt
+do
+saxonb-xslt -xsl:xs3p.xsl -s:$i.xsd -o:$i.txt
+done
+
