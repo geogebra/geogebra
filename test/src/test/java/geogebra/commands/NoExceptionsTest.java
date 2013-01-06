@@ -3,6 +3,7 @@ package geogebra.commands;
 import geogebra.CommandLineArguments;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.io.XmlTest;
 import geogebra.main.AppD;
 
 import java.lang.reflect.Method;
@@ -12,11 +13,13 @@ import java.util.TreeSet;
 
 import javax.swing.JFrame;
 
+import junit.framework.Assert;
+
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import junit.framework.*;
 
 public class NoExceptionsTest {
 	static AppD app;
@@ -2531,6 +2534,15 @@ public class NoExceptionsTest {
 		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ,\"|\"]");
 		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"},{{1,2}} ]");
 		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ,{{1,2}},\"|\"]");
+	}
+	
+	@AfterClass
+	public static void testSaving(){
+		XmlTest.testCurrentXML(app);
+		app.getKernel().getConstruction().initUndoInfo();
+		app.getKernel().getConstruction().undo();
+		app.getKernel().getConstruction().redo();
+		
 	}
 	
 	
