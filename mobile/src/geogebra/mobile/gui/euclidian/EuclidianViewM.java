@@ -426,4 +426,11 @@ public class EuclidianViewM extends EuclidianView
 		return false;
 	}
 
+	@Override
+  protected void drawResetIcon(GGraphics2D g)
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
+
 }
