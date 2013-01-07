@@ -4341,6 +4341,10 @@ public abstract class App implements Localization{
 		return optionsMenu;
 	}
 
+	public boolean hasOptionsMenu() {
+		return optionsMenu != null;
+	}
+
 	public abstract MyXMLio getXMLio();
 	public abstract MyXMLio createXMLio(Construction cons);
 
