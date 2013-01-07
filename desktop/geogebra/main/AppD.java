@@ -1295,14 +1295,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public void fileNew() {
-		kernel.resetLibraryJavaScript();
-
-		// This needs to happen *before* clearConstruction is called
-		// as clearConstruction calls notifyClearView which triggers the
-		// updating of the Python Script
-		kernel.resetLibraryPythonScript();
-
+		
 		// clear all
+		// triggers the "do you want to save" dialog
+		// so must be called first
 		clearConstruction();
 
 		// clear input bar
@@ -1315,7 +1311,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			getGuiManager().resetSpreadsheet();
 		}
 
-		resetMaxLayerUsed();
 		getEuclidianView1().resetXYMinMaxObjects();
 		if (hasEuclidianView2EitherShowingOrNot()) {
 			getEuclidianView2().resetXYMinMaxObjects();
@@ -3633,9 +3628,18 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public void clearConstruction() {
 		if (isSaved() || saveCurrentFile()) {
+			
+			kernel.resetLibraryJavaScript();
+
+			// This needs to happen *before* clearConstruction is called
+			// as clearConstruction calls notifyClearView which triggers the
+			// updating of the Python Script
+			kernel.resetLibraryPythonScript();
+			
 			kernel.clearConstruction();
 
 			kernel.initUndoInfo();
+			resetMaxLayerUsed();
 			setCurrentFile(null);
 			setMoveMode();
 		}
