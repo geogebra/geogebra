@@ -28,13 +28,18 @@ public class CopyPasteCutD extends CopyPasteCut {
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy) {
 		
-		char decimalSeparator = DataImport.getDefaultSeparators(app)[0].charAt(0);
 		
-		boolean changeDecimalSeparator = '.' != decimalSeparator;
-		
+		char decimalSeparator = DataImport.getDefaultSeparators(app)[0].charAt(0);		
+		/*
+		 * disabled as we don't want commas when pasting from spreadsheet into other parts of GeoGebra eg clipboard
+		 * 
+		//boolean changeDecimalSeparator = '.' != decimalSeparator;
 		if (changeDecimalSeparator) {
 			App.debug("changing decimal separator to: "+decimalSeparator);
-		}
+		}*/
+		
+		boolean changeDecimalSeparator = false;
+		
 
 		// copy tab-delimited geo values into the external buffer
 		if (cellBufferStr == null) {
