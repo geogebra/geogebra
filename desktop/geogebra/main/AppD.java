@@ -3636,13 +3636,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean clearConstruction() {
 		if (isSaved() || saveCurrentFile()) {
 			
-			kernel.resetLibraryJavaScript();
-
-			// This needs to happen *before* clearConstruction is called
-			// as clearConstruction calls notifyClearView which triggers the
-			// updating of the Python Script
-			kernel.resetLibraryPythonScript();
-			
 			kernel.clearConstruction();
 
 			kernel.initUndoInfo();

@@ -2359,6 +2359,13 @@ public class Kernel {
 	}
 
 	public void clearConstruction() {
+		resetLibraryJavaScript();
+
+		// This needs to happen *before* cons.clearConstruction() is called
+		// as clearConstruction calls notifyClearView which triggers the
+		// updating of the Python Script
+		resetLibraryPythonScript();
+		
 		if (macroManager != null)
 			macroManager.setAllMacrosUnused();
 

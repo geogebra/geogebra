@@ -1851,15 +1851,15 @@ public class AppW extends App {
 
 		geogebra.web.main.DrawEquationWeb
 		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
-		// return true;
-		// }
+		 return true;
 		
-		return false;
+		// }
+		//return false;
 	}
 
 	@Override
 	public PythonBridge getPythonBridge() {
-		// TODO Auto-generated method stub
+		// not available in web
 		return null;
 	}
 
