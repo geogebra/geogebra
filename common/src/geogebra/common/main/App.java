@@ -4130,8 +4130,9 @@ public abstract class App implements Localization{
 
 	/**
 	 * Clears construction
+	 * @return true if successful otherwise false (eg user clicks "Cancel")
 	 */
-	public abstract void clearConstruction();
+	public abstract boolean clearConstruction();
 
 	public abstract void fileNew();
 

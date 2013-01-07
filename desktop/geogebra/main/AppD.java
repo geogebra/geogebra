@@ -1294,13 +1294,16 @@ public class AppD extends App implements KeyEventDispatcher {
 		return fileName.substring(0, dotPos);
 	}
 
+	@Override
 	public void fileNew() {
 		
 		// clear all
 		// triggers the "do you want to save" dialog
 		// so must be called first
-		clearConstruction();
-
+		if (!clearConstruction()) {			
+			return;
+		}
+		
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
 			getGuiManager().clearInputbar();
@@ -2112,6 +2115,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return sb.toString();
 	}
 
+	@Override
 	public void copyGraphicsViewToClipboard() {
 
 		copyGraphicsViewToClipboard((EuclidianViewND) getGuiManager()
@@ -3060,6 +3064,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * (toolbar, input bar etc.). This method should be called when the
 	 * visibility or arrangement of these components is changed.
 	 */
+	@Override
 	public void updateApplicationLayout() {
 		if ((northPanel == null) || (southPanel == null) || (eastPanel == null)
 				|| (westPanel == null)) {
@@ -3205,6 +3210,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return frame;
 	}
 
+	@Override
 	public Component getMainComponent() {
 		return mainComp;
 	}
@@ -3626,7 +3632,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	/**
 	 * Clears the current construction. Used for File-New.
 	 */
-	public void clearConstruction() {
+	@Override
+	public boolean clearConstruction() {
 		if (isSaved() || saveCurrentFile()) {
 			
 			kernel.resetLibraryJavaScript();
@@ -3642,7 +3649,11 @@ public class AppD extends App implements KeyEventDispatcher {
 			resetMaxLayerUsed();
 			setCurrentFile(null);
 			setMoveMode();
+			
+			return true;
 		}
+		
+		return false;
 	}
 
 	public void exit() {
@@ -3666,6 +3677,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
 	public synchronized void exitAll() {
 		// glassPane is active: don't exit now!
 		if (glassPaneListener != null) {
@@ -3816,6 +3828,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	/*
 	 * loads an XML file as a String
 	 */
+	@Override
 	public boolean loadXML(String xml) {
 		try {
 
@@ -3968,6 +3981,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
 	final public MyXMLio getXMLio() {
 		return (MyXMLio) myXMLio;
 	}
@@ -4454,6 +4468,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param msg
 	 *            (localized) message
 	 */
+	@Override
 	public void showErrorDialog(final String msg) {
 		if (!isErrorDialogsActive) {
 			return;
@@ -4763,6 +4778,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return codeBaseFolder.substring(WINDOWS ? 6 : 5);
 	}
 
+	@Override
 	public void exportToLMS(boolean ggbWeb) {
 		clearSelectedGeos(true, false);
 		updateSelection(false);

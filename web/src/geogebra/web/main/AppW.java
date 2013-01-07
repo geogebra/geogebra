@@ -352,7 +352,8 @@ public class AppW extends App {
 
 	}
 
-	public void setUndoActive(boolean flag) {
+	@Override
+    public void setUndoActive(boolean flag) {
 		// don't allow undo when running with restricted permissions
 		/*
 		 * if (flag && !hasFullPermissions) { flag = false; }
@@ -1008,7 +1009,8 @@ public class AppW extends App {
 		        GOptionPane.DEFAULT_OPTION, 0);
 	}
 
-	public void showErrorDialog(final String msg) {
+	@Override
+    public void showErrorDialog(final String msg) {
 		final PopupPanel dialog = new PopupPanel(false, true);
 		// dialog.setText(getPlain("ApplicationName") + " - " +
 		// getMenu("Info"));
@@ -1048,7 +1050,8 @@ public class AppW extends App {
 		return (EuclidianViewW) euclidianView;
 	}
 
-	public EuclidianViewW getEuclidianView2() {
+	@Override
+    public EuclidianViewW getEuclidianView2() {
 		return (EuclidianViewW) null; // TODO: add euclidianview2 here later
 	}
 
@@ -1488,7 +1491,8 @@ public class AppW extends App {
 		return canvas.getCanvasElement().getHeight();
 	}
 
-	public GFont getFontCanDisplay(String testString, boolean serif, int style,
+	@Override
+    public GFont getFontCanDisplay(String testString, boolean serif, int style,
 	        int size) {
 		return fontManager.getFontCanDisplay(testString, serif, style, size);
 	}
@@ -1661,7 +1665,8 @@ public class AppW extends App {
 
 	}
 
-	public ScriptManager getScriptManager() {
+	@Override
+    public ScriptManager getScriptManager() {
 		if (scriptManager == null) {
 			scriptManager = new ScriptManagerW(this);
 		}
@@ -1835,7 +1840,8 @@ public class AppW extends App {
 		}
 	}
 
-	public void clearConstruction() {
+	@Override
+    public boolean clearConstruction() {
 		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction();
 
@@ -1845,7 +1851,10 @@ public class AppW extends App {
 
 		geogebra.web.main.DrawEquationWeb
 		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
+		// return true;
 		// }
+		
+		return false;
 	}
 
 	@Override
@@ -1988,15 +1997,18 @@ public class AppW extends App {
 	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
 	public SplashDialog splash;
 
-	public String getUniqueId() {
+	@Override
+    public String getUniqueId() {
 		return uniqueId;
 	}
 
-	public void setUniqueId(String uniqueId) {
+	@Override
+    public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
 
-	public void resetUniqueId() {
+	@Override
+    public void resetUniqueId() {
 		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
 	}
 
@@ -2253,15 +2265,13 @@ public class AppW extends App {
 
 	@Override
 	public void fileNew() {
-		kernel.resetLibraryJavaScript();
-
-		// This needs to happen *before* clearConstruction is called
-		// as clearConstruction calls notifyClearView which triggers the
-		// updating of the Python Script
-		kernel.resetLibraryPythonScript();
 
 		// clear all
-		clearConstruction();
+		// triggers the "do you want to save" dialog
+		// so must be called first
+		if (!clearConstruction()) {			
+			return;
+		}
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
@@ -2275,7 +2285,6 @@ public class AppW extends App {
 			// getGuiManager().resetSpreadsheet();
 		}
 
-		resetMaxLayerUsed();
 		getEuclidianView1().resetXYMinMaxObjects();
 		if (hasEuclidianView2EitherShowingOrNot()) {
 			getEuclidianView2().resetXYMinMaxObjects();
@@ -2333,7 +2342,8 @@ public class AppW extends App {
 		return AppW.geoIPCountryName;
 	}
 
-	public boolean loadXML(String xml) throws Exception {
+	@Override
+    public boolean loadXML(String xml) throws Exception {
 		myXMLio.processXMLString(xml, true, false);
 		return true;
 	}
@@ -2353,7 +2363,8 @@ public class AppW extends App {
 		App.debug("unimplemented");
 	}
 
-	public void addMenuItem(MenuInterface parentMenu, String filename,
+	@Override
+    public void addMenuItem(MenuInterface parentMenu, String filename,
 	        String name, boolean asHtml, MenuInterface subMenu) {
 
 		String funcName = filename.substring(0, filename.lastIndexOf('.'));
@@ -2459,7 +2470,8 @@ public class AppW extends App {
 		return new MyXMLio(cons.getKernel(), cons);
 	}
 
-	public void setShowToolBar(boolean toolbar, boolean help) {
+	@Override
+    public void setShowToolBar(boolean toolbar, boolean help) {
 		if (toolbar) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
 		}
@@ -2478,7 +2490,8 @@ public class AppW extends App {
     			
     			// 0.5 seconds is good for the user and maybe for the computer too
     	    	Timer timeruc = new Timer() {
-    	    		public void run() {
+    	    		@Override
+                    public void run() {
     	    			boolean force = kernel.getForceUpdatingBoundingBox();
     	    			kernel.setForceUpdatingBoundingBox(true);
     	    			kernel.getConstruction().updateConstruction();
