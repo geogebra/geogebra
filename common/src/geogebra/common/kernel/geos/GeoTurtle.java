@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * @author G. Sturr, arnaud
  * 
  */
-public class GeoTurtle extends GeoElement implements Animatable{
+public class GeoTurtle extends GeoPoint{
 
 	// private GeoPointND[] points;
 	private boolean defined = true;
@@ -44,7 +44,7 @@ public class GeoTurtle extends GeoElement implements Animatable{
 	/** current position */
 	protected double[] position = { 0d, 0d, 1d };
 	/** current position as point */
-	protected GeoPointND currentPoint = new GeoPoint(cons, 0d, 0d, 1d);
+	//protected GeoPointND currentPoint = new GeoPoint(cons, 0d, 0d, 1d);
 	/** pen color */
 	protected GColor penColor = GColor.BLACK;
 	/** pen thickness */
@@ -81,7 +81,7 @@ public class GeoTurtle extends GeoElement implements Animatable{
 	 * @param c construction
 	 */
 	public GeoTurtle(Construction c) {
-		super(c);
+		super(c,true);
 		cmdList = new ArrayList<Command>();
 		
 		// TODO: put this in default construction?
@@ -90,28 +90,33 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		// this.turn(turnAngle);
 		turtleImageList = new ArrayList<GImage>();
 		turtleImageList.add(c.getApplication().getInternalImageAdapter("/gui/images/go-next.png"));
-
+		setCoords(0,0,1);
 	}
 
 	// ==================================================
 	// Copy constructors
 	// TODO code is copied from GeoPolyLine, needs correcting
 	// ==================================================
-
+	
+	@Override
+	public String toValueString(StringTemplate tpl) {
+		return null;
+	}
+	
 	/**
 	 * The copy of a polygon is a number (!) with its value set to the polygons
 	 * current area
 	 */
 	@Override
-	public GeoElement copy() {
-		return new GeoNumeric(cons, 2);
+	public GeoPoint copy() {
+		return new GeoPoint(cons);
 	}
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
 		GeoTurtle ret = new GeoTurtle(cons1, null);
 		// ret.points = GeoElement.copyPoints(cons1, points);
-		ret.set(this);
+		ret.set((GeoElement)this);
 
 		return ret;
 	}
@@ -159,7 +164,8 @@ public class GeoTurtle extends GeoElement implements Animatable{
 	 * @return current turtle coordinates
 	 */
 	public GeoPointND getPosition() {
-		return currentPoint;
+		//return currentPoint;
+		return this;
 	}
 
 	/**
@@ -390,7 +396,8 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		cosAngle = 1d;
 		position[0] = 0d;
 		position[1] = 0d;
-		currentPoint.setCoords(0d, 0d, 1d);
+		//currentPoint.setCoords(0d, 0d, 1d);
+		setCoords(0d, 0d, 1d);
 		speed = s;
 		doUpdate();
 	}
@@ -410,11 +417,11 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public void set(GeoElement geo) {
 		// TODO Auto-generated method stub
 
-	}
+	}*/
 
 	@Override
 	public boolean isDefined() {
@@ -427,30 +434,6 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		defined = false;
 
 	}
-
-	@Override
-	public String toValueString(StringTemplate tpl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	protected boolean showInEuclidianView() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isEqual(GeoElement geo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	/*
 	 * Animatable implementation
@@ -461,6 +444,7 @@ public class GeoTurtle extends GeoElement implements Animatable{
 		return true;
 	}
 	
+	@Override
 	public boolean doAnimationStep(double frameRate) {
 		return doStepTurtle(1.0/frameRate);
 	}
@@ -598,7 +582,8 @@ public class GeoTurtle extends GeoElement implements Animatable{
 			position[0] += length*cosAngle;
 			position[1] += length*sinAngle;
 			destination = new GeoPoint(cons, position[0], position[1], 1d);
-			currentPoint.setCoords(position[0], position[1], 1d);
+			//currentPoint.setCoords(position[0], position[1], 1d);
+			setCoords(position[0], position[1], 1d);
 		}
 		
 		public void draw(DrawState ds) {
@@ -647,7 +632,8 @@ public class GeoTurtle extends GeoElement implements Animatable{
 			position[0] = destX;
 			position[1] = destY;
 			destination = new GeoPoint(cons, position[0], position[1], 1d);
-			currentPoint.setCoords(position[0], position[1], 1d);
+			//currentPoint.setCoords(position[0], position[1], 1d);
+			setCoords(position[0], position[1], 1d);
 		}
 
 		public void draw(DrawState ds) {

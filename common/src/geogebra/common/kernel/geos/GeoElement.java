@@ -2877,7 +2877,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected String getDefaultLabel(char[] chars2, final boolean isInteger) {
 		char [] chars = chars2;
 		if (chars == null) {
-			if (isGeoPoint()) {
+			if (isGeoPoint() && !(this instanceof GeoTurtle)) {
 				// Michael Borcherds 2008-02-23
 				// use Greek upper case for labeling points if language is Greek
 				// (el)

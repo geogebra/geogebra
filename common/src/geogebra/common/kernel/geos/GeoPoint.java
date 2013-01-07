@@ -79,7 +79,7 @@ import java.util.TreeSet;
  * 
  * @author Markus
  */
-final public class GeoPoint extends GeoVec3D implements VectorValue,
+public class GeoPoint extends GeoVec3D implements VectorValue,
 		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,
 		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
 		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo,
@@ -127,6 +127,15 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 		setConstructionDefaults();
 		setAnimationType(ANIMATION_INCREASING);
 		setUndefined();
+
+	}
+	
+	/**
+	 * @param c construction
+	 * @param isTurtle dummy param
+	 */
+	protected GeoPoint(Construction c, boolean isTurtle) {
+		super(c);
 
 	}
 
@@ -617,7 +626,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	@Override
-	final public boolean isDefined() {
+	public boolean isDefined() {
 		return isDefined;
 	}
 
@@ -1063,7 +1072,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	private StringBuilder sbToString = new StringBuilder(50);
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
 
@@ -1646,7 +1655,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 * 
 	 * @return whether the value of this number was changed
 	 */
-	final public synchronized boolean doAnimationStep(double frameRate) {
+	public synchronized boolean doAnimationStep(double frameRate) {
 
 		PathParameter pp = getPathParameter();
 
