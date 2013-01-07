@@ -51,6 +51,7 @@ import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
@@ -1228,21 +1229,23 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		
-		if (!(getParentAlgorithm() instanceof AlgoPointOnPath)) {
-			// write x,y,z
-			super.getXMLtags(sb);
-		} else {
-	        sb.append("\t<coords");
-	        sb.append(" t=\"");
-	        sb.append(getPathParameter().t);
-	        sb.append("\"");
+		AlgoElement algo;
+		if (((algo = getParentAlgorithm()) instanceof AlgoPointOnPath)) {
 
-	        sb.append(" x=\""); sb.append(x); sb.append("\"");
-	        sb.append(" y=\""); sb.append(y); sb.append("\"");
-	        sb.append(" z=\""); sb.append(z); sb.append("\"");        
-	        sb.append("/>\n");
+			// write parameter just for GeoCurveCartesian/GeoCurveCartesian3D
+			// as curve may cross itself so just coords doesn't determine unique pos
+			if (((AlgoPointOnPath)algo).getPath() instanceof GeoCurveCartesianND) {
+				sb.append("\t<curveParam");
+				sb.append(" t=\"");
+				sb.append(getPathParameter().t);
+				sb.append("\"");
+		        sb.append("/>\n");
 
+			}
 		}
+
+		// write x,y,z after <curveParam>
+		super.getXMLtags(sb);
 
 		/*
 		 * should not be needed if (path != null) { pathParameter.appendXML(sb);

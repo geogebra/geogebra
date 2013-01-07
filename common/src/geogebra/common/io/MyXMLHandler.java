@@ -50,6 +50,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoUserInputElement;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
@@ -3095,6 +3096,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("comboBox".equals(eName)) {
 				ok = handleComboBox(attrs);
 				break;
+			} else if ("curveParam".equals(eName)) {
+				ok = handleCurveParam(attrs);
+				break;
 			}
 
 		case 'd':
@@ -3515,6 +3519,33 @@ public class MyXMLHandler implements DocHandler {
 		}
 		return true;
 	}
+	
+	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
+
+		if (!(geo instanceof GeoVec3D)) {
+			App.debug("wrong element type for <curveParam>: "
+					+ geo.getClass());
+			return false;
+		}
+		GeoVec3D v = (GeoVec3D) geo;
+
+		try {
+			String tAttr = attrs.get("t");
+			
+			if (tAttr != null) {
+				// AlgoPointOnPath
+				double t = StringUtil.parseDouble(tAttr);
+				((GeoPoint)v).getPathParameter().setT(t);
+			}
+
+			return true;
+			
+		} catch (Exception e) {
+			App.error("problem in <curveParam>: "+e.getMessage());
+			return false;
+		}
+	}
+
 
 	private boolean handleCoords(LinkedHashMap<String, String> attrs) {
 
