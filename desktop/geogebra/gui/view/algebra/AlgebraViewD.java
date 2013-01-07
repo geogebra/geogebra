@@ -117,7 +117,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 	/** Creates new AlgebraView */
 	public AlgebraViewD(AlgebraControllerD algCtrl) {
 		
-		super(algCtrl);
+		super(algCtrl, true);
 
 		// Initialize settings and register listener
 		app.getSettings().getAlgebra().addListener(this);

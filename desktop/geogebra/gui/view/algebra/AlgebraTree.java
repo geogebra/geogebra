@@ -58,16 +58,17 @@ public class AlgebraTree extends JTree {
 	/**
 	 * Flag for LaTeX rendering
 	 */
-	final private static boolean renderLaTeX = true;
+	private boolean renderLaTeX = true;
 	
 	
 	/** Creates new AlgebraView */
-	public AlgebraTree(AlgebraTreeController algCtrl) {
+	public AlgebraTree(AlgebraTreeController algCtrl, boolean renderLaTeX) {
 
 
 		app = (AppD)algCtrl.getApplication();
 		kernel = algCtrl.getKernel();
 		this.algebraController = algCtrl;
+		this.renderLaTeX = renderLaTeX;
 		
 		algebraController.setTree(this);
 

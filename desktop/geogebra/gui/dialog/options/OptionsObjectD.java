@@ -74,7 +74,7 @@ public class OptionsObjectD extends
 		}
 
 		// LIST PANEL
-		tree = new AlgebraTree(new AlgebraTreeController(kernel));
+		tree = new AlgebraTree(new AlgebraTreeController(kernel), false);
 		listScroller = new JScrollPane(tree);
 		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
 		listScroller.setBackground(Color.white);
