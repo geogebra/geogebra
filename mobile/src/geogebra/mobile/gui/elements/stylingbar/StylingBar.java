@@ -65,7 +65,7 @@ public class StylingBar extends RoundPanel
 	 */
 	private void createStandardButtons()
 	{
-		this.button = new StylingBarButton[3];
+		this.button = new StylingBarButton[2];
 		this.active = new boolean[]{true, false, true}; 
 
 		this.button[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
@@ -86,22 +86,22 @@ public class StylingBar extends RoundPanel
       }			
 		}, ClickEvent.getType());
 		
-		this.button[2] = createStyleBarButton("pointCapture", CommonResources.INSTANCE.point_capturing(), 2);
-		this.button[2].addDomHandler(new ClickHandler(){
-			@Override
-      public void onClick(ClickEvent event)
-      {
-				int mode = StylingBar.this.euclidianView.getPointCapturingMode();
-				
-				if (mode == 3 || mode == 0)
-					mode = 3 - mode; // swap 0 and 3
-				StylingBar.this.euclidianView.setPointCapturing(mode);     
-      }			
-		}, ClickEvent.getType());
+//		this.button[2] = createStyleBarButton("pointCapture", CommonResources.INSTANCE.point_capturing(), 2);
+//		this.button[2].addDomHandler(new ClickHandler(){
+//			@Override
+//      public void onClick(ClickEvent event)
+//      {
+//				int mode = StylingBar.this.euclidianView.getPointCapturingMode();
+//				
+//				if (mode == 3 || mode == 0)
+//					mode = 3 - mode; // swap 0 and 3
+//				StylingBar.this.euclidianView.setPointCapturing(mode);     
+//      }			
+//		}, ClickEvent.getType());
 
 		// set button showAxes and pointCapture to (default) active
 		this.button[0].addStyleDependentName("active");
-		this.button[2].addStyleDependentName("active");
+//		this.button[2].addStyleDependentName("active");
 
 		// add the standardButtons to the verticalPanel
 		for (int i = 0; i < this.button.length; i++)

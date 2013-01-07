@@ -8,7 +8,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.Test;
 import geogebra.mobile.controller.MobileController;
 import geogebra.web.main.DrawEquationWeb;
 
@@ -67,11 +66,6 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 		this.check = new CheckBox();
 		AlgebraViewTreeItem.this.previouslyChecked = ge.isEuclidianVisible();
-		
-		// regular Polygons: defined is set to false (-> isEudclidianVisible returns false) 
-		if(Test.GEOPOLYGON.check(ge)){
-			AlgebraViewTreeItem.this.previouslyChecked = true; 
-		}
 		
 		this.check.setValue(new Boolean(AlgebraViewTreeItem.this.previouslyChecked), false);
 
