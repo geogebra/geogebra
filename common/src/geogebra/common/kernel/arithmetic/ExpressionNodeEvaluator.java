@@ -279,7 +279,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof GeoLine) {
 			return new MyDouble(kernel, ((GeoLine) arg).x);
 		} else
-			return polynomialOrDie(arg, Operation.XCOORD, op==Operation.YCOORD?  "y(":"imaginary(");
+			return polynomialOrDie(arg, op, op==Operation.XCOORD?  "x(":"real(");
 
 	}
 	/**
