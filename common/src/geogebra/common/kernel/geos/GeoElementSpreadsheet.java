@@ -2,6 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.main.App;
@@ -62,6 +63,12 @@ public class GeoElementSpreadsheet {
 	 * @author Cong Liu
 	 */
 	public static String getSpreadsheetCellName(int column, int row) {
+		
+		if (column >= Kernel.MAX_SPREADSHEET_COLUMNS || row >= Kernel.MAX_SPREADSHEET_ROWS 
+				|| column < 0 || row < 0) { 
+			return null; 
+		}
+		
 		return getSpreadsheetColumnName(column) + (row+1);
 	}
 
@@ -105,8 +112,16 @@ public class GeoElementSpreadsheet {
 			return false;
 
 		MatchResult matcher = spreadsheetPattern.exec(str);		
-		return matcher != null;
-	}
+		if (matcher == null) { 
+			return false; 
+		} 
+
+		// check not outside range, eg A10000 
+		if (getSpreadsheetColumn(matcher) == -1 || getSpreadsheetRow(matcher) == -1) { 
+			return false; 
+		} 
+
+		return true;	}
 
 	/**
 	 * @param matcher matcher
@@ -125,6 +140,11 @@ public class GeoElementSpreadsheet {
 			column += s.charAt(0) - 'A' + 1;
 			s = s.substring(1);
 		}
+		
+		if (column > Kernel.MAX_SPREADSHEET_COLUMNS) { 
+			return -1; 
+		}
+		
 		// Application.debug(column);
 		return column - 1;
 	}
@@ -137,9 +157,20 @@ public class GeoElementSpreadsheet {
 	public static int getSpreadsheetRow(MatchResult matcher) {
 		if (matcher == null)
 			return -1;
-		//String s = matcher.group(2);
-		String s = matcher.getGroup(2);
-		return Integer.parseInt(s) - 1;
+		int ret = -1; 
+		try { 
+			String s = matcher.getGroup(2);
+			ret = Integer.parseInt(s) - 1; 
+		} catch (Exception e) { 
+			// eg number is bigger than MAXINT 
+			return -1; 
+		} 
+
+		if (ret + 1 > Kernel.MAX_SPREADSHEET_ROWS) { 
+			return -1; 
+		} 
+
+		return ret;
 	}
 
 	/**
