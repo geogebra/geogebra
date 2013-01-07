@@ -500,7 +500,6 @@ public interface Traversing {
 			}else if(ev instanceof GeoCasCell){
 				return ((GeoCasCell)ev).getOutputValidExpression().wrap().getCopy(ev.getKernel());
 			}
-			App.debug(ev);
 			return ev;
 		}
 		private static FunctionExpander collector = new FunctionExpander();
