@@ -162,14 +162,6 @@
 -keep class ccsd.vernier.SWIGTYPE_p_SensorParam  { <methods>; }
 -keep class ccsd.vernier.SWIGTYPE_p_void  { <methods>; }
 
-# for OpenNI
--keep class org.OpenNI.** { *; } 
--keepclasseswithmembernames class * {
-    native <methods>;
-}
-
--keep class org.OpenNI.NativeMethods { *; }
-
 #####
 # Plugin part
 ####

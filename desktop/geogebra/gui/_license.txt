@@ -321,8 +321,6 @@ Libraries used by GeoGebra:
     (Python Software Foundation License Version 2)
   * OpenCSV, http://opencsv.sourceforge.net/ (Apache 2.0)
   * OpenGeoProver, http://code.google.com/p/open-geo-prover/ (GPL3)
-  * OpenNI, https://github.com/OpenNI/OpenNI/zipball/Stable-1.5.2.23
-    (LGPL)
   * org-concord-sensor, http://code.google.com/p/org-concord-sensor/
     (LGPL)
   * Reduce, http://reduce-algebra.sourceforge.net/ (BSD)

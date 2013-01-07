@@ -255,7 +255,7 @@ read the following web pages:
 				stubfile="installer/JavaApplicationStub"
 				version="${version}">
 			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
-			<javafileset dir="${build.dir}/unpacked" excludes="*-linux-*.jar,*-windows-*.jar,*-win.jar,*64.jar,openni.jar,geogebra-map.txt" />
+			<javafileset dir="${build.dir}/unpacked" excludes="*-linux-*.jar,*-windows-*.jar,*-win.jar,*64.jar,geogebra-map.txt" />
 			<documenttype
 				name="GeoGebra File"
 				extensions="ggb"

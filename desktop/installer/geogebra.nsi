@@ -726,8 +726,6 @@ Section Install Install
     File "${build.dir}\unpacked\jl*.jar"
     File "${build.dir}\unpacked\jogl.all.jar"
     File "${build.dir}\unpacked\jython.jar"
-    File "${build.dir}\unpacked\openni.jar"
-    File "${build.dir}\unpacked\openni64.jar"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
 
