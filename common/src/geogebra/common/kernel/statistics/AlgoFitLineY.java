@@ -10,10 +10,11 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -42,7 +43,11 @@ public class AlgoFitLineY extends AlgoElement {
 		this.geoList = geoList;
 
 		g = new GeoLine(cons);
-		setInputOutput(); // for AlgoElement
+        // ignore default (implicit)
+        // for FitXXX we always want "y=..."
+        g.setToExplicit();
+
+        setInputOutput(); // for AlgoElement
 
 		compute();
 	}
