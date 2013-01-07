@@ -2873,7 +2873,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 		
 		// update intersection curves in controller
-		//((EuclidianController3D) getEuclidianController()).updateIntersectionCurves();
+		((EuclidianController3D) getEuclidianController()).updateOwnDrawablesNow();
 
 		
 	}

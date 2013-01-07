@@ -113,8 +113,39 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	private int xOld;
 	
 	private Hits3D goodHits;
-	private ArrayList<Object[]> tempArrayList4 = new ArrayList<Object[]>();
-	private ArrayList<Drawable3D> intersectionCurves = new ArrayList<Drawable3D>();
+	
+	
+	/**
+	 * Store infos for intersection curve
+	 */
+	public class IntersectionCurve{
+		protected GeoElement geo1, geo2, result;
+		public Drawable3D drawable;
+		protected boolean hitted;
+		
+		/**
+		 * constructor
+		 * @param geo1 first geo for the intersection
+		 * @param geo2 second geo for the intersection
+		 * @param result result intersection
+		 * @param hitted say if the intersection is hitted
+		 * @param drawable drawable for the intersection
+		 */
+		public IntersectionCurve(GeoElement geo1, GeoElement geo2, GeoElement result, boolean hitted, Drawable3D drawable) {
+			this.geo1 = geo1;
+			this.geo2 = geo2;
+			this.result = result;
+			this.hitted = hitted;
+			this.drawable = drawable;
+		}
+		
+	}
+	
+	/**
+	 * array list for intersection curves
+	 */
+	private ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<IntersectionCurve>();
+	//private ArrayList<Drawable3D> intersectionCurves = new ArrayList<Drawable3D>();
 	
 	//SELECTED GEOS
 	/** 2D coord sys (plane, polygon, ...) */
@@ -2158,8 +2189,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	
-	public ArrayList<Drawable3D> getIntersectionCurves(){
-		return intersectionCurves;
+	public ArrayList<IntersectionCurve> getIntersectionCurves(){
+		return intersectionCurveList;
 	}
 
 	/**
@@ -2186,8 +2217,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		
 		if(mouseMoved){ //process new intersection only if mouse has moved
-			for (int i = 0; i<tempArrayList4.size(); ++i) {
-				tempArrayList4.get(i)[3] = false;
+			for (int i = 0; i<intersectionCurveList.size(); ++i) {
+				intersectionCurveList.get(i).hitted = false;
 			}
 
 
@@ -2287,10 +2318,12 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	public boolean createIntersectionCurve(GeoElement A, GeoElement B) {
 		boolean intersectable = false;
 
-		for (int i=0; i<tempArrayList4.size(); ++i) {
-			if ( tempArrayList4.get(i)[0]==A && tempArrayList4.get(i)[1]==B
-					|| tempArrayList4.get(i)[0]==B && tempArrayList4.get(i)[1]==A) {
-				tempArrayList4.get(i)[3] = true;
+		for (int i=0; i<intersectionCurveList.size(); ++i) {
+			IntersectionCurve intersection = intersectionCurveList.get(i);
+			if ( intersection.geo1==A && intersection.geo2==B
+					|| intersection.geo1==B && intersection.geo2==A) {
+				intersection.hitted = true;
+				intersection.drawable.setWaitForUpdate();
 				return true;
 			}
 		}
@@ -2349,17 +2382,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private void processIntersectionCurve(GeoElement A, GeoElement B, GeoElement intersection, Drawable3D d){
 		intersection.setLineThickness(3);
-		tempArrayList4.add(new Object[] {A,B,intersection,true,true});
-		intersectionCurves.add(d);
-		//intersection.setObjColor(Color.white);intersection.setIsPickable(false);view3D.addToDrawable3DLists(d);
-		d.updateForItSelf();
+		intersectionCurveList.add(new IntersectionCurve(A,B,intersection,true,d));
 	}
 	
 	
-	public void updateIntersectionCurves(){
-		for (Drawable3D d : intersectionCurves)
-			d.update();
-	}
 	
 	
 	private void decideIntersection(Hits hits) {
@@ -2369,7 +2395,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 			//find the nearest intersection curve (if exists)
 			float z = Float.POSITIVE_INFINITY;
-			for (Drawable3D d:intersectionCurves){
+			for (IntersectionCurve intersectionCurve : intersectionCurveList){
+				Drawable3D d = intersectionCurve.drawable;
 				if (d.zPickMax<z){
 					resultedGeo=d.getGeoElement();
 					z=d.zPickMax;
@@ -2429,16 +2456,22 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 			if (goodHits == null)
 				goodHits = new Hits3D();
-			goodHits.clear();
+			else
+				goodHits.clear();
 			
 			
 			// since resultedGeo!=null, hits contains at least two element.
-			// if one of the two is not one of A,B or resultedGeo, we say that
+			// if one of the two is not one of A or B, we say that
 			// resultedGeo is blocked by unrelated geo, 
 			// and then we just keep the first hit as goodHit and hide the intersection
 			if (hits.size()<2 //check first if there are at least 2 geos 
-					|| hits.get(0)!= resultedGeo && hits.get(0)!=A && hits.get(0)!=B
-					|| hits.get(1)!=resultedGeo && hits.get(1)!=A && hits.get(1)!=B) {
+					||
+					(
+							!(hits.get(0)==A && hits.get(1)==B)
+							&&
+							!(hits.get(0)==B && hits.get(1)==A)
+							)
+					) {
 				goodHits.add(hits.get(0));
 				hideIntersection = true;
 				return;
@@ -3030,5 +3063,21 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 	
 	
+	
+	/**
+	 * update all drawables now
+	 */
+	public void updateOwnDrawablesNow(){
+		for (IntersectionCurve intersectionCurve : intersectionCurveList)
+			intersectionCurve.drawable.update();
+	}
+	
+	@Override
+	public void setMode(int newMode) {
+
+		if (newMode!=EuclidianConstants.MODE_INTERSECTION_CURVE)
+			intersectionCurveList.clear();
+		super.setMode(newMode);
+	}
 }
 

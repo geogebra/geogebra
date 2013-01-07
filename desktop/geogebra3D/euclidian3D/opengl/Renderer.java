@@ -10,6 +10,7 @@ import geogebra.main.AppD;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
 
@@ -1366,7 +1367,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     public void pickIntersectionCurves(){
     	
-    	ArrayList<Drawable3D> curves = ((EuclidianController3D) view3D.getEuclidianController()).getIntersectionCurves();
+    	ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D.getEuclidianController()).getIntersectionCurves();
  
     	int bufSize=curves.size();
     	//IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);
@@ -1382,7 +1383,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
         
 		// picking objects
-        for (Drawable3D d : curves){
+        for (IntersectionCurve intersectionCurve : curves){
+        	Drawable3D d = intersectionCurve.drawable;
         	d.zPickMax=Float.POSITIVE_INFINITY;
         	d.zPickMin=Float.POSITIVE_INFINITY; 
         	pick(d,false);
