@@ -4222,9 +4222,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		// (needed to take care of multiple application windows or applets)
 		Component eventPane = SwingUtilities.getRootPane(e.getComponent());
 		Component mainPane = SwingUtilities.getRootPane(mainComp);
-		if ((eventPane != mainPane)
-		// no layout in applets
-				&& (isApplet() || !AppD2.inExternalWindow(this, eventPane))) {
+		if (eventPane != mainPane) {
+
 			// ESC from dialog: close it
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				Component rootComp = SwingUtilities.getRoot(e.getComponent());
@@ -4235,7 +4234,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 
 			// key event came from another window or applet: ignore it
-			return false;
+			if (isApplet() || !AppD2.inExternalWindow(this, eventPane)) {
+				return false;
+			}
+
 		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			handleShiftEvent(shiftDown);
 		}
