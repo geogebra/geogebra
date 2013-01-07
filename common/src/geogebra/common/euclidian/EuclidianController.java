@@ -7544,7 +7544,7 @@ public abstract class EuclidianController {
 		startCollectingMinorRepaints();
 		if (!draggingBeyondThreshold
 				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD
-				| Math.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD)) {
+				|| Math.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD)) {
 			draggingBeyondThreshold = true;
 		}
 		if (draggingBeyondThreshold && mode == EuclidianConstants.MODE_DELETE) {
