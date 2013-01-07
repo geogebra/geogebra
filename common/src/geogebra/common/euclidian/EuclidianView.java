@@ -3692,7 +3692,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		setGridType(evs.getGridType());
 
-		setPointCapturing(evs.getPointCapturingMode());
+		pointCapturingMode = evs.getPointCapturingMode();
 
 		setAllowShowMouseCoords(evs.getAllowShowMouseCoords());
 
