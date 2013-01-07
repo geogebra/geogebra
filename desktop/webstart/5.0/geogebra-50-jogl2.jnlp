@@ -67,17 +67,14 @@
 
     <!-- USB native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/openni.jar" />
       <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
       <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/openni64.jar" />
       <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
       <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/openni64.jar" />
       <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
       <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
     </resources>
