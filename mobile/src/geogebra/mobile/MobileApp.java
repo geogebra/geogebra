@@ -17,7 +17,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
@@ -469,13 +468,6 @@ public class MobileApp extends App
 
 	@Override
 	public SoundManager getSoundManager()
-	{
-
-		return null;
-	}
-
-	@Override
-	public CommandProcessor newCmdBarCode()
 	{
 
 		return null;
