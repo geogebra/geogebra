@@ -37,16 +37,14 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	}
 	
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList list2) {
-		AlgoDoubleListSigmaXX algo = new AlgoDoubleListSigmaXX(cons, a,
-				list, list2);
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
+		AlgoSigmaXX algo = new AlgoSigmaXX(cons, a, list, freq);
 		return algo.getResult();
 	}
 	
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq, GeoBoolean isGrouped) {
-		AlgoSigmaXX algo = new AlgoSigmaXX(cons, a, list, freq, isGrouped);
-		return algo.getResult();
+		throw argNumErr(app, c.getName(), 3);
 	}
 	
 }
