@@ -13,14 +13,14 @@ WEB_BUILDDIR=war
 REVISION=`./myrevision`
 mkdir -p $REVDIR/$REVISION
 cd $WEB_AUTOBUILDDIR
-./build -s OBFUSCATED -c -cg -nl -i $REVDIR/$REVISION/war -- -localWorkers 2 > .buildlog 2>&1 || {
+./build -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war -- -localWorkers 2 > .buildlog 2>&1 || {
  RESULT=$?
  cp .buildlog $REVDIR/$REVISION/weberrors
  exit $RESULT
  }
 
 # A quick draft compilation for debugging
-./build -s PRETTY -nl -u gecko1_8 -i $REVDIR/$REVISION/war-debug -- -draftCompile
+./build -s PRETTY -u gecko1_8 -i $REVDIR/$REVISION/war-debug -- -draftCompile
 
 echo -n $REVISION > $REVDIR/$REVISION/war/web/version.txt
 echo -n $REVISION > $REVDIR/$REVISION/war-debug/web/version.txt
