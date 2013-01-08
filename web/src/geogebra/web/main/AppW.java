@@ -857,9 +857,8 @@ public class AppW extends App {
 		boolean oldRTLOrder = rightToLeftReadingOrder(oldLang);
 		
 		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
-		
+		Cookies.setCookie("GGWlang", lang);
 		if (oldRTLOrder != rightToLeftReadingOrder){
-			Cookies.setCookie("GGWlang", lang);
 			Location.reload();
 		}
 		

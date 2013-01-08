@@ -1733,8 +1733,9 @@ public abstract class App implements Localization{
 	}
 
 	
-	public static boolean rightToLeftReadingOrder(String lang){
+	public static boolean rightToLeftReadingOrder(String language){
 	
+		String lang = language.substring(0,2);
 	// Guy Hed, 25.8.2008
 	// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
 		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
