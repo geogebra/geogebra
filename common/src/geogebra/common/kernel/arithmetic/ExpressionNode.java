@@ -2012,7 +2012,7 @@ public class ExpressionNode extends ValidExpression implements
 			default:
 				// check for 0
 				if (valueForm) {
-					if (isEqualString(left, 0, !valueForm)) {
+					if (isEqualString(left, 0, !valueForm)) {						
 						append(sb, rightStr, right, operation, stringType);
 						break;
 					} else if (isEqualString(right, 0, !valueForm)) {
@@ -4726,7 +4726,7 @@ public class ExpressionNode extends ValidExpression implements
 			boolean symbolic) {
 		if (ev.isLeaf() && (ev instanceof NumberValue)) {
 			// function variables need to be kept
-			if (ev instanceof FunctionVariable) {
+			if (ev instanceof FunctionVariable || ev instanceof GeoDummyVariable) {
 				return false;
 			} else if (ev instanceof MySpecialDouble) {
 				// special doubles like pi, degree, rad need to be kept
