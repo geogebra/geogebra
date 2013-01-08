@@ -35,7 +35,7 @@ public class ViewMenuW extends MenuBar{
 		clearItems();
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), app.getMenu("Algebra")),
+				.empty().getSafeUri().asString(), app.getPlain("Algebra")),
 		        true, new Command() {
 			        public void execute() {
 			        	MySplitLayoutPanel mp = (MySplitLayoutPanel)
@@ -58,7 +58,7 @@ public class ViewMenuW extends MenuBar{
 		        });
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), app.getMenu("Spreadsheet")),
+				.empty().getSafeUri().asString(), app.getPlain("Spreadsheet")),
 		        true, new Command() {
 			        public void execute() {
 			        	MySplitLayoutPanel mp = (MySplitLayoutPanel)
