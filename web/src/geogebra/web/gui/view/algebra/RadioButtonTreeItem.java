@@ -164,7 +164,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
 			if ((latexStr != null) &&
-				geo.isLaTeXDrawableGeo(latexStr) &&
+				geo.isLaTeXDrawableGeo() &&
 				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
 				latexStr = DrawEquationWeb.inputLatexCosmetics(latexStr);
 				seMayLatex = se;
@@ -192,7 +192,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			text = geo.getLaTeXAlgebraDescription(true,	StringTemplate.latexTemplate);
 			if ((text != null) &&
-				geo.isLaTeXDrawableGeo(text) &&
+				geo.isLaTeXDrawableGeo() &&
 				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
 				newLaTeX = true;
 			}
