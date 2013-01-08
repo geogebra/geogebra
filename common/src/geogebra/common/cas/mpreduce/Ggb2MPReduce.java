@@ -26,7 +26,7 @@ public class Ggb2MPReduce {
 		p("Append.2",
 				"myappend(%0,%1)");
 		p("Binomial.2",
-				"<< begin scalar n!!, k!!, result1!!, result2!!; n!!:=(%0); k!!:=(%1); result1!!:= if numberp(n!!) and numberp(k!!) and k!!>n!! then 0 else factorial(n!!)/(factorial(k!!)*factorial(n!!-k!!)); return result1!! end >>");
+				"<< begin scalar n!!, k!!, result1!!, result2!!; n!!:=(%0); k!!:=(%1); result1!!:= if sless(n!!,k!!)=\\'true then 0 else factorial(n!!)/(factorial(k!!)*factorial(n!!-k!!)); return result1!! end >>");
 		p("BinomialDist.4",
 				"<< begin scalar n!!, p!!, k!!; n!!:=(%0); p!!:=(%1); k!!:=(%2);return if %3=\\'true then for i:=0:floor(k!!) sum binomial(n!!,i)*p!!^i*(1-p!!)^(n!!-i) else binomial(n!!,k!!)*p!!^k!!*(1-p!!)^(n!!-k!!) end >>");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
