@@ -19,6 +19,10 @@
  <set-configuration-property name='locale.cookie' value='locale' />
  <set-configuration-property name='locale.useragent' value='Y' />
  <set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' />
+ 
+ <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
+ <inherits name="com.google.gwt.i18n.CldrLocales"/>
+  
    
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -42,12 +46,6 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
   <super-source path='/common/src/geogebra/jre' />
-  
-  
-  
-  <inherits name="com.google.gwt.i18n.CldrLocales"/>
-  
-  
   
   
   <!-- Feel free to edit these values if you want to reduce compilation
