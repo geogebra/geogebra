@@ -2549,6 +2549,12 @@ public class ExpressionNode extends ValidExpression implements
 
 				switch (stringType) {
 				case MPREDUCE:
+					if("e".equals(leftStr)){
+						sb.append("exp(");
+						sb.append(rightStr);
+						sb.append(')');
+						break;
+					}
 					sb.append("mypower(");
 					sb.append(leftStr);
 					sb.append(",");
