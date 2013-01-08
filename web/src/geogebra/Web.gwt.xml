@@ -36,8 +36,8 @@
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
-  <!--<set-property name="user.agent" value="safari, gecko1_8, opera, ie9" />-->
-  <set-property name="user.agent" value="safari, gecko1_8" />
+  <set-property name="user.agent" value="safari, gecko1_8, opera, ie9" />
+  <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
   <add-linker name="xsiframe" />
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
