@@ -1041,7 +1041,7 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo(String latexStr) {
+	public boolean isLaTeXDrawableGeo() {
 
 		return isLaTeX()
 				|| (getTextString() != null && getTextString().indexOf('_') != -1);

@@ -48,5 +48,9 @@ public class PythonScript extends Script {
 	public ScriptType getType() {
 		return ScriptType.PYTHON;
 	}
+	@Override
+	public Script copy() {
+		return new PythonScript(app, text);
+	}
 
 }

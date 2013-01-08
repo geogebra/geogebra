@@ -1941,8 +1941,8 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo(String latexStr) {
-		return isLaTeXneeded(latexStr);
+	public boolean isLaTeXDrawableGeo() {
+		return true;
 	}
 
 	@Override

@@ -105,7 +105,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 						.getBoldFont().getStyle(), app.getFontSize() - 1);
 				latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplate);
-				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
+				if (latexStr != null && geo.isLaTeXDrawableGeo()) {
 					latexStr = "\\;" + latexStr; // add a little space for the
 													// icon
 					app.getDrawEquation().drawLatexImageIcon(app, latexIcon,

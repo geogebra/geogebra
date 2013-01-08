@@ -1874,7 +1874,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo(final String latexStr) {
+	public boolean isLaTeXDrawableGeo() {
 
 		// check for matrix
 		if (getElementType().equals(GeoClass.LIST)) {
@@ -1887,7 +1887,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			return false;
 		}
 
-		return super.isLaTeXDrawableGeo(latexStr);
+		return super.isLaTeXDrawableGeo();
 	}
 
 	@Override

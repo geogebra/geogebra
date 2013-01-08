@@ -198,4 +198,9 @@ public class GgbScript extends Script {
 		return ScriptType.GGBSCRIPT;
 	}
 
+	@Override
+	public Script copy() {
+		return new GgbScript(app, text);
+	}
+
 }

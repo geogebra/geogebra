@@ -1561,6 +1561,7 @@ public class Construction {
 			newGeo.setLabelSimple(oldGeo.getLabelSimple());
 			newGeo.labelSet = true; // to get right XML output
 			newGeo.setAllVisualProperties(oldGeo, false);
+			newGeo.setScripting(oldGeo);
 
 			// NEAR-TO-RELATION for dependent new geo:
 			// copy oldGeo's values to newGeo so that the

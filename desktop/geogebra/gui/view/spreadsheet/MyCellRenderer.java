@@ -269,7 +269,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
 						true);
-				if (geo.isLaTeXDrawableGeo(latexStr)) {
+				if (geo.isLaTeXDrawableGeo()) {
 					try {
 						if (geo.isGeoText())
 							isSerif = ((GeoText) geo).isSerifFont();

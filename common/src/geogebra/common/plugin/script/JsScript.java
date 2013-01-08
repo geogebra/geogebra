@@ -59,4 +59,10 @@ public class JsScript extends Script {
 	public ScriptType getType() {
 		return ScriptType.JAVASCRIPT;
 	}
+	
+	@Override
+	public Script copy() {
+		return new JsScript(app, text);
+	}
+
 }

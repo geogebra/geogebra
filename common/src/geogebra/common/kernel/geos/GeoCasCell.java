@@ -2056,8 +2056,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	// this.ignoreTwinGeoUpdate = ignoreTwinGeoUpdate;
 	// }
 	@Override
-	public boolean isLaTeXDrawableGeo(final String latexStr) {
-		return isLaTeXneeded(latexStr);
+	public boolean isLaTeXDrawableGeo() {
+		return true;
 	}
 
 	public String getVarString(final StringTemplate tpl) {

@@ -773,7 +773,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 	
 	@Override
-	public  boolean isLaTeXDrawableGeo(String latexStr) {
+	public  boolean isLaTeXDrawableGeo() {
 		return true;
 	}
 	

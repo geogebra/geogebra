@@ -97,4 +97,9 @@ public abstract class Script {
 	public Object getXMLName() {
 		return this.getType().getXMLName();
 	}
+
+	/**
+	 * @return a new copy of this object
+	 */
+	public abstract Script copy();
 }

@@ -1294,7 +1294,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo(String latexStr) {
+	public boolean isLaTeXDrawableGeo() {
 		return false;
 	}
 

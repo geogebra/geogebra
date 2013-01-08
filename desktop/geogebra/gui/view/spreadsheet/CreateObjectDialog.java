@@ -566,7 +566,7 @@ public class CreateObjectDialog extends InputDialogD implements
 					.getPlainFont().getStyle(),
 					app.getPlainFont().getSize() - 1);
 
-			if (latexStr != null && newGeo.isLaTeXDrawableGeo(latexStr)) {
+			if (latexStr != null && newGeo.isLaTeXDrawableGeo()) {
 				app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr, latexFont, false,
 						Color.black, null);
 				lblPreview.setText(" ");

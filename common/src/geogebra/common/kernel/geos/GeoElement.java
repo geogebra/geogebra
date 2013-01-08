@@ -6525,32 +6525,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * Test method that returns true if the given GeoElement geo is to be drawn
-	 * with LaTeX rendering in the spreadsheet or AV. For performance reasons
-	 * LaTeX is to be avoided when not needed.
-	 * @param latexStr latex string
-	 * 
 	 * @return true if the given GeoElement geo is to be drawn
-	 * with LaTeX in AV or SV
+	 * with LaTeX in AV/Spreadsheet
 	 */
-	public boolean isLaTeXDrawableGeo(final String latexStr) {
-		// TODO Does not what the comment says
+	public boolean isLaTeXDrawableGeo() {
 		return false;
-	}
-
-	/**
-	 * used in eg CAS and Spreadsheet Views to decide if the LaTeX renderer is
-	 * neccesary by checking for eg ^2, \frac
-	 * @param latex2 text
-	 * @return true if the text uses LaTeX syntax
-	 */
-	public static boolean isLaTeXneeded(final String latex2) {
-		
-		// hack removed, now use LaTeX in many more cases in the Algebra View & CAS
-		// * looks better
-		// * speed shouldn't be too much of a problem as we have CompressedAlgebraView
-		
-		return true;
 	}
 
 	/**
@@ -6797,5 +6776,22 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	public boolean hasCoords() {
 		return false;
+	}
+
+	/**
+	 * copies the scripts from another geo. Used when redefining (so that the scripts aren't "deleted")
+	 * 
+	 * @param oldGeo old GeoElement
+	 */
+	public void setScripting(GeoElement oldGeo) {
+		
+		for (int i = 0 ; i < oldGeo.scripts.length ; i++) {
+			if (oldGeo.scripts[i] != null) {
+				scripts[i] = oldGeo.scripts[i].copy();
+			} else {
+				scripts[i] = null;
+			}
+		}
+		
 	}	
 }

@@ -795,8 +795,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 		
 		@Override
-		public  boolean isLaTeXDrawableGeo(String latexStr) {
-			return isLaTeXneeded(latexStr);
+		public  boolean isLaTeXDrawableGeo() {
+			return true;
 		}
 		
 		@Override

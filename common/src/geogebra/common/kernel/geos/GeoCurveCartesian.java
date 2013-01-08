@@ -966,7 +966,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo(String latexStr) {
+	public boolean isLaTeXDrawableGeo() {
 		return true;
 	}
 
