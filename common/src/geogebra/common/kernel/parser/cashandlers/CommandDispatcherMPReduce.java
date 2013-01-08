@@ -25,6 +25,8 @@ public class CommandDispatcherMPReduce {
 	 * Enum for special commands that may be returned by MPReduce.
 	 */
 	public enum commands {
+		/** factorial */
+		factorial(Operation.FACTORIAL),
 		/**ceil*/
 		myfloor(Operation.FLOOR),
 		/**ceil*/
@@ -200,6 +202,7 @@ public class CommandDispatcherMPReduce {
 			case snot:	
 			case myround:
 			case myreal:
+			case factorial:	
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
 						 args.getItem(0).unwrap(),commands.valueOf(cmdName).getOperation(),
