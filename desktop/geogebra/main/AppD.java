@@ -5515,4 +5515,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		gifEncoder.finish();
 
 	}
+
+	@Override
+	protected void directionForWeb(String lang) {
+		// do nothing
+		
+	}
 }

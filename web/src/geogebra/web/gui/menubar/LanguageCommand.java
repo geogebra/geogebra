@@ -73,6 +73,10 @@ public class LanguageCommand implements Command {
 	public void execute() {
 		//changeLocale(localeParameter, localeCode);
 		app.setLanguage(localeCode);
+		if (App.rightToLeftReadingOrder(localeCode)){
+			setCookies(LOCALE_PARAMETER, "ar");
+			return;
+		}
 		setCookies(LOCALE_PARAMETER, localeCode);
 	}
 	

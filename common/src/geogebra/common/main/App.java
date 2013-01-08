@@ -1732,6 +1732,16 @@ public abstract class App implements Localization{
 		return rightToLeftDigits;
 	}
 
+	
+	public static boolean rightToLeftReadingOrder(String lang){
+	
+	// Guy Hed, 25.8.2008
+	// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
+		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
+				.equals(lang));
+	}
+
+	protected abstract void directionForWeb(String lang);	
 	/**
 	 * Updates language flags (RTL, RTL for numbers, reverse word order,
 	 * autocomplete possible)
@@ -1741,6 +1751,10 @@ public abstract class App implements Localization{
 	 */
 	public void updateLanguageFlags(String lang) {
 
+		rightToLeftReadingOrder = rightToLeftReadingOrder(lang);
+		
+		directionForWeb(lang);	
+			
 		// force update
 		fontSizeStrings = null;
 
@@ -1753,10 +1767,7 @@ public abstract class App implements Localization{
 	 	// Persian aren't http://persian.nmelrc.org/persianword/format.htm 
 	 	rightToLeftDigits = "ar".equals(lang);
 	 	
-		// Guy Hed, 25.8.2008
-		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
-		rightToLeftReadingOrder = ("iw".equals(lang) || "ar".equals(lang)
-				|| "fa".equals(lang) || "ji".equals(lang));
+
 
 		
 		// Another option:

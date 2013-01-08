@@ -100,6 +100,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -844,6 +845,27 @@ public class AppW extends App {
 		return localeName.substring(0, 2);
 	}
 	
+	public String getLanguageFromCookie(){
+		return Cookies.getCookie("GGWlang");
+	}
+	
+	@Override
+	protected void directionForWeb(String lang){
+
+		String oldLang = getLanguageFromCookie();
+		
+		boolean oldRTLOrder = rightToLeftReadingOrder(oldLang);
+		
+		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
+		
+		if (oldRTLOrder != rightToLeftReadingOrder){
+			Cookies.setCookie("GGWlang", lang);
+			Location.reload();
+		}
+		
+	}
+	
+	
 	// eg "en_GB", "es"
 	// remains null until we're sure keys are loaded
 	String language = "en";
@@ -896,6 +918,7 @@ public class AppW extends App {
 					RootPanel.getBodyElement().setAttribute("dir", "ltr");
 				}
 				
+				
 				// make sure digits are updated in all numbers
 				getKernel().updateConstruction();
 				setUnsaved();
@@ -911,6 +934,7 @@ public class AppW extends App {
 		});
 		Document.get().getBody().appendChild(script);
 	}
+	
 
 	public void setLanguage(String language, String country) {
 				

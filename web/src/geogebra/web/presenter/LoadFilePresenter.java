@@ -73,7 +73,9 @@ public class LoadFilePresenter extends BasePresenter {
 
 		app.setUndoActive(undoActive);			
 
-		String language = view.getDataParamLanguage();
+		//String language = view.getDataParamLanguage();
+		String language = app.getLanguageFromCookie();
+		
 		if (language != null) {
 			String country = view.getDataParamCountry();
 			if (country == null || "".equals(country)) {
