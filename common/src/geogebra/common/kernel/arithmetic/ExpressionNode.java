@@ -4555,7 +4555,6 @@ public class ExpressionNode extends ValidExpression implements
 	}
 	
 	private void appendReduceFunction(StringBuilder sb, String string) {
-		App.debug(left.getClass());
 		if (left instanceof ListValue) {
 			sb.append("applyfunction(");
 			sb.append(string);
