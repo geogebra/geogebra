@@ -854,6 +854,10 @@ public class AppW extends App {
 
 		String oldLang = getLanguageFromCookie();
 		
+		//TODO: change "en" for the default language
+		//if there is no cookie yet, it starts with the default language
+		if (oldLang==null) oldLang="en";
+		
 		boolean oldRTLOrder = rightToLeftReadingOrder(oldLang);
 		
 		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
