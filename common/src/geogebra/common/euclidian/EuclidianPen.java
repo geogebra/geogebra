@@ -946,6 +946,7 @@ public class EuclidianPen {
 		s.syy=0.;
 		temp1[0]=penPoints.get(start).x;
 		temp1[1]=penPoints.get(start).y;
+		temp1[2]=penPoints.get(start+1).x;
 		temp1[3]=penPoints.get(start+1).y;
 		dm=coeff*Math.hypot(temp1[2]-temp1[0],temp1[3]-temp1[1]);
 		s.mass=s.mass+dm;
