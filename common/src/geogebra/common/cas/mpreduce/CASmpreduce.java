@@ -1229,8 +1229,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "else a(b,p)");
 
 		mpreduce1.evaluate("operator multiplication;");
-		mpreduce1
-				.evaluate("procedure mydivision(a,b); multiplication(a,1/booltonum(b))");
+		mpreduce1.evaluate("procedure mydivision(a,b); " +
+						"multiplication(a,if b=0 then infinity" +
+						" else if (b=infinity or b=-infinity)" +
+						" then 0 else 1/booltonum(b))");
 		mpreduce1.evaluate("operator mydivision;");
 		mpreduce1
 				.evaluate("procedure mypower(a,b); " +
