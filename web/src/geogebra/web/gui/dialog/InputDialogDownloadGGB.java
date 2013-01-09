@@ -1,23 +1,17 @@
 package geogebra.web.gui.dialog;
 
-import geogebra.common.gui.view.algebra.DialogType;
+import geogebra.common.main.App;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.GgbAPI;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogDownloadGGB extends InputDialogW{
@@ -61,6 +55,7 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		linkDownload.addStyleName("linkDownload");
 		linkDownload.getElement().setAttribute(
 				"style", "text-decoration: none; color: black");
+		linkDownload.addClickHandler(this);
 		setFilename("geogebra.ggb");
 		
 		// create button panel
@@ -78,13 +73,20 @@ public class InputDialogDownloadGGB extends InputDialogW{
 	
 	public void onClick(ClickEvent e) {
 	    Object source = e.getSource();
+	    App.debug(source.toString());
 
 		try {
 //			if (source == btOK || source == inputPanel.getTextComponent()) {
 //				if(processInput()) wrappedPopup.hide();
 //				app.getActiveEuclidianView().requestFocusInWindow();
 //		}else
-			if (source == btCancel) {
+			if (source == linkDownload){
+				//linkDownload is a link with <download> attribute, so if the user clicks on it,
+				//it downloads the file "automatically", so it's enough to close the dialog here,
+				//until we have no filename-checking.
+				wrappedPopup.hide();
+			}
+			else if (source == btCancel) {
 				wrappedPopup.hide();
 				app.getActiveEuclidianView().requestFocusInWindow();
 			}
