@@ -371,7 +371,6 @@ public class GeoGebraMenuBar extends JMenuBar {
 		
 
 		StringBuilder sb = new StringBuilder();
-		String swsVer = App.singularWS.getSingularVersionString();
 		sb.append("<html><b>");
 		appendVersion(sb, app);
 		sb.append("</b>  (");
@@ -381,8 +380,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB, ");
 		sb.append(App.getCASVersionString());
-		if (swsVer != "")
-			sb.append(",<br>" + swsVer);
+		if (App.singularWS != null)
+			sb.append(",<br>" + App.singularWS.getSingularVersionString());
 		sb.append(")<br>");	
 		sb.append(GeoGebraConstants.BUILD_DATE);
 
