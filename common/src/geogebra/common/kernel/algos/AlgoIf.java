@@ -93,11 +93,17 @@ public class AlgoIf extends AlgoElement {
     	try {
 	    	if (condition.getBoolean()) {	    		
 	    		result.set(ifGeo);
+	    		if(ifGeo.getDrawAlgorithm() instanceof DrawInformationAlgo){
+	    			result.setDrawAlgorithm(((DrawInformationAlgo)ifGeo.getDrawAlgorithm()).copy());
+	    		}
 	    	} else {
 	    		if (elseGeo == null)
 	    			result.setUndefined();
 	    		else
 	    			result.set(elseGeo);
+	    		if(elseGeo.getDrawAlgorithm() instanceof DrawInformationAlgo){
+	    			result.setDrawAlgorithm(((DrawInformationAlgo)elseGeo.getDrawAlgorithm()).copy());
+	    		}
 	    	}    	
     	} catch (Exception e) {
     		//e.printStackTrace();

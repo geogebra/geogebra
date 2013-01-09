@@ -189,6 +189,7 @@ public class AlgoListElement extends AlgoElement {
 				// check type:
 				if (nth.getGeoClassType() == element.getGeoClassType()) {
 					element.set(nth);
+					element.setDrawAlgorithm(((DrawInformationAlgo)nth.getDrawAlgorithm()).copy());
 
 				} else {
 					element.setUndefined();
@@ -228,6 +229,7 @@ public class AlgoListElement extends AlgoElement {
 				// check type:
 				if (current.getGeoClassType() == element.getGeoClassType()) {
 					element.set(current);
+					element.setDrawAlgorithm(((DrawInformationAlgo)current.getDrawAlgorithm()).copy());
 
 				} else {
 					element.setUndefined();
