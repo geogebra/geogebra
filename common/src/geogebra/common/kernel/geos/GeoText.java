@@ -459,6 +459,10 @@ public class GeoText extends GeoElement implements Locateable,
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
 	private GeoText linkedText;
 	
+	/**
+	 * For Text[Text[a]] the inner text must use template of the outer
+	 * @param text descendant whose string template may be used
+	 */
 	public void addTextDescendant(GeoText text){
 		if(isLabelSet())
 			return;

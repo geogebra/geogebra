@@ -2082,6 +2082,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return null;
 	}
 	
+	/**
+	 * @return function variables of input function
+	 */
 	public FunctionVariable[] getFunctionVariables() {
 		if (getInputVE() instanceof FunctionNVar) {
 			return ((FunctionNVar) getInputVE())

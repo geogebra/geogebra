@@ -445,7 +445,7 @@ public class GeoTurtle extends GeoPoint{
 	}
 	
 	@Override
-	public boolean doAnimationStep(double frameRate) {
+	public synchronized boolean doAnimationStep(double frameRate) {
 		return doStepTurtle(1.0/frameRate);
 	}
 	

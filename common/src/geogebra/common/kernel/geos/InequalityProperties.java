@@ -1,7 +1,9 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.kernelND.GeoElementND;
-
+/**
+ * Interface for single variable inequality or list of those
+ */
 public interface InequalityProperties extends GeoElementND{
 	/**
 	 * For inequalities.

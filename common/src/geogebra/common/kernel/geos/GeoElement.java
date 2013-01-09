@@ -307,8 +307,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	// number of AlgoCellRange using this cell: don't allow renaming when
 	// greater 0
 	private int cellRangeUsers = 0;
-	// number of AlgoDependentCasCell using this cell: send updates to CAS
-	private int casAlgoUsers = 0;
 
 	/** condition to show object*/
 	protected GeoBoolean condShowObject;
