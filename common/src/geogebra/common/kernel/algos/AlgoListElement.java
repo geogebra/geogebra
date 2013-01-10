@@ -189,7 +189,8 @@ public class AlgoListElement extends AlgoElement {
 				// check type:
 				if (nth.getGeoClassType() == element.getGeoClassType()) {
 					element.set(nth);
-					element.setDrawAlgorithm(((DrawInformationAlgo)nth.getDrawAlgorithm()).copy());
+					if(nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
+						element.setDrawAlgorithm(((DrawInformationAlgo)nth.getDrawAlgorithm()).copy());
 
 				} else {
 					element.setUndefined();
