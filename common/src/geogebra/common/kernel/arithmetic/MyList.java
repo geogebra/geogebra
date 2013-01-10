@@ -631,7 +631,7 @@ public class MyList extends ValidExpression implements ListValue,
 			}
 			toLaTeXString.append("\\end{array}\\right)");
 		} else {
-			toLaTeXString.append(" \\{ ");
+			toLaTeXString.append(" \\left\\{ ");
 
 			// first (n-1) elements
 			int lastIndex = listElements.size() - 1;
@@ -647,7 +647,7 @@ public class MyList extends ValidExpression implements ListValue,
 				toLaTeXString.append(exp.toLaTeXString(symbolic,tpl));
 			}
 
-			toLaTeXString.append(" \\} ");
+			toLaTeXString.append(" \\right\\} ");
 		}
 		return toLaTeXString.toString();
 	}
