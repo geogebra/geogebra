@@ -33,6 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 								<xs:element name="output" type="ioType"/>
 							</xs:sequence>
 							<xs:attribute name="name" type="xs:string" use="required"/>
+							<xs:attribute name="type" type="xs:string"/>
+							<xs:attribute name="var" type="xs:string"/>
 						</xs:complexType>
 					</xs:element>
 					<xs:element ref="element"/>
@@ -54,7 +56,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 	<xs:element name="element">
 		<xs:complexType>
-			<xs:all>
+			<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="absoluteScreenLocation" minOccurs="0" type="xyCoords"/>
 				
 				<xs:element name="allowReflexAngle" type="boolVal" minOccurs="0"/>
@@ -66,6 +69,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				<xs:element name="animation" type="animation" minOccurs="0"/>
 				
 				<xs:element name="caption" type="stringVal" minOccurs="0"/>
+				
+				<xs:element name="comboBox" type="boolVal" minOccurs="0"/>
 				
 				<xs:element name="condition" minOccurs="0">
 					<xs:complexType>
@@ -119,13 +124,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				
 				<xs:element name="fixed" type="boolVal" minOccurs="0"/>
 				
-				<xs:element name="font" minOccurs="0">
-					<xs:complexType>
-						<xs:attribute name="serif" type="xs:boolean"/>
-						<xs:attribute name="size" type="nonNegInt"/>
-						<xs:attribute name="style" type="nonNegInt"/>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="font" minOccurs="0" type="fontProperties"/>
+					
+				
 				
 				<xs:element name="forceReflexAngle" type="boolVal" minOccurs="0"/>
 				
@@ -155,15 +156,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				
 				<xs:element name="layer" type="intVal" minOccurs="0"/>
 				
+				<xs:element name="levelOfDetail" type="intVal" minOccurs="0"/>
+				
 				<xs:element name="linkedGeo" minOccurs="0">
 					<xs:complexType>
 						<xs:attribute name="exp" type="xs:string"/>
 					</xs:complexType>
 				</xs:element>
 				
+				<xs:element name="listType" minOccurs="0">
+					<xs:complexType>
+				 		<xs:attribute name="val" type="elType"/>
+					</xs:complexType>
+				</xs:element>
+				
 				<xs:element name="matrix" type="matrix" minOccurs="0" />
 				
-				<xs:element name="objColor" type="fillType"/>
+				<xs:element name="objColor" type="fillType" minOccurs="0"/>
+				
+				<xs:element name="bgColor" type="rgbaColor" minOccurs="0"/>
 				
 				<xs:element name="outlyingIntersections" type="boolVal" minOccurs="0"/>
 				
@@ -174,6 +185,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 						<xs:attribute name="val" type="pointStyles"/>
 					</xs:complexType>
 				</xs:element>
+				
+				<xs:element name="selectedIndex" type="intVal" minOccurs="0"/>
 				
 				<xs:element name="selectionAllowed" type="boolVal" minOccurs="0"/>
 				
@@ -193,9 +206,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				
 				<xs:element name="startPoint" type="expCoords" minOccurs="0"/>
 				
-				<xs:element name="tooltipMode" minOccurs="0" type="tooltipModes"/>
+				<xs:element name="tooltipMode" minOccurs="0">
+					<xs:complexType>
+				 		<xs:attribute name="val" type="tooltipModes"/>
+					</xs:complexType>
+				</xs:element>
 				
 				<xs:element name="trace" type="boolVal" minOccurs="0"/>
+				
+				<xs:element name="userinput" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="show" type="xs:boolean"/>
+						<xs:attribute name="value" type="xs:string"/>
+						<xs:attribute name="valid" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
 				
 				<xs:element name="value" minOccurs="0">
 					<xs:complexType>
@@ -203,7 +228,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 						<xs:attribute name="random" type="xs:boolean"/>
 					</xs:complexType>
 				</xs:element>
-			</xs:all>
+			</xs:choice>
+			</xs:sequence>
 			<xs:attribute name="type" type="elType"/>
 			<xs:attribute name="label" type="xs:string"/>
 		</xs:complexType>
@@ -312,7 +338,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 	<xs:complexType name="animation">
 		<xs:attribute name="step" type="xs:string"/>
-		<xs:attribute name="speed" type="xs:double"/>
+		<xs:attribute name="speed" type="xs:string"/>
 		<xs:attribute name="type" type="nonNegInt"/>
 		<xs:attribute name="playing" type="xs:boolean"/>
 	</xs:complexType>
@@ -323,6 +349,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:attribute name="b" type="nonNegInt" use="required"/>
 	</xs:complexType>
 	
+	<xs:complexType name="rgbaColor">
+		<xs:attribute name="r" type="nonNegInt" use="required"/>
+		<xs:attribute name="g" type="nonNegInt" use="required"/>
+		<xs:attribute name="b" type="nonNegInt" use="required"/>
+		<xs:attribute name="alpha" type="nonNegInt"/>
+	</xs:complexType>
+	
 	<xs:complexType name="fillType">
 		<xs:attribute name="r" type="nonNegInt" use="required"/>
 		<xs:attribute name="g" type="nonNegInt" use="required"/>
@@ -331,6 +364,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:attribute name="dynamicg" type="xs:string"/>
 		<xs:attribute name="dynamicb" type="xs:string"/>
 		<xs:attribute name="dynamica" type="xs:string"/>
+		<xs:attribute name="colorSpace" type="colorSpaces"/>
 		<xs:attribute name="alpha" type="xs:double"/>
 		<xs:attribute name="hatchAngle" type="xs:double"/>
 		<xs:attribute name="hatchDistance" type="xs:double"/>
@@ -391,7 +425,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 	<xs:simpleType name="elType">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="angle|boolean|button|conic(part)?(3d)?|curvecartesian(3d)?|function(NVar)?|image|implicitpoly|line(3d)?|list|locus|numeric|point(3d)?|polygon(3d)?|polyline|quadric|ray(3d)?|segment(3d)?|text(field)?|vector"/>
+			<xs:pattern value="angle|boolean|button|conic(part)?(3d)?|curvecartesian(3d)?|function(NVar)?|image|implicitpoly|line(3d)?|list|locus|numeric|point(3d)?|polygon(3d)?|polyline|quadric|ray(3d)?|segment(3d)?|text(field)?|turtle|vector"/>
 		</xs:restriction>
 	</xs:simpleType>
 	
@@ -399,6 +433,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:annotation>
 			<xs:documentation>
 				Meaning of values:0=value,1=definition,2=command.
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="colorSpaces">
+		<xs:annotation>
+			<xs:documentation>
+				Meaning of values:0=RGB,1=HSB,2=HSL.
 				</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:int">
@@ -444,7 +490,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 	<xs:simpleType name="lineThickness">
 		<xs:restriction base="xs:int">
-			<xs:minInclusive value="1"/>
+			<xs:minInclusive value="0"/>
 			<xs:maxInclusive value="13"/>
 		</xs:restriction>
 	
@@ -579,4 +625,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 			<xs:attribute name="evalComment" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:complexType name="fontProperties">
+						<xs:attribute name="serif" type="xs:boolean"/>
+						<xs:attribute name="size" type="nonNegInt"/>
+						<xs:attribute name="sizeM" type="xs:double"/>
+						<xs:attribute name="style" type="nonNegInt"/>
+	</xs:complexType>
 </xs:schema>
