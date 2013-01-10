@@ -12,6 +12,8 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogDownloadGGB extends InputDialogW{
@@ -28,7 +30,9 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.linkDownload.getElement());
 		inputPanel.getTextComponent().getTextField().addValueChangeHandler(new ValueChangeHandler<String>(){
 			public void onValueChange(ValueChangeEvent<String> event) {
-				setFilename(event.getValue());
+				String fileName = event.getValue();
+				if(fileName.substring(-4) != ".ggb") fileName += ".ggb";
+				setFilename(fileName);
             }		
 		});	
 	}
@@ -38,9 +42,14 @@ public class InputDialogDownloadGGB extends InputDialogW{
         linkDownload.getElement().setAttribute("download", newVal);
 	}
 	
+	
+	/**
+	 * Creates components to be displayed
+	 */
 	protected void createGUI() {
 
-		// Create components to be displayed
+		Label label = new Label(app.getMenu("SaveAs")+": ");
+		label.addStyleName("downloadGGB_label");
 		inputPanel = new InputPanelW(initString, app, DEFAULT_COLUMNS, 1,
 				false/*, type*/);
 
@@ -64,8 +73,13 @@ public class InputDialogDownloadGGB extends InputDialogW{
 		btPanel.add(linkDownload);
 		btPanel.add(btCancel);
 		
+		HorizontalPanel topPanel = new HorizontalPanel();
+		topPanel.add(label);
+		topPanel.add(inputPanel);
+		topPanel.setCellVerticalAlignment(label, HorizontalPanel.ALIGN_MIDDLE);
+		topPanel.setCellVerticalAlignment(inputPanel, HorizontalPanel.ALIGN_MIDDLE);
 		VerticalPanel centerPanel = new VerticalPanel();
-		centerPanel.add(inputPanel);
+		centerPanel.add(topPanel);
 		centerPanel.add(btPanel);
 		
 		wrappedPopup.setWidget(centerPanel);

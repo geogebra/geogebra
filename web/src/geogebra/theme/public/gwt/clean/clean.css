@@ -1572,3 +1572,7 @@ body[dir=rtl] .toolbarPanel div table{
 body[dir=rtl] .GeoGebraMenuBar table{
 	margin-left: auto;
 }
+
+.downloadGGB_label{
+	margin: 5px;
+}
