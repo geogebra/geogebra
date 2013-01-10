@@ -1954,7 +1954,7 @@ __GGB__keysVar.ko.plain = {
     "AandBareParallel": "%0 와(과) %1 은(는) 평행",
     "AandBarePerpendicular": "%0 와(과) %1 은(는) 수직",
     "AandBcannotBeCompared": "%0 와(과) %1 은(는) 비교될 수 없음",
-    "AbsoluteScreenLocation": "화면에서 고정좌표에 표시",
+    "AbsoluteScreenLocation": "대상을 화면에 고정",
     "AdoesNotLieOnB": "%0 은(는) %1 위에 있지 않음",
     "AdoesNotLieOnThePerimeterOfB": "%0 은(는) %1 의 둘레에 놓여있지 않음",
     "AdoesNothaveTheSameAreaAsB": "%0 은(는) %1 로써 같은 넓이를 같지 않음",
