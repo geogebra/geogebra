@@ -2,6 +2,8 @@ package geogebra.web.util;
 
 import geogebra.common.util.NumberFormatAdapter;
 
+import com.google.gwt.i18n.client.NumberFormat;
+
 /**
  * @author gabor@geogebra.org
  *
@@ -14,7 +16,12 @@ public class NumberFormatWeb extends Format implements NumberFormatAdapter {
 	 
 	public NumberFormatWeb(String s, int digits) {
 		maximumFractionDigits = digits;
-	   this.nf = com.google.gwt.i18n.client.NumberFormat.getFormat(s);
+		
+		Boolean forcedLatinDigits = NumberFormat.forcedLatinDigits();
+		if(!forcedLatinDigits) NumberFormat.setForcedLatinDigits(true);
+		this.nf = com.google.gwt.i18n.client.NumberFormat.getFormat(s);
+		if(!forcedLatinDigits) NumberFormat.setForcedLatinDigits(false);
+	   
     }
 	
 	public int getMaximumFractionDigits() {
