@@ -330,6 +330,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:attribute name="dynamicr" type="xs:string"/>
 		<xs:attribute name="dynamicg" type="xs:string"/>
 		<xs:attribute name="dynamicb" type="xs:string"/>
+		<xs:attribute name="dynamica" type="xs:string"/>
 		<xs:attribute name="alpha" type="xs:double"/>
 		<xs:attribute name="hatchAngle" type="xs:double"/>
 		<xs:attribute name="hatchDistance" type="xs:double"/>
