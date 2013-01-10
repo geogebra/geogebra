@@ -2908,12 +2908,20 @@ public class Construction {
 	
 	
 
+	/** algo set currently updated by GeoElement.updateDependentObjects() */
 	private AlgorithmSet algoSetCurrentlyUpdated;
 	
+	/** set the algo set currently updated by GeoElement.updateDependentObjects() 
+	 * @param algoSetCurrentlyUpdated algo set
+	 * */
 	public void setAlgoSetCurrentlyUpdated(AlgorithmSet algoSetCurrentlyUpdated){
 		this.algoSetCurrentlyUpdated = algoSetCurrentlyUpdated;
 	}
 	
+	/**
+	 * 
+	 * @return the algo set currently updated by GeoElement.updateDependentObjects() 
+	 */
 	public AlgorithmSet getAlgoSetCurrentlyUpdated(){
 		return algoSetCurrentlyUpdated;
 	}
