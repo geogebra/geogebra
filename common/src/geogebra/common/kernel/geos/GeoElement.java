@@ -3345,7 +3345,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			updateAlgoUpdateSetWith(correspondingCasCell);
 		} else if (algoUpdateSet != null) {
 			// update all algorithms in the algorithm set of this GeoElement
+			cons.setAlgoSetCurrentlyUpdated(algoUpdateSet);
 			algoUpdateSet.updateAll();
+			cons.setAlgoSetCurrentlyUpdated(null);
 		}
 	}
 
@@ -3453,7 +3455,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geos locateables
 	 */
 	final static public synchronized void updateCascadeLocation(
-			final ArrayList<Locateable> geos) 
+			final ArrayList<Locateable> geos, Construction cons) 
 	{		
 		// build update set of all algorithms in construction element order
 		// clear temp set
@@ -3476,10 +3478,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			// now we have one nice algorithm set that we can update
 			if (tempSet1.size() > 0) {
 				final Iterator<AlgoElement> it = tempSet1.iterator();
+				AlgorithmSet algoSetCurrentlyUpdated = cons.getAlgoSetCurrentlyUpdated();
 				while (it.hasNext()) {
 					try{
-					final AlgoElement algo = it.next();
-					algo.update();
+						final AlgoElement algo = it.next();
+						//algo.updateForLocation();
+						if(algoSetCurrentlyUpdated==null || !algoSetCurrentlyUpdated.contains(algo))
+							algo.update();
 					}catch(Exception e){
 						e.printStackTrace();
 					}

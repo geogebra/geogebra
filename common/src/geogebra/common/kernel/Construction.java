@@ -105,7 +105,7 @@ public class Construction {
 	protected void newConstructionDefaults() {
 		consDefaults = new ConstructionDefaults(this);
 	}
-
+	
 	// list of Macro commands used in this construction
 	// TODO: specify type once Macro is ported
 	private ArrayList<Macro> usedMacros;
@@ -2902,5 +2902,20 @@ public class Construction {
 	 * 
 	 * return algoSet; }
 	 */
+
+	
+	
+	
+	
+
+	private AlgorithmSet algoSetCurrentlyUpdated;
+	
+	public void setAlgoSetCurrentlyUpdated(AlgorithmSet algoSetCurrentlyUpdated){
+		this.algoSetCurrentlyUpdated = algoSetCurrentlyUpdated;
+	}
+	
+	public AlgorithmSet getAlgoSetCurrentlyUpdated(){
+		return algoSetCurrentlyUpdated;
+	}
 
 }
