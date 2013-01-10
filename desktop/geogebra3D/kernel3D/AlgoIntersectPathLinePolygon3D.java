@@ -24,7 +24,6 @@ import geogebra.common.kernel.algos.AlgoIntersectPathLinePolygon;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
@@ -43,13 +42,13 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 	 * 
 	 * @param c
 	 * @param labels
-	 * @param g
+	 * @param geo
 	 * @param p
 	 */
 	public AlgoIntersectPathLinePolygon3D(Construction c, String[] labels,
-			GeoLineND g, GeoPolygon p) {
+			GeoElement geo, GeoPolygon p) {
 
-		super(c,labels,g,p);
+		super(c,labels,geo,p);
 
 	}
 

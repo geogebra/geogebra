@@ -376,6 +376,9 @@ public interface Manager3DInterface {
 	public GeoElement[] IntersectPath(String[] labels, GeoLineND g,
 			GeoSurfaceFinite s);
 
+	public GeoElement[] IntersectPath(String[] labels, GeoPlaneND plane,
+			GeoSurfaceFinite s);
+
 	public GeoElement[] IntersectionPoint(String[] labels, GeoPlaneND p,
 			GeoElement s);
 

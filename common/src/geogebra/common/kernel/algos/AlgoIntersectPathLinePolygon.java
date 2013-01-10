@@ -55,17 +55,17 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * 
 	 * @param c
 	 * @param labels
-	 * @param g
+	 * @param geo
 	 * @param p
 	 */
 	public AlgoIntersectPathLinePolygon(Construction c, String[] labels,
-			GeoLineND g, GeoPolygon p) {
+			GeoElement geo, GeoPolygon p) {
 
 		super(c);
 
 		outputSegments = createOutputSegments();
 
-		this.g = g;
+		setFirstInput(geo);
 		this.p = p;
 
 		newCoords = new TreeMap<Double, Coords>(
@@ -78,6 +78,21 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 		compute();
 
+	}
+	
+	/**
+	 * @param geo first input
+	 */
+	protected void setFirstInput(GeoElement geo){
+		this.g = (GeoLineND) geo;
+	}
+
+	/**
+	 * 
+	 * @return first input
+	 */
+	protected GeoElement getFirstInput(){
+		return (GeoElement) g;
 	}
 
 	 protected void init() {
@@ -108,7 +123,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * set visual style for new segments
 	 * @param segment segment
 	 */
-	protected void setSegmentVisualProperties(GeoElement segment){
+	public void setSegmentVisualProperties(GeoElement segment){
 		if (outputSegments.size()>0){
 			GeoElement seg0 = outputSegments.getElement(0);
 			segment.setAllVisualProperties(seg0, false);
@@ -130,7 +145,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = (GeoElement) g;
+		input[0] = getFirstInput();
 		input[1] = p;
 
 		setDependencies(); // done by AlgoElement
@@ -324,7 +339,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	@Override
 	public String toString(StringTemplate tpl) {
 		return app.getPlain("IntersectionOfAandB",
-				((GeoElement) g).getLabel(tpl), p.getLabel(tpl));
+				getFirstInput().getLabel(tpl), p.getLabel(tpl));
 	}
 
 
