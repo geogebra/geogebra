@@ -3474,17 +3474,19 @@ public abstract class GeoElement extends ConstructionElement implements
 					geo.getAlgoUpdateSet().addAllToCollection(tempSet1);
 				}
 			}
-	
+				
+			// remove algos currently updated
+			AlgorithmSet algoSetCurrentlyUpdated = cons.getAlgoSetCurrentlyUpdated();
+			if (algoSetCurrentlyUpdated!=null)
+				algoSetCurrentlyUpdated.removeAllFromCollection(tempSet1);
+
 			// now we have one nice algorithm set that we can update
 			if (tempSet1.size() > 0) {
 				final Iterator<AlgoElement> it = tempSet1.iterator();
-				AlgorithmSet algoSetCurrentlyUpdated = cons.getAlgoSetCurrentlyUpdated();
 				while (it.hasNext()) {
 					try{
 						final AlgoElement algo = it.next();
-						//algo.updateForLocation();
-						if(algoSetCurrentlyUpdated==null || !algoSetCurrentlyUpdated.contains(algo))
-							algo.update();
+						algo.update();
 					}catch(Exception e){
 						e.printStackTrace();
 					}

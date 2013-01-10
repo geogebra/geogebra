@@ -224,6 +224,20 @@ public class AlgorithmSet {
 			cur = cur.next;
 		}
 	}
+	
+	/**
+	 * Removes all algorithms in this set from the given collection
+	 * 
+	 * @param collection
+	 */
+	final public void removeAllFromCollection(
+			Collection<AlgoElement> collection) {
+		Link cur = getHead();
+		while (cur != null) {
+			collection.remove(cur.algo);
+			cur = cur.next;
+		}
+	}
 
 	@Override
 	public String toString() {
