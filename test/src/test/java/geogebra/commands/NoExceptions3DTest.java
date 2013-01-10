@@ -122,5 +122,10 @@ public class NoExceptions3DTest {
 	public void cmdOrthogonalLine3D() {
 		// TODO write test
 	}
+	
+	@Test
+	public void cmdIntersectPath() {
+		// TODO write test
+	}
 
 }
