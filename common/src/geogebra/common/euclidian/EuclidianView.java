@@ -2528,7 +2528,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public abstract void paintBackground(geogebra.common.awt.GGraphics2D g2);
 
 	// reIniting is used by GeoGebraWeb
-	private boolean reIniting = false;
+	protected boolean reIniting = false;
 
 	/**
 	 * Switches re-initing flag. If re-initing, also resets background.
@@ -2558,25 +2558,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		setDefRenderingHints(g2);
 		// g2.setClip(0, 0, width, height);
 
-		// BACKGROUND
-		// draw background image (with axes and/or grid)
-		if (bgImage == null) {
-			if (firstPaint) {
-				if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
-					// only set firstPaint to false if the bgImage was generated
-					updateSize();
-					paintBackground(g2);
-					// g2.drawImage(bgImage, 0, 0, null);
-					firstPaint = false;
-				} else {
-					drawBackgroundWithImages(g2);
-				}
-			} else {
-				drawBackgroundWithImages(g2);
-			}
-		} else {
-			paintBackground(g2);
-		}
+		paintTheBackground(g2);
 
 		// FOREGROUND
 		if (antiAliasing) {
@@ -2605,6 +2587,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		if (kernel.needToShowAnimationButton()) {
 			drawAnimationButtons(g2);
+		}
+	}
+
+	public void paintTheBackground(geogebra.common.awt.GGraphics2D g2) {
+		// BACKGROUND
+		// draw background image (with axes and/or grid)
+		if (bgImage == null) {
+			if (firstPaint) {
+				if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
+					// only set firstPaint to false if the bgImage was generated
+					updateSize();
+					paintBackground(g2);
+					// g2.drawImage(bgImage, 0, 0, null);
+					firstPaint = false;
+				} else {
+					drawBackgroundWithImages(g2);
+				}
+			} else {
+				drawBackgroundWithImages(g2);
+			}
+		} else {
+			paintBackground(g2);
 		}
 	}
 
@@ -2681,7 +2685,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		g2.drawString(sb.toString(), pos.x + 15, pos.y + 15);
 	}
 
-	private void drawBackgroundWithImages(geogebra.common.awt.GGraphics2D g) {
+	protected void drawBackgroundWithImages(geogebra.common.awt.GGraphics2D g) {
 		drawBackgroundWithImages(g, false);
 	}
 

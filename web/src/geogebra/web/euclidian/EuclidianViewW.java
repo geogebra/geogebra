@@ -19,6 +19,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
+import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
@@ -62,12 +63,15 @@ public class EuclidianViewW extends EuclidianView {
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
+	Canvas bgCanvas = null;
+
 	public EuclidianViewW(EuclidianDockPanelW euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid, EuclidianSettings settings) {		
+            boolean showGrid, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
+		bgCanvas = euclidianViewPanel.getBackgroundCanvas();
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);
@@ -363,6 +367,29 @@ public class EuclidianViewW extends EuclidianView {
     	app.getGuiManager().getTimerSystem().viewRepainted(this);
     }
 
+    @Override
+    public void paintTheBackground(geogebra.common.awt.GGraphics2D g2) {
+		// BACKGROUND
+		// draw background image (with axes and/or grid)
+		if (bgImage == null) {
+			if (firstPaint) {
+				if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
+					// only set firstPaint to false if the bgImage was generated
+					updateSize();
+					g2.clearRect(0, 0, getWidth(), getHeight());
+					// g2.drawImage(bgImage, 0, 0, null);
+					firstPaint = false;
+				} else {
+					drawBackgroundWithImages(g2);
+				}
+			} else {
+				drawBackgroundWithImages(g2);
+			}
+		} else {
+			g2.clearRect(0, 0, getWidth(), getHeight());
+		}
+    }
+
 	@Override
     protected void initCursor() {
 		setDefaultCursor();
@@ -432,7 +459,7 @@ public class EuclidianViewW extends EuclidianView {
     }
 
 	private void createImage() {
-		bgImage = new geogebra.web.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
+		bgImage = new geogebra.web.awt.GBufferedImageW(bgCanvas, getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 		if (antiAliasing) {
 			setAntialiasing(bgGraphics);
@@ -660,7 +687,11 @@ public class EuclidianViewW extends EuclidianView {
 		canv.setWidth((int)thx+"px");
 		canv.setHeight((int)thy+"px");
 		Context2d c2 = canv.getContext2d();
+
+		//g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
+		c2.drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
 		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
+
 		return canv.toDataUrl();
 	}
 

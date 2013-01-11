@@ -1,15 +1,16 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.app.EuclidianStyleBarPanel;
 import geogebra.web.gui.app.AbsolutePanelSmart;
+import geogebra.web.gui.app.EuclidianStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelW extends DockPanelW {
 
@@ -20,7 +21,9 @@ public class EuclidianDockPanelW extends DockPanelW {
 	VerticalPanelSmart ancestor;
 	EuclidianStyleBarPanel espanel;
 	AbsolutePanelSmart euclidianpanel;
-	Canvas eview1 = null;
+
+	Canvas eview1 = null;// static foreground
+	Canvas eview0 = null;// background
 
 	public EuclidianDockPanelW(boolean stylebar) {
 		super(0, null, null, stylebar, 0);
@@ -34,7 +37,14 @@ public class EuclidianDockPanelW extends DockPanelW {
 			initWidget(euclidianpanel = new AbsolutePanelSmart());
 		}
 
+		eview0 = Canvas.createIfSupported();
+		eview0.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		eview0.getElement().getStyle().setZIndex(-2);
+		euclidianpanel.add(eview0);
+
 		eview1 = Canvas.createIfSupported();
+		eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		eview1.getElement().getStyle().setZIndex(0);
 		euclidianpanel.add(eview1);
 	}
 
@@ -49,6 +59,10 @@ public class EuclidianDockPanelW extends DockPanelW {
 	public Canvas getCanvas() {
 	    return eview1;
     }
+
+	public Canvas getBackgroundCanvas() {
+		return eview0;
+	}
 
 	public AbsolutePanel getAbsolutePanel() {
 	    return euclidianpanel;

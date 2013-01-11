@@ -612,7 +612,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     	context.fillRect(x, y, w, h);
     }
 
-	
+    @Override
+    public void clearRect(int x, int y, int w, int h) {
+    	context.save();
+    	context.setTransform(1,0,0,1,0,0);
+    	context.clearRect(x, y, w, h);
+    	context.restore();
+    }
+
     @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
 

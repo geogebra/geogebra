@@ -299,6 +299,11 @@ public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 	}
 
 	@Override
+	public void clearRect(int x, int y, int width, int height) {
+		impl.clearRect(x, y, width, height);
+	}
+
+	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
 		impl.drawLine(x1, y1, x2, y2);
 	}

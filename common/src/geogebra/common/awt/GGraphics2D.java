@@ -776,6 +776,7 @@ public abstract class GGraphics2D {
 	
 	public abstract void setColor(GColor selColor);
 	public abstract void fillRect(int i, int j, int k, int l);
+	public abstract void clearRect(int i, int j, int k, int l);
 	public abstract void drawLine(int x1, int y1, int x2, int y2);
 	public abstract void setClip(GShape shape);
 	public abstract GShape getClip();

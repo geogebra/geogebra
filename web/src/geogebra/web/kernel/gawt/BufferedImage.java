@@ -16,8 +16,16 @@ public class BufferedImage {
 	Canvas canv = null; // not necessary, but if present, this is the main one
 
 	public BufferedImage(int width, int height, int imageType, boolean opaque) {
+		this(null, width, height, imageType, opaque);
+	}
 
-		canv = Canvas.createIfSupported();
+	public BufferedImage(Canvas canvas, int width, int height, int imageType, boolean opaque) {
+
+		if (canvas == null)
+			canv = Canvas.createIfSupported();
+		else
+			canv = canvas;
+
 		canv.setCoordinateSpaceWidth(width);
 		canv.setCoordinateSpaceHeight(height);
 		canv.setWidth(width+"px");

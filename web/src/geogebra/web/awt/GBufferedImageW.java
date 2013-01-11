@@ -22,6 +22,10 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 		impl = new geogebra.web.kernel.gawt.BufferedImage(width,height,imageType);
 	}
 
+	public GBufferedImageW(Canvas canvas, int width, int height, int imageType, boolean opaque) {
+		impl = new geogebra.web.kernel.gawt.BufferedImage(canvas,width,height,imageType,opaque);
+	}
+
 	// this constructor clones the fillImage
 	public GBufferedImageW(geogebra.common.awt.GBufferedImage fillImage) {
 	    impl = getGawtImage(fillImage);
