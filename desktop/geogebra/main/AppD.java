@@ -581,7 +581,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// here we initialize SingularWS
 		// for a better approach see [22746] --- but it would break file loading at the moment
-		app.initializeSingularWSD();
+		initializeSingularWSD();
 
 		boolean fileLoaded = handleFileArg(args);
 
