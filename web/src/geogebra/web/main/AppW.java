@@ -810,8 +810,8 @@ public class AppW extends App {
 	 * locale is English.
 	 */
 	@Override
-	public String getLanguage() {
-		return getLocaleStr().substring(0, 2);
+	public String getLanguage() {		
+		return language;
 	}
 
 	/**
@@ -835,14 +835,14 @@ public class AppW extends App {
 	}
 
 	@Override
-	public String getLocaleStr() {
+	public String getLocaleStr() {		
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
 		App.trace("Current Locale: " + localeName);
 
 		if (localeName.toLowerCase().equals(AppW.DEFAULT_LOCALE)) {
 			return AppW.DEFAULT_LANGUAGE;
 		}
-		return localeName.substring(0, 2);
+		return localeName.substring(0,2);
 	}
 	
 	public String getLanguageFromCookie(){
