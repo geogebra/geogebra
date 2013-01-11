@@ -248,7 +248,7 @@ read the following web pages:
 				build="${build}"
 				bundleid="geogebra.GeoGebra3D"
 				icon="installer/geogebra.icns"
-				infostring="GeoGebra ${fullversion}, (C) 2001-2012 International GeoGebra Institute"
+				infostring="GeoGebra ${fullversion}, (C) 2001-2013 International GeoGebra Institute"
 				jvmversion="1.5.0+"
 				shortname="GeoGebra"
 				signature="GGB"

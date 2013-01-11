@@ -49,7 +49,7 @@
   <!--chdir>%EXEDIR%</chdir-->
   <versionInfo>
     <fileDescription>GeoGebra</fileDescription>
-    <copyright>(C) 2001-2012 International GeoGebra Institute</copyright>
+    <copyright>(C) 2001-2013 International GeoGebra Institute</copyright>
     <productName>GeoGebra</productName>
     <companyName>International GeoGebra Institute</companyName>
     <internalName>geogebra</internalName>
