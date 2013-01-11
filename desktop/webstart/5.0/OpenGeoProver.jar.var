@@ -1,8 +1,0 @@
-URI: OpenGeoProver.jar
-
-URI: packed/OpenGeoProver.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
-URI: unpacked/OpenGeoProver.jar
-Content-Type: x-java-archive

@@ -27,7 +27,7 @@ function geogebra_applet(width,height,filename,framePossible,enableRightClick,en
  
   ret = '<applet name="ggbApplet" code="geogebra.GeoGebraApplet3D" codebase="http://jars.geogebra.org/webstart/5.0/" archive="geogebra-jogl2.jar" height="'+height+'" width="'+width+'">';
   ret +='<param name="image" value="http://www.geogebra.org/webstart/loading.gif"/><param name="boxborder" value="false"/><param name="centerimage" value="true">';
-  ret +='<param name="java_arguments" value="-Xmx1024m">';
+  ret +='<param name="java_arguments" value="-Xmx1024m -Djnlp.packEnabled=true">';
   ret += '<param name="cache_archive" value="'+jars+'" />';
   ret += '<param name="cache_version" value="'+version+'" />';
   if (filename != "") ret+='<param name="filename" value="'+filename+'">';

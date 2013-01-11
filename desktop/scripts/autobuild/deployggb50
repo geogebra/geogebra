@@ -56,13 +56,13 @@ find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name g
  done
 
 # 4/3. Rewriting *.html and *.jnlp files
-# (currently the version number is not written at <\/title>"):
+# (currently the version number is not written at <\/title>").
+# We don't remove the jnlp directory string yet, to ease our work for 4/4.
 for dir in $WWWDIR/$MYDIR $WWWDIR/history/$MYVER; do
  cd $dir
  find . -name '*.jnlp' | while read i; do
   cat $i | \
-   sed s/"\$LONGVERSION"/"$MYVER"/g | \
-   sed s/"\/jnlp\/"/"\/unpacked\/"/g \
+   sed s/"\$LONGVERSION"/"$MYVER"/g \
    > $i.work
   mv $i.work $i || exit 6
   
@@ -72,11 +72,13 @@ for dir in $WWWDIR/$MYDIR $WWWDIR/history/$MYVER; do
   
   done
 
- # 4/4. Copying JNLP's to debug as well:
+ # 4/4. Copying JNLP's to debug and finally removing "jnlp" as well:
  for i in jogl1 jogl2 no3d; do
-  cat $dir/geogebra-50-$i.jnlp | sed s/unpacked/debug/g |\
+  cat $dir/geogebra-50-$i.jnlp | sed s/jnlp/debug/g |\
    sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
    > $dir/debug/geogebra-50-$i.jnlp
+   sed -i s/"\/jnlp\/"/"\/"/g $dir/geogebra-50-$i.jnlp
+
   done
 
  done # dir

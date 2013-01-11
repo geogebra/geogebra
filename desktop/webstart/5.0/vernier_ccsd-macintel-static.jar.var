@@ -1,8 +1,0 @@
-URI: vernier_ccsd-macintel-static.jar
-
-URI: packed/vernier_ccsd-macintel-static.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
-URI: unpacked/vernier_ccsd-macintel-static.jar
-Content-Type: x-java-archive

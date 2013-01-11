@@ -39,23 +39,23 @@ MYVER=`cat unpacked/version.txt`
 cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR; do
  echo "Copying files to $RUSER@$IP:$PORT/$DIR..."
  # (Re)creating directories (-n is important to prevent reading data from cat):
- ssh -n -l $RUSER -p $PORT $IP "mkdir -p $DIR; cd $DIR; mkdir -p $MYDIR; cd $MYDIR; mkdir -p jnlp/unsigned packed unpacked unsigned/packed unsigned/unpacked"
+ ssh -n -l $RUSER -p $PORT $IP "mkdir -p $DIR; cd $DIR; mkdir -p $MYDIR; cd $MYDIR; mkdir -p unsigned"
  # Copying files to root directory:
- scp -P $PORT *.var $RUSER@$IP:$DIR/$MYDIR
+ # scp -P $PORT *.var $RUSER@$IP:$DIR/$MYDIR
  # Copying files to packed directory:
- scp -P $PORT packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/packed
+ scp -P $PORT packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR
  # Copying files to unpacked directory:
- scp -P $PORT unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR/unpacked
+ scp -P $PORT unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR
  # Copying files to unsigned directory:
- scp -P $PORT unsigned/*.jar.var $RUSER@$IP:$DIR/$MYDIR/unsigned
+ # scp -P $PORT unsigned/*.jar.var $RUSER@$IP:$DIR/$MYDIR/unsigned
  # Copying files to unsigned/packed directory:
- scp -P $PORT unsigned/packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/unsigned/packed
+ scp -P $PORT unsigned/packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/unsigned
  # Copying files to unsigned/unpacked directory:
- scp -P $PORT unsigned/unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR/unsigned/unpacked
+ scp -P $PORT unsigned/unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR/unsigned
  # Symlinking files into jnlp/ for fast webstart:
- ssh -n -l $RUSER -p $PORT $IP "cd $DIR/$MYDIR/unpacked; for i in *.jar; do cd; cd $DIR/$MYDIR/jnlp; rm -f \$i; ln -s ../unpacked/\$i; ln -s ../packed/\$i.pack.gz; done"
+ # ssh -n -l $RUSER -p $PORT $IP "cd $DIR/$MYDIR/unpacked; for i in *.jar; do cd; cd $DIR/$MYDIR/jnlp; rm -f \$i; ln -s ../unpacked/\$i; ln -s ../packed/\$i.pack.gz; done"
  # Symlinking files into jnlp/unsigned:
- ssh -n -l $RUSER -p $PORT $IP "cd $DIR/$MYDIR/unsigned/unpacked; for i in *.jar; do cd; cd $DIR/$MYDIR/jnlp/unsigned; rm -f \$i; ln -s ../../unsigned/unpacked/\$i; ln -s ../../unsigned/packed/\$i.pack.gz; done"
+ # ssh -n -l $RUSER -p $PORT $IP "cd $DIR/$MYDIR/unsigned/unpacked; for i in *.jar; do cd; cd $DIR/$MYDIR/jnlp/unsigned; rm -f \$i; ln -s ../../unsigned/unpacked/\$i; ln -s ../../unsigned/packed/\$i.pack.gz; done"
 
  # TODO: Automatic check (by wget)
 
