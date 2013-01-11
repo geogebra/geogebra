@@ -56,8 +56,8 @@ public class CASTableD extends JTable implements CASTable {
 	protected AppD app;
 	/** CAS view */
 	protected CASViewD view;
-
-	private CASTableCellEditorD editor;
+	/** cell editor */
+	CASTableCellEditorD editor;
 	private CASTableCellRenderer renderer;
 	private int currentWidth;
 	private boolean rightClick = false;
@@ -604,32 +604,32 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row number (starting from 0)
 	 */
 	public void startEditingRow(final int editRow) {
-
-		// use invokeLater to prevent the scrollpane from stealing the focus
-		// when scrollbars are made visible
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				rollOverRow = -1;
-				if (editRow >= tableModel.getRowCount()) {
-					// insert new row, this starts editing
-					insertRow(null, true);
-				} else {
-					// start editing
-					doEditCellAt(editRow, COL_CAS_CELLS);
-				}
-			}
-		});
+		rollOverRow = -1;
+		if (editRow >= tableModel.getRowCount()) {
+			// insert new row, this starts editing
+			insertRow(null, true);
+		} else {
+			// start editing
+			doEditCellAt(editRow);
+		}
 	}
 
-	protected void doEditCellAt(final int editRow, final int editCol) {
+	private void doEditCellAt(final int editRow) {
 		if (editRow < 0)
 			return;
 		setRowSelectionInterval(editRow, editRow);
 		scrollRectToVisible(getCellRect(editRow, COL_CAS_CELLS, true));
-		boolean success = editCellAt(editRow, editCol);
-		if (success && editCol == COL_CAS_CELLS) {
-			editor.setInputAreaFocused();
-		}
+		editCellAt(editRow, COL_CAS_CELLS);
+		
+		// use invokeLater to prevent the scrollpane from stealing the focus
+		// when scrollbars are made visible
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				boolean success = editCellAt(editRow, COL_CAS_CELLS);
+				if(success)
+					editor.setInputAreaFocused();
+			}
+		});		
 	}
 
 	@Override
