@@ -1,14 +1,10 @@
-* {
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
 div.stylingbar {
 	position: absolute;
 	right: 0px;
 	margin-right: 0px;
 	background-color: white;
 	box-shadow: 5px 5px 10px #333333;
-	-webkit-border-radius: 1em 0em 0em 1em;
+	border-radius: 1em 0em 0em 1em;
 }
 
 .euclidianview {
@@ -34,7 +30,7 @@ div.StyleBarOptions {
 	right: 75px;
 	top: 150px;
 	box-shadow: 5px 5px 10px #333333;
-	-webkit-border-radius: 1em 1em 1em 1em;
+	border-radius: 1em 1em 1em 1em;
 }
 
 .colorBarBackground {
@@ -52,7 +48,7 @@ div.colorBar {
 	background: none;
 	background-color: transparent;
 	border: none;
-	-webkit-border-radius: 1em 1em 1em 1em;
+	border-radius: 1em 1em 1em 1em;
 }
 
 div.colorSliderPanel{
@@ -72,14 +68,14 @@ div.mgwt-Button-colorChoiceButton {
 }
 
 div.mgwt-Button-dummyButton {
-	height: 20px;
+	height: 20px /*58px*/;
 	background-image: none;
 	background: none;
 	border: none;
 }
 
 div.mgwt-Button-picker{
-	-webkit-border-radius: 0px;
+	border-radius: 0px;
 	margin: 0px; 
 }
 
@@ -138,8 +134,8 @@ div.mgwt-BarButton-tool {
 	cursor: pointer;
 	border: 1px solid rgba(0, 0, 0, 0.5);
 	margin: 3px;
-	-webkit-border-radius: 6px;
-	-webkit-background-size: 100%;
+	border-radius: 6px;
+	background-size: 100%;
 	background-color: white;
 }
 
@@ -168,17 +164,17 @@ div.mgwt-BarButton-active {
 	height: 10%;
 	background-color: scrollbar;
 	box-shadow: 5px 5px 10px #333333;
-	-webkit-border-radius: 1em 1em 1em 1em;
+	border-radius: 1em 1em 1em 1em;
 }
 
 .algebraview {
-	width: 25%;
+	width: 15%;
 	background-color: white;
 	position: relative;
 	height: 80%;
 	left: 0px;
 	box-shadow: 5px 5px 10px #333333;
-	-webkit-border-radius: 0em 1em 1em 0em;
+	border-radius: 0em 1em 1em 0em;
 }
 
 .algebraView-notExtended {
