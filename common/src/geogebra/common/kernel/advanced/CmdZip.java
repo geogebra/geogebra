@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -39,6 +40,10 @@ public class CmdZip extends CommandProcessor {
 			cons.setSuppressLabelCreation(true);	
 			arg = resArgsForZip(c,vars,over);
 		}finally{
+			for (GeoElement localVar : vars){ 
+				if(localVar!=null)
+					cons.removeLocalVariable(localVar.getLabel(StringTemplate.defaultTemplate));
+			}
 			cons.setSuppressLabelCreation(oldval);
 		}
 		

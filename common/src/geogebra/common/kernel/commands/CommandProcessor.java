@@ -202,7 +202,7 @@ public abstract class CommandProcessor {
 				localVarName = c.getArgument(varPos).getTopLevelCommand().getVariableName(0);
 			}
 			
-			if (localVarName == null) {
+			if (localVarName == null) {				
 				throw argErr(app, c.getName(), c.getArgument(varPos));
 			}
 
@@ -239,8 +239,6 @@ public abstract class CommandProcessor {
 
 		}
 		GeoElement[] arg = resArg(c.getArgument(0));
-		for (GeoElement localVar : vars) 
-			cmdCons.removeLocalVariable(localVar.getLabel(StringTemplate.defaultTemplate));
 		
 		return arg[0];
 	}
