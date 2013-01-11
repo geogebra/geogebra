@@ -579,6 +579,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
 
+		// here we initialize SingularWS
+		// for a better approach see [22746] --- but it would break file loading at the moment
+		app.initializeSingularWSD();
+
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI
