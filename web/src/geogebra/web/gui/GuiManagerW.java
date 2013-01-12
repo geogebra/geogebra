@@ -7,7 +7,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
-import geogebra.common.main.DialogManager;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
@@ -16,17 +15,15 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
-import geogebra.web.Web;
-import geogebra.web.Web.GuiToLoad;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
-import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.dialog.InputDialogDownloadGGB;
+import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
 import geogebra.web.gui.layout.LayoutW;
@@ -762,7 +759,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	
 	private String getHelpURL(Help type, String pageName) {
 		// try to get help for given language
-		// eg http://www.geogebra.org/help/en_GB/FitLogistic
+		// eg http://www.geogebra.org/help/en_GB/cmd/FitLogistic
 
 		StringBuilder urlSB = new StringBuilder();
 //		StringBuilder urlOffline = new StringBuilder();
@@ -774,7 +771,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
 		urlSB.append("help/");
-		urlSB.append(((AppW)app).getLocaleStr()); // eg en_GB
+		urlSB.append(((AppW)app).getLanguage()); // eg en_GB
 
 		switch (type) {
 		case COMMAND:
