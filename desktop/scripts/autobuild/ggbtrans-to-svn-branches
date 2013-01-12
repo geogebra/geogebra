@@ -46,7 +46,7 @@ rm -rf $GWTPROP_DIR
 JS_DIR=$BRANCHES_DIR/ggb42/geogebra/web/src/geogebra/resources/js
 JSKEYS=properties_keys.js
 JSKEYS_PATH=$JS_DIR/$JSKEYS
-rm $JSKEYS_PATH
+rm -f $JSKEYS_PATH
 
 # XXX This is currently done by ggbtrans at 22.00 daily XXX
 # Make a snapshot of ggbtransdb for export
@@ -57,10 +57,10 @@ $GGBTRANS_DIR/export.py gwtjs $JS_DIR
 # Create localizations
 $GGBTRANS_DIR/export.py gwtjs4.2 $JS_DIR
 
-### End of Arnaud's hacks ###
-
 `$SVNSYNC`
-svn commit -m "ggb42: *.properties files automatically updated from ggbtrans"
+svn commit -m "ggb42: GWT JS translations automatically updated from ggbtrans"
+
+### End of Arnaud's hacks ###
 
 # cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 # `$SVNSYNC`
