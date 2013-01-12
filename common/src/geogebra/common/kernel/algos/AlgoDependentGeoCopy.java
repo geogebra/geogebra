@@ -61,9 +61,9 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
         copyGeo.setLabel(label);
     }   
     
-	@Override
+    @Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentGeoCopy;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

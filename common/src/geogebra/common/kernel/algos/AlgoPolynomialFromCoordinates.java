@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -49,9 +50,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
     }
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPolynomialFromCoordinates;
-    }
+	public Commands getClassName() {
+		return Commands.Polynomial;
+	}
     
     // for AlgoElement
     @Override

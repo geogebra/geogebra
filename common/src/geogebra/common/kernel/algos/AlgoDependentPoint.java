@@ -65,7 +65,7 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo {
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentPoint;
+		return Algos.Expression;
 	}
 	
     // for AlgoElement

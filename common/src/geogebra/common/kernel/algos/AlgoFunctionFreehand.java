@@ -58,7 +58,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
     
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoFunctionFreehand;
+        return Algos.Expression;
     }   
 
     // for AlgoElement

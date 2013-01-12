@@ -16,11 +16,20 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
+import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
+import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMacro;
+import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -164,8 +173,7 @@ public class CopyPaste {
 			geo = (GeoElement) geos.get(i);
 			if(geo.getParentAlgorithm()==null)
 				continue;
-			if ((geo.isGeoLine() && geo.getParentAlgorithm().getClassName()
-					.equals(Algos.AlgoJoinPoints))
+			if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints)
 					|| (geo.isGeoSegment() && geo.getParentAlgorithm() instanceof AlgoJoinPointsSegment)
 					|| (geo.isGeoRay() && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay)
 					|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector)) {
@@ -177,8 +185,7 @@ public class CopyPaste {
 					geos.add(geo.getParentAlgorithm().getInput()[1]);
 				}
 			} else if (geo.isGeoPolygon()) {
-				if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoPolygon)) {
+				if (geo.getParentAlgorithm() instanceof AlgoPolygon) {
 					GeoPointND[] points = ((AlgoPolygon) (geo
 							.getParentAlgorithm())).getPoints();
 					for (int j = 0; j < points.length; j++) {
@@ -193,8 +200,7 @@ public class CopyPaste {
 							geos.add(ogeos[j]);
 						}
 					}
-				} else if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoPolygonRegular)) {
+				} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegular) {
 					GeoElement[] pgeos = ((geo
 							.getParentAlgorithm())).getInput();
 					for (int j = 0; j < pgeos.length; j++) {
@@ -213,8 +219,7 @@ public class CopyPaste {
 					}
 				}
 			} else if (geo instanceof GeoPolyLine) {
-				if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoPolyLine)) {
+				if (geo.getParentAlgorithm() instanceof AlgoPolyLine) {
 					GeoElement[] pgeos = ((GetPointsAlgo) (geo
 							.getParentAlgorithm())).getPoints();
 					for (int j = 0; j < pgeos.length; j++) {
@@ -224,19 +229,15 @@ public class CopyPaste {
 					}
 				}
 			} else if (geo.isGeoConic()) {
-				if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoCircleTwoPoints)) {
+				if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints) {
 					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);
 					if (!geos.contains(pgeos[1]))
 						geos.add(pgeos[1]);
-				} else if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoCircleThreePoints)
-						|| geo.getParentAlgorithm().getClassName()
-								.equals(Algos.AlgoEllipseFociPoint)
-						|| geo.getParentAlgorithm().getClassName()
-								.equals(Algos.AlgoHyperbolaFociPoint)) {
+				} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
+						|| geo.getParentAlgorithm()instanceof AlgoEllipseFociPoint
+						|| geo.getParentAlgorithm() instanceof AlgoHyperbolaFociPoint) {
 					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);
@@ -244,15 +245,13 @@ public class CopyPaste {
 						geos.add(pgeos[1]);
 					if (!geos.contains(pgeos[2]))
 						geos.add(pgeos[2]);
-				} else if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoConicFivePoints)) {
+				} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints) {
 					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j]))
 							geos.add(pgeos[j]);
 					}
-				} else if (geo.getParentAlgorithm().getClassName()
-						.equals(Algos.AlgoCirclePointRadius)) {
+				} else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);

@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -65,9 +66,9 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 	}
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoOrthoLinePointVector;
-    }
+	public Commands getClassName() {
+		return Commands.OrthogonalLine;
+	}
     
     @Override
 	public int getRelatedModeID() {

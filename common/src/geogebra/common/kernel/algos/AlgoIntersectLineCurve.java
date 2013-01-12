@@ -27,6 +27,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -107,9 +108,9 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectLineCurve;
-	}
+	public Commands getClassName() {
+        return Commands.Intersect;
+    }
 
 	@Override
 	public int getRelatedModeID() {

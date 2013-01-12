@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -83,8 +83,8 @@ public abstract class AlgoMidpointND extends AlgoElement {
     protected abstract GeoPointND newGeoPoint(Construction construction);
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMidpoint;
+	public final Commands getClassName() {
+        return Commands.Midpoint;
     }
 
     @Override

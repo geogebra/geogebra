@@ -15,7 +15,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -53,8 +53,8 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
     
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPoint3DOnPath;
+	public Commands getClassName() {
+        return Commands.Point;
     }
 
     // for AlgoElement

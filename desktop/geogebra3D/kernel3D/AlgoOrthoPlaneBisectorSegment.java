@@ -15,7 +15,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
@@ -44,8 +44,8 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPlaneBisector;
+	public Commands getClassName() {
+        return Commands.PlaneBisector;
     }
 
 

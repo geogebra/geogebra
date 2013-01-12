@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -93,8 +94,8 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoTranslate;
+	public Commands getClassName() {
+		return Commands.Translate;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoPolygon;
 
 
@@ -39,8 +40,8 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 	}
 	
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoPolygonIntersection;
+	public Commands getClassName() {
+		return Commands.IntersectRegion;
 	}
 
 	// TODO Consider locusequability

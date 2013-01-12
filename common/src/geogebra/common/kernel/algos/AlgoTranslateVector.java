@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -58,8 +59,8 @@ public class AlgoTranslateVector extends AlgoElement {
     }           
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoTranslateVector;
+	public Commands getClassName() {
+        return Commands.Translate;
     }
     
     @Override

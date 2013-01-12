@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.polynomial.BigPolynomial;
@@ -883,8 +883,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectImplicitpolys;
+	public Commands getClassName() {
+		return Commands.Intersect;
 	}
 	
 	@Override

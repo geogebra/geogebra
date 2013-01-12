@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -44,8 +45,8 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
 	}
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoIntersectPolynomialLine;
+	public Commands getClassName() {
+        return Commands.Intersect;
     }
     
     @Override

@@ -3,7 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.HasSegments;
@@ -67,9 +67,9 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
     	return true;
     }
 
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectPlanePolygon;
+    @Override
+	public Commands getClassName() {
+		return Commands.Intersect;
 	}
 	
 

@@ -56,7 +56,7 @@ public class AlgoDependentVector3D extends AlgoElement3D {
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentVector3D;
+		return Algos.Expression;
 	}
 	
     // for AlgoElement

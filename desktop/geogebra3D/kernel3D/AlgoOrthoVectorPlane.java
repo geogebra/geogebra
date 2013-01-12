@@ -21,7 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 
@@ -118,9 +118,9 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
     
 
 	@Override
-	public Algos getClassName() {
+	public Commands getClassName() {
     	
-    	return Algos.AlgoOrthoVectorPlane;
+    	return Commands.OrthogonalVector;
 	}
 
 	

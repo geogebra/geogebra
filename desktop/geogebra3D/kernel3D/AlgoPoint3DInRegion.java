@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -57,13 +57,10 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
     	this(cons, region, coords);
         P.setLabel(label);
     }
-    
-    
-    
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPoint3DInRegion;
+	public Commands getClassName() {
+        return Commands.PointIn;
     }
 
     // for AlgoElement

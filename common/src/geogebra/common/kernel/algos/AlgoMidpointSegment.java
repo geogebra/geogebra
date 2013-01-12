@@ -20,8 +20,10 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -73,9 +75,9 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoMidpointSegment;
-    }
+	public Commands getClassName() {
+		return Commands.Midpoint;
+	}
 
     @Override
 	public int getRelatedModeID() {
@@ -221,6 +223,10 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnMidpointSegment(geo, this, scope);
 	}
 
     

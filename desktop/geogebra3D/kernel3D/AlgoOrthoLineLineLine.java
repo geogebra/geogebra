@@ -17,7 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
@@ -45,17 +45,10 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
         getLine().setLabel(label);
     }
 
-
-
-
-
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoOrthoLineLineLine;
+    @Override
+	public Commands getClassName() {
+        return Commands.OrthogonalLine;
     }
-
-
-
 
 	@Override
 	protected void setOriginAndDirection2() {

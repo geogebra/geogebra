@@ -160,7 +160,6 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 	protected String getIntersectionTypeString(){
 		return "IntersectionPointOfAB";
 	}
-  
- 
+
 
 }

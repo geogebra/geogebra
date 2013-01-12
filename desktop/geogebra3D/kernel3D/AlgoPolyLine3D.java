@@ -15,7 +15,6 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoPolyLine;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -71,11 +70,6 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     @Override
 	protected void createPolyLine(){
     	poly = new GeoPolyLine3D(this.cons, this.points);
-    }
-        
-    @Override
-	public Algos getClassName() {
-        return Algos.AlgoPolyLine3D;
     }
     
     @Override

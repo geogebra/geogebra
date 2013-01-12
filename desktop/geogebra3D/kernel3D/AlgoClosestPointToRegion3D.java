@@ -14,7 +14,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -44,9 +44,9 @@ public class AlgoClosestPointToRegion3D extends AlgoElement3D {
     
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoClosestPointToRegion3D;
-    }
+	public Commands getClassName() {
+		return Commands.ClosestPoint;
+	}
     
     // for AlgoElement
     @Override

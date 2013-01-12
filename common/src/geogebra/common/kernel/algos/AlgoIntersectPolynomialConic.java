@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -147,8 +148,8 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectPolynomialConic;
+	public Commands getClassName() {
+		return Commands.Intersect;
 	}
 
 	@Override

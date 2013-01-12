@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -70,10 +70,10 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
     	return true;
     }
 	
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectSingle3D;
-	}
+    @Override
+	public Commands getClassName() {
+        return Commands.Intersect;
+    }
     
     @Override
 	public int getRelatedModeID() {

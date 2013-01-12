@@ -3,7 +3,6 @@ package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoLocus;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -38,7 +37,7 @@ public class CmdLocusEquation extends CommandProcessor {
 		case 1:
 			if (arg[0].isGeoLocus() &&
 					arg[0].getParentAlgorithm() != null &&
-					arg[0].getParentAlgorithm().getClassName() == Algos.AlgoLocus) {
+					arg[0].getParentAlgorithm() instanceof AlgoLocus) {
 				GeoLocus locus = (GeoLocus) arg[0];
 				AlgoLocus algo = (AlgoLocus) locus.getParentAlgorithm();
 				locusPoint = algo.getLocusPoint();

@@ -21,8 +21,10 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.PointPairList;
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -82,8 +84,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 														// and conic
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectLineConic;
+	public Commands getClassName() {
+		return Commands.Intersect;
 	}
 
 	@Override
@@ -812,6 +814,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnIntersectLineConic(geo, this, scope);
 	}
 
 }

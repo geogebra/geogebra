@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -67,9 +68,9 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoRootNewton;
-    }
+	public Commands getClassName() {
+		return Commands.Root;
+	}
 
     // for AlgoElement
     @Override

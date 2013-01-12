@@ -20,8 +20,11 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -41,9 +44,9 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
     }
 
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoHyperbolaFociLength;
-    }
+	public Commands getClassName() {
+		return Commands.Hyperbola;
+	}
     
     @Override
 	public int getRelatedModeID() {
@@ -61,5 +64,9 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnHyperbolaFociLength(geo, this, scope);
 	}
 }

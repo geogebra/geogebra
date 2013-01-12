@@ -58,7 +58,7 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentVector;
+		return Algos.Expression;
 	}
 
 	// for AlgoElement

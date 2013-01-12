@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
@@ -192,8 +193,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public GetCommand getClassName() {
-		return Algos.AlgoRootsPolynomial;
+	public Commands getClassName() {
+		return Commands.Root;
 	}
 
 	// for AlgoElement

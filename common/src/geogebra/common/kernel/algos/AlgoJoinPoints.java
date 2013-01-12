@@ -20,7 +20,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -80,10 +82,10 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
         Q.addIncidence(g);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoJoinPoints;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.Line;
+	}
 
 	@Override
 	public int getRelatedModeID() {
@@ -198,5 +200,9 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnJoinPoints(geo, this, scope);
 	}
 }

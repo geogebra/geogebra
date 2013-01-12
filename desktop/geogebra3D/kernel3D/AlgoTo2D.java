@@ -70,7 +70,7 @@ public class AlgoTo2D extends AlgoElement3D {
 
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoTo2D;
+        return Algos.Expression;
     }
 
     // for AlgoElement

@@ -289,7 +289,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	@Override
     public Algos getClassName() {
-		return Algos.AlgoDependentImplicitPoly;
+		return Algos.Expression;
 	}
 	
 	/**

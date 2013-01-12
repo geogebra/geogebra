@@ -81,7 +81,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentText;
+		return Algos.Expression;
 	}
 
 	@Override

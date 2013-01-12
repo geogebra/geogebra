@@ -6,7 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoIntersectLinePolygonalRegion;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -304,8 +304,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 
     
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectLinePolygonalRegion3D;
+	public Commands getClassName() {
+		return Commands.IntersectionPaths;
 	}
 	
 	@Override

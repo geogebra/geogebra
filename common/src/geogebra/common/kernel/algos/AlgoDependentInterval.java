@@ -42,8 +42,8 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
 
 	@Override
 	public Algos getClassName() {
-        return Algos.AlgoDependentInterval;
-    }
+		return Algos.Expression;
+	}
     
     @Override
 	final public String toString(StringTemplate tpl) {

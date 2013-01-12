@@ -7,7 +7,6 @@ import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
 import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoMidpointSegment;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -49,137 +48,525 @@ import geogebra.common.kernel.locusequ.elements.EquationSemicircle;
 import geogebra.common.kernel.locusequ.elements.EquationTangentPoint;
 
 /**
- * needed to separate out LocusEquation stuff into the cas jar (so that minimal applets work without it etc)
+ * needed to separate out LocusEquation stuff into the cas jar (so that minimal
+ * applets work without it etc)
  * 
  * @author michael
- *
+ * 
  */
 public class LocusEquation {
 
 	/**
-	 * @param algo className
-	 * @param element element
-	 * @param scopeI scope
-	 * @return @return
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
 	 */
-	public static EquationElementInterface buildEquationElementForGeo(
-			AlgoElement algo, GeoElement element, EquationScopeInterface scopeI) {
-		
-		EquationScope scope = (EquationScope)scopeI;
-		Algos al = (Algos)algo.getClassName();
-		switch (al) {
-		case AlgoPolygon: 
-			return new EquationPolygon(element, scope);
-			
-		case AlgoAngularBisectorLines:
-			return new EquationAngularBisectorLines(element, scope);
-			
-		case AlgoAngularBisectorPoints:
-			return new EquationAngularBisectorPoints(element, scope);
-			
-		case AlgoCirclePointRadius:
-			return new EquationCirclePointRadius(element, scope);
+	public static EquationElementInterface eqnPolygon(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationPolygon(geo, (EquationScope) scope);
 
-		case AlgoCircleThreePoints:
-			return new EquationCircleThreePoints(element, scope);
-
-		case AlgoCircleTwoPoints:
-			return new EquationCircleTwoPoints(element, scope);
-
-		case AlgoConicFivePoints:
-			return new EquationConicFivePoints(element, scope);
-
-		case AlgoCircleArc:
-		case AlgoCircleSector:
-			return new EquationConicPartCircle(element, scope);
-			
-		case AlgoCircumcircleArc:
-		case AlgoCircumcircleSector:
-			return new EquationConicPartCircumcircle(element, scope);
-
-		case AlgoDiameterLine:
-			return new EquationDiameterLine(element, scope);
-
-		case AlgoEllipseFociLength:
-			return new EquationEllipseFociLength(element, scope);
-
-		case AlgoEllipseFociPoint:
-			return new EquationEllipseFociPoint(element, scope);
-
-		case AlgoHyperbolaFociLength:
-			return new EquationHyperbolaFociLength(element, scope);
-
-		case AlgoHyperbolaFociPoint:
-			return new EquationHyperbolaFociPoint(element, scope);
-
-		case AlgoIntersectConics:
-			return new EquationIntersectConicsRestriction(element, (AlgoIntersectConics) algo, scope);
-
-		case AlgoIntersectLineConic:
-			return new EquationIntersectLineConicRestriction(element, (AlgoIntersectLineConic) algo, scope);
-
-		case AlgoIntersectLines:
-			return new EquationIntersectLinesRestriction(element, (AlgoIntersectLines) algo, scope);
-
-		case AlgoIntersectSingle:
-			return new EquationIntersectSingleRestriction(element, (AlgoIntersectSingle) algo, scope);
-			
-		case AlgoJoinPoints:
-			return new EquationJoinPoints(element, scope);
-			
-		case AlgoJoinPointsRay:
-			return new EquationJoinPointsRay(element, scope);
-
-		case AlgoLineBisector:
-			return new EquationLineBisector(element, scope);
-
-		case AlgoLineBisectorSegment:
-			return new EquationLineBisectorSegment(element, scope);
-
-		case AlgoLinePointLine:
-			return new EquationLinePointLine(element, scope);
-
-		case AlgoMidpoint:
-			return new EquationMidpointRestriction(element, (AlgoMidpoint) algo, scope);
-			
-		case AlgoMidpointSegment:
-			return new EquationMidpointSegmentRestriction(element, (AlgoMidpointSegment) algo, scope);
-			
-		case AlgoJoinPointsSegment:
-			return new EquationJoinPointsSegment(element, scope);
-
-		case AlgoOrthoLinePointLine:
-			return new EquationOrthoLinePointLine(element, scope);
-
-		case AlgoParabolaPointLine:
-			return new EquationParabolaPointLine(element, scope);
-			
-		case AlgoPointOnPath:	
-			return new EquationPointOnPathRestriction(element, algo, scope);
-
-		case AlgoPolarLine:
-			return new EquationPolarLine(element, scope);
-
-		case AlgoSemicircle:
-			return new EquationSemicircle(element, scope);
-
-		case AlgoPolygonRegular:
-			return new EquationPolygonRegular(element, scope);
-
-		case AlgoTangentPoint:
-			return new EquationTangentPoint(element, scope);
-
-			default:
-				return null;
-		}
 	}
 
 	/**
-	 * @param kernel kernel
-	 * @return processor for LocusEquation
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnAngularBisectorLines(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationAngularBisectorLines(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnAngularBisectorPoints(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationAngularBisectorPoints(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnCirclePointRadius(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationCirclePointRadius(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnCircleThreePoints(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationCircleThreePoints(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnCircleTwoPoints(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationCircleTwoPoints(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnConicFivePoints(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationConicFivePoints(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnCircleArc(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+
+		return new EquationConicPartCircle(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnCircumcircleArc(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+
+		return new EquationConicPartCircumcircle(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnDiameterLine(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationDiameterLine(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnEllipseFociLength(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationEllipseFociLength(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnEllipseFociPoint(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationEllipseFociPoint(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnHyperbolaFociLength(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationHyperbolaFociLength(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnHyperbolaFociPoint(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationHyperbolaFociPoint(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnIntersectConics(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationIntersectConicsRestriction(geo,
+				(AlgoIntersectConics) algo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnIntersectLineConic(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationIntersectLineConicRestriction(geo,
+				(AlgoIntersectLineConic) algo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnIntersectLines(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationIntersectLinesRestriction(geo,
+				(AlgoIntersectLines) algo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnIntersectSingle(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationIntersectSingleRestriction(geo,
+				(AlgoIntersectSingle) algo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnJoinPoints(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationJoinPoints(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnJoinPointsRay(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationJoinPointsRay(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnLineBisector(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationLineBisector(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnLineBisectorSegment(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationLineBisectorSegment(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnLinePointLine(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationLinePointLine(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnMidpoint(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationMidpointRestriction(geo, (AlgoMidpoint) algo,
+				(EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnMidpointSegment(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationMidpointSegmentRestriction(geo,
+				(AlgoMidpointSegment) algo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnJoinPointsSegment(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationJoinPointsSegment(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnOrthoLinePointLine(
+			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationOrthoLinePointLine(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnParabolaPointLine(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationParabolaPointLine(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnPointOnPath(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationPointOnPathRestriction(geo, algo,
+				(EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnPolarLine(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationPolarLine(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnSemicircle(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationSemicircle(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnPolygonRegular(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationPolygonRegular(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnTangentPoint(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationTangentPoint(geo, (EquationScope) scope);
+
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return processor for LocusEquation command
 	 */
 	public static CommandProcessor newCmdLocusEquation(Kernel kernel) {
-		return  new CmdLocusEquation(kernel);
+		return new CmdLocusEquation(kernel);
 	}
 
 }

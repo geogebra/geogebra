@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -187,5 +188,9 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnMidpoint(geo, this, scope);
 	}
 }

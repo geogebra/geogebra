@@ -22,6 +22,7 @@ import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -130,8 +131,8 @@ public class AlgoLocus extends AlgoElement {
 	// }
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoLocus;
+	public Commands getClassName() {
+		return Commands.Locus;
 	}
 
 	@Override

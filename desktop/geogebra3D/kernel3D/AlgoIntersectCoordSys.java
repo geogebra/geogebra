@@ -17,7 +17,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -149,17 +149,6 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
     	return true;
     }
 
-    
-    
-
-	@Override
-	public Algos getClassName() {
-    	
-    	return Algos.AlgoIntersectCoordSys;
-	}
-
-	
-	
 	
     @Override
 	final public String toString(StringTemplate tpl) {
@@ -168,6 +157,11 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
     			getCS2().getLabel(tpl));
        
     } 
+    
+    @Override
+	public final Commands getClassName() {
+		return Commands.ClosestPoint;
+	}
     
     abstract protected String getIntersectionTypeString();
     

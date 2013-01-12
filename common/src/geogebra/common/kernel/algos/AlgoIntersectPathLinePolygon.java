@@ -24,6 +24,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -132,9 +133,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectPathLinePolygon;
-	}
+	public final Commands getClassName() {
+        return Commands.IntersectPath;
+    }
 
 	@Override
 	public int getRelatedModeID() {

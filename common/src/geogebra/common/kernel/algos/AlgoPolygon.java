@@ -14,8 +14,10 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -118,8 +120,8 @@ public class AlgoPolygon extends AlgoElement {
     }
         
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPolygon;
+	public Commands getClassName() {
+        return Commands.Polygon;
     }
     
     @Override
@@ -333,6 +335,10 @@ public class AlgoPolygon extends AlgoElement {
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnPolygon(geo, this, scope);
 	}
         	
     

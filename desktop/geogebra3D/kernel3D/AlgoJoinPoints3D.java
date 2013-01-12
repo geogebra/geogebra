@@ -20,7 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
@@ -194,14 +194,14 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     }
     
 	@Override
-	public Algos getClassName() {
+	public Commands getClassName() {
     	switch(geoClassType){
     	case SEGMENT3D:
-    		return Algos.AlgoJoinPoints3DSegment;
+    		return Commands.Segment;
     	case LINE3D:
-    		return Algos.AlgoJoinPoints3DLine;
+    		return Commands.Line;
     	case RAY3D:
-    		return Algos.AlgoJoinPoints3DRay;
+    		return Commands.Ray;
     	}		
     	return null;
 	}

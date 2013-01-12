@@ -75,7 +75,7 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint, 
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentConic;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

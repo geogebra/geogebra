@@ -14,6 +14,8 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -82,12 +84,12 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	}
 
 	@Override
-	public Algos getClassName() {
+	public Commands getClassName() {
 		switch (type) {
 		case GeoConicPart.CONIC_PART_ARC:
-			return Algos.AlgoCircleArc;
+			return Commands.CircleArc;
 		default:
-			return Algos.AlgoCircleSector;
+			return Commands.CircleSector;
 		}
 	}
 
@@ -133,6 +135,10 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnCircleArc(geo, this, scope);
 	}
 
 }

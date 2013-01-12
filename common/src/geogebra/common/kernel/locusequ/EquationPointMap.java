@@ -1,7 +1,8 @@
 package geogebra.common.kernel.locusequ;
 
-import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.algos.GetCommand;
+import geogebra.common.kernel.algos.AlgoIntersectLines;
+import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 
@@ -128,8 +129,8 @@ public class EquationPointMap {
      * @param p
      * @return true iff point's been created by an AlgoPolygonRegular
      */
-    private boolean isAuxiliarPointOnAPolygon(GeoPoint p) {
-        return Algos.AlgoPolygonRegular == getParentAlgorithmName(p);
+    private static boolean isAuxiliarPointOnAPolygon(GeoPoint p) {
+        return p.getParentAlgorithm() instanceof AlgoPolygonRegular;
     }
 
     /**
@@ -138,7 +139,7 @@ public class EquationPointMap {
      * @return true iff p is an intersection with an axis.
      */
     protected boolean isIntersectionOfAxis(GeoPoint p) {
-        if(Algos.AlgoIntersectLines != getParentAlgorithmName(p)) {
+        if(!(p.getParentAlgorithm() instanceof AlgoIntersectLines)) {
             return false;
         }
         
@@ -156,7 +157,7 @@ public class EquationPointMap {
      * @return true iff is a point on a path object.
      */
     protected boolean isPointOnPath(GeoPoint p) {
-        return Algos.AlgoPointOnPath == getParentAlgorithmName(p);
+        return p.getParentAlgorithm() instanceof AlgoPointOnPath;
     }
     
     /**
@@ -174,15 +175,6 @@ public class EquationPointMap {
      */
     public Collection<EquationPoint> getAllPoints() {
         return this.container.values();
-    }
-    
-    /**
-     * Returns the parent algorithm's Algos for p.
-     * @param p point
-     * @return an {@link Algos}
-     */
-    protected GetCommand getParentAlgorithmName(final GeoPoint p) {
-        return p.getParentAlgorithm() == null ? null : p.getParentAlgorithm().getClassName();
     }
 
     /**

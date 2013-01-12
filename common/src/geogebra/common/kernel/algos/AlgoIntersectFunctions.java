@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -32,9 +33,9 @@ public class AlgoIntersectFunctions extends AlgoRoots {
     }//Constructor
     
     @Override
-	public GetCommand getClassName() {
-        return Algos.AlgoIntersectFunctions;
-    }//getClassName()
+	public Commands getClassName() {
+		return Commands.Intersect;
+	}
     
     
     public GeoPoint [] getIntersectionPoints() {

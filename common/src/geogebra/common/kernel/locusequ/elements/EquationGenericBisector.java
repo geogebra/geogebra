@@ -6,7 +6,6 @@ package geogebra.common.kernel.locusequ.elements;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoLineBisector;
 import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationMidpoint;
@@ -53,9 +52,9 @@ public abstract class EquationGenericBisector extends EquationGenericLine {
         
         AlgoElement algo = this.getResult().getParentAlgorithm();
 
-        if(algo.getClassName() == Algos.AlgoLineBisector) {
+        if(algo instanceof AlgoLineBisector) {
             midpoint = ((AlgoLineBisector) algo).getMidPoint();
-        } else if(algo.getClassName() ==  Algos.AlgoLineBisectorSegment) {
+        } else if(algo instanceof AlgoLineBisectorSegment) {
             midpoint = ((AlgoLineBisectorSegment) algo).getMidPoint();
         }
         

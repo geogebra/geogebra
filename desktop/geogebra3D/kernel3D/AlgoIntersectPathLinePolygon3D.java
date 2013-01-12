@@ -21,7 +21,6 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoIntersectPathLinePolygon;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoRayND;
@@ -70,17 +69,7 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 			}
 		});
 	}
-	
 
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectPathLinePolygon3D;
-	}
-
-
-
-
-	
 	@Override
 	protected void addCoords(double parameter, Coords coords, TreeMap<Double, Coords> newCoords){
 		newCoords.put(parameter, coords);

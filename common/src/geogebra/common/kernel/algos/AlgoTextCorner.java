@@ -17,6 +17,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
@@ -47,8 +48,8 @@ public class AlgoTextCorner extends AlgoElement {
     }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoTextCorner;
+	public Commands getClassName() {
+        return Commands.Corner;
     }
     
     // for AlgoElement

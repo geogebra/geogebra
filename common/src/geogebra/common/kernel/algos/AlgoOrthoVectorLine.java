@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -62,8 +63,8 @@ public class AlgoOrthoVectorLine extends AlgoElement {
     }   
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoOrthoVectorLine;
+	public Commands getClassName() {
+        return Commands.OrthogonalVector;
     }
     
     @Override

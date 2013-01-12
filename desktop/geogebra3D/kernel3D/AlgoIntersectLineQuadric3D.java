@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -73,8 +73,8 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     }
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoIntersectLineQuadric3D;
+	public Commands getClassName() {
+        return Commands.Intersect;
     }
 
     @Override

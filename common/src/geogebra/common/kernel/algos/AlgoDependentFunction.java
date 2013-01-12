@@ -94,7 +94,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentFunction;
+		return Algos.Expression;
 	}
 
 	// for AlgoElement

@@ -91,8 +91,8 @@ public class AlgoIntegralODE extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntegralODE;
+	public Commands getClassName() {
+		return Commands.Locus;
 	}
 
 	// for AlgoElement

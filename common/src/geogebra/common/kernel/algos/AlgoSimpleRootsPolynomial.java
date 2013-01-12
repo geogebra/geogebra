@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -228,8 +229,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoSimpleRootsPoly;
+	public Commands getClassName() {
+		return Commands.Roots;
 	}
 	
 }

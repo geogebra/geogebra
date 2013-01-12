@@ -157,7 +157,7 @@ public class MyArbitraryConstant  {
 
 		@Override
 		public Algos getClassName() {
-			return Algos.AlgoDependentNumber;
+			return Algos.Expression;
 		}
 		
 	}

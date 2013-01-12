@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -120,9 +121,9 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
     }
         
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoPolyLine;
-    }
+	public Commands getClassName() {
+		return Commands.PolyLine;
+	}
     
     @Override
 	public int getRelatedModeID() {

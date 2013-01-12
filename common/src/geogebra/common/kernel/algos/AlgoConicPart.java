@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 
@@ -43,12 +44,12 @@ public abstract class AlgoConicPart extends AlgoElement {
     }
     
 	@Override
-	public Algos getClassName() {
+	public Commands getClassName() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
-				return Algos.AlgoConicArc;
+				return Commands.Arc;
 			default:
-				return Algos.AlgoConicSector;
+				return Commands.Sector;
 		}		
 	}
 

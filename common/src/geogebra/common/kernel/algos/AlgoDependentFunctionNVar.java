@@ -70,10 +70,10 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
 		super(cons);
 	}
 
-	@Override
+    @Override
 	public Algos getClassName() {
-        return Algos.AlgoDependentFunctionNVar;
-    }
+		return Algos.Expression;
+	}
     
     // for AlgoElement
     @Override

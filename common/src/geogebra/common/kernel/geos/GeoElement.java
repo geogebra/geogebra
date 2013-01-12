@@ -40,9 +40,9 @@ import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntegralODE;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoName;
 import geogebra.common.kernel.algos.AlgorithmSet;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.EquationElementInterface;
@@ -1984,7 +1984,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return false;
 		}
 		// special case for edge of polygon
-		if ((algoParent.getClassName().equals(Algos.AlgoJoinPointsSegment))
+		if (algoParent instanceof AlgoJoinPointsSegment
 				&& (view.getFreeInputPoints(algoParent).size() == 2)) {
 			return true;
 		}

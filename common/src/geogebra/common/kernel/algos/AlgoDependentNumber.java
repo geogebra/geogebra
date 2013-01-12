@@ -64,9 +64,9 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
         compute();           
     }   
     
-	@Override
+    @Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentNumber;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

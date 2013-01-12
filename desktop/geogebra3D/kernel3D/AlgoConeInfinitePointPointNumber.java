@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -31,8 +31,8 @@ public class AlgoConeInfinitePointPointNumber extends
 	}
 	
 	@Override
-	public Algos getClassName(){
-		return Algos.AlgoConeInfinitePointPointNumber;
+	public Commands getClassName() {
+		return Commands.ConeInfinite;
 	}
 
 }

@@ -28,7 +28,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolygon;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -327,7 +327,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (points.length == 3) {
 
 			// make sure segment opposite C is called c not a_1
-			if (getParentAlgorithm().getClassName().equals(Algos.AlgoPolygonRegular))
+			if (getParentAlgorithm() instanceof AlgoPolygonRegular)
 				points[2].setLabel(null);
 
 			setLabel(segments[0], points[2]);
@@ -1571,7 +1571,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 */
 	public boolean isVertexCountFixed() {
 		// regularPolygon[vertex,vertex,count]
-		if (getParentAlgorithm().getClassName().equals(Algos.AlgoPolygonRegular))
+		if (getParentAlgorithm() instanceof AlgoPolygonRegular)
 			return false;
 		// polygon[list]
 		if (getParentAlgorithm().getInput().length < 3)

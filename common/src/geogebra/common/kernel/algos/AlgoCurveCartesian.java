@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -86,9 +87,9 @@ public class AlgoCurveCartesian extends AlgoElement {
     	return new GeoCurveCartesian(cons, fun[0], fun[1]);
     }
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCurveCartesian;
+    @Override
+	public Commands getClassName() {
+		return Commands.CurveCartesian;
 	}
     
     // for AlgoElement

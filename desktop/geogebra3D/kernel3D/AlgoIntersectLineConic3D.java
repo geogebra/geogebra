@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -62,8 +62,8 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
     }
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoIntersectLineConic;
+	public Commands getClassName() {
+        return Commands.Intersect;
     }
 
     @Override

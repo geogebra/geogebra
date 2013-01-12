@@ -22,7 +22,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -77,8 +79,8 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoLinePointLine;
+	public Commands getClassName() {
+        return Commands.Line;
     }
 
 	@Override
@@ -236,5 +238,13 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	@Override
+	public boolean isLocusEquable(){
+		return true;
+	}
+	
+	@Override
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnLinePointLine(geo, this, scope);
+	}
 }

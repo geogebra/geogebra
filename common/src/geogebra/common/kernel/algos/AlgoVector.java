@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
@@ -101,8 +102,8 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
     }
     
     @Override
-	public Algos getClassName() {
-        return Algos.AlgoVector;
+	public Commands getClassName() {
+        return Commands.Vector;
     }
     
     @Override

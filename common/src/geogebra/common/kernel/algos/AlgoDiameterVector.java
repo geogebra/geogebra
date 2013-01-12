@@ -56,8 +56,8 @@ public class AlgoDiameterVector extends AlgoElement {
 
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoDiameterVector;
-    }
+		return Algos.Expression;
+	}
 
     // for AlgoElement
     @Override

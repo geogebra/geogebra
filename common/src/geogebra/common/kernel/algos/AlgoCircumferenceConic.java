@@ -13,6 +13,7 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -53,8 +54,8 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	}
 
 	@Override
-	public Algos getClassName() {
-		return Algos.AlgoCircumferenceConic;
+	public Commands getClassName() {
+		return Commands.Circumference;
 	}
 	
 	@Override

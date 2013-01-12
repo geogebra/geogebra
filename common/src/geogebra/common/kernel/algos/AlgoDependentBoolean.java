@@ -57,7 +57,7 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentBoolean;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

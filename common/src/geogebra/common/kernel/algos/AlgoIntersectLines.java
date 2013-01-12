@@ -21,8 +21,10 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -77,9 +79,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		S.addIncidence(h);
 	}
 
-	@Override
-	public GetCommand getClassName() {
-        return Algos.AlgoIntersectLines;
+    @Override
+	public Commands getClassName() {
+        return Commands.Intersect;
     }
 
     @Override
@@ -224,5 +226,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnIntersectLines(geo, this, scope);
 	}
 }

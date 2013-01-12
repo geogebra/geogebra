@@ -75,9 +75,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, D
         g.setLabel(label);        
     }   
     
-	@Override
+    @Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentLine;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

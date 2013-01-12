@@ -59,7 +59,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentPoint3D;
+		return Algos.Expression;
 	}
 	
     // for AlgoElement

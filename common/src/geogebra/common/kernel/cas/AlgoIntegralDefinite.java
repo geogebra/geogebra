@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.Function;
@@ -160,7 +159,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 	@Override
 	public GetCommand getClassName() {
-		return numeric ?  Commands.NIntegral : Algos.AlgoIntegralDefinite;
+		return numeric ?  Commands.NIntegral : Commands.Integral;
 	}
 
 	// for AlgoElement

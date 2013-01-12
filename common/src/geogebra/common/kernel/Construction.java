@@ -6,7 +6,6 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgorithmSet;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -795,8 +794,7 @@ public class Construction {
 
 		// update cas row references
 		if (ce instanceof GeoCasCell
-				|| (ce instanceof AlgoElement && ((AlgoElement) ce)
-						.getClassName() == Algos.AlgoDependentCasCell))
+				|| (ce instanceof AlgoDependentCasCell))
 			updateCasCellRows();
 
 		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
@@ -1065,8 +1063,7 @@ public class Construction {
 			for (int i = 0; i < ceList.size(); ++i) {
 				ConstructionElement ce = ceList.get(i);
 				if ((ce.isGeoElement() && ((GeoElement)ce).isGeoCasCell())
-						|| ((ce instanceof AlgoElement)&&((AlgoElement)ce).getClassName()
-								==Algos.AlgoDependentCasCell)) {
+						|| ((ce instanceof AlgoElement)&& ce instanceof AlgoDependentCasCell)) {
 					ce.update();
 				}
 			}

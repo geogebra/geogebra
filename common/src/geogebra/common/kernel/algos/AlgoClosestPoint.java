@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -57,10 +58,10 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 		P.setLabel(label);
 	}
 
-	@Override
-	public Algos getClassName() {
-        return Algos.AlgoClosestPoint;
-    }
+    @Override
+	public Commands getClassName() {
+		return Commands.ClosestPoint;
+	}
 
     // for AlgoElement
     @Override

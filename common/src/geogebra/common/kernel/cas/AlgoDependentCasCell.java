@@ -57,7 +57,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentCasCell;
+		return Algos.Expression;
 	}
 
 	private void initInput() {

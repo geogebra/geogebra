@@ -58,11 +58,6 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
          sphereND.setLabel(label);
     }
 
-    @Override
-	public GetCommand getClassName() {
-        return Algos.AlgoCircleTwoPoints;
-    }
-
     // for AlgoElement
     @Override
 	protected void setInputOutput() {

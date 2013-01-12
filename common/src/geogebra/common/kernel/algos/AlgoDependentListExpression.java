@@ -69,9 +69,9 @@ public class AlgoDependentListExpression extends AlgoElement implements Dependen
         compute();      
     }   
     
-	@Override
+    @Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentListExpression;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

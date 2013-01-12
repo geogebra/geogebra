@@ -80,7 +80,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentPlane;
+		return Algos.Expression;
 	}
     
     // for AlgoElement

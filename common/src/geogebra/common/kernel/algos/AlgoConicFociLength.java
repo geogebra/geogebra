@@ -52,9 +52,6 @@ public abstract class AlgoConicFociLength extends AlgoElement {
 		conic.setLabel(label);
 	}
 
-	@Override
-	public abstract Algos getClassName();
-
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {

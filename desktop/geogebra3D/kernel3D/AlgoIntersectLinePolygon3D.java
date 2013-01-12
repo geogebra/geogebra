@@ -5,7 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -229,11 +229,10 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
     }
     
-	@Override
-	public Algos getClassName() {
-		return Algos.AlgoIntersectLinePolygon3D;
+    @Override
+	public Commands getClassName() {
+		return Commands.Intersect;
 	}
-	
 	protected void setLabels(String[] labels) {
        //if only one label (e.g. "A") for more than one output, new labels will be A_1, A_2, ...
 			if (labels!=null &&

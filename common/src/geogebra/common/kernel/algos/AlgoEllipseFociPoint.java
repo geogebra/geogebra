@@ -24,7 +24,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -76,10 +78,10 @@ public class AlgoEllipseFociPoint extends AlgoElement {
 
 	}
 
-    @Override
-	public Algos getClassName() {
-        return Algos.AlgoEllipseFociPoint;
-    }
+	@Override
+	public Commands getClassName() {
+		return Commands.Ellipse;
+	}
     
     @Override
 	public int getRelatedModeID() {
@@ -147,5 +149,9 @@ public class AlgoEllipseFociPoint extends AlgoElement {
 	@Override
 	public boolean isLocusEquable() {
 		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnEllipseFociPoint(geo, this, scope);
 	}
 }
