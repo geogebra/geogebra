@@ -265,6 +265,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 		GeoPolygon3D polygon = createPolygon(p);
 		polygons.put(index, polygon);
 		polygon.setSegments(s);
+		for (GeoSegmentND seg : s)
+			seg.setEdgeOf(polygon);
 		
 		return polygon;
 	}
@@ -294,6 +296,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 		polygon = (GeoPolygon3D) algo.getPoly();
 		// refresh color to ensure segments have same color as polygon:
 		polygon.setObjColor(getObjectColor());
+		
+		polygon.setPointsAsVerticesOf();
 
 		return polygon;
 	}
@@ -308,8 +312,13 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 	public void addPolygonLinked(GeoPolygon polygon) {
 		polygonsLinked.add(polygon);
 		GeoSegmentND[] segments = polygon.getSegments();
-		for (int i = 0; i < segments.length; i++)
+		for (int i = 0; i < segments.length; i++){
 			addSegmentLinked(segments[i]);
+			segments[i].setEdgeOf(polygon);
+		}
+		
+		polygon.setPointsAsVerticesOf();
+
 	}
 
 	/**

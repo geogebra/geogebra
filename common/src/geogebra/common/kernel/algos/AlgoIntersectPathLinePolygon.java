@@ -30,7 +30,9 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 import java.util.ArrayList;
@@ -49,25 +51,25 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	protected OutputHandler<GeoElement> outputSegments; // output
 	protected int spaceDim = 2;
 
-	private TreeMap<Double, Coords> newCoords;
+	protected TreeMap<Double, Coords> newCoords;
 
 	/**
 	 * common constructor
 	 * 
 	 * @param c
 	 * @param labels
-	 * @param geo
-	 * @param p
+	 * @param geo line
+	 * @param p polygon
 	 */
 	public AlgoIntersectPathLinePolygon(Construction c, String[] labels,
-			GeoElement geo, GeoPolygon p) {
+			GeoElement geo, GeoElement p) {
 
 		super(c);
 
 		outputSegments = createOutputSegments();
 
 		setFirstInput(geo);
-		this.p = p;
+		setSecondInput(p);
 
 		newCoords = new TreeMap<Double, Coords>(
 				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
@@ -77,7 +79,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 		setLabels(labels);
 
-		compute();
+		update();
 
 	}
 	
@@ -94,6 +96,21 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 */
 	protected GeoElement getFirstInput(){
 		return (GeoElement) g;
+	}
+	
+	/**
+	 * @param geo first input
+	 */
+	protected void setSecondInput(GeoElement geo){
+		this.p = (GeoPolygon) geo;
+	}
+
+	/**
+	 * 
+	 * @return first input
+	 */
+	protected GeoElement getSecondInput(){
+		return p;
 	}
 
 	 protected void init() {
@@ -147,7 +164,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = getFirstInput();
-		input[1] = p;
+		input[1] = getSecondInput();
 
 		setDependencies(); // done by AlgoElement
 	}
@@ -175,7 +192,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
      * @param p polygon
      * @param newCoords intersection points
      */
-	protected void intersectionsCoords(GeoPolygon p, TreeMap<Double, Coords> newCoords){
+	protected void intersectionsCoords(GeoPolygon p){
 
 		for(int i=0; i<p.getSegments().length; i++){
 			GeoSegmentND seg = p.getSegments()[i];
@@ -194,22 +211,28 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				double t2 = project[2].get(2); //parameter on segment
 
 
-				if (checkParameter(t1) && seg.respectLimitedPath(t2))
-					addCoords(t1, project[0], newCoords);
+				if (checkParameter(t1) && onSegment(t2))//seg.respectLimitedPath(t2))
+					addCoords(t1, project[0], seg);
 
 			}
 		}
 
 	}
 	
+	final private static boolean onSegment(double t){
+		//t=0 and t=1 can be ignored: vertices will be added by addPolygonPoints()
+		return Kernel.isGreater(t, 0) && Kernel.isGreater(1, t);
+	}
+	
 	
 	/**
 	 * check if midpoint (a,b) is in the polygon
+	 * @param p polygon
 	 * @param a point
 	 * @param b point
 	 * @return check
 	 */
-	protected boolean checkMidpoint(Coords a, Coords b){
+	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b){
 		Coords midpoint = a.add(b).mul(0.5);
 		//App.debug("\n"+midpoint+"\n"+ p.isInRegion(midpoint.getX(), midpoint.getY()));
 		return  p.isInRegion(midpoint.getX(), midpoint.getY());
@@ -218,9 +241,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	/**
 	 * add start/end points to new coords collection
-	 * @param newCoords coords collection
 	 */
-	protected void addStartEndPoints(TreeMap<Double, Coords> newCoords){
+	protected void addStartEndPoints(){
 		if (g instanceof GeoSegment){
 			newCoords.put(0.0,g.getStartPoint().getInhomCoordsInD(2));
 			newCoords.put(1.0,g.getEndPoint().getInhomCoordsInD(2));
@@ -231,12 +253,12 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	
 	/**
 	 * add polygon points that are on the line
-	 * @param newCoords coords collection
 	 */
-	protected void addPolygonPoints(TreeMap<Double, Coords> newCoords){
+	protected void addPolygonPoints(){
 		
 		for(int i=0; i<p.getPoints().length; i++){
-			Coords point = p.getPointsND()[i].getInhomCoordsInD(3);
+			GeoPointND geoPoint = p.getPointsND()[i];
+			Coords point = geoPoint.getInhomCoordsInD(3);
 
 			Coords[] project = point.projectLine(o1, d1);
 			
@@ -248,7 +270,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				double t1 = project[1].get(1); 
 
 				if (checkParameter(t1))
-					addCoords(t1, project[0], newCoords);
+					addCoords(t1, project[0], geoPoint);
 			}
 		}
 	}
@@ -259,14 +281,17 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * @param coords
 	 * @param newCoords
 	 */
-	protected void addCoords(double parameter, Coords coords, TreeMap<Double, Coords> newCoords){
+	protected void addCoords(double parameter, Coords coords, GeoElementND parent){
 		newCoords.put(parameter, new Coords(coords.getX(), coords.getY()));
 	}
 
-	@Override
-	public void compute() {
-
-		// clear the points map
+	
+	
+	/**
+	 * set all new intersection points coords
+	 */
+	protected void setNewCoords(){
+		
 		newCoords.clear();
 		
 		//line origin and direction
@@ -274,21 +299,25 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 		
 		//add start/end points for segments/rays
-		addStartEndPoints(newCoords);
+		addStartEndPoints();
 		
 		//add polygon points
-		addPolygonPoints(newCoords);
+		addPolygonPoints();
 		
 
 		// fill a new points map
-		intersectionsCoords(p, newCoords);
-		
-		/*
-		for (Coords c : newCoords.values()){
-			App.debug("\n"+c);
-		}
-		*/
+		intersectionsCoords(p);
+	}
 
+	
+	@Override
+	public void compute() {
+
+		// set the point map
+		setNewCoords();
+		
+
+		// set segments
 		if (newCoords.size()<2) { //no segment
 			outputSegments.adjustOutputSize(1);
 			outputSegments.getElement(0).setUndefined();
@@ -301,8 +330,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			for (int i=1; i<newCoords.size(); i++) {
 				Coords a = b;
 				b = points[i];
-    			if (checkMidpoint(a, b))
-    				segIndices.add(i);
+				if (checkMidpoint(p, a, b))
+					segIndices.add(i);
 			}
 			
 			//adjust segments output
@@ -318,7 +347,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 							.getElement(indexSegment);
 		   			//App.debug("\na=\n"+points[i-1]+"\nb=\n"+points[i]);
 					setSegment(segment, points[i-1], points[i]);
-					((GeoElement) segment).update(); // TODO optimize it
+					//((GeoElement) segment).update(); // TODO optimize it
 					indexSegment++;
 				}
 			}
@@ -340,7 +369,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	@Override
 	public String toString(StringTemplate tpl) {
 		return app.getPlain("IntersectionOfAandB",
-				getFirstInput().getLabel(tpl), p.getLabel(tpl));
+				getFirstInput().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
 
 

@@ -13,6 +13,7 @@ import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
 import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra3D.kernel3D.GeoPolyhedron;
 import geogebra3D.kernel3D.GeoQuadric3D;
 
 public class CmdIntersectPath3D extends CmdIntersectPath {
@@ -53,7 +54,7 @@ public  GeoElement[] process(Command c) throws MyError {
     	}
 
 
-    	// Plane - Polygon(as region)
+    	// Plane - Polygon
     	if (
     			(ok[0] = (arg[0] .isGeoPlane()))
     			&& (ok[1] = (arg[1] .isGeoPolygon())))
@@ -68,6 +69,22 @@ public  GeoElement[] process(Command c) throws MyError {
     				c.getLabels(),
     				(GeoPlane3D) arg[1],
     				(GeoPolygon) arg[0]);
+
+       	// Plane - Polyhedron
+    	if (
+    			(ok[0] = (arg[0] .isGeoPlane()))
+    			&& (ok[1] = (arg[1] instanceof GeoPolyhedron)))
+    		return kernelA.getManager3D().IntersectPath(
+    				c.getLabels(),
+    				(GeoPlane3D) arg[0],
+    				(GeoPolyhedron) arg[1]);
+    	else if (
+    			(ok[1] = (arg[1] .isGeoPlane()))
+    			&& (ok[0] = (arg[0] instanceof GeoPolyhedron)))
+    		return kernelA.getManager3D().IntersectPath(
+    				c.getLabels(),
+    				(GeoPlane3D) arg[1],
+    				(GeoPolyhedron) arg[0]);
 
     	
     	//intersection plane/plane

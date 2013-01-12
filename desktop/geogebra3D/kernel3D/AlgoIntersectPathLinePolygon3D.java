@@ -23,10 +23,9 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoIntersectPathLinePolygon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-
-import java.util.TreeMap;
 
 /**
  * Algo for intersection of a line with the interior of a polygon
@@ -41,11 +40,11 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 	 * 
 	 * @param c
 	 * @param labels
-	 * @param geo
-	 * @param p
+	 * @param geo line
+	 * @param p polygon
 	 */
 	public AlgoIntersectPathLinePolygon3D(Construction c, String[] labels,
-			GeoElement geo, GeoPolygon p) {
+			GeoElement geo, GeoElement p) {
 
 		super(c,labels,geo,p);
 
@@ -71,12 +70,12 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 	}
 
 	@Override
-	protected void addCoords(double parameter, Coords coords, TreeMap<Double, Coords> newCoords){
+	protected void addCoords(double parameter, Coords coords, GeoElementND geo){
 		newCoords.put(parameter, coords);
 	}
 	
 	@Override
-	protected void addStartEndPoints(TreeMap<Double, Coords> newCoords){
+	protected void addStartEndPoints(){
 		if (g instanceof GeoSegmentND){
 			newCoords.put(0.0,g.getStartInhomCoords());
 			newCoords.put(1.0,g.getEndInhomCoords());
@@ -85,7 +84,7 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 	}
 	
 	@Override
-	protected boolean checkMidpoint(Coords a, Coords b){
+	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b){
 		Coords midpoint = p.getNormalProjection(a.add(b).mul(0.5))[1];
 		return  p.isInRegion(midpoint.getX(), midpoint.getY());
 	}

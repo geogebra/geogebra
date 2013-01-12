@@ -213,18 +213,28 @@ public final class CoordMatrixUtil {
 		Coords vn1 = plane1.getVz();
 		Coords vn2 = plane2.getVz();
 		Coords v = vn1.crossProduct(vn2);
+		
 
-		// compute origin:
-		// projection of first plane origin on second plane
-		// direction orthogonal to v and colinear to first plane
-		Coords[] project = plane1.getOrigin().projectPlaneThruV(plane2,
-				vn1.crossProduct(v));
+		// compute origin
+		Coords origin;
+		if (v.isZero()){ //planes are parallel or equal
+			origin = plane1.getOrigin(); //planes are equal
+			Coords[] project = origin.projectPlane(plane2);
+			if (!Kernel.isZero(project[1].getZ())) //plane are not included: return (0,0,0,0) as origin
+				origin = new Coords(4);
+		}else{
+			// projection of first plane origin on second plane
+			// direction orthogonal to v and colinear to first plane
+			Coords[] project = plane1.getOrigin().projectPlaneThruV(plane2,
+					vn1.crossProduct(v));
+			origin =  project[0];
+		}
 
 		// return line
 		Coords direction = new Coords(4);
 		direction.set(v);
 
-		return new Coords[] { project[0], direction };
+		return new Coords[] {origin, direction };
 	}
 
 }

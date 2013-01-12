@@ -27,6 +27,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
 
+import java.util.TreeSet;
+
 /**
  * @author Markus Hohenwarter
  */
@@ -687,5 +689,23 @@ final public String toValueString(StringTemplate tpl) {
 	public boolean respectLimitedPath(double parameter){
 		return Kernel.isGreaterEqual(parameter, 0) && Kernel.isGreaterEqual(1, parameter);
 	}
+    
+    
+    
+    
+    
+    //segment that is edge of polygons
+    
+    private TreeSet<GeoPolygon> edgeOfPolygonSet;
+    
+    final public void setEdgeOf(GeoPolygon polygon){
+    	if (edgeOfPolygonSet==null)
+    		edgeOfPolygonSet = new TreeSet<GeoPolygon>();
+    	edgeOfPolygonSet.add(polygon);
+    }
+    
+    final public TreeSet<GeoPolygon> getEdgeOf(){
+    	return edgeOfPolygonSet;
+    }
 
 }

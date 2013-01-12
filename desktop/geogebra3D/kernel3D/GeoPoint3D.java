@@ -41,6 +41,7 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -1312,4 +1313,18 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	
 
 
+	
+   //point that is vertex of polygons
+    
+    private TreeSet<GeoPolygon> vertexOfPolygonSet;
+    
+    final public void setVertexOf(GeoPolygon polygon){
+    	if (vertexOfPolygonSet==null)
+    		vertexOfPolygonSet = new TreeSet<GeoPolygon>();
+    	vertexOfPolygonSet.add(polygon);
+    }
+    
+    final public TreeSet<GeoPolygon> getVertexOf(){
+    	return vertexOfPolygonSet;
+    }
 }

@@ -762,7 +762,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 	public GeoElement[] IntersectPath(String[] labels, GeoPlaneND plane,
-			GeoSurfaceFinite p) {
+			GeoElement p) {
 
 		
 		if (p instanceof GeoPolygon) {
@@ -770,6 +770,13 @@ public class Manager3D implements Manager3DInterface {
 					(GeoPolygon) p);
 			return algo.getOutput();
 		}
+		
+		if (p instanceof GeoPolyhedron) {
+			AlgoIntersectPathPlanePolyhedron algo = new AlgoIntersectPathPlanePolyhedron(cons, labels, (GeoPlane3D) plane,
+					(GeoPolyhedron) p);
+			return algo.getOutput();
+		}
+		
 		return null;
 
 	}

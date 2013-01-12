@@ -22,9 +22,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolygon;
-
-import java.util.TreeMap;
 
 /**
  * Algo for intersection of a line with the interior of a polygon
@@ -40,11 +37,11 @@ public class AlgoIntersectPathPlanePolygon3D extends AlgoIntersectPathLinePolygo
 	 * 
 	 * @param c
 	 * @param labels
-	 * @param plane
-	 * @param p
+	 * @param plane plane
+	 * @param p polygon
 	 */
 	public AlgoIntersectPathPlanePolygon3D(Construction c, String[] labels,
-			GeoPlane3D plane, GeoPolygon p) {
+			GeoPlane3D plane, GeoElement p) {
 
 		super(c,labels,plane,p);
 
@@ -61,7 +58,7 @@ public class AlgoIntersectPathPlanePolygon3D extends AlgoIntersectPathLinePolygo
 	}
 
 	@Override
-	protected void addStartEndPoints(TreeMap<Double, Coords> newCoords){
+	protected void addStartEndPoints(){
 		// no start/end points
 	}
 	
@@ -75,6 +72,9 @@ public class AlgoIntersectPathPlanePolygon3D extends AlgoIntersectPathLinePolygo
 
 		o1 = intersection[0];
 		d1 = intersection[1];	
+		
+		//if (d1.isZero())
+		//	App.debug("\np: "+p+"\no1=\n"+o1+"\nd1=\n"+d1);
 	}
 	
 

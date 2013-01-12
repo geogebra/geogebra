@@ -65,6 +65,14 @@ public class Coords extends CoordMatrix {
 			val[i] = vals[i];
 
 	}
+	
+	/**
+	 * creates a vector with same values as v
+	 * @param v vector
+	 */
+	public Coords(Coords v){
+		this(v.val);
+	}
 
 	/**
 	 * creates a 2D vector with the specified values
@@ -863,6 +871,15 @@ public class Coords extends CoordMatrix {
 		return true;
 	}
 
+	
+	/**
+	 * Return true if this==v for Kernel.EPSILON precision (ie each coordinates are
+	 * not different more than precision).
+	 * 
+	 * @param v
+	 *            vector compared with
+	 * @return true if the vectors are equal
+	 */
 	public boolean isEqual(Coords v) {
 		return equalsForKernel(v, Kernel.EPSILON);
 	}
