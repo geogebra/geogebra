@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
@@ -314,10 +315,24 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 
-					//set first output as selected geo in properties view
-					ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+					//set first outputs (same geo class) as selected geos (for properties view)					
 					if(geos.length>0){
-						list.add(geos[0]);
+						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+						//add first output
+						GeoElement geo = geos[0];
+						list.add(geo);
+						GeoClass c = geo.getGeoClassType();
+						int i = 1;
+						//add following outputs until geo class changes
+						while (i<geos.length){
+							geo = geos[i];
+							if (geo.getGeoClassType() == c){
+								list.add(geo);
+								i++;
+							}else{
+								i = geos.length;
+							}
+						}
 						app.setSelectedGeos(list);
 					}
 
