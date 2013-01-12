@@ -12,8 +12,6 @@ BRANCHES_DIR=/home/ggbtrans/svn/branches
 SVNSYNC=`pwd`/svnsync
 
 # Updating SVN:
-# cd $BRANCHES_DIR/ggb40
-# svn update --force
 cd $BRANCHES_DIR/ggb42
 svn update --force
 
@@ -21,8 +19,6 @@ cd $BRANCHES_DIR/wiki
 svn update --force
 
 # Deleting old properties files:
-# cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
-# rm -f *.properties
 cd $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 rm -f *.properties
 
@@ -30,10 +26,12 @@ cd $BRANCHES_DIR/wiki/geogebra/properties
 rm -f *.properties
 
 # Explode the properties files and commit:
-# $GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 $GGBTRANS_DIR/export.py 4.2 $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 cd $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 cp $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
+
+`$SVNSYNC`
+svn commit -m "ggb42: *.properties files automatically updated from ggbtrans" 
 
 ### Arnaud's hacks for GWT translations... ###
 # This section is mostly copy-pasted from ggbtrans-to-svn #
@@ -57,14 +55,11 @@ $GGBTRANS_DIR/export.py gwtjs $JS_DIR
 # Create localizations
 $GGBTRANS_DIR/export.py gwtjs4.2 $JS_DIR
 
+cd $JS_DIR
 `$SVNSYNC`
 svn commit -m "ggb42: GWT JS translations automatically updated from ggbtrans"
 
 ### End of Arnaud's hacks ###
-
-# cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
-# `$SVNSYNC`
-# svn commit -m "ggb40: *.properties files automatically updated from ggbtrans"
 
 $GGBTRANS_DIR/export.py wiki $BRANCHES_DIR/wiki/geogebra/properties
 cd $BRANCHES_DIR/wiki/geogebra/properties
