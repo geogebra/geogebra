@@ -323,30 +323,42 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			outputSegments.getElement(0).setUndefined();
 		} else {
 			//check which bi-points are segments, and save indices
-			ArrayList<Integer> segIndices = new ArrayList<Integer>();
+			ArrayList<Coords[]> segmentList = new ArrayList<Coords[]>();
 			Coords[] points = new Coords[newCoords.size()];
 			newCoords.values().toArray(points);
 			Coords b = points[0];
+			Coords startSegment = null;
+			Coords endSegment = null;
 			for (int i=1; i<newCoords.size(); i++) {
 				Coords a = b;
 				b = points[i];
-				if (checkMidpoint(p, a, b))
-					segIndices.add(i);
+				if (checkMidpoint(p, a, b)){
+					if (startSegment==null)
+						startSegment = a; //new start segment
+					endSegment = b; //extend segment to b
+				}else{
+					if (startSegment!=null){//add last correct segment
+						segmentList.add(new Coords[] {startSegment,endSegment});
+						startSegment=null;
+					}
+				}
 			}
+			if (startSegment!=null)//add last correct segment
+				segmentList.add(new Coords[] {startSegment,endSegment});
 			
 			//adjust segments output
-			if (segIndices.size()==0){
+			if (segmentList.size()==0){
 				outputSegments.adjustOutputSize(1);
 				outputSegments.getElement(0).setUndefined();
 			}else{
-				outputSegments.adjustOutputSize(segIndices.size());
+				outputSegments.adjustOutputSize(segmentList.size());
 				outputSegments.updateLabels();
 				int indexSegment = 0;
-				for (int i : segIndices){
+				for (Coords[] seg : segmentList){
 					GeoSegmentND segment = (GeoSegmentND) outputSegments
 							.getElement(indexSegment);
 		   			//App.debug("\na=\n"+points[i-1]+"\nb=\n"+points[i]);
-					setSegment(segment, points[i-1], points[i]);
+					setSegment(segment, seg[0], seg[1]);
 					//((GeoElement) segment).update(); // TODO optimize it
 					indexSegment++;
 				}

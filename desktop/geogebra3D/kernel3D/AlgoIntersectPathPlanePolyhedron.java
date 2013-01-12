@@ -274,9 +274,10 @@ public class AlgoIntersectPathPlanePolyhedron extends AlgoIntersectPathPlanePoly
 					startSegment = a; //new start segment
 				endSegment = b; //extend segment to b
 			}else{
-				if (startSegment!=null)//add last correct segment
+				if (startSegment!=null){//add last correct segment
 					ret.add(new Segment(startSegment,endSegment));
-				startSegment=null;
+					startSegment=null;
+				}
 			}
 		}
 		
