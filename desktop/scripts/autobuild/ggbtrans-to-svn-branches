@@ -35,6 +35,30 @@ $GGBTRANS_DIR/export.py 4.2 $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/proper
 cd $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
 cp $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
 
+### Arnaud's hacks for GWT translations... ###
+# This section is mostly copy-pasted from ggbtrans-to-svn #
+
+# Delete the GWT properties directory:
+GWTPROP_DIR=$BRANCHES_DIR/ggb42/geogebra/web/src/geogebra/web/properties
+rm -rf $GWTPROP_DIR
+
+# Delete properties_keys.js
+JS_DIR=$BRANCHES_DIR/ggb42/geogebra/web/src/geogebra/resources/js
+JSKEYS=properties_keys.js
+JSKEYS_PATH=$JS_DIR/$JSKEYS
+rm $JSKEYS_PATH
+
+# XXX This is currently done by ggbtrans at 22.00 daily XXX
+# Make a snapshot of ggbtransdb for export
+# $GGBTRANS_DIR/export.py setup
+
+# Generate properties_keys.js
+$GGBTRANS_DIR/export.py gwtjs $JS_DIR
+# Create localizations
+$GGBTRANS_DIR/export.py gwtjs4.2 $JS_DIR
+
+### End of Arnaud's hacks ###
+
 `$SVNSYNC`
 svn commit -m "ggb42: *.properties files automatically updated from ggbtrans"
 
