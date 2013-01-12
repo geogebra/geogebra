@@ -173,21 +173,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public Coords getMainDirection() {
 
-		if (interiorPoint == null) {
-			if (reverseNormal)
-				return coordSys.getNormal().mul(-1);
-			else
-				return coordSys.getNormal();
-		}
+		if (reverseNormal)
+			return coordSys.getNormal().mul(-1);
+		
+		return coordSys.getNormal();
 
-		Coords vn = coordSys.getNormal();
-
-		// Application.debug("polygon("+getLabel()+") : "+vn.dotproduct(interiorPoint.sub(getPoint3D(0))));
-
-		if (vn.dotproduct(interiorPoint.sub(getPoint3D(0))) > 0)
-			return vn.mul(-1); // vn is oriented to interior
-		else
-			return vn;
 	}
 
 

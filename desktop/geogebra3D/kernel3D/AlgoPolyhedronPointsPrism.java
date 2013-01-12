@@ -265,7 +265,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
-	private Coords uptranslation, interiorPoint;
+	private Coords uptranslation;
 	
 	
 	@Override
@@ -287,12 +287,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 		
 		
-		//TODO remove this and replace with tesselation
-		interiorPoint = new Coords(4);
-		for (int i=0;i<bottomPoints.length;i++){
-			interiorPoint = interiorPoint.add(bottomPoints[i].getInhomCoordsInD(3));
-		}
-		interiorPoint = interiorPoint.mul((double) 1/(bottomPoints.length)).add(uptranslation.mul(0.5));
 	}
 	
 	
@@ -310,7 +304,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			updateOutputPoints();
 
 
-		polyhedron.setInteriorPoint(interiorPoint);
 
 
 	}

@@ -659,20 +659,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 		return polygons.values();
 	}
 
-	// TODO remove this and replace with tessellation
-	public void setInteriorPoint(Coords point) {
-		
-		for (GeoPolygon3D polygon : polygons.values()) {
-			polygon.setInteriorPoint(point);
-		}
-		
-		/*
-		for (GeoPolygon polygon : polygonsLinked){
-		 polygon.setInteriorPoint(point); 
-		}
-		*/
-		 
-	}
+
 
 	public void setReverseNormals() {
 		for (GeoPolygon3D polygon : polygons.values()) {

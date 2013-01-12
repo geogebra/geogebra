@@ -183,7 +183,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
-	private Coords interiorPoint = new Coords(4);
 	private Coords bottomCenter = new Coords(4);
 	
 	@Override
@@ -204,24 +203,18 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			getTopPoint().setCoords(bottomCenter.add(v),true);
 		}
 		
-		interiorPoint=(bottomCenter1.add(getTopPoint().getInhomCoordsInD(3))).mul((double) 1/(bottomPoints.length+1));
 	}
 	
 	
 	@Override
 	public void compute() {
 		
-		//updateInteriorPoint();
-
 		if (!preCompute()){
 			if (height!=null)
 				((GeoPoint3D) getTopPoint()).setUndefined();
 			return;
 		}
 		
-		
-		polyhedron.setInteriorPoint(interiorPoint);
-		//Application.debug("interior\n"+interiorPoint);
 
 	}
 
