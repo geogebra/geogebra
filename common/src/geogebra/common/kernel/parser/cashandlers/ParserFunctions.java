@@ -204,7 +204,7 @@ public class ParserFunctions {
 		put(2, "igamma", Operation.GAMMA_INCOMPLETE);
 		put(2, "Gamma", Operation.GAMMA_INCOMPLETE);
 
-		put(1, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED);
+		put(2, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED);
 
 		put(1, "cosIntegral", Operation.CI);
 		put(1, "CosIntegral", Operation.CI);
