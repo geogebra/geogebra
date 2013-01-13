@@ -293,7 +293,7 @@ public class ReduceLibrary {
 				+ " ret!!:=random(100000001)/(random(100000000)+1);"
 				+ " if(roundedon='false) then off rounded;" + " return ret!!;"
 				+ " end;");
-		eval("procedure gamma!Regularized(a,x); igamma(a,x);");
+		eval("procedure gammaRegularized(a,x); igamma(a,x);");
 		eval("procedure gamma2(a,x); gamma(a)*igamma(a,x);");
 		eval("procedure beta3(a,b,x); beta(a,b)*ibeta(a,b,x);");
 		eval("symbolic procedure isbound!! x; if get(x, 'avalue) then 1 else 0;");
