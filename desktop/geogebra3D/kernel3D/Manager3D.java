@@ -772,11 +772,13 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput();
 		}
 		
+		/*
 		if (p instanceof GeoPolyhedron) {
 			AlgoIntersectPathPlanePolyhedron algo = new AlgoIntersectPathPlanePolyhedron(cons, labels, (GeoPlane3D) plane,
 					(GeoPolyhedron) p);
 			return algo.getOutput();
 		}
+		*/
 		
 		return null;
 
