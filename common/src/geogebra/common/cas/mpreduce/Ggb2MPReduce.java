@@ -28,7 +28,9 @@ public class Ggb2MPReduce {
 		p("Binomial.2",
 				"<< begin scalar n!!, k!!, result1!!, result2!!; n!!:=(%0); k!!:=(%1); result1!!:= if sless(n!!,k!!)=\\'true then 0 else factorial(n!!)/(factorial(k!!)*factorial(n!!-k!!)); return result1!! end >>");
 		p("BinomialDist.4",
-				"<< begin scalar n!!, p!!, k!!; n!!:=(%0); p!!:=(%1); k!!:=(%2);return if %3=\\'true then for i:=0:floor(k!!) sum binomial(n!!,i)*p!!^i*(1-p!!)^(n!!-i) else binomial(n!!,k!!)*p!!^k!!*(1-p!!)^(n!!-k!!) end >>");
+				"<< begin scalar n!!, p!!, k!!; n!!:=(%0); p!!:=(%1); k!!:=(%2);return if %3=\\'true then " +
+				"for i:=0:myfloor(k!!) sum binomial(n!!,i)*p!!^i*(1-p!!)^(n!!-i) " +
+				"else binomial(n!!,k!!)*p!!^k!!*(1-p!!)^(n!!-k!!) end >>");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
 		p("CFactor.1",
 				"<<on complex$ off combinelogs$ begin scalar factorlist!!; factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=* end >>");
@@ -129,7 +131,9 @@ public class Ggb2MPReduce {
 		p("Groebner.3",
 				"<<if %2=1 then torder(%1,lex) else if %2=2 then torder(%1,gradlex) else if %2=3 then torder(%1,revgradlex); groebner(%0)>>");
 		p("HyperGeometric.5",
-				"<<begin scalar m,kk,ng,n; m:=(%1)$ ng:=(%0)$ n:=(%2)$ kk:=(%3)$ return if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,kk) else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) end>>");
+				"<<begin scalar m,kk,ng,n; m:=(%1)$ ng:=(%0)$ n:=(%2)$ kk:=(%3)$ " +
+				"return if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,myfloor(kk)) " +
+				"else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) end>>");
 		p("Identity.1", "<<make\\_identity(myround(%0))>>");
 		p("If.2", "iffun(%0,%1)");
 		p("If.3", "ifelsefun(%0,%1,%2)");
@@ -248,7 +252,9 @@ public class Ggb2MPReduce {
 		p("Pascal.4",
 				"if %3=true then ibeta(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1)");
 		p("Poisson.3",
-				"if %2=true then exp(-(%0))*for i:=0:(%1) sum (%0)^i/factorial(floor(i)) else (%0)^(%1)/factorial(floor(%1))*exp(-%0)");
+				"if %2=true then " +
+				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,myfloor(%1)) " +
+				"else (%0)^(%1)/factorial(floor(%1))*exp(-%0)");
 		p("PreviousPrime.1",
 				"<<begin scalar tmp!!;return if (%0)>2 then <<tmp!!:=(%0)-1; while not(primep(tmp!!)) do tmp!!:=tmp!!-1; tmp!!>> else \\'? end>>");
 		p("PrimeFactors.1",
