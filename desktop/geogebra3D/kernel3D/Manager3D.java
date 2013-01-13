@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -1210,7 +1211,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
-			GeoPointND B, GeoDirectionND v, String name) {
+			GeoPointND B, GeoDirectionND v, Commands name) {
 		AlgoArchimedeanSolid algo = new AlgoArchimedeanSolid(cons, labels, A,
 				B, v, name);
 		return algo.getOutput();

@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -34,7 +34,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	private Coords[] coords;
 	
 	
-	private String name, className;
+	private Commands name;
 	
 	
 	
@@ -48,11 +48,10 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	 */
 	public AlgoArchimedeanSolid(Construction c, String[] labels, 
 			GeoPointND A, GeoPointND B, GeoDirectionND v,
-			String name) {
+			Commands name) {
 		super(c);
 		
 		this.name = name;
-		this.className = "Algo"+name;
 
 
 		this.A=A;
@@ -280,8 +279,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
 
 	@Override
-	public Algos getClassName() {
-		return Algos.valueOf(className);
+	public Commands getClassName() {
+		return name;
 	}
 
 	// TODO Consider locusequability

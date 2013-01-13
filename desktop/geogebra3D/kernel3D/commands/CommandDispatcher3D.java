@@ -78,15 +78,15 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdPyramid(kernel);
 
 			case Tetrahedron:
-				return new CmdArchimedeanSolid(kernel, "Tetrahedron");
+				return new CmdArchimedeanSolid(kernel, Commands.Tetrahedron);
 			case Cube:
-				return new CmdArchimedeanSolid(kernel, "Cube");
+				return new CmdArchimedeanSolid(kernel, Commands.Cube);
 			case Octahedron:
-				return new CmdArchimedeanSolid(kernel, "Octahedron");
+				return new CmdArchimedeanSolid(kernel, Commands.Octahedron);
 			case Dodecahedron:
-				return new CmdArchimedeanSolid(kernel, "Dodecahedron");
+				return new CmdArchimedeanSolid(kernel, Commands.Dodecahedron);
 			case Icosahedron:
-				return new CmdArchimedeanSolid(kernel, "Icosahedron");
+				return new CmdArchimedeanSolid(kernel, Commands.Icosahedron);
 
 			case PointIn:
 				return new CmdPointIn3D(kernel);

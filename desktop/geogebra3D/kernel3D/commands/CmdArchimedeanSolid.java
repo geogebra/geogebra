@@ -3,6 +3,7 @@ package geogebra3D.kernel3D.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -15,9 +16,9 @@ import geogebra.common.main.MyError;
  */
 public class CmdArchimedeanSolid extends CommandProcessor {
 	
-	private String name;
+	private Commands name;
 	
-	public CmdArchimedeanSolid(Kernel kernel, String name) {
+	public CmdArchimedeanSolid(Kernel kernel, Commands name) {
 		super(kernel);
 		this.name = name;
 		
