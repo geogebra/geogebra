@@ -36,7 +36,7 @@ public class Ggb2MPReduce {
 				"<<on complex$ off combinelogs$ begin scalar factorlist!!; factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=* end >>");
 		p("CFactor.2",
 				"<<on complex$ off combinelogs$ begin scalar factorlist!!; korder append(list(%1),varorder!!); factorlist!!:=factorize(%0); korder varorder!!;return part(!*hold(for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**)),0):=* end >>");
-		p("ChiSquared.2", "igamma((%0)/2,(%1)/2)/gamma((%0)/2)");
+		p("ChiSquared.2", "igamma((%0)/2,(%1)/2)");
 		p("Coefficients.1",
 				"<<begin scalar input!!; input!!:=(%0); return mycoeff(input!!,mymainvar(input!!)) end >>");
 		p("Coefficients.2", "mycoeff(%0,%1)");
@@ -118,9 +118,8 @@ public class Ggb2MPReduce {
 		p("FitPow.1",
 				"<<on rounded, roundall, numval; begin scalar p1!!, p2!!, input!!, sigmax!!, sigmay!!, sigmaxy!!, sigmax2!!, length!!, denominator!!, xlist!!, ylist!!; " +
 				"input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(log,map(ycoord(~w!!), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*currentx!!^p2!! end >>");
-		// FitSin
-		p("Gamma.3",
-				"(((%1)*(%2))^(%0))/(%0)*kummerm(%0,%0+1,-(%1)*(%2))/beta(%0)");
+
+		p("Gamma.3", "igamma((%0),(%2)/(%1))");
 		p("GCD.2",
 				"<<begin scalar gcd!!; off rounded, roundall, numval; gcd!!:=gcd(%0,%1); if numeric!!=0 then off rounded, roundall, numval; return gcd!! end>>");
 		p("GCD.1",
