@@ -6,6 +6,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -566,7 +567,7 @@ public interface Manager3DInterface {
 	 * @return cube with A, B for first points and v for direction
 	 */
 	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
-			GeoPointND B, GeoDirectionND v, String name);
+			GeoPointND B, GeoDirectionND v, Commands name);
 
 	/********************************************************************
 	 * TRANSFORMATIONS
