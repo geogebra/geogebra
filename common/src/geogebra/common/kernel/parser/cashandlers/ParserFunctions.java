@@ -197,11 +197,9 @@ public class ParserFunctions {
 		put(3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED);
 
 		put(1, "gamma", Operation.GAMMA);
-		put(1, "igamma", Operation.GAMMA);
 		put(1, "Gamma", Operation.GAMMA);
 
 		put(2, "gamma", Operation.GAMMA_INCOMPLETE);
-		put(2, "igamma", Operation.GAMMA_INCOMPLETE);
 		put(2, "Gamma", Operation.GAMMA_INCOMPLETE);
 
 		put(2, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED);

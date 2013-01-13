@@ -25,6 +25,8 @@ public class CommandDispatcherMPReduce {
 	 * Enum for special commands that may be returned by MPReduce.
 	 */
 	public enum commands {
+		/** gamma regularized */
+		igamma(Operation.GAMMA_INCOMPLETE_REGULARIZED),
 		/** factorial */
 		factorial(Operation.FACTORIAL),
 		/**ceil*/
@@ -221,6 +223,7 @@ public class CommandDispatcherMPReduce {
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
 						 args.getItem(1));
 				break;
+			case igamma:	
 			case iffun:	
 			case multiplication:
 			case subtraction:
