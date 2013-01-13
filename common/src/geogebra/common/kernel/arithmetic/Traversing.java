@@ -365,16 +365,23 @@ public interface Traversing {
 			if(ev instanceof ExpressionNode){
 				ExpressionNode en = (ExpressionNode) ev;
 				if(en.getRight() instanceof GeoDummyVariable){	
-					commands.add(((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
+					add(((GeoDummyVariable)en.getRight()));
 				}
 				if(en.getOperation()==Operation.FUNCTION || en.getOperation() ==Operation.FUNCTION_NVAR
 						|| en.getOperation()==Operation.DERIVATIVE)
 				return en;	
 				if(en.getLeft() instanceof GeoDummyVariable){	
-					commands.add(((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
+					add(((GeoDummyVariable)en.getLeft()));
 				}
 			}
 			return ev;
+		}
+		private void add(GeoDummyVariable dummy) {
+			String str = dummy.toString(StringTemplate.defaultTemplate);
+			if(dummy.getKernel().getApplication().getParserFunctions().isReserved(str))
+				return;
+			commands.add(str);
+			
 		}
 		private static NonFunctionCollector collector = new NonFunctionCollector();
 		/**
