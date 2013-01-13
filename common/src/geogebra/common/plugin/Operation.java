@@ -211,10 +211,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
 				return new MyBoolean(lt.getKernel(),
-						((GeoLine) lt).isPerpendicular((GeoLine) rt));
+						((GeoLine) lt).isParallel((GeoLine) rt));
 			}
 			return ev.illegalComparison(lt, rt,
-					ExpressionNodeConstants.strPERPENDICULAR);
+					ExpressionNodeConstants.strPARALLEL);
 		}
 	},
 	PERPENDICULAR {
@@ -224,10 +224,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
 				return new MyBoolean(lt.getKernel(),
-						((GeoLine) lt).isParallel((GeoLine) rt));
+						((GeoLine) lt).isPerpendicular((GeoLine) rt));
 			}
 			return ev.illegalComparison(lt, rt,
-					ExpressionNodeConstants.strPARALLEL);
+					ExpressionNodeConstants.strPERPENDICULAR);
 		}
 	},
 	IS_ELEMENT_OF {
