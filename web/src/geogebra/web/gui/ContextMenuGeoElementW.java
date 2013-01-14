@@ -89,8 +89,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 			addNumberItems();	
 			addUserInputItem();
 			
-			addViewForValueStringItems();
-				
 		}
 		
 		//TODO remove the condition when ggb version >= 5
@@ -280,10 +278,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 	private void addPlaneItems() {
 	    App.debug("it is for 3D!");
-    }
-
-	private void addViewForValueStringItems() {
-	   App.debug("it is for 3D!");
     }
 
 	private void addUserInputItem() {
