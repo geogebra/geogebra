@@ -437,7 +437,7 @@ public interface Traversing {
 		}
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof ExpressionNode){ 
-				ExpressionNode en = (ExpressionNode) ev;
+				final ExpressionNode en = (ExpressionNode) ev;
 				if(en.getOperation()==Operation.FUNCTION || en.getOperation()==Operation.FUNCTION_NVAR){
 					ExpressionValue geo = en.getLeft().unwrap();
 					NumberValue deriv = null;
@@ -471,9 +471,13 @@ public interface Traversing {
 						
 					}
 					if(fv!=null){
-						ExpressionValue argument = en.getRight().wrap().getCopy(en.getKernel()).traverse(this);
+						ExpressionValue argument = en.getRight().wrap().getCopy(en.getKernel()).traverse(this).unwrap();
+						ExpressionValue ithArg = argument;
 						for(int i=0;i<fv.length;i++){
-							VariableReplacer vr = VariableReplacer.getReplacer(fv[i].getSetVarString(), argument);
+							if(en.getOperation()==Operation.FUNCTION_NVAR){
+								ithArg = ((MyList)argument).getListElement(i);
+							}								
+							VariableReplacer vr = VariableReplacer.getReplacer(fv[i].getSetVarString(), ithArg);
 							en2 = en2.traverse(vr).wrap();
 						}
 						return en2;
