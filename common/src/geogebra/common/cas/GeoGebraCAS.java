@@ -405,9 +405,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					for(int i=0;i<args.size();i++){
 						if(i>0)
 							sb.append(',');
-						sb.append(args.get(i).toValueString(StringTemplate.defaultTemplate));
+						sb.append(args.get(i).toOutputValueString(StringTemplate.defaultTemplate));
 					}
 					sb.append(']');
+					App.debug(sb.toString());
 					GeoElement[] ggbResult = kern.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(sb.toString(), 
 							false,false,false);
 					kern.setSilentMode(silent);
