@@ -710,7 +710,7 @@ implements
 		}	
 		
 		else if (source == btErase) {
-			updateSelectedTraceGeo();
+			clearSelectedTraceGeo();
 			//traceManager.clearGeoTraceColumns(getSelectedGeo());
 		}	
 		
@@ -847,6 +847,11 @@ implements
 	
 	private void updateSelectedTraceGeo(){	
 		traceManager.updateTraceSettings(getSelectedGeo());
+	}
+	
+	private void clearSelectedTraceGeo(){	
+		app.storeUndoInfo();
+		traceManager.clearGeoTrace(getSelectedGeo());
 	}
 	
 	

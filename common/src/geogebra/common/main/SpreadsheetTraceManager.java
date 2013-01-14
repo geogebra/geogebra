@@ -140,9 +140,36 @@ public class SpreadsheetTraceManager {
 		
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
-		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
+		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, 
+				t.traceColumn2,
 				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
+				
 		addSpreadsheetTraceGeo(geo);
+	}
+	
+	
+	/**
+	 * clear geo trace for the geo
+	 * @param geo
+	 */
+	public void clearGeoTrace(GeoElement geo) {
+		if (geo==null)
+			return;
+
+		SpreadsheetTraceSettings t = geo.getTraceSettings();
+		
+		//prevent removing headings
+		clearGeoTraceColumns(geo, true);
+		
+		//reset the trace lists
+		for (int column = t.traceColumn1; column <= t.traceColumn2; column++) 
+			clearTraceListCell(column, t.traceRow1);
+		
+		
+		//reset the tracing row
+		t.tracingRow=t.traceRow1;
+		
+
 	}
 
 	/** Remove a geo from the trace collection */
@@ -258,20 +285,33 @@ public class SpreadsheetTraceManager {
 			clearGeoTraceColumns(geo);
 		}
 	}
-
+	
 	/**
 	 * Delete the elements in the trace columns of a single geo.
 	 */
 	public void clearGeoTraceColumns(GeoElement geo) {
+		clearGeoTraceColumns(geo, false);
+	}
+
+	/**
+	 * Delete the elements in the trace columns of a single geo.
+	 * @param geo geo
+	 * @param keepHeader say if headers have to be removed or not
+	 */
+	public void clearGeoTraceColumns(GeoElement geo, boolean keepHeader) {
 
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		if (t == null)
 			return;
 
-		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
+		int row1 =  t.traceRow1;
+		if (keepHeader)
+			row1+=t.headerOffset;
+		
+		CopyPasteCut.delete(app, t.traceColumn1, row1, t.traceColumn2,
 				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
-		t.tracingRow = t.traceRow1;
-		t.lastTrace.clear();
+		//t.tracingRow = t.traceRow1;
+		//t.lastTrace.clear();
 	}
 
 	
@@ -726,6 +766,19 @@ public class SpreadsheetTraceManager {
 			((GeoList) cell).add(new GeoNumeric(cons, values.get(index)));
 		}
 
+		cell.updateCascade();
+	}
+	
+	private void clearTraceListCell(int column, int row) {
+
+		GeoElement cell = RelativeCopy.getValue(app, column, row);
+		if (cell == null || !cell.isGeoList())
+			return;
+		
+		//clear the list
+		((GeoList) cell).clear();
+		
+		//update dependent objects
 		cell.updateCascade();
 	}
 
