@@ -131,6 +131,11 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     }
     
     public void modifyInputPoints(GeoPoint A, GeoPoint B){
+ 
+    	//same points : return
+    	if ((P==A && Q==B) || (Q==A && P==B))
+    		return;
+    	
     	for (int i=0;i<input.length;i++)
     		input[i].removeAlgorithm(this);
     	
