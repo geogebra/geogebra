@@ -221,7 +221,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 
 		// parent of output
 		getPoly().setParentAlgorithm(this);
-		cons.addToAlgorithmList(this);
+
 	}
 
 	/**
