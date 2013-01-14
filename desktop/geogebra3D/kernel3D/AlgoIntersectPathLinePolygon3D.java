@@ -52,6 +52,12 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 
 
 
+	public AlgoIntersectPathLinePolygon3D(Construction c) {
+		super(c);
+	}
+
+
+
 	@Override
 	protected OutputHandler<GeoElement> createOutputSegments() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {

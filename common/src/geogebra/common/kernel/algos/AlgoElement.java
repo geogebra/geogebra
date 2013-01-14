@@ -235,6 +235,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			getOutputHandler().remove(this);
 		}
 
+		
 		/**
 		 * @param size
 		 *            makes room in this OutputHandler for size Objects.<br />
@@ -242,21 +243,25 @@ public abstract class AlgoElement extends ConstructionElement implements
 		 *            undefined.
 		 */
 		public void adjustOutputSize(int size) {
+			adjustOutputSize(size, true);
+		}
+		
+		/**
+		 *            makes room in this OutputHandler for size Objects.<br />
+		 *            if there are currently more objects than size, they become
+		 *            undefined.
+		 *
+		 * @param size new size
+		 * 
+		 * @param setDependencies set dependencies
+		 */
+		public void adjustOutputSize(int size, boolean setDependencies) {
 			if (outputList.size() < size) {
-				outputList.ensureCapacity(size);
-				for (int i = outputList.size(); i < size; i++) {
-					T newGeo = fac.newElement();
-					outputList.add(newGeo);
-					setOutputDependencies(newGeo);
-				}
-				refreshOutput();
+				augmentOutputSize(size - outputList.size(), setDependencies);
 			} else {
 				for (int i = size; i < outputList.size(); i++) {
 					outputList.get(i).setUndefined();
 				}
-			}
-			if (setLabels) {
-				updateLabels();
 			}
 		}
 

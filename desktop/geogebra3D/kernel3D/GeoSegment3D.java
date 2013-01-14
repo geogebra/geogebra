@@ -440,6 +440,17 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		algo.modifyInputPoints(P,Q);
 	}
 	
+	/**
+	 * modify inputs for segment joining points in a polygon/polyhedron
+	 * @param poly polygon/polyhedron
+	 * @param P first vertex
+	 * @param Q second vertex
+	 */
+	public void modifyInputPolyAndPoints(GeoElement poly, GeoPointND P, GeoPointND Q){
+		AlgoJoinPoints3D algo = (AlgoJoinPoints3D) getParentAlgorithm();
+		algo.modifyInputPolyAndPoints(poly, P, Q);
+	}
+	
 
 	public final void removePointOnLine(GeoPointND p) {
 		//TODO

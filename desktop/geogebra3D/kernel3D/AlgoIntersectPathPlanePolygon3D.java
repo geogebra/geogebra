@@ -47,6 +47,10 @@ public class AlgoIntersectPathPlanePolygon3D extends AlgoIntersectPathLinePolygo
 
 	}
 
+	public AlgoIntersectPathPlanePolygon3D(Construction c) {
+		super(c);
+	}
+
 	@Override
 	protected void setFirstInput(GeoElement geo){
 		this.plane = (GeoPlane3D) geo;

@@ -182,9 +182,38 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
      * @param B second point
      */
     public void modifyInputPoints(GeoPointND A, GeoPointND B){
+    	
+    	//same points : return
+    	if ((P==A && Q==B) || (Q==A && P==B))
+    		return;
+    	
     	for (int i=0;i<input.length;i++)
     		input[i].removeAlgorithm(this);
     	
+    	P=A;
+    	Q=B;  
+    	cs.setCoord(P,Q);
+    	setInputOutput();   	
+
+    	compute();
+    }
+    
+    /**
+     * modify input polygon/polyhedron and points
+     * @param p polygon/polyhedron
+     * @param A first point
+     * @param B second point
+     */
+    public void modifyInputPolyAndPoints(GeoElement p, GeoPointND A, GeoPointND B){
+    	
+    	//same points : return
+    	if (p==poly && (P==A && Q==B) || (Q==A && P==B))
+    		return;
+    	
+    	for (int i=0;i<input.length;i++)
+    		input[i].removeAlgorithm(this);
+    	
+    	poly=p;
     	P=A;
     	Q=B;  
     	cs.setCoord(P,Q);

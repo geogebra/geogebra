@@ -81,6 +81,10 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	}
 	
+	public AlgoIntersectPathLinePolygon(Construction c) {
+		super(c);
+	}
+
 	/**
 	 * @param geo first input
 	 */
