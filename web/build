@@ -342,6 +342,7 @@ java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS geogebra.$PROJECT_UPCASE || exit 8
 
 # 8/3. Add a version number
+cd $WEBDIR
 if [ "$PROJECT" = "mobile" ]; then
  VERSION=`./myversion`
  REVISION=`./myrevision`
