@@ -2,10 +2,8 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.InputHandler;
-import geogebra.common.main.DialogManager;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
-import geogebra.common.main.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -16,6 +14,8 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
+import geogebra.common.main.OptionType;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
@@ -186,11 +186,10 @@ public class DialogManagerW extends DialogManager {
 	
 	GeoGebraFileChooser fileChooser = null;	
 	
-	public GeoGebraFileChooser getFileChooser(int type) {
+	public GeoGebraFileChooser getFileChooser() {
 	    if (fileChooser == null) {
 	    	fileChooser = new GeoGebraFileChooser(app);
 	    }
-	    fileChooser.setType(type);
 	    return fileChooser;
     }
 	

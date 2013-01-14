@@ -2524,4 +2524,11 @@ public class AppW extends App {
     		}
     	});
     }
+    
+	public native String getNativeEmailSet() /*-{
+		if($wnd.GGW_appengine){
+			return $wnd.GGW_appengine.USER_EMAIL;
+		}
+		else return "";
+	}-*/;
 }

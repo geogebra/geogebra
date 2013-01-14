@@ -3,12 +3,16 @@ package geogebra.web.gui.util;
 import geogebra.common.main.App;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.AppW;
+import geogebra.web.main.GgbAPI;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,10 +30,8 @@ public class GeoGebraFileChooser extends PopupPanel {
 	TextArea description;
 	Button save;
 	Button cancel;
-	Button download;
+	Anchor download;
 	GeoGebraFileChooser _this = this;
-	public static int FILE_SAVE = 1;
-	public static int FILE_DOWNLOAD = 2;
 	private int type;
 
 	public GeoGebraFileChooser(final App app) {
@@ -50,12 +52,19 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    descriptionPanel.add(description = new TextArea());
 	    descriptionPanel.addStyleName("descriptionPanel");
 	    p.add(descriptionPanel);
+
+		download = new Anchor();
+		download.setText(app.getPlain("Download"));	
+		download.setStyleName("gwt-Button");
+		download.addStyleName("linkDownload");
+		download.getElement().setAttribute(
+				"style", "text-decoration: none; color: black");
 	    
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
 	    buttonPanel.add(save = new Button(app.getMenu("SaveToGoogleDrive")));
-	    buttonPanel.add(download = new Button(app.getMenu("Download")));
+	    buttonPanel.add(download);
 	    p.add(buttonPanel);
 	    addStyleName("GeoGebraFileChooser");
 	    
@@ -75,6 +84,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 					cancel.setEnabled(false);
 					fileName.setEnabled(false);
 					description.setEnabled(false);
+					download.setEnabled(false);
 					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(fileName.getText(), description.getText(), _this);
 					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
@@ -82,37 +92,47 @@ public class GeoGebraFileChooser extends PopupPanel {
 			}
 				
 		});
+	    save.setEnabled(!((AppW)app).getNativeEmailSet().equals(""));
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
-				if (fileName.getText() != "") {
-					save.setEnabled(false);
-					cancel.setEnabled(false);
-					fileName.setEnabled(false);
-					description.setEnabled(false);
-					app.getXML();
-					
-					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
-				}
+				hide();
 			}
 		});
+		
 	    
 	    addCloseHandler(new CloseHandler<PopupPanel>() {
 			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
-				save.setEnabled(true);
+				save.setEnabled(!((AppW)app).getNativeEmailSet().equals(""));
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
 				description.setEnabled(true);
+				download.setEnabled(true);
 			}
 		});
 	    center();
 	    
-	    
-	    
+	    //ggb file creating, and if ready, enabling of download-button.
+	    setFilename("geogebra.ggb");
+	    ((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
+	    fileName.addChangeHandler(new ChangeHandler(){
+
+			public void onChange(ChangeEvent event) {
+				String newName = fileName.getText();
+				if(newName.substring(-4) != ".ggb") newName += ".ggb";
+				setFilename(newName);
+            }
+	    	
+	    });
 	    
     }
+	
+	public void setFilename(String newVal){
+		if (newVal.equals("")) newVal = "geogebra.ggb";
+        download.getElement().setAttribute("download", newVal);
+	}
 
 	public void saveSuccess(String fName, String desc, String fileCont) {
 	    ((AppW) app).refreshCurrentFileDescriptors(fName,desc,fileCont);
@@ -126,16 +146,4 @@ public class GeoGebraFileChooser extends PopupPanel {
 		description.setText(ds);
 	}
 
-	public void setType(int t){
-		type = t;
-		if (t == FILE_SAVE){
-			//descriptionPanel.setVisible(true);
-			save.setVisible(true);
-			download.setVisible(false);
-		} else {
-			//descriptionPanel.setVisible(false);
-			save.setVisible(false);
-			download.setVisible(true);		
-		}
-	}
 }

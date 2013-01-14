@@ -526,7 +526,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		//do saving here if getBase64 will be good
 		GeoGebraFileChooser fileChooser = ((DialogManagerW) app
 		        .getDialogManager())
-		        .getFileChooser(GeoGebraFileChooser.FILE_SAVE);
+		        .getFileChooser();
 		if (((AppW) app).getFileName() != null) {
 			fileChooser.setFileName(((AppW) app).getFileName());
 		} else {
@@ -541,22 +541,6 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		fileChooser.show();
 	    return true;
     }
-
-	/**
-	 * Download the worksheet into a .ggb file
-	 * @return 
-	 * 
-	 */
-	public boolean download() {
-		app.setWaitCursor();
-		GeoGebraFileChooser fileChooser = ((DialogManagerW) app
-		        .getDialogManager())
-		        .getFileChooser(GeoGebraFileChooser.FILE_DOWNLOAD);
-		fileChooser.setFileName("ggb");
-		fileChooser.setDescription("desc");
-		fileChooser.show();
-		return true;
-	}
 	
 	@Override
 	public void showPropertiesViewSliderTab(){

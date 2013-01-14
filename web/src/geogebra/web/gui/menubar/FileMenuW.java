@@ -1,7 +1,6 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
@@ -55,24 +54,24 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 		
-		if (enabled)
+//		if (enabled)
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
 			
 				public void execute() {
 					app.getGuiManager().save();
 				}
 			});
-		else
-			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
-				public void execute() {	}
-			});
+//		else
+//			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
+//				public void execute() {	}
+//			});
 			
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Download") ),true,new Command() {
-			
-			public void execute() {
-				((GuiManagerW)(app.getGuiManager())).downloadGGB();
-			}
-		});
+//		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Download") ),true,new Command() {
+//			
+//			public void execute() {
+//				((GuiManagerW)(app.getGuiManager())).downloadGGB();
+//			}
+//		});
 			
 			
 

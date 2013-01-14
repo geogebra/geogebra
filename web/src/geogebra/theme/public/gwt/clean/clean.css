@@ -1532,6 +1532,11 @@ body[dir=rtl] .undoPanel {
     margin-left:5px;
 }
 
+.GeoGebraFileChooser .buttonPanel a {
+    float:right;
+    margin-left:5px;
+}
+
 .GoogleFileDescriptors {
 	font-size:80%;
 }
