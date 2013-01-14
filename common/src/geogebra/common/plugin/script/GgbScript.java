@@ -64,7 +64,7 @@ public class GgbScript extends Script {
 		}
 	}
 
-	private static String script2LocalizedScript(App app, String st) {
+	public static String script2LocalizedScript(App app, String st) {
 		final String[] starr = splitScriptByCommands(st);
 		final StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {

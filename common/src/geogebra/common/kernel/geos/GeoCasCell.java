@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
@@ -785,7 +786,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	private void internalizeInput() {
 		// local commands -> internal commands
-		input = translate(input, false);
+		input = GgbScript.localizedScript2Script(app, input);
 	}
 
 	/**
@@ -795,76 +796,13 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// replace all internal command names in input by local command names
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// internal commands -> local commands
-			return translate(input1, true);
+			return GgbScript.script2LocalizedScript(app,input1);
 		}
 		// keep internal commands
 		return input1;
 	}
 
-	/**
-	 * Translates given expression by replacing all command names
-	 * 
-	 * @param exp
-	 * @param toLocalCmd
-	 *            true: internalCmd -> localCmd, false: localCmd -> internalCmd
-	 * @return translated expression
-	 */
-	private String translate(final String exp, final boolean toLocalCmd) {
-		if (commands == null) {
-			return exp;
-		}
 
-		String translatedExp = exp;
-		Iterator<Command> it = commands.iterator();
-		while (it.hasNext()) {
-			String internalCmd = it.next().getName();
-			String localCmd = cons.getApplication().getCommand(internalCmd);
-
-			if (toLocalCmd) {
-				// internal command names -> local command names
-				translatedExp = replaceAllCommands(translatedExp, internalCmd,
-						localCmd);
-			} else {
-				// local command names -> internal command names
-				translatedExp = replaceAllCommands(translatedExp, localCmd,
-						internalCmd);
-			}
-		}
-
-		return translatedExp;
-	}
-
-	/**
-	 * Replaces oldCmd command names by newCmd command names in expression.
-	 */
-	private static String replaceAllCommands(final String expression,
-			final String oldCmd, final String newCmd) {
-		String expression1 = expression;
-		// build regex to find local command names
-		StringBuilder regexPrefix = new StringBuilder();
-		regexPrefix.append("(?i)"); // ignore case
-		regexPrefix.append("\\b"); // match words for command only, not parts of
-									// a word
-
-		// replace commands with [
-		StringBuilder regexSb = new StringBuilder(regexPrefix);
-		regexSb.append(oldCmd);
-		regexSb.append("[\\[]");
-		StringBuilder newCmdSb = new StringBuilder(newCmd);
-		newCmdSb.append("[");
-		expression1 = expression1.replaceAll(regexSb.toString(),
-				newCmdSb.toString());
-
-		// replace commands with (
-		regexSb.setLength(0);
-		regexSb.append(regexPrefix);
-		regexSb.append(oldCmd);
-		regexSb.append("[\\(]");
-		newCmdSb.setLength(0);
-		newCmdSb.append(newCmd);
-		newCmdSb.append("(");
-		return expression1.replaceAll(regexSb.toString(), newCmdSb.toString());
-	}
 	//make sure we don't enter setAssignmentVar from itself
 	private boolean ignoreSetAssignment = false;
 	/**
@@ -1787,7 +1725,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				StringUtil.encodeXML(sb, commentText.getTextString());
 				sb.append("\" ");
 			} else {
-				StringUtil.encodeXML(sb, translate(input, false));
+				StringUtil.encodeXML(sb, GgbScript.localizedScript2Script(app, input));
 				sb.append("\" ");
 
 				if (evalVE != getInputVE()) {
