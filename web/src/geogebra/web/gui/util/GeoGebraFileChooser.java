@@ -54,7 +54,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    p.add(descriptionPanel);
 
 		download = new Anchor();
-		download.setText(app.getPlain("Download"));	
+		download.setText(app.getMenu("DownloadAsGgbFile"));	
 		download.setStyleName("gwt-Button");
 		download.addStyleName("linkDownload");
 		download.getElement().setAttribute(
