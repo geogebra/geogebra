@@ -1594,7 +1594,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<not/>", leftStr, null);
 			}else if (stringType.equals(StringType.MPREDUCE)) {
-				sb.append("mynot(");
+				sb.append("snot(");
 				sb.append(leftStr);
 				sb.append(')');
 			} else {
@@ -1668,8 +1668,10 @@ public class ExpressionNode extends ValidExpression implements
 		case AND_INTERVAL:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<and/>", leftStr, rightStr);
+				break;
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sand", leftStr, rightStr);
+				break;
 			} else {
 				if(right.isExpressionNode()){
 					sb.append(getLeftTree().printCASstring(!valueForm, tpl));
