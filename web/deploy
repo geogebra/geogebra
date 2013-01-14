@@ -41,9 +41,7 @@ cd $WORKDIR
 WEBDIR=`pwd`
 
 # 3. Testing if packaging is already done
-VERSIONFILE=$WEBDIR/../common/src/geogebra/common/GeoGebraConstants.java
-VERSION=`cat $VERSIONFILE | grep "public static final String VERSION\_STRING" \
- | awk '{print $7}' | sed s/\"//g | sed s/";"/""/`
+VERSION=`./myversion`
 test -r GeoGebraWeb-$VERSION.zip || {
  echo "Version $VERSION is not yet packed, consider running ./pack first"
  # exit 3

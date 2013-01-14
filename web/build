@@ -144,7 +144,6 @@ STYLE=OBFUSCATED
 OTHEROPTS=""
 JAVAC_CLEANUP=""
 GWT_UC_CLEANUP=0
-LOCALES=""
 PROJECT=web
 HEAPSIZE=2048m
 
@@ -176,9 +175,6 @@ while [ $# -gt 0 ]; do
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -g [directory]      Use GWT SDK from the given directory ($GWTDIR)"
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
-   echo "  -l [locales]        Comma separated list of requested locales (NONE for nothing)"
-   echo "  -nl, --no-locales   Remove locales (speeds up compilation), same as -l NONE"
-   echo "  -al, --all-locales  Compile all locales"
    echo "  -M                  Compile the mobile version"
    echo "  --heap [size]       Use size of heap memory for GWT compilation ($HEAPSIZE)"
    echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
@@ -186,19 +182,14 @@ while [ $# -gt 0 ]; do
    echo "  -H                  Show extra options for the GWT Compiler"
    echo
    echo "Examples:"
-   echo " ./build -X /usr/local/bin/xml -s PRETTY -u safari -l en,de -i /tmp/ggw -- -draftCompile"
-   echo " ./build -M -l en --heap 2048m -- -draftCompile"
+   echo " ./build -X /usr/local/bin/xml -s PRETTY -u safari -i /tmp/ggw -- -draftCompile"
+   echo " ./build -M --heap 2048m -- -draftCompile"
    exit 0
    ;;
 
   -u)
    shift
    USERAGENTS="$1"
-   ;;
-
-  -l)
-   shift
-   LOCALES="$1"
    ;;
 
   -i)
@@ -237,17 +228,6 @@ while [ $# -gt 0 ]; do
   --heap)
    shift
    HEAPSIZE="$1"
-   ;;
-
-  -nl | --no-locales)
-   LOCALES=NONE
-   ;;
-
-  -al | --all-locales)
-   # TODO: Maybe there is a better way to gather languages than this one:
-   LOCALES=ar,en,de,es,fr,pt,bg,bs,ca,cs,cy,da,de_AT,el,en_AU,en_GB,et,eu,fa,fi,gl,hi,hr,hu,hy,ia,in,is,it,iw,ja,ji
-   LOCALES=$LOCALES,ka,kk,ko,lt,mk,ml,mn,mr,ms,ne,nl,nn,nb,no,pl,pt_PT,ro,ru,si,sk,sl,sq,sr,sv,ta,tg,th,tr,ty,uk,vi
-   LOCALES=$LOCALES,zh_CN,zh_TW,zh
    ;;
 
   -M)
@@ -342,30 +322,7 @@ cp $GWTXML $GWTXML.orig
 
 cat $GWTXML | \
  $XML ed -u "/module/set-property[@name='user.agent']/@value" -v "$USERAGENTS" > $GWTXML-b
- 
-# 7/1. Localization
-if [ "$LOCALES" != "" ]; then
- cat $GWTXML-b |\
-  $XML ed -d "/module/extend-property[@name='locale']" |\
-  $XML ed -d "/module/set-property-fallback[@name='locale']" > $GWTXML
- if [ "$LOCALES" != "NONE" ]; then
-  cat $GWTXML |\
-   $XML ed -s /module -t elem -n extend-property -v "" |\
-   $XML ed -i "/module/extend-property" -t attr -n name -v locale |\
-   $XML ed -i "/module/extend-property[@name='locale']" -t attr -n values -v "$LOCALES" > $GWTXML-b
-  mv $GWTXML-b $GWTXML
-  LOCALES_SPLIT=`echo $LOCALES | tr , " "`
-  echo "Disabling locales first..."
-  LANGUAGE_JAVA=$WEBDIR/../common/src/geogebra/common/util/Language.java
-  sed -i s/", [truefalse]*, [truefalse]*, \""/", false, false, \""/ $LANGUAGE_JAVA
-  for i in $LOCALES_SPLIT; do
-   echo "Enabling localization for $i..."
-   sed -i s/",[ ]*[truefalse]*,[ ]*[truefalse]*,[ ]*\"\([a-zA-Z_]*\)\",[ ]*\"$i\""/", true, true, \"\1\", \"$i\""/ $LANGUAGE_JAVA
-   done
-  fi # $LOCALES != NONE
-else
- mv $GWTXML-b $GWTXML # Using the defaults from the .gwt.xml file (default, $LOCALES is empty)
- fi
+mv $GWTXML-b $GWTXML
 
 # 8. Compiling web with GWT Compiler
 classpath
@@ -383,6 +340,15 @@ if [ $GWT_UC_CLEANUP = 1 -a -d $WEBDIR/gwt-unitCache ]; then
 cd $WEBDIR/../$PROJECT/src/geogebra
 java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS geogebra.$PROJECT_UPCASE || exit 8
+
+# 8/3. Add a version number
+if [ "$PROJECT" = "mobile" ]; then
+ VERSION=`./myversion`
+ REVISION=`./myrevision`
+ cat $GGDIR/$PROJECT/war/Mobile.html | $XML ed -O -u '/html/body/div[@id="version"]' -v "$VERSION r$REVISION" > \
+  $GGDIR/$PROJECT/war/Mobile-b.html
+ mv $GGDIR/$PROJECT/war/Mobile-b.html $GGDIR/$PROJECT/war/Mobile.html
+ fi
 
 # 9. Done!
 example () {

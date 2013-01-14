@@ -1,0 +1,7 @@
+#!/bin/sh
+WEBDIR=`pwd`
+
+# 3. Testing if packaging is already done
+VERSIONFILE=$WEBDIR/../common/src/geogebra/common/GeoGebraConstants.java
+cat $VERSIONFILE | grep "public static final String VERSION\_STRING" \
+ | awk '{print $7}' | sed s/\"//g | sed s/";"/""/
