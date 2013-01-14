@@ -71,7 +71,7 @@
 
     <set-property
         name="user.agent"
-        value="safari, ie9" />
+        value="ie9, safari" />
 
     <!-- Compile only one locale -->
     <!-- <set-property name="locale" value="en"/> -->
@@ -81,7 +81,7 @@
 
     <set-property
         name="mgwt.os"
-        value="ipad, android_tablet" />
+        value="ipad" />
 
     <set-configuration-property
         name="mgwt.css"
