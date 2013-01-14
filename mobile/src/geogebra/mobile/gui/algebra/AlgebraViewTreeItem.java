@@ -125,7 +125,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		if (/* TODO this.av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
 			String latexStr = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
-			if ((latexStr != null) && this.geo.isLaTeXDrawableGeo(latexStr) && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
+			if ((latexStr != null) && this.geo.isLaTeXDrawableGeo() && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
 			{
 				latexStr = inputLatexCosmetics(latexStr);
 				this.seMayLatex = se;
@@ -155,7 +155,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		if (/* TODO av.isRenderLaTeX() && */this.kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE)
 		{
 			text = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
-			if ((text != null) && this.geo.isLaTeXDrawableGeo(text) && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
+			if ((text != null) && this.geo.isLaTeXDrawableGeo() && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
 			{
 				newLaTeX = true;
 			}

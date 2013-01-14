@@ -584,8 +584,9 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public void clearConstruction()
+	public boolean clearConstruction()
 	{
+		return false;
 
 	}
 
@@ -761,5 +762,12 @@ public class MobileApp extends App
 	public geogebra.common.io.MyXMLio createXMLio(Construction cons) {
 		return new MyXMLio(cons.getKernel(), cons);
 	}
+
+	@Override
+  protected void directionForWeb(String lang)
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
 
 }
