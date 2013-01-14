@@ -708,8 +708,6 @@ Section Install Install
 
     SectionIn 1 2
 
-    CreateDirectory $INSTDIR\unsigned
-
     SetOutPath $INSTDIR
     File forum.ico
     File "${build.dir}\installer\windows\GeoGebraSMART.exe"
@@ -722,17 +720,8 @@ Section Install Install
     File "${build.dir}\unpacked\sbsdk.jar"
     File "${build.dir}\unpacked\jython.jar"
     File "${build.dir}\unpacked\*.dll"
-    File "${build.dir}\unsigned\unpacked\*.dll"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
-    SetOutPath $INSTDIR\unsigned
-    File "${build.dir}\unsigned\unpacked\OpenGeoProver.jar"
-    File "${build.dir}\unsigned\unpacked\geogebra*.jar"
-    File "${build.dir}\unsigned\unpacked\*win*.jar"
-    File "${build.dir}\unsigned\unpacked\jd2*.jar"
-    File "${build.dir}\unsigned\unpacked\jl*.jar"
-    File "${build.dir}\unsigned\unpacked\jython.jar"
-    File "${build.dir}\unsigned\unpacked\jython.jar"
 
     Call Architecture
 
@@ -953,9 +942,6 @@ FunctionEnd
     
     !insertmacro RemoveUninstaller
     
-    Delete $INSTDIR\unsigned\*.jar
-    Delete $INSTDIR\unsigned\*.dll
-    RMDir $INSTDIR\unsigned
     Delete $INSTDIR\forum.ico
     Delete $INSTDIR\GeoGebraSMART.exe
     Delete $INSTDIR\*.jar
