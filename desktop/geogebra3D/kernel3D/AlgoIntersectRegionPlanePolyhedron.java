@@ -21,6 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoElementND;
@@ -33,11 +34,11 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Algo for intersection of a line with the interior of a polygon
+ * Algo for intersection of a plane with a polyhedron, outputs polygons
  * 
  * @author matthieu
  */
-public class AlgoIntersectPathPlanePolyhedron extends AlgoIntersectPathPlanePolygon3D {
+public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePolygon3D {
 	
 	private GeoPolyhedron polyhedron;
 	
@@ -144,7 +145,7 @@ public class AlgoIntersectPathPlanePolyhedron extends AlgoIntersectPathPlanePoly
 	 * @param plane plane
 	 * @param p polyhedron
 	 */
-	public AlgoIntersectPathPlanePolyhedron(Construction c, String[] labels,
+	public AlgoIntersectRegionPlanePolyhedron(Construction c, String[] labels,
 			GeoPlane3D plane, GeoPolyhedron p) {
 
 		super(c,labels,plane,p);
@@ -518,4 +519,9 @@ public class AlgoIntersectPathPlanePolyhedron extends AlgoIntersectPathPlanePoly
     	return true; //nothing to check here
     }
 
+    
+	@Override
+	public final Commands getClassName() {
+        return Commands.IntersectRegion;
+    }
 }

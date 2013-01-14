@@ -49,7 +49,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	protected GeoLineND g; // input
 	protected GeoPolygon p; // input
 	protected OutputHandler<GeoElement> outputSegments; // output
-	protected int spaceDim = 2;
 
 	protected TreeMap<Double, Coords> newCoords;
 
@@ -74,7 +73,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		newCoords = new TreeMap<Double, Coords>(
 				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
 
-		init();
 		setInputOutput(); // for AlgoElement
 
 		setLabels(labels);
@@ -113,10 +111,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		return p;
 	}
 
-	 protected void init() {
-		// TODO Auto-generated method stub
-		spaceDim = 2;
-	}
 
 
 
@@ -150,7 +144,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	}
 
 	@Override
-	public final Commands getClassName() {
+	public Commands getClassName() {
         return Commands.IntersectPath;
     }
 
