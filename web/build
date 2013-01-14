@@ -346,7 +346,12 @@ cd $WEBDIR
 if [ "$PROJECT" = "mobile" ]; then
  VERSION=`./myversion`
  REVISION=`./myrevision`
- cat $GGDIR/$PROJECT/war/Mobile.html | $XML ed -O -u '/html/body/div[@id="version"]' -v "$VERSION r$REVISION" > \
+ # We'll change the content of the <div id="version"...> tag to the current version.
+ # We have to canonize the output since the <script...></script> text would be
+ # changed to <script.../> which is not working in some browsers.
+ # (See an explanation at http://stackoverflow.com/questions/69913/why-dont-self-closing-script-tags-work.)
+ cat $GGDIR/$PROJECT/war/Mobile.html | $XML ed -O -u '/html/body/div[@id="version"]' -v "$VERSION r$REVISION" | \
+  $XML c14n --exc-with-comments > \
   $GGDIR/$PROJECT/war/Mobile-b.html
  mv $GGDIR/$PROJECT/war/Mobile-b.html $GGDIR/$PROJECT/war/Mobile.html
  fi
