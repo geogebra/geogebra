@@ -3,9 +3,9 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
+import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
-import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
@@ -60,8 +60,11 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				sview.getScrollPanel().setWidth(width+"px");
 				sview.getScrollPanel().setHeight(height+"px");
 
-				sview.getFocusPanel().setWidth(width+"px");
-				sview.getFocusPanel().setHeight(height+"px");
+				int width2 = ((MyTableW)sview.getSpreadsheetTable()).getOffsetWidth();
+				int height2 = ((MyTableW)sview.getSpreadsheetTable()).getOffsetWidth();
+
+				sview.getFocusPanel().setWidth(width2+"px");
+				sview.getFocusPanel().setHeight(height2+"px");
 			}
 		}
     }
