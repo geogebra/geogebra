@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.util.StringUtil;
@@ -436,6 +438,21 @@ public class RelativeCopy {
 		if (oldBoolText != null) {
 			boolText = updateCellReferences(bool, oldBoolText, dx, dy);
 		}
+		
+		String startPoints[] = null;
+		if (value instanceof Locateable) {
+			Locateable loc = (Locateable)value;
+			
+			GeoPointND[] pts = loc.getStartPoints();
+			
+			startPoints = new String[pts.length];
+			
+			for (int i = 0 ; i < pts.length ; i++) {
+				startPoints[i] = ((GeoElement)pts[i]).getLabel(highPrecision);
+				startPoints[i] = updateCellReferences((GeoElement) pts[i], startPoints[i], dx, dy);
+			}
+			
+		}
 
 		// dynamic color function
 		GeoList dynamicColorList = value.getColorFunction();
@@ -522,6 +539,17 @@ public class RelativeCopy {
 				return null;
 			}
 		}
+		
+		if (startPoints != null) {
+			for (int i = 0 ; i < startPoints.length ; i++) {
+				((Locateable)value2).setStartPoint(kernel.getAlgebraProcessor()
+						.evaluateToPoint(startPoints[i], false, true),  i);
+			}
+			
+			value2.update();
+		}
+		
+		
 
 		// Application.debug((row + dy) + "," + column);
 		// Application.debug("isGeoFunction()=" + value2.isGeoFunction());
