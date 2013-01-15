@@ -233,7 +233,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				table.setRepaintAll();
 				model.setColumnCount(table.getColumnCount());
 				view.columnHeaderRevalidate();
-				view.repaint();
+
+				//view.repaint();//FIXME: setRepaintAll is not compatible with TimerSystemW!
+				table.repaint();
+
 				view.getFocusPanel().setWidth(table.getOffsetWidth()+"px");
 
 				// these two lines are a workaround for Java 6

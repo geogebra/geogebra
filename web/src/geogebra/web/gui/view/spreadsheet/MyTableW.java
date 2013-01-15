@@ -4,15 +4,13 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.main.OptionType;
-import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
+import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -21,12 +19,13 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.main.OptionType;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GRectangleW;
-//import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.web.main.AppW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,15 +33,9 @@ import java.util.HashSet;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+//import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 
 public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	private static final long serialVersionUID = 1L;
@@ -494,6 +487,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		public void dimensionChange() {
 			// TODO: comment them out to imitate the Desktop behaviour
 			// TODO//getView().updateRowHeader();
+
+			renderCellsFirstTime = true;
+
 			updateColumnCount();
 
 			// web-specific solution
