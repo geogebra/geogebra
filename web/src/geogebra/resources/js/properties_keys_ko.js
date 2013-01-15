@@ -1275,6 +1275,7 @@ __GGB__keysVar.ko.menu = {
     "DontOverwrite": "\ub36e\uc5b4\uc4f0\uc9c0 \uc54a\uc74c",
     "DontSave": "\uc800\uc7a5\ud558\uc9c0 \uc54a\uc74c",
     "DotPlot": "\uc810 \uadf8\ub9bc",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "\uae30\ud558\ucc3d\uc744 \ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac",
     "DynamicColors": "\uc138\ubd80 \uc0c9\uc0c1 \uc124\uc815",
     "EMFPlus": "EMF+",

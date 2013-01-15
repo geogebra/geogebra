@@ -1275,6 +1275,7 @@ __GGB__keysVar.sq.menu = {
     "DontOverwrite": "Mos Mbishkruaj",
     "DontSave": "Mos Ruaj",
     "DotPlot": "Vizatim me Pika",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Pamja e Vizatimit ne Mbajtese",
     "DynamicColors": "Ngjyra Dinamike",
     "EMFPlus": "EMF+",

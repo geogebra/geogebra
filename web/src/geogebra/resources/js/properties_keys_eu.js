@@ -1275,6 +1275,7 @@ __GGB__keysVar.eu.menu = {
     "DontOverwrite": "Ez Gainidatzi",
     "DontSave": "Ez Gorde",
     "DotPlot": "Puntu-Diagrama",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Kopiatu Ikuspegi Grafikoa Arbelera",
     "DynamicColors": "Kolore Dinamikoak",
     "EMFPlus": "EMF+",

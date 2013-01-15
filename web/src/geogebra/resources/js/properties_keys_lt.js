@@ -1275,6 +1275,7 @@ __GGB__keysVar.lt.menu = {
     "DontOverwrite": "Neperra\u0161yti",
     "DontSave": "Nesaugoti",
     "DotPlot": "Ta\u0161k\u0173 grafikas",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Kopijuoti grafin\u012f vaizd\u0105",
     "DynamicColors": "Dinamin\u0117s spalvos",
     "EMFPlus": "EMF+",

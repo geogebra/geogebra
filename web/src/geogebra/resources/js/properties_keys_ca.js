@@ -1275,6 +1275,7 @@ __GGB__keysVar.ca.menu = {
     "DontOverwrite": "No sobrescriguis",
     "DontSave": "No Desis",
     "DotPlot": "Diagrama de punts",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Copia la zona gr\xe0fica al porta-retalls",
     "DynamicColors": "Colors Din\xe0mics",
     "EMFPlus": "EMF+",

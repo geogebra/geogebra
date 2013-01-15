@@ -1275,6 +1275,7 @@ __GGB__keysVar.zh_TW.menu = {
     "DontOverwrite": "\u4e0d\u8986\u84cb",
     "DontSave": "\u4e0d\u5132\u5b58",
     "DotPlot": "\u9ede\u5716",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "\u8907\u88fd\u5230\u526a\u8cbc\u7c3f",
     "DynamicColors": "\u52d5\u614b\u8272\u5f69",
     "EMFPlus": "EMF+",

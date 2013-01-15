@@ -1275,6 +1275,7 @@ __GGB__keysVar.cy.menu = {
     "DontOverwrite": "Peidio trosysgrifo",
     "DontSave": "Peidio \xe2 chadw",
     "DotPlot": "Plot Pwyntiau",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Gwedd graffeg i'r clipfwrdd",
     "DynamicColors": "Lliwiau dynamig",
     "EMFPlus": "EMF+",

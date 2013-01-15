@@ -1275,6 +1275,7 @@ __GGB__keysVar.is.menu = {
     "DontOverwrite": "Ekki skrifa yfir",
     "DontSave": "Ekki vista",
     "DotPlot": "Punktateikning",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Teiknibor\xf0 \xe1 klemmuspjald",
     "DynamicColors": "Kvikir litir",
     "EMFPlus": "EMF+",

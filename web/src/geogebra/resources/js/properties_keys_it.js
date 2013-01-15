@@ -1275,6 +1275,7 @@ __GGB__keysVar.it.menu = {
     "DontOverwrite": "Non sovrascrivere",
     "DontSave": "Non salvare",
     "DotPlot": "Diagramma a punti",
+    "DownloadAsGgbFile": "Scarica come file .ggb",
     "DrawingPadToClipboard": "Esporta la Vista Grafica negli Appunti",
     "DynamicColors": "Colori dinamici",
     "EMFPlus": "EMF+",

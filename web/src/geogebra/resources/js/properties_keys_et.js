@@ -1275,6 +1275,7 @@ __GGB__keysVar.et.menu = {
     "DontOverwrite": "\xc4ra kirjuta \xfcle",
     "DontSave": "\xc4ra salvesta",
     "DotPlot": "Punktdiagramm",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Graafikavaade l\xf5ikepuhvrisse",
     "DynamicColors": "D\xfcnaamilised v\xe4rvid",
     "EMFPlus": "EMF+",

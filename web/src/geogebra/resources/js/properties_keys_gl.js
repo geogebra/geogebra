@@ -1275,6 +1275,7 @@ __GGB__keysVar.gl.menu = {
     "DontOverwrite": "Non sobrescribir",
     "DontSave": "Non gardar",
     "DotPlot": "Diagrama de puntos",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Copiar vista gr\xe1fica ao portapapeis",
     "DynamicColors": "Cores din\xe1micas",
     "EMFPlus": "EMF+",

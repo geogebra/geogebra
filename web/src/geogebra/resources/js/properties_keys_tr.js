@@ -1275,6 +1275,7 @@ __GGB__keysVar.tr.menu = {
     "DontOverwrite": "\xdczerine yazma",
     "DontSave": "Kaydetme",
     "DotPlot": "Nokta \xc7izimi",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "\xc7izim tahtas\u0131ndan panoya",
     "DynamicColors": "De\u011fi\u015fken Renkler",
     "EMFPlus": "EMF+",

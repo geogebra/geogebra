@@ -1275,6 +1275,7 @@ __GGB__keysVar.ms.menu = {
     "DontOverwrite": "Jangan Tulis Ganti",
     "DontSave": "Jangan Simpan",
     "DotPlot": "Plot Bintik",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Paparan Grafik ke Papanklip",
     "DynamicColors": "Warna Dinamik",
     "EMFPlus": "EMF+",

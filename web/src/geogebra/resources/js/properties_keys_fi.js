@@ -1275,6 +1275,7 @@ __GGB__keysVar.fi.menu = {
     "DontOverwrite": "\xc4l\xe4 kirjoita p\xe4\xe4lle",
     "DontSave": "\xc4l\xe4 tallenna",
     "DotPlot": "Pistekaavio",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Kopioi piirtoalue leikep\xf6yd\xe4lle",
     "DynamicColors": "Dynaamiset v\xe4rit",
     "EMFPlus": "EMF+",

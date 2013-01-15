@@ -1275,6 +1275,7 @@ __GGB__keysVar.pt_PT.menu = {
     "DontOverwrite": "Cancelar",
     "DontSave": "N\xe3o",
     "DotPlot": "Gr\xe1fico de Pontos",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "C\xf3pia da Folha Gr\xe1fica para a \xc1rea de Transfer\xeancia",
     "DynamicColors": "Cores Din\xe2micas",
     "EMFPlus": "EMF+",

@@ -1275,6 +1275,7 @@ __GGB__keysVar.ro.menu = {
     "DontOverwrite": "A nu se suprascrie",
     "DontSave": "A nu se salva",
     "DotPlot": "Dot Plot",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Vizualizare grafic\u0103 pe clipboard",
     "DynamicColors": "Culori dinamice",
     "EMFPlus": "EMF+",

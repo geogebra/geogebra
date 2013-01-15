@@ -1275,6 +1275,7 @@ __GGB__keysVar.vi.menu = {
     "DontOverwrite": "Kh\xf4ng ghi \u0111\xe8",
     "DontSave": "Kh\xf4ng l\u01b0u",
     "DotPlot": "\u0110\u1ed3 th\u1ecb d\u1ea1ng \u0111i\u1ec3m",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Sao ch\xe9p v\xf9ng l\xe0m vi\u1ec7c v\xe0o b\u1ed9 nh\u1edb",
     "DynamicColors": "M\xe0u s\u1eafc",
     "EMFPlus": "EMF+",

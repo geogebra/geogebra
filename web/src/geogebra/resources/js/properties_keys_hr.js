@@ -1275,6 +1275,7 @@ __GGB__keysVar.hr.menu = {
     "DontOverwrite": "Nemoj zamijeniti",
     "DontSave": "Nemoj spremiti",
     "DotPlot": "To\u010dkasti dijagram",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Grafi\u010dki prikaz u me\u0111uspremnik",
     "DynamicColors": "Dinami\u010dne boje",
     "EMFPlus": "EMF+",

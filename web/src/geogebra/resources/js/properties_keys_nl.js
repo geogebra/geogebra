@@ -1275,6 +1275,7 @@ __GGB__keysVar.nl.menu = {
     "DontOverwrite": "Niet overschrijven",
     "DontSave": "Niet opslaan",
     "DotPlot": "Dotplot",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Tekenvenster kopi\xebren",
     "DynamicColors": "Dynamische kleuren",
     "EMFPlus": "EMF+",

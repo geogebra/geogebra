@@ -1275,6 +1275,7 @@ __GGB__keysVar.cs.menu = {
     "DontOverwrite": "Nep\u0159episovat",
     "DontSave": "Neukl\xe1dat",
     "DotPlot": "Bodov\xfd graf",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Kop\xedrovat n\xe1kresnu do schr\xe1nky",
     "DynamicColors": "Dynamick\xe9 barvy",
     "EMFPlus": "EMF+",

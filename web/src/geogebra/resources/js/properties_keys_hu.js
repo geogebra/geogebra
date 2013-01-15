@@ -1275,6 +1275,7 @@ __GGB__keysVar.hu.menu = {
     "DontOverwrite": "Nem",
     "DontSave": "Nem",
     "DotPlot": "Pont diagram",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Rajzlap v\xe1g\xf3lapra m\xe1sol\xe1sa",
     "DynamicColors": "Dinamikus szinek",
     "EMFPlus": "EMF+",

@@ -1275,6 +1275,7 @@ __GGB__keysVar.no_NB.menu = {
     "DontOverwrite": "Ikke skriv over",
     "DontSave": "Ikke lagre",
     "DotPlot": "Prikkplott",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Kopier grafikkfeltet til utklippstavla",
     "DynamicColors": "Dynamiske farger",
     "EMFPlus": "EMF+",

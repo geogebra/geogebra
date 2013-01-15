@@ -1275,6 +1275,7 @@ __GGB__keysVar.pl.menu = {
     "DontOverwrite": "Nie zast\u0119puj (nie nadpisuj)",
     "DontSave": "Nie zapisuj",
     "DotPlot": "Wykres punktowy",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Kopiuj Widok Grafiki do schowka",
     "DynamicColors": "Kolory dynamiczne",
     "EMFPlus": "EMF+",

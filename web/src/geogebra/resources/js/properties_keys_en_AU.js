@@ -1275,6 +1275,7 @@ __GGB__keysVar.en_AU.menu = {
     "DontOverwrite": "Don't Overwrite",
     "DontSave": "Don't Save",
     "DotPlot": "Dot Plot",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "Graphics View to Clipboard",
     "DynamicColors": "Dynamic Colours",
     "EMFPlus": "EMF+",

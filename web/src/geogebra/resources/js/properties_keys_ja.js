@@ -1275,6 +1275,7 @@ __GGB__keysVar.ja.menu = {
     "DontOverwrite": "\u4e0a\u66f8\u304d\u3057\u306a\u3044",
     "DontSave": "\u4fdd\u5b58\u3057\u306a\u3044",
     "DotPlot": "\u30c9\u30c3\u30c8\u30d7\u30ed\u30c3\u30c8",
+    "DownloadAsGgbFile": "Download as .ggb file",
     "DrawingPadToClipboard": "\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9\u30d3\u30e5\u30fc\u3092\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078",
     "DynamicColors": "\u52d5\u7684\u306a\u8272",
     "EMFPlus": "EMF+",
