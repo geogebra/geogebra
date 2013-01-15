@@ -351,9 +351,9 @@ if [ "$PROJECT" = "mobile" ]; then
  # changed to <script.../> which is not working in some browsers.
  # (See an explanation at http://stackoverflow.com/questions/69913/why-dont-self-closing-script-tags-work.)
  UIVERSION=`cat $GGDIR/$PROJECT/war/Mobile.html | $XML sel -t -v '/html/body/div[@id="version"]'`
- DATE=`date +%Y-%m-%d %H:%M`
+ DATE=`date "+%Y-%m-%d %H:%M"`
  cat $GGDIR/$PROJECT/war/Mobile.html | \
-   $XML ed -O -u '/html/body/div[@id="version"]' -v "$UIVERSION ($DATE)<br>kernel $VERSION r$REVISION" > \
+   $XML ed -O -u '/html/body/div[@id="version"]' -v "$UIVERSION ($DATE) kernel $VERSION r$REVISION" > \
    $GGDIR/$PROJECT/war/Mobile-b.html
  $XML c14n --exc-with-comments $GGDIR/$PROJECT/war/Mobile-b.html > $GGDIR/$PROJECT/war/Mobile.html
  fi
