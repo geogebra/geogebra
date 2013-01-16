@@ -254,7 +254,7 @@ public class OptionsMenu {
 			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
 		}
 
-		submenu.addRadioButtonMenuItems((MyActionListener)menu, fsfi, fontActionCommands, pos, true);
+		submenu.addRadioButtonMenuItems((MyActionListener)menu, fsfi, fontActionCommands, pos, false);
 		app.addMenuItem(menu, "font.png", app.getMenu("FontSize"), true, submenu);
 	}
 
