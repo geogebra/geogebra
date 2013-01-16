@@ -17,8 +17,11 @@
  <!-- query param's name is locale, cookie paramname is also locale. 
  The application searches for the user agent locale if queryparam i.e. URL parameter and the cookie parameter are not set -->
  <set-configuration-property name='locale.cookie' value='locale' />
- <set-configuration-property name='locale.useragent' value='Y' />
- <set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' />
+ <!--<set-configuration-property name='locale.useragent' value='Y' />-->
+ <!--<set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' /> -->
+ 
+ <!-- Currently we want to use only the cookies for the language settings --> 
+ <set-configuration-property name='locale.searchorder' value='cookie' />
  
  <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
  <inherits name="com.google.gwt.i18n.CldrLocales"/>
