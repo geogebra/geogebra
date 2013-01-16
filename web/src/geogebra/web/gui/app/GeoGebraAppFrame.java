@@ -33,6 +33,7 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
@@ -67,7 +68,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	public GeoGebraAppFrame() {
 		initWidget(outer = binder.createAndBindUi(this));
-		outer.add(ggwSplitLayoutPanel = new MySplitLayoutPanel());
+		boolean showCAS = "true".equals(RootPanel.getBodyElement().getAttribute("data-param-show-cas"));
+		outer.add(ggwSplitLayoutPanel = new MySplitLayoutPanel(showCAS));
 		
 	    // Get rid of scrollbars, and clear out the window's built-in margin,
 	    // because we want to take advantage of the entire client area.

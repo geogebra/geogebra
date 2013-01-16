@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
+import geogebra.web.cas.view.CASViewW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -69,6 +70,8 @@ public class GuiManagerW extends GuiManager {
 	private int height;
 
 	private LayoutW layout;
+
+	private View casView;
 
 	public GuiManagerW(App app) {
 		this.app = app;
@@ -286,9 +289,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
 	public View getCasView() {
-		App.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return null;
+		if(casView == null)
+			casView = new CASViewW(app);
+		return casView;
 	}
 
 	@Override
