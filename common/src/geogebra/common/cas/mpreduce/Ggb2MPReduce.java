@@ -121,9 +121,9 @@ public class Ggb2MPReduce {
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1))");
 		p("GCD.2",
-				"<<begin scalar gcd!!; off rounded, roundall, numval; gcd!!:=gcd(%0,%1); if numeric!!=0 then off rounded, roundall, numval; return gcd!! end>>");
+				"<<begin scalar gcd!!; off rounded, roundall, numval; gcd!!:=gcd(num(%0),num(%1)); if numeric!!=0 then off rounded, roundall, numval; return gcd!! end>>");
 		p("GCD.1",
-				"<<begin scalar gcd!!; off rounded, roundall, numval; gcd!!:=0; for each term in (%0) do gcd!!:=gcd(gcd!!,term); if numeric!!=0 then off rounded, roundall, numval; return gcd!! end >>");
+				"<<begin scalar gcd!!; off rounded, roundall, numval; gcd!!:=0; for each term in (%0) do gcd!!:=gcd(gcd!!,num(term)); if numeric!!=0 then off rounded, roundall, numval; return gcd!! end >>");
 		// GetPrecision.1
 		p("Groebner.1", "groebner(%0)");
 		p("Groebner.2", "<<torder(%1,lex); groebner(%0)>>");
@@ -174,9 +174,9 @@ public class Ggb2MPReduce {
 		p("Last.2",
 				"<<begin scalar list!!; list!!:=(%0); return if length(list!!)<=(%1) then list!! else for i:=1:%1 collect part(list!!,length(list!!)-%1+i) end >>");
 		p("LCM.1",
-				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=1; for each term in (%0) do lcm!!:=lcm(lcm!!,term); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end >>");
+				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=1; for each term in (%0) do lcm!!:=lcm(lcm!!,num(term)); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end >>");
 		p("LCM.2",
-				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=lcm(%0,%1); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end>>");
+				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=lcm(num(%0),num(%1)); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end>>");
 		p("LeftSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(input!!,0)=\\'list then map(lhs,input!!) else lhs(input!!) end>>");
 		p("LeftSide.2",
