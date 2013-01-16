@@ -68,7 +68,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	public GeoGebraAppFrame() {
 		initWidget(outer = binder.createAndBindUi(this));
-		boolean showCAS = "true".equals(RootPanel.getBodyElement().getAttribute("data-param-show-cas"));
+		boolean showCAS = "true".equals(RootPanel.getBodyElement().getAttribute("data-param-showCAS"));
 		outer.add(ggwSplitLayoutPanel = new MySplitLayoutPanel(showCAS));
 		
 	    // Get rid of scrollbars, and clear out the window's built-in margin,
