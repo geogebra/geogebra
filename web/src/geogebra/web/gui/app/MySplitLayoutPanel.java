@@ -92,5 +92,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	   if (ggwSpreadsheetView != null)
 		   ggwSpreadsheetView.attachApp(app);
+	   if (ggwCASView != null)
+		   ggwCASView.attachApp(app);
     }
 }

@@ -61,14 +61,12 @@ public class CASViewW extends CASView {
 
 	@Override
     public CASTable getConsoleTable() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return consoleTable;
     }
 
 	@Override
     public App getApp() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return app;
     }
 
 	@Override
