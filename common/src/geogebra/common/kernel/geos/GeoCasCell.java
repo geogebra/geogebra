@@ -1506,7 +1506,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				ValidExpression evalVE2 = pointList ? wrapPointList(evalVE):evalVE;
 				if(!(evalVE2.unwrap() instanceof Command) || !((Command)evalVE2.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
-					evalVE2 = (ValidExpression) evalVE2.traverse(fex);
+					evalVE2 = (ValidExpression) evalVE2.wrap().getCopy(kernel).traverse(fex);
 				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE2,
 						null, StringTemplate.numericNoLocal);

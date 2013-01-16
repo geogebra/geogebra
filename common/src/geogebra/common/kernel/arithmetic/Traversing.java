@@ -431,7 +431,8 @@ public interface Traversing {
 			if(geo instanceof FunctionalNVar)
 				return ((FunctionalNVar)geo).getFunctionExpression().deepCopy(geo.getKernel()).traverse(this);
 			if(geo instanceof GeoCasCell){
-				return ((GeoCasCell)geo).getOutputValidExpression();
+				App.debug(geo+":"+((GeoCasCell)geo).getOutputValidExpression());
+				return ((GeoCasCell)geo).getOutputValidExpression().deepCopy(geo.getKernel());
 			}			
 			return geo;	
 		}
