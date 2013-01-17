@@ -755,7 +755,7 @@ __GGB__keysVar.pl.command = {
     "SetFixed_Syntax": "[ <Obiekt>, <prawda | fa\u0142sz> ]",
     "SetLabelMode": "UstawTypEtykiety",
     "SetLabelMode_Syntax": "[ <Obiekt>, <Liczba> ]",
-    "SetLayer": "UstawWarstwe",
+    "SetLayer": "UstawWarstw\u0119",
     "SetLayer_Syntax": "[ <Obiekt>, <Warstwa> ]",
     "SetLineStyle": "UstawStylLinii",
     "SetLineStyle_Syntax": "[ <Linia>, <Liczba> ]",
