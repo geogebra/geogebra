@@ -4112,7 +4112,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case $VAR_ROW: // e.g. A$1
-			if (valueForm) {
+			if (valueForm || tpl.hasType(StringType.MPREDUCE)) {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
@@ -4127,7 +4127,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case $VAR_COL: // e.g. $A1
-			if (valueForm) {
+			if (valueForm || tpl.hasType(StringType.MPREDUCE)) {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
@@ -4148,7 +4148,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case $VAR_ROW_COL: // e.g. $A$1
-			if (valueForm) {
+			if (valueForm || tpl.hasType(StringType.MPREDUCE)) {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
