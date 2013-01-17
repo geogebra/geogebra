@@ -96,9 +96,13 @@ public class Kernel {
 	 * Maximal number of spreadsheet columns
 	 *  if these are increased above 32000, you need to change traceRow to an int[]
 	 */
-	public static int MAX_SPREADSHEET_COLUMNS = 9999;
+	public static int MAX_SPREADSHEET_COLUMNS_DESKTOP = 9999;
 	/** Maximal number of spreadsheet rows*/
-	public static int MAX_SPREADSHEET_ROWS = 9999;
+	public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
+
+	public static int MAX_SPREADSHEET_COLUMNS = MAX_SPREADSHEET_COLUMNS_DESKTOP;
+	public static int MAX_SPREADSHEET_ROWS = MAX_SPREADSHEET_ROWS_DESKTOP;
+
 	// G.Sturr 2009-10-18
 	// algebra style
 	/** Algebra view style: value */
@@ -110,6 +114,7 @@ public class Kernel {
 	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
 	// end G.Sturr
 	private MacroManager macroManager;
+
 	/**
 	 * Specifies whether possible line breaks are to be marked in the String
 	 * representation of {@link ExpressionNode ExpressionNodes}.

@@ -140,7 +140,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 		case KeyCodes.KEY_DOWN://VK_DOWN:
 			e.preventDefault();
 			// auto increase spreadsheet size when you go off the bottom	
-			if (table.getSelectedRow() + 1 >= table.getRowCount()-1 && table.getSelectedRow() < Kernel.MAX_SPREADSHEET_ROWS) {
+			if (table.getSelectedRow() + 1 >= table.getRowCount()-1 && table.getSelectedRow() + 1 < Kernel.MAX_SPREADSHEET_ROWS) {
 				model.setRowCount(table.getRowCount());
 
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
@@ -232,7 +232,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			e.preventDefault();
 			// auto increase spreadsheet size when you go off the right
 
-			if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1 && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
+			if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1 && table.getSelectedColumn() + 1 < Kernel.MAX_SPREADSHEET_COLUMNS) {
 
 				table.setRepaintAll();
 				model.setColumnCount(table.getColumnCount());

@@ -1,8 +1,5 @@
 package geogebra.web.kernel;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
@@ -18,10 +15,14 @@ public class KernelW extends Kernel implements KernelWInterface {
 
 	public KernelW() {
 		super();
+		MAX_SPREADSHEET_COLUMNS = 26;//1..26
+		MAX_SPREADSHEET_ROWS = 200;//1..200
 	}
-	
+
 	public KernelW(App app) {
 	    super(app);
+		MAX_SPREADSHEET_COLUMNS = 26;
+		MAX_SPREADSHEET_ROWS = 200;
     }
 
 
