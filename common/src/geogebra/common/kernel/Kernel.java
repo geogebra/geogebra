@@ -4236,7 +4236,7 @@ public class Kernel {
 		clearCasCache();
 
 		TreeSet<GeoElement> treeset = new TreeSet<GeoElement>(getConstruction()
-				.getGeoSetConstructionOrder());
+				.getGeoSetWithCasCellsConstructionOrder());
 
 		ArrayList<GeoElement> al = new ArrayList<GeoElement>();
 
@@ -4260,7 +4260,9 @@ public class Kernel {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				algo.compute();
 			}
-
+			if(geo.isGeoCasCell() && algo==null){
+				((GeoCasCell)geo).computeOutput();
+			}
 			al.add(geo);
 		}
 
