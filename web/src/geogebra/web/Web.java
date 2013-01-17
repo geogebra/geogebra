@@ -24,8 +24,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -108,6 +106,9 @@ public class Web implements EntryPoint {
 				startGeoGebra(getGeoGebraMobileTags());
 			} else {
 				exportArticleTagRenderer();
+				//export other methods if needed
+				//call the registered methods if any
+				GGW_ext_webReady();
 			}
 		} else if (Web.currentGUI.equals(GuiToLoad.APP)) {
 			loadAppAsync();
@@ -179,12 +180,52 @@ public class Web implements EntryPoint {
     }
 	
 	private native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrame::renderArticleElemnt(Lgeogebra/web/html5/ArticleElement;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrame::renderArticleElemnt(Lcom/google/gwt/dom/client/Element;));
     }-*/;
     
 	private native boolean calledFromExtension() /*-{
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
+	
+	
+	/*
+	 * This method should never be called. Only copyed to external javascript files,
+	 * if we like to use GeoGebraWeb as an library, and call its methods depending on
+	 * it is loaded or not.
+	 */
+	private native void copyThisJsIfYouLikeToUseGeoGebraWebAsExtension() /*-{
+		//GGW_ext namespace must be a property of the global scope
+		window.GGW_ext = {
+			startupFunctions : []
+		};
+		
+		//register methods that will be called if web is loaded,
+		//or if it is loaded, will be called immediately
+		//GGW_ext.webReady("render",articleelement);
+		GGW_ext.webReady = function(functionName, args) {
+			if (typeof GGW_ext[functionName] === "function") {
+				//web loaded
+				this[functionName].apply(args);
+			} else {
+				this.startupFunctions.push([functionName,args]);
+			}	
+		}
+	}-*/;
+	
+	private native void GGW_ext_webReady() /*-{
+		var functions = null,
+			i,l;
+		if (typeof $wnd.GGW_ext === "object") {
+			if ($wnd.GGW_ext.startupFunctions && $wnd.GGW_ext.startupFunctions.length) {
+				functions = $wnd.GGW_ext.startupFunctions;
+				for (i = 0, l = functions.length; i < l; i++) {
+					if (typeof $wnd.GGW_ext[functions[i][0]] === "function") {
+						$wnd.GGW_ext[functions[i][0]](functions[i][1]);
+					}
+				}
+			} 
+		}
+	}-*/;
 	
 	public static boolean webWorkerSupported = false; 
 	

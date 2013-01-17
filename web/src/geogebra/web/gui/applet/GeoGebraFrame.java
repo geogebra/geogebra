@@ -10,6 +10,7 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -95,12 +96,16 @@ public class GeoGebraFrame extends VerticalPanel {
 	    handleLoadFile(articleElement, app);
     }
 	
-	public static void renderArticleElemnt(ArticleElement element) {
+	/**
+	 * @param element
+	 */
+	public static void renderArticleElemnt(Element element) {
+		ArticleElement article = (ArticleElement) element;
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		GeoGebraFrame inst = new GeoGebraFrame();
-		inst.app = inst.createApplication(element, inst);
-		useDataParamBorder(element, inst);
+		inst.app = inst.createApplication(article, inst);
+		useDataParamBorder(article, inst);
 	    //inst.add(inst.app.buildApplicationPanel());
 		inst.app.buildApplicationPanel();
 	    RootPanel.get(element.getId()).add(inst);
