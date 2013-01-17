@@ -59,6 +59,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 		switch (keyCode) {
 
 		case KeyCodes.KEY_UP://KeyEvent.VK_UP:
+			e.preventDefault();
 			if (e.isControlKeyDown()) {
 				//AppW.isControlDown(e)) {
 				if (model.getValueAt(row, column) != null) {
@@ -97,6 +98,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			break;
 			
 		case KeyCodes.KEY_LEFT://VK_LEFT:
+			e.preventDefault();
 			if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
 
@@ -136,6 +138,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 
 		
 		case KeyCodes.KEY_DOWN://VK_DOWN:
+			e.preventDefault();
 			// auto increase spreadsheet size when you go off the bottom	
 			if (table.getSelectedRow() + 1 >= table.getRowCount()-1 && table.getSelectedRow() < Kernel.MAX_SPREADSHEET_ROWS) {
 				model.setRowCount(table.getRowCount());
@@ -226,6 +229,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			break;
 
 		case KeyCodes.KEY_RIGHT: //Event.VK_RIGHT:
+			e.preventDefault();
 			// auto increase spreadsheet size when you go off the right
 
 			if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1 && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
@@ -526,6 +530,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			defaultKeyListeners[i].keyPressed(e);
 		}
 		 */
+
 	}
 
 	public void letterOrDigitTyped() {
