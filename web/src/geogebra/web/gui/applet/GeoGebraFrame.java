@@ -100,7 +100,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @param element
 	 */
 	public static void renderArticleElemnt(Element element) {
-		ArticleElement article = (ArticleElement) element;
+		ArticleElement article = ArticleElement.as(element);
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		GeoGebraFrame inst = new GeoGebraFrame();
