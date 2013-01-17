@@ -1314,9 +1314,11 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 	public void requestFocus() {
 		//if (table != null)
 		//	table.requestFocus();
-		int vsp = getVerticalScrollPosition();
-		spreadsheet.setFocus(true);
-		setVerticalScrollPosition(vsp);
+
+		// FIXME: the following would make mouse down focus scroll away in Chrome
+		//int vsp = getVerticalScrollPosition();
+		//spreadsheet.setFocus(true);
+		//setVerticalScrollPosition(vsp);
 	}
 
 	// test all components of SpreadsheetView for hasFocus
