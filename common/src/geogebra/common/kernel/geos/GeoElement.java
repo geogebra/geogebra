@@ -3453,6 +3453,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates all objects in a cascade, but only location is updated for
 	 * the locatables in input array
 	 * @param geos locateables
+	 * @param cons construction where update is done
 	 */
 	final static public synchronized void updateCascadeLocation(
 			final ArrayList<Locateable> geos, Construction cons) 
@@ -3477,8 +3478,9 @@ public abstract class GeoElement extends ConstructionElement implements
 				
 			// remove algos currently updated
 			AlgorithmSet algoSetCurrentlyUpdated = cons.getAlgoSetCurrentlyUpdated();
-			if (algoSetCurrentlyUpdated!=null)
+			if (algoSetCurrentlyUpdated != null){
 				algoSetCurrentlyUpdated.removeAllFromCollection(tempSet1);
+			}
 
 			// now we have one nice algorithm set that we can update
 			if (tempSet1.size() > 0) {
