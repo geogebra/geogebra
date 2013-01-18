@@ -85,7 +85,9 @@ public class GeoGebraFileChooser extends PopupPanel {
 					fileName.setEnabled(false);
 					description.setEnabled(false);
 					download.setEnabled(false);
-					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(fileName.getText(), description.getText(), _this);
+					String saveName = fileName.getText();
+					if (saveName.substring(-4) != ".ggb") saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
+					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(saveName, description.getText(), _this);
 					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
