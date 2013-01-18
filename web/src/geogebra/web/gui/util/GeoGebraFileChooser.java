@@ -121,7 +121,10 @@ public class GeoGebraFileChooser extends PopupPanel {
 
 			public void onChange(ChangeEvent event) {
 				String newName = fileName.getText();
-				if(newName.substring(-4) != ".ggb") newName += ".ggb";
+				if(newName.substring(-4) != ".ggb"){
+					newName += ".ggb";
+					fileName.setText(newName);
+				}
 				setFilename(newName);
             }
 	    	
