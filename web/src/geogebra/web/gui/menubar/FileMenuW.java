@@ -2,8 +2,10 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
 public class FileMenuW extends MenuBar {
@@ -64,6 +66,22 @@ public class FileMenuW extends MenuBar {
 	    		app.uploadToGeoGebraTube();
 	    	}
 	    });
-    }
+	    
+		if (!((AppW)app).getNativeEmailSet().equals("")){
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true,new Command() {
+			
+				public void execute() {
+					Window.open("https://drive.google.com/?tab=co&authuser=0#search/.ggb", "_blank", "");
+				}
+			});
+		}
+		else
+			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true,new Command() {
+				public void execute() {
+					//do nothing
+				}
+			});
+
+	}
 
 }
