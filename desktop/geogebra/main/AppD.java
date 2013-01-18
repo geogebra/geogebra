@@ -3640,7 +3640,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean clearConstruction() {
 		if (isSaved() || saveCurrentFile()) {
 			
-			kernel.clearConstruction();
+			kernel.clearConstruction(true);
 
 			kernel.initUndoInfo();
 			resetMaxLayerUsed();

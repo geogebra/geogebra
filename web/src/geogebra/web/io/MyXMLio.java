@@ -41,7 +41,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 
 		if (clearConstruction) {
 			// clear construction
-			kernel.clearConstruction();
+			kernel.clearConstruction(false);
 		}
 
 		try {

@@ -1864,7 +1864,7 @@ public class AppW extends App {
 	@Override
     public boolean clearConstruction() {
 		// if (isSaved() || saveCurrentFile()) {
-		kernel.clearConstruction();
+		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
 		setCurrentFile(null);
