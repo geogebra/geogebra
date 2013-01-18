@@ -15,6 +15,8 @@ package geogebra.common.kernel.Matrix;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 
+import java.util.Comparator;
+
 /**
  * 
  * A Ggb3DVector is composed of {x1,x2,...,xn} coordinates in double precision.
@@ -35,6 +37,35 @@ public class Coords extends CoordMatrix {
 	public static final Coords VY = new Coords(0,1,0,0);
 	/** vz 3D vector */
 	public static final Coords VZ = new Coords(0,0,1,0);
+	
+	
+
+
+	/**
+	 * comparator using Kernel precision (compare x, then y, then z, then ...)
+	 */
+	public static final Comparator<Coords> COMPARATOR =  new Comparator<Coords>() {
+
+			public int compare(Coords o1, Coords o) {
+				//1) check vectors lengths
+				if (o1.val.length < o.val.length)
+					return -1;
+				if (o1.val.length > o.val.length)
+					return 1;
+				
+				//2) check if one value is lower
+				for (int i = 0 ; i < o1.val.length ; i++){
+					if (Kernel.isGreater(o.val[i], o1.val[i]))
+						return -1;
+					if (Kernel.isGreater(o1.val[i], o.val[i]))
+						return 1;			
+				}
+				
+				//3) vectors are equal
+				return 0;
+			}
+			
+		};
 
 	// /////////////////////////////////////////////////:
 	// Constructors
@@ -1008,4 +1039,8 @@ public class Coords extends CoordMatrix {
 		setY(gray);
 		setZ(gray);
 	}
+	
+	
+		
+	
 }

@@ -242,13 +242,18 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	
 
 
-	
+	/**
+	 * set for all intersection points coords. Used for intersections equal to just one point.
+	 */
+	private TreeSet<Coords> polyhedronVertices;
 	
 	
 	
 	@Override
 	protected void addCoords(double parameter, Coords coords, GeoElementND geo){
 		newCoords.add(new CoordsWithParent(parameter, coords, geo));
+		if (geo instanceof GeoPointND)
+			polyhedronVertices.add(coords);
 	}
 	
 	private TreeMap<GeoPolygon, ArrayList<Segment>> newCoordsList;
@@ -260,6 +265,14 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			newCoordsList = new TreeMap<GeoPolygon, ArrayList<Segment>>();
 		else
 			newCoordsList.clear();
+		
+		//for polyhedron vertices
+		if (polyhedronVertices == null)
+			polyhedronVertices =  new TreeSet<Coords>(Coords.COMPARATOR);
+		else
+			polyhedronVertices.clear();
+
+
 		
 		/*
 		if (originalEdges==null)
@@ -543,24 +556,42 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	
 	@Override
 	public void compute() {
+		
 
 		// set the point map
 		setNewCoords();
 		
 		//App.debug("\noriginalEdges:"+originalEdges);
 		
-		// set segments
-		if (newCoordsList.size()==0) { //no defined output
+
+		
+		
+		//App.debug(polyhedronVertices);
+		
+		
+		// set output
+		if (newCoordsList.size()==0) { //no intersection segments
+			//no defined polygon
 			outputPolygons.adjustOutputSize(0, false);
-			outputPoints.adjustOutputSize(0, false);
+			
+			//set points equal to intersection with polyhedron vertices
+			outputPoints.adjustOutputSize(polyhedronVertices.size(), false);
+			int index = 0;
+			for (Coords coords : polyhedronVertices){
+				outputPoints.getElement(index).setCoords(coords);
+				index++;
+			}
+			
+			//no defined segment
 			outputSegments.adjustOutputSize(0,false);
 		} else {		
-			
 
+			//set intersection vertices
 			if (verticesList == null)
 				verticesList = new VerticesList();
 			else
 				verticesList.clear();
+			
 
 			//start with one face, set a polygon, then get a new face, etc.
 			while (newCoordsList.size()!=0){
@@ -675,6 +706,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 						if (outputPolygons.size()>0)
 							p.setAllVisualProperties(outputPolygons.getElement(0), false);
 						p.setViewFlags(getFirstInput().getViewSet());
+						p.setNotFixedPointsLength(true);
 						return p;
 					}
 				});
