@@ -20,6 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -44,8 +45,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	
 
 	private OutputHandler<GeoPolygon3D> outputPolygons;
-	protected OutputHandler<GeoSegment3D> outputSegments; // output
 	private OutputHandler<GeoPoint3D> outputPoints;
+	protected OutputHandler<GeoSegment3D> outputSegments; // output
 	
 
 	
@@ -149,9 +150,10 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	 * @param labels
 	 * @param plane plane
 	 * @param p polyhedron
+	 * @param outputSizes output sizes
 	 */
 	public AlgoIntersectRegionPlanePolyhedron(Construction c, String[] labels,
-			GeoPlane3D plane, GeoPolyhedron p) {
+			GeoPlane3D plane, GeoPolyhedron p, int[] outputSizes) {
 
 
 
@@ -167,22 +169,59 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			setInputOutput(); // for AlgoElement
 
 			// set labels
-			/*
-			if (labelsLength > 1) {
-				compute((labelsLength + 1) / 2);// create maybe undefined outputs
-				poly.setLabel(labels[0]);
-				int d = 1;
-				for (int i = 0; i < outputSegments.size(); i++)
-					outputSegments.getElement(i).setLabel(labels[d + i]);
-				d += outputSegments.size();
-				for (int i = 0; i < outputPoints.size(); i++)
-					outputPoints.getElement(i).setLabel(labels[d + i]);
-			} else if (labelsLength == 1) {
-				poly.setLabel(labels[0]);
-			} else {
-				poly.setLabel(null);
+			if (labels==null){
+				outputPolygons.setLabels(null);
+				outputPoints.setLabels(null);
+				outputSegments.setLabels(null);
+			}else{
+				int labelsLength = labels.length;
+				if (labelsLength > 1) {
+					//App.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
+					if (outputSizes != null){
+						//set output sizes
+						outputPolygons.adjustOutputSize(outputSizes[0], false);
+						outputPoints.adjustOutputSize(outputSizes[1], false);
+						outputSegments.adjustOutputSize(outputSizes[2], false);
+						
+						
+						
+						//set labels
+						int i1 = 0;
+						int i2 = 0;
+					
+						while (i1 < outputSizes[0]){
+							outputPolygons.getElement(i1).setLabel(labels[i2]);
+							i1++;
+							i2++;
+						}
+						
+						i1 = 0;
+						while (i1 < outputSizes[1]){
+							outputPoints.getElement(i1).setLabel(labels[i2]);
+							i1++;
+							i2++;
+						}
+						
+						i1 = 0;
+						while (i1 < outputSizes[2]){
+							outputSegments.getElement(i1).setLabel(labels[i2]);
+							i1++;
+							i2++;
+						}
+						
+						
+						
+					}else{
+						//set default
+						outputPolygons.setLabels(null);
+						outputSegments.setLabels(null);
+						outputPoints.setLabels(null);
+					}
+				} else if (labelsLength == 1) {
+					outputPolygons.setIndexLabels(labels[0]);
+				} 
 			}
-			*/
+			
 			
 			update();
 
@@ -249,6 +288,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 		//check if polygon is included in the plane		
 		if (d1.isZero() && !(Kernel.isZero(o1.getW()))){//then include all edges of the polygon
+			/*
 			GeoPointND[] points = p.getPointsND();
 			segmentCoords = new ArrayList<Segment>();
 			GeoPointND p2 = points[0];
@@ -263,6 +303,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				newCoordsList.put(p, segmentCoords);
 				//App.debug("\npoly (included):"+p+"\nsegmentCoords.size():"+segmentCoords.size());
 			}
+			*/
 
 		}else{//regular case: polygon not included in plane
 
@@ -509,9 +550,10 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		//App.debug("\noriginalEdges:"+originalEdges);
 		
 		// set segments
-		if (newCoordsList.size()==0) { //no segment
-			//outputSegments.adjustOutputSize(1);
-			//outputSegments.getElement(0).setUndefined();
+		if (newCoordsList.size()==0) { //no defined output
+			outputPolygons.adjustOutputSize(0, false);
+			outputPoints.adjustOutputSize(0, false);
+			outputSegments.adjustOutputSize(0,false);
 		} else {		
 			
 
@@ -630,25 +672,14 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
 						p.setParentAlgorithm(AlgoIntersectRegionPlanePolyhedron.this);
+						if (outputPolygons.size()>0)
+							p.setAllVisualProperties(outputPolygons.getElement(0), false);
 						p.setViewFlags(getFirstInput().getViewSet());
 						return p;
 					}
 				});
 		
-		outputPolygons.adjustOutputSize(1);
-		
-		outputSegments = //createOutputSegments();
-				new OutputHandler<GeoSegment3D>(
-						new elementFactory<GeoSegment3D>() {
-							public GeoSegment3D newElement() {
-								GeoSegment3D segment = (GeoSegment3D) outputPolygons
-										.getElement(0).createSegment(outputPoints.getElement(0), outputPoints.getElement(1), true);
-								segment.setAuxiliaryObject(true);
-								//segment.setLabelVisible(showNewSegmentsLabels);
-								segment.setViewFlags(getFirstInput().getViewSet());
-								return segment;
-							}
-						});
+		outputPolygons.adjustOutputSize(1,false);
 		
 		outputPoints = new OutputHandler<GeoPoint3D>(
 				new elementFactory<GeoPoint3D>() {
@@ -679,6 +710,23 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 						return newPoint;
 					}
 				});
+		
+		outputPoints.adjustOutputSize(1,false);
+		
+
+		outputSegments = //createOutputSegments();
+				new OutputHandler<GeoSegment3D>(
+						new elementFactory<GeoSegment3D>() {
+							public GeoSegment3D newElement() {
+								GeoSegment3D segment = (GeoSegment3D) outputPolygons
+										.getElement(0).createSegment(outputPoints.getElement(0), outputPoints.getElement(0), true);
+								segment.setAuxiliaryObject(true);
+								//segment.setLabelVisible(showNewSegmentsLabels);
+								segment.setViewFlags(getFirstInput().getViewSet());
+								return segment;
+							}
+						});
+		
 	}
 	
 	
@@ -693,5 +741,26 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			input[i].addAlgorithm(this);
 		}
 		cons.addToAlgorithmList(this);
+	}
+	
+	
+	
+	@Override
+	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
+		
+		//add output sizes (polygons, points, segments)
+		sb.append("\t<outputSizes val=\"");
+		sb.append(outputPolygons.size());
+		sb.append(",");
+		sb.append(outputPoints.size());
+		sb.append(",");
+		sb.append(outputSegments.size());
+		sb.append("\"");
+		sb.append("/>\n");
+	
+		//common method
+		super.getCmdOutputXML(sb, tpl);
+
+
 	}
 }

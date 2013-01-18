@@ -381,7 +381,7 @@ public interface Manager3DInterface {
 			GeoElement s);
 	
 	public GeoElement[] IntersectRegion(String[] labels, GeoPlaneND plane,
-			GeoElement s);
+			GeoElement s, int[] outputSize);
 	
 	
 	

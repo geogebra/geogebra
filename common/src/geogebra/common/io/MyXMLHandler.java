@@ -4806,6 +4806,8 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleCmdInput(attrs);
 		} else if ("output".equals(eName)) {
 			ok = handleCmdOutput(attrs);
+		} else if ("outputSizes".equals(eName)) {
+			ok = handleCmdOutputSizes(attrs);
 		} else
 			System.err.println("unknown tag in <command>: " + eName);
 
@@ -4936,6 +4938,31 @@ public class MyXMLHandler implements DocHandler {
 				}
 				i++;
 			}
+			return true;
+		} catch (MyError e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MyError(app, "processing of command: " + cmd);
+		}
+	}
+	
+	
+	/**
+	 * handle command output sizes (used only for some algos that have multiple types for output
+	 * @param attrs
+	 * @return true if proceeded
+	 */
+	private boolean handleCmdOutputSizes(LinkedHashMap<String, String> attrs) {
+		try {
+			String[] vals = attrs.get("val").split(",");
+			int[] sizes = new int[vals.length];
+			for (int i = 0 ; i < vals.length ; i++){
+				sizes[i] = Integer.parseInt(vals[i]);
+			}
+			
+			cmd.setOutputSizes(sizes);
+			
 			return true;
 		} catch (MyError e) {
 			throw e;

@@ -138,9 +138,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public void setCoordSys(CoordSys cs) {
 		//3D only
 	}
+	
 
 	@Override
 	public String getTypeString() {
+		
 		if (points == null)
 			return "Polygon";
 

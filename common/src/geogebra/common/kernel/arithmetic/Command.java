@@ -47,6 +47,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	private GeoElement[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
+	
 
 	/**
 	 * Creates a new command object.
@@ -425,4 +426,32 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			return false;
 		return true;
 	}
+	
+	
+	
+	
+	
+
+	/**
+	 * for commands with different output types and that need to know each
+	 * lenght to set labels correctly
+	 */
+	private int[] outputSizes;
+	
+	/**
+	 * set output sizes
+	 * @param sizes output sizes
+	 */
+	public void setOutputSizes(int[] sizes){
+		outputSizes = sizes;
+	}
+	
+	/**
+	 * 
+	 * @return output sizes
+	 */
+	public int[] getOutputSizes(){
+		return outputSizes;
+	}
+
 }

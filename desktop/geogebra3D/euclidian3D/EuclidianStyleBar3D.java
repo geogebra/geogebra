@@ -71,7 +71,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		add(btnViewYZ);
 		
 		//addSeparator();
-		
 		add(btnViewProjection);
 	}
 

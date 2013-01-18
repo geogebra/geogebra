@@ -1359,24 +1359,33 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 
 		// add output information
-		if (getOutputLength() > 0) { // (output != null) {
-			sb.append("\t<output");
-			for (int i = 0; i < getOutputLength(); i++) {
-				sb.append(" a");
-				sb.append(i);
-				// attribute name is output No.
-				sb.append("=\"");
-				if (getOutput(i).isLabelSet()) {
-					StringUtil.encodeXML(sb, getOutput(i).getLabel(tpl));
-				}
-				sb.append("\"");
-			}
-
-			sb.append("/>\n");
-		}
+		if (getOutputLength() > 0) 
+			getCmdOutputXML(sb, tpl);
+		
 
 		sb.append("</command>\n");
 		return sb.toString();
+	}
+	
+	/**
+	 * get XML for command output
+	 * @param sb current string builder
+	 * @param tpl template for string
+	 */
+	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
+		sb.append("\t<output");
+		for (int i = 0; i < getOutputLength(); i++) {
+			sb.append(" a");
+			sb.append(i);
+			// attribute name is output No.
+			sb.append("=\"");
+			if (getOutput(i).isLabelSet()) {
+				StringUtil.encodeXML(sb, getOutput(i).getLabel(tpl));
+			}
+			sb.append("\"");
+		}
+
+		sb.append("/>\n");
 	}
 
 	/**
