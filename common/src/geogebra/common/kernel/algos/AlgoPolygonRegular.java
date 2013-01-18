@@ -161,6 +161,9 @@ public class AlgoPolygonRegular extends AlgoElement {
 		setInputOutput();
 
 		GeoPolygon poly = getPoly();
+		
+		//set that the poly output can have different points length
+		poly.setNotFixedPointsLength(true);
 
 		// compute poly
 		if (labelsLength > 1) {

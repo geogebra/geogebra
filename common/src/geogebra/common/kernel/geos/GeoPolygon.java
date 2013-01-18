@@ -138,12 +138,22 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public void setCoordSys(CoordSys cs) {
 		//3D only
 	}
-	
+
+	private boolean notFixedPointsLength = false;
+
+	/**
+	 * set that this polygon hasn't fixed points length (e.g. for regular polygons with slider).
+	 * Used in getTypeString() to avoid bad type display in algebra view, properties view, etc.
+	 * @param flag true if not fixed points length
+	 */
+	public void setNotFixedPointsLength(boolean flag){
+		notFixedPointsLength = flag;
+	}
 
 	@Override
 	public String getTypeString() {
 		
-		if (points == null)
+		if (notFixedPointsLength || points == null)
 			return "Polygon";
 
 		switch (points.length) {
