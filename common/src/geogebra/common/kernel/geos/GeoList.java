@@ -30,6 +30,7 @@ import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
+import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -2246,63 +2247,88 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	 */
 	public boolean shouldUseAlgoLocusList() {
 
-		GeoPoint minPar = null, maxPar = null, prevMinPar = null, prevMaxPar = null;
-		int falses = 0;
-		for (int i = 0; i < this.size(); i++)
+		GeoPoint [] minParArray = new GeoPoint[this.size()];
+		GeoPoint [] maxParArray = new GeoPoint[this.size()];
+
+		int i = 0;
+		for (; i < this.size(); i++)
 		{
 			if ((Path)get(i) instanceof GeoSegment) {
-				minPar = ((GeoSegment)get(i)).getStartPoint();
-				maxPar = ((GeoSegment)get(i)).getEndPoint();
+				minParArray[i] = ((GeoSegment)get(i)).getStartPoint();
+				maxParArray[i] = ((GeoSegment)get(i)).getEndPoint();
 			} else if ((Path)get(i) instanceof GeoLine) {
-				minPar = ((GeoLine)get(i)).getStartPoint();
-				maxPar = ((GeoLine)get(i)).getEndPoint();
+				minParArray[i] = ((GeoLine)get(i)).getStartPoint();
+				maxParArray[i] = ((GeoLine)get(i)).getEndPoint();
 			} else if ((Path)get(i) instanceof GeoConicPart) {
 				if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
-					minPar =
+					minParArray[i] =
 						((AlgoConicPartConicPoints)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getStartPoint();
-					maxPar = 
+					maxParArray[i] = 
 						((AlgoConicPartConicPoints)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getEndPoint();
 				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
-					minPar = (GeoPoint)
+					minParArray[i] = (GeoPoint)
 						((AlgoConicPartCircumcircle)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
-					maxPar = (GeoPoint)
+					maxParArray[i] = (GeoPoint)
 						((AlgoConicPartCircumcircle)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[2];
+				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoSemicircle) {
+					minParArray[i] = (GeoPoint)
+						((AlgoSemicircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
+					maxParArray[i] = (GeoPoint)
+						((AlgoSemicircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[1];
 				} else {
-					minPar = null;
-					maxPar = null;
+					minParArray[i] = null;
+					maxParArray[i] = null;
+					break;
 				}
 			} else {
-				minPar = null;
-				maxPar = null;
+				minParArray[i] = null;
+				maxParArray[i] = null;
+				break;
 			}
-
-			if (i == 0) {
-				//here lineTo is false, but it does not matter because it is at start
-			} else if (maxPar != null && minPar != null) {
-				if (maxPar == prevMaxPar || minPar == prevMinPar ||
-					maxPar == prevMinPar || minPar == prevMaxPar) {
-					//here lineTo is true, because the path is continous
-				} else {
-					falses++;
-				}
-			} else {
-				falses++;
-			}
-			prevMaxPar = maxPar;
-			prevMinPar = minPar;
 		}
 
-		// if no lineTo was false (for i>0)
-		// then the path is continous so AlgoLocus is enough
-		if (falses == 0)
-			return false;
+		if (i < this.size() || minParArray[this.size() - 1] == null)
+			return true; 
 
-		// otherwise use AlgoLocusList
-		return true;
+		for (int j = 0; j < this.size(); j++) {
+			for (i = j + 1; i < this.size(); i++) {//search, join
+				if (minParArray[j] == minParArray[i]) {
+					minParArray[i] = maxParArray[j];
+					i = 0;
+					break;
+				} else if (minParArray[j] == maxParArray[i]) {
+					maxParArray[i] = maxParArray[j];
+					i = 0;
+					break;
+				} else if (maxParArray[j] == minParArray[i]) {
+					minParArray[i] = minParArray[j];
+					i = 0;
+					break;
+				} else if (maxParArray[j] == maxParArray[i]) {
+					maxParArray[i] = minParArray[j];
+					i = 0;
+					break;
+				}
+			}
+			if (i != 0 && j < this.size() - 1) {
+				// there was no match, so this path is not a circle graph
+				return true;//AlgoLocusList
+			}
+		}
+		// otherwise everything has been reduced to one
+		if (minParArray[this.size() - 1] != maxParArray[this.size() - 1]) {
+			// this path is not a circle graph, but a line graph
+			return true;//AlgoLocusList
+		}
+
+		// otherwise use AlgoLocus
+		return false;
 	}
 
 	public boolean showOnAxis() {
