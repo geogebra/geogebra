@@ -23,7 +23,6 @@ import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
-import geogebra.web.gui.dialog.InputDialogDownloadGGB;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
@@ -556,10 +555,6 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		id.setVisible(true);	    
     }
 	
-    public void downloadGGB() {
-		InputDialogDownloadGGB id = new InputDialogDownloadGGB((AppW)app);
-		id.setVisible(true);	    
-    }
 	
 	@Override
     protected boolean loadURL_GGB(String url){

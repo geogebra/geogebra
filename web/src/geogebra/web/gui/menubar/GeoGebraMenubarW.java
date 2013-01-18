@@ -6,6 +6,7 @@ import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.helper.GoogleApiCallback;
 import geogebra.web.helper.MyGoogleApis;
+import geogebra.web.main.AppW;
 import geogebra.web.util.JSON;
 
 import com.google.api.gwt.oauth2.client.AuthRequest;
@@ -54,7 +55,7 @@ public class GeoGebraMenubarW extends MenuBar {
 
 	private void init() {
 
-		createFileMenu(!getNativeEmailSet().equals(""));
+		createFileMenu();
 
 		createEditMenu();
 
@@ -86,7 +87,7 @@ public class GeoGebraMenubarW extends MenuBar {
 				c = createCommandForNotSignedIn();
 				menuHtml = createMenuHtmlForNotSignedIn();
 			}*/
-			String email = getNativeEmailSet();
+			String email = ((AppW)app).getNativeEmailSet();
 			if (email.equals("")) {
 				c = createLoginCommand();
 				menuHtml = getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("Login"));
@@ -232,8 +233,8 @@ public class GeoGebraMenubarW extends MenuBar {
 			linktoggb.setTitle("Go to GeoGebraTube");
         }
 
-		private void createFileMenu(boolean enabled) {
-	        fileMenu = new FileMenuW(app, enabled);
+		private void createFileMenu() {
+	        fileMenu = new FileMenuW(app);
 			addItem(app.getMenu("File"),fileMenu);
         }
 

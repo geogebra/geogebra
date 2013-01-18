@@ -10,24 +10,20 @@ public class FileMenuW extends MenuBar {
 	
 	private App app;
 	
-	public FileMenuW(App app, boolean enabled) {
+	public FileMenuW(App app) {
 	    super(true);
 	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
-	    initActions(enabled);
+	    initActions();
 		update();
 	}
-
-	public FileMenuW(App app) {
-		this(app, true);
-    }
 
 	private void update() {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	private void initActions(boolean enabled) {
+	private void initActions() {
 
 		// this is enabled always
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New")),true,new Command() {
@@ -54,25 +50,12 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 		
-//		if (enabled)
-			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
-			
-				public void execute() {
-					app.getGuiManager().save();
-				}
-			});
-//		else
-//			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
-//				public void execute() {	}
-//			});
-			
-//		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Download") ),true,new Command() {
-//			
-//			public void execute() {
-//				((GuiManagerW)(app.getGuiManager())).downloadGGB();
-//			}
-//		});
-			
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
+		
+			public void execute() {
+				app.getGuiManager().save();
+			}
+		});			
 			
 
 		// this is enabled always
