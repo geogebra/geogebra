@@ -300,8 +300,8 @@ public class ExpressionNode extends ValidExpression implements
 		}
 		// deep copy
 		//important to check for commands before we call isConstant as that might
-		//result in evaluation
-		else if (ev.isPolynomialInstance() || (ev instanceof Command) || ev.isConstant()
+		//result in evaluation, FunctionNVar important because of FunctionExpander
+		else if (ev.isPolynomialInstance() || (ev instanceof Command) || ev.isConstant() || ev instanceof FunctionNVar
 				) {
 			ret = ev.deepCopy(kernel);
 		} else {
