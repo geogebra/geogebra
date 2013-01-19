@@ -20,16 +20,18 @@ public class CASTableCellW extends VerticalPanel {
 		add(inputPanel);
 
 		Label outputPanel = new Label();
-		outputPanel.getElement().getStyle().setHeight(100, Style.Unit.PX);
+		outputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		if (casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				SpanElement outputSpan = DOM.createSpan().cast();
-				outputSpan.getStyle().setPosition(Style.Position.ABSOLUTE);
 				DrawEquationWeb.drawEquationMathQuill(outputSpan,
 				        DrawEquationWeb.inputLatexCosmetics(casCell
 				                .getLaTeXOutput()), outputPanel.getElement());
 				outputPanel.getElement().appendChild(outputSpan);
 			} else {
+				if(casCell.isError()){
+					outputPanel.getElement().getStyle().setColor("red");
+				}
 				outputPanel.setText(casCell
 				        .getOutput(StringTemplate.defaultTemplate));
 			}

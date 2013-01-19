@@ -4,24 +4,21 @@ import geogebra.common.cas.view.CASTable;
 import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
+import geogebra.web.gui.view.spreadsheet.MyTableW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableW extends Grid implements CASTable{
 
 	public CASTableW(){
-		super(2,1);
-		Label retwidget = new Label();
+		super(1,1);
+		setBorderWidth(1);
+		getElement().getStyle().setBorderColor(MyTableW.TABLE_GRID_COLOR.toString());
+		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		
-		retwidget.setText("Cas view");
-		retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
-		retwidget.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
-		retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
-		
-		this.setWidget(0, 0, retwidget);
+		insertRow(0,null, false);
 	}
 	
 	public int getRowHeight(int i) {
