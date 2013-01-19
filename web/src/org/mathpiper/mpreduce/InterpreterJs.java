@@ -1,6 +1,7 @@
 package org.mathpiper.mpreduce;
 
 import geogebra.common.cas.Evaluate;
+import geogebra.common.main.App;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
 
 import java.io.IOException;
@@ -287,9 +288,10 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 
 	            int counter = 0;
 	            private int loopIndex = 1;
-
+	            long l = System.currentTimeMillis();
+	            
 	            public boolean execute() {
-
+	            	
 	                boolean returnValue = true;
 	                // For use while I am re-loading image and also to assist the
 	                // custom Lisp bytecoded stuff I build a table of all the functions
@@ -304,59 +306,63 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	                        case 2:
 	                            Jlisp.builtinFunctions = new HashMap();
 	                            Jlisp.builtinSpecials = new HashMap();
-	                            for (int i = 0; i < Jlisp.fns1.builtins.length; i++) {
-	                                ((LispFunction) Jlisp.fns1.builtins[i][1]).name =
-	                                        (String) Jlisp.fns1.builtins[i][0];
-	                                Jlisp.builtinFunctions.put(Jlisp.fns1.builtins[i][0], Jlisp.fns1.builtins[i][1]);
+	                            for (int i = 0; i < Environment.fns1.builtins.length; i++) {
+	                                ((LispFunction) Environment.fns1.builtins[i][1]).name =
+	                                        (String) Environment.fns1.builtins[i][0];
+	                                Jlisp.builtinFunctions.put(Environment.fns1.builtins[i][0], Environment.fns1.builtins[i][1]);
 	                            }
 	                            loopIndex++;
 	                            break;
 
 	                        case 3:
-	                            for (int i = 0; i < Jlisp.fns2.builtins.length; i++) {
-	                                ((LispFunction) Jlisp.fns2.builtins[i][1]).name =
-	                                        (String) Jlisp.fns2.builtins[i][0];
-	                                Jlisp.builtinFunctions.put(Jlisp.fns2.builtins[i][0], Jlisp.fns2.builtins[i][1]);
+	                            for (int i = 0; i < Environment.fns2.builtins.length; i++) {
+	                                ((LispFunction) Environment.fns2.builtins[i][1]).name =
+	                                        (String) Environment.fns2.builtins[i][0];
+	                                Jlisp.builtinFunctions.put(Environment.fns2.builtins[i][0], Environment.fns2.builtins[i][1]);
 	                            }
 	                            loopIndex++;
 	                            break;
 	                        case 4:
-	                            for (int i = 0; i < Jlisp.fns3.builtins.length; i++) {
-	                                ((LispFunction) Jlisp.fns3.builtins[i][1]).name =
-	                                        (String) Jlisp.fns3.builtins[i][0];
-	                                Jlisp.builtinFunctions.put(Jlisp.fns3.builtins[i][0], Jlisp.fns3.builtins[i][1]);
+	                            for (int i = 0; i < Environment.fns3.builtins.length; i++) {
+	                                ((LispFunction) Environment.fns3.builtins[i][1]).name =
+	                                        (String) Environment.fns3.builtins[i][0];
+	                                Jlisp.builtinFunctions.put(Environment.fns3.builtins[i][0], Environment.fns3.builtins[i][1]);
 	                            }
 	                            loopIndex++;
 	                            break;
 	                        case 5:
-	                            for (int i = 0; i < Jlisp.mpreduceFunctions.builtins.length; i++) {
-	                                ((LispFunction) Jlisp.mpreduceFunctions.builtins[i][1]).name =
-	                                        (String) Jlisp.mpreduceFunctions.builtins[i][0];
-	                                Jlisp.builtinFunctions.put(Jlisp.mpreduceFunctions.builtins[i][0], Jlisp.mpreduceFunctions.builtins[i][1]);
+	                            for (int i = 0; i < Environment.mpreduceFunctions.builtins.length; i++) {
+	                                ((LispFunction) Environment.mpreduceFunctions.builtins[i][1]).name =
+	                                        (String) Environment.mpreduceFunctions.builtins[i][0];
+	                                Jlisp.builtinFunctions.put(Environment.mpreduceFunctions.builtins[i][0], Environment.mpreduceFunctions.builtins[i][1]);
 	                            }
 	                            loopIndex++;
 	                            break;
 
 	                        case 6:
-	                            for (int i = 0; i < Jlisp.specfn.specials.length; i++) {
-	                                ((SpecialFunction) Jlisp.specfn.specials[i][1]).name =
-	                                        (String) Jlisp.specfn.specials[i][0];
-	                                Jlisp.builtinSpecials.put(Jlisp.specfn.specials[i][0], Jlisp.specfn.specials[i][1]);
+	                            for (int i = 0; i < Environment.specfn.specials.length; i++) {
+	                                ((SpecialFunction) Environment.specfn.specials[i][1]).name =
+	                                        (String) Environment.specfn.specials[i][0];
+	                                Jlisp.builtinSpecials.put(Environment.specfn.specials[i][0], Environment.specfn.specials[i][1]);
 	                            }
 	                            loopIndex++;
 	                            break;
 	                        case 7:
 	                            Bytecode.setupBuiltins();
-
+	                            App.debug("Step 7:"+(System.currentTimeMillis()-l));
+                            	l = System.currentTimeMillis();
 	                            loopIndex++;
 	                            break;
 	                        case 8:
 	                            loadImageSetup();
-
+	                            App.debug("Step 8"+(System.currentTimeMillis()-l));
+                            	l = System.currentTimeMillis();
 	                            loopIndex++;
 	                            break;
 	                        case 9:
 	                            if (Jlisp.image.execute() == false) {
+	                            	App.debug("Step 9:"+(System.currentTimeMillis()-l));
+	                            	l = System.currentTimeMillis();
 	                                loopIndex++;
 	                            }
 	                            break;
@@ -402,11 +408,15 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	                        case 11:
 	                            if(LispReader.getInstance().incrementalRestore() == false)
 	                            {
+	                            	App.debug("Step 11:"+(System.currentTimeMillis()-l));
+	                            	l = System.currentTimeMillis();
 	                                loopIndex++;
 	                            }
 	                            break;
 	                        case 12:
 	                            if (LispReader.getInstance().execute() == false) {
+	                            	App.debug("Step 12:"+(System.currentTimeMillis()-l));
+	                            	l = System.currentTimeMillis();
 	                                loopIndex++;
 	                            }
 	                            break;
@@ -425,7 +435,6 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	                } catch (Exception e) {
 	                    e.printStackTrace();
 	                }
-
 	                return returnValue;
 
 	            }//end execute
@@ -445,10 +454,10 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	        // setting that directs early messages to the terminal.
 	        //lispIO = lispErr = new LispOutputStream();
 
-	        Jlisp.lit[Lit.std_output] = Jlisp.lit[Lit.tr_output] =
-	                Jlisp.lit[Lit.err_output] = Jlisp.lit[Lit.std_input] =
-	                Jlisp.lit[Lit.terminal_io] = Jlisp.lit[Lit.debug_io] =
-	                Jlisp.lit[Lit.query_io] = Symbol.intern("temp-stream");
+	        Environment.lit[Lit.std_output] = Environment.lit[Lit.tr_output] =
+	                Environment.lit[Lit.err_output] = Environment.lit[Lit.std_input] =
+	                Environment.lit[Lit.terminal_io] = Environment.lit[Lit.debug_io] =
+	                Environment.lit[Lit.query_io] = Symbol.intern("temp-stream");
 
 	        Jlisp.standardStreams();
 
