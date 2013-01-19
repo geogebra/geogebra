@@ -4273,8 +4273,9 @@ public class Kernel {
 			}
 			al.add(geo);
 		}
-
+		cons.setUpdateConstructionRunning(true);
 		GeoElement.updateCascade(al, new TreeSet<AlgoElement>(), true);
+		cons.setUpdateConstructionRunning(false);
 	}
 	
 	public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {

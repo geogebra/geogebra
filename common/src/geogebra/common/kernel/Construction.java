@@ -2923,4 +2923,8 @@ public class Construction {
 		return algoSetCurrentlyUpdated;
 	}
 
+	public void setUpdateConstructionRunning(boolean b) {
+		updateConstructionRunning = b;		
+	}
+
 }
