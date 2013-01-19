@@ -1434,7 +1434,7 @@ __GGB__keysVar.it.menu = {
     "Lightness": "Luminosit\xe0",
     "LineBisector": "Asse di un segmento",
     "LineBisector_Help": "Selezionare due punti o un segmento",
-    "LineGraph": "Grafo lineare",
+    "LineGraph": "Diagramma a segmenti",
     "LineMenu": "Retta",
     "Linear": "Lineare",
     "LinkedFiles": "File collegati",

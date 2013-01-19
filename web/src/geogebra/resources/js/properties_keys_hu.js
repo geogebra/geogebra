@@ -608,7 +608,7 @@ __GGB__keysVar.hu.command = {
     "Polyhedron_Syntax": "[ <Pont>, <Pont>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial_Syntax": "[ <F\xfcggv\xe9ny> ]\n[ <Pontok list\xe1ja> ]",
-    "PreviousPrime": "EL\u0151z\u0151Pr\xedm",
+    "PreviousPrime": "El\u0151z\u0151Pr\xedm",
     "PreviousPrime_Syntax": "[ <Sz\xe1m> ]",
     "PrimeFactors": "Pr\xedmT\xe9nyez\u0151k",
     "PrimeFactors_Syntax": "[ <Sz\xe1m> ]",
