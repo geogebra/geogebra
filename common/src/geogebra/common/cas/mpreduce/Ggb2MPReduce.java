@@ -90,7 +90,9 @@ public class Ggb2MPReduce {
 				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=(%0); off factor, combinelogs$on expandlogs$  tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 		p("Factor.1",
-				"<<on combineexpt; off combinelogs$ begin scalar factorlist!!, tmpexp!!; if numberp(den(%0)) then <<factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>> else <<on factor; tmpexp!!:=(%0); on factor; return tmpexp!! >> end >>");
+				"<<begin scalar factorlist!!, tmpexp!!, tofactor; on combineexpt; off combinelogs$ " +
+				"tofactor:=(%0)$ if tofactor=0 then return 0 else if numberp(den(tofactor)) then <<factorlist!!:=factorize(tofactor); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>>" +
+				"else <<on factor; tmpexp!!:=(tofactor); on factor; return tmpexp!! >> end >>");
 		p("Factor.2",
 				"<<on combineexpt; off combinelogs$ begin scalar factorlist!!; korder append(list(%1),varorder!!); factorlist!!:=factorize(%0); korder varorder!!;return part(!*hold(for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**)),0):=* end >>");
 		p("Factors.1",
