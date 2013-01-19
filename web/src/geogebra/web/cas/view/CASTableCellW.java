@@ -29,12 +29,12 @@ public class CASTableCellW extends VerticalPanel {
 				        DrawEquationWeb.inputLatexCosmetics(casCell
 				                .getLaTeXOutput()), outputPanel.getElement());
 				outputPanel.getElement().appendChild(outputSpan);
-				add(outputPanel);
 			} else {
 				outputPanel.setText(casCell
 				        .getOutput(StringTemplate.defaultTemplate));
 			}
 		}
+		add(outputPanel);
 
 	}
 
