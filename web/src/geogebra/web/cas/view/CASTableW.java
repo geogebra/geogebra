@@ -8,6 +8,7 @@ import geogebra.common.main.App;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableW extends Grid implements CASTable{
 
@@ -83,8 +84,12 @@ public class CASTableW extends Grid implements CASTable{
 	    return false;
     }
 
-	public void insertRow(GeoCasCell newRowValue, boolean b) {
-	    // TODO Auto-generated method stub
+	public void insertRow(GeoCasCell casCell, boolean b) {
+		int n = getRowCount();
+		resize(n+1,1);
+	    Widget retwidget = new CASTableCellW(casCell);
+		
+		this.setWidget(n, CASTable.COL_CAS_CELLS, retwidget);
 	    
     }
 
@@ -94,8 +99,12 @@ public class CASTableW extends Grid implements CASTable{
     }
 
 	public void setRow(int rowNumber, GeoCasCell casCell) {
-	    // TODO Auto-generated method stub
-	    
+	    if(rowNumber>=this.getRowCount()){
+	    	resize(rowNumber+1,1);
+	    }
+	    Widget retwidget = new CASTableCellW(casCell);
+		
+		this.setWidget(rowNumber, CASTable.COL_CAS_CELLS, retwidget);
     }
 
 }

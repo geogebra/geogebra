@@ -70,7 +70,7 @@ public class GuiManagerW extends GuiManager {
 
 	private LayoutW layout;
 
-	private View casView;
+	private CASViewW casView;
 
 	public GuiManagerW(App app) {
 		this.app = app;
@@ -635,7 +635,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public void attachCasView() {
-		App.debug("unimplemented");
+		getCasView();
+		casView.attachView();
     }
 
 	@Override
