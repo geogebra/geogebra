@@ -143,7 +143,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     
     @Override
 	public Commands getClassName() {
-		return Commands.IntersectionPaths;
+		return Commands.IntersectPath;
 	}
 	
     @Override

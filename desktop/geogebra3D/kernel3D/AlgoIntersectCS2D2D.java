@@ -23,6 +23,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -171,6 +172,11 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
 	@Override
 	protected String getIntersectionTypeString(){
 		return "IntersectionLineOfAB";
+	}
+
+	@Override
+	public final Commands getClassName() {
+		return Commands.IntersectPath;
 	}
 
 }
