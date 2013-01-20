@@ -220,7 +220,7 @@ public class AppW extends App {
 			getEuclidianView1().doRepaint2();
 			appFrame.finishAsyncLoading(articleElement, appFrame, this);
 		} else if (frame != null) {
-			frame.finishAsyncLoading(articleElement, frame, this);
+			GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
 			initing = false;
 		}
     }
@@ -231,7 +231,7 @@ public class AppW extends App {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		createAppSplash();
-		this.useFullAppGui = true;
+		App.useFullAppGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
@@ -1975,7 +1975,7 @@ public class AppW extends App {
 	
 	public void attachMenubar() {
 		GGWMenuBar menubar = new GGWMenuBar();
-		menubar.init(this);
+		GGWMenuBar.init(this);
 		frame.add(menubar);
 	}	
 	
@@ -2351,8 +2351,10 @@ public class AppW extends App {
 	}
 
 	private static native void setCurrentFileId() /*-{
-	                                              @geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
-	                                              }-*/;
+		if ($wnd.GGW_appengine) {
+	        @geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+	    }
+	}-*/;
 
 	@Override
 	public String getCountryFromGeoIP() {
