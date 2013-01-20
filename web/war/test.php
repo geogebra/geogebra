@@ -37,7 +37,10 @@ $INPUTBAR=NULL;
 $WIDTH=800;
 $HEIGHT=550;
 $SHOWANIMBUTTON=NULL;
+$CAS="";
 
+if ($_GET['cas']!="")
+ $CAS=$_GET['cas'];
 if ($_GET['m']!="")
  $MILESTONES=$_GET['m'];
 if ($_GET['s']=="0")
@@ -100,7 +103,7 @@ if ($VERSION) {
 <title><?php echo $TITLE ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
-<body>
+<body <?php if($CAS) echo 'data-param-app="true" data-param-showCAS="true"'?>>
     <script type="text/javascript" language="javascript"
      src="<?php echo $CODEBASE ?>web/web.nocache.js"></script>
     <article class="geogebraweb"
