@@ -1,5 +1,6 @@
 package geogebra.common.io.layout;
 
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import javax.swing.SwingConstants;
@@ -72,7 +73,8 @@ public class Perspective {
 	 */
 	private boolean showInputPanelOnTop;
 
-	private int toolBarPosition;
+	// needs to be initialized so that files from ggb32 show the toolbar #2993
+	private int toolBarPosition = SwingConstants.NORTH;
 
 	private boolean showToolBarHelp;
 	
@@ -235,6 +237,7 @@ public class Perspective {
 	 *            true to show toolbar
 	 */
 	public void setShowToolBar(boolean showToolBar) {
+		App.debug(showToolBar);
 		this.showToolBar = showToolBar;
 	}
 
