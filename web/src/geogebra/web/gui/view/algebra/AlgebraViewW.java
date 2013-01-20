@@ -1520,6 +1520,9 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			TreeItem node = getItem(i);
 			node.setState(false);
 		}
+		
+		if(!attached)
+			attachView();//TODO: probably should be elsewhere
 	}
 
 
