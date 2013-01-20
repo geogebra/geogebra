@@ -1198,7 +1198,7 @@ __GGB__keysVar.da.menu = {
     "CopyVisualStyle": "Kopier udseendet",
     "CopyVisualStyle_Help": "V\xe6lg f\xf8rst et objekt, og derefter de andre for at overf\xf8re stilen",
     "CorrelationCoefficient_short": "r",
-    "Count": "T\xe6l",
+    "Count": "Antal",
     "CountCells": "T\xe6l antallet af forekomster i nogle celler",
     "CountCells_Help": "V\xe6lg de relevante celler",
     "Create": "Lav",
