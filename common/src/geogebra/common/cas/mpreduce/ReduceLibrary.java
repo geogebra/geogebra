@@ -1,6 +1,7 @@
 package geogebra.common.cas.mpreduce;
 
 import geogebra.common.cas.Evaluate;
+import geogebra.common.main.App;
 
 public class ReduceLibrary {
 	private Evaluate eval;
@@ -9,8 +10,8 @@ public class ReduceLibrary {
 		eval = mpreduce1;
 	}
 
-	private void eval(String command) throws Throwable {
-		eval.evaluate(command);
+	private String eval(String command) throws Throwable {
+		return eval.evaluate(command);
 	}
 
 	public void load() throws Throwable {
@@ -82,16 +83,16 @@ public class ReduceLibrary {
 		eval("operator ifelsefun;");
 		eval("let { ifelsefun(~x,~a,~b) => ~a when x='true,  ifelsefun(~x,~a,~b) => ~b when x='false, "
 				+ "iffun(~x,~a) => ~a when x='true, iffun(~x,~a) => '? when x='false}");
-		eval("let {abs(pi)=>pi,abs(e)=>e," + "sqrt(~a)*sqrt(~b)=>sqrt(a*b)};");
+		eval("let {abs(pi)=>pi,abs(e)=>e,sign(pi)=1,sign(e)=1," + "sqrt(~a)*sqrt(~b)=>sqrt(a*b)};");
 		String xBig=" mynumberp(~x) and mycompare(~x,1)>0 ";
 		String xNear0="mynumberp(~x) and mycompare(abs(~x),1)<0";
 		String xFarFrom0="mynumberp(~x) and mycompare(abs(~x),1)>0";
 		String xJustAbove0="mynumberp(~x) and mycompare(~x,0)>0 and mycompare(~x,1)<0";
-		eval("let { limit(~x^~n,~n,infinity) => infinity when "+xBig+","
+		App.debug(eval("let { limit(~x^~n,~n,infinity) => infinity when "+xBig+","
 				+" limit(-~x^~n,~n,infinity) => -infinity when "+xBig+","
-				+ "	limit(~a*~x^~n,~n,infinity) => a*infinity when "+xBig+" and numberp(~a) and not a=0,"
-				+ "	limit(~x^~n/~b,~n,infinity) => b*infinity when "+xBig+" and numberp(~b) and not b=0,"
-				+ "	limit(~a*~x^~n/~b,~n,infinity) => a*b*infinity when "+xBig+" and numberp(~a) and numberp(~b) and not a=0 and not b=0,"
+				+ "	limit(~a*~x^~n,~n,infinity) => a*infinity when "+xBig+" and numberp(~a) and not (a=0),"
+				+ "	limit(~x^~n/~b,~n,infinity) => b*infinity when "+xBig+" and numberp(~b) and not (b=0),"
+				+ "	limit(~a*~x^~n/~b,~n,infinity) => a*b*infinity when "+xBig+" and numberp(~a) and numberp(~b) and not (a*b=0),"
 
 				+ "	limit(~x^~n,~n,infinity) => 0 when "+xNear0+","
 				+ "	limit(-~x^~n,~n,infinity) => 0 when "+xNear0+","
@@ -112,7 +113,7 @@ public class ReduceLibrary {
 				+ "	limit(~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and numberp(~b) and ~b>0,"
 				+ "	limit(~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~b) and ~b<0,"
 				+ "	limit(~a*~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
-				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}");
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}"));
 
 
 		eval("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
