@@ -279,12 +279,12 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 		if (attached)
 			return;
-
+		attached = true;
 		clearView();
 		kernel.notifyAddAll(this);
 		applySettings();
 		kernel.attach(this);
-		attached = true;
+		
 		/*
 		if (treeMode == SortMode.DEPENDENCY) {
 			indNode.setState(true);
