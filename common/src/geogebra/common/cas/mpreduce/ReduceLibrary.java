@@ -84,10 +84,10 @@ public class ReduceLibrary {
 		eval("let { ifelsefun(~x,~a,~b) => ~a when x='true,  ifelsefun(~x,~a,~b) => ~b when x='false, "
 				+ "iffun(~x,~a) => ~a when x='true, iffun(~x,~a) => '? when x='false}");
 		eval("let {abs(pi)=>pi,abs(e)=>e,sign(pi)=1,sign(e)=1," + "sqrt(~a)*sqrt(~b)=>sqrt(a*b)};");
-		String xBig=" mynumberp(~x) and mycompare(~x,1)>0 ";
-		String xNear0="mynumberp(~x) and mycompare(abs(~x),1)<0";
-		String xFarFrom0="mynumberp(~x) and mycompare(abs(~x),1)>0";
-		String xJustAbove0="mynumberp(~x) and mycompare(~x,0)>0 and mycompare(~x,1)<0";
+		String xBig=" mynumberp(~x)='true and mycompare(~x,1)>0 ";
+		String xNear0="mynumberp(~x)='true and mycompare(abs(~x),1)<0";
+		String xFarFrom0="mynumberp(~x)='true and mycompare(abs(~x),1)>0";
+		String xJustAbove0="mynumberp(~x)='true and mycompare(~x,0)>0 and mycompare(~x,1)<0";
 		App.debug(eval("let { limit(~x^~n,~n,infinity) => infinity when "+xBig+","
 				+" limit(-~x^~n,~n,infinity) => -infinity when "+xBig+","
 				+ "	limit(~a*~x^~n,~n,infinity) => a*infinity when "+xBig+" and numberp(~a) and not (a=0),"
