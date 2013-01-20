@@ -1510,6 +1510,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		//auxilliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 		
+		attachView(); //TODO implement applyPerspective correctly
 		
 		//collapsed nodes
 		if (collapsedNodes == null)
@@ -1521,8 +1522,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			node.setState(false);
 		}
 		
-		if(!attached)
-			attachView();//TODO: probably should be elsewhere
+		
 	}
 
 
