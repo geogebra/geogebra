@@ -124,12 +124,13 @@ public class StringTemplate {
 		ogpTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(0);
 	}
 	/**
-	 * Default template, just inccreases precision to max
+	 * Default template, just increases precision to max
 	 */
 	public static final StringTemplate maxPrecision = new StringTemplate();
 	static {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 		maxPrecision.allowMoreDigits = true;
+		maxPrecision.forceSF = true;
 	}
 	/**
 	 * Default template, just allow bigger precision for Numeric command
