@@ -2355,6 +2355,10 @@ public class Kernel {
 		cons.notifyEuclidianViewCE();
 	}
 
+	/** 
+	 * FIXME Please add a comment!
+	 * @param clearScripts When do I have to clear scripts? 
+	 */
 	public void clearConstruction(boolean clearScripts) {
 		
 		if (clearScripts) {
