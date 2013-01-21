@@ -235,7 +235,7 @@ Translateable{
 		pp.setT(t);
 		
 		//udpate point using pathChanged
-		pathChanged(P);
+		P.setCoords(getPoint(t),false);
 		
 		
 
