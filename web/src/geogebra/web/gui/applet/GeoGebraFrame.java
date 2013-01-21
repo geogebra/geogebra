@@ -2,6 +2,7 @@ package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.web.gui.SplashDialog;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.View;
 import geogebra.web.main.AppW;
@@ -10,8 +11,11 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -34,6 +38,10 @@ public class GeoGebraFrame extends VerticalPanel {
 
 	private boolean resize = false;
 	private boolean move = false;
+	/**
+	 * Splash Dialog to get it work quickly
+	 */
+	public SplashDialog splash;
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrame() {
@@ -51,6 +59,47 @@ public class GeoGebraFrame extends VerticalPanel {
 	 */
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
 		init(geoGebraMobileTags);
+	}
+	
+	private void createSplash(ArticleElement ae) {
+		splash = new SplashDialog();
+		int splashWidth = 427;
+		int splashHeight = 120;
+		int width = ae.getDataParamWidth();
+		int height = ae.getDataParamHeight();
+		if (width > 0 && height > 0) {
+			setWidth(width + "px");
+			setDataParamWidth(width);
+			setDataParamHeight(height);
+			setHeight(height + "px");
+			splash.addStyleName("splash");
+			splash.getElement().getStyle()
+			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
+			splash.getElement().getStyle()
+			        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
+
+		}
+		addStyleName("jsloaded");
+		add(splash);
+	}
+	
+	protected int dataParamWidth = 0;
+	protected int dataParamHeight = 0;
+	
+	public void setDataParamWidth(int width) {
+		this.dataParamWidth = width;
+	}
+
+	public void setDataParamHeight(int height) {
+		this.dataParamHeight = height;
+	}
+
+	public int getDataParamWidth() {
+		return dataParamWidth;
+	}
+
+	public int getDataParamHeight() {
+		return dataParamHeight;
 	}
 
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
@@ -80,13 +129,24 @@ public class GeoGebraFrame extends VerticalPanel {
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 
-		for (ArticleElement articleElement : geoGebraMobileTags) {
-			GeoGebraFrame inst = new GeoGebraFrame();
-			inst.app = inst.createApplication(articleElement, inst);
-			useDataParamBorder(articleElement, inst);
-		    //inst.add(inst.app.buildApplicationPanel());
-			inst.app.buildApplicationPanel();
-		    RootPanel.get(articleElement.getId()).add(inst);
+		for (final ArticleElement articleElement : geoGebraMobileTags) {
+			final GeoGebraFrame inst = new GeoGebraFrame();
+			inst.createSplash(articleElement);
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					inst.app = inst.createApplication(articleElement, inst);
+					useDataParamBorder(articleElement, inst);
+				    //inst.add(inst.app.buildApplicationPanel());
+					inst.app.buildApplicationPanel();
+				    RootPanel.get(articleElement.getId()).add(inst);
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("Async load failed");
+				}
+			});
+			
 			
 		}
 	}
@@ -99,16 +159,27 @@ public class GeoGebraFrame extends VerticalPanel {
 	/**
 	 * @param element
 	 */
-	public static void renderArticleElemnt(Element element) {
-		ArticleElement article = ArticleElement.as(element);
+	public static void renderArticleElemnt(final Element element) {
+		final ArticleElement article = ArticleElement.as(element);
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
-		GeoGebraFrame inst = new GeoGebraFrame();
-		inst.app = inst.createApplication(article, inst);
-		useDataParamBorder(article, inst);
-	    //inst.add(inst.app.buildApplicationPanel());
-		inst.app.buildApplicationPanel();
-	    RootPanel.get(element.getId()).add(inst);
+		final GeoGebraFrame inst = new GeoGebraFrame();
+		inst.createSplash(article);
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				inst.app = inst.createApplication(article, inst);
+				useDataParamBorder(article, inst);
+			    //inst.add(inst.app.buildApplicationPanel());
+				inst.app.buildApplicationPanel();
+			    RootPanel.get(element.getId()).add(inst);
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Async load failed");
+			}
+		});
+		
 	}
 
 	

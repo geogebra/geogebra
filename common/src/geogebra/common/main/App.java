@@ -3845,21 +3845,7 @@ public abstract class App implements Localization{
 	 */
 	public abstract void uploadToGeoGebraTube();
 
-	public void setDataParamWidth(int width) {
-		this.dataParamWidth = width;
-	}
-
-	public void setDataParamHeight(int height) {
-		this.dataParamHeight = height;
-	}
-
-	public int getDataParamWidth() {
-		return dataParamWidth;
-	}
-
-	public int getDataParamHeight() {
-		return dataParamHeight;
-	}
+	
 
 	public boolean getUseFullGui() {
 		return useFullGui;
@@ -4412,5 +4398,21 @@ public abstract class App implements Localization{
 	
 	public boolean needsSpreadsheetTableModel(){
 		return needsSpreadsheetTableModel;
+	}
+	
+	public void setDataParamWidth(int width) {
+		this.dataParamWidth = width;
+	}
+
+	public void setDataParamHeight(int height) {
+		this.dataParamHeight = height;
+	}
+
+	public int getDataParamWidth() {
+		return dataParamWidth;
+	}
+
+	public int getDataParamHeight() {
+		return dataParamHeight;
 	}
 }

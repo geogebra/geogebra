@@ -42,7 +42,6 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -90,7 +89,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
@@ -186,7 +184,8 @@ public class AppW extends App {
 	public AppW(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
 		this.articleElement = ae;
 		this.frame = gf;
-		createSplash();
+		setDataParamHeight(frame.getDataParamHeight());
+		setDataParamWidth(frame.getDataParamWidth());
 		this.useFullGui = ae.getDataParamGui();
 		if (ae.getDataParamShowLogging())
 			startLogger();
@@ -1199,7 +1198,7 @@ public class AppW extends App {
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
-		splash.canNowHide();
+		frame.splash.canNowHide();
 		getEuclidianView1().requestFocusInWindow();
 
 		if (needsSpreadsheetTableModel()) 
@@ -2017,8 +2016,6 @@ public class AppW extends App {
 	private String uniqueId = null;// FIXME: generate new UUID: +
 								   // UUID.randomUUID();
 	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
-	public SplashDialog splash;
-
 	@Override
     public String getUniqueId() {
 		return uniqueId;
@@ -2154,27 +2151,7 @@ public class AppW extends App {
 		return new GuiManagerW(AppW.this);
 	}
 
-	private void createSplash() {
-		splash = new SplashDialog();
-		int splashWidth = 427;
-		int splashHeight = 120;
-		int width = articleElement.getDataParamWidth();
-		int height = articleElement.getDataParamHeight();
-		if (width > 0 && height > 0) {
-			frame.setWidth(width + "px");
-			setDataParamWidth(width);
-			setDataParamHeight(height);
-			frame.setHeight(height + "px");
-			splash.addStyleName("splash");
-			splash.getElement().getStyle()
-			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
-			splash.getElement().getStyle()
-			        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
-
-		}
-		frame.addStyleName("jsloaded");
-		frame.add(splash);
-	}
+	
 
 	private geogebra.web.gui.app.SplashDialog splashDialog = null;
 
