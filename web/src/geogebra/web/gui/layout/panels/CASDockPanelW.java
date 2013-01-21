@@ -39,6 +39,20 @@ public class CASDockPanelW extends DockPanelW {
 
 	public void onResize() {
 		super.onResize();
+		if (sview != null) {
+			// If this is resized, we may know its width and height
+			int width = this.getOffsetWidth();//this is 400, OK
+			int height = this.getOffsetHeight();
+
+			if (application.getGuiManager().hasSpreadsheetView())
+				height -= (((CASViewW)application.getGuiManager().
+					getSpreadsheetView()).getCASStyleBar()).getOffsetHeight();
+
+			sview.getComponent().setWidth(width+"px");
+			sview.getComponent().setHeight(height+"px");
+
+			//TODO: Focus panel
+		}
 		
     }
 

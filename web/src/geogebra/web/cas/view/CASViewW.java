@@ -84,5 +84,9 @@ public class CASViewW extends CASView {
 	public Widget getComponent() {
 	    return component;
     }
+	public CASStylebarW getCASStyleBar() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 }
