@@ -52,7 +52,7 @@ public class XMLBuilder extends MyXMLio
 		if (clearConstruction)
 		{
 			// clear construction
-			this.kernel.clearConstruction();
+			this.kernel.clearConstruction(true);
 		}
 
 		try

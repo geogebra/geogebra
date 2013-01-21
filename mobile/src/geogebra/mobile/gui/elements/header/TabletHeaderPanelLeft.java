@@ -77,7 +77,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				guiModel.closeOptions();
-				kernel.clearConstruction();
+				kernel.clearConstruction(true);
 				kernel.notifyRepaint();
 				changeTitle("New File");
 			}
