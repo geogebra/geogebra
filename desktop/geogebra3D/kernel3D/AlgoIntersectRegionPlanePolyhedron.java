@@ -691,19 +691,23 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 		// set output
 		if (newCoordsList.size()==0 && verticesList.size()==0) { //no intersection
-			//no defined polygon
-			outputPolygons.adjustOutputSize(0, false);
-			
-			//set points equal to intersection with polyhedron vertices
+			//set points, segments and polygons equal to intersection with polyhedron vertices
+			outputPolygons.adjustOutputSize(polyhedronVertices.size(), false);
 			outputPoints.adjustOutputSize(polyhedronVertices.size(), false);
+			outputSegments.adjustOutputSize(polyhedronVertices.size(), false);
 			int index = 0;
 			for (Coords coords : polyhedronVertices){
-				outputPoints.getElement(index).setCoords(coords);
+				GeoPolygon outputPoly = outputPolygons.getElement(index);
+				GeoPoint3D point =  outputPoints.getElement(index);
+				point.setCoords(coords);
+				GeoSegment3D seg = outputSegments.getElement(index);
+				seg.modifyInputPolyAndPoints(outputPoly, point, point);
+				outputPoly.setPoints(new GeoPoint3D[] {point, point}, null, false); // don't create segments
+				outputPoly.setSegments(new GeoSegment3D[] {seg, seg});
+				outputPoly.calcArea();
 				index++;
 			}
 			
-			//no defined segment
-			outputSegments.adjustOutputSize(0,false);
 		} else {		
 
 			
@@ -827,6 +831,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 							p.setAllVisualProperties(outputPolygons.getElement(0), false);
 						p.setViewFlags(getFirstInput().getViewSet());
 						p.setNotFixedPointsLength(true);
+						p.setOrthoNormalRegionCS();
 						return p;
 					}
 				});

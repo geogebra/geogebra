@@ -297,6 +297,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		return true;
 
 	}
+	
+	/**
+	 * set cs for region as simplest orthonormal coord sys
+	 */
+	final public void setOrthoNormalRegionCS(){
+		updateRegionCS(new GeoPoint(cons, 0, 0, 1), new GeoPoint(cons, 1, 0, 1), new GeoPoint(cons, 0, 1, 1));
+	}
 
 	/**
 	 * update the coord system and 2D points
