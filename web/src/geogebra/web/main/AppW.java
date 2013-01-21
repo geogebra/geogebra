@@ -1318,6 +1318,7 @@ public class AppW extends App {
 		IMAGE_EXTENSIONS.add("bmp");
 		IMAGE_EXTENSIONS.add("gif");
 		IMAGE_EXTENSIONS.add("jpg");
+		IMAGE_EXTENSIONS.add("jpeg");
 		IMAGE_EXTENSIONS.add("png");
 	}
 

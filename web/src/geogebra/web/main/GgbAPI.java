@@ -296,7 +296,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 			function checkIfStillFilesToAdd() {
 				var item,
-					imgExtensions = ["jpg", "png", "gif"];
+					imgExtensions = ["jpg", "jpeg", "png", "gif"];
 				if (arch.archive.length > 0) {
 					@geogebra.common.main.App::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
 					item = arch.archive.shift();
@@ -407,7 +407,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 			function checkIfStillFilesToAdd() {
 				var item,
-					imgExtensions = ["jpg", "png", "gif"];
+					imgExtensions = ["jpg", "jpeg", "png", "gif"];
 				if (arch.archive.length > 0) {
 					item = arch.archive.shift();
 					var ind = item.fileName.lastIndexOf('.');
