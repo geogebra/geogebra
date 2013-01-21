@@ -47,8 +47,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 	/** edges */
 	protected TreeMap<Long, GeoSegment3D> segments;
 
-	/** edges linked (e.g basis of the prism) */
-	protected TreeMap<ConstructionElementCycle, GeoSegmentND> segmentsLinked;
+	/** edges linked (e.g basis of the prism -- WARNING: not always updated) */
+	private TreeMap<ConstructionElementCycle, GeoSegmentND> segmentsLinked;
 
 	/** faces index */
 	protected TreeMap<ConstructionElementCycle, Integer> polygonsIndex;
@@ -97,6 +97,28 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 		polygonsLinked = new TreeSet<GeoPolygon>();
 
 		pointsCreated = new ArrayList<GeoPoint3D>();
+	}
+	
+	
+	/**
+	 * Update segments linked set with the polygon's segment
+	 * @param polygon source polygon
+	 */
+	private void addSegmentsLinked(GeoPolygon polygon){
+		for (GeoSegmentND segment: polygon.getSegments()){
+			addSegmentLinked(segment);
+			segment.setEdgeOf(polygon);
+		}
+	}
+	
+	/**
+	 * update set of segments linked to this
+	 */
+	public void updateSegmentsLinked(){
+		segmentsLinked.clear();
+		for (GeoPolygon p : getPolygonsLinked()){
+			addSegmentsLinked(p);
+		}
 	}
 
 	/**
@@ -297,7 +319,6 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 		// refresh color to ensure segments have same color as polygon:
 		polygon.setObjColor(getObjectColor());
 		
-		polygon.setPointsAsVerticesOf();
 
 		return polygon;
 	}
@@ -311,15 +332,11 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 	 */
 	public void addPolygonLinked(GeoPolygon polygon) {
 		polygonsLinked.add(polygon);
-		GeoSegmentND[] segments = polygon.getSegments();
-		for (int i = 0; i < segments.length; i++){
-			addSegmentLinked(segments[i]);
-			segments[i].setEdgeOf(polygon);
-		}
+		addSegmentsLinked(polygon);
 		
-		polygon.setPointsAsVerticesOf();
-
+		
 	}
+	
 
 	/**
 	 * add the point as created point (by algo)
@@ -684,7 +701,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 			segment.setEuclidianVisible(visible);
 		}
 
-		for (GeoSegmentND segment : segmentsLinked.values()) {
+		for (GeoSegmentND segment : getSegmentsLinked()) {
 			segment.setEuclidianVisible(visible);
 		}
 	}
@@ -709,7 +726,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 			segment.updateVisualStyle();
 		}
 
-		for (GeoSegmentND segment : segmentsLinked.values()) {
+		for (GeoSegmentND segment : getSegmentsLinked()) {
 			segment.setObjColor(color);
 			segment.updateVisualStyle();
 		}
@@ -739,7 +756,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 			segment.updateVisualStyle();
 		}
 
-		for (GeoSegmentND segment : segmentsLinked.values()) {
+		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setLineType(type);
 			segment.updateVisualStyle();
 		}
@@ -768,7 +785,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 			segment.updateVisualStyle();
 		}
 
-		for (GeoSegmentND segment : segmentsLinked.values()) {
+		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setLineTypeHidden(type);
 			segment.updateVisualStyle();
 		}
@@ -797,7 +814,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 			segment.updateVisualStyle();
 		}
 
-		for (GeoSegmentND segment : segmentsLinked.values()) {
+		for (GeoSegmentND segment : getSegmentsLinked()) {
 			segment.setLineThickness(th);
 			segment.updateVisualStyle();
 		}

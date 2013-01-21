@@ -194,24 +194,27 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 		for(int i=0; i<p.getSegments().length; i++){
 			GeoSegmentND seg = p.getSegments()[i];
+			
+			//check if the segment is defined (e.g. for regular polygons)
+			if (seg.isDefined()){
+				Coords o2 = seg.getPointInD(3, 0);
+				Coords d2 = seg.getPointInD(3, 1).sub(o2);
 
-			Coords o2 = seg.getPointInD(3, 0);
-			Coords d2 = seg.getPointInD(3, 1).sub(o2);
+				Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
+						o1,d1,o2,d2
+						);
 
-			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
-					o1,d1,o2,d2
-					);
+				//check if projection is intersection point
+				if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
 
-			//check if projection is intersection point
-			if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
-
-				double t1 = project[2].get(1); //parameter on line
-				double t2 = project[2].get(2); //parameter on segment
+					double t1 = project[2].get(1); //parameter on line
+					double t2 = project[2].get(2); //parameter on segment
 
 
-				if (checkParameter(t1) && onSegment(t2))//seg.respectLimitedPath(t2))
-					addCoords(t1, project[0], seg);
+					if (checkParameter(t1) && onSegment(t2))//seg.respectLimitedPath(t2))
+						addCoords(t1, project[0], seg);
 
+				}
 			}
 		}
 
@@ -253,22 +256,25 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * add polygon points that are on the line
 	 */
 	protected void addPolygonPoints(){
-		
+
 		for(int i=0; i<p.getPoints().length; i++){
 			GeoPointND geoPoint = p.getPointsND()[i];
-			Coords point = geoPoint.getInhomCoordsInD(3);
+			//check if the point is defined (e.g. for regular polygons)
+			if (geoPoint.isDefined()){
+				Coords point = geoPoint.getInhomCoordsInD(3);
 
-			Coords[] project = point.projectLine(o1, d1);
-			
-			//App.debug("\npoint=\n"+point+"\nproject=\n"+project[0]);
+				Coords[] project = point.projectLine(o1, d1);
 
-			//check if projection is intersection point
-			if (project[0].equalsForKernel(point, Kernel.STANDARD_PRECISION)){
+				//App.debug("\npoint=\n"+point+"\nproject=\n"+project[0]);
 
-				double t1 = project[1].get(1); 
+				//check if projection is intersection point
+				if (project[0].equalsForKernel(point, Kernel.STANDARD_PRECISION)){
 
-				if (checkParameter(t1))
-					addCoords(t1, project[0], geoPoint);
+					double t1 = project[1].get(1); 
+
+					if (checkParameter(t1))
+						addCoords(t1, project[0], geoPoint);
+				}
 			}
 		}
 	}
@@ -310,6 +316,10 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	
 	@Override
 	public void compute() {
+		
+		
+		
+		
 
 		// set the point map
 		setNewCoords();

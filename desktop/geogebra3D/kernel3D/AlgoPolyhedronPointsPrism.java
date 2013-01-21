@@ -140,7 +140,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		
 		
 		if (newBottomPointsLength>nOld){
-			
+			//update segments linked
+			polyhedron.updateSegmentsLinked();
 			
 			int length=newBottomPointsLength-nOld;
 			outputPoints.augmentOutputSize(length);
@@ -195,9 +196,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			p[3] = getTopPoint(newBottomPointsLength-1);
 			polygon.setPoints(p,null,false); //don't create segments
 			GeoSegmentND[] s = new GeoSegmentND[4];
-			s[0] = getBottom().getSegments()[newBottomPointsLength];
-			s[1] = outputSegmentsSide.getElement(newBottomPointsLength);
-			s[2] = outputSegmentsTop.getElement(newBottomPointsLength);
+			s[0] = getBottom().getSegments()[newBottomPointsLength-1];
+			s[1] = outputSegmentsSide.getElement(0);
+			s[2] = outputSegmentsTop.getElement(newBottomPointsLength-1);
 			s[3] = outputSegmentsSide.getElement(newBottomPointsLength-1);
 			polygon.setSegments(s);
 			polygon.calcArea();  
@@ -245,9 +246,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		p[3] = getTopPoint(index-1);
 		polygon.setPoints(p,null,false); //don't create segments
 		GeoSegmentND[] s = new GeoSegmentND[4];
-		s[0] = getBottom().getSegments()[index];
+		s[0] = getBottom().getSegments()[index-1];
 		s[1] = outputSegmentsSide.getElement(index);
-		s[2] = outputSegmentsTop.getElement(index);
+		s[2] = outputSegmentsTop.getElement(index-1);
 		s[3] = outputSegmentsSide.getElement(index-1);
 		polygon.setSegments(s);
 		polygon.calcArea();  

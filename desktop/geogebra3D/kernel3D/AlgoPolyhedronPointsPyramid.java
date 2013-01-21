@@ -112,7 +112,10 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 				*/
 		
 		if (newBottomPointsLength>nOld){
-			//int length=newBottomPointsLength-nOld;
+			//update segments linked
+			polyhedron.updateSegmentsLinked();
+
+			//create new sides
 			for (int i=nOld; i<newBottomPointsLength; i++){
 				polyhedron.startNewFace();
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
@@ -137,8 +140,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			p[2] = getTopPoint();
 			polygon.setPoints(p,null,false); //don't create segments
 			GeoSegmentND[] s = new GeoSegmentND[3];
-			s[0] = getBottom().getSegments()[newBottomPointsLength];
-			s[1] = outputSegmentsSide.getElement(newBottomPointsLength);
+			s[0] = getBottom().getSegments()[newBottomPointsLength-1];
+			s[1] = outputSegmentsSide.getElement(newBottomPointsLength-1);
 			s[2] = outputSegmentsSide.getElement(0);
 			polygon.setSegments(s);
 			polygon.calcArea();  
@@ -172,7 +175,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		p[2] = getTopPoint();
 		polygon.setPoints(p,null,false); //don't create segments
 		GeoSegmentND[] s = new GeoSegmentND[3];
-		s[0] = getBottom().getSegments()[index];
+		s[0] = getBottom().getSegments()[index-1];
 		s[1] = outputSegmentsSide.getElement(index);
 		s[2] = outputSegmentsSide.getElement(index-1);
 		polygon.setSegments(s);

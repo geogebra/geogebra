@@ -104,6 +104,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 	}
 	
+	
+	private TreeSet<GeoPolygon> getPolygons(CoordsWithParent coords) {
+		return parentToPolygons.get(coords.parent);
+	}
+	
 	/**
 	 * coords for each face
 	 */
@@ -338,12 +343,16 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	 */
 	private TreeSet<Coords> polyhedronVertices;
 	
+	/**
+	 * map from intersection parents to set of polygons
+	 */
+	private TreeMap<GeoElementND, TreeSet<GeoPolygon>> parentToPolygons;
 	
 	
 	@Override
-	protected void addCoords(double parameter, Coords coords, GeoElementND geo){
-		newCoords.add(new CoordsWithParent(parameter, coords, geo));
-		if (geo instanceof GeoPointND)
+	protected void addCoords(double parameter, Coords coords, GeoElementND parent){
+		newCoords.add(new CoordsWithParent(parameter, coords, parent));
+		if (parent instanceof GeoPointND)
 			polyhedronVertices.add(coords);
 	}
 	
@@ -356,6 +365,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			newCoordsList = new TreeMap<GeoPolygon, ArrayList<Segment>>();
 		else
 			newCoordsList.clear();
+		
+		if (parentToPolygons==null)
+			parentToPolygons = new TreeMap<GeoElementND, TreeSet<GeoPolygon>>();
+		else
+			parentToPolygons.clear();
 		
 		//for polyhedron vertices
 		if (polyhedronVertices == null)
@@ -386,6 +400,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	}
 	
 	private void setNewCoordsList(){
+		
+		//check if the polygon is defined (e.g. when regular polygon as pyramid bottom)
+		if (!p.isDefined())
+			return;
+		
 		//line origin and direction
 		setIntersectionLine();
 		
@@ -472,19 +491,38 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				endSegment = b; //extend segment to b
 			}else{
 				if (startSegment!=null){//add last correct segment
-					ret.add(new Segment(startSegment,endSegment));
+					addSegment(startSegment,endSegment,ret);
 					startSegment=null;
 				}
 			}
 		}
 		
 		if (startSegment!=null)//add last correct segment
-			ret.add(new Segment(startSegment,endSegment));
+			addSegment(startSegment,endSegment,ret);
 		
 		
 		return ret;
 	}
 	
+	
+	private void addSegment(CoordsWithParent startSegment, CoordsWithParent endSegment, ArrayList<Segment> segmentList){
+		
+		//add new segment to list
+		segmentList.add(new Segment(startSegment,endSegment));
+		
+		//add map parent to polygon
+		addParentToPolygons(startSegment.parent);
+		addParentToPolygons(endSegment.parent);
+	}
+	
+	private void addParentToPolygons(GeoElementND parent){
+		TreeSet<GeoPolygon> polygons = parentToPolygons.get(parent);
+		if (polygons == null){
+			polygons = new TreeSet<GeoPolygon>();
+			parentToPolygons.put(parent, polygons);
+		}
+		polygons.add(p);
+	}
 	
 	
 	@SuppressWarnings("serial")
@@ -601,7 +639,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 
 		
 		// 2) try other polygons
-		TreeSet<GeoPolygon> polySet = startPoint.getPolygons();
+		TreeSet<GeoPolygon> polySet = getPolygons(startPoint);
 		Iterator<GeoPolygon> it = polySet.iterator();
 		GeoPolygon p2 = null;
 		while (it.hasNext()){
@@ -706,7 +744,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		//App.debug("\noriginalEdges:"+originalEdges);
 		
 
-		
+		/*
+		for (GeoElementND parent : parentToPolygons.keySet()){
+			App.debug("\nparent: "+parent+"\npolygons: "+parentToPolygons.get(parent));
+		}
+		*/
 		
 		//App.debug(polyhedronVertices);
 		
