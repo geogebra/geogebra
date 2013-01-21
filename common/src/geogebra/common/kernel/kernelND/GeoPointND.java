@@ -7,10 +7,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.PointProperties;
-
-import java.util.TreeSet;
 
 
 
@@ -246,18 +243,6 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	public void setCartesian3D();
 
 
-	/**
-	 * set that this point is vertex of the polygon
-	 * @param polygon polygon
-	 */
-	public void setVertexOf(GeoPolygon polygon);
-	
-	/**
-	 * 
-	 * @return polygons that this point is vertex of
-	 */
-	public TreeSet<GeoPolygon> getVertexOf();
-	
 
 	
 }

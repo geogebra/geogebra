@@ -1659,12 +1659,4 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return null;
 	}
 	
-	/**
-	 * link all points as vertices of this polygon
-	 */
-	public void setPointsAsVerticesOf(){
-		for (GeoPointND point : getPointsND())
-			point.setVertexOf(this);
-			
-	}
 }

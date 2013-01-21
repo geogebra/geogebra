@@ -2224,19 +2224,4 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	
 	
 	
-	
-   //point that is vertex of polygons
-    
-    private TreeSet<GeoPolygon> vertexOfPolygonSet;
-    
-    final public void setVertexOf(GeoPolygon polygon){
-    	if (vertexOfPolygonSet==null)
-    		vertexOfPolygonSet = new TreeSet<GeoPolygon>();
-    	vertexOfPolygonSet.add(polygon);
-    }
-    
-    final public TreeSet<GeoPolygon> getVertexOf(){
-    	return vertexOfPolygonSet;
-    }
-	
 }

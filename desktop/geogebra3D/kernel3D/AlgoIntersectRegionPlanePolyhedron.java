@@ -27,7 +27,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -66,20 +65,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			this.parameter =  parameter;
 		}
 
-		/**
-		 * 
-		 * @return polygons on which this point belongs
-		 */
-		public TreeSet<GeoPolygon> getPolygons() {
-			
-			//parent is segment
-			if (parent instanceof GeoSegmentND)
-				return ((GeoSegmentND) parent).getEdgeOf();
-			
-			//parent is point
-			return ((GeoPointND) parent).getVertexOf();
-			
-		}
+
 
 		public int compareTo(CoordsWithParent o) {
 			//first compare parameters

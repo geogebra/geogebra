@@ -9,12 +9,9 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
-
-import java.util.TreeSet;
 
 
 /**
@@ -472,17 +469,4 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	
 	
 	
-    //segment that is edge of polygons
-    
-    private TreeSet<GeoPolygon> edgeOfPolygonSet;
-    
-    final public void setEdgeOf(GeoPolygon polygon){
-    	if (edgeOfPolygonSet==null)
-    		edgeOfPolygonSet = new TreeSet<GeoPolygon>();
-    	edgeOfPolygonSet.add(polygon);
-    }
-    
-    final public TreeSet<GeoPolygon> getEdgeOf(){
-    	return edgeOfPolygonSet;
-    }
 }

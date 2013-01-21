@@ -4,10 +4,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LimitedPath;
-
-import java.util.TreeSet;
 
 /**
  * Simple interface used to join GeoSegment and GeoSegment3D
@@ -63,16 +60,5 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q);
 	
 	
-	/**
-	 * set that this segment is edge of the polygon
-	 * @param polygon polygon
-	 */
-	public void setEdgeOf(GeoPolygon polygon);
-	
-	/**
-	 * 
-	 * @return polygons that this segment is edge of
-	 */
-	public TreeSet<GeoPolygon> getEdgeOf();
 
 }
