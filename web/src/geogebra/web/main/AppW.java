@@ -412,7 +412,7 @@ public class AppW extends App {
 								var dt = e.dataTransfer;
 								if (dt.files.length) {
 									var fileToHandle = dt.files[0];
-									var imageRegEx = /\.(png|jpg|jpeg|gif)$/i;
+									var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
 									var ggbRegEx = /\.(ggb|ggt)$/i;
 									if (fileToHandle.name.toLowerCase().match(
 											imageRegEx)) {
