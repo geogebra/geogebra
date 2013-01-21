@@ -408,7 +408,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			vertices.setDirection();
 			//check if this list has not already be computed
 			if(checkVerticesList.add(vertices)){
-				verticesList.add(vertices);
+				addToVerticesList(vertices);
 			}
 
 			/*
@@ -706,6 +706,19 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		}
 	}
 	
+	
+	private void addToVerticesList(Vertices vertices){
+		verticesList.add(vertices);
+		
+		//remove polyhedron vertices for empty polygons for these points, 
+		//since these points are already on a polygon
+		if (polyhedronVertices.size() > 0){
+			for (Coords coords : vertices){
+				polyhedronVertices.remove(coords);
+			}
+		}
+	}
+	
 	@Override
 	public void compute() {
 		
@@ -758,7 +771,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 					vertices.setDirection();
 					//check if this list has not already be computed
 					if(checkVerticesList.add(vertices)){
-						verticesList.add(vertices);
+						addToVerticesList(vertices);
 					}
 				}
 			}
