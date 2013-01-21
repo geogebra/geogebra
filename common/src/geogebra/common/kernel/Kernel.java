@@ -2356,8 +2356,8 @@ public class Kernel {
 	}
 
 	/** 
-	 * FIXME Please add a comment!
-	 * @param clearScripts When do I have to clear scripts? 
+	 * @param clearScripts (true when called from File -> New,
+	 * false after loading a file otherwise the GlobalJavascript is wrongly deleted)
 	 */
 	public void clearConstruction(boolean clearScripts) {
 		
