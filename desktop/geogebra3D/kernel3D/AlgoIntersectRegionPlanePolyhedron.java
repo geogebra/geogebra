@@ -660,6 +660,28 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 
 	}
 	
+	/**
+	 * set polyhedron vertices as dummy polygons output
+	 * @param indexPolygon start index for polygons
+	 * @param indexPoint start index for points
+	 * @param indexSegment start index for segments
+	 */
+	private void addPolyhedronVerticesToOutput(int indexPolygon, int indexPoint, int indexSegment){
+		for (Coords coords : polyhedronVertices){
+			GeoPolygon outputPoly = outputPolygons.getElement(indexPolygon);
+			GeoPoint3D point =  outputPoints.getElement(indexPoint);
+			point.setCoords(coords);
+			GeoSegment3D seg = outputSegments.getElement(indexSegment);
+			seg.modifyInputPolyAndPoints(outputPoly, point, point);
+			outputPoly.setPoints(new GeoPoint3D[] {point, point}, null, false); // don't create segments
+			outputPoly.setSegments(new GeoSegment3D[] {seg, seg});
+			outputPoly.calcArea();
+			indexPolygon++;
+			indexPoint++;
+			indexSegment++;
+		}
+	}
+	
 	@Override
 	public void compute() {
 		
@@ -695,22 +717,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			outputPolygons.adjustOutputSize(polyhedronVertices.size(), false);
 			outputPoints.adjustOutputSize(polyhedronVertices.size(), false);
 			outputSegments.adjustOutputSize(polyhedronVertices.size(), false);
-			int index = 0;
-			for (Coords coords : polyhedronVertices){
-				GeoPolygon outputPoly = outputPolygons.getElement(index);
-				GeoPoint3D point =  outputPoints.getElement(index);
-				point.setCoords(coords);
-				GeoSegment3D seg = outputSegments.getElement(index);
-				seg.modifyInputPolyAndPoints(outputPoly, point, point);
-				outputPoly.setPoints(new GeoPoint3D[] {point, point}, null, false); // don't create segments
-				outputPoly.setSegments(new GeoSegment3D[] {seg, seg});
-				outputPoly.calcArea();
-				index++;
-			}
+			addPolyhedronVerticesToOutput(0, 0, 0);
 			
 		} else {		
-
-			
 
 			//start with one face, set a polygon, then get a new face, etc.
 			while (newCoordsList.size()!=0){
@@ -729,20 +738,20 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			
 			
 			//set output points
-			outputPoints.adjustOutputSize(verticesList.cumulateSize,false);
+			outputPoints.adjustOutputSize(verticesList.cumulateSize + polyhedronVertices.size(),false);
 			outputPoints.updateLabels();
-			int index = 0;
+			int segmentIndex = 0;
 			for (ArrayList<Coords> vertices : verticesList){
 				int length = vertices.size();
 				for (int i = 0; i<length; i++){
-					GeoPoint3D point = outputPoints.getElement(index);
+					GeoPoint3D point = outputPoints.getElement(segmentIndex);
 					point.setCoords(vertices.get(i));
-					index++;
+					segmentIndex++;
 				}
 			}
 			
 			//adjust output polygons size
-			outputPolygons.adjustOutputSize(verticesList.size(), false);
+			outputPolygons.adjustOutputSize(verticesList.size() + polyhedronVertices.size(), false);
 			outputPolygons.updateLabels();
 			
 			//get points list
@@ -750,11 +759,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			points = outputPoints.getOutput(points);
 			
 			//set output segments and polygons
-			outputSegments.adjustOutputSize(verticesList.cumulateSize,false);
+			outputSegments.adjustOutputSize(verticesList.cumulateSize + polyhedronVertices.size(),false);
 			outputSegments.updateLabels();
-			int polygonOffset = 0;
+			int pointIndex = 0;
 			int polygonIndex = 0;
-			index = 0;
+			segmentIndex = 0;
 			for (ArrayList<Coords> vertices : verticesList){
 				int length = vertices.size();
 				//App.debug("polygonIndex: "+polygonIndex);
@@ -763,13 +772,13 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				GeoSegment3D[] polySegments = new GeoSegment3D[length];
 				for (int i = 0; i<length; i++){
 					//App.debug(points[polygonOffset + i]);
-					outputSegments.getElement(index).modifyInputPolyAndPoints(
+					outputSegments.getElement(segmentIndex).modifyInputPolyAndPoints(
 							outputPoly,
-							points[polygonOffset + i],
-							points[polygonOffset + (i + 1) % length]);
-					polyPoints[i] = points[polygonOffset + i];
-					polySegments[i] = outputSegments.getElement(index);
-					index++;
+							points[pointIndex + i],
+							points[pointIndex + (i + 1) % length]);
+					polyPoints[i] = points[pointIndex + i];
+					polySegments[i] = outputSegments.getElement(segmentIndex);
+					segmentIndex++;
 				}
 				
 				// update polygon
@@ -777,24 +786,12 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				outputPoly.setSegments(polySegments);
 				outputPoly.calcArea();
 				
-				polygonOffset+=length;
+				pointIndex+=length;
 				polygonIndex++;
 			}
 			
-			/*
-			index = 0;
-			for (ArrayList<Coords> vertices : verticesList){
-				int length = vertices.size();
-				for (int i = 0; i<length; i++){
-					GeoSegmentND segment = (GeoSegmentND) outputSegments
-							.getElement(index);
-					setSegment(segment, vertices.get(i), vertices.get((i+1) % length));
-					//((GeoElement) segment).update(); // TODO optimize it
-					//App.debug(((GeoElement) segment).isDefined());
-					index++;
-				}
-			}
-			*/
+			//add isolate polyhedron vertices
+			addPolyhedronVerticesToOutput(polygonIndex, pointIndex, segmentIndex);
 
 			
 		}
