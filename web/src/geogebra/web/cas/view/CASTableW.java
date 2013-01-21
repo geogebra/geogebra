@@ -12,8 +12,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableW extends Grid implements CASTable{
 
+	private static final int COL_CAS_CELLS_WEB = 1;
+	private static final int COL_CAS_HEADER = 0;
+
 	public CASTableW(){
-		super(1,1);
+		super(1,2);
 		setBorderWidth(1);
 		getElement().getStyle().setBorderColor(MyTableW.TABLE_GRID_COLOR.toString());
 		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
@@ -83,10 +86,11 @@ public class CASTableW extends Grid implements CASTable{
 
 	public void insertRow(GeoCasCell casCell, boolean b) {
 		int n = getRowCount();
-		resize(n+1,1);
-	    Widget retwidget = new CASTableCellW(casCell);
-		
-		this.setWidget(n, CASTable.COL_CAS_CELLS, retwidget);
+		resize(n+1,2);
+	    Widget cellWidget = new CASTableCellW(casCell);
+		Widget rowHeader = new RowHeaderWidget(n+1);
+		this.setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
+		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 	    
     }
 
@@ -99,9 +103,10 @@ public class CASTableW extends Grid implements CASTable{
 	    if(rowNumber>=this.getRowCount()){
 	    	resize(rowNumber+1,1);
 	    }
-	    Widget retwidget = new CASTableCellW(casCell);
-		
-		this.setWidget(rowNumber, CASTable.COL_CAS_CELLS, retwidget);
+	    Widget cellWidget = new CASTableCellW(casCell);
+	    Widget rowHeader = new RowHeaderWidget(rowNumber+1);
+	    this.setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
+		this.setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
     }
 
 }
