@@ -114,33 +114,124 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	 * bi-point for each intersection segment
 	 *
 	 */
-	private class Segment {//implements Comparable<Segment>{
+	private class Segment {
 		protected CoordsWithParent p1, p2;
-		protected boolean used = false;
 		
 		public Segment(CoordsWithParent p1, CoordsWithParent p2) {
-			//if (p1.compareParentTo(p2)<0){
 				this.p1 = p1;
 				this.p2 = p2;
-			/*}
-			else{
-				this.p2 = p1;
-				this.p1 = p2;
-			}*/
 		}
-
-		/*
-		public int compareTo(Segment o) {
-			//compare first point parents
-			int ret = p1.compareParentTo(o.p1);
-			if (ret==0)
-				//compare second point parents
-				return p2.compareParentTo(o.p2);
-			return ret;
-		}
-		*/
 		
 	}
+	
+	
+	
+	/**
+	 * List of coords than can be compared
+	 * @author mathieu
+	 *
+	 */
+	private class Vertices extends ArrayList<Coords> implements Comparable<Vertices>{
+		
+		//index for the lowest vertex
+		private int lowest = -1;
+		
+		//direction for neighbor
+		private short direction = 0;
+		
+		//index for currently looked (see next() method)
+		private int current;
+
+		public Vertices() {
+			super();
+		}
+		
+		@Override
+		public boolean add(Coords e){
+			
+			if (lowest == -1){ //no lowest element for now
+				lowest = 0; //first element is the lowest
+			}else{
+				if (Coords.COMPARATOR.compare(e, get(lowest)) < 0){
+					lowest = size();
+				}
+			}
+			
+			return super.add(e);
+		}
+
+		
+		/**
+		 * find direction from lowest to lowest neighbor
+		 */
+		public void setDirection(){
+			
+			int n1 = lowest-1;
+			int n2 = lowest+1;
+			if (n1 < 0){
+				n1 = size()-1;
+			}else if (n2 >= size()){
+				n2 = 0;
+			}
+			
+			if (Coords.COMPARATOR.compare(get(n1), get(n2)) < 0){
+				direction = -1;
+			}else{
+				direction = 1;
+			}
+						
+		}
+		
+		/**
+		 * Set current index to next element
+		 * @return next element regarding direction
+		 */
+		private Coords next(){
+			current += direction;
+			if (current >= size()){
+				current = 0;
+			}else if (current < 0){
+				current = size()-1;
+			}
+			
+			return get(current);
+				
+		}
+		
+		
+		public int compareTo(Vertices o) {
+			
+			//first compare sizes
+			if (this.size()<o.size())
+				return -1;
+			if (o.size()<this.size())
+				return 1;
+			
+			//compare lowest coords
+			if (Coords.COMPARATOR.compare(get(lowest),o.get(o.lowest))<0)
+				return -1;
+			if (Coords.COMPARATOR.compare(get(lowest),o.get(o.lowest))>0)
+				return 1;
+			
+			//compare neighbors 
+			int visited = 0;
+			while (visited<size()){
+				Coords thisCoords = next();
+				Coords oCoords = o.next();
+				if (Coords.COMPARATOR.compare(thisCoords,oCoords)<0)
+					return -1;
+				if (Coords.COMPARATOR.compare(thisCoords,oCoords)>0)
+					return 1;
+				visited++;
+			}
+			
+			//equal
+			return 0;
+		}
+		
+	}
+	
+	
 	
 
 	/**
@@ -301,8 +392,21 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 		//check if polygon is included in the plane		
 		if (d1.isZero() && !(Kernel.isZero(o1.getW()))){//then include all edges of the polygon
-			/*
+			
 			GeoPointND[] points = p.getPointsND();
+			Vertices vertices = new Vertices();
+			
+			for (GeoPointND point : points){
+				vertices.add(point.getInhomCoordsInD(3));
+			}
+			
+			vertices.setDirection();
+			//check if this list has not already be computed
+			if(checkVerticesList.add(vertices)){
+				verticesList.add(vertices);
+			}
+
+			/*
 			segmentCoords = new ArrayList<Segment>();
 			GeoPointND p2 = points[0];
 			for (int i = 0; i<points.length; i++){
@@ -407,6 +511,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	}
 	
 	private VerticesList verticesList;
+	
+	private TreeSet<Vertices> checkVerticesList;
 	
 	
 	
@@ -523,9 +629,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	 * Add vertices from one to the next
 	 * @return vertices list
 	 */
-	private ArrayList<Coords> addVertices(){
+	private Vertices addVertices(){
 		
-		ArrayList<Coords> vertices = new ArrayList<Coords>();
+		Vertices vertices = new Vertices();
 
 		//take first segment for the face p
 		segmentCoords = newCoordsList.get(p);
@@ -557,7 +663,21 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	@Override
 	public void compute() {
 		
+		//set intersection vertices
+		//(set it here since maybe some faces are included in the plane)
+		if (verticesList == null)
+			verticesList = new VerticesList();
+		else
+			verticesList.clear();
+		
+		if (checkVerticesList == null)
+			checkVerticesList = new TreeSet<Vertices>();
+		else
+			checkVerticesList.clear();
+		
+		
 
+		
 		// set the point map
 		setNewCoords();
 		
@@ -570,7 +690,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 		
 		// set output
-		if (newCoordsList.size()==0) { //no intersection segments
+		if (newCoordsList.size()==0 && verticesList.size()==0) { //no intersection
 			//no defined polygon
 			outputPolygons.adjustOutputSize(0, false);
 			
@@ -586,20 +706,20 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			outputSegments.adjustOutputSize(0,false);
 		} else {		
 
-			//set intersection vertices
-			if (verticesList == null)
-				verticesList = new VerticesList();
-			else
-				verticesList.clear();
 			
 
 			//start with one face, set a polygon, then get a new face, etc.
 			while (newCoordsList.size()!=0){
 				//App.debug(newCoordsList.keySet());
 				p = newCoordsList.firstKey();
-				ArrayList<Coords> vertices = addVertices();
-				if (vertices!=null) //prevent not matching search
-					verticesList.add(vertices);
+				Vertices vertices = addVertices();
+				if (vertices!=null){ //prevent not matching search
+					vertices.setDirection();
+					//check if this list has not already be computed
+					if(checkVerticesList.add(vertices)){
+						verticesList.add(vertices);
+					}
+				}
 			}
 			//App.debug(newCoordsList.keySet());
 			
