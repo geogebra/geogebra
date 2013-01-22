@@ -192,6 +192,61 @@ public class ReduceLibrary {
 				+ " sequal(~arg1,~arg2) => 'false when mynumberp(subtraction(arg1,arg2))='true and not(mycompare(subtraction(arg1,arg2),0)=0),"
 				+ " sequal(~arg1,~arg2) => 'false when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and not (mycompare(trigsimp(subtraction(arg1,arg2),combine),0)=0)});");
 
+		eval("operator myintoperator;");
+		eval("ifelseintsimplifications := {"
+                		                
+		                /* integration rules */
+
+		                /* the condition is fulfilled in the whole interval */
+
+		                + "myintoperator(iffun(sless(~var,~b),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper < ~b and ~lower < ~b, "
+		                + "myintoperator(iffun(sless(~b,~var),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+		                + "myintoperator(iffun(slessequal(~var,~b),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper <= ~b and ~lower <= ~b, "
+		                + "myintoperator(iffun(slessequal(~b,~var),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+		                
+		                + "myintoperator(iffun(sgreater(~var,~b),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+		                + "myintoperator(iffun(sgreater(~b,~var),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper < ~b and ~lower < ~b, "
+		                + "myintoperator(iffun(sgreaterequal(~var,~b),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower >= ~b, "
+		                + "myintoperator(iffun(sgreaterequal(~b,~var),~expression),~var,~lower,~upper) => myintoperator(~expression, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper <= ~b and ~lower <= ~b, "
+		                
+		                
+		                + "myintoperator(ifelsefun(sless(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper < ~b and ~lower < ~b, "
+		                + "myintoperator(ifelsefun(sless(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+		                + "myintoperator(ifelsefun(slessequal(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper <= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(slessequal(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower >= ~b, "
+		                
+		                + "myintoperator(ifelsefun(sgreater(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+		                + "myintoperator(ifelsefun(sgreater(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper < ~b and ~lower < ~b, "
+		                + "myintoperator(ifelsefun(sgreaterequal(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower >= ~b, "
+		                + "myintoperator(ifelsefun(sgreaterequal(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper <= ~b and ~lower <= ~b, "
+		                
+
+		                /* the condition is NOT fulfilled in the whole interval */
+		                
+		                + "myintoperator(ifelsefun(sless(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower >= ~b, "
+		                + "myintoperator(ifelsefun(sless(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper <= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(slessequal(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+		                + "myintoperator(ifelsefun(slessequal(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper < ~b and ~lower < ~b, "
+		                
+		                + "myintoperator(ifelsefun(sgreater(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper <= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(sgreater(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower >= ~b, "
+		                + "myintoperator(ifelsefun(sgreaterequal(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper < ~b and ~lower < ~b, "
+		                + "myintoperator(ifelsefun(sgreaterequal(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper > ~b and ~lower > ~b, "
+
+		                
+		                /* the condition is fulfilled in a part of the interval */
+		                
+		                + "myintoperator(ifelsefun(sless(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~b) + myintoperator(~expfalse, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(sless(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~b) + myintoperator(~exptrue, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(slessequal(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~b) + myintoperator(~expfalse, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(slessequal(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~b) + myintoperator(~exptrue, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                
+
+		                + "myintoperator(ifelsefun(sgreater(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~b) + myintoperator(~exptrue, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(sgreater(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~b) + myintoperator(~expfalse, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(sgreaterequal(~var,~b),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~expfalse, ~var, ~lower, ~b) + myintoperator(~exptrue, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b, "
+		                + "myintoperator(ifelsefun(sgreaterequal(~b,~var),~exptrue,~expfalse),~var,~lower,~upper) => myintoperator(~exptrue, ~var, ~lower, ~b) + myintoperator(~expfalse, ~var, ~b, ~upper) when numberp(~lower) and numberp(~upper) and numberp(~b) and ~upper >= ~b and ~lower <= ~b};");
+
 		// tests whether two vectors are equal,
 		// assumes that both arguments are vectors
 		// , please check before using this function

@@ -146,9 +146,9 @@ public class Ggb2MPReduce {
 		p("Integral.2",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; if input!!=\\'? then return \\'?; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.3",
-				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; integral!!:=myint(input!!,mymainvar(input!!),%1,%2); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input!!,mainvar(input!!),%1,%2) end>>");
+				"<<begin scalar integral!!, input!!, simplified!!; input!!:=(%0); simplified!!:=(myintoperator(input!!,mymainvar(input!!),%1,%2) where ifelseintsimplifications); let intrules!!; integral!!:=(simplified!! where {myintoperator(~a,~b,~c,~d) => myint(a,b,c,d)}); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else (simplified!! where {myintoperator(~a,~b,~c,~d) => num\\_int(a,b,c,d)}); end>>");
 		p("Integral.4",
-				"<<begin scalar integral!!; input!!; input!!:=(%0); let intrules!!; integral!!:=myint(%0,%1,%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0,%1,%2,%3) end>>");
+				"<<begin scalar integral!!, simplified!!; input!!; simplified!!:=(myintoperator(%0,%1,%2,%3) where ifelseintsimplifications); let intrules!!; integral!!:=(simplified!! where {myintoperator(~a,~b,~c,~d) => myint(a,b,c,d)}); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else (simplified!! where {myintoperator(~a,~b,~c,~d) => num\\_int(a,b,c,d)}); end>>");
 		p("IntegralBetween.4",
 				"<< begin scalar integral!!, input1!!, input2!!, variable!!; input1!!:=(%0); input2!!:=(%1); variable!!:=mymainvar(list(input1!!, input2!!)); let intrules!!; integral!!:=myint(input1!!-input2!!,mymainvar(list(input1!!, input2!!)),%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input1!!-input2!!,variable,%2,%3) end >>");
 		p("IntegralBetween.5",
@@ -425,9 +425,9 @@ public class Ggb2MPReduce {
 				"<<begin; clear input!!; input!!:=(%0); return if myvecp input!! then unitvector input!! else input!!/sqrt(<<for i:=1:row\\_dim(input!!) sum input!!(i,1)^2>>) end>>");
 		p("Variance.1",
 				"<<begin scalar x!!,n!!,xd!!; x!!:=(%0)$ n!!:=length(x!!)$ xd!!:=1/n!!*for each i in x!! sum i; return 1/n!!* for each i in x!! sum (i-xd!!)**2 end>>");
-		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
+		/*p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4",
-				"<<begin scalar s; s:= %1; return if %3=true then harmonic(%2,s)/harmonic(%0,s) else 1/((%2)^s*harmonic(%0,s)) end>>");
+				"<<begin scalar s; s:= %1; return if %3=true then harmonic(%2,s)/harmonic(%0,s) else 1/((%2)^s*harmonic(%0,s)) end>>");*/
 		return commandMap;
 	}
 }
