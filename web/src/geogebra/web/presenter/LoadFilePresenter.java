@@ -1,6 +1,5 @@
 package geogebra.web.presenter;
 
-import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
@@ -97,7 +96,7 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 	
 	private boolean isReloadDataInStorage(){
-		Storage stockStore = Storage.getLocalStorageIfSupported();
+		Storage stockStore = Storage.getSessionStorageIfSupported();
 		
 		if (stockStore == null) return false;
 		String base64String = stockStore.getItem("reloadBase64String");
