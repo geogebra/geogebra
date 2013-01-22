@@ -848,15 +848,15 @@ public class AppW extends App {
 	}
 	
 	private native JavaScriptObject saveBase64ToLocaleStorage() /*-{
-	return function(base64) {
-		try {
-			localStorage.setItem("reloadBase64String", base64);
-		} catch (e) {
-			@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+		return function(base64) {
+			try {
+				localStorage.setItem("reloadBase64String", base64);
+			} catch (e) {
+				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+			}
 		}
-	}
-
-}-*/;
+	
+	}-*/;
 	
 	@Override
 	protected void directionForWeb(String lang){
@@ -871,6 +871,9 @@ public class AppW extends App {
 		
 		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
 		Cookies.setCookie("GGWlang", lang);
+		
+		//On changing language from LTR/RTL the page will reload.
+		//The current workspace will be saved, and load back after page reloading.
 		if (oldRTLOrder != rightToLeftReadingOrder){
 			JavaScriptObject callback = saveBase64ToLocaleStorage();
 			((GgbAPI) getGgbApi()).getBase64(callback);
