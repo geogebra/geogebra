@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.CASParserInterface;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -374,28 +373,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		if (!isDefined())
 			return app.getPlain("Undefined");
 
-		// for CAS, translate to CAS format :)
-		if (tpl.hasType(StringType.MATH_PIPER)
-				|| tpl.hasType(StringType.MAXIMA)
-				|| tpl.hasType(StringType.MPREDUCE)) {
-			// TODO: implement if in mpreduce
-			CASParserInterface cas = kernel.getGeoGebraCAS().getCASparser();
-			String cmd = cas.getTranslatedCASCommand(elseFun == null ? "If.2"
-					: "If.3");
-			if (symbolic) {
-				cmd = cmd.replace("%0", condFun.toSymbolicString(tpl));
-				cmd = cmd.replace("%1", ifFun.toSymbolicString(tpl));
-				if (elseFun != null)
-					cmd = cmd.replace("%2", elseFun.toSymbolicString(tpl));
-			} else {
-				cmd = cmd.replace("%0", condFun.toValueString(tpl));
-				cmd = cmd.replace("%1", ifFun.toValueString(tpl));
-				if (elseFun != null)
-					cmd = cmd.replace("%2", elseFun.toValueString(tpl));
-			}
-
-			return cmd;
-		}
+		//no need to deal with CAS, we use toValueString for that
 
 		StringBuilder sb = new StringBuilder(80);
 		sb.append(app.getCommand("If"));
