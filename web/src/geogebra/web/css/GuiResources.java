@@ -67,7 +67,7 @@ public interface GuiResources extends ClientBundle {
 	TextResource propertiesKeysJSenGB();
 	
 	@Source("geogebra/resources/images/spinner.html")
-	TextResource ggbSinnerHtml();
+	TextResource ggbSpinnerHtml();
 
 }
 

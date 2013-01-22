@@ -24,8 +24,13 @@ public class SplashDialog extends SimplePanel {
 	
 	
 
-	public SplashDialog() {
-	    HTML svg = new HTML("<div style=\"position: absolute; z-index: 1000000; border: 1px solid black; background-color: white; \"" + GuiResources.INSTANCE.ggb4Splash().getText() + GuiResources.INSTANCE.ggbSinnerHtml().getText() + "</div>");
+	public SplashDialog(boolean showLogo) {
+		String html = "<div style=\"position: absolute; z-index: 1000000; border: 1px solid black; background-color: white; \"";
+		if (showLogo) {
+			html += GuiResources.INSTANCE.ggb4Splash().getText(); 
+		}
+		html += GuiResources.INSTANCE.ggbSpinnerHtml().getText() + "</div>"; 
+	    HTML svg = new HTML(html);
 	    add(svg);
 	    t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
     }

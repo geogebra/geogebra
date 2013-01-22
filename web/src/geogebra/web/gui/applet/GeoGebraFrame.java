@@ -66,11 +66,21 @@ public class GeoGebraFrame extends VerticalPanel {
 	 */
 	
 	private void createSplash(ArticleElement ae) {
-		splash = new SplashDialog();
 		int splashWidth = 427;
 		int splashHeight = 120;
 		int width = ae.getDataParamWidth();
 		int height = ae.getDataParamHeight();
+		if (ae.getDataParamShowMenuBar()) {
+			// The menubar has extra height:
+			height += 31;
+		}
+		if (ae.getDataParamShowToolBar()) {
+			// The toolbar has extra height:
+			height += 57;
+		}
+		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
+		splash = new SplashDialog(showLogo);
+		
 		if (width > 0 && height > 0) {
 			setWidth(width + "px");
 			setDataParamWidth(width);
