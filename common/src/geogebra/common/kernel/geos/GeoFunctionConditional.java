@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -276,7 +277,7 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	/**
 	 * Returns non-conditional function f which satisfies f(x)=this(x) if x
-	 * satisfies conditional function and f(x)=0 otherwise
+	 * satisfies conditional function and f(x)=0 otherwise Sum[Sequence[If[x>k,1,0],k,1,5]]
 	 */
 	@Override
 	public Function getFunction() {
@@ -285,24 +286,25 @@ public class GeoFunctionConditional extends GeoFunction {
 			if (condFun == null) {
 				return null;
 			}
-			
-			ExpressionNode en = new ExpressionNode(kernel,
-					condFun.getFunctionExpression(), Operation.MULTIPLY,
+			FunctionVariable fv = ifFun.getFunctionVariables()[0];
+			String fvn = fv.getSetVarString();
+			ExpressionNode condFunCopy = condFun.getFunctionExpression().getCopy(kernel);
+			condFunCopy.replaceVariables(fvn, fv);
+			ExpressionNode en;
+			if (elseFun != null){
+				ExpressionNode elseFunCopy = elseFun.getFunctionExpression().getCopy(kernel);
+				elseFunCopy.replaceVariables(fvn, fv);
+				en = new ExpressionNode(kernel, new MyNumberPair(kernel,
+						condFunCopy,
+						ifFun.getFunctionExpression()), 
+						Operation.IF_ELSE,
+						elseFunCopy);
+			}
+			else en = new ExpressionNode(kernel, condFunCopy, 
+					Operation.IF,
 					ifFun.getFunctionExpression());
-			if (elseFun != null)
-				en = new ExpressionNode(kernel, en, Operation.PLUS,
-						new ExpressionNode(kernel, new ExpressionNode(kernel,
-								condFun.getFunctionExpression(), Operation.NOT,
-								null), Operation.MULTIPLY,
-								elseFun.getFunctionExpression()));
-			ExpressionNode en2 = en.getCopy(kernel);
-			en2.replace(condFun.getFunction().getFunctionVariable(),
-					ifFun.getFunction().getFunctionVariable());
-			if (elseFun != null)
-				en2.replace(elseFun.getFunction().getFunctionVariable(),
-						ifFun.getFunction().getFunctionVariable()).wrap();
-			uncondFun = new Function(en2, ifFun.getFunction()
-					.getFunctionVariable());
+			
+			return new Function(en,fv);
 		}
 		return uncondFun;
 	}
