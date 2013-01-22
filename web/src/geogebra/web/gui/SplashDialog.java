@@ -21,6 +21,8 @@ public class SplashDialog extends SimplePanel {
 			timerEllapsed = true;
 		}
 	};
+	
+	
 
 	public SplashDialog() {
 	    HTML svg = new HTML("<div style=\"position: absolute; z-index: 1000000; border: 1px solid black; background-color: white; \"" + GuiResources.INSTANCE.ggb4Splash().getText() + GuiResources.INSTANCE.ggbSinnerHtml().getText() + "</div>");

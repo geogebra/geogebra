@@ -61,6 +61,10 @@ public class GeoGebraFrame extends VerticalPanel {
 		init(geoGebraMobileTags);
 	}
 	
+	/* 
+	 * In the splashDialog onLoad handler will the application loading continue
+	 */
+	
 	private void createSplash(ArticleElement ae) {
 		splash = new SplashDialog();
 		int splashWidth = 427;
@@ -81,6 +85,13 @@ public class GeoGebraFrame extends VerticalPanel {
 		}
 		addStyleName("jsloaded");
 		add(splash);
+	}
+	
+	private ArticleElement ae;
+	
+	@Override
+    protected void onLoad() {
+		runAsyncAfterSplash(this, ae);
 	}
 	
 	protected int dataParamWidth = 0;
@@ -107,13 +118,13 @@ public class GeoGebraFrame extends VerticalPanel {
 		if (dpBorder == null || dpBorder.length() != 7 ||
 			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
 			dpBorder = "#000000";
+			ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+			ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+			ae.getStyle().setBorderColor(dpBorder);
+			gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
+			gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+			gf.getStyleElement().getStyle().setBorderColor(dpBorder);
 		}
-		ae.getStyle().setBorderWidth(1, Style.Unit.PX);
-		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		ae.getStyle().setBorderColor(dpBorder);
-		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
-		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
 	}
 
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
@@ -126,28 +137,31 @@ public class GeoGebraFrame extends VerticalPanel {
 		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
 	}
+	
+	public void runAsyncAfterSplash(final GeoGebraFrame inst, final ArticleElement articleElement) {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				inst.app = inst.createApplication(articleElement, inst);
+				//useDataParamBorder(articleElement, inst);
+			    //inst.add(inst.app.buildApplicationPanel());
+				inst.app.buildApplicationPanel();
+			    
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Async load failed");
+			}
+		});
+	}
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrame inst = new GeoGebraFrame();
-			inst.createSplash(articleElement);
-			GWT.runAsync(new RunAsyncCallback() {
-				
-				public void onSuccess() {
-					inst.app = inst.createApplication(articleElement, inst);
-					useDataParamBorder(articleElement, inst);
-				    //inst.add(inst.app.buildApplicationPanel());
-					inst.app.buildApplicationPanel();
-				    RootPanel.get(articleElement.getId()).add(inst);
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("Async load failed");
-				}
-			});
-			
-			
+			inst.ae = articleElement;
+			inst.createSplash(articleElement);	
+			RootPanel.get(articleElement.getId()).add(inst);
 		}
 	}
 
@@ -164,22 +178,9 @@ public class GeoGebraFrame extends VerticalPanel {
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		final GeoGebraFrame inst = new GeoGebraFrame();
+		inst.ae = article;
 		inst.createSplash(article);
-		GWT.runAsync(new RunAsyncCallback() {
-			
-			public void onSuccess() {
-				inst.app = inst.createApplication(article, inst);
-				useDataParamBorder(article, inst);
-			    //inst.add(inst.app.buildApplicationPanel());
-				inst.app.buildApplicationPanel();
-			    RootPanel.get(element.getId()).add(inst);
-			}
-			
-			public void onFailure(Throwable reason) {
-				App.debug("Async load failed");
-			}
-		});
-		
+		RootPanel.get(article.getId()).add(inst);
 	}
 
 	
