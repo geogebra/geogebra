@@ -933,6 +933,7 @@ __GGB__keysVar.th.command = {
     "Unique_Syntax": "[ <List> ]",
     "UnitOrthogonalVector": "\u0e40\u0e27\u0e01\u0e40\u0e15\u0e2d\u0e23\u0e4c\u0e15\u0e31\u0e49\u0e07\u0e09\u0e32\u0e01\u0e2b\u0e19\u0e36\u0e48\u0e07\u0e2b\u0e19\u0e48\u0e27\u0e22",
     "UnitOrthogonalVector_Syntax": "[ <\u0e40\u0e2a\u0e49\u0e19> ]\n[ <\u0e2a\u0e48\u0e27\u0e19\u0e02\u0e2d\u0e07\u0e40\u0e2a\u0e49\u0e19\u0e15\u0e23\u0e07> ]\n[ <\u0e40\u0e27\u0e01\u0e40\u0e15\u0e2d\u0e23\u0e4c> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "\u0e40\u0e27\u0e01\u0e40\u0e15\u0e2d\u0e23\u0e4c\u0e2b\u0e19\u0e36\u0e48\u0e07\u0e2b\u0e19\u0e48\u0e27\u0e22",
     "UnitVector_Syntax": "[ <\u0e40\u0e27\u0e01\u0e40\u0e15\u0e2d\u0e23\u0e4c> ]\n[ <\u0e40\u0e2a\u0e49\u0e19> ]\n[ <\u0e2a\u0e48\u0e27\u0e19\u0e02\u0e2d\u0e07\u0e40\u0e2a\u0e49\u0e19\u0e15\u0e23\u0e07> ]",

@@ -933,6 +933,7 @@ __GGB__keysVar.ca.command = {
     "Unique_Syntax": "[ <Llista> ]",
     "UnitOrthogonalVector": "VersorPerpendicular",
     "UnitOrthogonalVector_Syntax": "[ <Recta> ]\n[ <Vector> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "Versor",
     "UnitVector_Syntax": "[ <Vector> ]\n[ <Recta> ]\n[ <Segment> ]",

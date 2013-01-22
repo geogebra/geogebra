@@ -933,6 +933,7 @@ __GGB__keysVar.pt.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "VetorPerpendicularUnit\xe1rio",
     "UnitOrthogonalVector_Syntax": "[ <Reta> ]\n[ <Segmento> ]\n[ <Vetor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vetor> ]",
     "UnitVector": "VetorUnit\xe1rio",
     "UnitVector_Syntax": "[ <Vetor> ]\n[ <Reta> ]\n[ <Segmento> ]",

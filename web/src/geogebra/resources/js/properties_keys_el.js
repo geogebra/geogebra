@@ -933,6 +933,7 @@ __GGB__keysVar.el.command = {
     "Unique_Syntax": "[ <\u03bb\u03af\u03c3\u03c4\u03b1> ]",
     "UnitOrthogonalVector": "\u039c\u03bf\u03bd\u03b1\u03b4\u03b9\u03b1\u03af\u03bf\u039a\u03ac\u03b8\u03b5\u03c4\u03bf\u0394\u03b9\u03ac\u03bd\u03c5\u03c3\u03bc\u03b1",
     "UnitOrthogonalVector_Syntax": "[ <\u0395\u03c5\u03b8\u03b5\u03af\u03b1> ]\n[ <\u03a4\u03bc\u03ae\u03bc\u03b1> ]\n[ <\u0394\u03b9\u03ac\u03bd\u03c5\u03c3\u03bc\u03b1> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u0394\u03b9\u03ac\u03bd\u03c5\u03c3\u03bc\u03b1> ]",
     "UnitVector": "\u039c\u03bf\u03bd\u03b1\u03b4\u03b9\u03b1\u03af\u03bf\u0394\u03b9\u03ac\u03bd\u03c5\u03c3\u03bc\u03b1",
     "UnitVector_Syntax": "[ <\u0394\u03b9\u03ac\u03bd\u03c5\u03c3\u03bc\u03b1> ]\n[ <\u0395\u03c5\u03b8\u03b5\u03af\u03b1> ]\n[ <\u03a4\u03bc\u03ae\u03bc\u03b1> ]",

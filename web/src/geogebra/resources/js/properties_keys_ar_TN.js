@@ -933,6 +933,7 @@ __GGB__keysVar.ar_TN.command = {
     "Unique_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629> ]",
     "UnitOrthogonalVector": "\u0645\u0648\u062c\u0647_\u0648\u062d\u064a\u062f\u064a_\u0639\u0645\u0648\u062f\u064a",
     "UnitOrthogonalVector_Syntax": "[ <\u0645\u0633\u062a\u0642\u064a\u0645> ]\n[ <\u0642\u0637\u0639\u0629 \u0645\u0633\u062a\u0642\u064a\u0645> ]\n[ <\u0645\u0648\u062c\u0647> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u0645\u062a\u062c\u0647> ]",
     "UnitVector": "\u0645\u0648\u062c\u0647_\u0648\u062d\u064a\u062f\u064a",
     "UnitVector_Syntax": "[ <\u0645\u0648\u062c\u0647> ]\n[ <\u0645\u0633\u062a\u0642\u064a\u0645> ]\n[ <\u0642\u0637\u0639\u0629 \u0645\u0633\u062a\u0642\u064a\u0645> ]",

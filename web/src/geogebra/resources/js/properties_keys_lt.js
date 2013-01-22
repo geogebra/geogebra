@@ -933,6 +933,7 @@ __GGB__keysVar.lt.command = {
     "Unique_Syntax": "[ <S\u0105ra\u0161as> ]",
     "UnitOrthogonalVector": "VienetinisStatmenasVektorius",
     "UnitOrthogonalVector_Syntax": "[ <Ties\u0117> ]\n[ <Atkarpa> ]\n[ <Vektorius> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektorius> ]",
     "UnitVector": "VienetinisVektorius",
     "UnitVector_Syntax": "[ <Vektorius> ]\n[ <Ties\u0117> ]\n[ <Atkarpa> ]",

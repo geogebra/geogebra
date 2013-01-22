@@ -933,6 +933,7 @@ __GGB__keysVar.is.command = {
     "Unique_Syntax": "[ <Listi> ]",
     "UnitOrthogonalVector": "Hornr\xe9tturEiningarvigur",
     "UnitOrthogonalVector_Syntax": "[ <L\xedna> ]\n[ <L\xednustrik> ]\n[ <Vigur> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vigur> ]",
     "UnitVector": "EiningarVigur",
     "UnitVector_Syntax": "[ <Vigur> ]\n[ <L\xedna> ]\n[ <L\xednustrik> ]",

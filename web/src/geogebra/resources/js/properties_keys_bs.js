@@ -933,6 +933,7 @@ __GGB__keysVar.bs.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "Jedini\u010dniNormalniVektor",
     "UnitOrthogonalVector_Syntax": "[ <Prava> ]\n[ <Du\u017e> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Jedini\u010dniVektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Prava> ]\n[ <Du\u017e> ]",

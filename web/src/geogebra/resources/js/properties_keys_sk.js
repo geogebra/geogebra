@@ -933,6 +933,7 @@ __GGB__keysVar.sk.command = {
     "Unique_Syntax": "[ <Zoznam> ]",
     "UnitOrthogonalVector": "Jednotkov\xe1Norm\xe1la",
     "UnitOrthogonalVector_Syntax": "[ <Priamka> ]\n[ <\xdase\u010dka> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Jednotkov\xfdVektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Priamka> ]\n[ <\xdase\u010dka> ]",

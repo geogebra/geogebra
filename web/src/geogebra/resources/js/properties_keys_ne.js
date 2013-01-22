@@ -933,6 +933,7 @@ __GGB__keysVar.ne.command = {
     "Unique_Syntax": "[ <\u0938\u0942\u091a\u0940> ]",
     "UnitOrthogonalVector": "\u090f\u0915\u093e\u0907\u0932\u092e\u094d\u092c\u092d\u0947\u0915\u094d\u091f\u0930",
     "UnitOrthogonalVector_Syntax": "[ <\u0930\u0947\u0916\u093e> ]\n[ <\u0916\u0923\u094d\u0921> ]\n[ <\u092d\u0947\u0915\u094d\u091f\u0930> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u092d\u0947\u0915\u094d\u091f\u0930> ]",
     "UnitVector": "\u090f\u0915\u093e\u0907\u092d\u0947\u0915\u094d\u091f\u0930",
     "UnitVector_Syntax": "[ <\u092d\u0947\u0915\u094d\u091f\u0930> ]\n[ <\u0930\u0947\u0916\u093e> ]\n[ <\u0916\u0923\u094d\u0921> ]",

@@ -933,6 +933,7 @@ __GGB__keysVar.br.command = {
     "Unique_Syntax": "[ <List> ]",
     "UnitOrthogonalVector": "UnitPerpendicularVector",
     "UnitOrthogonalVector_Syntax": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "UnitVector",
     "UnitVector_Syntax": "[ <Vector> ]\n[ <Line> ]\n[ <Segment> ]",

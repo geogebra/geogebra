@@ -933,6 +933,7 @@ __GGB__keysVar.cy.command = {
     "Unique_Syntax": "[ <Rhestr> ]",
     "UnitOrthogonalVector": "FectorUnedPerpendicwlar",
     "UnitOrthogonalVector_Syntax": "[ <Llinell> ]\n[ <Segment> ]\n[ <Fector> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "FectorUned",
     "UnitVector_Syntax": "[ <Fector> ]\n[ <Llinell> ]\n[ <Segment> ]",

@@ -933,6 +933,7 @@ __GGB__keysVar.ro.command = {
     "Unique_Syntax": "[ <List\u0103> ]",
     "UnitOrthogonalVector": "VectorUnitatePerpendicular",
     "UnitOrthogonalVector_Syntax": "[ <Dreapt\u0103> ]\n[ <Segment> ]\n[ <Vector> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "VectorUnitate",
     "UnitVector_Syntax": "[ <Vector> ]\n[ <Dreapt\u0103> ]\n[ <Segment> ]",

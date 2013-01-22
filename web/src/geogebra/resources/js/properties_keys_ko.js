@@ -933,6 +933,7 @@ __GGB__keysVar.ko.command = {
     "Unique_Syntax": "[ <\ub9ac\uc2a4\ud2b8> ]",
     "UnitOrthogonalVector": "\ub2e8\uc704\uc218\uc9c1\ubca1\ud130",
     "UnitOrthogonalVector_Syntax": "[ <\uc9c1\uc120> ]\n[ <\uc120\ubd84> ]\n[ <\ubca1\ud130> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\ubca1\ud130> ]",
     "UnitVector": "\ub2e8\uc704\ubca1\ud130",
     "UnitVector_Syntax": "[ <\ubca1\ud130> ]\n[ <\uc9c1\uc120> ]\n[ <\uc120\ubd84> ]",

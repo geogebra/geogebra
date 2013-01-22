@@ -933,6 +933,7 @@ __GGB__keysVar.hu.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "Egys\xe9gnyiNorm\xe1lVektor",
     "UnitOrthogonalVector_Syntax": "[ <Egyenes> ]\n[ <Szakasz> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Egys\xe9gVektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Egyenes> ]\n[ <Szakasz> ]",

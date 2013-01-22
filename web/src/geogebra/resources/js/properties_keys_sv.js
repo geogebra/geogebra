@@ -933,6 +933,7 @@ __GGB__keysVar.sv.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "EnhetsNormalvektor",
     "UnitOrthogonalVector_Syntax": "[ <Linje> ]\n[ <Segment> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Enhetsvektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Linje> ]\n[ <Segment> ]",

@@ -933,6 +933,7 @@ __GGB__keysVar.et.command = {
     "Unique_Syntax": "[ <Loend> ]",
     "UnitOrthogonalVector": "Ristuv\xdchikvektor",
     "UnitOrthogonalVector_Syntax": "[ <Sirge> ]\n[ <L\xf5ik> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "\xdchikvektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Sirge> ]\n[ <L\xf5ik> ]",

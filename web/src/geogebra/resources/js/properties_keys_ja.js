@@ -933,6 +933,7 @@ __GGB__keysVar.ja.command = {
     "Unique_Syntax": "[ <\u30ea\u30b9\u30c8> ]",
     "UnitOrthogonalVector": "UnitPerpendicularVector",
     "UnitOrthogonalVector_Syntax": "[ <\u76f4\u7dda> ]\n[ <\u7dda\u5206> ]\n[ <\u30d9\u30af\u30c8\u30eb> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u30d9\u30af\u30c8\u30eb> ]",
     "UnitVector": "UnitVector",
     "UnitVector_Syntax": "[ <\u30d9\u30af\u30c8\u30eb> ]\n[ <\u76f4\u7dda> ]\n[ <\u7dda\u5206> ]",

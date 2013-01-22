@@ -933,6 +933,7 @@ __GGB__keysVar.in.command = {
     "Unique_Syntax": "[ <Daftar> ]",
     "UnitOrthogonalVector": "VektorSatuanTegakLurus",
     "UnitOrthogonalVector_Syntax": "[ <Garis> ]\n[ <RuasGaris> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "VektorSatuan",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Garis> ]\n[ <RuasGaris> ]",

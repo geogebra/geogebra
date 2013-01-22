@@ -933,6 +933,7 @@ __GGB__keysVar.es.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "VectorUnitarioPerpendicular",
     "UnitOrthogonalVector_Syntax": "[ <Vector> ]\n[ <Direcci\xf3n (recta, semirrecta o segmento)> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "VectorUnitario",
     "UnitVector_Syntax": "[ <Vector> ]\n[ <Direcci\xf3n (recta, semirrecta o segmento)> ]",

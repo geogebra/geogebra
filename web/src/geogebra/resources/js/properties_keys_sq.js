@@ -933,6 +933,7 @@ __GGB__keysVar.sq.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "VektorNjesiPingul",
     "UnitOrthogonalVector_Syntax": "[ <Drejtez> ]\n[ <Segment> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "VektorNjesi",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Drejtez> ]\n[ <Segment> ]",

@@ -933,6 +933,7 @@ __GGB__keysVar.ms.command = {
     "Unique_Syntax": "[ <Senarai> ]",
     "UnitOrthogonalVector": "VektorSerenjangUnit",
     "UnitOrthogonalVector_Syntax": "[ <Garis> ]\n[ <Segmen> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "VektorUnit",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Garis> ]\n[ <Segmen> ]",

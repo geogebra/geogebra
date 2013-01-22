@@ -933,6 +933,7 @@ __GGB__keysVar.cs.command = {
     "Unique_Syntax": "[ <Seznam> ]",
     "UnitOrthogonalVector": "JednotkovyNormVektor",
     "UnitOrthogonalVector_Syntax": "[ <P\u0159\xedmka> ]\n[ <\u010c\xedslo> ]\n[ <Vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "JednotkovyVektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <P\u0159\xedmka> ]\n[ <\u010c\xedslo> ]",

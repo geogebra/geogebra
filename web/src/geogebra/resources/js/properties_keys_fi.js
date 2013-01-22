@@ -933,6 +933,7 @@ __GGB__keysVar.fi.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "KohtisuoraYksikk\xf6vektori",
     "UnitOrthogonalVector_Syntax": "[ <Suora> ]\n[ <Jana> ]\n[ <Vektori> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektori> ]",
     "UnitVector": "Yksikk\xf6vektori",
     "UnitVector_Syntax": "[ <Vektori> ]\n[ <Suora> ]\n[ <Jana> ]",

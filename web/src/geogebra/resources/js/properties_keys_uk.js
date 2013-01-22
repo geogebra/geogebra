@@ -933,6 +933,7 @@ __GGB__keysVar.uk.command = {
     "Unique_Syntax": "[ <List> ]",
     "UnitOrthogonalVector": "\u041d\u043e\u0440\u043c\u0430\u043b\u044c\u043d\u0438\u0439\u041e\u0440\u0442",
     "UnitOrthogonalVector_Syntax": "[ <\u041f\u0440\u044f\u043c\u0430> ]\n[ <\u0412\u0456\u0434\u0440\u0456\u0437\u043e\u043a> ]\n[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "\u041e\u0440\u0442",
     "UnitVector_Syntax": "[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]\n[ <\u041f\u0440\u044f\u043c\u0430> ]\n[ <\u0412\u0456\u0434\u0440\u0456\u0437\u043e\u043a> ]",

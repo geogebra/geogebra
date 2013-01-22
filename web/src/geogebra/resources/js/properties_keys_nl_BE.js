@@ -933,6 +933,7 @@ __GGB__keysVar.nl_BE.command = {
     "Unique_Syntax": "[ <Lijst> ]",
     "UnitOrthogonalVector": "Eenheidsnormaalvector",
     "UnitOrthogonalVector_Syntax": "[ <Rechte> ]\n[ <Vector> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "Eenheidsvector",
     "UnitVector_Syntax": "[ <Vector> ]\n[ <Rechte> ]",

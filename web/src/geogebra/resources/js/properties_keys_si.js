@@ -933,6 +933,7 @@ __GGB__keysVar.si.command = {
     "Unique_Syntax": "[ <List> ]",
     "UnitOrthogonalVector": "\u0d92\u0d9a\u0d9a_\u0dbd\u0db8\u0dd2\u0db6\u0d9a_\u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba",
     "UnitOrthogonalVector_Syntax": "[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]\n[ <\u0d9b\u0dab\u0dca\u0da9\u0dba> ]\n[ <\u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "\u0d92\u0d9a\u0d9a_\u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba",
     "UnitVector_Syntax": "[ <\u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba> ]\n[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]\n[ <\u0d9b\u0dab\u0dca\u0da9\u0dba> ]",

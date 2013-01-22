@@ -933,6 +933,7 @@ __GGB__keysVar.ka.command = {
     "Unique_Syntax": "[ <List> ]",
     "UnitOrthogonalVector": "\u10d4\u10e0\u10d7\u10d4\u10e3\u10da\u10dd\u10d5\u10d0\u10dc\u10d8_\u10dc\u10dd\u10e0\u10db\u10d0\u10da\u10d8",
     "UnitOrthogonalVector_Syntax": "[ <\u10ec\u10e0\u10e4\u10d4> ]\n[ <\u10db\u10dd\u10dc\u10d0\u10d9\u10d5\u10d4\u10d7\u10d8> ]\n[ <\u10d5\u10d4\u10e5\u10e2\u10dd\u10e0\u10d8> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "\u10d4\u10e0\u10d7\u10d4\u10e3\u10da\u10dd\u10d5\u10d0\u10dc\u10d8_\u10d5\u10d4\u10e5\u10e2\u10dd\u10e0\u10d8",
     "UnitVector_Syntax": "[ <\u10d5\u10d4\u10e5\u10e2\u10dd\u10e0\u10d8> ]\n[ <\u10ec\u10e0\u10e4\u10d4> ]\n[ <\u10db\u10dd\u10dc\u10d0\u10d9\u10d5\u10d4\u10d7\u10d8> ]",

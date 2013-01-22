@@ -933,6 +933,7 @@ __GGB__keysVar.gl.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "VectorUnitarioPerpendicular",
     "UnitOrthogonalVector_Syntax": "[ <Recta, semirecta ou segmento> ]\n[ <Vector> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Recta, semirecta ou segmento> ]\n[ <Vector> ]",
     "UnitVector": "VectorUnitario",
     "UnitVector_Syntax": "[ <Vector> ]\n[ <Recta, semirecta ou segmento> ]",

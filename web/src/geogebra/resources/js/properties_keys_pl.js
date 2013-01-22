@@ -933,6 +933,7 @@ __GGB__keysVar.pl.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "WersorProstopad\u0142y",
     "UnitOrthogonalVector_Syntax": "[ <Prosta> ]\n[ <Odcinek> ]\n[ <Wektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Wektor> ]",
     "UnitVector": "Wersor",
     "UnitVector_Syntax": "[ <Wektor> ]\n[ <Prosta> ]\n[ <Odcinek> ]",

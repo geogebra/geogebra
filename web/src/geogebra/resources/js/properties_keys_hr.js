@@ -933,6 +933,7 @@ __GGB__keysVar.hr.command = {
     "Unique_Syntax": "[ <lista> ]",
     "UnitOrthogonalVector": "Jedini\u010dniOkomitVektor",
     "UnitOrthogonalVector_Syntax": "[ <pravac> ]\n[ <du\u017eina> ]\n[ <vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <vektor> ]",
     "UnitVector": "Jedini\u010dniVektor",
     "UnitVector_Syntax": "[ <vektor> ]\n[ <pravac> ]\n[ <du\u017eina> ]",

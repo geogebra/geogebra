@@ -933,6 +933,7 @@ __GGB__keysVar.sl.command = {
     "Unique_Syntax": "[ <seznam> ]",
     "UnitOrthogonalVector": "EnotskiNormalniVektor",
     "UnitOrthogonalVector_Syntax": "[ <premica> ]\n[ <daljica> ]\n[ <vektor> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <vektor> ]",
     "UnitVector": "EnotskiVektor",
     "UnitVector_Syntax": "[ <vektor> ]\n[ <premica> ]\n[ <daljica> ]",
