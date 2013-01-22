@@ -1,5 +1,6 @@
 package geogebra.web.presenter;
 
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
@@ -26,7 +27,9 @@ public class LoadFilePresenter extends BasePresenter {
 		
 		AppW app = view.getApplication();
 		
-		if (!"".equals((base64String = view.getDataParamBase64String()))) {
+		if (isReloadDataInStorage()){
+			//do nothing here - everything done in isReloadDataInStorage() function 
+		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
 		} else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
@@ -92,7 +95,18 @@ public class LoadFilePresenter extends BasePresenter {
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		
 	}
-
+	
+	private boolean isReloadDataInStorage(){
+		Storage stockStore = Storage.getLocalStorageIfSupported();
+		
+		if (stockStore == null) return false;
+		String base64String = stockStore.getItem("reloadBase64String");
+		if ((base64String==null) || (base64String.length()==0)) return false;
+		process(base64String);
+		stockStore.removeItem("reloadBase64String");
+		return true;
+	}
+		
 	private native String getGoogleFileId() /*-{
 	    if ($wnd.GGW_appengine && $wnd.GGW_appengine.FILE_IDS[0] !== "") {
 	    	return $wnd.GGW_appengine.FILE_IDS[0];

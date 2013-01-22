@@ -98,7 +98,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -848,6 +847,17 @@ public class AppW extends App {
 		return Cookies.getCookie("GGWlang");
 	}
 	
+	private native JavaScriptObject saveBase64ToLocaleStorage() /*-{
+	return function(base64) {
+		try {
+			localStorage.setItem("reloadBase64String", base64);
+		} catch (e) {
+			@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+		}
+	}
+
+}-*/;
+	
 	@Override
 	protected void directionForWeb(String lang){
 
@@ -862,7 +872,9 @@ public class AppW extends App {
 		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
 		Cookies.setCookie("GGWlang", lang);
 		if (oldRTLOrder != rightToLeftReadingOrder){
-			Location.reload();
+			JavaScriptObject callback = saveBase64ToLocaleStorage();
+			((GgbAPI) getGgbApi()).getBase64(callback);
+			Window.Location.reload();
 		}
 		
 	}
