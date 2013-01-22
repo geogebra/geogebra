@@ -2,11 +2,14 @@ package geogebra.mobile.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.MobileApp;
+import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.TabletGUI;
-import geogebra.mobile.gui.elements.header.OpenSaveDialog;
 import geogebra.mobile.gui.elements.header.OpenSaveDialog.OpenCallback;
 import geogebra.mobile.gui.elements.header.OpenSaveDialog.SaveCallback;
 import geogebra.mobile.model.GuiModel;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -25,8 +28,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	OpenSaveDialog saveDialog;
 	OpenSaveDialog openDialog;
 
-	// private GgbAPI ggbAPI;//no need for xml string
-
 	/**
 	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
 	 */
@@ -36,20 +37,21 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.app = (MobileApp) kernel.getApplication();
 		this.tabletGUI = tabletGUI;
 
-		// this.ggbAPI = new GgbAPI(this.app);//no need for xml string
-
 		this.addStyleName("leftHeader");
 
-		HeaderButton[] left = new HeaderButton[3];
+		HeaderImageButton[] left = new HeaderImageButton[3];
 
-		left[0] = new HeaderButton();
-		left[0].setText("new");
+		SVGResource icon = CommonResources.INSTANCE.document_new();
+		left[0] = new HeaderImageButton();
+		left[0].setText(icon.getSafeUri().asString());
 
-		left[1] = new HeaderButton();
-		left[1].setText("open");
+		icon = CommonResources.INSTANCE.document_open();
+		left[1] = new HeaderImageButton();
+		left[1].setText(icon.getSafeUri().asString());
 
-		left[2] = new HeaderButton();
-		left[2].setText("save");
+		icon = CommonResources.INSTANCE.document_save();
+		left[2] = new HeaderImageButton();
+		left[2].setText(icon.getSafeUri().asString());
 
 		for (int i = 0; i < left.length; i++)
 		{

@@ -12,6 +12,28 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
+	// Header 
+	
+	@Source("icons/svg/document-new.svg")
+	@Validated(validated = false)
+	SVGResource document_new();
+	
+	@Source("icons/svg/document-open.svg")
+	@Validated(validated = false)
+	SVGResource document_open();
+	
+	@Source("icons/svg/document-save.svg")
+	@Validated(validated = false)
+	SVGResource document_save();
+	
+	@Source("icons/svg/menu_edit_undo.svg")
+	@Validated(validated = false)
+	SVGResource undo();
+	
+	@Source("icons/svg/menu_edit_redo.svg")
+	@Validated(validated = false)
+	SVGResource redo();
+	
 	//ColorBar
 	@Source("backgroundImage/colorBar.png")
 	ImageResource colorBarBackground();
