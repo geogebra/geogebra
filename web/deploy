@@ -17,7 +17,7 @@ UPDATEZIP=0
 
 GAEDIR=lib/appengine-java-sdk-1.7.3
 GAEEMAIL=apps@geogebra.org
-GAEAPP=geogebraweb
+GAEAPP=ggbweb
 DOWNLOADDIR=/var/www/download/web
 WWW_SERVER_LOGIN=www-refresh@www.geogebra.org
 WWW_SERVER_KEY=$HOME/.ssh/id_rsa-www-refresh@www
