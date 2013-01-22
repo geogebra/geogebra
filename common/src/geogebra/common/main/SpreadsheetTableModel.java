@@ -204,7 +204,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			setValueAt(geo, location.y, location.x);
 
 			// add tracing geos to the trace collection
-			if (geo.getSpreadsheetTrace()) {
+			if (!isIniting && geo.getSpreadsheetTrace()) {
 				app.getTraceManager().addSpreadsheetTraceGeo(geo);
 			}
 		}
