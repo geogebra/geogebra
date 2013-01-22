@@ -83,8 +83,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		
 		if (width > 0 && height > 0) {
 			setWidth(width + "px");
-			setDataParamWidth(width);
-			setDataParamHeight(height);
+			setDataParamWidth(ae.getDataParamWidth());
+			setDataParamHeight(ae.getDataParamHeight());
 			setHeight(height + "px");
 			splash.addStyleName("splash");
 			splash.getElement().getStyle()
