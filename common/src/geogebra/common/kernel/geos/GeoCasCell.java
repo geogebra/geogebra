@@ -1458,18 +1458,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * Computes the output of this CAS cell based on its current input settings.
 	 * Note that this will also change a corresponding twinGeo.
-	 * 
-	 * @return success
 	 */
-	final public boolean computeOutput() {
+	final public void computeOutput() {
 		// do not compute output if this cell is used as a text cell
 		if (!useAsText) {
 			//input VE is noll sometimes, ie if Solve is used on a=b+c,b
 			if(getEvalVE()==null)
-				return false;
-			return computeOutput(getEvalVE().getAssignmentType()!=AssignmentType.DELAYED);
+				return;
+			computeOutput(getEvalVE().getAssignmentType()!=AssignmentType.DELAYED);
 		}
-		return true; // simulate success
 	}
 
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
@@ -1479,17 +1476,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * 
 	 * @param doTwinGeoUpdate
 	 *            whether twin geo should be updated or not
-	 * 
-	 * @return success
 	 */
-	private boolean computeOutput(final boolean doTwinGeoUpdate) {
+	private void computeOutput(final boolean doTwinGeoUpdate) {
 		// check for circular definition before we do anything
 		if (isCircularDefinition) {
 			setError("CircularDefinition");
 			if (doTwinGeoUpdate) {
 				updateTwinGeo();
 			}
-			return false;
+			return;
 		}
 
 		String result = null;
@@ -1503,13 +1498,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				ValidExpression evalVE2 = pointList ? wrapPointList(evalVE):evalVE;
+				ValidExpression evalVE2 = pointList ? wrapPointList(evalVE):evalVE;				
 				if(!(evalVE2.unwrap() instanceof Command) || !((Command)evalVE2.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
 					evalVE2 = (ValidExpression) evalVE2.wrap().getCopy(kernel).traverse(fex);
 				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE2,
 						null, StringTemplate.numericNoLocal);
+				if(result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
+					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericDefault);					
+				}
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "
@@ -1561,7 +1559,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// set Output
 		finalizeComputation(success, result, ce, doTwinGeoUpdate);
-		return success;
 	}
 	/**
 	 * Wraps an expression in PointList command and copies the assignment
