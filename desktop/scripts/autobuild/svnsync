@@ -17,7 +17,7 @@ TO_ADD=`tempfile`
 svn ls | sed s/"\/\$"// | sort > $REMOTE_CONTENTS
 
 # 3. Create file for local contents:
-ls -1 -a --color=no | grep -v ^.svn$ | grep -v ^.$ | grep -f ^..$ | sort > $LOCAL_CONTENTS
+ls -1 -a --color=no | grep -v "^\.svn$" | grep -v "^\.$" | grep -v "^\.\.$" | sort > $LOCAL_CONTENTS
 
 # 4. Diffing and sorting out files:
 diff $REMOTE_CONTENTS $LOCAL_CONTENTS > $DIFFFILE
