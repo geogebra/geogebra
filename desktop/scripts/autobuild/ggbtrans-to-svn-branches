@@ -76,5 +76,6 @@ svn commit -m "wiki: *.properties files automatically updated from ggbtrans"
 find $TUBE_SVN_DIR/languages -name '*.properties' | xargs rm -f
 # FIXME: do this with find:
 cd $TUBE_DIR; cp *.properties $TUBE_SVN_DIR/languages
+cd $TUBE_SVN_DIR/languages
 `$SVNSYNC`
 svn commit -m "tube trunk: *.properties files automatically updated from ggbtrans"
