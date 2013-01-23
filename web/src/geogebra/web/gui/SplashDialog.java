@@ -25,7 +25,7 @@ public class SplashDialog extends SimplePanel {
 	
 
 	public SplashDialog(boolean showLogo) {
-		String html = "<div style=\"position: absolute; z-index: 1000000; border: 1px solid black; background-color: white; \"";
+		String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \"";
 		if (showLogo) {
 			html += GuiResources.INSTANCE.ggb4Splash().getText(); 
 		}
