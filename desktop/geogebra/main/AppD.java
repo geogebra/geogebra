@@ -3086,11 +3086,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (showToolBar) {
-
 			AppD2.initToolbar(this, toolbarPosition, showToolBarHelp,
 					northPanel, eastPanel, southPanel, westPanel);
-
 		}
+		
+		frame.getContentPane().validate();
 
 	}
 
