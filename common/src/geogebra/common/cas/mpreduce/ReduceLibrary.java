@@ -149,7 +149,7 @@ public class ReduceLibrary {
 				+ "  operator slessequal;" + "  operator sgreaterequal;"
 				+ "  operator sequal;" + "  operator sunequal;"
 				+ "  operator snot;" + "  operator sand;" + "  operator sor;"
-				+ "  operator simplies;");
+				+ "  operator simplies; operator mydeg;");
 
 		eval("let({sless(~arg1,~arg2) => 'true when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) = -1,"
 				+ " sless(~arg1,~arg2) => 'false when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) > -1,"
@@ -190,7 +190,18 @@ public class ReduceLibrary {
 				+ " sequal(~arg1,~arg2) => myequallist(arg1,arg2) when arglength(arg1)>-1 and arglength(arg2)>-1 and part(arg1,0)='list and part(arg2,0)='list,"
 				+ " sequal(~arg1,~arg2) => 'true when subtraction(arg1,arg2)=0 or trigsimp(subtraction(arg1,arg2),combine)=0,"
 				+ " sequal(~arg1,~arg2) => 'false when mynumberp(subtraction(arg1,arg2))='true and not(mycompare(subtraction(arg1,arg2),0)=0),"
-				+ " sequal(~arg1,~arg2) => 'false when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and not (mycompare(trigsimp(subtraction(arg1,arg2),combine),0)=0)});");
+				+ " sequal(~arg1,~arg2) => 'false when mynumberp(trigsimp(subtraction(arg1,arg2),combine)) = 'true and not (mycompare(trigsimp(subtraction(arg1,arg2),combine),0)=0)," +
+				"" +
+				"mydeg(~a,~c)=>'? when arglength(c)>-1,"+
+				"mydeg(~a+~b,~c)=>max(mydeg(a,c),mydeg(b,c))," +
+				"mydeg(~a-~b,~c)=>max(mydeg(a,c),mydeg(b,c))," +
+				"mydeg(~a*~b,~c)=>mydeg(a,c)+mydeg(b,c),"+
+				"mydeg(~a/~b,~c)=>mydeg(a,c) when freeof(b,c),"+
+				"mydeg(~c,~c)=>1," +
+				"mydeg(~a,~c)=>0 when freeof(a,c),"+
+				"mydeg(~a^~b,~c)=>mydeg(a,c)*b});");
+		eval("procedure computedeg(p,var); begin scalar d; d:=mydeg(p,var); " +
+				"return if freeof(d,mydeg) then d else ?;end;");
 
 		eval("operator myintoperator;");
 		eval("ifelseintsimplifications := {"
