@@ -211,7 +211,10 @@ public class Kernel {
 	/** maximum reasonable precision */
 	public final static double MAX_PRECISION = 1E-12;
 
-	/** current working precision */
+	/** maximum axes can zoom to */ 
+ 	private final static double AXES_PRECISION = 1E-14; 
+ 	
+ 	/** current working precision */
 	public static double EPSILON = STANDARD_PRECISION;
 	/** square root of current precision */
 	public static double EPSILON_SQRT = STANDARD_PRECISION_SQRT;
@@ -871,7 +874,7 @@ public class Kernel {
 			sbFormat = new StringBuilder();
 		}
 		sbFormat.setLength(0);
-		if (isEqual(a, aint, STANDARD_PRECISION)) {
+		if (isEqual(a, aint, AXES_PRECISION)) {
 			switch (aint) {
 			case 0:
 				return "0";
@@ -1030,6 +1033,7 @@ public class Kernel {
 
 		// nf = FormatFactory.prototype.getNumberFormat(2);
 		NumberFormatAdapter nfa = tpl.getNF(nf);
+		App.debug(x+" "+nfa.format(x));
 		return nfa.format(x);
 	}
 
@@ -1046,7 +1050,7 @@ public class Kernel {
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-
+//App.printStacktrace(x+"");
 		String ret = formatRaw(x, tpl);
 
 		if (App.unicodeZero != '0') {
