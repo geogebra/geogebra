@@ -3224,6 +3224,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					g2.draw(tempLine);
 				}
 			}
+			
+			String crossAtStr = ""
+					+ kernel.formatPiE(axisCross[1],
+							axesNumberFormat[0],
+							StringTemplate.defaultTemplate);
 
 			for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
 				if (pix >= xAxisStart && pix <= maxX) {
@@ -3232,11 +3237,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 								axesNumberFormat[0],
 								StringTemplate.defaultTemplate);
 
-						// flag to handle drawing a label at axis crossing point
-						boolean zero = strNum.equals(""
-								+ kernel.formatPiE(axisCross[1],
-										axesNumberFormat[0],
-										StringTemplate.defaultTemplate));
 						if ((labelno % unitsPerLabelX) == 0) {
 
 							StringBuilder sb = new StringBuilder(strNum);
@@ -3256,6 +3256,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 											getFontAxes(), frc);
 							int x, y = (int) (yCrossPix + yoffset);
 
+							// flag to handle drawing a label at axis crossing point
+							boolean zero = strNum.equals(crossAtStr);
 							// if label intersects the y-axis then draw it 6
 							// pixels to the left
 							if (zero && showAxes[1] && !positiveAxes[1]
@@ -3374,6 +3376,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			int maxY = SCREEN_BORDER;
 
 			// yAxisEnd
+			
+			String crossAtStr = ""
+					+ kernel.formatPiE(axisCross[0],
+							axesNumberFormat[0],
+							StringTemplate.defaultTemplate);
 
 			for (; pix >= maxY; rw += axesNumberingDistances[1], pix -= axesStep, labelno++) {
 				if (pix >= maxY && pix <= yAxisEnd) {
@@ -3382,11 +3389,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 								axesNumberFormat[1],
 								StringTemplate.defaultTemplate);
 
-						// flag for handling label at axis cross point
-						boolean zero = strNum.equals(""
-								+ kernel.formatPiE(axisCross[0],
-										axesNumberFormat[0],
-										StringTemplate.defaultTemplate));
 						if ((labelno % unitsPerLabelY) == 0) {
 
 							StringBuilder sb = new StringBuilder(strNum);
@@ -3408,6 +3410,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 							int x = (int) ((xCrossPix + xoffset) - layout
 									.getAdvance());
 							int y;
+
+							// flag for handling label at axis cross point
+							boolean zero = strNum.equals(crossAtStr);
+
 							// if the label is at the axis cross point then draw
 							// it 2 pixels above
 							if (zero && showAxes[0] && !positiveAxes[0]
