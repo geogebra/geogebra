@@ -151,7 +151,7 @@ public class ReduceLibrary {
 				+ "  operator snot;" + "  operator sand;" + "  operator sor;"
 				+ "  operator simplies; operator mydeg;");
 
-		eval("let({sless(~arg1,~arg2) => 'true when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) = -1,"
+		App.debug(eval("let({sless(~arg1,~arg2) => 'true when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) = -1,"
 				+ " sless(~arg1,~arg2) => 'false when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) > -1,"
 				+ " sgreater(~arg1,~arg2) => 'true when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) = 1,"
 				+ " sgreater(~arg1,~arg2) => 'false when mynumberp(arg1-arg2) = 'true and mycompare(arg1,arg2) < 1,"
@@ -198,8 +198,10 @@ public class ReduceLibrary {
 				"mydeg(~a*~b,~c)=>mydeg(a,c)+mydeg(b,c),"+
 				"mydeg(~a/~b,~c)=>mydeg(a,c) when freeof(b,c),"+
 				"mydeg(~c,~c)=>1," +
-				"mydeg(~a,~c)=>0 when freeof(a,c),"+
-				"mydeg(~a^~b,~c)=>mydeg(a,c)*b});");
+				"mydeg(~a,allvars)=>1 when arglength(a)=-1,"+
+				"mydeg(~a,~c)=>0 when freeof(a,c) and not (c=allvars),"+
+				"mydeg(~a,~c)=>0 when mynumberp(a)='true,"+
+				"mydeg(~a^~b,~c)=>mydeg(a,c)*b});"));
 		eval("procedure computedeg(p,var); begin scalar d; d:=mydeg(p,var); " +
 				"return if freeof(d,mydeg) then d else ?;end;");
 
