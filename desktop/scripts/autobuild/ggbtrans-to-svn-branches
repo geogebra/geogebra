@@ -9,6 +9,8 @@
 # Edit these variables if needed:
 GGBTRANS_DIR=/home/ggbtrans/svn/ggbtrans
 BRANCHES_DIR=/home/ggbtrans/svn/branches
+TUBE_DIR=/home/maint/svn/geogebra/desktop/scripts/autobuild/properties/tube
+TUBE_SVN_DIR=/home/ggbtrans/svn-tube
 SVNSYNC=`pwd`/svnsync
 
 # Updating SVN:
@@ -65,3 +67,14 @@ $GGBTRANS_DIR/export.py wiki $BRANCHES_DIR/wiki/geogebra/properties
 cd $BRANCHES_DIR/wiki/geogebra/properties
 `$SVNSYNC`
 svn commit -m "wiki: *.properties files automatically updated from ggbtrans"
+
+# Committing yesterday's changes into tube.
+# Assuming the files are already created into
+# /home/maint/svn/geogebra/desktop/scripts/autobuild/properties/tube.
+# Change it on the top of the script if required.
+# Remove the old .properties files first:
+find $TUBE_SVN_DIR/languages -name '*.properties' | xargs rm -f
+# FIXME: do this with find:
+cd $TUBE_DIR; cp *.properties $TUBE_SVN_DIR/languages
+`$SVNSYNC`
+svn commit -m "tube trunk: *.properties files automatically updated from ggbtrans"
