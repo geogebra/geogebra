@@ -6,9 +6,6 @@ import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -52,11 +49,7 @@ public class CASDockPanelW extends DockPanelW {
 					getSpreadsheetView()).getCASStyleBar()).getOffsetHeight();
 
 			sview.getComponent().setWidth(width+"px");
-			sview.getComponent().setHeight(height+"px");
-			Node n = sview.getComponent().getElement().getChild(0);
-			if(n instanceof Element){
-				((Element)n).getStyle().setWidth(100, Style.Unit.PCT);
-			}
+			sview.getComponent().setHeight(height+"px");			
 			//TODO: Focus panel
 		}
 		

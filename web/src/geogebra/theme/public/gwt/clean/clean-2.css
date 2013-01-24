@@ -1581,3 +1581,8 @@ body[dir=rtl] .GeoGebraMenuBar table{
 .downloadGGB_label{
 	margin: 5px;
 }
+
+.casView table{
+	width:100%;
+	border-collapse:collapse;
+}
