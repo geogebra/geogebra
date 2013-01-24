@@ -8,7 +8,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/web"/>
 	<classpathentry kind="lib" path="lib/gwtphonegap-1.8.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/lib-gwt-svg-0.5.6.jar"/>
-	<classpathentry kind="lib" path="lib/mgwt-1.1.1.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT-2.5.0.rc1"/>
+	<classpathentry kind="lib" path="lib/mgwt-1.1.2.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.5.0"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
