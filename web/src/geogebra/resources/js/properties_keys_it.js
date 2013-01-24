@@ -933,7 +933,7 @@ __GGB__keysVar.it.command = {
     "Unique_Syntax": "[ <Lista> ]",
     "UnitOrthogonalVector": "VersorePerpendicolare",
     "UnitOrthogonalVector_Syntax": "[ <Retta> ]\n[ <Segmento> ]\n[ <Vettore> ]",
-    "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
+    "UnitOrthogonalVector_Syntax3D": "[ <Retta> ]\n[ <Segmento> ]\n[ <Vettore> ]\n[ <Piano> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vettore> ]",
     "UnitVector": "Versore",
     "UnitVector_Syntax": "[ <Vettore> ]\n[ <Retta> ]\n[ <Segmento> ]",
