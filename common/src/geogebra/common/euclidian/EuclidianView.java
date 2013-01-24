@@ -3413,6 +3413,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 							// flag for handling label at axis cross point
 							boolean zero = strNum.equals(crossAtStr);
+							if (zero)
+							if (!Kernel.isEqual(rw, MyMath.nextMultiple(axisCross[0],
+									axesNumberingDistances[1]))) {
+								zero = false;
+							}
 
 							// if the label is at the axis cross point then draw
 							// it 2 pixels above
