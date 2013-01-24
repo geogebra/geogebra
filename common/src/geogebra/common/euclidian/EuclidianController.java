@@ -6594,6 +6594,8 @@ public abstract class EuclidianController {
 					view.setResizeXAxisCursor();
 				} else if (hits.hasYAxis()){
 					view.setResizeYAxisCursor();
+				} else {
+					view.setHitCursor();
 				}
 			} else {
 				view.setHitCursor();
