@@ -1033,7 +1033,6 @@ public class Kernel {
 
 		// nf = FormatFactory.prototype.getNumberFormat(2);
 		NumberFormatAdapter nfa = tpl.getNF(nf);
-		App.debug(x+" "+nfa.format(x));
 		return nfa.format(x);
 	}
 
