@@ -5,7 +5,13 @@ import geogebra.common.cas.view.CASTable;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.cas.view.RowHeader;
 import geogebra.common.main.App;
+import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -27,13 +33,18 @@ public class CASViewW extends CASView {
 		kernel.getAlgebraProcessor().enableCAS();
 		
 		// CAS input/output cells
-		consoleTable = new CASTableW();	
+		consoleTable = new CASTableW((AppW) app);	
 		component.add(consoleTable);
 				// input handler
 		casInputHandler = new CASInputHandler(this);
 
 		// addFocusListener(this);
-		
+		CASTableControllerW ml = new CASTableControllerW(consoleTable);
+		component.addDomHandler(ml, MouseDownEvent.getType());
+		component.addDomHandler(ml, MouseUpEvent.getType());
+		component.addDomHandler(ml, MouseMoveEvent.getType());
+		component.addDomHandler(ml, ClickEvent.getType());
+		component.addDomHandler(ml, DoubleClickEvent.getType());
 		
 		
 		getCAS().initCurrentCAS();

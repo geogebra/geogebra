@@ -264,28 +264,4 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 				break;
 		}
 	}
-	
-//	public void focusGained(FocusEvent arg0) {
-//		getInputArea().requestFocusInWindow();
-////		getInputArea().setCaretPosition(getInput().length());
-////		getInputArea().setSelectionStart(getInput().length());
-////		getInputArea().setSelectionEnd(getInput().length());
-//		
-//		// TODO: remove
-//		System.out.println("focus gained, editor row " + editingRow);
-//		lastFocusRow = editingRow;
-//	}
-//	
-//	int lastFocusRow;
-//
-//	public void focusLost(FocusEvent arg0) {
-//		//Application.printStacktrace("focus lost " + editingRow);
-//		// TODO: remove
-//		System.out.println("focus lost: lastFocusRow " + lastFocusRow + ", editingRow " + editingRow);
-//	
-//		if (editingRow == lastFocusRow) {
-//			stopCellEditing();
-//			casTable.updateRow(editingRow);
-//		}
-//	}	
 }

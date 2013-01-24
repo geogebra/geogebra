@@ -5,18 +5,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
+import geogebra.web.gui.KeyEventsHandler;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
-//import geogebra.web.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Widget;
+//import geogebra.web.gui.virtualkeyboard.VirtualKeyboard;
 
 /**
  * Default cell editor for the spreadsheet, extends
@@ -323,7 +321,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	// so we can return to that column when <enter> pressed
 	public static int tabReturnCol = -1;
 
-	public class SpreadsheetCellEditorKeyListener implements KeyDownHandler, KeyPressHandler, KeyUpHandler {
+	public class SpreadsheetCellEditorKeyListener implements KeyEventsHandler {
 
 		// boolean escape = false;
 		boolean isFormulaBarListener;

@@ -1,6 +1,8 @@
 package geogebra.common.cas.view;
 
-public interface CASTableCellEditor {
+import geogebra.common.gui.SetLabels;
+
+public interface CASTableCellEditor extends SetLabels {
 
 	int getInputSelectionEnd();
 

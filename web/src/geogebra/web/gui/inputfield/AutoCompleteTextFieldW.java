@@ -21,9 +21,9 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.web.gui.KeyEventsHandler;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
-import geogebra.web.gui.view.spreadsheet.MyCellEditorW.SpreadsheetCellEditorKeyListener;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -113,8 +113,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 	  
 	  public AutoCompleteTextFieldW(int columns, AppW app,
-		      boolean handleEscapeKey, Object kuh) {
-		    this(columns, app, handleEscapeKey, app.getCommandDictionary(), kuh);
+		      boolean handleEscapeKey, KeyEventsHandler keyHandler) {
+		    this(columns, app, handleEscapeKey, app.getCommandDictionary(), keyHandler);
 		    // setDictionary(app.getAllCommandsDictionary());
 	  }
 	  
@@ -125,7 +125,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 
 	  public AutoCompleteTextFieldW(int columns, AppW app,
-		      boolean handleEscapeKey, AutoCompleteDictionary dict, Object kuh) {
+		      boolean handleEscapeKey, AutoCompleteDictionary dict, KeyEventsHandler keyHandler) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
 		  textField = new SuggestBox(completionsPopup = new CompletionsPopup(),new TextBox(), new SuggestBox.DefaultSuggestionDisplay());
@@ -189,15 +189,15 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    completionsPopup.addTextField(this);
 
 		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
-		    if (kuh == null) {
+		    if (keyHandler == null) {
 		    	textField.getTextBox().addKeyDownHandler(this);
 		    	textField.getTextBox().addKeyUpHandler(this);
 		    	textField.getTextBox().addKeyPressHandler(this);
 		    } else {
 		    	// This is currently used for MyCellEditorW.SpreadsheetCellEditorKeyListener
-		    	textField.getTextBox().addKeyDownHandler((KeyDownHandler)kuh);
-		    	textField.getTextBox().addKeyPressHandler((KeyPressHandler)kuh);
-		    	textField.getTextBox().addKeyUpHandler((KeyUpHandler)kuh);
+		    	textField.getTextBox().addKeyDownHandler(keyHandler);
+		    	textField.getTextBox().addKeyPressHandler(keyHandler);
+		    	textField.getTextBox().addKeyUpHandler(keyHandler);
 		    }
 		    textField.addValueChangeHandler(this);
 		    textField.addSelectionHandler(this);
@@ -997,6 +997,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	private boolean isSuggestionJustHappened = false;
 	private boolean isSuggestionClickJustHappened = false;
 	private GeoTextField geoUsedForInputBox;
+	private boolean casInput;
 	
 	/**
 	 * @return that suggestion is just happened (click or enter,
@@ -1054,7 +1055,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 		// make sure AutoComplete works
 		if (this instanceof AutoCompleteTextFieldW) {
-			AutoCompleteTextFieldW tf = (AutoCompleteTextFieldW) this;
+			AutoCompleteTextFieldW tf = this;
 			tf.updateCurrentWord(false);
 			tf.startAutoCompletion();
 		}
@@ -1219,4 +1220,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	public void setEqualsRequired(boolean isEqualsRequired) {
 		this.isEqualsRequired = isEqualsRequired;
 	}
+
+	public void setCASInput(boolean b) {
+	    this.casInput = b;	    
+    }
 }

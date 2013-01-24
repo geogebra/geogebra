@@ -5,6 +5,7 @@ import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Grid;
@@ -14,13 +15,16 @@ public class CASTableW extends Grid implements CASTable{
 
 	private static final int COL_CAS_CELLS_WEB = 1;
 	private static final int COL_CAS_HEADER = 0;
+	private CASTableCellEditorW editor;
+	private AppW app;
 
-	public CASTableW(){
+	public CASTableW(AppW app){
 		super(1,2);
+		this.app=app;
 		setBorderWidth(1);
 		getElement().getStyle().setBorderColor(MyTableW.TABLE_GRID_COLOR.toString());
 		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		
+		editor = new CASTableCellEditorW(this, app);
 		insertRow(0,null, false);
 	}
 	
@@ -30,7 +34,7 @@ public class CASTableW extends Grid implements CASTable{
     }
 
 	public void setLabels() {
-	    // TODO Auto-generated method stub
+	    editor.setLabels();
 	    
     }
 
@@ -40,8 +44,7 @@ public class CASTableW extends Grid implements CASTable{
     }
 
 	public App getApplication() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return app;
     }
 
 	public void deleteAllRows() {
