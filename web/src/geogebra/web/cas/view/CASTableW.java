@@ -90,6 +90,10 @@ public class CASTableW extends Grid implements CASTable{
 	    Widget cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(n+1);
 		this.setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
+		 this.getCellFormatter().getElement(n, COL_CAS_HEADER).getStyle()
+	        .setBackgroundColor(
+	                MyTableW.BACKGROUND_COLOR_HEADER
+	                        .toString());
 		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 	    
     }
@@ -106,6 +110,10 @@ public class CASTableW extends Grid implements CASTable{
 	    Widget cellWidget = new CASTableCellW(casCell);
 	    Widget rowHeader = new RowHeaderWidget(rowNumber+1);
 	    this.setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
+	    this.getCellFormatter().getElement(rowNumber, COL_CAS_HEADER).getStyle()
+        .setBackgroundColor(
+                MyTableW.BACKGROUND_COLOR_HEADER
+                        .toString());
 		this.setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
     }
 
