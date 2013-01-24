@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.stat;
 
+import geogebra.common.kernel.Kernel;
+
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Comparator;
@@ -287,7 +289,9 @@ public class Frequency implements Serializable {
     public long getCount(char v) {
         return getCount(Character.valueOf(v));
     }
-
+       
+    
+   
     /**
      * Returns the number of values in the frequency table.
      *
@@ -468,6 +472,11 @@ public class Frequency implements Serializable {
         return getCumFreq(Character.valueOf(v));
     }
 
+
+    
+    
+    
+    
     //----------------------------------------------------------------------------------------------
 
     /**
@@ -600,4 +609,35 @@ public class Frequency implements Serializable {
         return true;
     }
 
+
+    //=======================================================
+    // GGB methods to handle counts with double comparisons 
+    //=======================================================
+    
+    /**
+     * Returns the number of values = v.
+     *
+     * @param v the value to lookup.
+     * @return the frequency of v.
+     */
+    public long getCount(double v) {
+    	Double v2 = Kernel.checkDecimalFraction(v);
+        return getCount(v2);
+    }
+    
+
+    /**
+     * Returns the cumulative frequency of values less than or equal to v.
+     * <p>
+     * Returns 0 if v is not comparable to the values set.</p>
+     *
+     * @param v the value to lookup
+     * @return the proportion of values equal to v
+     */
+    public long getCumFreq(double v) {
+    	Double v2 = Kernel.checkDecimalFraction(v);
+        return getCumFreq(v2);
+    }
+    
+    
 }
