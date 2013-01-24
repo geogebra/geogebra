@@ -21,7 +21,7 @@ public class NumberFormatWeb extends Format implements NumberFormatAdapter {
 		if(!forcedLatinDigits) NumberFormat.setForcedLatinDigits(true);
 		this.nf = com.google.gwt.i18n.client.NumberFormat.getFormat(s);
 		if(!forcedLatinDigits) NumberFormat.setForcedLatinDigits(false);
-	   
+		nf.overrideFractionDigits(0, maximumFractionDigits);
     }
 	
 	public int getMaximumFractionDigits() {
