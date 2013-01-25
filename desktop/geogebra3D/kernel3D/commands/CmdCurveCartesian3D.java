@@ -10,17 +10,21 @@ import geogebra.common.main.MyError;
 
 
 
-/*
- * Line[ <GeoPoint3D>, <GeoPoint3D> ] or CmdLine
+/**
+ * Curve[ x(t),y(t),z(t),t,from,to]
  */
 public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdCurveCartesian3D(Kernel kernel) {
-		super((Kernel)kernel);
+		super(kernel);
 		
 	}
 	
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {	
 
 
@@ -42,7 +46,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	    			&& (ok[5] = arg[5].isNumberValue()))
 	    	{
 	    		GeoElement [] ret = new GeoElement[1];
-	    		ret[0] = ((Kernel)kernelA).getManager3D().CurveCartesian3D(
+	    		ret[0] = kernelA.getManager3D().CurveCartesian3D(
 	    				c.getLabel(),
 	    				(NumberValue) arg[0],
 	    				(NumberValue) arg[1],
@@ -51,11 +55,10 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	    				(NumberValue) arg[4],
 	    				(NumberValue) arg[5]);
 	    		return ret;
-	    	} else {          
-	    		for (int i=0; i < n; i++) {
-	    			if (!ok[i]) throw argErr(app, c.getName(), arg[i]);	
-	    		}            	
-	    	}                   	  
+	    	}
+			for (int i=0; i < n; i++) {
+				if (!ok[i]) throw argErr(app, c.getName(), arg[i]);	
+			}                   	  
 
 	    }
 
