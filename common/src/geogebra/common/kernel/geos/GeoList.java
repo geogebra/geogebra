@@ -25,6 +25,7 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoDependentList;
@@ -2389,5 +2390,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		return false;
 	}
 	
+	
+	@Override
+	final public Coords getMainDirection() {
+		return geoList.get(closestPointIndex).getMainDirection();
+	}
+
 	
 }

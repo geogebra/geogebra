@@ -209,9 +209,6 @@ public abstract class GeoElement3D extends GeoElement implements
 		alphaValue = alpha;
 	}
 	
-	//TODO remove this
-	@Override
-	public Coords getMainDirection(){ return null;}
 
 
 	////////////////////////////
