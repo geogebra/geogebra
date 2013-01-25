@@ -32,7 +32,9 @@ implements Previewable {
 	}
 	
 	public void drawGeometry(Renderer renderer) {
+		renderer.setLayer(getGeoElement().getLayer());
 		renderer.getGeometryManager().draw(getGeometryIndex());
+		renderer.setLayer(0);
 	}
 
 	void drawGeometryHiding(Renderer renderer) {
