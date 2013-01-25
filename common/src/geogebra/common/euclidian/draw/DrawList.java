@@ -169,10 +169,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				if (!listElement.isDrawable())
 					continue;
 
-				// new 3D elements are not drawn -- TODO change that
-				if (listElement.isGeoElement3D())
-					continue;
-
 				// add drawable for listElement
 				// if (addToDrawableList(listElement, drawablePos, oldDrawableSize))
 				if (drawables.addToDrawableList(listElement, drawablePos,
