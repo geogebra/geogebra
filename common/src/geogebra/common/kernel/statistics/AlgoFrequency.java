@@ -244,7 +244,7 @@ public class AlgoFrequency extends AlgoElement {
 		// Load the data into f, an instance of Frequency class
 		// =======================================================
 
-		Frequency f = new Frequency();
+		Frequency f = new FrequencyGgb();
 		for (int i = 0; i < dataList.size(); i++) {
 			if (dataList.getElementType().equals(GeoClass.TEXT))
 				f.addValue(((GeoText) dataList.get(i))

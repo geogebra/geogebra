@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.statistics.FrequencyGgb;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.Iterator;
@@ -94,7 +95,7 @@ public class AlgoUnique extends AlgoElement {
 
 		// Load the data into f, an instance of Frequency class 
 		if(f == null)
-		 f = new Frequency();
+		 f = new FrequencyGgb();
 		f.clear();
 		for (int i=0 ; i < dataList.size(); i++) {
 			if(dataList.getElementType() .equals(GeoClass.TEXT))
