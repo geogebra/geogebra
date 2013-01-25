@@ -2502,7 +2502,7 @@ __GGB__keysVar.uk.plain = {
     "Title": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a",
     "TitleExportPgf": "\u0415\u043a\u0441\u043f\u043e\u0440\u0442 \u0432 PGF",
     "TitleExportPstricks": "\u0415\u043a\u0441\u043f\u043e\u0440\u0442 \u0432 PSTricks",
-    "ToggleStyleBar": "Toggle Styling Bar",
+    "ToggleStyleBar": "Toggle Style Bar",
     "ToolbarIcon": "Toolbar Icon",
     "ToolbarIconsConstructionProtocolExport": "Display Toolbar Icons",
     "TooltipLanguage": "Tooltip Language",

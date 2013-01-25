@@ -2502,7 +2502,7 @@ __GGB__keysVar.en_GB.plain = {
     "Title": "Title",
     "TitleExportPgf": "GeoGebra to PGF Export",
     "TitleExportPstricks": "GeoGebra to PSTricks Export",
-    "ToggleStyleBar": "Toggle Styling Bar",
+    "ToggleStyleBar": "Toggle Style Bar",
     "ToolbarIcon": "Toolbar Icon",
     "ToolbarIconsConstructionProtocolExport": "Display Toolbar Icons",
     "TooltipLanguage": "Tooltip Language",

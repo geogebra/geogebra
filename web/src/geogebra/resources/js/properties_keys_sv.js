@@ -2395,7 +2395,7 @@ __GGB__keysVar.sv.plain = {
     "PositiveDirectionOnly": "Endast positiv riktning",
     "PositiveValuesFollowTheView": "Positiva v\xe4rden f\xf6ljer ritomr\xe5det",
     "Preferences": "Inst\xe4llningar",
-    "PreferencesOfA": "Inst\xe4llniingar - %0",
+    "PreferencesOfA": "Inst\xe4llningar - %0",
     "PreviewUnavailable": "F\xf6rhandsgranskning ej tillg\xe4nglig",
     "ProbabilityCalculator": "Sannolikhetsr\xe4knare",
     "Properties": "Egenskaper",

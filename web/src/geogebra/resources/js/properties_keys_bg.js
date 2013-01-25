@@ -2502,7 +2502,7 @@ __GGB__keysVar.bg.plain = {
     "Title": "\u0417\u0430\u0433\u043b\u0430\u0432\u0438\u0435",
     "TitleExportPgf": "GeoGebra to PGF Export",
     "TitleExportPstricks": "GeoGebra to PSTricks Export",
-    "ToggleStyleBar": "Toggle Styling Bar",
+    "ToggleStyleBar": "Toggle Style Bar",
     "ToolbarIcon": "Toolbar Icon",
     "ToolbarIconsConstructionProtocolExport": "Display Toolbar Icons",
     "TooltipLanguage": "Tooltip Language",

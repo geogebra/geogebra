@@ -2502,7 +2502,7 @@ __GGB__keysVar.tl.plain = {
     "Title": "Pamagat",
     "TitleExportPgf": "GeoGebra papuntang PGF Export",
     "TitleExportPstricks": "GeoGebra papuntang PSTricks Export",
-    "ToggleStyleBar": "Ibahin ang Styling Bar",
+    "ToggleStyleBar": "Ibahin ang Style Bar",
     "ToolbarIcon": "Simbolo ng toolbar",
     "ToolbarIconsConstructionProtocolExport": "Ipakita ang mga simbolo ng toolbar",
     "TooltipLanguage": "Wika ng Tooltip",
