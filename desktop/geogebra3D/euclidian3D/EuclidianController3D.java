@@ -15,6 +15,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -556,7 +557,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianView3D.PREVIEW_POINT_PATH:
 			if (onPathPossible){
 				Path path = point.getPath();
-				if (((GeoElement) path).isGeoElement3D()){
+				if (path.toGeoElement().isGeoElement3D()
+						|| (path.toGeoElement().isGeoList() && ((GeoList) path.toGeoElement()).containsGeoElement3D())){
 					point3D = (GeoPoint3D) getKernel().getManager3D().Point3D(null,path, false);
 					point3D.setWillingCoords(point.getCoords());
 					point3D.doPath();

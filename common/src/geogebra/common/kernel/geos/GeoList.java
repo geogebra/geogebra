@@ -1638,11 +1638,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
+		
 		// double closestIndex = -1;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
-			final double d = geo.distance(p);
-			// Application.debug(i+" "+d+" "+distance+" "+getLabel());
+			final double d = p.distanceToPath((PathOrPoint) geo);
+			
+			//App.debug(i+" "+d+" "+distance+" "+geo);
 			if (d < distance) {
 				distance = d;
 				closestPointIndex = i;
@@ -1667,6 +1669,22 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 
 		return distance;
 	}
+	
+	@Override
+	public double distance(final GeoPointND p) {
+		double distance = Double.POSITIVE_INFINITY;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			final double d = geo.distance(p);
+			if (d < distance) {
+				distance = d;
+			}
+		}
+
+		return distance;
+	}
+	
+	
 
 	public void pathChanged(final GeoPointND PI) {
 		if(size()==0){
@@ -2351,4 +2369,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			}
 		}
 	}
+	
+	
+	/**
+	 * @return true if this list contains a 3D geo
+	 */
+	public boolean containsGeoElement3D(){
+		for (GeoElement geo : geoList){
+			boolean contains = false;
+			if (geo.isGeoList()){
+				contains = ((GeoList) geo).containsGeoElement3D();
+			}else{
+				contains = geo.isGeoElement3D();
+			}
+			if (contains)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
 }

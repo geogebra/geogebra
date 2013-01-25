@@ -26,6 +26,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
@@ -43,7 +45,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -66,9 +67,9 @@ import java.util.TreeSet;
  * 
  * @author Markus + ggb3D
  */
-public class GeoPoint3D extends GeoVec4D implements GeoPointND,
+public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle,
-		PointRotateable, RotateableND, Transformable {
+		RotateableND, Transformable {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -157,14 +158,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	@Override
 	public double distance(GeoPointND P) {
-		// TODO dimension ?
 		return getInhomCoordsInD(3).distance(P.getInhomCoordsInD(3));
 	}
 
-	// euclidian distance between this GeoPoint3D and P
-	final public double distance(GeoPoint3D P) {
-		return getInhomCoords().distance(P.getInhomCoords());
-	}
+
 
 	// /////////////////////////////////////////////////////////
 	// COORDINATES
@@ -469,9 +466,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		path.pointChanged(this);
 		// check if the path is a 2D path : in this case, 2D coords have been
 		// modified
-		if (!((GeoElement) path).isGeoElement3D())
+		if (!(path.toGeoElement().isGeoElement3D()) && !(path.toGeoElement().isGeoList()))// && ((GeoList) path.toGeoElement()).containsGeoElement3D()))
 			updateCoordsFrom2D(false, null);
 		updateCoords();
+		
 	}
 
 	// copied on GeoPoint
@@ -1310,6 +1308,66 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	}
 	
+	
+	/////////////////////////////
+	// PATH OR POINT INTERFACE
+	/////////////////////////////
+
+	public void pointChanged(GeoPointND p) {
+		((GeoPoint3D) p).setCoords(this.getCoords(),false);
+		p.getPathParameter().setT(0);
+	}
+
+	public void pathChanged(GeoPointND PI) {
+		pointChanged(PI);
+	}
+
+	public boolean isOnPath(GeoPointND PI, double eps) {
+		return isEqual((GeoElement) PI);
+	}
+
+	public double getMinParameter() {
+		return 0;
+	}
+
+	public double getMaxParameter() {
+		return 0;
+	}
+
+	public boolean isClosedPath() {
+		return false;
+	}
+
+	public PathMover createPathMover() {
+		return null;
+	}
+	
+	
+	public double distanceToPath(PathOrPoint path){
+		
+		if (getWillingCoords() == null){
+			return path.toGeoElement().distance(this);
+		}
+		
+
+
+		//Region region = getRegion();
+		//setRegion(null);
+		Coords coordsOld = getInhomCoords();
+		path.pointChanged(this);
+		double d;
+		if(getWillingDirection() == null) {
+			d = getInhomCoords().distance(getWillingCoords());
+		}else{
+			d = getInhomCoords().distLine(getWillingCoords(),getWillingDirection());
+		}
+
+		setCoords(coordsOld, false);
+		return d;
+	
+		
+		
+	}
 
 
 }

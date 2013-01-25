@@ -1126,19 +1126,23 @@ public abstract class EuclidianController {
 				return createNewPoint2D(forPreviewable, region, x, y, complex, coords2D);
 			}
 
+
+	/**
+	 * 
+	 * @param forPreviewable
+	 * @param path
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param complex
+	 * @param coords2D
+	 * @return new point for the path
+	 */
 	public GeoPointND createNewPoint(boolean forPreviewable, Path path, double x,
 			double y, double z, boolean complex, boolean coords2D) {
-			
-				if (path.toGeoElement().isGeoElement3D()) {
-					checkZooming(forPreviewable); 
-					
-					GeoPointND point = kernel.getManager3D().Point3D(null, path, x, y, z,
-							!forPreviewable, coords2D);
-				
-					return point;
-				}
-				return createNewPoint2D(forPreviewable, path, x, y, complex, coords2D);
-			}
+		
+		return createNewPoint2D(forPreviewable, path, x, y, complex, coords2D);
+	}
 
 	public void setKernel(Kernel kernel) {
 		this.kernel = kernel;
@@ -9677,7 +9681,7 @@ public abstract class EuclidianController {
 	/*
 	 * when object created, make undo point if scroll wheel has been used
 	 */
-	private void checkZooming(boolean forPreviewable) {
+	protected void checkZooming(boolean forPreviewable) {
 
 		if (forPreviewable) {
 			return;

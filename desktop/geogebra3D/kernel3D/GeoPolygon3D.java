@@ -505,19 +505,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			if (P.getWillingCoords() != null && P.getWillingDirection() != null) {
 				dist = P.getInhomCoords().distLine(P.getWillingCoords(),
 						P.getWillingDirection());
-				/*
-				 * Application.debug("old=\n"+coordsOld+
-				 * "P=\n"+P.getInhomCoords()+
-				 * "\n\ndistance au segment "+i+" : "+dist);
-				 */
-
 			} else {
 				dist = P.getInhomCoords().sub(coordsOld).squareNorm();
-				/*
-				 * Application.debug("old=\n"+coordsOld+
-				 * "P=\n"+P.getInhomCoords()+
-				 * "\n\ndistance au segment "+i+" : "+dist);
-				 */
 			}
 
 			if (dist < minDist) {

@@ -1,8 +1,10 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -170,6 +172,25 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		return super.Midpoint(P, Q);
 	}
 	
+	
+	@Override
+	public GeoPointND createNewPoint(boolean forPreviewable, Path path, double x,
+			double y, double z, boolean complex, boolean coords2D) {
+
+		//check if the path is 3D geo or contains a 3D geo
+		GeoElement geo = path.toGeoElement();
+		if (geo.isGeoElement3D() || (geo.isGeoList() && ((GeoList) geo).containsGeoElement3D())) {
+			checkZooming(forPreviewable); 
+
+			GeoPointND point = kernel.getManager3D().Point3D(null, path, x, y, z,
+					!forPreviewable, coords2D);
+
+			return point;
+		}
+		
+		//else use 2D 
+		return createNewPoint2D(forPreviewable, path, x, y, complex, coords2D);
+	}
 
 	
 }

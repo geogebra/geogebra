@@ -1616,17 +1616,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	public void pathChanged(GeoPointND PI) {
-
-		// if kernel doesn't use path/region parameters, do as if point changed
-		// its coords
-		if (!getKernel().usePathAndRegionParameters(this)) {
-			pointChanged(PI);
-			return;
-		}
-
-		PI.setCoords(x, y, z);
-		PI.getPathParameter().setT(0);
-
+		pointChanged(PI);
 	}
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -2222,6 +2212,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	
 	
 	
-	
+
+	public double distanceToPath(PathOrPoint path){
+		return path.toGeoElement().distance(this);
+	}
+
 	
 }

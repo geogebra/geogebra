@@ -2,6 +2,7 @@ package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
@@ -241,6 +242,14 @@ public interface GeoPointND extends GeoElementND, PointProperties{
      * Changes coord style to CARTESIAN 3D
      */
 	public void setCartesian3D();
+
+	
+	/**
+	 * 
+	 * @param path a path
+	 * @return distance from point to path
+	 */
+	public double distanceToPath(PathOrPoint path);
 
 
 

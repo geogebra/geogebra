@@ -116,8 +116,7 @@ public class DrawList3D extends Drawable3D {
 	
 	@Override
 	public int getPickOrder() {
-		// TODO Auto-generated method stub
-		return 0;
+		return DRAW_PICK_ORDER_LIST;
 	}
 
 
