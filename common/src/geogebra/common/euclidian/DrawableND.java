@@ -26,7 +26,12 @@ public abstract class DrawableND {
 	public void setCreatedByDrawList(DrawableND drawList) {
 		createdByDrawList = true;
 		setCreatedByDrawListVisible(true);
-		this.drawList = drawList;
+		
+		if (drawList.isCreatedByDrawListVisible()){
+			this.drawList = drawList.getDrawListCreator();
+		}else{
+			this.drawList = drawList;
+		}
 		
 	}
 	
