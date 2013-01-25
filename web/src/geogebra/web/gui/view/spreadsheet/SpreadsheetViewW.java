@@ -24,6 +24,8 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -172,6 +174,13 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		spreadsheet.addDomHandler(ml, MouseMoveEvent.getType());
 		spreadsheet.addDomHandler(ml, ClickEvent.getType());
 		spreadsheet.addDomHandler(ml, DoubleClickEvent.getType());
+
+		this.addScrollHandler(new ScrollHandler() {
+			public void onScroll(ScrollEvent se) {
+				//requestFocus();
+				spreadsheet.setFocus(true);
+			}
+		});
 
 		// Create row header
 		/*rowHeader = new SpreadsheetRowHeader(app, table);
