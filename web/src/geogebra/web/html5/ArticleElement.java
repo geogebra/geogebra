@@ -50,7 +50,7 @@ public final class ArticleElement extends Element {
 	 */
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
-		if ((ret == null) || !ret.matches("[A-Za-z0-9]+"))
+		if ((ret == "") || !ret.matches("[A-Za-z0-9]+"))
 			return "ggbApplet";
 		return ret;
 	}
