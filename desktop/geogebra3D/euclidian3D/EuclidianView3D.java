@@ -1119,16 +1119,30 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			//for GeoList : remove all 3D drawables linked to it
 			if (geo.isGeoList()){
 				if (d!=null) {
-					for (DrawableND d1 : ((DrawList3D) d).getDrawables3D()){
-						if (d1.createdByDrawList())
-							remove((Drawable3D) d1);
-					}
+					removeDrawList3D((DrawList3D) d);
 				}
 			}
 		}
 		
 		drawable3DMap.remove(geo);
 		geosToBeAdded.remove(geo);
+	}
+	
+
+
+	private void removeDrawList3D(DrawList3D d){
+		for (DrawableND d1 : d.getDrawables3D()){
+			if (d1.createdByDrawList()){
+				remove((Drawable3D) d1);
+				removeFromDrawList(d1);
+			}
+		}
+	}
+	
+	private void removeFromDrawList(DrawableND d){
+		if (d instanceof DrawList3D){
+			removeDrawList3D((DrawList3D) d);
+		}
 	}
 	
 	/**
