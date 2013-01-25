@@ -21,6 +21,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -177,8 +179,20 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 		this.addScrollHandler(new ScrollHandler() {
 			public void onScroll(ScrollEvent se) {
-				//requestFocus();
+				verticalScrollPosition = getVerticalScrollPosition();
 				spreadsheet.setFocus(true);
+			}
+		});
+
+		spreadsheet.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent fe) {
+				if (verticalScrollPosition == -1)
+					verticalScrollPosition = getVerticalScrollPosition();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					public void execute() {
+						setVerticalScrollPosition(verticalScrollPosition);
+					}
+				});
 			}
 		});
 
@@ -1324,10 +1338,17 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		//if (table != null)
 		//	table.requestFocus();
 
-		// FIXME: the following would make mouse down focus scroll away in Chrome
-		int vsp = getVerticalScrollPosition();
+		verticalScrollPosition = getVerticalScrollPosition();
 		spreadsheet.setFocus(true);
-		setVerticalScrollPosition(vsp);
+		setVerticalScrollPosition(verticalScrollPosition);
+	}
+
+	private int verticalScrollPosition = -1;
+
+	@Override
+	public void setVerticalScrollPosition(int vsp) {
+		super.setVerticalScrollPosition(vsp);
+		verticalScrollPosition = vsp;
 	}
 
 	// test all components of SpreadsheetView for hasFocus

@@ -1457,6 +1457,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		editRow = -1;
 		editColumn = -1;
+
 		view.requestFocus();
 
 		setRepaintAll();//TODO: don't call renderCells, just change the edited cell
