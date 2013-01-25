@@ -466,7 +466,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		path.pointChanged(this);
 		// check if the path is a 2D path : in this case, 2D coords have been
 		// modified
-		if (!(path.toGeoElement().isGeoElement3D()) && !(path.toGeoElement().isGeoList()))// && ((GeoList) path.toGeoElement()).containsGeoElement3D()))
+		if (!(path.toGeoElement().isGeoElement3D() || path.toGeoElement().isGeoList()))
 			updateCoordsFrom2D(false, null);
 		updateCoords();
 		

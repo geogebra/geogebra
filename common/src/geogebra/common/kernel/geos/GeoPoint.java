@@ -1610,6 +1610,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 	public void pointChanged(GeoPointND p) {
 		p.setCoords2D(x, y, z);
+		p.updateCoordsFrom2D(false,null);
 
 		p.getPathParameter().setT(0);
 
