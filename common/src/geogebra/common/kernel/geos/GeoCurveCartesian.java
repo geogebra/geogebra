@@ -225,8 +225,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		GeoCurveCartesian c = (GeoCurveCartesian) f;
 
 		if (c.isDefined()) {
+			//register the variable name to make sure parsing of CAS output runs OK, see #3006
+			GeoNumeric geo = new GeoNumeric(cons);
+			cons.addLocalVariable(funX.getVarString(StringTemplate.defaultTemplate), geo);
 			funX = (Function) c.funX.evalCasCommand(ggbCasCmd, symbolic,arbconst);
 			funY = (Function) c.funY.evalCasCommand(ggbCasCmd, symbolic,arbconst);
+			cons.removeLocalVariable(funX.getVarString(StringTemplate.defaultTemplate));
 			isDefined = !(funX == null || funY == null);
 			if (isDefined)
 				setInterval(c.startParam, c.endParam);
