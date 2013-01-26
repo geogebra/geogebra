@@ -1517,6 +1517,7 @@ __GGB__keysVar.nl.menu = {
     "OnlyOpaqueFills": "Ondoorzichtige vulling",
     "Opacity": "Ondoorschijnendheid",
     "OpenFileFolder": "Open map",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Open uit webpagina",
     "OpenWebpage": "Open webpagina",
     "Operation": "Bewerking",

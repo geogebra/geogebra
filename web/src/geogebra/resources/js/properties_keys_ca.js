@@ -1517,6 +1517,7 @@ __GGB__keysVar.ca.menu = {
     "OnlyOpaqueFills": "Nom\xe9s ombrejats s\xf2lids",
     "Opacity": "Opacitat",
     "OpenFileFolder": "Obre la carpeta del fitxer",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Obre des d\u2019una p\xe0gina web",
     "OpenWebpage": "Obre una p\xe0gina web",
     "Operation": "Operaci\xf3",

@@ -1517,6 +1517,7 @@ __GGB__keysVar.sl.menu = {
     "OnlyOpaqueFills": "Le neprozorna polnila",
     "Opacity": "Prosojnost",
     "OpenFileFolder": "Odpri mapo",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Odpri iz spletne strani",
     "OpenWebpage": "Odpri spletno stran",
     "Operation": "Operacija",

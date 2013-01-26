@@ -1517,6 +1517,7 @@ __GGB__keysVar.et.menu = {
     "OnlyOpaqueFills": "Ainult l\xe4bipaistmatu t\xe4ide",
     "Opacity": "L\xe4bipaistvus",
     "OpenFileFolder": "Ava faili kaust",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Ava veebist",
     "OpenWebpage": "Ava veebileht",
     "Operation": "Operatsioon",

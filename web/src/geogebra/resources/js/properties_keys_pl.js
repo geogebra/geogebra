@@ -1517,6 +1517,7 @@ __GGB__keysVar.pl.menu = {
     "OnlyOpaqueFills": "Tylko przezroczyste wype\u0142nienie",
     "Opacity": "Przezroczysto\u015b\u0107",
     "OpenFileFolder": "Otw\xf3rz folder plik\xf3w",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Otw\xf3rz ze strony internetowej",
     "OpenWebpage": "Otw\xf3rz Stron\u0119 Internetow\u0105",
     "Operation": "Operacja",

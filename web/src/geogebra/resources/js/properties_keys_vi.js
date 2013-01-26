@@ -1517,6 +1517,7 @@ __GGB__keysVar.vi.menu = {
     "OnlyOpaqueFills": "Ch\u1ec9 n\u1ec1n kh\xf4ng trong su\u1ed1t",
     "Opacity": "T\xednh ch\u1eafn s\xe1ng",
     "OpenFileFolder": "M\u1edf th\u01b0 m\u1ee5c",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "M\u1edf t\u1eeb trang web",
     "OpenWebpage": "M\u1edf trang web",
     "Operation": "Ph\xe9p to\xe1n",

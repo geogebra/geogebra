@@ -1517,6 +1517,7 @@ __GGB__keysVar.sk.menu = {
     "OnlyOpaqueFills": "len neprieh\u013eadn\xfd v\xfdpl\u0148",
     "Opacity": "Neprieh\u013eadnos\u0165",
     "OpenFileFolder": "Otvori\u0165 adres\xe1r s\xfaboru",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Otvori\u0165 z webstr\xe1nky",
     "OpenWebpage": "Otvori\u0165 webov\xfa str\xe1nku",
     "Operation": "Oper\xe1cia",

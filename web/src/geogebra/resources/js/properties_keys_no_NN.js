@@ -1517,6 +1517,7 @@ __GGB__keysVar.no_NN.menu = {
     "OnlyOpaqueFills": "Berre heildekkande fyll",
     "Opacity": "Fyllgrad",
     "OpenFileFolder": "Opne filmappe",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Opne fr\xe5 nettside",
     "OpenWebpage": "Opne nettside",
     "Operation": "Operasjon",

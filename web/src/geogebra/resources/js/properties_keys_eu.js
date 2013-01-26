@@ -1517,6 +1517,7 @@ __GGB__keysVar.eu.menu = {
     "OnlyOpaqueFills": "Bakarrik itzaldura opakuak",
     "Opacity": "Opakutasuna",
     "OpenFileFolder": "Ireki Fitxategi-Karpeta",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Ireki Web-Orrialdetik",
     "OpenWebpage": "Ireki Web-Orrialdea",
     "Operation": "Eragiketa",

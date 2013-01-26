@@ -1517,6 +1517,7 @@ __GGB__keysVar.zh_TW.menu = {
     "OnlyOpaqueFills": "\u4e0d\u900f\u660e\u586b\u6eff",
     "Opacity": "\u586b\u6eff",
     "OpenFileFolder": "\u958b\u555f\u8cc7\u6599\u593e",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "\u5f9e\u7db2\u5740\u958b\u555f",
     "OpenWebpage": "\u958b\u555f\u7db2\u9801",
     "Operation": "Operation",

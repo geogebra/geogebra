@@ -1517,6 +1517,7 @@ __GGB__keysVar.ga.menu = {
     "OnlyOpaqueFills": "Only opaque fills",
     "Opacity": "Opacity",
     "OpenFileFolder": "Open File Folder",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Open from Webpage",
     "OpenWebpage": "Open Webpage",
     "Operation": "Operation",

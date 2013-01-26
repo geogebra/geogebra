@@ -1517,6 +1517,7 @@ __GGB__keysVar.fi.menu = {
     "OnlyOpaqueFills": "Vain l\xe4pin\xe4kym\xe4t\xf6n t\xe4ytt\xf6",
     "Opacity": "Peitt\xe4vyys",
     "OpenFileFolder": "Avaa kansio",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Avaa www-sivulta",
     "OpenWebpage": "Avaa www-sivu",
     "Operation": "Toiminto",

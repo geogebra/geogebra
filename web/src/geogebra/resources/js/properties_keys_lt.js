@@ -1517,6 +1517,7 @@ __GGB__keysVar.lt.menu = {
     "OnlyOpaqueFills": "Tik nepermatomi u\u017epildai",
     "Opacity": "Nepermatomumas",
     "OpenFileFolder": "Atidaryti dokumento katalog\u0105",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Atidaryti i\u0161 tinklalapio",
     "OpenWebpage": "Atidaryti tinklalap\u012f",
     "Operation": "Veiksmai",

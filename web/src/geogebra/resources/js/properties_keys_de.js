@@ -1517,6 +1517,7 @@ __GGB__keysVar.de.menu = {
     "OnlyOpaqueFills": "Nur nichttransparente F\xfcllungen",
     "Opacity": "Deckkraft",
     "OpenFileFolder": "Ordner \xf6ffnen",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Von Webseite \xf6ffnen",
     "OpenWebpage": "Webseite \xf6ffnen",
     "Operation": "Funktion",

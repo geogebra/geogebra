@@ -1517,6 +1517,7 @@ __GGB__keysVar.sv.menu = {
     "OnlyOpaqueFills": "Enbart ogenomskinliga fyllningar",
     "Opacity": "Opacitet",
     "OpenFileFolder": "\xd6ppen mapp",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "\xd6ppna fr\xe5n webbsida",
     "OpenWebpage": "\xd6ppna webbsida",
     "Operation": "Operation",

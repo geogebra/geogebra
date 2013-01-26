@@ -1517,6 +1517,7 @@ __GGB__keysVar.hr.menu = {
     "OnlyOpaqueFills": "Samo neprozirne ispune",
     "Opacity": "Neprozirnost",
     "OpenFileFolder": "Otvori mapu",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Otvori s web stranice",
     "OpenWebpage": "Otvori web stranicu",
     "Operation": "Operacija",

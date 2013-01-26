@@ -1517,6 +1517,7 @@ __GGB__keysVar.hu.menu = {
     "OnlyOpaqueFills": "Csak \xe1tl\xe1tszatlan kit\xf6lt\xe9s",
     "Opacity": "\xc1tl\xe1tszatlans\xe1g",
     "OpenFileFolder": "Mapp\xe1t megnyit",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Weblapr\xf3l megnyit",
     "OpenWebpage": "Weboldalt megnyit",
     "Operation": "M\u0171velet",

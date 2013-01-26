@@ -1517,6 +1517,7 @@ __GGB__keysVar.bs.menu = {
     "OnlyOpaqueFills": "Samo neprovidne ispune",
     "Opacity": "Neprovidnost",
     "OpenFileFolder": "Otvori mapu datoteke",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Otvori s Web-stranice",
     "OpenWebpage": "Otvori Web-stranicu",
     "Operation": "Operacija",

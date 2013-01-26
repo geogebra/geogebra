@@ -1517,6 +1517,7 @@ __GGB__keysVar.iw.menu = {
     "OnlyOpaqueFills": "\u05e8\u05e7 \u05de\u05d9\u05dc\u05d5\u05d9\u05d9\u05dd \u05d0\u05d8\u05d5\u05de\u05d9\u05dd",
     "Opacity": "\u05d0\u05d8\u05d9\u05de\u05d5\u05ea",
     "OpenFileFolder": "\u05e4\u05ea\u05d7 \u05d0\u05ea \u05ea\u05d9\u05e7\u05d9\u05d9\u05ea \u05d4\u05e7\u05d5\u05d1\u05e5",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "\u05e4\u05ea\u05d7 \u05de\u05d3\u05e3 \u05e8\u05e9\u05ea",
     "OpenWebpage": "\u05e4\u05ea\u05d7 \u05d3\u05e3 \u05e8\u05e9\u05ea",
     "Operation": "\u05e4\u05e2\u05d5\u05dc\u05d4",

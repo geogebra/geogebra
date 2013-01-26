@@ -1517,6 +1517,7 @@ __GGB__keysVar.da.menu = {
     "OnlyOpaqueFills": "Kun opaliseret udfyldning",
     "Opacity": "Opaliseret",
     "OpenFileFolder": "\xc5bn filmappe",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "\xc5bn fra webside",
     "OpenWebpage": "\xc5bn webside",
     "Operation": "Operation",

@@ -1517,6 +1517,7 @@ __GGB__keysVar.pt.menu = {
     "OnlyOpaqueFills": "Somente preenchimentos opacos",
     "Opacity": "Transpar\xeancia",
     "OpenFileFolder": "Abrir Pasta de Arquivos",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Abrir de P\xe1gina WEB",
     "OpenWebpage": "Abrir P\xe1gina WEB",
     "Operation": "Opera\xe7\xe3o",

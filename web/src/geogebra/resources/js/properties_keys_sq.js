@@ -1517,6 +1517,7 @@ __GGB__keysVar.sq.menu = {
     "OnlyOpaqueFills": "Vetem mbushje opake",
     "Opacity": "Opacitet(padukshmeri)",
     "OpenFileFolder": "Hap Dosjen e Dokumentave",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Hap nga Web-faqe",
     "OpenWebpage": "Hap Web-faqe",
     "Operation": "Operacion",

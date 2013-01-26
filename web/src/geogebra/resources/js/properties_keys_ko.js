@@ -1517,6 +1517,7 @@ __GGB__keysVar.ko.menu = {
     "OnlyOpaqueFills": "\ubd88\ud22c\uba85\ud558\uac8c\ub9cc \ucc44\uc6c0",
     "Opacity": "\ubd88\ud22c\uba85\ub3c4",
     "OpenFileFolder": "\ud30c\uc77c \ud3f4\ub354 \uc5f4\uae30",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "\uc6f9\ud398\uc774\uc9c0\ub85c\ubd80\ud130 \uc5f4\uae30",
     "OpenWebpage": "\uc6f9\ud398\uc774\uc9c0 \uc5f4\uae30",
     "Operation": "\uc5f0\uc0b0",

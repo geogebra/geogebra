@@ -1517,6 +1517,7 @@ __GGB__keysVar.fr.menu = {
     "OnlyOpaqueFills": "Seulement les opaques",
     "Opacity": "Opacit\xe9",
     "OpenFileFolder": "Ouvrir un r\xe9pertoire",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Ouvrir \xe0 partir d'une page Web",
     "OpenWebpage": "Ouvrir une page Web",
     "Operation": "Op\xe9ration",

@@ -1517,6 +1517,7 @@ __GGB__keysVar.gl.menu = {
     "OnlyOpaqueFills": "S\xf3 sombreados opacos",
     "Opacity": "Opacidade",
     "OpenFileFolder": "Abre carpeta de arquivos",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Abre dende sitio Web",
     "OpenWebpage": "Abre p\xe1xina WEB",
     "Operation": "Operaci\xf3n",

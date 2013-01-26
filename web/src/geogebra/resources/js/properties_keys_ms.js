@@ -1517,6 +1517,7 @@ __GGB__keysVar.ms.menu = {
     "OnlyOpaqueFills": "Hanya isian legap",
     "Opacity": "Kelegapan",
     "OpenFileFolder": "Buka Folder Fail",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Buka dari Laman Web",
     "OpenWebpage": "Buka Laman Web",
     "Operation": "Operasi",

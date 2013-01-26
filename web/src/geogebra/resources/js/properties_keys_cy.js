@@ -1517,6 +1517,7 @@ __GGB__keysVar.cy.menu = {
     "OnlyOpaqueFills": "Lliwio Tywyll yn unig",
     "Opacity": "Didreiddiad",
     "OpenFileFolder": "Agorwch Ffolder Ffeil",
+    "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromWebpage": "Agorwch o Dudalen We",
     "OpenWebpage": "Agor Tudalen We",
     "Operation": "Gweithred",
