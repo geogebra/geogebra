@@ -1528,6 +1528,22 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @param drawable The GLAutoDrawable object.
      */
     public void init(GLAutoDrawable drawable) {
+    	
+    	GL gl2 = drawable.getGL(); 
+        App.debug("Init on "+Thread.currentThread()); 
+        App.debug("Chosen GLCapabilities: " + drawable.getChosenGLCapabilities()); 
+        App.debug("INIT GL IS: " + gl2.getClass().getName()); 
+        App.debug("GL_VENDOR: " + gl2.glGetString(GL.GL_VENDOR)); 
+        App.debug("GL_RENDERER: " + gl2.glGetString(GL.GL_RENDERER)); 
+        App.debug("GL_VERSION: " + gl2.glGetString(GL.GL_VERSION)); 
+        
+        // JOGL2 only, don't commit
+        //App.debug("GL GLSL: "+gl2.hasGLSL()+", has-compiler: "+gl2.isFunctionAvailable("glCompileShader")+", version "+(gl2.hasGLSL() ? gl2.glGetString(GL2ES2.GL_SHADING_LANGUAGE_VERSION) : "none")); 
+        //App.debug("GL Profile: "+gl2.getGLProfile()); 
+        //App.debug("GL:" + gl2 + ", " + gl2.getContext().getGLVersion()); 
+        
+        // doesn't seem to work on JOGL1 or 2
+        //App.debug("GL FBO: basic "+ gl2.hasBasicFBOSupport()+", full "+gl2.hasFullFBOSupport()); 
     		
     	//Application.printStacktrace("");
 
