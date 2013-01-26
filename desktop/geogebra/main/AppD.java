@@ -3090,7 +3090,9 @@ public class AppD extends App implements KeyEventDispatcher {
 					northPanel, eastPanel, southPanel, westPanel);
 		}
 		
-		frame.getContentPane().validate();
+		if (frame != null && frame.getContentPane() != null) { 
+			frame.getContentPane().validate();
+		}
 
 	}
 
