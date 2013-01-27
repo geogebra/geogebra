@@ -16,8 +16,25 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	 * Constructor
 	 */
 	public GeoGebraLogger() {
+		
+		// needed for IE9
+		initConsole();
 	}
 	
+	/**
+	 * http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
+	 */
+	private native void initConsole() /*-{
+		
+	if (!$wnd.console) {
+		$wnd.console = {};
+	}
+	if (!$wnd.console.log) {
+		$wnd.console.log = function () { };
+	}
+	
+}-*/;
+
 	@Override
 	protected String getTimeInfo() {
 		Date date = new Date();
