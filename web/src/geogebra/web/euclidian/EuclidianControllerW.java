@@ -1,5 +1,6 @@
 package geogebra.web.euclidian;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
@@ -294,5 +295,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    return touchPool;
     }
 
+	@Override
+	protected boolean textfieldJustFocusedW(GPoint p) {
+		return view.textfieldClicked(p);
+	}
 
 }

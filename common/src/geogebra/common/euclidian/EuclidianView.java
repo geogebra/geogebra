@@ -45,6 +45,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -1369,12 +1370,27 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return hits;
 	}
 
+	
+	public boolean textfieldClicked(geogebra.common.awt.GPoint p){
+		DrawableIterator it = allDrawableList.getIterator();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			if (d.hit(p.x, p.y) || d.hitLabel(p.x, p.y)) {
+				GeoElement geo = d.getGeoElement();
+				if (geo.isEuclidianVisible()) {
+					if(geo instanceof GeoTextField) return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
 	 */
 	public void setHits(geogebra.common.awt.GPoint p) {
-
 		hits.init();
 
 		DrawableIterator it = allDrawableList.getIterator();
@@ -1387,7 +1403,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				}
 			}
 		}
-
+		
 		// look for axis
 		if (hits.getImageCount() == 0) {
 			// x axis hit
@@ -1497,7 +1513,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	protected void addToDrawableLists(Drawable draw) {
 		if (draw == null) {
 			return;
-		}
+		}	
 		Drawable d = draw;
 		GeoElement geo = d.getGeoElement();
 		int layer = geo.getLayer();

@@ -121,7 +121,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * @param rect rectangle
-	 * @return true if tthe whole drawable is inside
+	 * @return true if the whole drawable is inside
 	 */
 	public abstract boolean isInside(GRectangle rect);
 	

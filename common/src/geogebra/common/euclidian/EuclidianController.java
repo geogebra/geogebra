@@ -6800,7 +6800,10 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void wrapMouseclicked(AbstractEvent event) {		
+	protected void wrapMouseclicked(AbstractEvent event) {	
+		
+		if (textfieldJustFocusedW(event.getPoint())) return;
+		
 		if (penMode(mode)) {
 			return;
 		}
@@ -6810,17 +6813,22 @@ public abstract class EuclidianController {
 	
 		setAltDown(event.isAltDown());
 	
+		if (app.isRightClick(event)) {
+			return;
+		}
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER){
+			setMouseLocation(event);
+			view.setHits(mouseLoc);
+			if (view.getHits().size()>0) App.debug(view.getHits().getTopHits().get(0).getClass().toString());
 			if ((view.getHits() == null)||(view.getHits().size()==0)||
 					!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){
+				App.debug("requestFocusInWindow in wrapMouseClicked");
+				
 				view.requestFocusInWindow();
 			}
 		}
 	
-		if (app.isRightClick(event)) {
-			return;
-		}
-		setMouseLocation(event);
+
 		
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (event.getClickCount() == 2 || event.isAltDown()) {
@@ -6874,6 +6882,11 @@ public abstract class EuclidianController {
 				return;
 			}
 		}
+	}
+
+	
+	protected boolean textfieldJustFocusedW(GPoint gPoint) {
+		return false;
 	}
 
 	public void resetMovedGeoPoint() {
