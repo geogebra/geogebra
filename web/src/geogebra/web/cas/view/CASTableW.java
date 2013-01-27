@@ -16,6 +16,7 @@ public class CASTableW extends Grid implements CASTable{
 	private static final int COL_CAS_CELLS_WEB = 1;
 	private static final int COL_CAS_HEADER = 0;
 	private CASTableCellEditorW editor;
+	private boolean editing;
 	private AppW app;
 
 	public CASTableW(AppW app){
@@ -27,11 +28,6 @@ public class CASTableW extends Grid implements CASTable{
 		editor = new CASTableCellEditorW(this, app);
 		insertRow(0,null, false);
 	}
-	
-	public int getRowHeight(int i) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
 
 	public void setLabels() {
 	    editor.setLabels();
@@ -39,7 +35,10 @@ public class CASTableW extends Grid implements CASTable{
     }
 
 	public GeoCasCell getGeoCasCell(int n) {
-	    // TODO Auto-generated method stub
+	    Widget w = getWidget(n,COL_CAS_CELLS_WEB);
+	    if(w instanceof CASTableCellW){
+	    	return ((CASTableCellW)w).getCASCell();
+	    }
 	    return null;
     }
 
@@ -48,17 +47,27 @@ public class CASTableW extends Grid implements CASTable{
     }
 
 	public void deleteAllRows() {
-	    // TODO Auto-generated method stub
-	    
+	    resize(0,2);
     }
 
 	public void insertRow(int rows, GeoCasCell casCell, boolean b) {
-	    // TODO Auto-generated method stub
+		int n = rows;
+		if(n >= getRowCount())
+			resize(n+1,2);
+		else this.insertRow(n);
+	    Widget cellWidget = new CASTableCellW(casCell);
+		Widget rowHeader = new RowHeaderWidget(n+1);
+		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
+		getCellFormatter().getElement(n, COL_CAS_HEADER).getStyle()
+	        .setBackgroundColor(
+	                MyTableW.BACKGROUND_COLOR_HEADER
+	                        .toString());
+		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 	    
     }
 
 	public int[] getSelectedRows() {
-	    // TODO Auto-generated method stub
+	    // TODO Auto-generated method stub		
 	    return null;
     }
 
@@ -69,41 +78,22 @@ public class CASTableW extends Grid implements CASTable{
 
 	public void stopEditing() {
 	    // TODO Auto-generated method stub
+		editing = false;
 	    
     }
 
 	public void startEditingRow(int selectedRow) {
 	    // TODO Auto-generated method stub
+		editing = true;
 	    
     }
 
 	public CASTableCellEditor getEditor() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public boolean isRowEmpty(int i) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	public void insertRow(GeoCasCell casCell, boolean b) {
-		int n = getRowCount();
-		resize(n+1,2);
-	    Widget cellWidget = new CASTableCellW(casCell);
-		Widget rowHeader = new RowHeaderWidget(n+1);
-		this.setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
-		 this.getCellFormatter().getElement(n, COL_CAS_HEADER).getStyle()
-	        .setBackgroundColor(
-	                MyTableW.BACKGROUND_COLOR_HEADER
-	                        .toString());
-		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
-	    
+	    return editor;
     }
 
 	public void deleteRow(int rowNumber) {
-	    // TODO Auto-generated method stub
-	    
+		removeRow(rowNumber);	    
     }
 
 	public void setRow(int rowNumber, GeoCasCell casCell) {
@@ -112,12 +102,16 @@ public class CASTableW extends Grid implements CASTable{
 	    }
 	    Widget cellWidget = new CASTableCellW(casCell);
 	    Widget rowHeader = new RowHeaderWidget(rowNumber+1);
-	    this.setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
-	    this.getCellFormatter().getElement(rowNumber, COL_CAS_HEADER).getStyle()
+	    setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
+	    getCellFormatter().getElement(rowNumber, COL_CAS_HEADER).getStyle()
         .setBackgroundColor(
                 MyTableW.BACKGROUND_COLOR_HEADER
                         .toString());
-		this.setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
+		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
+    }
+
+	public boolean isEditing() {
+	    return editing;
     }
 
 }

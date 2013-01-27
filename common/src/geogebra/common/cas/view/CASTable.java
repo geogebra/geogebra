@@ -4,12 +4,9 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 
 public interface CASTable {
-	/** column of the table containing CAS cells */
-	public final static int COL_CAS_CELLS = 0;
+	
 
 	int getRowCount();
-
-	int getRowHeight(int i);
 
 	void setLabels();
 
@@ -31,11 +28,9 @@ public interface CASTable {
 
 	CASTableCellEditor getEditor();
 
-	boolean isRowEmpty(int i);
-
-	void insertRow(GeoCasCell newRowValue, boolean b);
-
 	void deleteRow(int rowNumber);
 
 	void setRow(int rowNumber, GeoCasCell casCell);
+
+	boolean isEditing();
 }

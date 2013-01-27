@@ -60,7 +60,7 @@ public class CASTableCellController implements KeyListener, MouseListener{
 			if (selectedRow >= 1) {
 				table.startEditingRow(selectedRow - 1);
 			} 
-			else if (table.isRowEmpty(0)) {
+			else if (view.isRowEmpty(0)) {
 				// insert empty row at beginning
 				table.insertRow(0, null, true);
 				needUndo = true;
@@ -74,7 +74,7 @@ public class CASTableCellController implements KeyListener, MouseListener{
 			} 
 			else {
 				// insert empty row at end
-				table.insertRow(null, true);
+				view.insertRow(null, true);
 				needUndo = true;
 			}	
 			consumeEvent = true;

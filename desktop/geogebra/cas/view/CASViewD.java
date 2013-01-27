@@ -170,7 +170,7 @@ public class CASViewD  extends CASView implements Gridable {
 					int rows = getConsoleTable().getRowCount();
 					if (rows == 0) {
 						// insert first row
-						getConsoleTable().insertRow(null, true);
+						insertRow(null, true);
 						// undoNeeded = true;
 					} else {
 						GeoCasCell cellValue = getConsoleTable()
@@ -178,7 +178,7 @@ public class CASViewD  extends CASView implements Gridable {
 						if (cellValue.isEmpty()) {
 							getConsoleTable().startEditingRow(rows - 1);
 						} else {
-							getConsoleTable().insertRow(null, true);
+							insertRow(null, true);
 							// undoNeeded = true;
 						}
 					}

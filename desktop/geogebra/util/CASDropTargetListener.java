@@ -122,7 +122,7 @@ public class CASDropTargetListener implements DropTargetListener {
 				//view.ensureOneEmptyRow();
 				GeoCasCell newcell = new GeoCasCell(cell.getConstruction());
 				cell.getConstruction().addToConstructionList(newcell, false);
-				view.getConsoleTable().insertRow(newcell,false);
+				view.insertRow(newcell,false);
 				
 				String subCmd = "Substitute[$" + (cell.getRowNumber()+1) + ", Flatten[{" + tableRef  + "}]]";	
 				newcell.setInput(cell.getInput(StringTemplate.defaultTemplate));
@@ -176,7 +176,7 @@ public class CASDropTargetListener implements DropTargetListener {
 						GeoCasCell cell = new GeoCasCell(kernel.getConstruction());
 						
 						//insert new row and start editing
-						table.insertRow(cell, true);		
+						view.insertRow(cell, true);		
 						
 						//change the input accordingly to the drop
 						if(geo.isGeoText()){

@@ -167,7 +167,7 @@ public abstract class CASView implements View{
 	private void ensureOneEmptyRow() {
 		int rows = getRowCount();
 		// add an empty one when we have no rows or last one is not empty
-		 if (rows == 0 || !getConsoleTable().isRowEmpty(rows-1)) {
+		 if (rows == 0 || !isRowEmpty(rows-1)) {
 			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
 			getConsoleTable().insertRow(rows, casCell, false);
 		}
@@ -211,7 +211,15 @@ public abstract class CASView implements View{
 	public void remove(GeoElement geo) {
 		if (geo instanceof GeoCasCell) {
 			GeoCasCell casCell = (GeoCasCell) geo;
-			getConsoleTable().deleteRow(casCell.getRowNumber());
+			int row = casCell.getRowNumber();
+			// we must stop editing here, otherwise content of deleted cell is
+			// copied below
+			boolean wasEditing = getConsoleTable().isEditing();
+			getConsoleTable().stopEditing();
+			getConsoleTable().deleteRow(row);
+			if (wasEditing) {
+				getConsoleTable().startEditingRow(row);
+			}
 		}
 	}
 
@@ -291,6 +299,43 @@ public abstract class CASView implements View{
 	 */
 	public CASInputHandler getInputHandler() {
 		return casInputHandler;
+	}
+	
+	/**
+	 * @param row
+	 *            row index (starting from 0)
+	 * @return true if given cell is empty
+	 */
+	public boolean isRowEmpty(int row) {
+		if (row < 0)
+			return false;
+
+		GeoCasCell value = getConsoleTable().getGeoCasCell(row);
+		return value.isEmpty();
+	}
+	
+	/**
+	 * Inserts a row at the end and starts editing the new row.
+	 * 
+	 * @param newValue
+	 *            CAS cell to be added
+	 * @param startEditing
+	 *            true to start editing
+	 */
+	public void insertRow(GeoCasCell newValue, boolean startEditing) {
+		GeoCasCell toInsert = newValue;
+		int lastRow = getRowCount() - 1;
+		if (isRowEmpty(lastRow)) {
+			if (toInsert == null) {
+				toInsert = new GeoCasCell(kernel.getConstruction());
+				// kernel.getConstruction().setCasCellRow(newValue, lastRow);
+			}
+			getConsoleTable().setRow(lastRow, toInsert);
+			if (startEditing)
+				getConsoleTable().startEditingRow(lastRow);
+		} else {
+			getConsoleTable().insertRow(lastRow + 1, toInsert, startEditing);
+		}
 	}
 	
 	

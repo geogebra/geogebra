@@ -49,6 +49,9 @@ import javax.swing.table.TableCellRenderer;
 public class CASTableD extends JTable implements CASTable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** column of the table containing CAS cells */
+	public final static int COL_CAS_CELLS = 0;
 
 	private CASTableModel tableModel;
 	private Kernel kernel;
@@ -386,29 +389,7 @@ public class CASTableD extends JTable implements CASTable {
 		return editor;
 	}
 
-	/**
-	 * Inserts a row at the end and starts editing the new row.
-	 * 
-	 * @param newValue
-	 *            CAS cell to be added
-	 * @param startEditing
-	 *            true to start editing
-	 */
-	public void insertRow(GeoCasCell newValue, boolean startEditing) {
-		GeoCasCell toInsert = newValue;
-		int lastRow = tableModel.getRowCount() - 1;
-		if (isRowEmpty(lastRow)) {
-			if (toInsert == null) {
-				toInsert = new GeoCasCell(kernel.getConstruction());
-				// kernel.getConstruction().setCasCellRow(newValue, lastRow);
-			}
-			setRow(lastRow, toInsert);
-			if (startEditing)
-				startEditingRow(lastRow);
-		} else {
-			insertRow(lastRow + 1, toInsert, startEditing);
-		}
-	}
+	
 
 	/**
 	 * Inserts a row at selectedRow and starts editing the new row.
@@ -559,18 +540,7 @@ public class CASTableD extends JTable implements CASTable {
 		return (GeoCasCell) tableModel.getValueAt(row, COL_CAS_CELLS);
 	}
 
-	/**
-	 * @param row
-	 *            row index (starting from 0)
-	 * @return true if given cell is empty
-	 */
-	public boolean isRowEmpty(int row) {
-		if (row < 0)
-			return false;
-
-		GeoCasCell value = (GeoCasCell) tableModel.getValueAt(row, 0);
-		return value.isEmpty();
-	}
+	
 
 	/**
 	 * Delete all rows
@@ -586,15 +556,10 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row (staring from 0)
 	 */
 	public void deleteRow(int row) {
-		// we must stop editing here, otherwise content of deleted cell is
-		// copied below
-		boolean wasEditing = this.isEditing();
-		stopEditing();
+		
 		if (row > -1 && row < tableModel.getRowCount())
 			tableModel.removeRow(row);
-		if (wasEditing) {
-			startEditingRow(row);
-		}
+		
 	}
 
 	/**
@@ -607,7 +572,7 @@ public class CASTableD extends JTable implements CASTable {
 		rollOverRow = -1;
 		if (editRow >= tableModel.getRowCount()) {
 			// insert new row, this starts editing
-			insertRow(null, true);
+			view.insertRow(null, true);
 		} else {
 			// start editing
 			doEditCellAt(editRow);
@@ -788,7 +753,7 @@ public class CASTableD extends JTable implements CASTable {
 				CASTableCell panel = (CASTableCell) getCellRenderer(
 						getSelectedRow(), 0).getTableCellRendererComponent(
 						this, null, false, false, rollOverRow,
-						CASTable.COL_CAS_CELLS);
+						COL_CAS_CELLS);
 				int offset = panel.outputPanel.getY();
 				r.height = r.height - offset;
 				// g2.drawRect(r.x+1,r.y+1,r.width-4,r.height-4);
@@ -809,13 +774,13 @@ public class CASTableD extends JTable implements CASTable {
 			if (rollOverRow >= 0 && highlight) {
 
 				rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
-						CASTable.COL_CAS_CELLS).getTableCellRendererComponent(
+						COL_CAS_CELLS).getTableCellRendererComponent(
 						this, null, false, false, rollOverRow,
-						CASTable.COL_CAS_CELLS);
+						COL_CAS_CELLS);
 
 				int offset = rollOverCell.outputPanel.getY();
 
-				Rectangle r = getCellRect(rollOverRow, CASTable.COL_CAS_CELLS,
+				Rectangle r = getCellRect(rollOverRow, COL_CAS_CELLS,
 						true);
 
 				if (!isAltDown) {

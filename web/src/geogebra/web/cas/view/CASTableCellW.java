@@ -11,7 +11,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CASTableCellW extends VerticalPanel {
+	private GeoCasCell casCell;
+
 	public CASTableCellW(GeoCasCell casCell) {
+		this.casCell = casCell;
 		Label inputPanel = new Label();
 		inputPanel.setText(casCell.getInput(StringTemplate.defaultTemplate));
 		inputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
@@ -38,6 +41,10 @@ public class CASTableCellW extends VerticalPanel {
 		}
 		add(outputPanel);
 
+	}
+	
+	public GeoCasCell getCASCell(){
+		return casCell;
 	}
 
 }

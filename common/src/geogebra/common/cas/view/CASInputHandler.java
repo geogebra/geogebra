@@ -202,7 +202,7 @@ public class CASInputHandler {
 					GeoCasCell newRowValue = new GeoCasCell(
 							kernel.getConstruction());
 					newRowValue.setInput(assignmentLabel);
-					consoleTable.insertRow(newRowValue, true);
+					casView.insertRow(newRowValue, true);
 					processCurrentRow(ggbcmd, params);
 				}
 
@@ -310,7 +310,7 @@ public class CASInputHandler {
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<Integer>();
 		for (int i = 0; i < selectedIndices.length; i++) {
-			if (!consoleTable.isRowEmpty(selectedIndices[i]))
+			if (!casView.isRowEmpty(selectedIndices[i]))
 				l.add(selectedIndices[i]);
 		}
 		selectedIndices = new int[l.size()];
@@ -338,12 +338,12 @@ public class CASInputHandler {
 			if (!cellValue.isEmpty() && !oneRowOnly) {
 				cellValue = new GeoCasCell(kernel.getConstruction());
 				currentRow = consoleTable.getRowCount() - 1;
-				consoleTable.insertRow(cellValue, false);
+				casView.insertRow(cellValue, false);
 			}
 		} else {
 			cellValue = new GeoCasCell(kernel.getConstruction());
 			currentRow = consoleTable.getRowCount() - 1;
-			consoleTable.insertRow(cellValue, false);
+			casView.insertRow(cellValue, false);
 		}
 
 		// generates an array of references (e.g. $1,a,...) and
@@ -482,7 +482,7 @@ public class CASInputHandler {
 			
 			boolean goDown = success &&
 			// we are in last row or next row is empty
-					(isLastRow || consoleTable.isRowEmpty(selRow + 1));
+					(isLastRow || casView.isRowEmpty(selRow + 1));
 			consoleTable.startEditingRow(goDown ? selRow + 1 : selRow);
 		}
 
