@@ -118,7 +118,6 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    
 	    //ggb file creating, and if ready, enabling of download-button.
 	    setFilename("geogebra.ggb");
-	    ((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    fileName.addChangeHandler(new ChangeHandler(){
 
 			public void onChange(ChangeEvent event) {
@@ -133,6 +132,15 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    });
 	    
     }
+	
+	
+	@Override
+    public void show(){
+		// It creates new ggb file all time for download, all time when the
+		// dialog opens.
+	    ((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
+	    super.show();
+	}
 	
 	public void setFilename(String newVal){
 		if (newVal.equals("")) newVal = "geogebra.ggb";
