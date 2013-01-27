@@ -22,9 +22,11 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	}
 	
 	/**
+	 * Make sure $wnd.console exists (eg for IE9) 
+	 * 
 	 * http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
 	 */
-	private native void initConsole() /*-{
+	public static native void initConsole() /*-{
 		
 	if (!$wnd.console) {
 		$wnd.console = {};

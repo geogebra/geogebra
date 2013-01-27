@@ -186,8 +186,12 @@ public class AppW extends App {
 		setDataParamHeight(frame.getDataParamHeight());
 		setDataParamWidth(frame.getDataParamWidth());
 		this.useFullGui = ae.getDataParamGui();
-		if (ae.getDataParamShowLogging())
+		if (ae.getDataParamShowLogging()) {
 			startLogger();
+		} else {
+			// make sure $wnd.console works in IE9 
+			GeoGebraLogger.initConsole();
+		}
 		infobar = new InfoBarW(this);
 		
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
@@ -234,8 +238,12 @@ public class AppW extends App {
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
 		setCurrentFileId();
-		if (article.getDataParamShowLogging())
+		if (article.getDataParamShowLogging()){
 			startLogger();
+		} else {
+			// make sure $wnd.console works in IE9 
+			GeoGebraLogger.initConsole();
+		}
 		infobar = new InfoBarW(this);
 
 		initCommonObjects();
