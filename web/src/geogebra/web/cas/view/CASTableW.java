@@ -20,7 +20,7 @@ public class CASTableW extends Grid implements CASTable{
 	private AppW app;
 
 	public CASTableW(AppW app){
-		super(1,2);
+		super(0,2);
 		this.app=app;
 		setBorderWidth(1);
 		getElement().getStyle().setBorderColor(MyTableW.TABLE_GRID_COLOR.toString());
