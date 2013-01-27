@@ -222,7 +222,7 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel){
-		CommandDispatcher cd = new CommandDispatcher3D(this);
+		CommandDispatcher cd = new CommandDispatcher3D(kernel);
 		return new AlgebraProcessor3D(kernel,cd);
 	}
 
