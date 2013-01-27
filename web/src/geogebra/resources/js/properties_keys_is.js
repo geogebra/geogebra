@@ -809,7 +809,7 @@ __GGB__keysVar.is.command = {
     "Solutions": "Lausnir",
     "Solutions_SyntaxCAS": "[ <Jafna> ]\n[ <Jafna>, <Breyta> ]\n[ <Listi af j\xf6fnum>, <Listi af breytum> ]",
     "Solve": "Leysa",
-    "Solve_SyntaxCAS": "[ <Jafna \xed x> ]\n[ <Jafna>, <Breyta> ]\n[ <Jafna>, <Breyta=byrjunargildi> ]\n[ <Listi af j\xf6fnum>, <Listi af breytum> ]",
+    "Solve_SyntaxCAS": "[ <Jafna \xed x> ]\n[ <Jafna>, <Breyta> ]\n[ <Listi af j\xf6fnum>, <Listi af breytum> ]",
     "SolveODE": "LeysaDiffurj\xf6fnu",
     "SolveODE_Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punktur \xe1 f> ]\n[ <f'(x, y)>, <Byrjunargildi x>, <Byrjunargildi y>, <Lokagildi x>, <Skref> ]\n[ <y'>, <x'>, <Byrjunargildi x>, <Byrjunargildi y>, <Lokagildi t>, <Skref> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Byrjunargildi x>, <Byrjunargildi y>, <Byrjunargildi y'>, <Lokagildi x>, <Skref> ]",
     "SolveODE_SyntaxCAS": "[ <Jafna> ]\n[ <Jafna>, <H\xe1\xf0 breyta>, <\xd3h\xe1\xf0 breyta> ]",

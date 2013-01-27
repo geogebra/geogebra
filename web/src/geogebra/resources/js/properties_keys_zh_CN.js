@@ -1990,7 +1990,7 @@ __GGB__keysVar.zh_CN.plain = {
     "AngleOfA": "%0 \u4e0e X \u8f74\u6b63\u65b9\u5411\u7684\u5939\u89d2",
     "Angles": "\u89d2\u5ea6",
     "AnimatedGIFExport": "\u5bfc\u51fa\u52a8\u6001 GIF",
-    "Animating": "\u6253\u5f00\u52a8\u753b",
+    "Animating": "\u5f00\u542f\u52a8\u753b",
     "Animation": "\u52a8\u753b",
     "AnimationLoop": "\u5faa\u73af\u64ad\u653e",
     "AnimationSpeed": "\u901f\u5ea6",
