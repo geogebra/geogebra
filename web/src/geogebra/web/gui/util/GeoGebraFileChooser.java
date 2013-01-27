@@ -138,7 +138,7 @@ public class GeoGebraFileChooser extends PopupPanel {
     public void show(){
 		// It creates new ggb file all time for download, all time when the
 		// dialog opens.
-	    ((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
+		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    super.show();
 	}
 	
