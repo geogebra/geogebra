@@ -22,7 +22,7 @@ public class ANOVATable extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
 
 	public ANOVATable(AppD app, DataAnalysisViewD statDialog) {
-		super(app, statDialog, -1);
+		super(app, statDialog);
 		this.setMinimumSize(this.getPreferredSize());
 	}
 
@@ -57,7 +57,7 @@ public class ANOVATable extends BasicStatTable {
 	@Override
 	public void updatePanel() {
 
-		GeoList dataList = statDialog.getController()
+		GeoList dataList = daView.getController()
 				.getDataSelected();
 		DefaultTableModel model = statTable.getModel();
 
@@ -65,24 +65,24 @@ public class ANOVATable extends BasicStatTable {
 			AnovaStats stats = anovaStats(getCategoryData(dataList));
 
 			// first column, degrees of freedom
-			model.setValueAt(statDialog.format(stats.dfbg), 0, 0);
-			model.setValueAt(statDialog.format(stats.dfwg), 1, 0);
-			model.setValueAt(statDialog.format(stats.dfbg + stats.dfwg), 2, 0);
+			model.setValueAt(daView.format(stats.dfbg), 0, 0);
+			model.setValueAt(daView.format(stats.dfwg), 1, 0);
+			model.setValueAt(daView.format(stats.dfbg + stats.dfwg), 2, 0);
 
 			// second column, sum of squares
-			model.setValueAt(statDialog.format(stats.ssbg), 0, 1);
-			model.setValueAt(statDialog.format(stats.sswg), 1, 1);
-			model.setValueAt(statDialog.format(stats.sst), 2, 1);
+			model.setValueAt(daView.format(stats.ssbg), 0, 1);
+			model.setValueAt(daView.format(stats.sswg), 1, 1);
+			model.setValueAt(daView.format(stats.sst), 2, 1);
 
 			// third column, mean sum of squares
-			model.setValueAt(statDialog.format(stats.msbg), 0, 2);
-			model.setValueAt(statDialog.format(stats.mswg), 1, 2);
+			model.setValueAt(daView.format(stats.msbg), 0, 2);
+			model.setValueAt(daView.format(stats.mswg), 1, 2);
 
 			// fourth column, F test statistics
-			model.setValueAt(statDialog.format(stats.F), 0, 3);
+			model.setValueAt(daView.format(stats.F), 0, 3);
 
 			// fifth column, P value
-			model.setValueAt(statDialog.format(stats.P), 0, 4);
+			model.setValueAt(daView.format(stats.P), 0, 4);
 
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block

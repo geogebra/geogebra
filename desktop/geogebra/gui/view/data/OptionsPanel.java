@@ -64,10 +64,11 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 			fldYInterval;
 	private boolean showYAxisSettings = true;
 
-	// bar graph panel GUI
+	// bar chart panel GUI
 	private JLabel lblBarWidth;
 	private MyTextField fldBarWidth;
 	private JCheckBox ckAutoBarWidth;
+	private JPanel barChartWidthPanel;
 
 	// box plot panel GUI
 	private JCheckBox ckShowOutliers;
@@ -90,9 +91,12 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	/************************************************************
 	 * Constructs an OptionPanel
 	 * 
-	 * @param app App
-	 * @param statDialog statDialog
-	 * @param settings settings
+	 * @param app
+	 *            App
+	 * @param statDialog
+	 *            statDialog
+	 * @param settings
+	 *            settings
 	 */
 	public OptionsPanel(AppD app, DataAnalysisViewD statDialog,
 			StatPanelSettings settings) {
@@ -149,6 +153,12 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		barChartPanel.setVisible(false);
 		boxPlotPanel.setVisible(false);
 
+		rbNormalized.setVisible(false);
+		ckOverlayNormal.setVisible(false);
+		ckShowHistogram.setVisible(false);
+		ckCumulative.setVisible(false);
+		ckOverlayPolygon.setVisible(false);
+
 		// add graph tab
 		tabbedPane.addTab(app.getMenu("Graph"), new JScrollPane(graphPanel));
 		graphPanel.setVisible(true);
@@ -160,6 +170,14 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		case HISTOGRAM:
 			classesPanel.setVisible(true);
 			histogramPanel.setVisible(true);
+			rbNormalized.setVisible(true);
+			ckOverlayNormal.setVisible(true);
+			ckShowHistogram.setVisible(true);
+			ckCumulative.setVisible(true);
+			ckOverlayPolygon.setVisible(true);
+
+			layoutHistogramPanel();
+
 			break;
 
 		case BOXPLOT:
@@ -169,6 +187,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 
 		case BARCHART:
 			barChartPanel.setVisible(true);
+			layoutBarChartPanel();
 			break;
 
 		case SCATTERPLOT:
@@ -181,11 +200,10 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		case RESIDUAL:
 			tabbedPane.removeTabAt(0);
 			break;
-			
+
 		case STEMPLOT:
 			this.setVisible(false);
 			break;
-
 
 		}
 
@@ -273,16 +291,39 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		c.insets.top -= 8; // undo vertical gap
 		classesPanel.add(rbLeftRule, tab);
 		classesPanel.add(rbRightRule, tab);
+		layoutHistogramPanel();
 
-		// put the sub-panels together
+	}
+
+	private void layoutHistogramPanel() {
+
 		Box vBox = Box.createVerticalBox();
 		vBox.add(classesPanel);
 		vBox.add(freqPanel);
 		vBox.add(showPanel);
 
-		histogramPanel = new JPanel(new BorderLayout());
+		if (histogramPanel == null) {
+			histogramPanel = new JPanel(new BorderLayout());
+		}
+		histogramPanel.removeAll();
 		histogramPanel.add(vBox, BorderLayout.NORTH);
 		histogramPanel.setBorder(BorderFactory.createEmptyBorder());
+
+	}
+
+	private void layoutBarChartPanel() {
+
+		Box vBox = Box.createVerticalBox();
+		vBox.add(barChartWidthPanel);
+		// vBox.add(freqPanel);
+		vBox.add(showPanel);
+
+		if (barChartPanel == null) {
+			barChartPanel = new JPanel(new BorderLayout());
+		}
+		barChartPanel.removeAll();
+		barChartPanel.add(vBox, BorderLayout.NORTH);
+		barChartPanel.setBorder(BorderFactory.createEmptyBorder());
 
 	}
 
@@ -297,13 +338,15 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		fldBarWidth.addActionListener(this);
 		fldBarWidth.addFocusListener(this);
 
-		// layout
-		Box p = Box.createVerticalBox();
-		p.add(LayoutUtil.flowPanel(ckAutoBarWidth));
-		p.add(LayoutUtil.flowPanel(tab, lblBarWidth, fldBarWidth));
+		// barChartWidthPanel
+		barChartWidthPanel = new JPanel();
+		barChartWidthPanel.setLayout(new BoxLayout(barChartWidthPanel,
+				BoxLayout.Y_AXIS));
+		barChartWidthPanel.add(LayoutUtil.flowPanel(ckAutoBarWidth));
+		barChartWidthPanel.add(LayoutUtil.flowPanel(tab, lblBarWidth,
+				fldBarWidth));
 
-		barChartPanel = new JPanel(new BorderLayout());
-		barChartPanel.add(p, BorderLayout.NORTH);
+		layoutBarChartPanel();
 
 	}
 
@@ -524,16 +567,14 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		// set updating flag so we don't have to add/remove action listeners
 		isUpdating = true;
 
+		// histogram/barchart
 		ckManual.setSelected(settings.useManualClasses);
-
 		rbFreq.setSelected(settings.frequencyType == StatPanelSettings.TYPE_COUNT);
 		rbRelative
 				.setSelected(settings.frequencyType == StatPanelSettings.TYPE_RELATIVE);
 		rbNormalized
 				.setSelected(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
-
 		rbLeftRule.setSelected(settings.isLeftRule);
-
 		ckCumulative.setSelected(settings.isCumulative);
 		ckOverlayNormal.setSelected(settings.hasOverlayNormal);
 		ckOverlayPolygon.setSelected(settings.hasOverlayPolygon);
@@ -542,6 +583,16 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		ckShowFrequencyTable.setSelected(settings.showFrequencyTable);
 		ckShowHistogram.setSelected(settings.showHistogram);
 
+		// normal overlay
+		ckOverlayNormal
+				.setEnabled(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
+
+		// bar chart width
+		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth);
+		fldBarWidth.setText("" + settings.barWidth);
+		fldBarWidth.setEnabled(!ckAutoBarWidth.isSelected());
+
+		// window dimension
 		lblYMin.setVisible(showYAxisSettings);
 		fldYMin.setVisible(showYAxisSettings);
 		lblYMax.setVisible(showYAxisSettings);
@@ -549,7 +600,6 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		lblYInterval.setVisible(showYAxisSettings);
 		fldYInterval.setVisible(showYAxisSettings);
 
-		// enable/disable window dimension components
 		dimPanel.setEnabled(!ckAutoWindow.isSelected());
 		fldXMin.setEnabled(!ckAutoWindow.isSelected());
 		fldXMax.setEnabled(!ckAutoWindow.isSelected());
@@ -565,28 +615,16 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		lblYMax.setEnabled(!ckAutoWindow.isSelected());
 		lblYInterval.setEnabled(!ckAutoWindow.isSelected());
 
-		// enable/disable normal overlay option
-		ckOverlayNormal
-				.setEnabled(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
+		// update automatic dimensions
+		fldXMin.setText("" + statDialog.format(settings.xMin));
+		fldXMax.setText("" + statDialog.format(settings.xMax));
+		fldXInterval.setText("" + statDialog.format(settings.xAxesInterval));
 
-		if (ckAutoWindow.isSelected()) {
-			fldXMin.setText("" + statDialog.format(settings.xMin));
-			fldXMax.setText("" + statDialog.format(settings.xMax));
-			fldXInterval
-					.setText("" + statDialog.format(settings.xAxesInterval));
+		fldYMin.setText("" + statDialog.format(settings.yMin));
+		fldYMax.setText("" + statDialog.format(settings.yMax));
+		fldYInterval.setText("" + statDialog.format(settings.yAxesInterval));
 
-			fldYMin.setText("" + statDialog.format(settings.yMin));
-			fldYMax.setText("" + statDialog.format(settings.yMax));
-			fldYInterval
-					.setText("" + statDialog.format(settings.yAxesInterval));
-		}
-
-		// update bar chart panel
-		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth);
-		fldBarWidth.setText("" + settings.barWidth);
-		fldBarWidth.setEnabled(!ckAutoBarWidth.isSelected());
-
-		// update show outliers
+		// show outliers
 		ckShowOutliers.setSelected(settings.showOutliers);
 
 		isUpdating = false;
@@ -603,6 +641,8 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 					.evaluateToNumeric(inputText, false);
 			double value = nv.getDouble();
 
+			// TODO better validation
+
 			if (source == fldXMin) {
 				settings.xMin = value;
 				firePropertyChange("settings", true, false);
@@ -615,16 +655,17 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 			} else if (source == fldYMin) {
 				settings.yMin = value;
 				firePropertyChange("settings", true, false);
-			} else if (source == fldXInterval) {
+			} else if (source == fldXInterval && value >= 0) {
 				settings.xAxesInterval = value;
 				firePropertyChange("settings", true, false);
-			} else if (source == fldYInterval) {
+			} else if (source == fldYInterval && value >= 0) {
 				settings.yAxesInterval = value;
 				firePropertyChange("settings", true, false);
-			} else if (source == fldBarWidth) {
+			} else if (source == fldBarWidth && value >= 0) {
 				settings.barWidth = value;
 				firePropertyChange("settings", true, false);
 			}
+			updateGUI();
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

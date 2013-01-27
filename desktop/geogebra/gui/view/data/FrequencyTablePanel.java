@@ -1,6 +1,7 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -12,22 +13,20 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
-public class FrequencyTablePanel extends JPanel implements StatPanelInterface{
+public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	protected AppD app;
-	private Kernel kernel; 
+	private Kernel kernel;
 	protected DataAnalysisViewD statDialog;
 	private int mode;
 	protected StatTable statTable;
 
 	private StatPanelSettings settings;
 
-
-
-	public FrequencyTablePanel(AppD app, DataAnalysisViewD statDialog){
-		this.app = app;	
-		this.kernel = app.getKernel();				
+	public FrequencyTablePanel(AppD app, DataAnalysisViewD statDialog) {
+		this.app = app;
+		this.kernel = app.getKernel();
 		this.statDialog = statDialog;
 
 		statTable = new StatTable(app);
@@ -35,40 +34,48 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface{
 		this.setLayout(new BorderLayout());
 		this.add(statTable, BorderLayout.CENTER);
 
-		statTable.setBorder(BorderFactory.createMatteBorder(1,0,0,0, SystemColor.controlShadow));
+		statTable.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
+				SystemColor.controlShadow));
 		setBorder(BorderFactory.createEmptyBorder());
 
 	}
 
-	public void setTable(double[] classes, double[] freq, StatPanelSettings settings){
+	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable algo,
+			boolean useClasses) {
 
-		statTable.setStatTable( freq.length-1, null, 2, getColumnNames(settings));
+		String[] strValue = algo.getValueString();
+		String[] strFrequency = algo.getFrequencyString();
+		String[] strHeader = algo.getHeaderString();
 
+		statTable.setStatTable(strValue.length, null, 2, strHeader);
 		DefaultTableModel model = statTable.getModel();
 
-		for(int row = 0; row < freq.length -1; row++){
-			String interval = statDialog.format(classes[row]) + " - " + statDialog.format(classes[row+1]);
-			model.setValueAt(interval, row, 0);
-			model.setValueAt(statDialog.format(freq[row]), row, 1);
+		if (useClasses) {
+			for (int row = 0; row < strValue.length - 1; row++) {
+				model.setValueAt(strValue[row] + " - " + strValue[row + 1],
+						row, 0);
+				model.setValueAt(strFrequency[row], row, 1);
+			}
+		} else {
+			for (int row = 0; row < strValue.length; row++) {
+				model.setValueAt(strValue[row], row, 0);
+				model.setValueAt(strFrequency[row], row, 1);
+			}
 		}
+
+		setTableSize();
+	}
+
+	private void setTableSize() {
 
 		Dimension d = statTable.getPreferredSize();
 		this.setPreferredSize(d);
-		d.height = 8*statTable.getTable().getRowHeight();
+		int numRows = Math.min(8, statTable.getTable().getRowCount());
+		d.height = numRows * statTable.getTable().getRowHeight();
 		this.setMaximumSize(d);
 		statTable.revalidate();
 		updateFonts(app.getPlainFont());
-
 	}
-
-	
-	private String[] getColumnNames(StatPanelSettings settings){
-		String[] names = new String[2];
-		names[0] = app.getMenu("Interval");
-		names[1] = app.getCommand("Frequency"); 
-		return names;
-	}
-
 
 	public void updatePanel() {
 		// do nothing
@@ -78,9 +85,8 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface{
 		statTable.updateFonts(font);
 	}
 
-	public void setLabels(){
-		//statTable.setLabels(null, getColumnNames());
+	public void setLabels() {
+		// statTable.setLabels(null, getColumnNames());
 	}
-
 
 }

@@ -21,18 +21,20 @@ import javax.swing.JSeparator;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 /**
  * 
- * Extended JPanel that displays:
- * (1) summary statistics for the current data set 
- * (2) interactive panels for performing statistical inference with the current data set
+ * Extended JPanel that displays: (1) summary statistics for the current data
+ * set (2) interactive panels for performing statistical inference with the
+ * current data set
  * 
  * @author G. Sturr
- *
+ * 
  */
-public class StatisticsPanel extends JPanel implements StatPanelInterface, ActionListener {
+public class StatisticsPanel extends JPanel implements StatPanelInterface,
+		ActionListener {
 	private static final long serialVersionUID = 1L;
-	// inference mode constants 
+	// inference mode constants
 	public static final int SUMMARY_STATISTICS = 0;
 	// one var
 	public static final int INFER_ZTEST = 1;
@@ -47,7 +49,6 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	// multi var
 	public static final int INFER_ANOVA = 40;
 
-
 	// inference mode selection
 	private JComboBox cbInferenceMode;
 	private HashMap<Integer, String> labelMap;
@@ -60,7 +61,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	private LinearRegressionPanel regressionPanel;
 	private TwoVarInferencePanel twoVarInferencePanel;
 	private ANOVATable anovaTable;
-	private MinimalMultiVarStatPanel minMVStatPanel;
+	private MultiVarStatPanel minMVStatPanel;
 	private JPanel selectionPanel;
 	private JPanel inferencePanel;
 
@@ -68,22 +69,21 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	private DataAnalysisViewD statDialog;
 	private AppD app;
 
-
-
 	/*************************************
 	 * Constructor
+	 * 
 	 * @param app
 	 * @param statDialog
 	 */
-	public StatisticsPanel(AppD app, DataAnalysisViewD statDialog)  {
+	public StatisticsPanel(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		this.statDialog = statDialog;
 
-		// create the sub-panels	
+		// create the sub-panels
 		createSelectionPanel();
 		createStatTable();
-		if(statTable != null){
+		if (statTable != null) {
 			statTable.setBorder(BorderFactory.createEmptyBorder());
 			inferencePanel = new JPanel(new BorderLayout());
 			inferencePanel.add(statTable, BorderLayout.CENTER);
@@ -100,29 +100,28 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	/**
 	 * Creates a table to display summary statistics for the current data set(s)
 	 */
-	private void createStatTable(){
+	private void createStatTable() {
 		// create a statTable according to dialog type
-		if(statDialog.getMode() == DataAnalysisViewD.MODE_ONEVAR){
-			statTable = new BasicStatTable(app, statDialog, statDialog.getMode());
-		}
-		else if(statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION){
-			statTable = new BasicStatTable(app, statDialog, statDialog.getMode());
-		}
-		else if(statDialog.getMode() == DataAnalysisViewD.MODE_MULTIVAR){
+		if (statDialog.getMode() == DataAnalysisViewD.MODE_ONEVAR) {
+			statTable = new BasicStatTable(app, statDialog);
+		} else if (statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION) {
+			statTable = new BasicStatTable(app, statDialog);
+		} else if (statDialog.getMode() == DataAnalysisViewD.MODE_MULTIVAR) {
 			statTable = new MultiVarStatPanel(app, statDialog);
 		}
 	}
 
-
 	/**
-	 * Reconfigures the panel layout according to the current selected inference mode
+	 * Reconfigures the panel layout according to the current selected inference
+	 * mode
 	 */
-	private void setInferencePanel(){
+	private void setInferencePanel() {
 
-		if(inferencePanel == null) return;
+		if (inferencePanel == null)
+			return;
 
 		inferencePanel.removeAll();
-		switch(selectedMode){
+		switch (selectedMode) {
 
 		case INFER_ZTEST:
 		case INFER_TTEST:
@@ -134,40 +133,39 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		case INFER_TTEST_2MEANS:
 		case INFER_TTEST_PAIRED:
 		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:		
+		case INFER_TINT_PAIRED:
 			inferencePanel.add(getTwoVarInferencePanel(), BorderLayout.NORTH);
-			//inferencePanel.add(statTable, BorderLayout.CENTER);
+			// inferencePanel.add(statTable, BorderLayout.CENTER);
 			break;
 
 		case INFER_ANOVA:
-			
+
 			GridBagConstraints tab = new GridBagConstraints();
-			tab.gridx=0;
+			tab.gridx = 0;
 			tab.gridy = GridBagConstraints.RELATIVE;
-			tab.weightx=1;
-			tab.insets = new Insets(4,20,0,20);
+			tab.weightx = 1;
+			tab.insets = new Insets(4, 20, 0, 20);
 			tab.fill = GridBagConstraints.HORIZONTAL;
-			tab.anchor=GridBagConstraints.NORTHWEST;
-			
+			tab.anchor = GridBagConstraints.NORTHWEST;
+
 			JPanel p = new JPanel(new GridBagLayout());
-			p.add(getAnovaTable(),tab);
-			p.add(getMinMVStatPanel(),tab);
+			p.add(getAnovaTable(), tab);
+			p.add(getMinMVStatPanel(), tab);
 			inferencePanel.add(p, BorderLayout.CENTER);
-			
+
 			break;
 
 		default:
 			inferencePanel.add(statTable, BorderLayout.CENTER);
 		}
-		
+
 		revalidate();
 		repaint();
 		this.setMinimumSize(this.getPreferredSize());
 		statDialog.updateStatDataPanelVisibility();
 	}
 
-
-	private void createSelectionPanel(){
+	private void createSelectionPanel() {
 		createLabelMap();
 		createInferenceTypeComboBox();
 
@@ -175,48 +173,47 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		selectionPanel.add(cbInferenceMode, app.borderWest());
 	}
 
-
-	private ANOVATable getAnovaTable(){
-		if(anovaTable == null)
+	private ANOVATable getAnovaTable() {
+		if (anovaTable == null)
 			anovaTable = new ANOVATable(app, statDialog);
 		return anovaTable;
 	}
 
-	private OneVarInferencePanel getOneVarInferencePanel(){
-		if(oneVarInferencePanel == null)
+	private OneVarInferencePanel getOneVarInferencePanel() {
+		if (oneVarInferencePanel == null)
 			oneVarInferencePanel = new OneVarInferencePanel(app, statDialog);
 		return oneVarInferencePanel;
 	}
 
-	private TwoVarInferencePanel getTwoVarInferencePanel(){
-		if(twoVarInferencePanel == null)
+	private TwoVarInferencePanel getTwoVarInferencePanel() {
+		if (twoVarInferencePanel == null)
 			twoVarInferencePanel = new TwoVarInferencePanel(app, statDialog);
 		return twoVarInferencePanel;
 	}
 
-	private MinimalMultiVarStatPanel getMinMVStatPanel(){
-		if(minMVStatPanel == null)
-			minMVStatPanel = new MinimalMultiVarStatPanel(app, statDialog);
+	private MultiVarStatPanel getMinMVStatPanel() {
+		if (minMVStatPanel == null)
+			minMVStatPanel = new MultiVarStatPanel(app, statDialog);
+		minMVStatPanel.setMinimalTable(true);
 		return minMVStatPanel;
 	}
-	
 
 	/**
 	 * Creates the JComboBox that selects inference mode
 	 */
-	private void createInferenceTypeComboBox(){
+	private void createInferenceTypeComboBox() {
 
-		if(cbInferenceMode == null){
+		if (cbInferenceMode == null) {
 			cbInferenceMode = new JComboBox();
 			cbInferenceMode.setFocusable(false);
 			cbInferenceMode.setRenderer(new MyRenderer());
 
-		}else{
+		} else {
 			cbInferenceMode.removeActionListener(this);
 			cbInferenceMode.removeAllItems();
 		}
 
-		switch(statDialog.getMode()){
+		switch (statDialog.getMode()) {
 
 		case DataAnalysisViewD.MODE_ONEVAR:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
@@ -247,18 +244,16 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		cbInferenceMode.setMaximumRowCount(cbInferenceMode.getItemCount());
 		cbInferenceMode.addActionListener(this);
 
-
 	}
 
-
 	/**
-	 * Creates two hash maps for JComboBox selections, 
-	 * 1) plotMap:  Key = integer mode, Value = JComboBox menu string  
-	 * 2) plotMapReverse: Key = JComboBox menu string, Value = integer mode    
+	 * Creates two hash maps for JComboBox selections, 1) plotMap: Key = integer
+	 * mode, Value = JComboBox menu string 2) plotMapReverse: Key = JComboBox
+	 * menu string, Value = integer mode
 	 */
-	private void createLabelMap(){
-		if(labelMap == null)
-			labelMap = new HashMap<Integer,String>();
+	private void createLabelMap() {
+		if (labelMap == null)
+			labelMap = new HashMap<Integer, String>();
 
 		labelMap.clear();
 		labelMap.put(INFER_TTEST, app.getMenu("TMeanTest"));
@@ -271,18 +266,18 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 
 		labelMap.put(INFER_TTEST_2MEANS, app.getMenu("TTestDifferenceOfMeans"));
 		labelMap.put(INFER_TTEST_PAIRED, app.getMenu("TTestPairedDifferences"));
-		labelMap.put(INFER_TINT_2MEANS, app.getMenu("TEstimateDifferenceOfMeans"));
-		labelMap.put(INFER_TINT_PAIRED, app.getMenu("TEstimatePairedDifferences"));
+		labelMap.put(INFER_TINT_2MEANS,
+				app.getMenu("TEstimateDifferenceOfMeans"));
+		labelMap.put(INFER_TINT_PAIRED,
+				app.getMenu("TEstimatePairedDifferences"));
 
 		// REVERSE LABEL MAP
 		labelMapReverse = new HashMap<String, Integer>();
-		for(Integer key: labelMap.keySet()){
+		for (Integer key : labelMap.keySet()) {
 			labelMapReverse.put(labelMap.get(key), key);
 		}
 
 	}
-
-
 
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);
@@ -293,13 +288,14 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	}
 
 	public void updatePanel() {
-		if(statTable == null){
+		//System.out.println("============= update stat panel");
+		if (statTable == null) {
 			return;
 		}
-		
+
 		statTable.updatePanel();
 
-		switch(selectedMode){
+		switch (selectedMode) {
 
 		case INFER_ZTEST:
 		case INFER_TTEST:
@@ -312,7 +308,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		case INFER_TTEST_2MEANS:
 		case INFER_TTEST_PAIRED:
 		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:		
+		case INFER_TINT_PAIRED:
 			getTwoVarInferencePanel().setSelectedInference(selectedMode);
 			getTwoVarInferencePanel().updatePanel();
 			break;
@@ -326,21 +322,21 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		revalidate();
 		repaint();
 		this.setMinimumSize(this.getPreferredSize());
-		//statDialog.updateStatDataPanelVisibility();
-		
+		// statDialog.updateStatDataPanelVisibility();
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if(source == cbInferenceMode && cbInferenceMode.getSelectedItem() != null){			
+		if (source == cbInferenceMode
+				&& cbInferenceMode.getSelectedItem() != null) {
 
-			if(cbInferenceMode.getSelectedItem().equals(MyRenderer.SEPARATOR)){
+			if (cbInferenceMode.getSelectedItem().equals(MyRenderer.SEPARATOR)) {
 				cbInferenceMode.setSelectedItem(labelMap.get(selectedMode));
-			}
-			else 
-			{
-				selectedMode = labelMapReverse.get(cbInferenceMode.getSelectedItem());
+			} else {
+				selectedMode = labelMapReverse.get(cbInferenceMode
+						.getSelectedItem());
 			}
 			setInferencePanel();
 			updatePanel();
@@ -348,10 +344,9 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 
 	}
 
-
-	//============================================================
-	//           ComboBox Renderer with SEPARATOR
-	//============================================================
+	// ============================================================
+	// ComboBox Renderer with SEPARATOR
+	// ============================================================
 
 	private static class MyRenderer extends JLabel implements ListCellRenderer {
 		private static final long serialVersionUID = 1L;
@@ -382,10 +377,5 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 			return this;
 		}
 	}
-
-
-
-
-
 
 }

@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Dialog to manage data soures for the DataAnalysisView
+ * Dialog to manage data sources for the DataAnalysisView
  * 
  * @author G. Sturr
  * 

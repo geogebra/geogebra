@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.FullWidthLayout;
+import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -24,12 +25,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 
 /**
  * View to display plots and statistical analysis of data.
@@ -45,20 +48,18 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 	private AppD app;
 	private Kernel kernel;
 	private StatGeo statGeo;
-	private DataAnalysisControllerD daCtrl;
+	protected DataAnalysisControllerD daCtrl;
 	private DataAnalysisStyleBar stylebar;
 
-	// modes
 	public static final int MODE_ONEVAR = EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS;
 	public static final int MODE_REGRESSION = EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS;
 	public static final int MODE_MULTIVAR = EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS;
-	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
 	// flags
 	private boolean showDataPanel = false;
 	private boolean showStatPanel = false;
-	private boolean showComboPanel2 = false;
+	private boolean showDataDisplayPanel2 = false;
 	protected boolean isIniting = true;
 
 	// colors
@@ -115,12 +116,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 	private int regressionOrder = 2;
 
 	// main GUI panels
-	protected DataPanel dataPanel;
-	protected StatisticsPanel statisticsPanel;
-	protected RegressionPanel regressionPanel;
-	protected DataDisplayPanel comboStatPanel, comboStatPanel2;
+	private DataPanel dataPanel;
+	private StatisticsPanel statisticsPanel;
+	private RegressionPanel regressionPanel;
+	private DataDisplayPanel dataDisplayPanel1, dataDisplayPanel2;
+
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
-	private DataSourcePanel dataTypePanel;
+	private DataSourcePanel dataSourcePanel;
 	private JPanel mainPanel;
 
 	private int defaultDividerSize;
@@ -142,8 +144,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 		daCtrl = new DataAnalysisControllerD(app, this);
 
-		comboStatPanel = new DataDisplayPanel(this);
-		comboStatPanel2 = new DataDisplayPanel(this);
+		dataDisplayPanel1 = new DataDisplayPanel(this);
+		dataDisplayPanel2 = new DataDisplayPanel(this);
 
 		setView(null, mode, true);
 		isIniting = false;
@@ -163,6 +165,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 			daCtrl.setValidData(false);
 		} else {
 			daCtrl.setValidData(true);
+		}
+
+		if (mode == MODE_ONEVAR) {
+			if (showDataPanel == true
+					&& dataSource.getGroupType() != GroupType.RAWDATA) {
+				setShowDataPanel(false);
+			}
 		}
 
 		// reinit the GUI if mode is changed
@@ -212,11 +221,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 			// TODO handle any orphaned geo children of stat panel
 			statisticsPanel = null;
 		}
-		if (mode != MODE_GROUPDATA) {
-			statisticsPanel = new StatisticsPanel(app, this);
-			statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2,
-					2));
-		}
+
+		statisticsPanel = new StatisticsPanel(app, this);
+		statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
 	}
 
 	/**
@@ -228,38 +235,43 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 		case MODE_ONEVAR:
 			if (!isNumericData()) {
-				comboStatPanel.setPanel(DataDisplayPanel.PlotType.BARCHART, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BARCHART, mode);
+				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.BARCHART,
+						mode);
+				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.BARCHART,
+						mode);
 
-			} else if (sourceType() == DataSource.SOURCE_RAWDATA) {
-				comboStatPanel.setPanel(DataDisplayPanel.PlotType.HISTOGRAM, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT, mode);
+			} else if (groupType() == GroupType.RAWDATA) {
+				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.HISTOGRAM,
+						mode);
+				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT,
+						mode);
 
-			} else if (sourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-				comboStatPanel.setPanel(DataDisplayPanel.PlotType.BARCHART, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT, mode);
+			} else if (groupType() == GroupType.FREQUENCY) {
+				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.BARCHART,
+						mode);
+				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT,
+						mode);
 
-			} else if (sourceType() == DataSource.SOURCE_CLASS_FREQUENCY) {
-				comboStatPanel.setPanel(DataDisplayPanel.PlotType.HISTOGRAM, mode);
-				comboStatPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT, mode);
+			} else if (groupType() == GroupType.CLASS) {
+				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.HISTOGRAM,
+						mode);
+				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.HISTOGRAM,
+						mode);
 			}
 			break;
 
 		case MODE_REGRESSION:
-			comboStatPanel.setPanel(DataDisplayPanel.PlotType.SCATTERPLOT, mode);
-			comboStatPanel2.setPanel(DataDisplayPanel.PlotType.RESIDUAL, mode);
+			dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.SCATTERPLOT,
+					mode);
+			dataDisplayPanel2
+					.setPanel(DataDisplayPanel.PlotType.RESIDUAL, mode);
 			break;
 
 		case MODE_MULTIVAR:
-			comboStatPanel.setPanel(DataDisplayPanel.PlotType.MULTIBOXPLOT, mode);
-			showComboPanel2 = false;
+			dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.MULTIBOXPLOT,
+					mode);
+			showDataDisplayPanel2 = false;
 			break;
-
-		case MODE_GROUPDATA:
-			comboStatPanel.setPanel(DataDisplayPanel.PlotType.HISTOGRAM, mode);
-			showComboPanel2 = false;
-			break;
-
 		}
 	}
 
@@ -271,7 +283,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 			// TODO handle any orphaned data panel geos
 			dataPanel = null;
 		}
-		if (mode != MODE_MULTIVAR && mode != DataAnalysisViewD.MODE_GROUPDATA) {
+		if (mode != MODE_MULTIVAR) {
 			dataPanel = new DataPanel(app, this);
 			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		}
@@ -280,10 +292,14 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 	}
 
-	protected DataPanel getDataPanel() {
+	public void loadDataTable(ArrayList<GeoElement> dataArray) {
 		if (dataPanel == null) {
 			buildDataPanel();
 		}
+		dataPanel.loadDataTable(dataArray);
+	}
+
+	protected DataPanel getDataPanel() {
 		return dataPanel;
 	}
 
@@ -323,7 +339,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 		// create a splitPane to hold the two plotComboPanels
 		comboPanelSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				comboStatPanel, comboStatPanel2);
+				dataDisplayPanel1, dataDisplayPanel2);
 
 		comboPanelSplit.setDividerLocation(0.5);
 		comboPanelSplit.setBorder(BorderFactory.createEmptyBorder());
@@ -368,7 +384,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 		add(p, SourceCard);
 		showMainPanel();
 
-		setShowComboPanel2(showComboPanel2);
+		setShowComboPanel2(showDataDisplayPanel2);
 		updateStatDataPanelVisibility();
 
 	}
@@ -396,8 +412,24 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 		return daCtrl.getDataSource();
 	}
 
-	private int sourceType() {
-		return daCtrl.getDataSource().getSourceType();
+	public GroupType groupType() {
+		return daCtrl.getDataSource().getGroupType();
+	}
+
+	public DataDisplayPanel getDataDisplayPanel1() {
+		return dataDisplayPanel1;
+	}
+
+	public DataDisplayPanel getDataDisplayPanel2() {
+		return dataDisplayPanel2;
+	}
+
+	public RegressionPanel getRegressionPanel() {
+		return regressionPanel;
+	}
+
+	public StatisticsPanel getStatisticsPanel() {
+		return statisticsPanel;
 	}
 
 	/**
@@ -409,8 +441,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 		return this;
 	}
 
-	public boolean showComboPanel2() {
-		return showComboPanel2;
+	public boolean showDataDisplayPanel2() {
+		return showDataDisplayPanel2;
 	}
 
 	public boolean showDataPanel() {
@@ -462,7 +494,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 				this.regressionMode = l;
 
 				daCtrl.setRegressionGeo();
-				daCtrl.updateAllStatPanels(true);
+				daCtrl.updateAllPanels(true);
 
 				return;
 			}
@@ -514,13 +546,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 	public void setShowComboPanel2(boolean showComboPanel2) {
 
-		this.showComboPanel2 = showComboPanel2;
+		this.showDataDisplayPanel2 = showComboPanel2;
 
 		if (showComboPanel2) {
 			if (comboPanelSplit == null) {
 				// Application.debug("splitpane null");
 			}
-			comboPanelSplit.setBottomComponent(comboStatPanel2);
+			comboPanelSplit.setBottomComponent(dataDisplayPanel2);
 			comboPanelSplit.setDividerLocation(200);
 			comboPanelSplit.setDividerSize(4);
 		} else {
@@ -627,6 +659,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 		if (stylebar != null) {
 			stylebar.updateGUI();
 		}
+		revalidate();
+		repaint();
 	}
 
 	public void updateFonts() {
@@ -751,11 +785,16 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 
 		updateRounding();
 
+		// update the view if the geo is in the data source
 		if (!isIniting && daCtrl.isInDataSource(geo)) {
-			// App.error("updated geo:" + geo.toString());
-			daCtrl.updateDataAnalysisView();
-		}
 
+			// use a runnable to allow spreadsheet table model to update
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					daCtrl.updateDataAnalysisView();
+				}
+			});
+		}
 	}
 
 	final public void updateVisualStyle(GeoElement geo) {
@@ -796,16 +835,16 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 		kernel.attach(this);
 
 		// attachView to plot panels
-		comboStatPanel.attachView();
-		if (comboStatPanel2 != null)
-			comboStatPanel2.attachView();
+		dataDisplayPanel1.attachView();
+		if (dataDisplayPanel2 != null)
+			dataDisplayPanel2.attachView();
 	}
 
 	public void detachView() {
 
-		comboStatPanel.detachView();
-		if (comboStatPanel2 != null)
-			comboStatPanel2.detachView();
+		dataDisplayPanel1.detachView();
+		if (dataDisplayPanel2 != null)
+			dataDisplayPanel2.detachView();
 		daCtrl.removeStatGeos();
 
 		kernel.detach(this);
@@ -901,7 +940,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 	}
 
 	public JPopupMenu getExportMenu() {
-		return comboStatPanel.getExportMenu();
+		return dataDisplayPanel1.getExportMenu();
 	}
 
 }

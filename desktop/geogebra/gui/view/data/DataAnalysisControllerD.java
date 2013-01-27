@@ -1,16 +1,13 @@
 package geogebra.gui.view.data;
 
-import geogebra.common.gui.view.spreadsheet.CellRange;
-import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
-import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
@@ -26,7 +23,6 @@ public class DataAnalysisControllerD {
 	private AppD app;
 	private Kernel kernel;
 	private Construction cons;
-	private MyTableD spreadsheetTable;
 	private DataAnalysisViewD view;
 	private StatGeo statGeo;
 
@@ -44,7 +40,6 @@ public class DataAnalysisControllerD {
 	 * Constructs a StatDialogController
 	 * 
 	 * @param app
-	 * @param spView
 	 * @param statDialog
 	 */
 	public DataAnalysisControllerD(AppD app, DataAnalysisViewD statDialog) {
@@ -52,8 +47,6 @@ public class DataAnalysisControllerD {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
-		this.spreadsheetTable = (MyTableD) ((GuiManagerD) app.getGuiManager())
-				.getSpreadsheetView().getSpreadsheetTable();
 		this.view = statDialog;
 		this.statGeo = view.getStatGeo();
 
@@ -80,6 +73,9 @@ public class DataAnalysisControllerD {
 	}
 
 	public void setValidData(boolean isValidData) {
+		if (isValidData == false) {
+			// app.printStacktrace("invalid data");
+		}
 		this.isValidData = isValidData;
 	}
 
@@ -91,7 +87,6 @@ public class DataAnalysisControllerD {
 		return leftToRight;
 	}
 
-	
 	public GeoElement getRegressionModel() {
 		return geoRegression;
 	}
@@ -108,78 +103,8 @@ public class DataAnalysisControllerD {
 		return dataSource;
 	}
 
-	/**
-	 * Sets the field dataSource to the currently selected GeoElements if they
-	 * form a valid data source. If valid, then dataSource is either a GeoList
-	 * or a spreadsheet cell range. If invalid, dataSource = null.
-	 * 
-	 * The boolean field isValidData is also set as a flag for valid/invalid
-	 * data.
-	 */
-	protected void setDataSource() {
-
-		dataSource = null;
-		isValidData = true;
-		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
-
-		if (app.getSelectedGeos() == null || app.getSelectedGeos().size() == 0) {
-			isValidData = false;
-			return;
-		}
-
-		try {
-
-			GeoElement geo = app.getSelectedGeos().get(0);
-			if (geo.isGeoList()) {
-				// TODO: handle validation for a geoList source
-				// dataSource = geo;
-			} else {
-				ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
-				isValidData = isSpreadsheetDataOK(rangeList, mode());
-				if (isValidData) {
-					// dataSource = rangeList.clone();
-					// rangeList.get(0).debug();
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			isValidData = false;
-		}
-
-		return;
-	}
-
 	protected void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
-	}
-
-	protected boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList,
-			int mode) {
-
-		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
-
-		switch (mode) {
-		case DataAnalysisViewD.MODE_ONEVAR:
-			return cr.isOneVarStatsPossible(rangeList);
-
-		case DataAnalysisViewD.MODE_REGRESSION:
-			return cr.isCreatePointListPossible(rangeList);
-
-		case DataAnalysisViewD.MODE_MULTIVAR:
-			return cr.isMultiVarStatsPossible(rangeList);
-		default:
-			App.error("data analysis test for valid spreadsheet data failed");
-			return false;
-		}
-	}
-
-	protected boolean is1DSource() {
-
-		ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
-		return (spreadsheetTable.getCellRangeProcessor()
-				.is1DRangeList(rangeList));
-
 	}
 
 	/**
@@ -195,38 +120,87 @@ public class DataAnalysisControllerD {
 	/**
 	 * Loads GeoElements from dataSource into (GeoList) dataListSelected and
 	 * (ArrayList) dataArray .
+	 * 
+	 * @param doCopy
+	 *            if true lists are loaded as copies
 	 */
-	protected void loadDataLists() {
+	protected void loadDataLists(boolean doCopy) {
 
 		if (dataSelected != null)
 			dataSelected.remove();
 
 		if (dataSource == null) {
-			this.setValidData(false);
+			setValidData(false);
 			return;
 		}
 
-		ArrayList<GeoList> list = dataSource.loadDataLists(mode(), leftToRight);
+		// retrieve data from the data source as a list of GeoLists
 
-		if (list == null) {
-			this.setValidData(false);
-			return;
+		ArrayList<GeoList> list = new ArrayList<GeoList>();
+
+		switch (mode()) {
+		case DataAnalysisViewD.MODE_ONEVAR:
+		case DataAnalysisViewD.MODE_REGRESSION:
+			list = dataSource.toGeoList(mode(), leftToRight, doCopy, 0);
+			break;
+		case DataAnalysisViewD.MODE_MULTIVAR:
+			list = dataSource.toGeoListAll(mode(), leftToRight, doCopy);
+			break;
 		}
 
+		// validate
+		if (!isValidList(list)) {
+			setValidData(false);
+			return;
+		}
+		setValidData(true);
+
+		// convert the list to (GeoList) dataSelected
+		// TODO: dataSelected should always be a list of lists
 		if (list.size() == 1) {
 			dataSelected = list.get(0);
 		} else {
 			dataSelected = new GeoList(cons);
 			for (GeoList geoList : list) {
-				// TODO: suppress label creation!!!!
+				// TODO: suppress label creation?
 				dataSelected.add(geoList);
 			}
 		}
 
-		loadDataArray();
+		// add the selected geos to the dataPanel array
+		loadDataPanelArray();
 	}
 
-	private void loadDataArray() {
+	private boolean isValidList(ArrayList<GeoList> list) {
+
+		if (list == null || list.size()==0) {
+			return false;
+		}
+
+		// check for empty lists
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println("data list " + i + "  size: " + list.get(i).size());
+			if (list.get(i).size() < 1) {
+				System.out.println("invalid data list");
+				return false;
+			}
+		}
+
+		// TODO: add validation checks for different modes, e.g. are data
+		// lengths equal?
+
+		return true;
+	}
+
+	/**
+	 * Loads the DataPanel array with references to all geos in the DataSource.
+	 * This is used by DataPanel to add/remove geos from the dataSelected list
+	 * without needing to change the DataSource.
+	 * 
+	 * TODO: use a more efficient method: maintain a map of removed geos as
+	 * index/geo pairs
+	 */
+	private void loadDataPanelArray() {
 
 		// create and update dataArray (list of all geos contained in
 		// dataSelected)
@@ -235,8 +209,8 @@ public class DataAnalysisControllerD {
 
 			if (dataArray == null)
 				dataArray = new ArrayList<GeoElement>();
-
 			dataArray.clear();
+
 			for (int i = 0; i < dataSelected.size(); i++) {
 				dataArray.add(i, dataSelected.get(i));
 				// App.error(dataSelected.get(i).toOutputValueString(
@@ -244,9 +218,8 @@ public class DataAnalysisControllerD {
 			}
 
 			// load dataPanel with dataArray
-			if (mode() != DataAnalysisViewD.MODE_MULTIVAR
-					&& mode() != DataAnalysisViewD.MODE_GROUPDATA) {
-				view.getDataPanel().loadDataTable(dataArray);
+			if (mode() != DataAnalysisViewD.MODE_MULTIVAR) {
+				view.loadDataTable(dataArray);
 			}
 		} else {
 			App.error("null dataSelected, mode = " + mode());
@@ -267,11 +240,28 @@ public class DataAnalysisControllerD {
 			dataSelected.remove(geo);
 		}
 
-		dataSelected.updateCascade();
-		updateAllStatPanels(false);
-		if (view.regressionPanel != null)
-			view.regressionPanel.updateRegressionPanel();
-		// Application.debug("updateSelectedList: " + index + doAdd);
+		// debugDataSelected();
+		dataSelected.updateRepaint();
+		updateAllPanels(false);
+
+		if (view.getRegressionPanel() != null)
+			view.getRegressionPanel().updateRegressionPanel();
+
+		// System.out.println("updateSelectedList: " + index + " " + doAdd);
+
+	}
+
+	private void debugDataSelected() {
+		if (dataSelected == null) {
+			return;
+		}
+		System.out.println("==========================");
+		System.out.println("dataSelected: ");
+		for (int i = 0; i < dataSelected.size(); i++) {
+			System.out.println(dataSelected.get(i).toString(
+					StringTemplate.defaultTemplate));
+		}
+		System.out.println("==========================");
 
 	}
 
@@ -281,13 +271,14 @@ public class DataAnalysisControllerD {
 	 * @return String array of data titles
 	 */
 	public String[] getDataTitles() {
-		return dataSource.getDataTitles(mode(), leftToRight);
+		return dataSource.getTitles();
+		//return dataSource.getDataTitles(mode(), leftToRight);
 	}
 
 	public void swapXY() {
 		leftToRight = !leftToRight;
 		updateDataAnalysisView();
-		view.regressionPanel.clearPredictionPanel();
+		view.getRegressionPanel().clearPredictionPanel();
 	}
 
 	/**
@@ -303,34 +294,49 @@ public class DataAnalysisControllerD {
 				setRegressionGeo();
 			}
 
+			// update the panels
+			// TODO: internal geos are all redefined, this is not efficient and
+			// needs optimizing
+			updateAllPanels(true);
+
 		} else {
-			// TODO --- handle bad data
-			App.error("error in updateDialog");
+			// App.error("error in updateDialog");
 		}
 
-		updateAllStatPanels(true);
 		view.updateGUI();
-		view.revalidate();
-		view.repaint();
-
 	}
 
+	/**
+	 * Loads the data lists with GeoElements references from the data source.
+	 * All internal GeoElements are removed to prevent orphan links to
+	 * previously loaded GeoElements.
+	 */
 	public void updateDataLists() {
-
 		removeStatGeos();
-		loadDataLists();
+		loadDataLists(true);
 		return;
 	}
 
-	public void updateAllStatPanels(boolean doCreateGeo) {
-		view.comboStatPanel.updatePlot(doCreateGeo);
-		if (mode() != DataAnalysisViewD.MODE_MULTIVAR && view.comboStatPanel2 != null)
-			view.comboStatPanel2.updatePlot(doCreateGeo);
-		if (view.statisticsPanel != null) {
-			//App.error("updateAllStatPanel --- statPANEL");
-			view.statisticsPanel.updatePanel();
+	/**
+	 * Updates all panels in the DataAnalysisView.
+	 * 
+	 * @param doRedefine
+	 *            if true then the internal GeoElements will be redefined.
+	 */
+	public void updateAllPanels(boolean doRedefine) {
+
+		view.getDataDisplayPanel1().updatePlot(doRedefine);
+		if (mode() != DataAnalysisViewD.MODE_MULTIVAR
+				&& view.getDataDisplayPanel2() != null)
+			view.getDataDisplayPanel2().updatePlot(doRedefine);
+
+		if (view.getStatisticsPanel() != null && view.showStatPanel()) {
+			view.getStatisticsPanel().updatePanel();
 		}
 
+		if (view.getDataPanel() != null && view.showDataPanel()) {
+			view.getDataPanel().updatePanel();
+		}
 	}
 
 	protected void handleRemovedDataGeo(GeoElement geo) {
@@ -338,8 +344,8 @@ public class DataAnalysisControllerD {
 		// System.out.println("removed: " + geo.toString());
 		if (isInDataSource(geo)) {
 			// System.out.println("stat dialog removed: " + geo.toString());
-			// removeStatGeos();
-			dataSource.clear();
+
+			dataSource.clearData();
 			this.setValidData(false);
 			updateDataAnalysisView();
 		}
@@ -353,8 +359,8 @@ public class DataAnalysisControllerD {
 		geoRegression = statGeo.createRegressionPlot(dataSelected,
 				view.getRegressionMode(), view.getRegressionOrder(), false);
 
-		if (view.regressionPanel != null)
-			view.regressionPanel.updateRegressionPanel();
+		if (view.getRegressionPanel() != null)
+			view.getRegressionPanel().updateRegressionPanel();
 	}
 
 	public void removeRegressionGeo() {
@@ -381,12 +387,12 @@ public class DataAnalysisControllerD {
 
 		removeRegressionGeo();
 
-		if (view.comboStatPanel != null) {
-			view.comboStatPanel.removeGeos();
+		if (view.getDataDisplayPanel1() != null) {
+			view.getDataDisplayPanel1().removeGeos();
 		}
 
-		if (view.comboStatPanel2 != null) {
-			view.comboStatPanel2.removeGeos();
+		if (view.getDataDisplayPanel2() != null) {
+			view.getDataDisplayPanel2().removeGeos();
 		}
 	}
 

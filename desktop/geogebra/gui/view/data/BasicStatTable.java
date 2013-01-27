@@ -1,7 +1,6 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
 import geogebra.common.kernel.algos.AlgoListMax;
@@ -30,41 +29,54 @@ import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
 import geogebra.gui.view.data.DataAnalysisViewD.Regression;
+import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Displays statistics for DataAnalysisView when in one variable or regression
+ * mode.
+ * 
+ * @author G. Sturr
+ * 
+ */
 public class BasicStatTable extends JPanel implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
-	// ggb
+	
 	protected AppD app;
-	private Kernel kernel;
-	protected DataAnalysisViewD statDialog;
-	private int mode;
+	private Construction cons;
+	protected DataAnalysisViewD daView;
 	protected StatTable statTable;
-	private String[][] statMap;
+
+	protected enum Stat {
+		NULL, LENGTH, MEAN, SD, SAMPLE_SD, SUM, SIGMAXX, MIN, Q1, MEDIAN, Q3, MAX, MEANX, MEANY, SX, SY, PMCC, SPEARMAN, SXX, SYY, SXY, RSQUARE, SSE
+	};
 
 	/*************************************************
 	 * Construct the panel
+	 * @param app 
+	 * @param statDialog 
+	 * @param mode 
 	 */
-	public BasicStatTable(AppD app, DataAnalysisViewD statDialog, int mode) {
+	public BasicStatTable(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
-		this.kernel = app.getKernel();
-		this.statDialog = statDialog;
-		this.mode = mode;
+		this.cons = app.getKernel().getConstruction();
+		this.daView = statDialog;
+		
 		this.setLayout(new BorderLayout());
 		initStatTable();
 		updateFonts(app.getPlainFont());
 
 	} // END constructor
 
-	private void initStatTable() {
-		statMap = getStatMap();
+	protected void initStatTable() {
 
 		statTable = new StatTable(app);
 		statTable.setStatTable(getRowCount(), getRowNames(), getColumnCount(),
@@ -74,13 +86,13 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	}
 
 	// =======================================================
-	// override theses classes
+	// override these classes
 
 	public String[] getRowNames() {
-		statMap = getStatMap();
-		String[] rowNames = new String[statMap.length];
-		for (int i = 0; i < statMap.length; i++) {
-			rowNames[i] = statMap[i][0];
+		ArrayList<Stat> list = getStatList();
+		String[] rowNames = new String[list.size()];
+		for (int i = 0; i < rowNames.length; i++) {
+			rowNames[i] = getStatName(list.get(i));
 		}
 		return rowNames;
 	}
@@ -90,7 +102,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	}
 
 	public int getRowCount() {
-		return getRowNames().length;
+		return getStatList().size();
 	}
 
 	public int getColumnCount() {
@@ -99,51 +111,6 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 	// =======================================================
 
-	private String[][] getStatMap() {
-		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
-			return createOneVarStatMap();
-		}
-		return createTwoVarStatMap();
-	}
-
-	private String[][] createOneVarStatMap() {
-
-		String[][] statMap1 = { { app.getMenu("Length.short"), "Length" },
-				{ app.getMenu("Mean"), "Mean" },
-				{ app.getMenu("StandardDeviation.short"), "SD" },
-				{ app.getMenu("SampleStandardDeviation.short"), "SampleSD" },
-				{ app.getMenu("Sum"), "Sum" },
-				{ app.getMenu("Sum2"), "SigmaXX" }, { null, null },
-				{ app.getMenu("Minimum.short"), "Min" },
-				{ app.getMenu("LowerQuartile.short"), "Q1" },
-				{ app.getMenu("Median"), "Median" },
-				{ app.getMenu("UpperQuartile.short"), "Q3" },
-				{ app.getMenu("Maximum.short"), "Max" }, };
-
-		return statMap1;
-	}
-
-	private String[][] createTwoVarStatMap() {
-
-		String[][] statMap2 = {
-				{ app.getMenu("Length.short"), "Length" },
-				{ app.getMenu("MeanX"), "MeanX" },
-				{ app.getMenu("MeanY"), "MeanY" },
-				{ app.getMenu("Sx"), "SampleSDX" },
-				{ app.getMenu("Sy"), "SampleSDY" },
-				{ app.getMenu("CorrelationCoefficient.short"), "PMCC" },
-				{ app.getMenu("Spearman.short"), "Spearman" },
-				{ app.getMenu("Sxx"), "SXX" },
-				{ app.getMenu("Syy"), "SYY" },
-				{ app.getMenu("Sxy"), "SXY" },
-				{ null, null },
-				{ app.getMenu("RSquare.Short"), "RSquare", "regression" },
-				{ app.getMenu("SumSquaredErrors.short"), "SumSquaredErrors",
-						"regression" } };
-
-		return statMap2;
-	}
-
 	/**
 	 * Evaluates all statistics for the selected data list. If data source is
 	 * not valid, the result cells are set blank.
@@ -151,45 +118,31 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	 */
 	public void updatePanel() {
 		// App.printStacktrace("update stat panel");
-		GeoList dataList = statDialog.getController().getDataSelected();
+		GeoList dataList = daView.getController().getDataSelected();
 
-		GeoElement geoRegression = statDialog.getRegressionModel();
+		GeoElement geoRegression = daView.getRegressionModel();
 		// when the regression mode is NONE geoRegression is a dummy linear
 		// model, so reset it to null
-		if (statDialog.getRegressionMode().equals(Regression.NONE)) {
+		if (daView.getRegressionMode().equals(Regression.NONE)) {
 			geoRegression = null;
 		}
 
 		DefaultTableModel model = statTable.getModel();
 		double value;
 
-		for (int row = 0; row < statMap.length; row++) {
+		ArrayList<Stat> list = getStatList();
+
+		for (int row = 0; row < list.size(); row++) {
 			for (int column = 0; column < 1; column++) {
-				if (statMap[row].length == 2) {
-					if (statMap[row][1] != null
-							&& statDialog.getController().isValidData()) {
-						AlgoElement algo = getStatMapAlgo(statMap[row][1],
-								dataList, geoRegression);
-						kernel.getConstruction().removeFromConstructionList(
+				Stat stat = list.get(row);
+				if (daView.getController().isValidData() && stat != Stat.NULL) {
+					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
+					if (algo != null) {
+						cons.removeFromConstructionList(
 								algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
-						model.setValueAt(statDialog.format(value), row, 0);
-					} else {
-						model.setValueAt("", row, 0);
-					}
-				} else if (statMap[row].length == 3) {
-					if (statMap[row][1] != null && geoRegression != null
-							&& statDialog.getController().isValidData()) {
-						AlgoElement algo = getStatMapAlgo(statMap[row][1],
-								dataList, geoRegression);
-						kernel.getConstruction().removeFromConstructionList(
-								algo);
-						value = ((GeoNumeric) algo.getGeoElements()[0])
-								.getDouble();
-						model.setValueAt(statDialog.format(value), row, 0);
-					} else {
-						model.setValueAt("", row, 0);
+						model.setValueAt(daView.format(value), row, 0);
 					}
 				}
 			}
@@ -197,107 +150,268 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 	}
 
-	protected AlgoElement getStatMapAlgo(String algoName, GeoList dataList,
+	private ArrayList<Stat> getStatList() {
+		ArrayList<Stat> list = new ArrayList<Stat>();
+
+		if (daView == null || daView.getDataSource() == null) {
+			return list;
+		}
+
+		switch (daView.getMode()) {
+		case DataAnalysisViewD.MODE_ONEVAR:
+
+			if (!daView.getDataSource().isNumericData()) {
+				list.add(Stat.LENGTH);
+
+			} else if (daView.groupType() == GroupType.RAWDATA
+					|| daView.groupType() == GroupType.FREQUENCY) {
+
+				list.add(Stat.LENGTH);
+				list.add(Stat.MEAN);
+				list.add(Stat.SD);
+				list.add(Stat.SAMPLE_SD);
+				list.add(Stat.SUM);
+				list.add(Stat.SIGMAXX);
+				list.add(Stat.MIN);
+				list.add(Stat.Q1);
+				list.add(Stat.MEDIAN);
+				list.add(Stat.Q3);
+				list.add(Stat.MAX);
+
+			} else if (daView.groupType() == GroupType.CLASS) {
+
+				list.add(Stat.LENGTH);
+				list.add(Stat.MEAN);
+				list.add(Stat.SD);
+				list.add(Stat.SAMPLE_SD);
+				list.add(Stat.SUM);
+				list.add(Stat.SIGMAXX);
+			}
+
+			break;
+
+		case DataAnalysisViewD.MODE_REGRESSION:
+
+			list.add(Stat.MEANX);
+			list.add(Stat.MEANY);
+			list.add(Stat.SX);
+			list.add(Stat.SY);
+			list.add(Stat.PMCC);
+			list.add(Stat.SPEARMAN);
+			list.add(Stat.SXX);
+			list.add(Stat.SYY);
+			list.add(Stat.SXY);
+			list.add(Stat.NULL);
+			list.add(Stat.RSQUARE);
+			list.add(Stat.SSE);
+			break;
+		}
+
+		return list;
+	}
+
+	protected String getStatName(Stat stat) {
+		switch (stat) {
+		case LENGTH:
+			return app.getMenu("Length.short");
+		case MEAN:
+			return app.getMenu("Mean");
+		case SD:
+			return app.getMenu("StandardDeviation.short");
+		case SAMPLE_SD:
+			return app.getMenu("SampleStandardDeviation.short");
+		case SUM:
+			return app.getMenu("Sum");
+		case SIGMAXX:
+			return app.getMenu("Sum2");
+		case MIN:
+			return app.getMenu("Minimum.short");
+		case Q1:
+			return app.getMenu("LowerQuartile.short");
+		case MEDIAN:
+			return app.getMenu("Median");
+		case Q3:
+			return app.getMenu("UpperQuartile.short");
+		case MAX:
+			return app.getMenu("Maximum.short");
+		case MEANX:
+			return app.getMenu("MeanX");
+		case MEANY:
+			return app.getMenu("MeanY");
+		case SX:
+			return app.getMenu("Sx");
+		case SY:
+			return app.getMenu("Sy");
+		case PMCC:
+			return app.getMenu("CorrelationCoefficient.short");
+		case SPEARMAN:
+			return app.getMenu("Spearman.short");
+		case SXX:
+			return app.getMenu("Sxx");
+		case SYY:
+			return app.getMenu("Syy");
+		case SXY:
+			return app.getMenu("Sxy");
+		case RSQUARE:
+			return app.getMenu("RSquare");
+		case SSE:
+			return app.getMenu("SumSquaredErrors.short");
+		default:
+			return null;
+		}
+
+	}
+
+	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
-		if (statDialog.getDataSource().getSourceType() == DataSource.SOURCE_RAWDATA) {
-			return getStatMapAlgoRawData(algoName, dataList, geoRegression);
-		} else if (statDialog.getDataSource().getSourceType() == DataSource.SOURCE_VALUE_FREQUENCY) {
-			return getStatMapAlgoFrequency(algoName, dataList, geoRegression);
-		}
-		return null;
 
+		switch (daView.getMode()) {
+
+		case DataAnalysisViewD.MODE_ONEVAR:
+			if (daView.groupType() == GroupType.RAWDATA) {
+				return getAlgoRawData(algoName, dataList, geoRegression);
+
+			} else if (daView.groupType() == GroupType.FREQUENCY) {
+				return getAlgoFrequency(algoName, dataList, geoRegression);
+
+			} else if (daView.groupType() == GroupType.CLASS) {
+				return getAlgoClass(algoName, dataList, geoRegression);
+			}
+
+		case DataAnalysisViewD.MODE_REGRESSION:
+			return getAlgoRawData(algoName, dataList, geoRegression);
+
+		case DataAnalysisViewD.MODE_MULTIVAR:
+			return getAlgoRawData(algoName, dataList, geoRegression);
+
+		default:
+			return null;
+		}
 	}
 
-	protected AlgoElement getStatMapAlgoRawData(String algoName,
-			GeoList dataList, GeoElement geoRegression) {
-		AlgoElement ret = null;
-		Construction cons = kernel.getConstruction();
+	protected AlgoElement getAlgoRawData(Stat stat, GeoList dataList,
+			GeoElement geoRegression) {
 
-		if (algoName.equals("Length")) {
-			ret = new AlgoListLength(cons, dataList);
-		} else if (algoName.equals("Mean")) {
-			ret = new AlgoMean(cons, dataList);
-		} else if (algoName.equals("SD")) {
-			ret = new AlgoStandardDeviation(cons, dataList);
-		} else if (algoName.equals("SampleSD")) {
-			ret = new AlgoSampleStandardDeviation(cons, dataList);
-		} else if (algoName.equals("Sum")) {
-			ret = new AlgoSum(cons, dataList);
-		} else if (algoName.equals("SigmaXX")) {
-			ret = new AlgoSigmaXX(cons, dataList);
-		} else if (algoName.equals("Min")) {
-			ret = new AlgoListMin(cons, dataList);
-		} else if (algoName.equals("Q1")) {
-			ret = new AlgoQ1(cons, dataList);
-		} else if (algoName.equals("Median")) {
-			ret = new AlgoMedian(cons, dataList);
-		} else if (algoName.equals("Q3")) {
-			ret = new AlgoQ3(cons, dataList);
-		} else if (algoName.equals("Max")) {
-			ret = new AlgoListMax(cons, dataList);
-		} else if (algoName.equals("MeanX")) {
-			ret = new AlgoListMeanX(cons, dataList);
-		} else if (algoName.equals("MeanY")) {
-			ret = new AlgoListMeanY(cons, dataList);
-		} else if (algoName.equals("SampleSDX")) {
-			ret = new AlgoListSampleSDX(cons, dataList);
-		} else if (algoName.equals("SampleSDY")) {
-			ret = new AlgoListSampleSDY(cons, dataList);
-		} else if (algoName.equals("PMCC")) {
-			ret = new AlgoListPMCC(cons, dataList);
-		} else if (algoName.equals("Spearman")) {
-			ret = new AlgoSpearman(cons, dataList);
-		} else if (algoName.equals("SXX")) {
-			ret = new AlgoListSXX(cons, dataList);
-		} else if (algoName.equals("SYY")) {
-			ret = new AlgoListSYY(cons, dataList);
-		} else if (algoName.equals("SXY")) {
-			ret = new AlgoListSXY(cons, dataList);
-		} else if (algoName.equals("RSquare")) {
-			ret = new AlgoRSquare(cons, dataList,
+		switch (stat) {
+
+		case LENGTH:
+			return new AlgoListLength(cons, dataList);
+		case MEAN:
+			return new AlgoMean(cons, dataList);
+		case SD:
+			return new AlgoStandardDeviation(cons, dataList);
+		case SAMPLE_SD:
+			return new AlgoSampleStandardDeviation(cons, dataList);
+		case SUM:
+			return new AlgoSum(cons, dataList);
+		case SIGMAXX:
+			return new AlgoSigmaXX(cons, dataList);
+		case MIN:
+			return new AlgoListMin(cons, dataList);
+		case Q1:
+			return new AlgoQ1(cons, dataList);
+		case MEDIAN:
+			return new AlgoMedian(cons, dataList);
+		case Q3:
+			return new AlgoQ3(cons, dataList);
+		case MAX:
+			return new AlgoListMax(cons, dataList);
+		case MEANX:
+			return new AlgoListMeanX(cons, dataList);
+		case MEANY:
+			return new AlgoListMeanY(cons, dataList);
+		case SX:
+			return new AlgoListSampleSDX(cons, dataList);
+		case SY:
+			return new AlgoListSampleSDY(cons, dataList);
+		case PMCC:
+			return new AlgoListPMCC(cons, dataList);
+		case SPEARMAN:
+			return new AlgoSpearman(cons, dataList);
+		case SXX:
+			return new AlgoListSXX(cons, dataList);
+		case SYY:
+			return new AlgoListSYY(cons, dataList);
+		case SXY:
+			return new AlgoListSXY(cons, dataList);
+		case RSQUARE:
+			if (geoRegression == null) {
+				return null;
+			}
+			return new AlgoRSquare(cons, dataList,
 					(GeoFunctionable) geoRegression);
-		} else if (algoName.equals("SumSquaredErrors")) {
-			ret = new AlgoSumSquaredErrors(cons, dataList,
+		case SSE:
+			if (geoRegression == null) {
+				return null;
+			}
+			return new AlgoSumSquaredErrors(cons, dataList,
 					(GeoFunctionable) geoRegression);
+		default:
+			return null;
 		}
-
-		return ret;
 	}
 
-	protected AlgoElement getStatMapAlgoFrequency(String algoName,
-			GeoList frequencyData, GeoElement geoRegression) {
+	protected AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData,
+			GeoElement geoRegression) {
 
-		AlgoElement ret = null;
-		Construction cons = kernel.getConstruction();
 		GeoList dataList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);
 
-		if (algoName.equals("Length")) {
-			ret = new AlgoSum(cons, freqList);
-		} else if (algoName.equals("Mean")) {
-			ret = new AlgoMean(cons, dataList, freqList);
-		} else if (algoName.equals("SD")) {
-			ret = new AlgoStandardDeviation(cons, dataList);
-		} else if (algoName.equals("SampleSD")) {
-			ret = new AlgoSampleStandardDeviation(cons, dataList, freqList);
-		} else if (algoName.equals("Sum")) {
-			ret = new AlgoSum(cons, dataList, freqList);
-		} else if (algoName.equals("SigmaXX")) {
-			ret = new AlgoSigmaXX(cons, dataList);
-		} else if (algoName.equals("Min")) {
-			ret = new AlgoListMin(cons, dataList);
-		} else if (algoName.equals("Q1")) {
-			ret = new AlgoQ1(cons, dataList, freqList);
-		} else if (algoName.equals("Median")) {
-			ret = new AlgoMedian(cons, dataList, freqList);
-		} else if (algoName.equals("Q3")) {
-			ret = new AlgoQ3(cons, dataList, freqList);
-		} else if (algoName.equals("Max")) {
-			ret = new AlgoListMax(cons, dataList);
-		}
+		switch (stat) {
 
-		return ret;
+		case LENGTH:
+			return new AlgoListLength(cons, freqList);
+		case MEAN:
+			return new AlgoMean(cons, dataList, freqList);
+		case SD:
+			return new AlgoStandardDeviation(cons, dataList, freqList);
+		case SAMPLE_SD:
+			return new AlgoSampleStandardDeviation(cons, dataList, freqList);
+		case SUM:
+			return new AlgoSum(cons, dataList, freqList);
+		case SIGMAXX:
+			return new AlgoSigmaXX(cons, dataList);
+		case MIN:
+			return new AlgoListMin(cons, dataList);
+		case Q1:
+			return new AlgoQ1(cons, dataList, freqList);
+		case MEDIAN:
+			return new AlgoMedian(cons, dataList, freqList);
+		case Q3:
+			return new AlgoQ3(cons, dataList, freqList);
+		case MAX:
+			return new AlgoListMax(cons, dataList);
+		default:
+			return null;
+		}
 	}
+
+	protected AlgoElement getAlgoClass(Stat stat, GeoList frequencyData,
+			GeoElement geoRegression) {
+
+		GeoList classList = (GeoList) frequencyData.get(0);
+		GeoList freqList = (GeoList) frequencyData.get(1);
+
+		switch (stat) {
+
+		case LENGTH:
+			return new AlgoListLength(cons, freqList);
+		case MEAN:
+			return new AlgoMean(cons, classList, freqList);
+		case SD:
+			return new AlgoStandardDeviation(cons, classList, freqList);
+		case SAMPLE_SD:
+			return new AlgoSampleStandardDeviation(cons, classList, freqList);
+		case SUM:
+			return new AlgoSum(cons, classList, freqList);
+		case SIGMAXX:
+			return new AlgoSigmaXX(cons, classList);
+		default:
+			return null;
+		}
+	}
+
+	
 
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);

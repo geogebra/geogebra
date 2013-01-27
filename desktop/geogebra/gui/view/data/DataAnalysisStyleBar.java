@@ -2,6 +2,7 @@ package geogebra.gui.view.data;
 
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.MyToggleButton;
+import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -22,9 +23,9 @@ import javax.swing.SwingConstants;
 public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
-	private DataAnalysisViewD statDialog;
+	private DataAnalysisViewD daView;
 	protected int iconHeight = 18;
 	private JButton btnRounding, btnPrint;
 	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
@@ -41,7 +42,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	 */
 	public DataAnalysisStyleBar(AppD app, DataAnalysisViewD statDialog) {
 
-		this.statDialog = statDialog;
+		this.daView = statDialog;
 		this.app = app;
 		this.setFloatable(false);
 		createGUI();
@@ -85,15 +86,14 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnExport.addActionListener(this);
 
 		btnSwapXY = new MyToggleButton(iconHeight);
-		btnSwapXY.setSelected(!statDialog.getController().isLeftToRight());
+		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.setMaximumSize(btnSwapXY.getPreferredSize());
 		btnSwapXY.addActionListener(this);
 		btnSwapXY.setFocusable(false);
-		
-		
+
 		buildRoundingButton();
 		createDataSourcePanel();
-		
+
 		// add(btnRounding);
 		add(btnDataSource);
 		addSeparator();
@@ -101,38 +101,62 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		add(btnShowData);
 		add(btnShowPlot2);
 		add(btnSwapXY);
-		//add(createDataSourcePanel());
+		// add(createDataSourcePanel());
 
 	}
 
 	public void updateGUI() {
 
-		btnShowStatistics.setSelected(statDialog.showStatPanel());
-		
-		btnShowData.setVisible(statDialog.getMode() != DataAnalysisViewD.MODE_MULTIVAR);
-		btnShowData.setSelected(statDialog.showDataPanel());
-		
-		btnShowPlot2.setVisible(statDialog.getMode() != DataAnalysisViewD.MODE_MULTIVAR);
-		btnShowPlot2.setSelected(statDialog.showComboPanel2());
-	
-		//	fldDataSource.setText(statDialog.getStatDialogController()
-		//		.getSourceString());
+		btnShowStatistics.setSelected(daView.showStatPanel());
+		if(daView.showStatPanel() && daView.getStatisticsPanel().isVisible()){
+			daView.getStatisticsPanel().updatePanel();
+		}
+
+		switch (daView.getMode()) {
+		case DataAnalysisViewD.MODE_ONEVAR:
+			if (daView.getDataSource() != null
+					&& daView.groupType() == GroupType.RAWDATA) {
+				btnShowData.setVisible(true);
+			} else {
+				btnShowData.setVisible(false);
+			}
+			break;
+		case DataAnalysisViewD.MODE_REGRESSION:
+			btnShowData.setVisible(true);
+			break;
+		case DataAnalysisViewD.MODE_MULTIVAR:
+			btnShowData.setVisible(false);
+			break;
+		default:
+			btnShowData.setVisible(false);
+		}
+
+		btnShowData.setSelected(daView.showDataPanel());
+
+		btnShowPlot2
+				.setVisible(daView.getMode() != DataAnalysisViewD.MODE_MULTIVAR);
+		btnShowPlot2.setSelected(daView.showDataDisplayPanel2());
+
+		// fldDataSource.setText(statDialog.getStatDialogController()
+		// .getSourceString());
 		fldDataSource.revalidate();
-		
-		btnSwapXY.setVisible(statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION);
-		btnSwapXY.setSelected(!statDialog.getController().isLeftToRight());
+
+		btnSwapXY
+				.setVisible(daView.getMode() == DataAnalysisViewD.MODE_REGRESSION);
+		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 	}
 
 	private JPanel createDataSourcePanel() {
 
-		btnDataSource = new MyToggleButton(app.getImageIcon("arrow_cursor_grabbing.png"), iconHeight);   //app.getImageIcon("go-previous.png"));
-		
+		btnDataSource = new MyToggleButton(
+				app.getImageIcon("arrow_cursor_grabbing.png"), iconHeight); // app.getImageIcon("go-previous.png"));
+
 		btnDataSource.addActionListener(this);
 		fldDataSource = new MyTextField(app);
 
 		JPanel dataSourcePanel = new JPanel(new BorderLayout(5, 0));
-		//dataSourcePanel.add(btnDataSource, app.borderWest());
-		//dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
+		// dataSourcePanel.add(btnDataSource, app.borderWest());
+		// dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
 
 		dataSourcePanel.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 5));
 
@@ -169,7 +193,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
 		btnPrint.setToolTipText(app.getMenu("Print"));
 		btnDataSource.setToolTipText(app.getPlain("ShowDataSource"));
-		
+
 		String swapString = app.getMenu("Column.X") + " \u21C6 "
 				+ app.getMenu("Column.Y");
 		btnSwapXY.setFont(app.getPlainFont());
@@ -180,39 +204,37 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source == btnShowStatistics) {
-			statDialog.setShowStatistics(btnShowStatistics.isSelected());
+			daView.setShowStatistics(btnShowStatistics.isSelected());
 			updateGUI();
-		}
-		else if (source == btnShowData) {
-			statDialog.setShowDataPanel(btnShowData.isSelected());
+		} else if (source == btnShowData) {
+			daView.setShowDataPanel(btnShowData.isSelected());
 			updateGUI();
 		}
 
 		else if (source == btnShowPlot2) {
-			statDialog.setShowComboPanel2(btnShowPlot2.isSelected());
+			daView.setShowComboPanel2(btnShowPlot2.isSelected());
 			updateGUI();
 		}
 
 		else if (source == btnSwapXY) {
-			statDialog.getController().swapXY();
+			daView.getController().swapXY();
 			updateGUI();
 		}
-		
+
 		else if (source == btnDataSource) {
 			btnDataSource.setSelected(false);
-			statDialog.setShowDataOptionsDialog(true);
+			daView.setShowDataOptionsDialog(true);
 		}
-		
+
 		else if (source == btnExport) {
-			JPopupMenu menu = statDialog.getExportMenu();
+			JPopupMenu menu = daView.getExportMenu();
 			menu.show(btnExport, 0, btnExport.getHeight());
 			btnExport.setSelected(false);
 		}
 
 		else if (source == btnPrint) {
-			statDialog.doPrint();
+			daView.doPrint();
 		}
-		
 
 	}
 

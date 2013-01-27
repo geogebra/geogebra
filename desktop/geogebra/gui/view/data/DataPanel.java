@@ -46,7 +46,7 @@ public class DataPanel extends JPanel implements ActionListener,
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private DataAnalysisViewD statDialog;
+	private DataAnalysisViewD daView;
 	private DataAnalysisControllerD statController;
 
 	private JTable dataTable;
@@ -71,7 +71,7 @@ public class DataPanel extends JPanel implements ActionListener,
 	 */
 	public DataPanel(AppD app, DataAnalysisViewD statDialog) {
 		this.app = app;
-		this.statDialog = statDialog;
+		this.daView = statDialog;
 		this.statController = statDialog.getController();
 
 		buildDataTable();
@@ -185,6 +185,19 @@ public class DataPanel extends JPanel implements ActionListener,
 
 	}
 
+	public void setLabels() {
+		lblHeader.setText(app.getMenu("Data"));
+	}
+
+	public void updatePanel() {
+		setRowHeight();
+	}
+
+	public void updateFonts(Font font) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private Boolean[] updateSelectionList(ArrayList<GeoElement> dataArray) {
 
 		selectionList = new Boolean[dataArray.size()];
@@ -203,9 +216,9 @@ public class DataPanel extends JPanel implements ActionListener,
 
 		TableModel dataModel = null;
 		GeoPoint geo = null;
-		String[] titles = statDialog.getDataTitles();
+		String[] titles = daView.getDataTitles();
 
-		switch (statDialog.getMode()) {
+		switch (daView.getMode()) {
 
 		case DataAnalysisViewD.MODE_ONEVAR:
 
@@ -225,6 +238,11 @@ public class DataPanel extends JPanel implements ActionListener,
 
 		case DataAnalysisViewD.MODE_REGRESSION:
 
+			// a data source may be a list of points with a single title
+			// so we must create a title for the y column
+			String titleX = titles[0];
+			String titleY = titles.length == 1 ? titleX : titles[1];
+
 			dataModel = new DefaultTableModel(dataArray.size(), 2);
 			for (int row = 0; row < dataArray.size(); ++row) {
 				dataModel.setValueAt(
@@ -234,10 +252,24 @@ public class DataPanel extends JPanel implements ActionListener,
 			}
 
 			dataTable.setModel(dataModel);
-			dataTable.getColumnModel().getColumn(0)
-					.setHeaderValue(app.getMenu("Column.X") + ": " + titles[0]);
-			dataTable.getColumnModel().getColumn(1)
-					.setHeaderValue(app.getMenu("Column.Y") + ": " + titles[1]);
+
+			// handle x,y titles
+			if (daView.getDataSource().isPointData()) {
+
+				dataTable.getColumnModel().getColumn(0)
+						.setHeaderValue(app.getMenu("Column.X"));
+				dataTable.getColumnModel().getColumn(1)
+						.setHeaderValue(app.getMenu("Column.Y"));
+			} else {
+				dataTable
+						.getColumnModel()
+						.getColumn(0)
+						.setHeaderValue(app.getMenu("Column.X") + ": " + titleX);
+				dataTable
+						.getColumnModel()
+						.getColumn(1)
+						.setHeaderValue(app.getMenu("Column.Y") + ": " + titleY);
+			}
 
 			updateSelectionList(dataArray);
 
@@ -300,10 +332,6 @@ public class DataPanel extends JPanel implements ActionListener,
 		}
 	}
 
-	public void updateFonts(Font font) {
-
-	}
-
 	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
@@ -317,15 +345,7 @@ public class DataPanel extends JPanel implements ActionListener,
 				dataTable.getTableHeader().setFont(font);
 			rowHeader.setFont(font);
 
-			// get row height needed to draw an "X" character
-			int h = dataTable
-					.getCellRenderer(0, 0)
-					.getTableCellRendererComponent(dataTable, "X", false,
-							false, 0, 0).getPreferredSize().height;
-
-			// use this height to set the table and row header heights
-			dataTable.setRowHeight(h);
-			rowHeader.setFixedCellHeight(h);
+			setRowHeight();
 
 			// set the column width
 			int size = font.getSize();
@@ -344,6 +364,18 @@ public class DataPanel extends JPanel implements ActionListener,
 			dataTable.setPreferredScrollableViewportSize(dataTable
 					.getPreferredSize());
 		}
+	}
+
+	private void setRowHeight() {
+		// get row height needed to draw an "X" character
+		int h = dataTable
+				.getCellRenderer(0, 0)
+				.getTableCellRendererComponent(dataTable, "X", false, false, 0,
+						0).getPreferredSize().height;
+
+		// use this height to set the table and row header heights
+		dataTable.setRowHeight(h);
+		rowHeader.setFixedCellHeight(h);
 	}
 
 	public MyRowHeader getRowHeader() {
@@ -678,14 +710,6 @@ public class DataPanel extends JPanel implements ActionListener,
 			return icon;
 		}
 
-	}
-
-	public void setLabels() {
-		lblHeader.setText(app.getMenu("Data"));
-	}
-
-	public void updatePanel() {
-		// TODO Auto-generated method stub
 	}
 
 }

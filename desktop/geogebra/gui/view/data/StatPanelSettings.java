@@ -1,5 +1,8 @@
 package geogebra.gui.view.data;
 
+import geogebra.gui.view.data.DataVariable.GroupType;
+
+
 /**
  * @author G. Sturr
  * 
@@ -42,6 +45,7 @@ public class StatPanelSettings extends PlotSettings {
 
 	// stemplot options
 	public int stemAdjust = 0;
+	
 
 	/**************************************************
 	 * Construct StatPanelSettings
@@ -62,12 +66,16 @@ public class StatPanelSettings extends PlotSettings {
 		this.dataSource = dataSource;
 	}
 
-	public int sourceType() {
-		return dataSource.getSourceType();
+	public GroupType groupType() {
+		return dataSource.getGroupType();
 	}
 
 	public boolean isNumericData() {
 		return dataSource.isNumericData();
+	}
+	
+	public boolean isPointList() {
+		return dataSource.isPointData();
 	}
 
 }

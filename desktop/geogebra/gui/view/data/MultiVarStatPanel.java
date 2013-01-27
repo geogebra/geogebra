@@ -5,6 +5,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.main.AppD;
 
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,23 +18,37 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MultiVarStatPanel extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
+	
+	private boolean isMinimalTable = false;
 
+	
+	/***************************************************
+	 * Constructs a MultiVarStatPanel
+	 * @param app
+	 * @param statDialog
+	 */
 	public MultiVarStatPanel(AppD app, DataAnalysisViewD statDialog) {
-		super(app, statDialog, -1);
+		super(app, statDialog);
 	}
 
+	public void setMinimalTable(boolean isMinimalTable) {
+		this.isMinimalTable = isMinimalTable;
+		initStatTable();
+		
+	}
+	
 	@Override
 	public String[] getRowNames() {
-		return statDialog.getDataTitles();
+		return daView.getDataTitles();
 	}
 
 	@Override
 	public String[] getColumnNames() {
 
-		String[][] cmdMap = getCmdMap();
-		String[] names = new String[cmdMap.length];
-		for (int i = 0; i < cmdMap.length; i++) {
-			names[i] = cmdMap[i][0];
+		ArrayList<Stat> list = getStatList();
+		String[] names = new String[list.size()];
+		for (int i = 0; i < names.length; i++) {
+			names[i] = getStatName(list.get(i));
 		}
 		return names;
 	}
@@ -49,40 +65,63 @@ public class MultiVarStatPanel extends BasicStatTable {
 
 	@Override
 	public void updatePanel() {
-		GeoList dataList = statDialog.getController()
-				.getDataSelected();
+		GeoList dataList = daView.getController().getDataSelected();
 		DefaultTableModel model = statTable.getModel();
-		String[] titles = statDialog.getDataTitles();
-		String[][] cmdMap = getCmdMap();
+
+		String[] titles = daView.getDataTitles();
+
+		ArrayList<Stat> list = getStatList();
+		double value;
 
 		for (int row = 0; row < titles.length; row++) {
-			// get the stats for this list
-			for (int col = 0; col < cmdMap.length; col++) {
+			for (int col = 0; col < list.size(); col++) {
 
-				AlgoElement algo = getStatMapAlgo(cmdMap[col][1],
-						(GeoList) dataList.get(row), null);
-				app.getKernel().getConstruction()
-						.removeFromConstructionList(algo);
-				model.setValueAt(statDialog.format(((GeoNumeric) algo
-						.getGeoElements()[0]).getDouble()), row, col);
+				Stat stat = list.get(col);
+
+				if (daView.getController().isValidData() && stat != Stat.NULL) {
+					AlgoElement algo = getAlgo(stat,
+							(GeoList) dataList.get(row), null);
+					if (algo != null) {
+						app.getKernel().getConstruction()
+								.removeFromConstructionList(algo);
+						value = ((GeoNumeric) algo.getGeoElements()[0])
+								.getDouble();
+						model.setValueAt(daView.format(value), row, col);
+					}
+				}
 			}
 		}
 		statTable.repaint();
 	}
 
-	private String[][] getCmdMap() {
-		String[][] map = { { app.getMenu("Length.short"), "Length" },
-				{ app.getMenu("Mean"), "Mean" },
-				{ app.getMenu("StandardDeviation.short"), "SD" },
-				{ app.getMenu("SampleStandardDeviation.short"), "SampleSD" },
-				{ app.getMenu("Minimum.short"), "Min" },
-				{ app.getMenu("LowerQuartile.short"), "Q1" },
-				{ app.getMenu("Median"), "Median" },
-				{ app.getMenu("UpperQuartile.short"), "Q3" },
-				{ app.getMenu("Maximum.short"), "Max" }
-			//	{ app.getMenu("Sum"), "Sum" },
-			//	{ app.getMenu("Sum2"), "SigmaXX" } 
-				};
-		return map;
+	private ArrayList<Stat> getStatList() {
+
+		ArrayList<Stat> list = new ArrayList<Stat>();
+
+		if (daView == null || daView.getDataSource() == null) {
+			return list;
+		}
+
+		if (isMinimalTable) {
+			list.add(Stat.LENGTH);
+			list.add(Stat.MEAN);
+			list.add(Stat.SAMPLE_SD);
+			
+		} else {
+			
+			list.add(Stat.LENGTH);
+			list.add(Stat.MEAN);
+			list.add(Stat.SD);
+			list.add(Stat.SAMPLE_SD);
+			list.add(Stat.MIN);
+			list.add(Stat.Q1);
+			list.add(Stat.MEDIAN);
+			list.add(Stat.Q3);
+			list.add(Stat.MAX);
+
+		}
+
+		return list;
 	}
+
 }

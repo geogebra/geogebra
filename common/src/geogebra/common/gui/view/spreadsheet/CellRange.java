@@ -6,6 +6,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 
@@ -36,12 +37,49 @@ public class CellRange {
 	App app;
 	private SpreadsheetTableModel tableModel;
 
-	/** Create new CellRange */
+	/**
+	 * Constructs an empty CellRange
+	 * 
+	 * @param app
+	 */
 	public CellRange(App app) {
 		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 	}
 
+	/**
+	 * Constructs a CellRange using all row/column indices
+	 * 
+	 * @param app
+	 * @param anchorColumn
+	 * @param anchorRow
+	 * @param minColumn
+	 * @param minRow
+	 * @param maxColumn
+	 * @param maxRow
+	 */
+	public CellRange(App app, int anchorColumn, int anchorRow, int minColumn,
+			int minRow, int maxColumn, int maxRow) {
+
+		this.tableModel = app.getSpreadsheetTableModel();
+		this.app = app;
+		this.anchorColumn = anchorColumn;
+		this.anchorRow = anchorRow;
+		this.minColumn = minColumn;
+		this.minRow = minRow;
+		this.maxColumn = maxColumn;
+		this.maxRow = maxRow;
+	}
+
+	/**
+	 * Constructs a CellRange from an anchor and opposite corner
+	 * 
+	 * @param app
+	 * @param anchorColumn
+	 * @param anchorRow
+	 * @param col2
+	 * @param row2
+	 */
 	public CellRange(App app, int anchorColumn, int anchorRow, int col2,
 			int row2) {
 
@@ -51,7 +89,13 @@ public class CellRange {
 
 	}
 
-	/** Construct CellRange for single cell */
+	/**
+	 * Constructs a CellRange for single cell
+	 * 
+	 * @param app
+	 * @param anchorColumn
+	 * @param anchorRow
+	 */
 	public CellRange(App app, int anchorColumn, int anchorRow) {
 
 		this.tableModel = app.getSpreadsheetTableModel();
@@ -81,6 +125,14 @@ public class CellRange {
 		this.anchorColumn = anchorColumn;
 		this.anchorRow = anchorRow;
 
+	}
+
+	public int getAnchorColumn() {
+		return anchorColumn;
+	}
+
+	public int getAnchorRow() {
+		return anchorRow;
 	}
 
 	public int getMinColumn() {
@@ -113,7 +165,7 @@ public class CellRange {
 
 	public int[] getActualDimensions() {
 		int[] d = new int[2];
-		CellRange cr = getActualRange(this);
+		CellRange cr = getActualRange();
 		d[0] = cr.maxRow - cr.minRow + 1;
 		d[1] = cr.maxColumn - cr.minColumn + 1;
 		return d;
@@ -169,19 +221,19 @@ public class CellRange {
 	}
 
 	/**
-	 * Returns a cell range that holds the actual cell range of an input row or
-	 * column. e.g. (-1,1,-1,4) ---> (0,1,100,4)
+	 * Returns a new cell range that holds the actual cell range, e.g.
+	 * (-1,1,-1,4) ---> (0,1,100,4)
 	 */
-	public CellRange getActualRange(CellRange cr) {
+	public CellRange getActualRange() {
 
-		CellRange adjustedCellRange = cr.clone();
+		CellRange adjustedCellRange = clone();
 
-		if (cr.minRow == -1 && cr.maxRow == -1 && cr.minColumn != -1) {
+		if (minRow == -1 && maxRow == -1 && minColumn != -1) {
 			adjustedCellRange.minRow = 0;
 			adjustedCellRange.maxRow = tableModel.getRowCount() - 1;
 		}
 
-		if (cr.minColumn == -1 && cr.maxColumn == -1 && cr.minRow != -1) {
+		if (minColumn == -1 && maxColumn == -1 && minRow != -1) {
 			adjustedCellRange.minColumn = 0;
 			adjustedCellRange.maxColumn = tableModel.getColumnCount() - 1;
 		}
@@ -280,7 +332,7 @@ public class CellRange {
 	public ArrayList<String> toGeoValueList(boolean scanByColumn) {
 
 		ArrayList<String> list = new ArrayList<String>();
-		CellRange cr = getActualRange(this);
+		CellRange cr = getActualRange();
 
 		if (scanByColumn) {
 			for (int col = cr.minColumn; col <= cr.maxColumn; ++col) {
@@ -309,11 +361,15 @@ public class CellRange {
 		ArrayList<CellRange> list = new ArrayList<CellRange>();
 
 		if (isColumn()) {
-			for (int col = minColumn; col <= maxColumn; col++)
-				list.add(new CellRange(app, col, -1, col, -1));
+			for (int col = minColumn; col <= maxColumn; col++) {
+				CellRange cr = new CellRange(app, col, -1, col, 0, col, maxRow);
+				list.add(cr);
+				//cr.debug();
+			}
 		} else {
-			for (int col = minColumn; col <= maxColumn; col++)
+			for (int col = minColumn; col <= maxColumn; col++) {
 				list.add(new CellRange(app, col, minRow, col, maxRow));
+			}
 		}
 
 		return list;
@@ -324,7 +380,7 @@ public class CellRange {
 
 		if (isRow()) {
 			for (int row = minRow; row <= maxRow; row++)
-				list.add(new CellRange(app, -1, row, -1, row));
+				list.add(new CellRange(app, 0, row, -1, row, maxColumn, row));
 		} else {
 			for (int row = minRow; row <= maxRow; row++)
 				list.add(new CellRange(app, minColumn, row, maxColumn, row));
@@ -372,6 +428,54 @@ public class CellRange {
 		}
 
 		return hasEmptyCells;
+	}
+
+	/**
+	 * Returns the number of GeoElements of a given GeoClass type contained in
+	 * this cell range
+	 * 
+	 * @param geoClass
+	 *            the GeoClass type to count. If null, then all GeoElements are
+	 *            counted
+	 * @return
+	 */
+	public int getGeoCount(GeoClass geoClass) {
+		int count = 0;
+		if (geoClass != null) {
+			for (int col = getMinColumn(); col <= getMaxColumn(); ++col) {
+				for (int row = getMinRow(); row <= getMaxRow(); ++row) {
+					GeoElement geo = RelativeCopy.getValue(app, col, row);
+					if (geo != null && geo.getGeoClassType() == geoClass)
+						++count;
+				}
+			}
+		} else {
+			for (int col = getMinColumn(); col <= getMaxColumn(); ++col) {
+				for (int row = getMinRow(); row <= getMaxRow(); ++row) {
+					if (RelativeCopy.getValue(app, col, row) != null)
+						++count;
+				}
+			}
+
+		}
+		return count;
+	}
+
+	/**
+	 * @param geoClass
+	 * @return true if this CellRange contains a GeoElement of the given
+	 *         GeoClass type
+	 */
+	public boolean containsGeoClass(GeoClass geoClass) {
+
+		for (int col = getMinColumn(); col <= getMaxColumn(); ++col) {
+			for (int row = getMinRow(); row <= getMaxRow(); ++row) {
+				GeoElement geo = RelativeCopy.getValue(app, col, row);
+				if (geo != null && geo.getGeoClassType() == geoClass)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**

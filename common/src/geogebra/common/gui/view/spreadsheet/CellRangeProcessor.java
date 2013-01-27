@@ -148,15 +148,24 @@ public class CellRangeProcessor {
 	}
 
 	/**
-	 * Returns true if at least three cells in rangeList are GeoNumeric
+	 * Returns true if at least two cells in rangeList are of the given GeoClass
+	 * type
+	 * 
+	 * @param rangeList
+	 * @param geoClass
+	 * @return
 	 */
-	public boolean isOneVarStatsPossible(ArrayList<CellRange> rangeList) {
+	public boolean isOneVarStatsPossible(ArrayList<CellRange> rangeList,
+			GeoClass geoClass) {
 
 		if (rangeList == null || rangeList.size() == 0)
 			return false;
 
+		int count = 0;
+
 		for (CellRange cr : rangeList) {
-			if (containsMinimumGeoNumeric(cr, 3))
+			count += cr.getGeoCount(geoClass);
+			if (count >= 2)
 				return true;
 		}
 
@@ -177,9 +186,8 @@ public class CellRangeProcessor {
 		if (rangeList == null || rangeList.size() == 0)
 			return false;
 
-		// if rangeList is a single cell range
-		// check that there is at least two columns and at least three non-empty
-		// rows
+		// if rangeList is a single cell range check that there are at least two
+		// columns and at least three non-empty rows
 		if (rangeList.size() == 1) {
 			CellRange cr = rangeList.get(0);
 			if (cr.getMaxColumn() - cr.getMinColumn() < 1)
@@ -232,6 +240,41 @@ public class CellRangeProcessor {
 		return false;
 	}
 
+	/**
+	 * @param rangeList
+	 * @param geoClass
+	 * @return true if the given rangeList contains a GeoElement of the given
+	 *         GeoClass type
+	 */
+	public boolean containsGeoClass(ArrayList<CellRange> rangeList,
+			GeoClass geoClass) {
+		for (CellRange cr : rangeList) {
+			if (cr.containsGeoClass(geoClass))
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the number of GeoElements of a given GeoClass type contained in
+	 * the given list of cell ranges.
+	 * @param rangeList 
+	 * 
+	 * @param geoClass
+	 *            the GeoClass type to count. If null, then all GeoElements are
+	 *            counted
+	 * @return
+	 */
+	public int getGeoCount(ArrayList<CellRange> rangeList,
+			GeoClass geoClass) {
+		int count = 0;
+		for (CellRange cr : rangeList) {
+			count += cr.getGeoCount(geoClass);
+		}
+		return count;
+	}
+	
+	
 	public boolean is1DRangeList(ArrayList<CellRange> rangeList) {
 
 		if (rangeList == null || rangeList.size() > 1) {
@@ -1247,7 +1290,7 @@ public class CellRangeProcessor {
 	public String getCellRangeString(ArrayList<CellRange> list) {
 		StringBuilder sb = new StringBuilder();
 		for (CellRange cr : list) {
-			//cr.debug();
+			// cr.debug();
 			sb.append(getCellRangeString(cr, false));
 			sb.append(", ");
 		}
