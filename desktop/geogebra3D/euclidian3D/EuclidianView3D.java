@@ -26,7 +26,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -451,7 +450,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//create the drawable
 		Drawable3D d = null;
-		d = (Drawable3D) createDrawable(geo);
+		d = createDrawable(geo);
 		if (d != null) {
 			drawable3DLists.add(d);
 		}
@@ -538,7 +537,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			case PENSTROKE:
 			case POLYLINE:
 			case POLYLINE3D:
-				d = new DrawPolyLine3D(this, (GeoPolyLine) geo);
+				d = new DrawPolyLine3D(this, geo);
 				break;									
 
 				
@@ -2061,9 +2060,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			case PREVIEW_POINT_FREE:
 				// use default directions for the cross
 				t = 1/getScale();
-				getCursor3D().getDrawingMatrix().setVx((Coords) vx.mul(t));
-				getCursor3D().getDrawingMatrix().setVy((Coords) vy.mul(t));
-				getCursor3D().getDrawingMatrix().setVz((Coords) vz.mul(t));
+				getCursor3D().getDrawingMatrix().setVx(vx.mul(t));
+				getCursor3D().getDrawingMatrix().setVy(vy.mul(t));
+				getCursor3D().getDrawingMatrix().setVz(vz.mul(t));
 				break;
 			case PREVIEW_POINT_REGION:
 				
@@ -2090,21 +2089,21 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 				getCursor3D().getDrawingMatrix().setVx(
-						(Coords) matrix.getVx().normalized().mul(t));
+						matrix.getVx().normalized().mul(t));
 				t *= (10+((GeoElement) getCursor3D().getPath()).getLineThickness());
 				getCursor3D().getDrawingMatrix().setVy(
-						(Coords) matrix.getVy().mul(t));
+						matrix.getVy().mul(t));
 				getCursor3D().getDrawingMatrix().setVz(
-						(Coords) matrix.getVz().mul(t));
+						matrix.getVz().mul(t));
 
 
 				break;
 			case PREVIEW_POINT_DEPENDENT:
 				//use size of intersection
 				t = getIntersectionThickness()/getScale();
-				getCursor3D().getDrawingMatrix().setVx((Coords) vx.mul(t));
-				getCursor3D().getDrawingMatrix().setVy((Coords) vy.mul(t));
-				getCursor3D().getDrawingMatrix().setVz((Coords) vz.mul(t));
+				getCursor3D().getDrawingMatrix().setVx(vx.mul(t));
+				getCursor3D().getDrawingMatrix().setVy(vy.mul(t));
+				getCursor3D().getDrawingMatrix().setVz(vz.mul(t));
 				break;			
 			case PREVIEW_POINT_ALREADY:
 				//use size of point
@@ -2133,11 +2132,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 					matrix = CoordMatrix4x4.Identity();
 
 				getCursor3D().getDrawingMatrix().setVx(
-						(Coords) matrix.getVx().normalized().mul(t));
+						matrix.getVx().normalized().mul(t));
 				getCursor3D().getDrawingMatrix().setVy(
-						(Coords) matrix.getVy().mul(t));
+						matrix.getVy().mul(t));
 				getCursor3D().getDrawingMatrix().setVz(
-						(Coords) matrix.getVz().mul(t));
+						matrix.getVz().mul(t));
 				break;
 			}
 
@@ -2887,7 +2886,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 		
 		// update intersection curves in controller
-		((EuclidianController3D) getEuclidianController()).updateOwnDrawablesNow();
+		getEuclidianController().updateOwnDrawablesNow();
 
 		
 	}
