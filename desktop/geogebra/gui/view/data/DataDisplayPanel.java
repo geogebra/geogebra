@@ -157,7 +157,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private MyTextField fldTitleX, fldTitleY;
 	private FrequencyTablePanel frequencyTable;
 	private JToggleButton btnExport;
-	JTextField fldNumClasses;
+	private JTextField fldNumClasses;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
@@ -653,7 +653,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 						settings);
 				plotPanel.updateSettings(settings);
 
-				if (hasControlPanel)
+				if (hasControlPanel
+						&& settings.getDataSource().getGroupType() != GroupType.CLASS)
 					if (settings.useManualClasses)
 						((CardLayout) controlCards.getLayout()).show(
 								controlCards, "manualClassesPanel");
@@ -778,13 +779,18 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				}
 
 				// update xy title fields
-				
+
 				if (settings.isPointList()) {
 					fldTitleX.setText(daView.getDataTitles()[0]);
 					fldTitleY.setText(daView.getDataTitles()[0]);
 				} else {
-					fldTitleX.setText(daView.getDataTitles()[0]);
-					fldTitleY.setText(daView.getDataTitles()[1]);
+					if (daView.getDaCtrl().isLeftToRight()) {
+						fldTitleX.setText(daView.getDataTitles()[0]);
+						fldTitleY.setText(daView.getDataTitles()[1]);
+					} else {
+						fldTitleX.setText(daView.getDataTitles()[1]);
+						fldTitleY.setText(daView.getDataTitles()[0]);
+					}
 				}
 
 				// update settings
@@ -1126,7 +1132,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				histogram = null;
 			}
 
-			
 			// prepare all display geos to appear in the EV
 			for (GeoElement geo : plotGeoList) {
 				prepareGeoForEV(geo, euclidianViewID);

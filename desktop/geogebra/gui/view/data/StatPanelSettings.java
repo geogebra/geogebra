@@ -20,31 +20,30 @@ public class StatPanelSettings extends PlotSettings {
 	public int frequencyType = TYPE_COUNT;
 
 	// histogram options
-	public boolean isCumulative = false;
-	public boolean useManualClasses = false;
-	public boolean hasOverlayNormal = false;
-	public boolean hasOverlayPolygon = false;
-	public boolean showFrequencyTable = false;
-	public boolean showHistogram = true;
-	public boolean showScatterplotLine = false;
-	public boolean showOutliers = true;
+	protected boolean isCumulative = false;
+	protected boolean useManualClasses = false;
+	protected boolean hasOverlayNormal = false;
+	protected boolean hasOverlayPolygon = false;
+	protected boolean showFrequencyTable = false;
+	protected boolean showHistogram = true;
+	protected boolean showScatterplotLine = false;
+	protected boolean showOutliers = true;
 
-	public double classStart = 0;
-	public double classWidth = 5;
-	public int numClasses = 5;
+	protected double classStart = 0;
+	protected double classWidth = 5;
+	protected int numClasses = 5;
 
-	public double[] classBorders;
-	public boolean isLeftRule = true;
+	protected boolean isLeftRule = true;
 
 	// bar chart options
-	public double barWidth = 0.5;
-	public boolean isAutomaticBarWidth = true;
+	protected double barWidth = 0.5;
+	protected boolean isAutomaticBarWidth = true;
 
 	// graph options
-	public boolean isAutomaticWindow = true;
+	protected boolean isAutomaticWindow = true;
 
 	// stemplot options
-	public int stemAdjust = 0;
+	protected int stemAdjust = 0;
 	
 
 	/**************************************************

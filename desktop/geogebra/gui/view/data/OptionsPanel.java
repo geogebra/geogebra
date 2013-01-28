@@ -4,6 +4,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.data.DataDisplayPanel.PlotType;
+import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -583,6 +584,11 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		ckShowFrequencyTable.setSelected(settings.showFrequencyTable);
 		ckShowHistogram.setSelected(settings.showHistogram);
 
+		if (settings.dataSource != null) {
+			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
+			freqPanel
+					.setVisible(settings.getDataSource().getGroupType() == GroupType.RAWDATA);
+		}
 		// normal overlay
 		ckOverlayNormal
 				.setEnabled(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
