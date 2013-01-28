@@ -1091,8 +1091,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	@Override
 	public void clearView() {
+		
+		//clear lists
 		drawable3DLists.clear();
-		//getEuclidianController().initNewMode(getMode()); //TODO: put in a better place
+		geosToBeAdded.clear();
+		drawable3DListToBeAdded.clear();
+		drawable3DMap.clear();
+		
 		initView(false);
 	}
 	
