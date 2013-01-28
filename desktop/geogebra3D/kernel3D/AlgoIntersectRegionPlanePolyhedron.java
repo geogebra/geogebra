@@ -338,8 +338,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	@Override
 	protected void addCoords(double parameter, Coords coords, GeoElementND parent){
 		newCoords.add(new CoordsWithParent(parameter, coords, parent));
-		if (parent instanceof GeoPointND)
-			polyhedronVertices.add(coords);
+		if (parent instanceof GeoPointND){
+			//boolean b=
+					polyhedronVertices.add(coords);
+			//App.debug("\nb: "+b+"\nparent: "+parent+"\ncoords:\n"+coords);
+		}
 	}
 	
 	private TreeMap<GeoPolygon, ArrayList<Segment>> newCoordsList;
@@ -406,10 +409,16 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			}
 			
 			vertices.setDirection();
+			
+			//add to specific list to be added later
+			polyhedronFaces.add(vertices);
+			
+			/*
 			//check if this list has not already be computed
 			if(checkVerticesList.add(vertices)){
 				addToVerticesList(vertices);
 			}
+			*/
 
 			/*
 			segmentCoords = new ArrayList<Segment>();
@@ -535,6 +544,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	}
 	
 	private VerticesList verticesList;
+	
+	private ArrayList<Vertices> polyhedronFaces;
 	
 	private TreeSet<Vertices> checkVerticesList;
 	
@@ -734,6 +745,10 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		else
 			checkVerticesList.clear();
 		
+		if (polyhedronFaces == null)
+			polyhedronFaces = new  ArrayList<Vertices>();
+		else
+			polyhedronFaces.clear();
 		
 
 		
@@ -753,7 +768,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 		
 		// set output
-		if (newCoordsList.size()==0 && verticesList.size()==0) { //no intersection
+		if (newCoordsList.size()==0 && polyhedronFaces.size()==0) { //no intersection, no face contained
 			//set points, segments and polygons equal to intersection with polyhedron vertices
 			outputPolygons.adjustOutputSize(polyhedronVertices.size(), false);
 			outputPoints.adjustOutputSize(polyhedronVertices.size(), false);
@@ -775,6 +790,16 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 					}
 				}
 			}
+			
+			//add polyhedron faces contained in the plane
+			for (Vertices vertices : polyhedronFaces){
+				//check if this list has not already be computed
+				if(checkVerticesList.add(vertices)){
+					addToVerticesList(vertices);
+				}
+			}
+			
+			
 			//App.debug(newCoordsList.keySet());
 			
 			
@@ -849,7 +874,6 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	public final Commands getClassName() {
         return Commands.IntersectRegion;
     }
-	
 	
 	
 	
@@ -957,5 +981,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		super.getCmdOutputXML(sb, tpl);
 
 
+	}
+	
+	@Override
+	public String toString(StringTemplate tpl) {
+		return app.getPlain("IntersectionOfAandB",
+				getFirstInput().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
 }
