@@ -2,6 +2,7 @@ package geogebra.web.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
@@ -49,8 +50,7 @@ public class CASTableCellW extends VerticalPanel {
 		outputPanel = new HorizontalPanel();
 		if (casCell!=null && casCell.getEvalComment()!=null) {
 			Label commentLabel = new Label();
-				commentLabel.setText(casCell
-				        .getOutput(StringTemplate.defaultTemplate));
+				commentLabel.setText(casCell.getEvalComment());
 				commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
@@ -60,11 +60,13 @@ public class CASTableCellW extends VerticalPanel {
 
 	}
 	
-	public void startEditing(Widget editor){
+	public void startEditing(AutoCompleteTextFieldW editor){
 		remove(inputPanel);
 		remove(outputPanel);
 		add(editor);
+		editor.setText(inputPanel.getText());
 		add(outputPanel);
+		editor.requestFocus();
 	}
 	
 	public void stopEditing(){
