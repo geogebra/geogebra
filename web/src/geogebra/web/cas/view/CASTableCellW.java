@@ -48,9 +48,9 @@ public class CASTableCellW extends VerticalPanel {
 			}
 		}
 		outputPanel = new HorizontalPanel();
-		if (casCell!=null && casCell.getEvalComment()!=null) {
+		if (casCell!=null) {
 			Label commentLabel = new Label();
-				commentLabel.setText(casCell.getEvalComment());
+				commentLabel.setText(casCell.getCommandAndComment());
 				commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}

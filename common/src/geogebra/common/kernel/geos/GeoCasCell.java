@@ -2245,4 +2245,26 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return tooltip;
 	}
 
+	/**
+	 * @return information about eval command for display in the cell
+	 */
+	public String getCommandAndComment() {
+		String evalCmdLocal = app.getCommand(evalCmd);
+
+		if (input.startsWith(evalCmdLocal)) {
+			// don't show command if it is already at beginning of input
+			evalCmdLocal = "";
+		}
+
+		// eval comment (e.g. "x=5, y=8")
+		if (evalComment.length() > 0) {
+			if (evalCmdLocal.length() == 0) {
+				evalCmdLocal = evalComment;
+			} else {
+				evalCmdLocal = evalCmdLocal + ", " + evalComment;
+			}
+		}
+		return evalCmdLocal;
+	}
+
 }

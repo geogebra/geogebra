@@ -76,15 +76,19 @@ public class CASTableW extends Grid implements CASTable{
     }
 
 	public void stopEditing() {
-	    // TODO Auto-generated method stub
+	    if(editing!=null)
+	    	editing.stopEditing();
 		editing = null;
 	    
     }
 
 	public void startEditingRow(int n) {
 		Widget w = getWidget(n,COL_CAS_CELLS_WEB);
+		if(w == editing)
+			return;
+		stopEditing();
 	    if(w instanceof CASTableCellW){
-	    	editing = ((CASTableCellW)w);
+	    	editing = (CASTableCellW)w;
 	    	editing.startEditing(editor.getWidget());
 	    }
 		

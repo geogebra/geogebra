@@ -150,23 +150,7 @@ public abstract class CASTableCell extends JPanel {
 		
 		if (showOutput) {
 			// show eval command (e.g. "Substitute") in output cell
-			String evalCmd = cellValue.getEvalCommand();
-			String evalCmdLocal = app.getCommand(evalCmd);
-
-			if (input.startsWith(evalCmdLocal)) {
-				// don't show command if it is already at beginning of input
-				evalCmdLocal = "";
-			}
-
-			// eval comment (e.g. "x=5, y=8")
-			String evalComment = cellValue.getEvalComment();
-			if (evalComment.length() > 0) {
-				if (evalCmdLocal.length() == 0) {
-					evalCmdLocal = evalComment;
-				} else {
-					evalCmdLocal = evalCmdLocal + ", " + evalComment;
-				}
-			}
+			String evalCmdLocal = cellValue.getCommandAndComment();
 
 			outputPanel.setOutput(
 					cellValue.getOutput(StringTemplate.defaultTemplate),
