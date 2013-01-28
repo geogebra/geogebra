@@ -179,18 +179,21 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 		this.addScrollHandler(new ScrollHandler() {
 			public void onScroll(ScrollEvent se) {
-				verticalScrollPosition = getVerticalScrollPosition();
-				spreadsheet.setFocus(true);
+				//verticalScrollPosition = getVerticalScrollPosition();
+				//horizontalScrollPosition = getHorizontalScrollPosition();
+				requestFocus();
+				//spreadsheet.setFocus(true);
 			}
 		});
 
 		spreadsheet.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent fe) {
-				if (verticalScrollPosition == -1)
-					verticalScrollPosition = getVerticalScrollPosition();
+				verticalScrollPosition = getVerticalScrollPosition();
+				horizontalScrollPosition = getHorizontalScrollPosition();
 				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 					public void execute() {
 						setVerticalScrollPosition(verticalScrollPosition);
+						setHorizontalScrollPosition(horizontalScrollPosition);
 					}
 				});
 			}
@@ -1338,17 +1341,26 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		//if (table != null)
 		//	table.requestFocus();
 
-		verticalScrollPosition = getVerticalScrollPosition();
-		spreadsheet.setFocus(true);
-		setVerticalScrollPosition(verticalScrollPosition);
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				spreadsheet.setFocus(true);
+			}
+		});
 	}
 
 	private int verticalScrollPosition = -1;
+	private int horizontalScrollPosition = -1;
 
 	@Override
 	public void setVerticalScrollPosition(int vsp) {
 		super.setVerticalScrollPosition(vsp);
 		verticalScrollPosition = vsp;
+	}
+
+	@Override
+	public void setHorizontalScrollPosition(int vsp) {
+		super.setHorizontalScrollPosition(vsp);
+		horizontalScrollPosition = vsp;
 	}
 
 	// test all components of SpreadsheetView for hasFocus

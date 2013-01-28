@@ -195,6 +195,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			break;
 			
 		case KeyCodes.KEY_HOME://.VK_HOME:
+			e.preventDefault();
 
 			// if shift pressed, select cells too
 			if (e.isControlKeyDown()) {
@@ -212,6 +213,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			break;
 			
 		case KeyCodes.KEY_END://.VK_END:
+			e.preventDefault();
 
 			// move to bottom right of spreadsheet
 			// if shift pressed, select cells too
@@ -399,6 +401,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 
 			// fall through
 		case GWTKeycodes.KEY_PAGEDOWN://KeyEvent.VK_PAGE_DOWN:
+			e.preventDefault();
+
 			int pixelx = table.getPixel(column, row, true).getX();
 			int pixely = view.getAbsoluteTop() + view.getOffsetHeight();
 			GPoint gip = table.getIndexFromPixel(pixelx, pixely);
@@ -417,6 +421,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			break;
 
 		case GWTKeycodes.KEY_PAGEUP://KeyEvent.VK_PAGE_UP:
+			e.preventDefault();
+
 			int pixx = table.getPixel(column, row, true).getX();
 			int pixy = view.getAbsoluteTop();
 			GPoint gi = table.getIndexFromPixel(pixx, pixy);
@@ -437,6 +443,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 
 			// stop TAB erasing cell before moving
 		case KeyCodes.KEY_TAB://KeyEvent.VK_TAB:
+			e.preventDefault();
+
 			// disable shift-tab in column A
 			if (table.getSelectedColumn() == 0 && e.isShiftKeyDown()) {
 				//e.consume();
