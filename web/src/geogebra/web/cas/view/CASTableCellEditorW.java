@@ -8,6 +8,7 @@ import geogebra.web.main.AppW;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableCellEditorW implements CASTableCellEditor{
 
@@ -54,6 +55,10 @@ public class CASTableCellEditorW implements CASTableCellEditor{
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	public Widget getWidget(){
+		return textField;
+	}
 	
 	public class CASKeyEventsHandler implements KeyEventsHandler{
 

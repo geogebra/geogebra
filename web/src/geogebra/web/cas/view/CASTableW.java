@@ -16,7 +16,7 @@ public class CASTableW extends Grid implements CASTable{
 	private static final int COL_CAS_CELLS_WEB = 1;
 	private static final int COL_CAS_HEADER = 0;
 	private CASTableCellEditorW editor;
-	private boolean editing;
+	private CASTableCellW editing;
 	private AppW app;
 
 	public CASTableW(AppW app){
@@ -52,8 +52,6 @@ public class CASTableW extends Grid implements CASTable{
 
 	public void insertRow(int rows, GeoCasCell casCell, boolean b) {
 		int n = rows;
-		App.debug("insert row"+rows+":"+getRowCount());
-		App.debug(casCell);
 		if(n >= getRowCount())
 			resize(n+1,2);
 		else this.insertRow(n);
@@ -65,7 +63,6 @@ public class CASTableW extends Grid implements CASTable{
 	                MyTableW.BACKGROUND_COLOR_HEADER
 	                        .toString());
 		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
-		App.debug("insert row done");
     }
 
 	public int[] getSelectedRows() {
@@ -80,13 +77,17 @@ public class CASTableW extends Grid implements CASTable{
 
 	public void stopEditing() {
 	    // TODO Auto-generated method stub
-		editing = false;
+		editing = null;
 	    
     }
 
-	public void startEditingRow(int selectedRow) {
-	    // TODO Auto-generated method stub
-		editing = true;
+	public void startEditingRow(int n) {
+		Widget w = getWidget(n,COL_CAS_CELLS_WEB);
+	    if(w instanceof CASTableCellW){
+	    	editing = ((CASTableCellW)w);
+	    	editing.startEditing(editor.getWidget());
+	    }
+		
 	    
     }
 
@@ -102,8 +103,6 @@ public class CASTableW extends Grid implements CASTable{
 	    if(rowNumber>=this.getRowCount()){
 	    	resize(rowNumber+1,2);
 	    }
-	    App.debug("set row"+rowNumber);
-	    App.debug(casCell);
 	    Widget cellWidget = new CASTableCellW(casCell);
 	    Widget rowHeader = new RowHeaderWidget(rowNumber+1);
 	    setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
@@ -112,11 +111,10 @@ public class CASTableW extends Grid implements CASTable{
                 MyTableW.BACKGROUND_COLOR_HEADER
                         .toString());
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
-		App.debug("set row done");
     }
 
 	public boolean isEditing() {
-	    return editing;
+	    return editing != null;
     }
 
 }

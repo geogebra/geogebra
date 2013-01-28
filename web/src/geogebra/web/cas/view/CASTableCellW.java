@@ -4,18 +4,23 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.web.main.DrawEquationWeb;
 
+import java.util.Iterator;
+
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
-
+	private Label inputPanel;
+	private HorizontalPanel outputPanel;
 	public CASTableCellW(GeoCasCell casCell) {
 		this.casCell = casCell;
-		Label inputPanel = new Label();
+		inputPanel = new Label();
 		if(casCell!=null){
 			inputPanel.setText(casCell.getInput(StringTemplate.defaultTemplate));
 			inputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
@@ -24,26 +29,53 @@ public class CASTableCellW extends VerticalPanel {
 		}
 		add(inputPanel);
 
-		Label outputPanel = new Label();
-		outputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
+		Label outputLabel = new Label();
+		outputLabel.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		if (casCell!=null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				SpanElement outputSpan = DOM.createSpan().cast();
 				DrawEquationWeb.drawEquationMathQuill(outputSpan,
 				        DrawEquationWeb.inputLatexCosmetics(casCell
-				                .getLaTeXOutput()), outputPanel.getElement());
-				outputPanel.getElement().appendChild(outputSpan);
+				                .getLaTeXOutput()), outputLabel.getElement());
+				outputLabel.getElement().appendChild(outputSpan);
 			} else {
 				if(casCell.isError()){
-					outputPanel.getElement().getStyle().setColor("red");
+					outputLabel.getElement().getStyle().setColor("red");
 				}
-				outputPanel.setText(casCell
+				outputLabel.setText(casCell
 				        .getOutput(StringTemplate.defaultTemplate));
 			}
 		}
+		outputPanel = new HorizontalPanel();
+		if (casCell!=null && casCell.getEvalComment()!=null) {
+			Label commentLabel = new Label();
+				commentLabel.setText(casCell
+				        .getOutput(StringTemplate.defaultTemplate));
+				commentLabel.getElement().getStyle().setColor("gray");
+			outputPanel.add(commentLabel);
+		}
+		
+		outputPanel.add(outputLabel);
 		add(outputPanel);
 
 	}
+	
+	public void startEditing(Widget editor){
+		remove(inputPanel);
+		remove(outputPanel);
+		add(editor);
+		add(outputPanel);
+	}
+	
+	public void stopEditing(){
+		Iterator<Widget>it = getChildren().iterator();
+		while(it.hasNext()){
+			remove(it.next());
+		}		
+		add(inputPanel);
+		add(outputPanel);
+	}
+	
 	
 	public GeoCasCell getCASCell(){
 		return casCell;
