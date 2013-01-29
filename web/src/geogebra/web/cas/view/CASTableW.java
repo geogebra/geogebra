@@ -19,13 +19,13 @@ public class CASTableW extends Grid implements CASTable{
 	private CASTableCellW editing;
 	private AppW app;
 
-	public CASTableW(AppW app){
+	public CASTableW(AppW app, CASTableControllerW ml){
 		super(0,2);
 		this.app=app;
 		setBorderWidth(1);
 		getElement().getStyle().setBorderColor(MyTableW.TABLE_GRID_COLOR.toString());
 		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		editor = new CASTableCellEditorW(this, app);
+		editor = new CASTableCellEditorW(this, app,ml);
 		insertRow(0,null, false);
 	}
 

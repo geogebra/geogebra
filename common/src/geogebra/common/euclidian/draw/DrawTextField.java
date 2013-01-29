@@ -21,6 +21,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.euclidian.event.FocusEvent;
 import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.GBox;
@@ -54,7 +55,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private GLabel label;
 	//ButtonListener bl;
 	private InputFieldListener ifListener;
-	private InputFieldKeyListener ifKeyListener;
+	private KeyHandler ifKeyListener;
 	private GBox box;
 
 	/**
@@ -85,7 +86,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		textField.addFocusListener(AwtFactory.prototype.newFocusListener(ifListener));
 //		label.addMouseListener(bl);
 //		label.addMouseMotionListener(bl);
-		textField.addKeyListener(AwtFactory.prototype.newKeyListener(ifKeyListener));
+		textField.addKeyHandler(ifKeyListener);
 		box.add(label);
 		box.add(textField);
 		
@@ -149,7 +150,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 * Listens to key events in this textfield
 	 * @author Michael + Judit
 	 */
-	public class InputFieldKeyListener extends geogebra.common.euclidian.event.KeyListener{
+	public class InputFieldKeyListener implements geogebra.common.euclidian.event.KeyHandler{
 
 		/**
 		 * Creates new listener

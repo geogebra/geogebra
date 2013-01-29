@@ -40,4 +40,14 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 	    return event.getCharCode();
     }
 
+	@Override
+    public boolean isCtrlDown() {
+	    return event.isControlKeyDown();
+    }
+
+	@Override
+    public boolean isAltDown() {
+	    return event.isAltKeyDown();
+    }
+
 }

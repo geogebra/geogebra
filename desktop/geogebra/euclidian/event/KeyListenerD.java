@@ -1,12 +1,15 @@
 package geogebra.euclidian.event;
 
+import geogebra.common.euclidian.event.KeyHandler;
+
 import java.awt.event.KeyEvent;
 
-public class KeyListener extends geogebra.common.euclidian.event.KeyListener
+public class KeyListenerD 
 implements java.awt.event.KeyListener{
 
-	public KeyListener(Object listener) {
-		setListenerClass(listener);
+	private KeyHandler handler;
+	public KeyListenerD(KeyHandler handler) {
+		this.handler = handler;
 	}
 	
 	public void keyTyped(KeyEvent e) {
@@ -21,7 +24,7 @@ implements java.awt.event.KeyListener{
 
 	public void keyReleased(KeyEvent e) {
 		geogebra.euclidian.event.KeyEvent event = geogebra.euclidian.event.KeyEvent.wrapEvent(e);
-		wrapKeyReleased(event);
+		handler.keyReleased(event);
 		event.release();
 		
 	}

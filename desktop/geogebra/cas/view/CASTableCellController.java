@@ -1,6 +1,5 @@
 package geogebra.cas.view;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.AppD;
 
@@ -13,7 +12,7 @@ import java.awt.event.MouseListener;
  * Controller for CAS cell
  *
  */
-public class CASTableCellController implements KeyListener, MouseListener{
+public class CASTableCellController extends geogebra.common.cas.view.CASTableCellController implements KeyListener, MouseListener{
 	
 	private CASViewD view;
 	private CASTableD table;
@@ -51,9 +50,9 @@ public class CASTableCellController implements KeyListener, MouseListener{
 
 		switch (e.getKeyCode()) {				
 		case KeyEvent.VK_ENTER:
-			handleEnterKey(e);
+			handleEnterKey(geogebra.euclidian.event.KeyEvent.wrapEvent(e),app);
 			consumeEvent = true;
-			// needUndo remains falls because handleEnterKey handles Undo!
+			// needUndo remains false because handleEnterKey handles Undo!
 			break;
 
 		case KeyEvent.VK_UP:
@@ -92,51 +91,6 @@ public class CASTableCellController implements KeyListener, MouseListener{
 			view.getApp().storeUndoInfo();
 		}
 		return consumeEvent;
-	}
-	
-	/**
-	 * Handles pressing of Enter key after user input. The behaviour depends
-	 * on the currently selected mode in the toolbar (Evaluate, Keep Input, Numeric).
-	 */
-	private synchronized void handleEnterKey(KeyEvent e) {
-		AppD app = view.getApp();
-		int mode = app.getMode();
-		
-		// Ctrl + Enter toggles between the modes Evaluate and Numeric
-		if (AppD.isControlDown(e)) {
-			if (mode == EuclidianConstants.MODE_CAS_NUMERIC) {
-				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
-			} else {
-				app.setMode(EuclidianConstants.MODE_CAS_NUMERIC);
-			}
-			app.setMode(mode);
-			return;
-		}
-		
-		// Alt + Enter toggles between the modes Evaluate and Keep Input
-		if (AppD.isAltDown(e)) {
-			if (mode == EuclidianConstants.MODE_CAS_KEEP_INPUT) {
-				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
-			} else {
-				app.setMode(EuclidianConstants.MODE_CAS_KEEP_INPUT);
-			}
-			app.setMode(mode);
-			return;
-		}
-		
-		// Enter depends on current mode
-		switch (mode) {		
-			case EuclidianConstants.MODE_CAS_EVALUATE:
-			case EuclidianConstants.MODE_CAS_NUMERIC:
-			case EuclidianConstants.MODE_CAS_KEEP_INPUT:
-				// apply current tool again
-				app.setMode(mode);
-				break;
-			
-			default:
-				// switch back to Evaluate
-				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
-		}	
 	}
 
 	/**

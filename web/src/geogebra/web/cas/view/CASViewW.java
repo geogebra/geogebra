@@ -33,13 +33,14 @@ public class CASViewW extends CASView {
 		kernel.getAlgebraProcessor().enableCAS();
 		
 		// CAS input/output cells
-		consoleTable = new CASTableW((AppW) app);	
+		CASTableControllerW ml = new CASTableControllerW(consoleTable,app);
+		consoleTable = new CASTableW((AppW) app,ml);	
 		component.add(consoleTable);
 				// input handler
 		casInputHandler = new CASInputHandler(this);
 
 		// addFocusListener(this);
-		CASTableControllerW ml = new CASTableControllerW(consoleTable);
+		
 		component.addDomHandler(ml, MouseDownEvent.getType());
 		component.addDomHandler(ml, MouseUpEvent.getType());
 		component.addDomHandler(ml, MouseMoveEvent.getType());

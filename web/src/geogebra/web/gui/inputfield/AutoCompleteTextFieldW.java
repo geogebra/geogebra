@@ -5,6 +5,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.gui.inputfield.AutoComplete;
@@ -21,6 +22,7 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.web.euclidian.event.KeyListenerW;
 import geogebra.web.gui.KeyEventsHandler;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
@@ -190,14 +192,14 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
 		    if (keyHandler == null) {
-		    	textField.getTextBox().addKeyDownHandler(this);
-		    	textField.getTextBox().addKeyUpHandler(this);
-		    	textField.getTextBox().addKeyPressHandler(this);
+		    	textField.getValueBox().addKeyDownHandler(this);
+		    	textField.getValueBox().addKeyUpHandler(this);
+		    	textField.getValueBox().addKeyPressHandler(this);
 		    } else {
 		    	// This is currently used for MyCellEditorW.SpreadsheetCellEditorKeyListener
-		    	textField.getTextBox().addKeyDownHandler(keyHandler);
-		    	textField.getTextBox().addKeyPressHandler(keyHandler);
-		    	textField.getTextBox().addKeyUpHandler(keyHandler);
+		    	textField.getValueBox().addKeyDownHandler(keyHandler);
+		    	textField.getValueBox().addKeyPressHandler(keyHandler);
+		    	textField.getValueBox().addKeyUpHandler(keyHandler);
 		    }
 		    textField.addValueChangeHandler(this);
 		    textField.addSelectionHandler(this);
@@ -206,7 +208,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	}
 
 	private void init(){
-		textField.getTextBox().addMouseUpHandler(new MouseUpHandler(){
+		textField.getValueBox().addMouseUpHandler(new MouseUpHandler(){
 			public void onMouseUp(MouseUpEvent event) {
 				//AG I dont understand thisAutoCompleteTextField tf = ((AutoCompleteTextField)event.getSource()); 
 	            //AG tf.setFocus(true);
@@ -434,13 +436,9 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	}
 
 	public void addFocusListener(FocusListener listener) {
-		textField.getTextBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
-		textField.getTextBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
+		textField.getValueBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
+		textField.getValueBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
     }
-
-	public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
-		textField.getTextBox().addKeyPressHandler((geogebra.web.euclidian.event.KeyListener) listener);
-	}
 	
 	public void wrapSetText(String s) {
 		App.debug("implementation needed"); //TODO Auto-generated
@@ -448,11 +446,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
     }
 
 	public int getCaretPosition() {
-		return textField.getTextBox().getCursorPos();
+		return textField.getValueBox().getCursorPos();
     }
 
 	public void setCaretPosition(int caretPos) {
-		textField.getTextBox().setCursorPos(caretPos);
+		textField.getValueBox().setCursorPos(caretPos);
     }
 
 	public void setDictionary(AutoCompleteDictionary dict) {
@@ -503,8 +501,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 	  
 	  private void clearSelection() {
-		    int start = textField.getText().indexOf(textField.getTextBox().getSelectedText());
-		    int end = start + textField.getTextBox().getSelectionLength();
+		    int start = textField.getText().indexOf(textField.getValueBox().getSelectedText());
+		    int end = start + textField.getValueBox().getSelectionLength();
 		    // clear selection if there is one
 		    if (start != end) {
 		      int pos = getCaretPosition();
@@ -664,7 +662,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		      //moveCaretPosition(argMatcher.start() + 1);
 		      for (int i = 0; i < argMatcher.getGroupCount(); i++) {
 		    	  String groupStr = argMatcher.getGroup(i);
-		    	  textField.getTextBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length()-1);
+		    	  textField.getValueBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length()-1);
 		      }
 		      return true;
 		    } else {
@@ -1016,7 +1014,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	public void onValueChange(ValueChangeEvent<String> event) {
 	  isSuggestionClickJustHappened = true;
 	  
-	  //textField.getTextBox().getElement().focus();
+	  //textField.getValueBox().getElement().focus();
     }
 
 	public void onSelection(SelectionEvent<Suggestion> event) {
@@ -1072,11 +1070,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	}
 
 	private int getSelectionEnd() {
-	   return getSelectionStart() + textField.getTextBox().getSelectionLength();
+	   return getSelectionStart() + textField.getValueBox().getSelectionLength();
     }
 
 	private int getSelectionStart() {
-	   return getText().indexOf(textField.getTextBox().getSelectedText());
+	   return getText().indexOf(textField.getValueBox().getSelectedText());
     }
 
 
@@ -1115,7 +1113,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
     }
 
 	public FocusWidget getTextBox() {
-	    return textField.getTextBox();
+	    return textField.getValueBox();
     }
 
 	public void toggleSymbolButton(boolean toggled) {
@@ -1223,5 +1221,10 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 	public void setCASInput(boolean b) {
 	    this.casInput = b;	    
+    }
+
+	public void addKeyHandler(KeyHandler handler) {
+		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
+	    
     }
 }

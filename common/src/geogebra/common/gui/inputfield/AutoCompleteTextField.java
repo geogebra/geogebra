@@ -3,7 +3,7 @@ package geogebra.common.gui.inputfield;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.FocusListener;
-import geogebra.common.euclidian.event.KeyListener;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.GeoElementSelectionListener;
@@ -49,7 +49,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 
 	void addFocusListener(FocusListener focusListener);
 
-	void addKeyListener(KeyListener newKeyListener);
+	void addKeyHandler(KeyHandler handler);
 
 	int getCaretPosition();
 

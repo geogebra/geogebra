@@ -26,7 +26,6 @@ import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
-import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 
@@ -232,11 +231,6 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
     public FocusListener newFocusListener(Object listener) {
 	    return new geogebra.web.euclidian.event.FocusListener(listener);
-    }
-
-	@Override
-    public KeyListener newKeyListener(Object listener) {
-	    return new geogebra.web.euclidian.event.KeyListener(listener);
     }
 
 	@Override

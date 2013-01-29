@@ -1,5 +1,11 @@
 package geogebra.web.cas.view;
 
+import geogebra.common.cas.view.CASTableCellController;
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.main.App;
+import geogebra.common.main.KeyCodes;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -11,12 +17,14 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 
-public class CASTableControllerW implements
-MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler{
+public class CASTableControllerW extends CASTableCellController implements
+MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyHandler{
 
 	private CASTableW table;
-	public CASTableControllerW(CASTableW consoleTable) {
+	private App app;
+	public CASTableControllerW(CASTableW consoleTable,App app) {
 	    table = consoleTable;
+	    this.app = app;
     }
 
 	public void onDoubleClick(DoubleClickEvent event) {
@@ -42,6 +50,13 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 
 	public void onMouseDown(MouseDownEvent event) {
 	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void keyReleased(KeyEvent e) {
+	    if(KeyCodes.translateGWTcode(e.getKeyChar())==KeyCodes.ENTER){
+	    	this.handleEnterKey(e, app);
+	    }
 	    
     }
 

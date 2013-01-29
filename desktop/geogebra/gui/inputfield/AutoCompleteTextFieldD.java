@@ -5,6 +5,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
@@ -17,6 +18,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.StringUtil;
+import geogebra.euclidian.event.KeyListenerD;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
@@ -1029,11 +1031,6 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		super.addFocusListener((geogebra.euclidian.event.FocusListener) focusListener);
 	}
 
-	public void addKeyListener(
-			geogebra.common.euclidian.event.KeyListener listener) {
-		super.addKeyListener((geogebra.euclidian.event.KeyListener) listener);
-	}
-
 	public void wrapSetText(final String s) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -1058,6 +1055,11 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 			app.clearSelectedGeos(false);
 			app.addSelectedGeo(geoUsedForInputBox);
 		}
+	}
+
+	public void addKeyHandler(KeyHandler handler) {
+		addKeyListener(new KeyListenerD(handler));
+		
 	}
 
 }
