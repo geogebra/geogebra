@@ -482,10 +482,10 @@ public class CellRange {
 	 * Returns true if the cell range has valid coordinates for this table
 	 */
 	public boolean isValid() {
-		return (minRow >= -1 && minRow < Kernel.MAX_SPREADSHEET_ROWS)
-				&& (maxRow >= -1 && maxRow < Kernel.MAX_SPREADSHEET_ROWS)
-				&& (minColumn >= -1 && minColumn < Kernel.MAX_SPREADSHEET_COLUMNS)
-				&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS);
+		return (minRow >= -1 && minRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
+				&& (maxRow >= -1 && maxRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
+				&& (minColumn >= -1 && minColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP)
+				&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP);
 	}
 
 	public CellRange clone() {
@@ -527,8 +527,8 @@ public class CellRange {
 		} else if (obj instanceof GeoElement) {
 			GPoint location = ((GeoElement) obj).getSpreadsheetCoords();
 			// if the geo is a cell then test if inside the cell range
-			if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
-					&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
+			if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+					&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
 				setActualRange();
 				return (location.y >= minRow && location.y <= maxRow
 						&& location.x >= minColumn && location.x <= maxColumn);

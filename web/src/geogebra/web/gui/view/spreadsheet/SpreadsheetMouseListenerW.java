@@ -589,13 +589,13 @@ public class SpreadsheetMouseListenerW implements
 
 					// increase size if we're at the bottom of the spreadsheet
 					if (table.dragingToRow + 1 == table.getRowCount()
-							&& table.dragingToRow < Kernel.MAX_SPREADSHEET_ROWS) {
+							&& table.dragingToRow < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
 						model.setRowCount(table.getRowCount() + 1);
 					}
 
 					// increase size if we go beyond the right edge
 					if (table.dragingToColumn + 1 == table.getColumnCount()
-							&& table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS) {
+							&& table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
 						model.setColumnCount(table.getColumnCount() + 1);
 						view.columnHeaderRevalidate();
 						// Java's addColumn method will clear selection, so
@@ -618,7 +618,7 @@ public class SpreadsheetMouseListenerW implements
 									table.minSelectionRow - 1,
 									table.minSelectionColumn, true).getHeight())
 								rowOffset = 0;
-						} else if (table.maxSelectionRow < Kernel.MAX_SPREADSHEET_ROWS
+						} else if (table.maxSelectionRow < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE
 								&& table.dragingToRow > table.maxSelectionRow) {
 							rowOffset = mouseY - ((int)selRect.getY() + (int)selRect.getHeight());
 							if (rowOffset < 0.5 * table.getCellRect(
@@ -635,7 +635,7 @@ public class SpreadsheetMouseListenerW implements
 									table.minSelectionRow,
 									table.minSelectionColumn - 1, true).getWidth())
 								colOffset = 0;
-						} else if (table.maxSelectionColumn < Kernel.MAX_SPREADSHEET_COLUMNS
+						} else if (table.maxSelectionColumn < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
 								&& table.dragingToColumn > table.maxSelectionColumn) {
 							colOffset = mouseX - ((int)selRect.getX() + (int)selRect.getWidth());
 							if (colOffset < 0.5 * table.getCellRect(

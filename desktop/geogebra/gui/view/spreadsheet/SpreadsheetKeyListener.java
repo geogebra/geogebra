@@ -105,7 +105,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		
 		case KeyEvent.VK_DOWN:
 			// auto increase spreadsheet size when you go off the bottom	
-			if (table.getSelectedRow() + 1 == table.getRowCount() && table.getSelectedRow() + 1 < Kernel.MAX_SPREADSHEET_ROWS) {
+			if (table.getSelectedRow() + 1 == table.getRowCount() && table.getSelectedRow() + 1 < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
 				model.setRowCount(table.getRowCount() +1);
 				
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
@@ -175,7 +175,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		case KeyEvent.VK_RIGHT:
 			// auto increase spreadsheet size when you go off the right
 			
-			if (table.getSelectedColumn() + 1 == table.getColumnCount() && table.getSelectedColumn() + 1 < Kernel.MAX_SPREADSHEET_COLUMNS) {
+			if (table.getSelectedColumn() + 1 == table.getColumnCount() && table.getSelectedColumn() + 1 < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
 				model.setColumnCount(table.getColumnCount() +1);		
 				view.getColumnHeader().revalidate();
 				

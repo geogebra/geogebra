@@ -740,7 +740,7 @@ implements
 			String inputText = source.getText().trim();
 			Integer value = Integer.parseInt(source.getText());
 			
-			if (value !=null && value > 0 && value < Kernel.MAX_SPREADSHEET_ROWS) {
+			if (value !=null && value > 0 && value < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
 
 				if (source == firstRowField) {
 					traceManager.clearGeoTraceColumns(getSelectedGeo());
@@ -869,7 +869,7 @@ implements
 					getSettings().traceColumn1,
 					getSettings().traceRow1, 
 					getSettings().traceColumn2,
-					(getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS);
+					(getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS_VISIBLE);
 			}
 			break;
 
@@ -884,7 +884,7 @@ implements
 		case MODE_LOCATE:
 
 			int w = getSettings().traceColumn2 - getSettings().traceColumn1;
-			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS)
+			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS_VISIBLE)
 					- getSettings().traceRow1;
 
 			cr.setCellRange(anchorColumn, anchorRow, anchorColumn + w,anchorRow + h);

@@ -100,8 +100,8 @@ public class Kernel {
 	/** Maximal number of spreadsheet rows*/
 	public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
 
-	public static int MAX_SPREADSHEET_COLUMNS = MAX_SPREADSHEET_COLUMNS_DESKTOP;
-	public static int MAX_SPREADSHEET_ROWS = MAX_SPREADSHEET_ROWS_DESKTOP;
+	public static int MAX_SPREADSHEET_COLUMNS_VISIBLE = MAX_SPREADSHEET_COLUMNS_DESKTOP;
+	public static int MAX_SPREADSHEET_ROWS_VISIBLE = MAX_SPREADSHEET_ROWS_DESKTOP;
 
 	// G.Sturr 2009-10-18
 	// algebra style

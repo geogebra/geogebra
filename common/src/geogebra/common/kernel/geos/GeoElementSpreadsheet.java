@@ -64,7 +64,7 @@ public class GeoElementSpreadsheet {
 	 */
 	public static String getSpreadsheetCellName(int column, int row) {
 		
-		if (column >= Kernel.MAX_SPREADSHEET_COLUMNS || row >= Kernel.MAX_SPREADSHEET_ROWS 
+		if (column >= Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP || row >= Kernel.MAX_SPREADSHEET_ROWS_DESKTOP 
 				|| column < 0 || row < 0) { 
 			return null; 
 		}
@@ -141,7 +141,7 @@ public class GeoElementSpreadsheet {
 			s = s.substring(1);
 		}
 		
-		if (column > Kernel.MAX_SPREADSHEET_COLUMNS) { 
+		if (column > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) { 
 			return -1; 
 		}
 		
@@ -166,7 +166,7 @@ public class GeoElementSpreadsheet {
 			return -1; 
 		} 
 
-		if (ret + 1 > Kernel.MAX_SPREADSHEET_ROWS) { 
+		if (ret + 1 > Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) { 
 			return -1; 
 		} 
 

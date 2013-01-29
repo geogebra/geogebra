@@ -15,14 +15,14 @@ public class KernelW extends Kernel implements KernelWInterface {
 
 	public KernelW() {
 		super();
-		MAX_SPREADSHEET_COLUMNS = 26;//1..26
-		MAX_SPREADSHEET_ROWS = 200;//1..200
+		MAX_SPREADSHEET_COLUMNS_VISIBLE = 26;//1..26
+		MAX_SPREADSHEET_ROWS_VISIBLE = 200;//1..200
 	}
 
 	public KernelW(App app) {
 	    super(app);
-		MAX_SPREADSHEET_COLUMNS = 26;
-		MAX_SPREADSHEET_ROWS = 200;
+		MAX_SPREADSHEET_COLUMNS_VISIBLE = 26;
+		MAX_SPREADSHEET_ROWS_VISIBLE = 200;
     }
 
 

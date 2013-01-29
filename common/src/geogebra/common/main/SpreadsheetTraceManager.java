@@ -105,7 +105,7 @@ public class SpreadsheetTraceManager {
 		if (t.doRowLimit) {
 			t.traceRow2 = t.traceRow1 + t.numRows - 1 + t.headerOffset;
 		} else {
-			t.traceRow2 = Kernel.MAX_SPREADSHEET_ROWS;
+			t.traceRow2 = Kernel.MAX_SPREADSHEET_ROWS_VISIBLE;
 		}
 
 		t.tracingRow = t.traceRow1;
@@ -142,7 +142,7 @@ public class SpreadsheetTraceManager {
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, 
 				t.traceColumn2,
-				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
+				Kernel.MAX_SPREADSHEET_ROWS_VISIBLE, MyTable.CELL_SELECT);
 				
 		addSpreadsheetTraceGeo(geo);
 	}
@@ -309,7 +309,7 @@ public class SpreadsheetTraceManager {
 			row1+=t.headerOffset;
 		
 		CopyPasteCut.delete(app, t.traceColumn1, row1, t.traceColumn2,
-				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
+				Kernel.MAX_SPREADSHEET_ROWS_VISIBLE, MyTable.CELL_SELECT);
 		//t.tracingRow = t.traceRow1;
 		//t.lastTrace.clear();
 	}

@@ -184,8 +184,8 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		GPoint location = geo.getSpreadsheetCoords();
 
 		
-		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
+		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
+				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
 
 			highestUsedColumn = Math.max(highestUsedColumn, location.x);
 			highestUsedRow = Math.max(highestUsedRow, location.y);

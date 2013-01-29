@@ -37,7 +37,7 @@ public class CmdFillColumn extends CommandProcessor {
 
 				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS)
+				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP)
 					throw argErr(app, c.getName(), arg[0]);
 
 				GeoList list = (GeoList) arg[1];
