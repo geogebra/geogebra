@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class CASTableControllerW extends CASTableCellController implements
 MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyHandler{
@@ -33,8 +34,9 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onClick(ClickEvent event) {
-	    int row =table.getCellForEvent(event).getRowIndex();
-	    table.startEditingRow(row);
+		Cell c = table.getCellForEvent(event);
+		if(c!=null)
+			table.startEditingRow(c.getRowIndex());
 	    
     }
 
