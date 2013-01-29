@@ -4,12 +4,12 @@ import geogebra.common.cas.view.CASTableCellController;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.main.App;
-import geogebra.common.main.KeyCodes;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -57,8 +57,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void keyReleased(KeyEvent e) {
-		App.debug(KeyCodes.translateGWTcode(e.getKeyChar()));
-	    if(KeyCodes.translateGWTcode(e.getKeyChar())==KeyCodes.ENTER){
+	    if(e.getKeyChar()==KeyCodes.KEY_ENTER ||e.getKeyChar()==10){
 	    	this.handleEnterKey(e, app);
 	    }
 	    
