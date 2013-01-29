@@ -1,7 +1,6 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASInputHandler;
-import geogebra.common.cas.view.CASTable;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.cas.view.RowHeader;
 import geogebra.common.main.App;
@@ -33,7 +32,7 @@ public class CASViewW extends CASView {
 		kernel.getAlgebraProcessor().enableCAS();
 		
 		// CAS input/output cells
-		CASTableControllerW ml = new CASTableControllerW(consoleTable,app);
+		CASTableControllerW ml = new CASTableControllerW(this,app);
 		consoleTable = new CASTableW((AppW) app,ml);	
 		component.add(consoleTable);
 				// input handler
@@ -72,7 +71,7 @@ public class CASViewW extends CASView {
     }
 
 	@Override
-    public CASTable getConsoleTable() {
+    public CASTableW getConsoleTable() {
 	    return consoleTable;
     }
 

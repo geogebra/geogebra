@@ -21,10 +21,10 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 public class CASTableControllerW extends CASTableCellController implements
 MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyHandler{
 
-	private CASTableW table;
+	private CASViewW view;
 	private App app;
-	public CASTableControllerW(CASTableW consoleTable,App app) {
-	    table = consoleTable;
+	public CASTableControllerW(CASViewW casViewW,App app) {
+	    view = casViewW;
 	    this.app = app;
     }
 
@@ -34,6 +34,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onClick(ClickEvent event) {
+		CASTableW table = view.getConsoleTable();
 		Cell c = table.getCellForEvent(event);
 		if(c!=null)
 			table.startEditingRow(c.getRowIndex());
