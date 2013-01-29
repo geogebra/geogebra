@@ -57,6 +57,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void keyReleased(KeyEvent e) {
+		App.debug(KeyCodes.translateGWTcode(e.getKeyChar()));
 	    if(KeyCodes.translateGWTcode(e.getKeyChar())==KeyCodes.ENTER){
 	    	this.handleEnterKey(e, app);
 	    }
