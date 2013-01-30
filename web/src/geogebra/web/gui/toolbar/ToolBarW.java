@@ -184,7 +184,7 @@ public class ToolBarW extends MenuBar {
 					// separator within menu:
 					tm.addSeparator();
 				} else { // standard case: add mode
-
+					App.debug(app.getToolName(addMode));
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						ScheduledCommand com = null;
