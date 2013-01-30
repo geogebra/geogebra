@@ -135,6 +135,10 @@ public class GGWToolBar extends Composite {
 		
 		
 	}
+	
+	public void clear(){
+		toolBarPanel.clear();
+	}
 
 	/**
 	 * Adds a toolbar to this container. Use updateToolbarPanel() to update the
