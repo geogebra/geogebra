@@ -1011,7 +1011,6 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	
 	public void setActiveToolbarId(int toolbarID){
 		if(this.toolbarID != toolbarID){
-			setActiveToolbarId(toolbarID);
 			switch(toolbarID){
 			case App.VIEW_CAS:setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
 			return;
