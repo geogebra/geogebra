@@ -14,6 +14,7 @@ import geogebra.common.main.App;
  * Platform independent abstract CAS view
  */
 public abstract class CASView implements View{
+	public static final String TOOLBAR_DEFINITION = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 | 1011 || 1008 1009 || 6";
 	private GeoGebraCAS cas;
 	/** kernel */
 	protected Kernel kernel;

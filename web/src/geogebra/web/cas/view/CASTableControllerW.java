@@ -1,9 +1,12 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASTableCellController;
+import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.GuiManager;
 import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,6 +37,13 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onClick(ClickEvent event) {
+		GuiManager gm = app.getGuiManager();
+		if(gm.getActiveToolbarId()!=App.VIEW_CAS){
+			((GuiManagerW)gm).setActiveToolbarId(App.VIEW_CAS);
+			gm.setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
+			gm.updateToolbar();
+		}
+		
 		CASTableW table = view.getConsoleTable();
 		Cell c = table.getCellForEvent(event);
 		if(c!=null)

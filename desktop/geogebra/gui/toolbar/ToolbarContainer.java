@@ -96,7 +96,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Toolbars added to this container.
 	 */
-	private ArrayList<Toolbar> toolbars;
+	private ArrayList<ToolbarD> toolbars;
 
 	/**
 	 * The active toolbar.
@@ -123,10 +123,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		this.isMain = isMain;
 
 		// add general toolbar
-		toolbars = new ArrayList<Toolbar>(1);
+		toolbars = new ArrayList<ToolbarD>(1);
 
 		if (isMain) {
-			addToolbar(new Toolbar(app));
+			addToolbar(new ToolbarD(app));
 			activeToolbar = -1;
 		}
 
@@ -221,7 +221,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	private void toggleHelpBar() {
 		MyDockPanel dp = new MyDockPanel();
-		Toolbar myToolbar = new Toolbar(app, dp);
+		ToolbarD myToolbar = new ToolbarD(app, dp);
 		lblTest.setIcon(app.getModeIcon(app.getMode()));
 		dp.setToolbarString("" + app.getMode());
 		myToolbar.buildGui();
@@ -396,7 +396,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	public int setMode(int mode) {
 		int ret = -1;
-		for (Toolbar toolbar : toolbars) {
+		for (ToolbarD toolbar : toolbars) {
 			int tmp = toolbar.setMode(mode);
 
 			// this will be the actual mode set
@@ -423,7 +423,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			barOrientation = SwingConstants.VERTICAL;
 		}
 
-		for (Toolbar toolbar : toolbars) {
+		for (ToolbarD toolbar : toolbars) {
 			toolbar.setOrientation(barOrientation);
 		}
 	}
@@ -434,7 +434,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param toolbar
 	 *            toolbar
 	 */
-	public void setActiveToolbar(Toolbar toolbar) {
+	public void setActiveToolbar(ToolbarD toolbar) {
 		setActiveToolbar(getViewId(toolbar));
 	}
 
@@ -475,7 +475,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	public void updateToolbarPanel() {
 		toolbarPanel.removeAll();
 
-		for (Toolbar toolbar : toolbars) {
+		for (ToolbarD toolbar : toolbars) {
 			if (toolbar != null) {
 				toolbar.buildGui();
 				toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
@@ -492,7 +492,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param toolbar
 	 *            toolbar to be added
 	 */
-	public void addToolbar(Toolbar toolbar) {
+	public void addToolbar(ToolbarD toolbar) {
 		toolbars.add(toolbar);
 	}
 
@@ -506,7 +506,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param toolbar
 	 *            toolbar to be removed
 	 */
-	public void removeToolbar(Toolbar toolbar) {
+	public void removeToolbar(ToolbarD toolbar) {
 		toolbars.remove(toolbar);
 
 		if (getViewId(toolbar) == activeToolbar) {
@@ -521,8 +521,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 *            view ID
 	 * @return toolbar for given view
 	 */
-	public Toolbar getToolbar(int viewId) {
-		for (Toolbar toolbar : toolbars) {
+	public ToolbarD getToolbar(int viewId) {
+		for (ToolbarD toolbar : toolbars) {
 			if (getViewId(toolbar) == viewId) {
 				return toolbar;
 			}
@@ -535,7 +535,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param toolbar
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
-	private static int getViewId(Toolbar toolbar) {
+	private static int getViewId(ToolbarD toolbar) {
 		return (toolbar.getDockPanel() != null ? toolbar.getDockPanel()
 				.getViewId() : -1);
 	}
@@ -724,7 +724,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @return The first toolbar in our list, used for the general toolbar in
 	 *         the main toolbar container.
 	 */
-	public Toolbar getFirstToolbar() {
+	public ToolbarD getFirstToolbar() {
 		if (toolbars.size() > 0) {
 			return toolbars.get(0);
 		}

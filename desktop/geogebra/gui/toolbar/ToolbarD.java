@@ -32,7 +32,7 @@ import javax.swing.JToolBar;
  * Base class for a single toolbar, either for a dock panel or as a general
  * toolbar. Toolbars are always visible as part of a ToolbarContainer.
  */
-public class Toolbar extends JToolBar {
+public class ToolbarD extends JToolBar {
 	private static final long serialVersionUID = 1L;
 
 	
@@ -61,7 +61,7 @@ public class Toolbar extends JToolBar {
 	 * 
 	 * @param app application
 	 */
-	public Toolbar(AppD app) {
+	public ToolbarD(AppD app) {
 		this(app, null);
 	}
 
@@ -72,7 +72,7 @@ public class Toolbar extends JToolBar {
 	 * @param app application
 	 * @param dockPanel dock panel
 	 */
-	public Toolbar(AppD app, DockPanel dockPanel) {
+	public ToolbarD(AppD app, DockPanel dockPanel) {
 		this.app = app;
 		this.dockPanel = dockPanel;
 
@@ -234,30 +234,6 @@ public class Toolbar extends JToolBar {
 	}
 
 	/**
-	 * @param findMode mode to be found
-	 * @return true if given mode is present in this toolbar
-	 */
-	public boolean containsMode(int findMode){
-		Vector<ToolbarItem> toolbarVec;
-		if (dockPanel != null) {
-			toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
-		} else {
-			toolbarVec = ToolBar.parseToolbarString(((GuiManagerD)app.getGuiManager())
-					.getToolbarDefinition());
-		}
-		for(int i=0;i<toolbarVec.size();i++){
-			ToolbarItem item = toolbarVec.get(i);
-			if(item.getMode()!=null && item.getMode()==findMode)
-				return true;
-			if(item.getMenu()!=null){
-				for(Integer m:item.getMenu()){
-					if(m==findMode) return true;
-				}
-			}
-		}
-		return false;
-	}
-	/**
 	 * @return The dock panel associated with this toolbar or null if this is
 	 *         the general toolbar.
 	 */
@@ -294,7 +270,7 @@ public class Toolbar extends JToolBar {
 		if (dockPanel != null) {
 			return dockPanel.getDefaultToolbarString();
 		}
-		return Toolbar.getAllTools(app);
+		return ToolbarD.getAllTools(app);
 	}
 
 	/**

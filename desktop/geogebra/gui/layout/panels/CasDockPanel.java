@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
@@ -44,7 +45,7 @@ public class CasDockPanel extends DockPanel {
 	}
 	
 	private static String getDefaultToolbar() {
-		return "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 | 1011 || 1008 1009 || 6";		
+		return CASView.TOOLBAR_DEFINITION;		
 	}
 	
 	/**

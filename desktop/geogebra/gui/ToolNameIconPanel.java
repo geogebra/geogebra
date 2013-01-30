@@ -15,7 +15,7 @@ package geogebra.gui;
 import geogebra.common.kernel.Macro;
 import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.toolbar.Toolbar;
+import geogebra.gui.toolbar.ToolbarD;
 import geogebra.main.AppD;
 
 import java.awt.GridBagConstraints;
@@ -170,7 +170,7 @@ public class ToolNameIconPanel extends JPanel {
 				
 				// perhaps the method below is not the fastest
 				if (editHappens) {
-					((GuiManagerD)app.getGuiManager()).setToolBarDefinition(Toolbar.getAllTools(app));
+					((GuiManagerD)app.getGuiManager()).setToolBarDefinition(ToolbarD.getAllTools(app));
 					app.updateToolBar();
 					app.updateMenubar();
 					// app.updateContentPane();// this may not be needed

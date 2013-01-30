@@ -1,6 +1,7 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -11,6 +12,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -26,12 +28,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  * Toolbar for GeoGebraWeb
  *
  */
-public class ToolBar extends MenuBar {
-	
-	/**
-	 * Integer used to indicate a separator in the toolbar.
-	 */
-	public static final Integer SEPARATOR = new Integer(-1);
+public class ToolBarW extends MenuBar {
 	
 	private AppW app;
 	private int mode;
@@ -47,7 +44,7 @@ public class ToolBar extends MenuBar {
 	 * There is no app parameter here, because of UiBinder.
 	 * After instantiate the ToolBar, call init(Application app) as well.
 	 */
-	public ToolBar() {
+	public ToolBarW() {
 		super();
 		setFocusOnHoverEnabled(false);
 		this.setHeight("55px");  //toolbar's height
@@ -56,10 +53,10 @@ public class ToolBar extends MenuBar {
 	/**
 	 * Initialisation of the ToolBar object
 	 * 
-	 * @param app
+	 * @param app1 application
 	 */
-	public void init(AppW app){
-		this.app = app;
+	public void init(AppW app1){
+		this.app = app1;
 	}
 	
 	/**
@@ -151,7 +148,7 @@ public class ToolBar extends MenuBar {
 			//AGif (dockPanel != null) {
 			//AG	toolbarVec = parseToolbarString(dockPanel.getToolbarString());
 			//AG} else {
-				toolbarVec = parseToolbarString(app.getGuiManager()
+				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
 						.getToolbarDefinition());
 			//AG}
 		} catch (Exception e) {
@@ -162,7 +159,7 @@ public class ToolBar extends MenuBar {
 				App.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			//}
-			toolbarVec = parseToolbarString(getDefaultToolbarString());
+			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 		
 		// set toolbar
@@ -190,7 +187,7 @@ public class ToolBar extends MenuBar {
 
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
-						Command com = null;
+						ScheduledCommand com = null;
 						String item_text = "<table><tr><td>"
 						        + GGWToolBar.getImageHtml(addMode)
 						        + "</td><td><span class=\"toolbar_menuitem_label\">"
@@ -202,7 +199,7 @@ public class ToolBar extends MenuBar {
 								tm.selectMenuItem(item);
                             }
 						};
-						item.setCommand(com);
+						item.setScheduledCommand(com);
 						item.addStyleName("toolbar_menuitem");
 						item.getElement().setAttribute("mode", addMode+"");
 						//item.setStyleName("toolbar_menuitem");
@@ -223,69 +220,13 @@ public class ToolBar extends MenuBar {
     }
 	
 	/**
-	 * Parses a toolbar definition string like "0 , 1 2 | 3 4 5 || 7 8 9" where
-	 * the int values are mode numbers, "," adds a separator within a menu, "|"
-	 * starts a new menu and "||" adds a separator before starting a new menu.
-	 * 
-	 * @param toolbarString
-	 *            toolbar definition string
-	 * 
-	 * @return toolbar as nested Vector objects with Integers for the modes.
-	 *         Note: separators have negative values.
-	 */
-	public static Vector<ToolbarItem> parseToolbarString(String toolbarString) {
-		String[] tokens = toolbarString.split(" ");
-		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
-		Vector<Integer> menu = new Vector<Integer>();
-
-		for (int i = 0; i < tokens.length; i++) {
-			if (tokens[i].equals("|")) { // start new menu
-				if (menu.size() > 0)
-					toolbar.add(new ToolbarItem(menu));
-				menu = new Vector<Integer>();
-			} else if (tokens[i].equals("||")) { // separator between menus
-				if (menu.size() > 0)
-					toolbar.add(new ToolbarItem(menu));
-
-				// add separator between two menus
-				// menu = new Vector();
-				// menu.add(SEPARATOR);
-				// toolbar.add(menu);
-				toolbar.add(new ToolbarItem(SEPARATOR));
-
-				// start next menu
-				menu = new Vector<Integer>();
-			} else if (tokens[i].equals(",")) { // separator within menu
-				menu.add(SEPARATOR);
-			} else { // add mode to menu
-				try {
-					if (tokens[i].length() > 0) {
-						int mode = Integer.parseInt(tokens[i]);
-						menu.add(new Integer(mode));
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		}
-
-		// add last menu to toolbar
-		if (menu.size() > 0)
-			toolbar.add(new ToolbarItem(menu));
-		return toolbar;
-	}
-
-	
-	
-	/**
 	 * @return The default definition of this toolbar with macros.
 	 */
 	public String getDefaultToolbarString() {
 		//AGif (dockPanel != null) {
 		//AG	return dockPanel.getDefaultToolbarString();
 		//AG}
-		return ToolBar.getAllTools(app);
+		return ToolBarW.getAllTools(app);
 	}
 
 	

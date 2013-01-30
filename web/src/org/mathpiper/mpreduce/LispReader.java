@@ -891,7 +891,7 @@ public class LispReader implements RepeatingCommand {
     boolean incrementalRestore() throws IOException, ResourceException {
 
         boolean returnValue = true;
-
+        
         switch (loopIndex) {
             case 1:
                 Jlisp.descendSymbols = true;
@@ -943,8 +943,10 @@ public class LispReader implements RepeatingCommand {
                          */
                         
                         i++;
+                        App.debug("obj"+i);
                     }
                 } else {
+                	App.debug(loopIndex);
                     loopIndex++;
                 }
 
@@ -965,7 +967,7 @@ public class LispReader implements RepeatingCommand {
                 // items to worry about.
 
                 //System.out.println("termination of oblist found : " + oblistCount);
-
+                App.debug(loopIndex);
                 loopIndex++;
 
                 break;

@@ -51,7 +51,7 @@ import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.gui.layout.panels.PythonDockPanel;
 import geogebra.gui.layout.panels.SpreadsheetDockPanel;
 import geogebra.gui.menubar.GeoGebraMenuBar;
-import geogebra.gui.toolbar.Toolbar;
+import geogebra.gui.toolbar.ToolbarD;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.BrowserLauncher;
 import geogebra.gui.util.GeoGebraFileChooser;
@@ -2163,7 +2163,7 @@ public class GuiManagerD extends GuiManager {
 					((AppD)app).getSpreadsheetTableModel(); //ensure create one if not already done
 			}
 		} else if (isMacroFile && success) {
-			setToolBarDefinition(Toolbar.getAllTools((AppD)app));
+			setToolBarDefinition(ToolbarD.getAllTools((AppD)app));
 			((AppD)app).updateToolBar();
 			((AppD)app).updateContentPane();
 		}
@@ -2291,7 +2291,7 @@ public class GuiManagerD extends GuiManager {
 		return showGridAction;
 	}
 
-	public Toolbar getGeneralToolbar() {
+	public ToolbarD getGeneralToolbar() {
 		return toolbarPanel.getFirstToolbar();
 	}
 

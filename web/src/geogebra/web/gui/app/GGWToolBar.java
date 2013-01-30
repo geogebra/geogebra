@@ -5,7 +5,7 @@ import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.toolbar.ToolBar;
+import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 
 import com.google.gwt.core.client.GWT;
@@ -36,8 +36,8 @@ public class GGWToolBar extends Composite {
 	}
 
 	private VerticalPanel toolbars;
-	private App app;
-	static private ToolBar toolBar;
+	App app;
+	static private ToolBarW toolBar;
 	@UiField
 	HorizontalPanel toolBarPanel;
 
@@ -51,13 +51,13 @@ public class GGWToolBar extends Composite {
 	/**
 	 * Initialisation of the GGWToolbar.
 	 * 
-	 * @param app
+	 * @param app1 application
 	 */
-	public void init(App app) {
+	public void init(App app1) {
 
-		this.app = app;
+		this.app = app1;
 		toolbars = new VerticalPanel();
-		toolBar = new ToolBar();
+		toolBar = new ToolBarW();
 
 		toolBarPanel.add(toolBar);
 		toolBarPanel.addStyleName("toolbarPanel");
@@ -118,7 +118,7 @@ public class GGWToolBar extends Composite {
 		
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
-				((ToolBar)toolbar).buildGui();
+				((ToolBarW)toolbar).buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 				toolBarPanel.add(toolbar);
@@ -140,7 +140,7 @@ public class GGWToolBar extends Composite {
 	 * 
 	 * @param toolbar
 	 */
-	public void addToolbar(ToolBar toolbar) {
+	public void addToolbar(ToolBarW toolbar) {
 		toolbars.add(toolbar);
 	}
 
@@ -153,7 +153,7 @@ public class GGWToolBar extends Composite {
 	 * 
 	 * @param toolbar
 	 */
-	public void removeToolbar(ToolBar toolbar) {
+	public void removeToolbar(ToolBarW toolbar) {
 		toolbars.remove(toolbar);
 
 		/*AGif(getViewId(toolbar) == activeToolbar) {
@@ -477,7 +477,10 @@ public class GGWToolBar extends Composite {
 
 	}
 	
-	public static ToolBar getToolBar(){
+	/**
+	 * @return tool bar
+	 */
+	public static ToolBarW getToolBar(){
 		return toolBar;
 	}
 }

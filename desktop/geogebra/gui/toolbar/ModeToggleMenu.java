@@ -59,11 +59,11 @@ public class ModeToggleMenu extends JPanel {
 	private AppD app;
 	int size;
 	
-	private Toolbar toolbar;
+	private ToolbarD toolbar;
 
 	final static Color bgColor = Color.white;
 
-	public ModeToggleMenu(AppD app, Toolbar toolbar,
+	public ModeToggleMenu(AppD app, ToolbarD toolbar,
 			ModeToggleButtonGroup bg) {
 		this.app = app;
 		this.bg = bg;
@@ -273,9 +273,9 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	private static final BasicStroke selStroke = new BasicStroke(3f);
 
 	private Timer showMenuTimer;
-	private Toolbar toolbar;
+	private ToolbarD toolbar;
 	
-	MyJToggleButton(ModeToggleMenu menu, Toolbar toolbar) {
+	MyJToggleButton(ModeToggleMenu menu, ToolbarD toolbar) {
 		super();
 		this.menu = menu;
 		this.toolbar = toolbar;

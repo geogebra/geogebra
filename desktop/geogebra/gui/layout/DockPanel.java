@@ -6,7 +6,7 @@ import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.gui.toolbar.Toolbar;
+import geogebra.gui.toolbar.ToolbarD;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
@@ -200,7 +200,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Toolbar associated with this dock panel or null if this panel has no
 	 * toolbar.
 	 */
-	private Toolbar toolbar;
+	private ToolbarD toolbar;
 
 	/**
 	 * Toolbar definition string associated with this panel or null if this
@@ -767,7 +767,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 			// load toolbar if this panel has one
 			if (hasToolbar()) {
-				toolbar = new Toolbar(app, this);
+				toolbar = new ToolbarD(app, this);
 
 				if (isOpenInFrame()) {
 					toolbarContainer = new ToolbarContainer(app, false);
@@ -1421,7 +1421,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * @return The toolbar associated with this panel.
 	 */
-	public Toolbar getToolbar() {
+	public ToolbarD getToolbar() {
 		return toolbar;
 	}
 

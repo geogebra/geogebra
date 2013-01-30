@@ -30,12 +30,12 @@ public class ModeToggleMenu extends MenuBar{
 //	private ActionListener popupMenuItemListener;
 	private AppW app;
 	int size;
-	private ToolBar toolbar;
+	private ToolBarW toolbar;
 	private AbsolutePanel imagePanel;
 
 	final static GColor bgColor = GColor.white;
 
-	public ModeToggleMenu(AppW app, ToolBar toolbar,
+	public ModeToggleMenu(AppW app, ToolBarW toolbar,
 			ModeToggleButtonGroup bg) {
 		super(true);
 		setFocusOnHoverEnabled(false);

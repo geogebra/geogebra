@@ -337,7 +337,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		collapseAllRows();	
 		tree.setRowHeight(-1);
 		
-		Vector<Integer> allTools = generateToolsVector(Toolbar.getAllTools(app));
+		Vector<Integer> allTools = generateToolsVector(ToolbarD.getAllTools(app));
 		Vector<Integer> usedTools = generateToolsVector(toolbarDefinition);
 		
 		toolListModel.clear();

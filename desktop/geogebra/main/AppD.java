@@ -617,7 +617,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (isUsingFullGui() && ggtloading) {
 			getGuiManager().setToolBarDefinition(
-					geogebra.gui.toolbar.Toolbar.getAllTools(this));
+					geogebra.gui.toolbar.ToolbarD.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);

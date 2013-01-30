@@ -341,7 +341,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null) {
-			return geogebra.web.gui.toolbar.ToolBar.getAllTools((AppW) app);
+			return geogebra.web.gui.toolbar.ToolBarW.getAllTools((AppW) app);
 		}
 		return strCustomToolbarDefinition;
 	}
@@ -987,5 +987,14 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			timers = new TimerSystemW((AppW)app);
 		}
 		return timers;
+	}
+	private int toolbarID = App.VIEW_EUCLIDIAN;
+	@Override
+    public int getActiveToolbarId() {
+	    return toolbarID;
+    }
+	
+	public void setActiveToolbarId(int toolbarID){
+		this.toolbarID = toolbarID;
 	}
 }

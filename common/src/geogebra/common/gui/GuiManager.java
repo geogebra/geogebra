@@ -574,8 +574,7 @@ public abstract class GuiManager {
 	 * 
 	 * @return id of view which is setting the active toolbar
 	 */
-	public int getActiveToolbarId(){
-		return App.VIEW_EUCLIDIAN;
-	}
-
+	public abstract int getActiveToolbarId();
+	
+	public abstract String getToolbarDefinition(); 
 }

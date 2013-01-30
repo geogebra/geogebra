@@ -355,7 +355,7 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	                            break;
 	                        case 8:
 	                            loadImageSetup();
-	                            App.debug("Step 8"+(System.currentTimeMillis()-l));
+	                            App.debug("Step 8:"+(System.currentTimeMillis()-l));
                             	l = System.currentTimeMillis();
 	                            loopIndex++;
 	                            break;
@@ -402,7 +402,8 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	                            } catch (Exception e) {
 	                                throw e;
 	                            }
-	                            
+	                            App.debug("Step 10:"+(System.currentTimeMillis()-l));
+                            	l = System.currentTimeMillis();
 	                            loopIndex++;
 	                            break;
 	                        case 11:
