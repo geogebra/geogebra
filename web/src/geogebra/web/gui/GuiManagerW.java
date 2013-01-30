@@ -48,7 +48,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManagerW extends GuiManager {
-	
+
 	/**
 	 * container for the Popup that only one exist for a given type
 	 */
@@ -76,11 +76,11 @@ public class GuiManagerW extends GuiManager {
 	public GuiManagerW(AppW app) {
 		this.app = app;
 		this.kernel = app.getKernel();
-		//AGdialogManagerFactory = new DialogManager.Factory();
+		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
 	@Override
-    public void redo() {
+	public void redo() {
 		app.setWaitCursor();
 		kernel.redo();
 		updateActions();
@@ -88,7 +88,7 @@ public class GuiManagerW extends GuiManager {
 	}
 
 	@Override
-    public void undo() {
+	public void undo() {
 		app.setWaitCursor();
 		kernel.undo();
 		updateActions();
@@ -102,14 +102,14 @@ public class GuiManagerW extends GuiManager {
 		}
 
 	}
-	
+
 	@Override
 	public void updateMenubar() {
 		GeoGebraMenubarW menuBar = GGWMenuBar.getMenubar();
 		if (menuBar != null)
 			menuBar.updateMenubar();
 	}
-	
+
 	@Override
 	public void updateActions() {
 		if (GGWMenuBar.getMenubar() != null) {
@@ -128,14 +128,14 @@ public class GuiManagerW extends GuiManager {
 
 	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-			EuclidianViewInterfaceCommon view, GPoint mouseLoc) {
-		showPopupMenu(selectedGeos, ((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
+	        EuclidianViewInterfaceCommon view, GPoint mouseLoc) {
+		showPopupMenu(selectedGeos, ((EuclidianViewW) view).g2p.getCanvas(),
+		        mouseLoc);
 
 	}
-	
 
-private void showPopupMenu(ArrayList<GeoElement> geos,
-            Canvas invoker, GPoint p) {
+	private void showPopupMenu(ArrayList<GeoElement> geos, Canvas invoker,
+	        GPoint p) {
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 		if (app.getKernel().isAxis(geos.get(0))) {
@@ -145,49 +145,54 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			app.getActiveEuclidianView().resetMode();
 			getPopupMenu(geos, p).show(invoker, p.x, p.y);
 		}
-    }
+	}
 
-	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos, GPoint location) {
+	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
+	        GPoint location) {
 		currentPopup = new ContextMenuGeoElementW(app, geos, location);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			geogebra.common.awt.GPoint p) {
+	        ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
+	        geogebra.common.awt.GPoint p) {
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianViewW) view, p);
 	}
 
 	private void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-            ArrayList<GeoElement> geos, EuclidianViewW view, GPoint p) {
+	        ArrayList<GeoElement> geos, EuclidianViewW view, GPoint p) {
 		if (geos == null || !app.letShowPopupMenu())
 			return;
-		
+
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(view, p);
 		} else {
-			
+
 			Canvas invoker = view.g2p.getCanvas();
 			// clear highlighting and selections in views
-			GPoint screenPos = (invoker == null) ? new GPoint(0,0) : new GPoint(invoker.getAbsoluteLeft() + p.x, invoker.getAbsoluteTop() + p.y);
-			
-			
+			GPoint screenPos = (invoker == null) ? new GPoint(0, 0)
+			        : new GPoint(invoker.getAbsoluteLeft() + p.x,
+			                invoker.getAbsoluteTop() + p.y);
+
 			app.getActiveEuclidianView().resetMode();
-			getPopupMenu(app, view, selectedGeos, geos, screenPos, p).show(invoker,p.x,p.y);
+			getPopupMenu(app, view, selectedGeos, geos, screenPos, p).show(
+			        invoker, p.x, p.y);
 		}
-	    
-    }
+
+	}
 
 	private ContextMenuGeoElementW getPopupMenu(App app, EuclidianView view,
-            ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
-            GPoint screenPos, GPoint p) {
-	    currentPopup = new ContextMenuChooseGeoW((AppW) app, view, selectedGeos, geos, screenPos, p);
-	    return (ContextMenuGeoElementW) currentPopup;
-    }
+	        ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
+	        GPoint screenPos, GPoint p) {
+		currentPopup = new ContextMenuChooseGeoW((AppW) app, view,
+		        selectedGeos, geos, screenPos, p);
+		return (ContextMenuGeoElementW) currentPopup;
+	}
 
 	@Override
-	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
+	public void setFocusedPanel(AbstractEvent event,
+	        boolean updatePropertiesView) {
 		// TODO Auto-generated method stub
 		App.debug("unimplemented method");
 
@@ -218,7 +223,6 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		return false;
 	}
 
-
 	@Override
 	public GTextComponent getAlgebraInputTextField() {
 		App.debug("unimplemented method");
@@ -228,21 +232,20 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewW)view).g2p.getCanvas(), mouseLoc);
-	}
-;
-	
+	        GPoint mouseLoc) {
+		showDrawingPadPopup(((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
+	};
+
 	private void showDrawingPadPopup(Canvas invoker, GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
-		getDrawingPadpopupMenu(p.x,p.y).show(invoker, p.x, p.y);
-    }
+		getDrawingPadpopupMenu(p.x, p.y).show(invoker, p.x, p.y);
+	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(int x, int y) {
-	    currentPopup = new ContextMenuGraphicsWindowW(app, x, y);
+		currentPopup = new ContextMenuGraphicsWindowW(app, x, y);
 		return (ContextMenuGeoElementW) currentPopup;
-    }
+	}
 
 	@Override
 	public boolean hasSpreadsheetView() {
@@ -261,23 +264,22 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
 	public void setShowView(boolean flag, int viewId) {
-		setShowView( flag, viewId, true);
+		setShowView(flag, viewId, true);
 	}
-	
+
 	@Override
 	public void setShowView(boolean b, int viewSpreadsheet, boolean isPermanent) {
 		// TODO Auto-generated method stub
 		App.debug("unimplemented method");
 
 	}
-	
-
 
 	@Override
 	public boolean showView(int viewId) {
-		Element e = Document.get().getElementById("View_"+viewId);
+		Element e = Document.get().getElementById("View_" + viewId);
 		if (e != null) {
-			return !(e.getStyle().getDisplay().equals("none") || e.getStyle().getVisibility().equals("hidden"));
+			return !(e.getStyle().getDisplay().equals("none") || e.getStyle()
+			        .getVisibility().equals("hidden"));
 		}
 		return false;
 	}
@@ -291,7 +293,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
 	public View getCasView() {
-		if(casView == null)
+		if (casView == null)
 			casView = new CASViewW(app);
 		return casView;
 	}
@@ -324,9 +326,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	public void updateSpreadsheetColumnWidths() {
 		// TODO Auto-generated method stub
 		AppW.debug("unimplemented");
-		//if (spreadsheetView != null) {
-		//	spreadsheetView.updateColumnWidths();
-		//}
+		// if (spreadsheetView != null) {
+		// spreadsheetView.updateColumnWidths();
+		// }
 	}
 
 	public void resize(int width, int height) {
@@ -334,17 +336,17 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		this.height = height;
 
 		// experimental resize of canvas
-		//app.getEuclidianView1().setPreferredSize(width, height);
+		// app.getEuclidianView1().setPreferredSize(width, height);
 		App.debug("why not use Settings for that?");
 	}
 
 	@Override
-    public void setToolBarDefinition(String toolBarDefinition) {
+	public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
 	@Override
-    public String getToolbarDefinition() {
+	public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null) {
 			return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		}
@@ -355,31 +357,32 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	 * Initializes GuiManager for web
 	 */
 	@Override
-    public void initialize() {
-		initAlgebraController(); // ? needed for keyboard input in EuclidianView in Desktop
-		
+	public void initialize() {
+		initAlgebraController(); // ? needed for keyboard input in EuclidianView
+								 // in Desktop
+
 		layout.initialize(app);
-		//do nothing yet
-	    // TODO Auto-generated method stub
-	    
-    }
-	
+		// do nothing yet
+		// TODO Auto-generated method stub
+
+	}
+
 	@Override
-    public void setLayout(Layout layout) {
+	public void setLayout(Layout layout) {
 		this.layout = (LayoutW) layout;
 	}
 
 	@Override
-    public LayoutW getLayout() {
+	public LayoutW getLayout() {
 		return layout;
 	}
-	
+
 	private GGWToolBar toolbarPanel = null;
 
 	private InputBarHelpPanelW inputHelpPanel;
 
 	private AlgebraInputW algebraInput;
-	
+
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
 			toolbarPanel = app.getAppFrame().getGGWToolbar();
@@ -388,32 +391,30 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 		return toolbarPanel;
 	}
-	
+
 	@Override
-    public void updateToolbar() {
+	public void updateToolbar() {
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
 		}
 
 		if (layout != null) {
-			//AGlayout.getDockManager().updateToolbars();
+			// AGlayout.getDockManager().updateToolbars();
 			getToolbarPanel().updateToolbarPanel();
 		}
 	}
 
 	@Override
-    public void updateAlgebraInput() {
-	   App.debug("Implementation needed...");
-    }
-	
-	
+	public void updateAlgebraInput() {
+		App.debug("Implementation needed...");
+	}
 
 	@Override
-    public InputBarHelpPanelW getInputHelpPanel() {
+	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanelW(app);
 		return inputHelpPanel;
-    }
+	}
 
 	@Override
 	public void setShowAuxiliaryObjects(boolean flag) {
@@ -424,15 +425,15 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-    public AlgebraViewW getAlgebraView() {
+	public AlgebraViewW getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
 			algebraView = newAlgebraView(algebraController);
-			//if (!app.isApplet()) {
-				// allow drag & drop of files on algebraView
-			//	algebraView.setDropTarget(new DropTarget(algebraView,
-			//			new FileDropTargetListener(app)));
-			//}
+			// if (!app.isApplet()) {
+			// allow drag & drop of files on algebraView
+			// algebraView.setDropTarget(new DropTarget(algebraView,
+			// new FileDropTargetListener(app)));
+			// }
 		}
 
 		return algebraView;
@@ -450,45 +451,45 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	 * @return new algebra view
 	 */
 	protected AlgebraViewW newAlgebraView(AlgebraControllerW algc) {
-		//if (USE_COMPRESSED_VIEW) {
-		//	return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
-		//}
+		// if (USE_COMPRESSED_VIEW) {
+		// return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
+		// }
 		return new AlgebraViewW(algc);
 	}
 
 	@Override
-    public void attachAlgebraView() {
+	public void attachAlgebraView() {
 		getAlgebraView();
 		algebraView.attachView();
 	}
 
 	@Override
-    public void detachAlgebraView() {
+	public void detachAlgebraView() {
 		if (algebraView != null)
 			algebraView.detachView();
 	}
-	
+
 	@Override
-    public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 
 		// can't move this after otherwise Object Properties doesn't work
-		kernel.notifyModeChanged(mode,m);
+		kernel.notifyModeChanged(mode, m);
 
 		// select toolbar button, returns *actual* mode selected
-//		int newMode = setToolbarMode(mode);
-//		
-//		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
-//			mode = newMode;
-//			kernel.notifyModeChanged(mode);
-//		}
+		// int newMode = setToolbarMode(mode);
+		//
+		// if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode !=
+		// mode) {
+		// mode = newMode;
+		// kernel.notifyModeChanged(mode);
+		// }
 	}
 
-
-	@Override 
-	public void applyAlgebraViewSettings(){ 
-		if (algebraView!=null) 
-			algebraView.applySettings(); 
-	} 
+	@Override
+	public void applyAlgebraViewSettings() {
+		if (algebraView != null)
+			algebraView.applySettings();
+	}
 
 	private PropertiesView propertiesView;
 
@@ -504,267 +505,266 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-    public void updatePropertiesView() {
-		if(propertiesView !=null){
+	public void updatePropertiesView() {
+		if (propertiesView != null) {
 			propertiesView.updatePropertiesView();
-		}
-    }
-	
-
-	@Override
-	public void mousePressedForPropertiesView(){
-		if(propertiesView !=null){
-			propertiesView.mousePressedForPropertiesView();
-		} else {
-			// TODO: @Gabor: do we want this? I don't think we want to initialize the view unnecessarily.
-			//((PropertiesViewW) getPropertiesView()).mousePressedForPropertiesView();
 		}
 	}
 
 	@Override
-    public void mouseReleasedForPropertiesView(boolean creatorMode) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void addAlgebraInput(AlgebraInputW ai) {
-	    this.algebraInput = ai;
-    }
-
-	public AlgebraInputW getAlgebraInput() {
-	    return algebraInput;
-    }
+	public void mousePressedForPropertiesView() {
+		if (propertiesView != null) {
+			propertiesView.mousePressedForPropertiesView();
+		} else {
+			// TODO: @Gabor: do we want this? I don't think we want to
+			// initialize the view unnecessarily.
+			// ((PropertiesViewW)
+			// getPropertiesView()).mousePressedForPropertiesView();
+		}
+	}
 
 	@Override
-    public boolean save() {
+	public void mouseReleasedForPropertiesView(boolean creatorMode) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void addAlgebraInput(AlgebraInputW ai) {
+		this.algebraInput = ai;
+	}
+
+	public AlgebraInputW getAlgebraInput() {
+		return algebraInput;
+	}
+
+	@Override
+	public boolean save() {
 		app.setWaitCursor();
-		//String fileName = Window.prompt("File name", "Bunny");
-		//do saving here if getBase64 will be good
+		// String fileName = Window.prompt("File name", "Bunny");
+		// do saving here if getBase64 will be good
 		GeoGebraFileChooser fileChooser = ((DialogManagerW) app
-		        .getDialogManager())
-		        .getFileChooser();
+		        .getDialogManager()).getFileChooser();
 		if (app.getFileName() != null) {
 			fileChooser.setFileName(app.getFileName());
 		} else {
 			fileChooser.setFileName("");
 		}
-		
+
 		if (app.getFileDescription() != null) {
 			fileChooser.setDescription(app.getFileDescription());
 		} else {
 			fileChooser.setDescription("");
 		}
 		fileChooser.show();
-	    return true;
-    }
-	
+		return true;
+	}
+
 	@Override
-	public void showPropertiesViewSliderTab(){
+	public void showPropertiesViewSliderTab() {
 		App.debug("unimplemented");
 	}
 
 	@Override
-    public void openURL() {
+	public void openURL() {
 		InputDialogOpenURL id = new InputDialogOpenURL(app);
-		id.setVisible(true);	    
-    }
-	
-	
+		id.setVisible(true);
+	}
+
 	@Override
-    protected boolean loadURL_GGB(String url){
+	protected boolean loadURL_GGB(String url) {
 		app.getAppFrame().fileLoader.getView().processFileName(url);
 		return true;
 	}
-	
+
 	@Override
-    protected boolean loadURL_base64(String url){
-		App.debug("implementation needed");  
+	protected boolean loadURL_base64(String url) {
+		App.debug("implementation needed");
 		return true;
 	}
 
 	@Override
-    protected boolean loadFromApplet(String url) throws Exception {
+	protected boolean loadFromApplet(String url) throws Exception {
 		App.debug("implementation needed");
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-    public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
-	    App.debug("unimplemented");
-	    
-    }
-
-	@Override
-    public void startEditing(GeoElement geoElement) {
-	    App.debug("unimplemented");
-	    
-    }
-
-	@Override
-    public boolean noMenusOpen() {
-	    App.debug("unimplemented");
-	    return true;
-    }
-
-	@Override
-    public void openFile() {
-	    App.debug("unimplemented");
-    }
-
-	@Override
-    public void showGraphicExport() {
+	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
 		App.debug("unimplemented");
-	    
-    }
+
+	}
 
 	@Override
-    public void showPSTricksExport() {
+	public void startEditing(GeoElement geoElement) {
 		App.debug("unimplemented");
-	    
-    }
+
+	}
 
 	@Override
-    public void showWebpageExport() {
+	public boolean noMenusOpen() {
 		App.debug("unimplemented");
-	    
-    }
+		return true;
+	}
 
 	@Override
-    public void detachPropertiesView() {
+	public void openFile() {
+		App.debug("unimplemented");
+	}
+
+	@Override
+	public void showGraphicExport() {
+		App.debug("unimplemented");
+
+	}
+
+	@Override
+	public void showPSTricksExport() {
+		App.debug("unimplemented");
+
+	}
+
+	@Override
+	public void showWebpageExport() {
+		App.debug("unimplemented");
+
+	}
+
+	@Override
+	public void detachPropertiesView() {
 		if (propertiesView != null)
 			propertiesView.detachView();
-    }
+	}
 
 	@Override
-    public boolean hasPropertiesView() {
+	public boolean hasPropertiesView() {
 		App.debug("unimplemented");
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-    public void attachPropertiesView() {
+	public void attachPropertiesView() {
 		getPropertiesView();
 		propertiesView.attachView();
-    }
+	}
 
 	@Override
-    public void attachCasView() {
+	public void attachCasView() {
 		getCasView();
 		casView.attachView();
-    }
+	}
 
 	@Override
-    public void attachConstructionProtocolView() {
+	public void attachConstructionProtocolView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void attachProbabilityCalculatorView() {
+	public void attachProbabilityCalculatorView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void attachAssignmentView() {
+	public void attachAssignmentView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public EuclidianView getActiveEuclidianView() {
-	    return app.getEuclidianView1();
-    }
+	public EuclidianView getActiveEuclidianView() {
+		return app.getEuclidianView1();
+	}
 
 	public Command getShowAxesAction() {
-	    return new Command() {
-			
+		return new Command() {
+
 			public void execute() {
 				showAxesCmd();
 			}
 		};
-    }
+	}
 
 	public Command getShowGridAction() {
-	   return new Command() {
-		
-		public void execute() {
-			showGridCmd();
-		}
-	};
-    }
+		return new Command() {
+
+			public void execute() {
+				showGridCmd();
+			}
+		};
+	}
 
 	@Override
-    public View getDataAnalysisView() {
+	public View getDataAnalysisView() {
 		App.debug("unimplemented");
-	    return null;
-    }
+		return null;
+	}
 
 	@Override
-    public void attachDataAnalysisView() {
+	public void attachDataAnalysisView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void detachDataAnalysisView() {
+	public void detachDataAnalysisView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public boolean hasDataAnalysisView() {
+	public boolean hasDataAnalysisView() {
 		App.debug("unimplemented");
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-    public void detachAssignmentView() {
+	public void detachAssignmentView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void detachProbabilityCalculatorView() {
+	public void detachProbabilityCalculatorView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void detachCasView() {
+	public void detachCasView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void detachConstructionProtocolView() {
+	public void detachConstructionProtocolView() {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void detachSpreadsheetView() {
+	public void detachSpreadsheetView() {
 		if (spreadsheetView != null)
 			spreadsheetView.detachView();
-    }
+	}
 
 	@Override
-    protected void openHelp(String page, Help type) {
+	protected void openHelp(String page, Help type) {
 		try {
 			String helpURL = getHelpURL(type, page);
 			Window.open(helpURL, "", "");
 		} catch (MyError e) {
 			app.showError(e);
 		} catch (Exception e) {
-			App.debug("openHelp error: " + e.toString() + " "
-					+ e.getMessage() + " " + page + " " + type);
+			App.debug("openHelp error: " + e.toString() + " " + e.getMessage()
+			        + " " + page + " " + type);
 			app.showError(e.getMessage());
 			e.printStackTrace();
-		}   
-    }
-	
+		}
+	}
+
 	private String getHelpURL(Help type, String pageName) {
 		// try to get help for given language
 		// eg http://www.geogebra.org/help/en_GB/cmd/FitLogistic
 
 		StringBuilder urlSB = new StringBuilder();
-//		StringBuilder urlOffline = new StringBuilder();
-//
-//		urlOffline.append(AppD.getCodeBaseFolder());
-//		urlOffline.append("help/");
-//		urlOffline.append(((AppD)app).getLocale().getLanguage()); // eg en
-//		urlOffline.append('/');
+		// StringBuilder urlOffline = new StringBuilder();
+		//
+		// urlOffline.append(AppD.getCodeBaseFolder());
+		// urlOffline.append("help/");
+		// urlOffline.append(((AppD)app).getLocale().getLanguage()); // eg en
+		// urlOffline.append('/');
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
 		urlSB.append("help/");
@@ -773,29 +773,30 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		switch (type) {
 		case COMMAND:
 			pageName = app.getEnglishCommand(pageName);
-//			String pageNameOffline = pageName.replace(":", "%3A").replace(" ",
-//					"_");
+			// String pageNameOffline = pageName.replace(":",
+			// "%3A").replace(" ",
+			// "_");
 			urlSB.append("/cmd/");
 			urlSB.append(pageName);
 
-//			urlOffline.append(pageNameOffline);
-//			urlOffline.append("_Command.html");
+			// urlOffline.append(pageNameOffline);
+			// urlOffline.append("_Command.html");
 			break;
 		case TOOL:
-//			pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
+			// pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
 			urlSB.append("/tool/");
 			urlSB.append(pageName);
 
-//			urlOffline.append(pageNameOffline);
-//			urlOffline.append("_Tool.html");
+			// urlOffline.append(pageNameOffline);
+			// urlOffline.append("_Tool.html");
 			break;
 		case GENERIC:
-//			pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
+			// pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
 			urlSB.append("/article/");
 			urlSB.append(pageName);
 
-//			urlOffline.append(pageNameOffline);
-//			urlOffline.append(".html");
+			// urlOffline.append(pageNameOffline);
+			// urlOffline.append(".html");
 			break;
 		default:
 			App.printStacktrace("Bad getHelpURL call");
@@ -804,18 +805,18 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			// Application.debug(urlOffline.toString());
 			// Application.debug(urlSB.toString());
 
-//			String offlineStr = urlOffline.toString();
+			// String offlineStr = urlOffline.toString();
 
-//			File file = new File(AppD.WINDOWS ? offlineStr.replaceAll(
-//					"[/\\\\]+", "\\" + "\\") : offlineStr); // replace slashes
-//															// with
-//															// backslashes
-//
-//			if (file.exists())
-//				return getEscapedUrl("file:///" + offlineStr);
-//			else
-//				return getEscapedUrl(urlSB.toString());
-			
+			// File file = new File(AppD.WINDOWS ? offlineStr.replaceAll(
+			// "[/\\\\]+", "\\" + "\\") : offlineStr); // replace slashes
+			// // with
+			// // backslashes
+			//
+			// if (file.exists())
+			// return getEscapedUrl("file:///" + offlineStr);
+			// else
+			// return getEscapedUrl(urlSB.toString());
+
 			return urlSB.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -824,153 +825,153 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-    public void resetSpreadsheet() {
+	public void resetSpreadsheet() {
 		if (spreadsheetView != null)
 			spreadsheetView.restart();
-    }
+	}
 
 	@Override
-    public void setScrollToShow(boolean b) {
+	public void setScrollToShow(boolean b) {
 		if (spreadsheetView != null)
 			spreadsheetView.setScrollToShow(b);
-    }
+	}
 
 	@Override
-    public void setShowConstructionProtocolNavigation(boolean show,
-            boolean playButton, double playDelay, boolean showProtButton) {
+	public void setShowConstructionProtocolNavigation(boolean show,
+	        boolean playButton, double playDelay, boolean showProtButton) {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void showURLinBrowser(String strURL) {
+	public void showURLinBrowser(String strURL) {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    public void updateMenuWindow() {
-    }
+	public void updateMenuWindow() {
+	}
 
 	@Override
-    public void updateMenuFile() {
-    }
+	public void updateMenuFile() {
+	}
 
 	@Override
-    public void clearInputbar() {
+	public void clearInputbar() {
 		App.debug("unimplemented");
-   }
+	}
 
 	@Override
-    public Object createFrame() {
-	    return null;
-    }
+	public Object createFrame() {
+		return null;
+	}
 
 	@Override
-    public int getInputHelpPanelMinimumWidth() {
+	public int getInputHelpPanelMinimumWidth() {
 		App.debug("unimplemented");
-	    return 0;
-    }
+		return 0;
+	}
 
 	@Override
-    public void exitAll() {
+	public void exitAll() {
 		App.debug("unimplemented");
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public boolean saveCurrentFile() {
-	    // TODO Auto-generated method stub
+	public boolean saveCurrentFile() {
+		// TODO Auto-generated method stub
 		App.debug("unimplemented");
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-    public boolean hasEuclidianView2() {
-	    // TODO Auto-generated method stub
+	public boolean hasEuclidianView2() {
+		// TODO Auto-generated method stub
 		App.debug("unimplemented");
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-    public void allowGUIToRefresh() {
+	public void allowGUIToRefresh() {
 		App.debug("unimplemented");
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void updateFrameTitle() {
-	    // TODO Auto-generated method stub
+	public void updateFrameTitle() {
+		// TODO Auto-generated method stub
 		App.debug("unimplemented");
-	    
-    }
+
+	}
 
 	@Override
-    public void setLabels() {
+	public void setLabels() {
 		if (algebraInput != null)
 			algebraInput.setLabels();
-		
+
 		if (GGWToolBar.getToolBar() != null) {
 			GGWToolBar.getToolBar().buildGui();
 		}
-		
-		if (GGWMenuBar.getMenubar() != null){
+
+		if (GGWMenuBar.getMenubar() != null) {
 			GGWMenuBar.removeMenus();
 			GGWMenuBar.init(app);
 		}
-		
-		if (algebraView != null ){
+
+		if (algebraView != null) {
 			algebraView.setLabels();
 		}
-		
+
 		if ((app.getEuclidianView1() != null)
 		        && app.getEuclidianView1().hasStyleBar()) {
 			app.getEuclidianView1().getStyleBar().setLabels();
 		}
-		
-//		if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
-//			GeoGebraAppFrame.setCloseMessage(app);
-//		}
 
-    }
+		// if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
+		// GeoGebraAppFrame.setCloseMessage(app);
+		// }
+
+	}
 
 	@Override
-    public void setShowToolBarHelp(boolean showToolBarHelp) {
+	public void setShowToolBarHelp(boolean showToolBarHelp) {
 		App.debug("unimplemented");
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void setShowConstructionProtocolNavigation(boolean flag) {
+	public void setShowConstructionProtocolNavigation(boolean flag) {
 		App.debug("unimplemented");
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public View getEuclidianView2() {
+	public View getEuclidianView2() {
 		App.debug("unimplemented");
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-    public boolean hasEuclidianView2EitherShowingOrNot() {
-	    // TODO Auto-generated method stub
+	public boolean hasEuclidianView2EitherShowingOrNot() {
+		// TODO Auto-generated method stub
 		App.debug("unimplemented");
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-    public void updateFrameSize() {
-	    // TODO Auto-generated method stub
+	public void updateFrameSize() {
+		// TODO Auto-generated method stub
 		App.debug("unimplemented");
-	    
-    }
+
+	}
 
 	@Override
-    public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
+	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		if (spreadsheetView != null)
 			spreadsheetView.getXML(sb, asPreference);
 	}
@@ -1003,18 +1004,24 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		}
 		return timers;
 	}
+
 	private int toolbarID = App.VIEW_EUCLIDIAN;
+
 	@Override
-    public int getActiveToolbarId() {
-	    return toolbarID;
-    }
-	
-	public void setActiveToolbarId(int toolbarID){
-		if(this.toolbarID != toolbarID){
-			switch(toolbarID){
-			case App.VIEW_CAS:setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
-			return;
-			case App.VIEW_EUCLIDIAN:setToolBarDefinition(geogebra.web.gui.toolbar.ToolBarW.getAllTools(app));
+	public int getActiveToolbarId() {
+		return toolbarID;
+	}
+
+	public void setActiveToolbarId(int toolbarID) {
+		if (this.toolbarID != toolbarID) {
+			switch (toolbarID) {
+			case App.VIEW_CAS:
+				setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
+				break;
+			case App.VIEW_EUCLIDIAN:
+				setToolBarDefinition(geogebra.web.gui.toolbar.ToolBarW
+				        .getAllTools(app));
+				break;
 			}
 			updateToolbar();
 		}
@@ -1022,7 +1029,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-    protected AppW getApp() {
-	    return app;
-    }
+	protected AppW getApp() {
+		return app;
+	}
 }
