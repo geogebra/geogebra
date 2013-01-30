@@ -78,14 +78,16 @@ public class GuiManagerW extends GuiManager {
 		//AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
-	public void redo() {
+	@Override
+    public void redo() {
 		app.setWaitCursor();
 		kernel.redo();
 		updateActions();
 		app.setDefaultCursor();
 	}
 
-	public void undo() {
+	@Override
+    public void undo() {
 		app.setWaitCursor();
 		kernel.undo();
 		updateActions();
@@ -335,11 +337,13 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		App.debug("why not use Settings for that?");
 	}
 
-	public void setToolBarDefinition(String toolBarDefinition) {
+	@Override
+    public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
-	public String getToolbarDefinition() {
+	@Override
+    public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null) {
 			return geogebra.web.gui.toolbar.ToolBarW.getAllTools((AppW) app);
 		}
@@ -349,7 +353,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	/**
 	 * Initializes GuiManager for web
 	 */
-	public void initialize() {
+	@Override
+    public void initialize() {
 		initAlgebraController(); // ? needed for keyboard input in EuclidianView in Desktop
 		
 		layout.initialize(app);
@@ -358,11 +363,13 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	    
     }
 	
-	public void setLayout(Layout layout) {
+	@Override
+    public void setLayout(Layout layout) {
 		this.layout = (LayoutW) layout;
 	}
 
-	public LayoutW getLayout() {
+	@Override
+    public LayoutW getLayout() {
 		return layout;
 	}
 	
@@ -381,7 +388,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		return toolbarPanel;
 	}
 	
-	public void updateToolbar() {
+	@Override
+    public void updateToolbar() {
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
 		}
@@ -399,7 +407,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	
 	
 
-	public InputBarHelpPanelW getInputHelpPanel() {
+	@Override
+    public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanelW(app);
 		return inputHelpPanel;
@@ -413,7 +422,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		algebraView.setShowAuxiliaryObjects(flag);
 	}
 
-	public AlgebraViewW getAlgebraView() {
+	@Override
+    public AlgebraViewW getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
 			algebraView = newAlgebraView(algebraController);
@@ -445,17 +455,20 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		return new AlgebraViewW(algc);
 	}
 
-	public void attachAlgebraView() {
+	@Override
+    public void attachAlgebraView() {
 		getAlgebraView();
 		algebraView.attachView();
 	}
 
-	public void detachAlgebraView() {
+	@Override
+    public void detachAlgebraView() {
 		if (algebraView != null)
 			algebraView.detachView();
 	}
 	
-	public void setMode(int mode,ModeSetter m) {
+	@Override
+    public void setMode(int mode,ModeSetter m) {
 
 		// can't move this after otherwise Object Properties doesn't work
 		kernel.notifyModeChanged(mode,m);
@@ -955,7 +968,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	    
     }
 
-	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
+	@Override
+    public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		if (spreadsheetView != null)
 			spreadsheetView.getXML(sb, asPreference);
 	}

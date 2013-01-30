@@ -115,15 +115,17 @@ public class GGWToolBar extends Composite {
 	 */
 	public void updateToolbarPanel() {
 		//toolbarPanel.clear();
-		
+		App.debug("updating toolbars");
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
+				App.debug("updating toolbar");
 				((ToolBarW)toolbar).buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 				toolBarPanel.add(toolbar);
 			}
 		}
+		App.debug(toolBarPanel.getWidgetCount());
 		
 		
 		
