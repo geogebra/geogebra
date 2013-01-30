@@ -85,19 +85,22 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 	
 	public static void setCloseMessage(final App appl) {
-		App.debug("setCloseMessage");
-		//	if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
-				// popup when the user wants to exit accidentally
-		        Window.addWindowClosingHandler(new Window.ClosingHandler() {
-		            public void onWindowClosing(ClosingEvent event) {
-		            	// TODO: Localize this, or omit message completely,
-		            	// and maybe put this somewhere else (where i18n is already available).
-		            	event.setMessage(appl.getPlain("CloseApplicationLoseUnsavedData"));
-		                //event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
-		            }
-		        });
-			//}
+		// popup when the user wants to exit accidentally
+        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+            public void onWindowClosing(ClosingEvent event) {
+            	event.setMessage(appl.getPlain("CloseApplicationLoseUnsavedData"));
+            }
+        });
 	}
+	
+	public static void removeCloseMessage(){
+		Window.addWindowClosingHandler(new Window.ClosingHandler() {
+			public void onWindowClosing(ClosingEvent event) {
+				event.setMessage(null);
+			}
+		});
+	}
+
 	
 	@Override
     protected void onLoad() {

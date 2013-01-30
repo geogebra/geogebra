@@ -98,7 +98,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -856,12 +855,13 @@ public class AppW extends App {
 		return Cookies.getCookie("GGWlang");
 	}
 	
+	
 	native JavaScriptObject saveBase64ToLocalStorage() /*-{
 		return function(base64) {
 			try {
 				localStorage.setItem("reloadBase64String", base64);
+				@geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
 			} catch (e) {
-				//TODO
 				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
 			} finally {
 				$wnd.location.reload();
