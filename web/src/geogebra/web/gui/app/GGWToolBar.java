@@ -8,6 +8,8 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,7 +19,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite {
@@ -35,7 +36,7 @@ public class GGWToolBar extends Composite {
 		return myIconResourceBundle;
 	}
 
-	private VerticalPanel toolbars;
+	private ArrayList<ToolBarW> toolbars;
 	App app;
 	static private ToolBarW toolBar;
 	@UiField
@@ -56,7 +57,7 @@ public class GGWToolBar extends Composite {
 	public void init(App app1) {
 
 		this.app = app1;
-		toolbars = new VerticalPanel();
+		toolbars = new ArrayList<ToolBarW>();
 		toolBar = new ToolBarW();
 
 		toolBarPanel.add(toolBar);
@@ -64,7 +65,9 @@ public class GGWToolBar extends Composite {
 		
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init((geogebra.web.main.AppW) app);
+		App.debug(toolbars.size());
 		addToolbar(toolBar);
+		App.debug(toolbars.size());
 		buildGui();
 	}
 
@@ -115,7 +118,7 @@ public class GGWToolBar extends Composite {
 	 */
 	public void updateToolbarPanel() {
 		//toolbarPanel.clear();
-		App.debug("updating toolbars"+toolbars.getWidgetCount());
+		App.debug("updating toolbars"+toolbars.size());
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
 				App.debug("updating toolbar");
@@ -157,7 +160,7 @@ public class GGWToolBar extends Composite {
 	 */
 	public void removeToolbar(ToolBarW toolbar) {
 		toolbars.remove(toolbar);
-
+		App.debug("Delete:"+toolbars.size());
 		/*AGif(getViewId(toolbar) == activeToolbar) {
 			activeToolbar = -1;
 		}*/
