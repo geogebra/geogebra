@@ -174,12 +174,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 
 	public void onDoubleClick(DoubleClickEvent event) {
+		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
 	}
 
 	public void onClick(ClickEvent event) {
+		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
@@ -243,7 +245,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-		
+		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!textfieldHasFocus)){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}

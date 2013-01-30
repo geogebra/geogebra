@@ -18,10 +18,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class CASViewW extends CASView {
 
 	private CASComponentW component;
-	private App app;
+	private AppW app;
 	private CASTableW consoleTable;
 
-	public CASViewW(App app){
+	public CASViewW(AppW app){
 		component = new CASComponentW();
 		kernel = app.getKernel();
 		this.app = app;
@@ -33,7 +33,7 @@ public class CASViewW extends CASView {
 		
 		// CAS input/output cells
 		CASTableControllerW ml = new CASTableControllerW(this,app);
-		consoleTable = new CASTableW((AppW) app,ml);	
+		consoleTable = new CASTableW(app,ml);	
 		component.add(consoleTable);
 				// input handler
 		casInputHandler = new CASInputHandler(this);

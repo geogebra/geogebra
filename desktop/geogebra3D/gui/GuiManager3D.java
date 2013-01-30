@@ -38,7 +38,7 @@ public class GuiManager3D extends GuiManagerD {
 	
 	/** 
 	 * default constructor
-	 * @param app
+	 * @param app application
 	 */
 	public GuiManager3D(AppD app) {
 		super(app);
@@ -58,7 +58,7 @@ public class GuiManager3D extends GuiManagerD {
 	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
-		EuclidianDockPanel3D panel = new EuclidianDockPanel3D((AppD)app);
+		EuclidianDockPanel3D panel = new EuclidianDockPanel3D(getApp());
 		getLayout().registerPanel(panel);
 	}
 	
@@ -72,43 +72,43 @@ public class GuiManager3D extends GuiManagerD {
 		
 		if (!super.initActions())
 			return false;
-		showAxes3DAction = new AbstractAction(app.getMenu("Axes"),
-				((AppD)app).getImageIcon("axes.gif")) {
+		showAxes3DAction = new AbstractAction(getApp().getMenu("Axes"),
+				(getApp()).getImageIcon("axes.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				// toggle axes
-				((App3D) app).toggleAxis3D();
-				//app.getEuclidianView().repaint();
-				app.storeUndoInfo();
-				app.updateMenubar();
+				((App3D) getApp()).toggleAxis3D();
+				//getApp().getEuclidianView().repaint();
+				getApp().storeUndoInfo();
+				getApp().updateMenubar();
 				
 			}
 		};
 
-		showGrid3DAction = new AbstractAction(app.getMenu("Grid"),
-				((AppD)app).getImageIcon("grid.gif")) {
+		showGrid3DAction = new AbstractAction(getApp().getMenu("Grid"),
+				getApp().getImageIcon("grid.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				// toggle grid
-				((App3D) app).toggleGrid3D();
-				//app.getEuclidianView().repaint();
-				app.storeUndoInfo();
-				app.updateMenubar();
+				((App3D) getApp()).toggleGrid3D();
+				//getApp().getEuclidianView().repaint();
+				getApp().storeUndoInfo();
+				getApp().updateMenubar();
 				
 			}
 		};
 		
-		showPlaneAction = new AbstractAction(app.getMenu("Plane"),
-				((AppD)app).getImageIcon("plane.gif")) {
+		showPlaneAction = new AbstractAction(getApp().getMenu("Plane"),
+				(getApp()).getImageIcon("plane.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				// toggle plane
-				((App3D) app).togglePlane();
-				app.storeUndoInfo();
-				app.updateMenubar();
+				((App3D) getApp()).togglePlane();
+				getApp().storeUndoInfo();
+				getApp().updateMenubar();
 			}
 		};
 
@@ -157,14 +157,16 @@ public class GuiManager3D extends GuiManagerD {
 	/**
 	 * Displays the zoom menu at the position p in the coordinate space of
 	 * euclidianView
+	 * @param view view
+	 * @param p zoom point
 	 */
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, geogebra.common.awt.GPoint p) {
 		// clear highlighting and selections in views		
-		((App3D) app).getEuclidianView3D().resetMode();
+		((App3D) getApp()).getEuclidianView3D().resetMode();
 		
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
-				(AppD)app, p.x, p.y);
+				getApp(), p.x, p.y);
 		popupMenu.getWrappedPopup().show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
 	}
 	
@@ -187,7 +189,7 @@ public class GuiManager3D extends GuiManagerD {
 			return;
 
 		// clear highlighting and selections in views
-		app.getActiveEuclidianView().resetMode();
+		getApp().getActiveEuclidianView().resetMode();
 		
 		Component invoker = view.getJPanel();
 
@@ -196,7 +198,7 @@ public class GuiManager3D extends GuiManagerD {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuGeoElementD popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
+		ContextMenuGeoElementD popupMenu = new ContextMenuChooseGeoD(getApp(), view, selectedGeos, geos, screenPos, p);
 		popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 
 

@@ -2,6 +2,7 @@ package geogebra.web.gui;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GPoint;
+import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -62,7 +63,7 @@ public class GuiManagerW extends GuiManager {
 	private SpreadsheetViewW spreadsheetView;
 
 	private TimerSystemW timers;
-
+	private final AppW app;
 	private AbsolutePanel main;
 
 	private int width;
@@ -72,7 +73,7 @@ public class GuiManagerW extends GuiManager {
 
 	private CASViewW casView;
 
-	public GuiManagerW(App app) {
+	public GuiManagerW(AppW app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		//AGdialogManagerFactory = new DialogManager.Factory();
@@ -147,7 +148,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     }
 
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos, GPoint location) {
-		currentPopup = new ContextMenuGeoElementW((AppW) app, geos, location);
+		currentPopup = new ContextMenuGeoElementW(app, geos, location);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
@@ -199,7 +200,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 		app.setWaitCursor();
 
-		ImageFileInputDialog dialog = new ImageFileInputDialog((AppW) app, loc);
+		ImageFileInputDialog dialog = new ImageFileInputDialog(app, loc);
 		dialog.setVisible(true);
 	}
 
@@ -239,7 +240,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     }
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(int x, int y) {
-	    currentPopup = new ContextMenuGraphicsWindowW((AppW)app, x, y);
+	    currentPopup = new ContextMenuGraphicsWindowW(app, x, y);
 		return (ContextMenuGeoElementW) currentPopup;
     }
 
@@ -299,7 +300,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	public SpreadsheetViewW getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
-			spreadsheetView = new SpreadsheetViewW((AppW)app);
+			spreadsheetView = new SpreadsheetViewW(app);
 		}
 
 		return spreadsheetView;
@@ -345,7 +346,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	@Override
     public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null) {
-			return geogebra.web.gui.toolbar.ToolBarW.getAllTools((AppW) app);
+			return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		}
 		return strCustomToolbarDefinition;
 	}
@@ -381,7 +382,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
-			toolbarPanel = ((AppW)app).getAppFrame().getGGWToolbar();
+			toolbarPanel = app.getAppFrame().getGGWToolbar();
 			toolbarPanel.init(app);
 		}
 
@@ -496,7 +497,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesViewW((AppW) app);
+			propertiesView = new PropertiesViewW(app);
 		}
 
 		return propertiesView;
@@ -542,14 +543,14 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		GeoGebraFileChooser fileChooser = ((DialogManagerW) app
 		        .getDialogManager())
 		        .getFileChooser();
-		if (((AppW) app).getFileName() != null) {
-			fileChooser.setFileName(((AppW) app).getFileName());
+		if (app.getFileName() != null) {
+			fileChooser.setFileName(app.getFileName());
 		} else {
 			fileChooser.setFileName("");
 		}
 		
-		if (((AppW)app).getFileDescription() != null) {
-			fileChooser.setDescription(((AppW)app).getFileDescription());
+		if (app.getFileDescription() != null) {
+			fileChooser.setDescription(app.getFileDescription());
 		} else {
 			fileChooser.setDescription("");
 		}
@@ -564,14 +565,14 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	@Override
     public void openURL() {
-		InputDialogOpenURL id = new InputDialogOpenURL((AppW)app);
+		InputDialogOpenURL id = new InputDialogOpenURL(app);
 		id.setVisible(true);	    
     }
 	
 	
 	@Override
     protected boolean loadURL_GGB(String url){
-		((AppW)app).getAppFrame().fileLoader.getView().processFileName(url);
+		app.getAppFrame().fileLoader.getView().processFileName(url);
 		return true;
 	}
 	
@@ -767,11 +768,11 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
 		urlSB.append("help/");
-		urlSB.append(((AppW)app).getLanguage()); // eg en_GB
+		urlSB.append(app.getLanguage()); // eg en_GB
 
 		switch (type) {
 		case COMMAND:
-			pageName = ((AppW)app).getEnglishCommand(pageName);
+			pageName = app.getEnglishCommand(pageName);
 //			String pageNameOffline = pageName.replace(":", "%3A").replace(" ",
 //					"_");
 			urlSB.append("/cmd/");
@@ -923,7 +924,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		}
 		
 		if ((app.getEuclidianView1() != null)
-		        && ((AppW) app).getEuclidianView1().hasStyleBar()) {
+		        && app.getEuclidianView1().hasStyleBar()) {
 			app.getEuclidianView1().getStyleBar().setLabels();
 		}
 		
@@ -998,7 +999,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 
 	public TimerSystemW getTimerSystem() {
 		if (timers == null) {
-			timers = new TimerSystemW((AppW)app);
+			timers = new TimerSystemW(app);
 		}
 		return timers;
 	}
@@ -1009,6 +1010,20 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     }
 	
 	public void setActiveToolbarId(int toolbarID){
+		if(this.toolbarID != toolbarID){
+			setActiveToolbarId(toolbarID);
+			switch(toolbarID){
+			case App.VIEW_CAS:setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
+			return;
+			case App.VIEW_EUCLIDIAN:setToolBarDefinition(geogebra.web.gui.toolbar.ToolBarW.getAllTools(app));
+			}
+			updateToolbar();
+		}
 		this.toolbarID = toolbarID;
 	}
+
+	@Override
+    protected AppW getApp() {
+	    return app;
+    }
 }

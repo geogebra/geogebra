@@ -1,12 +1,11 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASTableCellController;
-import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
-import geogebra.common.gui.GuiManager;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,8 +24,8 @@ public class CASTableControllerW extends CASTableCellController implements
 MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyHandler{
 
 	private CASViewW view;
-	private App app;
-	public CASTableControllerW(CASViewW casViewW,App app) {
+	private AppW app;
+	public CASTableControllerW(CASViewW casViewW,AppW app) {
 	    view = casViewW;
 	    this.app = app;
     }
@@ -37,12 +36,8 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onClick(ClickEvent event) {
-		GuiManager gm = app.getGuiManager();
-		if(gm.getActiveToolbarId()!=App.VIEW_CAS){
-			((GuiManagerW)gm).setActiveToolbarId(App.VIEW_CAS);
-			gm.setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
-			gm.updateToolbar();
-		}
+		GuiManagerW gm = app.getGuiManager();
+		gm.setActiveToolbarId(App.VIEW_CAS);		
 		
 		CASTableW table = view.getConsoleTable();
 		Cell c = table.getCellForEvent(event);

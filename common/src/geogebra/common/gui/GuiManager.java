@@ -34,7 +34,7 @@ public abstract class GuiManager {
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String material = "/material/show/id/";
 	protected String strCustomToolbarDefinition;
-	public App app;
+	
 
 	public void updateMenubar() { } // temporarily nothing
 
@@ -200,7 +200,7 @@ public abstract class GuiManager {
 	
 		boolean success = false;
 		boolean isMacroFile = false;
-		app.setWaitCursor();
+		getApp().setWaitCursor();
 	
 		try {
 			// check first for ggb/ggt file
@@ -276,7 +276,7 @@ public abstract class GuiManager {
 				// special case: urlString is actually a GeoGebra XML file
 			} else if (processedUrlString.startsWith("<?xml ")
 					&& processedUrlString.endsWith("</geogebra>")) {
-				success = app.loadXML(processedUrlString);
+				success = getApp().loadXML(processedUrlString);
 	
 				// 'standard' case: url with GeoGebra applet (Java or HTML5)
 			} else {
@@ -289,14 +289,15 @@ public abstract class GuiManager {
 		}
 	
 		if (!success && !suppressErrorMsg) {
-			app.showError(app.getError("LoadFileFailed") + "\n" + processedUrlString);
+			getApp().showError(getApp().getError("LoadFileFailed") + "\n" + processedUrlString);
 		}
 	
 		updateGUIafterLoadFile(success, isMacroFile);
 	
-		app.setDefaultCursor();
+		getApp().setDefaultCursor();
 		return success;
 	}
+	protected abstract App getApp();
 	
 	protected abstract boolean loadURL_GGB(String url) throws Exception;
 	protected abstract boolean loadURL_base64(String url) throws Exception;
@@ -393,7 +394,7 @@ public abstract class GuiManager {
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 	
 		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
-	
+		App app = getApp();
 		if (app.getEuclidianView1() == ev)
 			app.getSettings().getEuclidian(1)
 					.setShowAxes(!bothAxesShown, !bothAxesShown);
@@ -413,7 +414,7 @@ public abstract class GuiManager {
 	public void showGridCmd() {
 		// get ev with focus
 		EuclidianView ev = getActiveEuclidianView();
-	
+		App app = getApp();
 		if (app.getEuclidianView1() == ev)
 			app.getSettings().getEuclidian(1)
 					.showGrid(!ev.getShowGrid());
@@ -436,7 +437,7 @@ public abstract class GuiManager {
 		// if a tracing geo has been redefined, then put it back into the
 		// traceGeoCollection
 		if (geo.getSpreadsheetTrace()) {
-			app.getTraceManager().addSpreadsheetTraceGeo(geo);
+			getApp().getTraceManager().addSpreadsheetTraceGeo(geo);
 		}
 	}
 
@@ -505,7 +506,7 @@ public abstract class GuiManager {
 		String internalCmd = null;
 		if (command != null)
 			try { // convert eg uppersum to UpperSum
-				internalCmd = app.getReverseCommand(command);
+				internalCmd = getApp().getReverseCommand(command);
 			} catch (Exception e) {
 			}
 	

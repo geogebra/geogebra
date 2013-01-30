@@ -65,9 +65,7 @@ public class GGWToolBar extends Composite {
 		
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init((geogebra.web.main.AppW) app);
-		App.debug(toolbars.size());
 		addToolbar(toolBar);
-		App.debug(toolbars.size());
 		buildGui();
 	}
 
@@ -118,19 +116,14 @@ public class GGWToolBar extends Composite {
 	 */
 	public void updateToolbarPanel() {
 		//toolbarPanel.clear();
-		App.debug("updating toolbars"+toolbars.size());
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
-				App.debug("updating toolbar");
 				((ToolBarW)toolbar).buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 				toolBarPanel.add(toolbar);
 			}
 		}
-		App.debug(toolBarPanel.getWidget(0).toString());
-		
-		
 		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
@@ -160,7 +153,6 @@ public class GGWToolBar extends Composite {
 	 */
 	public void removeToolbar(ToolBarW toolbar) {
 		toolbars.remove(toolbar);
-		App.debug("Delete:"+toolbars.size());
 		/*AGif(getViewId(toolbar) == activeToolbar) {
 			activeToolbar = -1;
 		}*/

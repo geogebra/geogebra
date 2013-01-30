@@ -6,8 +6,8 @@ import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.gui.toolbar.ToolbarD;
 import geogebra.gui.toolbar.ToolbarContainer;
+import geogebra.gui.toolbar.ToolbarD;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
@@ -1089,8 +1089,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 		if (parent == null || !(parent instanceof DockSplitPane))
 			return null;
-		else
-			return (DockSplitPane) parent;
+		return (DockSplitPane) parent;
 	}
 
 	/**
