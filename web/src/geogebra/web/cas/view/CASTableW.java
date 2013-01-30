@@ -18,6 +18,7 @@ public class CASTableW extends Grid implements CASTable{
 	private CASTableCellEditorW editor;
 	private CASTableCellW editing;
 	private AppW app;
+	private int[] selectedRows;
 
 	public CASTableW(AppW app, CASTableControllerW ml){
 		super(0,2);
@@ -65,14 +66,12 @@ public class CASTableW extends Grid implements CASTable{
 		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
     }
 
-	public int[] getSelectedRows() {
-	    // TODO Auto-generated method stub		
-	    return null;
+	public int[] getSelectedRows() {		
+	    return selectedRows;
     }
 
 	public int getSelectedRow() {
-	    // TODO Auto-generated method stub
-	    return 0;
+	    return selectedRows[0];
     }
 
 	public void stopEditing() {
@@ -81,12 +80,20 @@ public class CASTableW extends Grid implements CASTable{
 		editing = null;
 	    
     }
+	
+	public void cancelEditing() {
+	    if(editing!=null)
+	    	editing.cancelEditing();
+		editing = null;
+	    
+    }
 
 	public void startEditingRow(int n) {
 		Widget w = getWidget(n,COL_CAS_CELLS_WEB);
 		if(w == editing)
 			return;
-		stopEditing();
+		selectedRows = new int[]{n};
+		cancelEditing();
 	    if(w instanceof CASTableCellW){
 	    	editing = (CASTableCellW)w;
 	    	editing.startEditing(editor.getWidget());

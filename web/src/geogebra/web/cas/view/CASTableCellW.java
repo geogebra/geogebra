@@ -5,20 +5,19 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.DrawEquationWeb;
 
-import java.util.Iterator;
-
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
 	private Label inputPanel;
 	private HorizontalPanel outputPanel;
+	private String textBeforeEdit;
+	private AutoCompleteTextFieldW textField;
 	public CASTableCellW(GeoCasCell casCell) {
 		this.casCell = casCell;
 		inputPanel = new Label();
@@ -61,19 +60,27 @@ public class CASTableCellW extends VerticalPanel {
 	}
 	
 	public void startEditing(AutoCompleteTextFieldW editor){
-		remove(inputPanel);
-		remove(outputPanel);
+		clear();
 		add(editor);
-		editor.setText(inputPanel.getText());
+		textField = editor;
+		textBeforeEdit = inputPanel.getText();
+		editor.setText(textBeforeEdit);
 		add(outputPanel);
 		editor.requestFocus();
 	}
 	
 	public void stopEditing(){
-		Iterator<Widget>it = getChildren().iterator();
-		while(it.hasNext()){
-			remove(it.next());
-		}		
+		if(!textBeforeEdit.equals(textField.getText())){
+			casCell.setInput(textField.getText());
+			inputPanel.setText(textField.getText());
+		}
+		clear();
+		add(inputPanel);
+		add(outputPanel);
+	}
+	
+	public void cancelEditing(){
+		clear();		
 		add(inputPanel);
 		add(outputPanel);
 	}
