@@ -98,6 +98,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -855,13 +856,15 @@ public class AppW extends App {
 		return Cookies.getCookie("GGWlang");
 	}
 	
-	private native JavaScriptObject saveBase64ToSessionStorage() /*-{
+	native JavaScriptObject saveBase64ToLocalStorage() /*-{
 		return function(base64) {
 			try {
-				sessionStorage.setItem("reloadBase64String", base64);
+				localStorage.setItem("reloadBase64String", base64);
 			} catch (e) {
 				//TODO
 				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+			} finally {
+				$wnd.location.reload();
 			}
 		}
 	
@@ -884,9 +887,8 @@ public class AppW extends App {
 		//On changing language from LTR/RTL the page will reload.
 		//The current workspace will be saved, and load back after page reloading.
 		if (oldRTLOrder != rightToLeftReadingOrder){
-			JavaScriptObject callback = saveBase64ToSessionStorage();
+			JavaScriptObject callback = saveBase64ToLocalStorage();
 			((GgbAPI) getGgbApi()).getBase64(callback);
-			Window.Location.reload();
 		}
 		
 	}

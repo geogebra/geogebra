@@ -17,7 +17,8 @@ public class LoadFilePresenter extends BasePresenter {
 		
 	}
 	
-	public void onPageLoad() {
+	@Override
+    public void onPageLoad() {
 		
 		View view = getView();
 		String filename;
@@ -96,7 +97,7 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 	
 	private boolean isReloadDataInStorage(){
-		Storage stockStore = Storage.getSessionStorageIfSupported();
+		Storage stockStore = Storage.getLocalStorageIfSupported();
 		
 		if (stockStore == null) return false;
 		String base64String = stockStore.getItem("reloadBase64String");
@@ -121,11 +122,13 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 	
 
-	public void onWorksheetConstructionFailed(String errorMessage) {
+	@Override
+    public void onWorksheetConstructionFailed(String errorMessage) {
 		getView().showError(errorMessage);
 	}
 	
-	public void onWorksheetReady() {
+	@Override
+    public void onWorksheetReady() {
 		getView().hide();
 	}
 	// Private Methods
