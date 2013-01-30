@@ -399,10 +399,6 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			getToolbarPanel().updateToolbarPanel();
 		}
 	}
-	
-	public void clearToolbar(){
-		getToolbarPanel().clear();
-	}
 
 	@Override
     public void updateAlgebraInput() {

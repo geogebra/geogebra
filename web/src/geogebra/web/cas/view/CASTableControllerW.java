@@ -41,7 +41,6 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 		if(gm.getActiveToolbarId()!=App.VIEW_CAS){
 			((GuiManagerW)gm).setActiveToolbarId(App.VIEW_CAS);
 			gm.setToolBarDefinition(CASView.TOOLBAR_DEFINITION);
-			gm.clearInputbar();
 			gm.updateToolbar();
 		}
 		

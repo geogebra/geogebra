@@ -115,7 +115,7 @@ public class GGWToolBar extends Composite {
 	 */
 	public void updateToolbarPanel() {
 		//toolbarPanel.clear();
-		App.debug("updating toolbars");
+		App.debug("updating toolbars"+toolbars.getWidgetCount());
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
 				App.debug("updating toolbar");
@@ -125,7 +125,7 @@ public class GGWToolBar extends Composite {
 				toolBarPanel.add(toolbar);
 			}
 		}
-		App.debug(toolBarPanel.getWidgetCount());
+		App.debug(toolBarPanel.getWidget(0).toString());
 		
 		
 		
@@ -134,10 +134,6 @@ public class GGWToolBar extends Composite {
 		//toolbarPanel.setVisible(true);
 		
 		
-	}
-	
-	public void clear(){
-		toolBarPanel.clear();
 	}
 
 	/**
