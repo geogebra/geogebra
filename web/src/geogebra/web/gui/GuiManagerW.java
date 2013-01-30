@@ -1023,7 +1023,14 @@ public class GuiManagerW extends GuiManager {
 				        .getAllTools(app));
 				break;
 			}
+			try{
 			updateToolbar();
+			}catch(Throwable t){
+				StackTraceElement[] s = t.getStackTrace();
+				for(StackTraceElement e:s){
+					App.debug(e.getClassName()+e.getMethodName()+e.getLineNumber());
+				}
+			}
 		}
 		this.toolbarID = toolbarID;
 	}
