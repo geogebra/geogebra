@@ -825,8 +825,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					continue;
 				}
 				String menuText = PropertiesView.getTypeStringSimple(app,type);
-				ImageIcon ic = ((PropertiesViewD) ((GuiManagerD)app.getGuiManager())
-						.getPropertiesView()).getTypeIcon(type);
+				ImageIcon ic = PropertiesViewD.getTypeIcon(app,type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 				
 				// not available if no objects yet
@@ -841,8 +840,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					}
 				});
 				add(item);
-				item.setVisible(((PropertiesView) ((GuiManagerD)app.getGuiManager())
-						.getPropertiesView()).isOptionPanelAvailable(type));
+				
+				item.setVisible(PropertiesView.isOptionPanelAvailable(app, type));
 			}
 
 		}

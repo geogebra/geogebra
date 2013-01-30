@@ -133,12 +133,13 @@ public abstract class PropertiesView implements View {
 	}
 
 	/**
+	 * @param app 
 	 * @param type
 	 *            Option panel type
 	 * @return true if given Option panel is showing (or is instantiated but
 	 *         hidden)
 	 */
-	public boolean isOptionPanelAvailable(OptionType type) {
+	public static boolean isOptionPanelAvailable(App app, OptionType type) {
 
 		boolean isAvailable = true;
 

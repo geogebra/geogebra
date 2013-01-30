@@ -935,24 +935,29 @@ public class PropertiesViewD extends
 		return wrappedPanel;
 	}
 
-	public ImageIcon getTypeIcon(OptionType type) {
+	/**
+	 * @param app
+	 * @param type
+	 * @return
+	 */
+	public static ImageIcon getTypeIcon(AppD app, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return ((AppD) app).getImageIcon("options-defaults224.png");
+			return app.getImageIcon("options-defaults224.png");
 		case SPREADSHEET:
-			return ((AppD) app).getImageIcon("view-spreadsheet24.png");
+			return app.getImageIcon("view-spreadsheet24.png");
 		case EUCLIDIAN:
-			return ((AppD) app).getImageIcon("view-graphics24.png");
+			return app.getImageIcon("view-graphics24.png");
 		case EUCLIDIAN2:
-			return ((AppD) app).getImageIcon("view-graphics224.png");
+			return app.getImageIcon("view-graphics224.png");
 		case CAS:
-			return ((AppD) app).getImageIcon("view-cas24.png");
+			return app.getImageIcon("view-cas24.png");
 		case ADVANCED:
-			return ((AppD) app).getImageIcon("options-advanced24.png");
+			return app.getImageIcon("options-advanced24.png");
 		case OBJECTS:
-			return ((AppD) app).getImageIcon("options-objects24.png");
+			return app.getImageIcon("options-objects24.png");
 		case LAYOUT:
-			return ((AppD) app).getImageIcon("options-layout24.png");
+			return app.getImageIcon("options-layout24.png");
 		}
 		return null;
 	}
