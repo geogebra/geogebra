@@ -261,7 +261,7 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		@Override
 		public Point getToolTipLocation(MouseEvent event){
 			Point p = new Point();
-			p.y = this.getY()+this.getHeight();
+			p.y = this.getY()- this.getHeight() - 5;
 			p.x = 0; //this.getX();
 			return  p;
 		}
