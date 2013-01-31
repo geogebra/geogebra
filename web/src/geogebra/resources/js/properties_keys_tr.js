@@ -1517,7 +1517,7 @@ __GGB__keysVar.tr.menu = {
     "OnlyOpaqueFills": "Sadece donuk doldurur",
     "Opacity": "Donukluk",
     "OpenFileFolder": "Dosya Klas\xf6r\xfcn\xfc A\xe7",
-    "OpenFromGoogleDrive": "Open from Google Drive",
+    "OpenFromGoogleDrive": "Google Drive'dan A\xe7",
     "OpenFromWebpage": "Web sayfas\u0131ndan A\xe7",
     "OpenWebpage": "Web sayfas\u0131 A\xe7ar",
     "Operation": "\u0130\u015flem",
