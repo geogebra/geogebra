@@ -851,49 +851,8 @@ public class AppW extends App {
 		return localeName.substring(0,2);
 	}
 	
-	public String getLanguageFromCookie(){
+	public static String getLanguageFromCookie(){
 		return Cookies.getCookie("GGWlang");
-	}
-	
-	
-	native JavaScriptObject saveBase64ToLocalStorage() /*-{
-		return function(base64) {
-			try {
-				localStorage.setItem("reloadBase64String", base64);
-				@geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
-			} catch (e) {
-				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
-			} finally {
-				$wnd.location.reload();
-			}
-		}
-	
-	}-*/;
-	
-	@Override
-    public void directionForWeb(String lang){
-
-		String oldLang = getLanguageFromCookie();
-		
-		//TODO: change "en" for the default language
-		//if there is no cookie yet, it starts with the default language
-		if (oldLang==null) oldLang="en";
-		
-		boolean oldRTLOrder = rightToLeftReadingOrder(oldLang);
-		
-		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
-
-
-		
-		//On changing language from LTR/RTL the page will reload.
-		//The current workspace will be saved, and load back after page reloading.
-		if (oldRTLOrder != rightToLeftReadingOrder){
-			JavaScriptObject callback = saveBase64ToLocalStorage();
-			((GgbAPI) getGgbApi()).getBase64(callback);
-		} else {
-			setLanguage(lang);
-		}
-		
 	}
 	
 	

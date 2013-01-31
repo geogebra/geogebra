@@ -3,7 +3,9 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.web.main.AppW;
+import geogebra.web.main.GgbAPI;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 
@@ -67,9 +69,37 @@ public class LanguageCommand implements Command {
 		} else {
 			setCookies(LOCALE_PARAMETER, localeCode);
 		}
-		app.directionForWeb(localeCode);
+	
+		String oldLang = AppW.getLanguageFromCookie();
+		//TODO: change "en" for the default language
+		//if there is no cookie yet, it starts with the default language
+		if (oldLang==null) oldLang="en";
+		boolean oldRTLOrder = App.rightToLeftReadingOrder(oldLang);
+			
+		//On changing language from LTR/RTL the page will reload.
+		//The current workspace will be saved, and load back after page reloading.
+		//Otherwise only the language will change, and the setting related with language.
+		if (oldRTLOrder != app.rightToLeftReadingOrder){
+			JavaScriptObject callback = saveBase64ToLocalStorage();
+			((GgbAPI) app.getGgbApi()).getBase64(callback);
+		} else {
+			app.setLanguage(localeCode);
+		}
 		
 	}
+	
+	native static JavaScriptObject saveBase64ToLocalStorage() /*-{
+		return function(base64) {
+			try {
+				localStorage.setItem("reloadBase64String", base64);
+				@geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
+			} catch (e) {
+				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+			} finally {
+				$wnd.location.reload();
+			}
+		}
+	}-*/;
 	
 	/**
 	 * @param localeParamName

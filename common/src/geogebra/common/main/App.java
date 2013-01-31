@@ -1741,8 +1741,7 @@ public abstract class App implements Localization{
 		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
 				.equals(lang));
 	}
-
-	protected abstract void directionForWeb(String lang);	
+	
 	/**
 	 * Updates language flags (RTL, RTL for numbers, reverse word order,
 	 * autocomplete possible)
