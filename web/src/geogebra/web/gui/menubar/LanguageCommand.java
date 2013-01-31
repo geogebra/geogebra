@@ -23,8 +23,6 @@ public class LanguageCommand implements Command {
 	public static final String LOCALE_PARAMETER = "locale";
 	
 	private String localeCode;
-	private String localeParameter;
-
 	private AppW app;
 	
 	
@@ -33,7 +31,6 @@ public class LanguageCommand implements Command {
 	 */
 	public LanguageCommand() {
 		localeCode = "en";
-		localeParameter = "Locale";
 	}
 	
 	/**
@@ -41,7 +38,6 @@ public class LanguageCommand implements Command {
 	 */
 	public LanguageCommand(Language newLocaleCode, AppW app) {
 		this.localeCode = newLocaleCode.localeGWT;
-		this.localeParameter = LOCALE_PARAMETER;
 		this.app = app;
 	}
 	
@@ -51,7 +47,6 @@ public class LanguageCommand implements Command {
 	 */
 	public LanguageCommand(String localeParam, String newLocalCode) {
 		localeCode = newLocalCode;
-		localeParameter = localeParam;
 	}
 
 	/**
@@ -61,23 +56,19 @@ public class LanguageCommand implements Command {
 		localeCode = aLocale;
 	}
 	
-	public void setLocaleParameter(String param) {
-		localeParameter = param;
-	}
-	
 	public void setNewLocale(String param, String newLocale) {
-		localeParameter = param;
 		localeCode = newLocale;
 	}
 
 	public void execute() {
-		//changeLocale(localeParameter, localeCode);
-		app.setLanguage(localeCode);
+		Cookies.setCookie("GGWlang", localeCode);
 		if (App.rightToLeftReadingOrder(localeCode)){
-			setCookies(LOCALE_PARAMETER, "ar");
-			return;
+			LanguageCommand.setCookies(LanguageCommand.LOCALE_PARAMETER, "ar");
+		} else {
+			setCookies(LOCALE_PARAMETER, localeCode);
 		}
-		setCookies(LOCALE_PARAMETER, localeCode);
+		app.directionForWeb(localeCode);
+		
 	}
 	
 	/**
@@ -95,7 +86,7 @@ public class LanguageCommand implements Command {
 	 * @param cookieParameter
 	 * @param localeCode
 	 */
-	public void setCookies(String cookieParameter, String localeCode) {
+	public static void setCookies(String cookieParameter, String localeCode) {
 		if (Cookies.getCookie(cookieParameter) == null || "".equals(Cookies.getCookie(cookieParameter))) {
 			Cookies.setCookie(cookieParameter, localeCode);
 		} else if(!Cookies.getCookie(cookieParameter).equals(localeCode)) {

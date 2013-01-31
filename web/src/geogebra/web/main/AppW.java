@@ -871,7 +871,7 @@ public class AppW extends App {
 	}-*/;
 	
 	@Override
-	protected void directionForWeb(String lang){
+    public void directionForWeb(String lang){
 
 		String oldLang = getLanguageFromCookie();
 		
@@ -882,13 +882,16 @@ public class AppW extends App {
 		boolean oldRTLOrder = rightToLeftReadingOrder(oldLang);
 		
 		App.debug("RTL order: " + rightToLeftReadingOrder + "old RTL order: " + oldRTLOrder);
-		Cookies.setCookie("GGWlang", lang);
+
+
 		
 		//On changing language from LTR/RTL the page will reload.
 		//The current workspace will be saved, and load back after page reloading.
 		if (oldRTLOrder != rightToLeftReadingOrder){
 			JavaScriptObject callback = saveBase64ToLocalStorage();
 			((GgbAPI) getGgbApi()).getBase64(callback);
+		} else {
+			setLanguage(lang);
 		}
 		
 	}

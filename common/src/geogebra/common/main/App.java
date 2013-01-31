@@ -1752,9 +1752,7 @@ public abstract class App implements Localization{
 	 */
 	public void updateLanguageFlags(String lang) {
 
-		rightToLeftReadingOrder = rightToLeftReadingOrder(lang);
-		
-		directionForWeb(lang);	
+		rightToLeftReadingOrder = rightToLeftReadingOrder(lang);	
 			
 		// force update
 		fontSizeStrings = null;
