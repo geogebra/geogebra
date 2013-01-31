@@ -79,7 +79,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		return sview;
 	}
 
-	public void showSpreadsheetView(boolean show) {
+	public void showView(boolean show) {
 
 		if (application == null) return;
 

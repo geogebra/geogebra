@@ -1,20 +1,17 @@
 package geogebra.web.gui.layout;
 
-import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.gui.layout.DockComponent;
+import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.web.awt.GRectangleW;
-import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
-//import geogebra.gui.toolbar.Toolbar;
-//import geogebra.gui.toolbar.ToolbarContainer;
-//import geogebra.web.gui.util.LayoutUtil;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+//import geogebra.gui.toolbar.Toolbar;
+//import geogebra.gui.toolbar.ToolbarContainer;
+//import geogebra.web.gui.util.LayoutUtil;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -1557,5 +1554,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	public void setDockPanelsVisible(boolean visible){
 		setVisible(visible);
 	}
+
+	public abstract void showView(boolean b);
 
 }

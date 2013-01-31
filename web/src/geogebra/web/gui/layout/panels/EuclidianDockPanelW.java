@@ -112,4 +112,9 @@ public class EuclidianDockPanelW extends DockPanelW {
 	public AbsolutePanel getEuclidianPanel() {
 		return euclidianpanel;
 	}
+
+	@Override
+    public void showView(boolean b) {
+	    // TODO Auto-generated method stub	    
+    }
 }

@@ -64,7 +64,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	DockLayoutPanel outer = null;
 
-	App app;
+	AppW app;
 	
 	public GeoGebraAppFrame() {
 		initWidget(outer = binder.createAndBindUi(this));
@@ -212,7 +212,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 
-	private App createApplication(ArticleElement article,
+	private AppW createApplication(ArticleElement article,
             GeoGebraAppFrame geoGebraAppFrame) {
 		return new AppW(article, geoGebraAppFrame);
     }

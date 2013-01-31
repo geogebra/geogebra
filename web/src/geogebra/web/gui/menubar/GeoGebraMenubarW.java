@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class GeoGebraMenubarW extends MenuBar {
 	
 	
-		private App app;
+		private AppW app;
 		private FileMenuW fileMenu;
 		private EditMenuW editMenu;
 		private HelpMenuW helpMenu;
@@ -45,7 +45,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		 * Constructs the menubar
 		 * @param app application
 		 */
-		public GeoGebraMenubarW(App app) {
+		public GeoGebraMenubarW(AppW app) {
 	        super();
 	        this.app = app;
 	        init();

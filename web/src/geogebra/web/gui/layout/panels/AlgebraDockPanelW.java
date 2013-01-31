@@ -62,4 +62,9 @@ public class AlgebraDockPanelW extends DockPanelW {
 			setAlgebraView((AlgebraViewW)application.getAlgebraView());
 		}
 	}
+
+	@Override
+    public void showView(boolean b) {
+	    // TODO Auto-generated method stub	    
+    }
 }

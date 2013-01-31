@@ -64,7 +64,7 @@ public class CASDockPanelW extends DockPanelW {
 		return sview;
 	}
 
-	public void showCASView(boolean show) {
+	public void showView(boolean show) {
 
 		if (application == null) return;
 
