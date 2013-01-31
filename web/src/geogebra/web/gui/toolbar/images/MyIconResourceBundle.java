@@ -171,6 +171,9 @@ public interface MyIconResourceBundle extends ClientBundle{
 
 	@Source("mode_multivarstats_32.gif")
 	ImageResource mode_multivarstats_32();
+	
+	@Source("mode_nsolve_32.gif")
+	ImageResource mode_nsolve_32();
 
 	@Source("mode_numeric_32.gif")
 	ImageResource mode_numeric_32();

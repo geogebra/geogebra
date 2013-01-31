@@ -350,6 +350,9 @@ public class GGWToolBar extends Composite {
 
 		case EuclidianConstants.MODE_CAS_NUMERIC:
 			return myIconResourceBundle.mode_numeric_32().getSafeUri().asString();
+			
+		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
+			return myIconResourceBundle.mode_nsolve_32().getSafeUri().asString();
 
 		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
 			return myIconResourceBundle.mode_onevarstats_32().getSafeUri().asString();
