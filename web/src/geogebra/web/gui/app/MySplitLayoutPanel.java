@@ -36,19 +36,25 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	
 	public void createSpreadsheet(){
 		showCAS=false;
-		if(ggwCASView!=null)
+		App app = null;
+		if(ggwCASView!=null){
 			remove(ggwCASView);
+			app = ggwCASView.getApp();
+		}
 		if(ggwSpreadsheetView==null)
-			addEast(ggwSpreadsheetView = new SpreadsheetDockPanelW(), 0);
+			addEast(ggwSpreadsheetView = new SpreadsheetDockPanelW(app), 0);
 		
 	}
 	
 	public void createCAS(){
 		showCAS=true;
-		if(ggwSpreadsheetView!=null)
+		App app = null;
+		if(ggwSpreadsheetView!=null){
 			remove(ggwSpreadsheetView);
+			app = ggwSpreadsheetView.getApp();
+		}
 		if(ggwCASView==null)
-			addEast(ggwCASView = new CASDockPanelW(), 0);
+			addEast(ggwCASView = new CASDockPanelW(app), 0);
 	}
 
 	@Override

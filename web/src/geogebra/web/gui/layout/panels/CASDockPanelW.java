@@ -24,11 +24,12 @@ public class CASDockPanelW extends DockPanelW {
 	VerticalPanelSmart ancestor;
 	CASViewW sview;
 
-	public CASDockPanelW() {
+	public CASDockPanelW(App app) {
 		super(0, null, null, true, 0);
 		initWidget(toplevel = new SimpleLayoutPanel());
 		ancestor = new VerticalPanelSmart();
 		toplevel.add(ancestor);
+		application = app;
 	}
 
 	protected Widget loadComponent() {
@@ -82,4 +83,8 @@ public class CASDockPanelW extends DockPanelW {
 			onResize();
 		}
 	}
+	
+	public App getApp() {
+	    return application;
+    }
 }

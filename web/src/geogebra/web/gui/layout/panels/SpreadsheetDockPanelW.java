@@ -27,12 +27,13 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	SpreadsheetStyleBarPanel sstylebar;
 	SpreadsheetViewW sview;
 
-	public SpreadsheetDockPanelW() {
+	public SpreadsheetDockPanelW(App app) {
 		super(0, null, null, true, 0);
 		initWidget(toplevel = new SimpleLayoutPanel());
 		ancestor = new VerticalPanelSmart();
 		ancestor.add(sstylebar = new SpreadsheetStyleBarPanel());
 		toplevel.add(ancestor);
+		application = app;
 	}
 
 	protected Widget loadComponent() {
@@ -96,4 +97,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 			onResize();
 		}
 	}
+
+	public App getApp() {
+	    return application;
+    }
 }
