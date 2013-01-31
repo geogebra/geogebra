@@ -23,6 +23,8 @@ import org.mathpiper.mpreduce.special.SpecialFunction;
 import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.zip.GZIPInputStream;
 
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -256,13 +258,172 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	        try {
 
 	            Scheduler.get().scheduleIncremental(InterpreterInstance.getInitializationExecutor());
-
+	        	//AnimationScheduler.get().requestAnimationFrame(((InterpreterJs) InterpreterInstance).getInitializationCommandExecutorByAnimFrame());
 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	    }
 
+	    private AnimationCallback getInitializationCommandExecutorByAnimFrame() {
+	    	return new AnimationCallback() {
+				
+	    		private int loopIndex = 1;
+	            long l = System.currentTimeMillis();
+	            
+				public void execute(double timestamp) {
+					//App.debug("CAS loopIndex" + loopIndex);
+					try {
+					 switch (loopIndex) {
+                     case 1:
+                         LispSmallInteger.preAllocate();  // some small integers treated specially.
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 2:
+                         Jlisp.builtinFunctions = new HashMap();
+                         Jlisp.builtinSpecials = new HashMap();
+                         for (int i = 0; i < Environment.fns1.builtins.length; i++) {
+                             ((LispFunction) Environment.fns1.builtins[i][1]).name =
+                                     (String) Environment.fns1.builtins[i][0];
+                             Jlisp.builtinFunctions.put(Environment.fns1.builtins[i][0], Environment.fns1.builtins[i][1]);
+                         }
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+
+                     case 3:
+                         for (int i = 0; i < Environment.fns2.builtins.length; i++) {
+                             ((LispFunction) Environment.fns2.builtins[i][1]).name =
+                                     (String) Environment.fns2.builtins[i][0];
+                             Jlisp.builtinFunctions.put(Environment.fns2.builtins[i][0], Environment.fns2.builtins[i][1]);
+                         }
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 4:
+                         for (int i = 0; i < Environment.fns3.builtins.length; i++) {
+                             ((LispFunction) Environment.fns3.builtins[i][1]).name =
+                                     (String) Environment.fns3.builtins[i][0];
+                             Jlisp.builtinFunctions.put(Environment.fns3.builtins[i][0], Environment.fns3.builtins[i][1]);
+                         }
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 5:
+                         for (int i = 0; i < Environment.mpreduceFunctions.builtins.length; i++) {
+                             ((LispFunction) Environment.mpreduceFunctions.builtins[i][1]).name =
+                                     (String) Environment.mpreduceFunctions.builtins[i][0];
+                             Jlisp.builtinFunctions.put(Environment.mpreduceFunctions.builtins[i][0], Environment.mpreduceFunctions.builtins[i][1]);
+                         }
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+
+                     case 6:
+                         for (int i = 0; i < Environment.specfn.specials.length; i++) {
+                             ((SpecialFunction) Environment.specfn.specials[i][1]).name =
+                                     (String) Environment.specfn.specials[i][0];
+                             Jlisp.builtinSpecials.put(Environment.specfn.specials[i][0], Environment.specfn.specials[i][1]);
+                         }
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 7:
+                         Bytecode.setupBuiltins();
+                         App.debug("Step 7:"+(System.currentTimeMillis()-l));
+                     	l = System.currentTimeMillis();
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 8:
+                         loadImageSetup();
+                         App.debug("Step 8:"+(System.currentTimeMillis()-l));
+                     	l = System.currentTimeMillis();
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 9:
+                         if (Jlisp.image.execute() == false) {
+                         	App.debug("Step 9:"+(System.currentTimeMillis()-l));
+                         	l = System.currentTimeMillis();
+                             loopIndex++;
+                         }
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 10:
+                         // The next stage is either to create an initial Lisp heap or to
+                         // re-load one that had been saved from a previous session. Things are
+                         // made MUCH more complicated here because a running Lisp can (under program
+                         // control) get itself restarted either in cold or warm-start mode.
+
+                         PDSInputStream ii = null;
+                         // I will re-load from the first checkpoint file in the list that has
+                         // a HeapImage stored in it.
+
+                         try {
+                             ii = new PDSInputStream(Jlisp.image, "HeapImage");
+                         } catch (IOException e) {
+                             e.printStackTrace();
+                         }
+
+
+                         try {
+                             if (ii == null) {
+                                 throw new IOException("No valid checkpoint file found");
+                             }
+
+
+                             gzip = new GZIPInputStream(ii);
+
+
+
+                             Symbol.symbolCount = Cons.consCount = LispString.stringCount = 0;
+                             
+                                     Jlisp.idump = gzip;
+                                     LispReader.getInstance().preRestore();
+
+
+                         } catch (Exception e) {
+                             throw e;
+                         }
+                         App.debug("Step 10:"+(System.currentTimeMillis()-l));
+                     	l = System.currentTimeMillis();
+                         loopIndex++;
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 11:
+                         if(LispReader.getInstance().incrementalRestore() == false)
+                         {
+                         	App.debug("Step 11:"+(System.currentTimeMillis()-l));
+                         	l = System.currentTimeMillis();
+                            loopIndex++;
+                         }
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     case 12:
+                         if (LispReader.getInstance().execute() == false) {
+                         	App.debug("Step 12:"+(System.currentTimeMillis()-l));
+                         	l = System.currentTimeMillis();
+                             loopIndex++;
+                         }
+                         AnimationScheduler.get().requestAnimationFrame(this);
+                         break;
+                     default:
+                         if (GWT.isClient()) {
+                             casInitialize();
+                         } else {
+                             initialize();
+                         }
+                         break;
+
+                 }//end switch.
+					} catch (Exception e) {
+	                    e.printStackTrace();
+	                }
+				}
+			};
+	    }
 
 	    public static native void callImageLoadedCallback() /*-{
 	    callBackFunction();

@@ -13,6 +13,7 @@ import geogebra.common.main.App;
 import org.mathpiper.mpreduce.Interpretable;
 import org.mathpiper.mpreduce.InterpreterJs;
 
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -53,6 +54,11 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 			// TODO Auto-generated method stub
 			return "?";
 		}
+
+		public AnimationCallback getInitializationExecutorByAnimationFrame() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
 	};
 	private static boolean asyncstarted = false;
 	private Kernel kernel;
