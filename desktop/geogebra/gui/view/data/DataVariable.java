@@ -107,6 +107,9 @@ public class DataVariable {
 		case RAWDATA:
 			frequency = null;
 			classes = null;
+			if(values.size() == 0){
+				values.add(new DataItem());
+			}
 			break;
 
 		case FREQUENCY:
