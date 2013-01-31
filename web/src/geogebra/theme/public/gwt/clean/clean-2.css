@@ -1482,6 +1482,14 @@ body[dir=rtl] .undoPanel {
 	margin-right: 5px;
 }
 
+.GGBToolbar{
+	height: 55px;
+}
+
+.GGBToolbar table{
+	margin-right: 70px;
+}
+
 .captionPanel td{
 	vertical-align: middle;
 }
