@@ -197,6 +197,53 @@ public class ProverBotanasMethod {
 		}
 		return ret;
 	}
+	
+	/**
+	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
+	 * The first two variables (usually the coordinates of the first point) are set to 0,
+	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
+	 * Only free variables are fixed
+	 * @param prover the input prover
+	 * @return a HashMap, containing the substitutions
+	 */
+	static HashMap<Variable,Integer> fixValuesAlternative(Prover prover) {
+		GeoElement statement = prover.getStatement();
+		List<GeoElement> freePoints = getFreePoints(statement);
+		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
+		for (GeoElement ge : freePoints) {
+				fixedPoints.add(ge);
+		}
+		
+		HashMap<Variable,Integer> ret = new HashMap<Variable, Integer>();
+		
+		Iterator<GeoElement> it = fixedPoints.iterator();
+		GeoElement[] geos = new GeoElement[2];
+		int i = 0;
+		while (it.hasNext() && i<2) {
+			GeoElement geo = it.next();
+			Variable[] fv = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+			if (i==0) {
+				geos[i] = geo;
+				ret.put(fv[0], 0);
+				ret.put(fv[1], 0);
+				++i;
+			}
+			else {
+				geos[i] = geo;
+				ret.put(fv[0], 0);
+				ret.put(fv[1], 1);
+				++i;
+			}
+		}
+		if (i == 2) {
+			NDGCondition ndgc = new NDGCondition();
+			ndgc.setCondition("AreEqual");
+			ndgc.setGeos(geos);
+			Arrays.sort(ndgc.getGeos());
+			prover.addNDGcondition(ndgc);
+		}
+		return ret;
+	}
 
 	
 	/**
@@ -293,11 +340,12 @@ public class ProverBotanasMethod {
 	
 	/**
 	 * Proves the statement by using Botana's method. No ndg-conditions
+	 * It proves the theorem over a field of rational functions
 	 * are generated.
 	 * @param prover the prover input object 
 	 * @return if the statement is true
 	 */
-	public static ProofResult prove2(geogebra.common.util.Prover prover) {
+	public static ProofResult proveAlternative(geogebra.common.util.Prover prover) {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
 		GeoElement statement = prover.getStatement();
@@ -343,7 +391,7 @@ public class ProverBotanasMethod {
 			
 			HashMap<Variable,Integer> substitutions = null;
 			if (ProverSettings.useFixCoordinates)
-				substitutions = fixValues(prover); 
+				substitutions = fixValuesAlternative(prover); 
 			
 			int nHypotheses = 0;
 			int nStatements = 0;
