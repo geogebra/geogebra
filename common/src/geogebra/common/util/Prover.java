@@ -256,7 +256,7 @@ public abstract class Prover {
 				return;
 			}
 			if (useAlternativeBotana){
-				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove2(this);
+				result = geogebra.common.kernel.prover.ProverBotanasMethod.proveAlternative(this);
 			} else {
 				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
 			}
