@@ -36,7 +36,7 @@ public class CASTableCellW extends VerticalPanel {
 				SpanElement outputSpan = DOM.createSpan().cast();
 				DrawEquationWeb.drawEquationMathQuill(outputSpan,
 				        DrawEquationWeb.inputLatexCosmetics(casCell
-				                .getLaTeXOutput()), outputLabel.getElement());
+				                .getLaTeXOutput()), outputLabel.getElement(),false);
 				outputLabel.getElement().appendChild(outputSpan);
 			} else {
 				if(casCell.isError()){

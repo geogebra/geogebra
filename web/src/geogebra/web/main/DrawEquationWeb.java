@@ -186,7 +186,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
 
-		drawEquationMathQuill(ih, eqstring, parentElement);
+		drawEquationMathQuill(ih, eqstring, parentElement,true);
 
 		//ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 		ih.getStyle().setColor(GColor.getColorString(fgColor));
@@ -211,7 +211,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				ih = DOM.createSpan().cast();
 				ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 				drawEquationMathQuill(ih, eqstring,
-					((AppW)app).getCanvas().getCanvasElement().getParentElement());
+					((AppW)app).getCanvas().getCanvasElement().getParentElement(),true);
 				equations.put(eqstringid, ih);
 
 				// set a flag that the kernel needs a new update
@@ -274,7 +274,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param canv: the canvas element to draw over to
 	 * @param el: the element which should be drawn  
 	 */
-	public static native void drawEquationMathQuill(Element el, String htmlt, Element parentElement) /*-{
+	public static native void drawEquationMathQuill(Element el, String htmlt, Element parentElement,boolean addOverlay) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -300,13 +300,14 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				event.preventDefault();
 			return false;
 		}
-
-		var elfirst = $doc.createElement("div");
-		elfirst.style.position = "absolute";
-		elfirst.style.zIndex = 2;
-		elfirst.style.width = "100%";
-		elfirst.style.height = "100%";
-		el.appendChild(elfirst);
+		if(addOberlay){
+			var elfirst = $doc.createElement("div");
+			elfirst.style.position = "absolute";
+			elfirst.style.zIndex = 2;
+			elfirst.style.width = "100%";
+			elfirst.style.height = "100%";
+			el.appendChild(elfirst);
+		}
 
 		var elsecond = $doc.createElement("span");
 		elsecond.innerHTML = htmlt;
