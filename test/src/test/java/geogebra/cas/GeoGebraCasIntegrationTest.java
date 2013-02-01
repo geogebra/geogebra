@@ -981,7 +981,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Expand_1() {
 		t("Expand[((a + b) / (c + d))^2]",
-				"a^(2) / (c^(2) + 2 * c * d + d^(2)) + (2 * a * b) / (c^(2) + 2 * c * d + d^(2)) + b^(2) / (c^(2) + (2 * c * d) + d^(2))");
+				"a^(2) / (c^(2) + 2 * c * d + d^(2)) + (2 * a * b) / (c^(2) + 2 * c * d + d^(2)) + b^(2) / (c^(2) + 2 * c * d + d^(2))");
 	}
 	
 	@Test
