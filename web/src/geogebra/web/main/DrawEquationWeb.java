@@ -300,7 +300,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				event.preventDefault();
 			return false;
 		}
-		if(addOberlay){
+		if(addOverlay){
 			var elfirst = $doc.createElement("div");
 			elfirst.style.position = "absolute";
 			elfirst.style.zIndex = 2;
