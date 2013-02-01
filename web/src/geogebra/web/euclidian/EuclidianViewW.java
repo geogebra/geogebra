@@ -23,6 +23,7 @@ import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
+import geogebra.web.main.DrawEquationWeb;
 
 import java.util.List;
 
@@ -361,7 +362,7 @@ public class EuclidianViewW extends EuclidianView {
 
     	app.getGuiManager().getTimerSystem().viewRepainting(this);
 
-    	geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
+    	((DrawEquationWeb)app.getDrawEquation()).clearLaTeXes(this);
     	paint(g2p);
 
     	app.getGuiManager().getTimerSystem().viewRepainted(this);

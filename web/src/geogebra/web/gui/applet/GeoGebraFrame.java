@@ -304,5 +304,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		}
 		return false;
 	}
-	
+
+	public static int getInstanceCount() {
+		return instances.size();
+	}
 }

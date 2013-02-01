@@ -1167,8 +1167,7 @@ public class AppW extends App {
 
 	public void loadGgbFileAgain(String dataUrl) {
 
-		geogebra.web.main.DrawEquationWeb
-		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
+		((DrawEquationWeb)getDrawEquation()).deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
 		imageManager.reset();
 		if (useFullAppGui)
 			GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
@@ -1858,9 +1857,8 @@ public class AppW extends App {
 		setCurrentFile(null);
 		setMoveMode();
 
-		geogebra.web.main.DrawEquationWeb
-		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
-		 return true;
+		((DrawEquationWeb)getDrawEquation()).deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
+		return true;
 		
 		// }
 		//return false;

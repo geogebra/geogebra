@@ -9,6 +9,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
@@ -31,8 +32,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
 
-	private static HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
-	private static HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
+	private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
+	private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
 	private boolean needToDrawEquation = false;
 	private App app;
 	
@@ -128,7 +129,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * 
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
-	public static void clearLaTeXes(EuclidianViewW ev) {
+	public void clearLaTeXes(EuclidianViewW ev) {
 		Iterator<String> eei = equations.keySet().iterator();
 		ArrayList<String> eeii = new ArrayList<String>();
 		while(eei.hasNext()) {
@@ -157,7 +158,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * 
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
-	public static void deleteLaTeXes(EuclidianViewW ev) {
+	public void deleteLaTeXes(EuclidianViewW ev) {
 		Iterator<SpanElement> eei = equations.values().iterator();
 		while(eei.hasNext()) {
 			Element toclear = eei.next();
@@ -195,7 +196,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public GDimension drawEquation(App app, GeoElement geo,
             GGraphics2D g2, int x, int y, String eqstring, GFont font, boolean serif,
             GColor fgColor, GColor bgColor, boolean useCache) {
-		
+
 
 		 // the new way to draw an Equation (latex)
 			// no scriptloaded check yet (is it necessary?)
@@ -204,6 +205,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			eqstring = inputLatexCosmetics(eqstring);
 
 			String eqstringid = eqstring + "@" + geo.getID();
+			if (!((AppW)app).isFullAppGui())
+				 eqstringid += "@" + GeoGebraFrame.getInstanceCount();
 
 			SpanElement ih = equations.get(eqstringid);
 			equationAges.put(eqstringid, 0);
