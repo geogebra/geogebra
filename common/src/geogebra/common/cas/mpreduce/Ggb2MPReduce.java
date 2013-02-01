@@ -86,7 +86,8 @@ public class Ggb2MPReduce {
 		p("Element.3",
 				"part(part(mattolistoflists(%0),%1),%2)");
 		p("Expand.1",
-				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=(%0); off factor, combinelogs$on expandlogs$  tmp!!>>");
+				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=expandfractions(%0); off factor, combinelogs$on expandlogs$  " +
+				"if arglength(tmp!!)>-1 and part(tmp!!,0)=\\'ggbplus then part(tmp!!,0):=+ else tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 		p("Factor.1",
 				"<<begin scalar factorlist!!, tmpexp!!, tofactor; on combineexpt; off combinelogs$ " +

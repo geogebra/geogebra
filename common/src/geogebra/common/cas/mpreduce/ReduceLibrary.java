@@ -433,7 +433,12 @@ public class ReduceLibrary {
 				+ " b:=mkdepthone(list(b));"
 				+ " return if length(a)=1 then mynumsolvesingle(part(a,1),part(b,1))"
 				+ " else num_solve(a,b,iterations=10000);" + " end;");
-
+		App.debug(eval("procedure expandfractions(a);begin scalar d,n,lst,ret;" +
+				"if arglength(a)>-1 and part(a,0)='quotient then <<" +
+				"d:=den(a);n:=num(a);if arglength(n)>-1 and part(n,0)='plus then <<" +
+				"lst:=for k:=1:arglength(n) collect part(n,k)/d;" +
+				" return part(lst,0):='ggbplus;>> >>;" +
+				"return a; end; "));
 		eval("procedure listtodisjunction(v,lst);" + "begin scalar ret;"
 				+ "ret:=part(lst,1);"
 				+ "for i:=2:length(lst) do ret:=sor(ret,part(lst,i));"
