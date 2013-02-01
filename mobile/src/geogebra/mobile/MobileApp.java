@@ -763,11 +763,4 @@ public class MobileApp extends App
 		return new MyXMLio(cons.getKernel(), cons);
 	}
 
-	@Override
-  protected void directionForWeb(String lang)
-  {
-	  // TODO Auto-generated method stub
-	  
-  }
-
 }
