@@ -8,15 +8,15 @@ import geogebra.CommandLineArguments;
 import geogebra.cas.logging.CASTestLogger;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.mpreduce.CASmpreduce;
+import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
-import geogebra.common.kernel.GeoGebraCasInterface;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 
@@ -609,7 +609,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ChiSquared_Exact_0() {
-		t("ChiSquared[4, 3]", "gamma(2, 3 / 2)");
+		t("ChiSquared[4, 3]", "gammaRegularized(2, 3 / 2)");
 	}
 
 	/* Numeric Evaluation */
@@ -975,27 +975,21 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Expand_0() {
-		t("Expand[((a + b) / c)^2]", "(a^(2) + 2 * a * b + b^(2)) / c^(2)");
+		t("Expand[((a + b) / c)^2]", "a^(2) / c^(2) + (2 * a * b) / c^(2) + b^(2) / c^(2)");
 	}
 
 	@Test
 	public void Expand_1() {
 		t("Expand[((a + b) / (c + d))^2]",
-				"(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
+				"a^(2) / (c^(2) + 2 * c * d + d^(2)) + (2 * a * b) / (c^(2) + 2 * c * d + d^(2)) + b^(2) / (c^(2) + (2 * c * d) + d^(2))");
 	}
-
-	// TODO Simplify this ridiculously complex test! 
 	
 	@Test
 	public void Expand_2() {
 		t("Expand[Factor[a x^2 + b x^2]]", "a * x^(2) + b * x^(2)");
 	}
 
-	@Test
-	public void Expand_3() {
-		t("Expand[((a + b) / (c + d))^2]",
-				"a^(2) / (c^(2) + 2 * c * d + d^(2)) + 2 * a * b / (c^(2) + 2 * c * d + d^(2)) + b^(2) / (c^(2) + 2 * c * d + d^(2))");
-	}
+	
 
 	@Test
 	public void Expand_4() {
@@ -1736,7 +1730,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Normal_0() {
-		t("Normal[2, 0.5, 1]", "sqrt(2) / (sqrt(π) * ℯ^(2))");
+		t("Normal[2, 0.5, 1]", "(-erf(2 / sqrt(2)) + 1) / 2");
 	}
 	
 
