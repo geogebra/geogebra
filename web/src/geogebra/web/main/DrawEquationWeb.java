@@ -9,7 +9,6 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
@@ -205,8 +204,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			eqstring = inputLatexCosmetics(eqstring);
 
 			String eqstringid = eqstring + "@" + geo.getID();
-			if (!((AppW)app).isFullAppGui())
-				 eqstringid += "@" + GeoGebraFrame.getInstanceCount();
 
 			SpanElement ih = equations.get(eqstringid);
 			equationAges.put(eqstringid, 0);
