@@ -1482,13 +1482,22 @@ body[dir=rtl] .undoPanel {
 	margin-right: 5px;
 }
 
-.GGBToolbar{
+.toolbarPanel{
+	line-height: 0;
+}
+
+.GGWToolbar{
 	height: 55px;
 }
 
-.GGBToolbar table{
+.GGWToolbar table{
 	margin-right: 70px;
 }
+body[dir=rtl] .GGWToolbar table{
+	margin-right: 0px;
+	margin-left: 70px;
+}
+
 
 .captionPanel td{
 	vertical-align: middle;
@@ -1572,14 +1581,6 @@ body[dir=rtl] .undoPanel {
 
 .linkDownload{
 	font: -webkit-small-control;
-}
-
-.toolbarPanel{
-	line-height: 0;
-}
-
-body[dir=rtl] .toolbarPanel div table{
-	margin-left: auto;
 }
 
 body[dir=rtl] .GeoGebraMenuBar table{

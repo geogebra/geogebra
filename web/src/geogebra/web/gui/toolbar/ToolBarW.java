@@ -48,7 +48,7 @@ public class ToolBarW extends MenuBar {
 		super();
 		setFocusOnHoverEnabled(false);
 		//this.setHeight("55px");  //toolbar's height
-		this.addStyleName("GGBToolbar");
+		this.addStyleName("GGWToolbar");
 	}
 	
 	/**
