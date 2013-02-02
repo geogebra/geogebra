@@ -66,6 +66,7 @@ import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.kernel.AnimationManagerW;
 import geogebra.web.kernel.KernelW;
 import geogebra.web.kernel.UndoManagerW;
+import geogebra.web.sound.SoundManagerW;
 import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
 import geogebra.web.util.MyDictionary;
@@ -1467,6 +1468,7 @@ public class AppW extends App {
 	DrawEquationWeb drawEquation;
 	private GuiManagerW guiManager;
 	private boolean commandChanged = true;
+	private SoundManagerW soundManager;
 
 	@Override
 	public DrawEquationInterface getDrawEquation() {
@@ -1579,9 +1581,10 @@ public class AppW extends App {
 
 	@Override
 	public SoundManager getSoundManager() {
-		App.debug("getSoundManager: implementation needed for GUI"); // TODO
-																	 // Auto-generated
-		return null;
+		if (soundManager == null) {
+			soundManager = new SoundManagerW(this);
+		}
+		return soundManager;
 	}
 
 	@Override

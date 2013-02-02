@@ -37,6 +37,7 @@ import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.FontManagerW;
+import geogebra.web.sound.SoundManagerW;
 
 import com.google.gwt.i18n.client.LocaleInfo;
 
@@ -56,6 +57,7 @@ public class MobileApp extends App
 	public static String currentFileId = null;
 	//private geogebra.common.plugin.GgbAPI ggbapi;
 	private XMLBuilder mobileXML;
+	private SoundManager soundManager;
 
 
 
@@ -467,10 +469,11 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public SoundManager getSoundManager()
-	{
-
-		return null;
+	public SoundManager getSoundManager() {
+		if (this.soundManager == null) {
+			this.soundManager = new SoundManagerW(this);
+		}
+		return this.soundManager;
 	}
 
 	@Override
