@@ -76,6 +76,9 @@ public class DataSource {
 	}
 
 	public boolean isNumericData() {
+		if(getSelectedDataVariable()== null){
+			return false;
+		}
 		return getSelectedDataVariable().getGeoClass() == GeoClass.NUMERIC;
 	}
 
@@ -100,6 +103,9 @@ public class DataSource {
 	}
 
 	public DataVariable getSelectedDataVariable() {
+		if(selectedIndex >= dataList.size()){
+			return null;
+		}
 		return dataList.get(selectedIndex);
 	}
 

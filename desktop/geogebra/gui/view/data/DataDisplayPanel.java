@@ -65,8 +65,9 @@ import javax.swing.event.ChangeListener;
 public class DataDisplayPanel extends JPanel implements ActionListener,
 		FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
+
 	// ggb fields
-	AppD app;
+	private AppD app;
 	private DataAnalysisViewD daView;
 	private StatGeo statGeo;
 
@@ -106,7 +107,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	// currently selected plot type
 	private PlotType selectedPlot;
 
-	StatPanelSettings settings;
+	private StatPanelSettings settings;
 
 	private ArrayList<GeoElement> plotGeoList;
 
@@ -172,6 +173,11 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		this.statGeo = daView.getStatGeo();
 		plotGeoList = new ArrayList<GeoElement>();
 
+		// create settings
+		settings = new StatPanelSettings();
+		settings.setDataSource(daView.getDataSource());
+
+		// create the GUI
 		createGUI();
 
 	}
@@ -202,10 +208,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	// ==============================================
 
 	private void createGUI() {
-
-		// create settings
-		settings = new StatPanelSettings();
-		settings.setDataSource(daView.getDataSource());
 
 		// create options button
 		btnOptions = new JToggleButton();

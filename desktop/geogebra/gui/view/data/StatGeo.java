@@ -83,6 +83,18 @@ public class StatGeo {
 	// Plots and Updates
 	// =================================================
 
+	// Note:
+	// All GeoElements are constructed without labels. If the
+	// removeFromConstruction flag is set to true, all AlgoElements are removed
+	// from the construction list.
+	//
+	// Whenever a GeoElement is not labeled and serves as input for some
+	// AlgoElement, then it may be removed when that AlgoElement is removed (see
+	// AlgoElement.remove()). For this reason all AlgoElements that use
+	// the dataList as input call algo.setProtectedInput(true) to prevent
+	// the problem of all GeoElements depending on the dataList from being
+	// removed when just one such geo is removed.
+
 	private void getDataBounds(GeoList dataList) {
 		getDataBounds(dataList, false, false);
 	}
@@ -201,7 +213,7 @@ public class StatGeo {
 	public GeoElement createHistogram(GeoList dataList,
 			StatPanelSettings settings, boolean isFrequencyPolygon) {
 
-		AlgoElement al = null, al2 = null;
+		AlgoElement al = null, algoHistogram = null;
 		histogramRight = !settings.isLeftRule;
 		GeoElement geo;
 
@@ -250,7 +262,7 @@ public class StatGeo {
 
 		if (settings.groupType() == GroupType.RAWDATA) {
 			// histogram constructed from data values
-			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
+			algoHistogram = new AlgoHistogram(cons, new GeoBoolean(cons,
 					settings.isCumulative), (GeoList) al.getGeoElements()[0],
 					dataList, null, new GeoBoolean(cons, true), new GeoNumeric(
 							cons, density), histogramRight);
@@ -258,7 +270,7 @@ public class StatGeo {
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 
 			// histogram constructed from frequencies
-			al2 = new AlgoHistogram(cons, new GeoBoolean(cons,
+			algoHistogram = new AlgoHistogram(cons, new GeoBoolean(cons,
 					settings.isCumulative), (GeoList) al.getGeoElements()[0],
 					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
 					new GeoBoolean(cons, true), new GeoNumeric(cons, density),
@@ -267,29 +279,30 @@ public class StatGeo {
 		} else if (settings.groupType() == GroupType.CLASS) {
 
 			// histogram constructed from classes and frequencies
-			al2 = new AlgoHistogram(cons, (GeoList) dataList.get(0),
+			algoHistogram = new AlgoHistogram(cons, (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1), histogramRight);
 		}
 
 		if (isFrequencyPolygon) {
-			AlgoPolyLine al3 = createFrequencyPolygon((AlgoHistogram) al2,
-					settings.isCumulative);
+			AlgoPolyLine al3 = createFrequencyPolygon(
+					(AlgoHistogram) algoHistogram, settings.isCumulative);
 			geo = al3.getGeoElements()[0];
 			geo.setObjColor(new geogebra.awt.GColorD(
 					DataAnalysisViewD.OVERLAY_COLOR));
 			geo.setLineThickness(DataAnalysisViewD.thicknessCurve);
-			removeFromConstructionList(al2);
+			removeFromConstructionList(algoHistogram);
 			removeFromConstructionList(al3);
 
 		} else {
-			geo = al2.getGeoElements()[0];
+			geo = algoHistogram.getGeoElements()[0];
 			geo.setObjColor(new geogebra.awt.GColorD(
 					DataAnalysisViewD.HISTOGRAM_COLOR));
 			geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 			geo.setLineThickness(DataAnalysisViewD.thicknessBarChart);
-			removeFromConstructionList(al2);
+			removeFromConstructionList(algoHistogram);
 		}
 
+		algoHistogram.setProtectedInput(true);
 		return geo;
 	}
 
@@ -422,25 +435,27 @@ public class StatGeo {
 			StatPanelSettings settings) {
 
 		GeoElement geo = null;
-		AlgoBarChart barChart = null;
+		AlgoBarChart algoBarChart = null;
 
 		if (settings.isAutomaticBarWidth) {
 			settings.barWidth = 0.5;
 		}
 
 		if (settings.groupType() == GroupType.RAWDATA) {
-			barChart = new AlgoBarChart(cons, dataList, new GeoNumeric(cons,
-					settings.barWidth));
+			algoBarChart = new AlgoBarChart(cons, dataList, new GeoNumeric(
+					cons, settings.barWidth));
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
-			barChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
+			algoBarChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1), new GeoNumeric(cons,
 							settings.barWidth));
 		}
-		removeFromConstructionList(barChart);
-		geo = barChart.getGeoElements()[0];
+		removeFromConstructionList(algoBarChart);
+		geo = algoBarChart.getGeoElements()[0];
 		geo.setObjColor(new geogebra.awt.GColorD(
 				DataAnalysisViewD.BARCHART_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
+
+		algoBarChart.setProtectedInput(true);
 		return geo;
 	}
 
@@ -455,7 +470,7 @@ public class StatGeo {
 			StatPanelSettings settings) {
 
 		GeoElement geo = null;
-		AlgoBarChart barChart = null;
+		AlgoBarChart algoBarChart = null;
 
 		if (settings.groupType() == GroupType.RAWDATA) {
 
@@ -465,10 +480,10 @@ public class StatGeo {
 				settings.barWidth = getPreferredBarWidth(algo.getResult());
 			}
 
-			barChart = new AlgoBarChart(cons, dataList, new GeoNumeric(cons,
-					settings.barWidth));
-			removeFromConstructionList(barChart);
-			geo = barChart.getGeoElements()[0];
+			algoBarChart = new AlgoBarChart(cons, dataList, new GeoNumeric(
+					cons, settings.barWidth));
+			removeFromConstructionList(algoBarChart);
+			geo = algoBarChart.getGeoElements()[0];
 
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 
@@ -477,16 +492,18 @@ public class StatGeo {
 						.get(0));
 			}
 
-			AlgoBarChart barChartAlgo = new AlgoBarChart(cons,
-					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
-					new GeoNumeric(cons, settings.barWidth));
-			removeFromConstructionList(barChartAlgo);
-			geo = barChartAlgo.getGeoElements()[0];
+			algoBarChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
+					(GeoList) dataList.get(1), new GeoNumeric(cons,
+							settings.barWidth));
+			removeFromConstructionList(algoBarChart);
+			geo = algoBarChart.getGeoElements()[0];
 		}
 
 		geo.setObjColor(new geogebra.awt.GColorD(
 				DataAnalysisViewD.BARCHART_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
+
+		algoBarChart.setProtectedInput(true);
 		return geo;
 	}
 
@@ -558,8 +575,7 @@ public class StatGeo {
 		yMaxData = freqMax;
 		setXYBounds(settings, .2, .1);
 
-		if (settings.isAutomaticWindow
-				&& !settings.isNumericData()) {
+		if (settings.isAutomaticWindow && !settings.isNumericData()) {
 			settings.xAxesIntervalAuto = false;
 			settings.xAxesInterval = 1;
 		}
@@ -578,26 +594,29 @@ public class StatGeo {
 	public GeoElement createBoxPlot(GeoList dataList, StatPanelSettings settings) {
 
 		GeoElement geo = null;
+		AlgoBoxPlot algoBoxPlot = null;
 
 		if (settings.groupType() == GroupType.RAWDATA) {
-			AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons,
-					new MyDouble(kernel, 1d), new MyDouble(kernel, 0.5),
-					dataList, new GeoBoolean(cons, settings.showOutliers));
-			removeFromConstructionList(boxPlot);
-			geo = boxPlot.getGeoElements()[0];
+			algoBoxPlot = new AlgoBoxPlot(cons, new MyDouble(kernel, 1d),
+					new MyDouble(kernel, 0.5), dataList, new GeoBoolean(cons,
+							settings.showOutliers));
+			removeFromConstructionList(algoBoxPlot);
+			geo = algoBoxPlot.getGeoElements()[0];
 
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
-			AlgoBoxPlot boxPlot = new AlgoBoxPlot(cons,
-					new MyDouble(kernel, 1d), new MyDouble(kernel, 0.5),
-					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
-					new GeoBoolean(cons, settings.showOutliers));
-			removeFromConstructionList(boxPlot);
-			geo = boxPlot.getGeoElements()[0];
+			algoBoxPlot = new AlgoBoxPlot(cons, new MyDouble(kernel, 1d),
+					new MyDouble(kernel, 0.5), (GeoList) dataList.get(0),
+					(GeoList) dataList.get(1), new GeoBoolean(cons,
+							settings.showOutliers));
+			removeFromConstructionList(algoBoxPlot);
+			geo = algoBoxPlot.getGeoElements()[0];
 		}
 
 		geo.setObjColor(new geogebra.awt.GColorD(
 				DataAnalysisViewD.BOXPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
+
+		algoBoxPlot.setProtectedInput(true);
 		return geo;
 	}
 
@@ -688,14 +707,15 @@ public class StatGeo {
 		// String text = "DotPlot[" + label + "]";
 		// geo = createGeoFromString(text);
 
-		AlgoDotPlot dp = new AlgoDotPlot(cons, dataList);
-		removeFromConstructionList(dp);
-		GeoElement geo = dp.getGeoElements()[0];
+		AlgoDotPlot algoDotPlot = new AlgoDotPlot(cons, dataList);
+		removeFromConstructionList(algoDotPlot);
+		GeoElement geo = algoDotPlot.getGeoElements()[0];
 
 		geo.setObjColor(new geogebra.awt.GColorD(
 				DataAnalysisViewD.DOTPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 
+		algoDotPlot.setProtectedInput(true);
 		return geo;
 	}
 
@@ -736,14 +756,16 @@ public class StatGeo {
 		// String text = "NormalQuantilePlot[" + label + "]";
 		// geo = createGeoFromString(text);
 
-		AlgoNormalQuantilePlot qp = new AlgoNormalQuantilePlot(cons, dataList);
-		removeFromConstructionList(qp);
-		GeoElement geo = qp.getGeoElements()[0];
+		AlgoNormalQuantilePlot algoNormalQPlot = new AlgoNormalQuantilePlot(
+				cons, dataList);
+		removeFromConstructionList(algoNormalQPlot);
+		GeoElement geo = algoNormalQPlot.getGeoElements()[0];
 
 		geo.setObjColor(new geogebra.awt.GColorD(DataAnalysisViewD.NQPLOT_COLOR));
 		geo.setAlphaValue(DataAnalysisViewD.opacityBarChart);
 		geo.setLineThickness(DataAnalysisViewD.thicknessCurve);
 
+		algoNormalQPlot.setProtectedInput(true);
 		return geo;
 	}
 
@@ -993,10 +1015,11 @@ public class StatGeo {
 		// String text = "StemPlot[" + label + "," + adjustment + "]";
 		// tempGeo = createGeoFromString(text);
 
-		AlgoStemPlot sp = new AlgoStemPlot(cons, dataList, new GeoNumeric(cons,
-				adjustment));
-		GeoElement tempGeo = sp.getGeoElements()[0];
-		removeFromConstructionList(sp);
+		AlgoStemPlot algoStemPlot = new AlgoStemPlot(cons, dataList,
+				new GeoNumeric(cons, adjustment));
+		GeoElement tempGeo = algoStemPlot.getGeoElements()[0];
+		removeFromConstructionList(algoStemPlot);
+		algoStemPlot.setProtectedInput(true);
 
 		String latex = tempGeo.getLaTeXdescription();
 		tempGeo.remove();

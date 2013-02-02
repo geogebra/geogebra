@@ -96,8 +96,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	private boolean isAreaSum = true;
 
 	// helper algos
-	AlgoUnique algoUnique;
-	AlgoFrequency algoFreq;
+	private AlgoUnique algoUnique;
+	private AlgoFrequency algoFreq;
 
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
@@ -1099,7 +1099,10 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	@Override
 	public void remove() {
 		super.remove();
-
+		if(protectedInput){
+			return;
+		}
+		
 		if (algoFreq != null) {
 			algoFreq.remove();
 		}
