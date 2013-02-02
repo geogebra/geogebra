@@ -1431,6 +1431,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		setWaitForUpdate();
 	}
 	
+	/**
+	 *  toggle show/hide clipping
+	 */
+	public void toggleShowClippingCube(){
+		setShowClippingCube(!showClippingCube);
+	}
 	
 	
 	/**

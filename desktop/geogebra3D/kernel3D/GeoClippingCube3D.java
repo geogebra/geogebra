@@ -77,9 +77,11 @@ public class GeoClippingCube3D extends GeoElement3D {
 	
 
 	//cube reduction
-	static public int REDUCTION_SMALL = 0;
-	static public int REDUCTION_MEDIUM = 1;
-	static public int REDUCTION_LARGE = 2;
+	final static public int REDUCTION_SMALL = 0;
+	final static public int REDUCTION_MEDIUM = 1;
+	final static public int REDUCTION_LARGE = 2;
+	final static public int REDUCTION_MIN = 0;
+	final static public int REDUCTION_MAX = 2;
 	
 	
 	private int reduction = REDUCTION_MEDIUM;
