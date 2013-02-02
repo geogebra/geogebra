@@ -1883,7 +1883,7 @@ __GGB__keysVar.hi.menu = {
     "UseHeaderRow": "\u0939\u0947\u0921\u0930 \u092a\u0902\u0915\u094d\u0924\u093f \u0915\u093e \u092a\u094d\u0930\u092f\u094b\u0917 \u0915\u0930\u0947\u0902",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
-    "UserInterface": "\u092f\u0942\u091c\u093c\u0930 \u0907\u0902\u091f\u0930\u092b\u093c\u0947\u0938",
+    "UserInterface": "\u0909\u092a\u092f\u094b\u0917\u0915\u0930\u094d\u0924\u093e \u0907\u0902\u091f\u0930\u092b\u093c\u0947\u0938",
     "Value": "\u092e\u093e\u0928",
     "Values": "\u092e\u093e\u0928",
     "ValuesAndFrequency": "Values and Frequency",

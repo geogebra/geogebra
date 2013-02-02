@@ -524,7 +524,7 @@ __GGB__keysVar.ca.command = {
     "NIntegral_SyntaxCAS": "[ <Funci\xf3>, <Valor x inicial>, <Valor x final> ]\n[ <Funci\xf3>, <Variable>, <Valor inicial de la variable>, <Valor final de la variable> ]",
     "NSolutions": "SolucionsN",
     "NSolutions_SyntaxCAS": "[ <Equaci\xf3> ]",
-    "NSolve": "ResolN",
+    "NSolve": "ResolNum",
     "NSolve_SyntaxCAS": "[ <Equaci\xf3> ]",
     "Name": "Nom",
     "Name_Syntax": "[ <Objecte> ]",
