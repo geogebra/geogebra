@@ -1434,8 +1434,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 *  toggle show/hide clipping
 	 */
-	public void toggleShowClippingCube(){
-		setShowClippingCube(!showClippingCube);
+	public void toggleShowAndUseClippingCube(){
+		boolean flag = showClippingCube || useClippingCube;
+		setShowClippingCube(!flag);
+		setUseClippingCube(!flag);
 	}
 	
 	

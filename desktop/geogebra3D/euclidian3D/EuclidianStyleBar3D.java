@@ -101,7 +101,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			if (btnClipping.getMySlider().isShowing()){
 				((EuclidianView3D) ev).setClippingReduction(btnClipping.getSliderValue());
 			}else{
-				((EuclidianView3D) ev).toggleShowClippingCube();
+				((EuclidianView3D) ev).toggleShowAndUseClippingCube();
 			}
 		}else if (source.equals(btnViewDefault)) {
 			((EuclidianView3D) ev).setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
