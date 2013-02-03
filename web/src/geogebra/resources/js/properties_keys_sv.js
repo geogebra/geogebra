@@ -2398,7 +2398,7 @@ __GGB__keysVar.sv.plain = {
     "Preferences": "Inst\xe4llningar",
     "PreferencesOfA": "Inst\xe4llningar - %0",
     "PreviewUnavailable": "F\xf6rhandsgranskning ej tillg\xe4nglig",
-    "ProbabilityCalculator": "Sannolikhetsr\xe4knare",
+    "ProbabilityCalculator": "Sannolikhetskalkylator",
     "Properties": "Egenskaper",
     "PropertiesOfA": "Egenskaper f\xf6r %0",
     "Quadrangle": "Kvadrat eller rektangel",
