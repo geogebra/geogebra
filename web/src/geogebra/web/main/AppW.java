@@ -2020,10 +2020,22 @@ public class AppW extends App {
 		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
 	}
 
+	public void attachNativeLoadHandler(ImageElement img) {
+		addNativeLoadHandler(img, getGuiManager().getActiveEuclidianView());
+	}
+
+	private native void addNativeLoadHandler(ImageElement img, EuclidianView view) /*-{
+		img.addEventListener("load",function() {
+			view.@geogebra.web.euclidian.EuclidianViewW::updateBackground()();
+		});
+	}-*/;
+	
 	public ImageElement getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResources.INSTANCE
+		ImageElement imgE = imageManager.getInternalImage(GuiResources.INSTANCE
 		        .viewRefresh());
+		attachNativeLoadHandler(imgE);
+		return imgE;
 	}
 
 	public ImageElement getPlayImage() {
