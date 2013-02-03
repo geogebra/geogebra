@@ -15,6 +15,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -80,10 +81,11 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	GeoText getResult() {
         return text;
     }
+    
+	private final StringTemplate tpl = StringTemplate.printDecimals(StringType.GEOGEBRA, 15, false);
 
     @Override
 	public final void compute() {
-    	StringTemplate tpl = StringTemplate.maxPrecision;
 		if (input[0].isDefined()) {
 			
 			sbp.setLength(0);
