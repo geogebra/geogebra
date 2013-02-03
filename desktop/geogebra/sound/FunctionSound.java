@@ -1,6 +1,7 @@
 package geogebra.sound;
 
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import javax.sound.sampled.AudioFormat;
@@ -270,7 +271,16 @@ public final class FunctionSound implements LineListener {
 				if(value > 1.0) value = 1.0;
 				if(value < -1.0) value = -1.0;
 				
-				buf[k]=(byte)(value*maxVolume);	
+				value = value * maxVolume;
+				
+				// make sure rounding works when truncated to short/byte
+				if (value > 0) {
+					value += 0.5;
+				} else if (value < 0) {
+					value -= 0.5;
+				}
+
+				buf[k]=(byte)(value);	
 			}
 		}
 
@@ -283,13 +293,28 @@ public final class FunctionSound implements LineListener {
 		 */
 		private void loadBuffer16(double t){
 			double value;
-			for(int k = 0; k < buf.length/2; k++){				
+			//App.debug((byte)(-10.7));
+			//System.out.print("\nstart: ");
+			for(int k = 0; k < buf.length/2; k++){		
+				if (k<5 || k > buf.length/2 - 6) {
+					App.debug(k+" "+(t + 1.0*k*samplePeriod));
+				}
 				value = f.evaluate(t + 1.0*k*samplePeriod);
+				//System.out.print(value+",");
 				// clip sound data
 				if(value > 1.0) value = 1.0;
 				if(value < -1.0) value = -1.0;
 				
-				short sample = (short) (value*maxVolume);					 
+				value = value * maxVolume;
+				
+				// make sure rounding works when truncated to short/byte
+				if (value > 0) {
+					value += 0.5;
+				} else if (value < 0) {
+					value -= 0.5;
+				}
+				
+				short sample = (short) (value);					 
 				buf[2*k] = (byte)(sample & 0xff);
 				buf[2*k+1] = (byte)((sample >> 8) & 0xff);
 			}

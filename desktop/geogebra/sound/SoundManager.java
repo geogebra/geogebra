@@ -102,7 +102,7 @@ public class SoundManager implements geogebra.common.sound.SoundManager{
 	 * Plays an audio file with the .mid extension using the midi sequencer.
 	 * @param fileName
 	 */
-	public void playMidiFile(String fileName){
+	public void playFile(String fileName){
 		try {
 			stopCurrentSound();
 			currentSoundType = SOUNDTYPE_MIDI;

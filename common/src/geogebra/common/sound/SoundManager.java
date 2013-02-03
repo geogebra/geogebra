@@ -12,7 +12,10 @@ public interface SoundManager {
 
 	void playFunction(GeoFunction geoFunction, double double1, double double2);
 
-	void playMidiFile(String string);
+	/**
+	 * @param string file to play. Desktop currently just supports .mid, Wed supports .mp3
+	 */
+	void playFile(String string);
 
 	void playFunction(GeoFunction geoFunction, double double1, double double2,
 			int double3, int double4);

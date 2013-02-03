@@ -41,7 +41,7 @@ public class CmdPlaySound extends CmdScripting {
 
 			// play a midi file
 			if (arg[0].isGeoText()) {
-				sm.playMidiFile(( ((GeoText) arg[0]).toValueString(StringTemplate.defaultTemplate)));
+				sm.playFile(( ((GeoText) arg[0]).toValueString(StringTemplate.defaultTemplate)));
 				return;
 			}
 			// pause/resume current sound
