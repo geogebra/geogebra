@@ -1271,13 +1271,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				|| (axesNumberingDistances[axis] > 10E6)) {
 			// df.applyPattern("0.##E0");
 			maxFractionDigtis = Math.min(14, maxFractionDigtis);
-			axesNumberFormat[axis] = axesNumberFormat[0] = FormatFactory.prototype
+			axesNumberFormat[axis] = FormatFactory.prototype
 					.getNumberFormat("0.##E0", maxFractionDigtis);
 			// avoid 4.00000000000004E-11 due to rounding error when
 			// computing
 			// tick mark numbers
 		} else {
-			axesNumberFormat[axis] = axesNumberFormat[0] = FormatFactory.prototype
+			axesNumberFormat[axis] = FormatFactory.prototype
 					.getNumberFormat("###0.##", maxFractionDigtis);
 		}
 
@@ -3395,7 +3395,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			
 			String crossAtStr = ""
 					+ kernel.formatPiE(axisCross[0],
-							axesNumberFormat[0],
+							axesNumberFormat[1],
 							StringTemplate.defaultTemplate);
 
 			for (; pix >= maxY; rw += axesNumberingDistances[1], pix -= axesStep, labelno++) {
