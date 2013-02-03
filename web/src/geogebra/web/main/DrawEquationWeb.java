@@ -28,23 +28,24 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 
 public class DrawEquationWeb implements DrawEquationInterface {
-	
-	private static boolean scriptloaded = false;
+
+	static boolean scriptloaded = false;
 
 	private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
 	private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
 	private boolean needToDrawEquation = false;
 	private App app;
-	
+
 	public DrawEquationWeb(App app) {
-		//export module base url;
+		// export module base url;
 		exportGetModuleBaseUrl();
 		this.app = app;
-		//Load script first
-		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL()+GeoGebraConstants.MATHML_URL);
+		// Load script first
+		DynamicScriptElement script = (DynamicScriptElement) Document.get()
+		        .createScriptElement();
+		script.setSrc(GWT.getModuleBaseURL() + GeoGebraConstants.MATHML_URL);
 		script.addLoadHandler(new ScriptLoadCallback() {
-			
+
 			public void onLoad() {
 				scriptloaded = true;
 				cvmBoxInit(GWT.getModuleBaseURL());
@@ -55,31 +56,32 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	}
 
 	private native void exportGetModuleBaseUrl() /*-{
-	   if (!$wnd.ggw) {
-	   		$wnd.ggw = {};
-	   }
-	   $wnd.ggw.getGWTModuleBaseURL = $entry(@com.google.gwt.core.client.GWT::getModuleBaseURL());
-    }-*/;
+		if (!$wnd.ggw) {
+			$wnd.ggw = {};
+		}
+		$wnd.ggw.getGWTModuleBaseURL = $entry(@com.google.gwt.core.client.GWT::getModuleBaseURL());
+	}-*/;
 
 	protected void checkIfNeedToDraw() {
-	  if (needToDrawEquation) {
-		  app.getEuclidianView1().repaintView();
-	  }
-    }
+		if (needToDrawEquation) {
+			app.getEuclidianView1().repaintView();
+		}
+	}
 
 	protected native void cvmBoxInit(String moduleBaseURL) /*-{
-	    $wnd.cvm.box.init(moduleBaseURL);
-    }-*/;
+		$wnd.cvm.box.init(moduleBaseURL);
+	}-*/;
 
 	public void setUseJavaFontsForLaTeX(App app, boolean b) {
-	    // not relevant for web
-    }
+		// not relevant for web
+	}
 
 	public static String inputLatexCosmetics(String eqstringin) {
 
 		String eqstring = eqstringin;
 
-		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
+		// make sure eg FractionText[] works (surrounds with {} which doesn't
+		// draw well in MathQuill)
 		if (eqstring.length() >= 2)
 			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
 				eqstring = eqstring.substring(1, eqstring.length() - 1);
@@ -87,24 +89,27 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 		// remove $s
 		eqstring = eqstring.trim();
-		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
-		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+		while (eqstring.startsWith("$"))
+			eqstring = eqstring.substring(1).trim();
+		while (eqstring.endsWith("$"))
+			eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
 		// remove all \; and \,
-		eqstring = eqstring.replace("\\;","");
-		eqstring = eqstring.replace("\\,","");
+		eqstring = eqstring.replace("\\;", "");
+		eqstring = eqstring.replace("\\,", "");
 
 		eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
 		eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
 
 		// this might remove necessary space
-		//eqstring = eqstring.replace(" ", "");
+		// eqstring = eqstring.replace(" ", "");
 
 		// this does not work
-		//eqstring = eqstring.replace("\\sqrt[ \\t]+\\[", "\\sqrt[");
+		// eqstring = eqstring.replace("\\sqrt[ \\t]+\\[", "\\sqrt[");
 
 		// that's why this programmatically slower solution:
-		while ((eqstring.indexOf("\\sqrt ") != -1) || (eqstring.indexOf("\\sqrt\t") != -1)) {
+		while ((eqstring.indexOf("\\sqrt ") != -1)
+		        || (eqstring.indexOf("\\sqrt\t") != -1)) {
 			eqstring = eqstring.replace("\\sqrt ", "\\sqrt");
 			eqstring = eqstring.replace("\\sqrt\t", "\\sqrt");
 		}
@@ -113,12 +118,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		int index1 = 0, index2 = 0;
 		while ((index1 = eqstring.indexOf("\\sqrt[")) != -1) {
 			index2 = eqstring.indexOf("]", index1);
-			eqstring =
-				eqstring.substring(0,index1) +
-				"\\nthroot{" +
-				eqstring.substring(index1+6, index2) +
-				"}" +
-				eqstring.substring(index2+1);
+			eqstring = eqstring.substring(0, index1) + "\\nthroot{"
+			        + eqstring.substring(index1 + 6, index2) + "}"
+			        + eqstring.substring(index2 + 1);
 		}
 		return eqstring;
 	}
@@ -126,12 +128,13 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	/**
 	 * This should make all the LaTeXes temporarily disappear
 	 * 
-	 * @param ev: latexes of only this EuclidianView - TODO: implement
+	 * @param ev
+	 *            latexes of only this EuclidianView - TODO: implement
 	 */
 	public void clearLaTeXes(EuclidianViewW ev) {
 		Iterator<String> eei = equations.keySet().iterator();
 		ArrayList<String> eeii = new ArrayList<String>();
-		while(eei.hasNext()) {
+		while (eei.hasNext()) {
 			String eein = eei.next();
 			Integer age = equationAges.get(eein);
 			if (age == null)
@@ -153,13 +156,15 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	}
 
 	/**
-	 * Does not only clear the latexes, but also deletes them (on special occasions)
+	 * Does not only clear the latexes, but also deletes them (on special
+	 * occasions)
 	 * 
-	 * @param ev: latexes of only this EuclidianView - TODO: implement
+	 * @param ev
+	 *            latexes of only this EuclidianView - TODO: implement
 	 */
 	public void deleteLaTeXes(EuclidianViewW ev) {
 		Iterator<SpanElement> eei = equations.values().iterator();
-		while(eei.hasNext()) {
+		while (eei.hasNext()) {
 			Element toclear = eei.next();
 			Element tcparent = toclear.getParentElement();
 			tcparent.removeChild(toclear);
@@ -171,110 +176,118 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	/**
 	 * Draws an equation on the algebra view in display mode (not editing)
 	 * 
-	 * @param parentElement: adds the equation as the child of this element
-	 * @param eqstring: the equation in LaTeX
-	 * @param fgColor: foreground color
-	 * @param bgColor: background color
+	 * @param parentElement
+	 *            adds the equation as the child of this element
+	 * @param eqstring
+	 *            the equation in LaTeX
+	 * @param fgColor
+	 *            foreground color
+	 * @param bgColor
+	 *            background color
 	 */
-	public static void drawEquationAlgebraView(Element parentElement, String eqstring, GColor fgColor, GColor bgColor) {
+	public static void drawEquationAlgebraView(Element parentElement,
+	        String eqstring, GColor fgColor, GColor bgColor) {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
 		// logging takes too much time
-		//App.debug("Algebra View: "+eqstring);
+		// App.debug("Algebra View: "+eqstring);
 
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
 
-		drawEquationMathQuill(ih, eqstring, parentElement,true);
+		drawEquationMathQuill(ih, eqstring, parentElement, true);
 
-		//ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
+		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 		ih.getStyle().setColor(GColor.getColorString(fgColor));
 	}
 
-	public GDimension drawEquation(App app, GeoElement geo,
-            GGraphics2D g2, int x, int y, String eqstring, GFont font, boolean serif,
-            GColor fgColor, GColor bgColor, boolean useCache) {
+	public GDimension drawEquation(App app, GeoElement geo, GGraphics2D g2,
+	        int x, int y, String eqstring, GFont font, boolean serif,
+	        GColor fgColor, GColor bgColor, boolean useCache) {
 
+		// the new way to draw an Equation (latex)
+		// no scriptloaded check yet (is it necessary?)
+		// no EuclidianView 1,2 yet
 
-		 // the new way to draw an Equation (latex)
-			// no scriptloaded check yet (is it necessary?)
-			// no EuclidianView 1,2 yet
+		eqstring = inputLatexCosmetics(eqstring);
 
-			eqstring = inputLatexCosmetics(eqstring);
+		String eqstringid = eqstring + "@" + geo.getID();
 
-			String eqstringid = eqstring + "@" + geo.getID();
+		SpanElement ih = equations.get(eqstringid);
+		equationAges.put(eqstringid, 0);
+		if (ih == null) {
+			ih = DOM.createSpan().cast();
+			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
+			drawEquationMathQuill(ih, eqstring, ((AppW) app).getCanvas()
+			        .getCanvasElement().getParentElement(), true);
+			equations.put(eqstringid, ih);
 
-			SpanElement ih = equations.get(eqstringid);
-			equationAges.put(eqstringid, 0);
-			if (ih == null) {
-				ih = DOM.createSpan().cast();
-				ih.getStyle().setPosition(Style.Position.ABSOLUTE);
-				drawEquationMathQuill(ih, eqstring,
-					((AppW)app).getCanvas().getCanvasElement().getParentElement(),true);
-				equations.put(eqstringid, ih);
+			// set a flag that the kernel needs a new update
+			app.getKernel().setUpdateAgain(true);
+		} else {
+			ih.getStyle().setDisplay(Style.Display.INLINE);
+		}
+		ih.getStyle().setLeft(x, Style.Unit.PX);
+		ih.getStyle().setTop(y, Style.Unit.PX);
+		ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+		ih.getStyle().setColor(GColor.getColorString(fgColor));
+		return new geogebra.web.awt.GDimensionW(ih.getOffsetWidth(),
+		        ih.getOffsetHeight());
 
-				// set a flag that the kernel needs a new update
-				app.getKernel().setUpdateAgain(true);
-			} else {
-				ih.getStyle().setDisplay(Style.Display.INLINE);
-			}
-			ih.getStyle().setLeft(x, Style.Unit.PX);
-			ih.getStyle().setTop(y, Style.Unit.PX);
-			ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
-			ih.getStyle().setColor(GColor.getColorString(fgColor));
-			return new geogebra.web.awt.GDimensionW(ih.getOffsetWidth(), ih.getOffsetHeight());
-		
-    }
+	}
 
-	public static native JsArrayInteger drawEquation(Context2d ctx, String mathmlStr, int x, int y) /*-{
+	public static native JsArrayInteger drawEquation(Context2d ctx,
+	        String mathmlStr, int x, int y) /*-{
 		var script_loaded = @geogebra.web.main.DrawEquationWeb::scriptloaded;
 		if (script_loaded) {
 			var layout = $wnd.cvm.layout;
 			var mathMLParser = $wnd.cvm.mathml.parser;
-	
+
 			// Steal the XML parser from the browser :)
 			var domParser = new $wnd.DOMParser();
-			
+
 			// Define some helper functions
-			var mathML2Expr = function (text) {
-			    var mathml = domParser.parseFromString(text, "text/xml").firstChild;
-			    return mathMLParser.parse(mathml);
+			var mathML2Expr = function(text) {
+				var mathml = domParser.parseFromString(text, "text/xml").firstChild;
+				return mathMLParser.parse(mathml);
 			};
-			
-			var getBox = function (e) {
-			    return layout.ofExpr(e).box();
+
+			var getBox = function(e) {
+				return layout.ofExpr(e).box();
 			};
-			
+
 			// The mathML text of the expression to be displayed
 			//var text = "<apply><root/><apply><divide/><cn>1</cn><apply><plus/><ci>x</ci><cn>1</cn></apply></apply></apply>";
-			
+
 			// How to display it
 			var expression = mathML2Expr(mathmlStr);
-			
-			
+
 			var box = getBox(expression);
-			
+
 			var height = box.ascent - box.descent;
-			
+
 			box.drawOnCanvas(ctx, x, y + box.ascent);
-			
-			var ret = [$wnd.parseInt(box.width,10), $wnd.parseInt(height,10)];
-			
+
+			var ret = [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ];
+
 			return ret;
 		} else {
-			return [50,50];
+			return [ 50, 50 ];
 		}
 	}-*/;
 
 	/**
-	 * The JavaScript/JQuery bit of drawing an equation with MathQuill
-	 * More could go into GWT, but it was easier with JSNI
+	 * The JavaScript/JQuery bit of drawing an equation with MathQuill More
+	 * could go into GWT, but it was easier with JSNI
 	 * 
-	 * @param canv: the canvas element to draw over to
-	 * @param el: the element which should be drawn  
+	 * @param canv
+	 *            the canvas element to draw over to
+	 * @param el
+	 *            the element which should be drawn
 	 */
-	public static native void drawEquationMathQuill(Element el, String htmlt, Element parentElement,boolean addOverlay) /*-{
+	public static native void drawEquationMathQuill(Element el, String htmlt,
+	        Element parentElement, boolean addOverlay) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -300,7 +313,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				event.preventDefault();
 			return false;
 		}
-		if(addOverlay){
+		if (addOverlay) {
 			var elfirst = $doc.createElement("div");
 			elfirst.style.position = "absolute";
 			elfirst.style.zIndex = 2;
@@ -325,55 +338,65 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	/**
 	 * Edits a MathQuill equation which was created by drawEquationMathQuill
 	 * 
-	 * @param rbti: the tree item for callback
-	 * @param parentElement: the same element as in drawEquationMathQuill
+	 * @param rbti
+	 *            the tree item for callback
+	 * @param parentElement
+	 *            the same element as in drawEquationMathQuill
 	 */
-	public static native void editEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{
+	public static native void editEquationMathQuill(RadioButtonTreeItem rbti,
+	        Element parentElement) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
-		
+
 		elfirst.style.display = 'none';
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable').focus();
 
-		$wnd.jQuery(elsecond).keyup(function(event) {
-			var code = 13;
-			if (event.keyCode) {
-				code = event.keyCode;
-			} else if (event.which) {
-				code = event.which;
-			}
-			if (code == 13) {
-				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-			} else if (code == 27) {
-				@geogebra.web.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-			}
-			event.stopPropagation();
-			event.preventDefault();
-			return false;
-		});
+		$wnd
+				.jQuery(elsecond)
+				.keyup(
+						function(event) {
+							var code = 13;
+							if (event.keyCode) {
+								code = event.keyCode;
+							} else if (event.which) {
+								code = event.which;
+							}
+							if (code == 13) {
+								@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+							} else if (code == 27) {
+								@geogebra.web.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+							}
+							event.stopPropagation();
+							event.preventDefault();
+							return false;
+						});
 
 		// hacking to deselect the editing when the user does something else like in Desktop
 		var mousein = {};
 		mousein.mout = false;
-		$wnd.jQuery(elsecond).focusout(function(event) {
-			if (mousein.mout) {
-				@geogebra.web.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-			}
-			event.stopPropagation();
-			event.preventDefault();
-			return false;
-		}).mouseenter(function(event2) {
-			mousein.mout = false;
-		}).mouseleave(function(event3) {
-			mousein.mout = true;
-			$(this).focus();
-		});
+		$wnd
+				.jQuery(elsecond)
+				.focusout(
+						function(event) {
+							if (mousein.mout) {
+								@geogebra.web.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+							}
+							event.stopPropagation();
+							event.preventDefault();
+							return false;
+						}).mouseenter(function(event2) {
+					mousein.mout = false;
+				}).mouseleave(function(event3) {
+					mousein.mout = true;
+					$(this).focus();
+				});
 	}-*/;
 
-	public static native void escEditingEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{
+	public static native void escEditingEquationMathQuill(
+	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		var thisjq = $wnd.jQuery(elsecond);
@@ -383,7 +406,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		thisjq.mathquill('revert').mathquill();
 	}-*/;
 
-	public static native void endEditingEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{
+	public static native void endEditingEquationMathQuill(
+	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		var thisjq = $wnd.jQuery(elsecond);
@@ -393,15 +417,19 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		thisjq.mathquill('revert').mathquill();
 	}-*/;
 
-	public static void endEditingEquationMathQuill(RadioButtonTreeItem rbti, String latex) {
+	public static void endEditingEquationMathQuill(RadioButtonTreeItem rbti,
+	        String latex) {
 		rbti.stopEditing(latex);
 	}
 
 	/**
 	 * Updates a MathQuill equation which was created by drawEquationMathQuill
-	 * @param parentElement: the same element as in drawEquationMathQuill
+	 * 
+	 * @param parentElement
+	 *            the same element as in drawEquationMathQuill
 	 */
-	public static native void updateEquationMathQuill(String htmlt, Element parentElement) /*-{
+	public static native void updateEquationMathQuill(String htmlt,
+	        Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
