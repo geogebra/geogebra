@@ -1944,7 +1944,7 @@ __GGB__keysVar.hu.plain = {
     "AIntersectsWithB": "%0 metszi %1-t",
     "AMirroredAtB": "%0 %1-ra/-re vonatkoz\xf3 t\xfck\xf6rk\xe9pe",
     "ARotatedByAngleB": "%0 %1 sz\xf6ggel elforgatva",
-    "ARotatedByAngleBAboutC": "%0 rotated by angle %1 about %2",
+    "ARotatedByAngleBAboutC": "%0 %1 sz\xf6ggel elforgatva %2 k\xf6r\xfcl",
     "ARotatedByAngleBAboutCThroughD": "%0 rotated by angle %1 about an axis parallel to %2 passing through %3",
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "\xc9rt\xe9kes jegyek sz\xe1ma %0",

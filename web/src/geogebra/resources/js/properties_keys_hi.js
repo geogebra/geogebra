@@ -136,7 +136,7 @@ __GGB__keysVar.hi.command = {
     "Checkbox_Syntax": "[ ]\n[ <\u0936\u0940\u0930\u094d\u0937\u0915> ]\n[ <\u0938\u0942\u091a\u0940> ]\n[ <\u0936\u0940\u0930\u094d\u0937\u0915>, <\u0938\u0942\u091a\u0940> ]",
     "ChiSquared": "\u091a\u0940\u0938\u094d\u0915\u0935\u093e\u092f\u0930",
     "ChiSquared_Syntax": "[ <\u0938\u094d\u0935\u0924\u0928\u094d\u0924\u094d\u0930\u0924\u093e \u0915\u0940 \u0915\u094b\u091f\u093f>, x ]\n[ <\u0938\u094d\u0935\u0924\u0928\u094d\u0924\u094d\u0930\u0924\u093e \u0915\u0940 \u0915\u094b\u091f\u093f>, <\u091a\u0930 \u092e\u093e\u0928> ]\n[ <\u0938\u094d\u0935\u0924\u0928\u094d\u0924\u094d\u0930\u0924\u093e \u0915\u0940 \u0915\u094b\u091f\u093f>, x, <\u092c\u0942\u0932\u0940\u092f \u0938\u0928\u094d\u091a\u092f> ]",
-    "ChiSquared_SyntaxCAS": "[ <Degrees of Freedom>, <Variable> ]",
+    "ChiSquared_SyntaxCAS": "[ <\u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930\u0924\u093e \u0915\u0940 \u0915\u094b\u091f\u0940>, <\u091a\u0930> ]",
     "ChiSquaredTest": "ChiSquaredTest",
     "ChiSquaredTest_Syntax": "[ <Matrix> ]\n[ <List>, <List> ]\n[ <Matrix>, <Matrix> ]",
     "Circle": "\u0935\u0943\u0924",
