@@ -3344,6 +3344,26 @@ public class Kernel {
 			notifyRepaint();
 		}
 	}
+	
+	/**
+	 * update construction n times
+	 * @param n 
+	 */
+	public void updateConstruction(int n) {
+
+		// views are notified about update at the end of this method
+		for (int i = 0; i<n; i++){
+			cons.updateConstruction();
+		}
+
+		// latexes in GeoGebraWeb are rendered afterwards and set updateEVAgain
+		if (getUpdateAgain()) {
+			setUpdateAgain(false);
+			app.scheduleUpdateConstruction();
+		} else {
+			notifyRepaint();
+		}
+	}
 
 	/**
 	 * Tests if the current construction has no elements.
