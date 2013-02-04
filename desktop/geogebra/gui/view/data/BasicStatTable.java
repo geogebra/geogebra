@@ -370,7 +370,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		case SUM:
 			return new AlgoSum(cons, dataList, freqList);
 		case SIGMAXX:
-			return new AlgoSigmaXX(cons, dataList);
+			return new AlgoSigmaXX(cons, dataList, freqList);
 		case MIN:
 			return new AlgoListMin(cons, dataList);
 		case Q1:
