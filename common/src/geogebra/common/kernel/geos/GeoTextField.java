@@ -1,6 +1,8 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.draw.DrawTextField;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -400,6 +402,25 @@ public class GeoTextField extends GeoButton {
 		return useSignificantFigures;
 	}
 
+	@Override
+	public void setBackgroundColor(final GColor bgCol) {
+		
+		// default in case alpha = 0 (not allowed for Input Boxes)
+		int red = 255, green = 255, blue = 255;
+		
+		// null -> also means transparent
+		if (bgCol != null
+				
+				// fix for files saved with alpha = 0
+				&& bgCol.getAlpha() != 0) {
+			
+			red = bgCol.getRed();
+			green = bgCol.getGreen();
+			blue = bgCol.getBlue();
+		}
+		
+		bgColor = AwtFactory.prototype.newColor(red, green, blue);
+	}
 
 
 
