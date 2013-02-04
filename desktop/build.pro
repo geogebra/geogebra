@@ -218,6 +218,10 @@
 -keep class jd2xx.JD2XXInputStream { <methods>; <fields>; }
 -keep class jd2xx.JD2XXOutputStream { <methods>; <fields>; }
 
+# so that it can be accessed from Jython
+-keep class gnu.io.CommPortIdentifier { <methods>; <fields>; }
+-keep class gnu.io.SerialPort { <methods>; <fields>; }
+
 # -keep public class * {
 #    public protected *;
 # }
