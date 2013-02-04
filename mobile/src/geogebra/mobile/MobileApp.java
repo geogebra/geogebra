@@ -471,7 +471,7 @@ public class MobileApp extends App
 	@Override
 	public SoundManager getSoundManager() {
 		if (this.soundManager == null) {
-			this.soundManager = new SoundManagerW(this);
+//			this.soundManager = new SoundManagerW(this);
 		}
 		return this.soundManager;
 	}
