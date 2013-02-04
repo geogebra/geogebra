@@ -6273,11 +6273,16 @@ public abstract class EuclidianController {
 		// new behaviour from GeoGebra 4.2 
 		// clicking just moves slider up one "notch" 
 		// better for touch screens 
+		
+		if (Kernel.isEqual(val, movedSlider.getValue())) {
+			return val;
+		}
+
 		if (val > movedSlider.getValue()) { 
 			return Math.min(movedSlider.getValue() + movedSlider.getAnimationStep(), movedSlider.getIntervalMax()); 
-		} else { 
-			return Math.max(movedSlider.getValue() - movedSlider.getAnimationStep(), movedSlider.getIntervalMin()); 
-		} 	
+		}
+		
+		return Math.max(movedSlider.getValue() - movedSlider.getAnimationStep(), movedSlider.getIntervalMin()); 	
 	}
 
 	/**
