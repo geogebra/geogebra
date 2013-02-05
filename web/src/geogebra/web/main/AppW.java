@@ -1891,7 +1891,7 @@ public class AppW extends App {
 			return null;
 		}
 
-		String ret = getPropertyNative(language, "S"+key, "symbol");
+		String ret = getPropertyNative(language, "S_"+key, "symbol");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
@@ -1909,7 +1909,7 @@ public class AppW extends App {
 			return null;
 		}
 
-		String ret = getPropertyNative(language, "T"+key, "symbol");
+		String ret = getPropertyNative(language, "T_"+key, "symbol");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: "+key);
