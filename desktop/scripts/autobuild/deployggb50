@@ -86,17 +86,20 @@ for dir in $WWWDIR/$MYDIR $WWWDIR/history/$MYVER; do
 # 4/5. Running jogler:
 cd $SVNDIR/geogebra/desktop/scripts/autobuild
 ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t 5.0\
- -u "http://jars.geogebra.org/webstart/5.0"
+ -u "http://www.geogebra.net/webstart/5.0"
+# -u "http://jars.geogebra.org/webstart/5.0"
 ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t history/$MYVER\
  -u "http://www.geogebra.org/webstart/5.0/history/$MYVER"
 
 echo "$0: JAR files copied to 5.0 and history/$MYVER"
 
 # 4/6. Rewriting main JNLP's to use jars.geogebra.org instead of www.geogebra.org
-# (take care of spaces in the JNLP file!):
+# (take care of spaces in the JNLP file!) ---
+# currently we change it to www.geogebra.net:
 cd $WWWDIR/$MYDIR
 for i in jogl1 jogl2 no3d; do
- sed -i s/" \(href=\"http:\/\/\)www\(.geogebra.org\/webstart\)"/" \1jars\2"/g \
+# sed -i s/" \(href=\"http:\/\/\)www\(.geogebra.org\/webstart\)"/" \1jars\2"/g \
+ sed -i s/" \(href=\"http:\/\/\)www\(.geogebra.\)\(org\)\/webstart\)"/" \1www\2net\3"/g \
   geogebra-50-$i.jnlp
  done
 
