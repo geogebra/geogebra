@@ -11,18 +11,21 @@ import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 import geogebra.mobile.model.MobileModel;
 
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
+import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 
 /**
  * Coordinates the GUI of the tablet.
  * 
  */
-public class TabletGUI implements GeoGebraMobileGUI
+public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, AcceptsOneWidget
 {
 	EuclidianViewPanel euclidianViewPanel;
 	TabletHeaderPanel headerPanel;
@@ -31,6 +34,8 @@ public class TabletGUI implements GeoGebraMobileGUI
 	AlgebraViewPanel algebraViewPanel;
 	ToolBar toolBar;
 	StylingBar stylingBar;
+	
+	LayoutPanel background = new LayoutPanel(); 
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -108,17 +113,31 @@ public class TabletGUI implements GeoGebraMobileGUI
 		this.algebraViewPanel.initAlgebraView(ec, kernel);
 		this.toolBar.makeTabletToolBar(mobileModel);
 
-		RootPanel.get().add(this.euclidianViewPanel);
-		RootPanel.get().add(this.headerPanel);
-		RootPanel.get().add(this.leftHeader);
-		RootPanel.get().add(this.rightHeader);
-		RootPanel.get().add(this.stylingBar);
-		RootPanel.get().add(this.algebraViewPanel);
-		RootPanel.get().add(this.toolBar);
+		
+		
+		this.add(this.euclidianViewPanel);
+		this.add(this.headerPanel);
+		this.add(this.leftHeader);
+		this.add(this.rightHeader);
+		this.add(this.stylingBar);
+		this.add(this.algebraViewPanel);
+		this.add(this.toolBar);
+		
+//		RootPanel.get().add(this); 
+		
 	}
 
 	public TabletHeaderPanel getTabletHeaderPanel()
 	{
 		return this.headerPanel;
 	}
+
+	@Override
+	public void setWidget(IsWidget w)
+	{		
+		add(w.asWidget()); 
+	}
+
+	
+	
 }

@@ -32,12 +32,12 @@ import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
+import geogebra.mobile.gui.TabletGUI;
 import geogebra.mobile.gui.elements.header.XMLBuilder;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.FontManagerW;
-import geogebra.web.sound.SoundManagerW;
 
 import com.google.gwt.i18n.client.LocaleInfo;
 
@@ -104,6 +104,10 @@ public class MobileApp extends App
 		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
 
 		super.initing = false;
+	}
+	
+	public GeoGebraMobileGUI getMobileGui(){
+		return this.mobileGUI; 
 	}
 
 	private static void intitFactories()
