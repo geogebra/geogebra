@@ -6,7 +6,7 @@ test -r autobuild.conf && . ./autobuild.conf
 
 curl https://www.cloudflare.com/api_json.html \
   -d 'a=fpurge_ts' \
-  -d 'tkn=$CLOUDFLARE_TKN' \
-  -d 'email=$CLOUDFLARE_EMAIL' \
-  -d 'z=$CLOUDFLARE_DOMAIN' \
+  -d tkn=$CLOUDFLARE_TKN \
+  -d email=$CLOUDFLARE_EMAIL \
+  -d z=$CLOUDFLARE_DOMAIN \
   -d 'v=1'
