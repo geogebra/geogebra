@@ -193,5 +193,8 @@ else
 }' > .ggt-app.ini.new
 scp -P $WWW_SERVER_PORT -i $WWW_SERVER_KEY .ggt-app.ini.new $WWW_SERVER_LOGIN:$GGT_APP_INI_FILE
 
+# 12. Purging CloudFlare cache:
+./cloudflare-purge
+
 date
 echo "$0: end"
