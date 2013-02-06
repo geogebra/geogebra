@@ -12,64 +12,64 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
-	// Header 
-	
+	// Header
+
 	@Source("icons/svg/document-new.svg")
 	@Validated(validated = false)
 	SVGResource document_new();
-	
+
 	@Source("icons/svg/document-open.svg")
 	@Validated(validated = false)
 	SVGResource document_open();
-	
+
 	@Source("icons/svg/document-save.svg")
 	@Validated(validated = false)
 	SVGResource document_save();
-	
+
 	@Source("icons/svg/menu_edit_undo.svg")
 	@Validated(validated = false)
 	SVGResource undo();
-	
+
 	@Source("icons/svg/menu_edit_redo.svg")
 	@Validated(validated = false)
 	SVGResource redo();
-	
-	//ColorBar
+
+	// ColorBar
 	@Source("backgroundImage/colorBar.png")
 	ImageResource colorBarBackground();
-	
-	//StylingBar
-	
+
+	// StylingBar
+
 	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_axes.svg")
 	@Validated(validated = false)
 	SVGResource show_or_hide_the_axes();
-	
+
 	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_grid.svg")
 	@Validated(validated = false)
 	SVGResource show_or_hide_the_grid();
-	
+
 	@Source("icons/svg/stylingbar_graphicsview_point_capturing.svg")
 	@Validated(validated = false)
 	SVGResource point_capturing();
-	
+
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource colour();
-	
+
 	@Source("icons/svg/tools_generaltools_label.svg")
 	@Validated(validated = false)
 	SVGResource label();
-	
+
 	@Source("icons/svg/properties_defaults_2.svg")
 	@Validated(validated = false)
 	SVGResource properties_defaults();
-	
-	//ToolBar
-	
+
+	// ToolBar
+
 	@Source("icons/svg/arrow_cursor_finger.svg")
 	@Validated(validated = false)
 	SVGResource arrow_cursor_finger();
-	
+
 	@Source("icons/svg/arrow_cursor_grab.svg")
 	@Validated(validated = false)
 	SVGResource arrow_cursor_grab();
@@ -401,5 +401,12 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/tools_generaltools_delete.svg")
 	@Validated(validated = false)
 	SVGResource delete_object();
+
+	@Source("icons/svg/geogebra_tube.svg")
+	@Validated(validated = false)
+	SVGResource logoGeoGebraTube();
+	
+	@Source("icons/png32x32/geogebra-logo.png")
+	ImageResource logo();
 
 }
