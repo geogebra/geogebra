@@ -3,10 +3,12 @@ package geogebra.mobile.gui.elements.header;
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.MobileApp;
 import geogebra.mobile.gui.CommonResources;
+import geogebra.mobile.gui.Presenter;
 import geogebra.mobile.gui.TabletGUI;
 import geogebra.mobile.gui.elements.header.OpenSaveDialog.OpenCallback;
 import geogebra.mobile.gui.elements.header.OpenSaveDialog.SaveCallback;
 import geogebra.mobile.model.GuiModel;
+import geogebra.mobile.place.TubeSearchPlace;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
@@ -27,19 +29,20 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	TabletGUI tabletGUI;
 	OpenSaveDialog saveDialog;
 	OpenSaveDialog openDialog;
+	
+	Presenter listener;
 
 	/**
 	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
 	 */
 	public TabletHeaderPanelLeft(TabletGUI tabletGUI, final Kernel kernel, final GuiModel guiModel)
 	{
-
 		this.app = (MobileApp) kernel.getApplication();
 		this.tabletGUI = tabletGUI;
 
 		this.addStyleName("leftHeader");
 
-		HeaderImageButton[] left = new HeaderImageButton[3];
+		HeaderImageButton[] left = new HeaderImageButton[4];
 
 		SVGResource icon = CommonResources.INSTANCE.document_new();
 		left[0] = new HeaderImageButton();
@@ -52,6 +55,21 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		icon = CommonResources.INSTANCE.document_save();
 		left[2] = new HeaderImageButton();
 		left[2].setText(icon.getSafeUri().asString());
+
+		left[3] = new HeaderImageButton();
+		left[3].setText(icon.getSafeUri().asString());
+		left[3].addDomHandler(new ClickHandler()
+		{
+
+			
+
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				TabletHeaderPanelLeft.this.listener.goTo(new TubeSearchPlace("TabletGui"));
+
+			}
+		}, ClickEvent.getType());
 
 		for (int i = 0; i < left.length; i++)
 		{
@@ -195,5 +213,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	void changeTitle(String title)
 	{
 		this.tabletGUI.getTabletHeaderPanel().changeTitle(title);
+	}
+	
+	public void setPresenter(Presenter listener)
+	{
+		this.listener = listener;
 	}
 }

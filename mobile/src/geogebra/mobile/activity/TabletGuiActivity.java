@@ -1,6 +1,7 @@
 package geogebra.mobile.activity;
 
 import geogebra.mobile.ClientFactory;
+import geogebra.mobile.gui.Presenter;
 import geogebra.mobile.gui.TabletGUI;
 import geogebra.mobile.place.TabletGuiPlace;
 
@@ -9,7 +10,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class TabletGuiActivity extends AbstractActivity {
+public class TabletGuiActivity extends AbstractActivity implements  Presenter {
 
 	// Used to obtain views, eventBus, placeController
 		// Alternatively, could be injected via GIN
@@ -29,7 +30,7 @@ public class TabletGuiActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
 		TabletGUI gui = clientFactory.getTabletGui();
 //		gui.setName(name);
-//		gui.setPresenter(this);
+		gui.setPresenter(this);
 		containerWidget.setWidget(gui.asWidget());
 	}
 
@@ -44,7 +45,10 @@ public class TabletGuiActivity extends AbstractActivity {
 	/**
 	 * Navigate to a new Place in the browser
 	 */
-	public void goTo(Place place) {
-		clientFactory.getPlaceController().goTo(place);
+	@Override
+  public void goTo(Place place) {
+		this.clientFactory.getPlaceController().goTo(place);
 	}
+	
+	
 }

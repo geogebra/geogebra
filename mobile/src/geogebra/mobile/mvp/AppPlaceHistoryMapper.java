@@ -1,6 +1,7 @@
 package geogebra.mobile.mvp;
 
 import geogebra.mobile.place.TabletGuiPlace;
+import geogebra.mobile.place.TubeSearchPlace;
 
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
@@ -14,6 +15,6 @@ import com.google.gwt.place.shared.WithTokenizers;
 
 // TODO insert class names !!
 
-@WithTokenizers( { TabletGuiPlace.Tokenizer.class})
+@WithTokenizers( { TabletGuiPlace.Tokenizer.class, TubeSearchPlace.Tokenizer.class})
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }

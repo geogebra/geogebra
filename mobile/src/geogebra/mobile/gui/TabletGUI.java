@@ -1,6 +1,8 @@
 package geogebra.mobile.gui;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.mobile.ClientFactory;
+import geogebra.mobile.activity.TabletGuiActivity;
 import geogebra.mobile.controller.MobileController;
 import geogebra.mobile.gui.algebra.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanel;
@@ -11,6 +13,7 @@ import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 import geogebra.mobile.model.MobileModel;
 
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -25,7 +28,7 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
  * Coordinates the GUI of the tablet.
  * 
  */
-public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, AcceptsOneWidget
+public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, AcceptsOneWidget, Presenter
 {
 	EuclidianViewPanel euclidianViewPanel;
 	TabletHeaderPanel headerPanel;
@@ -34,8 +37,9 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 	AlgebraViewPanel algebraViewPanel;
 	ToolBar toolBar;
 	StylingBar stylingBar;
-	
-	LayoutPanel background = new LayoutPanel(); 
+
+	LayoutPanel background = new LayoutPanel();
+	private ClientFactory clientFactory;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -113,8 +117,6 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 		this.algebraViewPanel.initAlgebraView(ec, kernel);
 		this.toolBar.makeTabletToolBar(mobileModel);
 
-		
-		
 		this.add(this.euclidianViewPanel);
 		this.add(this.headerPanel);
 		this.add(this.leftHeader);
@@ -122,9 +124,9 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 		this.add(this.stylingBar);
 		this.add(this.algebraViewPanel);
 		this.add(this.toolBar);
-		
-//		RootPanel.get().add(this); 
-		
+
+		// RootPanel.get().add(this);
+
 	}
 
 	public TabletHeaderPanel getTabletHeaderPanel()
@@ -134,10 +136,26 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 
 	@Override
 	public void setWidget(IsWidget w)
-	{		
-		add(w.asWidget()); 
+	{
+		add(w.asWidget());
 	}
 
-	
+	/**
+	 * Navigate to a new Place in the browser
+	 */
+	@Override
+  public void goTo(Place place)
+	{
+		this.clientFactory.getPlaceController().goTo(place);
+	}
+
+	public void setPresenter(TabletGuiActivity tabletGuiActivity)
+  {
+	  if(this.leftHeader != null){
+	  	this.leftHeader.setPresenter(tabletGuiActivity); 
+	  }
+	  
+  }
+
 	
 }
