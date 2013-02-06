@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -37,13 +38,14 @@ public class FileMenuW extends MenuBar {
 			}
 		});
 
-	    /*addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Load")), true, new Command() {
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open")), true, new Command() {
 			
 			public void execute() {
-				
+	    		GgbFileInputDialog dialog = new GgbFileInputDialog((AppW) app, null);
+	    		dialog.setVisible(true);
 			}
 				
-		});*/
+		});
 	    
 		// this is enabled always
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage")),true,new Command() {
