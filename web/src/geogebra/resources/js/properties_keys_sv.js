@@ -939,7 +939,7 @@ __GGB__keysVar.sv.command = {
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Linje> ]\n[ <Str\xe4cka> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "UppdateraKonstruktion",
-    "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",
+    "UpdateConstruction_Syntax": "[ ]\n[ <Antal g\xe5nger> ]",
     "UpperSum": "\xd6versumma",
     "UpperSum_Syntax": "[ <Funktion>, <Tal>, <Tal>, <Tal> ]",
     "Variance": "Varians",
