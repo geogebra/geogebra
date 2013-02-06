@@ -975,10 +975,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		// plotPanel.detachView();
 	}
 
-	public void updateFonts() {
-		//
-	}
-
+	
 	public void attachView() {
 		plotPanel.attachView();
 
@@ -1007,7 +1004,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	public void updateFonts(Font font) {
-		//
+		plotPanel.updateFonts();
 	}
 
 	public void updatePanel() {
