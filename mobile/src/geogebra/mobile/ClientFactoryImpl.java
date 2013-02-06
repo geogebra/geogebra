@@ -12,9 +12,15 @@ public class ClientFactoryImpl implements ClientFactory
 	private static final EventBus eventBus = new SimpleEventBus();
 	private static final PlaceController placeController = new PlaceController(eventBus);
 
-	private static final TabletGUI tabletGui = new TabletGUI();
+	private static TabletGUI tabletGui;
 	private static final TubeSearchUI tubeSearchUI = new TubeSearchUI();
 
+	public ClientFactoryImpl(){
+		tabletGui = TabletGUI.getInstance(); 
+		MobileApp app = new MobileApp(tabletGui); 
+		app.start(); 
+	}
+	
 	@Override
 	public EventBus getEventBus()
 	{
@@ -27,6 +33,10 @@ public class ClientFactoryImpl implements ClientFactory
 		return ClientFactoryImpl.placeController;
 	}
 
+	public static void setTabletGui(TabletGUI gui){
+		tabletGui = gui; 
+	}
+	
 	@Override
 	public TabletGUI getTabletGui()
 	{

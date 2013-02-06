@@ -38,11 +38,11 @@ public class AppActivityMapper implements ActivityMapper
 		// This is begging for GIN
 		if (place instanceof TabletGuiPlace)
 		{
-			return new TabletGuiActivity((TabletGuiPlace) place, clientFactory);
+			return new TabletGuiActivity(this.clientFactory);
 		}
 		else if (place instanceof TubeSearchPlace)
 		{
-			return new TubeSearchActivity((TubeSearchPlace) place, clientFactory);
+			return new TubeSearchActivity(this.clientFactory);
 		}
 		// TODO: add other place-tyes here!
 

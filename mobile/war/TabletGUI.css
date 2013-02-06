@@ -167,14 +167,22 @@ div.mgwt-BarButton-active {
 	border-radius: 1em 1em 1em 1em;
 }
 
+.maxSize(){
+	height: 100%; 
+	width: 100%; 	
+}
+
 .algebraview {
 	width: 25%;
 	background-color: white;
-	position: relative;
 	height: 80%;
 	left: 0px;
 	box-shadow: 5px 5px 10px #333333;
 	border-radius: 0em 1em 1em 0em;
+	
+	/* 	position: relative; */
+	position: fixed;
+	top: 50px; 
 }
 
 .algebraView-notExtended {

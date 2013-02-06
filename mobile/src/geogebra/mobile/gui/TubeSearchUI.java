@@ -1,21 +1,10 @@
 package geogebra.mobile.gui;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.mobile.ClientFactory;
-import geogebra.mobile.controller.MobileController;
-import geogebra.mobile.gui.algebra.AlgebraViewPanel;
-import geogebra.mobile.gui.elements.header.TabletHeaderPanel;
-import geogebra.mobile.gui.elements.header.TabletHeaderPanelLeft;
-import geogebra.mobile.gui.elements.header.TabletHeaderPanelRight;
-import geogebra.mobile.gui.elements.stylingbar.StylingBar;
-import geogebra.mobile.gui.elements.toolbar.ToolBar;
-import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
-import geogebra.mobile.model.MobileModel;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -57,7 +46,6 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 			}
 		});
 
-		// this.add();
 	}
 
 	@Override
@@ -74,4 +62,5 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 	{
 		this.clientFactory.getPlaceController().goTo(place);
 	}
+	
 }

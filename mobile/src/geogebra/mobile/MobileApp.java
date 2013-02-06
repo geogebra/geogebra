@@ -32,7 +32,6 @@ import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
-import geogebra.mobile.gui.TabletGUI;
 import geogebra.mobile.gui.elements.header.XMLBuilder;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.UndoManagerW;
@@ -55,7 +54,6 @@ public class MobileApp extends App
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
-	//private geogebra.common.plugin.GgbAPI ggbapi;
 	private XMLBuilder mobileXML;
 	private SoundManager soundManager;
 
@@ -81,7 +79,6 @@ public class MobileApp extends App
 		this.mobileGUI = mobileGUI;
 		this.settings = new Settings();
 
-		//setCurrentFileId();
 		setFontSize(12);
 	}
 
