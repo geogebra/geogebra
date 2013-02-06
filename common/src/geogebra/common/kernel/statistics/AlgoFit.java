@@ -21,9 +21,9 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -46,8 +46,6 @@ import org.apache.commons.math.linear.RealMatrix;
  */
 public class AlgoFit extends AlgoElement {
 
-	private static final boolean DEBUG = true; // false in distribution
-
 	private GeoList pointlist; // input
 	private GeoList functionlist; // output
 	private GeoFunction fitfunction; // output
@@ -55,7 +53,7 @@ public class AlgoFit extends AlgoElement {
 	// variables:
 	private int datasize = 0; // rows in M and Y
 	private int functionsize = 0; // cols in M
-	private GeoFunction[] functionarray = null;
+	private GeoFunctionable[] functionarray = null;
 	private RealMatrix M = null;
 	private RealMatrix Y = null;
 	private RealMatrix P = null;
@@ -74,7 +72,7 @@ public class AlgoFit extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Fit;
+		return Commands.FitPow;
 	}
 
 	@Override
@@ -97,7 +95,7 @@ public class AlgoFit extends AlgoElement {
 		GeoElement geo2 = null;
 		datasize = pointlist.size(); // rows in M and Y
 		functionsize = functionlist.size(); // cols in M
-		functionarray = new GeoFunction[functionsize];
+		functionarray = new GeoFunctionable[functionsize];
 		M = new Array2DRowRealMatrix(datasize, functionsize);
 		Y = new Array2DRowRealMatrix(datasize, 1);
 		P = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
@@ -117,7 +115,7 @@ public class AlgoFit extends AlgoElement {
 		// Best to also check:
 		geo1 = functionlist.get(0);
 		geo2 = pointlist.get(0);
-		if (!geo1.isGeoFunction() || !geo2.isGeoPoint()) {
+		if (!(geo1 instanceof GeoFunctionable) || !geo2.isGeoPoint()) {
 			fitfunction.setUndefined();
 			return;
 		}// if wrong contents in lists
@@ -141,10 +139,7 @@ public class AlgoFit extends AlgoElement {
 
 		} catch (Throwable t) {
 			fitfunction.setUndefined();
-			errorMsg(t.getMessage());
-			if (DEBUG) {
-				t.printStackTrace();
-			}
+			t.printStackTrace();
 		}// try-catch
 
 	}// compute()
@@ -158,10 +153,10 @@ public class AlgoFit extends AlgoElement {
 		// Make array of functions:
 		for (int i = 0; i < functionsize; i++) {
 			geo = functionlist.get(i);
-			if (!geo.isGeoFunction()) {
+			if (!(geo instanceof GeoFunctionable)) {
 				throw (new Exception("Not functions in function list..."));
 			}// if not function
-			functionarray[i] = (GeoFunction) functionlist.get(i);
+			functionarray[i] = (GeoFunctionable) functionlist.get(i);
 		}// for all functions
 			// Make matrixes with the right values: M*P=Y
 		M = new Array2DRowRealMatrix(datasize, functionsize);
@@ -176,7 +171,7 @@ public class AlgoFit extends AlgoElement {
 			y = point.getY();
 			Y.setEntry(r, 0, y);
 			for (int c = 0; c < functionsize; c++) {
-				M.setEntry(r, c, functionarray[c].evaluate(x));
+				M.setEntry(r, c, functionarray[c].getGeoFunction().evaluate(x));
 			}// for columns (=functions)
 		}// for rows (=datapoints)
 			// mprint("M:",M);
@@ -191,25 +186,18 @@ public class AlgoFit extends AlgoElement {
 
 		// First product:
 		p = P.getEntry(0, 0); // parameter
-		gf = (GeoFunction) functionlist.get(0); // Checks done in
+		gf = ((GeoFunctionable) functionlist.get(0)).getGeoFunction(); // Checks done in
 												// makeMatrixes...
 		fitfunction = GeoFunction.mult(fitfunction, p, gf); // p1*f(x)
 		for (int i = 1; i < functionsize; i++) {
 			p = P.getEntry(i, 0);
-			gf = (GeoFunction) functionlist.get(i);
+			gf = ((GeoFunctionable) functionlist.get(i)).getGeoFunction();
 			product = GeoFunction.mult(product, p, gf); // product= p*func
 			fitfunction = GeoFunction.add(fitfunction, fitfunction, product); // fit(x)=...+p*func
 		}// for
 
 		return fitfunction;
 	}// makeFunction()
-
-	// / --- Debug --- ///
-	private final static void errorMsg(String s) {
-		App.debug(s);
-	}// errorMsg(String)
-
-	// --- SNIP --- /// *** Comment out when finished ***
 
 	// Hook for plugin scripts
 	public final void test() {
