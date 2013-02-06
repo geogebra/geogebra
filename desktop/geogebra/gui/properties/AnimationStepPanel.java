@@ -72,7 +72,7 @@ public class AnimationStepPanel
 
 	public JPanel update(Object[] geos) {		
 		this.geos = geos;
-		if (!AnimationSpeedPanel.checkGeos(geos,partOfSliderPanel))
+		if (!checkGeos(geos))
 			return null;
 
 		tfAnimStep.removeActionListener(this);
@@ -113,6 +113,28 @@ public class AnimationStepPanel
 		return this;
 	}
 
+	private boolean checkGeos(Object[] geos) {
+		boolean geosOK = true;
+		for (int i = 0; i < geos.length; i++) {
+			GeoElement geo = (GeoElement) geos[i];
+			if (!geo.isChangeable() 
+					|| geo.isGeoText() 
+					|| geo.isGeoImage()
+					|| geo.isGeoList()
+					|| geo.isGeoBoolean()
+					|| geo.isGeoButton()
+					|| (!partOfSliderPanel && geo.isGeoNumeric() && geo.isIndependent()) // slider						
+			)  
+			{				
+				geosOK = false;
+				break;
+			}
+		}
+		
+		
+		return geosOK;
+	}
+	
 	/**
 	 * handle textfield changes
 	 */
