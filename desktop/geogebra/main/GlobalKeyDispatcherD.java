@@ -161,7 +161,10 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	private boolean handleSelectedGeosKeys(KeyEvent event,
 			ArrayList<GeoElement> geos) {
 		
-		return handleSelectedGeosKeys(KeyCodes.translateJavacode(event.getKeyCode()), geos, event.isShiftDown(), AppD.isControlDown(event), AppD.isAltDown(event), event.getSource() instanceof JTable);
+		// use event.isAltDown rather than AppD.isAltDown(event)
+		// as Ctrl-Arrow on OSX does something special
+		// so we actually want to use Alt
+		return handleSelectedGeosKeys(KeyCodes.translateJavacode(event.getKeyCode()), geos, event.isShiftDown(), AppD.isControlDown(event), event.isAltDown(), event.getSource() instanceof JTable);
 	}
 
 
