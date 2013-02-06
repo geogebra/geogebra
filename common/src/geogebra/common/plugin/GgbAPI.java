@@ -452,8 +452,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null) {
 			return -1;
 		}
-		if (geo.isGeoPoint()) {
-			return ((GeoPoint) geo).getPointStyle();
+		if (geo instanceof PointProperties) {
+			return ((PointProperties) geo).getPointStyle();
 		}
 		return -1;
 	}
@@ -473,8 +473,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null) {
 			return -1;
 		}
-		if (geo.isGeoPoint()) {
-			return ((GeoPoint) geo).getPointSize();
+		if (geo instanceof PointProperties) {
+			return ((PointProperties) geo).getPointSize();
 		}
 		return -1;
 	}
@@ -485,8 +485,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
-		if (geo.isGeoPoint()) {
-			((GeoPoint) geo).setPointSize(style);
+		if (geo instanceof PointProperties) {
+			((PointProperties) geo).setPointSize(style);
 			geo.updateRepaint();
 		}
 	}
