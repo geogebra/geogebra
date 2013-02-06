@@ -24,11 +24,12 @@ public class ReduceLibrary {
 		eval("on fullroots;");	
 		// set default switches
 		// (note: off factor turns on exp, so off exp must be placed later)
-
+		eval("numrules := {exp(~t*i)=>cos(~t)+i*sin(~t)};");
 		eval("procedure resetsettings(keepin,taystd,curx,cury);begin;"
 				+ "keepinput!!:=keepin;taylortostd:=taystd;"
 				+ "currentx!!:=curx;currenty!!:=cury;"
 				+ "numeric!!:=0$ precision 30; "
+				+ "clearrules numrules;"
 				+ "print_precision 16; "
 				+ "off allfac,revpri, complex, rounded, numval, factor, div; "
 				+ "off combinelogs, expandlogs, combineexpt,rational,rationalize;"
