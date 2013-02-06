@@ -56,18 +56,15 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		left[2] = new HeaderImageButton();
 		left[2].setText(icon.getSafeUri().asString());
 
+		icon = CommonResources.INSTANCE.geogebra_tube();
 		left[3] = new HeaderImageButton();
 		left[3].setText(icon.getSafeUri().asString());
 		left[3].addDomHandler(new ClickHandler()
 		{
-
-			
-
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				TabletHeaderPanelLeft.this.listener.goTo(new TubeSearchPlace("TabletGui"));
-
 			}
 		}, ClickEvent.getType());
 

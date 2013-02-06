@@ -3,7 +3,6 @@ package geogebra.mobile.place;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 
-//public class HelloPlace extends ActivityPlace<HelloActivity>
 public class TabletGuiPlace extends Place
 {
 	private String name;

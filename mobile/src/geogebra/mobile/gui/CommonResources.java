@@ -26,6 +26,10 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource document_save();
 
+	@Source("icons/svg/geogebra_tube.svg")
+	@Validated(validated = false)
+	SVGResource geogebra_tube();
+	
 	@Source("icons/svg/menu_edit_undo.svg")
 	@Validated(validated = false)
 	SVGResource undo();
