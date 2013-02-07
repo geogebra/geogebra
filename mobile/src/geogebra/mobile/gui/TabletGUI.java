@@ -37,7 +37,6 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 	ToolBar toolBar;
 	StylingBar stylingBar;
 
-	LayoutPanel background = new LayoutPanel();
 	private ClientFactory clientFactory;
 	private TabletGuiActivity tabletGuiActivity;
 

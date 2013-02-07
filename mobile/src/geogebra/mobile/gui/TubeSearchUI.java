@@ -2,6 +2,8 @@ package geogebra.mobile.gui;
 
 import geogebra.mobile.ClientFactory;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -11,6 +13,7 @@ import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
+import com.googlecode.mgwt.ui.client.widget.MSearchBox;
 
 /**
  * Coordinates the GUI of the tablet.
@@ -18,9 +21,10 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
  */
 public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Presenter
 {
-	LayoutPanel background = new LayoutPanel();
 	private ClientFactory clientFactory;
 
+	private MSearchBox searchBox;
+	
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
@@ -46,6 +50,19 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 			}
 		});
 
+		this.searchBox = new MSearchBox();
+		this.searchBox.addValueChangeHandler(new ValueChangeHandler<String>()
+		{
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event)
+			{
+				// TODO CHECK WHAT THIS DOES!
+				event.getValue();				
+			}
+		});
+		
+		this.add(this.searchBox);
 	}
 
 	@Override
