@@ -310,9 +310,22 @@ for i in $THIRDPARTYJARS; do
 # sed -i s/\+GWT\.getModuleBaseURL/\+GWT\.getModuleBaseForStaticFiles/ $WEBDIR/src/geogebra/web/Web.java
 # (No longer needed.)
 
-# 6/4. Running javac
+# 6/4. Running javac for the web
 cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
+
+# 6/5. Running javac for the mobile
+ if [ "$PROJECT" = "mobile" ]; then
+ # This is a temporarily hack to support precompiling annotation related source files
+ # for GWT/MVP. See https://groups.google.com/forum/?fromgroups=#!topic/google-web-toolkit/4CCeDlfhFSs
+ # for more details. TODO: Find a better a way to do this.
+ cd $GGDIR/mobile/src/geogebra/mobile/place
+ javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar TabletGuiPlace.java
+ javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar TubeSearchPlace.java
+ cd ../mvp
+ javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar:$GGDIR/mobile/src AppPlaceHistoryMapper.java
+ cd $WEBDIR
+ fi
 
 # 7. Preparing specific compilation
 PROJECT_UPCASE=`echo $PROJECT | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'`
