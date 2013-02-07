@@ -29,4 +29,12 @@ for i in geogebra-*.xml; do
  cd launch4j
  java -jar launch4j.jar ../portable-$i
  cd ..
+ # Signing.
+ # FIXME: assuming keys being relative to the current directory
+ KEYSDIR=../..
+ ./osslsigncode -spc $KEYSDIR/igi-keystore-CL.spc.der -key $KEYSDIR/igi-keystore-CL.key.der \
+  -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll \
+  -in $OUTFILE -out $OUTFILE-signed
+ mv $OUTFILE-signed $OUTFILE
+
  done

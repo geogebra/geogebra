@@ -57,7 +57,7 @@ rm -fR unsigned
 # 2/1. Updating EXEs with version numbers:
 WORKDIR=`pwd`
 cd $SVNDIR/geogebra/desktop/installer
-./make-portable-xmls $VERSION_STRING
+./make-portable-exes $VERSION_STRING
 cd "$WORKDIR"
 mv $SVNDIR/geogebra/desktop/installer/GeoGebra-*.exe .
 
