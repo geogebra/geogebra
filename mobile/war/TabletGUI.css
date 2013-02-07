@@ -36,14 +36,14 @@ div.StyleBarOptions {
 .colorBarBackground {
 	position: absolute;
 	right: 75px;
-	top: 150px;	
+	top: 150px;
 	width: 250px;
 	z-index: 100;
 }
 
-div.colorBar { 	
+div.colorBar {
 	height: 220px;
-	box-shadow: 5px 5px 10px #333333;	
+	box-shadow: 5px 5px 10px #333333;
 	width: 100%;
 	background: none;
 	background-color: transparent;
@@ -51,7 +51,7 @@ div.colorBar {
 	border-radius: 1em 1em 1em 1em;
 }
 
-div.colorSliderPanel{
+div.colorSliderPanel {
 	box-shadow: 5px 5px 10px #333333;
 }
 
@@ -74,11 +74,10 @@ div.mgwt-Button-dummyButton {
 	border: none;
 }
 
-div.mgwt-Button-picker{
+div.mgwt-Button-picker {
 	border-radius: 0px;
-	margin: 0px; 
+	margin: 0px;
 }
-
 
 .colorBar * td {
 	width: 170px;
@@ -129,7 +128,6 @@ div.mgwt-BarButton-tool-rightButton {
 	width: 100%;
 }
 
-
 div.mgwt-BarButton-tool {
 	cursor: pointer;
 	border: 1px solid rgba(0, 0, 0, 0.5);
@@ -167,9 +165,9 @@ div.mgwt-BarButton-active {
 	border-radius: 1em 1em 1em 1em;
 }
 
-.maxSize(){
-	height: 100%; 
-	width: 100%; 	
+.maxSize (){
+	height: 100%;
+	width: 100%;
 }
 
 .algebraview {
@@ -179,10 +177,9 @@ div.mgwt-BarButton-active {
 	left: 0px;
 	box-shadow: 5px 5px 10px #333333;
 	border-radius: 0em 1em 1em 0em;
-	
 	/* 	position: relative; */
 	position: fixed;
-	top: 50px; 
+	top: 50px;
 }
 
 .algebraView-notExtended {
@@ -196,6 +193,12 @@ div.mgwt-BarButton-active {
 .algebraScrollPanel {
 	width: 100%;
 	height: 100%;
+}
+
+.algebraButton {
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 
 .algebraView-heading {

@@ -3,6 +3,10 @@ package geogebra.mobile.gui.algebra;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.controller.MobileController;
+import geogebra.mobile.gui.CommonResources;
+import geogebra.mobile.gui.elements.header.HeaderImageButton;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
@@ -22,6 +26,7 @@ public class AlgebraViewPanel extends LayoutPanel
 {
 	protected ScrollPanel scrollPanel;
 	protected AlgebraViewM algebraView;
+	HeaderImageButton button = new HeaderImageButton(); 
 
 	boolean small = false;
 
@@ -71,10 +76,7 @@ public class AlgebraViewPanel extends LayoutPanel
 					extend();
 				} else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
 				{
-					AlgebraViewPanel.this
-							.addStyleName("algebraView-notExtended");
-					AlgebraViewPanel.this.small = true;
-					AlgebraViewPanel.this.scrollPanel.setVisible(false);
+					minimize();
 				}
 			}
 		});
@@ -88,6 +90,19 @@ public class AlgebraViewPanel extends LayoutPanel
 	{
 		AlgebraViewPanel.this.removeStyleName("algebraView-notExtended");
 		this.scrollPanel.setVisible(true);
+		this.small = false; 
+		
+		SVGResource icon = CommonResources.INSTANCE.algebra_close();
+		this.button.setText(icon.getSafeUri().asString());
+	}
+	
+	protected void minimize(){
+		this.addStyleName("algebraView-notExtended");
+		this.small = true;
+		this.scrollPanel.setVisible(false);
+		
+		SVGResource icon = CommonResources.INSTANCE.algebra_open();
+		this.button.setText(icon.getSafeUri().asString());
 	}
 
 	/**
@@ -108,6 +123,24 @@ public class AlgebraViewPanel extends LayoutPanel
 		this.scrollPanel = new ScrollPanel(this.algebraView);
 		this.scrollPanel.addStyleName("algebraScrollPanel");
 		add(this.scrollPanel);
+		
+		SVGResource icon = CommonResources.INSTANCE.algebra_close();
+		this.button.addStyleName("algebraButton"); 
+		this.button.setText(icon.getSafeUri().asString());
+		this.button.addTapHandler(new TapHandler()
+		{			
+			@Override
+			public void onTap(TapEvent event)
+			{
+				if(AlgebraViewPanel.this.small){
+					extend();
+				}
+				else{
+					minimize(); 
+				}
+			}
+		});
+		this.add(this.button); 
 	}
 
 }

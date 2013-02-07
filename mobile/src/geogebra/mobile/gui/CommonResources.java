@@ -38,6 +38,16 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource redo();
 
+	//AlgebraView 
+	
+	@Source("icons/svg/algebra_tree_close.svg")
+	@Validated(validated = false)
+	SVGResource algebra_close();
+	
+	@Source("icons/svg/algebra_tree_open.svg")
+	@Validated(validated = false)
+	SVGResource algebra_open();
+	
 	// ColorBar
 	@Source("backgroundImage/colorBar.png")
 	ImageResource colorBarBackground();
