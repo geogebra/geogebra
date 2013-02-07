@@ -162,7 +162,7 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
  echo Copying to Google Code...
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
-  -p geogebra -u $GC_USER -w "$GC_PASS" -l Featured $MACOSX_ZIP_FINAL
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $MACOSX_ZIP_FINAL
  fi
 
 # 9/1. rsync-www on demand:
