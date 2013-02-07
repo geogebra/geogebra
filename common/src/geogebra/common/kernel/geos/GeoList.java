@@ -1643,12 +1643,14 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		// double closestIndex = -1;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
-			final double d = p.distanceToPath((PathOrPoint) geo);
-			
-			//App.debug(i+" "+d+" "+distance+" "+geo);
-			if (d < distance) {
-				distance = d;
-				closestPointIndex = i;
+			if (geo instanceof PathOrPoint){
+				final double d = p.distanceToPath((PathOrPoint) geo);
+
+				//App.debug(i+" "+d+" "+distance+" "+geo);
+				if (d < distance) {
+					distance = d;
+					closestPointIndex = i;
+				}
 			}
 		}
 
