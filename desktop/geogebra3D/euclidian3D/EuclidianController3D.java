@@ -1540,6 +1540,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		Previewable previewDrawable = null;
 		
+		//maybe set previously by MODE_INTERSECTION_CURVE
+		hideIntersection = false;
+		previewFromResultedGeo = false;
+		
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
