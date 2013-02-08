@@ -32,6 +32,22 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+	    case 2 :
+	    	arg = resArgs(c);
+	    	if ((ok[0] = arg[0].isGeoPoint())
+	    			&& (ok[1] = arg[1].isGeoPoint())){
+	    		
+	    			GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
+	    					(GeoPointND) arg[0], (GeoPointND) arg[1], kernelA.getXOYPlane(),
+	    					name) ;
+					return ret;
+	    		
+	    	}
+			for (int i=0;i<2;i++){
+				if (!ok[i])
+					throw argErr(app, c.getName(), arg[i]);
+			}
+	    	break;	    
 	    case 3 :
 	    	arg = resArgs(c);
 	    	if ((ok[0] = arg[0].isGeoPoint())
@@ -43,12 +59,11 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	    					name) ;
 					return ret;
 	    		
-	    	}else{
-	    		for (int i=0;i<3;i++){
-	    			if (!ok[i])
-	    				throw argErr(app, c.getName(), arg[i]);
-	    		}
 	    	}
+			for (int i=0;i<3;i++){
+				if (!ok[i])
+					throw argErr(app, c.getName(), arg[i]);
+			}
 	    	break;	    
 	    }
 		
