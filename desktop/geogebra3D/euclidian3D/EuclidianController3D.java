@@ -3085,5 +3085,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			intersectionCurveList.clear();
 		super.setMode(newMode);
 	}
+	
+	@Override
+	protected void setDragCursorIfMoveView(){
+		//nothing to do, keep same cursor
+	}
 }
 

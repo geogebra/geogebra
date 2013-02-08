@@ -8387,10 +8387,7 @@ public abstract class EuclidianController {
 	
 		startLoc = mouseLoc;
 
-		if (moveMode == MOVE_VIEW) {
-			view.setDragCursor();
-		}
-		
+		setDragCursorIfMoveView();		
 	
 		// xZeroOld = view.getXZero();
 		// yZeroOld = view.getYZero();
@@ -8401,6 +8398,13 @@ public abstract class EuclidianController {
 				|| (moveMode == MOVE_Y_AXIS));
 		// view.setDrawMode(EuclidianConstants.DRAW_MODE_DIRECT_DRAW);
 	
+	}
+	
+	protected void setDragCursorIfMoveView(){
+		if (moveMode == MOVE_VIEW) {
+			view.setDragCursor();
+		}
+
 	}
 
 	protected void switchModeForMousePressed(AbstractEvent e) {
