@@ -628,6 +628,7 @@ __GGB__keysVar.ca.command = {
     "Q3": "Quartil3",
     "Q3_Syntax": "[ <Llista de totes les dades> ]\n[ <Llista de dades>, <Llista de freq\xfc\xe8ncies> ]",
     "QuadricSide": "Superf\xedcieLateral",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RQuadrat",
     "RSquare_Syntax": "[ <Llista de punts>, <Funci\xf3> ]",
     "Radius": "Radi",

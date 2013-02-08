@@ -628,6 +628,7 @@ __GGB__keysVar.ko.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <\uc6d0\uc790\ub8cc\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\ub3c4\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "QuadricSide": "\ubcc0",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "\uacb0\uc815\uacc4\uc218",
     "RSquare_Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8>, <\ud568\uc218> ]",
     "Radius": "\ubc18\uc9c0\ub984",

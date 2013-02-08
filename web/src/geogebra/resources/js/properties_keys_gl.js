@@ -628,6 +628,7 @@ __GGB__keysVar.gl.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Lista de datos en bruto> ]\n[ <Lista de n\xfameros>, <Lista de frecuencias> ]",
     "QuadricSide": "Lado",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RCadrado",
     "RSquare_Syntax": "[ <Lista de puntos>, <Funci\xf3n> ]",
     "Radius": "Raio",

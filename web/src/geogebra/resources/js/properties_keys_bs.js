@@ -628,6 +628,7 @@ __GGB__keysVar.bs.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Lista ulaznih podataka> ]\n[ <Lista brojeva>, <Lista frekvencija> ]",
     "QuadricSide": "Strana",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKvadrat",
     "RSquare_Syntax": "[ <Lista ta\u010daka>, <Funkcija> ]",
     "Radius": "Polupre\u010dnik",

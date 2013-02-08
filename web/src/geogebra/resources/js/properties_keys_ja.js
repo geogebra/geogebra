@@ -628,6 +628,7 @@ __GGB__keysVar.ja.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u5ea6\u6570\u306e\u30ea\u30b9\u30c8> ]",
     "QuadricSide": "Side",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RSquare",
     "RSquare_Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8>, <\u95a2\u6570> ]",
     "Radius": "Radius",

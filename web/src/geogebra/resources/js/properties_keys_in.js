@@ -628,6 +628,7 @@ __GGB__keysVar.in.command = {
     "Q3": "Kuartil3",
     "Q3_Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
     "QuadricSide": "Sisi",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKuadrat",
     "RSquare_Syntax": "[ <Daftar Titik>, <Fungsi> ]",
     "Radius": "JariJari",

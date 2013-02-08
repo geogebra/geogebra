@@ -628,6 +628,7 @@ __GGB__keysVar.no_NN.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med tal>, <Liste med frekvensar> ]",
     "QuadricSide": "Side",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKvadrat",
     "RSquare_Syntax": "[ <Liste med punkt>, <Funksjon> ]",
     "Radius": "Radius",

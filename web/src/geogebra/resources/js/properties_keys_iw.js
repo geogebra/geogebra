@@ -628,6 +628,7 @@ __GGB__keysVar.iw.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "QuadricSide": "Side",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RSquare",
     "RSquare_Syntax": "[ <List of Points>, <Function> ]",
     "Radius": "Radius",

@@ -628,6 +628,7 @@ __GGB__keysVar.de_AT.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
     "QuadricSide": "Side",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RQuadrat",
     "RSquare_Syntax": "[ <Liste von Punkten>, <Funktion> ]",
     "Radius": "Radius",

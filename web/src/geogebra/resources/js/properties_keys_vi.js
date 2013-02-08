@@ -628,6 +628,7 @@ __GGB__keysVar.vi.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch c\xe1c t\u1ea7n s\u1ed1> ]",
     "QuadricSide": "Canh",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "HeSoXacDinh",
     "RSquare_Syntax": "[ <Danh s\xe1ch \u0111i\u1ec3m>, <H\xe0m s\u1ed1> ]",
     "Radius": "BanKinh",

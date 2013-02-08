@@ -628,6 +628,7 @@ __GGB__keysVar.tr.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
     "QuadricSide": "Kenar",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKare",
     "RSquare_Syntax": "[ <Nokta Listesi>, <\u0130\u015flev> ]",
     "Radius": "Yar\u0131\xe7ap",

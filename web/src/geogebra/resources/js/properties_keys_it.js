@@ -628,6 +628,7 @@ __GGB__keysVar.it.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Lista di frequenze> ]",
     "QuadricSide": "SuperficieLaterale",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "CoeffDeterminazione",
     "RSquare_Syntax": "[ <Lista di punti>, <Funzione> ]",
     "Radius": "Raggio",

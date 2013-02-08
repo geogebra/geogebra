@@ -628,6 +628,7 @@ __GGB__keysVar.ms.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Senarai Data Mentah> ]\n[ <Senarai Nombor>, <Senarai Kekerapan> ]",
     "QuadricSide": "Sisi",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKuasadua",
     "RSquare_Syntax": "[ <Senarai Titik>, <Fungsi> ]",
     "Radius": "Jejari",

@@ -628,6 +628,7 @@ __GGB__keysVar.bg.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "QuadricSide": "Side",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RSquare",
     "RSquare_Syntax": "[ <\u0421\u043f\u0438\u0441\u044a\u043a \u043e\u0442 \u0442\u043e\u0447\u043a\u0438>, <\u0424\u0443\u043d\u043a\u0446\u0438\u044f> ]",
     "Radius": "\u0420\u0430\u0434\u0438\u0443\u0441",

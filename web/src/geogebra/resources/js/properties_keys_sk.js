@@ -628,6 +628,7 @@ __GGB__keysVar.sk.command = {
     "Q3": "3Kvartil",
     "Q3_Syntax": "[ <Zoznam p\u1ed1vodn\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
     "QuadricSide": "Strana",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "R\u0160tvorec",
     "RSquare_Syntax": "[ <Zoznam bodov>, <Funkcia> ]",
     "Radius": "Polomer",

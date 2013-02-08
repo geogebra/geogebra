@@ -628,6 +628,7 @@ __GGB__keysVar.fr.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Liste de donn\xe9es brute> ]\n[ <Liste de nombres>, <Liste d'effectifs> ]",
     "QuadricSide": "SurfaceLat\xe9rale",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "R2",
     "RSquare_Syntax": "[ <Liste Points>, <Fonction> ]",
     "Radius": "Rayon",

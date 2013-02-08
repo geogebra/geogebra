@@ -628,6 +628,7 @@ __GGB__keysVar.hu.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
     "QuadricSide": "Oldal",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RN\xe9gyzet",
     "RSquare_Syntax": "[ <Pontok list\xe1ja>, <F\xfcggv\xe9ny> ]",
     "Radius": "Sug\xe1r",

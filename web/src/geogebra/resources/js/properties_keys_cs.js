@@ -628,6 +628,7 @@ __GGB__keysVar.cs.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Seznam dat> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "QuadricSide": "Strana",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "R2",
     "RSquare_Syntax": "[ <Seznam bod\u016f>, <Funkce> ]",
     "Radius": "Polomer",

@@ -628,6 +628,7 @@ __GGB__keysVar.nl.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Lijst met Data> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
     "QuadricSide": "zijde",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RSquare",
     "RSquare_Syntax": "[ <Lijst met punten>, <Functie> ]",
     "Radius": "Straal",

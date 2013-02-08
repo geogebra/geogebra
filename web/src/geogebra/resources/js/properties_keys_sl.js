@@ -628,6 +628,7 @@ __GGB__keysVar.sl.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
     "QuadricSide": "MejnaPloskev",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKvadrat",
     "RSquare_Syntax": "[ <seznam to\u010dk>, <funkcija> ]",
     "Radius": "Polmer",

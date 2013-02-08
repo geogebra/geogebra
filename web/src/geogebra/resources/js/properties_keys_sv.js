@@ -628,6 +628,7 @@ __GGB__keysVar.sv.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Lista med Frekvenser> ]",
     "QuadricSide": "Sida",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKvadrat",
     "RSquare_Syntax": "[ <Lista med Punkter>, <Funktion> ]",
     "Radius": "Radie",

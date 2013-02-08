@@ -628,6 +628,7 @@ __GGB__keysVar.lt.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Da\u017eni\u0173 s\u0105ra\u0161as> ]",
     "QuadricSide": "Pus\u0117",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKvadratas",
     "RSquare_Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as>, <Funkcija> ]",
     "Radius": "ApskritimoSpindulys",

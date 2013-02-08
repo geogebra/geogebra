@@ -628,6 +628,7 @@ __GGB__keysVar.sq.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste e Numrave>, <Liste e Frekuencave> ]",
     "QuadricSide": "Brinje",
+    "QuadricSide_Syntax": "[ <Quadric> ]",
     "RSquare": "RKatror",
     "RSquare_Syntax": "[ <Liste e Pikave>, <Funksion> ]",
     "Radius": "Rreze",
