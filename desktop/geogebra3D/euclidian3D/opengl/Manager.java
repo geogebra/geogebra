@@ -32,8 +32,6 @@ abstract public class Manager {
 	// geometries
 	/** geometry : cursor */
 	public PlotterCursor cursor;
-	/** geometry : view buttons */
-	private PlotterViewButtons viewButtons;
 	/** geometry : view in front of */
 	private PlotterViewInFrontOf viewInFrontOf;
 	/** brush */
@@ -78,7 +76,6 @@ abstract public class Manager {
 		
 
 		cursor = new PlotterCursor(this);
-		viewButtons = new PlotterViewButtons(this);
 		viewInFrontOf = new PlotterViewInFrontOf(this);
 		
 		mouseCursor = new PlotterMouseCursor(this);
@@ -89,9 +86,6 @@ abstract public class Manager {
 		
 	}
 	
-	public PlotterViewButtons getViewButtons(){
-		return viewButtons;
-	}
 	
 	public PlotterViewInFrontOf getViewInFrontOf(){
 		return viewInFrontOf;

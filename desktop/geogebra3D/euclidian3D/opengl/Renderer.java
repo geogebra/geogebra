@@ -961,48 +961,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	setBlending(true);
 		resetMatrix();   	
     }
-   
-    /**
-     * draws a view button
-     * @param type
-     */
-    public void drawButton(int type){
-    	geometryManager.draw(geometryManager.getViewButtons().getIndex(type));
-    }
     
-    /**
-     * draws the handle view button
-     * @param arrowsTransparent
-     */
-    public void drawButtonHandleAndArrows(boolean arrowsTransparent){
-    	initMatrix();
-    	   	
-    	setBlending(false);
-    	geometryManager.draw(geometryManager.getViewButtons().getIndex(PlotterViewButtons.TYPE_HANDLE));
-    	//setColor(color, 0.5f);
-    	
-    	if (arrowsTransparent){
-    		setBlending(true);
-    		geometryManager.draw(geometryManager.getViewButtons().getIndex(PlotterViewButtons.TYPE_HANDLE_ARROWS));
-    	}else{
-    		geometryManager.draw(geometryManager.getViewButtons().getIndex(PlotterViewButtons.TYPE_HANDLE_ARROWS));
-     		setBlending(true);
-    	}
-    	
-    	resetMatrix();
-    }
-  
-    /**
-     * draw handle button for picking
-     */
-    public void drawButtonHandleForPicking(){
-    	initMatrix();
-
-    	geometryManager.draw(geometryManager.getViewButtons().getIndex(PlotterViewButtons.TYPE_HANDLE));
-    	  	
-    	resetMatrix();
-    }
-  
+    
     /**
      * set the tesselator to start drawing a new polygon
      * @param nx 
