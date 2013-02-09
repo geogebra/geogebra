@@ -828,7 +828,7 @@ __GGB__keysVar.hu.command = {
     "StepGraph_Syntax": "[ <Pontok list\xe1ja> ]\n[ <Pontok list\xe1ja>, <Logikai \xe9rt\xe9k (\xf6sszef\xfcgg\u0151)> ]\n[ <x-koordin\xe1t\xe1k list\xe1ja>, <y-koordin\xe1t\xe1k list\xe1ja> ]\n[ <Pontok list\xe1ja>, <Logikai \xe9rt\xe9k (\xf6sszef\xfcgg\u0151)>, <Pont st\xedlusa> ]\n[ <x-koordin\xe1t\xe1k list\xe1ja>, <y-koordin\xe1t\xe1k list\xe1ja>, <Logikai \xe9rt\xe9k (\xf6sszef\xfcgg\u0151)> ]\n[ <x-koordin\xe1t\xe1k list\xe1ja>, <y-koordin\xe1t\xe1k list\xe1ja>, <Logikai \xe9rt\xe9k (\xf6sszef\xfcgg\u0151)>, <Pont st\xedlusa> ]",
     "StickGraph": "VonalGrafikon",
     "StickGraph_Syntax": "[ <Pontok list\xe1ja> ]\n[ <Pontok list\xe1ja>, <Logikai \xe9rt\xe9k (V\xedzszintes?)> ]\n[ <x-koordin\xe1t\xe1k list\xe1ja>, <y-koordin\xe1t\xe1k list\xe1ja> ]\n[ <x-koordin\xe1t\xe1k list\xe1ja>, <y-koordin\xe1t\xe1k list\xe1ja>, <Logikai \xe9rt\xe9k (V\xedzszintes?)> ]",
-    "Stretch": "Affin\xedt\xe1s",
+    "Stretch": "Affinit\xe1s",
     "Stretch_Syntax": "[ <Alakzat>, <Vektor> ]\n[ <Alakzat>, <Egyenes>, <Ar\xe1ny> ]",
     "Substitute": "Helyettes\xedt",
     "Substitute_SyntaxCAS": "[ <Kifejez\xe9s>, <Csere lista> ]\n[ <Kifejez\xe9s>, <Mit>, <Mire> ]",
