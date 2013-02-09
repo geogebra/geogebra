@@ -21,24 +21,12 @@ public class GgbFileInputDialog extends FileInputDialog{
 	
 	public native void addGgbChangeHandler(Element el, AppW appl) /*-{
 		var dialog = this;
+//		el.setAttribute("accept", "application/vnd.geogebra.file, application/vnd.geogebra.tool");
 		el.onchange = function(event) {
 			var files = this.files;
 			if (files.length) {
 				var fileToHandle = files[0];
-				var ggbRegEx = /\.(ggb|ggt)$/i;
-				if (fileToHandle.name.toLowerCase().match(ggbRegEx)) {
-					var reader = new FileReader();
-					reader.onloadend = function(ev) {
-						if (reader.readyState === reader.DONE) {
-							var fileStr = reader.result;
-							appl.@geogebra.web.main.AppW::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
-							dialog.@geogebra.web.gui.dialog.FileInputDialog::hideAndFocus()();
-						}
-					};
-					reader.readAsDataURL(fileToHandle);
-				} else {
-					//TODO: not ggb/ggt selected
-				}
+				appl.@geogebra.web.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::getNativeHideAndFocus()());
 			}
 
 		};

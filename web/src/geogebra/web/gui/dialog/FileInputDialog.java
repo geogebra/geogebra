@@ -3,6 +3,7 @@ package geogebra.web.gui.dialog;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -49,6 +50,10 @@ public class FileInputDialog extends PopupPanel implements ClickHandler{
 	    }
     }
 
+	public native JavaScriptObject getNativeHideAndFocus() /*-{
+		return this.@geogebra.web.gui.dialog.FileInputDialog::hideAndFocus()();
+	}-*/;
+	
 	public void hideAndFocus() {
     	hide();
 		app.getActiveEuclidianView().requestFocusInWindow();

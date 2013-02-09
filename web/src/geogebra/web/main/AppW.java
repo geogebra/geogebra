@@ -392,6 +392,67 @@ public class AppW extends App {
 	}
 
 	/**
+	 * Opens the image file
+	 * 
+	 * @param fileToHandle
+	 * @param callback 
+	 * @return returns true, if fileToHandle image file, otherwise return false.
+	 *         Note that If the function returns true, it's don't mean, that the
+	 *         file opening was successful, and the opening finished already.
+	 */
+	public native boolean openFileAsImage(JavaScriptObject fileToHandle, JavaScriptObject callback) /*-{
+		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
+		if (!fileToHandle.name.toLowerCase().match(imageRegEx)) return false;
+		
+		var appl = this;
+		var reader = new FileReader();
+		reader.onloadend = function(ev) {
+			if (reader.readyState === reader.DONE) {
+				var reader2 = new FileReader();
+				var base64result = reader.result;
+				reader2.onloadend = function(eev) {
+					if (reader2.readyState === reader2.DONE) {
+						var fileStr = base64result;
+						var fileStr2 = reader2.result;
+						var fileName = fileToHandle.name;
+						appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, null);
+						if (callback != null) callback();
+					}
+				}
+				reader2.readAsBinaryString(fileToHandle);
+			}
+		};
+		reader.readAsDataURL(fileToHandle);
+		return true;	
+	}-*/;
+	
+	/**
+	 * Opens the ggb or ggt file
+	 * 
+	 * @param fileToHandle
+	 * @return returns true, if fileToHandle is ggb or ggt file, otherwise
+	 *         returns false. Note that If the function returns true, it's don't
+	 *         mean, that the file opening was successful, and the opening
+	 *         finished already.
+	 */
+	public native boolean openFileAsGgb(JavaScriptObject fileToHandle, JavaScriptObject callback) /*-{
+		var ggbRegEx = /\.(ggb|ggt)$/i;
+		if (!fileToHandle.name.toLowerCase().match(ggbRegEx)) return false;
+		
+		var appl = this;
+		var reader = new FileReader();
+		reader.onloadend = function(ev) {
+			if (reader.readyState === reader.DONE) {
+				var fileStr = reader.result;
+				appl.@geogebra.web.main.AppW::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
+				if (callback != null) callback();
+			}
+		};
+		reader.readAsDataURL(fileToHandle);
+		return true;
+	}-*/;
+	
+	/**
 	 * Register file drop handlers for the canvas of this application
 	 */
 	native void registerFileDropHandlers(CanvasElement ce) /*-{
@@ -419,40 +480,13 @@ public class AppW extends App {
 								var dt = e.dataTransfer;
 								if (dt.files.length) {
 									var fileToHandle = dt.files[0];
-									var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
-									var ggbRegEx = /\.(ggb|ggt)$/i;
-									if (fileToHandle.name.toLowerCase().match(
-											imageRegEx)) {
-										var reader = new FileReader();
-										reader.onloadend = function(ev) {
-											if (reader.readyState === reader.DONE) {
-												var reader2 = new FileReader();
-												var base64result = reader.result;
-												reader2.onloadend = function(
-														eev) {
-													if (reader2.readyState === reader2.DONE) {
-														var fileStr = base64result;
-														var fileStr2 = reader2.result;
-														var fileName = fileToHandle.name;
-														appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, null);
-													}
-												}
-												reader2
-														.readAsBinaryString(fileToHandle);
-											}
-										};
-										reader.readAsDataURL(fileToHandle);
-									} else if (fileToHandle.name.toLowerCase()
-											.match(ggbRegEx)) {
-										var reader = new FileReader();
-										reader.onloadend = function(ev) {
-											if (reader.readyState === reader.DONE) {
-												var fileStr = reader.result;
-												appl.@geogebra.web.main.AppW::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
-											}
-										};
-										reader.readAsDataURL(fileToHandle);
+
+									//at first this tries to open the fileToHandle as image,
+									//if fileToHandle not an image, this will try to open as ggb or ggt.
+									if (!appl.@geogebra.web.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
+										appl.@geogebra.web.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
 									}
+
 									//console.log(fileToHandle.name);
 								} else {
 									// This would raise security exceptions later - see ticket #2301
