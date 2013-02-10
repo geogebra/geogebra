@@ -68,6 +68,9 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/images/spinner.html")
 	TextResource ggbSpinnerHtml();
+	
+	@Source("geogebra/resources/images/ggbSplash.html")
+	TextResource ggbSplashHtml();
 
 }
 
