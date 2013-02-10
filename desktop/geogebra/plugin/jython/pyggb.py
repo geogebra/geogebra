@@ -108,10 +108,12 @@ class Interface(PythonScriptInterface):
                 return
         else:
             return
+        if hasattr(action, 'im_func'):
+            action = action.im_func
         # print "3.", evt_type, element.label
         try:
             self.handling_event = True
-            action()
+            action(element)
         except Exception:
             header = "Error while handling event '%s' on '%r'\n" % (evt_type, target)
             self.show_traceback(header, 2)
