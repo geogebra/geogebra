@@ -31,6 +31,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 	Button save;
 	Button cancel;
 	Anchor download;
+	Button uploadToGGT;
 	GeoGebraFileChooser _this = this;
 	private int type;
 
@@ -60,11 +61,14 @@ public class GeoGebraFileChooser extends PopupPanel {
 		download.getElement().setAttribute(
 				"style", "text-decoration: none; color: black");
 	    
+		
+		
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
 	    buttonPanel.add(save = new Button(app.getMenu("SaveToGoogleDrive")));
 	    buttonPanel.add(download);
+	    buttonPanel.add(uploadToGGT = new Button(app.getMenu("UploadGeoGebraTube")));
 	    p.add(buttonPanel);
 	    addStyleName("GeoGebraFileChooser");
 	    
@@ -85,6 +89,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 					fileName.setEnabled(false);
 					description.setEnabled(false);
 					download.setEnabled(false);
+					uploadToGGT.setEnabled(false);
 					String saveName = fileName.getText();
 					if (saveName.substring(-4) != ".ggb") saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
 					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(saveName, description.getText(), _this);
@@ -101,6 +106,13 @@ public class GeoGebraFileChooser extends PopupPanel {
 				hide();
 			}
 		});
+	    
+	    uploadToGGT.addClickHandler(new ClickHandler() {			
+			public void onClick(ClickEvent event) {
+				app.uploadToGeoGebraTube();
+				hide();
+			}
+		});
 		
 	    
 	    addCloseHandler(new CloseHandler<PopupPanel>() {
@@ -112,6 +124,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 				fileName.setEnabled(true);
 				description.setEnabled(true);
 				download.setEnabled(true);
+				uploadToGGT.setEnabled(true);
 			}
 		});
 	    center();
