@@ -78,7 +78,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
         	yaxisMenuItem.setEnabled(false);
         }
         
-        addMiProperties();
+        //addMiProperties();
                
     }
 	

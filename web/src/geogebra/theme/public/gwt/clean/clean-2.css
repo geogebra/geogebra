@@ -1595,3 +1595,7 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	width:100%;
 	border-collapse:collapse;
 }
+
+.menuTitle{
+	font-weight: bold;
+}
