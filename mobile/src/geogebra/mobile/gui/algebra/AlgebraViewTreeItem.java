@@ -201,7 +201,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		if (this.LaTeX && newLaTeX)
 		{
 			text = inputLatexCosmetics(text);
-			DrawEquationWeb.updateEquationMathQuill(text, this.seMayLatex);
+			// FIXME what does "noEqnArray" do?
+			DrawEquationWeb.updateEquationMathQuill(text, this.seMayLatex, false);
 		}
 		else if (!this.LaTeX && !newLaTeX)
 		{
