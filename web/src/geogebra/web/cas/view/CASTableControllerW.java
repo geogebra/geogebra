@@ -58,7 +58,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 	public void onMouseUp(MouseUpEvent event) {
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
 		CASTableW table = view.getConsoleTable();
-		if(p.getX()!=CASTableW.COL_CAS_HEADER)
+		if(p.getX()!=CASTableW.COL_CAS_HEADER || startSelectRow<0)
 			return;
 		table.cancelEditing();
 		if(event.isControlKeyDown()){
@@ -70,10 +70,8 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onMouseDown(MouseDownEvent event) {
-		App.debug("down");
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
-		App.debug(p.getY());
-		this.startSelectRow = p.getX()==CASTableW.COL_CAS_HEADER?-1:p.getY();
+		this.startSelectRow = p.getX()==CASTableW.COL_CAS_HEADER?p.getY():-1;
 	    
     }
 
