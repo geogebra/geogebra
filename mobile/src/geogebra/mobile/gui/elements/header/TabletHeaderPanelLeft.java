@@ -29,7 +29,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	TabletGUI tabletGUI;
 	OpenSaveDialog saveDialog;
 	OpenSaveDialog openDialog;
-	
+
 	Presenter listener;
 
 	/**
@@ -124,18 +124,20 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 					{
 						String xml = TabletHeaderPanelLeft.this.openDialog.getChosenFile();
 						String fileName = TabletHeaderPanelLeft.this.openDialog.getFileName();
+
 						try
 						{
 							TabletHeaderPanelLeft.this.app.loadXML(xml);
-							if (fileName != getFileName())
-							{
-								changeTitle(fileName);
-							}
 						}
 						catch (Exception e)
 						{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						}
+
+						if (fileName != getFileName())
+						{
+							changeTitle(fileName);
 						}
 					}
 
@@ -211,7 +213,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	{
 		this.tabletGUI.getTabletHeaderPanel().changeTitle(title);
 	}
-	
+
 	public void setPresenter(Presenter listener)
 	{
 		this.listener = listener;
