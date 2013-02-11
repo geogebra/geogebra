@@ -547,7 +547,10 @@ public class CommandDispatcher {
 			case Center:
 			case Element:
 			case Sequence:
+
+			case Reflect:
 			case Mirror:
+			
 			case Dilate:
 			case Rotate:
 			case Translate:
