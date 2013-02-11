@@ -1,5 +1,6 @@
 package geogebra.web.cas.view;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTable;
 import geogebra.common.cas.view.CASTableCellEditor;
@@ -153,14 +154,36 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public void addSelectedRows(int from, int to) {
-		int[] newSelectedRows = new int[selectedRows.length + to - from + 1];
-		for (int i = 0; i < selectedRows.length; i++) {
-			newSelectedRows[i] = selectedRows[i];
+		for(int i=0;i<getRowCount();i++){
+			markRowSelected(i,false);
 		}
+		int[] newSelectedRows = new int[selectedRows.length + to - from + 1];
+		//selected rows in [0,from-1] 
+		for (int i = 0; i < selectedRows.length && selectedRows[i]<from; i++) {
+			newSelectedRows[i] = selectedRows[i];
+			markRowSelected(selectedRows[i],true);
+		}
+		//selected rows in [from,to]
 		for (int i = from; i <= to; i++) {
 			newSelectedRows[i - from] = i;
+			markRowSelected(i,true);
 		}
-
+		//selected rows in [to+1,length-1]
+		for (int i = 0; i < selectedRows.length; i++) {
+			if(selectedRows[i]<=to)
+				continue;
+			newSelectedRows[i] = selectedRows[i];
+			markRowSelected(selectedRows[i],true);
+		}
+		selectedRows = newSelectedRows;
 	}
+
+	private void markRowSelected(int rowNumber, boolean b) {
+		GColor color = b?MyTableW.BACKGROUND_COLOR_HEADER:GColor.GRAY;
+		getCellFormatter()
+        .getElement(rowNumber, COL_CAS_HEADER)
+        .getStyle()
+        .setBackgroundColor(color.toString());
+    }
 
 }

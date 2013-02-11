@@ -60,6 +60,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 		CASTableW table = view.getConsoleTable();
 		if(p.getX()!=CASTableW.COL_CAS_HEADER)
 			return;
+		table.cancelEditing();
 		if(event.isControlKeyDown()){
 			table.addSelectedRows(startSelectRow,p.getY());
 		}else{
