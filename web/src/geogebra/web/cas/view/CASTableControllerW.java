@@ -70,8 +70,9 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onMouseDown(MouseDownEvent event) {
+		App.debug("down");
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
-		
+		App.debug(p.getY());
 		this.startSelectRow = p.getX()==CASTableW.COL_CAS_HEADER?-1:p.getY();
 	    
     }
