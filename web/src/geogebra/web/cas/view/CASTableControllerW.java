@@ -66,13 +66,14 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 		}else{
 			table.setSelectedRows(startSelectRow,p.getY());
 		}
+		event.stopPropagation();
 	    
     }
 
 	public void onMouseDown(MouseDownEvent event) {
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
 		this.startSelectRow = p.getX()==CASTableW.COL_CAS_HEADER?p.getY():-1;
-	    
+	    event.stopPropagation();
     }
 
 	public void keyReleased(KeyEvent e) {
