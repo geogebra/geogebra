@@ -48,6 +48,7 @@ public class CASViewW extends CASView {
 		
 		
 		getCAS().initCurrentCAS();
+		getCAS().getMPReduce().reset();
 				
 	}
 	public void repaintView() {
@@ -58,11 +59,6 @@ public class CASViewW extends CASView {
 	public boolean hasFocus() {
 	    // TODO Auto-generated method stub
 	    return false;
-    }
-
-	public void repaint() {
-	    // TODO Auto-generated method stub
-	    
     }
 
 	public boolean isShowing() {

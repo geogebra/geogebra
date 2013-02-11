@@ -71,6 +71,6 @@ public interface View {
 	public int getViewID();
 	
 	public boolean hasFocus();
-	public void repaint();
+
 	public boolean isShowing();
 }

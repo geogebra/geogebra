@@ -775,11 +775,6 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	}
 
 	@Override
-	public void repaint()
-	{
-	}
-
-	@Override
 	public boolean isShowing()
 	{
 		return false;

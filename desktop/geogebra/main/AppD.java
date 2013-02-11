@@ -5016,7 +5016,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void repaintSpreadsheet() {
 		if (getGuiManager() != null && getGuiManager().hasSpreadsheetView()) {
-			getGuiManager().getSpreadsheetView().repaint();
+			getGuiManager().getSpreadsheetView().repaintView();
 		}
 
 	}
