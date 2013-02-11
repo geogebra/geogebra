@@ -34,9 +34,12 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell!=null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				SpanElement outputSpan = DOM.createSpan().cast();
-				DrawEquationWeb.drawEquationMathQuill(outputSpan,
-				        DrawEquationWeb.inputLatexCosmetics(casCell
-				                .getLaTeXOutput()), outputLabel.getElement(),false);
+				String eqstring = DrawEquationWeb.inputLatexCosmetics(casCell
+		                .getLaTeXOutput());
+				int el = eqstring.length();
+				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
+				DrawEquationWeb.drawEquationMathQuill(outputSpan, eqstring
+				        , outputLabel.getElement(),false, el == eqstring.length());
 				outputLabel.getElement().appendChild(outputSpan);
 			} else {
 				if(casCell.isError()){

@@ -223,7 +223,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		// now we have text and how to display it (newLaTeX/LaTeX)
 		if (LaTeX && newLaTeX) {
 			text = DrawEquationWeb.inputLatexCosmetics(text);
-			DrawEquationWeb.updateEquationMathQuill(text, seMayLatex);
+			int tl = text.length();
+			text = DrawEquationWeb.stripEqnArray(text);
+			DrawEquationWeb.updateEquationMathQuill(text, seMayLatex, tl == text.length());
 		} else if (!LaTeX && !newLaTeX) {
 			seNoLatex.setInnerHTML(text);
 		} else if (newLaTeX) {

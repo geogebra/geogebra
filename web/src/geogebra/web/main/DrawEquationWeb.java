@@ -196,7 +196,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
 
-		drawEquationMathQuill(ih, eqstring, parentElement, true);
+		int el = eqstring.length();
+		eqstring = stripEqnArray(eqstring);
+		drawEquationMathQuill(ih, eqstring, parentElement, true, el == eqstring.length());
 
 		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 		ih.getStyle().setColor(GColor.getColorString(fgColor));
@@ -219,8 +221,11 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		if (ih == null) {
 			ih = DOM.createSpan().cast();
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
+			int el = eqstring.length();
+			eqstring = stripEqnArray(eqstring);
 			drawEquationMathQuill(ih, eqstring, ((AppW) app).getCanvas()
-			        .getCanvasElement().getParentElement(), true);
+				.getCanvasElement().getParentElement(), true, el == eqstring.length());
+
 			equations.put(eqstringid, ih);
 
 			// set a flag that the kernel needs a new update
@@ -287,7 +292,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 *            the element which should be drawn
 	 */
 	public static native void drawEquationMathQuill(Element el, String htmlt,
-	        Element parentElement, boolean addOverlay) /*-{
+	        Element parentElement, boolean addOverlay, boolean noEqnArray) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -327,12 +332,25 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		el.appendChild(elsecond);
 
 		parentElement.appendChild(el);
-		$wnd.jQuery(elsecond).mathquill();
 
-		// Make sure the length of brackets and square roots are OK
-		$wnd.setTimeout(function() {
-			$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-		});
+		if (noEqnArray) {
+			$wnd.jQuery(elsecond).mathquill();
+
+			// Make sure the length of brackets and square roots are OK
+			$wnd.setTimeout(function() {
+				$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+			});
+		} else {
+			$wnd.jQuery(elsecond).mathquill('eqnarray');
+
+			// Make sure the length of brackets and square roots are OK
+//			$wnd.setTimeout(function() {
+//				// TODO: this needs more testing,
+//				// also for the editing of it
+//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+//				$wnd.jQuery(elsecond).mathquill('eqnarray');
+//			});
+		}
 	}-*/;
 
 	/**
@@ -429,14 +447,37 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 *            the same element as in drawEquationMathQuill
 	 */
 	public static native void updateEquationMathQuill(String htmlt,
-	        Element parentElement) /*-{
+	        Element parentElement, boolean noEqnArray) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
-		$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
+		if (noEqnArray) {
+			$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
 
-		// Make sure the length of brackets and square roots are OK
-		$wnd.setTimeout(function() {
-			$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-		});
+			// Make sure the length of brackets and square roots are OK
+			$wnd.setTimeout(function() {
+				$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+			});
+		} else {
+			$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill('eqnarray');
+
+			// Make sure the length of brackets and square roots are OK
+//			$wnd.setTimeout(function() {
+//				// TODO: needs testing
+//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+//				$wnd.jQuery(elsecond).mathquill('eqnarray');
+//			});
+		}
 	}-*/;
+
+	/**
+	 * Removes the "\begin{eqnarray}" and "\end{eqnarray}" notations
+	 * from the beginning and end of the string, or returns the string kept intact
+	 */
+	public static String stripEqnArray(String htmlt) {
+		if (htmlt.startsWith("\\begin{eqnarray}") &&
+			htmlt.endsWith("\\end{eqnarray}")) {
+			htmlt = htmlt.substring(16, htmlt.length() - 14);
+		}
+		return htmlt;
+	}
 }
