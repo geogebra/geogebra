@@ -9,6 +9,8 @@ import geogebra.common.main.App;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.main.AppW;
 
+import java.util.TreeSet;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableCellElement;
@@ -101,7 +103,7 @@ public class CASTableW extends Grid implements CASTable {
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 		if (w == editing)
 			return;
-		selectedRows = new int[] { n };
+		setSelectedRows(n,n);
 		cancelEditing();
 		if (w instanceof CASTableCellW) {
 			editing = (CASTableCellW) w;
@@ -157,29 +159,26 @@ public class CASTableW extends Grid implements CASTable {
 		for(int i=0;i<getRowCount();i++){
 			markRowSelected(i,false);
 		}
-		int[] newSelectedRows = new int[selectedRows.length + to - from + 1];
-		//selected rows in [0,from-1] 
-		for (int i = 0; i < selectedRows.length && selectedRows[i]<from; i++) {
-			newSelectedRows[i] = selectedRows[i];
+		TreeSet<Integer> newSelectedRows = new TreeSet<Integer>();
+		//add old rows 
+		for (int i = 0; i < selectedRows.length; i++) {
+			newSelectedRows.add(selectedRows[i]);
 			markRowSelected(selectedRows[i],true);
 		}
-		//selected rows in [from,to]
+		//add new rows
 		for (int i = from; i <= to; i++) {
-			newSelectedRows[i - from] = i;
+			newSelectedRows.add(i);
 			markRowSelected(i,true);
 		}
-		//selected rows in [to+1,length-1]
-		for (int i = 0; i < selectedRows.length; i++) {
-			if(selectedRows[i]<=to)
-				continue;
-			newSelectedRows[i] = selectedRows[i];
-			markRowSelected(selectedRows[i],true);
+		int j = 0;
+		selectedRows = new int[newSelectedRows.size()];
+		for(int row:newSelectedRows){
+			selectedRows[j++]=row;
 		}
-		selectedRows = newSelectedRows;
 	}
 
 	private void markRowSelected(int rowNumber, boolean b) {
-		GColor color = b?MyTableW.BACKGROUND_COLOR_HEADER:GColor.GRAY;
+		GColor color = b?GColor.GRAY:MyTableW.BACKGROUND_COLOR_HEADER;
 		getCellFormatter()
         .getElement(rowNumber, COL_CAS_HEADER)
         .getStyle()
