@@ -82,7 +82,7 @@ public class AlgoFrequencyTable extends AlgoElement {
 				useDensity, density);
 		cons.removeFromConstructionList(freq);
 		table = new GeoText(cons);
-		
+
 		type = inputType.STANDARD;
 		setInputOutput();
 
@@ -282,20 +282,28 @@ public class AlgoFrequencyTable extends AlgoElement {
 
 			// If classList exists, compute frequencies using the classList
 			else {
+				if (!classList.isDefined()) {
+					table.setUndefined();
+					return;
+				}
 
 				strHeader = new String[2];
 				strHeader[0] = app.getMenu("Interval");
 				strHeader[1] = useDens ? app.getMenu("Frequency") : app
 						.getMenu("Count");
 
-				strValue = new String[length];
-				strFrequency = new String[length];
+				strValue = new String[length + 1];
+				strFrequency = new String[length + 1];
 				for (int i = 0; i < length; i++) {
 					strValue[i] = classList.get(i).toValueString(
 							table.getStringTemplate());
 					strFrequency[i] = fr.get(i).toValueString(
 							table.getStringTemplate());
 				}
+				// include final class limit
+				strValue[length] = classList.get(length).toValueString(
+						table.getStringTemplate());
+
 				createLaTeXTable(true);
 			}
 
