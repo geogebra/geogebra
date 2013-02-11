@@ -114,7 +114,7 @@ public class Relation {
 	 * description of the relation between two lists a, b (equal, unequal)
 	 */
 	final private String relation(GeoList a, GeoList b) {
-		String str = equalityString(a.toGeoElement(), b.toGeoElement(),
+		String str = equalityStringNumerical(a.toGeoElement(), b.toGeoElement(),
 				a.isEqual(b));
 		return str;
 	}
@@ -123,7 +123,7 @@ public class Relation {
 	 * description of the relation between two numbers a, b (equal, unequal)
 	 */
 	final private String relation(NumberValue a, NumberValue b) {
-		String str = equalityString(a.toGeoElement(),
+		String str = equalityStringNumerical(a.toGeoElement(),
 				b.toGeoElement(),
 				Kernel.isEqual(a.getDouble(), b.getDouble()));
 		return str;
@@ -135,7 +135,7 @@ public class Relation {
 	 */
 	final private String relation(GeoSegment a, GeoSegment b) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(equalityString(a, b, a.isEqual(b)));
+		sb.append(equalityStringNumerical(a, b, a.isEqual(b)));
 		sb.append("\n");
 		// sb.append(getPlain("Length"));
 		// sb.append(": ");
@@ -154,7 +154,7 @@ public class Relation {
 	 * description of the relation between two points A, B (equal, unequal)
 	 */
 	final private String relation(GeoPoint A, GeoPoint B) {
-		String str = equalityString(A, B, A.isEqual(B));
+		String str = equalityStringNumerical(A, B, A.isEqual(B));
 		return str;
 	}
 
@@ -165,7 +165,7 @@ public class Relation {
 	final private String relation(GeoVector a, GeoVector b) {
 		String str;
 		if (a.isEqual(b)) {
-			str = equalityString(a, b, true);
+			str = equalityStringNumerical(a, b, true);
 		} else {
 			str = linDependencyString(a, b, a.linDep(b));
 		}
@@ -198,7 +198,7 @@ public class Relation {
 		String str;
 		// check for equality
 		if (g.isEqual(h)) {
-			str = equalityString(g, h, true);
+			str = equalityStringNumerical(g, h, true);
 		} else {
 			if (g.isParallel(h))
 				str = parallelString(g, h);
@@ -274,7 +274,7 @@ public class Relation {
 	 */
 	final private String relation(GeoConicPart a, GeoConicPart b) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(equalityString(a, b, a.isEqual(b)));
+		sb.append(equalityStringNumerical(a, b, a.isEqual(b)));
 
 		int type = a.getConicPartType();
 		if (type == b.getConicPartType()) {
@@ -312,7 +312,7 @@ public class Relation {
 		String str;
 
 		if (a.isEqual(b)) {
-			str = equalityString(a, b, true);
+			str = equalityStringNumerical(a, b, true);
 		} else {
 			// intersect conics
 			// precision setting is not needed here (done by algorithm)
@@ -341,8 +341,8 @@ public class Relation {
 	 * description of the relation between functions
 	 */
 	final private String relation(GeoFunction a, GeoFunction b) {
-
-		return equalityString(a, b, a.isEqual(b));
+		
+		return equalityStringExact(a, b, a.isEqual(b));
 	}
 
 	/***************************
@@ -351,13 +351,25 @@ public class Relation {
 
 	// "Relation of a and b: equal"
 	// "Relation of a and b: unequal"
-	final private String equalityString(GeoElement a, GeoElement b,
+	final private String equalityStringNumerical(GeoElement a, GeoElement b,
 			boolean equal) {
 		if (equal) {
 			return getPlainNumerical("AandBareEqual", a.getNameDescription(),
 					b.getNameDescription());
 		}
 		return getPlainNumerical("AandBareNotEqual", a.getNameDescription(),
+				b.getNameDescription());
+	}
+
+	// "Relation of a and b: equal"
+	// "Relation of a and b: unequal"
+	final private String equalityStringExact(GeoElement a, GeoElement b,
+			boolean equal) {
+		if (equal) {
+			return app.getPlain("AandBareEqual", a.getNameDescription(),
+					b.getNameDescription());
+		}
+		return app.getPlain("AandBareNotEqual", a.getNameDescription(),
 				b.getNameDescription());
 	}
 

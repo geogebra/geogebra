@@ -5840,19 +5840,20 @@ public abstract class GeoElement extends ConstructionElement implements
 	public abstract boolean isEqual(GeoElement geo);
 
 	/**
-	 * Returns wheter this - f gives 0 in the CAS.
+	 * Returns whether this - f gives 0 in the CAS.
 	 * 
 	 * @param f other geo
-	 * @return wheter this - f gives 0 in the CAS.
+	 * @return whether this - f gives 0 in the CAS.
 	 */
 	final public boolean isDifferenceZeroInCAS(final GeoElement f) {
 		// use CAS to check f - g = 0
 		try {
 			final StringBuilder diffSb = new StringBuilder();
+			diffSb.append("Simplify[");
 			diffSb.append(getFormulaString(StringTemplate.defaultTemplate, true));
 			diffSb.append("-(");
 			diffSb.append(f.getFormulaString(StringTemplate.defaultTemplate, true));
-			diffSb.append(")");
+			diffSb.append(")]");
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString(),null);
 			return (Double.valueOf(diff) == 0d);
 		} catch (final Throwable e) {
