@@ -14,13 +14,14 @@ import geogebra.common.main.App;
  * Platform independent abstract CAS view
  */
 public abstract class CASView implements View{
+	/** Default CAS toolbar */
 	public static final String TOOLBAR_DEFINITION = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 | 1011 || 1008 1009 || 6";
 	private GeoGebraCAS cas;
 	/** kernel */
 	protected Kernel kernel;
 	/** input handler */
 	protected CASInputHandler casInputHandler;
-	private boolean toolbarIsUpdatedByDockPanel;
+
 	/**
 	 * @return CAS table
 	 */
@@ -29,10 +30,7 @@ public abstract class CASView implements View{
 	 * @return application
 	 */
 	public abstract App getApp();
-	/**
-	 * @return row headers
-	 */
-	public abstract RowHeader getRowHeader();
+
 	/**
 	 * Shows dialog for substitution tool
 	 * @param prefix prefix (keep as is)

@@ -2,7 +2,6 @@ package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.cas.view.CASView;
-import geogebra.common.cas.view.RowHeader;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
@@ -74,12 +73,6 @@ public class CASViewW extends CASView {
 	@Override
     public App getApp() {
 	    return app;
-    }
-
-	@Override
-    public RowHeader getRowHeader() {
-	    // TODO Auto-generated method stub
-	    return null;
     }
 
 	@Override

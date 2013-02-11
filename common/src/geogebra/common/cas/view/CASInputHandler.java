@@ -40,7 +40,7 @@ public class CASInputHandler {
 
 		if ((ggbcmd.equalsIgnoreCase("Solve") || 
 				ggbcmd.equalsIgnoreCase("NSolve"))
-				&& (casView.getRowHeader().getSelectedIndices().length > 1)) {
+				&& (consoleTable.getSelectedRows().length > 1)) {
 			processMultipleRows(ggbcmd);
 			return;
 		}
@@ -304,7 +304,7 @@ public class CASInputHandler {
 
 		int currentRow = selRow;
 
-		int[] selectedIndices = casView.getRowHeader().getSelectedIndices();
+		int[] selectedIndices = consoleTable.getSelectedRows();
 		int nrEquations;
 
 		// remove empty cells because empty cells' inputVE vars are null

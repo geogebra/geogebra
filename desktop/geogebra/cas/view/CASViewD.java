@@ -254,7 +254,6 @@ public class CASViewD  extends CASView implements Gridable {
 	/**
 	 * @return row headers
 	 */
-	@Override
 	public RowHeaderD getRowHeader() {
 		return rowHeader;
 	}
