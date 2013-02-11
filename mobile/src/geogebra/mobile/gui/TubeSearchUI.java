@@ -1,6 +1,7 @@
 package geogebra.mobile.gui;
 
 import geogebra.mobile.ClientFactory;
+import geogebra.mobile.utils.ggtapi.GeoGebraTubeAPI;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -24,13 +25,14 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 	private ClientFactory clientFactory;
 
 	private MSearchBox searchBox;
-	
+
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
 	 */
 	public TubeSearchUI()
 	{
+
 		// set viewport and other settings for mobile
 		MGWT.applySettings(MGWTSettings.getAppSetting());
 
@@ -53,15 +55,18 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 		this.searchBox = new MSearchBox();
 		this.searchBox.addValueChangeHandler(new ValueChangeHandler<String>()
 		{
-			
+
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event)
 			{
-				// TODO CHECK WHAT THIS DOES!
-				event.getValue();				
+
+				event.getValue();
+
+				// Make JSON Request
+				GeoGebraTubeAPI.getInstance().search(event.getValue(), GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY);
 			}
 		});
-		
+
 		this.add(this.searchBox);
 	}
 
@@ -79,5 +84,5 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 	{
 		this.clientFactory.getPlaceController().goTo(place);
 	}
-	
+
 }
