@@ -235,7 +235,12 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		}
 		ih.getStyle().setLeft(x, Style.Unit.PX);
 		ih.getStyle().setTop(y, Style.Unit.PX);
-		ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+
+		// as the background is usually (or always) the background of the canvas,
+		// it is better if this is transparent, because the grid should be shown
+		// just like in the Java version
+		//ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+
 		ih.getStyle().setColor(GColor.getColorString(fgColor));
 		return new geogebra.web.awt.GDimensionW(ih.getOffsetWidth(),
 		        ih.getOffsetHeight());
