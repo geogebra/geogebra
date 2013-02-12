@@ -97,6 +97,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		// remove all \; and \,
 		eqstring = eqstring.replace("\\;", "");
 		eqstring = eqstring.replace("\\,", "");
+		eqstring = eqstring.replace("\\ ", "");
 
 		eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
 		eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
