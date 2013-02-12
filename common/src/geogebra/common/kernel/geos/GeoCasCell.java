@@ -2267,4 +2267,18 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return evalCmdLocal;
 	}
 
+	
+
+	public void handleMarble(MarbleRenderer renderer) {
+		boolean marbleShown = hasTwinGeo() && getTwinGeo().isEuclidianVisible() 
+		&& getTwinGeo().isEuclidianShowable();
+		if(showOutput() && !isError()){
+			renderer.setMarbleValue(marbleShown);
+			renderer.setMarbleVisible(true);			
+		}else{
+			renderer.setMarbleVisible(true);
+		}
+		
+	}
+
 }
