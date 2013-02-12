@@ -1,7 +1,11 @@
 package geogebra.mobile.utils.ggtapi;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
+
 /**
- * Request POJO
+ * For Generating a JSON String for specific GeoGebratube API Requests
  * 
  * @author Matthias Meisinger
  */
@@ -10,6 +14,16 @@ class Request
 	enum Task
 	{
 		fetch;
+	}
+
+	public enum Fields
+	{
+		id, title, type, description, timestamp, author, author_url, url, url_direct, language, thumbnail, featured, likes;
+	}
+
+	public enum Filters
+	{
+		id, title, search, type, description, timestamp, author, language, featured, likes;
 	}
 
 	public enum Order
@@ -22,20 +36,15 @@ class Request
 		asc, desc;
 	}
 
-	public enum Filters
-	{
-		id, title, search, type, description, timestamp, author, language, featured, likes;
-	}
-
 	private static final String api = "1.0.0";
+	private Task task = Task.fetch;
 
 	private Fields[] fields = Fields.values();
-	private Filters[] filters;
-	private String query = "";
-
-	private Order by;
-	private Type type;
+	private Filters[] filters = { Filters.search };
+	private Order by = Order.relevance;
+	private Type type = Type.desc;
 	private int limit = GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY;
+	private String query;
 
 	/**
 	 * Constructor for a Featured Materials Request
@@ -60,50 +69,68 @@ class Request
 	}
 
 	/**
-	 * Constructor for a Request by Filters
+	 * Constructor for a Request by ID
 	 * 
 	 * @param filters
 	 * @param by
 	 */
-	public Request(Filters[] filters, Order by, Type sort)
+	public Request(int ID)
 	{
-		this.filters = filters;
-		this.by = by;
-		this.type = sort;
+		this.filters = new Filters[] { Filters.id };
 	}
 
-	public static String getApi()
-  {
-  	return api;
-  }
+	public String toJSONString()
+	{
+		// String testString =
+		// "{\"request\":{\"-api\":\"1.0.0\",\"task\":{\"-type\":\"fetch\",\"fields\":{\"field\":[{\"-name\":\"id\"},{\"-name\":\"title\"},{\"-name\":\"timestamp\"},{\"-name\":\"author\"},{\"-name\":\"author_url\"},{\"-name\":\"url\"},{\"-name\":\"language\"},{\"-name\":\"featured\"},{\"-name\":\"likes\"}]},\"filters\":{\"field\":[{\"-name\":\"language\",\"#text\":\"en_US\"},{\"-name\": \"featured\"}]},\"order\":{\"-by\":\"timestamp\",\"-type\":\"asc\"},\"limit\":{\"-num\":\"10\"}}}}";
+		JSONObject request = new JSONObject();
+		JSONObject api = new JSONObject();
+		JSONObject task = new JSONObject();
+		JSONObject fields = new JSONObject();
+		JSONArray field = new JSONArray();
 
-	public Fields[] getFields()
-  {
-  	return fields;
-  }
+		JSONObject filters = new JSONObject();
+		JSONArray filter = new JSONArray();
 
-	public Filters[] getFilters()
-  {
-  	return filters;
-  }
+		JSONObject order = new JSONObject();
+		JSONObject limit = new JSONObject();
 
-	public String getQuery()
-  {
-  	return query;
-  }
+		api.put("-api", new JSONString(Request.api));
+		task.put("-type", new JSONString(this.task.toString()));
 
-	public Order getBy()
-  {
-  	return by;
-  }
+		for (int i = 0; i < this.fields.length; i++)
+		{
+			JSONObject current = new JSONObject();
+			current.put("-name", new JSONString(this.fields[i].toString()));
+			field.set(i, current);
+		}
+		fields.put("field", field);
 
-	public Type getType()
-  {
-  	return type;
-  }
+		for (int i = 0; i < this.filters.length; i++)
+		{
+			JSONObject current = new JSONObject();
+			current.put("-name", new JSONString(this.filters[i].toString()));
+			
+			if(this.filters[i] == Filters.search)
+			{
+				current.put("#text", new JSONString(this.query));
+			}
+			filter.set(i, current);
+		}
+		filters.put("field", filter);
 
-	public int getLimit()
-  {
-  	return limit;
-  }
+		order.put("-by", new JSONString(this.by.toString()));
+		order.put("-type", new JSONString(this.type.toString()));
+		limit.put("-num", new JSONString(String.valueOf(this.limit)));
+
+		task.put("fields", fields);
+		task.put("filters", filters);
+		task.put("order", order);
+		task.put("limit", limit);
+
+		api.put("task", task);
+		request.put("request", api);
+
+		return request.toString();
+	}
 }

@@ -154,7 +154,6 @@ public class Material implements Comparable<Material>
 		return this.likes;
 	}
 
-	@SuppressWarnings("deprecation")
 	public Date getDate()
 	{
 		// JAVA USES MILLISECONDS, UNIX USES SECONDS
@@ -232,5 +231,23 @@ public class Material implements Comparable<Material>
 		if (another == null)
 			return 1;
 		return this.id - another.id;
+	}
+	
+	@Override
+	public String toString()
+	{	 	
+		StringBuffer sb = new StringBuffer();
+		sb.append("ID: " + this.id + ": (" + this.type + ") ");
+		sb.append("Title: " + this.title + " ");
+		sb.append("by " + this.author + " (" + this.author_url + "), ");
+		sb.append("Date: " + DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(this.getDate()) + "\n");
+		sb.append("Description: " + this.description + "\n");
+		sb.append("Language: " + this.language + "\n");
+		sb.append("URL: " + this.url + "\n");
+		sb.append("URL_DIRECT: " + this.url_direct + "\n");
+		sb.append("Thumbnail: " + this.thumbnail + "\n");
+		sb.append("Featured: " + this.isFeatured() + " ");
+		sb.append("Likes: " + this.likes);
+	  return sb.toString();
 	}
 }

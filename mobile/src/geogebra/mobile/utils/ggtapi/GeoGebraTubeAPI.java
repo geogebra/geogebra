@@ -15,14 +15,13 @@ import com.google.gwt.http.client.Response;
  */
 public class GeoGebraTubeAPI
 {
-	private static final String url = "http://geogebratube.org/api/json.php";
 	public static final int STANDARD_RESULT_QUANTITY = 10;
+	
+	private static final String url = "http://geogebratube.org/api/json.php";
 	private static GeoGebraTubeAPI instance;
 
-	private Request request;
-
 	private RequestBuilder requestBuilder;
-	protected List<Material> result;
+
 
 	private GeoGebraTubeAPI()
 	{
@@ -38,9 +37,9 @@ public class GeoGebraTubeAPI
 	 *          maximum Number of returned materials
 	 * @return List<Item> Search Results in a List of materials
 	 */
-	public List<Material> search(String query, int limit)
+	public void search(String query, RequestCallback callback)
 	{
-		return performRequest(JSONparserGGT.parseRequest(new Request(query)));
+		performRequest(new Request(query).toJSONString(), callback);
 	}
 
 	/**
@@ -48,9 +47,9 @@ public class GeoGebraTubeAPI
 	 * 
 	 * @return List of materials
 	 */
-	public List<Material> getFeaturedMaterials()
+	public void getFeaturedMaterials(RequestCallback callback)
 	{
-		return performRequest(JSONparserGGT.parseRequest(new Request()));
+		performRequest(new Request().toJSONString(), callback);
 	}
 
 	/**
@@ -95,34 +94,17 @@ public class GeoGebraTubeAPI
 	 * @return the resulting List of Materials
 	 * @throws RequestException
 	 */
-	private List<Material> performRequest(String requestString)
-	{
+	private void performRequest(String requestString, RequestCallback callback)
+	{		
 		try
 		{
-			this.requestBuilder.sendRequest(requestString, new RequestCallback()
-			{
-
-				@Override
-				public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
-				{
-					GeoGebraTubeAPI.this.result = JSONparserGGT.parseResponse(response.getText());
-				}
-
-				@Override
-				public void onError(com.google.gwt.http.client.Request request, Throwable exception)
-				{
-					// TODO Handle error!
-					exception.printStackTrace();
-				}
-			});
+			this.requestBuilder.sendRequest(requestString, callback);
 		}
 		catch (RequestException e)
 		{
 			// TODO Handle the error!
 			e.printStackTrace();
 		}
-
-		return this.result;
 	}
 
 	/**
