@@ -628,7 +628,7 @@ __GGB__keysVar.pt_PT.command = {
     "Q3": "Q3",
     "Q3_Syntax": "[ <Lista de Dados n\xe3o Classificados> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
     "QuadricSide": "Superf\xedcieLateral",
-    "QuadricSide_Syntax": "[ <Quadric> ]",
+    "QuadricSide_Syntax": "[ <Quadrada> ]",
     "RSquare": "RQuadrado",
     "RSquare_Syntax": "[ <Lista de Pontos>, <Fun\xe7\xe3o> ]",
     "Radius": "Raio",
