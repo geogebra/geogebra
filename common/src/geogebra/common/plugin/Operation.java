@@ -1031,7 +1031,7 @@ public enum Operation {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().cosineIntegral();
 			}
-			return ev.polynomialOrDie(lt, this, "cosineIntegral(");
+			return ev.polynomialOrDie(lt, this, "cosIntegral(");
 
 		}
 	},
@@ -1043,7 +1043,7 @@ public enum Operation {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sineIntegral();
 			}
-			return ev.polynomialOrDie(lt, this, "sineIntegral(");
+			return ev.polynomialOrDie(lt, this, "sinIntegral(");
 
 		}
 	},
