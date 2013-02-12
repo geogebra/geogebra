@@ -3,7 +3,7 @@ http://www.geogebra.org/
 
 LICENSE
   You are free to copy, distribute and transmit GeoGebra free of charge
-  for personal non-commercial purposes (see conditions and details below).
+  for non-commercial purposes (see conditions and details below).
 
 PROJECT DIRECTOR
   * Markus Hohenwarter (Austria & USA 2001-)
@@ -206,19 +206,18 @@ SUPPORTING PARTNERS
    Creative Commons Attribution-Share Alike 3.0 or later
 
 3) GeoGebra Installers and Web Services including GeoGebraTube:
-   Free for Personal Non-Commercial Use
+   Free for Non-Commercial Use
 
-Note for Personal Non-commercial Users (e.g. students, teachers)
+Note for Non-commercial Users (e.g. students, teachers, schools)
   You may use GeoGebra and GeoGebraTube free of charge
   at home and in school under the conditions explained below.
 
 Note for Organizations and for Commercial Users
-  (e.g. publishers, online schools, non-profits, ministries)
+  (e.g. publishers, online schools, non-profit organizations)
   If you would like to use GeoGebra applets, installers, web services
   (including GeoGebraTube) or documentation for commercial purposes
-  (e.g. books, online courses) or distribute them to a large number
-  of people (e.g. mass installation on laptops or tablets), you can
-  do so by setting up a collaboration agreement.
+  (e.g. books, online courses), you can do so by setting up a 
+  collaboration agreement with our non-profit organization.
   Please write to office@geogebra.org for details and we will help
   you to find a good solution for your specific project.
 
@@ -282,12 +281,6 @@ Note for Organizations and for Commercial Users
      * Non-commercial. You may not use GeoGebra installers or
        web services for commercial purposes unless you have
        explicit permission from office@geogebra.org
-     * Personal Use. You may not use or distribute GeoGebra installers
-       or GeoGebra Web Services to a very large number of users
-       unless you have explicit permission from office@geogebra.org.
-       We would like to collaborate closely with large scale
-       distributors in order to provide the best possible support
-       for your specific project.
 
    GeoGebra Installers are ...
      official installation packages that let you install the GeoGebra
