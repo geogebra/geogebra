@@ -19,7 +19,8 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		oldValue = false;
 		add(label);
 		add(marble);
-		cell.handleMarble(this);
+		if(cell!=null)
+			cell.handleMarble(this);
 	}
 
 	public void setMarbleValue(boolean value) {
