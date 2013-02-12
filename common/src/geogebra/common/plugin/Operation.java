@@ -970,8 +970,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isVectorValue()) {
-				return ((NumberValue) rt).getNumber().psi();
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().psi();
 			}
 			return ev.polynomialOrDie(lt, this, "psi(");
 		}
