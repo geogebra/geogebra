@@ -24,7 +24,6 @@ public class CASOutputPanel extends JPanel {
 	 */
 	private static Color ERROR_COLOR = Color.red;
 	private static Color OUTPUT_PREFIX_COLOR = Color.gray;
-	private static String OUTPUT_PREFIX = "\u2192";
 
 	private JLabel outputSign;
 	private JLabel outputArea;
@@ -83,21 +82,7 @@ public class CASOutputPanel extends JPanel {
 				outputArea.setForeground(ERROR_COLOR);	
 		}	
 		
-		// update output sign
-		if (cmd.length() == 0) {
-			outputSign.setText(OUTPUT_PREFIX);
-		}
-		else if (cmd.startsWith("KeepInput")) {
-			// show check character
-			outputSign.setText("\u2713");
-		} 
-		else if (cmd.startsWith("Numeric") || cmd.startsWith(app.getCommand("Numeric"))) {
-			// show approx character
-			outputSign.setText("\u2248");
-		}
-		else {
-			outputSign.setText(cmd + ":");
-		}
+		outputSign.setText(cmd);
 	}
 
 	@Override

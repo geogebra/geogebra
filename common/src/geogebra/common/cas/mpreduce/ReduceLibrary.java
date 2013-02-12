@@ -22,7 +22,7 @@ public class ReduceLibrary {
 		eval("linelength 50000;");
 		eval("scientific_notation {16,5};");
 		eval("on fullroots;");	
-		// set default switches
+		// set default switches Solve[{x+y=2,x=y}]
 		// (note: off factor turns on exp, so off exp must be placed later)
 		eval("numrules := {exp(~t*i)=>cos(~t)+i*sin(~t)};");
 		eval("procedure resetsettings(keepin,taystd,curx,cury);begin;"

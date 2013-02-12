@@ -27,6 +27,7 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1194,13 +1195,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	/**
-	 * @return evaluated command
-	 */
-	final public String getEvalCommand() {
-		return pointList ? "PointList" : evalCmd;
-	}
-
-	/**
 	 * @param cmd
 	 *            command
 	 */
@@ -1231,13 +1225,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (comment != null) {
 			evalComment = comment;
 		}
-	}
-
-	/**
-	 * @return comment
-	 */
-	final public String getEvalComment() {
-		return evalComment;
 	}
 
 	/**
@@ -2249,22 +2236,33 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return information about eval command for display in the cell
 	 */
 	public String getCommandAndComment() {
-		String evalCmdLocal = app.getCommand(evalCmd);
+		StringBuilder evalCmdLocal = new StringBuilder();
+		if(pointList){
+			evalCmdLocal.append(app.getCommand("PointList"));
+		}else if("".equals(evalCmd)){
+			return Unicode.CAS_OUTPUT_PREFIX;
+		}else if("Numeric".equals(evalCmd)){
+			return Unicode.CAS_OUTPUT_NUMERIC;
+		}else if("KeepInput".equals(evalCmd)){
+			return Unicode.CAS_OUTPUT_KEEPINPUT;
+		}else{
+			evalCmdLocal.append(app.getCommand(evalCmd));
+		}
 
-		if (input.startsWith(evalCmdLocal)) {
+		if (input.startsWith(evalCmdLocal.toString())) {
 			// don't show command if it is already at beginning of input
-			evalCmdLocal = "";
+			return Unicode.CAS_OUTPUT_PREFIX;
 		}
 
 		// eval comment (e.g. "x=5, y=8")
 		if (evalComment.length() > 0) {
-			if (evalCmdLocal.length() == 0) {
-				evalCmdLocal = evalComment;
-			} else {
-				evalCmdLocal = evalCmdLocal + ", " + evalComment;
+			if (evalCmdLocal.length() != 0) {
+				evalCmdLocal.append(", ");
 			}
+			evalCmdLocal.append(evalComment);
 		}
-		return evalCmdLocal;
+		evalCmdLocal.append(":");
+		return evalCmdLocal.toString();
 	}
 
 	
@@ -2276,7 +2274,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			renderer.setMarbleValue(marbleShown);
 			renderer.setMarbleVisible(true);			
 		}else{
-			renderer.setMarbleVisible(true);
+			renderer.setMarbleVisible(false);
 		}
 		
 	}
