@@ -5713,7 +5713,7 @@ public abstract class EuclidianController {
 	
 		// update preview
 		if (view.getPreviewDrawable() != null) {
-			view.getPreviewDrawable().updatePreview();
+			view.updatePreviewableForProcessMode();
 			if (mouseLoc != null) {
 				xRW = view.toRealWorldCoordX(mouseLoc.x);
 				yRW = view.toRealWorldCoordY(mouseLoc.y);

@@ -2379,6 +2379,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		getPreviewDrawable().updateMousePos(toRealWorldCoordX(mouseLoc.x),
 				toRealWorldCoordY(mouseLoc.y));
 	}
+	
+	public void updatePreviewableForProcessMode(){
+		getPreviewDrawable().updatePreview();
+	}
 
 	public final void mouseEntered() {
 		hasMouse = true;

@@ -587,6 +587,12 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 
 	/**
+	 * Updates previewable
+	 */
+	public void updatePreviewableForProcessMode();
+
+
+	/**
 	 * Switch to move cursor
 	 */
 	public void setMoveCursor();
