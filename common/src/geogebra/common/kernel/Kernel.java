@@ -4468,4 +4468,8 @@ public class Kernel {
 	public boolean getForceUpdatingBoundingBox() {
 		return forceUpdatingBoundingBox && app.isHTML5Applet();
 	}
+
+	public boolean useCASforDerivatives() {
+		return !app.isHTML5Applet();
+	}
 }

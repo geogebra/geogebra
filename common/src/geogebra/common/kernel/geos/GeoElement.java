@@ -50,6 +50,7 @@ import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -6802,4 +6803,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		
 	}	
+	
+	public ExpressionValue derivative(FunctionVariable fv) {
+		return null;
+	}
+
 }

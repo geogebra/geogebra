@@ -362,5 +362,10 @@ public abstract class ValidExpression implements ExpressionValue {
 	public boolean hasCoords() {
 		return false;
 	}
+	
+	public ExpressionValue derivative(FunctionVariable fv) {
+		return null;
+	}
+
 
 }

@@ -81,4 +81,12 @@ public class FunctionVariable extends MyDouble {
 		// used in expression node tree: be careful
 	//	 return new MyDouble(this);		      
     //}
+	
+	public ExpressionValue derivative(FunctionVariable fv) {
+		if (fv == this) {
+			return new MyDouble(kernel, 1);
+		}
+		return new MyDouble(kernel, 0);
+	}
+
 }

@@ -101,11 +101,13 @@ public class AlgoDerivative extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 
 
+		Function inFun = ((GeoFunction)f).getFunction();
+		int orderInt = order == null ? 1 : (int) Math.round(order.getDouble());
+
 		if (f instanceof GeoFunction) {
-			Function inFun = ((GeoFunction)f).getFunction();
 
 			// check if it's a polynomial
-			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(order == null ? 1 : (int) Math.round(order.getDouble()),true);
+			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(orderInt, true);
 
 			// it it is...
 			if (polyDeriv != null) {
@@ -119,6 +121,15 @@ public class AlgoDerivative extends AlgoCasBase {
 				((GeoFunction)g).setDefined(true);
 				return;
 			}
+		}
+		
+		if (!kernel.useCASforDerivatives()) {
+			
+			inFun = inFun.getDerivativeNoCAS(orderInt);
+			
+			((GeoFunction)g).setFunction(inFun);
+			((GeoFunction)g).setDefined(true);
+			return;
 		}
 
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)

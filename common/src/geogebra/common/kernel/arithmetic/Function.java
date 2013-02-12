@@ -818,6 +818,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			 // NB keepFractions ignored, so different answer given for f(x) = 3x^2 / 5, f'(x)
 			 return polyDeriv.getFunction(kernel, getFunctionVariable());
 		}
+		 
+		 if (!kernel.useCASforDerivatives()) {
+			 
+			 return getDerivativeNoCAS(n);
+			 
+		 }
 		
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
@@ -1021,6 +1027,21 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		GeoFunction gf = new GeoFunction(kernel.getConstruction());
 		gf.setFunction(this);
 		return gf;
+	}
+
+	/**
+	 * @param n order of derivative
+	 * @return derivative calculated without the CAS
+	 */
+	public Function getDerivativeNoCAS(int n) {
+		
+		ExpressionNode expDeriv = expression;
+		
+		for (int i = 0 ; i < n ; i++) {
+			expDeriv = expDeriv.derivative(fVars[0]);
+		}
+		
+		return new Function(expDeriv, fVars[0]);
 	}
 
 }
