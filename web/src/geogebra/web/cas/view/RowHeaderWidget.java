@@ -23,7 +23,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		add(marble);
 		if (cell != null)
 			cell.handleMarble(this);
-		marble.addClickHandler(new MarbleClickHandler(cell));
+		marble.addClickHandler(new MarbleClickHandler(cell,this));
 	}
 
 	public void setMarbleValue(boolean value) {
@@ -41,13 +41,16 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 
 	protected class MarbleClickHandler implements ClickHandler {
 		private GeoCasCell cell;
+		private RowHeaderWidget rowHeaderWidget;
 
-		protected MarbleClickHandler(GeoCasCell cell) {
+		protected MarbleClickHandler(GeoCasCell cell, RowHeaderWidget rowHeaderWidget) {
 			this.cell = cell;
+			this.rowHeaderWidget = rowHeaderWidget;
 		}
 
 		public void onClick(ClickEvent event) {
 			cell.toggleTwinGeoEuclidianVisible();
+			cell.handleMarble(rowHeaderWidget);
 			event.stopPropagation();
 		}
 	}
