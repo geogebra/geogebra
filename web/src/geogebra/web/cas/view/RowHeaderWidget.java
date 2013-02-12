@@ -31,6 +31,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 			return;
 		marble.setUrl(value ? AppResources.INSTANCE.shown().getSafeUri()
 		        : AppResources.INSTANCE.hidden().getSafeUri());
+		oldValue = value;
 
 	}
 
