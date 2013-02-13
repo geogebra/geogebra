@@ -623,6 +623,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			boolean symbolic,boolean assumeFalseIfCASNeeded) {
 		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev,
 				symbolic);
+		//TODO: make sure expandToPolyFunctionNoCas does not mess with ev instead of the next line
+		initFunction();
 		if(polyFunNoCas!=null || assumeFalseIfCASNeeded)
 			return polyFunNoCas;
 		ExpressionNode node;
