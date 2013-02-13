@@ -5413,8 +5413,6 @@ public class ExpressionNode extends ValidExpression implements
 
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv) {
-		App.debug(operation.toString());
-		ExpressionNode condFunCopy;
 		switch (operation) {
 		
 		case XCOORD:
