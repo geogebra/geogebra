@@ -969,5 +969,11 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionValue zeta() {
 		return new MyDouble(kernel,MyMath2.zeta(val));
 	}
+	
+	@Override
+	public ExpressionValue derivative(FunctionVariable fv) {
+		return new MyDouble(kernel, 0);
+	}
+
 
 }
