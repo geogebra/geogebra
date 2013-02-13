@@ -15,16 +15,6 @@ import com.google.gwt.json.client.JSONParser;
  */
 public class JSONparserGGT
 {
-	public static String parseRequest(Request request)
-	{
-		// TODO Implement Parser
-		// String testString =
-		// "{\"request\":{\"-api\":\"1.0.0\",\"task\":{\"-type\":\"fetch\",\"fields\":{\"field\":[{\"-name\":\"id\"},{\"-name\":\"title\"},{\"-name\":\"timestamp\"},{\"-name\":\"author\"},{\"-name\":\"author_url\"},{\"-name\":\"url\"},{\"-name\":\"language\"},{\"-name\":\"featured\"},{\"-name\":\"likes\"}]},\"filters\":{\"field\":[{\"-name\":\"language\",\"#text\":\"en_US\"}]},{\"field\":{\"-name\":\"featured\",\"#text\":\"true\"}}],\"order\":{\"-by\":\"timestamp\",\"-type\":\"asc\"},\"limit\":{\"-num\":\"10\"}}}}";
-		String testString = "{\"request\":{\"-api\":\"1.0.0\",\"task\":{\"-type\":\"fetch\",\"fields\":{\"field\":[{\"-name\":\"id\"},{\"-name\":\"title\"},{\"-name\":\"description\"}{\"-name\":\"timestamp\"},{\"-name\":\"author\"},{\"-name\":\"author_url\"},{\"-name\":\"url\"},{\"-name\":\"language\"},{\"-name\":\"featured\"},{\"-name\":\"likes\"}]},\"filters\":{\"field\":[{\"-name\":\"language\",\"#text\":\"en_US\"},{\"-name\": \"featured\"}]},\"order\":{\"-by\":\"timestamp\",\"-type\":\"asc\"},\"limit\":{\"-num\":\"10\"}}}}";
-
-		return testString;
-	}
-
 	public static List<Material> parseResponse(String response)
 	{
 		List<Material> result = new ArrayList<Material>();

@@ -44,7 +44,21 @@ class Request
 	private Order by = Order.relevance;
 	private Type type = Type.desc;
 	private int limit = GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY;
+
+	private JSONObject requestJSON = new JSONObject();
+	private JSONObject apiJSON = new JSONObject();
+	private JSONObject taskJSON = new JSONObject();
+	private JSONObject fieldsJSON = new JSONObject();
+	private JSONArray fieldJSON = new JSONArray();
+
+	private JSONObject filtersJSON = new JSONObject();
+	private JSONArray filterJSON = new JSONArray();
+
+	private JSONObject orderJSON = new JSONObject();
+	private JSONObject limitJSON = new JSONObject();
+
 	private String query;
+	private int id;
 
 	/**
 	 * Constructor for a Featured Materials Request
@@ -74,63 +88,57 @@ class Request
 	 * @param filters
 	 * @param by
 	 */
-	public Request(int ID)
+	public Request(int id)
 	{
 		this.filters = new Filters[] { Filters.id };
+		this.id = id;
 	}
 
 	public String toJSONString()
 	{
-		// String testString =
-		// "{\"request\":{\"-api\":\"1.0.0\",\"task\":{\"-type\":\"fetch\",\"fields\":{\"field\":[{\"-name\":\"id\"},{\"-name\":\"title\"},{\"-name\":\"timestamp\"},{\"-name\":\"author\"},{\"-name\":\"author_url\"},{\"-name\":\"url\"},{\"-name\":\"language\"},{\"-name\":\"featured\"},{\"-name\":\"likes\"}]},\"filters\":{\"field\":[{\"-name\":\"language\",\"#text\":\"en_US\"},{\"-name\": \"featured\"}]},\"order\":{\"-by\":\"timestamp\",\"-type\":\"asc\"},\"limit\":{\"-num\":\"10\"}}}}";
-		JSONObject request = new JSONObject();
-		JSONObject api = new JSONObject();
-		JSONObject task = new JSONObject();
-		JSONObject fields = new JSONObject();
-		JSONArray field = new JSONArray();
-
-		JSONObject filters = new JSONObject();
-		JSONArray filter = new JSONArray();
-
-		JSONObject order = new JSONObject();
-		JSONObject limit = new JSONObject();
-
-		api.put("-api", new JSONString(Request.api));
-		task.put("-type", new JSONString(this.task.toString()));
+		this.apiJSON.put("-api", new JSONString(Request.api));
+		this.taskJSON.put("-type", new JSONString(this.task.toString()));
 
 		for (int i = 0; i < this.fields.length; i++)
 		{
 			JSONObject current = new JSONObject();
 			current.put("-name", new JSONString(this.fields[i].toString()));
-			field.set(i, current);
+			this.fieldJSON.set(i, current);
 		}
-		fields.put("field", field);
+		
+		this.fieldsJSON.put("field", this.fieldJSON);
 
 		for (int i = 0; i < this.filters.length; i++)
 		{
 			JSONObject current = new JSONObject();
 			current.put("-name", new JSONString(this.filters[i].toString()));
-			
-			if(this.filters[i] == Filters.search)
+
+			if (this.filters[i] == Filters.search)
 			{
 				current.put("#text", new JSONString(this.query));
 			}
-			filter.set(i, current);
+			else if (this.filters[i] == Filters.id)
+			{
+				current.put("#text", new JSONString(String.valueOf(this.id)));
+			}
+
+			this.filterJSON.set(i, current);
 		}
-		filters.put("field", filter);
 
-		order.put("-by", new JSONString(this.by.toString()));
-		order.put("-type", new JSONString(this.type.toString()));
-		limit.put("-num", new JSONString(String.valueOf(this.limit)));
+		this.filtersJSON.put("field", this.filterJSON);
 
-		task.put("fields", fields);
-		task.put("filters", filters);
-		task.put("order", order);
-		task.put("limit", limit);
+		this.orderJSON.put("-by", new JSONString(this.by.toString()));
+		this.orderJSON.put("-type", new JSONString(this.type.toString()));
+		this.limitJSON.put("-num", new JSONString(String.valueOf(this.limit)));
 
-		api.put("task", task);
-		request.put("request", api);
+		this.taskJSON.put("fields", this.fieldsJSON);
+		this.taskJSON.put("filters", this.filtersJSON);
+		this.taskJSON.put("order", this.orderJSON);
+		this.taskJSON.put("limit", this.limitJSON);
 
-		return request.toString();
+		this.apiJSON.put("task", this.taskJSON);
+		this.requestJSON.put("request", this.apiJSON);
+
+		return this.requestJSON.toString();
 	}
 }

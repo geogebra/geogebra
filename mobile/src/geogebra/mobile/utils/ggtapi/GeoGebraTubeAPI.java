@@ -1,11 +1,8 @@
 package geogebra.mobile.utils.ggtapi;
 
-import java.util.List;
-
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
 
 /**
  * API Interface for GeoGebraTube requests and responses
@@ -16,12 +13,11 @@ import com.google.gwt.http.client.Response;
 public class GeoGebraTubeAPI
 {
 	public static final int STANDARD_RESULT_QUANTITY = 10;
-	
+
 	private static final String url = "http://geogebratube.org/api/json.php";
 	private static GeoGebraTubeAPI instance;
 
 	private RequestBuilder requestBuilder;
-
 
 	private GeoGebraTubeAPI()
 	{
@@ -52,39 +48,35 @@ public class GeoGebraTubeAPI
 		performRequest(new Request().toJSONString(), callback);
 	}
 
-	/**
-	 * Returns a String-Array of popular tags fetched from the GGT API
-	 * 
-	 * @return
-	 */
-	public String[] getPopularTags()
-	{
-		// TODO fetch popular tags from the API
-		return new String[] { "algebra", "dment", "pythagorean", "circle", "triangle", "functions", "jerzy", "geometry", "trigonometry", "3d" };
-	}
+//	/**
+//	 * Returns a String-Array of popular tags fetched from the GGT API
+//	 * 
+//	 */
+//	public String[] getPopularTags()
+//	{
+//		// TODO fetch popular tags from the API
+//		return new String[] { "algebra", "dment", "pythagorean", "circle", "triangle", "functions", "jerzy", "geometry", "trigonometry", "3d" };
+//	}
 
 	/**
 	 * Return a specific Material by its ID
 	 * 
 	 * @param ID
 	 */
-	public Material getItem(String ID)
+	public void getItem(String ID, RequestCallback callback)
 	{
-		// TODO Implement fetching Materials by ID
-		throw new UnsupportedOperationException();
+		performRequest(new Request().toJSONString(), callback);
 	}
 
-	/**
-	 * Return a list of all Materials from the specified author
-	 * 
-	 * @param author
-	 * @return List of Materials
-	 */
-	public List<Material> getAuthorsMaterials(String author)
-	{
-		// TODO Implement fetching Materials from specified author
-		throw new UnsupportedOperationException();
-	}
+//	/**
+//	 * Return a list of all Materials from the specified author
+//	 * ! Should be the same search as for materials!
+//	 * @param author
+//	 */
+//	public void getAuthorsMaterials(String author, RequestCallback callback)
+//	{
+//	throw new UnsupportedOperationException();
+//	}
 
 	/**
 	 * Private method performing the request given by requestString
@@ -95,7 +87,7 @@ public class GeoGebraTubeAPI
 	 * @throws RequestException
 	 */
 	private void performRequest(String requestString, RequestCallback callback)
-	{		
+	{
 		try
 		{
 			this.requestBuilder.sendRequest(requestString, callback);

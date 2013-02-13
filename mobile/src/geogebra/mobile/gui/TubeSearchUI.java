@@ -15,6 +15,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.TextArea;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -23,7 +24,6 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.MSearchBox;
 import com.googlecode.mgwt.ui.client.widget.MTextArea;
-import com.googlecode.mgwt.ui.client.widget.MTextBox;
 
 /**
  * Coordinates the GUI of the tablet.
@@ -34,8 +34,8 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 	private ClientFactory clientFactory;
 
 	private MSearchBox searchBox;
-	protected MTextArea materialTextArea;
-
+	protected TextArea materialTextArea;
+	
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
@@ -86,9 +86,10 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 								sb.append(m.toString());
 								sb.append("\n\n");
 							}
-							TubeSearchUI.this.materialTextArea.setText(sb.toString());				
+							TubeSearchUI.this.materialTextArea.setText(sb.toString());
+							TubeSearchUI.this.materialTextArea.setVisibleLines(60);
 						}
-			
+
 					}
 
 					@Override
@@ -102,10 +103,9 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 			}
 		});
 
-		this.materialTextArea = new MTextArea();
+		this.materialTextArea = new TextArea();
 		this.materialTextArea.setReadOnly(true);
-		this.materialTextArea.addStyleDependentName("materialTextArea");
-
+		this.materialTextArea.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 
 		this.add(this.searchBox);
 		this.add(this.materialTextArea);
