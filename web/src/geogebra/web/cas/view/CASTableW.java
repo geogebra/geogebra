@@ -155,7 +155,11 @@ public class CASTableW extends Grid implements CASTable {
 		addSelectedRows(from, to);
 	}
 
-	public void addSelectedRows(int from, int to) {
+	public void addSelectedRows(int a, int b) {
+		int from = Math.min(a, b);
+		int to = Math.max(a, b);
+		if(from < 0)
+			return;
 		for(int i=0;i<getRowCount();i++){
 			markRowSelected(i,false);
 		}

@@ -51,12 +51,18 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onMouseMove(MouseMoveEvent event) {
-	    // TODO Auto-generated method stub
+		GPoint p = view.getConsoleTable().getPointForEvent(event);
+		CASTableW table = view.getConsoleTable();
+		if(p.getX()!=CASTableW.COL_CAS_HEADER || startSelectRow<0)
+			return;
+		if(event.isShiftKeyDown()){
+			table.addSelectedRows(startSelectRow,p.getY());
+		}
+		event.stopPropagation();
 	    
     }
 
 	public void onMouseUp(MouseUpEvent event) {
-		event.preventDefault();
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
 		CASTableW table = view.getConsoleTable();
 		if(p.getX()!=CASTableW.COL_CAS_HEADER || startSelectRow<0)
@@ -72,11 +78,12 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onMouseDown(MouseDownEvent event) {
-		event.preventDefault();
 		CASTableW table = view.getConsoleTable();
 		GPoint p = table.getPointForEvent(event);
-		if(p.getX()!=CASTableW.COL_CAS_HEADER)
+		if(p.getX()!=CASTableW.COL_CAS_HEADER){
 			this.startSelectRow = -1;
+			return;
+		}
 		if(!event.isShiftKeyDown()){
 			this.startSelectRow = p.getY();
 		}else if(event.isControlKeyDown()){
