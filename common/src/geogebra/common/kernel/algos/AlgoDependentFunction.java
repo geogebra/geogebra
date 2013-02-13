@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -252,6 +253,11 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				node.setRight(expandFunctionDerivativeNodes(node.getRight()));
 				return node;
 			}
+		}else if(ev instanceof MyNumberPair){
+			((MyNumberPair)ev).setX(expandFunctionDerivativeNodes(
+					((MyNumberPair)ev).getX()));
+			((MyNumberPair)ev).setY(expandFunctionDerivativeNodes(
+					((MyNumberPair)ev).getY()));
 		}
 		return ev;
 	}

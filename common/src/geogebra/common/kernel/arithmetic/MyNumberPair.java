@@ -61,5 +61,13 @@ public class MyNumberPair extends MyVecNode {
     	y = y.traverse(t);
     	return this;
     }
+
+	public void setX(ExpressionValue x) {
+		this.x = x;		
+	}
+	
+	public void setY(ExpressionValue y) {
+		this.y = y;		
+	}
 	
 }
