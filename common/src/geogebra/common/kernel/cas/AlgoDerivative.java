@@ -101,11 +101,19 @@ public class AlgoDerivative extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 
 
-		Function inFun = ((GeoFunction)f).getFunction();
+		
 		int orderInt = order == null ? 1 : (int) Math.round(order.getDouble());
 
 		if (f instanceof GeoFunction) {
-
+			Function inFun = ((GeoFunction)f).getFunction();
+			if (!kernel.useCASforDerivatives()) {
+				
+				inFun = inFun.getDerivativeNoCAS(orderInt);
+				
+				((GeoFunction)g).setFunction(inFun);
+				((GeoFunction)g).setDefined(true);
+				return;
+			}
 			// check if it's a polynomial
 			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(orderInt, true);
 
@@ -122,15 +130,9 @@ public class AlgoDerivative extends AlgoCasBase {
 				return;
 			}
 		}
+		//TODO: implement the fast derivative also for curves & multivar functions
 		
-		if (!kernel.useCASforDerivatives()) {
-			
-			inFun = inFun.getDerivativeNoCAS(orderInt);
-			
-			((GeoFunction)g).setFunction(inFun);
-			((GeoFunction)g).setDefined(true);
-			return;
-		}
+		
 
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
 
