@@ -607,4 +607,10 @@ public class Polynomial extends ValidExpression implements Serializable
 	public Kernel getKernel() {
 		return kernel;
 	}
+	
+	@Override
+	public ExpressionValue derivative(FunctionVariable fv) {
+		throw new MyError(kernel.getApplication(), "derivative called on Polynomial");
+	}
+
 } // end of class Polynomial

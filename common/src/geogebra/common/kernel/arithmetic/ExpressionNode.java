@@ -5414,6 +5414,7 @@ public class ExpressionNode extends ValidExpression implements
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv) {
 		App.debug(operation.toString());
+		ExpressionNode condFunCopy;
 		switch (operation) {
 		
 		case XCOORD:
@@ -5517,6 +5518,21 @@ public class ExpressionNode extends ValidExpression implements
 				
 			// TODO: general method (not possible?)
 			break;
+			
+		case IF_ELSE:
+			MyNumberPair np = (MyNumberPair) left;
+						
+			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
+			
+			// TODO: doesn't work
+			//return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.derivative(fv));
+			return null;
+			
+		case IF:
+			
+			// TODO: doesn't work
+			// return new ExpressionNode(kernel, left, Operation.IF, right.derivative(fv));
+			return null;
 			
 		case LOG:
 			// base e (ln)
