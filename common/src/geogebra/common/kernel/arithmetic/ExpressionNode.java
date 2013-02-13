@@ -5016,6 +5016,27 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @return result of polyganma(n, this)
+	 */
+	public ExpressionNode polygamma(double n) {
+		return new ExpressionNode(kernel, wrap(n), Operation.POLYGAMMA, this);
+	}
+
+	/**
+	 * @return result of sin(this)
+	 */
+	public ExpressionNode sin() {
+		return new ExpressionNode(kernel, this, Operation.SIN, null);
+	}
+
+	/**
+	 * @return result of cos(this)
+	 */
+	public ExpressionNode cos() {
+		return new ExpressionNode(kernel, this, Operation.COS, null);
+	}
+
+	/**
 	 * @return result of 1/this
 	 */
 	public ExpressionNode reciprocate() {
@@ -5470,6 +5491,33 @@ public class ExpressionNode extends ValidExpression implements
 			// 0/x
 			return wrap(new MyDouble(kernel, 0)).divide(fv);
 				
+		case EXP:
+			return wrap(left.derivative(fv)).multiply(wrap(left).exp());
+				
+		case SI:
+			return wrap(left.derivative(fv)).multiply(wrap(left).sin().divide(left));
+				
+		case CI:
+			return wrap(left.derivative(fv)).multiply(wrap(left).cos().divide(left));
+				
+		case EI:
+			return wrap(left.derivative(fv)).multiply(wrap(left).exp().divide(left));
+				
+		case ERF:
+			return wrap(left.derivative(fv)).multiply(wrap(2)).divide(wrap(left).square().exp().multiply(wrap(Math.PI).sqrt()));
+				
+		case PSI:
+			return wrap(left.derivative(fv)).multiply(wrap(left).polygamma(1));
+				
+		case POLYGAMMA:
+			if (left.isNumberValue()) {
+				double n = ((NumberValue) left).getDouble();
+				return wrap(right.derivative(fv)).multiply(wrap(right).polygamma(n + 1));
+			}
+				
+			// TODO: general method (not possible?)
+			break;
+			
 		case LOG:
 			// base e (ln)
 			return wrap(left.derivative(fv)).divide(left);
@@ -5509,7 +5557,13 @@ public class ExpressionNode extends ValidExpression implements
 		}
 
 		App.error("unhandled operation in derivative() (no CAS version): "+operation.toString());
-		return null;
+		
+		// undefined
+		return wrap(Double.NaN);
+	}
+
+	private ExpressionNode wrap(double n) {
+		return wrap(new MyDouble(kernel, n));
 	}
 
 	private ExpressionNode wrap(ExpressionValue ev) {
