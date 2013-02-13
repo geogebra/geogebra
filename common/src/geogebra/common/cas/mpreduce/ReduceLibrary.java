@@ -83,7 +83,8 @@ public class ReduceLibrary {
 		eval("operator iffun;");
 		eval("operator ifelsefun;");
 		eval("let { ifelsefun(~x,~a,~b) => ~a when x='true,  ifelsefun(~x,~a,~b) => ~b when x='false, "
-				+ "iffun(~x,~a) => ~a when x='true, iffun(~x,~a) => '? when x='false}");
+				+ "iffun(~x,~a) => ~a when x='true, iffun(~x,~a) => '? when x='false," +
+				"df(iffun(~cond,~f),~x)=>iffun(cond,df(f,x)),df(ifelsefun(~cond,~f,~g),~x)=>iffun(cond,df(f,x),df(g,x))}");
 		eval("let {abs(pi)=>pi,abs(e)=>e,sign(pi)=1,sign(e)=1," + "sqrt(~a)*sqrt(~b)=>sqrt(a*b)};");
 		String xBig=" mynumberp(~x)='true and mycompare(~x,1)>0 ";
 		String xNear0="mynumberp(~x)='true and mycompare(abs(~x),1)<0";
