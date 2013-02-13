@@ -182,7 +182,9 @@ public class MyMath2 {
 		switch (o) {
 		case 0: return Gamma.digamma(x);
 		case 1: return Gamma.trigamma(x);
-		default: return Double.NaN;
+		case 2: return PolyGamma.tetragamma(x);
+		case 3: return PolyGamma.pentagamma(x);
+		default: return PolyGamma.psigamma(x, o);
 		}
 	}
 
