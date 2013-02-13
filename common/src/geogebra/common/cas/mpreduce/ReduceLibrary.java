@@ -31,7 +31,7 @@ public class ReduceLibrary {
 				+ "numeric!!:=0$ precision 30; "
 				+ "clearrules numrules;"
 				+ "print_precision 16; "
-				+ "off allfac,revpri, complex, rounded, numval, factor, div; "
+				+ "off nat, allfac,revpri, complex, rounded, numval, factor, div; "
 				+ "off combinelogs, expandlogs, combineexpt,rational,rationalize;"
 				+ "on pri;" + "return 1;" + "end;");
 		eval("procedure degasin(x); asin(x)*180/pi*'\u00b0;");
