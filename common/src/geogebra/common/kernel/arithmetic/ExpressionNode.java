@@ -5522,15 +5522,11 @@ public class ExpressionNode extends ValidExpression implements
 						
 			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
 			
-			// TODO: doesn't work
-			//return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.derivative(fv));
-			return null;
+			return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.derivative(fv));
 			
 		case IF:
 			
-			// TODO: doesn't work
-			// return new ExpressionNode(kernel, left, Operation.IF, right.derivative(fv));
-			return null;
+			return new ExpressionNode(kernel, left, Operation.IF, right.derivative(fv));
 			
 		case LOG:
 			// base e (ln)
