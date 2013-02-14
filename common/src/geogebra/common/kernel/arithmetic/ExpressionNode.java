@@ -5583,4 +5583,8 @@ public class ExpressionNode extends ValidExpression implements
 		
 		return new ExpressionNode(kernel, ev, Operation.NO_OPERATION, null);
 	}
+	
+	public boolean isConditional(){
+		return operation == Operation.IF || operation == Operation.IF_ELSE;
+	}
 }

@@ -4470,6 +4470,6 @@ public class Kernel {
 	}
 
 	public boolean useCASforDerivatives() {
-		return !app.isHTML5Applet();
+		return false;
 	}
 }

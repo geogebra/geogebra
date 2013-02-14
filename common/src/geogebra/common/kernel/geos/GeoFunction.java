@@ -24,6 +24,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -36,6 +37,7 @@ import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -47,6 +49,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -1949,17 +1952,11 @@ public class GeoFunction extends GeoElement implements VarString,
 	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
 
 		String ret = "";
-		if (this.isGeoFunctionConditional()) {
-			GeoFunctionConditional geoFun = (GeoFunctionConditional) this;
-			if (tpl.hasType(StringType.MATH_PIPER)) {
-
-				// get in form If(x<3, etc
-				ret = geoFun.toSymbolicString(tpl);
-				// Application.debug(ret);
-			} else if (tpl.hasType(StringType.LATEX)) {
-				ret = geoFun.conditionalLaTeX(substituteNumbers, tpl);
+		if (getFunctionExpression().isConditional()) {
+			if (tpl.hasType(StringType.LATEX)) {
+				ret = conditionalLaTeX(substituteNumbers, tpl);
 			} else if (tpl.hasType(StringType.MATHML)) {
-				ret = geoFun.conditionalMathML(substituteNumbers, tpl);
+				ret = conditionalMathML(substituteNumbers, tpl);
 			}
 
 		} else if (this.isGeoFunction()) {
@@ -2025,6 +2022,417 @@ public class GeoFunction extends GeoElement implements VarString,
 	public void clearCasEvalMap(String key) {
 		fun.clearCasEvalMap(key);
 		
+	}
+	
+	/**
+	 * @param substituteNumbers
+	 *            true to replace names by values
+	 * @param tpl
+	 *            string template
+	 * @return LaTeX description of this function
+	 */
+	public String conditionalLaTeX(boolean substituteNumbers, StringTemplate tpl) {
+		StringBuilder sbLaTeX = new StringBuilder();
+		ExpressionNode expr = getFunctionExpression();
+		if (expr.getOperation()==Operation.IF && 
+				!expr.getRight().wrap().isConditional()) {
+			if(substituteNumbers){
+			sbLaTeX.append(expr.getRight().toValueString(
+					StringTemplate.latexTemplate));
+			sbLaTeX.append(" \\;\\;\\;\\; \\left(");
+			sbLaTeX.append(expr.getLeft().toValueString(
+					StringTemplate.latexTemplate));
+			}else{
+				sbLaTeX.append(expr.getRight().toString(
+						StringTemplate.latexTemplate));
+				sbLaTeX.append(" \\;\\;\\;\\; \\left(");
+				sbLaTeX.append(expr.getLeft().toString(
+						StringTemplate.latexTemplate));	
+			}
+			
+			sbLaTeX.append(" \\right)");
+
+		} else {
+			ArrayList<ExpressionNode> cases = new ArrayList<ExpressionNode>();
+			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
+			boolean complete = collectCases(expr,cases, conditions, new Bounds());
+			sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
+			for (int i = 0; i < cases.size(); i++) {
+				sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+				sbLaTeX.append("& : ");
+				if (i == cases.size() - 1 && complete) {
+					sbLaTeX.append("\\text{");
+					sbLaTeX.append(app.getPlain("otherwise"));
+					sbLaTeX.append("}");
+				} else {
+					sbLaTeX.append(conditions.get(i).toLaTeXString(
+							!substituteNumbers, getVarString(tpl), tpl));
+					if (i != cases.size() - 1)
+						sbLaTeX.append("\\\\ ");
+				}
+			}
+			sbLaTeX.append(" \\end{array}\\right. ");
+		}
+
+		return sbLaTeX.toString();
+	}
+
+	/**
+	 * eg <piecewise><piece><cn> 0 </cn><apply> <lt/> <ci> x </ci> <cn> 0 </cn>
+	 * </apply> </piece> <otherwise> <ci> x </ci> </otherwise> </piecewise>
+	 * 
+	 * @param substituteNumbers
+	 *            true to replace names by values
+	 * @param tpl
+	 *            string template
+	 * @return MathML description of this function, eg
+	 */
+	public String conditionalMathML(boolean substituteNumbers,
+			StringTemplate tpl) {
+		StringBuilder sbMathml = new StringBuilder();
+		ExpressionNode expr = getFunctionExpression();
+		if (expr.getOperation()==Operation.IF && 
+				!expr.getRight().wrap().isConditional()) {
+			sbMathml.append("<piecewise><piece>");
+			if(substituteNumbers){
+				sbMathml.append(expr.getRight().toValueString(
+						StringTemplate.latexTemplate));
+				sbMathml.append(expr.getLeft().toValueString(
+						StringTemplate.latexTemplate));
+			}else{
+				sbMathml.append(expr.getRight().toString(
+						StringTemplate.latexTemplate));
+				sbMathml.append(expr.getLeft().toString(
+						StringTemplate.latexTemplate));
+			}
+			sbMathml.append("</piece></piecewise>");
+
+		} else {
+			sbMathml.append("<piecewise>");
+			ArrayList<ExpressionNode> cases = new ArrayList<ExpressionNode>();
+			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
+			boolean complete = collectCases(expr,cases, conditions, new Bounds());
+			for (int i = 0; i < cases.size(); i++) {
+				if (i == cases.size() - 1 && complete) {
+					sbMathml.append("<otherwise>");
+					sbMathml.append(cases.get(i).toLaTeXString(!substituteNumbers,
+							tpl));
+					sbMathml.append("</otherwise>");
+				} else {
+					sbMathml.append("<piece>");
+					sbMathml.append(cases.get(i).toLaTeXString(!substituteNumbers,
+							tpl));
+					sbMathml.append(conditions.get(i).toLaTeXString(
+							!substituteNumbers, getVarString(tpl), tpl));
+					sbMathml.append("</piece>");
+				}
+			}
+			sbMathml.append("</piecewise>");
+		}
+
+		return sbMathml.toString();
+	}
+
+	private boolean collectCases(ExpressionNode condRoot,ArrayList<ExpressionNode> cases,
+			ArrayList<Bounds> conditions, Bounds parentCond) {
+		
+		boolean complete = condRoot.getOperation()==Operation.IF_ELSE;
+		ExpressionNode condFun = complete?((MyNumberPair)condRoot.getLeft()).getX().wrap():condRoot.getLeft().wrap();
+		ExpressionNode ifFun = complete?((MyNumberPair)condRoot.getLeft()).getY().wrap():condRoot.getRight().wrap();
+		ExpressionNode elseFun = complete?condRoot.getRight().wrap():null;
+		
+		Bounds positiveCond = parentCond.addRestriction(condFun);
+		Bounds negativeCond = parentCond.addRestriction(condFun.negation());
+		if (ifFun.isConditional()) {
+			complete &= collectCases(ifFun,cases,
+					conditions, positiveCond);
+		} else {
+			cases.add(ifFun);
+			conditions.add(positiveCond);
+		}
+		
+		if (elseFun!=null && elseFun.isConditional()) {
+			complete &= collectCases(elseFun,cases,
+					conditions, negativeCond);
+		} else if (elseFun != null) {
+			cases.add(elseFun);
+			conditions.add(negativeCond);
+		}
+		return complete;
+	}
+
+	
+	/**
+	 * Container for condition tripples (upper bound, lower bound, other
+	 * conditions)
+	 * 
+	 * @author kondr
+	 * 
+	 */
+	class Bounds {
+		private boolean lowerSharp, upperSharp;
+		private Double lower, upper;
+		private ExpressionNode condition;
+
+		/**
+		 * Adds restrictions from the expression to current bounds
+		 * 
+		 * @param e
+		 *            expression
+		 * @return new bounds
+		 */
+		public Bounds addRestriction(ExpressionNode e) {
+			if (e.getOperation().equals(Operation.AND)) {
+				return addRestriction(e.getLeftTree()).addRestriction(
+						e.getRightTree());
+			}
+			Bounds b = new Bounds();
+			b.lower = lower;
+			b.upper = upper;
+			b.lowerSharp = lowerSharp;
+			b.upperSharp = upperSharp;
+			b.condition = condition;//If[x==1,1,If[x==2,3,4]]
+		
+			boolean simple = e.getOperation() == Operation.GREATER
+					|| e.getOperation() == Operation.GREATER_EQUAL
+					|| e.getOperation() == Operation.LESS
+					|| e.getOperation() == Operation.LESS_EQUAL
+					|| e.getOperation() == Operation.EQUAL_BOOLEAN;
+
+			if (simple && e.getLeft() instanceof FunctionVariable
+					&& e.getRight() instanceof MyDouble) {
+				double d = ((MyDouble) e.getRight()).getDouble();
+				if (e.getOperation() == Operation.GREATER
+						&& (lower == null || lower <= d))// x > d
+				{
+					b.lower = d;
+					b.lowerSharp = true;
+				} else if ((e.getOperation() == Operation.GREATER_EQUAL || e
+						.getOperation() == Operation.EQUAL_BOOLEAN)
+						&& (lower == null || lower < d))// x > d
+				{
+					b.lower = d;
+					b.lowerSharp = false;
+				} else if (e.getOperation() == Operation.LESS
+						&& (upper == null || upper >= d))// x > d
+				{
+					b.upper = d;
+					b.upperSharp = true;
+				}
+				if ((e.getOperation() == Operation.LESS_EQUAL || e
+						.getOperation() == Operation.EQUAL_BOOLEAN)
+						&& (upper == null || upper > d))// x > d
+				{
+					b.upper = d;
+					b.upperSharp = false;
+				}
+			} else if (simple && e.getRight() instanceof FunctionVariable
+					&& e.getLeft() instanceof MyDouble) {
+				double d = ((MyDouble) e.getLeft()).getDouble();
+				if (e.getOperation() == Operation.LESS
+						&& (lower == null || lower <= d))// x > d
+				{
+					b.lower = d;
+					b.lowerSharp = true;
+				} else if ((e.getOperation() == Operation.LESS_EQUAL || e
+						.getOperation() == Operation.EQUAL_BOOLEAN)
+						&& (lower == null || lower < d))// x > d
+				{
+					b.lower = d;
+					b.lowerSharp = false;
+				} else if (e.getOperation() == Operation.GREATER
+						&& (upper == null || upper >= d))// x > d
+				{
+					b.upper = d;
+					b.upperSharp = true;
+				}
+				if ((e.getOperation() == Operation.GREATER_EQUAL || e
+						.getOperation() == Operation.EQUAL_BOOLEAN)
+						&& (upper == null || upper > d))// x > d
+				{
+					b.upper = d;
+					b.upperSharp = false;
+				}
+			} else {
+				if (condition == null)
+					b.condition = e;
+				else
+					b.condition = condition.and(e);
+			}
+			//If[x==1,2,If[x==3,4,5]]
+			if(b.upper!=null && b.lower!=null && (b.condition!=null) && 
+					Kernel.isEqual(b.upper.doubleValue(),b.lower.doubleValue())){
+				getFunction().getFunctionVariable().set(b.upper);
+				ExpressionValue v = b.condition.evaluate(StringTemplate.defaultTemplate);
+				if(v instanceof BooleanValue && ((BooleanValue)v).getBoolean())
+					b.condition = null;
+			}
+			//If[x==1,2,If[x>3,4,5]]
+			if(b.condition!=null && b.condition.getOperation() == Operation.NOT_EQUAL){
+				if (b.condition.getLeft() instanceof FunctionVariable
+						&& b.condition.getRight() instanceof MyDouble){
+					double d= ((MyDouble)b.condition.getRight()).getDouble();
+					if((b.lower!=null && d<b.lower)||(b.upper!=null && d>b.upper))
+						b.condition = null;
+				}
+				else if ( b.condition.getRight() instanceof FunctionVariable
+						&& b.condition.getLeft() instanceof MyDouble){
+					double d= ((MyDouble)b.condition.getLeft()).getDouble();
+					if((b.lower!=null && d<b.lower)||(b.upper!=null && d>b.upper))
+						b.condition = null;
+				}
+			}
+			return b;
+		}
+
+		/**
+		 * @param symbolic
+		 *            true to keep variable names
+		 * @param varString
+		 *            variable string
+		 * @param tpl
+		 *            string template
+		 * @return LaTeX string
+		 */
+		public String toLaTeXString(boolean symbolic, String varString,
+				StringTemplate tpl) {
+			StringBuilder ret = new StringBuilder();
+
+			if (tpl.hasType(StringType.LATEX)) {
+
+				if (upper == null && lower != null) {
+					ret.append(varString);
+					ret.append(" ");
+					ret.append(lowerSharp ? ">" : Unicode.GREATER_EQUAL);
+					ret.append(" ");
+					ret.append(kernel.format(lower, tpl));
+				} else if (lower == null && upper != null) {
+					ret.append(varString);
+					ret.append(" ");
+					ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
+					ret.append(" ");
+					ret.append(kernel.format(upper, tpl));
+				} else if (lower != null && upper != null) {
+					if (Kernel.isEqual(lower, upper) && !lowerSharp
+							&& !upperSharp) {
+						ret.append(varString);
+						ret.append(" = ");
+						ret.append(kernel.format(lower, tpl));
+					} else {
+						ret.append(kernel.format(lower, tpl));
+						ret.append(" ");
+						ret.append(lowerSharp ? "<" : Unicode.LESS_EQUAL);
+						ret.append(" ");
+						ret.append(varString);
+						ret.append(" ");
+						ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
+						ret.append(" ");
+						ret.append(kernel.format(upper, tpl));
+					}
+				}
+				//upper and lower are null, we only retrn condition right here
+				else if (condition != null) {
+					return condition.toLaTeXString(symbolic, tpl);
+				}
+				//we may still need to append condition
+				if (condition != null) {
+					ret.insert(0, "(");
+					ret.append(")\\wedge \\left(");
+					ret.append(condition.toLaTeXString(symbolic, tpl));
+					ret.append("\\right)");
+				}
+
+			} else {
+				// StringType.MATHML
+				// <apply><lt/><ci>x</ci><cn>3</cn></apply>
+
+				if (upper == null && lower != null) {
+					ret.append("<apply>");
+					ret.append(lowerSharp ? "<gt/>" : "<geq/>");
+					ret.append("<ci>");
+					ret.append(varString);
+					ret.append("</ci><cn>");
+					ret.append(kernel.format(lower, tpl));
+					ret.append("</cn></apply>");
+				} else if (lower == null && upper != null) {
+					ret.append("<apply>");
+					ret.append(upperSharp ? "<lt/>" : "<leq/>");
+					ret.append("<ci>");
+					ret.append(varString);
+					ret.append("</ci><cn>");
+					ret.append(kernel.format(upper, tpl));
+					ret.append("</cn></apply>");
+				} else if (lower != null && upper != null) {
+					if (Kernel.isEqual(lower, upper) && !lowerSharp
+							&& !upperSharp) {
+						ret.append("<apply>");
+						ret.append("<eq/>");
+						ret.append("<ci>");
+						ret.append(varString);
+						ret.append("</ci><cn>");
+						ret.append(kernel.format(lower, tpl));
+						ret.append("</cn></apply>");
+					} else {
+
+						if (lowerSharp == upperSharp) {
+							ret.append("<apply>");
+							ret.append(lowerSharp ? "<lt/>" : "<leq/>");
+							ret.append("<cn>");
+							ret.append(kernel.format(lower, tpl));
+							ret.append("</cn>");
+							ret.append("<ci>");
+							ret.append(varString);
+							ret.append("</ci>");
+							ret.append("<cn>");
+							ret.append(kernel.format(upper, tpl));
+							ret.append("</cn>");
+							ret.append("</apply>");
+						} else {
+							// more complex for eg 3 < x <= 5
+
+							ret.append("<apply>");// <apply>
+							ret.append("<and/>");// <and/>
+							ret.append("<apply>");// <apply>
+							ret.append(lowerSharp ? "<lt/>" : "<leq/>");// <lt/>
+							ret.append("<cn>");
+							ret.append(kernel.format(lower, tpl));
+							ret.append("</cn>");// <cn>3</cn>
+							ret.append("<ci>");
+							ret.append(varString);
+							ret.append("</ci>");// <ci>x</ci>
+							ret.append("</apply>");// </apply>
+							ret.append("<apply>");// <apply>
+							ret.append(upperSharp ? "<lt/>" : "<leq/>");// <leq/>
+							ret.append("<ci>");
+							ret.append(varString);
+							ret.append("</ci>");// <ci>x</ci>
+							ret.append("<cn>");
+							ret.append(kernel.format(upper, tpl));
+							ret.append("</cn>"); // <cn>5</cn>
+							ret.append("</apply>");// </apply>
+							ret.append("</apply>");// </apply>
+						}
+
+					}
+				}
+				//upper and lower are null, just return condition
+				else if (condition != null) {
+					return condition.toLaTeXString(symbolic, tpl);
+				} 
+				//we may still need to append condition
+				if (condition != null) {
+
+					// prepend
+					ret.insert(0, "<apply><and/>");
+					ret.append(condition.toLaTeXString(symbolic, tpl));
+					ret.append("</apply>");
+
+				}
+
+			}
+
+			return ret.toString();
+		}
 	}
 
 }
