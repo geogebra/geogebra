@@ -39,7 +39,6 @@ import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoInterval;
@@ -3854,8 +3853,8 @@ public class Kernel {
 		case 'f': // function
 			if (type.equals("function")) {
 				return new GeoFunction(cons1);
-			} else if (type.equals("functionconditional")) {
-				return new GeoFunctionConditional(cons1);
+			} else if (type.equals("functionconditional")) { //had special class fror v <5.0
+				return new GeoFunction(cons1);
 			} else {
 				return new GeoFunctionNVar(cons1);
 			}

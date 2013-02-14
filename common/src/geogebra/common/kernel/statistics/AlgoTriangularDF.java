@@ -22,11 +22,11 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for Triangular[a, b, mode,x, boolean]
@@ -36,7 +36,7 @@ public class AlgoTriangularDF extends AlgoElement {
 
 	private NumberValue a, b, mode;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
+	private GeoFunction ret;     // output           
         
     @SuppressWarnings("javadoc")
 	public AlgoTriangularDF(Construction cons, String label, NumberValue a, NumberValue b, NumberValue mode, BooleanValue cumulative) {       
@@ -51,7 +51,7 @@ public class AlgoTriangularDF extends AlgoElement {
         this.b = b;
         this.mode = mode;
         this.cumulative = cumulative;
-        ret = new GeoFunctionConditional(cons); 
+        ret = DistributionFunctionFactory.zeroWhenLessThan(a, cons); 
 
 
 		setInputOutput(); // for AlgoElement
@@ -112,87 +112,40 @@ public class AlgoTriangularDF extends AlgoElement {
 		
 
         // make function x<a
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		GeoFunction condFunxLessThana = en.lessThan(a).buildFunction(fv);
-		//ret.setConditionalFunction(condFun);
+		FunctionVariable fv = ret.getFunctionVariables()[0];	
 		
         // make function x<b
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,fv);
-		GeoFunction condFunxLessThanb = en.lessThan(b).buildFunction(fv);
-		//ret.setConditionalFunction(condFun);
+		ExpressionNode lessThanB = fv.wrap().lessThan(b);
 		
         // make function x<mode
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,fv);
-		GeoFunction condFunxLessThanMode = en.lessThan(mode).buildFunction(fv);
-		//ret.setConditionalFunction(condFun);
+		ExpressionNode lessThanMode = fv.wrap().lessThan(mode);
 		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel, 0);
-		GeoFunction ifFun0 = en.buildFunction(fv);
-		//ret.setIfFunction(ifFun);
-
-		GeoFunctionConditional inner = new GeoFunctionConditional(cons); 
-		inner.setConditionalFunction(condFunxLessThanb);
-		GeoFunction ifFun1;
+		ExpressionNode branchAtoMode, branchModeToB;
+		MyDouble rightBranch;
 		
 		if (cumulative != null && cumulative.getBoolean()) {
 
 
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel,fv);			
-			en = en.subtract(a).square().divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
-			ifFun1 = en.buildFunction(fv);
-
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel,fv);			
-			en = en.subtract(b).square().divide(bEn.subtract(a).multiply(modeEn.subtract(b))).plus(1);
-			GeoFunction ifFun2 = en.buildFunction(fv);
-
-	        // make function x=1
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel, 1);
-			GeoFunction elseFun = en.buildFunction(fv);
-			// old hack:
-			//processAlgebraCommand( "If[x < "+a+", 0, If[x < "+c+", (x - ("+a+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), 
-			//If[x < "+b+", 1 + (x - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]", true);
-			
-			inner.setIfFunction(ifFun2);
-			inner.setElseFunction(elseFun);
-
-
+				
+			branchAtoMode = fv.wrap().subtract(a).square().divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
+			branchModeToB = fv.wrap().subtract(b).square().divide(bEn.subtract(a).multiply(modeEn.subtract(b))).plus(1);
+			rightBranch = new MyDouble(kernel,1);
 		} else {
 
 			
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel,fv);			
-			en = en.subtract(a).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
-			ifFun1 = en.buildFunction(fv);
 			
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel,fv);			
-			en = en.subtract(b).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(b)));
-			GeoFunction ifFun2 = en.buildFunction(fv);
-			
-			inner.setIfFunction(ifFun2);
-			inner.setElseFunction(ifFun0); // x=0
+			branchAtoMode = fv.wrap().subtract(a).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
+			branchModeToB = fv.wrap().subtract(b).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(b)));
+			rightBranch = new MyDouble(kernel,1);
 
 
 			// old hack:
 			//processAlgebraCommand( "If[x < "+a+", 0, If[x < "+c+", 2(x - ("+a+")) / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If[x < "+b+", 2(x - ("+b+")) / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 0]]]", true );
 		}
-		GeoFunctionConditional middle = new GeoFunctionConditional(cons); 
-		middle.setConditionalFunction(condFunxLessThanMode);
-		middle.setIfFunction(ifFun1);
-		middle.setElseFunction(inner);
+		ExpressionNode middleRight = lessThanMode.ifElse(branchAtoMode, lessThanB.ifElse(branchModeToB,rightBranch));
 		
 		ret.setDefined(true);
-		ret.setConditionalFunction(condFunxLessThana);
-		ret.setIfFunction(ifFun0);
-		ret.setElseFunction(middle);
+		ret.getFunctionExpression().setRight(middleRight);
 		
 
     }

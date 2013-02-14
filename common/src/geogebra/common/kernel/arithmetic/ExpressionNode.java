@@ -5587,4 +5587,8 @@ public class ExpressionNode extends ValidExpression implements
 	public boolean isConditional(){
 		return operation == Operation.IF || operation == Operation.IF_ELSE;
 	}
+
+	public ExpressionNode ifElse(ExpressionValue ifBranch, ExpressionValue elseBranch) {
+		return new ExpressionNode(kernel,new MyNumberPair(kernel,this,ifBranch),Operation.IF_ELSE,elseBranch);
+	}
 }

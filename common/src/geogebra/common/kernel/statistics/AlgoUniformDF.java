@@ -22,11 +22,11 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for Uniform[a, b, x, boolean]
@@ -36,7 +36,7 @@ public class AlgoUniformDF extends AlgoElement {
 
 	private NumberValue a, b;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
+	private GeoFunction ret;     // output           
 
 	@SuppressWarnings("javadoc")
 	public AlgoUniformDF(Construction cons, String label, NumberValue a, NumberValue b, BooleanValue cumulative) {       
@@ -50,7 +50,7 @@ public class AlgoUniformDF extends AlgoElement {
 		this.a = a;
 		this.b = b;
 		this.cumulative = cumulative;
-		ret = new GeoFunctionConditional(cons); 
+		ret = DistributionFunctionFactory.zeroWhenLessThan(a,cons); 
 
 
 		setInputOutput(); // for AlgoElement
@@ -103,76 +103,27 @@ public class AlgoUniformDF extends AlgoElement {
 		if (a.getDouble() >= b.getDouble()) {
 			ret.setUndefined();
 			return;    		
-		}
+		}		
 
-		ExpressionNode bEn = new ExpressionNode(kernel, b);
+		FunctionVariable fv = ret.getFunctionVariables()[0];
+		
+		ExpressionNode lessThanB = fv.wrap().lessThan(b);
 
-
-		// make function x<a
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		GeoFunction condFunxLessThana = en.lessThan(a).buildFunction(fv);
-		//ret.setConditionalFunction(condFun);
-
-		// make function x<b
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,fv);
-		GeoFunction condFunxLessThanb = en.lessThan(b).buildFunction(fv);
-		//ret.setConditionalFunction(condFun);
-
-		// make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel, 0);
-		GeoFunction ifFun0 = en.buildFunction(fv);
-		//ret.setIfFunction(ifFun);
-
-		GeoFunctionConditional inner = new GeoFunctionConditional(cons); 
-		inner.setConditionalFunction(condFunxLessThanb);
-		GeoFunction ifFun1;
-
-		if (cumulative != null && cumulative.getBoolean()) {
-
-
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel,fv);			
-			en = en.subtract(a).divide(bEn.subtract(a));
-			ifFun1 = en.buildFunction(fv);
-
-
-			// make function x=1
-			fv = new FunctionVariable(kernel);	
-			en = new ExpressionNode(kernel, 1);
-			GeoFunction elseFun = en.buildFunction(fv);
-
-			// old hack:
-			//processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],1,(x-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
-
-
-			inner.setIfFunction(ifFun1);
-			inner.setElseFunction(elseFun);
-
-
+		ExpressionNode mainBranch;
+		MyDouble rightBranch;
+		
+		if (cumulative != null && cumulative.getBoolean()) {			
+			mainBranch = fv.wrap().subtract(a).divide(b.wrap().subtract(a));
+			rightBranch = new MyDouble(kernel,1);			
 		} else {
-
-
-			fv = new FunctionVariable(kernel);	
-			en = bEn.subtract(a).reciprocate();
-			ifFun1 = en.buildFunction(fv);
-
-			inner.setIfFunction(ifFun1);
-			inner.setElseFunction(ifFun0); // x=0
-
-
-			// old hack:
-			//processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
+			mainBranch = b.wrap().subtract(a).reciprocate();
+			rightBranch = new MyDouble(kernel,0);			
 		}
+		
+		ExpressionNode en = lessThanB.ifElse(mainBranch,rightBranch);
+		ret.getFunctionExpression().setRight(en);
 
-		ret.setDefined(true);
-		ret.setConditionalFunction(condFunxLessThana);
-		ret.setIfFunction(ifFun0);
-		ret.setElseFunction(inner);
-
-
+		ret.setDefined(true);		
 	}
 
 	// TODO Consider locusequability
