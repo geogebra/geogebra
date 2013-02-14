@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for LogNormal[0,1,x]
@@ -36,9 +35,7 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue mean, sd;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
-
-	private GeoFunction ifFun, elseFun, condFun;           
+	private GeoFunction ret;     // output           
         
     @SuppressWarnings("javadoc")
 	public AlgoLogNormalDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
@@ -52,19 +49,7 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
         this.mean = mean;
         this.sd = sd;
         this.cumulative = cumulative;
-        ret = new GeoFunctionConditional(cons); 
-
-        // make function x<=0
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		condFun = en.lessThanEqual(0).buildFunction(fv);
-		ret.setConditionalFunction(condFun);
-		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,0);
-		ifFun = en.buildFunction(fv);
-		ret.setIfFunction(ifFun);
+        ret = DistributionFunctionFactory.zeroWhenNegative(cons);
 
 		setInputOutput(); // for AlgoElement
         
@@ -138,9 +123,7 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 			//processAlgebraCommand( "If[x<0,0,1/(x sqrt(2 * pi) * abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]", true );
 		}
 		
-		elseFun = en.buildFunction(fv);
-		
-		ret.setElseFunction(elseFun);
+		ret.getFunctionExpression().setRight(en);
 
 
     }

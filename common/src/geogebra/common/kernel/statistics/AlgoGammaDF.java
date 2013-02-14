@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for Normal[0,1,x]
@@ -36,9 +35,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue mean, sd;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
-
-	private GeoFunction ifFun, elseFun, condFun;           
+	private GeoFunction ret;     // output               
         
     @SuppressWarnings("javadoc")
 	public AlgoGammaDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
@@ -53,21 +50,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
         this.sd = b;
         this.cumulative = cumulative;
         
-        ret = new GeoFunctionConditional(cons); 
-
-        // make function x<0
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		
-		condFun = en.lessThan(0).buildFunction(fv);
-		ret.setConditionalFunction(condFun);
-		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,0);
-		
-		ifFun = en.buildFunction(fv);
-		ret.setIfFunction(ifFun);
+        ret = DistributionFunctionFactory.zeroWhenNegative(cons);
 		
 		
 
@@ -116,7 +99,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 		NumberValue k = mean;
 		NumberValue t = sd;
 
-		FunctionVariable fv = new FunctionVariable(kernel);
+		FunctionVariable fv = ret.getFunctionVariables()[0];
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 		ExpressionNode kEn = new ExpressionNode(kernel, k);
 		ExpressionNode en = fvEn.divide(t);
@@ -144,9 +127,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 			//command = "If[x<0,0,x^("+k+"-1) exp(-x/("+t+"))/(gamma("+k+")("+t+")^("+k+"))]";
 		}
 		
-		elseFun = en.buildFunction(fv);
-		
-		ret.setElseFunction(elseFun);
+		ret.getFunctionExpression().setRight(en);
 		
 
 

@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for Exponential[a,x, boolean] (PDF / CDF)
@@ -36,9 +35,8 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
 
 	private NumberValue lambda;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
-
-	private GeoFunction ifFun, elseFun, condFun;           
+	private GeoFunction ret;     // output           
+         
         
     @SuppressWarnings("javadoc")
 	public AlgoExponentialDF(Construction cons, String label, NumberValue mean, BooleanValue cumulative) {       
@@ -52,19 +50,7 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
         this.lambda = lambda;
         this.cumulative = cumulative;
         
-        ret = new GeoFunctionConditional(cons); 
-
-        // make function x<0
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		condFun = en.lessThan(0).buildFunction(fv);
-		ret.setConditionalFunction(condFun);
-		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,0);
-		ifFun = en.buildFunction(fv);
-		ret.setIfFunction(ifFun);
+        ret = DistributionFunctionFactory.zeroWhenNegative(cons);
 		
         setInputOutput(); // for AlgoElement
         
@@ -107,7 +93,7 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
     @Override
 	public void compute() {
 
-		FunctionVariable fv = new FunctionVariable(kernel);
+		FunctionVariable fv = ret.getFunctionVariables()[0];
 		ExpressionNode en = new ExpressionNode(kernel, fv);
 		
 		if (cumulative != null && cumulative.getBoolean()) {
@@ -125,9 +111,7 @@ public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF
 			//command="If[x<0,0,("+l+")exp(-("+l+")x)]";
 		}
 		
-		elseFun = en.buildFunction(fv);
-		
-		ret.setElseFunction(elseFun);
+		ret.getFunctionExpression().setRight(en);
 		
 
 

@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for FDistribution[0,1,x]
@@ -36,9 +35,7 @@ public class AlgoFDistributionDF extends AlgoElement implements AlgoDistribution
 
 	private NumberValue d1, d2;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
-
-	private GeoFunction ifFun, elseFun, condFun;           
+	private GeoFunction ret;     // output           
         
     @SuppressWarnings("javadoc")
 	public AlgoFDistributionDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
@@ -52,19 +49,8 @@ public class AlgoFDistributionDF extends AlgoElement implements AlgoDistribution
         this.d1 = a;
         this.d2 = b;
         this.cumulative = cumulative;
-        ret = new GeoFunctionConditional(cons); 
 
-        // make function x<0
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		condFun = en.lessThan(0).buildFunction(fv);
-		ret.setConditionalFunction(condFun);
-		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel, 0);
-		ifFun = en.buildFunction(fv);
-		ret.setIfFunction(ifFun);
+        ret = DistributionFunctionFactory.zeroWhenNegative(cons);
 
 		setInputOutput(); // for AlgoElement
         
@@ -107,7 +93,7 @@ public class AlgoFDistributionDF extends AlgoElement implements AlgoDistribution
 
     @Override
 	public void compute() {
-		FunctionVariable fv = new FunctionVariable(kernel);
+		FunctionVariable fv = ret.getFunctionVariables()[0];
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 		ExpressionNode d1En = new ExpressionNode(kernel, d1);
 		ExpressionNode d2En = new ExpressionNode(kernel, d2);
@@ -144,9 +130,7 @@ public class AlgoFDistributionDF extends AlgoElement implements AlgoDistribution
 			//command = "If[x<0,0,((("+d1+")*x)^(("+d1+")/2)*("+d2+")^(("+d2+")/2))/(x*(("+d1+")*x+"+d2+")^(("+d1+"+"+d2+")/2)*beta(("+d1+")/2,("+d2+")/2))]";
 		}
 		
-		elseFun = en.buildFunction(fv);
-		
-		ret.setElseFunction(elseFun);
+		ret.getFunctionExpression().setRight(en);
 
 
     }

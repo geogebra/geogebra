@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * algorithm for FDistribution[0,1,x]
@@ -36,9 +35,9 @@ public class AlgoErlangDF extends AlgoElement {
 
 	private NumberValue k, l;  // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunctionConditional ret;     // output           
+	private GeoFunction ret;     // output           
 
-	private GeoFunction ifFun, elseFun, condFun;           
+	           
         
     @SuppressWarnings("javadoc")
 	public AlgoErlangDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
@@ -47,24 +46,12 @@ public class AlgoErlangDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoErlangDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoErlangDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
   	  super(cons); 
         this.k = a;
         this.l = b;
         this.cumulative = cumulative;
-        ret = new GeoFunctionConditional(cons); 
-
-        // make function x<0
-		FunctionVariable fv = new FunctionVariable(kernel);	
-		ExpressionNode en = new ExpressionNode(kernel,fv);
-		condFun = en.lessThan(0).buildFunction(fv);
-		ret.setConditionalFunction(condFun);
-		
-        // make function x=0
-		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel, 0);
-		ifFun = en.buildFunction(fv);
-		ret.setIfFunction(ifFun);
+        ret = DistributionFunctionFactory.zeroWhenNegative(cons);
 
 		setInputOutput(); // for AlgoElement
         
@@ -107,7 +94,7 @@ public class AlgoErlangDF extends AlgoElement {
 
     @Override
 	public void compute() {
-		FunctionVariable fv = new FunctionVariable(kernel);
+		FunctionVariable fv = ret.getFunctionVariables()[0];
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 		ExpressionNode kEn = new ExpressionNode(kernel, k);
 		ExpressionNode lEn = new ExpressionNode(kernel, l);
@@ -133,9 +120,8 @@ public class AlgoErlangDF extends AlgoElement {
 			//command = "If[x<0,0,(("+l+")^("+k+")x^("+k+"-1)exp(-("+l+")x))/("+k+"-1)!]";
 		}
 		
-		elseFun = en.buildFunction(fv);
 		
-		ret.setElseFunction(elseFun);
+		ret.getFunctionExpression().setRight(en);
 
 
     }
