@@ -169,7 +169,7 @@ public class ToolBarW extends MenuBar {
 
 			// separator between menus
 			if (ob.getMode() == ToolBar.SEPARATOR) {
-				addSeparator();
+				addSeparator().addStyleName("toolbarItemSeparator");
 				continue;
 			}
 

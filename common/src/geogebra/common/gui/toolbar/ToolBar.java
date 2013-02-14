@@ -17,7 +17,7 @@ public class ToolBar {
 	public static final Integer SEPARATOR = new Integer(-1);
 
 	/**
-	 * Returns with the default definition of the genearl tool bar whithout
+	 * Returns with the default definition of the general tool bar without
 	 * macros.
 	 * 
 	 * @param showAllMenu true, if all menus must appear. (On the web there

@@ -296,10 +296,10 @@
 }
 
 body[dir=ltr] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  border-left: 1px solid #ccc;
+  //border-left: 1px solid #ccc;
 }
 body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  border-right: 1px solid #ccc;
+  //border-right: 1px solid #ccc;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
@@ -1466,9 +1466,19 @@ body[dir=rtl] .undoPanel {
 	top: -4px;
 }
 
-.toolbar_item{
+.gwt-MenuBar-horizontal  .toolbar_item{
+	padding: 5px 1px;
 	width: 40px;
 	text-align:center;
+}
+
+.gwt-MenuBar-horizontal .toolbarItemSeparator {
+  width: 5px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  //background: white;
+  //border-left: 1px solid #ccc;
 }
 
 .toolbar_menuitem img{
