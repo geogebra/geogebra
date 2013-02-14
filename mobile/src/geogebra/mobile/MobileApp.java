@@ -767,4 +767,11 @@ public class MobileApp extends App
 		return new MyXMLio(cons.getKernel(), cons);
 	}
 
+	@Override
+  public void createNewWindow()
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
+
 }
