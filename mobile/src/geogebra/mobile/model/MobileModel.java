@@ -43,7 +43,7 @@ public class MobileModel
 	private boolean controlClicked = true;
 	private ToolBarCommand command;
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
-
+	
 	public MobileModel(Kernel k)
 	{
 		this.kernel = k;
@@ -73,10 +73,17 @@ public class MobileModel
 
 	public void select(GeoElement geo)
 	{
-		if (geo == null || this.selectedElements.indexOf(geo) != -1)
+		if (geo == null)
 		{
 			return;
 		}
+
+		if (this.selectedElements.indexOf(geo) != -1)
+		{
+			deselect(geo);
+			return;
+		}
+
 		geo.setSelected(true);
 		this.selectedElements.add(geo);
 	}
@@ -282,11 +289,17 @@ public class MobileModel
 			select(hits, Test.GEOPOINT, 1);
 			this.guiModel.appendStyle(this.selectedElements);
 			this.changeColorAllowed = true;
+			
+			this.commandFinished = true;
+			
 			break;
 
 		// commands that need one point or a point and a Path or a Region
 		case AttachDetachPoint:
 			attachDetach(hits, point);
+			
+			this.commandFinished = true;
+			
 			break;
 
 		// commands that need two points
@@ -434,9 +447,12 @@ public class MobileModel
 		case Polygon:
 		case RigidPolygon:
 		case VectorPolygon:
-			select(hits, Test.GEOPOINT, 1);
-			draw = getNumberOf(Test.GEOPOINT) > 2
-					&& hits.indexOf(getElement(Test.GEOPOINT)) != -1;
+			//checking for draw prevents unintended deselecting of the start-point
+			draw = finishedPolygon(hits); 
+			if (!draw)
+			{
+				select(hits, Test.GEOPOINT, 1);
+			}
 			break;
 
 		// special commands
@@ -811,11 +827,20 @@ public class MobileModel
 
 		this.kernel.notifyRepaint();
 
+		if(this.commandFinished){
+			this.kernel.getApplication().storeUndoInfo();  
+		}
+		
 		if (this.commandFinished || this.command == ToolBarCommand.Select
 				|| this.command == ToolBarCommand.Move_Mobile)
 		{
 			this.guiModel.updateStylingBar(this);
 		}
+	}
+
+	private boolean finishedPolygon(Hits hits)
+	{
+		return this.selectedElements.size() >= 3 && hits.indexOf(this.selectedElements.get(0)) != -1;
 	}
 
 	public boolean controlClicked()
@@ -960,6 +985,11 @@ public class MobileModel
 	public boolean isColorChangeAllowed()
 	{
 		return this.commandFinished || this.changeColorAllowed;
+	}
+
+	public void repaint()
+	{
+		this.kernel.notifyRepaint();
 	}
 
 }

@@ -112,7 +112,7 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 			this.leftHeader.setPresenter(this.tabletGuiActivity); 
 		}
 		
-		this.rightHeader = new TabletHeaderPanelRight();
+		this.rightHeader = new TabletHeaderPanelRight(kernel);
 		this.toolBar = new ToolBar();
 		this.algebraViewPanel = new AlgebraViewPanel();
 

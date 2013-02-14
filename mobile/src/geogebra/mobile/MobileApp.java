@@ -95,11 +95,13 @@ public class MobileApp extends App
 	{
 
 		this.kernel = new Kernel(MobileApp.this);
-
-		setUndoActive(true);
+		
 		this.mobileGUI.initComponents(this.kernel);
 		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
-
+		
+		hasFullPermissions = true; 
+		setUndoActive(true);
+		
 		super.initing = false;
 	}
 	
@@ -215,7 +217,9 @@ public class MobileApp extends App
 	@Override
 	public void storeUndoInfo()
 	{
-
+		if (isUndoActive()) {
+			this.kernel.storeUndoInfo();
+		}
 	}
 
 	@Override
@@ -750,7 +754,11 @@ public class MobileApp extends App
 	@Override
 	public ScriptManager getScriptManager()
 	{
-		return null;
+		//TODO
+		if (this.scriptManager == null) {
+			this.scriptManager = new ScriptManagerM(this);
+		}
+		return this.scriptManager;
 	}
 
 	@Override

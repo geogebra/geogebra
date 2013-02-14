@@ -62,6 +62,8 @@ public class GuiModel
 	{
 		closeOptions();
 		setActive(tbb);
+		this.mobileModel.resetSelection(); 
+		this.mobileModel.repaint(); 
 	}
 
 	public void processSource(String string)

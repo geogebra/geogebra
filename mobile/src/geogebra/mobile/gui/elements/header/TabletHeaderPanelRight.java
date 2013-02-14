@@ -1,10 +1,13 @@
 package geogebra.mobile.gui.elements.header;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.mobile.gui.CommonResources;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 
 /**
@@ -19,7 +22,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 	/**
 	 * Generates the {@link HeaderButton buttons} for the right HeaderPanel.
 	 */
-	public TabletHeaderPanelRight()
+	public TabletHeaderPanelRight(final Kernel kernel)
 	{
 		this.addStyleName("rightHeader");
 
@@ -28,10 +31,28 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 		SVGResource icon = CommonResources.INSTANCE.undo();
 		button[0].setText(icon.getSafeUri().asString());
 
+		button[0].addTapHandler(new TapHandler()
+		{			
+			@Override
+			public void onTap(TapEvent event)
+			{
+				kernel.undo(); 
+			}
+		}); 
+		
 		icon = CommonResources.INSTANCE.redo();
 		button[1] = new HeaderImageButton();
 		button[1].setText(icon.getSafeUri().asString());
 
+		button[1].addTapHandler(new TapHandler()
+		{			
+			@Override
+			public void onTap(TapEvent event)
+			{
+				kernel.redo(); 
+			}
+		}); 
+		
 		for (int i = 0; i < button.length; i++)
 		{
 			this.add(button[i]);
