@@ -228,14 +228,6 @@ Test {
 		}
 	},
 
-	/** Test for GEOFUNCTIONCONDITIONAL */
-	GEOFUNCTIONCONDITIONAL {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoFunctionConditional;
-		}
-	},
-
 	/** Test for GEOINTERVAL */
 	GEOINTERVAL {
 		@Override

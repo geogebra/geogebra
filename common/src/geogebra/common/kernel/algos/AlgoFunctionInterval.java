@@ -19,7 +19,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
  * Function limited to interval [a, b]
@@ -104,42 +103,12 @@ public class AlgoFunctionInterval extends AlgoElement {
 
 	private boolean hasEqualExpressions(GeoFunction f) {
 		boolean equal;
-		if (f.isGeoFunctionConditional()) {
-			GeoFunctionConditional geoFun = (GeoFunctionConditional) f;
-			// if we have 2-level conditional function, than don't play with any
-			// optimizations
-			if (geoFun.getIfFunction().isGeoFunctionConditional())
-				return false;
-			ExpressionNode en2 = null;
-			ExpressionNode en = geoFun.getIfFunction().getFunctionExpression();
-
-			equal = exp == en;
-			exp = en;
-
-			if (geoFun.getElseFunction() != null) {
-				en2 = geoFun.getElseFunction().getFunctionExpression();
-				// if we have 2-level conditional function, than don't play with
-				// any optimizations
-				if (geoFun.getElseFunction().isGeoFunctionConditional())
-					return false;
-				equal = equal && exp2 == en2;
-				exp2 = en2;
-			}
-
-			ExpressionNode enCond = geoFun.getCondFunction()
-					.getFunctionExpression();
-			// if we have 2-level conditional function, than don't play with any
-			// optimizations
-			equal = equal && expCond == enCond;
-			expCond = enCond;
-
-		} else {
+	
 			ExpressionNode en = f.getFunctionExpression();
 
 			equal = exp == en;
 			exp = en;
-		}
-
+	
 		return equal;
 	}
 

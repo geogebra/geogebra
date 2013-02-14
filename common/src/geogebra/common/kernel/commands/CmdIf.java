@@ -11,7 +11,6 @@ import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
@@ -106,8 +105,6 @@ public class CmdIf extends CommandProcessor {
 
 	private GeoFunction resolveFunction(Command c, int i, FunctionVariable fv) {
 		c.getArgument(i).resolveVariables(false);
-		if(  c.getArgument(i).getLeft() instanceof GeoFunctionConditional)
-				return (GeoFunction)c.getArgument(i).getLeft();
 		return (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(i),fv))[0];
 	}
 	
