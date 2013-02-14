@@ -349,6 +349,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 			public void onTouchStart(TouchStartEvent event)
 			{
 				OpenSaveDialog.this.pIndicator.setVisible(true);
+				OpenSaveDialog.this.pIndicator.getElement().setAttribute("style", "margin:auto;");
 
 				OpenSaveDialog.this.setChosenFile();
 				OpenSaveDialog.this.setFileName();
@@ -413,9 +414,8 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 			}
 		}, ClickEvent.getType());
 
-		this.dialogPanel.showOkButton(false); // don't show the default buttons from
-		// Daniel Kurka
-		this.buttonContainer.add(saveButton);
+		this.dialogPanel.showOkButton(false); // don't show the default buttons
+		this.buttonContainer.add(saveButton); // from Daniel Kurka
 	}
 
 	/**
