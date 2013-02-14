@@ -1447,6 +1447,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public void setClippingReduction(int value){
 		clippingCube.setReduction(value);
+		setViewChanged();
 		setWaitForUpdate();
 	}
 	
