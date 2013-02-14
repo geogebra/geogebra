@@ -19,15 +19,14 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.AttachedToDOM;
+import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author gabor
@@ -37,10 +36,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class ContextMenuGeoElementW extends ContextMenuGeoElement implements AttachedToDOM {
 	
-	protected PopupPanel wrappedPopup;
-	protected MenuBar popupMenu;
-	private int popupMenuS;
-	private int popupMenuSize = 0;
+	protected JPopupMenuW wrappedPopup;
 	
 	/**
 	 * Creates new context menu
@@ -49,10 +45,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	ContextMenuGeoElementW(AppW app) {
 		
 		this.app = app;
-		wrappedPopup = new PopupPanel();
-		popupMenu = new MenuBar(true);
-		popupMenu.setAutoOpen(true);
-		wrappedPopup.add(popupMenu);
+		wrappedPopup = new JPopupMenuW();
+		
+		
 		
 	}
 	
@@ -70,7 +65,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	    this.geos = geos;
 		geo = geos.get(0);
 
-		popupMenu.clearItems();
+		wrappedPopup.clearItems();
 		
 		String title;
 
@@ -98,8 +93,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 		
 		
-		if (popupMenuSize  > 2)
-			popupMenu.addSeparator();
+		if (wrappedPopup.getComponentCount()  > 2)
+			wrappedPopup.addSeparator();
 		addForAllItems();
     }
 
@@ -215,7 +210,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	// Pinnable
         	addPin();
         	
-        	popupMenu.addSeparator();
+        	wrappedPopup.addSeparator();
         }
         
      // Rename      
@@ -273,7 +268,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 
 	private void addItem(MenuItem item) {
-	    popupMenu.addItem(item);
+	    wrappedPopup.addItem(item);
     }
 
 	private void addPlaneItems() {
@@ -487,15 +482,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 
 	protected MenuItem addAction(Command action, String html, String text) {
-		MenuItem mi;
-	    if (html != null) {
-	    	mi = new MenuItem(html, true, action);
-	    } else {
-	    	mi = new MenuItem(text, action);
-	    }
-	    popupMenu.addItem(mi); 
-	    popupMenuSize++;
-	    return mi;
+		return wrappedPopup.add(action, html, text);
     }
 
 	protected void setTitle(String str) {
@@ -507,20 +494,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 					}
 				});
 	    title.addStyleName("menuTitle");
-	    popupMenu.addItem(title);
+	    wrappedPopup.addItem(title);
     }
 	
-	public PopupPanel getWrappedPopup() {
+	public JPopupMenuW getWrappedPopup() {
 	    return wrappedPopup;
     }
 	
 	public void show(Canvas c, int x, int y) {
-		int xr = c.getAbsoluteLeft() + x;
-		int yr = c.getAbsoluteTop() + y;
-		wrappedPopup.setPopupPosition(xr, yr);
-		wrappedPopup.show();
-//		//?????
-//		wrappedPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+		
+		wrappedPopup.show(c, x, y);
 	}
 
 	public void reInit(ArrayList<GeoElement> geos, GPoint location) {

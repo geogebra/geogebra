@@ -129,6 +129,6 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private void addSelectAnotherMenu() {
 	    selectAnotherMenu = new MenuBar(true);
 	    MenuItem selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"), selectAnotherMenu);
-	    popupMenu.addItem(selectAnotherMenuItem);
+	    wrappedPopup.addItem(selectAnotherMenuItem);
     }
 }

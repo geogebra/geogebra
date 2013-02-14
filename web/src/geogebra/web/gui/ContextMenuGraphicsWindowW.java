@@ -36,19 +36,19 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
         
         addAxesAndGridCheckBoxes();
         
-        popupMenu.addSeparator();
+        wrappedPopup.addSeparator();
         
         // zoom for both axes
         MenuBar zoomMenu = new MenuBar(true);
         MenuItem zoomMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.zoom16().getSafeUri().asString(), app.getMenu("Zoom")), true, zoomMenu);
-        popupMenu.addItem(zoomMenuItem);
+        wrappedPopup.addItem(zoomMenuItem);
         addZoomItems(zoomMenu);
         
         MenuBar yaxisMenu = new MenuBar(true);
         MenuItem yaxisMenuItem = new MenuItem(app.getPlain("xAxis") + " : " 
         							+ app.getPlain("yAxis"), yaxisMenu);
         addAxesRatioItems(yaxisMenu);
-        popupMenu.addItem(yaxisMenuItem);
+        wrappedPopup.addItem(yaxisMenuItem);
         
         MenuItem miShowAllObjectsView = new MenuItem(app.getPlain("ShowAllObjects"), new Command() {
 			
@@ -57,7 +57,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 			}
 
 		});
-        popupMenu.addItem(miShowAllObjectsView);
+        wrappedPopup.addItem(miShowAllObjectsView);
         
         MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"), new Command() {
 			
@@ -65,7 +65,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				setStandardView();
 			}
 		});
-        popupMenu.addItem(miStandardView);
+        wrappedPopup.addItem(miStandardView);
         
         if(!ev.isZoomable()){
         	zoomMenuItem.setEnabled(false);
@@ -90,7 +90,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 			}
 		});
 	    miProperties.setEnabled(false); //TMP AG
-	    popupMenu.addItem(miProperties);
+	    wrappedPopup.addItem(miProperties);
     }
 
 	protected void showOptionsDialog() {
