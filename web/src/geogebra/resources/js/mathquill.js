@@ -714,6 +714,8 @@ var Node = P(function(_) {
   _[L] = 0;
   _[R] = 0
   _.parent = 0;
+  _.textTemplate = [''];
+  //_.text = function() { return ''; };// dummy default (maybe for bugfix)
 
   var id = 0;
   function uniqueNodeId() { return id += 1; }
@@ -821,6 +823,7 @@ var Node = P(function(_) {
  * and have their 'parent' pointers set to the DocumentFragment).
  */
 var Fragment = P(function(_) {
+  //_.text = function() { return ''; };// dummy default (maybe for bugfix)
   _.init = function(first, last) {
     pray('no half-empty fragments', !first === !last);
 
@@ -1339,7 +1342,9 @@ var Symbol = P(MathCommand, function(_, _super) {
   };
 
   _.latex = function(){ return this.ctrlSeq; };
-  _.text = function(){ return this.textTemplate; };
+  _.text = function() {
+	  return this.textTemplate[0];
+  };
   _.placeCursor = noop;
   _.isEmpty = function(){ return true; };
 });
@@ -2255,9 +2260,9 @@ LatexCmds.nthroot = P(SquareRoot, function(_, _super) {
   _.textTemplate = ['nroot(', ',', ')'];
   _.text = function() {
      return 'nroot('+
-        this.lastChild.text()+
+        this.ch[R].text()+
         ','+
-        this.firstChild.text()+
+        this.ch[L].text()+
         ')';
   };
   _.latex = function() {
@@ -3514,18 +3519,18 @@ var TextBlock = P(Node, function(_, _super) {
 var TextPiece = P(Node, function(_, _super) {
   _.init = function(text) {
     _super.init.call(this);
-    this.text = text;
+    this.text2 = text;
   };
   _.jQadd = function(dom) { this.dom = dom; this.jQ = $(dom); };
   _.jQize = function() {
-    return this.jQadd(document.createTextNode(this.text));
+    return this.jQadd(document.createTextNode(this.text2));
   };
   _.appendText = function(text) {
-    this.text += text;
+    this.text2 += text;
     this.dom.appendData(text);
   };
   _.prependText = function(text) {
-    this.text = text + this.text;
+    this.text2 = text + this.text2;
     this.dom.insertData(0, text);
   };
   _.appendTextInDir = function(text, dir) {
@@ -3541,7 +3546,7 @@ var TextPiece = P(Node, function(_, _super) {
   _.moveTowards = function(dir, cursor) {
     prayDirection(dir);
 
-    var ch = endChar(-dir, this.text)
+    var ch = endChar(-dir, this.text2)
 
     var from = this[-dir];
     if (from) from.appendTextInDir(ch, dir);
@@ -3553,23 +3558,23 @@ var TextPiece = P(Node, function(_, _super) {
   _.combineDir = function(dir) {
     var toCombine = this[dir];
 
-    this.appendTextInDir(toCombine.text, dir);
+    this.appendTextInDir(toCombine.text2, dir);
     toCombine.remove();
   };
 
-  _.latex = function() { return this.text; };
+  _.latex = function() { return this.text2; };
 
   _.deleteTowards = function(dir, cursor) {
-    if (this.text.length > 1) {
+    if (this.text2.length > 1) {
       if (dir === R) {
         this.dom.deleteData(0, 1);
-        this.text = this.text.slice(1);
+        this.text2 = this.text2.slice(1);
       }
       else {
         // note that the order of these 2 lines is annoyingly important
         // (the second line mutates this.text.length)
-        this.dom.deleteData(-1 + this.text.length, 1);
-        this.text = this.text.slice(0, -1);
+        this.dom.deleteData(-1 + this.text2.length, 1);
+        this.text2 = this.text2.slice(0, -1);
       }
     }
     else {
@@ -3589,7 +3594,7 @@ var TextPiece = P(Node, function(_, _super) {
   }
 
   _.createSelection = function(dir, cursor) {
-    var selectedPiece = TextPiece(endChar(-dir, this.text));
+    var selectedPiece = TextPiece(endChar(-dir, this.text2));
     this.deleteTowards(dir, cursor);
     selectedPiece.createDir(dir, cursor);
 
@@ -3601,7 +3606,7 @@ var TextPiece = P(Node, function(_, _super) {
   _.clearSelection = function(dir, cursor) {
     // cursor calls our clearSelection every time because the selection
     // only every contains one Node.
-    if (this.text.length > 1) return this.retractSelection(dir, cursor);
+    if (this.text2.length > 1) return this.retractSelection(dir, cursor);
 
     var cursorSibling = this;
 
@@ -3617,13 +3622,13 @@ var TextPiece = P(Node, function(_, _super) {
 
   _.expandSelection = function(dir, cursor) {
     var selectedPiece = cursor.selection.ends[L];
-    var selectChar = endChar(-dir, this.text);
+    var selectChar = endChar(-dir, this.text2);
     selectedPiece.appendTextInDir(selectChar, dir);
     this.deleteTowards(dir, cursor);
   };
 
   _.retractSelection = function(dir, cursor) {
-    var deselectChar = endChar(-dir, this.text);
+    var deselectChar = endChar(-dir, this.text2);
 
     if (this[-dir]) {
       this[-dir].appendTextInDir(deselectChar, dir);
