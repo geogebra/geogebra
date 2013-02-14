@@ -2540,6 +2540,11 @@ public class AppW extends App {
     	});
     }
     
+    @Override
+    public void createNewWindow(){
+    	//TODO implement it ?
+    }
+    
 	public native String getNativeEmailSet() /*-{
 		if($wnd.GGW_appengine){
 			return $wnd.GGW_appengine.USER_EMAIL;

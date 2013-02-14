@@ -73,6 +73,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.AnimatedGifEncoder;
@@ -1296,6 +1297,11 @@ public class AppD extends App implements KeyEventDispatcher {
 			return fileName;
 		}
 		return fileName.substring(0, dotPos);
+	}
+	
+	@Override
+	public void createNewWindow(){
+		GeoGebraFrame.createNewWindow(null);
 	}
 
 	@Override

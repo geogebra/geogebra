@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.app.GeoGebraFrame3D;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.util.AnimatedGifEncoder;
@@ -504,6 +505,11 @@ public class App3D extends AppD {
 		super.fileNew();
 		
 		removeAllEuclidianViewForPlane();
+	}
+	
+	@Override
+	public void createNewWindow(){
+		GeoGebraFrame3D.createNewWindow3D(null);
 	}
 
 	

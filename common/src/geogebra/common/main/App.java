@@ -4129,6 +4129,11 @@ public abstract class App implements Localization{
 	 */
 	public abstract boolean clearConstruction();
 
+	/**
+	 * create a new GeoGebra window
+	 */
+	public abstract void createNewWindow();
+	
 	public abstract void fileNew();
 
 	/**
