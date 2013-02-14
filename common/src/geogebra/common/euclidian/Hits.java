@@ -391,6 +391,21 @@ public class Hits extends ArrayList<GeoElement> {
 	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view, GeoPointND rotCenter) {
 		return getMoveables(view, Test.ROTATEMOVEABLE, rotCenter);
 	}
+	
+	/**
+	 * @return hits that have selection allowed
+	 */
+	final public Hits getSelectableHits(){
+		GeoElement geo;
+		Hits selectableList = new Hits();
+		for (int i = 0; i < size(); ++i) {
+			geo = get(i);
+			if (geo.isSelectionAllowed())
+				selectableList.add(geo);
+		}
+		
+		return selectableList;
+	}
 
 	/**
 	 * @param view view

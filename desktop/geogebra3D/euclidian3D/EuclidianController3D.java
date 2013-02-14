@@ -1597,10 +1597,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	//not only moveable hits are selected in move mode
 	@Override
-	protected boolean move(Hits hits) {	
+	protected boolean getSelectables(Hits hits) {	
 		Hits top = hits.getTopHits(1);
-		//Application.debug(hits+"\ntop "+top);
-		addSelectedGeo(top, 1, false);
+		
+		super.getSelectables(top);
 		
 		//display correctly oriented 3D cursor
 		GeoPointND point = (GeoPointND) top.getFirstHit(Test.GEOPOINTND);

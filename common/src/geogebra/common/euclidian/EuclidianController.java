@@ -3149,12 +3149,13 @@ public abstract class EuclidianController {
 		view.mouseEntered();
 	}
 	
-	protected boolean move(Hits hits){
+	protected boolean getSelectables(Hits hits){
 		
-		addSelectedGeo(hits.getMoveableHits(view), 1, false);
+		addSelectedGeo(hits.getSelectableHits(), 1, false);
 		return false;
 	}
 
+	
 	protected final boolean moveRotate(Hits hits) {
 		addSelectedGeo(hits.getPointRotateableHits(view, rotationCenter), 1,
 				false);
@@ -3575,6 +3576,7 @@ public abstract class EuclidianController {
 	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
 
 		Hits oldHighlightedGeos = highlightedGeos.clone();
+		
 
 		// clear old highlighting
 		boolean repaintNeeded = clearHighlightedGeos();		
@@ -5335,9 +5337,9 @@ public abstract class EuclidianController {
 		switch (mode) {
 		//case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_MOVE:
-			// move() is for highlighting and selecting
+			// highlight and select hits
 			if (selectionPreview) {
-				move(hits.getTopHits());
+				getSelectables(hits.getTopHits());
 			} else {
 				if (draggingOccured && (app.selectedGeosSize() == 1)) {
 					app.clearSelectedGeos();
