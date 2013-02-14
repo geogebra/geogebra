@@ -3,6 +3,25 @@
 <head>
     <meta charset="utf-8" />
     <title>GeoGebra App</title>
+    <!-- Google Analytics (Start) -->
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-1780044-1']);
+		_gaq.push(['_setDomainName', 'geogebra.org']);
+		_gaq.push(['_setAllowLinker', true]);
+		_gaq.push(['_trackPageview']);
+		_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script> 
+ 	<!-- Google Analytics (End) -->
     <script type="text/javascript" language="javascript" src="web/web.nocache.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -45,25 +64,5 @@
 	</div>
 	
     <article class="geogebraweb"></article>
- <!-- Google Analytics (Start) -->
-<script type="text/javascript">
-
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-1780044-1']);
-_gaq.push(['_setDomainName', 'geogebra.org']);
-_gaq.push(['_setAllowLinker', true]);
-_gaq.push(['_trackPageview']);
-_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
-
-(function() {
-var ga = document.createElement('script'); ga.type = 'text/javascript';
-ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(ga, s);
-})();
-
-</script> 
- <!-- Google Analytics (End) -->
 </body>
 </html>
