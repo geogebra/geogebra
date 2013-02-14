@@ -1477,8 +1477,7 @@ body[dir=rtl] .undoPanel {
   padding: 0px;
   margin: 0px;
   border: 0px;
-  //background: white;
-  //border-left: 1px solid #ccc;
+  background: none;
 }
 
 .toolbar_menuitem img{
