@@ -154,76 +154,76 @@ public class Material implements Comparable<Material>
 		return this.likes;
 	}
 
-	public Date getDate()
+	public String getDate()
 	{
 		// JAVA USES MILLISECONDS, UNIX USES SECONDS
-		return new Date(this.timestamp * 1000);
+		return DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(new Date(this.timestamp * 1000));
 	}
 
 	public void setId(int id)
-  {
-  	this.id = id;
-  }
+	{
+		this.id = id;
+	}
 
 	public void setTitle(String title)
-  {
-  	this.title = title;
-  }
+	{
+		this.title = title;
+	}
 
 	public void setType(MaterialType type)
-  {
-  	this.type = type;
-  }
+	{
+		this.type = type;
+	}
 
 	public void setDescription(String description)
-  {
-  	this.description = description;
-  }
+	{
+		this.description = description;
+	}
 
 	public void setTimestamp(long timestamp)
-  {
-  	this.timestamp = timestamp;
-  }
+	{
+		this.timestamp = timestamp;
+	}
 
 	public void setAuthor(String author)
-  {
-  	this.author = author;
-  }
+	{
+		this.author = author;
+	}
 
 	public void setAuthorURL(String author_url)
-  {
-  	this.author_url = author_url;
-  }
+	{
+		this.author_url = author_url;
+	}
 
 	public void setURL(String url)
-  {
-  	this.url = url;
-  }
+	{
+		this.url = url;
+	}
 
 	public void setURLdirect(String url_direct)
-  {
-  	this.url_direct = url_direct;
-  }
+	{
+		this.url_direct = url_direct;
+	}
 
 	public void setLanguage(String language)
-  {
-  	this.language = language;
-  }
+	{
+		this.language = language;
+	}
 
 	public void setThumbnail(String thumbnail)
-  {
-  	this.thumbnail = thumbnail;
-  }
+	{
+		this.thumbnail = thumbnail;
+	}
 
 	public void setFeatured(boolean featured)
-  {
-  	this.featured = featured;
-  }
+	{
+		this.featured = featured;
+	}
 
 	public void setLikes(int likes)
-  {
-  	this.likes = likes;
-  }
+	{
+		this.likes = likes;
+	}
 
 	@Override
 	public int compareTo(Material another)
@@ -232,15 +232,15 @@ public class Material implements Comparable<Material>
 			return 1;
 		return this.id - another.id;
 	}
-	
+
 	@Override
 	public String toString()
-	{	 	
+	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("ID: " + this.id + ": (" + this.type + ") ");
 		sb.append("Title: " + this.title + " ");
 		sb.append("by " + this.author + " (" + this.author_url + "), ");
-		sb.append("Date: " + DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(this.getDate()) + "\n");
+		sb.append("Date: " + this.getDate() + "\n");
 		sb.append("Description: " + this.description + "\n");
 		sb.append("Language: " + this.language + "\n");
 		sb.append("URL: " + this.url + "\n");
@@ -248,6 +248,6 @@ public class Material implements Comparable<Material>
 		sb.append("Thumbnail: " + this.thumbnail + "\n");
 		sb.append("Featured: " + this.isFeatured() + " ");
 		sb.append("Likes: " + this.likes);
-	  return sb.toString();
+		return sb.toString();
 	}
 }
