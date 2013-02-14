@@ -1,9 +1,9 @@
 package geogebra.mobile.gui.elements.stylingbar;
 
+import java.util.ArrayList;
+
 import geogebra.common.awt.GColor;
 import geogebra.mobile.model.MobileModel;
-import geogebra.web.awt.GColorW;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,21 +21,15 @@ public class Colors extends VerticalPanel
 	{
 		this.stylingBar = stylingBar;
 		this.mobileModel = mobileModel;
+	}
 
-		addDummyButton();
-		addColorButton(GColor.BLACK);
-		addColorButton(new GColorW(153, 51, 0));
-		addColorButton(GColor.MAGENTA);
-		addColorButton(GColor.BLUE);
-		addColorButton(GColor.CYAN);
-		addColorButton(GColor.GREEN);
-		addColorButton(GColor.YELLOW);
-		addColorButton(GColor.RED);
-		addColorButton(GColor.WHITE);
-		addColorButton(GColor.LIGHT_GRAY);
-		addColorButton(GColor.GRAY);
-		addColorButton(GColor.DARK_GRAY);
-		addDummyButton();
+	protected void drawColorChoice(ArrayList<GColor> colors)
+	{
+		this.clear();
+		for (GColor color : colors)
+		{
+			addColorButton(color);
+		}
 	}
 
 	private void addColorButton(final GColor color)
@@ -43,7 +37,7 @@ public class Colors extends VerticalPanel
 		Button button = new Button();
 		button.addStyleDependentName("colorChoiceButton");
 		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
-		
+
 		button.addDomHandler(new ClickHandler()
 		{
 
@@ -58,17 +52,8 @@ public class Colors extends VerticalPanel
 					Colors.this.mobileModel.lastSelected().updateRepaint();
 				}
 			}
-
 		}, ClickEvent.getType());
-		
-		this.add(button);
-	}
 
-	private void addDummyButton()
-	{
-		Button button = new Button();
-		button.addStyleDependentName("dummyButton");
-		
 		this.add(button);
 	}
 }
