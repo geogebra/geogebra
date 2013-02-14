@@ -463,6 +463,16 @@ public class App3D extends AppD {
 		euclidianViewForPlaneList.remove(view);
 	}
 	
+	/**
+	 * remove all euclidian views for plane
+	 */
+	public void removeAllEuclidianViewForPlane(){
+		for (EuclidianViewForPlane view : euclidianViewForPlaneList)
+			view.removeFromGuiAndKernel();
+		
+		euclidianViewForPlaneList.clear();
+	}
+	
 	@Override
 	public void exportAnimatedGIF(AnimatedGifEncoder gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
 		
@@ -488,6 +498,13 @@ public class App3D extends AppD {
 	
 	}
 
+	
+	@Override
+	public void fileNew() {
+		super.fileNew();
+		
+		removeAllEuclidianViewForPlane();
+	}
 
 	
 }
