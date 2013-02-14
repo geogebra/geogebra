@@ -2192,16 +2192,18 @@ public class GeoFunction extends GeoElement implements VarString,
 			b.lowerSharp = lowerSharp;
 			b.upperSharp = upperSharp;
 			b.condition = condition;//If[x==1,1,If[x==2,3,4]]
-		
+			ExpressionValue lt = e.getLeft().unwrap();
+			ExpressionValue rt = e.getRight().unwrap();
+			App.debug(e);
 			boolean simple = e.getOperation() == Operation.GREATER
 					|| e.getOperation() == Operation.GREATER_EQUAL
 					|| e.getOperation() == Operation.LESS
 					|| e.getOperation() == Operation.LESS_EQUAL
 					|| e.getOperation() == Operation.EQUAL_BOOLEAN;
-
-			if (simple && e.getLeft() instanceof FunctionVariable
-					&& e.getRight() instanceof MyDouble) {
-				double d = ((MyDouble) e.getRight()).getDouble();
+			App.debug(simple);
+			if (simple && lt instanceof FunctionVariable
+					&& rt instanceof NumberValue && !(rt instanceof FunctionVariable)) {
+				double d = ((NumberValue) rt).getDouble();
 				if (e.getOperation() == Operation.GREATER
 						&& (lower == null || lower <= d))// x > d
 				{
@@ -2226,9 +2228,9 @@ public class GeoFunction extends GeoElement implements VarString,
 					b.upper = d;
 					b.upperSharp = false;
 				}
-			} else if (simple && e.getRight() instanceof FunctionVariable
-					&& e.getLeft() instanceof MyDouble) {
-				double d = ((MyDouble) e.getLeft()).getDouble();
+			} else if (simple && rt instanceof FunctionVariable
+					&& lt instanceof NumberValue && !(lt instanceof FunctionVariable)) {
+				double d = ((NumberValue) lt).getDouble();
 				if (e.getOperation() == Operation.LESS
 						&& (lower == null || lower <= d))// x > d
 				{
