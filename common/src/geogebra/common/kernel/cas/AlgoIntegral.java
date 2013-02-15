@@ -86,6 +86,18 @@ public class AlgoIntegral extends AlgoCasBase {
 		 if (f instanceof GeoFunction) {
 			 Function inFun = ((GeoFunction)f).getFunction();
 			 
+				if (!kernel.useCASforIntegrals()) {
+					
+					inFun = inFun.getIntegralNoCAS();
+					
+					if (inFun == null) {
+						((GeoFunction)g).setDefined(false);
+					}
+					
+					((GeoFunction)g).setFunction(inFun);
+					((GeoFunction)g).setDefined(true);
+					return;
+				}
 			 // check if it's a polynomial
 			 PolyFunction polyDeriv = inFun.getNumericPolynomialIntegral();
 			 

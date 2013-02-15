@@ -1046,4 +1046,14 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		return new Function(expDeriv, fVars[0]);
 	}
 
+	/**
+	 * @param n order of derivative
+	 * @return integral calculated without the CAS
+	 * (will work only for very simple functions eg sin(3x))
+	 */
+	public Function getIntegralNoCAS() {
+		
+		return new Function(expression.integral(fVars[0]), fVars[0]);
+	}
+
 }

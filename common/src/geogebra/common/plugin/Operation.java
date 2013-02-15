@@ -1359,4 +1359,8 @@ public enum Operation {
 	public abstract ExpressionValue handle(ExpressionNodeEvaluator ev,
 			ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX);
+
+	public boolean isPlusorMinus() {
+		return this.equals(PLUS) || this.equals(MINUS);
+	}
 }

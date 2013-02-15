@@ -105,6 +105,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		int orderInt = order == null ? 1 : (int) Math.round(order.getDouble());
 
 		if (f instanceof GeoFunction) {
+			
 			Function inFun = ((GeoFunction)f).getFunction();
 			if (!kernel.useCASforDerivatives()) {
 				

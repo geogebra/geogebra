@@ -4471,4 +4471,8 @@ public class Kernel {
 	public boolean useCASforDerivatives() {
 		return false;
 	}
+	
+	public boolean useCASforIntegrals() {
+		return !app.isHTML5Applet();
+	}
 }

@@ -14,6 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.plugin.Operation;
 
 /**
  * @author Markus Hohenwarter
@@ -88,5 +89,13 @@ public class FunctionVariable extends MyDouble {
 		}
 		return new MyDouble(kernel, 0);
 	}
+	
+	public ExpressionValue integral(FunctionVariable fv) {
+		if (fv == this) {
+			return new ExpressionNode(kernel, this, Operation.POWER, new MyDouble(kernel, 2)).divide(2);
+		}
+		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
+	}
+
 
 }

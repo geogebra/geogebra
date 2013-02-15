@@ -369,5 +369,10 @@ public abstract class ValidExpression implements ExpressionValue {
 		return null;
 	}
 
+	public ExpressionValue integral(FunctionVariable fv) {
+		App.debug("integral from "+this.getClass());
+		return null;
+	}
+
 
 }

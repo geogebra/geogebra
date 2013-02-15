@@ -6807,5 +6807,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public ExpressionValue derivative(FunctionVariable fv) {
 		return null;
 	}
+	public ExpressionValue integral(FunctionVariable fv) {
+		return null;
+	}
 
 }

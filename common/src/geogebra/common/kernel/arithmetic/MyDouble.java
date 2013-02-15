@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
 import geogebra.common.util.StringUtil;
@@ -973,6 +974,11 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
 		return new MyDouble(kernel, 0);
+	}
+
+	@Override
+	public ExpressionValue integral(FunctionVariable fv) {
+		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
 
 
