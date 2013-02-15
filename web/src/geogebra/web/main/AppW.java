@@ -891,13 +891,13 @@ public class AppW extends App {
 	}
 	
 	
-	// eg "en_GB", "es"
-	// remains null until we're sure keys are loaded
+	/** eg "en_GB", "es"
+	// remains null until we're sure keys are loaded*/
 	String language = "en";
 
 	public void setLanguage(final String lang) {
 		
-		if (lang.equals(language)) {
+		if (lang!=null && lang.equals(language)) {
 			setLabels(); 
 			return;
 		}
@@ -920,7 +920,7 @@ public class AppW extends App {
 		script.addLoadHandler(new ScriptLoadCallback() {
 			
 			public void onLoad() {
-				if (lang == null || "".equals(lang)) {
+				if ("".equals(lang)) {
 					language = "en";
 				} else {
 					language = lang;
