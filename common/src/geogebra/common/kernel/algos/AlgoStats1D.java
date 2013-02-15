@@ -236,6 +236,14 @@ public abstract class AlgoStats1D extends AlgoElement {
 				}
 
 				frequency = ((NumberValue) geoFreq).getDouble();
+				
+				// handle bad frequency
+				if (frequency < 0) {
+					result.setUndefined();
+					return;
+				}
+				
+				
 				val_by_freq = val * frequency;
 				sumVal += val_by_freq;
 				sumSquares += val * val_by_freq;

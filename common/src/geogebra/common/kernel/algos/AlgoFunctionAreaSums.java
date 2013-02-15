@@ -1618,6 +1618,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 						}
 					}
 					
+					// if negative frequency, set undefined
+					if(valueFrequency < 0){
+						sum.setUndefined();
+						return;
+					}
+					
 					// if datum is outside the range, set undefined
 					if (datum < leftBorder[0] || datum > leftBorder[N - 1]) {
 						sum.setUndefined();

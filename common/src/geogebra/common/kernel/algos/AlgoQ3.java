@@ -97,7 +97,7 @@ public class AlgoQ3 extends AlgoElement {
     	} 
        
     	// ========================================
-    	// CASE 1: simple list of data
+    	// CASE 1: raw data
     	// ========================================
     	
     	if (freqList == null) {	
@@ -149,12 +149,13 @@ public class AlgoQ3 extends AlgoElement {
     			return;
     		}
 
-    		for (int i = 0; i < freqList.size(); i++) {
-				if (!freqList.get(i).isNumberValue()) {
+			for (int i = 0; i < freqList.size(); i++) {
+				if (!freqList.get(i).isNumberValue()
+						|| ((GeoNumeric) freqList.get(i)).getDouble() < 0) {
 					Q3.setUndefined();
 					return;
 				}
-			}	
+			}
 			
 			for (int i = 0; i < inputList.size(); i++) {
 				if (!inputList.get(i).isNumberValue()) {
@@ -170,13 +171,12 @@ public class AlgoQ3 extends AlgoElement {
     		Integer[] f = (Integer[]) obj[1];
     		int n = (Integer) obj[2];
     		
-    		//System.out.println(Arrays.toString(v));
-    		//System.out.println(Arrays.toString(f));
-    		//System.out.println(n);
-    		//for(int i = 0; i < n; i++){
-    			//System.out.println(i + ": " + AlgoMedian.getValueAt(i, v, f));
-    		//}
-
+    		// check we have at least two data values
+    		if(n < 2){
+				Q3.setUndefined();
+				return;
+			}
+    		
     		switch (n % 4) {
     		case 0:
     			Q3.setValue((AlgoMedian.getValueAt(3*n / 4 - 1, v, f) + AlgoMedian

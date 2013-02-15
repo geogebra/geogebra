@@ -372,7 +372,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		case SIGMAXX:
 			return new AlgoSigmaXX(cons, dataList, freqList);
 		case MIN:
-			return new AlgoListMin(cons, dataList);
+			return new AlgoListMin(cons, dataList, freqList);
 		case Q1:
 			return new AlgoQ1(cons, dataList, freqList);
 		case MEDIAN:
@@ -380,7 +380,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		case Q3:
 			return new AlgoQ3(cons, dataList, freqList);
 		case MAX:
-			return new AlgoListMax(cons, dataList);
+			return new AlgoListMax(cons, dataList, freqList);
 		default:
 			return null;
 		}

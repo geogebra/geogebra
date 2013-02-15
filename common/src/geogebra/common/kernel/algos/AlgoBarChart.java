@@ -895,8 +895,9 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 				return;
 			}
 
+			// frequencies
 			double y = list2.get(i).evaluateNum().getDouble();
-			if (!Double.isNaN(y)) {
+			if (!Double.isNaN(y) && y >= 0) {
 				yval[i] = y;
 				ySum += y;
 			} else {

@@ -29,18 +29,30 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoListMin extends AlgoElement {
 
 	private GeoList geoList; //input
+	private GeoList freqList; //input
     private GeoNumeric min; //output	
 
+    public AlgoListMin(Construction cons, String label, GeoList geoList, GeoList freqList) {
+        this(cons, geoList,freqList);
+        
+        min.setLabel(label);
+    }
+    
     public AlgoListMin(Construction cons, String label, GeoList geoList) {
-        this(cons, geoList);
+        this(cons, geoList,null);
         
         min.setLabel(label);
     }
 
     public AlgoListMin(Construction cons, GeoList geoList) {
+        this(cons, geoList,null);
+    }
+
+    
+    public AlgoListMin(Construction cons, GeoList geoList, GeoList freqList) {
         super(cons);
         this.geoList = geoList;
-               
+        this.freqList = freqList;       
         min = new GeoNumeric(cons);
 
         setInputOutput();
@@ -54,8 +66,15 @@ public class AlgoListMin extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[1];
-        input[0] = geoList;
+    	
+		if (freqList == null) {
+			input = new GeoElement[1];
+			input[0] = geoList;
+		} else {
+			input = new GeoElement[2];
+			input[0] = geoList;
+			input[1] = freqList;
+		}
 
         super.setOutputLength(1);
         super.setOutput(0, min);
@@ -75,19 +94,61 @@ public class AlgoListMin extends AlgoElement {
     	}
     	
     	double minVal = Double.POSITIVE_INFINITY;
-    	for (int i=0; i < size; i++) {
-    		GeoElement geo = geoList.get(i);
-    		if (geo.isNumberValue()) {
-    			NumberValue num = (NumberValue) geo;
-    			minVal = Math.min(minVal, num.getDouble());
-    		} else {
-    			min.setUndefined();
-        		return;
-    		}    		    		
-    	}   
     	
-    	min.setValue(minVal);
-    }
+		if (freqList == null) {
+
+			for (int i = 0; i < size; i++) {
+				GeoElement geo = geoList.get(i);
+				if (geo.isNumberValue()) {
+					NumberValue num = (NumberValue) geo;
+					minVal = Math.min(minVal, num.getDouble());
+				} else {
+					min.setUndefined();
+					return;
+				}
+			}
+			
+		} else {
+
+			if (!freqList.isDefined() || freqList.size() != geoList.size()) {
+				min.setUndefined();
+				return;
+			}
+
+			boolean hasPositiveFrequency = false;
+			for (int i = 0; i < size; i++) {
+				GeoElement geo = geoList.get(i);
+				GeoElement freqGeo = freqList.get(i);
+
+				if (!geo.isNumberValue() || !freqGeo.isNumberValue()) {
+					min.setUndefined();
+					return;
+				}
+
+				// handle bad frequency
+				double frequency = ((NumberValue) freqGeo).getDouble();
+				if (frequency < 0) {
+					min.setUndefined();
+					return;
+				} else if (frequency == 0) {
+					continue;
+				}
+				hasPositiveFrequency = true;
+
+				NumberValue num = (NumberValue) geo;
+				minVal = Math.min(minVal, num.getDouble());
+			}
+
+			// make sure not all frequencies are zero
+			if (!hasPositiveFrequency) {
+				min.setUndefined();
+				return;
+			}
+
+		}
+
+		min.setValue(minVal);
+	}
 
 	// TODO Consider locusequability
     

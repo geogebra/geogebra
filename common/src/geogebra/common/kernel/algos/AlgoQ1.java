@@ -100,7 +100,7 @@ public class AlgoQ1 extends AlgoElement {
     	} 
 
     	// ========================================
-    	// CASE 1: simple list of data
+    	// CASE 1: raw data
     	// ========================================
     	
     	if (freqList == null) {	
@@ -153,8 +153,10 @@ public class AlgoQ1 extends AlgoElement {
 				return;
 			}
 
+			// handle bad frequency
 			for (int i = 0; i < freqList.size(); i++) {
-				if (!freqList.get(i).isNumberValue()) {
+				if (!freqList.get(i).isNumberValue()
+						|| ((GeoNumeric) freqList.get(i)).getDouble() < 0) {
 					Q1.setUndefined();
 					return;
 				}
@@ -173,6 +175,12 @@ public class AlgoQ1 extends AlgoElement {
 			Double[] v = (Double[]) obj[0];
 			Integer[] f = (Integer[]) obj[1];
 			int n = (Integer) obj[2];
+			
+			// check we have at least two data values
+    		if(n < 2){
+				Q1.setUndefined();
+				return;
+			}
 
 			// find Q1
 			switch (n % 4) {

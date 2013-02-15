@@ -98,7 +98,7 @@ public class AlgoMedian extends AlgoElement {
 		}
 
 		// ========================================
-		// CASE 1: simple list of data
+		// CASE 1: raw data
 		// ========================================
 		if (freqList == null) {
 			double[] sortList = new double[size];
@@ -137,8 +137,10 @@ public class AlgoMedian extends AlgoElement {
 				return;
 			}
 
+			// check for bad frequency
 			for (int i = 0; i < freqList.size(); i++) {
-				if (!freqList.get(i).isNumberValue()) {
+				if (!freqList.get(i).isNumberValue()
+						|| ((GeoNumeric) freqList.get(i)).getDouble() < 0) {
 					median.setUndefined();
 					return;
 				}
@@ -158,6 +160,10 @@ public class AlgoMedian extends AlgoElement {
 			Integer[] f = (Integer[]) obj[1];
 			int n = (Integer) obj[2];
 			
+			if(n==0){
+				median.setUndefined();
+				return;
+			}
 
 			// find the median
 			if (Math.floor((double) n / 2) == n / 2.0) {
@@ -194,6 +200,11 @@ public class AlgoMedian extends AlgoElement {
 				highBound = ((NumberValue) inputList.get(i + 1)).getDouble();
 				f = (int) ((NumberValue) freqList.get(i)).getDouble();
 
+				if (f < 0) {
+					median.setUndefined();
+					return;
+				}
+				
 				if (cf + f >= n / 2) {
 					double width = highBound - lowBound;
 					

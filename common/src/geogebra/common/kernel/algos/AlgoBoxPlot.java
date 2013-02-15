@@ -269,6 +269,10 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			for (int i = 0 ; i < list1.size() ; i++) {
 				double x = list1.get(i).evaluateNum().getDouble();
 				
+				if(type == TYPE_FREQUENCY && ((GeoNumeric)freqList.get(i)).getDouble() <= 0){
+					continue;
+				}
+				
 				boolean updateMaxMin = true;
 				
 				if (useOutliers) {

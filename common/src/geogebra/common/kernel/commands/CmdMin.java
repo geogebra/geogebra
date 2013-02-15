@@ -64,7 +64,17 @@ public class CmdMin extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 				
+			} else if (((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1]
+					.isGeoList()))) {
+				
+				// value and frequency list
+				AlgoListMin algo = new AlgoListMin(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1]);
+
+				GeoElement[] ret = { algo.getMin() };
+				return ret;
 			}
+
 			throw argErr(app, c.getName(), arg[0]);
 		
 		case 3:		//Min[f,a,b]
