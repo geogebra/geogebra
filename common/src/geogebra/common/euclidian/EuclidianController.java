@@ -4396,7 +4396,7 @@ public abstract class EuclidianController {
 				}
 			}
 	
-	private void makeLabelNameVisible(GeoElement geo){
+	private static void makeLabelNameVisible(GeoElement geo){
 		//make sure that name of the geo will be visible
 		if (!geo.isLabelVisible()){
 			if (geo.getLabelMode()!=GeoElement.LABEL_NAME_VALUE)
@@ -4408,7 +4408,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected GeoElement[] area(Hits hits, AbstractEvent event) {
+	protected final GeoElement[] area(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -4600,7 +4600,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected final GeoElement[] distance(Hits hits, AbstractEvent event) {
+	protected final GeoElement[] distance(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -4627,8 +4627,8 @@ public abstract class EuclidianController {
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 
 			
-			GeoNumeric length = getAlgoDispatcher().Distance(null, (GeoPointND) points[0],
-					(GeoPointND) points[1]);
+			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0],
+					points[1]);
 	
 			// set startpoint of text to midpoint of two points
 			GeoPointND midPoint = Midpoint(points[0], points[1]);
@@ -4734,7 +4734,6 @@ public abstract class EuclidianController {
 			GeoNumeric perimeter = getAlgoDispatcher().Perimeter(null, poly[0]);
 	
 			// text
-			GPoint mouseCoords = event.getPoint();
 			GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly[0],
 					perimeter);
 	
@@ -5597,7 +5596,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_DISTANCE:
-			ret = distance(hits, event);
+			ret = distance(hits);
 			break;
 	
 		case EuclidianConstants.MODE_MACRO:
@@ -5605,7 +5604,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_AREA:
-			ret = area(hits, event);
+			ret = area(hits);
 			break;
 	
 		case EuclidianConstants.MODE_SLOPE:
@@ -6641,8 +6640,8 @@ public abstract class EuclidianController {
 					startPoint.setLocation(((GeoNumeric) hit).getSliderX(),
 							((GeoNumeric) hit).getSliderY());
 					
-					boolean valueShowing = hit.isLabelVisible()
-							&& (hit.getLabelMode() == GeoElement.LABEL_NAME_VALUE || hit.getLabelMode() == GeoElement.LABEL_VALUE);
+				//	boolean valueShowing = hit.isLabelVisible()
+				//			&& (hit.getLabelMode() == GeoElement.LABEL_NAME_VALUE || hit.getLabelMode() == GeoElement.LABEL_VALUE);
 	
 				}
 			}
@@ -6892,6 +6891,9 @@ public abstract class EuclidianController {
 	}
 
 	
+	/**
+	 * @param gPoint point 
+	 */
 	protected boolean textfieldJustFocusedW(GPoint gPoint) {
 		return false;
 	}

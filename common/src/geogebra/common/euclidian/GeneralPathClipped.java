@@ -41,6 +41,9 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 		reset();
 	}
 
+	/**
+	 * @return first point of the path
+	 */
 	public MyPoint firstPoint(){
 		if (pathPoints.size()==0){
 			return null;
