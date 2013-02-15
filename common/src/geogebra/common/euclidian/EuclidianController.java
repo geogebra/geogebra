@@ -71,6 +71,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPenStroke;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -93,6 +94,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -213,7 +215,7 @@ public abstract class EuclidianController {
 
 	protected ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
 
-	protected ArrayList<NumberValue> selectedNumberValues = new ArrayList<NumberValue>();
+	protected ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
 
 	protected ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
 
@@ -1275,8 +1277,8 @@ public abstract class EuclidianController {
 		selGeos.addAll(tempArrayList);
 	}
 
-	@SuppressWarnings("unchecked")
-	protected final int addToSelectionList(@SuppressWarnings("rawtypes") ArrayList selectionList, GeoElement geo,
+	
+	protected final <T> int addToSelectionList(ArrayList<T> selectionList, T geo,
 			int max) {
 				if (geo == null) {
 					return 0;
@@ -1294,13 +1296,13 @@ public abstract class EuclidianController {
 					if (selectionList.size() < max) {
 						selectionList.add(geo);
 						if (!selectionList.equals(selectedGeos)) {
-							selectedGeos.add(geo);
+							selectedGeos.add((GeoElement)geo);
 						}
 						ret = 1;
 					}
 				}
 				if (ret != 0) {
-					app.toggleSelectedGeo(geo);
+					app.toggleSelectedGeo((GeoElement)geo);
 				}
 				return ret;
 			}
@@ -1592,7 +1594,7 @@ public abstract class EuclidianController {
 	 * @param addMoreThanOneAllowed
 	 *            it's possible to add several objects without choosing
 	 */
-	protected final int addToSelectionList(ArrayList<?> selectionList, ArrayList<GeoElement> geos,
+	protected final<T extends GeoElementND> int addToSelectionList(ArrayList<T> selectionList, ArrayList<GeoElement> geos,
 			int max, boolean addMoreThanOneAllowed, boolean tryDeselect) {
 			
 				if (geos == null) {
@@ -1603,7 +1605,7 @@ public abstract class EuclidianController {
 				// ONLY ONE ELEMENT IN THE EFFECTIVE HITS
 				if (tryDeselect && (geos.size() == 1)) {
 					// select or deselect it
-					return addToSelectionList(selectionList, geos.get(0), max);
+					return addToSelectionList(selectionList, (T)geos.get(0), max);
 				}
 			
 				// SEVERAL ELEMENTS
@@ -1615,7 +1617,7 @@ public abstract class EuclidianController {
 				if (!addMoreThanOneAllowed
 						|| ((geos.size() + selectionList.size()) > max)) {
 					// Application.printStacktrace(geos.toString());
-					return addToSelectionList(selectionList, chooseGeo(geos, true, true), max);
+					return addToSelectionList(selectionList, (T)chooseGeo(geos, true, true), max);
 				}
 			
 				// already selected objects -> choose one
@@ -1626,13 +1628,13 @@ public abstract class EuclidianController {
 					}
 				}
 				if (contained) {
-					return addToSelectionList(selectionList, chooseGeo(geos, true, true), max);
+					return addToSelectionList(selectionList, (T)chooseGeo(geos, true, true), max);
 				}
 			
 				// add all objects to list
 				int count = 0;
 				for (int i = 0; i < geos.size(); i++) {
-					count += addToSelectionList(selectionList, geos.get(i), max);
+					count += addToSelectionList(selectionList, (T)geos.get(i), max);
 				}
 				return count;
 			}
@@ -1706,7 +1708,7 @@ public abstract class EuclidianController {
 	}
 
 	protected int handleAddSelected(Hits hits, int max, boolean addMore,
-			ArrayList<?> list, Test geoClass) {
+			ArrayList<? extends GeoElementND> list, Test geoClass) {
 			
 				if (selectionPreview) {
 					return addToHighlightedList(list,
@@ -1718,7 +1720,7 @@ public abstract class EuclidianController {
 			}
 
 	protected int handleAddSelectedRegions(Hits hits, int max,
-			boolean addMore, ArrayList<?> list) {
+			boolean addMore, ArrayList<Region> list) {
 				if (selectionPreview) {
 					return addToHighlightedList(list,
 							hits.getRegionHits(handleAddSelectedArrayList), max);

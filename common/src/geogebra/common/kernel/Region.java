@@ -1,6 +1,6 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -12,7 +12,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 
 
-public interface Region {
+public interface Region extends GeoElementND {
 
 	
 	
@@ -51,15 +51,5 @@ public interface Region {
 	 * @return true if the point (x0,y0) is in the region
 	 */
 	public boolean isInRegion(double x0, double y0);
-	
-	
-	/**
-	 * Returns this region as an object of type GeoElement.
-	 * @return this region as an object of type GeoElement.
-	 */
-	public GeoElement toGeoElement();
-
-
-	
 	
 }
