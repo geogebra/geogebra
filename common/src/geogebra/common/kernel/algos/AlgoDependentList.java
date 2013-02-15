@@ -96,9 +96,10 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
         setOutputLength(1);        
         setOutput(0,geoList);
         
-        if(isCellRange){
-        	setInputUpdateSetOnly();
-        }else{
+        if (isCellRange){
+        	// TODO: compile error
+        	//setInputUpdateSetOnly();
+        } else {
         	setDependencies(); // done by AlgoElement
         }
     }    
