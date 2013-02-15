@@ -39,6 +39,7 @@ import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -926,6 +927,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	public void update() {
 
 		super.update();
+
+		// update information on whether this path is fit for AlgoLocus
+		// or it can only support AlgoLocusList (call this method here again
+		// because the GeoList might change - code will run only if locus used it)
+		shouldUseAlgoLocusList(false);
+
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
@@ -1614,21 +1621,40 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			return;
 		}
 		final PathOrPoint path = (PathOrPoint) get(closestPointIndex);
+		
+		int type = P.getPathParameter().getPathType();
 
 		path.pointChanged(P);
 
 		final PathParameter pp = P.getPathParameter();
+		
+		pp.setPathType(type);
 
 		// update path param
 		// 0-1 for first obj
 		// 1-2 for second
 		// etc
 		// Application.debug(pp.t+" "+path.getMinParameter()+" "+path.getMaxParameter());
-		pp.t = closestPointIndex
+
+		int closestPointIndexBack = closestPointIndex;
+		if (directionInfoOrdering != null)
+			for (int i = 0; i < this.size(); i++) {
+				if (directionInfoOrdering[i] == closestPointIndex) {
+					closestPointIndexBack = i;
+					break;
+				}
+			}
+
+		if ((directionInfoArray == null) || directionInfoArray[closestPointIndex])
+			pp.t = closestPointIndexBack
 				+ PathNormalizer.toNormalizedPathParameter(pp.t,
 						path.getMinParameter(), path.getMaxParameter());
-		// Application.debug(pp.t);
+		else
+			pp.t = closestPointIndexBack
+				+ 1 - PathNormalizer.toNormalizedPathParameter(pp.t,
+						path.getMinParameter(), path.getMaxParameter());
 
+		// Application.debug(pp.t);
 	}
 
 	/**
@@ -1704,7 +1730,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		final PathParameter pp = PI.getPathParameter();
 
 		double t = pp.getT();
-		int n = (int) Math.floor(t);
+		int n0 = (int) Math.floor(t);
+		int n = n0;
 
 		// check n is in a sensible range
 		if ((n >= size()) || (n < 0)) {
@@ -1717,9 +1744,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			}
 			n = (n < 0) ? 0 : size() - 1;
 		}
+
+		int n1 = n;
+
+		if (directionInfoOrdering != null)
+			n = directionInfoOrdering[n];
+
 		final PathOrPoint path = (PathOrPoint) get(n);
 
-		pp.setT(PathNormalizer.toParentPathParameter(t - n,
+		int pt = pp.getPathType();
+		if (path instanceof GeoQuadricND)
+			pp.setPathType(((GeoQuadricND)path).getType());
+
+		// check direction of the path, as it is not sure that the main list path
+		// has the same direction for minParameter and maxParameter as the subpathes
+		if ((directionInfoArray == null) || directionInfoArray[n])
+			pp.setT(PathNormalizer.toParentPathParameter(t - n1,
+				path.getMinParameter(), path.getMaxParameter()));
+		else
+			pp.setT(PathNormalizer.toParentPathParameter(n1 - t + 1,
 				path.getMinParameter(), path.getMaxParameter()));
 
 		// Application.debug("pathChanged "+n);
@@ -1729,10 +1772,17 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		t = pp.getT();
 		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
 		// path.getMinParameter(), path.getMaxParameter()));
-		pp.setT(PathNormalizer.toNormalizedPathParameter(t,
-				path.getMinParameter(), path.getMaxParameter())
-				+ n);
 
+		if ((directionInfoArray == null) || directionInfoArray[n])
+			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
+				path.getMinParameter(), path.getMaxParameter())
+				+ n1);
+		else
+			pp.setT(1-PathNormalizer.toNormalizedPathParameter(t,
+				path.getMinParameter(), path.getMaxParameter())
+				+ n1);
+
+		pp.setPathType(pt);
 	}
 
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
@@ -1756,7 +1806,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 
 	public boolean isClosedPath() {
 		// TODO Auto-generated method stub
-		return false;
+
+		return !shouldUseAlgoLocusList;
 	}
 
 	public PathMover createPathMover() {
@@ -2260,20 +2311,40 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		
 	}
 
+	boolean [] directionInfoArray = null; // true if minParameter is for start
+	int [] directionInfoOrdering = null; // simple map to the ordered indexes
+	boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not enough
+	boolean locusCalledAlgoLocusList = false;// if a locus ever used this list as a path
+
 	/**
 	 * Before creating a locus based on this GeoList as a path,
 	 * this method decides whether the locus algo should be AlgoLocus or AlgoLocusList.
 	 * 
 	 * @return boolean true if AlgoLocusList should be used.
 	 */
-	public boolean shouldUseAlgoLocusList() {
+	public boolean shouldUseAlgoLocusList(boolean locusCalling) {
 
 		GeoPoint [] minParArray = new GeoPoint[this.size()];
 		GeoPoint [] maxParArray = new GeoPoint[this.size()];
+		GeoPoint [] minParStatic = new GeoPoint[this.size()];
+		GeoPoint [] maxParStatic = new GeoPoint[this.size()];
+		directionInfoArray = new boolean[this.size()];
+		directionInfoOrdering = new int[this.size()];
+		shouldUseAlgoLocusList = true;
+
+		// if there is no locus using this, the answer is not important
+		if (!locusCalledAlgoLocusList && !locusCalling)
+			return true;
+		else
+			locusCalledAlgoLocusList = true;
+
 
 		int i = 0;
 		for (; i < this.size(); i++)
 		{
+			directionInfoArray[i] = true;// at first this is used as helper array
+			directionInfoOrdering[i] = i;
+
 			if ((Path)get(i) instanceof GeoSegment) {
 				minParArray[i] = ((GeoSegment)get(i)).getStartPoint();
 				maxParArray[i] = ((GeoSegment)get(i)).getEndPoint();
@@ -2296,12 +2367,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 						((AlgoConicPartCircumcircle)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[2];
 				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoSemicircle) {
+					// AlgoSemiCircle's endpoints counted in reverse order in GeoConicPart
 					minParArray[i] = (GeoPoint)
 						((AlgoSemicircle)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[1];
 					maxParArray[i] = (GeoPoint)
 						((AlgoSemicircle)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[1];
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
 				} else {
 					minParArray[i] = null;
 					maxParArray[i] = null;
@@ -2312,12 +2384,23 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 				maxParArray[i] = null;
 				break;
 			}
+			minParStatic[i] = minParArray[i];
+			maxParStatic[i] = maxParArray[i];
 		}
 
-		if (i < this.size() || minParArray[this.size() - 1] == null)
-			return true; 
+		if (i < this.size() || minParArray[this.size() - 1] == null) {
+			directionInfoArray = null;
+			directionInfoOrdering = null;
+			return true;
+		}
+
+		// this algorithm is just for deciding if this is a "directed graph circle"
 
 		for (int j = 0; j < this.size(); j++) {
+			// to get this data, at first the subpaths should be joined,
+			// to have compatible directions, and then the joined thing
+			// should be made compatible with the main path too
+
 			for (i = j + 1; i < this.size(); i++) {//search, join
 				if (minParArray[j] == minParArray[i]) {
 					minParArray[i] = maxParArray[j];
@@ -2337,18 +2420,72 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 					break;
 				}
 			}
+
 			if (i != 0 && j < this.size() - 1) {
 				// there was no match, so this path is not a circle graph
+				directionInfoArray = null;
+				directionInfoOrdering = null;
 				return true;//AlgoLocusList
 			}
 		}
 		// otherwise everything has been reduced to one
 		if (minParArray[this.size() - 1] != maxParArray[this.size() - 1]) {
 			// this path is not a circle graph, but a line graph
+			directionInfoArray = null;
+			directionInfoOrdering = null;
 			return true;//AlgoLocusList
 		}
 
 		// otherwise use AlgoLocus
+
+		// now it's time to get the final contents of directionInfoArray
+
+		// directionInfoOrdering: which index is the next
+		// at first search for a minimum index to start from
+		int ii = 0;
+		boolean direction = true;//min-max direction is true in theory... (why false in testing?)
+
+		// starting from ii, determine the ordering
+		// here we use the information that this is a "directed graph circle"
+		for (int j = 0; j < this.size(); j++) {
+			directionInfoOrdering[j] = ii;
+			directionInfoArray[ii] = direction;//direction of ii
+
+			// search for the thing after ii with the help of the ref tree
+			for (i = 0; i < this.size(); i++) {
+				if (i == ii) continue;// it is not the same as itself
+
+				if (j > 0)// it is not the same as the previous (or other direction)
+					if (directionInfoOrdering[j-1] == i)
+						continue;
+
+				if (direction) {
+					// if direction of ii is true, then use its maxParStatic
+					// end to match with i
+					if (maxParStatic[ii] == minParStatic[i]) {
+						ii = i;
+						direction = true;
+						break;
+					} else if (maxParStatic[ii] == maxParStatic[i]) {
+						ii = i;
+						direction = false;
+						break;
+					}
+				} else {
+					if (minParStatic[ii] == minParStatic[i]) {
+						ii = i;
+						direction = true;
+						break;
+					} else if (minParStatic[ii] == maxParStatic[i]) {
+						ii = i;
+						direction = false;
+						break;
+					}
+				}
+			}
+		}
+
+		shouldUseAlgoLocusList = false;
 		return false;
 	}
 

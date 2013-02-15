@@ -55,7 +55,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 
 	// parameters (e.g. angles) for arc
 	private double paramStart, paramEnd, paramExtent;
-	private boolean posOrientation;
+	private boolean posOrientation = true;
 	private int conic_part_type;
 
 	private double value, area, arcLength;

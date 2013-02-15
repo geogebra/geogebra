@@ -130,7 +130,7 @@ public class AlgoLocusList extends AlgoElement {
 					}
 					P.setPath((Path)actel);
 					if (actel instanceof GeoList) {
-						if (((GeoList)actel).shouldUseAlgoLocusList()) {
+						if (((GeoList)actel).shouldUseAlgoLocusList(true)) {
 							actal = new AlgoLocusList(cons, Q, P, try_steps);
 							pathp = ((AlgoLocusList)actal).getLocus();
 						} else {

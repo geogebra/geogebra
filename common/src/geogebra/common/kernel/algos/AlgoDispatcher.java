@@ -877,7 +877,7 @@ public class AlgoDispatcher {
 		if (P.getPath() == null || Q.getPath() != null || !P.isParentOf(Q))
 			return null;
 		if (P.getPath() instanceof GeoList)
-			if (((GeoList)P.getPath()).shouldUseAlgoLocusList())
+			if (((GeoList)P.getPath()).shouldUseAlgoLocusList(true))
 				return (new AlgoLocusList(cons, label, Q, P)).getLocus();
 		return (new AlgoLocus(cons, label, Q, P)).getLocus();
 	}
