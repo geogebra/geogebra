@@ -850,6 +850,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	/**
+	 * Convenience method to tell whether these two points are in the same place
+	 * @param P first point
+	 * @param Q second point
+	 * @return true if they are in the same place
+	 */
+	final public static boolean samePosition(GeoPoint P, GeoPoint Q) {
+		return Kernel.isZero(P.distance(Q));
+	}
+
+	/**
 	 * returns the square distance of this point and P (may return infinty or
 	 * NaN).
 	 * @param P other point

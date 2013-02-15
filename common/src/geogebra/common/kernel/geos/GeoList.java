@@ -2375,9 +2375,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 						((AlgoSemicircle)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
 				} else {
-					minParArray[i] = null;
-					maxParArray[i] = null;
-					break;
+					minParArray[i] = ((GeoConicPart)get(i)).getPointParam(0);
+					maxParArray[i] = ((GeoConicPart)get(i)).getPointParam(1);
 				}
 			} else {
 				minParArray[i] = null;
@@ -2402,19 +2401,19 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			// should be made compatible with the main path too
 
 			for (i = j + 1; i < this.size(); i++) {//search, join
-				if (minParArray[j] == minParArray[i]) {
+				if (GeoPoint.samePosition(minParArray[j], minParArray[i])) {
 					minParArray[i] = maxParArray[j];
 					i = 0;
 					break;
-				} else if (minParArray[j] == maxParArray[i]) {
+				} else if (GeoPoint.samePosition(minParArray[j], maxParArray[i])) {
 					maxParArray[i] = maxParArray[j];
 					i = 0;
 					break;
-				} else if (maxParArray[j] == minParArray[i]) {
+				} else if (GeoPoint.samePosition(maxParArray[j], minParArray[i])) {
 					minParArray[i] = minParArray[j];
 					i = 0;
 					break;
-				} else if (maxParArray[j] == maxParArray[i]) {
+				} else if (GeoPoint.samePosition(maxParArray[j], maxParArray[i])) {
 					maxParArray[i] = minParArray[j];
 					i = 0;
 					break;
@@ -2429,7 +2428,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			}
 		}
 		// otherwise everything has been reduced to one
-		if (minParArray[this.size() - 1] != maxParArray[this.size() - 1]) {
+		if (!GeoPoint.samePosition(minParArray[this.size() - 1], maxParArray[this.size() - 1])) {
 			// this path is not a circle graph, but a line graph
 			directionInfoArray = null;
 			directionInfoOrdering = null;
@@ -2462,21 +2461,21 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 				if (direction) {
 					// if direction of ii is true, then use its maxParStatic
 					// end to match with i
-					if (maxParStatic[ii] == minParStatic[i]) {
+					if (GeoPoint.samePosition(maxParStatic[ii], minParStatic[i])) {
 						ii = i;
 						direction = true;
 						break;
-					} else if (maxParStatic[ii] == maxParStatic[i]) {
+					} else if (GeoPoint.samePosition(maxParStatic[ii], maxParStatic[i])) {
 						ii = i;
 						direction = false;
 						break;
 					}
 				} else {
-					if (minParStatic[ii] == minParStatic[i]) {
+					if (GeoPoint.samePosition(minParStatic[ii], minParStatic[i])) {
 						ii = i;
 						direction = true;
 						break;
-					} else if (minParStatic[ii] == maxParStatic[i]) {
+					} else if (GeoPoint.samePosition(minParStatic[ii], maxParStatic[i])) {
 						ii = i;
 						direction = false;
 						break;
