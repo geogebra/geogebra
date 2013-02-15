@@ -1,26 +1,16 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Normalized path that uses a path parameter in range [0,1].
  * 
  * @author Markus Hohenwarter
  */
-public class PathNormalizer implements Path {
+public class PathNormalizer {
 
-	private Path parentPath;
+	
 
-	/**
-	 * Creates a normalized path with parameter range [0,1] for the given parent
-	 * path with an arbitrary parameter range.
-	 * 
-	 * @param parentPath parent path
-	 */
-	public PathNormalizer(Path parentPath) {
-		this.parentPath = parentPath;
-	}
+	
 
 	/**
 	 * Converts path parameter value tn from range [0, 1] to [min, max].
@@ -120,29 +110,7 @@ public class PathNormalizer implements Path {
 		return (t - min) / (max - min);
 	}
 
-	/**
-	 * Converts path parameter from range [0, 1] to [parentPath.min,
-	 * parentPath.max].
-	 * 
-	 * @param pp
-	 *            path parameter value in [parentPath.min, parentPath.max]
-	 */
-	private void toParentPathParameter(PathParameter pp) {
-		pp.setT(toParentPathParameter(pp.getT(), parentPath.getMinParameter(),
-				parentPath.getMaxParameter()));
-	}
 
-	/**
-	 * Converts path parameter from range [parentPath.min, parentPath.max] to
-	 * [0, 1].
-	 * 
-	 * @param pp
-	 *            path parameter to be normalized
-	 */
-	private void toNormalizedPathParameter(PathParameter pp) {
-		pp.setT(toNormalizedPathParameter(pp.getT(),
-				parentPath.getMinParameter(), parentPath.getMaxParameter()));
-	}
 
 	/**
 	 * Function t: (-1, 1) -> (-inf, +inf)
@@ -167,59 +135,15 @@ public class PathNormalizer implements Path {
 		return z / (1 - z);
 	}
 
-	public boolean isOnPath(GeoPointND PI, double eps) {
-		// path parameter from [0,1] -> [parentPath.min, parentPath.max]
-		toParentPathParameter(PI.getPathParameter());
+	
 
-		// delegate to parent path
-		boolean result = parentPath.isOnPath(PI, eps);
 
-		// path parameter from [parentPath.min, parentPath.max] -> [0,1]
-		toNormalizedPathParameter(PI.getPathParameter());
-		return result;
-	}
 
-	public void pathChanged(GeoPointND PI) {
-		// path parameter from [0,1] -> [parentPath.min, parentPath.max]
-		toParentPathParameter(PI.getPathParameter());
 
-		// delegate to parent path
-		parentPath.pathChanged(PI);
 
-		// path parameter from [parentPath.min, parentPath.max] -> [0,1]
-		toNormalizedPathParameter(PI.getPathParameter());
-	}
 
-	public void pointChanged(GeoPointND PI) {
-		// path parameter from [0,1] -> [parentPath.min, parentPath.max]
-		toParentPathParameter(PI.getPathParameter());
 
-		// delegate to parent path
-		parentPath.pointChanged(PI);
-
-		// path parameter from [parentPath.min, parentPath.max] -> [0,1]
-		toNormalizedPathParameter(PI.getPathParameter());
-	}
-
-	public PathMover createPathMover() {
-		return new PathMoverGeneric(this);
-	}
-
-	public double getMaxParameter() {
-		return 1;
-	}
-
-	public double getMinParameter() {
-		return 0;
-	}
-
-	public boolean isClosedPath() {
-		return parentPath.isClosedPath();
-	}
-
-	public GeoElement toGeoElement() {
-		return parentPath.toGeoElement();
-	}
+	
 
 	/*
 	 * TEST

@@ -2923,6 +2923,9 @@ public class Construction {
 		return algoSetCurrentlyUpdated;
 	}
 
+	/**
+	 * @param b new value of update construction flag
+	 */
 	public void setUpdateConstructionRunning(boolean b) {
 		updateConstructionRunning = b;		
 	}
