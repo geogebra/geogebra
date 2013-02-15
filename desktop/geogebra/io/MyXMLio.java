@@ -347,6 +347,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		
 	}
 
+	@Override
 	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch)
 			throws Exception {
 		StringReader rs = new StringReader(str);
@@ -630,6 +631,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	 * Returns XML representation of all settings and construction needed for
 	 * undo.
 	 */
+	@Override
 	public synchronized StringBuilder getUndoXML(Construction c) {
 		AppD app = (AppD) c.getApplication();
 

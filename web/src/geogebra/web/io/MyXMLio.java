@@ -25,7 +25,8 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 		return ggbDocHandler;
 	}
 
-	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch) throws Exception {
+	@Override
+    public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch) throws Exception {
 		doParseXML(str, clearAll, isGGTfile, clearAll, settingsBatch);
 	}
 
@@ -78,7 +79,8 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 	 * Returns XML representation of all settings and construction needed for
 	 * undo.
 	 */
-	public synchronized StringBuilder getUndoXML(Construction c) {
+	@Override
+    public synchronized StringBuilder getUndoXML(Construction c) {
 		App app = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
