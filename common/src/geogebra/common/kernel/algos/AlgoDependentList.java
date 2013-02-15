@@ -31,8 +31,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	private ArrayList<GeoElement> listItems; //input GeoElements
     private GeoList geoList;     // output    
     
-    private boolean isCellRange;
-    private String cellRangeString;
         
     /**
      * Creates a new algorithm that takes a list of GeoElements to build a Geolist with 
@@ -56,8 +54,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
     public AlgoDependentList(Construction cons, ArrayList<GeoElement> listItems, boolean isCellRange) {
     	super(cons);
     	this.listItems = listItems;
-    	this.isCellRange = isCellRange; 
-    	   
+    	       
     	// create output object
         geoList = new GeoList(cons);                                    	
     	setInputOutput(); 
@@ -70,13 +67,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	public Algos getClassName() {
 		return Algos.Expression;
 	}
-    
-    
-    public void updateList(ArrayList<GeoElement> listItems){
-    	this.listItems = listItems;
-    	setInputOutput(); 
-        compute();              
-    }
     
     // for AlgoElement
 	@Override
@@ -94,14 +84,8 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
     	}          
         
         setOutputLength(1);        
-        setOutput(0,geoList);
-        
-        if (isCellRange){
-        	// TODO: compile error
-        	//setInputUpdateSetOnly();
-        } else {
-        	setDependencies(); // done by AlgoElement
-        }
+        setOutput(0,geoList);        
+        setDependencies(); // done by AlgoElement
     }    
     
     /**
@@ -159,20 +143,11 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
     	}
     }   
     
-    
-	public void setCellRangeString(String cellRangeString) {
-		this.cellRangeString = cellRangeString;
-	}
-
 	private StringBuilder sb; 
 	
     @Override
 	final public String toString(StringTemplate tpl) {
 
-    	if(isCellRange && cellRangeString != null){
-    		return cellRangeString;
-    	}
-    	
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
     	sb.append("{");
