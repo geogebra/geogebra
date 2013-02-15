@@ -30,6 +30,7 @@ public class ColorBar extends LayoutPanel
 		this.addStyleName("colorBar");
 		this.scrollPanel = new ScrollPanel();
 		this.scrollPanel.addStyleName("colorScrollPanel");
+		this.listOfColors = new ArrayList<GColor>();
 		initColors();
 		this.colors = new Colors(stylingBar, mobileModel);
 		this.colors.drawColorChoice(this.listOfColors);
