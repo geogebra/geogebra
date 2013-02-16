@@ -21,8 +21,8 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	final private String menubarID;
 	private ArrayList<RadioButton> radioButtons;
 	private String[] texts;
-	private String[] commands;
-	private MyActionListener listener;
+	String[] commands;
+	MyActionListener listener;
 	private App app;
 
 	/**

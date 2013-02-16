@@ -54,10 +54,7 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 		App.debug("c.getAbsoluteLeft(): " + c.getAbsoluteLeft());
 		
 		popupPanel.setPopupPosition(Math.min(xr, c.getAbsoluteLeft() + c.getOffsetWidth() - popupPanel.getOffsetWidth()), yr);
-	
-		
-//		//?????
-//		wrappedPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+
 	}
 	
 	public void removeFromParent(){
@@ -79,6 +76,10 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	public void addItem(MenuItem item) {
 	    popupMenu.addItem(item);
     }
+	
+	public MenuBar getPopupMenu(){
+		return popupMenu;
+	}
 	
 	public MenuItem add(Command action, String html, String text) {
 		MenuItem mi;

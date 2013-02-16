@@ -2,6 +2,8 @@ package geogebra.web.gui;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.menubar.MyActionListener;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
@@ -12,7 +14,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
+public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implements MyActionListener{
 
 	private double px;
 	private double py;
@@ -44,12 +46,14 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
         wrappedPopup.addItem(zoomMenuItem);
         addZoomItems(zoomMenu);
         
-        MenuBar yaxisMenu = new MenuBar(true);
-        MenuItem yaxisMenuItem = new MenuItem(app.getPlain("xAxis") + " : " 
-        							+ app.getPlain("yAxis"), yaxisMenu);
+        RadioButtonMenuBar yaxisMenu = app.getFactory().newRadioButtonMenuBar(app);
         addAxesRatioItems(yaxisMenu);
-        wrappedPopup.addItem(yaxisMenuItem);
         
+		app.addMenuItem(wrappedPopup,
+		        app.getEmptyIconFileName(),
+		        app.getPlain("xAxis") + " : " + app.getPlain("yAxis"), true,
+		        yaxisMenu);
+
         MenuItem miShowAllObjectsView = new MenuItem(app.getPlain("ShowAllObjects"), new Command() {
 			
 			public void execute() {
@@ -69,13 +73,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
         
         if(!ev.isZoomable()){
         	zoomMenuItem.setEnabled(false);
-        	yaxisMenuItem.setEnabled(false);
+        	((MenuItem) yaxisMenu).setEnabled(false);
         	miShowAllObjectsView.setEnabled(false);
         	miStandardView.setEnabled(false);
         }
         
         if(ev.isLockedAxesRatio()){
-        	yaxisMenuItem.setEnabled(false);
+        	((MenuItem) yaxisMenu).setEnabled(false);
         }
         
         //addMiProperties();
@@ -105,43 +109,48 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
         app.setViewShowAllObjects();
     }
 
-	private void addAxesRatioItems(MenuBar menu) {
+	private void addAxesRatioItems(RadioButtonMenuBar menu) {
+		
 		double scaleRatio = ((EuclidianView)app.getActiveEuclidianView()).getScaleRatio(); 
 		
 		MenuItem mi;
+		String[] items = {};
+		String[] actionCommands = {};
 		
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
-		 for (int i=0; i < axesRatios.length; i++) {                        
+		 for (int i=0, j=0; i < axesRatios.length; i++, j++) {                        
 	            // build text like "1 : 2"
 	            sb.setLength(0);
 	            if (axesRatios[i] > 1.0) {                                 
 	                sb.append((int) axesRatios[i]);
 	                sb.append(" : 1");
 	                if (! separatorAdded) {
-	                    menu.addSeparator();
+	                    //((MenuBar) menu).addSeparator();
+	                	items[j++] = "---";
 	                    separatorAdded = true;
 	                }
 	                
 	            } else { // factor 
 	            	if (axesRatios[i] == 1) 
-	                	menu.addSeparator(); 
+	                	//((MenuBar) menu).addSeparator();
+	            		items[j++] = "---";
 	                sb.append("1 : "); 
 	                sb.append((int) (1.0 / axesRatios[i]));                               
 	            } 
-	            //TODO: it is terrible, should be used ONE listener for each menuItem, this kills the memory, if GWT changes this 
-	            // get it right!
-	            final int index = i;
-	            mi = new MenuItem(sb.toString(), new Command() {
-					
-					public void execute() {
-						zoomYaxis(axesRatios[index]);
-					}
-				});
-	            GeoGebraMenubarW.setMenuSelected(mi, Kernel.isEqual(axesRatios[i], scaleRatio));
-	            menu.addItem(mi);
+
+	            
+	            items[j] = sb.toString();
+	            actionCommands[j] = ""+axesRatios[i];
 		 }
-	    
+		int selPos = 0;
+		while (!Kernel.isEqual(axesRatios[selPos], scaleRatio)
+		        && (selPos < axesRatios.length)) {
+			selPos++;
+		}
+		App.debug("selPos: " +selPos);
+		menu.addRadioButtonMenuItems(this, items, actionCommands,  selPos +1, false);
+	 
     }
 
 	protected void zoomYaxis(double axesRatio) {
@@ -195,6 +204,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	    ((AppW)app).setShowGridSelected(cbShowGrid);
 	}
 
+    public void actionPerformed(String command) {
+        try {   
+            //zoomYaxis(Double.parseDouble(e.getActionCommand()));
+        	zoomYaxis(Double.parseDouble(command));
+        } catch (Exception ex) {
+        }       
+    }  
 	
 
 }

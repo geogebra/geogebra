@@ -63,6 +63,7 @@ import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.javax.swing.GOptionPaneW;
+import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.kernel.AnimationManagerW;
 import geogebra.web.kernel.KernelW;
 import geogebra.web.kernel.UndoManagerW;
@@ -2399,19 +2400,26 @@ public class AppW extends App {
 		App.debug("unimplemented");
 	}
 
-	@Override
-    public void addMenuItem(MenuInterface parentMenu, String filename,
+	public void addMenuItem(JPopupMenuW wrappedPopup, String filename,
 	        String name, boolean asHtml, MenuInterface subMenu) {
+		addMenuItem(wrappedPopup.getPopupMenu(), filename, name, asHtml, subMenu);
+	}
 
+	@Override
+	public void addMenuItem(MenuInterface parentMenu, String filename,
+	        String name, boolean asHtml, MenuInterface subMenu) {
+		addMenuItem((MenuBar)parentMenu, filename, name, asHtml, subMenu);
+	}
+	
+    public void addMenuItem(MenuBar parentMenu, String filename,
+	        String name, boolean asHtml, MenuInterface subMenu) {
 		String funcName = filename.substring(0, filename.lastIndexOf('.'));
 		ImageResource imgRes = (ImageResource) (AppResources.INSTANCE
 		        .getResource(funcName));
 		String iconString = imgRes.getSafeUri().asString();
-
-		((MenuBar) parentMenu).addItem(
-		        GeoGebraMenubarW.getMenuBarHtml(iconString, name), true,
-		        (MenuBar) subMenu);
-
+		
+		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(iconString, name),
+		        true, (MenuBar) subMenu);
 	}
 
 	@Override
