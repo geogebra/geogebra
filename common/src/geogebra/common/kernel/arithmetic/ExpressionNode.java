@@ -5696,38 +5696,79 @@ public class ExpressionNode extends ValidExpression implements
 			
 		case POWER:
 
+			// eg x^2
 			if (left == fv) {
-				if (right.isConstant()) {
+				double index = right.evaluateNum().getDouble();
+				if (!Double.isNaN(index) && !Double.isInfinite(index)) {
+
+					if (Kernel.isZero(index + 1)) {
+						return new ExpressionNode(kernel, left, Operation.LOG, null);
+					}
+					return wrap(left).power(index + 1).divide(index + 1);
+				}
+			} else
+
+				// eg 2^x
+				if (right == fv) {
+					double base = left.evaluateNum().getDouble();
+					if (!Double.isNaN(base) && !Double.isInfinite(base)) {
+
+						// 1^x
+						if (Kernel.isEqual(base, 1)) {
+							return wrap(fv);
+						}
+
+						if (Kernel.isGreater(base, 0)) {
+							return this.divide(wrap(left).ln());
+						}
+					}
+
+				} else if (right.isNumberValue()) {
+
 					double index = right.evaluateNum().getDouble();
 					if (!Double.isNaN(index) && !Double.isInfinite(index)) {
-						
-						if (Kernel.isZero(index + 1)) {
-							return new ExpressionNode(kernel, left, Operation.LOG, null);
+
+						double coeff = getLinearCoefficient(fv, left);
+						if (!Double.isNaN(coeff)) {
+
+							// (exp)^-1 -> ln(abs(exp))
+							if (Kernel.isEqual(index, -1)) {
+								return wrap(left).abs().ln().divide(coeff);							
+							}
+							return wrap(left).power(index + 1).divide(coeff * ((index + 1)));
 						}
-						return wrap(left).power(index + 1).divide(index + 1);
+
+						coeff = getLinearCoefficientDiv(fv, left);
+
+						if (!Double.isNaN(coeff)) {
+							if (Kernel.isEqual(index, -1)) {
+								// (exp)^-1 -> ln(abs(exp))
+								return wrap(left).abs().ln().multiply(coeff);							
+							}
+							return wrap(left).power(index + 1).multiply(coeff / ((index + 1)));
+						}
 					}
 				}
-			}
-			
+
 			break;
 			
 		case NO_OPERATION:
 			return wrap(left.integral(fv));
 		case DIVIDE:		
-			if (right.isConstant() && right.isNumberValue()) {
+			if (right.isNumberValue()) {
 				return wrap(left.integral(fv)).divide(right);
 			}
 			
-			if (left.isConstant() && left.isNumberValue() && right == fv) {
+			if (left.isNumberValue() && right == fv) {
 				// eg 4/x
 				return new ExpressionNode(kernel, fv, Operation.LOG, null).multiply(left);
 			}
 			break;
 			
 		case MULTIPLY:			
-			if (right.isConstant() && right.isNumberValue()) {
+			if (right.isNumberValue()) {
 				return wrap(left.integral(fv)).multiplyR(right);
-			} else if (left.isConstant() && left.isNumberValue()) {
+			} else if (left.isNumberValue()) {
 				return wrap(right.integral(fv)).multiplyR(left);
 			}
 			
@@ -6048,11 +6089,11 @@ public class ExpressionNode extends ValidExpression implements
 		if (ev.isExpressionNode() && (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus() ) {
 			ExpressionNode en = (ExpressionNode) ev;
 			
-			if (en.left.isConstant() && en.left.isNumberValue()) {
+			if (en.left.isNumberValue()) {
 				//strip off the "+1" etc
 				ev = en.right;
 				factor = op.equals(Operation.PLUS) ? 1 : -1;
-			} else if (en.right.isConstant() && en.right.isNumberValue()) {
+			} else if (en.right.isNumberValue()) {
 				//strip off the "+1" etc
 				ev = en.left;
 				factor = 1;
@@ -6067,10 +6108,10 @@ public class ExpressionNode extends ValidExpression implements
 		// 3*x or x*3
 		if (ev.isExpressionNode() && ((ExpressionNode) ev).getOperation().equals(Operation.MULTIPLY) ) {
 			ExpressionNode en = (ExpressionNode) ev;
-			if (en.left == fv && en.right.isNumberValue() && en.right.isConstant()) {
+			if (en.left == fv && en.right.isNumberValue()) {
 				return ((NumberValue) en.right).getDouble() * factor;
 				//return wrap(en.right).multiply(factor);
-			} else if (en.right == fv && en.left.isNumberValue() && en.left.isConstant()) {
+			} else if (en.right == fv && en.left.isNumberValue()) {
 				return ((NumberValue) en.left).getDouble() * factor;
 				//return wrap(en.left).multiply(factor);
 			}
@@ -6096,11 +6137,11 @@ public class ExpressionNode extends ValidExpression implements
 		if (ev.isExpressionNode() && (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus() ) {
 			ExpressionNode en = (ExpressionNode) ev;
 			
-			if (en.left.isConstant() && en.left.isNumberValue()) {
+			if (en.left.isNumberValue()) {
 				//strip off the "+1" etc
 				ev = en.right;
 				factor = op.equals(Operation.PLUS) ? 1 : -1;
-			} else if (en.right.isConstant() && en.right.isNumberValue()) {
+			} else if (en.right.isNumberValue()) {
 				//strip off the "+1" etc
 				ev = en.left;
 				factor = 1;
@@ -6110,7 +6151,7 @@ public class ExpressionNode extends ValidExpression implements
 		// x/3
 		if (ev.isExpressionNode() && ((ExpressionNode) ev).getOperation().equals(Operation.DIVIDE) ) {
 			ExpressionNode en = (ExpressionNode) ev;
-			if (en.left == fv && en.right.isNumberValue() && en.right.isConstant()) {
+			if (en.left == fv && en.right.isNumberValue()) {
 				return ((NumberValue) en.right).getDouble() * factor;
 			}
 		}
