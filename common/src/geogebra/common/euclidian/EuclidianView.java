@@ -1633,13 +1633,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		repaint();
 	}
 
-	/**
-	 * Repaints the view
-	 */
-	public void repaintEuclidianView() {
-		repaint();
-	}
-
 	public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
@@ -4813,11 +4806,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
 				geos, null);
 		if (repaintNeeded) {
-			getEuclidianController().stopCollectingMinorRepaints();
 			kernel.notifyRepaint();
-		} else if (getEuclidianController().stopCollectingMinorRepaints()) {
-			repaintView();
 		}
+		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	public void highlight(GeoElement geo) {
@@ -4841,10 +4832,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				geos, null);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
-			getEuclidianController().stopCollectingMinorRepaints();
-		} else if (getEuclidianController().stopCollectingMinorRepaints()) {
-			repaintView();
-		}
+		} 
+		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	/**

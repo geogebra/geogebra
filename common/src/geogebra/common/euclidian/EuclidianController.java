@@ -356,13 +356,13 @@ public abstract class EuclidianController {
 	 * 
 	 * @return: whether the actual method shall repaint anything
 	 */
-	public boolean stopCollectingMinorRepaints() {
-		if (collectingRepaints <= 0)
-			return false;
+	public void stopCollectingMinorRepaints() {
 		collectingRepaints--;
-		if (collectingRepaints == 0)
-			return collectedRepaints;
-		return false;
+		if (collectingRepaints <= 0 && collectedRepaints){
+			view.repaintView();
+			collectingRepaints = 0;
+			collectedRepaints = false;
+		}
 	}
 
 	// ==============================================
@@ -653,10 +653,7 @@ public abstract class EuclidianController {
 			app.clearSelectedGeos();
 		}
 
-		if (collectingRepaints > 0)
-			collectedRepaints = true;
-		else
-			view.repaintView();
+		view.repaintView();
 	}
 
 	protected final void clearSelection(ArrayList<?> selectionList) {
@@ -3665,9 +3662,6 @@ public abstract class EuclidianController {
 		clearSelection(selectedRegions, false);
 
 		app.clearSelectedGeos(repaint,updateSelection);
-		if (repaint) {
-			collectedRepaints = false;
-		}
 
 		// if we clear selection and highlighting,
 		// we may want to clear justCreatedGeos also
@@ -3676,8 +3670,7 @@ public abstract class EuclidianController {
 		// clear highlighting
 		refreshHighlighting(null, null); // this may call repaint
 
-		if (stopCollectingMinorRepaints())
-			view.repaintView();
+		stopCollectingMinorRepaints();
 	}
 
 
@@ -5725,10 +5718,7 @@ public abstract class EuclidianController {
 	
 				view.getPreviewDrawable().updateMousePos(xRW, yRW);
 			}
-			if (collectingRepaints > 0)
-				collectedRepaints = true;
-			else
-				view.repaintView();
+			view.repaintView();
 		}
 	
 		return changedKernel;
@@ -6702,13 +6692,10 @@ public abstract class EuclidianController {
 			refreshHighlighting(tempFullHits, event)) {
 
 			kernel.notifyRepaint();
-			stopCollectingMinorRepaints();
 		} else if (repaintNeeded) {
 			view.repaintView();
-			stopCollectingMinorRepaints();
-		} else if (stopCollectingMinorRepaints()) {
-			view.repaintView();
-		}
+		} 
+		stopCollectingMinorRepaints();
 	}
 
 	protected void wrapMouseMoved(AbstractEvent event) {
@@ -9731,7 +9718,14 @@ public abstract class EuclidianController {
 
 	public void setDeleteToolSize(int deleteToolSize) {
 		this.deleteToolSize = deleteToolSize;
-	}	
+	}
 	
+	public boolean isCollectingRepaints() {
+	    return collectingRepaints > 0;
+    }
+	
+	public void setCollectedRepaints(boolean collected){
+		collectedRepaints = collected;
+	}
 	
 }

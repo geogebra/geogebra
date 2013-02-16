@@ -218,10 +218,10 @@ public class AppW extends App {
 
 			getSettings().getEuclidian(1).setPreferredSize(
 			        geogebra.common.factories.AwtFactory.prototype.newDimension(
-			                appCanvasWidth, appCanvasHeight));
-			getEuclidianView1().setDisableRepaint(false);
+			                appCanvasWidth, appCanvasHeight));			
 			getEuclidianView1().synCanvasSize();
 			getEuclidianView1().doRepaint2();
+			stopCollectingRepaints();
 			appFrame.finishAsyncLoading(articleElement, appFrame, this);
 		} else if (frame != null) {
 			GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
@@ -1212,15 +1212,17 @@ public class AppW extends App {
 	}
 
 	public void beforeLoadFile() {
-		getEuclidianView1().setDisableRepaint(true);
+		startCollectingRepaints();
 		getEuclidianView1().setReIniting(true);
 	}
 
 	public void afterLoadFile() {
 		kernel.initUndoInfo();
-		getEuclidianView1().setDisableRepaint(false);
+		
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
+		stopCollectingRepaints();
+		
 		frame.splash.canNowHide();
 		getEuclidianView1().requestFocusInWindow();
 
@@ -1235,12 +1237,11 @@ public class AppW extends App {
 	 * as it needed to be fixed after all.
 	 */
 	public void afterLoadAppFile() {
-		kernel.initUndoInfo();
-		getEuclidianView1().setDisableRepaint(false);
+		kernel.initUndoInfo();		
 		getEuclidianView1().synCanvasSize();
 		splashDialog.canNowHide();
 		getEuclidianView1().doRepaint2();
-
+		stopCollectingRepaints();
 		// Well, it may cause freeze if we attach this too early
 		attachViews();
 	}
@@ -2253,9 +2254,9 @@ public class AppW extends App {
 		appCanvasHeight = height;
 		appCanvasWidth = width;
 
-		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
+		stopCollectingRepaints();
 		((EuclidianControllerW) getActiveEuclidianView()
 		        .getEuclidianController()).updateOffsets();
 	}

@@ -1327,13 +1327,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public boolean hitAnimationButton(AbstractEvent e) {
 		return false;
 	}
-	
-	
-	@Override
-	public void repaintEuclidianView() {
-		//Application.debug("repaintEuclidianView");
-		//super.repaintEuclidianView();
-	}
 
 	@Override
 	public void resetMode() {

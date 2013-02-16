@@ -4417,4 +4417,12 @@ public abstract class App implements Localization{
 	public int getDataParamHeight() {
 		return dataParamHeight;
 	}
+	
+	public void startCollectingRepaints(){
+		getEuclidianView1().getEuclidianController().startCollectingMinorRepaints();
+	}
+	
+	public void stopCollectingRepaints(){
+		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
+	}
 }

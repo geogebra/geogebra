@@ -163,11 +163,6 @@ public class EuclidianViewW extends EuclidianView {
 		return selStroke;
 	}
 	
-	private boolean disableRepaint;
-	public void setDisableRepaint(boolean disableRepaint) {
-		this.disableRepaint = disableRepaint;
-	}
-	
 	
 	/**
 	 * Creates a stroke with thickness width, dashed according to line style
@@ -228,7 +223,7 @@ public class EuclidianViewW extends EuclidianView {
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
 			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
 		} catch (Exception exc) {
-			AppW.debug("Problem with the parent element of the canvas");
+			App.debug("Problem with the parent element of the canvas");
 		}
 	}
 
@@ -340,8 +335,10 @@ public class EuclidianViewW extends EuclidianView {
 	 */
     public void repaint() {
 
-    	if (disableRepaint)
+    	if (getEuclidianController().isCollectingRepaints()){
+    		getEuclidianController().setCollectedRepaints(true);
     		return;
+    	}
 
     	//TODO: enable this code if this view can be detached
     	//if (!isShowing())
@@ -364,7 +361,7 @@ public class EuclidianViewW extends EuclidianView {
 
     	((DrawEquationWeb)app.getDrawEquation()).clearLaTeXes(this);
     	paint(g2p);
-
+    	getEuclidianController().setCollectedRepaints(false);
     	app.getGuiManager().getTimerSystem().viewRepainted(this);
     }
 
@@ -484,7 +481,7 @@ public class EuclidianViewW extends EuclidianView {
 	}
 
 	public void focusGained() {
-		if (!isInFocus && !this.app.isFullAppGui()) {
+		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
 			GeoGebraFrame.useFocusedBorder(
 				this.app.getArticleElement(),
