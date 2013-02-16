@@ -116,11 +116,10 @@ public class ReduceLibrary {
 				+ "	limit(~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~b) and ~b<0,"
 				+ "	limit(~a*~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
 				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}"));
-
-
+		
 		eval("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
-		eval("let {atan(sin(~x)/cos(~x))=>x, " + "acos(1/sqrt(2)) => pi/4"
-				+ "};");
+		eval("let {atan(sin(~x)/cos(~x))=>x, " + "acos(1/sqrt(2)) => pi/4,"
+				+ "factorial(~n) => gamma(n+1)};");
 
 		eval("solverules:={" + "logb(~x,~b)=>log(x)/log(b),"
 				+ "log10(~x)=>log(x)/log(10)" + "};");
