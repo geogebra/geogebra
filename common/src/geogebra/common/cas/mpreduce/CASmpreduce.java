@@ -356,7 +356,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				"polydiv", "myvector", "specfn"};
 		for (String p : packages) {
 			mpreduce1.evaluate("load_package " + p + ";");
-			App.trace("Reduce package " + p + " loaded");
+			App.debug("Reduce package " + p + " loaded"+System.currentTimeMillis());
 		}
 
 		// Initialize MPReduce
