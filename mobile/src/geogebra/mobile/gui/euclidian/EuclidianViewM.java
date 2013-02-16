@@ -193,6 +193,12 @@ public class EuclidianViewM extends EuclidianView
 	@Override
 	public void repaint()
 	{
+		if (getEuclidianController().isCollectingRepaints()){
+    		getEuclidianController().setCollectedRepaints(true);
+    		return;
+    	}
+		System.out.println("repaint");
+
 		if (getAxesColor() == null)
 		{
 			setAxesColor(geogebra.common.awt.GColor.black);
