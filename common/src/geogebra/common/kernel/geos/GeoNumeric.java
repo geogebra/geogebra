@@ -26,6 +26,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -1316,6 +1317,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public boolean isPinnable() {
 		return isSlider();
+	}
+	
+	@Override
+	public ExpressionValue derivative(FunctionVariable fv) {
+		return new MyDouble(fv.getKernel(),0);
 	}
 
 
