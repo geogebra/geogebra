@@ -33,6 +33,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
@@ -1321,7 +1322,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
-		return new MyDouble(fv.getKernel(),0);
+		return new MyDouble(fv.getKernel(), 0);
+	}
+
+	@Override
+	public ExpressionValue integral(FunctionVariable fv) {
+		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
 
 
