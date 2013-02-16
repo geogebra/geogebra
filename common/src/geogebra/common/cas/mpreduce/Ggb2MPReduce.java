@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 public class Ggb2MPReduce {
 	private static Map<String, String> commandMap = new TreeMap<String, String>();
+	private static Map<String, ReducePackage> packageMap = new TreeMap<String, ReducePackage>();
 
 	/**
 	 * @param signature GeoGebra command signature (i.e. "Element.2")
@@ -22,7 +23,7 @@ public class Ggb2MPReduce {
 	/**
 	 * @return map signature => syntax
 	 */
-	public Map<String,String> getMap() {
+	public static Map<String,String> getMap() {
 		p("Append.2",
 				"myappend(%0,%1)");
 		p("Binomial.2",
@@ -145,8 +146,10 @@ public class Ggb2MPReduce {
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; if input!!=\\'? then return \\'?; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.2",
 				"<<begin scalar integral!!, input!!; input!!:=(%0); let intrules!!; on rational, combineexpt; if input!!=\\'? then return \\'?; integral!!:=int(input!!,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+		
 		p("Integral.3",
 				"<<begin scalar integral!!, input!!, simplified!!; input!!:=(%0); simplified!!:=(myintoperator(input!!,mymainvar(input!!),%1,%2) where ifelseintsimplifications); let intrules!!; integral!!:=(simplified!! where {myintoperator(~a,~b,~c,~d) => myint(a,b,c,d)}); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else (simplified!! where {myintoperator(~a,~b,~c,~d) => num\\_int(a,b,c,d)}); end>>");
+		
 		p("Integral.4",
 				"<<begin scalar integral!!, simplified!!; input!!; simplified!!:=(myintoperator(%0,%1,%2,%3) where ifelseintsimplifications); let intrules!!; integral!!:=(simplified!! where {myintoperator(~a,~b,~c,~d) => myint(a,b,c,d)}); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else (simplified!! where {myintoperator(~a,~b,~c,~d) => num\\_int(a,b,c,d)}); end>>");
 		p("IntegralBetween.4",
@@ -429,5 +432,23 @@ public class Ggb2MPReduce {
 		p("Zipf.4",
 				"<<begin scalar s; s:= %1; return if %3=true then harmonic(%2,s)/harmonic(%0,s) else 1/((%2)^s*harmonic(%0,s)) end>>");
 		return commandMap;
+	}
+	
+	public static Map<String, ReducePackage> getPackageMap(){
+		if(packageMap.isEmpty()){
+			packageMap.put("Integral.1", ReducePackage.ODESOLVE);
+			packageMap.put("Integral.2", ReducePackage.ODESOLVE);
+			packageMap.put("Integral.3", ReducePackage.DEFINT);
+			packageMap.put("Integral.4", ReducePackage.DEFINT);
+			packageMap.put("IntegralBetween.4", ReducePackage.DEFINT);
+			packageMap.put("IntegralBetween.5", ReducePackage.DEFINT);
+			packageMap.put("Groebner.1", ReducePackage.GROEBNER);
+			packageMap.put("Groebner.2", ReducePackage.GROEBNER);
+			for(int i=1;i<6;i++)
+				packageMap.put("SolveODE."+i, ReducePackage.ODESOLVE);
+			packageMap.put("TaylorSeries.4", ReducePackage.TAYLOR);
+			packageMap.put("TaylorSeries.5", ReducePackage.TAYLOR);
+		}
+		return packageMap;
 	}
 }

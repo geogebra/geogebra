@@ -224,6 +224,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		script = this.createMPReduceScript(translatedRestrictions);
 		App.info("[LocusEqu] input to cas: "+script);
+		cas.getCurrentCAS().loadGroebner();
 		result = cas.evaluateMPReduce(script);
 		App.info("[LocusEqu] output from cas: "+result);
 		return getCoefficientsFromResult(result, cas);

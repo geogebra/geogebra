@@ -323,7 +323,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(name);
 		sbCASCommand.append(".N");
-
+		cas.loadPackagesFor(sbCASCommand.toString());
 		String translation = casParser.getTranslatedCASCommand(sbCASCommand
 				.toString());
 
@@ -365,6 +365,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(args.size());
 
 		// get translation ggb -> MathPiper/Maxima
+		cas.loadPackagesFor(sbCASCommand.toString());
 		translation = casParser
 				.getTranslatedCASCommand(sbCASCommand.toString());
 		sbCASCommand.setLength(0);

@@ -85,4 +85,8 @@ public interface CASGenericInterface extends SettingListener {
 	public ExpressionValue evaluateToExpression(
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst);
 
+	void loadPackagesFor(String string);
+
+	void loadGroebner();
+
 }

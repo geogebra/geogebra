@@ -376,9 +376,10 @@ public class CASparser implements CASParserInterface{
 	 */
 	synchronized Map<String,String> getTranslationRessourceBundle() {
 		if (rbCasTranslations == null){
-			rbCasTranslations = new Ggb2MPReduce().getMap();
-			}
+			rbCasTranslations = Ggb2MPReduce.getMap();
+		}
 		return rbCasTranslations;
 	}
+	
 
 }

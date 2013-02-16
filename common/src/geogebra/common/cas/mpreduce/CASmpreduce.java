@@ -43,6 +43,10 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
 					+ "ggbtmpvarv, ggbtmpvarw");
 	private static boolean initialized = false;
+	
+	public boolean isInitialized(){
+		return initialized;
+	}
 
 	/**
 	 * We escape any upper-letter words so Reduce doesn't switch them to /
@@ -351,8 +355,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		initialized = true;
 		App.debug("Loading packages...");
 
-		String[] packages = { "rsolve", "numeric", "odesolve",
-				"defint", "linalg", "reset", "taylor", "groebner", "trigsimp",
+		String[] packages = { "rsolve", "numeric", "linalg", "reset", "trigsimp",
 				"polydiv", "myvector", "specfn"};
 		for (String p : packages) {
 			mpreduce1.evaluate("load_package " + p + ";");
@@ -509,5 +512,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 	public void appendListEnd(StringBuilder sbCASCommand){
 		sbCASCommand.append(")");
+	}
+	
+	public void loadPackagesFor(String commandKey){
+		ReducePackage p = Ggb2MPReduce.getPackageMap().get(commandKey);
+		if(p!=null)
+			p.load(this);
+	}
+	
+	public void loadGroebner(){
+		ReducePackage.GROEBNER.load(this);
 	}
 }
