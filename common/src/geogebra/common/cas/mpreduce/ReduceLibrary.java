@@ -120,7 +120,7 @@ public class ReduceLibrary {
 		eval("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
 		eval("let {atan(sin(~x)/cos(~x))=>x, " + "acos(1/sqrt(2)) => pi/4,"
 				+ "factorial(~n) => gamma(n+1)};");
-
+//Intersect[x^2-3x/2+2,x/2+2]
 		eval("solverules:={" + "logb(~x,~b)=>log(x)/log(b),"
 				+ "log10(~x)=>log(x)/log(10)" + "};");
 		eval("procedure mkconditions(xx,yy,pts);for each el in mkdepthone(list(pts)) collect list(xx=xcoord(el),yy=ycoord(el));");
@@ -1167,9 +1167,10 @@ public class ReduceLibrary {
 				+ "    if numberp(element) then" + "      list()" + "    else"
 				+ "      list(element)" + "  else"
 				+ "    getkernels(part(element,0):=list);");
-
+		eval("groebnerloaded:=0;");
 		eval("procedure mymainvars(a,n);"
 				+ "begin scalar variables!!, result!!;"
+				+ " if not (groebnerloaded=1) then <<load_package groebner; groebnerloaded:=1>>;"
 				+ " variables!!:=gvars(getkernels(list(a)));"
 				+ " result!!:="
 				+ " if length(variables!!)<n then <<"
