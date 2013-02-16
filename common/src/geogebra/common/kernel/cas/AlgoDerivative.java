@@ -16,13 +16,17 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -109,6 +113,7 @@ public class AlgoDerivative extends AlgoCasBase {
 			Function inFun = ((GeoFunction)f).getFunction();
 			if (!kernel.useCASforDerivatives()) {
 				
+				// fast general non-CAS method, output form not so nice
 				inFun = inFun.getDerivativeNoCAS(orderInt);
 				
 				((GeoFunction)g).setFunction(inFun);
@@ -131,15 +136,43 @@ public class AlgoDerivative extends AlgoCasBase {
 				return;
 			}
 		}
-		//TODO: implement the fast derivative also for curves & multivar functions
 		
+		if (f instanceof GeoCurveCartesian) {
+			((GeoCurveCartesian)g).setDerivative((GeoCurveCartesian)f, orderInt);
+			return;
+		}
 		
-
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-
-		// get variable string with tmp prefix, 
-		// e.g. "x" becomes "ggbtmpvarx" here
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
+
+		if (f instanceof GeoFunctionNVar) {
+			FunctionNVar inFun = ((GeoFunctionNVar)f).getFunction();
+			if (!kernel.useCASforDerivatives()) {
+				
+				// fast general non-CAS method, output form not so nice
+				FunctionVariable[] fVars = inFun.getFunctionVariables();
+				FunctionVariable fv = null;
+				
+				for (int i = 0 ; i < fVars.length ; i++) {
+					if (varStr.equals(fVars[i].getSetVarString())) {
+						fv = fVars[i];
+						break;
+					}
+				}
+				
+				if (fv == null) {
+					((GeoFunctionNVar)g).setDefined(false);
+					return;
+				}
+				
+				inFun = inFun.getDerivativeNoCAS(fv, orderInt);
+				
+				((GeoFunctionNVar)g).setFunction(inFun);
+				((GeoFunctionNVar)g).setDefined(true);
+				return;
+			}
+		}
+
 
 
 		sbAE.setLength(0);
