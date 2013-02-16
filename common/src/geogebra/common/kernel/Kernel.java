@@ -3047,7 +3047,6 @@ public class Kernel {
 
 				// "attach" views again
 				viewCnt = oldViewCnt;
-
 				// add all geos to all views
 				for (int i = 0; i < viewCnt; ++i) {
 					notifyAddAll(views[i]);
@@ -3055,7 +3054,6 @@ public class Kernel {
 
 				notifyEuclidianViewCE();
 				notifyReset();
-				
 				//algebra settings need to be applied after remaking tree
 				if (app.getGuiManager()!=null)
 					app.getGuiManager().applyAlgebraViewSettings();
@@ -3431,6 +3429,7 @@ public class Kernel {
 
 	public void redo() {
 		if (undoActive) {
+			app.startCollectingRepaints();
 			storeSelectedGeosNames();
 			app.storeViewCreators();
 			notifyReset();
@@ -3439,11 +3438,13 @@ public class Kernel {
 			notifyReset();
 			app.recallViewCreators();
 			recallSelectedGeosNames();
+			app.stopCollectingRepaints();
 		}
 	}
 
 	public void undo() {
 		if (undoActive) {
+			app.startCollectingRepaints();
 			storeSelectedGeosNames();
 			app.storeViewCreators();
 			notifyReset();
@@ -3459,6 +3460,7 @@ public class Kernel {
 			if (!undoPossible()) {
 				notifyRepaint();
 			}
+			app.stopCollectingRepaints();
 		}
 	}
 
