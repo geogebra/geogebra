@@ -5525,10 +5525,9 @@ public class ExpressionNode extends ValidExpression implements
 			return new ExpressionNode(kernel, 0d);
 			
 		case POWER:
-			if (right.isConstant()) {
-				MyDouble zero = new MyDouble(kernel, 0d);
-				if (right.equals(zero)) {
-					return wrap(zero);
+			if (right.isNumberValue()) {
+				if (Kernel.isZero(right.evaluateNum().getDouble())) {
+					return wrap(new MyDouble(kernel, 0d));
 				}
 				
 				return wrap(left).power(wrap(right).subtract(1)).multiply(left.derivative(fv)).multiply(right);
@@ -5540,15 +5539,15 @@ public class ExpressionNode extends ValidExpression implements
 		case NO_OPERATION:
 			return wrap(left.derivative(fv));
 		case DIVIDE:			
-			if (right.isConstant() && right.isNumberValue()) {
+			if (right.isNumberValue()) {
 				return wrap(left).derivative(fv).divide(right);
 			}
 			return wrap(left.derivative(fv)).multiply(right).subtract(wrap(right.derivative(fv)).multiply(left)).divide(wrap(right).square());
 		case MULTIPLY:			
-			if (right.isConstant() && right.isNumberValue()) {
+			if (right.isNumberValue()) {
 				return wrap(left).derivative(fv).multiply(right);
 			}
-			if (left.isConstant() && left.isNumberValue()) {
+			if (left.isNumberValue()) {
 				return wrap(right).derivative(fv).multiply(left);
 			}
 			return wrap(left).multiply(right.derivative(fv)).plus(wrap(right).multiply(left.derivative(fv)));
