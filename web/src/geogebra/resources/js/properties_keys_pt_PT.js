@@ -1109,7 +1109,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Boxplot": "Diagrama de Extremos e Quartis",
     "Brackets": "Chavetas",
     "Browser": "Navegador",
-    "Button_Caption": "Subt\xedtulo",
+    "Button_Caption": "Legenda",
     "ButtonAction": "Inserir Bot\xe3o",
     "ButtonAction_Help": "Clique na Folha Gr\xe1fica para inserir um bot\xe3o",
     "ByLayering": "Por Camadas",
