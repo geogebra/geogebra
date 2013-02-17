@@ -3004,7 +3004,6 @@ public class ExpressionNode extends ValidExpression implements
 
 			break;
 		case EXP:
-			// Application.debug("EXP");
 			switch (stringType) {
 			case MATHML:
 				mathml(sb, "<exp/>", leftStr, null);
@@ -3017,7 +3016,7 @@ public class ExpressionNode extends ValidExpression implements
 				boolean addParentheses = (left.isExpressionNode() && ((ExpressionNode) left)
 						.getOperation().equals(Operation.POWER));
 
-				sb.append("e^{");
+				sb.append("\\mathit{e}^{");
 				if (addParentheses) {
 					sb.append(leftBracket(stringType));
 				}
