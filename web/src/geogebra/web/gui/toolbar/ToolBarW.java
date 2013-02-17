@@ -134,7 +134,7 @@ public class ToolBarW extends MenuBar {
 		return mtm.getFirstMode();
 	}
 
-	
+	private Integer activeView = App.VIEW_EUCLIDIAN;
 	/**
 	 * Adds the given modes to a two-dimensional toolbar. The toolbar definition
 	 * string looks like "0 , 1 2 | 3 4 5 || 7 8 9" where the int values are
@@ -150,7 +150,7 @@ public class ToolBarW extends MenuBar {
 			//AG	toolbarVec = parseToolbarString(dockPanel.getToolbarString());
 			//AG} else {
 				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-						.getToolbarDefinition());
+						.getToolbarDefinition(activeView));
 			//AG}
 		} catch (Exception e) {
 			//AGif (dockPanel != null) {
@@ -158,7 +158,7 @@ public class ToolBarW extends MenuBar {
 			//AG			+ dockPanel.getToolbarString());
 			//AG} else {
 				App.debug("invalid toolbar string: "
-						+ app.getGuiManager().getToolbarDefinition());
+						+ app.getGuiManager().getToolbarDefinition(activeView));
 			//}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
@@ -185,7 +185,6 @@ public class ToolBarW extends MenuBar {
 					// separator within menu:
 					tm.addSeparator();
 				} else { // standard case: add mode
-					App.debug(app.getToolName(addMode));
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						ScheduledCommand com = null;
@@ -295,4 +294,8 @@ public class ToolBarW extends MenuBar {
 		}
 		return null;
 	}
+
+	public void setActiveView(Integer viewID) {
+	    activeView = viewID;
+    }
 }

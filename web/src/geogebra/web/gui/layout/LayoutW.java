@@ -58,7 +58,7 @@ public class LayoutW extends Layout implements SettingListener {
 					//ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
 				}
 				
-				app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
+				app.getGuiManager().setToolBarDefinition(App.VIEW_EUCLIDIAN,perspective.getToolbarDefinition());
 				
 				app.setShowToolBarNoUpdate(perspective.getShowToolBar());
 				//AGapp.setShowAlgebraInput(perspective.getShowInputPanel(), false);

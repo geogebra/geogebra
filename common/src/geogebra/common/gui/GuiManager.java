@@ -33,7 +33,6 @@ public abstract class GuiManager {
 	private static final String ggbTube = "geogebratube.org/";
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String material = "/material/show/id/";
-	protected String strCustomToolbarDefinition;
 	
 
 	public void updateMenubar() { } // temporarily nothing
@@ -166,10 +165,6 @@ public abstract class GuiManager {
 
 	public boolean loadURL(String urlString) {
 		return loadURL(urlString, true);
-	}
-
-	public void setToolBarDefinition(String toolBarDefinition) {
-		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
 	/**
@@ -575,7 +570,5 @@ public abstract class GuiManager {
 	 * 
 	 * @return id of view which is setting the active toolbar
 	 */
-	public abstract int getActiveToolbarId();
-	
-	public abstract String getToolbarDefinition(); 
+	public abstract int getActiveToolbarId();	
 }

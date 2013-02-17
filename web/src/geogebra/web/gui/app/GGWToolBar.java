@@ -48,6 +48,12 @@ public class GGWToolBar extends Composite {
 	public GGWToolBar() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
+	public void setActiveToolbar(Integer viewID){
+		for(ToolBarW bar:toolbars){
+			bar.setActiveView(viewID);
+		}
+	}
 
 	/**
 	 * Initialisation of the GGWToolbar.

@@ -27,7 +27,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
-import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.io.MyXMLHandler;
@@ -392,7 +391,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	private final FontManagerD fontManager;
 
 	/** GUI manager */
-	protected GuiManager guiManager;
+	protected GuiManagerD guiManager;
 
 	private GlobalKeyDispatcherD globalKeyDispatcher;
 
@@ -3195,7 +3194,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// GUI Getters/Setters
 	// **************************************************************************
 
-	protected GuiManager newGuiManager() {
+	protected GuiManagerD newGuiManager() {
 		return AppD2.newGuiManager(this);
 	}
 
@@ -3203,7 +3202,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @return this application's GUI manager.
 	 */
 	@Override
-	final public synchronized GuiManager getGuiManager() {
+	final public synchronized GuiManagerD getGuiManager() {
 		return guiManager;
 	}
 
