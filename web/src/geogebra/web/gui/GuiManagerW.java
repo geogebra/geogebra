@@ -40,6 +40,7 @@ import geogebra.web.main.TimerSystemW;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Document;
@@ -62,7 +63,7 @@ public class GuiManagerW extends GuiManager {
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
-	private Map<Integer,String> customToolbarDefinitions;
+	private Map<Integer,String> customToolbarDefinitions = new TreeMap<Integer,String>();
 
 	private TimerSystemW timers;
 	private final AppW app;
