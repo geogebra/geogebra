@@ -161,19 +161,6 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public void initScriptingBundle()
-	{
-
-	}
-
-	@Override
-	public String getScriptingCommand(String internal)
-	{
-
-		return null;
-	}
-
-	@Override
 	public String getCommand(String key)
 	{
 

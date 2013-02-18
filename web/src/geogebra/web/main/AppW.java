@@ -1648,19 +1648,7 @@ public class AppW extends App {
 	}
 
 
-	@Override
-	public void initScriptingBundle() {
-		App.debug("initScriptingBundle: implementation needed"); // TODO
-																 // Auto-generated
-
-	}
-
-	@Override
-	public String getScriptingCommand(String internal) {
-		App.debug("getScriptingCommand: implementation needed really"); // TODO
-																		// Auto-generated
-		return null;
-	}
+	
 
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes,

@@ -5052,25 +5052,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public void initScriptingBundle() {
-		rbcommandScripting = MyResourceBundle.createBundle(RB_COMMAND,
-				new Locale(getScriptingLanguage()));
-		debug(rbcommandScripting.getLocale());
-
-	}
-
-	@Override
-	public String getScriptingCommand(String internal) {
-		String ret = internal;
-		try {
-			ret = rbcommandScripting.getString(internal);
-		} catch (Exception e) {
-			App.error(internal + " missing from command.properties");
-		}
-		return ret;
-	}
-
-	@Override
 	protected boolean isCommandChanged() {
 		// TODO Auto-generated method stub
 		return rbcommandOld != rbcommand;
