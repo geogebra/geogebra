@@ -469,7 +469,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			if (overTraceButtonColumn == colIndex) {
 				btnTrace.setIcon(traceRollOverIcon);
-				setToolTipText(app.getMenuTooltip("TraceToSpreadsheet"));
+				setToolTipText(app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
 			} else
 				btnTrace.setIcon(traceIcon);
 

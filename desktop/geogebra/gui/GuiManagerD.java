@@ -2016,9 +2016,9 @@ public class GuiManagerD extends GuiManager {
 
 						JOptionPane.showConfirmDialog(
 								(app).getMainComponent(),
-								app.getError("FileNotFound") + ":\n"
+								app.getLocalization().getError("FileNotFound") + ":\n"
 										+ file.getAbsolutePath(),
-								app.getError("Error"),
+								app.getLocalization().getError("Error"),
 								JOptionPane.DEFAULT_OPTION,
 								JOptionPane.WARNING_MESSAGE);
 

@@ -358,7 +358,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 							dependsOnListener = true;
 					}
 				if(dependsOnListener || geoValue.isChildOrEqual(num)){
-					app.showErrorDialog(app.getError("CircularDefinition"));
+					app.showErrorDialog(app.getLocalization().getError("CircularDefinition"));
 				}
 				else{ 
 					if(source == min)

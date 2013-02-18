@@ -149,7 +149,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	private void addFlag() {
 		final String flagName = app.getFlagName(false);
 		final JLabel languageLabel = new JLabel(app.getFlagIcon(flagName));
-		languageLabel.setToolTipText(app.getMenuTooltip("Language"));
+		languageLabel.setToolTipText(app.getLocalization().getMenuTooltip("Language"));
 		languageLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -357,7 +357,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 			};
 			runner.start();
 		} catch (java.lang.NoClassDefFoundError ee) {
-			app.showErrorDialog(app.getError("ExportJarMissing"));
+			app.showErrorDialog(app.getLocalization().getError("ExportJarMissing"));
 			ee.printStackTrace();
 		}
 	}

@@ -253,9 +253,9 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 		ev.mouseMovedOver(geo);								
 
 		if (geo != null) {
-			app.setTooltipFlag();
+			app.getLocalization().setTooltipFlag();
 			//FIXMEview.setToolTipText(geo.getLongDescriptionHTML(true, true));
-			app.clearTooltipFlag();
+			app.getLocalization().clearTooltipFlag();
 		} //FIXMEelse
 			//FIXMEview.setToolTipText(null);						
 	}

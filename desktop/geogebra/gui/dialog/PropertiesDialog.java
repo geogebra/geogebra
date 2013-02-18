@@ -77,7 +77,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	private static final long serialVersionUID = 1L;
-	private AppD app;
+	AppD app;
 	private Kernel kernel;
 	private JTreeGeoElements geoTree;
 	private JButton closeButton, defaultsButton, delButton;
@@ -859,9 +859,9 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			// tell EuclidianView to handle mouse over
 			ev.mouseMovedOver(geo);
 			if (geo != null) {
-				app.setTooltipFlag();
+				app.getLocalization().setTooltipFlag();
 				setToolTipText(geo.getLongDescriptionHTML(true, true));
-				app.clearTooltipFlag();
+				app.getLocalization().clearTooltipFlag();
 			} else {
 				setToolTipText(null);
 			}

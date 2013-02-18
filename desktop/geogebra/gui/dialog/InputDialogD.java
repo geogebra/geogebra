@@ -19,6 +19,7 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
@@ -49,6 +50,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		WindowFocusListener, VirtualKeyboardListener, UpdateFonts {
 
 	protected AppD app;
+	protected final Localization loc;
 
 	protected GeoElement geo;
 
@@ -137,7 +139,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 			boolean modal, boolean selectInitText, GeoElement geo,
 			JCheckBox checkBox, DialogType type) {
 
-		this(app.getFrame(), modal);
+		this(app.getFrame(), modal,app.getLocalization());
 		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
@@ -178,7 +180,8 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	 * @param frame
 	 * @param modal
 	 */
-	protected InputDialogD(JFrame frame, boolean modal) {
+	protected InputDialogD(JFrame frame, boolean modal,Localization loc) {
+		this.loc = loc;
 		this.wrappedDialog = new JDialog(frame, modal);
 	}
 

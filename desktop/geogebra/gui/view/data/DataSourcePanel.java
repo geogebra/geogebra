@@ -750,7 +750,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			{
 				if (btnHoverColumn == vColIndex) {
 					lblImportBtn.setIcon(importIconRollover);
-					setToolTipText(app.getMenuTooltip("AddSelection"));
+					setToolTipText(app.getLocalization().getMenuTooltip("AddSelection"));
 				} else {
 					lblImportBtn.setIcon(importIcon);
 					setToolTipText(null);

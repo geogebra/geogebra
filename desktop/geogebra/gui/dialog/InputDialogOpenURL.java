@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 public class InputDialogOpenURL extends InputDialogD {
 
 	public InputDialogOpenURL(AppD app) {
-		super(app.getFrame(), false);
+		super(app.getFrame(), false,app.getLocalization());
 		this.app = app;
 
 		initString = "http://";

@@ -91,7 +91,7 @@ public class CreateObjectDialog extends InputDialogD implements
 	public CreateObjectDialog(AppD app, SpreadsheetView view,
 			int objectType) {
 
-		super(app.getFrame(), false);
+		super(app.getFrame(), false,app.getLocalization());
 		this.app = app;
 		this.objectType = objectType;
 		this.table = (MyTableD) view.getSpreadsheetTable();

@@ -40,7 +40,7 @@ public class AngleInputDialog extends InputDialogD {
 	 */
 	public AngleInputDialog(AppD app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {	
-		super(app.getFrame(), modal);
+		super(app.getFrame(), modal,app.getLocalization());
 		this.app = app;
 		inputHandler = handler;
 		this.initString = initString;

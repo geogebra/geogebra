@@ -18,7 +18,7 @@ public class InputDialogOpenDataFolderURL extends InputDialogD{
 	private SpreadsheetView view;
 	
 	public InputDialogOpenDataFolderURL(AppD app, SpreadsheetView view, String initString) {
-		super(app.getFrame(), false);
+		super(app.getFrame(), false,app.getLocalization());
 		this.app = app;	
 		this.view = view;
 		//initString = "http://";
@@ -39,9 +39,9 @@ public class InputDialogOpenDataFolderURL extends InputDialogD{
 	public void setLabels(String title) {
 		wrappedDialog.setTitle(title);
 		
-		btOK.setText(app.getPlain("Open"));
+		btOK.setText(loc.getPlain("Open"));
 	//	btApply.setText(app.getPlain("Apply"));
-		btCancel.setText(app.getPlain("Cancel"));
+		btCancel.setText(loc.getPlain("Cancel"));
 
 	}
 

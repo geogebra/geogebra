@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.consprotocol;
 
+import geogebra.common.main.Localization;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
 import geogebra.main.AppD;
@@ -185,13 +186,14 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	 * Set the tool tip texts (used for language change, and at initialization labels).
 	 */
 	public void setLabels() {
-		btnColumns.setToolTipText(app.getMenuTooltip("Columns"));
-		btnOptions.setToolTipText(app.getMenuTooltip("Options"));
-		btnExport.setToolTipText(app.getPlainTooltip("ExportAsWebpage"));
-		btnPrint.setToolTipText(app.getMenuTooltip("Print"));
-		btnHelp.setToolTipText(app.getMenuTooltip("FastHelp"));
-		miShowOnlyBreakpoints.setText(app.getPlain("ShowOnlyBreakpoints"));
-		miColorfulConstructionProtocol.setText(app.getPlain("ColorfulConstructionProtocol"));
+		Localization loc = app.getLocalization();
+		btnColumns.setToolTipText(loc.getMenuTooltip("Columns"));
+		btnOptions.setToolTipText(loc.getMenuTooltip("Options"));
+		btnExport.setToolTipText(loc.getPlainTooltip("ExportAsWebpage"));
+		btnPrint.setToolTipText(loc.getMenuTooltip("Print"));
+		btnHelp.setToolTipText(loc.getMenuTooltip("FastHelp"));
+		miShowOnlyBreakpoints.setText(loc.getPlain("ShowOnlyBreakpoints"));
+		miColorfulConstructionProtocol.setText(loc.getPlain("ColorfulConstructionProtocol"));
 	}
 
 	/**

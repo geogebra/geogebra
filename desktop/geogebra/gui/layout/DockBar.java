@@ -182,7 +182,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
-		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
+		btnHelp.setToolTipText(app.getLocalization().getMenuTooltip("Help"));
 
 		// TODO: better help action ?
 		btnHelp.addActionListener(new HelpAction(app, app

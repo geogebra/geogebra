@@ -63,7 +63,7 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 	 */
 	public ScriptInputDialog(AppD app, String title, GeoButton button,
 			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
-		super(app.getFrame(), false);
+		super(app.getFrame(), false,app.getLocalization());
 		this.app = app;
 
 		this.updateScript = updateScript;

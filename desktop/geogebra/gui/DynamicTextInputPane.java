@@ -133,7 +133,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		String s;
 
 		if (text.endsWith("]")) {
-			if (text.startsWith(s = app.getCommand("LaTeX") + "[")) {
+			if (text.startsWith(s = app.getLocalization().getCommand("LaTeX") + "[")) {
 
 				// strip off outer command
 				String temp = text.substring(s.length(), text.length() - 1);
@@ -153,7 +153,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 					mode = DynamicTextField.MODE_FORMULATEXT;
 				}
 
-			} else if (text.startsWith(s = app.getCommand("Name") + "[")) {
+			} else if (text.startsWith(s = app.getLocalization().
+					getCommand("Name") + "[")) {
 
 				// strip off outer command
 				text = text.substring(s.length(), text.length() - 1);

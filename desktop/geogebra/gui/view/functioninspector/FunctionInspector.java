@@ -173,7 +173,7 @@ KeyListener, SpecialNumberFormatInterface {
 	/** Constructor */
 	public FunctionInspector(AppD app, GeoFunction selectedGeo) {
 
-		super(app.getFrame(), false);
+		super(app.getFrame(), false,app.getLocalization());
 		this.app = app;	
 		kernel = app.getKernel();
 		cons = kernel.getConstruction();
@@ -646,12 +646,12 @@ KeyListener, SpecialNumberFormatInterface {
 		// set the property/value pairs 
 		//=================================================
 
-		property.add(app.getCommand("Min"));
+		property.add(loc.getCommand("Min"));
 		value.add("(" + nf.format(xMinInt) + " , " + nf.format(yMinInt) + ")" );
 		Double[] min = {xMinInt, yMinInt};
 		value2.add(min);
 
-		property.add(app.getCommand("Max"));
+		property.add(loc.getCommand("Max"));
 		value.add("(" + nf.format(xMaxInt) + " , " + nf.format(yMaxInt) + ")" );
 		Double[] max = {xMaxInt, yMaxInt};
 		value2.add(max);
@@ -679,7 +679,7 @@ KeyListener, SpecialNumberFormatInterface {
 		cons.removeFromConstructionList(roots);		
 		rootGeos = roots.getGeoElements();
 
-		property.add(app.getCommand("Root"));
+		property.add(loc.getCommand("Root"));
 		
 		int count = 0;
 		double x = Double.NaN;
@@ -718,22 +718,22 @@ KeyListener, SpecialNumberFormatInterface {
 		value.add(null );
 		value2.add(null);
 
-		property.add(app.getCommand("Integral"));
+		property.add(loc.getCommand("Integral"));
 		value.add(nf.format(integral));
 		Double[] in = {integral};
 		value2.add(in);
 		
-		property.add(app.getCommand("Area"));
+		property.add(loc.getCommand("Area"));
 		value.add(nf.format(area));
 		Double[] a = {area};
 		value2.add(a);
 
-		property.add(app.getCommand("Mean"));
+		property.add(loc.getCommand("Mean"));
 		value.add(nf.format(mean));
 		Double[] m= {mean};
 		value2.add(m);
 
-		property.add(app.getCommand("Length"));
+		property.add(loc.getCommand("Length"));
 		value.add(nf.format(length));
 		Double[] l= {length};
 		value2.add(l);

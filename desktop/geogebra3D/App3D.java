@@ -24,7 +24,6 @@ import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.Localization;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
@@ -78,7 +77,7 @@ public class App3D extends AppD {
 			AppletImplementation applet, boolean undoActive) {
 
 		super(args, frame, applet, null, undoActive);
-		
+		loc = new Localization3D(this);
 
 		// euclidianView3D.initAxisAndPlane();
 
@@ -315,18 +314,7 @@ public class App3D extends AppD {
 	 * @see geogebra.main.Application#getCommandSyntax(java.lang.String) check
 	 * if there's a Command.Syntax3D key. If not, return Command.Syntax key
 	 */
-	@Override
-	public String getCommandSyntax(String key) {
-		String command = getCommand(key);
-		String key3D = key + Localization.syntax3D;
-		String syntax = getCommand(key3D);
-		if (!syntax.equals(key3D)) {
-			syntax = syntax.replace("[", command + '[');
-			return syntax;
-		}
-
-		return super.getCommandSyntax(key);
-	}
+	
 
 	@Override
 	public void addToEuclidianView(GeoElement geo) {

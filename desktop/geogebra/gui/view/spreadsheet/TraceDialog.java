@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.main.Localization;
 import geogebra.common.main.SpreadsheetTraceManager;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
@@ -448,29 +449,29 @@ implements
 
 
 	public void setLabels(){
+		Localization loc = app.getLocalization();
+		setTitle(loc.getMenu("RecordToSpreadsheet"));
 		
-		setTitle(app.getMenu("RecordToSpreadsheet"));
 		
+		lblStartRow.setText(loc.getMenu("StartRow") + ": ");
+		cbRowLimit.setText(loc.getMenu("RowLimit") + ": ");  
+		cbShowLabel.setText(loc.getPlain("ShowLabel"));  
+		cbTraceList.setText(loc.getMenu("TraceToList")); 
 		
-		lblStartRow.setText(app.getMenu("StartRow") + ": ");
-		cbRowLimit.setText(app.getMenu("RowLimit") + ": ");  
-		cbShowLabel.setText(app.getPlain("ShowLabel"));  
-		cbTraceList.setText(app.getMenu("TraceToList")); 
-		
-		traceModeTitle.setTitle(app.getPlain("TraceMode"));
+		traceModeTitle.setTitle(loc.getPlain("TraceMode"));
 		setTraceModeLabels();
 		 		 
-		cbResetColumns.setText(app.getMenu("ColumnReset"));  
-		btClose.setText(app.getMenu("Close"));
-		btCancel.setText(app.getPlain("Cancel"));
-		prompt.setText(app.getMenu("SelectAnObjectToTrace"));
+		cbResetColumns.setText(loc.getMenu("ColumnReset"));  
+		btClose.setText(loc.getMenu("Close"));
+		btCancel.setText(loc.getPlain("Cancel"));
+		prompt.setText(loc.getMenu("SelectAnObjectToTrace"));
 		
-		btRemove.setText(app.getPlain("Remove"));
-		btAdd.setToolTipText(app.getMenuTooltip("AddTrace"));
-		btErase.setText(app.getMenuTooltip("ClearTrace"));
+		btRemove.setText(loc.getPlain("Remove"));
+		btAdd.setToolTipText(loc.getMenuTooltip("AddTrace"));
+		btErase.setText(loc.getMenuTooltip("ClearTrace"));
 		
-		locationTitle.setTitle(app.getMenu("Location"));       
-		optionsTitle.setTitle(app.getMenu("Options"));  
+		locationTitle.setTitle(loc.getMenu("Location"));       
+		optionsTitle.setTitle(loc.getMenu("Options"));  
 		
 	}
 	

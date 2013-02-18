@@ -21,6 +21,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -52,6 +53,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	//public static final int MODE_VIEW = 2;
 
 	protected AppW app; // parent appame
+	final Localization loc;
 	private Kernel kernel;
 
 	//private MyRenderer renderer;
@@ -126,6 +128,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		App.debug("creating Algebra View");
 
 		app = (AppW)algCtrl.getApplication();
+		 loc = app.getLocalization();
 		kernel = algCtrl.getKernel();
 		algCtrl.setView(this);
 		this.algebraController = algCtrl;
@@ -512,7 +515,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 			if (!geo.isChangeable()) {
 				if (geo.isFixed()) {
-					app.showMessage(app.getError("AssignmentToFixed"));
+					app.showMessage(loc.getError("AssignmentToFixed"));
 				} else if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}
@@ -553,20 +556,20 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		TreeItem node;
 		switch(getTreeMode()) {
 		case DEPENDENCY:
-			setUserObject(indNode, app.getPlain("FreeObjects") );
-			setUserObject(depNode, app.getPlain("DependentObjects") );
-			setUserObject(auxiliaryNode, app.getPlain("AuxiliaryObjects") );
+			setUserObject(indNode, loc.getPlain("FreeObjects") );
+			setUserObject(depNode, loc.getPlain("DependentObjects") );
+			setUserObject(auxiliaryNode, loc.getPlain("AuxiliaryObjects") );
 			break;
 		case TYPE:
 			for (String key : typeNodesMap.keySet()) {
 				node = typeNodesMap.get(key);
-				setUserObject(node, app.getPlain(key) );
+				setUserObject(node, loc.getPlain(key) );
 			}
 			break;
 		case LAYER:
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
-				setUserObject(node, app.getPlain("LayerA",key.toString())+"TODO"+key );
+				setUserObject(node, loc.getPlain("LayerA",key.toString())+"TODO"+key );
 			}
 			break;
 		case ORDER:
@@ -671,7 +674,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 			// do we have to create the parent node?
 			if (parent == null) {
-				String layerStr = app.getPlain("LayerA", layer + "");
+				String layerStr = loc.getPlain("LayerA", layer + "");
 				parent = new TreeItem(layerStr);
 
 				setUserObject(parent, layerStr);

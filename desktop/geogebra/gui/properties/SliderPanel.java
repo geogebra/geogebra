@@ -400,7 +400,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 						}
 					}
 				if (dependsOnListener || geoValue.isChildOrEqual(num)) {
-					app.showErrorDialog(app.getError("CircularDefinition"));
+					app.showErrorDialog(app.getLocalization().getError("CircularDefinition"));
 				} else {
 					if (source == tfMin) {
 						num.setIntervalMin(value);

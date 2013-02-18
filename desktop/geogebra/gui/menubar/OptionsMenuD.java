@@ -85,7 +85,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 		// addSeparator();
 		// Language
-		if (app.propertiesFilesPresent()) {
+		if (app.getLocalization().propertiesFilesPresent()) {
 			
 			ImageIcon flagIcon;
 			final String flagName = app.getFlagName(false);

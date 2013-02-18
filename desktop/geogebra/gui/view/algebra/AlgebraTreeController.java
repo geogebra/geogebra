@@ -361,9 +361,9 @@ implements MouseListener, MouseMotionListener{
 		highlight(ev, geo);
 		
 		if (geo != null) {
-			app.setTooltipFlag();
+			app.getLocalization().setTooltipFlag();
 			tree.setToolTipText(geo.getLongDescriptionHTML(true, true));
-			app.clearTooltipFlag();
+			app.getLocalization().clearTooltipFlag();
 		} else{
 			tree.setToolTipText(null);	
 			TreePath tp = tree.getPathForLocation(e.getX(), e.getY());

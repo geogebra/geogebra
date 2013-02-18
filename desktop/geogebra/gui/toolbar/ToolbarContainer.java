@@ -3,6 +3,7 @@ package geogebra.gui.toolbar;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
@@ -59,6 +60,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Application instance.
 	 */
 	AppD app;
+	Localization loc;
+	
 
 	/**
 	 * True if this is the main toolbar which also contains the undo buttons.
@@ -120,6 +123,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		super(new BorderLayout(10, 0));
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.isMain = isMain;
 
 		// add general toolbar
@@ -295,7 +299,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// undo button
 		MySmallJButton btnUndo = new MySmallJButton(((GuiManagerD)app.getGuiManager())
 				.getUndoAction(), 7);
-		String text = app.getMenuTooltip("Undo");
+		String text = loc.getMenuTooltip("Undo");
 		btnUndo.setText(null);
 		btnUndo.setToolTipText(text);
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
@@ -303,7 +307,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// redo button
 		MySmallJButton btnRedo = new MySmallJButton(((GuiManagerD)app.getGuiManager())
 				.getRedoAction(), 7);
-		text = app.getMenuTooltip("Redo");
+		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
 		btnRedo.setToolTipText(text);
 		btnRedo.setAlignmentX(RIGHT_ALIGNMENT);
@@ -342,7 +346,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
-		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
+		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				((GuiManagerD)app.getGuiManager()).openToolHelp();
@@ -355,7 +359,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		c.weightx = 1;
 		c.weighty = 0;
 		
-		if (app.getLocalization().isRightToLeftReadingOrder()) {
+		if (loc.isRightToLeftReadingOrder()) {
 			c.gridx = 0; c.gridy=0;
 			gridPanel.add(btnRedo,c);
 			c.gridx = 1; c.gridy=0;
@@ -824,7 +828,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				if(type==OptionType.DEFAULTS){
 					continue;
 				}
-				String menuText = PropertiesView.getTypeStringSimple(app,type);
+				String menuText = PropertiesView.getTypeStringSimple(loc,type);
 				ImageIcon ic = PropertiesViewD.getTypeIcon(app,type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 				

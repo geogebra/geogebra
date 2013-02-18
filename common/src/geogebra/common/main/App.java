@@ -73,7 +73,7 @@ import java.util.TreeSet;
 /**
  * Represents an application window, gives access to views and system stuff
  */
-public abstract class App extends Localization{
+public abstract class App{
 	/** Script manager */
 	protected ScriptManager scriptManager = null;
 	/**
@@ -302,23 +302,7 @@ public abstract class App extends Localization{
 
 	private String scriptingLanguage;
 
-	/**
-	 * @return whether language of command bundle changed since we last updated
-	 *         translation table and directories
-	 */
-	protected abstract boolean isCommandChanged();
 
-	/**
-	 * @param b
-	 *            whether language of command bundle changed since we last
-	 *            updated translation table and directories
-	 */
-	protected abstract void setCommandChanged(boolean b);
-
-	/**
-	 * @return whether command translation bundle is null
-	 */
-	protected abstract boolean isCommandNull();
 
 
 
@@ -342,15 +326,15 @@ public abstract class App extends Localization{
 		// ready to fill the casCommandDict. In that case, we will fill the
 		// dict during fillCommandDict :)
 
-		if (!isCommandChanged()
-				&& ((commandDictCAS != null) || isCommandNull())) {
+		if (!getLocalization().isCommandChanged()
+				&& ((commandDictCAS != null) || getLocalization().isCommandNull())) {
 			return;
 		}
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 		if (cas == null) {
 			return;
 		}
-		setCommandChanged(false);
+		getLocalization().setCommandChanged(false);
 
 		commandDictCAS = newLowerCaseDictionary();
 		subCommandDict[CommandsConstants.TABLE_CAS].clear();
@@ -410,7 +394,7 @@ public abstract class App extends Localization{
 		if (subCommandDict == null) {
 			initTranslatedCommands();
 		}
-		if (isCommandChanged())
+		if (getLocalization().isCommandChanged())
 			updateCommandDictionary();
 
 		return subCommandDict;
@@ -421,8 +405,8 @@ public abstract class App extends Localization{
 	 * will load the properties files first.
 	 */
 	final public void initTranslatedCommands() {
-		if (isCommandNull() || subCommandDict == null) {
-			initCommand();
+		if (getLocalization().isCommandNull() || subCommandDict == null) {
+			getLocalization().initCommand();
 			fillCommandDict();
 			kernel.updateLocalAxesNames();
 		}
@@ -436,19 +420,16 @@ public abstract class App extends Localization{
 		return commandDict;
 	}
 
-	/**
-	 * Initialize the command bundle (not needed in Web)
-	 */
-	public abstract void initCommand();
+	
 
 	/**
 	 * Fill command dictionary and translation table. Must be called before we
 	 * start using Input Bar.
 	 */
 	protected void fillCommandDict() {
-		initCommand();
+		getLocalization().initCommand();
 
-		if (!isCommandChanged()) {
+		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
 
@@ -524,7 +505,7 @@ public abstract class App extends Localization{
 			fillCasCommandDict();
 		}
 		addMacroCommands();
-		setCommandChanged(false);
+		getLocalization().setCommandChanged(false);
 	}
 
 	/**
@@ -608,11 +589,7 @@ public abstract class App extends Localization{
 	
 	
 
-	/**
-	 * used to force properties to be read from secondary (tooltip) language if
-	 * one has been selected
-	 */
-	public abstract void setTooltipFlag();
+
 
 	public abstract boolean isApplet();
 
@@ -679,7 +656,21 @@ public abstract class App extends Localization{
 	 *            localized command name
 	 * @return internal command name
 	 */
-	public abstract String getInternalCommand(String s);
+	final public String getInternalCommand(String cmd) {
+		initTranslatedCommands();
+		String s;
+		for (Commands c:Commands.values()) {
+			s = Commands.englishToInternal(c).name();
+			
+				// make sure that when si[] is typed in script, it's changed to
+				// Si[] etc
+				if (getLocalization().getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
+					return s;
+				}
+			
+		}
+		return null;
+	}
 
 	/**
 	 * Show error dialog wiith given text
@@ -1551,21 +1542,7 @@ public abstract class App extends Localization{
 		return getLabelingStyle();
 	}
 
-	/**
-	 * @param colorName
-	 *            localized color name
-	 * @return internal color name
-	 */
-	public abstract String reverseGetColor(String colorName);
-
-	/**
-	 * Returns translation of a key in colors bundle
-	 * 
-	 * @param key
-	 *            key (color name)
-	 * @return localized color name
-	 */
-	public abstract String getColor(String key);
+	
 
 	/**
 	 * This is needed for handling paths to images inside .ggb archive TODO
@@ -2472,8 +2449,7 @@ public abstract class App extends Localization{
 	/** whether shift, drag and zoom features are enabled */
 	protected boolean shiftDragZoomEnabled = true;
 
-	/** used when a secondary language is being used for tooltips. */
-	protected boolean tooltipFlag = false;
+	
 
 	/**
 	 * Links properties view to this application
@@ -2778,12 +2754,7 @@ public abstract class App extends Localization{
 	 */
 	public abstract void updateUI();
 
-	/**
-	 * Stop forcing usage of tooltip locale for translations
-	 */
-	public void clearTooltipFlag() {
-		tooltipFlag = false;
-	}
+	
 
 	/**
 	 * Update font sizes of all components to match current GUI font size
@@ -2906,9 +2877,9 @@ public abstract class App extends Localization{
 			sb.append("\"/>\n");
 
 			sb.append("\t<tooltipSettings ");
-			if (getTooltipLanguageString() != null) {
+			if (getLocalization().getTooltipLanguageString() != null) {
 				sb.append(" language=\"");
-				sb.append(getTooltipLanguageString());
+				sb.append(getLocalization().getTooltipLanguageString());
 				sb.append("\"");
 			}
 			sb.append(" timeout=\"");
@@ -2949,10 +2920,7 @@ public abstract class App extends Localization{
 		}
 	}
 
-	/**
-	 * @return tooltip language
-	 */
-	public abstract String getTooltipLanguageString();
+	
 
 	/**
 	 * Appends layout settings in XML format to given builder
@@ -2971,12 +2939,7 @@ public abstract class App extends Localization{
 
 	// public abstract String getCurrentPythonScript();
 
-	/**
-	 * @param string
-	 *            key
-	 * @return translation of key from plain bundle in tooltip language
-	 */
-	public abstract String getPlainTooltip(String string);
+	
 
 	/**
 	 * @return selection listener
@@ -3591,15 +3554,17 @@ public abstract class App extends Localization{
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
 	}
 	
-	public Localization getLocalization(){
-		return this;
-	}
+	public abstract Localization getLocalization();
 	
-	/*public String getMenu(String key){
+	public String getMenu(String key){
 		return getLocalization().getMenu(key);
 	}
 	
 	public String getPlain(String key){
 		return getLocalization().getPlain(key);
-	}*/
+	}
+	
+	public String getPlainTooltip(String key){
+		return getLocalization().getPlainTooltip(key);
+	}
 }

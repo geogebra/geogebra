@@ -108,11 +108,10 @@ public class NoExceptionsTest {
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[1].getMethodName().substring(3);
-			String syntax = app.getCommand(cmdName+".Syntax");
+			String syntax = app.getLocalization().getCommand(cmdName+".Syntax");
 			syntaxes = 0;
 			for(int i=0;i<syntax.length();i++)
 				if(syntax.charAt(i)=='[')syntaxes++;
-			System.out.println(cmdName+syntaxes);
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
@@ -2538,7 +2537,9 @@ public class NoExceptionsTest {
 	
 	@AfterClass
 	public static void testSaving(){
+		System.out.println(app.getXML());
 		XmlTest.testCurrentXML(app);
+		
 		app.getKernel().getConstruction().initUndoInfo();
 		app.getKernel().getConstruction().undo();
 		app.getKernel().getConstruction().redo();

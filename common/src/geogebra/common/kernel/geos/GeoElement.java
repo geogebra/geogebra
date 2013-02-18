@@ -1711,10 +1711,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			// else fall through:
 		case TOOLTIP_ON:
 
-			app.setTooltipFlag();
+			loc.setTooltipFlag();
 			final String ret = getLongDescriptionHTML(colored, false); // old
 																		// behaviour
-			app.clearTooltipFlag();
+			loc.clearTooltipFlag();
 
 			return ret;
 		case TOOLTIP_OFF:

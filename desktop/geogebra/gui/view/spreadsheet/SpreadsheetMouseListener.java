@@ -594,9 +594,9 @@ public class SpreadsheetMouseListener implements MouseListener,
 
 		// set tooltip with geo's description
 		if (geo != null & view.getAllowToolTips()) {
-			app.setTooltipFlag();
+			app.getLocalization().setTooltipFlag();
 			table.setToolTipText(geo.getLongDescriptionHTML(true, true));
-			app.clearTooltipFlag();
+			app.getLocalization().clearTooltipFlag();
 		} else
 			table.setToolTipText(null);
 

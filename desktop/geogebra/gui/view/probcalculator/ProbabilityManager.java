@@ -37,6 +37,7 @@ import geogebra.common.kernel.statistics.AlgoPoisson;
 import geogebra.common.kernel.statistics.AlgoTDistribution;
 import geogebra.common.kernel.statistics.AlgoWeibull;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.MyMath2;
@@ -55,12 +56,14 @@ import java.util.HashMap;
  */
 public class ProbabilityManager {
 
-	private AppD app;
+	private final AppD app;
+	private final Localization loc;
 	private ProbabilityCalculator probCalc;
 
 	public ProbabilityManager(AppD app, ProbabilityCalculator probCalc) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.probCalc = probCalc;
 
 	}
@@ -87,22 +90,22 @@ public class ProbabilityManager {
 
 		HashMap<DIST, String> plotMap = new HashMap<DIST, String>();
 
-		plotMap.put(DIST.NORMAL, app.getMenu("Distribution.Normal"));
-		plotMap.put(DIST.STUDENT, app.getMenu("Distribution.StudentT"));
-		plotMap.put(DIST.CHISQUARE, app.getMenu("Distribution.ChiSquare"));
-		plotMap.put(DIST.F, app.getMenu("Distribution.F"));
-		plotMap.put(DIST.EXPONENTIAL, app.getMenu("Distribution.Exponential"));
-		plotMap.put(DIST.CAUCHY, app.getMenu("Distribution.Cauchy"));
-		plotMap.put(DIST.WEIBULL, app.getMenu("Distribution.Weibull"));
-		plotMap.put(DIST.LOGISTIC, app.getCommand("Logistic"));
-		plotMap.put(DIST.LOGNORMAL, app.getCommand("LogNormal"));
+		plotMap.put(DIST.NORMAL, loc.getMenu("Distribution.Normal"));
+		plotMap.put(DIST.STUDENT, loc.getMenu("Distribution.StudentT"));
+		plotMap.put(DIST.CHISQUARE, loc.getMenu("Distribution.ChiSquare"));
+		plotMap.put(DIST.F, loc.getMenu("Distribution.F"));
+		plotMap.put(DIST.EXPONENTIAL, loc.getMenu("Distribution.Exponential"));
+		plotMap.put(DIST.CAUCHY, loc.getMenu("Distribution.Cauchy"));
+		plotMap.put(DIST.WEIBULL, loc.getMenu("Distribution.Weibull"));
+		plotMap.put(DIST.LOGISTIC, loc.getCommand("Logistic"));
+		plotMap.put(DIST.LOGNORMAL, loc.getCommand("LogNormal"));
 
-		plotMap.put(DIST.GAMMA, app.getMenu("Distribution.Gamma"));
-		plotMap.put(DIST.BINOMIAL, app.getMenu("Distribution.Binomial"));
-		plotMap.put(DIST.PASCAL, app.getMenu("Distribution.Pascal"));
-		plotMap.put(DIST.POISSON, app.getMenu("Distribution.Poisson"));
+		plotMap.put(DIST.GAMMA, loc.getMenu("Distribution.Gamma"));
+		plotMap.put(DIST.BINOMIAL, loc.getMenu("Distribution.Binomial"));
+		plotMap.put(DIST.PASCAL, loc.getMenu("Distribution.Pascal"));
+		plotMap.put(DIST.POISSON, loc.getMenu("Distribution.Poisson"));
 		plotMap.put(DIST.HYPERGEOMETRIC,
-				app.getMenu("Distribution.Hypergeometric"));
+				loc.getMenu("Distribution.Hypergeometric"));
 
 		return plotMap;
 	}

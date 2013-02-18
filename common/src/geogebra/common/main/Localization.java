@@ -12,7 +12,8 @@ public abstract class Localization {
 	public final static String syntax3D = ".Syntax3D";
 	/** syntax suffix for keys in command bundle */
 	public final static String syntaxStr = ".Syntax";
-	
+	/** used when a secondary language is being used for tooltips. */
+	protected boolean tooltipFlag = false;
 	private String[] fontSizeStrings = null;
 
 	/**
@@ -349,6 +350,22 @@ public abstract class Localization {
 	 */
 	public abstract String getSymbol(int key);
 
+	/**
+	 * @param colorName
+	 *            localized color name
+	 * @return internal color name
+	 */
+	public abstract String reverseGetColor(String colorName);
+
+	/**
+	 * Returns translation of a key in colors bundle
+	 * 
+	 * @param key
+	 *            key (color name)
+	 * @return localized color name
+	 */
+	public abstract String getColor(String key);
+	
 	StringBuilder sbPlain = new StringBuilder();
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
@@ -900,5 +917,58 @@ public abstract class Localization {
 
 			return syntax;
 		}
+		/**
+		 * @param string
+		 *            key
+		 * @return translation of key from menu bundle in tooltip language
+		 */
+		public abstract String getMenuTooltip(String string);
+		/**
+		 * @param string
+		 *            key
+		 * @return translation of key from plain bundle in tooltip language
+		 */
+		public abstract String getPlainTooltip(String string);
+		
+		/**
+		 * Initialize the command bundle (not needed in Web)
+		 */
+		public abstract void initCommand();
+		
+		/**
+		 * used to force properties to be read from secondary (tooltip) language if
+		 * one has been selected
+		 */
+		public abstract void setTooltipFlag();
+		
+		/**
+		 * Stop forcing usage of tooltip locale for translations
+		 */
+		public void clearTooltipFlag() {
+			tooltipFlag = false;
+		}
+		
+		/**
+		 * @return tooltip language
+		 */
+		public abstract String getTooltipLanguageString();
+		
+		/**
+		 * @return whether language of command bundle changed since we last updated
+		 *         translation table and directories
+		 */
+		protected abstract boolean isCommandChanged();
+
+		/**
+		 * @param b
+		 *            whether language of command bundle changed since we last
+		 *            updated translation table and directories
+		 */
+		protected abstract void setCommandChanged(boolean b);
+
+		/**
+		 * @return whether command translation bundle is null
+		 */
+		protected abstract boolean isCommandNull();
 	
 }

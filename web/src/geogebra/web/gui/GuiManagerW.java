@@ -768,7 +768,7 @@ public class GuiManagerW extends GuiManager {
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
 		urlSB.append("help/");
-		urlSB.append(app.getLanguage()); // eg en_GB
+		urlSB.append(app.getLocalization().getLanguage()); // eg en_GB
 
 		switch (type) {
 		case COMMAND:

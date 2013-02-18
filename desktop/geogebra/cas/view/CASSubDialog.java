@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
@@ -99,8 +100,9 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	 * 
 	 */
 	protected void createGUI() {
-		setTitle(getApp().getPlain("Substitute") + " - "
-				+ getApp().getCommand("Row") + " " + (editRow + 1));
+		Localization loc = getApp().getLocalization();
+		setTitle(loc.getPlain("Substitute") + " - "
+				+ loc.getCommand("Row") + " " + (editRow + 1));
 		setResizable(true);
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
@@ -146,20 +148,20 @@ public class CASSubDialog extends JDialog implements ActionListener {
 					addRow(true);
 			}
 		});
-
+		
 		// buttons
 		btEval = new JButton("=");
-		btEval.setToolTipText(getApp().getMenuTooltip("Evaluate"));
+		btEval.setToolTipText(loc.getMenuTooltip("Evaluate"));
 		btEval.setActionCommand("Evaluate");
 		btEval.addActionListener(this);
 
 		btNumeric = new JButton("\u2248");
-		btNumeric.setToolTipText(getApp().getMenuTooltip("Numeric"));
+		btNumeric.setToolTipText(loc.getMenuTooltip("Numeric"));
 		btNumeric.setActionCommand("Numeric");
 		btNumeric.addActionListener(this);
 
-		btSub = new JButton(getApp().getPlain("\u2713"));
-		btSub.setToolTipText(getApp().getMenuTooltip("Substitute"));
+		btSub = new JButton(loc.getPlain("\u2713"));
+		btSub.setToolTipText(loc.getMenuTooltip("Substitute"));
 		btSub.setActionCommand("Substitute");
 		btSub.addActionListener(this);
 

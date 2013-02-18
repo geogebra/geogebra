@@ -134,7 +134,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 	public TextInputDialog(App app2, String title, GeoText editGeo,
 			GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
 
-		super(((AppD)app2).getFrame(), false);
+		super(((AppD)app2).getFrame(), false,app2.getLocalization());
 		this.app = (AppD)app2;
 		this.startPoint = startPoint;
 		this.isTextMode = isTextMode;

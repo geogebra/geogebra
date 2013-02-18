@@ -153,7 +153,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		}
 
 		if (foundUsedMacro)
-			app.showError(app.getError("Tool.DeleteUsed") + " " + macroNames);
+			app.showError(app.getLocalization().getError("Tool.DeleteUsed") + " " + macroNames);
 	}
 
 	private void initGUI() {

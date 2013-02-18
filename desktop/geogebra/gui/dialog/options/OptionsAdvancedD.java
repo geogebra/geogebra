@@ -15,6 +15,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -604,15 +605,15 @@ public class OptionsAdvancedD extends
 	}
 
 	public void updateTooltipLanguages() {
-		if (cbTooltipLanguage.getItemCount() == AppD.getSupportedLocales()
+		if (cbTooltipLanguage.getItemCount() == LocalizationD.getSupportedLocales()
 				.size() + 1) {
-			Locale ttl = app.getTooltipLanguage();
+			Locale ttl = app.getLocalization().getTooltipLocale();
 			if (ttl == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
 			} else {
 				boolean found = false;
-				for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
-					if (AppD.getSupportedLocales().get(i).toString()
+				for (int i = 0; i < LocalizationD.getSupportedLocales().size(); i++) {
+					if (LocalizationD.getSupportedLocales().get(i).toString()
 							.equals(ttl.toString())) {
 						cbTooltipLanguage.setSelectedIndex(i + 1);
 						found = true;
@@ -647,7 +648,7 @@ public class OptionsAdvancedD extends
 			if (index == -1)
 				app.setTooltipLanguage(null);
 			else
-				app.setTooltipLanguage(AppD.getSupportedLocales().get(index)
+				app.setTooltipLanguage(LocalizationD.getSupportedLocales().get(index)
 						.toString());
 		} else if (source == cbEnableScripting) {
 			app.setScriptingDisabled(!cbEnableScripting.isSelected());
@@ -964,12 +965,12 @@ public class OptionsAdvancedD extends
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipLanguages() {
-		String[] languages = new String[AppD.getSupportedLocales().size() + 1];
+		String[] languages = new String[LocalizationD.getSupportedLocales().size() + 1];
 		languages[0] = loc.getPlain("Default");
 		String ggbLangCode;
 
-		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
-			Locale locale = AppD.getSupportedLocales().get(i);
+		for (int i = 0; i < LocalizationD.getSupportedLocales().size(); i++) {
+			Locale locale = LocalizationD.getSupportedLocales().get(i);
 			ggbLangCode = locale.getLanguage() + locale.getCountry()
 					+ locale.getVariant();
 

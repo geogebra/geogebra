@@ -5,6 +5,7 @@ import geogebra.common.util.Language;
 import geogebra.gui.TitleLabel;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -96,11 +97,11 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		// panel.add(axesSizeCb);
 
 		// language panel
-		String[] languages = new String[AppD.getSupportedLocales().size()];
+		String[] languages = new String[LocalizationD.getSupportedLocales().size()];
 		String ggbLangCode;
 
-		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
-			Locale loc = AppD.getSupportedLocales().get(i);
+		for (int i = 0; i < LocalizationD.getSupportedLocales().size(); i++) {
+			Locale loc = LocalizationD.getSupportedLocales().get(i);
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
@@ -174,8 +175,8 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		// euclidianSizeCb.addActionListener(this);
 		// axesSizeCb.addActionListener(this);
 
-		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
-			if (app.getLocale() == AppD.getSupportedLocales().get(i)) {
+		for (int i = 0; i < LocalizationD.getSupportedLocales().size(); i++) {
+			if (app.getLocale() == LocalizationD.getSupportedLocales().get(i)) {
 				languageCb.setSelectedIndex(i);
 				break;
 			}
@@ -192,7 +193,7 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		}
 
 		if (updateLanguage) {
-			Locale loc = AppD.getSupportedLocales().get(languageCb
+			Locale loc = LocalizationD.getSupportedLocales().get(languageCb
 					.getSelectedIndex());
 			app.setLanguage(loc);
 			updateLanguage = false;

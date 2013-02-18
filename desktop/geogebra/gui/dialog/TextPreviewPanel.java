@@ -188,7 +188,7 @@ public class TextPreviewPanel extends EuclidianViewD {
 			// set the text string for the geo
 			String text = "";
 			if (showErrorMessage) {
-				text = getApplication().getError("InvalidInput");
+				text = getApplication().getLocalization().getError("InvalidInput");
 			} else if (eval != null) {
 				MyStringBuffer eval2 = ((TextValue) eval).getText();
 				text = eval2.toValueString(tpl);

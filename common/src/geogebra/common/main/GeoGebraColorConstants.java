@@ -237,7 +237,7 @@ public class GeoGebraColorConstants {
 		GColor ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
 
 		if (ret == null) {
-			ret = geogebraColor.get(app.reverseGetColor(colorName));
+			ret = geogebraColor.get(app.getLocalization().reverseGetColor(colorName));
 		}
 		if (ret == null)
 			// will need only English characters
@@ -256,7 +256,7 @@ public class GeoGebraColorConstants {
 	 */
 	public static String getGeogebraColorName(App app,
 			GColor color) {
-		return app.getColor(getGeoGebraColorReverse().get(color));
+		return app.getLocalization().getColor(getGeoGebraColorReverse().get(color));
 	}
 
 	/**

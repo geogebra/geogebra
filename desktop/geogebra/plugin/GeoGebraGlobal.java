@@ -1,5 +1,6 @@
 package geogebra.plugin;
 
+import geogebra.common.main.Localization;
 import geogebra.main.AppD;
 
 import org.mozilla.javascript.Context;
@@ -16,10 +17,12 @@ import org.mozilla.javascript.Undefined;
 
 public class GeoGebraGlobal implements IdFunctionCall {
 
-	AppD app;
+	final AppD app;
+	final Localization loc;
 
 	GeoGebraGlobal(AppD app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 	}
 
 	public static void init(AppD app, Scriptable scope, boolean sealed) {
@@ -95,13 +98,13 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
         Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(app.getLocalization().getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
+		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
 		sb.append("\n");
-		sb.append(app.getError("IllegalArgument"));
+		sb.append(loc.getError("IllegalArgument"));
 		sb.append(": ");
 		sb.append(arg.toString());
 		sb.append("\n\n");
-		sb.append(app.getPlain("Syntax"));
+		sb.append(loc.getPlain("Syntax"));
 		sb.append(":\n");
 		sb.append(syntax);
 		return sb.toString();
@@ -111,13 +114,13 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
         Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(app.getLocalization().getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
+		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
 		sb.append("\n");
-		sb.append(app.getError("IllegalArgumentNumber"));
+		sb.append(loc.getError("IllegalArgumentNumber"));
 		sb.append(": ");
 		sb.append(argNumber);
 		sb.append("\n\n");
-		sb.append(app.getPlain("Syntax"));
+		sb.append(loc.getPlain("Syntax"));
 		sb.append(":\n");
 		sb.append(syntax);
 		return sb.toString();

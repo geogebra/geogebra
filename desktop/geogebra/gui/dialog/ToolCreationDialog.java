@@ -194,7 +194,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			tabbedPane.setSelectedIndex(1);
 
 			// show error message
-			app.showError(app.getError("Tool.CreationFailed") + "\n"
+			app.showError(app.getLocalization().getError("Tool.CreationFailed") + "\n"
 					+ e.getMessage());
 			e.printStackTrace();
 			newTool = null;
@@ -288,7 +288,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		} else {
 			App.debug("not compatible");
-			JOptionPane.showMessageDialog(this, app.getError("InvalidInput")
+			JOptionPane.showMessageDialog(this, app.getLocalization().getError("InvalidInput")
 					+ ":\n" + macro.toString());
 		}
 	}
