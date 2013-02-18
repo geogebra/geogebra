@@ -76,6 +76,8 @@ public class MobileApp extends App
 		setLabelDragsEnabled(false); 
 		
 		intitFactories();
+		
+		loc = new LocalizationW();
 
 		this.fontManager = new FontManagerW();
 		this.mobileGUI = mobileGUI;
@@ -133,20 +135,6 @@ public class MobileApp extends App
 		// ec.setKernel(this.kernel);
 		// return new EuclidianViewM(ec, showAxes1, showGrid1,
 		// getSettings().getEuclidian(1));
-		return null;
-	}
-
-	@Override
-	public String getPlain(String key)
-	{
-		// TODO
-		return key;
-	}
-
-	@Override
-	public String getMenu(String key)
-	{
-
 		return null;
 	}
 
