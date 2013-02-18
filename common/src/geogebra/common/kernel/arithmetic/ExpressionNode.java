@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
@@ -1047,7 +1048,7 @@ public class ExpressionNode extends ValidExpression implements
 								func.getFunctionVariables()[i], ev).wrap();
 					}
 				} else {
-					throw new MyError(app,
+					throw new MyError(app.getLocalization(),
 							new String[] { "IllegalArgumentNumber" });
 				}
 				expr.makePolynomialTree(equ);
@@ -2119,7 +2120,7 @@ public class ExpressionNode extends ValidExpression implements
 				// check for 0 at right
 				if (valueForm
 						&& rightStr
-								.equals(App.unicodeZero + "")) {
+								.equals(Localization.unicodeZero + "")) {
 					break;
 				}
 
@@ -2208,12 +2209,12 @@ public class ExpressionNode extends ValidExpression implements
 
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
 				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (App.unicodeZero + 1))) || ((rightStr
+						.charAt(1) == (Localization.unicodeZero + 1))) || ((rightStr
 						.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (App.unicodeZero + 1)))))
+						.charAt(1) == (Localization.unicodeZero + 1)))))
 						|| rightStr.equals(Unicode.degree)) {
 
-					boolean rtl = app.isRightToLeftDigits(tpl);
+					boolean rtl = app.getLocalization().isRightToLeftDigits(tpl);
 
 					if (rtl) {
 						sb.append(Unicode.degree);
@@ -4013,7 +4014,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
-			sb.append(app.getCommand("Element"));
+			sb.append(app.getLocalization().getCommand("Element"));
 			sb.append('[');
 			if (left.isGeoElement()) {
 				sb.append(((GeoElement) left).getLabel(tpl));

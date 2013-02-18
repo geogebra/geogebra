@@ -108,17 +108,17 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		ExpressionValue evx = x.evaluate(tpl);
 		if (!evx.isNumberValue()) {
 			String[] str = { "NumberExpected", evx.toString(tpl) };
-			throw new MyParseError(kernel.getApplication(), str);
+			throw new MyParseError(kernel.getLocalization(), str);
 		}
 		ExpressionValue evy = y.evaluate(tpl);
 		if (!evy.isNumberValue()) {
 			String[] str = { "NumberExpected", evy.toString(tpl) };
-			throw new MyParseError(kernel.getApplication(), str);
+			throw new MyParseError(kernel.getLocalization(), str);
 		}
 		ExpressionValue evz = z.evaluate(tpl);
 		if (!evz.isNumberValue()) {
 			String[] str = { "NumberExpected", evz.toString(tpl) };
-			throw new MyParseError(kernel.getApplication(), str);
+			throw new MyParseError(kernel.getLocalization(), str);
 		}
 
 		double[] ret = { ((NumberValue) evx).getDouble(),

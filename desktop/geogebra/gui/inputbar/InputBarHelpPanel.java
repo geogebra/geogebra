@@ -6,6 +6,7 @@ import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.main.Localization;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
@@ -529,7 +530,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				rollOverCommand = cmd;
 				StringBuilder sb = new StringBuilder();
 				cmd = app.getReverseCommand(cmd); // internal name
-				CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
+				CommandProcessor.getCommandSyntax(sb, app.getLocalization(), cmd, -1);
 
 				JTextArea t = new JTextArea(sb.toString());
 				t.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -608,7 +609,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 						StringBuilder sb = new StringBuilder();
 						cmd = app.getReverseCommand(cmd); // internal name
 						// CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
-						sb.append(app.getCommandSyntax(cmd));
+						sb.append(app.getLocalization().getCommandSyntax(cmd));
 						// helpTextArea.setText(sb.toString());
 
 					} else {
@@ -633,8 +634,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		String cmd = app.getReverseCommand(selectedCommand); // internal name
 		// String s = "Syntax:\n" + app.getCommandSyntax(cmd);
-		String description = app.getCommandSyntax(cmd);
-		String descriptionCAS = app.getCommandSyntaxCAS(cmd);
+		String description = app.getLocalization().getCommandSyntax(cmd);
+		String descriptionCAS = app.getLocalization().getCommandSyntaxCAS(cmd);
 		String descriptionCASHeader = "\n" + app.getMenu("Type.CAS") + ":\n";
 
 		StyledDocument doc = helpTextPane.getStyledDocument();
@@ -671,8 +672,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
-				&& !descriptionCAS.equals(cmd + App.syntaxCAS)) {
-			if (!description.equals(cmd + App.syntaxStr))
+				&& !descriptionCAS.equals(cmd + Localization.syntaxCAS)) {
+			if (!description.equals(cmd + Localization.syntaxStr))
 				try {
 					doc.insertString(doc.getLength(), description + "\n",
 							doc.getStyle("regular"));

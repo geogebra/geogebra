@@ -108,7 +108,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 
     @Override
 	final public String toString(StringTemplate tpl) {
-        return app.getPlain("PointOnAClosestToB", input[0].getLabel(tpl), input[1].getLabel(tpl));
+        return loc.getPlain("PointOnAClosestToB", input[0].getLabel(tpl), input[1].getLabel(tpl));
     }
 
 	public boolean isChangeable() {

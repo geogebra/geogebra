@@ -60,9 +60,9 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 		int [] selRows = rowHeader.getSelectedIndices();	
 		String strRows;
 		if (selRows.length == 1) {
-			strRows = app.getPlain("DeleteRowA", Integer.toString(selRows[0]+1));			
+			strRows = app.getLocalization().getPlain("DeleteRowA", Integer.toString(selRows[0]+1));			
 		} else {
-			strRows = app.getPlain("DeleteRowsAtoB", 
+			strRows = app.getLocalization().getPlain("DeleteRowsAtoB", 
 						Integer.toString(selRows[0]+1), 
 						Integer.toString(selRows[selRows.length-1]+1));
 		}

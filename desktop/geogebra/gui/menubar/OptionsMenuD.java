@@ -191,10 +191,11 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	public static void addLanguageMenuItems(AppD app, JComponent menu, ActionListener al) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
-		JMenu submenu1 = new JMenu(app.isRightToLeftReadingOrder() ? "D - A" : "A - D");
-		JMenu submenu2 = new JMenu(app.isRightToLeftReadingOrder() ? "I - E" : "E - I");
-		JMenu submenu3 = new JMenu(app.isRightToLeftReadingOrder() ? "Q - J" : "J - Q");
-		JMenu submenu4 = new JMenu(app.isRightToLeftReadingOrder() ? "Z - R" : "R - Z");
+		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
+		JMenu submenu1 = new JMenu(rtl ? "D - A" : "A - D");
+		JMenu submenu2 = new JMenu(rtl ? "I - E" : "E - I");
+		JMenu submenu3 = new JMenu(rtl ? "Q - J" : "J - Q");
+		JMenu submenu4 = new JMenu(rtl ? "Z - R" : "R - Z");
 		menu.add(submenu1);
 		menu.add(submenu2);
 		menu.add(submenu3);

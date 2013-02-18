@@ -101,7 +101,7 @@ public class Variable extends ValidExpression {
 
 		// if we get here we couldn't resolve this variable name as a GeoElement
 		String[] str = { "UndefinedVariable", name };
-		throw new MyParseError(kernel.getApplication(), str);
+		throw new MyParseError(kernel.getApplication().getLocalization(), str);
 	}
 
 	

@@ -5,6 +5,7 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathRegionHandling;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -55,6 +56,7 @@ public class OptionsAdvancedD extends
 	 * Application object.
 	 */
 	private AppD app;
+	private Localization loc;
 
 	/**
 	 * Settings for all kind of application components.
@@ -121,6 +123,7 @@ public class OptionsAdvancedD extends
 		this.wrappedPanel = new JPanel(new BorderLayout());
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.settings = app.getSettings();
 
 		initGUI();
@@ -480,8 +483,8 @@ public class OptionsAdvancedD extends
 	public void updateGUI() {
 
 		cbEnableScripting.setSelected(!app.isScriptingDisabled());
-		cbUseLocalDigits.setSelected(app.isUsingLocalizedDigits());
-		cbUseLocalLabels.setSelected(app.isUsingLocalizedLabels());
+		cbUseLocalDigits.setSelected(loc.isUsingLocalizedDigits());
+		cbUseLocalLabels.setSelected(loc.isUsingLocalizedLabels());
 
 		angleUnitRadioDegree
 				.setSelected(app.getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE);
@@ -654,7 +657,7 @@ public class OptionsAdvancedD extends
 		} else if (source == cbReverseMouseWheel) {
 			app.reverseMouseWheel(cbReverseMouseWheel.isSelected());
 		} else if (source == cbUseLocalDigits) {
-			app.setUseLocalizedDigits(cbUseLocalDigits.isSelected());
+			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(),app);
 		} else if (source == cbReturnAngleInverseTrig) {
 			app.getKernel().setInverseTrigReturnsAngle(
 					cbReturnAngleInverseTrig.isSelected());
@@ -665,7 +668,7 @@ public class OptionsAdvancedD extends
 					.storeUndoInfo(true);
 
 		} else if (source == cbUseLocalLabels) {
-			app.setUseLocalizedLabels(cbUseLocalLabels.isSelected());
+			loc.setUseLocalizedLabels(cbUseLocalLabels.isSelected());
 		/*} else if (source == cbShowTitleBar) {
 			settings.getLayout().setShowTitleBar(cbShowTitleBar.isSelected());*/
 		} else if (source == cbIgnoreDocumentLayout) {
@@ -939,10 +942,10 @@ public class OptionsAdvancedD extends
 		// "28 pt", "32 pt" };
 
 		String[] fontSizesStr = new String[MyXMLHandler.menuFontSizes.length + 1];
-		fontSizesStr[0] = app.getPlain("Default");
+		fontSizesStr[0] = loc.getPlain("Default");
 
 		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
-			fontSizesStr[i + 1] = app.getPlain("Apt",
+			fontSizesStr[i + 1] = loc.getPlain("Apt",
 					MyXMLHandler.menuFontSizes[i] + ""); // eg "12 pt"
 		}
 
@@ -962,13 +965,13 @@ public class OptionsAdvancedD extends
 	 */
 	private void setLabelsTooltipLanguages() {
 		String[] languages = new String[AppD.getSupportedLocales().size() + 1];
-		languages[0] = app.getPlain("Default");
+		languages[0] = loc.getPlain("Default");
 		String ggbLangCode;
 
 		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
-			Locale loc = AppD.getSupportedLocales().get(i);
-			ggbLangCode = loc.getLanguage() + loc.getCountry()
-					+ loc.getVariant();
+			Locale locale = AppD.getSupportedLocales().get(i);
+			ggbLangCode = locale.getLanguage() + locale.getCountry()
+					+ locale.getVariant();
 
 			languages[i + 1] = Language.getDisplayName(ggbLangCode);
 			// AppD.debug(ggbLangCode+" "+languages[i + 1]);

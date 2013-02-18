@@ -91,7 +91,7 @@ public class AlgoDiameterVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("DiameterOfAConjugateToB",c.getLabel(tpl),v.getLabel(tpl));
+        return loc.getPlain("DiameterOfAConjugateToB",c.getLabel(tpl),v.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

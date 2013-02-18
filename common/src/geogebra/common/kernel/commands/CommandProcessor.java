@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
@@ -45,6 +46,7 @@ public abstract class CommandProcessor {
 
 	/** application */
 	protected App app;
+	protected Localization loc;
 	/** kernel */
 	protected Kernel kernelA;
 	/** construction */
@@ -61,6 +63,7 @@ public abstract class CommandProcessor {
 		this.kernelA = kernel;
 		cons = kernel.getConstruction();
 		app = kernel.getApplication();
+		loc = app.getLocalization();
 		algProcessor = kernel.getAlgebraProcessor();
 	}
 
@@ -118,7 +121,7 @@ public abstract class CommandProcessor {
 			return geos;
 		}
 		String[] str = { "IllegalArgument", arg.toString(StringTemplate.defaultTemplate) };
-		throw new MyError(app, str);
+		throw new MyError(loc, str);
 	}
 
 	/**
@@ -300,7 +303,12 @@ public abstract class CommandProcessor {
 	}
 
 	private StringBuilder sb;
-
+	
+	protected final MyError argErr(App app1, String cmd,
+			ExpressionValue arg){
+		return argErr(app1.getLocalization(),cmd,arg);
+		
+	}
 	/**
 	 * Creates wrong argument error
 	 * 
@@ -309,7 +317,7 @@ public abstract class CommandProcessor {
 	 * @param arg faulty argument
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(App app1, String cmd,
+	protected final MyError argErr(Localization app1, String cmd,
 			ExpressionValue arg) {
 		String localName = app1.getCommand(cmd);
 		if (sb == null)
@@ -360,9 +368,9 @@ public abstract class CommandProcessor {
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		getCommandSyntax(sb, app1, cmd, argNumber);
+		getCommandSyntax(sb, app1.getLocalization(), cmd, argNumber);
 		App.debug(getClass().getName());
-		return new MyError(app1, sb.toString(), cmd);		
+		return new MyError(app1.getLocalization(), sb.toString(), cmd);		
 	}
 
 	/**
@@ -375,7 +383,7 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 */
 	public static void getCommandSyntax(StringBuilder sb,
-			App app, String cmd, int argNumber) {
+			Localization app, String cmd, int argNumber) {
 
 		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
@@ -413,7 +421,7 @@ public abstract class CommandProcessor {
 	 */
 	final static MyError chDepErr(App app1, GeoElement geo) {
 		String[] strs = { "ChangeDependent", geo.getLongDescription() };
-		return new MyError(app1, strs);
+		return new MyError(app1.getLocalization(), strs);
 	}
 
 	/**

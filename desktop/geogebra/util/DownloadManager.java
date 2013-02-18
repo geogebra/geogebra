@@ -61,7 +61,7 @@ public class DownloadManager {
 					done = true;
 			}
 			String shortname = src.getFile().substring(i + 2);
-			App.showAnnouncement(app.getPlain("DownloadingA", shortname));
+			App.showAnnouncement(app.getLocalization().getPlain("DownloadingA", shortname));
 
 			in = new BufferedInputStream(srcConnection.getInputStream());
 			//if (in == null)

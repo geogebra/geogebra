@@ -154,7 +154,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 			text.setLaTeX(true, false);
 
 		} else
-			text.setTextString(app.getPlain("Undefined"));
+			text.setTextString(loc.getPlain("Undefined"));
 	}
 
 	private void appendLongLatex(int steps,StringTemplate tpl) {

@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.main.MyError;
+import geogebra.common.main.App;
 
 
 /**
@@ -415,7 +415,7 @@ public class AlgoCubic extends AlgoElement {
 		} catch(ParseException e) 
 	 	{ 
 			poly.setUndefined();
-	 		throw new MyError(app, "Error"); 
+	 		App.error(equation); 
 	 	} 
 	}
 

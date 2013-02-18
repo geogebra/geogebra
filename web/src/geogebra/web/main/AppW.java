@@ -936,7 +936,7 @@ public class AppW extends App {
 				App.debug("TODO: reinitialize GUI on language change");
 		
 				
-				updateLanguageFlags(lang);
+				getLocalization().updateLanguageFlags(lang);
 				
 				
 				// make sure digits are updated in all numbers
@@ -1422,19 +1422,19 @@ public class AppW extends App {
 			case '0':
 				return getColor("white");
 			case '1':
-				return getPlain("AGray", Unicode.fraction1_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction1_8);
 			case '2':
-				return getPlain("AGray", Unicode.fraction1_4); // silver
+				return getLocalization().getPlain("AGray", Unicode.fraction1_4); // silver
 			case '3':
-				return getPlain("AGray", Unicode.fraction3_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction3_8);
 			case '4':
-				return getPlain("AGray", Unicode.fraction1_2);
+				return getLocalization().getPlain("AGray", Unicode.fraction1_2);
 			case '5':
-				return getPlain("AGray", Unicode.fraction5_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction5_8);
 			case '6':
-				return getPlain("AGray", Unicode.fraction3_4);
+				return getLocalization().getPlain("AGray", Unicode.fraction3_4);
 			case '7':
-				return getPlain("AGray", Unicode.fraction7_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction7_8);
 			default:
 				return getColor("black");
 			}
@@ -2276,15 +2276,6 @@ public class AppW extends App {
 
 	public void setShowInputHelpPanel(boolean b) {
 		App.debug("setShowInputHelpPanel: Implementation needed...");
-	}
-
-	public String getCommandSyntaxCAS(String key) {
-		String command = getCommand(key);
-		String syntax = getCommand(key + syntaxCAS);
-
-		syntax = syntax.replace("[", command + '[');
-
-		return syntax;
 	}
 
 	@Override

@@ -145,7 +145,7 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("AngleBetweenAB",g.getLabel(tpl),h.getLabel(tpl));
+        return loc.getPlain("AngleBetweenAB",g.getLabel(tpl),h.getLabel(tpl));
 
     }
 

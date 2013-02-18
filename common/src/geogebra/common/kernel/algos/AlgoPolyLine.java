@@ -224,7 +224,7 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
   
-        sb.append(app.getPlain("PolyLine"));
+        sb.append(loc.getPlain("PolyLine"));
         sb.append(' ');
         
         //G.Sturr: get label from geoList  (2010-3-15)

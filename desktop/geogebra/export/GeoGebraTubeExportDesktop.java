@@ -208,19 +208,19 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 					App.debug(errorBuffer.toString());
 
-					statusLabelSetText(app.getPlain("UploadError", Integer.toString(responseCode)));
+					statusLabelSetText(loc.getPlain("UploadError", Integer.toString(responseCode)));
 					setEnabled(false);
 					pack();
 				}
 			} catch (IOException e) {
-				statusLabelSetText(app.getPlain("UploadError", Integer.toString(500)));
+				statusLabelSetText(loc.getPlain("UploadError", Integer.toString(500)));
 				setEnabled(false);
 				pack();
 
 				App.debug(e.getMessage());
 			}
 		} catch (IOException e) {
-			statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
+			statusLabelSetText(loc.getPlain("UploadError", Integer.toString(400)));
 			setEnabled(false);
 			pack();
 

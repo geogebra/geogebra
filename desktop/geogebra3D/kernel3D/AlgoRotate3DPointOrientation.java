@@ -112,12 +112,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
        
     @Override
 	final public String toString(StringTemplate tpl) {
-    	/*
-    	if (center==null)
-       		return app.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
-    				((GeoElement) orientation).getLabel(tpl));
-    	*/
-   		return app.getPlain("ARotatedByAngleBAboutCandD", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+   		return loc.getPlain("ARotatedByAngleBAboutCandD", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
 				center.getLabel(tpl), ((GeoElement) orientation).getLabel(tpl));
    	
     }

@@ -75,6 +75,7 @@ import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.App;
 import geogebra.common.main.BracketsError;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -92,12 +93,13 @@ import java.util.TreeSet;
 public class AlgebraProcessor {
 
 	/** kernel */
-	protected Kernel kernel;
-	private Construction cons;
-	private App app;
-	private ParserInterface parser;
+	protected final Kernel kernel;
+	private final Construction cons;
+	private final App app;
+	private final Localization loc;
+	private final ParserInterface parser;
 	/** command dispatcher */
-	protected CommandDispatcher cmdDispatcher;
+	protected final CommandDispatcher cmdDispatcher;
 
 	
 	/**
@@ -110,6 +112,7 @@ public class AlgebraProcessor {
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
+		loc = app.getLocalization();
 		parser = kernel.getParser();
 	}
 
@@ -339,13 +342,13 @@ public class AlgebraProcessor {
 					redefineIndependent, storeUndoInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
+			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
 		} catch (MyError e) {
 			e.printStackTrace();
 			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
-			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
+			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
 		}
 	}
 
@@ -409,19 +412,19 @@ public class AlgebraProcessor {
 				return result[0];
 			} else {
 				String str[] = { "NameUsed", newLabel };
-				throw new MyError(app, str);
+				throw new MyError(loc, str);
 			}
 		} catch (CircularDefinitionException e) {
 			App.debug("CircularDefinition");
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
+			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
 		} catch (MyError e) {			
 			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
-			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
+			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
 		}finally{
 			cons.registerFunctionVariable(null);
 		}
@@ -507,10 +510,10 @@ public class AlgebraProcessor {
 
 			e.printStackTrace();
 			if (allowErrorDialog) {
-				app.showError(app.getError("InvalidInput") + ":\n" + cmd);
+				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
 				return null;
 			}
-			throw new MyException(app.getError("InvalidInput") + ":\n" + cmd,
+			throw new MyException(loc.getError("InvalidInput") + ":\n" + cmd,
 					MyException.INVALID_INPUT);
 		} catch (BracketsError e) {
 			e.printStackTrace();
@@ -522,10 +525,10 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			e.printStackTrace();
 			if (allowErrorDialog) {
-				app.showError(app.getError("InvalidInput") + ":\n" + cmd);
+				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
 				return null;
 			}
-			throw new Exception(app.getError("InvalidInput") + ":\n" + cmd);
+			throw new Exception(loc.getError("InvalidInput") + ":\n" + cmd);
 		}
 
 		// process ValidExpression (built by parser)
@@ -543,7 +546,7 @@ public class AlgebraProcessor {
 				app.showError(e);
 				e.printStackTrace();
 			} else if (throwMyError){
-				throw new MyError(app, e.getLocalizedMessage(),
+				throw new MyError(loc, e.getLocalizedMessage(),
 						e.getcommandName());
 			}
 			return null;
@@ -553,7 +556,7 @@ public class AlgebraProcessor {
 		} catch (Exception ex) {
 			App.debug("Exception");
 			ex.printStackTrace();
-			throw new Exception(app.getError("Error") + ":\n"
+			throw new Exception(loc.getError("Error") + ":\n"
 					+ ex.getLocalizedMessage());
 		}finally{
 			kernel.getConstruction().registerFunctionVariable(null);
@@ -1005,7 +1008,7 @@ public class AlgebraProcessor {
 						String[] strs = { "IllegalAssignment",
 								"AssignmentToFixed", ":\n",
 								geo.getLongDescription() };
-						throw new MyError(app, strs);
+						throw new MyError(loc, strs);
 					}
 					// replace (overwrite or redefine) geo
 					if (firstTime) { // only one geo can be replaced
@@ -1028,7 +1031,7 @@ public class AlgebraProcessor {
 
 			if (ret == null) { // eg (1,2,3) running in 2D
 				App.debug("Unhandled ValidExpression : " + ve);
-				throw new MyError(app, app.getError("InvalidInput") + ":\n"
+				throw new MyError(loc, loc.getError("InvalidInput") + ":\n"
 						+ ve);
 			}
 		} finally {
@@ -1047,10 +1050,10 @@ public class AlgebraProcessor {
 					replaceable.updateRepaint();
 					ret[0] = replaceable;
 				} catch (Exception e) {
-					String errStr = app.getError("IllegalAssignment") + "\n"
+					String errStr = loc.getError("IllegalAssignment") + "\n"
 							+ replaceable.getLongDescription() + "     =     "
 							+ ret[0].getLongDescription();
-					throw new MyError(app, errStr);
+					throw new MyError(loc, errStr);
 				}
 			}
 			// redefine
@@ -1084,10 +1087,10 @@ public class AlgebraProcessor {
 					throw e;
 				} catch (Exception e) {
 					e.printStackTrace();
-					throw new MyError(app, "ReplaceFailed");
+					throw new MyError(loc, "ReplaceFailed");
 				} catch (MyError e) {
 					e.printStackTrace();
-					throw new MyError(app, "ReplaceFailed");
+					throw new MyError(loc, "ReplaceFailed");
 				}
 			}
 		}
@@ -1408,7 +1411,7 @@ public class AlgebraProcessor {
 			}
 			String[] errors = { "InvalidEquation",
 					eqnError.getLocalizedMessage() };
-			throw new MyError(app, errors);
+			throw new MyError(loc, errors);
 		}
 	}
 
@@ -1418,7 +1421,7 @@ public class AlgebraProcessor {
 	 */
 	protected void checkNoTermsInZ(Equation equ) throws MyError{
 		if (!equ.getNormalForm().isFreeOf('z'))
-			throw new MyError(app, "InvalidEquation");
+			throw new MyError(loc, "InvalidEquation");
 	}
 
 	/**
@@ -2005,7 +2008,7 @@ public class AlgebraProcessor {
 	// if (
 	// geoRight instanceof GeoFunction && !geoRight.isIndependent()) {
 	// String[] str = { "IllegalAssignment", rightVar };
-	// throw new MyError(app, str);
+	// throw new MyError(loc, str);
 	// }
 	// */
 	//

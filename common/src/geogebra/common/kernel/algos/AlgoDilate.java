@@ -154,7 +154,7 @@ public class AlgoDilate extends AlgoTransformation {
 		// simplified to allow better Chinese translation
 		String sLabel = S == null ? cons.getOrigin().toValueString(tpl) : S
 				.getLabel(tpl);
-		return app.getPlain("ADilatedByFactorBfromC", inGeo.getLabel(tpl),
+		return loc.getPlain("ADilatedByFactorBfromC", inGeo.getLabel(tpl),
 				rgeo.getLabel(tpl), sLabel);
 
 	}

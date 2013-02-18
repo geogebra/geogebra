@@ -64,7 +64,7 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 
     @Override
 	public String toString(StringTemplate tpl) {
-        return app.getPlain("LinePerpendicularToAandB",line1.getLabel(tpl),line2.getLabel(tpl));
+        return loc.getPlain("LinePerpendicularToAandB",line1.getLabel(tpl),line2.getLabel(tpl));
 
     }
     

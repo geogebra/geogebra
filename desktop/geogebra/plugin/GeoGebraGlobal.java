@@ -95,7 +95,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
         Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(app.getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
+		sb.append(app.getLocalization().getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
 		sb.append("\n");
 		sb.append(app.getError("IllegalArgument"));
 		sb.append(": ");
@@ -111,7 +111,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
         Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(app.getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
+		sb.append(app.getLocalization().getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
 		sb.append("\n");
 		sb.append(app.getError("IllegalArgumentNumber"));
 		sb.append(": ");

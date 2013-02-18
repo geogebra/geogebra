@@ -88,6 +88,6 @@ public class AlgoParametricDerivative extends AlgoElement {
 	@Override
 	final public String toString(StringTemplate tpl) {
                 
-	    return app.getPlain("ParametricDerivativeOfA",curve.toGeoElement().getLabel(tpl));
+	    return loc.getPlain("ParametricDerivativeOfA",curve.toGeoElement().getLabel(tpl));
     }
 }

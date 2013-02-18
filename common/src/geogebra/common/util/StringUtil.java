@@ -2,6 +2,7 @@ package geogebra.common.util;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 
 import java.util.Locale;
 import java.util.Stack;
@@ -608,7 +609,7 @@ public class StringUtil {
 	public static boolean isNumber(String text) {
 		for (int i = 0 ; i < text.length() ; i++) {
 			char c = text.charAt(i);
-			if (!isDigit(c) && c != App.unicodeDecimalPoint && c != '-') return false; 
+			if (!isDigit(c) && c != Localization.unicodeDecimalPoint && c != '-') return false; 
 		}
 
 		return true;

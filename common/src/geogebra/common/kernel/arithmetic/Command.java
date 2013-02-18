@@ -216,7 +216,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 			// GeoGebra command syntax
 			if (tpl.isPrintLocalizedCommandNames()) {
-				sbToString.append(app.getCommand(name));
+				sbToString.append(app.getLocalization().getCommand(name));
 			} else {
 				sbToString.append(name);
 			}
@@ -265,7 +265,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			return evalGeos[0];
 		}
 		App.debug("invalid command evaluation: " + name);
-		throw new MyError(app, app.getError("InvalidInput") + ":\n" + this);
+		throw new MyError(app.getLocalization(), app.getLocalization().getError("InvalidInput") + ":\n" + this);
 
 	}
 
@@ -294,7 +294,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			evalGeos = evaluateMultiple();
 
 		if (evalGeos == null || evalGeos.length == 0)
-			throw new MyError(app, app.getError("InvalidInput") + ":\n" + this);
+			throw new MyError(app.getLocalization(), app.getLocalization().getError("InvalidInput") + ":\n" + this);
 
 		for (int i = 0; i < evalGeos.length; i++)
 			if (!evalGeos[i].isConstant())

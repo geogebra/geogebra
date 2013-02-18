@@ -56,6 +56,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -141,6 +142,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	AppD app;
+	Localization loc;
 	private Kernel kernel;
 	private GeoGebraColorChooser colChooser;
 
@@ -229,6 +231,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		this.isDefaults = isDefaults;
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.colChooser = colChooser;
 
@@ -2755,13 +2758,13 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			if (hasOrientation) {
 				for (int i = 0; i < GeoAngle.INTERVAL_MIN.length; i++)
 					intervalCombo
-							.addItem(app.getPlain("AandB",
+							.addItem(loc.getPlain("AandB",
 									GeoAngle.INTERVAL_MIN[i],
 									GeoAngle.INTERVAL_MAX[i]));
 			} else {// only 180° wide interval are possible
-				intervalCombo.addItem(app.getPlain("AandB",
+				intervalCombo.addItem(loc.getPlain("AandB",
 						GeoAngle.INTERVAL_MIN[1], GeoAngle.INTERVAL_MAX[1]));
-				intervalCombo.addItem(app.getPlain("AandB",
+				intervalCombo.addItem(loc.getPlain("AandB",
 						GeoAngle.INTERVAL_MIN[2], GeoAngle.INTERVAL_MAX[2]));
 			}
 			intervalCombo.addActionListener(this);
@@ -4481,7 +4484,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// decimal places
 			ComboBoxRenderer renderer = new ComboBoxRenderer();
-			cbDecimalPlaces = new JComboBox(app.getRoundingMenu());
+			cbDecimalPlaces = new JComboBox(loc.getRoundingMenu());
 			cbDecimalPlaces.setRenderer(renderer);
 			cbDecimalPlaces.addActionListener(this);
 
@@ -4512,7 +4515,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			String[] fontSizes = app.getFontSizeStrings();
+			String[] fontSizes = app.getLocalization().getFontSizeStrings();
 
 			int selectedIndex = cbSize.getSelectedIndex();
 			cbSize.removeActionListener(this);
@@ -7252,9 +7255,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	private RedefineInputHandler defInputHandler;
 	private GeoElement currentGeo;
 	private AppD app;
+	private Localization loc;
 
 	public NamePanel(AppD app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		// NAME PANEL
 		nameInputHandler = new RenameInputHandler(app, null, false);
 
@@ -7302,16 +7307,16 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	}
 
 	public void setLabels() {
-		nameLabel.setText(app.getPlain("Name") + ":");
-		defLabel.setText(app.getPlain("Definition") + ":");
-		captionLabel.setText(app.getMenu("Button.Caption") + ":");
+		nameLabel.setText(loc.getPlain("Name") + ":");
+		defLabel.setText(loc.getPlain("Definition") + ":");
+		captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 	}
 
 	private void updateGUI(boolean showDefinition, boolean showCaption) {
 		int rows = 1;
 		removeAll();
 		
-		if (app.isRightToLeftReadingOrder()){
+		if (loc.isRightToLeftReadingOrder()){
 			add(inputPanelName);
 			add(nameLabel);			
 		}else{
@@ -7321,7 +7326,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		if (showDefinition) {
 			rows++;
-			if (app.isRightToLeftReadingOrder()){				
+			if (loc.isRightToLeftReadingOrder()){				
 				add(inputPanelDef);	
 				add(defLabel);
 			}else{
@@ -7332,7 +7337,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		if (showCaption) {
 			rows++;
-			if (app.isRightToLeftReadingOrder()){	
+			if (loc.isRightToLeftReadingOrder()){	
 				add(inputPanelCap);
 				add(captionLabel);				
 			}else{

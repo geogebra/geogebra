@@ -1144,7 +1144,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// ========================================
 		// text size button
 
-		String[] textSizeArray = app.getFontSizeStrings();
+		String[] textSizeArray = app.getLocalization().getFontSizeStrings();
 
 		btnTextSize = new PopupMenuButton((AppW) app, textSizeArray, -1, 1,
 				new GDimensionW(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {

@@ -355,7 +355,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		c.weightx = 1;
 		c.weighty = 0;
 		
-		if (app.isRightToLeftReadingOrder()) {
+		if (app.getLocalization().isRightToLeftReadingOrder()) {
 			c.gridx = 0; c.gridy=0;
 			gridPanel.add(btnRedo,c);
 			c.gridx = 1; c.gridy=0;

@@ -224,7 +224,7 @@ public class ModeToggleMenu extends JPanel {
 				tbutton.repaint();
 				
 				int offsetx = 0;
-				if (app.isRightToLeftReadingOrder()) {				
+				if (app.getLocalization().isRightToLeftReadingOrder()) {				
 					// needed otherwise popMenu.getWidth() can return 0
 					popMenu.setVisible(true);
 					offsetx = popMenu.getWidth() - tbutton.getWidth();

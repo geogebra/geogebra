@@ -9,6 +9,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 
 import java.util.HashMap;
 
@@ -27,7 +28,8 @@ import com.google.gwt.user.client.ui.TreeItem;
 public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView
 {
 
-	protected App app; 
+	protected final App app; 
+	protected final Localization loc;
 	
 	// store all pairs of GeoElement -> node in the Tree
 	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
@@ -73,6 +75,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		super();
 
 		this.app = ctr.getApplication();
+		this.loc = this.app.getLocalization();
 //		algCtrl.setView(this);
 		this.controller = ctr;
 		// this is the default value
@@ -219,7 +222,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			for (Integer key : this.layerNodesMap.keySet())
 			{
 				node = this.layerNodesMap.get(key);
-				setUserObject(node, this.app.getPlain("LayerA", key.toString()) + "TODO" + key);
+				setUserObject(node, this.loc.getPlain("LayerA", key.toString()) + "TODO" + key);
 			}
 			break;
 		case ORDER:
@@ -345,7 +348,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			// do we have to create the parent node?
 			if (parent == null)
 			{
-				String layerStr = this.app.getPlain("LayerA", layer + "");
+				String layerStr = this.loc.getPlain("LayerA", layer + "");
 				parent = new TreeItem(layerStr);
 
 				setUserObject(parent, layerStr);

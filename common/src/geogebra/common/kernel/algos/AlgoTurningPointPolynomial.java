@@ -63,7 +63,7 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("InflectionPointofA",f.getLabel(tpl));
+        return loc.getPlain("InflectionPointofA",f.getLabel(tpl));
     }
 
 }

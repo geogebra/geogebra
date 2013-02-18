@@ -142,7 +142,7 @@ public class AlgoEllipseFociPoint extends AlgoElement {
 
     @Override
 	final public String toString(StringTemplate tpl) {
-        return app.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
+        return loc.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
         		B.getLabel(tpl),C.getLabel(tpl));
     }
 

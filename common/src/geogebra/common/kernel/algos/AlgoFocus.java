@@ -127,7 +127,7 @@ public class AlgoFocus extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("FocusOfA", c.getLabel(tpl));
+		return loc.getPlain("FocusOfA", c.getLabel(tpl));
 
 	}
 

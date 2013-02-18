@@ -110,10 +110,10 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 	final public String toString(StringTemplate tpl) {
     	/*
     	if (center==null)
-       		return app.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+       		return loc.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
     				((GeoElement) orientation).getLabel(tpl));
     	*/
-   		return app.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+   		return loc.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
 				line.getLabel(tpl));
    	
     }

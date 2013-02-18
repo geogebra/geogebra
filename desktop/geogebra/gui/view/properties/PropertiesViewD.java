@@ -83,10 +83,10 @@ public class PropertiesViewD extends
 	 * @param app
 	 */
 	public PropertiesViewD(AppD app) {
-
+		super(app);
 		isIniting = true;
 		this.wrappedPanel = new JPanel();
-		this.app = app;
+		
 		app.setPropertiesView(this);
 
 		// init object properties
@@ -95,7 +95,6 @@ public class PropertiesViewD extends
 		getOptionPanel(OptionType.OBJECTS);
 		App.debug("end (init object properties)");
 
-		kernel = app.getKernel();
 		// this.geoTree=geoTree;
 
 		initGUI();

@@ -215,7 +215,7 @@ public class AlgoMirror extends AlgoTransformation {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-        return app.getPlain("AMirroredAtB",inGeo.getLabel(tpl),mirror.getLabel(tpl));
+        return loc.getPlain("AMirroredAtB",inGeo.getLabel(tpl),mirror.getLabel(tpl));
 
     }
     @Override

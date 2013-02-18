@@ -84,7 +84,7 @@ public class AlgoAngleConic extends AlgoElement {
 
     @Override
 	public final String toString(StringTemplate tpl) {
-    	return app.getPlain("AngleOfA",c.getLabel(tpl));
+    	return loc.getPlain("AngleOfA",c.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

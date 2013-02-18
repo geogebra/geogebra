@@ -37,7 +37,7 @@ public class AlgoOrthoLinePointLineXOYPlane extends AlgoOrthoLinePointLine {
 
     @Override
 	public String toString(StringTemplate tpl) {
-        return app.getPlain("LineThroughAPerpendicularToBInXOYPlane",P.getLabel(tpl),l.getLabel(tpl));
+        return loc.getPlain("LineThroughAPerpendicularToBInXOYPlane",P.getLabel(tpl),l.getLabel(tpl));
 
     }
 }

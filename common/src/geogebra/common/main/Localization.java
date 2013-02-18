@@ -1,12 +1,61 @@
 package geogebra.common.main;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 public abstract class Localization {
-	public abstract boolean isReverseNameDescriptionLanguage();
-	public abstract boolean isRightToLeftReadingOrder();
-	public abstract boolean isUsingLocalizedLabels();
+	
+	/** CAS syntax suffix for keys in command bundle */
+	public final static String syntaxCAS = ".SyntaxCAS";
+	/** 3D syntax suffix for keys in command bundle */
+	public final static String syntax3D = ".Syntax3D";
+	/** syntax suffix for keys in command bundle */
+	public final static String syntaxStr = ".Syntax";
+	
+	private String[] fontSizeStrings = null;
+
+	/**
+	 * @return localized strings describing font sizes (very small, smaall, ...)
+	 */
+	public String[] getFontSizeStrings() {
+		if (fontSizeStrings == null) {
+			fontSizeStrings = new String[] { getPlain("ExtraSmall"),
+					getPlain("VerySmall"), getPlain("Small"),
+					getPlain("Medium"), getPlain("Large"),
+					getPlain("VeryLarge"), getPlain("ExtraLarge") };
+		}
+
+		return fontSizeStrings;
+	}
+	private boolean reverseNameDescription = false;
+	/**
+	 * For Basque and Hungarian you have to say "A point" instead of "point A"
+	 * 
+	 * @return whether current alnguage needs revverse order of type and name
+	 */
+	final public boolean isReverseNameDescriptionLanguage() {
+		// for Basque and Hungarian
+		return reverseNameDescription;
+	}
+	
+	// For Hebrew and Arabic. Guy Hed, 25.8.2008
+		public boolean rightToLeftReadingOrder = false;
+
+		/**
+		 * @return whether current language uses RTL orientation
+		 */
+		final public boolean isRightToLeftReadingOrder() {
+			return rightToLeftReadingOrder;
+		}
+		
+		/** decimal point (different in eg Arabic) */
+		public static char unicodeDecimalPoint = '.';
+		/** comma (different in Arabic) */
+		public static char unicodeComma = ','; // \u060c for Arabic comma
+		/** zero (different in eg Arabic) */
+		public static char unicodeZero = '0';
+		
 	
 	/**
 	 * Text fixer for the Hungarian language
@@ -584,6 +633,272 @@ public abstract class Localization {
 			}
 
 		}
+		
+		public String[] getRoundingMenu() {
+			String[] strDecimalSpaces = {
+					getPlain("ADecimalPlaces", "0"),
+					getPlain("ADecimalPlace", "1"),
+					getPlain("ADecimalPlaces", "2"),
+					getPlain("ADecimalPlaces", "3"),
+					getPlain("ADecimalPlaces", "4"),
+					getPlain("ADecimalPlaces", "5"),
+					getPlain("ADecimalPlaces", "10"),
+					getPlain("ADecimalPlaces", "15"),
+					"---", // separator
+					getPlain("ASignificantFigures", "3"),
+					getPlain("ASignificantFigures", "5"),
+					getPlain("ASignificantFigures", "10"),
+					getPlain("ASignificantFigures", "15") };
 
+			// zero is singular in eg French
+			if (!isZeroPlural(getLanguage())) {
+				strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
+			}
+
+			return strDecimalSpaces;
+		}
+		
+		/**
+		 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
+		 * 
+		 * @param lang
+		 *            language code
+		 * @return whether 0 is plural
+		 */
+		public boolean isZeroPlural(String lang) {
+			if (lang.startsWith("fr")) {
+				return false;
+			}
+			return true;
+		}
+		
+		private boolean isAutoCompletePossible = true;
+
+		
+
+		/**
+		 * Returns whether autocomplete should be used at all. Certain languages
+		 * make problems with auto complete turned on (e.g. Korean).
+		 * 
+		 * @return whether autocomplete should be used at all, depending on language
+		 */
+		final public boolean isAutoCompletePossible() {
+			return isAutoCompletePossible;
+		}
+
+		
+
+		// For Persian and Arabic.
+		private boolean rightToLeftDigits = false;
+
+		/**
+		 * Returns whether current language uses RTL orientation for numbers for
+		 * given template. We don't want RTL digits in XML
+		 * 
+		 * @param tpl
+		 *            string templates
+		 * @return whether current language uses RTL orientation for numbers for
+		 *         given template
+		 */
+		final public boolean isRightToLeftDigits(StringTemplate tpl) {
+			if (!tpl.internationalizeDigits()) {
+				return false;
+			}
+			return rightToLeftDigits;
+		}
+		
+		/**
+		 * Use localized digits.
+		 */
+		private boolean useLocalizedDigits = false;
+
+		/**
+		 * @return If localized digits are used for certain languages (Arabic,
+		 *         Hebrew, etc).
+		 */
+		public boolean isUsingLocalizedDigits() {
+			return useLocalizedDigits;
+		}
+		
+		/**
+		 * Updates language flags (RTL, RTL for numbers, reverse word order,
+		 * autocomplete possible)
+		 * 
+		 * @param lang
+		 *            language
+		 */
+		public void updateLanguageFlags(String lang) {
+
+			rightToLeftReadingOrder = rightToLeftReadingOrder(lang);	
+				
+			// force update
+			fontSizeStrings = null;
+
+			// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
+			// 2008-03-31
+			reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
+
+			// used for eg axes labels
+			// Arabic digits are RTL 
+		 	// Persian aren't http://persian.nmelrc.org/persianword/format.htm 
+		 	rightToLeftDigits = "ar".equals(lang);
+		 	
+
+
+			
+			// Another option:
+			// rightToLeftReadingOrder =
+			// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
+			// Character.DIRECTIONALITY_RIGHT_TO_LEFT);
+
+			// turn off auto-complete for Korean
+			isAutoCompletePossible = true;// !"ko".equals(lang);
+
+			// defaults
+			unicodeDecimalPoint = '.';
+			unicodeComma = ',';
+			// unicodeThousandsSeparator=',';
+
+			if (isUsingLocalizedDigits()) {
+				if (lang.startsWith("ar")) { // Arabic
+					unicodeZero = '\u0660'; // Arabic-Indic digit 0
+					unicodeDecimalPoint = '\u066b'; // Arabic-Indic decimal point
+					unicodeComma = '\u060c'; // Arabic comma
+					// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
+					// separator
+				} else if (lang.startsWith("fa")) { // Persian
+					unicodeZero = '\u06f0'; // Persian digit 0 (Extended
+					// Arabic-Indic)
+					unicodeDecimalPoint = '\u066b'; // Arabic comma
+					unicodeComma = '\u060c'; // Arabic-Indic decimal point
+					// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
+					// separators
+				} else if (lang.startsWith("ml")) {
+					unicodeZero = '\u0d66'; // Malayalam digit 0
+				} else if (lang.startsWith("th")) {
+					unicodeZero = '\u0e50'; // Thai digit 0
+				} else if (lang.startsWith("ta")) {
+					unicodeZero = '\u0be6'; // Tamil digit 0
+				} else if (lang.startsWith("sd")) {
+					unicodeZero = '\u1bb0'; // Sudanese digit 0
+				} else if (lang.startsWith("kh")) {
+					unicodeZero = '\u17e0'; // Khmer digit 0
+				} else if (lang.startsWith("mn")) {
+					unicodeZero = '\u1810'; // Mongolian digit 0
+				} else if (lang.startsWith("mm")) {
+					unicodeZero = '\u1040'; // Mayanmar digit 0
+				} else {
+					unicodeZero = '0';
+				}
+			} else {
+				unicodeZero = '0';
+			}
+		}
+		public static boolean rightToLeftReadingOrder(String language){
+			
+			String lang = language.substring(0,2);
+		// Guy Hed, 25.8.2008
+		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
+			return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
+					.equals(lang));
+		}
+		/**
+		 * @return syntaxStr or syntax3D, depending on whether 3d is active
+		 */
+		protected abstract String getSyntaxString();
+		/**
+		 * @param key
+		 *            command name
+		 * @return command syntax TODO check whether getSyntaxString works here
+		 */
+		public String getCommandSyntax(String key) {
+
+			String command = getCommand(key);
+
+			String syntaxString = getSyntaxString();
+
+			String syntax = null;
+
+			if (syntaxString != null) {
+
+				syntax = getCommand(key + syntaxString);
+
+				syntax = syntax.replace("[", command + '[');
+			}
+
+			return syntax;
+		}
+		/**
+		 * Use localized labels.
+		 */
+		private boolean useLocalizedLabels = true;
+
+		
+		/**
+		 * @return If localized labels are used for certain languages.
+		 */
+		public boolean isUsingLocalizedLabels() {
+			return useLocalizedLabels;
+		}
+
+		/**
+		 * Use localized labels for certain languages.
+		 * 
+		 * @param useLocalizedLabels
+		 *            true to make labels of new geos localized
+		 */
+		public void setUseLocalizedLabels(boolean useLocalizedLabels) {
+			this.useLocalizedLabels = useLocalizedLabels;
+		}
+		
+		/**
+		 * Use localized digits for certain languages (Arabic, Hebrew, etc).
+		 * 
+		 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
+		 * if the new flag differs from the current.
+		 * 
+		 * @param useLocalizedDigits
+		 *            whether localized digits should be used
+		 */
+		public void setUseLocalizedDigits(boolean useLocalizedDigits,App app) {
+			if (this.useLocalizedDigits == useLocalizedDigits) {
+				return;
+			}
+
+			this.useLocalizedDigits = useLocalizedDigits;
+			updateLanguageFlags(getLanguage());
+			app.getKernel().updateConstruction();
+			app.setUnsaved();
+
+			if (app.getEuclidianView1() != null) {
+				app.getEuclidianView1().updateBackground();
+			}
+		}
+
+		/**
+		 * Returns translation of given key from the "symbol" bundle in tooltip
+		 * language
+		 * 
+		 * @param key
+		 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
+		 *            for tooltips)
+		 * @return translation for key in tooltip language
+		 */
+		public abstract String getSymbolTooltip(int key);
+		
+		/**
+		 * @param key
+		 *            command name
+		 * @return CAS syntax
+		 */
+		public String getCommandSyntaxCAS(String key) {
+
+			String command = getCommand(key);
+			String syntax = getCommand(key + syntaxCAS);
+
+			syntax = syntax.replace("[", command + '[');
+
+			return syntax;
+		}
 	
 }

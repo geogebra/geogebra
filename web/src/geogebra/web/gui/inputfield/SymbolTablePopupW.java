@@ -24,8 +24,8 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
     }
 	
 	private void createSymbolTable() {
-		String [] icons = TableSymbols.basicSymbols(app);
-		String [] iconshelp = TableSymbols.basicSymbolsToolTips(app);
+		String [] icons = TableSymbols.basicSymbols(app.getLocalization());
+		String [] iconshelp = TableSymbols.basicSymbolsToolTips(app.getLocalization());
 		symbolTable = new Grid((int) Math.ceil(icons.length/10),10);
 		symbolTable.addStyleName("SymbolTable");
 		

@@ -126,7 +126,7 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     
     @Override
 	public String toString(StringTemplate tpl) {
-    	return app.getPlain("CircleThroughABC",points[0].getLabel(tpl),
+    	return loc.getPlain("CircleThroughABC",points[0].getLabel(tpl),
     			points[1].getLabel(tpl),points[2].getLabel(tpl));
     }
 }

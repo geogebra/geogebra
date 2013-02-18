@@ -123,7 +123,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
      
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-        return app.getPlain("LineThroughAB",P.getLabel(tpl),Q.getLabel(tpl));
+        return loc.getPlain("LineThroughAB",P.getLabel(tpl),Q.getLabel(tpl));
 
     }
 

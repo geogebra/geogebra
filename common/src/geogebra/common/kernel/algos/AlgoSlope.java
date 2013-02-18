@@ -110,7 +110,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo{
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return app.getPlain("SlopeOfA",g.getLabel(tpl));
+    	return loc.getPlain("SlopeOfA",g.getLabel(tpl));
     }
 
 	public DrawInformationAlgo copy() {		

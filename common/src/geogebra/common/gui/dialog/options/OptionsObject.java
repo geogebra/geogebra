@@ -60,12 +60,12 @@ public abstract class OptionsObject {
 			GeoElement geo = selection.get(0);
 			sb.setLength(0);
 			sb.append("<html>");
-			sb.append(app.getPlain("PropertiesOfA",
+			sb.append(app.getLocalization().getPlain("PropertiesOfA",
 					geo.getNameDescriptionHTML(false, false)));
 			sb.append("</html>");
 			return sb.toString();
 		} else {
-			return app.getPlain("PropertiesOfA", app.getPlain("Selection"));
+			return app.getLocalization().getPlain("PropertiesOfA", app.getPlain("Selection"));
 		}
 	}
 

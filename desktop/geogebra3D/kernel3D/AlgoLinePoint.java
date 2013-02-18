@@ -77,7 +77,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return app.getPlain("LineThroughAParallelToB",point.getLabel(tpl),inputParallel.getLabel(tpl));
+    	return loc.getPlain("LineThroughAParallelToB",point.getLabel(tpl),inputParallel.getLabel(tpl));
     }
     
     /*

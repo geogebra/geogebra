@@ -150,7 +150,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setForeground(Color.black);
 			setBackground(getBackgroundNonSelectionColor());
 			
-			String str = (view.getTreeMode() == SortMode.LAYER) ?  app.getPlain("LayerA" , value.toString()) :
+			String str = (view.getTreeMode() == SortMode.LAYER) ?  app.getLocalization().getPlain("LayerA" , value.toString()) :
 				value.toString();
 			
 			setText(str);

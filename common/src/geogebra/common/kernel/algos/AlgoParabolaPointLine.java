@@ -89,7 +89,7 @@ public class AlgoParabolaPointLine extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("ParabolaWithFocusAandDirectrixB",F.getLabel(tpl),l.getLabel(tpl));
+        return loc.getPlain("ParabolaWithFocusAandDirectrixB",F.getLabel(tpl),l.getLabel(tpl));
 
     }
 

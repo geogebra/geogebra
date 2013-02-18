@@ -70,7 +70,7 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("SphereThroughAwithCenterB",
+        return loc.getPlain("SphereThroughAwithCenterB",
         		getP().getLabel(tpl),
         		getM().getLabel(tpl));
 

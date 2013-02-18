@@ -4316,7 +4316,7 @@ public abstract class EuclidianController {
 			if (object.isGeoPolygon()) {
 				descText = descriptionPoints(type, (GeoPolygon) object);
 			} else {
-				descText = app.getPlain(type, "\" + Name[" + object.getLabel(StringTemplate.defaultTemplate) + "] + \"");
+				descText = app.getLocalization().getPlain(type, "\" + Name[" + object.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 			}
 			
 			// create dynamic text
@@ -4345,7 +4345,7 @@ public abstract class EuclidianController {
 					String strText = "";
 					boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 					if (useLabels) {
-						length.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Distance"))
+						length.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getLocalization().getCommand("Distance"))
 								//.toLowerCase(Locale.US)
 								+ geoA.getLabel(tpl)
 								+ geoB.getLabel(tpl)));
@@ -4356,7 +4356,7 @@ public abstract class EuclidianController {
 						// DistanceAB="\\overline{" + %0 + %1 + "} \\, = \\, " + %2
 						// or
 						// DistanceAB=%0+%1+" \\, = \\, "+%2
-						strText = app.getPlain("DistanceAB.LaTeX",
+						strText = app.getLocalization().getPlain("DistanceAB.LaTeX",
 								"Name[" + geoA.getLabel(tpl) + "]",
 								"Name[" + geoB.getLabel(tpl) + "]", length.getLabel(tpl));
 						// Application.debug(strText);
@@ -4365,7 +4365,7 @@ public abstract class EuclidianController {
 						geoA.updateRepaint();
 						geoB.updateRepaint();
 					} else {
-						length.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Distance"))));
+						length.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getLocalization().getCommand("Distance"))));
 								//.toLowerCase(Locale.US)));
 						strText = "\"\"" + length.getLabel(tpl);
 					}
@@ -4435,7 +4435,7 @@ public abstract class EuclidianController {
 			// text
 			GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area);
 			if (conic.isLabelSet()) {
-				area.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Area"))
+				area.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getLocalization().getCommand("Area"))
 						+ conic.getLabelSimple()));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
 						+ conic.getLabelSimple()));
@@ -4494,10 +4494,10 @@ public abstract class EuclidianController {
 					points[i].updateRepaint();
 				}
 			} else {
-				return app.getPlain(type, "\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
+				return app.getLocalization().getPlain(type, "\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 			}
 		}
-		return app.getPlain(type,  descText.toString() );
+		return app.getLocalization().getPlain(type,  descText.toString() );
 	}
 
 	protected boolean regularPolygon(Hits hits) {
@@ -4711,7 +4711,7 @@ public abstract class EuclidianController {
 			GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA", conic,
 					circumFerence);
 			if (conic.isLabelSet()) {
-				circumFerence.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand(
+				circumFerence.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getLocalization().getCommand(
 						"Circumference"))
 						+ conic.getLabel(StringTemplate.defaultTemplate)));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
@@ -4733,7 +4733,7 @@ public abstract class EuclidianController {
 					perimeter);
 	
 			if (poly[0].isLabelSet()) {
-				perimeter.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Perimeter"))
+				perimeter.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getLocalization().getCommand("Perimeter"))
 						+ poly[0].getLabelSimple()));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
 						+ poly[0].getLabelSimple()));

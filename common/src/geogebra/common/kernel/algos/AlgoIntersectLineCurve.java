@@ -241,7 +241,7 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return app.getPlain("IntersectionPointOfAB",((GeoElement) line).getLabel(tpl),
+		return loc.getPlain("IntersectionPointOfAB",((GeoElement) line).getLabel(tpl),
 				((GeoElement)curve).getLabel(tpl));
 	}  
 

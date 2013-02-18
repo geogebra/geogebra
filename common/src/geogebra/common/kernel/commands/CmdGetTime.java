@@ -165,7 +165,7 @@ public class CmdGetTime extends CommandProcessor {
 				}
 				break;
 			case 'S':
-				String ordinal=new String(app.getOrdinalNumber(date));
+				String ordinal=new String(app.getLocalization().getOrdinalNumber(date));
 				ordinal=ordinal.replaceFirst(String.valueOf(date),"");
 				sb.append(ordinal);
 				break;

@@ -70,7 +70,7 @@ public class SymbolTablePopupD {
 	private void createSymbolTable() {
 
 		symbolTable = new SelectionTable(app, 
-				TableSymbols.basicSymbols(app), 
+				TableSymbols.basicSymbols(app.getLocalization()), 
 				-1,10, 
 				new Dimension(24,24), 
 				geogebra.common.gui.util.SelectionTable.MODE_TEXT);
@@ -79,7 +79,7 @@ public class SymbolTablePopupD {
 		symbolTable.setHorizontalAlignment(SwingConstants.CENTER);
 		symbolTable.setSelectedIndex(1);
 		symbolTable.setFocusable(false);
-		symbolTable.setToolTipArray(TableSymbols.basicSymbolsToolTips(app));
+		symbolTable.setToolTipArray(TableSymbols.basicSymbolsToolTips(app.getLocalization()));
 		
 		symbolTable.addMouseListener(new MouseAdapter() {
 			@Override

@@ -280,7 +280,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("CircleThroughABC", A.getLabel(tpl), B.getLabel(tpl),
+		return loc.getPlain("CircleThroughABC", A.getLabel(tpl), B.getLabel(tpl),
 				C.getLabel(tpl));
 	}
 

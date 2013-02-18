@@ -209,11 +209,11 @@ public class AlgoAnglePoints extends AlgoElement implements
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (algoAnglePoly != null) {
-			return app.getPlain("AngleBetweenABCofD", An.getLabel(tpl), Bn
+			return loc.getPlain("AngleBetweenABCofD", An.getLabel(tpl), Bn
 					.getLabel(tpl), Cn.getLabel(tpl), algoAnglePoly.getPolygon()
 					.getNameDescription());
 		}
-		return app.getPlain("AngleBetweenABC", An.getLabel(tpl),
+		return loc.getPlain("AngleBetweenABC", An.getLabel(tpl),
 				Bn.getLabel(tpl), Cn.getLabel(tpl));
 	}
 

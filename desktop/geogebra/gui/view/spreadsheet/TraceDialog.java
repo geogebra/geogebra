@@ -485,12 +485,12 @@ implements
 		switch (traceModes){
 		case ONE_VALUE_OR_COPY:
 		case ONE_VALUE_ONLY:
-			sb.append(app.getPlain("ValueOfA",geo.getTraceDialogAsValues()));  
+			sb.append(app.getLocalization().getPlain("ValueOfA",geo.getTraceDialogAsValues()));  
 			break;
 		case SEVERAL_VALUES_OR_COPY:
 		case SEVERAL_VALUES_ONLY:
 		case ONLY_COPY: //button disabled
-			sb.append(app.getPlain("ValuesOfA",geo.getTraceDialogAsValues()));  
+			sb.append(app.getLocalization().getPlain("ValuesOfA",geo.getTraceDialogAsValues()));  
 			break;
 			
 		}
@@ -502,7 +502,7 @@ implements
 		
 		sb.setLength(0);
 		sb.append("<html>");
-		sb.append(app.getPlain("CopyOfA",geo.getLabelTextOrHTML(false)));
+		sb.append(app.getLocalization().getPlain("CopyOfA",geo.getLabelTextOrHTML(false)));
 		sb.append("</html>");
 		traceModeCopy.setText(sb.toString());
 		

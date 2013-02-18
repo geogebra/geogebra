@@ -75,7 +75,7 @@ public class AlgoOrdinal extends AlgoElement {
     		return;   		
     	}
     	
-    	text.setTextString(app.getOrdinalNumber((int)num));
+    	text.setTextString(loc.getOrdinalNumber((int)num));
     	
     }
 

@@ -364,7 +364,7 @@ public class Polynomial extends ValidExpression implements Serializable
 				}
 
 				if (!ti.coefficient.evaluate(StringTemplate.defaultTemplate).isNumberValue())
-					throw new MyError(kernel.getApplication(), ti.coefficient
+					throw new MyError(kernel.getApplication().getLocalization(), ti.coefficient
 							.evaluate(StringTemplate.defaultTemplate).toString(StringTemplate.defaultTemplate));
 
 				// add simplified term to list
@@ -610,7 +610,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
-		throw new MyError(kernel.getApplication(), "derivative called on Polynomial");
+		throw new MyError(kernel.getApplication().getLocalization(), "derivative called on Polynomial");
 	}
 
 } // end of class Polynomial

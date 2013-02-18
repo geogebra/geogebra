@@ -62,6 +62,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -155,6 +156,7 @@ public class MyXMLHandler implements DocHandler {
 	private Macro macro;
 	/** application */
 	protected App app;
+	protected Localization loc;
 
 	private String[] macroInputLabels, macroOutputLabels;
 	private GeoElement[] cmdOutput;
@@ -307,6 +309,7 @@ public class MyXMLHandler implements DocHandler {
 		origCons = cons;
 		origParser = new Parser(origKernel, origCons);
 		app = origKernel.getApplication();
+		loc = app.getLocalization();
 		initKernelVars();
 
 		mode = MODE_INVALID;
@@ -368,7 +371,7 @@ public class MyXMLHandler implements DocHandler {
 	final public void endDocument() throws SAXException {
 		if (mode == MODE_INVALID)
 			throw new SAXException(
-					app.getPlain("XMLTagANotFound", "<geogebra>"));
+					loc.getPlain("XMLTagANotFound", "<geogebra>"));
 	}
 
 	final public void startElement(String eName,
@@ -453,7 +456,7 @@ public class MyXMLHandler implements DocHandler {
 					ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
 
 					if (ggbFileFormat > FORMAT) {
-						System.err.println(app.getError("FileFormatNewer")
+						App.debug(loc.getError("FileFormatNewer")
 								+ ": " + ggbFileFormat); // Michael
 						// Borcherds
 					}
@@ -474,7 +477,7 @@ public class MyXMLHandler implements DocHandler {
 					}
 
 				} catch (Exception e) {
-					throw new MyError(app, "FileFormatUnknown");
+					throw new MyError(loc, "FileFormatUnknown");
 				}
 
 				String ggbVersion = attrs.get("version");
@@ -1598,9 +1601,9 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleKernelLocalization(LinkedHashMap<String, String> attrs) {
 		try {
 			boolean digits = parseBoolean(attrs.get("digits"));
-			app.setUseLocalizedDigits(digits);
+			loc.setUseLocalizedDigits(digits,app);
 			boolean labels = parseBoolean(attrs.get("labels"));
-			app.setUseLocalizedLabels(labels);
+			loc.setUseLocalizedLabels(labels);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -4311,7 +4314,7 @@ public class MyXMLHandler implements DocHandler {
 					+ geo.getClass());
 			return false;
 		}
-		Locateable loc = (Locateable) geo;
+		Locateable locGeo = (Locateable) geo;
 
 		// relative start point (expression or label expected)
 		String exp = attrs.get("exp");
@@ -4329,8 +4332,8 @@ public class MyXMLHandler implements DocHandler {
 		if (exp != null) {
 			// store (geo, epxression, number) values
 			// they will be processed in processStartPoints() later
-			startPointList.add(new LocateableExpPair(loc, exp, number));
-			loc.setWaitForStartPoint();
+			startPointList.add(new LocateableExpPair(locGeo, exp, number));
+			locGeo.setWaitForStartPoint();
 		} else {
 			// absolute start point (coords expected)
 			try {
@@ -4345,13 +4348,13 @@ public class MyXMLHandler implements DocHandler {
 
 				if (number == 0) {
 					// set first start point right away
-					loc.setStartPoint(p);
+					locGeo.setStartPoint(p);
 				} else {
 					// set other start points later
 					// store (geo, point, number) values
 					// they will be processed in processStartPoints() later
-					startPointList.add(new LocateableExpPair(loc, p, number));
-					loc.setWaitForStartPoint();
+					startPointList.add(new LocateableExpPair(locGeo, p, number));
+					locGeo.setWaitForStartPoint();
 				}
 			} catch (Exception e) {
 				return false;
@@ -4395,7 +4398,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			startPointList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processStartPointList: " + e.toString());
+			throw new MyError(loc, "processStartPointList: " + e.toString());
 		}
 		startPointList.clear();
 	}
@@ -4408,7 +4411,7 @@ public class MyXMLHandler implements DocHandler {
 		if (geo instanceof GeoTextField) {
 			((GeoTextField) geo).setLength(Integer.parseInt(val));
 		} else {
-			throw new MyError(app, "handleLength: " + geo.getGeoClassType());
+			throw new MyError(loc, "handleLength: " + geo.getGeoClassType());
 		}
 
 		return true;
@@ -4422,7 +4425,7 @@ public class MyXMLHandler implements DocHandler {
 		if (geo instanceof GeoList) {
 			((GeoList) geo).setTypeStringForXML(val);
 		} else {
-			throw new MyError(app, "handleLength: " + geo.getGeoClassType());
+			throw new MyError(loc, "handleLength: " + geo.getGeoClassType());
 		}
 
 		return true;
@@ -4465,7 +4468,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			linkedGeoList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processlinkedGeoList: " + e.toString());
+			throw new MyError(loc, "processlinkedGeoList: " + e.toString());
 		}
 		linkedGeoList.clear();
 	}
@@ -4483,7 +4486,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			showObjectConditionList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processShowObjectConditionList: "
+			throw new MyError(loc, "processShowObjectConditionList: "
 					+ e.toString());
 		}
 		showObjectConditionList.clear();
@@ -4502,7 +4505,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			animationSpeedList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processAnimationSpeedList: " + e.toString());
+			throw new MyError(loc, "processAnimationSpeedList: " + e.toString());
 		}
 		animationSpeedList.clear();
 	}
@@ -4520,7 +4523,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			animationStepList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processAnimationStepList: " + e.toString());
+			throw new MyError(loc, "processAnimationStepList: " + e.toString());
 		}
 		animationSpeedList.clear();
 	}
@@ -4536,7 +4539,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			animatingList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processAnimatingList: " + e.toString());
+			throw new MyError(loc, "processAnimatingList: " + e.toString());
 		}
 		animatingList.clear();
 	}
@@ -4569,7 +4572,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			minMaxList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "processMinMaxList: " + e.toString());
+			throw new MyError(loc, "processMinMaxList: " + e.toString());
 		}
 		minMaxList.clear();
 	}
@@ -4587,7 +4590,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			dynamicColorList.clear();
 			e.printStackTrace();
-			throw new MyError(app, "dynamicColorList: " + e.toString());
+			throw new MyError(loc, "dynamicColorList: " + e.toString());
 		}
 		dynamicColorList.clear();
 	}
@@ -4602,7 +4605,7 @@ public class MyXMLHandler implements DocHandler {
 	 * ((GeoPoint
 	 * )(pair.geo)).setCoordinateFunction(algProc.evaluateToList(pair.exp)); } }
 	 * catch (Exception e) { dynamicCoordinatesList.clear();
-	 * e.printStackTrace(); throw new MyError(app, "dynamicCoordinatesList: " +
+	 * e.printStackTrace(); throw new MyError(loc, "dynamicCoordinatesList: " +
 	 * e.toString()); } dynamicCoordinatesList.clear(); }
 	 */
 
@@ -4792,7 +4795,7 @@ public class MyXMLHandler implements DocHandler {
 		if (name != null)
 			command = new Command(kernel, name, false); // do not translate name
 		else
-			throw new MyError(app, "name missing in <command>");
+			throw new MyError(loc, "name missing in <command>");
 		return command;
 	}
 
@@ -4802,7 +4805,7 @@ public class MyXMLHandler implements DocHandler {
 
 		if ("input".equals(eName)) {
 			if (cmd == null)
-				throw new MyError(app, "no command set for <input>");
+				throw new MyError(loc, "no command set for <input>");
 			ok = handleCmdInput(attrs);
 		} else if ("output".equals(eName)) {
 			ok = handleCmdOutput(attrs);
@@ -4859,10 +4862,10 @@ public class MyXMLHandler implements DocHandler {
 				cmd.addArgument(en);
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new MyError(app, "unknown command input: " + arg);
+				throw new MyError(loc, "unknown command input: " + arg);
 			} catch (Error e) {
 				e.printStackTrace();
-				throw new MyError(app, "unknown command input: " + arg);
+				throw new MyError(loc, "unknown command input: " + arg);
 			}
 		}
 		return true;
@@ -4907,7 +4910,7 @@ public class MyXMLHandler implements DocHandler {
 			cons.registerFunctionVariable(null);
 			String cmdName = cmd.getName();
 			if (cmdOutput == null)
-				throw new MyError(app, "processing of command " + cmd
+				throw new MyError(loc, "processing of command " + cmd
 						+ " failed");
 			cmd = null;
 
@@ -4943,7 +4946,7 @@ public class MyXMLHandler implements DocHandler {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new MyError(app, "processing of command: " + cmd);
+			throw new MyError(loc, "processing of command: " + cmd);
 		}
 	}
 	
@@ -4968,7 +4971,7 @@ public class MyXMLHandler implements DocHandler {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new MyError(app, "processing of command: " + cmd);
+			throw new MyError(loc, "processing of command: " + cmd);
 		}
 	}
 
@@ -5008,7 +5011,7 @@ public class MyXMLHandler implements DocHandler {
 
 		String exp = attrs.get("exp");
 		if (exp == null)
-			throw new MyError(app, "exp missing in <expression>");
+			throw new MyError(loc, "exp missing in <expression>");
 
 		// type may be vector or point, this is important to distinguish between
 		// them
@@ -5060,13 +5063,13 @@ public class MyXMLHandler implements DocHandler {
 					+ exp;
 			System.err.println(msg);
 			e.printStackTrace();
-			throw new MyError(app, msg);
+			throw new MyError(loc, msg);
 		} catch (Error e) {
 			String msg = "error in <expression>: label = " + label + ", exp = "
 					+ exp;
 			System.err.println(msg);
 			e.printStackTrace();
-			throw new MyError(app, msg);
+			throw new MyError(loc, msg);
 		}
 	}
 	

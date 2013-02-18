@@ -252,7 +252,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements
 
 	private JPopupMenu createRoundingPopup() {
 		JPopupMenu menu = new JPopupMenu();
-		String[] strDecimalSpaces = app.getRoundingMenu();
+		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
 				App.strDecimalSpacesAC, 0);

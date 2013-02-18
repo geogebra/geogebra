@@ -92,7 +92,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return app.getPlain("PlaneThroughABC",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl));
+    	return loc.getPlain("PlaneThroughABC",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl));
 
     }
 

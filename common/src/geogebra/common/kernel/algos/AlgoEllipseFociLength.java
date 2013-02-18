@@ -58,7 +58,7 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(tpl),
+        return loc.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(tpl),
         		B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	        	      
     }
 	

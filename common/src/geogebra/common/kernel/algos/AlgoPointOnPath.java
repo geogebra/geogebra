@@ -160,7 +160,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation        
-        return app.getPlain("PointOnA", input[0].getLabel(tpl));
+        return loc.getPlain("PointOnA", input[0].getLabel(tpl));
     }
     
 	public boolean isChangeable() {

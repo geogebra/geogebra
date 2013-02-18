@@ -53,6 +53,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -3515,7 +3516,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				sb.append('(');
 				sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0],
 						StringTemplate.defaultTemplate));
-				sb.append(App.unicodeComma);
+				sb.append(Localization.unicodeComma);
 				sb.append(" ");
 				sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1],
 						StringTemplate.defaultTemplate));
@@ -3530,7 +3531,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				sb.append('(');
 				sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0],
 						StringTemplate.defaultTemplate));
-				sb.append(App.unicodeComma);
+				sb.append(Localization.unicodeComma);
 				sb.append(" ");
 				sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1],
 						StringTemplate.defaultTemplate));

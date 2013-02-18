@@ -343,9 +343,9 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 			return "";
 		
 		if (plane instanceof GeoPlaneND) {
-			return getApplication().getPlain("PlaneA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
+			return getApplication().getLocalization().getPlain("PlaneA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
 		}
-		return getApplication().getPlain("PlaneFromA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
+		return getApplication().getLocalization().getPlain("PlaneFromA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
 	}
 	
 	public GeoCoordSys2D getGeoElement(){

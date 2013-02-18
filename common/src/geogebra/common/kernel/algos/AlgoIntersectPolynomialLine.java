@@ -63,7 +63,7 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-        return app.getPlain("IntersectionPointOfAB",input[0].getLabel(tpl),input[1].getLabel(tpl));
+        return loc.getPlain("IntersectionPointOfAB",input[0].getLabel(tpl),input[1].getLabel(tpl));
 
     }
 

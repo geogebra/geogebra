@@ -33,7 +33,7 @@ public class LayoutUtil {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, defaultHgap,
 				defaultVgap));
 
-		if (!app.isRightToLeftReadingOrder()) {
+		if (!app.getLocalization().isRightToLeftReadingOrder()) {
 			for (int i = 0; i < comps.length; i++) {
 				p.add(comps[i]);
 			}

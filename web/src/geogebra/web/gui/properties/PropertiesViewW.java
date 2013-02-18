@@ -43,10 +43,8 @@ public class PropertiesViewW extends
 		private VerticalPanel mainPanel;
 
 	public PropertiesViewW(AppW app) {
+		super(app);
 	    this.wrappedPanel = new PopupPanel();
-	    this.app = app;
-	    
-	    kernel = app.getKernel();
 	    
 	    app.setPropertiesView(this);
 	    

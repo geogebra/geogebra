@@ -84,7 +84,7 @@ public class AlgoArcLength extends AlgoElement {
 
     @Override
 	final public String toString(StringTemplate tpl) {
-        return app.getPlain("ArcLengthOfA",((GeoElement) arc).getLabel(tpl));
+        return loc.getPlain("ArcLengthOfA",((GeoElement) arc).getLabel(tpl));
 
     }
 

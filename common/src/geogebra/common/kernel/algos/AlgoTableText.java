@@ -225,7 +225,7 @@ public class AlgoTableText extends AlgoElement {
 				text.setTextString("");
 				return;
 				// throw new MyError(app,
-				// app.getPlain("SyntaxErrorAisNotAList",geo.toValueString()));
+				// loc.getPlain("SyntaxErrorAisNotAList",geo.toValueString()));
 			}
 			geoLists[c] = (GeoList) geoList.get(c);
 			if (geoLists[c].size() > rows)

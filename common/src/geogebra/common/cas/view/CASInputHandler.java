@@ -678,7 +678,7 @@ public class CASInputHandler {
 
 		// replace a := with Delete[a]
 		if (inputTrim.endsWith(":=")) {
-			inputTrim = casView.getApp().getCommand("Delete") + "["
+			inputTrim = casView.getApp().getLocalization().getCommand("Delete") + "["
 					+ inputTrim.substring(0, inputTrim.length() - 2).trim()
 					+ "];";
 		}

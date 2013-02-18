@@ -133,7 +133,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("IntersectionPointOfAB",g.getLabel(tpl),h.getLabel(tpl));
+        return loc.getPlain("IntersectionPointOfAB",g.getLabel(tpl),h.getLabel(tpl));
 
     }
 

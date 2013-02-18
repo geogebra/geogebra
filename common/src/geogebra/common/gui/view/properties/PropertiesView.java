@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
 
 import java.util.ArrayList;
@@ -40,8 +41,15 @@ public abstract class PropertiesView implements View {
 	protected Kernel kernel;
 	protected boolean attached;
 	protected App app;
+	protected final Localization loc;
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
 	protected OptionsObject objectPanel;
+
+	public PropertiesView(App app2) {
+		app = app2;
+		kernel = app.getKernel();
+		loc = app.getLocalization();
+	}
 
 	/**
 	 * Update selection
@@ -72,22 +80,22 @@ public abstract class PropertiesView implements View {
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getPlain("PreferencesOfA", app.getPlain("Defaults"));
+			return loc.getPlain("PreferencesOfA", loc.getPlain("Defaults"));
 		case SPREADSHEET:
-			return app.getPlain("PreferencesOfA", app.getPlain("Spreadsheet"));
+			return loc.getPlain("PreferencesOfA", loc.getPlain("Spreadsheet"));
 		case EUCLIDIAN:
-			return app.getPlain("PreferencesOfA", app.getPlain("DrawingPad"));
+			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad"));
 		case EUCLIDIAN2:
-			return app.getPlain("PreferencesOfA", app.getPlain("DrawingPad2"));
+			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad2"));
 		case CAS:
-			return app.getPlain("PreferencesOfA", app.getPlain("CAS"));
+			return loc.getPlain("PreferencesOfA", loc.getPlain("CAS"));
 		case ADVANCED:
-			return app.getPlain("PreferencesOfA", app.getMenu("Advanced"));
+			return loc.getPlain("PreferencesOfA", app.getMenu("Advanced"));
 		case OBJECTS:
 			// return app.getMenu("Objects");
 			return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getPlain("PreferencesOfA", app.getMenu("Layout"));
+			return loc.getPlain("PreferencesOfA", app.getMenu("Layout"));
 		}
 		return null;
 	}
@@ -97,25 +105,25 @@ public abstract class PropertiesView implements View {
 	 * @param type
 	 * @return short version of Option type string
 	 */
-	final public static String getTypeStringSimple(App app, OptionType type) {
+	final public static String getTypeStringSimple(Localization loc, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getPlain("Defaults");
+			return loc.getPlain("Defaults");
 		case SPREADSHEET:
-			return app.getPlain("Spreadsheet");
+			return loc.getPlain("Spreadsheet");
 		case EUCLIDIAN:
-			return app.getPlain("DrawingPad");
+			return loc.getPlain("DrawingPad");
 		case EUCLIDIAN2:
-			return app.getPlain("DrawingPad2");
+			return loc.getPlain("DrawingPad2");
 		case CAS:
-			return app.getPlain("CAS");
+			return loc.getPlain("CAS");
 		case ADVANCED:
-			return app.getMenu("Advanced");
+			return loc.getMenu("Advanced");
 		case OBJECTS:
-			return app.getMenu("Objects");
+			return loc.getMenu("Objects");
 			// return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getMenu("Layout");
+			return loc.getMenu("Layout");
 		}
 		return null;
 	}

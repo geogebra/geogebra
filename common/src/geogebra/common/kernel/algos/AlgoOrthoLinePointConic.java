@@ -156,7 +156,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.toGeoElement().getLabel(tpl));
+        return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.toGeoElement().getLabel(tpl));
     }
 
 	// TODO Consider locusequability

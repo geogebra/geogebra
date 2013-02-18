@@ -73,7 +73,7 @@ public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-        return app.getPlain("MidpointOfA",((GeoElement) segment).getLabel(tpl));
+        return loc.getPlain("MidpointOfA",((GeoElement) segment).getLabel(tpl));
 
     }
 

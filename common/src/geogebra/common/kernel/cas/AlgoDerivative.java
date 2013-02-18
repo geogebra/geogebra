@@ -202,15 +202,15 @@ public class AlgoDerivative extends AlgoCasBase {
 	        	char firstCh = orderStr.charAt(0);
 	        	if (firstCh >= '0' && firstCh <= '9') {
 	        		// numeric, convert 3 -> 3rd (in current locale)
-	        		orderStr = app.getOrdinalNumber((int)order.getDouble());
+	        		orderStr = loc.getOrdinalNumber((int)order.getDouble());
 	        	} else {
 	        		// symbolic, convert n -> nth (in current locale)
-	        		orderStr = app.getPlain("Ath", orderStr); 
+	        		orderStr = loc.getPlain("Ath", orderStr); 
 	        	}
 
-	        	sb.append(app.getPlain("ADerivativeOfB", orderStr, f.toGeoElement().getLabel(tpl)));
+	        	sb.append(loc.getPlain("ADerivativeOfB", orderStr, f.toGeoElement().getLabel(tpl)));
 	        } else {
-	        	sb.append(app.getPlain("DerivativeOfA",f.toGeoElement().getLabel(tpl)));
+	        	sb.append(loc.getPlain("DerivativeOfA",f.toGeoElement().getLabel(tpl)));
 	        }
         }
         

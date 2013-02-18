@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 
 /**
  * 
@@ -41,6 +42,7 @@ import geogebra.common.main.App;
 public class Relation {
 
 	private App app;
+	private Localization loc;
 	private Construction cons;
 
 	/**
@@ -49,6 +51,7 @@ public class Relation {
 	 */
 	public Relation(Kernel kernel) {
 		app = kernel.getApplication();
+		loc = app.getLocalization();
 		cons = kernel.getConstruction();
 	}
 
@@ -366,10 +369,10 @@ public class Relation {
 	final private String equalityStringExact(GeoElement a, GeoElement b,
 			boolean equal) {
 		if (equal) {
-			return app.getPlain("AandBareEqual", a.getNameDescription(),
+			return loc.getPlain("AandBareEqual", a.getNameDescription(),
 					b.getNameDescription());
 		}
-		return app.getPlain("AandBareNotEqual", a.getNameDescription(),
+		return loc.getPlain("AandBareNotEqual", a.getNameDescription(),
 				b.getNameDescription());
 	}
 
@@ -484,12 +487,12 @@ public class Relation {
 	private String getPlainNumerical(String string, String nameDescription,
 			String nameDescription2) {
 
-		return app.getPlain(string, nameDescription, nameDescription2) + "\n"
+		return loc.getPlain(string, nameDescription, nameDescription2) + "\n"
 				+ app.getPlain("CheckedNumerically");
 	}
 
 	private String getPlainNumerical(String string, String nameDescription) {
-		return app.getPlain(string, nameDescription) + "\n"
+		return loc.getPlain(string, nameDescription) + "\n"
 				+ app.getPlain("CheckedNumerically");
 	}
 

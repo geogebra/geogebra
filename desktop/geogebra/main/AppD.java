@@ -38,13 +38,13 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
@@ -144,7 +144,6 @@ import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -2387,7 +2386,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			updateResourceBundles();
 		}
 
-		updateLanguageFlags(locale.getLanguage());
+		getLocalization().updateLanguageFlags(locale.getLanguage());
 
 	}
 
@@ -2475,19 +2474,19 @@ public class AppD extends App implements KeyEventDispatcher {
 			case '0':
 				return getColor("white");
 			case '1':
-				return getPlain("AGray", Unicode.fraction1_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction1_8);
 			case '2':
-				return getPlain("AGray", Unicode.fraction1_4); // silver
+				return getLocalization().getPlain("AGray", Unicode.fraction1_4); // silver
 			case '3':
-				return getPlain("AGray", Unicode.fraction3_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction3_8);
 			case '4':
-				return getPlain("AGray", Unicode.fraction1_2);
+				return getLocalization().getPlain("AGray", Unicode.fraction1_2);
 			case '5':
-				return getPlain("AGray", Unicode.fraction5_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction5_8);
 			case '6':
-				return getPlain("AGray", Unicode.fraction3_4);
+				return getLocalization().getPlain("AGray", Unicode.fraction3_4);
 			case '7':
-				return getPlain("AGray", Unicode.fraction7_8);
+				return getLocalization().getPlain("AGray", Unicode.fraction7_8);
 			default:
 				return getColor("black");
 			}
@@ -2713,7 +2712,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		while (enume.hasMoreElements()) {
 			s = enume.nextElement();
 			// check isn't .Syntax, .SyntaxCAS, .Syntax3D
-			if (s.indexOf(syntaxStr) == -1) {
+			if (s.indexOf(Localization.syntaxStr) == -1) {
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
 				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
@@ -2765,23 +2764,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	protected String getSyntaxString() {
-		return syntaxStr;
+		return Localization.syntaxStr;
 	}
 
-	/**
-	 * @param key
-	 *            command name
-	 * @return CAS syntax
-	 */
-	public String getCommandSyntaxCAS(String key) {
-
-		String command = getCommand(key);
-		String syntax = getCommand(key + syntaxCAS);
-
-		syntax = syntax.replace("[", command + '[');
-
-		return syntax;
-	}
+	
 
 	/**
 	 * Gets particular setting for HTML export
@@ -4849,7 +4835,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	
 	
-	public void checkCommands(HashMap<String, CommandProcessor> map) {
+	/*public void checkCommands(HashMap<String, CommandProcessor> map) {
 		initTranslatedCommands();
 
 		if (rbcommand == null) {
@@ -4871,7 +4857,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				}
 			}
 		}
-	}
+	}*/
 
 	@Override
 	public void setScrollToShow(boolean b) {
@@ -5203,7 +5189,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public String borderEast() {
 		// return app.borderEast();
-		if (isRightToLeftReadingOrder()) {
+		if (getLocalization().isRightToLeftReadingOrder()) {
 			return "West";
 		} else {
 			return "East";
@@ -5218,7 +5204,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public String borderWest() {
 		// return app.borderWest();
-		if (!isRightToLeftReadingOrder()) {
+		if (!getLocalization().isRightToLeftReadingOrder()) {
 			return "West";
 		} else {
 			return "East";
@@ -5232,7 +5218,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * return int rather than FlowLayout.LEFT so we're not dependent on awt
 	 */
 	public int flowLeft() {
-		if (!isRightToLeftReadingOrder()) {
+		if (!getLocalization().isRightToLeftReadingOrder()) {
 			return 0; // left
 		} else {
 			return 2; // right
@@ -5246,7 +5232,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * return int rather than FlowLayout.RIGHT so we're not dependent on awt
 	 */
 	public int flowRight() {
-		if (isRightToLeftReadingOrder()) {
+		if (getLocalization().isRightToLeftReadingOrder()) {
 			return 0; // left
 		} else {
 			return 2; // right
@@ -5369,7 +5355,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 
 	public ComponentOrientation getComponentOrientation() {
-		return isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT
+		return getLocalization().isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT
 				: ComponentOrientation.LEFT_TO_RIGHT;
 	}
 
@@ -5377,8 +5363,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	private ListCellRenderer renderer = new DefaultListCellRenderer();
 
 	public void setComponentOrientation(Component c) {
-
-		ComponentOrientation orientation = isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT
+		boolean rtl = getLocalization().isRightToLeftReadingOrder();
+		ComponentOrientation orientation = rtl ? ComponentOrientation.RIGHT_TO_LEFT
 				: ComponentOrientation.LEFT_TO_RIGHT;
 		c.setComponentOrientation(orientation);
 		// c.applyComponentOrientation(orientation);
@@ -5391,12 +5377,12 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		} else if (c instanceof JTextField) {
 			((JTextField) c)
-					.setHorizontalAlignment(isRightToLeftReadingOrder() ? JTextField.RIGHT
+					.setHorizontalAlignment(rtl ? JTextField.RIGHT
 							: JTextField.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			((JLabel) renderer)
-					.setHorizontalAlignment(isRightToLeftReadingOrder() ? SwingConstants.RIGHT
+					.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
 							: SwingConstants.LEFT);
 			cb.setRenderer(renderer);
 		} else if (c instanceof Container) {
@@ -5415,7 +5401,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param panel
 	 */
 	public void setFlowLayoutOrientation(JPanel panel) {
-		if (isRightToLeftReadingOrder())
+		if (getLocalization().isRightToLeftReadingOrder())
 			panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		else
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));

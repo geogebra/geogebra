@@ -1620,9 +1620,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		String str;
 		String name;
 		if (isFromMeta())
-			name = app.getPlainLabel("face"); // Name.face
+			name = loc.getPlainLabel("face"); // Name.face
 		else
-			name = app.getPlainLabel("polygon"); // Name.polygon
+			name = loc.getPlainLabel("polygon"); // Name.polygon
 		do {
 			counter++;
 			str = name

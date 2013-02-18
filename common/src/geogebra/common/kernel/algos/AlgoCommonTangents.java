@@ -269,7 +269,7 @@ public class AlgoCommonTangents extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("CommonTangentOfCirclesAandB", c.getLabel(tpl), c2.getLabel(tpl));
+        return loc.getPlain("CommonTangentOfCirclesAandB", c.getLabel(tpl), c2.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

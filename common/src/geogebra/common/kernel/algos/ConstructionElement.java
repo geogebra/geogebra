@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 
 import java.util.TreeSet;
 
@@ -33,6 +34,7 @@ public abstract class ConstructionElement implements
 	public transient Kernel kernel; 
 	/** parent application of this element */
 	protected transient App app; 
+	protected Localization loc;
 
 
 	private int constIndex = -1; // index in construction list
@@ -57,6 +59,7 @@ public abstract class ConstructionElement implements
 		cons = c;
 		kernel = c.getKernel();
 		app = c.getApplication();
+		loc = app.getLocalization();
 	}
 
 	/**

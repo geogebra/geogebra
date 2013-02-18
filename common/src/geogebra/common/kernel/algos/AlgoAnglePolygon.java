@@ -127,7 +127,7 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
 final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("AngleOfA",poly.getLabel(tpl));
+        return loc.getPlain("AngleOfA",poly.getLabel(tpl));
     }
     
     protected OutputHandler<GeoElement> createOutputPoints(){

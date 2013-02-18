@@ -76,7 +76,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return app.getPlain("LineThroughAPerpendicularToBinSpace",point.getLabel(tpl),inputOrtho.getLabel(tpl));
+    	return loc.getPlain("LineThroughAPerpendicularToBinSpace",point.getLabel(tpl),inputOrtho.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

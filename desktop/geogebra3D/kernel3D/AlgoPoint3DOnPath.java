@@ -95,7 +95,7 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
         StringBuilder sb = new StringBuilder();
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        sb.append(app.getPlain("PointOnA",input[0].getLabel(tpl)));
+        sb.append(loc.getPlain("PointOnA",input[0].getLabel(tpl)));
         
         return sb.toString();
     }

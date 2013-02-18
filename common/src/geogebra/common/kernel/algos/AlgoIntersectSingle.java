@@ -248,10 +248,10 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (refPoint == null) {
-			return app.getPlain("IntersectionPointOfAB", input[0].getLabel(tpl),
+			return loc.getPlain("IntersectionPointOfAB", input[0].getLabel(tpl),
 					input[1].getLabel(tpl));
 		}
-		return app.getPlain("IntersectionPointOfABNearC", input[0].getLabel(tpl),
+		return loc.getPlain("IntersectionPointOfABNearC", input[0].getLabel(tpl),
 				input[1].getLabel(tpl), input[2].getLabel(tpl));
 	}
 

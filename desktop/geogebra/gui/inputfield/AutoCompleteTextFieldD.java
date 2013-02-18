@@ -14,6 +14,7 @@ import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
@@ -43,6 +44,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
+	private Localization loc;
 	private StringBuilder curWord;
 	private int curWordStart;
 
@@ -107,6 +109,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 			setColumns(columns);
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		setAutoComplete(true);
 		this.handleEscapeKey = handleEscapeKey;
 		curWord = new StringBuilder();
@@ -206,7 +209,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	 *            True or false.
 	 */
 	public void setAutoComplete(boolean val) {
-		autoComplete = val && app.isAutoCompletePossible();
+		autoComplete = val && app.getLocalization().isAutoCompletePossible();
 
 		if (autoComplete)
 			app.initTranslatedCommands();
@@ -224,7 +227,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	 * @return True or false.
 	 */
 	public boolean getAutoComplete() {
-		return autoComplete && app.isAutoCompletePossible();
+		return autoComplete && loc.isAutoCompletePossible();
 	}
 
 	public String getCurrentWord() {
@@ -768,18 +771,18 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);
-
+			Localization loc = app.getLocalization();
 			String syntaxString;
-			String suffix = App.syntaxStr;
+			String suffix = Localization.syntaxStr;
 			if (isCASInput) {
-				syntaxString = app.getCommandSyntaxCAS(cmdInt);
-				if (syntaxString.endsWith(App.syntaxCAS)) {
-					syntaxString = app.getCommandSyntax(cmdInt);
+				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
+				if (syntaxString.endsWith(Localization.syntaxCAS)) {
+					syntaxString = loc.getCommandSyntax(cmdInt);
 				} else {
-					suffix = App.syntaxCAS;
+					suffix = Localization.syntaxCAS;
 				}
 			} else {
-				syntaxString = app.getCommandSyntax(cmdInt);
+				syntaxString = loc.getCommandSyntax(cmdInt);
 			}
 			if (syntaxString.endsWith(suffix)) {
 
@@ -899,12 +902,13 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	 */
 	private void showCommandHelp(String cmd, boolean cas) {
 		// show help for current command (current word)
-		String help = cas ? app.getCommandSyntaxCAS(cmd) : app
+		Localization loc = app.getLocalization();
+		String help = cas ? loc.getCommandSyntaxCAS(cmd) : loc
 				.getCommandSyntax(cmd);
 
 		// show help if available
 		if (help != null) {
-			app.showError(new MyError(app, app.getPlain("Syntax") + ":\n"
+			app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n"
 					+ help, cmd));
 		} else {
 			app.getGuiManager().openCommandHelp(null);
@@ -933,14 +937,14 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		// String syntax = app.getCommand(key);
 		String syntax;
 		if (isCASInput) {
-			syntax = app.getCommandSyntaxCAS(internalCmd);
+			syntax = app.getLocalization().getCommandSyntaxCAS(internalCmd);
 		} else {
-			syntax = app.getCommandSyntax(internalCmd);
+			syntax = app.getLocalization().getCommandSyntax(internalCmd);
 		}
 
 		// check if we really found syntax information
 		// if (key.equals(syntax)) return null;
-		if (syntax.indexOf(App.syntaxStr) == -1)
+		if (syntax.indexOf(Localization.syntaxStr) == -1)
 			return null;
 
 		// build html tooltip
@@ -968,9 +972,9 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 				String command = app.getReverseCommand(getCurrentWord()); 
 				if (command != null) { 
 
-					app.showError(new MyError(app, app.getError("InvalidInput") 
+					app.showError(new MyError(loc, loc.getError("InvalidInput") 
 							+ "\n\n" + app.getPlain("Syntax") + ":\n" 
-							+ app.getCommandSyntax(command), getCurrentWord())); 
+							+ loc.getCommandSyntax(command), getCurrentWord())); 
 					return; 
 				} 
 			} else if (err == MyException.IMBALANCED_BRACKETS) {
@@ -981,7 +985,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 		// can't work out anything better, just show "Invalid Input"
 		e.printStackTrace();
-		app.showError(app.getError("InvalidInput"));
+		app.showError(loc.getError("InvalidInput"));
 
 	}
 

@@ -95,7 +95,7 @@ public class AlgoAxisFirst extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("FirstAxisOfA",c.getLabel(tpl));
+        return loc.getPlain("FirstAxisOfA",c.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

@@ -290,9 +290,9 @@ public class AlgoPolygon extends AlgoElement {
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
   
-        final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+        final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
         if (!reverseOrder) {
-        	sb.append(app.getPlain("Polygon"));
+        	sb.append(loc.getPlain("Polygon"));
         	sb.append(' ');
         }
         
@@ -313,14 +313,14 @@ public class AlgoPolygon extends AlgoElement {
 
         if (reverseOrder) {
         	sb.append(' ');
-        	sb.append(app.getPlain("Polygon").toLowerCase());
+        	sb.append(loc.getPlain("Polygon").toLowerCase());
         }
 
 		// FIXME: for reverseOrder==true languages
         // this may (must?) be put as first
 		if (polyhedron!=null){
             sb.append(' ');
-            sb.append(app.getPlain("of"));
+            sb.append(loc.getPlain("of"));
             sb.append(' ');
         	sb.append(polyhedron.getLabel(tpl));
         }       

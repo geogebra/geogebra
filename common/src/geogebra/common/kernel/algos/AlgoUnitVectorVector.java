@@ -91,7 +91,7 @@ public class AlgoUnitVectorVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-    	return app.getPlain("UnitVectorOfA",v.getLabel(tpl));
+    	return loc.getPlain("UnitVectorOfA",v.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

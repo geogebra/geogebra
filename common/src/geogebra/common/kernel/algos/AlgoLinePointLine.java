@@ -125,7 +125,7 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return app.getPlain("LineThroughAParallelToB",P.getLabel(tpl),l.getLabel(tpl));
+    	return loc.getPlain("LineThroughAParallelToB",P.getLabel(tpl),l.getLabel(tpl));
 
     }
 

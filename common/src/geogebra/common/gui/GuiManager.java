@@ -284,7 +284,7 @@ public abstract class GuiManager {
 		}
 	
 		if (!success && !suppressErrorMsg) {
-			getApp().showError(getApp().getError("LoadFileFailed") + "\n" + processedUrlString);
+			getApp().showError(getApp().getLocalization().getError("LoadFileFailed") + "\n" + processedUrlString);
 		}
 	
 		updateGUIafterLoadFile(success, isMacroFile);

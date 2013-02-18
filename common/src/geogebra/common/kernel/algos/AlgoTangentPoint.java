@@ -211,7 +211,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return app.getPlain("TangentToAThroughB",c.getLabel(tpl),P.getLabel(tpl));
+    	return loc.getPlain("TangentToAThroughB",c.getLabel(tpl),P.getLabel(tpl));
 
     }
 

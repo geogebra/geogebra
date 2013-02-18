@@ -433,7 +433,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		// ========================================
 		// text size button
 
-		String[] textSizeArray = app.getFontSizeStrings();
+		String[] textSizeArray = app.getLocalization().getFontSizeStrings();
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
 				new Dimension(-1, iconHeight),

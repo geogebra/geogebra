@@ -242,16 +242,16 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
         switch(geoClassType){
     	case SEGMENT3D:
     		if (poly!=null)
-                sb.append(app.getPlain("SegmentABofC",P.getLabel(tpl),Q.getLabel(tpl),
+                sb.append(loc.getPlain("SegmentABofC",P.getLabel(tpl),Q.getLabel(tpl),
                 		poly.getNameDescription()));
     		else
-    			sb.append(app.getPlain("SegmentAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
+    			sb.append(loc.getPlain("SegmentAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
     		break;
     	case LINE3D:
-    		sb.append(app.getPlain("LineThroughAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
+    		sb.append(loc.getPlain("LineThroughAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
     		break;
     	case RAY3D:
-    		sb.append(app.getPlain("RayThroughAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
+    		sb.append(loc.getPlain("RayThroughAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
     		break;
     	}	
 

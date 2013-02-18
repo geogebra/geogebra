@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
@@ -63,6 +64,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
 	  private AppW app;
+	  private Localization loc;
 	  private StringBuilder curWord;
 	  private int curWordStart;
 
@@ -178,6 +180,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    add(showSymbolButton);
 
 		    this.app = app;
+		    this.loc = app.getLocalization();
 		    setAutoComplete(true);
 		    this.handleEscapeKey = handleEscapeKey;
 		    curWord = new StringBuilder();
@@ -278,7 +281,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	   *          True or false.
 	   */
 	  public void setAutoComplete(boolean val) {
-	    autoComplete = val && app.isAutoCompletePossible();
+	    autoComplete = val && loc.isAutoCompletePossible();
 
 	    if (autoComplete)
 	      app.initTranslatedCommands();
@@ -339,11 +342,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 		      String syntaxString;
 		      if (isCASInput) {
-		        syntaxString = app.getCommandSyntaxCAS(cmdInt);
+		        syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 		      } else {
-		        syntaxString = app.getCommandSyntax(cmdInt);
+		        syntaxString = loc.getCommandSyntax(cmdInt);
 		      }
-		      if (syntaxString.endsWith(isCASInput ? AppW.syntaxCAS
+		      if (syntaxString.endsWith(isCASInput ? Localization.syntaxCAS
 		          : AppW.syntaxStr)) {
 
 		        // command not found, check for macros
@@ -477,9 +480,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 	    if (wordStart >= 0 && wordEnd <= length) {
 	      return text.substring(wordStart, wordEnd);
-	    } else {
-	      return null;
 	    }
+		return null;
 	  }
 	
 	 /**
@@ -490,11 +492,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	   */
 	  private void showCommandHelp(String cmd) {
 	    // show help for current command (current word)
-	    String help = app.getCommandSyntax(cmd);
+	    String help = loc.getCommandSyntax(cmd);
 
 	    // show help if available
 	    if (help != null) {
-	      app.showError(new MyError(app, app.getPlain("Syntax") + ":\n" + help, cmd));
+	      app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n" + help, cmd));
 	    } else {
 	      app.getGuiManager().openCommandHelp(null);
 	    }
@@ -578,8 +580,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		        String command = app.getReverseCommand(getCurrentWord());
 		        if (command != null) {
 
-		          app.showError(new MyError(app, app.getError("InvalidInput") + "\n\n"
-		              + app.getPlain("Syntax") + ":\n" + app.getCommandSyntax(command),
+		          app.showError(new MyError(loc, loc.getError("InvalidInput") + "\n\n"
+		              + loc.getPlain("Syntax") + ":\n" + loc.getCommandSyntax(command),
 		              getCurrentWord()));
 		          return;
 		        }
@@ -600,7 +602,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 
 	public boolean getAutoComplete() {
-		 return autoComplete && app.isAutoCompletePossible();
+		 return autoComplete && loc.isAutoCompletePossible();
     }
 	
 	/**

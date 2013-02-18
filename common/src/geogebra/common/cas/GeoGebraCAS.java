@@ -206,7 +206,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			String ret = evaluateGeoGebraCAS(inVE, arbconst);
 			if (ret == null)
 				throw new CASException(new Exception(
-						app.getError("CAS.GeneralErrorMessage")));
+						app.getLocalization().getError("CAS.GeneralErrorMessage")));
 			return ret;
 		} catch (Throwable t) {
 			t.printStackTrace();

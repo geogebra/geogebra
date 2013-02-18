@@ -97,7 +97,7 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("ConicFromCoeffListA", L.getLabel(tpl));
+		return loc.getPlain("ConicFromCoeffListA", L.getLabel(tpl));
 	}
 
 	// TODO Consider locusequability

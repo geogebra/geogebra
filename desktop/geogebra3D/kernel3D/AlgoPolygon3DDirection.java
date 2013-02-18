@@ -91,7 +91,7 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 	protected void createStringBuilder(StringTemplate tpl){
     	super.createStringBuilder(tpl);
         sb.append(' ');
-        sb.append(app.getPlain("parallelTo"));
+        sb.append(loc.getPlain("parallelTo"));
         sb.append(' ');
         sb.append(((GeoElement) direction).getLabel(tpl));
     }

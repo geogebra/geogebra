@@ -1593,7 +1593,7 @@ public class Construction {
 					.debug("replace failed: oldXML string not found:\n"
 							+ oldXML);
 			// Application.debug("consXML=\n" + consXML);
-			throw new MyError(getApplication(), "ReplaceFailed");
+			throw new MyError(getApplication().getLocalization(), "ReplaceFailed");
 		}
 
 		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +

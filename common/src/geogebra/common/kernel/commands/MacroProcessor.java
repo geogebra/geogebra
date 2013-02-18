@@ -58,10 +58,10 @@ public class MacroProcessor extends CommandProcessor {
 			
 			if (!lengthOk) {
 				StringBuilder sb = new StringBuilder();
-		        sb.append(app.getMenu("Macro") + " " + macro.getCommandName() + ":\n");
-		        sb.append(app.getError("IllegalArgumentNumber") + ": " + arg.length);
+		        sb.append(loc.getMenu("Macro") + " " + macro.getCommandName() + ":\n");
+		        sb.append(loc.getError("IllegalArgumentNumber") + ": " + arg.length);
 		        sb.append("\n\nSyntax:\n" + macro.toString());
-				throw new MyError(app, sb.toString());
+				throw new MyError(loc, sb.toString());
 			}
 		}				
 		
@@ -69,11 +69,11 @@ public class MacroProcessor extends CommandProcessor {
 		for (int i=0; i < macroInputTypes.length; i++) {
 			if (!macroInputTypes[i].check(arg[i]))	{				
 				StringBuilder sb = new StringBuilder();
-		        sb.append(app.getPlain("Macro") + " " + macro.getCommandName() + ":\n");
-		        sb.append(app.getError("IllegalArgument") + ": ");	            
+		        sb.append(loc.getPlain("Macro") + " " + macro.getCommandName() + ":\n");
+		        sb.append(loc.getError("IllegalArgument") + ": ");	            
 	            sb.append(arg[i].getNameDescription());	            	            
 		        sb.append("\n\nSyntax:\n" + macro.toString());
-		        throw new MyError(app, sb.toString());
+		        throw new MyError(loc, sb.toString());
 			}
 		}
 		

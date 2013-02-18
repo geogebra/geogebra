@@ -2,8 +2,8 @@ package geogebra.common.main;
 
 public class BracketsError extends MyError {
 
-	public BracketsError(App app, String errorName) {
-		super(app, new String[]{"UnbalancedBrackets",errorName});
+	public BracketsError(Localization loc, String errorName) {
+		super(loc, new String[]{"UnbalancedBrackets",errorName});
 		
 	}
 

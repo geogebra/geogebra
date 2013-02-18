@@ -417,7 +417,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 
 		AbstractAction action;
 
-		action = new AbstractAction(app.getPlain("ShowAas2DView", geo.getLabelSimple())) {
+		action = new AbstractAction(app.getLocalization().getPlain("ShowAas2DView", geo.getLabelSimple())) {
 			/**
 			 * 
 			 */

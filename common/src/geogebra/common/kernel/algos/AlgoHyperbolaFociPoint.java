@@ -138,7 +138,7 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
 
     @Override
 	final public String toString(StringTemplate tpl) {
-        return app.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
+        return loc.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
         		B.getLabel(tpl),C.getLabel(tpl));               
     }
 

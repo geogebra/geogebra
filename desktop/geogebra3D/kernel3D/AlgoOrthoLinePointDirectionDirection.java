@@ -84,12 +84,12 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 	public String toString(StringTemplate tpl) {
     	//point, plane, line
     	if (direction1 instanceof GeoCoordSys2D)
-    		return app.getPlain("LineThroughAParallelToBPerpendicularToC",point.getLabel(tpl),direction1.getLabel(tpl),direction2.getLabel(tpl));
+    		return loc.getPlain("LineThroughAParallelToBPerpendicularToC",point.getLabel(tpl),direction1.getLabel(tpl),direction2.getLabel(tpl));
     	//point, line, plane
     	if (direction2 instanceof GeoCoordSys2D)
-    		return app.getPlain("LineThroughAPerpendicularToBParallelToC",point.getLabel(tpl),direction1.getLabel(tpl),direction2.getLabel(tpl));
+    		return loc.getPlain("LineThroughAPerpendicularToBParallelToC",point.getLabel(tpl),direction1.getLabel(tpl),direction2.getLabel(tpl));
     	//point, line, line
-    	return app.getPlain("LineThroughAPerpendicularToBAndC",point.getLabel(tpl),direction1.getLabel(tpl),direction2.getLabel(tpl));
+    	return loc.getPlain("LineThroughAPerpendicularToBAndC",point.getLabel(tpl),direction1.getLabel(tpl),direction2.getLabel(tpl));
     	
     }
     

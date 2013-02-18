@@ -228,7 +228,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		// Michael Borcherds 2008-03-25
 		// a Chinese friendly version
 		InputDialogD id = new InputDialogD(((AppD) app), "<html>"
-				+ app.getPlain("NewNameForA", "<b>" + geo.getNameDescription()
+				+ app.getLocalization().getPlain("NewNameForA", "<b>" + geo.getNameDescription()
 						+ "</b>") + // eg New name for <b>Segment a</b>
 				"</html>", app.getPlain("Rename"), initText, false, handler,
 				false, selectInitText, null);

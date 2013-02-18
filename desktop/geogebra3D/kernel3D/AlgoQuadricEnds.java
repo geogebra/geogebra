@@ -143,7 +143,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     
     /*
     final public String toString() {
-    	return app.getPlain("EndsOfABetweenBC",((GeoElement) quadric).getLabel(),point.getLabel(),pointThrough.getLabel());
+    	return loc.getPlain("EndsOfABetweenBC",((GeoElement) quadric).getLabel(),point.getLabel(),pointThrough.getLabel());
     }
     */
 

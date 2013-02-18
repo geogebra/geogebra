@@ -81,7 +81,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	
 	/*
     final public String toString() {
-    	return app.getPlain("SideOfABetweenBC",((GeoElement) getInputQuadric()).getLabel(),point.getLabel(),pointThrough.getLabel());
+    	return loc.getPlain("SideOfABetweenBC",((GeoElement) getInputQuadric()).getLabel(),point.getLabel(),pointThrough.getLabel());
     }
 	 */
 

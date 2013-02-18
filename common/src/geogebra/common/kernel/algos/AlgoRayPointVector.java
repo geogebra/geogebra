@@ -117,7 +117,7 @@ public class AlgoRayPointVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("RayThroughAWithDirectionB",P.getLabel(tpl),v.getLabel(tpl));
+        return loc.getPlain("RayThroughAWithDirectionB",P.getLabel(tpl),v.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

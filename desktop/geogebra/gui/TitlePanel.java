@@ -131,7 +131,7 @@ public class TitlePanel extends JPanel {
 			StringBuilder sb = new StringBuilder();
 			
 			// in form 23 September 2012 (some languages don't want eg 25e, 25ª so omit "th" for all)
-			String format = app.isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
+			String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
 			
 			CmdGetTime.buildLocalizedDate(sb, format, app);
 			

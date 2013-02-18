@@ -191,8 +191,8 @@ public class ToolbarD extends JToolBar {
 		boolean firstButton = true;
 		
 		// make the loop go backwards for eg Hebrew / Arabic
-		int first = app.isRightToLeftReadingOrder() ? toolbarVec.size() - 1 : 0;
-		int increment = app.isRightToLeftReadingOrder() ?  - 1 : 1;
+		int first = app.getLocalization().isRightToLeftReadingOrder() ? toolbarVec.size() - 1 : 0;
+		int increment = app.getLocalization().isRightToLeftReadingOrder() ?  - 1 : 1;
 		
 		//for (int i = 0; i < toolbarVec.size(); i++) {
 		for (int i = first ; i >=0 && i < toolbarVec.size(); i+=increment) {

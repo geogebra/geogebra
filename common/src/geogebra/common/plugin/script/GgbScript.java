@@ -53,7 +53,7 @@ public class GgbScript extends Script {
 				proc.processAlgebraCommandNoExceptionHandling(line, false, false, true);
 			} catch (Throwable e) {
 				throw new ScriptError( 
-					app.getPlain(
+					app.getLocalization().getPlain(
 						"ErrorInScriptAtLineAFromObjectB",
 						(i + 1) + "",
 						evt.target.getLabel(StringTemplate.defaultTemplate)
@@ -71,7 +71,7 @@ public class GgbScript extends Script {
 			if ((i % 2) == 0 || isFunction(starr,i,app)) {
 				retone.append(starr[i]);
 			} else {
-				retone.append(app.getCommand(starr[i]));
+				retone.append(app.getLocalization().getCommand(starr[i]));
 			}
 		}
 		return retone.toString();

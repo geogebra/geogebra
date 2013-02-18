@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -40,6 +41,7 @@ public class CellRangeProcessor {
 
 	private MyTable table;
 	private App app;
+	private Localization loc;
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
 
@@ -47,6 +49,7 @@ public class CellRangeProcessor {
 
 		this.table = table;
 		app = table.getKernel().getApplication();
+		loc = app.getLocalization();
 		tableModel = app.getSpreadsheetTableModel();
 		cons = table.getKernel().getConstruction();
 
@@ -886,7 +889,7 @@ public class CellRangeProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showErrorDialog(app.getPlain("CellAisNotDefined",
+						app.showErrorDialog(loc.getPlain("CellAisNotDefined",
 								GeoElementSpreadsheet.getSpreadsheetCellName(i,
 										j)));
 						return null;
@@ -910,7 +913,7 @@ public class CellRangeProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showErrorDialog(app.getPlain("CellAisNotDefined",
+						app.showErrorDialog(loc.getPlain("CellAisNotDefined",
 								GeoElementSpreadsheet.getSpreadsheetCellName(i,
 										j)));
 						return null;
@@ -1256,23 +1259,23 @@ public class CellRangeProcessor {
 		String s = "";
 
 		if (range.isColumn()) {
-			s = app.getCommand("Column")
+			s = loc.getCommand("Column")
 					+ " "
 					+ GeoElementSpreadsheet.getSpreadsheetColumnName(range
 							.getMinColumn());
 			if (!onlyFirstRowColumn && !range.is1D()) {
 				s += " : "
-						+ app.getCommand("Column")
+						+ loc.getCommand("Column")
 						+ " "
 						+ GeoElementSpreadsheet.getSpreadsheetColumnName(range
 								.getMaxColumn());
 			}
 
 		} else if (range.isRow()) {
-			s = app.getCommand("Row") + " " + (range.getMinRow() + 1);
+			s = loc.getCommand("Row") + " " + (range.getMinRow() + 1);
 
 			if (!onlyFirstRowColumn && !range.is1D()) {
-				s += " : " + app.getCommand("Row") + " "
+				s += " : " + loc.getCommand("Row") + " "
 						+ (range.getMaxRow() + 1);
 			}
 

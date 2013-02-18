@@ -100,7 +100,7 @@ public class AlgoAngleVectors extends AlgoElement implements AngleAlgo{
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("AngleBetweenAB",v.getLabel(tpl),w.getLabel(tpl));
+        return loc.getPlain("AngleBetweenAB",v.getLabel(tpl),w.getLabel(tpl));
 
     }
 

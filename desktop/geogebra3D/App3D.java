@@ -24,6 +24,7 @@ import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.Localization;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
@@ -317,7 +318,7 @@ public class App3D extends AppD {
 	@Override
 	public String getCommandSyntax(String key) {
 		String command = getCommand(key);
-		String key3D = key + syntax3D;
+		String key3D = key + Localization.syntax3D;
 		String syntax = getCommand(key3D);
 		if (!syntax.equals(key3D)) {
 			syntax = syntax.replace("[", command + '[');

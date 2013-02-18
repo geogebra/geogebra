@@ -152,7 +152,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
     @Override
 	final public String toString(StringTemplate tpl) {
 
-    	return app.getPlain(getIntersectionTypeString(),getCS1().getLabel(tpl),
+    	return loc.getPlain(getIntersectionTypeString(),getCS1().getLabel(tpl),
     			getCS2().getLabel(tpl));
        
     } 

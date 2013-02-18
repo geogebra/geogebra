@@ -328,7 +328,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 			App.debug("InvalidFunction:"
 					+ expression.toString(StringTemplate.defaultTemplate) + " " + ev.toString(StringTemplate.defaultTemplate)
 					+ ev.getClass().getName());
-			throw new MyError(kernel.getApplication(), "InvalidFunction");
+			throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
 		}
 	}
 

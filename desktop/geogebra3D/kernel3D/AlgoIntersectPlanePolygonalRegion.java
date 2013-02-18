@@ -49,7 +49,7 @@ public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygona
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-        return app.getPlain("IntersectionOfAandB",((GeoElement) plane).getLabel(tpl),p.getLabel(tpl));
+        return loc.getPlain("IntersectionOfAandB",((GeoElement) plane).getLabel(tpl),p.getLabel(tpl));
     }
 	
 

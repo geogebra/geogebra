@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
 import geogebra.web.main.AppW;
 import geogebra.web.main.GgbAPI;
@@ -64,7 +65,7 @@ public class LanguageCommand implements Command {
 
 	public void execute() {
 		Cookies.setCookie("GGWlang", localeCode);
-		if (App.rightToLeftReadingOrder(localeCode)){
+		if (Localization.rightToLeftReadingOrder(localeCode)){
 			LanguageCommand.setCookies(LanguageCommand.LOCALE_PARAMETER, "ar");
 		} else {
 			setCookies(LOCALE_PARAMETER, localeCode);
@@ -74,12 +75,12 @@ public class LanguageCommand implements Command {
 		//TODO: change "en" for the default language
 		//if there is no cookie yet, it starts with the default language
 		if (oldLang==null) oldLang="en";
-		boolean oldRTLOrder = App.rightToLeftReadingOrder(oldLang);
+		boolean oldRTLOrder = Localization.rightToLeftReadingOrder(oldLang);
 			
 		//On changing language from LTR/RTL the page will reload.
 		//The current workspace will be saved, and load back after page reloading.
 		//Otherwise only the language will change, and the setting related with language.
-		if (oldRTLOrder != app.rightToLeftReadingOrder){
+		if (oldRTLOrder != app.getLocalization().rightToLeftReadingOrder){
 			JavaScriptObject callback = saveBase64ToLocalStorage();
 			((GgbAPI) app.getGgbApi()).getBase64(callback);
 		} else {

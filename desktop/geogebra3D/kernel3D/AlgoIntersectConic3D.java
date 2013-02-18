@@ -121,7 +121,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
     
     @Override
 	public final String toString(StringTemplate tpl) {
-    	return app.getPlain("IntersectionPointOfAB",c.getLabel(tpl),firstGeo.getLabel(tpl));
+    	return loc.getPlain("IntersectionPointOfAB",c.getLabel(tpl),firstGeo.getLabel(tpl));
     }
 
     

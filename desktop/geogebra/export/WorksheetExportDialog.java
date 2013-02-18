@@ -1460,7 +1460,7 @@ public class WorksheetExportDialog extends JDialog {
 		appendWithLineBreak(sb, "</head>");
 
 		// Guy Hed 14/03/2011
-		if (app2.isRightToLeftReadingOrder())
+		if (app2.getLocalization().isRightToLeftReadingOrder())
 			appendWithLineBreak(sb, "<body dir='rtl'>");
 		else
 			appendWithLineBreak(sb, "<body>");

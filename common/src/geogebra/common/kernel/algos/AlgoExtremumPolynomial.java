@@ -72,7 +72,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("ExtremumOfA",f.getLabel(tpl));
+        return loc.getPlain("ExtremumOfA",f.getLabel(tpl));
 
     }
 

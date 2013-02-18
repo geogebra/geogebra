@@ -121,7 +121,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (isLabelSet() && !isBooleanFunction()
 				&& this.isFunctionOfY()) {
 			this.remove();
-			throw new MyError(app, "InvalidFunction");
+			throw new MyError(app.getLocalization(), "InvalidFunction");
 		}
 	}
 	/**

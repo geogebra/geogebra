@@ -60,7 +60,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	
 	@Override
 	protected String getPlainTitle(){
-		return app.getPlain(getViewTitle(),view.getTranslatedFromPlaneString());
+		return app.getLocalization().getPlain(getViewTitle(),view.getTranslatedFromPlaneString());
 	}
 
 	@Override

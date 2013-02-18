@@ -198,8 +198,8 @@ public class CommandDispatcher {
 		}
 
 		if (cmdProc == null)
-			throw new MyError(app, app.getError("UnknownCommand") + " : "
-					+ app.getCommand(c.getName()));
+			throw new MyError(app.getLocalization(), app.getLocalization().getError("UnknownCommand") + " : "
+					+ app.getLocalization().getCommand(c.getName()));
 
 		// switch on macro mode to avoid labeling of output if desired
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -214,7 +214,7 @@ public class CommandDispatcher {
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			e.printStackTrace();
-			throw new MyError(app, app.getError("CAS.GeneralErrorMessage"));
+			throw new MyError(app.getLocalization(), "CAS.GeneralErrorMessage");
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}

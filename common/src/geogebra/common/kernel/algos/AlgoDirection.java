@@ -97,7 +97,7 @@ public class AlgoDirection extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("DirectionOfA",g.getLabel(tpl));
+        return loc.getPlain("DirectionOfA",g.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

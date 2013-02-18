@@ -34,7 +34,7 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 	
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return app.getPlain(getPlainName(),getOrigin().getLabel(tpl),
+    	return loc.getPlain(getPlainName(),getOrigin().getLabel(tpl),
     			getSecondInput().getLabel(tpl),getNumber().getLabel(tpl));
 
     }

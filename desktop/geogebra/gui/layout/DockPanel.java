@@ -409,7 +409,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 		JPanel p = new JPanel(new FlowLayout(app.flowLeft(), 2, 1));
 
-		if (app.isRightToLeftReadingOrder()) {
+		if (app.getLocalization().isRightToLeftReadingOrder()) {
 			p.add(titleLabel);
 			p.add(Box.createHorizontalStrut(2));
 			if (this.hasStyleBar) {
@@ -441,7 +441,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		// create button panel
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(app.flowRight(), 0, 1));
-		if (app.isRightToLeftReadingOrder()) {
+		if (app.getLocalization().isRightToLeftReadingOrder()) {
 			buttonPanel.add(closeButton);
 			buttonPanel.add(Box.createHorizontalStrut(4));
 			buttonPanel.add(windowButton);

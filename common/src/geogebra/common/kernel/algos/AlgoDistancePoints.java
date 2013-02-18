@@ -98,7 +98,7 @@ public class AlgoDistancePoints extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("DistanceOfAandB",P.getLabel(tpl),Q.getLabel(tpl));
+        return loc.getPlain("DistanceOfAandB",P.getLabel(tpl),Q.getLabel(tpl));
 
     }
 

@@ -2,6 +2,7 @@ package geogebra.common.gui.util;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  */
 public class TableSymbols {
 
-	public final static String[][] basicSymbolsMap(App app) {
+	public final static String[][] basicSymbolsMap(Localization app) {
 
 		String[][] array = {
 				{ Unicode.alpha+"" , app.getPlain("GreekCharacterA", Unicode.alpha+"" ) },  //lowercaseGreekALPHA
@@ -84,7 +85,7 @@ public class TableSymbols {
 
 	}
 
-	public final static String[] basicSymbols(App app){
+	public final static String[] basicSymbols(Localization app){
 
 		ArrayList<String> extraSymbols = new ArrayList<String>();
 		
@@ -107,7 +108,7 @@ public class TableSymbols {
 	}
 
 
-	public final static String[] basicSymbolsToolTips(App app){
+	public final static String[] basicSymbolsToolTips(Localization app){
 
 		ArrayList<String> extraTooltips = new ArrayList<String>();
 		

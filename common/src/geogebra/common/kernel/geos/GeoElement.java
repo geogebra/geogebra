@@ -2319,7 +2319,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return true;
 		} else {
 			final String str[] = { "NameUsed", newLabel };
-			throw new MyError(app, str);
+			throw new MyError(loc, str);
 		}
 	}
 
@@ -2524,7 +2524,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 		}
 
-		return app.translationFix(captionSB.toString());
+		return loc.translationFix(captionSB.toString());
 	}
 	/** @return caption without substitution; returns "" if caption is null*/
 	public String getRawCaption() {
@@ -2880,13 +2880,13 @@ public abstract class GeoElement extends ConstructionElement implements
 				// Michael Borcherds 2008-02-23
 				// use Greek upper case for labeling points if language is Greek
 				// (el)
-				if (app.isUsingLocalizedLabels()) {
-					if (app.languageIs(Language.Greek.locale)) {
+				if (loc.isUsingLocalizedLabels()) {
+					if (loc.languageIs(Language.Greek.locale)) {
 						chars = greekUpperCase;
-					} else if (app.languageIs(Language.Arabic.locale)) {
+					} else if (loc.languageIs(Language.Arabic.locale)) {
 						// Arabic / Arabic (Morocco)
 						chars = arabic;
-					} else if (app.languageIs(Language.Yiddish.locale)) {
+					} else if (loc.languageIs(Language.Yiddish.locale)) {
 						chars = yiddish;
 					} else {
 						chars = pointLabels;
@@ -2919,7 +2919,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				if (isFromMeta() && !((FromMeta) this).getMeta().isGeoPolygon()) {
 					int counter = 0;
 					String str;
-					final String name = app.getPlainLabel("edge"); // Name.edge
+					final String name = loc.getPlainLabel("edge"); // Name.edge
 					do {
 						counter++;
 						str = name
@@ -3022,7 +3022,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		String str;
 		do {
 			counter++;
-			str = app.getPlainLabel(plainKey)
+			str = loc.getPlainLabel(plainKey)
 					+ kernel.internationalizeDigits(counter + "",StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
@@ -3883,7 +3883,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		}
-		return indicesToHTML(app.translationFix(algoParent.toString(StringTemplate.defaultTemplate)),
+		return indicesToHTML(loc.translationFix(algoParent.toString(StringTemplate.defaultTemplate)),
 				addHTMLtag);
 	}
 
@@ -3953,7 +3953,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// check for index
-		return convertIndicesToHTML(app.translationFix(ret));
+		return convertIndicesToHTML(loc.translationFix(ret));
 	}
 
 	/**
@@ -4047,7 +4047,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbLongDescHTML.append("<html>");
 		}
 
-		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+		final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
 			// standard order: "point A"
 			sbLongDescHTML.append(typeString);
@@ -4079,7 +4079,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent != null) {
 			// Guy Hed, 25.8.2008
 			// In order to present the text correctly in Hebrew and Arabic:
-			final boolean rightToLeft = app.isRightToLeftReadingOrder();
+			final boolean rightToLeft = loc.isRightToLeftReadingOrder();
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e\u200f: \u200e");
 				sbLongDescHTML.append(Unicode.LeftToRightMark);
@@ -4090,7 +4090,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				sbLongDescHTML.append(": ");
 			}
 			sbLongDescHTML.append(indicesToHTML(
-					app.translationFix(algoParent.toString(StringTemplate.defaultTemplate)), false));
+					loc.translationFix(algoParent.toString(StringTemplate.defaultTemplate)), false));
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e");
 				sbLongDescHTML.append(Unicode.LeftToRightMark);
@@ -4503,7 +4503,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		final String label1 = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
-		if (app.isReverseNameDescriptionLanguage()) {
+		if (loc.isReverseNameDescriptionLanguage()) {
 			// reverse order: "A point"
 			sbNameDescription.append(label1);
 			sbNameDescription.append(' ');
@@ -4569,7 +4569,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		final String label1 = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
-		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+		final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
 		if (!reverseOrder
 				// want "xAxis" not "Line xAxis"
 				&& !isAxis()) {

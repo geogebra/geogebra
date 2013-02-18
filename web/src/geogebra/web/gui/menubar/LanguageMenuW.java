@@ -33,23 +33,24 @@ public class LanguageMenuW extends MenuBar {
 		//add here sub-sub menu for language from A-D
 		atoDMenuBar = new MenuBar(true);
 		atoDMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.isRightToLeftReadingOrder() ? "D - A" : "A - D", atoDMenuBar);
+		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
+		addItem(rtl ? "D - A" : "A - D", atoDMenuBar);
 		
 		//add here sub-sub menu for language from E-I
 		etoIMenuBar = new MenuBar(true);
 		etoIMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.isRightToLeftReadingOrder() ? "I - E" : "E - I", etoIMenuBar);
+		addItem(rtl ? "I - E" : "E - I", etoIMenuBar);
 		
 		
 		//add here sub-sub menu for language from J-Q
 		jtoQMenuBar = new MenuBar(true);
 		jtoQMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.isRightToLeftReadingOrder() ? "Q - J" : "J - Q", jtoQMenuBar);
+		addItem(rtl ? "Q - J" : "J - Q", jtoQMenuBar);
 
 		//add here sub-sub menu for language from R-Z
 		rtoZMenuBar = new MenuBar(true);
 		rtoZMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.isRightToLeftReadingOrder() ? "Z - R" : "R - Z", rtoZMenuBar);
+		addItem(rtl ? "Z - R" : "R - Z", rtoZMenuBar);
 		
 		addItems();
 	}

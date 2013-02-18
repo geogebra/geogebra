@@ -178,7 +178,7 @@ public class Macro  {
 			
 			if (!dependsOnInput) {
 				throw new Exception(kernel.getApplication()
-						.getError("Tool.OutputNotDependent") +
+						.getLocalization().getError("Tool.OutputNotDependent") +
 						": " + output[i].getNameDescription());
 			}
 		}

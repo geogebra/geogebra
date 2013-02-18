@@ -58,6 +58,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.MyError;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyParseError;
 import geogebra.common.main.BracketsError;
 import geogebra.common.util.StringUtil;
@@ -76,6 +77,7 @@ public class Parser implements ParserInterface{
 
     private Kernel kernel;
     private App app;
+    private Localization loc;
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;
@@ -85,12 +87,13 @@ public class Parser implements ParserInterface{
     	 this ( new java.io.StringReader("") ); // dummy stream for parser initing
          this.kernel = kernel;
          app = kernel.getApplication();
+         loc = app.getLocalization();
     }   
     
     // reset for new parsing
     public void myReInit(String parseString) throws ParseException {
         if(StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
-          throw new BracketsError(app,parseString);
+          throw new BracketsError(loc,parseString);
         }
     	ReInit(new java.io.StringReader(parseString));    	
     	GeoGebraCASParsing = false;
@@ -756,13 +759,13 @@ NormalVectorForm normalvectorform():
             temp = left.evaluate();
             if (!(temp instanceof VectorValue)) {
                 String [] str = { "VectorExpected", temp.toString() };
-                throw new MyParseError(app, str);
+                throw new MyParseError(loc, str);
             }
 
             temp = right.evaluate();
             if (!(temp instanceof NumberValue)) {
                 String [] str = { "NumberExpected", temp.toString() };
-                throw new MyParseError(app, str);
+                throw new MyParseError(loc, str);
             }        
             
             return new NormalVectorForm( left, right );                
@@ -807,7 +810,7 @@ ExpressionNode expression():
     rhs = expressionnode()              
     {
         if (!GeoGebraCASParsing && rhs.includesPolynomial()) {
-        	throw new MyError(app, "IncompleteEquation");
+        	throw new MyError(loc, "IncompleteEquation");
         }
         
         // since v3.0: commands have to take care of resolving the variables of 
@@ -1806,12 +1809,12 @@ ExpressionValue myDouble():
 			// check if token includes "b"
     	  
     	    c.image = c.image.replaceFirst("e", "E" );
-    		val = MyDouble.parseDouble( app, c.image );
+    		val = MyDouble.parseDouble( loc, c.image );
     	}
     |
       (c = <PERCENTAGE>) 
   		{
-    		val = MyDouble.parsePercentage( app, c.image );
+    		val = MyDouble.parsePercentage( loc, c.image );
     	}
    )
   {
@@ -2043,7 +2046,7 @@ ExpressionNode numberFunction():
       				return new ExpressionNode(kernel, cmd);      						
       			
 //      		  	String [] str = { "UndefinedVariable", funcName };
-//           	 	throw new MyParseError(app, str);    
+//           	 	throw new MyParseError(loc, str);    
            	}
            	//make sure we don't send 0th derivative to CAS
 			if(cell!=null && order > 0)	{
@@ -2079,7 +2082,7 @@ ExpressionNode numberFunction():
 	      		}       		
 	      		else {
 	                String [] str = { "FunctionExpected", funcName };
-	                throw new MyParseError(app, str);
+	                throw new MyParseError(loc, str);
 	      		} 		
       		}
       		else { // no derivative: a(b)
@@ -2098,7 +2101,7 @@ ExpressionNode numberFunction():
 	      		{
 					//return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList); 
 	      			String [] str = { "FunctionExpected", funcName };
-	                throw new MyParseError(app, str);
+	                throw new MyParseError(loc, str);
 				}
 				// a(b) becomes a*b because a is not a function, no list, and no curve
 				// e.g. a(1+x) = a*(1+x) when a is a number      		   
@@ -2108,7 +2111,7 @@ ExpressionNode numberFunction():
 
 //	      		else {// error: no function
 //	      			String [] str = { "FunctionExpected", funcName };
-//	                throw new MyParseError(app, str);
+//	                throw new MyParseError(loc, str);
 //	            }
 	      	}
       }  

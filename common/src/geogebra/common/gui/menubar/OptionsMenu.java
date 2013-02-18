@@ -166,7 +166,7 @@ public class OptionsMenu {
 		 * i=0; i <= max_dec; i++){ strDecimalSpaces[i] = Integer.toString(i);
 		 * strDecimalSpacesAC[i] = i + " decimals"; }
 		 */
-		String[] strDecimalSpaces = app.getRoundingMenu();
+		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener)menu,
 				strDecimalSpaces, App.strDecimalSpacesAC, 0, false);
@@ -250,7 +250,7 @@ public class OptionsMenu {
 			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
 				pos = i;
 			}
-			fsfi[i] = app.getPlain("Apt",MyXMLHandler.menuFontSizes[i]+"");
+			fsfi[i] = app.getLocalization().getPlain("Apt",MyXMLHandler.menuFontSizes[i]+"");
 			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
 		}
 

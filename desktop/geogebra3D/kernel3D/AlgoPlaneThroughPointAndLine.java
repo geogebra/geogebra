@@ -81,7 +81,7 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return app.getPlain("PlaneThroughAB",getPoint().getLabel(tpl),getSecondInput().getLabel(tpl));
+    	return loc.getPlain("PlaneThroughAB",getPoint().getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }
 

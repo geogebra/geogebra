@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public abstract class GeoGebraTubeExport {
 	 * Application instance.
 	 */
 	public App app;
+	public Localization loc;
 
 	protected ArrayList<Macro> macros;
 	
@@ -33,6 +35,7 @@ public abstract class GeoGebraTubeExport {
 	 */
 	public GeoGebraTubeExport(App app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 	}
 	
 	/**
