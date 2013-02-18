@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="128"
+   height="128"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46dev+devel"
+   sodipodi:docname="Andy_-_Trash_Can_ok.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="C:\joanna\Gfx\drawings_vector\admin\thumbs\Andy_-_Trash_Can.png"
+   inkscape:export-xdpi="140.625"
+   inkscape:export-ydpi="140.625">
+  <metadata
+     id="metadata90">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="643"
+     inkscape:window-width="640"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="3.375"
+     inkscape:cx="64"
+     inkscape:cy="64"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg2" />
+  <defs
+     id="defs4">
+    <linearGradient
+       x1="76"
+       y1="105.3"
+       x2="76"
+       y2="86"
+       id="linearGradient2299"
+       xlink:href="#BlackTransparent"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9,0,0,0.9,3.5,9)" />
+    <linearGradient
+       id="BlackTransparent">
+      <stop
+         style="stop-color:black;stop-opacity:1"
+         offset="0"
+         id="stop8" />
+      <stop
+         style="stop-color:black;stop-opacity:0"
+         offset="1"
+         id="stop10" />
+    </linearGradient>
+    <linearGradient
+       id="WhiteTransparent">
+      <stop
+         style="stop-color:white;stop-opacity:1"
+         offset="0"
+         id="stop13" />
+      <stop
+         style="stop-color:white;stop-opacity:0"
+         offset="1"
+         id="stop15" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient6182"
+       x1="0"
+       y1="21"
+       x2="0"
+       y2="30"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6185"
+       x1="0"
+       y1="71"
+       x2="0"
+       y2="59"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6188"
+       x1="0"
+       y1="52"
+       x2="0"
+       y2="16"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6192"
+       x1="0"
+       y1="35"
+       x2="0"
+       y2="48"
+       xlink:href="#BlackTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6197"
+       x1="13"
+       y1="56"
+       x2="13"
+       y2="102"
+       xlink:href="#BlackTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6200"
+       x1="0"
+       y1="78"
+       x2="0"
+       y2="13.5"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6206"
+       x1="0"
+       y1="66"
+       x2="0"
+       y2="58"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6213"
+       x1="22"
+       y1="0"
+       x2="46"
+       y2="0"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient6216"
+       x1="96"
+       y1="0"
+       x2="60"
+       y2="0"
+       xlink:href="#WhiteTransparent"
+       gradientUnits="userSpaceOnUse" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipoutline1">
+      <path
+         id="outline1"
+         d="M 60.3,27.4 C 40.4,27.4 24.4,35 24.4,44 L 24.4,100.8 C 24.4,110 40.4,117.3 60.3,117.3 C 80,117.3 96,110 96,100.8 L 96,44 C 96,35 80,27.4 60.3,27.4 z " />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipoutline2">
+      <path
+         id="outline2"
+         d="M 59.6,18 C 36.3,18 17.6,27.8 17,39.7 L 17,49.5 C 17,62 36.5,72 60.7,72 C 85,72 104.4,62 104.4,49.5 L 104.4,39.8 C 104.4,27.6 84.6,18 60.7,18 C 60.4,18 60,18 59.6,18 z " />
+    </clipPath>
+    <filter
+       id="ShadowBlur"
+       filterUnits="userSpaceOnUse"
+       x="0"
+       y="0">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="3"
+         result="blur"
+         id="feGaussianBlur31" />
+    </filter>
+  </defs>
+  <style
+     type="text/css"
+     id="style33">
+	.specularity {opacity:0.5;}
+	.high-specularity {opacity:0.75;}
+	.low-specularity {opacity:0.25;}
+	.full-specularity {opacity:1;}
+	.shade{opacity:0.5;}
+	.black {fill:#000000;}
+	.white {fill:#ffffff;}
+	.outline-big {stroke-width:16;stroke:none;opacity:0.;fill:none;}
+	.outline-small {stroke-width:8px;stroke:black;opacity:1;fill:none;}
+	.stroke-highlight {fill:none;stroke:white;opacity:0.3;stroke-width:9px;stroke-linejoin:round;}
+				.base-shadow 	{fill:black;opacity:0.4;}
+	.stroke-aluminium5	{stroke:#555753;}
+	.aluminium1	{fill:#eeeeec;}
+	.aluminium2	{fill:#d3d7cf;}
+	.aluminium3	{fill:#babdb6;}
+	.aluminium4	{fill:#888a85;}
+	.aluminium5	{fill:#555753;}
+	.aluminium6	{fill:#2e3436;}
+	</style>
+  <g
+     id="g35">
+    <g
+       id="g37">
+      <path
+         class="filter base-shadow"
+         filter="url(#ShadowBlur)"
+         d="M 105.87119,105.00339 C 105.87119,115.76014 85.849382,124.49025 61.179662,124.49025 C 36.50994,124.49025 16.488137,115.76014 16.488137,105.00339 C 16.488137,94.246645 36.50994,85.516535 61.179662,85.516535 C 85.849382,85.516535 105.87119,94.246645 105.87119,105.00339 z "
+         id="path39" />
+      <g
+         id="g41">
+        <use
+           class="outline-big"
+           xlink:href="#outline1"
+           id="use43" />
+        <use
+           class="outline-small stroke-aluminium5"
+           xlink:href="#outline1"
+           id="use45" />
+      </g>
+      <path
+         d="M 60.4,30 C 40.6,30 24.7,37.6 24.7,46.7 L 24.7,100.7 C 24.7,109.8 40.6,117 60.4,117 C 80,117 96,109.8 96,100.7 L 96,46.7 C 96,37.6 80,30 60.4,30 z "
+         style="fill:#888a85"
+         id="path47" />
+      <path
+         d="M 60.4,27.6 C 40.5,27.6 40.5,117 60.4,117 C 80,117 96,109.9 96,100.7 L 96,44 C 96,35 80,27.6 60.4,27.6 z "
+         class="specularity"
+         style="fill:url(#linearGradient6216)"
+         id="path49" />
+      <path
+         class="high-specularity"
+         d="M 42.4,58 L 24.7,49.7 L 24.7,101 C 24.7,106 32,112.7 42.5,114.7 L 42.4,58 z "
+         style="fill:url(#linearGradient6213)"
+         id="path51" />
+      <path
+         d="M 24.6,57.7 L 24.6,75.4 C 45.5,90.5 75.5,91 96,75.4 L 96,57.7 C 76,74 45,72.5 24.6,57.7 z "
+         class="shade"
+         style="fill:url(#linearGradient6197)"
+         id="path53" />
+      <use
+         class="stroke-highlight"
+         clip-path="url(#clipoutline1)"
+         xlink:href="#outline1"
+         id="use55" />
+    </g>
+    <g
+       id="g57">
+      <g
+         id="g59">
+        <use
+           class="outline-big"
+           xlink:href="#outline2"
+           id="use61" />
+        <use
+           class="outline-small stroke-aluminium5"
+           xlink:href="#outline2"
+           id="use63" />
+      </g>
+      <path
+         d="M 60.7,18 C 85,18 104.4,28 104.4,40 L 104.4,43.5 C 104.4,56 85,66 60.7,66 C 36.5,66 17,56 17,43.5 L 17,40 C 17,28 36.5,18 60.7,18 z "
+         class="aluminium2"
+         id="path65" />
+      <path
+         d="M 60.7,59 C 85,59 104.4,52.6 104.4,39.4 L 104.4,49.5 C 104.4,62 85,72 60.7,72 C 36.5,72 17,62 17,49.5 L 17,39.4 C 17,47.3 36.5,59 60.7,59 z "
+         class="aluminium4"
+         id="path67" />
+      <path
+         d="M 16.473476,36.525126 C 16.473476,47.925126 43.754757,54.06967 60.7,54.06967 C 78.352349,54.06967 104.39619,50.325126 104.39619,36.525126 L 104.4,39.883883 C 104.4,55.93437 75.000001,59.133883 60.700001,59.133883 C 46.900001,59.133883 16.381282,50.795495 16.381282,38.795495"
+         style="opacity:0.5;fill:url(#linearGradient6188)"
+         id="path69" />
+      <path
+         d="M 61,59 C 33.7,59 4.5,46.6 26.5,62.7 C 34.7,68.7 46.7,71.7 61,71.7 C 75.4,71.7 87,68.7 95.7,62.7 C 117,47.5 88,59 61,59 z "
+         class="specularity"
+         style="fill:url(#linearGradient6185)"
+         id="path71" />
+      <use
+         class="stroke-highlight"
+         clip-path="url(#clipoutline2)"
+         xlink:href="#outline2"
+         id="use73" />
+      <g
+         id="g75">
+        <path
+           d="M 41.4,35.6 L 81.5,35.6 C 86,35.6 86,42.5 81.5,42.5 L 41.4,42.5 C 37,42.5 36.8,35.6 41.4,35.6 z "
+           class="shade"
+           style="fill:url(#linearGradient6192)"
+           id="path77" />
+        <path
+           d="M 61.6,19.3 C 43,19.3 41.5,25.3 41.5,31.6 L 41.5,38.4 C 41.5,41.3 49,40.7 49,38.4 L 49,36 C 49,31.6 53.5,30.5 61.6,30.5 C 69.7,30.5 74,31.6 74,36 L 74,38.4 C 74,40.7 81.6,40.7 81.6,38.4 L 81.6,31.6 C 81.6,25.3 80,19.3 61.6,19.3 z "
+           style="fill:black"
+           id="path79" />
+        <path
+           class="specularity"
+           d="M 61.6,21.3 C 53.4,21.3 47,22.5 47,27.4 L 76,27.4 C 76,22.5 69.7,21.3 61.6,21.3 z "
+           style="fill:url(#linearGradient6182)"
+           id="path81" />
+      </g>
+    </g>
+    <g
+       id="g83">
+      <path
+         d="M 32,83.6 L 32,99 C 32,105.9 40,106 40,99 L 40,83.6 C 40,78.3 32,77.9 32,83.6 z M 80,83.6 L 80,99 C 81.9,104.9 87.5,103.7 88,99 L 88,83.6 C 88,78.6 80.2,78.7 80,83.6 z M 47.4,87.7 L 47.4,106 C 47.4,112.3 55.9,111.7 56,106 L 56,87.7 C 56,82.3 47.5,82 47.4,87.7 z M 64,87.7 L 64,106 C 64,112.5 72.9,111.8 73,106 L 73,87.7 C 71.6,81.6 64.8,82.2 64,87.7 z "
+         style="opacity:0.5;fill:black"
+         id="path85" />
+      <path
+         d="M 88,91 C 88,95.2 80,95 80,91 L 80,98.4 C 80,104 88,104.7 88,98.4 L 88,91 z M 32,91 L 32,98.4 C 32,106.4 40,106 40,98.4 L 40,91 C 40,95.9 32,95.6 32,91 z M 56,97.8 C 56,102.9 47.4,102 47.4,97.8 L 47.4,105.7 C 47.4,112.6 55.9,111.6 56,105.7 L 56,97.8 z M 73,97.8 C 73,103.6 64,102.7 64,97.8 L 64,105.7 C 64,112.8 73,112 73,105.7 L 73,97.8 z "
+         style="opacity:0.5;fill:url(#linearGradient2299)"
+         id="path87" />
+    </g>
+  </g>
+</svg>
