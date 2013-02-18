@@ -38,6 +38,8 @@ public class GeoGebraFrame extends VerticalPanel {
 
 	private boolean resize = false;
 	private boolean move = false;
+	private String customToolbar;
+
 	/**
 	 * Splash Dialog to get it work quickly
 	 */
@@ -153,6 +155,7 @@ public class GeoGebraFrame extends VerticalPanel {
 			
 			public void onSuccess() {
 				inst.app = inst.createApplication(articleElement, inst);
+				inst.setCustomToolBar();
 				//useDataParamBorder(articleElement, inst);
 			    //inst.add(inst.app.buildApplicationPanel());
 				inst.app.buildApplicationPanel();
@@ -172,6 +175,16 @@ public class GeoGebraFrame extends VerticalPanel {
 			inst.ae = articleElement;
 			inst.createSplash(articleElement);	
 			RootPanel.get(articleElement.getId()).add(inst);
+		}
+	}
+
+	private void setCustomToolBar() {
+		customToolbar = ae.getDataParamCustomToolBar();
+		if ((customToolbar != null) &&
+			(customToolbar.length() > 0) &&
+			(ae.getDataParamShowToolBar())) {
+
+			app.getGuiManager().setToolBarDefinition(App.VIEW_EUCLIDIAN, customToolbar);
 		}
 	}
 
