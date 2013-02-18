@@ -1,6 +1,9 @@
 package geogebra.mobile.gui.elements;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import geogebra.common.main.GWTKeycodes;
+import geogebra.mobile.gui.CommonResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,7 +18,8 @@ import com.googlecode.mgwt.ui.client.dialog.DialogPanel;
 import com.googlecode.mgwt.ui.client.dialog.HasTitleText;
 import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
 import com.googlecode.mgwt.ui.client.theme.base.DialogCss;
-import com.googlecode.mgwt.ui.client.widget.base.ButtonBase;
+import com.googlecode.mgwt.ui.client.widget.Button;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 
 /**
  * A dialog with an InputBar, OK-Button and CANCLE-Button.
@@ -41,33 +45,6 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		public void onCancel();
 	}
 
-	/**
-	 * The Ok-Button of the InputDialog.
-	 * @see com.googlecode.mgwt.ui.client.widget.base.ButtonBase ButtonBase
-	 */
-  private static class OkButton extends ButtonBase {
-
-    public OkButton(DialogCss css, String text) {
-
-      super(css);
-      setText(text);
-      addStyleName(css.okbutton());
-    }
-  }
-	
-  /**
-   * The Cancel-Button of the InputDialog.
-   * @see com.googlecode.mgwt.ui.client.widget.base.ButtonBase ButtonBase
-   */
-  private static class CancelButton extends ButtonBase {
-    public CancelButton(DialogCss css, String text) {
-      super(css);
-      setText(text);
-      addStyleName(css.cancelbutton());
-    }
-  }
-	
-  
 	PopinDialog popinDialog;
 	private DialogPanel dialogPanel;
 	private TextBox textInput;
@@ -89,33 +66,34 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	{
 		this(title, "", callback);
 	}
-	
+
 	public InputDialog(String title, String text, InputCallback callback)
 	{
 		this.callback = callback;
-		this.css =  MGWTStyle.getTheme().getMGWTClientBundle().getDialogCss();
+		this.css = MGWTStyle.getTheme().getMGWTClientBundle().getDialogCss();
 		this.popinDialog = new PopinDialog(this.css);
 		setCloseOnBackgroundClick();
-		
+
 		initDialogPanel();
 		addTextBox(text);
 		setTitleText(title);
-		
+
 		this.textInput.addKeyUpHandler(new KeyUpHandler()
-		{			
+		{
 			@Override
 			public void onKeyUp(KeyUpEvent event)
 			{
-				if(event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER){
+				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER)
+				{
 					InputDialog.this.callback.onOk();
-					InputDialog.this.close(); 
+					InputDialog.this.close();
 				}
 			}
 		});
-		
+
 		addButtonContainer();
 	}
-	
+
 	/**
 	 * Adds a textbox with the given text to the dialogPanel.
 	 * 
@@ -128,7 +106,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		setText(text);
 		this.dialogPanel.getContent().add(this.textInput);
 	}
-	
+
 	/**
 	 * Initializes the dialogPanel and adds it to the popinDialog.
 	 */
@@ -138,68 +116,75 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		this.dialogPanel.addStyleName("inputdialog");
 		this.popinDialog.add(this.dialogPanel);
 	}
-	
-	
+
 	/**
 	 * Adds all the buttons to the dialog. Horizontal alignment.
 	 */
 	private void addButtonContainer()
 	{
-    this.buttonContainer = new FlowPanel();
-    this.buttonContainer.addStyleName(this.css.footer());
+		this.buttonContainer = new FlowPanel();
+		this.buttonContainer.addStyleName(this.css.footer());
 
-    addOkButton();
-    addCancelButton();
-    
-    this.dialogPanel.getContent().add(this.buttonContainer);
+		this.dialogPanel.showOkButton(false); // don't show the default buttons from
+		this.dialogPanel.showCancelButton(false); // Daniel Kurka
+
+		this.buttonContainer.add(new ButtonBarSpacer());
+		addOkButton();
+		this.buttonContainer.add(new ButtonBarSpacer());
+		addCancelButton();
+		this.buttonContainer.add(new ButtonBarSpacer());
+
+		this.dialogPanel.getContent().add(this.buttonContainer);
 	}
 
-	
 	/**
 	 * Adds the OK-button to the dialog, adds a TapHandler.
 	 */
 	private void addOkButton()
 	{
-    OkButton okButton = new OkButton(this.css, "OK");
-    okButton.addDomHandler(new ClickHandler()
+		SVGResource icon = CommonResources.INSTANCE.dialog_ok();
+		Button okButton = new Button();
+		String html = "<img src=\"" + icon.getSafeUri().asString() + "\" style=\"height:32px; width:32px; margin:auto;\">";
+		okButton.getElement().setInnerHTML(html);
+		okButton.addDomHandler(new ClickHandler()
 		{
 
 			@Override
-      public void onClick(ClickEvent event)
-      {
-	      InputDialog.this.popinDialog.hide();
-	      if (InputDialog.this.callback != null)
-	      {
-	      	InputDialog.this.callback.onOk();
-	      }
-      }
+			public void onClick(ClickEvent event)
+			{
+				InputDialog.this.popinDialog.hide();
+				if (InputDialog.this.callback != null)
+				{
+					InputDialog.this.callback.onOk();
+				}
+			}
 		}, ClickEvent.getType());
 
-		this.dialogPanel.showOkButton(false); //don't show the default buttons from Daniel Kurka
-    this.buttonContainer.add(okButton);
+		this.buttonContainer.add(okButton);
 	}
-	
+
 	/**
 	 * Adds the CANCEL-button to the dialog, adds a TapHandler.
 	 */
 	private void addCancelButton()
-  {
-	  CancelButton cancelButton = new CancelButton(this.css, "Cancel");
-    cancelButton.addDomHandler(new ClickHandler()
+	{
+		SVGResource icon = CommonResources.INSTANCE.dialog_cancel();
+		Button cancelButton = new Button();
+		String html = "<img src=\"" + icon.getSafeUri().asString() + "\" style=\"height:32px; width:32px; margin:auto;\">";
+		cancelButton.getElement().setInnerHTML(html);
+		cancelButton.addDomHandler(new ClickHandler()
 		{
 			@Override
-      public void onClick(ClickEvent event)
-      {
+			public void onClick(ClickEvent event)
+			{
 				InputDialog.this.popinDialog.hide();
 				if (InputDialog.this.callback != null)
 					InputDialog.this.callback.onCancel();
-      }
-			
+			}
+
 		}, ClickEvent.getType());
-		this.dialogPanel.showCancelButton(false);
-    this.buttonContainer.add(cancelButton);
-  }
-	
+		this.buttonContainer.add(cancelButton);
+	}
 
 	/**
 	 * @see com.googlecode.mgwt.ui.client.dialog.HasTitleText#setTitleText(java.lang.String)
@@ -239,23 +224,25 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 
 	/**
 	 * Shows the dialog.
+	 * 
 	 * @see com.googlecode.mgwt.ui.client.dialog.Dialog#show()
 	 */
 	@Override
-  public void show()
+	public void show()
 	{
 		this.popinDialog.center();
 	}
 
 	/**
 	 * Closes the dialog
+	 * 
 	 * @see com.googlecode.mgwt.ui.client.dialog.AnimatableDialogBase#hide()
 	 */
 	public void close()
 	{
 		this.popinDialog.hide();
 	}
-	
+
 	/**
 	 * @see com.googlecode.mgwt.ui.client.dialog.AnimatableDialogBase#setHideOnBackgroundClick(boolean)
 	 */
