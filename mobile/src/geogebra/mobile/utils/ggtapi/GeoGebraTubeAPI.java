@@ -65,6 +65,7 @@ public class GeoGebraTubeAPI
 	 */
 	public void getItem(String ID, RequestCallback callback)
 	{
+		//TODO add ID fetching of a specific material!
 		performRequest(new Request().toJSONString(), callback);
 	}
 

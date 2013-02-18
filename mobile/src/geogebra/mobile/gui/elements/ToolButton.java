@@ -1,9 +1,8 @@
 package geogebra.mobile.gui.elements;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
-import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.utils.ToolBarCommand;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 

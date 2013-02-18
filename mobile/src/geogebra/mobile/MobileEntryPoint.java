@@ -23,8 +23,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class MobileEntryPoint implements EntryPoint
 {
-	Place defaultPlace = new TabletGuiPlace("TabletGui");
-	SimplePanel appWidget = new SimplePanel();
+	static Place defaultPlace = new TabletGuiPlace("TabletGui");
+	static SimplePanel appWidget = new SimplePanel();
 
 	@Override
 	public void onModuleLoad()
@@ -44,7 +44,7 @@ public class MobileEntryPoint implements EntryPoint
 		
 	}
 
-	private void loadMobileAsync()
+	private static void loadMobileAsync()
 	{
 		GWT.runAsync(new RunAsyncCallback()
 		{
@@ -52,24 +52,25 @@ public class MobileEntryPoint implements EntryPoint
 			@Override
 			public void onSuccess()
 			{	
-				ClientFactory clientFactory = new ClientFactoryImpl(); 
-				
-				EventBus eventBus = clientFactory.getEventBus();
-				PlaceController placeController = clientFactory.getPlaceController();
+				EventBus eventBus = ClientFactory.getEventBus();
+				PlaceController placeController = ClientFactory.getPlaceController();
 
 				// Start ActivityManager for the main widget with our ActivityMapper
-				ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
+				ActivityMapper activityMapper = new AppActivityMapper();
 				ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
-				activityManager.setDisplay(MobileEntryPoint.this.appWidget);
+				activityManager.setDisplay(MobileEntryPoint.appWidget);
 
 				// Start PlaceHistoryHandler with our PlaceHistoryMapper
 				AppPlaceHistoryMapper historyMapper= GWT.create(AppPlaceHistoryMapper.class);
 				PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
-				historyHandler.register(placeController, eventBus, MobileEntryPoint.this.defaultPlace);
+				historyHandler.register(placeController, eventBus, MobileEntryPoint.defaultPlace);
 
-				RootPanel.get().add(MobileEntryPoint.this.appWidget);
+				RootPanel.get().add(MobileEntryPoint.appWidget);
 				// Goes to place represented on URL or default place
 				historyHandler.handleCurrentHistory();
+				
+				MobileApp app = new MobileApp(ClientFactory.getTabletGui());
+				app.start();
 			}
 
 			@Override

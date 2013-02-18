@@ -1,14 +1,13 @@
 package geogebra.mobile.gui.elements.toolbar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.InputDialog;
 import geogebra.mobile.gui.elements.InputDialog.InputCallback;
-import geogebra.mobile.model.GuiModel;
 import geogebra.mobile.model.MobileModel;
 import geogebra.mobile.utils.ToolBarMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

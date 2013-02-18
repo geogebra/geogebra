@@ -9,17 +9,11 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class TubeSearchActivity extends AbstractActivity
 {
-	
-	private ClientFactory clientFactory;
-	
-	public TubeSearchActivity(ClientFactory clientFactory) {
-		this.clientFactory = clientFactory;
-	}
-
 	@Override
-	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
-		TubeSearchUI searchView = this.clientFactory.getTubeSearchUI();
+	public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
+	{
+		TubeSearchUI searchView = ClientFactory.getTubeSearchUI();
 		containerWidget.setWidget(searchView.asWidget());
 	}
-	
+
 }

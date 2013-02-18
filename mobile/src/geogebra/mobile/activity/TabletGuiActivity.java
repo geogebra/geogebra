@@ -11,22 +11,13 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class TabletGuiActivity extends AbstractActivity implements Presenter
 {
-	// Used to obtain views, eventBus, placeController
-	// Alternatively, could be injected via GIN
-	private ClientFactory clientFactory;
-
-	public TabletGuiActivity(ClientFactory clientFactory)
-	{
-		this.clientFactory = clientFactory;
-	}
-
 	/**
 	 * Invoked by the ActivityManager to start a new Activity
 	 */
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
 	{
-		TabletGUI gui = this.clientFactory.getTabletGui();
+		TabletGUI gui = ClientFactory.getTabletGui();
 		gui.setPresenter(this);
 		containerWidget.setWidget(gui.asWidget());
 	}
@@ -46,7 +37,7 @@ public class TabletGuiActivity extends AbstractActivity implements Presenter
 	@Override
 	public void goTo(Place place)
 	{
-		this.clientFactory.getPlaceController().goTo(place);
+		ClientFactory.getPlaceController().goTo(place);
 	}
 
 }

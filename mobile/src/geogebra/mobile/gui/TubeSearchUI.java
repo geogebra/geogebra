@@ -2,7 +2,7 @@ package geogebra.mobile.gui;
 
 import geogebra.mobile.ClientFactory;
 import geogebra.mobile.gui.elements.ggt.MaterialPanel;
-import geogebra.mobile.gui.elements.ggt.MaterialPreview;
+import geogebra.mobile.place.TabletGuiPlace;
 import geogebra.mobile.utils.ggtapi.GeoGebraTubeAPI;
 import geogebra.mobile.utils.ggtapi.JSONparserGGT;
 import geogebra.mobile.utils.ggtapi.Material;
@@ -14,29 +14,32 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
+import com.googlecode.mgwt.ui.client.widget.Button;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.MSearchBox;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 
 /**
  * Coordinates the GUI of the tablet.
  * 
  */
-public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Presenter
+public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget
 {
-	private ClientFactory clientFactory;
+	Presenter listener;
 
 	private MSearchBox searchBox;
 	protected MaterialPanel featuredMaterials;
 	protected MaterialPanel resultsArea;
+
+	protected Button backButton;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -56,6 +59,17 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 		this.searchBox = new MSearchBox();
 		this.featuredMaterials = new MaterialPanel();
 		this.resultsArea = new MaterialPanel();
+
+		this.backButton = new Button("BACK");
+		this.backButton.addTapHandler(new TapHandler()
+		{
+
+			@Override
+			public void onTap(TapEvent event)
+			{
+				ClientFactory.getPlaceController().goTo(new TabletGuiPlace("TubeSearchUI"));
+			}
+		});
 
 		// Handle orientation changes
 		MGWT.addOrientationChangeHandler(new OrientationChangeHandler()
@@ -118,6 +132,7 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 		this.add(this.searchBox);
 		this.add(this.featuredMaterials);
 		this.add(this.resultsArea);
+		this.add(this.backButton);
 
 	}
 
@@ -127,13 +142,8 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget, Prese
 		add(w.asWidget());
 	}
 
-	/**
-	 * Navigate to a new Place in the browser
-	 */
-	@Override
-	public void goTo(Place place)
+	public void setPresenter(Presenter listener)
 	{
-		this.clientFactory.getPlaceController().goTo(place);
+		this.listener = listener;
 	}
-
 }

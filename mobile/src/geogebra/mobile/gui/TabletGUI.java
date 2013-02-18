@@ -37,14 +37,13 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 	ToolBar toolBar;
 	StylingBar stylingBar;
 
-	private ClientFactory clientFactory;
 	private TabletGuiActivity tabletGuiActivity;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
 	 */
-	private TabletGUI()
+	public TabletGUI()
 	{
 		// set viewport and other settings for mobile
 		MGWT.applySettings(MGWTSettings.getAppSetting());
@@ -72,12 +71,6 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 		this.euclidianViewPanel = new EuclidianViewPanel();
 	}
 
-	private static TabletGUI instance = new TabletGUI(); 
-	
-	public static TabletGUI getInstance(){
-		return instance; 
-	}
-	
 	@Override
 	public EuclidianViewPanel getEuclidianViewPanel()
 	{
@@ -155,7 +148,7 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 	@Override
   public void goTo(Place place)
 	{
-		this.clientFactory.getPlaceController().goTo(place);
+		ClientFactory.getPlaceController().goTo(place);
 	}
 
 	public void setPresenter(TabletGuiActivity tabletGuiActivity)

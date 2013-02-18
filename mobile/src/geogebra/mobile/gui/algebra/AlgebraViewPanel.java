@@ -1,6 +1,5 @@
 package geogebra.mobile.gui.algebra;
 
-import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.controller.MobileController;
 import geogebra.mobile.gui.CommonResources;

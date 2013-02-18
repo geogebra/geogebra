@@ -8,7 +8,6 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 
 /**
  * ButtonBar for the buttons on the right side of the HeaderPanel.

@@ -5,7 +5,6 @@ import geogebra.mobile.utils.ToolBarCommand;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 
 /**
  * Buttons of the options-menu.
