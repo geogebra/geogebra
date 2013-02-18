@@ -202,7 +202,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		drawEquationMathQuill(ih, eqstring, parentElement, true, el == eqstring.length());
 
 		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
-		ih.getStyle().setColor(GColor.getColorString(fgColor));
+
+		if (fgColor != null)
+			ih.getStyle().setColor(GColor.getColorString(fgColor));
 	}
 
 	public GDimension drawEquation(App app, GeoElement geo, GGraphics2D g2,
@@ -242,7 +244,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		// just like in the Java version
 		//ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
 
-		ih.getStyle().setColor(GColor.getColorString(fgColor));
+		if (fgColor != null)
+			ih.getStyle().setColor(GColor.getColorString(fgColor));
+
 		return new geogebra.web.awt.GDimensionW(ih.getOffsetWidth(),
 		        ih.getOffsetHeight());
 
