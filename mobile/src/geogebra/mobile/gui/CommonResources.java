@@ -12,6 +12,21 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
+	//Dialogs
+	
+	@Source("icons/svg/button_ok.svg")
+	@Validated(validated = false)
+	SVGResource dialog_ok();
+	
+	@Source("icons/svg/button_cancel.svg")
+	@Validated(validated = false)
+	SVGResource dialog_cancel();
+	
+	@Source("icons/svg/button_trashcan.svg")
+	@Validated(validated = false)
+	SVGResource dialog_trash();
+	
+	
 	// Header
 
 	@Source("icons/svg/document-new.svg")
