@@ -2592,7 +2592,7 @@ __GGB__keysVar.it.plain = {
     "max": "max",
     "min": "min",
     "off": "Non attiva",
-    "otherwise": "altrimenti",
+    "otherwise": "altrove",
     "parallel": "parallela",
     "pdf": "Portable Document Format",
     "png": "Portable Network Graphics",
