@@ -13,27 +13,35 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 public class MySplitLayoutPanel extends SplitLayoutPanel {
 
+	private App application;
 	private EuclidianDockPanelW ggwGraphicView;
-	private AlgebraDockPanelW ggwViewWrapper;
+
+	private AlgebraDockPanelW ggwViewWrapper = null;
+	private EuclidianDockPanelW ggwGraphicsView2 = null;
 	private SpreadsheetDockPanelW ggwSpreadsheetView = null;
 	private CASDockPanelW ggwCASView = null;
 
-	private App application;
+	private boolean showAlgebra = false;
+	private boolean showEV2 = false;
+	private boolean showSpreadsheet = false;
 	private boolean showCAS = false;
-	
-	public MySplitLayoutPanel(boolean showCAS){
+
+	public MySplitLayoutPanel(boolean showAlgebra, boolean showEV2, boolean showSpreadsheet, boolean showCAS) {
 		super();
-		addWest(ggwViewWrapper = new AlgebraDockPanelW(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
-		this.showCAS = showCAS;
-		if(!showCAS){
+		if (this.showAlgebra = showAlgebra)
+			addWest(ggwViewWrapper = new AlgebraDockPanelW(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
+		if (this.showEV2 = showEV2)
+			addEast(ggwGraphicsView2 = new EuclidianDockPanelW(true), 0);
+		else //else statement may be deleted
+		if (this.showSpreadsheet = showSpreadsheet)
 			createSpreadsheet();
-		}
-		else{
+		else // else statement may be deleted
+		if (this.showCAS = showCAS)
 			createCAS();
-		}
+
 		add(ggwGraphicView = new EuclidianDockPanelW(true));
     }
-	
+
 	public void createSpreadsheet(){
 		showCAS=false;
 		App app = null;
@@ -43,9 +51,8 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 		}
 		if(ggwSpreadsheetView==null)
 			addEast(ggwSpreadsheetView = new SpreadsheetDockPanelW(app), 0);
-		
 	}
-	
+
 	public void createCAS(){
 		showCAS=true;
 		App app = null;
@@ -93,14 +100,17 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
     }
 
 	public EuclidianDockPanelW getGGWGraphicsView() {
-	    // TODO Auto-generated method stub
 	    return ggwGraphicView;
     }
+
+	public EuclidianDockPanelW getGGWGraphicsView2() {
+		return ggwGraphicsView2;
+	}
 
 	public SpreadsheetDockPanelW getGGWSpreadsheetView() {
 		return ggwSpreadsheetView;
 	}
-	
+
 	public CASDockPanelW getGGWCASView() {
 		return ggwCASView;
 	}
@@ -111,9 +121,13 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	public void attachApp(App app) {
 	   this.application = app;
-	   ggwViewWrapper.attachApp(app);
-	   ggwGraphicView.attachApp(app);
 
+	   if (ggwViewWrapper != null)
+		   ggwViewWrapper.attachApp(app);
+	   if (ggwGraphicView != null)
+		   ggwGraphicView.attachApp(app);
+	   if (ggwGraphicsView2 != null)
+		   ggwGraphicsView2.attachApp(app);
 	   if (ggwSpreadsheetView != null)
 		   ggwSpreadsheetView.attachApp(app);
 	   if (ggwCASView != null)
@@ -141,7 +155,5 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 			onResize();
 			forceLayout();
     	}
-
-	    
-    }
+	}
 }
