@@ -1,11 +1,9 @@
 /*geogebra.mobile.gui.algebra.AlgebraViewM*/
-
 .algebraView-heading {
 	color: black;
 }
 
 /*geogebra.mobile.gui.algebra.AlgebraViewPanel*/
-
 .algebraview {
 	width: 25%;
 	background-color: white;
@@ -34,13 +32,17 @@
 }
 
 /*geogebra.mobile.gui.elements.heade.OpenSaveDialog*/
-
 .savetextinput {
 	width: 98%;
 }
 
-.listBoxToOpen {
+.openSaveListBox {
 	width: 100%;
+	font-size: large;
+}
+
+.gwt-ListBox option {
+	font-size: large;
 }
 
 .opendialog {
@@ -48,14 +50,12 @@
 }
 
 /*geogebra.mobile.gui.elements.header.TabletHeaderPanelLeft*/
-
 .leftHeader {
 	position: absolute;
 	top: 0px;
 }
 
 /*geogebra.mobile.gui.elements.header.TabletHeaderPanelLeft*/
-
 .rightHeader {
 	position: absolute;
 	top: 0px;
@@ -64,7 +64,6 @@
 
 /*geogebra.mobile.gui.elements.stylingbar.CaptionBar and
   geogebra.mobile.gui.elements.stylingbar.LineStyleBar*/
-
 div.StyleBarOptions {
 	position: absolute;
 	right: 75px;
@@ -74,7 +73,6 @@ div.StyleBarOptions {
 }
 
 /*geogebra.mobile.gui.elements.stylingbar.ColorBar*/
-
 div.colorBar {
 	height: 220px;
 	box-shadow: 5px 5px 10px #333333;
@@ -95,7 +93,6 @@ div.colorScrollPanel {
 }
 
 /*geogebra.mobile.gui.elements.stylingbar.ColorBarBackground*/
-
 .colorBarBackground {
 	position: absolute;
 	right: 75px;
@@ -109,7 +106,6 @@ div.colorSliderPanel {
 }
 
 /*geogebra.mobile.gui.elements.stylingbar.Colors*/
-
 div.mgwt-Button-colorChoiceButton {
 	margin-left: 27px;
 	height: 18px;
@@ -118,7 +114,6 @@ div.mgwt-Button-colorChoiceButton {
 }
 
 /*geogebra.mobile.gui.elements.stylingbar.StylingBar*/
-
 div.stylingbar {
 	position: absolute;
 	right: 0px;
@@ -134,7 +129,6 @@ div.mgwt-BarButton-active {
 }
 
 /*geogebra.mobile.gui.elements.toolbar.OptionsBarBackground*/
-
 div.mgwt-ButtonBar-toolBarOptionsBackground {
 	position: absolute;
 	bottom: 50px;
@@ -144,7 +138,6 @@ div.mgwt-ButtonBar-toolBarOptionsBackground {
 }
 
 /*geogebra.mobile.gui.elements.toolbar.ToolBar*/
-
 div.mgwt-ButtonBar-toolbar {
 	position: absolute;
 	bottom: 0px;
@@ -156,7 +149,6 @@ div.mgwt-BarButton-tool-rightButton {
 }
 
 /*geogebra.mobile.gui.elements.InputDialog*/
-
 .inputdialog {
 	width: 70%;
 }
@@ -166,14 +158,12 @@ div.mgwt-BarButton-tool-rightButton {
 }
 
 /*geogebra.mobile.gui.elements.Picker*/
-
 div.mgwt-Button-picker {
 	border-radius: 0px;
 	margin: 0px;
 }
 
 /*geogebra.mobile.gui.elements.ToolButton*/
-
 div.mgwt-BarButton-tool {
 	cursor: pointer;
 	border: 1px solid rgba(0, 0, 0, 0.5);
@@ -184,15 +174,12 @@ div.mgwt-BarButton-tool {
 }
 
 /*geogebra.mobile.gui.euclidian.EuclidianViewPanel*/
-
 .euclidianview {
 	position: absolute;
 	top: 0px;
 }
 
-
 /* NOT USED */
-
 .headerpanel {
 	position: static;
 	top: 0px;
@@ -221,11 +208,28 @@ div.mgwt-BarButton-tool {
 	border-radius: 1em 1em 1em 1em;
 }
 
-.maxSize (){
-	height: 100%;
-	width: 100%;
-}
+.maxSize
 
+ 
+
+(){
+height
+
+
+:
+
+ 
+
+100%;
+width
+
+
+:
+
+ 
+
+100%;
+}
 .algebraRoundPanel {
 	border: 0px;
 }

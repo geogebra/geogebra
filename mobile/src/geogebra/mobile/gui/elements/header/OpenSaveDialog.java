@@ -147,7 +147,6 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-
 					}
 					else
 					{
@@ -185,6 +184,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	private void addFileChooser()
 	{
 		this.list = new ListBox();
+		this.list.addStyleName("openSaveListBox");
 		this.list.addItem("(None)");
 
 		try
@@ -195,7 +195,6 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 				{
 					this.list.addItem(this.stockStore.key(i));
 				}
-				this.list.addStyleName("listBoxToOpen");
 				this.dialogPanel.getContent().add(this.list);
 
 				if (isFileSaved())
@@ -240,8 +239,8 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	}
 
 	/**
-	 * Adds all the buttons to the dialog. Horizontal alignment. Disables
-	 * default buttons from Daniel Kurka.
+	 * Adds all the buttons to the dialog. Horizontal alignment. Disables default
+	 * buttons from Daniel Kurka.
 	 */
 	private void addButtonContainer()
 	{
