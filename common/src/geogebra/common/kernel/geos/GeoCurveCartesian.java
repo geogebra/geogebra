@@ -694,20 +694,30 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		// use interval around our minParam found by sampling
 		// to find minimum
-		double left = Math.max(startParam, minParam - step);
-		double right = Math.min(endParam, minParam + step);
+		// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
+		double left = minParam - step; 
+		double right = minParam + step;
+
 		ExtremumFinder extFinder = kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
 				Kernel.MIN_PRECISION);
+		
+		sampleResult = adjustRange(sampleResult);
 
-		// if we have a valid startParam we try the intervall around it too
-		// however, we don't check the same intervall again
+		// if we have a valid startParam we try the interval around it too
+		// however, we don't check the same interval again
 		if (!Double.isNaN(startVal)
 				&& (startVal < left || right < startVal)) {
-			left = Math.max(startParam, startVal - step);
-			right = Math.min(endParam, startVal + step);
+			
+			// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
+			left = startVal - step; 
+			right = startVal + step;
+
 			double startValResult = extFinder.findMinimum(left, right, distFun,
 					Kernel.MIN_PRECISION);
+			
+			startValResult = adjustRange(startValResult); 
+			
 			if (distFun.evaluate(startValResult) < distFun
 					.evaluate(sampleResult) + Kernel.MIN_PRECISION/2) {
 				return startValResult;
@@ -715,6 +725,25 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		}
 
 		return sampleResult;
+	}
+
+	/** 
+	 * allow a curve like Curve[sin(t), cos(t), t, 0, 12*2pi] 
+	 * to "join up" properly at 0 and 12*2pi 
+	 *  
+	 * @param startValResult 
+	 * @return startValResult adjusted to be in range [startParam, endParam] if it's just outside 
+	 */ 
+	private double adjustRange(double startValResult) { 
+		if (startValResult < startParam) { 
+			return startValResult + (endParam - startParam); 
+		} 
+
+		if (startValResult > endParam) { 
+			return startValResult - (endParam - startParam); 
+		} 
+
+		return startValResult; 
 	}
 
 	public PathMover createPathMover() {

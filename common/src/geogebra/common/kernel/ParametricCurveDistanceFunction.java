@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel;
 
@@ -20,11 +20,13 @@ import geogebra.common.kernel.roots.RealRootFunction;
  * @author Markus Hohenwarter
  */
 public class ParametricCurveDistanceFunction implements RealRootFunction {
-	
+
 	//private GeoPoint P;	
 	private double px, py;
 	private RealRootFunction funX, funY;
-	
+	private double mint;
+	private double maxt;
+
 	/**
 	 * Creates a function for evaluating squared distance of (px,py)
 	 * from curve (px and py must be entered using a setter)
@@ -33,8 +35,10 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	public ParametricCurveDistanceFunction(ParametricCurve curve) {		
 		funX = curve.getRealRootFunctionX();
 		funY = curve.getRealRootFunctionY();
+		this.mint = curve.getMinParameter(); 
+		this.maxt = curve.getMaxParameter();
 	}
-	
+
 	/**
 	 * Sets the point to be used in the distance function 
 	 * (funX(t) - Px)^2 + (funY(t) - Py)^2.
@@ -52,9 +56,17 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	 * (funX(t) - Px)^2 + (funY(t) - Py)^2.
 	 */
 	public double evaluate(double t) {
+
+		// make sure it "wraps around" nicely 
+		if (t < mint) { 
+			t += (maxt - mint); 
+		} else if (t > mint) { 
+			t -= (maxt - mint); 
+		} 
+
 		double dx = funX.evaluate(t) - px;
 		double dy = funY.evaluate(t) - py;
 		return dx * dx + dy * dy;		
 	}
-	
+
 }
