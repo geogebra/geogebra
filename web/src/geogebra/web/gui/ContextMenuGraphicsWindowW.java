@@ -127,14 +127,17 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 	                sb.append(" : 1");
 	                if (! separatorAdded) {
 	                    //((MenuBar) menu).addSeparator();
+	                	actionCommands[j] = "0.0";
 	                	items[j++] = "---";
 	                    separatorAdded = true;
 	                }
 	                
 	            } else { // factor 
-	            	if (axesRatios[i] == 1) 
+	            	if (axesRatios[i] == 1){
 	                	//((MenuBar) menu).addSeparator();
+	            		actionCommands[j] = "0.0";
 	            		items[j++] = "---";
+	            	}
 	                sb.append("1 : "); 
 	                sb.append((int) (1.0 / axesRatios[i]));                               
 	            } 
@@ -144,12 +147,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 	            actionCommands[j] = ""+axesRatios[i];
 		 }
 		int selPos = 0;
-		while (!Kernel.isEqual(axesRatios[selPos], scaleRatio)
-		        && (selPos < axesRatios.length)) {
+		while (!Kernel.isEqual(Double.parseDouble(actionCommands[selPos]), scaleRatio)
+		        && (selPos < actionCommands.length)) {
 			selPos++;
 		}
 		App.debug("selPos: " +selPos);
-		menu.addRadioButtonMenuItems(this, items, actionCommands,  selPos +1, false);
+		menu.addRadioButtonMenuItems(this, items, actionCommands,  selPos, false);
 	 
     }
 
