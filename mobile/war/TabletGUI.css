@@ -34,14 +34,14 @@
 /*geogebra.mobile.gui.elements.heade.OpenSaveDialog*/
 .savetextinput {
 	width: 98%;
-}
-
-.openSaveListBox {
-	width: 100%;
 	font-size: large;
 }
 
-.gwt-ListBox option {
+.openSaveListBox {
+	margin-top: 10px;
+}
+
+.mgwt-ListBox option {
 	font-size: large;
 }
 
@@ -155,6 +155,7 @@ div.mgwt-BarButton-tool-rightButton {
 
 .inputtext {
 	width: 98%;
+	font-size: large;
 }
 
 /*geogebra.mobile.gui.elements.Picker*/
@@ -210,23 +211,33 @@ div.mgwt-BarButton-tool {
 
 .maxSize
 
+
  
+
 
 (){
 height
 
 
+
+
 :
 
+
  
+
 
 100%;
 width
 
 
+
+
 :
 
+
  
+
 
 100%;
 }

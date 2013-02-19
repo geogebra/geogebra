@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.touch.TouchCancelEvent;
@@ -33,6 +32,7 @@ import com.googlecode.mgwt.ui.client.dialog.HasTitleText;
 import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
 import com.googlecode.mgwt.ui.client.theme.base.DialogCss;
 import com.googlecode.mgwt.ui.client.widget.Button;
+import com.googlecode.mgwt.ui.client.widget.MListBox;
 import com.googlecode.mgwt.ui.client.widget.ProgressIndicator;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 
@@ -80,7 +80,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 
 	Storage stockStore;
 	private String fileName;
-	ListBox list;
+	MListBox list;
 	TextBox textInput;
 	ProgressIndicator pIndicator;
 
@@ -183,7 +183,8 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	 */
 	private void addFileChooser()
 	{
-		this.list = new ListBox();
+		this.list = new MListBox();
+		this.list.getElement().setAttribute("style", "height: 35px");
 		this.list.addStyleName("openSaveListBox");
 		this.list.addItem("(None)");
 
