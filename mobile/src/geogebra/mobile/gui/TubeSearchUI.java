@@ -2,6 +2,7 @@ package geogebra.mobile.gui;
 
 import geogebra.mobile.ClientFactory;
 import geogebra.mobile.gui.elements.ggt.MaterialPanel;
+import geogebra.mobile.gui.elements.ggt.MaterialResultPanel;
 import geogebra.mobile.place.TabletGuiPlace;
 import geogebra.mobile.utils.ggtapi.GeoGebraTubeAPI;
 import geogebra.mobile.utils.ggtapi.JSONparserGGT;
@@ -37,7 +38,7 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget
 
 	private MSearchBox searchBox;
 	protected MaterialPanel featuredMaterials;
-	protected MaterialPanel resultsArea;
+	protected MaterialResultPanel resultsArea;
 
 	protected Button backButton;
 
@@ -58,7 +59,7 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget
 
 		this.searchBox = new MSearchBox();
 		this.featuredMaterials = new MaterialPanel();
-		this.resultsArea = new MaterialPanel();
+		this.resultsArea = new MaterialResultPanel();
 
 		this.backButton = new Button("BACK");
 		this.backButton.addDomHandler(new ClickHandler()
