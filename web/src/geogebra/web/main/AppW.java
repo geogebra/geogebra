@@ -45,6 +45,7 @@ import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.app.MySplitLayoutPanel;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
@@ -122,6 +123,7 @@ public class AppW extends App {
 
 	protected ImageManager imageManager;
 
+	private MySplitLayoutPanel mySplitLayoutPanel = null;
 	private EuclidianDockPanelW euclidianViewPanel;
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
@@ -169,7 +171,7 @@ public class AppW extends App {
 			GeoGebraLogger.initConsole();
 		}
 		infobar = new InfoBarW(this);
-		
+
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
 		        + Window.Navigator.getUserAgent());
@@ -177,10 +179,14 @@ public class AppW extends App {
 
 		euclidianViewPanel = new EuclidianDockPanelW(false);
 		this.canvas = euclidianViewPanel.getCanvas();
+		/*mySplitLayoutPanel = new MySplitLayoutPanel(false, false, false, false, false);
+		this.euclidianViewPanel = mySplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper();
+		this.canvas = this.euclidianViewPanel.getCanvas();*/
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
+
 		initing = true;
 		initCoreObjects(undoActive, this);
 	}
@@ -1606,13 +1612,14 @@ public class AppW extends App {
 		if (showMenuBar){
 			attachMenubar();
 		}
-		
+
 		if (showToolBar) {
 			attachToolbar();
 		}
-		
+
 		//return euclidianViewPanel;
 		frame.add(euclidianViewPanel);
+		//attachSplitLayoutPanel();
 
 		if (showAlgebraInput){
 			attachAlgebraInput();
@@ -1635,6 +1642,11 @@ public class AppW extends App {
 		GGWToolBar toolbar = new GGWToolBar();
 		toolbar.init(this);
 		frame.add(toolbar);
+	}
+
+	public void attachSplitLayoutPanel() {
+		mySplitLayoutPanel.attachApp(this);
+		frame.add(mySplitLayoutPanel);
 	}
 
 	public void showLoadingAnimation(boolean go) {

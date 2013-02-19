@@ -102,7 +102,8 @@ public class EuclidianDockPanelW extends DockPanelW {
 
 	public void attachApp(App app) {
 		this.application = app;
-		espanel.attachApp(app);
+		if (espanel != null)
+			espanel.attachApp(app);
 	}
 
 	public EuclidianDockPanelW getEuclidianView1Wrapper() {

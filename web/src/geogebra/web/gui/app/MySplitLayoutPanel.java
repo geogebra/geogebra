@@ -26,20 +26,18 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	private boolean showSpreadsheet = false;
 	private boolean showCAS = false;
 
-	public MySplitLayoutPanel(boolean showAlgebra, boolean showEV2, boolean showSpreadsheet, boolean showCAS) {
+	public MySplitLayoutPanel(boolean showEVStylebar, boolean showAlgebra, boolean showEV2, boolean showSpreadsheet, boolean showCAS) {
 		super();
 		if (this.showAlgebra = showAlgebra)
 			addWest(ggwViewWrapper = new AlgebraDockPanelW(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
 		if (this.showEV2 = showEV2)
 			addEast(ggwGraphicsView2 = new EuclidianDockPanelW(true), 0);
-		else //else statement may be deleted
 		if (this.showSpreadsheet = showSpreadsheet)
 			createSpreadsheet();
-		else // else statement may be deleted
 		if (this.showCAS = showCAS)
 			createCAS();
 
-		add(ggwGraphicView = new EuclidianDockPanelW(true));
+		add(ggwGraphicView = new EuclidianDockPanelW(showEVStylebar));
     }
 
 	public void createSpreadsheet(){
