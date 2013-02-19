@@ -1,12 +1,16 @@
 package geogebra.mobile.gui.algebra;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.mobile.ClientFactory;
 import geogebra.mobile.controller.MobileController;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.header.HeaderImageButton;
+import geogebra.mobile.place.TabletGuiPlace;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
@@ -25,7 +29,7 @@ public class AlgebraViewPanel extends LayoutPanel
 {
 	protected ScrollPanel scrollPanel;
 	protected AlgebraViewM algebraView;
-	HeaderImageButton button = new HeaderImageButton(); 
+	HeaderImageButton button = new HeaderImageButton();
 
 	boolean small = false;
 
@@ -43,11 +47,11 @@ public class AlgebraViewPanel extends LayoutPanel
 		{
 
 			/**
-			 * If there is a tap on the {@link AlgebraViewPanel} and it is
-			 * collapsed, the panel gets extended.
+			 * If there is a tap on the {@link AlgebraViewPanel} and it is collapsed,
+			 * the panel gets extended.
 			 * 
 			 * @param event
-			 *            Event
+			 *          Event
 			 */
 			@Override
 			public void onTap(TapEvent event)
@@ -63,9 +67,8 @@ public class AlgebraViewPanel extends LayoutPanel
 		{
 
 			/**
-			 * The {@link AlgebraViewPanel} extends if there is a swipe from
-			 * left to right and collapses if there is a swipe form right to
-			 * left.
+			 * The {@link AlgebraViewPanel} extends if there is a swipe from left to
+			 * right and collapses if there is a swipe form right to left.
 			 */
 			@Override
 			public void onSwipeEnd(SwipeEndEvent event)
@@ -73,7 +76,8 @@ public class AlgebraViewPanel extends LayoutPanel
 				if (event.getDirection() == DIRECTION.LEFT_TO_RIGHT)
 				{
 					extend();
-				} else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
+				}
+				else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
 				{
 					minimize();
 				}
@@ -89,30 +93,31 @@ public class AlgebraViewPanel extends LayoutPanel
 	{
 		AlgebraViewPanel.this.removeStyleName("algebraView-notExtended");
 		this.scrollPanel.setVisible(true);
-		this.small = false; 
-		
+		this.small = false;
+
 		SVGResource icon = CommonResources.INSTANCE.algebra_close();
 		this.button.setText(icon.getSafeUri().asString());
 	}
-	
-	protected void minimize(){
+
+	protected void minimize()
+	{
 		this.addStyleName("algebraView-notExtended");
 		this.small = true;
 		this.scrollPanel.setVisible(false);
-		
+
 		SVGResource icon = CommonResources.INSTANCE.algebra_open();
 		this.button.setText(icon.getSafeUri().asString());
 	}
 
 	/**
-	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM
-	 * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
-	 * {@link Kernel kernel}.
+	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM algebraView}
+	 * to it. Attaches the {@link AlgebraViewM algebraView} to the {@link Kernel
+	 * kernel}.
 	 * 
 	 * @param controller
-	 *            MobileAlgebraController
+	 *          MobileAlgebraController
 	 * @param kernel
-	 *            Kernel
+	 *          Kernel
 	 */
 	public void initAlgebraView(MobileController controller, Kernel kernel)
 	{
@@ -122,24 +127,27 @@ public class AlgebraViewPanel extends LayoutPanel
 		this.scrollPanel = new ScrollPanel(this.algebraView);
 		this.scrollPanel.addStyleName("algebraScrollPanel");
 		add(this.scrollPanel);
-		
+
 		SVGResource icon = CommonResources.INSTANCE.algebra_close();
-		this.button.addStyleName("algebraButton"); 
+		this.button.addStyleName("algebraButton");
 		this.button.setText(icon.getSafeUri().asString());
-		this.button.addTapHandler(new TapHandler()
-		{			
+		this.button.addDomHandler(new ClickHandler()
+		{
 			@Override
-			public void onTap(TapEvent event)
+			public void onClick(ClickEvent event)
 			{
-				if(AlgebraViewPanel.this.small){
+				if (AlgebraViewPanel.this.small)
+				{
 					extend();
 				}
-				else{
-					minimize(); 
+				else
+				{
+					minimize();
 				}
 			}
-		});
-		this.add(this.button); 
+		}, ClickEvent.getType());
+
+		this.add(this.button);
 	}
 
 }

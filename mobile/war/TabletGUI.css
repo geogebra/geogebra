@@ -33,7 +33,7 @@
 
 /*geogebra.mobile.gui.elements.heade.OpenSaveDialog*/
 .savetextinput {
-	width: 98%;
+	width: 100%;
 	font-size: large;
 }
 
@@ -154,7 +154,7 @@ div.mgwt-BarButton-tool-rightButton {
 }
 
 .inputtext {
-	width: 98%;
+	width: 100%;
 	font-size: large;
 }
 
@@ -209,38 +209,11 @@ div.mgwt-BarButton-tool {
 	border-radius: 1em 1em 1em 1em;
 }
 
-.maxSize
-
-
- 
-
-
-(){
-height
-
-
-
-
-:
-
-
- 
-
-
-100%;
-width
-
-
-
-
-:
-
-
- 
-
-
-100%;
+.maxSize(){
+	height: 100%;
+	width: 100%;
 }
+
 .algebraRoundPanel {
 	border: 0px;
 }

@@ -9,6 +9,8 @@ import geogebra.mobile.utils.ggtapi.Material;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.Request;
@@ -18,8 +20,6 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
@@ -61,15 +61,14 @@ public class TubeSearchUI extends LayoutPanel implements AcceptsOneWidget
 		this.resultsArea = new MaterialPanel();
 
 		this.backButton = new Button("BACK");
-		this.backButton.addTapHandler(new TapHandler()
+		this.backButton.addDomHandler(new ClickHandler()
 		{
-
 			@Override
-			public void onTap(TapEvent event)
+			public void onClick(ClickEvent event)
 			{
 				ClientFactory.getPlaceController().goTo(new TabletGuiPlace("TubeSearchUI"));
 			}
-		});
+		}, ClickEvent.getType());
 
 		// Handle orientation changes
 		MGWT.addOrientationChangeHandler(new OrientationChangeHandler()
