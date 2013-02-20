@@ -79,12 +79,9 @@ import java.util.TreeSet;
 
 public class Kernel3D extends Kernel {
 
-	protected App3D app3D;
-
 	public Kernel3D(App3D app) {
 
 		super(app);
-		this.app3D = app;
 
 	}
 
@@ -209,11 +206,11 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
-		return new ExpressionNodeEvaluator3D(app3D.getLocalization());
+		return new ExpressionNodeEvaluator3D(app.getLocalization());
 	}
 
 	public App3D getApplication3D() {
-		return app3D;
+		return (App3D) app;
 	}
 
 	/**
@@ -339,7 +336,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public GeoPlaneND getDefaultPlane() {
-		return app3D.getEuclidianView3D().getxOyPlane();
+		return ((App3D)app).getEuclidianView3D().getxOyPlane();
 	}
 
 	// ///////////////////////////////
