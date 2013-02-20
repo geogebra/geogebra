@@ -321,7 +321,7 @@ public abstract class EuclidianController {
 
 	protected GPoint oldLoc = new GPoint();
 
-	protected GPoint2D.Double startPoint = new GPoint2D.Double();
+	private GPoint2D.Double startPoint = new GPoint2D.Double();
 
 	protected GPoint2D.Double lineEndPoint = null;
 
@@ -429,9 +429,9 @@ public abstract class EuclidianController {
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
-		translationVec.setX(xRW - startPoint.x);
-		translationVec.setY(yRW - startPoint.y);
-		startPoint.setLocation(xRW, yRW);
+		translationVec.setX(xRW - getStartPointX());
+		translationVec.setY(yRW - getStartPointY());
+		setStartPointLocation(xRW, yRW);
 		GeoElement.moveObjects(pastePreviewSelected, translationVec,
 				new Coords(xRW, yRW, 0), null);
 	}
@@ -459,24 +459,24 @@ public abstract class EuclidianController {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
 					if (geo.isGeoPoint()) {
-						startPoint.setLocation(((GeoPoint) geo).inhomX,
+						setStartPointLocation(((GeoPoint) geo).inhomX,
 								((GeoPoint) geo).inhomY);
 						firstMoveable = false;
 					} else if (geo.isGeoText()) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {
 							GeoPoint loc = (GeoPoint) ((GeoText) geo)
 									.getStartPoint();
-							startPoint.setLocation(loc.inhomX, loc.inhomY);
+							setStartPointLocation(loc.inhomX, loc.inhomY);
 							firstMoveable = false;
 						}
 					} else if (geo.isGeoNumeric()) {
 						if (!((GeoNumeric) geo).isAbsoluteScreenLocActive()) {
-							startPoint.setLocation(
+							setStartPointLocation(
 									((GeoNumeric) geo).getRealWorldLocX(),
 									((GeoNumeric) geo).getRealWorldLocY());
 							firstMoveable = false;
 						} else {
-							startPoint.setLocation(view
+							setStartPointLocation(view
 									.toRealWorldCoordX(((GeoNumeric) geo)
 											.getAbsoluteScreenLocX()), view
 									.toRealWorldCoordY(((GeoNumeric) geo)
@@ -489,7 +489,7 @@ public abstract class EuclidianController {
 							if (loc != null) { // top left defined
 								// transformCoordsOffset[0]=loc.inhomX-xRW;
 								// transformCoordsOffset[1]=loc.inhomY-yRW;
-								startPoint.setLocation(loc.inhomX, loc.inhomY);
+								setStartPointLocation(loc.inhomX, loc.inhomY);
 								firstMoveable = false;
 							} else {
 								loc = ((GeoImage) geo).getStartPoint();
@@ -497,7 +497,7 @@ public abstract class EuclidianController {
 													// (default)
 									// transformCoordsOffset[0]=loc.inhomX-xRW;
 									// transformCoordsOffset[1]=loc.inhomY-yRW;
-									startPoint.setLocation(loc.inhomX,
+									setStartPointLocation(loc.inhomX,
 											loc.inhomY);
 									firstMoveable = false;
 								} else {
@@ -505,7 +505,7 @@ public abstract class EuclidianController {
 									if (loc != null) { // bottom right defined
 										// transformCoordsOffset[0]=loc.inhomX-xRW;
 										// transformCoordsOffset[1]=loc.inhomY-yRW;
-										startPoint.setLocation(loc.inhomX,
+										setStartPointLocation(loc.inhomX,
 												loc.inhomY);
 										firstMoveable = false;
 									}
@@ -514,14 +514,14 @@ public abstract class EuclidianController {
 						}
 					} else if (geo.isGeoBoolean()) {
 						// moveMode = MOVE_BOOLEAN;
-						startPoint.setLocation(view
+						setStartPointLocation(view
 								.toRealWorldCoordX(((GeoBoolean) geo)
 										.getAbsoluteScreenLocX()), view
 								.toRealWorldCoordY(((GeoBoolean) geo)
 										.getAbsoluteScreenLocY() + 20));
 						firstMoveable = false;
 					} else if (geo instanceof Furniture) {
-						startPoint.setLocation(view
+						setStartPointLocation(view
 								.toRealWorldCoordX(((Furniture) geo)
 										.getAbsoluteScreenLocX() - 5), view
 								.toRealWorldCoordY(((Furniture) geo)
@@ -532,7 +532,7 @@ public abstract class EuclidianController {
 			}
 		}
 		if (firstMoveable) {
-			startPoint.setLocation((view.getXmin() + view.getXmax()) / 2,
+			setStartPointLocation((view.getXmin() + view.getXmax()) / 2,
 					(view.getYmin() + view.getYmax()) / 2);
 		}
 		if ((pastePreviewSelected != null) && !pastePreviewSelected.isEmpty()) {
@@ -5904,7 +5904,7 @@ public abstract class EuclidianController {
 	
 			// part of snap to grid code - buggy, so commented out
 			// movedGeoText.setAbsoluteScreenLoc(view.toScreenCoordX(xRW -
-			// startPoint.x), view.toScreenCoordY(yRW - startPoint.y));
+			// getStartPointX()), view.toScreenCoordY(yRW - getStartPointY()));
 		} else {
 			if (movedGeoText.hasAbsoluteLocation()) {
 				// absolute location: change location
@@ -5926,7 +5926,7 @@ public abstract class EuclidianController {
 	
 	protected void moveTextAbsoluteLocation(){
 		GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
-		loc.setCoords(xRW - startPoint.x, yRW - startPoint.y, 1.0);
+		loc.setCoords(xRW - getStartPointX(), yRW - getStartPointY(), 1.0);
 	}
 
 	protected final void moveImage(boolean repaint) {
@@ -5936,8 +5936,8 @@ public abstract class EuclidianController {
 			// oldLoc.y + mouseLoc.y-startLoc.y);
 	
 			movedGeoImage.setAbsoluteScreenLoc(
-					view.toScreenCoordX(xRW - startPoint.x),
-					view.toScreenCoordY(yRW - startPoint.y));
+					view.toScreenCoordX(xRW - getStartPointX()),
+					view.toScreenCoordY(yRW - getStartPointY()));
 	
 			if (repaint) {
 				movedGeoImage.updateRepaint();
@@ -5947,8 +5947,8 @@ public abstract class EuclidianController {
 		} else {
 			if (movedGeoImage.hasAbsoluteLocation()) {
 				// absolute location: translate all defined corners
-				double vx = xRW - startPoint.x;
-				double vy = yRW - startPoint.y;
+				double vx = xRW - getStartPointX();
+				double vy = yRW - getStartPointY();
 				movedGeoImage.set(oldImage);
 				for (int i = 0; i < 3; i++) {
 					GeoPoint corner = movedGeoImage.getCorner(i);
@@ -6000,7 +6000,7 @@ public abstract class EuclidianController {
 		} else {
 			// just translate conic
 			movedGeoConic.set(tempConic);
-			movedGeoConic.translate(xRW - startPoint.x, yRW - startPoint.y);			
+			movedGeoConic.translate(xRW - getStartPointX(), yRW - getStartPointY());			
 		}
 		
 	
@@ -6013,14 +6013,14 @@ public abstract class EuclidianController {
 
 	protected final void moveImplicitPoly(boolean repaint) {
 		movedGeoImplicitPoly.set(tempImplicitPoly);
-		movedGeoImplicitPoly.translate(xRW - startPoint.x, yRW - startPoint.y);
+		movedGeoImplicitPoly.translate(xRW - getStartPointX(), yRW - getStartPointY());
 	
 		// set points
 		for (int i = 0; i < moveDependentPoints.size(); i++) {
 			GeoPoint g = moveDependentPoints.get(i);
 			g.setCoords2D(tempDependentPointX.get(i),
 					tempDependentPointY.get(i), 1);
-			g.translate(new Coords(xRW - startPoint.x, yRW - startPoint.y, 1));
+			g.translate(new Coords(xRW - getStartPointX(), yRW - getStartPointY(), 1));
 			// g.updateCascade();
 		}
 	
@@ -6037,7 +6037,7 @@ public abstract class EuclidianController {
 		// GeoPoint g=((GeoPoint)elem);
 		// g.getPathParameter().setT(tempDependentPointOnPath.get(i++));
 		// tempImplicitPoly.pathChanged(g);
-		// g.translate(new Coords(xRW - startPoint.x, yRW - startPoint.y));
+		// g.translate(new Coords(xRW - getStartPointX(), yRW - getStartPointY()));
 		// }
 		// }else if (elem instanceof GeoImplicitPoly){
 		//
@@ -6051,10 +6051,9 @@ public abstract class EuclidianController {
 	protected final void moveFreehand(boolean repaint) {
 	
 		movedGeoFunction.set(tempFunction);
-		movedGeoFunction.translate(xRW - startPoint.x, yRW - startPoint.y);
+		movedGeoFunction.translate(xRW - getStartPointX(), yRW - getStartPointY());
 	
-		startPoint.x = xRW;
-		startPoint.y = yRW;
+		setStartPointLocation(xRW,yRW);
 		
 	if (repaint) {
 		movedGeoFunction.updateRepaint();
@@ -6174,7 +6173,7 @@ public abstract class EuclidianController {
 			movedGeoFunction.set(square);			
 		} else {
 			movedGeoFunction.set(tempFunction);
-			movedGeoFunction.translate(xRW - startPoint.x, yRW - startPoint.y);
+			movedGeoFunction.translate(xRW - getStartPointX(), yRW - getStartPointY());
 		}
 		
 		if (repaint) {
@@ -6191,8 +6190,8 @@ public abstract class EuclidianController {
 	
 		// part of snap to grid code
 		movedGeoBoolean.setAbsoluteScreenLoc(
-				view.toScreenCoordX(xRW - startPoint.x),
-				view.toScreenCoordY(yRW - startPoint.y));
+				view.toScreenCoordX(xRW - getStartPointX()),
+				view.toScreenCoordY(yRW - getStartPointY()));
 	
 		if (repaint) {
 			movedGeoBoolean.updateRepaint();
@@ -6208,8 +6207,8 @@ public abstract class EuclidianController {
 	//AbstractApplication.printStacktrace("");
 		// part of snap to grid code
 		movedGeoButton.setAbsoluteScreenLoc(
-				view.toScreenCoordX(xRW - startPoint.x),
-				view.toScreenCoordY(yRW - startPoint.y));
+				view.toScreenCoordX(xRW - getStartPointX()),
+				view.toScreenCoordY(yRW - getStartPointY()));
 	
 		if (repaint) {
 			movedGeoButton.updateRepaint();
@@ -6224,15 +6223,15 @@ public abstract class EuclidianController {
 		double param;
 		if (movedSlider.isSliderHorizontal()) {
 			if (movedSlider.isAbsoluteScreenLocActive()) {
-				param = mouseLoc.x - startPoint.x;
+				param = mouseLoc.x - getStartPointX();
 			} else {
-				param = xRW - startPoint.x;
+				param = xRW - getStartPointX();
 			}
 		} else {
 			if (movedSlider.isAbsoluteScreenLocActive()) {
-				param = startPoint.y - mouseLoc.y;
+				param = getStartPointY() - mouseLoc.y;
 			} else {
-				param = yRW - startPoint.y;
+				param = yRW - getStartPointY();
 			}
 		}
 		//make sure we don't show eg 5.2 for slider <-5,5> in the hit treshold
@@ -6331,11 +6330,11 @@ public abstract class EuclidianController {
 	
 			// part of snap to grid code
 			movedGeoNumeric.setAbsoluteScreenLoc(
-					view.toScreenCoordX(xRW - startPoint.x),
-					view.toScreenCoordY(yRW - startPoint.y), temporaryMode);
+					view.toScreenCoordX(xRW - getStartPointX()),
+					view.toScreenCoordY(yRW - getStartPointY()), temporaryMode);
 		} else {
-			movedGeoNumeric.setSliderLocation(xRW - startPoint.x, yRW
-					- startPoint.y, temporaryMode);
+			movedGeoNumeric.setSliderLocation(xRW - getStartPointX(), yRW
+					- getStartPointY(), temporaryMode);
 		}
 	
 		// don't cascade, only position of the slider has changed
@@ -6348,10 +6347,10 @@ public abstract class EuclidianController {
 
 	protected void moveDependent(boolean repaint) {
 	
-		translationVec.setX(xRW - startPoint.x);
-		translationVec.setY(yRW - startPoint.y);
+		translationVec.setX(xRW - getStartPointX());
+		translationVec.setY(yRW - getStartPointY());
 	
-		startPoint.setLocation(xRW, yRW);
+		setStartPointLocation(xRW, yRW);
 	
 		// we don't specify screen coords for translation as all objects are
 		// Transformables
@@ -6367,12 +6366,12 @@ public abstract class EuclidianController {
 		AlgoElement algo = movedGeoElement.getParentAlgorithm();
 		GeoPoint pt1 = (GeoPoint)algo.getInput()[4];
 		GeoPoint pt2 = (GeoPoint)algo.getInput()[5];
-		double dx = view.getXscale()*(xRW - startPoint.x);
-		double dy = view.getYscale()*(yRW - startPoint.y);
-		startPoint.setLocation(xRW, yRW);
+		double dx = view.getXscale()*(xRW - getStartPointX());
+		double dy = view.getYscale()*(yRW - getStartPointY());
+		setStartPointLocation(xRW, yRW);
 		pt1.setCoords(pt1.getX()+dx,pt1.getY()-dy,1);
 		pt2.setCoords(pt2.getX()+dx,pt2.getY()-dy,1);
-		App.debug(xRW+","+yRW+":"+startPoint.x+","+startPoint.y);
+		App.debug(xRW+","+yRW+":"+getStartPointX()+","+getStartPointY());
 		algo.update();
 		 
 		if (repaint) {
@@ -6385,9 +6384,9 @@ public abstract class EuclidianController {
 	}
 
 	protected void moveMultipleObjects(boolean repaint) {
-		translationVec.setX(xRW - startPoint.x);
-		translationVec.setY(yRW - startPoint.y);
-		startPoint.setLocation(xRW, yRW);
+		translationVec.setX(xRW - getStartPointX());
+		translationVec.setY(yRW - getStartPointY());
+		setStartPointLocation(xRW, yRW);
 		startLoc = mouseLoc;
 	
 		// move all selected geos
@@ -6399,6 +6398,14 @@ public abstract class EuclidianController {
 		}
 	}
 
+	private double getStartPointX() {
+		return startPoint.x;
+	}
+	
+	private double getStartPointY() {
+		return startPoint.y;
+	}
+	
 	public void setMovedGeoPoint(GeoElement geo) {
 		movedGeoPoint = (GeoPointND) geo;
 	
@@ -6634,7 +6641,7 @@ public abstract class EuclidianController {
 				if ((pastePreviewSelected == null) ? (true)
 						: (pastePreviewSelected.isEmpty())) {
 	
-					startPoint.setLocation(((GeoNumeric) hit).getSliderX(),
+					setStartPointLocation(((GeoNumeric) hit).getSliderX(),
 							((GeoNumeric) hit).getSliderY());
 					
 				//	boolean valueShowing = hit.isLabelVisible()
@@ -6897,11 +6904,11 @@ public abstract class EuclidianController {
 	}
 
 	public void setStartPointLocation() {
-		startPoint.setLocation(xRW, yRW);
+		setStartPointLocation(xRW, yRW);
 	}
 	
 	public void setStartPointLocationWithOrigin(double x, double y) {
-		startPoint.setLocation(xRW-x, yRW-y);
+		setStartPointLocation(xRW-x, yRW-y);
 	}
 
 	public void handleMovedElement(GeoElement geo, boolean multiple) {
@@ -7181,7 +7188,7 @@ public abstract class EuclidianController {
 				startLoc = mouseLoc;
 	
 				// part of snap to grid code - buggy, so commented out
-				// startPoint.setLocation(xRW -
+				// setStartPointLocation(xRW -
 				// view.toRealWorldCoordX(oldLoc.x), yRW -
 				// view.toRealWorldCoordY(oldLoc.y));
 				// movedGeoText.setNeedsUpdatedBoundingBox(true);
@@ -7373,7 +7380,7 @@ public abstract class EuclidianController {
 						startLoc = mouseLoc;
 	
 						// part of snap to grid code
-						startPoint.setLocation(
+						setStartPointLocation(
 								xRW - view.toRealWorldCoordX(oldLoc.x), yRW
 										- view.toRealWorldCoordY(oldLoc.y));
 						transformCoordsOffset[0] = view
@@ -7381,7 +7388,7 @@ public abstract class EuclidianController {
 						transformCoordsOffset[1] = view
 								.toRealWorldCoordY(oldLoc.y) - yRW;
 					} else {
-						startPoint.setLocation(
+						setStartPointLocation(
 								xRW - movedGeoNumeric.getRealWorldLocX(), yRW
 										- movedGeoNumeric.getRealWorldLocY());
 						transformCoordsOffset[0] = movedGeoNumeric
@@ -7390,7 +7397,7 @@ public abstract class EuclidianController {
 								.getRealWorldLocY() - yRW;
 					}
 				} else {
-					startPoint.setLocation(movedGeoNumeric.getSliderX(),
+					setStartPointLocation(movedGeoNumeric.getSliderX(),
 							movedGeoNumeric.getSliderY());
 	
 					// update straightaway in case it's just a click (no drag)
@@ -7423,7 +7430,7 @@ public abstract class EuclidianController {
 			oldLoc.y = movedGeoBoolean.getAbsoluteScreenLocY();
 	
 			// part of snap to grid code (the constant 5 comes from DrawBoolean)
-			startPoint.setLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
+			setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
 					- view.toRealWorldCoordY(oldLoc.y));
 			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x + 5)
 					- xRW;
@@ -7445,7 +7452,7 @@ public abstract class EuclidianController {
 			oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
 	
 			// part of snap to grid code
-			startPoint.setLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
+			setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
 					- view.toRealWorldCoordY(oldLoc.y));
 			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x) - xRW;
 			transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y) - yRW;
@@ -7467,7 +7474,7 @@ public abstract class EuclidianController {
 				startLoc = mouseLoc;
 	
 				// part of snap to grid code
-				startPoint.setLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
+				setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
 						yRW - view.toRealWorldCoordY(oldLoc.y));
 				transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x)
 						- xRW;
@@ -7499,6 +7506,10 @@ public abstract class EuclidianController {
 	
 	}
 
+	private void setStartPointLocation(double x, double y) {
+		startPoint.setLocation(x, y);
+		
+	}
 	/*
 	 * Dragging a fixed checkbox should change its state (important for EWB etc)
 	 * 
