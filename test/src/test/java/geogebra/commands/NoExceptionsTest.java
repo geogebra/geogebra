@@ -3,6 +3,7 @@ package geogebra.commands;
 import geogebra.CommandLineArguments;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.main.App;
 import geogebra.io.XmlTest;
 import geogebra.main.AppD;
 
@@ -26,7 +27,7 @@ public class NoExceptionsTest {
 	static AlgebraProcessor ap;
 
 	@BeforeClass
-	public static void setupCas() {
+	public static void setupApp() {
 		app = new AppD(new CommandLineArguments(
 				new String[]{"--silent"}), new JFrame(), false);
 		app.setLanguage(Locale.US);
@@ -104,10 +105,13 @@ public class NoExceptionsTest {
 	public void checkSyntaxes(){
 		Assert.assertTrue("unchecked syntaxes: "+syntaxes,syntaxes<=0);
 	}
-	public static void t(String s) {
+	private static void  t(String s){
+		testSyntax(s,app,ap);
+	}
+	public static void testSyntax(String s,App app,AlgebraProcessor ap) {
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
-			String cmdName = t.getStackTrace()[1].getMethodName().substring(3);
+			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
 			String syntax = app.getLocalization().getCommand(cmdName+".Syntax");
 			syntaxes = 0;
 			for(int i=0;i<syntax.length();i++)
@@ -1177,6 +1181,7 @@ public class NoExceptionsTest {
 		t("Max[ f1, n2, n3 ]");
 		t("Max[ interval1 ]");
 		t("Max[ list1 ]");
+		t("Max[ list1, list1 ]");
 		t("Max[ n1, n1 ]");
 	}
 
@@ -1221,6 +1226,7 @@ public class NoExceptionsTest {
 		t("Min[ f1, n2, n3 ]");
 		t("Min[ interval1 ]");
 		t("Min[ list1 ]");
+		t("Min[ list1, list1 ]");
 		t("Min[ n1, n1 ]");
 	}
 
@@ -2191,12 +2197,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdUpdateConstruction() {
-		t("UpdateConstruction[]");
-
-	}
-
-	@Test
 	public void cmdUpperSum() {
 		t("UpperSum[ f1, n2, n3, n1 ]");
 	}
@@ -2544,6 +2544,13 @@ public class NoExceptionsTest {
 		app.getKernel().getConstruction().undo();
 		app.getKernel().getConstruction().redo();
 		
+	}
+	
+	@Test
+	public void cmdUpdateConstruction() {
+		t("UpdateConstruction[]");
+		t("UpdateConstruction[n2]");
+
 	}
 	
 	

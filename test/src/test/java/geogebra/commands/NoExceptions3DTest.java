@@ -1,11 +1,50 @@
 package geogebra.commands;
 
+import geogebra.CommandLineArguments;
+import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.main.AppD;
+import geogebra3D.App3D;
+
+import java.util.Locale;
+
+import javax.swing.JFrame;
+
+import junit.framework.Assert;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class NoExceptions3DTest {
+	static AppD app;
+	static AlgebraProcessor ap;
+	
+	@Before
+	public void resetSyntaxes(){
+		NoExceptionsTest.syntaxes = -1000;
+	}
+	@After
+	public void checkSyntaxes(){
+		Assert.assertTrue("unchecked syntaxes: "+NoExceptionsTest.syntaxes,NoExceptionsTest.syntaxes<=0);
+	}
+	
+	private static void  t(String s){
+		NoExceptionsTest.testSyntax(s,app,ap);
+	}
+	
+	@BeforeClass
+	public static void setupApp() {
+		app = new App3D(new CommandLineArguments(
+				new String[]{"--silent"}), new JFrame(), false);
+		app.setLanguage(Locale.US);
+		// app.getKernel()
+		ap = app.getKernel().getAlgebraProcessor();
+	}
+	
 	@Test
 	public void cmdSurfaceCartesian() {
-		// TODO write test
+		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]");
 	}
 
 	@Test
