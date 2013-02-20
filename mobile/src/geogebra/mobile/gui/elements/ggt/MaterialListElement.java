@@ -16,12 +16,12 @@ import com.google.gwt.dom.client.Style.Unit;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialSearchResult extends LayoutPanel
+public class MaterialListElement extends LayoutPanel
 {
 	private SimplePanel image;
 	private Label title, author, sharedBy;
 
-	public MaterialSearchResult(Material m)
+	public MaterialListElement(Material m)
 	{
 		this.setWidth(Window.getClientWidth() + "px");
 		this.setHeight("100px");

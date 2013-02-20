@@ -4,28 +4,29 @@ import geogebra.mobile.utils.ggtapi.Material;
 
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 
-public class MaterialPanel extends LayoutPanel
+public class HorizontalMaterialPanel extends ScrollPanel
 {
-	private ScrollPanel scrollPanel;
 	private HorizontalPanel horizontalPanel;
 
-	public MaterialPanel()
+	public HorizontalMaterialPanel()
 	{
-		this.scrollPanel = new ScrollPanel();
-		this.horizontalPanel = new HorizontalPanel();
+		this.setWidth(Window.getClientWidth() + "px");
+		this.setScrollingEnabledX(true);
+		this.setScrollingEnabledY(false);
 
-		this.scrollPanel.add(this.horizontalPanel);
-		this.scrollPanel.setScrollingEnabledX(true);
-		this.scrollPanel.setScrollingEnabledY(false);
-		this.add(this.scrollPanel);
+		this.horizontalPanel = new HorizontalPanel();
+		this.horizontalPanel.setWidth("100%");
+		this.setWidget(this.horizontalPanel);
 	}
 
 	public void setMaterials(List<Material> materials)
 	{
+		this.horizontalPanel.clear();
+
 		for (Material m : materials)
 		{
 			MaterialPreview preview = new MaterialPreview(m);
