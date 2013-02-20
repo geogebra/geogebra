@@ -95,6 +95,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				guiModel.closeOptions();
 				kernel.clearConstruction(true);
+				kernel.initUndoInfo(); 
 				kernel.notifyRepaint();
 				changeTitle("New File");
 			}

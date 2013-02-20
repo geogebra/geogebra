@@ -54,6 +54,7 @@ public class ColorBarBackground extends VerticalPanel
 				if (fillable.size() > 0 && StyleBarStatic.applyAlpha(fillable, event.getValue() / 10f))
 				{
 					fillable.get(0).updateRepaint();
+					mobileModel.storeOnClose(); 
 				}
 			}
 		});

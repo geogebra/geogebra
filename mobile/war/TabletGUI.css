@@ -123,11 +123,6 @@ div.stylingbar {
 	border-radius: 1em 0em 0em 1em;
 }
 
-div.mgwt-BarButton-active {
-	margin: 1px;
-	border: 3px solid rgba(0, 0, 255, 1);
-}
-
 /*geogebra.mobile.gui.elements.toolbar.OptionsBarBackground*/
 div.mgwt-ButtonBar-toolBarOptionsBackground {
 	position: absolute;
@@ -174,6 +169,11 @@ div.mgwt-BarButton-tool {
 	background-color: white;
 }
 
+div.mgwt-BarButton-active {
+	margin: 1px;
+	border: 3px solid rgba(0, 0, 255, 1);
+}
+
 /*geogebra.mobile.gui.euclidian.EuclidianViewPanel*/
 .euclidianview {
 	position: absolute;
@@ -209,13 +209,18 @@ div.mgwt-BarButton-tool {
 	border-radius: 1em 1em 1em 1em;
 }
 
-.maxSize(){
+.maxSize {
 	height: 100%;
 	width: 100%;
 }
 
 .algebraRoundPanel {
 	border: 0px;
+}
+
+.top{
+	position: absolute; 
+	top: 0px; 
 }
 
 .rootTest {

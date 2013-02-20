@@ -85,7 +85,6 @@ public class MobileController extends EuclidianController
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 			
-			//this.startPoint = new GPoint2D.Double(this.view.toRealWorldCoordX(this.origin.getX()), this.view.toRealWorldCoordY(this.origin.getY()));
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
@@ -99,6 +98,10 @@ public class MobileController extends EuclidianController
 		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
 		{
 			handleEvent(x, y);
+		}
+		
+		if(this.model.getCommand().equals(ToolBarCommand.Move_Mobile) && this.view.getHits().size() > 0){
+			this.kernel.storeUndoInfo(); 
 		}
 	}
 
@@ -115,6 +118,8 @@ public class MobileController extends EuclidianController
 
 	private void handleEvent(int x, int y)
 	{
+		this.model.getGuiModel().closeOptions(); // make sure undo-information is stored first
+		
 		ToolBarCommand cmd = this.model.getCommand();
 
 		super.mouseLoc = new GPoint(x, y);

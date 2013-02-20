@@ -30,7 +30,7 @@ public class CaptionBar extends RoundPanel
 						// -1: anything other than 0 (move-mode)
 						EuclidianStyleBarStatic.applyCaptionStyle(mobileModel.getSelectedGeos(), -1, index);
 					}
-					mobileModel.getGuiModel().setCaptionMode(index);
+					mobileModel.setCaptionMode(index);
 				}
 			}, ClickEvent.getType());
 			add(button[i]);

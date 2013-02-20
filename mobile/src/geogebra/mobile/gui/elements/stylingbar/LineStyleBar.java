@@ -31,6 +31,7 @@ public class LineStyleBar extends RoundPanel
 				{
 					StyleBarStatic.applyLineStyle(mobileModel.getSelectedGeos(), index);
 					mobileModel.getGuiModel().setLineStyle(index);
+					mobileModel.storeOnClose(); 
 				}
 			}, ClickEvent.getType());
 			add(lineStyle[i]);
@@ -50,6 +51,7 @@ public class LineStyleBar extends RoundPanel
 			{
 				StyleBarStatic.applyLineSize(mobileModel.getSelectedGeos(), event.getValue() + 2);
 				mobileModel.getGuiModel().setLineSize(event.getValue() + 2);
+				mobileModel.storeOnClose(); 
 			}
 		});
 		add(slider);

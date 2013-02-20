@@ -51,6 +51,8 @@ public class Colors extends VerticalPanel
 				{
 					Colors.this.mobileModel.lastSelected().updateRepaint();
 				}
+				
+				Colors.this.mobileModel.storeOnClose();  
 			}
 		}, ClickEvent.getType());
 
