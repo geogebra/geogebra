@@ -495,20 +495,20 @@ public abstract class Drawable extends DrawableND {
 	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
 		if (isForceNoFill())
 			return;
-		if (geo.getFillType() == GeoElement.FILL_HATCH) {
-
+		if (hasPattern()) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
 			geogebra.common.euclidian.HatchingHandler.setHatching(g2, decoStroke,
 					geo.getObjectColor(),
 					geo.getBackgroundColor(),
 					geo.getAlphaValue(), geo.getHatchingDistance(),
-					geo.getHatchingAngle());
+					geo.getHatchingAngle(),
+					geo.getFillType());
 			if (usePureStroke)
 				EuclidianStatic.fillWithValueStrokePure(fillShape, g2);
 			else
 				g2.fill(fillShape);
 
-		} else if (geo.getFillType() == GeoElement.FILL_IMAGE) {
+		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
 			geogebra.common.euclidian.HatchingHandler.setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(fillShape);
 		} else if (geo.getAlphaValue() > 0.0f) {
@@ -528,7 +528,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 	}
-
+	
 	/**
 	 * @param forceNoFill
 	 *            the forceNoFill to set
@@ -578,5 +578,13 @@ public abstract class Drawable extends DrawableND {
 	public boolean isFilled(){
 		return (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled());
 	}
-
+	
+	private boolean hasPattern() {
+		return geo.getFillType() == GeoElement.FillType.HATCH
+				|| geo.getFillType() == GeoElement.FillType.CROSSHATCHED
+				|| geo.getFillType() == GeoElement.FillType.CHESSBOARD
+				|| geo.getFillType() == GeoElement.FillType.DOTTED
+				|| geo.getFillType() == GeoElement.FillType.HONEYCOMB
+				|| geo.getFillType() == GeoElement.FillType.BRICK;
+	}
 }

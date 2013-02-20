@@ -34,6 +34,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
@@ -5245,7 +5246,12 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			cbFillType.addItem(app.getMenu("Filling.Standard")); // index 0
 			cbFillType.addItem(app.getMenu("Filling.Hatch")); // index 1
-			cbFillType.addItem(app.getMenu("Filling.Image")); // index 2
+			cbFillType.addItem(app.getMenu("Filling.Crosshatch")); // index 2
+			cbFillType.addItem(app.getMenu("Filling.Chessboard")); // index 3
+			cbFillType.addItem(app.getMenu("Filling.Dotted")); // index 4
+			cbFillType.addItem(app.getMenu("Filling.Honeycomb"));//index 5
+			cbFillType.addItem(app.getMenu("Filling.Brick"));//index 6
+			cbFillType.addItem(app.getMenu("Filling.Image")); // index 7
 
 			cbFillType.setSelectedIndex(selectedIndex);
 			cbFillType.addActionListener(this);
@@ -5309,23 +5315,43 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			return imagePanel;
 		}
 
-		private void updateFillTypePanel(int fillType) {
+		private void updateFillTypePanel(FillType fillType) {
 
 			switch (fillType) {
 
-			case GeoElement.FILL_STANDARD:
+			case STANDARD:
 				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(false);
 				imagePanel.setVisible(false);
 				break;
-
-			case GeoElement.FILL_HATCH:
+			case HATCH:
 				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
+				anglePanel.setVisible(true);
+				angleSlider.setMaximum(180);
+				angleSlider.setMinorTickSpacing(5);
 				break;
-
-			case GeoElement.FILL_IMAGE:
+			case CROSSHATCHED:
+			case CHESSBOARD:
+				transparencyPanel.setVisible(false);
+				hatchFillPanel.setVisible(true);
+				imagePanel.setVisible(false);
+				anglePanel.setVisible(true);
+				// Only at 0, 45 and 90 degrees texturepaint not have mismatches
+				angleSlider.setMaximum(45);
+				angleSlider.setMinorTickSpacing(45);
+				break;	
+			case BRICK:
+			case HONEYCOMB:
+			case DOTTED:
+				transparencyPanel.setVisible(false);
+				hatchFillPanel.setVisible(true);
+				imagePanel.setVisible(false);
+				// for dotted angle is useless
+				anglePanel.setVisible(false);
+				break;
+			case IMAGE:
 				transparencyPanel.setVisible(true);
 				hatchFillPanel.setVisible(false);
 				imagePanel.setVisible(true);
@@ -5343,6 +5369,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			}
 		}
 
+
 		public JPanel update(Object[] geos) {
 			// check geos
 			if (!checkGeos(geos))
@@ -5350,7 +5377,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			cbFillType.removeActionListener(this);
 			// set selected fill type to first geo's fill type
-			cbFillType.setSelectedIndex(((GeoElement) geos[0]).getFillType());
+			cbFillType.setSelectedIndex(((GeoElement) geos[0]).getFillType().ordinal());
 			cbFillType.addActionListener(this);
 
 			cbFillInverse.removeActionListener(this);
@@ -5454,10 +5481,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			// handle change in fill type
 			if (source == cbFillType) {
 
-				int fillType = cbFillType.getSelectedIndex();
-
+				FillType fillType = FillType.values()[cbFillType.getSelectedIndex()];
+				System.out.println(""+fillType);
 				// set selected image to first geo image
-				if (fillType == GeoElement.FILL_IMAGE
+				if (fillType == FillType.IMAGE
 						&& ((GeoElement) geos[0]).getFillImage() != null) {
 					btnImage.setSelectedIndex(this.imgFileNameList
 							.lastIndexOf(((GeoElement) geos[0])

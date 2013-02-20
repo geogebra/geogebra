@@ -268,7 +268,7 @@ public class DrawInequality extends Drawable {
 				}
 
 			} else {
-				if (geo.getFillType()==GeoElement.FILL_HATCH) { 
+				if (geo.getFillType()!=GeoElement.FillType.IMAGE) { 
 					// make sure line thickness set for hatching 
 					updateStrokes(geo); 
 				} 				

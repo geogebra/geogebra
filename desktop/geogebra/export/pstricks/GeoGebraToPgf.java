@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -908,7 +909,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawPolygon(GeoPolygon geo){
 		// command: \pspolygon[par](x0,y0)....(xn,yn)
 		float alpha = geo.getAlphaValue();
-		if (alpha == 0.0f && geo.getFillType() != GeoElement.FILL_HATCH)
+		if (alpha == 0.0f && geo.getFillType() == FillType.IMAGE)
 			return;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\fill");
@@ -2403,16 +2404,16 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	if (!linecolor.equals(GColor.BLACK)){
 		if (coma) sb.append(",");
 		else coma=true;
-		if (transparency&&geo.isFillable()&&geo.getFillType()==GeoElement.FILL_HATCH)
+		if (transparency&&geo.isFillable()&&geo.getFillType()==FillType.IMAGE)
 			sb.append("pattern ");
 		sb.append("color=");
 		ColorCode(linecolor,sb);
 	}
 	if (transparency&&geo.isFillable()){
 
-		int id=geo.getFillType();
-		switch(id){
-			case GeoElement.FILL_STANDARD:
+		FillType fillType=geo.getFillType();
+		switch(fillType){
+			case STANDARD:
 				if (geo.getAlphaValue()>0.0f){
 					if (coma) sb.append(",");
 					else coma=true;
@@ -2422,7 +2423,12 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					sb.append(geo.getAlphaValue());
 				}
 				break;
-			case GeoElement.FILL_HATCH:
+			case CROSSHATCHED:
+			case CHESSBOARD:
+			case HONEYCOMB:
+			case DOTTED:
+			case BRICK:
+			case HATCH:
 				addWarningHatch();
 				if (coma) sb.append(",");
 				else coma=true;
@@ -2438,11 +2444,15 @@ public class GeoGebraToPgf extends GeoGebraExport {
 						codePreamble.append("\\usetikzlibrary[patterns]\n");
 				}
 				double angle=geo.getHatchingAngle();
-				if (angle<20) sb.append("horizontal lines");
-				else if (angle<70) sb.append("north east lines");
-				else if (angle<110) sb.append("vertical lines");
-				else if (angle<160) sb.append("north west lines");
-				else  sb.append("horizontal lines");
+				if (fillType==fillType.DOTTED){
+					sb.append("dots");
+				} else {
+					if (angle<20) sb.append("horizontal lines");
+					else if (angle<70) sb.append("north east lines");
+					else if (angle<110) sb.append("vertical lines");
+					else if (angle<160) sb.append("north west lines");
+					else  sb.append("horizontal lines");
+				}
 				break;
 		}
 	}

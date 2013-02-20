@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -800,7 +801,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawPolygon(GeoPolygon geo){
     	// command: \pspolygon[par](x0,y0)....(xn,yn)
     	float alpha=geo.getAlphaValue();
-    	if (alpha==0.0f&&geo.getFillType()!=GeoElement.FILL_HATCH) return;
+    	if (alpha==0.0f&&geo.getFillType()==FillType.IMAGE) return;
 		startBeamer(codeFilledObject);
     	codeFilledObject.append("\\pspolygon");
     	codeFilledObject.append(LineOptionCode(geo, true));
@@ -1782,7 +1783,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		GColorD linecolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
-
+		
 	boolean coma=false;
 	boolean bracket=false;
 	if (linethickness!=EuclidianStyleConstants.DEFAULT_LINE_THICKNESS){
@@ -1811,9 +1812,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 //	System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 	if (geo.isFillable()&&transparency){
-		int id=geo.getFillType();
+		String style=",fillstyle=hlines,hatchangle=";
+		FillType id=geo.getFillType();
 		switch(id){
-			case GeoElement.FILL_STANDARD:
+			case STANDARD:
 				if (geo.getAlphaValue()>0.0f){
 					if (coma) sb.append(",");
 					else coma=true;
@@ -1825,21 +1827,27 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					sb.append(geo.getAlphaValue());
 				}	
 				break;
-			case GeoElement.FILL_HATCH:
+			case CHESSBOARD:
+			case HONEYCOMB:
+			case BRICK:
+			case CROSSHATCHED:
+				style=",fillstyle=crosshatch,hatchangle=";
+			case DOTTED:
+			case HATCH:
 				if (coma) sb.append(",");
 				else coma=true;
 				if (!bracket) sb.append("[");
 				bracket=true;
 				sb.append("hatchcolor=");
 				ColorCode(linecolor,sb);
-				sb.append(",fillstyle=hlines,hatchangle=");
+				sb.append(style);
 				sb.append(geo.getHatchingAngle());
 				sb.append(",hatchsep=");
 //				double x0=euclidianView.toRealWorldCoordX(0);
 				double y0=euclidianView.toRealWorldCoordY(0);
 				double y=euclidianView.toRealWorldCoordY(geo.getHatchingDistance());
 				sb.append(format(Math.abs((y-y0))));
-				break;
+				break;				
 		}
 	}
 	if (bracket) sb.append("]");

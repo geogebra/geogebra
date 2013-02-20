@@ -1376,7 +1376,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	}
 
 	@Override
-	public void setFillType(final int type) {
+	public void setFillType(final FillType type) {
 		super.setFillType(type);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);

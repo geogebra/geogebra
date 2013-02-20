@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.euclidianND.EuclidianViewND;
 
 import java.awt.AlphaComposite;
@@ -16,16 +17,17 @@ import java.awt.image.BufferedImage;
  * @author Michael Borcherds
  * 
  */
-public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler{
+public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler {
 
 	private static BufferedImage bufferedImage = null;
 	public static HatchingHandlerD prototype;
-	
+
 	@Override
-	protected void dosetHatching(geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
-			geogebra.common.awt.GColor color, geogebra.common.awt.GColor bgColor, float backgroundTransparency,
-			double dist, double angle)
-	{
+	protected void dosetHatching(geogebra.common.awt.GGraphics2D g3,
+			geogebra.common.awt.GBasicStroke objStroke,
+			geogebra.common.awt.GColor color,
+			geogebra.common.awt.GColor bgColor, float backgroundTransparency,
+			double dist, double angle, FillType fillType) {
 		Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
@@ -35,28 +37,23 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler{
 			angle = 0;
 
 		// constrain distance between 5 and 50 pixels
-		if (dist < 5)
+		if (dist < 5) {
 			dist = 5;
-		else if (dist > 50)
+		} else if (dist > 50) {
 			dist = 50;
+		}
 
 		double x = dist / Math.sin(angle);
 		double y = dist / Math.cos(angle);
 
 		int xInt = (int) Math.abs(Math.round((x)));
 		int yInt = (int) Math.abs(Math.round((y)));
-
 		if (angle == 0) { // horizontal
-
-			xInt = 20;
-			yInt = (int) dist;
+			xInt = yInt = (int) dist;
 
 		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
-			xInt = (int) dist;
-			yInt = 20;
-
+			xInt = yInt = (int) dist;
 		}
-
 		int currentWidth = bufferedImage == null ? 0 : bufferedImage.getWidth();
 		int currentHeight = bufferedImage == null ? 0 : bufferedImage
 				.getHeight();
@@ -89,37 +86,73 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler{
 				.getBlue(), 255));
 
 		g2d.setStroke(geogebra.awt.GBasicStrokeD.getAwtStroke(objStroke));
-		if (angle == 0) { // horizontal
 
-			g2d.drawLine(0, yInt, xInt * 3, yInt);
-			g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
+		switch (fillType) {
 
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
-			g2d.drawLine(xInt, 0, xInt, yInt * 3);
-			g2d.drawLine(xInt * 2, 0, xInt * 2, yInt * 3);
-
-		} else if (y > 0) {
-			g2d.drawLine(xInt * 3, 0, 0, yInt * 3);
-			g2d.drawLine(xInt * 3, yInt, xInt, yInt * 3);
-			g2d.drawLine(xInt * 2, 0, 0, yInt * 2);
-		} else {
-			g2d.drawLine(0, 0, xInt * 3, yInt * 3);
-			g2d.drawLine(0, yInt, xInt * 2, yInt * 3);
-			g2d.drawLine(xInt, 0, xInt * 3, yInt * 2);
+		case HATCH:
+			drawHatching(angle, y, xInt, yInt, new geogebra.awt.GGraphics2DD(g2d));
+			break;
+		case CROSSHATCHED:
+			drawHatching(angle, y, xInt, yInt, new geogebra.awt.GGraphics2DD(g2d));
+			// draw with complementary degrees
+			drawHatching(Math.PI / 2 - angle, -y, xInt, yInt, new geogebra.awt.GGraphics2DD(g2d));
+			break;
+		case CHESSBOARD:
+			drawChessboard(angle, (float) dist, new geogebra.awt.GGraphics2DD(g2d));
+			break;
+		case HONEYCOMB:
+			drawHoneycomb( (float) dist, new geogebra.awt.GGraphics2DD(g2d));
+			break;
+		case BRICK:
+			drawBricks(xInt, yInt, new geogebra.awt.GGraphics2DD(g2d));
+			break;
+		case DOTTED:
+			drawDotted(dist, new geogebra.awt.GGraphics2DD(g2d));
+			break;
 		}
+		
+		int size;
+		
+		if (fillType==FillType.CHESSBOARD) {
+			// multiply for sin for to have the same size in 0 and 45
+			if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { 
+				dist = dist * Math.sin(angle);
+			}
+			
+			// use a frame around middle square of our 3 x 3 grid			
+			size = (int) (dist * 2);
+						
+			Rectangle rect = new Rectangle(0, 0, size, size);
 
-		// paint with the texturing brush
-		Rectangle rect = new Rectangle(0, 0, xInt, yInt);
+			g2.setPaint(new TexturePaint(bufferedImage.getSubimage(size/4,
+					size / 4, size, size), rect));
+		
+		} else if (fillType==FillType.HONEYCOMB) {
+			
+			size=(int)dist;
+			
+			double sin30dist=Math.sin(Math.PI/6)*dist/2;
+			double side=dist-2*sin30dist;
+			
+			Rectangle rect = new Rectangle(0, 0, (int)(size+side), size);
 
-		// use the middle square of our 3 x 3 grid to fill with
-		g2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt,
-				xInt, yInt), rect));
+			g2.setPaint(new TexturePaint(bufferedImage.getSubimage((int)(dist-side/2),
+					size , (int)(size+side), size), rect));
+		} else {
+			// paint with the texturing brush
+			Rectangle rect = new Rectangle(0, 0, xInt, yInt);
 
+			// use the middle square of our 3 x 3 grid to fill with
+			g2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt,
+					xInt, yInt), rect));
+		}
 	}
 
+
 	@Override
-	protected void doSetTexture(geogebra.common.awt.GGraphics2D g3, GeoElement geo, float alpha) {
-		Graphics2D g2= geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
+	protected void doSetTexture(geogebra.common.awt.GGraphics2D g3,
+			GeoElement geo, float alpha) {
+		Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geogebra.awt.GColorD.getAwtColor(geo.getFillColor()));
 			return;

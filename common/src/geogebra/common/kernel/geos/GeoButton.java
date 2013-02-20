@@ -274,8 +274,8 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 	
 	@Override
-	public int getFillType(){
-		return GeoElement.FILL_IMAGE;
+	public FillType getFillType(){
+		return FillType.IMAGE;
 	}
 	
 	public boolean isFurniture() {

@@ -246,14 +246,31 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** substitute for imageFileName and image - Arpad Fekete;
 	// 2011-12-01 */
 	protected GeoElementGraphicsAdapter graphicsadapter; 
-	/** fill type: standard*/
-	public static final int FILL_STANDARD = 0;
-	/** fill type: hatch*/
-	public static final int FILL_HATCH = 1;
-	/** fill type: image*/
-	public static final int FILL_IMAGE = 2;
+	
+	public enum FillType{
+		
+		STANDARD (0),
+		HATCH (1),
+		CROSSHATCHED (2),
+		CHESSBOARD (3),
+		DOTTED (4),
+		HONEYCOMB (5),
+		BRICK (6),
+		IMAGE (7);
+		
+		private int value;
+		
+		int getValue(){
+			return value;
+		}
+		
+		private FillType(int value){
+			this.value=value;
+		}
+	}
+	
 	/** fill type*/
-	protected int fillType = FILL_STANDARD;
+	protected FillType fillType = FillType.STANDARD;
 	
 
 	// =================================
@@ -4826,12 +4843,14 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 
 			if (isHatchingEnabled()) {
-				sb.append(" hatchAngle=\"");
+				sb.append(" fillType=\"");
+				sb.append(fillType.ordinal());
+				sb.append("\" hatchAngle=\"");
 				sb.append(hatchingAngle);
 				sb.append("\" hatchDistance=\"");
 				sb.append(hatchingDistance);
 				sb.append("\"");
-			} else if (fillType == FILL_IMAGE) {
+			} else if (fillType == FillType.IMAGE) {
 				sb.append(" image=\"");
 				sb.append(graphicsadapter.getImageFileName());
 				sb.append('\"');
@@ -6261,7 +6280,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if current fill style is hatch
 	 */
 	public boolean isHatchingEnabled() {
-		return fillType == FILL_HATCH;
+		return fillType != FillType.IMAGE ;
 	}
 
 	/**
@@ -6314,14 +6333,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return fill  type (standard/hatch/image)
 	 */
-	public int getFillType() {
+	public FillType getFillType() {
 		return fillType;
 	}
 
 	/**
 	 * @param fillType new fill type
 	 */
-	public void setFillType(final int fillType) {
+	public void setFillType(final FillType fillType) {
 		this.fillType = fillType;
 	}
 

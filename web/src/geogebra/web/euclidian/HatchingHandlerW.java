@@ -1,37 +1,46 @@
 package geogebra.web.euclidian;
 
+import geogebra.common.awt.GAlphaComposite;
 import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.GComposite;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.web.awt.GAlphaCompositeW;
 import geogebra.web.awt.GBufferedImageW;
 import geogebra.web.awt.GRectangle2DW;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.awt.GTexturePaintW;
 
+/**
+ * 
+ *
+ */
 public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler {
 
 	private static GBufferedImageW bufferedImage = null;
+
 	@Override
 	protected void dosetHatching(GGraphics2D g3, GBasicStroke objStroke,
 	        GColor color, GColor bgColor, float backgroundTransparency,
-	        double dist, double angle) {
-		GGraphics2D g2 = (geogebra.web.awt.GGraphics2DW) g3;
+	        double dist, double angle, FillType fillType) {
+		GGraphics2D g2 = g3;
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
 
 		// constrain angle between 0 and 175 degrees
-		if (angle < 0 || angle >= Math.PI)
+		if (angle < 0 || angle >= Math.PI) {
 			angle = 0;
-
+		}
+		
 		// constrain distance between 5 and 50 pixels
-		if (dist < 5)
+		if (dist < 5) {
 			dist = 5;
-		else if (dist > 50)
+		} else if (dist > 50) {
 			dist = 50;
+		}
 
 		double x = dist / Math.sin(angle);
 		double y = dist / Math.cos(angle);
@@ -41,24 +50,24 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 
 		if (angle == 0) { // horizontal
 
-			xInt = 20;
-			yInt = (int) dist;
+			xInt = yInt = (int) dist;
 
 		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
-			xInt = (int) dist;
-			yInt = 20;
+
+			xInt = yInt = (int) dist;
 
 		}
 
 		int currentWidth = bufferedImage == null ? 0 : bufferedImage.getWidth();
 		int currentHeight = bufferedImage == null ? 0 : bufferedImage
-				.getHeight();
+		        .getHeight();
 
-		//if (bufferedImage == null || currentWidth < xInt * 3
-		//		|| currentHeight < yInt * 3) //somewhy we get null on createPattern...
+		// if (bufferedImage == null || currentWidth < xInt * 3
+		// || currentHeight < yInt * 3) //somewhy we get null on
+		// createPattern...
 		bufferedImage = new GBufferedImageW(Math.max(currentWidth, xInt * 3),
-					Math.max(currentHeight, yInt * 3),
-					GBufferedImageW.TYPE_INT_ARGB);
+		        Math.max(currentHeight, yInt * 3),
+		        GBufferedImage.TYPE_INT_ARGB);
 
 		GGraphics2D g2d = bufferedImage.createGraphics();
 
@@ -71,64 +80,99 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 		// paint background transparent
 		if (bgColor == null)
 			g2d.setColor(new geogebra.web.awt.GColorW(255, 255, 255,
-					(int) (backgroundTransparency * 255f)));
+			        (int) (backgroundTransparency * 255f)));
 		else
-			g2d.setColor(new geogebra.web.awt.GColorW(bgColor.getRed(), bgColor.getGreen(),
-					bgColor.getBlue(), (int) (backgroundTransparency * 255f)));
+			g2d.setColor(new geogebra.web.awt.GColorW(bgColor.getRed(), bgColor
+			        .getGreen(), bgColor.getBlue(),
+			        (int) (backgroundTransparency * 255f)));
 		g2d.fillRect(0, 0, xInt * 3, yInt * 3);
 
 		// g2d.setColor(color);
-		g2d.setColor(new geogebra.web.awt.GColorW(color.getRed(), color.getGreen(), color
-				.getBlue(), 255));
+		g2d.setColor(new geogebra.web.awt.GColorW(color.getRed(), color
+		        .getGreen(), color.getBlue(), 255));
 
 		g2d.setStroke(new geogebra.web.awt.GBasicStrokeW(objStroke));
-		if (angle == 0) { // horizontal
-
-			g2d.drawLine(0, yInt, xInt * 3, yInt);
-			g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
-
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
-			g2d.drawLine(xInt, 0, xInt, yInt * 3);
-			g2d.drawLine(xInt * 2, 0, xInt * 2, yInt * 3);
-
-		} else if (y > 0) {
-			g2d.drawLine(xInt * 3, 0, 0, yInt * 3);
-			g2d.drawLine(xInt * 3, yInt, xInt, yInt * 3);
-			g2d.drawLine(xInt * 2, 0, 0, yInt * 2);
-		} else {
-			g2d.drawLine(0, 0, xInt * 3, yInt * 3);
-			g2d.drawLine(0, yInt, xInt * 2, yInt * 3);
-			g2d.drawLine(xInt, 0, xInt * 3, yInt * 2);
-		}
-
-		// paint with the texturing brush
-		GRectangleW rect = new GRectangleW(0, 0, xInt, yInt);
 
 		// use the middle square of our 3 x 3 grid to fill with
-		g2.setPaint(new GTexturePaintW(bufferedImage.getSubimage(xInt, yInt, xInt, yInt), rect));
-		//should be implementedg2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt,
-				//xInt, yInt), rect));
+		g2.setPaint(null);
+		switch (fillType) {
 
+		case HATCH:
+			drawHatching(angle, y, xInt, yInt, g2d);
+			break;
+		case CROSSHATCHED:
+			drawHatching(angle, y, xInt, yInt, g2d);
+			// draw with complementary degrees
+			drawHatching(Math.PI / 2 - angle, -y, xInt, yInt, g2d);
+			break;
+		case CHESSBOARD:
+			break;
+		case HONEYCOMB:
+			drawHoneycomb((float)dist, g2d);
+			break;
+		case BRICK:
+			drawBricks(xInt, yInt, g2d);
+			break;
+		case DOTTED:
+			drawDotted(dist, g2d);
+			break;
+		}
+
+		int size;
+		
+		if (fillType==FillType.CHESSBOARD) {
+			// multiply for sin for to have the same size in 0 and 45
+			if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { 
+				dist = dist * Math.sin(angle);
+			}
+			
+			// use a frame around middle square of our 3 x 3 grid			
+			size = (int) (dist * 2);
+						
+			GRectangleW rect = new GRectangleW(0, 0, size, size);
+
+			g2.setPaint(new GTexturePaintW(bufferedImage.getSubimage(size/4,
+					size / 4, size, size), rect));
+		
+		} else if (fillType==FillType.HONEYCOMB) {
+			
+			size=(int)dist;
+			
+			double sin30dist=Math.sin(Math.PI/6)*dist/2;
+			double side=dist-2*sin30dist;
+			
+			GRectangleW rect = new GRectangleW(0, 0, (int)(size+side), size);
+
+			g2.setPaint(new GTexturePaintW(bufferedImage.getSubimage((int)(dist-side/2),
+					size , (int)(size+side), size), rect));
+		} else {
+			// paint with the texturing brush
+			GRectangleW rect = new GRectangleW(0, 0, xInt, yInt);
+
+			// use the middle square of our 3 x 3 grid to fill with
+			g2.setPaint(new GTexturePaintW(bufferedImage.getSubimage(xInt, yInt,
+					xInt, yInt), rect));
+		}
 
 	}
 
 	@Override
-	protected void doSetTexture(GGraphics2D g3, GeoElement geo, float alpha) {
-		GGraphics2D g2= (geogebra.web.awt.GGraphics2DW) g3;
+	protected void doSetTexture(GGraphics2D g2, GeoElement geo, float alpha) {
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geo.getFillColor());
 			return;
 		}
 
-		GBufferedImageW image = new geogebra.web.awt.GBufferedImageW(geo.getFillImage());
+		GBufferedImageW image = new geogebra.web.awt.GBufferedImageW(
+		        geo.getFillImage());
 		GRectangle2DW tr = new GRectangle2DW(0, 0, image.getWidth(),
-				image.getHeight());
+		        image.getHeight());
 
 		GTexturePaintW tp;
 
 		if (alpha < 1.0f) {
 			GBufferedImageW copy = new GBufferedImageW(image.getWidth(),
-					image.getHeight(), GBufferedImageW.TYPE_INT_ARGB);
+			        image.getHeight(), GBufferedImage.TYPE_INT_ARGB);
 
 			GGraphics2D g2d = copy.createGraphics();
 
@@ -144,15 +188,15 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 			if (bgColor == null)
 				g2d.setColor(new geogebra.web.awt.GColorW(0, 0, 0, 0));
 			else
-				g2d.setColor(new geogebra.web.awt.GColorW(bgColor.getRed(), bgColor.getGreen(),
-						bgColor.getBlue(), 0));
+				g2d.setColor(new geogebra.web.awt.GColorW(bgColor.getRed(),
+				        bgColor.getGreen(), bgColor.getBlue(), 0));
 			g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
 
 			if (alpha > 0.0f) {
 				// set partial transparency
 				GAlphaCompositeW alphaComp = GAlphaCompositeW.getInstance(
-						GAlphaCompositeW.SRC_OVER, alpha);
-				g2d.setComposite((GComposite) alphaComp);
+				        GAlphaComposite.SRC_OVER, alpha);
+				g2d.setComposite(alphaComp);
 
 				// paint image with specified transparency
 				g2d.drawImage(image, null, 0, 0);

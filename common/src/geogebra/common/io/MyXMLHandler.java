@@ -3379,7 +3379,6 @@ public class MyXMLHandler implements DocHandler {
 		String angle = attrs.get("hatchAngle");
 		if (angle != null) {
 			geo.setHatchingAngle(Integer.parseInt(angle));
-			geo.setFillType(GeoElement.FILL_HATCH);
 		}
 
 		String inverse = attrs.get("inverseFill");
@@ -3390,13 +3389,17 @@ public class MyXMLHandler implements DocHandler {
 		String distance = attrs.get("hatchDistance");
 		if (angle != null) {
 			geo.setHatchingDistance(Integer.parseInt(distance));
-			geo.setFillType(GeoElement.FILL_HATCH);
 		}
-
+		
+		String fillType = attrs.get("fillType");
+		if (fillType != null) {
+			geo.setFillType(GeoElement.FillType.values()[Integer.parseInt(fillType)]);
+		}
+		
 		String filename = attrs.get("image");
 		if (filename != null) {
 			geo.setFillImage(filename);
-			geo.setFillType(GeoElement.FILL_IMAGE);
+			geo.setFillType(GeoElement.FillType.IMAGE);
 		}
 
 		alpha = attrs.get("alpha");
