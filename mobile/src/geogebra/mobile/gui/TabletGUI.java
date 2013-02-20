@@ -109,7 +109,7 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 		this.toolBar = new ToolBar();
 		this.algebraViewPanel = new AlgebraViewPanel();
 
-		MobileController ec = new MobileController(mobileModel);
+		MobileController ec = new MobileController(mobileModel,kernel.getApplication());
 		ec.setKernel(kernel);
 		this.euclidianViewPanel.initEuclidianView(ec);
 		mobileModel.getGuiModel().setEuclidianView(this.euclidianViewPanel.getEuclidianView());

@@ -1038,7 +1038,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		// we got the center point
 		if (selPoints() == 1) {	
-			((DialogManager3D)((AppD)app).getDialogManager()).showNumberInputDialogSpherePointRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D)getDialogManager()).showNumberInputDialogSpherePointRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -1134,7 +1134,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 
 		if (selPoints() == 1 && selDirections() == 1) {
-			((DialogManager3D) ((AppD)app).getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D) (app).getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(app.getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0],getSelectedDirections()[0]);
 
 			return true;
@@ -1701,7 +1701,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			((EuclidianView3D) view).updateCursor3D();
 			
 			view.setHitCursor();
-			((AppD)app).storeUndoInfo();
+			app.storeUndoInfo();
 			
 
 			((EuclidianView3D) view).setRotContinueAnimation(

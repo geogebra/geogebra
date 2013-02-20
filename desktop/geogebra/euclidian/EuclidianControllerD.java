@@ -18,7 +18,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
@@ -53,19 +52,14 @@ public class EuclidianControllerD extends
 	 * Creates new EuclidianController
 	 **********************************************/
 	public EuclidianControllerD(Kernel kernel) {
+		super(kernel.getApplication());
 		setKernel(kernel);
-		setApplication(kernel.getApplication());
 
 		// for tooltip manager
 		defaultInitialDelay = ToolTipManager.sharedInstance()
 				.getInitialDelay();
 
 		tempNum = new MyDouble(kernel);
-	}
-
-	@Override
-	public void setApplication(App app) {
-		this.app = app;
 	}
 
 	@Override

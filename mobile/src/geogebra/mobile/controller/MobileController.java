@@ -34,8 +34,9 @@ public class MobileController extends EuclidianController
 	private GPoint origin;
 	private boolean clicked = false;
 
-	public MobileController(MobileModel mobileModel)
+	public MobileController(MobileModel mobileModel,App app)
 	{
+		super(app);
 		this.model = mobileModel;
 		this.mode = -1;
 	}
@@ -52,13 +53,6 @@ public class MobileController extends EuclidianController
 	public void setKernel(Kernel k)
 	{
 		this.kernel = k;
-		this.app = this.kernel.getApplication();
-	}
-
-	@Override
-	public void setApplication(App application)
-	{
-		this.app = application;
 	}
 
 	@Override

@@ -89,15 +89,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 	
 	public EuclidianControllerW(Kernel kernel) {
+		super(kernel.getApplication());
 		setKernel(kernel);
-		setApplication(kernel.getApplication());
+		
 		
 		tempNum = new MyDouble(kernel);
-	}
-	
-	
-	public void setApplication(App app) {
-		this.app = app;
 	}
 	
 	public  void setView(EuclidianView view) {
