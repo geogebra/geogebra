@@ -62,6 +62,7 @@ import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
+import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.kernel.AnimationManagerW;
@@ -102,7 +103,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -2070,15 +2070,18 @@ public class AppW extends App {
 		return normalizerMinimal;
 	}
 
-	public void setShowAxesSelected(MenuItem mi) {
-		GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
-		        .getActiveEuclidianView().getShowXaxis()
-		        && (getGuiManager().getActiveEuclidianView().getShowYaxis()));
+	public void setShowAxesSelected(GCheckBoxMenuItem mi) {
+//		GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
+//		        .getActiveEuclidianView().getShowXaxis()
+//		        && (getGuiManager().getActiveEuclidianView().getShowYaxis()));
+		mi.setSelected(getGuiManager().getActiveEuclidianView().getShowXaxis()
+				&& (getGuiManager().getActiveEuclidianView().getShowYaxis()));
 	}
 
-	public void setShowGridSelected(MenuItem mi) {
-		GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
-		        .getActiveEuclidianView().getShowGrid());
+	public void setShowGridSelected(GCheckBoxMenuItem mi) {
+//		GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
+//		        .getActiveEuclidianView().getShowGrid());
+		mi.setSelected(getGuiManager().getActiveEuclidianView().getShowGrid());
 	}
 
 	@Override
