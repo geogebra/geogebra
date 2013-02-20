@@ -1,14 +1,9 @@
 package geogebra3D;
 
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.main.LocalizationD;
 
 public class Localization3D extends LocalizationD{
-	
-	public Localization3D(App app) {
-		super(app);
-	}
 
 	@Override
 	public String getCommandSyntax(String key) {

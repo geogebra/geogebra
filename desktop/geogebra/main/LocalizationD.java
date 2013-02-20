@@ -31,7 +31,8 @@ public class LocalizationD extends Localization {
 	private Locale currentLocale;
 	private Locale tooltipLocale = null;
 	private App app;
-	public LocalizationD(App app){
+	
+	public void setApp(App app){
 		this.app = app;
 	}
 	

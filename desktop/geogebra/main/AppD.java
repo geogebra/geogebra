@@ -272,7 +272,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			rbcommandEnglish,   
 			rbmenuEnglish, rbsettings;
 	
-	protected LocalizationD loc;
+	private final LocalizationD loc;
 
 	private static final String RB_SETTINGS = "/geogebra/export/settings";
 
@@ -372,7 +372,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, JFrame frame, boolean undoActive) {
-		this(args, frame, null, null, undoActive);
+		this(args, frame, null, null, undoActive, new LocalizationD());
 	}
 
 	/*************************************************************
@@ -384,7 +384,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public AppD(CommandLineArguments args, AppletImplementation appletImpl,
 			boolean undoActive) {
-		this(args, null, appletImpl, null, undoActive);
+		this(args, null, appletImpl, null, undoActive, new LocalizationD());
 	}
 
 	/*************************************************************
@@ -395,7 +395,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, Container comp, boolean undoActive) {
-		this(args, null, null, comp, undoActive);
+		this(args, null, null, comp, undoActive, new LocalizationD());
 	}
 
 	/*************************************************************
@@ -408,8 +408,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	protected AppD(CommandLineArguments args, JFrame frame,
-			AppletImplementation appletImpl, Container comp, boolean undoActive) {
-		this.loc = new LocalizationD(this);
+			AppletImplementation appletImpl, Container comp, boolean undoActive,LocalizationD loc) {
+		this.loc = loc;
+		loc.setApp(this);
 		this.args = args;
 
 		if (args != null && !args.containsArg("silent")) {

@@ -76,8 +76,8 @@ public class App3D extends AppD {
 	private App3D(CommandLineArguments args, JFrame frame,
 			AppletImplementation applet, boolean undoActive) {
 
-		super(args, frame, applet, null, undoActive);
-		loc = new Localization3D(this);
+		super(args, frame, applet, null, undoActive,new Localization3D());
+
 
 		// euclidianView3D.initAxisAndPlane();
 
