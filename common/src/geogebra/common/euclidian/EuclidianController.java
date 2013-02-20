@@ -436,7 +436,7 @@ public abstract class EuclidianController {
 				new Coords(xRW, yRW, 0), null);
 	}
 
-	public void setPastePreviewSelected() {
+	public final void setPastePreviewSelected() {
 	
 		// don't allow paste on top of another paste until its placed
 		if (pastePreviewSelected != null) {
@@ -6362,7 +6362,7 @@ public abstract class EuclidianController {
 		}
 	}
 	
-	protected void moveAttached(boolean repaint) {
+	protected final void moveAttached(boolean repaint) {
 		
 		AlgoElement algo = movedGeoElement.getParentAlgorithm();
 		GeoPoint pt1 = (GeoPoint)algo.getInput()[4];
