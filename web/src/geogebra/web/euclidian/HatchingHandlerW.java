@@ -106,6 +106,7 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 			drawHatching(Math.PI / 2 - angle, -y, xInt, yInt, g2d);
 			break;
 		case CHESSBOARD:
+			drawChessboard(angle, (float) dist, g2d);
 			break;
 		case HONEYCOMB:
 			drawHoneycomb((float)dist, g2d);
