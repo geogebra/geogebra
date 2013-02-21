@@ -48,11 +48,12 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler 
 
 		int xInt = (int) Math.abs(Math.round((x)));
 		int yInt = (int) Math.abs(Math.round((y)));
-		if (angle == 0) { // horizontal
-			xInt = yInt = (int) dist;
-
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
-			xInt = yInt = (int) dist;
+		if (angle == 0 // horizontal
+				|| Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+			
+			xInt = (int) dist;
+			yInt = xInt;
+			
 		}
 		int currentWidth = bufferedImage == null ? 0 : bufferedImage.getWidth();
 		int currentHeight = bufferedImage == null ? 0 : bufferedImage
@@ -104,7 +105,7 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler 
 			drawHoneycomb( (float) dist, new geogebra.awt.GGraphics2DD(g2d));
 			break;
 		case BRICK:
-			drawBricks(xInt, yInt, new geogebra.awt.GGraphics2DD(g2d));
+			drawBricks(angle, xInt, yInt, new geogebra.awt.GGraphics2DD(g2d));
 			break;
 		case DOTTED:
 			drawDotted(dist, new geogebra.awt.GGraphics2DD(g2d));
@@ -129,15 +130,12 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler 
 		
 		} else if (fillType==FillType.HONEYCOMB) {
 			
-			size=(int)dist;
+			double side=dist*Math.sqrt(3)/2;
 			
-			double sin30dist=Math.sin(Math.PI/6)*dist/2;
-			double side=dist-2*sin30dist;
-			
-			Rectangle rect = new Rectangle(0, 0, (int)(size+side), size);
+			Rectangle rect = new Rectangle(0, 0, (int)(dist*3), (int)(2*side));
 
-			g2.setPaint(new TexturePaint(bufferedImage.getSubimage((int)(dist-side/2),
-					size , (int)(size+side), size), rect));
+			g2.setPaint(new TexturePaint(bufferedImage.getSubimage((int)(0),
+					(int)(dist+dist/2-side) , (int)(dist*3), (int)(2*side)), rect));
 		} else {
 			// paint with the texturing brush
 			Rectangle rect = new Rectangle(0, 0, xInt, yInt);

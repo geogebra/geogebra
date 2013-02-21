@@ -5343,6 +5343,13 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				angleSlider.setMinorTickSpacing(45);
 				break;	
 			case BRICK:
+				transparencyPanel.setVisible(false);
+				hatchFillPanel.setVisible(true);
+				imagePanel.setVisible(false);
+				anglePanel.setVisible(true);
+				angleSlider.setMaximum(90);
+				angleSlider.setMinorTickSpacing(90);
+				break;
 			case HONEYCOMB:
 			case DOTTED:
 				transparencyPanel.setVisible(false);

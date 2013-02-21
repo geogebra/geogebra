@@ -60,13 +60,20 @@ public abstract class HatchingHandler {
 		prototype.doSetTexture(g3, geo, alpha);
 	}
 	
-	protected void drawBricks(int xInt, int yInt, GGraphics2D g2d) {
-		g2d.drawLine(0, yInt, xInt * 3, yInt);
-		g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
-		g2d.drawLine(0, yInt + yInt / 2, xInt * 3, yInt + yInt / 2);
-		g2d.drawLine(xInt + xInt / 4, yInt, xInt + xInt / 4, yInt + yInt / 2);
-		g2d.drawLine(xInt + (xInt * 3) / 4, yInt + yInt / 2, xInt + (xInt * 3)
-		        / 4, 2 * yInt);
+	protected void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
+		if (angle == 0){
+			g2d.drawLine(0, yInt, xInt * 3, yInt);
+			g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
+			g2d.drawLine(0, yInt+yInt/2, xInt * 3, yInt+yInt/2);
+			g2d.drawLine(xInt+xInt/4, yInt,xInt+xInt/4 , yInt+yInt/2);
+			g2d.drawLine(xInt+(xInt * 3)/4, yInt+yInt/2, xInt+(xInt * 3)/4, 2 * yInt);
+		} else{
+			g2d.drawLine(xInt, 0, xInt, yInt * 3);
+			g2d.drawLine(xInt * 2, 0, xInt * 2, yInt * 3);
+			g2d.drawLine(xInt+xInt/2, 0, xInt+xInt/2, yInt * 3);
+			g2d.drawLine(xInt, yInt+yInt/4,xInt+xInt/2 ,yInt+yInt/4 );
+			g2d.drawLine(xInt+xInt/2,yInt+(yInt * 3)/4, 2 * xInt, yInt+(yInt * 3)/4);
+		}
 	}
 
 	protected void drawDotted(double dist, GGraphics2D g2d) {
@@ -101,26 +108,28 @@ public abstract class HatchingHandler {
 	}
 
 	protected void drawHoneycomb(float dist, GGraphics2D g2d) {
-		float sin30dist = (float) (Math.sin(Math.PI / 6) * dist / 2);
-		float side = dist - 2 * sin30dist;
-		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
-		path.moveTo(dist - side / 2, dist);
-		path.lineTo(dist, dist);
-		path.lineTo(dist + sin30dist, dist + dist / 2);
-		path.lineTo(2 * dist - sin30dist, dist + dist / 2);
-		path.lineTo(2 * dist, dist);
-		path.lineTo(2 * dist + side / 2, dist);
+		float halfSide=(float)(dist*Math.sqrt(3)/2);	    
+	    GGeneralPath path = AwtFactory.prototype.newGeneralPath();
+		path.moveTo(dist, dist+dist/2);
+		path.lineTo( 2*dist, dist+dist/2 );
+		path.lineTo(2*dist+dist/2 ,dist+dist/2-halfSide );
+		path.lineTo(3*dist, dist+dist/2-halfSide);
 		g2d.draw(path);
 		path.reset();
-		path.moveTo(dist - side / 2, 2 * dist);
-		path.lineTo(dist, 2 * dist);
-		path.lineTo(dist + sin30dist, dist + dist / 2);
+		path.moveTo( 2*dist, dist+dist/2 );
+		path.lineTo(2*dist+dist/2 , dist+dist/2+halfSide);
+		path.lineTo(3*dist, dist+dist/2+halfSide);
 		g2d.draw(path);
 		path.reset();
-		path.moveTo(2 * dist - sin30dist, dist + dist / 2);
-		path.lineTo(2 * dist, 2 * dist);
-		path.lineTo(2 * dist + side / 2, 2 * dist);
+		path.moveTo(dist , dist+dist/2);
+		path.lineTo(dist/2 , dist+dist/2-halfSide);
+		path.lineTo(0 , dist+dist/2-halfSide);
 		g2d.draw(path);
+		path.reset();
+		path.moveTo(dist , dist+dist/2);
+		path.lineTo(dist/2 , dist+dist/2+halfSide);
+		path.lineTo(0 , dist+dist/2+halfSide);
+		g2d.draw(path);		
 	}
 
 	protected void drawHatching(double angle, double y, int xInt, int yInt,
