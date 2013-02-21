@@ -555,12 +555,14 @@ public class ReduceLibrary {
 				+ "return b;" + "end;");
 
 		eval("procedure existingsolutions(eqn,sol);"
-				+ "begin scalar ret!!, bool!!; ret!!:={};"
-				+ "for each solution in sol do <<" + "  bool!!:=1;"
+				+ "begin scalar ret!!, bool!!, exp!!; ret!!:={};"
+				+ "for each solution in sol do <<" 
+				+ "  bool!!:=1;"
 				+ "  for each eq in eqn do <<"
 				+ "    if sub(solution,den(eq))=0 then bool!!:=0;"
-				+ "    on expandlogs;"
-				+ "    if sub(solution,num(eq)) neq 0 then bool!!:=0; "
+				+ "    exp!!:=sub(solution,num(eq)); "		// first calculate the substitution because
+				+ "    on expandlogs;"						// expandlogs can destroy our expression
+				+ "    if exp!! neq 0 then bool!!:=0; "		// example: on expandlogs; log((-2)^2)-log(4); yields - 2*log(2) + 2*log(-2);
 				+ "    off expandlogs;>>;"
 				+ "  if bool!! then ret!!:=(solution).ret!!;>>;"
 				+ "return reverse ret!!;" + "end;");
@@ -590,7 +592,9 @@ public class ReduceLibrary {
 				// to prevent Solve command to yield non-existing solutions
 				// such as solve({c*a^(-2)=15/4,c*a^(-4)=15/64},{a,c}) does
 				// {a=0,c=0}
+				+ " solui:=solutions!!;" 
 				+ " if not(isineq) then solutions!!:=existingsolutions(eqn,solutions!!);"
+				+ " exisolui:=solutions!!;" 
 				// if it cannot solve the equation, numeric is off, and isineq
 				// then we return {x=?}
 				+ " if not (freeof(solutions!!,root_of)=t and freeof(solutions!!,one_of)=t) and numeric!!=0 and isineq then"
