@@ -8,7 +8,7 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
@@ -26,6 +26,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
+//import geogebra.web.euclidian.EuclidianViewW;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 
@@ -132,9 +133,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
-	public void clearLaTeXes(EuclidianViewW ev) {
+	public void clearLaTeXes(EuclidianViewWeb ev) {
 		Iterator<String> eei = equations.keySet().iterator();
-		ArrayList<String> eeii = new ArrayList<String>();
+		ArrayList<String> dead = new ArrayList<String>();
 		while (eei.hasNext()) {
 			String eein = eei.next();
 			Integer age = equationAges.get(eein);
@@ -144,15 +145,15 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				Element toclear = equations.get(eein);
 				Element tcparent = toclear.getParentElement();
 				tcparent.removeChild(toclear);
-				eeii.add(eein);// avoid concurrent modification exception
+				dead.add(eein);// avoid concurrent modification exception
 			} else {
 				equationAges.put(eein, ++age);
 				equations.get(eein).getStyle().setDisplay(Style.Display.NONE);
 			}
 		}
-		for (int i = eeii.size() - 1; i >= 0; i--) {
-			equations.remove(eeii.get(i));
-			equationAges.remove(eeii.get(i));
+		for (int i = dead.size() - 1; i >= 0; i--) {
+			equations.remove(dead.get(i));
+			equationAges.remove(dead.get(i));
 		}
 	}
 
@@ -163,7 +164,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
-	public void deleteLaTeXes(EuclidianViewW ev) {
+	public void deleteLaTeXes(EuclidianViewWeb ev) {
 		Iterator<SpanElement> eei = equations.values().iterator();
 		while (eei.hasNext()) {
 			Element toclear = eei.next();

@@ -15,6 +15,7 @@ import geogebra.mobile.controller.MobileController;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.euclidian.EuclidianViewWeb;
+import geogebra.web.main.DrawEquationWeb;
 
 import java.util.List;
 
@@ -208,7 +209,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 		{
 			setAxesColor(geogebra.common.awt.GColor.black);
 		}
-
+		((DrawEquationWeb)this.app.getDrawEquation()).clearLaTeXes(this);    	
 		updateSize();
 		paint(this.g2p);
 	}
