@@ -249,23 +249,29 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	public enum FillType{
 		
-		STANDARD (0),
-		HATCH (1),
-		CROSSHATCHED (2),
-		CHESSBOARD (3),
-		DOTTED (4),
-		HONEYCOMB (5),
-		BRICK (6),
-		IMAGE (7);
+		STANDARD (0,false),
+		HATCH (1,true),
+		CROSSHATCHED (2,true),
+		CHESSBOARD (3,true),
+		DOTTED (4,true),
+		HONEYCOMB (5,true),
+		BRICK (6,true),
+		IMAGE (7,false);
 		
 		private int value;
+		private boolean hatch;
 		
 		int getValue(){
 			return value;
 		}
 		
-		private FillType(int value){
-			this.value=value;
+		private FillType(int value,boolean hatch){
+			this.value = value;
+			this.hatch = hatch;
+		}
+
+		public boolean isHatch() {
+			return hatch;
 		}
 	}
 	
@@ -6280,7 +6286,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if current fill style is hatch
 	 */
 	public boolean isHatchingEnabled() {
-		return fillType != FillType.IMAGE ;
+		return fillType.isHatch();
 	}
 
 	/**
