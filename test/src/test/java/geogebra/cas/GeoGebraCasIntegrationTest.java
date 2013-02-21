@@ -1915,7 +1915,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Root_0() {
-		t("Root[x^3 - 3 * x^2 - 4 * x + 12]", "{x = 3, x = 2, x = -2}");
+		t("Root[x^3 - 3 * x^2 - 4 * x + 12]", "{x = -2, x = 2, x = 3}");
 	}
 	
 
@@ -2310,7 +2310,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Solutions_0() {
-		t("Solutions[x^2 = 4x]", "{4, 0}");
+		t("Solutions[x^2 = 4x]", "{0, 4}");
 	}
 
 	@Test
@@ -2327,7 +2327,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Solutions_3() {
 		t("Solutions[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]",
-				"{{0, 3}, {-3, 6}}");
+				"{{-3, 6}, {0, 3}}");
 	}
 	
 
@@ -2395,17 +2395,17 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Solve_OneVariable_5() {
-		t("Solve[x^2 - 5 x + 6 = 0, x]", "{x = 3, x = 2}");
+		t("Solve[x^2 - 5 x + 6 = 0, x]", "{x = 2, x = 3}");
 	}
 
 	@Test
 	public void Solve_OneVariable_6() {
-		t("Solve[x^2 - 4 = 0, x]", "{x = 2, x = -2}");
+		t("Solve[x^2 - 4 = 0, x]", "{x = -2, x = 2}");
 	}
 
 	@Test
 	public void Solve_OneVariable_7() {
-		t("Solve[x^2 - 4 x - 1 = 0, x]", "{x = sqrt(5) + 2, x = -sqrt(5) + 2}");
+		t("Solve[x^2 - 4 x - 1 = 0, x]", "{x = -sqrt(5) + 2, x = sqrt(5) + 2}");
 	}
 
 	@Test
@@ -2502,7 +2502,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Solve_Several_1() {
 		t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]",
-				"{{a = 0, b = 3}, {a = -3, b = 6}}");
+				"{{a = -3, b = 6}, {a = 0, b = 3}}");
 	}
 
 	@Test
@@ -2947,7 +2947,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[f(t)=225,t]","{t = 2}","{t = log(9 / 4)/log(3 / 2)}");
 		t("Numeric[Solve[f(t)=225,t]]","{t = 2}");
 		t("Solve[225=c*1.5^2,c]","{c = 100}");
-		t("Solve[225=100*a^2,a]","{a = 3 / 2 , a = (-3) / 2}");	
+		t("Solve[225=100*a^2,a]","{a = (-3) / 2 , a = 3 / 2}");	
 		t("Delete[f]","true");
 	}
 	
@@ -3002,7 +3002,7 @@ public class GeoGebraCasIntegrationTest {
 		t("h(x):=f(x)-g(x)","x^(2) - 2 * x");
 		t("Factor[h(x)]","(x - 2) * x","x * (x - 2)");
 		t("Solve[h(x)=0,x]","{x = 2, x = 0}","{x = 0, x = 2}");
-		t("S:=Intersect[f(x),g(x)]","{(2,3),(0,2)}");
+		t("S:=Intersect[f(x),g(x)]","{(0, 2), (2, 3)}");
 	}	
 
 	@Test
