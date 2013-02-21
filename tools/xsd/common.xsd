@@ -172,7 +172,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				
 				<xs:element name="matrix" type="matrix" minOccurs="0" />
 				
-				<xs:element name="objColor" type="fillType" minOccurs="0"/>
+				<xs:element name="objColor" type="objColorType" minOccurs="0"/>
 				
 				<xs:element name="bgColor" type="rgbaColor" minOccurs="0"/>
 				
@@ -356,7 +356,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:attribute name="alpha" type="nonNegInt"/>
 	</xs:complexType>
 	
-	<xs:complexType name="fillType">
+	<xs:complexType name="objColorType">
 		<xs:attribute name="r" type="nonNegInt" use="required"/>
 		<xs:attribute name="g" type="nonNegInt" use="required"/>
 		<xs:attribute name="b" type="nonNegInt" use="required"/>
@@ -364,6 +364,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:attribute name="dynamicg" type="xs:string"/>
 		<xs:attribute name="dynamicb" type="xs:string"/>
 		<xs:attribute name="dynamica" type="xs:string"/>
+		<xs:attribute name="fillType" type="fillsType"/>
 		<xs:attribute name="colorSpace" type="colorSpaces"/>
 		<xs:attribute name="alpha" type="xs:double"/>
 		<xs:attribute name="hatchAngle" type="xs:double"/>
@@ -450,6 +451,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:restriction base="xs:int">
 			<xs:minInclusive value="0"/>
 			<xs:maxInclusive value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="fills">
+		<xs:annotation>
+			<xs:documentation>
+				Meaning of values:
+* 0=STANDARD,
+* 1=HATCH,
+* 2=CROSSHATCHED,
+* 3=CHESSBOARD,
+* 4=DOTTED,
+* 5=HONEYCOMB,
+* 6=BRICK,
+* 7=IMAGE
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="7"/>
 		</xs:restriction>
 	</xs:simpleType>
 	
