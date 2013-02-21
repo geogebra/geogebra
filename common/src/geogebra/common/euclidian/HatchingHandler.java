@@ -94,6 +94,11 @@ public class HatchingHandler {
 
 		g2d.setStroke(objStroke);
 
+		int startX = xInt;
+		int startY = yInt;
+		int height = yInt;
+		int width = xInt;
+
 		switch (fillType) {
 
 		case HATCH:
@@ -106,50 +111,50 @@ public class HatchingHandler {
 			break;
 		case CHESSBOARD:
 			drawChessboard(angle, (float) dist, g2d);
+			// multiply for sin for to have the same size in 0 and 45
+			if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
+				dist = dist * Math.sin(angle);
+			}
+			// use a frame around middle square of our 3 x 3 grid
+			height = width = (int) (dist * 2);
+			startX = startY = (int) (dist / 2);
+
 			break;
 		case HONEYCOMB:
 			drawHoneycomb( (float) dist, g2d);
+			double side = dist * Math.sqrt(3) / 2;
+			width = (int) (dist * 3);
+			height = (int) (2 * side);
+			startX = 0;
+			startY = (int) (dist + dist / 2 - side);
+			width = (int) (dist * 3);
+			height = (int) (2 * side);
 			break;
 		case BRICK:
 			drawBricks(angle, xInt, yInt, g2d);
+			if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
+				startY = 0;
+				height = width *= 2;
+			} else if(Kernel.isEqual(Math.PI/2 , angle, 10E-8)){
+				startX = startY = 0;
+				height = width *= 2;
+			}
+
 			break;
 		case DOTTED:
 			drawDotted(dist, g2d);
 			break;
 		}
 
-		int size;
 
-		if (fillType==FillType.CHESSBOARD) {
-			// multiply for sin for to have the same size in 0 and 45
-			if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { 
-				dist = dist * Math.sin(angle);
-			}
+		// paint with the texturing brush
+		GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, width, height);
 
-			// use a frame around middle square of our 3 x 3 grid			
-			size = (int) (dist * 2);
+		// use the middle square of our 3 x 3 grid to fill with
+		g3.setPaint(AwtFactory.prototype.newTexturePaint(bufferedImage.getSubimage(startX,
+				startY, width, height), rect));
 
-			GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, size, size);
 
-			g3.setPaint(AwtFactory.prototype.newTexturePaint(bufferedImage.getSubimage(size/4,
-					size / 4, size, size), rect));
-
-		} else if (fillType==FillType.HONEYCOMB) {
-
-			double side=dist*Math.sqrt(3)/2;
-
-			GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, (int)(dist*3), (int)(2*side));
-
-			g3.setPaint(AwtFactory.prototype.newTexturePaint(bufferedImage.getSubimage(0,
-					(int)(dist+dist/2-side) , (int)(dist*3), (int)(2*side)), rect));
-		} else {
-			// paint with the texturing brush
-			GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, xInt, yInt);
-
-			// use the middle square of our 3 x 3 grid to fill with
-			g3.setPaint(AwtFactory.prototype.newTexturePaint(bufferedImage.getSubimage(xInt, yInt,
-					xInt, yInt), rect));
-		}
 	}
 
 	/**
@@ -216,18 +221,22 @@ public class HatchingHandler {
 	}
 
 	private static void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
-		if (angle == 0){
-			g2d.drawLine(0, yInt, xInt * 3, yInt);
-			g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
-			g2d.drawLine(0, yInt+yInt/2, xInt * 3, yInt+yInt/2);
-			g2d.drawLine(xInt+xInt/4, yInt,xInt+xInt/4 , yInt+yInt/2);
-			g2d.drawLine(xInt+(xInt * 3)/4, yInt+yInt/2, xInt+(xInt * 3)/4, 2 * yInt);
-		} else{
-			g2d.drawLine(xInt, 0, xInt, yInt * 3);
-			g2d.drawLine(xInt * 2, 0, xInt * 2, yInt * 3);
-			g2d.drawLine(xInt+xInt/2, 0, xInt+xInt/2, yInt * 3);
-			g2d.drawLine(xInt, yInt+yInt/4,xInt+xInt/2 ,yInt+yInt/4 );
-			g2d.drawLine(xInt+xInt/2,yInt+(yInt * 3)/4, 2 * xInt, yInt+(yInt * 3)/4);
+		if (angle == 0 || Kernel.isEqual(Math.PI , angle, 10E-8)){
+			g2d.drawRect(xInt, 0, 2*xInt, yInt);
+			g2d.drawLine(xInt * 2, yInt, xInt * 2 , yInt * 2);
+		} else if (Kernel.isEqual(Math.PI/2 , angle, 10E-8)){
+			g2d.drawRect(0, 0, xInt, 2 * yInt);
+			g2d.drawLine(xInt , yInt, 2 * xInt , yInt);		
+		} else if (Kernel.isEqual(Math.PI/4 , angle, 10E-8)){
+			g2d.drawLine(xInt * 3, 0, 0, yInt * 3);
+			g2d.drawLine(xInt * 3, yInt, xInt, yInt * 3);
+			g2d.drawLine(xInt * 2, 0, 0, yInt * 2);				
+			g2d.drawLine(xInt +xInt/2, yInt+yInt/2, 2*xInt, yInt * 2);			
+		} else {
+			g2d.drawLine(0, 0, xInt * 3, yInt * 3);
+			g2d.drawLine(0, yInt, xInt * 2, yInt * 3);
+			g2d.drawLine(xInt, 0, xInt * 3, yInt * 2);
+			g2d.drawLine(xInt +xInt/2, yInt+yInt/2, xInt, yInt * 2);
 		}
 	}
 
