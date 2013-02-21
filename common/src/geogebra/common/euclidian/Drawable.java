@@ -497,7 +497,7 @@ public abstract class Drawable extends DrawableND {
 	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
 		if (isForceNoFill())
 			return;
-		if (hasPattern()) {
+		if (geo.isHatchingEnabled()) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
 			getHatchingHandler().setHatching(g2, decoStroke,
 					geo.getObjectColor(),
@@ -587,14 +587,5 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public boolean isFilled(){
 		return (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled());
-	}
-	
-	private boolean hasPattern() {
-		return geo.getFillType() == GeoElement.FillType.HATCH
-				|| geo.getFillType() == GeoElement.FillType.CROSSHATCHED
-				|| geo.getFillType() == GeoElement.FillType.CHESSBOARD
-				|| geo.getFillType() == GeoElement.FillType.DOTTED
-				|| geo.getFillType() == GeoElement.FillType.HONEYCOMB
-				|| geo.getFillType() == GeoElement.FillType.BRICK;
 	}
 }
