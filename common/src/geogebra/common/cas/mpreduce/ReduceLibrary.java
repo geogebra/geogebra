@@ -55,10 +55,10 @@ public class ReduceLibrary {
 				+ "cot(~b*\u00b0/~a)=>cot(b/a*pi/180),"
 				+ "sec(~b*\u00b0/~a)=>sec(b/a*pi/180),"
 				+ "csc(~b*\u00b0/~a)=>csc(b/a*pi/180)}");
-		eval("trigrules:={ tan(~x)*cos(~x)=>sin(x)," 
+		/*eval("trigrules:={ tan(~x)*cos(~x)=>sin(x)," 
 				+ "tan(~x)/sin(~x)=>1/cos(x),"
 				+ "cot(~x)*sin(~x)=>cos(x),"
-				+ "cot(~x)/cos(~x)=>1/sin(x)}");
+				+ "cot(~x)/cos(~x)=>1/sin(x)}");*/
 		eval("intrules!!:={"
 				+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
 				+ "int(~w/(~x+~a),~x) => w*log(abs(x+a)) when freeof(w,x) and freeof(a,x),"
@@ -581,7 +581,7 @@ public class ReduceLibrary {
 				+ " if isineq then eqn:=lhs(ineq)=rhs(ineq);"
 				+ " eqn:=mkdepthone({eqn});"
 				+ " let solverules;"
-				+ " let trigrules;"
+				//+ " let trigrules;"
 				+ " if arglength(eqn)>-1 and part(eqn,0)='list then"
 				+ "    eqn:=for each x in eqn collect"
 				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
@@ -594,7 +594,7 @@ public class ReduceLibrary {
 				+ " sign!!:={};if not(isineq) then <<for i:=1:arglength(eqn) do sign!!:=posneg(part(eqn,1)).sign!!;>>;"
 				+ " if not(isineq) and (not(freeof(sign!!,nzpoz)) or not(freeof(sign!!,nzneg))) then return {};"
 				+ " solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
-				+ " clearrules trigrules;" 
+				//+ " clearrules trigrules;" 
 				// to prevent Solve command to yield non-existing solutions
 				// such as solve({c*a^(-2)=15/4,c*a^(-4)=15/64},{a,c}) does
 				// {a=0,c=0}
@@ -736,7 +736,7 @@ public class ReduceLibrary {
 				+ " begin scalar solutions!!, bool!!;"
 				+ "  eqn:=mkdepthone({eqn});"
 				+ "  let solverules;"
-				+ "  let trigrules;"
+				//+ "  let trigrules;"
 				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
 				+ "    eqn:=for each x in eqn collect"
 				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
@@ -752,7 +752,7 @@ public class ReduceLibrary {
 				+ "        {sol}" + "      else if bool!!=0 then"
 				+ "        {{var='?}}" + "      >>;"
 				+ "  clearrules solverules;" 
-				+ "  clearrules trigrules;" 
+				//+ "  clearrules trigrules;" 
 				+ "  return mkset(solutions!!);"
 				+ " end;");
 
