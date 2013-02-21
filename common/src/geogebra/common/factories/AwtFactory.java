@@ -15,6 +15,7 @@ import geogebra.common.awt.GFontRenderContext;
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGradientPaint;
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.GRectangle;
@@ -71,5 +72,6 @@ public abstract class AwtFactory {
 	public abstract FocusListener newFocusListener(Object listener);
 	public abstract ActionListener newActionListener(ActionListenerI listener);
 	public abstract geogebra.common.awt.Component newComponent(Object component);
+	public abstract GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect);
 	
 }

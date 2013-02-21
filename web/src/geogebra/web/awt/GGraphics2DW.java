@@ -269,6 +269,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			currentPaint = new GTexturePaintW((GTexturePaintW)paint);
 			CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 			context.setFillStyle(ptr);
+		} else {
+			App.error("unknown paint type");
 		}
 
 	}
@@ -856,6 +858,18 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void drawImage(GBufferedImage img, int x, int y) {
 		drawImage(img, null, x, y);
+    }
+
+
+	@Override
+    public void setAntialiasing() {
+	    // not needed
+    }
+
+
+	@Override
+    public void setTransparent() {
+		setComposite(GAlphaCompositeW.Src);	    
     }
 
 }

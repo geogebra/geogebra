@@ -790,4 +790,8 @@ public abstract class GGraphics2D {
 	public abstract void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 
 	public abstract void drawImage(GImage img, int x, int y);
+
+	public abstract void setAntialiasing();
+
+	public abstract void setTransparent();
 }

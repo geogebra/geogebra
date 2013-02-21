@@ -693,7 +693,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 
-		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandlerD();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStaticD();
 
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.euclidian.clipping.DoubleArrayFactory();

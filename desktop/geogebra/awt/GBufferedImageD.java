@@ -1,5 +1,6 @@
 package geogebra.awt;
 
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GGraphics2D;
 
 public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
@@ -31,6 +32,10 @@ public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
 
 	public GGraphics2D createGraphics() {
 		return new geogebra.awt.GGraphics2DD((java.awt.Graphics2D)impl.getGraphics());
+	}
+
+	public GBufferedImage getSubimage(int i, int j, int size, int size2) {
+		return new geogebra.awt.GBufferedImageD(impl.getSubimage(i, j, size, size2));
 	}
 
 }

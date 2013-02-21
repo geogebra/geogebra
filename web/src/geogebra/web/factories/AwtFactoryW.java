@@ -17,6 +17,7 @@ import geogebra.common.awt.GFontRenderContext;
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGradientPaint;
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.GRectangle;
@@ -28,6 +29,10 @@ import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
+import geogebra.web.awt.GBufferedImageW;
+import geogebra.web.awt.GGradientPaintW;
+import geogebra.web.awt.GRectangleW;
+import geogebra.web.awt.GTexturePaintW;
 
 /**
  * Creates AWT wrappers for web
@@ -225,7 +230,12 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
     public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
             int i, GColor bg) {
-	    return new geogebra.web.awt.GGradientPaintW(x,y,bg2,x2,i,bg);
+	    return new GGradientPaintW(x,y,bg2,x2,i,bg);
+    }
+	
+	@Override
+    public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
+	    return new GTexturePaintW((GBufferedImageW)subimage, (GRectangleW)rect);
     }
 
 	@Override
@@ -244,5 +254,6 @@ public class AwtFactoryW extends AwtFactory {
 		App.debug("newActionListener: implementation needed really"); // TODO Auto-generated
 	    return null;
     }
+
 
 }

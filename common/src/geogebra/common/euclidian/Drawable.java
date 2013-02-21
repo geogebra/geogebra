@@ -418,6 +418,8 @@ public abstract class Drawable extends DrawableND {
 
 	private boolean forcedLineType;
 
+	private HatchingHandler hatchingHandler;
+
 	/**
 	 * Set fixed line type and ignore line type of the geo. Needed for
 	 * inequalities.
@@ -497,7 +499,7 @@ public abstract class Drawable extends DrawableND {
 			return;
 		if (hasPattern()) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
-			geogebra.common.euclidian.HatchingHandler.setHatching(g2, decoStroke,
+			getHatchingHandler().setHatching(g2, decoStroke,
 					geo.getObjectColor(),
 					geo.getBackgroundColor(),
 					geo.getAlphaValue(), geo.getHatchingDistance(),
@@ -509,7 +511,7 @@ public abstract class Drawable extends DrawableND {
 				g2.fill(fillShape);
 
 		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
-			geogebra.common.euclidian.HatchingHandler.setTexture(g2, geo, geo.getAlphaValue());
+			getHatchingHandler().setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(fillShape);
 		} else if (geo.getAlphaValue() > 0.0f) {
 			g2.setPaint(geo.getFillColor());
@@ -529,6 +531,14 @@ public abstract class Drawable extends DrawableND {
 
 	}
 	
+	private HatchingHandler getHatchingHandler() {
+		if (hatchingHandler == null) {
+			hatchingHandler = new HatchingHandler();
+		}
+		
+		return hatchingHandler;
+	}
+
 	/**
 	 * @param forceNoFill
 	 *            the forceNoFill to set

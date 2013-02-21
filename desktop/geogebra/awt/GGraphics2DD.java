@@ -19,7 +19,10 @@ import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.main.App;
+import geogebra.euclidianND.EuclidianViewND;
 
+import java.awt.AlphaComposite;
 import java.util.Map;
 
 /**
@@ -108,11 +111,16 @@ public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 
 	@Override
 	public void setPaint(GPaint paint) {
-		if(paint instanceof geogebra.awt.GGradientPaintD){
-			impl.setPaint(((geogebra.awt.GGradientPaintD)paint).getPaint());
+		if (paint instanceof GColor){
+			impl.setPaint(GColorD.getAwtColor((GColor)paint));
+		} else if (paint instanceof GGradientPaintD){
+			impl.setPaint(((GGradientPaintD)paint).getPaint());
 			return;
-		}else if(paint instanceof GColor){
-			impl.setPaint(geogebra.awt.GColorD.getAwtColor((GColor)paint));
+		} else if (paint instanceof GTexturePaintD){
+			impl.setPaint(((GTexturePaintD)paint).getPaint());
+			return;
+		} else {
+			App.error("unknown paint type");
 		}
 		
 	}
@@ -365,6 +373,18 @@ public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 	@Override
 	public void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
 		impl.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+		
+	}
+
+	@Override
+	public void setAntialiasing() {
+		EuclidianViewND.setAntialiasing(impl);
+		
+	}
+
+	@Override
+	public void setTransparent() {
+		impl.setComposite(AlphaComposite.Src);
 		
 	}
 	

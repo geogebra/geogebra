@@ -17,6 +17,7 @@ import geogebra.common.awt.GFontRenderContext;
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGradientPaint;
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.GRectangle;
@@ -238,6 +239,10 @@ public class AwtFactoryD extends AwtFactory{
 	@Override
 	public geogebra.euclidian.event.ActionListenerD newActionListener(ActionListenerI listener) {
 		return new geogebra.euclidian.event.ActionListenerD(listener);
+	}
+	@Override
+	public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
+		return new geogebra.awt.GTexturePaintD(subimage, rect);
 	}
 
 	
