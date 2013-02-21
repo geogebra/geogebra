@@ -55,6 +55,10 @@ public class ReduceLibrary {
 				+ "cot(~b*\u00b0/~a)=>cot(b/a*pi/180),"
 				+ "sec(~b*\u00b0/~a)=>sec(b/a*pi/180),"
 				+ "csc(~b*\u00b0/~a)=>csc(b/a*pi/180)}");
+		eval("trigrules:={ tan(~x)*cos(~x)=>sin(x)," 
+				+ "tan(~x)/sin(~x)=>1/cos(x),"
+				+ "cot(~x)*sin(~x)=>cos(x),"
+				+ "cot(~x)/cos(~x)=>1/sin(x)}");
 		eval("intrules!!:={"
 				+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
 				+ "int(~w/(~x+~a),~x) => w*log(abs(x+a)) when freeof(w,x) and freeof(a,x),"
@@ -577,6 +581,7 @@ public class ReduceLibrary {
 				+ " if isineq then eqn:=lhs(ineq)=rhs(ineq);"
 				+ " eqn:=mkdepthone({eqn});"
 				+ " let solverules;"
+				+ " let trigrules;"
 				+ " if arglength(eqn)>-1 and part(eqn,0)='list then"
 				+ "    eqn:=for each x in eqn collect"
 				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
@@ -589,12 +594,11 @@ public class ReduceLibrary {
 				+ " sign!!:={};if not(isineq) then <<for i:=1:arglength(eqn) do sign!!:=posneg(part(eqn,1)).sign!!;>>;"
 				+ " if not(isineq) and (not(freeof(sign!!,nzpoz)) or not(freeof(sign!!,nzneg))) then return {};"
 				+ " solutions!!:=if bigexponents(eqn)>0 then list() else solve(eqn,var);"
+				+ " clearrules trigrules;" 
 				// to prevent Solve command to yield non-existing solutions
 				// such as solve({c*a^(-2)=15/4,c*a^(-4)=15/64},{a,c}) does
 				// {a=0,c=0}
-				+ " solui:=solutions!!;" 
 				+ " if not(isineq) then solutions!!:=existingsolutions(eqn,solutions!!);"
-				+ " exisolui:=solutions!!;" 
 				// if it cannot solve the equation, numeric is off, and isineq
 				// then we return {x=?}
 				+ " if not (freeof(solutions!!,root_of)=t and freeof(solutions!!,one_of)=t) and numeric!!=0 and isineq then"
@@ -643,7 +647,7 @@ public class ReduceLibrary {
 				+ "    solutionset:=append(solutionset,{part(part(densol,j),2)});"
 				+ " >>;"
 				+ "densol:=temp1!!;"
-				+ "solutionset:=mysortdec(solutionset); "
+				+ "solutionset:=mysortgen(solutionset,sgreater,sequal); "
 				+ "solutionset:=append({infinity},solutionset); solutionset:=append(solutionset,{-infinity});"
 				+ "ineqsol:={};"
 				+ "nmroots:=length(solutionset);"
@@ -681,7 +685,10 @@ public class ReduceLibrary {
 				+
 				// may happen that other!! is "we don't know" and solutions!! is
 				// "no answer"
-				" return if part(other!!,1)=1 then part(other!!,2) else part(solutions!!,2);"
+				" return if part(other!!,1)=1 then part(other!!,2)" +
+				" 	else if isineq then part(solutions!!, 2)" + 
+				"   else mysortgen(for each sol!! in part(solutions!!, 2) " +
+				"		collect mysortgen(sol!!,mysolless,mysolequal),mysolsetless,mysolsetequal)"
 				+ " end;");
 		eval("procedure simplifyexp(x);"
 				+ " begin scalar y;"
@@ -729,6 +736,7 @@ public class ReduceLibrary {
 				+ " begin scalar solutions!!, bool!!;"
 				+ "  eqn:=mkdepthone({eqn});"
 				+ "  let solverules;"
+				+ "  let trigrules;"
 				+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
 				+ "    eqn:=for each x in eqn collect"
 				+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
@@ -743,7 +751,9 @@ public class ReduceLibrary {
 				+ "      		bool!!:=0;" + "      if bool!!=1 then"
 				+ "        {sol}" + "      else if bool!!=0 then"
 				+ "        {{var='?}}" + "      >>;"
-				+ "  clearrules solverules;" + "  return mkset(solutions!!);"
+				+ "  clearrules solverules;" 
+				+ "  clearrules trigrules;" 
+				+ "  return mkset(solutions!!);"
 				+ " end;");
 
 		eval("procedure mycsolve1(eqn);"
@@ -1116,17 +1126,15 @@ public class ReduceLibrary {
 		// mygreatersort and myequalsort are needed when trying to compare
 		// rational numbers
 		// eg. sqrt(2) and 2
-		eval("procedure mygreatersort(a,b);" + "begin;"
+		// mysortgen(list, compareop, equalop) where
+		// list of numbers - compareop = ( sless | sgreater), equalop = sequal
+		// one can use any kind of compare operator if it can be used on the elements of the list
+		eval("procedure mycomparesort(a,b,compareop);" + "begin;"
 				+ "on rounded, roundall, numval;"
-				+ "ret:=if sgreater(a,b)=true then 1 else 0;"
+				+ "ret:=if compareop(a,b)=true then 1 else 0;"
 				+ "if numeric!!=0 then off rounded, roundall, numval;"
 				+ "return ret;" + "end;");
-		eval("procedure myequalsort(a,b);" + "begin;"
-				+ "on rounded, roundall, numval;"
-				+ "ret:=if sequal(a,b)=true then 1 else 0;"
-				+ "if numeric!!=0 then off rounded, roundall, numval;"
-				+ "return ret;" + "end;");
-		eval("procedure mysortdec a;"
+		eval("procedure mysortgen(a,gtltop,equalop);"
 				+ "begin scalar leftlist, rightlist, eqlist;"
 				+ " leftlist:=list();"
 				+ " rightlist:=list();"
@@ -1135,21 +1143,25 @@ public class ReduceLibrary {
 				+ " if length(a)<2 then a"
 				+ " else <<"
 				+ "  for each elem in a do"
-				+ "    if mygreatersort(elem,part(a,1)) then"
+				+ "    if mycomparesort(elem,part(a,1),gtltop) then"
 				+ "     leftlist:=elem . leftlist"
-				+ "    else if myequalsort(elem,part(a,1)) then"
+				+ "    else if mycomparesort(elem,part(a,1),equalop) then"
 				+ "     eqlist:=elem . eqlist"
 				+ "    else"
 				+ "     rightlist:=elem . rightlist;"
 				+ "  if length(leftlist)=0 and length(rightlist)=0 then"
 				+ "    eqlist"
 				+ "  else if length(leftlist)=0 then"
-				+ "    append(eqlist, mysortdec(rightlist))"
+				+ "    append(eqlist, mysortgen(rightlist,gtltop,equalop))"
 				+ "  else if length(rightlist)=0 then"
-				+ "    append(mysortdec(leftlist), eqlist)"
+				+ "    append(mysortgen(leftlist,gtltop,equalop), eqlist)"
 				+ "  else"
-				+ "    append(append(mysortdec(leftlist),eqlist),mysortdec(rightlist))"
+				+ "    append(append(mysortgen(leftlist,gtltop,equalop),eqlist),mysortgen(rightlist,gtltop,equalop))"
 				+ " >> " + "end;");
+		eval("procedure mysolless(a,b); sless(rhs(a), rhs(b));");
+		eval("procedure mysolleq(a,b); sequal(rhs(a), rhs(b));");
+		eval("procedure mysolsetless(a,b); sless(rhs(first(a)), rhs(first(b)));");
+		eval("procedure mysolsetequal(a,b); sequal(rhs(first(a)), rhs(first(b)));");
 
 		eval("procedure mymember(a, list);"
 				+ "begin;boole:=0;jj:=1;"
