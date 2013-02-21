@@ -3748,7 +3748,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo other geo
 	 * @return true if geo depends on this object.
 	 */
-	final public boolean isParentOf(final GeoElement geo) {
+	final public boolean isParentOf(final GeoElementND geo) {
 		if (algoUpdateSet != null) {
 			final Iterator<AlgoElement> it = algoUpdateSet
 					.getIterator();
