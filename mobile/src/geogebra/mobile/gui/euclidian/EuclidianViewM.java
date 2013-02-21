@@ -6,12 +6,14 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.Settings;
 import geogebra.mobile.controller.MobileController;
 import geogebra.web.awt.GGraphics2DW;
+import geogebra.web.awt.GRectangleW;
 import geogebra.web.euclidian.EuclidianViewWeb;
 
 import java.util.List;
@@ -41,12 +43,21 @@ public class EuclidianViewM extends EuclidianViewWeb
 	private Canvas canvas;
 
 	
+	protected Hits hits; 
 
+	private static int SELECTION_DIAMETER_MIN = 25; // taken from geogebra.common.euclidian.draw.DrawPoint
+	
+	// accepting range for hitting a point is multiplied with this factor 
+	// (for anything other see App)
+	private int selectionFactor = 3; 
+	
 	public EuclidianViewM(MobileController ec)
 	{
 		super(ec, new Settings().getEuclidian(1));
 
 		this.setAllowShowMouseCoords(false);
+		
+		this.hits = new Hits(); 
 	}
 
 	/**
@@ -202,6 +213,28 @@ public class EuclidianViewM extends EuclidianViewWeb
 		paint(this.g2p);
 	}
 
+	/**
+	 * this version also adds points that are very close to the hit point
+	 */
+	@Override
+	public void setHits(GPoint p){
+		super.setHits(p); 
+		this.hits = super.getHits(); 
+		
+		if(this.hits.size() == 0){			
+			GRectangleW rect = new GRectangleW(); 
+			int size = EuclidianViewM.SELECTION_DIAMETER_MIN * this.selectionFactor;  
+			rect.setBounds(p.x - (size/2), p.y - (size/2), size, size); 
+			this.setHits(rect); 
+			this.hits = super.getHits(); 
+		}
+	}
+	
+	@Override
+	public Hits getHits(){		
+		return this.hits;		
+	}
+	
 	@Override
 	public boolean hitAnimationButton(AbstractEvent event)
 	{

@@ -380,12 +380,9 @@ public class MobileModel
 
 			break;
 
-		// commands that need one point or a point and a Path or a Region
+		// special command: attach/detach: needs a point (detach) or a point and a region/path (attach)
 		case AttachDetachPoint:
 			attachDetach(hits, point);
-
-			this.commandFinished = true;
-
 			break;
 
 		// commands that need two points
@@ -948,6 +945,7 @@ public class MobileModel
 		selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.PATH,
 				Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR,
 				Test.REGION3D });
+		
 		GeoPoint point = (GeoPoint) getElement(Test.GEOPOINT);
 		Path path = (Path) getElement(Test.PATH);
 		Region region = (Region) getElementFrom(new Test[] { Test.GEOCONICND,
@@ -957,20 +955,20 @@ public class MobileModel
 			Point p = c != null ? c : new Point((int) point.getX(),
 					(int) point.getY());
 
-			if (!point.isIndependent())
+			if (!point.isIndependent()) // detach
 			{
 				this.kernel.getAlgoDispatcher().detach(point, view);
 				resetSelection();
 				select(point);
 				this.commandFinished = true;
-			} else if (region != null)
+			} else if (region != null) // attach to region
 			{
 				this.kernel.getAlgoDispatcher().attach(point, region, view,
 						p.getX(), p.getY());
 				resetSelection();
 				select(point);
 				this.commandFinished = true;
-			} else if (path != null)
+			} else if (path != null) // attach to path
 			{
 				this.kernel.getAlgoDispatcher().attach(point, path, view,
 						p.getX(), p.getY());

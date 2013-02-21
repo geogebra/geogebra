@@ -55,7 +55,9 @@ public class MobileApp extends AppWeb
 	private XMLBuilder mobileXML;
 	private LocalizationW loc;
 
-
+	// accepting range for hitting Geos (except for Points) is multiplied with this factor 
+	// (for Points see EuclidianView)
+	private int selectionFactor = 3; 
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -73,13 +75,15 @@ public class MobileApp extends AppWeb
 		
 		initFactories();
 		
-		loc = new LocalizationW();
+		this.loc = new LocalizationW();
 
 		this.fontManager = new FontManagerW();
 		this.mobileGUI = mobileGUI;
 		this.settings = new Settings();
 
 		setFontSize(12);
+		
+		this.capturingThreshold *= this.selectionFactor; 
 	}
 
 	// not needed yet, because we use xml-Strings
