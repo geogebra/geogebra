@@ -28,6 +28,7 @@ import geogebra.web.gui.KeyEventsHandler;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
-	  private AppW app;
+	  private AppWeb app;
 	  private Localization loc;
 	  private StringBuilder curWord;
 	  private int curWordStart;
@@ -113,10 +114,10 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	   * 
 	   */
 	  public AutoCompleteTextFieldW(int columns, App app) {
-	    this(columns, (AppW) app, true, null);
+	    this(columns, (AppWeb) app, true, null);
 	  }
 	  
-	  public AutoCompleteTextFieldW(int columns, AppW app,
+	  public AutoCompleteTextFieldW(int columns, AppWeb app,
 		      boolean handleEscapeKey, KeyEventsHandler keyHandler) {
 		    this(columns, app, handleEscapeKey, app.getCommandDictionary(), keyHandler);
 		    // setDictionary(app.getAllCommandsDictionary());
@@ -128,7 +129,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    this.drawTextField = (DrawTextField) drawTextField;
 	  }
 
-	  public AutoCompleteTextFieldW(int columns, AppW app,
+	  public AutoCompleteTextFieldW(int columns, AppWeb app,
 		      boolean handleEscapeKey, AutoCompleteDictionary dict, KeyEventsHandler keyHandler) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1

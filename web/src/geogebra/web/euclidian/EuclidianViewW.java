@@ -2,15 +2,11 @@ package geogebra.web.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
@@ -51,9 +47,9 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 
-public class EuclidianViewW extends EuclidianView {
+public class EuclidianViewW extends EuclidianViewWeb {
 	
-	public geogebra.web.awt.GGraphics2DW g2p = null;
+	
 	public geogebra.web.awt.GGraphics2DW g4copy = null;
 	public boolean isInFocus = false;
 
@@ -139,13 +135,6 @@ public class EuclidianViewW extends EuclidianView {
 			es.addListener(this);
 		}
     }
-
-
-	@Override
-    public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
-		((geogebra.web.awt.GGraphics2DW)g2).drawGraphics(
-				(geogebra.web.awt.GGraphics2DW)bgGraphics, 0, 0, null);
-	}
 
 	// STROKES
 	protected static MyBasicStrokeW standardStroke = new MyBasicStrokeW(1.0f);
@@ -287,26 +276,7 @@ public class EuclidianViewW extends EuclidianView {
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
     }
-
-	private GGraphics2D g2dtemp;
-
-	private geogebra.common.awt.GColor backgroundColor = geogebra.web.awt.GColorW.white;
-	@Override
-    public GGraphics2D getTempGraphics2D(GFont plainFontCommon) {
-	    if(g2dtemp==null)
-	    	g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
-	    g2dtemp.setFont(plainFontCommon);
-	    return g2dtemp;
-    }
-
-	@Override
-    public GFont getFont() {
-		return new geogebra.web.awt.GFontW((geogebra.web.awt.GFontW)g2p.getFont());
-    }
-
-    public geogebra.common.awt.GColor getBackgroundCommon() {
-	    return backgroundColor ;
-    }
+	
 
 	@Override
     protected void setHeight(int h) {
@@ -541,27 +511,7 @@ public class EuclidianViewW extends EuclidianView {
 		g2.drawImage(new geogebra.web.awt.GBufferedImageW(img), null, x, y);
 	}
 
-	@Override
-    protected void drawActionObjects(GGraphics2D g) {
-	    // draws buttons and textfields in desktop
-		// not needed in web
-    }
-
-
-	@Override
-    protected void setAntialiasing(GGraphics2D g2) {
-		// In GWT, everything is anti-aliased by default, so we don't need to do anything here.
-    }
-
-	@Override
-    public void setBackground(geogebra.common.awt.GColor bgColor) {
-		if (bgColor != null)
-			backgroundColor = AwtFactory.prototype.newColor(
-			bgColor.getRed(),
-			bgColor.getGreen(),
-			bgColor.getBlue(),
-			bgColor.getAlpha());
-    }
+	
 
 	@Override
   public void setPreferredSize(GDimension preferredSize) {
@@ -623,11 +573,6 @@ public class EuclidianViewW extends EuclidianView {
 	@Override
     public void setEraserCursor() {
 	    App.warn("setEraserCursor() unimplemented");	    
-    }
-
-	@Override
-    protected MyZoomer newZoomer() {
-	    return new MyZoomerW(this);
     }
 
 	public boolean hasFocus() {

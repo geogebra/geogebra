@@ -8,7 +8,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
-import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.javax.swing.GOptionPane;
@@ -16,7 +15,6 @@ import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
@@ -34,7 +32,6 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
-import geogebra.common.util.NormalizerMinimal;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -922,18 +919,10 @@ public class AppW extends AppWeb {
 	}
 
 	private void initCommonObjects() {
-		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
-		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
+		initFactories();
 		geogebra.common.factories.CASFactory.setPrototype(new geogebra.web.factories.CASFactoryW());
-		geogebra.common.factories.SwingFactory.setPrototype(new geogebra.web.factories.SwingFactoryW());
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactoryW();
 		geogebra.common.factories.Factory.setPrototype(new geogebra.web.factories.FactoryW());
-		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
-
-		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandlerW();
-		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
-		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
-
 		// App.initializeSingularWS();
 
 		// neded to not overwrite anything already exists
@@ -1348,19 +1337,7 @@ public class AppW extends AppWeb {
 		return false;
 	}
 
-	private GlobalKeyDispatcherW globalKeyDispatcher;
 
-	@Override
-	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
-		if (globalKeyDispatcher == null) {
-			globalKeyDispatcher = newGlobalKeyDispatcher();
-		}
-		return globalKeyDispatcher;
-	}
-
-	protected GlobalKeyDispatcherW newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcherW(this);
-	}
 
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
@@ -1709,10 +1686,6 @@ public class AppW extends AppWeb {
 		return false;
 	}
 
-	@Override
-	public StringType getFormulaRenderingType() {
-		return StringType.LATEX;
-	}
 
 	public static native void console(JavaScriptObject dataAsJSO) /*-{
 		@geogebra.common.main.App::debug(Ljava/lang/String;)(dataAsJSO);
@@ -2038,17 +2011,9 @@ public class AppW extends AppWeb {
 		return super.getVersionString() + "-HTML5";
 	}
 
-	private NormalizerMinimal normalizerMinimal;
+	
 	private MyXMLio xmlio;
 
-	@Override
-	public NormalizerMinimal getNormalizer() {
-		if (normalizerMinimal == null) {
-			normalizerMinimal = new NormalizerMinimal();
-		}
-
-		return normalizerMinimal;
-	}
 
 	public void setShowAxesSelected(GCheckBoxMenuItem mi) {
 //		GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
@@ -2089,10 +2054,7 @@ public class AppW extends AppWeb {
 	    return CASFactory.getPrototype();
     }
 
-	@Override
-    public SwingFactory getSwingFactory() {
-	    return SwingFactory.getPrototype();
-    }
+
 
 	@Override
     public Factory getFactory() {

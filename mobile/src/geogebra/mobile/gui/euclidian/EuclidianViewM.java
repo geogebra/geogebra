@@ -2,21 +2,17 @@ package geogebra.mobile.gui.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.Settings;
 import geogebra.mobile.controller.MobileController;
 import geogebra.web.awt.GGraphics2DW;
-import geogebra.web.euclidian.MyZoomerW;
+import geogebra.web.euclidian.EuclidianViewWeb;
 
 import java.util.List;
 
@@ -37,16 +33,14 @@ import com.google.gwt.user.client.Window;
  * @author Thomas Krismayer
  * 
  */
-public class EuclidianViewM extends EuclidianView
+public class EuclidianViewM extends EuclidianViewWeb
 {
 	int oldDistance;
 
 	// set in setCanvas
-	GGraphics2DW g2p = null;
 	private Canvas canvas;
 
-	private GColor backgroundColor = GColor.white;
-	private GGraphics2D g2dtemp;
+	
 
 	public EuclidianViewM(MobileController ec)
 	{
@@ -209,13 +203,6 @@ public class EuclidianViewM extends EuclidianView
 	}
 
 	@Override
-	public GColor getBackgroundCommon()
-	{
-		// TODO
-		return this.backgroundColor;
-	}
-
-	@Override
 	public boolean hitAnimationButton(AbstractEvent event)
 	{
 		return false;
@@ -301,21 +288,7 @@ public class EuclidianViewM extends EuclidianView
 		updateBackgroundImage();
 	}
 
-	@Override
-	public GGraphics2D getTempGraphics2D(GFont fontForGraphics)
-	{
-		// TODO
-		if (this.g2dtemp == null)
-			this.g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
-		this.g2dtemp.setFont(fontForGraphics);
-		return this.g2dtemp;
-	}
-
-	@Override
-	public GFont getFont()
-	{
-		return null;
-	}
+	
 
 	@Override
 	protected void setHeight(int h)
@@ -357,32 +330,6 @@ public class EuclidianViewM extends EuclidianView
 		return false;
 	}
 
-	@Override
-	public void paintBackground(GGraphics2D g2)
-	{
-		// TODO
-		((GGraphics2DW) g2).drawGraphics((GGraphics2DW) this.bgGraphics, 0, 0, null);
-	}
-
-	@Override
-	protected void drawActionObjects(GGraphics2D g)
-	{
-	}
-
-	@Override
-	protected void setAntialiasing(GGraphics2D g2)
-	{
-		// TODO
-	}
-
-	@Override
-	public void setBackground(GColor bgColor)
-	{
-		if (bgColor != null)
-		{
-			this.backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
-		}
-	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize)
@@ -392,12 +339,6 @@ public class EuclidianViewM extends EuclidianView
 	@Override
 	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2, GColor penColor, int penLineStyle, int penSize)
 	{
-	}
-
-	@Override
-	protected MyZoomer newZoomer()
-	{
-		return new MyZoomerW(this);
 	}
 
 	@Override

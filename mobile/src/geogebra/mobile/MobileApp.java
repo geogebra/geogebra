@@ -7,7 +7,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
-import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -15,13 +14,11 @@ import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
-import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
@@ -29,7 +26,6 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 import geogebra.mobile.gui.elements.header.XMLBuilder;
 import geogebra.mobile.gui.euclidian.EuclidianViewM;
@@ -75,7 +71,7 @@ public class MobileApp extends AppWeb
 
 		setLabelDragsEnabled(false); 
 		
-		intitFactories();
+		initFactories();
 		
 		loc = new LocalizationW();
 
@@ -113,14 +109,7 @@ public class MobileApp extends AppWeb
 		return this.mobileGUI; 
 	}
 
-	private static void intitFactories()
-	{
-		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
-		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
-		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
-
-		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
-	}
+	
 
 	@Override
 	protected FontManager getFontManager()
@@ -429,13 +418,6 @@ public class MobileApp extends AppWeb
 	}
 
 	@Override
-	public StringType getFormulaRenderingType()
-	{
-
-		return null;
-	}
-
-	@Override
 	public String getLocaleStr()
 	{
 		// TODO
@@ -509,12 +491,6 @@ public class MobileApp extends AppWeb
 	}
 
 	@Override
-	public NormalizerMinimal getNormalizer()
-	{
-		return null;
-	}
-
-	@Override
 	public void runScripts(GeoElement geo1, String string)
 	{
 	}
@@ -544,12 +520,6 @@ public class MobileApp extends AppWeb
 			this.euclidianView = (EuclidianView) getActiveEuclidianView();
 		}
 		return this.euclidianView;
-	}
-
-	@Override
-	public GlobalKeyDispatcher getGlobalKeyDispatcher()
-	{
-		return null;
 	}
 
 	@Override
@@ -583,12 +553,6 @@ public class MobileApp extends AppWeb
 
 	@Override
 	public CASFactory getCASFactory()
-	{
-		return null;
-	}
-
-	@Override
-	public SwingFactory getSwingFactory()
 	{
 		return null;
 	}
