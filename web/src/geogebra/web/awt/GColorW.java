@@ -1,6 +1,8 @@
 package geogebra.web.awt;
 
-public class GColorW extends geogebra.common.awt.GColor {
+import geogebra.common.awt.GColor;
+
+public class GColorW extends GColor {
 
 	private int r;
 	private int g;
@@ -28,7 +30,6 @@ public class GColorW extends geogebra.common.awt.GColor {
 		setGreen(g);
 		setBlue(b);
 		setAlpha(255);
-		// TODO Auto-generated constructor stub
 	}
 
 	public GColorW(int rgb) {
@@ -46,7 +47,6 @@ public class GColorW extends geogebra.common.awt.GColor {
 		setGreen(g);
 		setBlue(b);
 		setAlpha(alpha);
-		// TODO Auto-generated constructor stub
 	}
 
 	public GColorW(float r, float g, float b, float alpha) {
@@ -72,7 +72,6 @@ public class GColorW extends geogebra.common.awt.GColor {
 		setBlue((int) (b*255));
 		setAlpha((int) (alpha*255));
 		
-		// TODO Auto-generated constructor stub
 	}
 
 	public GColorW(float red, float green, float blue) {
