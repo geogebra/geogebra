@@ -1317,6 +1317,7 @@ __GGB__keysVar.kk.menu = {
     "Filling_Brick": "Brick",
     "Filling_Chessboard": "Chessboard",
     "Filling_Crosshatch": "Cross-hatch",
+    "Filling_Dotted": "Dotted",
     "Filling_Hatch": "\u0428\u0440\u0442\u0438\u0445",
     "Filling_Honeycomb": "Honeycomb",
     "Filling_Image": "\u0421\u0443\u0440\u0435\u0442",

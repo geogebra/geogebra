@@ -1317,6 +1317,7 @@ __GGB__keysVar.iw.menu = {
     "Filling_Brick": "Brick",
     "Filling_Chessboard": "Chessboard",
     "Filling_Crosshatch": "Cross-hatch",
+    "Filling_Dotted": "Dotted",
     "Filling_Hatch": "\u05e9\u05ea\u05d9 \u05d5\u05e2\u05e8\u05d1",
     "Filling_Honeycomb": "Honeycomb",
     "Filling_Image": "\u05ea\u05de\u05d5\u05e0\u05d4",

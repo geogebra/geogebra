@@ -1317,6 +1317,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Filling_Brick": "Brick",
     "Filling_Chessboard": "Chessboard",
     "Filling_Crosshatch": "Cross-hatch",
+    "Filling_Dotted": "Dotted",
     "Filling_Hatch": "\u659c\u7ebf",
     "Filling_Honeycomb": "Honeycomb",
     "Filling_Image": "\u56fe\u7247",

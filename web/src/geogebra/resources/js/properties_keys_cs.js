@@ -1317,6 +1317,7 @@ __GGB__keysVar.cs.menu = {
     "Filling_Brick": "Brick",
     "Filling_Chessboard": "Chessboard",
     "Filling_Crosshatch": "Cross-hatch",
+    "Filling_Dotted": "Dotted",
     "Filling_Hatch": "\u0160rafovat",
     "Filling_Honeycomb": "Honeycomb",
     "Filling_Image": "Obr\xe1zek",
