@@ -121,9 +121,11 @@ public class MobileController extends EuclidianController
 		this.model.getGuiModel().closeOptions(); // make sure undo-information is stored first
 		
 		ToolBarCommand cmd = this.model.getCommand();
-
+		
 		super.mouseLoc = new GPoint(x, y);
 		this.mode = this.model.getCommand().getMode();
+		
+		calcRWcoords();
 
 		if (cmd == ToolBarCommand.Move_Mobile)
 		{
@@ -253,9 +255,9 @@ public class MobileController extends EuclidianController
 	@Override
 	protected void moveMultipleObjects(boolean repaint)
 	{
-		this.translationVec.setX(this.xRW - this.startPoint.x);
-		this.translationVec.setY(this.yRW - this.startPoint.y);
-		this.startPoint.setLocation(this.xRW, this.yRW);
+		this.translationVec.setX(this.xRW - getStartPointX());
+		this.translationVec.setY(this.yRW - getStartPointY());
+		setStartPointLocation(this.xRW, this.yRW);
 		this.startLoc = this.mouseLoc;
 
 		//remove Polygons, add their points instead

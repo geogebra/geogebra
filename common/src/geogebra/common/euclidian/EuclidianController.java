@@ -6398,11 +6398,11 @@ public abstract class EuclidianController {
 		}
 	}
 
-	private double getStartPointX() {
+	protected double getStartPointX() {
 		return startPoint.x;
 	}
 	
-	private double getStartPointY() {
+	protected double getStartPointY() {
 		return startPoint.y;
 	}
 	
@@ -7506,7 +7506,7 @@ public abstract class EuclidianController {
 	
 	}
 
-	private void setStartPointLocation(double x, double y) {
+	protected void setStartPointLocation(double x, double y) {
 		startPoint.setLocation(x, y);
 		
 	}
