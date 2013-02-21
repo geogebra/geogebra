@@ -226,7 +226,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
-			drawEquationMathQuill(ih, eqstring, ((AppW) app).getCanvas()
+			drawEquationMathQuill(ih, eqstring, ((AppWeb) app).getCanvas()
 				.getCanvasElement().getParentElement(), true, el == eqstring.length());
 
 			equations.put(eqstringid, ih);

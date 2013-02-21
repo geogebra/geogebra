@@ -2,7 +2,6 @@ package geogebra.mobile;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -29,16 +28,18 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 import geogebra.mobile.gui.elements.header.XMLBuilder;
+import geogebra.mobile.gui.euclidian.EuclidianViewM;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.UndoManagerW;
+import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
 
 /**
@@ -47,7 +48,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
  * @author Matthias Meisinger
  * 
  */
-public class MobileApp extends App
+public class MobileApp extends AppWeb
 {
 	private GeoGebraMobileGUI mobileGUI;
 	private FontManagerW fontManager;
@@ -56,7 +57,6 @@ public class MobileApp extends App
 	 */
 	public static String currentFileId = null;
 	private XMLBuilder mobileXML;
-	private SoundManager soundManager;
 	private LocalizationW loc;
 
 
@@ -281,13 +281,6 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public DrawEquationInterface getDrawEquation()
-	{
-
-		return null;
-	}
-
-	@Override
 	public void setShowConstructionProtocolNavigation(boolean show, boolean playButton, double playDelay, boolean showProtButton)
 	{
 
@@ -369,14 +362,6 @@ public class MobileApp extends App
 //
 //		return ggbapi;
 		return null;
-	}
-
-	@Override
-	public SoundManager getSoundManager() {
-		if (this.soundManager == null) {
-//			this.soundManager = new SoundManagerW(this);
-		}
-		return this.soundManager;
 	}
 
 	@Override
@@ -666,6 +651,11 @@ public class MobileApp extends App
 	@Override
 	public Localization getLocalization() {
 		return this.loc;
+	}
+
+	@Override
+	public Canvas getCanvas() {
+		return ((EuclidianViewM) getActiveEuclidianView()).getCanvas();
 	}
 
 }

@@ -3,7 +3,6 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -31,7 +30,6 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
@@ -107,7 +105,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class AppW extends App {
+public class AppW extends AppWeb {
 
 	
 
@@ -874,7 +872,7 @@ public class AppW extends App {
 
 	@Override
     public EuclidianViewW getEuclidianView2() {
-		return (EuclidianViewW) null; // TODO: add euclidianview2 here later
+		return null; // TODO: add euclidianview2 here later
 	}
 
 	@Override
@@ -1215,20 +1213,10 @@ public class AppW extends App {
 	public void showError(String key, String error) {
 		showErrorDialog(getLocalization().getError(key) + ":\n" + error);
 	}
-
-	DrawEquationWeb drawEquation;
+	
 	private GuiManagerW guiManager;
 	
 	private SoundManagerW soundManager;
-
-	@Override
-	public DrawEquationInterface getDrawEquation() {
-		if (drawEquation == null) {
-			drawEquation = new DrawEquationWeb(this);
-		}
-
-		return drawEquation;
-	}
 
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
@@ -1297,7 +1285,7 @@ public class AppW extends App {
 		}
 
 		if (hasEuclidianView2()
-		        && ((EuclidianViewW) getEuclidianView2()).hasStyleBar()) {
+		        && getEuclidianView2().hasStyleBar()) {
 			getEuclidianView2().getStyleBar().updateStyleBar();
 		}
 	}
@@ -1328,14 +1316,6 @@ public class AppW extends App {
 		}
 
 		return ggbapi;
-	}
-
-	@Override
-	public SoundManager getSoundManager() {
-		if (soundManager == null) {
-			soundManager = new SoundManagerW(this);
-		}
-		return soundManager;
 	}
 
 
@@ -1941,7 +1921,7 @@ public class AppW extends App {
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			AlgebraInputW ai = (AlgebraInputW) (getGuiManager()
+			AlgebraInputW ai = (getGuiManager()
 			        .getAlgebraInput());
 			ai.clear();
 		}

@@ -43,7 +43,7 @@ public class EuclidianViewM extends EuclidianView
 
 	// set in setCanvas
 	GGraphics2DW g2p = null;
-	Canvas canvas;
+	private Canvas canvas;
 
 	private GColor backgroundColor = GColor.white;
 	private GGraphics2D g2dtemp;
@@ -438,5 +438,9 @@ public class EuclidianViewM extends EuclidianView
 	  // TODO Auto-generated method stub
 	  
   }
+	
+	public Canvas getCanvas(){
+		return this.canvas;
+	}
 
 }

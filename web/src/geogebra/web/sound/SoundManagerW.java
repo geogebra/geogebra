@@ -3,7 +3,7 @@ package geogebra.web.sound;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.App;
 import geogebra.common.sound.SoundManager;
-import geogebra.web.main.AppW;
+import geogebra.web.main.AppWeb;
 
 /**
  * @author micro_000
@@ -12,12 +12,12 @@ import geogebra.web.main.AppW;
 public class SoundManagerW implements SoundManager {
 
 
-	private AppW app;
+	private AppWeb app;
 
 	/**
 	 * @param app App
 	 */
-	public SoundManagerW(AppW app){
+	public SoundManagerW(AppWeb app){
 		this.app = app;
 	}
 
