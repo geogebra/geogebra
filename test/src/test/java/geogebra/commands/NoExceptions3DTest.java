@@ -13,7 +13,6 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class NoExceptions3DTest {
@@ -30,10 +29,10 @@ public class NoExceptions3DTest {
 	}
 	
 	private static void  t(String s){
-		NoExceptionsTest.testSyntax(s,app,ap);
+		//NoExceptionsTest.testSyntax(s,app,ap);
 	}
 	
-	@BeforeClass
+	//@BeforeClass
 	public static void setupApp() {
 		app = new App3D(new CommandLineArguments(
 				new String[]{"--silent"}), new JFrame(), false);
