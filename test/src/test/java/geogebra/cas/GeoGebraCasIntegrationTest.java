@@ -2972,7 +2972,7 @@ public class GeoGebraCasIntegrationTest {
 		t("g2:=f(2) = 2","8 * a + 4 * b + 2 * c + d = 2");
 		t("g3:=f'(1) = 0","3 * a + 2 * b + c = 0");
 		t("g4:=f''(1) = 0","6 * a + 2 * b = 0");
-		t("Solve({g1,g2,g3,g4},{a,b,c,d})","{{a = 1, b = -3, c = 3, d = 0}}");
+		t("Solve({g1,g2,g3,g4},{a,b,c,d})","{{a = -3, b = 0, c = 1, d = 3}}");
 		t("Delete[f]","true");
 	}
 	
