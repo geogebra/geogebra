@@ -1317,7 +1317,7 @@ __GGB__keysVar.fr.menu = {
     "Filling_Brick": "Briques",
     "Filling_Chessboard": "Damiers",
     "Filling_Crosshatch": "Quadrillage",
-    "Filling_Dotted": "Dotted",
+    "Filling_Dotted": "Points",
     "Filling_Hatch": "Hachures",
     "Filling_Honeycomb": "Nids d'abeille",
     "Filling_Image": "Image",

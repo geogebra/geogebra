@@ -1317,7 +1317,7 @@ __GGB__keysVar.es.menu = {
     "Filling_Brick": "Enladrillado",
     "Filling_Chessboard": "Ajedrezado",
     "Filling_Crosshatch": "Entrecruzado",
-    "Filling_Dotted": "Dotted",
+    "Filling_Dotted": "Punteado",
     "Filling_Hatch": "Rayado",
     "Filling_Honeycomb": "Colmenado",
     "Filling_Image": "Imagen",
