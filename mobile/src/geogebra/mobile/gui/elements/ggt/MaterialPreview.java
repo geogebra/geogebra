@@ -3,12 +3,14 @@ package geogebra.mobile.gui.elements.ggt;
 import geogebra.mobile.utils.ggtapi.Material;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.TextOverflow;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.Alignment;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -49,7 +51,7 @@ public class MaterialPreview extends LayoutPanel
 
 		this.title = new Label(m.getTitle());
 		this.title.setWordWrap(true);
-		this.title.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+		this.title.getElement().getStyle().setTextOverflow(TextOverflow.ELLIPSIS);
 		this.title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.title.getElement().getStyle().setColor(GeoGebraTubeStyle.TitleColor);
 
@@ -66,7 +68,17 @@ public class MaterialPreview extends LayoutPanel
 		this.infos.add(this.shared);
 		this.add(this.infos);
 		this.setWidgetVerticalPosition(this.infos, Alignment.END);
-		
-		
+
+		this.addDomHandler(new ClickHandler()
+		{
+
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				// TODO OPEN Dialog: Worksheet or Material editing?
+				Window.alert("WORKSHEET OR EDITING?");
+			}
+		}, ClickEvent.getType());
+
 	}
 }

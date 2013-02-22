@@ -19,6 +19,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
@@ -136,6 +137,7 @@ public class TubeSearchUI extends VerticalPanel
 		this.add(this.featuredMaterials);
 		this.add(this.resultsArea);
 		this.add(this.backButton);
+		setCellVerticalAlignment(backButton, HasVerticalAlignment.ALIGN_BOTTOM);
 
 	}
 
