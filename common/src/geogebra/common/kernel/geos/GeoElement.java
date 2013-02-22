@@ -247,20 +247,50 @@ public abstract class GeoElement extends ConstructionElement implements
 	// 2011-12-01 */
 	protected GeoElementGraphicsAdapter graphicsadapter; 
 	
+	/**
+	 * Fill types of elements
+	 * @author Giulliano Bellucci
+	 */
 	public enum FillType{
 		
+		/**
+		 * Simple fill (color+opacity)
+		 */
 		STANDARD (0,false),
+		/**
+		 * Hatched fill
+		 */
 		HATCH (1,true),
+		/**
+		 * Crosshatched fill
+		 */
 		CROSSHATCHED (2,true),
+		/**
+		 * Chessboard fill, upright or diagonal
+		 */
 		CHESSBOARD (3,true),
+		/**
+		 * Dotted fill
+		 */
 		DOTTED (4,true),
+		/**
+		 * Honeycomb fill
+		 */
 		HONEYCOMB (5,true),
+		/**
+		 * Brick fill
+		 */
 		BRICK (6,true),
+		/**
+		 * Image background
+		 */
 		IMAGE (7,false);
 		
 		private int value;
 		private boolean hatch;
-		
+		/**
+		 * @return value for XML
+		 */
 		int getValue(){
 			return value;
 		}
@@ -269,7 +299,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			this.value = value;
 			this.hatch = hatch;
 		}
-
+		/**
+		 * @return whether this is hatch or something else (image, standard)
+		 */
 		public boolean isHatch() {
 			return hatch;
 		}
@@ -5723,10 +5755,10 @@ public abstract class GeoElement extends ConstructionElement implements
 					final GeoText movedGeoText = (GeoText) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
 						// absolute location: change location
-						final GeoPoint loc = (GeoPoint) movedGeoText
+						final GeoPointND locPoint = movedGeoText
 								.getStartPoint();
-						if (loc != null) {
-							loc.translate(rwTransVec);
+						if (locPoint != null) {
+							locPoint.translate(rwTransVec);
 							movedGeo = true;
 						}
 					}

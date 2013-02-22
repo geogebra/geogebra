@@ -589,12 +589,12 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint loc = getStartPoint();
-		if (loc == null) {
-			loc = new GeoPoint(cons);
-			setCorner(loc, 0);
+		GeoPoint locPoint = getStartPoint();
+		if (locPoint == null) {
+			locPoint = new GeoPoint(cons);
+			setCorner(locPoint, 0);
 		}
-		loc.setCoords(x, y, 1.0);
+		locPoint.setCoords(x, y, 1.0);
 	}
 
 	public double getRealWorldLocX() {

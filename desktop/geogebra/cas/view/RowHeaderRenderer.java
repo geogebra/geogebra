@@ -1,7 +1,8 @@
 package geogebra.cas.view;
 
+import geogebra.common.cas.view.CASInputHandler;
+import geogebra.common.cas.view.MarbleRenderer;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.MarbleRenderer;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.AppD;
@@ -69,7 +70,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer, Marbl
 			App.warn("No cas cell"+index);
 			return this;
 		}
-		ctr.handleMarble(this);
+		CASInputHandler.handleMarble(ctr,this);
 		
 		if (isSelected) {
 			setBackground(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));

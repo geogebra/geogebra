@@ -9,6 +9,7 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.Translateable;
 
 
 
@@ -20,7 +21,7 @@ import geogebra.common.kernel.geos.PointProperties;
  *
  */
 
-public interface GeoPointND extends GeoElementND, PointProperties{
+public interface GeoPointND extends PointProperties, Translateable{
 
 	
 	/** @return whether this point has changeable numbers as coordinates */
@@ -250,8 +251,4 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	 * @return distance from point to path
 	 */
 	public double distanceToPath(PathOrPoint path);
-
-
-
-	
 }

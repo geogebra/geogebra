@@ -1,7 +1,8 @@
 package geogebra.web.cas.view;
 
+import geogebra.common.cas.view.CASInputHandler;
+import geogebra.common.cas.view.MarbleRenderer;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.MarbleRenderer;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,7 +23,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		add(label);
 		add(marble);
 		if (cell != null)
-			cell.handleMarble(this);
+			CASInputHandler.handleMarble(cell,this);
 		marble.addClickHandler(new MarbleClickHandler(cell,this));
 	}
 
@@ -51,7 +52,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 
 		public void onClick(ClickEvent event) {
 			cell.toggleTwinGeoEuclidianVisible();
-			cell.handleMarble(rowHeaderWidget);
+			CASInputHandler.handleMarble(cell,rowHeaderWidget);
 			event.stopPropagation();
 		}
 	}

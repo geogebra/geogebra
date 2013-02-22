@@ -1,4 +1,4 @@
-package geogebra.common.kernel.geos;
+package geogebra.common.cas.view;
 
 public interface MarbleRenderer {
 

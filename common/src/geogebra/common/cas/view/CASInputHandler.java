@@ -690,5 +690,20 @@ public class CASInputHandler {
 
 		return inputTrim;
 	}
+	
+	/**
+	 * @param renderer renderer of the cell
+	 */
+	public static void handleMarble(GeoCasCell cell, MarbleRenderer renderer) {
+		boolean marbleShown = cell.hasTwinGeo() && cell.getTwinGeo().isEuclidianVisible() 
+		&& cell.getTwinGeo().isEuclidianShowable();
+		if(cell.showOutput() && !cell.isError()){
+			renderer.setMarbleValue(marbleShown);
+			renderer.setMarbleVisible(true);			
+		}else{
+			renderer.setMarbleVisible(false);
+		}
+		
+	}
 
 }

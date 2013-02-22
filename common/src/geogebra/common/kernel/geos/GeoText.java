@@ -258,7 +258,7 @@ public class GeoText extends GeoElement implements Locateable,
 		// if (isAlgoMacroOutput()) return;
 
 		// check for circular definition
-		if (isParentOf((GeoElement) p))
+		if (isParentOf(p))
 			throw new CircularDefinitionException();
 
 		// remove old dependencies
@@ -708,16 +708,16 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint loc = (GeoPoint) getStartPoint();
-		if (loc == null) {
-			loc = new GeoPoint(cons);
+		GeoPointND locPoint = getStartPoint();
+		if (locPoint == null) {
+			locPoint = new GeoPoint(cons);
 			try {
-				setStartPoint(loc);
+				setStartPoint(locPoint);
 			} catch (Exception e) {
 				//circular definition, do nothing
 			}
 		}
-		loc.setCoords(x, y, 1.0);
+		locPoint.setCoords(x, y, 1.0);
 		labelOffsetX = 0;
 		labelOffsetY = 0;
 	}

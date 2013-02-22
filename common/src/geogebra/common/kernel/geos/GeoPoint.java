@@ -80,7 +80,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class GeoPoint extends GeoVec3D implements VectorValue,
-		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,
+		PathOrPoint, PointRotateable, Mirrorable, Dilateable,
 		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
 		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo,
 		SymbolicParametersBotanaAlgo {
@@ -1789,12 +1789,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		if (oldGeo.isGeoPoint() && ((GeoPoint) oldGeo).locateableList != null) {
 
 			locateableList = ((GeoPoint) oldGeo).locateableList;
-			for (Locateable loc : locateableList) {
-				GeoPointND[] pts = loc.getStartPoints();
+			for (Locateable locPoint : locateableList) {
+				GeoPointND[] pts = locPoint.getStartPoints();
 				for (int i = 0; i < pts.length; i++)
 					if (pts[i] == (GeoPoint) oldGeo)
 						pts[i] = this;
-				loc.toGeoElement().updateRepaint();
+				locPoint.toGeoElement().updateRepaint();
 			}
 			((GeoPoint) oldGeo).locateableList = null;
 		}
@@ -2224,8 +2224,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	
 	
 
-	public double distanceToPath(PathOrPoint path){
-		return path.toGeoElement().distance(this);
+	public double distanceToPath(PathOrPoint path1){
+		return path1.toGeoElement().distance(this);
 	}
 
 	

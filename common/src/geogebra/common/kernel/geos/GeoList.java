@@ -2312,14 +2312,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		
 	}
 
-	boolean [] directionInfoArray = null; // true if minParameter is for start
-	int [] directionInfoOrdering = null; // simple map to the ordered indexes
-	boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not enough
-	boolean locusCalledAlgoLocusList = false;// if a locus ever used this list as a path
+	private boolean [] directionInfoArray = null; // true if minParameter is for start
+	private int [] directionInfoOrdering = null; // simple map to the ordered indexes
+	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not enough
+	private boolean locusCalledAlgoLocusList = false;// if a locus ever used this list as a path
 
 	/**
 	 * Before creating a locus based on this GeoList as a path,
 	 * this method decides whether the locus algo should be AlgoLocus or AlgoLocusList.
+	 * @param locusCalling whether this method was called by locus
 	 * 
 	 * @return boolean true if AlgoLocusList should be used.
 	 */
@@ -2336,8 +2337,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		// if there is no locus using this, the answer is not important
 		if (!locusCalledAlgoLocusList && !locusCalling)
 			return true;
-		else
-			locusCalledAlgoLocusList = true;
+		locusCalledAlgoLocusList = true;
 
 
 		int i = 0;
