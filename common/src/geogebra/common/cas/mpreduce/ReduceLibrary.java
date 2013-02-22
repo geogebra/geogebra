@@ -576,7 +576,7 @@ public class ReduceLibrary {
 				+ " if part(eqn,0)='sgreaterequal then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='geq; isineq:=1>>;"
 				+ " if part(eqn,0)='sless then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='lessp; isineq:=1>>;"
 				+ " if part(eqn,0)='slessequal then <<ineqop:=part(eqn,0); ineq:=part(eqn,0):='leq; isineq:=1>>;"
-				+ " if isineq then eqn:=lhs(ineq)=rhs(ineq);"
+				+ " if isineq then eqn:=part(eqn,0):=equal;"
 				+ " eqn:=mkdepthone({eqn});"
 				+ " let solverules;"
 				+ " let trigrules;"
@@ -686,8 +686,7 @@ public class ReduceLibrary {
 				" expr!!:=part(solutions!!,2);"+
 				" return if part(other!!,1)=1 then part(other!!,2)" +
 				" 	else if isineq or not(freeof(expr!!,'arbcomplex)) then expr!!" + 
-				"   else mysortgen(for each sol!! in expr!! " +
-				"		collect mysortgen(sol!!,mysolless,mysolequal),mysolsetless,mysolsetequal)"
+				"   else mysortgen(expr!!,mysolsetless,mysolsetequal)"
 				+ " end;");
 		eval("procedure simplifyexp(x);"
 				+ " begin scalar y;"
@@ -1163,9 +1162,9 @@ public class ReduceLibrary {
 		eval("procedure mysolsetequal(a,b); sequal(rhs(first(a)), rhs(first(b)));");
 
 		eval("procedure mymember(a, list);"
-				+ "begin;boole:=0;jj:=1;"
-				+ "while jj<=length(list) and not boole do <<if part(list,jj)=a then boole:=1;jj:=jj+1;>>;"
-				+ "return boole;" + "end;");
+				+ "begin;scalar boole!!, j!!;boole!!:=0;j!!:=1;"
+				+ "while j!!<=length(list) and not boole!! do <<if part(list,j!!)=a then boole!!:=1;j!!:=j!!+1;>>;"
+				+ "return boole!!;" + "end;");
 
 		eval("procedure myint(exp, var, from, upto);"
 				+ "begin scalar upper, lower;"
