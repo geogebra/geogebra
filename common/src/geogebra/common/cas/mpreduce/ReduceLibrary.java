@@ -683,9 +683,10 @@ public class ReduceLibrary {
 				+
 				// may happen that other!! is "we don't know" and solutions!! is
 				// "no answer"
+				" expr!!:=part(solutions!!,2);"+
 				" return if part(other!!,1)=1 then part(other!!,2)" +
-				" 	else if isineq then part(solutions!!, 2)" + 
-				"   else mysortgen(for each sol!! in part(solutions!!, 2) " +
+				" 	else if isineq or not(freeof(expr!!,'arbcomplex)) then expr!!" + 
+				"   else mysortgen(for each sol!! in expr!! " +
 				"		collect mysortgen(sol!!,mysolless,mysolequal),mysolsetless,mysolsetequal)"
 				+ " end;");
 		eval("procedure simplifyexp(x);"
