@@ -17,30 +17,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
-//import geogebra.web.euclidian.EuclidianViewW;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 
-	static boolean scriptloaded = false;
-
 	private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
 	private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
-	private boolean needToDrawEquation = false;
-	private App app;
 
-	public DrawEquationWeb(App app) {
+	public DrawEquationWeb() {
 		// export module base url;
 		exportGetModuleBaseUrl();
-		this.app = app;
 		// Load script first
 		DynamicScriptElement script = (DynamicScriptElement) Document.get()
 		        .createScriptElement();
@@ -48,9 +40,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		script.addLoadHandler(new ScriptLoadCallback() {
 
 			public void onLoad() {
-				scriptloaded = true;
 				cvmBoxInit(GWT.getModuleBaseURL());
-				checkIfNeedToDraw();
 			}
 		});
 		Document.get().getBody().appendChild(script);
@@ -62,12 +52,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		}
 		$wnd.ggw.getGWTModuleBaseURL = $entry(@com.google.gwt.core.client.GWT::getModuleBaseURL());
 	}-*/;
-
-	protected void checkIfNeedToDraw() {
-		if (needToDrawEquation) {
-			app.getEuclidianView1().repaintView();
-		}
-	}
 
 	protected native void cvmBoxInit(String moduleBaseURL) /*-{
 		$wnd.cvm.box.init(moduleBaseURL);
@@ -137,18 +121,18 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		Iterator<String> eei = equations.keySet().iterator();
 		ArrayList<String> dead = new ArrayList<String>();
 		while (eei.hasNext()) {
-			String eein = eei.next();
-			Integer age = equationAges.get(eein);
+			String eqID = eei.next();
+			Integer age = equationAges.get(eqID);
 			if (age == null)
 				age = 0;
 			if (age > 5) {// clearLaTeXes can be called this much until redraw
-				Element toclear = equations.get(eein);
+				Element toclear = equations.get(eqID);
 				Element tcparent = toclear.getParentElement();
 				tcparent.removeChild(toclear);
-				dead.add(eein);// avoid concurrent modification exception
+				dead.add(eqID);// avoid concurrent modification exception
 			} else {
-				equationAges.put(eein, ++age);
-				equations.get(eein).getStyle().setDisplay(Style.Display.NONE);
+				equationAges.put(eqID, ++age);
+				equations.get(eqID).getStyle().setDisplay(Style.Display.NONE);
 			}
 		}
 		for (int i = dead.size() - 1; i >= 0; i--) {
@@ -180,7 +164,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * 
 	 * @param parentElement
 	 *            adds the equation as the child of this element
-	 * @param eqstring
+	 * @param latexString
 	 *            the equation in LaTeX
 	 * @param fgColor
 	 *            foreground color
@@ -188,7 +172,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 *            background color
 	 */
 	public static void drawEquationAlgebraView(Element parentElement,
-	        String eqstring, GColor fgColor, GColor bgColor) {
+	        String latexString, GColor fgColor, GColor bgColor) {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
@@ -198,9 +182,10 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
 
-		int el = eqstring.length();
-		eqstring = stripEqnArray(eqstring);
-		drawEquationMathQuill(ih, eqstring, parentElement, true, el == eqstring.length());
+		int el = latexString.length();
+		String eqstring = stripEqnArray(latexString);
+		drawEquationMathQuill(ih, eqstring, parentElement, true,
+		        el == eqstring.length());
 
 		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 
@@ -208,15 +193,15 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			ih.getStyle().setColor(GColor.getColorString(fgColor));
 	}
 
-	public GDimension drawEquation(App app, GeoElement geo, GGraphics2D g2,
-	        int x, int y, String eqstring, GFont font, boolean serif,
+	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
+	        int x, int y, String latexString, GFont font, boolean serif,
 	        GColor fgColor, GColor bgColor, boolean useCache) {
 
 		// the new way to draw an Equation (latex)
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
-		eqstring = inputLatexCosmetics(eqstring);
+		String eqstring = inputLatexCosmetics(latexString);
 
 		String eqstringid = eqstring + "@" + geo.getID();
 
@@ -227,23 +212,25 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
-			drawEquationMathQuill(ih, eqstring, ((AppWeb) app).getCanvas()
-				.getCanvasElement().getParentElement(), true, el == eqstring.length());
+			drawEquationMathQuill(ih, eqstring, ((AppWeb) app1).getCanvas()
+			        .getCanvasElement().getParentElement(), true,
+			        el == eqstring.length());
 
 			equations.put(eqstringid, ih);
 
 			// set a flag that the kernel needs a new update
-			app.getKernel().setUpdateAgain(true);
+			app1.getKernel().setUpdateAgain(true);
 		} else {
 			ih.getStyle().setDisplay(Style.Display.INLINE);
 		}
 		ih.getStyle().setLeft(x, Style.Unit.PX);
 		ih.getStyle().setTop(y, Style.Unit.PX);
 
-		// as the background is usually (or always) the background of the canvas,
+		// as the background is usually (or always) the background of the
+		// canvas,
 		// it is better if this is transparent, because the grid should be shown
 		// just like in the Java version
-		//ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+		// ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
 
 		if (fgColor != null)
 			ih.getStyle().setColor(GColor.getColorString(fgColor));
@@ -253,54 +240,21 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 	}
 
-	public static native JsArrayInteger drawEquation(Context2d ctx,
-	        String mathmlStr, int x, int y) /*-{
-		var script_loaded = @geogebra.web.main.DrawEquationWeb::scriptloaded;
-		if (script_loaded) {
-			var layout = $wnd.cvm.layout;
-			var mathMLParser = $wnd.cvm.mathml.parser;
-
-			// Steal the XML parser from the browser :)
-			var domParser = new $wnd.DOMParser();
-
-			// Define some helper functions
-			var mathML2Expr = function(text) {
-				var mathml = domParser.parseFromString(text, "text/xml").firstChild;
-				return mathMLParser.parse(mathml);
-			};
-
-			var getBox = function(e) {
-				return layout.ofExpr(e).box();
-			};
-
-			// The mathML text of the expression to be displayed
-			//var text = "<apply><root/><apply><divide/><cn>1</cn><apply><plus/><ci>x</ci><cn>1</cn></apply></apply></apply>";
-
-			// How to display it
-			var expression = mathML2Expr(mathmlStr);
-
-			var box = getBox(expression);
-
-			var height = box.ascent - box.descent;
-
-			box.drawOnCanvas(ctx, x, y + box.ascent);
-
-			var ret = [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ];
-
-			return ret;
-		} else {
-			return [ 50, 50 ];
-		}
-	}-*/;
-
 	/**
 	 * The JavaScript/JQuery bit of drawing an equation with MathQuill More
 	 * could go into GWT, but it was easier with JSNI
 	 * 
-	 * @param canv
-	 *            the canvas element to draw over to
 	 * @param el
 	 *            the element which should be drawn
+	 * @param htmlt
+	 *            the equation
+	 * @param parentElement
+	 *            parent of el
+	 * @param addOverlay
+	 *            true to add an overlay div
+	 * @param noEqnArray
+	 *            true = normal LaTeX, flase = LaTeX with \begin{eqnarray} in
+	 *            the beginning
 	 */
 	public static native void drawEquationMathQuill(Element el, String htmlt,
 	        Element parentElement, boolean addOverlay, boolean noEqnArray) /*-{
@@ -355,12 +309,12 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			$wnd.jQuery(elsecond).mathquill('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
-//			$wnd.setTimeout(function() {
-//				// TODO: this needs more testing,
-//				// also for the editing of it
-//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-//				$wnd.jQuery(elsecond).mathquill('eqnarray');
-//			});
+			//			$wnd.setTimeout(function() {
+			//				// TODO: this needs more testing,
+			//				// also for the editing of it
+			//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+			//				$wnd.jQuery(elsecond).mathquill('eqnarray');
+			//			});
 		}
 	}-*/;
 
@@ -459,6 +413,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 */
 	public static native void updateEquationMathQuill(String htmlt,
 	        Element parentElement, boolean noEqnArray) /*-{
+
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		if (noEqnArray) {
@@ -469,25 +424,31 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				$wnd.jQuery(elsecond).mathquill('latex', htmlt);
 			});
 		} else {
-			$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill('eqnarray');
+			$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill(
+					'eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
-//			$wnd.setTimeout(function() {
-//				// TODO: needs testing
-//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-//				$wnd.jQuery(elsecond).mathquill('eqnarray');
-//			});
+			//			$wnd.setTimeout(function() {
+			//				// TODO: needs testing
+			//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+			//				$wnd.jQuery(elsecond).mathquill('eqnarray');
+			//			});
 		}
+
 	}-*/;
 
 	/**
-	 * Removes the "\begin{eqnarray}" and "\end{eqnarray}" notations
-	 * from the beginning and end of the string, or returns the string kept intact
+	 * Removes the "\begin{eqnarray}" and "\end{eqnarray}" notations from the
+	 * beginning and end of the string, or returns the string kept intact
+	 * 
+	 * @param htmlt
+	 *            LaTeX equation string
+	 * @return input without "\begin{eqnarray}" and "\end{eqnarray}"
 	 */
 	public static String stripEqnArray(String htmlt) {
-		if (htmlt.startsWith("\\begin{eqnarray}") &&
-			htmlt.endsWith("\\end{eqnarray}")) {
-			htmlt = htmlt.substring(16, htmlt.length() - 14);
+		if (htmlt.startsWith("\\begin{eqnarray}")
+		        && htmlt.endsWith("\\end{eqnarray}")) {
+			return htmlt.substring(16, htmlt.length() - 14);
 		}
 		return htmlt;
 	}

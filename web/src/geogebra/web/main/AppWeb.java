@@ -19,7 +19,7 @@ public abstract class AppWeb extends App {
 	@Override
 	public final DrawEquationInterface getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationWeb(this);
+			drawEquation = new DrawEquationWeb();
 		}
 
 		return drawEquation;
