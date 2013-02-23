@@ -20,15 +20,6 @@ import geogebra.web.main.DrawEquationWeb;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -38,8 +29,6 @@ import com.google.gwt.user.client.Window;
  */
 public class EuclidianViewM extends EuclidianViewWeb
 {
-	int oldDistance;
-
 	// set in setCanvas
 	private Canvas canvas;
 
@@ -72,123 +61,21 @@ public class EuclidianViewM extends EuclidianViewWeb
 	{
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
+		TouchEventController touchController = new TouchEventController((MobileController) EuclidianViewM.this.getEuclidianController());
+		this.canvas.addTouchStartHandler(touchController);
 
-		this.canvas.addTouchStartHandler(new com.google.gwt.event.dom.client.TouchStartHandler()
-		{
-			@Override
-			public void onTouchStart(com.google.gwt.event.dom.client.TouchStartEvent event)
-			{
-				if (event.getTouches().length() == 1)
-				{
-					event.preventDefault();
-					((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getTouches().get(0).getPageX(), event.getTouches()
-					    .get(0).getPageY());
-				}
-				else if (event.getTouches().length() == 2)
-				{
-					EuclidianViewM.this.oldDistance = (int) (Math.pow((event.getTouches().get(0).getPageX() - event.getTouches().get(1).getPageX()), 2) + Math
-					    .pow((event.getTouches().get(0).getPageY() - event.getTouches().get(1).getPageY()), 2));
-				}
-			}
+		this.canvas.addTouchMoveHandler(touchController);
 
-		});
-
-		this.canvas.addTouchMoveHandler(new com.google.gwt.event.dom.client.TouchMoveHandler()
-		{
-
-			@Override
-			public void onTouchMove(com.google.gwt.event.dom.client.TouchMoveEvent event)
-			{
-				event.preventDefault();
-
-				if (event.getTouches().length() == 1)
-				{
-					// proceed normally
-					((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getTouches().get(0).getPageX(),
-					    event.getTouches().get(0).getPageY());
-				}
-				else if (event.getTouches().length() == 2)
-				{
-					Touch first, second;
-					int centerX, centerY, newDistance;
-
-					first = event.getTouches().get(0);
-					second = event.getTouches().get(1);
-
-					centerX = (first.getPageX() + second.getPageX()) / 2;
-					centerY = (first.getPageY() + second.getPageY()) / 2;
-
-					if (EuclidianViewM.this.oldDistance > 0)
-					{
-						newDistance = (int) (Math.pow((first.getPageX() - second.getPageX()), 2) + Math.pow((first.getPageY() - second.getPageY()), 2));
-
-						if (newDistance / EuclidianViewM.this.oldDistance > 1.1 || newDistance / EuclidianViewM.this.oldDistance < 0.9)
-						{
-							((MobileController) EuclidianViewM.this.getEuclidianController()).onPinch(centerX, centerY, newDistance
-							    / EuclidianViewM.this.oldDistance);
-							EuclidianViewM.this.oldDistance = newDistance;
-						}
-					}
-				}
-			}
-		});
-
-		this.canvas.addTouchEndHandler(new com.google.gwt.event.dom.client.TouchEndHandler()
-		{
-
-			@Override
-			public void onTouchEnd(com.google.gwt.event.dom.client.TouchEndEvent event)
-			{
-				event.preventDefault();
-				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getChangedTouches().get(0).getPageX(), event
-				    .getChangedTouches().get(0).getPageY());
-
-			}
-
-		});
+		this.canvas.addTouchEndHandler(touchController);
 
 		// Listeners for Desktop
-		this.canvas.addMouseDownHandler(new MouseDownHandler()
-		{
-			@Override
-			public void onMouseDown(MouseDownEvent event)
-			{
-				event.preventDefault();
-				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchStart(event.getClientX(), event.getClientY());
-			}
-		});
+		this.canvas.addMouseDownHandler(touchController);
 
-		this.canvas.addMouseMoveHandler(new MouseMoveHandler()
-		{
+		this.canvas.addMouseMoveHandler(touchController);
 
-			@Override
-			public void onMouseMove(MouseMoveEvent event)
-			{
-				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchMove(event.getClientX(), event.getClientY());
-			}
-		});
+		this.canvas.addMouseUpHandler(touchController);
 
-		this.canvas.addMouseUpHandler(new MouseUpHandler()
-		{
-
-			@Override
-			public void onMouseUp(MouseUpEvent event)
-			{
-				event.preventDefault();
-				((MobileController) EuclidianViewM.this.getEuclidianController()).onTouchEnd(event.getClientX(), event.getClientY());
-			}
-		});
-
-		this.canvas.addMouseWheelHandler(new MouseWheelHandler()
-		{
-			@Override
-			public void onMouseWheel(MouseWheelEvent event)
-			{
-				int scale = event.getDeltaY();
-
-				((MobileController) EuclidianViewM.this.getEuclidianController()).onPinch(event.getClientX(), event.getClientY(), scale);
-			}
-		});
+		this.canvas.addMouseWheelHandler(touchController);
 
 		updateFonts();
 		initView(true);
