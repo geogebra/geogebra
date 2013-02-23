@@ -423,8 +423,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
     }
 
 	public void setColumns(int length) {
-	  //AG getTextBox().setWidth(length+"px");
-		App.debug("AutoCompleteTextField.setColumns called");
+		getTextBox().setWidth(length+"em");
     }
 	
 	 public String getCurrentWord() {
