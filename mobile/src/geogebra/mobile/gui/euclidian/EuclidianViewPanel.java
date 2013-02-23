@@ -35,7 +35,7 @@ public class EuclidianViewPanel extends LayoutPanel
 	public void initEuclidianView(MobileController ec)
 	{
 		this.euclidianView = new EuclidianViewM(ec);
-		this.euclidianView.initCanvas(this.canvas);
+		this.euclidianView.initCanvas(this.canvas,this);
 
 		ec.setView(this.euclidianView);
 
