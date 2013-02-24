@@ -83,12 +83,28 @@ public class MobileModel
 	}
 
 	/**
-	 * selects the given element or desects it in case it is selected
+	 * selects the given element
 	 * 
 	 * @param geo
 	 *            the element to be selected
 	 */
 	public void select(GeoElement geo)
+	{
+		if (geo == null || this.selectedElements.indexOf(geo) != -1)
+		{
+			return;
+		}
+
+		geo.setSelected(true);
+		this.selectedElements.add(geo);
+	}
+	/**
+	 * selects the given element or deselects it in case it is selected
+	 * 
+	 * @param geo
+	 *            the element to be selected
+	 */
+	public void changeSelectionState(GeoElement geo)
 	{
 		if (geo == null)
 		{
