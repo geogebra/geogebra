@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 
 /**
  * 
@@ -978,7 +979,9 @@ public class MobileModel
 			}
 		}
 	}
-
+	private void stopCollecting(){
+		this.kernel.getApplication().getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
+	}
 	/**
 	 * @see geogebra.web.gui.inputbar.AlgebraInputW#onKeyUp(KeyUpEvent event)
 	 * 
@@ -994,7 +997,7 @@ public class MobileModel
 			{
 				return;
 			}
-
+			this.kernel.getApplication().getEuclidianView1().getEuclidianController().startCollectingMinorRepaints();
 			// this.app.setScrollToShow(true);
 			GeoElement[] geos;
 			try
@@ -1022,10 +1025,12 @@ public class MobileModel
 				}
 			} catch (Exception e)
 			{
+				stopCollecting();
 				e.printStackTrace();
 				return;
 			} catch (MyError e)
 			{
+				stopCollecting();
 				e.printStackTrace();
 				return;
 			}
@@ -1062,10 +1067,12 @@ public class MobileModel
 					}
 				}
 			}
+			stopCollecting();
 			// this.app.setScrollToShow(false);
 
 		} catch (Exception e)
 		{
+			stopCollecting();
 			e.printStackTrace();
 		}
 	}
