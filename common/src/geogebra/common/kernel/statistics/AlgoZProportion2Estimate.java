@@ -51,7 +51,6 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
 	 * @param proportion
 	 * @param n
 	 * @param proportion2 

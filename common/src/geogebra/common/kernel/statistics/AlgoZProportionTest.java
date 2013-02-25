@@ -53,7 +53,6 @@ public class AlgoZProportionTest extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
 	 * @param proportion
 	 * @param n
 	 * @param hypProportion

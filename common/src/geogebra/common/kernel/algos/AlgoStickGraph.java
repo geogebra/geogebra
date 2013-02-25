@@ -104,7 +104,6 @@ public class AlgoStickGraph extends AlgoBarChart {
 	 * StickGraph[<x list>, <y list>, <Horizontal>] (no label)
 	 * 
 	 * @param cons
-	 * @param label
 	 * @param list1
 	 * @param list2
 	 * @param isHorizontal

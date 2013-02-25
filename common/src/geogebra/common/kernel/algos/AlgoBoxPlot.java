@@ -132,8 +132,6 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param a
 	 *            y-offset
 	 * @param b

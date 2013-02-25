@@ -54,7 +54,6 @@ public class AlgoZMean2Estimate extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
 	 * @param mean 
 	 * @param sd 
 	 * @param n

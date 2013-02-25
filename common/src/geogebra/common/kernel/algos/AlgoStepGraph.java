@@ -115,7 +115,6 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * StepGraph[<x list>, <y list>, <boolean hasJump>] (no label)
 	 * 
 	 * @param cons
-	 * @param label
 	 * @param list1
 	 * @param list2
 	 * @param showStep

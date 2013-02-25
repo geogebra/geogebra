@@ -48,7 +48,6 @@ public class AlgoVerticalText extends AlgoElement {
     /**
      * Creates new unlabeled algo for vertical text
      * @param cons construction
-     * @param label label for output
      * @param args input text
      */
     public AlgoVerticalText(Construction cons, GeoText args) {

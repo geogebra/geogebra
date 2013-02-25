@@ -485,7 +485,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * BarChart [<list of data>, <width>]
 	 * 
 	 * @param cons
-	 * @param label
 	 * @param list1
 	 * @param n
 	 */

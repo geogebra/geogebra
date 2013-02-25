@@ -53,7 +53,6 @@ public class AlgoZMeanTest extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
 	 * @param mean
 	 * @param sd 
 	 * @param n
