@@ -9,13 +9,23 @@ import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.awt.GFontW;
+import geogebra.web.awt.GGraphics2DW;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 
 public abstract class EuclidianViewWeb extends EuclidianView {
 	public geogebra.web.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
-	private geogebra.common.awt.GColor backgroundColor = geogebra.web.awt.GColorW.white;
+	private geogebra.common.awt.GColor backgroundColor = GColor.white;
+	
+	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+		public void execute(double ts) {
+			doRepaint2();
+		}
+	};
+
+	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	
 	public EuclidianViewWeb(EuclidianController ec, EuclidianSettings settings) {
 	    super(ec, settings);
@@ -35,7 +45,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	
 	@Override
     public final GFont getFont() {
-		return new GFontW((GFontW)g2p.getFont());
+		return new GFontW(g2p.getFont());
     }
 	
 
@@ -74,6 +84,64 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 				(geogebra.web.awt.GGraphics2DW)bgGraphics, 0, 0, null);
 	}
 	
+	public void doRepaint() {
+			repaintScheduler.requestAnimationFrame(repaintCallback);
+	}
 	
+	/**
+     * This doRepaint method should be used instead of repaintView in cases
+     * when the repaint should be done immediately
+     */
+	protected abstract void doRepaint2();
+	
+	/**
+	 * Gets the coordinate space width of the &lt;canvas&gt;.
+	 * 
+	 * @return the logical width
+	 */
+	public int getWidth()
+	{
+		return this.g2p.getCoordinateSpaceWidth();
+	}
+	/**
+	 * Gets the coordinate space height of the &lt;canvas&gt;.
+	 * 
+	 * @return the logical height
+	 */
+	public int getHeight()
+	{
+		return this.g2p.getCoordinateSpaceHeight();
+	}
+	
+	public void clearView() {
+		resetLists();
+		updateBackgroundImage(); // clear traces and images
+		// resetMode();
+    }
+	
+	@Override
+	protected final void setHeight(int h)
+	{
+		//TODO: not clear what should we do
+	}
+
+	@Override
+	protected final void setWidth(int h)
+	{
+		//TODO: not clear what should we do
+	}
+	
+	@Override
+    public final GGraphics2DW getGraphicsForPen() {
+	    return g2p;
+    }
+	
+	public final boolean isShowing() {
+	  	return
+	  			g2p != null &&
+	  			g2p.getCanvas() != null &&
+	  			g2p.getCanvas().isAttached() &&
+	  			g2p.getCanvas().isVisible();
+    }
 
 }

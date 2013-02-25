@@ -2,7 +2,6 @@ package geogebra.web.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
@@ -14,16 +13,15 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.javax.swing.GBoxW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.DrawEquationWeb;
 
 import java.util.List;
 
-import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
@@ -153,57 +151,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	}
 	
 	
-	/**
-	 * Creates a stroke with thickness width, dashed according to line style
-	 * type.
-	 * @param width 
-	 * @param type 
-	 * @return stroke
-	 */
-	public static GBasicStrokeW getStroke(float width, int type) {
-		float[] dash;
-
-		switch (type) {
-		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			dash = new float[2];
-			dash[0] = width; // dot
-			dash[1] = 3.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			dash = new float[2];
-			dash[0] = 4.0f + width;
-			// short dash
-			dash[1] = 4.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			dash = new float[2];
-			dash[0] = 8.0f + width; // long dash
-			dash[1] = 8.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			dash = new float[4];
-			dash[0] = 8.0f + width; // dash
-			dash[1] = 4.0f; // space before dot
-			dash[2] = width; // dot
-			dash[3] = dash[1]; // space after dot
-			break;
-
-		default: // EuclidianStyleConstants.LINE_TYPE_FULL
-			dash = null;
-		}
-
-		int endCap = dash != null ? GBasicStrokeW.CAP_BUTT : standardStroke.getEndCap();
-
-		return new GBasicStrokeW(width, endCap, standardStroke.getLineJoin(),
-				standardStroke.getMiterLimit(), dash, 0.0f);
-	}
-
-	public static void setAntialiasingStatic(GGraphics2D g2d) {
-		// In GWT, everything is anti-aliased by default, so we don't need to do anything here.
-    }
+	/* Code for dashed lines removed in r23713*/
 
 	public void setCoordinateSpaceSize(int width, int height) {
 		g2p.setCoordinateSpaceWidth(width);
@@ -218,24 +166,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
-	}
-
-	/**
-	 * Gets the coordinate space width of the &lt;canvas&gt;.
-	 * 
-	 * @return the logical width
-	 */
-	public int getWidth() {
-		return g2p.getCoordinateSpaceWidth();
-	}
-
-	/**
-	 * Gets the coordinate space height of the &lt;canvas&gt;.
-	 * 
-	 * @return the logical height
-	 */
-	public int getHeight() {
-		return g2p.getCoordinateSpaceHeight();
 	}
 	
 	/**
@@ -268,38 +198,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		return (EuclidianControllerW)euclidianController;
     }
 
-	
-	public void clearView() {
-		//TODO: remove hotEqns?
-		resetLists();
-		//TODO: setpreferredsize setting?
-		updateBackgroundImage(); // clear traces and images
-		// resetMode();
-    }
-	
-
-	@Override
-    protected void setHeight(int h) {
-	    //TODO: what should this method do in Web and in Desktop? 
-	 	App.debug("implementation needed or OK"); 
-	 	//g2p.setCoordinateSpaceWidth(h); 
-	 	//g2p.setWidth(h); 
-    }
-
-	@Override
-    protected void setWidth(int h) {
-	    //TODO: what should this method do in Web and in Desktop? 
-	    App.debug("implementation needed or OK");
-    }
-
-	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
-		public void execute(double ts) {
-			doRepaint2();
-		}
-	};
-
-	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-
 	/**
 	 * repaintView just calls this method
 	 */
@@ -317,14 +215,8 @@ public class EuclidianViewW extends EuclidianViewWeb {
     	app.getGuiManager().getTimerSystem().viewRepaint(this);
     }
 
-    public void doRepaint() {
-		repaintScheduler.requestAnimationFrame(repaintCallback);
-    }
-
-    /**
-     * This doRepaint method should be used instead of repaintView in cases
-     * when the repaint should be done immediately
-     */
+    
+    @Override
     public void doRepaint2() {
 
     	app.getGuiManager().getTimerSystem().viewRepainting(this);
@@ -584,7 +476,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	@Override
     public void add(GBox box) {
 	    this.app.getEuclidianViewpanel().getEuclidianPanel().add(
-	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box),
+	    		GBoxW.getImpl((GBoxW) box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
     }
@@ -593,14 +485,14 @@ public class EuclidianViewW extends EuclidianViewWeb {
     public void remove(GBox box) {
 		App.debug("implementation needed - just finishing"); // TODO
 	    this.app.getEuclidianViewpanel().getEuclidianPanel().remove(
-	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box));
+	    		GBoxW.getImpl((GBoxW) box));
 	    
     }
 
 	@Override
 	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
 		int w = getWidth() + 2;
-		((geogebra.web.awt.GGraphics2DW)g).getCanvas().getContext2d().drawImage(
+		((GGraphics2DW)g).getCanvas().getContext2d().drawImage(
 			getResetImage(), w - 18, 2);
 	}
 
@@ -715,12 +607,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 
 	@Override
-    public geogebra.common.awt.GGraphics2D getGraphicsForPen() {
-	    return g2p;
-    }
-
-
-	@Override
     protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
             GColor penColor, int penLineStyle, int penSize) {
 	    App.debug("doDrawPoints() unimplemented");
@@ -739,14 +625,5 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	public void requestFocus() {
 	    App.debug("unimplemented");
-    }
-
-
-	public boolean isShowing() {
-	  	return
-	  			g2p != null &&
-	  			g2p.getCanvas() != null &&
-	  			g2p.getCanvas().isAttached() &&
-	  			g2p.getCanvas().isVisible();
     }
 }

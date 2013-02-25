@@ -520,7 +520,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public geogebra.common.awt.GFont getFont() {
+    public GFontW getFont() {
 		return currentFont;
 	}
 

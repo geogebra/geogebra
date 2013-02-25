@@ -40,7 +40,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	// set in setCanvas
 	private Canvas canvas;
 
-	
 	protected Hits hits; 
 
 	private static int SELECTION_DIAMETER_MIN = 25; // taken from geogebra.common.euclidian.draw.DrawPoint
@@ -96,13 +95,7 @@ public class EuclidianViewM extends EuclidianViewWeb
     	}
 		System.out.println("repaint");
 
-		if (getAxesColor() == null)
-		{
-			setAxesColor(geogebra.common.awt.GColor.black);
-		}
-		((DrawEquationWeb)this.app.getDrawEquation()).clearLaTeXes(this);    	
-		updateSize();
-		paint(this.g2p);
+		doRepaint();
 	}
 
 	/**
@@ -186,43 +179,10 @@ public class EuclidianViewM extends EuclidianViewWeb
 	}
 
 	@Override
-	public int getWidth()
-	{
-		// TODO
-		return this.g2p.getCoordinateSpaceWidth();
-	}
-
-	@Override
-	public int getHeight()
-	{
-		// TODO
-		return this.g2p.getCoordinateSpaceHeight();
-	}
-
-	@Override
 	public EuclidianController getEuclidianController()
 	{
 		// TODO
 		return this.euclidianController;
-	}
-
-	@Override
-	public void clearView()
-	{
-		resetLists();
-		updateBackgroundImage();
-	}
-
-	
-
-	@Override
-	protected void setHeight(int h)
-	{
-	}
-
-	@Override
-	protected void setWidth(int h)
-	{
 	}
 
 	@Override
@@ -269,6 +229,9 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public void add(GBox box)
 	{
+		/*TODO panel.add(
+	    		GBoxW.getImpl((GBoxW) box),
+	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());*/
 	}
 
 	@Override
@@ -287,18 +250,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	}
 
 	@Override
-	public GGraphics2D getGraphicsForPen()
-	{
-		return null;
-	}
-
-	@Override
-	public boolean isShowing()
-	{
-		return false;
-	}
-
-	@Override
   protected void drawResetIcon(GGraphics2D g)
   {
 	  // TODO Auto-generated method stub
@@ -307,6 +258,18 @@ public class EuclidianViewM extends EuclidianViewWeb
 	
 	public Canvas getCanvas(){
 		return this.canvas;
+	}
+
+	@Override
+	protected void doRepaint2() {
+		if (getAxesColor() == null)
+		{
+			setAxesColor(geogebra.common.awt.GColor.black);
+		}
+		((DrawEquationWeb)this.app.getDrawEquation()).clearLaTeXes(this);    	
+		updateSize();
+		paint(this.g2p);
+		
 	}
 
 }
