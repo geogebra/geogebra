@@ -54,4 +54,12 @@ public interface AlgebraView extends View{
 	 * @param mode int value of the mode
 	 */
 	public void setTreeMode(int mode);
+
+	public void setFocus(boolean b);
+
+	public GeoElement getLastSelectedGeo();
+
+	public void setLastSelectedGeo(GeoElement geo);
+
+	public boolean isRenderLaTeX();
 }

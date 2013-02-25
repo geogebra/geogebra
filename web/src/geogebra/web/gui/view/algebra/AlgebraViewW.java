@@ -1543,4 +1543,12 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		settingsChanged = true;
 				
 	}
+
+	public GeoElement getLastSelectedGeo() {
+	    return lastSelectedGeo;
+    }
+
+	public void setLastSelectedGeo(GeoElement geo) {
+	    lastSelectedGeo = geo;	    
+    }
 } // AlgebraView

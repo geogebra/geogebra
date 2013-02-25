@@ -790,4 +790,22 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	  // TODO Auto-generated method stub
 	  
   }
+
+	@Override
+	public GeoElement getLastSelectedGeo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLastSelectedGeo(GeoElement geo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isRenderLaTeX() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -16,13 +16,14 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
-import geogebra.web.main.AppW;
+import geogebra.web.main.AppWeb;
 import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
@@ -66,8 +67,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	GeoElement geo;
 	Kernel kernel;
-	AppW app;
-	AlgebraViewW av;
+	AppWeb app;
+	AlgebraView av;
 	boolean previouslyChecked;
 	boolean LaTeX = false;
 	boolean thisIsEdited = false;
@@ -88,14 +89,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		@Override
 		public void onBrowserEvent(Event event) {
 
-			if (av.editing)
+			if (av.isEditing())
 				return;
 
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// Part of AlgebraController.mouseClicked in Desktop
 				if (Element.is(event.getEventTarget())) {
 					if (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
-						setChecked(previouslyChecked = !previouslyChecked);
+						setValue(previouslyChecked = !previouslyChecked);
 						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
 						geo.update();
 						geo.getKernel().getApplication().storeUndoInfo();
@@ -111,8 +112,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		super();
 		geo = ge;
 		kernel = geo.getKernel();
-		app = (AppW)kernel.getApplication();
-		av = (AlgebraViewW)app.getAlgebraView();
+		app = (AppWeb)kernel.getApplication();
+		av = app.getAlgebraView();
 
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
@@ -368,19 +369,19 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void onDoubleClick(DoubleClickEvent evt) {
 
-		if (av.editing)
+		if (av.isEditing())
 			return;
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		app.clearSelectedGeos();
 		ev.resetMode();
 		if (geo != null && !evt.isControlKeyDown()) {
-			app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
+			av.startEditing(geo, evt.isShiftKeyDown());
 		}
 	}
 
 	public void onMouseDown(MouseDownEvent evt) {
-		if (av.editing)
+		if (av.isEditing())
 			return;
 
 		evt.preventDefault();
@@ -389,10 +390,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void onClick(ClickEvent evt) {
 
-		if (av.editing)
+		if (av.isEditing())
 			return;
 
-		AppW app = (AppW)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
 		if (//!skipSelection && 
 			(mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
@@ -404,33 +404,33 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				// handle selecting geo
 				if (evt.isControlKeyDown()) {
 					app.toggleSelectedGeo(geo); 													
-					if (app.getSelectedGeos().contains(geo)) av.lastSelectedGeo = geo;
-				} else if (evt.isShiftKeyDown() && av.lastSelectedGeo != null) {
+					if (app.getSelectedGeos().contains(geo)) av.setLastSelectedGeo(geo);
+				} else if (evt.isShiftKeyDown() && av.getLastSelectedGeo() != null) {
 					boolean nowSelecting = true;
 					boolean selecting = false;
 					boolean aux = geo.isAuxiliaryObject();
 					boolean ind = geo.isIndependent();
-					boolean aux2 = av.lastSelectedGeo.isAuxiliaryObject();
-					boolean ind2 = av.lastSelectedGeo.isIndependent();
+					boolean aux2 = av.getLastSelectedGeo().isAuxiliaryObject();
+					boolean ind2 = av.getLastSelectedGeo().isIndependent();
 
 					if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 						Iterator<GeoElement> it = geo.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
 						boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-								compareTo(av.lastSelectedGeo.getLabel(StringTemplate.defaultTemplate)) < 0;
+								compareTo(av.getLastSelectedGeo().getLabel(StringTemplate.defaultTemplate)) < 0;
 
 						while (it.hasNext()) {
 							GeoElement geo2 = it.next();
 							if ((geo2.isAuxiliaryObject() == aux && aux)
 									|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
 
-								if (direction && geo2.equals(av.lastSelectedGeo)) selecting = !selecting;
+								if (direction && geo2.equals(av.getLastSelectedGeo())) selecting = !selecting;
 								if (!direction && geo2.equals(geo)) selecting = !selecting;
 
 								if (selecting) {
 									app.toggleSelectedGeo(geo2);
 									nowSelecting = app.getSelectedGeos().contains(geo2);
 								}
-								if (!direction && geo2.equals(av.lastSelectedGeo)) selecting = !selecting;
+								if (!direction && geo2.equals(av.getLastSelectedGeo())) selecting = !selecting;
 								if (direction && geo2.equals(geo)) selecting = !selecting;
 							}
 						}
@@ -438,15 +438,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 					if (nowSelecting) {
 						app.addSelectedGeo(geo); 
-						av.lastSelectedGeo = geo;
+						av.setLastSelectedGeo(geo);
 					} else {
-						app.removeSelectedGeo(av.lastSelectedGeo);
-						av.lastSelectedGeo = null;
+						app.removeSelectedGeo(av.getLastSelectedGeo());
+						av.setLastSelectedGeo(null);
 					}
 				} else {							
 					app.clearSelectedGeos(false); //repaint will be done next step
 					app.addSelectedGeo(geo);
-					av.lastSelectedGeo = geo;
+					av.setLastSelectedGeo(geo);
 				}
 			}
 		} 
@@ -472,7 +472,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void onMouseMove(MouseMoveEvent evt) {
 
-		if (av.editing)
+		if (av.isEditing())
 			return;
 
 		// tell EuclidianView to handle mouse over

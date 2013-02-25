@@ -1189,4 +1189,25 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 				
 	}
 
+
+
+	public void setFocus(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public GeoElement getLastSelectedGeo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public void setLastSelectedGeo(GeoElement geo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 } // AlgebraView
