@@ -7,6 +7,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
@@ -17,7 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -26,6 +29,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 
 public class DrawEquationWeb implements DrawEquationInterface {
+
+	static boolean scriptloaded = false;
 
 	private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
 	private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
@@ -40,6 +45,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		script.addLoadHandler(new ScriptLoadCallback() {
 
 			public void onLoad() {
+				scriptloaded = true;
 				cvmBoxInit(GWT.getModuleBaseURL());
 			}
 		});
@@ -196,6 +202,17 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString, GFont font, boolean serif,
 	        GColor fgColor, GColor bgColor, boolean useCache) {
+
+		if (geo.isGeoText() && ((GeoText)geo).isMathML()) {
+			JsArrayInteger jai = drawEquationCanvasMath(
+				((AppWeb) app1).getCanvas().getContext2d(), latexString, x, y);
+
+			return new geogebra.web.awt.GDimensionW(jai.get(0), jai.get(1));
+			// TODO: ColorBox or something
+
+			// TODO: set a flag that the kernel needs a new update e.g.
+			//app1.getKernel().setUpdateAgain(true);
+		}
 
 		// the new way to draw an Equation (latex)
 		// no scriptloaded check yet (is it necessary?)
@@ -452,4 +469,36 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		}
 		return htmlt;
 	}
+
+	public static native JsArrayInteger drawEquationCanvasMath(
+			Context2d ctx, String mathmlStr, int x, int y) /*-{
+
+		// Gabor's code a bit simplified
+
+		var script_loaded = @geogebra.web.main.DrawEquationWeb::scriptloaded;
+		if (!script_loaded) {
+			return [ 50, 50 ];
+		}
+
+		var layout = $wnd.cvm.layout;
+		var mathMLParser = $wnd.cvm.mathml.parser;
+		var domParser = new $wnd.DOMParser();
+
+		var mathML2Expr = function(text) {
+			var mathml = domParser.parseFromString(text, "text/xml").firstChild;
+			return mathMLParser.parse(mathml);
+		};
+
+		var getBox = function(e) {
+			return layout.ofExpr(e).box();
+		};
+
+		var expression = mathML2Expr(mathmlStr);
+		var box = getBox(expression);
+		var height = box.ascent - box.descent;
+
+		box.drawOnCanvas(ctx, x, y + box.ascent);
+ 
+		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ]; 
+	}-*/; 
 }

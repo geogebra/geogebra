@@ -238,17 +238,21 @@ public class AlgoTableText extends AlgoElement {
 			// throw new MyError(app, app.getError("InvalidInput"));
 		}
 
-		
+
 
 		sb.setLength(0);
-		
-		switch (app.getFormulaRenderingType()) {
-		case MATHML:
+
+		//switch (app.getFormulaRenderingType()) {
+		//case MATHML:
+		if (app.isHTML5Applet()) {
 			mathml(text.getStringTemplate());
-			break;
-		case LATEX:
+			text.setMathML(true);
+		//	break;
+		//case LATEX:
+		} else {
 			latex(text.getStringTemplate());
-			break;
+			text.setMathML(false);
+		//	break;
 		}
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
