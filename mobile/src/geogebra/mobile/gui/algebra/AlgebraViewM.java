@@ -14,6 +14,7 @@ import geogebra.common.main.Localization;
 import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Tree;
@@ -319,7 +320,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			if (parent == null)
 			{
 				String transTypeString = geo.translatedTypeStringForAlgebraView();
-				parent = new TreeItem(transTypeString);
+				parent = new TreeItem(SafeHtmlUtils.fromString(transTypeString));
 				parent.addStyleName("algebraView-heading");
 
 				setUserObject(parent, transTypeString);
@@ -349,7 +350,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 			if (parent == null)
 			{
 				String layerStr = this.loc.getPlain("LayerA", layer + "");
-				parent = new TreeItem(layerStr);
+				parent = new TreeItem(SafeHtmlUtils.fromString(layerStr));
 
 				setUserObject(parent, layerStr);
 
