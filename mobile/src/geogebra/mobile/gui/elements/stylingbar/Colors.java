@@ -1,9 +1,10 @@
 package geogebra.mobile.gui.elements.stylingbar;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.GColor;
 import geogebra.mobile.model.MobileModel;
+
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -23,10 +24,10 @@ public class Colors extends VerticalPanel
 		this.mobileModel = mobileModel;
 	}
 
-	protected void drawColorChoice(ArrayList<GColor> colors)
+	protected void drawColorChoice(List<GColor> listOfColors)
 	{
 		this.clear();
-		for (GColor color : colors)
+		for (GColor color : listOfColors)
 		{
 			addColorButton(color);
 		}

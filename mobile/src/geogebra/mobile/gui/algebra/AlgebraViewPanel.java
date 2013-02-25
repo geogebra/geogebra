@@ -1,11 +1,10 @@
 package geogebra.mobile.gui.algebra;
 
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
-import geogebra.mobile.ClientFactory;
 import geogebra.mobile.controller.MobileController;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.elements.header.HeaderImageButton;
-import geogebra.mobile.place.TabletGuiPlace;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 

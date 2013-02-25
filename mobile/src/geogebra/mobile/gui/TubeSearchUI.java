@@ -137,7 +137,7 @@ public class TubeSearchUI extends VerticalPanel
 		this.add(this.featuredMaterials);
 		this.add(this.resultsArea);
 		this.add(this.backButton);
-		setCellVerticalAlignment(backButton, HasVerticalAlignment.ALIGN_BOTTOM);
+		setCellVerticalAlignment(this.backButton, HasVerticalAlignment.ALIGN_BOTTOM);
 
 	}
 

@@ -6,6 +6,7 @@ import geogebra.mobile.utils.StylingBarEntries;
 import geogebra.web.gui.util.Slider;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -28,11 +29,11 @@ public class ColorBarBackground extends VerticalPanel
 
 		RoundPanel sliderPanel = new RoundPanel();
 		sliderPanel.addStyleName("colorSliderPanel");
-		
+
 		Slider slider = new Slider();
 		slider.setMinimum(0);
 		slider.setMaximum(10);
-		slider.setValue((int) (mobileModel.getLastAlpha() * 10));
+		slider.setValue(Integer.valueOf((int) (mobileModel.getLastAlpha() * 10)));
 		slider.setWidth("100%");
 
 		slider.addValueChangeHandler(new ValueChangeHandler<Integer>()
@@ -40,9 +41,9 @@ public class ColorBarBackground extends VerticalPanel
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event)
 			{
-				mobileModel.getGuiModel().setAlpha(event.getValue() / 10f);
+				mobileModel.getGuiModel().setAlpha(event.getValue().intValue() / 10f);
 
-				final ArrayList<GeoElement> fillable = new ArrayList<GeoElement>();
+				final List<GeoElement> fillable = new ArrayList<GeoElement>();
 				for (GeoElement geo : mobileModel.getSelectedGeos())
 				{
 					if (geo.isFillable())
@@ -51,10 +52,10 @@ public class ColorBarBackground extends VerticalPanel
 					}
 				}
 
-				if (fillable.size() > 0 && StyleBarStatic.applyAlpha(fillable, event.getValue() / 10f))
+				if (fillable.size() > 0 && StyleBarStatic.applyAlpha(fillable, event.getValue().intValue() / 10f))
 				{
 					fillable.get(0).updateRepaint();
-					mobileModel.storeOnClose(); 
+					mobileModel.storeOnClose();
 				}
 			}
 		});

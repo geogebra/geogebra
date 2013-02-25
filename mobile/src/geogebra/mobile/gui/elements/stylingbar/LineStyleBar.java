@@ -31,7 +31,7 @@ public class LineStyleBar extends RoundPanel
 				{
 					StyleBarStatic.applyLineStyle(mobileModel.getSelectedGeos(), index);
 					mobileModel.getGuiModel().setLineStyle(index);
-					mobileModel.storeOnClose(); 
+					mobileModel.storeOnClose();
 				}
 			}, ClickEvent.getType());
 			add(lineStyle[i]);
@@ -41,7 +41,7 @@ public class LineStyleBar extends RoundPanel
 		slider.setMax(10);
 		if (mobileModel.lastSelected() != null)
 		{
-			slider.setValue(mobileModel.lastSelected().getLineThickness() - 2);
+			slider.setValue(Integer.valueOf(mobileModel.lastSelected().getLineThickness() - 2));
 		}
 
 		slider.addValueChangeHandler(new ValueChangeHandler<Integer>()
@@ -49,9 +49,9 @@ public class LineStyleBar extends RoundPanel
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event)
 			{
-				StyleBarStatic.applyLineSize(mobileModel.getSelectedGeos(), event.getValue() + 2);
-				mobileModel.getGuiModel().setLineSize(event.getValue() + 2);
-				mobileModel.storeOnClose(); 
+				StyleBarStatic.applyLineSize(mobileModel.getSelectedGeos(), event.getValue().intValue() + 2);
+				mobileModel.getGuiModel().setLineSize(event.getValue().intValue() + 2);
+				mobileModel.storeOnClose();
 			}
 		});
 		add(slider);

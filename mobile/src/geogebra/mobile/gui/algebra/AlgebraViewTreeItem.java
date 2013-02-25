@@ -66,7 +66,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 		this.check = new CheckBox();
 		AlgebraViewTreeItem.this.previouslyChecked = ge.isEuclidianVisible();
-		
+
 		this.check.setValue(new Boolean(AlgebraViewTreeItem.this.previouslyChecked), false);
 
 		this.check.addValueChangeHandler(new ValueChangeHandler<Boolean>()
@@ -147,8 +147,8 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 	public void update()
 	{
-		this.check.setValue(this.geo.isEuclidianVisible()); 
-		
+		this.check.setValue(Boolean.valueOf(this.geo.isEuclidianVisible()));
+
 		// check for new LaTeX
 		boolean newLaTeX = false;
 		String text = null;

@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StyleBarStatic
 {
@@ -39,7 +40,7 @@ public class StyleBarStatic
 	 */
 	public static boolean applyLineStyle(ArrayList<GeoElement> geos, int lineStyleIndex)
 	{
-		int lineStyle = EuclidianStyleBarStatic.lineStyleArray[lineStyleIndex];
+		int lineStyle = EuclidianStyleBarStatic.lineStyleArray[lineStyleIndex].intValue();
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++)
@@ -126,17 +127,17 @@ public class StyleBarStatic
 	 * 
 	 * @see EuclidianStyleBarStatic#applyColor
 	 * 
-	 * @param geos
+	 * @param fillable
 	 * @param color
 	 * @param alpha
 	 * @return
 	 */
-	public static boolean applyAlpha(ArrayList<GeoElement> geos, float alpha)
+	public static boolean applyAlpha(List<GeoElement> fillable, float alpha)
 	{
 		boolean needUndo = false;
-		for (int i = 0; i < geos.size(); i++)
+		for (int i = 0; i < fillable.size(); i++)
 		{
-			GeoElement geo = geos.get(i);
+			GeoElement geo = fillable.get(i);
 			// apply object color to all other geos except images or text
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo.getGeoElementForPropertiesDialog() instanceof GeoText))
 				if (geo.getAlphaValue() != alpha)

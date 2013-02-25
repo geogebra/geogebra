@@ -1,6 +1,7 @@
 package geogebra.mobile.gui.elements.stylingbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import geogebra.common.awt.GColor;
 import geogebra.mobile.gui.CommonResources;
@@ -19,7 +20,7 @@ public class ColorBar extends LayoutPanel
 {
 	ScrollPanel scrollPanel;
 	protected Colors colors;
-	ArrayList<GColor> listOfColors;
+	List<GColor> listOfColors;
 
 	/**
 	 * Initializes the {@link ScrollPanel} and adds the different
@@ -74,7 +75,7 @@ public class ColorBar extends LayoutPanel
 
 	void changeListOrder(int scrollPosition, int shift)
 	{
-		ArrayList<GColor> list = new ArrayList<GColor>();
+		List<GColor> list = new ArrayList<GColor>();
 		for (int i = 0; i < ColorBar.this.listOfColors.size(); i++)
 		{
 			// %12 - because 12 different colors
