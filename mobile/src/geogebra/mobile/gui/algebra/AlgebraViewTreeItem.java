@@ -127,7 +127,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 			String latexStr = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 			if ((latexStr != null) && this.geo.isLaTeXDrawableGeo() && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
 			{
-				latexStr = inputLatexCosmetics(latexStr);
+				latexStr =  DrawEquationWeb.inputLatexCosmetics(latexStr);
 				this.seMayLatex = se;
 				DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, latexStr, this.geo.getAlgebraColor(), GColor.white);
 				this.LaTeX = true;
@@ -200,7 +200,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		// now we have text and how to display it (newLaTeX/LaTeX)
 		if (this.LaTeX && newLaTeX)
 		{
-			text = inputLatexCosmetics(text);
+			text = DrawEquationWeb.inputLatexCosmetics(text);
 			// FIXME what does "noEqnArray" do?
 			DrawEquationWeb.updateEquationMathQuill(text, this.seMayLatex, false);
 		}
@@ -215,7 +215,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 			se.getStyle().setColor(GColor.getColorString(this.geo.getAlgebraColor()));
 			this.ihtml.getElement().replaceChild(se, this.seNoLatex);
-			text = inputLatexCosmetics(text);
+			text = DrawEquationWeb.inputLatexCosmetics(text);
 			this.seMayLatex = se;
 			DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, text, this.geo.getAlgebraColor(), GColor.white);
 			this.LaTeX = true;
@@ -250,34 +250,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		// }
 	}
 
-	public static String inputLatexCosmetics(String eqstring)
-	{
-		// make sure eg FractionText[] works (surrounds with {} which doesn't
-		// draw
-		// well in MathQuill)
-
-		String str = new String(eqstring);
-		if (str.length() >= 2)
-			if (str.startsWith("{") && str.endsWith("}"))
-			{
-				str = str.substring(1, str.length() - 1);
-			}
-
-		// remove $s
-		str = str.trim();
-		while (str.startsWith("$"))
-			str = str.substring(1).trim();
-		while (str.endsWith("$"))
-			str = str.substring(0, str.length() - 1).trim();
-
-		// remove all \; and \,
-		str = str.replace("\\;", "");
-		str = str.replace("\\,", "");
-
-		str = str.replace("\\left\\{", "\\lbrace");
-		str = str.replace("\\right\\}", "\\rbrace");
-		return str;
-	}
+	
 
 	public void startEditing()
 	{
