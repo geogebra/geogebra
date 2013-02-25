@@ -69,8 +69,7 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	@Override
     public void setForeground(GColor color) {
-	    App.debug("implementation needed"); // TODO Auto-generated
-	    
+	    impl.getElement().getStyle().setColor(color.toString());
     }
 
 	@Override

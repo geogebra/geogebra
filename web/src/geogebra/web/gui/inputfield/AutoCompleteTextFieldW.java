@@ -392,13 +392,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
     }
 
 	public void setForeground(GColor color) {
-	    App.debug("implementation needed"); //TODO Auto-generated
-	    
+	    drawTextField.getLabel().setForeground(color);
     }
 
 	public void setBackground(GColor color) {
-	    App.debug("implementation needed"); //TODO Auto-generated
-	    
+	    textField.getElement().getStyle().setBackgroundColor(color.toString());
     }
 
 	public void setFocusable(boolean b) {

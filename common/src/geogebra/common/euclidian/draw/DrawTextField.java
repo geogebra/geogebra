@@ -72,13 +72,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
 		textField = geoTextField.getTextField(view.getViewID(), this);//SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(), view.getApplication(), this);
-		textField.showPopupSymbolButton(true);
+		//this will be set in update(): textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
 		label = geo.getKernel().getApplication().getSwingFactory().newJLabel("Label");
 		
 		//label.setLabelFor(textField); <- next row
-		textField.setLabel(label);
+		//textField.setLabel(label);
 		
 		textField.setVisible(true);
 		label.setVisible(true);
@@ -456,4 +456,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		
 	}
 
+	public GLabel getLabel(){
+		return label;
+	}
 }
