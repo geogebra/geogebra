@@ -1391,6 +1391,14 @@ body[dir=rtl] .logintogoogle {
     height:18px;
 }
 
+.SymbolToggleButton[display=none] {
+	display: none;
+}
+
+.SymbolToggleButton[display=block] {
+	display: block;
+}
+
 .SymbolTable a {
 	text-decoration:none;
 	color:black;

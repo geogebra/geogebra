@@ -270,8 +270,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 
 	public void showPopupSymbolButton(boolean b) {
-	    App.debug("implementation needed"); //TODO Auto-generated
-	    
+		setShowSymbolTableIcon(b);
     }
 	
 	/**
@@ -1092,7 +1091,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		//temp
 		//TODO: don't fix the popup button here, but it should appear if mouse clicked into the textfield.
 		String display = (showSymbolTableIcon) ? "block" : "none";
-		showSymbolButton.getElement().setAttribute("style", "display: "+display);
+		showSymbolButton.getElement().setAttribute("display", display);
 	}
 
 	private SymbolTablePopupW getTablePopup() {
@@ -1176,7 +1175,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 				if (id!=null){
 					Element element = DOM.getElementById(id+"_SymbolButton");
 					if (element != null){
-						if (show || element.getClassName().indexOf("ShowSymbolButtonFocused") < 0) {
+						if ((element.getAttribute("display") != "none") &&
+						 (show || element.getClassName().indexOf("ShowSymbolButtonFocused") < 0)) {
 							String display = (show)? "block" : "none";
 							element.setAttribute("style", "display: "+display);
 						}
