@@ -204,14 +204,12 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	        GColor fgColor, GColor bgColor, boolean useCache) {
 
 		if (geo.isGeoText() && ((GeoText)geo).isMathML()) {
+			// assume that the script is loaded; it is part of resources
+			// so we will probably get width and height OK, no need to update again
+			// colors are OK too (tested), maybe they're part of the MathML string
 			JsArrayInteger jai = drawEquationCanvasMath(
 				((AppWeb) app1).getCanvas().getContext2d(), latexString, x, y);
-
 			return new geogebra.web.awt.GDimensionW(jai.get(0), jai.get(1));
-			// TODO: ColorBox or something
-
-			// TODO: set a flag that the kernel needs a new update e.g.
-			//app1.getKernel().setUpdateAgain(true);
 		}
 
 		// the new way to draw an Equation (latex)
