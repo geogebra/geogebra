@@ -207,6 +207,8 @@ public class EuclidianViewM extends EuclidianViewWeb
 		this.g2p.setCoordinateSpaceHeight(height);
 
 		this.canvas.setSize(width + "px", height + "px");
+		
+		setRealWorldBounds();
 	}
 
 	@Override
