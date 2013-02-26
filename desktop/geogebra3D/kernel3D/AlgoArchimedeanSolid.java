@@ -52,6 +52,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		super(c);
 		
 		this.name = name;
+		
+		setVolumeFactor();
 
 
 		this.A=A;
@@ -232,9 +234,45 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 			outputPoints.getElement(i).setCoords(matrix.mul(coords[i+2]),true);
 		}
 		
+		//update volume
+		getPolyhedron().setVolume(l*l*l*volumeFactor);
+		
 
 	}	
 	
+
+	/**
+	 * factor to calculate the volume
+	 */
+	private double volumeFactor;
+
+	private void setVolumeFactor(){
+
+		switch (name) {
+		case Tetrahedron:
+			volumeFactor = Math.sqrt(2)/12;
+			break;
+
+		case Cube:
+			volumeFactor = 1;
+			break;
+
+		case Octahedron:
+			volumeFactor = Math.sqrt(2)/3;
+			break;
+
+		case Dodecahedron:
+			volumeFactor = (15+7*Math.sqrt(5))/4;
+			break;				
+
+		case Icosahedron:
+			volumeFactor = (15+5*Math.sqrt(5))/12;
+			break;
+
+
+		}
+	}
+
 	
 	private void setUndefined(){
 		polyhedron.setUndefined();

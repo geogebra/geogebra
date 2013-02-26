@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.plugin.GeoClass;
@@ -14,7 +15,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue {
+public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, FromMeta {
 
 	/** min value for limites */
 	private double min;
@@ -165,6 +166,30 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue {
 	@Override
 	public boolean isNumberValue() {
 		return true;
+	}
+
+	
+
+	////////////////////////////
+	// META
+	////////////////////////////
+
+	private GeoElement meta = null;
+
+	@Override
+	public boolean hasMeta() {
+		return meta!=null;
+	}
+	
+	public GeoElement getMeta(){
+		return meta;
+	}
+
+	/**
+	 * @param quadric cone/cylinder that created it
+	 */
+	public void setFromMeta(GeoElement quadric) {
+		meta = quadric;
 	}
 
 }

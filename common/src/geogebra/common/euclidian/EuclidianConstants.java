@@ -276,6 +276,9 @@ public final class EuclidianConstants {
 
 	/** circle with center, radius, direction */
 	public static final int MODE_CIRCLE_AXIS_POINT = 551;
+	
+	/** volume */
+	public static final int MODE_VOLUME = 560;
 
 	// CAS view modes
 	/** Evaluate */

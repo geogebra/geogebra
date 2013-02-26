@@ -2971,7 +2971,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				chars = functionLabels;
 			} else if (isGeoLine()) {
 				//name "edge" for segments from polyhedron
-				if (isFromMeta() && !((FromMeta) this).getMeta().isGeoPolygon()) {
+				if (hasMeta() && !((FromMeta) this).getMeta().isGeoPolygon()) {
 					int counter = 0;
 					String str;
 					final String name = loc.getPlainLabel("edge"); // Name.edge
@@ -6788,10 +6788,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	
 	/**
-	 * Says if this geo comes from a "meta geo", e.g. a segment coming from a polygon
-	 * @return true if is from meta geo
+	 * Says if this geo has a "meta geo", e.g. a segment coming from a polygon
+	 * @return true if has meta geo
 	 */
-	public boolean isFromMeta(){
+	public boolean hasMeta(){
 		return false;
 	}
 	

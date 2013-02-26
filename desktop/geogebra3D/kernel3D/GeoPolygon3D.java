@@ -8,7 +8,6 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -28,7 +27,7 @@ import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
-		GeoPolygon3DInterface, FromMeta, ViewCreator {
+		GeoPolygon3DInterface, ViewCreator {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys;
@@ -404,23 +403,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 
 
-	private GeoElement meta = null;
-	
-	@Override
-	public boolean isFromMeta() {
-		return meta!=null;
-	}
-	
-	public GeoElement getMeta(){
-		return meta;
-	}
-
-	/**
-	 * @param poly polygon or polyhedron creating this segment
-	 */
-	public void setFromMeta(GeoElement poly) {
-		meta = poly;
-	}
 	
 	
 	public GeoElement getGeoElement2D() {

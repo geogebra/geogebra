@@ -53,7 +53,7 @@ import java.util.ArrayList;
 public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
 		Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
-		GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments {
+		GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta {
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 100;
@@ -1592,7 +1592,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	public Coords getDirectionInD3() {
-		return new Coords(0, 0, 1, 0);
+		return Coords.VZ;
 	}
 
 
@@ -1619,7 +1619,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		int counter = 0;
 		String str;
 		String name;
-		if (isFromMeta())
+		if (hasMeta())
 			name = loc.getPlainLabel("face"); // Name.face
 		else
 			name = loc.getPlainLabel("polygon"); // Name.polygon
@@ -1657,6 +1657,26 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			throws NoSymbolicParametersException {
 		// It's OK to return null here:
 		return null;
+	}
+	
+	
+
+	private GeoElement meta = null;
+	
+	@Override
+	public boolean hasMeta() {
+		return meta!=null;
+	}
+	
+	public GeoElement getMeta(){
+		return meta;
+	}
+
+	/**
+	 * @param polyhedron polyhedron creating this polygon
+	 */
+	public void setFromMeta(GeoElement polyhedron) {
+		meta = polyhedron;
 	}
 	
 }

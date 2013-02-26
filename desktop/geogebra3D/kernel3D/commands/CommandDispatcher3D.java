@@ -157,6 +157,11 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			case Length:
 				return new CmdLength3D(kernel);
+				
+				
+			case Volume:
+				return new CmdVolume(kernel);
+				
 			default:
 				return super.commandTableSwitch(cmdName);
 			}

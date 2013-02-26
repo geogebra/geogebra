@@ -1681,10 +1681,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	*/
 	
-	// empty method : setHits3D() used instead
+	
 	@Override
 	public void setHits(geogebra.common.awt.GPoint p) {
-		
+		// empty method : setHits3D() used instead
 	}
 	
 	

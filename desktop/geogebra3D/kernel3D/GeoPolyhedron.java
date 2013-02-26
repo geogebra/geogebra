@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasSegments;
+import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
@@ -26,11 +27,11 @@ import java.util.TreeSet;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D implements HasSegments {// implements Path {
+public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolume {// implements Path {
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
-	public static final int TYPE_PSEUDO_PRISM = 2;
+	//public static final int TYPE_PSEUDO_PRISM = 2;
 	public static final int TYPE_PRISM = 3;
 
 	int type;
@@ -930,6 +931,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 	@Override
 	public void setUndefined() {
 		isDefined = false;
+		
+		volume = Double.NaN;
 
 		/*
 		 * for (GeoPolygon3D polygon : polygons.values()){
@@ -964,8 +967,25 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		// TODO Auto-generated method stub
-		return "todo-GeoPolyhedron";
+		return kernel.format(getVolume(), tpl);
+	}
+
+	private StringBuilder sbToString = new StringBuilder(50);
+	
+	@Override
+	final public String toString(StringTemplate tpl) {
+		sbToString.setLength(0);
+		sbToString.append(label);
+		sbToString.append(" = ");
+		sbToString.append(kernel.format(getVolume(), tpl));
+		return sbToString.toString();
+	}
+
+	@Override
+	final public String toStringMinimal(StringTemplate tpl) {
+		sbToString.setLength(0);
+		sbToString.append(regrFormat(getVolume()));
+		return sbToString.toString();
 	}
 
 	/** to be able to fill it with an alpha value */
@@ -1037,5 +1057,35 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments {// imple
 		if (this != getConstruction().getKeepGeo())
 			super.remove();
 	}
+	
+	
+	////////////////////////////
+	// VOLUME
+	////////////////////////////
+	
+	private double volume = Double.NaN;
+	
+	/**
+	 * sets the volume
+	 * @param volume volume
+	 */
+	public void setVolume(double volume){
+		this.volume =  volume;
+	}
 
+
+	public double getVolume() {
+		return volume;
+	}
+
+
+	public boolean hasFiniteVolume() {
+		return isDefined();
+	}
+
+	
+	
+
+	
+	
 }

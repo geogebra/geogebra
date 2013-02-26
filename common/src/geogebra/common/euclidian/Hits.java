@@ -13,6 +13,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -22,6 +23,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasVolume;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -752,4 +754,35 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
+	
+	
+	/**
+	 * 
+	 * @return hits that has finite volume
+	 */
+	public Hits getFiniteVolumeIncludingMetaHits(){
+		Hits result = new Hits();
+		
+		for (GeoElement geo : this){
+			//first check if is segment/polygon/quadric side from a geo that has finite volume
+			if (geo.hasMeta()){
+				addFiniteVolume(result, ((FromMeta) geo).getMeta());
+			//check if the geo has finite volume
+			}else{
+				addFiniteVolume(result, geo);
+			}
+		}
+		
+		
+		return result;
+	}
+	
+	private static void addFiniteVolume(Hits result, GeoElement geo){
+		if (geo instanceof HasVolume){
+			if (((HasVolume) geo).hasFiniteVolume()){
+				result.add(geo);
+			}
+		}
+	}
+	
 }

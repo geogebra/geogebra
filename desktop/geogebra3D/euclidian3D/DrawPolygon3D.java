@@ -323,7 +323,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	public boolean doHighlighting(){
 
 		//if the polygon depends on a polyhedron, look at the meta' highlighting
-		if (getGeoElement().isFromMeta()){
+		if (getGeoElement().hasMeta()){
 			GeoElement meta = ((FromMeta) getGeoElement()).getMeta();		
 			if (meta!=null && meta.doHighlighting())
 				return true;

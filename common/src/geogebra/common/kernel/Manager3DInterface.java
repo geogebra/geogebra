@@ -25,6 +25,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.HasVolume;
 
 /**
  * Interface for managing all 3D methods in Kernel. <br/>
@@ -611,5 +612,14 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
 			NumberValue phi, GeoLineND line);
+	
+	
+	/**
+	 * 
+	 * @param label
+	 * @param hasVolume
+	 * @return volume of hasVolume
+	 */
+	public GeoNumeric Volume(String label, HasVolume hasVolume);
 
 }

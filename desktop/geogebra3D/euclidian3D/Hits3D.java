@@ -218,8 +218,7 @@ public class Hits3D extends Hits {
 
 		if (topHits.isEmpty())
 			return clone();
-		else
-			return topHits;
+		return topHits;
 		
 	}
 	
@@ -328,4 +327,6 @@ public class Hits3D extends Hits {
 	protected Hits createNewHits() {
 		return new Hits3D();
 	}	
+	
+
 }

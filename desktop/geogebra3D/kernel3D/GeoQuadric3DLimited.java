@@ -11,6 +11,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -20,7 +21,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue {
+public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue, HasVolume {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -476,8 +477,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue 
 	public double getVolume() {
 		if (defined)
 			return volume;
-		else
-			return Double.NaN;
+		return Double.NaN;
+	}
+	
+	public boolean hasFiniteVolume(){
+		return true;
 	}
 
 	@Override

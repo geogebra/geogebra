@@ -62,13 +62,17 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		addAlgoToInput();
 		
 
-		update();
-		
+		updateOutputPoints();	
 		createFaces();
 		setOutput();
 		
 		
+		//compute();
+		
         setLabels(labels);
+        
+        update();
+
         
 	}
 	
@@ -104,7 +108,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
         setLabels(labels);
         
 
-		compute();
+		update();
         
 	}
 	
@@ -218,7 +222,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		setLabels(labels);
 
-		compute();
+		update();
 	}
 
 	/**
@@ -263,8 +267,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	protected GeoPolygon getBottom(){
 		if (bottom!=null)
 			return bottom;
-		else
-			return outputPolygonsBottom.getElement(0);
+		return outputPolygonsBottom.getElement(0);
 	}
 	
 	
@@ -304,12 +307,30 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			updateOutput(bottom.getPointsLength(),getBottomPoints());
 		}//else updateOutputPoints();
 		
+		updateVolume();
 		
 
 		return true;
 	}
 	
 	
+	/**
+	 * updates the polyhedron's volume
+	 */
+	protected abstract void updateVolume();
+
+	/**
+	 * 
+	 * @return height value (for pyramid/prism)
+	 */
+	public double getHeightValue(){
+		if(height!=null){
+			return height.getDouble();
+		}
+
+		return getTopPoint().getInhomCoordsInD(3).distPlane(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
+
+	}
 	
 
 	
@@ -322,8 +343,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	protected GeoPointND[] getBottomPoints(){
 		if (bottom!=null)
 			return bottom.getPointsND();
-		else
-			return bottomPoints;
+		return bottomPoints;
 	}
 	
 

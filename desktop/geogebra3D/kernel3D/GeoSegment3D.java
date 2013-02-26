@@ -416,7 +416,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	private GeoElement meta = null;
 	
 	@Override
-	public boolean isFromMeta() {
+	public boolean hasMeta() {
 		return meta!=null;
 	}
 	

@@ -51,6 +51,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Prove(TABLE_GEOMETRY), ProveDetails(TABLE_GEOMETRY), AreCollinear(TABLE_GEOMETRY), AreParallel(TABLE_GEOMETRY),
    	AreConcyclic(TABLE_GEOMETRY), ArePerpendicular(TABLE_GEOMETRY),	AreEqual(TABLE_GEOMETRY), AreConcurrent(TABLE_GEOMETRY),
    	LocusEquation(TABLE_GEOMETRY),
+   	Volume(TABLE_GEOMETRY),
 
   	//=============================================================
   	// text

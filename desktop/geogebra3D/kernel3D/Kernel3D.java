@@ -160,6 +160,9 @@ public class Kernel3D extends Kernel {
 
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
 			return "CircleAxisPoint";
+			
+		case EuclidianConstants.MODE_VOLUME:
+			return "Volume";
 
 		default:
 			return super.getModeText(mode);

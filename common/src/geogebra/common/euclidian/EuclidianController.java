@@ -1741,6 +1741,7 @@ public abstract class EuclidianController {
 				selectedGeos, Test.GEOELEMENT);
 	}
 
+
 	protected final int addSelectedPoint(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 				return handleAddSelected(hits, max, addMoreThanOneAllowed,

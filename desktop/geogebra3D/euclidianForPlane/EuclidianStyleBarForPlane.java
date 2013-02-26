@@ -1,10 +1,9 @@
-package geogebra3D.euclidian3D;
+package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
-import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 import java.util.ArrayList;
 

@@ -383,8 +383,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 	}
 
-	// TODO Consider locusequability
-
-    
-
+	@Override
+	protected void updateVolume(){
+		getPolyhedron().setVolume(getBottom().getArea() * getHeightValue() );	
+	}
 }

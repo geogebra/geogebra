@@ -668,7 +668,7 @@ final public String toValueString(StringTemplate tpl) {
 	private GeoElement meta = null;
 	
 	@Override
-	public boolean isFromMeta() {
+	public boolean hasMeta() {
 		return meta!=null;
 	}
 	

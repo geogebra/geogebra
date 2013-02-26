@@ -27,6 +27,8 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		
 		setInputOutput(new GeoElement[] {inputQuadric}, new GeoElement[] {getQuadric()});
 		
+		((GeoQuadric3DPart) getQuadric()).setFromMeta(inputQuadric);
+		
 		compute();
 	}
 

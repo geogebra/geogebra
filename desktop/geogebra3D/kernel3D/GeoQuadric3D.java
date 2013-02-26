@@ -16,6 +16,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.GeoClass;
 import geogebra.main.AppD;
@@ -30,7 +31,7 @@ import geogebra.main.AppD;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements
-		GeoElement3DInterface, Functional2Var, Region3D, Translateable,
+		GeoElement3DInterface, Functional2Var, Region3D, Translateable, HasVolume,
 		GeoQuadric3DInterface{
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
@@ -64,10 +65,14 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	// //////////////////////////////
 	// SPHERE
+	
+	private double volume = Double.NaN;
 
 	@Override
 	protected void setSphereNDMatrix(Coords M, double r) {
 		super.setSphereNDMatrix(M, r);
+		
+		volume = 4*Math.PI*getHalfAxis(0)*getHalfAxis(1)*getHalfAxis(2)/3;
 
 		// eigen matrix
 		eigenMatrix = new CoordMatrix4x4();
@@ -681,6 +686,34 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	@Override
 	public boolean isTranslateable() {
 		return true;
+	}
+	
+	
+	public double getVolume(){
+		switch (getType()) {
+		case QUADRIC_SPHERE:
+			return volume;
+		case QUADRIC_CONE:
+		case QUADRIC_CYLINDER:
+			//return Double.POSITIVE_INFINITY; //TODO ? (0 or infinity)
+		default:
+			return Double.NaN;
+		}
+	}
+	
+	public boolean hasFiniteVolume(){
+		switch (getType()) {
+		case QUADRIC_SPHERE:
+			return isDefined();
+		default:
+			return false;
+		}
+	}
+	
+	@Override
+	public void setUndefined() {
+		super.setUndefined();
+		volume = Double.NaN;
 	}
 
 }

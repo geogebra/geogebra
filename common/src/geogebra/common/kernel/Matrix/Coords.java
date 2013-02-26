@@ -586,6 +586,16 @@ public class Coords extends CoordMatrix {
 
 		return HM.norm();
 	}
+	
+	/**
+	 * 
+	 * @param o point of the plane
+	 * @param vn normal direction to the plane
+	 * @return distance of this to the plane
+	 */
+	public double distPlane(Coords o, Coords vn){
+		return this.sub(o).dotproduct(vn);
+	}
 
 	/**
 	 * returns this projected on the plane represented by the matrix (third

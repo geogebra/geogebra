@@ -28,6 +28,8 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.HasVolume;
+import geogebra.common.util.StringUtil;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -1144,6 +1146,39 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return false;
 		
 	}
+	
+	/**
+	 * 
+	 * @param hits geos hitted
+	 * @return volume of a geo (from hits) that has a volume
+	 */
+	final protected boolean volume(Hits hits) {
+		if (hits.isEmpty())
+			return false;
+		
+		addSelectedGeo(hits.getFiniteVolumeIncludingMetaHits(), 1, false);
+
+		if (selGeos() == 1) {
+			GeoElement hasVolume = getSelectedGeos()[0];
+			GeoNumeric volume = kernel.getManager3D().Volume(null, (HasVolume) hasVolume);
+
+			
+			// text
+			GeoText text = createDynamicTextForMouseLoc("VolumeOfA", hasVolume, volume);
+			if (hasVolume.isLabelSet()) {
+				volume.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Volume"))
+						+ hasVolume.getLabelSimple()));
+				text.setLabel(removeUnderscores(l10n.getPlain("Text")
+						+ hasVolume.getLabelSimple()));
+			}
+
+			return true;
+
+		} 
+		
+		return false;
+		
+	}
 
 	
 	
@@ -1774,7 +1809,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 			
-		
+		case EuclidianConstants.MODE_VOLUME:
+			changedKernel = volume(hits);
+			break;
 
 		default:
 			changedKernel = super.switchModeForProcessMode(hits, e);
@@ -1803,6 +1840,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PRISM:
 		case EuclidianConstants.MODE_CONIFY:
 		case EuclidianConstants.MODE_AREA:
+		case EuclidianConstants.MODE_VOLUME:
 			//String s = hits.toString();
 			hits.removeAllPolygonsButOne();
 			//s+="\nAprès:\n"+hits.toString();
@@ -1926,6 +1964,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			//no need to do anything for preview when mouse is pressed
+			break;
+		case EuclidianConstants.MODE_VOLUME:
+			view.setHits(mouseLoc);
+			hits = view.getHits();
 			break;
 		default:
 			super.switchModeForMousePressed(e);
