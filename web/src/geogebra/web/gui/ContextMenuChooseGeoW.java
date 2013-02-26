@@ -71,13 +71,13 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		//add geos
 		metas = new TreeSet<GeoElement>();
 		
-		for (GeoElement geo : geos){
-			if (geo!=geoSelected){//don't add selected geo
-				addGeo(geo);
+		for (GeoElement geo1 : geos){
+			if (geo1!=geoSelected){//don't add selected geo
+				addGeo(geo1);
 			}
 			
-			if (geo.isFromMeta()){
-				GeoElement meta = ((FromMeta) geo).getMeta();
+			if (geo1.hasMeta()){
+				GeoElement meta = ((FromMeta) geo1).getMeta();
 				if (!metas.contains(meta)){
 					addGeo(meta);
 				}
