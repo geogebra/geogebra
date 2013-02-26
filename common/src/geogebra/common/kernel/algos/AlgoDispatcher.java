@@ -783,6 +783,33 @@ public class AlgoDispatcher {
 		}
 		return p;
 	}
+	
+	/** Point in region with cartesian coordinates (x,y), and region parameters */
+	final public GeoPoint PointIn(String label, Region region, double x,
+			double y, NumberValue param1, NumberValue param2, 
+			boolean addToConstruction, boolean complex, boolean coords2D) {
+		boolean oldMacroMode = false;
+		if (!addToConstruction) {
+			oldMacroMode = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+
+		}
+		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
+				y, param1, param2);
+		// Application.debug("PointIn - \n x="+x+"\n y="+y);
+		GeoPoint p = algo.getP();
+		if (complex) {
+			p.setMode(Kernel.COORD_COMPLEX);
+		}else if (!coords2D){
+			p.setCartesian3D();
+			p.update();
+		}
+		if (!addToConstruction) {
+			cons.setSuppressLabelCreation(oldMacroMode);
+		}
+		return p;
+	}
+
 
 
 	/**
