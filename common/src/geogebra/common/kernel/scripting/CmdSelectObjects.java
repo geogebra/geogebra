@@ -28,14 +28,14 @@ public class CmdSelectObjects extends CmdScripting {
 
 		
 
-		app.clearSelectedGeos(false);
+		app.getSelectionManager().clearSelectedGeos(false);
 
 		if (n > 0) {
 			arg = resArgs(c);
 			for (int i = 0; i < n; i++) {
 				if ((arg[i].isGeoElement())) {
 					GeoElement geo = arg[i];
-					app.addSelectedGeo(geo,false,false);
+					app.getSelectionManager().addSelectedGeo(geo,false,false);
 				}
 			}
 			

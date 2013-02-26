@@ -15,12 +15,13 @@ package geogebra.common.gui.view.algebra;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.SelectionManager;
 
 public class AlgebraController {
 
 	protected Kernel kernel;
 	protected App app;
-
+	protected SelectionManager selection;
 	protected AlgebraView view;
 
 	//private GeoVector tempVec;
@@ -29,7 +30,8 @@ public class AlgebraController {
 	/** Creates new CommandProcessor */
 	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
-		app = kernel.getApplication();		
+		app = kernel.getApplication();	
+		selection = app.getSelectionManager();
 	}
 
 	public void setView(AlgebraView view) {

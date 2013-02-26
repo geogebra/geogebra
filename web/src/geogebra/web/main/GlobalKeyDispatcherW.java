@@ -24,7 +24,7 @@ public class GlobalKeyDispatcherW extends
 	 * @param app application
 	 */
 	public GlobalKeyDispatcherW(App app) {
-		this.app = app;
+		super(app);
     }
 
 	@Override
@@ -66,7 +66,7 @@ public class GlobalKeyDispatcherW extends
 		
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		if (handleSelectedGeosKeys(event, app.getSelectedGeos())) {
+		if (handleSelectedGeosKeys(event, app.getSelectionManager().getSelectedGeos())) {
 			return true;
 		}
 		
@@ -94,7 +94,7 @@ public class GlobalKeyDispatcherW extends
 	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
 		return handleSelectedGeosKeys(
 			geogebra.common.main.KeyCodes.translateGWTcode(event.getKeyCode()),
-			app.getSelectedGeos(),
+			selection.getSelectedGeos(),
 			event.getShiftKey(),
 			event.getCtrlKey(),
 			event.getAltKey(), false);

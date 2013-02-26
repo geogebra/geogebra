@@ -382,7 +382,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 		// update selection of application too
 		if (app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER)
-			app.setSelectedGeos(selectionList);
+			app.getSelectionManager().setSelectedGeos(selectionList);
 	}
 
 	private ArrayList<?> updateSelectedGeos(TreePath[] selPath) {

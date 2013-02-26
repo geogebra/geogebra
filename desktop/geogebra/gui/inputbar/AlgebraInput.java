@@ -333,7 +333,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 								i = geos.length;
 							}
 						}
-						app.setSelectedGeos(list);
+						app.getSelectionManager().setSelectedGeos(list);
 					}
 
 				}

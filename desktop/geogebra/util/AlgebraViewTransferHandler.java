@@ -55,7 +55,7 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 		else
 			geoLabelList.clear();		
 		if (comp instanceof AlgebraViewD) {
-			ArrayList<GeoElement> geos = app.getSelectedGeos();		
+			ArrayList<GeoElement> geos = app.getSelectionManager().getSelectedGeos();		
 			for(GeoElement geo : geos){
 				geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
 			}

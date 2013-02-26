@@ -638,7 +638,7 @@ public class CopyPaste {
 				geo.setLabel(geo.getIndexLabel(geo.getLabelSimple().substring(
 						labelPrefix.length())));
 				// geo.setLabel(geo.getDefaultLabel(false));
-				app.addSelectedGeo(geo);
+				app.getSelectionManager().addSelectedGeo(geo);
 
 				if (geo.getParentAlgorithm() != null) {
 					if (geo.getParentAlgorithm().getClassName()

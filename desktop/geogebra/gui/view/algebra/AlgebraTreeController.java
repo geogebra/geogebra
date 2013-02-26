@@ -114,26 +114,26 @@ implements MouseListener, MouseMotionListener{
 			// update selection	
 			if (geo == null){
 				if (!AppD.isControlDown(e) && !e.isShiftDown())
-					app.clearSelectedGeos();
+					selection.clearSelectedGeos();
 				
 				if (groupedGeos!=null)
-					app.addSelectedGeos(groupedGeos, true);
+					selection.addSelectedGeos(groupedGeos, true);
 					
 			}else {					
 				// handle selecting geo
 				if (AppD.isControlDown(e)) {
-					app.toggleSelectedGeo(geo); 													
-					if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
+					selection.toggleSelectedGeo(geo); 													
+					if (selection.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {				
 					ArrayList<GeoElement> geos = tree.getGeosBetween(lastSelectedGeo, geo);
 					if (geos!=null){
-						app.clearSelectedGeos(false); //repaint will be done next step
-						app.addSelectedGeos(geos, true);
+						selection.clearSelectedGeos(false); //repaint will be done next step
+						selection.addSelectedGeos(geos, true);
 					}
 
 				} else {							
-					app.clearSelectedGeos(false); //repaint will be done next step
-					app.addSelectedGeo(geo);
+					selection.clearSelectedGeos(false); //repaint will be done next step
+					selection.addSelectedGeo(geo);
 					lastSelectedGeo = geo;
 				}
 			}
@@ -190,23 +190,23 @@ implements MouseListener, MouseMotionListener{
 				
 				ArrayList<GeoElement> childs = AlgebraTree.getGeoChildsForPath(tp);
 				if (childs == null || childs.size()==0){//if click on e.g. object type (like "Point"), then select all and popup menu
-					app.clearSelectedGeos();
+					selection.clearSelectedGeos();
 					AlgebraContextMenuD contextMenu = new AlgebraContextMenuD((AppD)app);
 					contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
 				}else{//popup algebra menu
-					app.clearSelectedGeos(false);
-					app.addSelectedGeos(childs, true);
+					selection.clearSelectedGeos(false);
+					selection.addSelectedGeos(childs, true);
 					((GuiManagerD)app.getGuiManager()).showPopupMenu(childs, tree, mouseCoords);
 				}
 
 				
 
 			} else {
-				if (app.containsSelectedGeo(geo)){//popup menu for current selection (including selected object)
-					((GuiManagerD)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
+				if (selection.containsSelectedGeo(geo)){//popup menu for current selection (including selected object)
+					((GuiManagerD)app.getGuiManager()).showPopupMenu(selection.getSelectedGeos(), tree, mouseCoords);
 				}else{//select only this objet and popup menu
-					app.clearSelectedGeos(false);	
-					app.addSelectedGeo(geo, true, true);				
+					selection.clearSelectedGeos(false);	
+					selection.addSelectedGeo(geo, true, true);				
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
 					((GuiManagerD)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
@@ -245,9 +245,9 @@ implements MouseListener, MouseMotionListener{
 
 		if (leftPressCanSelectGeo(e, geo)){
 			ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
-			if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
-				app.clearSelectedGeos(false); //repaint will be done next step
-				app.addSelectedGeos(groupedGeos, true);
+			if (groupedGeos!=null && !selection.containsSelectedGeos(groupedGeos)){
+				selection.clearSelectedGeos(false); //repaint will be done next step
+				selection.addSelectedGeos(groupedGeos, true);
 				skipSelection = true;
 			}			
 		}
@@ -277,10 +277,10 @@ implements MouseListener, MouseMotionListener{
 	 * @return true if geo is not null and wasn't yet selected
 	 */
 	protected boolean setSelectedGeo(GeoElement geo){
-		if( geo != null  && !app.containsSelectedGeo(geo)) 
+		if( geo != null  && !selection.containsSelectedGeo(geo)) 
 		{					
-			app.clearSelectedGeos(false); //repaint will be done next step
-			app.addSelectedGeo(geo);
+			selection.clearSelectedGeos(false); //repaint will be done next step
+			selection.addSelectedGeo(geo);
 			lastSelectedGeo = geo;
 			skipSelection = true;
 			

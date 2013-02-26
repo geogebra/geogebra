@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
@@ -208,9 +209,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// MODE_MOVE case: load activeGeoList with all selected geos
 		// -----------------------------------------------------
 		if (mode == EuclidianConstants.MODE_MOVE) {
-
+			SelectionManager selection = ev.getApplication().getSelectionManager();
 			boolean hasGeosInThisView = false;
-			for (GeoElement geo : ((AppD) ev.getApplication())
+			for (GeoElement geo : selection
 					.getSelectedGeos()) {
 				if (isVisibleInThisView(geo) && geo.isEuclidianVisible() && !geo.isAxis()) {
 					hasGeosInThisView = true;
@@ -224,7 +225,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 			if (hasGeosInThisView) {
-				activeGeoList = ((AppD) ev.getApplication())
+				activeGeoList = selection
 						.getSelectedGeos();
 
 				// we also update stylebars according to just created geos
@@ -1313,7 +1314,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		if (mode != EuclidianConstants.MODE_MOVE)
 			targetGeos.addAll(defaultGeos);
 		else
-			targetGeos.addAll(app.getSelectedGeos());
+			targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
 
 		processSource(source, targetGeos);
 

@@ -183,8 +183,8 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		// select geos
 		if (geos != null) {
-			if (app.getSelectedGeos().size() == 0) {
-				app.addSelectedGeos(geos, true);
+			if (app.getSelectionManager().getSelectedGeos().size() == 0) {
+				app.getSelectionManager().addSelectedGeos(geos, true);
 			}
 
 			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()

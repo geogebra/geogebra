@@ -17,7 +17,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
@@ -55,7 +54,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	AppD app;
 	private DefaultListModel toolsModel;
 
 	public ToolManagerDialog(AppD app) {
@@ -118,13 +117,13 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		boolean foundUsedMacro = false;
 		String macroNames = "";
 		Kernel kernel = app.getKernel();
-		app.setSelectedGeos(new ArrayList<GeoElement>());
+		app.getSelectionManager().setSelectedGeos(new ArrayList<GeoElement>());
 		for (int i = 0; i < sel.length; i++) {
 			Macro macro = (Macro) sel[i];
 			if (!macro.isUsed()) {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
-				((GuiManagerD)app.getGuiManager()).removeFromToolbarDefinition(
+				app.getGuiManager().removeFromToolbarDefinition(
 						kernel.getMacroID(macro)
 								+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 				kernel.removeMacro(macro);
@@ -135,7 +134,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 				ArrayList<GeoElement> geos = macro.getDependentGeos();
 				Iterator<GeoElement> curr = geos.iterator();
 				while (curr.hasNext())
-					app.addSelectedGeo(curr.next());
+					app.getSelectionManager().addSelectedGeo(curr.next());
 				foundUsedMacro = true;
 				macroNames += "\n" + macro.getToolOrCommandName() + ": "
 						+ macro.getNeededTypesString();
@@ -395,7 +394,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			public void run() {
 				app.setWaitCursor();
 				try {
-					app.clearSelectedGeos(true,false);
+					app.getSelectionManager().clearSelectedGeos(true,false);
 					app.updateSelection(false);
 					
 
@@ -445,7 +444,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		if (sel == null || sel.length == 0)
 			return;
 
-		File file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(
+		File file = app.getGuiManager().showSaveDialog(
 				AppD.FILE_EXT_GEOGEBRA_TOOL, null,
 				app.getPlain("ApplicationName") + " " + app.getMenu("Tools"),
 				true, false);

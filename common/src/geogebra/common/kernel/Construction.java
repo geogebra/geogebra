@@ -29,6 +29,7 @@ import geogebra.common.kernel.prover.AlgoProve;
 import geogebra.common.kernel.prover.AlgoProveDetails;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
@@ -1428,11 +1429,12 @@ public class Construction {
 			return;
 		}
 		App app = kernel.getApplication();
+		SelectionManager selection = kernel.getApplication().getSelectionManager();
 		boolean moveMode = app.getMode() == EuclidianConstants.MODE_MOVE
-				&& app.getSelectedGeos().size() > 0;
+				&& selection.getSelectedGeos().size() > 0;
 		String oldSelection = null;
 		if (moveMode) {
-			oldSelection = app.getSelectedGeos().get(0)
+			oldSelection = selection.getSelectedGeos().get(0)
 					.getLabel(StringTemplate.defaultTemplate);
 		}
 		// get current construction XML
@@ -1446,7 +1448,7 @@ public class Construction {
 		buildConstruction(consXML);
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
-			app.addSelectedGeo(selGeo, false, true);
+			selection.addSelectedGeo(selGeo, false, true);
 			app.getActiveEuclidianView().getEuclidianController()
 					.handleMovedElement(selGeo, false);
 		}

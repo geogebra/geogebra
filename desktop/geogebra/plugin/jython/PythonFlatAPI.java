@@ -1604,7 +1604,7 @@ public class PythonFlatAPI {
 	 * @return array of selected geoelements
 	 */
 	public ArrayList<GeoElement> getSelectedGeos() {
-		return app.getSelectedGeos();
+		return app.getSelectionManager().getSelectedGeos();
 	}
 
 	/*

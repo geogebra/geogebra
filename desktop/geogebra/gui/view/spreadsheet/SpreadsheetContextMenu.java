@@ -6,7 +6,6 @@ import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -92,7 +91,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		row2 = table.selectedCellRanges.get(0).getMaxRow();
 		selectionType = table.getSelectionType();
 		selectedCellRanges = table.selectedCellRanges;
-		geos = app.getSelectedGeos();
+		geos = app.getSelectionManager().getSelectedGeos();
 
 		setBackground(bgColor);
 
@@ -191,7 +190,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 								geoRecordToSpreadSheet.setAuxiliaryObject(true);
 							}
 
-							((GuiManagerD)app.getGuiManager())
+							app.getGuiManager()
 									.getSpreadsheetView()
 									.showTraceDialog(geoRecordToSpreadSheet,
 											null);
@@ -394,7 +393,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			item.setIcon(app.getImageIcon("document-open.png"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					File dataFile = ((GuiManagerD)app.getGuiManager()).getDataFile();
+					File dataFile = app.getGuiManager().getDataFile();
 					if (dataFile != null)
 						table.getView().loadSpreadsheetFromURL(dataFile);
 				}
@@ -427,8 +426,8 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 					app.getImageIcon("view-properties16.png"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-			    	((GuiManagerD)app.getGuiManager()).setShowView(true, App.VIEW_PROPERTIES);
-			    	((GuiManagerD)app.getGuiManager()).setFocusedPanel(App.VIEW_SPREADSHEET, true);
+			    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+			    	app.getGuiManager().setFocusedPanel(App.VIEW_SPREADSHEET, true);
 				}
 			});
 			addItem(item);
@@ -438,7 +437,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		// Object properties
 		// ===============================================
 
-		if (app.selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
+		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
 			addSeparator();
 			item = new JMenuItem(app.getMenu(app.getPlain("Properties"))
 					+ "...", app.getImageIcon("view-properties16.png"));
@@ -519,7 +518,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 	}
 
 	private boolean isEmptySelection() {
-		return (app.getSelectedGeos().isEmpty());
+		return (app.getSelectionManager().getSelectedGeos().isEmpty());
 	}
 
 }

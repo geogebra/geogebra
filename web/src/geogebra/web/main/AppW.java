@@ -49,7 +49,6 @@ import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
-import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.ScriptLoadCallback;
@@ -1551,13 +1550,13 @@ public class AppW extends AppWeb {
 	 * @param repaint
 	 *            whether all views need repainting afterwards
 	 */
-	@Override
+	/*@Override
 	public void clearSelectedGeos(boolean repaint) {
 		// if (getUseFullGui()) ?
 		if (useFullAppGui)
 			((AlgebraViewW) getAlgebraView()).clearSelection();
 		super.clearSelectedGeos(repaint);
-	}
+	}*/
 
 	@Override
 	public GeoElementSelectionListener getCurrentSelectionListener() {

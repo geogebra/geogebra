@@ -3411,7 +3411,7 @@ public class Kernel {
 	 */
 	private void storeSelectedGeosNames(){
 		selectedGeosNames.clear();
-		for(GeoElement geo: getApplication().getSelectedGeos())
+		for(GeoElement geo: getApplication().getSelectionManager().getSelectedGeos())
 			selectedGeosNames.add(geo.getLabelSimple());
 	}
 	
@@ -3425,7 +3425,7 @@ public class Kernel {
 			if (geo!=null)
 				list.add(geo);
 		}
-		getApplication().setSelectedGeos(list);
+		getApplication().getSelectionManager().setSelectedGeos(list);
 	}
 
 	public void redo() {

@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -16,7 +17,8 @@ public class EditMenuW extends MenuBar {
 	/**
 	 * Application instance
 	 */
-	App app;
+	final App app;
+	final SelectionManager selection;
 
 	InsertImageMenuW iim;
 
@@ -28,6 +30,7 @@ public class EditMenuW extends MenuBar {
 
 		super(true);
 		this.app = app;
+		this.selection = app.getSelectionManager();
 		addStyleName("GeoGebraMenuBar");
 		iim = new InsertImageMenuW(app);
 		initActions();
@@ -40,9 +43,9 @@ public class EditMenuW extends MenuBar {
 		 *  -1 means nothing selected
 		 *  -2 means different layers selected
 		 */
-		int layer = app.getSelectedLayer();	
+		int layer = selection.getSelectedLayer();	
 		boolean justCreated = !(app.getActiveEuclidianView().getEuclidianController().getJustCreatedGeos().isEmpty());
-		boolean haveSelection = !app.getSelectedGeos().isEmpty();
+		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		
 		
 		
@@ -90,13 +93,13 @@ public class EditMenuW extends MenuBar {
 		addSeparator();
 			
 		// copy menu
-		if (!app.getSelectedGeos().isEmpty())
+		if (!selection.getSelectedGeos().isEmpty())
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy")),
 			        true, new Command() {
 				        public void execute() {
 					        app.setWaitCursor();
-					        CopyPaste.copyToXML(app, app.getSelectedGeos());
+					        CopyPaste.copyToXML(app, selection.getSelectedGeos());
 					        app.updateMenubar();
 					        app.setDefaultCursor();
 				        }
@@ -154,7 +157,7 @@ public class EditMenuW extends MenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectAll")), true, new Command() {
 				public void execute() {
-					app.selectAll(-1);
+					selection.selectAll(-1);
 				}
 			});
 		else
@@ -166,13 +169,13 @@ public class EditMenuW extends MenuBar {
 			});
 		
 		//select current layer menu
-		if(app.getSelectedLayer() >= 0){
+		if(selection.getSelectedLayer() >= 0){
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectCurrentLayer")), true, new Command() {
 				public void execute() {
-					int layer1 = app.getSelectedLayer();
+					int layer1 = selection.getSelectedLayer();
 					if (layer1 != -1)
-						app.selectAll(layer1); // select all objects in layer
+						selection.selectAll(layer1); // select all objects in layer
 				}
 			});			
 		}
@@ -182,7 +185,7 @@ public class EditMenuW extends MenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectDescendants")), true, new Command() {
 				public void execute() {
-					app.selectAllDescendants();
+					selection.selectAllDescendants();
 				}
 			});
 		
@@ -190,7 +193,7 @@ public class EditMenuW extends MenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectAncestors")), true, new Command() {
 				public void execute() {
-					app.selectAllPredecessors();
+					selection.selectAllPredecessors();
 				}
 			});
 			
@@ -200,7 +203,7 @@ public class EditMenuW extends MenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("InvertSelection")), true, new Command() {
 				public void execute() {
-					app.invertSelection();
+					selection.invertSelection();
 				}
 			});
 		}
@@ -210,14 +213,14 @@ public class EditMenuW extends MenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("ShowHide")), true, new Command() {
 				public void execute() {
-					app.showHideSelection();
+					selection.showHideSelection();
 				}
 			});	
 			
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("ShowHideLabels")), true, new Command() {
 				public void execute() {
-					app.showHideSelectionLabels();
+					selection.showHideSelectionLabels();
 				}
 			});
 		}

@@ -4,6 +4,7 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.AppD;
 
@@ -18,7 +19,8 @@ import java.util.ArrayList;
  */
 public class MiniStyle {
 
-	private AppD app;
+	private final AppD app;
+	private final SelectionManager selection;
 
 	final public static int MODE_PEN = 0;
 	final public static int MODE_STANDARD = 1;
@@ -41,6 +43,7 @@ public class MiniStyle {
 	public MiniStyle(AppD app, int mode) {
 
 		this.app = app;
+		this.selection = app.getSelectionManager();
 		colorList = createStyleBarColorList();
 		if (mode == MODE_PEN)
 			setPenDefaults();
@@ -75,7 +78,7 @@ public class MiniStyle {
 
 	public void applyLineStyle() {
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -86,7 +89,7 @@ public class MiniStyle {
 
 	public void applyPointStyle() {
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -101,7 +104,7 @@ public class MiniStyle {
 
 	public void applyLineSize() {
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -112,7 +115,7 @@ public class MiniStyle {
 
 	public void applyColor() {
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -123,7 +126,7 @@ public class MiniStyle {
 
 	public void applyAlpha() {
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -140,7 +143,7 @@ public class MiniStyle {
 		if (isItalic)
 			fontStyle += 2;
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -153,7 +156,7 @@ public class MiniStyle {
 
 	public void setAllProperties() {
 
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);

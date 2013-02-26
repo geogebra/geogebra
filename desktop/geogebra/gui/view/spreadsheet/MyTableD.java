@@ -650,7 +650,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// if the geo selection has changed, update selected geos
-		boolean changed = !list.equals(app.getSelectedGeos());
+		boolean changed = !list.equals(app.getSelectionManager().getSelectedGeos());
 		if (changed) {
 
 			if (getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
@@ -660,7 +660,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			if (view.isVisibleStyleBar())
 				view.getSpreadsheetStyleBar().updateStyleBar();
 
-			app.setSelectedGeos(list, false);
+			app.getSelectionManager().setSelectedGeos(list, false);
 			if (list.size() > 0) {
 				app.updateSelection(true);
 			} else {
@@ -1715,7 +1715,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			maxSelectionColumn = -1;
 			minSelectionRow = -1;
 			maxSelectionRow = -1;
-			app.clearSelectedGeos();
+			app.getSelectionManager().clearSelectedGeos();
 
 		}
 

@@ -376,8 +376,8 @@ public abstract class ContextMenuGeoElement {
 	public void geoActionCmd(GeoElement cmdGeo, ArrayList<GeoElement> sGeos, ArrayList<GeoElement> gs,
 			EuclidianView v, GPoint l) {
 				//AbstractApplication.debug(geo.getLabelSimple());
-				app.clearSelectedGeos(false); //repaint done next step
-				app.addSelectedGeo(cmdGeo);
+				app.getSelectionManager().clearSelectedGeos(false); //repaint done next step
+				app.getSelectionManager().addSelectedGeo(cmdGeo);
 				
 				// update the geo lists and show the popup again with the new selection
 				sGeos.clear();

@@ -1056,8 +1056,8 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	public void requestFocus() {
 		super.requestFocus();
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
-			app.clearSelectedGeos(false);
-			app.addSelectedGeo(geoUsedForInputBox);
+			app.getSelectionManager().clearSelectedGeos(false);
+			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
 	}
 

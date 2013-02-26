@@ -99,7 +99,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		if (flag) {
 			// add all currently selected geos to output list
-			ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
 			for (int i = 0; i < selGeos.size(); i++) {
 				GeoElement geo = selGeos.get(i);
 				outputList.addElement(geo);

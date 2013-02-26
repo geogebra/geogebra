@@ -113,8 +113,8 @@ public class CheckboxCreationDialog extends JDialog implements
 		};
 
 		// add all selected geos to list
-		for (int i = 0; i < app.getSelectedGeos().size(); i++) {
-			GeoElement geo = app.getSelectedGeos().get(i);
+		for (int i = 0; i < app.getSelectionManager().getSelectedGeos().size(); i++) {
+			GeoElement geo = app.getSelectionManager().getSelectedGeos().get(i);
 			listModel.addElement(geo);
 		}
 	}

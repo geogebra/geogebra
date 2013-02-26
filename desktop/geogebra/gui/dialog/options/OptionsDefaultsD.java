@@ -405,7 +405,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	 */
 	private void applyDefaults() {
 
-		for (GeoElement geo : app.getSelectedGeos()) {
+		for (GeoElement geo : app.getSelectionManager().getSelectedGeos()) {
 			defaults.setDefaultVisualStyles(geo, true);
 			geo.updateRepaint();
 		}

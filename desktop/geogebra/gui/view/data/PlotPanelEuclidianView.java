@@ -502,7 +502,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 					public void run() {
 						getApplication().setWaitCursor();
 						try {
-							getApplication().clearSelectedGeos(true,false);
+							getApplication().getSelectionManager().clearSelectedGeos(true,false);
 							getApplication().updateSelection(false);
 
 							// use reflection for
@@ -510,7 +510,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 									getApplication(), plotPanelEV);
 							d.setVisible(true);
 
-						} catch (Exception e) {
+						} catch (Exception ex) {
 							App.debug("GraphicExportDialog not available");
 						}
 						getApplication().setDefaultCursor();
@@ -535,7 +535,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			getApplication().clearSelectedGeos(true,false);
+			getApplication().getSelectionManager().clearSelectedGeos(true,false);
 			getApplication().updateSelection(false);
 
 			Thread runner = new Thread() {

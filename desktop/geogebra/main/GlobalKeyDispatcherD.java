@@ -40,7 +40,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	 * @param app application
 	 */
 	public GlobalKeyDispatcherD(AppD app) {
-		this.app = app;
+		super(app);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		if (handleSelectedGeosKeys(event, app.getSelectedGeos())) {
+		if (handleSelectedGeosKeys(event, selection.getSelectedGeos())) {
 			return true;
 		}
 
@@ -111,9 +111,9 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 		}
 
 		GeoElement geo;
-		if (app.selectedGeosSize() == 1) {
+		if (selection.selectedGeosSize() == 1) {
 			// selected geo
-			geo = app.getSelectedGeos().get(0);
+			geo = selection.getSelectedGeos().get(0);
 		} else {
 			// last created geo
 			geo = app.getLastCreatedGeoElement();
@@ -228,7 +228,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown && app.isUsingFullGui()) {
 
-			GuiManager gui = ((GuiManagerD)app.getGuiManager());
+			GuiManager gui = app.getGuiManager();
 			((LayoutD)gui.getLayout()).getDockManager()
 			.moveFocus(!isShiftDown);
 

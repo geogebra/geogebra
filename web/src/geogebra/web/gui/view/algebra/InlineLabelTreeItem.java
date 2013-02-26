@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.SelectionManager;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -36,11 +37,11 @@ public class InlineLabelTreeItem extends InlineLabel
 	implements ClickHandler, MouseOverHandler, MouseOutHandler {
 
 	TreeItem par;
-	AppW application;
+	SelectionManager selection;
 
 	public InlineLabelTreeItem(AppW app, TreeItem parent, String strlab) {
 		super(strlab);
-		this.application = app;
+		this.selection = app.getSelectionManager();
 		par = parent;
 		addClickHandler(this);
 		addMouseOverHandler(this);
@@ -60,10 +61,9 @@ public class InlineLabelTreeItem extends InlineLabel
 
 		//if (!AppD.isControlDown(e) && !e.isShiftDown())
 		if (!evt.isControlKeyDown() && !evt.isShiftKeyDown())
-			application.clearSelectedGeos();
+			selection.clearSelectedGeos();
 
-		if (groupedGeos!=null)
-			application.addSelectedGeos(groupedGeos, true);
+		selection.addSelectedGeos(groupedGeos, true);
 	}
 
 	public void onMouseOver(MouseOverEvent evt) {

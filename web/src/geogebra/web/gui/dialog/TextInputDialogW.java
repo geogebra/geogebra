@@ -143,7 +143,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				app.doAfterRedefine(newText);
 
 				// make redefined text selected
-				app.addSelectedGeo(newText);
+				app.getSelectionManager().addSelectedGeo(newText);
 				return true;
 			} catch (Exception e) {
 				app.showError("ReplaceFailed");

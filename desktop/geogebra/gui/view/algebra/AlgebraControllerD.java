@@ -63,7 +63,7 @@ implements DragGestureListener, DragSourceListener {
 		//EuclidianView ev = app.getEuclidianView();
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		if (clicks == 2) {										
-			app.clearSelectedGeos(true,false);
+			selection.clearSelectedGeos(true,false);
 			app.updateSelection(false);
 			ev.resetMode();
 			if (geo != null && !AppD.isControlDown(e)) {
@@ -126,7 +126,7 @@ implements DragGestureListener, DragSourceListener {
 		else
 			geoLabelList.clear();
 
-		for(GeoElement geo : app.getSelectedGeos()){
+		for(GeoElement geo : selection.getSelectedGeos()){
 			geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
 		}
 
@@ -137,12 +137,12 @@ implements DragGestureListener, DragSourceListener {
 			
 			boolean showJustFirstGeoInDrag = false;
 
-			if (app.getSelectedGeos().size() == 1) {
+			if (selection.getSelectedGeos().size() == 1) {
 				showJustFirstGeoInDrag = true;
 			} else {
 
 				// workaround for http://forge.scilab.org/index.php/p/jlatexmath/issues/749/#preview
-				for(GeoElement geo:app.getSelectedGeos()){
+				for(GeoElement geo:selection.getSelectedGeos()){
 					if (geo.isGeoCurveCartesian()) {
 						showJustFirstGeoInDrag = true;
 						break;
@@ -152,13 +152,13 @@ implements DragGestureListener, DragSourceListener {
 
 
 			if (showJustFirstGeoInDrag) {
-				latex = app.getSelectedGeos().get(0).getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate);
+				latex = selection.getSelectedGeos().get(0).getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate);
 			} else {
 
 				// create drag image 
 				StringBuilder sb = new StringBuilder();
 				sb.append("\\fbox{\\begin{array}{l}"); 
-				for(GeoElement geo:app.getSelectedGeos()){
+				for(GeoElement geo:selection.getSelectedGeos()){
 					sb.append(geo.getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate));
 					sb.append("\\\\");
 				}

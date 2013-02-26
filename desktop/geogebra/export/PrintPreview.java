@@ -324,7 +324,7 @@ public class PrintPreview extends JDialog {
 		EuclidianView ev = app.getEuclidianView1();
 		EuclidianView ev2 = app.getEuclidianView2();
 		// CASView cas = app.getca
-		app.clearSelectedGeos();
+		app.getSelectionManager().clearSelectedGeos();
 
 		tempPanel = new JPanel(new GridLayout(0, 1));
 		if (m_target == ev || m_target == ev2) {

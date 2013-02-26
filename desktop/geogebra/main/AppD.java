@@ -2080,7 +2080,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public void copyGraphicsViewToClipboard(final EuclidianViewND euclidianViewND) {
 
-		clearSelectedGeos(true, false);
+		getSelectionManager().clearSelectedGeos(true, false);
 		updateSelection(false);
 
 		Thread runner = new Thread() {
@@ -4370,7 +4370,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void exportToLMS(boolean ggbWeb) {
-		clearSelectedGeos(true, false);
+		getSelectionManager().clearSelectedGeos(true, false);
 		updateSelection(false);
 		WorksheetExportDialog d = new WorksheetExportDialog(this);
 
@@ -5078,4 +5078,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	public LocalizationD getLocalization() {
 		return loc;
 	}
+
+
 }

@@ -2,6 +2,7 @@ package geogebra.gui.menubar;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.OptionType;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.util.CopyPaste;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
@@ -21,7 +22,7 @@ import javax.swing.event.MenuEvent;
  */
 public class EditMenu extends BaseMenu {
 	private static final long serialVersionUID = -2649808771324470803L;
-
+	SelectionManager selection;
 	private AbstractAction
 		deleteAction,
 		invertAction,
@@ -61,7 +62,7 @@ public class EditMenu extends BaseMenu {
 	
 	public EditMenu(AppD app) {
 		super(app, app.getMenu("Edit"));
-
+		selection = app.getSelectionManager();
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 
 	}
@@ -187,8 +188,7 @@ public class EditMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.selectAll(-1); // Michael Borcherds 2008-03-03 pass "-1" to
-									// select all
+				selection.selectAll(-1); //pass "-1" to select all
 			}
 		};
 
@@ -198,9 +198,9 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-				int layer = app.getSelectedLayer();
+				int layer = selection.getSelectedLayer();
 				if (layer != -1)
-					app.selectAll(layer); // select all objects in layer
+					selection.selectAll(layer); // select all objects in layer
 
 			}
 		};
@@ -211,7 +211,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-				app.selectAllPredecessors();
+				selection.selectAllPredecessors();
 			}
 		};
 
@@ -221,7 +221,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-				app.selectAllDescendants();
+				selection.selectAllDescendants();
 			}
 		};
 
@@ -231,7 +231,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-				app.showHideSelection();
+				selection.showHideSelection();
 
 			}
 		};
@@ -242,7 +242,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-				app.showHideSelectionLabels();
+				selection.showHideSelectionLabels();
 			}
 		};
 
@@ -253,7 +253,7 @@ public class EditMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				CopyPaste.copyToXML(app, app.getSelectedGeos());
+				CopyPaste.copyToXML(app, selection.getSelectedGeos());
 				app.updateMenubar();
 				app.setDefaultCursor();
 			}
@@ -321,7 +321,7 @@ public class EditMenu extends BaseMenu {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			app.invertSelection();
+			selection.invertSelection();
 		}
 	};
 }
@@ -340,7 +340,7 @@ public class EditMenu extends BaseMenu {
 			return;
 		}		
 		
-		int layer = app.getSelectedLayer();
+		int layer = selection.getSelectedLayer();
 		
 		/* layer values:
 		 *  -1 means nothing selected
@@ -349,7 +349,7 @@ public class EditMenu extends BaseMenu {
 		
 		boolean justCreated = !(app.getActiveEuclidianView().getEuclidianController().getJustCreatedGeos().isEmpty());
 
-		copyAction.setEnabled(!app.getSelectedGeos().isEmpty());
+		copyAction.setEnabled(!selection.getSelectedGeos().isEmpty());
 		pasteAction.setEnabled(!CopyPaste.isEmpty());
 
 		deleteAction.setEnabled(layer != -1 || justCreated);
@@ -363,10 +363,10 @@ public class EditMenu extends BaseMenu {
 		showhideLabelsItem.setVisible(layer != -1);
 		
 		// exactly one layer selected
-		selectCurrentLayerAction.setEnabled(app.getSelectedLayer() >= 0);
-		selectCurrentLayerItem.setVisible(app.getSelectedLayer() >= 0);
+		selectCurrentLayerAction.setEnabled(selection.getSelectedLayer() >= 0);
+		selectCurrentLayerItem.setVisible(selection.getSelectedLayer() >= 0);
 		
-		boolean haveSelection = !app.getSelectedGeos().isEmpty();
+		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		invertAction.setEnabled(haveSelection);
 		invertItem.setVisible(haveSelection);
 		selectAllDescendantsAction.setEnabled(haveSelection);

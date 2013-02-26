@@ -900,7 +900,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 * @return an array with the names of all selected objects.
 	 */
 	public synchronized String [] getSelectedObjectNames() {			
-		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+		ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
 		String [] selObjNames = new String[selGeos.size()];
 		
 		for (int i=0; i < selGeos.size(); i++) {

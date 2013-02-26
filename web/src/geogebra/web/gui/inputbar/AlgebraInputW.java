@@ -173,7 +173,7 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	public void onFocus(FocusEvent event) {
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
-		app.clearSelectedGeos();
+		app.getSelectionManager().clearSelectedGeos();
     }
 	
 	public void onBlur(BlurEvent event) {

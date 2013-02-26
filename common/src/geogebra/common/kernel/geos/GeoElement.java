@@ -3167,7 +3167,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// remove from selection
 		if (isSelected()) {
 			//prevent update selection if construction will replace the geo
-			app.removeSelectedGeo(this, false, !cons.isRemovingGeoToReplaceIt());
+			app.getSelectionManager().removeSelectedGeo(this, false, !cons.isRemovingGeoToReplaceIt());
 		}
 
 		// notify views before we change labelSet

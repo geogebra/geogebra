@@ -2526,22 +2526,19 @@ public class GuiManagerD extends GuiManager {
 		if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
 
 			// show or focus the probability calculator
-			if (app.getGuiManager() != null) {
-				if (app.getGuiManager().showView(
-						App.VIEW_PROBABILITY_CALCULATOR)) {
-					((LayoutD) app.getGuiManager()
-							.getLayout())
+				if (showView(App.VIEW_PROBABILITY_CALCULATOR)) {
+					this
+							.getLayout()
 							.getDockManager()
 							.setFocusedPanel(
 									App.VIEW_PROBABILITY_CALCULATOR);
 				} else {
-					app.getGuiManager().setShowView(true,
+					setShowView(true,
 							App.VIEW_PROBABILITY_CALCULATOR);
 					probCalculator.setProbabilityCalculator(
 							DIST.NORMAL, null,
 							false);
 				}
-			}
 
 			// nothing more to do, so reset to move mode
 			app.setMoveMode();
@@ -2552,19 +2549,19 @@ public class GuiManagerD extends GuiManager {
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-			if(app.getSelectedGeos() != null){
-				for(GeoElement geo : app.getSelectedGeos()){
+			if(app.getSelectionManager().getSelectedGeos() != null){
+				for(GeoElement geo : app.getSelectionManager().getSelectedGeos()){
 					temp.add(geo);
 				}
 			}
 			
 			if (app.getGuiManager() != null) {
-				app.getGuiManager().getDialogManager().showDataSourceDialog(mode, true);
+				app.getDialogManager().showDataSourceDialog(mode, true);
 				app.setMoveMode();
 			}
 			
 			// reselect the geos
-			app.setSelectedGeos(temp);
+			app.getSelectionManager().setSelectedGeos(temp);
 		}
 
 		setModeFinished = true;
@@ -3003,7 +3000,7 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void showGraphicExport() {
-		app.clearSelectedGeos(true,false);
+		app.getSelectionManager().clearSelectedGeos(true,false);
 		app.updateSelection(false);
 
 		JDialog d = new geogebra.export.GraphicExportDialog(app);
@@ -3021,7 +3018,7 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void showWebpageExport() {
-		app.clearSelectedGeos(true,false);
+		app.getSelectionManager().clearSelectedGeos(true,false);
 		app.updateSelection(false);
 		geogebra.export.WorksheetExportDialog d = new geogebra.export.WorksheetExportDialog(
 				app);

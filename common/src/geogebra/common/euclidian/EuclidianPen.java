@@ -229,7 +229,7 @@ public class EuclidianPen {
 			
 		// if a PolyLine is selected, we can append to it.
 
-		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+		ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
 
 		if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
 			lastAlgo = selGeos.get(0).getParentAlgorithm();
@@ -663,8 +663,8 @@ public class EuclidianPen {
 		poly.setObjColor(penColor);
 		poly.setLayer(1);
 		
-		app.clearSelectedGeos(false);
-		app.addSelectedGeo(poly);
+		app.getSelectionManager().clearSelectedGeos(false);
+		app.getSelectionManager().addSelectedGeo(poly);
 		
 		//app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]", false);
 

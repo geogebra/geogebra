@@ -21,6 +21,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.SelectionManager;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.main.AppWeb;
@@ -68,6 +69,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	GeoElement geo;
 	Kernel kernel;
 	AppWeb app;
+	SelectionManager selection; 
 	AlgebraView av;
 	boolean previouslyChecked;
 	boolean LaTeX = false;
@@ -373,7 +375,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			return;
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		app.clearSelectedGeos();
+		selection.clearSelectedGeos();
 		ev.resetMode();
 		if (geo != null && !evt.isControlKeyDown()) {
 			av.startEditing(geo, evt.isShiftKeyDown());
@@ -398,13 +400,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			(mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
 			// update selection	
 			if (geo == null){
-				app.clearSelectedGeos();
+				selection.clearSelectedGeos();
 			}
 			else {					
 				// handle selecting geo
 				if (evt.isControlKeyDown()) {
-					app.toggleSelectedGeo(geo); 													
-					if (app.getSelectedGeos().contains(geo)) av.setLastSelectedGeo(geo);
+					selection.toggleSelectedGeo(geo); 													
+					if (selection.getSelectedGeos().contains(geo)) av.setLastSelectedGeo(geo);
 				} else if (evt.isShiftKeyDown() && av.getLastSelectedGeo() != null) {
 					boolean nowSelecting = true;
 					boolean selecting = false;
@@ -427,8 +429,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 								if (!direction && geo2.equals(geo)) selecting = !selecting;
 
 								if (selecting) {
-									app.toggleSelectedGeo(geo2);
-									nowSelecting = app.getSelectedGeos().contains(geo2);
+									selection.toggleSelectedGeo(geo2);
+									nowSelecting = selection.getSelectedGeos().contains(geo2);
 								}
 								if (!direction && geo2.equals(av.getLastSelectedGeo())) selecting = !selecting;
 								if (direction && geo2.equals(geo)) selecting = !selecting;
@@ -437,15 +439,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					}
 
 					if (nowSelecting) {
-						app.addSelectedGeo(geo); 
+						selection.addSelectedGeo(geo); 
 						av.setLastSelectedGeo(geo);
 					} else {
-						app.removeSelectedGeo(av.getLastSelectedGeo());
+						selection.removeSelectedGeo(av.getLastSelectedGeo());
 						av.setLastSelectedGeo(null);
 					}
 				} else {							
-					app.clearSelectedGeos(false); //repaint will be done next step
-					app.addSelectedGeo(geo);
+					selection.clearSelectedGeos(false); //repaint will be done next step
+					selection.addSelectedGeo(geo);
 					av.setLastSelectedGeo(geo);
 				}
 			}

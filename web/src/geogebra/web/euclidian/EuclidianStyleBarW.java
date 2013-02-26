@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GColorW;
 import geogebra.web.awt.GDimensionW;
@@ -224,7 +225,8 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		if (mode == EuclidianConstants.MODE_MOVE) {
 
 			boolean hasGeosInThisView = false;
-			for (GeoElement geo : ((AppW) ev.getApplication())
+			SelectionManager selection = ev.getApplication().getSelectionManager();
+			for (GeoElement geo : selection
 					.getSelectedGeos()) {
 				if (isVisibleInThisView(geo) && geo.isEuclidianVisible() && !geo.isAxis()) {
 					hasGeosInThisView = true;
@@ -238,7 +240,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				}
 			}
 			if (hasGeosInThisView) {
-				activeGeoList = ((AppW) ev.getApplication())
+				activeGeoList = selection
 						.getSelectedGeos();
 
 				// we also update stylebars according to just created geos
@@ -1236,7 +1238,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	    if (mode != EuclidianConstants.MODE_MOVE)
 	    	targetGeos.addAll(defaultGeos);
 	    else
-	    	targetGeos.addAll(app.getSelectedGeos());
+	    	targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
 
 	    processSource(source, targetGeos);
 

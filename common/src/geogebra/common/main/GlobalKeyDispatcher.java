@@ -26,6 +26,11 @@ import java.util.TreeSet;
  */
 public abstract class GlobalKeyDispatcher {
 
+	public GlobalKeyDispatcher(App app2) {
+		this.app = app2;
+		this.selection = app.getSelectionManager();
+	}
+
 	/**
 	 * Handle Fx keys for input bar when geo is selected
 	 * @param i x when Fx is pressed
@@ -33,7 +38,8 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public abstract void handleFunctionKeyForAlgebraInput(int i, GeoElement geo);
 	/** application */
-	protected App app;
+	protected final App app;
+	protected final SelectionManager selection;
 
 	private TreeSet<AlgoElement> tempSet;
 	/**
@@ -149,7 +155,7 @@ public abstract class GlobalKeyDispatcher {
 			// check not spreadsheet
 			if (!fromSpreadsheet) {
 
-				ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+				ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 				if (selGeos.size() == 1) {
 					if (selGeos.get(0).isGeoBoolean()) {
 						GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
@@ -287,7 +293,7 @@ public abstract class GlobalKeyDispatcher {
 						consumed = true;
 					}
 				} else {
-					app.selectAll(-1);
+					selection.selectAll(-1);
 					consumed = true;
 				}
 				break;
@@ -315,7 +321,7 @@ public abstract class GlobalKeyDispatcher {
 					}
 				}  else 
 					{
-						app.selectAll(app.getSelectedLayer());
+						selection.selectAll(selection.getSelectedLayer());
 						consumed = true;					
 				}
 				break;
@@ -356,7 +362,7 @@ public abstract class GlobalKeyDispatcher {
 
 			case I: // Edit -> Invert Selection
 				if (!isShiftDown) {
-					app.invertSelection();
+					selection.invertSelection();
 					consumed = true;
 				}
 				break;
@@ -388,9 +394,9 @@ public abstract class GlobalKeyDispatcher {
 			case G:
 			case H:
 				if (isShiftDown)
-					app.showHideSelectionLabels();
+					selection.showHideSelectionLabels();
 				else
-					app.showHideSelection();
+					selection.showHideSelection();
 				consumed = true;
 				break;
 
@@ -497,9 +503,9 @@ public abstract class GlobalKeyDispatcher {
 			case J:
 			case Q:
 				if (isShiftDown)
-					app.selectAllDescendants();
+					selection.selectAllDescendants();
 				else
-					app.selectAllPredecessors();
+					selection.selectAllPredecessors();
 				consumed = true;
 				break;
 
@@ -582,7 +588,7 @@ public abstract class GlobalKeyDispatcher {
 	protected void handleCtrlC() {
 		// Copy selected geos
 		app.setWaitCursor();
-		CopyPaste.copyToXML(app, app.getSelectedGeos());
+		CopyPaste.copyToXML(app, selection.getSelectedGeos());
 		app.updateMenubar();
 		app.setDefaultCursor();	
 	}
@@ -594,9 +600,9 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isShiftDown) {
-			app.selectLastGeo();
+			selection.selectLastGeo(app.getActiveEuclidianView());
 		} else {
-			app.selectNextGeo();
+			selection.selectNextGeo(app.getActiveEuclidianView());
 		}
 		
 		return true;
@@ -650,13 +656,13 @@ public abstract class GlobalKeyDispatcher {
 
 		// apply styles to to selected or all geos
 		Iterator<GeoElement> it = null;
-		if (app.getSelectedGeos().size() == 0) {
+		if (app.getSelectionManager().getSelectedGeos().size() == 0) {
 			// change all geos
 			it = app.getKernel().getConstruction().getGeoSetConstructionOrder()
 					.iterator();
 		} else {
 			// just change selected geos
-			it = app.getSelectedGeos().iterator();
+			it = app.getSelectionManager().getSelectedGeos().iterator();
 		}
 		while (it.hasNext()) {
 			GeoElement geo = it.next();

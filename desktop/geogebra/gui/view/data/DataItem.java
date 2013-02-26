@@ -358,7 +358,7 @@ public class DataItem {
 		case LIST:
 			
 			if (doCopy) {
-				list = dependentListCopy(app, getGeoList());
+				list = dependentListCopy(cons, getGeoList());
 			}else{
 				list = getGeoList();
 			}
@@ -473,9 +473,8 @@ public class DataItem {
 
 	}
 
-	private static GeoList dependentListCopy(App app, GeoList geoList) {
+	private static GeoList dependentListCopy(Construction cons, GeoList geoList) {
 
-		Construction cons = app.getKernel().getConstruction();
 		ArrayList<GeoElement> copyList = new ArrayList<GeoElement>();
 
 		for (int i = 0; i < geoList.size(); i++) {

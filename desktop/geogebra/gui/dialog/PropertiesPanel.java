@@ -7548,7 +7548,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				if (defInputHandler.processInput(strDefinition)) {
 					// if succeeded, switch current geo
 					currentGeo = defInputHandler.getGeoElement();
-					app.addSelectedGeo(currentGeo);
+					app.getSelectionManager().addSelectedGeo(currentGeo);
 				} else
 					redefinitionFailed = true;
 

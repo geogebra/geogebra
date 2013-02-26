@@ -298,7 +298,7 @@ public class PropertiesViewD extends
 				setOptionPanel(type);
 			
 			//here necessary no object is selected
-			updateObjectPanelSelection(app.getSelectedGeos());
+			updateObjectPanelSelection(app.getSelectionManager().getSelectedGeos());
 		}
 
 	}
@@ -321,10 +321,10 @@ public class PropertiesViewD extends
 
 		GeoElement geo = objectPanel.consumeGeoAdded();
 
-		// AbstractApplication.debug("\ngeo="+geo+"\nsel0="+app.getSelectedGeos().get(0));
-		if (app.getSelectedGeos().size() > 0) // selected geo is the most
-												// important
-			updatePropertiesViewCheckConstants(app.getSelectedGeos());
+		if (app.getSelectionManager().selectedGeosSize() > 0){
+			// selected geo is the most important
+			updatePropertiesViewCheckConstants(app.getSelectionManager().getSelectedGeos());
+		}
 		else if (geo != null) { // last created geo
 			if (creatorMode) { // if euclidian view is e.g. in move mode, then
 								// geo was created by a script, so just show
@@ -351,12 +351,12 @@ public class PropertiesViewD extends
 	@Override
 	public void setOptionPanel(OptionType type) {
 		
-		ArrayList<GeoElement> geos = removeAllConstants(app.getSelectedGeos());
+		ArrayList<GeoElement> geos = removeAllConstants(app.getSelectionManager().getSelectedGeos());
 		
 		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
 											// selected		
 			if (geos.size() == 0){
-				GeoElement geo = app.setFirstGeoSelectedForPropertiesView();
+				GeoElement geo = app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
 				if (geo==null){ 
 					//does nothing: stay in same panel
 					return;
@@ -788,7 +788,7 @@ public class PropertiesViewD extends
 		if (!isShowing())
 			return;
 		
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectionManager().getSelectedGeos();
 
 		if (geos.size() == 0)
 			setObjectPanel(geos);
@@ -823,9 +823,9 @@ public class PropertiesViewD extends
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
 
 		if (geos.size() == 0){
-			app.setFirstGeoSelectedForPropertiesView();
+			app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
 
-			GeoElement geo = app.setFirstGeoSelectedForPropertiesView();
+			GeoElement geo = app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
 			if (geo==null){ 
 				//if no first geo, close properties view if object panel visible
 				if (selectedOptionType==OptionType.OBJECTS)

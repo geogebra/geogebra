@@ -70,7 +70,7 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 		//EuclidianView ev = app.getEuclidianView();
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		if (clicks == 2) {										
-			app.clearSelectedGeos();
+			selection.clearSelectedGeos();
 			ev.resetMode();
 			if (geo != null && !e.isControlDown()) {
 				view.startEditing(geo, e.isShiftDown());
@@ -82,13 +82,13 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 		if (!skipSelection && (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
 			// update selection	
 			if (geo == null){
-				app.clearSelectedGeos();
+				selection.clearSelectedGeos();
 			}
 			else {					
 				// handle selecting geo
 				if (e.isControlDown()) {
-					app.toggleSelectedGeo(geo); 													
-					if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
+					selection.toggleSelectedGeo(geo); 													
+					if (selection.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {
 					boolean nowSelecting = true;
 					boolean selecting = false;
@@ -113,8 +113,8 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 								if (!direction && geo2.equals(geo)) selecting = !selecting;
 
 								if (selecting) {
-									app.toggleSelectedGeo(geo2);
-									nowSelecting = app.getSelectedGeos().contains(geo2);
+									selection.toggleSelectedGeo(geo2);
+									nowSelecting = selection.getSelectedGeos().contains(geo2);
 								}
 
 								if (!direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
@@ -124,16 +124,16 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 					}
 
 					if (nowSelecting) {
-						app.addSelectedGeo(geo); 
+						selection.addSelectedGeo(geo); 
 						lastSelectedGeo = geo;
 					} else {
-						app.removeSelectedGeo(lastSelectedGeo);
+						selection.removeSelectedGeo(lastSelectedGeo);
 						lastSelectedGeo = null;
 					}
 
 				} else {							
-					app.clearSelectedGeos(false); //repaint will be done next step
-					app.addSelectedGeo(geo);
+					selection.clearSelectedGeos(false); //repaint will be done next step
+					selection.addSelectedGeo(geo);
 					lastSelectedGeo = geo;
 				}
 			}
@@ -170,12 +170,12 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 			Object tp = view.getPathForLocation(e.getX(), e.getY());
 			GeoElement geo = view.getGeoElementForPath(tp);
 
-			if (geo != null && !app.containsSelectedGeo(geo)) {
-				app.clearSelectedGeos();					
+			if (geo != null && !selection.containsSelectedGeo(geo)) {
+				selection.clearSelectedGeos();					
 			}
 
 			// single selection: popup menu
-			if (app.selectedGeosSize() < 2) {
+			if (selection.selectedGeosSize() < 2) {
 				/*
 				if(geo == null) {
 					AlgebraContextMenu contextMenu = new AlgebraContextMenu(app);
@@ -190,7 +190,7 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 			// multiple selection: popup menu (several geos)
 			else {
 				if(geo != null) {
-					//app.getGuiManager().showPopupMenu(app.getSelectedGeos(), view, mouseCoords);
+					//app.getGuiManager().showPopupMenu(selection.getSelectedGeos(), view, mouseCoords);
 				}
 			}	
 
@@ -214,10 +214,10 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 
 			if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
 					!e.isControlDown() && !e.isShiftDown() 
-					&& geo != null  && !app.containsSelectedGeo(geo)) 
+					&& geo != null  && !selection.containsSelectedGeo(geo)) 
 			{					
-				app.clearSelectedGeos(false); //repaint will be done next step
-				app.addSelectedGeo(geo);
+				selection.clearSelectedGeos(false); //repaint will be done next step
+				selection.addSelectedGeo(geo);
 				lastSelectedGeo = geo;
 				skipSelection = true;
 			} 

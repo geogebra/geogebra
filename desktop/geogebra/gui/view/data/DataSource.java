@@ -4,8 +4,8 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.GeoClass;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
@@ -23,7 +23,8 @@ public class DataSource {
 	private static final long serialVersionUID = 1L;
 
 	private GroupType defaultGroupType = GroupType.RAWDATA;
-	private AppD app;
+	private final AppD app;
+	private final SelectionManager selection;
 
 	private ArrayList<DataVariable> dataList;
 	private int selectedIndex;
@@ -37,6 +38,7 @@ public class DataSource {
 	 */
 	public DataSource(AppD app) {
 		this.app = app;
+		this.selection = app.getSelectionManager();
 		dataList = new ArrayList<DataVariable>();
 		selectedIndex = 0;
 	}
@@ -144,7 +146,7 @@ public class DataSource {
 	}
 
 	private MyTableD spreadsheetTable() {
-		return (MyTableD) ((GuiManagerD) app.getGuiManager())
+		return (MyTableD) app.getGuiManager()
 				.getSpreadsheetView().getSpreadsheetTable();
 	}
 
@@ -180,11 +182,11 @@ public class DataSource {
 	 */
 	private DataItem createDataItemFromGeoSelection() {
 
-		if (app.getSelectedGeos() == null || app.getSelectedGeos().size() == 0) {
+		if (selection.getSelectedGeos() == null || selection.getSelectedGeos().size() == 0) {
 			return null;
 		}
 
-		GeoElement geo = app.getSelectedGeos().get(0);
+		GeoElement geo = selection.getSelectedGeos().get(0);
 
 		if (geo.isGeoList()) {
 			return new DataItem((GeoList) geo);
@@ -368,14 +370,14 @@ public class DataSource {
 
 		dataList.clear();
 
-		if (app.getSelectedGeos() == null || app.getSelectedGeos().size() == 0) {
+		if (selection.getSelectedGeos() == null || selection.getSelectedGeos().size() == 0) {
 			return;
 		}
 
 		try {
 			// if the first selected geo is a spreadsheet cell then use the
 			// spreadsheet's selected cell range list
-			if (app.getSelectedGeos().get(0).getSpreadsheetCoords() != null) {
+			if (selection.getSelectedGeos().get(0).getSpreadsheetCoords() != null) {
 				setDataListFromSpreadsheet(mode, defaultGroupType);
 
 			} else {
@@ -398,7 +400,7 @@ public class DataSource {
 
 		// create a list of GeoLists from the selected elements
 		ArrayList<GeoList> list = new ArrayList<GeoList>();
-		for (GeoElement geo : app.getSelectedGeos()) {
+		for (GeoElement geo : selection.getSelectedGeos()) {
 			if (geo.isGeoList() && !((GeoList) geo).isMatrix()) {
 				list.add((GeoList) geo);
 			}
