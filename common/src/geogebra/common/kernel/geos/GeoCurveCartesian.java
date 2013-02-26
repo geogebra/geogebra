@@ -34,7 +34,6 @@ import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -582,7 +581,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					sbTemp.append(kernel.format(endParam, tpl));
 				}
 			}
-			App.debug(sbTemp.toString());
 			return sbTemp.toString();
 		}
 		return app.getPlain("Undefined");
