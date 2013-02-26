@@ -231,6 +231,8 @@ public class AppW extends AppWeb {
 		initCoreObjects(undoActive, this);
 
 		// initing = true;
+		
+		removeDefaultContextMenu();
 	}
 
 	public AppW(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
@@ -367,6 +369,22 @@ public class AppW extends AppWeb {
 		return frame;
 	}
 
+	public static native void removeDefaultContextMenu() /*-{
+		//var canvaselement = $doc.querySelectorAll("canvas");
+		
+		if ($doc.addEventListener) {
+			$doc.addEventListener('contextmenu', function(e) {
+				e.preventDefault();
+			}, false);
+		} else {
+			$doc.attachEvent('oncontextmenu', function() {
+				window.event.returnValue = false;
+			});
+		}
+	}-*/;
+
+	
+	
 	/**
 	 * Opens the image file
 	 * 
