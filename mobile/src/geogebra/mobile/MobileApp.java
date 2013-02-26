@@ -97,8 +97,7 @@ public class MobileApp extends AppWeb
 	 */
 	public void start()
 	{
-
-		this.kernel = new Kernel(MobileApp.this);
+		initKernel(); 
 		
 		this.mobileGUI.initComponents(this.kernel);
 		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();

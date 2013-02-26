@@ -98,11 +98,12 @@ public class MobileModel
 		geo.setSelected(true);
 		this.selectedElements.add(geo);
 	}
+	
 	/**
 	 * selects the given element or deselects it in case it is selected
 	 * 
 	 * @param geo
-	 *            the element to be selected
+	 *            the element to be selected or deselected
 	 */
 	public void changeSelectionState(GeoElement geo)
 	{
@@ -141,7 +142,7 @@ public class MobileModel
 		{
 			if (i < h.size())
 			{
-				select(h.get(i));
+				changeSelectionState(h.get(i));
 				success = true;
 			}
 		}
@@ -168,7 +169,7 @@ public class MobileModel
 			hits.getHits(geoclass[i], h);
 			if (h.size() > 0)
 			{
-				select(h.get(0));
+				changeSelectionState(h.get(0));
 				return true;
 			}
 		}
@@ -438,7 +439,7 @@ public class MobileModel
 		case ReflectObjectAboutLine:
 			if (!select(hits, Test.GEOLINE, 1) && hits.size() > 0)
 			{
-				select(hits.get(0));
+				changeSelectionState(hits.get(0));
 			}
 			draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
 			break;
@@ -455,7 +456,7 @@ public class MobileModel
 		case ReflectObjectAboutPoint:
 			if (!select(hits, Test.GEOPOINT, 1) && hits.size() > 0)
 			{
-				select(hits.get(0));
+				changeSelectionState(hits.get(0));
 			}
 			draw = getNumberOf(Test.GEOPOINT) >= 1 && getTotalNumber() >= 2;
 			break;
@@ -464,7 +465,7 @@ public class MobileModel
 		case TranslateObjectByVector:
 			if (!select(hits, Test.GEOVECTOR, 1) && hits.size() > 0)
 			{
-				select(hits.get(0));
+				changeSelectionState(hits.get(0));
 			}
 			draw = getNumberOf(Test.GEOVECTOR) >= 1 && getTotalNumber() >= 2;
 			break;
@@ -584,7 +585,7 @@ public class MobileModel
 					}
 				} else
 				{
-					select(geo);
+					changeSelectionState(geo);
 				}
 			}
 			this.changeColorAllowed = true;
@@ -976,21 +977,21 @@ public class MobileModel
 			{
 				this.kernel.getAlgoDispatcher().detach(point, view);
 				resetSelection();
-				select(point);
+				changeSelectionState(point);
 				this.commandFinished = true;
 			} else if (region != null) // attach to region
 			{
 				this.kernel.getAlgoDispatcher().attach(point, region, view,
 						p.getX(), p.getY());
 				resetSelection();
-				select(point);
+				changeSelectionState(point);
 				this.commandFinished = true;
 			} else if (path != null) // attach to path
 			{
 				this.kernel.getAlgoDispatcher().attach(point, path, view,
 						p.getX(), p.getY());
 				resetSelection();
-				select(point);
+				changeSelectionState(point);
 				this.commandFinished = true;
 			}
 		}
