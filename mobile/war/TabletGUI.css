@@ -180,6 +180,10 @@ div.mgwt-BarButton-active {
 	top: 0px;
 }
 
+.evAVpanel {
+	position: absolute;
+}
+
 /* NOT USED */
 .headerpanel {
 	position: static;
