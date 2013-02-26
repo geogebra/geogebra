@@ -269,7 +269,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 			setAxesColor(geogebra.common.awt.GColor.black);
 		}
 		((DrawEquationWeb)this.app.getDrawEquation()).clearLaTeXes(this);    	
-		updateSize();
 		paint(this.g2p);
 		
 	}
