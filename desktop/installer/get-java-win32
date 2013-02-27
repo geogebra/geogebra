@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Set this manually when there is a new Java version available.
+BundleId=74781
+JREDIR=jre7
+
+DIR=jre/win32/$BundleId
+EXE=$DIR/install-java.exe
+LOG=$DIR/.install-java.exe.log
+JAVADIR=jre/win32/jre
+
+mkdir -p $DIR
+
+test -r $EXE || \
+ wget -O $EXE http://javadl.sun.com/webapps/download/AutoDL?BundleId=$BundleId
+test -d $DIR/$JREDIR || {
+ if [ "$WINEPREFIX" = "" ]; then
+  WINEPREFIX=$HOME/.wine
+  fi
+ rm -fR $WINEPREFIX
+ wine $EXE /s > $LOG 2>&1
+ mv "$WINEPREFIX/drive_c/Program Files (x86)/Java/$JREDIR" $DIR
+ rm -f $JAVADIR
+ cd jre/win32
+ ln -s $BundleId/$JREDIR jre
+ }
