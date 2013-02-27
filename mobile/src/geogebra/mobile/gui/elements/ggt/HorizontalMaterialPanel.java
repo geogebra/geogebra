@@ -6,7 +6,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+
 
 public class HorizontalMaterialPanel extends ScrollPanel
 {
@@ -15,8 +16,8 @@ public class HorizontalMaterialPanel extends ScrollPanel
 	public HorizontalMaterialPanel()
 	{
 		this.setWidth(Window.getClientWidth() + "px");
-		this.setScrollingEnabledX(true);
-		this.setScrollingEnabledY(false);
+		
+		this.setTouchScrollingDisabled(false);
 
 		this.horizontalPanel = new HorizontalPanel();
 		this.horizontalPanel.setWidth("100%");

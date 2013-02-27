@@ -5,8 +5,8 @@ import geogebra.mobile.utils.ggtapi.Material;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 
 public class VerticalMaterialPanel extends ScrollPanel
 {
@@ -14,12 +14,12 @@ public class VerticalMaterialPanel extends ScrollPanel
 
 	public VerticalMaterialPanel()
 	{
-		this.impl.setHeight(Window.getClientHeight() - 250 + "px");
-		this.setScrollingEnabledX(false);
-		this.setScrollingEnabledY(true);
+		this.setHeight(Window.getClientHeight() - 250 + "px");
+		this.setTouchScrollingDisabled(false);
+		this.getElement().setAttribute("align", "center");
 
 		this.verticalPanel = new VerticalPanel();
-		this.verticalPanel.setHeight(Window.getClientHeight() - 250 + "px");
+		this.verticalPanel.setHeight("100%");
 		this.setWidget(this.verticalPanel);
 	}
 
@@ -30,7 +30,6 @@ public class VerticalMaterialPanel extends ScrollPanel
 		for (Material m : materials)
 		{
 			MaterialListElement searchResult = new MaterialListElement(m);
-
 			this.verticalPanel.add(searchResult);
 		}
 	}

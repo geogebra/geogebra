@@ -4,7 +4,6 @@ import geogebra.mobile.utils.ggtapi.Material;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.TextOverflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -35,6 +34,7 @@ public class MaterialListElement extends HorizontalPanel
 
 	public MaterialListElement(Material m)
 	{
+		// TODO set infos alignment 
 		this.image = new SimplePanel();
 		this.infos = new VerticalPanel();
 		this.infos.setSpacing(5);
@@ -45,8 +45,9 @@ public class MaterialListElement extends HorizontalPanel
 		// TODO Change to icon
 		this.open = new Button("OPEN");
 
-		this.setWidth(Window.getClientWidth() + "px");
 		this.setHeight(PANEL_HEIGHT);
+		this.setWidth(Window.getClientWidth() - 100 + "px");
+
 		this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.InfoBackground);
 		this.getElement().getStyle().setBorderColor(GeoGebraTubeStyle.BorderColor);
 		this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
@@ -62,7 +63,6 @@ public class MaterialListElement extends HorizontalPanel
 
 		this.title = new Label(m.getTitle());
 		this.infos.add(this.title);
-		this.title.getElement().getStyle().setTextOverflow(TextOverflow.ELLIPSIS);
 		this.title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.title.getElement().getStyle().setColor(GeoGebraTubeStyle.TitleColor);
 
@@ -85,7 +85,6 @@ public class MaterialListElement extends HorizontalPanel
 		this.likesPanel.add(this.likeIcon);
 		this.likesPanel.setCellVerticalAlignment(this.likeIcon, HasVerticalAlignment.ALIGN_MIDDLE);
 		this.likesPanel.setSpacing(5);
-		this.likeIcon.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		this.likeIcon.setSize("12px", "11px");
 
 		this.likes = new Label(String.valueOf(m.getLikes()));
@@ -93,10 +92,9 @@ public class MaterialListElement extends HorizontalPanel
 		this.likes.getElement().getStyle().setColor(GeoGebraTubeStyle.TextColor);
 		this.infos.add(this.likesPanel);
 		this.add(this.infos);
-		this.infos.setSize(Window.getClientWidth() - 200 + "px", PANEL_HEIGHT);
 
 		this.links.add(this.open);
-		this.links.setCellVerticalAlignment(this.open, HasVerticalAlignment.ALIGN_MIDDLE);
+		this.links.getElement().setAttribute("align", "right");
 		this.open.addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -109,8 +107,7 @@ public class MaterialListElement extends HorizontalPanel
 		}, ClickEvent.getType());
 
 		this.add(this.links);
-		setCellVerticalAlignment(this.links, HasVerticalAlignment.ALIGN_MIDDLE);
-
+	
 		this.addDomHandler(new ClickHandler()
 		{
 			@Override
