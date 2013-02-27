@@ -1,6 +1,7 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.web.css.GuiResources;
 import geogebra.web.helper.MyGoogleApis;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,9 +10,11 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, DoubleClickHandler {
@@ -29,8 +32,9 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 		this.app = app;
 		add(p = new VerticalPanel());
 		filesPanel = new VerticalPanel();
-		VerticalPanel filesContainer = new VerticalPanel();;
-		filesContainer.addStyleName("filelist");
+		filesPanel.addStyleName("filesPanel");
+		ScrollPanel filesContainer = new ScrollPanel();
+		filesContainer.setSize("500px", "300px");
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
@@ -52,6 +56,8 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 						hide();
 					}
 				});
+		
+		this.
 		center();
 		
 		
@@ -74,7 +80,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
     public void show(){
 	    super.show();
 	    if (MyGoogleApis.loggedIn && MyGoogleApis.driveLoaded) {
-			initTreeItems();
+			initFileNameItems();
 		} else {
 			showEmtpyMessage();
 		}
@@ -89,10 +95,15 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 
 	private void clearFilesPanel() {
 		filesPanel.clear();
+		filesPanel.add(new HTML(GuiResources.INSTANCE.ggbSpinnerHtml().getText()));
+	}
+	
+	private void removeSpinner() {
+		filesPanel.clear();
 	}
 
 
-	private native void initTreeItems() /*-{
+	private native void initFileNameItems() /*-{
 		var fileChooser = this;
 		fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::clearFilesPanel()();
 		function retrieveAllFiles(callback) {
@@ -114,6 +125,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 			  retrievePageOfFiles(initialRequest, []);
 			}
 			retrieveAllFiles(function(resp) {
+				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()()
 				resp.forEach(function(value, index, array) {
 					if (value.mimeType === "application/vnd.geogebra.file") {
 						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl);
