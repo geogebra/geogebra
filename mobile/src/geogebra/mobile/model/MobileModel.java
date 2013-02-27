@@ -595,6 +595,7 @@ public class MobileModel
 			{
 				geo.remove();
 			}
+			this.commandFinished = true; 
 			break;
 
 		default:
@@ -879,6 +880,7 @@ public class MobileModel
 						MobileModel.this.kernel.notifyRepaint();
 						MobileModel.this.guiModel
 								.updateStylingBar(MobileModel.this);
+						MobileModel.this.kernel.storeUndoInfo();
 					}
 				});
 				this.controlClicked = false;
@@ -911,7 +913,7 @@ public class MobileModel
 				{
 					newElements.add(geo);
 				}
-				break;
+				break; 
 			default:
 			}
 
@@ -928,7 +930,6 @@ public class MobileModel
 		}
 
 		this.kernel.setNotifyRepaintActive(true); //includes a repaint
-		//this.kernel.notifyRepaint();
 
 		if (this.commandFinished)
 		{
@@ -996,9 +997,11 @@ public class MobileModel
 			}
 		}
 	}
+	
 	private void stopCollecting(){
 		this.kernel.getApplication().getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
 	}
+	
 	/**
 	 * @see geogebra.web.gui.inputbar.AlgebraInputW#onKeyUp(KeyUpEvent event)
 	 * 

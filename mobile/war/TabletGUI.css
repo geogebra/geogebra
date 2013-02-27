@@ -106,7 +106,10 @@ div.colorSliderPanel {
 }
 
 /*geogebra.mobile.gui.elements.stylingbar.Colors*/
-div.mgwt-Button-colorChoiceButton {
+/* div.mgwt-Button-colorChoiceButton  */
+.colorChoiceButton{
+	margin-top: 0px; 
+	
 	margin-left: 27px;
 	height: 18px;
 	width: 100%;

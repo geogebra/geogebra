@@ -93,7 +93,6 @@ public class EuclidianViewM extends EuclidianViewWeb
     		getEuclidianController().setCollectedRepaints(true);
     		return;
     	}
-		System.out.println("repaint");
 
 		doRepaint();
 	}
