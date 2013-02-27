@@ -25,11 +25,13 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 	Button open;
 	private Button cancel;
 	private VerticalPanel filesPanel;
+	public static GoogleDriveFileChooser INSTANCE = null;
 	
 	
 
 	public GoogleDriveFileChooser(final App app) {
 		this.app = app;
+		GoogleDriveFileChooser.INSTANCE = this;
 		add(p = new VerticalPanel());
 		filesPanel = new VerticalPanel();
 		filesPanel.addStyleName("filesPanel");
@@ -63,15 +65,20 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 		
     }
 	
+	String currentFileName = null;
+	
 	private void initAClickHandler() {
 	   filenameClick = new ClickHandler() {
 		
+		
+
 		public void onClick(ClickEvent event) {
 			for (int i = 0; i < filesPanel.getWidgetCount(); i++) {
 				filesPanel.getWidget(i).removeStyleName("selected");
 			}
 			Anchor a = (Anchor) event.getSource();
 			a.addStyleName("selected");
+			currentFileName = a.getElement().getAttribute("data-param-downloadurl");
 		}
 	};
     }
@@ -129,14 +136,18 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 				resp.forEach(function(value, index, array) {
 					if (value.mimeType === "application/vnd.geogebra.file") {
 						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl);
-						$wnd.console.log(value);
+						//$wnd.console.log(value);
 					}
 				});
 			});
     }-*/;
 
 	public void onClick(ClickEvent event) {
-	    
+	    if (currentFileName != null) {
+	    	clearFilesPanel();
+	    	MyGoogleApis.loadFromGoogleFile(currentFileName);
+	    	//TODO: process descriptors here!
+	    }
     }
 	
 	ClickHandler filenameClick;
@@ -153,8 +164,9 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 	}
 
 	public void onDoubleClick(DoubleClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	    Anchor a = (Anchor) event.getSource();
+	    currentFileName = a.getElement().getAttribute("data-param-downloadurl");
+	    this.open.click();
     }
 
 }

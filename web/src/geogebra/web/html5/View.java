@@ -2,6 +2,7 @@ package geogebra.web.html5;
 
 import geogebra.common.main.App;
 import geogebra.web.Web;
+import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
@@ -111,6 +112,9 @@ public class View extends Widget {
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
 		App.debug("file loaded");
+		if (GoogleDriveFileChooser.INSTANCE != null) {
+			GoogleDriveFileChooser.INSTANCE.hide();
+		}
 		
 	}
 

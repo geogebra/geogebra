@@ -3,6 +3,7 @@ package geogebra.web.helper;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.web.Web;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
@@ -170,9 +171,7 @@ public class MyGoogleApis {
 	}
 
 	public native static void loadGoogleDrive() /*-{
-		$wnd.console.log("api loaded");
 	    $wnd.gapi.client.load('drive', 'v2', function() {
-	     $wnd.console.log("drive loaded");
 	     @geogebra.web.helper.MyGoogleApis::driveLoaded = true;
         });
     }-*/;
@@ -213,6 +212,36 @@ public class MyGoogleApis {
 	public static native void clearAllTokens() /*-{
 	    @geogebra.web.helper.MyGoogleApis::firstLogin = false;
 	    @geogebra.web.helper.MyGoogleApis::loggedIn = false;
+    }-*/;
+	
+	private static void processGoogleDriveFileContent(String base64) {
+		GeoGebraAppFrame.fileLoader.process(base64);
+	}
+
+	public static native void loadFromGoogleFile(String currentFileName) /*-{
+		
+		
+		function downloadFile(downloadUrl, callback) {
+		  if (downloadUrl) {
+		    var accessToken = $wnd.gapi.auth.getToken().access_token;
+		    var xhr = new $wnd.XMLHttpRequest();
+		    xhr.open('GET', downloadUrl);
+		    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+		    xhr.onload = function() {
+		      callback(xhr.responseText);
+		    };
+		    xhr.onerror = function() {
+		      callback(null);
+		    };
+		    xhr.send();
+		  } else {
+		    callback(null);
+		  }
+		}
+		
+		downloadFile(currentFileName,function (base64) {
+			@geogebra.web.helper.MyGoogleApis::processGoogleDriveFileContent(Ljava/lang/String;)(base64);
+		});
     }-*/;
 
 }
