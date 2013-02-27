@@ -360,7 +360,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 					OpenSaveDialog.this.openCallback.onOpen();
 					OpenSaveDialog.this.close();
 				}
-				else
+				else if( OpenSaveDialog.this.openCallback != null)
 				{
 					OpenSaveDialog.this.openCallback.onCancel();
 				}
@@ -396,7 +396,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 				{
 					OpenSaveDialog.this.saveCallback.onSave();
 				}
-				else
+				else if(OpenSaveDialog.this.saveCallback != null)
 				{
 					OpenSaveDialog.this.saveCallback.onCancel();
 				}
