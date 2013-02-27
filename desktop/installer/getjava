@@ -1,0 +1,3 @@
+#!/bin/sh
+wget -O install-java.exe http://javadl.sun.com/webapps/download/AutoDL?BundleId=74781
+wine install-java.exe
