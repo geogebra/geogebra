@@ -232,7 +232,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 					hasGeosInThisView = true;
 					break;
 				}
-			}
+			}	
 			for (GeoElement geo : ec.getJustCreatedGeos()) {
 				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
 					hasGeosInThisView = true;

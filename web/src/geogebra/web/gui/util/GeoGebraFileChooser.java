@@ -99,7 +99,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 			}
 				
 		});
-	    save.setEnabled(!((AppW)app).getNativeEmailSet().equals(""));
+	    save.setEnabled(MyGoogleApis.signedInToGoogle());
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
@@ -119,7 +119,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
-				save.setEnabled(!((AppW)app).getNativeEmailSet().equals(""));
+				save.setEnabled(MyGoogleApis.signedInToGoogle());
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
 				description.setEnabled(true);
@@ -152,6 +152,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 		// It creates new ggb file all time for download, all time when the
 		// dialog opens.
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
+		save.setEnabled(MyGoogleApis.signedInToGoogle());
 	    super.show();
 	}
 	
@@ -171,5 +172,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 	public void setDescription(String ds) {
 		description.setText(ds);
 	}
+	
+	
 
 }

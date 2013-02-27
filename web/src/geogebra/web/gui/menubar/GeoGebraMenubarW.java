@@ -14,7 +14,6 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -29,8 +28,8 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class GeoGebraMenubarW extends MenuBar {
 	
 	
-		private AppW app;
-		private FileMenuW fileMenu;
+		private static AppW app;
+		private static FileMenuW fileMenu;
 		private EditMenuW editMenu;
 		private HelpMenuW helpMenu;
 		private OptionsMenuW optionsMenu;
@@ -78,23 +77,23 @@ public class GeoGebraMenubarW extends MenuBar {
 			
 			Command c = null;
 			String menuHtml = "";
-			/*reserve for later, when we will have client side Oauth
-			if (signedInToGoogle()) {
+			/*reserve for later, when we will have client side Oauth*/
+			if (MyGoogleApis.signedInToGoogle()) {
 				c = createCommandForSignedIn();
 				//will be handled by callback
 				createMenuHtmlForSignedIn();
 			} else {
 				c = createCommandForNotSignedIn();
 				menuHtml = createMenuHtmlForNotSignedIn();
-			}*/
-			String email = ((AppW)app).getNativeEmailSet();
+			}
+			/*String email = ((AppW)app).getNativeEmailSet();
 			if (email.equals("")) {
 				c = createLoginCommand();
 				menuHtml = getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("Login"));
 			} else {
 				menuHtml =  getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email);
 				c = createLogOutCommand();
-			}
+			}*/
 			
 	        loginToGoogle = addItem(menuHtml,true,c);
 	        loginToGoogle.addStyleName("logintogoogle");
@@ -120,9 +119,9 @@ public class GeoGebraMenubarW extends MenuBar {
 			};
         }
 
-		String createMenuHtmlForNotSignedIn() {
+		static String createMenuHtmlForNotSignedIn() {
 	        return getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString()
-	        		, "Login to Google");
+	        		, app.getMenu("Login"));
         }
 		
 		private native String getNativeEmailSet() /*-{
@@ -146,7 +145,7 @@ public class GeoGebraMenubarW extends MenuBar {
 						public void success(String responseText) {
 							JavaScriptObject answer = JSON.parse(responseText);
 							loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), JSON.get(answer,"email")));
-							loginToGoogle.setCommand(createCommandForSignedIn());
+							loginToGoogle.setScheduledCommand(createCommandForSignedIn());
 						}
 						
 						public void failure(String failureText) {
@@ -159,65 +158,24 @@ public class GeoGebraMenubarW extends MenuBar {
 	        
         }
 
-		private static boolean signedInToGoogle() {
-	        AuthRequest r = MyGoogleApis.createNewAuthRequest();
-	        if (Web.AUTH.expiresIn(r) > 0) {
-	        	return true;
-	        }
-	        return false;
-        }
-
-		Command createCommandForNotSignedIn() {
-	        // TODO Auto-generated method stub
+		static Command createCommandForNotSignedIn() {
 	        return new Command() {
 				
 				public void execute() {
-					final AuthRequest req = MyGoogleApis.createNewAuthRequest();
-					Web.AUTH.login(req, new Callback<String, Throwable>() {
-
-						public void onFailure(Throwable reason) {
-	                       App.error("Request failed" + " " + reason.getMessage());
-                        }
-
-						public void onSuccess(String token) {
-	                       MyGoogleApis.executeApi(GeoGebraConstants.API_USERINFO + token,new GoogleApiCallback() {
-							
-							public void success(String responseText) {
-								JavaScriptObject answer = JSON.parse(responseText);
-								loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(),JSON.get(answer,"email")));
-								loginToGoogle.setCommand(createCommandForSignedIn());
-								Web.oaAsync.triggerLoginToGoogle(new AsyncCallback<Boolean>() {
-									
-									public void onSuccess(Boolean result) {
-										App.debug(result);
-										
-									}
-									
-									public void onFailure(Throwable caught) {
-										App.error(caught.getLocalizedMessage());
-										
-									}
-								});
-							}
-							
-							public void failure(String failureText) {
-								App.error(failureText);
-								
-							}
-	                       });
-                        }
-					});
+					MyGoogleApis.loginToGoogle();
 				}
 			};
         }
 
-		Command createCommandForSignedIn() {
+		static Command createCommandForSignedIn() {
 	        return new Command() {
 				
 				public void execute() {
-					Web.AUTH.clearAllTokens();
+					//Web.AUTH.clearAllTokens();
+					MyGoogleApis.clearAllTokens();
 					loginToGoogle.setHTML(createMenuHtmlForNotSignedIn());
-					loginToGoogle.setCommand(createCommandForNotSignedIn());
+					loginToGoogle.setScheduledCommand(createCommandForNotSignedIn());
+					fileMenu.refreshIfLoggedIntoGoogle(false);
 				}
 			};
         }
@@ -309,5 +267,16 @@ public class GeoGebraMenubarW extends MenuBar {
 	        	m.removeStyleName("checked");
 	        }
         }
+		
+		public static void setLoggedIntoGoogle(String email, String name) {
+			loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email));
+			loginToGoogle.setScheduledCommand(createCommandForSignedIn());
+			loginToGoogle.setTitle(name);
+			fileMenu.refreshIfLoggedIntoGoogle(true);
+		}
+		
+		public static void setLoggedOutFromGoogle() {
+			loginToGoogle.setScheduledCommand(createCommandForNotSignedIn());
+		}
 		
 }

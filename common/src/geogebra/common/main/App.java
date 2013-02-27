@@ -3085,6 +3085,9 @@ public abstract class App implements UpdateSelection{
 	}
 	
 	public SelectionManager getSelectionManager() {
+		if (selection == null) {
+			selection = new SelectionManager(getKernel(), this);
+		}
 		return selection;
 	}
 }

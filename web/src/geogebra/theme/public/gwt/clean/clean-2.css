@@ -1608,3 +1608,20 @@ body[dir=rtl] .GeoGebraMenuBar table{
 .menuTitle{
 	font-weight: bold;
 }
+
+.filelist {
+	max-height: 500px;
+	min-width: 300px;
+}
+
+.ggbfilelink {
+	display : block;
+	text-decoration : underline;
+	cursor : pointer;
+	margin : 2px 0 2px 20px;
+	background : white url("images/ggb-logo-16x16-white.png") no-repeat left center;
+}
+
+.ggbfilelink.selected .ggbfilelink:hover {
+	background-color: #E3E8F3;
+}

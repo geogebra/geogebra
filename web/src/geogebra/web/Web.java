@@ -11,8 +11,10 @@ import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
+import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
+import geogebra.web.html5.DynamicScriptElement;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +23,7 @@ import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
@@ -88,6 +91,10 @@ public class Web implements EntryPoint {
 	 * GUI currently Loaded
 	 */
 	public static GuiToLoad currentGUI = null;
+	/**
+	 * set true if Google Api Js loaded
+	 */
+	protected static boolean googleApiLoaded = false;
 
 	public void onModuleLoad() {
 		//do we have an app?
@@ -145,9 +152,31 @@ public class Web implements EntryPoint {
 		}
 		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
+		goForGoogleDriveApi();
     }
 	
+	private static void goForGoogleDriveApi() {
+		initGGWObject();
+		
+		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
+		script.setSrc("https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive");
+		script.addLoadHandler(new ScriptLoadCallback() {
+			
+			public void onLoad() {
+				Web.googleApiLoaded  = true;
+				//MyGoogleApis.loadGoogleDrive()();
+			}
+		});
+		Document.get().getBody().appendChild(script);
+	}
 	
+	
+
+	private static native void initGGWObject() /*-{
+	    $wnd.GGW_loadGoogleDrive = function() {
+	    	@geogebra.web.helper.MyGoogleApis::loadGoogleDrive()();
+	    }
+    }-*/;
 
 	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {

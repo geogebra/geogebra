@@ -31,6 +31,7 @@ import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
+import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -1024,4 +1025,13 @@ public class GuiManagerW extends GuiManager {
 	protected AppW getApp() {
 		return app;
 	}
+
+	public void openFromGoogleDrive() {
+		app.setWaitCursor();
+		// String fileName = Window.prompt("File name", "Bunny");
+		// do saving here if getBase64 will be good
+		GoogleDriveFileChooser fileChooser = ((DialogManagerW) app
+		        .getDialogManager()).getGoogleDriveFileChooser();
+		fileChooser.show();
+    }
 }

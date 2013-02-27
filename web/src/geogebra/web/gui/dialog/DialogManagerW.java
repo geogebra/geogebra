@@ -18,6 +18,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
+import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.main.AppW;
 
@@ -234,4 +235,13 @@ public class DialogManagerW extends DialogManager {
     public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 	    App.debug("showDataSourceDialog: unimplemented");
     }
+	
+	GoogleDriveFileChooser googleFileChooser = null;
+
+	public GoogleDriveFileChooser getGoogleDriveFileChooser() {
+		 if (googleFileChooser == null) {
+		    	googleFileChooser = new GoogleDriveFileChooser(app);
+		    }
+		    return googleFileChooser;
+	 }
 }
