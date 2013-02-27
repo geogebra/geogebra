@@ -226,7 +226,7 @@ Var ASSOCIATE_GGT
   !define UMUI_CONFIRMPAGE_TEXTBOX Confirm
   !insertmacro UMUI_PAGE_CONFIRM
   !insertmacro MUI_PAGE_INSTFILES
-  !define MUI_FINISHPAGE_RUN $INSTDIR\GeoGebra-JOGL1.exe
+  !define MUI_FINISHPAGE_RUN $INSTDIR\GeoGebra-JOGL2.exe
   !insertmacro MUI_PAGE_FINISH
 !else
   !insertmacro UMUI_UNPAGE_MULTILANGUAGE
@@ -750,11 +750,11 @@ Section Install Install
       ${ElseIf} 1 = $DESKTOP_CURRENT
        SetShellVarContext current
       ${EndIf}
-      CreateShortCut "$DESKTOP\GeoGebra (3D with JOGL1).lnk" $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
+      CreateShortCut "$DESKTOP\GeoGebra (3D with JOGL2).lnk" $INSTDIR\GeoGebra-JOGL2.exe "" $INSTDIR\GeoGebra-JOGL2.exe 0
       Call PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      CreateShortCut "$QUICKLAUNCH\GeoGebra (3D with JOGL1).lnk" $INSTDIR\GeoGebra-JOGL1.exe "" $INSTDIR\GeoGebra-JOGL1.exe 0
+      CreateShortCut "$QUICKLAUNCH\GeoGebra (3D with JOGL2).lnk" $INSTDIR\GeoGebra-JOGL2.exe "" $INSTDIR\GeoGebra-JOGL2.exe 0
     ${EndIf}
     
     Call PushShellVarContext
@@ -768,16 +768,16 @@ Section Install Install
       WriteRegStr SHCTX Software\Classes\.ggb "" GeoGebra.File
       WriteRegStr SHCTX Software\Classes\.ggb "Content Type" application/vnd.geogebra.file
       WriteRegStr SHCTX Software\Classes\GeoGebra.File "" "GeoGebra File"
-      WriteRegStr SHCTX Software\Classes\GeoGebra.File\DefaultIcon "" $INSTDIR\GeoGebra-JOGL1.exe,0
-      WriteRegStr SHCTX Software\Classes\GeoGebra.File\shell\open\command "" '"$INSTDIR\GeoGebra-JOGL1.exe" "%1"'
+      WriteRegStr SHCTX Software\Classes\GeoGebra.File\DefaultIcon "" $INSTDIR\GeoGebra-JOGL2.exe,0
+      WriteRegStr SHCTX Software\Classes\GeoGebra.File\shell\open\command "" '"$INSTDIR\GeoGebra-JOGL2.exe" "%1"'
       WriteRegStr SHCTX "Software\Classes\MIME\Database\Content Type\application/vnd.geogebra.file" Extension .ggb
     ${EndIf}
     ${If} 1 = $ASSOCIATE_GGT
       WriteRegStr SHCTX Software\Classes\.ggt "" GeoGebra.Tool
       WriteRegStr SHCTX Software\Classes\.ggt "Content Type" application/vnd.geogebra.tool
       WriteRegStr SHCTX Software\Classes\GeoGebra.Tool "" "GeoGebra Tool"
-      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\DefaultIcon "" $INSTDIR\GeoGebra-JOGL1.exe,0
-      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\shell\open\command "" '"$INSTDIR\GeoGebra-JOGL1.exe" "%1"'
+      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\DefaultIcon "" $INSTDIR\GeoGebra-JOGL2.exe,0
+      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\shell\open\command "" '"$INSTDIR\GeoGebra-JOGL2.exe" "%1"'
       WriteRegStr SHCTX "Software\Classes\MIME\Database\Content Type\application/vnd.geogebra.tool" Extension .ggt
     ${EndIf}
     ${If} 1 = $ASSOCIATE_GGB
@@ -794,7 +794,7 @@ Section Install Install
     StrCpy $3 "0$3"
     SectionGetSize ${Install} $0
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" Contact office@geogebra.org
-    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayIcon $INSTDIR\GeoGebra-JOGL1.exe,0
+    WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayIcon $INSTDIR\GeoGebra-JOGL2.exe,0
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayName "GeoGebra 5.0"
     WriteRegStr   SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" DisplayVersion ${fullversion}
     WriteRegDWORD SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra 5.0" EstimatedSize $0
@@ -986,7 +986,7 @@ FunctionEnd
       Call un.PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      Delete "$QUICKLAUNCH\GeoGebra (3D with JOGL1).lnk"
+      Delete "$QUICKLAUNCH\GeoGebra (3D with JOGL2).lnk"
     ${EndIf}
     
     Call un.PushShellVarContext
