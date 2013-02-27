@@ -57,13 +57,6 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	 */
 	public double evaluate(double t) {
 
-		// make sure it "wraps around" nicely 
-		if (t < mint) { 
-			t += (maxt - mint); 
-		} else if (t > mint) { 
-			t -= (maxt - mint); 
-		} 
-
 		double dx = funX.evaluate(t) - px;
 		double dy = funY.evaluate(t) - py;
 		return dx * dx + dy * dy;		
