@@ -37,7 +37,8 @@
   <errTitle>GeoGebra JOGL2</errTitle>
   <icon>geogebra.ico</icon>
   <jre>
-    <minVersion>1.5.0</minVersion>
+    <!--minVersion>1.5.0</minVersion-->
+    <path>jre</path>
     <initialHeapSize>32</initialHeapSize>
     <maxHeapSize>1024</maxHeapSize>
   </jre>

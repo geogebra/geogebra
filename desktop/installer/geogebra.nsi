@@ -728,6 +728,7 @@ Section Install Install
     File "${build.dir}\unpacked\jython.jar"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
+    File /r "${build.dir}\..\installer\jre\win32\jre"
 
     Call Architecture
 
@@ -962,7 +963,7 @@ FunctionEnd
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\by-nc-sa-3.0.txt
     Delete $INSTDIR\install.log
-    RMDir $INSTDIR
+    RMDir /r $INSTDIR
     
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (3D with JOGL1).lnk"
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra (3D with JOGL2).lnk"

@@ -117,7 +117,9 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t . -w $SVNDIR/geogebra/desktop/build -nj
 
  # Running installer creator:
- cd $SVNDIR/geogebra/desktop
+ cd $SVNDIR/geogebra/desktop/installer
+ ./get-java-win32
+ cd ..
  ant -f installer.xml installer
  cd $SVNDIR/geogebra/desktop/build/installer
 
