@@ -64,6 +64,7 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 				// TODO update whatever is shown right now, not necessarily the
 				// euclidianViewPanel,
 				// this is just a temporary workaround
+				TabletGUI.this.euclidianViewPanel.getEuclidianView().updateSize(); 
 				TabletGUI.this.euclidianViewPanel.repaint();
 			}
 		});

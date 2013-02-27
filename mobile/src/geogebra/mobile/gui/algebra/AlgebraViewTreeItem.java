@@ -17,10 +17,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -49,7 +46,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 	SpanElement seMayLatex;
 	SpanElement seNoLatex;
 
-	CheckBox check;
+	Marble marble;
 	InlineHTML ihtml;
 	TextBox tb;
 
@@ -64,23 +61,25 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		this.check = new CheckBox();
-		AlgebraViewTreeItem.this.previouslyChecked = ge.isEuclidianVisible();
+		this.marble = new Marble();
+		this.previouslyChecked = ge.isEuclidianVisible();
 
-		this.check.setValue(new Boolean(AlgebraViewTreeItem.this.previouslyChecked), false);
-
-		this.check.addValueChangeHandler(new ValueChangeHandler<Boolean>()
+		this.marble.setchecked(this.previouslyChecked);
+		
+		this.marble.addDomHandler(new ClickHandler()
 		{
 			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event)
+			public void onClick(ClickEvent event)
 			{
 				AlgebraViewTreeItem.this.geo.setEuclidianVisible(!AlgebraViewTreeItem.this.geo.isSetEuclidianVisible());
 				AlgebraViewTreeItem.this.geo.update();
 				AlgebraViewTreeItem.this.geo.getKernel().getApplication().storeUndoInfo();
 				AlgebraViewTreeItem.this.geo.getKernel().notifyRepaint();
+				
+				AlgebraViewTreeItem.this.marble.setchecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
 			}
-		});
-		add(this.check);
+		}, ClickEvent.getType());
+		add(this.marble);
 
 		SpanElement se = DOM.createSpan().cast();
 		se.getStyle().setProperty("display", "-moz-inline-box");
@@ -147,7 +146,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 	public void update()
 	{
-		this.check.setValue(Boolean.valueOf(this.geo.isEuclidianVisible()));
+		this.marble.setchecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
 
 		// check for new LaTeX
 		boolean newLaTeX = false;

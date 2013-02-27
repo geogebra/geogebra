@@ -55,6 +55,14 @@ public interface CommonResources extends ClientBundle
 
 	//AlgebraView 
 	
+	@Source("icons/svg/algebra_hidden.svg")
+	@Validated(validated = false)
+	SVGResource algebra_hidden();
+	
+	@Source("icons/svg/algebra_shown.svg")
+	@Validated(validated = false)
+	SVGResource algebra_shown();
+	
 	@Source("icons/svg/algebra_tree_close.svg")
 	@Validated(validated = false)
 	SVGResource algebra_close();
