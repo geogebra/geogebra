@@ -1517,7 +1517,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            geo
 	 * @return drawable for the given GeoElement.
 	 */
-	final DrawableND getDrawable(GeoElement geo) {
+	protected final DrawableND getDrawable(GeoElement geo) {
 		return DrawableMap.get(geo);
 	}
 

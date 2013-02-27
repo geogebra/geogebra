@@ -4,11 +4,14 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.Settings;
 import geogebra.mobile.controller.MobileController;
@@ -97,6 +100,33 @@ public class EuclidianViewM extends EuclidianViewWeb
 		doRepaint();
 	}
 
+	/**
+	 * adds a GeoElement to this view; prevent redraw
+	 */
+	@Override
+	public void add(GeoElement geo) {
+
+		// G.Sturr 2010-6-30
+		// filter out any geo not marked for this view
+		if (!isVisibleInThisView(geo)) {
+			return;
+			// END G.Sturr
+		}
+
+		// check if there is already a drawable for geo
+		DrawableND d = getDrawable(geo);
+
+		if (d != null) {
+			return;
+		}
+
+		d = createDrawable(geo);
+		if (d != null) {
+			addToDrawableLists((Drawable) d);
+		}
+
+	}
+	
 	/**
 	 * this version also adds points that are very close to the hit point
 	 */
