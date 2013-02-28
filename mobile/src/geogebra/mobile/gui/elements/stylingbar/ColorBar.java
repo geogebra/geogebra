@@ -78,8 +78,7 @@ public class ColorBar extends LayoutPanel
 		List<GColor> list = new ArrayList<GColor>();
 		for (int i = 0; i < ColorBar.this.listOfColors.size(); i++)
 		{
-			// %12 - because 12 different colors
-			list.add(ColorBar.this.listOfColors.get((i + shift) % 12));
+			list.add(ColorBar.this.listOfColors.get((i + shift) % this.listOfColors.size()));
 		}
 		ColorBar.this.listOfColors = list;
 		ColorBar.this.colors.drawColorChoice(ColorBar.this.listOfColors);
