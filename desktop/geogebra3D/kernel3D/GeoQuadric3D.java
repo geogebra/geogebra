@@ -650,7 +650,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	public void regionChanged(GeoPointND P) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(this)){
+		if(!getKernel().usePathAndRegionParameters(P)){
 			pointChangedForRegion(P);
 			return;
 		}

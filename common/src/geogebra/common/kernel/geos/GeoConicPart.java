@@ -989,7 +989,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(this)) {
+		if (!getKernel().usePathAndRegionParameters(PI)) {
 			pointChangedForRegion(PI);
 			return;
 		}

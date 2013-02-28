@@ -306,7 +306,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(this)) {
+		if (!getKernel().usePathAndRegionParameters(PI)) {
 			pointChanged(PI);
 			return;
 		}

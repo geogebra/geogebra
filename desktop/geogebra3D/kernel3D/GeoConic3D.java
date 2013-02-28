@@ -355,7 +355,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	public void regionChanged(GeoPointND PI) {
 
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(this)){
+		if(!getKernel().usePathAndRegionParameters(PI)){
 			pointChangedForRegion(PI);
 			return;
 		}

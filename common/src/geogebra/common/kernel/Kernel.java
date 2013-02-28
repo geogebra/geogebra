@@ -721,12 +721,13 @@ public class Kernel {
 	}
 
 	/**
-	 * States whether path/region parameters are used.
-	 * @param geo path
-	 * @return true if given path should use path parameter
+	 * States whether path/region parameters are used. 
+	 * Also test if point is defined (if not, use parameters).
+	 * @param point point
+	 * @return true if given point should use path/region parameter
 	 */
-	final public boolean usePathAndRegionParameters(GeoElement geo) {
-		return usePathAndRegionParameters == PathRegionHandling.ON;
+	final public boolean usePathAndRegionParameters(GeoPointND point) {
+		return usePathAndRegionParameters == PathRegionHandling.ON || (!point.isDefined());
 	}
 
 	/**

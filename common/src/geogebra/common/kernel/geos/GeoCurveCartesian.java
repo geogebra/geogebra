@@ -619,7 +619,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		pathChanged(PI,!getKernel().usePathAndRegionParameters(this));
+		pathChanged(PI,!getKernel().usePathAndRegionParameters(PI));
 
 	}
 	

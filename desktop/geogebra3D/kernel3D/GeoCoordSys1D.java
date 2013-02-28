@@ -297,7 +297,7 @@ Translateable{
 	public void pathChanged(GeoPointND P){
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(this)){
+		if(!getKernel().usePathAndRegionParameters(P)){
 			pointChanged(P);
 			return;
 		}
