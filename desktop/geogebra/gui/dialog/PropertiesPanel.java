@@ -5347,8 +5347,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
 				anglePanel.setVisible(true);
-				angleSlider.setMaximum(90);
-				angleSlider.setMinorTickSpacing(90);
+				angleSlider.setMaximum(180);
+				angleSlider.setMinorTickSpacing(45);
 				break;
 			case HONEYCOMB:
 			case DOTTED:
@@ -5489,7 +5489,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			if (source == cbFillType) {
 
 				FillType fillType = FillType.values()[cbFillType.getSelectedIndex()];
-				System.out.println(""+fillType);
 				// set selected image to first geo image
 				if (fillType == FillType.IMAGE
 						&& ((GeoElement) geos[0]).getFillImage() != null) {
