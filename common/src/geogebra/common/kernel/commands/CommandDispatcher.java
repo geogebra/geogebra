@@ -502,6 +502,7 @@ public class CommandDispatcher {
 			case Cross:
 			case PolyLine:
 			case PointIn:
+			case FreePointIn:
 			case Line:
 			case Ray:
 			case AngularBisector:

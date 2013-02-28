@@ -59,6 +59,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdPolyLine(kernel);
 		case PointIn:
 			return new CmdPointIn(kernel);
+		case FreePointIn:
+			return new CmdFreePointIn(kernel);
 		case Line:
 			return new CmdLine(kernel);
 		case Ray:

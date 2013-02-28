@@ -10,16 +10,15 @@ import geogebra.common.main.MyError;
 
 
 /**
- * PointIn[ <Region> ] 
- * @version 2010-05-17
+ * FreePointIn[ <Region> ] 
  */
-public class CmdPointIn extends CommandProcessor {
+public class CmdFreePointIn extends CommandProcessor {
 
 	/**
 	 * Initiates command processor for PointIn command
 	 * @param kernel kernel used for computations
 	 */
-	public CmdPointIn (Kernel kernel) {
+	public CmdFreePointIn (Kernel kernel) {
 		super(kernel);
 	}
 
@@ -34,16 +33,7 @@ public class CmdPointIn extends CommandProcessor {
 
 		GeoElement[] arg;
 
-		switch (n) {
-        case 1 :
-			arg = resArgs(c);
-			if (arg[0].isRegion()) {
-				GeoElement[] ret =
-				{ getAlgoDispatcher().PointIn(c.getLabel(), (Region) arg[0], 0, 0, true, false, true)};
-				return ret;
-			} 
-			throw argErr(app, c.getName(), arg[0]);
-			
+		switch (n) {		
         case 3 :
         	arg = resArgs(c);
         	if ((ok[0] = (arg[0] .isRegion()))
@@ -51,7 +41,7 @@ public class CmdPointIn extends CommandProcessor {
         			&& (ok[2] = (arg[2].isNumberValue()))) {
         		GeoElement[] ret =
         			{
-        				getAlgoDispatcher().PointIn(
+        				getAlgoDispatcher().FreePointIn(
         						c.getLabel(),
         						(Region) arg[0],
         						(NumberValue) arg[1],

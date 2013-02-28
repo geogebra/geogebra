@@ -40,6 +40,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
+import geogebra.common.kernel.algos.AlgoPointInRegionFree;
 import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
@@ -4302,10 +4303,23 @@ public abstract class EuclidianController {
 		
 		GeoText text = createDynamicText(type, object, value);
 		if (text!=null){
-			text.setAbsoluteScreenLocActive(true);
-			text.setAbsoluteScreenLoc(loc.x, loc.y);
+			if (object.isRegion()){
+				kernel.setSilentMode(true);
+				AlgoPointInRegionFree algo = new AlgoPointInRegionFree(kernel.getConstruction(), (Region) object, 
+						view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y)); 
+				kernel.setSilentMode(false);
+				try {
+					text.setStartPoint(algo.getP());
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			}else{
+				text.setAbsoluteScreenLocActive(true);
+				text.setAbsoluteScreenLoc(loc.x, loc.y);
+			}
 			text.setBackgroundColor(GColor.WHITE);
-			text.updateRepaint();		
+			text.updateRepaint();	
 		}
 		
 		return text;

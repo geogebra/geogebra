@@ -46,7 +46,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	CircleSector(TABLE_GEOMETRY), CircumcircleSector(TABLE_GEOMETRY), CircumcircleArc(TABLE_GEOMETRY), Polygon(TABLE_GEOMETRY),
    	RigidPolygon(TABLE_GEOMETRY), Area(TABLE_GEOMETRY), Circumference(TABLE_GEOMETRY),
    	Perimeter(TABLE_GEOMETRY), Locus(TABLE_GEOMETRY), Centroid(TABLE_GEOMETRY), TriangleCenter(TABLE_GEOMETRY), Barycenter(TABLE_GEOMETRY), Trilinear(TABLE_GEOMETRY), Cubic(TABLE_GEOMETRY), 
-   	TriangleCurve(TABLE_GEOMETRY),Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
+   	TriangleCurve(TABLE_GEOMETRY),Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), FreePointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
    	CrossRatio(TABLE_GEOMETRY), ClosestPoint(TABLE_GEOMETRY),
    	Prove(TABLE_GEOMETRY), ProveDetails(TABLE_GEOMETRY), AreCollinear(TABLE_GEOMETRY), AreParallel(TABLE_GEOMETRY),
    	AreConcyclic(TABLE_GEOMETRY), ArePerpendicular(TABLE_GEOMETRY),	AreEqual(TABLE_GEOMETRY), AreConcurrent(TABLE_GEOMETRY),

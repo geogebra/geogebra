@@ -30,10 +30,20 @@ import geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoPointInRegion extends AlgoElement {
 
-	private Region region; // input
-    private GeoPoint P; // output   
+	protected Region region; // input
+	protected GeoPoint P; // output   
     
-    private NumberValue param1, param2;
+	protected NumberValue param1, param2;
+    
+    public AlgoPointInRegion(
+            Construction cons,
+            Region region){
+    	
+    	super(cons);
+
+    	this.region = region;
+    }
+    
     
     public AlgoPointInRegion(
             Construction cons,
@@ -42,25 +52,34 @@ public class AlgoPointInRegion extends AlgoElement {
             double x,
             double y) {
     	
-    	this(cons, label, region, x, y, null, null);
+    	this(cons,region);
+    	
+    	P = new GeoPoint(cons, region);
+    	P.setCoords(x, y, 1.0);
+
+    	setInputOutput(); // for AlgoElement
+
+
+    	compute();
+    	P.setLabel(label);
     }
 
     public AlgoPointInRegion(
         Construction cons,
         String label,
         Region region,
-        double x,
-        double y,
         NumberValue param1,
         NumberValue param2) {
-        super(cons);
-        this.region = region;
+        
+
+    	this(cons,region);
         
         P = new GeoPoint(cons, region);
-        P.setCoords(x, y, 1.0);
 
         this.param1 = param1;
         this.param2 = param2;
+        
+         
         
 
         setInputOutput(); // for AlgoElement
@@ -69,6 +88,8 @@ public class AlgoPointInRegion extends AlgoElement {
         compute();
         P.setLabel(label);
     }
+    
+    
 
     @Override
 	public Commands getClassName() {
@@ -113,27 +134,23 @@ public class AlgoPointInRegion extends AlgoElement {
     }
 
     @Override
-	public final void compute() {
+	public void compute() {
     	
     	if(param1 != null){
     		RegionParameters rp = P.getRegionParameters();
     		rp.setIsOnPath(false);
     		rp.setT1(param1.getDouble());
     		rp.setT2(param2.getDouble());
-    		//pp.setT(PathNormalizer.toParentPathParameter(param.getDouble(), path.getMinParameter(), path.getMaxParameter()));
-    	}
+     	}
     	
-    	//App.debug(P.getRegionParameters().getT1()+","+P.getRegionParameters().getT2());
-    	
-    	
-    	if (input[0].isDefined()) {	    	
+    	if (region.isDefined()) {	    	
 	        region.regionChanged(P);
 	        P.updateCoords();
     	} else {
     		P.setUndefined();
     	}
     }
-
+    
     @Override
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
