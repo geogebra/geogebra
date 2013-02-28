@@ -171,11 +171,12 @@ public class AppW extends AppWeb {
 		        + Window.Navigator.getUserAgent());
 		initCommonObjects();
 
-		euclidianViewPanel = new EuclidianDockPanelW(false);
-		this.canvas = euclidianViewPanel.getCanvas();
-		/*mySplitLayoutPanel = new MySplitLayoutPanel(false, false, false, false, false);
+		//euclidianViewPanel = new EuclidianDockPanelW(false);
+		//this.canvas = euclidianViewPanel.getCanvas();
+		mySplitLayoutPanel = new MySplitLayoutPanel(false, false, false, false, false);
+		mySplitLayoutPanel.attachApp(this);
 		this.euclidianViewPanel = mySplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper();
-		this.canvas = this.euclidianViewPanel.getCanvas();*/
+		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
@@ -1337,7 +1338,7 @@ public class AppW extends AppWeb {
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 	        boolean showGrid) {
 		return euclidianView = new EuclidianViewW(euclidianViewPanel,
-		        euclidianController, showAxes, showGrid, getSettings()
+		        euclidianController, showAxes, showGrid, 1, getSettings()
 		                .getEuclidian(1));
 	}
 
@@ -1592,8 +1593,8 @@ public class AppW extends AppWeb {
 		}
 
 		//return euclidianViewPanel;
-		frame.add(euclidianViewPanel);
-		//attachSplitLayoutPanel();
+		//frame.add(euclidianViewPanel);
+		attachSplitLayoutPanel();
 
 		if (showAlgebraInput){
 			attachAlgebraInput();
@@ -1619,8 +1620,20 @@ public class AppW extends AppWeb {
 	}
 
 	public void attachSplitLayoutPanel() {
-		mySplitLayoutPanel.attachApp(this);
 		frame.add(mySplitLayoutPanel);
+		//mySplitLayoutPanel.onResize();
+		//mySplitLayoutPanel.forceLayout();
+	}
+
+	public void syncAppletPanelSize(int width, int height) {
+		if (!isFullAppGui()) {
+			// this should follow the resizing of the EuclidianView
+
+			int widthDiff = width - euclidianViewPanel.getOffsetWidth();
+			euclidianViewPanel.setPixelSize(width, height);//provided there is no style bar
+			if (mySplitLayoutPanel != null)
+				mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff, height);
+		}
 	}
 
 	public void showLoadingAnimation(boolean go) {

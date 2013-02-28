@@ -19,6 +19,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.web.cas.view.CASViewW;
+import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -28,6 +29,7 @@ import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
 import geogebra.web.gui.layout.LayoutW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
@@ -64,6 +66,7 @@ public class GuiManagerW extends GuiManager {
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
+	private EuclidianViewW euclidianView2;
 	private Map<Integer,String> customToolbarDefinitions = new TreeMap<Integer,String>();
 
 	private TimerSystemW timers;
@@ -73,6 +76,8 @@ public class GuiManagerW extends GuiManager {
 	private LayoutW layout;
 
 	private CASViewW casView;
+
+	private EuclidianDockPanelW euclidianView2DockPanel;
 
 	public GuiManagerW(AppW app) {
 		this.app = app;
@@ -952,9 +957,29 @@ public class GuiManagerW extends GuiManager {
 
 	@Override
 	public View getEuclidianView2() {
-		App.debug("unimplemented");
-		// TODO Auto-generated method stub
-		return null;
+		if (euclidianView2 == null) {
+			boolean[] showAxis = { true, true };
+			boolean showGrid = false;
+			App.debug("Creating 2nd Euclidian View");
+			euclidianView2 = newEuclidianView(showAxis, showGrid, 2);
+			// euclidianView2.setEuclidianViewNo(2);
+			euclidianView2.setAntialiasing(true);
+			euclidianView2.updateFonts();
+		}
+		return euclidianView2;
+	}
+
+	public EuclidianDockPanelW getEuclidianView2DockPanel() {
+		if (euclidianView2DockPanel == null) {
+			euclidianView2DockPanel = new EuclidianDockPanelW(app.isFullAppGui());
+		}
+		return euclidianView2DockPanel;
+	}
+
+	protected EuclidianViewW newEuclidianView(boolean[] showAxis,
+			boolean showGrid, int id) {
+		return new EuclidianViewW(getEuclidianView2DockPanel(), new EuclidianControllerW(kernel), showAxis,
+				showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
 	@Override

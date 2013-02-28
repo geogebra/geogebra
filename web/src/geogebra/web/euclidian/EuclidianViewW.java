@@ -62,7 +62,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	public EuclidianViewW(EuclidianDockPanelW euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid, EuclidianSettings settings) {
+            boolean showGrid, int evNo, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
@@ -157,6 +157,9 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		g2p.setCoordinateSpaceWidth(width);
 		g2p.setCoordinateSpaceHeight(height);
 		try {
+			app.syncAppletPanelSize(width, height);
+
+			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
 			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
 		} catch (Exception exc) {

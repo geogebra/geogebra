@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
@@ -21,23 +22,23 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	private SpreadsheetDockPanelW ggwSpreadsheetView = null;
 	private CASDockPanelW ggwCASView = null;
 
+	private boolean isApplication = false;
 	private boolean showAlgebra = false;
 	private boolean showEV2 = false;
 	private boolean showSpreadsheet = false;
 	private boolean showCAS = false;
 
-	public MySplitLayoutPanel(boolean showEVStylebar, boolean showAlgebra, boolean showEV2, boolean showSpreadsheet, boolean showCAS) {
+	public MySplitLayoutPanel(boolean isApplication, boolean showAlgebra, boolean showEV2, boolean showSpreadsheet, boolean showCAS) {
 		super();
 		if (this.showAlgebra = showAlgebra)
 			addWest(ggwViewWrapper = new AlgebraDockPanelW(), GeoGebraAppFrame.GGWVIewWrapper_WIDTH);
-		if (this.showEV2 = showEV2)
-			addEast(ggwGraphicsView2 = new EuclidianDockPanelW(true), 0);
+		this.showEV2 = showEV2;
 		if (this.showSpreadsheet = showSpreadsheet)
 			createSpreadsheet();
 		if (this.showCAS = showCAS)
 			createCAS();
 
-		add(ggwGraphicView = new EuclidianDockPanelW(showEVStylebar));
+		add(ggwGraphicView = new EuclidianDockPanelW(this.isApplication = isApplication));
     }
 
 	public void createSpreadsheet(){
@@ -65,32 +66,35 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	@Override
     public void onResize() {
 		super.onResize();
-		if(!showCAS){
-			if (ggwSpreadsheetView.getSpreadsheet() == null) {
-				if (getWidgetSize(getGGWSpreadsheetView()) > 0) {
-					ggwSpreadsheetView.showView(true);
+
+		if (isApplication) {
+			if(!showCAS){
+				if (ggwSpreadsheetView.getSpreadsheet() == null) {
+					if (getWidgetSize(getGGWSpreadsheetView()) > 0) {
+						ggwSpreadsheetView.showView(true);
+					}
+				} else {
+					if (getWidgetSize(getGGWSpreadsheetView()) <= 0) {
+						ggwSpreadsheetView.showView(false);
+					}
 				}
 			} else {
-				if (getWidgetSize(getGGWSpreadsheetView()) <= 0) {
-					ggwSpreadsheetView.showView(false);
+				if (ggwCASView.getCAS() == null) {
+					if (getWidgetSize(getGGWCASView()) > 0) {
+						ggwCASView.showView(true);
+					}
+				} else {
+					if (getWidgetSize(getGGWCASView()) <= 0) {
+						ggwCASView.showView(false);
+					}
 				}
 			}
+
+			Element wrapper = ggwGraphicView.getEuclidianPanel().getElement();
+			if (application != null)
+				((AppW) application).ggwGraphicsViewDimChanged(
+					wrapper.getOffsetWidth(), wrapper.getOffsetHeight());
 		}
-		else{
-			if (ggwCASView.getCAS() == null) {
-				if (getWidgetSize(getGGWCASView()) > 0) {
-					ggwCASView.showView(true);
-				}
-			} else {
-				if (getWidgetSize(getGGWCASView()) <= 0) {
-					ggwCASView.showView(false);
-				}
-			}
-		}
-		Element wrapper = ggwGraphicView.getEuclidianPanel().getElement();
-		if (application != null)
-			((AppW) application).ggwGraphicsViewDimChanged(
-				wrapper.getOffsetWidth(), wrapper.getOffsetHeight());
 	}
 
 	public SplitLayoutPanel getSplitLayoutPanel() {
@@ -119,6 +123,13 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	public void attachApp(App app) {
 	   this.application = app;
+
+	   if (showEV2) {
+		   addEast(ggwGraphicsView2 =
+		   		((GuiManagerW)application.getGuiManager()).getEuclidianView2DockPanel(),
+		   		400);
+		   ggwGraphicsView2.attachApp(app);
+	   }
 
 	   if (ggwViewWrapper != null)
 		   ggwViewWrapper.attachApp(app);
