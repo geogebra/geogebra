@@ -64,6 +64,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				guiModel.closeOptions(); 
 				TabletHeaderPanelLeft.this.listener.goTo(new TubeSearchPlace("TabletGui"));
 			}
 		}, ClickEvent.getType());

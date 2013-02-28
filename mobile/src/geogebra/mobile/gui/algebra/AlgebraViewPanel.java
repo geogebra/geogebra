@@ -11,11 +11,8 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndEvent;
 import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndHandler;
-import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEvent.DIRECTION;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
@@ -39,50 +36,6 @@ public class AlgebraViewPanel extends LayoutPanel
 	public AlgebraViewPanel()
 	{
 		this.addStyleName("algebraview");
-
-		TouchDelegate touchDelegate = new TouchDelegate(this);
-
-		touchDelegate.addTapHandler(new TapHandler()
-		{
-
-			/**
-			 * If there is a tap on the {@link AlgebraViewPanel} and it is collapsed,
-			 * the panel gets extended.
-			 * 
-			 * @param event
-			 *          Event
-			 */
-			@Override
-			public void onTap(TapEvent event)
-			{
-				if (AlgebraViewPanel.this.small)
-				{
-					extend();
-				}
-			}
-		});
-
-		touchDelegate.addSwipeEndHandler(new SwipeEndHandler()
-		{
-
-			/**
-			 * The {@link AlgebraViewPanel} extends if there is a swipe from left to
-			 * right and collapses if there is a swipe form right to left.
-			 */
-			@Override
-			public void onSwipeEnd(SwipeEndEvent event)
-			{
-				if (event.getDirection() == DIRECTION.LEFT_TO_RIGHT)
-				{
-					extend();
-				}
-				else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
-				{
-					minimize();
-				}
-			}
-		});
-
 	}
 
 	/**
