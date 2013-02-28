@@ -148,10 +148,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 	            actionCommands[j] = ""+axesRatios[i];
 		 }
 		int selPos = 0;
-		while (!Kernel.isEqual(Double.parseDouble(actionCommands[selPos]), scaleRatio)
-		        && (selPos < actionCommands.length)) {
+		while ((selPos < actionCommands.length) &&
+				!Kernel.isEqual(Double.parseDouble(actionCommands[selPos]), scaleRatio)) {
 			selPos++;
 		}
+		
 		App.debug("selPos: " +selPos);
 		menu.addRadioButtonMenuItems(this, items, actionCommands,  selPos, false);
 	 
@@ -188,6 +189,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 				
 				public void execute() {
 					zoom(zoomFactors[index]);
+					wrappedPopup.hide();
 				}
 	          });
 	          menu.addItem(mi);

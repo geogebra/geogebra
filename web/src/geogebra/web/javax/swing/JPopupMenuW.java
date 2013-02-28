@@ -114,5 +114,9 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	    addItem(item.getMenuItem());
 	    
     }
+	
+	public void hide(){
+		popupPanel.hide();
+	}
 
 }
