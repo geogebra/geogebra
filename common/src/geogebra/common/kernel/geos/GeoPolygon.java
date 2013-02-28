@@ -1679,4 +1679,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		meta = polyhedron;
 	}
 	
+	
+	@Override
+	public double distance(final GeoPoint p) {
+		double d = Double.POSITIVE_INFINITY;
+		for (GeoSegmentND seg : getSegments()){
+			double d1 = seg.distance(p);
+			if (d1 < d){
+				d = d1;
+			}
+		}
+		return d;
+	}
 }
