@@ -75,14 +75,16 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	}
 	
 	public void addItem(final MenuItem item) {
+		final ScheduledCommand oldCmd = item.getScheduledCommand();
 		ScheduledCommand cmd = new ScheduledCommand(){
 			public void execute() {
-				item.getScheduledCommand().execute();
+				oldCmd.execute();
 				popupPanel.hide();
             }
 		};
-		
+		item.setScheduledCommand(cmd);
 	    popupMenu.addItem(item);
+	    popupMenuSize++;
     }
 	
 	public MenuBar getPopupMenu(){
@@ -109,7 +111,7 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
     }
 
 	public void addItem(GCheckBoxMenuItem item) {
-	    popupMenu.addItem(item.getMenuItem());
+	    addItem(item.getMenuItem());
 	    
     }
 
