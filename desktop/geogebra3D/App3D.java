@@ -459,6 +459,10 @@ public class App3D extends AppD {
 	 * remove all euclidian views for plane
 	 */
 	public void removeAllEuclidianViewForPlane(){
+		
+		if (euclidianViewForPlaneList==null)
+			return;
+		
 		for (EuclidianViewForPlane view : euclidianViewForPlaneList)
 			view.removeFromGuiAndKernel();
 		
