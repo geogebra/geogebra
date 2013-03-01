@@ -58,15 +58,12 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
-	Canvas bgCanvas = null;
-
 	public EuclidianViewW(EuclidianDockPanelW euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
-		bgCanvas = euclidianViewPanel.getBackgroundCanvas();
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);
@@ -230,29 +227,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
     	app.getGuiManager().getTimerSystem().viewRepainted(this);
     }
 
-    @Override
-    public void paintTheBackground(geogebra.common.awt.GGraphics2D g2) {
-		// BACKGROUND
-		// draw background image (with axes and/or grid)
-		if (bgImage == null) {
-			if (firstPaint) {
-				if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
-					// only set firstPaint to false if the bgImage was generated
-					updateSize();
-					g2.clearRect(0, 0, getWidth(), getHeight());
-					// g2.drawImage(bgImage, 0, 0, null);
-					firstPaint = false;
-				} else {
-					drawBackgroundWithImages(g2);
-				}
-			} else {
-				drawBackgroundWithImages(g2);
-			}
-		} else {
-			g2.clearRect(0, 0, getWidth(), getHeight());
-		}
-    }
-
 	@Override
     protected void initCursor() {
 		setDefaultCursor();
@@ -322,7 +296,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
     }
 
 	private void createImage() {
-		bgImage = new geogebra.web.awt.GBufferedImageW(bgCanvas, getWidth(), getHeight(), 0, false);
+		bgImage = new geogebra.web.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 		if (antiAliasing) {
 			setAntialiasing(bgGraphics);

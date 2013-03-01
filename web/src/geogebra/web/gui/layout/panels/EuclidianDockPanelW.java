@@ -23,7 +23,6 @@ public class EuclidianDockPanelW extends DockPanelW {
 	AbsolutePanelSmart euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
-	Canvas eview0 = null;// background
 
 	public EuclidianDockPanelW(boolean stylebar) {
 		super(0, null, null, stylebar, 0);
@@ -36,11 +35,6 @@ public class EuclidianDockPanelW extends DockPanelW {
 		} else {
 			initWidget(euclidianpanel = new AbsolutePanelSmart());
 		}
-
-		eview0 = Canvas.createIfSupported();
-		eview0.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-		eview0.getElement().getStyle().setZIndex(-2);
-		euclidianpanel.add(eview0);
 
 		eview1 = Canvas.createIfSupported();
 		eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
@@ -59,10 +53,6 @@ public class EuclidianDockPanelW extends DockPanelW {
 	public Canvas getCanvas() {
 	    return eview1;
     }
-
-	public Canvas getBackgroundCanvas() {
-		return eview0;
-	}
 
 	public AbsolutePanel getAbsolutePanel() {
 	    return euclidianpanel;
