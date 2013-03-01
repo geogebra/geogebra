@@ -55,7 +55,7 @@ public class LispReader implements RepeatingCommand {
     public static int oblistSize = 15013;
     public static int oblistCount = 0;
     public static Symbol[] oblist = new Symbol[oblistSize];
-    public static LispVector obvector = new LispVector((LispObject[]) oblist);
+    public static LispVector obvector = new LispVector(oblist);
     public static Symbol[] chars = new Symbol[128];  // to speed up READCH
     public static LispObject[] spine = new LispObject[17]; // for PRESERVE
     static int inputType;
@@ -247,8 +247,8 @@ public class LispReader implements RepeatingCommand {
                         shared[sharedIndex++] = ws;
                         setLabel = false;
                     }
-                    if (!Jlisp.descendSymbols) {
-                        ws.car/*value*/ = Jlisp.lit[Lit.undefined];
+                    if (!Environment.descendSymbols) {
+                        ws.car/*value*/ = Environment.lit[Lit.undefined];
                         ws.cdr/*plist*/ = Environment.nil;
                         if (ws.pname != null) {
                             ws.fn = new Undefined(ws.pname);
@@ -273,7 +273,7 @@ public class LispReader implements RepeatingCommand {
                     for (index = 0; index < operand; index++) {
                         data[index] = (byte) Jlisp.idump.read();
                     }
-                    if (Jlisp.descendSymbols) {
+                    if (Environment.descendSymbols) {
                         Symbol ws = new Symbol();
                         Symbol.symbolCount++;
                         ws.pname = new String(data);
@@ -681,13 +681,13 @@ public class LispReader implements RepeatingCommand {
                         }
                         case S_SYMPLIST: {
                             Symbol ws = (Symbol) stack.peek();
-                            ws.cdr/*plist*/ = (LispObject) w;
+                            ws.cdr/*plist*/ = w;
                             state = S_SYMVAL;
                             break;
                         }
                         case S_SYMVAL: {
                             Symbol ws = (Symbol) stack.pop();
-                            ws.car/*value*/ = (LispObject) w;
+                            ws.car/*value*/ = w;
                             w = ws;
                             state = istack[--sp];
                             continue;
@@ -758,7 +758,7 @@ public class LispReader implements RepeatingCommand {
 
     public LispObject read() throws Exception {
         LispObject r;
-        r = Jlisp.lit[Lit.std_input].car/*value*/;
+        r = Environment.lit[Lit.std_input].car/*value*/;
         if (r instanceof LispStream) {
             readIn = (LispStream) r;
         } else {
@@ -784,7 +784,7 @@ public class LispReader implements RepeatingCommand {
             case '\'':
                 readIn.inputValid = false;
                 r = read();
-                return new Cons(Jlisp.lit[Lit.quote], new Cons(r, Environment.nil));
+                return new Cons(Environment.lit[Lit.quote], new Cons(r, Environment.nil));
             case '`':
                 readIn.inputValid = false;
                 r = read();
@@ -792,11 +792,11 @@ public class LispReader implements RepeatingCommand {
             case ',':
                 readIn.inputValid = false;
                 r = read();
-                return new Cons(Jlisp.lit[Lit.comma], new Cons(r, Environment.nil));
+                return new Cons(Environment.lit[Lit.comma], new Cons(r, Environment.nil));
             case 0x10000:  // ",@"
                 readIn.inputValid = false;
                 r = read();
-                return new Cons(Jlisp.lit[Lit.commaAt], new Cons(r, Environment.nil));
+                return new Cons(Environment.lit[Lit.commaAt], new Cons(r, Environment.nil));
             case '(':
                 readIn.inputValid = false;
                 return readTail();
@@ -848,22 +848,22 @@ public class LispReader implements RepeatingCommand {
         if (a == Environment.nil) {
             return a;
         } else if (a.atom) {
-            return new Cons(Jlisp.lit[Lit.quote], new Cons(a, Environment.nil));
+            return new Cons(Environment.lit[Lit.quote], new Cons(a, Environment.nil));
         }
         LispObject aa = a;
-        if (aa.car == Jlisp.lit[Lit.comma]) {
+        if (aa.car == Environment.lit[Lit.comma]) {
             return aa.cdr.car;
         }
         if (!aa.car.atom) {
             LispObject aaa = aa.car;
-            if (aaa.car == Jlisp.lit[Lit.commaAt]) {
+            if (aaa.car == Environment.lit[Lit.commaAt]) {
                 LispObject v = aaa.cdr.car;
                 LispObject t = expandBackquote(aa.cdr);
-                return new Cons(Jlisp.lit[Lit.append],
+                return new Cons(Environment.lit[Lit.append],
                         new Cons(v, new Cons(t, Environment.nil)));
             }
         }
-        return new Cons(Jlisp.lit[Lit.cons],
+        return new Cons(Environment.lit[Lit.cons],
                 new Cons(expandBackquote(aa.car),
                 new Cons(expandBackquote(aa.cdr), Environment.nil)));
     }
@@ -894,7 +894,7 @@ public class LispReader implements RepeatingCommand {
         
         switch (loopIndex) {
             case 1:
-                Jlisp.descendSymbols = true;
+                Environment.descendSymbols = true;
                 // First I will read and display the banner...
                 // I would like to be able to update JUST this banner in a heap image. To
                 // support that I will (sometime!) change my heap format to put the
@@ -918,14 +918,15 @@ public class LispReader implements RepeatingCommand {
 
                 Environment.nil = (Symbol) readObject();
 
-                Jlisp.lispTrue = (Symbol) readObject();
-
+                Environment.lispTrue = (Symbol) readObject();
+                App.debug(loopIndex);
                 loopIndex++;
 
                 break;
 
             case 2:
                 readObjectReset();
+                App.debug(loopIndex);
                 loopIndex++;
                 break;
             case 3:
@@ -933,7 +934,7 @@ public class LispReader implements RepeatingCommand {
                     if (readObjectIncrement() == true) {
                         break;
                     } else {
-                        Jlisp.lit[i] = w;
+                        Environment.lit[i] = w;
 
                         /*
                         System.out.println("literal " + i + " restored");
@@ -943,7 +944,6 @@ public class LispReader implements RepeatingCommand {
                          */
                         
                         i++;
-                        App.debug("obj"+i);
                     }
                 } else {
                 	App.debug(loopIndex);
@@ -1037,7 +1037,7 @@ public class LispReader implements RepeatingCommand {
             //System.out.println("first probe = " + hash + " " + inc);
             while (oblist[hash] != null) {
                 if (oblist[hash].pname.equals(name)) {
-                    System.out.println("Two symbols called <" + name + "> " + Integer.toHexString((int) name.charAt(0)));
+                    System.out.println("Two symbols called <" + name + "> " + Integer.toHexString(name.charAt(0)));
                 }
                 hash += inc;
                 if (hash >= oblistSize) {
@@ -1105,7 +1105,7 @@ public class LispReader implements RepeatingCommand {
             while (v[hash] != null) {
                 if (v[hash].pname.equals(s.pname)) {
                     System.out.println("Two symbols called <" + s.pname + "> "
-                            + Integer.toHexString((int) s.pname.charAt(0)));
+                            + Integer.toHexString(s.pname.charAt(0)));
                 }
                 hash += inc;
                 if (hash >= n) {
