@@ -240,5 +240,14 @@ public class Variable extends ValidExpression {
 	public Kernel getKernel() {
 		return kernel;
 	}
+	
+	
+	@Override
+	public boolean hasCoords() {
+		GeoElement ge = kernel.lookupLabel(name);
+		if(ge != null && !(ge instanceof GeoDummyVariable))
+			return ge.hasCoords();
+		return false;
+	}
 
 }
