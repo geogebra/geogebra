@@ -155,8 +155,9 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	/** application */
-	protected App app;
-	protected Localization loc;
+	protected final App app;
+	/** lacalization */
+	protected final Localization loc;
 
 	private String[] macroInputLabels, macroOutputLabels;
 	private GeoElement[] cmdOutput;
@@ -2155,7 +2156,6 @@ public class MyXMLHandler implements DocHandler {
 				if(attrs.get("position") != null){			
 					Integer toolBarPosition = Integer.parseInt(attrs.get("position"));
 					tmp_perspective.setToolBarPosition(toolBarPosition);
-					String showToolBarHelp = attrs.get("show");
 					tmp_perspective.setShowToolBarHelp(!attrs.get("help")
 							.equals("false"));
 				}else{
