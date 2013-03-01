@@ -931,9 +931,9 @@ public class LispReader implements RepeatingCommand {
                 break;
             case 3:
                 if (i < Lit.names.length) {
-                    if (readObjectIncrement() == true) {
-                        break;
-                    } else {
+                    while (readObjectIncrement() == true) {
+                        //break;
+                    } 
                         Environment.lit[i] = w;
 
                         /*
@@ -944,7 +944,7 @@ public class LispReader implements RepeatingCommand {
                          */
                         
                         i++;
-                    }
+                    
                 } else {
                 	App.debug(loopIndex);
                     loopIndex++;
