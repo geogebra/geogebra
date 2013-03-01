@@ -1363,4 +1363,9 @@ public enum Operation {
 	public boolean isPlusorMinus() {
 		return this.equals(PLUS) || this.equals(MINUS);
 	}
+
+	public boolean isInequality() {
+		return this.equals(GREATER_EQUAL) || this.equals(GREATER) 
+				|| this.equals(LESS) || this.equals(LESS_EQUAL);
+	}
 }

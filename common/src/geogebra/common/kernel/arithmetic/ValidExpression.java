@@ -320,6 +320,10 @@ public abstract class ValidExpression implements ExpressionValue {
 	public ExpressionValue traverse(final Traversing t) {
 		return t.process(this);
 	}
+	
+	public boolean inspect(Inspecting t){
+		return t.check(this);
+	}
 
 	/**
 	 * @param s

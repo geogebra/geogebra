@@ -152,6 +152,13 @@ public interface ExpressionValue {
 	 * @return changed value
 	 */
 	public ExpressionValue traverse(Traversing t);
+	
+	/**
+	 * Similar to traverse, but only gives a boolean answer, the structure is not changed
+	 * @param t inspecting object
+	 * @return true if inspecting object returned true for at least one of the sub-objects
+	 */
+	public boolean inspect(Inspecting t);
 	/**
 	 * If this is an expression node wrapping some other ExpressionValue, retur its content, 
 	 * otherwise return this.

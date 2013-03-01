@@ -1070,6 +1070,18 @@ public class MyList extends ValidExpression implements ListValue,
 		}
 		return v;
 	}
+	
+	@Override
+	public boolean inspect(Inspecting t){
+		if(t.check(this))
+			return true;
+		for(int i=0;i<size();i++){
+			if(t.check(getListElement(i))){
+					return true;
+			}
+		}
+		return false;
+	}
 
 	public ExpressionValue getItem(int i) {
 		return listElements.get(i);

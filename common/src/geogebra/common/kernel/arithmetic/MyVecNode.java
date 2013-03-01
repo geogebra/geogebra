@@ -304,6 +304,11 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	}
 	
 	@Override
+	public boolean inspect(Inspecting t){
+		return t.check(this) || x.inspect(t) || y.inspect(t);
+	}
+	
+	@Override
 	public boolean hasCoords() {
 		return true;
 	}

@@ -908,6 +908,11 @@ public class ExpressionNode extends ValidExpression implements
 			right = right.traverse(t);
 		return ev;
 	}
+	
+	@Override
+	public boolean inspect(Inspecting t){
+		return t.check(this) || left.inspect(t) || (right!=null && right.inspect(t));
+	}
 
 	public void replaceChildrenByValues(GeoElement geo) {
 		// left tree

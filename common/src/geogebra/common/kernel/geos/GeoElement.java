@@ -51,6 +51,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -6784,6 +6785,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	final public ExpressionValue traverse(Traversing t){
 		return t.process(this);
+	}
+	
+	final public boolean inspect(Inspecting t){
+		return t.check(this);
 	}
 	
 	

@@ -415,6 +415,17 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		}
 		return this;
 	}
+	
+	@Override
+	public boolean inspect(Inspecting t){
+		if(t.check(this))
+			return true;
+		for(int i = 0;i < args.size(); i++){
+			if(args.get(i).inspect(t))
+				return true;
+		}
+		return false;
+	}
 
 	public ExpressionValue getItem(int i) {
 		return args.get(i);

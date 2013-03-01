@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
@@ -1458,6 +1459,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
+	private ValidExpression expandedEvalVE;
+
 	/**
 	 * Computes the output of this CAS cell based on its current input settings.
 	 * 
@@ -1485,12 +1488,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				ValidExpression evalVE2 = pointList ? wrapPointList(evalVE):evalVE;				
-				if(!(evalVE2.unwrap() instanceof Command) || !((Command)evalVE2.unwrap()).getName().equals("Delete")){
+				expandedEvalVE = pointList ? wrapPointList(evalVE):evalVE;				
+				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
-					evalVE2 = (ValidExpression) evalVE2.wrap().getCopy(kernel).traverse(fex);
+					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE2,
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE,
 						null, StringTemplate.numericNoLocal);
 				if(result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
 					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericDefault);					
@@ -2101,15 +2104,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// wrap output of Solve and Solutions to make them plotable
 
 		if (evalVE.isTopLevelCommand()) {
-			Command topLevel = evalVE.getTopLevelCommand();
-			if ((topLevel.getName()).equals("Solve")
-					|| (topLevel.getName()).equals("Solutions")
-					|| (topLevel.getName()).equals("CSolve")
-					|| (topLevel.getName()).equals("CSolutions")
-					|| (topLevel.getName()).equals("NSolve")
-					|| (topLevel.getName()).equals("NSolutions")
-					|| (topLevel.getName()).equals("Root")
-					|| (topLevel.getName()).equals("ComplexRoot")) {
+			String cmd = evalVE.getTopLevelCommand().getName();
+			if (!inequalityInEvalVE() && cmd.equals("Solve") 
+					|| cmd.equals("Solutions")
+					|| cmd.equals("CSolve")
+					|| cmd.equals("CSolutions")
+					|| cmd.equals("NSolve")
+					|| cmd.equals("NSolutions")
+					|| cmd.equals("Root")
+					|| cmd.equals("ComplexRoot")) {
 				//if we got evalVE by clicking Solve button, inputVE might just contain the equations
 				//we want the command in input as well
 				if(!pointList){
@@ -2177,6 +2180,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return true;
 	}
 	
+	private boolean inequalityInEvalVE() {
+		if(expandedEvalVE == null)
+			return false;
+		return expandedEvalVE.inspect(IneqFinder.INSTANCE);
+	}
+
 	private void clearStrings() {
 		tooltip = null;
 		latex = null;

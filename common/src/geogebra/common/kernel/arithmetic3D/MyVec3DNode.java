@@ -21,6 +21,7 @@ package geogebra.common.kernel.arithmetic3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -256,6 +257,12 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		y = y.traverse(t);
 		z = z.traverse(t);
 		return this;
+	}
+	
+	
+	@Override
+	public boolean inspect(Inspecting t){
+		return t.check(this) || x.inspect(t) || y.inspect(t) || z.inspect(t);
 	}
 
 	public Kernel getKernel() {

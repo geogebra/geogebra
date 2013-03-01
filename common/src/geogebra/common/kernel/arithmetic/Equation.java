@@ -529,5 +529,10 @@ public class Equation extends ValidExpression {
 		rhs = rhs.traverse(t).wrap();
 		return v;
 	}
+	
+	@Override
+	public boolean inspect(Inspecting t){
+		return t.check(this) || lhs.inspect(t) || rhs.inspect(t);
+	}
  
 } // end of class Equation

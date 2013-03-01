@@ -913,6 +913,11 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		expression = expression.traverse(t).wrap();
 		return this;
 	}
+	
+	@Override
+	public boolean inspect(Inspecting t){
+		return t.check(this) || expression.inspect(t);
+	}
 
 	public ExpressionNode getFunctionExpression() {
 		// TODO Auto-generated method stub
