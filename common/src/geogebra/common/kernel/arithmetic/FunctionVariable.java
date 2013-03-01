@@ -83,6 +83,7 @@ public class FunctionVariable extends MyDouble {
 	//	 return new MyDouble(this);		      
     //}
 	
+	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
 		if (fv == this) {
 			return new MyDouble(kernel, 1);
@@ -90,6 +91,7 @@ public class FunctionVariable extends MyDouble {
 		return new MyDouble(kernel, 0);
 	}
 	
+	@Override
 	public ExpressionValue integral(FunctionVariable fv) {
 		if (fv == this) {
 			return new ExpressionNode(kernel, this, Operation.POWER, new MyDouble(kernel, 2)).divide(2);

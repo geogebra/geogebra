@@ -924,6 +924,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	}
 	
 	/**
+	 * @param fv variable with respect to which the derivative is computed
 	 * @param n order of derivative
 	 * @return derivative calculated without the CAS
 	 */
@@ -939,7 +940,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	}
 
 	/**
-	 * @param n order of derivative
+	 * @param fv variable with respect to which the derivative is computed
 	 * @return integral calculated without the CAS
 	 * (will work only for very simple functions eg sin(3x))
 	 */

@@ -1023,7 +1023,6 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	/**
-	 * @param n order of derivative
 	 * @return integral calculated without the CAS
 	 * (will work only for very simple functions eg sin(3x))
 	 */

@@ -62,10 +62,16 @@ public class MyNumberPair extends MyVecNode {
     	return this;
     }
 
+	/**
+	 * @param x x coordinate
+	 */
 	public void setX(ExpressionValue x) {
 		this.x = x;		
 	}
 	
+	/**
+	 * @param y y cordinate
+	 */
 	public void setY(ExpressionValue y) {
 		this.y = y;		
 	}

@@ -5068,6 +5068,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @param n order of polygamma
 	 * @return result of polyganma(n, this)
 	 */
 	public ExpressionNode polygamma(double n) {
@@ -6169,10 +6170,19 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(ev.getKernel(), ev, Operation.NO_OPERATION, null);
 	}
 	
+	/**
+	 * @return whether the top-level operation is IF / IF_ELSE
+	 */
 	public boolean isConditional(){
 		return operation == Operation.IF || operation == Operation.IF_ELSE;
 	}
 
+	/**
+	 * Builds an if-else expression based on this condition
+	 * @param ifBranch if branch
+	 * @param elseBranch else branch
+	 * @return if-else expression
+	 */
 	public ExpressionNode ifElse(ExpressionValue ifBranch, ExpressionValue elseBranch) {
 		return new ExpressionNode(kernel,new MyNumberPair(kernel,this,ifBranch),Operation.IF_ELSE,elseBranch);
 	}
