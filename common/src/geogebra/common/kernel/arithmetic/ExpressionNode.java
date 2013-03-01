@@ -4252,43 +4252,39 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 		case IF:
-			if (stringType == StringType.LATEX|| tpl.isPrintLocalizedCommandNames()) {
-				sb.append("If[");
+			if (stringType == StringType.MPREDUCE) {
+				sb.append("iffun(");
+			}
+			else {
+				if (tpl.isPrintLocalizedCommandNames()) {
+					sb.append(app.getLocalization().getCommand("If"));
+				}else{
+					sb.append("If");
+				}
+				sb.append("[");
 				sb.append(leftStr);
 				sb.append(",");
 				sb.append(rightStr);
 				sb.append("]");
-			} else {
-				if (stringType == StringType.MPREDUCE) {
-					sb.append("iffun(");
-				} else {
-					sb.append("gGbIfElSe(");
-				}
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(")");
 			}
 			break;	
 		case IF_ELSE:
-			if (stringType == StringType.LATEX || tpl.isPrintLocalizedCommandNames()) {
-				sb.append("If[");
+			if (stringType == StringType.MPREDUCE) {
+				sb.append("ifelsefun(");
+			}
+			else {
+				if (tpl.isPrintLocalizedCommandNames()) {
+					sb.append(app.getLocalization().getCommand("If"));
+				}else{
+					sb.append("If");
+				}
+				sb.append("[");
 				sb.append(leftStr);
 				sb.append(",");
 				sb.append(rightStr);
 				sb.append("]");
-			} else {
-				if (stringType == StringType.MPREDUCE) {
-					sb.append("ifelsefun(");
-				} else {
-					sb.append("gGbIfElSe(");
-				}
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(")");
 			}
-			break;	
+			break;
 			
 			
 		default:
