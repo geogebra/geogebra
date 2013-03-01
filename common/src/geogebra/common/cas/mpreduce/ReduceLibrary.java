@@ -2,10 +2,15 @@ package geogebra.common.cas.mpreduce;
 
 import geogebra.common.cas.Evaluate;
 import geogebra.common.main.App;
-
+/**
+ * GeoGebra-specific Reduce procedures and rules
+ */
 public class ReduceLibrary {
 	private Evaluate eval;
 
+	/**
+	 * @param mpreduce1 interpreter to load the procedures
+	 */
 	public ReduceLibrary(Evaluate mpreduce1) {
 		eval = mpreduce1;
 	}
@@ -14,6 +19,10 @@ public class ReduceLibrary {
 		return eval.evaluate(command);
 	}
 
+	/**
+	 * Load all procedures to given interpreter
+	 * @throws Throwable when some of the evaluations causes CAS exception
+	 */
 	public void load() throws Throwable {
 		eval("off nat;");
 		eval("off pri;");

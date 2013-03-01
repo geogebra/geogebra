@@ -1,11 +1,11 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.ToGeoElement;
+import geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * GeoElement which supports matrix transformations
  */
-public interface MatrixTransformable extends ToGeoElement{
+public interface MatrixTransformable extends GeoElementND{
 	/**
 	 * Transforms the object using the matrix
 	 * a00 a01

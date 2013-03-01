@@ -9,6 +9,8 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.PointRotateable;
+import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
 
 
@@ -21,7 +23,7 @@ import geogebra.common.kernel.geos.Translateable;
  *
  */
 
-public interface GeoPointND extends PointProperties, Translateable{
+public interface GeoPointND extends PointProperties, Translateable, SpreadsheetTraceable, PointRotateable{
 
 	
 	/** @return whether this point has changeable numbers as coordinates */

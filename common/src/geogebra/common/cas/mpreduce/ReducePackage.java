@@ -10,9 +10,20 @@ import geogebra.common.main.App;
  *
  */
 public enum ReducePackage {
-	DEFINT,ODESOLVE,GROEBNER,TAYLOR;
+	/** loads defint (definite integral) package */
+	DEFINT,
+	/** loads odesolve package (solveode, newarbconst) */
+	ODESOLVE,
+	/** loads groebner package (groebner cmd, prover) */
+	GROEBNER,
+	/** loads taylor package */
+	TAYLOR;
 	private boolean loaded = false;
 	
+	/**
+	 * Load the package in given CAS
+	 * @param cas cas
+	 */
 	public void load(CASmpreduce cas){
 		if(loaded || !cas.isInitialized())
 			return;

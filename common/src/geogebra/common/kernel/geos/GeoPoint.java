@@ -80,9 +80,9 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class GeoPoint extends GeoVec3D implements VectorValue,
-		PathOrPoint, PointRotateable, Mirrorable, Dilateable,
+		PathOrPoint, Mirrorable, Dilateable,
 		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
-		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo,
+		Transformable, SymbolicParametersAlgo,
 		SymbolicParametersBotanaAlgo {
 
 	// don't set point size here as this would overwrite

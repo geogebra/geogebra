@@ -45,9 +45,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Transformable;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -68,7 +66,7 @@ import java.util.TreeSet;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable, CoordStyle,
+		Vector3DValue, MatrixTransformable, CoordStyle,
 		RotateableND, Transformable {
 
 	private boolean isInfinite, isDefined;

@@ -44,6 +44,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 					+ "ggbtmpvarv, ggbtmpvarw");
 	private static boolean initialized = false;
 	
+	/**
+	 * @return whether CAS was already loaded (in Web)
+	 */
 	public boolean isInitialized(){
 		return initialized;
 	}
@@ -308,7 +311,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return casParser.toGeoGebraString(ve, tpl);
 	}
 	
-	private ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst){
+	private static ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst){
 		if (ve != null) {
 			boolean toRoot = ve.getKernel().getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
@@ -381,7 +384,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 * @throws Throwable
 	 *             from evaluator if some of the initialization commands fails
 	 */
-	protected final synchronized void initDependentMyMPReduceFunctions(
+	protected final synchronized static void initDependentMyMPReduceFunctions(
 			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {
 
 		if (CASmpreduce.mpreduce != mpreduce1) {

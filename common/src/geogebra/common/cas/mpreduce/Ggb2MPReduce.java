@@ -434,6 +434,9 @@ public class Ggb2MPReduce {
 		return commandMap;
 	}
 	
+	/**
+	 * @return map that assigns a package to commands that need loading specific packages
+	 */
 	public static Map<String, ReducePackage> getPackageMap(){
 		if(packageMap.isEmpty()){
 			packageMap.put("Integral.1", ReducePackage.ODESOLVE);
