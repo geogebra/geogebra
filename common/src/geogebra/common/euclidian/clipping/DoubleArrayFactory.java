@@ -1,9 +1,15 @@
 package geogebra.common.euclidian.clipping;
 
+/**
+ * Factory for arrays of doubles (uses pooling to make instantiation faster)
+ */
 public abstract class DoubleArrayFactory {
 
+	/**
+	 * Platform dependent instance of this factory
+	 */
 	public static DoubleArrayFactory prototype = null;
-
+	/** Mutable integer key */
 	protected MutableInteger key = new MutableInteger(0);
 	
 	/** Returns a double array of the indicated size.

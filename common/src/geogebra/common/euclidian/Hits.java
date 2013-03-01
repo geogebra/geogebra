@@ -443,7 +443,7 @@ public class Hits extends ArrayList<GeoElement> {
 			case ROTATEMOVEABLE:
 				// check for circular definition
 				if (geo.isRotateMoveable()) {
-					if (rotCenter == null || !geo.isParentOf((GeoElement) rotCenter))
+					if (rotCenter == null || !geo.isParentOf(rotCenter))
 						moveableList.add(geo);
 					
 				}else if (geo.hasMoveableInputPoints(view)) {

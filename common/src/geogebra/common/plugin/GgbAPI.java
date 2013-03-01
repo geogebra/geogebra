@@ -975,7 +975,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 
 	public String getPenColor() {
 		return "#"+StringUtil.toHexString(app.getActiveEuclidianView()
-				.getEuclidianController().getPen().getPenColorCommon());
+				.getEuclidianController().getPen().getPenColor());
     }
 	
 	// similar code in CmdSetValue

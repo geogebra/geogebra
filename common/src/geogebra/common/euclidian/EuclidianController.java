@@ -1601,6 +1601,7 @@ public abstract class EuclidianController {
 	 * @param addMoreThanOneAllowed
 	 *            it's possible to add several objects without choosing
 	 */
+	@SuppressWarnings("unchecked")
 	protected final<T extends GeoElementND> int addToSelectionList(ArrayList<T> selectionList, ArrayList<GeoElement> geos,
 			int max, boolean addMoreThanOneAllowed, boolean tryDeselect) {
 			

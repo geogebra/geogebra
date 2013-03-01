@@ -40,7 +40,8 @@ import java.util.Stack;
 public class ClipShape {
 	
 	//private static final DoubleArrayFactory doubleFactory = new DoubleArrayFactory();
-	private static final DoubleArrayFactory doubleFactory =  DoubleArrayFactory.prototype;
+	/** Factory for double arrays */
+	static final DoubleArrayFactory doubleFactory =  DoubleArrayFactory.prototype;
 	
 	/** This is the tolerance with which 2 numbers must
 	 * be similar to be considered "equal".
@@ -185,13 +186,15 @@ public class ClipShape {
 		 */
 		public int evaluateInverse(double f,double[] dest,int destOffset);
 		  
-		/** Return the derivative (df/dt) for a given value of t */
+		/** Return the derivative (df/dt) for a given value of t 
+		 * @param t parameter value
+		 * @return derivative*/
 		public double getDerivative(double t);
 	}
 	
 	/** A linear function */
 	static class LFunction implements Function {
-		double slope, intercept;
+		private double slope, intercept;
 		public LFunction() {}
 
 		/** Defines this linear function.
@@ -225,7 +228,7 @@ public class ClipShape {
 	
 	/** A quadratic function */
 	static class QFunction implements Function {
-		double a, b, c;
+		private double a, b, c;
 		
 		public QFunction() {}
 		
@@ -260,15 +263,15 @@ public class ClipShape {
 				return 1;
 			}
 			det = Math.sqrt(det);
-			dest[offset++] = (-b+det)/(2*a);
-			dest[offset++] = (-b-det)/(2*a);
+			dest[offset] = (-b+det)/(2*a);
+			dest[offset+1] = (-b-det)/(2*a);
 			return 2;
 		}
 	}
 	
 	/** A cubic function */
 	static class CFunction implements Function {
-		double a, b, c, d;
+		private double a, b, c, d;
 		
 		public CFunction() {}
 		

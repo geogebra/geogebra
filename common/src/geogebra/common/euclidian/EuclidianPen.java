@@ -28,6 +28,10 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Handles pen and freehand tool
+ *
+ */
 public class EuclidianPen {
 
 	private App app;
@@ -111,10 +115,16 @@ public class EuclidianPen {
 
 	private int penSize;
 
+	/**
+	 * @return pen size
+	 */
 	public int getPenSize() {
 		return penSize;
 	}
 
+	/**
+	 * @param penSize pen size
+	 */
 	public void setPenSize(int penSize) {
 		if (this.penSize!=penSize){
 			startNewStroke=true;
@@ -122,10 +132,16 @@ public class EuclidianPen {
 		this.penSize = penSize;
 	}
 
+	/**
+	 * @return pen line style
+	 */
 	public int getPenLineStyle() {
 		return penLineStyle;
 	}
 
+	/**
+	 * @param penLineStyle pen line style
+	 */
 	public void setPenLineStyle(int penLineStyle) {
 		if (this.penLineStyle != penLineStyle){
 			startNewStroke=true;
@@ -133,11 +149,10 @@ public class EuclidianPen {
 		this.penLineStyle = penLineStyle;
 	}
 
+	/**
+	 * @return pen color
+	 */
 	public GColor getPenColor() {
-		return penColor;
-	}
-	
-	public geogebra.common.awt.GColor getPenColorCommon() {
 		return penColor;
 	}
 
@@ -153,6 +168,8 @@ public class EuclidianPen {
 
 	/************************************************
 	 * Construct EuclidianPen
+	 * @param app application
+	 * @param view view
 	 */
 	public EuclidianPen(App app, EuclidianView view) {
 		this.view = view;
@@ -165,6 +182,9 @@ public class EuclidianPen {
 	// Getters/Setters
 	// ===========================================
 
+	/**
+	 * Set default pen color, line style, thickness, eraser size
+	 */
 	public void setDefaults() {
 		penSize = 3;
 		eraserSize = 32;
@@ -175,7 +195,7 @@ public class EuclidianPen {
 
 	/**
 	 * 
-	 * @param e
+	 * @param e event
 	 * @return Is this MouseEvent an erasing Event.
 	 */
 	public boolean isErasingEvent(AbstractEvent e) {
@@ -214,6 +234,10 @@ public class EuclidianPen {
 		}
 	}
 
+	/**
+	 * @param e event
+	 * @param hits hits
+	 */
 	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
 		if (!isErasingEvent(e)) {
 			addPointPenMode(e,hits);
@@ -222,8 +246,8 @@ public class EuclidianPen {
 		
 	/**
 	 * add the saved points to the last stroke or create a new one
-	 * @param e
-	 * @param h
+	 * @param e event
+	 * @param h hits
 	 */
 	public void addPointPenMode(AbstractEvent e, Hits h){
 			
@@ -303,7 +327,7 @@ public class EuclidianPen {
 
 	/**
 	 * Clean up the pen mode stuff, add points.
-	 * @param e
+	 * @param e event
 	 */
 	public void handleMouseReleasedForPenMode(AbstractEvent e) {
 		
@@ -789,6 +813,9 @@ public class EuclidianPen {
 		maxX = Integer.MIN_VALUE;
 	}
 
+	/**
+	 * @param b whether we are using freehand shape (ie shape recognition)
+	 */
 	public void setFreehand(boolean b) {
 		freehand = b;
 	}
@@ -797,13 +824,14 @@ public class EuclidianPen {
 	/*
 	 * ported from xournal by Neel Shah
 	 */
-	private int findPolygonal(int start, int end, int nsides,int offset1,int offset2)
+	private int findPolygonal(int start, int end, int n,int offset1,int offset2)
 	{
 		Inertia s=new Inertia();
 		Inertia s1=new Inertia();
 		Inertia s2=new Inertia();
 		int k, i1=0, i2=0, n1=0, n2;
 		double det1, det2;  
+		int nsides = n;
 		//AbstractApplication.debug(start);
 		//AbstractApplication.debug(end);
 		if (end == start) 
@@ -1373,17 +1401,18 @@ public class EuclidianPen {
     	s.sxy = s.sxy + (dm*pt1_x*pt1_y);
     }
     
-    private void get_segment_geometry(int start, int end, Inertia s,RecoSegment r)
+    private void get_segment_geometry(int begin, int end, Inertia s,RecoSegment r)
     {
-    	double a, b1, c1, lmin, lmax, l;
+    	double a1, b1, c1, lmin, lmax, l;
     	int i;
+    	int start = begin;
     	r.xcenter = EuclidianPen.center_x(s);
     	r.ycenter = EuclidianPen.center_y(s);
-    	a = EuclidianPen.I_xx(s);
+    	a1 = EuclidianPen.I_xx(s);
     	b1 = EuclidianPen.I_xy(s);
     	c1 = EuclidianPen.I_yy(s);
-    	r.angle = Math.atan2(2*b1, a-c1)/2;
-    	r.radius = Math.sqrt(3*(a+c1));
+    	r.angle = Math.atan2(2*b1, a1-c1)/2;
+    	r.radius = Math.sqrt(3*(a1+c1));
     	lmin=lmax=0;
     	for(i=start; i<=end; ++i)
     	{
@@ -1921,7 +1950,10 @@ public class EuclidianPen {
     	pt[1] = r1.ycenter + t*Math.sin(r1.angle);
     }
 
-	public void setPenColor(geogebra.common.awt.GColor color) {
+	/**
+	 * @param color pen color
+	 */
+	public void setPenColor(GColor color) {
 		if (!this.penColor.equals(color)){
 			startNewStroke=true;
 		}
@@ -1929,8 +1961,11 @@ public class EuclidianPen {
 		
 	}
 
-	protected boolean absoluteScreenPosition;
+	private boolean absoluteScreenPosition;
 	
+	/**
+	 * @param b true for absolute position (AttachCopyToView)
+	 */
 	public void setAbsoluteScreenPosition(boolean b) {
 		absoluteScreenPosition = b;
 		

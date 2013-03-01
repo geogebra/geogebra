@@ -31,23 +31,24 @@ public class HatchingHandler {
 	 * @param color stroke color
 	 * @param bgColor background color
 	 * @param backgroundTransparency alpha value of background
-	 * @param dist distance between hatches
-	 * @param angle hatching angle in degrees
+	 * @param hatchDist distance between hatches
+	 * @param angleDegrees hatching angle in degrees
 	 * @param fillType type of pattern
 	 */
 	final protected void setHatching(geogebra.common.awt.GGraphics2D g3,
 			GBasicStroke objStroke,
 			GColor color,
 			GColor bgColor, float backgroundTransparency,
-			double dist, double angle, FillType fillType) {
+			double hatchDist, double angleDegrees, FillType fillType) {
 		// round to nearest 5 degrees
-		angle = Math.round(angle / 5) * Math.PI / 36;
+		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
 
 		// constrain angle between 0 and 175 degrees
 		if (angle < 0 || angle >= Math.PI)
 			angle = 0;
-
+		
 		// constrain distance between 5 and 50 pixels
+		double dist = hatchDist;
 		if (dist < 5) {
 			dist = 5;
 		} else if (dist > 50) {
@@ -210,7 +211,7 @@ public class HatchingHandler {
 		g3.setPaint(tp);
 	}
 	
-	protected void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
+	private static void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
 		if (angle == 0 || Kernel.isEqual(Math.PI , angle, 10E-8)){
 			GRectangle rect = AwtFactory.prototype.newRectangle(xInt / 2, yInt, 2 * xInt, yInt);
 			g2d.draw(rect);
@@ -234,7 +235,7 @@ public class HatchingHandler {
 		}
 	}
 
-	protected static void drawDotted(double dist, GGraphics2D g2d) {
+	private static void drawDotted(double dist, GGraphics2D g2d) {
 		int distInt = (int) dist;
 		int size = 2;
 		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, distInt, size, size));
@@ -243,10 +244,10 @@ public class HatchingHandler {
 		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt, 2 * distInt, size, size));
 	}
 
-	protected static boolean drawChessboard(double angle, float dist, GGraphics2D g2d) {		
+	private static boolean drawChessboard(double angle, float hatchDist, GGraphics2D g2d) {		
 		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			GGeneralPath path = AwtFactory.prototype.newGeneralPath();
-			dist = (float) (dist * Math.sin(angle));
+			float dist = (float) (hatchDist * Math.sin(angle));
 			path.moveTo(dist / 2, dist / 2 - 1);
 			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
 			path.lineTo(dist + dist / 2, dist + dist / 2);
@@ -257,7 +258,7 @@ public class HatchingHandler {
 			path.lineTo(dist / 2, dist * 2 + dist / 2);
 			g2d.fill(path);
 		} else { // 0 degrees
-			int distInt = (int) dist;
+			int distInt = (int) hatchDist;
 			g2d.fillRect(distInt / 2, distInt / 2, distInt, distInt);
 			g2d.fillRect(distInt + distInt / 2, distInt + distInt / 2, distInt,
 					distInt);
@@ -265,7 +266,7 @@ public class HatchingHandler {
 		return true;
 	}
 
-	protected static void drawHoneycomb(float dist, GGraphics2D g2d) {		
+	private static void drawHoneycomb(float dist, GGraphics2D g2d) {		
 		float halfSide=(float)(dist*Math.sqrt(3)/2);		
 		//Web view is better with rotation
 		g2d.rotate(Math.PI/2,dist + dist / 2, dist + dist / 2);
@@ -293,7 +294,7 @@ public class HatchingHandler {
 		g2d.draw(path);		
 	}
 
-	protected static void drawHatching(double angle, double y, int xInt, int yInt,
+	private static void drawHatching(double angle, double y, int xInt, int yInt,
 			GGraphics2D g2d) {
 		if (angle == 0) { // horizontal
 

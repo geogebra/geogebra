@@ -214,8 +214,6 @@ public final class DrawText extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		System.out.println(x+","+y);
-		System.out.println(labelRectangle.getMinX()+","+labelRectangle.getMinY()+","+labelRectangle.getMaxX()+","+labelRectangle.getMaxY());
 		return super.hitLabel(x, y);
 	}
 
