@@ -45,7 +45,7 @@ public class GCheckBoxMenuItem{
 //	    App.debug("htmlWidget:");
 //	    App.debug(htmlWidget.toString());
 	    itemPanel.add(new HTML(html));
-	    menuItem = new MenuItem(itemPanel.toString(), cmd);
+	    menuItem = new MenuItem(itemPanel.toString(), true, cmd);
     }
 
 	

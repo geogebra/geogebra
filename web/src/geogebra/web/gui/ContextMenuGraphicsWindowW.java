@@ -45,15 +45,16 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         MenuBar zoomMenu = new MenuBar(true);
         MenuItem zoomMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.zoom16().getSafeUri().asString(), app.getMenu("Zoom")), true, zoomMenu);
         wrappedPopup.addItem(zoomMenuItem);
+        zoomMenuItem.addStyleName("mi_with_image");
         addZoomItems(zoomMenu);
         
         RadioButtonMenuBar yaxisMenu = app.getFactory().newRadioButtonMenuBar(app);
         addAxesRatioItems(yaxisMenu);
         
-		app.addMenuItem(wrappedPopup,
-		        app.getEmptyIconFileName(),
-		        app.getPlain("xAxis") + " : " + app.getPlain("yAxis"), true,
-		        yaxisMenu);
+        MenuItem mi = new MenuItem(app.getPlain("xAxis") + " : " + app.getPlain("yAxis"), true, (MenuBar)yaxisMenu);
+        mi.addStyleName("mi_no_image");
+        wrappedPopup.addItem(mi);
+        
 
         MenuItem miShowAllObjectsView = new MenuItem(app.getPlain("ShowAllObjects"), new Command() {
 			
@@ -62,6 +63,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 			}
 
 		});
+        miShowAllObjectsView.addStyleName("mi_no_image");
         wrappedPopup.addItem(miShowAllObjectsView);
         
         MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"), new Command() {
@@ -70,6 +72,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 				setStandardView();
 			}
 		});
+        miStandardView.addStyleName("mi_no_image");
         wrappedPopup.addItem(miStandardView);
         
         if(!ev.isZoomable()){

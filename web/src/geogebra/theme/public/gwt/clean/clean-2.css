@@ -1626,3 +1626,13 @@ body[dir=rtl] .GeoGebraMenuBar table{
 .ggbfilelink.selected, .ggbfilelink:hover {
 	background-color: #E3E8F3;
 }
+
+/*
+Paddings for menuitems.
+*/
+.gwt-MenuBar-vertical .mi_no_image {
+	padding-left: 41px;
+}
+.gwt-MenuBar-vertical .mi_with_image {
+	padding-left: 21px;
+}

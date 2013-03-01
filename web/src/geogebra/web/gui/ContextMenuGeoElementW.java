@@ -19,6 +19,7 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.AttachedToDOM;
+import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.main.AppW;
 
@@ -103,40 +104,40 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		
 		//G.Sturr 2010-5-14: allow menu to show spreadsheet trace for non-drawables
         if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
-        	MenuItem cbItem;
+        	GCheckBoxMenuItem cbItem;
         	if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
-        		cbItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), true, new Command() {
+        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
 					
 					public void execute() {
 						showObjectCmd();
 					}
 				});
-        		GeoGebraMenubarW.setMenuSelected(cbItem,geo.isSetEuclidianVisible());
-        		addItem(cbItem);
+        		cbItem.setSelected(geo.isSetEuclidianVisible());
+        		wrappedPopup.addItem(cbItem);
         		
         	}
-        	
+
         	if (geo.isLabelShowable()) {
-        		cbItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), true, new Command() {
+        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), new Command() {
 					
 					public void execute() {
 						showLabelCmd();				
 					}
 				});
-        		GeoGebraMenubarW.setMenuSelected(cbItem, geo.isLabelVisible());
-        		addItem(cbItem);
+        		cbItem.setSelected(geo.isLabelVisible());
+        		wrappedPopup.addItem(cbItem);
         	}
         	
         	//  trace
         	if (geo.isTraceable()) {
-        		cbItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.trace_on().getSafeUri().asString(), app.getPlain("TraceOn")), true, new Command() {
+        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.trace_on().getSafeUri().asString(), app.getPlain("TraceOn")), new Command() {
 					
 					public void execute() {
 						traceCmd();
 					}
 				});
-        		GeoGebraMenubarW.setMenuSelected(cbItem, ((Traceable) geo).getTrace());
-        		addItem(cbItem);
+        		cbItem.setSelected(((Traceable) geo).getTrace());
+        		wrappedPopup.addItem(cbItem);
         	}
         	
         	if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
@@ -147,63 +148,63 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 				
 				if (showRecordToSpreadsheet){
-					cbItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), true, new Command() {
+					cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
 						
 						public void execute() {
 							//AG not ported yet recordToSpreadSheetCmd();
 							App.debug("not ported yet recordToSpreadSheetCmd();");
 						}
 					});
-					GeoGebraMenubarW.setMenuSelected(cbItem, geo.getSpreadsheetTrace());
-					addItem(cbItem);
+					cbItem.setSelected(geo.getSpreadsheetTrace());
+					wrappedPopup.addItem(cbItem);
 				}
         	}
         	
         	if (geo.isAnimatable()) {  
-        		cbItem = new MenuItem( app.getPlain("Animating"), new Command() {
+        		cbItem = new GCheckBoxMenuItem( app.getPlain("Animating"), new Command() {
 					
 					public void execute() {
 						animationCmd();	
 					}
 				});
-        		GeoGebraMenubarW.setMenuSelected(cbItem, ((Animatable) geo).isAnimating() && app.getKernel().getAnimatonManager().isRunning());
-        		addItem(cbItem);
+        		cbItem.setSelected(((Animatable) geo).isAnimating() && app.getKernel().getAnimatonManager().isRunning());
+        		wrappedPopup.addItem(cbItem);
         	}
         	
         	if (app.getGuiManager().showView(App.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
 					geo.isAlgebraShowable()) {
-        		cbItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.aux_folder().getSafeUri().asString(), app.getPlain("AuxiliaryObject") ), true, new Command() {
+        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.aux_folder().getSafeUri().asString(), app.getPlain("AuxiliaryObject") ), new Command() {
 					
 					public void execute() {
 						showObjectAuxiliaryCmd();
 					}
 				});
-        		GeoGebraMenubarW.setMenuSelected(cbItem, geo.isAuxiliaryObject());
-        		addItem(cbItem);
+        		cbItem.setSelected(geo.isAuxiliaryObject());
+        		wrappedPopup.addItem(cbItem);
         		
         	}
         	
         	//  fix object
         	if (geo.isFixable() && (geo.isGeoText() || geo.isGeoImage())) {
-        		cbItem = new MenuItem( app.getPlain("FixObject"), new Command() {
+        		cbItem = new GCheckBoxMenuItem( app.getPlain("FixObject"), new Command() {
 					
 					public void execute() {
 						fixObjectCmd();
 					}
 				});
-        		GeoGebraMenubarW.setMenuSelected(cbItem, geo.isFixed());
-        		addItem(cbItem);
+        		cbItem.setSelected(geo.isFixed());
+        		wrappedPopup.addItem(cbItem);
         	} else if (geo.isGeoNumeric()){
         		final GeoNumeric num = (GeoNumeric)geo;
 				if (num.isSlider()) {   
-					cbItem = new MenuItem( app.getPlain("FixObject"), new Command() {
+					cbItem = new GCheckBoxMenuItem( app.getPlain("FixObject"), new Command() {
 						
 						public void execute() {
 							fixObjectNumericCmd(num);
 						}
 					});
-					GeoGebraMenubarW.setMenuSelected(cbItem, num.isSlider());
-					addItem(cbItem);
+					cbItem.setSelected(num.isSlider());
+					wrappedPopup.addItem(cbItem);
 				}
         	}
         	
@@ -482,7 +483,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 
 	protected MenuItem addAction(Command action, String html, String text) {
-		return wrappedPopup.add(action, html, text);
+		MenuItem mi;
+	    if (html != null) {
+	    	mi = new MenuItem(html, true, action);
+	    	mi.addStyleName("mi_with_image"); //TEMP
+	    } else {
+	    	mi = new MenuItem(text, action);
+	    	mi.addStyleName("mi_no_image"); //TEMP
+	    }
+	    
+	    wrappedPopup.addItem(mi);
+	    return mi; //TODO: need we this?
+		//return wrappedPopup.add(action, html, text);
     }
 
 	protected void setTitle(String str) {

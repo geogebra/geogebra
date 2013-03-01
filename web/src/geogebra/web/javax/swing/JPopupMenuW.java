@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -91,32 +90,36 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 		return popupMenu;
 	}
 	
-	public MenuItem add(final Command action, String html, String text) {
-		MenuItem mi;
-		Command cmd = new Command(){
-			public void execute() {
-				action.execute();
-				popupPanel.hide();
-			}		
-		};
-		
-	    if (html != null) {
-	    	mi = new MenuItem(html, true, cmd);
-	    } else {
-	    	mi = new MenuItem(text, cmd);
-	    }
-	    popupMenu.addItem(mi); 
-	    popupMenuSize++;
-	    return mi;
-    }
+//	public MenuItem add(final Command action, String html, String text) {
+//		MenuItem mi;
+//		Command cmd = new Command(){
+//			public void execute() {
+//				action.execute();
+//				popupPanel.hide();
+//			}		
+//		};
+//		
+//	    if (html != null) {
+//	    	mi = new MenuItem(html, true, cmd);
+//	    } else {
+//	    	mi = new MenuItem(text, cmd);
+//	    }
+//	    popupMenu.addItem(mi); 
+//	    popupMenuSize++;
+//	    return mi;
+//    }
 
 	public void addItem(GCheckBoxMenuItem item) {
 	    addItem(item.getMenuItem());
 	    
     }
-	
+
+//	public void addItem(String string, boolean asHtml, MenuBar submenu) {
+//		popupMenu.addItem(string, asHtml, submenu);
+//	    
+//    }
+
 	public void hide(){
 		popupPanel.hide();
 	}
-
 }
