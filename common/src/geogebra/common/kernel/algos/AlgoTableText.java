@@ -245,12 +245,12 @@ public class AlgoTableText extends AlgoElement {
 		//switch (app.getFormulaRenderingType()) {
 		//case MATHML:
 		if (app.isHTML5Applet()) {
-			mathml(text.getStringTemplate());
+			mathml();
 			text.setMathML(true);
 		//	break;
 		//case LATEX:
 		} else {
-			latex(text.getStringTemplate());
+			latex();
 			text.setMathML(false);
 		//	break;
 		}
@@ -259,7 +259,7 @@ public class AlgoTableText extends AlgoElement {
 		text.setLaTeX(true, false);
 	}
 
-	private void mathml(StringTemplate tpl) {
+	private void mathml() {
 		if (alignment == VERTICAL) {
 
 
@@ -267,7 +267,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int r = 0; r < rows; r++) {
 				sb.append("<matrixrow>");
 				for (int c = 0; c < columns; c++) {
-					addCellMathML(c, r, tpl);
+					addCellMathML(c, r, StringTemplate.mathmlTemplate);
 				}
 				sb.append("</matrixrow>"); 
 			}
@@ -281,7 +281,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				sb.append("<matrixrow>");
 				for (int r = 0; r < rows; r++) {
-					addCellMathML(c, r, tpl);
+					addCellMathML(c, r, StringTemplate.mathmlTemplate);
 				}
 				sb.append("</matrixrow>");
 			}
@@ -290,7 +290,7 @@ public class AlgoTableText extends AlgoElement {
 		
 	}
 
-	private void latex(StringTemplate tpl) {
+	private void latex() {
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('{');
@@ -315,7 +315,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
 					boolean finalCell = (c == columns - 1);
-					addCellLaTeX(c, r, finalCell,tpl);
+					addCellLaTeX(c, r, finalCell, StringTemplate.latexTemplate);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines)
@@ -341,7 +341,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				for (int r = 0; r < rows; r++) {
 					boolean finalCell = (r == rows - 1);
-					addCellLaTeX(c, r, finalCell,tpl);
+					addCellLaTeX(c, r, finalCell, StringTemplate.latexTemplate);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines) {

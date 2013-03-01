@@ -56,6 +56,14 @@ public class StringTemplate {
 	}
 	
 	/**
+	 * MathML string type, do not internationalize digits
+	 */
+	public static final StringTemplate mathmlTemplate = new StringTemplate();
+	static {
+		mathmlTemplate.setType(StringType.MATHML);
+	}
+	
+	/**
 	 * LibreOffice string type, do not internationalize digits
 	 */
 	public static final StringTemplate libreofficeTemplate = new StringTemplate();
