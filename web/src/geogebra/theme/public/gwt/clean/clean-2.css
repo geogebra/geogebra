@@ -1615,6 +1615,11 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	position: relative;
 }
 
+.filesPanel .spinner {
+	top : 50%;
+	padding-top: 150px;
+}
+
 .ggbfilelink {
 	display : block;
 	text-decoration : underline;

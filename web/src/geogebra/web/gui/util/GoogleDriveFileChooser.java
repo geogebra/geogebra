@@ -66,6 +66,8 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
     }
 	
 	String currentFileName = null;
+	String currentDescription;
+	String currentTitle;
 	
 	private void initAClickHandler() {
 	   filenameClick = new ClickHandler() {
@@ -78,9 +80,15 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 			}
 			Anchor a = (Anchor) event.getSource();
 			a.addStyleName("selected");
-			currentFileName = a.getElement().getAttribute("data-param-downloadurl");
+			refreshDescriptors(a);
 		}
 	};
+    }
+
+	protected void refreshDescriptors(Anchor a) {
+		 currentFileName = a.getElement().getAttribute("data-param-downloadurl");
+		 currentTitle = a.getElement().getAttribute("data-param-title");
+		 currentDescription = a.getElement().getAttribute("data-param-description");
     }
 
 	@Override
@@ -135,7 +143,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()()
 				resp.forEach(function(value, index, array) {
 					if (value.mimeType === "application/vnd.geogebra.file") {
-						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl);
+						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description);
 						//$wnd.console.log(value);
 					}
 				});
@@ -145,14 +153,14 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 	public void onClick(ClickEvent event) {
 	    if (currentFileName != null) {
 	    	clearFilesPanel();
-	    	MyGoogleApis.loadFromGoogleFile(currentFileName);
+	    	MyGoogleApis.loadFromGoogleFile(currentFileName, currentDescription, currentTitle);
 	    	//TODO: process descriptors here!
 	    }
     }
 	
 	ClickHandler filenameClick;
 	
-	private void createLink(String fileName, String owner, String downloadLink) {
+	private void createLink(String fileName, String owner, String downloadLink, String title, String description) {
 		Anchor a = new Anchor();
 		a.addStyleName("ggbfilelink");
 		a.setTitle(owner);
@@ -160,12 +168,14 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 		a.addClickHandler(filenameClick);
 		a.addDoubleClickHandler(this);
 		a.getElement().setAttribute("data-param-downloadurl", downloadLink);
+		a.getElement().setAttribute("data-param-title", title);
+		a.getElement().setAttribute("data-param-description", description);
 		filesPanel.add(a);
 	}
 
 	public void onDoubleClick(DoubleClickEvent event) {
 	    Anchor a = (Anchor) event.getSource();
-	    currentFileName = a.getElement().getAttribute("data-param-downloadurl");
+	    refreshDescriptors(a);
 	    this.open.click();
     }
 

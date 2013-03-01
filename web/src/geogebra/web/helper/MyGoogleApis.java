@@ -4,12 +4,19 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 import geogebra.web.util.JSON;
 
+import java.util.Date;
+
 import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -23,6 +30,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class MyGoogleApis {
 	
 	private static boolean firstLogin = true;
+	private static long tokenExpiresAt;
 	
 	public static boolean loggedIn = false;
 	public static boolean driveLoaded = false;
@@ -190,6 +198,7 @@ public class MyGoogleApis {
 	            	 function (resp) {
 	            	 	if (!resp.error) {
 	            	 		@geogebra.web.helper.MyGoogleApis::setUserEmailAfterLogin()();
+	            	 		@geogebra.web.helper.MyGoogleApis::setExpiresAt(Ljava/lang/String;)(resp.expires_at);
 	            	 	}
 	            	 }
 	       );
@@ -203,6 +212,7 @@ public class MyGoogleApis {
 							if (resp.email) {
 								@geogebra.web.gui.menubar.GeoGebraMenubarW::setLoggedIntoGoogle(Ljava/lang/String;Ljava/lang/String;)(resp.name, resp.email);
 								@geogebra.web.helper.MyGoogleApis::loggedIn = true;
+								//TODO @geogebra.web.helper.MyGoogleApis::initGoogleTokenChecking()();
 							}
 						}
 					)
@@ -214,11 +224,17 @@ public class MyGoogleApis {
 	    @geogebra.web.helper.MyGoogleApis::loggedIn = false;
     }-*/;
 	
-	private static void processGoogleDriveFileContent(String base64) {
+	private static void processGoogleDriveFileContent(String base64, String description, String title) {
 		GeoGebraAppFrame.fileLoader.process(base64);
+		GeoGebraAppFrame.fileLoader.getApplication().refreshCurrentFileDescriptors(title, description, base64);
 	}
 
-	public static native void loadFromGoogleFile(String currentFileName) /*-{
+	/**
+	 * @param currentFileName fileName
+	 * @param description File Description
+	 * @param title File Title
+	 */
+	public static native void loadFromGoogleFile(String currentFileName, String description, String title) /*-{
 		
 		
 		function downloadFile(downloadUrl, callback) {
@@ -240,8 +256,32 @@ public class MyGoogleApis {
 		}
 		
 		downloadFile(currentFileName,function (base64) {
-			@geogebra.web.helper.MyGoogleApis::processGoogleDriveFileContent(Ljava/lang/String;)(base64);
+			@geogebra.web.helper.MyGoogleApis::processGoogleDriveFileContent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(base64, description, title);
 		});
     }-*/;
+	
+	static AnimationHandle checker;
+	
+	private static void initGoogleTokenChecking() {
+		checker = AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
+			
+			public void execute(double timestamp) {
+				long currentTime = new Date().getTime();
+				if (currentTime > tokenExpiresAt) {
+					Window.alert("your token expired - please log in again");
+					GeoGebraMenubarW.loginToGoogle.getScheduledCommand().execute();
+					checker.cancel();
+				}
+				GWT.log(currentTime + "");
+				AnimationScheduler.get().requestAnimationFrame(this);
+			}
+		});
+		
+	}
+	
+	private static void setExpiresAt(String expires_at) {
+		tokenExpiresAt = new Date(Long.parseLong(expires_at)).getTime();
+	}
+	
 
 }
