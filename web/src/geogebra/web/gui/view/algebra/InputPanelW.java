@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 /**
  * @author gabor
  * 
- * Creates an InputPanel for GeoGEbraWeb
+ * Creates an InputPanel for GeoGebraWeb
  *
  */
 public class InputPanelW extends HorizontalPanel {

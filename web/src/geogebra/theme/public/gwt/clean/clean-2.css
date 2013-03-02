@@ -1255,8 +1255,42 @@ td.datePickerMonth {
   cursor: row-resize;
 }
 
-/*GeoGebraWeb styles from here*/
 
+/*************************************************************/
+/*           GeoGebraWeb styles from here                    */
+
+
+/*============ App common styles ============*/
+.GeoGebraAppFrame {
+	font: 100%/120% Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.geogebraweb {
+	display:inline-block;
+  }
+
+ .geogebraweb .jsloaded {
+ 	border:1px solid black;
+ 	position:relative;
+  }
+  
+ .geogebraweb .splash {
+  	position:absolute;
+  }
+ 
+/*not let user select the canvas*/
+.geogebraweb canvas {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+
+/*============ Cursors ============*/
  .cursor_wait {
  	cursor:wait;
  }
@@ -1286,36 +1320,8 @@ td.datePickerMonth {
  	cursor:move;
  }
  
- .geogebraweb {
-	display:inline-block;
-  }
 
- .geogebraweb .jsloaded {
- 	border:1px solid black;
- 	position:relative;
-  }
-  
- .geogebraweb .splash {
-  	position:absolute;
-  }
- 
-/*not let user select the canvas*/
-.geogebraweb canvas {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-}
-
-/* App common styles */
-.GeoGebraAppFrame {
-	font: 100%/120% Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/*GeoGebraMenuBar styles*/
+/*============ GeoGebraMenuBar ============*/
 .GeoGebraMenuBar {
 	font-size:80%;
 }
@@ -1341,12 +1347,21 @@ body[dir=rtl] .logintogoogle {
     left : 44px;
 }
 
-
-
-
 .logintogoogle img {
 	vertical-align:bottom;
 }
+
+
+/*
+Paddings for menuitems.
+*/
+.gwt-MenuBar-vertical .mi_no_image {
+	padding-left: 41px;
+}
+.gwt-MenuBar-vertical .mi_with_image {
+	padding-left: 21px;
+}
+
 
 /*=============== StyleBar ===============*/
 
@@ -1410,7 +1425,7 @@ body[dir=rtl] .logintogoogle {
 }
 
 
-/* AlgebraInput styles */
+/* ========== AlgebraInput ============ */
 
 .AlgebraInput {
 	background: #e7e7e7;
@@ -1454,7 +1469,8 @@ body[dir=rtl] .logintogoogle {
 	background: #D5E2FF;
 }
 
-/* ToolBar Styles */
+
+/*========= ToolBar ===========*/
 .undoPanel {
 	position:absolute;
 	right:0px;
@@ -1553,6 +1569,8 @@ body[dir=rtl] .GGWToolbar table{
 	margin: auto;
 }
 
+/*========= FileChooser & Dialogs ===========*/
+
 .GeoGebraFileChooser .fileNamePanel {
     width: 100%;
     padding:5px;
@@ -1621,6 +1639,11 @@ body[dir=rtl] .GGWToolbar table{
 	margin: 1px;
 }
 
+.gwt-DialogBox .Caption {
+  font-size:80%;
+}
+
+
 .linkDownload{
 	font: -webkit-small-control;
 }
@@ -1631,11 +1654,6 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 .downloadGGB_label{
 	margin: 5px;
-}
-
-.casView table{
-	width:100%;
-	border-collapse:collapse;
 }
 
 .menuTitle{
@@ -1665,12 +1683,9 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	background-color: #E3E8F3;
 }
 
-/*
-Paddings for menuitems.
-*/
-.gwt-MenuBar-vertical .mi_no_image {
-	padding-left: 41px;
+/*============== CAS ============== */
+.casView table{
+	width:100%;
+	border-collapse:collapse;
 }
-.gwt-MenuBar-vertical .mi_with_image {
-	padding-left: 21px;
-}
+

@@ -1,10 +1,11 @@
 package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.main.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.OptionType;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
@@ -13,38 +14,44 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class InputDialogW extends  InputDialog implements ClickHandler{
-	
+public class InputDialogW extends InputDialog implements ClickHandler,
+        SetLabels {
+
 	protected AppW app;
 
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
-	
+
 	protected InputPanelW inputPanel;
-		
+
 	protected Button btApply, btProperties, btCancel, btOK, btHelp;
-	protected PopupPanel wrappedPopup;
+	protected DialogBox wrappedPopup;
 
 	protected GeoElement geo;
 
 	private CheckBox checkBox;
 
+	private String title;
+
 	public InputDialogW(boolean modal) {
-	    this.wrappedPopup = new PopupPanel(false, modal);
-    }
-	
-	public InputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, boolean selectInitText, GeoElement geo) {
-		this(app, message, title, initString, autoComplete, handler, modal,
-				selectInitText, geo, null, DialogType.GeoGebraEditor);
+		
+		wrappedPopup = new DialogBox(false, false);
+		wrappedPopup.addStyleName("DialogBox");
 	}
+
+	public InputDialogW(AppW app, String message, String title,
+	        String initString, boolean autoComplete, InputHandler handler,
+	        boolean modal, boolean selectInitText, GeoElement geo) {
+		
+		this(app, message, title, initString, autoComplete, handler, modal,
+		        selectInitText, geo, null, DialogType.GeoGebraEditor);
+	}
+
 	/**
 	 * @param app
 	 * @param message
@@ -59,28 +66,28 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	 * @param type
 	 */
 	public InputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, boolean selectInitText, GeoElement geo,
-			CheckBox checkBox, DialogType type) {
+	        String initString, boolean autoComplete, InputHandler handler,
+	        boolean modal, boolean selectInitText, GeoElement geo,
+	        CheckBox checkBox, DialogType type) {
+
 		this(modal);
+		
 		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
 		this.initString = initString;
 		this.checkBox = checkBox;
 		
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, selectInitText, geo != null, geo != null, type);
-		
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
+		        selectInitText, geo != null, geo != null, type);
+
 		centerOnScreen();
-		
-		
+
 	}
-	
-	
 
 	private void centerOnScreen() {
-	    wrappedPopup.center();
-    }
+		wrappedPopup.center();
+	}
 
 	/**
 	 * @param title
@@ -95,37 +102,41 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	 * @param type
 	 */
 	protected void createGUI(String title, String message,
-			boolean autoComplete, int columns, int rows,
-			boolean showSymbolPopupIcon, boolean selectInitText,
-			boolean showProperties, boolean showApply, DialogType type) {
+	        boolean autoComplete, int columns, int rows,
+	        boolean showSymbolPopupIcon, boolean selectInitText,
+	        boolean showProperties, boolean showApply, DialogType type) {
+
+		this.title = title;
 
 		// Create components to be displayed
 		inputPanel = new InputPanelW(initString, app, rows, columns,
-				showSymbolPopupIcon/*, type*/);
+		        showSymbolPopupIcon/* , type */);
 
-		
 		// create buttons
-		btProperties = new Button(app.getPlain("OpenProperties"));
+		btProperties = new Button();
 		btProperties.addClickHandler(this);
-//		btProperties.setActionCommand("OpenProperties");
-//		btProperties.addActionListener(this);
-		btOK = new Button(app.getPlain("OK"));
+		// btProperties.setActionCommand("OpenProperties");
+		// btProperties.addActionListener(this);
+
+		btOK = new Button();
 		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btOK.addClickHandler(this);
-		btCancel = new Button(app.getPlain("Cancel"));
+
+		btCancel = new Button();
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
-		btApply = new Button(app.getPlain("Apply"));
+
+		btApply = new Button();
 		btApply.addClickHandler(this);
-//		btApply.setActionCommand("Apply");
-//		btApply.addActionListener(this);
+		// btApply.setActionCommand("Apply");
+		// btApply.addActionListener(this);
 
 		// create button panel
 		FlowPanel btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
-		//just tmp.
+		// just tmp.
 		if (showApply) {
 			btPanel.add(btApply);
 		}
@@ -133,7 +144,9 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 			btPanel.add(btProperties);
 		}
 
+		setLabels();
 
+		
 		// =====================================================================
 		// Create the optionPane: a panel with message label on top, button
 		// panel on bottom. The center panel holds the inputPanel, which is
@@ -143,30 +156,40 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(inputPanel);
 		centerPanel.add(btPanel);
-		
+
 		wrappedPopup.setWidget(centerPanel);
+
 	}
-	
+
 	public void onClick(ClickEvent event) {
-	    Widget source = (Widget) event.getSource();
-	    if (source == btOK) {
-	    	inputText = inputPanel.getText();
-	    	setVisible(!processInputHandler());
-	    } else if (source == btApply) {
-	    	inputText = inputPanel.getText();
-	    	processInputHandler();
-	    } else if (source == btProperties && geo != null) {
-	    	setVisible(false);
-	    	tempArrayList.clear();
-	    	tempArrayList.add(geo);
-	    	app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, tempArrayList);
-	    } else if (source == btCancel) {
-	    	setVisible(false);
-	    }
-    }
-	
+		Widget source = (Widget) event.getSource();
+		if (source == btOK) {
+			inputText = inputPanel.getText();
+			setVisible(!processInputHandler());
+		} else if (source == btApply) {
+			inputText = inputPanel.getText();
+			processInputHandler();
+		} else if (source == btProperties && geo != null) {
+			setVisible(false);
+			tempArrayList.clear();
+			tempArrayList.add(geo);
+			app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+			        tempArrayList);
+		} else if (source == btCancel) {
+			setVisible(false);
+		}
+	}
+
 	public void setVisible(boolean visible) {
 		wrappedPopup.setVisible(visible);
+	}
+
+	public void setLabels() {
+		wrappedPopup.setText(title);
+		btOK.setText(app.getPlain("OK"));
+		btApply.setText(app.getPlain("Apply"));
+		btCancel.setText(app.getPlain("Cancel"));
+		btProperties.setText(app.getPlain("OpenProperties"));
 	}
 
 }
