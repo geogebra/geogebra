@@ -252,17 +252,22 @@ public class ModeToggleMenu extends MenuBar{
 				context.setFillStyle(CssColor.make("red"));
 			} else {
 				context.setStrokeStyle(arrowColor);
-				context.setFillStyle(CssColor.make("white"));
+				if(selected){
+					context.setFillStyle(CssColor.make("white"));
+				}else{
+					context.setFillStyle(CssColor.make("#e7e7e7"));
+				}
 			}
 			
-			context.setLineWidth(1);
+			context.setLineWidth(1);	
 			context.beginPath();
-			context.moveTo(34,1);
-			context.lineTo(40,1);
-			context.lineTo(37,7);
+			context.moveTo(32.5,1.5);
+			context.lineTo(39.5,1.5);
+			context.lineTo(36,6.5);
 			context.closePath();
 			context.stroke();
-			if (selected) context.fill();			
+			context.fill();	
+			
 		}
 		
 		public boolean isTriangleHighlighted(){
