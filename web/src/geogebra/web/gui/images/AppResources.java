@@ -22,7 +22,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/pin.png")
 	ImageResource pin();
 	
-	@Source("geogebra/web/gui/images/GeoGebraTube.png")
+	@Source("geogebra/web/gui/images/geogebra32.png")
 	ImageResource GeoGebraTube();
 	
 	@Source("geogebra/web/gui/images/login_to_google.png")
@@ -411,6 +411,9 @@ public interface AppResources extends ClientBundleWithLookup {
 	
 	@Source("geogebra/web/gui/images/triangle-up.png")
 	ImageResource triangle_up();
+	
+	@Source("geogebra/web/gui/images/triangle-right.png")
+	ImageResource triangle_right();
 	
 	@Source("geogebra/web/gui/images/users.png")
 	ImageResource users();

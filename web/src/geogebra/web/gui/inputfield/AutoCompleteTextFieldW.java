@@ -1227,4 +1227,12 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
 	    
     }
+	
+	public void setWidth(int width) {
+		if (textField != null && showSymbolButton != null) {
+			width = width - 20 ;  // adjust for symbolToggleButton
+			textField.setWidth(width  + "px");
+		}
+		super.setWidth(width + "px");
+	}
 }

@@ -1348,7 +1348,7 @@ body[dir=rtl] .logintogoogle {
 	vertical-align:bottom;
 }
 
-/* EuclidianStyleBar styles */
+/*=============== StyleBar ===============*/
 
 .ButtonPopupMenu div:focus {
 	border:1px solid transparent;
@@ -1363,8 +1363,6 @@ body[dir=rtl] .logintogoogle {
 	
 }
 
-
-
 .SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
 	background: #D5E2FF;
 }
@@ -1377,13 +1375,48 @@ body[dir=rtl] .logintogoogle {
 	border: 1px solid black;
 }
 
-.EuclidianStyleBar {
-	height: 25px;
+
+.StyleBarPanel {
+	margin: auto 0;
 }
 
+.TitleBarPanel {
+	height: 13;
+}
+
+.StyleBarPanel, .TitleBarPanel {
+	background: url("images/hborder.png") repeat-x 0px -27px;
+	border-bottom: 1px solid lightgray;
+}
+
+.StyleBarToggleButton {
+	margin:0;
+	padding: 0;
+}
+
+.VerticalSeparator{
+	margin: auto 0;
+	color: gray;
+}
+
+.MyToggleButton{
+	padding: 1px;
+}
+
+
+.ApplicationPanel {
+	border-top:1px solid lightgray;
+    border-bottom:1px solid lightgray;
+}
+
+
 /* AlgebraInput styles */
+
 .AlgebraInput {
-    margin:auto 20px;
+	background: #e7e7e7;
+	padding: 0px 20px; 
+	width: 100%;
+	height: 100%;
 }
 
 .SymbolToggleButton {

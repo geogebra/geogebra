@@ -14,6 +14,7 @@ import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,6 +26,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
@@ -33,13 +35,15 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * InputBar for GeoGebraWeb
  *
  */
-public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler {
+public class AlgebraInputW extends HorizontalPanel 
+implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize {
 	
 	private AppW app;
 	private Label inputLabel;
 	private InputPanelW inputPanel;
 	private AutoCompleteTextFieldW inputField;
 	private ToggleButton btnHelpToggle;
+	private HorizontalPanel innerPanel;
 
 	/**
 	 * Creates AlgebraInput for Web
@@ -67,13 +71,6 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	    inputPanel = new InputPanelW(null,app,30,true);
 	    
 	    inputField = inputPanel.getTextComponent();
-	    int inputWidth;
-	    if(Web.currentGUI.equals(GuiToLoad.VIEWER)){	    
-	    	inputWidth = app.getDataParamWidth()-120;
-	    } else {
-	    	inputWidth = Window.getClientWidth() - 120;
-	    }
-	    inputField.getTextBox().setWidth(inputWidth+"px");
 	    
 	    inputField.getTextBox().addKeyUpHandler(this);
 	    inputField.getTextBox().addFocusHandler(this);
@@ -95,6 +92,10 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	    labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
 	    labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
 	    labelPanel.add(inputLabel);
+		
+		// add some space between label and input panels
+		labelPanel.getElement().getStyle().setMarginRight(4, Style.Unit.PX);
+
 	    
 	    HorizontalPanel eastPanel = new HorizontalPanel();
 	    eastPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -103,19 +104,54 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	    	eastPanel.add(btnHelpToggle);
 	    }*/
 	    
-	    add(labelPanel);
-	    setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
-	    setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
-	    add(inputPanel);
-	    setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
-	    setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
-	    add(eastPanel);
-	    setCellHorizontalAlignment(eastPanel, ALIGN_LEFT);
-	    setCellVerticalAlignment(eastPanel, ALIGN_MIDDLE);
-	    
+		// place all components in an inner panel
+	    innerPanel = new HorizontalPanel();	    
+	    innerPanel.add(labelPanel);
+	    innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
+	    innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
+	    innerPanel.add(inputPanel);
+	    innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
+	    innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
+	    innerPanel.add(eastPanel);
+	    innerPanel.setCellHorizontalAlignment(eastPanel, ALIGN_LEFT);
+	    innerPanel.setCellVerticalAlignment(eastPanel, ALIGN_MIDDLE);
+	    setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
+
+	    // add innerPanel to wrapper (this panel)
+	    setVerticalAlignment(ALIGN_MIDDLE);
+	    add(innerPanel);
+	    setCellVerticalAlignment(this, ALIGN_MIDDLE);
+
 	    setLabels();
 	    
+	    setInputFieldWidth();
+	    
     }
+	
+	private void setInputFieldWidth() {
+
+		int inputWidth;
+		int outerWidth = 0;
+		int symbolButtonWidth = 20;
+
+		if (inputLabel != null) {
+			outerWidth = innerPanel.getOffsetWidth() - inputPanel.getOffsetWidth()
+			        + inputLabel.getOffsetWidth() + symbolButtonWidth;
+		}
+
+		if (Web.currentGUI.equals(GuiToLoad.VIEWER)) {
+			inputWidth = app.getDataParamWidth() - outerWidth;
+		} else {
+			inputWidth = Window.getClientWidth() - outerWidth;
+		}
+		inputField.setWidth(inputWidth);
+	}
+
+	public void onResize() {
+		if (inputField != null) {
+			setInputFieldWidth();
+		}
+	}
 	
 	/**
 	 * updates labels according to current locale

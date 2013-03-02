@@ -4,8 +4,17 @@ import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.web.awt.GRectangleW;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -148,7 +157,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Panel for the styling bar if one is available.
 	 */
-	private Widget styleBarPanel;
+	private AbsolutePanel styleBarPanel;
 
 	/**
 	 * Panel used for the toolbar if this dock panel has one.
@@ -478,6 +487,127 @@ public abstract class DockPanelW extends ResizeComposite implements
 		add(metaPanel, BorderLayout.NORTH);
 	}*/
 
+	
+	MyDockLayoutPanel dockPanel;
+	PushButton toglStyleBtn;
+
+	PushButton toglStyleBtn2;
+	AbsolutePanel titleBarPanel;
+	
+	public int getHeight(){
+	return dockPanel.getOffsetHeight();	
+	}
+	
+	public int getWidth(){
+		return dockPanel.getOffsetWidth();	
+		}
+	
+	public void buildGUI(){
+		
+		styleBarPanel = new AbsolutePanel();	
+		styleBarPanel.setStyleName("StyleBarPanel");
+		
+		titleBarPanel = new AbsolutePanel();
+		titleBarPanel.setStyleName("TitleBarPanel");
+		
+		Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
+		toglStyleBtn = new PushButton(img);
+		toglStyleBtn.setSize("16px", "8px");
+		toglStyleBtn.setStyleName("StyleBarToggleButton");
+		toglStyleBtn.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showStyleBar = false;
+				setLayout();
+			}
+		});
+		
+		Image img2 = new Image(AppResources.INSTANCE.triangle_right().getSafeUri());
+		toglStyleBtn2 = new PushButton(img2);
+		toglStyleBtn2.setSize("16px", "8px");
+		toglStyleBtn2.setStyleName("none");
+		toglStyleBtn2.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showStyleBar = true;
+				setLayout();
+			}
+		});
+		
+		styleBarPanel.add(toglStyleBtn, 2, 0);
+		titleBarPanel.add(toglStyleBtn2, 2, 0);
+		
+		dockPanel = new MyDockLayoutPanel(Style.Unit.PX);
+		initWidget(dockPanel);
+		
+		setLayout();
+	}
+	
+	
+	
+	/**
+	 * sets the layout of the stylebar and title panel
+	 */
+	protected void setLayout(){
+		
+		dockPanel.clear();
+
+		if (hasStyleBar) {
+			if (showStyleBar) {
+				dockPanel.addNorth(styleBarPanel, 25);
+			} else {
+				dockPanel.addNorth(titleBarPanel, 14);
+			}
+		}
+
+		dockPanel.add(loadComponent());
+		dockPanel.forceLayout();
+		dockPanel.onResize();
+
+	}
+	
+	public int getComponentInteriorHeight() {
+		
+		if (dockPanel != null) {
+			return (int) dockPanel.getCenterHeight();
+		}
+		return 0;
+	}
+
+	public int getComponentInteriorWidth() {		
+		if (dockPanel != null) {
+			return (int) dockPanel.getCenterWidth();
+		}
+		return 0;
+	}	
+	public void attachApp(App app) {
+		this.app = (AppW) app;
+		if(hasStyleBar){
+			styleBarPanel.add(loadStyleBar(), 24, 0);
+		}
+	}
+	
+	/**
+	 * extends DockLayoutPanel to expose getCenterHeight() and getCenterWidth()
+	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
+	 * extend DockPanelW itself
+	 */
+	public class MyDockLayoutPanel extends DockLayoutPanel{
+	public MyDockLayoutPanel(Unit unit) {
+	        super(unit);
+        }		
+	
+	@Override
+    public double getCenterHeight(){
+		return super.getCenterHeight();
+	}
+
+	@Override
+    public double getCenterWidth(){
+		return super.getCenterWidth();
+	}
+
+	
+	}
+	
 	/*private void createButtons() {
 
 		// button to show/hide styling bar and the title panel buttons

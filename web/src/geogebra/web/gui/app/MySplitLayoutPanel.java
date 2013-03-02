@@ -7,9 +7,7 @@ import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
-import geogebra.web.main.AppW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 public class MySplitLayoutPanel extends SplitLayoutPanel {
@@ -39,6 +37,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 			createCAS();
 
 		add(ggwGraphicView = new EuclidianDockPanelW(this.isApplication = isApplication));
+		addStyleName("ApplicationPanel");
     }
 
 	public void createSpreadsheet(){
@@ -90,10 +89,12 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 				}
 			}
 
+			/*
 			Element wrapper = ggwGraphicView.getEuclidianPanel().getElement();
 			if (application != null)
 				((AppW) application).ggwGraphicsViewDimChanged(
 					wrapper.getOffsetWidth(), wrapper.getOffsetHeight());
+			*/
 		}
 	}
 

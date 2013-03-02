@@ -28,8 +28,9 @@ import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyCJButton;
-import geogebra.web.gui.util.MyToggleButton;
+import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -41,10 +42,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianStyleBarW extends HorizontalPanel
+public class EuclidianStyleBarW extends StyleBarW
 	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler, ClickHandler {
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
@@ -90,26 +90,26 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	
 	private PopupMenuButton btnDeleteSize;
 
-	private MyToggleButton btnCopyVisualStyle, btnPen, btnShowGrid,
+	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowGrid,
 	btnShowAxes;
 
-	MyToggleButton btnBold;
+	MyToggleButton2 btnBold;
 
-	MyToggleButton btnItalic;
+	MyToggleButton2 btnItalic;
 
-	private MyToggleButton btnDelete;
+	private MyToggleButton2 btnDelete;
 
-	private MyToggleButton btnLabel;
+	private MyToggleButton2 btnLabel;
 
-	private MyToggleButton btnPenEraser;
+	private MyToggleButton2 btnPenEraser;
 
-	MyToggleButton btnHideShowLabel;
+	MyToggleButton2 btnHideShowLabel;
 
-	private MyToggleButton btnTableTextLinesV;
+	private MyToggleButton2 btnTableTextLinesV;
 
-	private MyToggleButton btnTableTextLinesH;
+	private MyToggleButton2 btnTableTextLinesH;
 
-	private MyToggleButton[] toggleBtnList;
+	private MyToggleButton2[] toggleBtnList;
 	private PopupMenuButton[] popupBtnList;
 	
 	private MyCJButton btnDeleteGeo;
@@ -149,7 +149,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		isIniting = false;
 		
 		setMode(ev.getMode()); // this will also update the stylebar
-		addStyleName("EuclidianStyleBar");
+		
 	}
 
 	public int getMode() {
@@ -406,9 +406,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 	}
 
-	private void addSeparator() {
-	    App.debug("Implementation needed...");
-    }
+	
 
 	/**
 	 * add axes, grid, ... buttons
@@ -422,8 +420,8 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		add(btnPointCapture);
 	}
 
-	protected MyToggleButton[] newToggleBtnList() {
-		return new MyToggleButton[] { btnCopyVisualStyle, btnPen, btnShowGrid,
+	protected MyToggleButton2[] newToggleBtnList() {
+		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, btnShowGrid,
 				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
 				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
 				btnTableTextLinesH };
@@ -463,7 +461,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		
 		// ========================================
 		// delete button
-		btnDelete = new MyToggleButton(
+		btnDelete = new MyToggleButton2(
 				AppResources.INSTANCE.delete_small(),
 				iconHeight) {
 
@@ -479,7 +477,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// add(btnDelete);
 		// ========================================
 		// hide/show labels button
-		btnLabel = new MyToggleButton(
+		btnLabel = new MyToggleButton2(
 				AppResources.INSTANCE.mode_copyvisualstyle_16(),
 				iconHeight) {
 
@@ -497,7 +495,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// ========================================
 		// visual style button
 
-		btnCopyVisualStyle = new MyToggleButton(
+		btnCopyVisualStyle = new MyToggleButton2(
 				AppResources.INSTANCE.mode_copyvisualstyle_16(),
 				iconHeight) {
 
@@ -515,7 +513,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButton(
+		btnShowAxes = new MyToggleButton2(
 			AppResources.INSTANCE.axes(),
 			iconHeight) {
 
@@ -533,7 +531,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButton(
+		btnShowGrid = new MyToggleButton2(
 			AppResources.INSTANCE.grid(),
 			iconHeight) {
 
@@ -703,7 +701,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		// ========================================
 		// eraser button
-		btnPenEraser = new MyToggleButton(AppResources.INSTANCE.delete_small(),
+		btnPenEraser = new MyToggleButton2(AppResources.INSTANCE.delete_small(),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -724,7 +722,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		// ========================================
 		// hide/show label button
-		btnHideShowLabel = new MyToggleButton(
+		btnHideShowLabel = new MyToggleButton2(
 				AppResources.INSTANCE.mode_showhidelabel_16(), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -860,7 +858,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		};
 		//it is not needed, must be an Image preloaded like others.
-		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet2();
+		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet();
 		btnPointCapture.setIconSize(new GDimensionW(ptCaptureIcon.getWidth(),
 				iconHeight));
 		//must be done in callback btnPointCapture.setIcon(ptCaptureIcon);
@@ -1091,7 +1089,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		//ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
 		//		.substring(0, 1), app.getPlainFont(), true, false, true,
 		//		iconDimension, Color.black, null);
-		btnBold = new MyToggleButton(
+		btnBold = new MyToggleButton2(
 				AppResources.INSTANCE.format_text_bold(),
 				iconHeight) {
 
@@ -1118,7 +1116,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		//ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
 		//		app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 		//		false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton(
+		btnItalic = new MyToggleButton2(
 				AppResources.INSTANCE.format_text_italic(),
 				iconHeight) {
 

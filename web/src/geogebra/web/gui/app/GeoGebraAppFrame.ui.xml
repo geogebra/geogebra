@@ -16,7 +16,7 @@
       	</g:VerticalPanel>
     </g:north>
     
-    <g:south size='50'>
+    <g:south size='46'>
           <web:GGWCommandLine ui:field='ggwCommandLine' />
     </g:south>
   </g:DockLayoutPanel>

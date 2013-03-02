@@ -8,9 +8,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GGWCommandLine extends Composite {
+public class GGWCommandLine extends Composite implements RequiresResize{
 	
 	@UiField AlgebraInputW algebraInput;
 
@@ -26,6 +27,11 @@ public class GGWCommandLine extends Composite {
 
 	public void attachApp(App app) {
 	    algebraInput.init((AppW) app);
+    }
+
+	public void onResize() {
+		algebraInput.onResize();
+	    
     }
 
 }

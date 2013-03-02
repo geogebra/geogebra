@@ -1,53 +1,81 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.main.App;
-import geogebra.web.gui.app.AbsolutePanelSmart;
-import geogebra.web.gui.app.EuclidianStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelW extends DockPanelW {
 
-	App application = null;
-
-	SimpleLayoutPanel toplevel;
+	DockLayoutPanel toplevel;
 
 	VerticalPanelSmart ancestor;
-	EuclidianStyleBarPanel espanel;
-	AbsolutePanelSmart euclidianpanel;
+	EuclidianStyleBar espanel;
+	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
 
 	public EuclidianDockPanelW(boolean stylebar) {
 		super(0, null, null, stylebar, 0);
-		if (stylebar) {
-			initWidget(toplevel = new SimpleLayoutPanel());
-			ancestor = new VerticalPanelSmart();
-			ancestor.add(espanel = new EuclidianStyleBarPanel());
-			ancestor.add(euclidianpanel = new AbsolutePanelSmart());
-			toplevel.add(ancestor);
-		} else {
-			initWidget(euclidianpanel = new AbsolutePanelSmart());
-		}
+	
+		buildGUI();
+	}
 
+	@Override
+    protected Widget loadComponent() {
+		if( euclidianpanel == null){
+		euclidianpanel = new EuclidianPanel(this);
 		eview1 = Canvas.createIfSupported();
 		eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 		eview1.getElement().getStyle().setZIndex(0);
 		euclidianpanel.add(eview1);
-	}
-
-	protected Widget loadComponent() {
+		}		
+				
 		return euclidianpanel;
 	}
+	
+	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
 
+		EuclidianDockPanelW dockPanel;
+
+		int oldHeight = 0;
+		int oldWidth = 0;
+		
+		public EuclidianPanel(EuclidianDockPanelW dockPanel) {
+			this.dockPanel = dockPanel;
+		}
+		
+		public void onResize() {
+
+			if (app != null){
+				int h = dockPanel.getComponentInteriorHeight();
+				int w = dockPanel.getComponentInteriorWidth();
+				if(h != oldHeight || w != oldWidth){
+				app.ggwGraphicsViewDimChanged(
+						dockPanel.getComponentInteriorWidth(), dockPanel.getComponentInteriorHeight());
+				oldHeight = h;
+				oldWidth = w;
+				}
+			}
+		}
+	}
+	
+	
+	@Override
 	protected Widget loadStyleBar() {
-		return espanel;
+
+		if (espanel == null) {
+			espanel = app.getActiveEuclidianView().getStyleBar();
+		}
+
+		return (Widget) espanel;
 	}
 
 	public Canvas getCanvas() {
@@ -91,9 +119,9 @@ public class EuclidianDockPanelW extends DockPanelW {
     }
 
 	public void attachApp(App app) {
-		this.application = app;
-		if (espanel != null)
-			espanel.attachApp(app);
+		super.attachApp(app);
+		//if (espanel != null)
+			//espanel.attachApp(app);
 	}
 
 	public EuclidianDockPanelW getEuclidianView1Wrapper() {
